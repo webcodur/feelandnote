@@ -2,6 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import { createDashboardRouter } from './routes/dashboard';
+import { createContentsRouter } from './routes/contents';
+import { createUsersRouter } from './routes/users';
+import { createRecordsRouter } from './routes/records';
 
 dotenv.config();
 
@@ -10,7 +14,7 @@ const PORT = process.env.PORT || 3002;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5174'], // Admin FE
+  origin: ['http://localhost:4000'], // Admin FE
   credentials: true
 }));
 app.use(express.json());
@@ -21,6 +25,7 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceRoleKey) {
   console.error('❌ Missing Supabase credentials in .env');
+  console.error('Required: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY');
   process.exit(1);
 }
 
@@ -31,26 +36,39 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
   }
 });
 
+console.log('✅ Supabase Admin Client initialized');
+
 // Routes
-app.get('/api/users', async (req, res) => {
-  try {
-    const { data: { users }, error } = await supabase.auth.admin.listUsers();
+app.use('/api/dashboard', createDashboardRouter(supabase));
+app.use('/api/contents', createContentsRouter(supabase));
+app.use('/api/users', createUsersRouter(supabase));
+app.use('/api/records', createRecordsRouter(supabase));
 
-    if (error) {
-      throw error;
-    }
-
-    res.json(users);
-  } catch (error: any) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ error: error.message });
-  }
+// Health check
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'admin-api',
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
+  });
 });
 
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'admin-api' });
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+// Error handler
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: err.message || 'Internal Server Error' });
 });
 
 app.listen(PORT, () => {
   console.log(`✅ Admin API Server running on http://localhost:${PORT}`);
+  console.log(`📊 Dashboard: /api/dashboard`);
+  console.log(`📚 Contents: /api/contents`);
+  console.log(`👥 Users: /api/users`);
+  console.log(`📝 Records: /api/records`);
 });
