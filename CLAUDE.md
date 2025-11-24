@@ -81,7 +81,7 @@ npm run lint
 ```bash
 # 메인 프론트엔드 앱 (apps/app)
 cd apps/app
-npm run dev          # http://localhost:5173
+npm run dev          # http://localhost:3000
 npm run build
 npm run preview
 
@@ -89,15 +89,29 @@ npm run preview
 cd apps/app-api
 npm run dev          # http://localhost:3001
 npm start            # 프로덕션 모드
+
+# 백오피스 프론트엔드 (apps/bo)
+cd apps/bo
+npm run dev          # http://localhost:4000
+npm run build
+npm run preview
+
+# 백오피스 API 서버 (apps/bo-api)
+cd apps/bo-api
+npm run dev          # TypeScript watch 모드
+npm run build        # dist로 빌드
+npm start            # http://localhost:3002 (프로덕션)
 ```
 
-**중요**: 검색 기능이 작동하려면 **app-api 백엔드 서버가 반드시 실행**되어야 합니다.
+**중요**:
+- **app** 검색 기능: `app-api` 백엔드 서버가 반드시 실행되어야 합니다
+- **bo** 백오피스: `bo-api` 서버가 반드시 실행되어야 합니다
 
 ## 환경 설정
 
-환경 변수는 **두 곳**에 설정해야 합니다:
+환경 변수는 **네 곳**에 설정해야 합니다:
 
-### 1. 프론트엔드 앱 (`apps/app/.env`)
+### 1. 메인 프론트엔드 앱 (`apps/app/.env`)
 
 ```bash
 VITE_SUPABASE_URL=your_supabase_url
@@ -107,7 +121,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 - Vite에서 환경 변수를 클라이언트에서 접근하려면 `VITE_` 접두사가 필요합니다.
 - `.env.example` 파일을 복사하여 `.env` 파일을 생성하세요.
 
-### 2. 백엔드 API 서버 (`apps/app-api/.env`)
+### 2. 메인 백엔드 API 서버 (`apps/app-api/.env`)
 
 ```bash
 NAVER_CLIENT_ID=your_naver_client_id
@@ -116,6 +130,27 @@ NAVER_CLIENT_SECRET=your_naver_client_secret
 
 - 네이버 책 API 프록시를 위한 인증 정보입니다.
 - 백엔드에서는 `VITE_` 접두사가 **필요 없습니다**.
+
+### 3. 백오피스 프론트엔드 (`apps/bo/.env`)
+
+```bash
+VITE_BO_API_URL=http://localhost:3002
+```
+
+- 백오피스 API 서버의 URL입니다.
+- 개발 환경에서는 `http://localhost:3002`, 프로덕션에서는 배포된 URL로 변경하세요.
+
+### 4. 백오피스 API 서버 (`apps/bo-api/.env`)
+
+```bash
+PORT=3002
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+- **중요**: `SUPABASE_SERVICE_ROLE_KEY`는 관리자 권한이 있는 키입니다.
+- RLS(Row Level Security)를 우회하여 모든 데이터에 접근할 수 있으므로, **절대 클라이언트에 노출하지 마세요**.
+- Supabase 대시보드의 Settings > API에서 확인할 수 있습니다.
 
 ## 프로젝트 구조
 
@@ -364,6 +399,100 @@ type ProgressType = 'page' | 'percent' | 'timestamp' | 'episode';
 - 세션 관리: 기본 7일, "로그인 유지" 선택 시 30일
 - 다중 기기 로그인 허용
 
+## 백오피스 (Admin Dashboard)
+
+백오피스는 서비스 운영을 위한 관리자 전용 시스템입니다.
+
+### 주요 기능
+
+#### 1. 대시보드 (`/`)
+- **전체 통계**: 사용자 수, 콘텐츠 수, 보관함 항목 수, 기록 수
+- **분포 차트**: 기록 타입별 분포, 보관함 상태별 분포
+- **최근 활동**: 최근 가입 사용자, 추가된 콘텐츠, 작성된 기록
+- **인기 콘텐츠 TOP 10**: 가장 많은 사용자가 보관함에 담은 콘텐츠
+
+#### 2. 콘텐츠 관리 (`/contents`)
+- **목록 조회**: 페이지네이션, 타입 필터(도서/영화), 검색
+- **상세 조회**: 콘텐츠 정보, 사용자 보관 수, 기록 수
+- **수정/삭제**: 메타데이터 수정, 콘텐츠 삭제 (관련 데이터 cascade 삭제)
+- **통계**: 사용자별 진행률 분포, 기록 타입별 분포, 평균 평점
+
+#### 3. 사용자 관리 (`/users`)
+- **목록 조회**: 전체 사용자 목록, 보관함/기록 수 표시
+- **상세 조회**: 사용자 정보, 보관함 내역, 작성한 기록, 통계
+- **사용자 정지/해제**: ban_duration 설정으로 사용자 접근 차단
+- **사용자 삭제**: 모든 관련 데이터 영구 삭제
+
+#### 4. 기록 관리 (`/records`)
+- **목록 조회**: 페이지네이션, 타입 필터(리뷰/메모/인용), 검색
+- **기록 삭제**: 부적절한 콘텐츠 삭제
+- **콘텐츠별 조회**: 특정 콘텐츠에 대한 모든 기록 조회
+- **사용자별 삭제**: 특정 사용자의 모든 기록 삭제
+
+### API 구조
+
+백오피스 API는 **Supabase Service Role Key**를 사용하여 RLS를 우회하고 모든 데이터에 접근합니다.
+
+```
+apps/bo-api/src/
+├── index.ts              # Express 서버 설정
+└── routes/
+    ├── dashboard.ts      # 대시보드 통계 API
+    ├── contents.ts       # 콘텐츠 관리 API
+    ├── users.ts          # 사용자 관리 API
+    └── records.ts        # 기록 관리 API
+```
+
+### 주요 엔드포인트
+
+```
+GET    /api/dashboard/stats              # 전체 통계
+GET    /api/dashboard/recent-activity    # 최근 활동
+GET    /api/dashboard/popular-contents   # 인기 콘텐츠
+
+GET    /api/contents                     # 콘텐츠 목록
+GET    /api/contents/:id                 # 콘텐츠 상세
+PATCH  /api/contents/:id                 # 콘텐츠 수정
+DELETE /api/contents/:id                 # 콘텐츠 삭제
+GET    /api/contents/:id/stats           # 콘텐츠 통계
+
+GET    /api/users                        # 사용자 목록
+GET    /api/users/:id                    # 사용자 상세
+PATCH  /api/users/:id/ban                # 사용자 정지
+PATCH  /api/users/:id/unban              # 정지 해제
+DELETE /api/users/:id                    # 사용자 삭제
+
+GET    /api/records                      # 기록 목록
+GET    /api/records/:id                  # 기록 상세
+DELETE /api/records/:id                  # 기록 삭제
+GET    /api/records/content/:contentId   # 콘텐츠별 기록
+DELETE /api/records/user/:userId         # 사용자별 기록 삭제
+```
+
+### 프론트엔드 구조
+
+```
+apps/bo/src/
+├── components/
+│   └── Layout.tsx        # 사이드바 네비게이션
+├── pages/
+│   ├── Dashboard.tsx     # 대시보드
+│   ├── Contents.tsx      # 콘텐츠 관리
+│   ├── Users.tsx         # 사용자 관리
+│   └── Records.tsx       # 기록 관리
+├── lib/
+│   ├── api.ts            # API 클라이언트 (axios)
+│   └── utils.ts          # 유틸리티 함수
+└── App.tsx               # React Router 설정
+```
+
+### 보안 고려사항
+
+- **Service Role Key 보호**: 백오피스 API에서만 사용, 절대 클라이언트 노출 금지
+- **CORS 제한**: 백오피스 프론트엔드 origin만 허용
+- **인증 미들웨어**: 추후 관리자 인증 추가 필요 (현재 미구현)
+- **감사 로그**: 중요 작업(삭제, 정지 등)에 대한 로깅 권장
+
 ## 번역 및 현지화
 
 현재: 한국어 UI (FeelNNote.md 기반 주요 언어)
@@ -378,22 +507,35 @@ type ProgressType = 'page' | 'percent' | 'timestamp' | 'episode';
 
 ## 알려진 제한사항 / TODO
 
-### 구현 완료
-- ✅ 네이버 API CORS 문제: Express 백엔드 프록시로 해결 (`apps/app-api`)
-- ✅ Monorepo 구조: Turborepo로 앱 및 공유 패키지 관리
+### ✅ 구현 완료
+- ✅ **네이버 API CORS 문제**: Express 백엔드 프록시로 해결 (`apps/app-api`)
+- ✅ **Monorepo 구조**: Turborepo로 앱 및 공유 패키지 관리
+- ✅ **백오피스 시스템**: 전체 기능 구현 완료
+  - 대시보드 (통계, 최근 활동, 인기 콘텐츠)
+  - 콘텐츠 관리 (CRUD, 검색, 필터링)
+  - 사용자 관리 (상세 조회, 정지/해제, 삭제)
+  - 기록 관리 (조회, 삭제)
+- ✅ **백오피스 API**: Supabase Admin Client 기반 RESTful API
+- ✅ **백오피스 UI**: React Router + TanStack Query + Tailwind CSS
 
-### 구현 필요
-- ❌ 수동 콘텐츠 등록: 아직 미구현
-- ❌ 카카오 책 API 보조: 계획되었으나 미통합
-- ❌ 백오피스(bo) 기능: 기본 구조만 생성됨
-- ❌ 공유 패키지 활용: `packages/core`, `packages/api-types` 활용도 낮음
-- ❌ 프로덕션 배포 설정: app-api 배포 전략 미정
+### ⚠️ 개선 필요
+- ⚠️ **백오피스 인증**: 현재 인증 없이 접근 가능 → 관리자 인증 추가 필요
+- ⚠️ **감사 로그**: 중요 작업(삭제, 정지)에 대한 로깅 미구현
+- ⚠️ **공유 패키지 활용**: `packages/core`, `packages/api-types` 활용도 낮음
 
-### MVP 범위 외
-- 소셜 기능
-- 통계 대시보드
-- 다중 콘텐츠 타입 UI (도서만 활성화)
+### ❌ 구현 필요
+- ❌ **수동 콘텐츠 등록**: 사용자용 앱에서 직접 콘텐츠 추가 기능
+- ❌ **카카오 책 API**: 네이버 API 보조용으로 통합 예정
+- ❌ **프로덕션 배포**: app-api, bo-api 배포 전략 및 환경 설정
+- ❌ **데이터 내보내기**: Markdown, PDF, PNG 내보내기 기능
+- ❌ **세션 추적**: 독서 시간 타이머 및 기록 기능
+
+### 🚀 MVP 범위 외
+- 소셜 기능 (친구, 피드, 공유)
+- 다중 콘텐츠 타입 UI (현재 도서만 활성화, 영화/공연 등 확장 예정)
 - 다국어 지원(i18n)
+- 모바일 앱 (React Native)
+- 푸시 알림
 
 ## 성능 고려사항
 
@@ -405,12 +547,30 @@ type ProgressType = 'page' | 'percent' | 'timestamp' | 'episode';
 
 ## 보안 참고사항
 
-- `.env` 파일 절대 커밋 금지 (`apps/app/.env`, `apps/app-api/.env` 모두)
-- Supabase RLS 정책으로 사용자 데이터 격리 강제
-- 사용자 입력 무해화 (특히 수동 콘텐츠 등록)
-- 사용자 생성 콘텐츠의 HTML 이스케이프 처리 (감상, 메모)
-- 쿼터 소진 방지를 위한 외부 API 호출 속도 제한
-- app-api의 CORS 설정: 허용된 origin만 접근 가능하도록 관리
+### 환경 변수 관리
+- `.env` 파일 절대 커밋 금지 (`.gitignore`에 추가 필수)
+- 관리 대상: `apps/app/.env`, `apps/app-api/.env`, `apps/bo/.env`, `apps/bo-api/.env`
+
+### Supabase 키 관리
+- **Anon Key** (`apps/app`): 클라이언트에서 사용, RLS 정책 적용됨
+- **Service Role Key** (`apps/bo-api`): 서버에서만 사용, RLS 우회, **절대 클라이언트 노출 금지**
+
+### 데이터 보안
+- **Supabase RLS 정책**: 사용자 데이터 격리 강제 (`user_contents`, `records`)
+- **사용자 입력 무해화**: 특히 수동 콘텐츠 등록 시 XSS 방지
+- **HTML 이스케이프**: 사용자 생성 콘텐츠 (감상, 메모) 렌더링 시 적용
+
+### API 보안
+- **CORS 설정**:
+  - `app-api`: `http://localhost:3000` (메인 앱)
+  - `bo-api`: `http://localhost:4000` (백오피스)
+  - 프로덕션: 배포된 도메인만 허용
+- **Rate Limiting**: 외부 API 호출 쿼터 소진 방지 (향후 구현)
+
+### 백오피스 보안
+- **인증 필요**: 현재 누구나 접근 가능 → **관리자 인증 추가 필수**
+- **감사 로그**: 중요 작업(사용자 삭제, 콘텐츠 삭제) 로깅 권장
+- **IP 화이트리스트**: 프로덕션에서 관리자 IP만 접근 허용 고려
 
 ## Monorepo 작업 가이드
 
