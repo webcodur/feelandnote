@@ -1,33 +1,79 @@
 import React, { useState } from 'react';
 import { Camera, Edit2, Mail, Calendar, Settings, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuthStore } from '../store/useAuthStore';
+import { supabase } from '../lib/supabase';
 
 export const Profile: React.FC = () => {
+  const navigate = useNavigate();
+  const { user: authUser } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
 
-  // TODO: 실제 사용자 데이터로 대체
+  // 실제 사용자 데이터 사용 (없으면 기본값)
   const user = {
-    nickname: '독서광',
-    email: 'user@example.com',
-    bio: '책과 영화를 사랑하는 사람입니다. 매일 조금씩 기록하며 성장하고 있습니다.',
-    profileImage: null,
-    joinDate: '2024-01-15',
+    nickname: authUser?.name || '사용자',
+    email: authUser?.email || '',
+    bio: '책과 영화를 사랑하는 사람입니다. 매일 조금씩 기록하며 성장하고 있습니다.', // TODO: DB에 bio 필드 추가 필요
+    profileImage: authUser?.avatarUrl || null,
+    joinDate: '2024-01-15', // TODO: DB에 created_at 필드 연동 필요
   };
 
-  const handleImageUpload = () => {
-    // TODO: 이미지 업로드 로직
-    console.log('이미지 업로드');
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
+
+      const file = event.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${authUser?.id}-${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      // 1. Upload image to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // 2. Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      // 3. Update profile in DB
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', authUser?.id);
+
+      if (updateError) throw updateError;
+
+      // 4. Update auth metadata (to sync with session)
+      const { error: authUpdateError } = await supabase.auth.updateUser({
+        data: { avatar_url: publicUrl }
+      });
+
+      if (authUpdateError) throw authUpdateError;
+
+      // 5. Update local state (reload page or update store)
+      alert('프로필 이미지가 변경되었습니다.');
+      window.location.reload(); // Simple reload to fetch new data
+    } catch (error: any) {
+      console.error('Error uploading image:', error);
+      alert('이미지 업로드 중 오류가 발생했습니다: ' + error.message);
+    }
   };
 
   const handleSave = () => {
     // TODO: 프로필 저장 로직
-    console.log('프로필 저장');
+    alert('프로필 저장 기능은 준비 중입니다.');
     setIsEditing(false);
   };
 
-  const handleLogout = () => {
-    // TODO: 로그아웃 로직
-    console.log('로그아웃');
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/login');
   };
 
   return (
@@ -55,12 +101,17 @@ export const Profile: React.FC = () => {
                 )}
               </div>
               {isEditing && (
-                <button
-                  onClick={handleImageUpload}
-                  className="absolute bottom-0 right-0 p-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg transition-colors"
+                <label
+                  className="absolute bottom-0 right-0 p-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg transition-colors cursor-pointer"
                 >
                   <Camera className="w-4 h-4" />
-                </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
               )}
             </div>
           </div>

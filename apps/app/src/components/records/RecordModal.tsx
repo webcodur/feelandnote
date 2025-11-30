@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { X, Star, BookOpen, Quote, FileText, Loader2 } from 'lucide-react';
-import { clsx } from 'clsx';
-import { recordsApi, type RecordType } from '../../lib/api/records';
+import React, { useState, useEffect } from 'react';
+import { X, Star, BookOpen, Loader2, PenTool, CheckCircle2 } from 'lucide-react';
+import { createRecord } from '../../lib/api/records';
+import type { RecordPart, RecordSubtype } from '@feelnnote/api-types';
 import { useAuthStore } from '../../store/useAuthStore';
+import { PointSelector } from './PointSelector';
 
 interface RecordModalProps {
   isOpen: boolean;
@@ -20,11 +21,27 @@ export const RecordModal: React.FC<RecordModalProps> = ({
   onSuccess,
 }) => {
   const { user } = useAuthStore();
-  const [type, setType] = useState<RecordType>('REVIEW');
+  
+  // State
+  const [part, setPart] = useState<RecordPart>('PART2'); // Default to Review (Part 2)
+  const [subtype, setSubtype] = useState<RecordSubtype>('EXPERIENCE_SNAPSHOT');
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(0);
   const [location, setLocation] = useState('');
+  const [selectedPointIds, setSelectedPointIds] = useState<string[]>([]);
+  const [isPublic, setIsPublic] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Reset subtype when part changes
+  useEffect(() => {
+    if (part === 'PART1') {
+      setSubtype('MOMENT_NOTE');
+      setIsPublic(false);
+    } else {
+      setSubtype('EXPERIENCE_SNAPSHOT');
+      setIsPublic(true); // Default public for reviews
+    }
+  }, [part]);
 
   if (!isOpen) return null;
 
@@ -34,21 +51,27 @@ export const RecordModal: React.FC<RecordModalProps> = ({
 
     try {
       setIsLoading(true);
-      await recordsApi.createRecord({
-        userId: user.id,
-        contentId,
-        type,
+      await createRecord({
+        user_id: user.id, // Note: DTO expects user_id, not userId
+        content_id: contentId,
+        part,
+        subtype,
         content,
-        rating: type === 'REVIEW' ? rating : undefined,
+        rating: part === 'PART2' ? rating : undefined, // Rating only for reviews
         location: location || undefined,
-      });
+        is_public: isPublic,
+        point_ids: selectedPointIds,
+        metadata: {}, // Future: Add specific metadata based on subtype
+      } as any); // Type assertion needed due to DTO mismatch in frontend/backend types temporarily
+      
       onSuccess();
       onClose();
+      
       // Reset form
       setContent('');
       setRating(0);
       setLocation('');
-      setType('REVIEW');
+      setSelectedPointIds([]);
     } catch (error) {
       console.error('Failed to create record:', error);
       alert('기록 저장에 실패했습니다.');
@@ -57,11 +80,60 @@ export const RecordModal: React.FC<RecordModalProps> = ({
     }
   };
 
+  const renderSubtypeOptions = () => {
+    if (part === 'PART1') {
+      return (
+        <div className="flex gap-2">
+          {[
+            { value: 'MOMENT_NOTE', label: '순간 포착' },
+            { value: 'PROGRESS_NOTE', label: '진행 노트' },
+            { value: 'PERSONAL_REACTION', label: '개인 반응' },
+          ].map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => setSubtype(option.value as RecordSubtype)}
+              className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                subtype === option.value
+                  ? 'bg-indigo-50 border-indigo-500 text-indigo-700 font-medium'
+                  : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      );
+    }
+    return (
+      <div className="flex gap-2">
+        {[
+          { value: 'EXPERIENCE_SNAPSHOT', label: '경험 스냅샷' },
+          { value: 'KEY_CAPTURE', label: '핵심 포착' },
+          { value: 'CREATIVE_PLAYGROUND', label: '재창작' },
+        ].map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => setSubtype(option.value as RecordSubtype)}
+            className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+              subtype === option.value
+                ? 'bg-indigo-50 border-indigo-500 text-indigo-700 font-medium'
+                : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl w-full max-w-lg shadow-xl animate-in fade-in zoom-in duration-200">
+      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-xl animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto custom-scrollbar">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
           <div>
             <h2 className="text-xl font-bold text-gray-900">기록 남기기</h2>
             <p className="text-sm text-gray-500 mt-1">{contentTitle}</p>
@@ -75,85 +147,117 @@ export const RecordModal: React.FC<RecordModalProps> = ({
         </div>
 
         {/* Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Type Selection */}
-          <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
-            {(['REVIEW', 'NOTE', 'QUOTE'] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setType(t)}
-                className={clsx(
-                  'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all',
-                  type === t
-                    ? 'bg-white text-indigo-600 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
-                )}
-              >
-                {t === 'REVIEW' && <Star className="w-4 h-4" />}
-                {t === 'NOTE' && <FileText className="w-4 h-4" />}
-                {t === 'QUOTE' && <Quote className="w-4 h-4" />}
-                {t === 'REVIEW' ? '리뷰' : t === 'NOTE' ? '메모' : '인용구'}
-              </button>
-            ))}
+        <form onSubmit={handleSubmit} className="p-6 space-y-8">
+          
+          {/* Part Selection (Tabs) */}
+          <div className="flex p-1 bg-gray-100 rounded-xl">
+            <button
+              type="button"
+              onClick={() => setPart('PART1')}
+              className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
+                part === 'PART1'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <PenTool className="w-4 h-4" />
+              기록 관리 (진행 중)
+            </button>
+            <button
+              type="button"
+              onClick={() => setPart('PART2')}
+              className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
+                part === 'PART2'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <CheckCircle2 className="w-4 h-4" />
+              리뷰 (완료 후)
+            </button>
           </div>
 
-          {/* Dynamic Fields */}
-          <div className="space-y-4">
-            {type === 'REVIEW' && (
-              <div className="flex justify-center gap-2 py-2">
+          {/* Subtype Selection */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">기록 유형</label>
+            {renderSubtypeOptions()}
+          </div>
+
+          {/* Rating (Part 2 only) */}
+          {part === 'PART2' && (
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">평점</label>
+              <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onClick={() => setRating(star)}
-                    className={clsx(
-                      'p-1 transition-transform hover:scale-110',
-                      rating >= star ? 'text-yellow-400' : 'text-gray-200'
-                    )}
-                  >
-                    <Star className="w-8 h-8 fill-current" />
-                  </button>
+                  <div key={star} className="relative cursor-pointer group" onClick={() => setRating(star)}>
+                    <Star className={`w-8 h-8 ${rating >= star ? 'text-yellow-400 fill-current' : 'text-gray-200 fill-current group-hover:text-yellow-200'}`} />
+                    <div 
+                      className="absolute inset-y-0 left-0 w-1/2" 
+                      onClick={(e) => { e.stopPropagation(); setRating(star - 0.5); }}
+                    />
+                  </div>
                 ))}
+                <span className="ml-2 text-lg font-medium text-gray-600">{rating > 0 ? rating : '-'}</span>
               </div>
-            )}
-
-            <div>
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder={
-                  type === 'REVIEW'
-                    ? '이 작품에 대한 전반적인 감상을 남겨주세요.'
-                    : type === 'NOTE'
-                    ? '기억하고 싶은 내용이나 떠오른 생각을 적어보세요.'
-                    : '인상 깊었던 구절을 기록해보세요.'
-                }
-                className="w-full h-32 p-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-                required
-              />
             </div>
+          )}
 
-            <div className="flex items-center gap-2">
+          {/* Content Input */}
+          <div className="space-y-2">
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder={
+                part === 'PART1' 
+                  ? "지금 읽고 있는 부분에 대한 생각이나 메모를 남겨주세요." 
+                  : "이 작품에 대한 전반적인 감상, 인상 깊었던 점을 자유롭게 기록해보세요."
+              }
+              className="w-full h-[200px] p-4 bg-gray-50 text-base leading-relaxed border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none placeholder:text-gray-400"
+              required
+            />
+          </div>
+
+          {/* Location & Public Toggle */}
+          <div className="flex items-center gap-4">
+            <div className="flex-1 flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20">
               <BookOpen className="w-4 h-4 text-gray-400" />
               <input
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder={type === 'QUOTE' ? '페이지 (예: p.123)' : '위치 정보 (선택)'}
-                className="flex-1 bg-transparent border-b border-gray-200 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+                placeholder="위치 (p.123, 15:30 등)"
+                className="flex-1 bg-transparent border-none p-0 text-sm focus:ring-0 placeholder:text-gray-400"
               />
             </div>
+            
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input 
+                type="checkbox" 
+                checked={isPublic}
+                onChange={(e) => setIsPublic(e.target.checked)}
+                className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+              />
+              <span className="text-sm text-gray-700">공개하기</span>
+            </label>
+          </div>
+
+          {/* Points Selection */}
+          <div className="pt-4 border-t border-gray-100">
+            <PointSelector 
+              contentId={contentId}
+              selectedPointIds={selectedPointIds}
+              onChange={setSelectedPointIds}
+            />
           </div>
 
           {/* Footer */}
-          <div className="pt-2">
+          <div className="pt-4">
             <button
               type="submit"
               disabled={isLoading || !content.trim()}
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : '저장하기'}
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : '기록 저장하기'}
             </button>
           </div>
         </form>

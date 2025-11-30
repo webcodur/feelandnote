@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
@@ -9,9 +10,14 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSidebarToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const handleLogoClick = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    navigate('/');
   };
 
   const handleOpenSearch = () => {
@@ -26,6 +32,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen bg-gray-50">
       <Header 
         onLogoClick={handleLogoClick} 
+        onSidebarToggle={handleSidebarToggle}
         onSearchClick={handleOpenSearch}
         isSearchModalOpen={isSearchModalOpen}
         onCloseSearchModal={handleCloseSearch}

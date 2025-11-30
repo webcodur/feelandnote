@@ -118,7 +118,22 @@ export function Users() {
                   <div className="text-xs text-gray-500 font-mono">{user.id}</div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
-                  {user.profile?.nickname || '-'}
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                      {user.profile?.avatar_url ? (
+                        <img
+                          src={user.profile.avatar_url}
+                          alt={user.profile.nickname}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-xs font-bold text-gray-500">
+                          {user.profile?.nickname?.[0] || '?'}
+                        </span>
+                      )}
+                    </div>
+                    <span>{user.profile?.nickname || '-'}</span>
+                  </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-900 font-semibold">
                   {user.stats?.contentsCount || 0}

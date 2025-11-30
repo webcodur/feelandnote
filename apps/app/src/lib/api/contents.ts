@@ -23,7 +23,9 @@ export const contentApi = {
           creator,
           thumbnail_url,
           metadata,
-          description
+          description,
+          publisher,
+          release_date
         )
       `)
       .eq('user_id', userId)
@@ -39,8 +41,8 @@ export const contentApi = {
       thumbnail_url: item.contents.thumbnail_url,
       metadata: item.contents.metadata,
       description: item.contents.description,
-      publisher: item.contents.publisher || '', // Add missing field
-      release_date: item.contents.release_date || '', // Add missing field
+      publisher: item.contents.publisher || '',
+      release_date: item.contents.release_date || '',
       status: item.status,
       progress: item.progress,
       lastUpdated: new Date(item.updated_at).toLocaleDateString(),

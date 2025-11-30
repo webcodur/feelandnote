@@ -5,14 +5,15 @@
 -- 1. CREATE POINT SYSTEM TABLES
 -- ============================================================================
 
--- Points table: Reference points within content (e.g., "첫키스", "반전", "3장")
+-- Points table: Saved text snippets that can be referenced in records
+-- Users save memorable quotes/passages and reference them in notes using [[text]] syntax
 CREATE TABLE IF NOT EXISTS public.points (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   content_id text REFERENCES public.contents(id) ON DELETE CASCADE NOT NULL,
-  label text NOT NULL,  -- Short label: "첫키스", "반전", "3장"
-  location text NOT NULL,  -- Page number, timestamp, etc: "p.142", "01:23:45"
-  description text,  -- Optional longer description
+  text text NOT NULL,  -- The actual text/quote to be saved: "인생은 초콜릿 상자와 같다"
+  label text,  -- Optional short nickname for long quotes: "초콜릿 명언"
+  location text,  -- Optional source location: "p.142", "01:23:45", "Chapter 3"
   created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL
 );

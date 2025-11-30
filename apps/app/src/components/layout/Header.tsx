@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Bell, User, LogOut, X } from 'lucide-react';
+import { Search, Bell, User, LogOut, X, Menu } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { supabase } from '../../lib/supabase';
 import { useNavigate, Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { ContentSearch } from '../contents/ContentSearch';
 
 interface HeaderProps {
   onLogoClick: () => void;
+  onSidebarToggle: () => void;
   onSearchClick: () => void;
   isSearchModalOpen: boolean;
   onCloseSearchModal: () => void;
@@ -14,6 +15,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ 
   onLogoClick, 
+  onSidebarToggle,
   onSearchClick,
   isSearchModalOpen,
   onCloseSearchModal 
@@ -29,7 +31,13 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 z-50 flex items-center justify-between px-6">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onSidebarToggle}
+            className="p-2 hover:bg-gray-100 rounded-full text-gray-600 transition-colors"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
           <button
             onClick={onLogoClick}
             className="text-xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors cursor-pointer"
