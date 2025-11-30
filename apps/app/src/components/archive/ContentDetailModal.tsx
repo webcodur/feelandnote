@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, Book, Film } from 'lucide-react';
-import { clsx } from 'clsx';
 import type { UserContent } from '../../lib/api/contents';
 
 interface ContentDetailModalProps {
@@ -18,25 +17,40 @@ export const ContentDetailModal: React.FC<ContentDetailModalProps> = ({
 
   const Icon = content.type === 'BOOK' ? Book : Film;
 
+  // Format release date (YYYYMMDD -> YYYY.MM.DD)
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    if (dateString.length === 8) {
+      return `${dateString.slice(0, 4)}.${dateString.slice(4, 6)}.${dateString.slice(6, 8)}`;
+    }
+    return dateString;
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+    <div 
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 shrink-0">
           <h2 className="text-xl font-bold text-gray-900">콘텐츠 상세</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
-          <div className="flex gap-6">
+        {/* Content Scroll Area */}
+        <div className="p-6 overflow-y-auto">
+          <div className="flex flex-col md:flex-row gap-8">
             {/* Thumbnail */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 mx-auto md:mx-0">
               <div className="w-48 aspect-[2/3] bg-gray-100 rounded-lg overflow-hidden shadow-md">
                 {content.thumbnail_url ? (
                   <img
@@ -53,52 +67,53 @@ export const ContentDetailModal: React.FC<ContentDetailModalProps> = ({
             </div>
 
             {/* Info */}
-            <div className="flex-1 space-y-4">
+            <div className="flex-1 space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{content.title}</h3>
-                <p className="text-lg text-gray-600">{content.creator}</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">{content.title}</h3>
+                <div className="text-sm text-gray-600 flex flex-wrap items-center gap-2">
+                  <span className="font-medium text-gray-900">{content.creator}</span>
+                  {content.publisher && (
+                    <>
+                      <span className="text-gray-300">|</span>
+                      <span>{content.publisher}</span>
+                    </>
+                  )}
+                  {content.release_date && (
+                    <>
+                      <span className="text-gray-300">|</span>
+                      <span>{formatDate(content.release_date)}</span>
+                    </>
+                  )}
+                </div>
               </div>
 
-              {/* Progress */}
-              {content.status === 'EXPERIENCE' && (
-                <div className="bg-indigo-50 p-4 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-indigo-900">진행률</span>
-                    <span className="text-lg font-bold text-indigo-600">{content.progress}%</span>
-                  </div>
-                  <div className="w-full bg-indigo-200 rounded-full h-2">
-                    <div
-                      className="bg-indigo-600 h-2 rounded-full transition-all"
-                      style={{ width: `${content.progress}%` }}
-                    />
-                  </div>
+              {/* Description */}
+              {content.description && (
+                <div className="prose prose-sm max-w-none text-gray-600 bg-gray-50 p-4 rounded-lg">
+                  <p className="whitespace-pre-wrap leading-relaxed">
+                    {content.description}
+                  </p>
                 </div>
               )}
 
-              {/* Additional Info */}
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-gray-700">상태:</span>
-                  <span className={clsx(
-                    'px-2 py-1 rounded-md text-xs font-medium',
-                    content.status === 'EXPERIENCE' 
-                      ? 'bg-indigo-100 text-indigo-700' 
-                      : 'bg-gray-100 text-gray-700'
-                  )}>
-                    {content.status === 'EXPERIENCE' ? '경험 중' : '관심 목록'}
-                  </span>
-                </div>
-                {content.lastUpdated && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <span className="font-medium">마지막 업데이트:</span>
-                    <span>{new Date(content.lastUpdated).toLocaleDateString('ko-KR')}</span>
+              {/* Metadata / Links */}
+              <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
+                {content.metadata?.isbn && (
+                  <div className="text-xs text-gray-400">
+                    ISBN: {content.metadata.isbn}
                   </div>
                 )}
-              </div>
-
-              {/* Actions */}
-              <div className="pt-4 border-t border-gray-200">
-                <p className="text-sm text-gray-500 mb-3">향후 기록 및 리뷰 기능이 추가될 예정입니다</p>
+                
+                {content.metadata?.link && (
+                  <a 
+                    href={content.metadata.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-4 py-2 bg-green-50 text-green-700 hover:bg-green-100 rounded-lg text-sm font-medium transition-colors w-fit cursor-pointer"
+                  >
+                    네이버 책에서 보기
+                  </a>
+                )}
               </div>
             </div>
           </div>

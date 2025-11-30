@@ -10,7 +10,6 @@ interface ContentCardProps {
   type: ContentType;
   progress?: number;
   status: 'WISH' | 'EXPERIENCE';
-  lastUpdated?: string;
   onWrite?: () => void;
   onViewDetail?: () => void;
   onManageRecords?: () => void;
@@ -23,7 +22,6 @@ export const ContentCard: React.FC<ContentCardProps> = ({
   type,
   progress = 0,
   status,
-  lastUpdated,
   onWrite,
   onViewDetail,
   onManageRecords,
@@ -32,81 +30,85 @@ export const ContentCard: React.FC<ContentCardProps> = ({
 
   const Icon = type === 'BOOK' ? Book : Film;
 
+  const handleAction = (e: React.MouseEvent, action?: () => void) => {
+    e.stopPropagation();
+    action?.();
+  };
+
   return (
     <div
-      className="group relative"
+      className="group relative flex flex-col gap-3"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* 포스터 영역 - 클릭 시 상세 모달 */}
+      {/* 포스터 영역 */}
       <div
         onClick={onViewDetail}
-        className="relative aspect-[2/3] bg-gray-100 rounded-lg overflow-hidden mb-3 cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+        className="relative aspect-[2/3] bg-gray-100 rounded-xl overflow-hidden cursor-pointer shadow-sm group-hover:shadow-md transition-all duration-300"
       >
         {thumbnailUrl ? (
           <img
             src={thumbnailUrl}
             alt={title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Icon className="w-16 h-16 text-gray-300" />
+          <div className="w-full h-full flex items-center justify-center bg-gray-50">
+            <Icon className="w-12 h-12 text-gray-300" />
           </div>
         )}
 
-        {/* 진행률 표시 */}
+        {/* Hover Overlay & Actions */}
+        <div className={clsx(
+          "absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200 flex flex-col items-center justify-center gap-3 p-4",
+          isHovered ? "opacity-100" : "opacity-0"
+        )}>
+          {status === 'EXPERIENCE' && (
+            <>
+              <button
+                onClick={(e) => handleAction(e, onWrite)}
+                className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200 cursor-pointer"
+              >
+                <FileEdit className="w-4 h-4" />
+                리뷰 쓰기
+              </button>
+              <button
+                onClick={(e) => handleAction(e, onManageRecords)}
+                className="w-full py-2.5 px-4 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200 cursor-pointer"
+              >
+                <Settings className="w-4 h-4" />
+                기록 관리
+              </button>
+            </>
+          )}
+          
+          {/* 상세 보기 텍스트 (버튼이 없을 때 혹은 추가적인 힌트) */}
+          <span className="text-white/70 text-xs mt-2 font-light">클릭하여 상세 정보</span>
+        </div>
+
+        {/* 진행률 표시 (Slim version) */}
         {status === 'EXPERIENCE' && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-            <div className="flex items-center justify-between text-white text-xs mb-1">
-              <span>진행률</span>
-              <span className="font-medium">{progress}%</span>
-            </div>
-            <div className="w-full bg-white/30 rounded-full h-1.5">
-              <div
-                className="bg-indigo-400 h-1.5 rounded-full transition-all"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Hover 오버레이 */}
-        {isHovered && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <p className="text-white text-sm font-medium">상세보기</p>
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200/30">
+            <div
+              className="h-full bg-indigo-500 transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         )}
       </div>
 
       {/* 콘텐츠 정보 */}
-      <div className="space-y-2">
-        <div>
-          <h3 className="font-medium text-gray-900 text-sm line-clamp-2 leading-tight">
-            {title}
-          </h3>
-          <p className="text-xs text-gray-500 mt-1">{creator}</p>
-        </div>
-
-        {/* 액션 버튼 */}
-        {status === 'EXPERIENCE' && (
-          <div className="flex gap-1.5">
-            <button
-              onClick={onManageRecords}
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors"
-              title="챕터별 기록 등 상세한 기록 관리"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              기록관리
-            </button>
-            <button
-              onClick={onWrite}
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition-colors"
-            >
-              <FileEdit className="w-3.5 h-3.5" />
-              리뷰 쓰기
-            </button>
-          </div>
+      <div className="space-y-1">
+        <h3 className="font-semibold text-gray-900 text-base leading-tight truncate px-1">
+          {title}
+        </h3>
+        <p className="text-sm text-gray-500 truncate px-1">{creator}</p>
+        
+        {/* 진행률 텍스트 (Optional: 호버 시에만 보이거나 항상 보이거나) */}
+        {status === 'EXPERIENCE' && progress > 0 && (
+          <p className="text-xs text-indigo-600 font-medium px-1 mt-1">
+            {progress}% 읽음
+          </p>
         )}
       </div>
     </div>

@@ -12,6 +12,17 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
+  
+  const [rememberId, setRememberId] = useState(false);
+  const [autoLogin, setAutoLogin] = useState(true);
+
+  React.useEffect(() => {
+    const savedEmail = localStorage.getItem('savedEmail');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberId(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +36,14 @@ export const Login: React.FC = () => {
           password,
         });
         if (error) throw error;
+
+        // Handle Remember ID
+        if (rememberId) {
+          localStorage.setItem('savedEmail', email);
+        } else {
+          localStorage.removeItem('savedEmail');
+        }
+
         navigate('/');
       } else {
         const { error } = await supabase.auth.signUp({
@@ -125,6 +144,31 @@ export const Login: React.FC = () => {
             )}
           </button>
         </form>
+
+        {isLogin && (
+          <div className="mt-4 flex items-center justify-between text-sm">
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rememberId}
+                  onChange={(e) => setRememberId(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                />
+                <span className="text-gray-600">아이디 저장</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={autoLogin}
+                  onChange={(e) => setAutoLogin(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                />
+                <span className="text-gray-600">자동 로그인</span>
+              </label>
+            </div>
+          </div>
+        )}
 
         <div className="mt-6 text-center">
           <button
