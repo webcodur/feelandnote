@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feel&Note - 블라인드 게임</title>
+    <style>
+        :root {
+            --bg-main: #0f1115;
+            --bg-secondary: #161b22;
+            --bg-card: #1f242c;
+            --accent: #7c4dff;
+            --accent-hover: #6536d4;
+            --text-primary: #ffffff;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+            --glass: rgba(22, 27, 34, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Header */
+        .top-header {
+            width: 100%;
+            height: 64px;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .hamburger {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hamburger-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .hamburger-icon span {
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 1px;
+            transition: all 0.3s;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, #a3a3a3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--accent);
+        }
+
+        .search-bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            outline: none;
+            font-size: 15px;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c4dff, #ff4d4d);
+            cursor: pointer;
+        }
+
+        /* Sidebar - Two Level Structure */
+        .sidebar-container {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            height: calc(100vh - 64px);
+            display: flex;
+            z-index: 50;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-container.hidden {
+            transform: translateX(-340px);
+        }
+
+        /* Primary Sidebar */
+        .sidebar-primary {
+            width: 80px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 0;
+            gap: 8px;
+        }
+
+        .primary-nav-item {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .primary-nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .primary-nav-item.active {
+            background: rgba(124, 77, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .primary-nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .primary-icon {
+            font-size: 24px;
+        }
+
+        .primary-label {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Secondary Sidebar */
+        .sidebar-secondary {
+            width: 260px;
+            background-color: var(--bg-main);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .secondary-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .menu-content {
+            display: none;
+        }
+
+        .menu-content.active {
+            display: block;
+        }
+
+        .nav-item {
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background-color: rgba(124, 77, 255, 0.1);
+            color: var(--accent);
+        }
+
+        /* Main Content */
+        .main-container {
+            margin-top: 64px;
+            margin-left: 340px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+            padding: 32px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-container.expanded {
+            margin-left: 0;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .create-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .create-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* View Tabs */
+        .view-tabs {
+            display: flex;
+            gap: 16px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .view-tab {
+            padding: 12px 24px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .view-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .view-tab.active {
+            color: var(--text-primary);
+        }
+
+        .view-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        /* Blind Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .game-preview {
+            background: rgba(124, 77, 255, 0.05);
+            padding: 24px;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-size: 24px;
+            color: var(--accent);
+            opacity: 0.5;
+        }
+
+        .preview-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #d0d7de;
+            font-style: italic;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .game-info {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .game-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .user-avatar-small {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        .user-name-small {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .tag-badge {
+            font-size: 11px;
+            padding: 2px 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        .game-stats {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .difficulty {
+            display: flex;
+            gap: 2px;
+        }
+
+        .difficulty span {
+            color: var(--accent);
+        }
+
+        .play-count {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* My Game Card */
+        .my-game-card {
+            border-style: dashed;
+            background: rgba(255,255,255,0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            gap: 16px;
+        }
+
+        .my-game-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+        }
+
+        .plus-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="hamburger" onclick="toggleSidebar()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="logo">Feel&Note</div>
+        <div class="search-container">
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" placeholder="콘텐츠, 사용자, 태그 검색...">
+            </div>
+        </div>
+        <div class="user-section">
+            <span style="font-weight: 600; font-size: 14px;">WebCoder</span>
+            <div class="avatar"></div>
+        </div>
+    </header>
+
+    <!-- Sidebar Container -->
+    <div class="sidebar-container" id="sidebarContainer">
+        <!-- Primary Sidebar -->
+        <nav class="sidebar-primary">
+            <div class="primary-nav-item" data-menu="dashboard">
+                <span class="primary-icon">🏠</span>
+                <span class="primary-label">홈</span>
+            </div>
+            <div class="primary-nav-item" data-menu="library">
+                <span class="primary-icon">📁</span>
+                <span class="primary-label">기록관</span>
+            </div>
+            <div class="primary-nav-item" data-menu="feed">
+                <span class="primary-icon">📰</span>
+                <span class="primary-label">피드</span>
+            </div>
+            <div class="primary-nav-item active" data-menu="explore">
+                <span class="primary-icon">🧭</span>
+                <span class="primary-label">놀이터</span>
+            </div>
+        </nav>
+
+        <!-- Secondary Sidebar -->
+        <aside class="sidebar-secondary" id="secondaryMenu">
+            <!-- Dashboard Menu -->
+            <div class="menu-content" data-content="dashboard">
+                <h2 class="secondary-title">대시보드</h2>
+                <div class="nav-group">
+                    <a class="nav-item" href="00_메인_대시보드.html">📊 개요</a>
+                    <a class="nav-item" href="04_시스템_점수_칭호.html">📈 통계</a>
+                    <a class="nav-item" href="04_시스템_점수_칭호.html">📜 업적서</a>
+                    <a class="nav-item" href="04_시스템_소셜.html">👥 소셜</a>
+                </div>
+            </div>
+
+            <!-- Library Menu -->
+            <div class="menu-content" data-content="library">
+                <h2 class="secondary-title">기록관</h2>
+                <div class="nav-group">
+                    <a class="nav-item">📚 전체 보기</a>
+                </div>
+            </div>
+
+            <!-- Feed Menu -->
+            <div class="menu-content" data-content="feed">
+                <h2 class="secondary-title">콘텐츠 피드</h2>
+                <div class="nav-group">
+                    <a class="nav-item">🌟 셀럽</a>
+                    <a class="nav-item">👥 친구</a>
+                    <a class="nav-item">🧭 발견</a>
+                </div>
+            </div>
+
+            <!-- Explore Menu -->
+            <div class="menu-content active" data-content="explore">
+                <h2 class="secondary-title">놀이터</h2>
+                <div class="nav-group">
+                    <a class="nav-item">🏆 티어리스트</a>
+                    <a class="nav-item active">🎯 블라인드 게임</a>
+                    <a class="nav-item">📜 업적서</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-container" id="mainContainer">
+        <div class="page-header">
+            <div>
+                <div class="page-title">블라인드 게임</div>
+                <div class="page-subtitle">감상평만 보고 작품을 맞추는 퀴즈에 도전하세요</div>
+            </div>
+            <button class="create-btn">
+                <span>+</span> 새 문제 출제
+            </button>
+        </div>
+
+        <!-- View Tabs -->
+        <div class="view-tabs">
+            <div class="view-tab active">🔥 인기 퀴즈</div>
+            <div class="view-tab">✨ 최신</div>
+            <div class="view-tab">👥 팔로잉</div>
+            <div class="view-tab">👤 내 문제</div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Card 1 -->
+            <div class="game-card">
+                <div class="game-preview">
+                    <span class="quote-icon">❝</span>
+                    <div class="preview-text">
+                        "이 작품은 내 인생을 바꿨다. 처음 읽었을 때의 충격은 아직도 생생하다. 주인공의 선택 하나하나가 너무나 공감되었고..."
+                    </div>
+                </div>
+                <div class="game-info">
+                    <div class="game-title">인생을 바꾼 그 소설</div>
+                    <div class="game-meta">
+                        <div class="user-avatar-small" style="background: linear-gradient(135deg, #7c4dff, #ff4d4d);"></div>
+                        <div class="user-name-small">BookLover</div>
+                        <span class="tag-badge">도서</span>
+                    </div>
+                    <div class="game-stats">
+                        <div class="difficulty">
+                            난이도: <span>★★</span>☆☆☆
+                        </div>
+                        <div class="play-count">
+                            🎮 1,240명 도전
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="game-card">
+                <div class="game-preview">
+                    <span class="quote-icon">❝</span>
+                    <div class="preview-text">
+                        "마지막 장면의 팽이가 쓰러질지 아닐지 숨죽이며 지켜봤던 순간. 감독의 상상력에 다시 한번 감탄했다."
+                    </div>
+                </div>
+                <div class="game-info">
+                    <div class="game-title">꿈속의 꿈, 그 영화</div>
+                    <div class="game-meta">
+                        <div class="user-avatar-small" style="background: linear-gradient(135deg, #84fab0, #8fd3f4);"></div>
+                        <div class="user-name-small">MovieBuff</div>
+                        <span class="tag-badge">영화</span>
+                    </div>
+                    <div class="game-stats">
+                        <div class="difficulty">
+                            난이도: <span>★</span>☆☆☆☆
+                        </div>
+                        <div class="play-count">
+                            🎮 3,502명 도전
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="game-card">
+                <div class="game-preview">
+                    <span class="quote-icon">❝</span>
+                    <div class="preview-text">
+                        "용이 내가 된다! 류승룡 기모찌! 이 대사 하나로 모든 것이 설명되는 게임."
+                    </div>
+                </div>
+                <div class="game-info">
+                    <div class="game-title">전설의 대사 맞추기</div>
+                    <div class="game-meta">
+                        <div class="user-avatar-small" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
+                        <div class="user-name-small">GameMaster</div>
+                        <span class="tag-badge">게임</span>
+                    </div>
+                    <div class="game-stats">
+                        <div class="difficulty">
+                            난이도: <span>★★★</span>☆☆
+                        </div>
+                        <div class="play-count">
+                            🎮 890명 도전
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="game-card">
+                <div class="game-preview">
+                    <span class="quote-icon">❝</span>
+                    <div class="preview-text">
+                        "겨울이 오고 있다. 하지만 그 겨울은 너무나 길었고, 마지막 시즌은 너무나 짧았다."
+                    </div>
+                </div>
+                <div class="game-info">
+                    <div class="game-title">용두사미의 전설</div>
+                    <div class="game-meta">
+                        <div class="user-avatar-small" style="background: linear-gradient(135deg, #fa709a, #fee140);"></div>
+                        <div class="user-name-small">DramaQueen</div>
+                        <span class="tag-badge">드라마</span>
+                    </div>
+                    <div class="game-stats">
+                        <div class="difficulty">
+                            난이도: <span>★★</span>☆☆☆
+                        </div>
+                        <div class="play-count">
+                            🎮 2,100명 도전
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="game-card">
+                <div class="game-preview">
+                    <span class="quote-icon">❝</span>
+                    <div class="preview-text">
+                        "범인은 바로 이 안에 있어! 할아버지의 이름을 걸고 맹세하지."
+                    </div>
+                </div>
+                <div class="game-info">
+                    <div class="game-title">추리 만화 명대사</div>
+                    <div class="game-meta">
+                        <div class="user-avatar-small" style="background: linear-gradient(135deg, #30cfd0, #330867);"></div>
+                        <div class="user-name-small">AniLover</div>
+                        <span class="tag-badge">애니메이션</span>
+                    </div>
+                    <div class="game-stats">
+                        <div class="difficulty">
+                            난이도: <span>★</span>☆☆☆☆
+                        </div>
+                        <div class="play-count">
+                            🎮 5,430명 도전
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebarContainer = document.getElementById('sidebarContainer');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            sidebarContainer.classList.toggle('hidden');
+            mainContainer.classList.toggle('expanded');
+        }
+
+        // Primary menu switching
+        document.querySelectorAll('.primary-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const menuType = this.getAttribute('data-menu');
+                
+                document.querySelectorAll('.primary-nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.menu-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelector(`[data-content="${menuType}"]`).classList.add('active');
+            });
+        });
+
+        // Secondary menu item clicks
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const siblings = this.parentElement.querySelectorAll('.nav-item');
+                siblings.forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // View tab switching
+        document.querySelectorAll('.view-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
