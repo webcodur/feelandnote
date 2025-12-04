@@ -6,14 +6,24 @@ interface BadgeProps {
   className?: string;
 }
 
-export default function Badge({ children, variant = "default", className = "" }: BadgeProps) {
-  const variantClass = {
-    default: "badge-default",
-    primary: "badge-primary",
-    success: "badge-success",
-    warning: "badge-warning",
-    error: "badge-error",
-  }[variant];
+const variantStyles = {
+  default: "bg-white/10 text-text-secondary",
+  primary: "bg-accent/20 text-accent",
+  success: "bg-green-500/20 text-green-400",
+  warning: "bg-yellow-500/20 text-yellow-400",
+  error: "bg-red-500/20 text-red-400",
+};
 
-  return <span className={`badge ${variantClass} ${className}`}>{children}</span>;
+export default function Badge({
+  children,
+  variant = "default",
+  className = "",
+}: BadgeProps) {
+  return (
+    <span
+      className={`inline-block py-1 px-3 rounded-xl text-xs font-semibold ${variantStyles[variant]} ${className}`}
+    >
+      {children}
+    </span>
+  );
 }

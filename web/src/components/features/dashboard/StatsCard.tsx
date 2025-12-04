@@ -1,17 +1,14 @@
-import { Card } from "@/components/ui";
+import { USER_STATS } from "@/lib/mock-data";
 
-interface StatsCardProps {
-  label: string;
-  value: string;
-  change: string;
-}
-
-export default function StatsCard({ label, value, change }: StatsCardProps) {
+export default function StatsCard() {
   return (
-    <Card className="stat-card">
-      <div className="stat-label">{label}</div>
-      <div className="stat-value">{value}</div>
-      <div className="stat-change">{change}</div>
-    </Card>
+    <div className="flex gap-6">
+      {USER_STATS.map((stat, index) => (
+        <div key={index} className="flex items-center gap-2">
+          <div className="text-xl font-bold">{stat.value}</div>
+          <div className="text-xs text-text-secondary">{stat.label}</div>
+        </div>
+      ))}
+    </div>
   );
 }

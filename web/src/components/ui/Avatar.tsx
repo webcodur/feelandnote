@@ -4,13 +4,21 @@ interface AvatarProps {
   className?: string;
 }
 
-export default function Avatar({ size = "md", gradient, className = "" }: AvatarProps) {
-  const sizeClass = size === "sm" ? "avatar-sm" : size === "lg" ? "avatar-lg" : "avatar-md";
+const sizeStyles = {
+  sm: "w-8 h-8",
+  md: "w-10 h-10",
+  lg: "w-12 h-12",
+};
 
+export default function Avatar({
+  size = "md",
+  gradient,
+  className = "",
+}: AvatarProps) {
   return (
     <div
-      className={`avatar ${sizeClass} ${className}`}
-      style={gradient ? { background: gradient } : undefined}
-    ></div>
+      className={`rounded-full ${sizeStyles[size]} ${className}`}
+      style={gradient ? { background: gradient } : { background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}
+    />
   );
 }

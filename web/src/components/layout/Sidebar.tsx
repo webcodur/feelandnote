@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Home,
   Folder,
@@ -29,14 +29,64 @@ interface SidebarProps {
   isOpen?: boolean;
 }
 
+function PrimaryNavItem({
+  active,
+  onClick,
+  children,
+  label,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  label?: string;
+}) {
+  return (
+    <button
+      className={`w-14 h-14 flex flex-col items-center justify-center gap-1 rounded-xl cursor-pointer transition-all duration-200 relative bg-transparent border-none
+        ${active ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
+      onClick={onClick}
+    >
+      {active && (
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-accent rounded-r" />
+      )}
+      {children}
+      {label && <span className="text-[10px] font-semibold">{label}</span>}
+    </button>
+  );
+}
+
+function NavItem({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`p-3 rounded-xl no-underline text-[15px] font-medium flex items-center gap-3 transition-all duration-200 cursor-pointer
+        ${active ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
+    >
+      {children}
+    </Link>
+  );
+}
+
 export default function Sidebar({ isOpen = true }: SidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const [activePrimary, setActivePrimary] = useState<string>("home");
 
-  // URL 변경 시 activePrimary 상태 동기화
   useEffect(() => {
-    if (pathname === "/" || pathname.startsWith("/dashboard") || pathname.startsWith("/stats") || pathname.startsWith("/achievements") || pathname.startsWith("/social")) {
+    if (
+      pathname === "/" ||
+      pathname.startsWith("/dashboard") ||
+      pathname.startsWith("/stats") ||
+      pathname.startsWith("/achievements") ||
+      pathname.startsWith("/social")
+    ) {
       setActivePrimary("home");
     } else if (pathname.startsWith("/archive")) {
       setActivePrimary("archive");
@@ -47,147 +97,139 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
     }
   }, [pathname]);
 
-  const handlePrimaryClick = (key: string, defaultPath: string) => {
-    setActivePrimary(key);
-  };
-
   return (
-    <div className={`sidebar-container ${!isOpen ? "hidden" : ""}`}>
+    <div
+      className={`fixed top-16 left-0 h-[calc(100vh-64px)] flex z-50 transition-transform duration-300 ease-in-out
+        ${!isOpen ? "-translate-x-[340px]" : ""}`}
+    >
       {/* Primary Sidebar */}
-      <nav className="sidebar-primary">
-        <button
-          className={`primary-nav-item ${activePrimary === "home" ? "active" : ""}`}
-          onClick={() => handlePrimaryClick("home", "/")}
+      <nav className="w-20 bg-bg-secondary border-r border-border flex flex-col items-center py-6 gap-2">
+        <PrimaryNavItem
+          active={activePrimary === "home"}
+          onClick={() => setActivePrimary("home")}
+          label="홈"
         >
           <Home size={24} />
-          <span className="primary-label">홈</span>
-        </button>
-        <button
-          className={`primary-nav-item ${activePrimary === "archive" ? "active" : ""}`}
-          onClick={() => handlePrimaryClick("archive", "/archive")}
+        </PrimaryNavItem>
+        <PrimaryNavItem
+          active={activePrimary === "archive"}
+          onClick={() => setActivePrimary("archive")}
+          label="기록관"
         >
           <Folder size={24} />
-          <span className="primary-label">기록관</span>
-        </button>
-        <button
-          className={`primary-nav-item ${activePrimary === "feed" ? "active" : ""}`}
-          onClick={() => handlePrimaryClick("feed", "/feed")}
+        </PrimaryNavItem>
+        <PrimaryNavItem
+          active={activePrimary === "feed"}
+          onClick={() => setActivePrimary("feed")}
+          label="피드"
         >
           <Newspaper size={24} />
-          <span className="primary-label">피드</span>
-        </button>
-        <button
-          className={`primary-nav-item ${activePrimary === "playground" ? "active" : ""}`}
-          onClick={() => handlePrimaryClick("playground", "/playground")}
+        </PrimaryNavItem>
+        <PrimaryNavItem
+          active={activePrimary === "playground"}
+          onClick={() => setActivePrimary("playground")}
+          label="놀이터"
         >
           <Compass size={24} />
-          <span className="primary-label">놀이터</span>
-        </button>
+        </PrimaryNavItem>
 
-        <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: "8px" }}>
-          <button className="primary-nav-item">
+        <div className="mt-auto flex flex-col gap-2">
+          <PrimaryNavItem active={false} onClick={() => {}}>
             <Settings size={24} />
-          </button>
-          <button className="primary-nav-item">
+          </PrimaryNavItem>
+          <PrimaryNavItem active={false} onClick={() => {}}>
             <LogOut size={24} />
-          </button>
+          </PrimaryNavItem>
         </div>
       </nav>
 
       {/* Secondary Sidebar */}
-      <aside className="sidebar-secondary">
-        {/* Dashboard Menu (Home) */}
+      <aside className="w-[260px] bg-bg-main border-r border-border p-6 overflow-y-auto">
         {activePrimary === "home" && (
-          <div className="menu-content active">
-            <h2 className="secondary-title">대시보드</h2>
-            <div className="nav-group">
-              <Link href="/dashboard" className={`nav-item ${pathname === "/dashboard" ? "active" : ""}`}>
+          <div className="animate-fade-in">
+            <h2 className="text-xl font-bold mb-6 text-text-primary">대시보드</h2>
+            <div className="flex flex-col gap-2 mb-8">
+              <NavItem href="/dashboard" active={pathname === "/dashboard"}>
                 <LayoutDashboard size={18} /> 개요
-              </Link>
-              <Link href="/stats" className={`nav-item ${pathname === "/stats" ? "active" : ""}`}>
+              </NavItem>
+              <NavItem href="/stats" active={pathname === "/stats"}>
                 <BarChart2 size={18} /> 통계
-              </Link>
-              <Link
-                href="/achievements"
-                className={`nav-item ${pathname === "/achievements" ? "active" : ""}`}
-              >
+              </NavItem>
+              <NavItem href="/achievements" active={pathname === "/achievements"}>
                 <ScrollText size={18} /> 업적서
-              </Link>
-              <Link href="/social" className={`nav-item ${pathname === "/social" ? "active" : ""}`}>
+              </NavItem>
+              <NavItem href="/social" active={pathname === "/social"}>
                 <Users size={18} /> 소셜
-              </Link>
+              </NavItem>
             </div>
           </div>
         )}
 
-        {/* Archive Menu */}
         {activePrimary === "archive" && (
-          <div className="menu-content active">
-            <h2 className="secondary-title">기록관</h2>
-            <div className="nav-group">
-              <Link href="/archive" className={`nav-item ${pathname === "/archive" ? "active" : ""}`}>
+          <div className="animate-fade-in">
+            <h2 className="text-xl font-bold mb-6 text-text-primary">기록관</h2>
+            <div className="flex flex-col gap-2 mb-8">
+              <NavItem href="/archive" active={pathname === "/archive"}>
                 <Folder size={18} /> 전체 보기
-              </Link>
+              </NavItem>
             </div>
-            <div className="nav-group">
-              <div className="nav-section-title">카테고리</div>
-              <Link href="/archive" className="nav-item">
+            <div className="flex flex-col gap-2 mb-8">
+              <div className="text-xs text-text-secondary font-semibold mb-2 pl-3">카테고리</div>
+              <NavItem href="/archive" active={false}>
                 <Book size={18} /> 도서
-              </Link>
-              <Link href="/archive" className="nav-item">
+              </NavItem>
+              <NavItem href="/archive" active={false}>
                 <Film size={18} /> 영화
-              </Link>
-              <Link href="/archive" className="nav-item">
+              </NavItem>
+              <NavItem href="/archive" active={false}>
                 <Tv size={18} /> 드라마
-              </Link>
-              <Link href="/archive" className="nav-item">
+              </NavItem>
+              <NavItem href="/archive" active={false}>
                 <Gamepad2 size={18} /> 게임
-              </Link>
-              <Link href="/archive" className="nav-item">
+              </NavItem>
+              <NavItem href="/archive" active={false}>
                 <Drama size={18} /> 공연
-              </Link>
+              </NavItem>
             </div>
           </div>
         )}
 
-        {/* Feed Menu */}
         {activePrimary === "feed" && (
-          <div className="menu-content active">
-            <h2 className="secondary-title">피드</h2>
-            <div className="nav-group">
-              <Link href="/feed" className={`nav-item ${pathname === "/feed" ? "active" : ""}`}>
+          <div className="animate-fade-in">
+            <h2 className="text-xl font-bold mb-6 text-text-primary">피드</h2>
+            <div className="flex flex-col gap-2 mb-8">
+              <NavItem href="/feed" active={pathname === "/feed"}>
                 <Newspaper size={18} /> 전체 피드
-              </Link>
+              </NavItem>
             </div>
-            <div className="nav-group">
-              <div className="nav-section-title">필터</div>
-              <Link href="/feed" className="nav-item">
+            <div className="flex flex-col gap-2 mb-8">
+              <div className="text-xs text-text-secondary font-semibold mb-2 pl-3">필터</div>
+              <NavItem href="/feed" active={false}>
                 <Star size={18} /> 셀럽
-              </Link>
-              <Link href="/feed" className="nav-item">
+              </NavItem>
+              <NavItem href="/feed" active={false}>
                 <Users size={18} /> 친구
-              </Link>
-              <Link href="/feed" className="nav-item">
+              </NavItem>
+              <NavItem href="/feed" active={false}>
                 <Search size={18} /> 발견
-              </Link>
+              </NavItem>
             </div>
           </div>
         )}
 
-        {/* Playground Menu */}
         {activePrimary === "playground" && (
-          <div className="menu-content active">
-            <h2 className="secondary-title">놀이터</h2>
-            <div className="nav-group">
-              <Link href="/playground" className={`nav-item ${pathname === "/playground" ? "active" : ""}`}>
+          <div className="animate-fade-in">
+            <h2 className="text-xl font-bold mb-6 text-text-primary">놀이터</h2>
+            <div className="flex flex-col gap-2 mb-8">
+              <NavItem href="/playground" active={pathname === "/playground"}>
                 <Trophy size={18} /> 티어리스트
-              </Link>
-              <Link href="/playground/blind-game" className={`nav-item ${pathname === "/playground/blind-game" ? "active" : ""}`}>
+              </NavItem>
+              <NavItem href="/playground/blind-game" active={pathname === "/playground/blind-game"}>
                 <Target size={18} /> 블라인드 게임
-              </Link>
-              <Link href="/achievements" className="nav-item">
+              </NavItem>
+              <NavItem href="/achievements" active={false}>
                 <ScrollText size={18} /> 업적서
-              </Link>
+              </NavItem>
             </div>
           </div>
         )}
