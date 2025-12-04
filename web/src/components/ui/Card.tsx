@@ -5,12 +5,20 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
 }
 
-export default function Card({ children, className = "", hover = false, onClick, ...rest }: CardProps) {
+export default function Card({
+  children,
+  className = "",
+  hover = false,
+  onClick,
+  ...rest
+}: CardProps) {
   return (
     <div
-      className={`card ${hover ? "card-hover" : ""} ${className}`}
+      className={`bg-bg-card border border-border rounded-2xl p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-accent/30
+        ${hover ? "hover:-translate-y-1 hover:border-accent hover:shadow-2xl" : ""}
+        ${onClick ? "cursor-pointer" : ""}
+        ${className}`}
       onClick={onClick}
-      style={onClick ? { cursor: "pointer" } : undefined}
       {...rest}
     >
       {children}

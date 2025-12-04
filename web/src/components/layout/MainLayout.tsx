@@ -15,8 +15,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     <>
       <Header onMenuClick={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} />
-      <main className={`main-container ${!isSidebarOpen ? "expanded" : ""}`} id="mainContainer">
-        {children}
+      <main
+        className={`mt-16 h-[calc(100vh-64px)] overflow-y-auto p-8 transition-[margin-left] duration-300 ease-in-out
+          ${isSidebarOpen ? "ml-[340px]" : "ml-0"}`}
+      >
+        <div className="max-w-[1400px] mx-auto">
+          {children}
+        </div>
       </main>
     </>
   );

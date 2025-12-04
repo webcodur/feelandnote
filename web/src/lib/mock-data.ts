@@ -111,13 +111,15 @@ export const READING_LIST = [
 export const RECENT_CREATIONS = [
   {
     id: 1,
-    type: "💭 What If · 다른 결말",
+    type: "what-if",
+    typeLabel: "What If · 다른 결말",
     title: "인셉션",
     preview: "만약 코브가 마지막에 현실로 돌아오지 못했다면? 팽이는 계속 돌았을까?",
   },
   {
     id: 2,
-    type: "🎬 매체 전환 · 영화",
+    type: "media",
+    typeLabel: "매체 전환 · 영화",
     title: "삼체",
     preview: "이 소설을 영화로 만든다면? 감독은 드니 빌뇌브, 주인공은...",
   },
@@ -193,7 +195,7 @@ export const DISCOVERY_FEED = [
     avatarColor: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
     action: "imagined",
     title: "기묘한 이야기 S4",
-    content: "💭 What If: 만약 에디가 마지막에 도망쳤다면 어땠을까?",
+    content: "What If: 만약 에디가 마지막에 도망쳤다면 어땠을까?",
     likes: "45",
     comments: 8,
     time: "1일 전",
@@ -258,3 +260,128 @@ export const ARCHIVE_ITEMS = [
     status: "completed",
   },
 ];
+
+// 히트맵 데이터 생성 함수
+function generateActivityHeatmap() {
+  const data = [];
+  const today = new Date();
+
+  for (let i = 364; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const count = Math.floor(Math.random() * 8);
+
+    data.push({
+      date: date.toISOString().split("T")[0],
+      count,
+      level: count === 0 ? 0 : Math.min(Math.ceil(count / 2), 4),
+    });
+  }
+
+  return data;
+}
+
+export const USER_DETAILED_STATS = {
+  // 요약 정보
+  summary: {
+    totalContents: 152,
+    totalReviews: 80,
+    totalNotes: 45,
+    totalCreations: 12,
+    activityScore: 1530,
+    achievementBonus: 350,
+    totalScore: 1880,
+  },
+
+  // 활동 점수 상세
+  activityBreakdown: {
+    contentsAdded: { count: 152, points: 152 },
+    reviewsWritten: { count: 80, points: 400 },
+    notesWritten: { count: 45, points: 135 },
+    creations: { count: 12, points: 120 },
+    comments: { count: 234, points: 234 },
+    likesReceived: { count: 489, points: 978 },
+  },
+
+  // 카테고리별 분포 (도넛 차트용)
+  categoryDistribution: [
+    { name: "도서", value: 45, color: "#7c4dff" },
+    { name: "영화", value: 52, color: "#f59e0b" },
+    { name: "드라마", value: 35, color: "#10b981" },
+    { name: "게임", value: 20, color: "#ec4899" },
+  ],
+
+  // 월별 활동 데이터 (히트맵용)
+  activityHeatmap: generateActivityHeatmap(),
+
+  // 영향력 정보
+  influence: {
+    friends: 24,
+    followers: 156,
+    achievementScore: 1880,
+    totalInfluence: 2900,
+    rank: "나무",
+    rankEmoji: "🌳",
+    nextRank: "숲",
+    nextRankThreshold: 5000,
+    progress: 58,
+  },
+
+  // 영향력 등급 정보
+  influenceRanks: [
+    { name: "새싹", min: 0, max: 499, emoji: "🌱", color: "#4ade80" },
+    { name: "묘목", min: 500, max: 1999, emoji: "🌿", color: "#22c55e" },
+    { name: "나무", min: 2000, max: 4999, emoji: "🌳", color: "#16a34a" },
+    { name: "숲", min: 5000, max: 14999, emoji: "🌲", color: "#7c4dff" },
+    { name: "산맥", min: 15000, max: 49999, emoji: "🏔️", color: "#f59e0b" },
+    { name: "대륙", min: 50000, max: Infinity, emoji: "🌍", color: "#f43f5e" },
+  ],
+
+  // 획득 칭호
+  titles: [
+    { id: 1, name: "첫 발자국", desc: "첫 콘텐츠 기록", rarity: "일반", earned: true, date: "2023.01.15", bonus: 20 },
+    { id: 2, name: "열 걸음", desc: "10개 콘텐츠 기록", rarity: "일반", earned: true, date: "2023.02.20", bonus: 20 },
+    { id: 3, name: "독서광", desc: "도서 50권 완독", rarity: "고급", earned: true, date: "2023.05.20", bonus: 50 },
+    { id: 4, name: "비평가", desc: "리뷰 50개 작성", rarity: "희귀", earned: true, date: "2023.08.10", bonus: 100 },
+    { id: 5, name: "백 권의 무게", desc: "100개 콘텐츠 기록", rarity: "고급", earned: true, date: "2023.09.15", bonus: 50 },
+    { id: 6, name: "창작자", desc: "창작 20개 작성", rarity: "영웅", earned: false, progress: 60, bonus: 200 },
+    { id: 7, name: "르네상스인", desc: "모든 카테고리 10개 이상", rarity: "영웅", earned: false, progress: 75, bonus: 200 },
+    { id: 8, name: "기록의 화신", desc: "1000개 콘텐츠 기록", rarity: "전설", earned: false, progress: 15, bonus: 500 },
+  ],
+
+  // 장르별 선호도 (레이더 차트용)
+  genrePreferences: [
+    { genre: "SF", score: 85 },
+    { genre: "판타지", score: 72 },
+    { genre: "스릴러", score: 58 },
+    { genre: "로맨스", score: 40 },
+    { genre: "액션", score: 65 },
+    { genre: "드라마", score: 78 },
+  ],
+
+  // 월별 트렌드 (라인 차트용)
+  monthlyTrend: [
+    { month: "1월", contents: 8, reviews: 5, notes: 3 },
+    { month: "2월", contents: 12, reviews: 8, notes: 5 },
+    { month: "3월", contents: 15, reviews: 10, notes: 7 },
+    { month: "4월", contents: 10, reviews: 6, notes: 4 },
+    { month: "5월", contents: 18, reviews: 12, notes: 8 },
+    { month: "6월", contents: 14, reviews: 9, notes: 6 },
+    { month: "7월", contents: 20, reviews: 15, notes: 10 },
+    { month: "8월", contents: 16, reviews: 11, notes: 7 },
+    { month: "9월", contents: 13, reviews: 8, notes: 5 },
+    { month: "10월", contents: 11, reviews: 7, notes: 4 },
+    { month: "11월", contents: 9, reviews: 5, notes: 3 },
+    { month: "12월", contents: 6, reviews: 4, notes: 2 },
+  ],
+
+  // 최근 활동
+  recentActivities: [
+    { id: 1, type: "review", title: "인셉션", time: "2시간 전", points: 5, icon: "FileText" },
+    { id: 2, type: "content", title: "듄 파트2", time: "5시간 전", points: 1, icon: "Plus" },
+    { id: 3, type: "creation", title: "What-if: 인터스텔라", time: "1일 전", points: 10, icon: "Sparkles" },
+    { id: 4, type: "note", title: "삼체 3권", time: "2일 전", points: 3, icon: "Edit" },
+    { id: 5, type: "like", title: "기생충 리뷰에 좋아요", time: "2일 전", points: 2, icon: "Heart" },
+    { id: 6, type: "comment", title: "인셉션 리뷰에 댓글", time: "3일 전", points: 1, icon: "MessageCircle" },
+  ],
+};
