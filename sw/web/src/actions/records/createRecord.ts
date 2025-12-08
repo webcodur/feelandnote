@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE'
+export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE' | 'CREATION'
 
 interface CreateRecordParams {
   contentId: string

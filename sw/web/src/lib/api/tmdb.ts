@@ -1,5 +1,7 @@
-// TMDB API 래퍼 (영화, 드라마)
+// TMDB API 래퍼 (영상: 영화, 드라마, 애니메이션)
 // API 문서: https://developer.themoviedb.org/docs
+
+import type { VideoSubtype } from '@/constants/categories'
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
@@ -29,6 +31,26 @@ interface TMDBTVShow {
   genre_ids: number[]
 }
 
+// Multi 검색용 통합 타입
+interface TMDBMultiResult {
+  id: number
+  media_type: 'movie' | 'tv' | 'person'
+  // movie fields
+  title?: string
+  original_title?: string
+  release_date?: string
+  // tv fields
+  name?: string
+  original_name?: string
+  first_air_date?: string
+  // common fields
+  overview?: string
+  poster_path: string | null
+  backdrop_path: string | null
+  vote_average: number
+  genre_ids?: number[]
+}
+
 interface TMDBSearchResponse<T> {
   page: number
   results: T[]
@@ -41,6 +63,25 @@ interface TMDBCredits {
   crew: { name: string; job: string }[]
 }
 
+// 통합 영상 검색 결과 타입
+export interface VideoSearchResult {
+  externalId: string
+  externalSource: 'tmdb'
+  category: 'video'
+  subtype: VideoSubtype // movie | tv
+  title: string
+  creator: string
+  coverImageUrl: string | null
+  metadata: {
+    originalTitle: string
+    releaseDate: string
+    overview: string
+    voteAverage: number
+    genres: string[]
+  }
+}
+
+// Legacy 타입 (하위 호환용)
 export interface MovieSearchResult {
   externalId: string
   externalSource: 'tmdb'
@@ -182,6 +223,67 @@ export async function searchTVShows(
       genres: show.genre_ids.map(id => TV_GENRES[id] || '기타').filter(Boolean)
     }
   }))
+
+  return {
+    items,
+    total: data.total_results,
+    hasMore: data.page < data.total_pages
+  }
+}
+
+// 통합 영상 검색 (영화 + TV)
+export async function searchVideo(
+  query: string,
+  page: number = 1
+): Promise<{
+  items: VideoSearchResult[]
+  total: number
+  hasMore: boolean
+}> {
+  if (!TMDB_API_KEY) {
+    throw new Error('TMDB API 키가 설정되지 않았습니다. .env 파일에 TMDB_API_KEY를 설정해주세요.')
+  }
+
+  const params = new URLSearchParams({
+    api_key: TMDB_API_KEY,
+    query,
+    page: String(page),
+    language: 'ko-KR',
+    include_adult: 'false'
+  })
+
+  const response = await fetch(`${TMDB_BASE_URL}/search/multi?${params}`)
+
+  if (!response.ok) {
+    throw new Error(`TMDB API 오류: ${response.status}`)
+  }
+
+  const data: TMDBSearchResponse<TMDBMultiResult> = await response.json()
+
+  // person 제외, movie/tv만 필터링
+  const items: VideoSearchResult[] = data.results
+    .filter((item) => item.media_type === 'movie' || item.media_type === 'tv')
+    .map((item) => {
+      const isMovie = item.media_type === 'movie'
+      const genres = isMovie ? MOVIE_GENRES : TV_GENRES
+
+      return {
+        externalId: `tmdb-${item.media_type}-${item.id}`,
+        externalSource: 'tmdb' as const,
+        category: 'video' as const,
+        subtype: item.media_type as 'movie' | 'tv',
+        title: isMovie ? item.title! : item.name!,
+        creator: '',
+        coverImageUrl: item.poster_path ? `${TMDB_IMAGE_BASE}${item.poster_path}` : null,
+        metadata: {
+          originalTitle: isMovie ? item.original_title! : item.original_name!,
+          releaseDate: isMovie ? item.release_date || '' : item.first_air_date || '',
+          overview: item.overview || '',
+          voteAverage: item.vote_average,
+          genres: (item.genre_ids || []).map(id => genres[id] || '기타').filter(Boolean)
+        }
+      }
+    })
 
   return {
     items,

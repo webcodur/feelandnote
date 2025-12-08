@@ -1,12 +1,13 @@
 "use client";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import { Book, Film } from "lucide-react";
+import { Book, Film, Trash2 } from "lucide-react";
 import { ProgressSlider } from "@/components/ui";
 
 interface ContentListItemProps {
   item: UserContentWithContent;
   onProgressChange?: (userContentId: string, progress: number) => void;
+  onDelete?: (userContentId: string) => void;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -30,7 +31,7 @@ const statusStyles = {
   },
 };
 
-export default function ContentListItem({ item, onProgressChange }: ContentListItemProps) {
+export default function ContentListItem({ item, onProgressChange, onDelete }: ContentListItemProps) {
   const content = item.content;
   const status = item.status ? statusStyles[item.status as keyof typeof statusStyles] : null;
   const statusText =
@@ -51,7 +52,7 @@ export default function ContentListItem({ item, onProgressChange }: ContentListI
   });
 
   return (
-    <div className="bg-bg-card rounded-lg p-4 flex gap-4 items-center transition-all duration-200 cursor-pointer border border-transparent hover:border-border hover:bg-bg-secondary">
+    <div className="group bg-bg-card rounded-lg p-4 flex gap-4 items-center transition-all duration-200 cursor-pointer border border-transparent hover:border-border hover:bg-bg-secondary">
       {/* Thumbnail */}
       <div className="w-16 h-24 flex-shrink-0 rounded-md overflow-hidden bg-[#2a3038]">
         {content.thumbnail_url ? (
@@ -107,6 +108,23 @@ export default function ContentListItem({ item, onProgressChange }: ContentListI
           </span>
         </div>
       </div>
+
+      {/* Delete Button */}
+      {onDelete && (
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
+              onDelete(item.id);
+            }
+          }}
+          className="flex-shrink-0 p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+          title="삭제"
+        >
+          <Trash2 size={16} />
+        </button>
+      )}
     </div>
   );
 }

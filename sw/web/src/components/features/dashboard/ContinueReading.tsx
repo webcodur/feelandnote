@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
 import { BookOpen, Loader2 } from "lucide-react";
 import ContentCard from "@/components/features/archive/ContentCard";
 import { SectionHeader, ContentGrid } from "@/components/ui";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
+import { removeContent } from "@/actions/contents/removeContent";
 
 export default function ContinueReading() {
   const [contents, setContents] = useState<UserContentWithContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
     async function loadContents() {
@@ -25,6 +27,17 @@ export default function ContinueReading() {
     }
     loadContents();
   }, []);
+
+  const handleDelete = (userContentId: string) => {
+    startTransition(async () => {
+      try {
+        await removeContent(userContentId);
+        setContents((prev) => prev.filter((item) => item.id !== userContentId));
+      } catch (error) {
+        console.error("Failed to delete content:", error);
+      }
+    });
+  };
 
   if (isLoading) {
     return (
@@ -72,7 +85,7 @@ export default function ContinueReading() {
       <ContentGrid>
         {contents.map((item) => (
           <Link href={`/archive/${item.content_id}`} key={item.id}>
-            <ContentCard item={item} />
+            <ContentCard item={item} onDelete={handleDelete} />
           </Link>
         ))}
       </ContentGrid>

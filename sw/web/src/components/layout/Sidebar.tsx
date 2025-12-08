@@ -14,17 +14,12 @@ import {
   Users,
   Settings,
   LogOut,
-  Book,
-  Film,
-  Tv,
-  Gamepad2,
-  Drama,
-  Music,
   Star,
   Search,
   Trophy,
   Target,
 } from "lucide-react";
+import { CATEGORIES } from "@/constants/categories";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -215,24 +210,14 @@ export default function Sidebar({ isOpen = true, secondaryWidth, onWidthChange }
             </div>
             <div className="flex flex-col gap-2 mb-8">
               <div className="text-xs text-text-secondary font-semibold mb-2 pl-3">카테고리</div>
-              <NavItem href="/archive" active={false}>
-                <Book size={18} /> 도서
-              </NavItem>
-              <NavItem href="/archive" active={false}>
-                <Film size={18} /> 영화
-              </NavItem>
-              <NavItem href="/archive" active={false}>
-                <Tv size={18} /> 드라마
-              </NavItem>
-              <NavItem href="/archive" active={false}>
-                <Music size={18} /> 애니메이션
-              </NavItem>
-              <NavItem href="/archive" active={false}>
-                <Gamepad2 size={18} /> 게임
-              </NavItem>
-              <NavItem href="/archive" active={false}>
-                <Drama size={18} /> 공연
-              </NavItem>
+              {CATEGORIES.map((cat) => {
+                const Icon = cat.icon;
+                return (
+                  <NavItem key={cat.id} href={`/archive?category=${cat.id}`} active={false}>
+                    <Icon size={18} /> {cat.label}
+                  </NavItem>
+                );
+              })}
             </div>
           </div>
         )}
