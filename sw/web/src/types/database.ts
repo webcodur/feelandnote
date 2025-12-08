@@ -1,7 +1,8 @@
 // Supabase 데이터베이스 타입 정의
 
 // ===== Enums =====
-export type ContentType = 'BOOK' | 'MOVIE'
+// NOTE: @/constants/categories.ts의 CATEGORIES와 동기화 필요
+export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'PERFORMANCE'
 export type ContentStatus = 'WISH' | 'EXPERIENCE'
 export type ProgressType = 'PERCENT' | 'PAGE' | 'TIME'
 export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE'

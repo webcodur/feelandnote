@@ -10,9 +10,6 @@ import {
   Share2,
   PenTool,
   PlayCircle,
-  Smartphone,
-  Clapperboard,
-  BookOpen,
   Book,
   Film,
   Tv,
@@ -20,12 +17,15 @@ import {
   Music,
   Drama,
   Loader2,
+  Trash2,
 } from "lucide-react";
 import { Button, Tab, Tabs, Card } from "@/components/ui";
 import CreateCreationModal from "@/components/features/archive/CreateCreationModal";
 import NoteEditor from "@/components/features/archive/NoteEditor";
 import { getContent, type UserContentWithDetails } from "@/actions/contents/getContent";
 import { updateStatus } from "@/actions/contents/updateStatus";
+import { updateProgress } from "@/actions/contents/updateProgress";
+import { removeContent } from "@/actions/contents/removeContent";
 import { getRecords, createRecord, updateRecord, type RecordType } from "@/actions/records";
 import type { ContentStatus } from "@/actions/contents/addContent";
 
@@ -142,6 +142,20 @@ export default function ArchiveDetailPage() {
     });
   };
 
+  const handleProgressChange = (newProgress: number) => {
+    if (!item) return;
+    // 낙관적 업데이트
+    setItem((prev) => prev ? { ...prev, progress: newProgress } : null);
+
+    startSaveTransition(async () => {
+      try {
+        await updateProgress({ userContentId: item.id, progress: newProgress });
+      } catch (err) {
+        console.error("진행도 변경 실패:", err);
+      }
+    });
+  };
+
   const handleSaveReview = () => {
     startSaveTransition(async () => {
       try {
@@ -151,6 +165,13 @@ export default function ArchiveDetailPage() {
             content: reviewText || undefined,
             rating: reviewRating ?? undefined,
           });
+          // 기존 리뷰 업데이트 반영
+          setMyReview((prev) => prev ? {
+            ...prev,
+            content: reviewText,
+            rating: reviewRating,
+            updated_at: new Date().toISOString(),
+          } : null);
         } else {
           await createRecord({
             contentId,
@@ -213,6 +234,24 @@ export default function ArchiveDetailPage() {
             {(content.metadata as { genre?: string })?.genre && ` · ${(content.metadata as { genre?: string }).genre}`}
           </div>
         </div>
+        <button
+          onClick={() => {
+            if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
+              startSaveTransition(async () => {
+                try {
+                  await removeContent(item.id);
+                  router.push("/archive");
+                } catch (err) {
+                  console.error("삭제 실패:", err);
+                }
+              });
+            }
+          }}
+          className="p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
+          title="삭제"
+        >
+          <Trash2 size={20} />
+        </button>
       </div>
 
       <Tabs>
@@ -240,6 +279,50 @@ export default function ArchiveDetailPage() {
           </button>
         ))}
       </div>
+
+      {/* 공통 컨트롤: 상태 + 진행도 (내 기록 탭에서만) */}
+      {activeTab === "myRecord" && (
+        <div className="flex justify-between items-center mb-6 p-4 bg-bg-card rounded-xl border border-border">
+          <div className="flex gap-3 items-center">
+            <select
+              className="bg-bg-secondary border border-border text-text-primary py-2 px-4 rounded-lg text-sm cursor-pointer outline-none"
+              value={item.status}
+              onChange={(e) => handleStatusChange(e.target.value as ContentStatus)}
+              disabled={isSaving}
+            >
+              <option value="EXPERIENCE">{content.type === "BOOK" ? "읽는 중" : "보는 중"}</option>
+              <option value="WISH">관심</option>
+            </select>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  onClick={() => setReviewRating(reviewRating === star ? null : star)}
+                  className={`text-lg ${(reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600"}`}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-text-secondary">진행도</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="10"
+              value={item.progress ?? 0}
+              onChange={(e) => handleProgressChange(Number(e.target.value))}
+              className="w-32 h-2 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, var(--color-accent) 0%, var(--color-accent) ${item.progress ?? 0}%, rgba(255,255,255,0.1) ${item.progress ?? 0}%, rgba(255,255,255,0.1) 100%)`,
+              }}
+            />
+            <span className="text-sm font-medium text-accent w-10">{item.progress ?? 0}%</span>
+          </div>
+        </div>
+      )}
 
 
       {/* 피드 + 리뷰 */}
@@ -346,39 +429,7 @@ export default function ArchiveDetailPage() {
 
       {/* Review Tab Content */}
       {activeTab === "myRecord" && activeSubTab === "review" && (
-        <div className="animate-fade-in mt-6">
-          {/* 헤더 영역 */}
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex gap-2 items-center">
-              <select
-                className="bg-bg-secondary border border-border text-text-primary py-2 px-4 rounded-lg text-sm cursor-pointer outline-none"
-                value={item.status}
-                onChange={(e) => handleStatusChange(e.target.value as ContentStatus)}
-                disabled={isSaving}
-              >
-                <option value="EXPERIENCE">{content.type === "BOOK" ? "읽음" : "봄"}</option>
-                <option value="WISH">관심</option>
-              </select>
-              <div className="flex gap-1 ml-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    onClick={() => setReviewRating(reviewRating === star ? null : star)}
-                    className={`text-lg ${(reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600"}`}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-text-secondary">
-              <span>진행률 {item.progress ?? 0}%</span>
-              <div className="w-24 h-1.5 bg-white/10 rounded overflow-hidden">
-                <div className="h-full bg-accent rounded" style={{ width: `${item.progress ?? 0}%` }} />
-              </div>
-            </div>
-          </div>
-
+        <div className="animate-fade-in">
           {/* 내 리뷰 작성 카드 */}
           <Card className="p-0 mb-6">
             <div className="p-4 border-b border-white/5">
@@ -451,100 +502,52 @@ export default function ArchiveDetailPage() {
 
       {/* Creation Tab Content */}
       {activeTab === "myRecord" && activeSubTab === "creation" && (
-        <div className="animate-fade-in mt-6">
+        <div className="animate-fade-in">
           <div className="flex justify-between items-center mb-6">
-            <div className="flex gap-2">
-              <Button variant="primary" size="sm" onClick={() => setIsCreationModalOpen(true)}>
-                <Plus size={14} /> 새 창작
-              </Button>
-              {["전체", "What If", "매체 변환", "OST 상상"].map((chip, i) => (
-                <div
-                  key={chip}
-                  className={`py-1.5 px-3 rounded-full text-[13px] cursor-pointer transition-all duration-200 hover:text-text-primary
-                    ${i === 0 ? "bg-accent/20 text-accent" : "text-text-secondary"}`}
-                >
-                  {chip}
-                </div>
-              ))}
-            </div>
-            <div className="py-1.5 px-3 rounded-full text-[13px] text-text-secondary">최신순</div>
+            <Button variant="primary" size="sm" onClick={() => setIsCreationModalOpen(true)}>
+              <Plus size={14} /> 새 창작
+            </Button>
           </div>
 
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6">
-            {[
-              {
-                type: "What If",
-                typeClass: "bg-red-500/20 text-red-400",
-                date: "2023.10.25",
-                title: "만약 해리포터가 슬리데린에 배정되었다면?",
-                desc: "해리포터가 그리핀도르가 아닌 슬리데린에 배정되었다면 이야기는 어떻게 전개되었을까? 말포이와의 관계, 스네이프 교수의 태도 변화 등을 상상해본다.",
-                tags: ["#해리포터", "#슬리데린", "#대체역사"],
-                source: "해리포터와 마법사의 돌",
-                sourceIcon: <BookOpen size={14} />,
-                likes: 42,
-                comments: 8,
-              },
-              {
-                type: "매체 변환",
-                typeClass: "bg-green-500/20 text-green-400",
-                date: "2023.10.20",
-                title: "소설 '전지적 독자 시점' 영화 캐스팅 가상 라인업",
-                desc: "전독시가 영화화된다면 김독자, 유중혁 역에는 누가 어울릴까? 개인적으로 생각하는 찰떡 캐스팅을 정리해보았다.",
-                tags: ["#전독시", "#가상캐스팅"],
-                source: "전지적 독자 시점",
-                sourceIcon: <Clapperboard size={14} />,
-                likes: 128,
-                comments: 56,
-              },
-              {
-                type: "OST 상상",
-                typeClass: "bg-blue-500/20 text-blue-400",
-                date: "2023.10.15",
-                title: "웹툰 '화산귀환' 매화검존 등장 테마곡 작곡",
-                desc: "청명이 매화검존의 힘을 드러낼 때 깔리면 좋을 것 같은 BGM을 만들어보았다. 동양적인 선율에 웅장한 오케스트라를 더해서...",
-                tags: ["#화산귀환", "#자작곡", "#BGM"],
-                source: "화산귀환",
-                sourceIcon: <Smartphone size={14} />,
-                likes: 55,
-                comments: 12,
-                isPlay: true,
-              },
-            ].map((creation, i) => (
-              <Card key={i} className="p-0">
-                <div className="p-4 flex justify-between items-center border-b border-white/5">
-                  <span className={`text-[13px] font-semibold py-0.5 px-2 rounded ${creation.typeClass}`}>
-                    {creation.type}
-                  </span>
-                  <span className="text-xs text-text-secondary">{creation.date}</span>
+          {/* 예시 안내 영역 */}
+          <Card className="p-6 mb-6 border-dashed">
+            <h3 className="font-semibold mb-4 flex items-center gap-2">
+              <PenTool size={18} className="text-accent" />
+              창작이란?
+            </h3>
+            <p className="text-sm text-text-secondary mb-4">
+              작품을 보며 떠오른 상상을 기록하고 공유하세요. 세 가지 유형의 창작을 지원합니다.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 bg-bg-secondary rounded-xl">
+                <div className="text-lg mb-2">💭 What If</div>
+                <div className="text-sm text-text-secondary">
+                  "만약 주인공이 다른 선택을 했다면?"<br />
+                  대체 역사, 다른 결말 등을 상상해보세요.
                 </div>
-                <div className="px-4 pb-4 pt-3">
-                  <h4 className="font-semibold text-sm mb-2">{creation.title}</h4>
-                  <p className="text-sm text-text-secondary leading-relaxed line-clamp-3 mb-3">{creation.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {creation.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="py-1 px-2.5 bg-white/5 border border-border rounded-full text-[12px] text-text-secondary"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+              </div>
+              <div className="p-4 bg-bg-secondary rounded-xl">
+                <div className="text-lg mb-2">🎬 매체 전환</div>
+                <div className="text-sm text-text-secondary">
+                  "이 작품이 영화/드라마가 된다면?"<br />
+                  캐스팅, 연출 방향 등을 제안해보세요.
                 </div>
-                <div className="px-4 py-3 border-t border-white/5 flex justify-between items-center">
-                  <div className="flex items-center gap-1.5 text-xs text-text-secondary">
-                    {creation.sourceIcon}
-                    <span>{creation.source}</span>
-                  </div>
-                  <div className="flex gap-4 text-xs text-text-secondary">
-                    <span className="flex items-center gap-1"><Heart size={14} /> {creation.likes}</span>
-                    <span className="flex items-center gap-1">
-                      {creation.isPlay ? <PlayCircle size={14} /> : <MessageCircle size={14} />} {creation.comments}
-                    </span>
-                  </div>
+              </div>
+              <div className="p-4 bg-bg-secondary rounded-xl">
+                <div className="text-lg mb-2">🎵 OST 상상</div>
+                <div className="text-sm text-text-secondary">
+                  "이 장면에 어울리는 음악은?"<br />
+                  장면별 OST를 선곡해보세요.
                 </div>
-              </Card>
-            ))}
+              </div>
+            </div>
+          </Card>
+
+          {/* 내 창작물 목록 (추후 API 연동) */}
+          <div className="text-center py-12 text-text-secondary">
+            <PenTool size={48} className="mx-auto mb-4 opacity-30" />
+            <p>아직 작성한 창작물이 없습니다.</p>
+            <p className="text-sm mt-1">위 버튼을 눌러 첫 번째 창작을 시작해보세요!</p>
           </div>
         </div>
       )}

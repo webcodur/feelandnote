@@ -1,14 +1,12 @@
 export type VisibilityType = 'public' | 'followers' | 'private'
 
 export interface Snapshot {
-  when?: string
-  where?: string
-  withWhom?: string
-  trigger?: string
+  context?: string
   progress?: number
 }
 
 export interface Template {
+  context?: string
   summary?: string
   questions?: string
   moment?: string

@@ -5,11 +5,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import {
   Search,
   Book,
-  Film,
-  Tv,
-  Gamepad2,
-  Music,
-  Drama,
   User,
   Hash,
   Folder,
@@ -27,18 +22,12 @@ import {
   type TagSearchResult,
   type ArchiveSearchResult,
 } from "@/actions/search";
+import { CATEGORIES, type CategoryId } from "@/constants/categories";
 
 type SearchMode = "content" | "user" | "tag" | "archive";
-type ContentCategory = "book" | "movie" | "drama" | "game";
 
 interface SearchModeConfig {
   id: SearchMode;
-  label: string;
-  icon: React.ElementType;
-}
-
-interface ContentCategoryConfig {
-  id: ContentCategory;
   label: string;
   icon: React.ElementType;
 }
@@ -50,21 +39,10 @@ const SEARCH_MODES: SearchModeConfig[] = [
   { id: "archive", label: "내 기록", icon: Folder },
 ];
 
-const CONTENT_CATEGORIES: ContentCategoryConfig[] = [
-  { id: "book", label: "도서", icon: Book },
-  { id: "movie", label: "영화", icon: Film },
-  { id: "drama", label: "드라마", icon: Tv },
-  { id: "game", label: "게임", icon: Gamepad2 },
-];
-
-const CATEGORY_ICONS: Record<string, React.ElementType> = {
-  book: Book,
-  movie: Film,
-  drama: Tv,
-  animation: Music,
-  game: Gamepad2,
-  performance: Drama,
-};
+// 카테고리 아이콘 맵 생성
+const CATEGORY_ICONS: Record<string, React.ElementType> = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat.id, cat.icon])
+);
 
 // Use types from actions
 type ContentResult = ContentSearchResult | ArchiveSearchResult;
@@ -84,12 +62,12 @@ function SearchContent() {
   const router = useRouter();
 
   const modeParam = (searchParams.get("mode") as SearchMode) || "content";
-  const categoryParam = (searchParams.get("category") as ContentCategory) || "book";
+  const categoryParam = (searchParams.get("category") as CategoryId) || "book";
   const queryParam = searchParams.get("q") || "";
 
   const [mode, setMode] = useState<SearchMode>(modeParam);
   const [query, setQuery] = useState(queryParam);
-  const [category, setCategory] = useState<ContentCategory>(categoryParam);
+  const [category, setCategory] = useState<CategoryId>(categoryParam);
   const [sortBy, setSortBy] = useState("relevance");
   const [isLoading, setIsLoading] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
@@ -101,7 +79,7 @@ function SearchContent() {
   const [totalCount, setTotalCount] = useState(0);
 
   // Update URL when mode/query/category changes
-  const updateUrl = (newMode: SearchMode, newQuery: string, newCategory?: ContentCategory) => {
+  const updateUrl = (newMode: SearchMode, newQuery: string, newCategory?: CategoryId) => {
     const params = new URLSearchParams();
     params.set("mode", newMode);
     if (newMode === "content" && newCategory) {
@@ -175,7 +153,7 @@ function SearchContent() {
   };
 
   const currentMode = SEARCH_MODES.find((m) => m.id === mode)!;
-  const currentCategory = CONTENT_CATEGORIES.find((c) => c.id === category);
+  const currentCategory = CATEGORIES.find((c) => c.id === category);
 
   // 콘텐츠 모드일 때 카테고리 아이콘/라벨, 아니면 모드 아이콘/라벨
   const DisplayIcon = mode === "content" && currentCategory ? currentCategory.icon : currentMode.icon;
@@ -202,7 +180,7 @@ function SearchContent() {
               <div className="absolute top-full left-0 mt-1 bg-bg-card border border-border rounded-xl shadow-xl z-50 py-1 min-w-[180px]">
                 {/* 콘텐츠 카테고리 */}
                 <div className="px-4 py-1.5 text-xs text-text-secondary font-medium border-b border-border">콘텐츠</div>
-                {CONTENT_CATEGORIES.map((cat) => {
+                {CATEGORIES.map((cat) => {
                   const Icon = cat.icon;
                   return (
                     <button
@@ -273,7 +251,7 @@ function SearchContent() {
       {mode === "content" && (
         <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
           <div className="flex gap-2">
-            {CONTENT_CATEGORIES.map((cat) => {
+            {CATEGORIES.map((cat) => {
               const Icon = cat.icon;
               return (
                 <button

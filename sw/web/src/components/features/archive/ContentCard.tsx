@@ -1,12 +1,13 @@
 "use client";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import { Book, Film } from "lucide-react";
+import { Book, Film, Trash2 } from "lucide-react";
 import { ProgressSlider } from "@/components/ui";
 
 interface ContentCardProps {
   item: UserContentWithContent;
   onProgressChange?: (userContentId: string, progress: number) => void;
+  onDelete?: (userContentId: string) => void;
 }
 
 type TypeLabels = { [key: string]: string };
@@ -33,7 +34,7 @@ const statusStyles = {
   },
 };
 
-export default function ContentCard({ item, onProgressChange }: ContentCardProps) {
+export default function ContentCard({ item, onProgressChange, onDelete }: ContentCardProps) {
   const content = item.content;
   const status = item.status ? statusStyles[item.status as keyof typeof statusStyles] : null;
   const statusText =
@@ -54,7 +55,7 @@ export default function ContentCard({ item, onProgressChange }: ContentCardProps
   });
 
   return (
-    <div className="bg-bg-card rounded-xl overflow-hidden transition-all duration-200 cursor-pointer border border-transparent relative hover:-translate-y-1 hover:shadow-2xl hover:border-border">
+    <div className="group bg-bg-card rounded-xl overflow-hidden transition-all duration-200 cursor-pointer border border-transparent relative hover:-translate-y-1 hover:shadow-2xl hover:border-border">
       <div className="w-full aspect-[2/3] bg-[#2a3038] relative overflow-hidden">
         {content.thumbnail_url ? (
           <img
@@ -76,6 +77,21 @@ export default function ContentCard({ item, onProgressChange }: ContentCardProps
           >
             {statusText}
           </div>
+        )}
+        {onDelete && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
+                onDelete(item.id);
+              }
+            }}
+            className="absolute bottom-2 right-2 p-1.5 bg-black/70 backdrop-blur-sm rounded-md text-text-secondary hover:text-red-400 hover:bg-red-400/20 transition-colors opacity-0 group-hover:opacity-100"
+            title="삭제"
+          >
+            <Trash2 size={14} />
+          </button>
         )}
       </div>
       <div className="p-3">

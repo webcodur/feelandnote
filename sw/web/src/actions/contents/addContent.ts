@@ -2,9 +2,9 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import type { ContentType, ContentStatus } from '@/types/database'
 
-export type ContentType = 'BOOK' | 'MOVIE'
-export type ContentStatus = 'WISH' | 'EXPERIENCE'
+export type { ContentType, ContentStatus }
 
 interface AddContentParams {
   id: string                    // 외부 API ID (ISBN, TMDB ID 등)
@@ -16,7 +16,7 @@ interface AddContentParams {
   publisher?: string
   releaseDate?: string
   metadata?: Record<string, unknown>
-  status: ContentStatus
+  status?: ContentStatus        // 기본값: 'WISH' (진행도 0%로 시작)
 }
 
 export async function addContent(params: AddContentParams) {
@@ -53,13 +53,14 @@ export async function addContent(params: AddContentParams) {
     throw new Error('콘텐츠 추가에 실패했습니다')
   }
 
-  // 2. user_contents 생성
+  // 2. user_contents 생성 (status 기본값: WISH, progress 기본값: 0)
   const { data: userContent, error: userContentError } = await supabase
     .from('user_contents')
     .insert({
       user_id: user.id,
       content_id: params.id,
-      status: params.status
+      status: params.status || 'WISH',
+      progress: 0
     })
     .select('id')
     .single()

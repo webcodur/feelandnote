@@ -7,33 +7,32 @@ import ContentListItem from "@/components/features/archive/ContentListItem";
 import AddContentModal from "@/components/features/archive/AddContentModal";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { updateProgress } from "@/actions/contents/updateProgress";
-import type { ContentType } from "@/actions/contents/addContent";
-import { Plus, Book, Film, Tv, Gamepad2, Archive, Music, Loader2, LayoutGrid, List } from "lucide-react";
+import { removeContent } from "@/actions/contents/removeContent";
+import { CATEGORIES, type CategoryId } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
+import { Plus, Loader2, LayoutGrid, List, Archive } from "lucide-react";
 import { SectionHeader, ContentGrid } from "@/components/ui";
 
 type ViewMode = "grid" | "list";
 
+// 탭 목록 생성 - 중앙 카테고리에서 동적 생성
 const TABS: { id: string; label: string; type?: ContentType }[] = [
   { id: "all", label: "전체" },
-  { id: "book", label: "도서", type: "BOOK" },
-  { id: "movie", label: "영화", type: "MOVIE" },
+  ...CATEGORIES.map((cat) => ({
+    id: cat.id,
+    label: cat.label,
+    type: cat.dbType as ContentType,
+  })),
 ];
 
+// 카테고리 아이콘 맵
+const CATEGORY_ICON_MAP = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat.id, cat.icon])
+);
+
 function getIconForTab(tabId: string) {
-  switch (tabId) {
-    case "book":
-      return <Book size={16} />;
-    case "movie":
-      return <Film size={16} />;
-    case "drama":
-      return <Tv size={16} />;
-    case "animation":
-      return <Music size={16} />;
-    case "game":
-      return <Gamepad2 size={16} />;
-    default:
-      return null;
-  }
+  const Icon = CATEGORY_ICON_MAP[tabId];
+  return Icon ? <Icon size={16} /> : null;
 }
 
 export default function ArchivePage() {
@@ -76,6 +75,19 @@ export default function ArchivePage() {
       // 실패 시 원복을 위해 다시 로드
       loadContents();
       console.error("진행도 업데이트 실패:", err);
+    }
+  }, [loadContents]);
+
+  const handleDelete = useCallback(async (userContentId: string) => {
+    // 낙관적 업데이트
+    setContents((prev) => prev.filter((item) => item.id !== userContentId));
+
+    try {
+      await removeContent(userContentId);
+    } catch (err) {
+      // 실패 시 원복을 위해 다시 로드
+      loadContents();
+      console.error("삭제 실패:", err);
     }
   }, [loadContents]);
 
@@ -165,7 +177,7 @@ export default function ArchivePage() {
         <ContentGrid>
           {contents.map((item) => (
             <Link href={`/archive/${item.content_id}`} key={item.id}>
-              <ContentCard item={item} onProgressChange={handleProgressChange} />
+              <ContentCard item={item} onProgressChange={handleProgressChange} onDelete={handleDelete} />
             </Link>
           ))}
         </ContentGrid>
@@ -176,7 +188,7 @@ export default function ArchivePage() {
         <div className="flex flex-col gap-3">
           {contents.map((item) => (
             <Link href={`/archive/${item.content_id}`} key={item.id}>
-              <ContentListItem item={item} onProgressChange={handleProgressChange} />
+              <ContentListItem item={item} onProgressChange={handleProgressChange} onDelete={handleDelete} />
             </Link>
           ))}
         </div>

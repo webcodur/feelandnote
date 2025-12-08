@@ -1,14 +1,16 @@
 'use server'
 
 import { searchBooks } from '@/lib/api/naver-books'
-import { searchMovies, searchTVShows } from '@/lib/api/tmdb'
+import { searchVideo } from '@/lib/api/tmdb'
 import { searchGames } from '@/lib/api/rawg'
+import type { CategoryId } from '@/constants/categories'
 
 export interface ContentSearchResult {
   id: string
   title: string
   creator: string
   category: string
+  subtype?: string // video의 경우 movie | tv
   thumbnail?: string
   description?: string
   releaseDate?: string
@@ -17,7 +19,7 @@ export interface ContentSearchResult {
 
 interface SearchContentsParams {
   query: string
-  category?: string
+  category?: CategoryId
   page?: number
   limit?: number
 }
@@ -38,7 +40,6 @@ export async function searchContents({
   }
 
   try {
-    // 카테고리별 단일 API 호출
     switch (category) {
       case 'book': {
         const bookResults = await searchBooks(query, page)
@@ -58,39 +59,22 @@ export async function searchContents({
         }
       }
 
-      case 'movie': {
-        const movieResults = await searchMovies(query, page)
+      case 'video': {
+        const videoResults = await searchVideo(query, page)
         return {
-          items: movieResults.items.map((movie) => ({
-            id: movie.externalId,
-            title: movie.title,
-            creator: movie.creator,
-            category: 'movie',
-            thumbnail: movie.coverImageUrl || undefined,
-            description: movie.metadata.overview,
-            releaseDate: movie.metadata.releaseDate,
-            externalId: movie.externalId,
+          items: videoResults.items.map((video) => ({
+            id: video.externalId,
+            title: video.title,
+            creator: video.creator,
+            category: 'video',
+            subtype: video.subtype, // movie | tv
+            thumbnail: video.coverImageUrl || undefined,
+            description: video.metadata.overview,
+            releaseDate: video.metadata.releaseDate,
+            externalId: video.externalId,
           })),
-          total: movieResults.total,
-          hasMore: movieResults.hasMore,
-        }
-      }
-
-      case 'drama': {
-        const dramaResults = await searchTVShows(query, page)
-        return {
-          items: dramaResults.items.map((drama) => ({
-            id: drama.externalId,
-            title: drama.title,
-            creator: drama.creator,
-            category: 'drama',
-            thumbnail: drama.coverImageUrl || undefined,
-            description: drama.metadata.overview,
-            releaseDate: drama.metadata.firstAirDate,
-            externalId: drama.externalId,
-          })),
-          total: dramaResults.total,
-          hasMore: dramaResults.hasMore,
+          total: videoResults.total,
+          hasMore: videoResults.hasMore,
         }
       }
 
@@ -110,6 +94,11 @@ export async function searchContents({
           total: gameResults.total,
           hasMore: gameResults.hasMore,
         }
+      }
+
+      case 'performance': {
+        // TODO: 공연 API 연동 필요
+        return { items: [], total: 0, hasMore: false }
       }
 
       default:
