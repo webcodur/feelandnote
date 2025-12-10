@@ -22,7 +22,14 @@
       "mcp__supabase__apply_migration",
       "Bash(grep:*)",
       "WebFetch(domain:rawg.io)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "WebSearch",
+      "WebFetch(domain:api.rawg.io)",
+      "WebFetch(domain:www.igdb.com)",
+      "WebFetch(domain:api-docs.igdb.com)",
+      "WebFetch(domain:kopis.or.kr)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.data.go.kr)"
     ],
     "deny": [],
     "ask": []

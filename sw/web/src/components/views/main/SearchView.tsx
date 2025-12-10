@@ -10,6 +10,7 @@ import {
   Folder,
   Loader2,
   ChevronDown,
+  ArrowUpDown,
 } from "lucide-react";
 import { Card } from "@/components/ui";
 import {
@@ -160,7 +161,7 @@ function SearchContent() {
   const displayLabel = mode === "content" && currentCategory ? currentCategory.label : currentMode.label;
 
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <>
       {/* Search Header */}
       <form onSubmit={handleSearch} className="mb-8">
         <div className="flex gap-2">
@@ -270,11 +271,12 @@ function SearchContent() {
             })}
           </div>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-1.5 bg-bg-card border border-border rounded-lg py-1.5 px-3">
+            <ArrowUpDown size={14} className="text-text-secondary" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-bg-card border border-border text-text-secondary py-1.5 px-3 rounded-lg text-sm outline-none cursor-pointer"
+              className="bg-transparent text-text-secondary text-sm outline-none cursor-pointer"
             >
               <option value="relevance">관련도순</option>
               <option value="latest">최신순</option>
@@ -291,11 +293,12 @@ function SearchContent() {
             팔로잉만
           </label>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-1.5 bg-bg-card border border-border rounded-lg py-1.5 px-3">
+            <ArrowUpDown size={14} className="text-text-secondary" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-bg-card border border-border text-text-secondary py-1.5 px-3 rounded-lg text-sm outline-none cursor-pointer"
+              className="bg-transparent text-text-secondary text-sm outline-none cursor-pointer"
             >
               <option value="relevance">관련도순</option>
               <option value="followers">팔로워순</option>
@@ -334,11 +337,20 @@ function SearchContent() {
                 key={item.id}
                 className="p-0 cursor-pointer hover:border-accent transition-colors"
                 onClick={() => {
-                  // "내 기록" 모드면 archive로, 콘텐츠 검색이면 content로
+                  // "내 기록" 모드면 archive로, 콘텐츠 검색이면 content/detail로
                   if (mode === "archive") {
                     router.push(`/archive/${item.id}`);
                   } else {
-                    router.push(`/content/${item.id}`);
+                    // 쿼리 파라미터로 메타데이터 전달
+                    const params = new URLSearchParams();
+                    params.set("id", item.id);
+                    params.set("title", item.title);
+                    params.set("category", item.category);
+                    if (item.creator) params.set("creator", item.creator);
+                    if (thumbnail) params.set("thumbnail", thumbnail);
+                    if ("description" in item && item.description) params.set("description", item.description);
+                    if ("releaseDate" in item && item.releaseDate) params.set("releaseDate", item.releaseDate);
+                    router.push(`/content/detail?${params.toString()}`);
                   }
                 }}
               >
@@ -443,7 +455,7 @@ function SearchContent() {
           <p className="text-text-secondary">콘텐츠, 사용자, 태그를 검색할 수 있습니다</p>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

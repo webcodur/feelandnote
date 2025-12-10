@@ -1,94 +1,26 @@
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
-import Link from "next/link";
-import { BookOpen, Loader2 } from "lucide-react";
-import ContentCard from "@/components/features/archive/ContentCard";
-import { SectionHeader, ContentGrid } from "@/components/ui";
-import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import { removeContent } from "@/actions/contents/removeContent";
+import { BookOpen } from "lucide-react";
+import ContentLibrary from "@/components/features/archive/ContentLibrary";
+import { SectionHeader } from "@/components/ui";
 
 export default function ContinueReading() {
-  const [contents, setContents] = useState<UserContentWithContent[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [, startTransition] = useTransition();
-
-  useEffect(() => {
-    async function loadContents() {
-      try {
-        // EXPERIENCE 상태인 콘텐츠만 가져오기
-        const data = await getMyContents({ status: "EXPERIENCE" });
-        setContents(data.slice(0, 6)); // 최대 6개만 표시
-      } catch (error) {
-        console.error("Failed to load contents:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    loadContents();
-  }, []);
-
-  const handleDelete = (userContentId: string) => {
-    startTransition(async () => {
-      try {
-        await removeContent(userContentId);
-        setContents((prev) => prev.filter((item) => item.id !== userContentId));
-      } catch (error) {
-        console.error("Failed to delete content:", error);
-      }
-    });
-  };
-
-  if (isLoading) {
-    return (
-      <div className="mb-8">
-        <SectionHeader
-          title="계속 보기"
-          icon={<BookOpen size={24} />}
-          linkText="전체보기 →"
-          linkHref="/archive"
-        />
-        <div className="flex items-center justify-center py-12">
-          <Loader2 size={32} className="animate-spin text-accent" />
-        </div>
-      </div>
-    );
-  }
-
-  if (contents.length === 0) {
-    return (
-      <div className="mb-8">
-        <SectionHeader
-          title="계속 보기"
-          icon={<BookOpen size={24} />}
-          linkText="전체보기 →"
-          linkHref="/archive"
-        />
-        <div className="text-center py-12 text-text-secondary">
-          <p>아직 감상 중인 콘텐츠가 없습니다.</p>
-          <Link href="/archive" className="text-accent hover:underline mt-2 inline-block">
-            콘텐츠 추가하기 →
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="mb-8">
       <SectionHeader
-        title="계속 보기"
+        title="내 콘텐츠"
         icon={<BookOpen size={24} />}
         linkText="전체보기 →"
         linkHref="/archive"
       />
-      <ContentGrid>
-        {contents.map((item) => (
-          <Link href={`/archive/${item.content_id}`} key={item.id}>
-            <ContentCard item={item} onDelete={handleDelete} />
-          </Link>
-        ))}
-      </ContentGrid>
+      <ContentLibrary
+        compact
+        maxItems={6}
+        showTabs
+        showFilters
+        showViewToggle
+        emptyMessage="아직 등록된 콘텐츠가 없습니다"
+      />
     </div>
   );
 }

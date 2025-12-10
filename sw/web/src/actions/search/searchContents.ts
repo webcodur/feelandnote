@@ -2,7 +2,9 @@
 
 import { searchBooks } from '@/lib/api/naver-books'
 import { searchVideo } from '@/lib/api/tmdb'
-import { searchGames } from '@/lib/api/rawg'
+import { searchGames } from '@/lib/api/igdb'
+import { searchPerformances } from '@/lib/api/kopis'
+import { searchMusic } from '@/lib/api/spotify'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentSearchResult {
@@ -97,8 +99,39 @@ export async function searchContents({
       }
 
       case 'performance': {
-        // TODO: 공연 API 연동 필요
-        return { items: [], total: 0, hasMore: false }
+        const perfResults = await searchPerformances(query, page)
+        return {
+          items: perfResults.items.map((perf) => ({
+            id: perf.externalId,
+            title: perf.title,
+            creator: perf.creator, // 공연장명
+            category: 'performance',
+            thumbnail: perf.coverImageUrl || undefined,
+            description: `${perf.metadata.genre} | ${perf.metadata.venue}`,
+            releaseDate: perf.metadata.startDate,
+            externalId: perf.externalId,
+          })),
+          total: perfResults.total,
+          hasMore: perfResults.hasMore,
+        }
+      }
+
+      case 'music': {
+        const musicResults = await searchMusic(query, page)
+        return {
+          items: musicResults.items.map((music) => ({
+            id: music.externalId,
+            title: music.title,
+            creator: music.creator,
+            category: 'music',
+            thumbnail: music.coverImageUrl || undefined,
+            description: `${music.metadata.albumType} | ${music.metadata.totalTracks}곡`,
+            releaseDate: music.metadata.releaseDate,
+            externalId: music.externalId,
+          })),
+          total: musicResults.total,
+          hasMore: musicResults.hasMore,
+        }
       }
 
       default:

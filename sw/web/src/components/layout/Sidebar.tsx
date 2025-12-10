@@ -249,7 +249,7 @@ export default function Sidebar({ isOpen = true, secondaryWidth, onWidthChange }
           <div className="animate-fade-in">
             <h2 className="text-xl font-bold mb-6 text-text-primary">놀이터</h2>
             <div className="flex flex-col gap-2 mb-8">
-              <NavItem href="/playground" active={pathname === "/playground"}>
+              <NavItem href="/playground/tier-list" active={pathname === "/playground/tier-list"}>
                 <Trophy size={18} /> 티어리스트
               </NavItem>
               <NavItem href="/playground/blind-game" active={pathname === "/playground/blind-game"}>

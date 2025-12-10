@@ -22,9 +22,27 @@ export async function updateProgress({ userContentId, progress }: UpdateProgress
   // progress는 0-100 사이 값
   const clampedProgress = Math.max(0, Math.min(100, Math.round(progress)))
 
+  // 현재 상태 확인
+  const { data: currentContent } = await supabase
+    .from('user_contents')
+    .select('status')
+    .eq('id', userContentId)
+    .eq('user_id', user.id)
+    .single()
+
+  // 진행도에 따른 상태 자동 변경
+  // - 100%면 COMPLETE
+  // - 0이 아니고 현재 WISH면 EXPERIENCE로 변경
+  const updateData: { progress: number; status?: string } = { progress: clampedProgress }
+  if (clampedProgress === 100) {
+    updateData.status = 'COMPLETE'
+  } else if (clampedProgress > 0 && currentContent?.status === 'WISH') {
+    updateData.status = 'EXPERIENCE'
+  }
+
   const { error } = await supabase
     .from('user_contents')
-    .update({ progress: clampedProgress })
+    .update(updateData)
     .eq('id', userContentId)
     .eq('user_id', user.id)
 
@@ -35,5 +53,5 @@ export async function updateProgress({ userContentId, progress }: UpdateProgress
 
   revalidatePath('/archive')
 
-  return { success: true, progress: clampedProgress }
+  return { success: true, progress: clampedProgress, status: updateData.status }
 }

@@ -2,8 +2,8 @@
 
 // ===== Enums =====
 // NOTE: @/constants/categories.ts의 CATEGORIES와 동기화 필요
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'PERFORMANCE'
-export type ContentStatus = 'WISH' | 'EXPERIENCE'
+export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'PERFORMANCE' | 'MUSIC'
+export type ContentStatus = 'WISH' | 'EXPERIENCE' | 'COMPLETE'
 export type ProgressType = 'PERCENT' | 'PAGE' | 'TIME'
 export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'

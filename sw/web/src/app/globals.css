@@ -89,6 +89,19 @@
   .scrollbar-stable {
     scrollbar-gutter: stable;
   }
+
+  /* 3D Transform utilities (for cards) */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-gpu {
+    transform: translateZ(0);
+  }
+
+  .group:hover .group-hover\:rotate-y-\[-5deg\] {
+    transform: rotateY(-5deg);
+  }
 }
 
 @keyframes fadeIn {

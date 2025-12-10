@@ -78,7 +78,7 @@ function ContentDetailContent() {
   };
 
   return (
-    <div className="max-w-[900px] mx-auto">
+    <>
       <Button
         variant="ghost"
         className="flex items-center gap-2 text-text-secondary text-sm font-semibold mb-6"
@@ -216,7 +216,7 @@ function ContentDetailContent() {
           </pre>
         </div>
       </Card>
-    </div>
+    </>
   );
 }
 

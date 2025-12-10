@@ -145,7 +145,20 @@ export default function ArchiveDetailView() {
   const handleProgressChange = (newProgress: number) => {
     if (!item) return;
     // 낙관적 업데이트
-    setItem((prev) => prev ? { ...prev, progress: newProgress } : null);
+    // - 100%면 COMPLETE
+    // - 0이 아니고 현재 WISH면 EXPERIENCE로 변경
+    let newStatus: ContentStatus | undefined;
+    if (newProgress === 100) {
+      newStatus = 'COMPLETE';
+    } else if (newProgress > 0 && item.status === 'WISH') {
+      newStatus = 'EXPERIENCE';
+    }
+
+    setItem((prev) => prev ? {
+      ...prev,
+      progress: newProgress,
+      ...(newStatus ? { status: newStatus } : {})
+    } : null);
 
     startSaveTransition(async () => {
       try {
@@ -194,7 +207,7 @@ export default function ArchiveDetailView() {
 
 
   return (
-    <div className="max-w-[1000px] mx-auto">
+    <>
       <Button
         variant="ghost"
         className="flex items-center gap-2 text-text-secondary text-sm font-semibold mb-6"
@@ -224,14 +237,64 @@ export default function ArchiveDetailView() {
             <span className="py-0.5 px-2.5 bg-white/10 rounded-xl text-[11px] font-semibold text-text-secondary flex items-center gap-1">
               <Icon size={14} /> {categoryLabel}
             </span>
+            <select
+              className="bg-bg-secondary border border-border text-text-primary py-0.5 px-2 rounded-lg text-[11px] cursor-pointer outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              value={item.status}
+              onChange={(e) => handleStatusChange(e.target.value as ContentStatus)}
+              disabled={isSaving || ((item.progress ?? 0) > 0 && item.status !== 'COMPLETE')}
+            >
+              <option value="EXPERIENCE">감상 중</option>
+              <option value="WISH">관심</option>
+              <option value="COMPLETE">완료</option>
+            </select>
             <span className="text-text-secondary text-[11px]">
               {new Date(item.created_at).toLocaleDateString("ko-KR")} 추가됨
             </span>
           </div>
           <h1 className="text-[28px] font-extrabold mb-1.5 leading-tight">{content.title}</h1>
-          <div className="text-[15px] text-text-secondary">
+          <div className="text-[15px] text-text-secondary mb-3">
             {content.creator}
             {(content.metadata as { genre?: string })?.genre && ` · ${(content.metadata as { genre?: string }).genre}`}
+          </div>
+          {/* 진행도 */}
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-text-secondary">진행도</span>
+            <div className="relative flex-1 max-w-[200px] group">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="10"
+                value={item.progress ?? 0}
+                onChange={(e) => handleProgressChange(Number(e.target.value))}
+                className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer
+                  [&::-webkit-slider-thumb]:appearance-none
+                  [&::-webkit-slider-thumb]:w-4
+                  [&::-webkit-slider-thumb]:h-4
+                  [&::-webkit-slider-thumb]:rounded-full
+                  [&::-webkit-slider-thumb]:bg-accent
+                  [&::-webkit-slider-thumb]:cursor-pointer
+                  [&::-webkit-slider-thumb]:shadow-lg
+                  [&::-webkit-slider-thumb]:transition-transform
+                  [&::-webkit-slider-thumb]:hover:scale-110
+                  [&::-moz-range-thumb]:w-4
+                  [&::-moz-range-thumb]:h-4
+                  [&::-moz-range-thumb]:rounded-full
+                  [&::-moz-range-thumb]:bg-accent
+                  [&::-moz-range-thumb]:border-0
+                  [&::-moz-range-thumb]:cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--color-accent) 0%, var(--color-accent) ${item.progress ?? 0}%, rgba(255,255,255,0.1) ${item.progress ?? 0}%, rgba(255,255,255,0.1) 100%)`,
+                }}
+              />
+            </div>
+            <span className="text-sm font-semibold text-accent min-w-[40px]">{item.progress ?? 0}%</span>
+            <button
+              onClick={() => handleProgressChange(Math.min(100, (item.progress ?? 0) + 10))}
+              className="text-[11px] py-1 px-2 bg-white/5 hover:bg-accent/20 text-text-secondary hover:text-accent rounded transition-colors"
+            >
+              +10%
+            </button>
           </div>
         </div>
         <button
@@ -280,49 +343,6 @@ export default function ArchiveDetailView() {
         ))}
       </div>
 
-      {/* 공통 컨트롤: 상태 + 진행도 (내 기록 탭에서만) */}
-      {activeTab === "myRecord" && (
-        <div className="flex justify-between items-center mb-6 p-4 bg-bg-card rounded-xl border border-border">
-          <div className="flex gap-3 items-center">
-            <select
-              className="bg-bg-secondary border border-border text-text-primary py-2 px-4 rounded-lg text-sm cursor-pointer outline-none"
-              value={item.status}
-              onChange={(e) => handleStatusChange(e.target.value as ContentStatus)}
-              disabled={isSaving}
-            >
-              <option value="EXPERIENCE">{content.type === "BOOK" ? "읽는 중" : "보는 중"}</option>
-              <option value="WISH">관심</option>
-            </select>
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  onClick={() => setReviewRating(reviewRating === star ? null : star)}
-                  className={`text-lg ${(reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600"}`}
-                >
-                  ★
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-text-secondary">진행도</span>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              step="10"
-              value={item.progress ?? 0}
-              onChange={(e) => handleProgressChange(Number(e.target.value))}
-              className="w-32 h-2 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, var(--color-accent) 0%, var(--color-accent) ${item.progress ?? 0}%, rgba(255,255,255,0.1) ${item.progress ?? 0}%, rgba(255,255,255,0.1) 100%)`,
-              }}
-            />
-            <span className="text-sm font-medium text-accent w-10">{item.progress ?? 0}%</span>
-          </div>
-        </div>
-      )}
 
 
       {/* 피드 + 리뷰 */}
@@ -432,8 +452,26 @@ export default function ArchiveDetailView() {
         <div className="animate-fade-in">
           {/* 내 리뷰 작성 카드 */}
           <Card className="p-0 mb-6">
-            <div className="p-4 border-b border-white/5">
+            <div className="p-4 border-b border-white/5 flex items-center justify-between">
               <h3 className="font-semibold text-sm">내 리뷰</h3>
+              {/* 평점 */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-text-secondary">평점</span>
+                <div className="flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      onClick={() => setReviewRating(reviewRating === star ? null : star)}
+                      className={`text-xl transition-colors ${(reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600 hover:text-yellow-400/50"}`}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+                {reviewRating && (
+                  <span className="text-sm font-medium text-yellow-400">{reviewRating}.0</span>
+                )}
+              </div>
             </div>
             <div className="p-4">
               <textarea
@@ -564,6 +602,6 @@ export default function ArchiveDetailView() {
         onClose={() => setIsCreationModalOpen(false)}
         contentTitle={content.title}
       />
-    </div>
+    </>
   );
 }

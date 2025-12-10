@@ -58,7 +58,7 @@ export default function BlindGameView() {
   const [isPlayModalOpen, setIsPlayModalOpen] = useState(false);
 
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <>
       <div className="mb-8 flex justify-between items-start">
         <div>
           <h1 className="text-[28px] font-bold mb-2">블라인드 게임</h1>
@@ -106,6 +106,6 @@ export default function BlindGameView() {
       </div>
 
       <BlindGamePlayModal isOpen={isPlayModalOpen} onClose={() => setIsPlayModalOpen(false)} />
-    </div>
+    </>
   );
 }

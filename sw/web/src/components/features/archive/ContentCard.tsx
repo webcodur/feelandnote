@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import { Book, Film, Trash2 } from "lucide-react";
 import { ProgressSlider } from "@/components/ui";
@@ -7,7 +8,10 @@ import { ProgressSlider } from "@/components/ui";
 interface ContentCardProps {
   item: UserContentWithContent;
   onProgressChange?: (userContentId: string, progress: number) => void;
+  onStatusChange?: (userContentId: string, status: "WISH" | "EXPERIENCE" | "COMPLETE") => void;
   onDelete?: (userContentId: string) => void;
+  href?: string;
+  compact?: boolean;
 }
 
 type TypeLabels = { [key: string]: string };
@@ -26,23 +30,28 @@ const TYPE_ICONS: TypeIcons = {
 const statusStyles = {
   EXPERIENCE: {
     class: "text-green-400 border border-green-600",
-    text: "경험",
+    text: "감상 중",
   },
   WISH: {
     class: "text-yellow-300 border border-yellow-600",
     text: "관심",
   },
+  COMPLETE: {
+    class: "text-blue-400 border border-blue-600",
+    text: "완료",
+  },
 };
 
-export default function ContentCard({ item, onProgressChange, onDelete }: ContentCardProps) {
+export default function ContentCard({ item, onProgressChange, onStatusChange, onDelete, href, compact = false }: ContentCardProps) {
+  const router = useRouter();
   const content = item.content;
   const status = item.status ? statusStyles[item.status as keyof typeof statusStyles] : null;
   const statusText =
     item.status === "EXPERIENCE"
-      ? content.type === "BOOK"
-        ? "읽음"
-        : "봄"
-      : status?.text || "";
+      ? "감상 중"
+      : item.status === "COMPLETE"
+        ? "완료"
+        : status?.text || "";
 
   const progressPercent = item.progress ?? 0;
   const typeLabel = TYPE_LABELS[content.type] || content.type;
@@ -54,8 +63,17 @@ export default function ContentCard({ item, onProgressChange, onDelete }: Conten
     day: "numeric",
   });
 
+  const handleCardClick = () => {
+    if (href) {
+      router.push(href);
+    }
+  };
+
   return (
-    <div className="group bg-bg-card rounded-xl overflow-hidden transition-all duration-200 cursor-pointer border border-transparent relative hover:-translate-y-1 hover:shadow-2xl hover:border-border">
+    <div
+      className="group bg-bg-card rounded-xl overflow-hidden transition-all duration-200 cursor-pointer border border-transparent relative hover:-translate-y-1 hover:shadow-2xl hover:border-border"
+      onClick={handleCardClick}
+    >
       <div className="w-full aspect-[2/3] bg-[#2a3038] relative overflow-hidden">
         {content.thumbnail_url ? (
           <img
@@ -72,11 +90,33 @@ export default function ContentCard({ item, onProgressChange, onDelete }: Conten
           {typeLabel}
         </div>
         {status && (
-          <div
-            className={`absolute top-2 right-2 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm ${status.class}`}
+          <button
+            className={`absolute top-2 right-2 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm ${status.class} ${
+              onStatusChange && item.status !== "COMPLETE" ? "hover:opacity-80 cursor-pointer" : "cursor-default"
+            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!onStatusChange || item.status === "COMPLETE") return;
+
+              // 감상 중 → 관심으로 변경 시 진행도가 있으면 확인
+              if (item.status === "EXPERIENCE" && progressPercent > 0) {
+                const confirmed = confirm(
+                  `현재 진행도가 ${progressPercent}%입니다.\n관심 상태로 변경하면 진행도가 0%로 초기화됩니다.\n계속하시겠습니까?`
+                );
+                if (confirmed) {
+                  onProgressChange?.(item.id, 0);
+                  onStatusChange(item.id, "WISH");
+                }
+                return;
+              }
+
+              // 진행도 0일 때 또는 관심 → 감상중
+              const newStatus = item.status === "WISH" ? "EXPERIENCE" : "WISH";
+              onStatusChange(item.id, newStatus);
+            }}
           >
             {statusText}
-          </div>
+          </button>
         )}
         {onDelete && (
           <button
@@ -102,8 +142,15 @@ export default function ContentCard({ item, onProgressChange, onDelete }: Conten
           <div className="text-xs text-text-secondary mb-2 truncate">{content.creator}</div>
         )}
         <div
-          onClick={(e) => e.preventDefault()}
-          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+          }}
         >
           <ProgressSlider
             value={progressPercent}

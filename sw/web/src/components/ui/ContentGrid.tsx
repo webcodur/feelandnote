@@ -3,20 +3,25 @@ interface ContentGridProps {
   minWidth?: number;
   gap?: number;
   className?: string;
+  compact?: boolean;
 }
 
 export default function ContentGrid({
   children,
-  minWidth = 160,
-  gap = 5,
+  minWidth,
+  gap,
   className = "",
+  compact = false,
 }: ContentGridProps) {
+  const actualMinWidth = minWidth ?? (compact ? 160 : 220);
+  const actualGap = gap ?? (compact ? 4 : 6);
+
   return (
     <div
-      className={`grid gap-${gap} ${className}`}
+      className={`grid ${className}`}
       style={{
-        gridTemplateColumns: `repeat(auto-fill, minmax(${minWidth}px, 1fr))`,
-        gap: `${gap * 4}px`,
+        gridTemplateColumns: `repeat(auto-fill, minmax(${actualMinWidth}px, 1fr))`,
+        gap: `${actualGap * 4}px`,
       }}
     >
       {children}
