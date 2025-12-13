@@ -80,7 +80,7 @@ export async function searchBooks(
       externalId: book.isbn || book.link,
       externalSource: 'naver' as const,
       category: 'book' as const,
-      title: cleanHtml(book.title),
+      title: extractMainTitle(book.title),
       creator: cleanHtml(book.author),
       coverImageUrl: book.image || null,
       metadata: {
@@ -100,6 +100,16 @@ export async function searchBooks(
 // HTML 태그 제거 (네이버 API는 <b> 태그로 검색어를 감쌈)
 function cleanHtml(text: string): string {
   return text.replace(/<[^>]*>/g, '')
+}
+
+// 본제목만 추출 (부제목 분리)
+function extractMainTitle(title: string): string {
+  let mainTitle = cleanHtml(title)
+  // 괄호로 감싼 부제목 제거: "본제목 (부제목)" → "본제목"
+  mainTitle = mainTitle.replace(/\s*\([^)]+\)\s*$/, '')
+  // 대시 뒤 부제목 제거: "본제목 - 부제목" → "본제목"
+  mainTitle = mainTitle.replace(/\s*[-–—]\s+.+$/, '')
+  return mainTitle.trim()
 }
 
 // pubdate 형식 변환 (20231128 -> 2023-11-28)

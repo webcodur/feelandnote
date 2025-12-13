@@ -41,6 +41,7 @@ export interface UserContent {
   status: ContentStatus
   progress: number | null
   progress_type: ProgressType | null
+  folder_id: string | null
   created_at: string
   updated_at: string
 }
@@ -156,9 +157,46 @@ export interface BlindGameScore {
   played_at: string | null
 }
 
+// ===== Phase 5: Folder & Playlist Tables =====
+export interface Folder {
+  id: string
+  user_id: string
+  name: string
+  content_type: ContentType
+  sort_order: number
+  created_at: string
+}
+
+export interface FolderWithCount extends Folder {
+  content_count: number
+}
+
+export interface Playlist {
+  id: string
+  user_id: string
+  name: string
+  description: string | null
+  cover_url: string | null
+  content_type: ContentType | null  // null = 혼합
+  is_public: boolean
+  has_tiers: boolean
+  tiers: Record<string, string[]>  // { "S": ["id1"], "A": [...] }
+  created_at: string
+  updated_at: string
+}
+
+export interface PlaylistItem {
+  id: string
+  playlist_id: string
+  content_id: string
+  sort_order: number
+  added_at: string
+}
+
 // ===== 조인된 타입들 =====
 export interface UserContentWithContent extends UserContent {
   content: Content
+  folder?: Folder | null
 }
 
 export interface RecordWithContent extends Omit<ContentRecord, 'content'> {
@@ -178,6 +216,15 @@ export interface FollowWithProfile extends Follow {
 
 export interface TitleWithUnlock extends Title {
   user_titles: UserTitle[] | null
+}
+
+export interface PlaylistItemWithContent extends PlaylistItem {
+  content: Content
+}
+
+export interface PlaylistWithItems extends Playlist {
+  items: PlaylistItemWithContent[]
+  item_count: number
 }
 
 export interface RecordCommentWithUser extends RecordComment {

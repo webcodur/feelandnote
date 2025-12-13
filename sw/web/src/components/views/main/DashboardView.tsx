@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import StatsCard from "@/components/features/dashboard/StatsCard";
 import ContinueReading from "@/components/features/dashboard/ContinueReading";
 import FeedSection from "@/components/features/dashboard/FeedSection";
-import CreationSection from "@/components/features/dashboard/CreationSection";
+import { SectionHeader } from "@/components/ui";
 import { getProfile, type UserProfile } from "@/actions/user";
 
 export default function DashboardView() {
@@ -22,16 +22,14 @@ export default function DashboardView() {
 
   return (
     <>
-      <div className="mb-10 flex items-center justify-between">
-        <div>
-          <h1 className="text-[28px] font-bold mb-1">{displayName}님, 환영합니다!</h1>
-          <p className="text-text-secondary text-[15px]">오늘도 즐거운 문화생활 되세요.</p>
-        </div>
-        <StatsCard />
-      </div>
+      <SectionHeader
+        title={`${displayName}님, 환영합니다!`}
+        description="오늘도 즐거운 문화생활 되세요."
+        action={<StatsCard />}
+        className="mb-10"
+      />
 
       <ContinueReading />
-      <CreationSection />
       <FeedSection />
     </>
   );

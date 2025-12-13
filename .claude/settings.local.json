@@ -29,9 +29,14 @@
       "WebFetch(domain:api-docs.igdb.com)",
       "WebFetch(domain:kopis.or.kr)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:www.data.go.kr)"
+      "WebFetch(domain:www.data.go.kr)",
+      "mcp__supabase__get_logs"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
 }

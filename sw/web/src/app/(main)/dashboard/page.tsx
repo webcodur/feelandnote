@@ -1,5 +1,5 @@
-import DashboardView from "@/components/views/main/DashboardView";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <DashboardView />;
+  redirect("/archive");
 }

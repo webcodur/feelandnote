@@ -1,8 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Avatar, Badge } from "@/components/ui";
-import { Star, Users, Search, Heart, MessageCircle, Filter, TrendingUp, Inbox } from "lucide-react";
+import { Card, Avatar, Badge, FilterChips, FilterSelect, SectionHeader, type ChipOption, type FilterOption } from "@/components/ui";
+import { Star, Users, Search, Heart, MessageCircle, ArrowUpDown, Inbox, Newspaper, LayoutGrid, FileText, PenTool, Book, Film } from "lucide-react";
+
+const ACTIVITY_OPTIONS: ChipOption[] = [
+  { value: "all", label: "전체", icon: LayoutGrid },
+  { value: "review", label: "Review", icon: Star },
+  { value: "note", label: "Note", icon: FileText },
+  { value: "creation", label: "창작", icon: PenTool },
+];
+
+const CATEGORY_OPTIONS: ChipOption[] = [
+  { value: "all", label: "전체", icon: LayoutGrid },
+  { value: "book", label: "도서", icon: Book },
+  { value: "video", label: "영화", icon: Film },
+];
+
+const SORT_OPTIONS: FilterOption[] = [
+  { value: "smart", label: "스마트" },
+  { value: "recent", label: "최신순" },
+];
 
 interface FeedCardProps {
   item: {
@@ -84,9 +102,9 @@ function FeedSubsection({
 }
 
 export default function FeedView() {
-  const [activityFilter, setActivityFilter] = useState("전체");
-  const [categoryFilter, setCategoryFilter] = useState("전체");
-  const [sortBy, setSortBy] = useState("스마트");
+  const [activityFilter, setActivityFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("smart");
 
   // 현재 소셜 기능이 구현되지 않아 빈 배열 사용
   const celebFeed: FeedCardProps["item"][] = [];
@@ -95,76 +113,39 @@ export default function FeedView() {
 
   return (
     <>
+      <SectionHeader
+        title="피드"
+        description="친구들과 셀럽의 문화생활을 구경하세요"
+        icon={<Newspaper size={24} />}
+        className="mb-8"
+      />
+
       {/* Filter Bar */}
-      <div className="mb-8 pb-6 border-b border-border">
-        <div className="flex flex-wrap items-center gap-4 mb-4">
-          <div className="flex items-center gap-2">
-            <Filter size={18} className="text-text-secondary" />
-            <span className="text-sm font-semibold text-text-secondary">필터</span>
-          </div>
-
-          {/* Activity Type Filter */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-text-secondary">활동:</span>
-            {["전체", "Review", "Note", "창작"].map((type) => (
-              <button
-                key={type}
-                onClick={() => setActivityFilter(type)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
-                  ${
-                    activityFilter === type
-                      ? "bg-accent text-white"
-                      : "bg-bg-secondary border border-border text-text-secondary hover:border-accent"
-                  }`}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-
-          {/* Category Filter */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-text-secondary">카테고리:</span>
-            {["전체", "도서", "영화"].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
-                  ${
-                    categoryFilter === cat
-                      ? "bg-accent text-white"
-                      : "bg-bg-secondary border border-border text-text-secondary hover:border-accent"
-                  }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+      <div className="flex justify-between items-center mb-6 pb-6 border-b border-border">
+        <div className="flex items-center gap-4">
+          <FilterChips
+            options={ACTIVITY_OPTIONS}
+            value={activityFilter}
+            onChange={setActivityFilter}
+            variant="filled"
+            showIcon
+          />
+          <div className="w-px h-6 bg-border" />
+          <FilterChips
+            options={CATEGORY_OPTIONS}
+            value={categoryFilter}
+            onChange={setCategoryFilter}
+            variant="filled"
+            showIcon
+          />
         </div>
-
-        {/* Sort Options */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <TrendingUp size={18} className="text-text-secondary" />
-            <span className="text-sm font-semibold text-text-secondary">정렬</span>
-          </div>
-          <div className="flex gap-2">
-            {["스마트", "최신순"].map((sort) => (
-              <button
-                key={sort}
-                onClick={() => setSortBy(sort)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
-                  ${
-                    sortBy === sort
-                      ? "bg-accent/20 text-accent"
-                      : "text-text-secondary hover:text-text-primary"
-                  }`}
-              >
-                {sort}
-              </button>
-            ))}
-          </div>
-        </div>
+        <FilterSelect
+          options={SORT_OPTIONS}
+          value={sortBy}
+          onChange={setSortBy}
+          icon={ArrowUpDown}
+          defaultValue="smart"
+        />
       </div>
 
       {/* Coming Soon Notice */}

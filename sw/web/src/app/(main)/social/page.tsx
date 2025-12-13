@@ -1,5 +1,5 @@
-import SocialView from "@/components/views/main/SocialView";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <SocialView />;
+  redirect("/feed");
 }

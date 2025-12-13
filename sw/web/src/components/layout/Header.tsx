@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
+import Logo from "@/components/ui/Logo";
 
 interface HeaderProps {
   onMenuClick?: () => void;
+  isMobile?: boolean;
 }
 
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header({ onMenuClick, isMobile }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const notifications = [
@@ -49,16 +51,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-6 gap-6 fixed top-0 left-0 z-[100]">
-      <button
-        className="w-10 h-10 flex items-center justify-center cursor-pointer rounded-lg transition-colors duration-200 hover:bg-white/5"
-        onClick={onMenuClick}
-      >
-        <Menu size={24} className="text-text-primary" />
-      </button>
-      <div className="text-xl font-extrabold bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent cursor-pointer">
-        Feel&Note
-      </div>
+    <header className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-3 md:px-6 md:gap-6 fixed top-0 left-0 z-[100]">
+      {!isMobile && (
+        <button
+          className="w-10 h-10 flex items-center justify-center cursor-pointer rounded-lg transition-colors duration-200 hover:bg-white/5"
+          onClick={onMenuClick}
+        >
+          <Menu size={24} className="text-text-primary" />
+        </button>
+      )}
+      <Logo size="md" href="/" />
       <HeaderSearch />
       <div className="flex items-center gap-4">
         {/* Notification Bell */}
@@ -77,8 +79,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
           {/* Notification Dropdown */}
           {showNotifications && (
-            <div className="absolute right-0 top-14 w-96 bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden z-50">
-              <div className="px-6 py-4 border-b border-border flex justify-between items-center">
+            <div className="absolute right-0 top-14 w-[calc(100vw-24px)] sm:w-80 md:w-96 max-w-[400px] bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden z-50">
+              <div className="px-4 py-3 md:px-6 md:py-4 border-b border-border flex justify-between items-center">
                 <h3 className="font-bold text-base">알림</h3>
                 <button className="text-sm text-accent hover:underline">모두 읽음</button>
               </div>
@@ -86,7 +88,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 {notifications.map((notif) => (
                   <div
                     key={notif.id}
-                    className={`px-6 py-4 border-b border-border transition-colors duration-200 hover:bg-white/5 cursor-pointer
+                    className={`px-4 py-3 md:px-6 md:py-4 border-b border-border transition-colors duration-200 hover:bg-white/5 cursor-pointer
                       ${!notif.read ? "bg-accent/5" : ""}`}
                   >
                     <div className="flex gap-3">
@@ -102,7 +104,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   </div>
                 ))}
               </div>
-              <div className="px-6 py-3 text-center border-t border-border">
+              <div className="px-4 py-2 md:px-6 md:py-3 text-center border-t border-border">
                 <button className="text-sm text-accent hover:underline">모든 알림 보기</button>
               </div>
             </div>
@@ -110,8 +112,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
 
         {/* User Profile */}
-        <div className="flex items-center gap-3">
-          <span className="font-semibold text-sm">WebCoder</span>
+        <div className="flex items-center gap-2 md:gap-3">
+          <span className="hidden sm:inline font-semibold text-sm">WebCoder</span>
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 cursor-pointer"></div>
         </div>
       </div>

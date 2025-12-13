@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Tabs, Tab, Badge, Avatar, Card } from "@/components/ui";
+import { Button, Badge, Avatar, Card, FilterChips, SectionHeader, type ChipOption } from "@/components/ui";
 import BlindGamePlayModal from "@/components/features/playground/BlindGamePlayModal";
-import { Plus, Quote, Gamepad2, Flame, Sparkles, Users, User } from "lucide-react";
+import { Plus, Quote, Gamepad2, Flame, Sparkles, Users, User, Target } from "lucide-react";
+
+const TAB_OPTIONS: ChipOption[] = [
+  { value: "popular", label: "인기 퀴즈", icon: Flame },
+  { value: "latest", label: "최신", icon: Sparkles },
+  { value: "following", label: "팔로잉", icon: Users },
+  { value: "my", label: "내 문제", icon: User },
+];
 
 const gameData = [
   {
@@ -59,22 +66,27 @@ export default function BlindGameView() {
 
   return (
     <>
-      <div className="mb-8 flex justify-between items-start">
-        <div>
-          <h1 className="text-[28px] font-bold mb-2">블라인드 게임</h1>
-          <p className="text-text-secondary text-[15px]">감상평만 보고 작품을 맞추는 퀴즈에 도전하세요</p>
-        </div>
-        <Button variant="primary">
-          <Plus size={16} /> 새 문제 출제
-        </Button>
-      </div>
+      <SectionHeader
+        title="블라인드 게임"
+        description="감상평만 보고 작품을 맞추는 퀴즈에 도전하세요"
+        icon={<Target size={24} />}
+        action={
+          <Button variant="primary">
+            <Plus size={16} /> 새 문제 출제
+          </Button>
+        }
+        className="mb-8"
+      />
 
-      <Tabs className="mb-6">
-        <Tab label={<><Flame size={14} /> 인기 퀴즈</>} active={activeTab === "popular"} onClick={() => setActiveTab("popular")} />
-        <Tab label={<><Sparkles size={14} /> 최신</>} active={activeTab === "latest"} onClick={() => setActiveTab("latest")} />
-        <Tab label={<><Users size={14} /> 팔로잉</>} active={activeTab === "following"} onClick={() => setActiveTab("following")} />
-        <Tab label={<><User size={14} /> 내 문제</>} active={activeTab === "my"} onClick={() => setActiveTab("my")} />
-      </Tabs>
+      <div className="mb-6">
+        <FilterChips
+          options={TAB_OPTIONS}
+          value={activeTab}
+          onChange={setActiveTab}
+          variant="filled"
+          showIcon
+        />
+      </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-6">
         {gameData.map((game, idx) => (
