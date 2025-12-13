@@ -12,7 +12,7 @@ import {
   ChevronDown,
   ArrowUpDown,
 } from "lucide-react";
-import { Card } from "@/components/ui";
+import { Card, FilterChips, FilterSelect, type FilterOption, type ChipOption } from "@/components/ui";
 import {
   searchContents,
   searchUsers,
@@ -44,6 +44,26 @@ const SEARCH_MODES: SearchModeConfig[] = [
 const CATEGORY_ICONS: Record<string, React.ElementType> = Object.fromEntries(
   CATEGORIES.map((cat) => [cat.id, cat.icon])
 );
+
+// 카테고리 칩 옵션
+const CATEGORY_CHIP_OPTIONS: ChipOption<CategoryId>[] = CATEGORIES.map((cat) => ({
+  value: cat.id,
+  label: cat.label,
+  icon: cat.icon,
+}));
+
+// 정렬 옵션
+const CONTENT_SORT_OPTIONS: FilterOption[] = [
+  { value: "relevance", label: "관련도순" },
+  { value: "latest", label: "최신순" },
+  { value: "popular", label: "인기순" },
+];
+
+const USER_SORT_OPTIONS: FilterOption[] = [
+  { value: "relevance", label: "관련도순" },
+  { value: "followers", label: "팔로워순" },
+  { value: "latest", label: "최신순" },
+];
 
 // Use types from actions
 type ContentResult = ContentSearchResult | ArchiveSearchResult;
@@ -251,37 +271,23 @@ function SearchContent() {
       {/* Category tabs for content mode */}
       {mode === "content" && (
         <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
-          <div className="flex gap-2">
-            {CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    setCategory(cat.id);
-                    if (query) updateUrl("content", query, cat.id);
-                  }}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
-                    ${category === cat.id ? "bg-accent/20 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
-                >
-                  <Icon size={14} />
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="ml-auto flex items-center gap-1.5 bg-bg-card border border-border rounded-lg py-1.5 px-3">
-            <ArrowUpDown size={14} className="text-text-secondary" />
-            <select
+          <FilterChips
+            options={CATEGORY_CHIP_OPTIONS}
+            value={category}
+            onChange={(newCat) => {
+              setCategory(newCat);
+              if (query) updateUrl("content", query, newCat);
+            }}
+            variant="filled"
+            showIcon
+          />
+          <div className="ml-auto">
+            <FilterSelect
+              options={CONTENT_SORT_OPTIONS}
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-text-secondary text-sm outline-none cursor-pointer"
-            >
-              <option value="relevance">관련도순</option>
-              <option value="latest">최신순</option>
-              <option value="popular">인기순</option>
-            </select>
+              onChange={setSortBy}
+              icon={ArrowUpDown}
+            />
           </div>
         </div>
       )}
@@ -292,18 +298,13 @@ function SearchContent() {
             <input type="checkbox" className="rounded" />
             팔로잉만
           </label>
-
-          <div className="ml-auto flex items-center gap-1.5 bg-bg-card border border-border rounded-lg py-1.5 px-3">
-            <ArrowUpDown size={14} className="text-text-secondary" />
-            <select
+          <div className="ml-auto">
+            <FilterSelect
+              options={USER_SORT_OPTIONS}
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-text-secondary text-sm outline-none cursor-pointer"
-            >
-              <option value="relevance">관련도순</option>
-              <option value="followers">팔로워순</option>
-              <option value="latest">최신순</option>
-            </select>
+              onChange={setSortBy}
+              icon={ArrowUpDown}
+            />
           </div>
         </div>
       )}

@@ -6,3 +6,6 @@ export { default as Avatar } from "./Avatar";
 export { default as SectionHeader } from "./SectionHeader";
 export { default as ContentGrid } from "./ContentGrid";
 export { default as ProgressSlider } from "./ProgressSlider";
+export { FilterSelect, type FilterOption } from "./FilterSelect";
+export { FilterChips, type ChipOption } from "./FilterChips";
+export { Pagination } from "./Pagination";

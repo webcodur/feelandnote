@@ -7,6 +7,7 @@ import { searchBooks } from "@/actions/contents/searchBooks";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
 import type { BookSearchResult } from "@/lib/api/naver-books";
+import { useAchievement } from "@/components/features/achievements";
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   const [error, setError] = useState<string | null>(null);
   const [isSearching, startSearchTransition] = useTransition();
   const [isAdding, startAddTransition] = useTransition();
+  const { showUnlock } = useAchievement();
 
   if (!isOpen) return null;
 
@@ -68,7 +70,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
 
     startAddTransition(async () => {
       try {
-        await addContent({
+        const response = await addContent({
           id: result.externalId,
           type: selectedCategory as ContentType,
           title: result.title,
@@ -81,6 +83,11 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         });
         onSuccess?.();
         handleClose();
+
+        // 칭호 해금 알림 표시
+        if (response.unlockedTitles && response.unlockedTitles.length > 0) {
+          showUnlock(response.unlockedTitles);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "콘텐츠 추가 중 오류가 발생했습니다.");
       }
@@ -101,10 +108,10 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-bg-card rounded-2xl border border-border shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+      <div className="relative w-full max-w-4xl max-h-[90vh] bg-bg-card rounded-xl md:rounded-2xl border border-border shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-border bg-bg-secondary">
+        <div className="flex items-center justify-between px-4 py-4 md:px-8 md:py-6 border-b border-border bg-bg-secondary">
           <div>
             <h2 className="text-2xl font-bold">콘텐츠 추가</h2>
             {selectedCategory && (
@@ -122,7 +129,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-120px)] p-8">
+        <div className="overflow-y-auto max-h-[calc(90vh-120px)] p-4 md:p-8">
           {/* Error Message */}
           {error && (
             <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
@@ -273,7 +280,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
 
         {/* Footer Navigation */}
         {step !== "category" && (
-          <div className="px-8 py-4 border-t border-border bg-bg-secondary">
+          <div className="px-4 py-3 md:px-8 md:py-4 border-t border-border bg-bg-secondary">
             <button
               onClick={() => {
                 if (step === "manual") setStep("search");

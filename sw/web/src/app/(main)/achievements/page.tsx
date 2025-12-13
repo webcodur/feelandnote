@@ -1,5 +1,5 @@
-import AchievementsView from "@/components/views/main/AchievementsView";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <AchievementsView />;
+  redirect("/profile");
 }

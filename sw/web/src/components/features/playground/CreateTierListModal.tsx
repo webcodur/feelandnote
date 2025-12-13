@@ -74,8 +74,8 @@ export default function CreateTierListModal({ isOpen, onClose }: CreateTierListM
   async function loadContents() {
     setIsLoading(true);
     try {
-      const contents = await getMyContents();
-      const items = contents.map(mapToTierItem);
+      const result = await getMyContents();
+      const items = result.items.map(mapToTierItem);
       setAllContents(items);
       setUnassigned(items);
     } catch (error) {

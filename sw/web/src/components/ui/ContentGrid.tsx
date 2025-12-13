@@ -13,7 +13,7 @@ export default function ContentGrid({
   className = "",
   compact = false,
 }: ContentGridProps) {
-  const actualMinWidth = minWidth ?? (compact ? 160 : 220);
+  const actualMinWidth = minWidth ?? (compact ? 100 : 130);
   const actualGap = gap ?? (compact ? 4 : 6);
 
   return (

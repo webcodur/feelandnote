@@ -1,5 +1,5 @@
-import StatsView from "@/components/views/main/StatsView";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <StatsView />;
+  redirect("/profile");
 }

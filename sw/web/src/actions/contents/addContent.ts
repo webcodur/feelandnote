@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
+import { addActivityScore, checkAchievements } from '@/actions/achievements'
 
 export type { ContentType, ContentStatus }
 
@@ -74,9 +75,15 @@ export async function addContent(params: AddContentParams) {
   }
 
   revalidatePath('/archive')
+  revalidatePath('/achievements')
+
+  // 업적 시스템: 점수 추가 및 칭호 체크
+  await addActivityScore(`콘텐츠 추가 (${params.title})`, 1, userContent.id)
+  const achievementResult = await checkAchievements()
 
   return {
     contentId: params.id,
-    userContentId: userContent.id
+    userContentId: userContent.id,
+    unlockedTitles: achievementResult.unlocked
   }
 }

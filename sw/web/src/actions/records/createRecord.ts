@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { addActivityScore, checkAchievements } from '@/actions/achievements'
 
 export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE' | 'CREATION'
 
@@ -60,6 +61,16 @@ export async function createRecord(params: CreateRecordParams) {
 
   revalidatePath(`/archive/${params.contentId}`)
   revalidatePath('/archive')
+  revalidatePath('/achievements')
 
-  return data
+  // 업적 시스템: 점수 추가 및 칭호 체크
+  const scoreAmount = params.type === 'REVIEW' ? 5 : 2
+  const actionText = params.type === 'REVIEW' ? 'Review 작성' : params.type === 'NOTE' ? 'Note 작성' : 'Quote 작성'
+  await addActivityScore(actionText, scoreAmount, data.id)
+  const achievementResult = await checkAchievements()
+
+  return {
+    ...data,
+    unlockedTitles: achievementResult.unlocked
+  }
 }
