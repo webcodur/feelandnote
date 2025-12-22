@@ -33,6 +33,10 @@
     @apply m-0 p-0 box-border;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     background-color: var(--color-bg-main);
     color: var(--color-text-primary);

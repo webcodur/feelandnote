@@ -30,7 +30,8 @@
       "WebFetch(domain:kopis.or.kr)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.data.go.kr)",
-      "mcp__supabase__get_logs"
+      "mcp__supabase__get_logs",
+      "Bash(pnpm install:*)"
     ],
     "deny": [],
     "ask": []

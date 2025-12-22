@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X, HelpCircle, Flame, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { X, HelpCircle, Flame, CheckCircle, XCircle, Loader2, Trophy, Save } from "lucide-react";
 import { Button, Badge } from "@/components/ui";
 import { getRecords } from "@/actions/records";
+import { saveBlindGameScore } from "@/actions/blind-game";
 
 interface BlindGamePlayModalProps {
   isOpen: boolean;
@@ -49,7 +50,6 @@ function mapRecordToQuestion(record: RecordWithContent): Question | null {
     hints.push({ id: 2, text: `창작자: ${record.contentData.creator}`, penalty: 2 });
   }
 
-  // 제목 첫 글자 힌트
   const firstChar = record.contentData.title.charAt(0);
   hints.push({ id: 3, text: `첫 글자: ${firstChar}`, penalty: 2 });
 
@@ -67,30 +67,39 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
   const [userAnswer, setUserAnswer] = useState("");
   const [usedHints, setUsedHints] = useState<number[]>([]);
   const [streak, setStreak] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
   const [score, setScore] = useState(0);
-  const [gameState, setGameState] = useState<"playing" | "correct" | "wrong">("playing");
+  const [gameState, setGameState] = useState<"playing" | "correct" | "wrong" | "finished">("playing");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedScore, setSavedScore] = useState(false);
 
   const currentQuestion = questions[currentIndex];
 
   useEffect(() => {
     if (isOpen) {
       loadQuestions();
+      setSavedScore(false);
     }
   }, [isOpen]);
+
+  // maxStreak 업데이트
+  useEffect(() => {
+    if (streak > maxStreak) {
+      setMaxStreak(streak);
+    }
+  }, [streak, maxStreak]);
 
   async function loadQuestions() {
     setIsLoading(true);
     try {
-      // REVIEW와 QUOTE 타입 기록을 가져옴
       const records = await getRecords({ limit: 50 }) as RecordWithContent[];
       const validRecords = records.filter(
         (r) => (r.type === "REVIEW" || r.type === "QUOTE") && r.content && r.contentData
       );
 
-      // 랜덤 셔플
       const shuffled = validRecords.sort(() => Math.random() - 0.5);
       const mapped = shuffled.map(mapRecordToQuestion).filter((q): q is Question => q !== null);
 
@@ -98,6 +107,7 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
       setCurrentIndex(0);
       setScore(0);
       setStreak(0);
+      setMaxStreak(0);
     } catch (error) {
       console.error("Failed to load questions:", error);
     } finally {
@@ -115,20 +125,22 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
 
   const handleClose = () => {
     handleReset();
+    setScore(0);
+    setStreak(0);
+    setMaxStreak(0);
+    setSavedScore(false);
     onClose();
   };
 
-  const handleHint = (hintId: number, penalty: number) => {
+  const handleHint = (hintId: number) => {
     if (!usedHints.includes(hintId)) {
       setUsedHints([...usedHints, hintId]);
-      // 실제로는 점수 차감
     }
   };
 
   const handleSubmit = () => {
     if (!currentQuestion) return;
 
-    // 정답 체크: 정확히 일치하거나 포함되어 있으면 정답
     const normalizedAnswer = currentQuestion.answer.toLowerCase().replace(/\s/g, "");
     const normalizedUserAnswer = userAnswer.trim().toLowerCase().replace(/\s/g, "");
     const isCorrect = normalizedAnswer === normalizedUserAnswer ||
@@ -157,11 +169,42 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // 모든 문제를 풀었으면 다시 셔플
-      const shuffled = [...questions].sort(() => Math.random() - 0.5);
-      setQuestions(shuffled);
-      setCurrentIndex(0);
+      // 모든 문제를 풀었으면 완료 상태로
+      setGameState("finished");
     }
+  };
+
+  const handleFinish = () => {
+    setGameState("finished");
+  };
+
+  const handleSaveScore = async () => {
+    if (savedScore || score === 0) return;
+
+    setIsSaving(true);
+    try {
+      await saveBlindGameScore({
+        score,
+        maxStreak,
+      });
+      setSavedScore(true);
+    } catch (error) {
+      console.error("Failed to save score:", error);
+      alert("점수 저장에 실패했습니다");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handlePlayAgain = () => {
+    handleReset();
+    setSavedScore(false);
+    const shuffled = [...questions].sort(() => Math.random() - 0.5);
+    setQuestions(shuffled);
+    setCurrentIndex(0);
+    setScore(0);
+    setStreak(0);
+    setMaxStreak(0);
   };
 
   return (
@@ -182,6 +225,15 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
                 {streak}
               </div>
             </div>
+            {maxStreak > 0 && (
+              <>
+                <div className="w-px h-10 bg-border" />
+                <div>
+                  <div className="text-sm text-text-secondary">최고 연속</div>
+                  <div className="text-lg font-bold text-yellow-500">{maxStreak}</div>
+                </div>
+              </>
+            )}
           </div>
           <button
             onClick={handleClose}
@@ -202,7 +254,43 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
               <p className="mb-2">퀴즈를 만들 기록이 없습니다.</p>
               <p className="text-sm">먼저 기록관에서 리뷰나 인용문을 작성해 주세요.</p>
             </div>
-          ) : gameState === "playing" && currentQuestion && (
+          ) : gameState === "finished" ? (
+            // 게임 완료 화면
+            <div className="text-center py-12">
+              <Trophy size={80} className="mx-auto mb-6 text-yellow-500" />
+              <h2 className="text-3xl font-bold mb-4">게임 완료!</h2>
+              <div className="text-xl mb-2">최종 점수: <span className="text-accent font-bold">{score}점</span></div>
+              <div className="text-text-secondary mb-8">
+                최고 연속 정답: {maxStreak}회
+              </div>
+              <div className="flex gap-3 justify-center">
+                {!savedScore && score > 0 && (
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveScore}
+                    disabled={isSaving}
+                  >
+                    {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                    점수 저장하기
+                  </Button>
+                )}
+                {savedScore && (
+                  <div className="text-green-500 flex items-center gap-2">
+                    <CheckCircle size={20} />
+                    점수가 저장되었습니다!
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-3 justify-center mt-4">
+                <Button variant="secondary" onClick={handleClose}>
+                  나가기
+                </Button>
+                <Button variant="primary" onClick={handlePlayAgain}>
+                  다시 도전
+                </Button>
+              </div>
+            </div>
+          ) : gameState === "playing" && currentQuestion ? (
             <>
               {/* Progress */}
               <div className="text-sm text-text-secondary mb-4 text-center">
@@ -228,7 +316,7 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
                     return (
                       <button
                         key={hint.id}
-                        onClick={() => handleHint(hint.id, hint.penalty)}
+                        onClick={() => handleHint(hint.id)}
                         disabled={isUsed}
                         className={`p-4 rounded-xl text-left transition-all duration-200
                           ${
@@ -268,31 +356,25 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
                 </div>
               </div>
             </>
-          )}
-
-          {/* Correct Answer */}
-          {gameState === "correct" && currentQuestion && (
+          ) : gameState === "correct" && currentQuestion ? (
             <div className="text-center py-12">
               <CheckCircle size={80} className="mx-auto mb-6 text-green-500" />
               <h2 className="text-3xl font-bold mb-4 text-green-500">정답입니다!</h2>
               <div className="text-xl mb-2">{currentQuestion.answer}</div>
               <div className="text-text-secondary mb-8">
                 +{5 - usedHints.reduce((sum, id) => sum + (currentQuestion.hints.find((h) => h.id === id)?.penalty || 0), 0)} (기본점수)
-                {streak > 1 && ` + ${streak} (스트릭 보너스)`}
+                {streak > 1 && ` + ${streak - 1} (스트릭 보너스)`}
               </div>
               <div className="flex gap-3 justify-center">
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleFinish}>
                   그만하기
                 </Button>
                 <Button variant="primary" onClick={handleNext}>
-                  다음 문제 →
+                  {currentIndex < questions.length - 1 ? "다음 문제 →" : "결과 보기"}
                 </Button>
               </div>
             </div>
-          )}
-
-          {/* Wrong Answer */}
-          {gameState === "wrong" && currentQuestion && (
+          ) : gameState === "wrong" && currentQuestion ? (
             <div className="text-center py-12">
               <XCircle size={80} className="mx-auto mb-6 text-red-500" />
               <h2 className="text-3xl font-bold mb-4 text-red-500">틀렸습니다</h2>
@@ -301,25 +383,24 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
                 스트릭이 초기화되었습니다
               </div>
               <div className="flex gap-3 justify-center">
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleFinish}>
                   그만하기
                 </Button>
                 <Button variant="primary" onClick={handleNext}>
-                  다음 문제 →
+                  {currentIndex < questions.length - 1 ? "다음 문제 →" : "결과 보기"}
                 </Button>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* Footer */}
         {gameState === "playing" && questions.length > 0 && (
           <div className="px-8 py-4 border-t border-border bg-bg-secondary text-center text-sm text-text-secondary">
-            💡 힌트를 최소한으로 사용하고 연속 정답으로 높은 점수를 획득하세요!
+            힌트를 최소한으로 사용하고 연속 정답으로 높은 점수를 획득하세요!
           </div>
         )}
       </div>
     </div>
   );
 }
-

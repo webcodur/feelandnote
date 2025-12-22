@@ -54,15 +54,23 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
 
   const offset = (page - 1) * limit
 
+  // type 필터가 있으면 inner join으로 contents 테이블에서 직접 필터링
+  const contentJoin = type ? 'content:contents!inner(*)' : 'content:contents(*)'
+
   let query = supabase
     .from('user_contents')
     .select(`
       *,
-      content:contents(*),
+      ${contentJoin},
       folder:folders(*)
     `, { count: 'exact' })
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
+
+  // type 필터 - DB 쿼리에서 직접 적용
+  if (type) {
+    query = query.eq('content.type', type)
+  }
 
   // 폴더 필터
   if (folderId === null) {
@@ -86,14 +94,10 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
-  // content가 null인 항목 필터링 및 type 필터
-  let items = (data || []).filter((item): item is UserContentWithContent =>
+  // content가 null인 항목 필터링
+  const items = (data || []).filter((item): item is UserContentWithContent =>
     item.content !== null
   )
-
-  if (type) {
-    items = items.filter((item) => item.content.type === type)
-  }
 
   const total = count || 0
 
@@ -115,15 +119,23 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     throw new Error('로그인이 필요합니다')
   }
 
+  // type 필터가 있으면 inner join으로 contents 테이블에서 직접 필터링
+  const contentJoin = params.type ? 'content:contents!inner(*)' : 'content:contents(*)'
+
   let query = supabase
     .from('user_contents')
     .select(`
       *,
-      content:contents(*),
+      ${contentJoin},
       folder:folders(*)
     `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
+
+  // type 필터 - DB 쿼리에서 직접 적용
+  if (params.type) {
+    query = query.eq('content.type', params.type)
+  }
 
   if (params.folderId === null) {
     query = query.is('folder_id', null)
@@ -142,13 +154,9 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
-  let items = (data || []).filter((item): item is UserContentWithContent =>
+  const items = (data || []).filter((item): item is UserContentWithContent =>
     item.content !== null
   )
-
-  if (params.type) {
-    items = items.filter((item) => item.content.type === params.type)
-  }
 
   return items
 }

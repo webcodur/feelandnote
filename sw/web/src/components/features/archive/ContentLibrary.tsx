@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useTransition, useMemo } from "react"
 import { ContentCard } from "@/components/features/cards";
 import ContentListItem from "./ContentListItem";
 import FolderManager from "./FolderManager";
-import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
+import { getMyContents, getMyContentsAll, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getFolders } from "@/actions/folders/getFolders";
 import { moveToFolder } from "@/actions/folders/moveToFolder";
 import { updateProgress } from "@/actions/contents/updateProgress";
@@ -12,8 +12,11 @@ import { updateStatus } from "@/actions/contents/updateStatus";
 import { removeContent } from "@/actions/contents/removeContent";
 import { CATEGORIES } from "@/constants/categories";
 import type { ContentType, ContentStatus, FolderWithCount } from "@/types/database";
-import { Loader2, LayoutGrid, List, Archive, Book, Film, Gamepad2, Drama, Music, Filter, ArrowUpDown, ChevronDown, ChevronRight, FolderOpen, Settings, FolderInput } from "lucide-react";
+import { Loader2, LayoutGrid, List, Archive, Book, Film, Gamepad2, Drama, Music, Filter, ArrowUpDown, ChevronDown, ChevronRight, FolderOpen, Settings, FolderInput, ArrowRight } from "lucide-react";
 import { ContentGrid, FilterSelect, FilterChips, Pagination, type FilterOption, type ChipOption } from "@/components/ui";
+
+// 전체 탭에서 카테고리당 최대 표시 개수
+const MAX_ITEMS_PER_CATEGORY = 20;
 
 type ViewMode = "grid" | "list";
 type ProgressFilter = "all" | "not_started" | "in_progress" | "completed";
@@ -142,15 +145,25 @@ export default function ContentLibrary({
     setError(null);
     try {
       const tab = TAB_OPTIONS.find((t) => t.value === activeTab);
-      const limit = maxItems || 20;
-      const result = await getMyContents({
-        type: tab?.type,
-        page: compact ? 1 : currentPage,
-        limit,
-      });
-      setContents(result.items);
-      setTotalPages(result.totalPages);
-      setTotal(result.total);
+
+      // 전체 탭: 모든 데이터를 가져와서 클라이언트에서 카테고리별로 나눔
+      if (activeTab === "all") {
+        const items = await getMyContentsAll();
+        setContents(items);
+        setTotalPages(1);
+        setTotal(items.length);
+      } else {
+        // 개별 카테고리 탭: 페이지네이션 적용
+        const limit = maxItems || 20;
+        const result = await getMyContents({
+          type: tab?.type,
+          page: compact ? 1 : currentPage,
+          limit,
+        });
+        setContents(result.items);
+        setTotalPages(result.totalPages);
+        setTotal(result.total);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "콘텐츠를 불러오는데 실패했습니다.");
     } finally {
@@ -519,18 +532,23 @@ export default function ContentLibrary({
         </div>
       )}
 
-      {/* Content - 전체 탭: 카테고리 > 폴더별 그룹화 */}
+      {/* Content - 전체 탭: 카테고리별 최대 20개 + 더보기 */}
       {!isLoading && !error && filteredAndSortedContents.length > 0 && activeTab === "all" && groupedContents && (
         <div className="space-y-5">
           {(Object.entries(groupedContents) as [ContentType, typeof groupedContents[ContentType]][]).map(([type, group]) => {
-            const totalItems = group.uncategorized.length + Object.values(group.byFolder).reduce((acc, arr) => acc + arr.length, 0);
+            // 해당 카테고리의 모든 아이템을 합침
+            const allItems = [...Object.values(group.byFolder).flat(), ...group.uncategorized];
+            const totalItems = allItems.length;
             if (totalItems === 0) return null;
 
             const info = CATEGORY_INFO[type];
             const Icon = info.icon;
             const isCollapsed = collapsedCategories.has(type);
-            const typeFolders = folders[type] || [];
-            const hasFolders = typeFolders.length > 0;
+            const hasMore = totalItems > MAX_ITEMS_PER_CATEGORY;
+            const displayItems = allItems.slice(0, MAX_ITEMS_PER_CATEGORY);
+
+            // 해당 카테고리 탭의 value 찾기
+            const categoryTab = TAB_OPTIONS.find((t) => t.type === type);
 
             return (
               <div key={type}>
@@ -549,20 +567,16 @@ export default function ContentLibrary({
 
                 {!isCollapsed && (
                   <div>
-                    {hasFolders && showFolders ? (
-                      <>
-                        {/* 폴더별 그룹 */}
-                        {typeFolders.map((folder) => {
-                          const items = group.byFolder[folder.id] || [];
-                          if (items.length === 0) return null;
-                          return renderFolderSubgroup(folder.id, items, type);
-                        })}
-                        {/* 미분류 */}
-                        {renderUncategorizedSubgroup(group.uncategorized)}
-                      </>
-                    ) : (
-                      // 폴더가 없으면 전체 표시
-                      renderContentItems([...Object.values(group.byFolder).flat(), ...group.uncategorized])
+                    {renderContentItems(displayItems)}
+                    {/* 더보기 버튼 */}
+                    {hasMore && categoryTab && (
+                      <button
+                        onClick={() => setActiveTab(categoryTab.value)}
+                        className="mt-3 flex items-center gap-1 mx-auto px-3 py-1.5 text-xs text-accent hover:text-accent-hover transition-colors"
+                      >
+                        <span>더보기 ({totalItems - MAX_ITEMS_PER_CATEGORY}개 더)</span>
+                        <ArrowRight size={14} />
+                      </button>
                     )}
                   </div>
                 )}
@@ -591,8 +605,8 @@ export default function ContentLibrary({
         </div>
       )}
 
-      {/* 페이지네이션 */}
-      {!compact && showPagination && !isLoading && totalPages > 1 && (
+      {/* 페이지네이션 - 개별 카테고리 탭에서만 표시 */}
+      {!compact && showPagination && !isLoading && totalPages > 1 && activeTab !== "all" && (
         <div className="mt-6 flex justify-center">
           <Pagination
             currentPage={currentPage}
