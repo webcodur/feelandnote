@@ -47,7 +47,7 @@ export default function ContentCard({
 
   return (
     <div
-      className="group cursor-pointer transition-all duration-300 hover:-translate-y-1"
+      className="group cursor-pointer"
       onClick={handleClick}
     >
       <div className="relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col bg-bg-card">

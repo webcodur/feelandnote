@@ -17,7 +17,8 @@ interface AddContentParams {
   publisher?: string
   releaseDate?: string
   metadata?: Record<string, unknown>
-  status?: ContentStatus        // 기본값: 'WISH' (진행도 0%로 시작)
+  status?: ContentStatus        // 기본값: 'WISH'
+  progress?: number             // 기본값: 0 (0-100)
 }
 
 export async function addContent(params: AddContentParams) {
@@ -55,13 +56,14 @@ export async function addContent(params: AddContentParams) {
   }
 
   // 2. user_contents 생성 (status 기본값: WISH, progress 기본값: 0)
+  const progress = Math.max(0, Math.min(100, params.progress ?? 0))
   const { data: userContent, error: userContentError } = await supabase
     .from('user_contents')
     .insert({
       user_id: user.id,
       content_id: params.id,
       status: params.status || 'WISH',
-      progress: 0
+      progress
     })
     .select('id')
     .single()
