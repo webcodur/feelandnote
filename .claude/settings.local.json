@@ -31,7 +31,18 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.data.go.kr)",
       "mcp__supabase__get_logs",
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Bash(npx supabase db push:*)",
+      "Bash(npx supabase migration:*)",
+      "Bash(npx supabase:*)",
+      "Bash(SUPABASE_ACCESS_TOKEN=sbp_56a6bd84bfed327c28929b55fe5bcc5ea77b4b71 npx supabase:*)",
+      "Bash(PGPASSWORD=Tmdwn8024! psql:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:blog.aladin.co.kr)",
+      "Bash(cd:*)",
+      "Bash(SUPABASE_ACCESS_TOKEN=sbp_a4c96d050fa642e800eb9f6bc04d835333854b47 npx supabase db push:*)",
+      "Bash(SUPABASE_ACCESS_TOKEN=sbp_a4c96d050fa642e800eb9f6bc04d835333854b47 npx supabase:*)",
+      "Bash(wc:*)"
     ],
     "deny": [],
     "ask": []

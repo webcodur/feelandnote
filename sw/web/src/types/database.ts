@@ -2,7 +2,7 @@
 
 // ===== Enums =====
 // NOTE: @/constants/categories.ts의 CATEGORIES와 동기화 필요
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'PERFORMANCE' | 'MUSIC'
+export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
 export type ContentStatus = 'WISH' | 'EXPERIENCE' | 'COMPLETE'
 export type ProgressType = 'PERCENT' | 'PAGE' | 'TIME'
 export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE'
@@ -24,6 +24,8 @@ export interface Profile {
 export interface Content {
   id: string
   type: ContentType
+  subtype: string | null
+  genre: string | null
   title: string
   creator: string | null
   thumbnail_url: string | null

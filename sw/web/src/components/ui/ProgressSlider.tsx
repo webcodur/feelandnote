@@ -33,7 +33,8 @@ export default function ProgressSlider({
     }
   }, [value, isDragging]);
 
-  const heightClass = height === "sm" ? "h-1" : "h-1.5";
+  const [isHovered, setIsHovered] = useState(false);
+  const heightClass = height === "sm" ? "h-1.5" : "h-2";
   const thumbSize = height === "sm" ? "w-3 h-3" : "w-4 h-4";
 
   const handleChange = useCallback(
@@ -115,37 +116,57 @@ export default function ProgressSlider({
 
   const displayValue = localValue;
 
+  const isActive = isHovered || isDragging;
+
   return (
     <div
-      className={`relative group ${className}`}
+      className={`relative ${className}`}
       ref={sliderRef}
       onClick={handleClick}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleMouseDown}
       onTouchEnd={handleMouseUp}
-      style={{ cursor: "pointer", padding: "8px 0" }}
+      style={{ cursor: isDragging ? "grabbing" : "pointer", padding: "10px 0" }}
     >
       {/* Background track */}
-      <div className={`w-full ${heightClass} bg-white/10 rounded-full overflow-hidden`}>
+      <div
+        className={`w-full rounded-full overflow-hidden ${heightClass} ${
+          isActive ? "bg-white/20" : "bg-white/10"
+        }`}
+      >
         <div
-          className="h-full bg-accent transition-all duration-75"
+          className={`h-full bg-accent transition-all duration-75 ${
+            isDragging ? "brightness-125" : isHovered ? "brightness-110" : ""
+          }`}
           style={{ width: `${displayValue}%` }}
         />
       </div>
 
-      {/* Custom thumb (visible on hover/drag) */}
+      {/* Custom thumb - 항상 표시, hover/drag시 강조 */}
       <div
-        className={`absolute top-1/2 -translate-y-1/2 ${thumbSize} bg-accent rounded-full shadow-lg transition-opacity duration-200 pointer-events-none ${
-          isDragging ? "opacity-100 scale-110" : "opacity-0 group-hover:opacity-100"
+        className={`absolute top-1/2 -translate-y-1/2 rounded-full pointer-events-none ${thumbSize} ${
+          isDragging
+            ? "bg-white border-2 border-accent shadow-[0_0_8px_rgba(124,77,255,0.6)]"
+            : isHovered
+            ? "bg-accent border-2 border-white/50"
+            : "bg-accent border-0"
         }`}
-        style={{ left: `calc(${displayValue}% - ${height === "sm" ? "6px" : "8px"})` }}
+        style={{
+          left: `calc(${displayValue}% - ${height === "sm" ? "6px" : "8px"})`,
+        }}
       />
 
-      {/* Value tooltip on drag */}
-      {isDragging && (
+      {/* Value tooltip - hover/drag 시 표시 */}
+      {isActive && (
         <div
-          className="absolute -top-6 px-2 py-0.5 bg-bg-card border border-border rounded text-xs text-text-primary pointer-events-none transform -translate-x-1/2"
+          className={`absolute px-2 py-1 rounded text-xs font-bold pointer-events-none transform -translate-x-1/2 transition-all duration-150 ${
+            isDragging
+              ? "-top-8 bg-accent text-white shadow-lg scale-110"
+              : "-top-7 bg-bg-card border border-border text-text-primary"
+          }`}
           style={{ left: `${displayValue}%` }}
         >
           {displayValue}%

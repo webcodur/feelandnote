@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { X, Book, Film, Tv, Gamepad2, Music, Drama, Search, Plus, Loader2 } from "lucide-react";
-import { Button, Card } from "@/components/ui";
+import { Button, Card, ProgressSlider } from "@/components/ui";
 import { searchBooks } from "@/actions/contents/searchBooks";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
@@ -25,6 +25,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
+  const [progressValues, setProgressValues] = useState<Record<string, number>>({});
   const [error, setError] = useState<string | null>(null);
   const [isSearching, startSearchTransition] = useTransition();
   const [isAdding, startAddTransition] = useTransition();
@@ -65,8 +66,13 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
     setStep("manual");
   };
 
+  const handleProgressChange = (externalId: string, value: number) => {
+    setProgressValues(prev => ({ ...prev, [externalId]: value }));
+  };
+
   const handleAddContent = (result: BookSearchResult, status: ContentStatus) => {
     setError(null);
+    const progress = status === 'EXPERIENCE' ? (progressValues[result.externalId] ?? 0) : 0;
 
     startAddTransition(async () => {
       try {
@@ -80,6 +86,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           releaseDate: result.metadata.publishDate,
           metadata: result.metadata,
           status,
+          progress,
         });
         onSuccess?.();
         handleClose();
@@ -99,6 +106,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
     setSelectedCategory(null);
     setSearchQuery("");
     setSearchResults([]);
+    setProgressValues({});
     setError(null);
   };
 
@@ -209,47 +217,60 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
                 <div>
                   <h3 className="text-base font-semibold mb-4">검색 결과 ({searchResults.length})</h3>
                   <div className="flex flex-col gap-3">
-                    {searchResults.map((result) => (
-                      <Card key={result.externalId} className="p-0 hover:border-accent">
-                        <div className="flex items-center gap-4 p-4">
-                          {result.coverImageUrl ? (
-                            <img
-                              src={result.coverImageUrl}
-                              alt={result.title}
-                              className="w-16 h-24 rounded-lg shrink-0 object-cover"
-                            />
-                          ) : (
-                            <div className="w-16 h-24 rounded-lg shrink-0 bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
-                              <Book size={24} className="text-gray-400" />
+                    {searchResults.map((result) => {
+                      const currentProgress = progressValues[result.externalId] ?? 0;
+                      return (
+                        <Card key={result.externalId} className="p-0 hover:border-accent">
+                          <div className="flex items-center gap-4 p-4">
+                            {result.coverImageUrl ? (
+                              <img
+                                src={result.coverImageUrl}
+                                alt={result.title}
+                                className="w-16 h-24 rounded-lg shrink-0 object-cover"
+                              />
+                            ) : (
+                              <div className="w-16 h-24 rounded-lg shrink-0 bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
+                                <Book size={24} className="text-gray-400" />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-base mb-1 truncate">{result.title}</h4>
+                              <p className="text-sm text-text-secondary mb-1 truncate">
+                                {result.creator} · {result.metadata.publisher} · {result.metadata.publishDate?.slice(0, 4)}
+                              </p>
+                              {/* 진행도 슬라이더 */}
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-text-secondary whitespace-nowrap">진행도</span>
+                                <ProgressSlider
+                                  value={currentProgress}
+                                  onChange={(v) => handleProgressChange(result.externalId, v)}
+                                  className="flex-1"
+                                />
+                                <span className="text-xs text-accent font-medium w-8 text-right">{currentProgress}%</span>
+                              </div>
                             </div>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold text-base mb-1 truncate">{result.title}</h4>
-                            <p className="text-sm text-text-secondary mb-2 truncate">
-                              {result.creator} · {result.metadata.publisher} · {result.metadata.publishDate?.slice(0, 4)}
-                            </p>
+                            <div className="flex flex-col gap-2 shrink-0">
+                              <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={() => handleAddContent(result, currentProgress === 100 ? "COMPLETE" : "EXPERIENCE")}
+                                disabled={isAdding}
+                              >
+                                {isAdding ? <Loader2 size={14} className="animate-spin" /> : currentProgress === 100 ? "완료" : "경험"}
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => handleAddContent(result, "WISH")}
+                                disabled={isAdding}
+                              >
+                                {isAdding ? <Loader2 size={14} className="animate-spin" /> : "관심 목록"}
+                              </Button>
+                            </div>
                           </div>
-                          <div className="flex flex-col gap-2 shrink-0">
-                            <Button
-                              variant="primary"
-                              size="sm"
-                              onClick={() => handleAddContent(result, "EXPERIENCE")}
-                              disabled={isAdding}
-                            >
-                              {isAdding ? <Loader2 size={14} className="animate-spin" /> : "경험"}
-                            </Button>
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              onClick={() => handleAddContent(result, "WISH")}
-                              disabled={isAdding}
-                            >
-                              {isAdding ? <Loader2 size={14} className="animate-spin" /> : "관심 목록"}
-                            </Button>
-                          </div>
-                        </div>
-                      </Card>
-                    ))}
+                        </Card>
+                      );
+                    })}
                   </div>
                 </div>
               )}

@@ -1,8 +1,8 @@
-import { Book, Film, Gamepad2, Drama, Music } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
-export type CategoryId = "book" | "video" | "game" | "performance" | "music";
+export type CategoryId = "book" | "video" | "game" | "music" | "certificate";
 
 // 영상 서브타입 (TMDB 결과 구분용)
 export type VideoSubtype = "movie" | "tv";
@@ -21,8 +21,8 @@ export const CATEGORIES: CategoryConfig[] = [
   { id: "book", label: "도서", icon: Book, placeholder: "책 제목, 저자...", dbType: "BOOK" },
   { id: "video", label: "영상", icon: Film, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO" },
   { id: "game", label: "게임", icon: Gamepad2, placeholder: "게임 제목, 개발사...", dbType: "GAME" },
-  { id: "performance", label: "공연", icon: Drama, placeholder: "뮤지컬, 연극, 콘서트...", dbType: "PERFORMANCE" },
   { id: "music", label: "음악", icon: Music, placeholder: "앨범, 아티스트...", dbType: "MUSIC" },
+  { id: "certificate", label: "자격증", icon: Award, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE" },
 ] as const;
 
 // 유틸리티 함수

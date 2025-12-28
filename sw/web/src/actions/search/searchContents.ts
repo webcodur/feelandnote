@@ -3,8 +3,8 @@
 import { searchBooks } from '@/lib/api/naver-books'
 import { searchVideo } from '@/lib/api/tmdb'
 import { searchGames } from '@/lib/api/igdb'
-import { searchPerformances } from '@/lib/api/kopis'
 import { searchMusic } from '@/lib/api/spotify'
+import { searchCertificates } from '@/lib/api/qnet'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentSearchResult {
@@ -98,24 +98,6 @@ export async function searchContents({
         }
       }
 
-      case 'performance': {
-        const perfResults = await searchPerformances(query, page)
-        return {
-          items: perfResults.items.map((perf) => ({
-            id: perf.externalId,
-            title: perf.title,
-            creator: perf.creator, // 공연장명
-            category: 'performance',
-            thumbnail: perf.coverImageUrl || undefined,
-            description: `${perf.metadata.genre} | ${perf.metadata.venue}`,
-            releaseDate: perf.metadata.startDate,
-            externalId: perf.externalId,
-          })),
-          total: perfResults.total,
-          hasMore: perfResults.hasMore,
-        }
-      }
-
       case 'music': {
         const musicResults = await searchMusic(query, page)
         return {
@@ -131,6 +113,23 @@ export async function searchContents({
           })),
           total: musicResults.total,
           hasMore: musicResults.hasMore,
+        }
+      }
+
+      case 'certificate': {
+        const certResults = await searchCertificates(query, page)
+        return {
+          items: certResults.items.map((cert) => ({
+            id: cert.externalId,
+            title: cert.title,
+            creator: cert.creator,
+            category: 'certificate',
+            thumbnail: undefined, // 자격증은 썸네일 없음
+            description: `${cert.metadata.qualificationType} | ${cert.metadata.series}`,
+            externalId: cert.externalId,
+          })),
+          total: certResults.total,
+          hasMore: certResults.hasMore,
         }
       }
 

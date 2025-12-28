@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Drama, Loader2 } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2 } from "lucide-react";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -8,7 +8,7 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   drama: Tv,
   animation: Music,
   game: Gamepad2,
-  performance: Drama,
+  certificate: Award,
 };
 
 export interface SearchResult {
