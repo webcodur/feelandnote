@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2 } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -62,10 +63,11 @@ export default function SearchResultsDropdown({
             const CategoryIcon = result.category ? CATEGORY_ICONS[result.category] || Book : null;
 
             return (
-              <button
+              <Button
+                unstyled
                 key={result.id}
                 onClick={() => onResultClick(result)}
-                className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors
+                className={`w-full flex items-center gap-3 px-4 py-3 text-left
                   ${selectedIndex === index ? "bg-accent/10" : "hover:bg-white/5"}`}
               >
                 {result.type === "content" && (
@@ -98,17 +100,18 @@ export default function SearchResultsDropdown({
                 {result.extra && (
                   <div className="text-xs text-text-secondary shrink-0">{result.extra}</div>
                 )}
-              </button>
+              </Button>
             );
           })}
 
           {/* View all results */}
-          <button
+          <Button
+            unstyled
             onClick={onViewAllResults}
-            className="w-full px-4 py-3 text-sm text-accent hover:bg-accent/5 transition-colors border-t border-border"
+            className="w-full px-4 py-3 text-sm text-accent hover:bg-accent/5 border-t border-border"
           >
             "{query}" 검색 결과 더보기 →
-          </button>
+          </Button>
         </>
       )}
 
@@ -117,23 +120,25 @@ export default function SearchResultsDropdown({
         <>
           <div className="flex items-center justify-between px-4 py-2 border-b border-border">
             <span className="text-xs text-text-secondary font-medium">최근 검색</span>
-            <button
+            <Button
+              unstyled
               onClick={onClearRecentSearches}
-              className="text-xs text-text-secondary hover:text-accent transition-colors"
+              className="text-xs text-text-secondary hover:text-accent"
             >
               지우기
-            </button>
+            </Button>
           </div>
           {recentSearches.map((search, index) => (
-            <button
+            <Button
+              unstyled
               key={search}
               onClick={() => onRecentSearchClick(search)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors
+              className={`w-full flex items-center gap-3 px-4 py-2.5 text-left
                 ${selectedIndex === index ? "bg-accent/10" : "hover:bg-white/5"}`}
             >
               <Clock size={14} className="text-text-secondary" />
               <span className="text-sm text-text-primary">{search}</span>
-            </button>
+            </Button>
           ))}
         </>
       )}

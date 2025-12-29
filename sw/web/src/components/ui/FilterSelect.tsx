@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, LucideIcon } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 export interface FilterOption<T extends string = string> {
   value: T;
@@ -49,11 +50,12 @@ export function FilterSelect<T extends string = string>({
 
   return (
     <div className="relative" ref={ref}>
-      <button
+      <Button
+        unstyled
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          bg-bg-secondary border rounded-lg cursor-pointer transition-all duration-200
+          bg-bg-secondary border rounded-lg
           hover:border-text-secondary hover:text-text-primary
           flex items-center gap-1.5
           ${compact ? "py-1 px-2 text-xs" : "py-1.5 px-3 text-sm"}
@@ -66,14 +68,15 @@ export function FilterSelect<T extends string = string>({
           size={compact ? 12 : 14}
           className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
         />
-      </button>
+      </Button>
 
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-bg-secondary border border-border rounded-lg shadow-lg z-50 min-w-[140px] py-1 animate-fade-in">
           {options.map((option) => {
             const OptionIcon = option.icon;
             return (
-              <button
+              <Button
+                unstyled
                 key={option.value}
                 type="button"
                 onClick={() => {
@@ -81,7 +84,7 @@ export function FilterSelect<T extends string = string>({
                   setIsOpen(false);
                 }}
                 className={`
-                  w-full text-left px-3 py-2 transition-colors flex items-center gap-2
+                  w-full text-left px-3 py-2 flex items-center gap-2
                   ${compact ? "text-xs" : "text-sm"}
                   ${value === option.value
                     ? "bg-accent/10 text-accent"
@@ -91,7 +94,7 @@ export function FilterSelect<T extends string = string>({
               >
                 {OptionIcon && <OptionIcon size={compact ? 12 : 14} />}
                 {option.label}
-              </button>
+              </Button>
             );
           })}
         </div>

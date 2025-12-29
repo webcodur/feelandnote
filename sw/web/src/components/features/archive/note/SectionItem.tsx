@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Trash2, GripVertical } from "lucide-react";
 import type { NoteSection } from "@/actions/notes/types";
+import Button from "@/components/ui/Button";
 
 interface SectionItemProps {
   section: NoteSection;
@@ -17,12 +18,13 @@ export default function SectionItem({ section, onUpdate, onDelete }: SectionItem
     <div className="bg-bg-secondary rounded-xl p-4 border border-border">
       <div className="flex items-center gap-3 mb-3">
         <span className="font-semibold flex-1">{section.title}</span>
-        <button
+        <Button
+          unstyled
           onClick={() => onDelete(section.id)}
-          className="text-text-secondary hover:text-red-400 transition-colors"
+          className="text-text-secondary hover:text-red-400"
         >
           <Trash2 size={14} />
-        </button>
+        </Button>
         <div className="cursor-grab text-gray-500">
           <GripVertical size={14} />
         </div>

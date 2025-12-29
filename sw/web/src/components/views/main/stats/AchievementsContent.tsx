@@ -2,6 +2,7 @@
 
 import { Trophy, FileText, Archive, Compass, Calendar, PenTool, Users, Sparkles } from "lucide-react";
 import type { AchievementData, Title } from "@/actions/achievements";
+import Button from "@/components/ui/Button";
 
 const gradeColors: Record<string, string> = {
   common: "text-gray-400", uncommon: "text-green-400", rare: "text-blue-400",
@@ -84,12 +85,12 @@ export default function AchievementsContent({ data, subTab, setSubTab, formatDat
       </div>
 
       <div className="flex gap-1.5 mb-4">
-        <button onClick={() => setSubTab("history")} className={`px-3 py-1.5 rounded-md font-medium text-xs transition-all ${subTab === "history" ? "bg-bg-secondary text-text-primary" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}>
+        <Button unstyled onClick={() => setSubTab("history")} className={`px-3 py-1.5 rounded-md font-medium text-xs ${subTab === "history" ? "bg-bg-secondary text-text-primary" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}>
           점수 내역
-        </button>
-        <button onClick={() => setSubTab("titles")} className={`px-3 py-1.5 rounded-md font-medium text-xs transition-all ${subTab === "titles" ? "bg-bg-secondary text-text-primary" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}>
+        </Button>
+        <Button unstyled onClick={() => setSubTab("titles")} className={`px-3 py-1.5 rounded-md font-medium text-xs ${subTab === "titles" ? "bg-bg-secondary text-text-primary" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}>
           칭호 목록
-        </button>
+        </Button>
       </div>
 
       {subTab === "history" && (

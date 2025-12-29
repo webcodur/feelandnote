@@ -5,6 +5,7 @@ import { FilterChips, type ChipOption } from "@/components/ui";
 import { CATEGORIES } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 import type { ViewMode } from "./hooks/useContentLibrary";
+import Button from "@/components/ui/Button";
 
 export const TAB_OPTIONS: (ChipOption & { type?: ContentType })[] = [
   { value: "all", label: "전체" },
@@ -58,33 +59,36 @@ export default function ContentLibraryHeader({
       {showViewToggle && (
         <div className="flex items-center gap-1">
           {showFolders && activeTab !== "all" && onFolderManage && (
-            <button
+            <Button
+              unstyled
               onClick={onFolderManage}
-              className="p-1.5 rounded hover:bg-bg-secondary text-text-secondary hover:text-text-primary transition-colors"
+              className="p-1.5 rounded hover:bg-bg-secondary text-text-secondary hover:text-text-primary"
               title="폴더 관리"
             >
               <Settings size={16} />
-            </button>
+            </Button>
           )}
           <div className="flex bg-bg-secondary rounded-md p-0.5">
-            <button
+            <Button
+              unstyled
               onClick={() => onViewModeChange("grid")}
-              className={`py-1 px-2 rounded cursor-pointer transition-all ${
+              className={`py-1 px-2 rounded ${
                 viewMode === "grid" ? "bg-bg-card text-text-primary" : "text-text-secondary hover:text-text-primary"
               }`}
               aria-label="그리드 뷰"
             >
               <LayoutGrid size={compact ? 14 : 16} />
-            </button>
-            <button
+            </Button>
+            <Button
+              unstyled
               onClick={() => onViewModeChange("list")}
-              className={`py-1 px-2 rounded cursor-pointer transition-all ${
+              className={`py-1 px-2 rounded ${
                 viewMode === "list" ? "bg-bg-card text-text-primary" : "text-text-secondary hover:text-text-primary"
               }`}
               aria-label="리스트 뷰"
             >
               <List size={compact ? 14 : 16} />
-            </button>
+            </Button>
           </div>
         </div>
       )}

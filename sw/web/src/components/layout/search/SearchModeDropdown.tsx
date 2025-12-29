@@ -2,6 +2,7 @@
 
 import { Book, User, Hash, Folder, ChevronDown } from "lucide-react";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
+import Button from "@/components/ui/Button";
 
 export type SearchMode = "content" | "user" | "tag" | "archive";
 export type ContentCategory = CategoryId;
@@ -62,14 +63,15 @@ export default function SearchModeDropdown({
 
   return (
     <div className="relative">
-      <button
+      <Button
+        unstyled
         onClick={onToggle}
-        className="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors border-r border-border"
+        className="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium text-text-secondary hover:text-text-primary border-r border-border"
       >
         <DisplayIcon size={16} />
         <span className="hidden sm:inline">{displayLabel}</span>
         <ChevronDown size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
-      </button>
+      </Button>
 
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-bg-card border border-border rounded-lg shadow-xl z-50 py-1 min-w-[180px]">
@@ -78,15 +80,16 @@ export default function SearchModeDropdown({
           {CONTENT_CATEGORIES.map((cat) => {
             const Icon = cat.icon;
             return (
-              <button
+              <Button
+                unstyled
                 key={cat.id}
                 onClick={() => handleCategorySelect(cat.id)}
-                className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors
+                className={`w-full flex items-center gap-2 px-3 py-2 text-sm
                   ${mode === "content" && contentCategory === cat.id ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
               >
                 <Icon size={16} />
                 <span>{cat.label}</span>
-              </button>
+              </Button>
             );
           })}
 
@@ -95,15 +98,16 @@ export default function SearchModeDropdown({
           {SEARCH_MODES.filter((m) => m.id !== "content").map((m) => {
             const Icon = m.icon;
             return (
-              <button
+              <Button
+                unstyled
                 key={m.id}
                 onClick={() => handleModeSelect(m.id)}
-                className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors
+                className={`w-full flex items-center gap-2 px-3 py-2 text-sm
                   ${mode === m.id ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
               >
                 <Icon size={16} />
                 <span>{m.label}</span>
-              </button>
+              </Button>
             );
           })}
         </div>

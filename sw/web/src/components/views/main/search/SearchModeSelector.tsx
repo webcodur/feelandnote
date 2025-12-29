@@ -2,6 +2,7 @@
 
 import { ChevronDown, Book, User, Hash, Folder } from "lucide-react";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
+import Button from "@/components/ui/Button";
 
 type SearchMode = "content" | "user" | "tag" | "archive";
 
@@ -34,15 +35,16 @@ export default function SearchModeSelector({
 
   return (
     <div className="relative">
-      <button
+      <Button
+        unstyled
         type="button"
         onClick={onToggle}
-        className="flex items-center gap-2 px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary hover:border-accent transition-colors"
+        className="flex items-center gap-2 px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary hover:border-accent"
       >
         <DisplayIcon size={18} />
         <span>{displayLabel}</span>
         <ChevronDown size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
-      </button>
+      </Button>
 
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-bg-card border border-border rounded-xl shadow-xl z-50 py-1 min-w-[180px]">
@@ -50,16 +52,17 @@ export default function SearchModeSelector({
           {CATEGORIES.map((cat) => {
             const Icon = cat.icon;
             return (
-              <button
+              <Button
+                unstyled
                 key={cat.id}
                 type="button"
                 onClick={() => onModeChange("content", cat.id)}
-                className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors
+                className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm
                   ${mode === "content" && category === cat.id ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
               >
                 <Icon size={16} />
                 <span>{cat.label}</span>
-              </button>
+              </Button>
             );
           })}
 
@@ -67,16 +70,17 @@ export default function SearchModeSelector({
           {SEARCH_MODES.filter((m) => m.id !== "content").map((m) => {
             const Icon = m.icon;
             return (
-              <button
+              <Button
+                unstyled
                 key={m.id}
                 type="button"
                 onClick={() => onModeChange(m.id)}
-                className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors
+                className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm
                   ${mode === m.id ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
               >
                 <Icon size={16} />
                 <span>{m.label}</span>
-              </button>
+              </Button>
             );
           })}
         </div>

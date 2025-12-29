@@ -51,11 +51,12 @@ export default function GamePlaying({
           {hints.map((hint) => {
             const isUsed = usedHints.includes(hint.id);
             return (
-              <button
+              <Button
+                unstyled
                 key={hint.id}
                 onClick={() => onHint(hint.id)}
                 disabled={isUsed}
-                className={`p-4 rounded-xl text-left transition-all duration-200
+                className={`p-4 rounded-xl text-left
                   ${isUsed
                     ? "bg-bg-secondary border border-accent text-text-primary"
                     : "bg-bg-main border border-border text-text-secondary hover:border-accent hover:bg-bg-secondary"
@@ -66,7 +67,7 @@ export default function GamePlaying({
                   <Badge variant={isUsed ? "default" : "primary"}>-{hint.penalty}점</Badge>
                 </div>
                 <div className="text-sm">{isUsed ? hint.text : "???"}</div>
-              </button>
+              </Button>
             );
           })}
         </div>

@@ -7,6 +7,7 @@ import AddContentModal from "@/components/features/archive/AddContentModal";
 import { PlaylistDropdown, PlaylistEditMode } from "@/components/features/playlist";
 import { SectionHeader } from "@/components/ui";
 import { Plus, Archive } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 type EditMode = { type: "create" } | { type: "edit"; playlistId: string } | null;
 
@@ -59,13 +60,14 @@ export default function ArchiveView() {
               onCreateNew={handleCreatePlaylist}
               onSelectPlaylist={handleSelectPlaylist}
             />
-            <button
+            <Button
+              unstyled
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-1 px-2.5 py-1 bg-accent hover:bg-accent-hover text-white text-xs font-medium rounded-md transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 bg-accent hover:bg-accent-hover text-white text-xs font-medium rounded-md"
             >
               <Plus size={14} />
               <span className="hidden sm:inline">추가</span>
-            </button>
+            </Button>
           </div>
         }
         className="mb-4"
@@ -80,12 +82,13 @@ export default function ArchiveView() {
       />
 
       {/* 모바일 FAB */}
-      <button
+      <Button
+        unstyled
         onClick={() => setIsAddModalOpen(true)}
-        className="fixed bottom-20 right-4 w-14 h-14 rounded-full bg-accent flex items-center justify-center shadow-lg cursor-pointer transition-all duration-300 z-20 hover:scale-110 hover:bg-accent-hover sm:hidden"
+        className="fixed bottom-20 right-4 w-14 h-14 rounded-full bg-accent flex items-center justify-center shadow-lg hover:scale-110 hover:bg-accent-hover sm:hidden z-20"
       >
         <Plus color="white" size={24} />
-      </button>
+      </Button>
 
       <AddContentModal
         isOpen={isAddModalOpen}

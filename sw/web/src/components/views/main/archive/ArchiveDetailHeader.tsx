@@ -3,6 +3,7 @@
 import { ArrowLeft, Book, Film, Tv, Gamepad2, Music, Trash2 } from "lucide-react";
 import type { ContentStatus } from "@/actions/contents/addContent";
 import type { UserContentWithDetails } from "@/actions/contents/getContent";
+import Button from "@/components/ui/Button";
 
 const CATEGORY_LABELS: Record<string, string> = {
   book: "도서", movie: "영화", drama: "드라마", animation: "애니메이션", game: "게임",
@@ -33,13 +34,14 @@ export default function ArchiveDetailHeader({
 
   return (
     <>
-      <button
-        className="flex items-center gap-1 text-text-secondary text-sm mb-3 hover:text-text-primary transition-colors"
+      <Button
+        unstyled
+        className="flex items-center gap-1 text-text-secondary text-sm mb-3 hover:text-text-primary"
         onClick={() => window.history.back()}
       >
         <ArrowLeft size={16} />
         <span>뒤로</span>
-      </button>
+      </Button>
 
       <div className="flex flex-col sm:flex-row gap-4 pb-4 mb-4 border-b border-border">
         <div className="flex gap-3 sm:gap-4">
@@ -74,13 +76,14 @@ export default function ArchiveDetailHeader({
               {(content.metadata as { genre?: string })?.genre && ` · ${(content.metadata as { genre?: string }).genre}`}
             </div>
           </div>
-          <button
+          <Button
+            unstyled
             onClick={onDelete}
-            className="p-1.5 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded transition-colors self-start sm:hidden"
+            className="p-1.5 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded self-start sm:hidden"
             title="삭제"
           >
             <Trash2 size={16} />
-          </button>
+          </Button>
         </div>
 
         <div className="flex items-center gap-3 sm:ml-auto">
@@ -105,20 +108,22 @@ export default function ArchiveDetailHeader({
               />
             </div>
             <span className="text-xs font-semibold text-accent w-8">{item.progress ?? 0}%</span>
-            <button
+            <Button
+              unstyled
               onClick={() => onProgressChange(Math.min(100, (item.progress ?? 0) + 10))}
-              className="text-[10px] py-1 px-2 bg-white/5 hover:bg-accent/20 text-text-secondary hover:text-accent rounded transition-colors whitespace-nowrap"
+              className="text-[10px] py-1 px-2 bg-white/5 hover:bg-accent/20 text-text-secondary hover:text-accent rounded whitespace-nowrap"
             >
               +10%
-            </button>
+            </Button>
           </div>
-          <button
+          <Button
+            unstyled
             onClick={onDelete}
-            className="hidden sm:block p-1.5 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded transition-colors"
+            className="hidden sm:block p-1.5 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded"
             title="삭제"
           >
             <Trash2 size={18} />
-          </button>
+          </Button>
         </div>
       </div>
     </>

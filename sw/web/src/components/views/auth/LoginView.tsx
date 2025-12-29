@@ -1,4 +1,5 @@
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
+import Button from '@/components/ui/Button'
 
 export default function LoginView() {
   return (
@@ -15,23 +16,25 @@ export default function LoginView() {
         {/* 로그인 버튼들 */}
         <div className="space-y-4">
           <form action={loginWithGoogle}>
-            <button
+            <Button
               type="submit"
-              className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white transition-colors hover:bg-zinc-800"
+              unstyled
+              className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800"
             >
               <GoogleIcon />
               <span>Google로 계속하기</span>
-            </button>
+            </Button>
           </form>
 
           <form action={loginWithKakao}>
-            <button
+            <Button
               type="submit"
-              className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#FEE500] px-4 py-3 text-zinc-900 transition-colors hover:bg-[#FDD800]"
+              unstyled
+              className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#FEE500] px-4 py-3 text-zinc-900 hover:bg-[#FDD800]"
             >
               <KakaoIcon />
               <span>카카오로 계속하기</span>
-            </button>
+            </Button>
           </form>
         </div>
 

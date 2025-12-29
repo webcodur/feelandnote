@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { FolderPlus, Trash2, X, Loader2 } from "lucide-react";
+import Button from "@/components/ui/Button";
 import { createFolder } from "@/actions/folders/createFolder";
 import { deleteFolder } from "@/actions/folders/deleteFolder";
 import type { ContentType, FolderWithCount } from "@/types/database";
@@ -74,12 +75,13 @@ export default function FolderManager({
         {/* 헤더 */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <h3 className="font-medium text-sm">폴더 관리</h3>
-          <button
+          <Button
+            unstyled
             onClick={onClose}
-            className="p-1 rounded hover:bg-bg-secondary transition-colors"
+            className="p-1 rounded hover:bg-bg-secondary"
           >
             <X size={18} className="text-text-secondary" />
-          </button>
+          </Button>
         </div>
 
         {/* 새 폴더 추가 */}
@@ -94,17 +96,18 @@ export default function FolderManager({
               className="flex-1 px-3 py-2 text-sm bg-bg-secondary rounded-lg border border-border focus:border-accent focus:outline-none"
               maxLength={50}
             />
-            <button
+            <Button
+              unstyled
               onClick={handleCreate}
               disabled={!newFolderName.trim() || isCreating}
-              className="px-3 py-2 bg-accent hover:bg-accent-hover text-white text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1"
+              className="px-3 py-2 bg-accent hover:bg-accent-hover text-white text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
             >
               {isCreating ? (
                 <Loader2 size={16} className="animate-spin" />
               ) : (
                 <FolderPlus size={16} />
               )}
-            </button>
+            </Button>
           </div>
           {error && (
             <p className="mt-2 text-xs text-red-400">{error}</p>
@@ -130,17 +133,18 @@ export default function FolderManager({
                       ({folder.content_count})
                     </span>
                   </div>
-                  <button
+                  <Button
+                    unstyled
                     onClick={() => handleDelete(folder.id)}
                     disabled={deletingId === folder.id}
-                    className="p-1.5 rounded hover:bg-red-500/10 text-text-secondary hover:text-red-400 transition-colors disabled:opacity-50"
+                    className="p-1.5 rounded hover:bg-red-500/10 text-text-secondary hover:text-red-400 disabled:opacity-50"
                   >
                     {deletingId === folder.id ? (
                       <Loader2 size={14} className="animate-spin" />
                     ) : (
                       <Trash2 size={14} />
                     )}
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>

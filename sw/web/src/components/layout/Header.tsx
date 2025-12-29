@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
+import Button from "@/components/ui/Button";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -53,21 +54,23 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
   return (
     <header className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-3 md:px-6 md:gap-6 fixed top-0 left-0 z-[100]">
       {!isMobile && (
-        <button
-          className="w-10 h-10 flex items-center justify-center cursor-pointer rounded-lg transition-colors duration-200 hover:bg-white/5"
+        <Button
+          unstyled
+          className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
           onClick={onMenuClick}
         >
           <Menu size={24} className="text-text-primary" />
-        </button>
+        </Button>
       )}
       <Logo size="md" href="/" />
       <HeaderSearch />
       <div className="flex items-center gap-4">
         {/* Notification Bell */}
         <div className="relative">
-          <button
+          <Button
+            unstyled
             onClick={() => setShowNotifications(!showNotifications)}
-            className="w-10 h-10 flex items-center justify-center cursor-pointer rounded-lg transition-colors duration-200 hover:bg-white/5 relative"
+            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 relative"
           >
             <Bell size={22} className="text-text-primary" />
             {unreadCount > 0 && (
@@ -75,14 +78,14 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
                 {unreadCount}
               </span>
             )}
-          </button>
+          </Button>
 
           {/* Notification Dropdown */}
           {showNotifications && (
             <div className="absolute right-0 top-14 w-[calc(100vw-24px)] sm:w-80 md:w-96 max-w-[400px] bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden z-50">
               <div className="px-4 py-3 md:px-6 md:py-4 border-b border-border flex justify-between items-center">
                 <h3 className="font-bold text-base">알림</h3>
-                <button className="text-sm text-accent hover:underline">모두 읽음</button>
+                <Button unstyled className="text-sm text-accent hover:underline">모두 읽음</Button>
               </div>
               <div className="max-h-[400px] overflow-y-auto">
                 {notifications.map((notif) => (
@@ -105,7 +108,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
                 ))}
               </div>
               <div className="px-4 py-2 md:px-6 md:py-3 text-center border-t border-border">
-                <button className="text-sm text-accent hover:underline">모든 알림 보기</button>
+                <Button unstyled className="text-sm text-accent hover:underline">모든 알림 보기</Button>
               </div>
             </div>
           )}

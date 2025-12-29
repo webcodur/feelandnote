@@ -103,12 +103,13 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
             <h2 className="text-2xl font-bold">창작하기</h2>
             <p className="text-sm text-text-secondary mt-1">{contentTitle}</p>
           </div>
-          <button
+          <Button
+            unstyled
             onClick={handleClose}
-            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center transition-all duration-200 hover:bg-white/10"
+            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"
           >
             <X size={20} />
-          </button>
+          </Button>
         </div>
 
         {/* Content */}
@@ -118,32 +119,35 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
             <div>
               <h3 className="text-lg font-semibold mb-6">창작 유형을 선택하세요</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button
+                <Button
+                  unstyled
                   onClick={() => setCreationType("whatif")}
-                  className="p-8 rounded-2xl bg-bg-main border-2 border-border transition-all duration-200 hover:border-accent hover:bg-bg-secondary group"
+                  className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
                   <Lightbulb size={40} className="mx-auto mb-4 text-yellow-400 transition-transform duration-200 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">💭 What If</div>
                   <div className="text-sm text-text-secondary">만약 ~했다면? 상상의 시나리오</div>
-                </button>
+                </Button>
 
-                <button
+                <Button
+                  unstyled
                   onClick={() => setCreationType("media")}
-                  className="p-8 rounded-2xl bg-bg-main border-2 border-border transition-all duration-200 hover:border-accent hover:bg-bg-secondary group"
+                  className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
                   <FilmIcon size={40} className="mx-auto mb-4 text-blue-400 transition-transform duration-200 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">🎬 매체 전환</div>
                   <div className="text-sm text-text-secondary">다른 매체로 만든다면?</div>
-                </button>
+                </Button>
 
-                <button
+                <Button
+                  unstyled
                   onClick={() => setCreationType("ost")}
-                  className="p-8 rounded-2xl bg-bg-main border-2 border-border transition-all duration-200 hover:border-accent hover:bg-bg-secondary group"
+                  className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
                   <MusicIcon size={40} className="mx-auto mb-4 text-purple-400 transition-transform duration-200 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">🎵 OST 상상</div>
                   <div className="text-sm text-text-secondary">음악을 입힌다면?</div>
-                </button>
+                </Button>
               </div>
             </div>
           )}
@@ -155,10 +159,11 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                 <label className="block text-sm font-semibold mb-3">What If 유형 선택 *</label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {WHATIF_TYPES.map((type) => (
-                    <button
+                    <Button
+                      unstyled
                       key={type.id}
                       onClick={() => setWhatifType(type.id)}
-                      className={`py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200
+                      className={`py-2 px-4 rounded-lg text-sm font-medium
                         ${
                           whatifType === type.id
                             ? "bg-accent text-white"
@@ -166,7 +171,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                         }`}
                     >
                       {type.label}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -194,10 +199,11 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                 <label className="block text-sm font-semibold mb-3">매체 선택 *</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {MEDIA_TYPES.map((type) => (
-                    <button
+                    <Button
+                      unstyled
                       key={type.id}
                       onClick={() => setMediaType(type.id)}
-                      className={`py-4 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 justify-center
+                      className={`py-4 px-4 rounded-lg text-sm font-medium flex items-center gap-2 justify-center
                         ${
                           mediaType === type.id
                             ? "bg-accent text-white"
@@ -206,7 +212,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                     >
                       <span className="text-xl">{type.icon}</span>
                       {type.label}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -214,12 +220,13 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <label className="block text-sm font-semibold">캐스팅 제안</label>
-                  <button
+                  <Button
+                    unstyled
                     onClick={addCasting}
                     className="text-sm text-accent flex items-center gap-1 hover:underline"
                   >
                     <Plus size={14} /> 추가
-                  </button>
+                  </Button>
                 </div>
                 <div className="space-y-3">
                   {castings.map((casting, index) => (
@@ -239,12 +246,13 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                         className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none transition-colors duration-200 focus:border-accent"
                       />
                       {castings.length > 1 && (
-                        <button
+                        <Button
+                          unstyled
                           onClick={() => removeCasting(index)}
-                          className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 text-text-secondary hover:bg-red-500/20 hover:text-red-400 transition-all duration-200"
+                          className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 text-text-secondary hover:bg-red-500/20 hover:text-red-400"
                         >
                           <Trash2 size={16} />
-                        </button>
+                        </Button>
                       )}
                     </div>
                   ))}
@@ -269,12 +277,13 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <label className="block text-sm font-semibold">장면별 OST</label>
-                  <button
+                  <Button
+                    unstyled
                     onClick={addOstTrack}
                     className="text-sm text-accent flex items-center gap-1 hover:underline"
                   >
                     <Plus size={14} /> 추가
-                  </button>
+                  </Button>
                 </div>
                 <div className="space-y-4">
                   {ostTracks.map((track, index) => (
@@ -283,12 +292,13 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                         <div className="flex justify-between items-center">
                           <span className="text-sm font-semibold text-text-secondary">트랙 {index + 1}</span>
                           {ostTracks.length > 1 && (
-                            <button
+                            <Button
+                              unstyled
                               onClick={() => removeOstTrack(index)}
-                              className="text-text-secondary hover:text-red-400 transition-colors duration-200"
+                              className="text-text-secondary hover:text-red-400"
                             >
                               <Trash2 size={16} />
-                            </button>
+                            </Button>
                           )}
                         </div>
                         <input
@@ -333,12 +343,13 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
         {/* Footer */}
         <div className="px-8 py-4 border-t border-border bg-bg-secondary flex justify-between">
           {creationType ? (
-            <button
+            <Button
+              unstyled
               onClick={() => setCreationType(null)}
               className="text-sm text-text-secondary hover:text-text-primary"
             >
               ← 유형 다시 선택
-            </button>
+            </Button>
           ) : (
             <div />
           )}

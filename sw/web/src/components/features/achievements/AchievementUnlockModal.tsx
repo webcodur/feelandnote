@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { X, Trophy } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface UnlockedTitle {
   id: string;
@@ -152,12 +153,13 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
         }}
       >
         {/* 닫기 버튼 */}
-        <button
+        <Button
+          unstyled
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+          className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 z-10"
         >
           <X size={20} className="text-white/70" />
-        </button>
+        </Button>
 
         {/* 상단 배지 */}
         <div className="pt-8 pb-4 text-center">
@@ -210,14 +212,15 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
 
         {/* 하단 버튼 */}
         <div className="px-8 pb-8">
-          <button
+          <Button
+            unstyled
             onClick={handleNext}
-            className={`w-full py-4 rounded-2xl font-bold text-lg transition-all
+            className={`w-full py-4 rounded-2xl font-bold text-lg
               ${config.bg} border-2 ${config.border} ${config.color}
               hover:scale-[1.02] active:scale-[0.98]`}
           >
             {hasNext ? `다음 (${currentIndex + 1}/${titles.length})` : "확인"}
-          </button>
+          </Button>
         </div>
 
         {/* 페이지 인디케이터 */}

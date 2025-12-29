@@ -4,6 +4,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
+  unstyled?: boolean;
 }
 
 const variantStyles = {
@@ -25,12 +26,31 @@ export default function Button({
   variant = "primary",
   size = "md",
   className = "",
+  disabled,
+  unstyled = false,
   ...props
 }: ButtonProps) {
+  const baseStyles = "cursor-pointer transition-all duration-200";
+  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "";
+
+  if (unstyled) {
+    return (
+      <button
+        className={`${baseStyles} ${disabledStyles} ${className}`}
+        disabled={disabled}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+
   return (
     <button
-      className={`border-none rounded-lg font-semibold cursor-pointer transition-all duration-200 font-sans
-        ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`border-none rounded-lg font-semibold font-sans
+        ${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]}
+        ${disabledStyles} ${className}`}
+      disabled={disabled}
       {...props}
     >
       {children}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PenTool, ChevronDown, ChevronUp, Check } from "lucide-react";
 import { Card } from "@/components/ui";
 import type { Template } from "@/actions/notes/types";
+import Button from "@/components/ui/Button";
 
 const TEMPLATE_ITEMS = [
   { key: "context", title: "감상 계기", placeholder: "예: 시험 끝난 금요일 밤, 집에서 넷플릭스 뒤적이다 우연히 발견함...", description: "언제, 어디서, 어떤 계기로 이 작품을 만났나요? 구체적으로 적을수록 나중에 더 생생하게 떠오릅니다." },
@@ -32,8 +33,9 @@ export default function TemplateSection({ template, onTemplateChange, onTemplate
       <div className="space-y-3">
         {TEMPLATE_ITEMS.map((item) => (
           <div key={item.key} className="border border-border rounded-xl overflow-hidden bg-bg-secondary">
-            <button
-              className="w-full py-4 px-6 flex justify-between items-center font-semibold text-left hover:bg-white/5 transition-colors"
+            <Button
+              unstyled
+              className="w-full py-4 px-6 flex justify-between items-center font-semibold text-left hover:bg-white/5"
               onClick={() => setActiveKey(activeKey === item.key ? null : item.key)}
             >
               <span className="flex items-center gap-2">
@@ -41,7 +43,7 @@ export default function TemplateSection({ template, onTemplateChange, onTemplate
                 {item.title}
               </span>
               {activeKey === item.key ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </button>
+            </Button>
             {activeKey === item.key && (
               <div className="px-6 pb-6">
                 {item.description && <p className="text-sm text-text-secondary mb-3">{item.description}</p>}

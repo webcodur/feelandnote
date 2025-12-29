@@ -1,6 +1,7 @@
 import { getUsers } from '@/actions/admin/users'
 import { Users, Search, Shield, Ban, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
+import Button from '@/components/ui/Button'
 
 interface PageProps {
   searchParams: Promise<{
@@ -71,12 +72,9 @@ export default async function UsersPage({ searchParams }: PageProps) {
             <option value="super_admin">최고 관리자</option>
           </select>
 
-          <button
-            type="submit"
-            className="px-6 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg transition-colors"
-          >
+          <Button type="submit">
             검색
-          </button>
+          </Button>
         </form>
       </div>
 

@@ -128,12 +128,13 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
               </p>
             )}
           </div>
-          <button
+          <Button
+            unstyled
             onClick={handleClose}
-            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center transition-all duration-200 hover:bg-white/10"
+            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"
           >
             <X size={20} />
-          </button>
+          </Button>
         </div>
 
         {/* Content */}
@@ -153,14 +154,15 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
                 {CATEGORIES.map((category) => {
                   const Icon = category.icon;
                   return (
-                    <button
+                    <Button
+                      unstyled
                       key={category.id}
                       onClick={() => handleCategorySelect(category.id)}
                       disabled={!category.enabled}
-                      className={`p-6 rounded-2xl bg-bg-main border-2 border-border transition-all duration-200 group ${
+                      className={`p-6 rounded-2xl bg-bg-main border-2 border-border group ${
                         category.enabled
-                          ? "hover:border-accent hover:bg-bg-secondary cursor-pointer"
-                          : "opacity-50 cursor-not-allowed"
+                          ? "hover:border-accent hover:bg-bg-secondary"
+                          : ""
                       }`}
                     >
                       <div
@@ -172,7 +174,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
                       {!category.enabled && (
                         <div className="text-xs text-text-secondary mt-1">준비 중</div>
                       )}
-                    </button>
+                    </Button>
                   );
                 })}
               </div>
@@ -204,12 +206,13 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
                     {isSearching ? "검색 중..." : "검색"}
                   </Button>
                 </div>
-                <button
+                <Button
+                  unstyled
                   onClick={handleManualAdd}
                   className="mt-3 text-sm text-accent flex items-center gap-1 hover:underline"
                 >
                   <Plus size={14} /> 검색 결과에 없나요? 직접 추가하기
-                </button>
+                </Button>
               </div>
 
               {/* Search Results */}
@@ -302,7 +305,8 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         {/* Footer Navigation */}
         {step !== "category" && (
           <div className="px-4 py-3 md:px-8 md:py-4 border-t border-border bg-bg-secondary">
-            <button
+            <Button
+              unstyled
               onClick={() => {
                 if (step === "manual") setStep("search");
                 else if (step === "search") resetModal();
@@ -310,7 +314,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
               className="text-sm text-text-secondary hover:text-text-primary"
             >
               ← 이전 단계로
-            </button>
+            </Button>
           </div>
         )}
       </div>

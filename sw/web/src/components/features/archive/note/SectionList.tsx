@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { List, Plus } from "lucide-react";
-import { Button, Card } from "@/components/ui";
+import { Card } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import SectionItem from "./SectionItem";
 import type { NoteSection } from "@/actions/notes/types";
 
@@ -56,12 +57,13 @@ export default function SectionList({ sections, isSaving, onAdd, onUpdate, onDel
             <Button variant="secondary" size="sm" onClick={() => setIsAdding(false)}>취소</Button>
           </div>
         ) : (
-          <button
+          <Button
+            unstyled
             onClick={() => setIsAdding(true)}
-            className="mt-4 w-full p-3 bg-transparent border border-dashed border-border rounded-xl text-text-secondary text-sm flex items-center justify-center gap-2 hover:border-accent hover:text-accent transition-all"
+            className="mt-4 w-full p-3 bg-transparent border border-dashed border-border rounded-xl text-text-secondary text-sm flex items-center justify-center gap-2 hover:border-accent hover:text-accent"
           >
             <Plus size={14} /> 구획 추가
-          </button>
+          </Button>
         )}
       </div>
     </Card>

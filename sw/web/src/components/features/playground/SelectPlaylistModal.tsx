@@ -2,6 +2,7 @@
 
 import { X, ListMusic, Trophy, ChevronRight, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import type { PlaylistSummary } from "@/actions/playlists";
 
 interface SelectPlaylistModalProps {
@@ -36,12 +37,13 @@ export default function SelectPlaylistModal({
               티어를 설정할 재생목록을 선택하세요
             </p>
           </div>
-          <button
+          <Button
+            unstyled
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center transition-all duration-200 hover:bg-white/10"
+            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"
           >
             <X size={20} />
-          </button>
+          </Button>
         </div>
 
         {/* Content */}
@@ -55,10 +57,11 @@ export default function SelectPlaylistModal({
           ) : (
             <div className="divide-y divide-border">
               {sortedPlaylists.map((playlist) => (
-                <button
+                <Button
+                  unstyled
                   key={playlist.id}
                   onClick={() => onSelect(playlist.id)}
-                  className="w-full px-6 py-4 flex items-center gap-4 hover:bg-bg-secondary transition-colors text-left"
+                  className="w-full px-6 py-4 flex items-center gap-4 hover:bg-bg-secondary text-left"
                 >
                   {/* 아이콘 */}
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
@@ -87,7 +90,7 @@ export default function SelectPlaylistModal({
 
                   {/* 화살표 */}
                   <ChevronRight size={20} className="text-text-secondary" />
-                </button>
+                </Button>
               ))}
             </div>
           )}

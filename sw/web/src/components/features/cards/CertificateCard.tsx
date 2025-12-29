@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { Award, Check, Trash2, BookOpen, Calendar, Cpu, Zap, Building2, Beaker, BarChart3, Shield, Wrench, Palette } from "lucide-react";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+import { DropdownMenu } from "@/components/ui";
+import Button from "@/components/ui/Button";
 
 export interface CertificateCardProps {
   item: UserContentWithContent;
@@ -191,9 +193,10 @@ export default function CertificateCard({
             </span>
 
             {/* 상태 배지 */}
-            <button
-              className={`flex items-center gap-1 py-0.5 px-2 rounded-md text-[10px] font-bold text-white ${statusStyle.badge} backdrop-blur-sm transition-transform hover:scale-105 ${
-                onStatusChange ? "cursor-pointer" : "cursor-default"
+            <Button
+              unstyled
+              className={`flex items-center gap-1 py-0.5 px-2 rounded-md text-[10px] font-bold text-white ${statusStyle.badge} backdrop-blur-sm hover:scale-105 ${
+                onStatusChange ? "" : "cursor-default"
               }`}
               onClick={(e) => {
                 e.stopPropagation();
@@ -205,7 +208,7 @@ export default function CertificateCard({
             >
               {status === "COMPLETE" && <Check size={10} />}
               {statusStyle.label}
-            </button>
+            </Button>
           </div>
 
           {/* 취득 완료 골드 스탬프 */}
@@ -241,18 +244,21 @@ export default function CertificateCard({
             </div>
 
             {onDelete && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (confirm("이 자격증을 삭제하시겠습니까?")) {
-                    onDelete(item.id);
-                  }
-                }}
-                className="p-1 rounded-md text-text-secondary hover:text-red-400 hover:bg-red-400/20 transition-colors opacity-0 group-hover:opacity-100"
-              >
-                <Trash2 size={12} />
-              </button>
+              <DropdownMenu
+                items={[
+                  {
+                    label: "삭제",
+                    icon: <Trash2 size={12} />,
+                    variant: "danger",
+                    onClick: () => {
+                      if (confirm("이 자격증을 삭제하시겠습니까?")) {
+                        onDelete(item.id);
+                      }
+                    },
+                  },
+                ]}
+                iconSize={12}
+              />
             )}
           </div>
         </div>

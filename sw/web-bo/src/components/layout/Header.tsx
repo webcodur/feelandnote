@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { LogOut, User, ChevronDown } from 'lucide-react'
+import Button from '@/components/ui/Button'
 
 interface HeaderProps {
   user: {
@@ -33,9 +34,10 @@ export default function Header({ user }: HeaderProps) {
 
       {/* Right: User menu */}
       <div className="relative">
-        <button
+        <Button
+          unstyled
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-card transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-card"
         >
           <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
             <User className="w-4 h-4 text-accent" />
@@ -49,7 +51,7 @@ export default function Header({ user }: HeaderProps) {
             </p>
           </div>
           <ChevronDown className={`w-4 h-4 text-text-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-        </button>
+        </Button>
 
         {isOpen && (
           <>
@@ -61,13 +63,14 @@ export default function Header({ user }: HeaderProps) {
               <div className="p-3 border-b border-border">
                 <p className="text-sm text-text-primary truncate">{user.email}</p>
               </div>
-              <button
+              <Button
+                unstyled
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-danger hover:bg-bg-secondary transition-colors"
+                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-danger hover:bg-bg-secondary"
               >
                 <LogOut className="w-4 h-4" />
                 로그아웃
-              </button>
+              </Button>
             </div>
           </>
         )}

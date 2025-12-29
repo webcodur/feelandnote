@@ -3,6 +3,7 @@
 import { Filter, ArrowUpDown, ChevronsUpDown, ChevronsDownUp } from "lucide-react";
 import { FilterSelect, type FilterOption } from "@/components/ui";
 import type { ProgressFilter, SortOption } from "./hooks/useContentLibrary";
+import Button from "@/components/ui/Button";
 
 const PROGRESS_OPTIONS: FilterOption<ProgressFilter>[] = [
   { value: "all", label: "전체" },
@@ -62,9 +63,10 @@ export default function ContentLibraryFilters({
         />
       </div>
       {showExpandToggle && (
-        <button
+        <Button
+          unstyled
           onClick={isAllCollapsed ? onExpandAll : onCollapseAll}
-          className="flex items-center gap-1 px-2 py-1 text-xs text-text-secondary hover:text-text-primary hover:bg-bg-secondary rounded transition-colors"
+          className="flex items-center gap-1 px-2 py-1 text-xs text-text-secondary hover:text-text-primary hover:bg-bg-secondary rounded"
           title={isAllCollapsed ? "전체 열기" : "전체 닫기"}
         >
           {isAllCollapsed ? (
@@ -78,7 +80,7 @@ export default function ContentLibraryFilters({
               <span className="hidden sm:inline">전체 닫기</span>
             </>
           )}
-        </button>
+        </Button>
       )}
     </div>
   );

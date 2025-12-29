@@ -2,6 +2,7 @@
 
 import { Book, Hash } from "lucide-react";
 import { Card } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
 
@@ -83,13 +84,14 @@ export function UserResults({ results, onItemClick, onFollowToggle }: UserResult
             <div className="text-sm text-text-secondary">
               팔로워 {user.followerCount >= 1000 ? `${(user.followerCount / 1000).toFixed(1)}K` : user.followerCount}
             </div>
-            <button
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors
+            <Button
+              unstyled
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium
                 ${user.isFollowing ? "bg-white/10 text-text-primary" : "bg-accent text-white"}`}
               onClick={(e) => { e.stopPropagation(); onFollowToggle(user.id); }}
             >
               {user.isFollowing ? "팔로잉" : "팔로우"}
-            </button>
+            </Button>
           </div>
         </Card>
       ))}
