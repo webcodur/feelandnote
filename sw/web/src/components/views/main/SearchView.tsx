@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Search, Loader2, ArrowUpDown } from "lucide-react";
 import { FilterChips, FilterSelect, type FilterOption, type ChipOption } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import SearchModeSelector, { type SearchMode } from "./search/SearchModeSelector";
 import { ContentResults, UserResults, TagResults } from "./search/SearchResultCards";
 import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
@@ -136,9 +137,9 @@ function SearchContent() {
               className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] py-3"
             />
           </div>
-          <button type="submit" className="px-6 py-3 bg-accent text-white rounded-xl font-medium hover:bg-accent-hover transition-colors">
+          <Button unstyled type="submit" className="px-6 py-3 bg-accent text-white rounded-xl font-medium hover:bg-accent-hover">
             검색
-          </button>
+          </Button>
         </div>
       </form>
 

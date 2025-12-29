@@ -14,6 +14,7 @@ import {
   ListMusic,
   GripVertical,
 } from "lucide-react";
+import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { deletePlaylist } from "@/actions/playlists/deletePlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
@@ -144,12 +145,13 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
     return (
       <div className="text-center py-20">
         <p className="text-red-400 mb-4">{error || "재생목록을 찾을 수 없습니다"}</p>
-        <button
+        <Button
+          unstyled
           onClick={() => router.push("/archive")}
           className="text-accent hover:underline"
         >
           기록관으로 돌아가기
-        </button>
+        </Button>
       </div>
     );
   }
@@ -160,12 +162,13 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
     <div>
       {/* 헤더 */}
       <div className="flex items-start gap-4 mb-6">
-        <button
+        <Button
+          unstyled
           onClick={() => router.push("/archive")}
-          className="p-2 -ml-2 text-text-secondary hover:text-text-primary transition-colors"
+          className="p-2 -ml-2 text-text-secondary hover:text-text-primary"
         >
           <ArrowLeft size={24} />
-        </button>
+        </Button>
 
         {/* 커버 & 정보 */}
         <div className="flex-1 flex gap-4">
@@ -226,12 +229,13 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
 
         {/* 메뉴 버튼 */}
         <div className="relative">
-          <button
+          <Button
+            unstyled
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 text-text-secondary hover:text-text-primary transition-colors"
+            className="p-2 text-text-secondary hover:text-text-primary"
           >
             <MoreVertical size={20} />
-          </button>
+          </Button>
 
           {isMenuOpen && (
             <>
@@ -240,31 +244,34 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
                 onClick={() => setIsMenuOpen(false)}
               />
               <div className="absolute right-0 mt-2 w-48 bg-bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
-                <button
+                <Button
+                  unstyled
                   onClick={handleTogglePublic}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary transition-colors text-left text-sm"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm"
                 >
                   {playlist.is_public ? <Lock size={16} /> : <Globe size={16} />}
                   {playlist.is_public ? "비공개로 전환" : "공개로 전환"}
-                </button>
-                <button
+                </Button>
+                <Button
+                  unstyled
                   onClick={() => {
                     navigator.clipboard.writeText(window.location.href);
                     alert("링크가 복사되었습니다");
                     setIsMenuOpen(false);
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary transition-colors text-left text-sm"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm"
                 >
                   <Share2 size={16} />
                   링크 복사
-                </button>
-                <button
+                </Button>
+                <Button
+                  unstyled
                   onClick={handleDelete}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary transition-colors text-left text-sm text-red-400"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm text-red-400"
                 >
                   <Trash2 size={16} />
                   삭제
-                </button>
+                </Button>
               </div>
             </>
           )}
@@ -273,20 +280,22 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
 
       {/* 액션 버튼들 */}
       <div className="flex gap-2 mb-6">
-        <button
+        <Button
+          unstyled
           onClick={handleEdit}
-          className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm"
         >
           <Pencil size={16} />
           편집
-        </button>
-        <button
+        </Button>
+        <Button
+          unstyled
           onClick={handleTierSetup}
-          className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm"
         >
           <Trophy size={16} />
           티어 설정
-        </button>
+        </Button>
       </div>
 
       {/* 콘텐츠 목록 */}
@@ -346,12 +355,13 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
         <div className="text-center py-20 text-text-secondary">
           <ListMusic size={48} className="mx-auto mb-4 opacity-50" />
           <p>재생목록이 비어있습니다</p>
-          <button
+          <Button
+            unstyled
             onClick={handleEdit}
             className="mt-4 text-accent hover:underline"
           >
             콘텐츠 추가하기
-          </button>
+          </Button>
         </div>
       )}
     </div>

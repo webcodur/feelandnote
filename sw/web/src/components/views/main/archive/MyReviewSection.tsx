@@ -1,7 +1,8 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { Button, Card } from "@/components/ui";
+import { Card } from "@/components/ui";
+import Button from "@/components/ui/Button";
 
 interface RecordData {
   id: string;
@@ -37,15 +38,16 @@ export default function MyReviewSection({
           <div className="flex items-center gap-2">
             <div className="flex gap-0.5">
               {[1, 2, 3, 4, 5].map((star) => (
-                <button
+                <Button
+                  unstyled
                   key={star}
                   onClick={() => onRatingChange(reviewRating === star ? null : star)}
-                  className={`text-lg transition-colors ${
+                  className={`text-lg ${
                     (reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600 hover:text-yellow-400/50"
                   }`}
                 >
                   ★
-                </button>
+                </Button>
               ))}
             </div>
             {reviewRating && <span className="text-xs font-medium text-yellow-400">{reviewRating}.0</span>}

@@ -9,3 +9,4 @@ export { default as ProgressSlider } from "./ProgressSlider";
 export { FilterSelect, type FilterOption } from "./FilterSelect";
 export { FilterChips, type ChipOption } from "./FilterChips";
 export { Pagination } from "./Pagination";
+export { default as DropdownMenu, type DropdownMenuItem } from "./DropdownMenu";

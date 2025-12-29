@@ -2,6 +2,7 @@
 
 import { ChevronRight, ChevronDown, Book, Film, Gamepad2, Music, Award, ArrowRight } from "lucide-react";
 import type { ContentType } from "@/types/database";
+import Button from "@/components/ui/Button";
 
 const MAX_ITEMS_PER_CATEGORY = 20;
 
@@ -38,9 +39,10 @@ export default function CategorySection({
 
   return (
     <div>
-      <button
+      <Button
+        unstyled
         onClick={onToggle}
-        className="flex items-center gap-2 mb-3 w-full text-left cursor-pointer group"
+        className="flex items-center gap-2 mb-3 w-full text-left group"
       >
         <div className={`flex items-center gap-1.5 ${info.color}`}>
           {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
@@ -49,19 +51,20 @@ export default function CategorySection({
         </div>
         <span className="text-xs text-text-secondary">({totalItems})</span>
         <div className="flex-1 h-px bg-border ml-2 group-hover:bg-text-secondary/30 transition-colors" />
-      </button>
+      </Button>
 
       {!isCollapsed && (
         <div>
           {children}
           {hasMore && onShowMore && (
-            <button
+            <Button
+              unstyled
               onClick={onShowMore}
-              className="mt-3 flex items-center gap-1 mx-auto px-3 py-1.5 text-xs text-accent hover:text-accent-hover transition-colors"
+              className="mt-3 flex items-center gap-1 mx-auto px-3 py-1.5 text-xs text-accent hover:text-accent-hover"
             >
               <span>더보기 ({totalItems - MAX_ITEMS_PER_CATEGORY}개 더)</span>
               <ArrowRight size={14} />
-            </button>
+            </Button>
           )}
         </div>
       )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { X, Flame } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface GameHeaderProps {
   score: number;
@@ -35,12 +36,13 @@ export default function GameHeader({ score, streak, maxStreak, onClose }: GameHe
           </>
         )}
       </div>
-      <button
+      <Button
+        unstyled
         onClick={onClose}
-        className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center transition-all duration-200 hover:bg-white/10"
+        className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"
       >
         <X size={20} />
-      </button>
+      </Button>
     </div>
   );
 }

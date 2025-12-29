@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { LogIn, Loader2 } from 'lucide-react'
+import Button from '@/components/ui/Button'
 
 function LoginForm() {
   const [email, setEmail] = useState('')
@@ -72,10 +73,11 @@ function LoginForm() {
         </div>
       )}
 
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-accent hover:bg-accent-hover text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+        className="w-full py-3 flex items-center justify-center gap-2"
+        size="lg"
       >
         {loading ? (
           <Loader2 className="w-5 h-5 animate-spin" />
@@ -83,7 +85,7 @@ function LoginForm() {
           <LogIn className="w-5 h-5" />
         )}
         {loading ? '로그인 중...' : '로그인'}
-      </button>
+      </Button>
     </form>
   )
 }

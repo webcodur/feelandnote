@@ -9,6 +9,7 @@ import {
   Heart,
   MessageCircle,
 } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface ActivityTimelineProps {
   activities: Array<{
@@ -84,9 +85,9 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
         })}
       </div>
 
-      <button className="w-full mt-2 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors">
+      <Button unstyled className="w-full mt-2 py-2 text-sm text-text-secondary hover:text-text-primary">
         전체 활동 보기 →
-      </button>
+      </Button>
     </Card>
   );
 }

@@ -1,4 +1,5 @@
 export { createRecord, type RecordType } from './createRecord'
 export { getRecords, getRecord } from './getRecords'
+export { getFeedRecords, type FeedRecord } from './getFeedRecords'
 export { updateRecord } from './updateRecord'
 export { deleteRecord } from './deleteRecord'

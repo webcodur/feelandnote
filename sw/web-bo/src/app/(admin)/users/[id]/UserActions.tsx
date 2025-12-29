@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { suspendUser, unsuspendUser, updateUserRole, type User } from '@/actions/admin/users'
 import { Ban, CheckCircle, Shield, Loader2 } from 'lucide-react'
+import Button from '@/components/ui/Button'
 
 interface UserActionsProps {
   user: User
@@ -67,23 +68,24 @@ export default function UserActions({ user }: UserActionsProps) {
       <div className="flex flex-wrap gap-3">
         {/* Suspend / Unsuspend */}
         {user.status === 'active' ? (
-          <button
+          <Button
+            variant="danger"
             onClick={() => setShowSuspendModal(true)}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors disabled:opacity-50"
           >
             <Ban className="w-4 h-4" />
             정지
-          </button>
+          </Button>
         ) : (
-          <button
+          <Button
+            unstyled
             onClick={handleUnsuspend}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 hover:bg-green-500/20 rounded-lg transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 hover:bg-green-500/20 rounded-lg"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
             정지 해제
-          </button>
+          </Button>
         )}
 
         {/* Role Change */}
@@ -124,20 +126,21 @@ export default function UserActions({ user }: UserActionsProps) {
               rows={3}
             />
             <div className="flex justify-end gap-3 mt-4">
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => setShowSuspendModal(false)}
-                className="px-4 py-2 text-text-secondary hover:text-text-primary transition-colors"
               >
                 취소
-              </button>
-              <button
+              </Button>
+              <Button
+                unstyled
                 onClick={handleSuspend}
                 disabled={loading || !suspendReason.trim()}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Ban className="w-4 h-4" />}
                 정지
-              </button>
+              </Button>
             </div>
           </div>
         </div>

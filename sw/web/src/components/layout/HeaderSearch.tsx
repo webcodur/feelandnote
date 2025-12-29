@@ -11,6 +11,7 @@ import SearchModeDropdown, {
   CONTENT_CATEGORIES,
 } from "./search/SearchModeDropdown";
 import SearchResultsDropdown, { SearchResult } from "./search/SearchResultsDropdown";
+import Button from "@/components/ui/Button";
 
 export default function HeaderSearch() {
   const router = useRouter();
@@ -319,15 +320,16 @@ export default function HeaderSearch() {
             className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] placeholder:text-text-secondary py-2.5"
           />
           {query && (
-            <button
+            <Button
+              unstyled
               onClick={() => {
                 setQuery("");
                 inputRef.current?.focus();
               }}
-              className="text-text-secondary hover:text-text-primary transition-colors"
+              className="text-text-secondary hover:text-text-primary"
             >
               <X size={16} />
-            </button>
+            </Button>
           )}
         </div>
 

@@ -3,7 +3,7 @@
 import { useState, useEffect, useTransition } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Loader2, Plus } from "lucide-react";
-import { Button } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import ArchiveDetailHeader from "./ArchiveDetailHeader";
 import ArchiveDetailTabs, { type MainTab, type SubTab } from "./ArchiveDetailTabs";
 import FeedSection from "./FeedSection";
@@ -162,7 +162,7 @@ export default function ArchiveDetailView() {
         onSubTabChange={setActiveSubTab}
       />
 
-      {activeTab === "feed" && <FeedSection subTab={activeSubTab} />}
+      {activeTab === "feed" && <FeedSection contentId={contentId} subTab={activeSubTab} />}
 
       {activeTab === "myRecord" && activeSubTab === "review" && (
         <MyReviewSection
@@ -185,12 +185,13 @@ export default function ArchiveDetailView() {
       {activeTab === "myRecord" && activeSubTab === "creation" && <CreationSection />}
 
       {activeSubTab === "creation" && (
-        <button
+        <Button
+          unstyled
           onClick={() => setIsCreationModalOpen(true)}
-          className="fixed bottom-20 right-4 sm:bottom-8 sm:right-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center shadow-lg cursor-pointer transition-all duration-300 z-20 hover:scale-110 hover:bg-accent-hover"
+          className="fixed bottom-20 right-4 sm:bottom-8 sm:right-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center shadow-lg z-20 hover:scale-110 hover:bg-accent-hover"
         >
           <Plus size={24} color="white" />
-        </button>
+        </Button>
       )}
 
       <CreateCreationModal

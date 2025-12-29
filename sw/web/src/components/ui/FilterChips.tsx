@@ -1,6 +1,7 @@
 "use client";
 
 import { LucideIcon } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 export interface ChipOption<T extends string = string> {
   value: T;
@@ -51,12 +52,13 @@ export function FilterChips<T extends string = string>({
         const isActive = value === option.value;
 
         return (
-          <button
+          <Button
+            unstyled
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
             className={`
-              rounded-lg font-medium transition-all duration-200
+              rounded-lg font-medium
               ${compact ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-sm"}
               ${isActive ? styles.active : styles.inactive}
             `}
@@ -65,7 +67,7 @@ export function FilterChips<T extends string = string>({
               {showIcon && Icon && <Icon size={compact ? 12 : 14} />}
               {option.label}
             </span>
-          </button>
+          </Button>
         );
       })}
     </div>

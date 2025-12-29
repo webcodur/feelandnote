@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, RotateCcw } from "lucide-react";
+import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
 import type { PlaylistWithItems, PlaylistItemWithContent, ContentType } from "@/types/database";
@@ -190,12 +191,13 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     return (
       <div className="text-center py-20">
         <p className="text-red-400 mb-4">{error}</p>
-        <button
+        <Button
+          unstyled
           onClick={() => router.back()}
           className="text-accent hover:underline"
         >
           돌아가기
-        </button>
+        </Button>
       </div>
     );
   }
@@ -205,12 +207,13 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
       {/* 헤더 */}
       <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <button
+          <Button
+            unstyled
             onClick={() => router.back()}
-            className="p-2 -ml-2 text-text-secondary hover:text-text-primary transition-colors"
+            className="p-2 -ml-2 text-text-secondary hover:text-text-primary"
           >
             <ArrowLeft size={24} />
-          </button>
+          </Button>
           <div>
             <h1 className="font-bold">티어 설정</h1>
             <p className="text-xs text-text-secondary">{playlist.name}</p>
@@ -218,21 +221,23 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <Button
+            unstyled
             onClick={handleReset}
-            className="p-2 text-text-secondary hover:text-text-primary transition-colors"
+            className="p-2 text-text-secondary hover:text-text-primary"
             title="초기화"
           >
             <RotateCcw size={20} />
-          </button>
-          <button
+          </Button>
+          <Button
+            unstyled
             onClick={handleSave}
             disabled={isSaving}
-            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover disabled:bg-accent/50 text-white text-sm font-medium rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover disabled:bg-accent/50 text-white text-sm font-medium rounded-lg"
           >
             <Save size={16} />
             {isSaving ? "저장 중..." : "저장"}
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -240,30 +245,32 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
       {availableTypes.length > 1 && (
         <div className="px-4 py-3 border-b border-border">
           <div className="flex gap-2 overflow-x-auto">
-            <button
+            <Button
+              unstyled
               onClick={() => setSelectedType("all")}
-              className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${
                 selectedType === "all"
                   ? "bg-accent text-white"
                   : "bg-bg-card text-text-secondary hover:bg-bg-secondary"
               }`}
             >
               전체
-            </button>
+            </Button>
             {availableTypes.map((type) => {
               const cat = CATEGORIES.find((c) => c.dbType === type);
               return (
-                <button
+                <Button
+                  unstyled
                   key={type}
                   onClick={() => setSelectedType(type)}
-                  className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${
+                  className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${
                     selectedType === type
                       ? "bg-accent text-white"
                       : "bg-bg-card text-text-secondary hover:bg-bg-secondary"
                   }`}
                 >
                   {cat?.label || type}
-                </button>
+                </Button>
               );
             })}
           </div>

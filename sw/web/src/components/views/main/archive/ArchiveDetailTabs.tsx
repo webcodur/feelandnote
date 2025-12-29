@@ -1,5 +1,7 @@
 "use client";
 
+import Button from "@/components/ui/Button";
+
 type MainTab = "myRecord" | "feed";
 type SubTab = "review" | "note" | "creation";
 
@@ -19,22 +21,24 @@ export default function ArchiveDetailTabs({
   return (
     <div className="flex items-center gap-4 mb-4 overflow-x-auto pb-2 -mb-2">
       <div className="flex bg-bg-secondary rounded-lg p-0.5 flex-shrink-0">
-        <button
+        <Button
+          unstyled
           onClick={() => onTabChange("myRecord")}
-          className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+          className={`px-3 py-1.5 rounded-md text-xs font-medium ${
             activeTab === "myRecord" ? "bg-bg-card text-text-primary" : "text-text-secondary hover:text-text-primary"
           }`}
         >
           내 기록
-        </button>
-        <button
+        </Button>
+        <Button
+          unstyled
           onClick={() => onTabChange("feed")}
-          className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+          className={`px-3 py-1.5 rounded-md text-xs font-medium ${
             activeTab === "feed" ? "bg-bg-card text-text-primary" : "text-text-secondary hover:text-text-primary"
           }`}
         >
           피드
-        </button>
+        </Button>
       </div>
 
       <div className="w-px h-5 bg-border flex-shrink-0" />
@@ -45,17 +49,18 @@ export default function ArchiveDetailTabs({
           { key: "note", label: "노트" },
           { key: "creation", label: "창작" },
         ].map((subTab) => (
-          <button
+          <Button
+            unstyled
             key={subTab.key}
             onClick={() => onSubTabChange(subTab.key as SubTab)}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-medium ${
               activeSubTab === subTab.key
                 ? "bg-accent/20 text-accent"
                 : "text-text-secondary hover:text-text-primary hover:bg-white/5"
             }`}
           >
             {subTab.label}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

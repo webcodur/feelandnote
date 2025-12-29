@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ListMusic, Plus, ChevronRight } from "lucide-react";
 import { getPlaylists, type PlaylistSummary } from "@/actions/playlists";
+import Button from "@/components/ui/Button";
 
 interface PlaylistDropdownProps {
   onCreateNew: () => void;
@@ -71,21 +72,23 @@ export default function PlaylistDropdown({
   return (
     <div className="relative" ref={dropdownRef}>
       {/* 트리거 버튼 */}
-      <button
+      <Button
+        unstyled
         onClick={handleButtonClick}
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-bg-secondary hover:bg-bg-card text-text-primary text-sm font-medium rounded-lg transition-colors border border-border"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-bg-secondary hover:bg-bg-card text-text-primary text-sm font-medium rounded-lg border border-border"
       >
         <ListMusic size={16} />
         <span className="hidden sm:inline">재생목록</span>
-      </button>
+      </Button>
 
       {/* 드롭다운 메뉴 */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-64 bg-bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
           {/* 새 재생목록 만들기 */}
-          <button
+          <Button
+            unstyled
             onClick={handleCreateNew}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary transition-colors text-left border-b border-border"
+            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left border-b border-border"
           >
             <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center">
               <Plus size={18} className="text-accent" />
@@ -93,7 +96,7 @@ export default function PlaylistDropdown({
             <span className="text-sm font-medium text-text-primary">
               새 재생목록 만들기
             </span>
-          </button>
+          </Button>
 
           {/* 재생목록 목록 */}
           <div className="max-h-64 overflow-y-auto">
@@ -107,10 +110,11 @@ export default function PlaylistDropdown({
               </div>
             ) : (
               playlists.map((playlist) => (
-                <button
+                <Button
+                  unstyled
                   key={playlist.id}
                   onClick={() => handleSelectPlaylist(playlist.id)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary transition-colors text-left group"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-bg-secondary flex items-center justify-center">
                     <ListMusic size={16} className="text-text-secondary" />
@@ -127,7 +131,7 @@ export default function PlaylistDropdown({
                     size={16}
                     className="text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
                   />
-                </button>
+                </Button>
               ))
             )}
           </div>

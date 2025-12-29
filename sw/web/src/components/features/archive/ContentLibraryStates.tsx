@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2, Archive } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface LoadingStateProps {
   compact?: boolean;
@@ -24,9 +25,9 @@ export function ErrorState({ message, onRetry, compact = false }: ErrorStateProp
   return (
     <div className={`text-center ${compact ? "py-4" : "py-8"}`}>
       <p className="text-red-400 mb-2 text-xs">{message}</p>
-      <button onClick={onRetry} className="text-accent hover:underline text-xs">
+      <Button unstyled onClick={onRetry} className="text-accent hover:underline text-xs">
         다시 시도
-      </button>
+      </Button>
     </div>
   );
 }

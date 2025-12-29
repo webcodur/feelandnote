@@ -6,6 +6,7 @@ import SectionList from "./note/SectionList";
 import TemplateSection from "./note/TemplateSection";
 import { getNoteByContentId, upsertNote, addSection, updateSection, deleteSection } from "@/actions/notes";
 import type { Note, Snapshot, Template, VisibilityType } from "@/actions/notes/types";
+import Button from "@/components/ui/Button";
 
 interface NoteEditorProps {
   contentId: string;
@@ -112,16 +113,17 @@ export default function NoteEditor({ contentId }: NoteEditorProps) {
         {VISIBILITY_OPTIONS.map((opt) => {
           const Icon = opt.icon;
           return (
-            <button
+            <Button
+              unstyled
               key={opt.value}
               onClick={() => handleVisibilityChange(opt.value)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm ${
                 visibility === opt.value ? "bg-accent/20 text-accent" : "text-text-secondary hover:text-text-primary"
               }`}
             >
               <Icon size={14} />
               {opt.label}
-            </button>
+            </Button>
           );
         })}
         {isSaving && <Loader2 size={16} className="animate-spin text-accent ml-2" />}

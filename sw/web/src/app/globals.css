@@ -85,6 +85,19 @@
   .hover\:border-accent\/30:hover { border-color: rgba(124, 77, 255, 0.3); }
   .hover\:bg-accent\/5:hover { background-color: rgba(124, 77, 255, 0.05); }
 
+  /* Border opacity variants */
+  .border-border\/30 { border-color: rgba(48, 54, 61, 0.3); }
+  .border-border\/40 { border-color: rgba(48, 54, 61, 0.4); }
+  .border-border\/50 { border-color: rgba(48, 54, 61, 0.5); }
+  .border-accent\/50 { border-color: rgba(124, 77, 255, 0.5); }
+  .hover\:border-accent\/50:hover { border-color: rgba(124, 77, 255, 0.5); }
+
+  /* Background opacity variants */
+  .bg-bg-main\/50 { background-color: rgba(15, 17, 21, 0.5); }
+
+  /* Text opacity variants */
+  .text-text-primary\/70 { color: rgba(255, 255, 255, 0.7); }
+
   /* Animation */
   .animate-fade-in {
     animation: fadeIn 0.3s ease;

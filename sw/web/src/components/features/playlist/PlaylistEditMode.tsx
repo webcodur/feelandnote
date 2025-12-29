@@ -11,6 +11,7 @@ import type { ContentType } from "@/types/database";
 import { ContentGrid, FilterChips, type ChipOption } from "@/components/ui";
 import SelectableContentCard from "./SelectableContentCard";
 import { useRouter } from "next/navigation";
+import Button from "@/components/ui/Button";
 
 interface PlaylistEditModeProps {
   mode: "create" | "edit";
@@ -167,12 +168,13 @@ export default function PlaylistEditMode({
     <div className="flex flex-col min-h-[calc(100vh-8rem)]">
       {/* 상단 바 */}
       <div className="flex items-center justify-between gap-3 mb-4">
-        <button
+        <Button
+          unstyled
           onClick={handleClose}
-          className="p-2 -ml-2 text-text-secondary hover:text-text-primary transition-colors"
+          className="p-2 -ml-2 text-text-secondary hover:text-text-primary"
         >
           <X size={20} />
-        </button>
+        </Button>
 
         <input
           type="text"
@@ -183,14 +185,15 @@ export default function PlaylistEditMode({
           autoFocus={mode === "create"}
         />
 
-        <button
+        <Button
           onClick={handleSave}
           disabled={isSaving || selectedIds.size === 0 || !name.trim()}
-          className="flex items-center gap-1.5 px-3 py-2 bg-accent hover:bg-accent-hover disabled:bg-bg-card disabled:text-text-secondary text-white text-sm font-medium rounded-lg transition-colors"
+          size="sm"
+          className="flex items-center gap-1.5"
         >
           <Check size={16} />
           <span className="hidden sm:inline">{mode === "create" ? "만들기" : "저장"}</span>
-        </button>
+        </Button>
       </div>
 
       {/* 선택 상태 표시 */}

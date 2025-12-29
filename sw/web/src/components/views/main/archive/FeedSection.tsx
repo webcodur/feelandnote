@@ -1,49 +1,112 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
+import { Loader2, ArrowRight } from "lucide-react";
 import FeedPostCard from "./FeedPostCard";
 import type { SubTab } from "./ArchiveDetailTabs";
+import { getFeedRecords, type FeedRecord } from "@/actions/records";
+import type { RecordType } from "@/actions/records";
+import Button from "@/components/ui/Button";
 
-const FEED_REVIEWS = [
-  { user: "독서광", avatar: "🧙‍♂️", time: "2시간 전", rating: "★★★★★", content: "다시 봐도 명작입니다. 처음 호그와트에 들어가는 장면은 언제 봐도 가슴이 뜁니다.", likes: 24, comments: 5 },
-  { user: "마법사A", avatar: "🧙", time: "5시간 전", rating: "★★★★☆", content: "처음 읽었을 때의 감동이 아직도 생생합니다.", likes: 18, comments: 3 },
-];
-
-const FEED_NOTES = [
-  { user: "영화매니아", avatar: "🎬", time: "5시간 전", progress: "47%", content: "1장 메모: 프리벳가 4번지의 묘사가 인상적이다.", likes: 12, comments: 2 },
-  { user: "책벌레", avatar: "📖", time: "1일 전", progress: "완독", content: "3줄 요약: 마법사의 세계, 우정, 그리고 선택", likes: 8, comments: 1 },
-];
-
-const FEED_CREATIONS = [
-  { user: "판타지러버", avatar: "📚", time: "1일 전", type: "What If", typeClass: "bg-red-500/20 text-red-400", title: "해리가 슬리데린이었다면?", content: "드레이코와의 관계가 어떻게 달라졌을지...", likes: 38, comments: 15 },
-  { user: "OST덕후", avatar: "🎵", time: "3일 전", type: "OST", typeClass: "bg-blue-500/20 text-blue-400", title: "호그와트 입학 장면 BGM", content: "웅장한 오케스트라와 신비로운 첼레스타", likes: 22, comments: 8 },
-];
+const PAGE_SIZE = 10;
 
 interface FeedSectionProps {
+  contentId: string;
   subTab: SubTab;
 }
 
-export default function FeedSection({ subTab }: FeedSectionProps) {
-  const renderPosts = () => {
-    if (subTab === "review") {
-      return FEED_REVIEWS.map((post, i) => (
-        <FeedPostCard key={i} {...post} />
-      ));
+const subTabToRecordType: Record<SubTab, RecordType> = {
+  review: "REVIEW",
+  note: "NOTE",
+  creation: "CREATION",
+};
+
+export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
+  const [records, setRecords] = useState<FeedRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+
+  const loadRecords = useCallback(async (offset = 0, append = false) => {
+    if (offset === 0) {
+      setIsLoading(true);
+    } else {
+      setIsLoadingMore(true);
     }
-    if (subTab === "note") {
-      return FEED_NOTES.map((post, i) => (
-        <FeedPostCard key={i} {...post} />
-      ));
+
+    try {
+      const data = await getFeedRecords({
+        contentId,
+        type: subTabToRecordType[subTab],
+        limit: PAGE_SIZE,
+        offset,
+      });
+
+      if (append) {
+        setRecords((prev) => [...prev, ...data]);
+      } else {
+        setRecords(data);
+      }
+      setHasMore(data.length === PAGE_SIZE);
+    } catch (error) {
+      console.error("피드 로드 실패:", error);
+      if (!append) setRecords([]);
+    } finally {
+      setIsLoading(false);
+      setIsLoadingMore(false);
     }
-    return FEED_CREATIONS.map((post, i) => (
-      <FeedPostCard key={i} {...post} />
-    ));
+  }, [contentId, subTab]);
+
+  useEffect(() => {
+    setRecords([]);
+    loadRecords(0, false);
+  }, [loadRecords]);
+
+  const handleLoadMore = () => {
+    loadRecords(records.length, true);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 size={24} className="animate-spin text-accent" />
+      </div>
+    );
+  }
+
+  if (records.length === 0) {
+    return (
+      <div className="animate-fade-in text-center py-12 text-text-secondary text-sm">
+        아직 다른 사람들의 기록이 없습니다.
+      </div>
+    );
+  }
 
   return (
     <div className="animate-fade-in">
       <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-3">
-        {renderPosts()}
+        {records.map((record) => (
+          <FeedPostCard key={record.id} record={record} />
+        ))}
       </div>
+
+      {hasMore && (
+        <Button
+          unstyled
+          onClick={handleLoadMore}
+          disabled={isLoadingMore}
+          className="mt-4 flex items-center gap-1 mx-auto px-4 py-2 text-xs text-accent hover:text-accent-hover"
+        >
+          {isLoadingMore ? (
+            <Loader2 size={14} className="animate-spin" />
+          ) : (
+            <>
+              <span>더보기</span>
+              <ArrowRight size={14} />
+            </>
+          )}
+        </Button>
+      )}
     </div>
   );
 }

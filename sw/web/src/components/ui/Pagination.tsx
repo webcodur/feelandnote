@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface PaginationProps {
   currentPage: number;
@@ -62,14 +63,15 @@ export function Pagination({
   return (
     <nav className="flex items-center justify-center gap-1" aria-label="페이지네이션">
       {/* 이전 버튼 */}
-      <button
+      <Button
+        unstyled
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary"
         aria-label="이전 페이지"
       >
         <ChevronLeft size={18} />
-      </button>
+      </Button>
 
       {/* 페이지 번호 */}
       {pages.map((page, index) => {
@@ -86,10 +88,11 @@ export function Pagination({
 
         const isActive = page === currentPage;
         return (
-          <button
+          <Button
+            unstyled
             key={page}
             onClick={() => onPageChange(page)}
-            className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
+            className={`w-9 h-9 rounded-lg text-sm font-medium ${
               isActive
                 ? "bg-accent/20 text-accent"
                 : "text-text-secondary hover:text-text-primary hover:bg-bg-secondary"
@@ -97,19 +100,20 @@ export function Pagination({
             aria-current={isActive ? "page" : undefined}
           >
             {page}
-          </button>
+          </Button>
         );
       })}
 
       {/* 다음 버튼 */}
-      <button
+      <Button
+        unstyled
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary"
         aria-label="다음 페이지"
       >
         <ChevronRight size={18} />
-      </button>
+      </Button>
     </nav>
   );
 }

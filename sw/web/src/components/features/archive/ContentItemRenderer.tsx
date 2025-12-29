@@ -57,6 +57,23 @@ export default function ContentItemRenderer({
 
   return (
     <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-2"}`}>
+      {/* 헤더 */}
+      <div
+        className={`grid items-center gap-3 text-text-secondary border-b border-border/30 ${
+          compact
+            ? "grid-cols-[40px_1fr_48px_64px_56px_100px_28px] text-[10px] px-3 pb-2"
+            : "grid-cols-[48px_1fr_48px_72px_64px_140px_32px] text-xs px-4 pb-2"
+        }`}
+      >
+        <div />
+        <div>제목</div>
+        <div className="text-center">타입</div>
+        <div className="text-center">상태</div>
+        <div className="text-center">등록일</div>
+        <div className="text-center">진행도</div>
+        <div />
+      </div>
+      {/* 아이템 */}
       {items.map((item) => (
         <ContentListItem
           key={item.id}

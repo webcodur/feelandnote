@@ -1,66 +1,78 @@
 "use client";
 
-import { Heart, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui";
+import type { FeedRecord } from "@/actions/records";
 
-interface FeedPostCardProps {
-  user: string;
-  avatar: string;
-  time: string;
-  content: string;
-  likes: number;
-  comments: number;
-  rating?: string;
-  progress?: string;
-  type?: string;
-  typeClass?: string;
-  title?: string;
+function formatRelativeTime(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMinutes = Math.floor(diffMs / (1000 * 60));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffMinutes < 1) return "방금 전";
+  if (diffMinutes < 60) return `${diffMinutes}분 전`;
+  if (diffHours < 24) return `${diffHours}시간 전`;
+  if (diffDays < 7) return `${diffDays}일 전`;
+  return date.toLocaleDateString("ko-KR");
 }
 
-export default function FeedPostCard({
-  user,
-  avatar,
-  time,
-  content,
-  likes,
-  comments,
-  rating,
-  progress,
-  type,
-  typeClass,
-  title,
-}: FeedPostCardProps) {
+function getDefaultAvatar(type: string): string {
+  switch (type) {
+    case "REVIEW":
+      return "📝";
+    case "NOTE":
+      return "📒";
+    case "CREATION":
+      return "✨";
+    default:
+      return "📝";
+  }
+}
+
+interface FeedPostCardProps {
+  record: FeedRecord;
+}
+
+export default function FeedPostCard({ record }: FeedPostCardProps) {
+  const avatar = record.user.avatar_url || getDefaultAvatar(record.type);
+  const nickname = record.user.nickname || "익명";
+  const timeAgo = formatRelativeTime(record.created_at);
+
   return (
     <Card className="p-0">
       <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
-        <div className="w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary">
-          {avatar}
+        <div className="w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden">
+          {record.user.avatar_url ? (
+            <img
+              src={record.user.avatar_url}
+              alt={nickname}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            avatar
+          )}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-medium text-xs">{user}</div>
-          <div className="text-[10px] text-text-secondary flex gap-1.5 items-center">
-            {type && typeClass && (
-              <span className={`py-0.5 px-1.5 rounded text-[9px] font-medium ${typeClass}`}>
-                {type}
-              </span>
-            )}
-            <span>{time}</span>
-          </div>
+          <div className="font-medium text-xs">{nickname}</div>
+          <div className="text-[10px] text-text-secondary">{timeAgo}</div>
         </div>
-        {rating && <div className="text-yellow-400 text-xs">{rating}</div>}
-        {progress && <span className="text-[10px] text-accent font-medium">{progress}</span>}
+        {record.rating && (
+          <div className="text-yellow-400 text-xs">
+            {"★".repeat(record.rating)}
+          </div>
+        )}
+        {record.location && (
+          <span className="text-[10px] text-accent font-medium">
+            {record.location}
+          </span>
+        )}
       </div>
       <div className="p-2.5">
-        {title && <h4 className="font-medium text-xs mb-1">{title}</h4>}
-        <div className="text-xs leading-relaxed text-text-secondary line-clamp-2">{content}</div>
-      </div>
-      <div className="px-2.5 py-2 border-t border-white/5 flex gap-3 text-[10px] text-text-secondary">
-        <span className="flex items-center gap-1">
-          <Heart size={12} /> {likes}
-        </span>
-        <span className="flex items-center gap-1">
-          <MessageCircle size={12} /> {comments}
-        </span>
+        <div className="text-xs leading-relaxed text-text-secondary line-clamp-3">
+          {record.content}
+        </div>
       </div>
     </Card>
   );

@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { Check, Trash2 } from "lucide-react";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import { ProgressSlider } from "@/components/ui";
+import { ProgressSlider, DropdownMenu, type DropdownMenuItem } from "@/components/ui";
+import Button from "@/components/ui/Button";
 
 export interface ContentCardProps {
   item: UserContentWithContent;
@@ -47,10 +48,32 @@ export default function ContentCard({
 
   return (
     <div
-      className="group cursor-pointer"
+      className="group cursor-pointer relative"
       onClick={handleClick}
     >
-      <div className="relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col bg-bg-card">
+      {/* 더보기 메뉴 - 카드 최상위에 배치 */}
+      {onDelete && (
+        <div className="absolute top-2 left-2 z-30">
+          <DropdownMenu
+            items={[
+              {
+                label: "삭제",
+                icon: <Trash2 size={14} />,
+                variant: "danger",
+                onClick: () => {
+                  if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
+                    onDelete(item.id);
+                  }
+                },
+              },
+            ]}
+            buttonClassName="bg-black/60 backdrop-blur-sm text-white hover:text-white hover:bg-black/80"
+            iconSize={16}
+          />
+        </div>
+      )}
+
+      <div className="relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col bg-bg-card z-10">
         {/* 썸네일 영역 */}
         <div className="relative w-full aspect-[3/4] overflow-hidden flex-shrink-0 bg-gray-800">
           {content.thumbnail_url ? (
@@ -87,22 +110,6 @@ export default function ContentCard({
                 </div>
               </div>
             </div>
-          )}
-
-          {/* 삭제 버튼 */}
-          {onDelete && (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
-                  onDelete(item.id);
-                }
-              }}
-              className="absolute bottom-2 right-2 z-20 p-1.5 bg-black/70 backdrop-blur-sm rounded-md text-text-secondary hover:text-red-400 hover:bg-red-400/20 transition-colors opacity-0 group-hover:opacity-100"
-            >
-              <Trash2 size={14} />
-            </button>
           )}
         </div>
 
@@ -155,9 +162,10 @@ function StatusBadge({
   const canToggle = progress === 0 && onStatusChange && status !== "COMPLETE";
 
   return (
-    <button
+    <Button
+      unstyled
       className={`absolute top-2 right-2 z-20 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm border ${style.class} ${
-        canToggle ? "hover:opacity-80 cursor-pointer" : "cursor-default"
+        canToggle ? "hover:opacity-80" : "cursor-default"
       }`}
       onClick={(e) => {
         e.stopPropagation();
@@ -167,6 +175,6 @@ function StatusBadge({
       }}
     >
       {style.text}
-    </button>
+    </Button>
   );
 }
