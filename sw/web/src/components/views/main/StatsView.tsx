@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { SectionHeader, FilterChips, type ChipOption } from "@/components/ui";
 import { User, BarChart2, Trophy, Settings, Loader2 } from "lucide-react";
-import { getDetailedStats, type DetailedStats, getProfile, updateApiKey } from "@/actions/user";
+import { getDetailedStats, type DetailedStats, getProfile, updateApiKey, updateProfile, type UserProfile } from "@/actions/user";
 import { getAchievementData, type AchievementData } from "@/actions/achievements";
 import StatsContent from "./stats/StatsContent";
 import AchievementsContent from "./stats/AchievementsContent";
@@ -21,7 +21,7 @@ export default function ProfileView() {
   const [activeTab, setActiveTab] = useState<ProfileTab>("stats");
   const [stats, setStats] = useState<DetailedStats | null>(null);
   const [achievements, setAchievements] = useState<AchievementData | null>(null);
-  const [apiKey, setApiKey] = useState<string | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSavingApiKey, setIsSavingApiKey] = useState(false);
   const [achievementSubTab, setAchievementSubTab] = useState<"history" | "titles">("history");
@@ -30,14 +30,14 @@ export default function ProfileView() {
     async function loadData() {
       setIsLoading(true);
       try {
-        const [statsData, achievementsData, profile] = await Promise.all([
+        const [statsData, achievementsData, profileData] = await Promise.all([
           getDetailedStats(),
           getAchievementData(),
           getProfile(),
         ]);
         setStats(statsData);
         setAchievements(achievementsData);
-        setApiKey(profile?.gemini_api_key || null);
+        setProfile(profileData);
       } catch (error) {
         console.error("Failed to load profile data:", error);
       } finally {
@@ -51,10 +51,27 @@ export default function ProfileView() {
     setIsSavingApiKey(true);
     try {
       await updateApiKey({ geminiApiKey: key });
-      setApiKey(key || null);
+      setProfile(prev => prev ? { ...prev, gemini_api_key: key || null } : null);
     } finally {
       setIsSavingApiKey(false);
     }
+  };
+
+  const handleProfileUpdate = async (data: { nickname?: string; bio?: string | null; avatar_url?: string | null }) => {
+    const result = await updateProfile({
+      nickname: data.nickname,
+      bio: data.bio ?? undefined,
+      avatar_url: data.avatar_url ?? undefined,
+    });
+    if (result.success) {
+      setProfile(prev => prev ? {
+        ...prev,
+        nickname: data.nickname ?? prev.nickname,
+        bio: data.bio ?? prev.bio,
+        avatar_url: data.avatar_url !== undefined ? data.avatar_url : prev.avatar_url,
+      } : null);
+    }
+    return result;
   };
 
   const formatDate = (dateStr: string) => {
@@ -104,9 +121,11 @@ export default function ProfileView() {
 
       {!isLoading && activeTab === "settings" && (
         <SettingsContent
-          apiKey={apiKey}
+          apiKey={profile?.gemini_api_key || null}
           onSave={handleSaveApiKey}
           isSaving={isSavingApiKey}
+          profile={profile ? { nickname: profile.nickname, avatar_url: profile.avatar_url, bio: profile.bio || null } : null}
+          onProfileUpdate={handleProfileUpdate}
         />
       )}
     </>

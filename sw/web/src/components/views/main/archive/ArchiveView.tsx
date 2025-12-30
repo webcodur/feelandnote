@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import ContentLibrary from "@/components/features/archive/ContentLibrary";
 import AddContentModal from "@/components/features/archive/AddContentModal";
 import { PlaylistDropdown, PlaylistEditMode } from "@/components/features/playlist";
-import { SectionHeader } from "@/components/ui";
-import { Plus, Archive } from "lucide-react";
+import { Plus } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 type EditMode = { type: "create" } | { type: "edit"; playlistId: string } | null;
 
@@ -50,28 +50,21 @@ export default function ArchiveView() {
 
   return (
     <>
-      <SectionHeader
-        title="내 기록관"
-        description="나의 문화생활 기록을 관리하세요"
-        icon={<Archive size={20} />}
-        action={
-          <div className="flex items-center gap-1.5">
-            <PlaylistDropdown
-              onCreateNew={handleCreatePlaylist}
-              onSelectPlaylist={handleSelectPlaylist}
-            />
-            <Button
-              unstyled
-              onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-1 px-2.5 py-1 bg-accent hover:bg-accent-hover text-white text-xs font-medium rounded-md"
-            >
-              <Plus size={14} />
-              <span className="hidden sm:inline">추가</span>
-            </Button>
-          </div>
-        }
-        className="mb-4"
-      />
+      {/* 액션 버튼 */}
+      <div className="flex items-center justify-end gap-1.5 mb-4">
+        <PlaylistDropdown
+          onCreateNew={handleCreatePlaylist}
+          onSelectPlaylist={handleSelectPlaylist}
+        />
+        <Button
+          unstyled
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex items-center gap-1 px-2.5 py-1 bg-accent hover:bg-accent-hover text-white text-xs font-medium rounded-md"
+        >
+          <Plus size={14} />
+          <span className="hidden sm:inline">추가</span>
+        </Button>
+      </div>
 
       <ContentLibrary
         key={refreshKey}
@@ -85,7 +78,8 @@ export default function ArchiveView() {
       <Button
         unstyled
         onClick={() => setIsAddModalOpen(true)}
-        className="fixed bottom-20 right-4 w-14 h-14 rounded-full bg-accent flex items-center justify-center shadow-lg hover:scale-110 hover:bg-accent-hover sm:hidden z-20"
+        className="fixed bottom-20 right-4 w-14 h-14 rounded-full bg-accent flex items-center justify-center shadow-lg hover:scale-110 hover:bg-accent-hover sm:hidden"
+        style={{ zIndex: Z_INDEX.fab }}
       >
         <Plus color="white" size={24} />
       </Button>

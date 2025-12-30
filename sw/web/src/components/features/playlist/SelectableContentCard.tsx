@@ -2,6 +2,7 @@
 
 import { Check, Plus, Minus } from "lucide-react";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface SelectableContentCardProps {
   item: UserContentWithContent;
@@ -72,7 +73,8 @@ export default function SelectableContentCard({
           {/* 상태 뱃지 */}
           {badge && (
             <div
-              className={`absolute top-2 right-2 z-20 flex items-center gap-1 py-1 px-2 rounded-md text-[10px] font-bold text-white ${badge.color}`}
+              className={`absolute top-2 right-2 flex items-center gap-1 py-1 px-2 rounded-md text-[10px] font-bold text-white ${badge.color}`}
+              style={{ zIndex: Z_INDEX.cardBadge }}
             >
               <badge.icon size={10} />
               {badge.text}
@@ -81,12 +83,12 @@ export default function SelectableContentCard({
 
           {/* 미선택 시 체크박스 */}
           {!isSelected && (
-            <div className="absolute top-2 left-2 z-20 w-6 h-6 rounded-md border-2 border-white/50 bg-black/30 group-hover:border-white transition-colors" />
+            <div className="absolute top-2 left-2 w-6 h-6 rounded-md border-2 border-white/50 bg-black/30 group-hover:border-white transition-colors" style={{ zIndex: Z_INDEX.cardBadge }} />
           )}
 
           {/* 선택됨 시 체크박스 */}
           {isSelected && (
-            <div className="absolute top-2 left-2 z-20 w-6 h-6 rounded-md bg-accent flex items-center justify-center">
+            <div className="absolute top-2 left-2 w-6 h-6 rounded-md bg-accent flex items-center justify-center" style={{ zIndex: Z_INDEX.cardBadge }}>
               <Check size={14} className="text-white" strokeWidth={3} />
             </div>
           )}

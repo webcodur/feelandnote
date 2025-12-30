@@ -1,9 +1,12 @@
 "use client";
 
-import { Archive, Lock, AlertCircle } from "lucide-react";
+import { useState } from "react";
+import { Archive, Lock, AlertCircle, Plus, Sparkles } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import UserProfileHeader from "@/components/features/user/UserProfileHeader";
 import UserContentGrid from "@/components/features/user/UserContentGrid";
+import AddCelebContentModal from "@/components/features/user/AddCelebContentModal";
 import type { PublicUserProfile } from "@/actions/user";
 
 interface UserProfileViewProps {
@@ -12,6 +15,9 @@ interface UserProfileViewProps {
 }
 
 export default function UserProfileView({ profile, isOwnProfile = false }: UserProfileViewProps) {
+  const [showAddContent, setShowAddContent] = useState(false);
+  const isCeleb = profile.profile_type === 'CELEB';
+
   // 차단된 경우
   if (profile.is_blocked) {
     return (
@@ -38,12 +44,24 @@ export default function UserProfileView({ profile, isOwnProfile = false }: UserP
       <UserProfileHeader profile={profile} isOwnProfile={isOwnProfile} />
 
       {/* 기록관 섹션 */}
-      <SectionHeader
-        title={`${profile.nickname}의 기록관`}
-        description="공개된 문화생활 기록"
-        icon={<Archive size={20} />}
-        className="mb-4"
-      />
+      <div className="flex items-center justify-between mb-4">
+        <SectionHeader
+          title={`${profile.nickname}의 기록관`}
+          description={isCeleb ? "팬들이 기여한 문화생활 기록" : "공개된 문화생활 기록"}
+          icon={isCeleb ? <Sparkles size={20} /> : <Archive size={20} />}
+          className="mb-0"
+        />
+        {isCeleb && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setShowAddContent(true)}
+          >
+            <Plus size={14} />
+            기록 추가
+          </Button>
+        )}
+      </div>
 
       {isEmpty ? (
         <div className="flex flex-col items-center justify-center py-16 text-center bg-surface rounded-xl">
@@ -59,6 +77,15 @@ export default function UserProfileView({ profile, isOwnProfile = false }: UserP
         </div>
       ) : (
         <UserContentGrid userId={profile.id} />
+      )}
+
+      {/* 셀럽 콘텐츠 추가 모달 */}
+      {showAddContent && (
+        <AddCelebContentModal
+          celebId={profile.id}
+          celebName={profile.nickname}
+          onClose={() => setShowAddContent(false)}
+        />
       )}
     </>
   );

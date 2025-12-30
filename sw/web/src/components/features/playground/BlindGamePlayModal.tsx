@@ -7,6 +7,7 @@ import GamePlaying from "./blind-game/GamePlaying";
 import { GameFinished, GameCorrect, GameWrong } from "./blind-game/GameStates";
 import { getRecords } from "@/actions/records";
 import { saveBlindGameScore } from "@/actions/blind-game";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface BlindGamePlayModalProps {
   isOpen: boolean;
@@ -110,7 +111,7 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
     : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm" style={{ zIndex: Z_INDEX.modal }}>
       <div className="relative w-full max-w-3xl max-h-[90vh] bg-bg-card rounded-2xl border border-border shadow-2xl overflow-hidden">
         <GameHeader score={score} streak={streak} maxStreak={maxStreak} onClose={handleClose} />
 

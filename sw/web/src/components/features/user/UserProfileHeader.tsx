@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { UserPlus, UserCheck, Users, BookOpen } from "lucide-react";
+import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles } from "lucide-react";
 import Button from "@/components/ui/Button";
 import type { PublicUserProfile } from "@/actions/user";
 
@@ -20,6 +20,7 @@ export default function UserProfileHeader({
   const [isPending, startTransition] = useTransition();
 
   const isFriend = isFollowing && profile.is_follower;
+  const isCeleb = profile.profile_type === 'CELEB';
 
   const handleFollowClick = () => {
     startTransition(async () => {
@@ -57,12 +58,24 @@ export default function UserProfileHeader({
             <h1 className="text-xl font-bold text-text-primary truncate">
               {profile.nickname}
             </h1>
-            {isFriend && (
+            {profile.is_verified && (
+              <CheckCircle size={18} className="text-accent flex-shrink-0" />
+            )}
+            {isCeleb && (
+              <span className="px-2 py-0.5 bg-purple-500/20 text-purple-500 text-xs rounded-full flex items-center gap-1">
+                <Sparkles size={10} />
+                셀럽
+              </span>
+            )}
+            {isFriend && !isCeleb && (
               <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs rounded-full">
                 친구
               </span>
             )}
           </div>
+          {isCeleb && profile.category && (
+            <p className="text-xs text-text-tertiary mb-1">{profile.category}</p>
+          )}
 
           {profile.bio && (
             <p className="text-sm text-text-secondary mb-3 line-clamp-2">

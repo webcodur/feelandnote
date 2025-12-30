@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { ListMusic, Plus, ChevronRight } from "lucide-react";
 import { getPlaylists, type PlaylistSummary } from "@/actions/playlists";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface PlaylistDropdownProps {
   onCreateNew: () => void;
@@ -83,7 +84,7 @@ export default function PlaylistDropdown({
 
       {/* 드롭다운 메뉴 */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 bg-bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-64 bg-bg-card border border-border rounded-xl shadow-lg overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 새 재생목록 만들기 */}
           <Button
             unstyled

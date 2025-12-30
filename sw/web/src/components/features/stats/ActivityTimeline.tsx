@@ -10,6 +10,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface ActivityTimelineProps {
   activities: Array<{
@@ -64,8 +65,8 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
                 <div className="absolute left-[19px] top-10 w-[2px] h-[calc(100%-24px)] bg-white/10" />
               )}
               <div
-                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 z-10"
-                style={{ backgroundColor: `${color}20` }}
+                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                style={{ backgroundColor: `${color}20`, zIndex: Z_INDEX.sticky }}
               >
                 <IconComponent size={18} style={{ color }} />
               </div>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 export interface DropdownMenuItem {
   label: string;
@@ -58,7 +59,7 @@ export default function DropdownMenu({
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 min-w-[120px] py-1 bg-bg-card border border-border rounded-lg shadow-xl z-50">
+        <div className="absolute right-0 top-full mt-1 min-w-[120px] py-1 bg-bg-card border border-border rounded-lg shadow-xl" style={{ zIndex: Z_INDEX.dropdown }}>
           {items.map((item, index) => (
             <Button
               unstyled

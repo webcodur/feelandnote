@@ -20,6 +20,7 @@ import { getProfile } from "@/actions/user";
 import { generateSummary } from "@/actions/ai";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
+import { Z_INDEX } from "@/constants/zIndex";
 
 // 카테고리별 라벨/아이콘 맵 생성
 const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
@@ -119,8 +120,9 @@ function ContentDetailContent() {
         {/* Background blur */}
         {thumbnail && (
           <div
-            className="absolute inset-0 -z-10 opacity-20 blur-3xl"
+            className="absolute inset-0 opacity-20 blur-3xl"
             style={{
+              zIndex: Z_INDEX.background,
               backgroundImage: `url(${thumbnail})`,
               backgroundSize: "cover",
               backgroundPosition: "center",

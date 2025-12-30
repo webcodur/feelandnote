@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, Folder, Newspaper, Compass } from "lucide-react";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface FeatureCardProps {
   href: string;
@@ -64,7 +65,7 @@ export default function HomeView() {
       </div>
 
       {/* Background Decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: Z_INDEX.background }}>
         <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-pink-500/5 rounded-full blur-3xl animate-pulse delay-500" />

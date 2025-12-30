@@ -18,6 +18,7 @@ import { removeContent } from "@/actions/contents/removeContent";
 import { getRecords, createRecord, updateRecord } from "@/actions/records";
 import { getProfile } from "@/actions/user";
 import { generateReviewExample } from "@/actions/ai";
+import { Z_INDEX } from "@/constants/zIndex";
 import type { ContentStatus } from "@/actions/contents/addContent";
 import { useAchievement } from "@/components/features/achievements";
 
@@ -214,7 +215,8 @@ export default function ArchiveDetailView() {
         <Button
           unstyled
           onClick={() => setIsCreationModalOpen(true)}
-          className="fixed bottom-20 right-4 sm:bottom-8 sm:right-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center shadow-lg z-20 hover:scale-110 hover:bg-accent-hover"
+          className="fixed bottom-20 right-4 sm:bottom-8 sm:right-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center shadow-lg hover:scale-110 hover:bg-accent-hover"
+          style={{ zIndex: Z_INDEX.fab }}
         >
           <Plus size={24} color="white" />
         </Button>

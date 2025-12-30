@@ -2,6 +2,7 @@
 
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -48,7 +49,7 @@ export default function SearchResultsDropdown({
   onViewAllResults,
 }: SearchResultsDropdownProps) {
   return (
-    <div className="absolute top-full left-0 right-0 mt-2 bg-bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden max-h-[400px] overflow-y-auto">
+    <div className="absolute top-full left-0 right-0 mt-2 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-[400px] overflow-y-auto" style={{ zIndex: Z_INDEX.dropdown }}>
       {/* Loading */}
       {isLoading && (
         <div className="flex items-center justify-center py-8">

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, RotateCcw } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface TierEditHeaderProps {
   playlistName: string;
@@ -15,7 +16,7 @@ export default function TierEditHeader({ playlistName, isSaving, onSave, onReset
   const router = useRouter();
 
   return (
-    <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0 z-10">
+    <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0" style={{ zIndex: Z_INDEX.sticky }}>
       <div className="flex items-center gap-3">
         <Button
           unstyled

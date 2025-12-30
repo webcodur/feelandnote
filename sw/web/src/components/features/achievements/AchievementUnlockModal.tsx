@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, Trophy } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface UnlockedTitle {
   id: string;
@@ -99,7 +100,7 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
   if (!currentTitle) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: Z_INDEX.modal }}>
       {/* 배경 오버레이 */}
       <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in"
@@ -136,9 +137,10 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
 
       {/* 메인 모달 */}
       <div
-        className={`relative z-10 w-full max-w-md mx-4 rounded-3xl border-2 ${config.border} ${config.bg} backdrop-blur-xl overflow-hidden
+        className={`relative w-full max-w-md mx-4 rounded-3xl border-2 ${config.border} ${config.bg} backdrop-blur-xl overflow-hidden
           ${isAnimating ? "animate-unlock-bounce" : ""}`}
         style={{
+          zIndex: Z_INDEX.modal + 1,
           boxShadow: `0 0 60px 20px ${
             currentTitle.grade === "legendary"
               ? "rgba(251, 191, 36, 0.3)"
@@ -156,7 +158,8 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
         <Button
           unstyled
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 z-10"
+          className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20"
+          style={{ zIndex: Z_INDEX.sticky }}
         >
           <X size={20} className="text-white/70" />
         </Button>

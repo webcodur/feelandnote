@@ -1,20 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, ExternalLink, Loader2, Sparkles } from "lucide-react";
+import { Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Check } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
+
+interface ProfileData {
+  nickname: string;
+  avatar_url: string | null;
+  bio: string | null;
+}
 
 interface SettingsContentProps {
   apiKey: string | null;
   onSave: (key: string) => Promise<void>;
   isSaving: boolean;
+  profile: ProfileData | null;
+  onProfileUpdate: (data: Partial<ProfileData>) => Promise<{ success: boolean; error?: string }>;
 }
 
-export default function SettingsContent({ apiKey, onSave, isSaving }: SettingsContentProps) {
+export default function SettingsContent({ apiKey, onSave, isSaving, profile, onProfileUpdate }: SettingsContentProps) {
   const [inputValue, setInputValue] = useState(apiKey || "");
   const [showKey, setShowKey] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // 프로필 편집 상태
+  const [nickname, setNickname] = useState(profile?.nickname || "");
+  const [bio, setBio] = useState(profile?.bio || "");
+  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || "");
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [profileSaveSuccess, setProfileSaveSuccess] = useState(false);
+  const [profileError, setProfileError] = useState<string | null>(null);
 
   const handleSave = async () => {
     try {
@@ -28,8 +44,120 @@ export default function SettingsContent({ apiKey, onSave, isSaving }: SettingsCo
 
   const hasChanges = inputValue !== (apiKey || "");
 
+  const hasProfileChanges =
+    nickname !== (profile?.nickname || "") ||
+    bio !== (profile?.bio || "") ||
+    avatarUrl !== (profile?.avatar_url || "");
+
+  const handleProfileSave = async () => {
+    setIsSavingProfile(true);
+    setProfileError(null);
+    try {
+      const result = await onProfileUpdate({
+        nickname,
+        bio,
+        avatar_url: avatarUrl || null,
+      });
+      if (result.success) {
+        setProfileSaveSuccess(true);
+        setTimeout(() => setProfileSaveSuccess(false), 2000);
+      } else {
+        setProfileError(result.error || "저장에 실패했다.");
+      }
+    } catch {
+      setProfileError("저장에 실패했다.");
+    } finally {
+      setIsSavingProfile(false);
+    }
+  };
+
   return (
     <div className="space-y-4 animate-fade-in">
+      {/* 프로필 편집 카드 */}
+      <Card className="p-0">
+        <div className="p-4 border-b border-white/5 flex items-center gap-2">
+          <User size={18} className="text-accent" />
+          <h3 className="font-semibold">프로필 설정</h3>
+        </div>
+
+        <div className="p-4 space-y-4">
+          {/* 아바타 미리보기 */}
+          <div className="flex items-center gap-4">
+            <div className="shrink-0">
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  alt="프로필"
+                  className="w-16 h-16 rounded-full object-cover ring-2 ring-accent/20"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-xl font-bold text-white ring-2 ring-accent/20">
+                  {nickname.charAt(0).toUpperCase() || "U"}
+                </div>
+              )}
+            </div>
+            <div className="flex-1 space-y-1">
+              <label className="text-sm font-medium">프로필 이미지 URL</label>
+              <input
+                type="url"
+                value={avatarUrl}
+                onChange={(e) => setAvatarUrl(e.target.value)}
+                placeholder="https://example.com/image.jpg"
+                className="w-full h-9 bg-black/20 border border-border rounded-lg px-3 text-sm outline-none focus:border-accent placeholder:text-text-secondary"
+              />
+            </div>
+          </div>
+
+          {/* 닉네임 */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">닉네임</label>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="닉네임을 입력하세요"
+              maxLength={20}
+              className="w-full h-10 bg-black/20 border border-border rounded-lg px-3 text-sm outline-none focus:border-accent placeholder:text-text-secondary"
+            />
+            <p className="text-xs text-text-tertiary">{nickname.length}/20</p>
+          </div>
+
+          {/* 소개글 */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">소개글</label>
+            <textarea
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="자기소개를 작성해보세요"
+              maxLength={200}
+              rows={3}
+              className="w-full bg-black/20 border border-border rounded-lg px-3 py-2 text-sm outline-none focus:border-accent placeholder:text-text-secondary resize-none"
+            />
+            <p className="text-xs text-text-tertiary">{bio.length}/200</p>
+          </div>
+
+          {/* 저장 버튼 */}
+          <div className="flex items-center gap-3">
+            <Button
+              variant="primary"
+              onClick={handleProfileSave}
+              disabled={isSavingProfile || !hasProfileChanges}
+            >
+              {isSavingProfile ? <Loader2 size={16} className="animate-spin" /> : "저장"}
+            </Button>
+            {profileSaveSuccess && (
+              <span className="flex items-center gap-1 text-sm text-green-400">
+                <Check size={14} />
+                저장되었다
+              </span>
+            )}
+            {profileError && (
+              <span className="text-sm text-red-400">{profileError}</span>
+            )}
+          </div>
+        </div>
+      </Card>
+
       {/* AI 설정 카드 */}
       <Card className="p-0">
         <div className="p-4 border-b border-white/5 flex items-center gap-2">

@@ -8,6 +8,7 @@ import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
 import type { PlaylistWithItems, PlaylistItemWithContent, ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface TierEditViewProps {
   playlistId: string;
@@ -205,7 +206,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   return (
     <div className="min-h-screen flex flex-col">
       {/* 헤더 */}
-      <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0 z-10">
+      <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0" style={{ zIndex: Z_INDEX.sticky }}>
         <div className="flex items-center gap-3">
           <Button
             unstyled

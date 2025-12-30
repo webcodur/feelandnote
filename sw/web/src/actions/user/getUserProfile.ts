@@ -7,6 +7,9 @@ export interface PublicUserProfile {
   nickname: string
   avatar_url: string | null
   bio: string | null
+  category: string | null
+  profile_type: 'USER' | 'CELEB'
+  is_verified: boolean
   created_at: string
   stats: {
     content_count: number
@@ -33,7 +36,7 @@ export async function getUserProfile(userId: string): Promise<GetUserProfileResu
   // 대상 유저 프로필 조회
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, created_at')
+    .select('id, nickname, avatar_url, bio, category, profile_type, is_verified, created_at')
     .eq('id', userId)
     .single()
 
@@ -94,7 +97,10 @@ export async function getUserProfile(userId: string): Promise<GetUserProfileResu
       id: profile.id,
       nickname: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
-      bio: null, // TODO: profiles 테이블에 bio 필드 추가 후 연동
+      bio: profile.bio,
+      category: profile.category,
+      profile_type: (profile.profile_type as 'USER' | 'CELEB') || 'USER',
+      is_verified: profile.is_verified || false,
       created_at: profile.created_at,
       stats: {
         content_count: contentCount || 0,
