@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, Suspense } from "react";
+import { useState, useEffect, useTransition, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -12,9 +12,12 @@ import {
   Plus,
   Loader2,
   Check,
+  Sparkles,
 } from "lucide-react";
 import { Button, Card } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
+import { getProfile } from "@/actions/user";
+import { generateSummary } from "@/actions/ai";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 
@@ -50,6 +53,29 @@ function ContentDetailContent() {
   const [isAdding, startAddTransition] = useTransition();
   const [isAdded, setIsAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasApiKey, setHasApiKey] = useState(false);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [isSummarizing, setIsSummarizing] = useState(false);
+
+  useEffect(() => {
+    getProfile().then((profile) => {
+      setHasApiKey(!!profile?.gemini_api_key);
+    });
+  }, []);
+
+  const handleSummarize = async () => {
+    if (!description) return;
+    setIsSummarizing(true);
+    try {
+      const result = await generateSummary({ contentTitle: title, description });
+      setSummary(result.text);
+    } catch (err) {
+      console.error("AI 요약 실패:", err);
+      alert(err instanceof Error ? err.message : "AI 요약에 실패했습니다.");
+    } finally {
+      setIsSummarizing(false);
+    }
+  };
 
   const handleAddToArchive = () => {
     if (!contentId) {
@@ -188,9 +214,37 @@ function ContentDetailContent() {
       {/* Description */}
       {description && (
         <Card className="p-6 mb-6">
-          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <FileText size={20} /> 소개
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold flex items-center gap-2">
+              <FileText size={20} /> 소개
+            </h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSummarize}
+              disabled={!hasApiKey || isSummarizing}
+              title={hasApiKey ? "AI로 줄거리 요약" : "마이페이지 > 설정에서 API 키를 등록하세요"}
+              className="text-xs gap-1.5"
+            >
+              {isSummarizing ? (
+                <Loader2 size={14} className="animate-spin" />
+              ) : (
+                <Sparkles size={14} />
+              )}
+              AI 요약
+            </Button>
+          </div>
+
+          {/* AI 요약 결과 */}
+          {summary && (
+            <div className="p-3 mb-4 bg-accent/10 border border-accent/20 rounded-lg">
+              <div className="flex items-center gap-1.5 text-xs text-accent mb-2">
+                <Sparkles size={12} /> AI 요약
+              </div>
+              <p className="text-sm text-text-primary leading-relaxed">{summary}</p>
+            </div>
+          )}
+
           <p className="text-text-secondary leading-relaxed whitespace-pre-line">
             {description}
           </p>

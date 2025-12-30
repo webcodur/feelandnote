@@ -1,6 +1,7 @@
 export { searchBooks } from './searchBooks'
 export { addContent } from './addContent'
 export { getMyContents, type UserContentWithContent } from './getMyContents'
+export { getUserContents, getUserContentsAll, type UserContentPublic } from './getUserContents'
 export { getContent } from './getContent'
 export { getContentInfo, type ContentInfo, type ContentWithUserStatus } from './getContentInfo'
 export { updateStatus } from './updateStatus'

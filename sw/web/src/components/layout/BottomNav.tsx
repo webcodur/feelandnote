@@ -36,7 +36,7 @@ export default function BottomNav() {
     { href: "/archive", icon: <Folder size={20} />, label: "기록관" },
     { href: "/feed", icon: <Newspaper size={20} />, label: "피드" },
     { href: "/playground", icon: <Compass size={20} />, label: "놀이터" },
-    { href: "/profile", icon: <User size={20} />, label: "내 정보" },
+    { href: "/profile", icon: <User size={20} />, label: "마이페이지" },
   ];
 
   return (

@@ -11,6 +11,7 @@ export type ScoreType = 'activity' | 'title'
 export type TitleCategory = 'volume' | 'diversity' | 'consistency' | 'depth' | 'social' | 'special'
 export type TitleGrade = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
 export type TierListType = 'all' | 'category' | 'genre' | 'year' | 'custom'
+export type ProfileType = 'USER' | 'CELEB'
 
 // ===== Phase 1: Core Tables =====
 export interface Profile {
@@ -18,6 +19,12 @@ export interface Profile {
   email: string | null
   nickname: string | null
   avatar_url: string | null
+  gemini_api_key: string | null
+  profile_type: ProfileType
+  claimed_by: string | null
+  is_verified: boolean
+  bio: string | null
+  category: string | null
   created_at: string
 }
 
@@ -44,6 +51,7 @@ export interface UserContent {
   progress: number | null
   progress_type: ProgressType | null
   folder_id: string | null
+  contributor_id: string | null
   created_at: string
   updated_at: string
 }
@@ -57,6 +65,8 @@ export interface ContentRecord {
   rating: number | null
   location: string | null
   visibility: VisibilityType | null
+  contributor_id: string | null
+  source_url: string | null
   created_at: string
   updated_at: string
 }
@@ -201,9 +211,16 @@ export interface UserContentWithContent extends UserContent {
   folder?: Folder | null
 }
 
+export interface ContributorInfo {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+}
+
 export interface RecordWithContent extends Omit<ContentRecord, 'content'> {
   text: string // records.content를 text로 재명명
   contentData: Content | null // 조인된 contents 테이블 데이터
+  contributor: ContributorInfo | null // 기여자 정보 (셀럽 기록인 경우)
 }
 
 export interface RecordWithUser extends ContentRecord {

@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import { ProgressSlider, DropdownMenu, type DropdownMenuItem } from "@/components/ui";
 import Button from "@/components/ui/Button";
@@ -38,12 +39,18 @@ export default function ContentCard({
   compact: _compact,
 }: ContentCardProps) {
   const router = useRouter();
+  const [isEditingProgress, setIsEditingProgress] = useState(false);
   const content = item.content;
   const progressPercent = item.progress ?? 0;
   const addedDate = formatDate(item.created_at);
 
   const handleClick = () => {
     if (href) router.push(href);
+  };
+
+  const handleProgressChange = (value: number) => {
+    onProgressChange?.(item.id, value);
+    setIsEditingProgress(false);
   };
 
   return (
@@ -53,7 +60,7 @@ export default function ContentCard({
     >
       {/* 더보기 메뉴 - 카드 최상위에 배치 */}
       {onDelete && (
-        <div className="absolute top-2 left-2 z-30">
+        <div className="absolute top-2 right-2 z-30">
           <DropdownMenu
             items={[
               {
@@ -92,24 +99,12 @@ export default function ContentCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
           {/* 상태 배지 */}
-          {item.status && item.status !== "COMPLETE" && (
+          {item.status && (
             <StatusBadge
               status={item.status}
               progress={progressPercent}
               onStatusChange={onStatusChange ? (s) => onStatusChange(item.id, s) : undefined}
             />
-          )}
-
-          {/* 완료 스탬프 */}
-          {item.status === "COMPLETE" && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-15deg] z-20 pointer-events-none">
-              <div className="px-3 py-1.5 border-2 border-green-500 rounded-lg bg-green-500/20 backdrop-blur-sm">
-                <div className="flex items-center gap-1.5">
-                  <Check size={16} className="text-green-400" />
-                  <span className="text-green-400 font-bold text-sm tracking-wider">COMPLETE</span>
-                </div>
-              </div>
-            </div>
           )}
         </div>
 
@@ -121,17 +116,17 @@ export default function ContentCard({
           </div>
 
           {/* 진행률 */}
-          {onProgressChange ? (
+          {isEditingProgress && onProgressChange ? (
             <div onClick={(e) => e.stopPropagation()}>
               <ProgressSlider
                 value={progressPercent}
-                onChange={(v) => onProgressChange(item.id, v)}
+                onChange={handleProgressChange}
               />
             </div>
           ) : (
             <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-accent transition-all"
+                className="h-full bg-accent"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -139,7 +134,20 @@ export default function ContentCard({
 
           <div className="flex justify-between text-xs text-text-secondary mt-2">
             <span>{addedDate}</span>
-            <span className="font-medium text-primary">{progressPercent}%</span>
+            {onProgressChange ? (
+              <button
+                type="button"
+                className="font-medium text-primary hover:text-accent"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditingProgress(!isEditingProgress);
+                }}
+              >
+                {progressPercent}%
+              </button>
+            ) : (
+              <span className="font-medium text-primary">{progressPercent}%</span>
+            )}
           </div>
         </div>
       </div>
@@ -164,7 +172,7 @@ function StatusBadge({
   return (
     <Button
       unstyled
-      className={`absolute top-2 right-2 z-20 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm border ${style.class} ${
+      className={`absolute top-2 left-2 z-20 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm border ${style.class} ${
         canToggle ? "hover:opacity-80" : "cursor-default"
       }`}
       onClick={(e) => {

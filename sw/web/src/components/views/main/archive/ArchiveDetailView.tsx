@@ -16,6 +16,8 @@ import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateProgress } from "@/actions/contents/updateProgress";
 import { removeContent } from "@/actions/contents/removeContent";
 import { getRecords, createRecord, updateRecord } from "@/actions/records";
+import { getProfile } from "@/actions/user";
+import { generateReviewExample } from "@/actions/ai";
 import type { ContentStatus } from "@/actions/contents/addContent";
 import { useAchievement } from "@/components/features/achievements";
 
@@ -43,17 +45,21 @@ export default function ArchiveDetailView() {
 
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState<number | null>(null);
+  const [hasApiKey, setHasApiKey] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     async function loadData() {
       setIsLoading(true);
       setError(null);
       try {
-        const [contentData, reviewsData] = await Promise.all([
+        const [contentData, reviewsData, profile] = await Promise.all([
           getContent(contentId),
           getRecords({ contentId, type: 'REVIEW' }).catch(() => []),
+          getProfile(),
         ]);
         setItem(contentData);
+        setHasApiKey(!!profile?.gemini_api_key);
         const reviewRecord = reviewsData.find(r => r.type === 'REVIEW');
         if (reviewRecord) {
           setMyReview(reviewRecord as unknown as RecordData);
@@ -145,6 +151,23 @@ export default function ArchiveDetailView() {
     });
   };
 
+  const handleGenerateExample = async () => {
+    if (!item) return;
+    setIsGenerating(true);
+    try {
+      const result = await generateReviewExample({
+        contentTitle: item.content.title,
+        contentType: item.content.type,
+      });
+      setReviewText(result.text);
+    } catch (err) {
+      console.error("AI 예시 생성 실패:", err);
+      alert(err instanceof Error ? err.message : "AI 예시 생성에 실패했습니다.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <>
       <ArchiveDetailHeader
@@ -173,6 +196,9 @@ export default function ArchiveDetailView() {
           onReviewTextChange={setReviewText}
           onRatingChange={setReviewRating}
           onSave={handleSaveReview}
+          hasApiKey={hasApiKey}
+          onGenerateExample={handleGenerateExample}
+          isGenerating={isGenerating}
         />
       )}
 

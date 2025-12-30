@@ -7,6 +7,8 @@ export interface UserProfile {
   email: string | null
   nickname: string
   avatar_url: string | null
+  bio?: string | null
+  gemini_api_key: string | null
 }
 
 export async function getProfile(): Promise<UserProfile | null> {
@@ -31,6 +33,8 @@ export async function getProfile(): Promise<UserProfile | null> {
     id: profile.id,
     email: profile.email,
     nickname: profile.nickname || 'User',
-    avatar_url: profile.avatar_url
+    avatar_url: profile.avatar_url,
+    bio: profile.bio || null,
+    gemini_api_key: profile.gemini_api_key || null
   }
 }

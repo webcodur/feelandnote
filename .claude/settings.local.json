@@ -42,7 +42,10 @@
       "Bash(cd:*)",
       "Bash(SUPABASE_ACCESS_TOKEN=sbp_a4c96d050fa642e800eb9f6bc04d835333854b47 npx supabase db push:*)",
       "Bash(SUPABASE_ACCESS_TOKEN=sbp_a4c96d050fa642e800eb9f6bc04d835333854b47 npx supabase:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "mcp__supabase__search_docs",
+      "mcp__supabase__get_advisors"
     ],
     "deny": [],
     "ask": []

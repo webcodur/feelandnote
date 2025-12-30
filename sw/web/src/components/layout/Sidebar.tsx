@@ -7,7 +7,6 @@ import {
   Newspaper,
   Compass,
   User,
-  Settings,
   LogOut,
   LucideIcon,
 } from "lucide-react";
@@ -23,14 +22,8 @@ const NAV_ITEMS: NavItemInfo[] = [
   { href: "/archive", label: "기록관", icon: Folder },
   { href: "/feed", label: "피드", icon: Newspaper },
   { href: "/playground", label: "놀이터", icon: Compass },
-  { href: "/profile", label: "내 정보", icon: User },
+  { href: "/profile", label: "마이페이지", icon: User },
 ];
-
-const SETTINGS_ITEM: NavItemInfo = {
-  href: "/settings",
-  label: "설정",
-  icon: Settings,
-};
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -91,15 +84,9 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
         ))}
 
         <div className="mt-auto flex flex-col items-center gap-2">
-          <NavItem
-            href={SETTINGS_ITEM.href}
-            active={pathname.startsWith(SETTINGS_ITEM.href)}
-            icon={SETTINGS_ITEM.icon}
-            label={SETTINGS_ITEM.label}
-          />
           <Button
             unstyled
-            className="w-14 h-14 flex flex-col items-center justify-center gap-1 rounded-xl bg-transparent border-none text-text-secondary hover:bg-white/5 hover:text-text-primary transition-all duration-200"
+            className="w-14 h-14 flex flex-col items-center justify-center gap-1 rounded-xl bg-transparent border-none text-text-secondary hover:bg-white/5 hover:text-text-primary"
             onClick={handleLogout}
           >
             <LogOut size={24} />
