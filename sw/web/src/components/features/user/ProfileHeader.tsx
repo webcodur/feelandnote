@@ -55,13 +55,14 @@ export default function ProfileHeader({
     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
         {/* 큰 아바타 */}
         {is_self && onProfileClick ? (
-          <button
+          <Button
+            unstyled
             onClick={onProfileClick}
             className="relative shrink-0 group cursor-pointer"
           >
             {avatarContent}
             <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/20 transition-colors" />
-          </button>
+          </Button>
         ) : (
           <div className="relative shrink-0">
             {avatarContent}
@@ -72,12 +73,13 @@ export default function ProfileHeader({
         <div className="flex-1 text-center sm:text-left">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3">
             {is_self && onProfileClick ? (
-              <button
+              <Button
+                unstyled
                 onClick={onProfileClick}
                 className="text-xl sm:text-2xl font-bold text-text-primary hover:text-accent transition-colors"
               >
                 {nickname}
-              </button>
+              </Button>
             ) : (
               <h1 className="text-xl sm:text-2xl font-bold text-text-primary">
                 {nickname}

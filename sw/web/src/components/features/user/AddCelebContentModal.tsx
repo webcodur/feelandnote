@@ -2,13 +2,15 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { X, Search, Book, Film, Gamepad2, Music, Award, Link as LinkIcon, Loader2 } from "lucide-react";
+import { Search, Book, Film, Gamepad2, Music, Award, Link as LinkIcon, Loader2 } from "lucide-react";
+import { Modal, ModalBody, ModalFooter, Button } from "@/components/ui";
 import { searchContents, type ContentSearchResult } from "@/actions/search";
 import { addCelebContent } from "@/actions/celebs";
 import type { CategoryId } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
 
 interface AddCelebContentModalProps {
+  isOpen: boolean;
   celebId: string;
   celebName: string;
   onClose: () => void;
@@ -28,17 +30,14 @@ const STATUS_OPTIONS: Array<{ value: ContentStatus; label: string }> = [
   { value: "WISH", label: "예정" },
 ];
 
-export default function AddCelebContentModal({ celebId, celebName, onClose }: AddCelebContentModalProps) {
+export default function AddCelebContentModal({ isOpen, celebId, celebName, onClose }: AddCelebContentModalProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  // 검색 상태
   const [category, setCategory] = useState<CategoryId>("book");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ContentSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-
-  // 선택된 콘텐츠
   const [selected, setSelected] = useState<ContentSearchResult | null>(null);
   const [sourceUrl, setSourceUrl] = useState("");
   const [status, setStatus] = useState<ContentStatus>("COMPLETE");
@@ -101,194 +100,161 @@ export default function AddCelebContentModal({ celebId, celebName, onClose }: Ad
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-background rounded-2xl w-full max-w-lg max-h-[80vh] flex flex-col shadow-xl">
-        {/* 헤더 */}
-        <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 className="text-lg font-bold text-text-primary">
-            {celebName}의 기록 추가
-          </h2>
-          <button onClick={onClose} className="text-text-tertiary hover:text-text-primary">
-            <X size={20} />
-          </button>
+    <Modal isOpen={isOpen} onClose={onClose} title={`${celebName}의 기록 추가`} size="lg">
+      <ModalBody className="space-y-4 max-h-[60vh] overflow-y-auto">
+        {/* 카테고리 선택 */}
+        <div className="flex gap-2 flex-wrap">
+          {CATEGORY_CONFIG.map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <Button
+                unstyled
+                key={cat.id}
+                onClick={() => {
+                  setCategory(cat.id);
+                  setResults([]);
+                  setSelected(null);
+                }}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-colors ${
+                  category === cat.id
+                    ? "bg-accent text-white"
+                    : "bg-surface text-text-secondary hover:text-text-primary"
+                }`}
+              >
+                <Icon size={14} />
+                {cat.label}
+              </Button>
+            );
+          })}
         </div>
 
-        {/* 본문 */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {/* 카테고리 선택 */}
-          <div className="flex gap-2 flex-wrap">
-            {CATEGORY_CONFIG.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    setCategory(cat.id);
-                    setResults([]);
-                    setSelected(null);
-                  }}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-colors ${
-                    category === cat.id
-                      ? "bg-accent text-white"
-                      : "bg-surface text-text-secondary hover:text-text-primary"
-                  }`}
-                >
-                  <Icon size={14} />
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* 검색 */}
-          {!selected && (
-            <>
-              <div className="flex gap-2">
-                <div className="flex-1 relative">
-                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="콘텐츠 검색..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
-                  />
-                </div>
-                <button
-                  onClick={handleSearch}
-                  disabled={isSearching}
-                  className="px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 disabled:opacity-50 font-medium"
-                >
-                  {isSearching ? <Loader2 size={16} className="animate-spin" /> : "검색"}
-                </button>
+        {/* 검색 */}
+        {!selected && (
+          <>
+            <div className="flex gap-2">
+              <div className="flex-1 relative">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="콘텐츠 검색..."
+                  className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+                />
               </div>
+              <Button
+                unstyled
+                onClick={handleSearch}
+                disabled={isSearching}
+                className="px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 disabled:opacity-50 font-medium"
+              >
+                {isSearching ? <Loader2 size={16} className="animate-spin" /> : "검색"}
+              </Button>
+            </div>
 
-              {/* 검색 결과 */}
-              {results.length > 0 && (
-                <div className="space-y-2 max-h-60 overflow-y-auto">
-                  {results.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => handleSelect(item)}
-                      className="w-full flex items-start gap-3 p-3 bg-surface rounded-lg hover:bg-surface-hover transition-colors text-start"
-                    >
-                      {item.thumbnail ? (
-                        <img
-                          src={item.thumbnail}
-                          alt={item.title}
-                          className="w-12 h-16 object-cover rounded flex-shrink-0"
-                        />
-                      ) : (
-                        <div className="w-12 h-16 bg-background rounded flex items-center justify-center flex-shrink-0">
-                          <Book size={20} className="text-text-tertiary" />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-text-primary truncate">{item.title}</p>
-                        <p className="text-xs text-text-secondary truncate">{item.creator}</p>
-                        {item.releaseDate && (
-                          <p className="text-xs text-text-tertiary mt-0.5">{item.releaseDate}</p>
-                        )}
+            {/* 검색 결과 */}
+            {results.length > 0 && (
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {results.map((item) => (
+                  <Button
+                    unstyled
+                    key={item.id}
+                    onClick={() => handleSelect(item)}
+                    className="w-full flex items-start gap-3 p-3 bg-surface rounded-lg hover:bg-surface-hover transition-colors text-start"
+                  >
+                    {item.thumbnail ? (
+                      <img src={item.thumbnail} alt={item.title} className="w-12 h-16 object-cover rounded flex-shrink-0" />
+                    ) : (
+                      <div className="w-12 h-16 bg-background rounded flex items-center justify-center flex-shrink-0">
+                        <Book size={20} className="text-text-tertiary" />
                       </div>
-                    </button>
-                  ))}
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-text-primary truncate">{item.title}</p>
+                      <p className="text-xs text-text-secondary truncate">{item.creator}</p>
+                      {item.releaseDate && <p className="text-xs text-text-tertiary mt-0.5">{item.releaseDate}</p>}
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* 선택된 콘텐츠 */}
+        {selected && (
+          <div className="space-y-4">
+            <div className="flex items-start gap-3 p-3 bg-surface rounded-lg">
+              {selected.thumbnail ? (
+                <img src={selected.thumbnail} alt={selected.title} className="w-14 h-20 object-cover rounded flex-shrink-0" />
+              ) : (
+                <div className="w-14 h-20 bg-background rounded flex items-center justify-center flex-shrink-0">
+                  <Book size={24} className="text-text-tertiary" />
                 </div>
               )}
-            </>
-          )}
-
-          {/* 선택된 콘텐츠 */}
-          {selected && (
-            <div className="space-y-4">
-              <div className="flex items-start gap-3 p-3 bg-surface rounded-lg">
-                {selected.thumbnail ? (
-                  <img
-                    src={selected.thumbnail}
-                    alt={selected.title}
-                    className="w-14 h-20 object-cover rounded flex-shrink-0"
-                  />
-                ) : (
-                  <div className="w-14 h-20 bg-background rounded flex items-center justify-center flex-shrink-0">
-                    <Book size={24} className="text-text-tertiary" />
-                  </div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-text-primary">{selected.title}</p>
-                  <p className="text-sm text-text-secondary">{selected.creator}</p>
-                  <button
-                    onClick={() => setSelected(null)}
-                    className="text-xs text-accent hover:underline mt-1"
-                  >
-                    다른 콘텐츠 선택
-                  </button>
-                </div>
-              </div>
-
-              {/* 상태 선택 */}
-              <div>
-                <label className="block text-sm font-medium text-text-secondary mb-1.5">
-                  상태
-                </label>
-                <div className="flex gap-2">
-                  {STATUS_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      onClick={() => setStatus(opt.value)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                        status === opt.value
-                          ? "bg-accent text-white"
-                          : "bg-surface text-text-secondary hover:text-text-primary"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 출처 URL */}
-              <div>
-                <label className="block text-sm font-medium text-text-secondary mb-1.5">
-                  출처 링크 *
-                </label>
-                <div className="relative">
-                  <LinkIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
-                  <input
-                    type="url"
-                    value={sourceUrl}
-                    onChange={(e) => setSourceUrl(e.target.value)}
-                    placeholder="https://..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
-                  />
-                </div>
-                <p className="text-xs text-text-tertiary mt-1">
-                  {celebName}님이 이 콘텐츠를 언급한 출처를 입력하세요
-                </p>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-text-primary">{selected.title}</p>
+                <p className="text-sm text-text-secondary">{selected.creator}</p>
+                <Button unstyled onClick={() => setSelected(null)} className="text-xs text-accent hover:underline mt-1">
+                  다른 콘텐츠 선택
+                </Button>
               </div>
             </div>
-          )}
 
-          {error && <p className="text-sm text-red-500">{error}</p>}
-        </div>
+            {/* 상태 선택 */}
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-1.5">상태</label>
+              <div className="flex gap-2">
+                {STATUS_OPTIONS.map((opt) => (
+                  <Button
+                    unstyled
+                    key={opt.value}
+                    onClick={() => setStatus(opt.value)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      status === opt.value ? "bg-accent text-white" : "bg-surface text-text-secondary hover:text-text-primary"
+                    }`}
+                  >
+                    {opt.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
 
-        {/* 푸터 */}
-        <div className="flex gap-3 p-6 border-t border-border">
-          <button
-            onClick={onClose}
-            className="flex-1 px-4 py-2.5 bg-surface text-text-secondary rounded-lg hover:bg-surface-hover font-medium"
-          >
-            취소
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={!selected || !sourceUrl.trim() || isPending}
-            className="flex-1 px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 font-medium disabled:opacity-50"
-          >
-            {isPending ? "추가 중..." : "추가"}
-          </button>
-        </div>
-      </div>
-    </div>
+            {/* 출처 URL */}
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-1.5">출처 링크 *</label>
+              <div className="relative">
+                <LinkIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+                <input
+                  type="url"
+                  value={sourceUrl}
+                  onChange={(e) => setSourceUrl(e.target.value)}
+                  placeholder="https://..."
+                  className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+              <p className="text-xs text-text-tertiary mt-1">{celebName}님이 이 콘텐츠를 언급한 출처를 입력하세요</p>
+            </div>
+          </div>
+        )}
+
+        {error && <p className="text-sm text-red-500">{error}</p>}
+      </ModalBody>
+
+      <ModalFooter>
+        <Button unstyled onClick={onClose} className="flex-1 px-4 py-2.5 bg-surface text-text-secondary rounded-lg hover:bg-surface-hover font-medium">
+          취소
+        </Button>
+        <Button
+          unstyled
+          onClick={handleSubmit}
+          disabled={!selected || !sourceUrl.trim() || isPending}
+          className="flex-1 px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 font-medium disabled:opacity-50"
+        >
+          {isPending ? "추가 중..." : "추가"}
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 }

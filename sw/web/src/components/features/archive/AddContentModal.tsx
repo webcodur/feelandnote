@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { X, Book, Film, Tv, Gamepad2, Music, Drama, Search, Plus, Loader2 } from "lucide-react";
-import { Button, Card, ProgressSlider } from "@/components/ui";
-import { searchBooks } from "@/actions/contents/searchBooks";
+import { X, Book, Film, Gamepad2, Music, Award, Loader2, Info, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button, ProgressSlider } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
-import type { BookSearchResult } from "@/lib/api/naver-books";
+import type { CategoryId } from "@/constants/categories";
 import { useAchievement } from "@/components/features/achievements";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -17,82 +17,66 @@ interface AddContentModalProps {
 }
 
 const CATEGORIES = [
-  { id: "BOOK", label: "도서", icon: Book, color: "from-blue-500 to-cyan-500", enabled: true },
-  { id: "MOVIE", label: "영화", icon: Film, color: "from-purple-500 to-pink-500", enabled: false },
+  { id: "book" as CategoryId, dbType: "BOOK", label: "도서", icon: Book, creatorLabel: "저자" },
+  { id: "video" as CategoryId, dbType: "VIDEO", label: "영상", icon: Film, creatorLabel: "감독" },
+  { id: "game" as CategoryId, dbType: "GAME", label: "게임", icon: Gamepad2, creatorLabel: "개발사" },
+  { id: "music" as CategoryId, dbType: "MUSIC", label: "음악", icon: Music, creatorLabel: "아티스트" },
+  { id: "certificate" as CategoryId, dbType: "CERTIFICATE", label: "자격증", icon: Award, creatorLabel: "발급기관" },
+];
+
+const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
+  { value: "EXPERIENCE", label: "경험 중" },
+  { value: "COMPLETE", label: "완료" },
+  { value: "WISH", label: "관심 목록" },
 ];
 
 export default function AddContentModal({ isOpen, onClose, onSuccess }: AddContentModalProps) {
-  const [step, setStep] = useState<"category" | "search" | "manual">("category");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
-  const [progressValues, setProgressValues] = useState<Record<string, number>>({});
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
+  const [title, setTitle] = useState("");
+  const [creator, setCreator] = useState("");
+  const [status, setStatus] = useState<ContentStatus>("EXPERIENCE");
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [isSearching, startSearchTransition] = useTransition();
   const [isAdding, startAddTransition] = useTransition();
   const { showUnlock } = useAchievement();
 
+  const handleGoToSearch = () => {
+    onClose();
+    router.push("/");
+  };
+
   if (!isOpen) return null;
 
-  const handleCategorySelect = (categoryId: string) => {
-    const category = CATEGORIES.find(c => c.id === categoryId);
-    if (!category?.enabled) {
-      setError("이 카테고리는 아직 지원되지 않습니다. 곧 추가될 예정입니다!");
-      return;
-    }
+  const currentCategoryConfig = CATEGORIES.find(c => c.id === selectedCategory)!;
+
+  const handleCategorySelect = (categoryId: CategoryId) => {
     setError(null);
     setSelectedCategory(categoryId);
-    setStep("search");
   };
 
-  const handleSearch = () => {
-    if (!searchQuery.trim()) return;
+  const handleSubmit = () => {
+    if (!title.trim()) {
+      setError("제목을 입력하세요.");
+      return;
+    }
+
     setError(null);
-
-    startSearchTransition(async () => {
-      try {
-        const result = await searchBooks({ query: searchQuery });
-        setSearchResults(result.items);
-        if (result.items.length === 0) {
-          setError("검색 결과가 없습니다. 다른 키워드로 검색해보세요.");
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "검색 중 오류가 발생했습니다.");
-        setSearchResults([]);
-      }
-    });
-  };
-
-  const handleManualAdd = () => {
-    setStep("manual");
-  };
-
-  const handleProgressChange = (externalId: string, value: number) => {
-    setProgressValues(prev => ({ ...prev, [externalId]: value }));
-  };
-
-  const handleAddContent = (result: BookSearchResult, status: ContentStatus) => {
-    setError(null);
-    const progress = status === 'EXPERIENCE' ? (progressValues[result.externalId] ?? 0) : 0;
+    const finalProgress = status === "EXPERIENCE" ? progress : status === "COMPLETE" ? 100 : 0;
 
     startAddTransition(async () => {
       try {
         const response = await addContent({
-          id: result.externalId,
-          type: selectedCategory as ContentType,
-          title: result.title,
-          creator: result.creator,
-          thumbnailUrl: result.coverImageUrl || undefined,
-          publisher: result.metadata.publisher,
-          releaseDate: result.metadata.publishDate,
-          metadata: result.metadata,
+          id: `manual_${Date.now()}`,
+          type: currentCategoryConfig.dbType as ContentType,
+          title: title.trim(),
+          creator: creator.trim() || undefined,
           status,
-          progress,
+          progress: finalProgress,
         });
         onSuccess?.();
         handleClose();
 
-        // 칭호 해금 알림 표시
         if (response.unlockedTitles && response.unlockedTitles.length > 0) {
           showUnlock(response.unlockedTitles);
         }
@@ -103,11 +87,11 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   };
 
   const resetModal = () => {
-    setStep("category");
-    setSelectedCategory(null);
-    setSearchQuery("");
-    setSearchResults([]);
-    setProgressValues({});
+    setSelectedCategory("book");
+    setTitle("");
+    setCreator("");
+    setStatus("EXPERIENCE");
+    setProgress(0);
     setError(null);
   };
 
@@ -118,17 +102,10 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
 
   return (
     <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" style={{ zIndex: Z_INDEX.modal }}>
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-bg-card rounded-xl md:rounded-2xl border border-border shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-lg bg-bg-card rounded-xl md:rounded-2xl border border-border shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 md:px-8 md:py-6 border-b border-border bg-bg-secondary">
-          <div>
-            <h2 className="text-2xl font-bold">콘텐츠 추가</h2>
-            {selectedCategory && (
-              <p className="text-sm text-text-secondary mt-1">
-                {CATEGORIES.find((c) => c.id === selectedCategory)?.label} 검색
-              </p>
-            )}
-          </div>
+        <div className="flex items-center justify-between px-4 py-4 md:px-6 md:py-5 border-b border-border bg-bg-secondary">
+          <h2 className="text-xl font-bold">직접 등록</h2>
           <Button
             unstyled
             onClick={handleClose}
@@ -139,187 +116,145 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-120px)] p-4 md:p-8">
+        <div className="p-4 md:p-6 space-y-5">
+          {/* 안내 문구 */}
+          <div className="p-3 bg-accent/10 border border-accent/20 rounded-lg">
+            <div className="flex gap-2">
+              <Info size={16} className="text-accent shrink-0 mt-0.5" />
+              <div className="text-sm text-text-secondary">
+                <p className="mb-1">
+                  직접 등록한 콘텐츠는 <span className="text-text-primary font-medium">나만 볼 수 있는 개인 기록</span>입니다.
+                </p>
+                <p>
+                  다른 사용자와 공유하려면{" "}
+                  <Button
+                    unstyled
+                    type="button"
+                    onClick={handleGoToSearch}
+                    className="text-accent font-medium hover:underline inline-flex items-center gap-1"
+                  >
+                    <Search size={12} />
+                    검색으로 추가
+                  </Button>
+                  를 이용해 주세요.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+            <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
               {error}
             </div>
           )}
 
-          {/* Step 1: Category Selection */}
-          {step === "category" && (
-            <div>
-              <h3 className="text-lg font-semibold mb-6">카테고리를 선택하세요</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {CATEGORIES.map((category) => {
-                  const Icon = category.icon;
-                  return (
-                    <Button
-                      unstyled
-                      key={category.id}
-                      onClick={() => handleCategorySelect(category.id)}
-                      disabled={!category.enabled}
-                      className={`p-6 rounded-2xl bg-bg-main border-2 border-border group ${
-                        category.enabled
-                          ? "hover:border-accent hover:bg-bg-secondary"
-                          : ""
-                      }`}
-                    >
-                      <div
-                        className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${category.color} flex items-center justify-center transition-transform duration-200 ${category.enabled ? "group-hover:scale-110" : ""}`}
-                      >
-                        <Icon size={32} color="white" />
-                      </div>
-                      <div className="text-base font-semibold">{category.label}</div>
-                      {!category.enabled && (
-                        <div className="text-xs text-text-secondary mt-1">준비 중</div>
-                      )}
-                    </Button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Step 2: Search */}
-          {step === "search" && (
-            <div>
-              <div className="mb-6">
-                <div className="flex gap-3">
-                  <div className="flex-1 relative">
-                    <input
-                      type="text"
-                      placeholder="제목, 저자, ISBN 등을 입력하세요"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                      disabled={isSearching}
-                      className="w-full px-5 py-4 bg-bg-main border border-border rounded-xl text-text-primary placeholder:text-text-secondary outline-none transition-colors duration-200 focus:border-accent disabled:opacity-50"
-                    />
-                    {isSearching ? (
-                      <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-accent animate-spin" size={20} />
-                    ) : (
-                      <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary" size={20} />
-                    )}
-                  </div>
-                  <Button variant="primary" onClick={handleSearch} disabled={isSearching} className="px-8">
-                    {isSearching ? "검색 중..." : "검색"}
+          {/* 카테고리 선택 */}
+          <div>
+            <label className="block text-sm font-medium text-text-secondary mb-2">카테고리</label>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map((category) => {
+                const Icon = category.icon;
+                const isSelected = selectedCategory === category.id;
+                return (
+                  <Button
+                    unstyled
+                    key={category.id}
+                    type="button"
+                    onClick={() => handleCategorySelect(category.id)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium ${
+                      isSelected
+                        ? "bg-accent text-white"
+                        : "bg-bg-main text-text-secondary hover:bg-bg-secondary"
+                    }`}
+                  >
+                    <Icon size={16} />
+                    {category.label}
                   </Button>
-                </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 제목 */}
+          <div>
+            <label className="block text-sm font-medium text-text-secondary mb-2">
+              제목 <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="콘텐츠 제목을 입력하세요"
+              className="w-full px-4 py-3 bg-bg-main border border-border rounded-lg text-text-primary placeholder:text-text-secondary outline-none focus:border-accent"
+            />
+          </div>
+
+          {/* 저자/감독/개발사 */}
+          <div>
+            <label className="block text-sm font-medium text-text-secondary mb-2">
+              {currentCategoryConfig.creatorLabel}
+            </label>
+            <input
+              type="text"
+              value={creator}
+              onChange={(e) => setCreator(e.target.value)}
+              placeholder={`${currentCategoryConfig.creatorLabel}를 입력하세요 (선택)`}
+              className="w-full px-4 py-3 bg-bg-main border border-border rounded-lg text-text-primary placeholder:text-text-secondary outline-none focus:border-accent"
+            />
+          </div>
+
+          {/* 상태 선택 */}
+          <div>
+            <label className="block text-sm font-medium text-text-secondary mb-2">상태</label>
+            <div className="flex gap-2">
+              {STATUS_OPTIONS.map((option) => (
                 <Button
                   unstyled
-                  onClick={handleManualAdd}
-                  className="mt-3 text-sm text-accent flex items-center gap-1 hover:underline"
+                  key={option.value}
+                  type="button"
+                  onClick={() => setStatus(option.value)}
+                  className={`flex-1 py-2.5 rounded-lg text-sm font-medium text-center ${
+                    status === option.value
+                      ? "bg-accent text-white"
+                      : "bg-bg-main text-text-secondary hover:bg-bg-secondary"
+                  }`}
                 >
-                  <Plus size={14} /> 검색 결과에 없나요? 직접 추가하기
+                  {option.label}
                 </Button>
-              </div>
-
-              {/* Search Results */}
-              {searchResults.length > 0 && (
-                <div>
-                  <h3 className="text-base font-semibold mb-4">검색 결과 ({searchResults.length})</h3>
-                  <div className="flex flex-col gap-3">
-                    {searchResults.map((result) => {
-                      const currentProgress = progressValues[result.externalId] ?? 0;
-                      return (
-                        <Card key={result.externalId} className="p-0 hover:border-accent">
-                          <div className="flex items-center gap-4 p-4">
-                            {result.coverImageUrl ? (
-                              <img
-                                src={result.coverImageUrl}
-                                alt={result.title}
-                                className="w-16 h-24 rounded-lg shrink-0 object-cover"
-                              />
-                            ) : (
-                              <div className="w-16 h-24 rounded-lg shrink-0 bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
-                                <Book size={24} className="text-gray-400" />
-                              </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-semibold text-base mb-1 truncate">{result.title}</h4>
-                              <p className="text-sm text-text-secondary mb-1 truncate">
-                                {result.creator} · {result.metadata.publisher} · {result.metadata.publishDate?.slice(0, 4)}
-                              </p>
-                              {/* 진행도 슬라이더 */}
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs text-text-secondary whitespace-nowrap">진행도</span>
-                                <ProgressSlider
-                                  value={currentProgress}
-                                  onChange={(v) => handleProgressChange(result.externalId, v)}
-                                  className="flex-1"
-                                />
-                                <span className="text-xs text-accent font-medium w-8 text-right">{currentProgress}%</span>
-                              </div>
-                            </div>
-                            <div className="flex flex-col gap-2 shrink-0">
-                              <Button
-                                variant="primary"
-                                size="sm"
-                                onClick={() => handleAddContent(result, currentProgress === 100 ? "COMPLETE" : "EXPERIENCE")}
-                                disabled={isAdding}
-                              >
-                                {isAdding ? <Loader2 size={14} className="animate-spin" /> : currentProgress === 100 ? "완료" : "경험"}
-                              </Button>
-                              <Button
-                                variant="secondary"
-                                size="sm"
-                                onClick={() => handleAddContent(result, "WISH")}
-                                disabled={isAdding}
-                              >
-                                {isAdding ? <Loader2 size={14} className="animate-spin" /> : "관심 목록"}
-                              </Button>
-                            </div>
-                          </div>
-                        </Card>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {!isSearching && searchQuery && searchResults.length === 0 && !error && (
-                <div className="text-center py-12 text-text-secondary">
-                  검색 버튼을 눌러 콘텐츠를 찾아보세요
-                </div>
-              )}
+              ))}
             </div>
-          )}
+          </div>
 
-          {/* Step 3: Manual Add - 준비 중 */}
-          {step === "manual" && (
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">🔨</div>
-              <h3 className="text-lg font-semibold mb-2">직접 추가 기능 준비 중</h3>
-              <p className="text-text-secondary text-sm mb-6">
-                검색 결과에 없는 콘텐츠를 직접 추가하는 기능은<br />
-                곧 제공될 예정입니다.
-              </p>
-              <Button variant="secondary" onClick={() => setStep("search")}>
-                검색으로 돌아가기
-              </Button>
+          {/* 진행도 (경험 중일 때만, 자격증 제외) */}
+          {status === "EXPERIENCE" && selectedCategory !== "certificate" && (
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-2">
+                진행도
+              </label>
+              <div className="flex items-center gap-3">
+                <ProgressSlider value={progress} onChange={setProgress} className="flex-1" />
+                <span className="text-sm text-accent font-medium w-10 text-right">{progress}%</span>
+              </div>
             </div>
           )}
         </div>
 
-        {/* Footer Navigation */}
-        {step !== "category" && (
-          <div className="px-4 py-3 md:px-8 md:py-4 border-t border-border bg-bg-secondary">
-            <Button
-              unstyled
-              onClick={() => {
-                if (step === "manual") setStep("search");
-                else if (step === "search") resetModal();
-              }}
-              className="text-sm text-text-secondary hover:text-text-primary"
-            >
-              ← 이전 단계로
-            </Button>
-          </div>
-        )}
+        {/* Footer */}
+        <div className="px-4 py-4 md:px-6 border-t border-border bg-bg-secondary flex gap-3">
+          <Button variant="secondary" onClick={handleClose} className="flex-1">
+            취소
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleSubmit}
+            disabled={isAdding || !title.trim()}
+            className="flex-1"
+          >
+            {isAdding ? <Loader2 size={18} className="animate-spin" /> : "추가"}
+          </Button>
+        </div>
       </div>
     </div>
   );
 }
-
