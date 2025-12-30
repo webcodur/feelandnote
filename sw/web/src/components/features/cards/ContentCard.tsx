@@ -119,7 +119,8 @@ export default function ContentCard({
           <div className="flex justify-between text-xs text-text-secondary mt-2">
             <span>{addedDate}</span>
             {onProgressChange ? (
-              <button
+              <Button
+                unstyled
                 type="button"
                 className="font-medium text-primary hover:text-accent"
                 onClick={(e) => {
@@ -128,7 +129,7 @@ export default function ContentCard({
                 }}
               >
                 {progressPercent}%
-              </button>
+              </Button>
             ) : (
               <span className="font-medium text-primary">{progressPercent}%</span>
             )}
@@ -225,13 +226,14 @@ function ProgressModal({
             <h3 className="font-bold text-base mb-1">진행도 수정</h3>
             <p className="text-sm text-text-secondary truncate">{title}</p>
           </div>
-          <button
+          <Button
+            unstyled
             type="button"
             className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/10"
             onClick={onClose}
           >
             <X size={20} />
-          </button>
+          </Button>
         </div>
 
         {/* 현재 값 표시 */}
@@ -252,7 +254,8 @@ function ProgressModal({
         {/* 퀵 버튼 */}
         <div className="flex gap-2 mb-6">
           {quickValues.map((v) => (
-            <button
+            <Button
+              unstyled
               key={v}
               type="button"
               className={`flex-1 py-2 rounded-lg text-xs font-medium ${
@@ -263,7 +266,7 @@ function ProgressModal({
               onClick={() => setLocalValue(v)}
             >
               {v}%
-            </button>
+            </Button>
           ))}
         </div>
 

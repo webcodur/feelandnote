@@ -17,6 +17,7 @@ export interface ContentSearchResult {
   description?: string
   releaseDate?: string
   externalId?: string
+  metadata?: Record<string, unknown> // 원본 metadata (콘텐츠 추가용)
 }
 
 interface SearchContentsParams {
@@ -55,6 +56,7 @@ export async function searchContents({
             description: book.metadata.description,
             releaseDate: book.metadata.publishDate,
             externalId: book.externalId,
+            metadata: book.metadata,
           })),
           total: bookResults.total,
           hasMore: bookResults.hasMore,
@@ -69,11 +71,12 @@ export async function searchContents({
             title: video.title,
             creator: video.creator,
             category: 'video',
-            subtype: video.subtype, // movie | tv
+            subtype: video.subtype,
             thumbnail: video.coverImageUrl || undefined,
             description: video.metadata.overview,
             releaseDate: video.metadata.releaseDate,
             externalId: video.externalId,
+            metadata: video.metadata,
           })),
           total: videoResults.total,
           hasMore: videoResults.hasMore,
@@ -92,6 +95,7 @@ export async function searchContents({
             description: game.metadata.summary,
             releaseDate: game.metadata.releaseDate,
             externalId: game.externalId,
+            metadata: game.metadata,
           })),
           total: gameResults.total,
           hasMore: gameResults.hasMore,
@@ -110,6 +114,7 @@ export async function searchContents({
             description: `${music.metadata.albumType} | ${music.metadata.totalTracks}곡`,
             releaseDate: music.metadata.releaseDate,
             externalId: music.externalId,
+            metadata: music.metadata,
           })),
           total: musicResults.total,
           hasMore: musicResults.hasMore,
@@ -124,9 +129,10 @@ export async function searchContents({
             title: cert.title,
             creator: cert.creator,
             category: 'certificate',
-            thumbnail: undefined, // 자격증은 썸네일 없음
+            thumbnail: undefined,
             description: `${cert.metadata.qualificationType} | ${cert.metadata.series}`,
             externalId: cert.externalId,
+            metadata: cert.metadata,
           })),
           total: certResults.total,
           hasMore: certResults.hasMore,

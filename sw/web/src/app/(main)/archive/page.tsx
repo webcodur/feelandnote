@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { getProfile } from "@/actions/user";
+import { getProfile, getStats } from "@/actions/user";
 import { getCelebProfiles } from "@/actions/celebs";
 import ArchiveHubView from "@/components/views/main/ArchiveHubView";
 
@@ -9,8 +9,23 @@ export default async function Page() {
   // 미들웨어에서 이미 인증 확인됨
   const { data: { user } } = await supabase.auth.getUser();
 
-  // 내 프로필 조회
-  const myProfile = await getProfile();
+  // 내 프로필 및 통계 조회
+  const [myProfile, stats] = await Promise.all([
+    getProfile(),
+    getStats(),
+  ]);
+
+  // 소셜 통계 조회 (팔로워/팔로잉)
+  let followerCount = 0;
+  let followingCount = 0;
+  if (user) {
+    const [followerResult, followingResult] = await Promise.all([
+      supabase.from('follows').select('id', { count: 'exact', head: true }).eq('following_id', user.id),
+      supabase.from('follows').select('id', { count: 'exact', head: true }).eq('follower_id', user.id),
+    ]);
+    followerCount = followerResult.count || 0;
+    followingCount = followingResult.count || 0;
+  }
 
   // 프로필이 없으면 기본값 사용
   const profile = myProfile || {
@@ -40,6 +55,11 @@ export default async function Page() {
   return (
     <ArchiveHubView
       myProfile={profile}
+      stats={{
+        contentCount: stats.totalContents,
+        followerCount,
+        followingCount,
+      }}
       friends={friends}
       celebs={celebs}
     />

@@ -80,13 +80,12 @@ export default function UserProfileView({ profile, isOwnProfile = false }: UserP
       )}
 
       {/* 셀럽 콘텐츠 추가 모달 */}
-      {showAddContent && (
-        <AddCelebContentModal
-          celebId={profile.id}
-          celebName={profile.nickname}
-          onClose={() => setShowAddContent(false)}
-        />
-      )}
+      <AddCelebContentModal
+        isOpen={showAddContent}
+        celebId={profile.id}
+        celebName={profile.nickname}
+        onClose={() => setShowAddContent(false)}
+      />
     </>
   );
 }

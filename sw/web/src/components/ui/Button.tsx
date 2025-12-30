@@ -9,10 +9,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles = {
   primary:
-    "inline-flex items-center gap-2 bg-accent text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-accent-hover",
+    "inline-flex items-center justify-center gap-2 bg-accent text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-accent-hover",
   secondary:
-    "inline-flex items-center gap-2 bg-white/5 text-text-primary border border-border hover:bg-white/10 hover:border-accent",
-  ghost: "bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5",
+    "inline-flex items-center justify-center gap-2 bg-white/5 text-text-primary border border-border hover:bg-white/10 hover:border-accent",
+  ghost: "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5",
 };
 
 const sizeStyles = {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Star, BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
+import Button from "@/components/ui/Button";
 import { getUserContentsAll, type UserContentPublic } from "@/actions/contents/getUserContents";
 import type { ContentType } from "@/types/database";
 
@@ -59,7 +60,8 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
           const Icon = tab.icon;
           const isActive = activeTab === tab.value;
           return (
-            <button
+            <Button
+              unstyled
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
@@ -70,7 +72,7 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
             >
               {Icon && <Icon size={14} />}
               {tab.label}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -106,7 +108,8 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
       {!isLoading && !error && filteredContents.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
           {filteredContents.map((item) => (
-            <button
+            <Button
+              unstyled
               key={item.id}
               onClick={() => handleContentClick(item.content_id)}
               className="text-left group"
@@ -142,7 +145,7 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
                   {item.content.creator}
                 </p>
               )}
-            </button>
+            </Button>
           ))}
         </div>
       )}

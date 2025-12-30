@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { BookOpen, Star } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface ProfileCardProps {
   id: string;
@@ -35,7 +36,8 @@ export default function ProfileCard({
   };
 
   return (
-    <button
+    <Button
+      unstyled
       onClick={handleClick}
       className="flex flex-col items-center p-4 bg-surface rounded-xl hover:bg-surface-hover transition-colors group min-w-[100px]"
     >
@@ -80,7 +82,7 @@ export default function ProfileCard({
           {content_count}
         </span>
       )}
-    </button>
+    </Button>
   );
 }
 
