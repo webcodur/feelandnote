@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, LucideIcon } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 export interface FilterOption<T extends string = string> {
   value: T;
@@ -71,7 +72,7 @@ export function FilterSelect<T extends string = string>({
       </Button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-bg-secondary border border-border rounded-lg shadow-lg z-50 min-w-[140px] py-1 animate-fade-in">
+        <div className="absolute top-full left-0 mt-1 bg-bg-secondary border border-border rounded-lg shadow-lg min-w-[140px] py-1 animate-fade-in" style={{ zIndex: Z_INDEX.dropdown }}>
           {options.map((option) => {
             const OptionIcon = option.icon;
             return (

@@ -5,6 +5,7 @@ import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy } from "lucide-react
 import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -52,7 +53,10 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-3 md:px-6 md:gap-6 fixed top-0 left-0 z-[100]">
+    <header
+      className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-3 md:px-6 md:gap-6 fixed top-0 left-0"
+      style={{ zIndex: Z_INDEX.header }}
+    >
       {!isMobile && (
         <Button
           unstyled
@@ -82,7 +86,10 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
 
           {/* Notification Dropdown */}
           {showNotifications && (
-            <div className="absolute right-0 top-14 w-[calc(100vw-24px)] sm:w-80 md:w-96 max-w-[400px] bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden z-50">
+            <div
+              className="absolute right-0 top-14 w-[calc(100vw-24px)] sm:w-80 md:w-96 max-w-[400px] bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+              style={{ zIndex: Z_INDEX.dropdown }}
+            >
               <div className="px-4 py-3 md:px-6 md:py-4 border-b border-border flex justify-between items-center">
                 <h3 className="font-bold text-base">알림</h3>
                 <Button unstyled className="text-sm text-accent hover:underline">모두 읽음</Button>

@@ -8,6 +8,7 @@ import {
   Compass,
   User,
 } from "lucide-react";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface NavItemProps {
   href: string;
@@ -40,7 +41,10 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-bg-secondary border-t border-border flex items-center z-[100] md:hidden">
+    <nav
+      className="fixed bottom-0 left-0 right-0 h-16 bg-bg-secondary border-t border-border flex items-center md:hidden"
+      style={{ zIndex: Z_INDEX.bottomNav }}
+    >
       {navItems.map((item) => (
         <NavItem
           key={item.href}

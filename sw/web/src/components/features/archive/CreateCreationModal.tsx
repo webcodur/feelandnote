@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, Lightbulb, Film as FilmIcon, Music as MusicIcon, Plus, Trash2 } from "lucide-react";
 import { Button, Card } from "@/components/ui";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface CreateCreationModalProps {
   isOpen: boolean;
@@ -95,7 +96,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "ì
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm" style={{ zIndex: Z_INDEX.modal }}>
       <div className="relative w-full max-w-4xl max-h-[90vh] bg-bg-card rounded-2xl border border-border shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-8 py-6 border-b border-border bg-bg-secondary">

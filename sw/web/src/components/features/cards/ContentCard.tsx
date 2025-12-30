@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import { ProgressSlider, DropdownMenu, type DropdownMenuItem } from "@/components/ui";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 export interface ContentCardProps {
   item: UserContentWithContent;
@@ -60,7 +61,7 @@ export default function ContentCard({
     >
       {/* 더보기 메뉴 - 카드 최상위에 배치 */}
       {onDelete && (
-        <div className="absolute top-2 right-2 z-30">
+        <div className="absolute top-2 right-2" style={{ zIndex: Z_INDEX.cardMenu }}>
           <DropdownMenu
             items={[
               {
@@ -80,7 +81,7 @@ export default function ContentCard({
         </div>
       )}
 
-      <div className="relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col bg-bg-card z-10">
+      <div className="relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col bg-bg-card" style={{ zIndex: Z_INDEX.sticky }}>
         {/* 썸네일 영역 */}
         <div className="relative w-full aspect-[3/4] overflow-hidden flex-shrink-0 bg-gray-800">
           {content.thumbnail_url ? (
@@ -115,23 +116,6 @@ export default function ContentCard({
             {content.creator || ""}
           </div>
 
-          {/* 진행률 */}
-          {isEditingProgress && onProgressChange ? (
-            <div onClick={(e) => e.stopPropagation()}>
-              <ProgressSlider
-                value={progressPercent}
-                onChange={handleProgressChange}
-              />
-            </div>
-          ) : (
-            <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-accent"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-          )}
-
           <div className="flex justify-between text-xs text-text-secondary mt-2">
             <span>{addedDate}</span>
             {onProgressChange ? (
@@ -140,7 +124,7 @@ export default function ContentCard({
                 className="font-medium text-primary hover:text-accent"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsEditingProgress(!isEditingProgress);
+                  setIsEditingProgress(true);
                 }}
               >
                 {progressPercent}%
@@ -149,6 +133,16 @@ export default function ContentCard({
               <span className="font-medium text-primary">{progressPercent}%</span>
             )}
           </div>
+
+          {/* 진행도 수정 모달 */}
+          {isEditingProgress && onProgressChange && (
+            <ProgressModal
+              title={content.title}
+              value={progressPercent}
+              onClose={() => setIsEditingProgress(false)}
+              onSave={handleProgressChange}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -172,9 +166,10 @@ function StatusBadge({
   return (
     <Button
       unstyled
-      className={`absolute top-2 left-2 z-20 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm border ${style.class} ${
+      className={`absolute top-2 left-2 py-1 px-2 rounded-md text-[11px] font-bold bg-black/70 backdrop-blur-sm border ${style.class} ${
         canToggle ? "hover:opacity-80" : "cursor-default"
       }`}
+      style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={(e) => {
         e.stopPropagation();
         if (canToggle) {
@@ -186,3 +181,111 @@ function StatusBadge({
     </Button>
   );
 }
+
+// region ProgressModal
+const quickValues = [0, 25, 50, 75, 100];
+
+function ProgressModal({
+  title,
+  value,
+  onClose,
+  onSave,
+}: {
+  title: string;
+  value: number;
+  onClose: () => void;
+  onSave: (value: number) => void;
+}) {
+  const [localValue, setLocalValue] = useState(value);
+
+  return (
+    <div
+      className="fixed inset-0 flex items-end sm:items-center justify-center"
+      style={{ zIndex: Z_INDEX.modal }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClose();
+      }}
+    >
+      {/* 오버레이 */}
+      <div className="absolute inset-0 bg-black/70" style={{ zIndex: Z_INDEX.overlay }} />
+
+      {/* 모달 컨텐츠 */}
+      <div
+        className="relative bg-bg-card border-t sm:border border-border sm:rounded-2xl rounded-t-2xl p-6 w-full sm:w-[90%] sm:max-w-md shadow-2xl"
+        style={{ zIndex: Z_INDEX.modal + 1 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* 모바일 드래그 핸들 */}
+        <div className="sm:hidden w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
+
+        {/* 헤더 */}
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex-1 min-w-0 mr-3">
+            <h3 className="font-bold text-base mb-1">진행도 수정</h3>
+            <p className="text-sm text-text-secondary truncate">{title}</p>
+          </div>
+          <button
+            type="button"
+            className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/10"
+            onClick={onClose}
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* 현재 값 표시 */}
+        <div className="text-center my-6">
+          <span className="text-4xl font-bold text-primary">{localValue}</span>
+          <span className="text-xl text-text-secondary ml-1">%</span>
+        </div>
+
+        {/* 슬라이더 */}
+        <div className="mb-5 px-1">
+          <ProgressSlider
+            value={localValue}
+            onChange={setLocalValue}
+            height="md"
+          />
+        </div>
+
+        {/* 퀵 버튼 */}
+        <div className="flex gap-2 mb-6">
+          {quickValues.map((v) => (
+            <button
+              key={v}
+              type="button"
+              className={`flex-1 py-2 rounded-lg text-xs font-medium ${
+                localValue === v
+                  ? "bg-accent text-white"
+                  : "bg-white/5 text-text-secondary hover:bg-white/10"
+              }`}
+              onClick={() => setLocalValue(v)}
+            >
+              {v}%
+            </button>
+          ))}
+        </div>
+
+        {/* 액션 버튼 */}
+        <div className="flex gap-3">
+          <Button
+            variant="ghost"
+            className="flex-1 py-3"
+            onClick={onClose}
+          >
+            취소
+          </Button>
+          <Button
+            variant="primary"
+            className="flex-1 py-3"
+            onClick={() => onSave(localValue)}
+          >
+            저장
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+// endregion

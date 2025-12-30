@@ -8,6 +8,7 @@ interface GetUserContentsParams {
   type?: ContentType
   page?: number
   limit?: number
+  includeCelebContent?: boolean // 셀럽 프로필인 경우 기록 없는 콘텐츠도 포함
 }
 
 export interface UserContentPublic {
@@ -40,9 +41,17 @@ export interface GetUserContentsResponse {
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20 } = params
+  const { userId, type, page = 1, limit = 20, includeCelebContent = false } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
+
+  // 대상 프로필 유형 확인
+  const { data: targetProfile } = await supabase
+    .from('profiles')
+    .select('profile_type')
+    .eq('id', userId)
+    .single()
+  const isCeleb = targetProfile?.profile_type === 'CELEB' || includeCelebContent
 
   // 현재 로그인한 사용자 확인
   const { data: { user: currentUser } } = await supabase.auth.getUser()
@@ -134,9 +143,9 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     }
   })
 
-  // 공개 기록이 있는 콘텐츠만 필터링
+  // 셀럽은 모든 콘텐츠 표시, 일반 유저는 공개 기록 있는 것만
   const items: UserContentPublic[] = validContents
-    .filter(item => recordMap.has(item.content_id))
+    .filter(item => isCeleb || recordMap.has(item.content_id))
     .map(item => ({
       id: item.id,
       content_id: item.content_id,

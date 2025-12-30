@@ -11,6 +11,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface NavItemInfo {
   href: string;
@@ -66,10 +67,11 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
 
   return (
     <div
-      className="fixed top-16 left-0 h-[calc(100vh-64px)] z-50 transition-transform duration-300 ease-in-out"
+      className="fixed top-16 left-0 h-[calc(100vh-64px)] transition-transform duration-300 ease-in-out"
       style={{
         width: SIDEBAR_WIDTH,
         transform: !isOpen ? `translateX(-${SIDEBAR_WIDTH}px)` : undefined,
+        zIndex: Z_INDEX.sidebar,
       }}
     >
       <nav className="w-20 h-full bg-bg-secondary border-r border-border flex flex-col items-center py-6 gap-2">

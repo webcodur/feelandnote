@@ -18,6 +18,7 @@ import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { deletePlaylist } from "@/actions/playlists/deletePlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
+import { Z_INDEX } from "@/constants/zIndex";
 import { reorderPlaylistItems } from "@/actions/playlists/updatePlaylistItems";
 import type { PlaylistWithItems } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
@@ -240,10 +241,11 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
           {isMenuOpen && (
             <>
               <div
-                className="fixed inset-0 z-40"
+                className="fixed inset-0"
+                style={{ zIndex: Z_INDEX.overlay }}
                 onClick={() => setIsMenuOpen(false)}
               />
-              <div className="absolute right-0 mt-2 w-48 bg-bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
+              <div className="absolute right-0 mt-2 w-48 bg-bg-card border border-border rounded-xl shadow-lg overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
                 <Button
                   unstyled
                   onClick={handleTogglePublic}

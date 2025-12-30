@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { createFolder } from "@/actions/folders/createFolder";
 import { deleteFolder } from "@/actions/folders/deleteFolder";
 import type { ContentType, FolderWithCount } from "@/types/database";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface FolderManagerProps {
   contentType: ContentType;
@@ -70,7 +71,7 @@ export default function FolderManager({
   }, [handleCreate, isCreating]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50" style={{ zIndex: Z_INDEX.modal }}>
       <div className="bg-bg-card rounded-xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
         {/* 헤더 */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">

@@ -8,6 +8,7 @@ import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
 import type { BookSearchResult } from "@/lib/api/naver-books";
 import { useAchievement } from "@/components/features/achievements";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -116,7 +117,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" style={{ zIndex: Z_INDEX.modal }}>
       <div className="relative w-full max-w-4xl max-h-[90vh] bg-bg-card rounded-xl md:rounded-2xl border border-border shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-4 md:px-8 md:py-6 border-b border-border bg-bg-secondary">

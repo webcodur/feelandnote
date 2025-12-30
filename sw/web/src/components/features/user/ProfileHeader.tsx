@@ -15,6 +15,7 @@ interface ProfileHeaderProps {
   is_following?: boolean;
   onFollow?: () => void;
   onProfileClick?: () => void;
+  embedded?: boolean; // 외부 컨테이너 없이 렌더링
 }
 
 export default function ProfileHeader({
@@ -29,6 +30,7 @@ export default function ProfileHeader({
   is_following = false,
   onFollow,
   onProfileClick,
+  embedded = false,
 }: ProfileHeaderProps) {
   const avatarContent = avatar_url ? (
     <img
@@ -49,9 +51,8 @@ export default function ProfileHeader({
     </div>
   );
 
-  return (
-    <div className="bg-surface rounded-2xl p-6 mb-6">
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+  const content = (
+    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
         {/* 큰 아바타 */}
         {is_self && onProfileClick ? (
           <button
@@ -140,6 +141,15 @@ export default function ProfileHeader({
           </div>
         </div>
       </div>
+  );
+
+  if (embedded) {
+    return content;
+  }
+
+  return (
+    <div className="bg-surface rounded-2xl p-6 mb-6">
+      {content}
     </div>
   );
 }

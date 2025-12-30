@@ -3,6 +3,7 @@
 import { ChevronDown, Book, User, Hash, Folder } from "lucide-react";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 type SearchMode = "content" | "user" | "tag" | "archive";
 
@@ -47,7 +48,7 @@ export default function SearchModeSelector({
       </Button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-bg-card border border-border rounded-xl shadow-xl z-50 py-1 min-w-[180px]">
+        <div className="absolute top-full left-0 mt-1 bg-bg-card border border-border rounded-xl shadow-xl py-1 min-w-[180px]" style={{ zIndex: Z_INDEX.dropdown }}>
           <div className="px-4 py-1.5 text-xs text-text-secondary font-medium border-b border-border">콘텐츠</div>
           {CATEGORIES.map((cat) => {
             const Icon = cat.icon;

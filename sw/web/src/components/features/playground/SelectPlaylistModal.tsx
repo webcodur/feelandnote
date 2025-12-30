@@ -4,6 +4,7 @@ import { X, ListMusic, Trophy, ChevronRight, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import type { PlaylistSummary } from "@/actions/playlists";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface SelectPlaylistModalProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ export default function SelectPlaylistModal({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm" style={{ zIndex: Z_INDEX.modal }}>
       <div className="relative w-full max-w-lg max-h-[80vh] bg-bg-card rounded-2xl border border-border shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-border bg-bg-secondary">
