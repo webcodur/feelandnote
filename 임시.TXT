@@ -1,0 +1,41 @@
+## 컨텐츠 감상 상태 설계
+
+### 상태 정의
+
+| 상태 | progress | 의미 |
+|------|----------|------|
+| WANT | 0% | 보고싶음 |
+| WATCHING | 1~99% | 진행중 |
+| DROPPED | 1~99% | 중단 |
+| FINISHED | 100% | 완료 (중립) |
+| RECOMMENDED | 100% | 완료+추천 |
+| NOT_RECOMMENDED | 100% | 완료+비추천 |
+
+### 전환 규칙
+
+**자동**: progress 변화에 따라 WANT→WATCHING, WATCHING→FINISHED  
+**수동**: 사용자 선택으로 WATCHING↔DROPPED, 완료 상태 간 변경 가능
+
+### DB 스키마
+```sql
+CREATE TABLE user_content (
+  id BIGINT PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  content_id BIGINT NOT NULL,
+  status ENUM('WANT', 'WATCHING', 'DROPPED', 'FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED') NOT NULL,
+  progress INT NOT NULL DEFAULT 0 CHECK (progress >= 0 AND progress <= 100),
+  started_at TIMESTAMP NULL,
+  completed_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  
+  UNIQUE KEY (user_id, content_id),
+  INDEX idx_status (status),
+  INDEX idx_user_status (user_id, status)
+);
+```
+
+### 제약 조건 (애플리케이션 레벨)
+
+- status = 'WANT' → progress = 0
+- status IN ('WATCHING', 'DROPPED') → 1 <= progress <= 99
+- status IN ('FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED') → progress = 100

@@ -52,8 +52,10 @@ export interface UserContent {
   progress_type: ProgressType | null
   folder_id: string | null
   contributor_id: string | null
+  is_recommended: boolean | null
   created_at: string
   updated_at: string
+  completed_at: string | null
 }
 
 export interface ContentRecord {

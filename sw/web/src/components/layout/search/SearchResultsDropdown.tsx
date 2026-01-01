@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2 } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2, Plus, ExternalLink, Check } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -19,10 +19,12 @@ export interface SearchResult {
   title: string;
   subtitle?: string;
   category?: string;
+  subtype?: string;
   extra?: string;
   thumbnail?: string;
   description?: string;
   releaseDate?: string;
+  metadata?: Record<string, unknown>;
 }
 
 interface SearchResultsDropdownProps {
@@ -31,10 +33,15 @@ interface SearchResultsDropdownProps {
   results: SearchResult[];
   recentSearches: string[];
   selectedIndex: number;
+  searchMode?: string;
+  addingIds?: Set<string>;
+  addedIds?: Set<string>;
   onResultClick: (result: SearchResult) => void;
   onRecentSearchClick: (search: string) => void;
   onClearRecentSearches: () => void;
   onViewAllResults: () => void;
+  onAddToArchive?: (result: SearchResult) => void;
+  onOpenInNewTab?: (result: SearchResult) => void;
 }
 
 export default function SearchResultsDropdown({
@@ -43,11 +50,19 @@ export default function SearchResultsDropdown({
   results,
   recentSearches,
   selectedIndex,
+  searchMode = "content",
+  addingIds = new Set(),
+  addedIds = new Set(),
   onResultClick,
   onRecentSearchClick,
   onClearRecentSearches,
   onViewAllResults,
+  onAddToArchive,
+  onOpenInNewTab,
 }: SearchResultsDropdownProps) {
+  // 콘텐츠 검색 모드이고 archive 모드가 아닐 때만 유틸 버튼 표시
+  const showContentUtils = searchMode === "content";
+
   return (
     <div className="absolute top-full left-0 right-0 mt-2 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-[400px] overflow-y-auto" style={{ zIndex: Z_INDEX.dropdown }}>
       {/* Loading */}
@@ -62,46 +77,94 @@ export default function SearchResultsDropdown({
         <>
           {results.map((result, index) => {
             const CategoryIcon = result.category ? CATEGORY_ICONS[result.category] || Book : null;
+            const isContentResult = result.type === "content" && showContentUtils;
+            const isAdding = addingIds.has(result.id);
+            const isAdded = addedIds.has(result.id);
 
             return (
-              <Button
-                unstyled
+              <div
                 key={result.id}
-                onClick={() => onResultClick(result)}
-                className={`w-full flex items-center gap-3 px-4 py-3 text-left
+                className={`flex items-center gap-3 px-4 py-3 group
                   ${selectedIndex === index ? "bg-accent/10" : "hover:bg-white/5"}`}
               >
-                {result.type === "content" && (
-                  <div className="w-10 h-14 rounded-md bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
-                    {result.thumbnail ? (
-                      <img
-                        src={result.thumbnail}
-                        alt={result.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : CategoryIcon ? (
-                      <CategoryIcon size={16} className="text-text-secondary" />
-                    ) : null}
-                  </div>
-                )}
-                {result.type === "user" && (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0" />
-                )}
-                {result.type === "tag" && (
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                    <Hash size={16} className="text-text-secondary" />
-                  </div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-text-primary truncate">{result.title}</div>
-                  {result.subtitle && (
-                    <div className="text-xs text-text-secondary truncate">{result.subtitle}</div>
+                {/* 클릭 가능 영역 */}
+                <Button
+                  unstyled
+                  onClick={() => onResultClick(result)}
+                  className="flex items-center gap-3 flex-1 min-w-0 text-left"
+                >
+                  {result.type === "content" && (
+                    <div className="w-10 h-14 rounded-md bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                      {result.thumbnail ? (
+                        <img
+                          src={result.thumbnail}
+                          alt={result.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : CategoryIcon ? (
+                        <CategoryIcon size={16} className="text-text-secondary" />
+                      ) : null}
+                    </div>
                   )}
-                </div>
-                {result.extra && (
-                  <div className="text-xs text-text-secondary shrink-0">{result.extra}</div>
+                  {result.type === "user" && (
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0" />
+                  )}
+                  {result.type === "tag" && (
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                      <Hash size={16} className="text-text-secondary" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-text-primary truncate">{result.title}</div>
+                    {result.subtitle && (
+                      <div className="text-xs text-text-secondary truncate">{result.subtitle}</div>
+                    )}
+                  </div>
+                  {result.extra && (
+                    <div className="text-xs text-text-secondary shrink-0">{result.extra}</div>
+                  )}
+                </Button>
+
+                {/* 콘텐츠 유틸 버튼 (추가, 새창 열기) */}
+                {isContentResult && (
+                  <div className="flex items-center gap-1 shrink-0">
+                    {onAddToArchive && (
+                      isAdded ? (
+                        <div className="p-1.5 rounded-md bg-green-500/20 text-green-400">
+                          <Check size={14} />
+                        </div>
+                      ) : (
+                        <Button
+                          unstyled
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onAddToArchive(result);
+                          }}
+                          disabled={isAdding}
+                          className={`p-1.5 rounded-md bg-accent/20 text-accent hover:bg-accent/30
+                            ${isAdding ? "opacity-50" : "hidden group-hover:block"}`}
+                          title="기록관에 추가"
+                        >
+                          {isAdding ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+                        </Button>
+                      )
+                    )}
+                    {onOpenInNewTab && (
+                      <Button
+                        unstyled
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onOpenInNewTab(result);
+                        }}
+                        className="p-1.5 rounded-md bg-white/10 text-text-secondary hover:bg-white/20 hover:text-text-primary hidden group-hover:block"
+                        title="새 창으로 열기"
+                      >
+                        <ExternalLink size={14} />
+                      </Button>
+                    )}
+                  </div>
                 )}
-              </Button>
+              </div>
             );
           })}
 

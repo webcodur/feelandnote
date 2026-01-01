@@ -1,59 +1,89 @@
+/*
+  파일명: /components/features/archive/ContentListItem.tsx
+  기능: 리스트 뷰용 콘텐츠 아이템 컴포넌트
+  책임: 콘텐츠 정보를 리스트 행 형태로 표시하고 상태/진행도 변경을 처리한다.
+*/ // ------------------------------
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import { Book, Film, Gamepad2, Music, Award, Trash2, Check } from "lucide-react";
-import { ProgressSlider, DropdownMenu } from "@/components/ui";
-import Button from "@/components/ui/Button";
 
+import { Trash2 } from "lucide-react";
+
+import Button from "@/components/ui/Button";
+import ProgressModal from "@/components/features/cards/ProgressModal";
+
+import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+
+// #region 타입
 interface ContentListItemProps {
   item: UserContentWithContent;
   onProgressChange?: (userContentId: string, progress: number) => void;
   onStatusChange?: (userContentId: string, status: "WISH" | "EXPERIENCE" | "COMPLETE") => void;
+  onRecommendChange?: (userContentId: string, isRecommended: boolean) => void;
   onDelete?: (userContentId: string) => void;
   href?: string;
   compact?: boolean;
 }
+// #endregion
 
-const TYPE_CONFIG: Record<string, { label: string; icon: React.ElementType }> = {
-  BOOK: { label: "도서", icon: Book },
-  VIDEO: { label: "영상", icon: Film },
-  GAME: { label: "게임", icon: Gamepad2 },
-  MUSIC: { label: "음악", icon: Music },
-  CERTIFICATE: { label: "자격증", icon: Award },
+// #region 상수
+const STATUS_STYLES = {
+  EXPERIENCE: { class: "text-green-400", text: "진행" },
+  WISH: { class: "text-yellow-300", text: "관심" },
+  COMPLETE: { class: "text-blue-400", text: "완료" },
+  RECOMMEND: { class: "text-pink-400", text: "추천" },
 };
+// #endregion
 
-// 그리드 뷰와 동일한 상태 스타일
-const statusStyles = {
-  EXPERIENCE: { class: "text-green-400 border-green-600", text: "감상 중" },
-  WISH: { class: "text-yellow-300 border-yellow-600", text: "관심" },
-  COMPLETE: { class: "text-blue-400 border-blue-600", text: "완료" },
-};
-
+// #region 유틸
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
-  const yy = String(d.getFullYear()).slice(2);
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   const dd = String(d.getDate()).padStart(2, "0");
-  return `${yy}.${mm}.${dd}`;
+  return `${mm}.${dd}`;
 }
+// #endregion
 
-export default function ContentListItem({ item, onProgressChange, onStatusChange, onDelete, href, compact = false }: ContentListItemProps) {
+export default function ContentListItem({
+  item,
+  onProgressChange,
+  onStatusChange,
+  onRecommendChange,
+  onDelete,
+  href,
+}: ContentListItemProps) {
+  // #region 훅
   const router = useRouter();
+  const [isEditingProgress, setIsEditingProgress] = useState(false);
+  // #endregion
+
+  // #region 파생 값
   const content = item.content;
-  const typeConfig = TYPE_CONFIG[content.type] || { label: content.type, icon: Book };
-  const Icon = typeConfig.icon;
   const progressPercent = item.progress ?? 0;
   const addedDate = formatDate(item.created_at);
-  const status = item.status ? statusStyles[item.status as keyof typeof statusStyles] : null;
+  const isComplete = item.status === "COMPLETE";
+  const isRecommended = item.is_recommended ?? false;
+  const displayStatus = isComplete && isRecommended ? "RECOMMEND" : item.status;
+  const status = displayStatus ? STATUS_STYLES[displayStatus as keyof typeof STATUS_STYLES] : null;
+  const canToggleStatus = progressPercent === 0 && onStatusChange && !isComplete;
+  const canToggleRecommend = isComplete && onRecommendChange;
+  const canToggle = canToggleStatus || canToggleRecommend;
+  // #endregion
 
+  // #region 핸들러
   const handleClick = () => {
     if (href) router.push(href);
   };
 
   const handleStatusClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!onStatusChange || item.status === "COMPLETE") return;
+
+    if (isComplete && onRecommendChange) {
+      onRecommendChange(item.id, !isRecommended);
+      return;
+    }
+    if (!onStatusChange) return;
 
     if (item.status === "EXPERIENCE" && progressPercent > 0) {
       if (confirm(`진행도 ${progressPercent}%가 초기화됩니다. 계속할까요?`)) {
@@ -64,58 +94,28 @@ export default function ContentListItem({ item, onProgressChange, onStatusChange
     }
     onStatusChange(item.id, item.status === "WISH" ? "EXPERIENCE" : "WISH");
   };
+  // #endregion
 
-  const canToggleStatus = progressPercent === 0 && onStatusChange && item.status !== "COMPLETE";
-
+  // #region 렌더링
   return (
     <div
-      className={`group grid items-center gap-3 bg-bg-card rounded-lg border border-border/40 hover:border-border hover:bg-bg-secondary transition-colors cursor-pointer ${
-        compact ? "grid-cols-[40px_1fr_48px_64px_56px_100px_28px] py-2 px-3" : "grid-cols-[48px_1fr_48px_72px_64px_140px_32px] py-3 px-4"
-      }`}
+      className="group grid grid-cols-[1fr_44px_40px_36px_24px] items-center gap-2 py-1.5 px-3 rounded hover:bg-bg-secondary/50 cursor-pointer"
       onClick={handleClick}
     >
-      {/* 썸네일 */}
-      <div className={`relative rounded overflow-hidden bg-bg-secondary ${compact ? "w-10 h-14" : "w-12 h-16"}`}>
-        {content.thumbnail_url ? (
-          <img src={content.thumbnail_url} alt={content.title} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Icon size={compact ? 16 : 20} className="text-text-secondary" />
-          </div>
-        )}
-        {/* 완료 시 체크 오버레이 */}
-        {item.status === "COMPLETE" && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <Check size={compact ? 16 : 20} className="text-green-400" />
-          </div>
-        )}
-      </div>
-
       {/* 제목 + 작가 */}
-      <div className="min-w-0">
-        <p className={`font-semibold text-text-primary truncate ${compact ? "text-sm" : "text-sm"}`}>
-          {content.title}
-        </p>
+      <div className="min-w-0 flex items-center gap-2">
+        <p className="text-sm text-text-primary truncate">{content.title}</p>
         {content.creator && (
-          <p className={`text-text-secondary truncate ${compact ? "text-[10px]" : "text-xs"}`}>
-            {content.creator}
-          </p>
+          <span className="text-xs text-text-secondary truncate shrink-0">· {content.creator}</span>
         )}
       </div>
 
-      {/* 타입 */}
-      <div className={`text-text-secondary text-center ${compact ? "text-[10px]" : "text-xs"}`}>
-        {typeConfig.label}
-      </div>
-
-      {/* 상태 - 그리드와 동일한 스타일 */}
+      {/* 상태 */}
       <div className="flex justify-center">
         {status && (
           <Button
             unstyled
-            className={`px-2 py-0.5 rounded text-center font-bold bg-black/50 border ${status.class} ${compact ? "text-[10px]" : "text-[11px]"} ${
-              canToggleStatus ? "hover:opacity-80" : "cursor-default"
-            }`}
+            className={`text-[11px] font-medium ${status.class} ${canToggle ? "hover:opacity-70" : "cursor-default"}`}
             onClick={handleStatusClick}
           >
             {status.text}
@@ -124,49 +124,57 @@ export default function ContentListItem({ item, onProgressChange, onStatusChange
       </div>
 
       {/* 등록일 */}
-      <div className={`text-text-secondary text-center ${compact ? "text-[10px]" : "text-xs"}`}>
-        {addedDate}
-      </div>
+      <div className="text-[11px] text-text-secondary text-center">{addedDate}</div>
 
       {/* 진행도 */}
-      <div
-        className="flex items-center gap-2"
-        onClick={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
-      >
-        <div className="flex-1">
-          <ProgressSlider
-            value={progressPercent}
-            onChange={(value) => onProgressChange?.(item.id, value)}
-            height={compact ? "sm" : "md"}
-          />
-        </div>
-        <span className={`font-medium text-text-secondary w-8 text-right ${compact ? "text-[10px]" : "text-xs"}`}>
-          {progressPercent}%
-        </span>
-      </div>
-
-      {/* 메뉴 */}
       <div className="flex justify-center">
-        {onDelete && (
-          <DropdownMenu
-            items={[
-              {
-                label: "삭제",
-                icon: <Trash2 size={compact ? 12 : 14} />,
-                variant: "danger",
-                onClick: () => {
-                  if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
-                    onDelete(item.id);
-                  }
-                },
-              },
-            ]}
-            iconSize={compact ? 14 : 16}
-          />
+        {onProgressChange ? (
+          <Button
+            unstyled
+            className="text-[11px] font-medium text-text-secondary hover:text-accent"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsEditingProgress(true);
+            }}
+          >
+            {progressPercent}%
+          </Button>
+        ) : (
+          <span className="text-[11px] font-medium text-text-secondary">{progressPercent}%</span>
         )}
       </div>
+
+      {/* 삭제 버튼 */}
+      <div className="flex justify-center">
+        {onDelete && (
+          <Button
+            unstyled
+            className="p-0.5 rounded text-text-secondary opacity-0 group-hover:opacity-100 hover:text-red-500"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (confirm("삭제하시겠습니까?")) onDelete(item.id);
+            }}
+          >
+            <Trash2 size={12} />
+          </Button>
+        )}
+      </div>
+
+      {/* 진행도 수정 모달 */}
+      {isEditingProgress && onProgressChange && (
+        <ProgressModal
+          title={content.title}
+          value={progressPercent}
+          isRecommended={isRecommended}
+          onClose={() => setIsEditingProgress(false)}
+          onSave={(value) => {
+            onProgressChange(item.id, value);
+            setIsEditingProgress(false);
+          }}
+          onRecommendChange={onRecommendChange ? (r) => onRecommendChange(item.id, r) : undefined}
+        />
+      )}
     </div>
   );
+  // #endregion
 }

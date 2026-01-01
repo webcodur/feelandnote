@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Archive, Lock, AlertCircle, Plus, Sparkles } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import UserProfileHeader from "@/components/features/user/UserProfileHeader";
-import UserContentGrid from "@/components/features/user/UserContentGrid";
-import AddCelebContentModal from "@/components/features/user/AddCelebContentModal";
+import UserProfileHeader from "./UserProfileHeader";
+import UserContentGrid from "./UserContentGrid";
+import AddCelebContentModal from "./AddCelebContentModal";
 import type { PublicUserProfile } from "@/actions/user";
 
 interface UserProfileViewProps {

@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
-import UserProfileView from "@/components/views/main/UserProfileView";
+import UserProfileView from "@/components/features/user/UserProfileView";
 
 interface PageProps {
   params: Promise<{ userId: string }>;

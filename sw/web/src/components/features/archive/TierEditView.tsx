@@ -32,21 +32,10 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 티어 상태
-  const [tiers, setTiers] = useState<Record<TierLabel, string[]>>({
-    S: [],
-    A: [],
-    B: [],
-    C: [],
-    D: [],
-  });
+  const [tiers, setTiers] = useState<Record<TierLabel, string[]>>({ S: [], A: [], B: [], C: [], D: [] });
   const [unranked, setUnranked] = useState<string[]>([]);
-
-  // 필터 (혼합 재생목록용)
   const [selectedType, setSelectedType] = useState<ContentType | "all">("all");
   const [availableTypes, setAvailableTypes] = useState<ContentType[]>([]);
-
-  // 드래그 상태
   const [draggedId, setDraggedId] = useState<string | null>(null);
 
   const loadPlaylist = useCallback(async () => {
@@ -56,33 +45,21 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
       const data = await getPlaylist(playlistId);
       setPlaylist(data);
 
-      // 콘텐츠 타입 분석
       const types = new Set<ContentType>();
       data.items.forEach((item) => types.add(item.content.type as ContentType));
       setAvailableTypes(Array.from(types));
 
-      // 기존 티어 데이터 로드
       if (data.has_tiers && data.tiers) {
-        const loadedTiers: Record<TierLabel, string[]> = {
-          S: [],
-          A: [],
-          B: [],
-          C: [],
-          D: [],
-        };
+        const loadedTiers: Record<TierLabel, string[]> = { S: [], A: [], B: [], C: [], D: [] };
         TIER_LABELS.forEach((tier) => {
           loadedTiers[tier] = (data.tiers[tier] || []) as string[];
         });
         setTiers(loadedTiers);
 
-        // 미분류 계산
         const rankedIds = new Set(Object.values(loadedTiers).flat());
-        const unrankedIds = data.items
-          .map((item) => item.content_id)
-          .filter((id) => !rankedIds.has(id));
+        const unrankedIds = data.items.map((item) => item.content_id).filter((id) => !rankedIds.has(id));
         setUnranked(unrankedIds);
       } else {
-        // 새로 시작: 모두 미분류
         setUnranked(data.items.map((item) => item.content_id));
       }
     } catch (err) {
@@ -96,7 +73,6 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     loadPlaylist();
   }, [loadPlaylist]);
 
-  // 필터링된 콘텐츠 ID
   const getFilteredIds = (ids: string[]) => {
     if (selectedType === "all" || !playlist) return ids;
     return ids.filter((id) => {
@@ -105,33 +81,20 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     });
   };
 
-  // 콘텐츠 ID -> 아이템 매핑
   const getItemById = (contentId: string): PlaylistItemWithContent | undefined => {
     return playlist?.items.find((item) => item.content_id === contentId);
   };
 
-  // 드래그 핸들러
-  const handleDragStart = (contentId: string) => {
-    setDraggedId(contentId);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
+  const handleDragStart = (contentId: string) => setDraggedId(contentId);
+  const handleDragOver = (e: React.DragEvent) => e.preventDefault();
 
   const handleDropOnTier = (tier: TierLabel) => {
     if (!draggedId) return;
-
-    // 다른 티어에서 제거
     const newTiers = { ...tiers };
     TIER_LABELS.forEach((t) => {
       newTiers[t] = newTiers[t].filter((id) => id !== draggedId);
     });
-
-    // 미분류에서 제거
     setUnranked((prev) => prev.filter((id) => id !== draggedId));
-
-    // 해당 티어에 추가
     newTiers[tier] = [...newTiers[tier], draggedId];
     setTiers(newTiers);
     setDraggedId(null);
@@ -139,30 +102,21 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
 
   const handleDropOnUnranked = () => {
     if (!draggedId) return;
-
-    // 티어에서 제거
     const newTiers = { ...tiers };
     TIER_LABELS.forEach((t) => {
       newTiers[t] = newTiers[t].filter((id) => id !== draggedId);
     });
     setTiers(newTiers);
-
-    // 미분류에 추가
     if (!unranked.includes(draggedId)) {
       setUnranked((prev) => [...prev, draggedId]);
     }
     setDraggedId(null);
   };
 
-  // 저장
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      await updatePlaylist({
-        playlistId,
-        hasTiers: true,
-        tiers: tiers as Record<string, string[]>,
-      });
+      await updatePlaylist({ playlistId, hasTiers: true, tiers: tiers as Record<string, string[]> });
       router.push(`/archive/playlists/${playlistId}`);
     } catch (err) {
       alert(err instanceof Error ? err.message : "저장에 실패했습니다");
@@ -171,7 +125,6 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     }
   };
 
-  // 초기화
   const handleReset = () => {
     if (!confirm("모든 티어 설정을 초기화하시겠습니까?")) return;
     setTiers({ S: [], A: [], B: [], C: [], D: [] });
@@ -192,27 +145,16 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     return (
       <div className="text-center py-20">
         <p className="text-red-400 mb-4">{error}</p>
-        <Button
-          unstyled
-          onClick={() => router.back()}
-          className="text-accent hover:underline"
-        >
-          돌아가기
-        </Button>
+        <Button unstyled onClick={() => router.back()} className="text-accent hover:underline">돌아가기</Button>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* 헤더 */}
       <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0" style={{ zIndex: Z_INDEX.sticky }}>
         <div className="flex items-center gap-3">
-          <Button
-            unstyled
-            onClick={() => router.back()}
-            className="p-2 -ml-2 text-text-secondary hover:text-text-primary"
-          >
+          <Button unstyled onClick={() => router.back()} className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
             <ArrowLeft size={24} />
           </Button>
           <div>
@@ -222,104 +164,44 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button
-            unstyled
-            onClick={handleReset}
-            className="p-2 text-text-secondary hover:text-text-primary"
-            title="초기화"
-          >
+          <Button unstyled onClick={handleReset} className="p-2 text-text-secondary hover:text-text-primary" title="초기화">
             <RotateCcw size={20} />
           </Button>
-          <Button
-            unstyled
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover disabled:bg-accent/50 text-white text-sm font-medium rounded-lg"
-          >
+          <Button unstyled onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover disabled:bg-accent/50 text-white text-sm font-medium rounded-lg">
             <Save size={16} />
             {isSaving ? "저장 중..." : "저장"}
           </Button>
         </div>
       </header>
 
-      {/* 타입 필터 (혼합 재생목록일 때) */}
       {availableTypes.length > 1 && (
         <div className="px-4 py-3 border-b border-border">
           <div className="flex gap-2 overflow-x-auto">
-            <Button
-              unstyled
-              onClick={() => setSelectedType("all")}
-              className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${
-                selectedType === "all"
-                  ? "bg-accent text-white"
-                  : "bg-bg-card text-text-secondary hover:bg-bg-secondary"
-              }`}
-            >
-              전체
-            </Button>
+            <Button unstyled onClick={() => setSelectedType("all")} className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${selectedType === "all" ? "bg-accent text-white" : "bg-bg-card text-text-secondary hover:bg-bg-secondary"}`}>전체</Button>
             {availableTypes.map((type) => {
               const cat = CATEGORIES.find((c) => c.dbType === type);
               return (
-                <Button
-                  unstyled
-                  key={type}
-                  onClick={() => setSelectedType(type)}
-                  className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${
-                    selectedType === type
-                      ? "bg-accent text-white"
-                      : "bg-bg-card text-text-secondary hover:bg-bg-secondary"
-                  }`}
-                >
-                  {cat?.label || type}
-                </Button>
+                <Button unstyled key={type} onClick={() => setSelectedType(type)} className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${selectedType === type ? "bg-accent text-white" : "bg-bg-card text-text-secondary hover:bg-bg-secondary"}`}>{cat?.label || type}</Button>
               );
             })}
           </div>
         </div>
       )}
 
-      {/* 티어 영역 */}
       <div className="flex-1 p-4 space-y-2 overflow-y-auto">
         {TIER_LABELS.map((tier) => (
-          <div
-            key={tier}
-            className="flex min-h-[80px] bg-bg-card rounded-xl overflow-hidden"
-            onDragOver={handleDragOver}
-            onDrop={() => handleDropOnTier(tier)}
-          >
-            {/* 티어 라벨 */}
-            <div
-              className={`w-16 flex-shrink-0 flex items-center justify-center ${TIER_COLORS[tier]} text-white font-bold text-2xl`}
-            >
-              {tier}
-            </div>
-
-            {/* 아이템 영역 */}
+          <div key={tier} className="flex min-h-[80px] bg-bg-card rounded-xl overflow-hidden" onDragOver={handleDragOver} onDrop={() => handleDropOnTier(tier)}>
+            <div className={`w-16 flex-shrink-0 flex items-center justify-center ${TIER_COLORS[tier]} text-white font-bold text-2xl`}>{tier}</div>
             <div className="flex-1 flex flex-wrap gap-2 p-2 items-start content-start">
               {getFilteredIds(tiers[tier]).map((contentId) => {
                 const item = getItemById(contentId);
                 if (!item) return null;
-
                 return (
-                  <div
-                    key={contentId}
-                    draggable
-                    onDragStart={() => handleDragStart(contentId)}
-                    className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing transition-opacity ${
-                      draggedId === contentId ? "opacity-50" : ""
-                    }`}
-                  >
+                  <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing transition-opacity ${draggedId === contentId ? "opacity-50" : ""}`}>
                     {item.content.thumbnail_url ? (
-                      <img
-                        src={item.content.thumbnail_url}
-                        alt={item.content.title}
-                        className="w-full h-full object-cover"
-                        title={item.content.title}
-                      />
+                      <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" title={item.content.title} />
                     ) : (
-                      <div className="w-full h-full bg-bg-secondary flex items-center justify-center text-xs text-text-secondary">
-                        {item.content.title.slice(0, 2)}
-                      </div>
+                      <div className="w-full h-full bg-bg-secondary flex items-center justify-center text-xs text-text-secondary">{item.content.title.slice(0, 2)}</div>
                     )}
                   </div>
                 );
@@ -328,40 +210,18 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
           </div>
         ))}
 
-        {/* 미분류 영역 */}
-        <div
-          className="min-h-[100px] bg-bg-secondary rounded-xl p-4"
-          onDragOver={handleDragOver}
-          onDrop={handleDropOnUnranked}
-        >
-          <h3 className="text-sm font-medium text-text-secondary mb-3">
-            미분류 ({getFilteredIds(unranked).length})
-          </h3>
+        <div className="min-h-[100px] bg-bg-secondary rounded-xl p-4" onDragOver={handleDragOver} onDrop={handleDropOnUnranked}>
+          <h3 className="text-sm font-medium text-text-secondary mb-3">미분류 ({getFilteredIds(unranked).length})</h3>
           <div className="flex flex-wrap gap-2">
             {getFilteredIds(unranked).map((contentId) => {
               const item = getItemById(contentId);
               if (!item) return null;
-
               return (
-                <div
-                  key={contentId}
-                  draggable
-                  onDragStart={() => handleDragStart(contentId)}
-                  className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing transition-opacity ${
-                    draggedId === contentId ? "opacity-50" : ""
-                  }`}
-                >
+                <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing transition-opacity ${draggedId === contentId ? "opacity-50" : ""}`}>
                   {item.content.thumbnail_url ? (
-                    <img
-                      src={item.content.thumbnail_url}
-                      alt={item.content.title}
-                      className="w-full h-full object-cover"
-                      title={item.content.title}
-                    />
+                    <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" title={item.content.title} />
                   ) : (
-                    <div className="w-full h-full bg-bg-card flex items-center justify-center text-xs text-text-secondary">
-                      {item.content.title.slice(0, 2)}
-                    </div>
+                    <div className="w-full h-full bg-bg-card flex items-center justify-center text-xs text-text-secondary">{item.content.title.slice(0, 2)}</div>
                   )}
                 </div>
               );

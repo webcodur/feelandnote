@@ -31,14 +31,16 @@ export async function updateProgress({ userContentId, progress }: UpdateProgress
     .single()
 
   // 진행도에 따른 상태 자동 변경
-  // - 100%면 COMPLETE
-  // - 100% 미만이고 현재 COMPLETE면 EXPERIENCE로 변경
+  // - 100%면 COMPLETE + completed_at 설정
+  // - 100% 미만이고 현재 COMPLETE면 EXPERIENCE로 변경 + completed_at 해제
   // - 0이 아니고 현재 WISH면 EXPERIENCE로 변경
-  const updateData: { progress: number; status?: string } = { progress: clampedProgress }
+  const updateData: { progress: number; status?: string; completed_at?: string | null } = { progress: clampedProgress }
   if (clampedProgress === 100) {
     updateData.status = 'COMPLETE'
+    updateData.completed_at = new Date().toISOString()
   } else if (clampedProgress < 100 && currentContent?.status === 'COMPLETE') {
     updateData.status = 'EXPERIENCE'
+    updateData.completed_at = null
   } else if (clampedProgress > 0 && currentContent?.status === 'WISH') {
     updateData.status = 'EXPERIENCE'
   }

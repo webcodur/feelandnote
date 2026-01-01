@@ -31,7 +31,7 @@ export default function Modal({
   title,
   size = "md",
   showCloseButton = true,
-  closeOnOverlayClick = true,
+  closeOnOverlayClick = false,
 }: ModalProps) {
   // ESC 키로 닫기
   useEffect(() => {

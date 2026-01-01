@@ -7,15 +7,12 @@ import type { ContentType } from "@/types/database";
 import type { ViewMode } from "./hooks/useContentLibrary";
 import Button from "@/components/ui/Button";
 
-export const TAB_OPTIONS: (ChipOption & { type?: ContentType })[] = [
-  { value: "all", label: "전체" },
-  ...CATEGORIES.map((cat) => ({
-    value: cat.id,
-    label: cat.label,
-    icon: cat.icon,
-    type: cat.dbType as ContentType,
-  })),
-];
+export const TAB_OPTIONS: (ChipOption & { type: ContentType })[] = CATEGORIES.map((cat) => ({
+  value: cat.id,
+  label: cat.label,
+  icon: cat.icon,
+  type: cat.dbType as ContentType,
+}));
 
 interface ContentLibraryHeaderProps {
   activeTab: string;
@@ -58,7 +55,7 @@ export default function ContentLibraryHeader({
       )}
       {showViewToggle && (
         <div className="flex items-center gap-1">
-          {showFolders && activeTab !== "all" && onFolderManage && (
+          {showFolders && onFolderManage && (
             <Button
               unstyled
               onClick={onFolderManage}

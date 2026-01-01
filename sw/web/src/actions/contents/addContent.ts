@@ -16,9 +16,10 @@ interface AddContentParams {
   description?: string
   publisher?: string
   releaseDate?: string
-  metadata?: Record<string, unknown>
   status?: ContentStatus        // 기본값: 'WISH'
   progress?: number             // 기본값: 0 (0-100)
+  createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
+  isRecommended?: boolean       // 추천 여부 (100% 완료 시)
 }
 
 export async function addContent(params: AddContentParams) {
@@ -42,7 +43,6 @@ export async function addContent(params: AddContentParams) {
         description: params.description || null,
         publisher: params.publisher || null,
         release_date: params.releaseDate || null,
-        metadata: params.metadata || {}
       },
       {
         onConflict: 'id',
@@ -57,14 +57,33 @@ export async function addContent(params: AddContentParams) {
 
   // 2. user_contents 생성 (status 기본값: WISH, progress 기본값: 0)
   const progress = Math.max(0, Math.min(100, params.progress ?? 0))
+  const insertData: {
+    user_id: string
+    content_id: string
+    status: ContentStatus
+    progress: number
+    created_at?: string
+    is_recommended?: boolean
+  } = {
+    user_id: user.id,
+    content_id: params.id,
+    status: params.status || 'WISH',
+    progress
+  }
+
+  // 날짜가 지정된 경우 created_at 설정
+  if (params.createdAt) {
+    insertData.created_at = new Date(params.createdAt).toISOString()
+  }
+
+  // 추천 여부 설정
+  if (params.isRecommended !== undefined) {
+    insertData.is_recommended = params.isRecommended
+  }
+
   const { data: userContent, error: userContentError } = await supabase
     .from('user_contents')
-    .insert({
-      user_id: user.id,
-      content_id: params.id,
-      status: params.status || 'WISH',
-      progress
-    })
+    .insert(insertData)
     .select('id')
     .single()
 

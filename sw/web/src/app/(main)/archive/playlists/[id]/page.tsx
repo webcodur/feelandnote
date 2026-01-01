@@ -1,4 +1,4 @@
-import PlaylistDetailView from "@/components/views/main/archive/PlaylistDetailView";
+import PlaylistDetailView from "@/components/features/archive/PlaylistDetailView";
 
 interface PageProps {
   params: Promise<{ id: string }>;

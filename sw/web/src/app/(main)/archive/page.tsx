@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getProfile, getStats } from "@/actions/user";
 import { getCelebProfiles } from "@/actions/celebs";
-import ArchiveHubView from "@/components/views/main/ArchiveHubView";
+import ArchiveHubView from "@/components/features/archive/ArchiveHubView";
 
 export default async function Page() {
   const supabase = await createClient();

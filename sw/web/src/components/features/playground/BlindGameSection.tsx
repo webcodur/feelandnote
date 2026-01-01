@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button, Badge, Avatar, Card, FilterChips, type ChipOption } from "@/components/ui";
 import { Flame, Sparkles, Users, User, Target, Quote, Gamepad2, Loader2 } from "lucide-react";
 

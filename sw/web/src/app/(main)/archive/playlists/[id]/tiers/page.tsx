@@ -1,4 +1,4 @@
-import TierEditView from "@/components/views/main/archive/TierEditView";
+import TierEditView from "@/components/features/archive/TierEditView";
 
 interface PageProps {
   params: Promise<{ id: string }>;

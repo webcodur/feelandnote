@@ -19,8 +19,10 @@ export interface UserContentWithContent {
   progress: number | null
   progress_type: string | null
   folder_id: string | null
+  is_recommended: boolean | null
   created_at: string
   updated_at: string
+  completed_at: string | null
   content: {
     id: string
     type: string

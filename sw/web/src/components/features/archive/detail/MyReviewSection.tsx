@@ -19,7 +19,6 @@ interface MyReviewSectionProps {
   onReviewTextChange: (text: string) => void;
   onRatingChange: (rating: number | null) => void;
   onSave: () => void;
-  // AI 기능
   hasApiKey?: boolean;
   onGenerateExample?: () => void;
   isGenerating?: boolean;
@@ -61,7 +60,6 @@ export default function MyReviewSection({
           </div>
         </div>
         <div className="p-3">
-          {/* AI 예시 생성 버튼 */}
           {onGenerateExample && (
             <div className="mb-2 flex justify-end">
               <Button

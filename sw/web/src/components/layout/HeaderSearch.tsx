@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
+import { addContent } from "@/actions/contents/addContent";
 import SearchModeDropdown, {
   SearchMode,
   ContentCategory,
@@ -12,6 +13,14 @@ import SearchModeDropdown, {
 } from "./search/SearchModeDropdown";
 import SearchResultsDropdown, { SearchResult } from "./search/SearchResultsDropdown";
 import Button from "@/components/ui/Button";
+import { getCategoryById } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
+
+// 카테고리 ID를 ContentType으로 변환
+const categoryToContentType = (category: string): ContentType => {
+  const config = getCategoryById(category as ContentCategory);
+  return (config?.dbType as ContentType) || "BOOK";
+};
 
 export default function HeaderSearch() {
   const router = useRouter();
@@ -24,6 +33,11 @@ export default function HeaderSearch() {
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  // 추가 중인 콘텐츠 ID 추적
+  const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+  const [isPending, startTransition] = useTransition();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -90,9 +104,11 @@ export default function HeaderSearch() {
               title: item.title,
               subtitle: item.creator,
               category: item.category,
+              subtype: item.subtype,
               thumbnail: item.thumbnail,
               description: item.description,
               releaseDate: item.releaseDate,
+              metadata: item.metadata,
             });
           });
         } else if (mode === "user") {
@@ -244,6 +260,8 @@ export default function HeaderSearch() {
           ...(result.thumbnail && { thumbnail: result.thumbnail }),
           ...(result.description && { description: result.description }),
           ...(result.releaseDate && { releaseDate: result.releaseDate }),
+          ...(result.subtype && { subtype: result.subtype }),
+          ...(result.metadata && { metadata: JSON.stringify(result.metadata) }),
         });
         router.push(`/content/detail?${params.toString()}`);
       }
@@ -254,6 +272,54 @@ export default function HeaderSearch() {
     }
 
     setIsOpen(false);
+  };
+
+  // 기록관에 바로 추가 (모달 없이)
+  const handleAddToArchive = (result: SearchResult) => {
+    if (addingIds.has(result.id) || addedIds.has(result.id)) return;
+
+    setAddingIds((prev) => new Set(prev).add(result.id));
+
+    startTransition(async () => {
+      try {
+        await addContent({
+          id: result.id,
+          type: categoryToContentType(result.category || "book"),
+          title: result.title,
+          creator: result.subtitle,
+          thumbnailUrl: result.thumbnail,
+          description: result.description,
+          releaseDate: result.releaseDate,
+          status: "WISH",
+          progress: 0,
+        });
+        setAddedIds((prev) => new Set(prev).add(result.id));
+      } catch (err) {
+        console.error("추가 실패:", err);
+      } finally {
+        setAddingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(result.id);
+          return next;
+        });
+      }
+    });
+  };
+
+  // 새 창으로 열기 핸들러 (드롭다운 닫지 않음)
+  const handleOpenInNewTab = (result: SearchResult) => {
+    const params = new URLSearchParams({
+      id: result.id,
+      title: result.title,
+      category: result.category || "",
+      ...(result.subtitle && { creator: result.subtitle }),
+      ...(result.thumbnail && { thumbnail: result.thumbnail }),
+      ...(result.description && { description: result.description }),
+      ...(result.releaseDate && { releaseDate: result.releaseDate }),
+      ...(result.subtype && { subtype: result.subtype }),
+      ...(result.metadata && { metadata: JSON.stringify(result.metadata) }),
+    });
+    window.open(`/content/detail?${params.toString()}`, "_blank");
   };
 
   const handleModeChange = (newMode: SearchMode) => {
@@ -348,6 +414,9 @@ export default function HeaderSearch() {
           results={results}
           recentSearches={recentSearches}
           selectedIndex={selectedIndex}
+          searchMode={mode}
+          addingIds={addingIds}
+          addedIds={addedIds}
           onResultClick={handleResultClick}
           onRecentSearchClick={(search) => {
             setQuery(search);
@@ -355,6 +424,8 @@ export default function HeaderSearch() {
           }}
           onClearRecentSearches={clearRecentSearches}
           onViewAllResults={handleSearch}
+          onAddToArchive={handleAddToArchive}
+          onOpenInNewTab={handleOpenInNewTab}
         />
       )}
     </div>
