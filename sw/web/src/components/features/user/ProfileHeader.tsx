@@ -61,7 +61,7 @@ export default function ProfileHeader({
             className="relative shrink-0 group cursor-pointer"
           >
             {avatarContent}
-            <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/20 transition-colors" />
+            <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/20" />
           </Button>
         ) : (
           <div className="relative shrink-0">
@@ -76,7 +76,7 @@ export default function ProfileHeader({
               <Button
                 unstyled
                 onClick={onProfileClick}
-                className="text-xl sm:text-2xl font-bold text-text-primary hover:text-accent transition-colors"
+                className="text-xl sm:text-2xl font-bold text-text-primary hover:text-accent"
               >
                 {nickname}
               </Button>
@@ -89,7 +89,7 @@ export default function ProfileHeader({
               <Button
                 unstyled
                 onClick={onFollow}
-                className={`inline-flex items-center gap-1.5 px-4 py-1.5 text-sm rounded-lg transition-colors mx-auto sm:mx-0 ${
+                className={`inline-flex items-center gap-1.5 px-4 py-1.5 text-sm rounded-lg mx-auto sm:mx-0 ${
                   is_following
                     ? "bg-surface-hover text-text-secondary hover:bg-border"
                     : "bg-accent text-white hover:bg-accent-hover"

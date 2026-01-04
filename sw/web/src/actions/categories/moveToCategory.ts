@@ -3,12 +3,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-interface MoveToFolderParams {
+interface MoveToCategoryParams {
   userContentIds: string[]
-  folderId: string | null  // null = 미분류로 이동
+  categoryId: string | null  // null = 미분류로 이동
 }
 
-export async function moveToFolder(params: MoveToFolderParams): Promise<void> {
+export async function moveToCategory(params: MoveToCategoryParams): Promise<void> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -16,30 +16,30 @@ export async function moveToFolder(params: MoveToFolderParams): Promise<void> {
     throw new Error('로그인이 필요합니다')
   }
 
-  // 폴더가 지정된 경우 소유권 확인
-  if (params.folderId) {
-    const { data: folder } = await supabase
-      .from('folders')
+  // 분류가 지정된 경우 소유권 확인
+  if (params.categoryId) {
+    const { data: category } = await supabase
+      .from('categories')
       .select('id')
-      .eq('id', params.folderId)
+      .eq('id', params.categoryId)
       .eq('user_id', user.id)
       .single()
 
-    if (!folder) {
-      throw new Error('폴더를 찾을 수 없습니다')
+    if (!category) {
+      throw new Error('분류를 찾을 수 없습니다')
     }
   }
 
   // 콘텐츠 소유권 확인 및 업데이트
   const { error } = await supabase
     .from('user_contents')
-    .update({ folder_id: params.folderId })
+    .update({ category_id: params.categoryId })
     .eq('user_id', user.id)
     .in('id', params.userContentIds)
 
   if (error) {
-    console.error('폴더 이동 에러:', error)
-    throw new Error('폴더 이동에 실패했습니다')
+    console.error('분류 이동 에러:', error)
+    throw new Error('분류 이동에 실패했습니다')
   }
 
   revalidatePath('/archive')

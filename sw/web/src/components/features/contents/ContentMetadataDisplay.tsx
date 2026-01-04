@@ -34,6 +34,7 @@ export default function ContentMetadataDisplay({
 }: ContentMetadataDisplayProps) {
   if (!metadata) return null;
 
+  // 정보 아이템
   const InfoItem = ({
     icon: Icon,
     label,
@@ -50,6 +51,7 @@ export default function ContentMetadataDisplay({
     </div>
   );
 
+  // 태그 리스트
   const TagList = ({ items, label }: { items: string[]; label: string }) => (
     <div className="flex flex-wrap items-center gap-2">
       <span className={`${compact ? "text-xs" : "text-sm"} text-text-secondary`}>{label}</span>
@@ -72,6 +74,8 @@ export default function ContentMetadataDisplay({
     albumType, totalTracks, artists, spotifyUrl, qualificationType, series, majorField } = metadata;
 
   switch (category.toLowerCase()) {
+
+    // 책
     case "book":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
@@ -80,6 +84,7 @@ export default function ContentMetadataDisplay({
         </div>
       );
 
+    // 영화/TV 프로그램
     case "video":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
@@ -97,6 +102,7 @@ export default function ContentMetadataDisplay({
         </div>
       );
 
+    // 게임
     case "game":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
@@ -114,6 +120,7 @@ export default function ContentMetadataDisplay({
         </div>
       );
 
+    // 음악
     case "music":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
@@ -136,6 +143,7 @@ export default function ContentMetadataDisplay({
         </div>
       );
 
+    // 자격증
     case "certificate":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>

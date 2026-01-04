@@ -1,8 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { BookOpen, Star } from "lucide-react";
-import Button from "@/components/ui/Button";
+import Link from "next/link";
+import { BookOpen } from "lucide-react";
 
 interface ProfileCardProps {
   id: string;
@@ -23,23 +22,12 @@ export default function ProfileCard({
   badge,
   href,
 }: ProfileCardProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    if (href) {
-      router.push(href);
-    } else if (is_self) {
-      router.push("/archive/me");
-    } else {
-      router.push(`/user/${id}`);
-    }
-  };
+  const resolvedHref = href ?? (is_self ? "/archive/me" : `/user/${id}`);
 
   return (
-    <Button
-      unstyled
-      onClick={handleClick}
-      className="flex flex-col items-center p-4 bg-surface rounded-xl hover:bg-surface-hover transition-colors group min-w-[100px]"
+    <Link
+      href={resolvedHref}
+      className="flex flex-col items-center p-4 bg-surface rounded-xl hover:bg-surface-hover group min-w-[100px]"
     >
       {/* 아바타 */}
       <div className="relative mb-2">
@@ -47,11 +35,11 @@ export default function ProfileCard({
           <img
             src={avatar_url}
             alt={nickname}
-            className="w-16 h-16 rounded-full object-cover ring-2 ring-transparent group-hover:ring-accent transition-all"
+            className="w-16 h-16 rounded-full object-cover ring-2 ring-transparent group-hover:ring-accent"
           />
         ) : (
           <div
-            className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-white ring-2 ring-transparent group-hover:ring-accent transition-all"
+            className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-white ring-2 ring-transparent group-hover:ring-accent"
             style={{ background: is_self ? "linear-gradient(135deg, #8b5cf6, #6366f1)" : "linear-gradient(135deg, #8b5cf6, #ec4899)" }}
           >
             {nickname.charAt(0).toUpperCase()}
@@ -71,7 +59,7 @@ export default function ProfileCard({
       </div>
 
       {/* 닉네임 */}
-      <span className="text-sm font-medium text-text-primary group-hover:text-accent transition-colors truncate max-w-full">
+      <span className="text-sm font-medium text-text-primary group-hover:text-accent truncate max-w-full">
         {nickname}
       </span>
 
@@ -82,7 +70,7 @@ export default function ProfileCard({
           {content_count}
         </span>
       )}
-    </Button>
+    </Link>
   );
 }
 

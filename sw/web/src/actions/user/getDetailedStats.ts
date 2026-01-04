@@ -50,11 +50,12 @@ export async function getDetailedStats(): Promise<DetailedStats> {
       .from('user_contents')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id),
+    // 리뷰 카운트: user_contents에서 rating 또는 review가 있는 항목
     supabase
-      .from('records')
+      .from('user_contents')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id)
-      .eq('type', 'REVIEW'),
+      .or('rating.not.is.null,review.not.is.null'),
     supabase
       .from('records')
       .select('id', { count: 'exact', head: true })
@@ -75,6 +76,7 @@ export async function getDetailedStats(): Promise<DetailedStats> {
       .select('id, content:contents!inner(type)', { count: 'exact', head: true })
       .eq('user_id', user.id)
       .eq('contents.type', 'MOVIE'),
+    // 최근 활동: records에서 NOTE, QUOTE만
     supabase
       .from('records')
       .select(`

@@ -145,7 +145,8 @@ export default function SearchResultsDropdown({
                             ${isAdding ? "opacity-50" : "hidden group-hover:block"}`}
                           title="기록관에 추가"
                         >
-                          {isAdding ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+                          {isAdding && <Loader2 size={14} className="animate-spin" />}
+                          {!isAdding && <Plus size={14} />}
                         </Button>
                       )
                     )}

@@ -103,7 +103,7 @@ export default function ActivityHeatmap({ data }: ActivityHeatmapProps) {
                   {week.map((day, dayIndex) => (
                     <div
                       key={dayIndex}
-                      className="w-[12px] h-[12px] rounded-sm transition-colors"
+                      className="w-[12px] h-[12px] rounded-sm"
                       style={{
                         backgroundColor: day ? LEVEL_COLORS[day.level] : "transparent",
                       }}

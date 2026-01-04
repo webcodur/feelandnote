@@ -67,7 +67,7 @@ export function FilterSelect<T extends string = string>({
         <span className="font-medium">{displayLabel}</span>
         <ChevronDown
           size={compact ? 12 : 14}
-          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={isOpen ? "rotate-180" : ""}
         />
       </Button>
 

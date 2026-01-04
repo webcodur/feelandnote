@@ -11,7 +11,7 @@ import { ContentGrid } from "@/components/ui";
 import ContentListItem from "./ContentListItem";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import type { ContentStatus } from "@/types/database";
+import type { ContentStatus, CategoryWithCount } from "@/types/database";
 import type { ViewMode } from "./hooks/useContentLibrary";
 
 // #region 타입
@@ -19,10 +19,12 @@ interface ContentItemRendererProps {
   items: UserContentWithContent[];
   viewMode: ViewMode;
   compact?: boolean;
+  categories?: CategoryWithCount[];
   onProgressChange: (userContentId: string, progress: number) => void;
   onStatusChange: (userContentId: string, status: ContentStatus) => void;
   onRecommendChange: (userContentId: string, isRecommended: boolean) => void;
   onDateChange?: (userContentId: string, field: "created_at" | "completed_at", date: string) => void;
+  onCategoryChange?: (userContentId: string, categoryId: string | null) => void;
   onDelete: (userContentId: string) => void;
 }
 // #endregion
@@ -38,16 +40,18 @@ export default function ContentItemRenderer({
   items,
   viewMode,
   compact = false,
+  categories = [],
   onProgressChange,
   onStatusChange,
   onRecommendChange,
   onDateChange,
+  onCategoryChange,
   onDelete,
 }: ContentItemRendererProps) {
   // #region 렌더링
   if (viewMode === "grid") {
     return (
-      <ContentGrid compact={compact} minWidth={compact ? 100 : 130}>
+      <ContentGrid compact={compact} minWidth={compact ? 300 : 330}>
         {items.map((item) => {
           if (item.content.type === "CERTIFICATE") {
             return (
@@ -65,10 +69,12 @@ export default function ContentItemRenderer({
             <ContentCard
               key={item.id}
               item={item}
+              categories={categories}
               onProgressChange={onProgressChange}
               onStatusChange={onStatusChange}
               onRecommendChange={onRecommendChange}
               onDateChange={onDateChange}
+              onCategoryChange={onCategoryChange}
               onDelete={onDelete}
               href={`/archive/${item.content_id}`}
               compact={compact}

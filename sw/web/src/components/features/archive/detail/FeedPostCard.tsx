@@ -20,10 +20,10 @@ function formatRelativeTime(dateString: string): string {
 
 function getDefaultAvatar(type: string): string {
   switch (type) {
-    case "REVIEW":
-      return "📝";
     case "NOTE":
       return "📒";
+    case "QUOTE":
+      return "💬";
     case "CREATION":
       return "✨";
     default:

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button, Badge, Card, FilterChips, type ChipOption } from "@/components/ui";
 import { Trophy, ListMusic, Heart, Settings, Loader2 } from "lucide-react";
 import type { PlaylistSummary } from "@/actions/playlists";
@@ -24,7 +24,6 @@ interface TierListSectionProps {
 }
 
 export default function TierListSection({ playlists, isLoading, onOpenSelectModal }: TierListSectionProps) {
-  const router = useRouter();
   const [subTab, setSubTab] = useState<TierSubTab>("all");
 
   const filteredPlaylists = playlists.filter(p => {
@@ -32,9 +31,8 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
     return true;
   });
 
-  const handlePlaylistClick = (playlist: PlaylistSummary) => {
-    router.push(playlist.has_tiers ? `/archive/playlists/${playlist.id}` : `/archive/playlists/${playlist.id}/tiers`);
-  };
+  const getPlaylistHref = (playlist: PlaylistSummary) =>
+    playlist.has_tiers ? `/archive/playlists/${playlist.id}` : `/archive/playlists/${playlist.id}/tiers`;
 
   return (
     <>
@@ -56,7 +54,8 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6">
           {filteredPlaylists.map((playlist) => (
-            <Card key={playlist.id} hover className="p-0 overflow-hidden cursor-pointer" onClick={() => handlePlaylistClick(playlist)}>
+            <Link key={playlist.id} href={getPlaylistHref(playlist)}>
+              <Card hover className="p-0 overflow-hidden cursor-pointer h-full">
               <div className="h-40 bg-[#2a2f38] p-3 flex flex-col gap-1">
                 {playlist.has_tiers && playlist.tiers ? (
                   Object.entries(playlist.tiers).filter(([, items]) => Array.isArray(items) && items.length > 0).slice(0, 4).map(([tier, items]) => (
@@ -89,7 +88,8 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
                   {playlist.is_public && <div className="flex items-center gap-1"><Heart size={14} /><span>공개</span></div>}
                 </div>
               </div>
-            </Card>
+              </Card>
+            </Link>
           ))}
         </div>
       )}

@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy, User, LogOut } from "lucide-react";
+import Link from "next/link";
+import { logout } from "@/actions/auth";
 import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import { getProfile, type UserProfile } from "@/actions/user";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -14,6 +17,12 @@ interface HeaderProps {
 
 export default function Header({ onMenuClick, isMobile }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    getProfile().then(setProfile);
+  }, []);
 
   const notifications = [
     {
@@ -28,7 +37,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
       id: 2,
       type: "comment",
       icon: <MessageCircle size={16} className="text-blue-400" />,
-      message: "BookLover님이 댓글을 남겼습니다: \"정말 공감돼요!\"",
+      message: "BookLover님이 댓글을 남겼습니다",
       time: "2시간 전",
       read: false,
     },
@@ -44,7 +53,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
       id: 4,
       type: "achievement",
       icon: <Trophy size={16} className="text-yellow-400" />,
-      message: "새 칭호를 획득했습니다: \"백 권의 무게\" (+50점)",
+      message: "새 칭호를 획득했습니다",
       time: "1일 전",
       read: true,
     },
@@ -98,8 +107,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
                 {notifications.map((notif) => (
                   <div
                     key={notif.id}
-                    className={`px-4 py-3 md:px-6 md:py-4 border-b border-border transition-colors duration-200 hover:bg-white/5 cursor-pointer
-                      ${!notif.read ? "bg-accent/5" : ""}`}
+                    className={'  '}
                   >
                     <div className="flex gap-3">
                       <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
@@ -122,9 +130,48 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
         </div>
 
         {/* User Profile */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <span className="hidden sm:inline font-semibold text-sm">WebCoder</span>
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 cursor-pointer"></div>
+        <div className="relative">
+          <Button
+            unstyled
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            className="flex items-center gap-2 md:gap-3 hover:opacity-80"
+          >
+            <span className="hidden sm:inline font-semibold text-sm">{profile?.nickname ?? "User"}</span>
+            {profile?.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt="프로필"
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
+            )}
+          </Button>
+
+          {/* Profile Dropdown */}
+          {showProfileMenu && (
+            <div
+              className="absolute right-0 top-12 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+              style={{ zIndex: Z_INDEX.dropdown }}
+            >
+              <Link
+                href="/profile"
+                onClick={() => setShowProfileMenu(false)}
+                className="flex items-center gap-3 px-4 py-3 hover:bg-white/5"
+              >
+                <User size={18} className="text-text-secondary" />
+                <span className="text-sm">마이페이지</span>
+              </Link>
+              <div className="border-t border-border" />
+              <button
+                onClick={() => logout()}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-red-400"
+              >
+                <LogOut size={18} />
+                <span className="text-sm">로그아웃</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

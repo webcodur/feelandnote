@@ -71,7 +71,7 @@ export default function SearchModeDropdown({
       >
         <DisplayIcon size={16} />
         <span className="hidden sm:inline">{displayLabel}</span>
-        <ChevronDown size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown size={14} className={isOpen ? "rotate-180" : ""} />
       </Button>
 
       {isOpen && (

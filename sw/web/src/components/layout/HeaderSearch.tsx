@@ -251,19 +251,20 @@ export default function HeaderSearch() {
       if (mode === "archive") {
         router.push(`/archive/${result.id}`);
       } else {
-        // 쿼리 파라미터로 메타데이터 전달
-        const params = new URLSearchParams({
+        const key = `content_${result.id}`;
+        const data = {
           id: result.id,
           title: result.title,
-          category: result.category || "",
-          ...(result.subtitle && { creator: result.subtitle }),
-          ...(result.thumbnail && { thumbnail: result.thumbnail }),
-          ...(result.description && { description: result.description }),
-          ...(result.releaseDate && { releaseDate: result.releaseDate }),
-          ...(result.subtype && { subtype: result.subtype }),
-          ...(result.metadata && { metadata: JSON.stringify(result.metadata) }),
-        });
-        router.push(`/content/detail?${params.toString()}`);
+          category: result.category || "book",
+          creator: result.subtitle,
+          thumbnail: result.thumbnail,
+          description: result.description,
+          releaseDate: result.releaseDate,
+          subtype: result.subtype,
+          metadata: result.metadata,
+        };
+        sessionStorage.setItem(key, JSON.stringify(data));
+        router.push(`/content/detail?key=${key}`);
       }
     } else if (result.type === "user") {
       router.push(`/user/${result.id}`);
@@ -308,18 +309,20 @@ export default function HeaderSearch() {
 
   // 새 창으로 열기 핸들러 (드롭다운 닫지 않음)
   const handleOpenInNewTab = (result: SearchResult) => {
-    const params = new URLSearchParams({
+    const key = `content_${result.id}`;
+    const data = {
       id: result.id,
       title: result.title,
-      category: result.category || "",
-      ...(result.subtitle && { creator: result.subtitle }),
-      ...(result.thumbnail && { thumbnail: result.thumbnail }),
-      ...(result.description && { description: result.description }),
-      ...(result.releaseDate && { releaseDate: result.releaseDate }),
-      ...(result.subtype && { subtype: result.subtype }),
-      ...(result.metadata && { metadata: JSON.stringify(result.metadata) }),
-    });
-    window.open(`/content/detail?${params.toString()}`, "_blank");
+      category: result.category || "book",
+      creator: result.subtitle,
+      thumbnail: result.thumbnail,
+      description: result.description,
+      releaseDate: result.releaseDate,
+      subtype: result.subtype,
+      metadata: result.metadata,
+    };
+    sessionStorage.setItem(key, JSON.stringify(data));
+    window.open(`/content/detail?key=${key}`, "_blank");
   };
 
   const handleModeChange = (newMode: SearchMode) => {
@@ -349,7 +352,7 @@ export default function HeaderSearch() {
     <div ref={containerRef} className="flex-1 max-w-[600px] mx-auto relative">
       {/* Search Bar */}
       <div
-        className={`w-full bg-bg-main border rounded-xl flex items-center transition-all duration-200
+        className={`w-full bg-bg-main border rounded-xl flex items-center
           ${isOpen ? "border-accent shadow-lg shadow-accent/10" : "border-border"}`}
       >
         {/* Mode Selector */}

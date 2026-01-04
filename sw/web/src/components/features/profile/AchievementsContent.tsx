@@ -102,7 +102,8 @@ export default function AchievementsContent({ data, subTab, setSubTab, formatDat
               <div key={log.id} className="bg-bg-card rounded-lg py-2.5 px-4 border border-border flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                    {log.type === "title" ? <Trophy size={16} /> : <FileText size={16} />}
+                    {log.type === "title" && <Trophy size={16} />}
+                    {log.type !== "title" && <FileText size={16} />}
                   </div>
                   <div>
                     <div className="font-semibold text-sm">{log.action}</div>
@@ -131,7 +132,7 @@ export default function AchievementsContent({ data, subTab, setSubTab, formatDat
                 return (
                   <div key={category} className="bg-bg-main rounded-lg p-2.5">
                     <div className="flex items-center gap-1.5 mb-2"><span className="text-accent [&>svg]:w-4 [&>svg]:h-4">{config.icon}</span><span className="font-semibold text-xs">{config.name}</span></div>
-                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mb-1"><div className="h-full bg-accent rounded-full transition-all duration-300" style={{ width: `${progress}%` }} /></div>
+                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mb-1"><div className="h-full bg-accent rounded-full" style={{ width: `${progress}%` }} /></div>
                     <div className="text-[10px] text-text-secondary">{unlocked} / {total}</div>
                   </div>
                 );
@@ -152,7 +153,7 @@ export default function AchievementsContent({ data, subTab, setSubTab, formatDat
                 </div>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2">
                   {categoryTitles.map((title) => (
-                    <div key={title.id} className={`bg-bg-card rounded-lg p-3 border border-border transition-all duration-200 hover:-translate-y-0.5 hover:border-accent ${!title.unlocked ? "opacity-60 bg-black/20" : ""}`}>
+                    <div key={title.id} className={`bg-bg-card rounded-lg p-3 border border-border hover:-translate-y-0.5 hover:border-accent ${!title.unlocked ? "opacity-60 bg-black/20" : ""}`}>
                       <div className="flex items-start justify-between mb-1.5">
                         <div className="flex items-center gap-1.5">
                           <span className="text-lg">{gradeIcons[title.grade]}</span>

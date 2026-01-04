@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect, Suspense, useTransition } from "react";
+import { useState, useEffect, Suspense, useTransition, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Search, Loader2, ArrowUpDown } from "lucide-react";
+import { Search, Loader2, ArrowUpDown, Info } from "lucide-react";
 import { FilterChips, FilterSelect, type FilterOption, type ChipOption } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import SearchModeSelector, { type SearchMode } from "@/components/features/search/SearchModeSelector";
 import { ContentResults, UserResults, TagResults } from "@/components/features/search/SearchResultCards";
 import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
@@ -13,7 +12,14 @@ import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSea
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 
+type SearchMode = "content" | "user" | "tag" | "archive";
 type ContentResult = ContentSearchResult | ArchiveSearchResult;
+
+// 카테고리별 검색 안내 문구
+const CATEGORY_SEARCH_GUIDE: Partial<Record<CategoryId, string>> = {
+  game: "검색 결과가 더 있을 수 있어요. 원하는 게임이 없다면 검색어를 바꿔보세요.",
+  certificate: "주요 국가자격증 위주로 검색돼요.",
+};
 
 const CATEGORY_CHIP_OPTIONS: ChipOption<CategoryId>[] = CATEGORIES.map((cat) => ({
   value: cat.id, label: cat.label, icon: cat.icon,
@@ -44,31 +50,43 @@ function SearchContent() {
   const categoryParam = (searchParams.get("category") as CategoryId) || "book";
   const queryParam = searchParams.get("q") || "";
 
-  const [mode, setMode] = useState<SearchMode>(modeParam);
-  const [query, setQuery] = useState(queryParam);
   const [category, setCategory] = useState<CategoryId>(categoryParam);
   const [sortBy, setSortBy] = useState("relevance");
   const [isLoading, setIsLoading] = useState(false);
-  const [isModeOpen, setIsModeOpen] = useState(false);
 
   const [contentResults, setContentResults] = useState<ContentResult[]>([]);
   const [userResults, setUserResults] = useState<UserSearchResult[]>([]);
   const [tagResults, setTagResults] = useState<TagSearchResult[]>([]);
   const [totalCount, setTotalCount] = useState(0);
 
+  // 페이지네이션 상태
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   // 추가 상태
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
   const [, startTransition] = useTransition();
 
-  const updateUrl = (newMode: SearchMode, newQuery: string, newCategory?: CategoryId) => {
+  const updateUrl = (newCategory: CategoryId) => {
     const params = new URLSearchParams();
-    params.set("mode", newMode);
-    if (newMode === "content" && newCategory) params.set("category", newCategory);
-    if (newQuery) params.set("q", newQuery);
+    params.set("mode", modeParam);
+    params.set("category", newCategory);
+    if (queryParam) params.set("q", queryParam);
     router.push(`/search?${params.toString()}`);
   };
 
+  // 검색 조건 변경 시 초기화
+  useEffect(() => {
+    setPage(1);
+    setHasMore(false);
+    setContentResults([]);
+    setUserResults([]);
+    setTagResults([]);
+  }, [queryParam, modeParam, categoryParam]);
+
+  // 초기 검색
   useEffect(() => {
     if (!queryParam) return;
     setIsLoading(true);
@@ -77,17 +95,33 @@ function SearchContent() {
     const performSearch = async () => {
       try {
         if (modeParam === "content") {
-          const data = await searchContents({ query: queryParam, category: categoryParam });
-          if (!cancelled) { setContentResults(data.items); setTotalCount(data.total); }
+          const data = await searchContents({ query: queryParam, category: categoryParam, page: 1 });
+          if (!cancelled) {
+            setContentResults(data.items);
+            setTotalCount(data.total);
+            setHasMore(data.hasMore);
+          }
         } else if (modeParam === "archive") {
           const data = await searchArchive({ query: queryParam, category: category });
-          if (!cancelled) { setContentResults(data.items); setTotalCount(data.total); }
+          if (!cancelled) {
+            setContentResults(data.items);
+            setTotalCount(data.total);
+            setHasMore(data.hasMore);
+          }
         } else if (modeParam === "user") {
-          const data = await searchUsers({ query: queryParam });
-          if (!cancelled) { setUserResults(data.items); setTotalCount(data.total); }
+          const data = await searchUsers({ query: queryParam, page: 1 });
+          if (!cancelled) {
+            setUserResults(data.items);
+            setTotalCount(data.total);
+            setHasMore(data.hasMore);
+          }
         } else if (modeParam === "tag") {
-          const data = await searchTags({ query: queryParam });
-          if (!cancelled) { setTagResults(data.items); setTotalCount(data.total); }
+          const data = await searchTags({ query: queryParam, page: 1 });
+          if (!cancelled) {
+            setTagResults(data.items);
+            setTotalCount(data.total);
+            setHasMore(data.hasMore);
+          }
         }
       } catch (error) {
         console.error("검색 에러:", error);
@@ -100,33 +134,46 @@ function SearchContent() {
     return () => { cancelled = true; };
   }, [queryParam, modeParam, categoryParam, category]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) updateUrl(mode, query.trim(), category);
-  };
+  // 더보기 로드
+  const loadMore = useCallback(async () => {
+    if (isLoadingMore || !hasMore) return;
+    setIsLoadingMore(true);
 
-  const handleModeChange = (newMode: SearchMode, newCategory?: CategoryId) => {
-    setMode(newMode);
-    if (newCategory) setCategory(newCategory);
-    setIsModeOpen(false);
-    if (query) updateUrl(newMode, query, newCategory);
-  };
+    const nextPage = page + 1;
+
+    try {
+      if (modeParam === "content") {
+        const data = await searchContents({ query: queryParam, category: categoryParam, page: nextPage });
+        setContentResults((prev) => [...prev, ...data.items]);
+        setHasMore(data.hasMore);
+      } else if (modeParam === "archive") {
+        const data = await searchArchive({ query: queryParam, category: category, page: nextPage });
+        setContentResults((prev) => [...prev, ...data.items]);
+        setHasMore(data.hasMore);
+      } else if (modeParam === "user") {
+        const data = await searchUsers({ query: queryParam, page: nextPage });
+        setUserResults((prev) => [...prev, ...data.items]);
+        setHasMore(data.hasMore);
+      } else if (modeParam === "tag") {
+        const data = await searchTags({ query: queryParam, page: nextPage });
+        setTagResults((prev) => [...prev, ...data.items]);
+        setHasMore(data.hasMore);
+      }
+      setPage(nextPage);
+    } catch (error) {
+      console.error("더보기 에러:", error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }, [isLoadingMore, hasMore, page, modeParam, queryParam, categoryParam, category]);
 
   const handleContentClick = (item: ContentResult) => {
-    if (mode === "archive") {
+    if (modeParam === "archive") {
       router.push(`/archive/${item.id}`);
     } else {
-      const params = new URLSearchParams();
-      params.set("id", item.id);
-      params.set("title", item.title);
-      params.set("category", item.category);
-      if (item.creator) params.set("creator", item.creator);
-      if ("thumbnail" in item && item.thumbnail) params.set("thumbnail", item.thumbnail);
-      if ("description" in item && item.description) params.set("description", item.description);
-      if ("releaseDate" in item && item.releaseDate) params.set("releaseDate", item.releaseDate);
-      if ("subtype" in item && item.subtype) params.set("subtype", item.subtype);
-      if ("metadata" in item && item.metadata) params.set("metadata", JSON.stringify(item.metadata));
-      router.push(`/content/detail?${params.toString()}`);
+      const key = `content_${item.id}`;
+      sessionStorage.setItem(key, JSON.stringify(item));
+      router.push(`/content/detail?key=${key}`);
     }
   };
 
@@ -166,54 +213,29 @@ function SearchContent() {
   };
 
   const handleOpenInNewTab = (item: ContentResult) => {
-    const params = new URLSearchParams();
-    params.set("id", item.id);
-    params.set("title", item.title);
-    params.set("category", item.category);
-    if (item.creator) params.set("creator", item.creator);
-    if ("thumbnail" in item && item.thumbnail) params.set("thumbnail", item.thumbnail);
-    if ("description" in item && item.description) params.set("description", item.description);
-    if ("releaseDate" in item && item.releaseDate) params.set("releaseDate", item.releaseDate);
-    if ("subtype" in item && item.subtype) params.set("subtype", item.subtype);
-    if ("metadata" in item && item.metadata) params.set("metadata", JSON.stringify(item.metadata));
-    window.open(`/content/detail?${params.toString()}`, "_blank");
+    const key = `content_${item.id}`;
+    sessionStorage.setItem(key, JSON.stringify(item));
+    window.open(`/content/detail?key=${key}`, "_blank");
   };
 
   return (
     <>
-      <form onSubmit={handleSearch} className="mb-8">
-        <div className="flex gap-2">
-          <SearchModeSelector
-            mode={mode}
-            category={category}
-            isOpen={isModeOpen}
-            onToggle={() => setIsModeOpen(!isModeOpen)}
-            onModeChange={handleModeChange}
-          />
-          <div className="flex-1 flex items-center gap-3 bg-bg-card border border-border rounded-xl px-4 focus-within:border-accent transition-colors">
-            <Search size={18} className="text-text-secondary" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="검색어를 입력하세요..."
-              className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] py-3"
-            />
+      {modeParam === "content" && (
+        <div className="mb-6 pb-4 border-b border-border">
+          <div className="flex items-center gap-4">
+            <FilterChips options={CATEGORY_CHIP_OPTIONS} value={category} onChange={(c) => { setCategory(c); updateUrl(c); }} variant="filled" showIcon />
+            <div className="ml-auto"><FilterSelect options={CONTENT_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
           </div>
-          <Button unstyled type="submit" className="px-6 py-3 bg-accent text-white rounded-xl font-medium hover:bg-accent-hover">
-            검색
-          </Button>
-        </div>
-      </form>
-
-      {mode === "content" && (
-        <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
-          <FilterChips options={CATEGORY_CHIP_OPTIONS} value={category} onChange={(c) => { setCategory(c); if (query) updateUrl("content", query, c); }} variant="filled" showIcon />
-          <div className="ml-auto"><FilterSelect options={CONTENT_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
+          {CATEGORY_SEARCH_GUIDE[category] && (
+            <div className="mt-3 flex items-center gap-1.5 text-xs text-text-secondary">
+              <Info size={12} />
+              <span>{CATEGORY_SEARCH_GUIDE[category]}</span>
+            </div>
+          )}
         </div>
       )}
 
-      {mode === "user" && (
+      {modeParam === "user" && (
         <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
           <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer"><input type="checkbox" className="rounded" /> 팔로잉만</label>
           <div className="ml-auto"><FilterSelect options={USER_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
@@ -226,10 +248,10 @@ function SearchContent() {
 
       {isLoading && <div className="flex items-center justify-center py-20"><Loader2 size={32} className="animate-spin text-accent" /></div>}
 
-      {!isLoading && (mode === "content" || mode === "archive") && (
+      {!isLoading && (modeParam === "content" || modeParam === "archive") && (
         <ContentResults
           results={contentResults}
-          mode={mode}
+          mode={modeParam}
           addingIds={addingIds}
           addedIds={addedIds}
           onItemClick={handleContentClick}
@@ -237,11 +259,39 @@ function SearchContent() {
           onOpenInNewTab={handleOpenInNewTab}
         />
       )}
-      {!isLoading && mode === "user" && (
+      {!isLoading && modeParam === "user" && (
         <UserResults results={userResults} onItemClick={(u) => router.push(`/user/${u.id}`)} onFollowToggle={() => {}} />
       )}
-      {!isLoading && mode === "tag" && (
+      {!isLoading && modeParam === "tag" && (
         <TagResults results={tagResults} onItemClick={(t) => router.push(`/feed?tag=${encodeURIComponent(t.name)}`)} />
+      )}
+
+      {/* 더보기 버튼 */}
+      {!isLoading && hasMore && (
+        <div className="mt-8 flex justify-center">
+          <Button
+            unstyled
+            onClick={loadMore}
+            disabled={isLoadingMore}
+            className="px-8 py-3 bg-bg-card border border-border rounded-xl font-medium text-text-primary hover:border-accent disabled:opacity-50"
+          >
+            {isLoadingMore ? (
+              <span className="flex items-center gap-2">
+                <Loader2 size={16} className="animate-spin" />
+                불러오는 중...
+              </span>
+            ) : (
+              "더보기"
+            )}
+          </Button>
+        </div>
+      )}
+
+      {/* 모든 결과 로드 완료 */}
+      {!isLoading && !hasMore && queryParam && totalCount > 0 && (
+        <div className="mt-8 text-center text-sm text-text-secondary">
+          모든 검색 결과를 불러왔다. (총 {contentResults.length || userResults.length || tagResults.length}건)
+        </div>
       )}
 
       {!isLoading && queryParam && totalCount === 0 && (

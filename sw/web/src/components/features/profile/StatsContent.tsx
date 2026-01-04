@@ -63,7 +63,7 @@ export default function StatsContent({ stats }: StatsContentProps) {
               title: a.title,
               time: a.time,
               points: 0,
-              icon: a.type === "REVIEW" ? "FileText" : a.type === "NOTE" ? "Edit" : "Quote",
+              icon: a.type === "NOTE" ? "Edit" : "Quote",
             }))}
           />
         ) : (

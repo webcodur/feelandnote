@@ -41,6 +41,7 @@ interface UserContentRow {
   content_id: string
   status: string
   progress: number | null
+  rating: number | null
   content: ContentData | ContentData[] | null
 }
 
@@ -60,7 +61,7 @@ export async function searchArchive({
 
   const offset = (page - 1) * limit
 
-  // 내 기록관에서 검색
+  // 내 기록관에서 검색 (rating 포함)
   let searchQuery = supabase
     .from('user_contents')
     .select(`
@@ -68,6 +69,7 @@ export async function searchArchive({
       content_id,
       status,
       progress,
+      rating,
       content:contents!inner(
         id,
         type,
@@ -93,24 +95,6 @@ export async function searchArchive({
     return { items: [], total: 0, hasMore: false }
   }
 
-  // 평점 조회 (records 테이블에서)
-  const contentIds = (data || []).map(item => item.content_id)
-  let ratingsMap: Record<string, number> = {}
-
-  if (contentIds.length > 0) {
-    const { data: ratings } = await supabase
-      .from('records')
-      .select('content_id, rating')
-      .eq('user_id', user.id)
-      .eq('type', 'REVIEW')
-      .in('content_id', contentIds)
-      .not('rating', 'is', null)
-
-    ;(ratings || []).forEach(r => {
-      if (r.rating) ratingsMap[r.content_id] = r.rating
-    })
-  }
-
   // 카테고리 필터 (content.type 기준)
   let items: ArchiveSearchResult[] = ((data || []) as UserContentRow[])
     .filter((item): item is UserContentRow & { content: ContentData } => {
@@ -129,7 +113,7 @@ export async function searchArchive({
         category: content.type?.toLowerCase() || 'book',
         thumbnail: content.thumbnail_url || undefined,
         status: item.status,
-        rating: ratingsMap[item.content_id],
+        rating: item.rating || undefined,
         progress: item.progress || undefined,
       }
     })

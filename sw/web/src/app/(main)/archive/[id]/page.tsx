@@ -15,20 +15,13 @@ import { getContent, type UserContentWithDetails } from "@/actions/contents/getC
 import { getContentMetadata, type ContentMetadata } from "@/actions/contents/getContentMetadata";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateProgress } from "@/actions/contents/updateProgress";
+import { updateReview } from "@/actions/contents/updateReview";
 import { removeContent } from "@/actions/contents/removeContent";
-import { getRecords, createRecord, updateRecord } from "@/actions/records";
 import { getProfile } from "@/actions/user";
 import { generateReviewExample } from "@/actions/ai";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { ContentStatus } from "@/actions/contents/addContent";
 import { useAchievement } from "@/components/features/achievements";
-
-interface RecordData {
-  id: string;
-  content: string;
-  rating: number | null;
-  created_at: string;
-}
 
 export default function Page() {
   const params = useParams();
@@ -41,13 +34,13 @@ export default function Page() {
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [item, setItem] = useState<UserContentWithDetails | null>(null);
   const [metadata, setMetadata] = useState<ContentMetadata | null>(null);
-  const [myReview, setMyReview] = useState<RecordData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, startSaveTransition] = useTransition();
 
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState<number | null>(null);
+  const [isSpoiler, setIsSpoiler] = useState(false);
   const [hasApiKey, setHasApiKey] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -56,13 +49,17 @@ export default function Page() {
       setIsLoading(true);
       setError(null);
       try {
-        const [contentData, reviewsData, profile] = await Promise.all([
+        const [contentData, profile] = await Promise.all([
           getContent(contentId),
-          getRecords({ contentId, type: 'REVIEW' }).catch(() => []),
           getProfile(),
         ]);
         setItem(contentData);
         setHasApiKey(!!profile?.gemini_api_key);
+
+        // 리뷰 데이터는 user_contents에서 가져옴
+        setReviewText(contentData.review || "");
+        setReviewRating(contentData.rating);
+        setIsSpoiler(contentData.is_spoiler ?? false);
 
         // API에서 메타데이터 가져오기
         const metadataResult = await getContentMetadata({
@@ -70,13 +67,6 @@ export default function Page() {
           contentType: contentData.content.type as import("@/types/database").ContentType,
         });
         setMetadata(metadataResult);
-
-        const reviewRecord = reviewsData.find(r => r.type === 'REVIEW');
-        if (reviewRecord) {
-          setMyReview(reviewRecord as unknown as RecordData);
-          setReviewText(reviewRecord.content || "");
-          setReviewRating(reviewRecord.rating);
-        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "콘텐츠를 불러오는데 실패했습니다.");
       } finally {
@@ -144,18 +134,17 @@ export default function Page() {
   };
 
   const handleSaveReview = () => {
+    if (!item) return;
     startSaveTransition(async () => {
       try {
-        if (myReview) {
-          await updateRecord({ recordId: myReview.id, content: reviewText || undefined, rating: reviewRating ?? undefined });
-          setMyReview((prev) => prev ? { ...prev, content: reviewText, rating: reviewRating, updated_at: new Date().toISOString() } : null);
-        } else {
-          const result = await createRecord({ contentId, type: 'REVIEW', content: reviewText || '', rating: reviewRating ?? undefined });
-          const records = await getRecords({ contentId, type: 'REVIEW' });
-          const reviewRecord = records.find(r => r.type === 'REVIEW');
-          if (reviewRecord) setMyReview(reviewRecord as unknown as RecordData);
-          if (result.unlockedTitles?.length) showUnlock(result.unlockedTitles);
-        }
+        const result = await updateReview({
+          userContentId: item.id,
+          rating: reviewRating,
+          review: reviewText,
+          isSpoiler,
+        });
+        setItem((prev) => prev ? { ...prev, rating: reviewRating, review: reviewText, is_spoiler: isSpoiler } : null);
+        if (result.unlockedTitles?.length) showUnlock(result.unlockedTitles);
       } catch (err) {
         console.error("리뷰 저장 실패:", err);
       }
@@ -203,10 +192,11 @@ export default function Page() {
         <MyReviewSection
           reviewText={reviewText}
           reviewRating={reviewRating}
-          myReview={myReview}
+          isSpoiler={isSpoiler}
           isSaving={isSaving}
           onReviewTextChange={setReviewText}
           onRatingChange={setReviewRating}
+          onSpoilerChange={setIsSpoiler}
           onSave={handleSaveReview}
           hasApiKey={hasApiKey}
           onGenerateExample={handleGenerateExample}

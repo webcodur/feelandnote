@@ -125,7 +125,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   onClick={() => setCreationType("whatif")}
                   className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
-                  <Lightbulb size={40} className="mx-auto mb-4 text-yellow-400 transition-transform duration-200 group-hover:scale-110" />
+                  <Lightbulb size={40} className="mx-auto mb-4 text-yellow-400 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">💭 What If</div>
                   <div className="text-sm text-text-secondary">만약 ~했다면? 상상의 시나리오</div>
                 </Button>
@@ -135,7 +135,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   onClick={() => setCreationType("media")}
                   className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
-                  <FilmIcon size={40} className="mx-auto mb-4 text-blue-400 transition-transform duration-200 group-hover:scale-110" />
+                  <FilmIcon size={40} className="mx-auto mb-4 text-blue-400 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">🎬 매체 전환</div>
                   <div className="text-sm text-text-secondary">다른 매체로 만든다면?</div>
                 </Button>
@@ -145,7 +145,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   onClick={() => setCreationType("ost")}
                   className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
-                  <MusicIcon size={40} className="mx-auto mb-4 text-purple-400 transition-transform duration-200 group-hover:scale-110" />
+                  <MusicIcon size={40} className="mx-auto mb-4 text-purple-400 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">🎵 OST 상상</div>
                   <div className="text-sm text-text-secondary">음악을 입힌다면?</div>
                 </Button>
@@ -183,7 +183,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   value={whatifContent}
                   onChange={(e) => setWhatifContent(e.target.value)}
                   placeholder="만약 ~했다면 어떤 이야기가 펼쳐질까요? 상상력을 마음껏 펼쳐보세요."
-                  className="w-full h-64 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none transition-colors duration-200 focus:border-accent"
+                  className="w-full h-64 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none focus:border-accent"
                   maxLength={10000}
                 />
                 <div className="text-xs text-text-secondary text-right mt-1">
@@ -237,14 +237,14 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                         placeholder="역할"
                         value={casting.role}
                         onChange={(e) => updateCasting(index, "role", e.target.value)}
-                        className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none transition-colors duration-200 focus:border-accent"
+                        className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none focus:border-accent"
                       />
                       <input
                         type="text"
                         placeholder="배우/성우"
                         value={casting.actor}
                         onChange={(e) => updateCasting(index, "actor", e.target.value)}
-                        className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none transition-colors duration-200 focus:border-accent"
+                        className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none focus:border-accent"
                       />
                       {castings.length > 1 && (
                         <Button
@@ -266,7 +266,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   value={direction}
                   onChange={(e) => setDirection(e.target.value)}
                   placeholder="어떤 방향으로 제작되면 좋을지 자유롭게 작성해보세요."
-                  className="w-full h-32 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none transition-colors duration-200 focus:border-accent"
+                  className="w-full h-32 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none focus:border-accent"
                 />
               </div>
             </div>
@@ -307,20 +307,20 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                           placeholder="장면/챕터 (예: 오프닝, 클라이맥스)"
                           value={track.scene}
                           onChange={(e) => updateOstTrack(index, "scene", e.target.value)}
-                          className="w-full px-4 py-2 bg-bg-main border border-border rounded-lg outline-none transition-colors duration-200 focus:border-accent"
+                          className="w-full px-4 py-2 bg-bg-main border border-border rounded-lg outline-none focus:border-accent"
                         />
                         <input
                           type="text"
                           placeholder="곡 제목 - 아티스트"
                           value={track.song}
                           onChange={(e) => updateOstTrack(index, "song", e.target.value)}
-                          className="w-full px-4 py-2 bg-bg-main border border-border rounded-lg outline-none transition-colors duration-200 focus:border-accent"
+                          className="w-full px-4 py-2 bg-bg-main border border-border rounded-lg outline-none focus:border-accent"
                         />
                         <textarea
                           placeholder="선곡 이유"
                           value={track.reason}
                           onChange={(e) => updateOstTrack(index, "reason", e.target.value)}
-                          className="w-full h-20 px-4 py-2 bg-bg-main border border-border rounded-lg outline-none resize-none transition-colors duration-200 focus:border-accent"
+                          className="w-full h-20 px-4 py-2 bg-bg-main border border-border rounded-lg outline-none resize-none focus:border-accent"
                         />
                       </div>
                     </Card>
@@ -334,7 +334,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   value={ostDirection}
                   onChange={(e) => setOstDirection(e.target.value)}
                   placeholder="전체적인 음악 방향성에 대한 의견을 작성해보세요."
-                  className="w-full h-32 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none transition-colors duration-200 focus:border-accent"
+                  className="w-full h-32 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none focus:border-accent"
                 />
               </div>
             </div>

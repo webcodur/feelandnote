@@ -24,31 +24,34 @@ function ContentDetailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // #region 쿼리 파라미터
-  const contentId = searchParams.get("id") || "";
-  const title = searchParams.get("title") || "제목 없음";
-  const category = (searchParams.get("category") || "book") as CategoryId;
-  const creator = searchParams.get("creator");
-  const thumbnail = searchParams.get("thumbnail");
-  const description = searchParams.get("description");
-  const releaseDate = searchParams.get("releaseDate");
-  const subtype = searchParams.get("subtype") as VideoSubtype | undefined;
-  const metadataParam = searchParams.get("metadata");
-  const metadata: ContentMetadata | null = metadataParam ? JSON.parse(decodeURIComponent(metadataParam)) : null;
+  // #region sessionStorage에서 데이터 로드
+  const storageKey = searchParams.get("key") || "";
+  const [contentInfo, setContentInfo] = useState<ContentInfo | null>(null);
 
-  // ContentInfo 객체 생성
-  const contentInfo: ContentInfo = {
-    id: contentId,
-    type: CATEGORY_TO_TYPE[category] || "BOOK",
-    category,
-    title,
-    creator: creator || undefined,
-    thumbnail: thumbnail || undefined,
-    description: description || undefined,
-    releaseDate: releaseDate || undefined,
-    subtype: subtype || undefined,
-    metadata,
-  };
+  useEffect(() => {
+    if (!storageKey) return;
+
+    const stored = sessionStorage.getItem(storageKey);
+    if (!stored) return;
+
+    try {
+      const data = JSON.parse(stored);
+      setContentInfo({
+        id: data.id,
+        type: CATEGORY_TO_TYPE[data.category] || "BOOK",
+        category: data.category as CategoryId,
+        title: data.title || "제목 없음",
+        creator: data.creator || undefined,
+        thumbnail: data.thumbnail || undefined,
+        description: data.description || undefined,
+        releaseDate: data.releaseDate || undefined,
+        subtype: data.subtype as VideoSubtype | undefined,
+        metadata: data.metadata || null,
+      });
+    } catch (err) {
+      console.error("콘텐츠 데이터 파싱 실패:", err);
+    }
+  }, [storageKey]);
   // #endregion
 
   // #region 상태
@@ -70,10 +73,10 @@ function ContentDetailContent() {
 
   // #region 핸들러
   const handleSummarize = async () => {
-    if (!description) return;
+    if (!contentInfo?.description) return;
     setIsSummarizing(true);
     try {
-      const result = await generateSummary({ contentTitle: title, description });
+      const result = await generateSummary({ contentTitle: contentInfo.title, description: contentInfo.description });
       setSummary(result.text);
     } catch (err) {
       console.error("AI 요약 실패:", err);
@@ -84,7 +87,7 @@ function ContentDetailContent() {
   };
 
   const handleAddToArchive = () => {
-    if (!contentId) {
+    if (!contentInfo?.id) {
       setError("콘텐츠 ID가 없습니다.");
       return;
     }
@@ -92,13 +95,13 @@ function ContentDetailContent() {
     startTransition(async () => {
       try {
         await addContent({
-          id: contentId,
-          type: CATEGORY_TO_TYPE[category] || "BOOK",
-          title,
-          creator: creator || undefined,
-          thumbnailUrl: thumbnail || undefined,
-          description: description || undefined,
-          releaseDate: releaseDate || undefined,
+          id: contentInfo.id,
+          type: contentInfo.type,
+          title: contentInfo.title,
+          creator: contentInfo.creator,
+          thumbnailUrl: contentInfo.thumbnail,
+          description: contentInfo.description,
+          releaseDate: contentInfo.releaseDate,
           status: "WISH",
           progress: 0,
         });
@@ -111,6 +114,15 @@ function ContentDetailContent() {
     });
   };
   // #endregion
+
+  // 로딩 중
+  if (!contentInfo) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 size={32} className="animate-spin text-accent" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -141,14 +153,15 @@ function ContentDetailContent() {
           </div>
         ) : (
           <Button variant="primary" size="lg" onClick={handleAddToArchive} disabled={isAdding}>
-            {isAdding ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
+            {isAdding && <Loader2 size={18} className="animate-spin" />}
+            {!isAdding && <Plus size={18} />}
             내 기록관에 추가
           </Button>
         )}
       </ContentInfoHeader>
 
       {/* Description */}
-      {description && (
+      {contentInfo.description && (
         <Card className="p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold flex items-center gap-2">
@@ -162,7 +175,8 @@ function ContentDetailContent() {
               title={hasApiKey ? "AI로 줄거리 요약" : "마이페이지 > 설정에서 API 키를 등록하세요"}
               className="text-xs gap-1.5"
             >
-              {isSummarizing ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+              {isSummarizing && <Loader2 size={14} className="animate-spin" />}
+              {!isSummarizing && <Sparkles size={14} />}
               AI 요약
             </Button>
           </div>
@@ -176,7 +190,7 @@ function ContentDetailContent() {
             </div>
           )}
 
-          <p className="text-text-secondary leading-relaxed whitespace-pre-line">{description}</p>
+          <p className="text-text-secondary leading-relaxed whitespace-pre-line">{contentInfo.description}</p>
         </Card>
       )}
     </>

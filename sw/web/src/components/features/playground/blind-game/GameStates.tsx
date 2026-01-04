@@ -23,7 +23,8 @@ export function GameFinished({ score, maxStreak, savedScore, isSaving, onSave, o
       <div className="flex gap-3 justify-center">
         {!savedScore && score > 0 && (
           <Button variant="primary" onClick={onSave} disabled={isSaving}>
-            {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+            {isSaving && <Loader2 size={14} className="animate-spin" />}
+            {!isSaving && <Save size={14} />}
             점수 저장하기
           </Button>
         )}

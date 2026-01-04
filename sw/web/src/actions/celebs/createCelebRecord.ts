@@ -9,7 +9,6 @@ interface CreateCelebRecordParams {
   contentId: string
   type: RecordType
   content: string
-  rating?: number
   sourceUrl: string  // 셀럽 기록은 출처 필수
 }
 
@@ -50,13 +49,6 @@ export async function createCelebRecord(params: CreateCelebRecordParams) {
     throw new Error('셀럽 기록관에 추가된 콘텐츠만 기록할 수 있습니다')
   }
 
-  // rating 검증 (REVIEW 타입일 때만)
-  if (params.type === 'REVIEW' && params.rating !== undefined) {
-    if (params.rating < 0.5 || params.rating > 5) {
-      throw new Error('별점은 0.5~5 사이여야 합니다')
-    }
-  }
-
   const { data, error } = await supabase
     .from('records')
     .insert({
@@ -64,7 +56,6 @@ export async function createCelebRecord(params: CreateCelebRecordParams) {
       content_id: params.contentId,
       type: params.type,
       content: params.content,
-      rating: params.type === 'REVIEW' ? params.rating : null,
       contributor_id: user.id,
       source_url: params.sourceUrl
     })

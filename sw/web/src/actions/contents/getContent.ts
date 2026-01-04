@@ -9,6 +9,9 @@ export interface UserContentWithDetails {
   status: string
   progress: number | null
   progress_type: string | null
+  rating: number | null
+  review: string | null
+  is_spoiler: boolean | null
   created_at: string
   updated_at: string
   content: {

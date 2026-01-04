@@ -5,7 +5,7 @@
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
 export type ContentStatus = 'WISH' | 'EXPERIENCE' | 'COMPLETE'
 export type ProgressType = 'PERCENT' | 'PAGE' | 'TIME'
-export type RecordType = 'REVIEW' | 'NOTE' | 'QUOTE'
+export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
 export type ScoreType = 'activity' | 'title'
 export type TitleCategory = 'volume' | 'diversity' | 'consistency' | 'depth' | 'social' | 'special'
@@ -50,9 +50,11 @@ export interface UserContent {
   status: ContentStatus
   progress: number | null
   progress_type: ProgressType | null
-  folder_id: string | null
+  category_id: string | null
   contributor_id: string | null
   is_recommended: boolean | null
+  rating: number | null
+  review: string | null
   created_at: string
   updated_at: string
   completed_at: string | null
@@ -64,7 +66,6 @@ export interface ContentRecord {
   content_id: string
   type: RecordType
   content: string
-  rating: number | null
   location: string | null
   visibility: VisibilityType | null
   contributor_id: string | null
@@ -171,8 +172,8 @@ export interface BlindGameScore {
   played_at: string | null
 }
 
-// ===== Phase 5: Folder & Playlist Tables =====
-export interface Folder {
+// ===== Phase 5: Category & Playlist Tables =====
+export interface Category {
   id: string
   user_id: string
   name: string
@@ -181,7 +182,7 @@ export interface Folder {
   created_at: string
 }
 
-export interface FolderWithCount extends Folder {
+export interface CategoryWithCount extends Category {
   content_count: number
 }
 
@@ -210,7 +211,7 @@ export interface PlaylistItem {
 // ===== 조인된 타입들 =====
 export interface UserContentWithContent extends UserContent {
   content: Content
-  folder?: Folder | null
+  category?: Category | null
 }
 
 export interface ContributorInfo {

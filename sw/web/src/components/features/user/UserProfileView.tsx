@@ -48,7 +48,7 @@ export default function UserProfileView({ profile, isOwnProfile = false }: UserP
         <SectionHeader
           title={`${profile.nickname}의 기록관`}
           description={isCeleb ? "팬들이 기여한 문화생활 기록" : "공개된 문화생활 기록"}
-          icon={isCeleb ? <Sparkles size={20} /> : <Archive size={20} />}
+          icon={<>{isCeleb && <Sparkles size={20} />}{!isCeleb && <Archive size={20} />}</>}
           className="mb-0"
         />
         {isCeleb && (

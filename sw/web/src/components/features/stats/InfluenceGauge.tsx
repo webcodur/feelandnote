@@ -49,7 +49,7 @@ export default function InfluenceGauge({ influence, ranks }: InfluenceGaugeProps
         </div>
         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full rounded-full transition-all duration-500"
+            className="h-full rounded-full"
             style={{
               width: `${influence.progress}%`,
               backgroundColor: currentRankData?.color,

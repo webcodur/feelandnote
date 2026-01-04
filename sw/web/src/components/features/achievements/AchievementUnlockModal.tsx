@@ -232,7 +232,7 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
             {titles.map((_, idx) => (
               <div
                 key={idx}
-                className={`w-2 h-2 rounded-full transition-all ${
+                className={`w-2 h-2 rounded-full ${
                   idx === currentIndex ? `${config.color} scale-125` : "bg-white/30"
                 }`}
               />

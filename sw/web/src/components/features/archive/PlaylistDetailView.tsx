@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   ArrowLeft,
   MoreVertical,
@@ -18,8 +19,9 @@ import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { deletePlaylist } from "@/actions/playlists/deletePlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
-import { Z_INDEX } from "@/constants/zIndex";
 import { reorderPlaylistItems } from "@/actions/playlists/updatePlaylistItems";
+import { PlaylistEditor } from "@/components/features/playlist";
+import { Z_INDEX } from "@/constants/zIndex";
 import type { PlaylistWithItems } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
 
@@ -29,13 +31,16 @@ interface PlaylistDetailViewProps {
 
 export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewProps) {
   const router = useRouter();
+
   const [playlist, setPlaylist] = useState<PlaylistWithItems | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
+  // #region 데이터 로드
   const loadPlaylist = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -52,12 +57,14 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
   useEffect(() => {
     loadPlaylist();
   }, [loadPlaylist]);
+  // #endregion
 
+  // #region 핸들러
   const handleDelete = async () => {
     if (!confirm("이 재생목록을 삭제하시겠습니까?")) return;
     try {
       await deletePlaylist(playlistId);
-      router.push("/archive");
+      router.push("/archive/playlists");
     } catch (err) {
       alert(err instanceof Error ? err.message : "삭제에 실패했습니다");
     }
@@ -72,14 +79,6 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
       alert(err instanceof Error ? err.message : "설정 변경에 실패했습니다");
     }
     setIsMenuOpen(false);
-  };
-
-  const handleEdit = () => {
-    router.push(`/archive?mode=playlist&id=${playlistId}`);
-  };
-
-  const handleTierSetup = () => {
-    router.push(`/archive/playlists/${playlistId}/tiers`);
   };
 
   const handleDragStart = (index: number) => {
@@ -119,6 +118,25 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
     return counts;
   };
 
+  const handleEditSuccess = () => {
+    setIsEditMode(false);
+    loadPlaylist();
+  };
+  // #endregion
+
+  // #region 렌더링
+  // 편집 모드
+  if (isEditMode) {
+    return (
+      <PlaylistEditor
+        mode="edit"
+        playlistId={playlistId}
+        onClose={() => setIsEditMode(false)}
+        onSuccess={handleEditSuccess}
+      />
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -131,9 +149,9 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
     return (
       <div className="text-center py-20">
         <p className="text-red-400 mb-4">{error || "재생목록을 찾을 수 없습니다"}</p>
-        <Button unstyled onClick={() => router.push("/archive")} className="text-accent hover:underline">
-          기록관으로 돌아가기
-        </Button>
+        <Link href="/archive/playlists" className="text-accent hover:underline">
+          재생목록으로 돌아가기
+        </Link>
       </div>
     );
   }
@@ -142,12 +160,14 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
 
   return (
     <div>
+      {/* 헤더 영역 */}
       <div className="flex items-start gap-4 mb-6">
-        <Button unstyled onClick={() => router.push("/archive")} className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
+        <Link href="/archive/playlists" className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
           <ArrowLeft size={24} />
-        </Button>
+        </Link>
 
         <div className="flex-1 flex gap-4">
+          {/* 커버 이미지 */}
           <div className="w-24 h-24 rounded-xl bg-bg-card flex items-center justify-center overflow-hidden flex-shrink-0">
             {playlist.cover_url ? (
               <img src={playlist.cover_url} alt={playlist.name} className="w-full h-full object-cover" />
@@ -158,7 +178,8 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
             )}
           </div>
 
-          <div className="flex-1 min-w-0">
+          {/* 정보 영역 */}
+          <div className="flex-1 min-w-0 flex flex-col justify-center">
             <h1 className="text-xl font-bold truncate">{playlist.name}</h1>
             <p className="text-sm text-text-secondary mt-1">
               {playlist.item_count}개
@@ -184,6 +205,7 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
           </div>
         </div>
 
+        {/* 메뉴 */}
         <div className="relative">
           <Button unstyled onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-text-secondary hover:text-text-primary">
             <MoreVertical size={20} />
@@ -209,15 +231,21 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
         </div>
       </div>
 
+      {/* 액션 버튼 */}
       <div className="flex gap-2 mb-6">
-        <Button unstyled onClick={handleEdit} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
+        <Button
+          unstyled
+          onClick={() => setIsEditMode(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm"
+        >
           <Pencil size={16} />편집
         </Button>
-        <Button unstyled onClick={handleTierSetup} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
+        <Link href={`/archive/playlists/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
           <Trophy size={16} />티어 설정
-        </Button>
+        </Link>
       </div>
 
+      {/* 콘텐츠 목록 */}
       <div className="space-y-2">
         {playlist.items.map((item, index) => (
           <div
@@ -227,7 +255,7 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
             onDragOver={(e) => handleDragOver(e, index)}
             onDragEnd={handleDragEnd}
             onClick={() => router.push(`/archive/${item.content_id}`)}
-            className={`flex items-center gap-3 p-3 bg-bg-card rounded-xl cursor-pointer transition-all hover:bg-bg-secondary ${isDragging && draggedIndex === index ? "opacity-50" : ""}`}
+            className={`flex items-center gap-3 p-3 bg-bg-card rounded-xl cursor-pointer hover:bg-bg-secondary ${isDragging && draggedIndex === index ? "opacity-50" : ""}`}
           >
             <div className="text-text-secondary hover:text-text-primary cursor-grab active:cursor-grabbing" onClick={(e) => e.stopPropagation()}>
               <GripVertical size={18} />
@@ -254,9 +282,12 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
         <div className="text-center py-20 text-text-secondary">
           <ListMusic size={48} className="mx-auto mb-4 opacity-50" />
           <p>재생목록이 비어있습니다</p>
-          <Button unstyled onClick={handleEdit} className="mt-4 text-accent hover:underline">콘텐츠 추가하기</Button>
+          <Button unstyled onClick={() => setIsEditMode(true)} className="mt-4 text-accent hover:underline">
+            콘텐츠 추가하기
+          </Button>
         </div>
       )}
     </div>
   );
+  // #endregion
 }

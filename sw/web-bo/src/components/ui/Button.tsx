@@ -31,7 +31,7 @@ export default function Button({
   unstyled = false,
   ...props
 }: ButtonProps) {
-  const baseStyles = "cursor-pointer transition-all duration-200";
+  const baseStyles = "cursor-pointer";
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "";
 
   if (unstyled) {

@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronRight, ChevronDown, Calendar } from "lucide-react";
+import { useMemo } from "react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 import Button from "@/components/ui/Button";
 
 interface MonthSectionProps {
@@ -14,7 +15,6 @@ interface MonthSectionProps {
 
 export default function MonthSection({
   monthKey,
-  label,
   itemCount,
   isCollapsed,
   onToggle,
@@ -22,22 +22,33 @@ export default function MonthSection({
 }: MonthSectionProps) {
   if (itemCount === 0) return null;
 
+  const { year, month } = useMemo(() => {
+    const [y, m] = monthKey.split("-");
+    return { year: y, month: parseInt(m).toString() };
+  }, [monthKey]);
+
+  const ChevronIcon = isCollapsed ? ChevronRight : ChevronDown;
+
   return (
-    <div key={monthKey}>
+    <div id={`month-section-${monthKey}`} className="mb-6">
+      {/* 통합 헤더: 날짜 + 기록 수 */}
       <Button
-        unstyled
         onClick={onToggle}
-        className="flex items-center gap-2 mb-3 w-full text-left group"
+        className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg select-none mb-3 ${
+          isCollapsed
+            ? "bg-surface border border-dashed border-border"
+            : "bg-surface-hover/50"
+        }`}
       >
-        <div className="flex items-center gap-1.5 text-text-primary">
-          {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
-          <Calendar size={16} className="text-text-secondary" />
-          <h3 className="text-sm font-bold">{label}</h3>
+        <div className="flex items-baseline gap-1">
+          <span className="text-lg font-bold text-text-primary">{year}년 {month}월</span>
         </div>
-        <span className="text-xs text-text-secondary">({itemCount})</span>
-        <div className="flex-1 h-px bg-border ml-2 group-hover:bg-text-secondary/30" />
+        <span className="text-sm text-text-tertiary">·</span>
+        <span className="text-sm text-text-secondary">{itemCount}개의 기록</span>
+        <ChevronIcon size={16} className="text-text-tertiary ml-auto" />
       </Button>
 
+      {/* Content Area */}
       {!isCollapsed && <div>{children}</div>}
     </div>
   );

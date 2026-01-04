@@ -115,7 +115,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                   setResults([]);
                   setSelected(null);
                 }}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-colors ${
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 ${
                   category === cat.id
                     ? "bg-accent text-white"
                     : "bg-surface text-text-secondary hover:text-text-primary"
@@ -161,7 +161,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                     unstyled
                     key={item.id}
                     onClick={() => handleSelect(item)}
-                    className="w-full flex items-start gap-3 p-3 bg-surface rounded-lg hover:bg-surface-hover transition-colors text-start"
+                    className="w-full flex items-start gap-3 p-3 bg-surface rounded-lg hover:bg-surface-hover text-start"
                   >
                     {item.thumbnail ? (
                       <img src={item.thumbnail} alt={item.title} className="w-12 h-16 object-cover rounded flex-shrink-0" />
@@ -211,7 +211,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                     unstyled
                     key={opt.value}
                     onClick={() => setStatus(opt.value)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                       status === opt.value ? "bg-accent text-white" : "bg-surface text-text-secondary hover:text-text-primary"
                     }`}
                   >
