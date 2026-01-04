@@ -77,7 +77,8 @@ export function ContentResults({
                         className="p-1.5 rounded-md bg-accent/80 text-white hover:bg-accent"
                         title="기록관에 추가"
                       >
-                        {isAdding ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+                        {isAdding && <Loader2 size={14} className="animate-spin" />}
+                        {!isAdding && <Plus size={14} />}
                       </Button>
                     )
                   )}

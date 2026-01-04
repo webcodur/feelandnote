@@ -130,7 +130,7 @@ export default function PlaylistDropdown({
                   </div>
                   <ChevronRight
                     size={16}
-                    className="text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="text-text-secondary opacity-0 group-hover:opacity-100"
                   />
                 </Button>
               ))

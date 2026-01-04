@@ -4,7 +4,7 @@ import { updateSession } from '@/lib/supabase/middleware'
 // 인증이 필요하지 않은 경로 (로그인 등)
 const publicPaths = ['/login']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { supabaseResponse, user } = await updateSession(request)
 
   const pathname = request.nextUrl.pathname

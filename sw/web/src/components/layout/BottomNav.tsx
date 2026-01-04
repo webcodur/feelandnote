@@ -21,7 +21,7 @@ function NavItem({ href, active, icon, label }: NavItemProps) {
   return (
     <Link
       href={href}
-      className={`flex flex-col items-center justify-center gap-0.5 py-2 flex-1 no-underline transition-colors duration-200
+      className={`flex flex-col items-center justify-center gap-0.5 py-2 flex-1 no-underline
         ${active ? "text-accent" : "text-text-secondary"}`}
     >
       {icon}

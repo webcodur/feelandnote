@@ -47,7 +47,13 @@
       "mcp__supabase__search_docs",
       "mcp__supabase__get_advisors",
       "Bash(pnpm tsc:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "Bash(dir \"C:\\\\Users\\\\webco\\\\.claude\")",
+      "Bash(dir \"C:\\\\Users\\\\webco\\\\.claude\\\\skills\")",
+      "Bash(dir \"C:\\\\Users\\\\webco\\\\.claude\\\\commands\")",
+      "Bash(dir \"C:\\\\Users\\\\webco\\\\.claude\\\\skills\\\\nextjs-page\")",
+      "Bash(pnpm lint:*)",
+      "mcp__supabase__list_organizations"
     ],
     "deny": [],
     "ask": []

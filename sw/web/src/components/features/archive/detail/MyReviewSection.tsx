@@ -4,20 +4,14 @@ import { Loader2, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 
-interface RecordData {
-  id: string;
-  content: string;
-  rating: number | null;
-  created_at: string;
-}
-
 interface MyReviewSectionProps {
   reviewText: string;
   reviewRating: number | null;
-  myReview: RecordData | null;
+  isSpoiler: boolean;
   isSaving: boolean;
   onReviewTextChange: (text: string) => void;
   onRatingChange: (rating: number | null) => void;
+  onSpoilerChange: (isSpoiler: boolean) => void;
   onSave: () => void;
   hasApiKey?: boolean;
   onGenerateExample?: () => void;
@@ -27,10 +21,11 @@ interface MyReviewSectionProps {
 export default function MyReviewSection({
   reviewText,
   reviewRating,
-  myReview,
+  isSpoiler,
   isSaving,
   onReviewTextChange,
   onRatingChange,
+  onSpoilerChange,
   onSave,
   hasApiKey = false,
   onGenerateExample,
@@ -99,7 +94,13 @@ export default function MyReviewSection({
             </div>
             <div className="flex items-center gap-2 self-end sm:self-auto">
               <label className="flex items-center gap-1 cursor-pointer text-text-secondary text-[11px]">
-                <input type="checkbox" className="w-3 h-3" /> 스포일러
+                <input
+                  type="checkbox"
+                  className="w-3 h-3"
+                  checked={isSpoiler}
+                  onChange={(e) => onSpoilerChange(e.target.checked)}
+                />
+                스포일러
               </label>
               <Button variant="primary" size="sm" onClick={onSave} disabled={isSaving}>
                 {isSaving ? <Loader2 size={14} className="animate-spin" /> : "저장"}
@@ -109,23 +110,6 @@ export default function MyReviewSection({
         </div>
       </Card>
 
-      {myReview && (
-        <Card className="p-0">
-          <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
-            <div className="w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary">📝</div>
-            <div className="flex-1 min-w-0">
-              <div className="font-medium text-xs">내 리뷰</div>
-              <div className="text-[10px] text-text-secondary">
-                {new Date(myReview.created_at).toLocaleDateString("ko-KR")}
-              </div>
-            </div>
-            <div className="text-yellow-400 text-xs">{"★".repeat(myReview.rating ?? 0)}</div>
-          </div>
-          <div className="p-2.5">
-            <div className="text-xs leading-relaxed text-text-secondary">{myReview.content}</div>
-          </div>
-        </Card>
-      )}
     </div>
   );
 }

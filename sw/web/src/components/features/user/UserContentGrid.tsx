@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Star, BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getUserContentsAll, type UserContentPublic } from "@/actions/contents/getUserContents";
@@ -21,7 +21,6 @@ const CATEGORY_TABS = [
 ] as const;
 
 export default function UserContentGrid({ userId }: UserContentGridProps) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>("all");
   const [contents, setContents] = useState<UserContentPublic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,10 +47,6 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
     ? contents
     : contents.filter(item => item.content.type === activeTab);
 
-  const handleContentClick = (contentId: string) => {
-    router.push(`/archive/${contentId}`);
-  };
-
   return (
     <div>
       {/* 카테고리 탭 */}
@@ -64,7 +59,7 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
               unstyled
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap ${
                 isActive
                   ? "bg-accent text-white"
                   : "bg-surface text-text-secondary hover:bg-surface-hover"
@@ -108,10 +103,9 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
       {!isLoading && !error && filteredContents.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
           {filteredContents.map((item) => (
-            <Button
-              unstyled
+            <Link
               key={item.id}
-              onClick={() => handleContentClick(item.content_id)}
+              href={`/archive/${item.content_id}`}
               className="text-left group"
             >
               {/* 썸네일 */}
@@ -120,7 +114,7 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
                   <img
                     src={item.content.thumbnail_url}
                     alt={item.content.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                    className="w-full h-full object-cover group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-text-tertiary">
@@ -136,7 +130,7 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
                 )}
               </div>
               {/* 제목 */}
-              <h3 className="text-xs font-medium text-text-primary line-clamp-2 group-hover:text-accent transition-colors">
+              <h3 className="text-xs font-medium text-text-primary line-clamp-2 group-hover:text-accent">
                 {item.content.title}
               </h3>
               {/* 작가/감독 */}
@@ -145,7 +139,7 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
                   {item.content.creator}
                 </p>
               )}
-            </Button>
+            </Link>
           ))}
         </div>
       )}

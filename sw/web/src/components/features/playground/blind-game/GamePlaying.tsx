@@ -82,7 +82,7 @@ export default function GamePlaying({
             onChange={(e) => onAnswerChange(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && onSubmit()}
             placeholder="정답을 입력하세요"
-            className="flex-1 px-5 py-4 bg-bg-main border border-border rounded-xl text-text-primary placeholder:text-text-secondary outline-none transition-colors duration-200 focus:border-accent"
+            className="flex-1 px-5 py-4 bg-bg-main border border-border rounded-xl text-text-primary placeholder:text-text-secondary outline-none focus:border-accent"
           />
           <Button variant="primary" onClick={onSubmit} className="px-8">제출</Button>
         </div>

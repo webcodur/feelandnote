@@ -92,11 +92,7 @@ export default function ProgressModal({
         {/* 추천 여부 선택 (항상 표시, 100% 미만에서는 비활성) */}
         {onRecommendChange && (
           <div className={`mb-5 p-3 rounded-xl border border-border relative ${localValue === 100 ? "bg-white/5" : "bg-white/5"}`}>
-            {localValue < 100 && (
-              <div className="absolute inset-0 backdrop-blur-[2px] bg-black/30 rounded-xl flex items-center justify-center z-10">
-                <span className="text-xs text-text-secondary">진행 완료 시 추천할 수 있습니다</span>
-              </div>
-            )}
+            
             <label className={`flex items-center justify-between ${localValue === 100 ? "cursor-pointer" : "cursor-not-allowed"}`}>
               <span className="text-sm font-medium">이 콘텐츠를 추천하시겠어요?</span>
               <Button

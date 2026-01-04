@@ -15,8 +15,8 @@ interface FeedSectionProps {
   subTab: SubTab;
 }
 
-const subTabToRecordType: Record<SubTab, RecordType> = {
-  review: "REVIEW",
+// NOTE: REVIEW는 user_contents로 이동됨, 피드에서는 NOTE/QUOTE만 표시
+const subTabToRecordType: Partial<Record<SubTab, RecordType>> = {
   note: "NOTE",
   creation: "CREATION",
 };
@@ -28,6 +28,13 @@ export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
   const [hasMore, setHasMore] = useState(false);
 
   const loadRecords = useCallback(async (offset = 0, append = false) => {
+    // review 탭은 user_contents로 이동되어 피드에서 지원하지 않음
+    if (subTab === "review") {
+      setRecords([]);
+      setIsLoading(false);
+      return;
+    }
+
     if (offset === 0) {
       setIsLoading(true);
     } else {
@@ -35,9 +42,16 @@ export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
     }
 
     try {
+      const recordType = subTabToRecordType[subTab];
+      if (!recordType) {
+        setRecords([]);
+        setIsLoading(false);
+        return;
+      }
+
       const data = await getFeedRecords({
         contentId,
-        type: subTabToRecordType[subTab],
+        type: recordType,
         limit: PAGE_SIZE,
         offset,
       });

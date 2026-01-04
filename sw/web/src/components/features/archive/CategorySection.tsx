@@ -45,12 +45,13 @@ export default function CategorySection({
         className="flex items-center gap-2 mb-3 w-full text-left group"
       >
         <div className={`flex items-center gap-1.5 ${info.color}`}>
-          {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
+          {isCollapsed && <ChevronRight size={16} />}
+          {!isCollapsed && <ChevronDown size={16} />}
           <Icon size={16} />
           <h3 className="text-sm font-bold">{info.label}</h3>
         </div>
         <span className="text-xs text-text-secondary">({totalItems})</span>
-        <div className="flex-1 h-px bg-border ml-2 group-hover:bg-text-secondary/30 transition-colors" />
+        <div className="flex-1 h-px bg-border ml-2 group-hover:bg-text-secondary/30" />
       </Button>
 
       {!isCollapsed && (

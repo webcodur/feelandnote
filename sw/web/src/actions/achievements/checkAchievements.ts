@@ -212,11 +212,12 @@ async function getUserStats(supabase: Awaited<ReturnType<typeof createClient>>, 
       .eq('user_id', userId)
       .eq('progress', 100),
 
+    // 리뷰 길이: user_contents에서 review 컬럼
     supabase
-      .from('records')
-      .select('content')
+      .from('user_contents')
+      .select('review')
       .eq('user_id', userId)
-      .eq('type', 'REVIEW')
+      .not('review', 'is', null)
   ])
 
   // 카테고리 수
@@ -234,11 +235,11 @@ async function getUserStats(supabase: Awaited<ReturnType<typeof createClient>>, 
   // 평균 리뷰 길이
   const reviews = reviewLengthResult.data || []
   const avgReviewLength = reviews.length > 0
-    ? reviews.reduce((sum, r) => sum + (r.content?.length || 0), 0) / reviews.length
+    ? reviews.reduce((sum, r) => sum + (r.review?.length || 0), 0) / reviews.length
     : 0
 
   // 긴 리뷰 수 (300자 이상)
-  const longReviewCount = reviews.filter(r => (r.content?.length || 0) >= 300).length
+  const longReviewCount = reviews.filter(r => (r.review?.length || 0) >= 300).length
 
   return {
     content_count: contentCountResult.count || 0,

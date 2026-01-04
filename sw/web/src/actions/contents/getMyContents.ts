@@ -1,12 +1,12 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { ContentType, ContentStatus, Folder } from '@/types/database'
+import type { ContentType, ContentStatus, Category } from '@/types/database'
 
 interface GetMyContentsParams {
   status?: ContentStatus
   type?: ContentType
-  folderId?: string | null  // undefined = 전체, null = 미분류, string = 특정 폴더
+  categoryId?: string | null  // undefined = 전체, null = 미분류, string = 특정 분류
   page?: number
   limit?: number
 }
@@ -18,8 +18,11 @@ export interface UserContentWithContent {
   status: string
   progress: number | null
   progress_type: string | null
-  folder_id: string | null
+  category_id: string | null
   is_recommended: boolean | null
+  is_spoiler: boolean | null
+  rating: number | null
+  review: string | null
   created_at: string
   updated_at: string
   completed_at: string | null
@@ -34,7 +37,7 @@ export interface UserContentWithContent {
     release_date: string | null
     metadata: Record<string, unknown> | null
   }
-  folder?: Folder | null
+  category?: Category | null
 }
 
 export interface GetMyContentsResponse {
@@ -47,7 +50,7 @@ export interface GetMyContentsResponse {
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
-  const { page = 1, limit = 20, folderId, type, status } = params
+  const { page = 1, limit = 20, categoryId, type, status } = params
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -64,7 +67,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     .select(`
       *,
       ${contentJoin},
-      folder:folders(*)
+      category:categories(*)
     `, { count: 'exact' })
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
@@ -74,11 +77,11 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     query = query.eq('content.type', type)
   }
 
-  // 폴더 필터
-  if (folderId === null) {
-    query = query.is('folder_id', null)
-  } else if (folderId !== undefined) {
-    query = query.eq('folder_id', folderId)
+  // 분류 필터
+  if (categoryId === null) {
+    query = query.is('category_id', null)
+  } else if (categoryId !== undefined) {
+    query = query.eq('category_id', categoryId)
   }
 
   // 상태 필터
@@ -129,7 +132,7 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     .select(`
       *,
       ${contentJoin},
-      folder:folders(*)
+      category:categories(*)
     `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
@@ -139,10 +142,10 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     query = query.eq('content.type', params.type)
   }
 
-  if (params.folderId === null) {
-    query = query.is('folder_id', null)
-  } else if (params.folderId !== undefined) {
-    query = query.eq('folder_id', params.folderId)
+  if (params.categoryId === null) {
+    query = query.is('category_id', null)
+  } else if (params.categoryId !== undefined) {
+    query = query.eq('category_id', params.categoryId)
   }
 
   if (params.status) {

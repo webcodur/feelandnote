@@ -113,3 +113,84 @@ export default function DashboardPage() {
 ## MCP 서버
 
 Supabase MCP 서버가 설정되어 있다. DB 스키마 조회, 마이그레이션, SQL 실행 등에 활용 가능.
+
+## 디자인 시스템
+
+### 색상 (globals.css @theme)
+다크 테마 기반. CSS 변수로 정의되어 있다.
+- 배경: `bg-main` (#0f1115), `bg-secondary` (#161b22), `bg-card` (#1f242c)
+- 텍스트: `text-primary` (white), `text-secondary` (#8b949e)
+- 액센트: `accent` (#7c4dff), `accent-hover` (#651fff)
+- 보더: `border` (#30363d)
+- 상태: watching(green), completed(purple), paused(red), wish(yellow)
+
+### 타이포그래피
+- 폰트: Pretendard Variable
+- 사이즈: `text-xs` (배지), `text-sm` (기본), `text-base` (강조), `text-lg` (제목)
+- 굵기: `font-medium` (기본), `font-semibold` (강조), `font-bold` (제목)
+
+### Border Radius
+- `rounded-lg`: 버튼, 입력, 네비게이션 아이템
+- `rounded-xl`: 카드, 드롭다운
+- `rounded-2xl`: 모달
+- `rounded-full`: 아바타, 알림 뱃지
+
+### 그림자
+- `shadow-md`: 기본 카드
+- `shadow-lg`, `shadow-xl`: 호버 시 강조
+- `shadow-2xl`: 모달, 드롭다운
+
+### 간격 (Spacing)
+```
+gap-2 (8px)  - 인라인 아이템
+gap-3 (12px) - 기본 간격
+gap-4 (16px) - 섹션 내 요소
+gap-6 (24px) - 섹션 간
+gap-8 (32px) - 대형 섹션
+
+p-3/p-4   - 카드 내부
+p-6       - 모달 내부
+px-3 py-2 - 버튼, 네비게이션 아이템
+```
+
+### 크기 시스템 (sm/md/lg)
+컴포넌트별 크기 변형은 객체 맵핑으로 관리:
+```tsx
+const sizeStyles = {
+  sm: "py-1.5 px-3 text-[13px]",
+  md: "py-2 px-5 text-sm",
+  lg: "py-3 px-8 text-base",
+};
+```
+
+### Variant 패턴
+스타일 변형은 객체 맵핑으로 정의:
+```tsx
+const variantStyles = {
+  primary: "bg-accent text-white ...",
+  secondary: "bg-white/5 text-text-primary ...",
+  ghost: "bg-transparent text-text-secondary ...",
+};
+```
+
+### 상호작용 스타일
+- 호버 배경: `hover:bg-white/5`
+- 호버 상승: `hover:-translate-y-0.5`
+- 활성화: `bg-accent/10 text-accent`
+- 비활성화: `opacity-50 cursor-not-allowed`
+
+### 반응형
+- 기본: 모바일 우선
+- 브레이크포인트: `md:` (768px) 중심으로 데스크톱 스타일 적용
+- 예: `p-3 md:p-4`, `gap-3 md:gap-6`
+
+### 레이아웃 상수
+- 헤더: 64px (h-16)
+- 사이드바: 200px (SIDEBAR_WIDTH 상수)
+- 컨텐츠 영역: `calc(100vh - 64px)`
+
+### Z-Index
+`@/constants/zIndex.ts`에서 중앙 관리:
+```
+sidebar < header < dropdown < modal < toast
+```

@@ -42,7 +42,8 @@ export default function TemplateSection({ template, onTemplateChange, onTemplate
                 {template[item.key as keyof Template] && <Check size={14} className="text-accent" />}
                 {item.title}
               </span>
-              {activeKey === item.key ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {activeKey === item.key && <ChevronUp size={16} />}
+              {activeKey !== item.key && <ChevronDown size={16} />}
             </Button>
             {activeKey === item.key && (
               <div className="px-6 pb-6">

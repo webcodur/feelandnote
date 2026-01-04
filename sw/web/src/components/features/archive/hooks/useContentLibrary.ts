@@ -1,22 +1,23 @@
 /*
   파일명: /components/features/archive/hooks/useContentLibrary.ts
   기능: 콘텐츠 라이브러리 상태 및 로직 관리 훅
-  책임: 콘텐츠 CRUD, 필터링, 정렬, 폴더 관리를 처리한다.
+  책임: 콘텐츠 CRUD, 필터링, 정렬, 분류 관리를 처리한다.
 */ // ------------------------------
 "use client";
 
 import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import { getFolders } from "@/actions/folders/getFolders";
-import { moveToFolder } from "@/actions/folders/moveToFolder";
+import { getContentCounts, type ContentTypeCounts } from "@/actions/contents/getContentCounts";
+import { getCategories } from "@/actions/categories/getCategories";
+import { moveToCategory } from "@/actions/categories/moveToCategory";
 import { updateProgress } from "@/actions/contents/updateProgress";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateRecommendation } from "@/actions/contents/updateRecommendation";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
 
-import type { ContentType, ContentStatus, FolderWithCount } from "@/types/database";
+import type { ContentType, ContentStatus, CategoryWithCount } from "@/types/database";
 
 // #region 타입
 export type ViewMode = "grid" | "list";
@@ -26,12 +27,12 @@ export type SortOption = "recent" | "title" | "progress_asc" | "progress_desc";
 interface UseContentLibraryOptions {
   maxItems?: number;
   compact?: boolean;
-  showFolders?: boolean;
+  showCategories?: boolean;
 }
 
 export interface GroupedContents {
   uncategorized: UserContentWithContent[];
-  byFolder: Record<string, UserContentWithContent[]>;
+  byCategory: Record<string, UserContentWithContent[]>;
 }
 
 export interface TabOption {
@@ -54,7 +55,7 @@ const TYPE_MAP: Record<string, ContentType> = {
 // #endregion
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
-  const { maxItems, compact = false, showFolders = true } = options;
+  const { maxItems, compact = false, showCategories = true } = options;
 
   // #region 상태
   const [activeTab, setActiveTab] = useState("book");
@@ -68,21 +69,30 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const [folders, setFolders] = useState<Record<ContentType, FolderWithCount[]>>({
+  const [categories, setCategories] = useState<Record<ContentType, CategoryWithCount[]>>({
     BOOK: [], VIDEO: [], GAME: [], MUSIC: [], CERTIFICATE: [],
   });
-  const [folderManagerType, setFolderManagerType] = useState<ContentType | null>(null);
+  const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
+    BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
+  });
+  const [categoryManagerType, setCategoryManagerType] = useState<ContentType | null>(null);
 
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());
-  const [collapsedFolders, setCollapsedFolders] = useState<Set<string>>(new Set());
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
 
   const [progressFilter, setProgressFilter] = useState<ProgressFilter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null); // null = 전체
   // #endregion
 
   // #region 파생 상태 (useMemo)
   const filteredAndSortedContents = useMemo(() => {
     let result = [...contents];
+
+    // 분류 필터링
+    if (selectedCategoryId !== null) {
+      result = result.filter((item) => item.category_id === selectedCategoryId);
+    }
 
     if (progressFilter !== "all") {
       result = result.filter((item) => {
@@ -106,7 +116,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     });
 
     return result;
-  }, [contents, progressFilter, sortOption]);
+  }, [contents, selectedCategoryId, progressFilter, sortOption]);
 
   // 월별 그룹화: "2024-01" 형태의 키로 그룹화
   const groupedByMonth = useMemo(() => {
@@ -131,12 +141,12 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     return monthKeys.length > 0 && monthKeys.every((key) => collapsedMonths.has(key));
   }, [monthKeys, collapsedMonths]);
 
-  const groupedByFolder = useMemo(() => {
-    const result: GroupedContents = { uncategorized: [], byFolder: {} };
+  const groupedByCategory = useMemo(() => {
+    const result: GroupedContents = { uncategorized: [], byCategory: {} };
     filteredAndSortedContents.forEach((item) => {
-      if (item.folder_id) {
-        if (!result.byFolder[item.folder_id]) result.byFolder[item.folder_id] = [];
-        result.byFolder[item.folder_id].push(item);
+      if (item.category_id) {
+        if (!result.byCategory[item.category_id]) result.byCategory[item.category_id] = [];
+        result.byCategory[item.category_id].push(item);
       } else {
         result.uncategorized.push(item);
       }
@@ -144,16 +154,16 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     return result;
   }, [filteredAndSortedContents]);
 
-  const currentCategoryFolders = useMemo(() => {
+  const currentTypeCategories = useMemo(() => {
     const type = TYPE_MAP[activeTab];
-    return type ? folders[type] || [] : [];
-  }, [activeTab, folders]);
+    return type ? categories[type] || [] : [];
+  }, [activeTab, categories]);
   // #endregion
 
   // #region 헬퍼 함수
-  const getFolderName = useCallback((folderId: string, contentType: ContentType) => {
-    return folders[contentType]?.find((f) => f.id === folderId)?.name || "알 수 없는 폴더";
-  }, [folders]);
+  const getCategoryName = useCallback((categoryId: string, contentType: ContentType) => {
+    return categories[contentType]?.find((c) => c.id === categoryId)?.name || "알 수 없는 분류";
+  }, [categories]);
 
   // 월 키("2024-01")를 "2024년 1월" 형태로 변환
   const formatMonthLabel = useCallback((monthKey: string) => {
@@ -162,7 +172,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   }, []);
   // #endregion
 
-  // #region 월/폴더 토글
+  // #region 월/분류 토글
   const toggleMonth = useCallback((monthKey: string) => {
     setCollapsedMonths((prev) => {
       const next = new Set(prev);
@@ -172,18 +182,18 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     });
   }, []);
 
-  const toggleFolder = useCallback((folderId: string) => {
-    setCollapsedFolders((prev) => {
+  const toggleCategory = useCallback((categoryId: string) => {
+    setCollapsedCategories((prev) => {
       const next = new Set(prev);
-      if (next.has(folderId)) next.delete(folderId);
-      else next.add(folderId);
+      if (next.has(categoryId)) next.delete(categoryId);
+      else next.add(categoryId);
       return next;
     });
   }, []);
 
   const expandAll = useCallback(() => {
     setCollapsedMonths(new Set());
-    setCollapsedFolders(new Set());
+    setCollapsedCategories(new Set());
   }, []);
 
   const collapseAll = useCallback(() => {
@@ -192,20 +202,29 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // #endregion
 
   // #region 데이터 로딩
-  const loadFolders = useCallback(async () => {
+  const loadCategories = useCallback(async () => {
     try {
-      const allFolders = await getFolders();
-      const grouped: Record<ContentType, FolderWithCount[]> = {
+      const allCategories = await getCategories();
+      const grouped: Record<ContentType, CategoryWithCount[]> = {
         BOOK: [], VIDEO: [], GAME: [], MUSIC: [], CERTIFICATE: [],
       };
-      allFolders.forEach((folder) => {
-        if (grouped[folder.content_type as ContentType]) {
-          grouped[folder.content_type as ContentType].push(folder);
+      allCategories.forEach((category) => {
+        if (grouped[category.content_type as ContentType]) {
+          grouped[category.content_type as ContentType].push(category);
         }
       });
-      setFolders(grouped);
+      setCategories(grouped);
     } catch (err) {
-      console.error("폴더 로드 실패:", err);
+      console.error("분류 로드 실패:", err);
+    }
+  }, []);
+
+  const loadTypeCounts = useCallback(async () => {
+    try {
+      const counts = await getContentCounts();
+      setTypeCounts(counts);
+    } catch (err) {
+      console.error("타입별 개수 로드 실패:", err);
     }
   }, []);
 
@@ -231,11 +250,13 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   useEffect(() => {
     loadContents();
-    if (showFolders) loadFolders();
-  }, [loadContents, loadFolders, showFolders]);
+    loadTypeCounts();
+    if (showCategories) loadCategories();
+  }, [loadContents, loadCategories, loadTypeCounts, showCategories]);
 
   useEffect(() => {
     setCurrentPage(1);
+    setSelectedCategoryId(null); // 탭 변경 시 분류 선택 초기화
   }, [activeTab]);
   // #endregion
 
@@ -301,18 +322,18 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     });
   }, [loadContents]);
 
-  const handleMoveToFolder = useCallback(async (userContentId: string, folderId: string | null) => {
+  const handleMoveToCategory = useCallback(async (userContentId: string, categoryId: string | null) => {
     setContents((prev) =>
-      prev.map((item) => (item.id === userContentId ? { ...item, folder_id: folderId } : item))
+      prev.map((item) => (item.id === userContentId ? { ...item, category_id: categoryId } : item))
     );
     try {
-      await moveToFolder({ userContentIds: [userContentId], folderId });
-      loadFolders();
+      await moveToCategory({ userContentIds: [userContentId], categoryId });
+      loadCategories();
     } catch (err) {
       loadContents();
-      console.error("폴더 이동 실패:", err);
+      console.error("분류 이동 실패:", err);
     }
-  }, [loadContents, loadFolders]);
+  }, [loadContents, loadCategories]);
 
   const handleDateChange = useCallback((userContentId: string, field: "created_at" | "completed_at", date: string) => {
     setContents((prev) =>
@@ -339,34 +360,36 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     currentPage, setCurrentPage,
     totalPages,
     total,
-    folders,
-    folderManagerType, setFolderManagerType,
+    categories,
+    typeCounts,
+    categoryManagerType, setCategoryManagerType,
     collapsedMonths,
-    collapsedFolders,
+    collapsedCategories,
     progressFilter, setProgressFilter,
     sortOption, setSortOption,
+    selectedCategoryId, setSelectedCategoryId,
     // 파생 상태
     isAllCollapsed,
     filteredAndSortedContents,
     groupedByMonth,
     monthKeys,
-    groupedByFolder,
-    currentCategoryFolders,
+    groupedByCategory,
+    currentTypeCategories,
     // 헬퍼
-    getFolderName,
+    getCategoryName,
     formatMonthLabel,
     // 액션
     toggleMonth,
-    toggleFolder,
+    toggleCategory,
     expandAll,
     collapseAll,
     loadContents,
-    loadFolders,
+    loadCategories,
     handleProgressChange,
     handleStatusChange,
     handleRecommendChange,
     handleDateChange,
     handleDelete,
-    handleMoveToFolder,
+    handleMoveToCategory,
   };
 }

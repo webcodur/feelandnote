@@ -14,7 +14,7 @@ interface TabsProps {
 export function Tab({ label, active, onClick }: TabProps) {
   return (
     <div
-      className={`py-3 px-0 rounded-none relative font-semibold cursor-pointer transition-all duration-200 flex items-center gap-1.5
+      className={`py-3 px-0 rounded-none relative font-semibold cursor-pointer flex items-center gap-1.5
         ${active ? "text-text-primary" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
       onClick={onClick}
     >

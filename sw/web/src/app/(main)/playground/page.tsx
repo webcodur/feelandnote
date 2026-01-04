@@ -65,8 +65,9 @@ export default function Page() {
         BOOK: "도서", MOVIE: "영화", DRAMA: "드라마", GAME: "게임",
       };
 
+      // REVIEW는 user_contents로 이동됨, QUOTE만 사용
       const cards = records
-        .filter(r => (r.type === "REVIEW" || r.type === "QUOTE") && r.content && r.contentData)
+        .filter(r => r.type === "QUOTE" && r.content && r.contentData)
         .map((r, idx) => ({
           id: r.id,
           title: r.contentData!.title,

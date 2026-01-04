@@ -43,7 +43,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Header onMenuClick={toggleSidebar} isMobile={isMobile} />
       {!isMobile && <Sidebar isOpen={isSidebarOpen} />}
       <main
-        className="pt-16 pb-16 px-3 md:pt-20 md:pb-6 md:px-5 min-h-screen overflow-y-auto scrollbar-stable transition-[margin-left] duration-300 ease-in-out"
+        className="pt-16 pb-16 px-3 md:pt-20 md:pb-6 md:px-5 min-h-screen overflow-y-auto scrollbar-stable"
         style={{ marginLeft: showSidebar ? SIDEBAR_WIDTH : 0 }}
       >
         <div className="max-w-[1400px] mx-auto">

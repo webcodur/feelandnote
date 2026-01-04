@@ -8,23 +8,25 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Trash2 } from "lucide-react";
-
-import Button from "@/components/ui/Button";
-import { Z_INDEX } from "@/constants/zIndex";
+import { Trash2, Star, Eye, FolderOpen, Check } from "lucide-react";
+import type { CategoryWithCount } from "@/types/database";
 
 import ProgressModal from "./ProgressModal";
 import DateEditModal from "./DateEditModal";
+import ContentDetailModal from "./ContentDetailModal";
+import Button from "@/components/ui/Button";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
 export interface ContentCardProps {
   item: UserContentWithContent;
+  categories?: CategoryWithCount[];
   onProgressChange?: (userContentId: string, progress: number) => void;
   onStatusChange?: (userContentId: string, status: "WISH" | "EXPERIENCE" | "COMPLETE") => void;
   onRecommendChange?: (userContentId: string, isRecommended: boolean) => void;
   onDateChange?: (userContentId: string, field: "created_at" | "completed_at", date: string) => void;
+  onCategoryChange?: (userContentId: string, categoryId: string | null) => void;
   onDelete?: (userContentId: string) => void;
   href?: string;
   compact?: boolean;
@@ -52,10 +54,12 @@ function formatDate(dateStr: string) {
 
 export default function ContentCard({
   item,
+  categories = [],
   onProgressChange,
   onStatusChange,
   onRecommendChange,
   onDateChange,
+  onCategoryChange,
   onDelete,
   href,
 }: ContentCardProps) {
@@ -66,6 +70,9 @@ export default function ContentCard({
   // #region 상태
   const [isEditingProgress, setIsEditingProgress] = useState(false);
   const [isEditingDate, setIsEditingDate] = useState(false);
+  const [isViewingDetail, setIsViewingDetail] = useState(false);
+  const [showSpoiler, setShowSpoiler] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   // #endregion
 
   // #region 파생 값
@@ -109,96 +116,215 @@ export default function ContentCard({
 
   // #region 렌더링
   return (
-    <div className="cursor-pointer relative">
-      {/* 콘텐츠 영역 - 썸네일 + 제목 + 작가 */}
-      <div className="group relative" onClick={handleClick}>
-        {/* 삭제 버튼 (hover 시 표시) */}
-        {onDelete && (
-          <Button
-            unstyled
-            className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 hover:bg-red-600"
-            style={{ zIndex: Z_INDEX.cardMenu }}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
-                onDelete(item.id);
-              }
-            }}
-          >
-            <Trash2 size={14} />
-          </Button>
-        )}
+    <>
+      <div
+        className="cursor-pointer relative flex flex-row h-[200px] bg-surface/30 border border-border/50 hover:border-accent/40 rounded-2xl p-2.5 gap-3"
+        onClick={handleClick}
+      >
 
-        <div className="relative rounded-xl overflow-hidden shadow-xl bg-bg-card">
-          <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-800">
+        {/* 좌측: 썸네일 & 기본 정보 (고정 너비) - 클릭시 콘텐츠 상세 모달 */}
+        <div
+          className="w-[110px] sm:w-[120px] shrink-0 group/content h-full relative"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsViewingDetail(true);
+          }}
+        >
+          <div className="relative w-full h-full rounded-xl overflow-hidden shadow-sm bg-bg-card border border-border/30 group-hover/content:ring-2 ring-accent/50 group-hover/content:shadow-lg">
             {content.thumbnail_url ? (
               <img
                 src={content.thumbnail_url}
                 alt={content.title}
-                className="w-full h-full object-cover group-hover:scale-105"
+                className="w-full h-full object-cover group-hover/content:scale-110"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-700 text-gray-400">
                 <span className="text-xs">No Image</span>
               </div>
             )}
-          </div>
-          <div className="p-2 sm:p-3">
-            <div className="font-semibold text-xs sm:text-sm mb-0.5 truncate">{content.title}</div>
-            <div className="text-[10px] sm:text-xs text-text-secondary truncate">
-              {content.creator || "\u00A0"}
+
+            {/* Title & Creator Overlay */}
+            <div className="absolute bottom-0 inset-x-0 bg-black/60 backdrop-blur-sm py-2 px-2 text-center flex flex-col justify-end">
+              <div className="font-bold text-xs text-white mb-0.5 truncate drop-shadow-sm" title={content.title}>
+                {content.title}
+              </div>
+              <div className="text-[10px] text-gray-300 truncate drop-shadow-sm">
+                {content.creator || "\u00A0"}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* 기록 영역 - 카드 외부, 리스트 형태 */}
-      <div className="pt-2 space-y-1 text-xs sm:text-sm">
-        {/* 기간 */}
-        <div className="flex items-center gap-1.5">
-          {onDateChange ? (
-            <Button
-              unstyled
-              className="text-text-secondary hover:text-primary hover:bg-white/5 rounded px-1 -mx-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsEditingDate(true);
-              }}
-            >
-              [기간] {addedDate} ~ {completedDate || ""}
-            </Button>
-          ) : (
-            <span className="text-text-secondary">[기간] {addedDate} ~ {completedDate || ""}</span>
-          )}
-        </div>
-        {/* 진행 + 상태 */}
-        <div className="flex items-center gap-1.5">
-          {onProgressChange ? (
-            <Button
-              unstyled
-              className="text-text-secondary hover:text-primary hover:bg-white/5 rounded px-1 -mx-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsEditingProgress(true);
-              }}
-            >
-              [진행] <span className="text-primary font-medium">{progressPercent}%</span>
-            </Button>
-          ) : (
-            <span className="text-text-secondary">[진행] <span className="text-primary font-medium">{progressPercent}%</span></span>
-          )}
-          {status && (
-            <Button
-              unstyled
-              className={`${status.class} ${canToggle ? "hover:bg-white/5 rounded px-1" : "cursor-default"}`}
-              onClick={handleStatusClick}
-            >
-              [{status.text}]
-            </Button>
-          )}
+        {/* 우측: 기록 관리 & 리뷰 (가변 너비) */}
+        <div className="flex-1 flex flex-col min-w-0 h-full group/record rounded-xl hover:bg-surface/50 p-1 -m-1">
+          
+          {/* 상단: 3행 레이아웃 */}
+          <div className="flex flex-col gap-1.5 h-[68px] shrink-0 mb-3 text-xs">
+
+            {/* Row 1: 시작 | 종료 */}
+            <div className="h-5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-text-tertiary font-medium shrink-0 select-none w-8">시작:</span>
+                {onDateChange ? (
+                  <Button
+                    unstyled
+                    className="text-text-secondary hover:text-accent hover:underline"
+                    onClick={(e) => { e.stopPropagation(); setIsEditingDate(true); }}
+                  >
+                    {addedDate}
+                  </Button>
+                ) : <span className="text-text-secondary">{addedDate}</span>}
+              </div>
+              <div className="flex items-center gap-2 min-w-[120px]">
+                <span className="text-text-tertiary font-medium select-none w-8">종료:</span>
+                {onDateChange ? (
+                  <Button
+                    unstyled
+                    className="text-text-secondary hover:text-accent hover:underline"
+                    onClick={(e) => { e.stopPropagation(); setIsEditingDate(true); }}
+                  >
+                    {completedDate || "-"}
+                  </Button>
+                ) : <span className="text-text-secondary">{completedDate || "-"}</span>}
+              </div>
+            </div>
+
+            {/* Row 2: 진행 | 상태 */}
+            <div className="h-5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-text-tertiary font-medium shrink-0 select-none w-8">진행:</span>
+                {onProgressChange ? (
+                  <Button
+                    unstyled
+                    className="text-primary font-medium hover:text-accent hover:underline"
+                    onClick={(e) => { e.stopPropagation(); setIsEditingProgress(true); }}
+                  >
+                    {progressPercent}%
+                  </Button>
+                ) : <span className="text-primary font-medium">{progressPercent}%</span>}
+              </div>
+              <div className="flex items-center gap-2 min-w-[120px]">
+                <span className="text-text-tertiary font-medium select-none w-8">상태:</span>
+                {status && (
+                  <Button
+                    unstyled
+                    className={`${status.class} ${canToggle ? "hover:bg-white/5" : "cursor-default"} text-[10px] border px-2 py-0.5 rounded-full flex items-center font-medium`}
+                    onClick={handleStatusClick}
+                  >
+                    {status.text}
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Row 3: 분류 | 별점 */}
+            <div className="h-5 flex items-center justify-between">
+              <div className="flex items-center gap-2 relative">
+                <span className="text-text-tertiary font-medium shrink-0 select-none w-8">분류:</span>
+                {onCategoryChange ? (
+                  <Button
+                    unstyled
+                    className="text-text-secondary hover:text-accent text-xs truncate max-w-[80px] flex items-center gap-1"
+                    onClick={(e) => { e.stopPropagation(); setIsCategoryOpen(!isCategoryOpen); }}
+                  >
+                    <FolderOpen size={10} />
+                    {item.category?.name || "미분류"}
+                  </Button>
+                ) : (
+                  <span className="text-text-secondary text-xs truncate max-w-[80px]">
+                    {item.category?.name || "미분류"}
+                  </span>
+                )}
+
+                {/* 분류 선택 드롭다운 */}
+                {isCategoryOpen && onCategoryChange && (
+                  <div
+                    className="absolute top-6 left-0 z-50 bg-bg-card border border-border rounded-lg shadow-xl py-1 min-w-[120px] max-h-[200px] overflow-y-auto"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between"
+                      onClick={() => { onCategoryChange(item.id, null); setIsCategoryOpen(false); }}
+                    >
+                      미분류
+                      {!item.category_id && <Check size={12} className="text-accent" />}
+                    </button>
+                    {categories.map((cat) => (
+                      <button
+                        key={cat.id}
+                        className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between"
+                        onClick={() => { onCategoryChange(item.id, cat.id); setIsCategoryOpen(false); }}
+                      >
+                        {cat.name}
+                        {item.category_id === cat.id && <Check size={12} className="text-accent" />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-2 min-w-[120px]">
+                <span className="text-text-tertiary font-medium select-none w-8">별점:</span>
+                {item.rating ? (
+                  <div className="flex gap-0.5">
+                    {[1,2,3,4,5].map(i => (
+                      <Star
+                        key={i}
+                        size={11}
+                        className={i <= item.rating! ? "text-yellow-500" : "text-gray-600"}
+                        fill={i <= item.rating! ? "currentColor" : "none"}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-text-tertiary text-[10px]">-</span>
+                )}
+              </div>
+            </div>
+
+          </div>
+
+          {/* 하단: Review (Remaining Area) - 클릭 시 상세 페이지로 이동 */}
+          <div
+            className="flex-1 bg-black/20 rounded-lg p-2.5 text-xs text-text-secondary leading-relaxed border border-white/5 overflow-hidden relative flex flex-col group/review hover:bg-black/30 hover:border-white/10 cursor-pointer"
+            onClick={handleClick}
+          >
+            {item.review ? (
+              <p className={`line-clamp-2 opacity-90 flex-1 ${item.is_spoiler && !showSpoiler ? "blur-sm select-none" : ""}`}>
+                {item.review}
+              </p>
+            ) : (
+              <p className="line-clamp-2 opacity-50 flex-1 italic">리뷰가 없습니다</p>
+            )}
+            <div className="mt-1 flex items-center justify-end text-[10px] gap-2">
+              {item.review && item.is_spoiler && !showSpoiler && (
+                <Button
+                  unstyled
+                  className="flex items-center gap-0.5 text-text-tertiary hover:text-accent font-medium"
+                  onClick={(e) => { e.stopPropagation(); setShowSpoiler(true); }}
+                >
+                  <Eye size={10} /> 스포일러 보기
+                </Button>
+              )}
+              {onDelete && (
+                <Button
+                  unstyled
+                  className="flex items-center gap-0.5 text-text-tertiary hover:text-red-400 font-medium"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (confirm("이 콘텐츠를 삭제하시겠습니까?")) {
+                      onDelete(item.id);
+                    }
+                  }}
+                >
+                  <Trash2 size={10} /> 삭제
+                </Button>
+              )}
+            </div>
+          </div>
+
         </div>
       </div>
-
+      
       {/* 진행도 수정 모달 */}
       {isEditingProgress && onProgressChange && (
         <ProgressModal
@@ -228,7 +354,15 @@ export default function ContentCard({
           }}
         />
       )}
-    </div>
+
+      {/* 콘텐츠 상세 모달 */}
+      {isViewingDetail && (
+        <ContentDetailModal
+          content={content}
+          onClose={() => setIsViewingDetail(false)}
+        />
+      )}
+    </>
   );
   // #endregion
 }

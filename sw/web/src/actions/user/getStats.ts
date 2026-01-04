@@ -26,11 +26,12 @@ export async function getStats(): Promise<UserStats> {
       .from('records')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id),
+    // 리뷰 카운트: user_contents에서 rating 또는 review가 있는 항목
     supabase
-      .from('records')
+      .from('user_contents')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id)
-      .eq('type', 'REVIEW')
+      .or('rating.not.is.null,review.not.is.null')
   ])
 
   return {

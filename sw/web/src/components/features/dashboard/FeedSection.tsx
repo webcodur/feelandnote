@@ -34,10 +34,10 @@ function FeedCard({ item }: { item: FeedItem }) {
         <div className="text-sm text-text-secondary leading-relaxed line-clamp-2">{item.content}</div>
       </div>
       <div className="py-3 px-4 border-t border-white/5 flex gap-4 text-[13px] text-text-secondary">
-        <div className="flex items-center gap-1.5 transition-colors duration-200 hover:text-accent">
+        <div className="flex items-center gap-1.5 hover:text-accent">
           <Heart size={16} /> {item.likes}
         </div>
-        <div className="flex items-center gap-1.5 transition-colors duration-200 hover:text-accent">
+        <div className="flex items-center gap-1.5 hover:text-accent">
           <MessageCircle size={16} /> {item.comments}
         </div>
       </div>

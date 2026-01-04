@@ -123,10 +123,10 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
               <Info size={16} className="text-accent shrink-0 mt-0.5" />
               <div className="text-sm text-text-secondary">
                 <p className="mb-1">
-                  직접 등록한 콘텐츠는 <span className="text-text-primary font-medium">나만 볼 수 있는 개인 기록</span>입니다.
+                  직접 등록한 콘텐츠는 <span className="text-text-primary font-medium">내 기록관에서만 관리</span>됩니다.
                 </p>
                 <p>
-                  다른 사용자와 공유하려면{" "}
+                  다른 사용자와 같은 콘텐츠로 연동하려면{" "}
                   <Button
                     unstyled
                     type="button"

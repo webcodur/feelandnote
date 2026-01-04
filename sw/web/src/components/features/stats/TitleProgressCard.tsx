@@ -46,7 +46,7 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
           return (
             <div
               key={title.id}
-              className={`p-3 rounded-xl border transition-all ${
+              className={`p-3 rounded-xl border ${
                 title.earned
                   ? "bg-white/[0.03] border-white/10"
                   : "bg-black/20 border-white/5 opacity-70"
@@ -94,7 +94,7 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
                         </div>
                         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                           <div
-                            className="h-full rounded-full transition-all"
+                            className="h-full rounded-full"
                             style={{
                               width: `${title.progress}%`,
                               backgroundColor: colors.bg,

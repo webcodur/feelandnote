@@ -1,18 +1,20 @@
-import { ReactNode, ButtonHTMLAttributes } from "react";
+import { ReactNode, ButtonHTMLAttributes, SelectHTMLAttributes } from "react";
+import { LucideIcon, ChevronDown } from "lucide-react";
 
+// #region Base Button
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
-  unstyled?: boolean;
 }
 
 const variantStyles = {
   primary:
-    "inline-flex items-center justify-center gap-2 bg-accent text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-accent-hover",
+    "inline-flex items-center justify-center gap-2 bg-accent text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-accent-hover border-none rounded-lg font-semibold",
   secondary:
-    "inline-flex items-center justify-center gap-2 bg-white/5 text-text-primary border border-border hover:bg-white/10 hover:border-accent",
-  ghost: "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5",
+    "inline-flex items-center justify-center gap-2 bg-white/5 text-text-primary border border-border hover:bg-white/10 hover:border-accent rounded-lg font-semibold",
+  ghost:
+    "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-lg",
 };
 
 const sizeStyles = {
@@ -23,33 +25,19 @@ const sizeStyles = {
 
 export default function Button({
   children,
-  variant = "primary",
-  size = "md",
+  variant,
+  size,
   className = "",
   disabled,
-  unstyled = false,
   ...props
 }: ButtonProps) {
-  const baseStyles = "cursor-pointer transition-all duration-200";
-  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "";
-
-  if (unstyled) {
-    return (
-      <button
-        className={`${baseStyles} ${disabledStyles} ${className}`}
-        disabled={disabled}
-        {...props}
-      >
-        {children}
-      </button>
-    );
-  }
+  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
+  const variantStyle = variant ? variantStyles[variant] : "";
+  const sizeStyle = size ? sizeStyles[size] : "";
 
   return (
     <button
-      className={`border-none rounded-lg font-semibold font-sans
-        ${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]}
-        ${disabledStyles} ${className}`}
+      className={`${disabledStyles} ${variantStyle} ${sizeStyle} ${className}`}
       disabled={disabled}
       {...props}
     >
@@ -57,3 +45,90 @@ export default function Button({
     </button>
   );
 }
+// #endregion
+
+// #region IconButton
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  icon: LucideIcon;
+  size?: number;
+  active?: boolean;
+}
+
+export function IconButton({
+  icon: Icon,
+  size = 16,
+  active = false,
+  className = "",
+  disabled,
+  ...props
+}: IconButtonProps) {
+  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
+
+  return (
+    <button
+      className={`flex items-center justify-center rounded-lg ${disabledStyles} ${className}`}
+      disabled={disabled}
+      {...props}
+    >
+      <Icon size={size} strokeWidth={active ? 2.5 : 2} />
+    </button>
+  );
+}
+// #endregion
+
+// #region SelectDropdown
+interface SelectOption<T extends string> {
+  value: T;
+  label: string;
+}
+
+interface SelectDropdownProps<T extends string> extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onChange" | "size"> {
+  value: T;
+  onChange: (value: T) => void;
+  options: SelectOption<T>[];
+  icon?: LucideIcon;
+  placeholder?: string;
+}
+
+export function SelectDropdown<T extends string>({
+  value,
+  onChange,
+  options,
+  icon: Icon,
+  placeholder,
+  className = "",
+  disabled,
+  ...props
+}: SelectDropdownProps<T>) {
+  const selectedLabel = options.find((o) => o.value === value)?.label ?? placeholder ?? "";
+
+  return (
+    <div className={`relative group ${className}`}>
+      <select
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+        value={value}
+        onChange={(e) => onChange(e.target.value as T)}
+        disabled={disabled}
+        {...props}
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+      <div
+        className={`
+          flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium pointer-events-none border border-transparent
+          bg-surface text-text-secondary group-hover:bg-surface-hover group-hover:text-text-primary
+          ${disabled ? "opacity-50" : ""}
+        `}
+      >
+        {Icon && <Icon size={14} className="flex-shrink-0 opacity-70" />}
+        <span className="truncate flex-1">{selectedLabel}</span>
+        <ChevronDown size={14} className="flex-shrink-0 opacity-50 group-hover:opacity-80" />
+      </div>
+    </div>
+  );
+}
+// #endregion

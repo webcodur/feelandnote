@@ -1,0 +1,23 @@
+import { Megaphone } from "lucide-react";
+import { SectionHeader } from "@/components/ui";
+
+export default function Page() {
+  return (
+    <>
+      <SectionHeader
+        title="공지사항"
+        description="서비스 관련 공지사항을 확인하세요"
+        icon={<Megaphone size={20} />}
+        className="mb-4"
+      />
+
+      <div className="bg-surface rounded-2xl p-12 text-center">
+        <div className="text-text-tertiary mb-2 flex justify-center">
+          <Megaphone size={48} />
+        </div>
+        <p className="text-lg font-medium text-text-secondary">준비 중입니다</p>
+        <p className="text-sm text-text-tertiary mt-1">곧 공지사항 기능이 추가될 예정이에요</p>
+      </div>
+    </>
+  );
+}

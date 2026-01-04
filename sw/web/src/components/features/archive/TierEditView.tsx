@@ -197,7 +197,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
                 const item = getItemById(contentId);
                 if (!item) return null;
                 return (
-                  <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing transition-opacity ${draggedId === contentId ? "opacity-50" : ""}`}>
+                  <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
                     {item.content.thumbnail_url ? (
                       <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" title={item.content.title} />
                     ) : (
@@ -217,7 +217,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
               const item = getItemById(contentId);
               if (!item) return null;
               return (
-                <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing transition-opacity ${draggedId === contentId ? "opacity-50" : ""}`}>
+                <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
                   {item.content.thumbnail_url ? (
                     <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" title={item.content.title} />
                   ) : (

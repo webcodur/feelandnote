@@ -59,7 +59,8 @@ export default function BlindGamePlayModal({ isOpen, onClose }: BlindGamePlayMod
     setIsLoading(true);
     try {
       const records = await getRecords({ limit: 50 }) as RecordWithContent[];
-      const valid = records.filter((r) => (r.type === "REVIEW" || r.type === "QUOTE") && r.content && r.contentData);
+      // REVIEW는 user_contents로 이동됨, QUOTE만 사용
+      const valid = records.filter((r) => r.type === "QUOTE" && r.content && r.contentData);
       const mapped = valid.sort(() => Math.random() - 0.5).map(mapRecordToQuestion).filter((q): q is Question => q !== null);
       setQuestions(mapped);
       setCurrentIndex(0); setScore(0); setStreak(0); setMaxStreak(0);

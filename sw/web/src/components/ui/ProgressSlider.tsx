@@ -138,7 +138,7 @@ export default function ProgressSlider({
         }`}
       >
         <div
-          className={`h-full bg-accent transition-all duration-75 ${
+          className={`h-full bg-accent ${
             isDragging ? "brightness-125" : isHovered ? "brightness-110" : ""
           }`}
           style={{ width: `${displayValue}%` }}
@@ -162,7 +162,7 @@ export default function ProgressSlider({
       {/* Value tooltip - hover/drag 시 표시 */}
       {isActive && (
         <div
-          className={`absolute px-2 py-1 rounded text-xs font-bold pointer-events-none transform -translate-x-1/2 transition-all duration-150 ${
+          className={`absolute px-2 py-1 rounded text-xs font-bold pointer-events-none transform -translate-x-1/2 ${
             isDragging
               ? "-top-8 bg-accent text-white shadow-lg scale-110"
               : "-top-7 bg-bg-card border border-border text-text-primary"

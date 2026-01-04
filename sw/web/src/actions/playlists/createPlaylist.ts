@@ -9,6 +9,7 @@ interface CreatePlaylistParams {
   description?: string
   contentType?: ContentType | null  // null = 혼합
   contentIds: string[]  // 포함할 콘텐츠 ID 배열
+  isPublic?: boolean
 }
 
 export async function createPlaylist(params: CreatePlaylistParams) {
@@ -35,7 +36,7 @@ export async function createPlaylist(params: CreatePlaylistParams) {
       name: params.name.trim(),
       description: params.description?.trim() || null,
       content_type: params.contentType || null,
-      is_public: false,
+      is_public: params.isPublic ?? false,
       has_tiers: false,
       tiers: {}
     })
