@@ -106,9 +106,9 @@ export default function Page() {
 
   const handleProgressChange = (newProgress: number) => {
     let newStatus: ContentStatus | undefined;
-    if (newProgress === 100) newStatus = 'COMPLETE';
-    else if (newProgress < 100 && item.status === 'COMPLETE') newStatus = 'EXPERIENCE';
-    else if (newProgress > 0 && item.status === 'WISH') newStatus = 'EXPERIENCE';
+    if (newProgress === 100) newStatus = 'FINISHED';
+    else if (newProgress < 100 && item.status === 'FINISHED') newStatus = 'WATCHING';
+    else if (newProgress > 0 && item.status === 'WANT') newStatus = 'WATCHING';
 
     setItem((prev) => prev ? { ...prev, progress: newProgress, ...(newStatus ? { status: newStatus } : {}) } : null);
     startSaveTransition(async () => {

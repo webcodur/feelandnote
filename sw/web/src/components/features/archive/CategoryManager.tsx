@@ -125,7 +125,7 @@ export default function CategoryManager({
       <div className="bg-bg-card rounded-xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
         {/* 헤더 */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <h3 className="font-medium text-sm">분류 관리</h3>
+          <h3 className="font-medium text-sm">소분류 관리</h3>
           <Button
             unstyled
             onClick={onClose}
@@ -133,6 +133,14 @@ export default function CategoryManager({
           >
             <X size={18} className="text-text-secondary" />
           </Button>
+        </div>
+
+        {/* 안내문구 */}
+        <div className="px-4 py-3 bg-accent/5 border-b border-border">
+          <p className="text-xs text-text-secondary leading-relaxed">
+            소분류는 대분류 내에서 <span className="text-text-primary font-medium">나만의 기준</span>으로
+            콘텐츠를 정리할 수 있는 폴더입니다. 장르, 시리즈, 테마 등 자유롭게 만들어 보세요.
+          </p>
         </div>
 
         {/* 새 분류 추가 */}

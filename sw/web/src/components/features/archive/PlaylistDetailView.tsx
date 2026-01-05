@@ -14,12 +14,16 @@ import {
   Globe,
   ListMusic,
   GripVertical,
+  Bookmark,
+  BookmarkCheck,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { deletePlaylist } from "@/actions/playlists/deletePlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
 import { reorderPlaylistItems } from "@/actions/playlists/updatePlaylistItems";
+import { savePlaylist, unsavePlaylist, checkPlaylistSaved } from "@/actions/playlists/savedPlaylists";
+import { createClient } from "@/lib/supabase/client";
 import { PlaylistEditor } from "@/components/features/playlist";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { PlaylistWithItems } from "@/types/database";
@@ -39,6 +43,10 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
   const [isDragging, setIsDragging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const isOwner = currentUserId === playlist?.user_id;
 
   // #region 데이터 로드
   const loadPlaylist = useCallback(async () => {
@@ -57,6 +65,20 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
   useEffect(() => {
     loadPlaylist();
   }, [loadPlaylist]);
+
+  // 현재 사용자 및 저장 여부 확인
+  useEffect(() => {
+    const init = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setCurrentUserId(user?.id || null);
+      if (user) {
+        const saved = await checkPlaylistSaved(playlistId);
+        setIsSaved(saved);
+      }
+    };
+    init();
+  }, [playlistId]);
   // #endregion
 
   // #region 핸들러
@@ -121,6 +143,20 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
   const handleEditSuccess = () => {
     setIsEditMode(false);
     loadPlaylist();
+  };
+
+  const handleToggleSave = async () => {
+    try {
+      if (isSaved) {
+        await unsavePlaylist(playlistId);
+        setIsSaved(false);
+      } else {
+        await savePlaylist(playlistId);
+        setIsSaved(true);
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "저장에 실패했습니다");
+    }
   };
   // #endregion
 
@@ -205,61 +241,78 @@ export default function PlaylistDetailView({ playlistId }: PlaylistDetailViewPro
           </div>
         </div>
 
-        {/* 메뉴 */}
-        <div className="relative">
-          <Button unstyled onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-text-secondary hover:text-text-primary">
-            <MoreVertical size={20} />
+        {/* 메뉴 - 소유자용 */}
+        {isOwner && (
+          <div className="relative">
+            <Button unstyled onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-text-secondary hover:text-text-primary">
+              <MoreVertical size={20} />
+            </Button>
+
+            {isMenuOpen && (
+              <>
+                <div className="fixed inset-0" style={{ zIndex: Z_INDEX.overlay }} onClick={() => setIsMenuOpen(false)} />
+                <div className="absolute right-0 mt-2 w-48 bg-bg-card border border-border rounded-xl shadow-lg overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
+                  <Button unstyled onClick={handleTogglePublic} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm">
+                    {playlist.is_public ? <Lock size={16} /> : <Globe size={16} />}
+                    {playlist.is_public ? "비공개로 전환" : "공개로 전환"}
+                  </Button>
+                  <Button unstyled onClick={() => { navigator.clipboard.writeText(window.location.href); alert("링크가 복사되었습니다"); setIsMenuOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm">
+                    <Share2 size={16} />링크 복사
+                  </Button>
+                  <Button unstyled onClick={handleDelete} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm text-red-400">
+                    <Trash2 size={16} />삭제
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* 저장 버튼 - 타인의 공개 플레이리스트용 */}
+        {!isOwner && currentUserId && (
+          <Button
+            unstyled
+            onClick={handleToggleSave}
+            className={`p-2 ${isSaved ? "text-accent" : "text-text-secondary hover:text-text-primary"}`}
+          >
+            {isSaved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
           </Button>
+        )}
+      </div>
 
-          {isMenuOpen && (
-            <>
-              <div className="fixed inset-0" style={{ zIndex: Z_INDEX.overlay }} onClick={() => setIsMenuOpen(false)} />
-              <div className="absolute right-0 mt-2 w-48 bg-bg-card border border-border rounded-xl shadow-lg overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
-                <Button unstyled onClick={handleTogglePublic} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm">
-                  {playlist.is_public ? <Lock size={16} /> : <Globe size={16} />}
-                  {playlist.is_public ? "비공개로 전환" : "공개로 전환"}
-                </Button>
-                <Button unstyled onClick={() => { navigator.clipboard.writeText(window.location.href); alert("링크가 복사되었습니다"); setIsMenuOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm">
-                  <Share2 size={16} />링크 복사
-                </Button>
-                <Button unstyled onClick={handleDelete} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm text-red-400">
-                  <Trash2 size={16} />삭제
-                </Button>
-              </div>
-            </>
-          )}
+      {/* 액션 버튼 - 소유자만 */}
+      {isOwner && (
+        <div className="flex gap-2 mb-6">
+          <Button
+            unstyled
+            onClick={() => setIsEditMode(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm"
+          >
+            <Pencil size={16} />편집
+          </Button>
+          <Link href={`/archive/playlists/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
+            <Trophy size={16} />티어 설정
+          </Link>
         </div>
-      </div>
-
-      {/* 액션 버튼 */}
-      <div className="flex gap-2 mb-6">
-        <Button
-          unstyled
-          onClick={() => setIsEditMode(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm"
-        >
-          <Pencil size={16} />편집
-        </Button>
-        <Link href={`/archive/playlists/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
-          <Trophy size={16} />티어 설정
-        </Link>
-      </div>
+      )}
 
       {/* 콘텐츠 목록 */}
       <div className="space-y-2">
         {playlist.items.map((item, index) => (
           <div
             key={item.id}
-            draggable
-            onDragStart={() => handleDragStart(index)}
-            onDragOver={(e) => handleDragOver(e, index)}
-            onDragEnd={handleDragEnd}
+            draggable={isOwner}
+            onDragStart={isOwner ? () => handleDragStart(index) : undefined}
+            onDragOver={isOwner ? (e) => handleDragOver(e, index) : undefined}
+            onDragEnd={isOwner ? handleDragEnd : undefined}
             onClick={() => router.push(`/archive/${item.content_id}`)}
             className={`flex items-center gap-3 p-3 bg-bg-card rounded-xl cursor-pointer hover:bg-bg-secondary ${isDragging && draggedIndex === index ? "opacity-50" : ""}`}
           >
-            <div className="text-text-secondary hover:text-text-primary cursor-grab active:cursor-grabbing" onClick={(e) => e.stopPropagation()}>
-              <GripVertical size={18} />
-            </div>
+            {isOwner && (
+              <div className="text-text-secondary hover:text-text-primary cursor-grab active:cursor-grabbing" onClick={(e) => e.stopPropagation()}>
+                <GripVertical size={18} />
+              </div>
+            )}
             <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-bg-secondary">
               {item.content.thumbnail_url ? (
                 <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" />

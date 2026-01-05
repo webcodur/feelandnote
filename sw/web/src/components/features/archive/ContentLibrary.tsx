@@ -5,19 +5,33 @@
 */ // ------------------------------
 "use client";
 
+import { useState, useEffect } from "react";
+
 import { useContentLibrary } from "./hooks/useContentLibrary";
 import ArchiveControlBar, { TAB_OPTIONS } from "./ArchiveControlBar";
 import MonthSection from "./MonthSection";
 import ContentItemRenderer from "./ContentItemRenderer";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
 import CategoryManager from "./CategoryManager";
+import BatchActionBar from "./BatchActionBar";
+import PinnedCorkBoard from "./PinnedCorkBoard";
 import { Pagination } from "@/components/ui";
 import MonthTransitionIndicator from "./MonthTransitionIndicator";
-import { useState, useEffect } from "react";
+import { Pin, X } from "lucide-react";
+
+import { batchRemoveContents } from "@/actions/contents";
+import { moveToCategory } from "@/actions/categories/moveToCategory";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
+export interface HeaderActionsProps {
+  toggleBatchMode: () => void;
+  isBatchMode: boolean;
+  enterPinMode: () => void;
+  isPinMode: boolean;
+}
+
 interface ContentLibraryProps {
   compact?: boolean;
   maxItems?: number;
@@ -27,7 +41,7 @@ interface ContentLibraryProps {
   showCategories?: boolean;
   showPagination?: boolean;
   emptyMessage?: string;
-  headerActions?: React.ReactNode;
+  headerActions?: React.ReactNode | ((props: HeaderActionsProps) => React.ReactNode);
 }
 // #endregion
 
@@ -44,6 +58,43 @@ export default function ContentLibrary({
 }: ContentLibraryProps) {
   // #region 훅
   const lib = useContentLibrary({ maxItems, compact, showCategories });
+  const [isBatchLoading, setIsBatchLoading] = useState(false);
+  // #endregion
+
+  // #region 배치 모드 핸들러
+  const handleBatchDelete = async () => {
+    if (lib.selectedIds.size === 0) return;
+    if (!confirm(`${lib.selectedIds.size}개 콘텐츠를 삭제하시겠습니까?`)) return;
+
+    setIsBatchLoading(true);
+    try {
+      await batchRemoveContents({ userContentIds: [...lib.selectedIds] });
+      lib.toggleBatchMode();
+      lib.loadContents();
+    } catch (err) {
+      console.error("일괄 삭제 실패:", err);
+      alert("일괄 삭제에 실패했습니다.");
+    } finally {
+      setIsBatchLoading(false);
+    }
+  };
+
+  const handleBatchCategoryChange = async (categoryId: string | null) => {
+    if (lib.selectedIds.size === 0) return;
+
+    setIsBatchLoading(true);
+    try {
+      await moveToCategory({ userContentIds: [...lib.selectedIds], categoryId });
+      lib.toggleBatchMode();
+      lib.loadContents();
+      lib.loadCategories();
+    } catch (err) {
+      console.error("일괄 분류 이동 실패:", err);
+      alert("일괄 분류 이동에 실패했습니다.");
+    } finally {
+      setIsBatchLoading(false);
+    }
+  };
   // #endregion
 
   // #region 헬퍼 함수
@@ -59,6 +110,11 @@ export default function ContentLibrary({
       onDateChange={lib.handleDateChange}
       onCategoryChange={lib.handleMoveToCategory}
       onDelete={lib.handleDelete}
+      isBatchMode={lib.isBatchMode}
+      selectedIds={lib.selectedIds}
+      onToggleSelect={lib.toggleSelect}
+      isPinMode={lib.isPinMode}
+      onPinToggle={lib.handlePinToggle}
     />
   );
 
@@ -134,6 +190,20 @@ export default function ContentLibrary({
   }, [lib.monthKeys, lib.collapsedMonths]); // 섹션이 변경되거나 펼쳐질 때 재설정
   // #endregion
 
+  // #region ESC 키 핸들러
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (lib.isBatchMode) lib.toggleBatchMode();
+        if (lib.isPinMode) lib.exitPinMode();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [lib.isBatchMode, lib.isPinMode, lib.toggleBatchMode, lib.exitPinMode]);
+  // #endregion
+
   // #region 렌더링
   return (
     <div>
@@ -164,18 +234,34 @@ export default function ContentLibrary({
           onViewModeChange={lib.setViewMode}
           
           // Expand/Collapse
-          // Expand/Collapse
           isAllCollapsed={lib.isAllCollapsed}
           onExpandAll={lib.expandAll}
           onCollapseAll={lib.collapseAll}
-          showExpandToggle={lib.monthKeys.length > 0}
-          customActions={headerActions}
+          customActions={
+            typeof headerActions === "function"
+              ? headerActions({
+                  toggleBatchMode: lib.toggleBatchMode,
+                  isBatchMode: lib.isBatchMode,
+                  enterPinMode: lib.enterPinMode,
+                  isPinMode: lib.isPinMode,
+                })
+              : headerActions
+          }
         />
       </div>
 
       <div>
         {/* 상태 표시 (로딩, 에러, 빈 상태) */}
         {renderStates()}
+
+        {/* 코르크 보드 (핀된 콘텐츠) */}
+        {!lib.isLoading && !lib.error && (lib.pinnedContents.length > 0 || lib.isPinMode) && (
+          <PinnedCorkBoard
+            items={lib.pinnedContents}
+            isPinMode={lib.isPinMode}
+            onUnpin={lib.handlePinToggle}
+          />
+        )}
 
         {/* 콘텐츠 목록 (월별) */}
         {!lib.isLoading && !lib.error && hasFilteredContents && renderMonthlyContent()}
@@ -196,6 +282,37 @@ export default function ContentLibrary({
           onCategoriesChange={() => { lib.loadCategories(); lib.loadContents(); }}
           onClose={() => lib.setCategoryManagerType(null)}
         />
+      )}
+
+      {/* 배치 모드 액션 바 */}
+      {lib.isBatchMode && (
+        <BatchActionBar
+          selectedCount={lib.selectedIds.size}
+          totalCount={lib.filteredAndSortedContents.length}
+          onDelete={handleBatchDelete}
+          onCategoryChange={handleBatchCategoryChange}
+          onSelectAll={lib.selectAll}
+          onDeselectAll={lib.deselectAll}
+          onCancel={lib.toggleBatchMode}
+          categories={lib.currentTypeCategories}
+          isLoading={isBatchLoading}
+        />
+      )}
+
+      {/* 핀 모드 인디케이터 */}
+      {lib.isPinMode && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 bg-accent rounded-full shadow-xl">
+          <Pin size={18} className="text-white" />
+          <span className="text-sm font-medium text-white">
+            핀 모드 - 콘텐츠를 클릭하여 고정 ({lib.pinnedCount}/10)
+          </span>
+          <button
+            onClick={lib.exitPinMode}
+            className="ml-2 p-1 rounded-full hover:bg-white/20"
+          >
+            <X size={18} className="text-white" />
+          </button>
+        </div>
       )}
     </div>
   );

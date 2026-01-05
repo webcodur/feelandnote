@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { logActivity } from '@/actions/activity'
 
 export async function deleteRecord(recordId: string) {
   const supabase = await createClient()
@@ -11,10 +12,10 @@ export async function deleteRecord(recordId: string) {
     throw new Error('로그인이 필요합니다')
   }
 
-  // 먼저 content_id 조회 (revalidate용)
+  // 먼저 content_id와 type 조회 (revalidate 및 로그용)
   const { data: record, error: fetchError } = await supabase
     .from('records')
-    .select('content_id')
+    .select('content_id, type')
     .eq('id', recordId)
     .eq('user_id', user.id)
     .single()
@@ -40,6 +41,15 @@ export async function deleteRecord(recordId: string) {
 
   revalidatePath(`/archive/${record.content_id}`)
   revalidatePath('/archive')
+
+  // 활동 로그
+  await logActivity({
+    actionType: 'RECORD_DELETE',
+    targetType: 'record',
+    targetId: recordId,
+    contentId: record.content_id,
+    metadata: { type: record.type }
+  })
 
   return { success: true }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   LayoutGrid,
   List,
@@ -7,9 +8,12 @@ import {
   ArrowUpDown,
   ChevronsDown,
   ChevronsUp,
+  Layers,
+  Tag,
   LucideIcon,
 } from "lucide-react";
 import Button, { IconButton, SelectDropdown } from "@/components/ui/Button";
+import Modal, { ModalBody } from "@/components/ui/Modal";
 import { CATEGORIES } from "@/constants/categories";
 import type { ContentType, CategoryWithCount } from "@/types/database";
 import type { ProgressFilter, SortOption, ViewMode } from "./hooks/useContentLibrary";
@@ -61,7 +65,6 @@ interface ArchiveControlBarProps {
   isAllCollapsed: boolean;
   onExpandAll: () => void;
   onCollapseAll: () => void;
-  showExpandToggle?: boolean;
   customActions?: React.ReactNode;
 }
 
@@ -82,9 +85,10 @@ export default function ArchiveControlBar({
   isAllCollapsed,
   onExpandAll,
   onCollapseAll,
-  showExpandToggle = true,
   customActions,
 }: ArchiveControlBarProps) {
+  const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
+
   return (
     <div className="sticky top-0 z-30 bg-background pt-4 pb-2">
       {/* sm:h-[110px] -> min-h-[114px] to prevent cutoff and allow expansion if needed */}
@@ -93,8 +97,17 @@ export default function ArchiveControlBar({
         {/* Section 1: Categories (Main Content) - Flex Grow */}
         <ControlSection header="카테고리" className="flex-1 border-b sm:border-b-0 sm:border-r border-border/50 min-w-0">
           <div className="flex flex-col gap-2.5 h-full justify-center">
-            {/* Top Row: Main Categories */}
+            {/* Top Row: 대분류 */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar px-1">
+              <Button
+                onClick={() => setIsCategoryGuideOpen(true)}
+                className="px-3 py-1.5 text-sm font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg flex items-center gap-1.5"
+                title="카테고리 안내"
+              >
+                <Layers size={14} />
+                대분류
+              </Button>
+              <div className="h-5 w-px bg-border/50 mx-0.5 flex-shrink-0" />
               {TAB_OPTIONS.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.value;
@@ -118,14 +131,15 @@ export default function ArchiveControlBar({
               })}
             </div>
 
-            {/* Bottom Row: Sub Classification */}
+            {/* Bottom Row: 소분류 */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar px-1">
                <Button
                   onClick={onManageCategories}
-                  className="px-3 py-1.5 text-sm font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg"
-                  title="분류 관리"
+                  className="px-3 py-1.5 text-sm font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg flex items-center gap-1.5"
+                  title="소분류 관리"
                 >
-                  분류 개별 편집
+                  <Tag size={14} />
+                  소분류
                 </Button>
               <div className="h-5 w-px bg-border/50 mx-0.5 flex-shrink-0" />
               {categories.length > 0 ? (
@@ -154,7 +168,7 @@ export default function ArchiveControlBar({
 
         {/* Section 2: Filter */}
         <ControlSection header="정렬 및 필터" className="border-r border-border/50 bg-surface/10 min-w-[150px]">
-          <div className="flex flex-col gap-2 h-full justify-center">
+          <div className="flex flex-col gap-1.5 h-full justify-center">
             <SelectDropdown
               value={progressFilter}
               onChange={onProgressFilterChange}
@@ -185,22 +199,18 @@ export default function ArchiveControlBar({
               icon={List}
               title="리스트 뷰"
             />
-            {showExpandToggle && (
-              <>
-                <ViewToggleButton
-                  active={false}
-                  onClick={onExpandAll}
-                  icon={ChevronsDown}
-                  title="모두 펼치기"
-                />
-                <ViewToggleButton
-                  active={false}
-                  onClick={onCollapseAll}
-                  icon={ChevronsUp}
-                  title="모두 접기"
-                />
-              </>
-            )}
+            <ViewToggleButton
+              active={false}
+              onClick={onExpandAll}
+              icon={ChevronsDown}
+              title="모두 펼치기"
+            />
+            <ViewToggleButton
+              active={false}
+              onClick={onCollapseAll}
+              icon={ChevronsUp}
+              title="모두 접기"
+            />
           </div>
         </ControlSection>
 
@@ -213,6 +223,32 @@ export default function ArchiveControlBar({
           </ControlSection>
         )}
       </div>
+
+      {/* 대분류 안내 모달 */}
+      <Modal
+        isOpen={isCategoryGuideOpen}
+        onClose={() => setIsCategoryGuideOpen(false)}
+        title="대분류 안내"
+        size="sm"
+        closeOnOverlayClick
+      >
+        <ModalBody>
+          <div className="flex flex-col gap-4 text-sm text-text-secondary leading-relaxed">
+            <p>
+              대분류는 콘텐츠의 <span className="text-text-primary font-medium">매체 유형</span>을
+              기준으로 구분됩니다.
+            </p>
+            <p>
+              현재 도서, 영상, 게임, 음악, 자격증 총 5개의 대분류가 제공되고 있으며,
+              사용자분들의 건의에 따라 새로운 카테고리가 추가될 수 있습니다. (외부 API가 확인되는 경우 추가 가능)
+            </p>
+            
+            <p className="text-text-tertiary text-xs">
+              카테고리 추가 건의는 자유게시판에서 건의사항 태그를 붙여주시면 전달됩니다.
+            </p>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 }
@@ -257,13 +293,12 @@ function ViewToggleButton({ active, onClick, icon, title }: { active: boolean; o
       size={14}
       active={active}
       onClick={onClick}
-      
       title={title}
       className={cn(
         "w-full h-8 rounded-lg border",
         active
           ? "bg-accent/10 border-accent/20 text-accent"
-          : "bg-surface border-transparent text-text-tertiary hover:bg-surface-hover hover:text-text-primary"
+          : "bg-surface/50 border-border/40 text-text-tertiary hover:bg-surface-hover hover:border-border hover:text-text-primary"
       )}
     />
   );

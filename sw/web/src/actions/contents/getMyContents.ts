@@ -26,6 +26,8 @@ export interface UserContentWithContent {
   created_at: string
   updated_at: string
   completed_at: string | null
+  is_pinned: boolean | null
+  pinned_at: string | null
   content: {
     id: string
     type: string

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import ContentLibrary from "@/components/features/archive/ContentLibrary";
 import AddContentModal from "@/components/features/archive/AddContentModal";
+import ArchiveActionButtons from "@/components/features/archive/ArchiveActionButtons";
 import Button from "@/components/ui/Button";
 import type { UserProfile } from "@/actions/user";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -69,17 +70,15 @@ export default function ArchiveHubView({ myProfile, stats }: ArchiveHubViewProps
           showFilters
           showViewToggle
           emptyMessage="아직 기록한 콘텐츠가 없습니다. 위 버튼을 눌러 첫 번째 콘텐츠를 추가해보세요!"
-          headerActions={
-            <Button
-              unstyled
-              onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-bold rounded-lg shadow-lg shadow-accent/20"
-              title="검색 결과에 없는 항목 직접 생성"
-            >
-              <Plus size={16} strokeWidth={2.5} />
-              <span className="hidden sm:inline">커스텀 추가</span>
-            </Button>
-          }
+          headerActions={({ toggleBatchMode, isBatchMode, enterPinMode, isPinMode }) => (
+            <ArchiveActionButtons
+              onAddContent={() => setIsAddModalOpen(true)}
+              onBatchMode={toggleBatchMode}
+              isBatchMode={isBatchMode}
+              onEnterPinMode={enterPinMode}
+              isPinMode={isPinMode}
+            />
+          )}
         />
       </div>
 

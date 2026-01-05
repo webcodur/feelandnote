@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, Hash, Plus, Loader2, Check, ExternalLink } from "lucide-react";
+import { Book, Hash, Plus, Loader2, Check, ExternalLink, Bookmark } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
@@ -17,6 +17,7 @@ interface ContentResultsProps {
   mode: "content" | "archive";
   addingIds?: Set<string>;
   addedIds?: Set<string>;
+  savedIds?: Set<string>;
   onItemClick: (item: ContentResult) => void;
   onAddToArchive?: (item: ContentResult) => void;
   onOpenInNewTab?: (item: ContentResult) => void;
@@ -27,6 +28,7 @@ export function ContentResults({
   mode,
   addingIds = new Set(),
   addedIds = new Set(),
+  savedIds = new Set(),
   onItemClick,
   onAddToArchive,
   onOpenInNewTab,
@@ -44,6 +46,7 @@ export function ContentResults({
         const rating = "rating" in item ? item.rating : undefined;
         const isAdding = addingIds.has(item.id);
         const isAdded = addedIds.has(item.id);
+        const isSaved = savedIds.has(item.id);
 
         return (
           <Card
@@ -58,11 +61,19 @@ export function ContentResults({
                 <CategoryIcon size={32} className="text-gray-500" />
               )}
 
+              {/* 보관됨 뱃지 */}
+              {isSaved && mode === "content" && (
+                <div className="absolute top-2 left-2 flex items-center gap-1 px-1.5 py-0.5 rounded bg-accent/90 text-white text-[10px] font-medium">
+                  <Bookmark size={10} className="fill-current" />
+                  <span>보관됨</span>
+                </div>
+              )}
+
               {/* 유틸 버튼 오버레이 */}
               {showUtils && (
                 <div className="absolute top-2 right-2 flex-col gap-1 hidden group-hover:flex">
                   {onAddToArchive && (
-                    isAdded ? (
+                    (isAdded || isSaved) ? (
                       <div className="p-1.5 rounded-md bg-green-500/80 text-white">
                         <Check size={14} />
                       </div>

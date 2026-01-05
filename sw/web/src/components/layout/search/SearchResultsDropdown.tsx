@@ -75,6 +75,16 @@ export default function SearchResultsDropdown({
       {/* Results */}
       {!isLoading && results.length > 0 && (
         <>
+          {/* View all results - 첫 번째 항목 */}
+          <Button
+            unstyled
+            onClick={onViewAllResults}
+            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-accent hover:bg-accent/5 border-b border-border"
+          >
+            <Search size={16} />
+            전체 검색결과 보기
+          </Button>
+
           {results.map((result, index) => {
             const CategoryIcon = result.category ? CATEGORY_ICONS[result.category] || Book : null;
             const isContentResult = result.type === "content" && showContentUtils;
@@ -168,15 +178,6 @@ export default function SearchResultsDropdown({
               </div>
             );
           })}
-
-          {/* View all results */}
-          <Button
-            unstyled
-            onClick={onViewAllResults}
-            className="w-full px-4 py-3 text-sm text-accent hover:bg-accent/5 border-t border-border"
-          >
-            "{query}" 검색 결과 더보기 →
-          </Button>
         </>
       )}
 

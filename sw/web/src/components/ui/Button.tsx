@@ -6,6 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
+  unstyled?: boolean;
 }
 
 const variantStyles = {
@@ -29,11 +30,14 @@ export default function Button({
   size,
   className = "",
   disabled,
+  unstyled,
   ...props
 }: ButtonProps) {
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
-  const variantStyle = variant ? variantStyles[variant] : "";
-  const sizeStyle = size ? sizeStyles[size] : "";
+  
+  // unstyled가 true이면 기본 스타일을 적용하지 않음
+  const variantStyle = !unstyled && variant ? variantStyles[variant] : "";
+  const sizeStyle = !unstyled && size ? sizeStyles[size] : "";
 
   return (
     <button
@@ -119,7 +123,7 @@ export function SelectDropdown<T extends string>({
       </select>
       <div
         className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium pointer-events-none border border-transparent
+          flex items-center gap-2 px-3 h-8 rounded-lg text-sm font-medium pointer-events-none border border-transparent
           bg-surface text-text-secondary group-hover:bg-surface-hover group-hover:text-text-primary
           ${disabled ? "opacity-50" : ""}
         `}

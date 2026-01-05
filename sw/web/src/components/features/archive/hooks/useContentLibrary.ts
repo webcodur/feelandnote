@@ -16,6 +16,7 @@ import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateRecommendation } from "@/actions/contents/updateRecommendation";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
+import { togglePin } from "@/actions/contents/togglePin";
 
 import type { ContentType, ContentStatus, CategoryWithCount } from "@/types/database";
 
@@ -83,6 +84,13 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [progressFilter, setProgressFilter] = useState<ProgressFilter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("recent");
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null); // null = 전체
+
+  // 배치 모드 상태
+  const [isBatchMode, setIsBatchMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  // 핀 모드 상태
+  const [isPinMode, setIsPinMode] = useState(false);
   // #endregion
 
   // #region 파생 상태 (useMemo)
@@ -158,6 +166,19 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     const type = TYPE_MAP[activeTab];
     return type ? categories[type] || [] : [];
   }, [activeTab, categories]);
+
+  // 핀된 콘텐츠 (pinned_at 기준 최신순 정렬)
+  const pinnedContents = useMemo(() => {
+    return contents
+      .filter((item) => item.is_pinned)
+      .sort((a, b) => {
+        const aTime = a.pinned_at ? new Date(a.pinned_at).getTime() : 0;
+        const bTime = b.pinned_at ? new Date(b.pinned_at).getTime() : 0;
+        return bTime - aTime;
+      });
+  }, [contents]);
+
+  const pinnedCount = pinnedContents.length;
   // #endregion
 
   // #region 헬퍼 함수
@@ -199,6 +220,46 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const collapseAll = useCallback(() => {
     setCollapsedMonths(new Set(monthKeys));
   }, [monthKeys]);
+
+  // 배치 모드 토글
+  const toggleBatchMode = useCallback(() => {
+    setIsBatchMode(prev => {
+      if (prev) setSelectedIds(new Set());
+      return !prev;
+    });
+  }, []);
+
+  // 개별 선택 토글
+  const toggleSelect = useCallback((id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  // 전체 선택
+  const selectAll = useCallback(() => {
+    setSelectedIds(new Set(filteredAndSortedContents.map(c => c.id)));
+  }, [filteredAndSortedContents]);
+
+  // 전체 해제
+  const deselectAll = useCallback(() => {
+    setSelectedIds(new Set());
+  }, []);
+
+  // 핀 모드 진입/종료
+  const enterPinMode = useCallback(() => {
+    setIsPinMode(true);
+    setIsBatchMode(false); // 배치 모드 해제
+    setSelectedIds(new Set());
+  }, []);
+
+  const exitPinMode = useCallback(() => {
+    setIsPinMode(false);
+  }, []);
+
   // #endregion
 
   // #region 데이터 로딩
@@ -261,14 +322,53 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // #endregion
 
   // #region 핸들러
+  // 핀 토글 핸들러
+  const handlePinToggle = useCallback((userContentId: string) => {
+    const item = contents.find((c) => c.id === userContentId);
+    if (!item) return;
+
+    const newPinned = !item.is_pinned;
+
+    // 핀 추가 시 10개 제한 체크
+    if (newPinned && pinnedCount >= 10) {
+      alert("최대 10개까지 고정할 수 있습니다");
+      return;
+    }
+
+    // 낙관적 업데이트
+    setContents((prev) =>
+      prev.map((c) =>
+        c.id === userContentId
+          ? { ...c, is_pinned: newPinned, pinned_at: newPinned ? new Date().toISOString() : null }
+          : c
+      )
+    );
+
+    // 서버 동기화
+    startTransition(async () => {
+      try {
+        const result = await togglePin({ userContentId, isPinned: newPinned });
+        if (!result.success) {
+          loadContents();
+          if (result.error === "MAX_PINNED_EXCEEDED") {
+            alert("최대 10개까지 고정할 수 있습니다");
+          }
+        }
+      } catch (err) {
+        loadContents();
+        console.error("핀 상태 변경 실패:", err);
+      }
+    });
+  }, [contents, pinnedCount, loadContents]);
+
   const handleProgressChange = useCallback((userContentId: string, progress: number) => {
     setContents((prev) =>
       prev.map((item) => {
         if (item.id !== userContentId) return item;
         let newStatus = item.status;
-        if (progress === 100) newStatus = "COMPLETE";
-        else if (progress < 100 && item.status === "COMPLETE") newStatus = "EXPERIENCE";
-        else if (progress > 0 && item.status === "WISH") newStatus = "EXPERIENCE";
+        if (progress === 100) newStatus = "FINISHED";
+        else if (progress < 100 && item.status === "FINISHED") newStatus = "WATCHING";
+        else if (progress > 0 && item.status === "WANT") newStatus = "WATCHING";
         return { ...item, progress, status: newStatus };
       })
     );
@@ -368,6 +468,13 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     progressFilter, setProgressFilter,
     sortOption, setSortOption,
     selectedCategoryId, setSelectedCategoryId,
+    // 배치 모드
+    isBatchMode,
+    selectedIds,
+    // 핀 모드
+    isPinMode,
+    pinnedContents,
+    pinnedCount,
     // 파생 상태
     isAllCollapsed,
     filteredAndSortedContents,
@@ -383,6 +490,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     toggleCategory,
     expandAll,
     collapseAll,
+    toggleBatchMode,
+    toggleSelect,
+    selectAll,
+    deselectAll,
     loadContents,
     loadCategories,
     handleProgressChange,
@@ -391,5 +502,9 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     handleDateChange,
     handleDelete,
     handleMoveToCategory,
+    // 핀 액션
+    enterPinMode,
+    exitPinMode,
+    handlePinToggle,
   };
 }

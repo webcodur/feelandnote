@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { addActivityScore, checkAchievements } from '@/actions/achievements'
+import { logActivity } from '@/actions/activity'
 
 interface UpdateReviewParams {
   userContentId: string
@@ -59,6 +60,18 @@ export async function updateReview(params: UpdateReviewParams) {
   revalidatePath(`/archive/${existing.content_id}`)
   revalidatePath('/archive')
   revalidatePath('/achievements')
+
+  // 활동 로그
+  await logActivity({
+    actionType: 'REVIEW_UPDATE',
+    targetType: 'content',
+    targetId: params.userContentId,
+    contentId: existing.content_id,
+    metadata: {
+      rating: { from: existing.rating, to: params.rating },
+      hasReview: !!params.review
+    }
+  })
 
   // 첫 리뷰 작성 시 점수 추가
   if (isFirstReview && (params.rating || params.review)) {

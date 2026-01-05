@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { logActivity } from '@/actions/activity'
 
 interface UpdateProgressParams {
   userContentId: string
@@ -11,10 +12,7 @@ interface UpdateProgressParams {
 export async function updateProgress({ userContentId, progress }: UpdateProgressParams) {
   const supabase = await createClient()
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
@@ -22,10 +20,10 @@ export async function updateProgress({ userContentId, progress }: UpdateProgress
   // progress는 0-100 사이 값
   const clampedProgress = Math.max(0, Math.min(100, Math.round(progress)))
 
-  // 현재 상태 확인
+  // 현재 상태/진행도 확인
   const { data: currentContent } = await supabase
     .from('user_contents')
-    .select('status')
+    .select('status, progress, content_id')
     .eq('id', userContentId)
     .eq('user_id', user.id)
     .single()
@@ -57,6 +55,15 @@ export async function updateProgress({ userContentId, progress }: UpdateProgress
   }
 
   revalidatePath('/archive')
+
+  // 활동 로그
+  await logActivity({
+    actionType: 'PROGRESS_CHANGE',
+    targetType: 'content',
+    targetId: userContentId,
+    contentId: currentContent?.content_id,
+    metadata: { from: currentContent?.progress ?? 0, to: clampedProgress }
+  })
 
   return { success: true, progress: clampedProgress, status: updateData.status }
 }

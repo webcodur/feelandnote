@@ -90,7 +90,7 @@ export default function FeedSection() {
         <div className="text-lg font-bold flex items-center gap-2">
           <Newspaper size={18} className="text-accent" /> 새 소식
         </div>
-        <Link href="/feed" className="text-accent text-sm cursor-pointer font-semibold hover:underline">
+        <Link href="/archive/feed" className="text-accent text-sm cursor-pointer font-semibold hover:underline">
           피드 전체보기 →
         </Link>
       </div>

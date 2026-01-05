@@ -3,7 +3,7 @@
 // ===== Enums =====
 // NOTE: @/constants/categories.ts의 CATEGORIES와 동기화 필요
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
-export type ContentStatus = 'WISH' | 'EXPERIENCE' | 'COMPLETE'
+export type ContentStatus = 'WANT' | 'WATCHING' | 'DROPPED' | 'FINISHED' | 'RECOMMENDED' | 'NOT_RECOMMENDED'
 export type ProgressType = 'PERCENT' | 'PAGE' | 'TIME'
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
@@ -58,6 +58,8 @@ export interface UserContent {
   created_at: string
   updated_at: string
   completed_at: string | null
+  is_pinned: boolean | null
+  pinned_at: string | null
 }
 
 export interface ContentRecord {
@@ -249,6 +251,29 @@ export interface PlaylistWithItems extends Playlist {
   item_count: number
 }
 
+export interface PlaylistSummary extends Playlist {
+  item_count: number
+}
+
+export interface SavedPlaylist {
+  id: string
+  user_id: string
+  playlist_id: string
+  saved_at: string
+}
+
+export interface PlaylistOwner {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+}
+
+export interface SavedPlaylistWithDetails {
+  id: string
+  saved_at: string
+  playlist: PlaylistSummary & { owner: PlaylistOwner }
+}
+
 export interface RecordCommentWithUser extends RecordComment {
   user: Profile
 }
@@ -278,4 +303,42 @@ export interface MovieMetadata {
 export interface TitleCondition {
   type: 'content_count' | 'record_count' | 'follower_count' | 'following_count' | 'friend_count'
   value: number
+}
+
+// ===== Guestbook =====
+export interface GuestbookEntry {
+  id: string
+  profile_id: string
+  author_id: string
+  content: string
+  is_private: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface GuestbookEntryWithAuthor extends GuestbookEntry {
+  author: Profile
+}
+
+// ===== Activity Log =====
+export type ActivityActionType =
+  | 'CONTENT_ADD' | 'CONTENT_REMOVE'
+  | 'STATUS_CHANGE' | 'PROGRESS_CHANGE' | 'REVIEW_UPDATE'
+  | 'RECORD_CREATE' | 'RECORD_UPDATE' | 'RECORD_DELETE'
+
+export type ActivityTargetType = 'content' | 'record'
+
+export interface ActivityLog {
+  id: string
+  user_id: string
+  action_type: ActivityActionType
+  target_type: ActivityTargetType
+  target_id: string
+  content_id: string | null
+  metadata: Record<string, unknown> | null
+  created_at: string
+}
+
+export interface ActivityLogWithContent extends ActivityLog {
+  content: Pick<Content, 'id' | 'title' | 'thumbnail_url' | 'type'> | null
 }

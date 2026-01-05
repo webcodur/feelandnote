@@ -267,7 +267,7 @@ export default function HeaderSearch() {
         router.push(`/content/detail?key=${key}`);
       }
     } else if (result.type === "user") {
-      router.push(`/user/${result.id}`);
+      router.push(`/archive/user/${result.id}`);
     } else if (result.type === "tag") {
       router.push(`/search?mode=tag&q=${encodeURIComponent(result.title.replace("#", ""))}`);
     }
@@ -291,7 +291,7 @@ export default function HeaderSearch() {
           thumbnailUrl: result.thumbnail,
           description: result.description,
           releaseDate: result.releaseDate,
-          status: "WISH",
+          status: "WANT",
           progress: 0,
         });
         setAddedIds((prev) => new Set(prev).add(result.id));
@@ -371,7 +371,6 @@ export default function HeaderSearch() {
 
         {/* Search Input */}
         <div className="flex-1 flex items-center gap-2 px-3">
-          <Search size={18} className="text-text-secondary shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -400,6 +399,13 @@ export default function HeaderSearch() {
               <X size={16} />
             </Button>
           )}
+          <Button
+            unstyled
+            onClick={handleSearch}
+            className="text-text-secondary hover:text-accent shrink-0"
+          >
+            <Search size={18} />
+          </Button>
         </div>
 
         {/* Keyboard hint */}

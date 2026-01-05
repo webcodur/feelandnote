@@ -35,8 +35,8 @@ export default function BottomNav() {
 
   const navItems = [
     { href: "/archive", icon: <Folder size={20} />, label: "기록관" },
-    { href: "/feed", icon: <Newspaper size={20} />, label: "피드" },
-    { href: "/playground", icon: <Compass size={20} />, label: "놀이터" },
+    { href: "/archive/feed", icon: <Newspaper size={20} />, label: "피드" },
+    { href: "/archive/playground", icon: <Compass size={20} />, label: "놀이터" },
     { href: "/profile", icon: <User size={20} />, label: "마이페이지" },
   ];
 
@@ -45,15 +45,20 @@ export default function BottomNav() {
       className="fixed bottom-0 left-0 right-0 h-16 bg-bg-secondary border-t border-border flex items-center md:hidden"
       style={{ zIndex: Z_INDEX.bottomNav }}
     >
-      {navItems.map((item) => (
-        <NavItem
-          key={item.href}
-          href={item.href}
-          active={pathname.startsWith(item.href)}
-          icon={item.icon}
-          label={item.label}
-        />
-      ))}
+      {navItems.map((item) => {
+        const isActive = item.href === "/archive"
+          ? (pathname === "/archive" || pathname.startsWith("/archive/playlists") || pathname.startsWith("/archive/user/") || /^\/archive\/[^/]+$/.test(pathname))
+          : pathname.startsWith(item.href);
+        return (
+          <NavItem
+            key={item.href}
+            href={item.href}
+            active={isActive}
+            icon={item.icon}
+            label={item.label}
+          />
+        );
+      })}
     </nav>
   );
 }

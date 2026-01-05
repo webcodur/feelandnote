@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { addActivityScore, checkAchievements } from '@/actions/achievements'
+import { logActivity } from '@/actions/activity'
 
 export type RecordType = 'NOTE' | 'QUOTE' | 'CREATION'
 
@@ -53,6 +54,15 @@ export async function createRecord(params: CreateRecordParams) {
   revalidatePath(`/archive/${params.contentId}`)
   revalidatePath('/archive')
   revalidatePath('/achievements')
+
+  // 활동 로그
+  await logActivity({
+    actionType: 'RECORD_CREATE',
+    targetType: 'record',
+    targetId: data.id,
+    contentId: params.contentId,
+    metadata: { type: params.type, preview: params.content.slice(0, 50) }
+  })
 
   // 업적 시스템: 점수 추가 및 칭호 체크
   const actionText = params.type === 'NOTE' ? 'Note 작성' : 'Quote 작성'

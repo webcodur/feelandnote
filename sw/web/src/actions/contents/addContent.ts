@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { addActivityScore, checkAchievements } from '@/actions/achievements'
+import { logActivity } from '@/actions/activity'
 
 export type { ContentType, ContentStatus }
 
@@ -16,7 +17,7 @@ interface AddContentParams {
   description?: string
   publisher?: string
   releaseDate?: string
-  status?: ContentStatus        // 기본값: 'WISH'
+  status?: ContentStatus        // 기본값: 'WANT'
   progress?: number             // 기본값: 0 (0-100)
   createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
   isRecommended?: boolean       // 추천 여부 (100% 완료 시)
@@ -67,7 +68,7 @@ export async function addContent(params: AddContentParams) {
   } = {
     user_id: user.id,
     content_id: params.id,
-    status: params.status || 'WISH',
+    status: (params.status ?? 'WANT') as ContentStatus,
     progress
   }
 
@@ -97,6 +98,14 @@ export async function addContent(params: AddContentParams) {
 
   revalidatePath('/archive')
   revalidatePath('/achievements')
+
+  // 활동 로그
+  await logActivity({
+    actionType: 'CONTENT_ADD',
+    targetType: 'content',
+    targetId: userContent.id,
+    contentId: params.id
+  })
 
   // 업적 시스템: 점수 추가 및 칭호 체크
   await addActivityScore(`콘텐츠 추가 (${params.title})`, 1, userContent.id)

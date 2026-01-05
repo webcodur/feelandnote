@@ -1,16 +1,18 @@
 /*
   파일명: /components/features/archive/detail/ArchiveDetailHeader.tsx
   기능: 기록관 상세 페이지 헤더
-  책임: 콘텐츠 정보(공통) + 기록 관리(전용) UI를 표시한다.
+  책임: 콘텐츠 정보 + 기록 관리 UI를 표시한다.
 */
 "use client";
 
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2, Calendar, User } from "lucide-react";
+import { CATEGORIES } from "@/constants/categories";
+import { Card } from "@/components/ui";
+import Button from "@/components/ui/Button";
+import ContentMetadataDisplay from "@/components/features/contents/ContentMetadataDisplay";
 import type { ContentStatus } from "@/actions/contents/addContent";
 import type { UserContentWithDetails } from "@/actions/contents/getContent";
-import Button from "@/components/ui/Button";
-import ContentInfoHeader from "@/components/features/contents/ContentInfoHeader";
-import type { ContentInfo, ContentMetadata } from "@/types/content";
+import type { ContentMetadata } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
 
 // #region 타입
@@ -23,7 +25,6 @@ interface ArchiveDetailHeaderProps {
   onDelete: () => void;
 }
 
-// DB 타입 → 카테고리 ID 변환
 const TYPE_TO_CATEGORY: Record<string, CategoryId> = {
   BOOK: "book",
   VIDEO: "video",
@@ -31,6 +32,16 @@ const TYPE_TO_CATEGORY: Record<string, CategoryId> = {
   MUSIC: "music",
   CERTIFICATE: "certificate",
 };
+
+const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
+  { value: "WANT", label: "보고싶어요" },
+  { value: "WATCHING", label: "보는 중" },
+  { value: "FINISHED", label: "완료" },
+];
+
+const CATEGORY_CONFIG = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat.id, { icon: cat.icon, label: cat.label }])
+);
 // #endregion
 
 export default function ArchiveDetailHeader({
@@ -42,105 +53,141 @@ export default function ArchiveDetailHeader({
   onDelete,
 }: ArchiveDetailHeaderProps) {
   const content = item.content;
+  const categoryId = TYPE_TO_CATEGORY[content.type] || "book";
+  const category = CATEGORY_CONFIG[categoryId] || CATEGORY_CONFIG.book;
+  const Icon = category.icon;
 
-  // ContentInfo 객체 생성
-  const contentInfo: ContentInfo = {
-    id: content.id,
-    type: content.type as ContentInfo["type"],
-    category: TYPE_TO_CATEGORY[content.type] || "book",
-    title: content.title,
-    creator: content.creator || undefined,
-    thumbnail: content.thumbnail_url || undefined,
-    description: content.description || undefined,
-    releaseDate: content.release_date || undefined,
-    subtype: metadata?.subtype,
-    metadata,
-  };
+  const progressPercent = item.progress ?? 0;
 
   return (
     <>
       {/* 뒤로가기 */}
       <Button
         unstyled
-        className="flex items-center gap-1 text-text-secondary text-sm mb-3 hover:text-text-primary"
+        className="flex items-center gap-1.5 text-text-secondary text-sm mb-4 hover:text-text-primary"
         onClick={() => window.history.back()}
       >
         <ArrowLeft size={16} />
         <span>뒤로</span>
       </Button>
 
-      {/* 헤더 영역 */}
-      <div className="flex flex-col sm:flex-row gap-4 pb-4 mb-4 border-b border-border">
-        {/* 콘텐츠 정보 (공통 컴포넌트) */}
-        <div className="flex-1">
-          <ContentInfoHeader content={contentInfo} variant="compact">
+      {/* 콘텐츠 정보 카드 */}
+      <Card className="p-0 mb-4">
+        {/* 헤더 - 카테고리 & 삭제 버튼 */}
+        <div className="p-3 border-b border-white/5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="py-1 px-2 bg-accent/10 text-accent rounded-md text-[11px] font-semibold flex items-center gap-1">
+              <Icon size={12} />
+              {category.label}
+            </span>
             {/* 상태 드롭다운 */}
             <select
-              className="bg-bg-secondary border border-border text-text-primary py-0.5 px-1.5 rounded text-[10px] cursor-pointer outline-none disabled:opacity-50"
+              className="bg-white/5 border border-border text-text-primary py-0.5 px-1.5 rounded-md text-[11px] cursor-pointer outline-none focus:border-accent disabled:opacity-50"
               value={item.status}
               onChange={(e) => onStatusChange(e.target.value as ContentStatus)}
-              disabled={isSaving || ((item.progress ?? 0) > 0 && item.status !== "COMPLETE")}
+              disabled={isSaving || (progressPercent > 0 && item.status !== "FINISHED")}
             >
-              <option value="EXPERIENCE">감상 중</option>
-              <option value="WISH">관심</option>
-              <option value="COMPLETE">완료</option>
+              {STATUS_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
             </select>
-          </ContentInfoHeader>
-        </div>
-
-        {/* 삭제 버튼 (모바일) */}
-        <Button
-          unstyled
-          onClick={onDelete}
-          className="p-1.5 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded self-start sm:hidden absolute right-0 top-0"
-          title="삭제"
-        >
-          <Trash2 size={16} />
-        </Button>
-
-        {/* 기록 관리 영역 (진행도, 삭제) */}
-        <div className="flex items-center gap-3 sm:ml-auto">
-          <div className="flex items-center gap-2 flex-1 sm:flex-none">
-            {/* 진행도 슬라이더 */}
-            <div className="relative flex-1 sm:w-32 group">
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="10"
-                value={item.progress ?? 0}
-                onChange={(e) => onProgressChange(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer
-                  [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
-                  [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:cursor-grab
-                  [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:rounded-full
-                  [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-grab"
-                style={{
-                  background: `linear-gradient(to right, var(--color-accent) 0%, var(--color-accent) ${item.progress ?? 0}%, rgba(255,255,255,0.1) ${item.progress ?? 0}%, rgba(255,255,255,0.1) 100%)`,
-                }}
-              />
-            </div>
-            <span className="text-xs font-semibold text-accent w-8">{item.progress ?? 0}%</span>
-            <Button
-              unstyled
-              onClick={() => onProgressChange(Math.min(100, (item.progress ?? 0) + 10))}
-              className="text-[10px] py-1 px-2 bg-white/5 hover:bg-accent/20 text-text-secondary hover:text-accent rounded whitespace-nowrap"
-            >
-              +10%
-            </Button>
           </div>
-
-          {/* 삭제 버튼 (데스크톱) */}
           <Button
             unstyled
             onClick={onDelete}
-            className="hidden sm:block p-1.5 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded"
+            className="p-1 text-text-tertiary hover:text-red-400 hover:bg-red-400/10 rounded-md"
             title="삭제"
           >
-            <Trash2 size={18} />
+            <Trash2 size={14} />
           </Button>
         </div>
-      </div>
+
+        {/* 본문 - 콘텐츠 정보 */}
+        <div className="p-3">
+          <div className="flex gap-3">
+            {/* 썸네일 */}
+            <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg shadow-md shrink-0 overflow-hidden border border-white/10">
+              {content.thumbnail_url ? (
+                <img src={content.thumbnail_url} alt={content.title} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
+                  <Icon size={24} className="text-gray-500" />
+                </div>
+              )}
+            </div>
+
+            {/* 정보 */}
+            <div className="flex-1 min-w-0">
+              {/* 제목 */}
+              <h1 className="text-base sm:text-lg font-bold leading-tight mb-1 line-clamp-2">
+                {content.title}
+              </h1>
+
+              {/* 작성자 */}
+              {content.creator && (
+                <p className="text-xs text-text-secondary flex items-center gap-1 mb-1.5">
+                  <User size={12} className="shrink-0" />
+                  <span className="truncate">{content.creator}</span>
+                </p>
+              )}
+
+              {/* 출시일 */}
+              {content.release_date && (
+                <p className="text-[11px] text-text-tertiary flex items-center gap-1 mb-2">
+                  <Calendar size={10} />
+                  {content.release_date}
+                </p>
+              )}
+
+              {/* 메타데이터 */}
+              {metadata && (
+                <ContentMetadataDisplay
+                  category={categoryId}
+                  metadata={metadata}
+                  subtype={metadata?.subtype}
+                  compact
+                />
+              )}
+            </div>
+          </div>
+
+          {/* 진행도 바 */}
+          <div className="mt-3 pt-3 border-t border-white/5">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-medium text-text-tertiary shrink-0">진행도</span>
+
+              <div className="flex-1 relative">
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent rounded-full"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="10"
+                  value={progressPercent}
+                  onChange={(e) => onProgressChange(Number(e.target.value))}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+              </div>
+
+              <span className="text-xs font-semibold text-accent w-8 text-right">{progressPercent}%</span>
+
+              <Button
+                unstyled
+                onClick={() => onProgressChange(Math.min(100, progressPercent + 10))}
+                disabled={progressPercent >= 100}
+                className="text-[10px] py-1 px-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                +10%
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Card>
     </>
   );
 }

@@ -51,13 +51,13 @@ export default function Page() {
           gradient="bg-gradient-to-br from-accent to-accent/70"
         />
         <FeatureCard
-          href="/feed"
+          href="/archive/feed"
           icon={<Newspaper size={24} className="text-white" />}
           title="피드"
           gradient="bg-gradient-to-br from-blue-500 to-blue-500/70"
         />
         <FeatureCard
-          href="/playground"
+          href="/archive/playground"
           icon={<Compass size={24} className="text-white" />}
           title="놀이터"
           gradient="bg-gradient-to-br from-purple-500 to-purple-500/70"

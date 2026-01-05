@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import { ContentResults, UserResults, TagResults } from "@/components/features/search/SearchResultCards";
 import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
+import { getMyContentIds } from "@/actions/contents/getMyContentIds";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
@@ -67,7 +68,15 @@ function SearchContent() {
   // 추가 상태
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [, startTransition] = useTransition();
+
+  // 저장된 콘텐츠 ID 로드
+  useEffect(() => {
+    getMyContentIds().then((ids) => {
+      setSavedIds(new Set(ids));
+    });
+  }, []);
 
   const updateUrl = (newCategory: CategoryId) => {
     const params = new URLSearchParams();
@@ -196,10 +205,11 @@ function SearchContent() {
           thumbnailUrl: thumbnail,
           description,
           releaseDate,
-          status: "WISH",
+          status: "WANT",
           progress: 0,
         });
         setAddedIds((prev) => new Set(prev).add(item.id));
+        setSavedIds((prev) => new Set(prev).add(item.id));
       } catch (err) {
         console.error("추가 실패:", err);
       } finally {
@@ -254,16 +264,17 @@ function SearchContent() {
           mode={modeParam}
           addingIds={addingIds}
           addedIds={addedIds}
+          savedIds={savedIds}
           onItemClick={handleContentClick}
           onAddToArchive={handleAddToArchive}
           onOpenInNewTab={handleOpenInNewTab}
         />
       )}
       {!isLoading && modeParam === "user" && (
-        <UserResults results={userResults} onItemClick={(u) => router.push(`/user/${u.id}`)} onFollowToggle={() => {}} />
+        <UserResults results={userResults} onItemClick={(u) => router.push(`/archive/user/${u.id}`)} onFollowToggle={() => {}} />
       )}
       {!isLoading && modeParam === "tag" && (
-        <TagResults results={tagResults} onItemClick={(t) => router.push(`/feed?tag=${encodeURIComponent(t.name)}`)} />
+        <TagResults results={tagResults} onItemClick={(t) => router.push(`/archive/feed?tag=${encodeURIComponent(t.name)}`)} />
       )}
 
       {/* 더보기 버튼 */}
@@ -290,7 +301,7 @@ function SearchContent() {
       {/* 모든 결과 로드 완료 */}
       {!isLoading && !hasMore && queryParam && totalCount > 0 && (
         <div className="mt-8 text-center text-sm text-text-secondary">
-          모든 검색 결과를 불러왔다. (총 {contentResults.length || userResults.length || tagResults.length}건)
+          모든 검색 결과를 불러왔습니다. (총 {contentResults.length || userResults.length || tagResults.length}건)
         </div>
       )}
 

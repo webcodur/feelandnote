@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { logActivity } from '@/actions/activity'
 
 interface UpdateRecordParams {
   recordId: string
@@ -60,6 +61,14 @@ export async function updateRecord(params: UpdateRecordParams) {
 
   revalidatePath(`/archive/${data.content_id}`)
   revalidatePath('/archive')
+
+  // 활동 로그
+  await logActivity({
+    actionType: 'RECORD_UPDATE',
+    targetType: 'record',
+    targetId: params.recordId,
+    contentId: data.content_id
+  })
 
   return data
 }

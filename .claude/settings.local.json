@@ -53,7 +53,11 @@
       "Bash(dir \"C:\\\\Users\\\\webco\\\\.claude\\\\commands\")",
       "Bash(dir \"C:\\\\Users\\\\webco\\\\.claude\\\\skills\\\\nextjs-page\")",
       "Bash(pnpm lint:*)",
-      "mcp__supabase__list_organizations"
+      "mcp__supabase__list_organizations",
+      "Bash(git checkout:*)",
+      "Bash(xargs sed:*)",
+      "Bash(find:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

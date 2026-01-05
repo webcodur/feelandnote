@@ -7,7 +7,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Check, Trash2, Calendar } from "lucide-react";
+import { Check, Trash2, Calendar, CheckSquare, Square } from "lucide-react";
 
 import { DropdownMenu } from "@/components/ui";
 import Button from "@/components/ui/Button";
@@ -19,10 +19,14 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 // #region 타입
 export interface CertificateCardProps {
   item: UserContentWithContent;
-  onStatusChange?: (userContentId: string, status: "WISH" | "EXPERIENCE" | "COMPLETE") => void;
+  onStatusChange?: (userContentId: string, status: "WANT" | "WATCHING" | "FINISHED") => void;
   onRecommendChange?: (userContentId: string, isRecommended: boolean) => void;
   onDelete?: (userContentId: string) => void;
   href?: string;
+  // 배치 모드
+  isBatchMode?: boolean;
+  isSelected?: boolean;
+  onToggleSelect?: () => void;
 }
 // #endregion
 
@@ -42,6 +46,9 @@ export default function CertificateCard({
   onRecommendChange,
   onDelete,
   href,
+  isBatchMode = false,
+  isSelected = false,
+  onToggleSelect,
 }: CertificateCardProps) {
   // #region 훅
   const router = useRouter();
@@ -51,8 +58,8 @@ export default function CertificateCard({
   const content = item.content;
   const metadata = content.metadata as Record<string, string> | null;
   const addedDate = formatDate(item.created_at);
-  const status = item.status || "WISH";
-  const isComplete = status === "COMPLETE";
+  const status = item.status || "WANT";
+  const isComplete = status === "FINISHED";
   const isRecommended = item.is_recommended ?? false;
   const displayStatus = isComplete && isRecommended ? "RECOMMEND" : status;
   const statusStyle = STATUS_CONFIG[displayStatus as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.WISH;
@@ -65,6 +72,10 @@ export default function CertificateCard({
 
   // #region 핸들러
   const handleClick = () => {
+    if (isBatchMode && onToggleSelect) {
+      onToggleSelect();
+      return;
+    }
     if (href) router.push(href);
   };
 
@@ -73,7 +84,7 @@ export default function CertificateCard({
     if (isComplete && onRecommendChange) {
       onRecommendChange(item.id, !isRecommended);
     } else if (onStatusChange) {
-      const nextStatus = status === "WISH" ? "EXPERIENCE" : status === "EXPERIENCE" ? "COMPLETE" : "WISH";
+      const nextStatus = status === "WANT" ? "WATCHING" : status === "WATCHING" ? "FINISHED" : "WANT";
       onStatusChange(item.id, nextStatus);
     }
   };
@@ -82,10 +93,26 @@ export default function CertificateCard({
   // #region 렌더링
   return (
     <div
-      className="group cursor-pointer hover:-translate-y-1 hover:shadow-2xl"
+      className="group cursor-pointer hover:-translate-y-1 hover:shadow-2xl relative"
       onClick={handleClick}
     >
-      <div className={`relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col ring-2 ${statusStyle.ring}`}>
+      {/* 배치 모드 오버레이 */}
+      {isBatchMode && (
+        <div
+          className="absolute inset-0 z-20 rounded-xl bg-black/40 flex items-center justify-center cursor-pointer hover:bg-black/30"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleSelect?.();
+          }}
+        >
+          {isSelected ? (
+            <CheckSquare size={32} className="text-accent drop-shadow-lg" />
+          ) : (
+            <Square size={32} className="text-white/70 hover:text-white drop-shadow-lg" />
+          )}
+        </div>
+      )}
+      <div className={`relative rounded-xl overflow-hidden shadow-xl h-full flex flex-col ring-2 ${isSelected ? "ring-accent" : statusStyle.ring}`}>
         {/* 상단: 그라데이션 배경 + 패턴 */}
         <div className={`relative h-28 bg-gradient-to-br ${theme.gradient} overflow-hidden`}>
           {/* 배경 패턴 */}
@@ -126,7 +153,7 @@ export default function CertificateCard({
           </div>
 
           {/* 취득 완료 골드 스탬프 */}
-          {status === "COMPLETE" && (
+          {status === "FINISHED" && (
             <div className="absolute bottom-2 right-2">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 flex items-center justify-center shadow-lg border-2 border-yellow-300/50">
                 <Check size={20} className="text-white" strokeWidth={3} />

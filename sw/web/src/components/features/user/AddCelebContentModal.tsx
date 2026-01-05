@@ -25,9 +25,9 @@ const CATEGORY_CONFIG: Array<{ id: CategoryId; label: string; icon: typeof Book;
 ];
 
 const STATUS_OPTIONS: Array<{ value: ContentStatus; label: string }> = [
-  { value: "COMPLETE", label: "완료" },
-  { value: "EXPERIENCE", label: "경험중" },
-  { value: "WISH", label: "예정" },
+  { value: "FINISHED", label: "완료" },
+  { value: "WATCHING", label: "경험중" },
+  { value: "WANT", label: "예정" },
 ];
 
 export default function AddCelebContentModal({ isOpen, celebId, celebName, onClose }: AddCelebContentModalProps) {
@@ -40,7 +40,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
   const [isSearching, setIsSearching] = useState(false);
   const [selected, setSelected] = useState<ContentSearchResult | null>(null);
   const [sourceUrl, setSourceUrl] = useState("");
-  const [status, setStatus] = useState<ContentStatus>("COMPLETE");
+  const [status, setStatus] = useState<ContentStatus>("FINISHED");
   const [error, setError] = useState("");
 
   const handleSearch = async () => {

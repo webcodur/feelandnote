@@ -41,9 +41,9 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { href: "/archive", label: "내 기록관", icon: Folder },
       { href: "/archive/playlists", label: "재생목록", icon: ListMusic },
-      { href: "/explore", label: "탐색", icon: Compass },
-      { href: "/feed", label: "피드", icon: Newspaper },
-      { href: "/playground", label: "놀이터", icon: Gamepad2 },
+      { href: "/archive/explore", label: "탐색", icon: Compass },
+      { href: "/archive/feed", label: "피드", icon: Newspaper },
+      { href: "/archive/playground", label: "놀이터", icon: Gamepad2 },
     ],
   },
   {
@@ -120,7 +120,7 @@ function NavSectionComponent({ section, pathname }: { section: NavSection; pathn
             <NavItemLink
               key={item.href}
               href={item.href}
-              active={pathname === item.href || (item.href !== "/archive" && pathname.startsWith(item.href + "/")) || (item.href === "/archive" && pathname === "/archive")}
+              active={pathname === item.href || (item.href !== "/archive" && pathname.startsWith(item.href + "/")) || (item.href === "/archive" && (pathname === "/archive" || pathname.startsWith("/archive/user/")))}
               icon={item.icon}
               label={item.label}
             />

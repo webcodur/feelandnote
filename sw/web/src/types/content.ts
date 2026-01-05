@@ -53,7 +53,7 @@ export interface ContentMetadata {
 // 사용자의 콘텐츠 기록 상태
 export interface RecordInfo {
   userContentId: string
-  status: 'WISH' | 'EXPERIENCE' | 'COMPLETE'
+  status: 'WANT' | 'WATCHING' | 'FINISHED'
   progress: number
   isRecommended?: boolean
   createdAt: string

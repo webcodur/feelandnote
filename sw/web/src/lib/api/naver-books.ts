@@ -81,7 +81,7 @@ export async function searchBooks(
       externalSource: 'naver' as const,
       category: 'book' as const,
       title: extractMainTitle(book.title),
-      creator: cleanHtml(book.author),
+      creator: formatAuthor(book.author),
       coverImageUrl: book.image || null,
       metadata: {
         publisher: book.publisher,
@@ -100,6 +100,11 @@ export async function searchBooks(
 // HTML 태그 제거 (네이버 API는 <b> 태그로 검색어를 감쌈)
 function cleanHtml(text: string): string {
   return text.replace(/<[^>]*>/g, '')
+}
+
+// 저자 포맷팅 (네이버 API는 여러 저자를 ^로 구분)
+function formatAuthor(author: string): string {
+  return cleanHtml(author).replace(/\^/g, ', ')
 }
 
 // 본제목만 추출 (부제목 분리)
