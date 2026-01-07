@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Logo.tsx
+  기능: 로고 컴포넌트
+  책임: Feel&Note 브랜드 로고를 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import Link from "next/link";

@@ -1,14 +1,19 @@
+/*
+  파일명: /components/features/archive/modals/AddContentModal.tsx
+  기능: 콘텐츠 추가 모달
+  책임: 카테고리 선택, 제목/작가 입력, 진행도/상태 설정 후 콘텐츠를 추가한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useTransition } from "react";
-import { X, Book, Film, Gamepad2, Music, Award, Loader2, Info, Search } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award, Loader2, Info, Search, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import { Button, ProgressSlider } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
 import type { CategoryId } from "@/constants/categories";
 import { useAchievement } from "@/components/features/achievements";
-import { Z_INDEX } from "@/constants/zIndex";
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -69,11 +74,9 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   };
 
   const handleGoToSearch = () => {
-    onClose();
+    handleClose();
     router.push("/");
   };
-
-  if (!isOpen) return null;
 
   const currentCategoryConfig = CATEGORIES.find(c => c.id === selectedCategory)!;
 
@@ -127,148 +130,138 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" style={{ zIndex: Z_INDEX.modal }}>
-      <div className="relative w-full max-w-lg bg-bg-card rounded-xl md:rounded-2xl border border-border shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 md:px-6 md:py-5 border-b border-border bg-bg-secondary">
-          <h2 className="text-xl font-bold">커스텀 등록</h2>
-          <Button
-            unstyled
-            onClick={handleClose}
-            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"
-          >
-            <X size={20} />
-          </Button>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title="커스텀 등록"
+      icon={Plus}
+      size="lg"
+      closeOnOverlayClick
+    >
+      <ModalBody className="space-y-4">
+        {/* 안내 문구 */}
+        <div className="p-3 bg-accent/5 border border-accent/10 rounded-xl">
+          <div className="flex gap-2.5">
+            <Info size={16} className="text-accent shrink-0 mt-0.5" />
+            <p className="text-xs text-text-secondary leading-relaxed">
+              <Button
+                unstyled
+                type="button"
+                onClick={handleGoToSearch}
+                className="text-accent font-medium hover:underline inline-flex items-center gap-0.5"
+              >
+                <Search size={11} />
+                검색
+              </Button>
+              에서 원하는 콘텐츠를 찾지 못했을 때 활용하세요.
+            </p>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-4 md:p-6 space-y-4">
-          {/* 안내 문구 */}
-          <div className="p-2.5 bg-accent/10 border border-accent/20 rounded-lg">
-            <div className="flex gap-2">
-              <Info size={14} className="text-accent shrink-0 mt-0.5" />
-              <p className="text-xs text-text-secondary leading-relaxed">
-                직접 등록한 콘텐츠는 내 기록관에서만 관리됩니다.{" "}
-                <Button
-                  unstyled
-                  type="button"
-                  onClick={handleGoToSearch}
-                  className="text-accent font-medium hover:underline inline-flex items-center gap-0.5"
-                >
-                  <Search size={10} />
-                  검색으로 추가
-                </Button>
-                시 다른 사용자와 연동됩니다.
-              </p>
-            </div>
+        {/* Error Message */}
+        {error && (
+          <div className="p-3 bg-red-500/5 border border-red-500/20 rounded-xl text-red-500 text-xs font-medium">
+            {error}
           </div>
+        )}
 
-          {/* Error Message */}
-          {error && (
-            <div className="p-2.5 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-xs">
-              {error}
-            </div>
-          )}
-
-          {/* 2열 레이아웃 폼 */}
-          <div className="grid grid-cols-[80px_1fr] gap-x-3 gap-y-3 items-center">
-            {/* 카테고리 */}
-            <label className="text-sm font-medium text-text-secondary">카테고리</label>
-            <div className="flex flex-wrap gap-1.5">
-              {CATEGORIES.map((category) => {
-                const Icon = category.icon;
-                const isSelected = selectedCategory === category.id;
-                return (
-                  <Button
-                    unstyled
-                    key={category.id}
-                    type="button"
-                    onClick={() => handleCategorySelect(category.id)}
-                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium ${
-                      isSelected
-                        ? "bg-accent text-white"
-                        : "bg-bg-main text-text-secondary hover:bg-bg-secondary"
-                    }`}
-                  >
-                    <Icon size={14} />
-                    {category.label}
-                  </Button>
-                );
-              })}
-            </div>
-
-            {/* 제목 */}
-            <label className="text-sm font-medium text-text-secondary">
-              제목 <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="콘텐츠 제목을 입력하세요"
-              className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary placeholder:text-text-secondary outline-none focus:border-accent"
-            />
-
-            {/* 저자/감독/개발사 */}
-            <label className="text-sm font-medium text-text-secondary">
-              {currentCategoryConfig.creatorLabel}
-            </label>
-            <input
-              type="text"
-              value={creator}
-              onChange={(e) => setCreator(e.target.value)}
-              placeholder={`${currentCategoryConfig.creatorLabel} (선택)`}
-              className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary placeholder:text-text-secondary outline-none focus:border-accent"
-            />
-
-            {/* 진행도 (자격증 제외) */}
-            {selectedCategory !== "certificate" && (
-              <>
-                <label className="text-sm font-medium text-text-secondary">진행도</label>
-                <div className="flex items-center gap-2">
-                  <ProgressSlider value={progress} onChange={handleProgressChange} className="flex-1" />
-                  <span className="text-xs text-accent font-medium w-8 text-right">{progress}%</span>
-                </div>
-              </>
-            )}
-
-            {/* 상태 (진행도에 따라 옵션 변경) */}
-            <label className="text-sm font-medium text-text-secondary">상태</label>
-            <div className="flex gap-1.5">
-              {getStatusOptions().map((option) => (
+        {/* 2열 레이아웃 폼 */}
+        <div className="grid grid-cols-[80px_1fr] gap-x-4 gap-y-4 items-center">
+          {/* 카테고리 */}
+          <label className="text-sm font-semibold text-text-secondary">카테고리</label>
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((category) => {
+              const Icon = category.icon;
+              const isSelected = selectedCategory === category.id;
+              return (
                 <Button
                   unstyled
-                  key={option.value}
+                  key={category.id}
                   type="button"
-                  onClick={() => setStatus(option.value)}
-                  className={`flex-1 py-2 rounded-lg text-xs font-medium text-center ${
-                    status === option.value
-                      ? "bg-accent text-white"
-                      : "bg-bg-main text-text-secondary hover:bg-bg-secondary"
+                  onClick={() => handleCategorySelect(category.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border ${
+                    isSelected
+                      ? "bg-accent text-white border-accent"
+                      : "bg-surface border-border/50 text-text-secondary hover:bg-surface-hover hover:text-text-primary"
                   }`}
                 >
-                  {option.label}
+                  <Icon size={14} strokeWidth={2.5} />
+                  {category.label}
                 </Button>
-              ))}
-            </div>
+              );
+            })}
+          </div>
+
+          {/* 제목 */}
+          <label className="text-sm font-semibold text-text-secondary">
+            제목 <span className="text-accent">*</span>
+          </label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="콘텐츠 제목을 입력하세요"
+            className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
+          />
+
+          {/* 저자/감독/개발사 */}
+          <label className="text-sm font-semibold text-text-secondary">
+            {currentCategoryConfig.creatorLabel}
+          </label>
+          <input
+            type="text"
+            value={creator}
+            onChange={(e) => setCreator(e.target.value)}
+            placeholder={`${currentCategoryConfig.creatorLabel} (선택)`}
+            className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
+          />
+
+          {/* 진행도 (자격증 제외) */}
+          {selectedCategory !== "certificate" && (
+            <>
+              <label className="text-sm font-semibold text-text-secondary">진행도</label>
+              <div className="flex items-center gap-3">
+                <ProgressSlider value={progress} onChange={handleProgressChange} className="flex-1" />
+                <span className="text-sm text-accent font-bold w-10 text-right tabular-nums">{progress}%</span>
+              </div>
+            </>
+          )}
+
+          {/* 상태 (진행도에 따라 옵션 변경) */}
+          <label className="text-sm font-semibold text-text-secondary">상태</label>
+          <div className="flex gap-2">
+            {getStatusOptions().map((option) => (
+              <Button
+                unstyled
+                key={option.value}
+                type="button"
+                onClick={() => setStatus(option.value)}
+                className={`flex-1 py-1.5 rounded-lg text-xs font-semibold text-center border ${
+                  status === option.value
+                    ? "bg-accent text-white border-accent"
+                    : "bg-surface border-border/50 text-text-secondary hover:bg-surface-hover hover:text-text-primary"
+                }`}
+              >
+                {option.label}
+              </Button>
+            ))}
           </div>
         </div>
+      </ModalBody>
 
-        {/* Footer */}
-        <div className="px-4 py-4 md:px-6 border-t border-border bg-bg-secondary flex gap-3">
-          <Button variant="secondary" onClick={handleClose} className="flex-1">
-            취소
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            disabled={isAdding || !title.trim()}
-            className="flex-1"
-          >
-            {isAdding ? <Loader2 size={18} className="animate-spin" /> : "추가"}
-          </Button>
-        </div>
-      </div>
-    </div>
+      <ModalFooter>
+        <Button variant="secondary" onClick={handleClose} className="flex-1">
+          취소
+        </Button>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          disabled={isAdding || !title.trim()}
+          className="flex-1"
+        >
+          {isAdding ? <Loader2 size={18} className="animate-spin" /> : "추가"}
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 }

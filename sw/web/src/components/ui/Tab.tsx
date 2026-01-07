@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Tab.tsx
+  기능: 탭 컴포넌트
+  책임: 탭 네비게이션 UI를 제공한다.
+*/ // ------------------------------
+
 import { ReactNode } from "react";
 
 interface TabProps {

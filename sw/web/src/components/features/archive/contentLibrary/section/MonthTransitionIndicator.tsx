@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/contentLibrary/section/MonthTransitionIndicator.tsx
+  기능: 월 전환 인디케이터
+  책임: 스크롤 시 현재 보고 있는 월을 화면에 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { useEffect, useState, useRef } from "react";

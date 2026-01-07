@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Badge.tsx
+  기능: 배지 컴포넌트
+  책임: variant에 따른 스타일로 태그/라벨을 표시한다.
+*/ // ------------------------------
+
 import { ReactNode } from "react";
 
 interface BadgeProps {

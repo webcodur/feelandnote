@@ -1,3 +1,9 @@
+/*
+  파일명: /app/layout.tsx
+  기능: 루트 레이아웃
+  책임: HTML 기본 구조와 전역 스타일을 적용한다.
+*/ // ------------------------------
+
 import type { Metadata } from "next";
 import "./globals.css";
 

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/contentLibrary/ContentLibraryStates.tsx
+  기능: 콘텐츠 라이브러리의 상태별 UI 컴포넌트
+  책임: 로딩, 에러, 빈 상태를 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { Loader2, Archive } from "lucide-react";

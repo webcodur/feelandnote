@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/profile/stats/page.tsx
+  기능: 통계 페이지
+  책임: 사용자의 문화생활 통계를 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

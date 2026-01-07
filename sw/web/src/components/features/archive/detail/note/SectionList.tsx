@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/note/SectionList.tsx
+  기능: 노트 섹션 목록 컴포넌트
+  책임: 섹션 목록을 표시하고 새 섹션 추가를 처리한다.
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";

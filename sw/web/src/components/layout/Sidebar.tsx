@@ -1,3 +1,9 @@
+/*
+  파일명: /components/layout/Sidebar.tsx
+  기능: 데스크톱 사이드바 네비게이션
+  책임: 섹션별로 그룹화된 네비게이션 메뉴와 배지를 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import Link from "next/link";
@@ -19,13 +25,15 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Z_INDEX } from "@/constants/zIndex";
+import { getUnreadGuestbookCount } from "@/actions/guestbook";
 
 interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
+  badge?: number;
 }
 
 interface NavSection {
@@ -39,7 +47,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: "기록관",
     defaultOpen: true,
     items: [
-      { href: "/archive", label: "내 기록관", icon: Folder },
+      { href: "/archive", label: "기록관", icon: Folder },
       { href: "/archive/playlists", label: "재생목록", icon: ListMusic },
       { href: "/archive/explore", label: "탐색", icon: Compass },
       { href: "/archive/feed", label: "피드", icon: Newspaper },
@@ -82,11 +90,13 @@ function NavItemLink({
   active,
   icon: Icon,
   label,
+  badge,
 }: {
   href: string;
   active: boolean;
   icon: LucideIcon;
   label: string;
+  badge?: number;
 }) {
   return (
     <Link
@@ -95,12 +105,25 @@ function NavItemLink({
         ${active ? "bg-accent/10 text-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}
     >
       <Icon size={18} />
-      <span>{label}</span>
+      <span className="flex-1">{label}</span>
+      {badge !== undefined && badge > 0 && (
+        <span className="min-w-5 h-5 flex items-center justify-center bg-red-500 text-white text-xs font-bold rounded-full px-1.5">
+          {badge > 99 ? "99+" : badge}
+        </span>
+      )}
     </Link>
   );
 }
 
-function NavSectionComponent({ section, pathname }: { section: NavSection; pathname: string }) {
+function NavSectionComponent({
+  section,
+  pathname,
+  badges,
+}: {
+  section: NavSection;
+  pathname: string;
+  badges: Record<string, number>;
+}) {
   const [isOpen, setIsOpen] = useState(section.defaultOpen ?? true);
   const hasActiveItem = section.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"));
 
@@ -123,6 +146,7 @@ function NavSectionComponent({ section, pathname }: { section: NavSection; pathn
               active={pathname === item.href || (item.href !== "/archive" && pathname.startsWith(item.href + "/")) || (item.href === "/archive" && (pathname === "/archive" || pathname.startsWith("/archive/user/")))}
               icon={item.icon}
               label={item.label}
+              badge={badges[item.href]}
             />
           ))}
         </div>
@@ -137,6 +161,7 @@ function NavSectionComponent({ section, pathname }: { section: NavSection; pathn
               active
               icon={item.icon}
               label={item.label}
+              badge={badges[item.href]}
             />
           ))}
         </div>
@@ -149,6 +174,16 @@ export const SIDEBAR_WIDTH = 200;
 
 export default function Sidebar({ isOpen = true }: SidebarProps) {
   const pathname = usePathname();
+  const [badges, setBadges] = useState<Record<string, number>>({});
+
+  // 읽지 않은 방명록 개수 조회
+  useEffect(() => {
+    const fetchBadges = async () => {
+      const unreadCount = await getUnreadGuestbookCount();
+      setBadges((prev) => ({ ...prev, "/profile/guestbook": unreadCount }));
+    };
+    fetchBadges();
+  }, [pathname]);
 
   return (
     <div
@@ -161,7 +196,7 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
     >
       <nav className="w-full h-full bg-bg-secondary border-r border-border flex flex-col py-4 px-2 overflow-y-auto scrollbar-thin">
         {NAV_SECTIONS.map((section) => (
-          <NavSectionComponent key={section.title} section={section} pathname={pathname} />
+          <NavSectionComponent key={section.title} section={section} pathname={pathname} badges={badges} />
         ))}
       </nav>
     </div>

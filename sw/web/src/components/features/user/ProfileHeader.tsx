@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/user/ProfileHeader.tsx
+  기능: 프로필 헤더 컴포넌트
+  책임: 아바타, 닉네임, 통계, 팔로우 버튼 등 프로필 상단 영역 렌더링
+*/ // ------------------------------
 "use client";
 
 import { BookOpen, Users, Heart, UserPlus } from "lucide-react";

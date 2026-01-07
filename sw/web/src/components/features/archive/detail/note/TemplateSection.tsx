@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/note/TemplateSection.tsx
+  기능: 노트 템플릿 섹션 컴포넌트
+  책임: 감상 계기, 3줄 요약 등 미리 정의된 템플릿 항목 입력을 제공한다.
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";

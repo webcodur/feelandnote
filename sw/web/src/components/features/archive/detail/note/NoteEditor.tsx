@@ -1,9 +1,14 @@
+/*
+  파일명: /components/features/archive/note/NoteEditor.tsx
+  기능: 노트 에디터 컴포넌트
+  책임: 노트의 섹션, 템플릿, 공개 범위를 관리하고 저장을 처리한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
 import { Lock, Users, Globe, Loader2 } from "lucide-react";
-import SectionList from "./note/SectionList";
-import TemplateSection from "./note/TemplateSection";
+import SectionList from "./SectionList";
+import TemplateSection from "./TemplateSection";
 import { getNoteByContentId, upsertNote, addSection, updateSection, deleteSection } from "@/actions/notes";
 import type { Note, Snapshot, Template, VisibilityType } from "@/actions/notes/types";
 import Button from "@/components/ui/Button";

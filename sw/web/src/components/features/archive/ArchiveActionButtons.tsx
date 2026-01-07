@@ -1,10 +1,15 @@
+/*
+  파일명: /components/features/archive/ArchiveActionButtons.tsx
+  기능: 기록관 액션 버튼 그룹
+  책임: 추가, 내보내기, 공유, 히스토리 등 액션 버튼과 모달을 관리한다.
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";
 import { Plus, Download, Share2, Pin, History, CheckSquare } from "lucide-react";
-import { IconButton } from "@/components/ui/Button";
-import ExportModal from "./ExportModal";
-import { ShareModal, HistoryModal } from "./ActionModals";
+import ControlIconButton from "./contentLibrary/controlBar/components/ControlIconButton";
+import ExportModal from "./modals/ExportModal";
+import { ShareModal, HistoryModal } from "./modals/ActionModals";
 import type { ContentType } from "@/types/database";
 
 // #region 타입
@@ -16,15 +21,11 @@ interface ArchiveActionButtonsProps {
   onBatchMode?: () => void;
   isBatchMode?: boolean;
   // 핀 모드
-  onEnterPinMode?: () => void;
+  togglePinMode?: () => void;
   isPinMode?: boolean;
 }
 
 type ModalType = "export" | "share" | "history" | null;
-// #endregion
-
-// #region 버튼 스타일
-const buttonClass = "w-9 h-9 rounded-lg border bg-surface/50 border-border/40 text-text-tertiary hover:bg-surface-hover hover:border-border hover:text-text-primary";
 // #endregion
 
 export default function ArchiveActionButtons({
@@ -34,7 +35,7 @@ export default function ArchiveActionButtons({
   onAddContent,
   onBatchMode,
   isBatchMode = false,
-  onEnterPinMode,
+  togglePinMode,
   isPinMode = false,
 }: ArchiveActionButtonsProps) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
@@ -43,54 +44,38 @@ export default function ArchiveActionButtons({
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-1.5">
-        <IconButton
+      <div className="grid grid-cols-2 gap-1.5">
+        <ControlIconButton
           icon={Plus}
-          size={16}
           onClick={onAddContent}
           title="커스텀 추가"
-          className={buttonClass}
         />
-        <IconButton
+        <ControlIconButton
           icon={Download}
-          size={16}
           onClick={() => setActiveModal("export")}
           title="내보내기"
-          className={buttonClass}
         />
-        <IconButton
+        <ControlIconButton
           icon={Share2}
-          size={16}
           onClick={() => setActiveModal("share")}
           title="공유"
-          className={buttonClass}
         />
-        <IconButton
+        <ControlIconButton
           icon={Pin}
-          size={16}
-          onClick={onEnterPinMode}
+          onClick={togglePinMode ?? (() => {})}
+          active={isPinMode}
           title={isPinMode ? "핀 모드 종료" : "핀 모드"}
-          className={isPinMode
-            ? "w-9 h-9 rounded-lg border bg-accent/10 border-accent/20 text-accent"
-            : buttonClass
-          }
         />
-        <IconButton
+        <ControlIconButton
           icon={History}
-          size={16}
           onClick={() => setActiveModal("history")}
           title="히스토리"
-          className={buttonClass}
         />
-        <IconButton
+        <ControlIconButton
           icon={CheckSquare}
-          size={16}
-          onClick={onBatchMode}
+          onClick={onBatchMode ?? (() => {})}
+          active={isBatchMode}
           title={isBatchMode ? "배치 모드 종료" : "배치 모드"}
-          className={isBatchMode
-            ? "w-9 h-9 rounded-lg border bg-accent/10 border-accent/20 text-accent"
-            : buttonClass
-          }
         />
       </div>
 

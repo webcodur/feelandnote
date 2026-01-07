@@ -1,3 +1,9 @@
+/*
+  파일명: /components/layout/MainLayout.tsx
+  기능: 메인 레이아웃 컴포넌트
+  책임: 헤더, 사이드바, 하단 네비게이션을 조합한 전체 레이아웃을 구성한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

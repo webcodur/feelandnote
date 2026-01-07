@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/detail/ArchiveDetailTabs.tsx
+  기능: 기록관 상세 페이지 탭 네비게이션
+  책임: 내 기록/피드 탭과 하위 탭(리뷰/노트/창작) 전환을 처리한다.
+*/ // ------------------------------
 "use client";
 
 import Button from "@/components/ui/Button";

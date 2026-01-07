@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/profile/StatsContent.tsx
+  기능: 사용자 통계 콘텐츠
+  책임: 콘텐츠/리뷰/노트/인용 요약 및 카테고리 분포 표시
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

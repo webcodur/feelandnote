@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/profile/achievements/page.tsx
+  기능: 업적 페이지
+  책임: 사용자의 업적과 칭호를 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

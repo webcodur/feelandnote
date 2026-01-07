@@ -1,3 +1,9 @@
+/*
+  파일명: /components/layout/Header.tsx
+  기능: 앱 상단 헤더 컴포넌트
+  책임: 로고, 검색, 알림, 프로필 메뉴를 포함한 헤더 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

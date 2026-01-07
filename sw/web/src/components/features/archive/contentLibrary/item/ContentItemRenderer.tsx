@@ -5,14 +5,14 @@
 */ // ------------------------------
 "use client";
 
-import { ContentCard, CertificateCard } from "@/components/features/cards";
+import { ContentCard, CertificateCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
 
 import ContentListItem from "./ContentListItem";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentStatus, CategoryWithCount } from "@/types/database";
-import type { ViewMode } from "./hooks/useContentLibrary";
+import type { ViewMode } from "../useContentLibrary";
 
 // #region 타입
 interface ContentItemRendererProps {

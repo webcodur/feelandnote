@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/InfluenceGauge.tsx
+  기능: 영향력 및 등급 게이지 표시
+  책임: 사용자 영향력 점수와 등급 진행도 시각화
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

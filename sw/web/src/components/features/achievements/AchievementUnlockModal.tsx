@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/achievements/AchievementUnlockModal.tsx
+  기능: 칭호 해금 알림 모달
+  책임: 해금된 칭호를 등급별 스타일과 애니메이션으로 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { useEffect, useState } from "react";

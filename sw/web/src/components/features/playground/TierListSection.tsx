@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/TierListSection.tsx
+  기능: 티어 리스트 섹션 컴포넌트
+  책임: 재생목록 티어 목록 표시 및 필터링
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";

@@ -1,9 +1,16 @@
+/*
+  파일명: /components/features/search/SearchResultCards.tsx
+  기능: 검색 결과 카드 컴포넌트 모음
+  책임: 콘텐츠/사용자/태그 검색 결과를 카드 형태로 렌더링
+*/ // ------------------------------
 "use client";
 
+import { useState, useTransition } from "react";
 import { Book, Hash, Plus, Loader2, Check, ExternalLink, Bookmark } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
+import { toggleFollow } from "@/actions/user";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = Object.fromEntries(
@@ -129,41 +136,60 @@ export function ContentResults({
 interface UserResultsProps {
   results: UserSearchResult[];
   onItemClick: (user: UserSearchResult) => void;
-  onFollowToggle: (userId: string) => void;
 }
 
-export function UserResults({ results, onItemClick, onFollowToggle }: UserResultsProps) {
+export function UserResults({ results, onItemClick }: UserResultsProps) {
   if (results.length === 0) return null;
 
   return (
     <div className="space-y-3">
       {results.map((user) => (
-        <Card
-          key={user.id}
-          className="p-4 cursor-pointer hover:border-accent"
-          onClick={() => onItemClick(user)}
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0" />
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-text-primary">{user.nickname}</h3>
-              <p className="text-sm text-text-secondary">{user.username}</p>
-            </div>
-            <div className="text-sm text-text-secondary">
-              팔로워 {user.followerCount >= 1000 ? `${(user.followerCount / 1000).toFixed(1)}K` : user.followerCount}
-            </div>
-            <Button
-              unstyled
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium
-                ${user.isFollowing ? "bg-white/10 text-text-primary" : "bg-accent text-white"}`}
-              onClick={(e) => { e.stopPropagation(); onFollowToggle(user.id); }}
-            >
-              {user.isFollowing ? "팔로잉" : "팔로우"}
-            </Button>
-          </div>
-        </Card>
+        <UserResultCard key={user.id} user={user} onItemClick={onItemClick} />
       ))}
     </div>
+  );
+}
+
+function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemClick: (user: UserSearchResult) => void }) {
+  const [isFollowing, setIsFollowing] = useState(user.isFollowing);
+  const [isPending, startTransition] = useTransition();
+
+  const handleFollowClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    startTransition(async () => {
+      const result = await toggleFollow(user.id);
+      if (result.success) {
+        setIsFollowing(result.isFollowing);
+      }
+    });
+  };
+
+  return (
+    <Card
+      className="p-4 cursor-pointer hover:border-accent"
+      onClick={() => onItemClick(user)}
+    >
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0" />
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-text-primary">{user.nickname}</h3>
+          <p className="text-sm text-text-secondary">{user.username}</p>
+        </div>
+        <div className="text-sm text-text-secondary">
+          팔로워 {user.followerCount >= 1000 ? `${(user.followerCount / 1000).toFixed(1)}K` : user.followerCount}
+        </div>
+        <Button
+          unstyled
+          disabled={isPending}
+          className={`px-4 py-1.5 rounded-lg text-sm font-medium
+            ${isFollowing ? "bg-white/10 text-text-primary" : "bg-accent text-white"}
+            ${isPending ? "opacity-50" : ""}`}
+          onClick={handleFollowClick}
+        >
+          {isFollowing ? "팔로잉" : "팔로우"}
+        </Button>
+      </div>
+    </Card>
   );
 }
 

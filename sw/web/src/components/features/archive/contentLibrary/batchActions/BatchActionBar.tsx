@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/batchActions/BatchActionBar.tsx
+  기능: 일괄 작업 액션 바
+  책임: 선택된 콘텐츠에 대한 삭제, 카테고리 변경 등 일괄 작업을 제공한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useRef, useEffect } from "react";

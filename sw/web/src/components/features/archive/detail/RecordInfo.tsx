@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/archive/RecordInfoView.tsx
+  파일명: /components/features/archive/detail/RecordInfo.tsx
   기능: 기록 정보 읽기 전용 뷰 컴포넌트
   책임: RecordInfoPanel을 Card로 감싸서 읽기 전용으로 표시한다.
 */ // ------------------------------
@@ -12,7 +12,7 @@ import RecordInfoPanel from "./RecordInfoPanel";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
-interface RecordInfoViewProps {
+interface RecordInfoProps {
   item: UserContentWithContent;
   href?: string;
   showTitle?: boolean;
@@ -20,12 +20,12 @@ interface RecordInfoViewProps {
 }
 // #endregion
 
-export default function RecordInfoView({
+export default function RecordInfo({
   item,
   href,
   showTitle = true,
   compact = false,
-}: RecordInfoViewProps) {
+}: RecordInfoProps) {
   const router = useRouter();
 
   return (

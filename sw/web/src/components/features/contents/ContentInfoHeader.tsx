@@ -2,7 +2,7 @@
   파일명: /components/features/contents/ContentInfoHeader.tsx
   기능: 콘텐츠 정보 헤더 (검색/기록관 공통)
   책임: 콘텐츠 정보를 일관된 UI로 표시한다. 기록 관리 UI는 분리하여 전달받는다.
-*/
+*/ // ------------------------------
 "use client";
 
 import { Calendar, User } from "lucide-react";

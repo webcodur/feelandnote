@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/CategoryDonutChart.tsx
+  기능: 카테고리 분포 도넛 차트 렌더링
+  책임: 콘텐츠 카테고리별 비율을 Recharts 파이 차트로 시각화
+*/ // ------------------------------
 "use client";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";

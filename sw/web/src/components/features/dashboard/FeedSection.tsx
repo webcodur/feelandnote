@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/dashboard/FeedSection.tsx
+  기능: 대시보드 피드 섹션
+  책임: 셀럽, 친구, 발견 피드를 카드 형태로 표시한다.
+*/ // ------------------------------
 "use client";
 
 import Link from "next/link";

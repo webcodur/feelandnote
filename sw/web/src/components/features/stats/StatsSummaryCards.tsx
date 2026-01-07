@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/StatsSummaryCards.tsx
+  기능: 통계 요약 카드 그리드 렌더링
+  책임: 주요 통계 지표를 아이콘과 함께 카드 형태로 표시
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

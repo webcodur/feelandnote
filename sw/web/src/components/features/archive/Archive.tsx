@@ -1,11 +1,18 @@
+/*
+  파일명: /components/features/archive/Archive.tsx
+  기능: 기록관 허브 페이지 최상위 컴포넌트
+  책임: 프로필 헤더, 콘텐츠 라이브러리, 액션 버튼을 조합하여 기록관 메인을 구성한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import ContentLibrary from "@/components/features/archive/ContentLibrary";
-import AddContentModal from "@/components/features/archive/AddContentModal";
+import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
+import AddContentModal from "@/components/features/archive/modals/AddContentModal";
 import ArchiveActionButtons from "@/components/features/archive/ArchiveActionButtons";
+import FollowListModal from "@/components/features/user/FollowListModal";
 import Button from "@/components/ui/Button";
 import type { UserProfile } from "@/actions/user";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -14,16 +21,18 @@ interface MyStats {
   contentCount: number;
   followerCount: number;
   followingCount: number;
+  friendCount: number;
 }
 
-interface ArchiveHubViewProps {
+interface ArchiveProps {
   myProfile: UserProfile;
   stats: MyStats;
 }
 
-export default function ArchiveHubView({ myProfile, stats }: ArchiveHubViewProps) {
+export default function Archive({ myProfile, stats }: ArchiveProps) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [followModalTab, setFollowModalTab] = useState<"followers" | "following" | null>(null);
 
   const handleSuccess = () => setRefreshKey((prev) => prev + 1);
 
@@ -45,19 +54,34 @@ export default function ArchiveHubView({ myProfile, stats }: ArchiveHubViewProps
               </div>
 
               {/* Compact Meta Row */}
-              <div className="flex items-center gap-4 mt-1 text-sm text-text-secondary">
+              <div className="flex items-center gap-4 mt-1 text-sm text-text-secondary flex-wrap">
                 <div className="flex items-center gap-1.5 hover:text-text-primary cursor-default">
                   <span className="font-bold text-text-primary">{stats.contentCount}</span>
                   <span>기록</span>
                 </div>
-                <div className="flex items-center gap-1.5 hover:text-text-primary cursor-default">
+                <Button
+                  unstyled
+                  onClick={() => setFollowModalTab("followers")}
+                  className="flex items-center gap-1.5 hover:text-accent"
+                >
                   <span className="font-bold text-text-primary">{stats.followerCount}</span>
                   <span>팔로워</span>
-                </div>
-                <div className="flex items-center gap-1.5 hover:text-text-primary cursor-default">
+                </Button>
+                <Button
+                  unstyled
+                  onClick={() => setFollowModalTab("following")}
+                  className="flex items-center gap-1.5 hover:text-accent"
+                >
                   <span className="font-bold text-text-primary">{stats.followingCount}</span>
                   <span>팔로잉</span>
-                </div>
+                </Button>
+                <Link
+                  href="/archive/explore"
+                  className="flex items-center gap-1.5 hover:text-accent"
+                >
+                  <span className="font-bold text-text-primary">{stats.friendCount}</span>
+                  <span>친구</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -70,12 +94,12 @@ export default function ArchiveHubView({ myProfile, stats }: ArchiveHubViewProps
           showFilters
           showViewToggle
           emptyMessage="아직 기록한 콘텐츠가 없습니다. 위 버튼을 눌러 첫 번째 콘텐츠를 추가해보세요!"
-          headerActions={({ toggleBatchMode, isBatchMode, enterPinMode, isPinMode }) => (
+          headerActions={({ toggleBatchMode, isBatchMode, togglePinMode, isPinMode }) => (
             <ArchiveActionButtons
               onAddContent={() => setIsAddModalOpen(true)}
               onBatchMode={toggleBatchMode}
               isBatchMode={isBatchMode}
-              onEnterPinMode={enterPinMode}
+              togglePinMode={togglePinMode}
               isPinMode={isPinMode}
             />
           )}
@@ -92,6 +116,15 @@ export default function ArchiveHubView({ myProfile, stats }: ArchiveHubViewProps
       </Button>
 
       <AddContentModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={handleSuccess} />
+
+      <FollowListModal
+        isOpen={followModalTab !== null}
+        onClose={() => setFollowModalTab(null)}
+        userId={myProfile.id}
+        initialTab={followModalTab || "followers"}
+        followerCount={stats.followerCount}
+        followingCount={stats.followingCount}
+      />
     </>
   );
 }

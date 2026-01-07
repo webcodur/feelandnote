@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/search/page.tsx
+  기능: 검색 페이지
+  책임: 콘텐츠/유저/태그 검색 기능을 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect, Suspense, useTransition, useCallback } from "react";
@@ -271,7 +277,7 @@ function SearchContent() {
         />
       )}
       {!isLoading && modeParam === "user" && (
-        <UserResults results={userResults} onItemClick={(u) => router.push(`/archive/user/${u.id}`)} onFollowToggle={() => {}} />
+        <UserResults results={userResults} onItemClick={(u) => router.push(`/archive/user/${u.id}`)} />
       )}
       {!isLoading && modeParam === "tag" && (
         <TagResults results={tagResults} onItemClick={(t) => router.push(`/archive/feed?tag=${encodeURIComponent(t.name)}`)} />

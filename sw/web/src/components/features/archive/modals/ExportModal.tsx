@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/modals/ExportModal.tsx
+  기능: 콘텐츠 내보내기 모달
+  책임: 현재 필터 기준 콘텐츠를 CSV 형식으로 내보내기한다.
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";
@@ -114,33 +119,21 @@ export default function ExportModal({
       description="현재 라이브러리의 콘텐츠 목록을 파일로 다운로드합니다. 백업이나 다른 서비스로 이전할 때 활용하세요."
       actions={[
         {
-          label: "CSV 파일로 내보내기",
-          onClick: handleExport,
-          variant: "primary",
-          loading: isExporting,
-        },
-        {
           label: "취소",
           onClick: onClose,
           variant: "secondary",
         },
+        {
+          label: "내보내기",
+          onClick: handleExport,
+          variant: "primary",
+          loading: isExporting,
+        },
       ]}
     >
       {/* 내보내기 정보 */}
-      <div className="bg-surface/50 rounded-xl p-4 space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-            <FileSpreadsheet size={20} className="text-accent" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-text-primary">내보내기 범위</p>
-            <p className="text-xs text-text-secondary">{getScopeText()}</p>
-          </div>
-        </div>
-
-        <div className="text-xs text-text-tertiary leading-relaxed border-t border-border/50 pt-3">
-          포함 항목: 제목, 저자/감독, 타입, 상태, 진행도, 분류, 평점, 리뷰, 추가일, 수정일, 완료일
-        </div>
+      <div className="text-[13px] text-text-tertiary leading-relaxed border-t border-border/50 pt-2">
+        [제목, 저자, 타입, 상태, 진행도, 분류, 평점, 리뷰, 추가일, 수정일, 완료일]
       </div>
     </ActionModal>
   );

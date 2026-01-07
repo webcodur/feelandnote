@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/profile/SettingsContent.tsx
+  기능: 프로필 설정 콘텐츠
+  책임: 프로필 편집 및 AI API 키 설정 관리
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";

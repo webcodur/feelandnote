@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/BlindGameSection.tsx
+  기능: 블라인드 게임 섹션 컴포넌트
+  책임: 게임 목록 표시 및 탭 필터링
+*/ // ------------------------------
 "use client";
 
 import { Button, Badge, Avatar, Card, FilterChips, type ChipOption } from "@/components/ui";

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playlist/PlaylistEditMode.tsx
+  기능: 재생목록 편집 모드 컴포넌트
+  책임: 재생목록 생성/수정 시 콘텐츠 선택 및 저장 처리
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";

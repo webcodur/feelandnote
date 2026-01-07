@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/archive/playground/page.tsx
+  기능: 놀이터 페이지
+  책임: 티어리스트와 블라인드 게임 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/archive/feed/page.tsx
+  기능: 피드 페이지
+  책임: 셀럽/친구들의 문화생활 피드를 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState } from "react";

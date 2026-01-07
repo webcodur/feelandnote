@@ -1,10 +1,16 @@
+/*
+  파일명: /app/(main)/profile/guestbook/page.tsx
+  기능: 방명록 페이지
+  책임: 사용자의 방명록을 표시하고 관리한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";
 import { BookOpen, Loader2 } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 import { getProfile } from "@/actions/user";
-import { getGuestbookEntries } from "@/actions/guestbook";
+import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import type { GuestbookEntryWithAuthor, Profile } from "@/types/database";
 
@@ -38,6 +44,9 @@ export default function Page() {
           const result = await getGuestbookEntries({ profileId: profile.id });
           setEntries(result.entries);
           setTotal(result.total);
+
+          // 방명록 읽음 처리
+          await markGuestbookAsRead();
         }
       } catch (error) {
         console.error("Failed to load guestbook:", error);

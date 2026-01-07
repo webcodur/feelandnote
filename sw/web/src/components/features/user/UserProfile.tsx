@@ -1,20 +1,37 @@
+/*
+  파일명: /components/features/user/UserProfile.tsx
+  기능: 사용자 프로필 페이지 뷰
+  책임: 프로필 헤더, 콘텐츠 그리드, 방명록 섹션 통합 렌더링
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";
-import { Archive, Lock, AlertCircle, Plus, Sparkles } from "lucide-react";
+import { Archive, Lock, AlertCircle, Plus, Sparkles, MessageSquare } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserProfileHeader from "./UserProfileHeader";
 import UserContentGrid from "./UserContentGrid";
 import AddCelebContentModal from "./AddCelebContentModal";
+import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import type { PublicUserProfile } from "@/actions/user";
+import type { GuestbookEntryWithAuthor } from "@/types/database";
 
-interface UserProfileViewProps {
+interface UserProfileProps {
   profile: PublicUserProfile;
   isOwnProfile?: boolean;
+  currentUser?: { id: string; nickname: string | null; avatar_url: string | null } | null;
+  guestbook?: {
+    entries: GuestbookEntryWithAuthor[];
+    total: number;
+  };
 }
 
-export default function UserProfileView({ profile, isOwnProfile = false }: UserProfileViewProps) {
+export default function UserProfile({
+  profile,
+  isOwnProfile = false,
+  currentUser,
+  guestbook,
+}: UserProfileProps) {
   const [showAddContent, setShowAddContent] = useState(false);
   const isCeleb = profile.profile_type === 'CELEB';
 
@@ -77,6 +94,24 @@ export default function UserProfileView({ profile, isOwnProfile = false }: UserP
         </div>
       ) : (
         <UserContentGrid userId={profile.id} />
+      )}
+
+      {/* 방명록 섹션 */}
+      {guestbook && (
+        <div id="guestbook" className="mt-8 scroll-mt-24">
+          <SectionHeader
+            title="방명록"
+            description={`${profile.nickname}님에게 메시지를 남겨보세요`}
+            icon={<MessageSquare size={20} />}
+          />
+          <GuestbookContent
+            profileId={profile.id}
+            currentUser={currentUser ?? null}
+            isOwner={isOwnProfile}
+            initialEntries={guestbook.entries}
+            initialTotal={guestbook.total}
+          />
+        </div>
       )}
 
       {/* 셀럽 콘텐츠 추가 모달 */}

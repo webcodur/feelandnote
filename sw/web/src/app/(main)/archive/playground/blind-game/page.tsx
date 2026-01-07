@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/archive/playground/blind-game/page.tsx
+  기능: 블라인드 게임 페이지
+  책임: 감상평으로 작품 맞추기 퀴즈를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState } from "react";

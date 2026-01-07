@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/ActivityTimeline.tsx
+  기능: 최근 활동 타임라인 표시
+  책임: 사용자의 최근 활동 이력을 타임라인 형태로 렌더링
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

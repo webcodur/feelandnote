@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/blind-game/GameHeader.tsx
+  기능: 블라인드 게임 헤더 표시
+  책임: 점수, 연속 정답, 최고 연속 정답 및 닫기 버튼 렌더링
+*/ // ------------------------------
 "use client";
 
 import { X, Flame } from "lucide-react";

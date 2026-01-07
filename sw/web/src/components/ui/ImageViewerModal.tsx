@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/ImageViewerModal.tsx
+  기능: 이미지 뷰어 모달
+  책임: 이미지를 전체 화면으로 확대하여 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { X } from "lucide-react";

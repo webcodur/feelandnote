@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/CategoryManager.tsx
+  기능: 콘텐츠 타입별 카테고리(소분류) 관리 모달
+  책임: 카테고리 생성, 수정, 삭제 기능을 제공한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useCallback } from "react";

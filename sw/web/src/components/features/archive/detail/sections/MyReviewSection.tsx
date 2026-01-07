@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/detail/sections/MyReviewSection.tsx
+  기능: 내 리뷰 작성/편집 섹션
+  책임: 별점, 스포일러 여부, 리뷰 텍스트 입력 및 저장을 처리한다.
+*/ // ------------------------------
 "use client";
 
 import { Loader2, Sparkles } from "lucide-react";

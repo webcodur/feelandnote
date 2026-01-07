@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/BlindGamePlayModal.tsx
+  기능: 블라인드 게임 플레이 모달
+  책임: 게임 전체 흐름 제어 및 상태 관리
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect } from "react";

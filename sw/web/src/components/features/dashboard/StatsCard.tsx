@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/dashboard/StatsCard.tsx
+  기능: 사용자 통계 카드
+  책임: 총 감상, 리뷰, 기록 수 등 사용자 통계를 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect } from "react";

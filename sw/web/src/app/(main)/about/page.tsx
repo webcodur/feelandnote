@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/about/page.tsx
+  기능: 회사 소개 페이지
+  책임: 서비스 소개 정보를 표시한다.
+*/ // ------------------------------
+
 import { Info } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 

@@ -1,3 +1,9 @@
+/*
+  파일명: /components/layout/BottomNav.tsx
+  기능: 모바일 하단 네비게이션 바
+  책임: 모바일 화면에서 주요 페이지로의 탐색 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import Link from "next/link";

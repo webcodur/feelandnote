@@ -1,9 +1,14 @@
+/*
+  파일명: /components/features/archive/detail/sections/FeedSection.tsx
+  기능: 피드 섹션 컴포넌트
+  책임: 노트, 창작물 등 피드 데이터를 로드하고 무한 스크롤을 처리한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
 import FeedPostCard from "./FeedPostCard";
-import type { SubTab } from "./ArchiveDetailTabs";
+import type { SubTab } from "../ArchiveDetailTabs";
 import { getFeedRecords, type FeedRecord } from "@/actions/records";
 import type { RecordType } from "@/actions/records";
 import Button from "@/components/ui/Button";

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/search/SearchModeDropdown.tsx
+  기능: 검색 모드 및 카테고리 선택 드롭다운
+  책임: 콘텐츠/사용자/태그/기록관 검색 모드와 카테고리 필터 제공
+*/ // ------------------------------
 "use client";
 
 import { Book, User, Hash, Folder, ChevronDown } from "lucide-react";
@@ -20,7 +25,7 @@ export const SEARCH_MODES: SearchModeConfig[] = [
   { id: "content", label: "콘텐츠", icon: Book, placeholder: "작품명, 저자, 감독...", hasSubcategory: true },
   { id: "user", label: "사용자", icon: User, placeholder: "닉네임, @username..." },
   { id: "tag", label: "태그", icon: Hash, placeholder: "태그명..." },
-  { id: "archive", label: "내 기록", icon: Folder, placeholder: "내 기록관에서 검색..." },
+  { id: "archive", label: "내 기록", icon: Folder, placeholder: "기록관에서 검색..." },
 ];
 
 // CATEGORIES를 그대로 사용

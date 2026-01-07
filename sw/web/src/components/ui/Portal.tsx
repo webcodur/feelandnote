@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Portal.tsx
+  기능: 포탈 컴포넌트
+  책임: 자식 요소를 DOM의 body로 렌더링한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";

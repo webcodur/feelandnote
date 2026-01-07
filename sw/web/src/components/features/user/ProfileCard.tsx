@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/user/ProfileCard.tsx
+  기능: 프로필 미니 카드 컴포넌트
+  책임: 친구/셀럽/즐겨찾기 목록용 아바타+닉네임 카드 렌더링
+*/ // ------------------------------
 "use client";
 
 import Link from "next/link";

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/detail/sections/CreationSection.tsx
+  기능: 창작물 섹션 컴포넌트
+  책임: What If, 매체 전환, OST 상상 등 창작물 목록을 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { PenTool } from "lucide-react";

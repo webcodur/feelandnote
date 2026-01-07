@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/FilterChips.tsx
+  기능: 필터 칩 컴포넌트
+  책임: 선택 가능한 칩 형태의 필터 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { LucideIcon } from "lucide-react";

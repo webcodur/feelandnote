@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Avatar.tsx
+  기능: 아바타 컴포넌트
+  책임: 사용자 프로필 이미지를 원형으로 표시한다.
+*/ // ------------------------------
+
 interface AvatarProps {
   size?: "sm" | "md" | "lg";
   gradient?: string;

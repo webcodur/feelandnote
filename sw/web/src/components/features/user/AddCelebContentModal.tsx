@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/user/AddCelebContentModal.tsx
+  기능: 셀럽 콘텐츠 추가 모달
+  책임: 셀럽 프로필에 콘텐츠를 검색하고 출처 링크와 함께 추가
+*/ // ------------------------------
 "use client";
 
 import { useState, useTransition } from "react";

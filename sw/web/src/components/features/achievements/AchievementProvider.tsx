@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/achievements/AchievementProvider.tsx
+  기능: 칭호 해금 알림 전역 상태 관리
+  책임: 칭호 해금 시 모달을 표시하고 Context로 상태를 제공한다.
+*/ // ------------------------------
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";

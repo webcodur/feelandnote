@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/detail/TierEditView.tsx
+  기능: 플레이리스트 티어 편집 뷰
+  책임: S~D 티어 형태로 플레이리스트 아이템을 드래그 앤 드롭으로 배치한다.
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect, useCallback } from "react";

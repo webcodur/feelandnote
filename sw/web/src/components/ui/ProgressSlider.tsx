@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/ProgressSlider.tsx
+  기능: 진행도 슬라이더 컴포넌트
+  책임: 드래그로 진행도를 조절하는 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";

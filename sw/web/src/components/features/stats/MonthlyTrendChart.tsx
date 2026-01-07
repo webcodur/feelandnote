@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/MonthlyTrendChart.tsx
+  기능: 월별 트렌드 라인 차트 렌더링
+  책임: 콘텐츠/리뷰/노트의 월별 추이를 Recharts 라인 차트로 시각화
+*/ // ------------------------------
 "use client";
 
 import {

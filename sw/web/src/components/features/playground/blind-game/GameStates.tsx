@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/blind-game/GameStates.tsx
+  기능: 블라인드 게임 상태별 화면 컴포넌트
+  책임: 게임 완료, 정답, 오답 상태 UI 렌더링
+*/ // ------------------------------
 "use client";
 
 import { CheckCircle, XCircle, Trophy, Save, Loader2 } from "lucide-react";

@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/profile/settings/page.tsx
+  기능: 설정 페이지
+  책임: 프로필 및 계정 설정을 관리한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

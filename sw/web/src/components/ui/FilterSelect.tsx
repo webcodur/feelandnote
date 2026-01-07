@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/FilterSelect.tsx
+  기능: 필터 셀렉트 컴포넌트
+  책임: 드롭다운 형태의 필터 선택 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";

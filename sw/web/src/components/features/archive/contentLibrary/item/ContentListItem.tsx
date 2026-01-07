@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Trash2, BookOpen, Film, Gamepad2, Music, Award, Star, CheckSquare, Square } from "lucide-react";
 
 import Button from "@/components/ui/Button";
-import ProgressModal from "@/components/features/cards/ProgressModal";
+import ProgressModal from "@/components/ui/cards/ProgressModal";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentType } from "@/types/database";

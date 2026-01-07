@@ -14,7 +14,7 @@ import type { CategoryWithCount } from "@/types/database";
 import ProgressModal from "./ProgressModal";
 import DateEditModal from "./DateEditModal";
 import ContentDetailModal from "./ContentDetailModal";
-import RecordInfoPanel from "@/components/features/archive/RecordInfoPanel";
+import RecordInfoPanel from "@/components/features/archive/detail/RecordInfoPanel";
 import Button from "@/components/ui/Button";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";

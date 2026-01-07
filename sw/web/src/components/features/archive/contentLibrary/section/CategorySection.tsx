@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/contentLibrary/section/CategorySection.tsx
+  기능: 콘텐츠 타입별 섹션 컴포넌트
+  책임: 카테고리(도서/영상/게임 등) 단위로 콘텐츠를 그룹핑하여 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { ChevronRight, ChevronDown, Book, Film, Gamepad2, Music, Award, ArrowRight } from "lucide-react";

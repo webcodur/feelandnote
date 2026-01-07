@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/search/SearchResultsDropdown.tsx
+  기능: 헤더 검색창 결과 드롭다운
+  책임: 검색 중 실시간 결과 미리보기 및 최근 검색 표시
+*/ // ------------------------------
 "use client";
 
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2, Plus, ExternalLink, Check } from "lucide-react";

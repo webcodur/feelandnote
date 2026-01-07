@@ -1,9 +1,15 @@
+/*
+  파일명: /components/features/user/UserProfileHeader.tsx
+  기능: 공개 프로필 헤더 컴포넌트
+  책임: 타 유저 프로필 페이지 상단의 아바타, 정보, 팔로우 버튼 렌더링
+*/ // ------------------------------
 "use client";
 
 import { useState, useTransition } from "react";
-import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare } from "lucide-react";
 import Button from "@/components/ui/Button";
-import type { PublicUserProfile } from "@/actions/user";
+import { toggleFollow, type PublicUserProfile } from "@/actions/user";
 
 interface UserProfileHeaderProps {
   profile: PublicUserProfile;
@@ -24,10 +30,11 @@ export default function UserProfileHeader({
 
   const handleFollowClick = () => {
     startTransition(async () => {
-      // TODO: 팔로우/언팔로우 API 호출
-      const newState = !isFollowing;
-      setIsFollowing(newState);
-      onFollowChange?.(newState);
+      const result = await toggleFollow(profile.id);
+      if (result.success) {
+        setIsFollowing(result.isFollowing);
+        onFollowChange?.(result.isFollowing);
+      }
     });
   };
 
@@ -84,7 +91,7 @@ export default function UserProfileHeader({
           )}
 
           {/* 통계 */}
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-4 text-sm flex-wrap">
             <div className="flex items-center gap-1.5 text-text-secondary">
               <BookOpen size={14} />
               <span className="font-medium text-text-primary">{profile.stats.content_count}</span>
@@ -99,6 +106,18 @@ export default function UserProfileHeader({
               <span className="font-medium text-text-primary">{profile.stats.following_count}</span>
               <span>팔로잉</span>
             </div>
+            <div className="flex items-center gap-1.5 text-text-secondary">
+              <span className="font-medium text-text-primary">{profile.stats.friend_count}</span>
+              <span>친구</span>
+            </div>
+            <Link
+              href="#guestbook"
+              className="flex items-center gap-1.5 text-text-secondary hover:text-accent"
+            >
+              <MessageSquare size={14} />
+              <span className="font-medium text-text-primary">{profile.stats.guestbook_count}</span>
+              <span>방명록</span>
+            </Link>
           </div>
         </div>
 

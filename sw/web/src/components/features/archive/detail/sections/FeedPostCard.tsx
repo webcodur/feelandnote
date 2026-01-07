@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/detail/sections/FeedPostCard.tsx
+  기능: 피드 게시물 카드 컴포넌트
+  책임: 노트, 인용구, 창작물 등 피드 아이템을 카드 형태로 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

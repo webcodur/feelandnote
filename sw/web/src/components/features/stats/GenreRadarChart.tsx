@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/GenreRadarChart.tsx
+  기능: 장르 선호도 레이더 차트 렌더링
+  책임: 장르별 선호도를 Recharts 레이더 차트로 시각화
+*/ // ------------------------------
 "use client";
 
 import {

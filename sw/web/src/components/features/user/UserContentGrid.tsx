@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/user/UserContentGrid.tsx
+  기능: 사용자 콘텐츠 그리드 표시
+  책임: 공개 프로필의 콘텐츠 목록을 카테고리별 탭과 그리드로 렌더링
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect } from "react";

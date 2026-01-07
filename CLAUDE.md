@@ -50,8 +50,6 @@ actions/           # Server Actions (도메인별)
 components/
   layout/          # 레이아웃 컴포넌트
   ui/              # 기본 UI 컴포넌트
-  views/           # 페이지별 뷰 컴포넌트
-  features/        # 기능별 컴포넌트
 
 lib/
   supabase/        # client.ts, server.ts, middleware.ts
@@ -98,17 +96,6 @@ constants/         # 상수 (categories.ts)
 - 대규모 외부 컴포넌트: 절대경로 (@/)
 - 소규모 내부 컴포넌트: 상대경로 (./)
 
-## 페이지/뷰 분리 패턴
-
-페이지 파일(app/**/page.tsx)은 라우팅 역할만 담당하고, 실제 UI는 views/ 컴포넌트에서 구현한다.
-
-```tsx
-// app/(main)/dashboard/page.tsx
-import { DashboardView } from '@/components/views/main/DashboardView'
-export default function DashboardPage() {
-  return <DashboardView />
-}
-```
 
 ## MCP 서버
 

@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/archive/[id]/page.tsx
+  기능: 기록 상세 페이지
+  책임: 개별 콘텐츠 기록의 상세 정보를 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
@@ -6,11 +12,11 @@ import { Loader2, Plus } from "lucide-react";
 import Button from "@/components/ui/Button";
 import ArchiveDetailHeader from "@/components/features/archive/detail/ArchiveDetailHeader";
 import ArchiveDetailTabs, { type MainTab, type SubTab } from "@/components/features/archive/detail/ArchiveDetailTabs";
-import FeedSection from "@/components/features/archive/detail/FeedSection";
-import MyReviewSection from "@/components/features/archive/detail/MyReviewSection";
-import CreationSection from "@/components/features/archive/detail/CreationSection";
-import CreateCreationModal from "@/components/features/archive/CreateCreationModal";
-import NoteEditor from "@/components/features/archive/NoteEditor";
+import FeedSection from "@/components/features/archive/detail/sections/FeedSection";
+import MyReviewSection from "@/components/features/archive/detail/sections/MyReviewSection";
+import CreationSection from "@/components/features/archive/detail/sections/CreationSection";
+import CreateCreationModal from "@/components/features/archive/modals/CreateCreationModal";
+import NoteEditor from "@/components/features/archive/detail/note/NoteEditor";
 import { getContent, type UserContentWithDetails } from "@/actions/contents/getContent";
 import { getContentMetadata, type ContentMetadata } from "@/actions/contents/getContentMetadata";
 import { updateStatus } from "@/actions/contents/updateStatus";

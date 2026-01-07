@@ -15,6 +15,8 @@ export interface PublicUserProfile {
     content_count: number
     follower_count: number
     following_count: number
+    friend_count: number
+    guestbook_count: number
   }
   is_following: boolean
   is_follower: boolean
@@ -50,12 +52,29 @@ export async function getUserProfile(userId: string): Promise<GetUserProfileResu
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
 
-  // 소셜 통계 조회
-  const { data: socialStats } = await supabase
-    .from('user_social')
-    .select('follower_count, following_count')
-    .eq('user_id', userId)
-    .single()
+  // 팔로워/팔로잉 수 조회
+  const [followerResult, followingResult] = await Promise.all([
+    supabase.from('follows').select('follower_id', { count: 'exact' }).eq('following_id', userId),
+    supabase.from('follows').select('following_id', { count: 'exact' }).eq('follower_id', userId),
+  ])
+
+  // 친구 수 직접 계산 (맞팔)
+  let friendCount = 0
+  if (followingResult.data && followingResult.data.length > 0) {
+    const targetFollowingIds = followingResult.data.map(f => f.following_id)
+    const { count } = await supabase
+      .from('follows')
+      .select('*', { count: 'exact', head: true })
+      .eq('following_id', userId)
+      .in('follower_id', targetFollowingIds)
+    friendCount = count || 0
+  }
+
+  // 방명록 수 조회
+  const { count: guestbookCount } = await supabase
+    .from('guestbook_entries')
+    .select('*', { count: 'exact', head: true })
+    .eq('profile_id', userId)
 
   // 팔로우 상태 확인 (로그인한 경우만)
   let isFollowing = false
@@ -104,8 +123,10 @@ export async function getUserProfile(userId: string): Promise<GetUserProfileResu
       created_at: profile.created_at,
       stats: {
         content_count: contentCount || 0,
-        follower_count: socialStats?.follower_count || 0,
-        following_count: socialStats?.following_count || 0,
+        follower_count: followerResult.count || 0,
+        following_count: followingResult.count || 0,
+        friend_count: friendCount,
+        guestbook_count: guestbookCount || 0,
       },
       is_following: isFollowing,
       is_follower: isFollower,

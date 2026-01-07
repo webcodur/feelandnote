@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Button.tsx
+  기능: 기본 버튼 및 셀렉트 컴포넌트
+  책임: variant/size에 따른 스타일을 적용한 버튼과 드롭다운을 제공한다.
+*/ // ------------------------------
+
 import { ReactNode, ButtonHTMLAttributes, SelectHTMLAttributes } from "react";
 import { LucideIcon, ChevronDown } from "lucide-react";
 

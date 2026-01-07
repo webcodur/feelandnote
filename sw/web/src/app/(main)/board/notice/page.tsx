@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/board/notice/page.tsx
+  기능: 공지사항 페이지
+  책임: 서비스 공지사항을 표시한다.
+*/ // ------------------------------
+
 import { Megaphone } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 

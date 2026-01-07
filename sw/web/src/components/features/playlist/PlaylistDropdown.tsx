@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playlist/PlaylistDropdown.tsx
+  기능: 재생목록 드롭다운 메뉴
+  책임: 재생목록 선택 및 새 재생목록 생성 진입점 제공
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect, useRef } from "react";

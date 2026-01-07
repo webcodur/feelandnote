@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/archive/playlists/page.tsx
+  기능: 재생목록 페이지
+  책임: 사용자의 재생목록을 관리하는 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect } from "react";

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playlist/PlaylistEditor.tsx
+  기능: 재생목록 에디터 컴포넌트
+  책임: 재생목록 이름, 공개 설정, 콘텐츠 구성 편집
+*/ // ------------------------------
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/profile/AchievementsContent.tsx
+  기능: 업적 및 칭호 콘텐츠 표시
+  책임: 점수 내역, 칭호 목록, 카테고리별 진행률 렌더링
+*/ // ------------------------------
 "use client";
 
 import { Trophy, FileText, Archive, Compass, Calendar, PenTool, Users, Sparkles } from "lucide-react";

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/contentLibrary/section/MonthSection.tsx
+  기능: 월별 콘텐츠 그룹 섹션
+  책임: 특정 월에 기록된 콘텐츠를 접기/펼치기 가능한 섹션으로 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { useMemo } from "react";

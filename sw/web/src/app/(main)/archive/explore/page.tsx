@@ -1,16 +1,27 @@
+/*
+  파일명: /app/(main)/archive/explore/page.tsx
+  기능: 탐색 페이지
+  책임: 다른 유저의 기록관을 탐색하는 UI를 제공한다.
+*/ // ------------------------------
+
 import { Compass } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
-import { getSimilarUsers } from "@/actions/user";
+import { getSimilarUsers, getFriends, getMyFollowing } from "@/actions/user";
 import { getCelebProfiles } from "@/actions/celebs";
-import ExploreView from "@/components/features/explore/ExploreView";
+import Explore from "@/components/features/explore/Explore";
 
 export default async function Page() {
-  // 친구 목록 조회 (상호 팔로우)
-  // TODO: 소셜 기능 구현 후 실제 데이터로 교체
-  const friends: Array<{ id: string; nickname: string; avatar_url: string | null; content_count: number }> = [];
+  // 병렬로 데이터 조회
+  const [friendsResult, followingResult, celebResult, similarUsersResult] = await Promise.all([
+    getFriends(),
+    getMyFollowing(),
+    getCelebProfiles({ limit: 20 }),
+    getSimilarUsers(10),
+  ]);
 
-  // 셀럽 목록 조회
-  const celebResult = await getCelebProfiles({ limit: 20 });
+  const friends = friendsResult.success ? friendsResult.data : [];
+  const following = followingResult.success ? followingResult.data : [];
+
   const celebs = celebResult.items.map((celeb) => ({
     id: celeb.id,
     nickname: celeb.nickname || "셀럽",
@@ -21,9 +32,6 @@ export default async function Page() {
     is_verified: celeb.is_verified,
   }));
 
-  // 취향 유사 유저 조회
-  const similarUsersResult = await getSimilarUsers(10);
-
   return (
     <>
       <SectionHeader
@@ -33,8 +41,9 @@ export default async function Page() {
         className="mb-4"
       />
 
-      <ExploreView
+      <Explore
         friends={friends}
+        following={following}
         celebs={celebs}
         similarUsers={similarUsersResult.users}
         similarUsersAlgorithm={similarUsersResult.algorithm}

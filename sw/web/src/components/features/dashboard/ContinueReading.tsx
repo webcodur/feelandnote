@@ -1,7 +1,12 @@
+/*
+  파일명: /components/features/dashboard/ContinueReading.tsx
+  기능: 내 콘텐츠 미리보기 섹션
+  책임: 대시보드에서 사용자의 콘텐츠 라이브러리를 축약 표시한다.
+*/ // ------------------------------
 "use client";
 
 import { BookOpen } from "lucide-react";
-import ContentLibrary from "@/components/features/archive/ContentLibrary";
+import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
 import { SectionHeader } from "@/components/ui";
 
 export default function ContinueReading() {

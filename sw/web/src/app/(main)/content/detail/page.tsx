@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/content/detail/page.tsx
+  기능: 콘텐츠 상세 페이지
+  책임: 콘텐츠 정보와 기록 관리 UI를 제공한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useEffect, Suspense, useTransition } from "react";
@@ -12,7 +18,7 @@ import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { CATEGORIES } from "@/constants/categories";
 import ContentInfoHeader from "@/components/features/contents/ContentInfoHeader";
 import ContentMetadataDisplay from "@/components/features/contents/ContentMetadataDisplay";
-import RecordInfoView from "@/components/features/archive/RecordInfoView";
+import RecordInfo from "@/components/features/archive/detail/RecordInfo";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { ContentType } from "@/types/database";
 import type { ContentInfo } from "@/types/content";
@@ -298,7 +304,7 @@ function ContentDetailContent() {
 
             {/* 추가된 상태: 기록 정보 표시 */}
             {!isCheckingRecord && isAdded && savedItem && (
-              <RecordInfoView item={savedItem} href={`/archive/${contentInfo.id}`} />
+              <RecordInfo item={savedItem} href={`/archive/${contentInfo.id}`} />
             )}
           </div>
         </div>

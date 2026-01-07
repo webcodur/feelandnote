@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/ActivityHeatmap.tsx
+  기능: 연간 활동 히트맵 차트 렌더링
+  책임: 365일 활동 데이터를 GitHub 스타일 그리드로 시각화
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

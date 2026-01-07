@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/archive/note/SectionItem.tsx
+  기능: 노트 섹션 아이템 컴포넌트
+  책임: 개별 노트 섹션의 제목과 메모를 표시하고 편집/삭제를 처리한다.
+*/ // ------------------------------
 "use client";
 
 import { useState } from "react";

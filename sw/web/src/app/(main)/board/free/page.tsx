@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(main)/board/free/page.tsx
+  기능: 자유게시판 페이지
+  책임: 자유게시판 UI를 표시한다.
+*/ // ------------------------------
+
 import { MessageSquare } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 

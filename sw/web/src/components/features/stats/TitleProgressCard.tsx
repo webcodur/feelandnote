@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/stats/TitleProgressCard.tsx
+  기능: 칭호 현황 카드 렌더링
+  책임: 획득/미획득 칭호 목록과 진행도 표시
+*/ // ------------------------------
 "use client";
 
 import { Card } from "@/components/ui";

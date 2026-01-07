@@ -1,7 +1,12 @@
+/*
+  파일명: /components/features/archive/modals/ActionModal.tsx
+  기능: 액션 모달 기본 컴포넌트
+  책임: 아이콘, 제목, 설명, 액션 버튼을 포함한 재사용 가능한 모달을 제공한다.
+*/ // ------------------------------
 "use client";
 
 import { type ReactNode } from "react";
-import { type LucideIcon } from "lucide-react";
+import { Info, type LucideIcon } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 
@@ -45,31 +50,30 @@ export default function ActionModal({
   size = "sm",
 }: ActionModalProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size} closeOnOverlayClick>
+    <Modal isOpen={isOpen} onClose={onClose} title={title} icon={Icon} size={size} closeOnOverlayClick>
       <ModalBody>
-        {/* 헤더 영역 */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4">
-            <Icon size={28} className="text-accent" />
+        {/* 설명 */}
+        <div className="p-3 bg-accent/5 border border-accent/10 rounded-xl mb-4">
+          <div className="flex gap-2.5">
+            <Info size={16} className="text-accent shrink-0 mt-0.5" />
+            <p className="text-xs text-text-secondary leading-relaxed">{description}</p>
           </div>
-          <h3 className="text-lg font-bold text-text-primary mb-2">{title}</h3>
-          <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
         </div>
 
-        {/* 본문 영역 (옵션) */}
-        {children && <div className="mb-4">{children}</div>}
+        {/* 본문 영역 */}
+        {children}
       </ModalBody>
 
       {/* 액션 버튼 영역 */}
       {actions.length > 0 && (
-        <ModalFooter className="flex-col gap-2">
+        <ModalFooter>
           {actions.map((action, index) => (
             <Button
               key={index}
               unstyled
               onClick={action.onClick}
               disabled={action.disabled || action.loading}
-              className={`w-full py-3 px-4 rounded-xl font-semibold text-sm ${BUTTON_STYLES[action.variant || "primary"]} ${
+              className={`flex-1 py-2.5 px-4 rounded-xl font-semibold text-sm ${BUTTON_STYLES[action.variant || "primary"]} ${
                 action.disabled ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >

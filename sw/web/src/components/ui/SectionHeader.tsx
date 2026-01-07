@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/SectionHeader.tsx
+  기능: 섹션 헤더 컴포넌트
+  책임: 제목, 설명, 아이콘, 링크를 포함한 섹션 헤더를 표시한다.
+*/ // ------------------------------
+
 import Link from "next/link";
 
 interface SectionHeaderProps {

@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/blind-game/GamePlaying.tsx
+  기능: 블라인드 게임 플레이 화면
+  책임: 문제 표시, 힌트 제공, 답변 입력 및 제출 처리
+*/ // ------------------------------
 "use client";
 
 import { HelpCircle } from "lucide-react";

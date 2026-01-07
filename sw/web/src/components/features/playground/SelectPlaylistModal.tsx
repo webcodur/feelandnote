@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playground/SelectPlaylistModal.tsx
+  기능: 재생목록 선택 모달
+  책임: 티어 설정할 재생목록 선택 UI 제공
+*/ // ------------------------------
 "use client";
 
 import { X, ListMusic, Trophy, ChevronRight, Loader2 } from "lucide-react";

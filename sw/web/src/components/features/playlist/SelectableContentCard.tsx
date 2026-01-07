@@ -1,3 +1,8 @@
+/*
+  파일명: /components/features/playlist/SelectableContentCard.tsx
+  기능: 선택 가능한 콘텐츠 카드
+  책임: 재생목록 편집 시 콘텐츠 선택 UI 제공
+*/ // ------------------------------
 "use client";
 
 import { Check } from "lucide-react";

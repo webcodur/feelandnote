@@ -1,3 +1,9 @@
+/*
+  파일명: /app/(auth)/login/page.tsx
+  기능: 로그인 페이지
+  책임: Google/카카오 소셜 로그인 UI를 제공한다.
+*/ // ------------------------------
+
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
 

@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/DropdownMenu.tsx
+  기능: 드롭다운 메뉴 컴포넌트
+  책임: 더보기 버튼 클릭 시 액션 목록을 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";

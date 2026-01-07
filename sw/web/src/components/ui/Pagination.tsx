@@ -1,3 +1,9 @@
+/*
+  파일명: /components/ui/Pagination.tsx
+  기능: 페이지네이션 컴포넌트
+  책임: 페이지 번호와 이동 버튼을 표시한다.
+*/ // ------------------------------
+
 "use client";
 
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
