@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import { Plus, Download, Share2, Pin, History, CheckSquare } from "lucide-react";
-import ControlIconButton from "./contentLibrary/controlBar/components/ControlIconButton";
+import ControlIconButton from "./contentLibrary/controlBar/ControlIconButton";
 import ExportModal from "./modals/ExportModal";
 import { ShareModal, HistoryModal } from "./modals/ActionModals";
 import type { ContentType } from "@/types/database";

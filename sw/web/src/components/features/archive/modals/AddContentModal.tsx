@@ -13,7 +13,7 @@ import { Button, ProgressSlider } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
 import type { CategoryId } from "@/constants/categories";
-import { useAchievement } from "@/components/features/achievements";
+import { useAchievement } from "@/components/features/profile/achievements";
 
 interface AddContentModalProps {
   isOpen: boolean;

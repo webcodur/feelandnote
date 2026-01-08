@@ -24,7 +24,7 @@ export default function CategoryGuideModal({ isOpen, onClose }: CategoryGuideMod
             카테고리가 추가될 수 있습니다. (외부 API가 확인되는 경우 추가 가능)
           </p>
           <p className="text-text-tertiary text-xs">
-            카테고리 추가 건의는 자유게시판에서 건의사항 태그를 붙여주시면 전달됩니다.
+            카테고리 추가 건의는 자유게시판에서 건의사항 태그를 붙여주시면 운영진에게 전달됩니다.
           </p>
         </div>
       </ModalBody>

@@ -7,10 +7,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Star, BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
+import { Star, BookOpen, Film, Gamepad2, Music, Award, LayoutGrid, Image } from "lucide-react";
 import Button from "@/components/ui/Button";
+import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/content/ContentCompactCard";
 import { getUserContentsAll, type UserContentPublic } from "@/actions/contents/getUserContents";
 import type { ContentType } from "@/types/database";
+
+type ViewMode = "detail" | "compact";
 
 interface UserContentGridProps {
   userId: string;
@@ -25,8 +28,18 @@ const CATEGORY_TABS = [
   { value: "CERTIFICATE", label: "자격증", icon: Award },
 ] as const;
 
+// DB 타입을 카테고리 ID로 변환
+const TYPE_TO_CATEGORY: Record<string, string> = {
+  BOOK: "book",
+  VIDEO: "video",
+  GAME: "game",
+  MUSIC: "music",
+  CERTIFICATE: "certificate",
+};
+
 export default function UserContentGrid({ userId }: UserContentGridProps) {
   const [activeTab, setActiveTab] = useState<string>("all");
+  const [viewMode, setViewMode] = useState<ViewMode>("detail");
   const [contents, setContents] = useState<UserContentPublic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,27 +67,50 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
 
   return (
     <div>
-      {/* 카테고리 탭 */}
-      <div className="flex gap-1 mb-4 overflow-x-auto pb-2">
-        {CATEGORY_TABS.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.value;
-          return (
-            <Button
-              unstyled
-              key={tab.value}
-              onClick={() => setActiveTab(tab.value)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap ${
-                isActive
-                  ? "bg-accent text-white"
-                  : "bg-surface text-text-secondary hover:bg-surface-hover"
-              }`}
-            >
-              {Icon && <Icon size={14} />}
-              {tab.label}
-            </Button>
-          );
-        })}
+      {/* 컨트롤 바 */}
+      <div className="flex items-center justify-between gap-2 mb-4">
+        {/* 카테고리 탭 */}
+        <div className="flex gap-1 overflow-x-auto pb-2">
+          {CATEGORY_TABS.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.value;
+            return (
+              <Button
+                unstyled
+                key={tab.value}
+                onClick={() => setActiveTab(tab.value)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap ${
+                  isActive
+                    ? "bg-accent text-white"
+                    : "bg-surface text-text-secondary hover:bg-surface-hover"
+                }`}
+              >
+                {Icon && <Icon size={14} />}
+                {tab.label}
+              </Button>
+            );
+          })}
+        </div>
+
+        {/* 뷰 모드 토글 */}
+        <div className="flex gap-1 shrink-0">
+          <Button
+            unstyled
+            onClick={() => setViewMode("detail")}
+            className={`p-2 rounded-lg ${viewMode === "detail" ? "bg-accent text-white" : "bg-surface text-text-secondary hover:bg-surface-hover"}`}
+            title="상세 보기"
+          >
+            <LayoutGrid size={16} />
+          </Button>
+          <Button
+            unstyled
+            onClick={() => setViewMode("compact")}
+            className={`p-2 rounded-lg ${viewMode === "compact" ? "bg-accent text-white" : "bg-surface text-text-secondary hover:bg-surface-hover"}`}
+            title="컴팩트 보기"
+          >
+            <Image size={16} />
+          </Button>
+        </div>
       </div>
 
       {/* 로딩 */}
@@ -104,8 +140,28 @@ export default function UserContentGrid({ userId }: UserContentGridProps) {
         </div>
       )}
 
-      {/* 콘텐츠 그리드 */}
-      {!isLoading && !error && filteredContents.length > 0 && (
+      {/* 컴팩트 뷰 */}
+      {!isLoading && !error && filteredContents.length > 0 && viewMode === "compact" && (
+        <ContentCompactGrid>
+          {filteredContents.map((item) => (
+            <ContentCompactCard
+              key={item.id}
+              data={{
+                id: item.content_id,
+                title: item.content.title,
+                creator: item.content.creator || undefined,
+                category: TYPE_TO_CATEGORY[item.content.type] || "book",
+                thumbnail: item.content.thumbnail_url || undefined,
+                metadata: item.content.metadata || undefined,
+              }}
+              href={`/archive/${item.content_id}`}
+            />
+          ))}
+        </ContentCompactGrid>
+      )}
+
+      {/* 상세 뷰 (기존) */}
+      {!isLoading && !error && filteredContents.length > 0 && viewMode === "detail" && (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
           {filteredContents.map((item) => (
             <Link

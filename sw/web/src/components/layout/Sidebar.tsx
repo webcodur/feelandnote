@@ -51,7 +51,7 @@ const NAV_SECTIONS: NavSection[] = [
       { href: "/archive/playlists", label: "재생목록", icon: ListMusic },
       { href: "/archive/explore", label: "탐색", icon: Compass },
       { href: "/archive/feed", label: "피드", icon: Newspaper },
-      { href: "/archive/playground", label: "놀이터", icon: Gamepad2 },
+      { href: "/archive/lounge", label: "휴게실", icon: Gamepad2 },
     ],
   },
   {

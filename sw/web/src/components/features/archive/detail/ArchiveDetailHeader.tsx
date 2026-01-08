@@ -9,7 +9,7 @@ import { ArrowLeft, Trash2, Calendar, User } from "lucide-react";
 import { CATEGORIES } from "@/constants/categories";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import ContentMetadataDisplay from "@/components/features/contents/ContentMetadataDisplay";
+import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 import type { ContentStatus } from "@/actions/contents/addContent";
 import type { UserContentWithDetails } from "@/actions/contents/getContent";
 import type { ContentMetadata } from "@/types/content";

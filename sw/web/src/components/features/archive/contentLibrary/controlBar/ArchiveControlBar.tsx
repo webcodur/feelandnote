@@ -6,15 +6,15 @@
 "use client";
 
 import { useState } from "react";
-import { LayoutGrid, List, Filter, ArrowUpDown, ChevronsDown, ChevronsUp, Layers, Tag } from "lucide-react";
+import { LayoutGrid, List, Filter, ArrowUpDown, ChevronsDown, ChevronsUp, Layers, Tag, Image } from "lucide-react";
 import Button, { SelectDropdown } from "@/components/ui/Button";
 import type { CategoryWithCount } from "@/types/database";
 import type { ProgressFilter, SortOption, ViewMode } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/actions/contents/getContentCounts";
 import { TAB_OPTIONS, PROGRESS_OPTIONS, SORT_OPTIONS } from "./constants";
-import ControlSection from "./components/ControlSection";
-import ControlIconButton from "./components/ControlIconButton";
-import CategoryChip from "./components/CategoryChip";
+import ControlSection from "./ControlSection";
+import ControlIconButton from "./ControlIconButton";
+import CategoryChip from "./CategoryChip";
 import CategoryGuideModal from "./CategoryGuideModal";
 
 function cn(...classes: (string | undefined | null | false)[]) {
@@ -139,10 +139,11 @@ export default function ArchiveControlBar({
         <div className="hidden sm:block w-px bg-border/50 self-stretch" />
 
         {/* Section 3: View */}
-        <ControlSection header="보기" className="bg-surface/10 w-[90px] sm:w-[90px]">
-          <div className="grid grid-cols-2 gap-1.5">
+        <ControlSection header="보기" className="bg-surface/10 w-[120px] sm:w-[120px]">
+          <div className="grid grid-cols-3 gap-1.5">
             <ControlIconButton active={viewMode === "grid"} onClick={() => onViewModeChange("grid")} icon={LayoutGrid} title="그리드 뷰" />
             <ControlIconButton active={viewMode === "list"} onClick={() => onViewModeChange("list")} icon={List} title="리스트 뷰" />
+            <ControlIconButton active={viewMode === "compact"} onClick={() => onViewModeChange("compact")} icon={Image} title="컴팩트 뷰" />
             <ControlIconButton active={false} onClick={onExpandAll} icon={ChevronsDown} title="모두 펼치기" />
             <ControlIconButton active={false} onClick={onCollapseAll} icon={ChevronsUp} title="모두 접기" />
           </div>

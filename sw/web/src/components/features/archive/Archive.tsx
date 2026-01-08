@@ -12,8 +12,8 @@ import { Plus } from "lucide-react";
 import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
 import AddContentModal from "@/components/features/archive/modals/AddContentModal";
 import ArchiveActionButtons from "@/components/features/archive/ArchiveActionButtons";
-import FollowListModal from "@/components/features/user/FollowListModal";
-import Button from "@/components/ui/Button";
+import FollowListModal from "@/components/features/archive/user/FollowListModal";
+import { Button, Avatar } from "@/components/ui";
 import type { UserProfile } from "@/actions/user";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -128,21 +128,3 @@ export default function Archive({ myProfile, stats }: ArchiveProps) {
     </>
   );
 }
-
-// region Avatar 컴포넌트
-function Avatar({ url, name, size = "md", className = "" }: { url: string | null; name: string; size?: "sm" | "md" | "lg" | "xl"; className?: string }) {
-  const sizeClasses = { sm: "w-10 h-10 text-sm", md: "w-12 h-12 text-lg", lg: "w-14 h-14 text-xl", xl: "w-16 h-16 text-2xl" };
-
-  return (
-    <div className="relative">
-      {url ? (
-        <img src={url} alt={name} className={`${sizeClasses[size]} rounded-full object-cover ring-2 ring-accent/20 ${className}`} />
-      ) : (
-        <div className={`${sizeClasses[size]} rounded-full flex items-center justify-center font-bold text-white ring-2 ring-accent/20 ${className}`} style={{ background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}>
-          {name.charAt(0).toUpperCase()}
-        </div>
-      )}
-    </div>
-  );
-}
-// endregion

@@ -4,7 +4,7 @@
   책임: 인증된 사용자를 위한 공통 레이아웃을 적용한다.
 */ // ------------------------------
 
-import MainLayout from "@/components/layout/MainLayout";
+import MainLayout from "@/components/layout/LayoutMain";
 
 export default function MainGroupLayout({
   children,

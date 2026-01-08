@@ -3,8 +3,7 @@
   기능: 탐색 페이지용 카드 컴포넌트 모음
   책임: 아바타, 유저 카드, 유사 유저 카드, 빈 상태 UI 제공
 */ // ------------------------------
-import { CheckCircle } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Button, Avatar } from "@/components/ui";
 
 interface UserInfo {
   id: string;
@@ -22,25 +21,6 @@ interface SimilarUserInfo {
   content_count: number;
   overlap_count: number;
   similarity: number;
-}
-
-export function Avatar({ url, name, size = "md", verified, className = "" }: {
-  url: string | null; name: string; size?: "sm" | "md" | "lg" | "xl"; verified?: boolean; className?: string
-}) {
-  const sizeClasses = { sm: "w-10 h-10 text-sm", md: "w-12 h-12 text-lg", lg: "w-14 h-14 text-xl", xl: "w-16 h-16 text-2xl" };
-
-  return (
-    <div className="relative">
-      {url ? (
-        <img src={url} alt={name} className={`${sizeClasses[size]} rounded-full object-cover ring-2 ring-accent/20 ${className}`} />
-      ) : (
-        <div className={`${sizeClasses[size]} rounded-full flex items-center justify-center font-bold text-white ring-2 ring-accent/20 ${className}`} style={{ background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}>
-          {name.charAt(0).toUpperCase()}
-        </div>
-      )}
-      {verified && <CheckCircle size={size === "xl" ? 20 : size === "lg" ? 18 : 14} className="absolute -bottom-0.5 -end-0.5 text-accent bg-surface rounded-full" />}
-    </div>
-  );
 }
 
 export function UserCard({ user, onClick, showCategory }: { user: UserInfo; onClick: () => void; showCategory?: boolean }) {

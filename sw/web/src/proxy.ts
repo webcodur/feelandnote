@@ -7,7 +7,7 @@ const protectedPaths = [
   '/archive',
   '/feed',
   '/social',
-  '/playground',
+  '/lounge',
   '/stats',
   '/achievements',
   '/settings'
