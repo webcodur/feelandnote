@@ -58,7 +58,10 @@
       "Bash(xargs sed:*)",
       "Bash(find:*)",
       "Bash(npx tsc:*)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(git rm:*)",
+      "Bash(tree:*)",
+      "Bash(git status:*)"
     ],
     "deny": [],
     "ask": []

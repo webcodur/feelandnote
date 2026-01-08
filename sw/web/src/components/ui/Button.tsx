@@ -10,7 +10,7 @@ import { LucideIcon, ChevronDown } from "lucide-react";
 // #region Base Button
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   unstyled?: boolean;
 }
@@ -22,6 +22,8 @@ const variantStyles = {
     "inline-flex items-center justify-center gap-2 bg-white/5 text-text-primary border border-border hover:bg-white/10 hover:border-accent rounded-lg font-semibold",
   ghost:
     "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-lg",
+  danger:
+    "inline-flex items-center justify-center gap-2 bg-red-500 text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-red-600 border-none rounded-lg font-semibold",
 };
 
 const sizeStyles = {

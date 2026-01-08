@@ -1,18 +1,28 @@
 /*
   파일명: /components/features/archive/ContentItemRenderer.tsx
   기능: 콘텐츠 목록의 뷰 모드별 렌더링 컴포넌트
-  책임: 그리드/리스트 뷰 모드에 따라 콘텐츠 아이템을 렌더링한다.
+  책임: 그리드/리스트/컴팩트 뷰 모드에 따라 콘텐츠 아이템을 렌더링한다.
 */ // ------------------------------
 "use client";
 
 import { ContentCard, CertificateCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
+import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/content/ContentCompactCard";
 
 import ContentListItem from "./ContentListItem";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentStatus, CategoryWithCount } from "@/types/database";
 import type { ViewMode } from "../useContentLibrary";
+
+// DB 타입을 카테고리 ID로 변환
+const TYPE_TO_CATEGORY: Record<string, string> = {
+  BOOK: "book",
+  VIDEO: "video",
+  GAME: "game",
+  MUSIC: "music",
+  CERTIFICATE: "certificate",
+};
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -61,6 +71,28 @@ export default function ContentItemRenderer({
   onPinToggle,
 }: ContentItemRendererProps) {
   // #region 렌더링
+
+  // 컴팩트 모드 - 컨텐츠 정보만 표시 (리뷰/기록 없음)
+  if (viewMode === "compact") {
+    return (
+      <ContentCompactGrid>
+        {items.map((item) => (
+          <ContentCompactCard
+            key={item.id}
+            data={{
+              id: item.content_id,
+              title: item.content.title,
+              creator: item.content.creator || undefined,
+              category: TYPE_TO_CATEGORY[item.content.type] || "book",
+              thumbnail: item.content.thumbnail_url || undefined,
+              metadata: item.content.metadata || undefined,
+            }}
+            href={`/archive/${item.content_id}`}
+          />
+        ))}
+      </ContentCompactGrid>
+    );
+  }
 
   // 그리드 모드
   if (viewMode === "grid") {

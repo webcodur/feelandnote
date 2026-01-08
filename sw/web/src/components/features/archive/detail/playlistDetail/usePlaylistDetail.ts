@@ -59,11 +59,19 @@ export function usePlaylistDetail(playlistId: string) {
 
   // 핸들러
   const handleDelete = async () => {
-    if (!confirm("이 재생목록을 삭제하시겠습니까?")) return;
+    console.log("[삭제] 시작, playlistId:", playlistId);
+    setIsMenuOpen(false);
+    if (!confirm("이 재생목록을 삭제하시겠습니까?")) {
+      console.log("[삭제] 취소됨");
+      return;
+    }
+    console.log("[삭제] 확인됨, deletePlaylist 호출");
     try {
-      await deletePlaylist(playlistId);
+      const result = await deletePlaylist(playlistId);
+      console.log("[삭제] 성공:", result);
       router.push("/archive/playlists");
     } catch (err) {
+      console.error("[삭제] 실패:", err);
       alert(err instanceof Error ? err.message : "삭제에 실패했습니다");
     }
   };

@@ -7,7 +7,7 @@
 
 import { Card } from "@/components/ui";
 import { Archive, FileText, MessageCircle, Quote } from "lucide-react";
-import { CategoryDonutChart, ActivityTimeline } from "@/components/features/stats";
+import { CategoryDonutChart, ActivityTimeline } from "@/components/features/profile/stats";
 import type { DetailedStats } from "@/actions/user";
 
 interface StatsContentProps {

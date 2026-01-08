@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile, getProfile, getStats } from "@/actions/user";
 import { getGuestbookEntries } from "@/actions/guestbook";
-import UserProfile from "@/components/features/user/UserProfile";
+import UserProfile from "@/components/features/archive/user/User";
 import Archive from "@/components/features/archive/Archive";
 
 interface PageProps {

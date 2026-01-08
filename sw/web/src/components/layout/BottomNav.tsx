@@ -42,7 +42,7 @@ export default function BottomNav() {
   const navItems = [
     { href: "/archive", icon: <Folder size={20} />, label: "기록관" },
     { href: "/archive/feed", icon: <Newspaper size={20} />, label: "피드" },
-    { href: "/archive/playground", icon: <Compass size={20} />, label: "놀이터" },
+    { href: "/archive/lounge", icon: <Compass size={20} />, label: "휴게실" },
     { href: "/profile", icon: <User size={20} />, label: "마이페이지" },
   ];
 

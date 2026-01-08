@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import { useMemo } from "react";
 import { useContentLibrary } from "./useContentLibrary";
 import { useBatchActions } from "./useBatchActions";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
@@ -19,7 +20,7 @@ import CategoryManager from "./CategoryManager";
 import BatchActionBar from "./batchActions/BatchActionBar";
 import PinActionBar from "./batchActions/PinActionBar";
 import PinnedCorkBoard from "./batchActions/PinnedCorkBoard";
-import { Pagination } from "@/components/ui";
+import { Pagination, DeleteConfirmModal } from "@/components/ui";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
@@ -33,8 +34,24 @@ export default function ContentLibrary({
 }: ContentLibraryProps) {
   const lib = useContentLibrary({ maxItems, compact, showCategories });
 
-  const { isBatchLoading, handleBatchDelete, handleBatchCategoryChange } = useBatchActions({
+  // userContentId -> contentId 매핑 생성
+  const contentIdMap = useMemo(() => {
+    const map = new Map<string, string>();
+    lib.contents.forEach((item) => map.set(item.id, item.content_id));
+    return map;
+  }, [lib.contents]);
+
+  const {
+    isBatchLoading,
+    isDeleteModalOpen,
+    affectedPlaylists,
+    openDeleteModal,
+    closeDeleteModal,
+    confirmDelete,
+    handleBatchCategoryChange,
+  } = useBatchActions({
     selectedIds: lib.selectedIds,
+    contentIdMap,
     toggleBatchMode: lib.toggleBatchMode,
     loadContents: lib.loadContents,
     loadCategories: lib.loadCategories,
@@ -181,7 +198,7 @@ export default function ContentLibrary({
         <BatchActionBar
           selectedCount={lib.selectedIds.size}
           totalCount={lib.filteredAndSortedContents.length}
-          onDelete={handleBatchDelete}
+          onDelete={openDeleteModal}
           onCategoryChange={handleBatchCategoryChange}
           onSelectAll={lib.selectAll}
           onDeselectAll={lib.deselectAll}
@@ -190,6 +207,26 @@ export default function ContentLibrary({
           isLoading={isBatchLoading}
         />
       )}
+
+      {/* 일괄 삭제 확인 모달 */}
+      <DeleteConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        isLoading={isBatchLoading}
+        affectedPlaylists={affectedPlaylists}
+        itemCount={lib.selectedIds.size}
+      />
+
+      {/* 개별 삭제 확인 모달 */}
+      <DeleteConfirmModal
+        isOpen={lib.isDeleteModalOpen}
+        onClose={lib.closeDeleteModal}
+        onConfirm={lib.confirmDelete}
+        isLoading={lib.isDeleteLoading}
+        affectedPlaylists={lib.deleteAffectedPlaylists}
+        itemCount={1}
+      />
 
       {/* 핀 모드 액션 바 */}
       {lib.isPinMode && <PinActionBar pinnedCount={lib.pinnedCount} onExit={lib.exitPinMode} />}

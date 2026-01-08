@@ -109,7 +109,7 @@ export default function PlaylistHeader({
 
             {isMenuOpen && (
               <>
-                <div className="fixed inset-0" style={{ zIndex: Z_INDEX.overlay }} onClick={() => setIsMenuOpen(false)} />
+                <div className="fixed inset-0" style={{ zIndex: Z_INDEX.dropdown - 1 }} onClick={() => setIsMenuOpen(false)} />
                 <div className="absolute right-0 mt-2 w-48 bg-bg-card border border-border rounded-xl shadow-lg overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
                   <Button unstyled onClick={handleTogglePublic} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-secondary text-left text-sm">
                     {playlist.is_public ? <Lock size={16} /> : <Globe size={16} />}

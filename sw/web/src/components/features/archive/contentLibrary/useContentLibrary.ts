@@ -17,11 +17,17 @@ import { updateRecommendation } from "@/actions/contents/updateRecommendation";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
 import { togglePin } from "@/actions/contents/togglePin";
+import { getPlaylistsContainingContent } from "@/actions/playlists";
+
+interface PlaylistInfo {
+  id: string;
+  name: string;
+}
 
 import type { ContentType, ContentStatus, CategoryWithCount } from "@/types/database";
 
 // #region 타입
-export type ViewMode = "grid" | "list";
+export type ViewMode = "grid" | "list" | "compact";
 export type ProgressFilter = "all" | "not_started" | "in_progress" | "completed";
 export type SortOption = "recent" | "title" | "progress_asc" | "progress_desc";
 
@@ -91,6 +97,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   // 핀 모드 상태
   const [isPinMode, setIsPinMode] = useState(false);
+
+  // 개별 삭제 모달 상태
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; contentId: string } | null>(null);
+  const [deleteAffectedPlaylists, setDeleteAffectedPlaylists] = useState<PlaylistInfo[]>([]);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   // #endregion
 
   // #region 파생 상태 (useMemo)
@@ -396,17 +407,42 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     });
   }, [loadContents]);
 
-  const handleDelete = useCallback((userContentId: string) => {
-    setContents((prev) => prev.filter((item) => item.id !== userContentId));
-    startTransition(async () => {
-      try {
-        await removeContent(userContentId);
-      } catch (err) {
-        loadContents();
-        console.error("삭제 실패:", err);
-      }
-    });
-  }, [loadContents]);
+  // 삭제 모달 열기
+  const openDeleteModal = useCallback(async (userContentId: string) => {
+    const item = contents.find((c) => c.id === userContentId);
+    if (!item) return;
+
+    setDeleteTarget({ id: userContentId, contentId: item.content_id });
+    const playlists = await getPlaylistsContainingContent(item.content_id);
+    setDeleteAffectedPlaylists(playlists);
+  }, [contents]);
+
+  // 삭제 모달 닫기
+  const closeDeleteModal = useCallback(() => {
+    setDeleteTarget(null);
+    setDeleteAffectedPlaylists([]);
+  }, []);
+
+  // 실제 삭제 실행
+  const confirmDelete = useCallback(async () => {
+    if (!deleteTarget) return;
+
+    setIsDeleteLoading(true);
+    setContents((prev) => prev.filter((item) => item.id !== deleteTarget.id));
+
+    try {
+      await removeContent(deleteTarget.id);
+      closeDeleteModal();
+    } catch (err) {
+      loadContents();
+      console.error("삭제 실패:", err);
+    } finally {
+      setIsDeleteLoading(false);
+    }
+  }, [deleteTarget, loadContents, closeDeleteModal]);
+
+  // 기존 handleDelete는 모달을 여는 것으로 변경
+  const handleDelete = openDeleteModal;
 
   const handleRecommendChange = useCallback((userContentId: string, isRecommended: boolean) => {
     setContents((prev) =>
@@ -502,6 +538,12 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     handleDateChange,
     handleDelete,
     handleMoveToCategory,
+    // 개별 삭제 모달
+    isDeleteModalOpen: deleteTarget !== null,
+    deleteAffectedPlaylists,
+    isDeleteLoading,
+    closeDeleteModal,
+    confirmDelete,
     // 핀 액션
     enterPinMode,
     exitPinMode,

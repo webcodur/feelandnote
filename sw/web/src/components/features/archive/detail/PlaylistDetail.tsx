@@ -6,7 +6,7 @@
 "use client";
 
 import Link from "next/link";
-import { PlaylistEditor } from "@/components/features/playlist";
+import { PlaylistEditor } from "@/components/features/archive/playlists";
 import { usePlaylistDetail } from "./playlistDetail/usePlaylistDetail";
 import PlaylistHeader from "./playlistDetail/PlaylistHeader";
 import PlaylistItemList from "./playlistDetail/PlaylistItemList";

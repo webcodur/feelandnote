@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/user/UserProfile.tsx
+  파일명: /components/features/archive/user/User.tsx
   기능: 사용자 프로필 페이지 뷰
   책임: 프로필 헤더, 콘텐츠 그리드, 방명록 섹션 통합 렌더링
 */ // ------------------------------

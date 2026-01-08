@@ -5,7 +5,7 @@
 */ // ------------------------------
 import type { LucideIcon } from "lucide-react";
 import { IconButton } from "@/components/ui/Button";
-import { CONTROL_BUTTON_VARIANTS } from "../constants";
+import { CONTROL_BUTTON_VARIANTS } from "./constants";
 
 function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");

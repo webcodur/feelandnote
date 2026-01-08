@@ -23,6 +23,7 @@ export interface UserContentPublic {
     title: string
     creator: string | null
     thumbnail_url: string | null
+    metadata: Record<string, unknown> | null
   }
   // 공개된 기록 요약
   public_record?: {
@@ -109,6 +110,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     title: string
     creator: string | null
     thumbnail_url: string | null
+    metadata: Record<string, unknown> | null
   }
 
   const validContents = (userContents || []).filter(item => item.content !== null) as unknown as Array<{
@@ -158,6 +160,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
         title: item.content.title,
         creator: item.content.creator,
         thumbnail_url: item.content.thumbnail_url,
+        metadata: item.content.metadata || null,
       },
       public_record: recordMap.get(item.content_id) || null,
     }))

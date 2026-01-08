@@ -3,24 +3,57 @@
 import { useState } from "react";
 import { batchRemoveContents } from "@/actions/contents";
 import { moveToCategory } from "@/actions/categories/moveToCategory";
+import { getPlaylistsContainingContents } from "@/actions/playlists";
+
+interface PlaylistInfo {
+  id: string;
+  name: string;
+}
 
 interface UseBatchActionsOptions {
   selectedIds: Set<string>;
+  contentIdMap: Map<string, string>; // userContentId -> contentId 매핑
   toggleBatchMode: () => void;
   loadContents: () => void;
   loadCategories: () => void;
 }
 
-export function useBatchActions({ selectedIds, toggleBatchMode, loadContents, loadCategories }: UseBatchActionsOptions) {
+export function useBatchActions({ selectedIds, contentIdMap, toggleBatchMode, loadContents, loadCategories }: UseBatchActionsOptions) {
   const [isBatchLoading, setIsBatchLoading] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [affectedPlaylists, setAffectedPlaylists] = useState<PlaylistInfo[]>([]);
 
-  const handleBatchDelete = async () => {
+  // 삭제 모달 열기 (영향받는 재생목록 조회)
+  const openDeleteModal = async () => {
     if (selectedIds.size === 0) return;
-    if (!confirm(`${selectedIds.size}개 콘텐츠를 삭제하시겠습니까?`)) return;
+
+    const contentIds = [...selectedIds]
+      .map(id => contentIdMap.get(id))
+      .filter((id): id is string => !!id);
+
+    if (contentIds.length > 0) {
+      const playlists = await getPlaylistsContainingContents(contentIds);
+      setAffectedPlaylists(playlists);
+    } else {
+      setAffectedPlaylists([]);
+    }
+
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setAffectedPlaylists([]);
+  };
+
+  // 실제 삭제 실행
+  const confirmDelete = async () => {
+    if (selectedIds.size === 0) return;
 
     setIsBatchLoading(true);
     try {
       await batchRemoveContents({ userContentIds: [...selectedIds] });
+      closeDeleteModal();
       toggleBatchMode();
       loadContents();
     } catch (err) {
@@ -48,5 +81,13 @@ export function useBatchActions({ selectedIds, toggleBatchMode, loadContents, lo
     }
   };
 
-  return { isBatchLoading, handleBatchDelete, handleBatchCategoryChange };
+  return {
+    isBatchLoading,
+    isDeleteModalOpen,
+    affectedPlaylists,
+    openDeleteModal,
+    closeDeleteModal,
+    confirmDelete,
+    handleBatchCategoryChange,
+  };
 }
