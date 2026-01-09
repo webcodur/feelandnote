@@ -65,7 +65,11 @@
       "WebFetch(domain:pixabay.com)",
       "Bash(ContentStatus)",
       "Bash(' | Set-Content 'c:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote/sw/web/src/components/features/archive/contentLibrary/useContentLibrary.ts ' \")",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(timeout 15 pnpm start:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(timeout 10 npx next start:*)"
     ],
     "deny": [],
     "ask": []

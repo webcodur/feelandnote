@@ -15,7 +15,7 @@ const protectedPaths = [
 // 인증된 사용자가 접근하면 안 되는 경로
 const authPaths = ['/login', '/signup']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { supabaseResponse, user } = await updateSession(request)
 
   const pathname = request.nextUrl.pathname
