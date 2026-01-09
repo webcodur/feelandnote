@@ -2,7 +2,6 @@ export type VisibilityType = 'public' | 'followers' | 'private'
 
 export interface Snapshot {
   context?: string
-  progress?: number
 }
 
 export interface Template {

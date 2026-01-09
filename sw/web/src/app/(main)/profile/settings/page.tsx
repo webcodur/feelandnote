@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { Settings, Loader2 } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 import { getProfile, updateApiKey, updateProfile, type UserProfile } from "@/actions/user";
+import { deleteAccount } from "@/actions/auth";
 import SettingsContent from "@/components/features/profile/SettingsContent";
 
 export default function Page() {
@@ -63,6 +64,11 @@ export default function Page() {
     return result;
   };
 
+  const handleDeleteAccount = async () => {
+    await deleteAccount();
+    return { success: true };
+  };
+
   return (
     <>
       <SectionHeader
@@ -83,6 +89,7 @@ export default function Page() {
           isSaving={isSavingApiKey}
           profile={profile ? { nickname: profile.nickname, avatar_url: profile.avatar_url, bio: profile.bio || null } : null}
           onProfileUpdate={handleProfileUpdate}
+          onDeleteAccount={handleDeleteAccount}
         />
       )}
     </>

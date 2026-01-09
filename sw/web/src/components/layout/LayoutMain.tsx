@@ -8,17 +8,33 @@
 
 import { useState, useEffect } from "react";
 import Header from "./header/Header";
-import Sidebar, { SIDEBAR_WIDTH } from "./Sidebar";
+import Sidebar, { SIDEBAR_WIDTH_DEFAULT } from "./Sidebar";
 import BottomNav from "./BottomNav";
 import { AchievementProvider } from "@/components/features/profile/achievements";
+
+const SIDEBAR_WIDTH_STORAGE_KEY = "feelnnote_sidebar_width";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_WIDTH_DEFAULT);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleSidebarWidthChange = (width: number) => {
+    setSidebarWidth(width);
+    localStorage.setItem(SIDEBAR_WIDTH_STORAGE_KEY, String(width));
+  };
+
+  // localStorage에서 사이드바 너비 로드
+  useEffect(() => {
+    const savedWidth = localStorage.getItem(SIDEBAR_WIDTH_STORAGE_KEY);
+    if (savedWidth) {
+      setSidebarWidth(Number(savedWidth));
+    }
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -47,10 +63,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <AchievementProvider>
       <Header onMenuClick={toggleSidebar} isMobile={isMobile} />
-      {!isMobile && <Sidebar isOpen={isSidebarOpen} />}
+      {!isMobile && <Sidebar isOpen={isSidebarOpen} width={sidebarWidth} onWidthChange={handleSidebarWidthChange} />}
       <main
         className="pt-16 pb-16 px-3 md:pt-20 md:pb-6 md:px-5 min-h-screen overflow-y-auto scrollbar-stable"
-        style={{ marginLeft: showSidebar ? SIDEBAR_WIDTH : 0 }}
+        style={{ marginLeft: showSidebar ? sidebarWidth : 0 }}
       >
         <div className="max-w-[1400px] mx-auto">
           {children}

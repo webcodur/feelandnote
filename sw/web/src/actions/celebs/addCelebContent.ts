@@ -73,8 +73,7 @@ export async function addCelebContent(params: AddCelebContentParams) {
     .insert({
       user_id: params.celebId,
       content_id: params.contentId,
-      status: params.status ?? 'WATCHING',
-      progress: 100,
+      status: params.status ?? 'FINISHED',
       contributor_id: user.id
     })
     .select('id')

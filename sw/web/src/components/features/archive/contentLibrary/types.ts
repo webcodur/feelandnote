@@ -1,3 +1,5 @@
+import type { ContentLibraryMode } from "./useContentLibrary";
+
 export interface HeaderActionsProps {
   toggleBatchMode: () => void;
   isBatchMode: boolean;
@@ -15,4 +17,7 @@ export interface ContentLibraryProps {
   showPagination?: boolean;
   emptyMessage?: string;
   headerActions?: React.ReactNode | ((props: HeaderActionsProps) => React.ReactNode);
+  // 공통 컴포넌트 모드
+  mode?: ContentLibraryMode;
+  targetUserId?: string; // viewer 모드에서 필수
 }

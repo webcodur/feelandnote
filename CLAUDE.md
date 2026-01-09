@@ -101,6 +101,9 @@ constants/         # 상수 (categories.ts)
 
 Supabase MCP 서버가 설정되어 있다. DB 스키마 조회, 마이그레이션, SQL 실행 등에 활용 가능.
 
+- **프로젝트 ID**: `wouqtpvfctednlffross`
+- MCP 사용 전 `list_projects`로 ID 확인 필수
+
 ## 디자인 시스템
 
 ### 색상 (globals.css @theme)

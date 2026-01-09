@@ -6,7 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Check } from "lucide-react";
+import { Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Check, Trash2, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 
@@ -22,9 +22,10 @@ interface SettingsContentProps {
   isSaving: boolean;
   profile: ProfileData | null;
   onProfileUpdate: (data: Partial<ProfileData>) => Promise<{ success: boolean; error?: string }>;
+  onDeleteAccount: () => Promise<{ success: boolean; error?: string }>;
 }
 
-export default function SettingsContent({ apiKey, onSave, isSaving, profile, onProfileUpdate }: SettingsContentProps) {
+export default function SettingsContent({ apiKey, onSave, isSaving, profile, onProfileUpdate, onDeleteAccount }: SettingsContentProps) {
   const [inputValue, setInputValue] = useState(apiKey || "");
   const [showKey, setShowKey] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -36,6 +37,12 @@ export default function SettingsContent({ apiKey, onSave, isSaving, profile, onP
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [profileSaveSuccess, setProfileSaveSuccess] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
+
+  // 회원탈퇴 상태
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmInput, setDeleteConfirmInput] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const handleSave = async () => {
     try {
@@ -53,6 +60,25 @@ export default function SettingsContent({ apiKey, onSave, isSaving, profile, onP
     nickname !== (profile?.nickname || "") ||
     bio !== (profile?.bio || "") ||
     avatarUrl !== (profile?.avatar_url || "");
+
+  const confirmText = "탈퇴합니다";
+  const canDelete = deleteConfirmInput === confirmText;
+
+  const handleDeleteAccount = async () => {
+    if (!canDelete) return;
+    setIsDeleting(true);
+    setDeleteError(null);
+    try {
+      const result = await onDeleteAccount();
+      if (!result.success) {
+        setDeleteError(result.error || "탈퇴에 실패했다.");
+      }
+    } catch {
+      setDeleteError("탈퇴에 실패했다.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const handleProfileSave = async () => {
     setIsSavingProfile(true);
@@ -199,6 +225,89 @@ export default function SettingsContent({ apiKey, onSave, isSaving, profile, onP
             </a>
             <span>AI 리뷰 생성, 줄거리 요약에 사용</span>
           </div>
+        </div>
+      </Card>
+
+      {/* 위험 영역 카드 */}
+      <Card className="p-0 border-red-500/30">
+        <div className="px-4 py-3 border-b border-red-500/20 flex items-center gap-2">
+          <Trash2 size={16} className="text-red-400" />
+          <h3 className="font-semibold text-sm text-red-400">위험 영역</h3>
+        </div>
+
+        <div className="p-4">
+          {!showDeleteConfirm ? (
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">회원탈퇴</p>
+                <p className="text-xs text-text-secondary mt-0.5">
+                  모든 기록, 플레이리스트, 팔로우 정보가 영구 삭제된다.
+                </p>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowDeleteConfirm(true)}
+                className="text-red-400 hover:bg-red-500/10"
+              >
+                탈퇴하기
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <div className="flex items-start gap-2 p-3 bg-red-500/10 rounded-lg">
+                <AlertTriangle size={16} className="text-red-400 mt-0.5 shrink-0" />
+                <div className="text-sm">
+                  <p className="font-medium text-red-400">정말 탈퇴하시겠습니까?</p>
+                  <p className="text-text-secondary mt-1">
+                    이 작업은 되돌릴 수 없다. 모든 데이터가 즉시 삭제된다.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-text-secondary mb-1.5">
+                  확인을 위해 <span className="text-red-400 font-medium">{confirmText}</span>를 입력
+                </p>
+                <input
+                  type="text"
+                  value={deleteConfirmInput}
+                  onChange={(e) => setDeleteConfirmInput(e.target.value)}
+                  placeholder={confirmText}
+                  className="w-full h-9 bg-black/20 border border-red-500/30 rounded-lg px-3 text-sm outline-none focus:border-red-500 placeholder:text-text-secondary"
+                />
+              </div>
+
+              {deleteError && (
+                <p className="text-xs text-red-400">{deleteError}</p>
+              )}
+
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setShowDeleteConfirm(false);
+                    setDeleteConfirmInput("");
+                    setDeleteError(null);
+                  }}
+                  disabled={isDeleting}
+                  className="flex-1"
+                >
+                  취소
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleDeleteAccount}
+                  disabled={!canDelete || isDeleting}
+                  className="flex-1 bg-red-500/20 text-red-400 hover:bg-red-500/30 disabled:opacity-50"
+                >
+                  {isDeleting ? <Loader2 size={14} className="animate-spin" /> : "영구 삭제"}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </Card>
     </div>

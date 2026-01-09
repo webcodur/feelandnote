@@ -210,7 +210,7 @@ async function getUserStats(supabase: Awaited<ReturnType<typeof createClient>>, 
       .from('user_contents')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userId)
-      .eq('progress', 100),
+      .in('status', ['FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED']),
 
     // 리뷰 길이: user_contents에서 review 컬럼
     supabase

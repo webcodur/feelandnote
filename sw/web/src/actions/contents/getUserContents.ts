@@ -1,21 +1,20 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { ContentType } from '@/types/database'
+import type { ContentType, VisibilityType } from '@/types/database'
 
 interface GetUserContentsParams {
   userId: string
   type?: ContentType
   page?: number
   limit?: number
-  includeCelebContent?: boolean // 셀럽 프로필인 경우 기록 없는 콘텐츠도 포함
 }
 
 export interface UserContentPublic {
   id: string
   content_id: string
   status: string
-  progress: number | null
+  visibility: VisibilityType | null
   created_at: string
   content: {
     id: string
@@ -27,7 +26,6 @@ export interface UserContentPublic {
   }
   // 공개된 기록 요약
   public_record?: {
-    type: string
     rating: number | null
     content_preview: string | null
   } | null
@@ -42,39 +40,15 @@ export interface GetUserContentsResponse {
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20, includeCelebContent = false } = params
+  const { userId, type, page = 1, limit = 20 } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
-  // 대상 프로필 유형 확인
-  const { data: targetProfile } = await supabase
-    .from('profiles')
-    .select('profile_type')
-    .eq('id', userId)
-    .single()
-  const isCeleb = targetProfile?.profile_type === 'CELEB' || includeCelebContent
-
   // 현재 로그인한 사용자 확인
   const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const isOwnProfile = currentUser?.id === userId
 
-  // 팔로우 여부 확인
-  let isFollower = false
-  if (currentUser && currentUser.id !== userId) {
-    const { data: followData } = await supabase
-      .from('follows')
-      .select('id')
-      .eq('follower_id', currentUser.id)
-      .eq('following_id', userId)
-      .single()
-    isFollower = !!followData
-  }
-
-  // visibility 조건: public은 항상, followers는 팔로워인 경우만
-  const visibilityConditions = isFollower
-    ? ['public', 'followers']
-    : ['public']
-
-  // 공개 기록이 있는 콘텐츠만 조회
+  // user_contents에서 rating, review, visibility 포함하여 조회
   const contentJoin = type ? 'content:contents!inner(*)' : 'content:contents(*)'
 
   let query = supabase
@@ -83,12 +57,19 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       id,
       content_id,
       status,
-      progress,
+      rating,
+      review,
+      visibility,
       created_at,
       ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
+
+  // 타인 프로필 조회 시 public만 표시
+  if (!isOwnProfile) {
+    query = query.eq('visibility', 'public')
+  }
 
   if (type) {
     query = query.eq('content.type', type)
@@ -117,55 +98,34 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     id: string
     content_id: string
     status: string
-    progress: number | null
+    rating: number | null
+    review: string | null
+    visibility: VisibilityType | null
     created_at: string
     content: ContentData
   }>
 
-  // 각 콘텐츠의 공개 기록 조회
-  const contentIds = validContents.map(item => item.content_id)
+  const items: UserContentPublic[] = validContents.map(item => ({
+    id: item.id,
+    content_id: item.content_id,
+    status: item.status,
+    visibility: item.visibility,
+    created_at: item.created_at,
+    content: {
+      id: item.content.id,
+      type: item.content.type,
+      title: item.content.title,
+      creator: item.content.creator,
+      thumbnail_url: item.content.thumbnail_url,
+      metadata: item.content.metadata || null,
+    },
+    public_record: (item.rating || item.review) ? {
+      rating: item.rating,
+      content_preview: item.review?.slice(0, 100) || null,
+    } : null,
+  }))
 
-  const { data: publicRecords } = await supabase
-    .from('content_records')
-    .select('content_id, type, rating, content')
-    .eq('user_id', userId)
-    .in('content_id', contentIds)
-    .in('visibility', visibilityConditions)
-    .order('created_at', { ascending: false })
-
-  // 기록 맵 생성 (콘텐츠당 첫 번째 공개 기록)
-  const recordMap = new Map<string, { type: string; rating: number | null; content_preview: string | null }>()
-  publicRecords?.forEach(record => {
-    if (!recordMap.has(record.content_id)) {
-      recordMap.set(record.content_id, {
-        type: record.type,
-        rating: record.rating,
-        content_preview: record.content?.slice(0, 100) || null,
-      })
-    }
-  })
-
-  // 셀럽은 모든 콘텐츠 표시, 일반 유저는 공개 기록 있는 것만
-  const items: UserContentPublic[] = validContents
-    .filter(item => isCeleb || recordMap.has(item.content_id))
-    .map(item => ({
-      id: item.id,
-      content_id: item.content_id,
-      status: item.status,
-      progress: item.progress,
-      created_at: item.created_at,
-      content: {
-        id: item.content.id,
-        type: item.content.type,
-        title: item.content.title,
-        creator: item.content.creator,
-        thumbnail_url: item.content.thumbnail_url,
-        metadata: item.content.metadata || null,
-      },
-      public_record: recordMap.get(item.content_id) || null,
-    }))
-
-  const total = items.length
+  const total = count || 0
 
   return {
     items,

@@ -63,7 +63,7 @@ export default function SelectableContentCard({
           {content.title}
         </div>
         <div className="text-[10px] sm:text-xs text-text-secondary truncate">
-          {content.creator || "\u00A0"}
+          {content.creator?.replace(/\^/g, ', ') || "\u00A0"}
         </div>
       </div>
     </div>

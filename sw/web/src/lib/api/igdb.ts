@@ -212,3 +212,74 @@ export async function getGameDetails(gameId: number): Promise<{
     return null
   }
 }
+
+// ID로 게임 정보 조회 (metadata 포함)
+export async function getGameById(externalId: string): Promise<GameSearchResult | null> {
+  // externalId 형식: igdb-123
+  const match = externalId.match(/^igdb-(\d+)$/)
+  if (!match) return null
+
+  const gameId = match[1]
+
+  try {
+    const token = await getAccessToken()
+
+    const body = `
+      fields name, slug, summary, first_release_date,
+             cover.image_id,
+             genres.name,
+             platforms.name,
+             involved_companies.company.name,
+             involved_companies.developer,
+             involved_companies.publisher,
+             rating, aggregated_rating, total_rating;
+      where id = ${gameId};
+    `
+
+    const response = await fetch(`${IGDB_BASE_URL}/games`, {
+      method: 'POST',
+      headers: {
+        'Client-ID': TWITCH_CLIENT_ID!,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'text/plain',
+      },
+      body,
+    })
+
+    if (!response.ok) return null
+
+    const data: IGDBGame[] = await response.json()
+    if (data.length === 0) return null
+
+    const game = data[0]
+    const developer = game.involved_companies?.find(c => c.developer)?.company.name || ''
+    const publisher = game.involved_companies?.find(c => c.publisher)?.company.name || ''
+    const coverUrl = game.cover?.image_id
+      ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`
+      : null
+    const releaseDate = game.first_release_date
+      ? new Date(game.first_release_date * 1000).toISOString().split('T')[0]
+      : ''
+    const rating = game.total_rating || game.aggregated_rating || game.rating || null
+
+    return {
+      externalId,
+      externalSource: 'igdb',
+      category: 'game',
+      title: game.name,
+      creator: developer || publisher,
+      coverImageUrl: coverUrl,
+      metadata: {
+        summary: game.summary || '',
+        releaseDate,
+        genres: game.genres?.map(g => g.name) || [],
+        platforms: game.platforms?.map(p => p.name) || [],
+        rating: rating ? Math.round(rating) : null,
+        developer,
+        publisher,
+      },
+    }
+  } catch {
+    return null
+  }
+}

@@ -77,7 +77,7 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
             {/* 작성자 */}
             {content.creator && (
               <p className="text-xl text-text-secondary mb-6 flex items-center gap-2">
-                <User size={18} /> {content.creator}
+                <User size={18} /> {content.creator.replace(/\^/g, ', ')}
               </p>
             )}
 
@@ -140,7 +140,7 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
 
         {/* 작성자 */}
         <div className="text-xs sm:text-sm text-text-secondary truncate">
-          {content.creator}
+          {content.creator?.replace(/\^/g, ', ')}
         </div>
 
         {/* 메타데이터 */}

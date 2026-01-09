@@ -7,7 +7,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy, User, LogOut } from "lucide-react";
+import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy, User, LogOut, Volume2, VolumeX } from "lucide-react";
+import { useSound } from "@/contexts/SoundContext";
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import HeaderSearch from "./HeaderSearch";
@@ -25,6 +26,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const { isSoundEnabled, toggleSound, playSound } = useSound();
 
   useEffect(() => {
     getProfile().then(setProfile);
@@ -83,7 +85,25 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
       )}
       <Logo size="md" href="/" />
       <HeaderSearch />
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
+        {/* Sound Toggle */}
+        <Button
+          unstyled
+          noSound
+          onClick={() => {
+            const isNowEnabled = toggleSound();
+            if (isNowEnabled) playSound("volumeCheck", true);
+          }}
+          className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
+          title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
+        >
+          {isSoundEnabled ? (
+            <Volume2 size={20} className="text-accent" />
+          ) : (
+            <VolumeX size={20} className="text-text-secondary" />
+          )}
+        </Button>
+
         {/* Notification Bell */}
         <div className="relative">
           <Button

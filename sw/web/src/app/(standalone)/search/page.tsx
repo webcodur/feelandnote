@@ -15,6 +15,7 @@ import { ContentResults, UserResults, TagResults } from "@/components/shared/sea
 import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { getMyContentIds } from "@/actions/contents/getMyContentIds";
+import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMetadata";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
@@ -149,6 +150,25 @@ function SearchContent() {
     return () => { cancelled = true; };
   }, [queryParam, modeParam, categoryParam, category]);
 
+  // 기존 콘텐츠의 metadata 자동 업데이트 (백그라운드)
+  useEffect(() => {
+    if (modeParam !== "content" || contentResults.length === 0 || savedIds.size === 0) return;
+
+    // 이미 저장된 콘텐츠 중 검색 결과에 있는 것들의 metadata 업데이트
+    const itemsToUpdate = contentResults
+      .filter((item): item is ContentSearchResult => savedIds.has(item.id) && "metadata" in item && !!item.metadata)
+      .map((item) => ({
+        id: item.id,
+        metadata: item.metadata as Record<string, unknown>,
+        subtype: item.subtype,
+      }));
+
+    if (itemsToUpdate.length > 0) {
+      // fire-and-forget: 백그라운드에서 업데이트
+      batchUpdateContentMetadata(itemsToUpdate).catch(console.error);
+    }
+  }, [contentResults, savedIds, modeParam]);
+
   // 더보기 로드
   const loadMore = useCallback(async () => {
     if (isLoadingMore || !hasMore) return;
@@ -200,6 +220,8 @@ function SearchContent() {
         const thumbnail = "thumbnail" in item ? item.thumbnail : undefined;
         const description = "description" in item ? item.description : undefined;
         const releaseDate = "releaseDate" in item ? item.releaseDate : undefined;
+        const metadata = "metadata" in item ? (item.metadata as Record<string, unknown>) : undefined;
+        const subtype = "subtype" in item ? (item.subtype as string) : undefined;
 
         await addContent({
           id: item.id,
@@ -209,8 +231,9 @@ function SearchContent() {
           thumbnailUrl: thumbnail,
           description,
           releaseDate,
+          metadata,
+          subtype,
           status: "WANT",
-          progress: 0,
         });
         setAddedIds((prev) => new Set(prev).add(item.id));
         setSavedIds((prev) => new Set(prev).add(item.id));

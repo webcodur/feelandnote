@@ -14,7 +14,6 @@ export interface ExportContentRow {
   creator: string
   type: string
   status: string
-  progress: number
   category: string
   rating: number | null
   review: string | null
@@ -87,7 +86,6 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
       creator: item.content.creator || '',
       type: TYPE_LABELS[item.content.type] || item.content.type,
       status: STATUS_LABELS[item.status] || item.status,
-      progress: item.progress || 0,
       category: item.category?.name || '',
       rating: item.rating,
       review: item.review,

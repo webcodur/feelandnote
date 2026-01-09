@@ -12,7 +12,7 @@ import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/cont
 import ContentListItem from "./ContentListItem";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import type { ContentStatus, CategoryWithCount } from "@/types/database";
+import type { ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
 import type { ViewMode } from "../useContentLibrary";
 
 // DB 타입을 카테고리 ID로 변환
@@ -30,11 +30,11 @@ interface ContentItemRendererProps {
   viewMode: ViewMode;
   compact?: boolean;
   categories?: CategoryWithCount[];
-  onProgressChange: (userContentId: string, progress: number) => void;
   onStatusChange: (userContentId: string, status: ContentStatus) => void;
   onRecommendChange: (userContentId: string, isRecommended: boolean) => void;
   onDateChange?: (userContentId: string, field: "created_at" | "completed_at", date: string) => void;
   onCategoryChange?: (userContentId: string, categoryId: string | null) => void;
+  onVisibilityChange?: (userContentId: string, visibility: VisibilityType) => void;
   onDelete: (userContentId: string) => void;
   // 배치 모드
   isBatchMode?: boolean;
@@ -43,13 +43,16 @@ interface ContentItemRendererProps {
   // 핀 모드
   isPinMode?: boolean;
   onPinToggle?: (userContentId: string) => void;
+  // 읽기 전용 모드 (타인 기록관)
+  readOnly?: boolean;
+  targetUserId?: string; // viewer 모드에서 타인 ID
 }
 // #endregion
 
 // #region 상수
 const LIST_HEADER_COLUMNS = {
-  compact: "grid-cols-[24px_minmax(100px,1fr)_minmax(60px,100px)_52px_40px_48px_48px_40px_36px_minmax(60px,140px)_24px] text-[10px] px-2 pb-1.5",
-  default: "grid-cols-[28px_minmax(120px,1fr)_minmax(80px,120px)_56px_44px_52px_52px_44px_40px_minmax(80px,180px)_28px] text-[11px] px-3 pb-1.5",
+  compact: "grid-cols-[24px_minmax(100px,1fr)_minmax(60px,100px)_52px_40px_48px_48px_40px_minmax(60px,140px)_24px] text-[10px] px-2 pb-1.5",
+  default: "grid-cols-[28px_minmax(120px,1fr)_minmax(80px,120px)_56px_44px_52px_52px_44px_minmax(80px,180px)_28px] text-[11px] px-3 pb-1.5",
 };
 // #endregion
 
@@ -58,18 +61,35 @@ export default function ContentItemRenderer({
   viewMode,
   compact = false,
   categories = [],
-  onProgressChange,
   onStatusChange,
   onRecommendChange,
   onDateChange,
   onCategoryChange,
+  onVisibilityChange,
   onDelete,
   isBatchMode = false,
   selectedIds = new Set(),
   onToggleSelect,
   isPinMode = false,
   onPinToggle,
+  readOnly = false,
+  targetUserId,
 }: ContentItemRendererProps) {
+  // readOnly 모드에서는 모든 수정 콜백을 비활성화
+  const noop = () => {};
+  const statusHandler = readOnly ? noop : onStatusChange;
+  const recommendHandler = readOnly ? noop : onRecommendChange;
+  const dateHandler = readOnly ? undefined : onDateChange;
+  const categoryHandler = readOnly ? undefined : onCategoryChange;
+  const visibilityHandler = readOnly ? undefined : onVisibilityChange;
+  const deleteHandler = readOnly ? noop : onDelete;
+  const pinHandler = readOnly ? undefined : onPinToggle;
+
+  // href 생성: viewer 모드일 때 userId 쿼리 추가
+  const getHref = (contentId: string) => {
+    const base = `/archive/${contentId}`;
+    return readOnly && targetUserId ? `${base}?userId=${targetUserId}` : base;
+  };
   // #region 렌더링
 
   // 컴팩트 모드 - 컨텐츠 정보만 표시 (리뷰/기록 없음)
@@ -87,7 +107,7 @@ export default function ContentItemRenderer({
               thumbnail: item.content.thumbnail_url || undefined,
               metadata: item.content.metadata || undefined,
             }}
-            href={`/archive/${item.content_id}`}
+            href={getHref(item.content_id)}
           />
         ))}
       </ContentCompactGrid>
@@ -104,13 +124,14 @@ export default function ContentItemRenderer({
               <CertificateCard
                 key={item.id}
                 item={item}
-                onStatusChange={onStatusChange}
-                onRecommendChange={onRecommendChange}
-                onDelete={onDelete}
-                href={`/archive/${item.content_id}`}
-                isBatchMode={isBatchMode}
+                onStatusChange={statusHandler}
+                onRecommendChange={recommendHandler}
+                onDelete={deleteHandler}
+                href={getHref(item.content_id)}
+                isBatchMode={readOnly ? false : isBatchMode}
                 isSelected={selectedIds.has(item.id)}
-                onToggleSelect={onToggleSelect ? () => onToggleSelect(item.id) : undefined}
+                onToggleSelect={readOnly ? undefined : onToggleSelect ? () => onToggleSelect(item.id) : undefined}
+                readOnly={readOnly}
               />
             );
           }
@@ -119,19 +140,20 @@ export default function ContentItemRenderer({
               key={item.id}
               item={item}
               categories={categories}
-              onProgressChange={onProgressChange}
-              onStatusChange={onStatusChange}
-              onRecommendChange={onRecommendChange}
-              onDateChange={onDateChange}
-              onCategoryChange={onCategoryChange}
-              onDelete={onDelete}
-              href={`/archive/${item.content_id}`}
+              onStatusChange={statusHandler}
+              onRecommendChange={recommendHandler}
+              onDateChange={dateHandler}
+              onCategoryChange={categoryHandler}
+              onVisibilityChange={visibilityHandler}
+              onDelete={deleteHandler}
+              href={getHref(item.content_id)}
               compact={compact}
-              isBatchMode={isBatchMode}
+              isBatchMode={readOnly ? false : isBatchMode}
               isSelected={selectedIds.has(item.id)}
-              onToggleSelect={onToggleSelect ? () => onToggleSelect(item.id) : undefined}
-              isPinMode={isPinMode}
-              onPinToggle={onPinToggle}
+              onToggleSelect={readOnly ? undefined : onToggleSelect ? () => onToggleSelect(item.id) : undefined}
+              isPinMode={readOnly ? false : isPinMode}
+              onPinToggle={pinHandler}
+              readOnly={readOnly}
             />
           );
         })}
@@ -155,7 +177,6 @@ export default function ContentItemRenderer({
           <div className="text-center">시작일</div>
           <div className="text-center">종료일</div>
           <div className="text-center">별점</div>
-          <div className="text-center">진행도</div>
           <div className="text-center">리뷰</div>
           <div />
         </div>
@@ -164,15 +185,15 @@ export default function ContentItemRenderer({
           <ContentListItem
             key={item.id}
             item={item}
-            onProgressChange={onProgressChange}
-            onStatusChange={onStatusChange}
-            onRecommendChange={onRecommendChange}
-            onDelete={onDelete}
-            href={`/archive/${item.content_id}`}
+            onStatusChange={statusHandler}
+            onRecommendChange={recommendHandler}
+            onDelete={deleteHandler}
+            href={getHref(item.content_id)}
             compact={compact}
-            isBatchMode={isBatchMode}
+            isBatchMode={readOnly ? false : isBatchMode}
             isSelected={selectedIds.has(item.id)}
-            onToggleSelect={onToggleSelect ? () => onToggleSelect(item.id) : undefined}
+            onToggleSelect={readOnly ? undefined : onToggleSelect ? () => onToggleSelect(item.id) : undefined}
+            readOnly={readOnly}
           />
         ))}
       </div>

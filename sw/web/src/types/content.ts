@@ -54,7 +54,6 @@ export interface ContentMetadata {
 export interface RecordInfo {
   userContentId: string
   status: 'WANT' | 'WATCHING' | 'FINISHED'
-  progress: number
   isRecommended?: boolean
   createdAt: string
   updatedAt: string
@@ -73,7 +72,6 @@ export interface ContentInfoHeaderProps {
   // 기록관 페이지 전용
   record?: RecordInfo
   onStatusChange?: (status: RecordInfo['status']) => void
-  onProgressChange?: (progress: number) => void
   onDelete?: () => void
   isSaving?: boolean
 }

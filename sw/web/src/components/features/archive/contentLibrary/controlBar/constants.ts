@@ -1,6 +1,6 @@
 import { CATEGORIES } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
-import type { ProgressFilter, SortOption } from "../useContentLibrary";
+import type { SortOption, StatusFilter } from "../useContentLibrary";
 
 export const TAB_OPTIONS = CATEGORIES.map((cat) => ({
   value: cat.id,
@@ -9,18 +9,19 @@ export const TAB_OPTIONS = CATEGORIES.map((cat) => ({
   type: cat.dbType as ContentType,
 }));
 
-export const PROGRESS_OPTIONS: { value: ProgressFilter; label: string }[] = [
+export const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
   { value: "all", label: "전체" },
-  { value: "not_started", label: "시작 전" },
-  { value: "in_progress", label: "진행 중" },
-  { value: "completed", label: "완료" },
+  { value: "WANT", label: "관심" },
+  { value: "WATCHING", label: "진행중" },
+  { value: "DROPPED", label: "중단" },
+  { value: "FINISHED", label: "완료" },
+  { value: "RECOMMENDED", label: "추천" },
+  { value: "NOT_RECOMMENDED", label: "비추" },
 ];
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "recent", label: "최근 추가" },
   { value: "title", label: "이름순" },
-  { value: "progress_desc", label: "진행도 높음" },
-  { value: "progress_asc", label: "진행도 낮음" },
 ];
 
 export const CONTROL_BUTTON_VARIANTS = {

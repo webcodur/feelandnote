@@ -6,6 +6,7 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
+import { SoundProvider } from "@/contexts/SoundContext";
 
 export const metadata: Metadata = {
   title: "Feel&Note",
@@ -28,7 +29,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <SoundProvider>
+          {children}
+        </SoundProvider>
       </body>
     </html>
   );

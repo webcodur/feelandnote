@@ -61,7 +61,10 @@
       "Bash(git mv:*)",
       "Bash(git rm:*)",
       "Bash(tree:*)",
-      "Bash(git status:*)"
+      "Bash(git status:*)",
+      "WebFetch(domain:pixabay.com)",
+      "Bash(ContentStatus)",
+      "Bash(' | Set-Content 'c:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote/sw/web/src/components/features/archive/contentLibrary/useContentLibrary.ts ' \")"
     ],
     "deny": [],
     "ask": []

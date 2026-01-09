@@ -177,7 +177,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-text-primary truncate">{item.title}</p>
-                      <p className="text-xs text-text-secondary truncate">{item.creator}</p>
+                      <p className="text-xs text-text-secondary truncate">{item.creator?.replace(/\^/g, ', ')}</p>
                       {item.releaseDate && <p className="text-xs text-text-tertiary mt-0.5">{item.releaseDate}</p>}
                     </div>
                   </Button>
@@ -200,7 +200,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
               )}
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-text-primary">{selected.title}</p>
-                <p className="text-sm text-text-secondary">{selected.creator}</p>
+                <p className="text-sm text-text-secondary">{selected.creator?.replace(/\^/g, ', ')}</p>
                 <Button unstyled onClick={() => setSelected(null)} className="text-xs text-accent hover:underline mt-1">
                   다른 콘텐츠 선택
                 </Button>

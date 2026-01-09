@@ -17,10 +17,11 @@ interface AddContentParams {
   description?: string
   publisher?: string
   releaseDate?: string
+  metadata?: Record<string, unknown>  // 원본 메타데이터
+  subtype?: string              // video의 경우 movie | tv
   status?: ContentStatus        // 기본값: 'WANT'
-  progress?: number             // 기본값: 0 (0-100)
   createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
-  isRecommended?: boolean       // 추천 여부 (100% 완료 시)
+  isRecommended?: boolean       // 추천 여부
 }
 
 export async function addContent(params: AddContentParams) {
@@ -31,23 +32,25 @@ export async function addContent(params: AddContentParams) {
     throw new Error('로그인이 필요합니다')
   }
 
-  // 1. 콘텐츠 upsert (이미 존재하면 무시)
+  // 1. 콘텐츠 upsert (기존 콘텐츠도 metadata 업데이트)
   const { error: contentError } = await supabase
     .from('contents')
     .upsert(
       {
         id: params.id,
         type: params.type,
+        subtype: params.subtype || null,
         title: params.title,
         creator: params.creator || null,
         thumbnail_url: params.thumbnailUrl || null,
         description: params.description || null,
         publisher: params.publisher || null,
         release_date: params.releaseDate || null,
+        metadata: params.metadata || null,
       },
       {
         onConflict: 'id',
-        ignoreDuplicates: true
+        ignoreDuplicates: false
       }
     )
 
@@ -56,20 +59,17 @@ export async function addContent(params: AddContentParams) {
     throw new Error('콘텐츠 추가에 실패했습니다')
   }
 
-  // 2. user_contents 생성 (status 기본값: WISH, progress 기본값: 0)
-  const progress = Math.max(0, Math.min(100, params.progress ?? 0))
+  // 2. user_contents 생성 (status 기본값: WANT)
   const insertData: {
     user_id: string
     content_id: string
     status: ContentStatus
-    progress: number
     created_at?: string
     is_recommended?: boolean
   } = {
     user_id: user.id,
     content_id: params.id,
     status: (params.status ?? 'WANT') as ContentStatus,
-    progress
   }
 
   // 날짜가 지정된 경우 created_at 설정

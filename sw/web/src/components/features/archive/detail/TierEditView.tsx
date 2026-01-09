@@ -14,6 +14,7 @@ import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
 import type { PlaylistWithItems, PlaylistItemWithContent, ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useSound } from "@/contexts/SoundContext";
 
 interface TierEditViewProps {
   playlistId: string;
@@ -42,6 +43,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   const [selectedType, setSelectedType] = useState<ContentType | "all">("all");
   const [availableTypes, setAvailableTypes] = useState<ContentType[]>([]);
   const [draggedId, setDraggedId] = useState<string | null>(null);
+  const { playSound } = useSound();
 
   const loadPlaylist = useCallback(async () => {
     setIsLoading(true);
@@ -90,11 +92,15 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     return playlist?.items.find((item) => item.content_id === contentId);
   };
 
-  const handleDragStart = (contentId: string) => setDraggedId(contentId);
+  const handleDragStart = (contentId: string) => {
+    playSound("drag");
+    setDraggedId(contentId);
+  };
   const handleDragOver = (e: React.DragEvent) => e.preventDefault();
 
   const handleDropOnTier = (tier: TierLabel) => {
     if (!draggedId) return;
+    playSound("drop");
     const newTiers = { ...tiers };
     TIER_LABELS.forEach((t) => {
       newTiers[t] = newTiers[t].filter((id) => id !== draggedId);
@@ -107,6 +113,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
 
   const handleDropOnUnranked = () => {
     if (!draggedId) return;
+    playSound("drop");
     const newTiers = { ...tiers };
     TIER_LABELS.forEach((t) => {
       newTiers[t] = newTiers[t].filter((id) => id !== draggedId);
@@ -122,8 +129,10 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     setIsSaving(true);
     try {
       await updatePlaylist({ playlistId, hasTiers: true, tiers: tiers as Record<string, string[]> });
+      playSound("success");
       router.push(`/archive/playlists/${playlistId}`);
     } catch (err) {
+      playSound("error");
       alert(err instanceof Error ? err.message : "저장에 실패했습니다");
     } finally {
       setIsSaving(false);

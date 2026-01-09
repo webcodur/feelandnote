@@ -21,7 +21,6 @@ interface ArchiveDetailHeaderProps {
   metadata: ContentMetadata | null;
   isSaving: boolean;
   onStatusChange: (status: ContentStatus) => void;
-  onProgressChange: (progress: number) => void;
   onDelete: () => void;
 }
 
@@ -34,9 +33,12 @@ const TYPE_TO_CATEGORY: Record<string, CategoryId> = {
 };
 
 const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
-  { value: "WANT", label: "보고싶어요" },
-  { value: "WATCHING", label: "보는 중" },
+  { value: "WANT", label: "관심" },
+  { value: "WATCHING", label: "진행중" },
+  { value: "DROPPED", label: "중단" },
   { value: "FINISHED", label: "완료" },
+  { value: "RECOMMENDED", label: "완료+추천" },
+  { value: "NOT_RECOMMENDED", label: "완료+비추" },
 ];
 
 const CATEGORY_CONFIG = Object.fromEntries(
@@ -49,15 +51,12 @@ export default function ArchiveDetailHeader({
   metadata,
   isSaving,
   onStatusChange,
-  onProgressChange,
   onDelete,
 }: ArchiveDetailHeaderProps) {
   const content = item.content;
   const categoryId = TYPE_TO_CATEGORY[content.type] || "book";
   const category = CATEGORY_CONFIG[categoryId] || CATEGORY_CONFIG.book;
   const Icon = category.icon;
-
-  const progressPercent = item.progress ?? 0;
 
   return (
     <>
@@ -85,7 +84,7 @@ export default function ArchiveDetailHeader({
               className="bg-white/5 border border-border text-text-primary py-0.5 px-1.5 rounded-md text-[11px] cursor-pointer outline-none focus:border-accent disabled:opacity-50"
               value={item.status}
               onChange={(e) => onStatusChange(e.target.value as ContentStatus)}
-              disabled={isSaving || (progressPercent > 0 && item.status !== "FINISHED")}
+              disabled={isSaving}
             >
               {STATUS_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -127,7 +126,7 @@ export default function ArchiveDetailHeader({
               {content.creator && (
                 <p className="text-xs text-text-secondary flex items-center gap-1 mb-1.5">
                   <User size={12} className="shrink-0" />
-                  <span className="truncate">{content.creator}</span>
+                  <span className="truncate">{content.creator?.replace(/\^/g, ', ')}</span>
                 </p>
               )}
 
@@ -148,42 +147,6 @@ export default function ArchiveDetailHeader({
                   compact
                 />
               )}
-            </div>
-          </div>
-
-          {/* 진행도 바 */}
-          <div className="mt-3 pt-3 border-t border-white/5">
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-medium text-text-tertiary shrink-0">진행도</span>
-
-              <div className="flex-1 relative">
-                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-accent rounded-full"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="10"
-                  value={progressPercent}
-                  onChange={(e) => onProgressChange(Number(e.target.value))}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                />
-              </div>
-
-              <span className="text-xs font-semibold text-accent w-8 text-right">{progressPercent}%</span>
-
-              <Button
-                unstyled
-                onClick={() => onProgressChange(Math.min(100, progressPercent + 10))}
-                disabled={progressPercent >= 100}
-                className="text-[10px] py-1 px-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                +10%
-              </Button>
             </div>
           </div>
         </div>

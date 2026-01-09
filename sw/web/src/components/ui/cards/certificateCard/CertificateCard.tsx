@@ -27,6 +27,8 @@ export interface CertificateCardProps {
   isBatchMode?: boolean;
   isSelected?: boolean;
   onToggleSelect?: () => void;
+  // 읽기 전용 모드 (타인 기록관)
+  readOnly?: boolean;
 }
 // #endregion
 
@@ -49,6 +51,7 @@ export default function CertificateCard({
   isBatchMode = false,
   isSelected = false,
   onToggleSelect,
+  readOnly = false,
 }: CertificateCardProps) {
   // #region 훅
   const router = useRouter();
@@ -181,7 +184,7 @@ export default function CertificateCard({
               <span>{addedDate}</span>
             </div>
 
-            {onDelete && (
+            {!readOnly && onDelete && (
               <DropdownMenu
                 items={[
                   {

@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/archive/modals/AddContentModal.tsx
   기능: 콘텐츠 추가 모달
-  책임: 카테고리 선택, 제목/작가 입력, 진행도/상태 설정 후 콘텐츠를 추가한다.
+  책임: 카테고리 선택, 제목/작가 입력, 상태 설정 후 콘텐츠를 추가한다.
 */ // ------------------------------
 "use client";
 
@@ -9,11 +9,12 @@ import { useState, useTransition } from "react";
 import { Book, Film, Gamepad2, Music, Award, Loader2, Info, Search, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
-import { Button, ProgressSlider } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
 import type { CategoryId } from "@/constants/categories";
 import { useAchievement } from "@/components/features/profile/achievements";
+import { useSound } from "@/contexts/SoundContext";
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -29,49 +30,26 @@ const CATEGORIES = [
   { id: "certificate" as CategoryId, dbType: "CERTIFICATE", label: "자격증", icon: Award, creatorLabel: "발급기관" },
 ];
 
-// 진행도별 상태 옵션
-const STATUS_BY_PROGRESS = {
-  zero: [{ value: "WANT" as ContentStatus, label: "보고싶음" }],
-  partial: [
-    { value: "WATCHING" as ContentStatus, label: "진행중" },
-    { value: "DROPPED" as ContentStatus, label: "중단" },
-  ],
-  complete: [
-    { value: "FINISHED" as ContentStatus, label: "완료" },
-    { value: "RECOMMENDED" as ContentStatus, label: "추천" },
-    { value: "NOT_RECOMMENDED" as ContentStatus, label: "비추천" },
-  ],
-};
+// 상태 옵션
+const STATUS_OPTIONS = [
+  { value: "WANT" as ContentStatus, label: "관심" },
+  { value: "WATCHING" as ContentStatus, label: "진행중" },
+  { value: "DROPPED" as ContentStatus, label: "중단" },
+  { value: "FINISHED" as ContentStatus, label: "완료" },
+  { value: "RECOMMENDED" as ContentStatus, label: "완료+추천" },
+  { value: "NOT_RECOMMENDED" as ContentStatus, label: "완료+비추" },
+];
 
 export default function AddContentModal({ isOpen, onClose, onSuccess }: AddContentModalProps) {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
   const [title, setTitle] = useState("");
   const [creator, setCreator] = useState("");
-  const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<ContentStatus>("WANT");
   const [error, setError] = useState<string | null>(null);
   const [isAdding, startAddTransition] = useTransition();
   const { showUnlock } = useAchievement();
-
-  // 진행도에 따른 상태 옵션 결정
-  const getStatusOptions = () => {
-    if (progress === 0) return STATUS_BY_PROGRESS.zero;
-    if (progress === 100) return STATUS_BY_PROGRESS.complete;
-    return STATUS_BY_PROGRESS.partial;
-  };
-
-  // 진행도 변경 시 상태 자동 조정
-  const handleProgressChange = (newProgress: number) => {
-    setProgress(newProgress);
-    if (newProgress === 0 && status !== "WANT") {
-      setStatus("WANT");
-    } else if (newProgress === 100 && !["FINISHED", "RECOMMENDED", "NOT_RECOMMENDED"].includes(status)) {
-      setStatus("FINISHED");
-    } else if (newProgress > 0 && newProgress < 100 && !["WATCHING", "DROPPED"].includes(status)) {
-      setStatus("WATCHING");
-    }
-  };
+  const { playSound } = useSound();
 
   const handleGoToSearch = () => {
     handleClose();
@@ -101,8 +79,8 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           title: title.trim(),
           creator: creator.trim() || undefined,
           status,
-          progress,
         });
+        playSound("success");
         onSuccess?.();
         handleClose();
 
@@ -110,6 +88,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           showUnlock(response.unlockedTitles);
         }
       } catch (err) {
+        playSound("error");
         setError(err instanceof Error ? err.message : "콘텐츠 추가 중 오류가 발생했습니다.");
       }
     });
@@ -119,7 +98,6 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
     setSelectedCategory("book");
     setTitle("");
     setCreator("");
-    setProgress(0);
     setStatus("WANT");
     setError(null);
   };
@@ -216,21 +194,10 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
             className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
           />
 
-          {/* 진행도 (자격증 제외) */}
-          {selectedCategory !== "certificate" && (
-            <>
-              <label className="text-sm font-semibold text-text-secondary">진행도</label>
-              <div className="flex items-center gap-3">
-                <ProgressSlider value={progress} onChange={handleProgressChange} className="flex-1" />
-                <span className="text-sm text-accent font-bold w-10 text-right tabular-nums">{progress}%</span>
-              </div>
-            </>
-          )}
-
-          {/* 상태 (진행도에 따라 옵션 변경) */}
+          {/* 상태 */}
           <label className="text-sm font-semibold text-text-secondary">상태</label>
           <div className="flex gap-2">
-            {getStatusOptions().map((option) => (
+            {STATUS_OPTIONS.map((option) => (
               <Button
                 unstyled
                 key={option.value}

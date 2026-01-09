@@ -187,3 +187,54 @@ export async function getAlbumDetails(albumId: string): Promise<{
     return null
   }
 }
+
+// ID로 앨범 정보 조회 (metadata 포함)
+export async function getAlbumById(externalId: string): Promise<MusicSearchResult | null> {
+  // externalId 형식: spotify-abc123
+  const match = externalId.match(/^spotify-(.+)$/)
+  if (!match) return null
+
+  const albumId = match[1]
+
+  try {
+    const token = await getAccessToken()
+
+    const response = await fetch(`${SPOTIFY_BASE_URL}/albums/${albumId}?market=KR`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+
+    if (!response.ok) return null
+
+    const album: SpotifyAlbum = await response.json()
+    const coverUrl = album.images[0]?.url || null
+    const artistNames = album.artists.map((a) => a.name)
+    const primaryArtist = artistNames[0] || ''
+
+    const albumTypeMap: Record<string, string> = {
+      album: '정규앨범',
+      single: '싱글',
+      compilation: '컴필레이션',
+    }
+
+    return {
+      externalId,
+      externalSource: 'spotify',
+      category: 'music',
+      title: album.name,
+      creator: primaryArtist,
+      coverImageUrl: coverUrl,
+      metadata: {
+        summary: '',
+        releaseDate: album.release_date,
+        albumType: albumTypeMap[album.album_type] || album.album_type,
+        totalTracks: album.total_tracks,
+        artists: artistNames,
+        spotifyUrl: album.external_urls.spotify,
+      },
+    }
+  } catch {
+    return null
+  }
+}

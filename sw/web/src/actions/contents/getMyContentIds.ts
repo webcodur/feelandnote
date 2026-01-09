@@ -27,7 +27,6 @@ export async function getMyContentIds(): Promise<string[]> {
 export async function checkContentSaved(contentId: string): Promise<{
   saved: boolean
   userContentId?: string
-  progress?: number
   status?: ContentStatus
 }> {
   const supabase = await createClient()
@@ -37,7 +36,7 @@ export async function checkContentSaved(contentId: string): Promise<{
 
   const { data, error } = await supabase
     .from('user_contents')
-    .select('id, progress, status')
+    .select('id, status')
     .eq('user_id', user.id)
     .eq('content_id', contentId)
     .single()
@@ -47,7 +46,6 @@ export async function checkContentSaved(contentId: string): Promise<{
   return {
     saved: true,
     userContentId: data.id,
-    progress: data.progress ?? 0,
     status: data.status as ContentStatus,
   }
 }

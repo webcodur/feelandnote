@@ -20,14 +20,16 @@ import {
   BookOpen,
   Megaphone,
   MessageSquare,
-  Info,
   LucideIcon,
-  ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getUnreadGuestbookCount } from "@/actions/guestbook";
+
+export const SIDEBAR_WIDTH_MIN = 160;
+export const SIDEBAR_WIDTH_MAX = 320;
+export const SIDEBAR_WIDTH_DEFAULT = 200;
 
 interface NavItem {
   href: string;
@@ -72,17 +74,12 @@ const NAV_SECTIONS: NavSection[] = [
       { href: "/board/free", label: "자유게시판", icon: MessageSquare },
     ],
   },
-  {
-    title: "about us",
-    defaultOpen: false,
-    items: [
-      { href: "/about", label: "회사 소개", icon: Info },
-    ],
-  },
 ];
 
 interface SidebarProps {
   isOpen?: boolean;
+  width: number;
+  onWidthChange: (width: number) => void;
 }
 
 function NavItemLink({
@@ -126,55 +123,68 @@ function NavSectionComponent({
 }) {
   const [isOpen, setIsOpen] = useState(section.defaultOpen ?? true);
   const hasActiveItem = section.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"));
+  const activeItems = section.items.filter((item) => pathname === item.href || pathname.startsWith(item.href + "/"));
 
   return (
     <div className="mb-2">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-text-tertiary uppercase tracking-wider hover:text-text-secondary"
+        className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-text-tertiary uppercase tracking-wider hover:text-text-secondary cursor-pointer"
       >
         <span>{section.title}</span>
-        {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+        <ChevronRight size={14} className={`transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
       </button>
 
-      {isOpen && (
-        <div className="mt-1 space-y-0.5">
-          {section.items.map((item) => (
-            <NavItemLink
-              key={item.href}
-              href={item.href}
-              active={pathname === item.href || (item.href !== "/archive" && pathname.startsWith(item.href + "/")) || (item.href === "/archive" && (pathname === "/archive" || pathname.startsWith("/archive/user/")))}
-              icon={item.icon}
-              label={item.label}
-              badge={badges[item.href]}
-            />
-          ))}
+      {/* 전체 항목 (열림/닫힘 애니메이션) */}
+      <div
+        className="grid transition-[grid-template-rows] duration-200"
+        style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-1 space-y-0.5">
+            {section.items.map((item) => (
+              <NavItemLink
+                key={item.href}
+                href={item.href}
+                active={pathname === item.href || (item.href !== "/archive" && pathname.startsWith(item.href + "/")) || (item.href === "/archive" && (pathname === "/archive" || pathname.startsWith("/archive/user/")))}
+                icon={item.icon}
+                label={item.label}
+                badge={badges[item.href]}
+              />
+            ))}
+          </div>
         </div>
-      )}
+      </div>
 
-      {!isOpen && hasActiveItem && (
-        <div className="mt-1 space-y-0.5">
-          {section.items.filter((item) => pathname === item.href || pathname.startsWith(item.href + "/")).map((item) => (
-            <NavItemLink
-              key={item.href}
-              href={item.href}
-              active
-              icon={item.icon}
-              label={item.label}
-              badge={badges[item.href]}
-            />
-          ))}
+      {/* 닫혔을 때 활성 항목만 표시 */}
+      <div
+        className="grid transition-[grid-template-rows] duration-200"
+        style={{ gridTemplateRows: !isOpen && hasActiveItem ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-1 space-y-0.5">
+            {activeItems.map((item) => (
+              <NavItemLink
+                key={item.href}
+                href={item.href}
+                active
+                icon={item.icon}
+                label={item.label}
+                badge={badges[item.href]}
+              />
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
-export const SIDEBAR_WIDTH = 200;
-
-export default function Sidebar({ isOpen = true }: SidebarProps) {
+export default function Sidebar({ isOpen = true, width, onWidthChange }: SidebarProps) {
   const pathname = usePathname();
   const [badges, setBadges] = useState<Record<string, number>>({});
+  const [isResizing, setIsResizing] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   // 읽지 않은 방명록 개수 조회
   useEffect(() => {
@@ -185,12 +195,45 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
     fetchBadges();
   }, [pathname]);
 
+  // 리사이즈 핸들러
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+      const newWidth = Math.min(SIDEBAR_WIDTH_MAX, Math.max(SIDEBAR_WIDTH_MIN, e.clientX));
+      onWidthChange(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = "col-resize";
+      document.body.style.userSelect = "none";
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+  }, [isResizing, onWidthChange]);
+
   return (
     <div
+      ref={sidebarRef}
       className="fixed top-16 left-0 h-[calc(100vh-64px)]"
       style={{
-        width: SIDEBAR_WIDTH,
-        transform: !isOpen ? `translateX(-${SIDEBAR_WIDTH}px)` : undefined,
+        width,
+        transform: !isOpen ? `translateX(-${width}px)` : undefined,
         zIndex: Z_INDEX.sidebar,
       }}
     >
@@ -199,6 +242,12 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
           <NavSectionComponent key={section.title} section={section} pathname={pathname} badges={badges} />
         ))}
       </nav>
+
+      {/* 리사이즈 핸들 */}
+      <div
+        onMouseDown={handleMouseDown}
+        className={`absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-accent/50 ${isResizing ? "bg-accent" : ""}`}
+      />
     </div>
   );
 }

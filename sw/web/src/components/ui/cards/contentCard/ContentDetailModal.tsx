@@ -121,7 +121,7 @@ export default function ContentDetailModal({ content, onClose }: ContentDetailMo
 
           {/* 저자/출판사/출시일 */}
           <div className="text-sm text-text-secondary mb-4 space-y-0.5">
-            {content.creator && <p>{content.creator}</p>}
+            {content.creator && <p>{content.creator.replace(/\^/g, ', ')}</p>}
             <p className="text-text-tertiary">
               {[content.publisher, formatDate(content.release_date)].filter(Boolean).join(" · ") || "\u00A0"}
             </p>

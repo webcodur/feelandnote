@@ -1,26 +1,23 @@
 /*
   파일명: /components/features/archive/ContentListItem.tsx
   기능: 리스트 뷰용 콘텐츠 아이템 컴포넌트
-  책임: 콘텐츠 정보를 리스트 행 형태로 표시하고 상태/진행도 변경을 처리한다.
+  책임: 콘텐츠 정보를 리스트 행 형태로 표시하고 상태 변경을 처리한다.
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Trash2, BookOpen, Film, Gamepad2, Music, Award, Star, CheckSquare, Square } from "lucide-react";
 
 import Button from "@/components/ui/Button";
-import ProgressModal from "@/components/ui/cards/contentCard/ProgressModal";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import type { ContentType } from "@/types/database";
+import type { ContentType, ContentStatus } from "@/types/database";
 
 // #region 타입
 interface ContentListItemProps {
   item: UserContentWithContent;
-  onProgressChange?: (userContentId: string, progress: number) => void;
-  onStatusChange?: (userContentId: string, status: "WANT" | "WATCHING" | "FINISHED") => void;
+  onStatusChange?: (userContentId: string, status: ContentStatus) => void;
   onRecommendChange?: (userContentId: string, isRecommended: boolean) => void;
   onDelete?: (userContentId: string) => void;
   href?: string;
@@ -29,15 +26,19 @@ interface ContentListItemProps {
   isBatchMode?: boolean;
   isSelected?: boolean;
   onToggleSelect?: () => void;
+  // 읽기 전용 모드 (타인 기록관)
+  readOnly?: boolean;
 }
 // #endregion
 
 // #region 상수
-const STATUS_STYLES = {
-  EXPERIENCE: { class: "text-green-400", text: "진행" },
+const STATUS_STYLES: Record<ContentStatus, { class: string; text: string }> = {
   WANT: { class: "text-yellow-300", text: "관심" },
+  WATCHING: { class: "text-green-400", text: "진행중" },
+  DROPPED: { class: "text-red-400", text: "중단" },
   FINISHED: { class: "text-blue-400", text: "완료" },
-  RECOMMEND: { class: "text-pink-400", text: "추천" },
+  RECOMMENDED: { class: "text-pink-400", text: "추천" },
+  NOT_RECOMMENDED: { class: "text-gray-400", text: "비추" },
 };
 
 const TYPE_ICONS: Record<ContentType, { icon: typeof BookOpen; label: string }> = {
@@ -49,8 +50,8 @@ const TYPE_ICONS: Record<ContentType, { icon: typeof BookOpen; label: string }> 
 };
 
 const GRID_COLUMNS = {
-  compact: "grid-cols-[24px_minmax(100px,1fr)_minmax(60px,100px)_52px_40px_48px_48px_40px_36px_minmax(60px,140px)_24px]",
-  default: "grid-cols-[28px_minmax(120px,1fr)_minmax(80px,120px)_56px_44px_52px_52px_44px_40px_minmax(80px,180px)_28px]",
+  compact: "grid-cols-[24px_minmax(100px,1fr)_minmax(60px,100px)_52px_40px_48px_48px_40px_minmax(60px,140px)_24px]",
+  default: "grid-cols-[28px_minmax(120px,1fr)_minmax(80px,120px)_56px_44px_52px_52px_44px_minmax(80px,180px)_28px]",
 };
 // #endregion
 
@@ -65,32 +66,27 @@ function formatDate(dateStr: string) {
 
 export default function ContentListItem({
   item,
-  onProgressChange,
-  onStatusChange,
-  onRecommendChange,
+  onStatusChange: _onStatusChange,
+  onRecommendChange: _onRecommendChange,
   onDelete,
   href,
   compact = false,
   isBatchMode = false,
   isSelected = false,
   onToggleSelect,
+  readOnly = false,
 }: ContentListItemProps) {
+  // 리스트 뷰에서는 인라인 상태 변경을 지원하지 않음
+  void _onStatusChange;
+  void _onRecommendChange;
   // #region 훅
   const router = useRouter();
-  const [isEditingProgress, setIsEditingProgress] = useState(false);
   // #endregion
 
   // #region 파생 값
   const content = item.content;
-  const progressPercent = item.progress ?? 0;
   const addedDate = formatDate(item.created_at);
-  const isComplete = item.status === "FINISHED";
-  const isRecommended = item.is_recommended ?? false;
-  const displayStatus = isComplete && isRecommended ? "RECOMMEND" : item.status;
-  const status = displayStatus ? STATUS_STYLES[displayStatus as keyof typeof STATUS_STYLES] : null;
-  const canToggleStatus = progressPercent === 0 && onStatusChange && !isComplete;
-  const canToggleRecommend = isComplete && onRecommendChange;
-  const canToggle = canToggleStatus || canToggleRecommend;
+  const statusStyle = STATUS_STYLES[item.status as ContentStatus];
   const typeInfo = TYPE_ICONS[content.type as ContentType];
   const TypeIcon = typeInfo?.icon;
   const gridClass = compact ? GRID_COLUMNS.compact : GRID_COLUMNS.default;
@@ -110,25 +106,6 @@ export default function ContentListItem({
       return;
     }
     if (href) router.push(href);
-  };
-
-  const handleStatusClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-
-    if (isComplete && onRecommendChange) {
-      onRecommendChange(item.id, !isRecommended);
-      return;
-    }
-    if (!onStatusChange) return;
-
-    if (item.status === "WATCHING" && progressPercent > 0) {
-      if (confirm(`진행도 ${progressPercent}%가 초기화됩니다. 계속할까요?`)) {
-        onProgressChange?.(item.id, 0);
-        onStatusChange(item.id, "WANT");
-      }
-      return;
-    }
-    onStatusChange(item.id, item.status === "WANT" ? "WATCHING" : "WANT");
   };
   // #endregion
 
@@ -168,7 +145,7 @@ export default function ContentListItem({
 
       {/* 3. 작가 */}
       <div className="min-w-0">
-        <p className={`${textSize} text-text-tertiary truncate`}>{content.creator || "-"}</p>
+        <p className={`${textSize} text-text-tertiary truncate`}>{content.creator?.replace(/\^/g, ', ') || "-"}</p>
       </div>
 
       {/* 4. 분류 */}
@@ -178,15 +155,9 @@ export default function ContentListItem({
 
       {/* 5. 상태 */}
       <div className="flex justify-center">
-        {status && (
-          <Button
-            unstyled
-            className={`${textSize} font-medium ${status.class} ${canToggle ? "hover:opacity-70" : "cursor-default"}`}
-            onClick={handleStatusClick}
-          >
-            {status.text}
-          </Button>
-        )}
+        <span className={`${textSize} font-medium ${statusStyle.class}`}>
+          {statusStyle.text}
+        </span>
       </div>
 
       {/* 6. 시작일 */}
@@ -207,32 +178,14 @@ export default function ContentListItem({
         )}
       </div>
 
-      {/* 9. 진행도 */}
-      <div className="flex justify-center">
-        {onProgressChange ? (
-          <Button
-            unstyled
-            className={`${textSize} font-medium text-text-secondary hover:text-accent`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsEditingProgress(true);
-            }}
-          >
-            {progressPercent}%
-          </Button>
-        ) : (
-          <span className={`${textSize} font-medium text-text-secondary`}>{progressPercent}%</span>
-        )}
-      </div>
-
-      {/* 10. 리뷰 */}
+      {/* 9. 리뷰 */}
       <div className="min-w-0">
         <p className={`${textSize} text-text-tertiary truncate`}>{review || "-"}</p>
       </div>
 
-      {/* 11. 삭제 버튼 */}
+      {/* 10. 삭제 버튼 */}
       <div className="flex justify-center">
-        {onDelete && (
+        {!readOnly && onDelete && (
           <Button
             unstyled
             className="p-0.5 rounded text-text-tertiary opacity-0 group-hover:opacity-100 hover:text-red-500"
@@ -245,21 +198,6 @@ export default function ContentListItem({
           </Button>
         )}
       </div>
-
-      {/* 진행도 수정 모달 */}
-      {isEditingProgress && onProgressChange && (
-        <ProgressModal
-          title={content.title}
-          value={progressPercent}
-          isRecommended={isRecommended}
-          onClose={() => setIsEditingProgress(false)}
-          onSave={(value) => {
-            onProgressChange(item.id, value);
-            setIsEditingProgress(false);
-          }}
-          onRecommendChange={onRecommendChange ? (r) => onRecommendChange(item.id, r) : undefined}
-        />
-      )}
     </div>
   );
   // #endregion

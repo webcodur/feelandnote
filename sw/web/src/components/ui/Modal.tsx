@@ -6,12 +6,13 @@
 
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X, type LucideIcon } from "lucide-react";
 import Button from "./Button";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useSoundOptional } from "@/contexts/SoundContext";
 
 interface ModalProps {
   isOpen: boolean;
@@ -42,6 +43,19 @@ export default function Modal({
   showCloseButton = true,
   closeOnOverlayClick = false,
 }: ModalProps) {
+  const { playSound } = useSoundOptional();
+  const wasOpen = useRef(false);
+
+  // 모달 열림/닫힘 사운드
+  useEffect(() => {
+    if (isOpen && !wasOpen.current) {
+      playSound("modalOpen");
+    } else if (!isOpen && wasOpen.current) {
+      playSound("modalClose");
+    }
+    wasOpen.current = isOpen;
+  }, [isOpen, playSound]);
+
   // ESC 키로 닫기
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

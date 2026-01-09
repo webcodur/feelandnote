@@ -117,12 +117,12 @@ export async function getAchievementData(): Promise<AchievementData | null> {
       .select('content_id, contents!inner(creator)')
       .eq('user_id', user.id),
 
-    // 완료한 콘텐츠 수 (progress = 100)
+    // 완료한 콘텐츠 수 (status가 완료 계열)
     supabase
       .from('user_contents')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id)
-      .eq('progress', 100)
+      .in('status', ['FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED'])
   ])
 
   // 획득한 칭호 ID Set
