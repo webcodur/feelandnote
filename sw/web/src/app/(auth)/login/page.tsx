@@ -2,15 +2,19 @@
   파일명: /app/(auth)/login/page.tsx
   기능: 로그인 페이지
   책임: Google/카카오 소셜 로그인 UI를 제공한다.
-*/ // ------------------------------
+*/
 
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
+import InAppBrowserWarning from './InAppBrowserWarning'
 
 export default function Page() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950">
       <div className="w-full max-w-md space-y-8 p-8">
+        {/* 인앱 브라우저 경고 */}
+        <InAppBrowserWarning />
+
         {/* 로고 */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white">Feel&Note</h1>
