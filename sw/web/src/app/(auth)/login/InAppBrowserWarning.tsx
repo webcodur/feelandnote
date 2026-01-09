@@ -63,7 +63,7 @@ export default function InAppBrowserWarning() {
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-blue-400" />
         <div>
           <p className="font-medium text-blue-400">
-            {appName}에서는 카카오 로그인을 이용해 주세요
+            모바일에서는 {appName} 로그인을 이용해 주세요
           </p>
           <p className="mt-1 text-sm text-zinc-400">
             Google 로그인은 외부 브라우저(Chrome, Safari)에서만 가능합니다.
