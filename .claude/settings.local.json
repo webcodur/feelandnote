@@ -71,7 +71,8 @@
       "Bash(findstr:*)",
       "Bash(timeout 10 npx next start:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []
