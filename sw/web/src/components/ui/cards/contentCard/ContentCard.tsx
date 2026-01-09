@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/cards/ContentCard.tsx
   기능: 콘텐츠 카드 컴포넌트 (도서, 영상, 게임, 음악)
-  책임: 콘텐츠 정보를 카드 형태로 표시하고 상태/진행도 변경을 처리한다.
+  책임: 콘텐츠 정보를 카드 형태로 표시하고 상태 변경을 처리한다.
 */ // ------------------------------
 "use client";
 
@@ -9,9 +9,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Trash2, Eye, CheckSquare, Square, Pin } from "lucide-react";
-import type { CategoryWithCount } from "@/types/database";
+import type { CategoryWithCount, ContentStatus, VisibilityType } from "@/types/database";
 
-import ProgressModal from "./ProgressModal";
 import DateEditModal from "./DateEditModal";
 import ContentDetailModal from "./ContentDetailModal";
 import RecordInfoPanel from "@/components/features/archive/detail/RecordInfoPanel";
@@ -23,11 +22,11 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 export interface ContentCardProps {
   item: UserContentWithContent;
   categories?: CategoryWithCount[];
-  onProgressChange?: (userContentId: string, progress: number) => void;
-  onStatusChange?: (userContentId: string, status: "WANT" | "WATCHING" | "FINISHED") => void;
+  onStatusChange?: (userContentId: string, status: ContentStatus) => void;
   onRecommendChange?: (userContentId: string, isRecommended: boolean) => void;
   onDateChange?: (userContentId: string, field: "created_at" | "completed_at", date: string) => void;
   onCategoryChange?: (userContentId: string, categoryId: string | null) => void;
+  onVisibilityChange?: (userContentId: string, visibility: VisibilityType) => void;
   onDelete?: (userContentId: string) => void;
   href?: string;
   compact?: boolean;
@@ -38,6 +37,8 @@ export interface ContentCardProps {
   // 핀 모드
   isPinMode?: boolean;
   onPinToggle?: (userContentId: string) => void;
+  // 읽기 전용 모드 (타인 기록관)
+  readOnly?: boolean;
 }
 // #endregion
 
@@ -45,11 +46,11 @@ export interface ContentCardProps {
 export default function ContentCard({
   item,
   categories = [],
-  onProgressChange,
   onStatusChange,
   onRecommendChange,
   onDateChange,
   onCategoryChange,
+  onVisibilityChange,
   onDelete,
   href,
   isBatchMode = false,
@@ -57,13 +58,13 @@ export default function ContentCard({
   onToggleSelect,
   isPinMode = false,
   onPinToggle,
+  readOnly = false,
 }: ContentCardProps) {
   // #region 훅
   const router = useRouter();
   // #endregion
 
   // #region 상태
-  const [isEditingProgress, setIsEditingProgress] = useState(false);
   const [isEditingDate, setIsEditingDate] = useState(false);
   const [isViewingDetail, setIsViewingDetail] = useState(false);
   const [showSpoiler, setShowSpoiler] = useState(false);
@@ -71,11 +72,10 @@ export default function ContentCard({
 
   // #region 파생 값
   const content = item.content;
-  const progressPercent = item.progress ?? 0;
-  const isComplete = item.status === "FINISHED" || item.status === "FINISHED";
+  const isComplete = item.status === "FINISHED";
   const isRecommended = item.is_recommended ?? false;
   const isPinned = item.is_pinned ?? false;
-  const canToggleStatus = progressPercent === 0 && !!onStatusChange && !isComplete;
+  const canToggleStatus = !!onStatusChange && !isComplete;
   const canToggleRecommend = isComplete && !!onRecommendChange;
   const canToggle = canToggleStatus || canToggleRecommend;
   // #endregion
@@ -92,11 +92,6 @@ export default function ContentCard({
       return;
     }
     if (href) router.push(href);
-  };
-
-  const handleProgressChange = (value: number) => {
-    onProgressChange?.(item.id, value);
-    setIsEditingProgress(false);
   };
 
   const handleStatusClick = () => {
@@ -177,7 +172,7 @@ export default function ContentCard({
                 {content.title}
               </div>
               <div className="text-[10px] text-gray-300 truncate drop-shadow-sm">
-                {content.creator || "\u00A0"}
+                {content.creator?.replace(/\^/g, ', ') || "\u00A0"}
               </div>
             </div>
           </div>
@@ -189,15 +184,15 @@ export default function ContentCard({
         }`}>
 
           {/* 상단: 3행 레이아웃 - RecordInfoPanel 사용 */}
-          <div className="h-[68px] shrink-0 mb-3">
+          <div className="shrink-0 mb-2">
             <RecordInfoPanel
               data={item}
               categories={categories}
-              editable={!!(onDateChange || onProgressChange || onStatusChange || onCategoryChange)}
+              editable={!!(onDateChange || onStatusChange || onCategoryChange || onVisibilityChange)}
               onDateEdit={onDateChange ? () => setIsEditingDate(true) : undefined}
-              onProgressEdit={onProgressChange ? () => setIsEditingProgress(true) : undefined}
               onStatusClick={canToggle ? handleStatusClick : undefined}
               onCategoryChange={onCategoryChange ? handleCategoryChange : undefined}
+              onVisibilityChange={onVisibilityChange ? (v) => onVisibilityChange(item.id, v) : undefined}
               canToggleStatus={canToggle}
             />
           </div>
@@ -224,7 +219,7 @@ export default function ContentCard({
                   <Eye size={10} /> 스포일러 보기
                 </Button>
               )}
-              {onDelete && (
+              {!readOnly && onDelete && (
                 <Button
                   unstyled
                   className="flex items-center gap-0.5 text-text-tertiary hover:text-red-400 font-medium"
@@ -243,18 +238,6 @@ export default function ContentCard({
 
         </div>
       </div>
-      
-      {/* 진행도 수정 모달 */}
-      {isEditingProgress && onProgressChange && (
-        <ProgressModal
-          title={content.title}
-          value={progressPercent}
-          isRecommended={item.is_recommended ?? false}
-          onClose={() => setIsEditingProgress(false)}
-          onSave={handleProgressChange}
-          onRecommendChange={onRecommendChange ? (r) => onRecommendChange(item.id, r) : undefined}
-        />
-      )}
 
       {/* 날짜 수정 모달 */}
       {isEditingDate && onDateChange && (

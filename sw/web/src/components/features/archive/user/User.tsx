@@ -6,11 +6,11 @@
 "use client";
 
 import { useState } from "react";
-import { Archive, Lock, AlertCircle, Plus, Sparkles, MessageSquare } from "lucide-react";
+import { Archive, AlertCircle, Plus, Sparkles, MessageSquare } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserProfileHeader from "./UserProfileHeader";
-import UserContentGrid from "./UserContentGrid";
+import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
 import AddCelebContentModal from "./AddCelebContentModal";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import type { PublicUserProfile } from "@/actions/user";
@@ -52,9 +52,6 @@ export default function UserProfile({
     );
   }
 
-  // 공개 기록이 없는 경우
-  const isEmpty = profile.stats.content_count === 0;
-
   return (
     <>
       {/* 프로필 헤더 */}
@@ -80,21 +77,11 @@ export default function UserProfile({
         )}
       </div>
 
-      {isEmpty ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center bg-surface rounded-xl">
-          <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center mb-4">
-            <Lock size={32} className="text-text-tertiary" />
-          </div>
-          <h3 className="text-base font-medium text-text-primary mb-2">
-            공개된 기록이 없습니다
-          </h3>
-          <p className="text-sm text-text-secondary">
-            이 사용자는 아직 기록을 공개하지 않았습니다.
-          </p>
-        </div>
-      ) : (
-        <UserContentGrid userId={profile.id} />
-      )}
+      <ContentLibrary
+        mode="viewer"
+        targetUserId={profile.id}
+        emptyMessage="공개된 기록이 없습니다."
+      />
 
       {/* 방명록 섹션 */}
       {guestbook && (

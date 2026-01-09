@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/archive/contentLibrary/controlBar/ArchiveControlBar.tsx
   기능: 기록관 콘텐츠 라이브러리 컨트롤 바
-  책임: 탭, 카테고리, 진행도 필터, 정렬, 뷰 모드 등 필터링 UI를 제공한다.
+  책임: 탭, 카테고리, 정렬, 뷰 모드 등 필터링 UI를 제공한다.
 */ // ------------------------------
 "use client";
 
@@ -9,9 +9,9 @@ import { useState } from "react";
 import { LayoutGrid, List, Filter, ArrowUpDown, ChevronsDown, ChevronsUp, Layers, Tag, Image } from "lucide-react";
 import Button, { SelectDropdown } from "@/components/ui/Button";
 import type { CategoryWithCount } from "@/types/database";
-import type { ProgressFilter, SortOption, ViewMode } from "../useContentLibrary";
+import type { SortOption, StatusFilter, ViewMode } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/actions/contents/getContentCounts";
-import { TAB_OPTIONS, PROGRESS_OPTIONS, SORT_OPTIONS } from "./constants";
+import { TAB_OPTIONS, STATUS_OPTIONS, SORT_OPTIONS } from "./constants";
 import ControlSection from "./ControlSection";
 import ControlIconButton from "./ControlIconButton";
 import CategoryChip from "./CategoryChip";
@@ -21,7 +21,7 @@ function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-interface ArchiveControlBarProps {
+export interface ArchiveControlBarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   typeCounts: ContentTypeCounts;
@@ -29,8 +29,8 @@ interface ArchiveControlBarProps {
   selectedCategoryId: string | null;
   onCategoryChange: (categoryId: string | null) => void;
   onManageCategories: () => void;
-  progressFilter: ProgressFilter;
-  onProgressFilterChange: (filter: ProgressFilter) => void;
+  statusFilter: StatusFilter;
+  onStatusFilterChange: (filter: StatusFilter) => void;
   sortOption: SortOption;
   onSortOptionChange: (option: SortOption) => void;
   viewMode: ViewMode;
@@ -49,8 +49,8 @@ export default function ArchiveControlBar({
   selectedCategoryId,
   onCategoryChange,
   onManageCategories,
-  progressFilter,
-  onProgressFilterChange,
+  statusFilter,
+  onStatusFilterChange,
   sortOption,
   onSortOptionChange,
   viewMode,
@@ -128,10 +128,10 @@ export default function ArchiveControlBar({
 
         <div className="hidden sm:block w-px bg-border/50 self-stretch" />
 
-        {/* Section 2: Filter */}
+        {/* Section 2: Filter & Sort */}
         <ControlSection header="정렬 및 필터" className="bg-surface/10 min-w-[150px]">
           <div className="flex flex-col gap-1.5 h-full justify-center">
-            <SelectDropdown value={progressFilter} onChange={onProgressFilterChange} options={PROGRESS_OPTIONS} icon={Filter} />
+            <SelectDropdown value={statusFilter} onChange={onStatusFilterChange} options={STATUS_OPTIONS} icon={Filter} />
             <SelectDropdown value={sortOption} onChange={onSortOptionChange} options={SORT_OPTIONS} icon={ArrowUpDown} />
           </div>
         </ControlSection>

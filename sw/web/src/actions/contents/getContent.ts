@@ -7,8 +7,6 @@ export interface UserContentWithDetails {
   user_id: string
   content_id: string
   status: string
-  progress: number | null
-  progress_type: string | null
   rating: number | null
   review: string | null
   is_spoiler: boolean | null
@@ -49,6 +47,28 @@ export async function getContent(contentId: string): Promise<UserContentWithDeta
     )
     .eq('user_id', user.id)
     .eq('content_id', contentId)
+    .single()
+
+  if (error || !data) {
+    throw new Error('콘텐츠를 찾을 수 없습니다')
+  }
+
+  return data as unknown as UserContentWithDetails
+}
+
+// 타인의 공개 콘텐츠 조회
+export async function getPublicContent(contentId: string, userId: string): Promise<UserContentWithDetails> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('user_contents')
+    .select(`
+      *,
+      content:contents(*)
+    `)
+    .eq('user_id', userId)
+    .eq('content_id', contentId)
+    .eq('visibility', 'public')
     .single()
 
   if (error || !data) {

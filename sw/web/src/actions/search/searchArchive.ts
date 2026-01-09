@@ -11,7 +11,6 @@ export interface ArchiveSearchResult {
   thumbnail?: string
   status: string
   rating?: number
-  progress?: number
 }
 
 interface SearchArchiveParams {
@@ -40,7 +39,6 @@ interface UserContentRow {
   id: string
   content_id: string
   status: string
-  progress: number | null
   rating: number | null
   content: ContentData | ContentData[] | null
 }
@@ -68,7 +66,6 @@ export async function searchArchive({
       id,
       content_id,
       status,
-      progress,
       rating,
       content:contents!inner(
         id,
@@ -114,7 +111,6 @@ export async function searchArchive({
         thumbnail: content.thumbnail_url || undefined,
         status: item.status,
         rating: item.rating || undefined,
-        progress: item.progress || undefined,
       }
     })
 

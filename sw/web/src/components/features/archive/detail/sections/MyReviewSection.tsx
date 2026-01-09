@@ -8,6 +8,7 @@
 import { Loader2, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
+import { useSound } from "@/contexts/SoundContext";
 
 interface MyReviewSectionProps {
   reviewText: string;
@@ -36,6 +37,18 @@ export default function MyReviewSection({
   onGenerateExample,
   isGenerating = false,
 }: MyReviewSectionProps) {
+  const { playSound } = useSound();
+
+  const handleRatingChange = (star: number) => {
+    playSound("star");
+    onRatingChange(reviewRating === star ? null : star);
+  };
+
+  const handleSpoilerChange = (checked: boolean) => {
+    playSound("toggle");
+    onSpoilerChange(checked);
+  };
+
   return (
     <div className="animate-fade-in">
       <Card className="p-0 mb-4">
@@ -46,8 +59,9 @@ export default function MyReviewSection({
               {[1, 2, 3, 4, 5].map((star) => (
                 <Button
                   unstyled
+                  noSound
                   key={star}
-                  onClick={() => onRatingChange(reviewRating === star ? null : star)}
+                  onClick={() => handleRatingChange(star)}
                   className={`text-lg ${
                     (reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600 hover:text-yellow-400/50"
                   }`}
@@ -103,7 +117,7 @@ export default function MyReviewSection({
                   type="checkbox"
                   className="w-3 h-3"
                   checked={isSpoiler}
-                  onChange={(e) => onSpoilerChange(e.target.checked)}
+                  onChange={(e) => handleSpoilerChange(e.target.checked)}
                 />
                 스포일러
               </label>

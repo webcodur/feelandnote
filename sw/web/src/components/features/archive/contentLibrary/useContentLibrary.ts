@@ -6,14 +6,16 @@
 "use client";
 
 import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
+import { useSound } from "@/contexts/SoundContext";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import { getContentCounts, type ContentTypeCounts } from "@/actions/contents/getContentCounts";
+import { getUserContents } from "@/actions/contents/getUserContents";
+import { getContentCounts, getUserContentCounts, type ContentTypeCounts } from "@/actions/contents/getContentCounts";
 import { getCategories } from "@/actions/categories/getCategories";
 import { moveToCategory } from "@/actions/categories/moveToCategory";
-import { updateProgress } from "@/actions/contents/updateProgress";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateRecommendation } from "@/actions/contents/updateRecommendation";
+import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
 import { togglePin } from "@/actions/contents/togglePin";
@@ -24,17 +26,21 @@ interface PlaylistInfo {
   name: string;
 }
 
-import type { ContentType, ContentStatus, CategoryWithCount } from "@/types/database";
+import type { ContentType, ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
 
 // #region 타입
 export type ViewMode = "grid" | "list" | "compact";
-export type ProgressFilter = "all" | "not_started" | "in_progress" | "completed";
-export type SortOption = "recent" | "title" | "progress_asc" | "progress_desc";
+export type SortOption = "recent" | "title";
+export type StatusFilter = "all" | ContentStatus;
+
+export type ContentLibraryMode = 'owner' | 'viewer';
 
 interface UseContentLibraryOptions {
   maxItems?: number;
   compact?: boolean;
   showCategories?: boolean;
+  mode?: ContentLibraryMode;
+  targetUserId?: string; // viewer 모드에서 필수
 }
 
 export interface GroupedContents {
@@ -50,8 +56,6 @@ export interface TabOption {
 // #endregion
 
 // #region 상수
-const CONTENT_TYPES: ContentType[] = ["BOOK", "VIDEO", "GAME", "MUSIC", "CERTIFICATE"];
-
 const TYPE_MAP: Record<string, ContentType> = {
   book: "BOOK",
   video: "VIDEO",
@@ -62,7 +66,9 @@ const TYPE_MAP: Record<string, ContentType> = {
 // #endregion
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
-  const { maxItems, compact = false, showCategories = true } = options;
+  const { maxItems, compact = false, showCategories = true, mode = 'owner', targetUserId } = options;
+  const isViewer = mode === 'viewer';
+  const { playSound } = useSound();
 
   // #region 상태
   const [activeTab, setActiveTab] = useState("book");
@@ -87,8 +93,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
 
-  const [progressFilter, setProgressFilter] = useState<ProgressFilter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null); // null = 전체
 
   // 배치 모드 상태
@@ -108,34 +114,25 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const filteredAndSortedContents = useMemo(() => {
     let result = [...contents];
 
+    // 상태 필터링
+    if (statusFilter !== "all") {
+      result = result.filter((item) => item.status === statusFilter);
+    }
+
     // 분류 필터링
     if (selectedCategoryId !== null) {
       result = result.filter((item) => item.category_id === selectedCategoryId);
     }
 
-    if (progressFilter !== "all") {
-      result = result.filter((item) => {
-        const progress = item.progress ?? 0;
-        switch (progressFilter) {
-          case "not_started": return progress === 0;
-          case "in_progress": return progress > 0 && progress < 100;
-          case "completed": return progress === 100;
-          default: return true;
-        }
-      });
-    }
-
     result.sort((a, b) => {
       switch (sortOption) {
         case "title": return (a.content?.title ?? "").localeCompare(b.content?.title ?? "");
-        case "progress_asc": return (a.progress ?? 0) - (b.progress ?? 0);
-        case "progress_desc": return (b.progress ?? 0) - (a.progress ?? 0);
         default: return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       }
     });
 
     return result;
-  }, [contents, selectedCategoryId, progressFilter, sortOption]);
+  }, [contents, statusFilter, selectedCategoryId, sortOption]);
 
   // 월별 그룹화: "2024-01" 형태의 키로 그룹화
   const groupedByMonth = useMemo(() => {
@@ -293,32 +290,78 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   const loadTypeCounts = useCallback(async () => {
     try {
-      const counts = await getContentCounts();
+      const counts = isViewer && targetUserId
+        ? await getUserContentCounts(targetUserId)
+        : await getContentCounts();
       setTypeCounts(counts);
     } catch (err) {
       console.error("타입별 개수 로드 실패:", err);
     }
-  }, []);
+  }, [isViewer, targetUserId]);
 
   const loadContents = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const limit = maxItems || 20;
-      const result = await getMyContents({
-        type: TYPE_MAP[activeTab],
-        page: compact ? 1 : currentPage,
-        limit,
-      });
-      setContents(result.items);
-      setTotalPages(result.totalPages);
-      setTotal(result.total);
+
+      if (isViewer && targetUserId) {
+        // viewer 모드: 타인의 공개 콘텐츠 조회
+        const result = await getUserContents({
+          userId: targetUserId,
+          type: TYPE_MAP[activeTab],
+          page: compact ? 1 : currentPage,
+          limit,
+        });
+        // UserContentPublic을 UserContentWithContent 형태로 매핑
+        const mapped: UserContentWithContent[] = result.items.map((item) => ({
+          id: item.id,
+          content_id: item.content_id,
+          user_id: targetUserId,
+          status: item.status as ContentStatus,
+          visibility: item.visibility ?? 'public',
+          created_at: item.created_at,
+          updated_at: item.created_at, // viewer 모드에서는 created_at으로 대체
+          completed_at: null,
+          rating: item.public_record?.rating ?? null,
+          review: item.public_record?.content_preview ?? null,
+          is_recommended: false,
+          is_spoiler: false, // viewer 모드에서는 스포일러 정보 없음
+          category_id: null,
+          is_pinned: false,
+          pinned_at: null,
+          content: {
+            id: item.content.id,
+            type: item.content.type,
+            title: item.content.title,
+            creator: item.content.creator,
+            thumbnail_url: item.content.thumbnail_url,
+            description: null,
+            publisher: null,
+            release_date: null,
+            metadata: item.content.metadata,
+          },
+        }));
+        setContents(mapped);
+        setTotalPages(result.totalPages);
+        setTotal(result.total);
+      } else {
+        // owner 모드: 내 콘텐츠 조회
+        const result = await getMyContents({
+          type: TYPE_MAP[activeTab],
+          page: compact ? 1 : currentPage,
+          limit,
+        });
+        setContents(result.items);
+        setTotalPages(result.totalPages);
+        setTotal(result.total);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "콘텐츠를 불러오는데 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, currentPage, maxItems, compact]);
+  }, [activeTab, currentPage, maxItems, compact, isViewer, targetUserId]);
 
   useEffect(() => {
     loadContents();
@@ -329,6 +372,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   useEffect(() => {
     setCurrentPage(1);
     setSelectedCategoryId(null); // 탭 변경 시 분류 선택 초기화
+    setStatusFilter("all"); // 탭 변경 시 상태 필터 초기화
   }, [activeTab]);
   // #endregion
 
@@ -345,6 +389,9 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       alert("최대 10개까지 고정할 수 있습니다");
       return;
     }
+
+    // 핀 꽂기/뽑기 사운드
+    playSound(newPinned ? "pin" : "unpin");
 
     // 낙관적 업데이트
     setContents((prev) =>
@@ -370,28 +417,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         console.error("핀 상태 변경 실패:", err);
       }
     });
-  }, [contents, pinnedCount, loadContents]);
-
-  const handleProgressChange = useCallback((userContentId: string, progress: number) => {
-    setContents((prev) =>
-      prev.map((item) => {
-        if (item.id !== userContentId) return item;
-        let newStatus = item.status;
-        if (progress === 100) newStatus = "FINISHED";
-        else if (progress < 100 && item.status === "FINISHED") newStatus = "WATCHING";
-        else if (progress > 0 && item.status === "WANT") newStatus = "WATCHING";
-        return { ...item, progress, status: newStatus };
-      })
-    );
-    startTransition(async () => {
-      try {
-        await updateProgress({ userContentId, progress });
-      } catch (err) {
-        loadContents();
-        console.error("진행도 업데이트 실패:", err);
-      }
-    });
-  }, [loadContents]);
+  }, [contents, pinnedCount, loadContents, playSound]);
 
   const handleStatusChange = useCallback((userContentId: string, status: ContentStatus) => {
     setContents((prev) =>
@@ -484,9 +510,25 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       }
     });
   }, [loadContents]);
+
+  const handleVisibilityChange = useCallback((userContentId: string, visibility: VisibilityType) => {
+    setContents((prev) =>
+      prev.map((item) => (item.id === userContentId ? { ...item, visibility } : item))
+    );
+    startTransition(async () => {
+      try {
+        await updateVisibility({ userContentId, visibility });
+      } catch (err) {
+        loadContents();
+        console.error("공개 설정 업데이트 실패:", err);
+      }
+    });
+  }, [loadContents]);
   // #endregion
 
   return {
+    // 모드
+    isViewer,
     // 기본 상태
     activeTab, setActiveTab,
     viewMode, setViewMode,
@@ -501,8 +543,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     categoryManagerType, setCategoryManagerType,
     collapsedMonths,
     collapsedCategories,
-    progressFilter, setProgressFilter,
     sortOption, setSortOption,
+    statusFilter, setStatusFilter,
     selectedCategoryId, setSelectedCategoryId,
     // 배치 모드
     isBatchMode,
@@ -532,10 +574,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     deselectAll,
     loadContents,
     loadCategories,
-    handleProgressChange,
     handleStatusChange,
     handleRecommendChange,
     handleDateChange,
+    handleVisibilityChange,
     handleDelete,
     handleMoveToCategory,
     // 개별 삭제 모달

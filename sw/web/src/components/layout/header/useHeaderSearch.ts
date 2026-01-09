@@ -101,7 +101,7 @@ export function useHeaderSearch() {
             searchResults.push({
               id: item.id, type: "content", title: item.title, subtitle: item.status,
               category: item.category, thumbnail: item.thumbnail,
-              extra: item.rating ? "★".repeat(item.rating) : item.progress ? `${item.progress}%` : undefined,
+              extra: item.rating ? "★".repeat(item.rating) : undefined,
             });
           });
         }
@@ -192,9 +192,16 @@ export function useHeaderSearch() {
     startTransition(async () => {
       try {
         await addContent({
-          id: result.id, type: categoryToContentType(result.category || "book"),
-          title: result.title, creator: result.subtitle, thumbnailUrl: result.thumbnail,
-          description: result.description, releaseDate: result.releaseDate, status: "WANT", progress: 0,
+          id: result.id,
+          type: categoryToContentType(result.category || "book"),
+          title: result.title,
+          creator: result.subtitle,
+          thumbnailUrl: result.thumbnail,
+          description: result.description,
+          releaseDate: result.releaseDate,
+          metadata: result.metadata,
+          subtype: result.subtype,
+          status: "WANT",
         });
         setAddedIds((prev) => new Set(prev).add(result.id));
       } catch (err) {

@@ -37,7 +37,12 @@ export async function getFeedActivities(
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) return { activities: [], nextCursor: null }
+  if (!user) {
+    console.log('[getFeedActivities] 로그인 안됨')
+    return { activities: [], nextCursor: null }
+  }
+
+  console.log('[getFeedActivities] user.id:', user.id)
 
   // 내가 팔로우하는 사람들 ID 조회
   const { data: following } = await supabase
@@ -45,11 +50,15 @@ export async function getFeedActivities(
     .select('following_id')
     .eq('follower_id', user.id)
 
+  console.log('[getFeedActivities] following:', following)
+
   if (!following || following.length === 0) {
+    console.log('[getFeedActivities] 팔로잉 없음')
     return { activities: [], nextCursor: null }
   }
 
   const followingIds = following.map(f => f.following_id)
+  console.log('[getFeedActivities] followingIds:', followingIds)
 
   // 팔로우한 사람들의 활동 로그 조회 (user만 FK 조인)
   let query = supabase
@@ -74,6 +83,9 @@ export async function getFeedActivities(
   }
 
   const { data, error } = await query
+
+  console.log('[getFeedActivities] data:', data)
+  console.log('[getFeedActivities] error:', error)
 
   if (error || !data) {
     console.error('피드 활동 조회 에러:', error)

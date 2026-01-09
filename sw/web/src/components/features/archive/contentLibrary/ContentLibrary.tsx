@@ -31,8 +31,11 @@ export default function ContentLibrary({
   showPagination = true,
   emptyMessage = "아직 기록한 콘텐츠가 없습니다",
   headerActions,
+  mode = "owner",
+  targetUserId,
 }: ContentLibraryProps) {
-  const lib = useContentLibrary({ maxItems, compact, showCategories });
+  const lib = useContentLibrary({ maxItems, compact, showCategories, mode, targetUserId });
+  const isViewer = lib.isViewer;
 
   // userContentId -> contentId 매핑 생성
   const contentIdMap = useMemo(() => {
@@ -73,17 +76,19 @@ export default function ContentLibrary({
       viewMode={lib.viewMode}
       compact={compact}
       categories={lib.currentTypeCategories}
-      onProgressChange={lib.handleProgressChange}
       onStatusChange={lib.handleStatusChange}
       onRecommendChange={lib.handleRecommendChange}
       onDateChange={lib.handleDateChange}
       onCategoryChange={lib.handleMoveToCategory}
+      onVisibilityChange={lib.handleVisibilityChange}
       onDelete={lib.handleDelete}
       isBatchMode={lib.isBatchMode}
       selectedIds={lib.selectedIds}
       onToggleSelect={lib.toggleSelect}
       isPinMode={lib.isPinMode}
       onPinToggle={lib.handlePinToggle}
+      readOnly={isViewer}
+      targetUserId={targetUserId}
     />
   );
 
@@ -121,8 +126,8 @@ export default function ContentLibrary({
           selectedCategoryId={lib.selectedCategoryId}
           onCategoryChange={lib.setSelectedCategoryId}
           onManageCategories={handleCategoryManage}
-          progressFilter={lib.progressFilter}
-          onProgressFilterChange={lib.setProgressFilter}
+          statusFilter={lib.statusFilter}
+          onStatusFilterChange={lib.setStatusFilter}
           sortOption={lib.sortOption}
           onSortOptionChange={lib.setSortOption}
           viewMode={lib.viewMode}
@@ -131,6 +136,7 @@ export default function ContentLibrary({
           onExpandAll={lib.expandAll}
           onCollapseAll={lib.collapseAll}
           customActions={
+            isViewer ? undefined :
             typeof headerActions === "function"
               ? headerActions({
                   toggleBatchMode: lib.toggleBatchMode,
@@ -146,8 +152,8 @@ export default function ContentLibrary({
       <div>
         {renderStates()}
 
-        {/* 코르크 보드 (핀된 콘텐츠) */}
-        {!lib.isLoading && !lib.error && (lib.pinnedContents.length > 0 || lib.isPinMode) && (
+        {/* 코르크 보드 (핀된 콘텐츠) - owner 모드에서만 표시 */}
+        {!isViewer && !lib.isLoading && !lib.error && (lib.pinnedContents.length > 0 || lib.isPinMode) && (
           <PinnedCorkBoard items={lib.pinnedContents} isPinMode={lib.isPinMode} onUnpin={lib.handlePinToggle} />
         )}
 
@@ -180,8 +186,8 @@ export default function ContentLibrary({
         )}
       </div>
 
-      {/* 분류 관리 모달 */}
-      {lib.categoryManagerType && (
+      {/* 분류 관리 모달 - owner 모드에서만 */}
+      {!isViewer && lib.categoryManagerType && (
         <CategoryManager
           contentType={lib.categoryManagerType}
           categories={lib.categories[lib.categoryManagerType] || []}
@@ -193,8 +199,8 @@ export default function ContentLibrary({
         />
       )}
 
-      {/* 배치 모드 액션 바 */}
-      {lib.isBatchMode && (
+      {/* 배치 모드 액션 바 - owner 모드에서만 */}
+      {!isViewer && lib.isBatchMode && (
         <BatchActionBar
           selectedCount={lib.selectedIds.size}
           totalCount={lib.filteredAndSortedContents.length}
@@ -208,28 +214,32 @@ export default function ContentLibrary({
         />
       )}
 
-      {/* 일괄 삭제 확인 모달 */}
-      <DeleteConfirmModal
-        isOpen={isDeleteModalOpen}
-        onClose={closeDeleteModal}
-        onConfirm={confirmDelete}
-        isLoading={isBatchLoading}
-        affectedPlaylists={affectedPlaylists}
-        itemCount={lib.selectedIds.size}
-      />
+      {/* 일괄 삭제 확인 모달 - owner 모드에서만 */}
+      {!isViewer && (
+        <DeleteConfirmModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeDeleteModal}
+          onConfirm={confirmDelete}
+          isLoading={isBatchLoading}
+          affectedPlaylists={affectedPlaylists}
+          itemCount={lib.selectedIds.size}
+        />
+      )}
 
-      {/* 개별 삭제 확인 모달 */}
-      <DeleteConfirmModal
-        isOpen={lib.isDeleteModalOpen}
-        onClose={lib.closeDeleteModal}
-        onConfirm={lib.confirmDelete}
-        isLoading={lib.isDeleteLoading}
-        affectedPlaylists={lib.deleteAffectedPlaylists}
-        itemCount={1}
-      />
+      {/* 개별 삭제 확인 모달 - owner 모드에서만 */}
+      {!isViewer && (
+        <DeleteConfirmModal
+          isOpen={lib.isDeleteModalOpen}
+          onClose={lib.closeDeleteModal}
+          onConfirm={lib.confirmDelete}
+          isLoading={lib.isDeleteLoading}
+          affectedPlaylists={lib.deleteAffectedPlaylists}
+          itemCount={1}
+        />
+      )}
 
-      {/* 핀 모드 액션 바 */}
-      {lib.isPinMode && <PinActionBar pinnedCount={lib.pinnedCount} onExit={lib.exitPinMode} />}
+      {/* 핀 모드 액션 바 - owner 모드에서만 */}
+      {!isViewer && lib.isPinMode && <PinActionBar pinnedCount={lib.pinnedCount} onExit={lib.exitPinMode} />}
     </div>
   );
   // #endregion

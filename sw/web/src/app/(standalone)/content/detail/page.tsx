@@ -148,7 +148,6 @@ function ContentDetailContent() {
           description: contentInfo.description,
           releaseDate: contentInfo.releaseDate,
           status: "WANT",
-          progress: 0,
         });
         setIsAdded(true);
         setError(null);

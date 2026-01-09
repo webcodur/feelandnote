@@ -315,3 +315,45 @@ export async function getMovieDetails(movieId: number): Promise<{
     return null
   }
 }
+
+// ID로 영상 정보 조회 (metadata 포함)
+export async function getVideoById(externalId: string): Promise<VideoSearchResult | null> {
+  if (!TMDB_API_KEY) return null
+
+  // externalId 형식: tmdb-movie-123 또는 tmdb-tv-456
+  const match = externalId.match(/^tmdb-(movie|tv)-(\d+)$/)
+  if (!match) return null
+
+  const [, mediaType, id] = match
+  const isMovie = mediaType === 'movie'
+
+  try {
+    const response = await fetch(
+      `${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=ko-KR`
+    )
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    const genres = isMovie ? MOVIE_GENRES : TV_GENRES
+
+    return {
+      externalId,
+      externalSource: 'tmdb',
+      category: 'video',
+      subtype: mediaType as 'movie' | 'tv',
+      title: isMovie ? data.title : data.name,
+      creator: '',
+      coverImageUrl: data.poster_path ? `${TMDB_IMAGE_BASE}${data.poster_path}` : null,
+      metadata: {
+        originalTitle: isMovie ? data.original_title : data.original_name,
+        releaseDate: isMovie ? data.release_date || '' : data.first_air_date || '',
+        overview: data.overview || '',
+        voteAverage: data.vote_average,
+        genres: (data.genres || []).map((g: { id: number; name: string }) => g.name)
+      }
+    }
+  } catch {
+    return null
+  }
+}

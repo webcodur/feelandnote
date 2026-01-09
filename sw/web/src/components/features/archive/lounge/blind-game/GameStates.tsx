@@ -5,8 +5,10 @@
 */ // ------------------------------
 "use client";
 
+import { useEffect } from "react";
 import { CheckCircle, XCircle, Trophy, Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui";
+import { useSound } from "@/contexts/SoundContext";
 
 interface GameFinishedProps {
   score: number;
@@ -19,6 +21,12 @@ interface GameFinishedProps {
 }
 
 export function GameFinished({ score, maxStreak, savedScore, isSaving, onSave, onClose, onPlayAgain }: GameFinishedProps) {
+  const { playSound } = useSound();
+
+  useEffect(() => {
+    playSound("gameEnd");
+  }, [playSound]);
+
   return (
     <div className="text-center py-12">
       <Trophy size={80} className="mx-auto mb-6 text-yellow-500" />
@@ -58,6 +66,12 @@ interface GameCorrectProps {
 }
 
 export function GameCorrect({ answer, earnedPoints, streak, isLast, onFinish, onNext }: GameCorrectProps) {
+  const { playSound } = useSound();
+
+  useEffect(() => {
+    playSound("gameCorrect");
+  }, [playSound]);
+
   return (
     <div className="text-center py-12">
       <CheckCircle size={80} className="mx-auto mb-6 text-green-500" />
@@ -82,6 +96,12 @@ interface GameWrongProps {
 }
 
 export function GameWrong({ answer, isLast, onFinish, onNext }: GameWrongProps) {
+  const { playSound } = useSound();
+
+  useEffect(() => {
+    playSound("gameWrong");
+  }, [playSound]);
+
   return (
     <div className="text-center py-12">
       <XCircle size={80} className="mx-auto mb-6 text-red-500" />

@@ -4,7 +4,6 @@
 // NOTE: @/constants/categories.ts의 CATEGORIES와 동기화 필요
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
 export type ContentStatus = 'WANT' | 'WATCHING' | 'DROPPED' | 'FINISHED' | 'RECOMMENDED' | 'NOT_RECOMMENDED'
-export type ProgressType = 'PERCENT' | 'PAGE' | 'TIME'
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
 export type ScoreType = 'activity' | 'title'
@@ -48,13 +47,12 @@ export interface UserContent {
   user_id: string
   content_id: string
   status: ContentStatus
-  progress: number | null
-  progress_type: ProgressType | null
   category_id: string | null
   contributor_id: string | null
   is_recommended: boolean | null
   rating: number | null
   review: string | null
+  visibility: VisibilityType | null
   created_at: string
   updated_at: string
   completed_at: string | null
@@ -323,7 +321,7 @@ export interface GuestbookEntryWithAuthor extends GuestbookEntry {
 // ===== Activity Log =====
 export type ActivityActionType =
   | 'CONTENT_ADD' | 'CONTENT_REMOVE'
-  | 'STATUS_CHANGE' | 'PROGRESS_CHANGE' | 'REVIEW_UPDATE'
+  | 'STATUS_CHANGE' | 'REVIEW_UPDATE'
   | 'RECORD_CREATE' | 'RECORD_UPDATE' | 'RECORD_DELETE'
 
 export type ActivityTargetType = 'content' | 'record'

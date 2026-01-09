@@ -18,7 +18,6 @@ export interface ContentInfo {
 export interface UserContentStatus {
   id: string
   status: string
-  progress: number | null
   created_at: string
 }
 
@@ -51,7 +50,7 @@ export async function getContentInfo(contentId: string): Promise<ContentWithUser
   if (user) {
     const { data: userContentData } = await supabase
       .from('user_contents')
-      .select('id, status, progress, created_at')
+      .select('id, status, created_at')
       .eq('user_id', user.id)
       .eq('content_id', contentId)
       .single()

@@ -5,10 +5,11 @@
 */ // ------------------------------
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { X, Trophy } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useSound } from "@/contexts/SoundContext";
 
 interface UnlockedTitle {
   id: string;
@@ -70,15 +71,24 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
   const [showParticles, setShowParticles] = useState(true);
+  const { playSound } = useSound();
+  const hasPlayedInitialSound = useRef(false);
 
   const currentTitle = titles[currentIndex];
   const config = gradeConfig[currentTitle?.grade || "common"];
   const hasNext = currentIndex < titles.length - 1;
+  const isHighTier = currentTitle?.grade === "epic" || currentTitle?.grade === "legendary";
 
   useEffect(() => {
     // 초기 애니메이션
     setIsAnimating(true);
     setShowParticles(true);
+
+    // 해금 사운드 재생
+    if (!hasPlayedInitialSound.current || currentIndex > 0) {
+      playSound(isHighTier ? "unlockEpic" : "unlock");
+      hasPlayedInitialSound.current = true;
+    }
 
     const timer = setTimeout(() => {
       setIsAnimating(false);
@@ -92,7 +102,7 @@ export default function AchievementUnlockModal({ titles, onClose }: AchievementU
       clearTimeout(timer);
       clearTimeout(particleTimer);
     };
-  }, [currentIndex]);
+  }, [currentIndex, isHighTier, playSound]);
 
   const handleNext = () => {
     if (hasNext) {

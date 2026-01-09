@@ -11,16 +11,15 @@ import { useRouter } from "next/navigation";
 import { Loader2, Plus } from "lucide-react";
 import Button from "@/components/ui/Button";
 import ArchiveDetailHeader from "./ArchiveDetailHeader";
-import ArchiveDetailTabs, { type MainTab, type SubTab } from "./ArchiveDetailTabs";
+import ArchiveDetailTabs, { type SubTab } from "./ArchiveDetailTabs";
 import FeedSection from "./sections/FeedSection";
 import MyReviewSection from "./sections/MyReviewSection";
 import CreationSection from "./sections/CreationSection";
 import CreateCreationModal from "../modals/CreateCreationModal";
 import NoteEditor from "./note/NoteEditor";
-import { getContent, type UserContentWithDetails } from "@/actions/contents/getContent";
+import { getContent, getPublicContent, type UserContentWithDetails } from "@/actions/contents/getContent";
 import { getContentMetadata, type ContentMetadata } from "@/actions/contents/getContentMetadata";
 import { updateStatus } from "@/actions/contents/updateStatus";
-import { updateProgress } from "@/actions/contents/updateProgress";
 import { updateReview } from "@/actions/contents/updateReview";
 import { removeContent } from "@/actions/contents/removeContent";
 import { getProfile } from "@/actions/user";
@@ -31,13 +30,14 @@ import { useAchievement } from "@/components/features/profile/achievements";
 
 interface DetailProps {
   contentId: string;
+  viewUserId?: string; // 타인의 콘텐츠를 볼 때 해당 사용자 ID
 }
 
-export default function Detail({ contentId }: DetailProps) {
+export default function Detail({ contentId, viewUserId }: DetailProps) {
   const router = useRouter();
   const { showUnlock } = useAchievement();
+  const isViewingOther = !!viewUserId; // 타인 콘텐츠 조회 여부
 
-  const [activeTab, setActiveTab] = useState<MainTab>("myRecord");
   const [activeSubTab, setActiveSubTab] = useState<SubTab>("review");
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [item, setItem] = useState<UserContentWithDetails | null>(null);
@@ -57,10 +57,13 @@ export default function Detail({ contentId }: DetailProps) {
       setIsLoading(true);
       setError(null);
       try {
-        const [contentData, profile] = await Promise.all([
-          getContent(contentId),
-          getProfile(),
-        ]);
+        // 타인 콘텐츠 조회 시 getPublicContent, 아니면 getContent
+        const contentData = viewUserId
+          ? await getPublicContent(contentId, viewUserId)
+          : await getContent(contentId);
+
+        const profile = viewUserId ? null : await getProfile();
+
         setItem(contentData);
         setHasApiKey(!!profile?.gemini_api_key);
 
@@ -80,7 +83,7 @@ export default function Detail({ contentId }: DetailProps) {
       }
     }
     loadData();
-  }, [contentId]);
+  }, [contentId, viewUserId]);
 
   if (isLoading) {
     return (
@@ -106,22 +109,6 @@ export default function Detail({ contentId }: DetailProps) {
         setItem((prev) => prev ? { ...prev, status: newStatus } : null);
       } catch (err) {
         console.error("상태 변경 실패:", err);
-      }
-    });
-  };
-
-  const handleProgressChange = (newProgress: number) => {
-    let newStatus: ContentStatus | undefined;
-    if (newProgress === 100) newStatus = "FINISHED";
-    else if (newProgress < 100 && item.status === "FINISHED") newStatus = "WATCHING";
-    else if (newProgress > 0 && item.status === "WANT") newStatus = "WATCHING";
-
-    setItem((prev) => prev ? { ...prev, progress: newProgress, ...(newStatus ? { status: newStatus } : {}) } : null);
-    startSaveTransition(async () => {
-      try {
-        await updateProgress({ userContentId: item.id, progress: newProgress });
-      } catch (err) {
-        console.error("진행도 변경 실패:", err);
       }
     });
   };
@@ -181,42 +168,47 @@ export default function Detail({ contentId }: DetailProps) {
         metadata={metadata}
         isSaving={isSaving}
         onStatusChange={handleStatusChange}
-        onProgressChange={handleProgressChange}
         onDelete={handleDelete}
       />
 
       <ArchiveDetailTabs
-        activeTab={activeTab}
         activeSubTab={activeSubTab}
-        onTabChange={setActiveTab}
         onSubTabChange={setActiveSubTab}
       />
 
-      {activeTab === "feed" && <FeedSection contentId={contentId} subTab={activeSubTab} />}
+      <div className="flex flex-col lg:flex-row gap-4">
+        {/* 왼쪽: 내 기록 */}
+        <div className="lg:w-1/2">
+          {activeSubTab === "review" && (
+            <MyReviewSection
+              reviewText={reviewText}
+              reviewRating={reviewRating}
+              isSpoiler={isSpoiler}
+              isSaving={isSaving}
+              onReviewTextChange={setReviewText}
+              onRatingChange={setReviewRating}
+              onSpoilerChange={setIsSpoiler}
+              onSave={handleSaveReview}
+              hasApiKey={hasApiKey}
+              onGenerateExample={handleGenerateExample}
+              isGenerating={isGenerating}
+            />
+          )}
 
-      {activeTab === "myRecord" && activeSubTab === "review" && (
-        <MyReviewSection
-          reviewText={reviewText}
-          reviewRating={reviewRating}
-          isSpoiler={isSpoiler}
-          isSaving={isSaving}
-          onReviewTextChange={setReviewText}
-          onRatingChange={setReviewRating}
-          onSpoilerChange={setIsSpoiler}
-          onSave={handleSaveReview}
-          hasApiKey={hasApiKey}
-          onGenerateExample={handleGenerateExample}
-          isGenerating={isGenerating}
-        />
-      )}
+          {activeSubTab === "note" && (
+            <div className="animate-fade-in">
+              <NoteEditor contentId={contentId} />
+            </div>
+          )}
 
-      {activeTab === "myRecord" && activeSubTab === "note" && (
-        <div className="animate-fade-in">
-          <NoteEditor contentId={contentId} />
+          {activeSubTab === "creation" && <CreationSection />}
         </div>
-      )}
 
-      {activeTab === "myRecord" && activeSubTab === "creation" && <CreationSection />}
+        {/* 오른쪽: 타인 피드 */}
+        <div className="lg:w-1/2">
+          <FeedSection contentId={contentId} subTab={activeSubTab} />
+        </div>
+      </div>
 
       {activeSubTab === "creation" && (
         <Button

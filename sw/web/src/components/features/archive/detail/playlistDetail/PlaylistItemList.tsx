@@ -71,7 +71,7 @@ export default function PlaylistItemList({
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-medium text-sm truncate">{item.content.title}</p>
-            <p className="text-xs text-text-secondary truncate">{item.content.creator || "\u00A0"}</p>
+            <p className="text-xs text-text-secondary truncate">{item.content.creator?.replace(/\^/g, ', ') || "\u00A0"}</p>
           </div>
           <div className="text-xs text-text-secondary px-2 py-1 bg-bg-secondary rounded">
             {CATEGORIES.find((c) => c.dbType === item.content.type)?.label}

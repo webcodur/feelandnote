@@ -53,7 +53,6 @@ const getMetaValue = (metadata: Record<string, unknown> | undefined, key: string
 };
 
 function MetadataLine({ category, metadata, subtype }: { category: string; metadata?: Record<string, unknown>; subtype?: string }) {
-  console.log('[MetadataLine]', { category, metadata, subtype });
   if (!metadata) return null;
 
   switch (category) {
@@ -178,7 +177,7 @@ export default function ContentCompactCard({
       {/* 정보 */}
       <div className="px-1 py-0.5">
         <h3 className="text-[11px] font-medium text-text-primary truncate">{data.title}</h3>
-        <p className="text-[10px] text-text-secondary truncate">{data.creator}</p>
+        <p className="text-[10px] text-text-secondary truncate">{data.creator?.replace(/\^/g, ', ')}</p>
         {/* 메타데이터 */}
         <div className="text-[9px] text-text-tertiary">
           <MetadataLine category={data.category} metadata={data.metadata} subtype={data.subtype} />

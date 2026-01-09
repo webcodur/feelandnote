@@ -29,7 +29,6 @@ interface ActivityTimelineProps {
 
 const ACTION_CONFIG: Record<string, { icon: React.ElementType; label: string; color: string }> = {
   ADD_CONTENT: { icon: Plus, label: "콘텐츠 추가", color: "#7c4dff" },
-  UPDATE_PROGRESS: { icon: Clock, label: "진행도 업데이트", color: "#10b981" },
   UPDATE_STATUS: { icon: CheckCircle, label: "상태 변경", color: "#06b6d4" },
   UPDATE_REVIEW: { icon: Edit3, label: "리뷰 작성", color: "#f59e0b" },
   UPDATE_RATING: { icon: Star, label: "평점 변경", color: "#eab308" },

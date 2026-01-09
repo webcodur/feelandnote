@@ -6,7 +6,7 @@ export { getUserContents, getUserContentsAll, type UserContentPublic } from './g
 export { getContent } from './getContent'
 export { getContentInfo, type ContentInfo, type ContentWithUserStatus } from './getContentInfo'
 export { updateStatus } from './updateStatus'
-export { updateProgress } from './updateProgress'
+export { updateVisibility } from './updateVisibility'
 export { updateReview } from './updateReview'
 export { removeContent } from './removeContent'
 export { batchRemoveContents } from './batchRemoveContents'

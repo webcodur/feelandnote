@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useSoundOptional } from "@/contexts/SoundContext";
 
 export interface DropdownMenuItem {
   label: string;
@@ -33,6 +34,7 @@ export default function DropdownMenu({
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { playSound } = useSoundOptional();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -54,10 +56,13 @@ export default function DropdownMenu({
     <div ref={menuRef} className={`relative ${className}`}>
       <Button
         unstyled
+        noSound
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setIsOpen(!isOpen);
+          const willOpen = !isOpen;
+          setIsOpen(willOpen);
+          playSound(willOpen ? "modalOpen" : "modalClose");
         }}
         className={`p-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-white/10 ${buttonClassName}`}
       >

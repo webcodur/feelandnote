@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { ContentType, ContentStatus, Category } from '@/types/database'
+import type { ContentType, ContentStatus, Category, VisibilityType } from '@/types/database'
 
 interface GetMyContentsParams {
   status?: ContentStatus
@@ -16,13 +16,12 @@ export interface UserContentWithContent {
   user_id: string
   content_id: string
   status: string
-  progress: number | null
-  progress_type: string | null
   category_id: string | null
   is_recommended: boolean | null
   is_spoiler: boolean | null
   rating: number | null
   review: string | null
+  visibility: VisibilityType | null
   created_at: string
   updated_at: string
   completed_at: string | null

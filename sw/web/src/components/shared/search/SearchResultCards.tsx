@@ -44,7 +44,6 @@ export function ContentResults({
         const thumbnail = "thumbnail" in item ? item.thumbnail : undefined;
         const metadata = "metadata" in item ? (item.metadata as Record<string, unknown>) : undefined;
         const subtype = "subtype" in item ? (item.subtype as string) : undefined;
-        console.log('[SearchResultCards]', { id: item.id, title: item.title, metadata, subtype });
         const isAdding = addingIds.has(item.id);
         const isAdded = addedIds.has(item.id);
         const isSaved = savedIds.has(item.id);
