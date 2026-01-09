@@ -3,7 +3,6 @@ import { updateSession } from '@/lib/supabase/middleware'
 
 // 인증이 필요한 경로
 const protectedPaths = [
-  '/dashboard',
   '/archive',
   '/feed',
   '/social',
@@ -35,7 +34,7 @@ export async function proxy(request: NextRequest) {
   if (authPaths.some((path) => pathname.startsWith(path))) {
     if (user) {
       const url = request.nextUrl.clone()
-      url.pathname = '/dashboard'
+      url.pathname = '/archive'
       return NextResponse.redirect(url)
     }
   }
