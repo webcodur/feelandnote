@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import { Button } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
-import type { ContentType, ContentStatus } from "@/actions/contents/addContent";
+import type { ContentType, ContentStatus } from "@/types/database";
 import type { CategoryId } from "@/constants/categories";
 import { useAchievement } from "@/components/features/profile/achievements";
 import { useSound } from "@/contexts/SoundContext";

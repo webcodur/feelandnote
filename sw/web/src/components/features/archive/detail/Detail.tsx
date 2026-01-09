@@ -25,7 +25,7 @@ import { removeContent } from "@/actions/contents/removeContent";
 import { getProfile } from "@/actions/user";
 import { generateReviewExample } from "@/actions/ai";
 import { Z_INDEX } from "@/constants/zIndex";
-import type { ContentStatus } from "@/actions/contents/addContent";
+import type { ContentStatus } from "@/types/database";
 import { useAchievement } from "@/components/features/profile/achievements";
 
 interface DetailProps {

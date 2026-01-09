@@ -70,7 +70,8 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(timeout 10 npx next start:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

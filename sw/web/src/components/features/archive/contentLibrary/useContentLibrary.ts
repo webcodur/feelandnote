@@ -10,7 +10,8 @@ import { useSound } from "@/contexts/SoundContext";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getUserContents } from "@/actions/contents/getUserContents";
-import { getContentCounts, getUserContentCounts, type ContentTypeCounts } from "@/actions/contents/getContentCounts";
+import { getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
+import type { ContentTypeCounts } from "@/types/content";
 import { getCategories } from "@/actions/categories/getCategories";
 import { moveToCategory } from "@/actions/categories/moveToCategory";
 import { updateStatus } from "@/actions/contents/updateStatus";

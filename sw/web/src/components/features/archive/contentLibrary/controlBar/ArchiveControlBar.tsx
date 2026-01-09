@@ -10,7 +10,7 @@ import { LayoutGrid, List, Filter, ArrowUpDown, ChevronsDown, ChevronsUp, Layers
 import Button, { SelectDropdown } from "@/components/ui/Button";
 import type { CategoryWithCount } from "@/types/database";
 import type { SortOption, StatusFilter, ViewMode } from "../useContentLibrary";
-import type { ContentTypeCounts } from "@/actions/contents/getContentCounts";
+import type { ContentTypeCounts } from "@/types/content";
 import { TAB_OPTIONS, STATUS_OPTIONS, SORT_OPTIONS } from "./constants";
 import ControlSection from "./ControlSection";
 import ControlIconButton from "./ControlIconButton";

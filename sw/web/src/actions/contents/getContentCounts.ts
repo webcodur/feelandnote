@@ -2,8 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType } from '@/types/database'
-
-export type ContentTypeCounts = Record<ContentType, number>
+import type { ContentTypeCounts } from '@/types/content'
 
 // 각 콘텐츠 타입별 개수를 반환
 export async function getContentCounts(): Promise<ContentTypeCounts> {
