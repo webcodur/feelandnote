@@ -64,7 +64,8 @@
       "Bash(git status:*)",
       "WebFetch(domain:pixabay.com)",
       "Bash(ContentStatus)",
-      "Bash(' | Set-Content 'c:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote/sw/web/src/components/features/archive/contentLibrary/useContentLibrary.ts ' \")"
+      "Bash(' | Set-Content 'c:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote/sw/web/src/components/features/archive/contentLibrary/useContentLibrary.ts ' \")",
+      "Bash(npm view:*)"
     ],
     "deny": [],
     "ask": []
