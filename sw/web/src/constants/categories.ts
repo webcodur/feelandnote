@@ -32,5 +32,3 @@ export const getCategoryById = (id: CategoryId): CategoryConfig | undefined =>
 export const getCategoryByDbType = (dbType: string): CategoryConfig | undefined =>
   CATEGORIES.find((c) => c.dbType === dbType);
 
-// DB 저장용 타입 (database.ts의 ContentType과 동기화 필요)
-export type ContentType = CategoryConfig["dbType"];
