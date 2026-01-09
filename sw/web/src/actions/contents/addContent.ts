@@ -6,8 +6,6 @@ import type { ContentType, ContentStatus } from '@/types/database'
 import { addActivityScore, checkAchievements } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 
-export type { ContentType, ContentStatus }
-
 interface AddContentParams {
   id: string                    // 외부 API ID (ISBN, TMDB ID 등)
   type: ContentType

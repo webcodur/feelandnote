@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
-import type { ContentStatus } from './addContent'
+import type { ContentStatus } from '@/types/database'
 
 interface UpdateStatusParams {
   userContentId: string

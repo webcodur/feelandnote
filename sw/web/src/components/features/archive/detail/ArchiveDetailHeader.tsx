@@ -10,7 +10,7 @@ import { CATEGORIES } from "@/constants/categories";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
-import type { ContentStatus } from "@/actions/contents/addContent";
+import type { ContentStatus } from "@/types/database";
 import type { UserContentWithDetails } from "@/actions/contents/getContent";
 import type { ContentMetadata } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";

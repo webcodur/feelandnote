@@ -3,6 +3,8 @@
 import type { CategoryId, VideoSubtype } from '@/constants/categories'
 import type { ContentType } from './database'
 
+export type ContentTypeCounts = Record<ContentType, number>
+
 // #region 콘텐츠 정보 (외부 API 데이터)
 // 콘텐츠 자체에 대한 정보 - 검색/기록관 공통
 export interface ContentInfo {
