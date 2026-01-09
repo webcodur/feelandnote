@@ -10,12 +10,18 @@ import { useState, useEffect } from "react";
 import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy, User, LogOut, Volume2, VolumeX } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
 import Link from "next/link";
-import { logout } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
-import { getProfile, type UserProfile } from "@/actions/user";
+import { createClient } from "@/lib/supabase/client";
+
+interface UserProfile {
+  id: string;
+  nickname: string;
+  avatar_url: string | null;
+}
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -23,13 +29,39 @@ interface HeaderProps {
 }
 
 export default function Header({ onMenuClick, isMobile }: HeaderProps) {
+  const router = useRouter();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const { isSoundEnabled, toggleSound, playSound } = useSound();
 
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
   useEffect(() => {
-    getProfile().then(setProfile);
+    const loadProfile = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("id, nickname, avatar_url")
+        .eq("id", user.id)
+        .single();
+
+      if (profile) {
+        setProfile({
+          id: profile.id,
+          nickname: profile.nickname || "User",
+          avatar_url: profile.avatar_url,
+        });
+      }
+    };
+    loadProfile();
   }, []);
 
   const notifications = [
@@ -190,7 +222,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
               </Link>
               <div className="border-t border-border" />
               <button
-                onClick={() => logout()}
+                onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-red-400"
               >
                 <LogOut size={18} />
