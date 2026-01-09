@@ -69,7 +69,8 @@
       "Bash(timeout 15 pnpm start:*)",
       "Bash(netstat:*)",
       "Bash(findstr:*)",
-      "Bash(timeout 10 npx next start:*)"
+      "Bash(timeout 10 npx next start:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

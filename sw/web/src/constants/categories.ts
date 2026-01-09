@@ -31,4 +31,3 @@ export const getCategoryById = (id: CategoryId): CategoryConfig | undefined =>
 
 export const getCategoryByDbType = (dbType: string): CategoryConfig | undefined =>
   CATEGORIES.find((c) => c.dbType === dbType);
-
