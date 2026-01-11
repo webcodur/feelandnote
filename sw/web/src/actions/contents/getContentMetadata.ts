@@ -3,8 +3,6 @@
 import type { ContentType } from '@/types/database'
 import type { ContentMetadata } from '@/types/content'
 
-export type { ContentMetadata }
-
 interface GetMetadataParams {
   contentId: string
   contentType: ContentType
