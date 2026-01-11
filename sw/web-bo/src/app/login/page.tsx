@@ -15,6 +15,7 @@ function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirect') || '/'
+  const unauthorizedError = searchParams.get('error') === 'unauthorized'
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -66,6 +67,12 @@ function LoginForm() {
           required
         />
       </div>
+
+      {unauthorizedError && (
+        <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-yellow-500 text-sm">
+          관리자 권한이 없습니다.
+        </div>
+      )}
 
       {error && (
         <div className="p-3 bg-danger/10 border border-danger/30 rounded-lg text-danger text-sm">

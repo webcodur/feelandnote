@@ -10,12 +10,12 @@ import { useState, useEffect } from "react";
 import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy, User, LogOut, Volume2, VolumeX } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { createClient } from "@/lib/supabase/client";
+import { logout } from "@/actions/auth";
 
 interface UserProfile {
   id: string;
@@ -29,17 +29,11 @@ interface HeaderProps {
 }
 
 export default function Header({ onMenuClick, isMobile }: HeaderProps) {
-  const router = useRouter();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const { isSoundEnabled, toggleSound, playSound } = useSound();
 
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/login");
-  };
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -115,7 +109,7 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
           <Menu size={24} className="text-text-primary" />
         </Button>
       )}
-      <Logo size="md" href="/" />
+      <Logo size="md" />
       <HeaderSearch />
       <div className="flex items-center gap-2">
         {/* Sound Toggle */}
@@ -221,13 +215,15 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
                 <span className="text-sm">마이페이지</span>
               </Link>
               <div className="border-t border-border" />
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-red-400"
-              >
-                <LogOut size={18} />
-                <span className="text-sm">로그아웃</span>
-              </button>
+              <form action={logout}>
+                <button
+                  type="submit"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-red-400"
+                >
+                  <LogOut size={18} />
+                  <span className="text-sm">로그아웃</span>
+                </button>
+              </form>
             </div>
           )}
         </div>

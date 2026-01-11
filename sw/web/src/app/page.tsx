@@ -9,6 +9,7 @@
 import Link from "next/link";
 import { ArrowRight, Folder, Newspaper, Compass } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+import Logo from "@/components/ui/Logo";
 
 interface FeatureCardProps {
   href: string;
@@ -39,9 +40,7 @@ export default function Page() {
   return (
     <div className="h-screen bg-bg-main flex flex-col items-center justify-center overflow-hidden relative">
       {/* Logo */}
-      <h1 className="text-6xl md:text-7xl font-black mb-4 text-text-primary">
-        Feel<span className="bg-gradient-to-r from-accent to-purple-400 bg-clip-text text-transparent">&</span>Note
-      </h1>
+      <Logo size="xl" />
 
       {/* Tagline */}
       <p className="text-text-secondary text-lg mb-12">

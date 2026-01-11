@@ -1,15 +1,20 @@
+'use client'
+
 /*
   파일명: /app/(auth)/login/page.tsx
   기능: 로그인 페이지
   책임: 이메일/소셜 로그인 UI를 제공한다.
 */
 
+import { useState } from 'react'
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
+import Logo from '@/components/ui/Logo'
 import InAppBrowserWarning from './InAppBrowserWarning'
 import EmailLoginForm from './EmailLoginForm'
 
 export default function Page() {
+  const [isEmailMode, setIsEmailMode] = useState(false)
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950">
       <div className="w-full max-w-md space-y-8 p-8">
@@ -18,45 +23,41 @@ export default function Page() {
 
         {/* 로고 */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white">Feel&Note</h1>
+          <Logo size="lg" />
           <p className="mt-2 text-zinc-400">
             문화생활을 기록하고 공유하세요
           </p>
         </div>
 
-        {/* 이메일 로그인 폼 */}
-        <EmailLoginForm />
-
-        {/* 구분선 */}
-        <div className="flex items-center gap-4">
-          <div className="h-px flex-1 bg-zinc-700" />
-          <span className="text-sm text-zinc-500">또는</span>
-          <div className="h-px flex-1 bg-zinc-700" />
-        </div>
-
-        {/* 소셜 로그인 버튼들 */}
+        {/* 로그인 버튼들 */}
         <div className="space-y-3">
-          <form action={loginWithGoogle}>
-            <Button
-              type="submit"
-              unstyled
-              className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800"
-            >
-              <GoogleIcon />
-              <span>Google로 계속하기</span>
-            </Button>
-          </form>
+          {!isEmailMode && (
+            <>
+              <form action={loginWithGoogle}>
+                <Button
+                  type="submit"
+                  unstyled
+                  className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800"
+                >
+                  <GoogleIcon />
+                  <span>Google로 계속하기</span>
+                </Button>
+              </form>
 
-          <form action={loginWithKakao}>
-            <Button
-              type="submit"
-              unstyled
-              className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#FEE500] px-4 py-3 text-zinc-900 hover:bg-[#FDD800]"
-            >
-              <KakaoIcon />
-              <span>카카오로 계속하기</span>
-            </Button>
-          </form>
+              <form action={loginWithKakao}>
+                <Button
+                  type="submit"
+                  unstyled
+                  className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#FEE500] px-4 py-3 text-zinc-900 hover:bg-[#FDD800]"
+                >
+                  <KakaoIcon />
+                  <span>카카오로 계속하기</span>
+                </Button>
+              </form>
+            </>
+          )}
+
+          <EmailLoginForm onExpandChange={setIsEmailMode} />
         </div>
 
         {/* 이용약관 */}
