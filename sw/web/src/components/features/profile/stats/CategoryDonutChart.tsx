@@ -46,7 +46,7 @@ export default function CategoryDonutChart({ data }: CategoryDonutChartProps) {
                   borderRadius: "8px",
                   color: "#fff",
                 }}
-                formatter={(value: number) => [`${value}개`, ""]}
+                formatter={(value) => [`${value}개`, ""]}
               />
             </PieChart>
           </ResponsiveContainer>

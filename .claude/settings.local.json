@@ -72,7 +72,8 @@
       "Bash(timeout 10 npx next start:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "WebFetch(domain:bookauthority.org)"
     ],
     "deny": [],
     "ask": []

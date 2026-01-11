@@ -14,6 +14,13 @@ export interface User {
   last_seen_at: string | null
   suspended_at: string | null
   suspended_reason: string | null
+  profile_type: string | null
+  is_verified: boolean | null
+  // 통계 정보
+  content_count: number
+  follower_count: number
+  following_count: number
+  total_score: number
 }
 
 export interface UsersResponse {
@@ -34,7 +41,11 @@ export async function getUsers(
 
   let query = supabase
     .from('profiles')
-    .select('*', { count: 'exact' })
+    .select(`
+      *,
+      user_social (follower_count, following_count),
+      user_scores (total_score)
+    `, { count: 'exact' })
 
   // 검색 필터
   if (search) {
@@ -57,8 +68,39 @@ export async function getUsers(
 
   if (error) throw error
 
+  // 콘텐츠 수 조회
+  const userIds = (data || []).map(u => u.id)
+  const { data: contentCounts } = await supabase
+    .from('user_contents')
+    .select('user_id')
+    .in('user_id', userIds)
+
+  const contentCountMap = (contentCounts || []).reduce((acc, item) => {
+    acc[item.user_id] = (acc[item.user_id] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  const users: User[] = (data || []).map(user => ({
+    id: user.id,
+    email: user.email,
+    nickname: user.nickname,
+    avatar_url: user.avatar_url,
+    role: user.role || 'user',
+    status: user.status || 'active',
+    created_at: user.created_at,
+    last_seen_at: user.last_seen_at,
+    suspended_at: user.suspended_at,
+    suspended_reason: user.suspended_reason,
+    profile_type: user.profile_type,
+    is_verified: user.is_verified,
+    content_count: contentCountMap[user.id] || 0,
+    follower_count: user.user_social?.follower_count || 0,
+    following_count: user.user_social?.following_count || 0,
+    total_score: user.user_scores?.total_score || 0,
+  }))
+
   return {
-    users: data || [],
+    users,
     total: count || 0,
   }
 }

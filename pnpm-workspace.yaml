@@ -1,0 +1,4 @@
+packages:
+  - 'sw/web'
+  - 'sw/web-bo'
+  - 'packages/*'

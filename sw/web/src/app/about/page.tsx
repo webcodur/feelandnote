@@ -1,7 +1,7 @@
 /*
-  파일명: /app/page.tsx
-  기능: 랜딩 페이지
-  책임: 서비스 소개 및 주요 기능 바로가기를 제공한다.
+  파일명: /app/about/page.tsx
+  기능: 서비스 소개 페이지
+  책임: 기존 랜딩페이지 내용을 제공한다. 서비스 소개 및 주요 기능 바로가기.
 */ // ------------------------------
 
 "use client";
@@ -36,7 +36,7 @@ function FeatureCard({ href, icon, title, gradient }: FeatureCardProps) {
   );
 }
 
-export default function Page() {
+export default function AboutPage() {
   return (
     <div className="h-screen bg-bg-main flex flex-col items-center justify-center overflow-hidden relative">
       {/* Logo */}

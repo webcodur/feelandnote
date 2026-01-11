@@ -35,6 +35,12 @@ export async function GET(request: NextRequest) {
 
     if (data.user) {
       await createProfileIfNotExists(supabase, data.user)
+
+      // 비밀번호 리셋인 경우 리셋 페이지로 이동
+      if (type === 'recovery') {
+        return NextResponse.redirect(`${origin}/reset-password`)
+      }
+
       return NextResponse.redirect(`${origin}${next}`)
     }
   }

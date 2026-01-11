@@ -6,6 +6,11 @@ const ALLOWED_ROLES = ['admin', 'super_admin']
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // 루트 경로는 /users로 리다이렉트
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/users', request.url))
+  }
+
   // 로그인 페이지는 체크 제외
   if (pathname === '/login') {
     return NextResponse.next()
