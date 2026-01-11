@@ -1,12 +1,13 @@
 /*
   파일명: /app/(auth)/login/page.tsx
   기능: 로그인 페이지
-  책임: Google/카카오 소셜 로그인 UI를 제공한다.
+  책임: 이메일/소셜 로그인 UI를 제공한다.
 */
 
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
 import InAppBrowserWarning from './InAppBrowserWarning'
+import EmailLoginForm from './EmailLoginForm'
 
 export default function Page() {
   return (
@@ -23,8 +24,18 @@ export default function Page() {
           </p>
         </div>
 
-        {/* 로그인 버튼들 */}
-        <div className="space-y-4">
+        {/* 이메일 로그인 폼 */}
+        <EmailLoginForm />
+
+        {/* 구분선 */}
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-1 bg-zinc-700" />
+          <span className="text-sm text-zinc-500">또는</span>
+          <div className="h-px flex-1 bg-zinc-700" />
+        </div>
+
+        {/* 소셜 로그인 버튼들 */}
+        <div className="space-y-3">
           <form action={loginWithGoogle}>
             <Button
               type="submit"

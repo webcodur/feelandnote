@@ -16,9 +16,10 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  if (code) {
-    const supabase = await createClient()
+  const supabase = await createClient()
 
+  // #region OAuth 흐름 (code 파라미터가 있는 경우)
+  if (code) {
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (exchangeError) {
@@ -27,37 +28,57 @@ export async function GET(request: NextRequest) {
     }
 
     if (data.user) {
-      // 신규 사용자인 경우 프로필 생성
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', data.user.id)
-        .single()
-
-      if (profileError && profileError.code === 'PGRST116') {
-        // 프로필이 없으면 생성
-        const { error: insertError } = await supabase
-          .from('profiles')
-          .insert({
-            id: data.user.id,
-            email: data.user.email,
-            nickname: (data.user.user_metadata.full_name as string)
-              || (data.user.user_metadata.name as string)
-              || data.user.email?.split('@')[0]
-              || 'User',
-            avatar_url: (data.user.user_metadata.avatar_url as string)
-              || (data.user.user_metadata.picture as string)
-              || null
-          })
-
-        if (insertError) {
-          console.error('Insert profile error:', insertError)
-        }
-      }
-
+      await createProfileIfNotExists(supabase, data.user)
       return NextResponse.redirect(`${origin}${next}`)
     }
   }
+  // #endregion
 
-  return NextResponse.redirect(`${origin}/login?error=no_code`)
+  // #region 이메일 확인 흐름 (code 없이 세션이 이미 설정된 경우)
+  // Supabase가 /auth/v1/verify에서 토큰 검증 후 세션 쿠키를 설정하고 여기로 리다이렉트
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (user) {
+    await createProfileIfNotExists(supabase, user)
+    return NextResponse.redirect(`${origin}${next}`)
+  }
+  // #endregion
+
+  return NextResponse.redirect(`${origin}/login?error=no_session`)
+}
+
+// 프로필이 없으면 생성
+async function createProfileIfNotExists(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  user: { id: string; email?: string; user_metadata: Record<string, unknown> }
+) {
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError && profileError.code === 'PGRST116') {
+    // 닉네임 우선순위: 이메일 가입 시 입력한 nickname > OAuth full_name > OAuth name > 이메일 앞부분
+    const nickname = (user.user_metadata.nickname as string)
+      || (user.user_metadata.full_name as string)
+      || (user.user_metadata.name as string)
+      || user.email?.split('@')[0]
+      || 'User'
+
+    const { error: insertError } = await supabase
+      .from('profiles')
+      .insert({
+        id: user.id,
+        email: user.email,
+        nickname,
+        avatar_url: (user.user_metadata.avatar_url as string)
+          || (user.user_metadata.picture as string)
+          || null
+      })
+
+    if (insertError) {
+      console.error('Insert profile error:', insertError)
+    }
+  }
 }
