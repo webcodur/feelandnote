@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import type { EmailOtpType } from '@supabase/supabase-js'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl
   const code = searchParams.get('code')
+  const tokenHash = searchParams.get('token_hash')
+  const type = searchParams.get('type') as EmailOtpType | null
   const next = searchParams.get('next') ?? '/archive'
   const error = searchParams.get('error')
   const errorDescription = searchParams.get('error_description')
@@ -17,6 +20,25 @@ export async function GET(request: NextRequest) {
   }
 
   const supabase = await createClient()
+
+  // #region 이메일 확인 흐름 (token_hash 파라미터가 있는 경우)
+  if (tokenHash && type) {
+    const { data, error: verifyError } = await supabase.auth.verifyOtp({
+      type,
+      token_hash: tokenHash
+    })
+
+    if (verifyError) {
+      console.error('Verify OTP error:', verifyError)
+      return NextResponse.redirect(`${origin}/login?error=verify_failed`)
+    }
+
+    if (data.user) {
+      await createProfileIfNotExists(supabase, data.user)
+      return NextResponse.redirect(`${origin}${next}`)
+    }
+  }
+  // #endregion
 
   // #region OAuth 흐름 (code 파라미터가 있는 경우)
   if (code) {
@@ -34,8 +56,7 @@ export async function GET(request: NextRequest) {
   }
   // #endregion
 
-  // #region 이메일 확인 흐름 (code 없이 세션이 이미 설정된 경우)
-  // Supabase가 /auth/v1/verify에서 토큰 검증 후 세션 쿠키를 설정하고 여기로 리다이렉트
+  // #region 세션이 이미 설정된 경우 (Supabase /verify에서 리다이렉트)
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user) {

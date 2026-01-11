@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 const MAX_PINNED = 10
 
@@ -10,18 +11,13 @@ interface TogglePinParams {
   isPinned: boolean
 }
 
-interface TogglePinResult {
-  success: boolean
-  error?: 'MAX_PINNED_EXCEEDED' | 'UNAUTHORIZED' | 'UPDATE_FAILED'
-}
-
-export async function togglePin({ userContentId, isPinned }: TogglePinParams): Promise<TogglePinResult> {
+export async function togglePin({ userContentId, isPinned }: TogglePinParams): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { success: false, error: 'UNAUTHORIZED' }
+    return failure('UNAUTHORIZED')
   }
 
   // 핀 추가 시 개수 체크
@@ -33,7 +29,7 @@ export async function togglePin({ userContentId, isPinned }: TogglePinParams): P
       .eq('is_pinned', true)
 
     if ((count ?? 0) >= MAX_PINNED) {
-      return { success: false, error: 'MAX_PINNED_EXCEEDED' }
+      return failure('LIMIT_EXCEEDED', `최대 ${MAX_PINNED}개까지 고정할 수 있다.`)
     }
   }
 
@@ -47,13 +43,12 @@ export async function togglePin({ userContentId, isPinned }: TogglePinParams): P
     .eq('user_id', user.id)
 
   if (error) {
-    console.error('핀 상태 변경 에러:', error)
-    return { success: false, error: 'UPDATE_FAILED' }
+    return handleSupabaseError(error, { context: 'content', logPrefix: '[핀 상태 변경]' })
   }
 
   revalidatePath('/archive')
 
-  return { success: true }
+  return success(null)
 }
 
 export async function getPinnedCount(): Promise<number> {

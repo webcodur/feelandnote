@@ -2,36 +2,35 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { type ActionResult, failure, handleSupabaseError } from '@/lib/errors'
 
-interface ToggleFollowResult {
-  success: boolean
+interface ToggleFollowData {
   isFollowing: boolean
-  error?: 'UNAUTHORIZED' | 'SELF_FOLLOW' | 'USER_NOT_FOUND' | 'OPERATION_FAILED'
 }
 
-export async function toggleFollow(targetUserId: string): Promise<ToggleFollowResult> {
+export async function toggleFollow(targetUserId: string): Promise<ActionResult<ToggleFollowData>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { success: false, isFollowing: false, error: 'UNAUTHORIZED' }
+    return failure('UNAUTHORIZED')
   }
 
   // 자기 자신 팔로우 방지
   if (user.id === targetUserId) {
-    return { success: false, isFollowing: false, error: 'SELF_FOLLOW' }
+    return failure('SELF_ACTION', '자기 자신을 팔로우할 수 없다.')
   }
 
   // 대상 사용자 존재 확인
-  const { data: targetUser } = await supabase
+  const { data: targetUser, error: targetError } = await supabase
     .from('profiles')
     .select('id')
     .eq('id', targetUserId)
     .single()
 
-  if (!targetUser) {
-    return { success: false, isFollowing: false, error: 'USER_NOT_FOUND' }
+  if (targetError || !targetUser) {
+    return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   }
 
   // 현재 팔로우 상태 확인
@@ -53,15 +52,14 @@ export async function toggleFollow(targetUserId: string): Promise<ToggleFollowRe
       .eq('following_id', targetUserId)
 
     if (error) {
-      console.error('언팔로우 에러:', error)
-      return { success: false, isFollowing: true, error: 'OPERATION_FAILED' }
+      return handleSupabaseError(error, { context: 'follow', logPrefix: '[언팔로우]' })
     }
 
     // user_social 카운트 감소
     await updateSocialCounts(supabase, user.id, targetUserId, -1)
 
     revalidatePath(`/archive/user/${targetUserId}`)
-    return { success: true, isFollowing: false }
+    return { success: true, data: { isFollowing: false } }
   }
 
   // 팔로우
@@ -73,15 +71,14 @@ export async function toggleFollow(targetUserId: string): Promise<ToggleFollowRe
     })
 
   if (error) {
-    console.error('팔로우 에러:', error)
-    return { success: false, isFollowing: false, error: 'OPERATION_FAILED' }
+    return handleSupabaseError(error, { context: 'follow', logPrefix: '[팔로우]' })
   }
 
   // user_social 카운트 증가
   await updateSocialCounts(supabase, user.id, targetUserId, 1)
 
   revalidatePath(`/archive/user/${targetUserId}`)
-  return { success: true, isFollowing: true }
+  return { success: true, data: { isFollowing: true } }
 }
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>

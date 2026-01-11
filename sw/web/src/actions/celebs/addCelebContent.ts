@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface AddCelebContentParams {
   celebId: string
@@ -19,12 +20,17 @@ interface AddCelebContentParams {
   sourceUrl: string  // 셀럽 기록은 출처 필수
 }
 
-export async function addCelebContent(params: AddCelebContentParams) {
+interface AddCelebContentData {
+  contentId: string
+  userContentId: string
+}
+
+export async function addCelebContent(params: AddCelebContentParams): Promise<ActionResult<AddCelebContentData>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 셀럽 프로필 확인
@@ -36,12 +42,12 @@ export async function addCelebContent(params: AddCelebContentParams) {
     .single()
 
   if (!celeb) {
-    throw new Error('셀럽 프로필을 찾을 수 없습니다')
+    return failure('NOT_FOUND', '셀럽 프로필을 찾을 수 없다.')
   }
 
   // 출처 URL 검증
   if (!params.sourceUrl?.trim()) {
-    throw new Error('출처 링크는 필수입니다')
+    return failure('VALIDATION_ERROR', '출처 링크는 필수다.')
   }
 
   // 1. 콘텐츠 upsert
@@ -63,8 +69,7 @@ export async function addCelebContent(params: AddCelebContentParams) {
     )
 
   if (contentError) {
-    console.error('콘텐츠 생성 에러:', contentError)
-    throw new Error('콘텐츠 추가에 실패했습니다')
+    return handleSupabaseError(contentError, { context: 'content', logPrefix: '[셀럽 콘텐츠 생성]' })
   }
 
   // 2. user_contents 생성 (셀럽 프로필에 연결, contributor로 현재 사용자 기록)
@@ -80,17 +85,13 @@ export async function addCelebContent(params: AddCelebContentParams) {
     .single()
 
   if (userContentError) {
-    if (userContentError.code === '23505') {
-      throw new Error('이미 추가된 콘텐츠입니다')
-    }
-    console.error('셀럽 콘텐츠 생성 에러:', userContentError)
-    throw new Error('콘텐츠 추가에 실패했습니다')
+    return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[셀럽 사용자 콘텐츠 생성]' })
   }
 
   revalidatePath(`/u/${params.celebId}/archive`)
 
-  return {
+  return success({
     contentId: params.contentId,
     userContentId: userContent.id
-  }
+  })
 }

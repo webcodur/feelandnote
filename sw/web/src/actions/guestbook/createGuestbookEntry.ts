@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface CreateGuestbookEntryParams {
   profileId: string
@@ -9,22 +10,36 @@ interface CreateGuestbookEntryParams {
   isPrivate?: boolean
 }
 
-export async function createGuestbookEntry(params: CreateGuestbookEntryParams) {
+interface GuestbookEntryData {
+  id: string
+  profile_id: string
+  author_id: string
+  content: string
+  is_private: boolean
+  created_at: string
+  author: {
+    id: string
+    nickname: string
+    avatar_url: string | null
+  }
+}
+
+export async function createGuestbookEntry(params: CreateGuestbookEntryParams): Promise<ActionResult<GuestbookEntryData>> {
   const { profileId, content, isPrivate = false } = params
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 글자수 제한 (500자)
   if (content.length > 500) {
-    throw new Error('방명록은 500자까지 작성할 수 있습니다')
+    return failure('LIMIT_EXCEEDED', '방명록은 500자까지 작성할 수 있다.')
   }
 
   if (content.trim().length === 0) {
-    throw new Error('내용을 입력해주세요')
+    return failure('VALIDATION_ERROR', '내용을 입력해달라.')
   }
 
   const { data, error } = await supabase
@@ -42,14 +57,10 @@ export async function createGuestbookEntry(params: CreateGuestbookEntryParams) {
     .single()
 
   if (error) {
-    console.error('Create guestbook entry error:', error)
-    if (error.code === '42501') {
-      throw new Error('방명록을 작성할 수 없습니다')
-    }
-    throw new Error('방명록 작성에 실패했습니다')
+    return handleSupabaseError(error, { context: 'guestbook', logPrefix: '[방명록 작성]' })
   }
 
   revalidatePath('/profile/guestbook')
 
-  return data
+  return success(data as GuestbookEntryData)
 }

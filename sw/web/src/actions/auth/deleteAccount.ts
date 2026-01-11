@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
+import { type ActionResult, failure } from '@/lib/errors'
 
 // #region 삭제 순서 주의사항
 // profiles.id와 auth.users.id가 외래키로 연결되어 있지 않음 (셀럽 프로필 때문)
@@ -12,14 +13,14 @@ import { redirect } from 'next/navigation'
 // 순서를 바꾸면 profiles 및 연결 데이터가 고아 데이터로 남게 됨
 // #endregion
 
-export async function deleteAccount() {
+export async function deleteAccount(): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   // 현재 로그인한 사용자 확인
   const { data: { user }, error: userError } = await supabase.auth.getUser()
 
   if (userError || !user) {
-    return { success: false, error: '로그인이 필요하다.' }
+    return failure('UNAUTHORIZED')
   }
 
   // Service Role 키로 Admin 클라이언트 생성
@@ -37,15 +38,15 @@ export async function deleteAccount() {
     .eq('id', user.id)
 
   if (profileError) {
-    console.error('프로필 삭제 실패:', profileError)
-    return { success: false, error: '회원탈퇴에 실패했다. 잠시 후 다시 시도해달라.' }
+    console.error('[회원탈퇴] 프로필 삭제 실패:', profileError)
+    return failure('DB_ERROR', '회원탈퇴에 실패했다. 잠시 후 다시 시도해달라.')
   }
 
   // 2. auth.users 삭제
   const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
 
   if (deleteError) {
-    console.error('auth 사용자 삭제 실패:', deleteError)
+    console.error('[회원탈퇴] auth 사용자 삭제 실패:', deleteError)
     // profiles는 이미 삭제됨, auth만 남은 상태 (큰 문제는 아님)
   }
 

@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { type ActionResult, success, handleSupabaseError } from '@/lib/errors'
 
 interface UpdateContentMetadataParams {
   id: string
@@ -9,7 +10,7 @@ interface UpdateContentMetadataParams {
 }
 
 // 단일 콘텐츠 메타데이터 업데이트
-export async function updateContentMetadata(params: UpdateContentMetadataParams) {
+export async function updateContentMetadata(params: UpdateContentMetadataParams): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   const { error } = await supabase
@@ -21,11 +22,10 @@ export async function updateContentMetadata(params: UpdateContentMetadataParams)
     .eq('id', params.id)
 
   if (error) {
-    console.error('메타데이터 업데이트 에러:', error)
-    return { success: false }
+    return handleSupabaseError(error, { context: 'content', logPrefix: '[메타데이터 업데이트]' })
   }
 
-  return { success: true }
+  return success(null)
 }
 
 // 여러 콘텐츠 메타데이터 일괄 업데이트

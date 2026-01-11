@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { type ActionResult, failure } from '@/lib/errors'
 
 export interface PublicUserProfile {
   id: string
@@ -23,13 +24,7 @@ export interface PublicUserProfile {
   is_blocked: boolean
 }
 
-interface GetUserProfileResult {
-  success: boolean
-  data?: PublicUserProfile
-  error?: string
-}
-
-export async function getUserProfile(userId: string): Promise<GetUserProfileResult> {
+export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {
   const supabase = await createClient()
 
   // 현재 로그인한 사용자 확인
@@ -43,7 +38,7 @@ export async function getUserProfile(userId: string): Promise<GetUserProfileResu
     .single()
 
   if (profileError || !profile) {
-    return { success: false, error: '사용자를 찾을 수 없습니다.' }
+    return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   }
 
   // 콘텐츠 수 조회 (공개 기록이 있는 콘텐츠)
@@ -131,6 +126,6 @@ export async function getUserProfile(userId: string): Promise<GetUserProfileResu
       is_following: isFollowing,
       is_follower: isFollower,
       is_blocked: isBlocked,
-    }
+    },
   }
 }

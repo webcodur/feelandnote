@@ -3,13 +3,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
-export async function deleteRecord(recordId: string) {
+export async function deleteRecord(recordId: string): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 먼저 content_id와 type 조회 (revalidate 및 로그용)
@@ -21,11 +22,7 @@ export async function deleteRecord(recordId: string) {
     .single()
 
   if (fetchError) {
-    if (fetchError.code === 'PGRST116') {
-      throw new Error('기록을 찾을 수 없습니다')
-    }
-    console.error('Fetch record error:', fetchError)
-    throw new Error('기록 조회에 실패했습니다')
+    return handleSupabaseError(fetchError, { context: 'record', logPrefix: '[기록 조회]' })
   }
 
   const { error } = await supabase
@@ -35,8 +32,7 @@ export async function deleteRecord(recordId: string) {
     .eq('user_id', user.id)
 
   if (error) {
-    console.error('Delete record error:', error)
-    throw new Error('기록 삭제에 실패했습니다')
+    return handleSupabaseError(error, { context: 'record', logPrefix: '[기록 삭제]' })
   }
 
   revalidatePath(`/archive/${record.content_id}`)
@@ -51,5 +47,5 @@ export async function deleteRecord(recordId: string) {
     metadata: { type: record.type }
   })
 
-  return { success: true }
+  return success(null)
 }
