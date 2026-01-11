@@ -1,19 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-
-interface Title {
-  id: string
-  name: string
-  description: string
-  category: string
-  grade: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
-  bonus_score: number
-  condition: {
-    type: string
-    value: number
-  }
-}
+import type { Title } from './getAchievementData'
 
 interface UnlockResult {
   unlocked: Title[]

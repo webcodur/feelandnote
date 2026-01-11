@@ -175,7 +175,7 @@ function UserListItem({
     startTransition(async () => {
       const result = await toggleFollow(user.id);
       if (result.success) {
-        setIsFollowing(result.isFollowing);
+        setIsFollowing(result.data.isFollowing);
       }
     });
   };

@@ -409,8 +409,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         const result = await togglePin({ userContentId, isPinned: newPinned });
         if (!result.success) {
           loadContents();
-          if (result.error === "MAX_PINNED_EXCEEDED") {
-            alert("최대 10개까지 고정할 수 있습니다");
+          if (result.error === "LIMIT_EXCEEDED") {
+            alert(result.message);
           }
         }
       } catch (err) {

@@ -36,12 +36,12 @@ export default function NoteEditor({ contentId }: NoteEditorProps) {
   async function loadNote() {
     setIsLoading(true);
     try {
-      const data = await getNoteByContentId(contentId);
-      if (data) {
-        setNote(data);
-        setSnapshot(data.snapshot || {});
-        setTemplate(data.template || {});
-        setVisibility(data.visibility || "private");
+      const result = await getNoteByContentId(contentId);
+      if (result.success && result.data) {
+        setNote(result.data);
+        setSnapshot(result.data.snapshot || {});
+        setTemplate(result.data.template || {});
+        setVisibility(result.data.visibility || "private");
       }
     } catch (err) { console.error("노트 로드 실패:", err); }
     finally { setIsLoading(false); }

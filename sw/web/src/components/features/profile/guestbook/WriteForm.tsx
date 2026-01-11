@@ -24,13 +24,18 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
 
     setIsSubmitting(true);
     try {
-      const newEntry = await createGuestbookEntry({
+      const result = await createGuestbookEntry({
         profileId,
         content,
         isPrivate,
       });
+      if (!result.success) {
+        playSound("error");
+        alert(result.message);
+        return;
+      }
       playSound("success");
-      onSubmit(newEntry as GuestbookEntryWithAuthor);
+      onSubmit(result.data as GuestbookEntryWithAuthor);
       setContent("");
       setIsPrivate(false);
     } catch (error) {

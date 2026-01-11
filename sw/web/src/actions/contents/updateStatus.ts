@@ -4,18 +4,19 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
 import type { ContentStatus } from '@/types/database'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface UpdateStatusParams {
   userContentId: string
   status: ContentStatus
 }
 
-export async function updateStatus({ userContentId, status }: UpdateStatusParams) {
+export async function updateStatus({ userContentId, status }: UpdateStatusParams): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 이전 상태 조회
@@ -33,8 +34,7 @@ export async function updateStatus({ userContentId, status }: UpdateStatusParams
     .eq('user_id', user.id)
 
   if (error) {
-    console.error('상태 변경 에러:', error)
-    throw new Error('상태 변경에 실패했습니다')
+    return handleSupabaseError(error, { context: 'content', logPrefix: '[상태 변경]' })
   }
 
   revalidatePath('/archive')
@@ -48,5 +48,5 @@ export async function updateStatus({ userContentId, status }: UpdateStatusParams
     metadata: { from: existing?.status, to: status }
   })
 
-  return { success: true }
+  return success(null)
 }

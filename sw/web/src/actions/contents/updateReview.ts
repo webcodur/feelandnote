@@ -2,8 +2,9 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { addActivityScore, checkAchievements } from '@/actions/achievements'
+import { addActivityScore, checkAchievements, type Title } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface UpdateReviewParams {
   userContentId: string
@@ -12,31 +13,35 @@ interface UpdateReviewParams {
   isSpoiler?: boolean
 }
 
-export async function updateReview(params: UpdateReviewParams) {
+interface UpdateReviewData {
+  unlockedTitles: Title[]
+}
+
+export async function updateReview(params: UpdateReviewParams): Promise<ActionResult<UpdateReviewData>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // rating 검증
   if (params.rating !== undefined && params.rating !== null) {
     if (params.rating < 0.5 || params.rating > 5) {
-      throw new Error('별점은 0.5~5 사이여야 합니다')
+      return failure('VALIDATION_ERROR', '별점은 0.5~5 사이여야 한다.')
     }
   }
 
   // 기존 데이터 확인 (첫 리뷰 작성인지 확인)
-  const { data: existing } = await supabase
+  const { data: existing, error: existingError } = await supabase
     .from('user_contents')
     .select('id, rating, review, content_id')
     .eq('id', params.userContentId)
     .eq('user_id', user.id)
     .single()
 
-  if (!existing) {
-    throw new Error('콘텐츠를 찾을 수 없습니다')
+  if (existingError || !existing) {
+    return failure('NOT_FOUND', '콘텐츠를 찾을 수 없다.')
   }
 
   const isFirstReview = !existing.rating && !existing.review
@@ -53,8 +58,7 @@ export async function updateReview(params: UpdateReviewParams) {
     .eq('user_id', user.id)
 
   if (error) {
-    console.error('Update review error:', error)
-    throw new Error('리뷰 저장에 실패했습니다')
+    return handleSupabaseError(error, { context: 'content', logPrefix: '[리뷰 저장]' })
   }
 
   revalidatePath(`/archive/${existing.content_id}`)
@@ -77,8 +81,8 @@ export async function updateReview(params: UpdateReviewParams) {
   if (isFirstReview && (params.rating || params.review)) {
     await addActivityScore('Review 작성', 5, params.userContentId)
     const achievementResult = await checkAchievements()
-    return { success: true, unlockedTitles: achievementResult.unlocked }
+    return success({ unlockedTitles: achievementResult.unlocked })
   }
 
-  return { success: true, unlockedTitles: [] }
+  return success({ unlockedTitles: [] })
 }

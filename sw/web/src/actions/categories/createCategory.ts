@@ -3,18 +3,19 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, Category } from '@/types/database'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface CreateCategoryParams {
   name: string
   contentType: ContentType
 }
 
-export async function createCategory(params: CreateCategoryParams): Promise<Category | null> {
+export async function createCategory(params: CreateCategoryParams): Promise<ActionResult<Category>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 중복 체크
@@ -27,7 +28,7 @@ export async function createCategory(params: CreateCategoryParams): Promise<Cate
     .single()
 
   if (existing) {
-    throw new Error('같은 이름의 분류가 이미 존재합니다')
+    return failure('ALREADY_EXISTS', '같은 이름의 분류가 이미 존재한다.')
   }
 
   // 정렬 순서 계산
@@ -54,10 +55,9 @@ export async function createCategory(params: CreateCategoryParams): Promise<Cate
     .single()
 
   if (error) {
-    console.error('분류 생성 에러:', error)
-    throw new Error('분류 생성에 실패했습니다')
+    return handleSupabaseError(error, { context: 'category', logPrefix: '[분류 생성]' })
   }
 
   revalidatePath('/archive')
-  return data
+  return success(data)
 }

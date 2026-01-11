@@ -136,8 +136,12 @@ export default function PlaylistEditMode({
           name: name.trim(),
           contentIds,
         });
-        onSuccess?.(result.playlistId);
-        router.push(`/archive/playlists/${result.playlistId}`);
+        if (!result.success) {
+          alert(result.message);
+          return;
+        }
+        onSuccess?.(result.data.playlistId);
+        router.push(`/archive/playlists/${result.data.playlistId}`);
       } else if (playlistId) {
         await updatePlaylistItems({
           playlistId,

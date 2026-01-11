@@ -102,7 +102,7 @@ function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemC
     startTransition(async () => {
       const result = await toggleFollow(user.id);
       if (result.success) {
-        setIsFollowing(result.isFollowing);
+        setIsFollowing(result.data.isFollowing);
       }
     });
   };

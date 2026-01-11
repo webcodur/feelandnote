@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType } from '@/types/database'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface CreatePlaylistParams {
   name: string
@@ -12,20 +13,24 @@ interface CreatePlaylistParams {
   isPublic?: boolean
 }
 
-export async function createPlaylist(params: CreatePlaylistParams) {
+interface CreatePlaylistData {
+  playlistId: string
+}
+
+export async function createPlaylist(params: CreatePlaylistParams): Promise<ActionResult<CreatePlaylistData>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   if (!params.name.trim()) {
-    throw new Error('재생목록 이름을 입력해주세요')
+    return failure('VALIDATION_ERROR', '재생목록 이름을 입력해달라.')
   }
 
   if (params.contentIds.length === 0) {
-    throw new Error('최소 1개 이상의 콘텐츠를 선택해주세요')
+    return failure('INVALID_INPUT', '최소 1개 이상의 콘텐츠를 선택해달라.')
   }
 
   // 1. 재생목록 생성
@@ -44,8 +49,7 @@ export async function createPlaylist(params: CreatePlaylistParams) {
     .single()
 
   if (playlistError || !playlist) {
-    console.error('재생목록 생성 에러:', playlistError)
-    throw new Error('재생목록 생성에 실패했습니다')
+    return handleSupabaseError(playlistError!, { context: 'playlist', logPrefix: '[재생목록 생성]' })
   }
 
   // 2. 아이템 추가
@@ -62,11 +66,10 @@ export async function createPlaylist(params: CreatePlaylistParams) {
   if (itemsError) {
     // 롤백: 재생목록 삭제
     await supabase.from('playlists').delete().eq('id', playlist.id)
-    console.error('아이템 추가 에러:', itemsError)
-    throw new Error('재생목록 생성에 실패했습니다')
+    return handleSupabaseError(itemsError, { context: 'playlist', logPrefix: '[아이템 추가]' })
   }
 
   revalidatePath('/archive')
 
-  return { playlistId: playlist.id }
+  return success({ playlistId: playlist.id })
 }

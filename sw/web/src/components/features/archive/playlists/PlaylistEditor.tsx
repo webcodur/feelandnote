@@ -158,8 +158,12 @@ export default function PlaylistEditor({
           contentIds,
           isPublic,
         });
+        if (!result.success) {
+          alert(result.message);
+          return;
+        }
         onSuccess?.();
-        router.push(`/archive/playlists/${result.playlistId}`);
+        router.push(`/archive/playlists/${result.data.playlistId}`);
       } else if (playlistId) {
         // 이름/공개 상태 변경
         if (originalState && (name !== originalState.name || isPublic !== originalState.isPublic)) {

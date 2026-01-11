@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
-import { addActivityScore, checkAchievements } from '@/actions/achievements'
+import { addActivityScore, checkAchievements, type Title } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
@@ -26,7 +26,7 @@ interface AddContentParams {
 interface AddContentData {
   contentId: string
   userContentId: string
-  unlockedTitles: string[]
+  unlockedTitles: Title[]
 }
 
 export async function addContent(params: AddContentParams): Promise<ActionResult<AddContentData>> {

@@ -80,12 +80,17 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           creator: creator.trim() || undefined,
           status,
         });
+        if (!response.success) {
+          playSound("error");
+          setError(response.message);
+          return;
+        }
         playSound("success");
         onSuccess?.();
         handleClose();
 
-        if (response.unlockedTitles && response.unlockedTitles.length > 0) {
-          showUnlock(response.unlockedTitles);
+        if (response.data.unlockedTitles?.length > 0) {
+          showUnlock(response.data.unlockedTitles);
         }
       } catch (err) {
         playSound("error");

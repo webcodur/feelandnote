@@ -2,8 +2,9 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { addActivityScore, checkAchievements } from '@/actions/achievements'
+import { addActivityScore, checkAchievements, type Title } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 export type RecordType = 'NOTE' | 'QUOTE' | 'CREATION'
 
@@ -14,12 +15,23 @@ interface CreateRecordParams {
   location?: string
 }
 
-export async function createRecord(params: CreateRecordParams) {
+interface CreateRecordData {
+  id: string
+  user_id: string
+  content_id: string
+  type: RecordType
+  content: string
+  location: string | null
+  created_at: string
+  unlockedTitles: Title[]
+}
+
+export async function createRecord(params: CreateRecordParams): Promise<ActionResult<CreateRecordData>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 콘텐츠가 기록관에 있는지 확인
@@ -31,7 +43,7 @@ export async function createRecord(params: CreateRecordParams) {
     .single()
 
   if (!userContent) {
-    throw new Error('기록관에 추가된 콘텐츠만 기록할 수 있습니다')
+    return failure('NOT_IN_ARCHIVE')
   }
 
   const { data, error } = await supabase
@@ -47,8 +59,7 @@ export async function createRecord(params: CreateRecordParams) {
     .single()
 
   if (error) {
-    console.error('Create record error:', error)
-    throw new Error('기록 생성에 실패했습니다')
+    return handleSupabaseError(error, { context: 'record', logPrefix: '[기록 생성]' })
   }
 
   revalidatePath(`/archive/${params.contentId}`)
@@ -69,8 +80,8 @@ export async function createRecord(params: CreateRecordParams) {
   await addActivityScore(actionText, 2, data.id)
   const achievementResult = await checkAchievements()
 
-  return {
+  return success({
     ...data,
     unlockedTitles: achievementResult.unlocked
-  }
+  })
 }

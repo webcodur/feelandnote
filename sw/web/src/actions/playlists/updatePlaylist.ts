@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType } from '@/types/database'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface UpdatePlaylistParams {
   playlistId: string
@@ -15,12 +16,12 @@ interface UpdatePlaylistParams {
   tiers?: Record<string, string[]>
 }
 
-export async function updatePlaylist(params: UpdatePlaylistParams) {
+export async function updatePlaylist(params: UpdatePlaylistParams): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // 소유권 확인
@@ -31,7 +32,7 @@ export async function updatePlaylist(params: UpdatePlaylistParams) {
     .single()
 
   if (!playlist || playlist.user_id !== user.id) {
-    throw new Error('수정 권한이 없습니다')
+    return failure('FORBIDDEN')
   }
 
   // 업데이트할 필드 구성
@@ -39,7 +40,7 @@ export async function updatePlaylist(params: UpdatePlaylistParams) {
 
   if (params.name !== undefined) {
     if (!params.name.trim()) {
-      throw new Error('재생목록 이름을 입력해주세요')
+      return failure('VALIDATION_ERROR', '재생목록 이름을 입력해달라.')
     }
     updateData.name = params.name.trim()
   }
@@ -56,12 +57,11 @@ export async function updatePlaylist(params: UpdatePlaylistParams) {
     .eq('id', params.playlistId)
 
   if (error) {
-    console.error('재생목록 수정 에러:', error)
-    throw new Error('재생목록 수정에 실패했습니다')
+    return handleSupabaseError(error, { context: 'playlist', logPrefix: '[재생목록 수정]' })
   }
 
   revalidatePath('/archive')
   revalidatePath(`/archive/playlists/${params.playlistId}`)
 
-  return { success: true }
+  return success(null)
 }

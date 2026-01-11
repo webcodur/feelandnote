@@ -32,8 +32,8 @@ export default function UserProfileHeader({
     startTransition(async () => {
       const result = await toggleFollow(profile.id);
       if (result.success) {
-        setIsFollowing(result.isFollowing);
-        onFollowChange?.(result.isFollowing);
+        setIsFollowing(result.data.isFollowing);
+        onFollowChange?.(result.data.isFollowing);
       }
     });
   };

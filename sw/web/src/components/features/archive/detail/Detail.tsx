@@ -136,8 +136,12 @@ export default function Detail({ contentId, viewUserId }: DetailProps) {
           review: reviewText,
           isSpoiler,
         });
+        if (!result.success) {
+          console.error("리뷰 저장 실패:", result.message);
+          return;
+        }
         setItem((prev) => prev ? { ...prev, rating: reviewRating, review: reviewText, is_spoiler: isSpoiler } : null);
-        if (result.unlockedTitles?.length) showUnlock(result.unlockedTitles);
+        if (result.data.unlockedTitles?.length) showUnlock(result.data.unlockedTitles);
       } catch (err) {
         console.error("리뷰 저장 실패:", err);
       }

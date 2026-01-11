@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
+import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 interface UpdateRecordParams {
   recordId: string
@@ -11,18 +12,30 @@ interface UpdateRecordParams {
   location?: string | null
 }
 
-export async function updateRecord(params: UpdateRecordParams) {
+interface UpdateRecordData {
+  id: string
+  user_id: string
+  content_id: string
+  type: string
+  content: string
+  location: string | null
+  rating: number | null
+  created_at: string
+  updated_at: string
+}
+
+export async function updateRecord(params: UpdateRecordParams): Promise<ActionResult<UpdateRecordData>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    throw new Error('로그인이 필요합니다')
+    return failure('UNAUTHORIZED')
   }
 
   // rating 검증
   if (params.rating !== undefined && params.rating !== null) {
     if (params.rating < 0.5 || params.rating > 5) {
-      throw new Error('별점은 0.5~5 사이여야 합니다')
+      return failure('VALIDATION_ERROR', '별점은 0.5~5 사이여야 한다.')
     }
   }
 
@@ -52,11 +65,7 @@ export async function updateRecord(params: UpdateRecordParams) {
     .single()
 
   if (error) {
-    if (error.code === 'PGRST116') {
-      throw new Error('기록을 찾을 수 없습니다')
-    }
-    console.error('Update record error:', error)
-    throw new Error('기록 수정에 실패했습니다')
+    return handleSupabaseError(error, { context: 'record', logPrefix: '[기록 수정]' })
   }
 
   revalidatePath(`/archive/${data.content_id}`)
@@ -70,5 +79,5 @@ export async function updateRecord(params: UpdateRecordParams) {
     contentId: data.content_id
   })
 
-  return data
+  return success(data as UpdateRecordData)
 }
