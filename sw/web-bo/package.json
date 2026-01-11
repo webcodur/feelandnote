@@ -1,5 +1,5 @@
 {
-  "name": "web-bo",
+  "name": "@feelnnote/web-bo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@feelnnote/api-clients": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.2",
     "lucide-react": "^0.555.0",

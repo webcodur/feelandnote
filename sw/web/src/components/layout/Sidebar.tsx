@@ -9,6 +9,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Home,
   Folder,
   ListMusic,
   Compass,
@@ -49,6 +50,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: "기록관",
     defaultOpen: true,
     items: [
+      { href: "/", label: "홈", icon: Home },
       { href: "/archive", label: "기록관", icon: Folder },
       { href: "/archive/playlists", label: "재생목록", icon: ListMusic },
       { href: "/archive/explore", label: "탐색", icon: Compass },

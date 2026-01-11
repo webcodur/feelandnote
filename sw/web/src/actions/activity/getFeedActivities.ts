@@ -84,9 +84,6 @@ export async function getFeedActivities(
 
   const { data, error } = await query
 
-  console.log('[getFeedActivities] data:', data)
-  console.log('[getFeedActivities] error:', error)
-
   if (error || !data) {
     console.error('피드 활동 조회 에러:', error)
     return { activities: [], nextCursor: null }

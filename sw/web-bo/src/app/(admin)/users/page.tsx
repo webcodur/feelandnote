@@ -1,5 +1,5 @@
 import { getUsers } from '@/actions/admin/users'
-import { Users, Search, Shield, Ban, CheckCircle } from 'lucide-react'
+import { Users, Search, Shield, Ban, CheckCircle, Star, BookOpen, UserCheck, Clock } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 
@@ -82,24 +82,29 @@ export default async function UsersPage({ searchParams }: PageProps) {
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
         <table className="w-full">
           <thead className="bg-bg-secondary border-b border-border">
-            <tr>
-              <th className="text-left px-6 py-4 text-sm font-medium text-text-secondary">사용자</th>
-              <th className="text-left px-6 py-4 text-sm font-medium text-text-secondary">역할</th>
-              <th className="text-left px-6 py-4 text-sm font-medium text-text-secondary">상태</th>
-              <th className="text-left px-6 py-4 text-sm font-medium text-text-secondary">가입일</th>
-              <th className="text-right px-6 py-4 text-sm font-medium text-text-secondary">액션</th>
+            <tr className="divide-x divide-border">
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">사용자</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">유형</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">역할</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">상태</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">콘텐츠</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">팔로워</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">점수</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">최근 접속</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">가입일</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">액션</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {users.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-6 py-12 text-center text-text-secondary">
+                <td colSpan={10} className="px-6 py-12 text-center text-text-secondary">
                   사용자가 없습니다
                 </td>
               </tr>
             ) : (
               users.map((user) => (
-                <tr key={user.id} className="hover:bg-bg-secondary/50 transition-colors">
+                <tr key={user.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50 divide-x divide-border">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
@@ -110,18 +115,54 @@ export default async function UsersPage({ searchParams }: PageProps) {
                         )}
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-text-primary">
-                          {user.nickname || '닉네임 없음'}
-                        </p>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-sm font-medium text-text-primary">
+                            {user.nickname || '닉네임 없음'}
+                          </p>
+                          {user.is_verified && (
+                            <UserCheck className="w-3.5 h-3.5 text-blue-400" />
+                          )}
+                        </div>
                         <p className="text-xs text-text-secondary">{user.email}</p>
                       </div>
                     </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <ProfileTypeBadge type={user.profile_type} />
                   </td>
                   <td className="px-6 py-4">
                     <RoleBadge role={user.role} />
                   </td>
                   <td className="px-6 py-4">
                     <StatusBadge status={user.status} />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex items-center justify-center gap-1 text-sm text-text-secondary">
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span>{user.content_count}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex items-center justify-center gap-1 text-sm text-text-secondary">
+                      <Users className="w-3.5 h-3.5" />
+                      <span>{user.follower_count}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex items-center justify-center gap-1 text-sm text-text-secondary">
+                      <Star className="w-3.5 h-3.5" />
+                      <span>{user.total_score}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-text-secondary">
+                    {user.last_seen_at ? (
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>{formatRelativeTime(user.last_seen_at)}</span>
+                      </div>
+                    ) : (
+                      <span className="text-text-secondary/50">-</span>
+                    )}
                   </td>
                   <td className="px-6 py-4 text-sm text-text-secondary">
                     {new Date(user.created_at).toLocaleDateString('ko-KR')}
@@ -197,4 +238,35 @@ function StatusBadge({ status }: { status: string }) {
       {label}
     </span>
   )
+}
+
+function ProfileTypeBadge({ type }: { type: string | null }) {
+  const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
+    USER: { label: '일반', className: 'bg-gray-500/10 text-gray-400', icon: Users },
+    CELEB: { label: '셀럽', className: 'bg-yellow-500/10 text-yellow-400', icon: Star },
+  }
+
+  const { label, className, icon: Icon } = config[type || 'USER'] || config.USER
+
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${className}`}>
+      <Icon className="w-3 h-3" />
+      {label}
+    </span>
+  )
+}
+
+function formatRelativeTime(dateStr: string): string {
+  const date = new Date(dateStr)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMin = Math.floor(diffMs / 60000)
+  const diffHour = Math.floor(diffMs / 3600000)
+  const diffDay = Math.floor(diffMs / 86400000)
+
+  if (diffMin < 1) return '방금 전'
+  if (diffMin < 60) return `${diffMin}분 전`
+  if (diffHour < 24) return `${diffHour}시간 전`
+  if (diffDay < 7) return `${diffDay}일 전`
+  return date.toLocaleDateString('ko-KR')
 }
