@@ -1,4 +1,5 @@
 // Content Extractor - Gemini를 이용해 기사에서 콘텐츠 언급 추출
+// 1단계 Agent: 추출만 담당 (번역은 별도 Agent에서 처리)
 
 import { callGemini } from './gemini'
 import type { ContentType } from './search'
@@ -9,6 +10,7 @@ export interface ExtractedContent {
   title: string
   titleKo?: string
   creator?: string
+  creatorKo?: string
   review?: string
   sourceUrl?: string
 }
@@ -22,27 +24,53 @@ export interface ExtractionResult {
 
 // #region Prompt Builder
 export function buildExtractionPrompt(text: string, celebName: string): string {
-  return `다음 텍스트에서 ${celebName}이 언급하거나 추천한 콘텐츠(책, 영화, 게임, 음악)를 추출해.
+  return `텍스트에서 ${celebName}이(가) 언급한 콘텐츠를 추출해줘.
 
-중요 규칙:
-1. 영문 제목은 반드시 한국어 번역 제목(titleKo)을 함께 제공
-2. 리뷰/감상/독서경위/추천이유가 있으면 review에 포함 (없으면 빈 문자열)
+## 추출 대상
+- BOOK: 책, 소설, 에세이, 만화
+- VIDEO: 영화, 드라마, 애니메이션
+- GAME: 게임
+- MUSIC: 앨범, 음악
 
-JSON 배열로만 출력:
-[{"type":"BOOK","title":"Zero to One","titleKo":"제로 투 원","creator":"Peter Thiel","review":"창업에 대한 새로운 시각을 열어준 책이다","sourceUrl":""}]
+## 출력 필드
 
-필드 설명:
-- type: BOOK, VIDEO, GAME, MUSIC 중 하나
-- title: 원본 제목
-- titleKo: 한국어 번역 제목 (필수! 모르면 원본 그대로)
-- creator: 저자/감독/아티스트
-- review: 리뷰, 감상, 독서경위, 추천이유 등 (텍스트에 있으면)
-- sourceUrl: 출처 링크 (텍스트에 있으면)
+### title (필수)
+- 원본 제목 그대로 (영문이면 영문)
 
-콘텐츠가 없으면: []
+### titleKo (필수) ⚠️ 한국 정식 발매명
+- 한국에서 정식 출판/개봉/발매된 제목
+- 예: "The Great Gatsby" → "위대한 개츠비"
+- 예: "Erta Ale" → "에르타 알레" (음반)
+- 모르면 title과 동일하게 출력
 
-텍스트:
-${text}`
+### creator
+- 저자/감독/아티스트 (원본 그대로)
+
+### creatorKo
+- 한국어 표기 (예: "Haruki Murakami" → "무라카미 하루키")
+- 모르면 creator와 동일하게
+
+### review (필수) ⚠️ 한국어로 번역
+- ${celebName}의 감상, 추천 이유, 독서/시청 경위
+- 한국어 존댓말(~합니다, ~습니다)로 번역
+- 예: "This changed my life" → "인생을 바꿔놓은 작품입니다"
+- 없으면 빈 문자열 ""
+
+### sourceUrl
+- 텍스트에서 해당 콘텐츠 링크가 있으면 포함
+
+## 규칙
+1. 제목이 명확히 언급된 것만 추출
+2. 중복 제거
+3. titleKo를 모르면 title 그대로 (null 금지)
+
+## JSON 출력
+[{"type":"BOOK","title":"원본","titleKo":"한국어 제목","creator":"저자","creatorKo":"한국어 저자","review":"한국어 리뷰","sourceUrl":""}]
+
+## 텍스트
+${text}
+
+JSON 배열만 출력.`
 }
 // #endregion
 
@@ -83,9 +111,10 @@ export function parseExtractionResponse(response: string): ExtractedContent[] {
       .map((item) => ({
         type: item.type as ContentType,
         title: item.title.trim(),
-        titleKo: item.titleKo?.trim() || undefined,
+        titleKo: item.titleKo?.trim() || item.title.trim(), // 없으면 원본
         creator: item.creator?.trim() || undefined,
-        review: item.review?.trim() || undefined,
+        creatorKo: item.creatorKo?.trim() || item.creator?.trim() || undefined,
+        review: item.review?.trim() || '',
         sourceUrl: item.sourceUrl?.trim() || undefined,
       }))
   } catch {
@@ -105,7 +134,7 @@ export async function extractContentsFromText(
   const response = await callGemini({
     apiKey,
     prompt,
-    maxOutputTokens: 4000,
+    maxOutputTokens: 8000,
   })
 
   if (response.error) {

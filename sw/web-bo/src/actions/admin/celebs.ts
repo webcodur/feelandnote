@@ -3,13 +3,15 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { generateCelebProfile as generateCelebProfileApi } from '@feelnnote/api-clients'
+import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage } from './api-keys'
 
 // #region Types
 export interface Celeb {
   id: string
   nickname: string | null
   avatar_url: string | null
-  category: string | null
+  profession: string | null
   bio: string | null
   is_verified: boolean | null
   status: string
@@ -29,12 +31,12 @@ interface GetCelebsParams {
   limit?: number
   search?: string
   status?: 'active' | 'suspended' | 'all'
-  category?: string
+  profession?: string
 }
 
 interface CreateCelebInput {
   nickname: string
-  category?: string
+  profession?: string
   bio?: string
   avatar_url?: string
   is_verified?: boolean
@@ -43,17 +45,33 @@ interface CreateCelebInput {
 interface UpdateCelebInput {
   id: string
   nickname?: string
-  category?: string
+  profession?: string
   bio?: string
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'suspended'
 }
+
+interface GenerateProfileInput {
+  name: string
+  description: string
+  selectedKeyId?: string
+}
+
+interface GenerateProfileResult {
+  success: boolean
+  profile?: {
+    bio: string
+    profession: string
+    avatarUrl: string
+  }
+  error?: string
+}
 // #endregion
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, category } = params
+  const { page = 1, limit = 20, search, status, profession } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
@@ -76,8 +94,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     query = query.eq('status', status)
   }
 
-  if (category && category !== 'all') {
-    query = query.eq('category', category)
+  if (profession && profession !== 'all') {
+    query = query.eq('profession', profession)
   }
 
   const { data, error, count } = await query
@@ -104,7 +122,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     id: celeb.id,
     nickname: celeb.nickname,
     avatar_url: celeb.avatar_url,
-    category: celeb.category,
+    profession: celeb.profession,
     bio: celeb.bio,
     is_verified: celeb.is_verified,
     status: celeb.status || 'active',
@@ -148,7 +166,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     id: data.id,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
-    category: data.category,
+    profession: data.profession,
     bio: data.bio,
     is_verified: data.is_verified,
     status: data.status || 'active',
@@ -186,7 +204,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     .from('profiles')
     .update({
       nickname: input.nickname,
-      category: input.category || null,
+      profession: input.profession || null,
       bio: input.bio || null,
       avatar_url: input.avatar_url || null,
       is_verified: input.is_verified || false,
@@ -231,7 +249,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   const updateData: Record<string, unknown> = {}
 
   if (input.nickname !== undefined) updateData.nickname = input.nickname
-  if (input.category !== undefined) updateData.category = input.category
+  if (input.profession !== undefined) updateData.profession = input.profession
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
@@ -247,6 +265,55 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
 
   revalidatePath('/celebs')
   revalidatePath(`/celebs/${input.id}`)
+}
+// #endregion
+
+// #region generateCelebProfile
+export async function generateCelebProfile(input: GenerateProfileInput): Promise<GenerateProfileResult> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, error: '인증이 필요합니다.' }
+  }
+
+  // API 키 가져오기
+  let apiKeyRecord
+  if (input.selectedKeyId) {
+    const result = await getApiKeyById(input.selectedKeyId)
+    if (result.success && result.data) {
+      apiKeyRecord = result.data
+    }
+  }
+
+  if (!apiKeyRecord) {
+    const result = await getBestAvailableKey()
+    if (!result.success || !result.data) {
+      return { success: false, error: result.error || '사용 가능한 API 키가 없습니다.' }
+    }
+    apiKeyRecord = result.data
+  }
+
+  // Gemini 호출
+  const result = await generateCelebProfileApi(apiKeyRecord.api_key, {
+    name: input.name,
+    description: input.description,
+  })
+
+  // 사용 기록
+  const is429 = result.error?.includes('429') || result.error?.includes('quota')
+  await recordApiKeyUsage({
+    api_key_id: apiKeyRecord.id,
+    action_type: 'celeb_profile',
+    success: result.success,
+    error_code: is429 ? '429' : result.error ? 'ERROR' : undefined,
+  })
+
+  if (!result.success || !result.profile) {
+    return { success: false, error: result.error || 'AI 프로필 생성에 실패했습니다.' }
+  }
+
+  return { success: true, profile: result.profile }
 }
 // #endregion
 
@@ -357,6 +424,33 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
     data: { user },
   } = await supabase.auth.getUser()
 
+  // 이미 등록된 콘텐츠인지 확인
+  const { data: existing } = await supabase
+    .from('user_contents')
+    .select('id')
+    .eq('user_id', input.celeb_id)
+    .eq('content_id', input.content_id)
+    .maybeSingle()
+
+  if (existing) {
+    // 이미 있으면 리뷰/출처 업데이트
+    const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
+    if (input.review) updateData.review = input.review
+    if (input.source_url) updateData.source_url = input.source_url
+    if (input.status) updateData.status = input.status
+
+    const { error: updateError } = await supabase
+      .from('user_contents')
+      .update(updateData)
+      .eq('id', existing.id)
+
+    if (updateError) throw updateError
+
+    revalidatePath(`/celebs/${input.celeb_id}/contents`)
+    return { id: existing.id }
+  }
+
+  // 없으면 새로 추가
   const { data, error } = await supabase
     .from('user_contents')
     .insert({
@@ -394,7 +488,8 @@ interface UpdateCelebContentInput {
 }
 
 export async function updateCelebContent(input: UpdateCelebContentInput): Promise<void> {
-  const supabase = await createClient()
+  // Admin 클라이언트 사용 (RLS 우회)
+  const adminClient = createAdminClient()
 
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
 
@@ -405,7 +500,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   if (input.visibility !== undefined) updateData.visibility = input.visibility
   if (input.source_url !== undefined) updateData.source_url = input.source_url
 
-  const { error } = await supabase.from('user_contents').update(updateData).eq('id', input.id)
+  const { error } = await adminClient.from('user_contents').update(updateData).eq('id', input.id)
 
   if (error) throw error
 
@@ -415,9 +510,10 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
 
 // #region deleteCelebContent
 export async function deleteCelebContent(contentId: string, celebId: string): Promise<void> {
-  const supabase = await createClient()
+  // Admin 클라이언트 사용 (RLS 우회)
+  const adminClient = createAdminClient()
 
-  const { error } = await supabase.from('user_contents').delete().eq('id', contentId)
+  const { error } = await adminClient.from('user_contents').delete().eq('id', contentId)
 
   if (error) throw error
 

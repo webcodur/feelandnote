@@ -1,6 +1,6 @@
 // Gemini API 서비스
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent'
 
 interface GeminiRequest {
   apiKey: string
@@ -11,6 +11,10 @@ interface GeminiRequest {
 interface GeminiResponse {
   text: string
   error?: string
+}
+
+interface GeminiGroundingRequest extends GeminiRequest {
+  useGrounding?: boolean
 }
 
 // Gemini API 호출
@@ -44,6 +48,46 @@ export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: Gemi
     return {
       text: '',
       error: err instanceof Error ? err.message : 'API 호출 중 오류 발생'
+    }
+  }
+}
+
+// Gemini API 호출 (Google Search Grounding 포함)
+export async function callGeminiWithGrounding({
+  apiKey,
+  prompt,
+  maxOutputTokens = 500,
+}: GeminiGroundingRequest): Promise<GeminiResponse> {
+  try {
+    const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens,
+        },
+        tools: [{ googleSearch: {} }],
+      }),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      return {
+        text: '',
+        error: errorData.error?.message || `API 호출 실패 (${response.status})`,
+      }
+    }
+
+    const data = await response.json()
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
+
+    return { text }
+  } catch (err) {
+    return {
+      text: '',
+      error: err instanceof Error ? err.message : 'API 호출 중 오류 발생',
     }
   }
 }

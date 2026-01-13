@@ -26,7 +26,7 @@ export async function getCelebs(
       id,
       nickname,
       avatar_url,
-      category,
+      profession,
       bio,
       is_verified,
       user_social(follower_count)
@@ -51,7 +51,7 @@ export async function getCelebs(
         id: row.id,
         nickname: row.nickname || '',
         avatar_url: row.avatar_url,
-        category: row.category,
+        profession: row.profession,
         bio: row.bio,
         is_verified: row.is_verified ?? false,
         follower_count: social?.follower_count ?? 0,

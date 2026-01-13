@@ -1,4 +1,4 @@
-export const CELEB_CATEGORIES = [
+export const CELEB_PROFESSIONS = [
   { value: 'leader', label: '지도자' },
   { value: 'politician', label: '정치인' },
   { value: 'commander', label: '지휘관' },
@@ -12,10 +12,16 @@ export const CELEB_CATEGORIES = [
   { value: 'athlete', label: '스포츠인' },
 ] as const
 
-export type CelebCategory = (typeof CELEB_CATEGORIES)[number]['value']
+export type CelebProfession = (typeof CELEB_PROFESSIONS)[number]['value']
 
-export const getCelebCategoryLabel = (value: string | null): string => {
+export const getCelebProfessionLabel = (value: string | null): string => {
   if (!value) return '미분류'
-  const category = CELEB_CATEGORIES.find((c) => c.value === value)
-  return category?.label ?? value
+  const profession = CELEB_PROFESSIONS.find((p) => p.value === value)
+  return profession?.label ?? value
 }
+
+// 하위 호환성을 위한 별칭 (deprecated)
+/** @deprecated CELEB_PROFESSIONS 사용 */
+export const CELEB_CATEGORIES = CELEB_PROFESSIONS
+/** @deprecated getCelebProfessionLabel 사용 */
+export const getCelebCategoryLabel = getCelebProfessionLabel

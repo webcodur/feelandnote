@@ -11,38 +11,65 @@ import {
 import { createClient } from '@/lib/supabase/server'
 import { createContentFromExternal } from './external-search'
 import { addCelebContent } from './celebs'
+import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage, type ApiKey } from './api-keys'
 
 // #region Types
-interface AICollectUrlInput {
-  url: string
-  celebId: string
-  celebName: string
+// API 키 가져오기 헬퍼
+async function getApiKey(selectedKeyId?: string): Promise<{ key: ApiKey | null; error?: string }> {
+  if (selectedKeyId) {
+    const result = await getApiKeyById(selectedKeyId)
+    if (result.success && result.data) {
+      return { key: result.data }
+    }
+    // 선택된 키가 없으면 자동 선택으로 fallback
+  }
+
+  const result = await getBestAvailableKey()
+  if (result.success && result.data) {
+    return { key: result.data }
+  }
+
+  return { key: null, error: result.error || '사용 가능한 API 키가 없습니다.' }
 }
 
-interface AICollectTextInput {
-  text: string
-  celebId: string
-  celebName: string
+interface SearchResultItem {
+  externalId: string
+  externalSource: string
+  title: string
+  creator: string
+  coverImageUrl: string | null
+  metadata: Record<string, unknown>
 }
 
 export interface ExtractedContentWithSearch {
   extracted: ExtractedContent
-  searchResults: Array<{
-    externalId: string
-    externalSource: string
-    title: string
-    creator: string
-    coverImageUrl: string | null
-    metadata: Record<string, unknown>
-  }>
+  searchResultsKo: SearchResultItem[]      // 한국어 제목 검색 결과
+  searchResultsOriginal: SearchResultItem[] // 원본 제목 검색 결과
   itemSourceUrl?: string
   itemReview?: string
 }
 
-interface AICollectResult {
+// 추출만 (1단계) 결과
+export interface ExtractOnlyResult {
   success: boolean
   sourceUrl?: string
-  items?: ExtractedContentWithSearch[]
+  extractedItems?: ExtractedContent[]
+  error?: string
+}
+
+// 처리 (번역+검색) 입력
+interface ProcessItemsInput {
+  extractedItems: ExtractedContent[]
+  startIndex: number
+  batchSize: number
+  selectedKeyId?: string
+}
+
+// 처리 결과
+interface ProcessItemsResult {
+  success: boolean
+  items: ExtractedContentWithSearch[]
+  processedCount: number
   error?: string
 }
 
@@ -62,6 +89,7 @@ interface SaveCollectedInput {
     status: string
     itemSourceUrl?: string
     itemReview?: string
+    titleOriginal?: string
   }>
 }
 
@@ -70,29 +98,35 @@ interface SaveResult {
   savedCount?: number
   error?: string
 }
+
+// 검색 결과 변환 헬퍼
+function mapSearchResults(items: ExternalSearchResult[]): SearchResultItem[] {
+  return items.slice(0, 5).map((item) => ({
+    externalId: item.externalId,
+    externalSource: item.externalSource,
+    title: item.title,
+    creator: item.creator,
+    coverImageUrl: item.coverImageUrl,
+    metadata: item.metadata as Record<string, unknown>,
+  }))
+}
+
+// 딜레이 헬퍼
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 // #endregion
 
-// #region extractContentsFromUrl
-export async function extractContentsFromUrl(input: AICollectUrlInput): Promise<AICollectResult> {
+// #region extractOnlyFromUrl - 추출만 (1단계)
+export async function extractOnlyFromUrl(input: { url: string; celebName: string; selectedKeyId?: string }): Promise<ExtractOnlyResult> {
   const supabase = await createClient()
-
-  // 관리자 세션 확인
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return { success: false, error: '인증이 필요합니다.' }
   }
 
-  // 관리자의 Gemini API 키 조회
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('gemini_api_key')
-    .eq('id', user.id)
-    .single()
-
-  if (!profile?.gemini_api_key) {
-    return { success: false, error: 'Gemini API 키가 설정되지 않았습니다. 프로필 설정에서 API 키를 입력해주세요.' }
+  const { key: apiKeyRecord, error: keyError } = await getApiKey(input.selectedKeyId)
+  if (!apiKeyRecord) {
+    return { success: false, error: keyError || 'API 키를 가져올 수 없습니다.' }
   }
 
   // URL에서 텍스트 추출
@@ -102,163 +136,119 @@ export async function extractContentsFromUrl(input: AICollectUrlInput): Promise<
   }
 
   // AI로 콘텐츠 추출
-  const extractResult = await extractContentsFromText(profile.gemini_api_key, fetchResult.text, input.celebName)
+  console.log(`[Extractor] Starting extraction... (key: ${apiKeyRecord.title})`)
+  const extractResult = await extractContentsFromText(apiKeyRecord.api_key, fetchResult.text, input.celebName)
+
+  // 사용 기록
+  const is429 = extractResult.error?.includes('429') || extractResult.error?.includes('quota')
+  await recordApiKeyUsage({
+    api_key_id: apiKeyRecord.id,
+    action_type: 'extract',
+    success: extractResult.success,
+    error_code: is429 ? '429' : extractResult.error ? 'ERROR' : undefined,
+  })
+
   if (!extractResult.success || !extractResult.items) {
     return { success: false, error: extractResult.error || '콘텐츠를 추출할 수 없습니다.' }
   }
 
-  if (extractResult.items.length === 0) {
-    return { success: true, sourceUrl: input.url, items: [] }
-  }
-
-  // 각 콘텐츠별 외부 API 검색 (병렬 실행)
-  // 한국어 제목이 있으면 먼저 검색, 없거나 결과 없으면 원본 제목으로 검색
-  console.log('[extractContentsFromUrl] Extracted items:', JSON.stringify(extractResult.items, null, 2))
-
-  const items: ExtractedContentWithSearch[] = await Promise.all(
-    extractResult.items.map(async (extracted) => {
-      try {
-        let searchResults: ExtractedContentWithSearch['searchResults'] = []
-        let searchedWith = ''
-
-        // 한국어 제목으로 먼저 검색 (원본과 다를 경우에만)
-        if (extracted.titleKo && extracted.titleKo !== extracted.title) {
-          console.log(`[Search] Trying Korean title: "${extracted.titleKo}"`)
-          const koResponse = await searchExternal(extracted.type, extracted.titleKo, 1)
-          if (koResponse.items.length > 0) {
-            searchedWith = extracted.titleKo
-            searchResults = koResponse.items.slice(0, 5).map((item: ExternalSearchResult) => ({
-              externalId: item.externalId,
-              externalSource: item.externalSource,
-              title: item.title,
-              creator: item.creator,
-              coverImageUrl: item.coverImageUrl,
-              metadata: item.metadata as Record<string, unknown>,
-            }))
-          }
-        }
-
-        // 한국어 검색 결과가 없으면 원본 제목으로 검색
-        if (searchResults.length === 0) {
-          console.log(`[Search] Trying original title: "${extracted.title}"`)
-          const origResponse = await searchExternal(extracted.type, extracted.title, 1)
-          searchedWith = extracted.title
-          searchResults = origResponse.items.slice(0, 5).map((item: ExternalSearchResult) => ({
-            externalId: item.externalId,
-            externalSource: item.externalSource,
-            title: item.title,
-            creator: item.creator,
-            coverImageUrl: item.coverImageUrl,
-            metadata: item.metadata as Record<string, unknown>,
-          }))
-        }
-
-        console.log(`[Search] "${extracted.title}" → searched with "${searchedWith}" → ${searchResults.length} results`)
-        return { extracted, searchResults, itemSourceUrl: extracted.sourceUrl, itemReview: extracted.review }
-      } catch (err) {
-        console.error(`[Search] Error for "${extracted.title}":`, err)
-        return { extracted, searchResults: [], itemSourceUrl: extracted.sourceUrl, itemReview: extracted.review }
-      }
-    })
-  )
-
-  return {
-    success: true,
-    sourceUrl: input.url,
-    items,
-  }
+  console.log(`[Extractor] Found ${extractResult.items.length} items`)
+  return { success: true, sourceUrl: input.url, extractedItems: extractResult.items }
 }
-// #endregion
 
-// #region extractContentsFromTextInput
-export async function extractContentsFromTextInput(input: AICollectTextInput): Promise<AICollectResult> {
+export async function extractOnlyFromText(input: { text: string; celebName: string; selectedKeyId?: string }): Promise<ExtractOnlyResult> {
   const supabase = await createClient()
-
-  // 관리자 세션 확인
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return { success: false, error: '인증이 필요합니다.' }
   }
 
-  // 관리자의 Gemini API 키 조회
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('gemini_api_key')
-    .eq('id', user.id)
-    .single()
-
-  if (!profile?.gemini_api_key) {
-    return { success: false, error: 'Gemini API 키가 설정되지 않았습니다. 프로필 설정에서 API 키를 입력해주세요.' }
+  const { key: apiKeyRecord, error: keyError } = await getApiKey(input.selectedKeyId)
+  if (!apiKeyRecord) {
+    return { success: false, error: keyError || 'API 키를 가져올 수 없습니다.' }
   }
 
   // AI로 콘텐츠 추출
-  const { extractContentsFromText: extractFromText } = await import('@feelnnote/api-clients')
-  const extractResult = await extractFromText(profile.gemini_api_key, input.text, input.celebName)
+  console.log(`[Extractor] Starting extraction... (key: ${apiKeyRecord.title})`)
+  const extractResult = await extractContentsFromText(apiKeyRecord.api_key, input.text, input.celebName)
+
+  // 사용 기록
+  const is429 = extractResult.error?.includes('429') || extractResult.error?.includes('quota')
+  await recordApiKeyUsage({
+    api_key_id: apiKeyRecord.id,
+    action_type: 'extract',
+    success: extractResult.success,
+    error_code: is429 ? '429' : extractResult.error ? 'ERROR' : undefined,
+  })
+
   if (!extractResult.success || !extractResult.items) {
     return { success: false, error: extractResult.error || '콘텐츠를 추출할 수 없습니다.' }
   }
 
-  if (extractResult.items.length === 0) {
-    return { success: true, items: [] }
+  console.log(`[Extractor] Found ${extractResult.items.length} items`)
+  return { success: true, extractedItems: extractResult.items }
+}
+// #endregion
+
+// #region processExtractedItems - 검색 (titleKo 우선, 실패 시 원본)
+export async function processExtractedItems(input: ProcessItemsInput): Promise<ProcessItemsResult> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, items: [], processedCount: 0, error: '인증이 필요합니다.' }
   }
 
-  // 각 콘텐츠별 외부 API 검색 (병렬 실행)
-  // 한국어 제목이 있으면 먼저 검색, 없거나 결과 없으면 원본 제목으로 검색
-  console.log('[extractContentsFromTextInput] Extracted items:', JSON.stringify(extractResult.items, null, 2))
+  // 시작 인덱스부터 batchSize만큼 슬라이스
+  const itemsToProcess = input.extractedItems.slice(input.startIndex, input.startIndex + input.batchSize)
+  if (itemsToProcess.length === 0) {
+    return { success: true, items: [], processedCount: 0 }
+  }
 
-  const items: ExtractedContentWithSearch[] = await Promise.all(
-    extractResult.items.map(async (extracted) => {
-      try {
-        let searchResults: ExtractedContentWithSearch['searchResults'] = []
-        let searchedWith = ''
+  console.log(`[Search] Processing items ${input.startIndex + 1}~${input.startIndex + itemsToProcess.length} of ${input.extractedItems.length}`)
 
-        // 한국어 제목으로 먼저 검색 (원본과 다를 경우에만)
-        if (extracted.titleKo && extracted.titleKo !== extracted.title) {
-          console.log(`[Search] Trying Korean title: "${extracted.titleKo}"`)
-          const koResponse = await searchExternal(extracted.type, extracted.titleKo, 1)
-          if (koResponse.items.length > 0) {
-            searchedWith = extracted.titleKo
-            searchResults = koResponse.items.slice(0, 5).map((item: ExternalSearchResult) => ({
-              externalId: item.externalId,
-              externalSource: item.externalSource,
-              title: item.title,
-              creator: item.creator,
-              coverImageUrl: item.coverImageUrl,
-              metadata: item.metadata as Record<string, unknown>,
-            }))
-          }
-        }
+  const results: ExtractedContentWithSearch[] = []
 
-        // 한국어 검색 결과가 없으면 원본 제목으로 검색
-        if (searchResults.length === 0) {
-          console.log(`[Search] Trying original title: "${extracted.title}"`)
-          const origResponse = await searchExternal(extracted.type, extracted.title, 1)
-          searchedWith = extracted.title
-          searchResults = origResponse.items.slice(0, 5).map((item: ExternalSearchResult) => ({
-            externalId: item.externalId,
-            externalSource: item.externalSource,
-            title: item.title,
-            creator: item.creator,
-            coverImageUrl: item.coverImageUrl,
-            metadata: item.metadata as Record<string, unknown>,
-          }))
-        }
+  for (let i = 0; i < itemsToProcess.length; i++) {
+    const extracted = itemsToProcess[i]
+    const globalIndex = input.startIndex + i
+    const searchTitle = extracted.titleKo || extracted.title
+    console.log(`[Search ${globalIndex + 1}/${input.extractedItems.length}] "${searchTitle}"`)
 
-        console.log(`[Search] "${extracted.title}" → searched with "${searchedWith}" → ${searchResults.length} results`)
-        return { extracted, searchResults, itemSourceUrl: extracted.sourceUrl, itemReview: extracted.review }
-      } catch (err) {
-        console.error(`[Search] Error for "${extracted.title}":`, err)
-        return { extracted, searchResults: [], itemSourceUrl: extracted.sourceUrl, itemReview: extracted.review }
+    let searchResultsKo: SearchResultItem[] = []
+    let searchResultsOriginal: SearchResultItem[] = []
+
+    try {
+      // 한국어 제목으로 먼저 검색
+      const koResponse = await searchExternal(extracted.type, searchTitle, 1)
+      searchResultsKo = mapSearchResults(koResponse.items)
+      console.log(`  → 검색(Ko): ${searchResultsKo.length}건`)
+
+      // 한국어로 못 찾으면 원본으로 재검색
+      if (searchResultsKo.length === 0 && searchTitle !== extracted.title) {
+        const origResponse = await searchExternal(extracted.type, extracted.title, 1)
+        searchResultsOriginal = mapSearchResults(origResponse.items)
+        console.log(`  → 검색(Orig): ${searchResultsOriginal.length}건`)
       }
-    })
-  )
+    } catch (err) {
+      console.warn(`  → 검색 실패:`, err)
+    }
 
-  return {
-    success: true,
-    items,
+    results.push({
+      extracted,
+      searchResultsKo,
+      searchResultsOriginal,
+      itemSourceUrl: extracted.sourceUrl,
+      itemReview: extracted.review, // 이미 한국어로 추출됨
+    })
+
+    // 마지막 아이템이 아니면 0.5초 대기
+    if (i < itemsToProcess.length - 1) {
+      await delay(500)
+    }
   }
+
+  console.log(`[Search] Completed: ${results.length} items`)
+  return { success: true, items: results, processedCount: results.length }
 }
 // #endregion
 
@@ -278,6 +268,11 @@ export async function saveCollectedContents(input: SaveCollectedInput): Promise<
   for (const item of input.items) {
     try {
       // 1. 콘텐츠 DB 등록 (외부 검색 결과 → contents 테이블)
+      // 한국어 제목을 title로, 영문 원제를 metadata.titleOriginal에 저장
+      const metadata = {
+        ...item.searchResult.metadata,
+        titleOriginal: item.titleOriginal || undefined,
+      }
       const contentResult = await createContentFromExternal(
         {
           externalId: item.searchResult.externalId,
@@ -285,7 +280,7 @@ export async function saveCollectedContents(input: SaveCollectedInput): Promise<
           title: item.searchResult.title,
           creator: item.searchResult.creator,
           coverImageUrl: item.searchResult.coverImageUrl,
-          metadata: item.searchResult.metadata,
+          metadata,
         },
         item.contentType
       )

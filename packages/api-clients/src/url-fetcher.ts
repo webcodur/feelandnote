@@ -61,19 +61,28 @@ function stripHtml(html: string): string {
   text = text.replace(/<\/(p|div|br|h[1-6]|li|tr|blockquote|article|section)>/gi, '\n')
   text = text.replace(/<(br|hr)\s*\/?>/gi, '\n')
 
-  // 4. 나머지 HTML 태그 제거
+  // 4. 링크 태그 보존: <a href="URL">텍스트</a> → 텍스트 [URL]
+  text = text.replace(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([^<]*)<\/a>/gi, (_, url, linkText) => {
+    // 외부 링크만 보존 (http로 시작하는 것)
+    if (url.startsWith('http')) {
+      return `${linkText.trim()} [${url}]`
+    }
+    return linkText.trim()
+  })
+
+  // 5. 나머지 HTML 태그 제거
   text = text.replace(/<[^>]+>/g, ' ')
 
-  // 5. HTML 엔티티 디코딩
+  // 6. HTML 엔티티 디코딩
   text = decodeHtmlEntities(text)
 
-  // 6. 연속 공백을 단일 공백으로
+  // 7. 연속 공백을 단일 공백으로
   text = text.replace(/[ \t]+/g, ' ')
 
-  // 7. 연속 줄바꿈을 2개까지로 제한
+  // 8. 연속 줄바꿈을 2개까지로 제한
   text = text.replace(/\n\s*\n\s*\n/g, '\n\n')
 
-  // 8. 각 줄 앞뒤 공백 제거
+  // 9. 각 줄 앞뒤 공백 제거
   text = text
     .split('\n')
     .map((line) => line.trim())
