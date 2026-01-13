@@ -120,7 +120,8 @@ export default function ContentListItem({
       {/* 1. 타입 아이콘 / 배치 모드 체크박스 */}
       <div className="flex justify-center">
         {isBatchMode ? (
-          <button
+          <Button
+            unstyled
             onClick={(e) => {
               e.stopPropagation();
               onToggleSelect?.();
@@ -132,7 +133,7 @@ export default function ContentListItem({
             ) : (
               <Square size={iconSize} className="text-text-tertiary hover:text-text-secondary" />
             )}
-          </button>
+          </Button>
         ) : (
           TypeIcon && <TypeIcon size={iconSize} className="text-text-tertiary" />
         )}

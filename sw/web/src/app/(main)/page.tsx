@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getCelebs } from "@/actions/home";
+import { getCelebs, getProfessionCounts, getContentTypeCounts } from "@/actions/home";
 import {
   CelebCarousel,
   CelebFeed,
@@ -77,14 +77,24 @@ function SidebarSkeleton() {
 
 // #region 서버 데이터 페칭 컴포넌트
 async function CelebCarouselServer() {
-  const { celebs, total, totalPages } = await getCelebs({ page: 1, limit: 8 });
+  const [celebsResult, professionCounts] = await Promise.all([
+    getCelebs({ page: 1, limit: 8 }),
+    getProfessionCounts(),
+  ]);
+
   return (
     <CelebCarousel
-      initialCelebs={celebs}
-      initialTotal={total}
-      initialTotalPages={totalPages}
+      initialCelebs={celebsResult.celebs}
+      initialTotal={celebsResult.total}
+      initialTotalPages={celebsResult.totalPages}
+      professionCounts={professionCounts}
     />
   );
+}
+
+async function CelebFeedServer() {
+  const contentTypeCounts = await getContentTypeCounts();
+  return <CelebFeed contentTypeCounts={contentTypeCounts} />;
 }
 // #endregion
 
@@ -104,7 +114,7 @@ export default async function HomePage() {
         {/* 왼쪽: 피드 영역 */}
         <div className="flex-1 min-w-0">
           <Suspense fallback={<FeedSkeleton />}>
-            <CelebFeed />
+            <CelebFeedServer />
           </Suspense>
         </div>
 

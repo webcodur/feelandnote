@@ -71,14 +71,15 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
 
   return (
     <form action={formAction} className="space-y-4">
-      <button
+      <Button
+        unstyled
         type="button"
         onClick={handleCollapse}
         className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white"
       >
         <ArrowLeft className="h-4 w-4" />
         <span>다른 방법으로 로그인</span>
-      </button>
+      </Button>
 
       <div className="space-y-3">
         <input
@@ -99,13 +100,14 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
             required
             className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 pr-12 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
           />
-          <button
+          <Button
+            unstyled
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute top-1/2 right-3 -translate-y-1/2 text-zinc-400 hover:text-white"
           >
             {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
-          </button>
+          </Button>
         </div>
       </div>
 

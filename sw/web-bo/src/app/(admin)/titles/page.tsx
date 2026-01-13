@@ -113,9 +113,9 @@ export default async function TitlesPage() {
                     <Users className="w-3.5 h-3.5" />
                     <span>{unlockedCount}명 획득</span>
                   </div>
-                  <button className="text-sm text-accent hover:underline">
+                  <Button unstyled className="text-sm text-accent hover:underline">
                     수정
-                  </button>
+                  </Button>
                 </div>
               </div>
             )

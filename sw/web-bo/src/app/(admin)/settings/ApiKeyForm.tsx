@@ -74,13 +74,14 @@ export default function ApiKeyForm({ initialApiKey }: Props) {
               placeholder="AIzaSy..."
               className="w-full px-4 py-2 pr-10 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none font-mono text-sm"
             />
-            <button
+            <Button
+              unstyled
               type="button"
               onClick={() => setShowKey(!showKey)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary"
             >
               {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
           <p className="text-xs text-text-secondary mt-2">
             <a

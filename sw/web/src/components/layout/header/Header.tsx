@@ -221,13 +221,14 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
               </Link>
               <div className="border-t border-border" />
               <form action={logout}>
-                <button
+                <Button
+                  unstyled
                   type="submit"
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-red-400"
                 >
                   <LogOut size={18} />
                   <span className="text-sm">로그아웃</span>
-                </button>
+                </Button>
               </form>
             </div>
           )}

@@ -9,7 +9,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Card, Avatar, SectionHeader } from "@/components/ui";
+import { Card, Avatar, SectionHeader, Button } from "@/components/ui";
 import {
   Newspaper, Plus, Trash2, RefreshCw, Star, FileText, Inbox,
   Book, Film, Gamepad2, Music, Award
@@ -76,23 +76,24 @@ function ActivityCard({ activity }: { activity: FeedActivity }) {
     <Card className="p-4">
       <div className="flex gap-3">
         {/* 사용자 아바타 */}
-        <button onClick={handleUserClick} className="shrink-0">
+        <Button unstyled onClick={handleUserClick} className="shrink-0">
           <Avatar
             size="md"
             url={activity.user_avatar_url}
             name={activity.user_nickname}
           />
-        </button>
+        </Button>
 
         {/* 활동 내용 */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <button
+            <Button
+              unstyled
               onClick={handleUserClick}
               className="font-semibold text-sm hover:text-accent truncate"
             >
               {activity.user_nickname}
-            </button>
+            </Button>
             <span className="text-xs text-text-secondary flex items-center gap-1">
               <ActionIcon size={12} />
               {ACTION_LABELS[activity.action_type]}
@@ -220,13 +221,14 @@ export default function Page() {
 
           {/* 더 보기 버튼 */}
           {nextCursor && (
-            <button
+            <Button
+              unstyled
               onClick={() => loadActivities(nextCursor)}
               disabled={isLoadingMore}
               className="w-full py-3 text-sm text-text-secondary hover:text-accent disabled:opacity-50"
             >
               {isLoadingMore ? "불러오는 중..." : "더 보기"}
-            </button>
+            </Button>
           )}
         </div>
       )}

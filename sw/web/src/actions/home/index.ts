@@ -1,3 +1,7 @@
 export { getCelebs } from './getCelebs'
 export { getCelebFeed } from './getCelebFeed'
 export { getFriendActivity } from './getFriendActivity'
+export { getProfessionCounts } from './getProfessionCounts'
+export { getContentTypeCounts } from './getContentTypeCounts'
+export type { ProfessionCounts } from './getProfessionCounts'
+export type { ContentTypeCounts } from './getContentTypeCounts'

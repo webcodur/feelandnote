@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { Globe, CheckCircle, UserPlus, UserCheck, Users } from "lucide-react";
-import { Avatar } from "@/components/ui";
+import { Avatar, Button } from "@/components/ui";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
@@ -18,19 +18,29 @@ const SIZE_STYLES: Record<CardSize, {
   button: string;
   iconSize: number;
   badgeIconSize: number;
+  rankSize: string;
 }> = {
-  sm: { container: "w-14", name: "text-xs", profession: "text-[10px]", avatarSize: "lg", button: "text-[9px] px-1.5 py-0.5", iconSize: 8, badgeIconSize: 10 },
-  md: { container: "w-[100px]", name: "text-sm", profession: "text-xs", avatarSize: "2xl", button: "text-[10px] px-2 py-1", iconSize: 10, badgeIconSize: 12 },
-  lg: { container: "w-[100px]", name: "text-base", profession: "text-sm", avatarSize: "3xl", button: "text-xs px-2.5 py-1", iconSize: 12, badgeIconSize: 14 },
+  sm: { container: "w-14", name: "text-xs", profession: "text-[10px]", avatarSize: "lg", button: "text-[9px] px-1.5 py-0.5", iconSize: 8, badgeIconSize: 10, rankSize: "text-[8px] px-1 py-0.5" },
+  md: { container: "w-[100px]", name: "text-sm", profession: "text-xs", avatarSize: "2xl", button: "text-[10px] px-2 py-1", iconSize: 10, badgeIconSize: 12, rankSize: "text-[10px] px-1.5 py-0.5" },
+  lg: { container: "w-[100px]", name: "text-base", profession: "text-sm", avatarSize: "3xl", button: "text-xs px-2.5 py-1", iconSize: 12, badgeIconSize: 14, rankSize: "text-xs px-2 py-0.5" },
+};
+
+const RANK_COLORS: Record<string, string> = {
+  S: "bg-yellow-500 text-yellow-900",
+  A: "bg-purple-500 text-white",
+  B: "bg-blue-500 text-white",
+  C: "bg-green-500 text-white",
+  D: "bg-gray-500 text-white",
 };
 
 interface CelebProfileCardProps {
   celeb: CelebProfile;
   size?: CardSize;
+  hideProfession?: boolean;
   onFollowChange?: (celebId: string, isFollowing: boolean) => void;
 }
 
-export default function CelebProfileCard({ celeb, size = "md", onFollowChange }: CelebProfileCardProps) {
+export default function CelebProfileCard({ celeb, size = "md", hideProfession, onFollowChange }: CelebProfileCardProps) {
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isPending, startTransition] = useTransition();
 
@@ -92,18 +102,28 @@ export default function CelebProfileCard({ celeb, size = "md", onFollowChange }:
         <div className="w-full">
           {/* 이름 + 뱃지 아이콘 */}
           <span className={`inline-flex items-center justify-center gap-0.5 font-medium ${styles.name}`}>
-            <span className="truncate">{celeb.nickname}</span>
+            <span className="truncate font-serif">{celeb.nickname}</span>
             <span title={badgeTitle} className={`shrink-0 cursor-help ${badgeColor}`}>
               <BadgeIcon size={styles.badgeIconSize} />
             </span>
           </span>
-          {professionLabel && (
+          {professionLabel && !hideProfession && (
             <span className={`text-text-tertiary truncate block ${styles.profession}`}>
               {professionLabel}
             </span>
           )}
+          {/* 영향력 등급 */}
+          {celeb.influence && (
+            <span
+              className={`inline-block rounded font-bold mt-1 ${styles.rankSize} ${RANK_COLORS[celeb.influence.rank]}`}
+              title={`영향력 ${celeb.influence.total_score}점`}
+            >
+              {celeb.influence.rank}
+            </span>
+          )}
           {/* 팔로우 버튼 */}
-          <button
+          <Button
+            unstyled
             onClick={handleFollowClick}
             disabled={isPending}
             className={`
@@ -115,7 +135,7 @@ export default function CelebProfileCard({ celeb, size = "md", onFollowChange }:
           >
             <ButtonIcon size={styles.iconSize} />
             <span>{buttonConfig.text}</span>
-          </button>
+          </Button>
         </div>
       </div>
     </Link>

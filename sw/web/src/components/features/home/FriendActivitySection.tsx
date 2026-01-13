@@ -47,7 +47,7 @@ function ActivityCard({ activity }: { activity: FeedActivity }) {
 
   return (
     <Link
-      href={activity.content_id ? `/archive/${activity.content_id}` : "#"}
+      href={activity.content_id ? `/archive/${activity.content_id}?userId=${activity.user_id}` : "#"}
       className="block group"
     >
       <div className="flex gap-3 p-3 rounded-xl bg-bg-card border border-transparent hover:border-white/10 hover:bg-white/[0.02]">

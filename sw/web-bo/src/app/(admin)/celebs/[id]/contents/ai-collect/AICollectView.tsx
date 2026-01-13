@@ -375,7 +375,8 @@ export default function AICollectView({ celebId, celebName }: Props) {
       {/* Input Section */}
       <div className="bg-bg-card border border-border rounded-xl p-4 space-y-4">
         <div className="flex rounded-lg border border-border overflow-hidden w-fit">
-          <button
+          <Button
+            unstyled
             onClick={() => setInputMode('text')}
             className={`flex items-center gap-1.5 px-3 py-2 text-sm ${
               inputMode === 'text'
@@ -385,8 +386,9 @@ export default function AICollectView({ celebId, celebName }: Props) {
           >
             <FileText className="w-4 h-4" />
             텍스트
-          </button>
-          <button
+          </Button>
+          <Button
+            unstyled
             onClick={() => setInputMode('url')}
             className={`flex items-center gap-1.5 px-3 py-2 text-sm ${
               inputMode === 'url'
@@ -396,7 +398,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
           >
             <Link2 className="w-4 h-4" />
             URL
-          </button>
+          </Button>
         </div>
 
         {inputMode === 'text' ? (
@@ -445,7 +447,8 @@ export default function AICollectView({ celebId, celebName }: Props) {
         <div className="bg-bg-card border border-border rounded-xl p-4 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <button
+              <Button
+                unstyled
                 onClick={toggleSelectAll}
                 className={`w-5 h-5 rounded border flex items-center justify-center ${
                   selectedIndices.size === extractedItems.length
@@ -454,7 +457,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
                 }`}
               >
                 {selectedIndices.size === extractedItems.length && <Check className="w-3 h-3" />}
-              </button>
+              </Button>
               <h3 className="text-sm font-medium text-text-primary">
                 추출된 콘텐츠 ({extractedItems.length}개)
               </h3>
@@ -493,7 +496,8 @@ export default function AICollectView({ celebId, celebName }: Props) {
                 >
                   {/* Item Header */}
                   <div className="flex items-center gap-3 p-3">
-                    <button
+                    <Button
+                      unstyled
                       onClick={() => toggleSelect(index)}
                       className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 ${
                         isSelected
@@ -502,7 +506,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
                       }`}
                     >
                       {isSelected && <Check className="w-3 h-3" />}
-                    </button>
+                    </Button>
 
                     <div
                       className={`w-8 h-8 rounded flex items-center justify-center shrink-0 ${
@@ -536,7 +540,8 @@ export default function AICollectView({ celebId, celebName }: Props) {
                       )}
                     </div>
 
-                    <button
+                    <Button
+                      unstyled
                       onClick={() => setEditingIndex(editingIndex === index ? null : index)}
                       className={`p-1.5 rounded shrink-0 ${
                         editingIndex === index
@@ -546,14 +551,15 @@ export default function AICollectView({ celebId, celebName }: Props) {
                       title="편집"
                     >
                       <Pencil className="w-4 h-4" />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      unstyled
                       onClick={() => openManualSearch(index)}
                       className="p-1.5 text-text-secondary hover:text-accent rounded shrink-0"
                       title="직접 검색"
                     >
                       <Search className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
 
                   {/* Edit Panel */}
@@ -730,13 +736,14 @@ export default function AICollectView({ celebId, celebName }: Props) {
                   {/* No results yet - show search CTA if processed but empty */}
                   {processed && !processed.selectedSearchResult && processed.searchResultsKo.length === 0 && processed.searchResultsOriginal.length === 0 && (
                     <div className="px-3 pb-3 pt-2 border-t border-border/50">
-                      <button
+                      <Button
+                        unstyled
                         onClick={() => openManualSearch(index)}
                         className="flex items-center gap-2 text-sm text-accent hover:underline"
                       >
                         <Search className="w-4 h-4" />
                         검색 결과가 없습니다. 직접 검색하기
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>

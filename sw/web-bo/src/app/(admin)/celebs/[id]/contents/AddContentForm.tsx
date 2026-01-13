@@ -179,12 +179,13 @@ export default function AddContentForm({ celebId }: Props) {
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border">
               <h2 className="text-lg font-semibold text-text-primary">콘텐츠 추가</h2>
-              <button
+              <Button
+                unstyled
                 onClick={handleClose}
                 className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-secondary rounded"
               >
                 <X className="w-5 h-5" />
-              </button>
+              </Button>
             </div>
 
             {/* Content */}
@@ -216,7 +217,8 @@ export default function AddContentForm({ celebId }: Props) {
                     </select>
 
                     <div className="flex rounded-lg border border-border overflow-hidden">
-                      <button
+                      <Button
+                        unstyled
                         type="button"
                         onClick={() => {
                           setSearchMode('external')
@@ -231,8 +233,9 @@ export default function AddContentForm({ celebId }: Props) {
                       >
                         <Globe className="w-4 h-4" />
                         외부
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        unstyled
                         type="button"
                         onClick={() => {
                           setSearchMode('db')
@@ -247,7 +250,7 @@ export default function AddContentForm({ celebId }: Props) {
                       >
                         <Database className="w-4 h-4" />
                         DB
-                      </button>
+                      </Button>
                     </div>
                   </div>
 
@@ -274,7 +277,8 @@ export default function AddContentForm({ celebId }: Props) {
                     <div className="border border-border rounded-lg divide-y divide-border max-h-60 overflow-auto">
                       {searchMode === 'db'
                         ? dbResults.map((content) => (
-                            <button
+                            <Button
+                              unstyled
                               key={content.id}
                               type="button"
                               onClick={() => setSelectedContent({ source: 'db', data: content })}
@@ -292,10 +296,11 @@ export default function AddContentForm({ celebId }: Props) {
                                 </p>
                               </div>
                               <span className="text-xs text-text-secondary bg-bg-secondary px-2 py-1 rounded">DB</span>
-                            </button>
+                            </Button>
                           ))
                         : externalResults.map((content) => (
-                            <button
+                            <Button
+                              unstyled
                               key={content.externalId}
                               type="button"
                               onClick={() => setSelectedContent({ source: 'external', data: content })}
@@ -311,7 +316,7 @@ export default function AddContentForm({ celebId }: Props) {
                                 <p className="text-xs text-text-secondary">{content.creator}</p>
                               </div>
                               <span className="text-xs text-accent bg-accent/10 px-2 py-1 rounded">외부</span>
-                            </button>
+                            </Button>
                           ))}
                     </div>
                   )}
@@ -350,13 +355,14 @@ export default function AddContentForm({ celebId }: Props) {
                     {selectedContent.source === 'external' && (
                       <span className="text-xs text-accent bg-accent/10 px-2 py-1 rounded shrink-0">새로 등록</span>
                     )}
-                    <button
+                    <Button
+                      unstyled
                       type="button"
                       onClick={() => setSelectedContent(null)}
                       className="p-1 text-text-secondary hover:text-text-primary shrink-0"
                     >
                       <X className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
 
                   {/* Status */}

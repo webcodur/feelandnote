@@ -100,13 +100,14 @@ function LoginForm() {
             placeholder="••••••••"
             required
           />
-          <button
+          <Button
+            unstyled
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-          </button>
+          </Button>
         </div>
       </div>
 

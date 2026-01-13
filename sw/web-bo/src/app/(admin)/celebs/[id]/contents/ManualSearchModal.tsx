@@ -69,9 +69,9 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h3 className="text-base font-semibold text-text-primary">직접 검색</h3>
-          <button onClick={onClose} className="p-1.5 text-text-secondary hover:text-text-primary rounded">
+          <Button unstyled onClick={onClose} className="p-1.5 text-text-secondary hover:text-text-primary rounded">
             <X className="w-4 h-4" />
-          </button>
+          </Button>
         </div>
 
         {/* Search Input */}
@@ -110,7 +110,8 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
           {!searching && results.length > 0 && (
             <div className="space-y-2">
               {results.map((result) => (
-                <button
+                <Button
+                  unstyled
                   key={`${result.externalSource}-${result.externalId}`}
                   onClick={() => handleSelect(result)}
                   className="w-full flex items-center gap-3 p-3 bg-bg-secondary hover:bg-white/5 border border-border rounded-lg text-start"
@@ -124,7 +125,7 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
                     <p className="text-sm font-medium text-text-primary truncate">{result.title}</p>
                     <p className="text-xs text-text-secondary truncate">{result.creator}</p>
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           )}

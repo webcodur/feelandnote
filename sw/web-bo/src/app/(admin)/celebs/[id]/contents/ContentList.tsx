@@ -151,14 +151,16 @@ export default function ContentList({ contents, celebId }: Props) {
                   {/* Actions */}
                   {!isEditing && (
                     <div className="flex items-center gap-2 shrink-0">
-                      <button
+                      <Button
+                        unstyled
                         onClick={() => startEdit(content)}
                         className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-secondary rounded"
                         disabled={isLoading}
                       >
                         <Edit2 className="w-4 h-4" />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        unstyled
                         onClick={() => handleDelete(content.id)}
                         className="p-2 text-text-secondary hover:text-red-400 hover:bg-red-500/10 rounded"
                         disabled={isLoading}
@@ -168,7 +170,7 @@ export default function ContentList({ contents, celebId }: Props) {
                         ) : (
                           <Trash2 className="w-4 h-4" />
                         )}
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>

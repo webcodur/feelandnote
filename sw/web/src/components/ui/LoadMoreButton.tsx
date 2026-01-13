@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import Button from "./Button";
 
 interface LoadMoreButtonProps {
   onClick: () => void;
@@ -18,7 +19,8 @@ export default function LoadMoreButton({
   if (!hasMore) return null;
 
   return (
-    <button
+    <Button
+      unstyled
       onClick={onClick}
       disabled={isLoading}
       className={`w-full py-3 text-sm font-medium text-text-secondary hover:text-accent disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${className}`}
@@ -31,6 +33,6 @@ export default function LoadMoreButton({
       ) : (
         "더보기"
       )}
-    </button>
+    </Button>
   );
 }

@@ -6,7 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card } from "@/components/ui";
+import { Card, Button } from "@/components/ui";
 import { Lock, Send } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
@@ -75,14 +75,15 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
         </label>
         <div className="flex items-center gap-2">
           <span className="text-xs text-text-tertiary">{content.length}/500</span>
-          <button
+          <Button
+            unstyled
             onClick={handleSubmit}
             disabled={!content.trim() || isSubmitting}
             className="px-3 py-1.5 bg-accent text-white text-sm rounded-lg hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
           >
             <Send size={14} />
             등록
-          </button>
+          </Button>
         </div>
       </div>
     </Card>

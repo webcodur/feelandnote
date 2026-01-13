@@ -6,6 +6,7 @@ import type { CelebProfile } from '@/types/home'
 interface GetCelebsParams {
   page?: number
   limit?: number
+  profession?: string
 }
 
 interface GetCelebsResult {
@@ -19,7 +20,7 @@ interface GetCelebsResult {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8 } = params
+  const { page = 1, limit = 8, profession } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -28,17 +29,23 @@ export async function getCelebs(
   const { data: { user } } = await supabase.auth.getUser()
 
   // 전체 개수 조회
-  const { count } = await supabase
+  let countQuery = supabase
     .from('profiles')
     .select('*', { count: 'exact', head: true })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
 
+  if (profession && profession !== 'all') {
+    countQuery = countQuery.eq('profession', profession)
+  }
+
+  const { count } = await countQuery
+
   const total = count ?? 0
   const totalPages = Math.ceil(total / limit)
 
-  // 셀럽 프로필과 팔로워 수를 함께 조회
-  const { data, error } = await supabase
+  // 셀럽 프로필과 팔로워 수, 영향력을 함께 조회
+  let query = supabase
     .from('profiles')
     .select(`
       id,
@@ -48,11 +55,17 @@ export async function getCelebs(
       bio,
       is_verified,
       claimed_by,
-      user_social(follower_count)
+      user_social(follower_count),
+      celeb_influence(total_score, rank)
     `)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
-    .range(offset, offset + limit - 1)
+
+  if (profession && profession !== 'all') {
+    query = query.eq('profession', profession)
+  }
+
+  const { data, error } = await query.range(offset, offset + limit - 1)
 
   if (error) {
     console.error('셀럽 목록 조회 에러:', error)
@@ -84,12 +97,16 @@ export async function getCelebs(
     myFollowers = new Set((followerData || []).map(f => f.follower_id))
   }
 
-  // user_social 조인 결과를 평탄화하고 follower_count로 정렬
+  // user_social, celeb_influence 조인 결과를 평탄화하고 follower_count로 정렬
   const celebs: CelebProfile[] = (data || [])
     .map(row => {
       const social = Array.isArray(row.user_social)
         ? row.user_social[0]
         : row.user_social
+
+      const influenceData = Array.isArray(row.celeb_influence)
+        ? row.celeb_influence[0]
+        : row.celeb_influence
 
       return {
         id: row.id,
@@ -102,6 +119,10 @@ export async function getCelebs(
         follower_count: social?.follower_count ?? 0,
         is_following: myFollowings.has(row.id),
         is_follower: myFollowers.has(row.id),
+        influence: influenceData ? {
+          total_score: influenceData.total_score,
+          rank: influenceData.rank,
+        } : null,
       }
     })
     .sort((a, b) => b.follower_count - a.follower_count)

@@ -71,6 +71,31 @@ constants/         # 상수 (categories.ts)
 - 서버: `createServerClient` (lib/supabase/server.ts)
 - 미들웨어: 세션 갱신 처리 (lib/supabase/middleware.ts)
 
+### 콘텐츠 상세 페이지 라우팅 (중요)
+`/archive/[contentId]` 페이지는 **user_contents 테이블을 기준으로 조회**한다.
+
+- **본인 콘텐츠**: `/archive/{contentId}` → `getContent(contentId)` 호출
+- **타인 콘텐츠**: `/archive/{contentId}?userId={ownerId}` → `getPublicContent(contentId, ownerId)` 호출
+
+셀럽/친구/타인의 콘텐츠 링크 생성 시 반드시 `?userId={소유자ID}` 파라미터를 포함해야 한다.
+```tsx
+// 잘못된 예 - 타인 콘텐츠인데 userId 누락
+href={`/archive/${content.id}`}
+
+// 올바른 예
+href={`/archive/${content.id}?userId=${ownerId}`}
+```
+
+### contents 테이블 ID 체계 (주의)
+web과 web-bo에서 ID 생성 방식이 다르다:
+
+| 구분 | contents.id | external_id |
+|------|-------------|-------------|
+| web | 외부 API ID 직접 사용 (ISBN 등) | null |
+| web-bo | UUID 생성 | 외부 API ID |
+
+동일 콘텐츠 중복 생성 가능성이 있으므로 주의.
+
 ## 코드 규칙
 
 ### 필수

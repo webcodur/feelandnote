@@ -12,6 +12,7 @@ export interface Celeb {
   id: string
   nickname: string | null
   avatar_url: string | null
+  portrait_url: string | null
   profession: string | null
   bio: string | null
   is_verified: boolean | null
@@ -40,6 +41,7 @@ interface CreateCelebInput {
   profession?: string
   bio?: string
   avatar_url?: string
+  portrait_url?: string
   is_verified?: boolean
   influence?: GeneratedInfluence
 }
@@ -50,6 +52,7 @@ interface UpdateCelebInput {
   profession?: string
   bio?: string
   avatar_url?: string
+  portrait_url?: string
   is_verified?: boolean
   status?: 'active' | 'suspended'
 }
@@ -125,6 +128,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     id: celeb.id,
     nickname: celeb.nickname,
     avatar_url: celeb.avatar_url,
+    portrait_url: celeb.portrait_url,
     profession: celeb.profession,
     bio: celeb.bio,
     is_verified: celeb.is_verified,
@@ -169,6 +173,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     id: data.id,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
+    portrait_url: data.portrait_url,
     profession: data.profession,
     bio: data.bio,
     is_verified: data.is_verified,
@@ -210,6 +215,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       profession: input.profession || null,
       bio: input.bio || null,
       avatar_url: input.avatar_url || null,
+      portrait_url: input.portrait_url || null,
       is_verified: input.is_verified || false,
       profile_type: 'CELEB',
       status: 'active',
@@ -281,6 +287,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.profession !== undefined) updateData.profession = input.profession
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
+  if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
 

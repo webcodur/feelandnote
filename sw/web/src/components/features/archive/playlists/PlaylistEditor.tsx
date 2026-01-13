@@ -226,7 +226,8 @@ export default function PlaylistEditor({
               {selectedIds.size}개 선택됨
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <button
+              <Button
+                unstyled
                 type="button"
                 onClick={() => setIsPublic(!isPublic)}
                 className={`flex items-center gap-1 text-xs px-2 py-1 rounded-md border ${
@@ -237,7 +238,7 @@ export default function PlaylistEditor({
               >
                 {isPublic ? <Globe size={12} /> : <Lock size={12} />}
                 {isPublic ? "공개" : "비공개"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

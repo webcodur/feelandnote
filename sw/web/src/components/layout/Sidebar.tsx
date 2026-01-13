@@ -25,6 +25,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getUnreadGuestbookCount } from "@/actions/guestbook";
 
@@ -129,13 +130,14 @@ function NavSectionComponent({
 
   return (
     <div className="mb-2">
-      <button
+      <Button
+        unstyled
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-text-tertiary uppercase tracking-wider hover:text-text-secondary cursor-pointer"
       >
         <span>{section.title}</span>
         <ChevronRight size={14} className={`transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-      </button>
+      </Button>
 
       {/* 전체 항목 (열림/닫힘 애니메이션) */}
       <div

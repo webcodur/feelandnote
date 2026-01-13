@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { Share2, Link, Check } from "lucide-react";
 import ActionModal from "../ActionModal";
+import Button from "@/components/ui/Button";
 import { XIcon, FacebookIcon, LinkedInIcon, WhatsAppIcon, TelegramIcon, EmailIcon } from "./SocialIcons";
 
 interface ShareOption {
@@ -19,7 +20,8 @@ interface ShareOption {
 
 function ShareButton({ label, icon, bgColor, onClick }: { label: string; icon: React.ReactNode; bgColor: string; onClick: () => void }) {
   return (
-    <button
+    <Button
+      unstyled
       onClick={onClick}
       className="group flex flex-col items-center gap-1.5 p-2 rounded-xl bg-surface/30 hover:bg-surface/60 border border-border/30 hover:border-border/60 transition-colors"
     >
@@ -30,7 +32,7 @@ function ShareButton({ label, icon, bgColor, onClick }: { label: string; icon: R
         <div className="transform scale-75">{icon}</div>
       </div>
       <span className="text-[11px] text-text-secondary group-hover:text-text-primary">{label}</span>
-    </button>
+    </Button>
   );
 }
 
@@ -85,7 +87,8 @@ export function ShareModal({ isOpen, onClose }: ShareModalProps) {
         ))}
       </div>
 
-      <button
+      <Button
+        unstyled
         onClick={handleCopyLink}
         className={`w-full py-2.5 rounded-xl font-medium text-xs flex items-center justify-center gap-2 border transition-colors ${
           copied ? "bg-green-500/10 border-green-500/30 text-green-400" : "bg-surface/50 border-border/50 text-text-secondary hover:bg-surface hover:border-border"
@@ -93,7 +96,7 @@ export function ShareModal({ isOpen, onClose }: ShareModalProps) {
       >
         {copied ? <Check size={14} /> : <Link size={14} />}
         {copied ? "복사됨!" : "링크 복사"}
-      </button>
+      </Button>
 
       {shareError && <p className="mt-2 text-[10px] text-red-400 text-center">{shareError}</p>}
     </ActionModal>

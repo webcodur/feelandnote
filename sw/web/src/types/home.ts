@@ -4,6 +4,11 @@ import type { ContentType } from './database'
 
 // region: 셀럽 관련 타입
 
+export interface CelebInfluence {
+  total_score: number
+  rank: 'S' | 'A' | 'B' | 'C' | 'D'
+}
+
 export interface CelebProfile {
   id: string
   nickname: string
@@ -15,6 +20,7 @@ export interface CelebProfile {
   follower_count: number
   is_following: boolean  // 현재 유저가 팔로우 중인지
   is_follower: boolean   // 상대방이 나를 팔로우 중인지 (맞팔 = 친구)
+  influence: CelebInfluence | null  // 영향력 평가 (없을 수 있음)
 }
 
 export interface CelebReview {

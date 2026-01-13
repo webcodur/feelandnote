@@ -71,12 +71,13 @@ function DropdownItem({
   children: React.ReactNode;
 }) {
   return (
-    <button
+    <Button
+      unstyled
       onClick={onClick}
       className="w-full px-3 py-2 text-left text-sm text-text-primary hover:bg-white/5"
     >
       {children}
-    </button>
+    </Button>
   );
 }
 // #endregion

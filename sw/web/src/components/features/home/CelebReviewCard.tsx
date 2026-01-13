@@ -166,7 +166,7 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
           <div className="flex-1 min-w-0">
             <span className="text-sm">
               <span className="font-medium text-text-primary group-hover/user:text-accent">{review.celeb.nickname}</span>
-              <span className="text-text-tertiary">님의 추천</span>
+              <span className="text-text-tertiary">의 추천</span>
             </span>
             <div className="flex items-center gap-2">
               <span className="text-[11px] text-text-tertiary">{formatRelativeTime(review.updated_at)}</span>
@@ -180,15 +180,16 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
         {/* 리뷰 텍스트 */}
         <div className="flex-1">
           {review.is_spoiler && !showSpoiler ? (
-            <button
+            <Button
+              unstyled
               onClick={() => setShowSpoiler(true)}
               className="flex items-center gap-2 py-3 px-3 rounded-lg bg-bg-secondary/30 border border-white/5 text-text-secondary hover:bg-bg-secondary/50 w-full"
             >
               <AlertTriangle size={14} className="text-yellow-500 shrink-0" />
               <span className="text-xs">스포일러 포함 · 탭하여 확인</span>
-            </button>
+            </Button>
           ) : (
-            <p className="text-sm text-text-primary/90 leading-relaxed line-clamp-3 font-serif">
+            <p className="text-sm text-text-primary/90 leading-relaxed line-clamp-3">
               {review.review}
             </p>
           )}

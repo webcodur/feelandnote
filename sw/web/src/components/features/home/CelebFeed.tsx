@@ -4,9 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Inbox, TrendingUp, Book, Film, Gamepad2, Music, Award, LayoutGrid } from "lucide-react";
 import CelebReviewCard from "./CelebReviewCard";
-import { LoadMoreButton } from "@/components/ui";
+import { LoadMoreButton, Button } from "@/components/ui";
 import { getCelebFeed } from "@/actions/home";
 import type { CelebReview } from "@/types/home";
+import type { ContentTypeCounts } from "@/actions/home";
 
 // #region 콘텐츠 타입 필터
 const CONTENT_TYPES = [
@@ -76,9 +77,10 @@ function EmptyFeed() {
 interface FeedHeaderProps {
   currentType: string;
   onTypeChange: (type: string) => void;
+  contentTypeCounts?: ContentTypeCounts;
 }
 
-function FeedHeader({ currentType, onTypeChange }: FeedHeaderProps) {
+function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeaderProps) {
   return (
     <div className="mb-4 space-y-3">
       {/* 타이틀 */}
@@ -93,8 +95,10 @@ function FeedHeader({ currentType, onTypeChange }: FeedHeaderProps) {
         <div className="flex gap-2">
           {CONTENT_TYPES.map(({ value, label, icon: Icon }) => {
             const isActive = currentType === value;
+            const count = contentTypeCounts?.[value];
             return (
-              <button
+              <Button
+                unstyled
                 key={value}
                 onClick={() => onTypeChange(value)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${
@@ -105,7 +109,12 @@ function FeedHeader({ currentType, onTypeChange }: FeedHeaderProps) {
               >
                 <Icon size={14} />
                 {label}
-              </button>
+                {count !== undefined && (
+                  <span className={isActive ? "text-white/80" : "text-text-tertiary"}>
+                    ({count.toLocaleString()})
+                  </span>
+                )}
+              </Button>
             );
           })}
         </div>
@@ -117,9 +126,10 @@ function FeedHeader({ currentType, onTypeChange }: FeedHeaderProps) {
 
 interface CelebFeedProps {
   initialReviews?: CelebReview[];
+  contentTypeCounts?: ContentTypeCounts;
 }
 
-export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
+export default function CelebFeed({ initialReviews = [], contentTypeCounts }: CelebFeedProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const contentType = searchParams.get("type") ?? "all";
@@ -171,7 +181,7 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
   if (isLoading) {
     return (
       <section>
-        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} />
+        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />
         <div className="space-y-4">
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
@@ -184,7 +194,7 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
   if (reviews.length === 0) {
     return (
       <section>
-        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} />
+        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />
         <EmptyFeed />
       </section>
     );
@@ -192,7 +202,7 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
 
   return (
     <section>
-      <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} />
+      <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />
       <div className="space-y-4">
         {reviews.map((review) => (
           <CelebReviewCard key={review.id} review={review} />

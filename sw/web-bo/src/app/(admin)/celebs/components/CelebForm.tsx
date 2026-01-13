@@ -15,6 +15,7 @@ interface CelebFormData {
   profession: string
   bio: string
   avatar_url: string
+  portrait_url: string
   is_verified: boolean
   status: 'active' | 'suspended'
 }
@@ -59,6 +60,7 @@ function getInitialFormData(celeb?: Celeb): CelebFormData {
     profession: celeb?.profession || '',
     bio: celeb?.bio || '',
     avatar_url: celeb?.avatar_url || '',
+    portrait_url: celeb?.portrait_url || '',
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'suspended') || 'active',
   }
@@ -161,6 +163,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           profession: formData.profession || undefined,
           bio: formData.bio || undefined,
           avatar_url: formData.avatar_url || undefined,
+          portrait_url: formData.portrait_url || undefined,
           is_verified: formData.is_verified,
           influence: hasInfluence ? influence : undefined,
         })
@@ -172,6 +175,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           profession: formData.profession || undefined,
           bio: formData.bio || undefined,
           avatar_url: formData.avatar_url || undefined,
+          portrait_url: formData.portrait_url || undefined,
           is_verified: formData.is_verified,
           status: formData.status,
         })
@@ -284,7 +288,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         {/* Avatar URL */}
         <div className="space-y-2">
           <label htmlFor="avatar_url" className="block text-sm font-medium text-text-secondary">
-            프로필 URL
+            프로필 URL (썸네일)
           </label>
           <input
             type="url"
@@ -295,6 +299,24 @@ export default function CelebForm({ mode, celeb }: Props) {
             placeholder="https://..."
             className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
           />
+          <p className="text-xs text-text-secondary">카드, 리스트에서 원형으로 표시되는 얼굴 이미지</p>
+        </div>
+
+        {/* Portrait URL */}
+        <div className="space-y-2">
+          <label htmlFor="portrait_url" className="block text-sm font-medium text-text-secondary">
+            초상화 URL (상세용)
+          </label>
+          <input
+            type="url"
+            id="portrait_url"
+            name="portrait_url"
+            value={formData.portrait_url}
+            onChange={(e) => handleChange('portrait_url', e.target.value)}
+            placeholder="https://..."
+            className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+          />
+          <p className="text-xs text-text-secondary">셀럽 상세 페이지에서 표시되는 큰 이미지 (골반부터)</p>
         </div>
 
         {/* Verified */}
@@ -352,14 +374,15 @@ export default function CelebForm({ mode, celeb }: Props) {
             <span className={`px-2 py-0.5 rounded text-xs font-bold ${RANK_COLORS[influence.rank]}`}>
               {influence.rank}등급 ({influence.totalScore}/100)
             </span>
-            <button
+            <Button
+              unstyled
               type="button"
               onClick={() => setInfluence(getEmptyInfluence())}
               className="p-1 text-text-secondary hover:text-text-primary"
               title="영향력 초기화"
             >
               <X className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
         </div>
 

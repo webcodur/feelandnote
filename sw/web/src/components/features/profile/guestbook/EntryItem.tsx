@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Card } from "@/components/ui";
+import { Card, Button } from "@/components/ui";
 import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -85,18 +85,20 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                   비밀글
                 </label>
                 <div className="flex gap-2">
-                  <button
+                  <Button
+                    unstyled
                     onClick={() => setIsEditing(false)}
                     className="px-3 py-1 text-xs text-text-secondary hover:text-text-primary"
                   >
                     취소
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    unstyled
                     onClick={handleSaveEdit}
                     className="px-3 py-1 text-xs bg-accent text-white rounded-lg hover:bg-accent-hover"
                   >
                     저장
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -110,18 +112,20 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
         {/* 메뉴 */}
         {(canDelete || canEdit) && !isEditing && (
           <div className="relative">
-            <button
+            <Button
+              unstyled
               onClick={() => setShowMenu(!showMenu)}
               className="p-1 text-text-tertiary hover:text-text-primary rounded"
             >
               <MoreVertical size={16} />
-            </button>
+            </Button>
             {showMenu && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
                 <div className="absolute end-0 top-6 z-20 bg-bg-card border border-border rounded-lg shadow-xl py-1 min-w-[100px]">
                   {canEdit && (
-                    <button
+                    <Button
+                      unstyled
                       onClick={() => {
                         setIsEditing(true);
                         setShowMenu(false);
@@ -130,10 +134,11 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                     >
                       <Edit3 size={14} />
                       수정
-                    </button>
+                    </Button>
                   )}
                   {canDelete && (
-                    <button
+                    <Button
+                      unstyled
                       onClick={() => {
                         onDelete(entry.id);
                         setShowMenu(false);
@@ -142,7 +147,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                     >
                       <Trash2 size={14} />
                       삭제
-                    </button>
+                    </Button>
                   )}
                 </div>
               </>

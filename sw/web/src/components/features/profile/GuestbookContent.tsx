@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Card } from "@/components/ui";
+import { Card, Button } from "@/components/ui";
 import { MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
@@ -95,13 +95,14 @@ export default function GuestbookContent({
 
           {/* 더보기 */}
           {hasMore && (
-            <button
+            <Button
+              unstyled
               onClick={handleLoadMore}
               disabled={isLoadingMore}
               className="w-full py-2 text-sm text-text-secondary hover:text-text-primary disabled:opacity-50"
             >
               {isLoadingMore ? "불러오는 중..." : "더보기"}
-            </button>
+            </Button>
           )}
         </div>
       ) : (

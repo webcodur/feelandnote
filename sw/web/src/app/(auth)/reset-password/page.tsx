@@ -80,13 +80,14 @@ export default function ResetPasswordPage() {
                 placeholder="6자 이상 입력"
                 required
               />
-              <button
+              <Button
+                unstyled
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-              </button>
+              </Button>
             </div>
           </div>
 

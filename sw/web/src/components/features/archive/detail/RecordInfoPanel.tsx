@@ -159,7 +159,8 @@ export default function RecordInfoPanel({
                       {VISIBILITY_OPTIONS.map((opt) => {
                         const OptIcon = opt.icon;
                         return (
-                          <button
+                          <Button
+                            unstyled
                             key={opt.value}
                             className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between gap-2"
                             onClick={() => { onVisibilityChange(opt.value); setIsVisibilityOpen(false); }}
@@ -169,7 +170,7 @@ export default function RecordInfoPanel({
                               {opt.label}
                             </span>
                             {data.visibility === opt.value && <Check size={12} className="text-accent" />}
-                          </button>
+                          </Button>
                         );
                       })}
                     </div>
@@ -209,22 +210,24 @@ export default function RecordInfoPanel({
                 className="absolute bottom-8 left-0 z-50 bg-bg-card border border-border rounded-lg shadow-xl py-1 min-w-[120px] max-h-[200px] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
+                <Button
+                  unstyled
                   className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between"
                   onClick={() => { onCategoryChange(null); setIsCategoryOpen(false); }}
                 >
                   미분류
                   {!data.category_id && <Check size={12} className="text-accent" />}
-                </button>
+                </Button>
                 {categories.map((cat) => (
-                  <button
+                  <Button
+                    unstyled
                     key={cat.id}
                     className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between"
                     onClick={() => { onCategoryChange(cat.id); setIsCategoryOpen(false); }}
                   >
                     {cat.name}
                     {data.category_id === cat.id && <Check size={12} className="text-accent" />}
-                  </button>
+                  </Button>
                 ))}
               </div>
             )}
