@@ -1,4 +1,6 @@
-import { Settings, Bell, Shield, Database, Palette } from 'lucide-react'
+import { Bell, Shield, Database, Palette } from 'lucide-react'
+import { getApiKeys } from '@/actions/admin/settings'
+import ApiKeyForm from './ApiKeyForm'
 
 const settingSections = [
   {
@@ -27,7 +29,9 @@ const settingSections = [
   },
 ]
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const apiKeys = await getApiKeys()
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -35,6 +39,9 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-bold text-text-primary">설정</h1>
         <p className="text-text-secondary mt-1">관리자 설정을 관리합니다</p>
       </div>
+
+      {/* API Keys */}
+      <ApiKeyForm initialApiKey={apiKeys.geminiApiKey} />
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

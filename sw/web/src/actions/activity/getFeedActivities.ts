@@ -15,7 +15,8 @@ export interface FeedActivity {
   content_title: string | null
   content_thumbnail: string | null
   content_type: ContentType | null
-  metadata: Record<string, unknown> | null
+  review: string | null
+  rating: number | null
   created_at: string
 }
 
@@ -60,7 +61,7 @@ export async function getFeedActivities(
   const followingIds = following.map(f => f.following_id)
   console.log('[getFeedActivities] followingIds:', followingIds)
 
-  // 팔로우한 사람들의 활동 로그 조회 (user만 FK 조인)
+  // 팔로우한 사람들의 활동 로그 조회 (콘텐츠 추가, 리뷰 작성만)
   let query = supabase
     .from('activity_logs')
     .select(`
@@ -75,6 +76,7 @@ export async function getFeedActivities(
       user:profiles!user_id(nickname, avatar_url)
     `)
     .in('user_id', followingIds)
+    .in('action_type', ['CONTENT_ADD', 'REVIEW_UPDATE'])
     .order('created_at', { ascending: false })
     .limit(limit + 1)
 
@@ -96,6 +98,7 @@ export async function getFeedActivities(
   const contentIds = [...new Set(sliced.map(item => item.content_id).filter(Boolean))] as string[]
 
   let contentsMap: Record<string, { title: string; thumbnail_url: string | null; type: ContentType }> = {}
+  let userContentsMap: Record<string, { review: string | null; rating: number | null }> = {}
 
   if (contentIds.length > 0) {
     const { data: contents } = await supabase
@@ -108,6 +111,25 @@ export async function getFeedActivities(
         contents.map(c => [c.id, { title: c.title, thumbnail_url: c.thumbnail_url, type: c.type as ContentType }])
       )
     }
+
+    // user_contents에서 리뷰/별점 조회 (user_id + content_id 조합 키)
+    const userContentPairs = sliced
+      .filter(item => item.content_id)
+      .map(item => ({ user_id: item.user_id, content_id: item.content_id }))
+
+    const { data: userContents } = await supabase
+      .from('user_contents')
+      .select('user_id, content_id, review, rating')
+      .in('content_id', contentIds)
+
+    if (userContents) {
+      userContentsMap = Object.fromEntries(
+        userContents.map(uc => [
+          `${uc.user_id}:${uc.content_id}`,
+          { review: uc.review, rating: uc.rating }
+        ])
+      )
+    }
   }
 
   type UserProfile = { nickname: string; avatar_url: string | null }
@@ -115,6 +137,8 @@ export async function getFeedActivities(
   const activities: FeedActivity[] = sliced.map((item) => {
     const userProfile = (Array.isArray(item.user) ? item.user[0] : item.user) as UserProfile | null
     const contentInfo = item.content_id ? contentsMap[item.content_id] : null
+    const userContentKey = item.content_id ? `${item.user_id}:${item.content_id}` : null
+    const userContentInfo = userContentKey ? userContentsMap[userContentKey] : null
 
     return {
       id: item.id,
@@ -128,7 +152,8 @@ export async function getFeedActivities(
       content_title: contentInfo?.title || null,
       content_thumbnail: contentInfo?.thumbnail_url || null,
       content_type: contentInfo?.type || null,
-      metadata: item.metadata as Record<string, unknown> | null,
+      review: userContentInfo?.review || null,
+      rating: userContentInfo?.rating || null,
       created_at: item.created_at,
     }
   })

@@ -1,5 +1,5 @@
 import { getCelebs } from '@/actions/admin/celebs'
-import { CELEB_CATEGORIES, getCelebCategoryLabel } from '@/constants/celebCategories'
+import { CELEB_PROFESSIONS, getCelebProfessionLabel } from '@/constants/celebCategories'
 import { Search, Star, Plus, BookOpen, Users, CheckCircle, Ban, BadgeCheck, Settings } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
@@ -9,7 +9,7 @@ interface PageProps {
     page?: string
     search?: string
     status?: string
-    category?: string
+    profession?: string
   }>
 }
 
@@ -18,9 +18,9 @@ export default async function CelebsPage({ searchParams }: PageProps) {
   const page = Number(params.page) || 1
   const search = params.search || ''
   const status = (params.status || 'all') as 'active' | 'suspended' | 'all'
-  const category = params.category || 'all'
+  const profession = params.profession || 'all'
 
-  const { celebs, total } = await getCelebs({ page, limit: 20, search, status, category })
+  const { celebs, total } = await getCelebs({ page, limit: 20, search, status, profession })
   const totalPages = Math.ceil(total / 20)
 
   return (
@@ -67,16 +67,16 @@ export default async function CelebsPage({ searchParams }: PageProps) {
             <option value="suspended">비활성</option>
           </select>
 
-          {/* Category Filter */}
+          {/* Profession Filter */}
           <select
-            name="category"
-            defaultValue={category}
+            name="profession"
+            defaultValue={profession}
             className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
           >
-            <option value="all">모든 분야</option>
-            {CELEB_CATEGORIES.map((cat) => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
+            <option value="all">모든 직군</option>
+            {CELEB_PROFESSIONS.map((prof) => (
+              <option key={prof.value} value={prof.value}>
+                {prof.label}
               </option>
             ))}
           </select>
@@ -91,7 +91,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
           <thead className="bg-bg-secondary border-b border-border">
             <tr className="divide-x divide-border">
               <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">셀럽</th>
-              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">분야</th>
+              <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">직군</th>
               <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">인증</th>
               <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">콘텐츠</th>
               <th className="text-center px-6 py-4 text-sm font-medium text-text-secondary">팔로워</th>
@@ -137,7 +137,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <CategoryBadge category={celeb.category} />
+                    <ProfessionBadge profession={celeb.profession} />
                   </td>
                   <td className="px-6 py-4">
                     <VerifiedBadge verified={celeb.is_verified} />
@@ -193,7 +193,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <Link
               key={p}
-              href={`/celebs?page=${p}&search=${search}&status=${status}&category=${category}`}
+              href={`/celebs?page=${p}&search=${search}&status=${status}&profession=${profession}`}
               className={`
                 px-4 py-2 rounded-lg text-sm
                 ${
@@ -212,10 +212,10 @@ export default async function CelebsPage({ searchParams }: PageProps) {
   )
 }
 
-function CategoryBadge({ category }: { category: string | null }) {
+function ProfessionBadge({ profession }: { profession: string | null }) {
   return (
     <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-500/10 text-gray-400">
-      {getCelebCategoryLabel(category)}
+      {getCelebProfessionLabel(profession)}
     </span>
   )
 }

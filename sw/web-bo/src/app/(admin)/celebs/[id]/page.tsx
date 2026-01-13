@@ -1,9 +1,9 @@
 import { getCeleb } from '@/actions/admin/celebs'
-import { getCelebCategoryLabel } from '@/constants/celebCategories'
+import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Star, BookOpen, Users, BadgeCheck, CheckCircle, Ban } from 'lucide-react'
 import Link from 'next/link'
-import CelebEditForm from './CelebEditForm'
+import CelebForm from '../components/CelebForm'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -50,7 +50,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
             <div className="flex items-center gap-4 text-sm text-text-secondary">
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-gray-500/10">
-                {getCelebCategoryLabel(celeb.category)}
+                {getCelebProfessionLabel(celeb.profession)}
               </span>
               <StatusBadge status={celeb.status} />
             </div>
@@ -83,7 +83,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
       </div>
 
       {/* Edit Form */}
-      <CelebEditForm celeb={celeb} />
+      <CelebForm mode="edit" celeb={celeb} />
 
       {/* Account Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">

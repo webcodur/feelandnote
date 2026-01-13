@@ -1,10 +1,9 @@
 import { getCeleb, getCelebContents } from '@/actions/admin/celebs'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Star } from 'lucide-react'
+import { ArrowLeft, Star, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import ContentList from './ContentList'
 import AddContentForm from './AddContentForm'
-import AICollectForm from './AICollectForm'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -58,7 +57,13 @@ export default async function CelebContentsPage({ params, searchParams }: PagePr
       {/* Add Content Form */}
       <div className="flex items-center gap-2">
         <AddContentForm celebId={id} />
-        <AICollectForm celebId={id} celebName={celeb.nickname || '셀럽'} />
+        <Link
+          href={`/celebs/${id}/contents/ai-collect`}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/10"
+        >
+          <Sparkles className="w-4 h-4" />
+          AI 수집
+        </Link>
       </div>
 
       {/* Content List */}

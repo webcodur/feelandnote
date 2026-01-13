@@ -21,8 +21,8 @@ export default function CelebProfileCard({ celeb }: CelebProfileCardProps) {
         <span className="font-medium text-sm text-center truncate w-full">
           {celeb.nickname}
         </span>
-        {celeb.category && (
-          <span className="text-xs text-text-secondary">{celeb.category}</span>
+        {celeb.profession && (
+          <span className="text-xs text-text-secondary">{celeb.profession}</span>
         )}
       </div>
     </Link>

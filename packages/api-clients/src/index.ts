@@ -29,6 +29,11 @@ export type { CertificateSearchResult } from './qnet'
 export { callGemini, buildReviewPrompt, buildSummaryPrompt } from './gemini'
 // endregion
 
+// region: Celeb Profile Generator
+export { generateCelebProfile, buildCelebProfilePrompt } from './celeb-profile-generator'
+export type { CelebProfileInput, GeneratedCelebProfile, GenerateCelebProfileResult } from './celeb-profile-generator'
+// endregion
+
 // region: Unified Search
 export { searchExternal, toContentRecord } from './search'
 export type { ContentType, ExternalSearchResult, SearchResponse } from './search'
@@ -42,4 +47,9 @@ export type { FetchUrlResult } from './url-fetcher'
 // region: Content Extractor
 export { extractContentsFromText, buildExtractionPrompt, parseExtractionResponse } from './content-extractor'
 export type { ExtractedContent, ExtractionResult } from './content-extractor'
+// endregion
+
+// region: Title Translator
+export { translateTitles, translateSingleItem, buildTranslationPrompt, parseTranslationResponse } from './title-translator'
+export type { TitleItem, TranslatedTitle, TranslationResult } from './title-translator'
 // endregion

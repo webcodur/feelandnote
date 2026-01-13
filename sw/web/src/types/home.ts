@@ -8,7 +8,7 @@ export interface CelebProfile {
   id: string
   nickname: string
   avatar_url: string | null
-  category: string | null
+  profession: string | null
   bio: string | null
   is_verified: boolean
   follower_count: number
