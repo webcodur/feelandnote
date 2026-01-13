@@ -1,34 +1,53 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
-import { Inbox } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Inbox, TrendingUp, Book, Film, Gamepad2, Music, Award, LayoutGrid } from "lucide-react";
 import CelebReviewCard from "./CelebReviewCard";
+import { LoadMoreButton } from "@/components/ui";
 import { getCelebFeed } from "@/actions/home";
 import type { CelebReview } from "@/types/home";
+
+// #region 콘텐츠 타입 필터
+const CONTENT_TYPES = [
+  { value: "all", label: "전체", icon: LayoutGrid },
+  { value: "BOOK", label: "도서", icon: Book },
+  { value: "VIDEO", label: "영상", icon: Film },
+  { value: "GAME", label: "게임", icon: Gamepad2 },
+  { value: "MUSIC", label: "음악", icon: Music },
+  { value: "CERTIFICATE", label: "자격증", icon: Award },
+] as const;
+// #endregion
 
 // #region Skeleton
 function ReviewCardSkeleton() {
   return (
-    <div className="bg-bg-card border border-border rounded-xl p-4 animate-pulse">
-      <div className="flex items-center gap-2 mb-3">
-        <div className="w-10 h-10 rounded-full bg-white/10" />
-        <div className="flex-1">
-          <div className="w-24 h-4 bg-white/10 rounded" />
+    <div className="bg-bg-card border border-border/50 rounded-xl overflow-hidden flex flex-col md:flex-row animate-pulse">
+      {/* 좌측: 이미지 + 오버레이 */}
+      <div className="w-full md:w-[160px] lg:w-[180px] aspect-[4/5] md:aspect-auto md:h-[200px] bg-white/5 shrink-0" />
+
+      {/* 우측: 셀럽 + 리뷰 */}
+      <div className="flex-1 p-4 flex flex-col">
+        {/* 셀럽 헤더 */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-7 h-7 rounded-full bg-white/10" />
+          <div className="space-y-1">
+            <div className="w-28 h-3.5 bg-white/10 rounded" />
+            <div className="w-16 h-2.5 bg-white/5 rounded" />
+          </div>
         </div>
-        <div className="w-16 h-8 bg-white/10 rounded-lg" />
-      </div>
-      <div className="flex gap-3 bg-bg-secondary rounded-lg p-3 mb-3">
-        <div className="w-14 h-20 bg-white/10 rounded" />
-        <div className="flex-1 space-y-2">
-          <div className="w-32 h-4 bg-white/10 rounded" />
-          <div className="w-20 h-3 bg-white/10 rounded" />
-          <div className="w-24 h-4 bg-white/10 rounded" />
+
+        {/* 리뷰 */}
+        <div className="flex-1 space-y-1.5">
+          <div className="w-full h-3.5 bg-white/5 rounded" />
+          <div className="w-full h-3.5 bg-white/5 rounded" />
+          <div className="w-2/3 h-3.5 bg-white/5 rounded" />
         </div>
-      </div>
-      <div className="space-y-2 mb-3">
-        <div className="w-full h-4 bg-white/10 rounded" />
-        <div className="w-3/4 h-4 bg-white/10 rounded" />
+
+        {/* Footer */}
+        <div className="flex justify-end items-center pt-3 mt-3 border-t border-white/5">
+          <div className="w-20 h-7 bg-white/5 rounded-lg" />
+        </div>
       </div>
     </div>
   );
@@ -38,12 +57,59 @@ function ReviewCardSkeleton() {
 // #region Empty State
 function EmptyFeed() {
   return (
-    <div className="text-center py-16">
-      <Inbox size={48} className="mx-auto mb-4 text-text-tertiary opacity-50" />
+    <div className="flex flex-col items-center justify-center py-20 px-4">
+      <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
+        <Inbox size={40} className="text-text-tertiary" />
+      </div>
       <h3 className="text-lg font-semibold mb-2">아직 리뷰가 없어요</h3>
-      <p className="text-sm text-text-secondary">
-        셀럽들의 리뷰가 곧 업데이트됩니다.
+      <p className="text-sm text-text-secondary text-center max-w-xs">
+        셀럽들의 콘텐츠 리뷰가 곧 업데이트됩니다.
+        <br />
+        조금만 기다려 주세요!
       </p>
+    </div>
+  );
+}
+// #endregion
+
+// #region Section Header with Filter
+interface FeedHeaderProps {
+  currentType: string;
+  onTypeChange: (type: string) => void;
+}
+
+function FeedHeader({ currentType, onTypeChange }: FeedHeaderProps) {
+  return (
+    <div className="mb-4 space-y-3">
+      {/* 타이틀 */}
+      <div className="flex items-center gap-2">
+        <div className="w-1 h-5 bg-accent rounded-full" />
+        <TrendingUp size={18} className="text-accent" />
+        <h2 className="text-lg font-bold">셀럽 피드</h2>
+      </div>
+
+      {/* 필터 탭 */}
+      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="flex gap-2">
+          {CONTENT_TYPES.map(({ value, label, icon: Icon }) => {
+            const isActive = currentType === value;
+            return (
+              <button
+                key={value}
+                onClick={() => onTypeChange(value)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${
+                  isActive
+                    ? "bg-accent text-white"
+                    : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
+                }`}
+              >
+                <Icon size={14} />
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -54,6 +120,7 @@ interface CelebFeedProps {
 }
 
 export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const contentType = searchParams.get("type") ?? "all";
 
@@ -62,12 +129,22 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
-  const observerRef = useRef<HTMLDivElement>(null);
+
+  // 콘텐츠 타입 변경 핸들러
+  const handleTypeChange = useCallback((type: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (type === "all") {
+      params.delete("type");
+    } else {
+      params.set("type", type);
+    }
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, [router, searchParams]);
 
   // 초기 데이터 또는 타입 변경 시 로드
   const loadInitial = useCallback(async () => {
     setIsLoading(true);
-    const result = await getCelebFeed({ contentType, limit: 20 });
+    const result = await getCelebFeed({ contentType, limit: 10 });
     setReviews(result.reviews);
     setCursor(result.nextCursor);
     setHasMore(result.hasMore);
@@ -79,7 +156,7 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
     if (isLoadingMore || !hasMore || !cursor) return;
 
     setIsLoadingMore(true);
-    const result = await getCelebFeed({ contentType, cursor, limit: 20 });
+    const result = await getCelebFeed({ contentType, cursor, limit: 10 });
     setReviews((prev) => [...prev, ...result.reviews]);
     setCursor(result.nextCursor);
     setHasMore(result.hasMore);
@@ -91,32 +168,10 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
     loadInitial();
   }, [loadInitial]);
 
-  // Intersection Observer 설정
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading && !isLoadingMore) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = observerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [loadMore, hasMore, isLoading, isLoadingMore]);
-
   if (isLoading) {
     return (
-      <section className="px-4">
+      <section>
+        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} />
         <div className="space-y-4">
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
@@ -127,11 +182,17 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
   }
 
   if (reviews.length === 0) {
-    return <EmptyFeed />;
+    return (
+      <section>
+        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} />
+        <EmptyFeed />
+      </section>
+    );
   }
 
   return (
-    <section className="px-4">
+    <section>
+      <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} />
       <div className="space-y-4">
         {reviews.map((review) => (
           <CelebReviewCard key={review.id} review={review} />
@@ -145,14 +206,18 @@ export default function CelebFeed({ initialReviews = [] }: CelebFeedProps) {
           </>
         )}
 
-        {/* 무한 스크롤 트리거 */}
-        <div ref={observerRef} className="h-4" />
+        {/* 더보기 버튼 */}
+        <LoadMoreButton
+          onClick={loadMore}
+          isLoading={isLoadingMore}
+          hasMore={hasMore}
+        />
 
         {/* 더 이상 로드할 데이터 없음 */}
         {!hasMore && reviews.length > 0 && (
-          <p className="text-center text-sm text-text-tertiary py-4">
-            모든 리뷰를 불러왔습니다
-          </p>
+          <div className="text-center py-6">
+            <p className="text-sm text-text-tertiary">모든 리뷰를 불러왔어요</p>
+          </div>
         )}
       </div>
     </section>

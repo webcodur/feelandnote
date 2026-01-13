@@ -6,6 +6,7 @@
 
 "use client";
 
+import Image from "next/image";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -58,9 +59,12 @@ export default function ImageViewerModal({
         className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center p-4 outline-none"
         onClick={(e) => e.stopPropagation()}
       >
-        <img
+        <Image
           src={src}
           alt={alt}
+          width={1200}
+          height={800}
+          unoptimized
           className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
         />
       </div>

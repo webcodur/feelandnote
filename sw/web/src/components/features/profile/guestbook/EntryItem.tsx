@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Card } from "@/components/ui";
 import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
@@ -38,12 +39,14 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
     <Card className="relative">
       <div className="flex items-start gap-3">
         {/* 아바타 */}
-        <div className="w-9 h-9 rounded-full bg-bg-secondary overflow-hidden flex-shrink-0">
+        <div className="relative w-9 h-9 rounded-full bg-bg-secondary overflow-hidden flex-shrink-0">
           {entry.author.avatar_url ? (
-            <img
+            <Image
               src={entry.author.avatar_url}
               alt={entry.author.nickname ?? "사용자"}
-              className="w-full h-full object-cover"
+              fill
+              unoptimized
+              className="object-cover"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-text-secondary text-sm">

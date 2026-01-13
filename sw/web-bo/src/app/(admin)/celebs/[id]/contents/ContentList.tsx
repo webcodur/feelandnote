@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { deleteCelebContent, updateCelebContent, CelebContent } from '@/actions/admin/celebs'
 import { Star, Edit2, Trash2, Loader2, X, Check, BookOpen, Film, Gamepad2, Music, Award } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -116,12 +117,14 @@ export default function ContentList({ contents, celebId }: Props) {
           <div key={content.id} className="p-4">
             <div className="flex items-start gap-4">
               {/* Thumbnail */}
-              <div className="w-16 h-20 bg-bg-secondary rounded overflow-hidden shrink-0 flex items-center justify-center">
+              <div className="relative w-16 h-20 bg-bg-secondary rounded overflow-hidden shrink-0 flex items-center justify-center">
                 {content.content.thumbnail_url ? (
-                  <img
+                  <Image
                     src={content.content.thumbnail_url}
                     alt=""
-                    className="w-full h-full object-cover"
+                    fill
+                    unoptimized
+                    className="object-cover"
                   />
                 ) : (
                   <Icon className="w-6 h-6 text-text-secondary" />

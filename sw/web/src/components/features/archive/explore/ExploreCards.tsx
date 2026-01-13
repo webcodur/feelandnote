@@ -4,13 +4,14 @@
   책임: 아바타, 유저 카드, 유사 유저 카드, 빈 상태 UI 제공
 */ // ------------------------------
 import { Button, Avatar } from "@/components/ui";
+import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
 interface UserInfo {
   id: string;
   nickname: string;
   avatar_url: string | null;
   content_count: number;
-  category?: string | null;
+  profession?: string | null;
   is_verified?: boolean;
 }
 
@@ -23,12 +24,14 @@ interface SimilarUserInfo {
   similarity: number;
 }
 
-export function UserCard({ user, onClick, showCategory }: { user: UserInfo; onClick: () => void; showCategory?: boolean }) {
+export function UserCard({ user, onClick, showProfession }: { user: UserInfo; onClick: () => void; showProfession?: boolean }) {
   return (
     <Button unstyled onClick={onClick} className="flex flex-col items-center group">
       <Avatar url={user.avatar_url} name={user.nickname} size="md" verified={user.is_verified} className="group-hover:ring-accent" />
       <span className="mt-2 text-xs font-medium text-text-secondary group-hover:text-accent truncate max-w-full">{user.nickname}</span>
-      {showCategory && user.category && <span className="text-[10px] text-text-tertiary">{user.category}</span>}
+      {showProfession && user.profession && (
+        <span className="text-[10px] text-text-tertiary">{getCelebProfessionLabel(user.profession)}</span>
+      )}
     </Button>
   );
 }

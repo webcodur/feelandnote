@@ -6,10 +6,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { toggleFollow, type PublicUserProfile } from "@/actions/user";
+import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
 interface UserProfileHeaderProps {
   profile: PublicUserProfile;
@@ -44,11 +46,15 @@ export default function UserProfileHeader({
         {/* 아바타 */}
         <div className="flex-shrink-0">
           {profile.avatar_url ? (
-            <img
-              src={profile.avatar_url}
-              alt={profile.nickname}
-              className="w-20 h-20 rounded-full object-cover"
-            />
+            <div className="relative w-20 h-20 rounded-full overflow-hidden">
+              <Image
+                src={profile.avatar_url}
+                alt={profile.nickname}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
           ) : (
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white"
@@ -80,8 +86,8 @@ export default function UserProfileHeader({
               </span>
             )}
           </div>
-          {isCeleb && profile.category && (
-            <p className="text-xs text-text-tertiary mb-1">{profile.category}</p>
+          {isCeleb && profile.profession && (
+            <p className="text-xs text-text-tertiary mb-1">{getCelebProfessionLabel(profile.profession)}</p>
           )}
 
           {profile.bio && (

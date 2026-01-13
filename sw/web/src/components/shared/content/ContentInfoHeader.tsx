@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { Calendar, User } from "lucide-react";
 import { CATEGORIES, getCategoryById } from "@/constants/categories";
 import ContentMetadataDisplay from "./ContentMetadataDisplay";
@@ -52,9 +53,9 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
 
         <div className="flex gap-8">
           {/* 썸네일 */}
-          <div className="w-52 h-80 rounded-2xl shadow-2xl shrink-0 overflow-hidden border border-white/10">
+          <div className="relative w-52 h-80 rounded-2xl shadow-2xl shrink-0 overflow-hidden border border-white/10">
             {content.thumbnail ? (
-              <img src={content.thumbnail} alt={content.title} className="w-full h-full object-cover" />
+              <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
                 <Icon size={64} className="text-gray-500" />
@@ -114,9 +115,9 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
   return (
     <div className="flex gap-3 sm:gap-4">
       {/* 썸네일 */}
-      <div className="w-16 h-24 sm:w-20 sm:h-[120px] rounded-lg shadow-lg shrink-0 overflow-hidden">
+      <div className="relative w-16 h-24 sm:w-20 sm:h-[120px] rounded-lg shadow-lg shrink-0 overflow-hidden">
         {content.thumbnail ? (
-          <img src={content.thumbnail} alt={content.title} className="w-full h-full object-cover" />
+          <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
             <Icon size={24} className="text-gray-500" />

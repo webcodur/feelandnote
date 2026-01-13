@@ -7,6 +7,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Card, Avatar, SectionHeader } from "@/components/ui";
 import {
@@ -102,11 +103,15 @@ function ActivityCard({ activity }: { activity: FeedActivity }) {
           {activity.content_title && (
             <div className="flex items-center gap-2 mt-2 p-2 bg-white/5 rounded-lg">
               {activity.content_thumbnail ? (
-                <img
-                  src={activity.content_thumbnail}
-                  alt=""
-                  className="w-10 h-14 object-cover rounded shrink-0"
-                />
+                <div className="relative w-10 h-14 rounded overflow-hidden shrink-0">
+                  <Image
+                    src={activity.content_thumbnail}
+                    alt=""
+                    fill
+                    unoptimized
+                    className="object-cover"
+                  />
+                </div>
               ) : (
                 <div className="w-10 h-14 bg-white/10 rounded flex items-center justify-center shrink-0">
                   {ContentTypeIcon && <ContentTypeIcon size={16} className="text-text-tertiary" />}
@@ -123,11 +128,20 @@ function ActivityCard({ activity }: { activity: FeedActivity }) {
             </div>
           )}
 
-          {/* 메타데이터 (상태 변경 등) */}
-          {activity.metadata && activity.action_type === "STATUS_CHANGE" && (
-            <div className="text-xs text-text-secondary mt-2">
-              {(activity.metadata as { from?: string; to?: string }).from} →{" "}
-              {(activity.metadata as { from?: string; to?: string }).to}
+          {/* 리뷰/별점 */}
+          {activity.action_type === "REVIEW_UPDATE" && (
+            <div className="mt-2">
+              {activity.rating && (
+                <div className="flex items-center gap-1 text-yellow-400 text-sm mb-1">
+                  <Star size={14} fill="currentColor" />
+                  <span>{activity.rating}</span>
+                </div>
+              )}
+              {activity.review && (
+                <p className="text-sm text-text-secondary line-clamp-2">
+                  "{activity.review}"
+                </p>
+              )}
             </div>
           )}
 

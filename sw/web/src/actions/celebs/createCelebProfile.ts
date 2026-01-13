@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 interface CreateCelebProfileParams {
   nickname: string
   bio?: string
-  category?: string
+  profession?: string
   avatarUrl?: string
 }
 
@@ -29,7 +29,7 @@ export async function createCelebProfile(params: CreateCelebProfileParams) {
       id: celebId,
       nickname: params.nickname,
       bio: params.bio ?? null,
-      category: params.category ?? null,
+      profession: params.profession ?? null,
       avatar_url: params.avatarUrl ?? null,
       profile_type: 'CELEB',
       is_verified: false,

@@ -13,6 +13,7 @@ import {
   Award,
 } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const CONTENT_TYPE_CONFIG = {
   BOOK: { label: '도서', icon: Book, color: 'text-blue-400' },
@@ -168,9 +169,9 @@ export default async function DashboardPage() {
                 href={`/users/${user.id}`}
                 className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary"
               >
-                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+                <div className="relative w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                   {user.avatar_url ? (
-                    <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
+                    <Image src={user.avatar_url} alt="" fill unoptimized className="object-cover" />
                   ) : (
                     <Users className="w-5 h-5 text-accent" />
                   )}
@@ -202,9 +203,9 @@ export default async function DashboardPage() {
 
               return (
                 <div key={activity.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+                  <div className="relative w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                     {profile?.avatar_url ? (
-                      <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                      <Image src={profile.avatar_url} alt="" fill unoptimized className="object-cover" />
                     ) : (
                       <Users className="w-4 h-4 text-accent" />
                     )}

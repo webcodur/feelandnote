@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { FileText, Search, Users, Library, Quote, StickyNote, Globe, Lock, UserCheck, Eye } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 
 const TYPE_CONFIG = {
@@ -147,9 +148,9 @@ export default async function RecordsPage({ searchParams }: PageProps) {
                   <tr key={record.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50 divide-x divide-border">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+                        <div className="relative w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                           {profile?.avatar_url ? (
-                            <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                            <Image src={profile.avatar_url} alt="" fill unoptimized className="object-cover" />
                           ) : (
                             <Users className="w-4 h-4 text-accent" />
                           )}
@@ -164,9 +165,9 @@ export default async function RecordsPage({ searchParams }: PageProps) {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-10 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
+                        <div className="relative w-8 h-10 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
                           {content?.thumbnail_url ? (
-                            <img src={content.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                            <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
                           ) : (
                             <Library className="w-4 h-4 text-text-secondary" />
                           )}

@@ -1,6 +1,7 @@
 import { getRecord, getRecordComments } from '@/actions/admin/records'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   ArrowLeft,
   Users,
@@ -75,9 +76,9 @@ export default async function RecordDetailPage({ params }: PageProps) {
               href={`/users/${record.user_id}`}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-bg-secondary"
             >
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+              <div className="relative w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                 {record.user?.avatar_url ? (
-                  <img src={record.user.avatar_url} alt="" className="w-full h-full object-cover" />
+                  <Image src={record.user.avatar_url} alt="" fill unoptimized className="object-cover" />
                 ) : (
                   <Users className="w-6 h-6 text-accent" />
                 )}
@@ -99,9 +100,9 @@ export default async function RecordDetailPage({ params }: PageProps) {
                 href={`/contents/${record.content_id}`}
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-bg-secondary"
               >
-                <div className="w-12 h-16 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="relative w-12 h-16 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
                   {record.content_info.thumbnail_url ? (
-                    <img src={record.content_info.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                    <Image src={record.content_info.thumbnail_url} alt="" fill unoptimized className="object-cover" />
                   ) : (
                     <Library className="w-5 h-5 text-text-secondary" />
                   )}
@@ -200,9 +201,9 @@ export default async function RecordDetailPage({ params }: PageProps) {
                   const profile = Array.isArray(profiles) ? profiles[0] : profiles
                   return (
                     <div key={comment.id} className="flex gap-3">
-                      <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden flex-shrink-0">
+                      <div className="relative w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden flex-shrink-0">
                         {profile?.avatar_url ? (
-                          <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                          <Image src={profile.avatar_url} alt="" fill unoptimized className="object-cover" />
                         ) : (
                           <Users className="w-4 h-4 text-accent" />
                         )}

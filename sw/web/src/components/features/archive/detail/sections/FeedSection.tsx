@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Loader2, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Card } from "@/components/ui";
 import FeedPostCard from "./FeedPostCard";
@@ -51,9 +52,9 @@ function ReviewFeedCard({ item }: { item: ReviewFeedItem }) {
   return (
     <Card className="p-0">
       <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
-        <div className="w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden">
+        <div className="relative w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden">
           {item.user.avatar_url ? (
-            <img src={item.user.avatar_url} alt={nickname} className="w-full h-full object-cover" />
+            <Image src={item.user.avatar_url} alt={nickname} fill unoptimized className="object-cover" />
           ) : (
             "⭐"
           )}

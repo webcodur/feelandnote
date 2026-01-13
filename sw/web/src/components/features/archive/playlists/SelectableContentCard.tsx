@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { Check } from "lucide-react";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -33,10 +34,12 @@ export default function SelectableContentCard({
       {/* 썸네일 영역 */}
       <div className="relative w-full aspect-[3/4] overflow-hidden flex-shrink-0 bg-gray-800">
         {content.thumbnail_url ? (
-          <img
+          <Image
             src={content.thumbnail_url}
             alt={content.title}
-            className={`w-full h-full object-cover ${isSelected ? "brightness-90" : "group-hover:scale-105"}`}
+            fill
+            unoptimized
+            className={`object-cover ${isSelected ? "brightness-90" : "group-hover:scale-105"}`}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-700 text-gray-400">

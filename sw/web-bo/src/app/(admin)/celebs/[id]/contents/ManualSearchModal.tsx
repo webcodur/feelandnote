@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { X, Search, Loader2 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { searchExternalContent } from '@/actions/admin/external-search'
@@ -114,9 +115,9 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
                   onClick={() => handleSelect(result)}
                   className="w-full flex items-center gap-3 p-3 bg-bg-secondary hover:bg-white/5 border border-border rounded-lg text-start"
                 >
-                  <div className="w-10 h-14 bg-bg-card rounded overflow-hidden shrink-0">
+                  <div className="relative w-10 h-14 bg-bg-card rounded overflow-hidden shrink-0">
                     {result.coverImageUrl && (
-                      <img src={result.coverImageUrl} alt="" className="w-full h-full object-cover" />
+                      <Image src={result.coverImageUrl} alt="" fill unoptimized className="object-cover" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">

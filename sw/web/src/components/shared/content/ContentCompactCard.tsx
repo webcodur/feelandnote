@@ -6,6 +6,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Book, Star, Bookmark, Plus, Check, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
@@ -133,9 +134,9 @@ export default function ContentCompactCard({
       className="group relative bg-bg-card rounded overflow-hidden"
     >
       {/* 썸네일 */}
-      <div className="aspect-[2/3] bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center overflow-hidden relative">
+      <div className="relative aspect-[2/3] bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center overflow-hidden">
         {data.thumbnail ? (
-          <img src={data.thumbnail} alt={data.title} className="w-full h-full object-cover" />
+          <Image src={data.thumbnail} alt={data.title} fill unoptimized className="object-cover" />
         ) : (
           <CategoryIcon size={24} className="text-gray-500" />
         )}

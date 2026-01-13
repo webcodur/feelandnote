@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { createPortal } from "react-dom";
 
 import { X, BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
@@ -93,10 +94,12 @@ export default function ContentDetailModal({ content, onClose }: ContentDetailMo
         {/* 썸네일 영역 */}
         <div className="relative w-full aspect-[3/2] bg-surface shrink-0">
           {content.thumbnail_url ? (
-            <img
+            <Image
               src={content.thumbnail_url}
               alt={content.title}
-              className="w-full h-full object-contain"
+              fill
+              unoptimized
+              className="object-contain"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-text-tertiary">

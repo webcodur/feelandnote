@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { Trash2, Eye, CheckSquare, Square, Pin } from "lucide-react";
 import type { CategoryWithCount, ContentStatus, VisibilityType } from "@/types/database";
@@ -155,10 +156,12 @@ export default function ContentCard({
         >
           <div className="relative w-full h-full rounded-xl overflow-hidden shadow-sm bg-bg-card border border-border/30 group-hover/content:ring-2 ring-accent/50 group-hover/content:shadow-lg">
             {content.thumbnail_url ? (
-              <img
+              <Image
                 src={content.thumbnail_url}
                 alt={content.title}
-                className="w-full h-full object-cover group-hover/content:scale-110"
+                fill
+                unoptimized
+                className="object-cover group-hover/content:scale-110"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-700 text-gray-400">

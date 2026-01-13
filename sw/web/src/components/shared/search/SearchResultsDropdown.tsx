@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2, Plus, ExternalLink, Check } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -109,12 +110,14 @@ export default function SearchResultsDropdown({
                   className="flex items-center gap-3 flex-1 min-w-0 text-left"
                 >
                   {result.type === "content" && (
-                    <div className="w-10 h-14 rounded-md bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="relative w-10 h-14 rounded-md bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
                       {result.thumbnail ? (
-                        <img
+                        <Image
                           src={result.thumbnail}
                           alt={result.title}
-                          className="w-full h-full object-cover"
+                          fill
+                          unoptimized
+                          className="object-cover"
                         />
                       ) : CategoryIcon ? (
                         <CategoryIcon size={16} className="text-text-secondary" />

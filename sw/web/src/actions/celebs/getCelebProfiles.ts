@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { Profile } from '@/types/database'
 
 interface GetCelebProfilesParams {
-  category?: string
+  profession?: string
   search?: string
   limit?: number
   offset?: number
@@ -12,7 +12,7 @@ interface GetCelebProfilesParams {
 
 export async function getCelebProfiles(params: GetCelebProfilesParams = {}) {
   const supabase = await createClient()
-  const { category, search, limit = 20, offset = 0 } = params
+  const { profession, search, limit = 20, offset = 0 } = params
 
   let query = supabase
     .from('profiles')
@@ -21,8 +21,8 @@ export async function getCelebProfiles(params: GetCelebProfilesParams = {}) {
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
-  if (category) {
-    query = query.eq('category', category)
+  if (profession) {
+    query = query.eq('profession', profession)
   }
 
   if (search) {

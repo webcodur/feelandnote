@@ -43,7 +43,7 @@ interface CelebInfo {
   nickname: string;
   avatar_url: string | null;
   content_count: number;
-  category?: string | null;
+  profession?: string | null;
   bio?: string | null;
   is_verified?: boolean;
 }
@@ -177,7 +177,7 @@ export default function Explore({
             {celebs.length > 0 ? (
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
                 {celebs.map((celeb) => (
-                  <UserCard key={celeb.id} user={celeb} onClick={() => handleSelectUser(celeb.id)} showCategory />
+                  <UserCard key={celeb.id} user={celeb} onClick={() => handleSelectUser(celeb.id)} showProfession />
                 ))}
               </div>
             ) : (

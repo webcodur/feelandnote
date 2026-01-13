@@ -23,7 +23,7 @@ export interface Profile {
   claimed_by: string | null
   is_verified: boolean
   bio: string | null
-  category: string | null
+  profession: string | null
   created_at: string
 }
 

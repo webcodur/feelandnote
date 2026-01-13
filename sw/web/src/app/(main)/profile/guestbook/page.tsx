@@ -36,7 +36,7 @@ export default function Page() {
             claimed_by: null,
             is_verified: false,
             bio: profile.bio ?? null,
-            category: null,
+            profession: null,
             created_at: new Date().toISOString(),
           };
           setCurrentUser(user);

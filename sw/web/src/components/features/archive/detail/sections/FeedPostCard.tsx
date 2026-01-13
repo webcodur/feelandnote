@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { Card } from "@/components/ui";
 import type { FeedRecord } from "@/actions/records";
 
@@ -48,12 +49,14 @@ export default function FeedPostCard({ record }: FeedPostCardProps) {
   return (
     <Card className="p-0">
       <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
-        <div className="w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden">
+        <div className="relative w-8 h-8 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden">
           {record.user.avatar_url ? (
-            <img
+            <Image
               src={record.user.avatar_url}
               alt={nickname}
-              className="w-full h-full object-cover"
+              fill
+              unoptimized
+              className="object-cover"
             />
           ) : (
             avatar

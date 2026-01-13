@@ -1,6 +1,7 @@
 import { getContent } from '@/actions/admin/contents'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   ArrowLeft,
   Library,
@@ -69,9 +70,9 @@ export default async function ContentDetailPage({ params }: PageProps) {
         <div className="lg:col-span-1">
           <div className="bg-bg-card border border-border rounded-xl p-6">
             <div className="text-center">
-              <div className="w-32 h-44 mx-auto rounded-lg bg-bg-secondary flex items-center justify-center overflow-hidden">
+              <div className="relative w-32 h-44 mx-auto rounded-lg bg-bg-secondary flex items-center justify-center overflow-hidden">
                 {content.thumbnail_url ? (
-                  <img src={content.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                  <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
                 ) : (
                   <TypeIcon className="w-12 h-12 text-text-secondary" />
                 )}
@@ -139,9 +140,9 @@ export default async function ContentDetailPage({ params }: PageProps) {
                     className="flex items-center justify-between p-3 rounded-lg hover:bg-bg-secondary"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+                      <div className="relative w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                         {user.avatar_url ? (
-                          <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
+                          <Image src={user.avatar_url} alt="" fill unoptimized className="object-cover" />
                         ) : (
                           <Users className="w-5 h-5 text-accent" />
                         )}

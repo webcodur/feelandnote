@@ -2,6 +2,7 @@ import { getCeleb, getCelebContents } from '@/actions/admin/celebs'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Star, Sparkles } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ContentList from './ContentList'
 import AddContentForm from './AddContentForm'
 
@@ -32,9 +33,9 @@ export default async function CelebContentsPage({ params, searchParams }: PagePr
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden">
+            <div className="relative w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden">
               {celeb.avatar_url ? (
-                <img src={celeb.avatar_url} alt="" className="w-full h-full object-cover" />
+                <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
               ) : (
                 <Star className="w-5 h-5 text-yellow-400" />
               )}

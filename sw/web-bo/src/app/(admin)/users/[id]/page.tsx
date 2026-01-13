@@ -1,6 +1,7 @@
 import { getUser } from '@/actions/admin/users'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft, Users, Mail, Calendar, Shield, Ban, CheckCircle, Clock } from 'lucide-react'
 import UserActions from './UserActions'
 
@@ -37,9 +38,9 @@ export default async function UserDetailPage({ params }: PageProps) {
         <div className="lg:col-span-1">
           <div className="bg-bg-card border border-border rounded-lg p-6">
             <div className="text-center">
-              <div className="w-24 h-24 mx-auto rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+              <div className="relative w-24 h-24 mx-auto rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                 {user.avatar_url ? (
-                  <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
+                  <Image src={user.avatar_url} alt="" fill unoptimized className="object-cover" />
                 ) : (
                   <Users className="w-12 h-12 text-accent" />
                 )}

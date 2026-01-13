@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   ArrowLeft,
   Star,
@@ -678,12 +679,14 @@ export default function AICollectView({ celebId, celebName }: Props) {
 
                       {processed.selectedSearchResult && (
                         <div className="flex items-center gap-2 p-2 bg-bg-secondary rounded">
-                          <div className="w-8 h-10 bg-bg-card rounded overflow-hidden shrink-0">
+                          <div className="relative w-8 h-10 bg-bg-card rounded overflow-hidden shrink-0">
                             {processed.selectedSearchResult.coverImageUrl && (
-                              <img
+                              <Image
                                 src={processed.selectedSearchResult.coverImageUrl}
                                 alt=""
-                                className="w-full h-full object-cover"
+                                fill
+                                unoptimized
+                                className="object-cover"
                               />
                             )}
                           </div>

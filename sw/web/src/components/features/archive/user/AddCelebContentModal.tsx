@@ -7,6 +7,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Search, Book, Film, Gamepad2, Music, Award, Link as LinkIcon, Loader2 } from "lucide-react";
 import { Modal, ModalBody, ModalFooter, Button } from "@/components/ui";
 import { searchContents, type ContentSearchResult } from "@/actions/search";
@@ -169,7 +170,9 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                     className="w-full flex items-start gap-3 p-3 bg-surface rounded-lg hover:bg-surface-hover text-start"
                   >
                     {item.thumbnail ? (
-                      <img src={item.thumbnail} alt={item.title} className="w-12 h-16 object-cover rounded flex-shrink-0" />
+                      <div className="relative w-12 h-16 flex-shrink-0">
+                        <Image src={item.thumbnail} alt={item.title} fill unoptimized className="object-cover rounded" />
+                      </div>
                     ) : (
                       <div className="w-12 h-16 bg-background rounded flex items-center justify-center flex-shrink-0">
                         <Book size={20} className="text-text-tertiary" />
@@ -192,7 +195,9 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
           <div className="space-y-4">
             <div className="flex items-start gap-3 p-3 bg-surface rounded-lg">
               {selected.thumbnail ? (
-                <img src={selected.thumbnail} alt={selected.title} className="w-14 h-20 object-cover rounded flex-shrink-0" />
+                <div className="relative w-14 h-20 flex-shrink-0">
+                  <Image src={selected.thumbnail} alt={selected.title} fill unoptimized className="object-cover rounded" />
+                </div>
               ) : (
                 <div className="w-14 h-20 bg-background rounded flex items-center justify-center flex-shrink-0">
                   <Book size={24} className="text-text-tertiary" />

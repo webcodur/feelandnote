@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createCeleb, updateCeleb, deleteCeleb, type Celeb } from '@/actions/admin/celebs'
+import type { GeneratedInfluence } from '@feelnnote/api-clients'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
-import { Loader2, Trash2, Star } from 'lucide-react'
+import { Loader2, Trash2, Star, X } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import AIProfileSection from './AIProfileSection'
 
@@ -27,6 +28,27 @@ interface GeneratedProfile {
   bio: string
   profession: string
   avatarUrl: string
+  influence: GeneratedInfluence
+}
+// #endregion
+
+// #region Constants
+const INFLUENCE_LABELS: Record<string, { label: string; max: number }> = {
+  political: { label: '정치·외교', max: 10 },
+  strategic: { label: '전략·안보', max: 10 },
+  tech: { label: '기술·과학', max: 10 },
+  social: { label: '사회·윤리', max: 10 },
+  economic: { label: '산업·경제', max: 10 },
+  cultural: { label: '문화·예술', max: 10 },
+  transhistoricity: { label: '통시성', max: 40 },
+}
+
+const RANK_COLORS: Record<string, string> = {
+  S: 'bg-yellow-500 text-yellow-900',
+  A: 'bg-purple-500 text-white',
+  B: 'bg-blue-500 text-white',
+  C: 'bg-green-500 text-white',
+  D: 'bg-gray-500 text-white',
 }
 // #endregion
 
@@ -41,11 +63,34 @@ function getInitialFormData(celeb?: Celeb): CelebFormData {
     status: (celeb?.status as 'active' | 'suspended') || 'active',
   }
 }
+
+function getEmptyInfluence(): GeneratedInfluence {
+  return {
+    political: { score: 0, exp: '' },
+    strategic: { score: 0, exp: '' },
+    tech: { score: 0, exp: '' },
+    social: { score: 0, exp: '' },
+    economic: { score: 0, exp: '' },
+    cultural: { score: 0, exp: '' },
+    transhistoricity: { score: 0, exp: '' },
+    totalScore: 0,
+    rank: 'D',
+  }
+}
+
+function calculateRank(totalScore: number): 'S' | 'A' | 'B' | 'C' | 'D' {
+  if (totalScore >= 90) return 'S'
+  if (totalScore >= 80) return 'A'
+  if (totalScore >= 70) return 'B'
+  if (totalScore >= 60) return 'C'
+  return 'D'
+}
 // #endregion
 
 export default function CelebForm({ mode, celeb }: Props) {
   const router = useRouter()
   const [formData, setFormData] = useState<CelebFormData>(getInitialFormData(celeb))
+  const [influence, setInfluence] = useState<GeneratedInfluence>(getEmptyInfluence())
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -59,11 +104,39 @@ export default function CelebForm({ mode, celeb }: Props) {
       profession: profile.profession,
       avatar_url: profile.avatarUrl || prev.avatar_url,
     }))
+    setInfluence(profile.influence)
   }
 
   // 폼 필드 변경
   function handleChange(field: keyof CelebFormData, value: string | boolean) {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  // 영향력 필드 변경
+  function handleInfluenceChange(field: string, type: 'score' | 'exp', value: number | string) {
+    setInfluence((prev) => {
+      const updated = {
+        ...prev,
+        [field]: {
+          ...prev[field as keyof GeneratedInfluence] as { score: number; exp: string },
+          [type]: value,
+        },
+      }
+      // 총점 재계산
+      const totalScore =
+        (updated.political as { score: number }).score +
+        (updated.strategic as { score: number }).score +
+        (updated.tech as { score: number }).score +
+        (updated.social as { score: number }).score +
+        (updated.economic as { score: number }).score +
+        (updated.cultural as { score: number }).score +
+        (updated.transhistoricity as { score: number }).score
+      return {
+        ...updated,
+        totalScore,
+        rank: calculateRank(totalScore),
+      }
+    })
   }
 
   // 폼 제출
@@ -81,12 +154,15 @@ export default function CelebForm({ mode, celeb }: Props) {
 
     try {
       if (mode === 'create') {
+        // 영향력이 하나라도 입력되었는지 확인
+        const hasInfluence = influence.totalScore > 0
         const result = await createCeleb({
           nickname: formData.nickname.trim(),
           profession: formData.profession || undefined,
           bio: formData.bio || undefined,
           avatar_url: formData.avatar_url || undefined,
           is_verified: formData.is_verified,
+          influence: hasInfluence ? influence : undefined,
         })
         router.push(`/celebs/${result.id}`)
       } else if (celeb) {
@@ -142,9 +218,6 @@ export default function CelebForm({ mode, celeb }: Props) {
         </div>
       )}
 
-      {/* AI Profile Section */}
-      <AIProfileSection nickname={formData.nickname} onProfileGenerated={applyAIProfile} />
-
       {/* Basic Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
         <h2 className="text-lg font-semibold text-text-primary">
@@ -167,6 +240,9 @@ export default function CelebForm({ mode, celeb }: Props) {
             className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
           />
         </div>
+
+        {/* AI Profile Generator */}
+        <AIProfileSection nickname={formData.nickname} onProfileGenerated={applyAIProfile} />
 
         {/* Profession */}
         <div className="space-y-2">
@@ -266,6 +342,64 @@ export default function CelebForm({ mode, celeb }: Props) {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Influence Card */}
+      <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-text-primary">영향력 평가</h2>
+          <div className="flex items-center gap-3">
+            <span className={`px-2 py-0.5 rounded text-xs font-bold ${RANK_COLORS[influence.rank]}`}>
+              {influence.rank}등급 ({influence.totalScore}/100)
+            </span>
+            <button
+              type="button"
+              onClick={() => setInfluence(getEmptyInfluence())}
+              className="p-1 text-text-secondary hover:text-text-primary"
+              title="영향력 초기화"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {Object.entries(INFLUENCE_LABELS).map(([key, { label, max }]) => {
+            const field = influence[key as keyof typeof influence]
+            if (typeof field === 'object' && 'score' in field) {
+              return (
+                <div key={key} className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <label className="w-24 text-sm text-text-secondary shrink-0">{label}</label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={max}
+                      value={field.score}
+                      onChange={(e) => handleInfluenceChange(key, 'score', Math.min(max, Math.max(0, parseInt(e.target.value) || 0)))}
+                      className="w-16 px-2 py-1 bg-bg-secondary border border-border rounded text-text-primary text-center text-sm focus:border-accent focus:outline-none"
+                    />
+                    <span className="text-xs text-text-secondary">/ {max}</span>
+                    <div className="flex-1 h-2 bg-bg-secondary rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-accent rounded-full"
+                        style={{ width: `${(field.score / max) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    value={field.exp}
+                    onChange={(e) => handleInfluenceChange(key, 'exp', e.target.value)}
+                    placeholder={`${label} 설명 (선택)`}
+                    className="w-full px-3 py-1.5 bg-bg-secondary border border-border rounded text-text-primary text-sm placeholder-text-secondary focus:border-accent focus:outline-none"
+                  />
+                </div>
+              )
+            }
+            return null
+          })}
+        </div>
       </div>
 
       {/* Actions */}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { addCelebContent } from '@/actions/admin/celebs'
 import { searchExternalContent, createContentFromExternal, searchDbContent } from '@/actions/admin/external-search'
 import { Plus, Search, Loader2, X, Database, Globe } from 'lucide-react'
@@ -279,9 +280,9 @@ export default function AddContentForm({ celebId }: Props) {
                               onClick={() => setSelectedContent({ source: 'db', data: content })}
                               className="w-full flex items-center gap-3 p-3 text-left hover:bg-bg-secondary"
                             >
-                              <div className="w-10 h-12 bg-bg-secondary rounded overflow-hidden shrink-0">
+                              <div className="relative w-10 h-12 bg-bg-secondary rounded overflow-hidden shrink-0">
                                 {content.thumbnail_url && (
-                                  <img src={content.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                                  <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
@@ -300,9 +301,9 @@ export default function AddContentForm({ celebId }: Props) {
                               onClick={() => setSelectedContent({ source: 'external', data: content })}
                               className="w-full flex items-center gap-3 p-3 text-left hover:bg-bg-secondary"
                             >
-                              <div className="w-10 h-12 bg-bg-secondary rounded overflow-hidden shrink-0">
+                              <div className="relative w-10 h-12 bg-bg-secondary rounded overflow-hidden shrink-0">
                                 {content.coverImageUrl && (
-                                  <img src={content.coverImageUrl} alt="" className="w-full h-full object-cover" />
+                                  <Image src={content.coverImageUrl} alt="" fill unoptimized className="object-cover" />
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
@@ -329,12 +330,14 @@ export default function AddContentForm({ celebId }: Props) {
                 <div className="space-y-4">
                   {/* Selected Content */}
                   <div className="flex items-center gap-3 p-3 bg-bg-secondary rounded-lg">
-                    <div className="w-10 h-12 bg-bg-card rounded overflow-hidden shrink-0">
+                    <div className="relative w-10 h-12 bg-bg-card rounded overflow-hidden shrink-0">
                       {getDisplayThumbnail(selectedContent) && (
-                        <img
+                        <Image
                           src={getDisplayThumbnail(selectedContent)!}
                           alt=""
-                          className="w-full h-full object-cover"
+                          fill
+                          unoptimized
+                          className="object-cover"
                         />
                       )}
                     </div>

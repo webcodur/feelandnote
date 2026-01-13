@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
 
@@ -37,11 +38,15 @@ export default function ProfileCard({
       {/* 아바타 */}
       <div className="relative mb-2">
         {avatar_url ? (
-          <img
-            src={avatar_url}
-            alt={nickname}
-            className="w-16 h-16 rounded-full object-cover ring-2 ring-transparent group-hover:ring-accent"
-          />
+          <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-accent">
+            <Image
+              src={avatar_url}
+              alt={nickname}
+              fill
+              unoptimized
+              className="object-cover"
+            />
+          </div>
         ) : (
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-white ring-2 ring-transparent group-hover:ring-accent"

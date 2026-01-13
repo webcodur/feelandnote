@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   X,
   Check,
@@ -203,9 +204,9 @@ export default function PlaylistEditor({
 
         <div className="flex-1 flex gap-4">
           {/* 커버 이미지 */}
-          <div className="w-24 h-24 rounded-xl bg-bg-card flex items-center justify-center overflow-hidden flex-shrink-0 border-2 border-dashed border-border">
+          <div className="relative w-24 h-24 rounded-xl bg-bg-card flex items-center justify-center overflow-hidden flex-shrink-0 border-2 border-dashed border-border">
             {coverThumbnail ? (
-              <img src={coverThumbnail} alt="커버" className="w-full h-full object-cover" />
+              <Image src={coverThumbnail} alt="커버" fill unoptimized className="object-cover" />
             ) : (
               <ListMusic size={32} className="text-text-tertiary" />
             )}

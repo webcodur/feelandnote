@@ -8,6 +8,7 @@ export { default as ContentGrid } from "./ContentGrid";
 export { FilterSelect, type FilterOption } from "./FilterSelect";
 export { FilterChips, type ChipOption } from "./FilterChips";
 export { Pagination } from "./Pagination";
+export { default as LoadMoreButton } from "./LoadMoreButton";
 export { default as DropdownMenu, type DropdownMenuItem } from "./DropdownMenu";
 export { default as Portal } from "./Portal";
 export { default as Modal, ModalBody, ModalFooter } from "./Modal";

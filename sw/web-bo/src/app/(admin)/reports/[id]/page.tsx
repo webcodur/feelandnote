@@ -1,6 +1,7 @@
 import { getReport } from '@/actions/admin/reports'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   ArrowLeft,
   Users,
@@ -78,9 +79,9 @@ export default async function ReportDetailPage({ params }: PageProps) {
               href={`/users/${report.reporter_id}`}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-bg-secondary"
             >
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+              <div className="relative w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
                 {report.reporter?.avatar_url ? (
-                  <img src={report.reporter.avatar_url} alt="" className="w-full h-full object-cover" />
+                  <Image src={report.reporter.avatar_url} alt="" fill unoptimized className="object-cover" />
                 ) : (
                   <Users className="w-6 h-6 text-accent" />
                 )}

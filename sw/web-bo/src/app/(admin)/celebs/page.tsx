@@ -2,6 +2,7 @@ import { getCelebs } from '@/actions/admin/celebs'
 import { CELEB_PROFESSIONS, getCelebProfessionLabel } from '@/constants/celebCategories'
 import { Search, Star, Plus, BookOpen, Users, CheckCircle, Ban, BadgeCheck, Settings } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 
 interface PageProps {
@@ -114,9 +115,9 @@ export default async function CelebsPage({ searchParams }: PageProps) {
                 <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50 divide-x divide-border">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden">
+                      <div className="relative w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden">
                         {celeb.avatar_url ? (
-                          <img src={celeb.avatar_url} alt="" className="w-full h-full object-cover" />
+                          <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
                         ) : (
                           <Star className="w-5 h-5 text-yellow-400" />
                         )}

@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ArrowLeft, Save, RotateCcw } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
@@ -211,9 +212,9 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
                 const item = getItemById(contentId);
                 if (!item) return null;
                 return (
-                  <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
+                  <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`relative w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
                     {item.content.thumbnail_url ? (
-                      <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" title={item.content.title} />
+                      <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover" title={item.content.title} />
                     ) : (
                       <div className="w-full h-full bg-bg-secondary flex items-center justify-center text-xs text-text-secondary">{item.content.title.slice(0, 2)}</div>
                     )}
@@ -231,9 +232,9 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
               const item = getItemById(contentId);
               if (!item) return null;
               return (
-                <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
+                <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`relative w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
                   {item.content.thumbnail_url ? (
-                    <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" title={item.content.title} />
+                    <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover" title={item.content.title} />
                   ) : (
                     <div className="w-full h-full bg-bg-card flex items-center justify-center text-xs text-text-secondary">{item.content.title.slice(0, 2)}</div>
                   )}

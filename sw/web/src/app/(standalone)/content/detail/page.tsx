@@ -8,6 +8,7 @@
 
 import { useState, useEffect, Suspense, useTransition } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import { ArrowLeft, FileText, Plus, Loader2, Sparkles, Calendar, User } from "lucide-react";
 import { Button, Card } from "@/components/ui";
 import { getProfile } from "@/actions/user";
@@ -204,9 +205,9 @@ function ContentDetailContent() {
           {/* 좌측: 콘텐츠 정보 */}
           <Card className="p-4 flex gap-4">
             {/* 썸네일 */}
-            <div className="w-24 h-36 md:w-32 md:h-48 rounded-lg shadow-lg shrink-0 overflow-hidden border border-white/10">
+            <div className="relative w-24 h-36 md:w-32 md:h-48 rounded-lg shadow-lg shrink-0 overflow-hidden border border-white/10">
               {contentInfo.thumbnail ? (
-                <img src={contentInfo.thumbnail} alt={contentInfo.title} className="w-full h-full object-cover" />
+                <Image src={contentInfo.thumbnail} alt={contentInfo.title} fill unoptimized className="object-cover" />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
                   <Icon size={32} className="text-gray-500" />

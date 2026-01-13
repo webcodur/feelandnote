@@ -11,7 +11,10 @@ export interface CelebProfile {
   profession: string | null
   bio: string | null
   is_verified: boolean
+  is_platform_managed: boolean  // claimed_by가 null이면 true (플랫폼에서 관리)
   follower_count: number
+  is_following: boolean  // 현재 유저가 팔로우 중인지
+  is_follower: boolean   // 상대방이 나를 팔로우 중인지 (맞팔 = 친구)
 }
 
 export interface CelebReview {
@@ -19,6 +22,7 @@ export interface CelebReview {
   rating: number | null
   review: string
   is_spoiler: boolean
+  source_url: string | null
   updated_at: string
   content: {
     id: string
@@ -32,6 +36,7 @@ export interface CelebReview {
     nickname: string
     avatar_url: string | null
     is_verified: boolean
+    is_platform_managed: boolean
   }
 }
 

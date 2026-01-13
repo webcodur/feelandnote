@@ -5,8 +5,19 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SoundProvider } from "@/contexts/SoundContext";
+
+// 마루부리 폰트 (리뷰/인용문용)
+const maruburi = localFont({
+  src: [
+    { path: "../fonts/MaruBuriOTF/MaruBuri-Regular.otf", weight: "400" },
+    { path: "../fonts/MaruBuriOTF/MaruBuri-SemiBold.otf", weight: "600" },
+  ],
+  variable: "--font-maruburi",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Feel&Note",
@@ -19,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={maruburi.variable}>
       <head>
         <link
           rel="stylesheet"

@@ -10,8 +10,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { Modal, ModalBody, ModalFooter } from "@/components/ui";
 import { createCelebProfile } from "@/actions/celebs";
-
-const CATEGORIES = ["연예인", "작가", "유튜버", "운동선수", "음악가", "감독", "기타"];
+import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 
 interface AddCelebModalProps {
   isOpen: boolean;
@@ -21,7 +20,7 @@ interface AddCelebModalProps {
 export default function AddCelebModal({ isOpen, onClose }: AddCelebModalProps) {
   const router = useRouter();
   const [nickname, setNickname] = useState("");
-  const [category, setCategory] = useState("");
+  const [profession, setProfession] = useState("");
   const [bio, setBio] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -37,7 +36,7 @@ export default function AddCelebModal({ isOpen, onClose }: AddCelebModalProps) {
     setError("");
 
     try {
-      await createCelebProfile({ nickname: nickname.trim(), category: category || undefined, bio: bio || undefined });
+      await createCelebProfile({ nickname: nickname.trim(), profession: profession || undefined, bio: bio || undefined });
       router.refresh();
       onClose();
     } catch (err) {
@@ -58,9 +57,9 @@ export default function AddCelebModal({ isOpen, onClose }: AddCelebModalProps) {
 
           <div>
             <label className="block text-sm font-medium text-text-secondary mb-1.5">분야</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-accent">
+            <select value={profession} onChange={(e) => setProfession(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-accent">
               <option value="">선택 안함</option>
-              {CATEGORIES.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
+              {CELEB_PROFESSIONS.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
             </select>
           </div>
 

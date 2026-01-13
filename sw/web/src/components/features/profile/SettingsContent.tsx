@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Check, Trash2, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
@@ -129,7 +130,9 @@ export default function SettingsContent({ apiKey, onSave, isSaving, profile, onP
           {/* 아바타 + 닉네임 */}
           <div className="flex items-center gap-3">
             {avatarUrl ? (
-              <img src={avatarUrl} alt="프로필" className="w-12 h-12 rounded-full object-cover ring-2 ring-accent/20 shrink-0" />
+              <div className="relative w-12 h-12 shrink-0">
+                <Image src={avatarUrl} alt="프로필" fill unoptimized className="rounded-full object-cover ring-2 ring-accent/20" />
+              </div>
             ) : (
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-lg font-bold text-white ring-2 ring-accent/20 shrink-0">
                 {nickname.charAt(0).toUpperCase() || "U"}

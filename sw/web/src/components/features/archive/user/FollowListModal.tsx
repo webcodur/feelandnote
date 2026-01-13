@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Users, UserCheck, UserPlus, Loader2 } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
@@ -187,11 +188,15 @@ function UserListItem({
     >
       {/* 아바타 */}
       {user.avatar_url ? (
-        <img
-          src={user.avatar_url}
-          alt={user.nickname}
-          className="w-10 h-10 rounded-full object-cover"
-        />
+        <div className="relative w-10 h-10 rounded-full overflow-hidden">
+          <Image
+            src={user.avatar_url}
+            alt={user.nickname}
+            fill
+            unoptimized
+            className="object-cover"
+          />
+        </div>
       ) : (
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white"

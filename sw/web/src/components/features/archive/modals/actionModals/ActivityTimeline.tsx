@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import {
@@ -95,11 +96,15 @@ export default function ActivityTimeline({ logs, loading }: ActivityTimelineProp
               {log.content && (
                 <div className="flex items-center gap-2 mt-1">
                   {log.content.thumbnail_url ? (
-                    <img
-                      src={log.content.thumbnail_url}
-                      alt={log.content.title}
-                      className="w-8 h-8 rounded object-cover"
-                    />
+                    <div className="relative w-8 h-8 rounded overflow-hidden">
+                      <Image
+                        src={log.content.thumbnail_url}
+                        alt={log.content.title}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    </div>
                   ) : ContentIcon ? (
                     <div className="w-8 h-8 rounded bg-surface flex items-center justify-center">
                       <ContentIcon size={14} className="text-text-tertiary" />

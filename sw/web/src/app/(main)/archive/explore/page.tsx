@@ -31,7 +31,7 @@ export default async function Page() {
     nickname: celeb.nickname || "셀럽",
     avatar_url: celeb.avatar_url,
     content_count: 0,
-    category: celeb.category,
+    profession: celeb.profession,
     bio: celeb.bio,
     is_verified: celeb.is_verified,
   }));

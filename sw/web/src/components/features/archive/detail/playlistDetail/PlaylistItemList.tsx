@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { GripVertical, ListMusic } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
@@ -62,9 +63,9 @@ export default function PlaylistItemList({
               <GripVertical size={18} />
             </div>
           )}
-          <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-bg-secondary">
+          <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-bg-secondary">
             {item.content.thumbnail_url ? (
-              <img src={item.content.thumbnail_url} alt={item.content.title} className="w-full h-full object-cover" />
+              <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-text-secondary text-xs">No</div>
             )}

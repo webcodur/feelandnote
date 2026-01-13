@@ -14,6 +14,7 @@ import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/actions/auth";
 
@@ -190,11 +191,15 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
           >
             <span className="hidden sm:inline font-semibold text-sm">{profile?.nickname ?? "User"}</span>
             {profile?.avatar_url ? (
-              <img
-                src={profile.avatar_url}
-                alt="프로필"
-                className="w-8 h-8 rounded-full object-cover"
-              />
+              <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                <Image
+                  src={profile.avatar_url}
+                  alt="프로필"
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
             )}

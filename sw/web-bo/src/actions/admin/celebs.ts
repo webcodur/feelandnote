@@ -3,7 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { generateCelebProfile as generateCelebProfileApi } from '@feelnnote/api-clients'
+import { generateCelebProfileWithInfluence as generateCelebProfileApi } from '@feelnnote/api-clients'
+import type { GeneratedInfluence } from '@feelnnote/api-clients'
 import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage } from './api-keys'
 
 // #region Types
@@ -40,6 +41,7 @@ interface CreateCelebInput {
   bio?: string
   avatar_url?: string
   is_verified?: boolean
+  influence?: GeneratedInfluence
 }
 
 interface UpdateCelebInput {
@@ -64,6 +66,7 @@ interface GenerateProfileResult {
     bio: string
     profession: string
     avatarUrl: string
+    influence: GeneratedInfluence
   }
   error?: string
 }
@@ -235,6 +238,32 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
   })
 
   if (scoresError) throw scoresError
+
+  // 영향력 저장 (AI 생성된 경우)
+  if (input.influence) {
+    const inf = input.influence
+    const { error: influenceError } = await adminClient.from('celeb_influence').upsert({
+      celeb_id: userId,
+      political: inf.political.score,
+      political_exp: inf.political.exp,
+      strategic: inf.strategic.score,
+      strategic_exp: inf.strategic.exp,
+      tech: inf.tech.score,
+      tech_exp: inf.tech.exp,
+      social: inf.social.score,
+      social_exp: inf.social.exp,
+      economic: inf.economic.score,
+      economic_exp: inf.economic.exp,
+      cultural: inf.cultural.score,
+      cultural_exp: inf.cultural.exp,
+      transhistoricity: inf.transhistoricity.score,
+      transhistoricity_exp: inf.transhistoricity.exp,
+      total_score: inf.totalScore,
+      rank: inf.rank,
+    })
+
+    if (influenceError) throw influenceError
+  }
 
   revalidatePath('/celebs')
 

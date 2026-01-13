@@ -38,6 +38,7 @@ export async function getCelebFeed(
       rating,
       review,
       is_spoiler,
+      source_url,
       updated_at,
       content:contents!user_contents_content_id_fkey(
         id,
@@ -50,7 +51,8 @@ export async function getCelebFeed(
         id,
         nickname,
         avatar_url,
-        is_verified
+        is_verified,
+        claimed_by
       )
     `)
     .in('user_id', celebIds)
@@ -105,6 +107,7 @@ export async function getCelebFeed(
         rating: row.rating,
         review: row.review as string,
         is_spoiler: row.is_spoiler ?? false,
+        source_url: row.source_url ?? null,
         updated_at: row.updated_at,
         content: {
           id: content.id,
@@ -118,6 +121,7 @@ export async function getCelebFeed(
           nickname: celeb.nickname || '',
           avatar_url: celeb.avatar_url,
           is_verified: celeb.is_verified ?? false,
+          is_platform_managed: celeb.claimed_by === null,
         },
       }
     })

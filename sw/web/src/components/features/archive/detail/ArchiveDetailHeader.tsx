@@ -5,6 +5,7 @@
 */
 "use client";
 
+import Image from "next/image";
 import { ArrowLeft, Trash2, Calendar, User } from "lucide-react";
 import { CATEGORIES } from "@/constants/categories";
 import { Card } from "@/components/ui";
@@ -105,9 +106,9 @@ export default function ArchiveDetailHeader({
         <div className="p-3">
           <div className="flex gap-3">
             {/* 썸네일 */}
-            <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg shadow-md shrink-0 overflow-hidden border border-white/10">
+            <div className="relative w-16 h-24 sm:w-20 sm:h-28 rounded-lg shadow-md shrink-0 overflow-hidden border border-white/10">
               {content.thumbnail_url ? (
-                <img src={content.thumbnail_url} alt={content.title} className="w-full h-full object-cover" />
+                <Image src={content.thumbnail_url} alt={content.title} fill unoptimized className="object-cover" />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
                   <Icon size={24} className="text-gray-500" />

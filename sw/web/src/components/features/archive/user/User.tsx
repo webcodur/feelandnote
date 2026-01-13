@@ -61,7 +61,7 @@ export default function UserProfile({
       <div className="flex items-center justify-between mb-4">
         <SectionHeader
           title={`${profile.nickname}의 기록관`}
-          description={isCeleb ? "팬들이 기여한 문화생활 기록" : "공개된 문화생활 기록"}
+          description={isCeleb ? "웹에서 확인된 문화생활 기록" : "공개된 문화생활 기록"}
           icon={<>{isCeleb && <Sparkles size={20} />}{!isCeleb && <Archive size={20} />}</>}
           className="mb-0"
         />

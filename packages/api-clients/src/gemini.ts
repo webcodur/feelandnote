@@ -34,17 +34,28 @@ export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: Gemi
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      return {
-        text: '',
-        error: errorData.error?.message || `API 호출 실패 (${response.status})`
-      }
+      const errorMsg = errorData.error?.message || `API 호출 실패 (${response.status})`
+      console.error('[callGemini] API error:', errorMsg, errorData)
+      return { text: '', error: errorMsg }
     }
 
     const data = await response.json()
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
 
+    // 응답이 비어있거나 차단된 경우
+    if (!text) {
+      const blockReason = data.candidates?.[0]?.finishReason
+      const safetyRatings = data.candidates?.[0]?.safetyRatings
+      console.error('[callGemini] Empty/blocked response:', { blockReason, safetyRatings, promptFeedback: data.promptFeedback })
+      if (blockReason && blockReason !== 'STOP') {
+        return { text: '', error: `응답이 차단됨: ${blockReason}` }
+      }
+      return { text: '', error: 'AI가 빈 응답을 반환했습니다.' }
+    }
+
     return { text }
   } catch (err) {
+    console.error('[callGemini] Exception:', err)
     return {
       text: '',
       error: err instanceof Error ? err.message : 'API 호출 중 오류 발생'

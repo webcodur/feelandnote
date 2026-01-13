@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import Image from "next/image";
 import { BookOpen, Users, Heart, UserPlus } from "lucide-react";
 import Button from "@/components/ui/Button";
 
@@ -38,11 +39,15 @@ export default function ProfileHeader({
   embedded = false,
 }: ProfileHeaderProps) {
   const avatarContent = avatar_url ? (
-    <img
-      src={avatar_url}
-      alt={nickname}
-      className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover ring-4 ring-accent/20"
-    />
+    <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden ring-4 ring-accent/20">
+      <Image
+        src={avatar_url}
+        alt={nickname}
+        fill
+        unoptimized
+        className="object-cover"
+      />
+    </div>
   ) : (
     <div
       className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-3xl sm:text-4xl font-bold text-white ring-4 ring-accent/20"

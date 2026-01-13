@@ -30,8 +30,16 @@ export { callGemini, buildReviewPrompt, buildSummaryPrompt } from './gemini'
 // endregion
 
 // region: Celeb Profile Generator
-export { generateCelebProfile, buildCelebProfilePrompt } from './celeb-profile-generator'
-export type { CelebProfileInput, GeneratedCelebProfile, GenerateCelebProfileResult } from './celeb-profile-generator'
+export { generateCelebProfile, buildCelebProfilePrompt, generateCelebProfileWithInfluence } from './celeb-profile-generator'
+export type {
+  CelebProfileInput,
+  GeneratedCelebProfile,
+  GenerateCelebProfileResult,
+  InfluenceScore,
+  GeneratedInfluence,
+  GeneratedCelebProfileWithInfluence,
+  GenerateCelebProfileWithInfluenceResult,
+} from './celeb-profile-generator'
 // endregion
 
 // region: Unified Search

@@ -3,6 +3,7 @@ import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Star, BookOpen, Users, BadgeCheck, CheckCircle, Ban } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import CelebForm from '../components/CelebForm'
 
 interface PageProps {
@@ -31,9 +32,9 @@ export default async function CelebDetailPage({ params }: PageProps) {
       <div className="bg-bg-card border border-border rounded-lg p-6">
         <div className="flex items-start gap-6">
           {/* Avatar */}
-          <div className="w-24 h-24 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden shrink-0">
+          <div className="relative w-24 h-24 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden shrink-0">
             {celeb.avatar_url ? (
-              <img src={celeb.avatar_url} alt="" className="w-full h-full object-cover" />
+              <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
             ) : (
               <Star className="w-10 h-10 text-yellow-400" />
             )}

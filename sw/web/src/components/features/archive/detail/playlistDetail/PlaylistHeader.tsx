@@ -6,6 +6,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   MoreVertical,
@@ -63,11 +64,11 @@ export default function PlaylistHeader({
 
         <div className="flex-1 flex gap-4">
           {/* 커버 이미지 */}
-          <div className="w-24 h-24 rounded-xl bg-bg-card flex items-center justify-center overflow-hidden flex-shrink-0">
+          <div className="relative w-24 h-24 rounded-xl bg-bg-card flex items-center justify-center overflow-hidden flex-shrink-0">
             {playlist.cover_url ? (
-              <img src={playlist.cover_url} alt={playlist.name} className="w-full h-full object-cover" />
+              <Image src={playlist.cover_url} alt={playlist.name} fill unoptimized className="object-cover" />
             ) : playlist.items[0]?.content.thumbnail_url ? (
-              <img src={playlist.items[0].content.thumbnail_url} alt={playlist.name} className="w-full h-full object-cover" />
+              <Image src={playlist.items[0].content.thumbnail_url} alt={playlist.name} fill unoptimized className="object-cover" />
             ) : (
               <ListMusic size={32} className="text-text-secondary" />
             )}

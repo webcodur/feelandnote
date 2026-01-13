@@ -75,7 +75,8 @@
       "Bash(git push)",
       "WebFetch(domain:bookauthority.org)",
       "WebFetch(domain:ai.google.dev)",
-      "WebFetch(domain:generativelanguage.googleapis.com)"
+      "WebFetch(domain:generativelanguage.googleapis.com)",
+      "Bash(pnpm dev)"
     ],
     "deny": [],
     "ask": []
