@@ -4,67 +4,13 @@ import { useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar, Card, Button } from "@/components/ui";
-import {
-  Book,
-  Film,
-  Gamepad2,
-  Music,
-  Award,
-  AlertTriangle,
-  ExternalLink,
-  FileText,
-  Plus,
-  Check,
-  Loader2,
-} from "lucide-react";
+import { Book, AlertTriangle, ExternalLink, Plus, Check, Loader2 } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+import { getCategoryByDbType } from "@/constants/categories";
+import { formatRelativeTime } from "@/lib/utils/date";
+import { extractDomain } from "@/lib/utils/url";
 import type { CelebReview } from "@/types/home";
-import type { ContentType } from "@/types/database";
-
-// #region Constants
-const CONTENT_TYPE_ICONS: Record<ContentType, typeof Book> = {
-  BOOK: Book,
-  VIDEO: Film,
-  GAME: Gamepad2,
-  MUSIC: Music,
-  CERTIFICATE: Award,
-};
-
-const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
-  BOOK: "도서",
-  VIDEO: "영상",
-  GAME: "게임",
-  MUSIC: "음악",
-  CERTIFICATE: "자격증",
-};
-// #endregion
-
-// #region Utils
-function formatRelativeTime(dateString: string): string {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return "방금 전";
-  if (diffMins < 60) return `${diffMins}분 전`;
-  if (diffHours < 24) return `${diffHours}시간 전`;
-  if (diffDays < 7) return `${diffDays}일 전`;
-  return date.toLocaleDateString("ko-KR", { month: "short", day: "numeric" });
-}
-
-function extractDomain(url: string): string {
-  try {
-    const hostname = new URL(url).hostname;
-    return hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
-// #endregion
 
 interface CelebReviewCardProps {
   review: CelebReview;
@@ -76,8 +22,9 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
   const [isChecking, setIsChecking] = useState(true);
   const [isAdding, startTransition] = useTransition();
 
-  const ContentIcon = CONTENT_TYPE_ICONS[review.content.type] ?? Book;
-  const contentTypeLabel = CONTENT_TYPE_LABELS[review.content.type] ?? "콘텐츠";
+  const category = getCategoryByDbType(review.content.type);
+  const ContentIcon = category?.icon ?? Book;
+  const contentTypeLabel = category?.label ?? "콘텐츠";
 
   // 기록관에 이미 추가된 콘텐츠인지 확인
   useEffect(() => {
@@ -152,33 +99,49 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
 
       {/* 우측: 셀럽 리뷰 영역 */}
       <div className="flex-1 p-4 flex flex-col min-w-0">
-        {/* 셀럽 헤더 */}
-        <Link
-          href={`/archive/user/${review.celeb.id}`}
-          className="flex items-center gap-2 mb-3 group/user"
-        >
-          <Avatar
-            url={review.celeb.avatar_url}
-            name={review.celeb.nickname}
-            size="sm"
-            verified={review.celeb.is_verified}
-          />
-          <div className="flex-1 min-w-0">
-            <span className="text-sm">
-              <span className="font-medium text-text-primary group-hover/user:text-accent">{review.celeb.nickname}</span>
-              <span className="text-text-tertiary">의 추천</span>
-            </span>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] text-text-tertiary">{formatRelativeTime(review.updated_at)}</span>
-              {review.celeb.is_platform_managed && (
-                <span className="text-[9px] text-text-tertiary bg-white/5 px-1 py-0.5 rounded">Feelnnote</span>
-              )}
+        {/* 셀럽 헤더 + 액션 */}
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <Link
+            href={`/archive/user/${review.celeb.id}`}
+            className="flex items-center gap-2 group/user min-w-0 pt-0.5"
+          >
+            <Avatar
+              url={review.celeb.avatar_url}
+              name={review.celeb.nickname}
+              size="sm"
+              verified={review.celeb.is_verified}
+            />
+            <div className="flex-1 min-w-0">
+              <span className="text-sm block leading-tight">
+                <span className="font-medium text-text-primary group-hover/user:text-accent">{review.celeb.nickname}</span>
+                <span className="text-text-tertiary">의 추천</span>
+              </span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-[11px] text-text-tertiary">{formatRelativeTime(review.updated_at)}</span>
+                {review.celeb.is_platform_managed && (
+                  <span className="text-[9px] text-text-tertiary bg-white/5 px-1 py-0.5 rounded">Feelnnote</span>
+                )}
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+
+          <Button
+            variant={isAdded ? "ghost" : "secondary"}
+            size="sm"
+            onClick={handleAddToArchive}
+            disabled={isChecking || isAdding || isAdded}
+            className={`gap-1 text-xs h-8 px-3 shrink-0 ${isAdded ? "text-accent" : ""}`}
+            title="기록관에 추가"
+          >
+            {(isChecking || isAdding) && <Loader2 size={13} className="animate-spin" />}
+            {!isChecking && !isAdding && isAdded && <Check size={13} />}
+            {!isChecking && !isAdding && !isAdded && <Plus size={13} />}
+            <span className="sr-only md:not-sr-only md:inline-block">{isAdded ? "추가됨" : "추가"}</span>
+          </Button>
+        </div>
 
         {/* 리뷰 텍스트 */}
-        <div className="flex-1">
+        <div className="flex-1 min-h-0">
           {review.is_spoiler && !showSpoiler ? (
             <Button
               unstyled
@@ -189,7 +152,7 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
               <span className="text-xs">스포일러 포함 · 탭하여 확인</span>
             </Button>
           ) : (
-            <p className="text-sm text-text-primary/90 leading-relaxed line-clamp-3">
+            <p className="text-sm text-text-primary/90 leading-relaxed line-clamp-4 md:line-clamp-5 whitespace-pre-line">
               {review.review}
             </p>
           )}
@@ -205,22 +168,6 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
               <span>{extractDomain(review.source_url)}</span>
             </a>
           )}
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-end mt-3 pt-3 border-t border-border/20">
-          <Button
-            variant={isAdded ? "ghost" : "secondary"}
-            size="sm"
-            onClick={handleAddToArchive}
-            disabled={isChecking || isAdding || isAdded}
-            className={`gap-1 text-xs h-7 px-2.5 ${isAdded ? "text-accent" : ""}`}
-          >
-            {(isChecking || isAdding) && <Loader2 size={12} className="animate-spin" />}
-            {!isChecking && !isAdding && isAdded && <Check size={12} />}
-            {!isChecking && !isAdding && !isAdded && <Plus size={12} />}
-            <span>{isAdded ? "추가됨" : "기록관 추가"}</span>
-          </Button>
         </div>
       </div>
     </Card>

@@ -78,7 +78,7 @@ function ReviewFeedCard({ item }: { item: ReviewFeedItem }) {
             <span>스포일러가 포함된 리뷰입니다. 클릭하여 보기</span>
           </Button>
         ) : (
-          <div className="text-xs leading-relaxed text-text-secondary line-clamp-4">
+          <div className="text-xs leading-relaxed text-text-secondary line-clamp-4 whitespace-pre-line">
             {item.is_spoiler && (
               <Button
                 unstyled

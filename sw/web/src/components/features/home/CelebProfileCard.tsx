@@ -2,10 +2,10 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Globe, CheckCircle, UserPlus, UserCheck, Users } from "lucide-react";
-import { Avatar, Button } from "@/components/ui";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { UserPlus, UserCheck, Users } from "lucide-react";
+import { Avatar } from "@/components/ui";
 import { toggleFollow } from "@/actions/user";
+import CelebInfluenceModal from "./CelebInfluenceModal";
 import type { CelebProfile } from "@/types/home";
 
 type CardSize = "sm" | "md" | "lg";
@@ -13,38 +13,60 @@ type CardSize = "sm" | "md" | "lg";
 const SIZE_STYLES: Record<CardSize, {
   container: string;
   name: string;
-  profession: string;
   avatarSize: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
-  button: string;
-  iconSize: number;
-  badgeIconSize: number;
-  rankSize: string;
+  rankBadge: string;
+  rankText: string;
+  followBtn: string;
+  followIconSize: number;
 }> = {
-  sm: { container: "w-14", name: "text-xs", profession: "text-[10px]", avatarSize: "lg", button: "text-[9px] px-1.5 py-0.5", iconSize: 8, badgeIconSize: 10, rankSize: "text-[8px] px-1 py-0.5" },
-  md: { container: "w-[100px]", name: "text-sm", profession: "text-xs", avatarSize: "2xl", button: "text-[10px] px-2 py-1", iconSize: 10, badgeIconSize: 12, rankSize: "text-[10px] px-1.5 py-0.5" },
-  lg: { container: "w-[100px]", name: "text-base", profession: "text-sm", avatarSize: "3xl", button: "text-xs px-2.5 py-1", iconSize: 12, badgeIconSize: 14, rankSize: "text-xs px-2 py-0.5" },
+  sm: {
+    container: "w-[80px]",
+    name: "text-[11px]",
+    avatarSize: "lg",
+    rankBadge: "w-5 h-5 -bottom-1 -right-1",
+    rankText: "text-[10px]",
+    followBtn: "w-5 h-5 -bottom-0.5 -left-0.5",
+    followIconSize: 10,
+  },
+  md: {
+    container: "w-[110px]",
+    name: "text-sm",
+    avatarSize: "2xl",
+    rankBadge: "w-7 h-7 -bottom-1 -right-1",
+    rankText: "text-sm",
+    followBtn: "w-6 h-6 -bottom-0.5 -left-0.5",
+    followIconSize: 12,
+  },
+  lg: {
+    container: "w-[110px]",
+    name: "text-base",
+    avatarSize: "3xl",
+    rankBadge: "w-8 h-8 -bottom-1 -right-1",
+    rankText: "text-base",
+    followBtn: "w-7 h-7 -bottom-0.5 -left-0.5",
+    followIconSize: 14,
+  },
 };
 
-const RANK_COLORS: Record<string, string> = {
-  S: "bg-yellow-500 text-yellow-900",
-  A: "bg-purple-500 text-white",
-  B: "bg-blue-500 text-white",
-  C: "bg-green-500 text-white",
-  D: "bg-gray-500 text-white",
+const RANK_STYLES: Record<string, string> = {
+  S: "bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 text-white border-white",
+  A: "bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 text-white border-white",
+  B: "bg-gradient-to-br from-orange-300 via-orange-400 to-orange-600 text-white border-white",
+  C: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white border-white",
+  D: "bg-gradient-to-br from-gray-400 to-gray-600 text-white border-white",
 };
 
 interface CelebProfileCardProps {
   celeb: CelebProfile;
   size?: CardSize;
-  hideProfession?: boolean;
   onFollowChange?: (celebId: string, isFollowing: boolean) => void;
 }
 
-export default function CelebProfileCard({ celeb, size = "md", hideProfession, onFollowChange }: CelebProfileCardProps) {
+export default function CelebProfileCard({ celeb, size = "md", onFollowChange }: CelebProfileCardProps) {
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isPending, startTransition] = useTransition();
+  const [showInfluenceModal, setShowInfluenceModal] = useState(false);
 
-  const professionLabel = getCelebProfessionLabel(celeb.profession);
   const styles = SIZE_STYLES[size];
   const isFriend = isFollowing && celeb.is_follower;
 
@@ -61,83 +83,77 @@ export default function CelebProfileCard({ celeb, size = "md", hideProfession, o
     });
   };
 
-  // 팔로우 버튼 텍스트와 스타일
-  const getFollowButton = () => {
-    if (isFollowing) {
-      return {
-        text: isFriend ? "친구" : "팔로잉",
-        icon: isFriend ? Users : UserCheck,
-        className: "bg-white/10 text-text-primary hover:bg-white/15",
-      };
-    }
-    return {
-      text: "팔로우",
-      icon: UserPlus,
-      className: "bg-accent text-white hover:bg-accent-hover",
-    };
+  // 팔로우 버튼 아이콘 선택
+  const getFollowIcon = () => {
+    if (isFollowing) return isFriend ? Users : UserCheck;
+    return UserPlus;
   };
 
-  const buttonConfig = getFollowButton();
-  const ButtonIcon = buttonConfig.icon;
-
-  // 뱃지 아이콘: 플랫폼 관리 = Globe, 개인 계정 = CheckCircle
-  const BadgeIcon = celeb.is_platform_managed ? Globe : CheckCircle;
-  const badgeTitle = celeb.is_platform_managed
-    ? "공개 정보를 기반으로 생성된 프로필"
-    : "인증된 계정";
-  const badgeColor = celeb.is_platform_managed
-    ? "text-text-tertiary hover:text-accent"
-    : "text-accent";
+  const ButtonIcon = getFollowIcon();
 
   return (
-    <Link href={`/archive/user/${celeb.id}`} className="group">
-      <div className={`flex flex-col items-center gap-1 text-center ${styles.container}`}>
-        <Avatar
-          url={celeb.avatar_url}
-          name={celeb.nickname}
-          size={styles.avatarSize}
-          verified={celeb.is_verified}
-          className="group-hover:ring-accent/50"
-        />
-        <div className="w-full">
-          {/* 이름 + 뱃지 아이콘 */}
-          <span className={`inline-flex items-center justify-center gap-0.5 font-medium ${styles.name}`}>
-            <span className="truncate font-serif">{celeb.nickname}</span>
-            <span title={badgeTitle} className={`shrink-0 cursor-help ${badgeColor}`}>
-              <BadgeIcon size={styles.badgeIconSize} />
-            </span>
-          </span>
-          {professionLabel && !hideProfession && (
-            <span className={`text-text-tertiary truncate block ${styles.profession}`}>
-              {professionLabel}
-            </span>
-          )}
-          {/* 영향력 등급 */}
-          {celeb.influence && (
-            <span
-              className={`inline-block rounded font-bold mt-1 ${styles.rankSize} ${RANK_COLORS[celeb.influence.rank]}`}
-              title={`영향력 ${celeb.influence.total_score}점`}
+    <>
+      <Link href={`/archive/user/${celeb.id}`} className="group block">
+        <div className={`relative flex flex-col items-center gap-2.5 p-1 rounded-xl transition-all duration-300 hover:bg-fill-quaternary/30 ${styles.container}`}>
+          {/* Avatar Area with Influence Badge & Follow Button */}
+          <div className="relative">
+            <Avatar
+              url={celeb.avatar_url}
+              name={celeb.nickname}
+              size={styles.avatarSize}
+              verified={celeb.is_verified}
+              className={`ring-2 ${isFollowing ? "ring-accent" : "ring-transparent group-hover:ring-accent/20"}`}
+            />
+
+            {/* Follow Button - Overlapping Avatar (좌측 하단) */}
+            <button
+              onClick={handleFollowClick}
+              disabled={isPending}
+              className={`
+                absolute flex items-center justify-center rounded-full border-2 border-bg-main shadow-sm
+                cursor-pointer z-10
+                ${styles.followBtn}
+                ${isFollowing ? "bg-fill-secondary text-text-secondary" : "bg-accent text-white"}
+                ${isPending ? "opacity-70 cursor-not-allowed" : "hover:scale-110"}
+              `}
+              title={isFollowing ? (isFriend ? "친구" : "팔로잉") : "팔로우"}
             >
-              {celeb.influence.rank}
-            </span>
-          )}
-          {/* 팔로우 버튼 */}
-          <Button
-            unstyled
-            onClick={handleFollowClick}
-            disabled={isPending}
-            className={`
-              inline-flex items-center justify-center gap-0.5 rounded-full mt-1.5 font-medium
-              ${styles.button}
-              ${buttonConfig.className}
-              ${isPending ? "opacity-50 cursor-not-allowed" : ""}
-            `}
-          >
-            <ButtonIcon size={styles.iconSize} />
-            <span>{buttonConfig.text}</span>
-          </Button>
+              <ButtonIcon size={styles.followIconSize} />
+            </button>
+
+            {/* Influence Badge - Overlapping Avatar (우측 하단) */}
+            {celeb.influence && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowInfluenceModal(true);
+                }}
+                className={`
+                  absolute flex items-center justify-center rounded-full border-2 shadow-sm
+                  font-serif font-bold cursor-pointer hover:scale-110 z-10
+                  ${styles.rankBadge}
+                  ${RANK_STYLES[celeb.influence.rank] || RANK_STYLES.C}
+                `}
+                title={`영향력 ${celeb.influence.total_score}점 - 상세 보기`}
+              >
+                <span className={`${styles.rankText} drop-shadow-sm`}>{celeb.influence.rank}</span>
+              </button>
+            )}
+          </div>
+
+          {/* Name */}
+          <span className={`font-semibold truncate text-text-primary text-center w-full ${styles.name}`}>
+            {celeb.nickname}
+          </span>
         </div>
-      </div>
-    </Link>
+      </Link>
+
+      <CelebInfluenceModal
+        celebId={celeb.id}
+        isOpen={showInfluenceModal}
+        onClose={() => setShowInfluenceModal(false)}
+      />
+    </>
   );
 }

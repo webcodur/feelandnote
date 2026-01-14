@@ -3,10 +3,14 @@
 import { createClient } from '@/lib/supabase/server'
 import type { CelebProfile } from '@/types/home'
 
+export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc'
+
 interface GetCelebsParams {
   page?: number
   limit?: number
   profession?: string
+  nationality?: string  // 'all' | 'none' | 국가명
+  sortBy?: CelebSortBy
 }
 
 interface GetCelebsResult {
@@ -20,7 +24,7 @@ interface GetCelebsResult {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession } = params
+  const { page = 1, limit = 8, profession, nationality, sortBy = 'follower' } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -39,6 +43,14 @@ export async function getCelebs(
     countQuery = countQuery.eq('profession', profession)
   }
 
+  if (nationality && nationality !== 'all') {
+    if (nationality === 'none') {
+      countQuery = countQuery.is('nationality', null)
+    } else {
+      countQuery = countQuery.eq('nationality', nationality)
+    }
+  }
+
   const { count } = await countQuery
 
   const total = count ?? 0
@@ -52,7 +64,11 @@ export async function getCelebs(
       nickname,
       avatar_url,
       profession,
+      nationality,
+      birth_date,
+      death_date,
       bio,
+      quotes,
       is_verified,
       claimed_by,
       user_social(follower_count),
@@ -63,6 +79,21 @@ export async function getCelebs(
 
   if (profession && profession !== 'all') {
     query = query.eq('profession', profession)
+  }
+
+  if (nationality && nationality !== 'all') {
+    if (nationality === 'none') {
+      query = query.is('nationality', null)
+    } else {
+      query = query.eq('nationality', nationality)
+    }
+  }
+
+  // 정렬 적용 (birth_date 정렬 시 DB 레벨에서 처리)
+  if (sortBy === 'birth_date_asc') {
+    query = query.order('birth_date', { ascending: true, nullsFirst: false })
+  } else if (sortBy === 'birth_date_desc') {
+    query = query.order('birth_date', { ascending: false, nullsFirst: false })
   }
 
   const { data, error } = await query.range(offset, offset + limit - 1)
@@ -113,7 +144,11 @@ export async function getCelebs(
         nickname: row.nickname || '',
         avatar_url: row.avatar_url,
         profession: row.profession,
+        nationality: row.nationality,
+        birth_date: row.birth_date,
+        death_date: row.death_date,
         bio: row.bio,
+        quotes: row.quotes,
         is_verified: row.is_verified ?? false,
         is_platform_managed: row.claimed_by === null,
         follower_count: social?.follower_count ?? 0,
@@ -125,7 +160,11 @@ export async function getCelebs(
         } : null,
       }
     })
-    .sort((a, b) => b.follower_count - a.follower_count)
+
+  // 팔로워 수 정렬일 때만 클라이언트 측 정렬 (DB에서 join 데이터 정렬 어려움)
+  if (sortBy === 'follower') {
+    celebs.sort((a, b) => b.follower_count - a.follower_count)
+  }
 
   return { celebs, total, page, totalPages, error: null }
 }

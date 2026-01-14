@@ -40,3 +40,8 @@ export const getCelebProfessionLabel = (value: string | null): string => {
   const profession = CELEB_PROFESSIONS.find((p) => p.value === value)
   return profession?.label ?? value
 }
+
+export const getCelebProfession = (value: string | null) => {
+  if (!value) return null
+  return CELEB_PROFESSIONS.find((p) => p.value === value) ?? null
+}

@@ -8,10 +8,28 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare } from "lucide-react";
+import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare, Quote, Calendar } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { toggleFollow, type PublicUserProfile } from "@/actions/user";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
+// 생몰년 포맷팅 헬퍼
+function formatLifespan(birthDate: string | null, deathDate: string | null): string | null {
+  if (!birthDate && !deathDate) return null
+
+  const formatYear = (date: string): string => {
+    if (date.startsWith('-')) {
+      return `BC ${date.slice(1)}`
+    }
+    const year = date.split('-')[0]
+    return year
+  }
+
+  const birth = birthDate ? formatYear(birthDate) : '?'
+  const death = deathDate ? formatYear(deathDate) : (birthDate ? '현재' : '?')
+
+  return `${birth} ~ ${death}`
+}
 
 interface UserProfileHeaderProps {
   profile: PublicUserProfile;
@@ -86,14 +104,39 @@ export default function UserProfileHeader({
               </span>
             )}
           </div>
-          {isCeleb && profile.profession && (
-            <p className="text-xs text-text-tertiary mb-1">{getCelebProfessionLabel(profile.profession)}</p>
+          {isCeleb && (profile.profession || profile.nationality || profile.birth_date || profile.death_date) && (
+            <div className="flex items-center gap-2 text-xs text-text-tertiary mb-1 flex-wrap">
+              {(profile.profession || profile.nationality) && (
+                <span>
+                  {[
+                    profile.profession && getCelebProfessionLabel(profile.profession),
+                    profile.nationality
+                  ].filter(Boolean).join(' · ')}
+                </span>
+              )}
+              {(profile.birth_date || profile.death_date) && (
+                <span className="flex items-center gap-1">
+                  <Calendar size={12} />
+                  {formatLifespan(profile.birth_date, profile.death_date)}
+                </span>
+              )}
+            </div>
           )}
 
           {profile.bio && (
-            <p className="text-sm text-text-secondary mb-3 line-clamp-2">
+            <p className="text-sm text-text-secondary mb-2 line-clamp-2">
               {profile.bio}
             </p>
+          )}
+
+          {/* 셀럽 명언 */}
+          {isCeleb && profile.quotes && (
+            <div className="flex items-start gap-2 mb-3 p-2 bg-accent/5 rounded-lg border border-accent/10">
+              <Quote size={14} className="text-accent flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-text-secondary italic line-clamp-2">
+                "{profile.quotes}"
+              </p>
+            </div>
           )}
 
           {/* 통계 */}

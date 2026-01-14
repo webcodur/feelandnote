@@ -3,38 +3,12 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Users, ChevronRight, Plus, Star, Inbox } from "lucide-react";
-import { Avatar, LoadMoreButton } from "@/components/ui";
-import { getFeedActivities, type FeedActivity } from "@/actions/activity";
-import { getCategoryByDbType } from "@/constants/categories";
-import type { ActivityActionType } from "@/types/database";
-
-// #region Utils
-function formatRelativeTime(dateString: string): string {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return "방금 전";
-  if (diffMins < 60) return `${diffMins}분 전`;
-  if (diffHours < 24) return `${diffHours}시간 전`;
-  if (diffDays < 7) return `${diffDays}일 전`;
-  return date.toLocaleDateString("ko-KR", { month: "short", day: "numeric" });
-}
-
-const ACTION_CONFIG: Record<ActivityActionType, { icon: typeof Plus; verb: string; color: string }> = {
-  CONTENT_ADD: { icon: Plus, verb: "추가했어요", color: "text-green-400" },
-  REVIEW_UPDATE: { icon: Star, verb: "리뷰를 남겼어요", color: "text-yellow-400" },
-  CONTENT_REMOVE: { icon: Plus, verb: "삭제했어요", color: "text-red-400" },
-  STATUS_CHANGE: { icon: Plus, verb: "상태 변경", color: "text-blue-400" },
-  RECORD_CREATE: { icon: Plus, verb: "기록 생성", color: "text-purple-400" },
-  RECORD_UPDATE: { icon: Plus, verb: "기록 수정", color: "text-blue-400" },
-  RECORD_DELETE: { icon: Plus, verb: "기록 삭제", color: "text-red-400" },
-};
-// #endregion
+import { Star, Inbox } from "lucide-react";
+import { Avatar, LoadMoreButton, FilterTabs } from "@/components/ui";
+import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } from "@/actions/activity";
+import { getCategoryByDbType, CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
+import { formatRelativeTime } from "@/lib/utils/date";
+import { ACTION_CONFIG } from "@/lib/config/activity-actions";
 
 // #region Components
 function ActivityCard({ activity }: { activity: FeedActivity }) {
@@ -50,7 +24,7 @@ function ActivityCard({ activity }: { activity: FeedActivity }) {
       href={activity.content_id ? `/archive/${activity.content_id}?userId=${activity.user_id}` : "#"}
       className="block group"
     >
-      <div className="flex gap-3 p-3 rounded-xl bg-bg-card border border-transparent hover:border-white/10 hover:bg-white/[0.02]">
+      <div className="flex gap-3 p-3 rounded-xl bg-bg-card border border-border/50 hover:border-border hover:shadow-md hover:shadow-black/10">
         {/* 썸네일 */}
         <div className="relative w-12 h-16 lg:w-14 lg:h-[72px] shrink-0 rounded-lg overflow-hidden bg-white/5">
           {activity.content_thumbnail ? (
@@ -114,7 +88,7 @@ function ActivityCard({ activity }: { activity: FeedActivity }) {
 
 function EmptyActivity() {
   return (
-    <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl bg-bg-card border border-border">
+    <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl bg-bg-card border border-border/50">
       <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
         <Inbox size={24} className="text-text-tertiary" />
       </div>
@@ -147,54 +121,67 @@ function LoadingSkeleton() {
 
 interface FriendActivitySectionProps {
   userId: string;
+  hideHeader?: boolean;
+  activityTypeCounts?: FriendActivityTypeCounts;
 }
 
-export default function FriendActivitySection({ userId }: FriendActivitySectionProps) {
+export default function FriendActivitySection({ userId, hideHeader = false, activityTypeCounts }: FriendActivitySectionProps) {
   const [activities, setActivities] = useState<FeedActivity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
+
+  const loadActivities = useCallback(async (type: ContentTypeFilterValue, cursorValue?: string) => {
+    if (cursorValue) {
+      setIsLoadingMore(true);
+    } else {
+      setIsLoading(true);
+    }
+
+    const result = await getFeedActivities({
+      limit: 5,
+      cursor: cursorValue,
+      contentType: type === "all" ? undefined : type,
+    });
+
+    if (cursorValue) {
+      setActivities((prev) => [...prev, ...result.activities]);
+    } else {
+      setActivities(result.activities);
+    }
+    setCursor(result.nextCursor);
+    setHasMore(!!result.nextCursor);
+    setIsLoading(false);
+    setIsLoadingMore(false);
+  }, []);
 
   useEffect(() => {
-    async function loadActivities() {
-      setIsLoading(true);
-      const result = await getFeedActivities({ limit: 5 });
-      setActivities(result.activities);
-      setCursor(result.nextCursor);
-      setHasMore(!!result.nextCursor);
-      setIsLoading(false);
-    }
-    loadActivities();
-  }, [userId]);
+    loadActivities(contentType);
+  }, [userId, contentType, loadActivities]);
+
+  const handleTypeChange = useCallback((type: ContentTypeFilterValue) => {
+    setContentType(type);
+    setCursor(null);
+  }, []);
 
   const loadMore = useCallback(async () => {
     if (isLoadingMore || !hasMore || !cursor) return;
-
-    setIsLoadingMore(true);
-    const result = await getFeedActivities({ limit: 5, cursor });
-    setActivities((prev) => [...prev, ...result.activities]);
-    setCursor(result.nextCursor);
-    setHasMore(!!result.nextCursor);
-    setIsLoadingMore(false);
-  }, [cursor, hasMore, isLoadingMore]);
+    loadActivities(contentType, cursor);
+  }, [cursor, hasMore, isLoadingMore, contentType, loadActivities]);
 
   return (
     <section>
-      {/* 섹션 헤더 */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-1 h-5 bg-accent rounded-full" />
-          <Users size={18} className="text-accent" />
-          <h2 className="text-lg font-bold">친구 소식</h2>
-        </div>
-        <Link
-          href="/archive/feed"
-          className="flex items-center gap-1 text-sm text-text-secondary hover:text-accent group"
-        >
-          전체보기
-          <ChevronRight size={16} className="group-hover:translate-x-0.5" />
-        </Link>
+      {/* 콘텐츠 타입 필터 */}
+      <div className="mb-4">
+        <FilterTabs
+          items={CONTENT_TYPE_FILTERS}
+          activeValue={contentType}
+          counts={activityTypeCounts}
+          onSelect={handleTypeChange}
+          hideZeroCounts
+        />
       </div>
 
       {isLoading ? (

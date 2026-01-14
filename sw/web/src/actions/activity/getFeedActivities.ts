@@ -23,6 +23,7 @@ export interface FeedActivity {
 interface GetFeedActivitiesParams {
   limit?: number
   cursor?: string
+  contentType?: string
 }
 
 interface GetFeedActivitiesResult {
@@ -33,7 +34,7 @@ interface GetFeedActivitiesResult {
 export async function getFeedActivities(
   params: GetFeedActivitiesParams = {}
 ): Promise<GetFeedActivitiesResult> {
-  const { limit = 20, cursor } = params
+  const { limit = 20, cursor, contentType } = params
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -61,6 +62,22 @@ export async function getFeedActivities(
   const followingIds = following.map(f => f.following_id)
   console.log('[getFeedActivities] followingIds:', followingIds)
 
+  // contentType 필터가 있으면 해당 타입의 content_id 목록 조회
+  let filteredContentIds: string[] | null = null
+  if (contentType && contentType !== 'all') {
+    const { data: filteredContents } = await supabase
+      .from('contents')
+      .select('id')
+      .eq('type', contentType)
+
+    if (filteredContents && filteredContents.length > 0) {
+      filteredContentIds = filteredContents.map(c => c.id)
+    } else {
+      // 해당 타입의 콘텐츠가 없으면 빈 결과 반환
+      return { activities: [], nextCursor: null }
+    }
+  }
+
   // 팔로우한 사람들의 활동 로그 조회 (콘텐츠 추가, 리뷰 작성만)
   let query = supabase
     .from('activity_logs')
@@ -79,6 +96,11 @@ export async function getFeedActivities(
     .in('action_type', ['CONTENT_ADD', 'REVIEW_UPDATE'])
     .order('created_at', { ascending: false })
     .limit(limit + 1)
+
+  // contentType 필터 적용
+  if (filteredContentIds) {
+    query = query.in('content_id', filteredContentIds)
+  }
 
   if (cursor) {
     query = query.lt('created_at', cursor)

@@ -15,8 +15,7 @@ import {
 
 const menuItems = [
   { href: '/', label: '대시보드', icon: LayoutDashboard },
-  { href: '/users', label: '사용자 관리', icon: Users },
-  { href: '/celebs', label: '셀럽 관리', icon: Star },
+  { href: '/members', label: '멤버 관리', icon: Users },
   { href: '/contents', label: '콘텐츠 관리', icon: Library },
   { href: '/records', label: '기록 관리', icon: FileText },
   { href: '/reports', label: '신고 관리', icon: Flag },

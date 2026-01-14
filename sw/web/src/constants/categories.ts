@@ -1,8 +1,11 @@
-import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award, LayoutGrid } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
 export type CategoryId = "book" | "video" | "game" | "music" | "certificate";
+
+// 콘텐츠 타입 필터 값 (all 포함)
+export type ContentTypeFilterValue = "all" | "BOOK" | "VIDEO" | "GAME" | "MUSIC" | "CERTIFICATE";
 
 // 영상 서브타입 (TMDB 결과 구분용)
 export type VideoSubtype = "movie" | "tv";
@@ -31,3 +34,15 @@ export const getCategoryById = (id: CategoryId): CategoryConfig | undefined =>
 
 export const getCategoryByDbType = (dbType: string): CategoryConfig | undefined =>
   CATEGORIES.find((c) => c.dbType === dbType);
+
+// 콘텐츠 타입 필터 (전체 옵션 포함, 필터 UI용)
+export interface ContentTypeFilter {
+  value: ContentTypeFilterValue;
+  label: string;
+  icon: LucideIcon;
+}
+
+export const CONTENT_TYPE_FILTERS: ContentTypeFilter[] = [
+  { value: "all", label: "전체", icon: LayoutGrid },
+  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label, icon: c.icon })),
+];
