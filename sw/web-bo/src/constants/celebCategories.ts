@@ -14,7 +14,7 @@ export const CELEB_PROFESSIONS = [
 
 export type CelebProfession = (typeof CELEB_PROFESSIONS)[number]['value']
 
-export const getCelebProfessionLabel = (value: string | null): string => {
+export const getCelebProfessionLabel = (value: string | null | undefined): string => {
   if (!value) return '미분류'
   const profession = CELEB_PROFESSIONS.find((p) => p.value === value)
   return profession?.label ?? value

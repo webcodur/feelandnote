@@ -13,3 +13,4 @@ export { default as DropdownMenu, type DropdownMenuItem } from "./DropdownMenu";
 export { default as Portal } from "./Portal";
 export { default as Modal, ModalBody, ModalFooter } from "./Modal";
 export { default as DeleteConfirmModal } from "./DeleteConfirmModal";
+export { default as FilterTabs, type FilterTabItem } from "./FilterTabs";

@@ -2,23 +2,13 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Inbox, TrendingUp, Book, Film, Gamepad2, Music, Award, LayoutGrid } from "lucide-react";
+import { Inbox } from "lucide-react";
 import CelebReviewCard from "./CelebReviewCard";
-import { LoadMoreButton, Button } from "@/components/ui";
+import { LoadMoreButton, FilterTabs } from "@/components/ui";
 import { getCelebFeed } from "@/actions/home";
+import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
-
-// #region 콘텐츠 타입 필터
-const CONTENT_TYPES = [
-  { value: "all", label: "전체", icon: LayoutGrid },
-  { value: "BOOK", label: "도서", icon: Book },
-  { value: "VIDEO", label: "영상", icon: Film },
-  { value: "GAME", label: "게임", icon: Gamepad2 },
-  { value: "MUSIC", label: "음악", icon: Music },
-  { value: "CERTIFICATE", label: "자격증", icon: Award },
-] as const;
-// #endregion
 
 // #region Skeleton
 function ReviewCardSkeleton() {
@@ -75,50 +65,21 @@ function EmptyFeed() {
 
 // #region Section Header with Filter
 interface FeedHeaderProps {
-  currentType: string;
-  onTypeChange: (type: string) => void;
+  currentType: ContentTypeFilterValue;
+  onTypeChange: (type: ContentTypeFilterValue) => void;
   contentTypeCounts?: ContentTypeCounts;
 }
 
 function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeaderProps) {
   return (
-    <div className="mb-4 space-y-3">
-      {/* 타이틀 */}
-      <div className="flex items-center gap-2">
-        <div className="w-1 h-5 bg-accent rounded-full" />
-        <TrendingUp size={18} className="text-accent" />
-        <h2 className="text-lg font-bold">셀럽 피드</h2>
-      </div>
-
-      {/* 필터 탭 */}
-      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-        <div className="flex gap-2">
-          {CONTENT_TYPES.map(({ value, label, icon: Icon }) => {
-            const isActive = currentType === value;
-            const count = contentTypeCounts?.[value];
-            return (
-              <Button
-                unstyled
-                key={value}
-                onClick={() => onTypeChange(value)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${
-                  isActive
-                    ? "bg-accent text-white"
-                    : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
-                }`}
-              >
-                <Icon size={14} />
-                {label}
-                {count !== undefined && (
-                  <span className={isActive ? "text-white/80" : "text-text-tertiary"}>
-                    ({count.toLocaleString()})
-                  </span>
-                )}
-              </Button>
-            );
-          })}
-        </div>
-      </div>
+    <div className="mb-4">
+      <FilterTabs
+        items={CONTENT_TYPE_FILTERS}
+        activeValue={currentType}
+        counts={contentTypeCounts}
+        onSelect={onTypeChange}
+        hideZeroCounts
+      />
     </div>
   );
 }
@@ -127,12 +88,13 @@ function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeader
 interface CelebFeedProps {
   initialReviews?: CelebReview[];
   contentTypeCounts?: ContentTypeCounts;
+  hideHeader?: boolean;
 }
 
-export default function CelebFeed({ initialReviews = [], contentTypeCounts }: CelebFeedProps) {
+export default function CelebFeed({ initialReviews = [], contentTypeCounts, hideHeader = false }: CelebFeedProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const contentType = searchParams.get("type") ?? "all";
+  const contentType = (searchParams.get("type") ?? "all") as ContentTypeFilterValue;
 
   const [reviews, setReviews] = useState<CelebReview[]>(initialReviews);
   const [isLoading, setIsLoading] = useState(initialReviews.length === 0);
@@ -141,7 +103,7 @@ export default function CelebFeed({ initialReviews = [], contentTypeCounts }: Ce
   const [hasMore, setHasMore] = useState(true);
 
   // 콘텐츠 타입 변경 핸들러
-  const handleTypeChange = useCallback((type: string) => {
+  const handleTypeChange = useCallback((type: ContentTypeFilterValue) => {
     const params = new URLSearchParams(searchParams.toString());
     if (type === "all") {
       params.delete("type");

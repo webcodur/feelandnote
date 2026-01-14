@@ -8,6 +8,7 @@ export interface User {
   email: string
   nickname: string | null
   avatar_url: string | null
+  bio: string | null
   role: string
   status: string
   created_at: string
@@ -85,6 +86,7 @@ export async function getUsers(
     email: user.email,
     nickname: user.nickname,
     avatar_url: user.avatar_url,
+    bio: user.bio,
     role: user.role || 'user',
     status: user.status || 'active',
     created_at: user.created_at,
@@ -168,4 +170,25 @@ export async function updateUserRole(userId: string, role: string): Promise<void
   if (error) throw error
 
   revalidatePath('/users')
+}
+
+export interface UpdateProfileData {
+  nickname?: string
+  avatar_url?: string
+  bio?: string
+  is_verified?: boolean
+}
+
+export async function updateUserProfile(userId: string, data: UpdateProfileData): Promise<void> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update(data)
+    .eq('id', userId)
+
+  if (error) throw error
+
+  revalidatePath('/users')
+  revalidatePath(`/users/${userId}`)
 }

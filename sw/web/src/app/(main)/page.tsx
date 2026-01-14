@@ -1,21 +1,19 @@
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getCelebs, getProfessionCounts, getContentTypeCounts } from "@/actions/home";
+import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts } from "@/actions/home";
+import { getFriendActivityTypeCounts } from "@/actions/activity";
 import {
   CelebCarousel,
   CelebFeed,
   FriendActivitySection,
   SignupBanner,
 } from "@/components/features/home";
+import HomeTabSection from "@/components/features/home/HomeTabSection";
 
 // #region 스켈레톤 컴포넌트
 function CarouselSkeleton() {
   return (
     <section>
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-1 h-5 bg-accent/50 rounded-full" />
-        <div className="w-24 h-5 bg-white/10 rounded animate-pulse" />
-      </div>
       <div className="flex gap-4 overflow-hidden md:grid md:grid-cols-8 md:gap-3">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
           <div key={i} className="flex flex-col items-center animate-pulse shrink-0">
@@ -57,10 +55,6 @@ function FeedSkeleton() {
 function SidebarSkeleton() {
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 mb-3">
-        <div className="w-5 h-5 rounded bg-white/10 animate-pulse" />
-        <div className="w-20 h-4 bg-white/10 rounded animate-pulse" />
-      </div>
       {[1, 2, 3].map((i) => (
         <div key={i} className="flex gap-3 p-3 rounded-xl bg-bg-card animate-pulse">
           <div className="w-12 h-16 rounded-lg bg-white/10" />
@@ -77,9 +71,10 @@ function SidebarSkeleton() {
 
 // #region 서버 데이터 페칭 컴포넌트
 async function CelebCarouselServer() {
-  const [celebsResult, professionCounts] = await Promise.all([
+  const [celebsResult, professionCounts, nationalityCounts] = await Promise.all([
     getCelebs({ page: 1, limit: 8 }),
     getProfessionCounts(),
+    getNationalityCounts(),
   ]);
 
   return (
@@ -88,13 +83,26 @@ async function CelebCarouselServer() {
       initialTotal={celebsResult.total}
       initialTotalPages={celebsResult.totalPages}
       professionCounts={professionCounts}
+      nationalityCounts={nationalityCounts}
+      hideHeader={true}
     />
   );
 }
 
 async function CelebFeedServer() {
   const contentTypeCounts = await getContentTypeCounts();
-  return <CelebFeed contentTypeCounts={contentTypeCounts} />;
+  return <CelebFeed contentTypeCounts={contentTypeCounts} hideHeader={true} />;
+}
+
+async function FriendActivityServer({ userId }: { userId: string }) {
+  const activityTypeCounts = await getFriendActivityTypeCounts();
+  return (
+    <FriendActivitySection
+      userId={userId}
+      hideHeader={true}
+      activityTypeCounts={activityTypeCounts}
+    />
+  );
 }
 // #endregion
 
@@ -104,38 +112,29 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col gap-6 pb-24 px-4 md:px-6 lg:px-8">
-      {/* 셀럽 캐러셀 - 전체 폭 */}
-      <Suspense fallback={<CarouselSkeleton />}>
-        <CelebCarouselServer />
-      </Suspense>
-
-      {/* 메인 콘텐츠 영역 */}
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-        {/* 왼쪽: 피드 영역 */}
-        <div className="flex-1 min-w-0">
+      <HomeTabSection
+        celebTabContent={
+          <Suspense fallback={<CarouselSkeleton />}>
+            <CelebCarouselServer />
+          </Suspense>
+        }
+        feedTabContent={
           <Suspense fallback={<FeedSkeleton />}>
             <CelebFeedServer />
           </Suspense>
-        </div>
-
-        {/* 오른쪽: 사이드바 (PC 전용) */}
-        <aside className="hidden lg:block w-80 shrink-0">
-          <div className="sticky top-20">
+        }
+        friendTabContent={
+          user ? (
             <Suspense fallback={<SidebarSkeleton />}>
-              {user && <FriendActivitySection userId={user.id} />}
+              <FriendActivityServer userId={user.id} />
             </Suspense>
-          </div>
-        </aside>
-      </div>
-
-      {/* 모바일: 친구 소식 */}
-      {user && (
-        <div className="lg:hidden">
-          <Suspense fallback={<SidebarSkeleton />}>
-            <FriendActivitySection userId={user.id} />
-          </Suspense>
-        </div>
-      )}
+          ) : (
+            <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl bg-bg-card border border-border">
+              <p className="text-sm text-text-secondary mb-2">로그인이 필요한 서비스입니다</p>
+            </div>
+          )
+        }
+      />
 
       {/* 비로그인 시 가입 유도 배너 */}
       {!user && <SignupBanner />}

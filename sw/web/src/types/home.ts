@@ -14,7 +14,11 @@ export interface CelebProfile {
   nickname: string
   avatar_url: string | null
   profession: string | null
+  nationality: string | null  // 국적
+  birth_date: string | null   // 출생연일
+  death_date: string | null   // 사망연일
   bio: string | null
+  quotes: string | null  // 명언/대사
   is_verified: boolean
   is_platform_managed: boolean  // claimed_by가 null이면 true (플랫폼에서 관리)
   follower_count: number
