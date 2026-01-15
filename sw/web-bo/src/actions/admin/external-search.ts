@@ -60,8 +60,6 @@ export async function createContentFromExternal(
   error?: string
 }> {
   try {
-    console.log('[createContentFromExternal] Input:', input)
-
     const supabase = await createClient()
 
     // 이미 등록된 콘텐츠인지 확인 (external_id로)
@@ -72,19 +70,11 @@ export async function createContentFromExternal(
       .maybeSingle()
 
     if (existing) {
-      console.log('[createContentFromExternal] Found existing:', existing.id)
       return { success: true, contentId: existing.id }
     }
 
     // 새 콘텐츠 생성
     const contentId = generateUUID()
-
-    console.log('[createContentFromExternal] Creating content:', {
-      contentId,
-      title: input.title,
-      type: contentType,
-    })
-
     const { error } = await supabase
       .from('contents')
       .insert({
@@ -103,7 +93,6 @@ export async function createContentFromExternal(
       return { success: false, error: error.message }
     }
 
-    console.log('[createContentFromExternal] Success, contentId:', contentId)
     return { success: true, contentId }
   } catch (err) {
     console.error('[createContentFromExternal] Exception:', err)

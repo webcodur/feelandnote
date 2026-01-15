@@ -52,14 +52,19 @@ export default function Header({ isMobile }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const { isSoundEnabled, toggleSound, playSound } = useSound();
 
   useEffect(() => {
     const loadProfile = async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setIsLoggedIn(false);
+        return;
+      }
 
+      setIsLoggedIn(true);
       const { data: profile } = await supabase
         .from("profiles")
         .select("id, nickname, avatar_url")
@@ -175,150 +180,165 @@ export default function Header({ isMobile }: HeaderProps) {
 
       {/* 우측 영역 */}
       <div className="flex items-center gap-1 ml-auto">
-        {/* 사운드 토글 (데스크톱만) */}
-        <Button
-          unstyled
-          noSound
-          onClick={() => {
-            const isNowEnabled = toggleSound();
-            if (isNowEnabled) playSound("volumeCheck", true);
-          }}
-          className={`${ICON_BUTTON_CLASS} hidden md:flex`}
-          title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
-        >
-          {isSoundEnabled ? (
-            <Volume2 size={ICON_SIZE} className="text-accent" />
-          ) : (
-            <VolumeX size={ICON_SIZE} className="text-text-secondary" />
-          )}
-        </Button>
-
-        {/* 알림 아이콘 */}
-        <div className="relative" data-notification-dropdown>
+        {/* 사운드 토글 (데스크톱만, 로그인 시만) */}
+        {isLoggedIn && (
           <Button
             unstyled
-            onClick={() => setShowNotifications(!showNotifications)}
-            className={`${ICON_BUTTON_CLASS} relative`}
+            noSound
+            onClick={() => {
+              const isNowEnabled = toggleSound();
+              if (isNowEnabled) playSound("volumeCheck", true);
+            }}
+            className={`${ICON_BUTTON_CLASS} hidden md:flex`}
+            title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
           >
-            <Bell size={ICON_SIZE} className="text-text-secondary" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 min-w-[14px] h-[14px] px-0.5 bg-accent rounded-full text-white text-[9px] font-bold flex items-center justify-center">
-                {unreadCount}
-              </span>
+            {isSoundEnabled ? (
+              <Volume2 size={ICON_SIZE} className="text-accent" />
+            ) : (
+              <VolumeX size={ICON_SIZE} className="text-text-secondary" />
             )}
           </Button>
+        )}
 
-          {/* 알림 드롭다운 */}
-          {showNotifications && (
-            <div
-              className="absolute right-0 top-11 w-[calc(100vw-24px)] sm:w-80 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
-              style={{ zIndex: Z_INDEX.dropdown }}
+        {/* 비로그인 시 로그인 버튼 */}
+        {isLoggedIn === false && (
+          <Link href="/login">
+            <Button variant="primary" size="sm">
+              로그인
+            </Button>
+          </Link>
+        )}
+
+        {/* 로그인 시 알림 아이콘 */}
+        {isLoggedIn && (
+          <div className="relative" data-notification-dropdown>
+            <Button
+              unstyled
+              onClick={() => setShowNotifications(!showNotifications)}
+              className={`${ICON_BUTTON_CLASS} relative`}
             >
-              <div className="px-4 py-3 border-b border-border flex items-center justify-between">
-                <span className="font-semibold text-sm">알림</span>
-                {unreadCount > 0 && (
-                  <span className="text-xs text-accent">{unreadCount}개의 새 알림</span>
-                )}
-              </div>
-              <div className="max-h-[320px] overflow-y-auto">
-                {notifications.length > 0 ? (
-                  notifications.map((notif) => (
-                    <div
-                      key={notif.id}
-                      className={`px-4 py-3 flex gap-3 hover:bg-white/5 cursor-pointer ${!notif.read ? "bg-accent/5" : ""}`}
-                    >
-                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                        {notif.icon}
+              <Bell size={ICON_SIZE} className="text-text-secondary" />
+              {unreadCount > 0 && (
+                <span className="absolute top-1 right-1 min-w-[14px] h-[14px] px-0.5 bg-accent rounded-full text-white text-[9px] font-bold flex items-center justify-center">
+                  {unreadCount}
+                </span>
+              )}
+            </Button>
+
+            {/* 알림 드롭다운 */}
+            {showNotifications && (
+              <div
+                className="absolute right-0 top-11 w-[calc(100vw-24px)] sm:w-80 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+                style={{ zIndex: Z_INDEX.dropdown }}
+              >
+                <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                  <span className="font-semibold text-sm">알림</span>
+                  {unreadCount > 0 && (
+                    <span className="text-xs text-accent">{unreadCount}개의 새 알림</span>
+                  )}
+                </div>
+                <div className="max-h-[320px] overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map((notif) => (
+                      <div
+                        key={notif.id}
+                        className={`px-4 py-3 flex gap-3 hover:bg-white/5 cursor-pointer ${!notif.read ? "bg-accent/5" : ""}`}
+                      >
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                          {notif.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-text-primary leading-snug">{notif.message}</p>
+                          <p className="text-xs text-text-secondary mt-1">{notif.time}</p>
+                        </div>
+                        {!notif.read && <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1.5" />}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-text-primary leading-snug">{notif.message}</p>
-                        <p className="text-xs text-text-secondary mt-1">{notif.time}</p>
-                      </div>
-                      {!notif.read && <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1.5" />}
+                    ))
+                  ) : (
+                    <div className="py-8 text-center text-text-secondary text-sm">
+                      알림이 없습니다
                     </div>
-                  ))
-                ) : (
-                  <div className="py-8 text-center text-text-secondary text-sm">
-                    알림이 없습니다
+                  )}
+                </div>
+                {notifications.length > 0 && (
+                  <div className="px-4 py-2.5 flex justify-between items-center border-t border-border">
+                    <Button unstyled className="text-xs text-text-secondary hover:text-text-primary">모두 읽음</Button>
+                    <Button unstyled className="text-xs text-accent hover:underline">전체보기</Button>
                   </div>
                 )}
               </div>
-              {notifications.length > 0 && (
-                <div className="px-4 py-2.5 flex justify-between items-center border-t border-border">
-                  <Button unstyled className="text-xs text-text-secondary hover:text-text-primary">모두 읽음</Button>
-                  <Button unstyled className="text-xs text-accent hover:underline">전체보기</Button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* 프로필 드롭다운 */}
-        <div className="relative" data-profile-dropdown>
-          <Button
-            unstyled
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5"
-          >
-            {profile?.avatar_url ? (
-              <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/10">
-                <Image
-                  src={profile.avatar_url}
-                  alt="프로필"
-                  fill
-                  unoptimized
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 ring-2 ring-white/10" />
             )}
-          </Button>
+          </div>
+        )}
 
-          {showProfileMenu && (
-            <div
-              className="absolute right-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
-              style={{ zIndex: Z_INDEX.dropdown }}
+        {/* 로그인 시 프로필 드롭다운 */}
+        {isLoggedIn && (
+          <div className="relative" data-profile-dropdown>
+            <Button
+              unstyled
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5"
             >
-              {/* 프로필 헤더 */}
-              <div className="px-4 py-3 border-b border-border">
-                <p className="font-semibold text-sm truncate">{profile?.nickname || "사용자"}</p>
-              </div>
+              {profile?.avatar_url ? (
+                <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/10">
+                  <Image
+                    src={profile.avatar_url}
+                    alt="프로필"
+                    fill
+                    unoptimized
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 ring-2 ring-white/10" />
+              )}
+            </Button>
 
-              {/* 메뉴 아이템 */}
-              <div className="py-1">
-                {PROFILE_MENU_ITEMS.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setShowProfileMenu(false)}
-                    className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline
-                      ${pathname.startsWith(item.href) ? "text-accent bg-accent/5" : "text-text-primary"}`}
+            {showProfileMenu && (
+              <div
+                className="absolute right-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+                style={{ zIndex: Z_INDEX.dropdown }}
+              >
+                {/* 프로필 헤더 */}
+                <div className="px-4 py-3 border-b border-border">
+                  <p className="font-semibold text-sm truncate">{profile?.nickname || "사용자"}</p>
+                </div>
+
+                {/* 메뉴 아이템 */}
+                <div className="py-1">
+                  {PROFILE_MENU_ITEMS.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setShowProfileMenu(false)}
+                      className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline
+                        ${pathname.startsWith(item.href) ? "text-accent bg-accent/5" : "text-text-primary"}`}
+                    >
+                      <item.icon size={16} className="text-text-secondary" />
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* 로그아웃 */}
+                <div className="border-t border-border py-1">
+                  <Button
+                    unstyled
+                    onClick={async () => {
+                      const supabase = createClient();
+                      await supabase.auth.signOut();
+                      window.location.href = "/login";
+                    }}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 w-full"
                   >
-                    <item.icon size={16} className="text-text-secondary" />
-                    {item.label}
-                  </Link>
-                ))}
+                    <LogOut size={16} />
+                    로그아웃
+                  </Button>
+                </div>
               </div>
-
-              {/* 로그아웃 */}
-              <div className="border-t border-border py-1">
-                <Button
-                  unstyled
-                  onClick={async () => {
-                    const supabase = createClient();
-                    await supabase.auth.signOut();
-                    window.location.href = "/login";
-                  }}
-                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 w-full"
-                >
-                  <LogOut size={16} />
-                  로그아웃
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );
