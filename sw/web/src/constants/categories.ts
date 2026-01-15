@@ -1,4 +1,4 @@
-import { Book, Film, Gamepad2, Music, Award, LayoutGrid } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
@@ -39,10 +39,9 @@ export const getCategoryByDbType = (dbType: string): CategoryConfig | undefined 
 export interface ContentTypeFilter {
   value: ContentTypeFilterValue;
   label: string;
-  icon: LucideIcon;
 }
 
 export const CONTENT_TYPE_FILTERS: ContentTypeFilter[] = [
-  { value: "all", label: "전체", icon: LayoutGrid },
-  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label, icon: c.icon })),
+  { value: "all", label: "전체" },
+  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
 ];

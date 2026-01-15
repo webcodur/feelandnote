@@ -181,6 +181,7 @@ export default function FriendActivitySection({ userId, hideHeader = false, acti
           counts={activityTypeCounts}
           onSelect={handleTypeChange}
           hideZeroCounts
+          title="장르"
         />
       </div>
 

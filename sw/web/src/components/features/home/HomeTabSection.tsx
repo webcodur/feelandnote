@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, TrendingUp, Users } from "lucide-react";
 import { Tabs, Tab } from "@/components/ui/Tab";
 
 interface HomeTabSectionProps {
@@ -24,32 +23,17 @@ export default function HomeTabSection({
       {/* 탭 헤더 */}
       <Tabs>
         <Tab
-          label={
-            <>
-              <Sparkles size={18} />
-              추천 셀럽
-            </>
-          }
+          label="추천 셀럽"
           active={activeTab === "celeb"}
           onClick={() => setActiveTab("celeb")}
         />
         <Tab
-          label={
-            <>
-              <TrendingUp size={18} />
-              셀럽 피드
-            </>
-          }
+          label="셀럽 피드"
           active={activeTab === "feed"}
           onClick={() => setActiveTab("feed")}
         />
         <Tab
-          label={
-            <>
-              <Users size={18} />
-              친구 소식
-            </>
-          }
+          label="친구 소식"
           active={activeTab === "friend"}
           onClick={() => setActiveTab("friend")}
         />

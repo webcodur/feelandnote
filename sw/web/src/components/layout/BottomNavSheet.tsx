@@ -12,22 +12,15 @@ import {
   Home,
   ListMusic,
   Compass,
-  BarChart2,
-  Trophy,
-  Settings,
-  BookOpen,
   Megaphone,
   MessageSquare,
   LucideIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getUnreadGuestbookCount } from "@/actions/guestbook";
 
 interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
-  badge?: number;
 }
 
 interface NavSection {
@@ -37,20 +30,11 @@ interface NavSection {
 
 const NAV_SECTIONS: NavSection[] = [
   {
-    title: "기록관",
+    title: "바로가기",
     items: [
       { href: "/", label: "홈", icon: Home },
       { href: "/archive/playlists", label: "재생목록", icon: ListMusic },
       { href: "/archive/explore", label: "탐색", icon: Compass },
-    ],
-  },
-  {
-    title: "마이페이지",
-    items: [
-      { href: "/profile/stats", label: "통계", icon: BarChart2 },
-      { href: "/profile/achievements", label: "업적", icon: Trophy },
-      { href: "/profile/settings", label: "설정", icon: Settings },
-      { href: "/profile/guestbook", label: "방명록", icon: BookOpen },
     ],
   },
   {
@@ -68,15 +52,6 @@ interface BottomNavSheetProps {
 
 export default function BottomNavSheet({ onClose }: BottomNavSheetProps) {
   const pathname = usePathname();
-  const [badges, setBadges] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    const fetchBadges = async () => {
-      const unreadCount = await getUnreadGuestbookCount();
-      setBadges({ "/profile/guestbook": unreadCount });
-    };
-    fetchBadges();
-  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -97,7 +72,6 @@ export default function BottomNavSheet({ onClose }: BottomNavSheetProps) {
             {section.items.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
-              const badge = badges[item.href];
 
               return (
                 <Link
@@ -109,11 +83,6 @@ export default function BottomNavSheet({ onClose }: BottomNavSheetProps) {
                 >
                   <Icon size={20} />
                   <span className="flex-1">{item.label}</span>
-                  {badge !== undefined && badge > 0 && (
-                    <span className="min-w-5 h-5 flex items-center justify-center bg-red-500 text-white text-xs font-bold rounded-full px-1.5">
-                      {badge > 99 ? "99+" : badge}
-                    </span>
-                  )}
                 </Link>
               );
             })}

@@ -1,11 +1,17 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight, Sparkles, UserX, MapPin, ArrowUpDown } from "lucide-react";
+import { useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight, UserX, ChevronDown, Check } from "lucide-react";
 import CelebProfileCard from "./CelebProfileCard";
 import Button from "@/components/ui/Button";
+import BottomSheet from "@/components/ui/BottomSheet";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
+import {
+  FILTER_BUTTON_STYLES,
+  FILTER_CHIP_STYLES,
+  FILTER_BOTTOMSHEET_STYLES,
+} from "@/constants/filterStyles";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, CelebSortBy } from "@/actions/home";
 
@@ -19,9 +25,11 @@ interface CelebCarouselProps {
 }
 
 const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
+  { value: "influence", label: "영향력순" },
   { value: "follower", label: "팔로워순" },
-  { value: "birth_date_asc", label: "출생 오래된순" },
-  { value: "birth_date_desc", label: "출생 최신순" },
+  { value: "name_asc", label: "이름순" },
+  { value: "birth_date_desc", label: "최근 출생순" },
+  { value: "birth_date_asc", label: "오래된 출생순" },
 ];
 
 export default function CelebCarousel({
@@ -38,8 +46,10 @@ export default function CelebCarousel({
   const [isLoading, setIsLoading] = useState(false);
   const [profession, setProfession] = useState("all");
   const [nationality, setNationality] = useState("all");
-  const [sortBy, setSortBy] = useState<CelebSortBy>("follower");
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [sortBy, setSortBy] = useState<CelebSortBy>("influence");
+
+  // 모바일 모달 상태
+  const [activeFilter, setActiveFilter] = useState<"profession" | "nationality" | "sort" | null>(null);
 
   const loadCelebs = useCallback(async (
     page: number,
@@ -80,15 +90,10 @@ export default function CelebCarousel({
     loadCelebs(1, profession, nationality, sort);
   }, [loadCelebs, profession, nationality]);
 
-  // 모바일 스크롤 네비게이션
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 200;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
+  // 현재 선택된 값들의 라벨
+  const activeProfession = CELEB_PROFESSION_FILTERS.find((f) => f.value === profession);
+  const activeNationality = nationalityCounts.find((n) => n.value === nationality);
+  const activeSort = SORT_OPTIONS.find((s) => s.value === sortBy);
 
   // 초기 데이터도 없으면 섹션 자체를 숨김
   if (initialTotal === 0) {
@@ -97,24 +102,14 @@ export default function CelebCarousel({
 
   return (
     <section>
-      {/* 섹션 헤더 */}
-      {!hideHeader && (
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-5 bg-accent rounded-full" />
-            <Sparkles size={18} className="text-accent" />
-            <h2 className="text-lg font-bold">추천 셀럽</h2>
-          </div>
-        </div>
-      )}
-
-      {/* 필터 영역 */}
-      <div className="space-y-3 mb-4">
-        {/* 직군 필터 + 네비게이션 */}
+      {/* PC: 전체 필터 표시 */}
+      <div className="hidden md:block space-y-3 mb-4">
+        {/* 직군 필터 */}
         <div className="flex items-center gap-2">
-          <div className="overflow-x-auto scrollbar-hide flex-1 -mx-4 px-4 md:mx-0 md:px-0">
-            <div className="flex items-center gap-2">
-              {CELEB_PROFESSION_FILTERS.map(({ value, label, icon: Icon }) => {
+          <span className={FILTER_BUTTON_STYLES.label}>직군</span>
+          <div className="overflow-x-auto scrollbar-hide flex-1">
+            <div className={FILTER_BUTTON_STYLES.container}>
+              {CELEB_PROFESSION_FILTERS.map(({ value, label }) => {
                 const isActive = profession === value;
                 const count = professionCounts[value] ?? 0;
                 return (
@@ -123,15 +118,12 @@ export default function CelebCarousel({
                     key={value}
                     onClick={() => handleProfessionChange(value)}
                     disabled={isLoading || count === 0}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${
-                      isActive
-                        ? "bg-accent text-white"
-                        : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
-                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`${FILTER_BUTTON_STYLES.base} ${
+                      isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
+                    } ${FILTER_BUTTON_STYLES.disabled}`}
                   >
-                    <Icon size={14} />
                     {label}
-                    <span className={isActive ? "text-white/80" : "text-text-tertiary"}>
+                    <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
                       ({count})
                     </span>
                   </Button>
@@ -142,7 +134,7 @@ export default function CelebCarousel({
 
           {/* PC: 페이지 네비게이션 */}
           {totalPages > 1 && (
-            <div className="hidden md:flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               <span className="text-xs text-text-secondary">
                 {currentPage} / {totalPages}
               </span>
@@ -164,74 +156,204 @@ export default function CelebCarousel({
               </Button>
             </div>
           )}
+        </div>
 
-          {/* 모바일: 스크롤 네비게이션 */}
-          <div className="flex md:hidden items-center gap-1 shrink-0">
-            <Button
-              unstyled
-              onClick={() => scroll("left")}
-              className="p-1.5 rounded-lg bg-white/5 active:bg-white/10"
-            >
-              <ChevronLeft size={16} />
-            </Button>
-            <Button
-              unstyled
-              onClick={() => scroll("right")}
-              className="p-1.5 rounded-lg bg-white/5 active:bg-white/10"
-            >
-              <ChevronRight size={16} />
-            </Button>
+        {/* 국적 필터 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>국적</span>
+          <div className={FILTER_BUTTON_STYLES.container}>
+            {nationalityCounts.map(({ value, label, count }) => {
+              const isActive = nationality === value;
+              return (
+                <Button
+                  unstyled
+                  key={value}
+                  onClick={() => handleNationalityChange(value)}
+                  disabled={isLoading || count === 0}
+                  className={`${FILTER_BUTTON_STYLES.base} ${
+                    isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
+                  } ${FILTER_BUTTON_STYLES.disabled}`}
+                >
+                  {label}
+                  <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
+                    ({count})
+                  </span>
+                </Button>
+              );
+            })}
           </div>
         </div>
 
-        {/* 국적 필터 + 정렬 옵션 */}
-        <div className="flex items-center gap-3">
-          {/* 국적 필터 */}
-          <div className="flex items-center gap-2 flex-1 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-            <MapPin size={14} className="text-text-tertiary shrink-0" />
-            <div className="flex items-center gap-1.5">
-              {nationalityCounts.map(({ value, label, count }) => {
-                const isActive = nationality === value;
-                return (
-                  <Button
-                    unstyled
-                    key={value}
-                    onClick={() => handleNationalityChange(value)}
-                    disabled={isLoading || count === 0}
-                    className={`px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${
-                      isActive
-                        ? "bg-blue-500 text-white"
-                        : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
-                    } disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    {label}
-                    <span className={`ml-1 ${isActive ? "text-white/80" : "text-text-tertiary"}`}>
-                      ({count})
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 정렬 옵션 */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            <ArrowUpDown size={14} className="text-text-tertiary" />
-            <select
-              value={sortBy}
-              onChange={(e) => handleSortChange(e.target.value as CelebSortBy)}
-              disabled={isLoading}
-              className="bg-white/5 border border-border rounded-lg px-2 py-1 text-xs text-text-primary focus:border-accent focus:outline-none disabled:opacity-50"
-            >
-              {SORT_OPTIONS.map(({ value, label }) => (
-                <option key={value} value={value}>
+        {/* 정렬 옵션 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>정렬</span>
+          <div className={FILTER_BUTTON_STYLES.container}>
+            {SORT_OPTIONS.map(({ value, label }) => {
+              const isActive = sortBy === value;
+              return (
+                <Button
+                  unstyled
+                  key={value}
+                  onClick={() => handleSortChange(value)}
+                  disabled={isLoading}
+                  className={`${FILTER_BUTTON_STYLES.base} ${
+                    isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
+                  } ${FILTER_BUTTON_STYLES.disabled}`}
+                >
                   {label}
-                </option>
-              ))}
-            </select>
+                </Button>
+              );
+            })}
           </div>
         </div>
       </div>
+
+      {/* 모바일: 개별 필터 칩 */}
+      <div className="md:hidden mb-4 space-y-2">
+        {/* 직군 필터 칩 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>직군</span>
+          <Button
+            unstyled
+            onClick={() => setActiveFilter("profession")}
+            disabled={isLoading}
+            className={`${FILTER_CHIP_STYLES.base} ${FILTER_CHIP_STYLES.active}`}
+          >
+            {activeProfession?.label}
+            <ChevronDown size={14} />
+          </Button>
+        </div>
+
+        {/* 국적 필터 칩 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>국적</span>
+          <Button
+            unstyled
+            onClick={() => setActiveFilter("nationality")}
+            disabled={isLoading}
+            className={`${FILTER_CHIP_STYLES.base} ${
+              nationality !== "all" ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive
+            }`}
+          >
+            {activeNationality?.label ?? "전체"}
+            <ChevronDown size={14} />
+          </Button>
+        </div>
+
+        {/* 정렬 칩 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>정렬</span>
+          <Button
+            unstyled
+            onClick={() => setActiveFilter("sort")}
+            disabled={isLoading}
+            className={`${FILTER_CHIP_STYLES.base} ${
+              sortBy !== "influence" ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive
+            }`}
+          >
+            {activeSort?.label}
+            <ChevronDown size={14} />
+          </Button>
+        </div>
+      </div>
+
+      {/* 모바일: 직군 필터 바텀시트 */}
+      <BottomSheet
+        isOpen={activeFilter === "profession"}
+        onClose={() => setActiveFilter(null)}
+        title="직군"
+      >
+        <div className="p-4 space-y-2">
+          {CELEB_PROFESSION_FILTERS.map(({ value, label }) => {
+            const isActive = profession === value;
+            const count = professionCounts[value] ?? 0;
+            const isDisabled = count === 0;
+            return (
+              <Button
+                unstyled
+                key={value}
+                onClick={() => {
+                  if (!isDisabled) {
+                    handleProfessionChange(value);
+                    setActiveFilter(null);
+                  }
+                }}
+                disabled={isDisabled}
+                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
+                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
+                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
+              >
+                <span className="flex-1 text-left text-sm font-medium">{label}</span>
+                <span className="text-xs text-text-tertiary">{count}</span>
+                {isActive && <Check size={18} className="text-accent" />}
+              </Button>
+            );
+          })}
+        </div>
+      </BottomSheet>
+
+      {/* 모바일: 국적 필터 바텀시트 */}
+      <BottomSheet
+        isOpen={activeFilter === "nationality"}
+        onClose={() => setActiveFilter(null)}
+        title="국적"
+      >
+        <div className="p-4 space-y-2">
+          {nationalityCounts.map(({ value, label, count }) => {
+            const isActive = nationality === value;
+            const isDisabled = count === 0;
+            return (
+              <Button
+                unstyled
+                key={value}
+                onClick={() => {
+                  if (!isDisabled) {
+                    handleNationalityChange(value);
+                    setActiveFilter(null);
+                  }
+                }}
+                disabled={isDisabled}
+                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
+                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
+                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
+              >
+                <span className="flex-1 text-left text-sm font-medium">{label}</span>
+                <span className="text-xs text-text-tertiary">{count}</span>
+                {isActive && <Check size={18} className="text-accent" />}
+              </Button>
+            );
+          })}
+        </div>
+      </BottomSheet>
+
+      {/* 모바일: 정렬 바텀시트 */}
+      <BottomSheet
+        isOpen={activeFilter === "sort"}
+        onClose={() => setActiveFilter(null)}
+        title="정렬"
+      >
+        <div className="p-4 space-y-2">
+          {SORT_OPTIONS.map(({ value, label }) => {
+            const isActive = sortBy === value;
+            return (
+              <Button
+                unstyled
+                key={value}
+                onClick={() => {
+                  handleSortChange(value);
+                  setActiveFilter(null);
+                }}
+                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
+                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
+                }`}
+              >
+                <span className="flex-1 text-left text-sm font-medium">{label}</span>
+                {isActive && <Check size={18} className="text-accent" />}
+              </Button>
+            );
+          })}
+        </div>
+      </BottomSheet>
 
       {/* 빈 상태 */}
       {celebs.length === 0 && !isLoading && (
@@ -245,35 +367,30 @@ export default function CelebCarousel({
         </div>
       )}
 
-      {/* 모바일: 가로 스크롤 캐러셀 */}
+      {/* 모바일 그리드 (4열, 작은 카드) */}
       {celebs.length > 0 && (
         <div
-          ref={scrollRef}
           className={`
-            flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory
-            -mx-4 px-4 pb-2
-            md:hidden
+            grid grid-cols-4 gap-2 md:hidden
             ${isLoading ? "opacity-50 pointer-events-none" : ""}
           `}
         >
-          {celebs.map((celeb) => (
-            <div key={celeb.id} className="shrink-0 snap-start">
-              <CelebProfileCard celeb={celeb} size="lg" />
-            </div>
+          {celebs.map((celeb, index) => (
+            <CelebProfileCard key={celeb.id} celeb={celeb} size="sm" priority={index < 4} />
           ))}
         </div>
       )}
 
-      {/* PC: 그리드 레이아웃 */}
+      {/* PC 그리드 (4~8열) */}
       {celebs.length > 0 && (
         <div
           className={`
-            hidden md:grid grid-cols-4 lg:grid-cols-8 gap-4
+            hidden md:grid md:grid-cols-4 lg:grid-cols-8 gap-4
             ${isLoading ? "opacity-50 pointer-events-none" : ""}
           `}
         >
-          {celebs.map((celeb) => (
-            <CelebProfileCard key={celeb.id} celeb={celeb} size="md" />
+          {celebs.map((celeb, index) => (
+            <CelebProfileCard key={celeb.id} celeb={celeb} size="md" priority={index < 8} />
           ))}
         </div>
       )}

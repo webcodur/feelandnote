@@ -35,11 +35,12 @@ export default async function MemberDetailPage({ params }: PageProps) {
       {/* Profile Card */}
       <div className="bg-bg-card border border-border rounded-lg p-6">
         <div className="flex items-start gap-6">
-          <div className={`relative w-24 h-24 rounded-full flex items-center justify-center overflow-hidden shrink-0 ${isCeleb ? 'bg-yellow-500/20' : 'bg-accent/20'}`}>
-            {member.avatar_url ? (
-              <Image src={member.avatar_url} alt="" fill unoptimized className="object-cover" />
+          {/* 프로필 이미지 - 셀럽은 중형(portrait_url), 일반 유저는 소형(avatar_url) */}
+          <div className={`relative flex items-center justify-center overflow-hidden shrink-0 ${isCeleb ? 'w-32 h-32 rounded-xl bg-yellow-500/20' : 'w-24 h-24 rounded-full bg-accent/20'}`}>
+            {(isCeleb ? (member.portrait_url || member.avatar_url) : member.avatar_url) ? (
+              <Image src={(isCeleb ? (member.portrait_url || member.avatar_url) : member.avatar_url)!} alt="" fill unoptimized className="object-cover" />
             ) : isCeleb ? (
-              <Star className="w-10 h-10 text-yellow-400" />
+              <Star className="w-12 h-12 text-yellow-400" />
             ) : (
               <Users className="w-10 h-10 text-accent" />
             )}

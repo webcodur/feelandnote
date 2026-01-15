@@ -7,8 +7,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { BookOpen, Loader2 } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
+import { Loader2 } from "lucide-react";
 import { getProfile } from "@/actions/user";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
@@ -57,32 +56,29 @@ export default function Page() {
     loadData();
   }, []);
 
-  return (
-    <>
-      <SectionHeader
-        title="방명록"
-        description="방문자들의 메시지를 확인하세요"
-        icon={<BookOpen size={20} />}
-        className="mb-4"
-      />
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 size={28} className="animate-spin text-accent" />
+      </div>
+    );
+  }
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 size={28} className="animate-spin text-accent" />
-        </div>
-      ) : currentUser ? (
-        <GuestbookContent
-          profileId={currentUser.id}
-          currentUser={currentUser}
-          isOwner={true}
-          initialEntries={entries}
-          initialTotal={total}
-        />
-      ) : (
-        <div className="text-center py-12 text-text-secondary text-sm">
-          로그인이 필요합니다.
-        </div>
-      )}
-    </>
+  if (!currentUser) {
+    return (
+      <div className="text-center py-12 text-text-secondary text-sm">
+        로그인이 필요합니다.
+      </div>
+    );
+  }
+
+  return (
+    <GuestbookContent
+      profileId={currentUser.id}
+      currentUser={currentUser}
+      isOwner={true}
+      initialEntries={entries}
+      initialTotal={total}
+    />
   );
 }

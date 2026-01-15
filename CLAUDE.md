@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-Feelnnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. 모노레포 구조로 사용자용 웹(sw/web)과 관리자 백오피스(sw/web-bo)로 구성된다.
+Feelnnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. 모노레포 구조:
+- `sw/web` - 사용자용 웹 (포트 3000)
+- `sw/web-bo` - 관리자 백오피스 (포트 3001)
+- `packages/api-clients` - 공유 API 클라이언트 (외부 API 호출)
 
 ## 주요 명령어
 
@@ -35,30 +38,66 @@ cd sw/web-bo && pnpm build
 app/               # Next.js App Router
   (auth)/          # 인증 관련 페이지
   (main)/          # 메인 레이아웃 적용 페이지
+  (policy)/        # 약관, 정책 페이지
+  (standalone)/    # 독립 레이아웃 페이지
+  about/           # 서비스 소개
   auth/callback/   # OAuth 콜백
 
 actions/           # Server Actions (도메인별)
-  auth/            # 로그인/로그아웃
-  contents/        # 콘텐츠 CRUD
-  records/         # 기록 관리
-  user/            # 프로필, 통계
   achievements/    # 칭호 시스템
+  activity/        # 활동 피드
+  ai/              # AI 기능
+  auth/            # 로그인/로그아웃
+  blind-game/      # 블라인드 게임
+  categories/      # 카테고리 관리
+  celebs/          # 셀럽 관련
+  contents/        # 콘텐츠 CRUD
+  guestbook/       # 방명록
+  home/            # 홈 화면 데이터
+  notes/           # 노트
   playlists/       # 플레이리스트
-  folders/         # 폴더 관리
+  records/         # 기록 관리
   search/          # 검색
+  user/            # 프로필, 통계
 
 components/
+  features/        # 기능별 컴포넌트
   layout/          # 레이아웃 컴포넌트
+  shared/          # 공유 컴포넌트
   ui/              # 기본 UI 컴포넌트
 
+contexts/          # React Context (상태 관리)
+
+fonts/             # 로컬 폰트 파일
+
 lib/
-  supabase/        # client.ts, server.ts, middleware.ts
   api/             # 외부 API (TMDB, 네이버, IGDB, Spotify)
+  config/          # 설정
+  errors/          # 에러 처리
+  supabase/        # client.ts, server.ts, middleware.ts
+  utils/           # 유틸리티 함수
 
 types/             # 타입 정의
+  content.ts       # 콘텐츠 관련 타입
   database.ts      # Supabase 테이블 타입
+  home.ts          # 홈 화면 타입
+  supabase.ts      # Supabase 확장 타입
 
-constants/         # 상수 (categories.ts)
+constants/         # 상수 (categories.ts, zIndex.ts, celebProfessions.ts)
+```
+
+### 디렉토리 구조 (sw/web-bo/src)
+```
+app/
+  (admin)/         # 관리자 페이지 (멤버, 콘텐츠 관리 등)
+  api/             # API 라우트
+  login/           # 로그인 페이지
+
+actions/           # Server Actions
+components/        # UI 컴포넌트
+constants/         # 상수
+hooks/             # 커스텀 훅
+lib/               # 유틸리티, Supabase 클라이언트
 ```
 
 ### 콘텐츠 타입
@@ -137,10 +176,11 @@ Supabase MCP 서버가 설정되어 있다. DB 스키마 조회, 마이그레이
 - 텍스트: `text-primary` (white), `text-secondary` (#8b949e)
 - 액센트: `accent` (#7c4dff), `accent-hover` (#651fff)
 - 보더: `border` (#30363d)
-- 상태: watching(green), completed(purple), paused(red), wish(yellow)
+- 글래스: `glass` (rgba(22, 27, 34, 0.7))
+- 상태: watching(#238636), completed(#8957e5), paused(#da3633), wish(#d29922)
 
 ### 타이포그래피
-- 폰트: Pretendard Variable
+- 폰트: Pretendard Variable (sans), Maruburi/Noto Serif KR (serif)
 - 사이즈: `text-xs` (배지), `text-sm` (기본), `text-base` (강조), `text-lg` (제목)
 - 굵기: `font-medium` (기본), `font-semibold` (강조), `font-bold` (제목)
 
@@ -204,8 +244,17 @@ const variantStyles = {
 - 사이드바: 200px (SIDEBAR_WIDTH 상수)
 - 컨텐츠 영역: `calc(100vh - 64px)`
 
+### 애니메이션 (globals.css)
+- `animate-fade-in`: 기본 페이드인
+- `animate-modal-overlay/content`: 모달 진입
+- `animate-bottomsheet-overlay/content`: 바텀시트 진입
+- `animate-unlock-bounce/icon`: 업적 해금
+- `animate-shimmer`: 로딩 쉬머
+
 ### Z-Index
 `@/constants/zIndex.ts`에서 중앙 관리:
 ```
-sidebar < header < dropdown < modal < toast
+base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
+< sidebar/header/bottomNav(100) < dropdown/popover(200) < tooltip(250)
+< overlay(500) < modal(600) < toast/notification(700) < top(9999)
 ```

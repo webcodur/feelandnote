@@ -30,7 +30,7 @@ export { callGemini, buildReviewPrompt, buildSummaryPrompt } from './gemini'
 // endregion
 
 // region: Celeb Profile Generator
-export { generateCelebProfile, buildCelebProfilePrompt, generateCelebProfileWithInfluence } from './celeb-profile-generator'
+export { generateCelebProfile, buildCelebProfilePrompt, generateCelebProfileWithInfluence, generateCelebInfluence, calculateInfluenceRank } from './celeb-profile-generator'
 export type {
   CelebProfileInput,
   GeneratedCelebProfile,
@@ -39,6 +39,7 @@ export type {
   GeneratedInfluence,
   GeneratedCelebProfileWithInfluence,
   GenerateCelebProfileWithInfluenceResult,
+  GenerateCelebInfluenceResult,
 } from './celeb-profile-generator'
 // endregion
 

@@ -17,8 +17,13 @@ interface GeminiGroundingRequest extends GeminiRequest {
   useGrounding?: boolean
 }
 
+interface GeminiOptions {
+  json?: boolean
+  temperature?: number
+}
+
 // Gemini API 호출
-export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: GeminiRequest): Promise<GeminiResponse> {
+export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: GeminiRequest, options?: GeminiOptions): Promise<GeminiResponse> {
   try {
     const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
       method: 'POST',
@@ -26,8 +31,9 @@ export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: Gemi
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
-          temperature: 0.7,
+          temperature: options?.temperature ?? 0.7,
           maxOutputTokens,
+          ...(options?.json && { responseMimeType: 'application/json' }),
         }
       })
     })

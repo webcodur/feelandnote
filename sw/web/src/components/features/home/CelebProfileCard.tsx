@@ -20,7 +20,7 @@ const SIZE_STYLES: Record<CardSize, {
   followIconSize: number;
 }> = {
   sm: {
-    container: "w-[80px]",
+    container: "w-full max-w-[80px]",
     name: "text-[11px]",
     avatarSize: "lg",
     rankBadge: "w-5 h-5 -bottom-1 -right-1",
@@ -29,7 +29,7 @@ const SIZE_STYLES: Record<CardSize, {
     followIconSize: 10,
   },
   md: {
-    container: "w-[110px]",
+    container: "w-full max-w-[110px]",
     name: "text-sm",
     avatarSize: "2xl",
     rankBadge: "w-7 h-7 -bottom-1 -right-1",
@@ -38,7 +38,7 @@ const SIZE_STYLES: Record<CardSize, {
     followIconSize: 12,
   },
   lg: {
-    container: "w-[110px]",
+    container: "w-full max-w-[110px]",
     name: "text-base",
     avatarSize: "3xl",
     rankBadge: "w-8 h-8 -bottom-1 -right-1",
@@ -49,20 +49,21 @@ const SIZE_STYLES: Record<CardSize, {
 };
 
 const RANK_STYLES: Record<string, string> = {
-  S: "bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 text-white border-white",
-  A: "bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 text-white border-white",
-  B: "bg-gradient-to-br from-orange-300 via-orange-400 to-orange-600 text-white border-white",
-  C: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white border-white",
-  D: "bg-gradient-to-br from-gray-400 to-gray-600 text-white border-white",
+  S: "bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-500 text-white border-amber-200 shadow-amber-400/50 shadow-lg",
+  A: "bg-gradient-to-br from-rose-400 via-red-500 to-pink-600 text-white border-rose-300 shadow-red-500/40 shadow-md",
+  B: "bg-gradient-to-br from-sky-400 via-blue-500 to-blue-600 text-white border-sky-300 shadow-blue-500/30 shadow-md",
+  C: "bg-gradient-to-br from-emerald-400 via-green-500 to-teal-600 text-white border-emerald-300",
+  D: "bg-gradient-to-br from-slate-400 via-gray-500 to-zinc-600 text-white border-slate-300",
 };
 
 interface CelebProfileCardProps {
   celeb: CelebProfile;
   size?: CardSize;
   onFollowChange?: (celebId: string, isFollowing: boolean) => void;
+  priority?: boolean;
 }
 
-export default function CelebProfileCard({ celeb, size = "md", onFollowChange }: CelebProfileCardProps) {
+export default function CelebProfileCard({ celeb, size = "md", onFollowChange, priority = false }: CelebProfileCardProps) {
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isPending, startTransition] = useTransition();
   const [showInfluenceModal, setShowInfluenceModal] = useState(false);
@@ -94,7 +95,7 @@ export default function CelebProfileCard({ celeb, size = "md", onFollowChange }:
   return (
     <>
       <Link href={`/archive/user/${celeb.id}`} className="group block">
-        <div className={`relative flex flex-col items-center gap-2.5 p-1 rounded-xl transition-all duration-300 hover:bg-fill-quaternary/30 ${styles.container}`}>
+        <div className={`relative flex flex-col items-center gap-2.5 p-1 rounded-xl hover:bg-fill-quaternary/30 ${styles.container}`}>
           {/* Avatar Area with Influence Badge & Follow Button */}
           <div className="relative">
             <Avatar
@@ -102,7 +103,8 @@ export default function CelebProfileCard({ celeb, size = "md", onFollowChange }:
               name={celeb.nickname}
               size={styles.avatarSize}
               verified={celeb.is_verified}
-              className={`ring-2 ${isFollowing ? "ring-accent" : "ring-transparent group-hover:ring-accent/20"}`}
+              className={`ring-2 hover:scale-105 ${isFollowing ? "ring-accent" : "ring-transparent group-hover:ring-accent/20"}`}
+              priority={priority}
             />
 
             {/* Follow Button - Overlapping Avatar (좌측 하단) */}
@@ -113,7 +115,12 @@ export default function CelebProfileCard({ celeb, size = "md", onFollowChange }:
                 absolute flex items-center justify-center rounded-full border-2 border-bg-main shadow-sm
                 cursor-pointer z-10
                 ${styles.followBtn}
-                ${isFollowing ? "bg-fill-secondary text-text-secondary" : "bg-accent text-white"}
+                ${isFriend
+                  ? "bg-gradient-to-br from-amber-400 to-orange-500 text-white"
+                  : isFollowing
+                    ? "bg-gradient-to-br from-teal-400 to-cyan-500 text-white"
+                    : "bg-white/10 text-text-tertiary border-white/20"
+                }
                 ${isPending ? "opacity-70 cursor-not-allowed" : "hover:scale-110"}
               `}
               title={isFollowing ? (isFriend ? "친구" : "팔로잉") : "팔로우"}

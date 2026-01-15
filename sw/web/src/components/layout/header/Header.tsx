@@ -1,22 +1,22 @@
 /*
   파일명: /components/layout/Header.tsx
   기능: 앱 상단 헤더 컴포넌트
-  책임: 로고, 검색, 알림, 프로필 메뉴를 포함한 헤더 UI를 제공한다.
+  책임: 로고, 1차 네비게이션, 검색, 알림, 프로필을 포함한 헤더 UI를 제공한다.
 */ // ------------------------------
 
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, Bell, Heart, MessageCircle, UserPlus, Trophy, User, LogOut, Volume2, VolumeX } from "lucide-react";
+import { Bell, Heart, MessageCircle, UserPlus, Trophy, Volume2, VolumeX, BarChart2, Settings, LogOut, BookOpen } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import HeaderSearch from "./HeaderSearch";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
-import { logout } from "@/actions/auth";
 
 interface UserProfile {
   id: string;
@@ -25,16 +25,34 @@ interface UserProfile {
 }
 
 interface HeaderProps {
-  onMenuClick?: () => void;
   isMobile?: boolean;
 }
 
-export default function Header({ onMenuClick, isMobile }: HeaderProps) {
+// 아이콘 버튼 공통 스타일
+const ICON_BUTTON_CLASS = "w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5";
+const ICON_SIZE = 20;
+
+// 1차 네비게이션 항목
+const NAV_ITEMS = [
+  { href: "/archive", label: "기록관" },
+  { href: "/archive/feed", label: "피드" },
+  { href: "/archive/lounge", label: "휴게실" },
+];
+
+// 프로필 드롭다운 메뉴 항목
+const PROFILE_MENU_ITEMS = [
+  { href: "/profile/stats", label: "내 통계", icon: BarChart2 },
+  { href: "/profile/achievements", label: "칭호", icon: Trophy },
+  { href: "/profile/guestbook", label: "방명록", icon: BookOpen },
+  { href: "/profile/settings", label: "설정", icon: Settings },
+];
+
+export default function Header({ isMobile }: HeaderProps) {
+  const pathname = usePathname();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const { isSoundEnabled, toggleSound, playSound } = useSound();
-
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -58,6 +76,24 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
     };
     loadProfile();
   }, []);
+
+  // 드롭다운 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("[data-notification-dropdown]")) {
+        setShowNotifications(false);
+      }
+      if (!target.closest("[data-profile-dropdown]")) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    if (showNotifications || showProfileMenu) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [showNotifications, showProfileMenu]);
 
   const notifications = [
     {
@@ -96,24 +132,50 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
+  // 네비게이션 활성 상태 확인
+  const isNavActive = (href: string) => {
+    if (href === "/archive") {
+      return pathname === "/archive" ||
+        pathname.startsWith("/archive/user/") ||
+        pathname.startsWith("/archive/playlists") ||
+        pathname.startsWith("/archive/explore");
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
     <header
-      className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-3 md:px-6 md:gap-6 fixed top-0 left-0"
+      className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-2 md:px-6 md:gap-4 fixed top-0 left-0"
       style={{ zIndex: Z_INDEX.header }}
     >
-      {!isMobile && (
-        <Button
-          unstyled
-          className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
-          onClick={onMenuClick}
-        >
-          <Menu size={24} className="text-text-primary" />
-        </Button>
-      )}
+      {/* 로고 */}
       <Logo size="md" />
+
+      {/* 1차 네비게이션 (데스크톱) */}
+      {!isMobile && (
+        <nav className="hidden md:flex items-center gap-1 ml-2">
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`px-3 py-2 rounded-lg text-sm font-medium no-underline
+                ${isNavActive(item.href)
+                  ? "text-accent bg-accent/10"
+                  : "text-text-secondary hover:text-text-primary hover:bg-white/5"
+                }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
+
+      {/* 검색 */}
       <HeaderSearch />
-      <div className="flex items-center gap-2">
-        {/* Sound Toggle */}
+
+      {/* 우측 영역 */}
+      <div className="flex items-center gap-1 ml-auto">
+        {/* 사운드 토글 (데스크톱만) */}
         <Button
           unstyled
           noSound
@@ -121,77 +183,85 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
             const isNowEnabled = toggleSound();
             if (isNowEnabled) playSound("volumeCheck", true);
           }}
-          className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
+          className={`${ICON_BUTTON_CLASS} hidden md:flex`}
           title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
         >
           {isSoundEnabled ? (
-            <Volume2 size={20} className="text-accent" />
+            <Volume2 size={ICON_SIZE} className="text-accent" />
           ) : (
-            <VolumeX size={20} className="text-text-secondary" />
+            <VolumeX size={ICON_SIZE} className="text-text-secondary" />
           )}
         </Button>
 
-        {/* Notification Bell */}
-        <div className="relative">
+        {/* 알림 아이콘 */}
+        <div className="relative" data-notification-dropdown>
           <Button
             unstyled
             onClick={() => setShowNotifications(!showNotifications)}
-            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 relative"
+            className={`${ICON_BUTTON_CLASS} relative`}
           >
-            <Bell size={22} className="text-text-primary" />
+            <Bell size={ICON_SIZE} className="text-text-secondary" />
             {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 w-5 h-5 bg-accent rounded-full text-white text-[10px] font-bold flex items-center justify-center">
+              <span className="absolute top-1 right-1 min-w-[14px] h-[14px] px-0.5 bg-accent rounded-full text-white text-[9px] font-bold flex items-center justify-center">
                 {unreadCount}
               </span>
             )}
           </Button>
 
-          {/* Notification Dropdown */}
+          {/* 알림 드롭다운 */}
           {showNotifications && (
             <div
-              className="absolute right-0 top-14 w-[calc(100vw-24px)] sm:w-80 md:w-96 max-w-[400px] bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+              className="absolute right-0 top-11 w-[calc(100vw-24px)] sm:w-80 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
               style={{ zIndex: Z_INDEX.dropdown }}
             >
-              <div className="px-4 py-3 md:px-6 md:py-4 border-b border-border flex justify-between items-center">
-                <h3 className="font-bold text-base">알림</h3>
-                <Button unstyled className="text-sm text-accent hover:underline">모두 읽음</Button>
+              <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                <span className="font-semibold text-sm">알림</span>
+                {unreadCount > 0 && (
+                  <span className="text-xs text-accent">{unreadCount}개의 새 알림</span>
+                )}
               </div>
-              <div className="max-h-[400px] overflow-y-auto">
-                {notifications.map((notif) => (
-                  <div
-                    key={notif.id}
-                    className={'  '}
-                  >
-                    <div className="flex gap-3">
+              <div className="max-h-[320px] overflow-y-auto">
+                {notifications.length > 0 ? (
+                  notifications.map((notif) => (
+                    <div
+                      key={notif.id}
+                      className={`px-4 py-3 flex gap-3 hover:bg-white/5 cursor-pointer ${!notif.read ? "bg-accent/5" : ""}`}
+                    >
                       <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
                         {notif.icon}
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-text-primary leading-relaxed">{notif.message}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-text-primary leading-snug">{notif.message}</p>
                         <p className="text-xs text-text-secondary mt-1">{notif.time}</p>
                       </div>
-                      {!notif.read && <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-2" />}
+                      {!notif.read && <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1.5" />}
                     </div>
+                  ))
+                ) : (
+                  <div className="py-8 text-center text-text-secondary text-sm">
+                    알림이 없습니다
                   </div>
-                ))}
+                )}
               </div>
-              <div className="px-4 py-2 md:px-6 md:py-3 text-center border-t border-border">
-                <Button unstyled className="text-sm text-accent hover:underline">모든 알림 보기</Button>
-              </div>
+              {notifications.length > 0 && (
+                <div className="px-4 py-2.5 flex justify-between items-center border-t border-border">
+                  <Button unstyled className="text-xs text-text-secondary hover:text-text-primary">모두 읽음</Button>
+                  <Button unstyled className="text-xs text-accent hover:underline">전체보기</Button>
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* User Profile */}
-        <div className="relative">
+        {/* 프로필 드롭다운 */}
+        <div className="relative" data-profile-dropdown>
           <Button
             unstyled
             onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2 md:gap-3 hover:opacity-80"
+            className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5"
           >
-            <span className="hidden sm:inline font-semibold text-sm">{profile?.nickname ?? "User"}</span>
             {profile?.avatar_url ? (
-              <div className="relative w-8 h-8 rounded-full overflow-hidden">
+              <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/10">
                 <Image
                   src={profile.avatar_url}
                   alt="프로필"
@@ -201,35 +271,51 @@ export default function Header({ onMenuClick, isMobile }: HeaderProps) {
                 />
               </div>
             ) : (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 ring-2 ring-white/10" />
             )}
           </Button>
 
-          {/* Profile Dropdown */}
           {showProfileMenu && (
             <div
-              className="absolute right-0 top-12 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+              className="absolute right-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
               style={{ zIndex: Z_INDEX.dropdown }}
             >
-              <Link
-                href="/profile"
-                onClick={() => setShowProfileMenu(false)}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-white/5"
-              >
-                <User size={18} className="text-text-secondary" />
-                <span className="text-sm">마이페이지</span>
-              </Link>
-              <div className="border-t border-border" />
-              <form action={logout}>
+              {/* 프로필 헤더 */}
+              <div className="px-4 py-3 border-b border-border">
+                <p className="font-semibold text-sm truncate">{profile?.nickname || "사용자"}</p>
+              </div>
+
+              {/* 메뉴 아이템 */}
+              <div className="py-1">
+                {PROFILE_MENU_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setShowProfileMenu(false)}
+                    className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline
+                      ${pathname.startsWith(item.href) ? "text-accent bg-accent/5" : "text-text-primary"}`}
+                  >
+                    <item.icon size={16} className="text-text-secondary" />
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* 로그아웃 */}
+              <div className="border-t border-border py-1">
                 <Button
                   unstyled
-                  type="submit"
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-red-400"
+                  onClick={async () => {
+                    const supabase = createClient();
+                    await supabase.auth.signOut();
+                    window.location.href = "/login";
+                  }}
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 w-full"
                 >
-                  <LogOut size={18} />
-                  <span className="text-sm">로그아웃</span>
+                  <LogOut size={16} />
+                  로그아웃
                 </Button>
-              </form>
+              </div>
             </div>
           )}
         </div>

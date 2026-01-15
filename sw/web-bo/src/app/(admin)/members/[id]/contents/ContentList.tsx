@@ -111,7 +111,7 @@ export default function ContentList({ contents, celebId }: Props) {
                       <StatusBadge status={content.status} />
                       {content.rating && <div className="flex items-center gap-1 text-yellow-400"><Star className="w-3 h-3 fill-current" /><span>{content.rating}</span></div>}
                     </div>
-                    {content.review && <p className="text-sm text-text-secondary line-clamp-2 whitespace-pre-line">{content.review}</p>}
+                    {content.review && <p className="text-sm text-text-secondary whitespace-pre-line">{content.review}</p>}
                     {content.source_url && <a href={content.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">출처 보기</a>}
                   </div>
                 )}

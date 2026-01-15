@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { calculateInfluenceRank } from "@feelnnote/api-clients";
 
 // 영향력 상세 데이터 타입
 export interface CelebInfluenceDetail {
@@ -52,7 +53,6 @@ export async function getCelebInfluence(celebId: string): Promise<CelebInfluence
       transhistoricity,
       transhistoricity_exp,
       total_score,
-      rank,
       profiles!celeb_influence_celeb_id_fkey (
         nickname,
         avatar_url,
@@ -86,6 +86,6 @@ export async function getCelebInfluence(celebId: string): Promise<CelebInfluence
     transhistoricity: data.transhistoricity ?? 0,
     transhistoricity_exp: data.transhistoricity_exp,
     total_score: data.total_score ?? 0,
-    rank: (data.rank?.trim() as "S" | "A" | "B" | "C" | "D") ?? "D",
+    rank: calculateInfluenceRank(data.total_score ?? 0),
   };
 }

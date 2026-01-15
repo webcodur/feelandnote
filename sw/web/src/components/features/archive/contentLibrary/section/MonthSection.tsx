@@ -25,12 +25,12 @@ export default function MonthSection({
   onToggle,
   children,
 }: MonthSectionProps) {
-  if (itemCount === 0) return null;
-
   const { year, month } = useMemo(() => {
     const [y, m] = monthKey.split("-");
     return { year: y, month: parseInt(m).toString() };
   }, [monthKey]);
+
+  if (itemCount === 0) return null;
 
   const ChevronIcon = isCollapsed ? ChevronRight : ChevronDown;
 

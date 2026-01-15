@@ -114,7 +114,7 @@ export default function CelebReviewCard({ review }: CelebReviewCardProps) {
             <div className="flex-1 min-w-0">
               <span className="text-sm block leading-tight">
                 <span className="font-medium text-text-primary group-hover/user:text-accent">{review.celeb.nickname}</span>
-                <span className="text-text-tertiary">의 추천</span>
+                <span className="text-text-tertiary">의 기록</span>
               </span>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="text-[11px] text-text-tertiary">{formatRelativeTime(review.updated_at)}</span>

@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Users, UserCheck, UserPlus, Loader2 } from "lucide-react";
@@ -37,14 +37,7 @@ export default function FollowListModal({
   const [following, setFollowing] = useState<FollowingInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      setActiveTab(initialTab);
-      loadData(initialTab);
-    }
-  }, [isOpen, initialTab, userId]);
-
-  const loadData = async (tab: TabType) => {
+  const loadData = useCallback(async (tab: TabType) => {
     setIsLoading(true);
     if (tab === "followers") {
       const result = await getFollowers(userId);
@@ -54,7 +47,14 @@ export default function FollowListModal({
       if (result.success) setFollowing(result.data);
     }
     setIsLoading(false);
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab(initialTab);
+      loadData(initialTab);
+    }
+  }, [isOpen, initialTab, loadData]);
 
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);

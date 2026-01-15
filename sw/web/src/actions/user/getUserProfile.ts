@@ -7,6 +7,7 @@ export interface PublicUserProfile {
   id: string
   nickname: string
   avatar_url: string | null
+  portrait_url: string | null
   bio: string | null
   quotes: string | null
   profession: string | null
@@ -37,7 +38,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
   // 대상 유저 프로필 조회
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, bio, quotes, profession, nationality, birth_date, death_date, profile_type, is_verified, created_at')
+    .select('id, nickname, avatar_url, portrait_url, bio, quotes, profession, nationality, birth_date, death_date, profile_type, is_verified, created_at')
     .eq('id', userId)
     .single()
 
@@ -115,6 +116,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       id: profile.id,
       nickname: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
+      portrait_url: profile.portrait_url,
       bio: profile.bio,
       quotes: profile.quotes,
       profession: profile.profession,
