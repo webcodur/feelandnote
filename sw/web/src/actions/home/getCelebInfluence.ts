@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { calculateInfluenceRank } from "@feelnnote/api-clients";
+import { calculateInfluenceRank } from "@feelnnote/ai-services/celeb-profile";
 
 // 영향력 상세 데이터 타입
 export interface CelebInfluenceDetail {

@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { calculateInfluenceRank } from '@feelnnote/api-clients'
+import { calculateInfluenceRank } from '@feelnnote/ai-services/celeb-profile'
 import type { CelebProfile } from '@/types/home'
 
 export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence'

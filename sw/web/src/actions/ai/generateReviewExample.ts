@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { callGemini, buildReviewPrompt } from '@/lib/api/gemini'
+import { callGemini, buildReviewPrompt } from '@feelnnote/ai-services/gemini'
 
 interface GenerateReviewParams {
   contentTitle: string

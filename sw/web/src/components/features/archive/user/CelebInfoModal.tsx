@@ -10,6 +10,7 @@ import { Sparkles, Quote, Calendar, MapPin } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import { type PublicUserProfile } from "@/actions/user";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { getCountryName } from "@/constants/countries";
 
 // #region 헬퍼 함수
 function formatLifespan(birthDate: string | null, deathDate: string | null): string | null {
@@ -89,7 +90,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
               {profile.nationality && (
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <MapPin size={14} className="text-text-tertiary" />
-                  <span>{profile.nationality}</span>
+                  <span>{getCountryName(profile.nationality)}</span>
                 </div>
               )}
               {lifespan && (

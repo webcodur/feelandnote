@@ -7,8 +7,10 @@
 "use client";
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { useBreadcrumbLabel } from "@/hooks/useBreadcrumbLabel";
 import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
 import AddContentModal from "@/components/features/archive/modals/AddContentModal";
 import ArchiveActionButtons from "@/components/features/archive/ArchiveActionButtons";
@@ -30,9 +32,13 @@ interface ArchiveProps {
 }
 
 export default function Archive({ myProfile, stats }: ArchiveProps) {
+  const params = useParams<{ userId: string }>();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [followModalTab, setFollowModalTab] = useState<"followers" | "following" | null>(null);
+
+  // Breadcrumb 동적 라벨 설정
+  useBreadcrumbLabel(params.userId, myProfile.nickname);
 
   const handleSuccess = () => setRefreshKey((prev) => prev + 1);
 

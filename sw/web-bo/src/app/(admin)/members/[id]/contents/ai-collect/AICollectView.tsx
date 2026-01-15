@@ -29,7 +29,8 @@ import {
   saveCollectedContents,
   type ExtractedContentWithSearch,
 } from '@/actions/admin/ai-collect'
-import type { ExtractedContent, ContentType } from '@feelnnote/api-clients'
+import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
+import type { ContentType } from '@feelnnote/content-search/types'
 
 const SELECTED_KEY_STORAGE = 'feelnnote_selected_api_key'
 

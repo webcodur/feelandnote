@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { X, Search, Loader2 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { searchExternalContent } from '@/actions/admin/external-search'
-import type { ContentType } from '@feelnnote/api-clients'
+import type { ContentType } from '@feelnnote/content-search/types'
 
 interface SearchResult {
   externalId: string

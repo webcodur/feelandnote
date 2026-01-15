@@ -1,6 +1,7 @@
 'use server'
 
-import { searchExternal, type ContentType, type ExternalSearchResult } from '@feelnnote/api-clients'
+import { searchExternal, type ExternalSearchResult } from '@feelnnote/content-search/unified-search'
+import type { ContentType } from '@feelnnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 
 // UUID 생성 함수

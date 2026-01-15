@@ -9,6 +9,8 @@
 import { useState, useEffect } from "react";
 import Header from "./header/Header";
 import BottomNav from "./BottomNav";
+import BreadcrumbNav from "./BreadcrumbNav";
+import { BreadcrumbProvider } from "@/contexts/BreadcrumbContext";
 import { AchievementProvider } from "@/components/features/profile/achievements";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
@@ -22,14 +24,17 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   }, []);
 
   return (
-    <AchievementProvider>
-      <Header isMobile={isMobile} />
-      <main className="pt-16 pb-16 px-3 md:pt-20 md:pb-6 md:px-5 min-h-screen overflow-y-auto scrollbar-stable">
-        <div className="max-w-[1400px] mx-auto">
-          {children}
-        </div>
-      </main>
-      {isMobile && <BottomNav />}
-    </AchievementProvider>
+    <BreadcrumbProvider>
+      <AchievementProvider>
+        <Header isMobile={isMobile} />
+        <main className="pt-16 pb-16 px-3 md:pt-20 md:pb-6 md:px-5 min-h-screen overflow-y-auto scrollbar-stable">
+          <div className="max-w-[1400px] mx-auto">
+            <BreadcrumbNav />
+            {children}
+          </div>
+        </main>
+        {isMobile && <BottomNav />}
+      </AchievementProvider>
+    </BreadcrumbProvider>
   );
 }

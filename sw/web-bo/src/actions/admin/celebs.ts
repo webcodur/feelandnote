@@ -3,8 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { generateCelebProfile as generateCelebProfileApi, generateCelebInfluence as generateCelebInfluenceApi } from '@feelnnote/api-clients'
-import type { GeneratedInfluence, GeneratedCelebProfile } from '@feelnnote/api-clients'
+import { generateCelebProfile as generateCelebProfileApi, generateCelebInfluence as generateCelebInfluenceApi, type GeneratedInfluence, type GeneratedCelebProfile } from '@feelnnote/ai-services/celeb-profile'
 import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage } from './api-keys'
 
 // #region Types

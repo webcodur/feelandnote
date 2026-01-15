@@ -1,6 +1,6 @@
 'use server'
 
-import { searchBooks as searchNaverBooks } from '@/lib/api/naver-books'
+import { searchBooks as searchNaverBooks } from '@feelnnote/content-search/naver-books'
 
 interface SearchBooksParams {
   query: string

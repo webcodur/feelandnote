@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
-import { calculateInfluenceRank, type GeneratedInfluence } from '@feelnnote/api-clients'
+import { calculateInfluenceRank, type GeneratedInfluence } from '@feelnnote/ai-services/celeb-profile'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
@@ -14,7 +14,7 @@ import Button from '@/components/ui/Button'
 import AIBasicProfileSection from './AIBasicProfileSection'
 import AIInfluenceSection from './AIInfluenceSection'
 import { resizeSingleImage, createPreviewUrl, type ImageType } from '@/lib/image'
-import type { InfluenceScore } from '@feelnnote/api-clients'
+import type { InfluenceScore } from '@feelnnote/ai-services/celeb-profile'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 
 // #region Types
@@ -402,7 +402,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           <label htmlFor="nationality" className="text-sm font-medium text-text-secondary">국적</label>
           <select id="nationality" value={formData.nationality} onChange={(e) => handleChange('nationality', e.target.value)} disabled={countriesLoading} className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none disabled:opacity-50">
             <option value="">{countriesLoading ? '로딩 중...' : '국적 선택'}</option>
-            {countries.map((country) => <option key={country.code} value={country.name}>{country.name}</option>)}
+            {countries.map((country) => <option key={country.code} value={country.code}>{country.name}</option>)}
           </select>
 
           <label htmlFor="birth_date" className="text-sm font-medium text-text-secondary">출생</label>

@@ -9,7 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@feelnnote/api-clients": "workspace:*",
+    "@feelnnote/content-search": "workspace:*",
+    "@feelnnote/ai-services": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.2",
     "date-fns": "^4.1.0",

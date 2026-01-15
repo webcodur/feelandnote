@@ -2,7 +2,7 @@
 // 1단계 Agent: 추출만 담당 (번역은 별도 Agent에서 처리)
 
 import { callGemini } from './gemini'
-import type { ContentType } from './search'
+import type { ContentType } from '@feelnnote/content-search/types'
 
 // #region Types
 export interface ExtractedContent {
@@ -24,7 +24,7 @@ export interface ExtractionResult {
 
 // #region Prompt Builder
 export function buildExtractionPrompt(text: string, celebName: string): string {
-  return `텍스트에서 ${celebName}이(가) 언급한 콘텐츠를 추출해줘.
+  return `텍스트에서 ${celebName}이(가) 언급한 콘텐츠를 추출한다.
 
 ## 추출 대상
 - BOOK: 책, 소설, 에세이, 만화
@@ -52,8 +52,11 @@ export function buildExtractionPrompt(text: string, celebName: string): string {
 
 ### review (필수) ⚠️ 한국어로 번역
 - ${celebName}의 감상, 추천 이유, 독서/시청 경위
-- 한국어 존댓말(~합니다, ~습니다)로 번역
-- 예: "This changed my life" → "인생을 바꿔놓은 작품입니다"
+- 간결하고 권위적인 말투(~이다, ~한다, ~했다)로 번역
+- 요약 금지! 원문 내용을 빠짐없이 번역 (양을 줄이지 않는다)
+- "${celebName}이(가) ..." 형식으로 인물명 포함 (생략 금지)
+- 예: "This changed my life" → "${celebName}은 인생을 바꿔놓은 작품이라고 했다"
+- 이미 한국어로 잘 정리된 글이면 본문 그대로 사용 가능
 - 없으면 빈 문자열 ""
 
 ### sourceUrl
@@ -150,3 +153,6 @@ export async function extractContentsFromText(
   return { success: true, items }
 }
 // #endregion
+
+// Re-export ContentType for convenience
+export type { ContentType } from '@feelnnote/content-search/types'

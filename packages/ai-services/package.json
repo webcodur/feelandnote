@@ -1,0 +1,15 @@
+{
+  "name": "@feelnnote/ai-services",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./gemini": "./src/gemini.ts",
+    "./celeb-profile": "./src/celeb-profile.ts",
+    "./content-extractor": "./src/content-extractor.ts",
+    "./title-translator": "./src/title-translator.ts",
+    "./url-fetcher": "./src/url-fetcher.ts"
+  },
+  "dependencies": {
+    "@feelnnote/content-search": "workspace:*"
+  }
+}
