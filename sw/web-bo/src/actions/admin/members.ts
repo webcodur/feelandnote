@@ -8,6 +8,24 @@ import { getCelebs, type Celeb } from './celebs'
 // #region Types
 export type ProfileType = 'USER' | 'CELEB'
 
+export interface MemberInfluence {
+  political: number
+  political_exp: string | null
+  strategic: number
+  strategic_exp: string | null
+  tech: number
+  tech_exp: string | null
+  social: number
+  social_exp: string | null
+  economic: number
+  economic_exp: string | null
+  cultural: number
+  cultural_exp: string | null
+  transhistoricity: number
+  transhistoricity_exp: string | null
+  total_score: number
+}
+
 export interface Member {
   id: string
   email: string | null
@@ -31,6 +49,7 @@ export interface Member {
   quotes?: string | null
   portrait_url?: string | null
   claimed_by?: string | null
+  influence?: MemberInfluence | null
   // 통계
   content_count: number
   follower_count: number
@@ -209,7 +228,17 @@ export async function getMember(id: string): Promise<Member | null> {
       `
       *,
       user_social (follower_count, following_count),
-      user_scores (total_score)
+      user_scores (total_score),
+      celeb_influence (
+        political, political_exp,
+        strategic, strategic_exp,
+        tech, tech_exp,
+        social, social_exp,
+        economic, economic_exp,
+        cultural, cultural_exp,
+        transhistoricity, transhistoricity_exp,
+        total_score
+      )
     `
     )
     .eq('id', id)
@@ -223,6 +252,11 @@ export async function getMember(id: string): Promise<Member | null> {
     .eq('user_id', id)
 
   const profileType = (data.profile_type === 'CELEB' ? 'CELEB' : 'USER') as ProfileType
+
+  // celeb_influence 데이터 추출
+  const influenceData = Array.isArray(data.celeb_influence)
+    ? data.celeb_influence[0]
+    : data.celeb_influence
 
   return {
     id: data.id,
@@ -245,6 +279,7 @@ export async function getMember(id: string): Promise<Member | null> {
     quotes: data.quotes,
     portrait_url: data.portrait_url,
     claimed_by: data.claimed_by,
+    influence: influenceData || null,
     content_count: count || 0,
     follower_count: data.user_social?.follower_count || 0,
     following_count: data.user_social?.following_count || 0,

@@ -7,6 +7,12 @@ interface Country {
   code: string
 }
 
+interface RestCountryResponse {
+  name: { common: string }
+  translations?: { kor?: { common?: string } }
+  cca2: string
+}
+
 // REST Countries API에서 국가 목록 가져오기
 export function useCountries() {
   const [countries, setCountries] = useState<Country[]>([])
@@ -16,18 +22,18 @@ export function useCountries() {
   useEffect(() => {
     async function fetchCountries() {
       try {
-        const res = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2')
+        const res = await fetch('https://restcountries.com/v3.1/all?fields=name,translations,cca2')
         if (!res.ok) throw new Error('국가 목록을 가져오는데 실패했습니다.')
 
-        const data = await res.json()
+        const data: RestCountryResponse[] = await res.json()
 
-        // 한글 이름 우선, 없으면 영문 이름 사용
+        // 한글 번역명 우선, 없으면 영문명 사용
         const formatted: Country[] = data
-          .map((c: { name: { common: string; nativeName?: Record<string, { common: string }> }; cca2: string }) => ({
-            name: c.name.nativeName?.kor?.common || c.name.common,
+          .map((c) => ({
+            name: c.translations?.kor?.common || c.name.common,
             code: c.cca2,
           }))
-          .sort((a: Country, b: Country) => a.name.localeCompare(b.name, 'ko'))
+          .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
 
         setCountries(formatted)
       } catch (err) {

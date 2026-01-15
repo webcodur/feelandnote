@@ -6,7 +6,6 @@ import {
   CelebCarousel,
   CelebFeed,
   FriendActivitySection,
-  SignupBanner,
 } from "@/components/features/home";
 import HomeTabSection from "@/components/features/home/HomeTabSection";
 
@@ -135,9 +134,6 @@ export default async function HomePage() {
           )
         }
       />
-
-      {/* 비로그인 시 가입 유도 배너 */}
-      {!user && <SignupBanner />}
     </div>
   );
 }

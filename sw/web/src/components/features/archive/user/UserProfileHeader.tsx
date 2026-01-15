@@ -8,6 +8,7 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare, Quote, Calendar, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { toggleFollow, type PublicUserProfile } from "@/actions/user";
@@ -35,14 +36,17 @@ function formatLifespan(birthDate: string | null, deathDate: string | null): str
 interface UserProfileHeaderProps {
   profile: PublicUserProfile;
   isOwnProfile?: boolean;
+  currentUser?: { id: string } | null;
   onFollowChange?: (isFollowing: boolean) => void;
 }
 
 export default function UserProfileHeader({
   profile,
   isOwnProfile = false,
+  currentUser,
   onFollowChange,
 }: UserProfileHeaderProps) {
+  const router = useRouter();
   const [isFollowing, setIsFollowing] = useState(profile.is_following);
   const [isPending, startTransition] = useTransition();
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
@@ -50,11 +54,16 @@ export default function UserProfileHeader({
   const isFriend = isFollowing && profile.is_follower;
   const isCeleb = profile.profile_type === 'CELEB';
   const hasPortrait = isCeleb && !!profile.portrait_url;
+  const isLoggedIn = !!currentUser;
 
   // 원형 아바타는 항상 avatar_url 사용 (중형 초상화는 모달에서 표시)
   const profileImageUrl = profile.avatar_url;
 
   const handleFollowClick = () => {
+    if (!isLoggedIn) {
+      router.push('/login');
+      return;
+    }
     startTransition(async () => {
       const result = await toggleFollow(profile.id);
       if (result.success) {

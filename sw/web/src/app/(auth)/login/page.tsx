@@ -7,6 +7,8 @@
 */
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { Eye } from 'lucide-react'
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
 import Logo from '@/components/ui/Logo'
@@ -58,6 +60,23 @@ export default function Page() {
           )}
 
           <EmailLoginForm onExpandChange={setIsEmailMode} />
+
+          {/* 둘러보기 */}
+          <div className="relative flex items-center gap-4 py-2">
+            <div className="flex-1 border-t border-zinc-700" />
+            <span className="text-xs text-zinc-500">또는</span>
+            <div className="flex-1 border-t border-zinc-700" />
+          </div>
+
+          <Link href="/archive/explore">
+            <Button
+              unstyled
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300"
+            >
+              <Eye size={18} />
+              <span>로그인 없이 둘러보기</span>
+            </Button>
+          </Link>
         </div>
 
         {/* 이용약관 */}

@@ -34,6 +34,7 @@ export default function UserProfile({
 }: UserProfileProps) {
   const [showAddContent, setShowAddContent] = useState(false);
   const isCeleb = profile.profile_type === 'CELEB';
+  const isLoggedIn = !!currentUser;
 
   // 차단된 경우
   if (profile.is_blocked) {
@@ -55,7 +56,7 @@ export default function UserProfile({
   return (
     <>
       {/* 프로필 헤더 */}
-      <UserProfileHeader profile={profile} isOwnProfile={isOwnProfile} />
+      <UserProfileHeader profile={profile} isOwnProfile={isOwnProfile} currentUser={currentUser} />
 
       {/* 기록관 섹션 */}
       <div className="flex items-center justify-between mb-4">
@@ -65,7 +66,7 @@ export default function UserProfile({
           icon={<>{isCeleb && <Sparkles size={20} />}{!isCeleb && <Archive size={20} />}</>}
           className="mb-0"
         />
-        {isCeleb && (
+        {isCeleb && isLoggedIn && (
           <Button
             variant="primary"
             size="sm"

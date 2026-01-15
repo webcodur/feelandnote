@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
-import type { GeneratedInfluence } from '@feelnnote/api-clients'
+import { calculateInfluenceRank, type GeneratedInfluence } from '@feelnnote/api-clients'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
@@ -87,12 +87,22 @@ function getEmptyInfluence(): GeneratedInfluence {
   }
 }
 
-function calculateRank(totalScore: number): 'S' | 'A' | 'B' | 'C' | 'D' {
-  if (totalScore >= 90) return 'S'
-  if (totalScore >= 80) return 'A'
-  if (totalScore >= 70) return 'B'
-  if (totalScore >= 60) return 'C'
-  return 'D'
+function getInitialInfluence(celeb?: Member): GeneratedInfluence {
+  if (!celeb?.influence) return getEmptyInfluence()
+
+  const inf = celeb.influence
+  const totalScore = inf.total_score
+  return {
+    political: { score: inf.political, exp: inf.political_exp || '' },
+    strategic: { score: inf.strategic, exp: inf.strategic_exp || '' },
+    tech: { score: inf.tech, exp: inf.tech_exp || '' },
+    social: { score: inf.social, exp: inf.social_exp || '' },
+    economic: { score: inf.economic, exp: inf.economic_exp || '' },
+    cultural: { score: inf.cultural, exp: inf.cultural_exp || '' },
+    transhistoricity: { score: inf.transhistoricity, exp: inf.transhistoricity_exp || '' },
+    totalScore,
+    rank: calculateInfluenceRank(totalScore),
+  }
 }
 // #endregion
 
@@ -100,7 +110,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   const router = useRouter()
   const { countries, loading: countriesLoading } = useCountries()
   const [formData, setFormData] = useState<CelebFormData>(getInitialFormData(celeb))
-  const [influence, setInfluence] = useState<GeneratedInfluence>(getEmptyInfluence())
+  const [influence, setInfluence] = useState<GeneratedInfluence>(getInitialInfluence(celeb))
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -164,7 +174,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         updated.economic.score +
         updated.cultural.score +
         updated.transhistoricity.score
-      return { ...updated, totalScore, rank: calculateRank(totalScore) }
+      return { ...updated, totalScore, rank: calculateInfluenceRank(totalScore) }
     })
   }
   // #endregion
@@ -243,7 +253,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         (updated.economic as { score: number }).score +
         (updated.cultural as { score: number }).score +
         (updated.transhistoricity as { score: number }).score
-      return { ...updated, totalScore, rank: calculateRank(totalScore) }
+      return { ...updated, totalScore, rank: calculateInfluenceRank(totalScore) }
     })
   }
 
