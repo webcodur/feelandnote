@@ -56,8 +56,9 @@ export interface GetMembersParams {
 
 // #region getMembers
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType = 'USER', page = 1, limit = 20, search, status, role, profession } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession } = params
 
+  // 타입이 지정되면 기존 로직 사용
   if (profileType === 'CELEB') {
     const { celebs, total } = await getCelebs({
       page,
@@ -66,40 +67,108 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       status: status as 'active' | 'suspended' | 'all',
       profession,
     })
-
-    const members: Member[] = celebs.map((c) => ({
-      id: c.id,
-      email: null,
-      nickname: c.nickname,
-      avatar_url: c.avatar_url,
-      bio: c.bio,
-      profile_type: 'CELEB' as const,
-      status: c.status,
-      is_verified: c.is_verified,
-      created_at: c.created_at,
-      profession: c.profession,
-      nationality: c.nationality,
-      birth_date: c.birth_date,
-      death_date: c.death_date,
-      quotes: c.quotes,
-      portrait_url: c.portrait_url,
-      claimed_by: c.claimed_by,
-      content_count: c.content_count,
-      follower_count: c.follower_count,
-    }))
-
+    const members: Member[] = celebs.map((c) => celebToMember(c))
     return { members, total }
   }
 
-  const { users, total } = await getUsers(page, limit, search, status, role)
+  if (profileType === 'USER') {
+    const { users, total } = await getUsers(page, limit, search, status, role)
+    const members: Member[] = users.map((u) => userToMember(u))
+    return { members, total }
+  }
 
-  const members: Member[] = users.map((u) => ({
+  // 전체 조회: profiles 테이블에서 직접 조회
+  const supabase = await createClient()
+  const offset = (page - 1) * limit
+
+  let query = supabase
+    .from('profiles')
+    .select('*, user_social(follower_count, following_count), user_scores(total_score)', { count: 'exact' })
+
+  if (search) {
+    query = query.or(`nickname.ilike.%${search}%,email.ilike.%${search}%`)
+  }
+  if (status && status !== 'all') {
+    query = query.eq('status', status)
+  }
+  if (role && role !== 'all') {
+    query = query.eq('role', role)
+  }
+  if (profession && profession !== 'all') {
+    query = query.eq('profession', profession)
+  }
+
+  const { data, error, count } = await query
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
+
+  if (error) throw error
+
+  // 콘텐츠 수 조회
+  const userIds = data?.map((p) => p.id) || []
+  const contentCounts = await getContentCounts(supabase, userIds)
+
+  const members: Member[] = (data || []).map((p) => ({
+    id: p.id,
+    email: p.email,
+    nickname: p.nickname,
+    avatar_url: p.avatar_url,
+    bio: p.bio,
+    profile_type: (p.profile_type === 'CELEB' ? 'CELEB' : 'USER') as ProfileType,
+    status: p.status || 'active',
+    is_verified: p.is_verified,
+    created_at: p.created_at,
+    role: p.role,
+    last_seen_at: p.last_seen_at,
+    suspended_at: p.suspended_at,
+    suspended_reason: p.suspended_reason,
+    profession: p.profession,
+    nationality: p.nationality,
+    birth_date: p.birth_date,
+    death_date: p.death_date,
+    quotes: p.quotes,
+    portrait_url: p.portrait_url,
+    claimed_by: p.claimed_by,
+    content_count: contentCounts.get(p.id) || 0,
+    follower_count: p.user_social?.follower_count || 0,
+    following_count: p.user_social?.following_count || 0,
+    total_score: p.user_scores?.total_score || 0,
+  }))
+
+  return { members, total: count || 0 }
+}
+
+function celebToMember(c: Celeb): Member {
+  return {
+    id: c.id,
+    email: null,
+    nickname: c.nickname,
+    avatar_url: c.avatar_url,
+    bio: c.bio,
+    profile_type: 'CELEB',
+    status: c.status,
+    is_verified: c.is_verified,
+    created_at: c.created_at,
+    profession: c.profession,
+    nationality: c.nationality,
+    birth_date: c.birth_date,
+    death_date: c.death_date,
+    quotes: c.quotes,
+    portrait_url: c.portrait_url,
+    claimed_by: c.claimed_by,
+    content_count: c.content_count,
+    follower_count: c.follower_count,
+  }
+}
+
+function userToMember(u: User): Member {
+  return {
     id: u.id,
     email: u.email,
     nickname: u.nickname,
     avatar_url: u.avatar_url,
     bio: u.bio,
-    profile_type: 'USER' as const,
+    profile_type: 'USER',
     status: u.status,
     is_verified: u.is_verified,
     created_at: u.created_at,
@@ -111,9 +180,22 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
     follower_count: u.follower_count,
     following_count: u.following_count,
     total_score: u.total_score,
-  }))
+  }
+}
 
-  return { members, total }
+async function getContentCounts(supabase: Awaited<ReturnType<typeof createClient>>, userIds: string[]) {
+  if (userIds.length === 0) return new Map<string, number>()
+
+  const { data } = await supabase
+    .from('user_contents')
+    .select('user_id')
+    .in('user_id', userIds)
+
+  const counts = new Map<string, number>()
+  data?.forEach((row) => {
+    counts.set(row.user_id, (counts.get(row.user_id) || 0) + 1)
+  })
+  return counts
 }
 // #endregion
 

@@ -79,6 +79,7 @@ function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeader
         counts={contentTypeCounts}
         onSelect={onTypeChange}
         hideZeroCounts
+        title="장르"
       />
     </div>
   );

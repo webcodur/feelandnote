@@ -5,11 +5,18 @@
 */ // ------------------------------
 
 import { ReactNode } from "react";
+import Link from "next/link";
 
 interface TabProps {
   label: ReactNode;
   active: boolean;
-  onClick: () => void;
+  onClick?: () => void;
+}
+
+interface LinkTabProps {
+  href: string;
+  label: ReactNode;
+  active: boolean;
 }
 
 interface TabsProps {
@@ -17,11 +24,14 @@ interface TabsProps {
   className?: string;
 }
 
+const tabBaseClass = "py-3 px-0 rounded-none relative font-semibold cursor-pointer flex items-center gap-1.5";
+const activeClass = "text-text-primary";
+const inactiveClass = "text-text-secondary hover:text-text-primary hover:bg-white/5";
+
 export function Tab({ label, active, onClick }: TabProps) {
   return (
     <div
-      className={`py-3 px-0 rounded-none relative font-semibold cursor-pointer flex items-center gap-1.5
-        ${active ? "text-text-primary" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
+      className={`${tabBaseClass} ${active ? activeClass : inactiveClass}`}
       onClick={onClick}
     >
       {label}
@@ -29,6 +39,20 @@ export function Tab({ label, active, onClick }: TabProps) {
         <span className="absolute bottom-[-1px] left-0 w-full h-0.5 bg-accent" />
       )}
     </div>
+  );
+}
+
+export function LinkTab({ href, label, active }: LinkTabProps) {
+  return (
+    <Link
+      href={href}
+      className={`${tabBaseClass} no-underline ${active ? activeClass : inactiveClass}`}
+    >
+      {label}
+      {active && (
+        <span className="absolute bottom-[-1px] left-0 w-full h-0.5 bg-accent" />
+      )}
+    </Link>
   );
 }
 

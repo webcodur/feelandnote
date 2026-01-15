@@ -3,8 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { generateCelebProfileWithInfluence as generateCelebProfileApi } from '@feelnnote/api-clients'
-import type { GeneratedInfluence } from '@feelnnote/api-clients'
+import { generateCelebProfile as generateCelebProfileApi, generateCelebInfluence as generateCelebInfluenceApi } from '@feelnnote/api-clients'
+import type { GeneratedInfluence, GeneratedCelebProfile } from '@feelnnote/api-clients'
 import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage } from './api-keys'
 
 // #region Types
@@ -67,6 +67,7 @@ interface UpdateCelebInput {
   portrait_url?: string
   is_verified?: boolean
   status?: 'active' | 'suspended'
+  influence?: GeneratedInfluence
 }
 
 interface GenerateProfileInput {
@@ -77,12 +78,13 @@ interface GenerateProfileInput {
 
 interface GenerateProfileResult {
   success: boolean
-  profile?: {
-    bio: string
-    profession: string
-    avatarUrl: string
-    influence: GeneratedInfluence
-  }
+  profile?: GeneratedCelebProfile
+  error?: string
+}
+
+interface GenerateInfluenceResult {
+  success: boolean
+  influence?: GeneratedInfluence
   error?: string
 }
 // #endregion
@@ -289,8 +291,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       transhistoricity: inf.transhistoricity.score,
       transhistoricity_exp: inf.transhistoricity.exp,
       total_score: inf.totalScore,
-      rank: inf.rank,
-    })
+    }, { onConflict: 'celeb_id' })
 
     if (influenceError) throw influenceError
   }
@@ -327,8 +328,35 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
 
   if (error) throw error
 
+  // 영향력 저장
+  if (input.influence) {
+    const adminClient = createAdminClient()
+    const inf = input.influence
+    const { error: influenceError } = await adminClient.from('celeb_influence').upsert({
+      celeb_id: input.id,
+      political: inf.political.score,
+      political_exp: inf.political.exp,
+      strategic: inf.strategic.score,
+      strategic_exp: inf.strategic.exp,
+      tech: inf.tech.score,
+      tech_exp: inf.tech.exp,
+      social: inf.social.score,
+      social_exp: inf.social.exp,
+      economic: inf.economic.score,
+      economic_exp: inf.economic.exp,
+      cultural: inf.cultural.score,
+      cultural_exp: inf.cultural.exp,
+      transhistoricity: inf.transhistoricity.score,
+      transhistoricity_exp: inf.transhistoricity.exp,
+      total_score: inf.totalScore,
+    }, { onConflict: 'celeb_id' })
+
+    if (influenceError) throw influenceError
+  }
+
   revalidatePath('/celebs')
   revalidatePath(`/celebs/${input.id}`)
+  revalidatePath(`/members/${input.id}`)
 }
 // #endregion
 
@@ -358,7 +386,7 @@ export async function generateCelebProfile(input: GenerateProfileInput): Promise
     apiKeyRecord = result.data
   }
 
-  // Gemini 호출
+  // Gemini 호출 - 기본 프로필만 생성
   const result = await generateCelebProfileApi(apiKeyRecord.api_key, {
     name: input.name,
     description: input.description,
@@ -378,6 +406,55 @@ export async function generateCelebProfile(input: GenerateProfileInput): Promise
   }
 
   return { success: true, profile: result.profile }
+}
+// #endregion
+
+// #region generateCelebInfluence
+export async function generateCelebInfluence(input: GenerateProfileInput): Promise<GenerateInfluenceResult> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, error: '인증이 필요합니다.' }
+  }
+
+  // API 키 가져오기
+  let apiKeyRecord
+  if (input.selectedKeyId) {
+    const result = await getApiKeyById(input.selectedKeyId)
+    if (result.success && result.data) {
+      apiKeyRecord = result.data
+    }
+  }
+
+  if (!apiKeyRecord) {
+    const result = await getBestAvailableKey()
+    if (!result.success || !result.data) {
+      return { success: false, error: result.error || '사용 가능한 API 키가 없습니다.' }
+    }
+    apiKeyRecord = result.data
+  }
+
+  // Gemini 호출 - 영향력만 생성
+  const result = await generateCelebInfluenceApi(apiKeyRecord.api_key, {
+    name: input.name,
+    description: input.description,
+  })
+
+  // 사용 기록
+  const is429 = result.error?.includes('429') || result.error?.includes('quota')
+  await recordApiKeyUsage({
+    api_key_id: apiKeyRecord.id,
+    action_type: 'celeb_influence',
+    success: result.success,
+    error_code: is429 ? '429' : result.error ? 'ERROR' : undefined,
+  })
+
+  if (!result.success || !result.influence) {
+    return { success: false, error: result.error || 'AI 영향력 생성에 실패했습니다.' }
+  }
+
+  return { success: true, influence: result.influence }
 }
 // #endregion
 

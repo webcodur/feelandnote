@@ -1,15 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
+import { uploadCelebImage } from '@/actions/admin/storage'
 import type { GeneratedInfluence } from '@feelnnote/api-clients'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
-import { Loader2, Trash2, Star, X } from 'lucide-react'
+import { Loader2, Trash2, Star, X, Upload, ImageIcon } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import AIProfileSection from './AIProfileSection'
+import AIBasicProfileSection from './AIBasicProfileSection'
+import AIInfluenceSection from './AIInfluenceSection'
+import { resizeSingleImage, createPreviewUrl, type ImageType } from '@/lib/image'
+import type { InfluenceScore } from '@feelnnote/api-clients'
+import ImageCropModal from '@/components/ui/ImageCropModal'
 
 // #region Types
 interface CelebFormData {
@@ -29,17 +35,6 @@ interface CelebFormData {
 interface Props {
   mode: 'create' | 'edit'
   celeb?: Member
-}
-
-interface GeneratedProfile {
-  bio: string
-  profession: string
-  avatarUrl: string
-  nationality: string
-  birthDate: string
-  deathDate: string
-  quotes: string
-  influence: GeneratedInfluence
 }
 
 const INFLUENCE_LABELS: Record<string, { label: string; max: number }> = {
@@ -111,22 +106,124 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  function applyAIProfile(profile: GeneratedProfile) {
+  // 이미지 업로드 상태 (avatar: 썸네일, portrait: 초상화)
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const avatarInputRef = useRef<HTMLInputElement>(null)
+
+  const [portraitFile, setPortraitFile] = useState<File | null>(null)
+  const [portraitPreview, setPortraitPreview] = useState<string | null>(null)
+  const portraitInputRef = useRef<HTMLInputElement>(null)
+
+  // 크롭 모달 상태
+  const [cropModalOpen, setCropModalOpen] = useState(false)
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
+  const [cropTargetType, setCropTargetType] = useState<ImageType>('avatar')
+
+  // #region AI 프로필 적용
+  type InfluenceField = 'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural' | 'transhistoricity'
+
+  function applyBasicProfile(fields: {
+    profession?: string
+    nationality?: string
+    birthDate?: string
+    deathDate?: string
+    bio?: string
+    quotes?: string
+  }) {
     setFormData((prev) => ({
       ...prev,
-      bio: profile.bio,
-      profession: profile.profession,
-      avatar_url: profile.avatarUrl || prev.avatar_url,
-      nationality: profile.nationality || prev.nationality,
-      birth_date: profile.birthDate || prev.birth_date,
-      death_date: profile.deathDate || prev.death_date,
-      quotes: profile.quotes || prev.quotes,
+      ...(fields.profession && { profession: fields.profession }),
+      ...(fields.nationality && { nationality: fields.nationality }),
+      ...(fields.birthDate && { birth_date: fields.birthDate }),
+      ...(fields.deathDate && { death_date: fields.deathDate }),
+      ...(fields.bio && { bio: fields.bio }),
+      ...(fields.quotes && { quotes: fields.quotes }),
     }))
-    setInfluence(profile.influence)
   }
+
+  function applyInfluence(fields: Partial<Record<InfluenceField, InfluenceScore>>) {
+    setInfluence((prev) => {
+      const updated: GeneratedInfluence = {
+        political: fields.political || prev.political,
+        strategic: fields.strategic || prev.strategic,
+        tech: fields.tech || prev.tech,
+        social: fields.social || prev.social,
+        economic: fields.economic || prev.economic,
+        cultural: fields.cultural || prev.cultural,
+        transhistoricity: fields.transhistoricity || prev.transhistoricity,
+        totalScore: 0,
+        rank: 'D',
+      }
+      // totalScore 재계산
+      const totalScore =
+        updated.political.score +
+        updated.strategic.score +
+        updated.tech.score +
+        updated.social.score +
+        updated.economic.score +
+        updated.cultural.score +
+        updated.transhistoricity.score
+      return { ...updated, totalScore, rank: calculateRank(totalScore) }
+    })
+  }
+  // #endregion
 
   function handleChange(field: keyof CelebFormData, value: string | boolean) {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  async function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>, type: ImageType) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      setError('이미지 파일만 업로드 가능합니다.')
+      return
+    }
+
+    // 크롭 모달 열기
+    const preview = await createPreviewUrl(file)
+    setCropImageSrc(preview)
+    setCropTargetType(type)
+    setCropModalOpen(true)
+
+    // input 초기화 (같은 파일 재선택 가능하도록)
+    e.target.value = ''
+  }
+
+  async function handleCropComplete(croppedDataUrl: string) {
+    setCropModalOpen(false)
+
+    // dataURL을 File로 변환
+    const response = await fetch(croppedDataUrl)
+    const blob = await response.blob()
+    const file = new File([blob], `${cropTargetType}.webp`, { type: 'image/webp' })
+
+    if (cropTargetType === 'avatar') {
+      setAvatarFile(file)
+      setAvatarPreview(croppedDataUrl)
+    } else {
+      setPortraitFile(file)
+      setPortraitPreview(croppedDataUrl)
+    }
+  }
+
+  function handleCropCancel() {
+    setCropModalOpen(false)
+    setCropImageSrc(null)
+  }
+
+  function handleImageRemove(type: ImageType) {
+    if (type === 'avatar') {
+      setAvatarFile(null)
+      setAvatarPreview(null)
+      if (avatarInputRef.current) avatarInputRef.current.value = ''
+    } else {
+      setPortraitFile(null)
+      setPortraitPreview(null)
+      if (portraitInputRef.current) portraitInputRef.current.value = ''
+    }
   }
 
   function handleInfluenceChange(field: string, type: 'score' | 'exp', value: number | string) {
@@ -163,6 +260,9 @@ export default function CelebForm({ mode, celeb }: Props) {
     }
 
     try {
+      let avatarUrl = formData.avatar_url || undefined
+      let portraitUrl = formData.portrait_url || undefined
+
       if (mode === 'create') {
         const hasInfluence = influence.totalScore > 0
         const result = await createCeleb({
@@ -173,13 +273,56 @@ export default function CelebForm({ mode, celeb }: Props) {
           death_date: formData.death_date || undefined,
           bio: formData.bio || undefined,
           quotes: formData.quotes || undefined,
-          avatar_url: formData.avatar_url || undefined,
-          portrait_url: formData.portrait_url || undefined,
+          avatar_url: avatarUrl,
+          portrait_url: portraitUrl,
           is_verified: formData.is_verified,
           influence: hasInfluence ? influence : undefined,
         })
+
+        // 생성 후 이미지 업로드 (celebId가 필요하므로)
+        const uploadPromises: Promise<void>[] = []
+
+        if (avatarFile) {
+          uploadPromises.push(
+            resizeSingleImage(avatarFile, 'avatar').then(async (resized) => {
+              const uploadResult = await uploadCelebImage({ celebId: result.id, image: resized, type: 'avatar' })
+              if (uploadResult.success) avatarUrl = uploadResult.url
+            })
+          )
+        }
+
+        if (portraitFile) {
+          uploadPromises.push(
+            resizeSingleImage(portraitFile, 'portrait').then(async (resized) => {
+              const uploadResult = await uploadCelebImage({ celebId: result.id, image: resized, type: 'portrait' })
+              if (uploadResult.success) portraitUrl = uploadResult.url
+            })
+          )
+        }
+
+        if (uploadPromises.length > 0) {
+          await Promise.all(uploadPromises)
+          await updateCeleb({ id: result.id, avatar_url: avatarUrl, portrait_url: portraitUrl })
+        }
+
         router.push(`/members/${result.id}`)
       } else if (celeb) {
+        // 개별 이미지 업로드
+        if (avatarFile) {
+          const resized = await resizeSingleImage(avatarFile, 'avatar')
+          const uploadResult = await uploadCelebImage({ celebId: celeb.id, image: resized, type: 'avatar' })
+          if (uploadResult.success) avatarUrl = uploadResult.url
+          else throw new Error(uploadResult.error || '아바타 업로드 실패')
+        }
+
+        if (portraitFile) {
+          const resized = await resizeSingleImage(portraitFile, 'portrait')
+          const uploadResult = await uploadCelebImage({ celebId: celeb.id, image: resized, type: 'portrait' })
+          if (uploadResult.success) portraitUrl = uploadResult.url
+          else throw new Error(uploadResult.error || '초상화 업로드 실패')
+        }
+
+        const hasInfluence = influence.totalScore > 0
         await updateCeleb({
           id: celeb.id,
           nickname: formData.nickname.trim(),
@@ -189,10 +332,11 @@ export default function CelebForm({ mode, celeb }: Props) {
           death_date: formData.death_date || undefined,
           bio: formData.bio || undefined,
           quotes: formData.quotes || undefined,
-          avatar_url: formData.avatar_url || undefined,
-          portrait_url: formData.portrait_url || undefined,
+          avatar_url: avatarUrl,
+          portrait_url: portraitUrl,
           is_verified: formData.is_verified,
           status: formData.status,
+          influence: hasInfluence ? influence : undefined,
         })
         setSuccess(true)
         router.refresh()
@@ -221,66 +365,109 @@ export default function CelebForm({ mode, celeb }: Props) {
   }
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">{error}</div>}
       {success && <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 text-green-400 text-sm">저장되었습니다.</div>}
 
       {/* Basic Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-text-primary">{mode === 'create' ? '기본 정보' : '프로필 수정'}</h2>
-
-        <div className="space-y-2">
-          <label htmlFor="nickname" className="block text-sm font-medium text-text-secondary">닉네임 <span className="text-red-400">*</span></label>
-          <input type="text" id="nickname" required value={formData.nickname} onChange={(e) => handleChange('nickname', e.target.value)} placeholder="셀럽 닉네임" className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-text-primary">{mode === 'create' ? '기본 정보' : '프로필 수정'}</h2>
         </div>
 
-        <AIProfileSection nickname={formData.nickname} onProfileGenerated={applyAIProfile} />
+        <AIBasicProfileSection nickname={formData.nickname} onApply={applyBasicProfile} />
 
-        <div className="space-y-2">
-          <label htmlFor="profession" className="block text-sm font-medium text-text-secondary">직군</label>
-          <select id="profession" value={formData.profession} onChange={(e) => handleChange('profession', e.target.value)} className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none">
+        {/* 인라인 입력 필드 그리드 */}
+        <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-3 items-center">
+          <label htmlFor="nickname" className="text-sm font-medium text-text-secondary">닉네임 <span className="text-red-400">*</span></label>
+          <input type="text" id="nickname" required value={formData.nickname} onChange={(e) => handleChange('nickname', e.target.value)} placeholder="셀럽 닉네임" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+
+          <label htmlFor="profession" className="text-sm font-medium text-text-secondary">직군</label>
+          <select id="profession" value={formData.profession} onChange={(e) => handleChange('profession', e.target.value)} className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none">
             <option value="">직군 선택</option>
             {CELEB_PROFESSIONS.map((prof) => <option key={prof.value} value={prof.value}>{prof.label}</option>)}
           </select>
-        </div>
 
-        <div className="space-y-2">
-          <label htmlFor="nationality" className="block text-sm font-medium text-text-secondary">국적</label>
-          <select id="nationality" value={formData.nationality} onChange={(e) => handleChange('nationality', e.target.value)} disabled={countriesLoading} className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none disabled:opacity-50">
-            <option value="">{countriesLoading ? '국가 목록 로딩 중...' : '국적 선택'}</option>
+          <label htmlFor="nationality" className="text-sm font-medium text-text-secondary">국적</label>
+          <select id="nationality" value={formData.nationality} onChange={(e) => handleChange('nationality', e.target.value)} disabled={countriesLoading} className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none disabled:opacity-50">
+            <option value="">{countriesLoading ? '로딩 중...' : '국적 선택'}</option>
             {countries.map((country) => <option key={country.code} value={country.name}>{country.name}</option>)}
           </select>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label htmlFor="birth_date" className="block text-sm font-medium text-text-secondary">출생연일</label>
-            <input type="text" id="birth_date" value={formData.birth_date} onChange={(e) => handleChange('birth_date', e.target.value)} placeholder="예: 1955-02-24, -356 (기원전)" className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+          <label htmlFor="birth_date" className="text-sm font-medium text-text-secondary">출생</label>
+          <div className="grid grid-cols-2 gap-4">
+            <input type="text" id="birth_date" value={formData.birth_date} onChange={(e) => handleChange('birth_date', e.target.value)} placeholder="1955-02-24 또는 -356" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+            <input type="text" id="death_date" value={formData.death_date} onChange={(e) => handleChange('death_date', e.target.value)} placeholder="사망일 (생존시 공백)" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
           </div>
-          <div className="space-y-2">
-            <label htmlFor="death_date" className="block text-sm font-medium text-text-secondary">사망연일</label>
-            <input type="text" id="death_date" value={formData.death_date} onChange={(e) => handleChange('death_date', e.target.value)} placeholder="예: 2011-10-05, -323 (기원전)" className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+
+          <label htmlFor="bio" className="text-sm font-medium text-text-secondary self-start pt-2">소개</label>
+          <textarea id="bio" rows={2} value={formData.bio} onChange={(e) => handleChange('bio', e.target.value)} placeholder="셀럽 소개글" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none" />
+
+          <label htmlFor="quotes" className="text-sm font-medium text-text-secondary self-start pt-2">명언</label>
+          <textarea id="quotes" rows={2} value={formData.quotes} onChange={(e) => handleChange('quotes', e.target.value)} placeholder="대표 명언 또는 발언" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none" />
+        </div>
+
+        {/* 이미지 업로드 섹션 */}
+        <div className="space-y-4">
+          <label className="block text-sm font-medium text-text-secondary">프로필 이미지</label>
+          <div className="grid grid-cols-2 gap-6">
+            {/* 아바타 (썸네일) */}
+            <div className="space-y-2">
+              <p className="text-xs text-text-secondary">썸네일 (100x100)</p>
+              <div className="flex items-start gap-3">
+                <div className="relative w-20 h-20 rounded-full overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
+                  {(avatarPreview || formData.avatar_url) ? (
+                    <>
+                      <Image src={avatarPreview || formData.avatar_url || ''} alt="아바타" fill unoptimized className="object-cover" />
+                      {avatarPreview && (
+                        <button type="button" onClick={() => handleImageRemove('avatar')} className="absolute top-0 right-0 p-0.5 bg-black/50 rounded-full hover:bg-black/70">
+                          <X className="w-3 h-3 text-white" />
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <ImageIcon className="w-6 h-6 text-text-secondary" />
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <input ref={avatarInputRef} type="file" accept="image/*" onChange={(e) => handleImageSelect(e, 'avatar')} className="hidden" />
+                  <Button type="button" variant="secondary" size="sm" onClick={() => avatarInputRef.current?.click()}>
+                    <Upload className="w-3 h-3" />선택
+                  </Button>
+                  <input type="url" value={formData.avatar_url} onChange={(e) => handleChange('avatar_url', e.target.value)} placeholder="URL" className="w-full px-2 py-1 text-xs bg-bg-secondary border border-border rounded text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* 초상화 (중형) */}
+            <div className="space-y-2">
+              <p className="text-xs text-text-secondary">초상화 (400x400)</p>
+              <div className="flex items-start gap-3">
+                <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
+                  {(portraitPreview || formData.portrait_url) ? (
+                    <>
+                      <Image src={portraitPreview || formData.portrait_url || ''} alt="초상화" fill unoptimized className="object-cover" />
+                      {portraitPreview && (
+                        <button type="button" onClick={() => handleImageRemove('portrait')} className="absolute top-0 right-0 p-0.5 bg-black/50 rounded-full hover:bg-black/70">
+                          <X className="w-3 h-3 text-white" />
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <ImageIcon className="w-6 h-6 text-text-secondary" />
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <input ref={portraitInputRef} type="file" accept="image/*" onChange={(e) => handleImageSelect(e, 'portrait')} className="hidden" />
+                  <Button type="button" variant="secondary" size="sm" onClick={() => portraitInputRef.current?.click()}>
+                    <Upload className="w-3 h-3" />선택
+                  </Button>
+                  <input type="url" value={formData.portrait_url} onChange={(e) => handleChange('portrait_url', e.target.value)} placeholder="URL" className="w-full px-2 py-1 text-xs bg-bg-secondary border border-border rounded text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="bio" className="block text-sm font-medium text-text-secondary">소개</label>
-          <textarea id="bio" rows={3} value={formData.bio} onChange={(e) => handleChange('bio', e.target.value)} placeholder="셀럽 소개글" className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none" />
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="quotes" className="block text-sm font-medium text-text-secondary">명언</label>
-          <textarea id="quotes" rows={2} value={formData.quotes} onChange={(e) => handleChange('quotes', e.target.value)} placeholder="이 인물의 명언 또는 대표 발언" className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none" />
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="avatar_url" className="block text-sm font-medium text-text-secondary">프로필 URL (썸네일)</label>
-          <input type="url" id="avatar_url" value={formData.avatar_url} onChange={(e) => handleChange('avatar_url', e.target.value)} placeholder="https://..." className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="portrait_url" className="block text-sm font-medium text-text-secondary">초상화 URL (상세용)</label>
-          <input type="url" id="portrait_url" value={formData.portrait_url} onChange={(e) => handleChange('portrait_url', e.target.value)} placeholder="https://..." className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
         </div>
 
         <label className="flex items-center gap-3 cursor-pointer">
@@ -315,19 +502,19 @@ export default function CelebForm({ mode, celeb }: Props) {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <AIInfluenceSection nickname={formData.nickname} onApply={applyInfluence} />
+
+        <div className="space-y-2">
           {Object.entries(INFLUENCE_LABELS).map(([key, { label, max }]) => {
             const field = influence[key as keyof typeof influence]
             if (typeof field === 'object' && 'score' in field) {
               return (
-                <div key={key} className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <label className="w-24 text-sm text-text-secondary shrink-0">{label}</label>
-                    <input type="number" min={0} max={max} value={field.score} onChange={(e) => handleInfluenceChange(key, 'score', Math.min(max, Math.max(0, parseInt(e.target.value) || 0)))} className="w-16 px-2 py-1 bg-bg-secondary border border-border rounded text-text-primary text-center text-sm focus:border-accent focus:outline-none" />
-                    <span className="text-xs text-text-secondary">/ {max}</span>
-                    <div className="flex-1 h-2 bg-bg-secondary rounded-full overflow-hidden"><div className="h-full bg-accent rounded-full" style={{ width: `${(field.score / max) * 100}%` }} /></div>
-                  </div>
-                  <input type="text" value={field.exp} onChange={(e) => handleInfluenceChange(key, 'exp', e.target.value)} placeholder={`${label} 설명 (선택)`} className="w-full px-3 py-1.5 bg-bg-secondary border border-border rounded text-text-primary text-sm placeholder-text-secondary focus:border-accent focus:outline-none" />
+                <div key={key} className="flex items-center gap-3">
+                  <label className="w-20 text-sm text-text-secondary shrink-0">{label}</label>
+                  <input type="number" min={0} max={max} value={field.score} onChange={(e) => handleInfluenceChange(key, 'score', Math.min(max, Math.max(0, parseInt(e.target.value) || 0)))} className="w-14 px-2 py-1 bg-bg-secondary border border-border rounded text-text-primary text-center text-sm focus:border-accent focus:outline-none" />
+                  <span className="text-xs text-text-secondary w-8">/{max}</span>
+                  <div className="w-24 h-1.5 bg-bg-secondary rounded-full overflow-hidden shrink-0"><div className="h-full bg-accent rounded-full" style={{ width: `${(field.score / max) * 100}%` }} /></div>
+                  <input type="text" value={field.exp} onChange={(e) => handleInfluenceChange(key, 'exp', e.target.value)} placeholder="설명" className="flex-1 px-3 py-1 bg-bg-secondary border border-border rounded text-text-primary text-sm placeholder-text-secondary focus:border-accent focus:outline-none" />
                 </div>
               )
             }
@@ -351,6 +538,18 @@ export default function CelebForm({ mode, celeb }: Props) {
           </Button>
         </div>
       </div>
+
     </form>
+
+    {/* 이미지 크롭 모달 */}
+    {cropModalOpen && cropImageSrc && (
+      <ImageCropModal
+        imageSrc={cropImageSrc}
+        aspectRatio={1}
+        onComplete={handleCropComplete}
+        onCancel={handleCropCancel}
+      />
+    )}
+    </>
   )
 }

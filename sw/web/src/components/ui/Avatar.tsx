@@ -14,6 +14,7 @@ interface AvatarProps {
   gradient?: string;
   verified?: boolean;
   className?: string;
+  priority?: boolean;
 }
 
 const sizeStyles = {
@@ -27,7 +28,7 @@ const sizeStyles = {
 
 const defaultGradient = "linear-gradient(135deg, #8b5cf6, #ec4899)";
 
-export default function Avatar({ url, name, size = "md", gradient, verified, className = "" }: AvatarProps) {
+export default function Avatar({ url, name, size = "md", gradient, verified, className = "", priority = false }: AvatarProps) {
   const styles = sizeStyles[size];
   const initial = name?.charAt(0).toUpperCase() || "?";
   const bg = gradient || defaultGradient;
@@ -42,6 +43,7 @@ export default function Avatar({ url, name, size = "md", gradient, verified, cla
           height={styles.pixels}
           className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 ${className}`}
           unoptimized={!url.includes('supabase.co')}
+          priority={priority}
         />
       ) : (
         <div

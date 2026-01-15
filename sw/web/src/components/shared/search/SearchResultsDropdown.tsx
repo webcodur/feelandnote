@@ -48,6 +48,7 @@ interface SearchResultsDropdownProps {
   onViewAllResults: () => void;
   onAddToArchive?: (result: SearchResult) => void;
   onOpenInNewTab?: (result: SearchResult) => void;
+  isMobile?: boolean;
 }
 
 export default function SearchResultsDropdown({
@@ -65,12 +66,17 @@ export default function SearchResultsDropdown({
   onViewAllResults,
   onAddToArchive,
   onOpenInNewTab,
+  isMobile = false,
 }: SearchResultsDropdownProps) {
   // 콘텐츠 검색 모드이고 archive 모드가 아닐 때만 유틸 버튼 표시
   const showContentUtils = searchMode === "content";
 
+  const containerClass = isMobile
+    ? "bg-bg-card border border-border rounded-xl overflow-hidden max-h-[calc(100vh-80px)] overflow-y-auto"
+    : "absolute top-full left-0 right-0 mt-2 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-[400px] overflow-y-auto";
+
   return (
-    <div className="absolute top-full left-0 right-0 mt-2 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-[400px] overflow-y-auto" style={{ zIndex: Z_INDEX.dropdown }}>
+    <div className={containerClass} style={isMobile ? undefined : { zIndex: Z_INDEX.dropdown }}>
       {/* Loading */}
       {isLoading && (
         <div className="flex items-center justify-center py-8">

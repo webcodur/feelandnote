@@ -7,8 +7,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Trophy, Loader2 } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
+import { Loader2 } from "lucide-react";
 import { getAchievementData, type AchievementData } from "@/actions/achievements";
 import AchievementsContent from "@/components/features/profile/AchievementsContent";
 
@@ -47,27 +46,20 @@ export default function Page() {
     return date.toLocaleDateString("ko-KR");
   };
 
-  return (
-    <>
-      <SectionHeader
-        title="업적"
-        description="획득한 업적과 칭호를 확인하세요"
-        icon={<Trophy size={20} />}
-        className="mb-4"
-      />
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 size={28} className="animate-spin text-accent" />
+      </div>
+    );
+  }
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 size={28} className="animate-spin text-accent" />
-        </div>
-      ) : (
-        <AchievementsContent
-          data={achievements}
-          subTab={subTab}
-          setSubTab={setSubTab}
-          formatDate={formatDate}
-        />
-      )}
-    </>
+  return (
+    <AchievementsContent
+      data={achievements}
+      subTab={subTab}
+      setSubTab={setSubTab}
+      formatDate={formatDate}
+    />
   );
 }

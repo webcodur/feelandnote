@@ -111,7 +111,7 @@ export default async function HomePage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <div className="flex flex-col gap-6 pb-24 px-4 md:px-6 lg:px-8">
+    <div className="flex flex-col gap-6">
       <HomeTabSection
         celebTabContent={
           <Suspense fallback={<CarouselSkeleton />}>

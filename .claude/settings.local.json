@@ -76,7 +76,10 @@
       "WebFetch(domain:bookauthority.org)",
       "WebFetch(domain:ai.google.dev)",
       "WebFetch(domain:generativelanguage.googleapis.com)",
-      "Bash(pnpm dev)"
+      "Bash(pnpm dev)",
+      "Bash(powershell:*)",
+      "Bash(pnpm exec tsc:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []

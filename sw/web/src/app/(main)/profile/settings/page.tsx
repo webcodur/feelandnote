@@ -7,8 +7,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Settings, Loader2 } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
+import { Loader2 } from "lucide-react";
 import { getProfile, updateApiKey, updateProfile, type UserProfile } from "@/actions/user";
 import { deleteAccount } from "@/actions/auth";
 import SettingsContent from "@/components/features/profile/SettingsContent";
@@ -69,29 +68,22 @@ export default function Page() {
     return { success: true };
   };
 
-  return (
-    <>
-      <SectionHeader
-        title="설정"
-        description="프로필 및 계정 설정을 관리하세요"
-        icon={<Settings size={20} />}
-        className="mb-4"
-      />
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 size={28} className="animate-spin text-accent" />
+      </div>
+    );
+  }
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 size={28} className="animate-spin text-accent" />
-        </div>
-      ) : (
-        <SettingsContent
-          apiKey={profile?.gemini_api_key || null}
-          onSave={handleSaveApiKey}
-          isSaving={isSavingApiKey}
-          profile={profile ? { nickname: profile.nickname, avatar_url: profile.avatar_url, bio: profile.bio || null } : null}
-          onProfileUpdate={handleProfileUpdate}
-          onDeleteAccount={handleDeleteAccount}
-        />
-      )}
-    </>
+  return (
+    <SettingsContent
+      apiKey={profile?.gemini_api_key || null}
+      onSave={handleSaveApiKey}
+      isSaving={isSavingApiKey}
+      profile={profile ? { nickname: profile.nickname, avatar_url: profile.avatar_url, bio: profile.bio || null } : null}
+      onProfileUpdate={handleProfileUpdate}
+      onDeleteAccount={handleDeleteAccount}
+    />
   );
 }

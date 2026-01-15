@@ -7,8 +7,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { BarChart2, Loader2 } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
+import { Loader2 } from "lucide-react";
 import { getDetailedStats, type DetailedStats } from "@/actions/user";
 import StatsContent from "@/components/features/profile/StatsContent";
 
@@ -31,22 +30,13 @@ export default function Page() {
     loadData();
   }, []);
 
-  return (
-    <>
-      <SectionHeader
-        title="통계"
-        description="나의 문화생활 통계를 확인하세요"
-        icon={<BarChart2 size={20} />}
-        className="mb-4"
-      />
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 size={28} className="animate-spin text-accent" />
+      </div>
+    );
+  }
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 size={28} className="animate-spin text-accent" />
-        </div>
-      ) : (
-        <StatsContent stats={stats} />
-      )}
-    </>
-  );
+  return <StatsContent stats={stats} />;
 }

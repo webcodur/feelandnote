@@ -1,9 +1,10 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { calculateInfluenceRank } from '@feelnnote/api-clients'
 import type { CelebProfile } from '@/types/home'
 
-export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc'
+export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence'
 
 interface GetCelebsParams {
   page?: number
@@ -24,7 +25,7 @@ interface GetCelebsResult {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, sortBy = 'follower' } = params
+  const { page = 1, limit = 8, profession, nationality, sortBy = 'influence' } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -72,7 +73,7 @@ export async function getCelebs(
       is_verified,
       claimed_by,
       user_social(follower_count),
-      celeb_influence(total_score, rank)
+      celeb_influence(total_score)
     `)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -89,11 +90,13 @@ export async function getCelebs(
     }
   }
 
-  // 정렬 적용 (birth_date 정렬 시 DB 레벨에서 처리)
+  // 정렬 적용 (DB 레벨에서 처리 가능한 것들)
   if (sortBy === 'birth_date_asc') {
     query = query.order('birth_date', { ascending: true, nullsFirst: false })
   } else if (sortBy === 'birth_date_desc') {
     query = query.order('birth_date', { ascending: false, nullsFirst: false })
+  } else if (sortBy === 'name_asc') {
+    query = query.order('nickname', { ascending: true })
   }
 
   const { data, error } = await query.range(offset, offset + limit - 1)
@@ -156,14 +159,16 @@ export async function getCelebs(
         is_follower: myFollowers.has(row.id),
         influence: influenceData ? {
           total_score: influenceData.total_score,
-          rank: influenceData.rank,
+          rank: calculateInfluenceRank(influenceData.total_score),
         } : null,
       }
     })
 
-  // 팔로워 수 정렬일 때만 클라이언트 측 정렬 (DB에서 join 데이터 정렬 어려움)
+  // join 데이터 기준 정렬은 클라이언트 측에서 처리
   if (sortBy === 'follower') {
     celebs.sort((a, b) => b.follower_count - a.follower_count)
+  } else if (sortBy === 'influence') {
+    celebs.sort((a, b) => (b.influence?.total_score ?? 0) - (a.influence?.total_score ?? 0))
   }
 
   return { celebs, total, page, totalPages, error: null }

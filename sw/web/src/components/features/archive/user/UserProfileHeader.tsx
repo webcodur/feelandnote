@@ -8,10 +8,11 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare, Quote, Calendar } from "lucide-react";
+import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare, Quote, Calendar, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { toggleFollow, type PublicUserProfile } from "@/actions/user";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import CelebInfoModal from "./CelebInfoModal";
 
 // 생몰년 포맷팅 헬퍼
 function formatLifespan(birthDate: string | null, deathDate: string | null): string | null {
@@ -44,9 +45,14 @@ export default function UserProfileHeader({
 }: UserProfileHeaderProps) {
   const [isFollowing, setIsFollowing] = useState(profile.is_following);
   const [isPending, startTransition] = useTransition();
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   const isFriend = isFollowing && profile.is_follower;
   const isCeleb = profile.profile_type === 'CELEB';
+  const hasPortrait = isCeleb && !!profile.portrait_url;
+
+  // 원형 아바타는 항상 avatar_url 사용 (중형 초상화는 모달에서 표시)
+  const profileImageUrl = profile.avatar_url;
 
   const handleFollowClick = () => {
     startTransition(async () => {
@@ -61,26 +67,38 @@ export default function UserProfileHeader({
   return (
     <div className="bg-surface rounded-xl p-6 mb-6">
       <div className="flex items-start gap-4">
-        {/* 아바타 */}
+        {/* 프로필 이미지 - 셀럽은 중형(120px), 일반 유저는 소형(80px) */}
         <div className="flex-shrink-0">
-          {profile.avatar_url ? (
-            <div className="relative w-20 h-20 rounded-full overflow-hidden">
-              <Image
-                src={profile.avatar_url}
-                alt={profile.nickname}
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div
-              className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}
-            >
-              {profile.nickname.charAt(0).toUpperCase()}
-            </div>
-          )}
+          <button
+            type="button"
+            onClick={hasPortrait ? () => setIsInfoModalOpen(true) : undefined}
+            className={`relative group ${hasPortrait ? 'cursor-pointer' : 'cursor-default'}`}
+            disabled={!hasPortrait}
+          >
+            {profileImageUrl ? (
+              <div className={`relative rounded-full overflow-hidden ${isCeleb ? 'w-[120px] h-[120px]' : 'w-20 h-20'}`}>
+                <Image
+                  src={profileImageUrl}
+                  alt={profile.nickname}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+                {hasPortrait && (
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-full">
+                    <Info size={24} className="text-white" />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div
+                className={`rounded-full flex items-center justify-center font-bold text-white ${isCeleb ? 'w-[120px] h-[120px] text-4xl' : 'w-20 h-20 text-2xl'}`}
+                style={{ background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}
+              >
+                {profile.nickname.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </button>
         </div>
 
         {/* 프로필 정보 */}
@@ -195,6 +213,15 @@ export default function UserProfileHeader({
           </div>
         )}
       </div>
+
+      {/* 셀럽 정보 모달 */}
+      {isCeleb && (
+        <CelebInfoModal
+          isOpen={isInfoModalOpen}
+          onClose={() => setIsInfoModalOpen(false)}
+          profile={profile}
+        />
+      )}
     </div>
   );
 }
