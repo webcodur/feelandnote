@@ -7,7 +7,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Badge, Avatar, Card, FilterChips, SectionHeader, type ChipOption } from "@/components/ui";
+import { Button, Badge, Avatar, Card, FilterChips, type ChipOption } from "@/components/ui";
 import BlindGamePlayModal from "@/components/features/archive/lounge/BlindGamePlayModal";
 import { Plus, Quote, Gamepad2, Flame, Sparkles, Users, User, Target } from "lucide-react";
 
@@ -72,18 +72,6 @@ export default function Page() {
 
   return (
     <>
-      <SectionHeader
-        title="블라인드 게임"
-        description="감상평만 보고 작품을 맞추는 퀴즈에 도전하세요"
-        icon={<Target size={24} />}
-        action={
-          <Button variant="primary">
-            <Plus size={16} /> 새 문제 출제
-          </Button>
-        }
-        className="mb-8"
-      />
-
       <div className="mb-6">
         <FilterChips
           options={TAB_OPTIONS}

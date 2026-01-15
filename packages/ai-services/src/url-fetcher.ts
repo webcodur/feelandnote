@@ -94,7 +94,7 @@ function stripHtml(html: string): string {
 // #endregion
 
 // #region Main Function
-const MAX_TEXT_LENGTH = 10000
+const MAX_TEXT_LENGTH = 100000
 const FETCH_TIMEOUT = 20000
 const MAX_RETRIES = 2
 const RETRY_DELAY = 2000

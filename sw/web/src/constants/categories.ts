@@ -17,16 +17,23 @@ export interface CategoryConfig {
   icon: LucideIcon;
   placeholder: string; // 검색용
   dbType: string; // DB 저장값
+  unit: string; // 콘텐츠 단위 (권, 편, 개 등)
 }
 
 // 전체 카테고리 목록 (Single Source of Truth)
 export const CATEGORIES: CategoryConfig[] = [
-  { id: "book", label: "도서", icon: Book, placeholder: "책 제목, 저자...", dbType: "BOOK" },
-  { id: "video", label: "영상", icon: Film, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO" },
-  { id: "game", label: "게임", icon: Gamepad2, placeholder: "게임 제목, 개발사...", dbType: "GAME" },
-  { id: "music", label: "음악", icon: Music, placeholder: "앨범, 아티스트...", dbType: "MUSIC" },
-  { id: "certificate", label: "자격증", icon: Award, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE" },
+  { id: "book", label: "도서", icon: Book, placeholder: "책 제목, 저자...", dbType: "BOOK", unit: "권" },
+  { id: "video", label: "영상", icon: Film, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO", unit: "편" },
+  { id: "game", label: "게임", icon: Gamepad2, placeholder: "게임 제목, 개발사...", dbType: "GAME", unit: "개" },
+  { id: "music", label: "음악", icon: Music, placeholder: "앨범, 아티스트...", dbType: "MUSIC", unit: "곡" },
+  { id: "certificate", label: "자격증", icon: Award, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE", unit: "개" },
 ] as const;
+
+// 콘텐츠 타입별 단위 조회
+export const getContentUnit = (dbType: string): string => {
+  const category = getCategoryByDbType(dbType);
+  return category?.unit ?? "개";
+};
 
 // 유틸리티 함수
 export const getCategoryById = (id: CategoryId): CategoryConfig | undefined =>

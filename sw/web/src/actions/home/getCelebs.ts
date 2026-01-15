@@ -11,6 +11,7 @@ interface GetCelebsParams {
   limit?: number
   profession?: string
   nationality?: string  // 'all' | 'none' | 국가명
+  contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
   sortBy?: CelebSortBy
 }
 
@@ -25,7 +26,7 @@ interface GetCelebsResult {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, sortBy = 'influence' } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'influence' } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -106,10 +107,47 @@ export async function getCelebs(
     return { celebs: [], total: 0, page, totalPages: 0, error: error.message }
   }
 
-  // 팔로우 상태 조회 (로그인한 경우만)
+  // 팔로우 상태 및 콘텐츠 카운트 조회
   const celebIds = (data || []).map(row => row.id)
   let myFollowings: Set<string> = new Set()
   let myFollowers: Set<string> = new Set()
+  let contentCountMap: Map<string, number> = new Map()
+
+  if (celebIds.length > 0) {
+    // 콘텐츠 카운트 조회 (contentType 필터 적용)
+    if (contentType && contentType !== 'all') {
+      // 특정 타입 필터: contents 테이블과 조인하여 해당 타입만 카운트
+      const { data: contents } = await supabase
+        .from('contents')
+        .select('id')
+        .eq('type', contentType) as { data: { id: string }[] | null }
+
+      if (contents && contents.length > 0) {
+        const contentIds = contents.map(c => c.id)
+        const { data: contentCountData } = await supabase
+          .from('user_contents')
+          .select('user_id')
+          .in('user_id', celebIds)
+          .in('content_id', contentIds) as { data: { user_id: string }[] | null }
+
+        (contentCountData || []).forEach(row => {
+          const count = contentCountMap.get(row.user_id) ?? 0
+          contentCountMap.set(row.user_id, count + 1)
+        })
+      }
+    } else {
+      // 전체 타입: 기존 로직
+      const { data: contentCountData } = await supabase
+        .from('user_contents')
+        .select('user_id')
+        .in('user_id', celebIds) as { data: { user_id: string }[] | null }
+
+      (contentCountData || []).forEach(row => {
+        const count = contentCountMap.get(row.user_id) ?? 0
+        contentCountMap.set(row.user_id, count + 1)
+      })
+    }
+  }
 
   if (user && celebIds.length > 0) {
     // 내가 팔로우 중인 셀럽
@@ -155,6 +193,7 @@ export async function getCelebs(
         is_verified: row.is_verified ?? false,
         is_platform_managed: row.claimed_by === null,
         follower_count: social?.follower_count ?? 0,
+        content_count: contentCountMap.get(row.id) ?? 0,
         is_following: myFollowings.has(row.id),
         is_follower: myFollowers.has(row.id),
         influence: influenceData ? {

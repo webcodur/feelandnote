@@ -4,7 +4,7 @@
   책임: 사용자의 콘텐츠 기록을 표시한다.
 */ // ------------------------------
 
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile, getProfile, getStats } from "@/actions/user";
 import { getGuestbookEntries } from "@/actions/guestbook";
@@ -66,15 +66,22 @@ export default async function UserProfilePage({ params }: PageProps) {
   }
 
   // 타인 프로필 조회
-  const [result, myProfile, guestbookResult] = await Promise.all([
-    getUserProfile(userId),
-    getProfile(),
-    getGuestbookEntries({ profileId: userId, limit: 20 }),
-  ]);
+  const result = await getUserProfile(userId);
 
   if (!result.success || !result.data) {
     notFound();
   }
+
+  // 셀럽이 아닌 경우 로그인 필요
+  if (result.data.profile_type !== 'CELEB' && !currentUser) {
+    redirect('/login');
+  }
+
+  // 나머지 병렬 조회
+  const [myProfile, guestbookResult] = await Promise.all([
+    getProfile(),
+    getGuestbookEntries({ profileId: userId, limit: 20 }),
+  ]);
 
   return (
     <UserProfile

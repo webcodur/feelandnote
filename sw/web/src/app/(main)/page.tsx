@@ -13,9 +13,9 @@ import HomeTabSection from "@/components/features/home/HomeTabSection";
 function CarouselSkeleton() {
   return (
     <section>
-      <div className="flex gap-4 overflow-hidden md:grid md:grid-cols-8 md:gap-3">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-          <div key={i} className="flex flex-col items-center animate-pulse shrink-0">
+      <div className="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-4">
+        {Array.from({ length: 24 }).map((_, i) => (
+          <div key={i} className="flex flex-col items-center animate-pulse">
             <div className="w-16 h-16 md:w-14 md:h-14 rounded-full bg-white/10 ring-2 ring-white/5 mb-2" />
             <div className="w-14 h-3 bg-white/10 rounded mb-1" />
             <div className="w-10 h-2 bg-white/10 rounded" />
@@ -70,10 +70,11 @@ function SidebarSkeleton() {
 
 // #region 서버 데이터 페칭 컴포넌트
 async function CelebCarouselServer() {
-  const [celebsResult, professionCounts, nationalityCounts] = await Promise.all([
-    getCelebs({ page: 1, limit: 8 }),
+  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts] = await Promise.all([
+    getCelebs({ page: 1, limit: 100 }),
     getProfessionCounts(),
     getNationalityCounts(),
+    getContentTypeCounts(),
   ]);
 
   return (
@@ -83,6 +84,7 @@ async function CelebCarouselServer() {
       initialTotalPages={celebsResult.totalPages}
       professionCounts={professionCounts}
       nationalityCounts={nationalityCounts}
+      contentTypeCounts={contentTypeCounts}
       hideHeader={true}
     />
   );

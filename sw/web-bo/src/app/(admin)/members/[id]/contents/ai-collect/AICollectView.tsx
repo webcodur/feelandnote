@@ -403,14 +403,19 @@ export default function AICollectView({ celebId, celebName }: Props) {
         </div>
 
         {inputMode === 'text' ? (
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="기사나 인터뷰 내용을 붙여넣으세요..."
-            rows={6}
-            className="w-full px-4 py-3 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
-            disabled={extracting}
-          />
+          <div className="space-y-2">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="기사나 인터뷰 내용을 붙여넣으세요..."
+              rows={6}
+              className="w-full px-4 py-3 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
+              disabled={extracting}
+            />
+            <p className="text-xs text-text-secondary">
+              💡 긴 텍스트는 여러 번 나눠서 입력하면 더 정확한 결과를 얻을 수 있습니다.
+            </p>
+          </div>
         ) : (
           <input
             type="url"

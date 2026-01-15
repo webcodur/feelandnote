@@ -137,7 +137,7 @@ export async function extractContentsFromText(
   const response = await callGemini({
     apiKey,
     prompt,
-    maxOutputTokens: 8000,
+    maxOutputTokens: 65536,
   })
 
   if (response.error) {

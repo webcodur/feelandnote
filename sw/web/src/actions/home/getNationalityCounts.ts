@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { getCountryName } from '@/constants/countries'
+import { getCountryNamesMap } from '@/lib/countries'
 
 export interface NationalityCount {
   value: string  // 'all' | 'none' | 국가 코드 (ISO 3166-1 alpha-2)
@@ -53,12 +53,16 @@ export async function getNationalityCounts(): Promise<NationalityCounts> {
     { value: 'none', label: '국적정보 없음', count: noNationalityCount ?? 0 },
   ]
 
+  // 국가 코드 → 한글명 매핑 조회
+  const codes = Object.keys(nationalityMap)
+  const namesMap = await getCountryNamesMap(codes)
+
   // 국가별 카운트를 카운트 내림차순으로 정렬하여 추가
   const sortedNationalities = Object.entries(nationalityMap)
     .sort(([, a], [, b]) => b - a)
     .map(([code, count]) => ({
       value: code,
-      label: getCountryName(code),
+      label: namesMap[code] || code,
       count,
     }))
 

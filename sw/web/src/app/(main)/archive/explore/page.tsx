@@ -4,8 +4,6 @@
   책임: 사람들을 살펴볼 수 있는 UI를 제공한다.
 */
 
-import { Compass } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
 import { getSimilarUsers, getFriends, getMyFollowing } from "@/actions/user";
 import { getProfile, getFollowers } from "@/actions/user";
 import { getCelebProfiles } from "@/actions/celebs";
@@ -38,13 +36,6 @@ export default async function Page() {
 
   return (
     <>
-      <SectionHeader
-        title="탐색"
-        description="사람들을 살펴보세요"
-        icon={<Compass size={20} />}
-        className="mb-4"
-      />
-
       <Explore
         friends={friends}
         following={following}
