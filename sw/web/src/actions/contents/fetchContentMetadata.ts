@@ -1,9 +1,9 @@
 'use server'
 
-import { searchBooks } from '@/lib/api/naver-books'
-import { getVideoById } from '@/lib/api/tmdb'
-import { getGameById } from '@/lib/api/igdb'
-import { getAlbumById } from '@/lib/api/spotify'
+import { searchBooks } from '@feelnnote/content-search/naver-books'
+import { getVideoById } from '@feelnnote/content-search/tmdb'
+import { getGameById } from '@feelnnote/content-search/igdb'
+import { getAlbumById } from '@feelnnote/content-search/spotify'
 import type { ContentType } from '@/types/database'
 
 export interface ContentMetadata {

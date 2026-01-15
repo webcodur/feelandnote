@@ -1,13 +1,9 @@
 'use server'
 
-import {
-  fetchUrlContent,
-  extractContentsFromText,
-  searchExternal,
-  type ContentType,
-  type ExternalSearchResult,
-  type ExtractedContent,
-} from '@feelnnote/api-clients'
+import { fetchUrlContent } from '@feelnnote/ai-services/url-fetcher'
+import { extractContentsFromText, type ExtractedContent } from '@feelnnote/ai-services/content-extractor'
+import { searchExternal, type ExternalSearchResult } from '@feelnnote/content-search/unified-search'
+import type { ContentType } from '@feelnnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 import { createContentFromExternal } from './external-search'
 import { addCelebContent } from './celebs'

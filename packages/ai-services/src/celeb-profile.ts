@@ -87,7 +87,7 @@ export function buildCelebProfilePrompt(input: CelebProfileInput): string {
 {
   "bio": "인물 소개글 (2줄 분량, 한국어)",
   "profession": "직군 코드",
-  "nationality": "국적 (한국어로, 예: 미국, 대한민국, 고대 마케도니아)",
+  "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
   "birthDate": "출생연일 (YYYY-MM-DD 형식, 기원전은 -YYYY, 예: 1955-02-24, -356)",
   "deathDate": "사망연일 (생존 시 빈 문자열, 예: 2011-10-05, -323)",
   "quotes": "대표 명언 또는 발언 (한국어로, 1문장)"
@@ -109,7 +109,7 @@ export function buildCelebProfilePrompt(input: CelebProfileInput): string {
 ## 규칙
 1. bio는 2줄 분량으로 작성한다. 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 이후 주요 업적과 현재 활동을 담백하게 이어간다. 평가나 수식어는 최소화한다. 간결하고 권위적인 말투 사용 (있다, 이다, 하다, 했다, 한다 등)
 2. profession은 위 코드 중 가장 적합한 것 선택
-3. nationality는 한국어로 작성 (예: 미국, 영국, 대한민국)
+3. nationality는 ISO 3166-1 alpha-2 국가 코드 사용 (예: US, KR, GB, JP, FR, DE). 고대 국가나 현존하지 않는 국가는 빈 문자열
 4. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성 (예: -356, 1955)
 5. quotes는 해당 인물의 가장 유명한 명언을 한국어로 작성, 알려진 것이 없으면 빈 문자열
 
@@ -214,7 +214,7 @@ function buildProfileWithInfluencePrompt(input: CelebProfileInput): string {
   "bio": "인물 소개글 (2줄 분량, 한국어)",
   "profession": "직군 코드",
   "avatarUrl": "",
-  "nationality": "국적 (한국어로, 예: 미국, 대한민국, 고대 마케도니아)",
+  "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
   "birthDate": "출생연일 (YYYY-MM-DD 형식, 기원전은 -YYYY, 예: 1955-02-24, -356)",
   "deathDate": "사망연일 (생존 시 빈 문자열, 예: 2011-10-05, -323)",
   "quotes": "대표 명언 또는 발언 (한국어로, 1문장)",
@@ -306,7 +306,7 @@ leader(지도자), politician(정치인), commander(지휘관), entrepreneur(기
 3. 알려진 정보만 반영, 추측 금지
 4. avatarUrl은 빈 문자열
 5. 전문 분야 외 영역은 반드시 낮은 점수 부여
-6. nationality는 한국어로 작성 (예: 미국, 영국, 대한민국)
+6. nationality는 ISO 3166-1 alpha-2 국가 코드 사용 (예: US, KR, GB, JP). 고대 국가나 현존하지 않는 국가는 빈 문자열
 7. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성 (예: -356, 1955)
 8. quotes는 해당 인물의 가장 유명한 명언을 한국어로 작성, 알려진 것이 없으면 빈 문자열
 

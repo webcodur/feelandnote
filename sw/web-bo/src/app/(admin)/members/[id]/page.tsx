@@ -1,12 +1,13 @@
 import { getMember } from '@/actions/admin/members'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Star, Users, Mail, Calendar, Clock, MapPin, Quote, BookOpen, BadgeCheck, CheckCircle, Ban, Shield } from 'lucide-react'
+import { ArrowLeft, Star, Users, Mail, Calendar, Clock, Quote, BookOpen, BadgeCheck, CheckCircle, Ban, Shield } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import MemberActions from '../components/MemberActions'
 import ProfileTypeSwitch from '../components/ProfileTypeSwitch'
 import CelebForm from '../components/CelebForm'
+import NationalityBadge from '../components/NationalityBadge'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -60,11 +61,7 @@ export default async function MemberDetailPage({ params }: PageProps) {
                   {getCelebProfessionLabel(member.profession)}
                 </span>
               )}
-              {isCeleb && member.nationality && (
-                <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-blue-500/10 text-blue-400">
-                  <MapPin className="w-3 h-3" />{member.nationality}
-                </span>
-              )}
+              {isCeleb && member.nationality && <NationalityBadge code={member.nationality} />}
               <StatusBadge status={member.status} />
             </div>
 

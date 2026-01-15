@@ -1,18 +1,15 @@
 {
-  "name": "@feelnnote/api-clients",
+  "name": "@feelnnote/content-search",
   "version": "1.0.0",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
     "./naver-books": "./src/naver-books.ts",
     "./tmdb": "./src/tmdb.ts",
     "./igdb": "./src/igdb.ts",
     "./spotify": "./src/spotify.ts",
     "./qnet": "./src/qnet.ts",
-    "./gemini": "./src/gemini.ts",
-    "./search": "./src/search.ts"
+    "./unified-search": "./src/unified-search.ts",
+    "./types": "./src/types.ts"
   },
   "dependencies": {
     "fast-xml-parser": "^5.3.2"

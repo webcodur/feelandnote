@@ -6,7 +6,9 @@
 "use client";
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import { Archive, AlertCircle, Plus, Sparkles, MessageSquare } from "lucide-react";
+import { useBreadcrumbLabel } from "@/hooks/useBreadcrumbLabel";
 import { SectionHeader } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserProfileHeader from "./UserProfileHeader";
@@ -32,8 +34,12 @@ export default function UserProfile({
   currentUser,
   guestbook,
 }: UserProfileProps) {
+  const params = useParams<{ userId: string }>();
   const [showAddContent, setShowAddContent] = useState(false);
   const isCeleb = profile.profile_type === 'CELEB';
+
+  // Breadcrumb 동적 라벨 설정
+  useBreadcrumbLabel(params.userId, profile.nickname);
   const isLoggedIn = !!currentUser;
 
   // 차단된 경우

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { generateCelebProfile } from '@/actions/admin/celebs'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
+import { useCountries, getCountryName } from '@/hooks/useCountries'
 import { Sparkles, Loader2, Check, X } from 'lucide-react'
 import Button from '@/components/ui/Button'
 
@@ -38,6 +39,9 @@ const FIELD_ORDER: ProfileField[] = ['profession', 'nationality', 'birthDate', '
 // #endregion
 
 export default function AIBasicProfileSection({ nickname, onApply }: Props) {
+  // 국가 목록 캐시 초기화
+  useCountries()
+
   const [description, setDescription] = useState('')
   const [generating, setGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -103,6 +107,7 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
     const value = result[field]
     if (!value) return '(없음)'
     if (field === 'profession') return getCelebProfessionLabel(value)
+    if (field === 'nationality') return getCountryName(value)
     return value
   }
 

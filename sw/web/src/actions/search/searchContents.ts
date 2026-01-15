@@ -1,10 +1,10 @@
 'use server'
 
-import { searchBooks } from '@/lib/api/naver-books'
-import { searchVideo } from '@/lib/api/tmdb'
-import { searchGames } from '@/lib/api/igdb'
-import { searchMusic } from '@/lib/api/spotify'
-import { searchCertificates } from '@/lib/api/qnet'
+import { searchBooks } from '@feelnnote/content-search/naver-books'
+import { searchVideo } from '@feelnnote/content-search/tmdb'
+import { searchGames } from '@feelnnote/content-search/igdb'
+import { searchMusic } from '@feelnnote/content-search/spotify'
+import { searchCertificates } from '@feelnnote/content-search/qnet'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentSearchResult {

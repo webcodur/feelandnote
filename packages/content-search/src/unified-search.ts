@@ -5,9 +5,7 @@ import { searchVideo, type VideoSearchResult } from './tmdb'
 import { searchGames, type GameSearchResult } from './igdb'
 import { searchMusic, type MusicSearchResult } from './spotify'
 import { searchCertificates, type CertificateSearchResult } from './qnet'
-
-// 콘텐츠 타입
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
+import type { ContentType, SearchResponse } from './types'
 
 // 통합 검색 결과 타입
 export type ExternalSearchResult =
@@ -17,14 +15,8 @@ export type ExternalSearchResult =
   | MusicSearchResult
   | CertificateSearchResult
 
-export interface SearchResponse {
-  items: ExternalSearchResult[]
-  total: number
-  hasMore: boolean
-}
-
 // 콘텐츠 타입별 검색 함수 매핑
-const searchFunctions: Record<ContentType, (query: string, page?: number) => Promise<SearchResponse>> = {
+const searchFunctions: Record<ContentType, (query: string, page?: number) => Promise<SearchResponse<ExternalSearchResult>>> = {
   BOOK: async (query, page = 1) => {
     const result = await searchBooks(query, page)
     return {
@@ -72,7 +64,7 @@ export async function searchExternal(
   contentType: ContentType,
   query: string,
   page: number = 1
-): Promise<SearchResponse> {
+): Promise<SearchResponse<ExternalSearchResult>> {
   const searchFn = searchFunctions[contentType]
   if (!searchFn) {
     throw new Error(`지원하지 않는 콘텐츠 타입: ${contentType}`)
@@ -98,3 +90,11 @@ export function toContentRecord(result: ExternalSearchResult): {
     metadata: result.metadata,
   }
 }
+
+// Re-export types for convenience
+export type { ContentType, SearchResponse } from './types'
+export type { BookSearchResult } from './naver-books'
+export type { VideoSearchResult, VideoSubtype } from './tmdb'
+export type { GameSearchResult } from './igdb'
+export type { MusicSearchResult } from './spotify'
+export type { CertificateSearchResult } from './qnet'

@@ -68,14 +68,11 @@ export default function Page() {
             <div className="flex-1 border-t border-zinc-700" />
           </div>
 
-          <Link href="/archive/explore">
-            <Button
-              unstyled
-              className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300"
-            >
+          <Link href="/" className="cursor-pointer">
+            <span className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300">
               <Eye size={18} />
-              <span>로그인 없이 둘러보기</span>
-            </Button>
+              로그인 없이 둘러보기
+            </span>
           </Link>
         </div>
 

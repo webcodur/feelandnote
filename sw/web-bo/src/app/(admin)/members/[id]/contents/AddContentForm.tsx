@@ -7,7 +7,8 @@ import { addCelebContent } from '@/actions/admin/celebs'
 import { searchExternalContent, createContentFromExternal, searchDbContent } from '@/actions/admin/external-search'
 import { Plus, Search, Loader2, X, Database, Globe } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import type { ExternalSearchResult, ContentType } from '@feelnnote/api-clients'
+import type { ExternalSearchResult } from '@feelnnote/content-search/unified-search'
+import type { ContentType } from '@feelnnote/content-search/types'
 
 interface Props {
   celebId: string

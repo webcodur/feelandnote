@@ -13,6 +13,7 @@ import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSqu
 import Button from "@/components/ui/Button";
 import { toggleFollow, type PublicUserProfile } from "@/actions/user";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { getCountryName } from "@/constants/countries";
 import CelebInfoModal from "./CelebInfoModal";
 
 // 생몰년 포맷팅 헬퍼
@@ -137,7 +138,7 @@ export default function UserProfileHeader({
                 <span>
                   {[
                     profile.profession && getCelebProfessionLabel(profile.profession),
-                    profile.nationality
+                    profile.nationality && getCountryName(profile.nationality)
                   ].filter(Boolean).join(' · ')}
                 </span>
               )}
