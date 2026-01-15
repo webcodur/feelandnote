@@ -9,7 +9,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ListMusic, Plus, ChevronRight, Loader2, Bookmark } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getPlaylists, getSavedPlaylists, type PlaylistSummary } from "@/actions/playlists";
 import PlaylistEditor from "./PlaylistEditor";
@@ -73,25 +72,6 @@ export default function Playlists() {
 
   return (
     <>
-      <SectionHeader
-        title="재생목록"
-        description="나만의 콘텐츠 컬렉션을 관리하세요"
-        icon={<ListMusic size={20} />}
-        className="mb-4"
-        action={
-          activeTab === "mine" && (
-            <Button
-              onClick={() => setIsCreateMode(true)}
-              size="sm"
-              className="flex items-center gap-1.5"
-            >
-              <Plus size={16} />
-              새 재생목록
-            </Button>
-          )
-        }
-      />
-
       <div className="flex gap-1 p-1 bg-bg-card rounded-lg mb-6 w-fit">
         {TABS.map((tab) => (
           <Button

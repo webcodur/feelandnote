@@ -5,18 +5,10 @@
 */ // ------------------------------
 
 import { MessageSquare } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
 
 export default function Page() {
   return (
     <>
-      <SectionHeader
-        title="자유게시판"
-        description="다른 유저들과 자유롭게 소통하세요"
-        icon={<MessageSquare size={20} />}
-        className="mb-4"
-      />
-
       <div className="bg-surface rounded-2xl p-12 text-center">
         <div className="text-text-tertiary mb-2 flex justify-center">
           <MessageSquare size={48} />

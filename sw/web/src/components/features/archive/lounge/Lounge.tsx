@@ -8,8 +8,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Trophy, Target, Gamepad2, Puzzle } from "lucide-react";
-import { Button, FilterChips, SectionHeader, type ChipOption } from "@/components/ui";
+import { Trophy, Target } from "lucide-react";
+import { FilterChips, type ChipOption } from "@/components/ui";
 import BlindGamePlayModal from "./BlindGamePlayModal";
 import SelectPlaylistModal from "./SelectPlaylistModal";
 import TierListSection from "./TierListSection";
@@ -100,24 +100,6 @@ export default function Lounge() {
 
   return (
     <>
-      <SectionHeader
-        title="휴게실"
-        description="쉬면서 티어리스트를 공유하고 블라인드 게임을 즐기세요"
-        icon={<Puzzle size={24} />}
-        action={
-          mainTab === "tier-list" ? (
-            <Button variant="primary" onClick={() => setIsSelectModalOpen(true)}>
-              <Plus size={16} /> 티어 설정하기
-            </Button>
-          ) : (
-            <Button variant="primary" onClick={() => setIsPlayModalOpen(true)}>
-              <Gamepad2 size={16} /> 게임 시작
-            </Button>
-          )
-        }
-        className="mb-8"
-      />
-
       <div className="border-b border-border pb-4 mb-6">
         <FilterChips options={MAIN_TABS} value={mainTab} onChange={setMainTab} variant="filled" showIcon />
       </div>

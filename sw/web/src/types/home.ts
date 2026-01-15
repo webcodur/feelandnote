@@ -22,6 +22,7 @@ export interface CelebProfile {
   is_verified: boolean
   is_platform_managed: boolean  // claimed_by가 null이면 true (플랫폼에서 관리)
   follower_count: number
+  content_count: number  // 보유 콘텐츠 수
   is_following: boolean  // 현재 유저가 팔로우 중인지
   is_follower: boolean   // 상대방이 나를 팔로우 중인지 (맞팔 = 친구)
   influence: CelebInfluence | null  // 영향력 평가 (없을 수 있음)

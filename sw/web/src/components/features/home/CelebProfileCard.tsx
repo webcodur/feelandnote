@@ -61,9 +61,10 @@ interface CelebProfileCardProps {
   size?: CardSize;
   onFollowChange?: (celebId: string, isFollowing: boolean) => void;
   priority?: boolean;
+  contentUnit?: string;  // 콘텐츠 단위 (권, 편, 개 등)
 }
 
-export default function CelebProfileCard({ celeb, size = "md", onFollowChange, priority = false }: CelebProfileCardProps) {
+export default function CelebProfileCard({ celeb, size = "md", onFollowChange, priority = false, contentUnit = "개" }: CelebProfileCardProps) {
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isPending, startTransition] = useTransition();
   const [showInfluenceModal, setShowInfluenceModal] = useState(false);
@@ -149,10 +150,17 @@ export default function CelebProfileCard({ celeb, size = "md", onFollowChange, p
             )}
           </div>
 
-          {/* Name */}
-          <span className={`font-semibold truncate text-text-primary text-center w-full ${styles.name}`}>
-            {celeb.nickname}
-          </span>
+          {/* Name & Content Count */}
+          <div className={`flex items-center justify-center gap-1 w-full ${styles.name}`}>
+            <span className="font-semibold truncate text-text-primary">
+              {celeb.nickname}
+            </span>
+            {celeb.content_count > 0 && (
+              <span className="text-text-tertiary font-normal shrink-0">
+                {celeb.content_count}{contentUnit}
+              </span>
+            )}
+          </div>
         </div>
       </Link>
 

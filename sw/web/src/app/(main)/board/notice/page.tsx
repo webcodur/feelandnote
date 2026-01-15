@@ -5,18 +5,10 @@
 */ // ------------------------------
 
 import { Megaphone } from "lucide-react";
-import { SectionHeader } from "@/components/ui";
 
 export default function Page() {
   return (
     <>
-      <SectionHeader
-        title="공지사항"
-        description="서비스 관련 공지사항을 확인하세요"
-        icon={<Megaphone size={20} />}
-        className="mb-4"
-      />
-
       <div className="bg-surface rounded-2xl p-12 text-center">
         <div className="text-text-tertiary mb-2 flex justify-center">
           <Megaphone size={48} />

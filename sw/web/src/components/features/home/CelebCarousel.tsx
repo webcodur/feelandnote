@@ -1,19 +1,20 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight, UserX, ChevronDown, Check } from "lucide-react";
+import { UserX, ChevronDown, Check } from "lucide-react";
 import CelebProfileCard from "./CelebProfileCard";
 import Button from "@/components/ui/Button";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
+import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import {
   FILTER_BUTTON_STYLES,
   FILTER_CHIP_STYLES,
   FILTER_BOTTOMSHEET_STYLES,
 } from "@/constants/filterStyles";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, CelebSortBy } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy } from "@/actions/home";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -21,6 +22,7 @@ interface CelebCarouselProps {
   initialTotalPages: number;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
+  contentTypeCounts: ContentTypeCounts;
   hideHeader?: boolean;
 }
 
@@ -38,61 +40,65 @@ export default function CelebCarousel({
   initialTotalPages,
   professionCounts,
   nationalityCounts,
+  contentTypeCounts,
   hideHeader = false,
 }: CelebCarouselProps) {
   const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [isLoading, setIsLoading] = useState(false);
   const [profession, setProfession] = useState("all");
   const [nationality, setNationality] = useState("all");
+  const [contentType, setContentType] = useState("all");
   const [sortBy, setSortBy] = useState<CelebSortBy>("influence");
 
+  // 현재 선택된 콘텐츠 타입의 단위
+  const contentUnit = contentType === "all" ? "개" : getContentUnit(contentType);
+
   // 모바일 모달 상태
-  const [activeFilter, setActiveFilter] = useState<"profession" | "nationality" | "sort" | null>(null);
+  const [activeFilter, setActiveFilter] = useState<"profession" | "nationality" | "contentType" | "sort" | null>(null);
 
   const loadCelebs = useCallback(async (
-    page: number,
     prof: string,
     nation: string,
+    cType: string,
     sort: CelebSortBy
   ) => {
     setIsLoading(true);
     const result = await getCelebs({
-      page,
-      limit: 8,
+      page: 1,
+      limit: 100,
       profession: prof,
       nationality: nation,
+      contentType: cType,
       sortBy: sort,
     });
     setCelebs(result.celebs);
-    setCurrentPage(page);
-    setTotalPages(result.totalPages);
     setIsLoading(false);
   }, []);
 
-  const handlePageChange = useCallback((page: number) => {
-    loadCelebs(page, profession, nationality, sortBy);
-  }, [loadCelebs, profession, nationality, sortBy]);
-
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
-    loadCelebs(1, prof, nationality, sortBy);
-  }, [loadCelebs, nationality, sortBy]);
+    loadCelebs(prof, nationality, contentType, sortBy);
+  }, [loadCelebs, nationality, contentType, sortBy]);
 
   const handleNationalityChange = useCallback((nation: string) => {
     setNationality(nation);
-    loadCelebs(1, profession, nation, sortBy);
-  }, [loadCelebs, profession, sortBy]);
+    loadCelebs(profession, nation, contentType, sortBy);
+  }, [loadCelebs, profession, contentType, sortBy]);
+
+  const handleContentTypeChange = useCallback((cType: string) => {
+    setContentType(cType);
+    loadCelebs(profession, nationality, cType, sortBy);
+  }, [loadCelebs, profession, nationality, sortBy]);
 
   const handleSortChange = useCallback((sort: CelebSortBy) => {
     setSortBy(sort);
-    loadCelebs(1, profession, nationality, sort);
-  }, [loadCelebs, profession, nationality]);
+    loadCelebs(profession, nationality, contentType, sort);
+  }, [loadCelebs, profession, nationality, contentType]);
 
   // 현재 선택된 값들의 라벨
   const activeProfession = CELEB_PROFESSION_FILTERS.find((f) => f.value === profession);
   const activeNationality = nationalityCounts.find((n) => n.value === nationality);
+  const activeContentType = CONTENT_TYPE_FILTERS.find((c) => c.value === contentType);
   const activeSort = SORT_OPTIONS.find((s) => s.value === sortBy);
 
   // 초기 데이터도 없으면 섹션 자체를 숨김
@@ -131,31 +137,6 @@ export default function CelebCarousel({
               })}
             </div>
           </div>
-
-          {/* PC: 페이지 네비게이션 */}
-          {totalPages > 1 && (
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs text-text-secondary">
-                {currentPage} / {totalPages}
-              </span>
-              <Button
-                unstyled
-                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1 || isLoading}
-                className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <ChevronLeft size={16} />
-              </Button>
-              <Button
-                unstyled
-                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages || isLoading}
-                className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <ChevronRight size={16} />
-              </Button>
-            </div>
-          )}
         </div>
 
         {/* 국적 필터 */}
@@ -169,6 +150,33 @@ export default function CelebCarousel({
                   unstyled
                   key={value}
                   onClick={() => handleNationalityChange(value)}
+                  disabled={isLoading || count === 0}
+                  className={`${FILTER_BUTTON_STYLES.base} ${
+                    isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
+                  } ${FILTER_BUTTON_STYLES.disabled}`}
+                >
+                  {label}
+                  <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
+                    ({count})
+                  </span>
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 콘텐츠 타입 필터 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>콘텐츠</span>
+          <div className={FILTER_BUTTON_STYLES.container}>
+            {CONTENT_TYPE_FILTERS.map(({ value, label }) => {
+              const isActive = contentType === value;
+              const count = contentTypeCounts[value] ?? 0;
+              return (
+                <Button
+                  unstyled
+                  key={value}
+                  onClick={() => handleContentTypeChange(value)}
                   disabled={isLoading || count === 0}
                   className={`${FILTER_BUTTON_STYLES.base} ${
                     isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
@@ -236,6 +244,22 @@ export default function CelebCarousel({
             }`}
           >
             {activeNationality?.label ?? "전체"}
+            <ChevronDown size={14} />
+          </Button>
+        </div>
+
+        {/* 콘텐츠 타입 필터 칩 */}
+        <div className="flex items-center gap-2">
+          <span className={FILTER_BUTTON_STYLES.label}>콘텐츠</span>
+          <Button
+            unstyled
+            onClick={() => setActiveFilter("contentType")}
+            disabled={isLoading}
+            className={`${FILTER_CHIP_STYLES.base} ${
+              contentType !== "all" ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive
+            }`}
+          >
+            {activeContentType?.label ?? "전체"}
             <ChevronDown size={14} />
           </Button>
         </div>
@@ -326,6 +350,41 @@ export default function CelebCarousel({
         </div>
       </BottomSheet>
 
+      {/* 모바일: 콘텐츠 타입 필터 바텀시트 */}
+      <BottomSheet
+        isOpen={activeFilter === "contentType"}
+        onClose={() => setActiveFilter(null)}
+        title="콘텐츠"
+      >
+        <div className="p-4 space-y-2">
+          {CONTENT_TYPE_FILTERS.map(({ value, label }) => {
+            const isActive = contentType === value;
+            const count = contentTypeCounts[value] ?? 0;
+            const isDisabled = count === 0;
+            return (
+              <Button
+                unstyled
+                key={value}
+                onClick={() => {
+                  if (!isDisabled) {
+                    handleContentTypeChange(value);
+                    setActiveFilter(null);
+                  }
+                }}
+                disabled={isDisabled}
+                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
+                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
+                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
+              >
+                <span className="flex-1 text-left text-sm font-medium">{label}</span>
+                <span className="text-xs text-text-tertiary">{count}</span>
+                {isActive && <Check size={18} className="text-accent" />}
+              </Button>
+            );
+          })}
+        </div>
+      </BottomSheet>
+
       {/* 모바일: 정렬 바텀시트 */}
       <BottomSheet
         isOpen={activeFilter === "sort"}
@@ -376,7 +435,7 @@ export default function CelebCarousel({
           `}
         >
           {celebs.map((celeb, index) => (
-            <CelebProfileCard key={celeb.id} celeb={celeb} size="sm" priority={index < 4} />
+            <CelebProfileCard key={celeb.id} celeb={celeb} size="sm" priority={index < 4} contentUnit={contentUnit} />
           ))}
         </div>
       )}
@@ -390,7 +449,7 @@ export default function CelebCarousel({
           `}
         >
           {celebs.map((celeb, index) => (
-            <CelebProfileCard key={celeb.id} celeb={celeb} size="md" priority={index < 8} />
+            <CelebProfileCard key={celeb.id} celeb={celeb} size="md" priority={index < 8} contentUnit={contentUnit} />
           ))}
         </div>
       )}

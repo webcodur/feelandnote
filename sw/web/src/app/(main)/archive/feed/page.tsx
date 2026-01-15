@@ -9,9 +9,8 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Card, Avatar, SectionHeader, Button } from "@/components/ui";
-import {
-  Newspaper, Plus, Trash2, RefreshCw, Star, FileText, Inbox,
+import { Card, Avatar, Button } from "@/components/ui";
+import { Plus, Trash2, RefreshCw, Star, FileText, Inbox,
   Book, Film, Gamepad2, Music, Award
 } from "lucide-react";
 import { getFeedActivities, type FeedActivity } from "@/actions/activity";
@@ -200,13 +199,6 @@ export default function Page() {
 
   return (
     <>
-      <SectionHeader
-        title="피드"
-        description="팔로우한 사람들의 활동"
-        icon={<Newspaper size={24} />}
-        className="mb-6"
-      />
-
       {isLoading ? (
         <div className="text-center py-20 text-text-secondary">
           <div className="animate-pulse">불러오는 중...</div>

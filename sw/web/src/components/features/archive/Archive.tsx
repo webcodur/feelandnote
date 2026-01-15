@@ -47,47 +47,49 @@ export default function Archive({ myProfile, stats }: ArchiveProps) {
       <div className="bg-background pb-8">
         {/* Compact Profile Header */}
         <div className="pt-8 pb-2">
-          <div className="flex items-center gap-5">
-            <Link href="/profile/stats" className="flex-shrink-0 group relative">
-              <Avatar url={myProfile.avatar_url} name={myProfile.nickname} size="lg" className="group-hover:ring-accent/40 ring-4 ring-transparent" />
-            </Link>
+          <div className="border border-border rounded-xl p-6 mb-4 bg-surface/10">
+            <div className="flex items-center gap-5">
+              <Link href="/profile/stats" className="flex-shrink-0 group relative">
+                <Avatar url={myProfile.avatar_url} name={myProfile.nickname} size="lg" className="group-hover:ring-accent/40 ring-4 ring-transparent" />
+              </Link>
 
-            <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <div className="flex items-center gap-3">
-                <Link href="/profile/stats" className="group inline-block">
-                  <h1 className="text-xl font-bold text-text-primary group-hover:text-accent truncate">{myProfile.nickname}</h1>
-                </Link>
-              </div>
-
-              {/* Compact Meta Row */}
-              <div className="flex items-center gap-4 mt-1 text-sm text-text-secondary flex-wrap">
-                <div className="flex items-center gap-1.5 hover:text-text-primary cursor-default">
-                  <span className="font-bold text-text-primary">{stats.contentCount}</span>
-                  <span>기록</span>
+              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <div className="flex items-center gap-3">
+                  <Link href="/profile/stats" className="group inline-block">
+                    <h1 className="text-xl font-bold text-text-primary group-hover:text-accent truncate">{myProfile.nickname}</h1>
+                  </Link>
                 </div>
-                <Button
-                  unstyled
-                  onClick={() => setFollowModalTab("followers")}
-                  className="flex items-center gap-1.5 hover:text-accent"
-                >
-                  <span className="font-bold text-text-primary">{stats.followerCount}</span>
-                  <span>팔로워</span>
-                </Button>
-                <Button
-                  unstyled
-                  onClick={() => setFollowModalTab("following")}
-                  className="flex items-center gap-1.5 hover:text-accent"
-                >
-                  <span className="font-bold text-text-primary">{stats.followingCount}</span>
-                  <span>팔로잉</span>
-                </Button>
-                <Link
-                  href="/archive/explore"
-                  className="flex items-center gap-1.5 hover:text-accent"
-                >
-                  <span className="font-bold text-text-primary">{stats.friendCount}</span>
-                  <span>친구</span>
-                </Link>
+
+                {/* Compact Meta Row */}
+                <div className="flex items-center gap-4 mt-1 text-sm text-text-secondary flex-wrap">
+                  <div className="flex items-center gap-1.5 hover:text-text-primary cursor-default">
+                    <span className="font-bold text-text-primary">{stats.contentCount}</span>
+                    <span>기록</span>
+                  </div>
+                  <Button
+                    unstyled
+                    onClick={() => setFollowModalTab("followers")}
+                    className="flex items-center gap-1.5 hover:text-accent"
+                  >
+                    <span className="font-bold text-text-primary">{stats.followerCount}</span>
+                    <span>팔로워</span>
+                  </Button>
+                  <Button
+                    unstyled
+                    onClick={() => setFollowModalTab("following")}
+                    className="flex items-center gap-1.5 hover:text-accent"
+                  >
+                    <span className="font-bold text-text-primary">{stats.followingCount}</span>
+                    <span>팔로잉</span>
+                  </Button>
+                  <Link
+                    href="/archive/explore"
+                    className="flex items-center gap-1.5 hover:text-accent"
+                  >
+                    <span className="font-bold text-text-primary">{stats.friendCount}</span>
+                    <span>친구</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

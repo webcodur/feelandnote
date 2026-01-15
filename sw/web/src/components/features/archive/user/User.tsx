@@ -7,9 +7,8 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { Archive, AlertCircle, Plus, Sparkles, MessageSquare } from "lucide-react";
+import { AlertCircle, Plus, MessageSquare } from "lucide-react";
 import { useBreadcrumbLabel } from "@/hooks/useBreadcrumbLabel";
-import { SectionHeader } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserProfileHeader from "./UserProfileHeader";
 import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
@@ -66,13 +65,7 @@ export default function UserProfile({
 
       {/* 기록관 섹션 */}
       <div className="flex items-center justify-between mb-4">
-        <SectionHeader
-          title={`${profile.nickname}의 기록관`}
-          description={isCeleb ? "웹에서 확인된 문화생활 기록" : "공개된 문화생활 기록"}
-          icon={<>{isCeleb && <Sparkles size={20} />}{!isCeleb && <Archive size={20} />}</>}
-          className="mb-0"
-        />
-        {isCeleb && isLoggedIn && (
+        {isCeleb && isOwnProfile && (
           <Button
             variant="primary"
             size="sm"
@@ -93,11 +86,6 @@ export default function UserProfile({
       {/* 방명록 섹션 */}
       {guestbook && (
         <div id="guestbook" className="mt-8 scroll-mt-24">
-          <SectionHeader
-            title="방명록"
-            description={`${profile.nickname}님에게 메시지를 남겨보세요`}
-            icon={<MessageSquare size={20} />}
-          />
           <GuestbookContent
             profileId={profile.id}
             currentUser={currentUser ?? null}
