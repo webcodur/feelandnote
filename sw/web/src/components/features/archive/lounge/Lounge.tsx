@@ -95,8 +95,16 @@ export default function Lounge() {
 
   const handlePlaylistSelect = (playlistId: string) => {
     setIsSelectModalOpen(false);
-    router.push(`/archive/playlists/${playlistId}/tiers`);
+    const selectedPlaylist = playlists.find(p => p.id === playlistId);
+    if (!selectedPlaylist) return;
+    
+    router.push(`/${selectedPlaylist.user_id}/collections/${playlistId}/tiers`);
   };
+
+// ... (Wait, I need to fetch userId first to construct the link correctly, or use a redirect url)
+// Let's check if I can get userId in Lounge.tsx
+// It already imports useRouter.
+// I will check if I can add userId fetching logic.
 
   return (
     <>

@@ -14,3 +14,6 @@ export { default as Portal } from "./Portal";
 export { default as Modal, ModalBody, ModalFooter } from "./Modal";
 export { default as DeleteConfirmModal } from "./DeleteConfirmModal";
 export { default as FilterTabs, type FilterTabItem } from "./FilterTabs";
+export { MonumentalPillar } from "./MonumentalPillar";
+export { HeroBackgroundText } from "./HeroBackgroundText";
+export { default as Logo, LogoIcon } from "./Logo";

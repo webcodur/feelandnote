@@ -81,7 +81,7 @@ export default function HeaderSearch() {
           <ArrowLeft size={20} className="text-text-primary" />
         </Button>
 
-        <div className="flex-1 flex items-center gap-2 bg-bg-main border border-border rounded-xl px-3">
+        <div className="flex-1 flex items-center gap-2 bg-bg-card border border-white/10 rounded-lg px-3 shadow-inner">
           <SearchModeDropdown
             isOpen={isModeOpen}
             onToggle={() => {
@@ -179,8 +179,8 @@ export default function HeaderSearch() {
       <div ref={containerRef} className="hidden md:block flex-1 max-w-md mx-auto relative">
       {/* Search Bar */}
       <div
-        className={`w-full bg-bg-main border rounded-xl flex items-center
-          ${isOpen ? "border-accent shadow-lg shadow-accent/10" : "border-border"}`}
+        className={`w-full h-10 bg-white/5 backdrop-blur-sm border rounded-lg flex items-center transition-all duration-300
+          ${isOpen ? "border-accent shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-black/40" : "border-white/10 hover:border-white/20 hover:bg-white/10"}`}
       >
         {/* Mode Selector */}
         <SearchModeDropdown
@@ -197,7 +197,7 @@ export default function HeaderSearch() {
         />
 
         {/* Search Input */}
-        <div className="flex-1 flex items-center gap-2 px-3">
+        <div className="flex-1 h-full flex items-center gap-2 px-3">
           <input
             ref={inputRef}
             type="text"
@@ -212,7 +212,7 @@ export default function HeaderSearch() {
             }}
             onKeyDown={handleInputKeyDown}
             placeholder={displayPlaceholder}
-            className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] placeholder:text-text-secondary py-2.5"
+            className="flex-1 h-full bg-transparent border-none text-text-primary outline-none text-[15px] placeholder:text-text-secondary"
           />
           {query && (
             <Button
@@ -236,7 +236,7 @@ export default function HeaderSearch() {
         </div>
 
         {/* Keyboard hint */}
-        <div className="hidden sm:flex items-center gap-1 px-3 text-xs text-text-secondary">
+        <div className="hidden sm:flex h-full items-center gap-1 px-3 text-xs text-text-secondary border-l border-white/5">
           <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-[10px]">Ctrl</kbd>
           <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-[10px]">K</kbd>
         </div>

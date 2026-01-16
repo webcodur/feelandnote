@@ -1,67 +1,18 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts } from "@/actions/home";
 import { getFriendActivityTypeCounts } from "@/actions/activity";
-import {
-  CelebCarousel,
-  CelebFeed,
-  FriendActivitySection,
-} from "@/components/features/home";
-import HomeTabSection from "@/components/features/home/HomeTabSection";
+import { CelebCarousel } from "@/components/features/home";
+import DashboardFeed from "@/components/features/home/DashboardFeed";
+import { HeroBackgroundText, Logo } from "@/components/ui";
 
-// #region 스켈레톤 컴포넌트
+// #region 스켈레톤 & Helper Components
 function CarouselSkeleton() {
   return (
-    <section>
-      <div className="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-4">
-        {Array.from({ length: 24 }).map((_, i) => (
-          <div key={i} className="flex flex-col items-center animate-pulse">
-            <div className="w-16 h-16 md:w-14 md:h-14 rounded-full bg-white/10 ring-2 ring-white/5 mb-2" />
-            <div className="w-14 h-3 bg-white/10 rounded mb-1" />
-            <div className="w-10 h-2 bg-white/10 rounded" />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function FeedSkeleton() {
-  return (
-    <div className="space-y-4">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-bg-card border border-border rounded-xl p-4 animate-pulse">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-10 h-10 rounded-full bg-white/10" />
-            <div className="flex-1">
-              <div className="w-24 h-4 bg-white/10 rounded" />
-            </div>
-          </div>
-          <div className="flex gap-3 bg-bg-secondary rounded-lg p-3 mb-3">
-            <div className="w-14 h-20 bg-white/10 rounded" />
-            <div className="flex-1 space-y-2">
-              <div className="w-32 h-4 bg-white/10 rounded" />
-              <div className="w-20 h-3 bg-white/10 rounded" />
-            </div>
-          </div>
-          <div className="w-full h-4 bg-white/10 rounded" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function SidebarSkeleton() {
-  return (
-    <div className="space-y-3">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="flex gap-3 p-3 rounded-xl bg-bg-card animate-pulse">
-          <div className="w-12 h-16 rounded-lg bg-white/10" />
-          <div className="flex-1 space-y-2">
-            <div className="w-20 h-3 bg-white/10 rounded" />
-            <div className="w-28 h-4 bg-white/10 rounded" />
-          </div>
-        </div>
+    <div className="flex gap-4 overflow-x-hidden py-4">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="min-w-[120px] h-[160px] bg-bg-card rounded-xl animate-pulse" />
       ))}
     </div>
   );
@@ -86,56 +37,96 @@ async function CelebCarouselServer() {
       nationalityCounts={nationalityCounts}
       contentTypeCounts={contentTypeCounts}
       hideHeader={true}
+      mode="carousel"
     />
   );
 }
 
-async function CelebFeedServer() {
-  const contentTypeCounts = await getContentTypeCounts();
-  return <CelebFeed contentTypeCounts={contentTypeCounts} hideHeader={true} />;
-}
+async function DashboardFeedServer() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-async function FriendActivityServer({ userId }: { userId: string }) {
-  const activityTypeCounts = await getFriendActivityTypeCounts();
+  const [friendActivityCounts, celebContentCounts] = await Promise.all([
+    getFriendActivityTypeCounts(),
+    getContentTypeCounts(),
+  ]);
+
   return (
-    <FriendActivitySection
-      userId={userId}
-      hideHeader={true}
-      activityTypeCounts={activityTypeCounts}
+    <DashboardFeed
+      userId={user?.id}
+      friendActivityCounts={friendActivityCounts}
+      celebContentCounts={celebContentCounts}
     />
   );
 }
 // #endregion
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
   return (
-    <div className="flex flex-col gap-6">
-      <HomeTabSection
-        celebTabContent={
-          <Suspense fallback={<CarouselSkeleton />}>
-            <CelebCarouselServer />
-          </Suspense>
-        }
-        feedTabContent={
-          <Suspense fallback={<FeedSkeleton />}>
-            <CelebFeedServer />
-          </Suspense>
-        }
-        friendTabContent={
-          user ? (
-            <Suspense fallback={<SidebarSkeleton />}>
-              <FriendActivityServer userId={user.id} />
-            </Suspense>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl bg-bg-card border border-border">
-              <p className="text-sm text-text-secondary mb-2">로그인이 필요한 서비스입니다</p>
+    <div className="min-h-screen bg-bg-main relative overflow-hidden">
+      {/* Background Atmosphere */}
+      <div className="absolute top-0 left-0 w-full h-[1000px] bg-gradient-to-b from-accent/10 via-accent/5 to-transparent pointer-events-none" />
+      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[120vw] h-[120vw] bg-[radial-gradient(circle,rgba(212,175,55,0.03)_0%,transparent_70%)] pointer-events-none" />
+
+      <div className="container max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24 relative z-10">
+        {/* Background Decoration Text */}
+        <HeroBackgroundText text="ARCHIVE" className="top-[5%] hidden xl:block opacity-[0.04]" />
+        
+        <div className="flex flex-col gap-24 md:gap-40">
+          {/* 상단: 추천 셀럽 캐러셀 (Centered Hero Hall) */}
+          <section className="w-full flex flex-col items-center space-y-16 animate-slide-down">
+            <div className="flex flex-col items-center text-center gap-10 max-w-5xl border-b-2 border-accent-dim/10 pb-20 w-full relative">
+              {/* Divine Lintel Decoration */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-accent/40 shadow-glow" />
+
+              <div className="space-y-6">
+                <span className="font-cinzel text-xs md:text-sm text-accent tracking-[1.5em] uppercase opacity-60 block">Inscribed in Eternity</span>
+                <h1 className="flex flex-col items-center">
+                  <Logo
+                    variant="hero"
+                    size="xl"
+                    asLink={false}
+                    subtitle="THE ARCHIVE OF SOULS"
+                  />
+                </h1>
+                <div className="h-1 w-64 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto rounded-full shadow-[0_0_30px_rgba(212,175,55,0.4)] mt-12" />
+                <p className="font-serif italic text-text-tertiary text-sm md:text-lg tracking-widest opacity-70 mt-4">"지혜의 기록을 보존하고, 영원한 영감을 얻으십시오"</p>
+              </div>
             </div>
-          )
-        }
-      />
+            
+            <div className="w-full">
+              <div className="flex items-end justify-between mb-8 px-4 border-b border-accent-dim/10 pb-4">
+                <div className="flex flex-col gap-2">
+                  <span className="font-cinzel text-[10px] text-accent tracking-[0.6em] uppercase">Inspiring People</span>
+                  <h2 className="font-serif font-black text-2xl md:text-4xl tracking-tighter text-text-primary">
+                    영감을 나누는 사람들
+                  </h2>
+                </div>
+                <Link
+                  href="/explore"
+                  className="flex items-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-lg text-sm font-medium font-sans group"
+                >
+                  둘러보기
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </Link>
+              </div>
+              <Suspense fallback={<CarouselSkeleton />}>
+                <CelebCarouselServer />
+              </Suspense>
+            </div>
+          </section>
+
+          {/* 하단: 컨텐츠 전당 (The Grand Hall Structure) */}
+          <div className="flex flex-col lg:flex-row gap-12 xl:gap-20 items-start relative pb-20">
+            {/* Main Content (Center) */}
+            <main className="flex-1 min-w-0 w-full flex flex-col gap-24 md:gap-40 animate-slide-up">
+              <Suspense fallback={<div className="h-96 bg-bg-card rounded-xl animate-pulse" />}>
+                <DashboardFeedServer />
+              </Suspense>
+            </main>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

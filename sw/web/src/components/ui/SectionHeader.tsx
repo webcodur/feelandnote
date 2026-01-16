@@ -28,7 +28,7 @@ export default function SectionHeader({
   return (
     <div className={`flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center ${className}`}>
       <div>
-        <h1 className="text-lg md:text-xl font-bold flex items-center gap-1.5">
+        <h1 className="text-lg md:text-xl flex items-center gap-1.5">
           {icon && <span className="text-accent">{icon}</span>}
           {title}
         </h1>

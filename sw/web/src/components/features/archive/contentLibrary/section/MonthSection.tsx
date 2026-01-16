@@ -39,10 +39,10 @@ export default function MonthSection({
       {/* 통합 헤더: 날짜 + 기록 수 */}
       <Button
         onClick={onToggle}
-        className={`flex items-center gap-3 w-fit px-4 py-3 rounded-lg select-none mb-3 border ${
+        className={`flex items-center gap-3 w-fit px-4 py-3 select-none mb-3 transition-colors ${
           isCollapsed
-            ? "bg-surface border-dashed border-border/50"
-            : "bg-accent/10 border-accent/30"
+            ? "bg-transparent text-text-tertiary hover:text-text-secondary"
+            : "bg-transparent border-l-2 border-accent pl-4 text-text-primary"
         }`}
       >
         <div className="flex items-baseline gap-1">

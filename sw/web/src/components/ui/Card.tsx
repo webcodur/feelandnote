@@ -9,19 +9,21 @@ import { ReactNode, HTMLAttributes } from "react";
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   hover?: boolean;
+  variant?: "classical" | "sarcophagus";
 }
 
 export default function Card({
   children,
   className = "",
   hover = false,
+  variant = "classical",
   onClick,
   ...rest
 }: CardProps) {
   return (
     <div
-      className={`bg-bg-card border border-border rounded-lg md:rounded-xl p-3 md:p-4 shadow-md hover:shadow-lg hover:border-accent/30
-        ${hover ? "hover:-translate-y-0.5 hover:border-accent hover:shadow-xl" : ""}
+      className={`${variant === "sarcophagus" ? "card-sarcophagus" : "card-classical"} p-4 md:p-6
+        ${hover ? "hover:border-accent hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] cursor-pointer" : ""}
         ${onClick ? "cursor-pointer" : ""}
         ${className}`}
       onClick={onClick}

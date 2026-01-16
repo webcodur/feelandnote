@@ -5,11 +5,43 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
+import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SoundProvider } from "@/contexts/SoundContext";
 
-// 마루부리 폰트 (리뷰/인용문용)
+// Cinzel (English Headings - 권위적/신전 느낌)
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  display: "swap",
+});
+
+// Cormorant Garamond (로고용 - 고전 서적/필사본 느낌)
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+// Noto Serif KR (Korean Headings/Body - 명조체)
+const notoSerifKr = Noto_Serif_KR({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "900"],
+  variable: "--font-noto-serif",
+  display: "swap",
+});
+
+// Noto Sans KR (Korean Body - 고딕체)
+const notoSansKr = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-sans",
+  display: "swap",
+});
+
+// 마루부리 폰트 (기존 유지 - 필요시 사용)
 const maruburi = localFont({
   src: [
     { path: "../fonts/MaruBuriOTF/MaruBuri-Regular.otf", weight: "400" },
@@ -30,15 +62,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={maruburi.variable}>
-      <head>
-        <link
-          rel="stylesheet"
-          as="style"
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-        />
-      </head>
+    <html lang="ko" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable}`}>
+      <head />
       <body>
         <SoundProvider>
           {children}

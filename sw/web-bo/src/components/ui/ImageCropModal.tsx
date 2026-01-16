@@ -49,7 +49,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
         </div>
 
         {/* 크롭 영역 */}
-        <div className="relative h-80 bg-black">
+        <div className={`relative bg-black ${aspectRatio < 1 ? 'h-96' : 'h-80'}`}>
           <Cropper
             image={imageSrc}
             crop={crop}

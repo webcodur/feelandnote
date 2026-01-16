@@ -4,8 +4,10 @@ import { createClient } from '@/lib/supabase/server'
 import type { ActivityLogWithContent } from '@/types/database'
 
 interface GetActivityLogsParams {
+  userId?: string
   limit?: number
   cursor?: string  // created_at ISO string
+  actionTypes?: string[]  // 특정 액션 타입만 필터링
 }
 
 interface GetActivityLogsResult {
@@ -16,12 +18,15 @@ interface GetActivityLogsResult {
 export async function getActivityLogs(
   params: GetActivityLogsParams = {}
 ): Promise<GetActivityLogsResult> {
-  const { limit = 20, cursor } = params
+  const { userId: targetUserId, limit = 20, cursor, actionTypes } = params
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) return { logs: [], nextCursor: null }
+  // If no targetUserId provided, use current user. If no current user, return empty.
+  const userIdToFetch = targetUserId || user?.id;
+
+  if (!userIdToFetch) return { logs: [], nextCursor: null }
 
   let query = supabase
     .from('activity_logs')
@@ -36,9 +41,13 @@ export async function getActivityLogs(
       created_at,
       content:contents!content_id(id, title, thumbnail_url, type)
     `)
-    .eq('user_id', user.id)
+    .eq('user_id', userIdToFetch)
     .order('created_at', { ascending: false })
     .limit(limit + 1)
+
+  if (actionTypes && actionTypes.length > 0) {
+    query = query.in('action_type', actionTypes)
+  }
 
   if (cursor) {
     query = query.lt('created_at', cursor)

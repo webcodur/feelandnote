@@ -104,7 +104,7 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
                   onClick={() => setCreationType("ost")}
                   className="p-8 rounded-2xl bg-bg-main border-2 border-border hover:border-accent hover:bg-bg-secondary group"
                 >
-                  <MusicIcon size={40} className="mx-auto mb-4 text-purple-400 group-hover:scale-110" />
+                  <MusicIcon size={40} className="mx-auto mb-4 text-rose-400 group-hover:scale-110" />
                   <div className="text-lg font-bold mb-2">🎵 OST 상상</div>
                   <div className="text-sm text-text-secondary">음악을 입힌다면?</div>
                 </Button>

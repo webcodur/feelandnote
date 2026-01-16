@@ -62,11 +62,11 @@ export function FilterSelect<T extends string = string>({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          bg-bg-secondary border rounded-lg
-          hover:border-text-secondary hover:text-text-primary
-          flex items-center gap-1.5
+          bg-bg-secondary border rounded-sm
+          hover:border-accent hover:text-accent
+          flex items-center gap-1.5 transition-colors duration-200
           ${compact ? "py-1 px-2 text-xs" : "py-1.5 px-3 text-sm"}
-          ${isActive ? "border-accent text-accent" : "border-border text-text-secondary"}
+          ${isActive ? "border-accent text-accent bg-accent/10" : "border-accent-dim/30 text-text-secondary"}
         `}
       >
         {Icon && <Icon size={compact ? 12 : 14} />}
@@ -78,7 +78,7 @@ export function FilterSelect<T extends string = string>({
       </Button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-bg-secondary border border-border rounded-lg shadow-lg min-w-[140px] py-1 animate-fade-in" style={{ zIndex: Z_INDEX.dropdown }}>
+        <div className="absolute top-full left-0 mt-1 bg-bg-secondary border border-accent-dim/30 rounded-sm shadow-xl min-w-[140px] py-1 animate-fade-in" style={{ zIndex: Z_INDEX.dropdown }}>
           {options.map((option) => {
             const OptionIcon = option.icon;
             return (
@@ -91,7 +91,7 @@ export function FilterSelect<T extends string = string>({
                   setIsOpen(false);
                 }}
                 className={`
-                  w-full text-left px-3 py-2 flex items-center gap-2
+                  w-full text-left px-3 py-2 flex items-center gap-2 transition-colors
                   ${compact ? "text-xs" : "text-sm"}
                   ${value === option.value
                     ? "bg-accent/10 text-accent"

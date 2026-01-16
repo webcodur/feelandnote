@@ -8,26 +8,9 @@
 import { Card } from "@/components/ui";
 import { Lock, CheckCircle2 } from "lucide-react";
 
-interface TitleProgressCardProps {
-  titles: Array<{
-    id: number;
-    name: string;
-    desc: string;
-    rarity: string;
-    earned: boolean;
-    date?: string;
-    progress?: number;
-    bonus: number;
-  }>;
-}
+import { TITLE_GRADE_CONFIG, type TitleGrade } from "@/constants/titles";
 
-const RARITY_COLORS = {
-  일반: { bg: "#6b7280", text: "#9ca3af" },
-  고급: { bg: "#22c55e", text: "#4ade80" },
-  희귀: { bg: "#3b82f6", text: "#60a5fa" },
-  영웅: { bg: "#a855f7", text: "#c084fc" },
-  전설: { bg: "#f59e0b", text: "#fbbf24" },
-};
+// RARITY_COLORS 제거 (TITLE_GRADE_CONFIG로 대체)
 
 export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
   const earnedTitles = titles.filter((t) => t.earned);
@@ -46,15 +29,21 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
 
       <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
         {titles.map((title) => {
-          const colors = RARITY_COLORS[title.rarity as keyof typeof RARITY_COLORS];
+          // rarity가 한글로 올 수도 있으므로 매핑 필요 (또는 grade로 변경)
+          const gradeKey = title.rarity === '일반' ? 'common' : 
+                          title.rarity === '고급' ? 'uncommon' :
+                          title.rarity === '희귀' ? 'rare' :
+                          title.rarity === '영웅' ? 'epic' :
+                          title.rarity === '전설' ? 'legendary' : 'common';
+          const gradeConfig = TITLE_GRADE_CONFIG[gradeKey as TitleGrade];
 
           return (
             <div
               key={title.id}
-              className={`p-3 rounded-xl border ${
+              className={`p-3 rounded-xl border transition-all ${
                 title.earned
-                  ? "bg-white/[0.03] border-white/10"
-                  : "bg-black/20 border-white/5 opacity-70"
+                  ? `bg-gradient-to-br ${gradeConfig.marble} ${gradeConfig.borderColor} shadow-sm`
+                  : "bg-black/20 border-white/5 opacity-50"
               }`}
             >
               <div className="flex items-start gap-3">
@@ -70,17 +59,13 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-sm truncate">
+                    <span className={`font-bold text-sm truncate ${title.earned ? gradeConfig.color : 'text-text-secondary'}`}>
                       {title.earned ? title.name : "???"}
                     </span>
                     <span
-                      className="text-[10px] px-1.5 py-0.5 rounded font-medium shrink-0"
-                      style={{
-                        backgroundColor: `${colors.bg}30`,
-                        color: colors.text,
-                      }}
+                      className={`text-[10px] px-1.5 py-0.5 rounded font-bold shrink-0 ${gradeConfig.bgColor} ${gradeConfig.color}`}
                     >
-                      {title.rarity}
+                      {gradeConfig.label}
                     </span>
                   </div>
                   <div className="text-xs text-text-secondary truncate">

@@ -153,7 +153,7 @@ function PlaylistCard({ playlist, onClick }: { playlist: PlaylistSummary; onClic
       className="group bg-surface hover:bg-surface-hover border border-border rounded-xl p-4 text-left w-full"
     >
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+        <div className="w-14 h-14 rounded-lg bg-bg-secondary border border-accent/30 flex items-center justify-center flex-shrink-0 shadow-inner">
           <ListMusic size={24} className="text-accent" />
         </div>
         <div className="flex-1 min-w-0">
@@ -180,7 +180,7 @@ function SavedPlaylistCard({ item, onClick }: { item: SavedPlaylistWithDetails; 
       className="group bg-surface hover:bg-surface-hover border border-border rounded-xl p-4 text-left w-full"
     >
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+        <div className="w-14 h-14 rounded-lg bg-bg-secondary border border-accent/30 flex items-center justify-center flex-shrink-0 shadow-inner">
           <ListMusic size={24} className="text-accent" />
         </div>
         <div className="flex-1 min-w-0">

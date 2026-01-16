@@ -28,7 +28,7 @@ export default function ProfileCard({
   badge,
   href,
 }: ProfileCardProps) {
-  const resolvedHref = href ?? (is_self ? "/archive/me" : `/archive/user/${id}`);
+  const resolvedHref = href ?? `/${id}`;
 
   return (
     <Link

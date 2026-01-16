@@ -21,14 +21,14 @@ export default function CategoryChip({ label, count, isActive, onClick }: Catego
     <Button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-semibold whitespace-nowrap border",
+        "flex items-center gap-1 px-3 py-1.5 rounded-sm text-sm font-serif font-medium whitespace-nowrap border transition-all duration-300",
         isActive
-          ? "bg-accent/10 border-accent/20 text-accent shadow-sm"
-          : "bg-surface border-transparent text-text-secondary hover:bg-surface-hover hover:text-text-primary"
+          ? "bg-accent/10 border-accent text-accent shadow-[0_0_10px_rgba(212,175,55,0.2)]"
+          : "bg-transparent border-transparent text-text-secondary hover:text-text-primary hover:bg-accent/5 hover:border-accent-dim/30"
       )}
     >
       {label}
-      {count !== undefined && <span className="opacity-60">({count})</span>}
+      {count !== undefined && <span className="opacity-60 text-xs ml-1">({count})</span>}
     </Button>
   );
 }

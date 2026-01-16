@@ -1,5 +1,4 @@
-import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, LaurelIcon } from "@/components/ui/icons/neo-pantheon";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
 export type CategoryId = "book" | "video" | "game" | "music" | "certificate";
@@ -14,7 +13,7 @@ export type VideoSubtype = "movie" | "tv";
 export interface CategoryConfig {
   id: CategoryId;
   label: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<any>;
   placeholder: string; // 검색용
   dbType: string; // DB 저장값
   unit: string; // 콘텐츠 단위 (권, 편, 개 등)
@@ -22,11 +21,11 @@ export interface CategoryConfig {
 
 // 전체 카테고리 목록 (Single Source of Truth)
 export const CATEGORIES: CategoryConfig[] = [
-  { id: "book", label: "도서", icon: Book, placeholder: "책 제목, 저자...", dbType: "BOOK", unit: "권" },
-  { id: "video", label: "영상", icon: Film, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO", unit: "편" },
-  { id: "game", label: "게임", icon: Gamepad2, placeholder: "게임 제목, 개발사...", dbType: "GAME", unit: "개" },
-  { id: "music", label: "음악", icon: Music, placeholder: "앨범, 아티스트...", dbType: "MUSIC", unit: "곡" },
-  { id: "certificate", label: "자격증", icon: Award, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE", unit: "개" },
+  { id: "book", label: "도서", icon: ScrollIcon, placeholder: "책 제목, 저자...", dbType: "BOOK", unit: "권" },
+  { id: "video", label: "영상", icon: TheaterMaskIcon, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO", unit: "편" },
+  { id: "game", label: "게임", icon: MosaicCoinIcon, placeholder: "게임 제목, 개발사...", dbType: "GAME", unit: "개" },
+  { id: "music", label: "음악", icon: LyreIcon, placeholder: "앨범, 아티스트...", dbType: "MUSIC", unit: "곡" },
+  { id: "certificate", label: "자격증", icon: LaurelIcon, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE", unit: "개" },
 ] as const;
 
 // 콘텐츠 타입별 단위 조회

@@ -178,7 +178,7 @@ export function useHeaderSearch() {
         router.push(`/content/detail?key=${key}`);
       }
     } else if (result.type === "user") {
-      router.push(`/archive/user/${result.id}`);
+      router.push(`/${result.id}`);
     } else if (result.type === "tag") {
       router.push(`/search?mode=tag&q=${encodeURIComponent(result.title.replace("#", ""))}`);
     }

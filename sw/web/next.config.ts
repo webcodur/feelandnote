@@ -13,16 +13,28 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'books.google.com' },
       { protocol: 'https', hostname: 'i.scdn.co' },
       { protocol: 'https', hostname: 'images.igdb.com' },
+      { protocol: 'https', hostname: 'encrypted-tbn0.gstatic.com' },
       { protocol: 'https', hostname: '*.supabase.co' },
     ],
   },
   async redirects() {
     return [
-      { source: '/explore', destination: '/archive/explore', permanent: true },
-      { source: '/feed', destination: '/archive/feed', permanent: true },
-      { source: '/playground', destination: '/archive/playground', permanent: true },
-      { source: '/playground/:path*', destination: '/archive/playground/:path*', permanent: true },
-      { source: '/user/:path*', destination: '/archive/user/:path*', permanent: true },
+      {
+        source: '/archive/explore',
+        destination: '/explore',
+        permanent: false,
+      },
+      {
+        source: '/archive/lounge',
+        destination: '/play',
+        permanent: false,
+      },
+      {
+        source: '/archive/feed',
+        destination: '/',
+        permanent: false,
+      },
+      // 기본 archive 경로는 일단 두되, 특정 기능에 대한 리다이렉트를 강화
     ];
   },
 };

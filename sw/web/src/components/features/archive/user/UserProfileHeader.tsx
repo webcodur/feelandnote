@@ -15,6 +15,7 @@ import { toggleFollow, type PublicUserProfile } from "@/actions/user";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import NationalityText from "@/components/ui/NationalityText";
 import CelebInfoModal from "./CelebInfoModal";
+import FollowListModal from "./FollowListModal";
 
 // 생몰년 포맷팅 헬퍼
 function formatLifespan(birthDate: string | null, deathDate: string | null): string | null {
@@ -51,6 +52,8 @@ export default function UserProfileHeader({
   const [isFollowing, setIsFollowing] = useState(profile.is_following);
   const [isPending, startTransition] = useTransition();
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
+  const [followModalTab, setFollowModalTab] = useState<"followers" | "following">("followers");
 
   const isFriend = isFollowing && profile.is_follower;
   const isCeleb = profile.profile_type === 'CELEB';
@@ -75,7 +78,7 @@ export default function UserProfileHeader({
   };
 
   return (
-    <div className="border border-border rounded-xl p-4 md:p-6 mb-4 bg-surface/10">
+    <div className="w-full max-w-5xl mx-auto p-6 md:p-8 mb-8 border border-accent-dim/20 bg-bg-card/50 backdrop-blur-sm rounded-sm">
       {/* 모바일: 세로 배치, 데스크톱: 가로 배치 */}
       <div className="flex flex-col md:flex-row md:items-start gap-3 md:gap-4">
         {/* 프로필 이미지 + 기본 정보 (모바일에서 가로 배치) */}
@@ -89,7 +92,7 @@ export default function UserProfileHeader({
               disabled={!hasPortrait}
             >
               {profileImageUrl ? (
-                <div className={`relative rounded-full overflow-hidden ${isCeleb ? 'w-[72px] h-[72px] md:w-[120px] md:h-[120px]' : 'w-14 h-14 md:w-20 md:h-20'}`}>
+                <div className={`relative rounded-full overflow-hidden border-2 border-accent-dim/30 group-hover:border-accent transition-colors ${isCeleb ? 'w-[72px] h-[72px] md:w-[120px] md:h-[120px]' : 'w-14 h-14 md:w-20 md:h-20'}`}>
                   <Image
                     src={profileImageUrl}
                     alt={profile.nickname}
@@ -98,15 +101,15 @@ export default function UserProfileHeader({
                     className="object-cover"
                   />
                   {hasPortrait && (
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-full">
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-full transition-opacity duration-300">
                       <Info size={24} className="text-white" />
                     </div>
                   )}
                 </div>
               ) : (
                 <div
-                  className={`rounded-full flex items-center justify-center font-bold text-white ${isCeleb ? 'w-[72px] h-[72px] md:w-[120px] md:h-[120px] text-2xl md:text-4xl' : 'w-14 h-14 md:w-20 md:h-20 text-xl md:text-2xl'}`}
-                  style={{ background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}
+                  className={`rounded-full flex items-center justify-center font-bold text-bg-main border-2 border-accent-dim/30 ${isCeleb ? 'w-[72px] h-[72px] md:w-[120px] md:h-[120px] text-2xl md:text-4xl' : 'w-14 h-14 md:w-20 md:h-20 text-xl md:text-2xl'}`}
+                  style={{ background: "linear-gradient(135deg, #d4af37, #f9d76e)" }}
                 >
                   {profile.nickname.charAt(0).toUpperCase()}
                 </div>
@@ -117,20 +120,20 @@ export default function UserProfileHeader({
           {/* 닉네임 + 메타 정보 (모바일에서 아바타 옆에 배치) */}
           <div className="flex-1 min-w-0 md:hidden">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <h1 className="text-lg font-bold text-text-primary truncate">
+              <h1 className="text-lg text-text-primary truncate">
                 {profile.nickname}
               </h1>
               {profile.is_verified && (
                 <CheckCircle size={16} className="text-accent flex-shrink-0" />
               )}
               {isCeleb && (
-                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-500 text-xs rounded-full flex items-center gap-1">
+                <span className="px-2 py-0.5 bg-accent/10 text-accent border border-accent/20 text-xs rounded-sm flex items-center gap-1">
                   <Sparkles size={10} />
-                  셀럽
+                  Celeb
                 </span>
               )}
               {isFriend && !isCeleb && (
-                <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs rounded-full">
+                <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs rounded-sm border border-accent/20">
                   친구
                 </span>
               )}
@@ -160,26 +163,26 @@ export default function UserProfileHeader({
           {/* 닉네임 + 메타 (데스크톱 전용) */}
           <div className="hidden md:block">
             <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-xl font-bold text-text-primary truncate">
+              <h1 className="text-2xl text-text-primary truncate">
                 {profile.nickname}
               </h1>
               {profile.is_verified && (
-                <CheckCircle size={18} className="text-accent flex-shrink-0" />
+                <CheckCircle size={20} className="text-accent flex-shrink-0" />
               )}
               {isCeleb && (
-                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-500 text-xs rounded-full flex items-center gap-1">
+                <span className="px-2 py-0.5 bg-accent/10 text-accent border border-accent/20 text-xs rounded-sm flex items-center gap-1">
                   <Sparkles size={10} />
-                  셀럽
+                  Celeb
                 </span>
               )}
               {isFriend && !isCeleb && (
-                <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs rounded-full">
+                <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs rounded-sm border border-accent/20">
                   친구
                 </span>
               )}
             </div>
             {isCeleb && (profile.profession || profile.nationality || profile.birth_date || profile.death_date) && (
-              <div className="flex items-center gap-2 text-xs text-text-tertiary mb-1 flex-wrap">
+              <div className="flex items-center gap-2 text-sm text-text-tertiary mb-2 flex-wrap">
                 {(profile.profession || profile.nationality) && (
                   <span>
                     {profile.profession && getCelebProfessionLabel(profile.profession)}
@@ -188,7 +191,7 @@ export default function UserProfileHeader({
                   </span>
                 )}
                 {(profile.birth_date || profile.death_date) && (
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 ml-2 border-l border-accent-dim/30 pl-2">
                     <Calendar size={12} />
                     {formatLifespan(profile.birth_date, profile.death_date)}
                   </span>
@@ -198,48 +201,67 @@ export default function UserProfileHeader({
           </div>
 
           {profile.bio && (
-            <p className="text-sm text-text-secondary mb-2 line-clamp-2">
+            <p className="text-sm text-text-secondary mb-3 line-clamp-2 leading-relaxed font-serif">
               {profile.bio}
             </p>
           )}
 
           {/* 셀럽 명언 */}
           {isCeleb && profile.quotes && (
-            <div className="flex items-start gap-2 mb-3 p-2 bg-accent/5 rounded-lg border border-accent/10">
-              <Quote size={14} className="text-accent flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-text-secondary italic line-clamp-2">
+            <div className="flex items-start gap-3 mb-4 p-3 bg-bg-secondary/50 rounded-sm border-l-2 border-accent">
+              <Quote size={16} className="text-accent flex-shrink-0 mt-0.5 fill-accent/20" />
+              <p className="text-sm text-text-secondary line-clamp-2 leading-relaxed font-serif">
                 "{profile.quotes}"
               </p>
             </div>
           )}
 
           {/* 통계 - 모바일: 그리드, 데스크톱: 인라인 */}
-          <div className="grid grid-cols-5 gap-2 md:flex md:items-center md:gap-4 text-sm">
-            <div className="flex flex-col items-center md:flex-row md:gap-1.5 text-text-secondary">
-              <BookOpen size={14} className="mb-0.5 md:mb-0" />
-              <span className="font-medium text-text-primary">{profile.stats.content_count}</span>
-              <span className="text-xs md:text-sm">기록</span>
-            </div>
-            <div className="flex flex-col items-center md:flex-row md:gap-1.5 text-text-secondary">
-              <Users size={14} className="mb-0.5 md:mb-0" />
-              <span className="font-medium text-text-primary">{profile.stats.follower_count}</span>
-              <span className="text-xs md:text-sm">팔로워</span>
-            </div>
-            <div className="flex flex-col items-center md:flex-row md:gap-1.5 text-text-secondary">
-              <span className="font-medium text-text-primary">{profile.stats.following_count}</span>
-              <span className="text-xs md:text-sm">팔로잉</span>
-            </div>
-            <div className="flex flex-col items-center md:flex-row md:gap-1.5 text-text-secondary">
-              <span className="font-medium text-text-primary">{profile.stats.friend_count}</span>
-              <span className="text-xs md:text-sm">친구</span>
-            </div>
-            <Link
-              href="#guestbook"
-              className="flex flex-col items-center md:flex-row md:gap-1.5 text-text-secondary hover:text-accent"
+          <div className="grid grid-cols-5 gap-2 md:flex md:items-center md:gap-6 text-sm py-2 border-t border-accent-dim/20 mt-2">
+            <Link 
+              href={`/${profile.id}/records`}
+              className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary hover:text-text-primary transition-colors group"
             >
-              <MessageSquare size={14} className="mb-0.5 md:mb-0" />
-              <span className="font-medium text-text-primary">{profile.stats.guestbook_count}</span>
-              <span className="text-xs md:text-sm">방명록</span>
+              <BookOpen size={16} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors" />
+              <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-lg md:text-base">{profile.stats.content_count}</span>
+              <span className="text-[10px] md:text-sm uppercase tracking-wider">기록</span>
+            </Link>
+            
+            <button
+              onClick={() => {
+                setFollowModalTab("followers");
+                setIsFollowModalOpen(true);
+              }}
+              className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary hover:text-text-primary transition-colors group"
+            >
+              <Users size={16} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors" />
+              <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-lg md:text-base">{profile.stats.follower_count}</span>
+              <span className="text-[10px] md:text-sm uppercase tracking-wider">팔로워</span>
+            </button>
+            
+            <button
+              onClick={() => {
+                setFollowModalTab("following");
+                setIsFollowModalOpen(true);
+              }}
+              className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary hover:text-text-primary transition-colors group tracking-normal"
+            >
+              <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-lg md:text-base ml-1">{profile.stats.following_count}</span>
+              <span className="text-[10px] md:text-sm uppercase tracking-wider">팔로잉</span>
+            </button>
+
+            <div className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary group cursor-default">
+              <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-lg md:text-base ml-1">{profile.stats.friend_count}</span>
+              <span className="text-[10px] md:text-sm uppercase tracking-wider">친구</span>
+            </div>
+
+            <Link
+              href={`/${profile.id}/guestbook`}
+              className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary hover:text-accent transition-colors group"
+            >
+              <MessageSquare size={16} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors" />
+              <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-lg md:text-base">{profile.stats.guestbook_count}</span>
+              <span className="text-[10px] md:text-sm uppercase tracking-wider">방명록</span>
             </Link>
           </div>
         </div>
@@ -252,7 +274,7 @@ export default function UserProfileHeader({
               size="sm"
               onClick={handleFollowClick}
               disabled={isPending}
-              className="w-full md:w-auto md:min-w-[90px]"
+              className={`w-full md:w-auto md:min-w-[100px] uppercase tracking-wider ${isFollowing ? "border-accent-dim/50 text-text-secondary hover:border-accent hover:text-accent" : "bg-accent text-bg-main hover:bg-accent-hover"}`}
             >
               {isFollowing ? (
                 <>
@@ -278,6 +300,17 @@ export default function UserProfileHeader({
           profile={profile}
         />
       )}
+
+      {/* 팔로우 리스트 모달 */}
+      <FollowListModal
+        isOpen={isFollowModalOpen}
+        onClose={() => setIsFollowModalOpen(false)}
+        userId={profile.id}
+        initialTab={followModalTab}
+        followerCount={profile.stats.follower_count}
+        followingCount={profile.stats.following_count}
+      />
     </div>
   );
+
 }

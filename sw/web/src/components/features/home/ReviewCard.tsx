@@ -1,0 +1,240 @@
+"use client";
+
+import { useState, useTransition, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { Avatar } from "@/components/ui";
+import { Book, Film, Gamepad2, Music, Award, Check } from "lucide-react";
+import { addContent } from "@/actions/contents/addContent";
+import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+import type { ContentType } from "@/types/database";
+
+// #region Types
+interface ReviewCardProps {
+  // 사용자 정보
+  userId: string;
+  userName: string;
+  userAvatar: string | null;
+  isOfficial?: boolean;
+  userSubtitle?: string;
+
+  // 콘텐츠 정보
+  contentType: ContentType;
+  contentId: string;
+  contentTitle: string;
+  contentCreator?: string | null;
+  contentThumbnail?: string | null;
+
+  // 리뷰 정보
+  review: string;
+  timeAgo: string;
+  isSpoiler?: boolean;
+
+  // 링크
+  href?: string;
+}
+// #endregion
+
+// #region Constants
+const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
+  BOOK: "BOOK",
+  VIDEO: "VIDEO",
+  GAME: "GAME",
+  MUSIC: "MUSIC",
+  CERTIFICATE: "CERT",
+};
+
+const CONTENT_TYPE_ICONS: Record<ContentType, typeof Book> = {
+  BOOK: Book,
+  VIDEO: Film,
+  GAME: Gamepad2,
+  MUSIC: Music,
+  CERTIFICATE: Award,
+};
+// #endregion
+
+export default function ReviewCard({
+  userId,
+  userName,
+  userAvatar,
+  isOfficial = false,
+  userSubtitle,
+  contentType,
+  contentId,
+  contentTitle,
+  contentCreator,
+  contentThumbnail,
+  review,
+  timeAgo,
+  isSpoiler = false,
+  href,
+}: ReviewCardProps) {
+  const router = useRouter();
+  const [showSpoiler, setShowSpoiler] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isAdding, startTransition] = useTransition();
+
+  const ContentIcon = CONTENT_TYPE_ICONS[contentType];
+
+  // 저장 상태 확인
+  useEffect(() => {
+    checkContentSaved(contentId).then((result) => {
+      setIsAdded(result.saved);
+      setIsChecking(false);
+    });
+  }, [contentId]);
+
+  // 내 기록관에 추가 핸들러
+  const handleAddToArchive = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isAdded || isAdding) return;
+
+    startTransition(async () => {
+      const result = await addContent({
+        id: contentId,
+        type: contentType,
+        title: contentTitle,
+        creator: contentCreator ?? undefined,
+        thumbnailUrl: contentThumbnail ?? undefined,
+        status: "WANT",
+      });
+      if (result.success) {
+        setIsAdded(true);
+      }
+    });
+  };
+
+  const cardContent = (
+    <div className="card-classical flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] mx-auto overflow-hidden group p-4 md:p-6">
+      {/* 좌측: 콘텐츠 이미지 + 정보 오버레이 */}
+      <div className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] shrink-0 bg-black border border-accent/30">
+        {contentThumbnail ? (
+          <Image
+            src={contentThumbnail}
+            alt={contentTitle}
+            fill
+            unoptimized
+            className="object-cover opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-bg-secondary">
+            <ContentIcon size={48} className="text-accent/20" />
+          </div>
+        )}
+
+        {/* 카테고리 뱃지 (이미지 좌상단) */}
+        <div className="absolute top-3 left-3 z-10">
+          <div className="border border-accent text-accent bg-[#0a0a0a]/90 px-2 py-0.5">
+            <span className="text-[9px] font-black font-cinzel tracking-widest uppercase">
+              {CONTENT_TYPE_LABELS[contentType]}
+            </span>
+          </div>
+        </div>
+
+        {/* 콘텐츠 정보 오버레이 (이미지 하단) */}
+        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-3 pt-10">
+          <h4 className="font-serif font-black text-sm text-white leading-tight line-clamp-2 mb-0.5">
+            {contentTitle}
+          </h4>
+          {contentCreator && (
+            <p className="text-[10px] text-accent/70 font-medium truncate">
+              {contentCreator}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* 우측: 프로필 + 리뷰 */}
+      <div className="flex-1 flex flex-col pt-4 md:pt-0 md:pl-6 relative">
+        {/* 저장 버튼 (우상단) */}
+        <div className="absolute top-0 right-0 z-10">
+          {isAdded ? (
+            <div className="px-4 py-2 border border-accent/30 bg-accent/5 text-accent/50 font-black text-xs tracking-tight flex items-center gap-2">
+              <Check size={14} />
+              <span>저장됨</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToArchive}
+              disabled={isChecking || isAdding}
+              className="px-4 py-2 border border-accent text-accent hover:bg-accent hover:text-[#0a0a0a] font-black text-xs tracking-tight cursor-pointer disabled:cursor-wait"
+            >
+              {isChecking ? "..." : isAdding ? "저장 중..." : "내 기록관에 추가"}
+            </button>
+          )}
+        </div>
+
+        {/* 프로필 헤더 */}
+        <div className="flex items-center gap-4 border-b border-accent/20 pb-5 mb-5 pr-28">
+          <Link
+            href={`/${userId}`}
+            className="group/user flex-shrink-0"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Avatar
+              url={userAvatar}
+              name={userName}
+              size="md"
+              className="ring-1 ring-accent/30 rounded-full grayscale group-hover/user:grayscale-0 shadow-lg"
+            />
+          </Link>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-black text-text-primary tracking-tight">
+                {userName}
+              </h3>
+              {isOfficial && (
+                <span className="bg-[#d4af37] text-black text-[8px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
+                  OFFICIAL
+                </span>
+              )}
+            </div>
+            <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+              {userSubtitle || "기록자"} · {timeAgo}
+            </p>
+          </div>
+        </div>
+
+        {/* 리뷰 본문 */}
+        <div className="flex-1 relative">
+          {isSpoiler && !showSpoiler ? (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowSpoiler(true);
+              }}
+              className="w-full h-full min-h-[80px] flex items-center justify-center bg-accent/5 border border-dashed border-accent/20 text-accent/50 hover:text-accent font-black uppercase tracking-widest text-[10px]"
+            >
+              스포일러 보호막 · 탭하여 해제
+            </button>
+          ) : (
+            <p className="text-base md:text-lg text-[#e0e0e0] font-medium leading-[1.8] font-serif antialiased line-clamp-5">
+              {review}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  // href가 있으면 클릭 가능한 div로 처리 (a 중첩 방지)
+  if (href) {
+    return (
+      <div
+        onClick={() => router.push(href)}
+        className="cursor-pointer"
+        role="link"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && router.push(href)}
+      >
+        {cardContent}
+      </div>
+    );
+  }
+
+  return cardContent;
+}

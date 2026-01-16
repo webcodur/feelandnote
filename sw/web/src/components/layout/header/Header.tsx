@@ -7,7 +7,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bell, Heart, MessageCircle, UserPlus, Trophy, Volume2, VolumeX, BarChart2, Settings, LogOut, BookOpen } from "lucide-react";
+import { 
+  TempleBellIcon, 
+  SacredFlameIcon, 
+  MessageTabletIcon, 
+  BustIcon, 
+  LaurelIcon, 
+  LyreIcon, 
+  LyreSilentIcon, 
+  ObeliskIcon, 
+  CogsIcon, 
+  RomanGateIcon 
+} from "@/components/ui/icons/neo-pantheon";
 import { useSound } from "@/contexts/SoundContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,17 +45,9 @@ const ICON_SIZE = 20;
 
 // 1차 네비게이션 항목
 const NAV_ITEMS = [
-  { href: "/archive", label: "기록관" },
-  { href: "/archive/feed", label: "피드" },
-  { href: "/archive/lounge", label: "휴게실" },
-];
-
-// 프로필 드롭다운 메뉴 항목
-const PROFILE_MENU_ITEMS = [
-  { href: "/profile/stats", label: "내 통계", icon: BarChart2 },
-  { href: "/profile/achievements", label: "칭호", icon: Trophy },
-  { href: "/profile/guestbook", label: "방명록", icon: BookOpen },
-  { href: "/profile/settings", label: "설정", icon: Settings },
+  { href: "/", label: "피드" },
+  { href: "/play", label: "휴게실" },
+  { href: "/explore", label: "탐색" },
 ];
 
 export default function Header({ isMobile }: HeaderProps) {
@@ -104,7 +107,7 @@ export default function Header({ isMobile }: HeaderProps) {
     {
       id: 1,
       type: "like",
-      icon: <Heart size={16} className="text-red-400" />,
+      icon: <SacredFlameIcon size={16} />,
       message: "마법사A님이 회원님의 리뷰를 좋아합니다",
       time: "10분 전",
       read: false,
@@ -112,7 +115,7 @@ export default function Header({ isMobile }: HeaderProps) {
     {
       id: 2,
       type: "comment",
-      icon: <MessageCircle size={16} className="text-blue-400" />,
+      icon: <MessageTabletIcon size={16} />,
       message: "BookLover님이 댓글을 남겼습니다",
       time: "2시간 전",
       read: false,
@@ -120,7 +123,7 @@ export default function Header({ isMobile }: HeaderProps) {
     {
       id: 3,
       type: "follow",
-      icon: <UserPlus size={16} className="text-green-400" />,
+      icon: <BustIcon size={16} />,
       message: "독서광님이 회원님을 팔로우하기 시작했습니다",
       time: "5시간 전",
       read: true,
@@ -128,7 +131,7 @@ export default function Header({ isMobile }: HeaderProps) {
     {
       id: 4,
       type: "achievement",
-      icon: <Trophy size={16} className="text-yellow-400" />,
+      icon: <LaurelIcon size={16} />,
       message: "새 칭호를 획득했습니다",
       time: "1일 전",
       read: true,
@@ -139,20 +142,25 @@ export default function Header({ isMobile }: HeaderProps) {
 
   // 네비게이션 활성 상태 확인
   const isNavActive = (href: string) => {
-    if (href === "/archive") {
-      return pathname === "/archive" ||
-        pathname.startsWith("/archive/user/") ||
-        pathname.startsWith("/archive/playlists") ||
-        pathname.startsWith("/archive/explore");
-    }
-    return pathname.startsWith(href);
+    return pathname === href || pathname.startsWith(href + "/");
   };
+
+  const getProfileMenuItems = (userId: string) => [
+    { href: `/${userId}/stats`, label: "내 통계", icon: ObeliskIcon },
+    { href: `/${userId}/achievements`, label: "칭호", icon: LaurelIcon },
+    { href: `/${userId}/guestbook`, label: "방명록", icon: MessageTabletIcon },
+    { href: `/settings`, label: "설정", icon: CogsIcon },
+  ];
 
   return (
     <header
-      className="w-full h-16 bg-bg-secondary border-b border-border flex items-center px-3 gap-2 md:px-6 md:gap-4 fixed top-0 left-0"
+      className="w-full h-16 bg-black/90 backdrop-blur-md border-b-[1px] border-b-white/5 flex items-center px-3 gap-2 md:px-6 md:gap-4 fixed top-0 left-0 transition-all duration-300"
       style={{ zIndex: Z_INDEX.header }}
     >
+      {/* Decorative Gold Gradient Line at Bottom */}
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+      
+      <div className="relative z-10 flex items-center w-full gap-2 md:gap-4">
       {/* 로고 */}
       <Logo size="md" />
 
@@ -165,22 +173,35 @@ export default function Header({ isMobile }: HeaderProps) {
               href={item.href}
               className={`px-3 py-2 rounded-lg text-sm font-medium no-underline
                 ${isNavActive(item.href)
-                  ? "text-accent bg-accent/10"
-                  : "text-text-secondary hover:text-text-primary hover:bg-white/5"
+                  ? "text-accent bg-accent/10 text-glow"
+                  : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
                 }`}
             >
               {item.label}
             </Link>
           ))}
+          {/* 내 기록관 링크 (로그인 시) */}
+          {profile && (
+            <Link
+              href={`/${profile.id}`}
+              className={`px-3 py-2 rounded-lg text-sm font-medium no-underline
+                ${isNavActive(`/${profile.id}`)
+                  ? "text-accent bg-accent/10"
+                  : "text-text-secondary hover:text-text-primary hover:bg-white/5"
+                }`}
+            >
+              기록관
+            </Link>
+          )}
         </nav>
       )}
 
-      {/* 검색 */}
+      {/* ... (Middle Search) ... */}
       <HeaderSearch />
 
       {/* 우측 영역 */}
       <div className="flex items-center gap-1 ml-auto">
-        {/* 사운드 토글 (데스크톱만, 로그인 시만) */}
+        {/* ... (Sound Button) ... */}
         {isLoggedIn && (
           <Button
             unstyled
@@ -193,14 +214,14 @@ export default function Header({ isMobile }: HeaderProps) {
             title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
           >
             {isSoundEnabled ? (
-              <Volume2 size={ICON_SIZE} className="text-accent" />
+              <LyreIcon size={ICON_SIZE} />
             ) : (
-              <VolumeX size={ICON_SIZE} className="text-text-secondary" />
+              <LyreSilentIcon size={ICON_SIZE} />
             )}
           </Button>
         )}
 
-        {/* 비로그인 시 로그인 버튼 */}
+        {/* ... (Login Button) ... */}
         {isLoggedIn === false && (
           <Link href="/login">
             <Button variant="primary" size="sm">
@@ -209,7 +230,7 @@ export default function Header({ isMobile }: HeaderProps) {
           </Link>
         )}
 
-        {/* 로그인 시 알림 아이콘 */}
+        {/* ... (Notifications) ... */}
         {isLoggedIn && (
           <div className="relative" data-notification-dropdown>
             <Button
@@ -217,7 +238,7 @@ export default function Header({ isMobile }: HeaderProps) {
               onClick={() => setShowNotifications(!showNotifications)}
               className={`${ICON_BUTTON_CLASS} relative`}
             >
-              <Bell size={ICON_SIZE} className="text-text-secondary" />
+              <TempleBellIcon size={ICON_SIZE} />
               {unreadCount > 0 && (
                 <span className="absolute top-1 right-1 min-w-[14px] h-[14px] px-0.5 bg-accent rounded-full text-white text-[9px] font-bold flex items-center justify-center">
                   {unreadCount}
@@ -231,7 +252,8 @@ export default function Header({ isMobile }: HeaderProps) {
                 className="absolute right-0 top-11 w-[calc(100vw-24px)] sm:w-80 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
                 style={{ zIndex: Z_INDEX.dropdown }}
               >
-                <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                  {/* ... Notification Content ... */}
+                  <div className="px-4 py-3 border-b border-border flex items-center justify-between">
                   <span className="font-semibold text-sm">알림</span>
                   {unreadCount > 0 && (
                     <span className="text-xs text-accent">{unreadCount}개의 새 알림</span>
@@ -290,7 +312,7 @@ export default function Header({ isMobile }: HeaderProps) {
                   />
                 </div>
               ) : (
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 ring-2 ring-white/10" />
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10" />
               )}
             </Button>
 
@@ -306,7 +328,7 @@ export default function Header({ isMobile }: HeaderProps) {
 
                 {/* 메뉴 아이템 */}
                 <div className="py-1">
-                  {PROFILE_MENU_ITEMS.map((item) => (
+                  {profile && getProfileMenuItems(profile.id).map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -331,7 +353,7 @@ export default function Header({ isMobile }: HeaderProps) {
                     }}
                     className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 w-full"
                   >
-                    <LogOut size={16} />
+                    <RomanGateIcon size={16} />
                     로그아웃
                   </Button>
                 </div>
@@ -339,6 +361,7 @@ export default function Header({ isMobile }: HeaderProps) {
             )}
           </div>
         )}
+      </div>
       </div>
     </header>
   );

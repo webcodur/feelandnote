@@ -8,14 +8,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  Folder,
-  Newspaper,
-  Gamepad2,
-  User,
-  MoreHorizontal,
-} from "lucide-react";
+  PantheonIcon,
+  AstrolabeIcon,
+  MosaicCoinIcon,
+  BustIcon,
+  MoreIcon,
+} from "@/components/ui/icons/neo-pantheon";
 import { Z_INDEX } from "@/constants/zIndex";
 import BottomSheet from "@/components/ui/BottomSheet";
 import BottomNavSheet from "./BottomNavSheet";
@@ -63,31 +63,37 @@ function NavButton({ active, icon, label, onClick }: NavButtonProps) {
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const [profileId, setProfileId] = useState<string | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  useEffect(() => {
+    const loadProfile = async () => {
+        // Simple client-side check or use a context if available
+        // For now, importing createClient from client
+        const { createClient } = await import("@/lib/supabase/client");
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+            setProfileId(user.id);
+        }
+    };
+    loadProfile();
+  }, []);
+
   const navItems = [
-    { href: "/archive", icon: <Folder size={20} />, label: "기록관" },
-    { href: "/archive/feed", icon: <Newspaper size={20} />, label: "피드" },
-    { href: "/archive/lounge", icon: <Gamepad2 size={20} />, label: "휴게실" },
-    { href: "/profile", icon: <User size={20} />, label: "마이" },
+    { href: "/", icon: <PantheonIcon size={20} />, label: "피드" },
+    { href: "/explore", icon: <AstrolabeIcon size={20} />, label: "탐색" },
+    { href: "/play", icon: <MosaicCoinIcon size={20} />, label: "휴게실" },
+    { href: profileId ? `/${profileId}` : "/login", icon: <BustIcon size={20} />, label: "마이" },
   ];
 
   // 더보기에 포함된 경로들 (활성 상태 체크용)
   const moreMenuPaths = [
-    "/",
-    "/archive/playlists",
-    "/archive/explore",
-    "/profile/stats",
-    "/profile/achievements",
-    "/profile/settings",
-    "/profile/guestbook",
     "/board/notice",
     "/board/free",
   ];
 
-  const isMoreActive = moreMenuPaths.some((path) =>
-    path === "/" ? pathname === "/" : pathname.startsWith(path)
-  );
+  const isMoreActive = moreMenuPaths.some((path) => pathname.startsWith(path));
 
   return (
     <>
@@ -96,11 +102,10 @@ export default function BottomNav() {
         style={{ zIndex: Z_INDEX.bottomNav }}
       >
         {navItems.map((item) => {
-          const isActive = item.href === "/archive"
-            ? (pathname === "/archive" || pathname.startsWith("/archive/user/") || /^\/archive\/[^/]+$/.test(pathname))
-            : item.href === "/profile"
-              ? pathname === "/profile"
-              : pathname.startsWith(item.href);
+          const isActive = item.href === "/" 
+            ? pathname === "/" 
+            : pathname.startsWith(item.href);
+          
           return (
             <NavItem
               key={item.href}
@@ -115,7 +120,7 @@ export default function BottomNav() {
         {/* 더보기 버튼 */}
         <NavButton
           active={isMoreActive}
-          icon={<MoreHorizontal size={20} />}
+          icon={<MoreIcon size={20} />}
           label="더보기"
           onClick={() => setIsSheetOpen(true)}
         />
@@ -127,7 +132,7 @@ export default function BottomNav() {
         onClose={() => setIsSheetOpen(false)}
         title="메뉴"
       >
-        <BottomNavSheet onClose={() => setIsSheetOpen(false)} />
+        <BottomNavSheet onClose={() => setIsSheetOpen(false)} userId={profileId} />
       </BottomSheet>
     </>
   );

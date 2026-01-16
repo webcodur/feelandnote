@@ -89,55 +89,55 @@ export default function RecordInfoPanel({
   return (
     <div className={`@container flex flex-col gap-1.5 text-xs ${fillHeight ? "h-full" : ""}`}>
       {/* 3 Rows x 2 Columns Grid Layout */}
-      <div className="flex flex-col border border-white/10 rounded-lg divide-y divide-white/10 text-xs">
+      <div className="flex flex-col border border-accent-dim/30 rounded-sm divide-y divide-accent-dim/30 text-xs bg-bg-main/50 font-serif">
         {/* Row 1: 시작 | 종료 */}
-        <div className="flex-1 flex divide-x divide-white/10 overflow-hidden">
-          <div className="flex-1 flex items-center justify-between px-3 py-1 min-w-0">
-            <span className="text-text-tertiary select-none shrink-0">시작</span>
+        <div className="flex-1 flex divide-x divide-accent-dim/30 overflow-hidden">
+          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0">
+            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Start</span>
             {editable && onDateEdit ? (
               <Button
                 unstyled
-                className="text-text-secondary hover:text-accent hover:underline truncate text-right ml-2"
+                className="text-text-primary hover:text-accent hover:underline truncate text-right ml-2 font-cinzel font-bold text-[11px]"
                 onClick={(e) => { e.stopPropagation(); onDateEdit(); }}
               >
                 {addedDate}
               </Button>
             ) : (
-              <span className="text-text-secondary truncate text-right ml-2">{addedDate}</span>
+              <span className="text-text-secondary truncate text-right ml-2 font-cinzel text-[11px]">{addedDate}</span>
             )}
           </div>
-          <div className="flex-1 flex items-center justify-between px-3 py-1 min-w-0">
-            <span className="text-text-tertiary select-none shrink-0">종료</span>
+          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0">
+            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">End</span>
             {editable && onDateEdit ? (
               <Button
                 unstyled
-                className="text-text-secondary hover:text-accent hover:underline truncate text-right ml-2"
+                className="text-text-primary hover:text-accent hover:underline truncate text-right ml-2 font-cinzel font-bold text-[11px]"
                 onClick={(e) => { e.stopPropagation(); onDateEdit(); }}
               >
                 {completedDate || "-"}
               </Button>
             ) : (
-              <span className="text-text-secondary truncate text-right ml-2">{completedDate || "-"}</span>
+              <span className="text-text-secondary truncate text-right ml-2 font-cinzel text-[11px]">{completedDate || "-"}</span>
             )}
           </div>
         </div>
 
         {/* Row 2: 상태 | 공개 */}
-        <div className="flex-1 flex divide-x divide-white/10 overflow-visible relative z-10">
-          <div className="flex-1 flex items-center justify-between px-3 py-1 min-w-0">
-            <span className="text-text-tertiary select-none shrink-0">상태</span>
+        <div className="flex-1 flex divide-x divide-accent-dim/30 overflow-visible relative z-10">
+          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0">
+            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Status</span>
             {status && (
               <Button
                 unstyled
-                className={`${status.class} ${editable && canToggleStatus ? "hover:bg-white/5" : "cursor-default"} text-[10px] px-2 py-0.5 rounded-sm flex items-center font-medium truncate ml-2`}
+                className={`${status.class} ${editable && canToggleStatus ? "hover:bg-accent/5" : "cursor-default"} text-[10px] px-2 py-0.5 rounded-sm flex items-center font-bold font-serif truncate ml-2 transition-colors`}
                 onClick={editable && onStatusClick ? (e) => { e.stopPropagation(); onStatusClick(); } : undefined}
               >
                 {status.text}
               </Button>
             )}
           </div>
-          <div className="flex-1 flex items-center justify-between px-3 py-1 min-w-0 relative">
-            <span className="text-text-tertiary select-none shrink-0">공개</span>
+          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0 relative">
+            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Public</span>
             {(() => {
               const currentVisibility = VISIBILITY_OPTIONS.find(v => v.value === (data.visibility ?? "public")) ?? VISIBILITY_OPTIONS[0];
               const Icon = currentVisibility.icon;
@@ -145,7 +145,7 @@ export default function RecordInfoPanel({
                 <>
                   <Button
                     unstyled
-                    className={`${currentVisibility.class} hover:bg-white/5 text-[10px] flex items-center gap-1 font-medium truncate ml-2`}
+                    className={`${currentVisibility.class} hover:bg-accent/5 text-[10px] flex items-center gap-1 font-bold font-serif truncate ml-2 transition-colors rounded-sm px-1`}
                     onClick={(e) => { e.stopPropagation(); setIsVisibilityOpen(!isVisibilityOpen); }}
                   >
                     <Icon size={12} />
@@ -153,7 +153,7 @@ export default function RecordInfoPanel({
                   </Button>
                   {isVisibilityOpen && (
                     <div
-                      className="absolute top-8 right-0 w-[120px] z-50 bg-bg-card border border-border rounded-lg shadow-xl py-1"
+                      className="absolute top-8 right-0 w-[120px] z-50 bg-bg-card border border-accent-dim/30 rounded-sm shadow-xl py-1"
                       onClick={(e) => e.stopPropagation()}
                     >
                       {VISIBILITY_OPTIONS.map((opt) => {
@@ -162,7 +162,7 @@ export default function RecordInfoPanel({
                           <Button
                             unstyled
                             key={opt.value}
-                            className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between gap-2"
+                            className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent/10 flex items-center justify-between gap-2 font-serif"
                             onClick={() => { onVisibilityChange(opt.value); setIsVisibilityOpen(false); }}
                           >
                             <span className={`flex items-center gap-1 ${opt.class}`}>
@@ -177,7 +177,7 @@ export default function RecordInfoPanel({
                   )}
                 </>
               ) : (
-                <span className={`${currentVisibility.class} text-[10px] flex items-center gap-1 truncate ml-2`}>
+                <span className={`${currentVisibility.class} text-[10px] flex items-center gap-1 truncate ml-2 font-bold font-serif`}>
                   <Icon size={12} />
                   {currentVisibility.label}
                 </span>
@@ -187,19 +187,19 @@ export default function RecordInfoPanel({
         </div>
 
         {/* Row 3: 분류 | 별점 */}
-        <div className="flex-1 flex divide-x divide-white/10 overflow-visible relative z-0">
-          <div className="flex-1 flex items-center justify-between px-3 py-1 min-w-0 relative">
-            <span className="text-text-tertiary select-none shrink-0">분류</span>
+        <div className="flex-1 flex divide-x divide-accent-dim/30 overflow-visible relative z-0">
+          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0 relative">
+            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Type</span>
             {editable && onCategoryChange ? (
               <Button
                 unstyled
-                className="text-text-secondary hover:text-accent text-xs truncate flex items-center gap-1 max-w-[80px] ml-2"
+                className="text-text-primary hover:text-accent text-xs truncate flex items-center gap-1 max-w-[80px] ml-2 font-bold font-serif transition-colors"
                 onClick={(e) => { e.stopPropagation(); setIsCategoryOpen(!isCategoryOpen); }}
               >
                 {data.category?.name || "미분류"}
               </Button>
             ) : (
-              <span className="text-text-secondary text-xs truncate max-w-[80px] ml-2">
+              <span className="text-text-secondary text-xs truncate max-w-[80px] ml-2 font-serif font-bold">
                 {data.category?.name || "미분류"}
               </span>
             )}
@@ -207,12 +207,12 @@ export default function RecordInfoPanel({
             {/* 분류 선택 드롭다운 */}
             {isCategoryOpen && editable && onCategoryChange && (
               <div
-                className="absolute bottom-8 left-0 z-50 bg-bg-card border border-border rounded-lg shadow-xl py-1 min-w-[120px] max-h-[200px] overflow-y-auto"
+                className="absolute bottom-8 left-0 z-50 bg-bg-card border border-accent-dim/30 rounded-sm shadow-xl py-1 min-w-[120px] max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-accent-dim/30 scrollbar-track-transparent"
                 onClick={(e) => e.stopPropagation()}
               >
                 <Button
                   unstyled
-                  className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between"
+                  className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent/10 flex items-center justify-between font-serif"
                   onClick={() => { onCategoryChange(null); setIsCategoryOpen(false); }}
                 >
                   미분류
@@ -222,7 +222,7 @@ export default function RecordInfoPanel({
                   <Button
                     unstyled
                     key={cat.id}
-                    className="w-full px-3 py-1.5 text-left text-xs hover:bg-surface-hover flex items-center justify-between"
+                    className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent/10 flex items-center justify-between font-serif"
                     onClick={() => { onCategoryChange(cat.id); setIsCategoryOpen(false); }}
                   >
                     {cat.name}
@@ -232,10 +232,10 @@ export default function RecordInfoPanel({
               </div>
             )}
           </div>
-          <div className="flex-1 flex items-center justify-between px-3 py-1 min-w-0">
-            <span className="text-text-tertiary select-none shrink-0">별점</span>
+          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0">
+            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Rating</span>
             {data.rating ? (
-              <span className="text-text-secondary font-medium ml-2">{data.rating}점</span>
+              <span className="text-accent font-bold font-cinzel ml-2">{data.rating} <span className="text-[10px] text-text-tertiary">/ 5</span></span>
             ) : (
               <span className="text-text-tertiary text-xs ml-2">-</span>
             )}

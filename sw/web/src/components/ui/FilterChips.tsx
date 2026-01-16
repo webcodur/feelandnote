@@ -28,15 +28,15 @@ interface FilterChipsProps<T extends string = string> {
 
 const variantStyles: Record<ChipVariant, { active: string; inactive: string }> = {
   filled: {
-    active: "bg-bg-secondary text-text-primary",
-    inactive: "text-text-secondary hover:text-text-primary hover:bg-white/5",
+    active: "bg-accent text-bg-main shadow-md font-bold",
+    inactive: "bg-bg-secondary text-text-secondary border border-accent-dim/20 hover:text-text-primary hover:border-accent hover:bg-white/5",
   },
   outlined: {
-    active: "bg-accent/10 border border-accent text-accent",
-    inactive: "bg-transparent border border-border text-text-secondary hover:border-accent hover:text-text-primary",
+    active: "bg-accent/10 border border-accent text-accent font-bold shadow-sm shadow-accent/20",
+    inactive: "bg-transparent border border-accent-dim/30 text-text-secondary hover:border-accent hover:text-text-primary",
   },
   subtle: {
-    active: "bg-accent/20 text-accent",
+    active: "bg-accent/20 text-accent font-bold",
     inactive: "bg-transparent text-text-secondary hover:bg-white/5 hover:text-text-primary",
   },
 };

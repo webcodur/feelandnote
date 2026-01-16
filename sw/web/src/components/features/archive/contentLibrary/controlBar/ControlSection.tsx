@@ -16,8 +16,8 @@ interface ControlSectionProps {
 export default function ControlSection({ header, children, className }: ControlSectionProps) {
   return (
     <div className={cn("flex flex-col h-full", className)}>
-      <div className="w-full py-2 bg-surface/30 border-b border-border/40 text-center">
-        <span className="text-sm font-semibold text-text-secondary select-none">{header}</span>
+      <div className="w-full py-2 bg-text-primary/5 text-center border-b border-accent-dim/20">
+        <span className="text-xs font-bold font-serif text-accent uppercase tracking-wider select-none">{header}</span>
       </div>
       <div className="flex-1 w-full p-3 flex flex-col justify-center">{children}</div>
     </div>

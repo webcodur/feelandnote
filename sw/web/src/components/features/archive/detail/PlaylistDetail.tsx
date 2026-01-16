@@ -64,7 +64,7 @@ export default function PlaylistDetail({ playlistId }: PlaylistDetailProps) {
     return (
       <div className="text-center py-20">
         <p className="text-red-400 mb-4">{error || "재생목록을 찾을 수 없습니다"}</p>
-        <Link href="/archive/playlists" className="text-accent hover:underline">
+        <Link href={currentUserId ? `/${currentUserId}/collections` : "/"} className="text-accent hover:underline">
           재생목록으로 돌아가기
         </Link>
       </div>
@@ -95,7 +95,7 @@ export default function PlaylistDetail({ playlistId }: PlaylistDetailProps) {
         isOwner={isOwner}
         isDragging={isDragging}
         draggedIndex={draggedIndex}
-        onItemClick={(contentId) => router.push(`/archive/${contentId}`)}
+        onItemClick={(contentId) => router.push(`/${playlist.user_id}/records/${contentId}`)}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}

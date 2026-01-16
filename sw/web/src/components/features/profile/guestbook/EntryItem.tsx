@@ -36,53 +36,53 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
   };
 
   return (
-    <Card className="relative">
-      <div className="flex items-start gap-3">
+    <Card className="relative card-classical border-accent-dim/20 hover:border-accent/40 bg-bg-card/30 transition-all duration-300">
+      <div className="flex items-start gap-4">
         {/* 아바타 */}
-        <div className="relative w-9 h-9 rounded-full bg-bg-secondary overflow-hidden flex-shrink-0">
+        <div className="relative w-10 h-10 rounded-full bg-bg-secondary border-2 border-accent-dim/30 overflow-hidden flex-shrink-0">
           {entry.author.avatar_url ? (
             <Image
               src={entry.author.avatar_url}
-              alt={entry.author.nickname ?? "사용자"}
+              alt={entry.author.nickname ?? "Unknown"}
               fill
               unoptimized
               className="object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-text-secondary text-sm">
+            <div className="w-full h-full flex items-center justify-center text-accent-dim text-lg font-cinzel font-bold bg-gradient-to-br from-bg-secondary to-bg-main">
               {(entry.author.nickname ?? "?")[0]}
             </div>
           )}
         </div>
 
         {/* 내용 */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-medium text-sm">{entry.author.nickname ?? "익명"}</span>
-            {entry.is_private && <Lock size={12} className="text-text-tertiary" />}
+        <div className="flex-1 min-w-0 pt-0.5">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-text-primary text-sm font-bold">{entry.author.nickname ?? "Anonymous"}</span>
+            {entry.is_private && <Lock size={12} className="text-accent-dim" />}
             <span className="text-xs text-text-tertiary">
               {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true, locale: ko })}
             </span>
           </div>
 
           {isEditing ? (
-            <div className="space-y-2">
+            <div className="space-y-3 p-3 bg-bg-main/50 border border-accent-dim/20 rounded-sm">
               <textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                className="w-full bg-bg-secondary border border-border rounded-lg p-2 text-sm resize-none focus:outline-none focus:border-accent"
+                className="w-full bg-transparent border border-accent-dim/30 rounded-sm p-2 text-sm resize-none focus:outline-none focus:border-accent transition-colors"
                 rows={3}
                 maxLength={500}
               />
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-1.5 text-xs text-text-secondary cursor-pointer">
+                <label className="flex items-center gap-1.5 text-xs text-text-secondary cursor-pointer hover:text-accent font-serif">
                   <input
                     type="checkbox"
                     checked={editIsPrivate}
                     onChange={(e) => setEditIsPrivate(e.target.checked)}
                     className="accent-accent"
                   />
-                  비밀글
+                  Secret Message
                 </label>
                 <div className="flex gap-2">
                   <Button
@@ -90,21 +90,21 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                     onClick={() => setIsEditing(false)}
                     className="px-3 py-1 text-xs text-text-secondary hover:text-text-primary"
                   >
-                    취소
+                    Cancel
                   </Button>
                   <Button
                     unstyled
                     onClick={handleSaveEdit}
-                    className="px-3 py-1 text-xs bg-accent text-white rounded-lg hover:bg-accent-hover"
+                    className="px-3 py-1 text-xs bg-accent text-bg-main rounded-sm hover:bg-accent-hover"
                   >
-                    저장
+                    Save
                   </Button>
                 </div>
               </div>
             </div>
           ) : (
-            <p className="text-sm text-text-secondary whitespace-pre-wrap break-words">
-              {isHiddenPrivate ? "비밀글입니다" : entry.content}
+            <p className="text-sm text-text-secondary whitespace-pre-wrap break-words leading-relaxed font-serif">
+              {isHiddenPrivate ? "This is a secret message." : entry.content}
             </p>
           )}
         </div>
@@ -115,14 +115,14 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
             <Button
               unstyled
               onClick={() => setShowMenu(!showMenu)}
-              className="p-1 text-text-tertiary hover:text-text-primary rounded"
+              className="p-1 text-text-tertiary hover:text-accent rounded transition-colors"
             >
               <MoreVertical size={16} />
             </Button>
             {showMenu && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-                <div className="absolute end-0 top-6 z-20 bg-bg-card border border-border rounded-lg shadow-xl py-1 min-w-[100px]">
+                <div className="absolute end-0 top-6 z-20 bg-bg-card border-2 border-accent-dim/30 rounded-sm shadow-xl py-1 min-w-[100px] animate-in fade-in zoom-in-95 duration-200">
                   {canEdit && (
                     <Button
                       unstyled
@@ -130,10 +130,10 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                         setIsEditing(true);
                         setShowMenu(false);
                       }}
-                      className="w-full px-3 py-1.5 text-start text-sm hover:bg-white/5 flex items-center gap-2"
+                      className="w-full px-3 py-2 text-start text-xs text-text-secondary hover:bg-accent/10 hover:text-accent flex items-center gap-2 transition-colors"
                     >
-                      <Edit3 size={14} />
-                      수정
+                      <Edit3 size={12} />
+                      Edit
                     </Button>
                   )}
                   {canDelete && (
@@ -143,10 +143,10 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                         onDelete(entry.id);
                         setShowMenu(false);
                       }}
-                      className="w-full px-3 py-1.5 text-start text-sm text-red-400 hover:bg-white/5 flex items-center gap-2"
+                      className="w-full px-3 py-2 text-start text-xs text-red-400 hover:bg-red-500/10 flex items-center gap-2 transition-colors"
                     >
-                      <Trash2 size={14} />
-                      삭제
+                      <Trash2 size={12} />
+                      Delete
                     </Button>
                   )}
                 </div>

@@ -1,32 +1,38 @@
 // 이미지 리사이징 유틸리티 (클라이언트용)
 
 const IMAGE_SIZES = {
-  avatar: 100,
-  portrait: 400,
+  avatar: { width: 100, height: 100 },
+  portrait: { width: 675, height: 1200 },
 } as const
 
 export type ImageType = 'avatar' | 'portrait'
 
-/**
- * ImageBitmap을 지정 크기로 리사이징하여 webp base64 반환
- */
-function resizeToBase64(source: ImageBitmap, size: number): Promise<string> {
+// 비율 유지 중앙 크롭 + 리사이징하여 webp base64 반환
+function resizeToBase64(source: ImageBitmap, targetWidth: number, targetHeight: number): Promise<string> {
   return new Promise((resolve) => {
     const canvas = document.createElement('canvas')
-    canvas.width = size
-    canvas.height = size
+    canvas.width = targetWidth
+    canvas.height = targetHeight
 
     const ctx = canvas.getContext('2d')!
 
-    // 중앙 크롭 계산
-    const srcSize = Math.min(source.width, source.height)
-    const srcX = (source.width - srcSize) / 2
-    const srcY = (source.height - srcSize) / 2
+    // 타겟 비율에 맞춰 중앙 크롭
+    const targetRatio = targetWidth / targetHeight
+    const sourceRatio = source.width / source.height
 
-    // 그리기 (중앙 크롭 + 리사이즈)
-    ctx.drawImage(source, srcX, srcY, srcSize, srcSize, 0, 0, size, size)
+    let srcX = 0, srcY = 0, srcW = source.width, srcH = source.height
 
-    // webp base64로 변환
+    if (sourceRatio > targetRatio) {
+      // 원본이 더 넓음 → 좌우 크롭
+      srcW = source.height * targetRatio
+      srcX = (source.width - srcW) / 2
+    } else {
+      // 원본이 더 높음 → 상하 크롭
+      srcH = source.width / targetRatio
+      srcY = (source.height - srcH) / 2
+    }
+
+    ctx.drawImage(source, srcX, srcY, srcW, srcH, 0, 0, targetWidth, targetHeight)
     resolve(canvas.toDataURL('image/webp', 0.85))
   })
 }
@@ -47,7 +53,8 @@ export function createPreviewUrl(file: File): Promise<string> {
  */
 export async function resizeSingleImage(file: File, type: ImageType): Promise<string> {
   const imageBitmap = await createImageBitmap(file)
-  const result = await resizeToBase64(imageBitmap, IMAGE_SIZES[type])
+  const size = IMAGE_SIZES[type]
+  const result = await resizeToBase64(imageBitmap, size.width, size.height)
   imageBitmap.close()
   return result
 }
