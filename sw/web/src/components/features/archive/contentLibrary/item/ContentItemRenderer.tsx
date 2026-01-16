@@ -58,7 +58,7 @@ export default function ContentItemRenderer({
               status={item.status}
               rating={item.rating}
               review={item.review}
-              isSpoiler={item.is_spoiler}
+              isSpoiler={item.is_spoiler ?? undefined}
               href={getHref(item.content_id)}
             />
           ))}
