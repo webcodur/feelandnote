@@ -6,13 +6,14 @@
 
 "use client";
 
-import { LucideIcon } from "lucide-react";
 import Button from "@/components/ui/Button";
+
+type IconComponent = React.ComponentType<{ size?: number | string }>;
 
 export interface ChipOption<T extends string = string> {
   value: T;
   label: string;
-  icon?: LucideIcon;
+  icon?: IconComponent;
 }
 
 type ChipVariant = "filled" | "outlined" | "subtle";
