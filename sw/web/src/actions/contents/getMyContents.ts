@@ -29,7 +29,7 @@ export interface UserContentWithContent {
   pinned_at: string | null
   content: {
     id: string
-    type: string
+    type: ContentType
     title: string
     creator: string | null
     thumbnail_url: string | null
