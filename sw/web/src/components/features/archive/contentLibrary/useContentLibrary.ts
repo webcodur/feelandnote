@@ -268,7 +268,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           pinned_at: null,
           content: {
             id: item.content.id,
-            type: item.content.type,
+            type: item.content.type as ContentType,
             title: item.content.title,
             creator: item.content.creator,
             thumbnail_url: item.content.thumbnail_url,
