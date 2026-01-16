@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { ContentType, VisibilityType } from '@/types/database'
+import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 
 interface GetUserContentsParams {
   userId: string
@@ -13,12 +13,12 @@ interface GetUserContentsParams {
 export interface UserContentPublic {
   id: string
   content_id: string
-  status: string
+  status: ContentStatus
   visibility: VisibilityType | null
   created_at: string
   content: {
     id: string
-    type: string
+    type: ContentType
     title: string
     creator: string | null
     thumbnail_url: string | null
@@ -108,12 +108,12 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   const items: UserContentPublic[] = validContents.map(item => ({
     id: item.id,
     content_id: item.content_id,
-    status: item.status,
+    status: item.status as ContentStatus,
     visibility: item.visibility,
     created_at: item.created_at,
     content: {
       id: item.content.id,
-      type: item.content.type,
+      type: item.content.type as ContentType,
       title: item.content.title,
       creator: item.content.creator,
       thumbnail_url: item.content.thumbnail_url,
