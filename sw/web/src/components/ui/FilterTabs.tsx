@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import Button from "./Button";
 import BottomSheet from "./BottomSheet";
@@ -35,7 +35,22 @@ export default function FilterTabs<T extends string>({
   title,
 }: FilterTabsProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const [hoveredValue, setHoveredValue] = useState<T | null>(null);
+  const tabRefs = useRef<Map<T, HTMLButtonElement>>(new Map());
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const activeItem = items.find((item) => item.value === activeValue);
+
+  // 밑줄 위치 계산
+  useEffect(() => {
+    const targetValue = hoveredValue ?? activeValue;
+    const el = tabRefs.current.get(targetValue);
+    if (el) {
+      setUnderlineStyle({
+        left: el.offsetLeft,
+        width: el.offsetWidth,
+      });
+    }
+  }, [activeValue, hoveredValue]);
 
   const handleSelect = (value: T) => {
     onSelect(value);
@@ -45,33 +60,47 @@ export default function FilterTabs<T extends string>({
   return (
     <>
       {/* PC: 전체 필터 표시 */}
-      <div className="hidden md:flex items-center gap-2 overflow-x-auto scrollbar-hide">
+      <div className="hidden md:flex items-center gap-4 overflow-x-auto scrollbar-hide">
         {title && <span className={FILTER_BUTTON_STYLES.label}>{title}</span>}
-        <div className={FILTER_BUTTON_STYLES.container}>
+        <div
+          className={FILTER_BUTTON_STYLES.container}
+          onMouseLeave={() => setHoveredValue(null)}
+        >
           {items.map(({ value, label }) => {
             const isActive = activeValue === value;
+            const isHovered = hoveredValue === value;
             const count = counts?.[value];
             const isDisabled = isLoading || (hideZeroCounts && count === 0);
 
             return (
-              <Button
-                unstyled
+              <button
                 key={value}
-                onClick={() => onSelect(value)}
+                ref={(el) => { if (el) tabRefs.current.set(value, el); }}
+                onClick={() => !isDisabled && onSelect(value)}
+                onMouseEnter={() => !isDisabled && setHoveredValue(value)}
                 disabled={isDisabled}
-                className={`${FILTER_BUTTON_STYLES.base} ${
-                  isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
+                className={`${FILTER_BUTTON_STYLES.base} transition-all duration-200 ${
+                  isActive
+                    ? FILTER_BUTTON_STYLES.active
+                    : isHovered
+                    ? "text-text-primary"
+                    : FILTER_BUTTON_STYLES.inactive
                 } ${FILTER_BUTTON_STYLES.disabled}`}
               >
                 {label}
                 {count !== undefined && (
-                  <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
-                    ({typeof count === "number" ? count.toLocaleString() : count})
+                  <span className={isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}>
+                    {typeof count === "number" ? count.toLocaleString() : count}
                   </span>
                 )}
-              </Button>
+              </button>
             );
           })}
+          {/* 공유 밑줄 */}
+          <div
+            className={FILTER_BUTTON_STYLES.underline}
+            style={{ left: underlineStyle.left, width: underlineStyle.width }}
+          />
         </div>
       </div>
 

@@ -81,7 +81,7 @@ export default function GuestbookContent({
 
       {/* 방명록 목록 */}
       {entries.length > 0 ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {entries.map((entry) => (
             <EntryItem
               key={entry.id}
@@ -99,17 +99,17 @@ export default function GuestbookContent({
               unstyled
               onClick={handleLoadMore}
               disabled={isLoadingMore}
-              className="w-full py-2 text-sm text-text-secondary hover:text-text-primary disabled:opacity-50"
+              className="w-full py-4 text-sm text-text-secondary hover:text-accent disabled:opacity-50 border-t border-accent-dim/20 transition-colors uppercase tracking-widest"
             >
-              {isLoadingMore ? "불러오는 중..." : "더보기"}
+              {isLoadingMore ? "Loading..." : "Load More"}
             </Button>
           )}
         </div>
       ) : (
-        <Card className="text-center py-8">
-          <MessageSquare size={32} className="mx-auto mb-2 text-text-tertiary" />
-          <p className="text-sm text-text-secondary">아직 방명록이 없습니다</p>
-          {currentUser && <p className="text-xs text-text-tertiary mt-1">첫 번째 메시지를 남겨보세요!</p>}
+        <Card className="text-center py-16 card-classical bg-bg-card/30 border-dashed border-accent-dim/30">
+          <MessageSquare size={48} strokeWidth={1} className="mx-auto mb-4 text-accent-dim opacity-50" />
+          <p className="text-lg text-text-secondary mb-2">The Guestbook is Empty</p>
+          {currentUser && <p className="text-sm text-text-tertiary">Be the first to sign this guestbook.</p>}
         </Card>
       )}
     </>

@@ -1,90 +1,13 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Star, Inbox } from "lucide-react";
-import { Avatar, LoadMoreButton, FilterTabs } from "@/components/ui";
+import { Inbox } from "lucide-react";
+import ReviewCard from "./ReviewCard";
+import { LoadMoreButton, FilterTabs } from "@/components/ui";
 import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } from "@/actions/activity";
-import { getCategoryByDbType, CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
+import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { ACTION_CONFIG } from "@/lib/config/activity-actions";
-
-// #region Components
-function ActivityCard({ activity }: { activity: FeedActivity }) {
-  const config = ACTION_CONFIG[activity.action_type];
-  const category = activity.content_type ? getCategoryByDbType(activity.content_type) : null;
-  const CategoryIcon = category?.icon;
-
-  const isReview = activity.action_type === "REVIEW_UPDATE";
-  const hasReview = isReview && activity.review;
-
-  return (
-    <Link
-      href={activity.content_id ? `/archive/${activity.content_id}?userId=${activity.user_id}` : "#"}
-      className="block group"
-    >
-      <div className="flex gap-3 p-3 rounded-xl bg-bg-card border border-border/50 hover:border-border hover:shadow-md hover:shadow-black/10">
-        {/* 썸네일 */}
-        <div className="relative w-12 h-16 lg:w-14 lg:h-[72px] shrink-0 rounded-lg overflow-hidden bg-white/5">
-          {activity.content_thumbnail ? (
-            <Image
-              src={activity.content_thumbnail}
-              alt={activity.content_title || ""}
-              fill
-              className="object-cover"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              {CategoryIcon && <CategoryIcon size={20} className="text-white/20" />}
-            </div>
-          )}
-          {/* 타입 인디케이터 */}
-          {category && (
-            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-1">
-              <span className="text-[8px] text-white/80">{category.label}</span>
-            </div>
-          )}
-        </div>
-
-        {/* 정보 영역 */}
-        <div className="flex-1 min-w-0 flex flex-col justify-center">
-          {/* 사용자 + 액션 */}
-          <div className="flex items-center gap-1.5 mb-0.5">
-            <Avatar
-              url={activity.user_avatar_url}
-              name={activity.user_nickname}
-              size="sm"
-            />
-            <span className="font-medium text-xs truncate">{activity.user_nickname}</span>
-            <span className={`text-[10px] ${config.color}`}>{config.verb}</span>
-          </div>
-
-          {/* 콘텐츠 제목 */}
-          <p className="font-medium text-sm truncate group-hover:text-accent">
-            {activity.content_title || "콘텐츠"}
-          </p>
-
-          {/* 리뷰 미리보기 또는 별점 */}
-          {hasReview ? (
-            <p className="text-xs text-text-secondary line-clamp-1 mt-0.5">
-              "{activity.review}"
-            </p>
-          ) : activity.rating ? (
-            <div className="flex items-center gap-1 text-yellow-400 text-xs mt-0.5">
-              <Star size={10} fill="currentColor" />
-              <span className="text-[10px]">{activity.rating}</span>
-            </div>
-          ) : (
-            <span className="text-[10px] text-text-tertiary mt-0.5">
-              {formatRelativeTime(activity.created_at)}
-            </span>
-          )}
-        </div>
-      </div>
-    </Link>
-  );
-}
 
 function EmptyActivity() {
   return (
@@ -122,16 +45,28 @@ function LoadingSkeleton() {
 interface FriendActivitySectionProps {
   userId: string;
   hideHeader?: boolean;
+  hideFilter?: boolean;
+  contentType?: ContentTypeFilterValue;
   activityTypeCounts?: FriendActivityTypeCounts;
 }
 
-export default function FriendActivitySection({ userId, hideHeader = false, activityTypeCounts }: FriendActivitySectionProps) {
+export default function FriendActivitySection({
+  userId,
+  hideHeader = false,
+  hideFilter = false,
+  contentType: externalContentType,
+  activityTypeCounts,
+}: FriendActivitySectionProps) {
   const [activities, setActivities] = useState<FeedActivity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
-  const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
+  const [internalContentType, setInternalContentType] = useState<ContentTypeFilterValue>("all");
+
+  // 외부에서 전달받은 contentType 우선, 없으면 내부 상태 사용
+  const contentType = externalContentType ?? internalContentType;
+  const setContentType = setInternalContentType;
 
   const loadActivities = useCallback(async (type: ContentTypeFilterValue, cursorValue?: string) => {
     if (cursorValue) {
@@ -174,26 +109,46 @@ export default function FriendActivitySection({ userId, hideHeader = false, acti
   return (
     <section>
       {/* 콘텐츠 타입 필터 */}
-      <div className="mb-4">
-        <FilterTabs
-          items={CONTENT_TYPE_FILTERS}
-          activeValue={contentType}
-          counts={activityTypeCounts}
-          onSelect={handleTypeChange}
-          hideZeroCounts
-          title="장르"
-        />
-      </div>
+      {!hideFilter && (
+        <div className="mb-4">
+          <FilterTabs
+            items={CONTENT_TYPE_FILTERS}
+            activeValue={contentType}
+            counts={activityTypeCounts}
+            onSelect={handleTypeChange}
+            hideZeroCounts
+            title="장르"
+          />
+        </div>
+      )}
 
       {isLoading ? (
         <LoadingSkeleton />
       ) : activities.length === 0 ? (
         <EmptyActivity />
       ) : (
-        <div className="space-y-2">
-          {activities.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
-          ))}
+        <div className="space-y-4">
+          {activities
+            .filter((activity) => activity.content_type && activity.review)
+            .map((activity) => {
+              const config = ACTION_CONFIG[activity.action_type];
+              return (
+                <ReviewCard
+                  key={activity.id}
+                  userId={activity.user_id}
+                  userName={activity.user_nickname}
+                  userAvatar={activity.user_avatar_url}
+                  userSubtitle={config?.verb || "활동"}
+                  contentType={activity.content_type!}
+                  contentId={activity.content_id!}
+                  contentTitle={activity.content_title || ""}
+                  contentThumbnail={activity.content_thumbnail}
+                  review={activity.review!}
+                  timeAgo={formatRelativeTime(activity.created_at)}
+                  href={`/${activity.user_id}/records/${activity.content_id}`}
+                />
+              );
+            })}
           <LoadMoreButton
             onClick={loadMore}
             isLoading={isLoadingMore}

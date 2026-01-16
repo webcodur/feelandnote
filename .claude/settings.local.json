@@ -79,7 +79,13 @@
       "Bash(pnpm dev)",
       "Bash(powershell:*)",
       "Bash(pnpm exec tsc:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(npx next build)",
+      "Bash(pnpm exec next build:*)",
+      "Bash(echo:*)",
+      "Bash(pnpm exec next:*)",
+      "Bash(./node_modules/.bin/next build)",
+      "Bash(tee:*)"
     ],
     "deny": [],
     "ask": []

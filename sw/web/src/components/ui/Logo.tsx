@@ -1,92 +1,127 @@
 /*
   파일명: /components/ui/Logo.tsx
-  기능: 로고 컴포넌트
-  책임: Feel&Note 브랜드 로고를 표시한다. 클릭 시 랜딩 페이지로 이동.
+  기능: 로고 컴포넌트 (고서/활판인쇄 스타일)
+  책임: Feel&Note 브랜드 로고를 표시한다.
 */ // ------------------------------
 
 "use client";
 
 import Link from "next/link";
 
-// #region 타입 정의
 type LogoSize = "sm" | "md" | "lg" | "xl";
-type LogoIconSize = "xs" | "sm" | "md" | "lg";
+type LogoVariant = "default" | "hero";
 
 interface LogoProps {
   size?: LogoSize;
+  variant?: LogoVariant;
   className?: string;
-}
-
-interface LogoIconProps {
-  size?: LogoIconSize;
-  className?: string;
+  onClick?: () => void;
   asLink?: boolean;
+  subtitle?: string;
 }
-// #endregion
 
-// #region 스타일 상수
-const LOGO_FONT = "font-['Oswald']";
-
-const sizeClasses: Record<LogoSize, string> = {
+// #region 사이즈 설정
+const sizeClasses = {
   sm: "text-lg",
   md: "text-xl",
   lg: "text-3xl",
-  xl: "text-6xl md:text-7xl",
+  xl: "text-5xl",
 };
 
-const iconSizeClasses: Record<LogoIconSize, { container: string; text: string }> = {
-  xs: { container: "w-6 h-6", text: "text-xs" },
-  sm: { container: "w-8 h-8", text: "text-sm" },
-  md: { container: "w-10 h-10", text: "text-base" },
-  lg: { container: "w-12 h-12", text: "text-lg" },
+const heroSizeClasses = {
+  sm: "text-4xl md:text-6xl",
+  md: "text-5xl md:text-7xl",
+  lg: "text-6xl md:text-8xl",
+  xl: "text-6xl md:text-9xl",
 };
 // #endregion
 
-// #region Logo 컴포넌트 (전체 텍스트)
-export default function Logo({ size = "md", className = "" }: LogoProps) {
-  return (
-    <Link href="/" className="cursor-pointer">
-      <span
-        className={`
-          ${LOGO_FONT} font-bold text-text-primary
-          tracking-tight ${sizeClasses[size]} ${className}
-        `}
-      >
-        Feel
-        <span className="bg-gradient-to-r from-accent to-purple-400 bg-clip-text text-transparent">
-          &
-        </span>
-        Note
-      </span>
-    </Link>
-  );
-}
-// #endregion
+export default function Logo({
+  size = "md",
+  variant = "default",
+  className = "",
+  onClick,
+  asLink = true,
+  subtitle,
+}: LogoProps) {
+  const isHero = variant === "hero";
+  const textSizeClass = isHero ? heroSizeClasses[size] : sizeClasses[size];
+  const creamClass = isHero ? "logo-text-cream-hero" : "logo-text-cream";
+  const sepiaClass = isHero ? "logo-text-sepia-hero" : "logo-text-sepia";
 
-// #region LogoIcon 컴포넌트 (정사각형 F&N)
-export function LogoIcon({ size = "md", className = "", asLink = true }: LogoIconProps) {
-  const { container, text } = iconSizeClasses[size];
-
-  const iconContent = (
+  // #region 로고 텍스트 렌더링
+  const logoContent = (
     <span
-      className={`
-        ${container} ${LOGO_FONT}
-        inline-flex items-center justify-center
-        bg-gradient-to-br from-accent to-purple-500
-        rounded-lg font-semibold text-white
-        tracking-tight ${text} ${className}
-      `}
+      className={`font-cormorant font-semibold tracking-wide ${textSizeClass} flex items-center justify-center`}
     >
-      F&N
+      {isHero ? (
+        // 히어로: 항상 FEEL & NOTE
+        <>
+          <span className={creamClass}>FEEL</span>
+          <span className={`${sepiaClass} mx-1 md:mx-3`}>&</span>
+          <span className={creamClass}>NOTE</span>
+        </>
+      ) : (
+        // 일반: 모바일 F&N, PC FEEL&NOTE
+        <>
+          {/* Mobile: F&N - 정사각형 느낌으로 붙여서 */}
+          <span className="md:hidden tracking-tight">
+            <span className={creamClass}>F</span>
+            <span className={sepiaClass}>&</span>
+            <span className={creamClass}>N</span>
+          </span>
+          {/* PC: FEEL&NOTE */}
+          <span className="hidden md:inline">
+            <span className={creamClass}>FEEL</span>
+            <span className={`${sepiaClass} mx-1`}>&</span>
+            <span className={creamClass}>NOTE</span>
+          </span>
+        </>
+      )}
     </span>
   );
+  // #endregion
+
+  // #region 컨테이너 래퍼
+  const containerContent = (
+    <div
+      className={`flex flex-col items-center select-none group ${className}`}
+    >
+      {logoContent}
+      {subtitle && (
+        <span
+          className={`
+            font-cormorant tracking-[0.3em] md:tracking-[0.5em] mt-2 md:mt-4
+            text-text-secondary/60
+            ${isHero ? "text-base md:text-2xl" : "text-[10px] md:text-xs"}
+          `}
+        >
+          {subtitle}
+        </span>
+      )}
+    </div>
+  );
+  // #endregion
 
   return asLink ? (
-    <Link href="/" className="cursor-pointer">
-      {iconContent}
+    <Link href="/" onClick={onClick}>
+      {containerContent}
     </Link>
   ) : (
-    iconContent
+    <div onClick={onClick}>{containerContent}</div>
   );
+}
+
+// #region LogoIcon (deprecated, 호환성 유지)
+export function LogoIcon({ size = "md", className = "", asLink = true }: any) {
+  const icon = (
+    <div
+      className={`flex items-center justify-center p-1.5 rounded-lg bg-bg-card border border-accent/30 ${className}`}
+    >
+      <span className="font-cormorant text-sm logo-text-sepia">F&N</span>
+    </div>
+  );
+
+  return asLink ? <Link href="/">{icon}</Link> : icon;
 }
 // #endregion

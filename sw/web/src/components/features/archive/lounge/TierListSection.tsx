@@ -19,7 +19,11 @@ const TIER_TAB_OPTIONS: ChipOption<TierSubTab>[] = [
 ];
 
 const TIER_COLORS: Record<string, string> = {
-  S: "#ffd700", A: "#b57cff", B: "#4d9fff", C: "#50c878", D: "#808080",
+  S: "#c5a059", // Gold
+  A: "#fb7185", // Rose (was Purple)
+  B: "#60a5fa", // Blue
+  C: "#34d399", // Emerald
+  D: "#737373", // Neutral
 };
 
 interface TierListSectionProps {
@@ -37,7 +41,9 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
   });
 
   const getPlaylistHref = (playlist: PlaylistSummary) =>
-    playlist.has_tiers ? `/archive/playlists/${playlist.id}` : `/archive/playlists/${playlist.id}/tiers`;
+    playlist.has_tiers 
+      ? `/${playlist.user_id}/collections/${playlist.id}` 
+      : `/${playlist.user_id}/collections/${playlist.id}/tiers`;
 
   return (
     <>

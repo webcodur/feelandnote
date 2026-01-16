@@ -3,10 +3,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Inbox } from "lucide-react";
-import CelebReviewCard from "./CelebReviewCard";
+import ReviewCard from "./ReviewCard";
 import { LoadMoreButton, FilterTabs } from "@/components/ui";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
+import { formatRelativeTime } from "@/lib/utils/date";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
 
@@ -90,12 +91,23 @@ interface CelebFeedProps {
   initialReviews?: CelebReview[];
   contentTypeCounts?: ContentTypeCounts;
   hideHeader?: boolean;
+  hideFilter?: boolean;
+  contentType?: ContentTypeFilterValue;
 }
 
-export default function CelebFeed({ initialReviews = [], contentTypeCounts, hideHeader = false }: CelebFeedProps) {
+export default function CelebFeed({
+  initialReviews = [],
+  contentTypeCounts,
+  hideHeader = false,
+  hideFilter = false,
+  contentType: externalContentType,
+}: CelebFeedProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const contentType = (searchParams.get("type") ?? "all") as ContentTypeFilterValue;
+  const urlContentType = (searchParams.get("type") ?? "all") as ContentTypeFilterValue;
+
+  // 외부에서 전달받은 contentType 우선, 없으면 URL 파라미터 사용
+  const contentType = externalContentType ?? urlContentType;
 
   const [reviews, setReviews] = useState<CelebReview[]>(initialReviews);
   const [isLoading, setIsLoading] = useState(initialReviews.length === 0);
@@ -103,8 +115,9 @@ export default function CelebFeed({ initialReviews = [], contentTypeCounts, hide
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
 
-  // 콘텐츠 타입 변경 핸들러
+  // 콘텐츠 타입 변경 핸들러 (외부 제어가 아닐 때만 URL 업데이트)
   const handleTypeChange = useCallback((type: ContentTypeFilterValue) => {
+    if (externalContentType !== undefined) return; // 외부 제어 시 무시
     const params = new URLSearchParams(searchParams.toString());
     if (type === "all") {
       params.delete("type");
@@ -112,7 +125,7 @@ export default function CelebFeed({ initialReviews = [], contentTypeCounts, hide
       params.set("type", type);
     }
     router.push(`?${params.toString()}`, { scroll: false });
-  }, [router, searchParams]);
+  }, [router, searchParams, externalContentType]);
 
   // 초기 데이터 또는 타입 변경 시 로드
   const loadInitial = useCallback(async () => {
@@ -144,7 +157,7 @@ export default function CelebFeed({ initialReviews = [], contentTypeCounts, hide
   if (isLoading) {
     return (
       <section>
-        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />
+        {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
         <div className="space-y-4">
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
@@ -157,7 +170,7 @@ export default function CelebFeed({ initialReviews = [], contentTypeCounts, hide
   if (reviews.length === 0) {
     return (
       <section>
-        <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />
+        {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
         <EmptyFeed />
       </section>
     );
@@ -165,10 +178,25 @@ export default function CelebFeed({ initialReviews = [], contentTypeCounts, hide
 
   return (
     <section>
-      <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />
+      {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
       <div className="space-y-4">
         {reviews.map((review) => (
-          <CelebReviewCard key={review.id} review={review} />
+          <ReviewCard
+            key={review.id}
+            userId={review.celeb.id}
+            userName={review.celeb.nickname}
+            userAvatar={review.celeb.avatar_url}
+            isOfficial={review.celeb.is_verified}
+            userSubtitle={review.content.creator || "지혜의 탐구자"}
+            contentType={review.content.type}
+            contentId={review.content.id}
+            contentTitle={review.content.title}
+            contentCreator={review.content.creator}
+            contentThumbnail={review.content.thumbnail_url}
+            review={review.review}
+            timeAgo={formatRelativeTime(review.updated_at)}
+            isSpoiler={review.is_spoiler}
+          />
         ))}
 
         {/* 로딩 스켈레톤 */}

@@ -7,12 +7,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Users, Sparkles, Star, Plus, UserCheck, UserPlus, Info } from "lucide-react";
+import { Users, Sparkles, Star, UserCheck, UserPlus, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
 import { UserCard, SimilarUserCard, EmptyState } from "./ExploreCards";
-import AddCelebModal from "./modals/AddCelebModal";
-import AlgorithmInfoModal from "./modals/AlgorithmInfoModal";
+import AlgorithmInfoModal from "./AlgorithmInfoModal";
+import CelebCarousel from "@/components/features/home/CelebCarousel";
+import type { CelebProfile } from "@/types/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
 
 // #region Types
 interface FriendInfo {
@@ -38,16 +40,6 @@ interface FollowerInfo {
   is_following: boolean;
 }
 
-interface CelebInfo {
-  id: string;
-  nickname: string;
-  avatar_url: string | null;
-  content_count: number;
-  profession?: string | null;
-  bio?: string | null;
-  is_verified?: boolean;
-}
-
 interface SimilarUserInfo {
   id: string;
   nickname: string;
@@ -61,9 +53,15 @@ interface ExploreProps {
   friends: FriendInfo[];
   following: FollowingInfo[];
   followers: FollowerInfo[];
-  celebs: CelebInfo[];
   similarUsers: SimilarUserInfo[];
   similarUsersAlgorithm: "content_overlap" | "recent_activity";
+  // Celeb Data
+  initialCelebs: CelebProfile[];
+  initialTotal: number;
+  initialTotalPages: number;
+  professionCounts: ProfessionCounts;
+  nationalityCounts: NationalityCounts;
+  contentTypeCounts: ContentTypeCounts;
 }
 
 type TabType = "friends" | "following" | "followers" | "celebs" | "similar";
@@ -73,30 +71,36 @@ export default function Explore({
   friends,
   following,
   followers,
-  celebs,
   similarUsers,
   similarUsersAlgorithm,
+  initialCelebs,
+  initialTotal,
+  initialTotalPages,
+  professionCounts,
+  nationalityCounts,
+  contentTypeCounts,
 }: ExploreProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>("friends");
-  const [showAddCeleb, setShowAddCeleb] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>("celebs"); // Default to celebs as it's the main feature now
   const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
 
-  const handleSelectUser = (userId: string) => router.push(`/archive/user/${userId}`);
+  const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
   const nonFriendFollowing = following.filter((f) => !f.is_friend);
   const nonMutualFollowers = followers.filter((f) => !f.is_following);
 
   const tabs = [
+    { key: "celebs" as const, label: "셀럽", icon: <Sparkles size={14} />, count: initialTotal },
     { key: "friends" as const, label: "친구", icon: <Users size={14} />, count: friends.length },
     { key: "following" as const, label: "팔로잉", icon: <UserCheck size={14} />, count: nonFriendFollowing.length },
     { key: "followers" as const, label: "팔로워", icon: <UserPlus size={14} />, count: nonMutualFollowers.length },
-    { key: "celebs" as const, label: "셀럽", icon: <Sparkles size={14} />, count: celebs.length },
     { key: "similar" as const, label: "취향 유사", icon: <Star size={14} />, count: similarUsers.length },
   ];
 
   return (
     <>
+
+
       {/* 탭 네비게이션 */}
       <Tabs className="mb-6">
         {tabs.map((tab) => (
@@ -104,11 +108,14 @@ export default function Explore({
             key={tab.key}
             active={activeTab === tab.key}
             onClick={() => setActiveTab(tab.key)}
+            className="group"
             label={
               <span className="flex items-center gap-1.5">
                 {tab.icon}
                 {tab.label}
-                <span className="text-xs text-text-tertiary font-normal">({tab.count})</span>
+                <span className="text-[10px] text-accent/60 font-sans font-normal bg-accent/5 px-1.5 rounded-full border border-accent/10 group-hover:bg-accent/10 transition-colors">
+                  {tab.count}
+                </span>
               </span>
             }
           />
@@ -116,7 +123,21 @@ export default function Explore({
       </Tabs>
 
       {/* 탭 컨텐츠 */}
-      <div className="bg-surface rounded-2xl p-5">
+      <div className="bg-surface rounded-2xl p-6 min-h-[400px] border border-accent-dim/10 shadow-inner shadow-black/20">
+        {/* 셀럽 탭 */}
+        {activeTab === "celebs" && (
+          <CelebCarousel 
+            initialCelebs={initialCelebs}
+            initialTotal={initialTotal}
+            initialTotalPages={initialTotalPages}
+            professionCounts={professionCounts}
+            nationalityCounts={nationalityCounts}
+            contentTypeCounts={contentTypeCounts}
+            mode="grid"
+            hideHeader={false}
+          />
+        )}
+
         {/* 친구 탭 */}
         {activeTab === "friends" && (
           <>
@@ -162,30 +183,6 @@ export default function Explore({
           </>
         )}
 
-        {/* 셀럽 탭 */}
-        {activeTab === "celebs" && (
-          <>
-            <div className="flex justify-end mb-4">
-              <Button
-                unstyled
-                onClick={() => setShowAddCeleb(true)}
-                className="text-xs text-accent hover:text-accent/80 flex items-center gap-1 font-medium"
-              >
-                <Plus size={14} /> 셀럽 추가
-              </Button>
-            </div>
-            {celebs.length > 0 ? (
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
-                {celebs.map((celeb) => (
-                  <UserCard key={celeb.id} user={celeb} onClick={() => handleSelectUser(celeb.id)} showProfession />
-                ))}
-              </div>
-            ) : (
-              <EmptyState icon={<Sparkles size={32} />} title="등록된 셀럽이 없어요" description="좋아하는 셀럽을 추가해보세요" />
-            )}
-          </>
-        )}
-
         {/* 취향 유사 유저 탭 */}
         {activeTab === "similar" && (
           <>
@@ -215,7 +212,6 @@ export default function Explore({
       </div>
 
       <AlgorithmInfoModal isOpen={showAlgorithmInfo} onClose={() => setShowAlgorithmInfo(false)} />
-      <AddCelebModal isOpen={showAddCeleb} onClose={() => setShowAddCeleb(false)} />
     </>
   );
 }

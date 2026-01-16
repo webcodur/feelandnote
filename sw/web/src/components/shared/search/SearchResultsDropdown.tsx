@@ -73,7 +73,7 @@ export default function SearchResultsDropdown({
 
   const containerClass = isMobile
     ? "bg-bg-card border border-border rounded-xl overflow-hidden max-h-[calc(100vh-80px)] overflow-y-auto"
-    : "absolute top-full left-0 right-0 mt-2 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-[400px] overflow-y-auto";
+    : "absolute top-full left-0 right-0 mt-2 bg-[#0a0a0a]/95 backdrop-blur-xl border border-accent/20 rounded-xl shadow-[0_4px_30px_rgba(0,0,0,0.7)] overflow-hidden max-h-[400px] overflow-y-auto";
 
   return (
     <div className={containerClass} style={isMobile ? undefined : { zIndex: Z_INDEX.dropdown }}>
@@ -91,7 +91,7 @@ export default function SearchResultsDropdown({
           <Button
             unstyled
             onClick={onViewAllResults}
-            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-accent hover:bg-accent/5 border-b border-border"
+            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
           >
             <Search size={16} />
             전체 검색결과 보기
@@ -116,7 +116,7 @@ export default function SearchResultsDropdown({
                   className="flex items-center gap-3 flex-1 min-w-0 text-left"
                 >
                   {result.type === "content" && (
-                    <div className="relative w-10 h-14 rounded-md bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="relative w-10 h-14 rounded-md bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
                       {result.thumbnail ? (
                         <Image
                           src={result.thumbnail}
@@ -131,7 +131,7 @@ export default function SearchResultsDropdown({
                     </div>
                   )}
                   {result.type === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0" />
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 shrink-0 ring-1 ring-white/10" />
                   )}
                   {result.type === "tag" && (
                     <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">

@@ -452,9 +452,9 @@ export default function CelebForm({ mode, celeb }: Props) {
 
             {/* 초상화 (중형) */}
             <div className="space-y-2">
-              <p className="text-xs text-text-secondary">초상화 (400x400)</p>
+              <p className="text-xs text-text-secondary">초상화 (675×1200)</p>
               <div className="flex items-start gap-3">
-                <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
+                <div className="relative w-[45px] h-20 rounded-xl overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
                   {(portraitPreview || formData.portrait_url) ? (
                     <>
                       <Image src={portraitPreview || formData.portrait_url || ''} alt="초상화" fill unoptimized className="object-cover" />
@@ -555,7 +555,7 @@ export default function CelebForm({ mode, celeb }: Props) {
     {cropModalOpen && cropImageSrc && (
       <ImageCropModal
         imageSrc={cropImageSrc}
-        aspectRatio={1}
+        aspectRatio={cropTargetType === 'avatar' ? 1 : 9 / 16}
         onComplete={handleCropComplete}
         onCancel={handleCropCancel}
       />

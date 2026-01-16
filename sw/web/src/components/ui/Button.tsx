@@ -21,19 +21,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles = {
   primary:
-    "inline-flex items-center justify-center gap-2 bg-accent text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-accent-hover border-none rounded-lg font-semibold",
+    "inline-flex items-center justify-center gap-2 bg-accent text-bg-main effect-bevel hover:-translate-y-0.5 hover:bg-accent-hover hover:text-bg-secondary border border-transparent rounded-sm font-bold transition-all duration-300 [&>svg]:drop-shadow-sm",
   secondary:
-    "inline-flex items-center justify-center gap-2 bg-white/5 text-text-primary border border-border hover:bg-white/10 hover:border-accent rounded-lg font-semibold",
+    "inline-flex items-center justify-center gap-2 bg-bg-card text-text-primary effect-engraved border border-accent-dim/30 hover:bg-accent/10 hover:border-accent hover:text-accent rounded-sm font-semibold transition-all duration-300",
   ghost:
-    "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-lg",
+    "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-accent hover:bg-accent/5 rounded-sm font-medium transition-all duration-300",
   danger:
-    "inline-flex items-center justify-center gap-2 bg-red-500 text-white shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:bg-red-600 border-none rounded-lg font-semibold",
+    "inline-flex items-center justify-center gap-2 bg-red-900/80 text-white effect-bevel hover:-translate-y-0.5 hover:bg-red-800 border border-red-700/50 rounded-sm font-cinzel font-bold transition-all duration-300",
 };
 
 const sizeStyles = {
-  sm: "py-1.5 px-3 text-[13px]",
-  md: "py-2 px-5 text-sm",
-  lg: "py-3 px-8 text-base",
+  sm: "py-1.5 px-3 text-xs tracking-wide",
+  md: "py-2 px-6 text-sm tracking-wide",
+  lg: "py-3 px-8 text-base tracking-widest",
 };
 
 export default function Button({

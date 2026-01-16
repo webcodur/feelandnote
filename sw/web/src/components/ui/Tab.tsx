@@ -29,6 +29,7 @@ interface TabProps {
   label: ReactNode;
   active: boolean;
   onClick?: () => void;
+  className?: string;
 }
 
 interface LinkTabProps {
@@ -43,12 +44,12 @@ interface TabsProps {
 }
 // #endregion
 
-const tabBaseClass = "py-3 px-0 rounded-none relative font-semibold cursor-pointer flex items-center gap-1.5";
-const activeClass = "text-text-primary";
+const tabBaseClass = "py-3 px-0 rounded-none relative font-serif font-bold cursor-pointer flex items-center gap-1.5 transition-colors";
+const activeClass = "text-accent";
 const inactiveClass = "text-text-secondary hover:text-text-primary";
 
 // #region Tab 컴포넌트
-export function Tab({ label, active, onClick }: TabProps) {
+export function Tab({ label, active, onClick, className = "" }: TabProps) {
   const ref = useRef<HTMLDivElement>(null);
   const id = useRef(Math.random().toString(36).slice(2)).current;
   const context = useContext(TabsContext);
@@ -70,7 +71,7 @@ export function Tab({ label, active, onClick }: TabProps) {
   return (
     <div
       ref={ref}
-      className={`${tabBaseClass} ${active ? activeClass : inactiveClass}`}
+      className={`${tabBaseClass} ${active ? activeClass : inactiveClass} ${className}`}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

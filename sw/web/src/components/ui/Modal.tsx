@@ -81,12 +81,12 @@ export default function Modal({
 
   const modalContent = (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-modal-overlay"
+      className="fixed inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-modal-overlay"
       style={{ zIndex: Z_INDEX.modal }}
       onClick={handleOverlayClick}
     >
       <div
-        className={`w-full ${SIZE_CLASSES[size]} bg-bg-card border border-border rounded-2xl shadow-2xl overflow-hidden animate-modal-content`}
+        className={`w-full ${SIZE_CLASSES[size]} card-classical rounded-lg overflow-hidden animate-modal-content`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
@@ -96,7 +96,7 @@ export default function Modal({
             {title && (
               <div className="flex items-center gap-2">
                 {Icon && <Icon size={18} className="text-accent" />}
-                <h2 className="text-lg font-bold text-text-primary">{title}</h2>
+                <h2 className="text-lg text-text-primary">{title}</h2>
               </div>
             )}
             {/* 닫기 버튼 (우측 고정) */}

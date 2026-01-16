@@ -7,9 +7,9 @@
 
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
-import GameHeader from "./blind-game/GameHeader";
-import GamePlaying from "./blind-game/GamePlaying";
-import { GameFinished, GameCorrect, GameWrong } from "./blind-game/GameStates";
+import GameHeader from "./GameHeader";
+import GamePlaying from "./GamePlaying";
+import { GameFinished, GameCorrect, GameWrong } from "./GameStates";
 import { getRecords } from "@/actions/records";
 import { saveBlindGameScore } from "@/actions/blind-game";
 import { Z_INDEX } from "@/constants/zIndex";

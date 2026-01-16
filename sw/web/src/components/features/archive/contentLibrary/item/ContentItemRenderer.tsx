@@ -1,203 +1,88 @@
 /*
   파일명: /components/features/archive/ContentItemRenderer.tsx
-  기능: 콘텐츠 목록의 뷰 모드별 렌더링 컴포넌트
-  책임: 그리드/리스트/컴팩트 뷰 모드에 따라 콘텐츠 아이템을 렌더링한다.
+  기능: 콘텐츠 목록 렌더링 컴포넌트
+  책임: RecordCard를 사용하여 콘텐츠 아이템을 렌더링한다.
 */ // ------------------------------
 "use client";
 
-import { ContentCard, CertificateCard } from "@/components/ui/cards";
+import { CertificateCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
-import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/content/ContentCompactCard";
-
-import ContentListItem from "./ContentListItem";
+import RecordCard from "./RecordCard";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import type { ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
-import type { ViewMode } from "../useContentLibrary";
-
-// DB 타입을 카테고리 ID로 변환
-const TYPE_TO_CATEGORY: Record<string, string> = {
-  BOOK: "book",
-  VIDEO: "video",
-  GAME: "game",
-  MUSIC: "music",
-  CERTIFICATE: "certificate",
-};
 
 // #region 타입
 interface ContentItemRendererProps {
   items: UserContentWithContent[];
-  viewMode: ViewMode;
   compact?: boolean;
-  categories?: CategoryWithCount[];
-  onStatusChange: (userContentId: string, status: ContentStatus) => void;
-  onRecommendChange: (userContentId: string, isRecommended: boolean) => void;
-  onDateChange?: (userContentId: string, field: "created_at" | "completed_at", date: string) => void;
-  onCategoryChange?: (userContentId: string, categoryId: string | null) => void;
-  onVisibilityChange?: (userContentId: string, visibility: VisibilityType) => void;
   onDelete: (userContentId: string) => void;
-  // 배치 모드
-  isBatchMode?: boolean;
-  selectedIds?: Set<string>;
-  onToggleSelect?: (id: string) => void;
-  // 핀 모드
-  isPinMode?: boolean;
-  onPinToggle?: (userContentId: string) => void;
   // 읽기 전용 모드 (타인 기록관)
   readOnly?: boolean;
   targetUserId?: string; // viewer 모드에서 타인 ID
 }
 // #endregion
 
-// #region 상수
-const LIST_HEADER_COLUMNS = {
-  compact: "grid-cols-[24px_minmax(100px,1fr)_minmax(60px,100px)_52px_40px_48px_48px_40px_minmax(60px,140px)_24px] text-[10px] px-2 pb-1.5",
-  default: "grid-cols-[28px_minmax(120px,1fr)_minmax(80px,120px)_56px_44px_52px_52px_44px_minmax(80px,180px)_28px] text-[11px] px-3 pb-1.5",
-};
-// #endregion
-
 export default function ContentItemRenderer({
   items,
-  viewMode,
   compact = false,
-  categories = [],
-  onStatusChange,
-  onRecommendChange,
-  onDateChange,
-  onCategoryChange,
-  onVisibilityChange,
   onDelete,
-  isBatchMode = false,
-  selectedIds = new Set(),
-  onToggleSelect,
-  isPinMode = false,
-  onPinToggle,
   readOnly = false,
   targetUserId,
 }: ContentItemRendererProps) {
-  // readOnly 모드에서는 모든 수정 콜백을 비활성화
-  const noop = () => {};
-  const statusHandler = readOnly ? noop : onStatusChange;
-  const recommendHandler = readOnly ? noop : onRecommendChange;
-  const dateHandler = readOnly ? undefined : onDateChange;
-  const categoryHandler = readOnly ? undefined : onCategoryChange;
-  const visibilityHandler = readOnly ? undefined : onVisibilityChange;
-  const deleteHandler = readOnly ? noop : onDelete;
-  const pinHandler = readOnly ? undefined : onPinToggle;
+  // readOnly 모드에서는 삭제 콜백을 비활성화
+  const deleteHandler = readOnly ? () => {} : onDelete;
 
   // href 생성: viewer 모드일 때 userId 쿼리 추가
   const getHref = (contentId: string) => {
     const base = `/archive/${contentId}`;
     return readOnly && targetUserId ? `${base}?userId=${targetUserId}` : base;
   };
-  // #region 렌더링
 
-  // 컴팩트 모드 - 컨텐츠 정보만 표시 (리뷰/기록 없음)
-  if (viewMode === "compact") {
-    return (
-      <ContentCompactGrid>
-        {items.map((item) => (
-          <ContentCompactCard
-            key={item.id}
-            data={{
-              id: item.content_id,
-              title: item.content.title,
-              creator: item.content.creator || undefined,
-              category: TYPE_TO_CATEGORY[item.content.type] || "book",
-              thumbnail: item.content.thumbnail_url || undefined,
-              metadata: item.content.metadata || undefined,
-            }}
-            href={getHref(item.content_id)}
-          />
-        ))}
-      </ContentCompactGrid>
-    );
-  }
-
-  // 그리드 모드
-  if (viewMode === "grid") {
-    return (
-      <ContentGrid compact={compact} minWidth={compact ? 300 : 330}>
-        {items.map((item) => {
-          if (item.content.type === "CERTIFICATE") {
-            return (
-              <CertificateCard
-                key={item.id}
-                item={item}
-                onStatusChange={statusHandler}
-                onRecommendChange={recommendHandler}
-                onDelete={deleteHandler}
-                href={getHref(item.content_id)}
-                isBatchMode={readOnly ? false : isBatchMode}
-                isSelected={selectedIds.has(item.id)}
-                onToggleSelect={readOnly ? undefined : onToggleSelect ? () => onToggleSelect(item.id) : undefined}
-                readOnly={readOnly}
-              />
-            );
-          }
-          return (
-            <ContentCard
-              key={item.id}
-              item={item}
-              categories={categories}
-              onStatusChange={statusHandler}
-              onRecommendChange={recommendHandler}
-              onDateChange={dateHandler}
-              onCategoryChange={categoryHandler}
-              onVisibilityChange={visibilityHandler}
-              onDelete={deleteHandler}
-              href={getHref(item.content_id)}
-              compact={compact}
-              isBatchMode={readOnly ? false : isBatchMode}
-              isSelected={selectedIds.has(item.id)}
-              onToggleSelect={readOnly ? undefined : onToggleSelect ? () => onToggleSelect(item.id) : undefined}
-              isPinMode={readOnly ? false : isPinMode}
-              onPinToggle={pinHandler}
-              readOnly={readOnly}
-            />
-          );
-        })}
-      </ContentGrid>
-    );
-  }
-
-  // 리스트 모드
-  const headerClass = compact ? LIST_HEADER_COLUMNS.compact : LIST_HEADER_COLUMNS.default;
+  // 자격증과 일반 콘텐츠 분리
+  const certificates = items.filter((item) => item.content.type === "CERTIFICATE");
+  const regularContents = items.filter((item) => item.content.type !== "CERTIFICATE");
 
   return (
-    <div className="overflow-x-auto">
-      <div className={`flex flex-col ${compact ? "gap-0.5" : "gap-1"} min-w-[800px]`}>
-        {/* 헤더 */}
-        <div className={`grid items-center gap-2 text-text-tertiary border-b border-border/30 ${headerClass}`}>
-          <div />
-          <div className="text-center">제목</div>
-          <div className="text-center">작가</div>
-          <div className="text-center">분류</div>
-          <div className="text-center">상태</div>
-          <div className="text-center">시작일</div>
-          <div className="text-center">종료일</div>
-          <div className="text-center">별점</div>
-          <div className="text-center">리뷰</div>
-          <div />
+    <div className="space-y-4">
+      {/* 일반 콘텐츠: 그리드 레이아웃 */}
+      {regularContents.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {regularContents.map((item) => (
+            <RecordCard
+              key={item.id}
+              contentId={item.content_id}
+              contentType={item.content.type}
+              title={item.content.title}
+              creator={item.content.creator}
+              thumbnail={item.content.thumbnail_url}
+              status={item.status}
+              rating={item.rating}
+              review={item.review}
+              isSpoiler={item.is_spoiler}
+              href={getHref(item.content_id)}
+            />
+          ))}
         </div>
-        {/* 아이템 */}
-        {items.map((item) => (
-          <ContentListItem
-            key={item.id}
-            item={item}
-            onStatusChange={statusHandler}
-            onRecommendChange={recommendHandler}
-            onDelete={deleteHandler}
-            href={getHref(item.content_id)}
-            compact={compact}
-            isBatchMode={readOnly ? false : isBatchMode}
-            isSelected={selectedIds.has(item.id)}
-            onToggleSelect={readOnly ? undefined : onToggleSelect ? () => onToggleSelect(item.id) : undefined}
-            readOnly={readOnly}
-          />
-        ))}
-      </div>
+      )}
+
+      {/* 자격증: 그리드 레이아웃 유지 */}
+      {certificates.length > 0 && (
+        <ContentGrid compact={compact} minWidth={compact ? 300 : 330}>
+          {certificates.map((item) => (
+            <CertificateCard
+              key={item.id}
+              item={item}
+              onStatusChange={() => {}}
+              onRecommendChange={() => {}}
+              onDelete={deleteHandler}
+              href={getHref(item.content_id)}
+              isBatchMode={false}
+              isSelected={false}
+              readOnly={readOnly}
+            />
+          ))}
+        </ContentGrid>
+      )}
     </div>
   );
-  // #endregion
 }

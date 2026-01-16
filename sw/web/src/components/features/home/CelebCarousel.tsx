@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { UserX, ChevronDown, Check } from "lucide-react";
+import { GreekChevronIcon, NeoCheckIcon, BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import CelebProfileCard from "./CelebProfileCard";
 import Button from "@/components/ui/Button";
 import BottomSheet from "@/components/ui/BottomSheet";
@@ -24,6 +24,7 @@ interface CelebCarouselProps {
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
   hideHeader?: boolean;
+  mode?: "grid" | "carousel";
 }
 
 const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
@@ -42,6 +43,7 @@ export default function CelebCarousel({
   nationalityCounts,
   contentTypeCounts,
   hideHeader = false,
+  mode = "grid",
 }: CelebCarouselProps) {
   const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,6 +102,27 @@ export default function CelebCarousel({
   const activeNationality = nationalityCounts.find((n) => n.value === nationality);
   const activeContentType = CONTENT_TYPE_FILTERS.find((c) => c.value === contentType);
   const activeSort = SORT_OPTIONS.find((s) => s.value === sortBy);
+
+  // Carousel Mode Rendering (2행 가로스크롤, 세로 우선 배치)
+  if (mode === "carousel") {
+    if (initialTotal === 0) return null;
+
+    return (
+      <div className="overflow-x-auto pb-4 scrollbar-hide">
+        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-3">
+          {celebs.map((celeb, index) => (
+            <CelebProfileCard
+              key={celeb.id}
+              celeb={celeb}
+              size="md"
+              priority={index < 8}
+              contentUnit={contentUnit}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   // 초기 데이터도 없으면 섹션 자체를 숨김
   if (initialTotal === 0) {
@@ -228,7 +251,7 @@ export default function CelebCarousel({
             className={`${FILTER_CHIP_STYLES.base} ${FILTER_CHIP_STYLES.active}`}
           >
             {activeProfession?.label}
-            <ChevronDown size={14} />
+            <GreekChevronIcon size={14} />
           </Button>
         </div>
 
@@ -244,7 +267,7 @@ export default function CelebCarousel({
             }`}
           >
             {activeNationality?.label ?? "전체"}
-            <ChevronDown size={14} />
+            <GreekChevronIcon size={14} />
           </Button>
         </div>
 
@@ -260,7 +283,7 @@ export default function CelebCarousel({
             }`}
           >
             {activeContentType?.label ?? "전체"}
-            <ChevronDown size={14} />
+            <GreekChevronIcon size={14} />
           </Button>
         </div>
 
@@ -276,7 +299,7 @@ export default function CelebCarousel({
             }`}
           >
             {activeSort?.label}
-            <ChevronDown size={14} />
+            <GreekChevronIcon size={14} />
           </Button>
         </div>
       </div>
@@ -309,7 +332,7 @@ export default function CelebCarousel({
               >
                 <span className="flex-1 text-left text-sm font-medium">{label}</span>
                 <span className="text-xs text-text-tertiary">{count}</span>
-                {isActive && <Check size={18} className="text-accent" />}
+                {isActive && <NeoCheckIcon size={18} />}
               </Button>
             );
           })}
@@ -343,7 +366,7 @@ export default function CelebCarousel({
               >
                 <span className="flex-1 text-left text-sm font-medium">{label}</span>
                 <span className="text-xs text-text-tertiary">{count}</span>
-                {isActive && <Check size={18} className="text-accent" />}
+                {isActive && <NeoCheckIcon size={18} />}
               </Button>
             );
           })}
@@ -378,7 +401,7 @@ export default function CelebCarousel({
               >
                 <span className="flex-1 text-left text-sm font-medium">{label}</span>
                 <span className="text-xs text-text-tertiary">{count}</span>
-                {isActive && <Check size={18} className="text-accent" />}
+                {isActive && <NeoCheckIcon size={18} />}
               </Button>
             );
           })}
@@ -407,7 +430,7 @@ export default function CelebCarousel({
                 }`}
               >
                 <span className="flex-1 text-left text-sm font-medium">{label}</span>
-                {isActive && <Check size={18} className="text-accent" />}
+                {isActive && <NeoCheckIcon size={18} />}
               </Button>
             );
           })}
@@ -418,7 +441,7 @@ export default function CelebCarousel({
       {celebs.length === 0 && !isLoading && (
         <div className="flex flex-col items-center justify-center py-12 px-4">
           <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
-            <UserX size={32} className="text-text-tertiary" />
+            <UserXIcon size={32} className="text-text-tertiary" />
           </div>
           <p className="text-sm text-text-secondary text-center">
             해당 직군의 셀럽이 없습니다

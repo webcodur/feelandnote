@@ -53,17 +53,17 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   };
 
   return (
-    <Card className="mb-4">
+    <Card className="mb-6 card-classical bg-bg-card/50 backdrop-blur-sm border-accent-dim/30">
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="메시지를 남겨보세요..."
-        className="w-full bg-transparent border-none text-sm resize-none focus:outline-none placeholder:text-text-tertiary"
+        placeholder="Please leave your message..."
+        className="w-full bg-transparent border-none text-sm resize-none focus:outline-none placeholder:text-text-tertiary placeholder:italic"
         rows={3}
         maxLength={500}
       />
-      <div className="flex items-center justify-between mt-2 pt-2 border-t border-border">
-        <label className="flex items-center gap-1.5 text-xs text-text-secondary cursor-pointer">
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-accent-dim/20">
+        <label className="flex items-center gap-2 text-xs text-text-secondary cursor-pointer hover:text-accent transition-colors">
           <input
             type="checkbox"
             checked={isPrivate}
@@ -71,18 +71,18 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
             className="accent-accent"
           />
           <Lock size={12} />
-          비밀글
+          <span className="uppercase tracking-wider font-serif">Secret Message</span>
         </label>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-text-tertiary">{content.length}/500</span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-cinzel text-text-tertiary">{content.length}/500</span>
           <Button
             unstyled
             onClick={handleSubmit}
             disabled={!content.trim() || isSubmitting}
-            className="px-3 py-1.5 bg-accent text-white text-sm rounded-lg hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+            className="px-4 py-1.5 bg-accent text-bg-main text-xs uppercase tracking-wider rounded-sm hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 shadow-sm transition-all duration-300"
           >
-            <Send size={14} />
-            등록
+            <Send size={12} />
+            Sign
           </Button>
         </div>
       </div>

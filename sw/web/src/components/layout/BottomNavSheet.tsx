@@ -28,30 +28,31 @@ interface NavSection {
   items: NavItem[];
 }
 
-const NAV_SECTIONS: NavSection[] = [
-  {
-    title: "바로가기",
-    items: [
-      { href: "/", label: "홈", icon: Home },
-      { href: "/archive/playlists", label: "재생목록", icon: ListMusic },
-      { href: "/archive/explore", label: "탐색", icon: Compass },
-    ],
-  },
-  {
-    title: "게시판",
-    items: [
-      { href: "/board/notice", label: "공지사항", icon: Megaphone },
-      { href: "/board/free", label: "자유게시판", icon: MessageSquare },
-    ],
-  },
-];
-
 interface BottomNavSheetProps {
   onClose: () => void;
+  userId: string | null;
 }
 
-export default function BottomNavSheet({ onClose }: BottomNavSheetProps) {
+export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps) {
   const pathname = usePathname();
+
+  const navSections: NavSection[] = [
+    {
+      title: "바로가기",
+      items: [
+        { href: "/", label: "홈", icon: Home },
+        { href: userId ? `/${userId}/collections` : "/login", label: "재생목록", icon: ListMusic },
+        { href: "/explore", label: "탐색", icon: Compass },
+      ],
+    },
+    {
+      title: "게시판",
+      items: [
+        { href: "/board/notice", label: "공지사항", icon: Megaphone },
+        { href: "/board/free", label: "자유게시판", icon: MessageSquare },
+      ],
+    },
+  ];
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -60,7 +61,7 @@ export default function BottomNavSheet({ onClose }: BottomNavSheetProps) {
 
   return (
     <div className="p-4 pb-8 space-y-4">
-      {NAV_SECTIONS.map((section) => (
+      {navSections.map((section) => (
         <div key={section.title}>
           {/* 섹션 헤더 */}
           <div className="px-3 py-2 text-xs font-semibold text-text-tertiary uppercase tracking-wider">

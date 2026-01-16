@@ -125,7 +125,7 @@ function FollowerList({ users, onClose }: { users: FollowerInfo[]; onClose: () =
           user={user}
           onNavigate={() => {
             onClose();
-            router.push(`/archive/user/${user.id}`);
+            router.push(`/${user.id}`);
           }}
         />
       ))}
@@ -153,7 +153,7 @@ function FollowingList({ users, onClose }: { users: FollowingInfo[]; onClose: ()
           user={user}
           onNavigate={() => {
             onClose();
-            router.push(`/archive/user/${user.id}`);
+            router.push(`/${user.id}`);
           }}
         />
       ))}

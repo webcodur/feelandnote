@@ -59,7 +59,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
             ) : (
               <div
                 className="w-full md:w-44 aspect-[2/3] flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #8b5cf6, #ec4899)" }}
+                style={{ background: "linear-gradient(135deg, #050505, #111111)" }}
               >
                 <span className="text-6xl font-bold text-white">
                   {profile.nickname.charAt(0).toUpperCase()}
@@ -73,7 +73,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
             {/* 이름 및 배지 */}
             <div className="flex items-center gap-2 mb-3">
               <h2 className="text-xl font-bold text-text-primary">{profile.nickname}</h2>
-              <span className="px-2 py-0.5 bg-purple-500/20 text-purple-500 text-xs rounded-full flex items-center gap-1">
+              <span className="px-2 py-0.5 bg-accent/10 text-accent border border-accent/20 text-xs rounded-full flex items-center gap-1">
                 <Sparkles size={10} />
                 셀럽
               </span>

@@ -2,33 +2,52 @@
 @import "tailwindcss";
 
 @theme {
-  /* Background Colors */
-  --color-bg-main: #0f1115;
-  --color-bg-secondary: #161b22;
-  --color-bg-card: #1f242c;
+  /* Background Colors (Dark Stone Theme) */
+  --color-bg-main: #121212; /* Deep Stone Dark */
+  --color-bg-secondary: #0a0a0a; /* Obsidian */
+  --color-bg-card: #1a1a1a; /* Dark Marble Panel */
+  --color-bg-stone-light: #2a2a2a;
 
-  /* Accent Colors */
-  --color-accent: #7c4dff;
-  --color-accent-rgb: 124, 77, 255;
-  --color-accent-hover: #651fff;
-
+  /* Accent Colors (Gold/Bronze) */
+  --color-accent: #d4af37; /* Metallic Gold */
+  --color-accent-rgb: 212, 175, 55;
+  --color-accent-hover: #f9d76e; /* Bright Gold */
+  --color-accent-dim: #8a732a; /* Dim Gold (for borders) */
+  
   /* Text Colors */
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #8b949e;
+  --color-text-primary: #e0e0e0; /* Off-white Marble */
+  --color-text-secondary: #a0a0a0; /* Aged Stone Gray */
+  --color-text-gold: #d4af37;
 
   /* Border Colors */
-  --color-border: #30363d;
-  --color-glass: rgba(22, 27, 34, 0.7);
+  --color-border: #333333; /* Dark Stone Border */
+  --color-border-gold: #8a732a;
+  --color-glass: rgba(18, 18, 18, 0.85);
 
-  /* Status Colors */
-  --color-status-watching: #238636;
-  --color-status-completed: #8957e5;
-  --color-status-paused: #da3633;
-  --color-status-wish: #d29922;
+  /* Status Colors (Muted Antique) */
+  --color-status-watching: #3fb950;
+  --color-status-completed: #9e7aff; 
+  --color-status-paused: #db4d4d;
+  --color-status-wish: #d4af37;
 
-  /* Font */
-  --font-family-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-  --font-family-serif: var(--font-maruburi), "Noto Serif KR", Georgia, serif;
+  /* Fonts */
+  --font-cinzel: var(--font-cinzel), serif;
+  --font-cormorant: var(--font-cormorant), serif;
+  --font-serif: var(--font-noto-serif), "Noto Serif KR", serif;
+  /* "General" font for less rigid contexts (Inputs, dense UI) - Strictly opt-in */
+  --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; 
+  
+  /* Typography Settings */
+  --tracking-cinzel: 0.1em; /* Wide tracking for authority */
+  --leading-relaxed: 1.6;
+
+  /* Texture Patterns */
+  --pattern-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  
+  /* Stone & Sarcophagus Theme */
+  --color-stone-heavy: #1a1a1b;
+  --color-stone-light: #2a2a2c;
+  --color-stone-border: #3c3c3e;
 }
 
 @layer base {
@@ -64,9 +83,21 @@
 
   body {
     background-color: var(--color-bg-main);
+    background-image: var(--pattern-noise);
+    background-attachment: fixed;
     color: var(--color-text-primary);
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-    @apply min-h-screen;
+    font-family: var(--font-sans);
+    line-height: var(--leading-relaxed);
+    @apply min-h-screen text-sm;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+
+  nav, button, input, select, textarea {
+    font-family: var(--font-serif);
+    @apply font-bold;
   }
 
   a {
@@ -98,6 +129,29 @@
   background: rgba(48, 54, 61, 0.8);
 }
 
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-dim) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-accent-dim);
+  opacity: 0.3;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
 /* Hide scrollbar but keep functionality */
 .scrollbar-hidden {
   scrollbar-width: none;
@@ -120,6 +174,12 @@
   .text-text-primary { color: var(--color-text-primary); }
   .text-text-secondary { color: var(--color-text-secondary); }
   .text-accent { color: var(--color-accent); }
+
+  /* Font Family Utilities */
+  .font-serif { font-family: var(--font-serif); }
+  .font-sans { font-family: var(--font-sans); }
+  .font-cinzel { font-family: var(--font-cinzel); }
+  .font-cormorant { font-family: var(--font-cormorant); }
 
   /* Border utilities */
   .border-border { border-color: var(--color-border); }
@@ -246,6 +306,11 @@
   }
 }
 
+@keyframes shine {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
 @layer utilities {
   .animate-unlock-bounce {
     animation: unlockBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -263,6 +328,196 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
+  }
+
+  .animate-shine {
+    animation: shine 3s infinite;
+  }
+
+  /* 3D Effects & Textures */
+  .effect-bevel {
+    box-shadow: 
+      inset 1px 1px 0px rgba(255, 255, 255, 0.1),
+      inset -1px -1px 0px rgba(0, 0, 0, 0.4),
+      0px 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3), 0 0 30px rgba(212, 175, 55, 0.1);
+  }
+
+  .shadow-glow-sm {
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  }
+
+  .effect-engraved {
+    box-shadow: 
+      inset 2px 2px 4px rgba(0, 0, 0, 0.6),
+      inset -1px -1px 0px rgba(255, 255, 255, 0.05);
+  }
+
+  .text-cinzel {
+    font-family: var(--font-cinzel);
+    letter-spacing: var(--tracking-cinzel);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3), 0 0 20px rgba(212, 175, 55, 0.1);
+  }
+
+  .bg-texture-noise {
+    background-image: var(--pattern-noise);
+  }
+  .bg-texture-marble {
+    background-image: 
+      var(--pattern-noise),
+      linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 20%, rgba(255,255,255,0.03) 40%, transparent 100%);
+  }
+
+
+  /* 3D Typography Utilities */
+  .text-3d-marble {
+    @apply bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)];
+    background-image: linear-gradient(to bottom, #ffffff, #d1d5db); /* white to gray-300 */
+  }
+
+  .text-3d-gold {
+    @apply bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)];
+    background-image: linear-gradient(to bottom, #d4af37, #8a732a);
+  }
+
+  .text-3d-gold-bright {
+    @apply bg-clip-text text-transparent drop-shadow-[0_0_5px_rgba(212,175,55,0.5)];
+    background-image: linear-gradient(to bottom, #ffd700, #d4af37);
+  }
+
+  /* Logo Typography - Antique Letterpress (고서/활판인쇄 스타일) */
+  .logo-text-cream {
+    color: #f5f0e8;
+    text-shadow:
+      0 1px 1px rgba(0, 0, 0, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .logo-text-sepia {
+    color: #c9a227;
+    text-shadow:
+      0 1px 1px rgba(0, 0, 0, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 히어로 섹션용 대형 로고 */
+  .logo-text-cream-hero {
+    color: #f8f4ed;
+    text-shadow:
+      0 2px 2px rgba(0, 0, 0, 0.25),
+      0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .logo-text-sepia-hero {
+    color: #d4a828;
+    text-shadow:
+      0 2px 2px rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Classical Design Utilities */
+  .card-classical {
+    @apply bg-bg-card border-double border-4 border-accent-dim/40 shadow-lg transition-all duration-300 relative;
+    background-origin: border-box;
+    background-repeat: no-repeat;
+    background-image: 
+      /* Top Left */
+      linear-gradient(to right, var(--color-accent), var(--color-accent)),
+      linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
+      /* Top Right */
+      linear-gradient(to left, var(--color-accent), var(--color-accent)),
+      linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
+      /* Bottom Right */
+      linear-gradient(to left, var(--color-accent), var(--color-accent)),
+      linear-gradient(to top, var(--color-accent), var(--color-accent)),
+      /* Bottom Left */
+      linear-gradient(to right, var(--color-accent), var(--color-accent)),
+      linear-gradient(to top, var(--color-accent), var(--color-accent)),
+      /* Vignette (Optional, kept subtle) */
+      radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+    
+    /* Corner Brackets */
+    &::before, &::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--color-accent);
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+    &::before {
+      top: -2px; left: -2px;
+      border-right: none; border-bottom: none;
+    }
+    &::after {
+      bottom: -2px; right: -2px;
+      border-left: none; border-top: none;
+    }
+    
+    &:hover::before, &:hover::after {
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+      border-color: var(--color-accent-hover);
+    }
+
+    background-position:  
+      0 0, 0 0,           /* TL */
+      100% 0, 100% 0,     /* TR */
+      100% 100%, 100% 100%, /* BR */
+      0 100%, 0 100%,     /* BL */
+      center;             /* Vignette */
+      
+    background-size: 
+      16px 4px, 4px 16px, /* TL dimensions */
+      16px 4px, 4px 16px, /* TR dimensions */
+      16px 4px, 4px 16px, /* BR dimensions */
+      16px 4px, 4px 16px, /* BL dimensions */
+      100% 100%;          /* Vignette dimensions */
+  }
+  .card-classical:hover {
+    @apply border-accent shadow-[0_0_20px_rgba(212,175,55,0.4)];
+  }
+
+  /* Sarcophagus Style (Heavy Stone) */
+  .card-sarcophagus {
+    @apply bg-stone-heavy border-[#3c3c3e] border-y-8 border-x-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden;
+    background-image: 
+      var(--pattern-noise),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.2) 100%);
+    box-shadow: 
+      inset 0 2px 10px rgba(255,255,255,0.05),
+      0 10px 30px rgba(0,0,0,0.7);
+  }
+
+  /* Engraved Plate Effect */
+  .engraved-plate {
+    @apply bg-stone-heavy/80 border-t-2 border-l border-white/5 border-b-2 border-r border-black/40 backdrop-blur-md;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+  }
+
+  /* Stone Slab Tab Style */
+  .slab-tab {
+    @apply relative px-6 py-2 transition-all duration-300 font-cinzel tracking-widest text-xs;
+    background: linear-gradient(to bottom, #2a2a2c, #1a1a1b);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 2px solid rgba(0,0,0,0.4);
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+  }
+  
+  .slab-tab-active {
+    @apply text-accent;
+    background: linear-gradient(to bottom, #3a3a3c, #2a2a2c);
+    border-top: 1px solid var(--color-accent-dim);
+    box-shadow: 0 -5px 15px rgba(212,175,55,0.1);
   }
 }
 

@@ -244,7 +244,7 @@ export default function SettingsContent({ apiKey, onSave, isSaving, profile, onP
               <div>
                 <p className="text-sm font-medium">회원탈퇴</p>
                 <p className="text-xs text-text-secondary mt-0.5">
-                  모든 기록, 플레이리스트, 팔로우 정보가 영구 삭제된다.
+                  모든 기록, 플레이리스트, 팔로우 정보가 영구 삭제됩니다.
                 </p>
               </div>
               <Button

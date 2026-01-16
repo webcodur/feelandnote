@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { History } from "lucide-react";
 import ActionModal from "../ActionModal";
-import ActivityTimeline from "./ActivityTimeline";
+import ActivityTimeline from "@/components/features/archive/ActivityTimeline";
 import { getActivityLogs } from "@/actions/activity";
 import type { ActivityLogWithContent } from "@/types/database";
 

@@ -6,7 +6,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
-import { useSound } from "@/contexts/SoundContext";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getUserContents } from "@/actions/contents/getUserContents";
@@ -19,7 +18,6 @@ import { updateRecommendation } from "@/actions/contents/updateRecommendation";
 import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
-import { togglePin } from "@/actions/contents/togglePin";
 import { getPlaylistsContainingContent } from "@/actions/playlists";
 
 interface PlaylistInfo {
@@ -30,7 +28,6 @@ interface PlaylistInfo {
 import type { ContentType, ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
 
 // #region 타입
-export type ViewMode = "grid" | "list" | "compact";
 export type SortOption = "recent" | "title";
 export type StatusFilter = "all" | ContentStatus;
 
@@ -69,11 +66,9 @@ const TYPE_MAP: Record<string, ContentType> = {
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const { maxItems, compact = false, showCategories = true, mode = 'owner', targetUserId } = options;
   const isViewer = mode === 'viewer';
-  const { playSound } = useSound();
 
   // #region 상태
   const [activeTab, setActiveTab] = useState("book");
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [contents, setContents] = useState<UserContentWithContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -97,13 +92,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [sortOption, setSortOption] = useState<SortOption>("recent");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null); // null = 전체
-
-  // 배치 모드 상태
-  const [isBatchMode, setIsBatchMode] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-
-  // 핀 모드 상태
-  const [isPinMode, setIsPinMode] = useState(false);
 
   // 개별 삭제 모달 상태
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; contentId: string } | null>(null);
@@ -175,19 +163,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     const type = TYPE_MAP[activeTab];
     return type ? categories[type] || [] : [];
   }, [activeTab, categories]);
-
-  // 핀된 콘텐츠 (pinned_at 기준 최신순 정렬)
-  const pinnedContents = useMemo(() => {
-    return contents
-      .filter((item) => item.is_pinned)
-      .sort((a, b) => {
-        const aTime = a.pinned_at ? new Date(a.pinned_at).getTime() : 0;
-        const bTime = b.pinned_at ? new Date(b.pinned_at).getTime() : 0;
-        return bTime - aTime;
-      });
-  }, [contents]);
-
-  const pinnedCount = pinnedContents.length;
   // #endregion
 
   // #region 헬퍼 함수
@@ -229,46 +204,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const collapseAll = useCallback(() => {
     setCollapsedMonths(new Set(monthKeys));
   }, [monthKeys]);
-
-  // 배치 모드 토글
-  const toggleBatchMode = useCallback(() => {
-    setIsBatchMode(prev => {
-      if (prev) setSelectedIds(new Set());
-      return !prev;
-    });
-  }, []);
-
-  // 개별 선택 토글
-  const toggleSelect = useCallback((id: string) => {
-    setSelectedIds(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  }, []);
-
-  // 전체 선택
-  const selectAll = useCallback(() => {
-    setSelectedIds(new Set(filteredAndSortedContents.map(c => c.id)));
-  }, [filteredAndSortedContents]);
-
-  // 전체 해제
-  const deselectAll = useCallback(() => {
-    setSelectedIds(new Set());
-  }, []);
-
-  // 핀 모드 진입/종료
-  const enterPinMode = useCallback(() => {
-    setIsPinMode(true);
-    setIsBatchMode(false); // 배치 모드 해제
-    setSelectedIds(new Set());
-  }, []);
-
-  const exitPinMode = useCallback(() => {
-    setIsPinMode(false);
-  }, []);
-
   // #endregion
 
   // #region 데이터 로딩
@@ -378,48 +313,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // #endregion
 
   // #region 핸들러
-  // 핀 토글 핸들러
-  const handlePinToggle = useCallback((userContentId: string) => {
-    const item = contents.find((c) => c.id === userContentId);
-    if (!item) return;
-
-    const newPinned = !item.is_pinned;
-
-    // 핀 추가 시 10개 제한 체크
-    if (newPinned && pinnedCount >= 10) {
-      alert("최대 10개까지 고정할 수 있습니다");
-      return;
-    }
-
-    // 핀 꽂기/뽑기 사운드
-    playSound(newPinned ? "pin" : "unpin");
-
-    // 낙관적 업데이트
-    setContents((prev) =>
-      prev.map((c) =>
-        c.id === userContentId
-          ? { ...c, is_pinned: newPinned, pinned_at: newPinned ? new Date().toISOString() : null }
-          : c
-      )
-    );
-
-    // 서버 동기화
-    startTransition(async () => {
-      try {
-        const result = await togglePin({ userContentId, isPinned: newPinned });
-        if (!result.success) {
-          loadContents();
-          if (result.error === "LIMIT_EXCEEDED") {
-            alert(result.message);
-          }
-        }
-      } catch (err) {
-        loadContents();
-        console.error("핀 상태 변경 실패:", err);
-      }
-    });
-  }, [contents, pinnedCount, loadContents, playSound]);
-
   const handleStatusChange = useCallback((userContentId: string, status: ContentStatus) => {
     setContents((prev) =>
       prev.map((item) => (item.id === userContentId ? { ...item, status } : item))
@@ -532,7 +425,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     isViewer,
     // 기본 상태
     activeTab, setActiveTab,
-    viewMode, setViewMode,
     contents,
     isLoading,
     error,
@@ -547,13 +439,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     sortOption, setSortOption,
     statusFilter, setStatusFilter,
     selectedCategoryId, setSelectedCategoryId,
-    // 배치 모드
-    isBatchMode,
-    selectedIds,
-    // 핀 모드
-    isPinMode,
-    pinnedContents,
-    pinnedCount,
     // 파생 상태
     isAllCollapsed,
     filteredAndSortedContents,
@@ -569,10 +454,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     toggleCategory,
     expandAll,
     collapseAll,
-    toggleBatchMode,
-    toggleSelect,
-    selectAll,
-    deselectAll,
     loadContents,
     loadCategories,
     handleStatusChange,
@@ -587,9 +468,5 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     isDeleteLoading,
     closeDeleteModal,
     confirmDelete,
-    // 핀 액션
-    enterPinMode,
-    exitPinMode,
-    handlePinToggle,
   };
 }
