@@ -14,6 +14,8 @@ export interface Title {
     value: number
   }
   sort_order: number
+  icon_type?: 'lucide' | 'svg' | 'emoji'
+  icon_svg?: string
   unlocked?: boolean
   unlocked_at?: string
 }

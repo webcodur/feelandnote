@@ -1,33 +1,65 @@
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
 
-// 인증이 필요하지 않은 경로 (로그인 등)
-const publicPaths = ['/login']
+const ALLOWED_ROLES = ['admin', 'super_admin']
 
 export async function proxy(request: NextRequest) {
-  const { supabaseResponse, user } = await updateSession(request)
+  const { pathname } = request.nextUrl
 
-  const pathname = request.nextUrl.pathname
-
-  // 공개 경로가 아닌 경우 인증 필요
-  if (!publicPaths.some((path) => pathname.startsWith(path))) {
-    if (!user) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/login'
-      url.searchParams.set('redirect', pathname)
-      return NextResponse.redirect(url)
-    }
-
-    // TODO: 관리자 권한 체크 로직 추가
-    // const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    // if (profile?.role !== 'admin') { redirect to unauthorized }
+  // 루트 경로는 /users로 리다이렉트
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/users', request.url))
   }
 
-  // 로그인 페이지에 인증된 사용자 접근 시
-  if (pathname === '/login' && user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
-    return NextResponse.redirect(url)
+  // 로그인 페이지는 체크 제외
+  if (pathname === '/login') {
+    return NextResponse.next()
+  }
+
+  let supabaseResponse = NextResponse.next({ request })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          )
+          supabaseResponse = NextResponse.next({ request })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // 로그인 안 됨 → 로그인 페이지로
+  if (!user) {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('redirect', pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  // role 체크
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    // 권한 없음 → 로그인 페이지로 (에러 메시지 포함)
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('error', 'unauthorized')
+    return NextResponse.redirect(loginUrl)
   }
 
   return supabaseResponse
@@ -35,13 +67,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * 다음으로 시작하는 경로를 제외한 모든 요청:
-     * - _next/static (정적 파일)
-     * - _next/image (이미지 최적화)
-     * - favicon.ico
-     * - 이미지 파일들
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
-  ]
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 }

@@ -85,7 +85,9 @@
       "Bash(echo:*)",
       "Bash(pnpm exec next:*)",
       "Bash(./node_modules/.bin/next build)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(git -C \"sw/web-bo\" status)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

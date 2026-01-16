@@ -12,6 +12,7 @@ export const TITLE_GRADE_CONFIG = {
     bgColor: 'bg-stone-500/10',
     glowColor: 'shadow-stone-500/20',
     marble: 'from-stone-800 to-stone-900',
+    specialEffect: '',
   },
   uncommon: {
     label: '고급',
@@ -20,6 +21,7 @@ export const TITLE_GRADE_CONFIG = {
     bgColor: 'bg-emerald-500/10',
     glowColor: 'shadow-emerald-500/20',
     marble: 'from-emerald-900/40 to-stone-900',
+    specialEffect: '',
   },
   rare: {
     label: '희귀',
@@ -28,6 +30,7 @@ export const TITLE_GRADE_CONFIG = {
     bgColor: 'bg-cyan-500/10',
     glowColor: 'shadow-cyan-500/20',
     marble: 'from-cyan-900/40 to-stone-900',
+    specialEffect: '',
   },
   epic: {
     label: '영웅',
@@ -36,6 +39,7 @@ export const TITLE_GRADE_CONFIG = {
     bgColor: 'bg-purple-500/10',
     glowColor: 'shadow-purple-500/20',
     marble: 'from-purple-900/40 to-stone-900',
+    specialEffect: '',
   },
   legendary: {
     label: '전설',
@@ -48,10 +52,17 @@ export const TITLE_GRADE_CONFIG = {
   },
 } as const;
 
+interface TitleCategoryInfo {
+  readonly label: string;
+  readonly color: string;
+  readonly icon: React.ComponentType<{ size?: number; className?: string }>;
+  readonly comingSoon?: boolean;
+}
+
 /**
  * 칭호 카테고리(Category) 설정
  */
-export const TITLE_CATEGORY_CONFIG = {
+export const TITLE_CATEGORY_CONFIG: Record<string, TitleCategoryInfo> = {
   volume: {
     label: '양',
     color: 'text-blue-400',

@@ -41,7 +41,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
   };
 
   // 현재 활성 탭 인덱스
-  const activeIndex = tabs.findIndex(tab => isActive(tab.href, tab.exact));
+  const activeIndex = tabs.findIndex(tab => isActive(tab.href));
   // 표시할 인덱스 (호버 중이면 호버 인덱스, 아니면 활성 인덱스)
   const targetIndex = hoveredIndex ?? activeIndex;
   const indicatorTop = targetIndex * (ITEM_HEIGHT + ITEM_GAP);
@@ -132,7 +132,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
           {/* 메뉴 아이템들 */}
           <div className="relative z-10 flex flex-col gap-2">
             {tabs.map((tab, index) => {
-              const isTabActive = isActive(tab.href, tab.exact);
+              const isTabActive = isActive(tab.href);
               const isHighlighted = hoveredIndex === index || (hoveredIndex === null && isTabActive);
               return (
                 <Link

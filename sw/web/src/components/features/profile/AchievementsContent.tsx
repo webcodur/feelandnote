@@ -5,9 +5,10 @@
 */ // ------------------------------
 "use client";
 
+import { Trophy, FileText } from "lucide-react";
 import { TITLE_GRADE_CONFIG, TITLE_CATEGORY_CONFIG, type TitleGrade, type TitleCategory } from "@/constants/titles";
-
-// 기존 hardcoded configs 제거 (공통 상수로 대체)
+import type { AchievementData, Title } from "@/actions/achievements";
+import Button from "@/components/ui/Button";
 
 interface AchievementsContentProps {
   data: AchievementData | null;
@@ -148,7 +149,9 @@ export default function AchievementsContent({ data, subTab, setSubTab, formatDat
                     {config.comingSoon && <span className="text-[10px] font-semibold py-0.5 px-1.5 rounded bg-yellow-500/20 text-yellow-400">개발예정</span>}
                   </div>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2">
-                  {categoryTitles.map((title) => (
+                  {categoryTitles.map((title) => {
+                      const gradeConfig = TITLE_GRADE_CONFIG[title.grade as TitleGrade];
+                      return (
                       <div key={title.id} className={`bg-bg-card rounded-lg p-3 border transition-all hover:-translate-y-0.5 ${gradeConfig?.borderColor || 'border-border'} ${gradeConfig?.glowColor ? `hover:${gradeConfig.glowColor}` : 'hover:border-accent'} ${!title.unlocked ? "opacity-40 bg-black/40" : `bg-gradient-to-br ${gradeConfig?.marble || ''}`}`}>
                         <div className="flex items-start justify-between mb-1.5">
                           <div className="flex items-center gap-2.5">
@@ -172,7 +175,8 @@ export default function AchievementsContent({ data, subTab, setSubTab, formatDat
                         </div>
                         <div className="text-xs text-text-secondary/90 leading-relaxed italic">{title.unlocked ? `"${title.description}"` : "조건을 달성하면 해금됩니다"}</div>
                       </div>
-                  ))}
+                      );
+                  })}
                 </div>
               </div>
             );

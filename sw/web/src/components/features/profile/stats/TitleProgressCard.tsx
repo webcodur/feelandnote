@@ -12,6 +12,21 @@ import { TITLE_GRADE_CONFIG, type TitleGrade } from "@/constants/titles";
 
 // RARITY_COLORS 제거 (TITLE_GRADE_CONFIG로 대체)
 
+interface TitleItem {
+  id: string;
+  name: string;
+  desc: string;
+  rarity: string;
+  earned: boolean;
+  date?: string;
+  bonus: number;
+  progress?: number;
+}
+
+interface TitleProgressCardProps {
+  titles: TitleItem[];
+}
+
 export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
   const earnedTitles = titles.filter((t) => t.earned);
   const totalBonus = earnedTitles.reduce((sum, t) => sum + t.bonus, 0);
@@ -29,7 +44,6 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
 
       <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
         {titles.map((title) => {
-          // rarity가 한글로 올 수도 있으므로 매핑 필요 (또는 grade로 변경)
           const gradeKey = title.rarity === '일반' ? 'common' : 
                           title.rarity === '고급' ? 'uncommon' :
                           title.rarity === '희귀' ? 'rare' :
@@ -48,11 +62,10 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
             >
               <div className="flex items-start gap-3">
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${colors.bg}20` }}
+                  className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${title.earned ? gradeConfig.bgColor : 'bg-white/5'}`}
                 >
                   {title.earned ? (
-                    <CheckCircle2 size={20} style={{ color: colors.text }} />
+                    <CheckCircle2 size={20} className={gradeConfig.color} />
                   ) : (
                     <Lock size={18} className="text-text-secondary" />
                   )}
@@ -80,14 +93,13 @@ export default function TitleProgressCard({ titles }: TitleProgressCardProps) {
                       <div className="mt-2">
                         <div className="flex justify-between text-[11px] mb-1">
                           <span className="text-text-secondary">진행률</span>
-                          <span style={{ color: colors.text }}>{title.progress}%</span>
+                          <span className="text-accent">{title.progress}%</span>
                         </div>
                         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                           <div
-                            className="h-full rounded-full"
+                            className="h-full bg-accent rounded-full"
                             style={{
-                              width: `${title.progress}%`,
-                              backgroundColor: colors.bg,
+                              width: `${title.progress}%`
                             }}
                           />
                         </div>
