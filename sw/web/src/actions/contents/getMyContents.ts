@@ -100,10 +100,10 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
-  // content가 null인 항목 필터링
-  const items = (data || []).filter((item): item is UserContentWithContent =>
+  // content가 null인 항목 필터링 + 타입 단언
+  const items = (data || []).filter((item) =>
     item.content !== null
-  )
+  ) as UserContentWithContent[]
 
   const total = count || 0
 
@@ -160,9 +160,9 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
-  const items = (data || []).filter((item): item is UserContentWithContent =>
+  const items = (data || []).filter((item) =>
     item.content !== null
-  )
+  ) as UserContentWithContent[]
 
   return items
 }
