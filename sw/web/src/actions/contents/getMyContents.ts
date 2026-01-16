@@ -15,7 +15,7 @@ export interface UserContentWithContent {
   id: string
   user_id: string
   content_id: string
-  status: string
+  status: ContentStatus
   category_id: string | null
   is_recommended: boolean | null
   is_spoiler: boolean | null
