@@ -25,7 +25,7 @@ export default function SearchInput({
   const [internalValue, setInternalValue] = useState(defaultValue)
   const value = controlledValue ?? internalValue
   const inputRef = useRef<HTMLInputElement>(null)
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>()
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   useEffect(() => {
     return () => {

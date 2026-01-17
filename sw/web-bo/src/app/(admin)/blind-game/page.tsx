@@ -28,11 +28,17 @@ export default async function BlindGamePage({
   const avgScore = stats?.length ? Math.round(stats.reduce((sum, s) => sum + s.score, 0) / stats.length) : 0
 
   // 상위 플레이어
-  const { data: topPlayers } = await supabase
+  const { data: topPlayersRaw } = await supabase
     .from('blind_game_scores')
     .select('user_id, score, user:user_id (id, nickname, avatar_url)')
     .order('score', { ascending: false })
     .limit(3)
+
+  const topPlayers = (topPlayersRaw || []).map((p) => ({
+    user_id: p.user_id,
+    score: p.score,
+    user: Array.isArray(p.user) ? p.user[0] : p.user,
+  }))
 
   return (
     <BlindGameClient
@@ -41,7 +47,7 @@ export default async function BlindGamePage({
       page={page}
       totalPages={totalPages}
       stats={{ maxScore, maxStreak, avgScore }}
-      topPlayers={topPlayers || []}
+      topPlayers={topPlayers}
     />
   )
 }

@@ -273,14 +273,17 @@ export default function NotesClient({
                 </Link>
               </div>
               <div className="ml-auto">
-                <Badge
-                  variant={VISIBILITY_CONFIG[selectedNote.visibility].variant}
-                  icon={
-                    <VISIBILITY_CONFIG[selectedNote.visibility].icon className="w-3 h-3" />
-                  }
-                >
-                  {VISIBILITY_CONFIG[selectedNote.visibility].label}
-                </Badge>
+                {(() => {
+                  const Icon = VISIBILITY_CONFIG[selectedNote.visibility].icon
+                  return (
+                    <Badge
+                      variant={VISIBILITY_CONFIG[selectedNote.visibility].variant}
+                      icon={<Icon className="w-3 h-3" />}
+                    >
+                      {VISIBILITY_CONFIG[selectedNote.visibility].label}
+                    </Badge>
+                  )
+                })()}
               </div>
             </div>
 

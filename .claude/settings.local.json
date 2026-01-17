@@ -92,7 +92,11 @@
       "Bash(for file in src/constants/*.ts)",
       "Bash(do basename \"$file\")",
       "Bash(for action in fetchContentMetadata togglePin updateContentMetadata createRecord deleteRecord updateRecord)",
-      "Bash(do)"
+      "Bash(do)",
+      "Bash(pnpm --version:*)",
+      "Bash(npm --version)",
+      "Bash(\"/c/Program Files/nodejs/pnpm\" build --reporter=append-only)",
+      "Bash(./node_modules/.bin/next.cmd:*)"
     ],
     "deny": [],
     "ask": []

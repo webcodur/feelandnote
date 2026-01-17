@@ -96,7 +96,6 @@ export default function ApiUsageClient({
       <PageHeader
         title="API 사용량"
         description={`총 ${stats.totalUsage.toLocaleString()}회 호출`}
-        icon={<BarChart3 className="w-6 h-6" />}
       />
 
       {/* 통계 카드 */}

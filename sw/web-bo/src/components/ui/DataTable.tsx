@@ -35,7 +35,7 @@ export interface DataTableProps<T> {
 }
 // endregion
 
-export default function DataTable<T extends Record<string, unknown>>({
+export default function DataTable<T extends object>({
   data,
   columns,
   keyExtractor,
@@ -198,8 +198,8 @@ export default function DataTable<T extends Record<string, unknown>>({
                         className={`px-4 py-3 text-sm ${alignStyles[col.align || 'left']}`}
                       >
                         {col.render
-                          ? col.render(row[col.key], row, index)
-                          : (row[col.key] as ReactNode)}
+                          ? col.render((row as Record<string, unknown>)[col.key], row, index)
+                          : ((row as Record<string, unknown>)[col.key] as ReactNode)}
                       </td>
                     ))}
                   </tr>

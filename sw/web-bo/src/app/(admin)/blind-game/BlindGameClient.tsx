@@ -75,7 +75,6 @@ export default function BlindGameClient({
       <PageHeader
         title="블라인드 게임"
         description={`총 ${total.toLocaleString()}개의 게임 기록`}
-        icon={<Gamepad2 className="w-6 h-6" />}
       />
 
       {/* 통계 카드 */}

@@ -93,7 +93,6 @@ export default function ScoresClient({
       <PageHeader
         title="점수 / 랭킹"
         description="사용자 점수 및 활동 로그 관리"
-        icon={<Trophy className="w-6 h-6" />}
       />
 
       {/* 통계 카드 */}
