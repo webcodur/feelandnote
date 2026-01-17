@@ -1,27 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
-import {
-  Users,
-  Library,
-  FileText,
-  Flag,
-  TrendingUp,
-  Clock,
-  Book,
-  Film,
-  Gamepad2,
-  Music,
-  Award,
-} from 'lucide-react'
+import { Users, Library, FileText, TrendingUp, Clock } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-
-const CONTENT_TYPE_CONFIG = {
-  BOOK: { label: '도서', icon: Book, color: 'text-blue-400' },
-  VIDEO: { label: '영상', icon: Film, color: 'text-red-400' },
-  GAME: { label: '게임', icon: Gamepad2, color: 'text-green-400' },
-  MUSIC: { label: '음악', icon: Music, color: 'text-purple-400' },
-  CERTIFICATE: { label: '자격증', icon: Award, color: 'text-yellow-400' },
-}
+import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 
 export default async function DashboardPage() {
   const supabase = await createClient()

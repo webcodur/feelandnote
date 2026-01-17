@@ -1,6 +1,7 @@
 import { CATEGORIES } from "@/constants/categories";
+import { STATUS_FILTER_OPTIONS } from "@/constants/statuses";
 import type { ContentType } from "@/types/database";
-import type { SortOption, StatusFilter } from "../useContentLibrary";
+import type { SortOption } from "../useContentLibrary";
 
 export const TAB_OPTIONS = CATEGORIES.map((cat) => ({
   value: cat.id,
@@ -9,15 +10,8 @@ export const TAB_OPTIONS = CATEGORIES.map((cat) => ({
   type: cat.dbType as ContentType,
 }));
 
-export const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
-  { value: "all", label: "전체" },
-  { value: "WANT", label: "관심" },
-  { value: "WATCHING", label: "진행중" },
-  { value: "DROPPED", label: "중단" },
-  { value: "FINISHED", label: "완료" },
-  { value: "RECOMMENDED", label: "추천" },
-  { value: "NOT_RECOMMENDED", label: "비추" },
-];
+// STATUS_FILTER_OPTIONS를 re-export
+export const STATUS_OPTIONS = STATUS_FILTER_OPTIONS;
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "recent", label: "최근 추가" },

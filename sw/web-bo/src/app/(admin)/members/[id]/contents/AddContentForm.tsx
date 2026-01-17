@@ -7,6 +7,8 @@ import { addCelebContent } from '@/actions/admin/celebs'
 import { searchExternalContent, createContentFromExternal, searchDbContent } from '@/actions/admin/external-search'
 import { Plus, Search, Loader2, X, Database, Globe } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
+import { STATUS_OPTIONS } from '@/constants/statuses'
 import type { ExternalSearchResult } from '@feelnnote/content-search/unified-search'
 import type { ContentType } from '@feelnnote/content-search/types'
 
@@ -14,20 +16,11 @@ interface Props {
   celebId: string
 }
 
-const STATUS_OPTIONS = [
-  { value: 'WANT', label: '보고 싶음' },
-  { value: 'WATCHING', label: '보는 중' },
-  { value: 'FINISHED', label: '완료' },
-  { value: 'DROPPED', label: '중단' },
-]
-
-const CONTENT_TYPE_OPTIONS: { value: ContentType; label: string }[] = [
-  { value: 'BOOK', label: '도서' },
-  { value: 'VIDEO', label: '영상' },
-  { value: 'GAME', label: '게임' },
-  { value: 'MUSIC', label: '음악' },
-  { value: 'CERTIFICATE', label: '자격증' },
-]
+// CONTENT_TYPE_OPTIONS는 로컬 상수에서 생성
+const CONTENT_TYPE_OPTIONS = CONTENT_TYPES.map((type) => ({
+  value: type as ContentType,
+  label: CONTENT_TYPE_CONFIG[type].label,
+}))
 
 type SearchMode = 'db' | 'external'
 

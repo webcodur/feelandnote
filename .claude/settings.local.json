@@ -87,7 +87,12 @@
       "Bash(./node_modules/.bin/next build)",
       "Bash(tee:*)",
       "Bash(git -C \"sw/web-bo\" status)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(done)",
+      "Bash(for file in src/constants/*.ts)",
+      "Bash(do basename \"$file\")",
+      "Bash(for action in fetchContentMetadata togglePin updateContentMetadata createRecord deleteRecord updateRecord)",
+      "Bash(do)"
     ],
     "deny": [],
     "ask": []

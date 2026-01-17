@@ -5,10 +5,20 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar } from "@/components/ui";
-import { Book, Film, Gamepad2, Music, Award, Check } from "lucide-react";
+import { Check, Book } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+import { getCategoryByDbType } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
+
+// 카테고리 정보 조회 헬퍼
+const getContentTypeInfo = (type: ContentType) => {
+  const category = getCategoryByDbType(type);
+  return {
+    icon: category?.lucideIcon ?? Book,
+    label: category?.shortLabel ?? type,
+  };
+};
 
 // #region Types
 interface ReviewCardProps {
@@ -36,24 +46,6 @@ interface ReviewCardProps {
 }
 // #endregion
 
-// #region Constants
-const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
-  BOOK: "BOOK",
-  VIDEO: "VIDEO",
-  GAME: "GAME",
-  MUSIC: "MUSIC",
-  CERTIFICATE: "CERT",
-};
-
-const CONTENT_TYPE_ICONS: Record<ContentType, typeof Book> = {
-  BOOK: Book,
-  VIDEO: Film,
-  GAME: Gamepad2,
-  MUSIC: Music,
-  CERTIFICATE: Award,
-};
-// #endregion
-
 export default function ReviewCard({
   userId,
   userName,
@@ -76,7 +68,7 @@ export default function ReviewCard({
   const [isChecking, setIsChecking] = useState(true);
   const [isAdding, startTransition] = useTransition();
 
-  const ContentIcon = CONTENT_TYPE_ICONS[contentType];
+  const { icon: ContentIcon, label: contentTypeLabel } = getContentTypeInfo(contentType);
 
   // 저장 상태 확인
   useEffect(() => {
@@ -129,7 +121,7 @@ export default function ReviewCard({
         <div className="absolute top-3 left-3 z-10">
           <div className="border border-accent text-accent bg-[#0a0a0a]/90 px-2 py-0.5">
             <span className="text-[9px] font-black font-cinzel tracking-widest uppercase">
-              {CONTENT_TYPE_LABELS[contentType]}
+              {contentTypeLabel}
             </span>
           </div>
         </div>

@@ -8,11 +8,12 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Search, Book, Film, Gamepad2, Music, Award, Link as LinkIcon, Loader2 } from "lucide-react";
+import { Search, Book, Link as LinkIcon, Loader2 } from "lucide-react";
 import { Modal, ModalBody, ModalFooter, Button } from "@/components/ui";
 import { searchContents, type ContentSearchResult } from "@/actions/search";
 import { addCelebContent } from "@/actions/celebs";
-import type { CategoryId } from "@/constants/categories";
+import { CATEGORIES, type CategoryId } from "@/constants/categories";
+import { CELEB_STATUS_OPTIONS } from "@/constants/statuses";
 import type { ContentType, ContentStatus } from "@/types/database";
 
 interface AddCelebContentModalProps {
@@ -21,20 +22,6 @@ interface AddCelebContentModalProps {
   celebName: string;
   onClose: () => void;
 }
-
-const CATEGORY_CONFIG: Array<{ id: CategoryId; label: string; icon: typeof Book; type: ContentType }> = [
-  { id: "book", label: "도서", icon: Book, type: "BOOK" },
-  { id: "video", label: "영상", icon: Film, type: "VIDEO" },
-  { id: "game", label: "게임", icon: Gamepad2, type: "GAME" },
-  { id: "music", label: "음악", icon: Music, type: "MUSIC" },
-  { id: "certificate", label: "자격증", icon: Award, type: "CERTIFICATE" },
-];
-
-const STATUS_OPTIONS: Array<{ value: ContentStatus; label: string }> = [
-  { value: "FINISHED", label: "완료" },
-  { value: "WATCHING", label: "경험중" },
-  { value: "WANT", label: "예정" },
-];
 
 export default function AddCelebContentModal({ isOpen, celebId, celebName, onClose }: AddCelebContentModalProps) {
   const router = useRouter();
@@ -80,7 +67,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
       return;
     }
 
-    const categoryConfig = CATEGORY_CONFIG.find((c) => c.id === category);
+    const categoryConfig = CATEGORIES.find((c) => c.id === category);
     if (!categoryConfig) return;
 
     startTransition(async () => {
@@ -88,7 +75,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
         await addCelebContent({
           celebId,
           contentId: selected.id,
-          type: categoryConfig.type,
+          type: categoryConfig.dbType,
           title: selected.title,
           creator: selected.creator,
           thumbnailUrl: selected.thumbnail,
@@ -110,8 +97,8 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
       <ModalBody className="space-y-4 max-h-[60vh] overflow-y-auto">
         {/* 카테고리 선택 */}
         <div className="flex gap-2 flex-wrap">
-          {CATEGORY_CONFIG.map((cat) => {
-            const Icon = cat.icon;
+          {CATEGORIES.map((cat) => {
+            const Icon = cat.lucideIcon;
             return (
               <Button
                 unstyled
@@ -216,7 +203,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
             <div>
               <label className="block text-sm font-medium text-text-secondary mb-1.5">상태</label>
               <div className="flex gap-2">
-                {STATUS_OPTIONS.map((opt) => (
+                {CELEB_STATUS_OPTIONS.map((opt) => (
                   <Button
                     unstyled
                     key={opt.value}

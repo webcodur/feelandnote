@@ -4,28 +4,15 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { deleteCelebContent, updateCelebContent, CelebContent } from '@/actions/admin/celebs'
-import { Star, Edit2, Trash2, Loader2, X, Check, BookOpen, Film, Gamepad2, Music, Award } from 'lucide-react'
+import { Star, Edit2, Trash2, Loader2, X, Check } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
+import { STATUS_OPTIONS } from '@/constants/statuses'
 
 interface Props {
   contents: CelebContent[]
   celebId: string
 }
-
-const CONTENT_TYPE_ICONS: Record<string, React.ElementType> = {
-  BOOK: BookOpen, VIDEO: Film, GAME: Gamepad2, MUSIC: Music, CERTIFICATE: Award,
-}
-
-const CONTENT_TYPE_LABELS: Record<string, string> = {
-  BOOK: '도서', VIDEO: '영상', GAME: '게임', MUSIC: '음악', CERTIFICATE: '자격증',
-}
-
-const STATUS_OPTIONS = [
-  { value: 'WANT', label: '보고 싶음' },
-  { value: 'WATCHING', label: '보는 중' },
-  { value: 'FINISHED', label: '완료' },
-  { value: 'DROPPED', label: '중단' },
-]
 
 export default function ContentList({ contents, celebId }: Props) {
   const router = useRouter()
@@ -73,7 +60,8 @@ export default function ContentList({ contents, celebId }: Props) {
   return (
     <div className="bg-bg-card border border-border rounded-lg divide-y divide-border">
       {contents.map((content) => {
-        const Icon = CONTENT_TYPE_ICONS[content.content.type] || Star
+        const typeConfig = CONTENT_TYPE_CONFIG[content.content.type as ContentType]
+        const Icon = typeConfig?.icon || Star
         const isEditing = editingId === content.id
         const isLoading = loading === content.id
 
@@ -91,7 +79,7 @@ export default function ContentList({ contents, celebId }: Props) {
                     <div className="flex items-center gap-2 text-sm text-text-secondary mt-1">
                       {content.content.creator && <span>{content.content.creator}</span>}
                       <span>·</span>
-                      <span className="inline-flex items-center gap-1"><Icon className="w-3 h-3" />{CONTENT_TYPE_LABELS[content.content.type]}</span>
+                      <span className="inline-flex items-center gap-1"><Icon className="w-3 h-3" />{typeConfig?.label || content.content.type}</span>
                     </div>
                   </div>
 
@@ -142,14 +130,8 @@ export default function ContentList({ contents, celebId }: Props) {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const config: Record<string, { label: string; className: string }> = {
-    WANT: { label: '보고 싶음', className: 'bg-yellow-500/10 text-yellow-400' },
-    WATCHING: { label: '보는 중', className: 'bg-blue-500/10 text-blue-400' },
-    FINISHED: { label: '완료', className: 'bg-green-500/10 text-green-400' },
-    DROPPED: { label: '중단', className: 'bg-red-500/10 text-red-400' },
-    RECOMMENDED: { label: '추천', className: 'bg-purple-500/10 text-purple-400' },
-    NOT_RECOMMENDED: { label: '비추천', className: 'bg-gray-500/10 text-gray-400' },
-  }
-  const { label, className } = config[status] || { label: status, className: 'bg-gray-500/10 text-gray-400' }
-  return <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${className}`}>{label}</span>
+  const statusConfig = STATUS_OPTIONS.find((opt) => opt.value === status)
+  const label = statusConfig?.label || status
+  const color = statusConfig?.color || 'text-gray-400'
+  return <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-white/5 ${color}`}>{label}</span>
 }

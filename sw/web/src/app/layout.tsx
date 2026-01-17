@@ -5,10 +5,11 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
-import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond } from "next/font/google";
+import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SoundProvider } from "@/contexts/SoundContext";
+import Footer from "@/components/ui/Layout/Footer";
 
 // Cinzel (English Headings - 권위적/신전 느낌)
 const cinzel = Cinzel({
@@ -41,6 +42,15 @@ const notoSansKr = Noto_Sans_KR({
   display: "swap",
 });
 
+// Castoro Titling (Inscriptional Caps - 권위적/비석 느낌)
+const castoro = Castoro_Titling({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-castoro",
+  display: "swap",
+});
+
+
 // 마루부리 폰트 (기존 유지 - 필요시 사용)
 const maruburi = localFont({
   src: [
@@ -62,11 +72,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable}`}>
+    <html lang="ko" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
       <head />
       <body>
         <SoundProvider>
           {children}
+          <Footer />
         </SoundProvider>
       </body>
     </html>
