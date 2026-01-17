@@ -6,14 +6,13 @@
 
 "use client";
 
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Detail from "@/components/features/archive/detail/Detail";
 
 export default function Page() {
   const params = useParams();
-  const searchParams = useSearchParams();
   const contentId = params.id as string;
-  const viewUserId = searchParams.get("userId") ?? undefined;
+  const viewUserId = params.userId as string;
 
   return <Detail contentId={contentId} viewUserId={viewUserId} />;
 }

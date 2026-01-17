@@ -12,6 +12,7 @@ import { type UserContentPublic } from "@/actions/contents/getUserContents";
 import { type ActivityLogWithContent } from "@/types/database";
 import ActivityTimeline from "@/components/features/archive/ActivityTimeline";
 import RecentRecords from "@/components/features/archive/user/RecentRecords";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 
 const formatYear = (year: string | null | undefined) => {
   if (!year) return "";
@@ -111,7 +112,7 @@ export default function ProfileContent({
   return (
     <div className="space-y-12">
       {/* 1. Bio & Profile Info Section */}
-      <section className="card-classical p-8 md:p-10 bg-bg-card/40 border-accent/20 shadow-2xl">
+      <ClassicalBox as="section" className="p-8 md:p-10 bg-bg-card/40 border-accent/20 shadow-2xl">
         <div className="flex items-center gap-4 mb-8">
           <div className="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent" />
           <span className="text-serif text-accent text-sm tracking-widest font-black shadow-glow">
@@ -272,7 +273,7 @@ export default function ProfileContent({
             )}
           </div>
         </div>
-      </section>
+      </ClassicalBox>
 
       {/* 2. Recent Records */}
       <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
@@ -289,9 +290,9 @@ export default function ProfileContent({
             <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
-        <div className="card-classical p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+        <ClassicalBox className="p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
           <RecentRecords items={recentContents} userId={userId} />
-        </div>
+        </ClassicalBox>
       </section>
 
       {/* 3. Highlights (리뷰 + 완료) */}
@@ -303,9 +304,9 @@ export default function ProfileContent({
               하이라이트
             </h2>
           </div>
-          <div className="card-classical p-8 md:p-12 bg-bg-card/30 shadow-2xl border-accent-dim/10">
+          <ClassicalBox className="p-8 md:p-12 bg-bg-card/30 shadow-2xl border-accent-dim/10">
             <ActivityTimeline logs={activityLogs} />
-          </div>
+          </ClassicalBox>
         </section>
       )}
 
@@ -321,7 +322,7 @@ export default function ProfileContent({
 
           <div className="space-y-6">
             {/* 프로필 편집 카드 */}
-            <div className="card-classical p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+            <ClassicalBox className="p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <User size={20} className="text-accent" />
@@ -372,10 +373,10 @@ export default function ProfileContent({
                   />
                 </div>
               </div>
-            </div>
+            </ClassicalBox>
 
             {/* AI 설정 카드 */}
-            <div className="card-classical p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+            <ClassicalBox className="p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <Sparkles size={20} className="text-accent" />
@@ -426,10 +427,10 @@ export default function ProfileContent({
                   <span>AI 리뷰 생성, 줄거리 요약에 사용</span>
                 </div>
               </div>
-            </div>
+            </ClassicalBox>
 
             {/* 위험 영역 카드 */}
-            <div className="card-classical p-6 md:p-8 bg-bg-card/40 shadow-2xl border-red-500/30">
+            <ClassicalBox className="p-6 md:p-8 bg-bg-card/40 shadow-2xl border-red-500/30">
               <div className="flex items-center gap-3 mb-6">
                 <Trash2 size={20} className="text-red-400" />
                 <h3 className="text-lg font-serif font-bold text-red-400">위험 영역</h3>
@@ -490,7 +491,7 @@ export default function ProfileContent({
                   </div>
                 </div>
               )}
-            </div>
+            </ClassicalBox>
           </div>
         </section>
       )}

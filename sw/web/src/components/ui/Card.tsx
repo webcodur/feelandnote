@@ -5,6 +5,7 @@
 */ // ------------------------------
 
 import { ReactNode, HTMLAttributes } from "react";
+import ClassicalBox from "./ClassicalBox";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -20,9 +21,22 @@ export default function Card({
   onClick,
   ...rest
 }: CardProps) {
+  if (variant === "classical") {
+    return (
+      <ClassicalBox
+        hover={hover}
+        className={`${onClick ? "cursor-pointer" : ""} ${className}`}
+        onClick={onClick}
+        {...rest}
+      >
+        {children}
+      </ClassicalBox>
+    );
+  }
+
   return (
     <div
-      className={`${variant === "sarcophagus" ? "card-sarcophagus" : "card-classical"} p-4 md:p-6
+      className={`card-sarcophagus p-4 md:p-6
         ${hover ? "hover:border-accent hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] cursor-pointer" : ""}
         ${onClick ? "cursor-pointer" : ""}
         ${className}`}

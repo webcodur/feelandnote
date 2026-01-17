@@ -51,6 +51,7 @@ export async function getCelebFeed(
         id,
         nickname,
         avatar_url,
+        profession,
         is_verified,
         claimed_by
       )
@@ -120,6 +121,7 @@ export async function getCelebFeed(
           id: celeb.id,
           nickname: celeb.nickname || '',
           avatar_url: celeb.avatar_url,
+          profession: celeb.profession ?? null,
           is_verified: celeb.is_verified ?? false,
           is_platform_managed: celeb.claimed_by === null,
         },

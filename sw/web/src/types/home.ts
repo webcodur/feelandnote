@@ -46,6 +46,7 @@ export interface CelebReview {
     id: string
     nickname: string
     avatar_url: string | null
+    profession: string | null
     is_verified: boolean
     is_platform_managed: boolean
   }

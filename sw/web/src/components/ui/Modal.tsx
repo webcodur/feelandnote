@@ -14,6 +14,8 @@ import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useSoundOptional } from "@/contexts/SoundContext";
 
+import ClassicalBox from "@/components/ui/ClassicalBox";
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -85,8 +87,8 @@ export default function Modal({
       style={{ zIndex: Z_INDEX.modal }}
       onClick={handleOverlayClick}
     >
-      <div
-        className={`w-full ${SIZE_CLASSES[size]} card-classical rounded-lg overflow-hidden animate-modal-content`}
+      <ClassicalBox
+        className={`w-full ${SIZE_CLASSES[size]} rounded-lg overflow-hidden animate-modal-content`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
@@ -113,7 +115,7 @@ export default function Modal({
         )}
         {/* 본문 */}
         <AnimatedHeight>{children}</AnimatedHeight>
-      </div>
+      </ClassicalBox>
     </div>
   );
 

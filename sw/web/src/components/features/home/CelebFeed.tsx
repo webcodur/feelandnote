@@ -187,7 +187,7 @@ export default function CelebFeed({
             userName={review.celeb.nickname}
             userAvatar={review.celeb.avatar_url}
             isOfficial={review.celeb.is_verified}
-            userSubtitle={review.content.creator || "지혜의 탐구자"}
+            userSubtitle={review.celeb.profession || "지혜의 탐구자"}
             contentType={review.content.type}
             contentId={review.content.id}
             contentTitle={review.content.title}

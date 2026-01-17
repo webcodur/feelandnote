@@ -14,6 +14,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotBlackGold,
         label: styles.labelBlackGold,
         lpClass: styles.lpBlackGold,
+        imageFrame: styles.imageFrameBlackGold,
       };
     case "rose-gold":
       return {
@@ -26,6 +27,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotRoseGold,
         label: styles.labelRoseGold,
         lpClass: styles.lpRoseGold,
+        imageFrame: styles.imageFrameRoseGold,
       };
     case "crimson":
       return {
@@ -38,6 +40,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotCrimson,
         label: styles.labelCrimson,
         lpClass: styles.lpCrimson,
+        imageFrame: styles.imageFrameCrimson,
       };
     case "amethyst":
       return {
@@ -50,6 +53,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotAmethyst,
         label: styles.labelAmethyst,
         lpClass: styles.lpAmethyst,
+        imageFrame: styles.imageFrameAmethyst,
       };
     case "holographic":
       return {
@@ -61,6 +65,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         subText: styles.subTextHolographic,
         dot: styles.dotHolographic,
         label: styles.labelHolographic,
+        imageFrame: styles.imageFrameHolographic,
       };
     case "diamond":
       return {
@@ -73,6 +78,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotDiamond,
         label: styles.labelDiamond,
         lpClass: styles.lpDiamond,
+        imageFrame: styles.imageFrameDiamond,
       };
     case "gold":
       return {
@@ -85,6 +91,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotGold,
         label: styles.labelGold,
         lpClass: styles.lpGold,
+        imageFrame: styles.imageFrameGold,
       };
     case "silver":
       return {
@@ -97,6 +104,7 @@ export const getVariantStyles = (variant: CardVariant) => {
         dot: styles.dotSilver,
         label: styles.labelSilver,
         lpClass: styles.lpSilver,
+        imageFrame: styles.imageFrameSilver,
       };
     case "bronze":
       return {
@@ -108,10 +116,10 @@ export const getVariantStyles = (variant: CardVariant) => {
         subTextColor: styles.subTextBronze,
         dotColor: styles.dotBronze,
         labelColor: styles.labelBronze,
-        imageFilter: "contrast-110 sepia-[0.2]",
         engravedEffect: styles.textEngravedBronze,
         frameColor: styles.frameBronze,
         lpClass: styles.lpBronze,
+        imageFrame: styles.imageFrameBronze,
       };
 
     case "iron":
@@ -124,13 +132,12 @@ export const getVariantStyles = (variant: CardVariant) => {
         subTextColor: styles.subTextIron,
         dotColor: styles.dotIron,
         labelColor: styles.labelIron,
-        imageFilter: "grayscale contrast-110 brightness-90", // Industrial look
         engravedEffect: styles.textEngraved,
         frameColor: styles.frameIron,
         lpClass: styles.lpIron,
+        imageFrame: styles.imageFrameIron,
       };
     default:
-      // Fallback to iron or gold? Let's fallback to gold safely
        return {
           surface: styles.goldSurface,
           borderVariant: styles.gold,
@@ -141,6 +148,7 @@ export const getVariantStyles = (variant: CardVariant) => {
           dot: styles.dotGold,
           label: styles.labelGold,
           lpClass: styles.lpGold,
+          imageFrame: styles.imageFrameGold,
         };
   }
 };

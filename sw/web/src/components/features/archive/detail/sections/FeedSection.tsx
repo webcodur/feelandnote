@@ -15,6 +15,7 @@ import { getFeedRecords, type FeedRecord } from "@/actions/records";
 import type { RecordType } from "@/actions/records";
 import { getReviewFeed, type ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 import Button from "@/components/ui/Button";
+import useDragScroll from "@/hooks/useDragScroll";
 
 const PAGE_SIZE = 10;
 
@@ -49,6 +50,17 @@ function ReviewFeedCard({ item }: { item: ReviewFeedItem }) {
   const nickname = item.user.nickname || "익명";
   const timeAgo = formatRelativeTime(item.updated_at);
 
+  const {
+    containerRef,
+    scrollY,
+    maxScroll,
+    isDragging,
+    canScroll,
+    onMouseDown,
+    onTouchStart,
+    scrollStyle,
+  } = useDragScroll();
+
   return (
     <Card className="p-0">
       <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
@@ -72,23 +84,41 @@ function ReviewFeedCard({ item }: { item: ReviewFeedItem }) {
           <Button
             unstyled
             onClick={() => setShowSpoiler(true)}
-            className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary"
+            className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary h-[80px]"
           >
             <EyeOff size={14} />
             <span>스포일러가 포함된 리뷰입니다. 클릭하여 보기</span>
           </Button>
         ) : (
-          <div className="text-xs leading-relaxed text-text-secondary line-clamp-4 whitespace-pre-line">
-            {item.is_spoiler && (
-              <Button
-                unstyled
-                onClick={() => setShowSpoiler(false)}
-                className="inline-flex items-center gap-1 mr-1.5 text-red-400"
-              >
-                <Eye size={12} />
-              </Button>
+          <div
+            ref={containerRef}
+            className={`h-[80px] overflow-hidden relative select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
+            onMouseDown={onMouseDown}
+            onTouchStart={onTouchStart}
+          >
+            {/* 상단 그라데이션 */}
+            {canScroll && scrollY > 0 && (
+              <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-bg-card to-transparent pointer-events-none z-10" />
             )}
-            {item.review}
+            <div
+              className="text-xs leading-relaxed text-text-secondary whitespace-pre-line"
+              style={scrollStyle}
+            >
+              {item.is_spoiler && (
+                <Button
+                  unstyled
+                  onClick={() => setShowSpoiler(false)}
+                  className="inline-flex items-center gap-1 mr-1.5 text-red-400"
+                >
+                  <Eye size={12} />
+                </Button>
+              )}
+              {item.review}
+            </div>
+            {/* 하단 그라데이션 */}
+            {canScroll && scrollY < maxScroll && (
+              <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
+            )}
           </div>
         )}
       </div>

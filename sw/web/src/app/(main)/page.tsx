@@ -10,7 +10,7 @@ import { HeroBackgroundText, Logo } from "@/components/ui";
 // #region 스켈레톤 & Helper Components
 function CarouselSkeleton() {
   return (
-    <div className="flex gap-4 overflow-x-hidden py-4">
+    <div className="flex gap-4 overflow-x-hidden py-6">
       {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="min-w-[120px] h-[160px] bg-bg-card rounded-xl animate-pulse" />
       ))}
@@ -79,7 +79,7 @@ export default async function HomePage() {
               {/* Divine Lintel Decoration */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-accent/40 shadow-glow" />
 
-              <div className="space-y-6">
+              <div className="space-y-6 pt-6">
                 <span className="font-cinzel text-xs md:text-sm text-accent tracking-[1.5em] uppercase opacity-60 block">Inscribed in Eternity</span>
                 <h1 className="flex flex-col items-center">
                   <Logo
@@ -90,17 +90,18 @@ export default async function HomePage() {
                   />
                 </h1>
                 <div className="h-1 w-64 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto rounded-full shadow-[0_0_30px_rgba(212,175,55,0.4)] mt-12" />
-                <p className="font-serif italic text-text-tertiary text-sm md:text-lg tracking-widest opacity-70 mt-4">"지혜의 기록을 보존하고, 영원한 영감을 얻으십시오"</p>
+                <p className="font-serif italic text-text-tertiary text-sm md:text-lg tracking-widest opacity-70 mt-4">"그들이 사랑한 책, 영화, 음악 등 다양한 콘텐츠의 기록"</p>
               </div>
             </div>
             
-            <div className="w-full">
-              <div className="flex items-end justify-between mb-8 px-4 border-b border-accent-dim/10 pb-4">
+            <div className="w-full overflow-visible relative z-10">
+              <div className="flex items-end justify-between mb-12 px-4 border-b border-accent-dim/10 pb-4 relative z-0">
                 <div className="flex flex-col gap-2">
                   <span className="font-cinzel text-[10px] text-accent tracking-[0.6em] uppercase">Inspiring People</span>
                   <h2 className="font-serif font-black text-2xl md:text-4xl tracking-tighter text-text-primary">
                     영감을 나누는 사람들
                   </h2>
+                  <p className="text-sm text-text-tertiary">그들이 경험한 책, 영화, 음악 등 다양한 콘텐츠를 탐색하세요</p>
                 </div>
                 <Link
                   href="/explore"

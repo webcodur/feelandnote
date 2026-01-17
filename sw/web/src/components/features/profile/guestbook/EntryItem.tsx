@@ -7,7 +7,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Card, Button } from "@/components/ui";
+import { Button } from "@/components/ui";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -36,7 +37,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
   };
 
   return (
-    <Card className="relative card-classical border-accent-dim/20 hover:border-accent/40 bg-bg-card/30 transition-all duration-300">
+    <ClassicalBox className="relative border-accent-dim/20 hover:border-accent/40 bg-bg-card/30 transition-all duration-300">
       <div className="flex items-start gap-4">
         {/* 아바타 */}
         <div className="relative w-10 h-10 rounded-full bg-bg-secondary border-2 border-accent-dim/30 overflow-hidden flex-shrink-0">
@@ -155,6 +156,6 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
           </div>
         )}
       </div>
-    </Card>
+    </ClassicalBox>
   );
 }

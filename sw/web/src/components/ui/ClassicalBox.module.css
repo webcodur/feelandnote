@@ -1,0 +1,78 @@
+.classicalBox {
+  position: relative;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+  
+  /* Background Gradients for Borders */
+  background-image: 
+    /* Top Left */
+    linear-gradient(to right, var(--color-accent), var(--color-accent)),
+    linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
+    /* Top Right */
+    linear-gradient(to left, var(--color-accent), var(--color-accent)),
+    linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
+    /* Bottom Right */
+    linear-gradient(to left, var(--color-accent), var(--color-accent)),
+    linear-gradient(to top, var(--color-accent), var(--color-accent)),
+    /* Bottom Left */
+    linear-gradient(to right, var(--color-accent), var(--color-accent)),
+    linear-gradient(to top, var(--color-accent), var(--color-accent)),
+    /* Vignette (Optional, kept subtle) */
+    radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+    
+  background-position:  
+    0 0, 0 0,           /* TL */
+    100% 0, 100% 0,     /* TR */
+    100% 100%, 100% 100%, /* BR */
+    0 100%, 0 100%,     /* BL */
+    center;             /* Vignette */
+    
+  background-size: 
+    16px 4px, 4px 16px, /* TL dimensions */
+    16px 4px, 4px 16px, /* TR dimensions */
+    16px 4px, 4px 16px, /* BR dimensions */
+    16px 4px, 4px 16px, /* BL dimensions */
+    100% 100%;          /* Vignette dimensions */
+}
+
+/* Corner Brackets */
+.classicalBox::before, 
+.classicalBox::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-accent);
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+.classicalBox::before {
+  top: -2px; 
+  left: -2px;
+  border-right: none; 
+  border-bottom: none;
+}
+
+.classicalBox::after {
+  bottom: -2px; 
+  right: -2px;
+  border-left: none; 
+  border-top: none;
+}
+
+/* Hover Effects */
+.hoverable:hover::before, 
+.hoverable:hover::after {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  border-color: var(--color-accent-hover);
+}
+
+.hoverable:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
