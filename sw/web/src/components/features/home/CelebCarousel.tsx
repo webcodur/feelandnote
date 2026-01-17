@@ -112,21 +112,56 @@ export default function CelebCarousel({
       return 'iron'; // D (Default)
   };
 
-  // Carousel Mode Rendering (2행 가로스크롤, 세로 우선 배치)
+  // Carousel Mode Rendering
   if (mode === "carousel") {
     if (initialTotal === 0) return null;
 
+    // PC: 열 수에 따라 4행에 맞게 셀럽 수 계산 (최대 24명)
+    const pcCelebs = celebs.slice(0, 24);
+    // 모바일: 최대 8명
+    const mobileCelebs = celebs.slice(0, 8);
+
     return (
-      <div className="overflow-x-auto pb-4 scrollbar-hide">
-        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-4 px-4">
-          {celebs.map((celeb) => (
-            <NeoCelebCard
+      <div className="bg-white/[0.02] backdrop-blur-sm rounded-2xl p-4 md:p-6">
+        {/* 모바일: 간단한 카드 형태 (2열 그리드) */}
+        <div className="md:hidden grid grid-cols-2 gap-4">
+          {mobileCelebs.map((celeb) => (
+            <a
               key={celeb.id}
-              celeb={celeb}
-              variant={getVariant(celeb.influence?.rank)}
-              scale={0.85}
-              className="flex-shrink-0"
-            />
+              href={`/${celeb.id}`}
+              className="flex items-center gap-3 p-3 bg-bg-card rounded-xl hover:bg-white/5"
+            >
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
+                {celeb.avatar_url ? (
+                  <img
+                    src={celeb.avatar_url}
+                    alt={celeb.nickname}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-text-tertiary">
+                    {celeb.nickname[0]}
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-sm text-text-primary truncate">{celeb.nickname}</p>
+                <p className="text-xs text-text-tertiary">{celeb.content_count || 0}개 콘텐츠</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* PC: 4행 그리드, 가로폭에 맞게 */}
+        <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+          {pcCelebs.map((celeb) => (
+            <div key={celeb.id} className="flex justify-center pt-3">
+              <NeoCelebCard
+                celeb={celeb}
+                variant={getVariant(celeb.influence?.rank)}
+                scale={0.75}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -139,7 +174,7 @@ export default function CelebCarousel({
   }
 
   return (
-    <section>
+    <section className="bg-white/[0.02] backdrop-blur-sm rounded-2xl p-4 md:p-6">
       {/* PC: 전체 필터 표시 */}
       <div className="hidden md:block space-y-3 mb-8">
         {/* 직군 필터 */}
@@ -462,7 +497,7 @@ export default function CelebCarousel({
       {celebs.length > 0 && (
         <div
           className={`
-            grid grid-cols-2 gap-x-2 gap-y-4 md:hidden
+            grid grid-cols-2 gap-4 md:hidden
             ${isLoading ? "opacity-50 pointer-events-none" : ""}
           `}
         >
@@ -482,7 +517,7 @@ export default function CelebCarousel({
       {celebs.length > 0 && (
         <div
           className={`
-            hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6
+            hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8
             ${isLoading ? "opacity-50 pointer-events-none" : ""}
           `}
         >

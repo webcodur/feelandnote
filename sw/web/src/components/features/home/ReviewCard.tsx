@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar } from "@/components/ui";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 import { Check, Book } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { getCategoryByDbType } from "@/constants/categories";
+import useDragScroll from "@/hooks/useDragScroll";
 import type { ContentType } from "@/types/database";
 
 // 카테고리 정보 조회 헬퍼
@@ -70,6 +72,18 @@ export default function ReviewCard({
 
   const { icon: ContentIcon, label: contentTypeLabel } = getContentTypeInfo(contentType);
 
+  // 드래그 스크롤 훅
+  const {
+    containerRef: reviewContainerRef,
+    scrollY,
+    maxScroll,
+    isDragging,
+    canScroll,
+    onMouseDown,
+    onTouchStart,
+    scrollStyle,
+  } = useDragScroll();
+
   // 저장 상태 확인
   useEffect(() => {
     checkContentSaved(contentId).then((result) => {
@@ -100,9 +114,9 @@ export default function ReviewCard({
   };
 
   const cardContent = (
-    <div className="card-classical flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] mx-auto overflow-hidden group p-4 md:p-6">
+    <ClassicalBox className="flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] md:h-[280px] mx-auto overflow-hidden group p-4 md:p-6">
       {/* 좌측: 콘텐츠 이미지 + 정보 오버레이 */}
-      <div className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] shrink-0 bg-black border border-accent/30">
+      <div className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] md:aspect-auto md:h-full shrink-0 bg-black border border-accent/30">
         {contentThumbnail ? (
           <Image
             src={contentThumbnail}
@@ -140,7 +154,7 @@ export default function ReviewCard({
       </div>
 
       {/* 우측: 프로필 + 리뷰 */}
-      <div className="flex-1 flex flex-col pt-4 md:pt-0 md:pl-6 relative">
+      <div className="flex-1 flex flex-col pt-4 md:pt-0 md:pl-6 relative md:h-full">
         {/* 저장 버튼 (우상단) */}
         <div className="absolute top-0 right-0 z-10">
           {isAdded ? (
@@ -191,7 +205,7 @@ export default function ReviewCard({
         </div>
 
         {/* 리뷰 본문 */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative min-h-0">
           {isSpoiler && !showSpoiler ? (
             <button
               onClick={(e) => {
@@ -199,18 +213,36 @@ export default function ReviewCard({
                 e.stopPropagation();
                 setShowSpoiler(true);
               }}
-              className="w-full h-full min-h-[80px] flex items-center justify-center bg-accent/5 border border-dashed border-accent/20 text-accent/50 hover:text-accent font-black uppercase tracking-widest text-[10px]"
+              className="w-full h-[120px] md:h-full flex items-center justify-center bg-accent/5 border border-dashed border-accent/20 text-accent/50 hover:text-accent font-black uppercase tracking-widest text-[10px]"
             >
               스포일러 보호막 · 탭하여 해제
             </button>
           ) : (
-            <p className="text-base md:text-lg text-[#e0e0e0] font-medium leading-[1.8] font-serif antialiased line-clamp-5">
-              {review}
-            </p>
+            <div
+              ref={reviewContainerRef}
+              className={`h-[120px] md:h-full overflow-hidden relative select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
+              onMouseDown={onMouseDown}
+              onTouchStart={onTouchStart}
+            >
+              {/* 상단 그라데이션 - 위로 스크롤 가능할 때 표시 */}
+              {canScroll && scrollY > 0 && (
+                <div className="absolute top-0 inset-x-0 h-8 bg-gradient-to-b from-[#0a0a0a] to-transparent pointer-events-none z-10" />
+              )}
+              <p
+                className="text-base md:text-lg text-[#e0e0e0] font-medium leading-[1.8] font-serif antialiased"
+                style={scrollStyle}
+              >
+                {review}
+              </p>
+              {/* 하단 그라데이션 - 아래로 스크롤 가능할 때 표시 */}
+              {canScroll && scrollY < maxScroll && (
+                <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
+              )}
+            </div>
           )}
         </div>
       </div>
-    </div>
+    </ClassicalBox>
   );
 
   // href가 있으면 클릭 가능한 div로 처리 (a 중첩 방지)

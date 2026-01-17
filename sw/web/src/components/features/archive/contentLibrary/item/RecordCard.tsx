@@ -8,6 +8,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Book, Film, Gamepad2, Music, Award, Star } from "lucide-react";
+import useDragScroll from "@/hooks/useDragScroll";
 import type { ContentType, ContentStatus } from "@/types/database";
 
 // #region 타입
@@ -62,10 +63,34 @@ export default function RecordCard({
   const ContentIcon = TYPE_ICONS[contentType];
   const statusInfo = STATUS_STYLES[status];
 
+  // 리뷰 드래그 스크롤
+  const {
+    containerRef,
+    scrollY,
+    maxScroll,
+    isDragging,
+    canScroll,
+    onMouseDown,
+    onTouchStart,
+    scrollStyle,
+  } = useDragScroll();
+
+  // 드래그 중 Link 클릭 방지
+  const handleMouseDown = (e: React.MouseEvent) => {
+    onMouseDown(e);
+    e.stopPropagation();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    onTouchStart(e);
+    e.stopPropagation();
+  };
+
   return (
     <Link
       href={href}
       className="group block bg-bg-card hover:bg-bg-secondary border border-border/30 hover:border-accent/50 rounded-lg overflow-hidden"
+      onClick={(e) => isDragging && e.preventDefault()}
     >
       <div className="flex gap-3 p-3">
         {/* 썸네일 */}
@@ -99,11 +124,30 @@ export default function RecordCard({
             )}
           </div>
 
-          {/* 중간: 리뷰 미리보기 */}
-          {review && (
-            <p className="text-xs text-text-tertiary line-clamp-4 mt-2 leading-relaxed">
-              {isSpoiler ? "스포일러 포함" : review}
-            </p>
+          {/* 중간: 리뷰 미리보기 (드래그 스크롤) */}
+          {review && !isSpoiler && (
+            <div
+              ref={containerRef}
+              className={`h-[52px] overflow-hidden relative select-none mt-2 ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
+              onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
+            >
+              {canScroll && scrollY > 0 && (
+                <div className="absolute top-0 inset-x-0 h-3 bg-gradient-to-b from-bg-card to-transparent pointer-events-none z-10" />
+              )}
+              <p
+                className="text-xs text-text-tertiary leading-relaxed whitespace-pre-line"
+                style={scrollStyle}
+              >
+                {review}
+              </p>
+              {canScroll && scrollY < maxScroll && (
+                <div className="absolute bottom-0 inset-x-0 h-3 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
+              )}
+            </div>
+          )}
+          {review && isSpoiler && (
+            <p className="text-xs text-text-tertiary mt-2">스포일러 포함</p>
           )}
 
           {/* 하단: 상태 + 별점 */}

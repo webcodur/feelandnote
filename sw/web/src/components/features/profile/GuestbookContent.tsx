@@ -6,7 +6,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Card, Button } from "@/components/ui";
+import { Button } from "@/components/ui";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 import { MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
@@ -106,11 +107,11 @@ export default function GuestbookContent({
           )}
         </div>
       ) : (
-        <Card className="text-center py-16 card-classical bg-bg-card/30 border-dashed border-accent-dim/30">
+        <ClassicalBox className="text-center py-16 bg-bg-card/30 border-dashed border-accent-dim/30">
           <MessageSquare size={48} strokeWidth={1} className="mx-auto mb-4 text-accent-dim opacity-50" />
           <p className="text-lg text-text-secondary mb-2">The Guestbook is Empty</p>
           {currentUser && <p className="text-sm text-text-tertiary">Be the first to sign this guestbook.</p>}
-        </Card>
+        </ClassicalBox>
       )}
     </>
   );

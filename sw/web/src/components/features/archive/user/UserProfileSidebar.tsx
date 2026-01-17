@@ -11,6 +11,7 @@ import {
   SacredFlameIcon
 } from "@/components/ui/icons/neo-pantheon";
 import { type PublicUserProfile } from "@/actions/user";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 
 interface UserProfileSidebarProps {
   profile: PublicUserProfile;
@@ -48,7 +49,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
 
   return (
     <aside className="w-full lg:w-[240px] flex-shrink-0 animate-fade-in mb-8 lg:mb-0">
-      <div className="card-classical p-6 flex flex-col items-center">
+      <ClassicalBox className="p-6 flex flex-col items-center">
         {/* 클릭 시 인물 정보 페이지로 이동 */}
         <Link href={`/${userId}`} className="group flex flex-col items-center cursor-pointer">
           {/* Profile Label */}
@@ -166,7 +167,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
             })}
           </div>
         </nav>
-      </div>
+      </ClassicalBox>
     </aside>
   );
 }

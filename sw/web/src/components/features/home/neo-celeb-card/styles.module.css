@@ -851,3 +851,67 @@
   50% { background-position: 100% 100%; opacity: 1; }
   100% { background-position: 0% 0%; opacity: 0.8; }
 }
+
+/*
+  IMAGE FRAME - Static gradient borders (same as card outer border, no animation)
+*/
+.imageFrame {
+  position: relative;
+}
+.imageFrame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px;
+  border-radius: 0;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.imageFrameGold::before {
+  background: conic-gradient(from 132deg at 50% 32%, #AA771C 0%, #BF953F 20%, #FCF6BA 40%, #B38728 60%, #FBF5B7 80%, #AA771C 100%);
+}
+.imageFrameSilver::before {
+  background: conic-gradient(from 132deg at 50% 32%, #FFFFFF 0%, #D0D0D0 10%, #E8E8E8 20%, #A0A0A0 30%, #FFFFFF 50%, #A0A0A0 70%, #E8E8E8 80%, #D0D0D0 90%, #FFFFFF 100%);
+}
+.imageFrameBronze::before {
+  background: conic-gradient(from 132deg at 50% 32%, #8C7853 0%, #D4C1A5 25%, #5D4037 50%, #D4C1A5 75%, #8C7853 100%);
+}
+.imageFrameIron::before {
+  background: conic-gradient(from 132deg at 50% 50%, #2f3e46 0%, #849096 25%, #1a2226 50%, #849096 75%, #2f3e46 100%);
+}
+.imageFrameDiamond::before {
+  background: conic-gradient(from 132deg at 50% 50%, #004e92 0%, #ffffff 15%, #020024 50%, #ffffff 65%, #004e92 100%);
+}
+.imageFrameBlackGold::before {
+  background: conic-gradient(from 132deg at 50% 50%, #D4AF37 0%, #FFF8E1 15%, #1a1a1a 50%, #FFF8E1 65%, #D4AF37 100%);
+}
+.imageFrameRoseGold::before {
+  background: conic-gradient(from 132deg at 50% 50%, #f43f5e 0%, #ffe4e6 15%, #fb7185 50%, #ffe4e6 65%, #f43f5e 100%);
+}
+.imageFrameCrimson::before {
+  background: conic-gradient(from 132deg at 50% 50%, #4a0000 0%, #c9a227 15%, #8b0000 50%, #c9a227 65%, #4a0000 100%);
+}
+.imageFrameAmethyst::before {
+  background: conic-gradient(from 132deg at 50% 50%, #4b0082 0%, #e6e6fa 15%, #8a2be2 50%, #e6e6fa 65%, #4b0082 100%);
+}
+.imageFrameHolographic::before {
+  background: conic-gradient(from 132deg at 50% 50%, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+}
+
+/*
+  CELEB IMAGE - Grayscale to Color on Hover (Desktop only)
+*/
+.celebImage {
+  transition: filter 0.4s ease;
+}
+
+@media (hover: hover) {
+  .celebImage {
+    filter: grayscale(1) contrast(1.1);
+  }
+  .cardGroup:hover .celebImage {
+    filter: grayscale(0) contrast(1);
+  }
+}

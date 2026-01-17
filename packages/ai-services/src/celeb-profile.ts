@@ -107,17 +107,39 @@ export function buildCelebProfilePrompt(input: CelebProfileInput): string {
 - athlete: 스포츠인
 
 ## 규칙
-1. bio는 2줄 분량으로 작성한다. 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 이후 주요 업적과 현재 활동을 담백하게 이어간다. 평가나 수식어는 최소화한다. 간결하고 권위적인 말투 사용 (있다, 이다, 하다, 했다, 한다 등)
+1. bio는 100자 이내로 작성. 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊은 뒤 주요 업적을 이어간다. 간결하고 권위적인 말투 사용
 2. profession은 위 코드 중 가장 적합한 것 선택
 3. nationality는 ISO 3166-1 alpha-2 국가 코드 사용 (예: US, KR, GB, JP, FR, DE). 고대 국가나 현존하지 않는 국가는 빈 문자열
 4. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성 (예: -356, 1955)
-5. quotes는 해당 인물의 가장 유명한 명언을 한국어로 작성, 알려진 것이 없으면 빈 문자열
+5. quotes는 50자 이내로 작성, 알려진 것이 없으면 빈 문자열
+6. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체. 인용문 작성 시 JSON 형식이 깨지지 않도록 주의
 
-JSON만 출력 (설명 없이):`
+JSON만 출력:`
 }
 // #endregion
 
 // #region Response Parser
+
+// 불완전한 JSON 복구 시도
+function tryRepairJson(jsonStr: string): string {
+  let repaired = jsonStr.trim()
+
+  // 열린 따옴표 개수 확인
+  const quoteCount = (repaired.match(/"/g) || []).length
+  if (quoteCount % 2 !== 0) {
+    repaired += '"'
+  }
+
+  // 중괄호 균형 맞추기
+  const openBraces = (repaired.match(/{/g) || []).length
+  const closeBraces = (repaired.match(/}/g) || []).length
+  for (let i = 0; i < openBraces - closeBraces; i++) {
+    repaired += '}'
+  }
+
+  return repaired
+}
+
 function parseProfileResponse(response: string): GeneratedCelebProfile | null {
   console.log('[parseProfileResponse] Raw response:', response.slice(0, 1000))
 
@@ -132,6 +154,9 @@ function parseProfileResponse(response: string): GeneratedCelebProfile | null {
     const endIdx = jsonStr.lastIndexOf('}')
     if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
       jsonStr = jsonStr.slice(startIdx, endIdx + 1)
+    } else if (startIdx !== -1) {
+      // } 가 없으면 복구 시도
+      jsonStr = tryRepairJson(jsonStr.slice(startIdx))
     }
 
     // 3. 줄바꿈 및 제어 문자 정리
@@ -184,8 +209,8 @@ export async function generateCelebProfile(
   const response = await callGemini({
     apiKey,
     prompt,
-    maxOutputTokens: 1000,
-  })
+    maxOutputTokens: 1500,
+  }, { json: true })
 
   if (response.error) {
     return { success: false, error: response.error }
@@ -301,14 +326,15 @@ leader(지도자), politician(정치인), commander(지휘관), entrepreneur(기
 - 단, "앞으로 ~할 것이다"는 희망적 추측은 금지
 
 ## 규칙
-1. bio는 2줄 분량으로 작성한다. 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 이후 주요 업적과 현재 활동을 담백하게 이어간다. 평가나 수식어는 최소화한다. 간결하고 권위적인 말투 사용 (있다, 이다, 하다, 했다, 한다 등)
-2. 각 영향력 exp는 1문장으로 간결하게
+1. bio는 100자 이내로 작성. 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊은 뒤 주요 업적을 이어간다
+2. 각 영향력 exp는 30자 이내 1문장으로 간결하게
 3. 알려진 정보만 반영, 추측 금지
 4. avatarUrl은 빈 문자열
 5. 전문 분야 외 영역은 반드시 낮은 점수 부여
-6. nationality는 ISO 3166-1 alpha-2 국가 코드 사용 (예: US, KR, GB, JP). 고대 국가나 현존하지 않는 국가는 빈 문자열
-7. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성 (예: -356, 1955)
-8. quotes는 해당 인물의 가장 유명한 명언을 한국어로 작성, 알려진 것이 없으면 빈 문자열
+6. nationality는 ISO 3166-1 alpha-2 국가 코드
+7. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성
+8. quotes는 50자 이내로 작성, 알려진 것이 없으면 빈 문자열
+9. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체. 인용문 작성 시 JSON 형식이 깨지지 않도록 주의
 
 JSON만 출력:`
 }
@@ -336,6 +362,8 @@ function parseProfileWithInfluenceResponse(response: string): GeneratedCelebProf
     const endIdx = jsonStr.lastIndexOf('}')
     if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
       jsonStr = jsonStr.slice(startIdx, endIdx + 1)
+    } else if (startIdx !== -1) {
+      jsonStr = tryRepairJson(jsonStr.slice(startIdx))
     }
 
     jsonStr = jsonStr.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ')
@@ -413,7 +441,7 @@ export async function generateCelebProfileWithInfluence(
     apiKey,
     prompt,
     maxOutputTokens: 4000,
-  })
+  }, { json: true })
 
   if (response.error) {
     return { success: false, error: response.error }
@@ -517,9 +545,10 @@ function buildInfluencePrompt(input: CelebProfileInput): string {
 - 단, "앞으로 ~할 것이다"는 희망적 추측은 금지
 
 ## 규칙
-1. 각 영향력 exp는 1문장으로 구체적인 근거 제시
+1. 각 영향력 exp는 30자 이내 1문장으로 간결하게
 2. 알려진 정보만 반영, 추측 금지
 3. 전문 분야 외 영역은 반드시 낮은 점수 부여
+4. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체
 
 JSON만 출력:`
 }
@@ -559,7 +588,7 @@ export async function generateCelebInfluence(
     apiKey,
     prompt,
     maxOutputTokens: 3000,
-  })
+  }, { json: true })
 
   if (response.error) {
     return { success: false, error: response.error }

@@ -6,7 +6,8 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Button } from "@/components/ui";
+import { Button } from "@/components/ui";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 import { Lock, Send } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
@@ -53,7 +54,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   };
 
   return (
-    <Card className="mb-6 card-classical bg-bg-card/50 backdrop-blur-sm border-accent-dim/30">
+    <ClassicalBox className="mb-6 bg-bg-card/50 backdrop-blur-sm border-accent-dim/30">
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
@@ -86,6 +87,6 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
           </Button>
         </div>
       </div>
-    </Card>
+    </ClassicalBox>
   );
 }
