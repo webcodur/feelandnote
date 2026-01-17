@@ -26,7 +26,7 @@ interface PlaylistInfo {
 }
 
 import type { ContentType, ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
-import { CATEGORY_ID_TO_TYPE } from "@/constants/categories";
+import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 
 // #region 타입
 export type SortOption = "recent" | "title";
@@ -59,7 +59,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const isViewer = mode === 'viewer';
 
   // #region 상태
-  const [activeTab, setActiveTab] = useState("book");
+  const [activeTab, setActiveTab] = useState<CategoryId>("book");
   const [contents, setContents] = useState<UserContentWithContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

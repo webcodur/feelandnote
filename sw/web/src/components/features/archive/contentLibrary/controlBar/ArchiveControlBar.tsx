@@ -11,6 +11,7 @@ import Button, { SelectDropdown } from "@/components/ui/Button";
 import type { CategoryWithCount } from "@/types/database";
 import type { SortOption, StatusFilter } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/types/content";
+import type { CategoryId } from "@/constants/categories";
 import { TAB_OPTIONS, STATUS_OPTIONS, SORT_OPTIONS } from "./constants";
 import ControlSection from "./ControlSection";
 import ControlIconButton from "./ControlIconButton";
@@ -22,8 +23,8 @@ function cn(...classes: (string | undefined | null | false)[]) {
 }
 
 export interface ArchiveControlBarProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  activeTab: CategoryId;
+  onTabChange: (tab: CategoryId) => void;
   typeCounts: ContentTypeCounts;
   categories: CategoryWithCount[];
   selectedCategoryId: string | null;
