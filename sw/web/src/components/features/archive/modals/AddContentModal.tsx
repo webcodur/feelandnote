@@ -6,13 +6,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Book, Film, Gamepad2, Music, Award, Loader2, Info, Search, Plus } from "lucide-react";
+import { Loader2, Info, Search, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import { Button } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/types/database";
-import type { CategoryId } from "@/constants/categories";
+import { CATEGORIES, type CategoryId } from "@/constants/categories";
+import { STATUS_OPTIONS } from "@/constants/statuses";
 import { useAchievement } from "@/components/features/profile/achievements";
 import { useSound } from "@/contexts/SoundContext";
 
@@ -21,24 +22,6 @@ interface AddContentModalProps {
   onClose: () => void;
   onSuccess?: () => void;
 }
-
-const CATEGORIES = [
-  { id: "book" as CategoryId, dbType: "BOOK", label: "도서", icon: Book, creatorLabel: "저자" },
-  { id: "video" as CategoryId, dbType: "VIDEO", label: "영상", icon: Film, creatorLabel: "감독" },
-  { id: "game" as CategoryId, dbType: "GAME", label: "게임", icon: Gamepad2, creatorLabel: "개발사" },
-  { id: "music" as CategoryId, dbType: "MUSIC", label: "음악", icon: Music, creatorLabel: "아티스트" },
-  { id: "certificate" as CategoryId, dbType: "CERTIFICATE", label: "자격증", icon: Award, creatorLabel: "발급기관" },
-];
-
-// 상태 옵션
-const STATUS_OPTIONS = [
-  { value: "WANT" as ContentStatus, label: "관심" },
-  { value: "WATCHING" as ContentStatus, label: "진행중" },
-  { value: "DROPPED" as ContentStatus, label: "중단" },
-  { value: "FINISHED" as ContentStatus, label: "완료" },
-  { value: "RECOMMENDED" as ContentStatus, label: "완료+추천" },
-  { value: "NOT_RECOMMENDED" as ContentStatus, label: "완료+비추" },
-];
 
 export default function AddContentModal({ isOpen, onClose, onSuccess }: AddContentModalProps) {
   const router = useRouter();
@@ -154,7 +137,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           <label className="text-sm font-semibold text-text-secondary">카테고리</label>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((category) => {
-              const Icon = category.icon;
+              const Icon = category.lucideIcon;
               const isSelected = selectedCategory === category.id;
               return (
                 <Button

@@ -14,11 +14,10 @@ import {
   Check,
   Search,
   ChevronDown,
-  BookOpen,
-  Film,
-  Gamepad2,
-  Music,
+  ChevronUp,
   Pencil,
+  X,
+  RotateCcw,
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import ManualSearchModal from '../ManualSearchModal'
@@ -31,37 +30,17 @@ import {
 } from '@/actions/admin/ai-collect'
 import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
 import type { ContentType } from '@feelnnote/content-search/types'
+import { CONTENT_TYPE_CONFIG, CONTENT_TYPES, type ContentType as LocalContentType } from '@/constants/contentTypes'
+import { STATUS_OPTIONS } from '@/constants/statuses'
 
 const SELECTED_KEY_STORAGE = 'feelnnote_selected_api_key'
 
 // #region Constants
-const CONTENT_TYPE_ICONS: Record<string, React.ElementType> = {
-  BOOK: BookOpen,
-  VIDEO: Film,
-  GAME: Gamepad2,
-  MUSIC: Music,
-}
-
-const CONTENT_TYPE_LABELS: Record<string, string> = {
-  BOOK: '도서',
-  VIDEO: '영상',
-  GAME: '게임',
-  MUSIC: '음악',
-}
-
-const STATUS_OPTIONS = [
-  { value: 'WANT', label: '보고 싶음' },
-  { value: 'WATCHING', label: '보는 중' },
-  { value: 'FINISHED', label: '완료' },
-  { value: 'DROPPED', label: '중단' },
-]
-
-const CONTENT_TYPE_OPTIONS: Array<{ value: ContentType; label: string }> = [
-  { value: 'BOOK', label: '도서' },
-  { value: 'VIDEO', label: '영상' },
-  { value: 'GAME', label: '게임' },
-  { value: 'MUSIC', label: '음악' },
-]
+// CONTENT_TYPE_OPTIONS는 로컬 상수에서 생성
+const CONTENT_TYPE_OPTIONS = CONTENT_TYPES.filter((type) => type !== 'CERTIFICATE').map((type) => ({
+  value: type as ContentType,
+  label: CONTENT_TYPE_CONFIG[type].label,
+}))
 // #endregion
 
 // #region Types
@@ -116,6 +95,10 @@ export default function AICollectView({ celebId, celebName }: Props) {
 
   // 편집 상태
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
+
+  // 배제/접힘 상태
+  const [excludedIndices, setExcludedIndices] = useState<Set<number>>(new Set())
+  const [collapsedIndices, setCollapsedIndices] = useState<Set<number>>(new Set())
 
   function getSelectedKeyId(): string | undefined {
     return localStorage.getItem(SELECTED_KEY_STORAGE) || undefined
@@ -337,6 +320,45 @@ export default function AICollectView({ celebId, celebName }: Props) {
     setSearchModalOpen(false)
     setSearchModalIndex(null)
   }
+
+  function toggleExclude(index: number) {
+    const newExcluded = new Set(excludedIndices)
+    const newCollapsed = new Set(collapsedIndices)
+
+    if (newExcluded.has(index)) {
+      // 배제 해제
+      newExcluded.delete(index)
+    } else {
+      // 배제 + 자동 접힘
+      newExcluded.add(index)
+      newCollapsed.add(index)
+      // 선택 해제
+      const newSelected = new Set(selectedIndices)
+      newSelected.delete(index)
+      setSelectedIndices(newSelected)
+    }
+
+    setExcludedIndices(newExcluded)
+    setCollapsedIndices(newCollapsed)
+  }
+
+  function toggleCollapse(index: number) {
+    const newCollapsed = new Set(collapsedIndices)
+    if (newCollapsed.has(index)) {
+      newCollapsed.delete(index)
+    } else {
+      newCollapsed.add(index)
+    }
+    setCollapsedIndices(newCollapsed)
+  }
+
+  // 정렬된 인덱스 (배제되지 않은 것 → 배제된 것)
+  const sortedIndices = [...extractedItems.keys()].sort((a, b) => {
+    const aExcluded = excludedIndices.has(a)
+    const bExcluded = excludedIndices.has(b)
+    if (aExcluded === bExcluded) return a - b
+    return aExcluded ? 1 : -1
+  })
   // #endregion
 
   const savableCount = [...processedItems.entries()].filter(
@@ -488,88 +510,157 @@ export default function AICollectView({ celebId, celebName }: Props) {
           </div>
 
           <div className="space-y-2">
-            {extractedItems.map((item, index) => {
-              const Icon = CONTENT_TYPE_ICONS[item.type] || BookOpen
+            {sortedIndices.map((index, sortedIdx) => {
+              const item = extractedItems[index]
+              const typeConfig = CONTENT_TYPE_CONFIG[item.type as LocalContentType]
+              const Icon = typeConfig?.icon || Star
               const isSelected = selectedIndices.has(index)
+              const isExcluded = excludedIndices.has(index)
+              const isCollapsed = collapsedIndices.has(index)
               const processed = processedItems.get(index)
 
+              // 배제 구분선 위치 계산
+              const isFirstExcluded = isExcluded && (sortedIdx === 0 || !excludedIndices.has(sortedIndices[sortedIdx - 1]))
+
               return (
-                <div
-                  key={index}
-                  className={`border rounded-lg overflow-hidden ${
-                    isSelected ? 'border-accent bg-accent/5' : 'border-border'
-                  }`}
-                >
-                  {/* Item Header */}
-                  <div className="flex items-center gap-3 p-3">
-                    <Button
-                      unstyled
-                      onClick={() => toggleSelect(index)}
-                      className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 ${
-                        isSelected
-                          ? 'bg-accent border-accent text-white'
-                          : 'border-border hover:border-accent'
-                      }`}
-                    >
-                      {isSelected && <Check className="w-3 h-3" />}
-                    </Button>
-
-                    <div
-                      className={`w-8 h-8 rounded flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-accent/20 text-accent' : 'bg-bg-secondary text-text-secondary'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
+                <div key={index}>
+                  {/* 배제 구분선 */}
+                  {isFirstExcluded && (
+                    <div className="flex items-center gap-2 pb-2 pt-4">
+                      <div className="flex-1 h-px bg-red-500/30" />
+                      <span className="text-xs text-red-400 px-2">
+                        배제됨 ({excludedIndices.size})
+                      </span>
+                      <div className="flex-1 h-px bg-red-500/30" />
                     </div>
+                  )}
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-text-primary truncate">
-                          {item.title}
-                        </span>
-                        <span className="text-xs text-text-secondary shrink-0">
-                          {CONTENT_TYPE_LABELS[item.type]}
-                        </span>
+                  <div
+                    className={`border rounded-lg overflow-hidden ${
+                      isExcluded
+                        ? 'border-red-500/30 bg-red-500/5 opacity-60'
+                        : isSelected
+                          ? 'border-accent bg-accent/5'
+                          : 'border-border'
+                    }`}
+                  >
+                    {/* Item Header */}
+                    <div className="flex items-center gap-3 p-3">
+                      {/* 접기/펼치기 버튼 */}
+                      <Button
+                        unstyled
+                        onClick={() => toggleCollapse(index)}
+                        className="p-1 text-text-secondary hover:text-text-primary rounded shrink-0"
+                        title={isCollapsed ? '펼치기' : '접기'}
+                      >
+                        {isCollapsed ? (
+                          <ChevronDown className="w-4 h-4" />
+                        ) : (
+                          <ChevronUp className="w-4 h-4" />
+                        )}
+                      </Button>
+
+                      {/* 선택 체크박스 (배제 안 된 경우만) */}
+                      {!isExcluded && (
+                        <Button
+                          unstyled
+                          onClick={() => toggleSelect(index)}
+                          className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 ${
+                            isSelected
+                              ? 'bg-accent border-accent text-white'
+                              : 'border-border hover:border-accent'
+                          }`}
+                        >
+                          {isSelected && <Check className="w-3 h-3" />}
+                        </Button>
+                      )}
+
+                      <div
+                        className={`w-8 h-8 rounded flex items-center justify-center shrink-0 ${
+                          isExcluded
+                            ? 'bg-red-500/10 text-red-400'
+                            : isSelected
+                              ? 'bg-accent/20 text-accent'
+                              : 'bg-bg-secondary text-text-secondary'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
                       </div>
-                      {item.titleKo && item.titleKo !== item.title && (
-                        <p className="text-xs text-accent truncate">→ {item.titleKo}</p>
-                      )}
-                      {(item.creator || item.creatorKo) && (
-                        <p className="text-xs text-text-secondary truncate">
-                          {item.creatorKo || item.creator}
-                        </p>
-                      )}
-                      {item.review && (
-                        <p className="text-xs text-green-400 line-clamp-1 mt-0.5">
-                          💬 {item.review}
-                        </p>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm font-medium truncate ${isExcluded ? 'text-text-secondary line-through' : 'text-text-primary'}`}>
+                            {item.title}
+                          </span>
+                          <span className="text-xs text-text-secondary shrink-0">
+                            {typeConfig?.label || item.type}
+                          </span>
+                        </div>
+                        {!isCollapsed && (
+                          <>
+                            {item.titleKo && item.titleKo !== item.title && (
+                              <p className="text-xs text-accent truncate">→ {item.titleKo}</p>
+                            )}
+                            {(item.creator || item.creatorKo) && (
+                              <p className="text-xs text-text-secondary truncate">
+                                {item.creatorKo || item.creator}
+                              </p>
+                            )}
+                            {item.review && (
+                              <p className="text-xs text-green-400 line-clamp-1 mt-0.5">
+                                💬 {item.review}
+                              </p>
+                            )}
+                          </>
+                        )}
+                      </div>
+
+                      {/* 배제/복원 버튼 */}
+                      <Button
+                        unstyled
+                        onClick={() => toggleExclude(index)}
+                        className={`p-1.5 rounded shrink-0 ${
+                          isExcluded
+                            ? 'text-green-400 hover:bg-green-500/10'
+                            : 'text-text-secondary hover:text-red-400 hover:bg-red-500/10'
+                        }`}
+                        title={isExcluded ? '복원' : '배제'}
+                      >
+                        {isExcluded ? (
+                          <RotateCcw className="w-4 h-4" />
+                        ) : (
+                          <X className="w-4 h-4" />
+                        )}
+                      </Button>
+
+                      {!isExcluded && (
+                        <>
+                          <Button
+                            unstyled
+                            onClick={() => setEditingIndex(editingIndex === index ? null : index)}
+                            className={`p-1.5 rounded shrink-0 ${
+                              editingIndex === index
+                                ? 'text-accent bg-accent/10'
+                                : 'text-text-secondary hover:text-accent'
+                            }`}
+                            title="편집"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            unstyled
+                            onClick={() => openManualSearch(index)}
+                            className="p-1.5 text-text-secondary hover:text-accent rounded shrink-0"
+                            title="직접 검색"
+                          >
+                            <Search className="w-4 h-4" />
+                          </Button>
+                        </>
                       )}
                     </div>
 
-                    <Button
-                      unstyled
-                      onClick={() => setEditingIndex(editingIndex === index ? null : index)}
-                      className={`p-1.5 rounded shrink-0 ${
-                        editingIndex === index
-                          ? 'text-accent bg-accent/10'
-                          : 'text-text-secondary hover:text-accent'
-                      }`}
-                      title="편집"
-                    >
-                      <Pencil className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      unstyled
-                      onClick={() => openManualSearch(index)}
-                      className="p-1.5 text-text-secondary hover:text-accent rounded shrink-0"
-                      title="직접 검색"
-                    >
-                      <Search className="w-4 h-4" />
-                    </Button>
-                  </div>
-
-                  {/* Edit Panel */}
-                  {editingIndex === index && (
+                  {/* Edit Panel (접히지 않고, 배제되지 않은 경우만) */}
+                  {editingIndex === index && !isCollapsed && !isExcluded && (
                     <div className="px-3 pb-3 pt-2 border-t border-border/50 space-y-3 bg-bg-secondary/30">
                       <div className="grid grid-cols-2 gap-3">
                         <div>
@@ -628,16 +719,16 @@ export default function AICollectView({ celebId, celebName }: Props) {
                         <textarea
                           value={item.review || ''}
                           onChange={(e) => updateExtractedItem(index, { review: e.target.value })}
-                          rows={2}
-                          className="w-full px-2 py-1.5 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none resize-none"
+                          rows={Math.max(4, (item.review || '').split('\n').length + 1)}
+                          className="w-full px-2 py-1.5 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none resize-y min-h-[100px]"
                           placeholder="셀럽의 리뷰나 감상"
                         />
                       </div>
                     </div>
                   )}
 
-                  {/* Search Result (if processed) */}
-                  {processed && (processed.searchResultsKo.length > 0 || processed.searchResultsOriginal.length > 0 || processed.selectedSearchResult) && (
+                  {/* Search Result (접히지 않고, 배제되지 않은 경우만) */}
+                  {!isCollapsed && !isExcluded && processed && (processed.searchResultsKo.length > 0 || processed.searchResultsOriginal.length > 0 || processed.selectedSearchResult) && (
                     <div className="px-3 pb-3 pt-2 border-t border-border/50 space-y-2">
                       <div className="flex items-center gap-2">
                         <span className="text-xs text-text-secondary shrink-0 w-16">검색 결과:</span>
@@ -739,8 +830,8 @@ export default function AICollectView({ celebId, celebName }: Props) {
                     </div>
                   )}
 
-                  {/* No results yet - show search CTA if processed but empty */}
-                  {processed && !processed.selectedSearchResult && processed.searchResultsKo.length === 0 && processed.searchResultsOriginal.length === 0 && (
+                  {/* No results yet - show search CTA if processed but empty (접히지 않고, 배제되지 않은 경우만) */}
+                  {!isCollapsed && !isExcluded && processed && !processed.selectedSearchResult && processed.searchResultsKo.length === 0 && processed.searchResultsOriginal.length === 0 && (
                     <div className="px-3 pb-3 pt-2 border-t border-border/50">
                       <Button
                         unstyled
@@ -752,6 +843,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
                       </Button>
                     </div>
                   )}
+                  </div>
                 </div>
               )
             })}

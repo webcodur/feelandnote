@@ -1,16 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
-import { Library, Search, Users, Calendar, Building2, Book, Film, Gamepad2, Music, Award } from 'lucide-react'
+import { Library, Search, Users, Calendar, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
-
-const CONTENT_TYPES = {
-  BOOK: { label: '도서', color: 'bg-blue-500/10 text-blue-400', icon: Book },
-  VIDEO: { label: '영상', color: 'bg-red-500/10 text-red-400', icon: Film },
-  GAME: { label: '게임', color: 'bg-green-500/10 text-green-400', icon: Gamepad2 },
-  MUSIC: { label: '음악', color: 'bg-purple-500/10 text-purple-400', icon: Music },
-  CERTIFICATE: { label: '자격증', color: 'bg-yellow-500/10 text-yellow-400', icon: Award },
-}
+import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 
 interface PageProps {
   searchParams: Promise<{
@@ -93,7 +86,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
             className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
           >
             <option value="all">모든 유형</option>
-            {Object.entries(CONTENT_TYPES).map(([key, { label }]) => (
+            {Object.entries(CONTENT_TYPE_CONFIG).map(([key, { label }]) => (
               <option key={key} value={key}>{label}</option>
             ))}
           </select>
@@ -125,7 +118,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
               </tr>
             ) : (
               contents.map((content) => {
-                const typeConfig = CONTENT_TYPES[content.type as keyof typeof CONTENT_TYPES]
+                const typeConfig = CONTENT_TYPE_CONFIG[content.type as keyof typeof CONTENT_TYPE_CONFIG]
                 const TypeIcon = typeConfig?.icon || Library
                 const userCount = userCountMap[content.id] || 0
 
@@ -151,7 +144,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${typeConfig?.color || 'bg-gray-500/10 text-gray-400'}`}>
+                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${typeConfig?.bgColor || 'bg-gray-500/10'} ${typeConfig?.color || 'text-gray-400'}`}>
                         <TypeIcon className="w-3 h-3" />
                         {typeConfig?.label || content.type}
                       </span>

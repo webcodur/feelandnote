@@ -2,37 +2,10 @@ import { getContent } from '@/actions/admin/contents'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  ArrowLeft,
-  Library,
-  Users,
-  Calendar,
-  Building2,
-  FileText,
-  Book,
-  Film,
-  Gamepad2,
-  Music,
-  Award,
-} from 'lucide-react'
+import { ArrowLeft, Library, Users, Calendar, Building2, FileText } from 'lucide-react'
 import ContentActions from './ContentActions'
-
-const CONTENT_TYPES = {
-  BOOK: { label: '도서', icon: Book, color: 'text-blue-400', bgColor: 'bg-blue-500/10' },
-  VIDEO: { label: '영상', icon: Film, color: 'text-red-400', bgColor: 'bg-red-500/10' },
-  GAME: { label: '게임', icon: Gamepad2, color: 'text-green-400', bgColor: 'bg-green-500/10' },
-  MUSIC: { label: '음악', icon: Music, color: 'text-purple-400', bgColor: 'bg-purple-500/10' },
-  CERTIFICATE: { label: '자격증', icon: Award, color: 'text-yellow-400', bgColor: 'bg-yellow-500/10' },
-}
-
-const STATUS_CONFIG = {
-  WANT: { label: '예정', color: 'bg-yellow-500/10 text-yellow-400' },
-  WATCHING: { label: '진행중', color: 'bg-green-500/10 text-green-400' },
-  FINISHED: { label: '완료', color: 'bg-purple-500/10 text-purple-400' },
-  DROPPED: { label: '중단', color: 'bg-red-500/10 text-red-400' },
-  RECOMMENDED: { label: '추천', color: 'bg-blue-500/10 text-blue-400' },
-  NOT_RECOMMENDED: { label: '비추천', color: 'bg-gray-500/10 text-gray-400' },
-}
+import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
+import { STATUS_CONFIG, type ContentStatus } from '@/constants/statuses'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -46,7 +19,7 @@ export default async function ContentDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  const typeConfig = CONTENT_TYPES[content.type as keyof typeof CONTENT_TYPES]
+  const typeConfig = CONTENT_TYPE_CONFIG[content.type as keyof typeof CONTENT_TYPE_CONFIG]
   const TypeIcon = typeConfig?.icon || Library
 
   return (
@@ -152,8 +125,8 @@ export default async function ContentDetailPage({ params }: PageProps) {
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${STATUS_CONFIG[user.status as keyof typeof STATUS_CONFIG]?.color || 'bg-gray-500/10 text-gray-400'}`}>
-                        {STATUS_CONFIG[user.status as keyof typeof STATUS_CONFIG]?.label || user.status}
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${STATUS_CONFIG[user.status as ContentStatus]?.bgColor || 'bg-gray-500/10'} ${STATUS_CONFIG[user.status as ContentStatus]?.color || 'text-gray-400'}`}>
+                        {STATUS_CONFIG[user.status as ContentStatus]?.label || user.status}
                       </span>
                       <span className="text-xs text-text-secondary">
                         {new Date(user.created_at).toLocaleDateString('ko-KR')}

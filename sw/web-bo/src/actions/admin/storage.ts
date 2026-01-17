@@ -121,6 +121,8 @@ export async function uploadCelebImage(
   }
 
   const { data } = adminClient.storage.from(BUCKET_NAME).getPublicUrl(path)
-  return { success: true, url: data.publicUrl }
+  // 캐시 무효화를 위한 타임스탬프 추가
+  const urlWithCacheBust = `${data.publicUrl}?v=${Date.now()}`
+  return { success: true, url: urlWithCacheBust }
 }
 // #endregion

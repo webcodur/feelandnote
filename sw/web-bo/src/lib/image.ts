@@ -1,7 +1,7 @@
 // 이미지 리사이징 유틸리티 (클라이언트용)
 
 const IMAGE_SIZES = {
-  avatar: { width: 100, height: 100 },
+  avatar: { width: 300, height: 400 },  // 카드 표시 144×192의 2배 (레티나 대응)
   portrait: { width: 675, height: 1200 },
 } as const
 

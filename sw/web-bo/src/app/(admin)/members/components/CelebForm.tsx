@@ -424,9 +424,9 @@ export default function CelebForm({ mode, celeb }: Props) {
           <div className="grid grid-cols-2 gap-6">
             {/* 아바타 (썸네일) */}
             <div className="space-y-2">
-              <p className="text-xs text-text-secondary">썸네일 (100x100)</p>
+              <p className="text-xs text-text-secondary">썸네일 (300×400)</p>
               <div className="flex items-start gap-3">
-                <div className="relative w-20 h-20 rounded-full overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
+                <div className="relative w-[60px] h-20 rounded-lg overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
                   {(avatarPreview || formData.avatar_url) ? (
                     <>
                       <Image src={avatarPreview || formData.avatar_url || ''} alt="아바타" fill unoptimized className="object-cover" />
@@ -555,7 +555,7 @@ export default function CelebForm({ mode, celeb }: Props) {
     {cropModalOpen && cropImageSrc && (
       <ImageCropModal
         imageSrc={cropImageSrc}
-        aspectRatio={cropTargetType === 'avatar' ? 1 : 9 / 16}
+        aspectRatio={cropTargetType === 'avatar' ? 3 / 4 : 9 / 16}
         onComplete={handleCropComplete}
         onCancel={handleCropCancel}
       />

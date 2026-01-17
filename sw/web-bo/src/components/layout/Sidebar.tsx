@@ -5,12 +5,19 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   Users,
-  Star,
   Library,
   FileText,
   Flag,
   Award,
   Settings,
+  Activity,
+  BookOpen,
+  StickyNote,
+  ListMusic,
+  Layers,
+  Gamepad2,
+  Trophy,
+  BarChart3,
 } from 'lucide-react'
 
 const menuItems = [
@@ -18,8 +25,16 @@ const menuItems = [
   { href: '/members', label: '멤버 관리', icon: Users },
   { href: '/contents', label: '콘텐츠 관리', icon: Library },
   { href: '/records', label: '기록 관리', icon: FileText },
+  { href: '/notes', label: '노트 관리', icon: StickyNote },
+  { href: '/playlists', label: '플레이리스트', icon: ListMusic },
+  { href: '/tier-lists', label: '티어 리스트', icon: Layers },
+  { href: '/guestbooks', label: '방명록', icon: BookOpen },
   { href: '/reports', label: '신고 관리', icon: Flag },
   { href: '/titles', label: '칭호 관리', icon: Award },
+  { href: '/scores', label: '점수/랭킹', icon: Trophy },
+  { href: '/blind-game', label: '블라인드 게임', icon: Gamepad2 },
+  { href: '/activity-logs', label: '활동 로그', icon: Activity },
+  { href: '/api-usage', label: 'API 사용량', icon: BarChart3 },
   { href: '/settings', label: '설정', icon: Settings },
 ]
 

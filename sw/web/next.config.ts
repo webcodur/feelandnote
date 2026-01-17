@@ -13,8 +13,11 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'books.google.com' },
       { protocol: 'https', hostname: 'i.scdn.co' },
       { protocol: 'https', hostname: 'images.igdb.com' },
+      { protocol: 'https', hostname: 'encrypted-tbn0.gstatic.net' },
       { protocol: 'https', hostname: 'encrypted-tbn0.gstatic.com' },
       { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: 'pds.joongang.co.kr' },
+      { protocol: 'https', hostname: '*.joongang.co.kr' },
     ],
   },
   async redirects() {

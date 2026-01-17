@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { GreekChevronIcon, NeoCheckIcon, BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
-import CelebProfileCard from "./CelebProfileCard";
+import NeoCelebCard from "./neo-celeb-card";
 import Button from "@/components/ui/Button";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { getCelebs } from "@/actions/home";
@@ -103,20 +103,29 @@ export default function CelebCarousel({
   const activeContentType = CONTENT_TYPE_FILTERS.find((c) => c.value === contentType);
   const activeSort = SORT_OPTIONS.find((s) => s.value === sortBy);
 
+  // Rank Helper: S-A-B-C-D → Crimson-Gold-Silver-Bronze-Iron
+  const getVariant = (rank?: string) => {
+      if (rank === 'S') return 'crimson';
+      if (rank === 'A') return 'gold';
+      if (rank === 'B') return 'silver';
+      if (rank === 'C') return 'bronze';
+      return 'iron'; // D (Default)
+  };
+
   // Carousel Mode Rendering (2행 가로스크롤, 세로 우선 배치)
   if (mode === "carousel") {
     if (initialTotal === 0) return null;
 
     return (
       <div className="overflow-x-auto pb-4 scrollbar-hide">
-        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-3">
-          {celebs.map((celeb, index) => (
-            <CelebProfileCard
+        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-4 px-4">
+          {celebs.map((celeb) => (
+            <NeoCelebCard
               key={celeb.id}
               celeb={celeb}
-              size="md"
-              priority={index < 8}
-              contentUnit={contentUnit}
+              variant={getVariant(celeb.influence?.rank)}
+              scale={0.85}
+              className="flex-shrink-0"
             />
           ))}
         </div>
@@ -132,7 +141,7 @@ export default function CelebCarousel({
   return (
     <section>
       {/* PC: 전체 필터 표시 */}
-      <div className="hidden md:block space-y-3 mb-4">
+      <div className="hidden md:block space-y-3 mb-8">
         {/* 직군 필터 */}
         <div className="flex items-center gap-2">
           <span className={FILTER_BUTTON_STYLES.label}>직군</span>
@@ -240,7 +249,7 @@ export default function CelebCarousel({
       </div>
 
       {/* 모바일: 개별 필터 칩 */}
-      <div className="md:hidden mb-4 space-y-2">
+      <div className="md:hidden mb-6 space-y-2">
         {/* 직군 필터 칩 */}
         <div className="flex items-center gap-2">
           <span className={FILTER_BUTTON_STYLES.label}>직군</span>
@@ -449,30 +458,41 @@ export default function CelebCarousel({
         </div>
       )}
 
-      {/* 모바일 그리드 (4열, 작은 카드) */}
+      {/* 모바일 그리드 (2열로 변경, scale 적용) */}
       {celebs.length > 0 && (
         <div
           className={`
-            grid grid-cols-4 gap-2 md:hidden
+            grid grid-cols-2 gap-x-2 gap-y-4 md:hidden
             ${isLoading ? "opacity-50 pointer-events-none" : ""}
           `}
         >
-          {celebs.map((celeb, index) => (
-            <CelebProfileCard key={celeb.id} celeb={celeb} size="sm" priority={index < 4} contentUnit={contentUnit} />
+          {celebs.map((celeb) => (
+            <div key={celeb.id} className="flex justify-center">
+                <NeoCelebCard 
+                    celeb={celeb} 
+                    variant={getVariant(celeb.influence?.rank)}
+                    scale={0.72} 
+                />
+            </div>
           ))}
         </div>
       )}
 
-      {/* PC 그리드 (4~8열) */}
+      {/* PC 그리드 (3-4-5열로 변경) */}
       {celebs.length > 0 && (
         <div
           className={`
-            hidden md:grid md:grid-cols-4 lg:grid-cols-8 gap-4
+            hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6
             ${isLoading ? "opacity-50 pointer-events-none" : ""}
           `}
         >
-          {celebs.map((celeb, index) => (
-            <CelebProfileCard key={celeb.id} celeb={celeb} size="md" priority={index < 8} contentUnit={contentUnit} />
+          {celebs.map((celeb) => (
+             <div key={celeb.id} className="flex justify-center">
+                <NeoCelebCard 
+                    celeb={celeb} 
+                    variant={getVariant(celeb.influence?.rank)}
+                />
+             </div>
           ))}
         </div>
       )}

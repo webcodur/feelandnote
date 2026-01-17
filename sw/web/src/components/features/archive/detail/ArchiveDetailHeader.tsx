@@ -7,14 +7,14 @@
 
 import Image from "next/image";
 import { ArrowLeft, Trash2, Calendar, User } from "lucide-react";
-import { CATEGORIES } from "@/constants/categories";
+import { CATEGORIES, TYPE_TO_CATEGORY_ID } from "@/constants/categories";
+import { STATUS_OPTIONS } from "@/constants/statuses";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
-import type { ContentStatus } from "@/types/database";
+import type { ContentStatus, ContentType } from "@/types/database";
 import type { UserContentWithDetails } from "@/actions/contents/getContent";
 import type { ContentMetadata } from "@/types/content";
-import type { CategoryId } from "@/constants/categories";
 
 // #region 타입
 interface ArchiveDetailHeaderProps {
@@ -24,23 +24,6 @@ interface ArchiveDetailHeaderProps {
   onStatusChange: (status: ContentStatus) => void;
   onDelete: () => void;
 }
-
-const TYPE_TO_CATEGORY: Record<string, CategoryId> = {
-  BOOK: "book",
-  VIDEO: "video",
-  GAME: "game",
-  MUSIC: "music",
-  CERTIFICATE: "certificate",
-};
-
-const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
-  { value: "WANT", label: "관심" },
-  { value: "WATCHING", label: "진행중" },
-  { value: "DROPPED", label: "중단" },
-  { value: "FINISHED", label: "완료" },
-  { value: "RECOMMENDED", label: "완료+추천" },
-  { value: "NOT_RECOMMENDED", label: "완료+비추" },
-];
 
 const CATEGORY_CONFIG = Object.fromEntries(
   CATEGORIES.map((cat) => [cat.id, { icon: cat.icon, label: cat.label }])
@@ -55,7 +38,7 @@ export default function ArchiveDetailHeader({
   onDelete,
 }: ArchiveDetailHeaderProps) {
   const content = item.content;
-  const categoryId = TYPE_TO_CATEGORY[content.type] || "book";
+  const categoryId = TYPE_TO_CATEGORY_ID[content.type as ContentType] || "book";
   const category = CATEGORY_CONFIG[categoryId] || CATEGORY_CONFIG.book;
   const Icon = category.icon;
 

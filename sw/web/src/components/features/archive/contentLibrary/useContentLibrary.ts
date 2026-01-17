@@ -26,6 +26,7 @@ interface PlaylistInfo {
 }
 
 import type { ContentType, ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
+import { CATEGORY_ID_TO_TYPE } from "@/constants/categories";
 
 // #region 타입
 export type SortOption = "recent" | "title";
@@ -51,16 +52,6 @@ export interface TabOption {
   label: string;
   type?: ContentType;
 }
-// #endregion
-
-// #region 상수
-const TYPE_MAP: Record<string, ContentType> = {
-  book: "BOOK",
-  video: "VIDEO",
-  game: "GAME",
-  music: "MUSIC",
-  certificate: "CERTIFICATE",
-};
 // #endregion
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
@@ -160,7 +151,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   }, [filteredAndSortedContents]);
 
   const currentTypeCategories = useMemo(() => {
-    const type = TYPE_MAP[activeTab];
+    const type = CATEGORY_ID_TO_TYPE[activeTab];
     return type ? categories[type] || [] : [];
   }, [activeTab, categories]);
   // #endregion
@@ -245,7 +236,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         // viewer 모드: 타인의 공개 콘텐츠 조회
         const result = await getUserContents({
           userId: targetUserId,
-          type: TYPE_MAP[activeTab],
+          type: CATEGORY_ID_TO_TYPE[activeTab],
           page: compact ? 1 : currentPage,
           limit,
         });
@@ -284,7 +275,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       } else {
         // owner 모드: 내 콘텐츠 조회
         const result = await getMyContents({
-          type: TYPE_MAP[activeTab],
+          type: CATEGORY_ID_TO_TYPE[activeTab],
           page: compact ? 1 : currentPage,
           limit,
         });
