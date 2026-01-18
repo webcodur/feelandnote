@@ -4,7 +4,7 @@
   책임: Playlists 컴포넌트를 렌더링한다.
 */ // ------------------------------
 
-import Playlists from "@/components/features/archive/playlists/Playlists";
+import Playlists from "@/components/features/user/playlists/Playlists";
 
 export default function Page() {
   return <Playlists />;

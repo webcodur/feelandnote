@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import ContentLibrary from "@/components/features/archive/contentLibrary/ContentLibrary";
-import AddContentModal from "@/components/features/archive/modals/AddContentModal";
+import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
+import AddContentModal from "@/components/features/user/modals/AddContentModal";
 import { Plus } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";

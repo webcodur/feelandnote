@@ -60,8 +60,8 @@ export async function updatePlaylist(params: UpdatePlaylistParams): Promise<Acti
     return handleSupabaseError(error, { context: 'playlist', logPrefix: '[재생목록 수정]' })
   }
 
-  revalidatePath('/archive')
-  revalidatePath(`/archive/playlists/${params.playlistId}`)
+  revalidatePath(`/${user.id}/collections`)
+  revalidatePath(`/${user.id}/collections/${params.playlistId}`)
 
   return success(null)
 }

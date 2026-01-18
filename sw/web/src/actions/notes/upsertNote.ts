@@ -58,7 +58,7 @@ export async function upsertNote(params: UpsertNoteParams): Promise<Note> {
     throw new Error('노트 저장에 실패했습니다')
   }
 
-  revalidatePath(`/archive/${params.contentId}`)
+  revalidatePath(`/${user.id}/records/${params.contentId}`)
 
   return data as Note
 }

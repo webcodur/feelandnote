@@ -28,7 +28,7 @@ export async function updateDate({ userContentId, field, date }: UpdateDateParam
     throw new Error('날짜 변경에 실패했습니다')
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
 
   return { success: true }
 }

@@ -12,17 +12,17 @@ import { Search, Loader2, ArrowUpDown, Info } from "lucide-react";
 import { FilterChips, FilterSelect, type FilterOption, type ChipOption } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { ContentResults, UserResults, TagResults } from "@/components/shared/search/SearchResultCards";
-import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
+import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { getMyContentIds } from "@/actions/contents/getMyContentIds";
 import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMetadata";
-import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
+import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 import { createClient } from "@/lib/supabase/client";
 
-type SearchMode = "content" | "user" | "tag" | "archive";
-type ContentResult = ContentSearchResult | ArchiveSearchResult;
+type SearchMode = "content" | "user" | "tag" | "records";
+type ContentResult = ContentSearchResult | RecordsSearchResult;
 
 // 카테고리별 검색 안내 문구
 const CATEGORY_SEARCH_GUIDE: Partial<Record<CategoryId, string>> = {
@@ -125,8 +125,8 @@ function SearchContent() {
             setTotalCount(data.total);
             setHasMore(data.hasMore);
           }
-        } else if (modeParam === "archive") {
-          const data = await searchArchive({ query: queryParam, category: category });
+        } else if (modeParam === "records") {
+          const data = await searchRecords({ query: queryParam, category: category });
           if (!cancelled) {
             setContentResults(data.items);
             setTotalCount(data.total);
@@ -189,8 +189,8 @@ function SearchContent() {
         const data = await searchContents({ query: queryParam, category: categoryParam, page: nextPage });
         setContentResults((prev) => [...prev, ...data.items]);
         setHasMore(data.hasMore);
-      } else if (modeParam === "archive") {
-        const data = await searchArchive({ query: queryParam, category: category, page: nextPage });
+      } else if (modeParam === "records") {
+        const data = await searchRecords({ query: queryParam, category: category, page: nextPage });
         setContentResults((prev) => [...prev, ...data.items]);
         setHasMore(data.hasMore);
       } else if (modeParam === "user") {
@@ -287,7 +287,7 @@ function SearchContent() {
 
       {isLoading && <div className="flex items-center justify-center py-20"><Loader2 size={32} className="animate-spin text-accent" /></div>}
 
-      {!isLoading && (modeParam === "content" || modeParam === "archive") && (
+      {!isLoading && (modeParam === "content" || modeParam === "records") && (
         <ContentResults
           results={contentResults}
           mode={modeParam}

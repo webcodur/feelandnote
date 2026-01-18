@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   const tokenHash = searchParams.get('token_hash')
   const type = searchParams.get('type') as EmailOtpType | null
-  const next = searchParams.get('next') ?? '/archive'
+  const nextParam = searchParams.get('next')
   const error = searchParams.get('error')
   const errorDescription = searchParams.get('error_description')
 
@@ -41,7 +41,8 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(`${origin}/reset-password`)
       }
 
-      return NextResponse.redirect(`${origin}${next}`)
+      const redirectPath = nextParam ?? `/${data.user.id}/records`
+      return NextResponse.redirect(`${origin}${redirectPath}`)
     }
   }
   // #endregion
@@ -57,7 +58,8 @@ export async function GET(request: NextRequest) {
 
     if (data.user) {
       await createProfileIfNotExists(supabase, data.user)
-      return NextResponse.redirect(`${origin}${next}`)
+      const redirectPath = nextParam ?? `/${data.user.id}/records`
+      return NextResponse.redirect(`${origin}${redirectPath}`)
     }
   }
   // #endregion
@@ -67,7 +69,8 @@ export async function GET(request: NextRequest) {
 
   if (user) {
     await createProfileIfNotExists(supabase, user)
-    return NextResponse.redirect(`${origin}${next}`)
+    const redirectPath = nextParam ?? `/${user.id}/records`
+    return NextResponse.redirect(`${origin}${redirectPath}`)
   }
   // #endregion
 

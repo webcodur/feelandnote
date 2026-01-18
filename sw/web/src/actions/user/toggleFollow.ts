@@ -58,7 +58,7 @@ export async function toggleFollow(targetUserId: string): Promise<ActionResult<T
     // user_social 카운트 감소
     await updateSocialCounts(supabase, user.id, targetUserId, -1)
 
-    revalidatePath(`/archive/user/${targetUserId}`)
+    revalidatePath(`/${targetUserId}`)
     return { success: true, data: { isFollowing: false } }
   }
 
@@ -77,7 +77,7 @@ export async function toggleFollow(targetUserId: string): Promise<ActionResult<T
   // user_social 카운트 증가
   await updateSocialCounts(supabase, user.id, targetUserId, 1)
 
-  revalidatePath(`/archive/user/${targetUserId}`)
+  revalidatePath(`/${targetUserId}`)
   return { success: true, data: { isFollowing: true } }
 }
 

@@ -68,8 +68,8 @@ export async function updateRecord(params: UpdateRecordParams): Promise<ActionRe
     return handleSupabaseError(error, { context: 'record', logPrefix: '[기록 수정]' })
   }
 
-  revalidatePath(`/archive/${data.content_id}`)
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records/${data.content_id}`)
+  revalidatePath(`/${user.id}/records`)
 
   // 활동 로그
   await logActivity({

@@ -4,7 +4,7 @@
   책임: Lounge 컴포넌트를 렌더링한다.
 */ // ------------------------------
 
-import Lounge from "@/components/features/archive/lounge/Lounge";
+import Lounge from "@/components/features/user/lounge/Lounge";
 
 export default function Page() {
   return (

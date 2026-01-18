@@ -88,7 +88,7 @@ export async function addCelebContent(params: AddCelebContentParams): Promise<Ac
     return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[셀럽 사용자 콘텐츠 생성]' })
   }
 
-  revalidatePath(`/u/${params.celebId}/archive`)
+  revalidatePath(`/u/${params.celebId}/records`)
 
   return success({
     contentId: params.contentId,

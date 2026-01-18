@@ -10,7 +10,7 @@ import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 
-export type SearchMode = "content" | "user" | "tag" | "archive";
+export type SearchMode = "content" | "user" | "tag" | "records";
 export type ContentCategory = CategoryId;
 
 export interface SearchModeConfig {
@@ -25,7 +25,7 @@ export const SEARCH_MODES: SearchModeConfig[] = [
   { id: "content", label: "콘텐츠", icon: Book, placeholder: "작품명, 저자, 감독...", hasSubcategory: true },
   { id: "user", label: "사용자", icon: User, placeholder: "닉네임, @username..." },
   { id: "tag", label: "태그", icon: Hash, placeholder: "태그명..." },
-  { id: "archive", label: "내 기록", icon: Folder, placeholder: "기록관에서 검색..." },
+  { id: "records", label: "내 기록", icon: Folder, placeholder: "내 기록에서 검색..." },
 ];
 
 // CATEGORIES를 그대로 사용

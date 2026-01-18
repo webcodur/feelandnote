@@ -114,7 +114,8 @@
       "Bash(cmd //c \"cd /d C:\\\\Users\\\\webco\\\\바탕 화면\\\\윤시준\\\\PRJ\\\\feelnnote\\\\sw\\\\web-bo && node -e \"\"console.log\\(require.resolve\\(''@feelnnote/shared/constants/celeb-professions''\\)\\)\"\" 2>&1\")",
       "Bash(cmd //c \"cd /d C:\\\\Users\\\\webco\\\\바탕 화면\\\\윤시준\\\\PRJ\\\\feelnnote\\\\sw\\\\web-bo && node -p \"\"require.resolve\\(''@feelnnote/shared/constants/celeb-professions''\\)\"\"\")",
       "Bash(cmd //c \"cd /d C:\\\\Users\\\\webco\\\\바탕 화면\\\\윤시준\\\\PRJ\\\\feelnnote\\\\sw\\\\web-bo && npx next build --webpack 2>&1\")",
-      "Bash(cmd //c \"cd /d C:\\\\Users\\\\webco\\\\바탕 화면\\\\윤시준\\\\PRJ\\\\feelnnote\\\\sw\\\\web-bo && pnpm build 2>&1\")"
+      "Bash(cmd //c \"cd /d C:\\\\Users\\\\webco\\\\바탕 화면\\\\윤시준\\\\PRJ\\\\feelnnote\\\\sw\\\\web-bo && pnpm build 2>&1\")",
+      "Bash(NEXT_TELEMETRY_DISABLED=1 NODE_ENV=production ./node_modules/.bin/next build:*)"
     ],
     "deny": [],
     "ask": []

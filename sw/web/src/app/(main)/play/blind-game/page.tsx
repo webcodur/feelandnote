@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { Button, Badge, Avatar, Card, FilterChips, type ChipOption } from "@/components/ui";
-import BlindGamePlayModal from "@/components/features/archive/lounge/BlindGamePlayModal";
+import BlindGamePlayModal from "@/components/features/user/lounge/BlindGamePlayModal";
 import { Plus, Quote, Gamepad2, Flame, Sparkles, Users, User, Target } from "lucide-react";
 
 const TAB_OPTIONS: ChipOption[] = [

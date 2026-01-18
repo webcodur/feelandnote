@@ -58,6 +58,6 @@ export async function createCategory(params: CreateCategoryParams): Promise<Acti
     return handleSupabaseError(error, { context: 'category', logPrefix: '[분류 생성]' })
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
   return success(data)
 }

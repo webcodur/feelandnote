@@ -19,7 +19,7 @@ import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { CATEGORIES } from "@/constants/categories";
 import ContentInfoHeader from "@/components/shared/content/ContentInfoHeader";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
-import RecordInfo from "@/components/features/archive/detail/RecordInfo";
+import RecordInfo from "@/components/features/user/detail/RecordInfo";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { ContentType } from "@/types/database";
 import type { ContentInfo } from "@/types/content";
@@ -304,7 +304,7 @@ function ContentDetailContent() {
 
             {/* 추가된 상태: 기록 정보 표시 */}
             {!isCheckingRecord && isAdded && savedItem && (
-              <RecordInfo item={savedItem} href={`/archive/${contentInfo.id}`} />
+              <RecordInfo item={savedItem} href={`/${savedItem.user_id}/records/${contentInfo.id}`} />
             )}
           </div>
         </div>

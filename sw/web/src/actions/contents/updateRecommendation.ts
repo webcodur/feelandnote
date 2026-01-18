@@ -30,7 +30,7 @@ export async function updateRecommendation({ userContentId, isRecommended }: Upd
     throw new Error('추천 상태 변경에 실패했습니다')
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
 
   return { success: true }
 }

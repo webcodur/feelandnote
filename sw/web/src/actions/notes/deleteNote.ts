@@ -35,5 +35,5 @@ export async function deleteNote(noteId: string): Promise<void> {
     throw new Error('노트 삭제에 실패했습니다')
   }
 
-  revalidatePath(`/archive/${note.content_id}`)
+  revalidatePath(`/${user.id}/records/${note.content_id}`)
 }

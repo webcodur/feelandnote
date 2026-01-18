@@ -61,8 +61,8 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
     return handleSupabaseError(error, { context: 'content', logPrefix: '[리뷰 저장]' })
   }
 
-  revalidatePath(`/archive/${existing.content_id}`)
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records/${existing.content_id}`)
+  revalidatePath(`/${user.id}/records`)
   revalidatePath('/achievements')
 
   // 활동 로그

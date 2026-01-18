@@ -82,7 +82,7 @@ export async function addSection(params: AddSectionParams): Promise<NoteSection>
     .update({ updated_at: new Date().toISOString() })
     .eq('id', params.noteId)
 
-  revalidatePath(`/archive/${note.content_id}`)
+  revalidatePath(`/${user.id}/records/${note.content_id}`)
 
   return data as NoteSection
 }
@@ -145,7 +145,7 @@ export async function updateSection(params: UpdateSectionParams): Promise<void> 
     .update({ updated_at: new Date().toISOString() })
     .eq('id', note.id)
 
-  revalidatePath(`/archive/${note.content_id}`)
+  revalidatePath(`/${user.id}/records/${note.content_id}`)
 }
 
 export async function deleteSection(sectionId: string): Promise<void> {
@@ -191,7 +191,7 @@ export async function deleteSection(sectionId: string): Promise<void> {
     .update({ updated_at: new Date().toISOString() })
     .eq('id', note.id)
 
-  revalidatePath(`/archive/${note.content_id}`)
+  revalidatePath(`/${user.id}/records/${note.content_id}`)
 }
 
 interface ReorderSectionsParams {
@@ -236,5 +236,5 @@ export async function reorderSections(params: ReorderSectionsParams): Promise<vo
     .update({ updated_at: new Date().toISOString() })
     .eq('id', params.noteId)
 
-  revalidatePath(`/archive/${note.content_id}`)
+  revalidatePath(`/${user.id}/records/${note.content_id}`)
 }
