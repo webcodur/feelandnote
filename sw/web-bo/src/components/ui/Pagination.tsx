@@ -26,7 +26,7 @@ export default function Pagination({
     disabled: boolean
   ) => {
     const baseStyles =
-      'flex items-center justify-center w-9 h-9 rounded-lg transition-colors'
+      'flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-lg text-sm'
     const enabledStyles = 'bg-bg-card border border-border text-text-secondary hover:text-text-primary hover:border-accent/50'
     const disabledStyles = 'bg-bg-secondary text-text-secondary/50 cursor-not-allowed'
 
@@ -95,7 +95,7 @@ export default function Pagination({
       return (
         <span
           key={`dots-${index}`}
-          className="flex items-center justify-center w-9 h-9 text-text-secondary"
+          className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 text-text-secondary text-sm"
         >
           ...
         </span>
@@ -104,7 +104,7 @@ export default function Pagination({
 
     const isActive = item === page
     const baseStyles =
-      'flex items-center justify-center w-9 h-9 rounded-lg text-sm font-medium transition-colors'
+      'flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-lg text-xs md:text-sm font-medium'
     const activeStyles = isActive
       ? 'bg-accent text-white'
       : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary hover:border-accent/50'
@@ -138,22 +138,22 @@ export default function Pagination({
   }
 
   return (
-    <div className={`flex items-center justify-center gap-1 ${className}`}>
-      {renderButton(1, <ChevronsLeft className="w-4 h-4" />, page === 1)}
-      {renderButton(page - 1, <ChevronLeft className="w-4 h-4" />, page === 1)}
+    <div className={`flex items-center justify-center gap-0.5 md:gap-1 flex-wrap ${className}`}>
+      {renderButton(1, <ChevronsLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />, page === 1)}
+      {renderButton(page - 1, <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />, page === 1)}
 
-      <div className="flex items-center gap-1 mx-2">
+      <div className="flex items-center gap-0.5 md:gap-1 mx-1 md:mx-2">
         {getPageNumbers().map(renderPageNumber)}
       </div>
 
       {renderButton(
         page + 1,
-        <ChevronRight className="w-4 h-4" />,
+        <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />,
         page === totalPages
       )}
       {renderButton(
         totalPages,
-        <ChevronsRight className="w-4 h-4" />,
+        <ChevronsRight className="w-3.5 h-3.5 md:w-4 md:h-4" />,
         page === totalPages
       )}
     </div>

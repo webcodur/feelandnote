@@ -19,6 +19,7 @@ import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMeta
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
+import { createClient } from "@/lib/supabase/client";
 
 type SearchMode = "content" | "user" | "tag" | "archive";
 type ContentResult = ContentSearchResult | ArchiveSearchResult;
@@ -76,13 +77,20 @@ function SearchContent() {
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
-  // 저장된 콘텐츠 ID 로드
+  // 현재 사용자 ID 및 저장된 콘텐츠 ID 로드
   useEffect(() => {
-    getMyContentIds().then((ids) => {
+    const init = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) setCurrentUserId(user.id);
+
+      const ids = await getMyContentIds();
       setSavedIds(new Set(ids));
-    });
+    };
+    init();
   }, []);
 
   const updateUrl = (newCategory: CategoryId) => {
@@ -283,6 +291,7 @@ function SearchContent() {
         <ContentResults
           results={contentResults}
           mode={modeParam}
+          currentUserId={currentUserId}
           addingIds={addingIds}
           addedIds={addedIds}
           savedIds={savedIds}
@@ -291,10 +300,10 @@ function SearchContent() {
         />
       )}
       {!isLoading && modeParam === "user" && (
-        <UserResults results={userResults} onItemClick={(u) => router.push(`/archive/user/${u.id}`)} />
+        <UserResults results={userResults} onItemClick={(u) => router.push(`/${u.id}`)} />
       )}
       {!isLoading && modeParam === "tag" && (
-        <TagResults results={tagResults} onItemClick={(t) => router.push(`/archive/feed?tag=${encodeURIComponent(t.name)}`)} />
+        <TagResults results={tagResults} onItemClick={(t) => router.push(`/feed?tag=${encodeURIComponent(t.name)}`)} />
       )}
 
       {/* 더보기 버튼 */}

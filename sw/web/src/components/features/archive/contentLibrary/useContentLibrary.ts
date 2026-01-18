@@ -19,40 +19,21 @@ import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
 import { getPlaylistsContainingContent } from "@/actions/playlists";
-
-interface PlaylistInfo {
-  id: string;
-  name: string;
-}
-
 import type { ContentType, ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
+import {
+  type SortOption,
+  type StatusFilter,
+  type PlaylistInfo,
+  type UseContentLibraryOptions,
+  filterAndSortContents,
+  groupByMonth,
+  groupByCategory,
+  formatMonthLabel,
+  getCategoryName,
+} from "./contentLibraryTypes";
 
-// #region 타입
-export type SortOption = "recent" | "title";
-export type StatusFilter = "all" | ContentStatus;
-
-export type ContentLibraryMode = 'owner' | 'viewer';
-
-interface UseContentLibraryOptions {
-  maxItems?: number;
-  compact?: boolean;
-  showCategories?: boolean;
-  mode?: ContentLibraryMode;
-  targetUserId?: string; // viewer 모드에서 필수
-}
-
-export interface GroupedContents {
-  uncategorized: UserContentWithContent[];
-  byCategory: Record<string, UserContentWithContent[]>;
-}
-
-export interface TabOption {
-  value: string;
-  label: string;
-  type?: ContentType;
-}
-// #endregion
+export type { SortOption, StatusFilter, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const { maxItems, compact = false, showCategories = true, mode = 'owner', targetUserId } = options;
@@ -91,64 +72,15 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // #endregion
 
   // #region 파생 상태 (useMemo)
-  const filteredAndSortedContents = useMemo(() => {
-    let result = [...contents];
+  const filteredAndSortedContents = useMemo(
+    () => filterAndSortContents(contents, statusFilter, selectedCategoryId, sortOption),
+    [contents, statusFilter, selectedCategoryId, sortOption]
+  );
 
-    // 상태 필터링
-    if (statusFilter !== "all") {
-      result = result.filter((item) => item.status === statusFilter);
-    }
-
-    // 분류 필터링
-    if (selectedCategoryId !== null) {
-      result = result.filter((item) => item.category_id === selectedCategoryId);
-    }
-
-    result.sort((a, b) => {
-      switch (sortOption) {
-        case "title": return (a.content?.title ?? "").localeCompare(b.content?.title ?? "");
-        default: return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      }
-    });
-
-    return result;
-  }, [contents, statusFilter, selectedCategoryId, sortOption]);
-
-  // 월별 그룹화: "2024-01" 형태의 키로 그룹화
-  const groupedByMonth = useMemo(() => {
-    const groups: Record<string, UserContentWithContent[]> = {};
-
-    filteredAndSortedContents.forEach((item) => {
-      const date = new Date(item.created_at);
-      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-      if (!groups[monthKey]) groups[monthKey] = [];
-      groups[monthKey].push(item);
-    });
-
-    // 최신 월부터 정렬
-    return Object.fromEntries(
-      Object.entries(groups).sort(([a], [b]) => b.localeCompare(a))
-    );
-  }, [filteredAndSortedContents]);
-
-  const monthKeys = useMemo(() => Object.keys(groupedByMonth), [groupedByMonth]);
-
-  const isAllCollapsed = useMemo(() => {
-    return monthKeys.length > 0 && monthKeys.every((key) => collapsedMonths.has(key));
-  }, [monthKeys, collapsedMonths]);
-
-  const groupedByCategory = useMemo(() => {
-    const result: GroupedContents = { uncategorized: [], byCategory: {} };
-    filteredAndSortedContents.forEach((item) => {
-      if (item.category_id) {
-        if (!result.byCategory[item.category_id]) result.byCategory[item.category_id] = [];
-        result.byCategory[item.category_id].push(item);
-      } else {
-        result.uncategorized.push(item);
-      }
-    });
-    return result;
-  }, [filteredAndSortedContents]);
+  const groupedByMonthData = useMemo(() => groupByMonth(filteredAndSortedContents), [filteredAndSortedContents]);
+  const monthKeys = useMemo(() => Object.keys(groupedByMonthData), [groupedByMonthData]);
+  const isAllCollapsed = useMemo(() => monthKeys.length > 0 && monthKeys.every((key) => collapsedMonths.has(key)), [monthKeys, collapsedMonths]);
+  const groupedByCategoryData = useMemo(() => groupByCategory(filteredAndSortedContents), [filteredAndSortedContents]);
 
   const currentTypeCategories = useMemo(() => {
     const type = CATEGORY_ID_TO_TYPE[activeTab];
@@ -157,15 +89,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // #endregion
 
   // #region 헬퍼 함수
-  const getCategoryName = useCallback((categoryId: string, contentType: ContentType) => {
-    return categories[contentType]?.find((c) => c.id === categoryId)?.name || "알 수 없는 분류";
-  }, [categories]);
-
-  // 월 키("2024-01")를 "2024년 1월" 형태로 변환
-  const formatMonthLabel = useCallback((monthKey: string) => {
-    const [year, month] = monthKey.split("-");
-    return `${year}년 ${parseInt(month)}월`;
-  }, []);
+  const getCategoryNameFn = useCallback(
+    (categoryId: string, contentType: ContentType) => getCategoryName(categories, categoryId, contentType),
+    [categories]
+  );
   // #endregion
 
   // #region 월/분류 토글
@@ -433,12 +360,12 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     // 파생 상태
     isAllCollapsed,
     filteredAndSortedContents,
-    groupedByMonth,
+    groupedByMonth: groupedByMonthData,
     monthKeys,
-    groupedByCategory,
+    groupedByCategory: groupedByCategoryData,
     currentTypeCategories,
     // 헬퍼
-    getCategoryName,
+    getCategoryName: getCategoryNameFn,
     formatMonthLabel,
     // 액션
     toggleMonth,

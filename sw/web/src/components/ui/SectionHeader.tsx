@@ -14,6 +14,8 @@ interface SectionHeaderProps {
   linkText?: string;
   linkHref?: string;
   className?: string;
+  variant?: "default" | "hero";
+  englishTitle?: string;
 }
 
 export default function SectionHeader({
@@ -24,7 +26,38 @@ export default function SectionHeader({
   linkText,
   linkHref,
   className = "",
+  variant = "default",
+  englishTitle,
 }: SectionHeaderProps) {
+  if (variant === "hero") {
+    return (
+      <div className={`flex items-end justify-between mb-8 md:mb-12 px-2 md:px-4 border-b border-accent-dim/10 pb-4 ${className}`}>
+        <div className="flex flex-col gap-1 md:gap-2">
+          {englishTitle && (
+            <span className="font-cinzel text-[8px] md:text-[10px] text-accent tracking-[0.4em] md:tracking-[0.6em] uppercase">
+              {englishTitle}
+            </span>
+          )}
+          <h2 className="font-serif font-black text-xl md:text-4xl tracking-tighter text-text-primary">
+            {title}
+          </h2>
+          {description && (
+            <p className="text-xs md:text-sm text-text-tertiary">{description}</p>
+          )}
+        </div>
+        {linkHref && (
+          <Link
+            href={linkHref}
+            className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-lg text-xs md:text-sm font-medium font-sans group whitespace-nowrap"
+          >
+            {linkText ?? "더보기"}
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className={`flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center ${className}`}>
       <div>

@@ -106,7 +106,7 @@ export default function DataTable<T extends object>({
           <thead className="bg-bg-secondary">
             <tr>
               {selectable && (
-                <th className="px-4 py-3 w-12">
+                <th className="px-3 md:px-4 py-3 w-10 md:w-12">
                   <input
                     type="checkbox"
                     checked={allSelected}
@@ -122,7 +122,7 @@ export default function DataTable<T extends object>({
                 <th
                   key={col.key}
                   style={{ width: col.width }}
-                  className={`px-4 py-3 text-sm font-medium text-text-secondary ${alignStyles[col.align || 'left']}`}
+                  className={`px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap ${alignStyles[col.align || 'left']}`}
                 >
                   {col.sortable ? (
                     <button
@@ -182,7 +182,7 @@ export default function DataTable<T extends object>({
                     `}
                   >
                     {selectable && (
-                      <td className="px-4 py-3">
+                      <td className="px-3 md:px-4 py-3">
                         <input
                           type="checkbox"
                           checked={isSelected}
@@ -195,7 +195,7 @@ export default function DataTable<T extends object>({
                     {columns.map((col) => (
                       <td
                         key={col.key}
-                        className={`px-4 py-3 text-sm ${alignStyles[col.align || 'left']}`}
+                        className={`px-3 md:px-4 py-3 text-xs md:text-sm ${alignStyles[col.align || 'left']}`}
                       >
                         {col.render
                           ? col.render((row as Record<string, unknown>)[col.key], row, index)

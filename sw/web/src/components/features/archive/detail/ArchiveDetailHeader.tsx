@@ -5,8 +5,9 @@
 */
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, Trash2, Calendar, User } from "lucide-react";
+import { ArrowLeft, Trash2, Calendar, User, ChevronDown, ChevronUp } from "lucide-react";
 import { CATEGORIES, TYPE_TO_CATEGORY_ID } from "@/constants/categories";
 import { STATUS_OPTIONS } from "@/constants/statuses";
 import { Card } from "@/components/ui";
@@ -37,6 +38,7 @@ export default function ArchiveDetailHeader({
   onStatusChange,
   onDelete,
 }: ArchiveDetailHeaderProps) {
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
   const content = item.content;
   const categoryId = TYPE_TO_CATEGORY_ID[content.type as ContentType] || "book";
   const category = CATEGORY_CONFIG[categoryId] || CATEGORY_CONFIG.book;
@@ -85,53 +87,74 @@ export default function ArchiveDetailHeader({
           </Button>
         </div>
 
-        {/* 본문 - 콘텐츠 정보 */}
+        {/* 본문 - 콘텐츠 정보 (2컬럼 레이아웃) */}
         <div className="p-3">
-          <div className="flex gap-3">
-            {/* 썸네일 */}
-            <div className="relative w-16 h-24 sm:w-20 sm:h-28 rounded-lg shadow-md shrink-0 overflow-hidden border border-white/10">
-              {content.thumbnail_url ? (
-                <Image src={content.thumbnail_url} alt={content.title} fill unoptimized className="object-cover" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-                  <Icon size={24} className="text-gray-500" />
-                </div>
-              )}
+          <div className="flex flex-col lg:flex-row gap-3">
+            {/* 좌측: 썸네일 + 기본 정보 */}
+            <div className="flex gap-3 lg:w-1/2 lg:shrink-0">
+              {/* 썸네일 */}
+              <div className="relative w-16 h-24 sm:w-20 sm:h-28 rounded-lg shadow-md shrink-0 overflow-hidden border border-white/10">
+                {content.thumbnail_url ? (
+                  <Image src={content.thumbnail_url} alt={content.title} fill unoptimized className="object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
+                    <Icon size={24} className="text-gray-500" />
+                  </div>
+                )}
+              </div>
+
+              {/* 정보 */}
+              <div className="flex-1 min-w-0">
+                <h1 className="text-base sm:text-lg font-bold leading-tight mb-1 line-clamp-2">
+                  {content.title}
+                </h1>
+
+                {content.creator && (
+                  <p className="text-xs text-text-secondary flex items-center gap-1 mb-1.5">
+                    <User size={12} className="shrink-0" />
+                    <span className="truncate">{content.creator?.replace(/\^/g, ', ')}</span>
+                  </p>
+                )}
+
+                {content.release_date && (
+                  <p className="text-[11px] text-text-tertiary flex items-center gap-1 mb-2">
+                    <Calendar size={10} />
+                    {content.release_date}
+                  </p>
+                )}
+
+                {metadata && (
+                  <ContentMetadataDisplay
+                    category={categoryId}
+                    metadata={metadata}
+                    subtype={metadata?.subtype}
+                    compact
+                  />
+                )}
+              </div>
             </div>
 
-            {/* 정보 */}
-            <div className="flex-1 min-w-0">
-              {/* 제목 */}
-              <h1 className="text-base sm:text-lg font-bold leading-tight mb-1 line-clamp-2">
-                {content.title}
-              </h1>
-
-              {/* 작성자 */}
-              {content.creator && (
-                <p className="text-xs text-text-secondary flex items-center gap-1 mb-1.5">
-                  <User size={12} className="shrink-0" />
-                  <span className="truncate">{content.creator?.replace(/\^/g, ', ')}</span>
+            {/* 우측: 설명 (펼침/접힘) */}
+            {content.description && (
+              <div className="lg:w-1/2 lg:border-s lg:border-white/5 lg:ps-3">
+                <p className={`text-xs text-text-secondary leading-relaxed ${isDescExpanded ? "" : "line-clamp-4"}`}>
+                  {content.description}
                 </p>
-              )}
-
-              {/* 출시일 */}
-              {content.release_date && (
-                <p className="text-[11px] text-text-tertiary flex items-center gap-1 mb-2">
-                  <Calendar size={10} />
-                  {content.release_date}
-                </p>
-              )}
-
-              {/* 메타데이터 */}
-              {metadata && (
-                <ContentMetadataDisplay
-                  category={categoryId}
-                  metadata={metadata}
-                  subtype={metadata?.subtype}
-                  compact
-                />
-              )}
-            </div>
+                {content.description.length > 150 && (
+                  <Button
+                    unstyled
+                    onClick={() => setIsDescExpanded(!isDescExpanded)}
+                    className="mt-1 text-[11px] text-accent hover:text-accent-hover flex items-center gap-0.5"
+                  >
+                    {isDescExpanded ? (
+                      <>접기 <ChevronUp size={12} /></>
+                    ) : (
+                      <>더보기 <ChevronDown size={12} /></>
+                    )}
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </Card>

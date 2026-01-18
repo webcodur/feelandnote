@@ -1,9 +1,7 @@
 // Supabase 데이터베이스 타입 정의
 
-// ===== Enums =====
-// NOTE: @/constants/categories.ts의 CATEGORIES와 동기화 필요
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
-export type ContentStatus = 'WANT' | 'WATCHING' | 'DROPPED' | 'FINISHED' | 'RECOMMENDED' | 'NOT_RECOMMENDED'
+// ===== Enums (공유 패키지에서 re-export) =====
+export type { ContentType, ContentStatus } from '@feelnnote/shared/types'
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
 export type ScoreType = 'activity' | 'title'

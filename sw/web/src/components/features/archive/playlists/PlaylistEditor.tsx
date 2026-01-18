@@ -26,6 +26,7 @@ import { getMyContents, type UserContentWithContent } from "@/actions/contents/g
 import SelectableContentCard from "./SelectableContentCard";
 import type { ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
+import { createClient } from "@/lib/supabase/client";
 
 // #region 상수
 const TAB_OPTIONS: (ChipOption & { type?: ContentType })[] = [

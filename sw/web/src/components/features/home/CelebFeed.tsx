@@ -7,6 +7,7 @@ import ReviewCard from "./ReviewCard";
 import { LoadMoreButton, FilterTabs } from "@/components/ui";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
+import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { formatRelativeTime } from "@/lib/utils/date";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
@@ -14,31 +15,43 @@ import type { ContentTypeCounts } from "@/actions/home";
 // #region Skeleton
 function ReviewCardSkeleton() {
   return (
-    <div className="bg-bg-card border border-border/50 rounded-xl overflow-hidden flex flex-col md:flex-row animate-pulse">
-      {/* 좌측: 이미지 + 오버레이 */}
-      <div className="w-full md:w-[160px] lg:w-[180px] aspect-[4/5] md:aspect-auto md:h-[200px] bg-white/5 shrink-0" />
-
-      {/* 우측: 셀럽 + 리뷰 */}
-      <div className="flex-1 p-4 flex flex-col">
-        {/* 셀럽 헤더 */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-7 h-7 rounded-full bg-white/10" />
-          <div className="space-y-1">
-            <div className="w-28 h-3.5 bg-white/10 rounded" />
-            <div className="w-16 h-2.5 bg-white/5 rounded" />
+    <div className="bg-bg-card border border-border/50 rounded-xl overflow-hidden p-4 md:p-6 animate-pulse">
+      {/* Desktop Skeleton */}
+      <div className="hidden md:flex gap-6 h-[200px]">
+        <div className="w-[160px] lg:w-[180px] h-full bg-white/5 shrink-0 rounded" />
+        <div className="flex-1 space-y-4">
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 rounded-full bg-white/10" />
+             <div className="w-32 h-4 bg-white/10 rounded" />
+          </div>
+          <div className="space-y-2">
+            <div className="w-full h-3 bg-white/5 rounded" />
+            <div className="w-full h-3 bg-white/5 rounded" />
+            <div className="w-2/3 h-3 bg-white/5 rounded" />
           </div>
         </div>
+      </div>
 
-        {/* 리뷰 */}
-        <div className="flex-1 space-y-1.5">
-          <div className="w-full h-3.5 bg-white/5 rounded" />
-          <div className="w-full h-3.5 bg-white/5 rounded" />
-          <div className="w-2/3 h-3.5 bg-white/5 rounded" />
+      {/* Mobile Skeleton */}
+      <div className="md:hidden space-y-4">
+        <div className="flex items-center justify-between">
+           <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-white/10" />
+              <div className="w-20 h-3 bg-white/10 rounded" />
+           </div>
+           <div className="w-12 h-6 bg-white/10 rounded" />
         </div>
-
-        {/* Footer */}
-        <div className="flex justify-end items-center pt-3 mt-3 border-t border-white/5">
-          <div className="w-20 h-7 bg-white/5 rounded-lg" />
+        <div className="flex gap-4 p-3 bg-white/5 rounded-lg">
+           <div className="w-16 h-20 bg-white/10 rounded shrink-0" />
+           <div className="flex-1 space-y-2 py-1">
+              <div className="w-12 h-2 bg-white/10 rounded" />
+              <div className="w-3/4 h-4 bg-white/10 rounded" />
+              <div className="w-1/2 h-3 bg-white/10 rounded" />
+           </div>
+        </div>
+        <div className="space-y-2">
+           <div className="w-full h-3 bg-white/5 rounded" />
+           <div className="w-2/3 h-3 bg-white/5 rounded" />
         </div>
       </div>
     </div>
@@ -187,7 +200,7 @@ export default function CelebFeed({
             userName={review.celeb.nickname}
             userAvatar={review.celeb.avatar_url}
             isOfficial={review.celeb.is_verified}
-            userSubtitle={review.celeb.profession || "지혜의 탐구자"}
+            userSubtitle={getCelebProfessionLabel(review.celeb.profession) || "지혜의 탐구자"}
             contentType={review.content.type}
             contentId={review.content.id}
             contentTitle={review.content.title}

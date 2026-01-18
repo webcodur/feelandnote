@@ -68,33 +68,33 @@ export default async function DashboardPage() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-text-primary">대시보드</h1>
-        <p className="text-text-secondary mt-1">서비스 현황을 한눈에 확인하세요</p>
+        <h1 className="text-xl md:text-2xl font-bold text-text-primary">대시보드</h1>
+        <p className="text-sm text-text-secondary mt-1">서비스 현황을 한눈에 확인하세요</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon
           return (
             <Link
               key={stat.label}
               href={stat.href}
-              className="bg-bg-card border border-border rounded-xl p-6 hover:border-accent/50 transition-colors"
+              className="bg-bg-card border border-border rounded-xl p-4 md:p-6 hover:border-accent/50"
             >
               <div className="flex items-center justify-between">
-                <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                  <Icon className={`w-6 h-6 ${stat.color}`} />
+                <div className={`p-2 md:p-3 rounded-lg ${stat.bgColor}`}>
+                  <Icon className={`w-5 h-5 md:w-6 md:h-6 ${stat.color}`} />
                 </div>
               </div>
-              <div className="mt-4">
-                <p className="text-3xl font-bold text-text-primary">
+              <div className="mt-3 md:mt-4">
+                <p className="text-2xl md:text-3xl font-bold text-text-primary">
                   {stat.value.toLocaleString()}
                 </p>
-                <p className="text-sm text-text-secondary mt-1">{stat.label}</p>
+                <p className="text-xs md:text-sm text-text-secondary mt-1">{stat.label}</p>
               </div>
             </Link>
           )
@@ -102,10 +102,10 @@ export default async function DashboardPage() {
       </div>
 
       {/* Content Type Stats & Recent Users */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* 콘텐츠 유형별 통계 */}
-        <div className="bg-bg-card border border-border rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-text-primary mb-4">콘텐츠 유형별 현황</h2>
+        <div className="bg-bg-card border border-border rounded-xl p-4 md:p-6">
+          <h2 className="text-base md:text-lg font-semibold text-text-primary mb-3 md:mb-4">콘텐츠 유형별 현황</h2>
           <div className="space-y-3">
             {Object.entries(CONTENT_TYPE_CONFIG).map(([type, config]) => {
               const TypeIcon = config.icon
@@ -136,9 +136,9 @@ export default async function DashboardPage() {
         </div>
 
         {/* 최근 가입자 */}
-        <div className="bg-bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-text-primary">최근 가입자</h2>
+        <div className="bg-bg-card border border-border rounded-xl p-4 md:p-6">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <h2 className="text-base md:text-lg font-semibold text-text-primary">최근 가입자</h2>
             <Link href="/users" className="text-sm text-accent hover:underline">
               전체보기
             </Link>
@@ -173,8 +173,8 @@ export default async function DashboardPage() {
       </div>
 
       {/* 최근 활동 */}
-      <div className="bg-bg-card border border-border rounded-xl p-6">
-        <h2 className="text-lg font-semibold text-text-primary mb-4">최근 활동</h2>
+      <div className="bg-bg-card border border-border rounded-xl p-4 md:p-6">
+        <h2 className="text-base md:text-lg font-semibold text-text-primary mb-3 md:mb-4">최근 활동</h2>
         <div className="space-y-3">
           {(recentActivities || []).length === 0 ? (
             <p className="text-sm text-text-secondary text-center py-4">최근 활동이 없습니다</p>

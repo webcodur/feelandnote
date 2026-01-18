@@ -85,7 +85,7 @@ export default function NotesClient({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <PageHeader
         title="노트 관리"
         description={`총 ${total.toLocaleString()}개의 노트`}
@@ -107,7 +107,7 @@ export default function NotesClient({
           />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {notes.map((note) => {
             const visibilityConfig = VISIBILITY_CONFIG[note.visibility]
             const VisibilityIcon = visibilityConfig.icon

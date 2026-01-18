@@ -18,7 +18,9 @@ import {
   Gamepad2,
   Trophy,
   BarChart3,
+  X,
 } from 'lucide-react'
+import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
 
 const menuItems = [
   { href: '/', label: '대시보드', icon: LayoutDashboard },
@@ -38,21 +40,21 @@ const menuItems = [
   { href: '/settings', label: '설정', icon: Settings },
 ]
 
-export default function Sidebar() {
+function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
   const pathname = usePathname()
 
   return (
-    <aside className="w-64 bg-bg-secondary border-r border-border min-h-screen flex flex-col">
+    <>
       {/* Logo */}
-      <div className="p-6 border-b border-border">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="p-4 md:p-6 border-b border-border">
+        <Link href="/" className="flex items-center gap-2" onClick={onItemClick}>
           <LayoutDashboard className="w-8 h-8 text-accent" />
           <span className="text-xl font-bold text-text-primary">Admin</span>
         </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-3 md:p-4 overflow-y-auto">
         <ul className="space-y-1">
           {menuItems.map((item) => {
             const isActive = pathname === item.href ||
@@ -63,16 +65,17 @@ export default function Sidebar() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  onClick={onItemClick}
                   className={`
-                    flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
+                    flex items-center gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-lg
                     ${isActive
                       ? 'bg-accent/10 text-accent'
                       : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
                     }
                   `}
                 >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
+                  <Icon className="w-5 h-5 shrink-0" />
+                  <span className="text-sm md:text-base">{item.label}</span>
                 </Link>
               </li>
             )
@@ -86,6 +89,50 @@ export default function Sidebar() {
           Feel&Note Admin v0.1
         </p>
       </div>
+    </>
+  )
+}
+
+// 데스크톱 사이드바
+export function DesktopSidebar() {
+  return (
+    <aside className="hidden md:flex w-64 bg-bg-secondary border-r border-border min-h-screen flex-col shrink-0">
+      <SidebarContent />
     </aside>
   )
+}
+
+// 모바일 사이드바 (Drawer)
+export function MobileSidebar() {
+  const { isOpen, close } = useMobileSidebar()
+
+  if (!isOpen) return null
+
+  return (
+    <div className="md:hidden fixed inset-0 z-50">
+      {/* Overlay */}
+      <div
+        className="absolute inset-0 bg-black/60"
+        onClick={close}
+      />
+
+      {/* Drawer */}
+      <aside className="absolute left-0 top-0 bottom-0 w-72 bg-bg-secondary flex flex-col animate-slide-in-left">
+        {/* Close button */}
+        <button
+          onClick={close}
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-bg-card text-text-secondary"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <SidebarContent onItemClick={close} />
+      </aside>
+    </div>
+  )
+}
+
+// 기존 호환성을 위한 기본 export
+export default function Sidebar() {
+  return <DesktopSidebar />
 }

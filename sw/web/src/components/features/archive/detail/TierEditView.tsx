@@ -127,11 +127,12 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   };
 
   const handleSave = async () => {
+    if (!playlist) return;
     setIsSaving(true);
     try {
       await updatePlaylist({ playlistId, hasTiers: true, tiers: tiers as Record<string, string[]> });
       playSound("success");
-      router.push(`/archive/playlists/${playlistId}`);
+      router.push(`/${playlist.user_id}/collections/${playlistId}`);
     } catch (err) {
       playSound("error");
       alert(err instanceof Error ? err.message : "저장에 실패했습니다");

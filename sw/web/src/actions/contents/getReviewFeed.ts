@@ -19,6 +19,7 @@ interface GetReviewFeedParams {
   contentId: string
   limit?: number
   offset?: number
+  excludeUserId?: string
 }
 
 export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {
@@ -39,8 +40,14 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
     .not('review', 'is', null)
     .order('updated_at', { ascending: false })
 
+  // 본인 리뷰는 항상 제외
   if (user) {
     query = query.neq('user_id', user.id)
+  }
+
+  // 특정 사용자 리뷰 제외 (타인 프로필 조회 시 해당 사용자 리뷰 제외)
+  if (params.excludeUserId) {
+    query = query.neq('user_id', params.excludeUserId)
   }
 
   if (params.limit) {

@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start -p 3001",
     "lint": "eslint"
   },
   "dependencies": {
     "@feelnnote/content-search": "workspace:*",
     "@feelnnote/ai-services": "workspace:*",
+    "@feelnnote/shared": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.2",
     "lucide-react": "^0.555.0",

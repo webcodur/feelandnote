@@ -1,20 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { GreekChevronIcon, NeoCheckIcon, BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
+import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
+import { Pagination } from "@/components/ui";
 import NeoCelebCard from "./neo-celeb-card";
-import Button from "@/components/ui/Button";
-import BottomSheet from "@/components/ui/BottomSheet";
-import { getCelebs } from "@/actions/home";
-import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
-import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
-import {
-  FILTER_BUTTON_STYLES,
-  FILTER_CHIP_STYLES,
-  FILTER_BOTTOMSHEET_STYLES,
-} from "@/constants/filterStyles";
+import CelebFiltersDesktop from "./CelebFiltersDesktop";
+import CelebFiltersMobile from "./CelebFiltersMobile";
+import { useCelebFilters, getRankVariant } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -27,14 +20,6 @@ interface CelebCarouselProps {
   mode?: "grid" | "carousel";
 }
 
-const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
-  { value: "influence", label: "영향력순" },
-  { value: "follower", label: "팔로워순" },
-  { value: "name_asc", label: "이름순" },
-  { value: "birth_date_desc", label: "최근 출생순" },
-  { value: "birth_date_asc", label: "오래된 출생순" },
-];
-
 export default function CelebCarousel({
   initialCelebs,
   initialTotal,
@@ -42,495 +27,226 @@ export default function CelebCarousel({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
-  hideHeader = false,
   mode = "grid",
 }: CelebCarouselProps) {
-  const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
-  const [isLoading, setIsLoading] = useState(false);
-  const [profession, setProfession] = useState("all");
-  const [nationality, setNationality] = useState("all");
-  const [contentType, setContentType] = useState("all");
-  const [sortBy, setSortBy] = useState<CelebSortBy>("influence");
+  const filters = useCelebFilters({
+    initialCelebs,
+    initialTotal,
+    initialTotalPages,
+    professionCounts,
+    nationalityCounts,
+    contentTypeCounts,
+  });
 
-  // 현재 선택된 콘텐츠 타입의 단위
-  const contentUnit = contentType === "all" ? "개" : getContentUnit(contentType);
-
-  // 모바일 모달 상태
-  const [activeFilter, setActiveFilter] = useState<"profession" | "nationality" | "contentType" | "sort" | null>(null);
-
-  const loadCelebs = useCallback(async (
-    prof: string,
-    nation: string,
-    cType: string,
-    sort: CelebSortBy
-  ) => {
-    setIsLoading(true);
-    const result = await getCelebs({
-      page: 1,
-      limit: 100,
-      profession: prof,
-      nationality: nation,
-      contentType: cType,
-      sortBy: sort,
-    });
-    setCelebs(result.celebs);
-    setIsLoading(false);
-  }, []);
-
-  const handleProfessionChange = useCallback((prof: string) => {
-    setProfession(prof);
-    loadCelebs(prof, nationality, contentType, sortBy);
-  }, [loadCelebs, nationality, contentType, sortBy]);
-
-  const handleNationalityChange = useCallback((nation: string) => {
-    setNationality(nation);
-    loadCelebs(profession, nation, contentType, sortBy);
-  }, [loadCelebs, profession, contentType, sortBy]);
-
-  const handleContentTypeChange = useCallback((cType: string) => {
-    setContentType(cType);
-    loadCelebs(profession, nationality, cType, sortBy);
-  }, [loadCelebs, profession, nationality, sortBy]);
-
-  const handleSortChange = useCallback((sort: CelebSortBy) => {
-    setSortBy(sort);
-    loadCelebs(profession, nationality, contentType, sort);
-  }, [loadCelebs, profession, nationality, contentType]);
-
-  // 현재 선택된 값들의 라벨
-  const activeProfession = CELEB_PROFESSION_FILTERS.find((f) => f.value === profession);
-  const activeNationality = nationalityCounts.find((n) => n.value === nationality);
-  const activeContentType = CONTENT_TYPE_FILTERS.find((c) => c.value === contentType);
-  const activeSort = SORT_OPTIONS.find((s) => s.value === sortBy);
-
-  // Rank Helper: S-A-B-C-D → Crimson-Gold-Silver-Bronze-Iron
-  const getVariant = (rank?: string) => {
-      if (rank === 'S') return 'crimson';
-      if (rank === 'A') return 'gold';
-      if (rank === 'B') return 'silver';
-      if (rank === 'C') return 'bronze';
-      return 'iron'; // D (Default)
-  };
-
-  // Carousel Mode Rendering
+  // 캐러셀 모드
   if (mode === "carousel") {
-    if (initialTotal === 0) return null;
-
-    // PC: 열 수에 따라 4행에 맞게 셀럽 수 계산 (최대 24명)
-    const pcCelebs = celebs.slice(0, 24);
-    // 모바일: 최대 8명
-    const mobileCelebs = celebs.slice(0, 8);
-
-    return (
-      <div className="bg-white/[0.02] backdrop-blur-sm rounded-2xl p-4 md:p-6">
-        {/* 모바일: 간단한 카드 형태 (2열 그리드) */}
-        <div className="md:hidden grid grid-cols-2 gap-4">
-          {mobileCelebs.map((celeb) => (
-            <a
-              key={celeb.id}
-              href={`/${celeb.id}`}
-              className="flex items-center gap-3 p-3 bg-bg-card rounded-xl hover:bg-white/5"
-            >
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
-                {celeb.avatar_url ? (
-                  <img
-                    src={celeb.avatar_url}
-                    alt={celeb.nickname}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-text-tertiary">
-                    {celeb.nickname[0]}
-                  </div>
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="font-medium text-sm text-text-primary truncate">{celeb.nickname}</p>
-                <p className="text-xs text-text-tertiary">{celeb.content_count || 0}개 콘텐츠</p>
-              </div>
-            </a>
-          ))}
-        </div>
-
-        {/* PC: 4행 그리드, 가로폭에 맞게 */}
-        <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
-          {pcCelebs.map((celeb) => (
-            <div key={celeb.id} className="flex justify-center pt-3">
-              <NeoCelebCard
-                celeb={celeb}
-                variant={getVariant(celeb.influence?.rank)}
-                scale={0.75}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return <CarouselMode celebs={filters.celebs} total={initialTotal} />;
   }
 
-  // 초기 데이터도 없으면 섹션 자체를 숨김
-  if (initialTotal === 0) {
-    return null;
-  }
+  // 초기 데이터 없으면 숨김
+  if (initialTotal === 0) return null;
 
   return (
-    <section className="bg-white/[0.02] backdrop-blur-sm rounded-2xl p-4 md:p-6">
-      {/* PC: 전체 필터 표시 */}
-      <div className="hidden md:block space-y-3 mb-8">
-        {/* 직군 필터 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>직군</span>
-          <div className="overflow-x-auto scrollbar-hide flex-1">
-            <div className={FILTER_BUTTON_STYLES.container}>
-              {CELEB_PROFESSION_FILTERS.map(({ value, label }) => {
-                const isActive = profession === value;
-                const count = professionCounts[value] ?? 0;
-                return (
-                  <Button
-                    unstyled
-                    key={value}
-                    onClick={() => handleProfessionChange(value)}
-                    disabled={isLoading || count === 0}
-                    className={`${FILTER_BUTTON_STYLES.base} ${
-                      isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
-                    } ${FILTER_BUTTON_STYLES.disabled}`}
-                  >
-                    {label}
-                    <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
-                      ({count})
-                    </span>
-                  </Button>
-                );
-              })}
+    <div className="space-y-4">
+      {/* 필터/정렬 - 캐러셀 상단 */}
+      <CelebFiltersDesktop
+        profession={filters.profession}
+        nationality={filters.nationality}
+        contentType={filters.contentType}
+        sortBy={filters.sortBy}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        isLoading={filters.isLoading}
+        activeLabels={filters.activeLabels}
+        onProfessionChange={filters.handleProfessionChange}
+        onNationalityChange={filters.handleNationalityChange}
+        onContentTypeChange={filters.handleContentTypeChange}
+        onSortChange={filters.handleSortChange}
+      />
+
+      <CelebFiltersMobile
+        profession={filters.profession}
+        nationality={filters.nationality}
+        contentType={filters.contentType}
+        sortBy={filters.sortBy}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        isLoading={filters.isLoading}
+        activeFilter={filters.activeFilter}
+        activeLabels={filters.activeLabels}
+        onFilterOpen={filters.setActiveFilter}
+        onFilterClose={() => filters.setActiveFilter(null)}
+        onProfessionChange={filters.handleProfessionChange}
+        onNationalityChange={filters.handleNationalityChange}
+        onContentTypeChange={filters.handleContentTypeChange}
+        onSortChange={filters.handleSortChange}
+      />
+
+      {/* 셀럽 그리드 영역 */}
+      <section className="relative overflow-hidden rounded-2xl p-4 md:p-6 bg-gradient-to-br from-white/[0.03] via-transparent to-accent/[0.02]">
+        <NoiseOverlay />
+        <TopHighlight />
+
+        {/* 빈 상태 */}
+        {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
+
+        {/* 셀럽 그리드 */}
+        {filters.celebs.length > 0 && (
+          <>
+            <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} />
+            <div className="mt-8">
+              <Pagination
+                currentPage={filters.currentPage}
+                totalPages={filters.totalPages}
+                onPageChange={filters.handlePageChange}
+              />
             </div>
-          </div>
-        </div>
-
-        {/* 국적 필터 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>국적</span>
-          <div className={FILTER_BUTTON_STYLES.container}>
-            {nationalityCounts.map(({ value, label, count }) => {
-              const isActive = nationality === value;
-              return (
-                <Button
-                  unstyled
-                  key={value}
-                  onClick={() => handleNationalityChange(value)}
-                  disabled={isLoading || count === 0}
-                  className={`${FILTER_BUTTON_STYLES.base} ${
-                    isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
-                  } ${FILTER_BUTTON_STYLES.disabled}`}
-                >
-                  {label}
-                  <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
-                    ({count})
-                  </span>
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 콘텐츠 타입 필터 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>콘텐츠</span>
-          <div className={FILTER_BUTTON_STYLES.container}>
-            {CONTENT_TYPE_FILTERS.map(({ value, label }) => {
-              const isActive = contentType === value;
-              const count = contentTypeCounts[value] ?? 0;
-              return (
-                <Button
-                  unstyled
-                  key={value}
-                  onClick={() => handleContentTypeChange(value)}
-                  disabled={isLoading || count === 0}
-                  className={`${FILTER_BUTTON_STYLES.base} ${
-                    isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
-                  } ${FILTER_BUTTON_STYLES.disabled}`}
-                >
-                  {label}
-                  <span className={`ml-1 ${isActive ? FILTER_BUTTON_STYLES.countActive : FILTER_BUTTON_STYLES.countInactive}`}>
-                    ({count})
-                  </span>
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 정렬 옵션 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>정렬</span>
-          <div className={FILTER_BUTTON_STYLES.container}>
-            {SORT_OPTIONS.map(({ value, label }) => {
-              const isActive = sortBy === value;
-              return (
-                <Button
-                  unstyled
-                  key={value}
-                  onClick={() => handleSortChange(value)}
-                  disabled={isLoading}
-                  className={`${FILTER_BUTTON_STYLES.base} ${
-                    isActive ? FILTER_BUTTON_STYLES.active : FILTER_BUTTON_STYLES.inactive
-                  } ${FILTER_BUTTON_STYLES.disabled}`}
-                >
-                  {label}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* 모바일: 개별 필터 칩 */}
-      <div className="md:hidden mb-6 space-y-2">
-        {/* 직군 필터 칩 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>직군</span>
-          <Button
-            unstyled
-            onClick={() => setActiveFilter("profession")}
-            disabled={isLoading}
-            className={`${FILTER_CHIP_STYLES.base} ${FILTER_CHIP_STYLES.active}`}
-          >
-            {activeProfession?.label}
-            <GreekChevronIcon size={14} />
-          </Button>
-        </div>
-
-        {/* 국적 필터 칩 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>국적</span>
-          <Button
-            unstyled
-            onClick={() => setActiveFilter("nationality")}
-            disabled={isLoading}
-            className={`${FILTER_CHIP_STYLES.base} ${
-              nationality !== "all" ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive
-            }`}
-          >
-            {activeNationality?.label ?? "전체"}
-            <GreekChevronIcon size={14} />
-          </Button>
-        </div>
-
-        {/* 콘텐츠 타입 필터 칩 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>콘텐츠</span>
-          <Button
-            unstyled
-            onClick={() => setActiveFilter("contentType")}
-            disabled={isLoading}
-            className={`${FILTER_CHIP_STYLES.base} ${
-              contentType !== "all" ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive
-            }`}
-          >
-            {activeContentType?.label ?? "전체"}
-            <GreekChevronIcon size={14} />
-          </Button>
-        </div>
-
-        {/* 정렬 칩 */}
-        <div className="flex items-center gap-2">
-          <span className={FILTER_BUTTON_STYLES.label}>정렬</span>
-          <Button
-            unstyled
-            onClick={() => setActiveFilter("sort")}
-            disabled={isLoading}
-            className={`${FILTER_CHIP_STYLES.base} ${
-              sortBy !== "influence" ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive
-            }`}
-          >
-            {activeSort?.label}
-            <GreekChevronIcon size={14} />
-          </Button>
-        </div>
-      </div>
-
-      {/* 모바일: 직군 필터 바텀시트 */}
-      <BottomSheet
-        isOpen={activeFilter === "profession"}
-        onClose={() => setActiveFilter(null)}
-        title="직군"
-      >
-        <div className="p-4 space-y-2">
-          {CELEB_PROFESSION_FILTERS.map(({ value, label }) => {
-            const isActive = profession === value;
-            const count = professionCounts[value] ?? 0;
-            const isDisabled = count === 0;
-            return (
-              <Button
-                unstyled
-                key={value}
-                onClick={() => {
-                  if (!isDisabled) {
-                    handleProfessionChange(value);
-                    setActiveFilter(null);
-                  }
-                }}
-                disabled={isDisabled}
-                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
-                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
-                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
-              >
-                <span className="flex-1 text-left text-sm font-medium">{label}</span>
-                <span className="text-xs text-text-tertiary">{count}</span>
-                {isActive && <NeoCheckIcon size={18} />}
-              </Button>
-            );
-          })}
-        </div>
-      </BottomSheet>
-
-      {/* 모바일: 국적 필터 바텀시트 */}
-      <BottomSheet
-        isOpen={activeFilter === "nationality"}
-        onClose={() => setActiveFilter(null)}
-        title="국적"
-      >
-        <div className="p-4 space-y-2">
-          {nationalityCounts.map(({ value, label, count }) => {
-            const isActive = nationality === value;
-            const isDisabled = count === 0;
-            return (
-              <Button
-                unstyled
-                key={value}
-                onClick={() => {
-                  if (!isDisabled) {
-                    handleNationalityChange(value);
-                    setActiveFilter(null);
-                  }
-                }}
-                disabled={isDisabled}
-                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
-                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
-                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
-              >
-                <span className="flex-1 text-left text-sm font-medium">{label}</span>
-                <span className="text-xs text-text-tertiary">{count}</span>
-                {isActive && <NeoCheckIcon size={18} />}
-              </Button>
-            );
-          })}
-        </div>
-      </BottomSheet>
-
-      {/* 모바일: 콘텐츠 타입 필터 바텀시트 */}
-      <BottomSheet
-        isOpen={activeFilter === "contentType"}
-        onClose={() => setActiveFilter(null)}
-        title="콘텐츠"
-      >
-        <div className="p-4 space-y-2">
-          {CONTENT_TYPE_FILTERS.map(({ value, label }) => {
-            const isActive = contentType === value;
-            const count = contentTypeCounts[value] ?? 0;
-            const isDisabled = count === 0;
-            return (
-              <Button
-                unstyled
-                key={value}
-                onClick={() => {
-                  if (!isDisabled) {
-                    handleContentTypeChange(value);
-                    setActiveFilter(null);
-                  }
-                }}
-                disabled={isDisabled}
-                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
-                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
-                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
-              >
-                <span className="flex-1 text-left text-sm font-medium">{label}</span>
-                <span className="text-xs text-text-tertiary">{count}</span>
-                {isActive && <NeoCheckIcon size={18} />}
-              </Button>
-            );
-          })}
-        </div>
-      </BottomSheet>
-
-      {/* 모바일: 정렬 바텀시트 */}
-      <BottomSheet
-        isOpen={activeFilter === "sort"}
-        onClose={() => setActiveFilter(null)}
-        title="정렬"
-      >
-        <div className="p-4 space-y-2">
-          {SORT_OPTIONS.map(({ value, label }) => {
-            const isActive = sortBy === value;
-            return (
-              <Button
-                unstyled
-                key={value}
-                onClick={() => {
-                  handleSortChange(value);
-                  setActiveFilter(null);
-                }}
-                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
-                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
-                }`}
-              >
-                <span className="flex-1 text-left text-sm font-medium">{label}</span>
-                {isActive && <NeoCheckIcon size={18} />}
-              </Button>
-            );
-          })}
-        </div>
-      </BottomSheet>
-
-      {/* 빈 상태 */}
-      {celebs.length === 0 && !isLoading && (
-        <div className="flex flex-col items-center justify-center py-12 px-4">
-          <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
-            <UserXIcon size={32} className="text-text-tertiary" />
-          </div>
-          <p className="text-sm text-text-secondary text-center">
-            해당 직군의 셀럽이 없습니다
-          </p>
-        </div>
-      )}
-
-      {/* 모바일 그리드 (2열로 변경, scale 적용) */}
-      {celebs.length > 0 && (
-        <div
-          className={`
-            grid grid-cols-2 gap-4 md:hidden
-            ${isLoading ? "opacity-50 pointer-events-none" : ""}
-          `}
-        >
-          {celebs.map((celeb) => (
-            <div key={celeb.id} className="flex justify-center">
-                <NeoCelebCard 
-                    celeb={celeb} 
-                    variant={getVariant(celeb.influence?.rank)}
-                    scale={0.72} 
-                />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* PC 그리드 (3-4-5열로 변경) */}
-      {celebs.length > 0 && (
-        <div
-          className={`
-            hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8
-            ${isLoading ? "opacity-50 pointer-events-none" : ""}
-          `}
-        >
-          {celebs.map((celeb) => (
-             <div key={celeb.id} className="flex justify-center">
-                <NeoCelebCard 
-                    celeb={celeb} 
-                    variant={getVariant(celeb.influence?.rank)}
-                />
-             </div>
-          ))}
-        </div>
-      )}
-    </section>
+          </>
+        )}
+      </section>
+    </div>
   );
 }
+
+// #region 하위 컴포넌트
+function NoiseOverlay() {
+  return (
+    <div
+      className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay"
+      style={{
+        backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")`,
+        backgroundSize: "200px 200px",
+      }}
+    />
+  );
+}
+
+function TopHighlight() {
+  return (
+    <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center py-12 px-4">
+      <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
+        <UserXIcon size={32} className="text-text-tertiary" />
+      </div>
+      <p className="text-sm text-text-secondary text-center">해당 직군의 셀럽이 없습니다</p>
+    </div>
+  );
+}
+
+function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: boolean }) {
+  const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
+
+  return (
+    <>
+      {/* 모바일 그리드 */}
+      <div className={`grid grid-cols-2 gap-x-2 gap-y-6 md:hidden ${loadingClass}`}>
+        {celebs.map((celeb) => (
+          <div key={celeb.id} className="flex justify-center">
+            <NeoCelebCard celeb={celeb} variant={getRankVariant(celeb.influence?.rank)} size="small" />
+          </div>
+        ))}
+      </div>
+
+      {/* PC - flex wrap + 고정 너비 래퍼로 일정한 간격 보장 */}
+      <div className={`hidden md:flex flex-wrap justify-center gap-x-4 gap-y-10 ${loadingClass}`}>
+        {celebs.map((celeb) => (
+          <div key={celeb.id} className="w-[180px] flex justify-center">
+            <NeoCelebCard celeb={celeb} variant={getRankVariant(celeb.influence?.rank)} size="small" />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number }) {
+  if (total === 0) return null;
+
+  const pcCelebs = celebs.slice(0, 24);
+  const mobileCelebs = celebs.slice(0, 8);
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 bg-gradient-to-br from-white/[0.03] via-transparent to-accent/[0.02]">
+      <NoiseOverlay />
+      <TopHighlight />
+
+      {/* 모바일: 가로 스크롤 */}
+      <div className="md:hidden flex gap-5 overflow-x-auto scrollbar-hide pb-6 px-2 -mx-2">
+        {mobileCelebs.map((celeb) => (
+          <MobileCelebItem key={celeb.id} celeb={celeb} />
+        ))}
+        <MoreLink />
+      </div>
+
+      {/* PC - flex wrap + 고정 너비 래퍼로 일정한 간격 보장 */}
+      <div className="hidden md:flex flex-wrap justify-center gap-x-4 gap-y-16">
+        {pcCelebs.map((celeb) => (
+          <div key={celeb.id} className="w-[200px] flex justify-center pt-3">
+            <NeoCelebCard celeb={celeb} variant={getRankVariant(celeb.influence?.rank)} size="default" scale={0.75} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileCelebItem({ celeb }: { celeb: CelebProfile }) {
+  return (
+    <a
+      href={`/${celeb.id}`}
+      className="flex-shrink-0 w-36 flex flex-col items-center gap-3 p-5 bg-bg-card border-double border-2 border-accent-dim/40 rounded-sm shadow-xl relative overflow-hidden group"
+    >
+      {/* Decorative Gold Shine */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+      
+      <div className="w-20 h-20 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0 border-2 border-accent/20 p-1 relative z-10 shadow-glow-sm">
+        <div className="w-full h-full rounded-full overflow-hidden">
+          {celeb.avatar_url ? (
+            <img src={celeb.avatar_url} alt={celeb.nickname} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-text-tertiary text-2xl bg-bg-main font-cinzel">
+              {celeb.nickname[0]}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="text-center w-full relative z-10">
+        <p className="font-serif font-black text-sm text-text-primary group-hover:text-accent transition-colors truncate">{celeb.nickname}</p>
+        <div className="flex flex-col items-center mt-1.5 gap-0.5">
+          <span className="text-[10px] text-accent font-cinzel font-black tracking-[0.2em] uppercase opacity-80">
+            {celeb.influence?.rank || "D"} RANK
+          </span>
+          <p className="text-[10px] text-text-tertiary font-serif">{celeb.content_count || 0} RECORDS</p>
+        </div>
+      </div>
+
+      {/* Background Ornament */}
+      <div className="absolute -bottom-2 -right-2 text-4xl font-cinzel font-black text-white/[0.03] pointer-events-none uppercase">
+        {celeb.influence?.rank || "D"}
+      </div>
+    </a>
+  );
+}
+
+function MoreLink() {
+  return (
+    <a
+      href="/explore"
+      className="flex-shrink-0 w-36 flex flex-col items-center justify-center gap-3 p-5 bg-accent/5 rounded-sm border-dashed border-2 border-accent/20 hover:bg-accent/10 transition-colors"
+    >
+      <div className="w-12 h-12 rounded-full border border-accent/30 flex items-center justify-center">
+        <span className="text-accent text-2xl font-cinzel">→</span>
+      </div>
+      <span className="text-xs font-serif font-black text-accent tracking-widest uppercase">둘러보기</span>
+    </a>
+  );
+}
+// #endregion

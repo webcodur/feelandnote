@@ -36,43 +36,54 @@
     100% 100%;          /* Vignette dimensions */
 }
 
-/* Corner Brackets */
+/* Corner Brackets & Border Animation Layer */
 .classicalBox::before, 
 .classicalBox::after {
   content: "";
   position: absolute;
   pointer-events: none;
+  
+  /* Initial State: Corner Brackets */
   width: 20px;
   height: 20px;
-  border: 2px solid var(--color-accent);
-  transition: all 0.3s ease;
-  opacity: 0.5;
+  
+  /* Match the base border style (double, 4px) */
+  border: 4px double var(--color-accent);
+  
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth outflow */
+  opacity: 1; /* Visible brackets by default */
+  z-index: 10;
 }
 
 .classicalBox::before {
-  top: -2px; 
-  left: -2px;
+  top: -4px; 
+  left: -4px;
   border-right: none; 
   border-bottom: none;
 }
 
 .classicalBox::after {
-  bottom: -2px; 
-  right: -2px;
+  bottom: -4px; 
+  right: -4px;
   border-left: none; 
   border-top: none;
 }
 
 /* Hover Effects */
+/* Hover Effects */
+/* Hover Effects */
 .hoverable:hover::before, 
 .hoverable:hover::after {
-  width: 100%;
-  height: 100%;
+  /* Expand to full box size + border width compensation */
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
   opacity: 1;
-  border-color: var(--color-accent-hover);
+  /* Only change color, preserve border-style/width and side-specific visibility */
+  border-color: var(--color-accent); 
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); 
 }
 
 .hoverable:hover {
-  border-color: var(--color-accent);
+  /* Keep base border visible to prevent jumping, just add glow */
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }

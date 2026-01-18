@@ -54,36 +54,52 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   };
 
   return (
-    <ClassicalBox className="mb-6 bg-bg-card/50 backdrop-blur-sm border-accent-dim/30">
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Please leave your message..."
-        className="w-full bg-transparent border-none text-sm resize-none focus:outline-none placeholder:text-text-tertiary placeholder:italic"
-        rows={3}
-        maxLength={500}
-      />
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-accent-dim/20">
-        <label className="flex items-center gap-2 text-xs text-text-secondary cursor-pointer hover:text-accent transition-colors">
-          <input
-            type="checkbox"
-            checked={isPrivate}
-            onChange={(e) => handleTogglePrivate(e.target.checked)}
-            className="accent-accent"
-          />
-          <Lock size={12} />
-          <span className="uppercase tracking-wider font-serif">Secret Message</span>
+    <ClassicalBox className="mb-8 bg-bg-card border-accent-dim/20 shadow-glow-sm overflow-hidden group">
+      {/* Decorative top header for Altar style */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-2" />
+      
+      <div className="px-1 py-1">
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Leave your immortal words upon this stone..."
+          className="w-full bg-black/20 p-4 border border-accent-dim/10 text-sm sm:text-base font-serif leading-relaxed resize-none focus:outline-none focus:border-accent/40 placeholder:text-text-tertiary placeholder:italic transition-colors"
+          rows={4}
+          maxLength={500}
+        />
+      </div>
+
+      <div className="flex items-center justify-between mt-4 p-2 sm:px-4 sm:pb-4">
+        <label className="flex items-center gap-2.5 text-[10px] sm:text-xs text-text-secondary cursor-pointer hover:text-accent transition-all group/label">
+          <div className={`w-3.5 h-3.5 border border-accent/40 rounded-sm flex items-center justify-center transition-all ${isPrivate ? 'bg-accent border-accent' : 'bg-transparent'}`}>
+            <input
+              type="checkbox"
+              checked={isPrivate}
+              onChange={(e) => handleTogglePrivate(e.target.checked)}
+              className="sr-only"
+            />
+            {isPrivate && <Lock size={10} className="text-bg-main" strokeWidth={3} />}
+          </div>
+          <span className="uppercase tracking-[0.15em] font-serif font-black opacity-60 group-hover/label:opacity-100 italic">Secret Vow</span>
         </label>
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-cinzel text-text-tertiary">{content.length}/500</span>
+
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] font-cinzel text-accent/40 tracking-widest">{content.length} <span className="opacity-40">/</span> 500</span>
+          
           <Button
             unstyled
             onClick={handleSubmit}
             disabled={!content.trim() || isSubmitting}
-            className="px-4 py-1.5 bg-accent text-bg-main text-xs uppercase tracking-wider rounded-sm hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 shadow-sm transition-all duration-300"
+            className="group/btn relative px-6 py-2 bg-bg-card border border-accent text-accent text-[11px] font-serif font-black uppercase tracking-[0.2em] overflow-hidden transition-all duration-500 hover:bg-accent hover:text-bg-main disabled:opacity-30 disabled:grayscale"
           >
-            <Send size={12} />
-            Sign
+            {/* Corner Bracket Accents on Button */}
+            <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-s border-accent group-hover/btn:border-bg-main" />
+            <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-e border-accent group-hover/btn:border-bg-main" />
+            
+            <span className="relative z-10 flex items-center gap-2">
+              <Send size={12} className={isSubmitting ? "animate-pulse" : "group-hover/btn:translate-x-1 transition-transform"} />
+              {isSubmitting ? "Carving..." : "Inscribe"}
+            </span>
           </Button>
         </div>
       </div>

@@ -102,11 +102,11 @@ export default function MonthTransitionIndicator({ currentMonthKey }: MonthTrans
 
   return createPortal(
     <div
-      className={`fixed bottom-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none ${
+      className={`fixed bottom-20 sm:bottom-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none ${
         isMounting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
     >
-      <div className="relative px-4 py-2 bg-black/80 backdrop-blur-xl rounded-full border border-accent/30 flex items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+      <div className="relative px-3 py-1.5 sm:px-4 sm:py-2 bg-black/80 backdrop-blur-xl rounded-full border border-accent/30 flex items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
         {/* Glow effect */}
         <div className="absolute inset-0 rounded-full bg-accent/10 blur-md -z-10"></div>
         <div className="absolute inset-0 rounded-xl bg-accent/30 blur-2xl -z-20"></div>

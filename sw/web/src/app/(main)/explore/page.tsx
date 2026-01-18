@@ -7,10 +7,27 @@ import Explore from "@/components/features/archive/explore/Explore";
 // #region Components
 function ExploreSkeleton() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 animate-pulse">
-      {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="aspect-[3/4] bg-bg-card rounded-xl" />
-      ))}
+    <div className="animate-pulse">
+      {/* SectionHeader 스켈레톤 */}
+      <div className="flex items-end justify-between mb-8 md:mb-12 px-2 md:px-4 border-b border-accent-dim/10 pb-4">
+        <div className="flex flex-col gap-2">
+          <div className="h-3 w-24 bg-bg-card rounded" />
+          <div className="h-8 w-48 bg-bg-card rounded" />
+          <div className="h-4 w-32 bg-bg-card rounded" />
+        </div>
+      </div>
+      {/* 탭 스켈레톤 */}
+      <div className="flex gap-2 mb-8">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-10 w-20 bg-bg-card rounded-lg" />
+        ))}
+      </div>
+      {/* 카드 그리드 스켈레톤 */}
+      <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-7 gap-3">
+        {Array.from({ length: 14 }).map((_, i) => (
+          <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
+        ))}
+      </div>
     </div>
   );
 }
@@ -28,7 +45,7 @@ async function ExploreContentServer() {
     followersResult, 
     similarUsersResult
   ] = await Promise.all([
-    getCelebs({ page: 1, limit: 100 }),
+    getCelebs({ page: 1, limit: 24 }),
     getProfessionCounts(),
     getNationalityCounts(),
     getContentTypeCounts(),

@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
-import path from "path";
 
 const nextConfig: NextConfig = {
   turbopack: {
-    root: path.resolve(__dirname, '../..'),
+    root: '../..',
   },
-  transpilePackages: ['@feelnnote/api-clients'],
+  transpilePackages: ['@feelnnote/api-clients', '@feelnnote/shared'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'shopping-phinf.pstatic.net' },

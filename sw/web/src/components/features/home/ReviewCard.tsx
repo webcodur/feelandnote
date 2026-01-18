@@ -114,7 +114,7 @@ export default function ReviewCard({
   };
 
   const cardContent = (
-    <ClassicalBox className="flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] md:h-[280px] mx-auto overflow-hidden group p-4 md:p-6">
+    <ClassicalBox hover className="flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] md:h-[280px] mx-auto overflow-hidden group p-4 md:p-6">
       {/* 좌측: 콘텐츠 이미지 + 정보 오버레이 */}
       <div className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] md:aspect-auto md:h-full shrink-0 bg-black border border-accent/30">
         {contentThumbnail ? (

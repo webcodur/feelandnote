@@ -92,15 +92,15 @@ export default function ApiUsageClient({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <PageHeader
         title="API 사용량"
         description={`총 ${stats.totalUsage.toLocaleString()}회 호출`}
       />
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-bg-card border border-border rounded-xl p-5">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div className="bg-bg-card border border-border rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-blue-500/10 rounded-lg">
               <BarChart3 className="w-5 h-5 text-blue-400" />
@@ -139,7 +139,7 @@ export default function ApiUsageClient({
       </div>
 
       {/* 통계 차트 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <div className="bg-bg-card border border-border rounded-xl p-5">
           <h3 className="text-lg font-semibold text-text-primary mb-4">API 키별 사용량</h3>
           <div className="space-y-3">

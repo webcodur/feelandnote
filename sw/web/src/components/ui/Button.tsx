@@ -154,14 +154,14 @@ export function SelectDropdown<T extends string>({
       </select>
       <div
         className={`
-          flex items-center gap-2 px-3 h-8 rounded-lg text-sm font-medium pointer-events-none border border-transparent
+          flex items-center gap-2 px-3 h-full rounded-lg text-[inherit] font-medium pointer-events-none border border-transparent
           bg-surface text-text-secondary group-hover:bg-surface-hover group-hover:text-text-primary
           ${disabled ? "opacity-50" : ""}
         `}
       >
-        {Icon && <Icon size={14} className="flex-shrink-0 opacity-70" />}
+        {Icon && <Icon size={14} className="flex-shrink-0 opacity-70 sm:size-[14px] size-[12px]" />}
         <span className="truncate flex-1">{selectedLabel}</span>
-        <ChevronDown size={14} className="flex-shrink-0 opacity-50 group-hover:opacity-80" />
+        <ChevronDown size={14} className="flex-shrink-0 opacity-50 group-hover:opacity-80 sm:size-[14px] size-[12px]" />
       </div>
     </div>
   );

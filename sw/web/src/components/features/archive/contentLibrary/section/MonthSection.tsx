@@ -18,6 +18,10 @@ interface MonthSectionProps {
   children: React.ReactNode;
 }
 
+function cn(...classes: (string | undefined | null | false)[]) {
+  return classes.filter(Boolean).join(" ");
+}
+
 export default function MonthSection({
   monthKey,
   itemCount,
@@ -35,26 +39,43 @@ export default function MonthSection({
   const ChevronIcon = isCollapsed ? ChevronRight : ChevronDown;
 
   return (
-    <div id={`month-section-${monthKey}`} className="mb-6">
+    <div id={`month-section-${monthKey}`} className="mb-4 sm:mb-6">
       {/* 통합 헤더: 날짜 + 기록 수 */}
-      <Button
+      <button
         onClick={onToggle}
-        className={`flex items-center gap-3 w-fit px-4 py-3 select-none mb-3 transition-colors ${
-          isCollapsed
-            ? "bg-transparent text-text-tertiary hover:text-text-secondary"
-            : "bg-transparent border-l-2 border-accent pl-4 text-text-primary"
+        className={`group flex items-center gap-4 w-full px-2 py-3 mb-4 transition-all duration-300 border-b border-accent-dim/10 hover:border-accent/40 ${
+          isCollapsed ? "opacity-60 grayscale" : "opacity-100"
         }`}
       >
-        <div className="flex items-baseline gap-1">
-          <span className="text-lg font-bold text-text-primary">{year}년 {month}월</span>
+        <div className="flex items-center gap-3">
+          {/* Section Pillar Decor */}
+          <div className={`w-1 transition-all duration-500 ${isCollapsed ? "h-4 bg-accent-dim/20" : "h-8 bg-accent shadow-glow"}`} />
+          
+          <div className="flex flex-col items-start gap-0.5">
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl sm:text-2xl font-serif font-black text-text-primary tracking-tighter italic">
+                {year}
+                <span className="text-[10px] sm:text-xs font-serif font-normal not-italic ml-1 opacity-60">Anno Domini</span>
+              </span>
+              <span className="text-lg sm:text-xl font-serif font-black text-accent tracking-widest">
+                {month.padStart(2, '0')}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] sm:text-[10px] font-serif font-bold text-text-tertiary uppercase tracking-[0.2em]">
+                Inscribed Records / {itemCount} units
+              </span>
+            </div>
+          </div>
         </div>
-        <span className="text-sm text-text-tertiary">·</span>
-        <span className="text-sm text-text-secondary">{itemCount}개의 기록</span>
-        <ChevronIcon size={16} className="text-text-tertiary ml-auto" />
-      </Button>
+        
+        <div className="ml-auto pr-2">
+          <ChevronIcon size={18} className={cn("transition-transform duration-300", isCollapsed ? "text-text-tertiary" : "text-accent")} />
+        </div>
+      </button>
 
       {/* Content Area */}
-      {!isCollapsed && <div>{children}</div>}
+      {!isCollapsed && <div className="animate-in fade-in slide-in-from-top-1 duration-200">{children}</div>}
     </div>
   );
 }

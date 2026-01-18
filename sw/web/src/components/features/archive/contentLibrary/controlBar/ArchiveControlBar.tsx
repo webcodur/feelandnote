@@ -59,79 +59,85 @@ export default function ArchiveControlBar({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="sticky top-0 z-30 bg-background pt-4 pb-2">
-      {/* Expander Button */}
-      <Button
-        unstyled
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between px-4 py-3 mb-2 bg-bg-card border-2 border-accent-dim/30 rounded-sm hover:border-accent hover:bg-bg-secondary transition-all duration-300 group"
-      >
-        <div className="flex items-center gap-2">
-           <Filter size={16} className="text-accent group-hover:text-accent-hover transition-colors" />
-           <span className="font-bold font-serif text-text-primary text-sm tracking-wide">Filter & Controls</span>
-        </div>
-        {isExpanded ? <ChevronsUp size={16} className="text-accent-dim group-hover:text-accent transition-colors" /> : <ChevronsDown size={16} className="text-text-tertiary group-hover:text-accent transition-colors" />}
-      </Button>
+    <div className="sticky top-0 z-30 bg-background pt-2 pb-1 sm:pt-4 sm:pb-2">
+      <div className="px-2 sm:px-4 mb-3">
+        <Button
+          unstyled
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={cn(
+            "w-full flex items-center justify-between px-4 py-3 bg-bg-card border-2 transition-all duration-500 group relative overflow-hidden",
+            isExpanded ? "border-accent shadow-glow-sm" : "border-accent-dim/20"
+          )}
+        >
+          {/* Subtle background ornament */}
+          <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-accent/[0.05] to-transparent pointer-events-none" />
+          
+          <div className="flex items-center gap-2.5 relative z-10">
+            <Filter size={16} className={cn("transition-colors duration-300", isExpanded ? "text-accent" : "text-accent-dim")} />
+            <span className="font-serif font-black text-xs sm:text-sm tracking-widest text-text-primary uppercase">Filters & Sort</span>
+          </div>
+          
+          <div className="flex items-center gap-2 relative z-10">
+            <div className="h-4 w-px bg-accent/20 mx-1 hidden sm:block" />
+            {isExpanded ? (
+              <ChevronsUp size={16} className="text-accent animate-bounce-subtle" />
+            ) : (
+              <ChevronsDown size={16} className="text-text-tertiary group-hover:text-accent transition-colors" />
+            )}
+          </div>
+        </Button>
+      </div>
 
       {isExpanded && (
         <div className="flex flex-col md:flex-row border-2 border-double border-accent-dim/20 rounded-sm bg-bg-card/90 backdrop-blur-sm overflow-hidden shadow-lg h-auto md:min-h-[114px] animate-in slide-in-from-top-2 duration-200 divide-y md:divide-y-0 md:divide-x divide-accent-dim/20">
           {/* Section 1: Categories */}
-          <ControlSection header="카테고리" className="flex-1 border-b md:border-b-0 min-w-0">
-            <div className="flex flex-col gap-2.5 h-full justify-center">
-              {/* 대분류 */}
-              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar px-1">
-                <Button
-                  onClick={() => setIsCategoryGuideOpen(true)}
-                  className="px-2 md:px-3 py-1.5 text-sm font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg flex items-center gap-1 md:gap-1.5"
-                  title="카테고리 안내"
-                >
-                  <Layers size={14} />
-                  <span className="hidden md:inline">대분류</span>
-                </Button>
-                <div className="h-5 w-px bg-border/50 mx-0.5 flex-shrink-0" />
+          <ControlSection header="CONTENT TYPE" className="flex-1 border-b md:border-b-0 min-w-0">
+            <div className="flex flex-col gap-3 py-1">
+              {/* 대분류 - 모바일 가로 스크롤 대응 */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar mask-fade-right px-1">
                 {TAB_OPTIONS.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = activeTab === tab.value;
                   const count = typeCounts[tab.type];
                   return (
-                    <Button
+                    <button
                       key={tab.value}
                       onClick={() => onTabChange(tab.value)}
                       className={cn(
-                        "flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1.5 rounded-sm text-sm font-serif font-bold whitespace-nowrap border transition-all duration-300",
+                        "flex items-center gap-2 px-3 py-2 rounded-sm text-[11px] sm:text-xs font-serif font-black whitespace-nowrap border-b-2 transition-all duration-300 uppercase tracking-tighter sm:tracking-normal",
                         isActive
-                          ? "bg-accent/10 border-accent text-accent shadow-[0_0_10px_rgba(212,175,55,0.2)]"
-                          : "bg-transparent border-transparent text-text-secondary hover:text-text-primary hover:bg-accent/5 hover:border-accent-dim/30"
+                          ? "border-accent text-accent bg-accent/5"
+                          : "border-transparent text-text-tertiary hover:text-text-secondary hover:bg-white/5"
                       )}
                     >
-                      <Icon size={15} strokeWidth={isActive ? 2.5 : 2} />
-                      <span className="hidden md:inline">{tab.label}</span>
-                      <span className="opacity-60 text-xs ml-1">({count})</span>
-                    </Button>
+                      <Icon size={12} className={cn(isActive ? "opacity-100" : "opacity-40")} />
+                      <span>{tab.label}</span>
+                      <span className="font-cinzel opacity-40 text-[9px] ml-1">{count}</span>
+                    </button>
                   );
                 })}
               </div>
 
               {/* 소분류 */}
-              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar px-1">
+              <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar px-1">
                 <Button
                   onClick={onManageCategories}
-                  className="px-2 md:px-3 py-1.5 text-sm font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg flex items-center gap-1 md:gap-1.5"
+                  className="px-1.5 sm:px-3 py-1 text-xs sm:text-sm font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg flex items-center gap-1"
                   title="소분류 관리"
                 >
-                  <Tag size={14} />
-                  <span className="hidden md:inline">소분류</span>
+                  <Tag size={12} className="sm:size-[14px]" />
+                  <span className="hidden sm:inline">소분류</span>
                 </Button>
-                <div className="h-5 w-px bg-border/50 mx-0.5 flex-shrink-0" />
+                <div className="h-4 w-px bg-border/50 mx-0.5 flex-shrink-0" />
                 {categories.length > 0 ? (
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1 sm:gap-1.5">
                     <CategoryChip label="전체" isActive={selectedCategoryId === null} onClick={() => onCategoryChange(null)} />
                     {categories.map((cat) => (
                       <CategoryChip key={cat.id} label={cat.name} count={cat.content_count} isActive={selectedCategoryId === cat.id} onClick={() => onCategoryChange(cat.id)} />
                     ))}
                   </div>
                 ) : (
-                  <span className="text-xs text-text-tertiary pl-1">등록된 분류가 없습니다</span>
+                  <span className="text-[10px] sm:text-xs text-text-tertiary pl-1">분류 없음</span>
                 )}
               </div>
             </div>
@@ -141,10 +147,10 @@ export default function ArchiveControlBar({
 
           {/* Section 2: Filter & Sort */}
           <div className="flex md:contents border-t md:border-t-0 border-border/50">
-            <ControlSection header="정렬 및 필터" className="bg-surface/10 flex-1 md:flex-none md:min-w-[150px]">
-              <div className="flex md:flex-col gap-1.5 h-full justify-center">
-                <SelectDropdown value={statusFilter} onChange={onStatusFilterChange} options={STATUS_OPTIONS} icon={Filter} />
-                <SelectDropdown value={sortOption} onChange={onSortOptionChange} options={SORT_OPTIONS} icon={ArrowUpDown} />
+            <ControlSection header="정렬" className="bg-surface/10 flex-1 md:flex-none md:min-w-[150px]">
+              <div className="flex md:flex-col gap-1 sm:gap-1.5 h-full justify-center">
+                <SelectDropdown value={statusFilter} onChange={onStatusFilterChange} options={STATUS_OPTIONS} icon={Filter} className="h-7 sm:h-9 text-[11px] sm:text-sm" />
+                <SelectDropdown value={sortOption} onChange={onSortOptionChange} options={SORT_OPTIONS} icon={ArrowUpDown} className="h-7 sm:h-9 text-[11px] sm:text-sm" />
               </div>
             </ControlSection>
 
@@ -152,7 +158,7 @@ export default function ArchiveControlBar({
 
             {/* Section 3: Collapse/Expand */}
             <ControlSection header="보기" className="bg-surface/10 w-auto md:w-[80px]">
-              <div className="flex md:grid md:grid-cols-2 gap-1.5">
+              <div className="flex md:grid md:grid-cols-2 gap-1 sm:gap-1.5">
                 <ControlIconButton active={false} onClick={onExpandAll} icon={ChevronsDown} title="모두 펼치기" />
                 <ControlIconButton active={false} onClick={onCollapseAll} icon={ChevronsUp} title="모두 접기" />
               </div>

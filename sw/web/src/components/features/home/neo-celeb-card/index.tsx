@@ -3,12 +3,61 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Check, ChevronRight } from "lucide-react";
+import { Check, UserPlus } from "lucide-react";
 import styles from "./styles.module.css";
 import { NeoCelebCardProps } from "./types";
 import { getVariantStyles } from "./variantConfig";
 import { toggleFollow } from "@/actions/user";
 import CelebInfluenceModal from "../CelebInfluenceModal";
+
+// 사이즈별 설정
+const SIZE_CONFIG = {
+  default: {
+    outer: { width: 240, height: 340 },
+    inner: { width: 260, height: 370 },
+    image: "w-40 h-52",
+    imageBorder: "inset-[3px]",
+    fallbackText: "text-3xl",
+    contentPadding: "p-4 pt-5",
+    nameHeight: "h-[48px]",
+    itemsText: "text-sm mb-3",
+    buttonGap: "gap-3",
+    buttonPadding: "px-4 py-2.5",
+    rankText: "text-xs",
+    rankValue: "text-base ml-1.5",
+    iconSize: 18,
+  },
+  compact: {
+    outer: { width: 210, height: 300 },
+    inner: { width: 230, height: 330 },
+    image: "w-36 h-44",
+    imageBorder: "inset-[2px]",
+    fallbackText: "text-2xl",
+    contentPadding: "p-3 pt-4",
+    nameHeight: "h-[42px]",
+    itemsText: "text-xs mb-2",
+    buttonGap: "gap-2",
+    buttonPadding: "px-3 py-2",
+    rankText: "text-[10px]",
+    rankValue: "text-sm ml-1",
+    iconSize: 16,
+  },
+  small: {
+    outer: { width: 160, height: 230 },
+    inner: { width: 175, height: 250 },
+    image: "w-24 h-32",
+    imageBorder: "inset-[2px]",
+    fallbackText: "text-xl",
+    contentPadding: "p-2 pt-3",
+    nameHeight: "h-[36px]",
+    itemsText: "text-[10px] mb-1.5",
+    buttonGap: "gap-1.5",
+    buttonPadding: "px-2 py-1.5",
+    rankText: "text-[9px]",
+    rankValue: "text-xs ml-0.5",
+    iconSize: 14,
+  },
+};
 
 export default function NeoCelebCard({
   celeb,
@@ -16,10 +65,13 @@ export default function NeoCelebCard({
   className = "",
   onFollowClick,
   scale = 1,
+  size = "default",
 }: NeoCelebCardProps) {
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [showInfluenceModal, setShowInfluenceModal] = useState(false);
+
+  const config = SIZE_CONFIG[size];
 
   const handleFollowClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,7 +97,7 @@ export default function NeoCelebCard({
 
     setIsLoading(false);
   };
-  
+
   const {
     surface,
     borderVariant,
@@ -72,34 +124,48 @@ export default function NeoCelebCard({
   const finalDot = dot || dotColor || "";
   const finalLabel = label || labelColor || "";
 
+  // 이름 길이 및 카드 사이즈에 따른 텍스트 크기
+  const getNameSize = (name: string, cardSize: string) => {
+    if (cardSize === "small") {
+      if (name.length > 10) return 'text-xs';
+      if (name.length > 7) return 'text-sm';
+      return 'text-base';
+    }
+    if (name.length > 10) return 'text-base';
+    if (name.length > 7) return 'text-lg';
+    return 'text-xl';
+  };
+
+  const nameSize = getNameSize(celeb.nickname, size);
+
   return (
     <div
       className={`${styles.cardGroup} ${styles.perspectiveWrapper} group relative flex-shrink-0 ${className}`}
-      style={{ width: `${220 * scale}px`, height: `${310 * scale}px` }}
+      style={{ width: `${config.outer.width * scale}px`, height: `${config.outer.height * scale}px` }}
     >
       {/* Scaled Inner Container */}
-      <div 
-        style={{ 
-            transform: `scale(${scale})`, 
+      <div
+        style={{
+            transform: `scale(${scale})`,
             transformOrigin: 'top left',
-            width: '240px',
-            height: '340px'
+            width: `${config.inner.width}px`,
+            height: `${config.inner.height}px`
         }}
       >
       {/* Main Card Container */}
       <div
         className={`
-            ${styles.animatedBorderCard} 
-            ${borderVariant} 
+            ${styles.animatedBorderCard}
+            ${borderVariant}
             ${finalShadow}
-            relative border border-white/10 
-            transition-all duration-300 ease-out 
-            h-[340px] 
+            relative border border-white/10
+            transition-all duration-300 ease-out
             /* overflow-visible by default to show border */
         `}
+        style={{ height: `${config.inner.height}px` }}
       >
-      {/* Inner Surface with Clipping */}
-      <div className={`relative w-full h-full overflow-hidden ${surface}`}>
+      {/* Inner Surface with Clipping - 카드 클릭 시 프로필 이동 */}
+      <Link href={`/${celeb.id}`} className={`relative w-full h-full overflow-hidden block ${surface}`}>
         {/* LP Effect Layer (Modular) */}
         <div className={`${styles.lpBase} ${lpClass || ""}`} />
 
@@ -110,11 +176,11 @@ export default function NeoCelebCard({
         />
         
         {/* Content Layer (z-10) */}
-        <div className="relative z-10 flex flex-col items-center h-full p-6 pt-8">
-          
-          {/* A. Image Frame */}
-          <div className={`relative w-36 h-48 mb-6 shadow-2xl ${styles.imageFrame} ${imageFrame}`}>
-              <div className="absolute inset-[3px] overflow-hidden bg-black shadow-inner">
+        <div className={`relative z-10 flex flex-col items-center h-full ${config.contentPadding}`}>
+
+          {/* A. Image Frame - 고정 크기 */}
+          <div className={`relative ${config.image} flex-shrink-0 shadow-2xl ${styles.imageFrame} ${imageFrame}`}>
+              <div className={`absolute ${config.imageBorder} overflow-hidden bg-black shadow-inner`}>
                 {celeb.avatar_url ? (
                   <img
                     src={celeb.avatar_url}
@@ -123,53 +189,45 @@ export default function NeoCelebCard({
                   />
                 ) : (
                   <div className={`w-full h-full flex items-center justify-center bg-neutral-800 ${styles.celebImage}`}>
-                    <span className="text-2xl text-white/50">{celeb.nickname[0]}</span>
+                    <span className={`${config.fallbackText} text-white/50`}>{celeb.nickname[0]}</span>
                   </div>
                 )}
               </div>
           </div>
 
           {/* B. Name & Info */}
-          <div className="text-center w-full relative z-20 mt-[-10px]">
-            <h3 className={`text-xl font-black ${styles.fontFrank} tracking-wider mb-1 ${finalText} ${engravedEffect || ""}`}>
+          <div className="text-center w-full relative z-20 mt-2">
+            <div className={`${config.nameHeight} flex items-center justify-center ${nameSize} font-bold ${styles.fontFrank} tracking-wide leading-tight break-keep ${styles.nameText} ${finalText} ${engravedEffect || ""}`}>
                 {celeb.nickname}
-            </h3>
-            <div className={`flex items-center justify-center gap-2 text-xs font-bold tracking-[0.15em] ${styles.fontFrank} text-white`}>
-                <span>{celeb.content_count || 0} ITEMS</span>
-                <span className={`w-1 h-1 rounded-full ${finalDot}`} />
+            </div>
+            <div className={`font-semibold ${styles.fontFrank} ${styles.subInfoText} text-white/90 ${config.itemsText}`}>
+                {celeb.content_count || 0} ITEMS
+            </div>
+
+            {/* C. Action Buttons - RANK + Follow */}
+            <div className={`w-full flex justify-center ${config.buttonGap}`}>
                 <button
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       setShowInfluenceModal(true);
                     }}
-                    className="flex items-center px-2.5 py-1 rounded-full bg-white/20 border border-white/30 hover:bg-white/30 hover:border-white/40 backdrop-blur-sm cursor-pointer"
+                    className={`${btn} ${styles.btnBase} ${styles.btnText} flex items-center ${config.buttonPadding} cursor-pointer`}
                 >
-                    <span className="text-[10px]">RANK</span>
-                    <span className="ml-1 font-black">{celeb.influence?.rank || '-'}</span>
-                    <ChevronRight size={12} className="ml-0.5" />
+                    <span className={`${config.rankText} tracking-wider`}>RANK</span>
+                    <span className={`${config.rankValue} font-black`}>{celeb.influence?.rank || '-'}</span>
                 </button>
-            </div>
-
-            {/* C. Action Buttons */}
-            <div className="w-full flex justify-between gap-3 px-1 mt-6 opacity-100 transition-opacity">
-                <Link
-                    href={`/${celeb.id}`}
-                    className={`${btn} ${styles.btnBase} ${styles.fontFrank} flex-1 py-2 text-xs tracking-widest uppercase text-center`}
-                >
-                    VIEW
-                </Link>
                 <button
                     onClick={handleFollowClick}
                     disabled={isLoading}
-                    className={`${btn} ${styles.btnBase} px-3 flex items-center justify-center text-lg ${isLoading ? 'opacity-50' : ''}`}
+                    className={`${btn} ${styles.btnBase} ${config.buttonPadding} flex items-center justify-center ${isLoading ? 'opacity-50' : ''}`}
                 >
-                    {isFollowing ? <Check size={14} strokeWidth={3} /> : "+"}
+                    {isFollowing ? <Check size={config.iconSize} strokeWidth={3} /> : <UserPlus size={config.iconSize} />}
                 </button>
             </div>
           </div>
         </div>
-        </div>
+        </Link>
       </div>
       </div>
 

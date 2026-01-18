@@ -95,7 +95,7 @@ export default function MyReviewSection({
           )}
 
           <textarea
-            className="w-full h-24 bg-black/20 border border-border rounded-lg p-2.5 text-text-primary text-sm resize-y outline-none mb-3 font-sans focus:border-accent placeholder:text-text-secondary"
+            className="w-full h-40 bg-black/20 border border-border rounded-lg p-2.5 text-text-primary text-sm resize-y outline-none mb-3 font-sans focus:border-accent placeholder:text-text-secondary"
             placeholder="이 작품에 대한 생각을 자유롭게 기록해보세요."
             value={reviewText}
             onChange={(e) => onReviewTextChange(e.target.value)}

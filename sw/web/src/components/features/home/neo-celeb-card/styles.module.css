@@ -901,17 +901,29 @@
 }
 
 /*
-  CELEB IMAGE - Grayscale to Color on Hover (Desktop only)
+  CELEB IMAGE
 */
 .celebImage {
-  transition: filter 0.4s ease;
+  /* 항상 컬러로 표시 */
 }
 
-@media (hover: hover) {
-  .celebImage {
-    filter: grayscale(1) contrast(1.1);
-  }
-  .cardGroup:hover .celebImage {
-    filter: grayscale(0) contrast(1);
-  }
+/*
+  TEXT READABILITY ENHANCEMENTS
+*/
+.nameText {
+  text-shadow:
+    0 1px 2px rgba(0,0,0,0.6),
+    0 2px 4px rgba(0,0,0,0.3);
+}
+
+.subInfoText {
+  text-shadow:
+    0 1px 2px rgba(0,0,0,0.6),
+    0 0 8px rgba(255,255,255,0.15);
+  letter-spacing: 0.08em;
+}
+
+.btnText {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  font-weight: 700;
 }

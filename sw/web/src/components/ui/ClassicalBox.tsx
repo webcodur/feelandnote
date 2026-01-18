@@ -11,19 +11,20 @@ export default function ClassicalBox({
   children,
   className = "",
   as: Component = "div",
-  hover = false,
+  hover = true,
   ...rest
 }: ClassicalBoxProps) {
   return (
     <Component
       className={`
-        ${styles.classicalBox} 
-        ${hover ? styles.hoverable : ""} 
-        bg-bg-card border-double border-4 border-accent-dim/40 shadow-lg 
+        ${styles.classicalBox}
+        ${hover ? styles.hoverable : ""}
+        bg-bg-card border-double border-4 border-accent-dim/40 shadow-lg
         ${className}
       `}
       {...rest}
     >
+      {hover && <div className={styles.fillOverlay} />}
       {children}
     </Component>
   );

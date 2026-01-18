@@ -18,6 +18,7 @@ type ContentResult = ContentSearchResult | ArchiveSearchResult;
 interface ContentResultsProps {
   results: ContentResult[];
   mode: "content" | "archive";
+  currentUserId?: string | null;
   addingIds?: Set<string>;
   addedIds?: Set<string>;
   savedIds?: Set<string>;
@@ -28,6 +29,7 @@ interface ContentResultsProps {
 export function ContentResults({
   results,
   mode,
+  currentUserId,
   addingIds = new Set(),
   addedIds = new Set(),
   savedIds = new Set(),
@@ -48,7 +50,11 @@ export function ContentResults({
         const isAdded = addedIds.has(item.id);
         const isSaved = savedIds.has(item.id);
 
-        const href = mode === "archive" ? `/archive/${item.id}` : `/content/detail?key=content_${item.id}`;
+        // archive 모드일 때 contentId 사용 (ArchiveSearchResult 타입)
+        const contentId = "contentId" in item ? item.contentId : item.id;
+        const href = mode === "archive" && currentUserId
+          ? `/${currentUserId}/records/${contentId}`
+          : `/content/detail?key=content_${item.id}`;
 
         return (
           <ContentCompactCard

@@ -1,26 +1,12 @@
-export const CELEB_PROFESSIONS = [
-  { value: 'leader', label: '지도자' },
-  { value: 'politician', label: '정치인' },
-  { value: 'commander', label: '지휘관' },
-  { value: 'entrepreneur', label: '기업가' },
-  { value: 'investor', label: '투자자' },
-  { value: 'scholar', label: '학자' },
-  { value: 'artist', label: '예술인' },
-  { value: 'author', label: '작가' },
-  { value: 'actor', label: '배우' },
-  { value: 'influencer', label: '인플루엔서' },
-  { value: 'athlete', label: '스포츠인' },
-] as const
-
-export type CelebProfession = (typeof CELEB_PROFESSIONS)[number]['value']
-
-export const getCelebProfessionLabel = (value: string | null | undefined): string => {
-  if (!value) return '미분류'
-  const profession = CELEB_PROFESSIONS.find((p) => p.value === value)
-  return profession?.label ?? value
-}
+// 공유 패키지에서 re-export (하위 호환성 유지)
+export {
+  CELEB_PROFESSIONS,
+  getCelebProfessionLabel,
+} from '@feelnnote/shared/constants/celeb-professions'
+export type { CelebProfession } from '@feelnnote/shared/types'
 
 // 하위 호환성을 위한 별칭 (deprecated)
+import { CELEB_PROFESSIONS, getCelebProfessionLabel } from '@feelnnote/shared/constants/celeb-professions'
 /** @deprecated CELEB_PROFESSIONS 사용 */
 export const CELEB_CATEGORIES = CELEB_PROFESSIONS
 /** @deprecated getCelebProfessionLabel 사용 */

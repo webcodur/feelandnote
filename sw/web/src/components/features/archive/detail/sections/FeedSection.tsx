@@ -22,6 +22,7 @@ const PAGE_SIZE = 10;
 interface FeedSectionProps {
   contentId: string;
   subTab: SubTab;
+  viewUserId?: string;
 }
 
 const subTabToRecordType: Partial<Record<SubTab, RecordType>> = {
@@ -127,7 +128,7 @@ function ReviewFeedCard({ item }: { item: ReviewFeedItem }) {
 }
 // #endregion
 
-export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
+export default function FeedSection({ contentId, subTab, viewUserId }: FeedSectionProps) {
   const [records, setRecords] = useState<FeedRecord[]>([]);
   const [reviews, setReviews] = useState<ReviewFeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -144,7 +145,7 @@ export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
     try {
       // 리뷰 탭: user_contents에서 조회
       if (subTab === "review") {
-        const data = await getReviewFeed({ contentId, limit: PAGE_SIZE, offset });
+        const data = await getReviewFeed({ contentId, limit: PAGE_SIZE, offset, excludeUserId: viewUserId });
         if (append) {
           setReviews((prev) => [...prev, ...data]);
         } else {
@@ -177,7 +178,7 @@ export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
       setIsLoading(false);
       setIsLoadingMore(false);
     }
-  }, [contentId, subTab]);
+  }, [contentId, subTab, viewUserId]);
 
   useEffect(() => {
     setRecords([]);
@@ -202,9 +203,9 @@ export default function FeedSection({ contentId, subTab }: FeedSectionProps) {
 
   if (isEmpty) {
     return (
-      <div className="animate-fade-in text-center py-12 text-text-secondary text-sm">
+      <Card className="animate-fade-in flex-1 flex items-center justify-center text-text-secondary text-sm">
         아직 다른 사람들의 기록이 없습니다.
-      </div>
+      </Card>
     );
   }
 

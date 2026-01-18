@@ -50,22 +50,22 @@ export default async function MembersPage({ searchParams }: PageProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">멤버 관리</h1>
-          <p className="text-text-secondary mt-1">총 {total.toLocaleString()}명</p>
+          <h1 className="text-xl md:text-2xl font-bold text-text-primary">멤버 관리</h1>
+          <p className="text-sm text-text-secondary mt-1">총 {total.toLocaleString()}명</p>
         </div>
         <Link href="/members/new">
-          <Button><Plus className="w-4 h-4" />셀럽 추가</Button>
+          <Button size="sm" className="w-full sm:w-auto"><Plus className="w-4 h-4" />셀럽 추가</Button>
         </Link>
       </div>
 
       {/* Filters */}
-      <div className="bg-bg-card border border-border rounded-lg p-4">
-        <form className="flex flex-wrap gap-3">
-          <div className="flex-1 min-w-[200px]">
+      <div className="bg-bg-card border border-border rounded-lg p-3 md:p-4">
+        <form className="flex flex-col sm:flex-row flex-wrap gap-2 md:gap-3">
+          <div className="flex-1 min-w-0 sm:min-w-[200px]">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
               <input
@@ -73,70 +73,74 @@ export default async function MembersPage({ searchParams }: PageProps) {
                 name="search"
                 defaultValue={search}
                 placeholder="닉네임 또는 이메일 검색..."
-                className="w-full pl-10 pr-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+                className="w-full pl-10 pr-4 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
               />
             </div>
           </div>
 
-          <select
-            name="type"
-            defaultValue={type}
-            className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
-          >
-            <option value="all">전체 타입</option>
-            <option value="user">사용자</option>
-            <option value="celeb">셀럽</option>
-          </select>
+          <div className="grid grid-cols-2 sm:flex gap-2 md:gap-3">
+            <select
+              name="type"
+              defaultValue={type}
+              className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+            >
+              <option value="all">전체 타입</option>
+              <option value="user">사용자</option>
+              <option value="celeb">셀럽</option>
+            </select>
 
-          <select
-            name="status"
-            defaultValue={status}
-            className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
-          >
-            <option value="all">모든 상태</option>
-            <option value="active">활성</option>
-            <option value="suspended">정지</option>
-          </select>
+            <select
+              name="status"
+              defaultValue={status}
+              className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+            >
+              <option value="all">모든 상태</option>
+              <option value="active">활성</option>
+              <option value="suspended">정지</option>
+            </select>
 
-          <select
-            name="role"
-            defaultValue={role}
-            className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
-          >
-            <option value="all">모든 역할</option>
-            <option value="user">일반</option>
-            <option value="admin">관리자</option>
-            <option value="super_admin">최고관리자</option>
-          </select>
+            <select
+              name="role"
+              defaultValue={role}
+              className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+            >
+              <option value="all">모든 역할</option>
+              <option value="user">일반</option>
+              <option value="admin">관리자</option>
+              <option value="super_admin">최고관리자</option>
+            </select>
 
-          <select
-            name="profession"
-            defaultValue={profession}
-            className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
-          >
-            <option value="all">모든 직군</option>
-            {CELEB_PROFESSIONS.map((prof) => (
-              <option key={prof.value} value={prof.value}>{prof.label}</option>
-            ))}
-          </select>
+            <select
+              name="profession"
+              defaultValue={profession}
+              className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+            >
+              <option value="all">모든 직군</option>
+              {CELEB_PROFESSIONS.map((prof) => (
+                <option key={prof.value} value={prof.value}>{prof.label}</option>
+              ))}
+            </select>
+          </div>
 
-          <Button type="submit">검색</Button>
+          <Button type="submit" size="sm" className="w-full sm:w-auto">검색</Button>
         </form>
       </div>
 
       {/* Table */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
-        <MemberTable members={members} />
+        <div className="overflow-x-auto">
+          <MemberTable members={members} />
+        </div>
       </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-1 md:gap-2 flex-wrap">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <Link
               key={p}
               href={buildUrl(p)}
-              className={`px-4 py-2 rounded-lg text-sm ${
+              className={`px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm ${
                 p === page
                   ? 'bg-accent text-white'
                   : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'

@@ -68,20 +68,26 @@ export default function HeaderSearch() {
   // region: 모바일 확장 검색창 (풀스크린 오버레이)
   const MobileExpandedSearch = isMobileExpanded && (
     <div
-      className="md:hidden fixed inset-0 bg-bg-secondary"
+      className="md:hidden fixed inset-0 bg-bg-main"
       style={{ zIndex: Z_INDEX.modal }}
     >
+      {/* Subtle stone texture for overlay */}
+      <div 
+        className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay z-0"
+        style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }}
+      />
+      
       {/* 모바일 검색 헤더 */}
-      <div className="flex items-center gap-2 px-3 h-16 border-b border-border">
+      <div className="relative z-10 flex items-center gap-2 px-3 h-16 border-b border-accent-dim/20 bg-bg-card/80 backdrop-blur-md">
         <Button
           unstyled
           onClick={closeMobileSearch}
-          className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
+          className="w-10 h-10 flex items-center justify-center rounded-sm hover:bg-white/5 group"
         >
-          <ArrowLeft size={20} className="text-text-primary" />
+          <ArrowLeft size={20} className="text-text-primary group-hover:text-accent transition-colors" />
         </Button>
 
-        <div className="flex-1 flex items-center gap-2 bg-bg-card border border-white/10 rounded-lg px-3 shadow-inner">
+        <div className="flex-1 flex items-center gap-2 bg-black/40 border-2 border-accent-dim/30 rounded-sm px-3 shadow-inner group focus-within:border-accent transition-all">
           <SearchModeDropdown
             isOpen={isModeOpen}
             onToggle={() => {
@@ -108,7 +114,7 @@ export default function HeaderSearch() {
             }}
             onKeyDown={handleInputKeyDown}
             placeholder={displayPlaceholder}
-            className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] placeholder:text-text-secondary py-2.5"
+            className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] font-serif placeholder:text-text-tertiary placeholder:italic py-2"
           />
           {query && (
             <Button
@@ -117,23 +123,16 @@ export default function HeaderSearch() {
                 setQuery("");
                 inputRef.current?.focus();
               }}
-              className="text-text-secondary hover:text-text-primary"
+              className="text-text-tertiary hover:text-text-primary"
             >
               <X size={16} />
             </Button>
           )}
-          <Button
-            unstyled
-            onClick={handleSearch}
-            className="text-text-secondary hover:text-accent shrink-0"
-          >
-            <Search size={18} />
-          </Button>
         </div>
       </div>
 
       {/* 모바일 검색 결과 */}
-      <div className="px-3 py-2">
+      <div className="relative z-10 px-3 py-4 max-h-[calc(100vh-64px)] overflow-y-auto no-scrollbar">
         {isOpen && (
           <SearchResultsDropdown
             isLoading={isLoading}

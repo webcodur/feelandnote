@@ -47,8 +47,10 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
 
   return (
     <>
-      <div className="mb-6">
-        <FilterChips options={TIER_TAB_OPTIONS} value={subTab} onChange={setSubTab} variant="filled" showIcon />
+      <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+        <div className="min-w-max">
+          <FilterChips options={TIER_TAB_OPTIONS} value={subTab} onChange={setSubTab} variant="filled" showIcon />
+        </div>
       </div>
 
       {isLoading ? (
@@ -63,40 +65,40 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {filteredPlaylists.map((playlist) => (
             <Link key={playlist.id} href={getPlaylistHref(playlist)}>
-              <Card hover className="p-0 overflow-hidden cursor-pointer h-full">
-              <div className="h-40 bg-[#2a2f38] p-3 flex flex-col gap-1">
+              <Card hover className="p-0 overflow-hidden cursor-pointer h-full border-white/5 active:bg-white/5 transition-colors flex flex-row sm:flex-col">
+              <div className="w-32 sm:w-full h-full sm:h-32 md:h-40 bg-[#1a1c20] p-2 md:p-3 flex flex-col gap-1 shrink-0">
                 {playlist.has_tiers && playlist.tiers ? (
                   Object.entries(playlist.tiers).filter(([, items]) => Array.isArray(items) && items.length > 0).slice(0, 4).map(([tier, items]) => (
-                    <div key={tier} className="flex h-7 gap-1">
-                      <div className="w-7 rounded flex items-center justify-center text-[11px] font-bold text-black" style={{ background: TIER_COLORS[tier] || "#808080" }}>{tier}</div>
-                      <div className="flex-1 bg-white/5 rounded flex gap-0.5 p-0.5 items-center">
-                        {(items as string[]).slice(0, 10).map((_, j) => (
-                          <div key={j} className="w-5 h-6 rounded-sm bg-gradient-to-br from-accent/60 to-accent/30" />
+                    <div key={tier} className="flex h-5 sm:h-6 md:h-7 gap-1">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded flex items-center justify-center text-[8px] md:text-[11px] font-bold text-black" style={{ background: TIER_COLORS[tier] || "#808080" }}>{tier}</div>
+                      <div className="flex-1 bg-white/5 rounded flex gap-0.5 p-0.5 items-center overflow-hidden">
+                        {(items as string[]).slice(0, 5).map((_, j) => (
+                          <div key={j} className="w-3 sm:w-4 md:w-5 h-4 sm:h-5 md:h-6 rounded-sm bg-gradient-to-br from-accent/60 to-accent/30 shadow-sm shrink-0" />
                         ))}
-                        {(items as string[]).length > 10 && <span className="text-[10px] text-text-secondary ml-1">+{(items as string[]).length - 10}</span>}
                       </div>
                     </div>
                   ))
                 ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-text-secondary">
-                    <ListMusic size={32} className="mb-2 opacity-50" />
-                    <span className="text-sm">{playlist.item_count}개 콘텐츠</span>
-                    <span className="text-xs mt-1">클릭하여 티어 설정</span>
+                  <div className="h-full flex flex-col items-center justify-center text-text-secondary/40">
+                    <ListMusic size={20} className="mb-1" />
+                    <span className="text-[10px] sm:text-sm">{playlist.item_count} Records</span>
                   </div>
                 )}
               </div>
-              <div className="p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="text-base font-bold leading-snug flex-1 truncate">{playlist.name}</div>
-                  {playlist.has_tiers && <Badge variant="primary">티어</Badge>}
+              <div className="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
+                <div>
+                  <div className="flex items-center gap-2 mb-1 md:mb-2">
+                    <div className="text-xs sm:text-sm md:text-base font-bold leading-snug flex-1 truncate text-text-primary">{playlist.name}</div>
+                    {playlist.has_tiers && <Badge variant="primary" className="text-[9px] sm:text-[10px] py-0 px-1.5 h-3.5 sm:h-4">TIER</Badge>}
+                  </div>
+                  {playlist.description && <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 mb-2 opacity-60">{playlist.description}</p>}
                 </div>
-                {playlist.description && <p className="text-sm text-text-secondary line-clamp-1 mb-3">{playlist.description}</p>}
-                <div className="flex gap-4 text-xs text-text-secondary border-t border-white/5 pt-3">
-                  <div className="flex items-center gap-1"><ListMusic size={14} /><span className="font-bold">{playlist.item_count}</span><span>콘텐츠</span></div>
-                  {playlist.is_public && <div className="flex items-center gap-1"><Heart size={14} /><span>공개</span></div>}
+                <div className="flex justify-between items-center text-[9px] sm:text-[10px] md:text-xs text-text-tertiary border-t border-white/5 pt-2 mt-auto">
+                  <div className="flex items-center gap-1"><ListMusic size={10} /><span className="font-bold text-accent/80">{playlist.item_count}</span></div>
+                  {playlist.is_public && <Badge variant="default" className="text-[9px] sm:text-[9px] py-0 h-3.5 bg-white/5 border-white/10">PUBLIC</Badge>}
                 </div>
               </div>
               </Card>

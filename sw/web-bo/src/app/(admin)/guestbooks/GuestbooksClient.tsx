@@ -67,7 +67,7 @@ export default function GuestbooksClient({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <PageHeader
         title="방명록 관리"
         description={`총 ${total.toLocaleString()}개의 방명록`}
@@ -96,7 +96,7 @@ export default function GuestbooksClient({
           />
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3 md:gap-4">
           {entries.map((entry) => (
             <div
               key={entry.id}

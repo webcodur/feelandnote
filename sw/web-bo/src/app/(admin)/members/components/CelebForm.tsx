@@ -111,6 +111,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   const { countries, loading: countriesLoading } = useCountries()
   const [formData, setFormData] = useState<CelebFormData>(getInitialFormData(celeb))
   const [influence, setInfluence] = useState<GeneratedInfluence>(getInitialInfluence(celeb))
+  const [guessedName, setGuessedName] = useState(celeb?.nickname || '')
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -130,10 +131,15 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [cropTargetType, setCropTargetType] = useState<ImageType>('avatar')
 
+  // DND 상태
+  const [avatarDragging, setAvatarDragging] = useState(false)
+  const [portraitDragging, setPortraitDragging] = useState(false)
+
   // #region AI 프로필 적용
   type InfluenceField = 'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural' | 'transhistoricity'
 
   function applyBasicProfile(fields: {
+    fullname?: string
     profession?: string
     nationality?: string
     birthDate?: string
@@ -143,6 +149,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   }) {
     setFormData((prev) => ({
       ...prev,
+      ...(fields.fullname && { nickname: fields.fullname }),
       ...(fields.profession && { profession: fields.profession }),
       ...(fields.nationality && { nationality: fields.nationality }),
       ...(fields.birthDate && { birth_date: fields.birthDate }),
@@ -235,6 +242,41 @@ export default function CelebForm({ mode, celeb }: Props) {
       if (portraitInputRef.current) portraitInputRef.current.value = ''
     }
   }
+
+  // #region DND 핸들러
+  function handleDragOver(e: React.DragEvent, type: ImageType) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (type === 'avatar') setAvatarDragging(true)
+    else setPortraitDragging(true)
+  }
+
+  function handleDragLeave(e: React.DragEvent, type: ImageType) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (type === 'avatar') setAvatarDragging(false)
+    else setPortraitDragging(false)
+  }
+
+  async function handleDrop(e: React.DragEvent, type: ImageType) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (type === 'avatar') setAvatarDragging(false)
+    else setPortraitDragging(false)
+
+    const file = e.dataTransfer.files?.[0]
+    if (!file || !file.type.startsWith('image/')) {
+      setError('이미지 파일만 업로드 가능합니다.')
+      return
+    }
+
+    // 크롭 모달 열기
+    const preview = await createPreviewUrl(file)
+    setCropImageSrc(preview)
+    setCropTargetType(type)
+    setCropModalOpen(true)
+  }
+  // #endregion
 
   function handleInfluenceChange(field: string, type: 'score' | 'exp', value: number | string) {
     setInfluence((prev) => {
@@ -386,7 +428,23 @@ export default function CelebForm({ mode, celeb }: Props) {
           <h2 className="text-lg font-semibold text-text-primary">{mode === 'create' ? '기본 정보' : '프로필 수정'}</h2>
         </div>
 
-        <AIBasicProfileSection nickname={formData.nickname} onApply={applyBasicProfile} />
+        {/* 추정 닉네임 입력 (AI 검색용) */}
+        <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 space-y-2">
+          <label htmlFor="guessed-name" className="block text-sm font-medium text-text-primary">
+            추정 닉네임 <span className="text-xs text-text-secondary font-normal">(AI 검색용)</span>
+          </label>
+          <input
+            type="text"
+            id="guessed-name"
+            value={guessedName}
+            onChange={(e) => setGuessedName(e.target.value)}
+            placeholder="예: Elon Musk, 일론 머스크, 테슬라 CEO..."
+            className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+          />
+          <p className="text-xs text-text-secondary">실제 닉네임과 다를 수 있는 추정 이름을 입력하면 AI가 정확한 정보를 검색한다.</p>
+        </div>
+
+        <AIBasicProfileSection guessedName={guessedName} onApply={applyBasicProfile} />
 
         {/* 인라인 입력 필드 그리드 */}
         <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-3 items-center">
@@ -418,68 +476,6 @@ export default function CelebForm({ mode, celeb }: Props) {
           <textarea id="quotes" rows={2} value={formData.quotes} onChange={(e) => handleChange('quotes', e.target.value)} placeholder="대표 명언 또는 발언" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none" />
         </div>
 
-        {/* 이미지 업로드 섹션 */}
-        <div className="space-y-4">
-          <label className="block text-sm font-medium text-text-secondary">프로필 이미지</label>
-          <div className="grid grid-cols-2 gap-6">
-            {/* 아바타 (썸네일) */}
-            <div className="space-y-2">
-              <p className="text-xs text-text-secondary">썸네일 (300×400)</p>
-              <div className="flex items-start gap-3">
-                <div className="relative w-[60px] h-20 rounded-lg overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
-                  {(avatarPreview || formData.avatar_url) ? (
-                    <>
-                      <Image src={avatarPreview || formData.avatar_url || ''} alt="아바타" fill unoptimized className="object-cover" />
-                      {avatarPreview && (
-                        <button type="button" onClick={() => handleImageRemove('avatar')} className="absolute top-0 right-0 p-0.5 bg-black/50 rounded-full hover:bg-black/70">
-                          <X className="w-3 h-3 text-white" />
-                        </button>
-                      )}
-                    </>
-                  ) : (
-                    <ImageIcon className="w-6 h-6 text-text-secondary" />
-                  )}
-                </div>
-                <div className="space-y-1">
-                  <input ref={avatarInputRef} type="file" accept="image/*" onChange={(e) => handleImageSelect(e, 'avatar')} className="hidden" />
-                  <Button type="button" variant="secondary" size="sm" onClick={() => avatarInputRef.current?.click()}>
-                    <Upload className="w-3 h-3" />선택
-                  </Button>
-                  <input type="url" value={formData.avatar_url} onChange={(e) => handleChange('avatar_url', e.target.value)} placeholder="URL" className="w-full px-2 py-1 text-xs bg-bg-secondary border border-border rounded text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
-                </div>
-              </div>
-            </div>
-
-            {/* 초상화 (중형) */}
-            <div className="space-y-2">
-              <p className="text-xs text-text-secondary">초상화 (675×1200)</p>
-              <div className="flex items-start gap-3">
-                <div className="relative w-[45px] h-20 rounded-xl overflow-hidden bg-bg-secondary border border-border flex items-center justify-center shrink-0">
-                  {(portraitPreview || formData.portrait_url) ? (
-                    <>
-                      <Image src={portraitPreview || formData.portrait_url || ''} alt="초상화" fill unoptimized className="object-cover" />
-                      {portraitPreview && (
-                        <button type="button" onClick={() => handleImageRemove('portrait')} className="absolute top-0 right-0 p-0.5 bg-black/50 rounded-full hover:bg-black/70">
-                          <X className="w-3 h-3 text-white" />
-                        </button>
-                      )}
-                    </>
-                  ) : (
-                    <ImageIcon className="w-6 h-6 text-text-secondary" />
-                  )}
-                </div>
-                <div className="space-y-1">
-                  <input ref={portraitInputRef} type="file" accept="image/*" onChange={(e) => handleImageSelect(e, 'portrait')} className="hidden" />
-                  <Button type="button" variant="secondary" size="sm" onClick={() => portraitInputRef.current?.click()}>
-                    <Upload className="w-3 h-3" />선택
-                  </Button>
-                  <input type="url" value={formData.portrait_url} onChange={(e) => handleChange('portrait_url', e.target.value)} placeholder="URL" className="w-full px-2 py-1 text-xs bg-bg-secondary border border-border rounded text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <label className="flex items-center gap-3 cursor-pointer">
           <input type="checkbox" checked={formData.is_verified} onChange={(e) => handleChange('is_verified', e.target.checked)} className="w-4 h-4 rounded border-border bg-bg-secondary text-accent focus:ring-accent" />
           <div className="flex items-center gap-2"><Star className="w-4 h-4 text-blue-400" /><span className="text-sm text-text-primary">공식 인증 계정</span></div>
@@ -502,6 +498,96 @@ export default function CelebForm({ mode, celeb }: Props) {
         )}
       </div>
 
+      {/* Profile Image Card */}
+      <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-text-primary">프로필 이미지</h2>
+        <p className="text-sm text-text-secondary">이미지를 드래그 앤 드롭하거나 클릭하여 업로드</p>
+
+        <div className="grid grid-cols-2 gap-6">
+          {/* 썸네일 (3:4) */}
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-text-secondary">썸네일 <span className="text-xs font-normal">(300×400)</span></p>
+            <div
+              onDragOver={(e) => handleDragOver(e, 'avatar')}
+              onDragLeave={(e) => handleDragLeave(e, 'avatar')}
+              onDrop={(e) => handleDrop(e, 'avatar')}
+              onClick={() => avatarInputRef.current?.click()}
+              className={`relative flex flex-col items-center justify-center gap-3 p-6 border-2 border-dashed rounded-xl cursor-pointer hover:border-accent/50 hover:bg-accent/5 ${avatarDragging ? 'border-accent bg-accent/10' : 'border-border'}`}
+            >
+              <input ref={avatarInputRef} type="file" accept="image/*" onChange={(e) => handleImageSelect(e, 'avatar')} className="hidden" />
+
+              {(avatarPreview || formData.avatar_url) ? (
+                <div className="relative w-[90px] h-[120px] rounded-lg overflow-hidden">
+                  <Image src={avatarPreview || formData.avatar_url || ''} alt="썸네일" fill unoptimized className="object-cover" />
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); handleImageRemove('avatar') }}
+                    className="absolute top-1 right-1 p-1 bg-black/60 rounded-full hover:bg-black/80"
+                  >
+                    <X className="w-3 h-3 text-white" />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="w-16 h-16 rounded-full bg-bg-secondary flex items-center justify-center">
+                    <Upload className="w-6 h-6 text-text-secondary" />
+                  </div>
+                  <span className="text-sm text-text-secondary">클릭 또는 드래그</span>
+                </>
+              )}
+            </div>
+            <input
+              type="url"
+              value={formData.avatar_url}
+              onChange={(e) => handleChange('avatar_url', e.target.value)}
+              placeholder="또는 이미지 URL 입력"
+              className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+            />
+          </div>
+
+          {/* 초상화 (9:16) */}
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-text-secondary">초상화 <span className="text-xs font-normal">(675×1200)</span></p>
+            <div
+              onDragOver={(e) => handleDragOver(e, 'portrait')}
+              onDragLeave={(e) => handleDragLeave(e, 'portrait')}
+              onDrop={(e) => handleDrop(e, 'portrait')}
+              onClick={() => portraitInputRef.current?.click()}
+              className={`relative flex flex-col items-center justify-center gap-3 p-6 border-2 border-dashed rounded-xl cursor-pointer hover:border-accent/50 hover:bg-accent/5 ${portraitDragging ? 'border-accent bg-accent/10' : 'border-border'}`}
+            >
+              <input ref={portraitInputRef} type="file" accept="image/*" onChange={(e) => handleImageSelect(e, 'portrait')} className="hidden" />
+
+              {(portraitPreview || formData.portrait_url) ? (
+                <div className="relative w-[68px] h-[120px] rounded-xl overflow-hidden">
+                  <Image src={portraitPreview || formData.portrait_url || ''} alt="초상화" fill unoptimized className="object-cover" />
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); handleImageRemove('portrait') }}
+                    className="absolute top-1 right-1 p-1 bg-black/60 rounded-full hover:bg-black/80"
+                  >
+                    <X className="w-3 h-3 text-white" />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="w-16 h-16 rounded-full bg-bg-secondary flex items-center justify-center">
+                    <Upload className="w-6 h-6 text-text-secondary" />
+                  </div>
+                  <span className="text-sm text-text-secondary">클릭 또는 드래그</span>
+                </>
+              )}
+            </div>
+            <input
+              type="url"
+              value={formData.portrait_url}
+              onChange={(e) => handleChange('portrait_url', e.target.value)}
+              placeholder="또는 이미지 URL 입력"
+              className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Influence Card */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
         <div className="flex items-center justify-between">
@@ -512,7 +598,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           </div>
         </div>
 
-        <AIInfluenceSection nickname={formData.nickname} onApply={applyInfluence} />
+        <AIInfluenceSection guessedName={guessedName} onApply={applyInfluence} />
 
         <div className="space-y-2">
           {Object.entries(INFLUENCE_LABELS).map(([key, { label, max }]) => {

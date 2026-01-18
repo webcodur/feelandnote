@@ -29,10 +29,10 @@ const sizeClasses = {
 };
 
 const heroSizeClasses = {
-  sm: "text-4xl md:text-6xl",
-  md: "text-5xl md:text-7xl",
-  lg: "text-6xl md:text-8xl",
-  xl: "text-6xl md:text-9xl",
+  sm: "text-[clamp(2.5rem,10vw,4rem)] md:text-6xl",
+  md: "text-[clamp(3rem,12vw,5rem)] md:text-7xl",
+  lg: "text-[clamp(3.5rem,15vw,6rem)] md:text-8xl",
+  xl: "text-[clamp(4rem,18vw,8rem)] md:text-9xl",
 };
 // #endregion
 
@@ -91,9 +91,9 @@ export default function Logo({
       {subtitle && (
         <span
           className={`
-            font-cormorant tracking-[0.3em] md:tracking-[0.5em] mt-2 md:mt-4
+            font-cormorant tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.5em] mt-2 md:mt-4
             text-text-secondary/60
-            ${isHero ? "text-base md:text-2xl" : "text-[10px] md:text-xs"}
+            ${isHero ? "text-xs sm:text-base md:text-2xl" : "text-[10px] md:text-xs"}
           `}
         >
           {subtitle}

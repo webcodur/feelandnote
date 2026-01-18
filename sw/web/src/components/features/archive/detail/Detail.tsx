@@ -210,8 +210,8 @@ export default function Detail({ contentId, viewUserId }: DetailProps) {
         </div>
 
         {/* 오른쪽: 타인 피드 */}
-        <div className="lg:w-1/2">
-          <FeedSection contentId={contentId} subTab={activeSubTab} />
+        <div className="lg:w-1/2 flex flex-col">
+          <FeedSection contentId={contentId} subTab={activeSubTab} viewUserId={viewUserId} />
         </div>
       </div>
 

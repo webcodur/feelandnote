@@ -31,11 +31,13 @@ function NavItem({ href, active, icon, label }: NavItemProps) {
   return (
     <Link
       href={href}
-      className={`flex flex-col items-center justify-center gap-0.5 py-2 flex-1 no-underline
-        ${active ? "text-accent" : "text-text-secondary"}`}
+      className={`flex flex-col items-center justify-center gap-1 py-1 flex-1 no-underline transition-all duration-300
+        ${active ? "text-accent scale-110" : "text-text-secondary opacity-60 hover:opacity-100"}`}
     >
-      {icon}
-      <span className="text-[10px] font-medium">{label}</span>
+      <div className={`transition-transform duration-300 ${active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}`}>
+        {icon}
+      </div>
+      <span className={`text-[9px] font-serif tracking-tighter transition-all ${active ? "font-black" : "font-medium"}`}>{label}</span>
     </Link>
   );
 }
@@ -52,11 +54,13 @@ function NavButton({ active, icon, label, onClick }: NavButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      className={`flex flex-col items-center justify-center gap-0.5 py-2 flex-1 bg-transparent border-none cursor-pointer
-        ${active ? "text-accent" : "text-text-secondary"}`}
+      className={`flex flex-col items-center justify-center gap-1 py-1 flex-1 bg-transparent border-none cursor-pointer transition-all duration-300
+        ${active ? "text-accent scale-110" : "text-text-secondary opacity-60 hover:opacity-100"}`}
     >
-      {icon}
-      <span className="text-[10px] font-medium">{label}</span>
+      <div className={`transition-transform duration-300 ${active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}`}>
+        {icon}
+      </div>
+      <span className={`text-[9px] font-serif tracking-tighter transition-all ${active ? "font-black" : "font-medium"}`}>{label}</span>
     </button>
   );
 }
@@ -81,7 +85,7 @@ export default function BottomNav() {
   }, []);
 
   const navItems = [
-    { href: "/", icon: <PantheonIcon size={20} />, label: "피드" },
+    { href: "/feed", icon: <PantheonIcon size={20} />, label: "피드" },
     { href: "/explore", icon: <AstrolabeIcon size={20} />, label: "탐색" },
     { href: "/play", icon: <MosaicCoinIcon size={20} />, label: "휴게실" },
     { href: profileId ? `/${profileId}` : "/login", icon: <BustIcon size={20} />, label: "마이" },
@@ -98,9 +102,11 @@ export default function BottomNav() {
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 h-16 bg-bg-secondary border-t border-border flex items-center md:hidden"
+        className="fixed bottom-0 left-0 right-0 h-16 bg-bg-main/80 backdrop-blur-xl border-t border-accent/10 flex items-center md:hidden pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
         style={{ zIndex: Z_INDEX.bottomNav }}
       >
+        {/* Subtle top shine for bottom nav */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
         {navItems.map((item) => {
           const isActive = item.href === "/" 
             ? pathname === "/" 

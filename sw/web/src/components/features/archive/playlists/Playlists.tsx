@@ -50,8 +50,8 @@ export default function Playlists() {
     loadPlaylists();
   }, [activeTab]);
 
-  const handleSelectPlaylist = (playlistId: string) => {
-    router.push(`/archive/playlists/${playlistId}`);
+  const handleSelectPlaylist = (userId: string, playlistId: string) => {
+    router.push(`/${userId}/collections/${playlistId}`);
   };
 
   if (isCreateMode) {
@@ -72,16 +72,16 @@ export default function Playlists() {
 
   return (
     <>
-      <div className="flex gap-1 p-1 bg-bg-card rounded-lg mb-6 w-fit">
+      <div className="flex gap-2 p-1 bg-bg-card border border-accent-dim/20 rounded-sm mb-8 w-fit mx-auto sm:mx-0">
         {TABS.map((tab) => (
           <Button
             key={tab.id}
             unstyled
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded-md text-sm font-medium ${
+            className={`px-6 py-2 rounded-sm text-xs font-serif font-black tracking-widest uppercase transition-all duration-300 ${
               activeTab === tab.id
-                ? "bg-accent text-white"
-                : "text-text-secondary hover:text-text-primary"
+                ? "bg-accent text-bg-main shadow-glow-sm scale-105"
+                : "text-text-tertiary hover:text-accent hover:bg-accent/5"
             }`}
           >
             {tab.label}
@@ -101,7 +101,7 @@ export default function Playlists() {
             <PlaylistCard
               key={playlist.id}
               playlist={playlist}
-              onClick={() => handleSelectPlaylist(playlist.id)}
+              onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
             />
           ))}
         </div>
@@ -111,7 +111,7 @@ export default function Playlists() {
             <SavedPlaylistCard
               key={item.id}
               item={item}
-              onClick={() => handleSelectPlaylist(item.playlist.id)}
+              onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
             />
           ))}
         </div>
@@ -123,50 +123,77 @@ export default function Playlists() {
 // region 하위 컴포넌트
 function EmptyState({ tab, onCreateClick }: { tab: TabType; onCreateClick: () => void }) {
   return (
-    <div className="bg-surface rounded-2xl p-12 text-center">
-      <div className="text-text-tertiary mb-4 flex justify-center">
-        {tab === "mine" ? <ListMusic size={48} /> : <Bookmark size={48} />}
+    <div className="relative overflow-hidden bg-bg-card border-2 border-dashed border-accent-dim/20 p-12 sm:p-20 text-center">
+      {/* Background Ornament for Empty State */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+      
+      <div className="relative z-10">
+        <div className="text-accent/30 mb-6 flex justify-center">
+          {tab === "mine" ? <ListMusic size={64} strokeWidth={1} /> : <Bookmark size={64} strokeWidth={1} />}
+        </div>
+        <h3 className="text-xl sm:text-2xl font-serif font-black text-text-primary mb-3 uppercase tracking-widest">
+          {tab === "mine" ? "The Archive is Silent" : "No Legacies Found"}
+        </h3>
+        <p className="text-xs sm:text-sm text-text-tertiary mb-8 font-serif italic max-w-sm mx-auto leading-relaxed">
+          {tab === "mine"
+            ? "Your personal collection has not yet been inscribed. Begin your legacy by gathering your first items."
+            : "No sacred scrolls from other seekers have been archived here yet."}
+        </p>
+        {tab === "mine" && (
+          <Button 
+            onClick={onCreateClick} 
+            className="group relative px-8 py-3 bg-accent text-bg-main font-serif font-black uppercase tracking-[0.2em] text-xs hover:bg-accent-hover transition-all duration-500 overflow-hidden"
+          >
+            {/* Button Glint */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            
+            <div className="relative z-10 flex items-center gap-3">
+              <Plus size={16} strokeWidth={3} />
+              Inscribe New Collection
+            </div>
+          </Button>
+        )}
       </div>
-      <p className="text-lg font-medium text-text-secondary mb-2">
-        {tab === "mine" ? "아직 재생목록이 없습니다" : "저장된 재생목록이 없습니다"}
-      </p>
-      <p className="text-sm text-text-tertiary mb-6">
-        {tab === "mine"
-          ? "좋아하는 콘텐츠를 모아 나만의 컬렉션을 만들어보세요"
-          : "다른 사용자의 공개 재생목록을 저장해보세요"}
-      </p>
-      {tab === "mine" && (
-        <Button onClick={onCreateClick} className="inline-flex items-center gap-2">
-          <Plus size={16} />
-          첫 재생목록 만들기
-        </Button>
-      )}
     </div>
   );
 }
 
 function PlaylistCard({ playlist, onClick }: { playlist: PlaylistSummary; onClick: () => void }) {
   return (
-    <Button
-      unstyled
+    <button
       onClick={onClick}
-      className="group bg-surface hover:bg-surface-hover border border-border rounded-xl p-4 text-left w-full"
+      className="group relative bg-bg-card border-2 border-accent-dim/10 p-5 text-left w-full transition-all duration-500 hover:border-accent hover:shadow-glow-sm active:translate-y-1 overflow-hidden"
     >
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-lg bg-bg-secondary border border-accent/30 flex items-center justify-center flex-shrink-0 shadow-inner">
-          <ListMusic size={24} className="text-accent" />
+      {/* Stone texture overlay */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
+      
+      <div className="flex items-center gap-5 relative z-10">
+        <div className="w-14 h-14 bg-black border border-accent/20 flex items-center justify-center flex-shrink-0 relative group-hover:rotate-6 transition-transform duration-500">
+           {/* Photo Frame Detail */}
+          <div className="absolute inset-1 border border-white/5" />
+          <ListMusic size={28} className="text-accent/60 group-hover:text-accent group-hover:drop-shadow-glow-sm transition-all" />
         </div>
+        
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-text-primary truncate group-hover:text-accent">
+          <p className="text-base font-serif font-black text-text-primary tracking-tight truncate group-hover:text-accent transition-colors">
             {playlist.name}
           </p>
-          <p className="text-sm text-text-secondary mt-0.5">
-            {playlist.item_count}개 콘텐츠
-          </p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-[10px] font-serif font-bold text-accent/40 uppercase tracking-widest">
+              Legacy Unit / {playlist.item_count}
+            </span>
+          </div>
         </div>
-        <ChevronRight size={20} className="text-text-tertiary group-hover:text-accent flex-shrink-0" />
+        
+        <div className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <ChevronRight size={20} strokeWidth={3} />
+        </div>
       </div>
-    </Button>
+      
+      {/* Corner Brackets for active card focus */}
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-s border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-e border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+    </button>
   );
 }
 
@@ -174,26 +201,37 @@ function SavedPlaylistCard({ item, onClick }: { item: SavedPlaylistWithDetails; 
   const { playlist } = item;
 
   return (
-    <Button
-      unstyled
+    <button
       onClick={onClick}
-      className="group bg-surface hover:bg-surface-hover border border-border rounded-xl p-4 text-left w-full"
+      className="group relative bg-bg-card border-2 border-accent-dim/10 p-5 text-left w-full transition-all duration-500 hover:border-accent hover:shadow-glow-sm active:translate-y-1 overflow-hidden"
     >
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-lg bg-bg-secondary border border-accent/30 flex items-center justify-center flex-shrink-0 shadow-inner">
-          <ListMusic size={24} className="text-accent" />
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
+      
+      <div className="flex items-center gap-5 relative z-10">
+        <div className="w-14 h-14 bg-black border border-accent/20 flex items-center justify-center flex-shrink-0 relative group-hover:rotate-6 transition-transform duration-500">
+          <div className="absolute inset-1 border border-white/5" />
+          <Bookmark size={28} className="text-accent/60 group-hover:text-accent group-hover:drop-shadow-glow-sm transition-all" />
         </div>
+        
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-text-primary truncate group-hover:text-accent">
+          <p className="text-base font-serif font-black text-text-primary tracking-tight truncate group-hover:text-accent transition-colors">
             {playlist.name}
           </p>
-          <p className="text-sm text-text-secondary mt-0.5">
-            {playlist.owner?.nickname || "알 수 없음"} · {playlist.item_count}개
-          </p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-[10px] font-serif font-bold text-accent/40 uppercase tracking-widest truncate">
+              {playlist.owner?.nickname || "Seeker"} · {playlist.item_count} units
+            </span>
+          </div>
         </div>
-        <ChevronRight size={20} className="text-text-tertiary group-hover:text-accent flex-shrink-0" />
+        
+        <div className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <ChevronRight size={20} strokeWidth={3} />
+        </div>
       </div>
-    </Button>
+
+       <div className="absolute top-0 left-0 w-2 h-2 border-t border-s border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+       <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-e border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+    </button>
   );
 }
 // endregion

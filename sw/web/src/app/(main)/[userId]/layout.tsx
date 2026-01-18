@@ -31,14 +31,14 @@ export default async function UserLayout({ children, params }: LayoutProps) {
       <HeroBackgroundText text="ARCHIVE" className="top-24 hidden xl:block" />
 
       {/* Context Header (Slanted/Large Title) */}
-      <ContextHeader 
-        title={profile.nickname || "User"} 
-        userId={userId} 
+      <ContextHeader
+        title={profile.nickname || "User"}
+        userId={userId}
         isOwner={isOwner}
       />
 
-      <div className="max-w-[1400px] mx-auto pl-0 pr-4 md:pr-8 py-8 md:py-10 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+      <div className="max-w-[1400px] mx-auto px-2 md:px-4 lg:pr-8 py-6 md:py-10 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 items-start">
           {/* Sidebar */}
           <UserProfileSidebar profile={profile} isOwner={isOwner} userId={userId} />
 

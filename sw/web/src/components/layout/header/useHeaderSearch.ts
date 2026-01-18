@@ -8,6 +8,7 @@ import { SearchMode, ContentCategory, SEARCH_MODES } from "@/components/shared/s
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import { getCategoryById } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
+import { createClient } from "@/lib/supabase/client";
 
 const categoryToContentType = (category: string): ContentType => {
   const config = getCategoryById(category as ContentCategory);
@@ -28,9 +29,20 @@ export function useHeaderSearch() {
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
   const [isPending, startTransition] = useTransition();
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // 현재 사용자 ID 가져오기
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) setCurrentUserId(user.id);
+    };
+    fetchUserId();
+  }, []);
 
   // #region Recent Searches
   useEffect(() => {
@@ -99,7 +111,7 @@ export function useHeaderSearch() {
           const data = await searchArchive({ query, limit: 5 });
           data.items.forEach((item) => {
             searchResults.push({
-              id: item.id, type: "content", title: item.title, subtitle: item.status,
+              id: item.contentId, type: "content", title: item.title, subtitle: item.status,
               category: item.category, thumbnail: item.thumbnail,
               extra: item.rating ? "★".repeat(item.rating) : undefined,
             });
@@ -166,8 +178,8 @@ export function useHeaderSearch() {
   const handleResultClick = (result: SearchResult) => {
     saveRecentSearch(query.trim());
     if (result.type === "content") {
-      if (mode === "archive") {
-        router.push(`/archive/${result.id}`);
+      if (mode === "archive" && currentUserId) {
+        router.push(`/${currentUserId}/records/${result.id}`);
       } else {
         const key = `content_${result.id}`;
         sessionStorage.setItem(key, JSON.stringify({

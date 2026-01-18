@@ -24,11 +24,11 @@ interface ActivityTimelineProps {
 }
 
 const ACTION_CONFIG: Record<string, { icon: React.ElementType; label: string; color: string }> = {
-  ADD_CONTENT: { icon: Plus, label: "고 결 한 추 가", color: "#d4af37" },
-  UPDATE_STATUS: { icon: CheckCircle, label: "상 태 의 진 화", color: "#d4af37" },
-  UPDATE_REVIEW: { icon: Edit3, label: "새 겨 진 감 상", color: "#d4af37" },
-  UPDATE_RATING: { icon: Star, label: "천 상 의 평 가", color: "#d4af37" },
-  REMOVE_CONTENT: { icon: Trash2, label: "기 록 의 말 소", color: "#ef4444" },
+  CONTENT_ADD: { icon: Plus, label: "고 결 한 추 가", color: "#d4af37" },
+  STATUS_CHANGE: { icon: CheckCircle, label: "상 태 의 진 화", color: "#d4af37" },
+  REVIEW_UPDATE: { icon: Edit3, label: "새 겨 진 감 상", color: "#d4af37" },
+  RECORD_CREATE: { icon: Star, label: "천 상 의 평 가", color: "#d4af37" },
+  CONTENT_REMOVE: { icon: Trash2, label: "기 록 의 말 소", color: "#ef4444" },
 };
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
@@ -66,33 +66,35 @@ export default function ActivityTimeline({ logs, loading }: ActivityTimelineProp
         const ContentIcon = log.content?.type ? TYPE_ICONS[log.content.type] : null;
 
         return (
-          <div key={log.id} className="relative flex gap-8 pb-10 group">
+          <div key={log.id} className="relative flex gap-4 sm:gap-8 pb-10 group">
             {/* 연결선 */}
             {index !== logs.length - 1 && (
-              <div className="absolute left-[19px] top-12 w-[2px] h-[calc(100%-12px)] bg-gradient-to-b from-accent/50 via-accent/20 to-transparent" />
+              <div className="absolute left-[15px] sm:left-[19px] top-10 sm:top-12 w-[1.5px] sm:w-[2px] h-[calc(100%-12px)] bg-gradient-to-b from-accent/50 via-accent/20 to-transparent" />
             )}
 
             {/* 아이콘 */}
             <div
-              className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 relative z-10 border-2 border-accent bg-bg-card shadow-[0_0_15px_rgba(212,175,55,0.25)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+              className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 relative z-10 border-2 border-accent bg-bg-card shadow-[0_0_15px_rgba(212,175,55,0.4)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
             >
-              <Icon size={20} className="text-accent drop-shadow-[0_0_5px_rgba(212,175,55,0.5)]" />
+              <Icon size={20} className="text-accent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
+              {/* Corner accent for icon box */}
+              <div className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-s-2 border-accent" />
             </div>
 
             {/* 내용 */}
             <div className="flex-1 min-w-0 pt-1">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-serif font-black text-accent tracking-tight">{config.label}</span>
-                <span className="text-xs text-text-secondary font-serif font-bold italic">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs sm:text-sm font-serif font-black text-accent tracking-tight">{config.label}</span>
+                <span className="text-[10px] sm:text-xs text-text-secondary font-serif font-bold italic">
                    {formatDistanceToNow(new Date(log.created_at), { addSuffix: true, locale: ko })}
                 </span>
               </div>
 
               {log.content && (
-                <div className="relative group/content overflow-hidden rounded-sm border-2 border-accent-dim/20 bg-black/40 hover:bg-black/60 hover:border-accent/40 shadow-inner transition-all duration-500 p-4">
-                  <div className="flex items-center gap-5 relative z-10">
+                <div className="relative group/content overflow-hidden rounded-sm border-2 border-accent-dim/20 bg-black/40 hover:bg-black/60 hover:border-accent/40 shadow-inner transition-all duration-500 p-3 sm:p-4">
+                  <div className="flex items-center gap-2 sm:gap-5 relative z-10">
                     {log.content.thumbnail_url ? (
-                      <div className="relative w-16 h-20 rounded-sm overflow-hidden border-2 border-accent-dim/40 shadow-xl transform group-hover/content:scale-105 transition-transform duration-500">
+                      <div className="relative w-12 h-16 sm:w-16 sm:h-20 rounded-sm overflow-hidden border-2 border-accent-dim/40 shadow-xl transform group-hover/content:scale-105 transition-transform duration-500">
                         <Image
                           src={log.content.thumbnail_url}
                           alt={log.content.title}
@@ -102,17 +104,17 @@ export default function ActivityTimeline({ logs, loading }: ActivityTimelineProp
                         />
                       </div>
                     ) : ContentIcon ? (
-                      <div className="w-16 h-20 rounded-sm bg-bg-stone-light flex items-center justify-center border-2 border-accent-dim/40">
-                        <ContentIcon size={28} className="text-accent opacity-30" />
+                      <div className="w-14 h-18 sm:w-16 sm:h-20 rounded-sm bg-bg-stone-light flex items-center justify-center border-2 border-accent-dim/40">
+                        <ContentIcon size={24} className="text-accent opacity-30" />
                       </div>
                     ) : null}
                     <div className="flex-1 min-w-0">
-                      <p className="text-lg md:text-xl font-serif font-black text-text-primary group-hover/content:text-accent transition-colors tracking-tight leading-tight mb-2">
+                      <p className="text-base sm:text-xl font-serif font-black text-text-primary group-hover/content:text-accent transition-colors tracking-tight leading-tight mb-1 sm:mb-2 truncate sm:whitespace-normal sm:line-clamp-2">
                         {log.content.title}
                       </p>
-                      <div className="flex items-center gap-3">
-                         <div className="h-[2px] w-6 bg-accent opacity-40 shadow-[0_0_5px_rgba(212,175,55,0.3)]" />
-                         <p className="text-xs text-accent font-cinzel font-black tracking-[0.2em] opacity-80 uppercase">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                         <div className="h-[2px] w-4 sm:w-6 bg-accent opacity-40 shadow-[0_0_5px_rgba(212,175,55,0.3)]" />
+                         <p className="text-[9px] sm:text-xs text-accent font-cinzel font-black tracking-[0.2em] opacity-80 uppercase">
                             {log.content.type}
                          </p>
                       </div>

@@ -50,19 +50,19 @@ export default function AboutPage() {
       {/* Feature Cards */}
       <div className="grid grid-cols-3 gap-4 max-w-xl">
         <FeatureCard
-          href="/archive"
+          href="/"
           icon={<Folder size={24} className="text-white" />}
           title="기록관"
           gradient="bg-gradient-to-br from-accent to-accent/70"
         />
         <FeatureCard
-          href="/archive/feed"
+          href="/feed"
           icon={<Newspaper size={24} className="text-white" />}
           title="피드"
           gradient="bg-gradient-to-br from-blue-500 to-blue-500/70"
         />
         <FeatureCard
-          href="/archive/lounge"
+          href="/play"
           icon={<Compass size={24} className="text-white" />}
           title="휴게실"
           gradient="bg-gradient-to-br from-purple-500 to-purple-500/70"

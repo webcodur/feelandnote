@@ -10,7 +10,7 @@ import Button from '@/components/ui/Button'
 type InfluenceField = 'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural' | 'transhistoricity'
 
 interface Props {
-  nickname: string
+  guessedName: string
   onApply: (fields: Partial<Record<InfluenceField, InfluenceScore>>) => void
 }
 // #endregion
@@ -37,7 +37,7 @@ const RANK_COLORS: Record<string, string> = {
 }
 // #endregion
 
-export default function AIInfluenceSection({ nickname, onApply }: Props) {
+export default function AIInfluenceSection({ guessedName, onApply }: Props) {
   const [description, setDescription] = useState('')
   const [generating, setGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -53,8 +53,8 @@ export default function AIInfluenceSection({ nickname, onApply }: Props) {
   })
 
   async function handleGenerate() {
-    if (!nickname.trim()) {
-      setError('먼저 닉네임(인물명)을 입력하세요.')
+    if (!guessedName.trim()) {
+      setError('먼저 추정 닉네임을 입력하세요.')
       return
     }
 
@@ -62,7 +62,7 @@ export default function AIInfluenceSection({ nickname, onApply }: Props) {
     setError(null)
 
     try {
-      const res = await generateCelebInfluence({ name: nickname, description })
+      const res = await generateCelebInfluence({ name: guessedName, description })
       if (!res.success) throw new Error(res.error)
       setResult(res.influence!)
       // 모든 필드 기본 선택
@@ -138,7 +138,7 @@ export default function AIInfluenceSection({ nickname, onApply }: Props) {
       )}
 
       {!result && (
-        <Button type="button" variant="secondary" onClick={handleGenerate} disabled={generating || !nickname.trim()}>
+        <Button type="button" variant="secondary" onClick={handleGenerate} disabled={generating || !guessedName.trim()}>
           {generating ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />

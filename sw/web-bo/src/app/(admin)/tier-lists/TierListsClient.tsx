@@ -87,7 +87,7 @@ export default function TierListsClient({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <PageHeader
         title="티어 리스트 관리"
         description={`총 ${total.toLocaleString()}개의 티어 리스트`}
@@ -103,7 +103,7 @@ export default function TierListsClient({
           <EmptyState icon={Layers} title="티어 리스트가 없습니다" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {tierLists.map((item) => {
             const tiers = item.tiers || {}
             const totalItems = Object.values(tiers).reduce((s, a) => s + a.length, 0)

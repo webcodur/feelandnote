@@ -58,7 +58,7 @@ export default function PlaylistHeader({
     <>
       {/* 헤더 영역 */}
       <div className="flex items-start gap-4 mb-6">
-        <Link href="/archive/playlists" className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
+        <Link href={`/${playlist.user_id}/collections`} className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
           <ArrowLeft size={24} />
         </Link>
 
@@ -150,7 +150,7 @@ export default function PlaylistHeader({
           >
             <Pencil size={16} />편집
           </Button>
-          <Link href={`/archive/playlists/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
+          <Link href={`/${playlist.user_id}/collections/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
             <Trophy size={16} />티어 설정
           </Link>
         </div>

@@ -15,18 +15,20 @@ interface GeneratedProfile {
   birthDate?: string
   deathDate?: string
   quotes?: string
+  fullname?: string
 }
 
-type ProfileField = 'profession' | 'nationality' | 'birthDate' | 'deathDate' | 'bio' | 'quotes'
+type ProfileField = 'fullname' | 'profession' | 'nationality' | 'birthDate' | 'deathDate' | 'bio' | 'quotes'
 
 interface Props {
-  nickname: string
+  guessedName: string
   onApply: (fields: Partial<GeneratedProfile>) => void
 }
 // #endregion
 
 // #region Constants
 const FIELD_LABELS: Record<ProfileField, string> = {
+  fullname: '풀네임',
   profession: '직군',
   nationality: '국적',
   birthDate: '출생',
@@ -35,10 +37,10 @@ const FIELD_LABELS: Record<ProfileField, string> = {
   quotes: '명언',
 }
 
-const FIELD_ORDER: ProfileField[] = ['profession', 'nationality', 'birthDate', 'deathDate', 'bio', 'quotes']
+const FIELD_ORDER: ProfileField[] = ['fullname', 'profession', 'nationality', 'birthDate', 'deathDate', 'bio', 'quotes']
 // #endregion
 
-export default function AIBasicProfileSection({ nickname, onApply }: Props) {
+export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
   // 국가 목록 캐시 초기화
   useCountries()
 
@@ -47,6 +49,7 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<GeneratedProfile | null>(null)
   const [selected, setSelected] = useState<Record<ProfileField, boolean>>({
+    fullname: true,
     profession: true,
     nationality: true,
     birthDate: true,
@@ -56,8 +59,8 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
   })
 
   async function handleGenerate() {
-    if (!nickname.trim()) {
-      setError('먼저 닉네임(인물명)을 입력하세요.')
+    if (!guessedName.trim()) {
+      setError('먼저 추정 닉네임을 입력하세요.')
       return
     }
 
@@ -65,11 +68,12 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
     setError(null)
 
     try {
-      const res = await generateCelebProfile({ name: nickname, description })
+      const res = await generateCelebProfile({ name: guessedName, description })
       if (!res.success) throw new Error(res.error)
       setResult(res.profile!)
       // 값이 있는 필드만 기본 선택
       setSelected({
+        fullname: !!res.profile!.fullname,
         profession: !!res.profile!.profession,
         nationality: !!res.profile!.nationality,
         birthDate: !!res.profile!.birthDate,
@@ -91,6 +95,7 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
   function handleApply() {
     if (!result) return
     const fields: Partial<GeneratedProfile> = {}
+    if (selected.fullname && result.fullname) fields.fullname = result.fullname
     if (selected.profession && result.profession) fields.profession = result.profession
     if (selected.nationality && result.nationality) fields.nationality = result.nationality
     if (selected.birthDate && result.birthDate) fields.birthDate = result.birthDate
@@ -130,7 +135,7 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
           rows={2}
           className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
         />
-        <p className="text-xs text-text-secondary">AI가 직군, 국적, 출생/사망일, 소개, 명언을 생성합니다.</p>
+        <p className="text-xs text-text-secondary">AI가 풀네임, 직군, 국적, 출생/사망일, 소개, 명언을 생성합니다.</p>
       </div>
 
       {error && (
@@ -138,7 +143,7 @@ export default function AIBasicProfileSection({ nickname, onApply }: Props) {
       )}
 
       {!result && (
-        <Button type="button" variant="secondary" onClick={handleGenerate} disabled={generating || !nickname.trim()}>
+        <Button type="button" variant="secondary" onClick={handleGenerate} disabled={generating || !guessedName.trim()}>
           {generating ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />

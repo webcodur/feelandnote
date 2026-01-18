@@ -166,7 +166,7 @@ export default function ActivityLogsClient({
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <PageHeader
         title="활동 로그"
         description={`총 ${total.toLocaleString()}개의 활동 기록 (90일 보관)`}

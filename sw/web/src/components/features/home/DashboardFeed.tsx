@@ -8,12 +8,11 @@ import type { FriendActivityTypeCounts } from "@/actions/activity";
 import FriendActivitySection from "./FriendActivitySection";
 import CelebFeed from "./CelebFeed";
 
-type TabType = "all" | "friend" | "celeb";
+type TabType = "celeb" | "friend";
 
 const TABS: { key: TabType; label: string }[] = [
-  { key: "all", label: "전체 소식" },
-  { key: "friend", label: "친구 동향" },
   { key: "celeb", label: "셀럽 아카이브" },
+  { key: "friend", label: "친구 동향" },
 ];
 
 // 세그먼트 필터 아이템
@@ -33,7 +32,7 @@ export default function DashboardFeed({
   friendActivityCounts,
   celebContentCounts,
 }: DashboardFeedProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("all");
+  const [activeTab, setActiveTab] = useState<TabType>("celeb");
   const [hoveredTab, setHoveredTab] = useState<TabType | null>(null);
   const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
   const tabRefs = useRef<Map<TabType, HTMLButtonElement>>(new Map());
@@ -72,9 +71,9 @@ export default function DashboardFeed({
   return (
     <div className="flex flex-col gap-8 md:gap-12">
       {/* 탭 헤더 */}
-      <div className="flex flex-col items-center relative z-10">
+      <div className="flex flex-col items-center relative z-10 w-full">
         <div
-          className="relative flex items-end gap-8 md:gap-16 border-b border-accent/20 px-8"
+          className="relative flex items-end gap-3 sm:gap-6 md:gap-16 border-b border-accent/20 px-3 sm:px-4 md:px-8 overflow-x-auto scrollbar-hide max-w-full"
           onMouseLeave={() => setHoveredTab(null)}
         >
           {TABS.map(({ key, label }) => {
@@ -86,11 +85,11 @@ export default function DashboardFeed({
                 ref={(el) => { if (el) tabRefs.current.set(key, el); }}
                 onClick={() => setActiveTab(key)}
                 onMouseEnter={() => setHoveredTab(key)}
-                className={`relative py-4 cursor-pointer transition-all duration-200 ${
+                className={`relative py-3 md:py-4 cursor-pointer transition-all duration-200 whitespace-nowrap ${
                   isActive ? 'text-accent' : isHovered ? 'text-text-primary' : 'text-text-tertiary/40'
                 }`}
               >
-                <span className={`font-serif text-lg md:text-xl tracking-tight block transition-all duration-200 ${
+                <span className={`font-serif text-[14px] sm:text-base md:text-xl tracking-tight block transition-all duration-200 ${
                   isActive ? 'font-black' : isHovered ? 'font-semibold' : 'font-medium'
                 }`}>
                   {label}
@@ -100,15 +99,15 @@ export default function DashboardFeed({
           })}
           {/* 공유 밑줄 */}
           <div
-            className="absolute bottom-0 h-[3px] bg-accent shadow-glow transition-all duration-300 ease-out"
+            className="absolute bottom-0 h-[3px] bg-accent shadow-[0_0_15px_rgba(212,175,55,0.8),0_0_5px_rgba(212,175,55,1)] transition-all duration-300 ease-out z-20"
             style={{ left: underlineStyle.left, width: underlineStyle.width }}
           />
         </div>
       </div>
 
       {/* 세그먼트 필터 (중앙 배치) */}
-      <div className="flex justify-center">
-        <div className="relative inline-flex items-center gap-1 p-1 bg-white/5 rounded-full border border-accent/10">
+      <div className="flex justify-center w-full px-2 sm:px-4">
+        <div className="relative inline-flex items-center gap-0.5 sm:gap-1 p-1 bg-white/5 rounded-full border border-accent/10 overflow-x-auto scrollbar-hide max-w-full">
           {/* 슬라이딩 pill 배경 */}
           <div
             className="absolute top-1 bottom-1 bg-accent/20 rounded-full border border-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.15)] transition-all duration-300 ease-out"
@@ -124,18 +123,18 @@ export default function DashboardFeed({
                 key={value}
                 ref={(el) => { if (el) filterRefs.current.set(value, el); }}
                 onClick={() => setContentType(value)}
-                className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full cursor-pointer transition-all duration-200 ${
+                className={`relative z-10 flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-full cursor-pointer transition-all duration-200 whitespace-nowrap ${
                   isActive
                     ? "text-accent"
                     : "text-text-tertiary/60 hover:text-text-primary"
                 }`}
               >
-                {Icon && <Icon size={14} className={isActive ? "text-accent" : ""} />}
-                <span className={`text-sm ${isActive ? "font-bold" : "font-medium"}`}>
+                {Icon && <Icon size={12} className={isActive ? "text-accent" : ""} />}
+                <span className={`text-[11px] sm:text-xs md:text-sm ${isActive ? "font-bold" : "font-medium"}`}>
                   {label}
                 </span>
                 {hasCount && (
-                  <span className={`text-[10px] tabular-nums ${isActive ? "text-accent/70" : "text-text-tertiary/40"}`}>
+                  <span className={`text-[9px] md:text-[10px] tabular-nums ${isActive ? "text-accent/70" : "text-text-tertiary/40"}`}>
                     {count}
                   </span>
                 )}
@@ -147,13 +146,9 @@ export default function DashboardFeed({
 
       {/* 탭 콘텐츠 */}
       <div className="relative min-h-[400px]">
-        {/* 전체 소식 */}
-        <div className={`transition-all duration-500 transform ${activeTab === "all" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
-          {isLoggedIn ? (
-            <FriendActivitySection userId={userId!} contentType={contentType} hideFilter />
-          ) : (
-            <CelebFeed contentType={contentType} hideFilter />
-          )}
+        {/* 셀럽 아카이브 */}
+        <div className={`transition-all duration-500 transform ${activeTab === "celeb" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
+          <CelebFeed contentType={contentType} hideFilter />
         </div>
         {/* 친구 동향 */}
         <div className={`transition-all duration-500 transform ${activeTab === "friend" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
@@ -162,10 +157,6 @@ export default function DashboardFeed({
           ) : (
             <div className="py-10 text-center text-text-secondary font-serif">로그인이 필요합니다.</div>
           )}
-        </div>
-        {/* 셀럽 아카이브 */}
-        <div className={`transition-all duration-500 transform ${activeTab === "celeb" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
-          <CelebFeed contentType={contentType} hideFilter />
         </div>
       </div>
     </div>

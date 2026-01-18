@@ -20,7 +20,7 @@ export default function RecentRecords({ items, userId }: RecentRecordsProps) {
   }
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-5 lg:gap-6">
+    <div className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-4 md:gap-5 lg:gap-6">
       {items.map((item) => (
         <Link
           key={item.id}
@@ -43,16 +43,16 @@ export default function RecentRecords({ items, userId }: RecentRecordsProps) {
               </div>
             )}
             
-            {/* 상태 뱃지 - 컴팩트하게 상단 */}
-            <div className="absolute top-0 right-0 px-2 py-1 bg-black/80 backdrop-blur-md text-[10px] text-accent font-serif font-black border-l border-b border-accent-dim/20 tracking-tight shadow-md">
-              {item.status}
+            {/* 상태 뱃지 - 신전풍 용어 적용 (스키마 동기화) */}
+            <div className="absolute top-0 right-0 px-2.5 py-1.5 bg-black/95 backdrop-blur-md text-[9px] text-accent font-serif font-black border-l border-b border-accent/40 tracking-[0.1em] shadow-2xl z-20">
+              {item.status === 'FINISHED' ? '성취' : item.status === 'WATCHING' ? '감상' : item.status === 'WANT' ? '염원' : '정지'}
             </div>
 
-            {/* 별점 - 하단에 강조 표시 */}
+            {/* 별점 - 하단에 강조 표시 (더 견고한 디자인) */}
             {item.public_record?.rating && (
-              <div className="absolute bottom-0 left-0 flex items-center gap-1 px-2 py-1 bg-accent text-bg-main text-xs font-black border-t border-r border-accent shadow-lg">
-                <Star size={10} fill="currentColor" />
-                <span>{item.public_record.rating.toFixed(1)}</span>
+              <div className="absolute bottom-0 left-0 flex items-center gap-1.5 px-3 py-1 bg-accent text-bg-main text-[11px] font-black border-t border-r border-white/20 shadow-[5px_-5px_15px_rgba(0,0,0,0.5)] z-20">
+                <Star size={11} fill="currentColor" strokeWidth={0} />
+                <span className="tabular-nums">{item.public_record.rating.toFixed(1)}</span>
               </div>
             )}
           </div>

@@ -89,15 +89,15 @@ export default function ScoresClient({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <PageHeader
         title="점수 / 랭킹"
         description="사용자 점수 및 활동 로그 관리"
       />
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-bg-card border border-border rounded-xl p-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+        <div className="bg-bg-card border border-border rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-yellow-500/10 rounded-lg">
               <Trophy className="w-5 h-5 text-yellow-400" />
