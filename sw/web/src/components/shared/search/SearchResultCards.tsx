@@ -11,13 +11,13 @@ import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/content/ContentCompactCard";
 import { toggleFollow } from "@/actions/user";
-import type { ContentSearchResult, UserSearchResult, TagSearchResult, ArchiveSearchResult } from "@/actions/search";
+import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 
-type ContentResult = ContentSearchResult | ArchiveSearchResult;
+type ContentResult = ContentSearchResult | RecordsSearchResult;
 
 interface ContentResultsProps {
   results: ContentResult[];
-  mode: "content" | "archive";
+  mode: "content" | "records";
   currentUserId?: string | null;
   addingIds?: Set<string>;
   addedIds?: Set<string>;
@@ -50,9 +50,9 @@ export function ContentResults({
         const isAdded = addedIds.has(item.id);
         const isSaved = savedIds.has(item.id);
 
-        // archive 모드일 때 contentId 사용 (ArchiveSearchResult 타입)
+        // records 모드일 때 contentId 사용 (RecordsSearchResult 타입)
         const contentId = "contentId" in item ? item.contentId : item.id;
-        const href = mode === "archive" && currentUserId
+        const href = mode === "records" && currentUserId
           ? `/${currentUserId}/records/${contentId}`
           : `/content/detail?key=content_${item.id}`;
 

@@ -37,7 +37,7 @@ export async function updateStatus({ userContentId, status }: UpdateStatusParams
     return handleSupabaseError(error, { context: 'content', logPrefix: '[상태 변경]' })
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
 
   // 활동 로그
   await logActivity({

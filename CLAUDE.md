@@ -111,18 +111,17 @@ lib/               # 유틸리티, Supabase 클라이언트
 - 미들웨어: 세션 갱신 처리 (lib/supabase/middleware.ts)
 
 ### 콘텐츠 상세 페이지 라우팅 (중요)
-`/archive/[contentId]` 페이지는 **user_contents 테이블을 기준으로 조회**한다.
+`/[userId]/records/[contentId]` 페이지는 **user_contents 테이블을 기준으로 조회**한다.
 
-- **본인 콘텐츠**: `/archive/{contentId}` → `getContent(contentId)` 호출
-- **타인 콘텐츠**: `/archive/{contentId}?userId={ownerId}` → `getPublicContent(contentId, ownerId)` 호출
+- **본인 콘텐츠**: `/{userId}/records/{contentId}` → `getContent(contentId)` 호출
+- **타인 콘텐츠**: `/{ownerId}/records/{contentId}` → `getPublicContent(contentId, ownerId)` 호출
 
-셀럽/친구/타인의 콘텐츠 링크 생성 시 반드시 `?userId={소유자ID}` 파라미터를 포함해야 한다.
 ```tsx
-// 잘못된 예 - 타인 콘텐츠인데 userId 누락
-href={`/archive/${content.id}`}
+// 본인 기록 상세
+href={`/${currentUserId}/records/${content.id}`}
 
-// 올바른 예
-href={`/archive/${content.id}?userId=${ownerId}`}
+// 타인 기록 상세
+href={`/${ownerId}/records/${content.id}`}
 ```
 
 ### contents 테이블 ID 체계 (주의)

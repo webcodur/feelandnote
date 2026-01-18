@@ -1,0 +1,237 @@
+/*
+  파일명: /components/features/user/playlists/Playlists.tsx
+  기능: 재생목록 페이지 최상위 컴포넌트
+  책임: 재생목록 목록, 탭, 생성 모드 등을 조합하여 렌더링한다.
+*/ // ------------------------------
+
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ListMusic, Plus, ChevronRight, Loader2, Bookmark } from "lucide-react";
+import Button from "@/components/ui/Button";
+import { getPlaylists, getSavedPlaylists, type PlaylistSummary } from "@/actions/playlists";
+import PlaylistEditor from "./PlaylistEditor";
+import type { SavedPlaylistWithDetails } from "@/types/database";
+
+type TabType = "mine" | "saved";
+
+const TABS = [
+  { id: "mine" as const, label: "내 재생목록" },
+  { id: "saved" as const, label: "저장됨" },
+];
+
+export default function Playlists() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<TabType>("mine");
+  const [playlists, setPlaylists] = useState<PlaylistSummary[]>([]);
+  const [savedPlaylists, setSavedPlaylists] = useState<SavedPlaylistWithDetails[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCreateMode, setIsCreateMode] = useState(false);
+
+  const loadPlaylists = async () => {
+    setIsLoading(true);
+    try {
+      if (activeTab === "mine") {
+        const data = await getPlaylists();
+        setPlaylists(data);
+      } else {
+        const data = await getSavedPlaylists();
+        setSavedPlaylists(data);
+      }
+    } catch (error) {
+      console.error("재생목록 로드 실패:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPlaylists();
+  }, [activeTab]);
+
+  const handleSelectPlaylist = (userId: string, playlistId: string) => {
+    router.push(`/${userId}/collections/${playlistId}`);
+  };
+
+  if (isCreateMode) {
+    return (
+      <PlaylistEditor
+        mode="create"
+        onClose={() => setIsCreateMode(false)}
+        onSuccess={() => {
+          setIsCreateMode(false);
+          loadPlaylists();
+        }}
+      />
+    );
+  }
+
+  const currentList = activeTab === "mine" ? playlists : savedPlaylists;
+  const isEmpty = currentList.length === 0;
+
+  return (
+    <>
+      <div className="flex gap-2 p-1 bg-bg-card border border-accent-dim/20 rounded-sm mb-8 w-fit mx-auto sm:mx-0">
+        {TABS.map((tab) => (
+          <Button
+            key={tab.id}
+            unstyled
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-6 py-2 rounded-sm text-xs font-serif font-black tracking-widest uppercase transition-all duration-300 ${
+              activeTab === tab.id
+                ? "bg-accent text-bg-main shadow-glow-sm scale-105"
+                : "text-text-tertiary hover:text-accent hover:bg-accent/5"
+            }`}
+          >
+            {tab.label}
+          </Button>
+        ))}
+      </div>
+
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 size={28} className="animate-spin text-accent" />
+        </div>
+      ) : isEmpty ? (
+        <EmptyState tab={activeTab} onCreateClick={() => setIsCreateMode(true)} />
+      ) : activeTab === "mine" ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {playlists.map((playlist) => (
+            <PlaylistCard
+              key={playlist.id}
+              playlist={playlist}
+              onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {savedPlaylists.map((item) => (
+            <SavedPlaylistCard
+              key={item.id}
+              item={item}
+              onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+// region 하위 컴포넌트
+function EmptyState({ tab, onCreateClick }: { tab: TabType; onCreateClick: () => void }) {
+  return (
+    <div className="relative overflow-hidden bg-bg-card border-2 border-dashed border-accent-dim/20 p-12 sm:p-20 text-center">
+      {/* Background Ornament for Empty State */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+      
+      <div className="relative z-10">
+        <div className="text-accent/30 mb-6 flex justify-center">
+          {tab === "mine" ? <ListMusic size={64} strokeWidth={1} /> : <Bookmark size={64} strokeWidth={1} />}
+        </div>
+        <h3 className="text-xl sm:text-2xl font-serif font-black text-text-primary mb-3 uppercase tracking-widest">
+          {tab === "mine" ? "The Archive is Silent" : "No Legacies Found"}
+        </h3>
+        <p className="text-xs sm:text-sm text-text-tertiary mb-8 font-serif italic max-w-sm mx-auto leading-relaxed">
+          {tab === "mine"
+            ? "Your personal collection has not yet been inscribed. Begin your legacy by gathering your first items."
+            : "No sacred scrolls from other seekers have been archived here yet."}
+        </p>
+        {tab === "mine" && (
+          <Button 
+            onClick={onCreateClick} 
+            className="group relative px-8 py-3 bg-accent text-bg-main font-serif font-black uppercase tracking-[0.2em] text-xs hover:bg-accent-hover transition-all duration-500 overflow-hidden"
+          >
+            {/* Button Glint */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            
+            <div className="relative z-10 flex items-center gap-3">
+              <Plus size={16} strokeWidth={3} />
+              Inscribe New Collection
+            </div>
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function PlaylistCard({ playlist, onClick }: { playlist: PlaylistSummary; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="group relative bg-bg-card border-2 border-accent-dim/10 p-5 text-left w-full transition-all duration-500 hover:border-accent hover:shadow-glow-sm active:translate-y-1 overflow-hidden"
+    >
+      {/* Stone texture overlay */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
+      
+      <div className="flex items-center gap-5 relative z-10">
+        <div className="w-14 h-14 bg-black border border-accent/20 flex items-center justify-center flex-shrink-0 relative group-hover:rotate-6 transition-transform duration-500">
+           {/* Photo Frame Detail */}
+          <div className="absolute inset-1 border border-white/5" />
+          <ListMusic size={28} className="text-accent/60 group-hover:text-accent group-hover:drop-shadow-glow-sm transition-all" />
+        </div>
+        
+        <div className="flex-1 min-w-0">
+          <p className="text-base font-serif font-black text-text-primary tracking-tight truncate group-hover:text-accent transition-colors">
+            {playlist.name}
+          </p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-[10px] font-serif font-bold text-accent/40 uppercase tracking-widest">
+              Legacy Unit / {playlist.item_count}
+            </span>
+          </div>
+        </div>
+        
+        <div className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <ChevronRight size={20} strokeWidth={3} />
+        </div>
+      </div>
+      
+      {/* Corner Brackets for active card focus */}
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-s border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-e border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+    </button>
+  );
+}
+
+function SavedPlaylistCard({ item, onClick }: { item: SavedPlaylistWithDetails; onClick: () => void }) {
+  const { playlist } = item;
+
+  return (
+    <button
+      onClick={onClick}
+      className="group relative bg-bg-card border-2 border-accent-dim/10 p-5 text-left w-full transition-all duration-500 hover:border-accent hover:shadow-glow-sm active:translate-y-1 overflow-hidden"
+    >
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
+      
+      <div className="flex items-center gap-5 relative z-10">
+        <div className="w-14 h-14 bg-black border border-accent/20 flex items-center justify-center flex-shrink-0 relative group-hover:rotate-6 transition-transform duration-500">
+          <div className="absolute inset-1 border border-white/5" />
+          <Bookmark size={28} className="text-accent/60 group-hover:text-accent group-hover:drop-shadow-glow-sm transition-all" />
+        </div>
+        
+        <div className="flex-1 min-w-0">
+          <p className="text-base font-serif font-black text-text-primary tracking-tight truncate group-hover:text-accent transition-colors">
+            {playlist.name}
+          </p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-[10px] font-serif font-bold text-accent/40 uppercase tracking-widest truncate">
+              {playlist.owner?.nickname || "Seeker"} · {playlist.item_count} units
+            </span>
+          </div>
+        </div>
+        
+        <div className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <ChevronRight size={20} strokeWidth={3} />
+        </div>
+      </div>
+
+       <div className="absolute top-0 left-0 w-2 h-2 border-t border-s border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+       <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-e border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+    </button>
+  );
+}
+// endregion

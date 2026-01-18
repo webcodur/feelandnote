@@ -29,7 +29,8 @@ export async function loginWithEmail(formData: FormData) {
     return { error: error.message }
   }
 
-  redirect('/archive')
+  const { data: { user } } = await supabase.auth.getUser()
+  redirect(`/${user!.id}/records`)
 }
 
 export async function signupWithEmail(formData: FormData) {
@@ -84,7 +85,7 @@ export async function signupWithEmail(formData: FormData) {
       })
     }
 
-    redirect('/archive')
+    redirect(`/${data.user!.id}/records`)
   }
 
   return { success: '인증 메일을 발송했습니다. 메일함을 확인해주세요' }

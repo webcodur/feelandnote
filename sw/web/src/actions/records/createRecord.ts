@@ -62,8 +62,8 @@ export async function createRecord(params: CreateRecordParams): Promise<ActionRe
     return handleSupabaseError(error, { context: 'record', logPrefix: '[기록 생성]' })
   }
 
-  revalidatePath(`/archive/${params.contentId}`)
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records/${params.contentId}`)
+  revalidatePath(`/${user.id}/records`)
   revalidatePath('/achievements')
 
   // 활동 로그

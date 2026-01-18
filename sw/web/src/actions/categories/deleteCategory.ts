@@ -34,5 +34,5 @@ export async function deleteCategory(categoryId: string): Promise<void> {
     throw new Error('분류 삭제에 실패했습니다')
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
 }

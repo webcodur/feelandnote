@@ -4,7 +4,7 @@
   책임: 재생목록의 상세 정보를 표시한다.
 */ // ------------------------------
 
-import PlaylistDetail from "@/components/features/archive/detail/PlaylistDetail";
+import PlaylistDetail from "@/components/features/user/detail/PlaylistDetail";
 
 interface PageProps {
   params: Promise<{ id: string }>;

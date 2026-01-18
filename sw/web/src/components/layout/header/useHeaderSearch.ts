@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { searchContents, searchUsers, searchTags, searchArchive } from "@/actions/search";
+import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { SearchMode, ContentCategory, SEARCH_MODES } from "@/components/shared/search/SearchModeDropdown";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
@@ -107,8 +107,8 @@ export function useHeaderSearch() {
               id: item.id, type: "tag", title: `#${item.name}`, extra: `게시물 ${item.postCount.toLocaleString()}개`,
             });
           });
-        } else if (mode === "archive") {
-          const data = await searchArchive({ query, limit: 5 });
+        } else if (mode === "records") {
+          const data = await searchRecords({ query, limit: 5 });
           data.items.forEach((item) => {
             searchResults.push({
               id: item.contentId, type: "content", title: item.title, subtitle: item.status,
@@ -178,7 +178,7 @@ export function useHeaderSearch() {
   const handleResultClick = (result: SearchResult) => {
     saveRecentSearch(query.trim());
     if (result.type === "content") {
-      if (mode === "archive" && currentUserId) {
+      if (mode === "records" && currentUserId) {
         router.push(`/${currentUserId}/records/${result.id}`);
       } else {
         const key = `content_${result.id}`;

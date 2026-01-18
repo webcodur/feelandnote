@@ -4,7 +4,7 @@
   책임: 재생목록의 티어 설정 UI를 제공한다.
 */ // ------------------------------
 
-import TierEditView from "@/components/features/archive/detail/TierEditView";
+import TierEditView from "@/components/features/user/detail/TierEditView";
 
 interface PageProps {
   params: Promise<{ id: string }>;

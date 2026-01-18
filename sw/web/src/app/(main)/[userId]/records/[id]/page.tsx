@@ -7,7 +7,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Detail from "@/components/features/archive/detail/Detail";
+import Detail from "@/components/features/user/detail/Detail";
 
 export default function Page() {
   const params = useParams();

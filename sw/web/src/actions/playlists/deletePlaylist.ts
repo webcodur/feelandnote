@@ -33,7 +33,7 @@ export async function deletePlaylist(playlistId: string) {
     throw new Error('재생목록 삭제에 실패했습니다')
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/collections`)
 
   return { success: true }
 }

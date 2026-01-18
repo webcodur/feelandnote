@@ -96,7 +96,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
   revalidatePath('/achievements')
 
   // 활동 로그

@@ -2,7 +2,7 @@ import ContextHeader from "@/components/layout/header/ContextHeader";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
-import UserProfileSidebar from "@/components/features/archive/user/UserProfileSidebar";
+import UserProfileSidebar from "@/components/features/user/profile/UserProfileSidebar";
 import { HeroBackgroundText } from "@/components/ui";
 
 interface LayoutProps {

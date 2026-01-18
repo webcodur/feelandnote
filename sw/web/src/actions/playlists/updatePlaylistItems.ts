@@ -58,8 +58,8 @@ export async function updatePlaylistItems(params: UpdatePlaylistItemsParams) {
     throw new Error('재생목록 수정에 실패했습니다')
   }
 
-  revalidatePath('/archive')
-  revalidatePath(`/archive/playlists/${params.playlistId}`)
+  revalidatePath(`/${user.id}/collections`)
+  revalidatePath(`/${user.id}/collections/${params.playlistId}`)
 
   return { success: true }
 }
@@ -100,7 +100,7 @@ export async function reorderPlaylistItems(params: ReorderItemsParams) {
 
   await Promise.all(updates)
 
-  revalidatePath(`/archive/playlists/${params.playlistId}`)
+  revalidatePath(`/${user.id}/collections/${params.playlistId}`)
 
   return { success: true }
 }

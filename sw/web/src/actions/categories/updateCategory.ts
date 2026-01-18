@@ -55,6 +55,6 @@ export async function updateCategory(params: UpdateCategoryParams): Promise<Cate
     throw new Error('분류 수정에 실패했습니다')
   }
 
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records`)
   return data
 }

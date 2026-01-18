@@ -67,8 +67,8 @@ export async function createCelebRecord(params: CreateCelebRecordParams) {
     throw new Error('기록 생성에 실패했습니다')
   }
 
-  revalidatePath(`/u/${params.celebId}/archive/${params.contentId}`)
-  revalidatePath(`/u/${params.celebId}/archive`)
+  revalidatePath(`/u/${params.celebId}/records/${params.contentId}`)
+  revalidatePath(`/u/${params.celebId}/records`)
 
   return data
 }

@@ -35,8 +35,8 @@ export async function deleteRecord(recordId: string): Promise<ActionResult<null>
     return handleSupabaseError(error, { context: 'record', logPrefix: '[기록 삭제]' })
   }
 
-  revalidatePath(`/archive/${record.content_id}`)
-  revalidatePath('/archive')
+  revalidatePath(`/${user.id}/records/${record.content_id}`)
+  revalidatePath(`/${user.id}/records`)
 
   // 활동 로그
   await logActivity({
