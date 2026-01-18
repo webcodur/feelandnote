@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import styles from "./styles.module.css";
 import { NeoCelebCardProps } from "./types";
 import { getVariantStyles } from "./variantConfig";
@@ -134,7 +134,7 @@ export default function NeoCelebCard({
             <h3 className={`text-xl font-black ${styles.fontFrank} tracking-wider mb-1 ${finalText} ${engravedEffect || ""}`}>
                 {celeb.nickname}
             </h3>
-            <div className={`flex items-center justify-center gap-2 text-xs font-bold tracking-[0.15em] ${styles.fontFrank} ${finalSubText} opacity-80`}>
+            <div className={`flex items-center justify-center gap-2 text-xs font-bold tracking-[0.15em] ${styles.fontFrank} text-white`}>
                 <span>{celeb.content_count || 0} ITEMS</span>
                 <span className={`w-1 h-1 rounded-full ${finalDot}`} />
                 <button
@@ -143,9 +143,11 @@ export default function NeoCelebCard({
                       e.stopPropagation();
                       setShowInfluenceModal(true);
                     }}
-                    className="px-1.5 py-0.5 rounded bg-black/20 hover:bg-black/30 cursor-pointer"
+                    className="flex items-center px-2.5 py-1 rounded-full bg-white/20 border border-white/30 hover:bg-white/30 hover:border-white/40 backdrop-blur-sm cursor-pointer"
                 >
-                    RANK {celeb.influence?.rank || '-'} ›
+                    <span className="text-[10px]">RANK</span>
+                    <span className="ml-1 font-black">{celeb.influence?.rank || '-'}</span>
+                    <ChevronRight size={12} className="ml-0.5" />
                 </button>
             </div>
 
