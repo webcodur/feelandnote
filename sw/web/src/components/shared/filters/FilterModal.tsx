@@ -35,7 +35,7 @@ export default function FilterModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm" closeOnOverlayClick>
-      <div className="p-4 space-y-2">
+      <div className="p-3 space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
         {options.map(({ value, label, count }) => {
           const isActive = current === value;
           const isDisabled = count !== undefined && count === 0;
@@ -48,9 +48,9 @@ export default function FilterModal({
               disabled={isDisabled}
               className={`${FILTER_BOTTOMSHEET_STYLES.base} ${isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive} ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
             >
-              <span className="flex-1 text-left text-sm font-medium">{label}</span>
-              {count !== undefined && <span className="text-xs text-text-tertiary">{count}</span>}
-              {isActive && <NeoCheckIcon size={18} />}
+              <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? 'font-bold' : ''}`}>{label}</span>
+              {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? 'text-accent/80' : 'text-text-tertiary'}`}>{count}</span>}
+              {isActive && <NeoCheckIcon size={16} className="flex-shrink-0" />}
             </Button>
           );
         })}

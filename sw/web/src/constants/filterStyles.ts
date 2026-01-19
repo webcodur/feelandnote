@@ -30,7 +30,7 @@ export const FILTER_CHIP_STYLES = {
 
 // 바텀시트/모달 필터 아이템 스타일
 export const FILTER_BOTTOMSHEET_STYLES = {
-  base: "w-full flex items-center gap-3 px-4 py-3.5 rounded-lg border transition-colors duration-100",
+  base: "w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-colors duration-100",
   active: "bg-accent/10 text-accent border-accent/50",
   inactive: "bg-transparent text-text-primary border-transparent hover:bg-white/5",
   disabled: "disabled:opacity-30 disabled:cursor-not-allowed",

@@ -39,7 +39,7 @@ interface BlindGameSectionProps {
 export default function BlindGameSection({ cards, isLoading, onPlayClick, subTab, onSubTabChange }: BlindGameSectionProps) {
   return (
     <>
-      <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+      <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hidden">
         <div className="min-w-max">
           <FilterChips options={BLIND_TAB_OPTIONS} value={subTab} onChange={onSubTabChange} variant="filled" showIcon />
         </div>

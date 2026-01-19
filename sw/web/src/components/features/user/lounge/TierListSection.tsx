@@ -47,7 +47,7 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
 
   return (
     <>
-      <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+      <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hidden">
         <div className="min-w-max">
           <FilterChips options={TIER_TAB_OPTIONS} value={subTab} onChange={setSubTab} variant="filled" showIcon />
         </div>

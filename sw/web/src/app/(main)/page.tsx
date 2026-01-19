@@ -53,7 +53,7 @@ const SECTIONS = [
     englishTitle: "Archive",
     title: "기록관",
     tagline: "당신만의 판테온",
-    description: "읽고, 보고, 듣고, 플레이한 모든 것. 평생에 걸친 콘텐츠 여정을 한 곳에.",
+    description: "읽고, 보고, 들은 모든 것. 인생의 콘텐츠를 한 곳에서 기록하세요.",
     features: ["콘텐츠 라이브러리", "통계 & 인사이트", "프로필 커스텀"],
   },
 ];
@@ -94,18 +94,18 @@ export default function HomePage() {
         <div className="hidden md:block absolute bottom-20 right-4 w-16 h-16 border-r-2 border-b-2 border-accent/20 rounded-br-lg" />
 
         {/* 메인 컨텐츠 */}
-        <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
+        <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-4xl mx-auto overflow-visible">
           {/* 서브타이틀 */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-px bg-gradient-to-r from-transparent to-accent/50" />
-            <span className="font-cinzel text-[10px] md:text-xs text-accent tracking-[0.5em] uppercase opacity-80">
+          <div className="flex items-center gap-2 md:gap-4 mb-6 md:mb-8 w-full justify-center">
+            <div className="flex-1 max-w-[40px] md:max-w-[60px] h-px bg-gradient-to-r from-transparent to-accent/50" />
+            <span className="font-cinzel text-[9px] md:text-xs text-accent tracking-[0.2em] md:tracking-[0.5em] uppercase opacity-80 whitespace-normal md:whitespace-nowrap max-w-[200px] md:max-w-none">
               Inscribed in Eternity
             </span>
-            <div className="w-12 h-px bg-gradient-to-l from-transparent to-accent/50" />
+            <div className="flex-1 max-w-[40px] md:max-w-[60px] h-px bg-gradient-to-l from-transparent to-accent/50" />
           </div>
 
           {/* 로고 */}
-          <div className="mb-8 md:mb-12">
+          <div className="mb-6 md:mb-12 w-full">
             <Logo variant="hero" size="xl" asLink={false} subtitle="THE ARCHIVE OF SOULS" />
           </div>
 
@@ -116,16 +116,16 @@ export default function HomePage() {
           </div>
 
           {/* 메인 카피 */}
-          <p className="font-serif text-text-secondary text-sm md:text-xl leading-relaxed tracking-wide max-w-2xl mb-12 md:mb-16">
+          <p className="font-serif text-text-secondary text-[13px] md:text-xl leading-relaxed tracking-wide max-w-2xl px-2 mb-10 md:mb-16 break-keep">
             평범한 누군가부터 역사 속 인물까지,<br />
             <span className="text-accent font-semibold">모든 이의 콘텐츠 여정</span>을 기록합니다.
           </p>
 
           {/* CTA 버튼 */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-16">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-12 md:mb-16 w-full max-w-[260px] sm:max-w-none">
             <Link
               href="/login"
-              className="group relative px-10 py-4 bg-accent text-bg-main font-serif font-bold text-sm md:text-base rounded-lg overflow-hidden no-underline"
+              className="group relative px-4 md:px-10 py-2.5 md:py-4 bg-accent text-bg-main font-serif font-bold text-[13px] md:text-base rounded-lg overflow-hidden no-underline flex justify-center items-center"
             >
               <span className="relative z-10">기록 시작하기</span>
               <div className="absolute inset-0 bg-accent-hover opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -133,7 +133,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/explore"
-              className="group px-10 py-4 border-2 border-accent/50 text-accent font-serif font-bold text-sm md:text-base rounded-lg hover:bg-accent/10 hover:border-accent no-underline transition-all"
+              className="group px-4 md:px-10 py-2.5 md:py-4 border-2 border-accent/50 text-accent font-serif font-bold text-[13px] md:text-base rounded-lg hover:bg-accent/10 hover:border-accent no-underline transition-all flex justify-center items-center"
             >
               둘러보기
             </Link>

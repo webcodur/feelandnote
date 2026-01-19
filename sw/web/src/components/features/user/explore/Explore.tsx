@@ -118,23 +118,23 @@ export default function Explore({
         <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-bg-main to-transparent z-10 pointer-events-none md:hidden" />
         <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-bg-main to-transparent z-10 pointer-events-none md:hidden" />
         
-        <div className="overflow-x-auto scrollbar-hide px-4">
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-hidden px-2 sm:px-4">
           <Tabs className="min-w-max border-b border-accent-dim/10">
             {tabs.map((tab) => (
               <Tab
                 key={tab.key}
                 active={activeTab === tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className="group whitespace-nowrap px-4"
+                className="group whitespace-nowrap px-1.5 sm:px-4"
                 label={
-                  <span className="flex items-center gap-2 py-2">
-                    <span className={`transition-transform duration-300 ${activeTab === tab.key ? 'scale-110 text-accent' : 'text-text-secondary opacity-70'}`}>
-                      {tab.icon}
+                  <span className="flex items-center gap-1 sm:gap-2 py-0.5 sm:py-1">
+                    <span className={`transition-transform duration-300 ${activeTab === tab.key ? 'scale-105 text-accent' : 'text-text-secondary opacity-70'}`}>
+                      <span className="scale-75 sm:scale-100">{tab.icon}</span>
                     </span>
-                    <span className={`font-serif tracking-widest text-sm sm:text-base ${activeTab === tab.key ? 'font-black text-accent' : 'font-medium text-text-secondary'}`}>
+                    <span className={`font-serif tracking-normal sm:tracking-widest text-[11px] sm:text-base ${activeTab === tab.key ? 'font-black text-accent' : 'font-medium text-text-secondary'}`}>
                        {tab.label}
                     </span>
-                    <span className={`text-xs sm:text-sm font-medium ${activeTab === tab.key ? 'text-accent/80' : 'text-text-tertiary'}`}>
+                    <span className={`text-[9px] sm:text-sm font-medium ${activeTab === tab.key ? 'text-accent/80' : 'text-text-tertiary'}`}>
                       {tab.count}
                     </span>
                   </span>
@@ -183,7 +183,7 @@ export default function Explore({
                       key={friend.id} 
                       user={friend} 
                       onClick={() => handleSelectUser(friend.id)}
-                      subtext={`${friend.content_count || 0} Records`}
+                      subtext={`${friend.content_count || 0} 기록`}
                     />
                   ))}
                 </div>
@@ -212,7 +212,7 @@ export default function Explore({
                       key={user.id} 
                       user={user} 
                       onClick={() => handleSelectUser(user.id)}
-                      subtext={`${user.content_count || 0} Records`}
+                      subtext={`${user.content_count || 0} 기록`}
                     />
                   ))}
                 </div>
@@ -278,7 +278,7 @@ export default function Explore({
                       key={user.id} 
                       user={user} 
                       onClick={() => handleSelectUser(user.id)}
-                      subtext={`${user.overlap_count} Bonds · ${(user.similarity * 100).toFixed(0)}% Match`}
+                      subtext={`${user.overlap_count} 결속 · ${(user.similarity * 100).toFixed(0)}% 일치`}
                     />
                   ))}
                 </div>

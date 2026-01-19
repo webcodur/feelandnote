@@ -57,12 +57,12 @@ export default function ProfileCard({
         )}
         {/* 배지 */}
         {badge && (
-          <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-accent text-white text-[10px] font-bold rounded-full">
+          <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-accent text-white text-[10px] font-bold rounded-full z-10">
             {badge}
           </span>
         )}
         {is_self && (
-          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-primary text-white text-[10px] font-bold rounded-full whitespace-nowrap">
+          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-primary text-white text-[10px] font-bold rounded-full whitespace-nowrap z-10">
             나
           </span>
         )}

@@ -44,7 +44,7 @@ interface TabsProps {
 }
 // #endregion
 
-const tabBaseClass = "py-3 px-0 rounded-none relative font-serif font-bold cursor-pointer flex items-center gap-1.5 transition-colors";
+const tabBaseClass = "py-1 md:py-1.5 px-0 rounded-none relative font-serif font-bold cursor-pointer flex items-center gap-1.5 transition-colors text-sm md:text-base";
 const activeClass = "text-accent";
 const inactiveClass = "text-text-secondary hover:text-text-primary";
 
@@ -122,8 +122,8 @@ export function Tabs({ children, className = "" }: TabsProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [updateTrigger, setUpdateTrigger] = useState(0);
 
-  // indicator 업데이트 로직
-  useEffect(() => {
+  // indicator 업데이트 로직을 메모이제이션하여 재사용 가능하게 분리
+  const updateIndicator = useCallback(() => {
     if (!containerRef.current) return;
     const containerRect = containerRef.current.getBoundingClientRect();
 
@@ -147,7 +147,38 @@ export function Tabs({ children, className = "" }: TabsProps) {
         width: tabRect.width,
       });
     }
-  }, [hoveredId, updateTrigger]);
+  }, [hoveredId]);
+
+  // 1. 상태 변경 시 업데이트 (즉시 및 트랜지션 후 재측정)
+  useEffect(() => {
+    updateIndicator();
+    // 폰트 두께 변화나 scale 트랜지션 완료 후의 너비를 정확히 잡기 위해 두 번 측정
+    const timeoutId = setTimeout(updateIndicator, 150);
+    const timeoutId2 = setTimeout(updateIndicator, 310); // transition duration(300ms) 직후
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(timeoutId2);
+    };
+  }, [updateIndicator, updateTrigger]);
+
+  // 2. 윈도우 리사이즈 및 레이아웃 변경 대응
+  useEffect(() => {
+    const handleResize = () => updateIndicator();
+    window.addEventListener("resize", handleResize);
+
+    // ResizeObserver를 통해 개별 탭의 너비 변화를 감지
+    const observers: ResizeObserver[] = [];
+    tabsRef.current.forEach((tab) => {
+      const observer = new ResizeObserver(() => updateIndicator());
+      observer.observe(tab.element);
+      observers.push(observer);
+    });
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      observers.forEach(obs => obs.disconnect());
+    };
+  }, [updateIndicator, updateTrigger]);
 
   const registerTab = useCallback((id: string, element: HTMLElement, active: boolean) => {
     tabsRef.current.set(id, { element, active });
@@ -156,6 +187,7 @@ export function Tabs({ children, className = "" }: TabsProps) {
 
   const unregisterTab = useCallback((id: string) => {
     tabsRef.current.delete(id);
+    setUpdateTrigger(prev => prev + 1);
   }, []);
 
   const setHoveredTab = useCallback((id: string | null) => {
@@ -169,11 +201,11 @@ export function Tabs({ children, className = "" }: TabsProps) {
 
   return (
     <TabsContext.Provider value={contextValue}>
-      <div ref={containerRef} className={`relative flex gap-8 border-b border-border ${className}`}>
+      <div ref={containerRef} className={`relative flex gap-4 md:gap-8 ${className}`}>
         {children}
         {indicator && (
           <span
-            className="absolute bottom-[-1px] h-0.5 bg-accent transition-all duration-200 ease-out"
+            className="absolute bottom-0 h-0.5 bg-accent transition-all duration-200 ease-out z-10"
             style={{
               left: indicator.left,
               width: indicator.width,

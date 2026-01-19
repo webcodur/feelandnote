@@ -84,11 +84,8 @@ export default function CelebCarousel({
         onSortChange={filters.handleSortChange}
       />
 
-      {/* 셀럽 그리드 영역 */}
-      <section className="relative overflow-hidden rounded-2xl p-4 md:p-6 bg-gradient-to-br from-white/[0.03] via-transparent to-accent/[0.02]">
-        <NoiseOverlay />
-        <TopHighlight />
-
+      {/* 셀럽 그리드 영역 - 배경 박스 제거하여 클린하게 변경 */}
+      <section className="relative">
         {/* 빈 상태 */}
         {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
 
@@ -110,25 +107,7 @@ export default function CelebCarousel({
   );
 }
 
-// #region 하위 컴포넌트
-function NoiseOverlay() {
-  return (
-    <div
-      className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay"
-      style={{
-        backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")`,
-        backgroundSize: "200px 200px",
-      }}
-    />
-  );
-}
-
-function TopHighlight() {
-  return (
-    <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-  );
-}
-
+// #region 하위 컴포넌트 (Helper Components)
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
@@ -139,12 +118,13 @@ function EmptyState() {
     </div>
   );
 }
+// #endregion
 
 function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: boolean }) {
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
   return (
-    <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6 ${loadingClass}`}>
+    <div className={`grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-6 ${loadingClass}`}>
       {celebs.map((celeb) => (
         <ExpandedCelebCard key={celeb.id} celeb={celeb} />
       ))}
@@ -156,19 +136,14 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
   if (total === 0) return null;
 
   const pcCelebs = celebs.slice(0, 12);
-  const mobileCelebs = celebs.slice(0, 6);
+  const mobileCelebs = celebs.slice(0, 5); // 5개만 노출 (마지막은 MoreLink)
 
   return (
-    <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 bg-gradient-to-br from-white/[0.03] via-transparent to-accent/[0.02]">
-      <NoiseOverlay />
-      <TopHighlight />
-
-      {/* 모바일: 가로 스크롤 */}
-      <div className="md:hidden flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2 -mx-2">
+    <div className="relative">
+      {/* 모바일: 정적 그리드 (배경 박스 없이 깔끔하게, 좌우 여백 정밀 조정) */}
+      <div className="md:hidden grid grid-cols-3 gap-2 px-0.5">
         {mobileCelebs.map((celeb) => (
-          <div key={celeb.id} className="flex-shrink-0">
-            <ExpandedCelebCard celeb={celeb} className="w-[200px] h-[290px]" />
-          </div>
+          <ExpandedCelebCard key={celeb.id} celeb={celeb} />
         ))}
         <MoreLink />
       </div>
@@ -187,12 +162,12 @@ function MoreLink() {
   return (
     <a
       href="/explore"
-      className="flex-shrink-0 w-[200px] h-[290px] flex flex-col items-center justify-center gap-4 bg-accent/5 border-dashed border-2 border-accent/20 hover:bg-accent/10"
+      className="group flex flex-col items-center justify-center gap-2 bg-accent/5 border-dashed border-2 border-accent/20 hover:bg-accent/10 rounded-sm aspect-[13/19] w-full transition-colors"
     >
-      <div className="w-14 h-14 rounded-full border border-accent/30 flex items-center justify-center">
-        <span className="text-accent text-3xl">→</span>
+      <div className="w-8 h-8 rounded-full border border-accent/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <span className="text-accent text-lg">→</span>
       </div>
-      <span className="text-sm font-bold text-accent tracking-widest uppercase">더보기</span>
+      <span className="text-[9px] font-bold text-accent tracking-widest uppercase">MORE</span>
     </a>
   );
 }

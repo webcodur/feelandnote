@@ -76,16 +76,13 @@ export default function CelebFiltersMobile({
 
   return (
     <>
-      {/* 필터 칩들 - 가로 스크롤 */}
-      <div className="md:hidden mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
-        <div className="flex items-center gap-2 min-w-max pb-1">
-          <FilterChip label="직군" value={activeLabels.profession?.label ?? "전체"} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} />
-          <div className="w-px h-4 bg-accent/20 mx-1" />
-          <FilterChip label="국적" value={activeLabels.nationality?.label ?? "전체"} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} />
-          <div className="w-px h-4 bg-accent/20 mx-1" />
-          <FilterChip label="콘텐츠" value={activeLabels.contentType?.label ?? "전체"} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} />
-          <div className="w-px h-4 bg-accent/20 mx-1" />
-          <FilterChip label="정렬" value={activeLabels.sort?.label ?? "영향력순"} isActive={sortBy !== "influence"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} />
+      {/* 필터 칩들 - 2x2 그리드 */}
+      <div className="md:hidden mb-6">
+        <div className="grid grid-cols-2 gap-2">
+          <FilterChip label="직군" value={activeLabels.profession?.label ?? "전체"} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" />
+          <FilterChip label="국적" value={activeLabels.nationality?.label ?? "전체"} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" />
+          <FilterChip label="콘텐츠" value={activeLabels.contentType?.label ?? "전체"} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" />
+          <FilterChip label="정렬" value={activeLabels.sort?.label ?? "영향력순"} isActive={sortBy !== "influence"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full" />
         </div>
       </div>
 

@@ -93,12 +93,12 @@ export default function Modal({
       >
         {/* 헤더 */}
         {(title || showCloseButton) && (
-          <div className="relative flex items-center justify-center px-6 py-5 border-b border-border">
+          <div className="relative flex items-center justify-center px-6 py-3 sm:py-5 border-b border-border">
             {/* 타이틀 (중앙) */}
             {title && (
               <div className="flex items-center gap-2">
-                {Icon && <Icon size={18} className="text-accent" />}
-                <h2 className="text-lg text-text-primary">{title}</h2>
+                {Icon && <Icon size={16} className="text-accent sm:size-18" />}
+                <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
               </div>
             )}
             {/* 닫기 버튼 (우측 고정) */}
