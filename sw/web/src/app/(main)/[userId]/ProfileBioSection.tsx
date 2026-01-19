@@ -7,6 +7,7 @@ import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import { DecorativeLabel } from "@/components/ui";
 
 const formatYear = (year: string | null | undefined) => {
   if (!year) return "";
@@ -39,14 +40,12 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
   };
 
   return (
-    <ClassicalBox as="section" className="p-3 sm:p-5 md:p-10 bg-bg-card/40 border-accent/20 shadow-2xl">
+    <ClassicalBox as="section" className="p-3 sm:p-5 md:p-10 md:pt-8 bg-bg-card/40 border-accent/20 shadow-2xl">
       {/* 헤더 */}
-      <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-8">
-        <div className="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent" />
-        <span className="text-serif text-accent text-xs sm:text-sm tracking-widest font-black shadow-glow">계보</span>
-        <div className="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent" />
+      <div className="flex justify-center mb-6 sm:mb-10">
+        <DecorativeLabel label="계보" />
         {isOwner && !isEditingBio && (
-          <button onClick={() => setIsEditingBio(true)} className="p-1.5 sm:p-2 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm" title="소개글 수정">
+          <button onClick={() => setIsEditingBio(true)} className="absolute right-4 md:right-8 top-6 md:top-8 p-1.5 sm:p-2 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm transition-colors" title="소개글 수정">
             <Pencil size={14} className="sm:size-4" />
           </button>
         )}

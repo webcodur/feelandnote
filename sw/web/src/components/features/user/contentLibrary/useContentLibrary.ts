@@ -200,9 +200,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         setTotalPages(result.totalPages);
         setTotal(result.total);
       } else {
-        // owner 모드: 내 콘텐츠 조회
+        // owner 모드: 내 콘텐츠 조회 (WANT 상태 제외 - 관심 탭으로 분리됨)
         const result = await getMyContents({
           type: CATEGORY_ID_TO_TYPE[activeTab],
+          excludeStatus: ['WANT'],
           page: compact ? 1 : currentPage,
           limit,
         });

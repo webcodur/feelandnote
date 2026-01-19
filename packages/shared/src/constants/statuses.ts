@@ -46,6 +46,16 @@ export const STATUS_FILTER_OPTIONS: StatusFilterOption[] = [
   ...STATUS_OPTIONS.map(({ value, label }) => ({ value, label })),
 ]
 
+// 기록 탭용 필터 옵션 (WANT 제외 - 관심 탭으로 분리됨)
+export const RECORD_STATUS_FILTER_OPTIONS: StatusFilterOption[] = [
+  { value: 'all', label: '전체' },
+  { value: 'WATCHING', label: '진행중' },
+  { value: 'FINISHED', label: '완료' },
+  { value: 'DROPPED', label: '중단' },
+  { value: 'RECOMMENDED', label: '완료+추천' },
+  { value: 'NOT_RECOMMENDED', label: '완료+비추' },
+]
+
 // 셀럽 콘텐츠용 상태 옵션 (간소화)
 export const CELEB_STATUS_OPTIONS: StatusOption[] = [
   { value: 'FINISHED', label: '완료' },

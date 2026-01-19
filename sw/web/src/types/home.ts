@@ -13,6 +13,7 @@ export interface CelebProfile {
   id: string
   nickname: string
   avatar_url: string | null
+  portrait_url: string | null  // 초상화 이미지 (세로형)
   profession: string | null
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일

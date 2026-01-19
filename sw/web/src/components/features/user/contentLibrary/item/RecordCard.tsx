@@ -26,6 +26,8 @@ interface RecordCardProps {
   isSpoiler?: boolean;
   // 링크
   href: string;
+  // UI 옵션
+  showStatusBadge?: boolean;
 }
 // #endregion
 
@@ -59,6 +61,7 @@ export default function RecordCard({
   review,
   isSpoiler = false,
   href,
+  showStatusBadge = true,
 }: RecordCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
   const statusInfo = STATUS_STYLES[status];
@@ -152,9 +155,11 @@ export default function RecordCard({
 
           {/* 하단: 상태 + 별점 */}
           <div className="flex items-center gap-2 mt-auto">
-            <span className={`text-[10px] font-medium ${statusInfo.color}`}>
-              {statusInfo.label}
-            </span>
+            {showStatusBadge && (
+              <span className={`text-[10px] font-medium ${statusInfo.color}`}>
+                {statusInfo.label}
+              </span>
+            )}
             {rating && (
               <span className="flex items-center gap-0.5 text-[10px] text-text-secondary">
                 <Star size={10} className="text-yellow-500 fill-yellow-500" />

@@ -17,3 +17,4 @@ export { default as FilterTabs, type FilterTabItem } from "./FilterTabs";
 export { MonumentalPillar } from "./MonumentalPillar";
 export { HeroBackgroundText } from "./HeroBackgroundText";
 export { default as Logo, LogoIcon } from "./Logo";
+export { default as DecorativeLabel } from "./DecorativeLabel";

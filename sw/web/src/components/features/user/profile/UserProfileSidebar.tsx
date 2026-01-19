@@ -9,10 +9,12 @@ import {
   ScrollIcon,
   MessageTabletIcon,
   SacredFlameIcon,
-  BustIcon
+  BustIcon,
+  AstrolabeIcon,
 } from "@/components/ui/icons/neo-pantheon";
 import { type PublicUserProfile } from "@/actions/user";
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import { DecorativeLabel } from "@/components/ui";
 
 interface UserProfileSidebarProps {
   profile: PublicUserProfile;
@@ -34,6 +36,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
   const tabs = [
     { label: "계보", href: `/${userId}`, icon: BustIcon, exact: true },
     { label: "기록", href: `/${userId}/records`, icon: PillarIcon },
+    { label: "관심", href: `/${userId}/interests`, icon: AstrolabeIcon },
     { label: "유산", href: `/${userId}/collections`, icon: ScrollIcon },
     { label: "방명석", href: `/${userId}/guestbook`, icon: MessageTabletIcon },
   ];
@@ -56,11 +59,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
         <ClassicalBox className="p-6 flex flex-col items-center">
           {/* 클릭 시 인물 정보 페이지로 이동 */}
           <Link href={`/${userId}`} className="group flex flex-col items-center cursor-pointer">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-10 bg-accent/40 group-hover:w-12 transition-all" />
-              <span className="text-serif text-accent text-sm tracking-widest font-black">프 로 필</span>
-              <div className="h-px w-10 bg-accent/40 group-hover:w-12 transition-all" />
-            </div>
+            <DecorativeLabel label="프로필" className="mb-8" />
 
             <div className="relative mb-6 flex justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-accent/20 scale-125 group-hover:scale-130 transition-transform" />

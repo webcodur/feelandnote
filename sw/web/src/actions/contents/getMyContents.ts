@@ -5,6 +5,7 @@ import type { ContentType, ContentStatus, Category, VisibilityType } from '@/typ
 
 interface GetMyContentsParams {
   status?: ContentStatus
+  excludeStatus?: ContentStatus[]  // 제외할 상태 목록
   type?: ContentType
   categoryId?: string | null  // undefined = 전체, null = 미분류, string = 특정 분류
   page?: number
@@ -51,7 +52,7 @@ export interface GetMyContentsResponse {
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
-  const { page = 1, limit = 20, categoryId, type, status } = params
+  const { page = 1, limit = 20, categoryId, type, status, excludeStatus } = params
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -88,6 +89,11 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   // 상태 필터
   if (status) {
     query = query.eq('status', status)
+  }
+
+  // 제외할 상태 필터
+  if (excludeStatus?.length) {
+    query = query.not('status', 'in', `(${excludeStatus.join(',')})`)
   }
 
   // 페이지네이션
@@ -151,6 +157,11 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
 
   if (params.status) {
     query = query.eq('status', params.status)
+  }
+
+  // 제외할 상태 필터
+  if (params.excludeStatus?.length) {
+    query = query.not('status', 'in', `(${params.excludeStatus.join(',')})`)
   }
 
   const { data, error } = await query
