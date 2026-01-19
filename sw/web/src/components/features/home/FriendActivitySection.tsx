@@ -26,7 +26,7 @@ function LoadingSkeleton() {
     <div className="space-y-2">
       {[1, 2, 3].map((i) => (
         <div key={i} className="flex gap-3 p-3 rounded-xl bg-bg-card animate-pulse">
-          <div className="w-16 h-20 rounded-lg bg-white/10" />
+          <div className="w-24 md:w-40 h-[180px] md:h-[280px] rounded-lg bg-white/10 shrink-0" />
           <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 rounded-full bg-white/10" />

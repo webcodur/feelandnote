@@ -11,15 +11,13 @@ import { getMyContents, type UserContentWithContent } from "@/actions/contents/g
 import { getUserContents } from "@/actions/contents/getUserContents";
 import { getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
 import type { ContentTypeCounts } from "@/types/content";
-import { getCategories } from "@/actions/categories/getCategories";
-import { moveToCategory } from "@/actions/categories/moveToCategory";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateRecommendation } from "@/actions/contents/updateRecommendation";
 import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
 import { getPlaylistsContainingContent } from "@/actions/playlists";
-import type { ContentType, ContentStatus, CategoryWithCount, VisibilityType } from "@/types/database";
+import type { ContentType, ContentStatus, VisibilityType } from "@/types/database";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import {
   type SortOption,
@@ -28,15 +26,13 @@ import {
   type UseContentLibraryOptions,
   filterAndSortContents,
   groupByMonth,
-  groupByCategory,
   formatMonthLabel,
-  getCategoryName,
 } from "./contentLibraryTypes";
 
 export type { SortOption, StatusFilter, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
-  const { maxItems, compact = false, showCategories = true, mode = 'owner', targetUserId } = options;
+  const { maxItems, compact = false, mode = 'owner', targetUserId } = options;
   const isViewer = mode === 'viewer';
 
   // #region 상태
@@ -50,20 +46,14 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const [categories, setCategories] = useState<Record<ContentType, CategoryWithCount[]>>({
-    BOOK: [], VIDEO: [], GAME: [], MUSIC: [], CERTIFICATE: [],
-  });
+  const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+
   const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
     BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
   });
-  const [categoryManagerType, setCategoryManagerType] = useState<ContentType | null>(null);
 
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());
-  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
-
-  const [sortOption, setSortOption] = useState<SortOption>("recent");
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null); // null = 전체
 
   // 개별 삭제 모달 상태
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; contentId: string } | null>(null);
@@ -73,27 +63,16 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   // #region 파생 상태 (useMemo)
   const filteredAndSortedContents = useMemo(
-    () => filterAndSortContents(contents, statusFilter, selectedCategoryId, sortOption),
-    [contents, statusFilter, selectedCategoryId, sortOption]
+    () => filterAndSortContents(contents, statusFilter, sortOption),
+    [contents, statusFilter, sortOption]
   );
 
   const groupedByMonthData = useMemo(() => groupByMonth(filteredAndSortedContents), [filteredAndSortedContents]);
   const monthKeys = useMemo(() => Object.keys(groupedByMonthData), [groupedByMonthData]);
   const isAllCollapsed = useMemo(() => monthKeys.length > 0 && monthKeys.every((key) => collapsedMonths.has(key)), [monthKeys, collapsedMonths]);
-  const groupedByCategoryData = useMemo(() => groupByCategory(filteredAndSortedContents), [filteredAndSortedContents]);
 
-  const currentTypeCategories = useMemo(() => {
-    const type = CATEGORY_ID_TO_TYPE[activeTab];
-    return type ? categories[type] || [] : [];
-  }, [activeTab, categories]);
   // #endregion
 
-  // #region 헬퍼 함수
-  const getCategoryNameFn = useCallback(
-    (categoryId: string, contentType: ContentType) => getCategoryName(categories, categoryId, contentType),
-    [categories]
-  );
-  // #endregion
 
   // #region 월/분류 토글
   const toggleMonth = useCallback((monthKey: string) => {
@@ -105,18 +84,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     });
   }, []);
 
-  const toggleCategory = useCallback((categoryId: string) => {
-    setCollapsedCategories((prev) => {
-      const next = new Set(prev);
-      if (next.has(categoryId)) next.delete(categoryId);
-      else next.add(categoryId);
-      return next;
-    });
-  }, []);
-
   const expandAll = useCallback(() => {
     setCollapsedMonths(new Set());
-    setCollapsedCategories(new Set());
   }, []);
 
   const collapseAll = useCallback(() => {
@@ -125,22 +94,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // #endregion
 
   // #region 데이터 로딩
-  const loadCategories = useCallback(async () => {
-    try {
-      const allCategories = await getCategories();
-      const grouped: Record<ContentType, CategoryWithCount[]> = {
-        BOOK: [], VIDEO: [], GAME: [], MUSIC: [], CERTIFICATE: [],
-      };
-      allCategories.forEach((category) => {
-        if (grouped[category.content_type as ContentType]) {
-          grouped[category.content_type as ContentType].push(category);
-        }
-      });
-      setCategories(grouped);
-    } catch (err) {
-      console.error("분류 로드 실패:", err);
-    }
-  }, []);
 
   const loadTypeCounts = useCallback(async () => {
     try {
@@ -181,7 +134,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           review: item.public_record?.content_preview ?? null,
           is_recommended: false,
           is_spoiler: false, // viewer 모드에서는 스포일러 정보 없음
-          category_id: null,
           is_pinned: false,
           pinned_at: null,
           content: {
@@ -221,12 +173,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   useEffect(() => {
     loadContents();
     loadTypeCounts();
-    if (showCategories) loadCategories();
-  }, [loadContents, loadCategories, loadTypeCounts, showCategories]);
+  }, [loadContents, loadTypeCounts]);
 
   useEffect(() => {
     setCurrentPage(1);
-    setSelectedCategoryId(null); // 탭 변경 시 분류 선택 초기화
     setStatusFilter("all"); // 탭 변경 시 상태 필터 초기화
   }, [activeTab]);
   // #endregion
@@ -297,18 +247,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     });
   }, [loadContents]);
 
-  const handleMoveToCategory = useCallback(async (userContentId: string, categoryId: string | null) => {
-    setContents((prev) =>
-      prev.map((item) => (item.id === userContentId ? { ...item, category_id: categoryId } : item))
-    );
-    try {
-      await moveToCategory({ userContentIds: [userContentId], categoryId });
-      loadCategories();
-    } catch (err) {
-      loadContents();
-      console.error("분류 이동 실패:", err);
-    }
-  }, [loadContents, loadCategories]);
 
   const handleDateChange = useCallback((userContentId: string, field: "created_at" | "completed_at", date: string) => {
     setContents((prev) =>
@@ -350,37 +288,26 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     currentPage, setCurrentPage,
     totalPages,
     total,
-    categories,
     typeCounts,
-    categoryManagerType, setCategoryManagerType,
     collapsedMonths,
-    collapsedCategories,
     sortOption, setSortOption,
     statusFilter, setStatusFilter,
-    selectedCategoryId, setSelectedCategoryId,
+    formatMonthLabel,
     // 파생 상태
-    isAllCollapsed,
     filteredAndSortedContents,
     groupedByMonth: groupedByMonthData,
     monthKeys,
-    groupedByCategory: groupedByCategoryData,
-    currentTypeCategories,
-    // 헬퍼
-    getCategoryName: getCategoryNameFn,
-    formatMonthLabel,
+    isAllCollapsed,
     // 액션
     toggleMonth,
-    toggleCategory,
     expandAll,
     collapseAll,
     loadContents,
-    loadCategories,
     handleStatusChange,
     handleRecommendChange,
     handleDateChange,
     handleVisibilityChange,
     handleDelete,
-    handleMoveToCategory,
     // 개별 삭제 모달
     isDeleteModalOpen: deleteTarget !== null,
     deleteAffectedPlaylists,

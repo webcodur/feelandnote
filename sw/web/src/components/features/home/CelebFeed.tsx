@@ -17,7 +17,7 @@ function ReviewCardSkeleton() {
   return (
     <div className="bg-bg-card border border-border/50 rounded-xl overflow-hidden p-4 md:p-6 animate-pulse">
       {/* Desktop Skeleton */}
-      <div className="hidden md:flex gap-6 h-[200px]">
+      <div className="hidden md:flex gap-6 md:h-[450px]">
         <div className="w-[160px] lg:w-[180px] h-full bg-white/5 shrink-0 rounded" />
         <div className="flex-1 space-y-4">
           <div className="flex items-center gap-3">

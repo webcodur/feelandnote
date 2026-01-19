@@ -114,7 +114,7 @@ export default function ReviewCard({
   };
 
   const cardContent = (
-    <ClassicalBox hover className="flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] md:h-[280px] mx-auto overflow-hidden group p-4 md:p-6">
+    <ClassicalBox hover className="flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] md:h-[450px] mx-auto overflow-hidden group p-3 md:p-4">
       {/* 좌측: 콘텐츠 이미지 + 정보 오버레이 */}
       <div className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] md:aspect-auto md:h-full shrink-0 bg-black border border-accent/30">
         {contentThumbnail ? (
@@ -154,7 +154,7 @@ export default function ReviewCard({
       </div>
 
       {/* 우측: 프로필 + 리뷰 */}
-      <div className="flex-1 flex flex-col pt-4 md:pt-0 md:pl-6 relative md:h-full">
+      <div className="flex-1 flex flex-col pt-3 md:pt-0 md:pl-4 relative md:h-full">
         {/* 저장 버튼 (우상단) */}
         <div className="absolute top-0 right-0 z-10">
           {isAdded ? (
@@ -174,7 +174,7 @@ export default function ReviewCard({
         </div>
 
         {/* 프로필 헤더 */}
-        <div className="flex items-center gap-4 border-b border-accent/20 pb-5 mb-5 pr-28">
+        <div className="flex items-center gap-4 border-b border-accent/20 pb-3 mb-3 pr-28">
           <Link
             href={`/${userId}`}
             className="group/user flex-shrink-0"
@@ -213,14 +213,14 @@ export default function ReviewCard({
                 e.stopPropagation();
                 setShowSpoiler(true);
               }}
-              className="w-full h-[120px] md:h-full flex items-center justify-center bg-accent/5 border border-dashed border-accent/20 text-accent/50 hover:text-accent font-black uppercase tracking-widest text-[10px]"
+              className="w-full h-[220px] md:h-full flex items-center justify-center bg-accent/5 border border-dashed border-accent/20 text-accent/50 hover:text-accent font-black uppercase tracking-widest text-[10px]"
             >
               스포일러 보호막 · 탭하여 해제
             </button>
           ) : (
             <div
               ref={reviewContainerRef}
-              className={`h-[120px] md:h-full overflow-hidden relative select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
+              className={`h-[220px] md:h-full overflow-hidden relative select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
               onMouseDown={onMouseDown}
               onTouchStart={onTouchStart}
             >
@@ -229,7 +229,7 @@ export default function ReviewCard({
                 <div className="absolute top-0 inset-x-0 h-8 bg-gradient-to-b from-[#0a0a0a] to-transparent pointer-events-none z-10" />
               )}
               <p
-                className="text-base md:text-lg text-[#e0e0e0] font-medium leading-[1.8] font-serif antialiased"
+                className="text-base md:text-lg text-[#e0e0e0] font-normal leading-[1.7] font-sans antialiased"
                 style={scrollStyle}
               >
                 {review}

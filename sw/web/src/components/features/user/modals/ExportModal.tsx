@@ -17,7 +17,6 @@ interface ExportModalProps {
   isOpen: boolean;
   onClose: () => void;
   activeType?: ContentType;
-  selectedCategoryId?: string | null;
   progressFilter?: string;
 }
 
@@ -42,7 +41,6 @@ export default function ExportModal({
   isOpen,
   onClose,
   activeType,
-  selectedCategoryId,
   progressFilter,
 }: ExportModalProps) {
   const [isExporting, setIsExporting] = useState(false);
@@ -64,7 +62,6 @@ export default function ExportModal({
       const rows = await getContentsForExport({
         type: activeType,
         status: statusMap[progressFilter || "all"],
-        categoryId: selectedCategoryId,
       });
 
       if (rows.length === 0) {
@@ -133,7 +130,7 @@ export default function ExportModal({
     >
       {/* 내보내기 정보 */}
       <div className="text-[13px] text-text-tertiary leading-relaxed border-t border-border/50 pt-2">
-        [제목, 저자, 타입, 상태, 진행도, 분류, 평점, 리뷰, 추가일, 수정일, 완료일]
+        [제목, 저자, 타입, 상태, 진행도, 평점, 리뷰, 추가일, 수정일, 완료일]
       </div>
     </ActionModal>
   );

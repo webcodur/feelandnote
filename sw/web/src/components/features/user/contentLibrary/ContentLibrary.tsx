@@ -13,7 +13,6 @@ import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
-import CategoryManager from "./CategoryManager";
 import { Pagination, DeleteConfirmModal } from "@/components/ui";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -27,7 +26,7 @@ export default function ContentLibrary({
   mode = "owner",
   targetUserId,
 }: ContentLibraryProps) {
-  const lib = useContentLibrary({ maxItems, compact, showCategories, mode, targetUserId });
+  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId });
   const isViewer = lib.isViewer;
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
@@ -43,10 +42,6 @@ export default function ContentLibrary({
     />
   );
 
-  const handleCategoryManage = () => {
-    const tab = TAB_OPTIONS.find((t) => t.value === lib.activeTab);
-    if (tab?.type) lib.setCategoryManagerType(tab.type);
-  };
   // #endregion
 
   // #region 렌더링 - 상태
@@ -73,10 +68,6 @@ export default function ContentLibrary({
           activeTab={lib.activeTab}
           onTabChange={lib.setActiveTab}
           typeCounts={lib.typeCounts}
-          categories={showCategories ? lib.currentTypeCategories : []}
-          selectedCategoryId={lib.selectedCategoryId}
-          onCategoryChange={lib.setSelectedCategoryId}
-          onManageCategories={handleCategoryManage}
           statusFilter={lib.statusFilter}
           onStatusFilterChange={lib.setStatusFilter}
           sortOption={lib.sortOption}
@@ -119,18 +110,6 @@ export default function ContentLibrary({
         )}
       </div>
 
-      {/* 분류 관리 모달 - owner 모드에서만 */}
-      {!isViewer && lib.categoryManagerType && (
-        <CategoryManager
-          contentType={lib.categoryManagerType}
-          categories={lib.categories[lib.categoryManagerType] || []}
-          onCategoriesChange={() => {
-            lib.loadCategories();
-            lib.loadContents();
-          }}
-          onClose={() => lib.setCategoryManagerType(null)}
-        />
-      )}
 
       {/* 개별 삭제 확인 모달 - owner 모드에서만 */}
       {!isViewer && (

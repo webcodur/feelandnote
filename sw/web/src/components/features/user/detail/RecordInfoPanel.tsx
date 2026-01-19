@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { FolderOpen, Check, Eye, Globe, Users, Lock } from "lucide-react";
 import Button from "@/components/ui/Button";
-import type { CategoryWithCount, VisibilityType } from "@/types/database";
+import type { VisibilityType } from "@/types/database";
 
 // #region 상수
 export const STATUS_STYLES: Record<string, { class: string; text: string }> = {
@@ -46,19 +46,15 @@ interface RecordData {
   visibility?: VisibilityType | null;
   created_at: string;
   completed_at: string | null;
-  category_id?: string | null;
-  category?: { name: string } | null;
 }
 
 interface RecordInfoPanelProps {
   data: RecordData;
-  categories?: CategoryWithCount[];
   editable?: boolean;
   showReview?: boolean;
   fillHeight?: boolean;
   onDateEdit?: () => void;
   onStatusClick?: () => void;
-  onCategoryChange?: (categoryId: string | null) => void;
   onVisibilityChange?: (visibility: VisibilityType) => void;
   canToggleStatus?: boolean;
 }
@@ -66,17 +62,14 @@ interface RecordInfoPanelProps {
 
 export default function RecordInfoPanel({
   data,
-  categories = [],
   editable = false,
   showReview = false,
   fillHeight = false,
   onDateEdit,
   onStatusClick,
-  onCategoryChange,
   onVisibilityChange,
   canToggleStatus = false,
 }: RecordInfoPanelProps) {
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isVisibilityOpen, setIsVisibilityOpen] = useState(false);
   const [showSpoiler, setShowSpoiler] = useState(false);
 
@@ -186,52 +179,8 @@ export default function RecordInfoPanel({
           </div>
         </div>
 
-        {/* Row 3: 분류 | 별점 */}
+        {/* Row 3: 별점 (분류 제거됨) */}
         <div className="flex-1 flex divide-x divide-accent-dim/30 overflow-visible relative z-0">
-          <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0 relative">
-            <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Type</span>
-            {editable && onCategoryChange ? (
-              <Button
-                unstyled
-                className="text-text-primary hover:text-accent text-xs truncate flex items-center gap-1 max-w-[80px] ml-2 font-bold font-serif transition-colors"
-                onClick={(e) => { e.stopPropagation(); setIsCategoryOpen(!isCategoryOpen); }}
-              >
-                {data.category?.name || "미분류"}
-              </Button>
-            ) : (
-              <span className="text-text-secondary text-xs truncate max-w-[80px] ml-2 font-serif font-bold">
-                {data.category?.name || "미분류"}
-              </span>
-            )}
-
-            {/* 분류 선택 드롭다운 */}
-            {isCategoryOpen && editable && onCategoryChange && (
-              <div
-                className="absolute bottom-8 left-0 z-50 bg-bg-card border border-accent-dim/30 rounded-sm shadow-xl py-1 min-w-[120px] max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-accent-dim/30 scrollbar-track-transparent"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Button
-                  unstyled
-                  className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent/10 flex items-center justify-between font-serif"
-                  onClick={() => { onCategoryChange(null); setIsCategoryOpen(false); }}
-                >
-                  미분류
-                  {!data.category_id && <Check size={12} className="text-accent" />}
-                </Button>
-                {categories.map((cat) => (
-                  <Button
-                    unstyled
-                    key={cat.id}
-                    className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent/10 flex items-center justify-between font-serif"
-                    onClick={() => { onCategoryChange(cat.id); setIsCategoryOpen(false); }}
-                  >
-                    {cat.name}
-                    {data.category_id === cat.id && <Check size={12} className="text-accent" />}
-                  </Button>
-                ))}
-              </div>
-            )}
-          </div>
           <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0">
             <span className="text-text-tertiary select-none shrink-0 text-[10px] uppercase tracking-wider">Rating</span>
             {data.rating ? (

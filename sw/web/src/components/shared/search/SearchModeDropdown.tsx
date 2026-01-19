@@ -18,11 +18,10 @@ export interface SearchModeConfig {
   label: string;
   icon: React.ElementType;
   placeholder: string;
-  hasSubcategory?: boolean;
 }
 
 export const SEARCH_MODES: SearchModeConfig[] = [
-  { id: "content", label: "콘텐츠", icon: Book, placeholder: "작품명, 저자, 감독...", hasSubcategory: true },
+  { id: "content", label: "콘텐츠", icon: Book, placeholder: "작품명, 저자, 감독..." },
   { id: "user", label: "사용자", icon: User, placeholder: "닉네임, @username..." },
   { id: "tag", label: "태그", icon: Hash, placeholder: "태그명..." },
   { id: "records", label: "내 기록", icon: Folder, placeholder: "내 기록에서 검색..." },

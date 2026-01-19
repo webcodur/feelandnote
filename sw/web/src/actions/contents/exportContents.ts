@@ -6,7 +6,6 @@ import type { ContentType, ContentStatus } from '@/types/database'
 interface ExportParams {
   type?: ContentType
   status?: ContentStatus
-  categoryId?: string | null
 }
 
 export interface ExportContentRow {
@@ -14,7 +13,6 @@ export interface ExportContentRow {
   creator: string
   type: string
   status: string
-  category: string
   rating: number | null
   review: string | null
   created_at: string
@@ -38,7 +36,7 @@ const TYPE_LABELS: Record<string, string> = {
 
 export async function getContentsForExport(params: ExportParams = {}): Promise<ExportContentRow[]> {
   const supabase = await createClient()
-  const { type, status, categoryId } = params
+  const { type, status } = params
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -51,8 +49,7 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
     .from('user_contents')
     .select(`
       *,
-      ${contentJoin},
-      category:categories(*)
+      ${contentJoin}
     `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
@@ -61,11 +58,6 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
     query = query.eq('content.type', type)
   }
 
-  if (categoryId === null) {
-    query = query.is('category_id', null)
-  } else if (categoryId !== undefined) {
-    query = query.eq('category_id', categoryId)
-  }
 
   if (status) {
     query = query.eq('status', status)
@@ -86,7 +78,6 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
       creator: item.content.creator || '',
       type: TYPE_LABELS[item.content.type] || item.content.type,
       status: STATUS_LABELS[item.status] || item.status,
-      category: item.category?.name || '',
       rating: item.rating,
       review: item.review,
       created_at: new Date(item.created_at).toLocaleDateString('ko-KR'),

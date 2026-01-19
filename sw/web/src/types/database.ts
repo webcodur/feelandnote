@@ -46,7 +46,6 @@ export interface UserContent {
   user_id: string
   content_id: string
   status: ContentStatus
-  category_id: string | null
   contributor_id: string | null
   is_recommended: boolean | null
   rating: number | null
@@ -171,19 +170,6 @@ export interface BlindGameScore {
   played_at: string | null
 }
 
-// ===== Phase 5: Category & Playlist Tables =====
-export interface Category {
-  id: string
-  user_id: string
-  name: string
-  content_type: ContentType
-  sort_order: number
-  created_at: string
-}
-
-export interface CategoryWithCount extends Category {
-  content_count: number
-}
 
 export interface Playlist {
   id: string
@@ -210,7 +196,6 @@ export interface PlaylistItem {
 // ===== 조인된 타입들 =====
 export interface UserContentWithContent extends UserContent {
   content: Content
-  category?: Category | null
 }
 
 export interface ContributorInfo {

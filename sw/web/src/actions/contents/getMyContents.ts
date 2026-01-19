@@ -1,13 +1,12 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { ContentType, ContentStatus, Category, VisibilityType } from '@/types/database'
+import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 
 interface GetMyContentsParams {
   status?: ContentStatus
   excludeStatus?: ContentStatus[]  // 제외할 상태 목록
   type?: ContentType
-  categoryId?: string | null  // undefined = 전체, null = 미분류, string = 특정 분류
   page?: number
   limit?: number
 }
@@ -17,7 +16,6 @@ export interface UserContentWithContent {
   user_id: string
   content_id: string
   status: ContentStatus
-  category_id: string | null
   is_recommended: boolean | null
   is_spoiler: boolean | null
   rating: number | null
@@ -39,7 +37,6 @@ export interface UserContentWithContent {
     release_date: string | null
     metadata: Record<string, unknown> | null
   }
-  category?: Category | null
 }
 
 export interface GetMyContentsResponse {
@@ -52,7 +49,7 @@ export interface GetMyContentsResponse {
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
-  const { page = 1, limit = 20, categoryId, type, status, excludeStatus } = params
+  const { page = 1, limit = 20, type, status, excludeStatus } = params
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -68,8 +65,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     .from('user_contents')
     .select(`
       *,
-      ${contentJoin},
-      category:categories(*)
+      ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
@@ -79,12 +75,6 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     query = query.eq('content.type', type)
   }
 
-  // 분류 필터
-  if (categoryId === null) {
-    query = query.is('category_id', null)
-  } else if (categoryId !== undefined) {
-    query = query.eq('category_id', categoryId)
-  }
 
   // 상태 필터
   if (status) {
@@ -138,8 +128,7 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     .from('user_contents')
     .select(`
       *,
-      ${contentJoin},
-      category:categories(*)
+      ${contentJoin}
     `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
@@ -149,11 +138,6 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     query = query.eq('content.type', params.type)
   }
 
-  if (params.categoryId === null) {
-    query = query.is('category_id', null)
-  } else if (params.categoryId !== undefined) {
-    query = query.eq('category_id', params.categoryId)
-  }
 
   if (params.status) {
     query = query.eq('status', params.status)

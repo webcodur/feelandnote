@@ -6,25 +6,18 @@
 "use client";
 
 import { useState } from "react";
-import { Tag } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { FilterChipDropdown, FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
-import type { CategoryWithCount } from "@/types/database";
 import type { SortOption, StatusFilter } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
 import { TAB_OPTIONS, STATUS_OPTIONS, SORT_OPTIONS } from "./constants";
-import CategoryChip from "./CategoryChip";
 import CategoryGuideModal from "./CategoryGuideModal";
 
 export interface ArchiveControlBarProps {
   activeTab: CategoryId;
   onTabChange: (tab: CategoryId) => void;
   typeCounts: ContentTypeCounts;
-  categories: CategoryWithCount[];
-  selectedCategoryId: string | null;
-  onCategoryChange: (categoryId: string | null) => void;
-  onManageCategories: () => void;
   statusFilter: StatusFilter;
   onStatusFilterChange: (filter: StatusFilter) => void;
   sortOption: SortOption;
@@ -40,10 +33,6 @@ export default function ArchiveControlBar({
   activeTab,
   onTabChange,
   typeCounts,
-  categories,
-  selectedCategoryId,
-  onCategoryChange,
-  onManageCategories,
   statusFilter,
   onStatusFilterChange,
   sortOption,
@@ -121,36 +110,7 @@ export default function ArchiveControlBar({
           />
         </div>
 
-        {/* 구분선 */}
-        <div className="w-px h-5 bg-accent/20 mx-1 shrink-0" />
 
-        {/* 소분류 - 가로 스크롤 */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-1 min-w-0">
-          <Button
-            type="button"
-            onClick={onManageCategories}
-            className="px-2 py-1.5 text-xs font-semibold text-text-tertiary hover:text-accent flex-shrink-0 rounded-lg flex items-center gap-1"
-            title="소분류 관리"
-          >
-            <Tag size={12} />
-            <span className="hidden sm:inline">소분류</span>
-          </Button>
-
-          {categories.length > 0 && (
-            <>
-              <CategoryChip label="전체" isActive={selectedCategoryId === null} onClick={() => onCategoryChange(null)} />
-              {categories.map((cat) => (
-                <CategoryChip
-                  key={cat.id}
-                  label={cat.name}
-                  count={cat.content_count}
-                  isActive={selectedCategoryId === cat.id}
-                  onClick={() => onCategoryChange(cat.id)}
-                />
-              ))}
-            </>
-          )}
-        </div>
       </div>
 
       {/* 모바일 모달 */}

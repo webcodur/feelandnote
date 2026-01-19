@@ -2,7 +2,7 @@
   파일명: contentLibraryTypes.ts
   기능: 콘텐츠 라이브러리 타입 및 헬퍼 함수
 */
-import type { ContentType, ContentStatus, CategoryWithCount } from "@/types/database";
+import type { ContentType, ContentStatus } from "@/types/database";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
@@ -24,8 +24,7 @@ export interface UseContentLibraryOptions {
 }
 
 export interface GroupedContents {
-  uncategorized: UserContentWithContent[];
-  byCategory: Record<string, UserContentWithContent[]>;
+  all: UserContentWithContent[];
 }
 
 export interface TabOption {
@@ -39,7 +38,6 @@ export interface TabOption {
 export function filterAndSortContents(
   contents: UserContentWithContent[],
   statusFilter: StatusFilter,
-  selectedCategoryId: string | null,
   sortOption: SortOption
 ): UserContentWithContent[] {
   let result = [...contents];
@@ -48,9 +46,6 @@ export function filterAndSortContents(
     result = result.filter((item) => item.status === statusFilter);
   }
 
-  if (selectedCategoryId !== null) {
-    result = result.filter((item) => item.category_id === selectedCategoryId);
-  }
 
   result.sort((a, b) => {
     if (sortOption === "title") {
@@ -77,31 +72,10 @@ export function groupByMonth(contents: UserContentWithContent[]): Record<string,
   );
 }
 
-export function groupByCategory(contents: UserContentWithContent[]): GroupedContents {
-  const result: GroupedContents = { uncategorized: [], byCategory: {} };
-
-  contents.forEach((item) => {
-    if (item.category_id) {
-      if (!result.byCategory[item.category_id]) result.byCategory[item.category_id] = [];
-      result.byCategory[item.category_id].push(item);
-    } else {
-      result.uncategorized.push(item);
-    }
-  });
-
-  return result;
-}
 
 export function formatMonthLabel(monthKey: string): string {
   const [year, month] = monthKey.split("-");
   return `${year}년 ${parseInt(month)}월`;
 }
 
-export function getCategoryName(
-  categories: Record<ContentType, CategoryWithCount[]>,
-  categoryId: string,
-  contentType: ContentType
-): string {
-  return categories[contentType]?.find((c) => c.id === categoryId)?.name || "알 수 없는 분류";
-}
 // #endregion

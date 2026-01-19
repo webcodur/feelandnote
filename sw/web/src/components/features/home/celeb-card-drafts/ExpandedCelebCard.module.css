@@ -1,0 +1,80 @@
+/* sw/web/src/components/features/home/celeb-card-drafts/ExpandedCelebCard.module.css */
+
+.perspectiveWrapper {
+  perspective: 1000px;
+}
+
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin {
+  0% { --rotate: 0deg; }
+  100% { --rotate: 360deg; }
+}
+
+.animatedBorderCard {
+  position: relative;
+  border-radius: 0;
+  transition: all 0.3s ease-out;
+}
+
+/* 회전하는 테두리 효과 */
+.animatedBorderCard::before {
+  content: "";
+  width: 104%;
+  height: 103%;
+  position: absolute;
+  z-index: -1;
+  top: -1.5%;
+  left: -2%;
+  animation: spin 5s linear infinite;
+  animation-play-state: paused;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.animatedBorderCard:hover::before {
+  animation-play-state: running;
+}
+
+/* 랭크별 테두리 그라데이션 (NeoCelebCard 스타일 이식) */
+.rankS::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #D4AF37 0%, #FFF8E1 15%, #1a1a1a 50%, #FFF8E1 65%, #D4AF37 100%);
+}
+
+.rankA::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #AA771C 0%, #BF953F 20%, #FCF6BA 40%, #B38728 60%, #FBF5B7 80%, #AA771C 100%);
+}
+
+.rankB::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #FFFFFF 0%, #D0D0D0 10%, #E8E8E8 20%, #A0A0A0 30%, #FFFFFF 50%, #A0A0A0 70%, #E8E8E8 80%, #D0D0D0 90%, #FFFFFF 100%);
+}
+
+.rankC::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #8C7853 0%, #D4C1A5 25%, #5D4037 50%, #D4C1A5 75%, #8C7853 100%);
+}
+
+.rankD::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #2f3e46 0%, #849096 25%, #1a2226 50%, #849096 75%, #2f3e46 100%);
+}
+
+/* 호버 시 브라이트닝 */
+.animatedBorderCard:hover {
+  filter: brightness(1.2);
+  transform: translateY(-4px);
+  z-index: 10;
+}
+
+/* 석판 느낌의 텍스처 오버레이 */
+.stoneTexture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background-image: url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png");
+  background-size: 150px 150px;
+}
