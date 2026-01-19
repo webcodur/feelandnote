@@ -14,7 +14,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
 import AlgorithmInfoModal from "./AlgorithmInfoModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
-import ExpandedCelebCard from "@/components/features/home/celeb-card-drafts/ExpandedCelebCard";
+
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
 
@@ -99,8 +99,7 @@ export default function Explore({
     { key: "similar" as const, label: "취향 유사", icon: <Star size={16} />, count: similarUsers.length },
   ];
 
-  // 프리뷰용 샘플 셀럽 (첫 번째 셀럽 사용)
-  const previewCeleb = initialCelebs[0];
+
 
   return (
     <>
@@ -111,22 +110,7 @@ export default function Explore({
         description="다양한 콘텐츠 기록을 탐색하세요"
       />
 
-      {/* 카드 개편안 프리뷰 섹션 */}
-      {previewCeleb && (
-        <div className="mb-10 p-6 bg-surface rounded-xl border border-accent-dim/20">
-          <h3 className="text-lg font-bold text-text-primary mb-2">🎨 셀럽 카드 개편안 프리뷰</h3>
-          <p className="text-sm text-text-secondary mb-6">카드 클릭 시 초상화가 포함된 상세 모달이 표시됩니다.</p>
 
-          <div className="flex justify-center">
-            <div className="flex flex-col items-center gap-3">
-              <ExpandedCelebCard celeb={previewCeleb} />
-              <p className="text-[11px] text-text-tertiary text-center max-w-[260px]">
-                버튼 제거 · 이미지 비중 확대 · 클릭 시 초상화 모달
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 탭 네비게이션 - 모바일 가로 스크롤 대응 및 페이드 효과 */}
       <div className="relative w-full mb-8">

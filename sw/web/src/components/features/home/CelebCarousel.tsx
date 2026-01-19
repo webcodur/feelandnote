@@ -144,21 +144,11 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
   return (
-    <>
-      {/* 모바일: 1열 중앙 정렬 (260px 카드) */}
-      <div className={`flex flex-col items-center gap-6 md:hidden ${loadingClass}`}>
-        {celebs.map((celeb) => (
-          <ExpandedCelebCard key={celeb.id} celeb={celeb} />
-        ))}
-      </div>
-
-      {/* PC: flex wrap (260px 카드 기준) */}
-      <div className={`hidden md:flex flex-wrap justify-center gap-6 ${loadingClass}`}>
-        {celebs.map((celeb) => (
-          <ExpandedCelebCard key={celeb.id} celeb={celeb} />
-        ))}
-      </div>
-    </>
+    <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6 ${loadingClass}`}>
+      {celebs.map((celeb) => (
+        <ExpandedCelebCard key={celeb.id} celeb={celeb} />
+      ))}
+    </div>
   );
 }
 
@@ -183,8 +173,8 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
         <MoreLink />
       </div>
 
-      {/* PC: flex wrap */}
-      <div className="hidden md:flex flex-wrap justify-center gap-6">
+      {/* PC: Grid */}
+      <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
         {pcCelebs.map((celeb) => (
           <ExpandedCelebCard key={celeb.id} celeb={celeb} />
         ))}

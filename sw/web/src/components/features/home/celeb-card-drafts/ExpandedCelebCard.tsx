@@ -46,7 +46,7 @@ export default function ExpandedCelebCard({ celeb, className = "" }: ExpandedCel
       <button
         onClick={() => setShowModal(true)}
         className={`
-          group relative block w-[260px] h-[380px]
+          group relative block w-full aspect-[13/19]
           bg-bg-card border-2 ${borderColor}
           overflow-hidden cursor-pointer
           transition-all duration-300 ease-out
@@ -90,7 +90,7 @@ export default function ExpandedCelebCard({ celeb, className = "" }: ExpandedCel
             {celeb.content_count || 0} ITEMS
           </span>
           <span className="text-xs text-text-tertiary/60">
-            클릭하여 상세보기
+            상세보기
           </span>
         </div>
       </button>
