@@ -12,6 +12,7 @@ import {
   BustIcon,
   AstrolabeIcon,
 } from "@/components/ui/icons/neo-pantheon";
+import { Plus } from "lucide-react";
 import { type PublicUserProfile } from "@/actions/user";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
@@ -80,10 +81,24 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
                   )}
                 </div>
               </div>
-              {profile.profile_type === 'CELEB' && (
-                <div className="absolute -bottom-1 -right-1 bg-accent text-bg-main p-2 rounded-full border-2 border-bg-card z-20 shadow-lg">
-                  <SacredFlameIcon size={14} />
-                </div>
+              {/* 팔로우 버튼 (본인이 아닐 경우 표시) */}
+              {!isOwner ? (
+                <button 
+                  className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-accent border-2 border-bg-card flex items-center justify-center text-bg-main hover:bg-accent-light hover:scale-110 transition-all duration-200 z-20 shadow-lg cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log("Follow clicked");
+                  }}
+                >
+                  <Plus size={16} strokeWidth={3} />
+                </button>
+              ) : (
+                /* 본인이고 셀럽인 경우 배지 유지 */
+                profile.profile_type === 'CELEB' && (
+                  <div className="absolute -bottom-1 -right-1 bg-accent text-bg-main p-2 rounded-full border-2 border-bg-card z-20 shadow-lg">
+                    <SacredFlameIcon size={14} />
+                  </div>
+                )
               )}
             </div>
 

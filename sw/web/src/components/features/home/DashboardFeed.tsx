@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Sparkles } from "lucide-react";
 import { CATEGORIES, type ContentTypeFilterValue } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/actions/home";
@@ -45,8 +45,8 @@ export default function DashboardFeed({
   // 현재 탭에 맞는 counts 선택
   const currentCounts = activeTab === "celeb" ? celebContentCounts : friendActivityCounts;
 
-  // 탭 밑줄 위치 계산
-  useEffect(() => {
+  // 탭 밑줄 위치 및 너비 계산 로직
+  const updateUnderline = useCallback(() => {
     const targetTab = hoveredTab ?? activeTab;
     const el = tabRefs.current.get(targetTab);
     if (el) {
@@ -56,6 +56,28 @@ export default function DashboardFeed({
       });
     }
   }, [activeTab, hoveredTab]);
+
+  useEffect(() => {
+    updateUnderline();
+
+    // 윈도우 리사이즈 및 탭 너비 변화 감지
+    const handleResize = () => updateUnderline();
+    window.addEventListener("resize", handleResize);
+
+    const observers: ResizeObserver[] = [];
+    tabRefs.current.forEach((el) => {
+      if (el) {
+        const observer = new ResizeObserver(() => updateUnderline());
+        observer.observe(el);
+        observers.push(observer);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      observers.forEach(obs => obs.disconnect());
+    };
+  }, [updateUnderline]);
 
   // 필터 pill 위치 계산
   useEffect(() => {
@@ -73,7 +95,7 @@ export default function DashboardFeed({
       {/* 탭 헤더 */}
       <div className="flex flex-col items-center relative z-10 w-full">
         <div
-          className="relative flex items-end gap-3 sm:gap-6 md:gap-16 border-b border-accent/20 px-3 sm:px-4 md:px-8 overflow-x-auto scrollbar-hide max-w-full"
+          className="relative flex items-end gap-2 sm:gap-6 md:gap-16 border-b border-accent/20 px-2 sm:px-4 md:px-8 overflow-x-hidden max-w-full justify-center"
           onMouseLeave={() => setHoveredTab(null)}
         >
           {TABS.map(({ key, label }) => {
@@ -85,11 +107,11 @@ export default function DashboardFeed({
                 ref={(el) => { if (el) tabRefs.current.set(key, el); }}
                 onClick={() => setActiveTab(key)}
                 onMouseEnter={() => setHoveredTab(key)}
-                className={`relative py-3 md:py-4 cursor-pointer transition-all duration-200 whitespace-nowrap ${
+                className={`relative py-3 md:py-4 cursor-pointer transition-all duration-200 whitespace-nowrap px-1 md:px-0 ${
                   isActive ? 'text-accent' : isHovered ? 'text-text-primary' : 'text-text-tertiary/40'
                 }`}
               >
-                <span className={`font-serif text-[14px] sm:text-base md:text-xl tracking-tight block transition-all duration-200 ${
+                <span className={`font-serif text-[13px] sm:text-base md:text-xl tracking-tighter block transition-all duration-200 ${
                   isActive ? 'font-black' : isHovered ? 'font-semibold' : 'font-medium'
                 }`}>
                   {label}
@@ -97,17 +119,17 @@ export default function DashboardFeed({
               </button>
             );
           })}
-          {/* 공유 밑줄 */}
+          {/* 공유 밑줄: 위치를 bottom-0으로 조정하여 보더와 일치시킴 */}
           <div
-            className="absolute bottom-0 h-[3px] bg-accent shadow-[0_0_15px_rgba(212,175,55,0.8),0_0_5px_rgba(212,175,55,1)] transition-all duration-300 ease-out z-20"
+            className="absolute bottom-0 h-[2px] md:h-[3px] bg-accent shadow-none md:shadow-[0_0_15px_rgba(212,175,55,0.8),0_0_5px_rgba(212,175,55,1)] transition-all duration-300 ease-out z-20"
             style={{ left: underlineStyle.left, width: underlineStyle.width }}
           />
         </div>
       </div>
 
       {/* 세그먼트 필터 (중앙 배치) */}
-      <div className="flex justify-center w-full px-2 sm:px-4">
-        <div className="relative inline-flex items-center gap-0.5 sm:gap-1 p-1 bg-white/5 rounded-full border border-accent/10 overflow-x-auto scrollbar-hide max-w-full">
+      <div className="flex justify-center w-full px-1 sm:px-4">
+        <div className="relative inline-flex items-center gap-0.5 p-1 bg-white/5 rounded-full border border-accent/10 overflow-x-auto scrollbar-hide max-w-full">
           {/* 슬라이딩 pill 배경 */}
           <div
             className="absolute top-1 bottom-1 bg-accent/20 rounded-full border border-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.15)] transition-all duration-300 ease-out"

@@ -61,11 +61,16 @@
   background-image: conic-gradient(from var(--rotate) at 50% 50%, #2f3e46 0%, #849096 25%, #1a2226 50%, #849096 75%, #2f3e46 100%);
 }
 
-/* 호버 시 브라이트닝 */
+/* 호버 시 브라이트닝 및 PC에서만 떠오름 효과 */
 .animatedBorderCard:hover {
   filter: brightness(1.2);
-  transform: translateY(-4px);
   z-index: 10;
+}
+
+@media (hover: hover) {
+  .animatedBorderCard:hover {
+    transform: translateY(-4px);
+  }
 }
 
 /* 석판 느낌의 텍스처 오버레이 */

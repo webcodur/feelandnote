@@ -379,14 +379,15 @@ export default function Lounge() {
         englishTitle="The Arena of Taste"
         title="취향의 경기장"
         description="티어리스트와 블라인드 게임으로 즐기세요"
+        className="mb-8 md:mb-12"
       />
 
-      <div className="relative mb-8 -mx-4 px-4">
-        {/* Divine Lintel for Lounge */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/40 shadow-glow" />
+      <div className="relative mb-6 -mx-4 px-4">
+        {/* Divine Lintel for Lounge - 대시보드와 일관된 투명도 및 위치 조정 */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
         
-        <div className="pt-4 overflow-x-auto scrollbar-hide border-b border-accent-dim/10">
-          <div className="min-w-max pb-2">
+        <div className="pt-2 overflow-x-auto scrollbar-hidden border-b border-accent-dim/10">
+          <div className="min-w-max pb-1">
             <FilterChips options={MAIN_TABS} value={mainTab} onChange={setMainTab} variant="filled" showIcon />
           </div>
         </div>

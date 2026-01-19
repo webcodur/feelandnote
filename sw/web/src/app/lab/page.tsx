@@ -1,6 +1,7 @@
 "use client";
 
 import NeoCelebCard from "@/components/features/home/neo-celeb-card";
+import InfluenceBadge from "@/components/ui/InfluenceBadge";
 
 // Mock Data
 const MOCK_CELEB = {
@@ -22,6 +23,60 @@ export default function LabPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-[#e0e0e0] flex flex-col items-center py-20 gap-10">
       <h1 className="text-4xl font-cinzel text-[#d4af37]">Component Lab</h1>
+
+      {/* INFLUENCE BADGES SHOWCASE - All 10 Variations */}
+      <section className="flex flex-col items-center gap-8 p-10 border border-white/5 bg-white/[0.02] rounded-[3rem] w-full max-w-6xl">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Insignia Archive</h2>
+          <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">Visualizing 10 grades of influence</p>
+        </div>
+
+        <div className="grid grid-cols-5 gap-y-12 gap-x-8 items-end justify-items-center w-full">
+          {/* Standard Tiers */}
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge rank="S" size="lg" />
+            <span className="text-[10px] text-blue-400 font-bold tracking-tighter">DIAMOND (S)</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge rank="A" size="lg" />
+            <span className="text-[10px] text-accent font-bold tracking-tighter">GOLD (A)</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge rank="B" size="lg" />
+            <span className="text-[10px] text-slate-300 font-bold tracking-tighter">SILVER (B)</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge rank="C" size="md" />
+            <span className="text-[10px] text-orange-400 font-bold tracking-tighter">BRONZE (C)</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge rank="D" size="md" />
+            <span className="text-[10px] text-slate-500 font-bold tracking-tighter">IRON (D)</span>
+          </div>
+
+          {/* Special Tiers */}
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge variant="black-gold" size="lg" />
+            <span className="text-[10px] text-[#D4AF37] font-bold tracking-tighter">BLACK GOLD</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge variant="rose-gold" size="lg" />
+            <span className="text-[10px] text-rose-400 font-bold tracking-tighter">ROSE GOLD</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge variant="crimson" size="lg" />
+            <span className="text-[10px] text-red-500 font-bold tracking-tighter">CRIMSON</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge variant="amethyst" size="lg" />
+            <span className="text-[10px] text-purple-400 font-bold tracking-tighter">AMETHYST</span>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <InfluenceBadge variant="holographic" size="lg" />
+            <span className="text-[10px] bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 font-bold tracking-tighter">HOLOGRAPHIC</span>
+          </div>
+        </div>
+      </section>
       
       <div className="flex flex-wrap gap-12 justify-center items-center px-10">
         

@@ -19,7 +19,7 @@ export default function HomeTabSection({
   const [activeTab, setActiveTab] = useState<TabType>("celeb");
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 md:gap-6">
       {/* 탭 헤더 */}
       <Tabs>
         <Tab
