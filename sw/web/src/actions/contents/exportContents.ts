@@ -13,6 +13,7 @@ export interface ExportContentRow {
   creator: string
   type: string
   status: string
+  category: string | null
   rating: number | null
   review: string | null
   created_at: string
@@ -78,6 +79,7 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
       creator: item.content.creator || '',
       type: TYPE_LABELS[item.content.type] || item.content.type,
       status: STATUS_LABELS[item.status] || item.status,
+      category: item.content.subtype || null,
       rating: item.rating,
       review: item.review,
       created_at: new Date(item.created_at).toLocaleDateString('ko-KR'),
