@@ -9,6 +9,7 @@ export interface UserSearchResult {
   avatarUrl?: string
   followerCount: number
   isFollowing: boolean
+  selectedTitle: { id: string; name: string; grade: string } | null
 }
 
 interface SearchUsersParams {
@@ -39,10 +40,13 @@ export async function searchUsers({
 
   const offset = (page - 1) * limit
 
-  // 사용자 검색 쿼리
+  // 사용자 검색 쿼리 (칭호 포함)
   let searchQuery = supabase
     .from('profiles')
-    .select('id, nickname, username, avatar_url', { count: 'exact' })
+    .select(`
+      id, nickname, username, avatar_url,
+      selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
+    `, { count: 'exact' })
     .or(`nickname.ilike.%${query}%,username.ilike.%${query}%`)
     .range(offset, offset + limit - 1)
     .order('created_at', { ascending: false })
@@ -81,6 +85,8 @@ export async function searchUsers({
     followerCountMap[f.following_id] = (followerCountMap[f.following_id] || 0) + 1
   })
 
+  type TitleData = { id: string; name: string; grade: string } | null
+
   let items: UserSearchResult[] = users.map((user) => ({
     id: user.id,
     nickname: user.nickname || '사용자',
@@ -88,6 +94,7 @@ export async function searchUsers({
     avatarUrl: user.avatar_url,
     followerCount: followerCountMap[user.id] || 0,
     isFollowing: followingIds.includes(user.id),
+    selectedTitle: (user.selected_title as TitleData) || null,
   }))
 
   // 팔로잉만 필터

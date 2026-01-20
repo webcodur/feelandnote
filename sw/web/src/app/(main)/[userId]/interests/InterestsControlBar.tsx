@@ -48,7 +48,7 @@ export default function InterestsControlBar({
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortOption)?.label ?? "최근 추가";
 
   return (
-    <div className="sticky top-0 z-30 bg-background pt-2 pb-1 sm:pt-4 sm:pb-2">
+    <div>
       <div className="flex items-center gap-2 px-1">
         {/* 데스크톱: 드롭다운 */}
         <div className="hidden md:flex items-center gap-2">

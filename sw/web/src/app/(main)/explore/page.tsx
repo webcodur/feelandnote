@@ -1,8 +1,9 @@
-
 import { Suspense } from "react";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts } from "@/actions/home";
 import { getFriends, getMyFollowing, getProfile, getFollowers, getSimilarUsers } from "@/actions/user";
 import Explore from "@/components/features/user/explore/Explore";
+
+export const metadata = { title: "탐색" };
 
 // #region Components
 function ExploreSkeleton() {

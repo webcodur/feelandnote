@@ -6,6 +6,8 @@
 
 import Playlists from "@/components/features/user/playlists/Playlists";
 
+export const metadata = { title: "컬렉션" };
+
 export default function Page() {
   return <Playlists />;
 }

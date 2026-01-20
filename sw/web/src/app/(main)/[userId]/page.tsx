@@ -1,12 +1,20 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { getUserProfile, getProfile } from "@/actions/user";
+import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
-import { getActivityLogs } from "@/actions/activity";
 import { getUserContents } from "@/actions/contents/getUserContents";
+import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import ProfileContent from "./ProfileContent";
 
 interface PageProps {
   params: Promise<{ userId: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { userId } = await params;
+  const result = await getUserProfile(userId);
+  const nickname = result.success ? result.data?.nickname : "사용자";
+  return { title: nickname };
 }
 
 export default async function OverviewPage({ params }: PageProps) {
@@ -21,30 +29,25 @@ export default async function OverviewPage({ params }: PageProps) {
   }
   const profile = result.data;
 
-  const { items: recentContents } = await getUserContents({ userId, limit: 9 });
+  // 병렬로 데이터 조회
+  const [contentsResult, guestbookResult] = await Promise.all([
+    getUserContents({ userId, limit: 9 }),
+    getGuestbookEntries({ profileId: userId }),
+  ]);
 
-  // 하이라이트 피드: 리뷰 + 완료 상태 변경만
-  const { logs: rawLogs } = await getActivityLogs({
-    userId,
-    limit: 10,
-    actionTypes: ['REVIEW_UPDATE', 'STATUS_CHANGE']
-  });
-  // STATUS_CHANGE 중 완료(COMPLETED)만 필터링
-  const logs = rawLogs.filter(log => {
-    if (log.action_type === 'REVIEW_UPDATE') return true;
-    if (log.action_type === 'STATUS_CHANGE') {
-      const metadata = log.metadata as { to_status?: string } | null;
-      return metadata?.to_status === 'COMPLETED';
-    }
-    return false;
-  }).slice(0, 5);
+  const recentContents = contentsResult.items;
 
-  // 본인일 때만 API 키 조회
-  let apiKey: string | null = null;
+  // 본인일 때만 방명록 읽음 처리
   if (isOwner) {
-    const myProfile = await getProfile();
-    apiKey = myProfile?.gemini_api_key ?? null;
+    await markGuestbookAsRead();
   }
+
+  // 현재 유저 정보 (방명록 작성용)
+  const guestbookCurrentUser = currentUser ? {
+    id: currentUser.id,
+    nickname: profile.nickname,
+    avatar_url: profile.avatar_url,
+  } : null;
 
   return (
     <ProfileContent
@@ -52,8 +55,9 @@ export default async function OverviewPage({ params }: PageProps) {
       userId={userId}
       isOwner={isOwner}
       recentContents={recentContents}
-      activityLogs={logs}
-      initialApiKey={apiKey}
+      guestbookEntries={guestbookResult.entries}
+      guestbookTotal={guestbookResult.total}
+      guestbookCurrentUser={guestbookCurrentUser}
     />
   );
 }

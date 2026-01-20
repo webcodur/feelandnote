@@ -138,6 +138,7 @@ export default function FriendActivitySection({
                   userId={activity.user_id}
                   userName={activity.user_nickname}
                   userAvatar={activity.user_avatar_url}
+                  userTitle={activity.user_title}
                   userSubtitle={config?.verb || "활동"}
                   contentType={activity.content_type!}
                   contentId={activity.content_id!}

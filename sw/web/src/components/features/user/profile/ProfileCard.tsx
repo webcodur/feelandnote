@@ -8,6 +8,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
+import { TitleBadge, type TitleInfo } from "@/components/ui";
 
 interface ProfileCardProps {
   id: string;
@@ -17,6 +18,7 @@ interface ProfileCardProps {
   is_self?: boolean;
   badge?: string;
   href?: string;
+  title?: TitleInfo | null;
 }
 
 export default function ProfileCard({
@@ -27,6 +29,7 @@ export default function ProfileCard({
   is_self = false,
   badge,
   href,
+  title,
 }: ProfileCardProps) {
   const resolvedHref = href ?? `/${id}`;
 
@@ -72,6 +75,9 @@ export default function ProfileCard({
       <span className="text-sm font-medium text-text-primary group-hover:text-accent truncate max-w-full">
         {nickname}
       </span>
+
+      {/* 칭호 */}
+      {title && <TitleBadge title={title} size="sm" />}
 
       {/* 기록 수 */}
       {content_count > 0 && (

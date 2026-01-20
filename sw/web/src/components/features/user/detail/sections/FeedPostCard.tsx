@@ -6,7 +6,7 @@
 "use client";
 
 import Image from "next/image";
-import { Card } from "@/components/ui";
+import { Card, TitleBadge } from "@/components/ui";
 import type { FeedRecord } from "@/actions/records";
 
 function formatRelativeTime(dateString: string): string {
@@ -63,7 +63,10 @@ export default function FeedPostCard({ record }: FeedPostCardProps) {
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-medium text-xs">{nickname}</div>
+          <div className="flex items-center gap-1.5">
+            <span className="font-medium text-xs">{nickname}</span>
+            <TitleBadge title={record.user.selected_title} size="sm" />
+          </div>
           <div className="text-[10px] text-text-secondary">{timeAgo}</div>
         </div>
         {record.rating && (

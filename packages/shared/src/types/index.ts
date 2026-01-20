@@ -1,11 +1,5 @@
-// 콘텐츠 상태 타입
-export type ContentStatus =
-  | 'WANT'
-  | 'WATCHING'
-  | 'DROPPED'
-  | 'FINISHED'
-  | 'RECOMMENDED'
-  | 'NOT_RECOMMENDED'
+// 콘텐츠 상태 타입 (관심/감상 2가지)
+export type ContentStatus = 'WANT' | 'FINISHED'
 
 // 콘텐츠 타입
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'

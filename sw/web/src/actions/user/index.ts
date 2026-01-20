@@ -1,4 +1,4 @@
-export { getProfile, type UserProfile } from './getProfile'
+export { getProfile, type UserProfile, type SelectedTitle } from './getProfile'
 export { getUserProfile, type PublicUserProfile } from './getUserProfile'
 export { getStats, type UserStats } from './getStats'
 export { getDetailedStats, type DetailedStats } from './getDetailedStats'

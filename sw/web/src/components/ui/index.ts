@@ -18,3 +18,5 @@ export { MonumentalPillar } from "./MonumentalPillar";
 export { HeroBackgroundText } from "./HeroBackgroundText";
 export { default as Logo, LogoIcon } from "./Logo";
 export { default as DecorativeLabel } from "./DecorativeLabel";
+export { default as InnerBox } from "./InnerBox";
+export { default as TitleBadge, type TitleInfo } from "./TitleBadge";

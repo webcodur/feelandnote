@@ -10,8 +10,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ListMusic, Plus, ChevronRight, Loader2, Bookmark } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { DecorativeLabel } from "@/components/ui";
 import { getPlaylists, getSavedPlaylists, type PlaylistSummary } from "@/actions/playlists";
 import PlaylistEditor from "./PlaylistEditor";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 import type { SavedPlaylistWithDetails } from "@/types/database";
 
 type TabType = "mine" | "saved";
@@ -96,25 +98,35 @@ export default function Playlists() {
       ) : isEmpty ? (
         <EmptyState tab={activeTab} onCreateClick={() => setIsCreateMode(true)} />
       ) : activeTab === "mine" ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {playlists.map((playlist) => (
-            <PlaylistCard
-              key={playlist.id}
-              playlist={playlist}
-              onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
-            />
-          ))}
-        </div>
+        <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+          <div className="flex justify-center mb-6">
+            <DecorativeLabel label="내 컬렉션" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {playlists.map((playlist) => (
+              <PlaylistCard
+                key={playlist.id}
+                playlist={playlist}
+                onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
+              />
+            ))}
+          </div>
+        </ClassicalBox>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {savedPlaylists.map((item) => (
-            <SavedPlaylistCard
-              key={item.id}
-              item={item}
-              onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
-            />
-          ))}
-        </div>
+        <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+          <div className="flex justify-center mb-6">
+            <DecorativeLabel label="저장된 컬렉션" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {savedPlaylists.map((item) => (
+              <SavedPlaylistCard
+                key={item.id}
+                item={item}
+                onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
+              />
+            ))}
+          </div>
+        </ClassicalBox>
       )}
     </>
   );

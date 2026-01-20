@@ -6,6 +6,8 @@
 
 import PlaylistDetail from "@/components/features/user/detail/PlaylistDetail";
 
+export const metadata = { title: "컬렉션 상세" };
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

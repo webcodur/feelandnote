@@ -18,7 +18,7 @@ import { getMyContentIds } from "@/actions/contents/getMyContentIds";
 import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMetadata";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
-import type { ContentType } from "@/types/database";
+import type { ContentType, ContentStatus } from "@/types/database";
 import { createClient } from "@/lib/supabase/client";
 
 type SearchMode = "content" | "user" | "tag" | "records";
@@ -218,7 +218,7 @@ function SearchContent() {
     }
   };
 
-  const handleAddToArchive = (item: ContentResult) => {
+  const handleAddWithStatus = (item: ContentResult, status: ContentStatus) => {
     if (addingIds.has(item.id) || addedIds.has(item.id)) return;
 
     setAddingIds((prev) => new Set(prev).add(item.id));
@@ -241,7 +241,7 @@ function SearchContent() {
           releaseDate,
           metadata,
           subtype,
-          status: "WANT",
+          status,
         });
         setAddedIds((prev) => new Set(prev).add(item.id));
         setSavedIds((prev) => new Set(prev).add(item.id));
@@ -296,7 +296,7 @@ function SearchContent() {
           addedIds={addedIds}
           savedIds={savedIds}
           onBeforeNavigate={handleBeforeNavigate}
-          onAddToArchive={handleAddToArchive}
+          onAddWithStatus={handleAddWithStatus}
         />
       )}
       {!isLoading && modeParam === "user" && (

@@ -9,7 +9,7 @@
 import { useState, useEffect, Suspense, useTransition } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { ArrowLeft, FileText, Plus, Loader2, Sparkles, Calendar, User } from "lucide-react";
+import { ArrowLeft, FileText, Bookmark, Check, Loader2, Sparkles, Calendar, User } from "lucide-react";
 import { Button, Card } from "@/components/ui";
 import { getProfile } from "@/actions/user";
 import { generateSummary } from "@/actions/ai";
@@ -21,7 +21,7 @@ import ContentInfoHeader from "@/components/shared/content/ContentInfoHeader";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 import RecordInfo from "@/components/features/user/detail/RecordInfo";
 import { Z_INDEX } from "@/constants/zIndex";
-import type { ContentType } from "@/types/database";
+import type { ContentType, ContentStatus } from "@/types/database";
 import type { ContentInfo } from "@/types/content";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { CategoryId, VideoSubtype } from "@/constants/categories";
@@ -132,7 +132,7 @@ function ContentDetailContent() {
     }
   };
 
-  const handleAddToArchive = () => {
+  const handleAddWithStatus = (status: ContentStatus) => {
     if (!contentInfo?.id) {
       setError("콘텐츠 ID가 없습니다.");
       return;
@@ -148,7 +148,7 @@ function ContentDetailContent() {
           thumbnailUrl: contentInfo.thumbnail,
           description: contentInfo.description,
           releaseDate: contentInfo.releaseDate,
-          status: "WANT",
+          status,
         });
         setIsAdded(true);
         setError(null);
@@ -295,10 +295,28 @@ function ContentDetailContent() {
             {!isCheckingRecord && !isAdded && (
               <Card className="p-4 md:p-6 flex flex-col items-center justify-center min-h-[120px]">
                 <p className="text-text-secondary text-sm mb-4 text-center">아직 기록관에 추가되지 않았습니다</p>
-                <Button variant="primary" size="lg" onClick={handleAddToArchive} disabled={isAdding} className="w-full">
-                  {isAdding ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
-                  내 기록관에 추가
-                </Button>
+                <div className="flex gap-2 w-full">
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    onClick={() => handleAddWithStatus("WANT")}
+                    disabled={isAdding}
+                    className="flex-1"
+                  >
+                    {isAdding ? <Loader2 size={18} className="animate-spin" /> : <Bookmark size={18} className="text-yellow-500" />}
+                    관심 등록
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => handleAddWithStatus("FINISHED")}
+                    disabled={isAdding}
+                    className="flex-1"
+                  >
+                    {isAdding ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />}
+                    감상 등록
+                  </Button>
+                </div>
               </Card>
             )}
 

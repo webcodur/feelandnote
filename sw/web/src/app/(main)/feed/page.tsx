@@ -5,6 +5,8 @@ import { getFriendActivityTypeCounts } from "@/actions/activity";
 import DashboardFeed from "@/components/features/home/DashboardFeed";
 import SectionHeader from "@/components/ui/SectionHeader";
 
+export const metadata = { title: "피드" };
+
 function FeedSkeleton() {
   return (
     <div className="animate-pulse">

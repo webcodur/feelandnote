@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Avatar } from "@/components/ui";
+import { Avatar, TitleBadge, type TitleInfo } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { Check, Book } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
@@ -28,6 +28,7 @@ interface ReviewCardProps {
   userId: string;
   userName: string;
   userAvatar: string | null;
+  userTitle?: TitleInfo | null;
   isOfficial?: boolean;
   userSubtitle?: string;
 
@@ -52,6 +53,7 @@ export default function ReviewCard({
   userId,
   userName,
   userAvatar,
+  userTitle,
   isOfficial = false,
   userSubtitle,
   contentType,
@@ -192,6 +194,7 @@ export default function ReviewCard({
               <h3 className="text-lg font-black text-text-primary tracking-tight">
                 {userName}
               </h3>
+              <TitleBadge title={userTitle ?? null} size="sm" />
               {isOfficial && (
                 <span className="bg-[#d4af37] text-black text-[8px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
                   OFFICIAL

@@ -6,7 +6,7 @@
 "use client";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { Card } from "@/components/ui";
+import { DecorativeLabel, InnerBox } from "@/components/ui";
 
 interface CategoryDonutChartProps {
   data: Array<{
@@ -20,8 +20,10 @@ export default function CategoryDonutChart({ data }: CategoryDonutChartProps) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <Card className="p-6">
-      <h3 className="font-bold text-lg mb-4">카테고리 분포</h3>
+    <InnerBox className="p-6">
+      <div className="flex justify-center mb-4">
+        <DecorativeLabel label="카테고리 분포" />
+      </div>
       <div className="flex items-center gap-6">
         <div className="w-[180px] h-[180px]">
           <ResponsiveContainer width="100%" height="100%">
@@ -71,6 +73,6 @@ export default function CategoryDonutChart({ data }: CategoryDonutChartProps) {
           ))}
         </div>
       </div>
-    </Card>
+    </InnerBox>
   );
 }

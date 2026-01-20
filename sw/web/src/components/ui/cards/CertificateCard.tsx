@@ -19,7 +19,7 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 // #region 타입
 export interface CertificateCardProps {
   item: UserContentWithContent;
-  onStatusChange?: (userContentId: string, status: "WANT" | "WATCHING" | "FINISHED") => void;
+  onStatusChange?: (userContentId: string, status: "WANT" | "FINISHED") => void;
   onRecommendChange?: (userContentId: string, isRecommended: boolean) => void;
   onDelete?: (userContentId: string) => void;
   href?: string;
@@ -87,7 +87,7 @@ export default function CertificateCard({
     if (isComplete && onRecommendChange) {
       onRecommendChange(item.id, !isRecommended);
     } else if (onStatusChange) {
-      const nextStatus = status === "WANT" ? "WATCHING" : status === "WATCHING" ? "FINISHED" : "WANT";
+      const nextStatus = status === "WANT" ? "FINISHED" : "WANT";
       onStatusChange(item.id, nextStatus);
     }
   };

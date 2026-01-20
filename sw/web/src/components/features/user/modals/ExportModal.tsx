@@ -54,9 +54,8 @@ export default function ExportModal({
     try {
       const statusMap: Record<string, ContentStatus | undefined> = {
         all: undefined,
-        not_started: "WANT",
-        in_progress: "WATCHING",
-        completed: "FINISHED",
+        WANT: "WANT",
+        FINISHED: "FINISHED",
       };
 
       const rows = await getContentsForExport({
@@ -96,9 +95,8 @@ export default function ExportModal({
 
     if (progressFilter && progressFilter !== "all") {
       const statusLabels: Record<string, string> = {
-        not_started: "관심",
-        in_progress: "감상 중",
-        completed: "완료",
+        WANT: "관심",
+        FINISHED: "감상",
       };
       parts.push(`${statusLabels[progressFilter]} 상태`);
     }

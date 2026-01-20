@@ -6,6 +6,8 @@
 
 import { MessageSquare } from "lucide-react";
 
+export const metadata = { title: "자유게시판" };
+
 export default function Page() {
   return (
     <>

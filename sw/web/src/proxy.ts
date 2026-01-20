@@ -5,10 +5,7 @@ import { updateSession } from '@/lib/supabase/middleware'
 const protectedPaths = [
   '/feed',
   '/social',
-  '/lounge',
-  '/stats',
-  '/achievements',
-  '/settings'
+  '/lounge'
 ]
 
 // 인증된 사용자가 접근하면 안 되는 경로

@@ -122,7 +122,7 @@ export default function HomePage() {
           </p>
 
           {/* CTA 버튼 */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-12 md:mb-16 w-full max-w-[260px] sm:max-w-none">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-12 md:mb-16 w-full max-w-[260px] sm:max-w-none justify-center items-center">
             <Link
               href="/login"
               className="group relative px-4 md:px-10 py-2.5 md:py-4 bg-accent text-bg-main font-serif font-bold text-[13px] md:text-base rounded-lg overflow-hidden no-underline flex justify-center items-center"

@@ -7,11 +7,12 @@
 
 import { useState, useTransition } from "react";
 import { Hash } from "lucide-react";
-import { Card } from "@/components/ui";
+import { Card, TitleBadge } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/content/ContentCompactCard";
 import { toggleFollow } from "@/actions/user";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
+import type { ContentStatus } from "@/types/database";
 
 type ContentResult = ContentSearchResult | RecordsSearchResult;
 
@@ -23,7 +24,7 @@ interface ContentResultsProps {
   addedIds?: Set<string>;
   savedIds?: Set<string>;
   onBeforeNavigate?: (item: ContentResult) => void;
-  onAddToArchive?: (item: ContentResult) => void;
+  onAddWithStatus?: (item: ContentResult, status: ContentStatus) => void;
 }
 
 export function ContentResults({
@@ -34,7 +35,7 @@ export function ContentResults({
   addedIds = new Set(),
   savedIds = new Set(),
   onBeforeNavigate,
-  onAddToArchive,
+  onAddWithStatus,
 }: ContentResultsProps) {
   if (results.length === 0) return null;
 
@@ -74,7 +75,7 @@ export function ContentResults({
             showAddButton={showAddButton}
             isAdding={isAdding}
             isAdded={isAdded}
-            onAdd={onAddToArchive ? () => onAddToArchive(item) : undefined}
+            onAddWithStatus={onAddWithStatus ? (status) => onAddWithStatus(item, status) : undefined}
           />
         );
       })}
@@ -121,7 +122,10 @@ function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemC
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0" />
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-text-primary">{user.nickname}</h3>
+          <div className="flex items-center gap-1.5">
+            <h3 className="font-semibold text-text-primary">{user.nickname}</h3>
+            <TitleBadge title={user.selectedTitle} size="sm" />
+          </div>
           <p className="text-sm text-text-secondary">{user.username}</p>
         </div>
         <div className="text-sm text-text-secondary">

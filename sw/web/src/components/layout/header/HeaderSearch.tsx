@@ -22,7 +22,7 @@ export default function HeaderSearch() {
     mode, contentCategory, query, setQuery,
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
-    handleSearch, handleResultClick, handleAddToArchive, handleOpenInNewTab,
+    handleSearch, handleResultClick, handleAddWithStatus, handleOpenInNewTab,
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   } = useHeaderSearch();
 
@@ -156,7 +156,7 @@ export default function HeaderSearch() {
               handleSearch();
               closeMobileSearch();
             }}
-            onAddToArchive={handleAddToArchive}
+            onAddWithStatus={handleAddWithStatus}
             onOpenInNewTab={handleOpenInNewTab}
             isMobile
           />
@@ -259,7 +259,7 @@ export default function HeaderSearch() {
           }}
           onClearRecentSearches={clearRecentSearches}
           onViewAllResults={handleSearch}
-          onAddToArchive={handleAddToArchive}
+          onAddWithStatus={handleAddWithStatus}
           onOpenInNewTab={handleOpenInNewTab}
         />
       )}

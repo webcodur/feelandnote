@@ -7,7 +7,7 @@ import { addContent } from "@/actions/contents/addContent";
 import { SearchMode, ContentCategory, SEARCH_MODES } from "@/components/shared/search/SearchModeDropdown";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import { getCategoryById } from "@/constants/categories";
-import type { ContentType } from "@/types/database";
+import type { ContentType, ContentStatus } from "@/types/database";
 import { createClient } from "@/lib/supabase/client";
 
 const categoryToContentType = (category: string): ContentType => {
@@ -197,7 +197,7 @@ export function useHeaderSearch() {
     setIsOpen(false);
   };
 
-  const handleAddToArchive = (result: SearchResult) => {
+  const handleAddWithStatus = (result: SearchResult, status: ContentStatus) => {
     if (addingIds.has(result.id) || addedIds.has(result.id)) return;
     setAddingIds((prev) => new Set(prev).add(result.id));
 
@@ -213,7 +213,7 @@ export function useHeaderSearch() {
           releaseDate: result.releaseDate,
           metadata: result.metadata,
           subtype: result.subtype,
-          status: "WANT",
+          status,
         });
         setAddedIds((prev) => new Set(prev).add(result.id));
       } catch (err) {
@@ -302,7 +302,7 @@ export function useHeaderSearch() {
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
     // Handlers
-    handleSearch, handleResultClick, handleAddToArchive, handleOpenInNewTab,
+    handleSearch, handleResultClick, handleAddWithStatus, handleOpenInNewTab,
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   };
 }

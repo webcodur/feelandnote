@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { Card } from "@/components/ui";
+import { DecorativeLabel, InnerBox } from "@/components/ui";
 import {
   FileText,
   Plus,
@@ -50,9 +50,9 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
   const totalPoints = activities.reduce((sum, a) => sum + a.points, 0);
 
   return (
-    <Card className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-bold text-lg">최근 활동</h3>
+    <InnerBox className="p-6">
+      <div className="flex flex-col items-center gap-2 mb-4">
+        <DecorativeLabel label="최근 활동" />
         <div className="text-sm">
           <span className="text-accent font-semibold">+{totalPoints}</span>
           <span className="text-text-secondary">점</span>
@@ -94,6 +94,6 @@ export default function ActivityTimeline({ activities }: ActivityTimelineProps) 
       <Button unstyled className="w-full mt-2 py-2 text-sm text-text-secondary hover:text-text-primary">
         전체 활동 보기 →
       </Button>
-    </Card>
+    </InnerBox>
   );
 }

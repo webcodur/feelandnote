@@ -3,6 +3,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { type ActionResult, failure } from '@/lib/errors'
 
+export interface SelectedTitle {
+  id: string
+  name: string
+  grade: string
+}
+
 export interface PublicUserProfile {
   id: string
   nickname: string
@@ -17,6 +23,7 @@ export interface PublicUserProfile {
   profile_type: 'USER' | 'CELEB'
   is_verified: boolean
   created_at: string
+  selected_title: SelectedTitle | null
   stats: {
     content_count: number
     follower_count: number
@@ -35,10 +42,13 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
   // 현재 로그인한 사용자 확인
   const { data: { user: currentUser } } = await supabase.auth.getUser()
 
-  // 대상 유저 프로필 조회
+  // 대상 유저 프로필 조회 (칭호 조인 포함)
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, portrait_url, bio, quotes, profession, nationality, birth_date, death_date, profile_type, is_verified, created_at')
+    .select(`
+      id, nickname, avatar_url, portrait_url, bio, quotes, profession, nationality, birth_date, death_date, profile_type, is_verified, created_at,
+      selected_title:titles!profiles_selected_title_id_fkey (id, name, grade)
+    `)
     .eq('id', userId)
     .single()
 
@@ -110,6 +120,9 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
     isBlocked = !!blockData
   }
 
+  // 칭호 정보 추출
+  const selectedTitle = profile.selected_title as SelectedTitle | null
+
   return {
     success: true,
     data: {
@@ -126,6 +139,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       profile_type: (profile.profile_type as 'USER' | 'CELEB') || 'USER',
       is_verified: profile.is_verified || false,
       created_at: profile.created_at,
+      selected_title: selectedTitle,
       stats: {
         content_count: contentCount || 0,
         follower_count: followerResult.count || 0,

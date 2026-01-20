@@ -6,6 +6,8 @@
 
 import TierEditView from "@/components/features/user/detail/TierEditView";
 
+export const metadata = { title: "티어 편집" };
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

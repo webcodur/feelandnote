@@ -1,26 +1,24 @@
 /*
   파일명: /components/features/user/contentLibrary/item/InterestCard.tsx
   기능: 관심 콘텐츠 전용 카드
-  책임: WANT 상태 콘텐츠를 표시하고 완료 전환 버튼을 제공한다.
+  책임: WANT 상태 콘텐츠를 표시하고 선택 상태를 관리한다.
 */ // ------------------------------
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award, Check } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
 import type { ContentType } from "@/types/database";
-import Button from "@/components/ui/Button";
 
 // #region 타입
 interface InterestCardProps {
-  userContentId: string;
-  contentId: string;
   contentType: ContentType;
   title: string;
   creator?: string | null;
   thumbnail?: string | null;
   href: string;
-  onComplete?: (userContentId: string, title: string) => void;
+  isSelected?: boolean;
+  onSelect?: () => void;
 }
 // #endregion
 
@@ -35,27 +33,32 @@ const TYPE_ICONS: Record<ContentType, typeof Book> = {
 // #endregion
 
 export default function InterestCard({
-  userContentId,
-  contentId,
   contentType,
   title,
   creator,
   thumbnail,
   href,
-  onComplete,
+  isSelected = false,
+  onSelect,
 }: InterestCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
 
-  const handleComplete = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onComplete?.(userContentId, title);
+  const handleClick = (e: React.MouseEvent) => {
+    if (onSelect) {
+      e.preventDefault();
+      onSelect();
+    }
   };
 
   return (
     <Link
       href={href}
-      className="group block bg-bg-card hover:bg-bg-secondary border border-border/30 hover:border-accent/50 rounded-lg overflow-hidden"
+      onClick={handleClick}
+      className={`group block bg-bg-card hover:bg-bg-secondary border rounded-lg overflow-hidden ${
+        isSelected
+          ? "border-accent ring-2 ring-accent/30 bg-accent/5"
+          : "border-border/30 hover:border-accent/50"
+      }`}
     >
       <div className="flex gap-3 p-3">
         {/* 썸네일 */}
@@ -76,32 +79,14 @@ export default function InterestCard({
         </div>
 
         {/* 정보 */}
-        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-          {/* 상단: 제목 + 작가 */}
-          <div>
-            <h3 className="text-sm font-semibold text-text-primary truncate group-hover:text-accent">
-              {title}
-            </h3>
-            {creator && (
-              <p className="text-xs text-text-secondary truncate mt-0.5">
-                {creator.replace(/\^/g, ", ")}
-              </p>
-            )}
-          </div>
-
-          {/* 하단: 완료 처리 버튼 */}
-          {onComplete && (
-            <div className="mt-auto pt-2">
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={handleComplete}
-                className="flex items-center gap-1.5 text-xs px-3 py-1.5 hover:bg-accent/10 hover:text-accent hover:border-accent/30"
-              >
-                <Check size={14} />
-                <span>완료 처리</span>
-              </Button>
-            </div>
+        <div className="flex-1 min-w-0 flex flex-col justify-center py-0.5">
+          <h3 className="text-sm font-semibold text-text-primary truncate group-hover:text-accent">
+            {title}
+          </h3>
+          {creator && (
+            <p className="text-xs text-text-secondary truncate mt-0.5">
+              {creator.replace(/\^/g, ", ")}
+            </p>
           )}
         </div>
       </div>

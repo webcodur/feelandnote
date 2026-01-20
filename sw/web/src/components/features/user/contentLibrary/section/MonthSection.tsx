@@ -44,21 +44,22 @@ export default function MonthSection({
       <button
         onClick={onToggle}
         className={cn(
-          "group relative flex items-center w-full py-4 text-left transition-all duration-500 rounded-sm",
-          "hover:bg-accent/5 px-2",
-          !isCollapsed && "mb-8"
+          "group relative flex items-center w-full py-4 text-left transition-all duration-500 rounded-sm cursor-pointer",
+          "hover:bg-accent/5 px-2"
         )}
       >
         <div className="flex items-end gap-5">
-          {/* Section Pillar - 신전의 기둥 형상 */}
-          <div 
-            className={cn(
-              "w-1.5 transition-all duration-700 rounded-full",
-              isCollapsed 
-                ? "h-8 bg-stone-border" 
-                : "h-16 bg-gradient-to-b from-accent to-accent-dim shadow-glow"
-            )} 
-          />
+          {/* Section Pillar - 위에서 아래로 차오르는 효과 */}
+          <div className="relative w-1.5 h-16 flex flex-col justify-start">
+            <div
+              className={cn(
+                "w-full rounded-full transition-all duration-700 origin-top",
+                isCollapsed
+                  ? "h-8 bg-stone-border"
+                  : "h-16 bg-gradient-to-b from-accent to-accent-dim shadow-glow"
+              )}
+            />
+          </div>
           
           <div className="flex flex-col mb-1">
             <div className="flex items-baseline gap-2 leading-none">
@@ -97,12 +98,18 @@ export default function MonthSection({
         )}
       </button>
 
-      {/* Content Area */}
-      {!isCollapsed && (
-        <div className="animate-in fade-in slide-in-from-left-4 duration-700 fill-mode-both px-2 border-l-2 border-accent/10 ml-[3px]">
+      {/* Content Area - 부드러운 여닫기 애니메이션 */}
+      <div
+        className="grid transition-[grid-template-rows,opacity] duration-500 ease-out"
+        style={{ gridTemplateRows: isCollapsed ? '0fr' : '1fr' }}
+      >
+        <div className={cn(
+          "overflow-hidden px-2 border-l-2 ml-[3px] transition-all duration-500",
+          isCollapsed ? "border-transparent opacity-0" : "border-accent/10 opacity-100 pt-8"
+        )}>
           {children}
         </div>
-      )}
+      </div>
     </div>
   );
 }

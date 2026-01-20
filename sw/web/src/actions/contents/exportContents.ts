@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { EXPORT_STATUS_LABELS } from '@/constants/statuses'
 import type { ContentType, ContentStatus } from '@/types/database'
 
 interface ExportParams {
@@ -19,12 +20,6 @@ export interface ExportContentRow {
   created_at: string
   updated_at: string
   completed_at: string | null
-}
-
-const STATUS_LABELS: Record<string, string> = {
-  WANT: '보고싶어요',
-  WATCHING: '보는 중',
-  FINISHED: '완료',
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -78,7 +73,7 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
       title: item.content.title,
       creator: item.content.creator || '',
       type: TYPE_LABELS[item.content.type] || item.content.type,
-      status: STATUS_LABELS[item.status] || item.status,
+      status: EXPORT_STATUS_LABELS[item.status] || item.status,
       category: item.content.subtype || null,
       rating: item.rating,
       review: item.review,

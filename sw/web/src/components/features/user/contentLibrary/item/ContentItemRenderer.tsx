@@ -60,6 +60,7 @@ export default function ContentItemRenderer({
               review={item.review}
               isSpoiler={item.is_spoiler ?? undefined}
               href={getHref(item)}
+              showStatusBadge={false}
             />
           ))}
         </div>

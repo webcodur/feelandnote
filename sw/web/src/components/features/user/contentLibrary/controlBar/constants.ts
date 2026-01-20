@@ -1,5 +1,5 @@
 import { CATEGORIES } from "@/constants/categories";
-import { RECORD_STATUS_FILTER_OPTIONS } from "@/constants/statuses";
+import { STATUS_FILTER_OPTIONS } from "@/constants/statuses";
 import type { ContentType } from "@/types/database";
 import type { SortOption } from "../useContentLibrary";
 
@@ -10,8 +10,8 @@ export const TAB_OPTIONS = CATEGORIES.map((cat) => ({
   type: cat.dbType as ContentType,
 }));
 
-// RECORD_STATUS_FILTER_OPTIONS 사용 (WANT 제외 - 관심 탭으로 분리됨)
-export const STATUS_OPTIONS = RECORD_STATUS_FILTER_OPTIONS;
+// 상태 필터 (전체/관심/감상)
+export const STATUS_OPTIONS = STATUS_FILTER_OPTIONS;
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "recent", label: "최근 추가" },

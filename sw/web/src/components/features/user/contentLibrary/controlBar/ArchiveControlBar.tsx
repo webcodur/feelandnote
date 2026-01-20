@@ -6,7 +6,6 @@
 "use client";
 
 import { useState } from "react";
-import Button from "@/components/ui/Button";
 import { FilterChipDropdown, FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import type { SortOption, StatusFilter } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/types/content";
@@ -57,60 +56,60 @@ export default function ArchiveControlBar({
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortOption)?.label ?? "최근 추가";
 
   return (
-    <div className="sticky top-0 z-30 bg-background pt-2 pb-1 sm:pt-4 sm:pb-2 space-y-3">
-      {/* 필터 칩 영역 */}
-      <div className="flex items-center gap-2 px-1">
-        {/* 데스크톱: 드롭다운 */}
-        <div className="hidden md:flex items-center gap-2">
-          <FilterChipDropdown
-            label="카테고리"
-            value={currentCategoryLabel}
-            isActive
-            options={categoryOptions}
-            currentValue={activeTab}
-            onSelect={(v) => onTabChange(v as CategoryId)}
-          />
-          <FilterChipDropdown
-            label="상태"
-            value={currentStatusLabel}
-            isActive={statusFilter !== "all"}
-            options={statusOptions}
-            currentValue={statusFilter}
-            onSelect={(v) => onStatusFilterChange(v as StatusFilter)}
-          />
-          <FilterChipDropdown
-            label="정렬"
-            value={currentSortLabel}
-            isActive={sortOption !== "recent"}
-            options={sortOptions}
-            currentValue={sortOption}
-            onSelect={(v) => onSortOptionChange(v as SortOption)}
-          />
+    <div>
+      <div className="flex flex-col gap-2">
+        {/* 필터 칩 영역 */}
+        <div className="flex items-center gap-2 px-1">
+          {/* 데스크톱: 드롭다운 */}
+          <div className="hidden md:flex items-center gap-2">
+            <FilterChipDropdown
+              label="카테고리"
+              value={currentCategoryLabel}
+              isActive
+              options={categoryOptions}
+              currentValue={activeTab}
+              onSelect={(v) => onTabChange(v as CategoryId)}
+            />
+            <FilterChipDropdown
+              label="상태"
+              value={currentStatusLabel}
+              isActive={statusFilter !== "all"}
+              options={statusOptions}
+              currentValue={statusFilter}
+              onSelect={(v) => onStatusFilterChange(v as StatusFilter)}
+            />
+            <FilterChipDropdown
+              label="정렬"
+              value={currentSortLabel}
+              isActive={sortOption !== "recent"}
+              options={sortOptions}
+              currentValue={sortOption}
+              onSelect={(v) => onSortOptionChange(v as SortOption)}
+            />
+          </div>
+
+          {/* 모바일: 칩 → 모달 */}
+          <div className="flex md:hidden items-center gap-2">
+            <FilterChip
+              label="카테고리"
+              value={currentCategoryLabel}
+              isActive
+              onClick={() => setActiveFilter("category")}
+            />
+            <FilterChip
+              label="상태"
+              value={currentStatusLabel}
+              isActive={statusFilter !== "all"}
+              onClick={() => setActiveFilter("status")}
+            />
+            <FilterChip
+              label="정렬"
+              value={currentSortLabel}
+              isActive={sortOption !== "recent"}
+              onClick={() => setActiveFilter("sort")}
+            />
+          </div>
         </div>
-
-        {/* 모바일: 칩 → 모달 */}
-        <div className="flex md:hidden items-center gap-2">
-          <FilterChip
-            label="카테고리"
-            value={currentCategoryLabel}
-            isActive
-            onClick={() => setActiveFilter("category")}
-          />
-          <FilterChip
-            label="상태"
-            value={currentStatusLabel}
-            isActive={statusFilter !== "all"}
-            onClick={() => setActiveFilter("status")}
-          />
-          <FilterChip
-            label="정렬"
-            value={currentSortLabel}
-            isActive={sortOption !== "recent"}
-            onClick={() => setActiveFilter("sort")}
-          />
-        </div>
-
-
       </div>
 
       {/* 모바일 모달 */}

@@ -62,7 +62,10 @@ const maruburi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Feel&Note",
+  title: {
+    default: "Feel&Note",
+    template: "%s | F&N",
+  },
   description: "Cultural Content Archive & Social Platform",
 };
 

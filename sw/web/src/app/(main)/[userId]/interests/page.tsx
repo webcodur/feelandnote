@@ -3,6 +3,8 @@ import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
 import InterestsContent from "./InterestsContent";
 
+export const metadata = { title: "관심사" };
+
 interface PageProps {
   params: Promise<{ userId: string }>;
 }

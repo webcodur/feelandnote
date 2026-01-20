@@ -23,6 +23,24 @@ interface GetCelebsResult {
   error: string | null
 }
 
+// RPC 함수 반환 타입
+interface CelebRow {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+  portrait_url: string | null
+  profession: string | null
+  nationality: string | null
+  birth_date: string | null
+  death_date: string | null
+  bio: string | null
+  quotes: string | null
+  is_verified: boolean | null
+  claimed_by: string | null
+  follower_count: number
+  total_score: number
+}
+
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
@@ -58,58 +76,24 @@ export async function getCelebs(
   const total = count ?? 0
   const totalPages = Math.ceil(total / limit)
 
-  // 셀럽 프로필과 팔로워 수, 영향력을 함께 조회
-  let query = supabase
-    .from('profiles')
-    .select(`
-      id,
-      nickname,
-      avatar_url,
-      portrait_url,
-      profession,
-      nationality,
-      birth_date,
-      death_date,
-      bio,
-      quotes,
-      is_verified,
-      claimed_by,
-      user_social(follower_count),
-      celeb_influence(total_score)
-    `)
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-
-  if (profession && profession !== 'all') {
-    query = query.eq('profession', profession)
-  }
-
-  if (nationality && nationality !== 'all') {
-    if (nationality === 'none') {
-      query = query.is('nationality', null)
-    } else {
-      query = query.eq('nationality', nationality)
-    }
-  }
-
-  // 정렬 적용 (DB 레벨에서 처리 가능한 것들)
-  if (sortBy === 'birth_date_asc') {
-    query = query.order('birth_date', { ascending: true, nullsFirst: false })
-  } else if (sortBy === 'birth_date_desc') {
-    query = query.order('birth_date', { ascending: false, nullsFirst: false })
-  } else if (sortBy === 'name_asc') {
-    query = query.order('nickname', { ascending: true })
-  }
-
-  const { data, error } = await query.range(offset, offset + limit - 1)
+  // RPC 함수로 정렬된 셀럽 목록 조회
+  const { data, error } = await supabase.rpc('get_celebs_sorted', {
+    p_profession: profession ?? null,
+    p_nationality: nationality ?? null,
+    p_sort_by: sortBy,
+    p_limit: limit,
+    p_offset: offset,
+  })
 
   if (error) {
     console.error('셀럽 목록 조회 에러:', error)
     return { celebs: [], total: 0, page, totalPages: 0, error: error.message }
   }
 
+  const rows = (data || []) as CelebRow[]
+
   // 팔로우 상태 및 콘텐츠 카운트 조회
-  const celebIds = (data || []).map(row => row.id)
+  const celebIds = rows.map(row => row.id)
   let myFollowings: Set<string> = new Set()
   let myFollowers: Set<string> = new Set()
   let contentCountMap: Map<string, number> = new Map()
@@ -117,7 +101,6 @@ export async function getCelebs(
   if (celebIds.length > 0) {
     // 콘텐츠 카운트 조회 (contentType 필터 적용)
     if (contentType && contentType !== 'all') {
-      // 특정 타입 필터: contents 테이블과 조인하여 해당 타입만 카운트
       const { data: contents } = await supabase
         .from('contents')
         .select('id')
@@ -137,7 +120,6 @@ export async function getCelebs(
         })
       }
     } else {
-      // 전체 타입: 기존 로직
       const { data: contentCountData } = await supabase
         .from('user_contents')
         .select('user_id')
@@ -170,47 +152,29 @@ export async function getCelebs(
     myFollowers = new Set((followerData || []).map(f => f.follower_id))
   }
 
-  // user_social, celeb_influence 조인 결과를 평탄화하고 follower_count로 정렬
-  const celebs: CelebProfile[] = (data || [])
-    .map(row => {
-      const social = Array.isArray(row.user_social)
-        ? row.user_social[0]
-        : row.user_social
-
-      const influenceData = Array.isArray(row.celeb_influence)
-        ? row.celeb_influence[0]
-        : row.celeb_influence
-
-      return {
-        id: row.id,
-        nickname: row.nickname || '',
-        avatar_url: row.avatar_url,
-        portrait_url: row.portrait_url,
-        profession: row.profession,
-        nationality: row.nationality,
-        birth_date: row.birth_date,
-        death_date: row.death_date,
-        bio: row.bio,
-        quotes: row.quotes,
-        is_verified: row.is_verified ?? false,
-        is_platform_managed: row.claimed_by === null,
-        follower_count: social?.follower_count ?? 0,
-        content_count: contentCountMap.get(row.id) ?? 0,
-        is_following: myFollowings.has(row.id),
-        is_follower: myFollowers.has(row.id),
-        influence: influenceData ? {
-          total_score: influenceData.total_score,
-          rank: calculateInfluenceRank(influenceData.total_score),
-        } : null,
-      }
-    })
-
-  // join 데이터 기준 정렬은 클라이언트 측에서 처리
-  if (sortBy === 'follower') {
-    celebs.sort((a, b) => b.follower_count - a.follower_count)
-  } else if (sortBy === 'influence') {
-    celebs.sort((a, b) => (b.influence?.total_score ?? 0) - (a.influence?.total_score ?? 0))
-  }
+  // CelebProfile 형태로 변환 (이미 DB에서 정렬됨)
+  const celebs: CelebProfile[] = rows.map(row => ({
+    id: row.id,
+    nickname: row.nickname || '',
+    avatar_url: row.avatar_url,
+    portrait_url: row.portrait_url,
+    profession: row.profession,
+    nationality: row.nationality,
+    birth_date: row.birth_date,
+    death_date: row.death_date,
+    bio: row.bio,
+    quotes: row.quotes,
+    is_verified: row.is_verified ?? false,
+    is_platform_managed: row.claimed_by === null,
+    follower_count: row.follower_count,
+    content_count: contentCountMap.get(row.id) ?? 0,
+    is_following: myFollowings.has(row.id),
+    is_follower: myFollowers.has(row.id),
+    influence: row.total_score > 0 ? {
+      total_score: row.total_score,
+      rank: calculateInfluenceRank(row.total_score),
+    } : null,
+  }))
 
   return { celebs, total, page, totalPages, error: null }
 }

@@ -7,7 +7,7 @@ import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel } from "@/components/ui";
+import { DecorativeLabel, InnerBox } from "@/components/ui";
 
 const formatYear = (year: string | null | undefined) => {
   if (!year) return "";
@@ -60,7 +60,7 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
         <div className="flex-1 flex flex-col gap-3 sm:gap-4 min-h-0">
           <ProfileMetadata profile={profile} />
           <BioContent isEditing={isEditingBio} bioValue={bioValue} setBioValue={setBioValue} profile={profile} isOwner={isOwner} isSaving={isSaving} onSave={handleSaveBio} onCancel={handleCancelEdit} />
-          {profile.profile_type === "CELEB" && profile.quotes && <QuoteBlock quote={profile.quotes} />}
+          {profile.quotes && <QuoteBlock quote={profile.quotes} isCeleb={profile.profile_type === "CELEB"} />}
         </div>
       </div>
     </ClassicalBox>
@@ -96,14 +96,18 @@ function PortraitFrame({ url, alt }: { url: string; alt: string }) {
 }
 
 function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
-  if (!profile.profession && !profile.nationality && !profile.birth_date && !profile.death_date) return null;
+  const isCeleb = profile.profile_type === "CELEB";
+  // 일반 유저: profession, death_date 제외
+  const hasMetadata = isCeleb
+    ? profile.profession || profile.nationality || profile.birth_date || profile.death_date
+    : profile.nationality || profile.birth_date;
+
+  if (!hasMetadata) return null;
 
   return (
-    <div className="relative p-3 sm:p-5 bg-gradient-to-br from-stone-900/80 to-stone-950/90 rounded-sm overflow-hidden group/info">
-      <div className="absolute inset-0 border border-stone-800/60 rounded-sm group-hover/info:border-stone-700/80" />
-      <div className="absolute inset-[1px] border border-stone-700/20 rounded-sm" />
+    <InnerBox className="p-3 sm:p-5 group/info">
       <div className="relative grid grid-cols-2 sm:grid-cols-3 gap-x-2 sm:gap-x-6 gap-y-4 text-center">
-        {profile.profession && (
+        {isCeleb && profile.profession && (
           <div className="space-y-1">
             <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Profession</span>
             <p className="text-sm sm:text-base text-stone-200 font-serif font-black">{getCelebProfessionLabel(profile.profession)}</p>
@@ -112,14 +116,14 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
         {profile.nationality && (
           <div className="space-y-1 relative">
             <div className="hidden sm:block absolute start-[-12px] top-1/2 -translate-y-1/2 w-px h-6 bg-stone-700/40" />
-            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Nationality</span>
+            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">{isCeleb ? "Nationality" : "Region"}</span>
             <p className="text-sm sm:text-base text-stone-200 font-serif font-black flex items-center justify-center gap-1.5">
               <NationalityText code={profile.nationality} />
             </p>
             <div className="hidden sm:block absolute end-[-12px] top-1/2 -translate-y-1/2 w-px h-6 bg-stone-700/40" />
           </div>
         )}
-        {(profile.birth_date || profile.death_date) && (
+        {isCeleb && (profile.birth_date || profile.death_date) && (
           <div className="space-y-1 col-span-2 sm:col-span-1 border-t border-stone-800/60 pt-4 sm:border-0 sm:pt-0">
             <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Period of Existence</span>
             <p className="text-xs sm:text-base text-stone-200 font-serif font-black tracking-tight">
@@ -127,8 +131,14 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
             </p>
           </div>
         )}
+        {!isCeleb && profile.birth_date && (
+          <div className="space-y-1 col-span-2 sm:col-span-1 border-t border-stone-800/60 pt-4 sm:border-0 sm:pt-0">
+            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Birthday</span>
+            <p className="text-xs sm:text-base text-stone-200 font-serif font-black tracking-tight">{profile.birth_date}</p>
+          </div>
+        )}
       </div>
-    </div>
+    </InnerBox>
   );
 }
 
@@ -147,7 +157,7 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
   if (isEditing) {
     return (
       <div className="flex-1 flex flex-col justify-center">
-        <div className="w-full relative p-5 bg-stone-900/40 border border-stone-700/50 rounded-sm">
+        <InnerBox variant="subtle" className="w-full p-5">
           <div className="mb-3">
             <span className="text-[10px] text-stone-500 uppercase tracking-[0.3em] font-cinzel block mb-1">INSCRIPTION</span>
           </div>
@@ -161,7 +171,7 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
               </button>
             </div>
           </div>
-        </div>
+        </InnerBox>
       </div>
     );
   }
@@ -170,7 +180,7 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
 
   return (
     <div className="flex-1 flex flex-col justify-center">
-      <div className="relative p-6 bg-gradient-to-b from-stone-900/40 to-stone-950/60 rounded-sm border border-stone-800/40 group/bio overflow-hidden">
+      <InnerBox variant="subtle" className="p-6 group/bio">
         <div className="mb-3 text-center">
           <span className="text-[10px] text-stone-500 uppercase tracking-[0.3em] font-cinzel block">INSCRIPTION</span>
         </div>
@@ -178,16 +188,16 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
         <p className="relative text-sm md:text-lg text-stone-300 font-serif leading-relaxed text-center group-hover/bio:text-stone-200">
           {profile.bio?.trim() || <span className="text-stone-700 tracking-widest uppercase text-xs font-cinzel">No Bio Inscribed...</span>}
         </p>
-      </div>
+      </InnerBox>
     </div>
   );
 }
 
-function QuoteBlock({ quote }: { quote: string }) {
+function QuoteBlock({ quote, isCeleb }: { quote: string; isCeleb: boolean }) {
   return (
     <div className="relative p-5 bg-black/40 border-l-4 border-accent rounded-sm shadow-2xl group/quote hover:bg-black/60">
       <div className="mb-2 text-center">
-        <span className="text-[10px] text-stone-500/60 uppercase tracking-[0.3em] font-cinzel block">WISDOM</span>
+        <span className="text-[10px] text-stone-500/60 uppercase tracking-[0.3em] font-cinzel block">{isCeleb ? "WISDOM" : "MOTTO"}</span>
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-accent/[0.03] to-transparent pointer-events-none" />
       <div className="flex items-center gap-4 text-center justify-center">

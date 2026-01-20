@@ -31,15 +31,15 @@ import { useAchievement } from "@/components/features/profile/achievements";
 
 interface DetailProps {
   contentId: string;
-  viewUserId?: string; // 타인의 콘텐츠를 볼 때 해당 사용자 ID
+  viewUserId?: string; // URL의 userId 파라미터
 }
 
 export default function Detail({ contentId, viewUserId }: DetailProps) {
   const router = useRouter();
   const { showUnlock } = useAchievement();
-  const isViewingOther = !!viewUserId; // 타인 콘텐츠 조회 여부
 
   const [activeSubTab, setActiveSubTab] = useState<SubTab>("review");
+  const [isOwner, setIsOwner] = useState(true); // 본인 콘텐츠 여부
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [item, setItem] = useState<UserContentWithDetails | null>(null);
   const [metadata, setMetadata] = useState<ContentMetadata | null>(null);
@@ -58,12 +58,15 @@ export default function Detail({ contentId, viewUserId }: DetailProps) {
       setIsLoading(true);
       setError(null);
       try {
-        // 타인 콘텐츠 조회 시 getPublicContent, 아니면 getContent
-        const contentData = viewUserId
-          ? await getPublicContent(contentId, viewUserId)
-          : await getContent(contentId);
+        // 현재 로그인 사용자 확인
+        const profile = await getProfile();
+        const isCurrentUserOwner = !viewUserId || profile?.id === viewUserId;
+        setIsOwner(isCurrentUserOwner);
 
-        const profile = viewUserId ? null : await getProfile();
+        // 본인 콘텐츠면 getContent, 타인 콘텐츠면 getPublicContent
+        const contentData = isCurrentUserOwner
+          ? await getContent(contentId)
+          : await getPublicContent(contentId, viewUserId!);
 
         setItem(contentData);
         setHasApiKey(!!profile?.gemini_api_key);

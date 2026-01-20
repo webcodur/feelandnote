@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getWantContentCounts } from "@/actions/contents/getContentCounts";
-import { updateStatus } from "@/actions/contents/updateStatus";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import InterestCard from "@/components/features/user/contentLibrary/item/InterestCard";
 import InterestsControlBar, { type InterestSortOption } from "./InterestsControlBar";
+import InterestsEditPanel from "./InterestsEditPanel";
 import { ChevronLeft, ChevronRight, Inbox } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { CertificateCard } from "@/components/ui/cards";
+import ClassicalBox from "@/components/ui/ClassicalBox";
+import { DecorativeLabel, InnerBox } from "@/components/ui";
 
 interface InterestsContentProps {
   userId: string;
@@ -22,7 +24,6 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
   const [contents, setContents] = useState<UserContentWithContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [, startTransition] = useTransition();
   const [sortOption, setSortOption] = useState<InterestSortOption>("recent");
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,6 +33,9 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
   const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
     BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
   });
+
+  // 선택된 콘텐츠 상태
+  const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
 
   // 데이터 로딩
   const loadContents = useCallback(async () => {
@@ -72,24 +76,6 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     setCurrentPage(1);
   }, [activeTab]);
 
-  // 완료 처리 핸들러
-  const handleComplete = useCallback((userContentId: string, title: string) => {
-    if (!window.confirm(`'${title}'을(를) 완료 처리할까요?`)) return;
-
-    // Optimistic update: 목록에서 제거
-    setContents((prev) => prev.filter((item) => item.id !== userContentId));
-
-    startTransition(async () => {
-      try {
-        await updateStatus({ userContentId, status: "FINISHED" });
-      } catch (err) {
-        // 실패시 다시 로드
-        loadContents();
-        console.error("상태 변경 실패:", err);
-      }
-    });
-  }, [loadContents]);
-
   // 정렬된 콘텐츠
   const sortedContents = useMemo(() => {
     if (sortOption === "title") {
@@ -97,6 +83,28 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     }
     return contents; // recent는 이미 서버에서 정렬됨
   }, [contents, sortOption]);
+
+  // 선택된 콘텐츠 객체
+  const selectedContent = useMemo(
+    () => contents.find((c) => c.id === selectedContentId) ?? null,
+    [contents, selectedContentId]
+  );
+
+  // 카드 선택 핸들러
+  const handleSelect = useCallback((contentId: string) => {
+    setSelectedContentId((prev) => (prev === contentId ? null : contentId));
+  }, []);
+
+  // 편집 패널에서 저장 완료 시
+  const handleEditSaved = useCallback(() => {
+    loadContents();
+    loadTypeCounts();
+  }, [loadContents, loadTypeCounts]);
+
+  // 편집 패널 닫기
+  const handleEditClose = useCallback(() => {
+    setSelectedContentId(null);
+  }, []);
 
   // 렌더링
   const renderContent = () => {
@@ -132,58 +140,75 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     const regularContents = sortedContents.filter((item) => item.content.type !== "CERTIFICATE");
 
     return (
-      <div className="space-y-4">
-        {regularContents.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-            {regularContents.map((item) => (
-              <InterestCard
-                key={item.id}
-                userContentId={item.id}
-                contentId={item.content_id}
-                contentType={item.content.type}
-                title={item.content.title}
-                creator={item.content.creator}
-                thumbnail={item.content.thumbnail_url}
-                href={`/${userId}/records/${item.content_id}`}
-                onComplete={isOwner ? handleComplete : undefined}
-              />
-            ))}
-          </div>
-        )}
+      <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+        <div className="flex justify-center mb-6">
+          <DecorativeLabel label="관심 목록" />
+        </div>
+        <InnerBox className="mb-6 p-3 sticky top-0 z-30 backdrop-blur-sm flex justify-center items-center">
+          <InterestsControlBar
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            typeCounts={typeCounts}
+            total={total}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+          />
+        </InnerBox>
 
-        {certificates.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {certificates.map((item) => (
-              <CertificateCard
-                key={item.id}
-                item={item}
-                onStatusChange={() => {}}
-                onRecommendChange={() => {}}
-                onDelete={() => {}}
-                href={`/${userId}/records/${item.content_id}`}
-                isBatchMode={false}
-                isSelected={false}
-                readOnly={!isOwner}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+        <div className="space-y-4">
+          {regularContents.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              {regularContents.map((item) => (
+                <InterestCard
+                  key={item.id}
+                  contentType={item.content.type}
+                  title={item.content.title}
+                  creator={item.content.creator}
+                  thumbnail={item.content.thumbnail_url}
+                  href={`/${userId}/records/${item.content_id}`}
+                  isSelected={isOwner && selectedContentId === item.id}
+                  onSelect={isOwner ? () => handleSelect(item.id) : undefined}
+                />
+              ))}
+            </div>
+          )}
+
+          {certificates.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {certificates.map((item) => (
+                <CertificateCard
+                  key={item.id}
+                  item={item}
+                  onStatusChange={() => {}}
+                  onRecommendChange={() => {}}
+                  onDelete={() => {}}
+                  href={`/${userId}/records/${item.content_id}`}
+                  isBatchMode={false}
+                  isSelected={false}
+                  readOnly={!isOwner}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </ClassicalBox>
     );
   };
 
   return (
     <div className="w-full">
-      <InterestsControlBar
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        typeCounts={typeCounts}
-        total={total}
-        sortOption={sortOption}
-        onSortChange={setSortOption}
-      />
+      {/* 편집 영역 (소유자만 표시) */}
+      {isOwner && (
+        <div className="mt-4">
+          <InterestsEditPanel
+            selectedContent={selectedContent}
+            onClose={handleEditClose}
+            onSaved={handleEditSaved}
+          />
+        </div>
+      )}
 
-      <div className="mt-4">
+      <div className={isOwner ? "" : "mt-4"}>
         {renderContent()}
       </div>
 

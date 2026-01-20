@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Users, UserCheck, UserPlus, Loader2 } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
+import { TitleBadge } from "@/components/ui";
 import { getFollowers, getFollowing, toggleFollow, type FollowerInfo, type FollowingInfo } from "@/actions/user";
 
 type TabType = "followers" | "following";
@@ -208,7 +209,10 @@ function UserListItem({
 
       {/* 유저 정보 */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-text-primary truncate">{user.nickname}</p>
+        <div className="flex items-center gap-1.5">
+          <p className="text-sm font-medium text-text-primary truncate">{user.nickname}</p>
+          <TitleBadge title={user.selected_title} size="sm" />
+        </div>
         {user.bio && (
           <p className="text-xs text-text-secondary truncate">{user.bio}</p>
         )}

@@ -305,7 +305,8 @@ export interface GuestbookEntryWithAuthor extends GuestbookEntry {
 // ===== Activity Log =====
 export type ActivityActionType =
   | 'CONTENT_ADD' | 'CONTENT_REMOVE'
-  | 'STATUS_CHANGE' | 'REVIEW_UPDATE'
+  | 'STATUS_CHANGE' | 'PROGRESS_CHANGE' // PROGRESS_CHANGE는 레거시 (STATUS_CHANGE로 대체됨)
+  | 'REVIEW_UPDATE'
   | 'RECORD_CREATE' | 'RECORD_UPDATE' | 'RECORD_DELETE'
 
 export type ActivityTargetType = 'content' | 'record'

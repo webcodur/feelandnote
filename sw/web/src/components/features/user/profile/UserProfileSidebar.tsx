@@ -7,15 +7,17 @@ import Image from "next/image";
 import {
   PillarIcon,
   ScrollIcon,
-  MessageTabletIcon,
   SacredFlameIcon,
   BustIcon,
   AstrolabeIcon,
+  ObeliskIcon,
+  LaurelIcon,
+  CogsIcon,
 } from "@/components/ui/icons/neo-pantheon";
 import { Plus } from "lucide-react";
 import { type PublicUserProfile } from "@/actions/user";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel } from "@/components/ui";
+import { DecorativeLabel, TitleBadge } from "@/components/ui";
 
 interface UserProfileSidebarProps {
   profile: PublicUserProfile;
@@ -34,13 +36,22 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const tabs = [
+  // 공개 탭
+  const publicTabs = [
     { label: "계보", href: `/${userId}`, icon: BustIcon, exact: true },
-    { label: "기록", href: `/${userId}/records`, icon: PillarIcon },
-    { label: "관심", href: `/${userId}/interests`, icon: AstrolabeIcon },
-    { label: "유산", href: `/${userId}/collections`, icon: ScrollIcon },
-    { label: "방명석", href: `/${userId}/guestbook`, icon: MessageTabletIcon },
+    { label: "기록", href: `/${userId}/records`, icon: PillarIcon, exact: false },
+    { label: "관심", href: `/${userId}/interests`, icon: AstrolabeIcon, exact: false },
+    { label: "컬렉션", href: `/${userId}/collections`, icon: ScrollIcon, exact: false },
   ];
+
+  // 본인 전용 탭
+  const ownerTabs = [
+    { label: "통계", href: `/${userId}/stats`, icon: ObeliskIcon, exact: false },
+    { label: "칭호", href: `/${userId}/achievements`, icon: LaurelIcon, exact: false },
+    { label: "설정", href: `/${userId}/settings`, icon: CogsIcon, exact: false },
+  ];
+
+  const tabs = isOwner ? [...publicTabs, ...ownerTabs] : publicTabs;
 
   const isActive = (href: string, exact: boolean = false) => {
     if (exact) return pathname === href;
@@ -106,13 +117,14 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
               <h2 className="text-serif text-3xl text-text-primary tracking-tight font-black drop-shadow-md mb-2 group-hover:text-accent transition-colors">
                 {profile.nickname}
               </h2>
-              {profile.profession ? (
+              {profile.selected_title && (
+                <div className="mb-2">
+                  <TitleBadge title={profile.selected_title} size="md" />
+                </div>
+              )}
+              {profile.profession && (
                 <p className="text-sm text-accent tracking-[0.15em] font-serif font-bold uppercase">
                   {profile.profession}
-                </p>
-              ) : (
-                <p className="text-sm text-accent-dim tracking-widest font-serif font-bold uppercase opacity-80">
-                  입문자
                 </p>
               )}
             </div>

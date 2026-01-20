@@ -6,6 +6,8 @@
 
 import Lounge from "@/components/features/user/lounge/Lounge";
 
+export const metadata = { title: "휴게실" };
+
 export default function Page() {
   return (
     <div className="container mx-auto px-4 py-8">

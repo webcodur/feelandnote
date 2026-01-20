@@ -13,7 +13,8 @@ import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
-import { Pagination, DeleteConfirmModal } from "@/components/ui";
+import { Pagination, DeleteConfirmModal, InnerBox, DecorativeLabel } from "@/components/ui";
+import ClassicalBox from "@/components/ui/ClassicalBox";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
@@ -62,28 +63,31 @@ export default function ContentLibrary({
     <div>
       <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />
 
-      {/* Control Bar */}
-      <div className={compact ? "mb-3" : "mb-2"}>
-        <ArchiveControlBar
-          activeTab={lib.activeTab}
-          onTabChange={lib.setActiveTab}
-          typeCounts={lib.typeCounts}
-          statusFilter={lib.statusFilter}
-          onStatusFilterChange={lib.setStatusFilter}
-          sortOption={lib.sortOption}
-          onSortOptionChange={lib.setSortOption}
-          isAllCollapsed={lib.isAllCollapsed}
-          onExpandAll={lib.expandAll}
-          onCollapseAll={lib.collapseAll}
-        />
-      </div>
-
       <div>
         {renderStates()}
 
         {/* 콘텐츠 목록 (월별) */}
         {!lib.isLoading && !lib.error && hasFilteredContents && (
-          <div className="space-y-0">
+          <ClassicalBox className="p-4 sm:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+            <div className="flex justify-center mb-6">
+              <DecorativeLabel label="기록관" />
+            </div>
+            {/* Control Bar inside Box */}
+            <InnerBox className="mb-6 p-3 sticky top-0 z-30 backdrop-blur-sm flex justify-center items-center">
+               <ArchiveControlBar
+                activeTab={lib.activeTab}
+                onTabChange={lib.setActiveTab}
+                typeCounts={lib.typeCounts}
+                statusFilter={lib.statusFilter}
+                onStatusFilterChange={lib.setStatusFilter}
+                sortOption={lib.sortOption}
+                onSortOptionChange={lib.setSortOption}
+                isAllCollapsed={lib.isAllCollapsed}
+                onExpandAll={lib.expandAll}
+                onCollapseAll={lib.collapseAll}
+              />
+            </InnerBox>
+
             {lib.monthKeys.map((monthKey) => {
               const items = lib.groupedByMonth[monthKey] || [];
               return (
@@ -99,7 +103,7 @@ export default function ContentLibrary({
                 </MonthSection>
               );
             })}
-          </div>
+          </ClassicalBox>
         )}
 
         {/* 페이지네이션 */}

@@ -6,6 +6,8 @@
 
 import SignupForm from './SignupForm'
 
+export const metadata = { title: '회원가입' }
+
 export default function Page() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950">

@@ -64,11 +64,31 @@ export default function FilterChipDropdown({
         unstyled
         onClick={() => setIsOpen(!isOpen)}
         disabled={isLoading}
-        className={`flex items-center gap-2 ${FILTER_CHIP_STYLES.base} ${isActive ? FILTER_CHIP_STYLES.active : FILTER_CHIP_STYLES.inactive} whitespace-nowrap`}
+        className={`
+          flex items-center justify-center rounded-lg border
+          bg-white/5 whitespace-nowrap overflow-hidden
+          ${isActive ? 'border-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]' : 'border-accent/25'}
+        `}
       >
-        <span className="text-xs opacity-80 uppercase font-cinzel tracking-wider">{label}</span>
-        <span className="text-sm font-bold">{value}</span>
-        <GreekChevronIcon size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""} ${isActive ? "opacity-80" : "opacity-60"}`} />
+        <div className="flex items-stretch justify-center w-full min-h-[2.5rem]">
+          {/* 타이틀 섹션 - 고정 비율 (35%) */}
+          <div className="flex-[0.35] flex items-center justify-center border-r border-accent/10 px-3 bg-black/20">
+            <span className={`text-[10px] uppercase font-cinzel tracking-wide leading-none text-center ${isActive ? 'text-accent opacity-90' : 'text-text-tertiary opacity-60'}`}>
+              {label}
+            </span>
+          </div>
+
+          {/* 값 섹션 - 나머지 (65%) */}
+          <div className="flex-[0.65] flex items-center justify-between gap-2 px-3 bg-white/[0.02]">
+            <span className={`text-sm font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+              {value}
+            </span>
+            <GreekChevronIcon
+              size={12}
+              className={`flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""} ${isActive ? "text-accent/60" : "text-text-tertiary opacity-30"}`}
+            />
+          </div>
+        </div>
       </Button>
 
       {isOpen && (

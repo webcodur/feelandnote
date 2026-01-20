@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { MessageTabletIcon, LaurelIcon, ObeliskIcon, CogsIcon, RomanGateIcon } from "@/components/ui/icons/neo-pantheon";
+import { RomanGateIcon, BustIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
+import { TitleBadge, type TitleInfo } from "@/components/ui";
 import { Z_INDEX } from "@/constants/zIndex";
 import { createClient } from "@/lib/supabase/client";
 
@@ -13,20 +13,14 @@ interface UserProfile {
   id: string;
   nickname: string;
   avatar_url: string | null;
+  selected_title: TitleInfo | null;
 }
-
-const MENU_ITEMS = [
-  { path: "stats", label: "내 통계", icon: ObeliskIcon },
-  { path: "achievements", label: "칭호", icon: LaurelIcon },
-  { path: "guestbook", label: "방명록", icon: MessageTabletIcon },
-];
 
 interface HeaderProfileMenuProps {
   profile: UserProfile | null;
 }
 
 export default function HeaderProfileMenu({ profile }: HeaderProfileMenuProps) {
-  const pathname = usePathname();
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -65,33 +59,24 @@ export default function HeaderProfileMenu({ profile }: HeaderProfileMenuProps) {
         <div className="absolute end-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 프로필 헤더 */}
           <div className="px-4 py-3 border-b border-border">
-            <p className="font-semibold text-sm truncate">{profile?.nickname || "사용자"}</p>
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-sm truncate">{profile?.nickname || "사용자"}</p>
+              <TitleBadge title={profile?.selected_title ?? null} size="sm" />
+            </div>
           </div>
 
-          {/* 메뉴 아이템 */}
+          {/* 내 기록관 링크 */}
           <div className="py-1">
-            {profile && MENU_ITEMS.map((item) => {
-              const href = `/${profile.id}/${item.path}`;
-              return (
-                <Link
-                  key={item.path}
-                  href={href}
-                  onClick={() => setShowDropdown(false)}
-                  className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline ${pathname.startsWith(href) ? "text-accent bg-accent/5" : "text-text-primary"}`}
-                >
-                  <item.icon size={16} className="text-text-secondary" />
-                  {item.label}
-                </Link>
-              );
-            })}
-            <Link
-              href="/settings"
-              onClick={() => setShowDropdown(false)}
-              className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline ${pathname === "/settings" ? "text-accent bg-accent/5" : "text-text-primary"}`}
-            >
-              <CogsIcon size={16} className="text-text-secondary" />
-              설정
-            </Link>
+            {profile && (
+              <Link
+                href={`/${profile.id}`}
+                onClick={() => setShowDropdown(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
+              >
+                <BustIcon size={16} className="text-text-secondary" />
+                내 기록관
+              </Link>
+            )}
           </div>
 
           {/* 로그아웃 */}

@@ -9,6 +9,7 @@ export interface FollowerInfo {
   bio: string | null
   is_following: boolean // 내가 이 사람을 팔로우하는지
   followed_at: string
+  selected_title: { id: string; name: string; grade: string } | null
 }
 
 interface GetFollowersResult {
@@ -22,7 +23,7 @@ export async function getFollowers(userId: string): Promise<GetFollowersResult> 
 
   const { data: { user: currentUser } } = await supabase.auth.getUser()
 
-  // 해당 유저를 팔로우하는 사람들 조회
+  // 해당 유저를 팔로우하는 사람들 조회 (칭호 포함)
   const { data: followers, error } = await supabase
     .from('follows')
     .select(`
@@ -31,7 +32,8 @@ export async function getFollowers(userId: string): Promise<GetFollowersResult> 
         id,
         nickname,
         avatar_url,
-        bio
+        bio,
+        selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
       )
     `)
     .eq('following_id', userId)
@@ -53,7 +55,8 @@ export async function getFollowers(userId: string): Promise<GetFollowersResult> 
     myFollowingIds = (myFollowing || []).map(f => f.following_id)
   }
 
-  type FollowerProfile = { id: string; nickname: string; avatar_url: string | null; bio: string | null }
+  type TitleData = { id: string; name: string; grade: string } | null
+  type FollowerProfile = { id: string; nickname: string; avatar_url: string | null; bio: string | null; selected_title: TitleData }
 
   const result: FollowerInfo[] = (followers || [])
     .filter(f => f.follower)
@@ -66,6 +69,7 @@ export async function getFollowers(userId: string): Promise<GetFollowersResult> 
         bio: follower.bio,
         is_following: myFollowingIds.includes(follower.id),
         followed_at: f.created_at || '',
+        selected_title: follower.selected_title,
       }
     })
 

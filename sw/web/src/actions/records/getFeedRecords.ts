@@ -14,6 +14,7 @@ export interface FeedRecord {
     id: string
     nickname: string
     avatar_url: string | null
+    selected_title: { id: string; name: string; grade: string } | null
   }
 }
 
@@ -38,7 +39,12 @@ export async function getFeedRecords(params: GetFeedRecordsParams): Promise<Feed
       type,
       created_at,
       location,
-      user:profiles!records_user_id_fkey(id, nickname, avatar_url)
+      user:profiles!records_user_id_fkey(
+        id,
+        nickname,
+        avatar_url,
+        selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
+      )
     `)
     .eq('content_id', params.contentId)
     .order('created_at', { ascending: false })

@@ -8,6 +8,7 @@ export interface FeedActivity {
   user_id: string
   user_nickname: string
   user_avatar_url: string | null
+  user_title: { id: string; name: string; grade: string } | null
   action_type: ActivityActionType
   target_type: ActivityTargetType
   target_id: string
@@ -90,7 +91,11 @@ export async function getFeedActivities(
       content_id,
       metadata,
       created_at,
-      user:profiles!user_id(nickname, avatar_url)
+      user:profiles!user_id(
+        nickname,
+        avatar_url,
+        selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
+      )
     `)
     .in('user_id', followingIds)
     .in('action_type', ['CONTENT_ADD', 'REVIEW_UPDATE'])
@@ -154,7 +159,8 @@ export async function getFeedActivities(
     }
   }
 
-  type UserProfile = { nickname: string; avatar_url: string | null }
+  type TitleData = { id: string; name: string; grade: string } | null
+  type UserProfile = { nickname: string; avatar_url: string | null; selected_title: TitleData }
 
   const activities: FeedActivity[] = sliced.map((item) => {
     const userProfile = (Array.isArray(item.user) ? item.user[0] : item.user) as UserProfile | null
@@ -167,6 +173,7 @@ export async function getFeedActivities(
       user_id: item.user_id,
       user_nickname: userProfile?.nickname || 'User',
       user_avatar_url: userProfile?.avatar_url || null,
+      user_title: userProfile?.selected_title || null,
       action_type: item.action_type as ActivityActionType,
       target_type: item.target_type as ActivityTargetType,
       target_id: item.target_id,

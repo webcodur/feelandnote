@@ -6,9 +6,11 @@
 "use client";
 
 import Image from "next/image";
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, Loader2, Plus, ExternalLink, Check } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink } from "lucide-react";
 import Button from "@/components/ui/Button";
+import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import { Z_INDEX } from "@/constants/zIndex";
+import type { ContentStatus } from "@/types/database";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -46,7 +48,7 @@ interface SearchResultsDropdownProps {
   onRecentSearchClick: (search: string) => void;
   onClearRecentSearches: () => void;
   onViewAllResults: () => void;
-  onAddToArchive?: (result: SearchResult) => void;
+  onAddWithStatus?: (result: SearchResult, status: ContentStatus) => void;
   onOpenInNewTab?: (result: SearchResult) => void;
   isMobile?: boolean;
 }
@@ -64,7 +66,7 @@ export default function SearchResultsDropdown({
   onRecentSearchClick,
   onClearRecentSearches,
   onViewAllResults,
-  onAddToArchive,
+  onAddWithStatus,
   onOpenInNewTab,
   isMobile = false,
 }: SearchResultsDropdownProps) {
@@ -152,27 +154,15 @@ export default function SearchResultsDropdown({
                 {/* 콘텐츠 유틸 버튼 (추가, 새창 열기) */}
                 {isContentResult && (
                   <div className="flex items-center gap-1 shrink-0">
-                    {onAddToArchive && (
-                      isAdded ? (
-                        <div className="p-1.5 rounded-md bg-green-500/20 text-green-400">
-                          <Check size={14} />
-                        </div>
-                      ) : (
-                        <Button
-                          unstyled
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onAddToArchive(result);
-                          }}
-                          disabled={isAdding}
-                          className={`p-1.5 rounded-md bg-accent/20 text-accent hover:bg-accent/30
-                            ${isAdding ? "opacity-50" : "hidden group-hover:block"}`}
-                          title="기록관에 추가"
-                        >
-                          {isAdding && <Loader2 size={14} className="animate-spin" />}
-                          {!isAdding && <Plus size={14} />}
-                        </Button>
-                      )
+                    {onAddWithStatus && (
+                      <div className={isAdded ? "" : "hidden group-hover:block"}>
+                        <AddContentPopover
+                          onAdd={(status) => onAddWithStatus(result, status)}
+                          isAdding={isAdding}
+                          isAdded={isAdded}
+                          size="md"
+                        />
+                      </div>
                     )}
                     {onOpenInNewTab && (
                       <Button

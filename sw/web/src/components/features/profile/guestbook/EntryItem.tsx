@@ -7,8 +7,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui";
-import ClassicalBox from "@/components/ui/ClassicalBox";
+import { Button, InnerBox } from "@/components/ui";
 import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -41,7 +40,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
   };
 
   return (
-    <ClassicalBox className="relative border-2 border-accent-dim/10 hover:border-accent/40 bg-bg-card transition-all duration-500 group overflow-hidden shadow-md active:translate-y-0.5">
+    <InnerBox className="relative hover:border-stone-700/70 group overflow-hidden active:translate-y-0.5">
       {/* Texture overlay for stone fragment */}
       <div 
         className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"
@@ -186,6 +185,6 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
           </div>
         )}
       </div>
-    </ClassicalBox>
+    </InnerBox>
   );
 }

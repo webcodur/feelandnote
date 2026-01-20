@@ -7,9 +7,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Book, Star, Bookmark, Plus, Check, Loader2 } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Book, Star, Bookmark, Check } from "lucide-react";
 import { CATEGORIES } from "@/constants/categories";
+import AddContentPopover from "./AddContentPopover";
+import type { ContentStatus } from "@/types/database";
 
 // #region 타입
 export interface ContentCompactCardData {
@@ -32,7 +33,7 @@ interface ContentCompactCardProps {
   showAddButton?: boolean;
   isAdding?: boolean;
   isAdded?: boolean;
-  onAdd?: () => void;
+  onAddWithStatus?: (status: ContentStatus) => void;
 }
 // #endregion
 
@@ -123,7 +124,7 @@ export default function ContentCompactCard({
   showAddButton = false,
   isAdding = false,
   isAdded = false,
-  onAdd,
+  onAddWithStatus,
 }: ContentCompactCardProps) {
   const CategoryIcon = CATEGORY_ICONS[data.category] || Book;
 
@@ -150,26 +151,19 @@ export default function ContentCompactCard({
         )}
 
         {/* 추가 버튼 */}
-        {showAddButton && onAdd && (
+        {showAddButton && onAddWithStatus && (
           <div className="absolute top-1 right-1 hidden group-hover:block">
             {(isAdded || isSaved) ? (
               <div className="p-1 rounded-md bg-green-500/80 text-white">
                 <Check size={12} />
               </div>
             ) : (
-              <Button
-                unstyled
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onAdd();
-                }}
-                disabled={isAdding}
-                className="p-1 rounded-md bg-accent/80 text-white hover:bg-accent"
-                title="기록관에 추가"
-              >
-                {isAdding ? <Loader2 size={12} className="animate-spin" /> : <Plus size={12} />}
-              </Button>
+              <AddContentPopover
+                onAdd={onAddWithStatus}
+                isAdding={isAdding}
+                isAdded={isAdded}
+                size="sm"
+              />
             )}
           </div>
         )}

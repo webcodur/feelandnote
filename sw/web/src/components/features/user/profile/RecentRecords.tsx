@@ -43,9 +43,9 @@ export default function RecentRecords({ items, userId }: RecentRecordsProps) {
               </div>
             )}
             
-            {/* 상태 뱃지 - 신전풍 용어 적용 (스키마 동기화) */}
+            {/* 상태 뱃지 */}
             <div className="absolute top-0 right-0 px-2.5 py-1.5 bg-black/95 backdrop-blur-md text-[9px] text-accent font-serif font-black border-l border-b border-accent/40 tracking-[0.1em] shadow-2xl z-20">
-              {item.status === 'FINISHED' ? '성취' : item.status === 'WATCHING' ? '감상' : item.status === 'WANT' ? '염원' : '정지'}
+              {item.status === 'FINISHED' ? '감상' : '관심'}
             </div>
 
             {/* 별점 - 하단에 강조 표시 (더 견고한 디자인) */}

@@ -6,6 +6,8 @@
 
 import { Megaphone } from "lucide-react";
 
+export const metadata = { title: "공지사항" };
+
 export default function Page() {
   return (
     <>

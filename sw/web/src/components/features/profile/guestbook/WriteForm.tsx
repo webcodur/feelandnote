@@ -6,8 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui";
-import ClassicalBox from "@/components/ui/ClassicalBox";
+import { Button, InnerBox } from "@/components/ui";
 import { Lock, Send } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
@@ -54,7 +53,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   };
 
   return (
-    <ClassicalBox className="mb-8 bg-bg-card border-accent-dim/20 shadow-glow-sm overflow-hidden group">
+    <InnerBox className="mb-8 overflow-hidden group">
       {/* Decorative top header for Altar style */}
       <div className="h-1.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-2" />
       
@@ -103,6 +102,6 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
           </Button>
         </div>
       </div>
-    </ClassicalBox>
+    </InnerBox>
   );
 }

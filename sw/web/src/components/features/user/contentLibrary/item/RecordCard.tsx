@@ -41,12 +41,8 @@ const TYPE_ICONS: Record<ContentType, typeof Book> = {
 };
 
 const STATUS_STYLES: Record<ContentStatus, { label: string; color: string }> = {
-  WANT: { label: "보고싶음", color: "text-status-wish" },
-  WATCHING: { label: "보는중", color: "text-status-watching" },
-  DROPPED: { label: "중단", color: "text-status-paused" },
-  FINISHED: { label: "완료", color: "text-status-completed" },
-  RECOMMENDED: { label: "추천", color: "text-green-500" },
-  NOT_RECOMMENDED: { label: "비추천", color: "text-red-500" },
+  WANT: { label: "관심", color: "text-status-wish" },
+  FINISHED: { label: "감상", color: "text-status-completed" },
 };
 // #endregion
 

@@ -8,17 +8,13 @@
 import { useState } from "react";
 import { FolderOpen, Check, Eye, Globe, Users, Lock } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { STATUS_STYLES } from "@/constants/statuses";
 import type { VisibilityType } from "@/types/database";
 
+// Re-export for backward compatibility
+export { STATUS_STYLES };
+
 // #region 상수
-export const STATUS_STYLES: Record<string, { class: string; text: string }> = {
-  WANT: { class: "text-yellow-300 border-yellow-600", text: "관심" },
-  WATCHING: { class: "text-green-400 border-green-600", text: "진행중" },
-  DROPPED: { class: "text-red-400 border-red-600", text: "중단" },
-  FINISHED: { class: "text-blue-400 border-blue-600", text: "완료" },
-  RECOMMENDED: { class: "text-pink-400 border-pink-600", text: "추천" },
-  NOT_RECOMMENDED: { class: "text-gray-400 border-gray-600", text: "비추" },
-};
 
 const VISIBILITY_OPTIONS: { value: VisibilityType; label: string; icon: typeof Globe; class: string }[] = [
   { value: "public", label: "전체", icon: Globe, class: "text-green-400" },

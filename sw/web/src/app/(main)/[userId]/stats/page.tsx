@@ -1,42 +1,25 @@
-/*
-  파일명: /app/(main)/profile/stats/page.tsx
-  기능: 통계 페이지
-  책임: 사용자의 문화생활 통계를 표시한다.
-*/ // ------------------------------
+import { createClient } from "@/lib/supabase/server";
+import { getDetailedStats } from "@/actions/user";
+import { notFound } from "next/navigation";
+import ProfileStatsSection from "../ProfileStatsSection";
 
-"use client";
+export const metadata = { title: "통계" };
 
-import { useState, useEffect } from "react";
-import { Loader2 } from "lucide-react";
-import { getDetailedStats, type DetailedStats } from "@/actions/user";
-import StatsContent from "@/components/features/profile/StatsContent";
+interface PageProps {
+  params: Promise<{ userId: string }>;
+}
 
-export default function Page() {
-  const [stats, setStats] = useState<DetailedStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export default async function StatsPage({ params }: PageProps) {
+  const { userId } = await params;
+  const supabase = await createClient();
+  const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-  useEffect(() => {
-    async function loadData() {
-      setIsLoading(true);
-      try {
-        const statsData = await getDetailedStats();
-        setStats(statsData);
-      } catch (error) {
-        console.error("Failed to load stats:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    loadData();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 size={28} className="animate-spin text-accent" />
-      </div>
-    );
+  // 본인만 통계 페이지 접근 가능
+  if (!currentUser || currentUser.id !== userId) {
+    notFound();
   }
 
-  return <StatsContent stats={stats} />;
+  const stats = await getDetailedStats();
+
+  return <ProfileStatsSection stats={stats} />;
 }

@@ -4,6 +4,8 @@
   책임: Feel&Note 개인정보 수집 및 이용 내역을 표시한다.
 */
 
+export const metadata = { title: "개인정보처리방침" };
+
 export default function PrivacyPage() {
   return (
     <div className="space-y-10 text-text-primary">

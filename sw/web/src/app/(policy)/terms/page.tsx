@@ -4,6 +4,8 @@
   책임: Feel&Note 서비스 이용약관을 표시한다.
 */
 
+export const metadata = { title: "이용약관" };
+
 export default function TermsPage() {
   return (
     <div className="space-y-10 text-text-primary">

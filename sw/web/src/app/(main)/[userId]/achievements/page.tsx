@@ -1,65 +1,34 @@
-/*
-  파일명: /app/(main)/profile/achievements/page.tsx
-  기능: 업적 페이지
-  책임: 사용자의 업적과 칭호를 표시한다.
-*/ // ------------------------------
+import { createClient } from "@/lib/supabase/server";
+import { getAchievementData } from "@/actions/achievements";
+import { notFound } from "next/navigation";
+import ProfileAchievementsSection from "../ProfileAchievementsSection";
 
-"use client";
+export const metadata = { title: "칭호" };
 
-import { useState, useEffect } from "react";
-import { Loader2 } from "lucide-react";
-import { getAchievementData, type AchievementData } from "@/actions/achievements";
-import AchievementsContent from "@/components/features/profile/AchievementsContent";
+interface PageProps {
+  params: Promise<{ userId: string }>;
+}
 
-export default function Page() {
-  const [achievements, setAchievements] = useState<AchievementData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [subTab, setSubTab] = useState<"history" | "titles">("history");
+export default async function AchievementsPage({ params }: PageProps) {
+  const { userId } = await params;
+  const supabase = await createClient();
+  const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-  useEffect(() => {
-    async function loadData() {
-      setIsLoading(true);
-      try {
-        const data = await getAchievementData();
-        setAchievements(data);
-      } catch (error) {
-        console.error("Failed to load achievements:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    loadData();
-  }, []);
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffMins < 1) return "방금 전";
-    if (diffMins < 60) return `${diffMins}분 전`;
-    if (diffHours < 24) return `${diffHours}시간 전`;
-    if (diffDays < 7) return `${diffDays}일 전`;
-    return date.toLocaleDateString("ko-KR");
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 size={28} className="animate-spin text-accent" />
-      </div>
-    );
+  // 본인만 칭호 페이지 접근 가능
+  if (!currentUser || currentUser.id !== userId) {
+    notFound();
   }
 
-  return (
-    <AchievementsContent
-      data={achievements}
-      subTab={subTab}
-      setSubTab={setSubTab}
-      formatDate={formatDate}
-    />
-  );
+  const [achievements, profileResult] = await Promise.all([
+    getAchievementData(),
+    supabase.from("profiles").select("selected_title_id").eq("id", userId).single(),
+  ]);
+
+  if (!achievements) {
+    notFound();
+  }
+
+  const selectedTitleId = profileResult.data?.selected_title_id || null;
+
+  return <ProfileAchievementsSection achievements={achievements} selectedTitleId={selectedTitleId} />;
 }

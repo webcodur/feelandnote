@@ -23,21 +23,13 @@ export interface StatusFilterOption {
 // 상태 설정 (Record 형태, 색상 정보 포함)
 export const STATUS_CONFIG: Record<ContentStatus, StatusConfig> = {
   WANT: { label: '관심', color: 'text-yellow-400', bgColor: 'bg-yellow-500/10' },
-  WATCHING: { label: '진행중', color: 'text-blue-400', bgColor: 'bg-blue-500/10' },
-  DROPPED: { label: '중단', color: 'text-red-400', bgColor: 'bg-red-500/10' },
-  FINISHED: { label: '완료', color: 'text-green-400', bgColor: 'bg-green-500/10' },
-  RECOMMENDED: { label: '완료+추천', color: 'text-purple-400', bgColor: 'bg-purple-500/10' },
-  NOT_RECOMMENDED: { label: '완료+비추', color: 'text-gray-400', bgColor: 'bg-gray-500/10' },
+  FINISHED: { label: '감상함', color: 'text-green-400', bgColor: 'bg-green-500/10' },
 }
 
 // 모든 상태 옵션 (콘텐츠 추가/수정용)
 export const STATUS_OPTIONS: StatusOption[] = [
   { value: 'WANT', label: '관심', color: 'text-yellow-400' },
-  { value: 'WATCHING', label: '진행중', color: 'text-blue-400' },
-  { value: 'DROPPED', label: '중단', color: 'text-red-400' },
-  { value: 'FINISHED', label: '완료', color: 'text-green-400' },
-  { value: 'RECOMMENDED', label: '완료+추천', color: 'text-purple-400' },
-  { value: 'NOT_RECOMMENDED', label: '완료+비추', color: 'text-gray-400' },
+  { value: 'FINISHED', label: '감상함', color: 'text-green-400' },
 ]
 
 // 필터용 상태 옵션 ("전체" 포함)
@@ -46,21 +38,10 @@ export const STATUS_FILTER_OPTIONS: StatusFilterOption[] = [
   ...STATUS_OPTIONS.map(({ value, label }) => ({ value, label })),
 ]
 
-// 기록 탭용 필터 옵션 (WANT 제외 - 관심 탭으로 분리됨)
-export const RECORD_STATUS_FILTER_OPTIONS: StatusFilterOption[] = [
-  { value: 'all', label: '전체' },
-  { value: 'WATCHING', label: '진행중' },
-  { value: 'FINISHED', label: '완료' },
-  { value: 'DROPPED', label: '중단' },
-  { value: 'RECOMMENDED', label: '완료+추천' },
-  { value: 'NOT_RECOMMENDED', label: '완료+비추' },
-]
-
-// 셀럽 콘텐츠용 상태 옵션 (간소화)
+// 셀럽 콘텐츠용 상태 옵션
 export const CELEB_STATUS_OPTIONS: StatusOption[] = [
-  { value: 'FINISHED', label: '완료' },
-  { value: 'WATCHING', label: '경험중' },
-  { value: 'WANT', label: '예정' },
+  { value: 'FINISHED', label: '감상함' },
+  { value: 'WANT', label: '관심' },
 ]
 
 // 유틸 함수

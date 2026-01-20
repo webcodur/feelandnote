@@ -3,27 +3,19 @@ import { Activity } from 'lucide-react'
 import ActivityLogsClient from './ActivityLogsClient'
 
 const ACTION_TYPE_MAP: Record<string, { label: string; color: string }> = {
-  content_add: { label: '콘텐츠 등록', color: 'success' },
-  content_update: { label: '콘텐츠 수정', color: 'info' },
-  content_delete: { label: '콘텐츠 삭제', color: 'danger' },
-  record_add: { label: '기록 작성', color: 'purple' },
-  record_update: { label: '기록 수정', color: 'info' },
-  follow: { label: '팔로우', color: 'pink' },
-  unfollow: { label: '언팔로우', color: 'default' },
-  login: { label: '로그인', color: 'cyan' },
-  note_add: { label: '노트 작성', color: 'warning' },
-  note_update: { label: '노트 수정', color: 'warning' },
-  playlist_add: { label: '플레이리스트 생성', color: 'orange' },
-  guestbook_add: { label: '방명록 작성', color: 'purple' },
+  CONTENT_ADD: { label: '콘텐츠 등록', color: 'success' },
+  CONTENT_REMOVE: { label: '콘텐츠 삭제', color: 'danger' },
+  STATUS_CHANGE: { label: '상태 변경', color: 'info' },
+  PROGRESS_CHANGE: { label: '진행 변경 (레거시)', color: 'default' },
+  REVIEW_UPDATE: { label: '리뷰 작성', color: 'purple' },
+  RECORD_CREATE: { label: '기록 작성', color: 'warning' },
+  RECORD_UPDATE: { label: '기록 수정', color: 'info' },
+  RECORD_DELETE: { label: '기록 삭제', color: 'danger' },
 }
 
 const TARGET_TYPE_MAP: Record<string, string> = {
-  user_content: '콘텐츠',
+  content: '콘텐츠',
   record: '기록',
-  user: '사용자',
-  note: '노트',
-  playlist: '플레이리스트',
-  guestbook: '방명록',
 }
 
 export default async function ActivityLogsPage({

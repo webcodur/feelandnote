@@ -61,7 +61,7 @@ export function BatchModeModal({ isOpen, onClose }: BatchModeModalProps) {
         <p className="text-sm font-medium text-text-primary mb-2">지원 예정 작업:</p>
         <ul className="text-sm text-text-secondary space-y-1">
           <li>• 선택 콘텐츠 일괄 삭제</li>
-          <li>• 상태 일괄 변경 (관심 → 완료 등)</li>
+          <li>• 상태 일괄 변경 (관심 → 감상함 등)</li>
           <li>• 소분류 일괄 지정</li>
           <li>• 고정/해제 일괄 처리</li>
         </ul>
