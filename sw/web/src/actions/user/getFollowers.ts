@@ -56,20 +56,24 @@ export async function getFollowers(userId: string): Promise<GetFollowersResult> 
   }
 
   type TitleData = { id: string; name: string; grade: string } | null
-  type FollowerProfile = { id: string; nickname: string; avatar_url: string | null; bio: string | null; selected_title: TitleData }
+  type RawFollowerProfile = { id: string; nickname: string; avatar_url: string | null; bio: string | null; selected_title: TitleData[] | TitleData }
 
   const result: FollowerInfo[] = (followers || [])
     .filter(f => f.follower)
     .map(f => {
-      const follower = (Array.isArray(f.follower) ? f.follower[0] : f.follower) as FollowerProfile
+      const rawFollower = (Array.isArray(f.follower) ? f.follower[0] : f.follower) as RawFollowerProfile
+      // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
+      const selectedTitle = rawFollower.selected_title
+        ? (Array.isArray(rawFollower.selected_title) ? rawFollower.selected_title[0] : rawFollower.selected_title)
+        : null
       return {
-        id: follower.id,
-        nickname: follower.nickname || 'User',
-        avatar_url: follower.avatar_url,
-        bio: follower.bio,
-        is_following: myFollowingIds.includes(follower.id),
+        id: rawFollower.id,
+        nickname: rawFollower.nickname || 'User',
+        avatar_url: rawFollower.avatar_url,
+        bio: rawFollower.bio,
+        is_following: myFollowingIds.includes(rawFollower.id),
         followed_at: f.created_at || '',
-        selected_title: follower.selected_title,
+        selected_title: selectedTitle,
       }
     })
 

@@ -23,6 +23,7 @@ interface UserProfile {
   id: string;
   nickname: string;
   avatar_url: string | null;
+  selected_title: { name: string; grade: string } | null;
 }
 
 interface HeaderProps {
@@ -53,9 +54,23 @@ export default function Header({ isMobile }: HeaderProps) {
       }
 
       setIsLoggedIn(true);
-      const { data: profileData } = await supabase.from("profiles").select("id, nickname, avatar_url").eq("id", user.id).single();
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("id, nickname, avatar_url, selected_title:titles!profiles_selected_title_id_fkey(name, grade)")
+        .eq("id", user.id)
+        .single();
       if (profileData) {
-        setProfile({ id: profileData.id, nickname: profileData.nickname || "User", avatar_url: profileData.avatar_url });
+        // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
+        const rawTitle = profileData.selected_title;
+        const selectedTitle = rawTitle
+          ? (Array.isArray(rawTitle) ? rawTitle[0] : rawTitle) as { name: string; grade: string }
+          : null;
+        setProfile({
+          id: profileData.id,
+          nickname: profileData.nickname || "User",
+          avatar_url: profileData.avatar_url,
+          selected_title: selectedTitle,
+        });
       }
     };
     loadProfile();

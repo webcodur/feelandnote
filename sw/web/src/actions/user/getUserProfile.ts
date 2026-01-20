@@ -120,8 +120,10 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
     isBlocked = !!blockData
   }
 
-  // 칭호 정보 추출
-  const selectedTitle = profile.selected_title as SelectedTitle | null
+  // 칭호 정보 추출 (Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체)
+  const selectedTitle = profile.selected_title
+    ? (Array.isArray(profile.selected_title) ? profile.selected_title[0] : profile.selected_title) as SelectedTitle
+    : null
 
   return {
     success: true,

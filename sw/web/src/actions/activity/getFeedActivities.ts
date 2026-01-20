@@ -160,10 +160,16 @@ export async function getFeedActivities(
   }
 
   type TitleData = { id: string; name: string; grade: string } | null
+  type RawUserProfile = { nickname: string; avatar_url: string | null; selected_title: TitleData[] | TitleData }
   type UserProfile = { nickname: string; avatar_url: string | null; selected_title: TitleData }
 
   const activities: FeedActivity[] = sliced.map((item) => {
-    const userProfile = (Array.isArray(item.user) ? item.user[0] : item.user) as UserProfile | null
+    const rawProfile = (Array.isArray(item.user) ? item.user[0] : item.user) as RawUserProfile | null
+    // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
+    const selectedTitle = rawProfile?.selected_title
+      ? (Array.isArray(rawProfile.selected_title) ? rawProfile.selected_title[0] : rawProfile.selected_title)
+      : null
+    const userProfile: UserProfile | null = rawProfile ? { ...rawProfile, selected_title: selectedTitle } : null
     const contentInfo = item.content_id ? contentsMap[item.content_id] : null
     const userContentKey = item.content_id ? `${item.user_id}:${item.content_id}` : null
     const userContentInfo = userContentKey ? userContentsMap[userContentKey] : null

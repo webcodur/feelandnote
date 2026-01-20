@@ -14,6 +14,7 @@ export const ACTION_CONFIG: Record<ActivityActionType, ActionConfig> = {
   REVIEW_UPDATE: { icon: Star, verb: "리뷰를 남겼어요", color: "text-yellow-400" },
   CONTENT_REMOVE: { icon: Trash2, verb: "삭제했어요", color: "text-red-400" },
   STATUS_CHANGE: { icon: RefreshCw, verb: "상태 변경", color: "text-blue-400" },
+  PROGRESS_CHANGE: { icon: RefreshCw, verb: "진행 변경", color: "text-blue-400" }, // 레거시 (STATUS_CHANGE로 대체됨)
   RECORD_CREATE: { icon: FileText, verb: "기록 생성", color: "text-accent" },
   RECORD_UPDATE: { icon: Edit, verb: "기록 수정", color: "text-blue-400" },
   RECORD_DELETE: { icon: Trash2, verb: "기록 삭제", color: "text-red-400" },

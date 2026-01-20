@@ -10,7 +10,7 @@ export async function selectTitle(titleId: string | null): Promise<ActionResult<
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    return failure('로그인이 필요하다')
+    return failure('UNAUTHORIZED', '로그인이 필요하다')
   }
 
   // titleId가 있으면 해당 칭호가 해금되었는지 확인
@@ -23,7 +23,7 @@ export async function selectTitle(titleId: string | null): Promise<ActionResult<
       .single()
 
     if (!userTitle) {
-      return failure('해금되지 않은 칭호는 선택할 수 없다')
+      return failure('FORBIDDEN', '해금되지 않은 칭호는 선택할 수 없다')
     }
   }
 
@@ -34,7 +34,7 @@ export async function selectTitle(titleId: string | null): Promise<ActionResult<
     .eq('id', user.id)
 
   if (error) {
-    return handleSupabaseError(error, 'selectTitle')
+    return handleSupabaseError(error, { logPrefix: '[selectTitle]' })
   }
 
   revalidatePath(`/${user.id}`)
@@ -62,5 +62,7 @@ export async function getSelectedTitle(userId: string) {
 
   if (!data?.titles) return null
 
-  return data.titles as { id: string; name: string; grade: string }
+  // Supabase FK relation은 단일 객체를 반환하지만 TS가 배열로 추론함
+  const titles = data.titles as unknown as { id: string; name: string; grade: string }
+  return titles
 }

@@ -6,7 +6,7 @@
 "use client";
 
 import Image from "next/image";
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import { Z_INDEX } from "@/constants/zIndex";
