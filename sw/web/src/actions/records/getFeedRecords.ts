@@ -73,8 +73,15 @@ export async function getFeedRecords(params: GetFeedRecordsParams): Promise<Feed
     return []
   }
 
-  return (data || []).map(record => ({
-    ...record,
-    user: Array.isArray(record.user) ? record.user[0] : record.user
-  })) as FeedRecord[]
+  return (data || []).map(record => {
+    const rawUser = Array.isArray(record.user) ? record.user[0] : record.user
+    // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
+    const selectedTitle = rawUser?.selected_title
+      ? (Array.isArray(rawUser.selected_title) ? rawUser.selected_title[0] : rawUser.selected_title)
+      : null
+    return {
+      ...record,
+      user: rawUser ? { ...rawUser, selected_title: selectedTitle } : rawUser
+    }
+  }) as FeedRecord[]
 }

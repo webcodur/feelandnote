@@ -87,15 +87,21 @@ export async function searchUsers({
 
   type TitleData = { id: string; name: string; grade: string } | null
 
-  let items: UserSearchResult[] = users.map((user) => ({
-    id: user.id,
-    nickname: user.nickname || '사용자',
-    username: user.username ? `@${user.username}` : `@user_${user.id.slice(0, 8)}`,
-    avatarUrl: user.avatar_url,
-    followerCount: followerCountMap[user.id] || 0,
-    isFollowing: followingIds.includes(user.id),
-    selectedTitle: (user.selected_title as TitleData) || null,
-  }))
+  let items: UserSearchResult[] = users.map((user) => {
+    // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
+    const selectedTitle = user.selected_title
+      ? (Array.isArray(user.selected_title) ? user.selected_title[0] : user.selected_title) as TitleData
+      : null
+    return {
+      id: user.id,
+      nickname: user.nickname || '사용자',
+      username: user.username ? `@${user.username}` : `@user_${user.id.slice(0, 8)}`,
+      avatarUrl: user.avatar_url,
+      followerCount: followerCountMap[user.id] || 0,
+      isFollowing: followingIds.includes(user.id),
+      selectedTitle,
+    }
+  })
 
   // 팔로잉만 필터
   if (followingOnly) {

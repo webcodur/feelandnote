@@ -131,7 +131,7 @@ export default function InterestsEditPanel({
       });
 
       if (!result.success) {
-        setError(result.error?.message ?? "저장에 실패했다.");
+        setError(result.message ?? "저장에 실패했다.");
         return;
       }
 
@@ -154,7 +154,7 @@ export default function InterestsEditPanel({
           isSpoiler,
         });
         if (!reviewResult.success) {
-          setError(reviewResult.error?.message ?? "리뷰 저장에 실패했다.");
+          setError(reviewResult.message ?? "리뷰 저장에 실패했다.");
           return;
         }
 
