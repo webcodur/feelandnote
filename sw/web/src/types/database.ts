@@ -23,6 +23,7 @@ export interface Profile {
   is_verified: boolean
   bio: string | null
   profession: string | null
+  title: string | null  // 셀럽 수식어 (예: 테슬라 창립자, 철의 여인)
   created_at: string
 }
 

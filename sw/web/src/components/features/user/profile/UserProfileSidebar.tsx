@@ -122,8 +122,13 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
                   <TitleBadge title={profile.selected_title} size="md" />
                 </div>
               )}
+              {profile.title && (
+                <p className="text-sm text-accent tracking-[0.15em] font-serif font-bold">
+                  {profile.title}
+                </p>
+              )}
               {profile.profession && (
-                <p className="text-sm text-accent tracking-[0.15em] font-serif font-bold uppercase">
+                <p className={`text-xs text-text-tertiary tracking-wider uppercase ${profile.title ? 'mt-0.5' : ''}`}>
                   {profile.profession}
                 </p>
               )}

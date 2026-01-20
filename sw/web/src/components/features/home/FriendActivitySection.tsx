@@ -146,6 +146,7 @@ export default function FriendActivitySection({
                   contentThumbnail={activity.content_thumbnail}
                   review={activity.review!}
                   timeAgo={formatRelativeTime(activity.created_at)}
+                  sourceUrl={activity.source_url}
                   href={`/${activity.user_id}/records/${activity.content_id}`}
                 />
               );

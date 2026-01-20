@@ -133,14 +133,22 @@ export default function UserProfileHeader({
                 </span>
               )}
             </div>
-            {isCeleb && (profile.profession || profile.nationality || profile.birth_date || profile.death_date) && (
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-text-tertiary flex-wrap">
-                {(profile.profession || profile.nationality) && (
-                  <span className="truncate max-w-full">
-                    {profile.profession && getCelebProfessionLabel(profile.profession)}
-                    {profile.profession && profile.nationality && ' · '}
-                    {profile.nationality && <NationalityText code={profile.nationality} />}
-                  </span>
+            {isCeleb && (profile.title || profile.profession || profile.nationality) && (
+              <div className="flex items-center gap-1.5 text-[10px] sm:text-xs flex-wrap">
+                {profile.title && (
+                  <span className="text-accent font-medium truncate">{profile.title}</span>
+                )}
+                {profile.title && (profile.profession || profile.nationality) && (
+                  <span className="text-text-tertiary/50">|</span>
+                )}
+                {profile.profession && (
+                  <span className="text-text-tertiary truncate">{getCelebProfessionLabel(profile.profession)}</span>
+                )}
+                {profile.profession && profile.nationality && (
+                  <span className="text-text-tertiary/50">·</span>
+                )}
+                {profile.nationality && (
+                  <span className="text-text-tertiary"><NationalityText code={profile.nationality} /></span>
                 )}
               </div>
             )}
@@ -170,17 +178,25 @@ export default function UserProfileHeader({
                 </span>
               )}
             </div>
-            {isCeleb && (profile.profession || profile.nationality || profile.birth_date || profile.death_date) && (
-              <div className="flex items-center gap-2 text-sm text-text-tertiary mb-2 flex-wrap">
-                {(profile.profession || profile.nationality) && (
-                  <span>
-                    {profile.profession && getCelebProfessionLabel(profile.profession)}
-                    {profile.profession && profile.nationality && ' · '}
-                    {profile.nationality && <NationalityText code={profile.nationality} />}
-                  </span>
+            {isCeleb && (profile.title || profile.profession || profile.nationality || profile.birth_date || profile.death_date) && (
+              <div className="flex items-center gap-2 text-sm mb-2 flex-wrap">
+                {profile.title && (
+                  <span className="text-accent font-medium">{profile.title}</span>
+                )}
+                {profile.title && (profile.profession || profile.nationality) && (
+                  <span className="text-text-tertiary/50">|</span>
+                )}
+                {profile.profession && (
+                  <span className="text-text-tertiary">{getCelebProfessionLabel(profile.profession)}</span>
+                )}
+                {profile.profession && profile.nationality && (
+                  <span className="text-text-tertiary/50">·</span>
+                )}
+                {profile.nationality && (
+                  <span className="text-text-tertiary"><NationalityText code={profile.nationality} /></span>
                 )}
                 {(profile.birth_date || profile.death_date) && (
-                  <span className="flex items-center gap-1 ml-2 border-l border-accent-dim/30 pl-2">
+                  <span className="flex items-center gap-1 ml-2 border-l border-accent-dim/30 pl-2 text-text-tertiary">
                     <Calendar size={12} />
                     {formatLifespan(profile.birth_date, profile.death_date)}
                   </span>

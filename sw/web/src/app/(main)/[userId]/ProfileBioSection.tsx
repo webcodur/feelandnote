@@ -97,9 +97,9 @@ function PortraitFrame({ url, alt }: { url: string; alt: string }) {
 
 function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
   const isCeleb = profile.profile_type === "CELEB";
-  // 일반 유저: profession, death_date 제외
+  // 일반 유저: title, profession, death_date 제외
   const hasMetadata = isCeleb
-    ? profile.profession || profile.nationality || profile.birth_date || profile.death_date
+    ? profile.title || profile.profession || profile.nationality || profile.birth_date || profile.death_date
     : profile.nationality || profile.birth_date;
 
   if (!hasMetadata) return null;
@@ -107,10 +107,19 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
   return (
     <InnerBox className="p-3 sm:p-5 group/info">
       <div className="relative grid grid-cols-2 sm:grid-cols-3 gap-x-2 sm:gap-x-6 gap-y-4 text-center">
-        {isCeleb && profile.profession && (
+        {isCeleb && (profile.title || profile.profession) && (
           <div className="space-y-1">
-            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Profession</span>
-            <p className="text-sm sm:text-base text-stone-200 font-serif font-black">{getCelebProfessionLabel(profile.profession)}</p>
+            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">
+              {profile.title ? "Title" : "Profession"}
+            </span>
+            {profile.title && (
+              <p className="text-sm sm:text-base text-accent font-serif font-black">{profile.title}</p>
+            )}
+            {profile.profession && (
+              <p className={`text-xs text-stone-400 font-serif ${profile.title ? 'mt-0.5' : 'text-sm sm:text-base text-stone-200 font-black'}`}>
+                {getCelebProfessionLabel(profile.profession)}
+              </p>
+            )}
           </div>
         )}
         {profile.nationality && (

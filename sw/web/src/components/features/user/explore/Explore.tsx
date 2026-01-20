@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
+import FriendCardNameplate from "./FriendCardNameplate";
 import AlgorithmInfoModal from "./AlgorithmInfoModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 
@@ -110,8 +111,6 @@ export default function Explore({
         description="다양한 콘텐츠 기록을 탐색하세요"
       />
 
-
-
       {/* 탭 네비게이션 - 모바일 가로 스크롤 대응 및 페이드 효과 */}
       <div className="relative w-full mb-8">
         {/* Shadow Overlay Faders */}
@@ -165,29 +164,19 @@ export default function Explore({
       {/* 다른 탭들 - 기존 컨테이너 스타일 적용 */}
       <div className={`bg-surface rounded-2xl p-4 md:p-8 min-h-[400px] border border-accent-dim/10 shadow-inner shadow-black/20 ${activeTab === "celebs" ? "hidden" : ""}`}>
 
-        {/* 친구 탭 */}
+        {/* 친구 탭 - 명판 카드 스타일 */}
         {activeTab === "friends" && (
           <>
             {friends.length > 0 ? (
-              <>
-                {/* PC Grid */}
-                <div className="hidden sm:grid grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-4">
-                  {friends.map((friend) => (
-                    <UserCard key={friend.id} user={friend} onClick={() => handleSelectUser(friend.id)} />
-                  ))}
-                </div>
-                {/* Mobile Compact List */}
-                <div className="sm:hidden flex flex-col gap-2">
-                  {friends.map((friend) => (
-                    <MobileUserListItem 
-                      key={friend.id} 
-                      user={friend} 
-                      onClick={() => handleSelectUser(friend.id)}
-                      subtext={`${friend.content_count || 0} 기록`}
-                    />
-                  ))}
-                </div>
-              </>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {friends.map((friend) => (
+                  <FriendCardNameplate
+                    key={friend.id}
+                    friend={friend}
+                    onClick={() => handleSelectUser(friend.id)}
+                  />
+                ))}
+              </div>
             ) : (
               <EmptyState icon={<Users size={32} />} title="아직 친구가 없어요" description="서로 팔로우하면 친구가 됩니다" />
             )}

@@ -30,6 +30,15 @@ const CATEGORY_SEARCH_GUIDE: Partial<Record<CategoryId, string>> = {
   certificate: "주요 국가자격증 위주로 검색돼요.",
 };
 
+// 카테고리별 API 출처 정보
+const API_SOURCE_INFO: Record<CategoryId, { name: string; url: string }> = {
+  book: { name: "네이버 책 API", url: "https://developers.naver.com/docs/serviceapi/search/book/book.md" },
+  video: { name: "TMDB", url: "https://www.themoviedb.org" },
+  game: { name: "IGDB", url: "https://www.igdb.com" },
+  music: { name: "Spotify", url: "https://developer.spotify.com" },
+  certificate: { name: "Q-Net", url: "https://www.q-net.or.kr" },
+};
+
 const CATEGORY_CHIP_OPTIONS: ChipOption<CategoryId>[] = CATEGORIES.map((cat) => ({
   value: cat.id, label: cat.label, icon: cat.icon,
 }));
@@ -210,12 +219,9 @@ function SearchContent() {
     }
   }, [isLoadingMore, hasMore, page, modeParam, queryParam, categoryParam, category]);
 
-  // Link 이동 전 sessionStorage 저장 (content 모드만)
-  const handleBeforeNavigate = (item: ContentResult) => {
-    if (modeParam === "content") {
-      const key = `content_${item.id}`;
-      sessionStorage.setItem(key, JSON.stringify(item));
-    }
+  // Link 이동 전 콜백 (현재 미사용)
+  const handleBeforeNavigate = (_item: ContentResult) => {
+    // 외부 API로 직접 조회하므로 별도 저장 불필요
   };
 
   const handleAddWithStatus = (item: ContentResult, status: ContentStatus) => {
@@ -265,9 +271,23 @@ function SearchContent() {
             <FilterChips options={CATEGORY_CHIP_OPTIONS} value={category} onChange={(c) => { setCategory(c); updateUrl(c); }} variant="filled" showIcon />
             <div className="ml-auto"><FilterSelect options={CONTENT_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
           </div>
+          <div className="mt-3 flex items-center gap-1.5 text-xs text-text-tertiary">
+            <Info size={12} />
+            <span>
+              검색 제공:{" "}
+              <a
+                href={API_SOURCE_INFO[category].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent/60 hover:text-accent underline underline-offset-2"
+              >
+                {API_SOURCE_INFO[category].name}
+              </a>
+            </span>
+          </div>
           {CATEGORY_SEARCH_GUIDE[category] && (
-            <div className="mt-3 flex items-center gap-1.5 text-xs text-text-secondary">
-              <Info size={12} />
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-text-secondary">
+              <Info size={12} className="invisible" />
               <span>{CATEGORY_SEARCH_GUIDE[category]}</span>
             </div>
           )}

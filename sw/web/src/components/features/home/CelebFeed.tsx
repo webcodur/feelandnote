@@ -209,6 +209,7 @@ export default function CelebFeed({
             review={review.review}
             timeAgo={formatRelativeTime(review.updated_at)}
             isSpoiler={review.is_spoiler}
+            sourceUrl={review.source_url}
           />
         ))}
 

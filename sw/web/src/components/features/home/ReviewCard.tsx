@@ -4,9 +4,10 @@ import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Avatar, TitleBadge, type TitleInfo } from "@/components/ui";
+import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, type TitleInfo } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { Check, Book } from "lucide-react";
+import { Check, Book, ExternalLink, User } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -43,6 +44,7 @@ interface ReviewCardProps {
   review: string;
   timeAgo: string;
   isSpoiler?: boolean;
+  sourceUrl?: string | null;
 
   // 링크
   href?: string;
@@ -64,6 +66,7 @@ export default function ReviewCard({
   review,
   timeAgo,
   isSpoiler = false,
+  sourceUrl,
   href,
 }: ReviewCardProps) {
   const router = useRouter();
@@ -71,6 +74,8 @@ export default function ReviewCard({
   const [isAdded, setIsAdded] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isAdding, startTransition] = useTransition();
+  const [showNavigateModal, setShowNavigateModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
 
   const { icon: ContentIcon, label: contentTypeLabel } = getContentTypeInfo(contentType);
 
@@ -118,14 +123,20 @@ export default function ReviewCard({
   const cardContent = (
     <ClassicalBox hover className="flex flex-col md:flex-row bg-[#0a0a0a] hover:bg-[#0c0c0c] font-serif relative max-w-[960px] md:h-[450px] mx-auto overflow-hidden group p-3 md:p-4">
       {/* 좌측: 콘텐츠 이미지 + 정보 오버레이 */}
-      <div className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] md:aspect-auto md:h-full shrink-0 bg-black border border-accent/30">
+      <div
+        className="relative w-full md:w-[180px] lg:w-[200px] aspect-[2/3] md:aspect-auto md:h-full shrink-0 bg-black border border-accent/30 cursor-pointer hover:border-accent"
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowNavigateModal(true);
+        }}
+      >
         {contentThumbnail ? (
           <Image
             src={contentThumbnail}
             alt={contentTitle}
             fill
             unoptimized
-            className="object-cover opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0"
+            className="object-cover opacity-80 grayscale group-hover:opacity-100 group-hover:grayscale-0"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-bg-secondary">
@@ -177,23 +188,33 @@ export default function ReviewCard({
 
         {/* 프로필 헤더 */}
         <div className="flex items-center gap-4 border-b border-accent/20 pb-3 mb-3 pr-28">
-          <Link
-            href={`/${userId}`}
-            className="group/user flex-shrink-0"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            type="button"
+            className="flex-shrink-0 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowUserModal(true);
+            }}
           >
             <Avatar
               url={userAvatar}
               name={userName}
               size="md"
-              className="ring-1 ring-accent/30 rounded-full grayscale group-hover/user:grayscale-0 shadow-lg"
+              className="ring-1 ring-accent/30 rounded-full grayscale group-hover:grayscale-0 shadow-lg"
             />
-          </Link>
+          </button>
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-black text-text-primary tracking-tight">
+              <button
+                type="button"
+                className="text-lg font-black text-text-primary tracking-tight hover:text-accent cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowUserModal(true);
+                }}
+              >
                 {userName}
-              </h3>
+              </button>
               <TitleBadge title={userTitle ?? null} size="sm" />
               {isOfficial && (
                 <span className="bg-[#d4af37] text-black text-[8px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
@@ -231,12 +252,23 @@ export default function ReviewCard({
               {canScroll && scrollY > 0 && (
                 <div className="absolute top-0 inset-x-0 h-8 bg-gradient-to-b from-[#0a0a0a] to-transparent pointer-events-none z-10" />
               )}
-              <p
-                className="text-base md:text-lg text-[#e0e0e0] font-normal leading-[1.7] font-sans antialiased"
-                style={scrollStyle}
-              >
-                {review}
-              </p>
+              <div style={scrollStyle}>
+                <p className="text-base md:text-lg text-[#e0e0e0] font-normal leading-[1.7] font-sans antialiased">
+                  {review}
+                </p>
+                {sourceUrl && (
+                  <a
+                    href={sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    title={sourceUrl}
+                    className="inline-block mt-3 text-xs text-accent/60 hover:text-accent underline underline-offset-2 break-all"
+                  >
+                    출처: {sourceUrl}
+                  </a>
+                )}
+              </div>
               {/* 하단 그라데이션 - 아래로 스크롤 가능할 때 표시 */}
               {canScroll && scrollY < maxScroll && (
                 <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
@@ -248,20 +280,142 @@ export default function ReviewCard({
     </ClassicalBox>
   );
 
+  // 상세 페이지 이동 URL (category 포함)
+  const category = getCategoryByDbType(contentType)?.id || "book";
+  const detailUrl = `/content/detail?id=${contentId}&category=${category}`;
+
+  // 상세 페이지로 이동
+  const handleNavigateToDetail = () => {
+    setShowNavigateModal(false);
+    router.push(detailUrl);
+  };
+
+  // 사용자 기록관으로 이동
+  const handleNavigateToUser = () => {
+    setShowUserModal(false);
+    router.push(`/${userId}`);
+  };
+
   // href가 있으면 클릭 가능한 div로 처리 (a 중첩 방지)
   if (href) {
     return (
-      <div
-        onClick={() => router.push(href)}
-        className="cursor-pointer"
-        role="link"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === "Enter" && router.push(href)}
-      >
-        {cardContent}
-      </div>
+      <>
+        <div
+          onClick={() => router.push(href)}
+          className="cursor-pointer"
+          role="link"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && router.push(href)}
+        >
+          {cardContent}
+        </div>
+
+        {/* 상세 페이지 이동 확인 모달 */}
+        <Modal
+          isOpen={showNavigateModal}
+          onClose={() => setShowNavigateModal(false)}
+          title="콘텐츠 상세 정보"
+          icon={ExternalLink}
+          size="sm"
+          closeOnOverlayClick
+        >
+          <ModalBody>
+            <p className="text-text-secondary">
+              <span className="text-text-primary font-semibold">{contentTitle}</span>
+              의 상세 페이지로 이동하시겠습니까?
+            </p>
+          </ModalBody>
+          <ModalFooter className="justify-end">
+            <Button variant="ghost" size="md" onClick={() => setShowNavigateModal(false)}>
+              취소
+            </Button>
+            <Button variant="primary" size="md" onClick={handleNavigateToDetail}>
+              이동
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        {/* 사용자 기록관 이동 확인 모달 */}
+        <Modal
+          isOpen={showUserModal}
+          onClose={() => setShowUserModal(false)}
+          title="기록관 방문"
+          icon={User}
+          size="sm"
+          closeOnOverlayClick
+        >
+          <ModalBody>
+            <p className="text-text-secondary">
+              <span className="text-text-primary font-semibold">{userName}</span>
+              님의 기록관으로 이동하시겠습니까?
+            </p>
+          </ModalBody>
+          <ModalFooter className="justify-end">
+            <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>
+              취소
+            </Button>
+            <Button variant="primary" size="md" onClick={handleNavigateToUser}>
+              이동
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </>
     );
   }
 
-  return cardContent;
+  return (
+    <>
+      {cardContent}
+
+      {/* 상세 페이지 이동 확인 모달 */}
+      <Modal
+        isOpen={showNavigateModal}
+        onClose={() => setShowNavigateModal(false)}
+        title="콘텐츠 상세 정보"
+        icon={ExternalLink}
+        size="sm"
+        closeOnOverlayClick
+      >
+        <ModalBody>
+          <p className="text-text-secondary">
+            <span className="text-text-primary font-semibold">{contentTitle}</span>
+            의 상세 페이지로 이동하시겠습니까?
+          </p>
+        </ModalBody>
+        <ModalFooter className="justify-end">
+          <Button variant="ghost" size="md" onClick={() => setShowNavigateModal(false)}>
+            취소
+          </Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToDetail}>
+            이동
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      {/* 사용자 기록관 이동 확인 모달 */}
+      <Modal
+        isOpen={showUserModal}
+        onClose={() => setShowUserModal(false)}
+        title="기록관 방문"
+        icon={User}
+        size="sm"
+        closeOnOverlayClick
+      >
+        <ModalBody>
+          <p className="text-text-secondary">
+            <span className="text-text-primary font-semibold">{userName}</span>
+            님의 기록관으로 이동하시겠습니까?
+          </p>
+        </ModalBody>
+        <ModalFooter className="justify-end">
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>
+            취소
+          </Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>
+            이동
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
 }

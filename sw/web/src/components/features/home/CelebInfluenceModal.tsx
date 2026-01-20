@@ -2,6 +2,7 @@
 // Neo-Pantheon Plaque of Wisdom Design Updated
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Crown, Lightbulb, Cpu, Users, Coins, Palette, Clock } from "lucide-react";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
@@ -181,7 +182,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
       .finally(() => setLoading(false));
   }, [isOpen, celebId]);
 
-  if (!isOpen) return null;
+  if (!isOpen || typeof document === "undefined") return null;
 
   const rankStyle = data ? RANK_STYLES[data.rank] : RANK_STYLES.D;
   const professionLabel = data?.profession ? getCelebProfessionLabel(data.profession) : null;
@@ -190,8 +191,8 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
     setExpandedCategory(expandedCategory === key ? null : key);
   };
 
-  return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 md:p-4" onClick={onClose}>
+  const modalContent = (
+    <div className="fixed inset-0 z-[700] flex items-center justify-center p-3 md:p-4" onClick={onClose}>
       {/* 백드롭 */}
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
 
@@ -306,5 +307,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
 // #endregion

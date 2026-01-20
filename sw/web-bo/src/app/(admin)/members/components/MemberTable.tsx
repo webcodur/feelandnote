@@ -48,9 +48,14 @@ export default function MemberTable({ members }: { members: Member[] }) {
                         <p className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[100px] md:max-w-none">{m.nickname || '닉네임 없음'}</p>
                         {m.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
                       </div>
-                      <p className="text-xs text-text-secondary truncate max-w-[100px] md:max-w-none">
-                        {isCeleb ? getCelebProfessionLabel(m.profession) : m.email}
-                      </p>
+                      {isCeleb ? (
+                        <div className="flex flex-col">
+                          {m.title && <p className="text-xs text-accent truncate max-w-[100px] md:max-w-none">{m.title}</p>}
+                          {m.profession && <p className="text-[10px] text-text-tertiary truncate max-w-[100px] md:max-w-none">{getCelebProfessionLabel(m.profession)}</p>}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-text-secondary truncate max-w-[100px] md:max-w-none">{m.email}</p>
+                      )}
                     </div>
                   </div>
                 </td>

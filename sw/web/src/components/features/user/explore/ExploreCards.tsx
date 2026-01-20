@@ -12,6 +12,7 @@ interface UserInfo {
   avatar_url: string | null;
   content_count: number;
   profession?: string | null;
+  title?: string | null;  // 수식어 (예: 테슬라 창립자)
   is_verified?: boolean;
 }
 
@@ -29,8 +30,11 @@ export function UserCard({ user, onClick, showProfession }: { user: UserInfo; on
     <Button unstyled onClick={onClick} className="flex flex-col items-center group">
       <Avatar url={user.avatar_url} name={user.nickname} size="md" verified={user.is_verified} className="group-hover:ring-accent" />
       <span className="mt-2 text-xs font-medium text-text-secondary group-hover:text-accent truncate max-w-full">{user.nickname}</span>
+      {showProfession && user.title && (
+        <span className="text-[10px] text-accent truncate max-w-full">{user.title}</span>
+      )}
       {showProfession && user.profession && (
-        <span className="text-[10px] text-text-tertiary">{getCelebProfessionLabel(user.profession)}</span>
+        <span className="text-[9px] text-text-tertiary/70 truncate max-w-full">{getCelebProfessionLabel(user.profession)}</span>
       )}
     </Button>
   );
@@ -70,8 +74,12 @@ export function MobileUserListItem({ user, onClick, subtext }: { user: UserInfo;
           <span className="text-sm font-serif font-black text-text-primary group-hover:text-accent transition-colors truncate">{user.nickname}</span>
           {subtext ? (
             <span className="text-[10px] text-accent/60 font-serif font-black tracking-widest uppercase opacity-80 truncate">{subtext}</span>
-          ) : user.profession ? (
-            <span className="text-[10px] text-text-tertiary font-serif truncate uppercase tracking-tight">{getCelebProfessionLabel(user.profession)}</span>
+          ) : (user.title || user.profession) ? (
+            <div className="flex items-center gap-1">
+              {user.title && <span className="text-[10px] text-accent font-serif truncate">{user.title}</span>}
+              {user.title && user.profession && <span className="text-[9px] text-text-tertiary/40">|</span>}
+              {user.profession && <span className="text-[9px] text-text-tertiary/70 font-serif truncate">{getCelebProfessionLabel(user.profession)}</span>}
+            </div>
           ) : null}
         </div>
       </div>
