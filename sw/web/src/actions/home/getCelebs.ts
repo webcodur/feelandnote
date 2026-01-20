@@ -30,6 +30,7 @@ interface CelebRow {
   avatar_url: string | null
   portrait_url: string | null
   profession: string | null
+  title: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -52,34 +53,47 @@ export async function getCelebs(
   // 현재 로그인 유저 확인
   const { data: { user } } = await supabase.auth.getUser()
 
-  // 전체 개수 조회
-  let countQuery = supabase
-    .from('profiles')
-    .select('*', { count: 'exact', head: true })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+  // 전체 개수 조회 (contentType 필터가 있으면 RPC 사용)
+  let total = 0
 
-  if (profession && profession !== 'all') {
-    countQuery = countQuery.eq('profession', profession)
-  }
+  if (contentType && contentType !== 'all') {
+    // contentType 필터가 있으면 별도 count 쿼리 (JOIN 필요)
+    const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+      p_profession: profession ?? null,
+      p_nationality: nationality ?? null,
+      p_content_type: contentType,
+    })
+    total = countData ?? 0
+  } else {
+    let countQuery = supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
 
-  if (nationality && nationality !== 'all') {
-    if (nationality === 'none') {
-      countQuery = countQuery.is('nationality', null)
-    } else {
-      countQuery = countQuery.eq('nationality', nationality)
+    if (profession && profession !== 'all') {
+      countQuery = countQuery.eq('profession', profession)
     }
+
+    if (nationality && nationality !== 'all') {
+      if (nationality === 'none') {
+        countQuery = countQuery.is('nationality', null)
+      } else {
+        countQuery = countQuery.eq('nationality', nationality)
+      }
+    }
+
+    const { count } = await countQuery
+    total = count ?? 0
   }
 
-  const { count } = await countQuery
-
-  const total = count ?? 0
   const totalPages = Math.ceil(total / limit)
 
   // RPC 함수로 정렬된 셀럽 목록 조회
   const { data, error } = await supabase.rpc('get_celebs_sorted', {
     p_profession: profession ?? null,
     p_nationality: nationality ?? null,
+    p_content_type: contentType ?? null,
     p_sort_by: sortBy,
     p_limit: limit,
     p_offset: offset,
@@ -159,6 +173,7 @@ export async function getCelebs(
     avatar_url: row.avatar_url,
     portrait_url: row.portrait_url,
     profession: row.profession,
+    title: row.title,
     nationality: row.nationality,
     birth_date: row.birth_date,
     death_date: row.death_date,

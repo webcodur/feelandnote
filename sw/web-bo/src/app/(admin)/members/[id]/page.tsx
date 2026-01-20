@@ -56,6 +56,11 @@ export default async function MemberDetailPage({ params }: PageProps) {
             <div className="flex items-center gap-3 flex-wrap">
               <ProfileTypeBadge type={member.profile_type} />
               {isUser && <RoleBadge role={member.role || 'user'} />}
+              {isCeleb && member.title && (
+                <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-accent/10 text-accent border border-accent/20">
+                  {member.title}
+                </span>
+              )}
               {isCeleb && member.profession && (
                 <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-500/10 text-gray-400">
                   {getCelebProfessionLabel(member.profession)}

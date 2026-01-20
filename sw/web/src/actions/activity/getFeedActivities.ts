@@ -18,6 +18,7 @@ export interface FeedActivity {
   content_type: ContentType | null
   review: string | null
   rating: number | null
+  source_url: string | null
   created_at: string
 }
 
@@ -125,7 +126,7 @@ export async function getFeedActivities(
   const contentIds = [...new Set(sliced.map(item => item.content_id).filter(Boolean))] as string[]
 
   let contentsMap: Record<string, { title: string; thumbnail_url: string | null; type: ContentType }> = {}
-  let userContentsMap: Record<string, { review: string | null; rating: number | null }> = {}
+  let userContentsMap: Record<string, { review: string | null; rating: number | null; source_url: string | null }> = {}
 
   if (contentIds.length > 0) {
     const { data: contents } = await supabase
@@ -146,14 +147,14 @@ export async function getFeedActivities(
 
     const { data: userContents } = await supabase
       .from('user_contents')
-      .select('user_id, content_id, review, rating')
+      .select('user_id, content_id, review, rating, source_url')
       .in('content_id', contentIds)
 
     if (userContents) {
       userContentsMap = Object.fromEntries(
         userContents.map(uc => [
           `${uc.user_id}:${uc.content_id}`,
-          { review: uc.review, rating: uc.rating }
+          { review: uc.review, rating: uc.rating, source_url: uc.source_url }
         ])
       )
     }
@@ -189,6 +190,7 @@ export async function getFeedActivities(
       content_type: contentInfo?.type || null,
       review: userContentInfo?.review || null,
       rating: userContentInfo?.rating || null,
+      source_url: userContentInfo?.source_url || null,
       created_at: item.created_at,
     }
   })

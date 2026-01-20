@@ -55,7 +55,7 @@ export function ContentResults({
         const contentId = "contentId" in item ? item.contentId : item.id;
         const href = mode === "records" && currentUserId
           ? `/${currentUserId}/records/${contentId}`
-          : `/content/detail?key=content_${item.id}`;
+          : `/content/detail?id=${item.id}&category=${item.category}`;
 
         return (
           <ContentCompactCard

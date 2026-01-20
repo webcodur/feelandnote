@@ -81,6 +81,12 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
 
             {/* 메타 정보 */}
             <div className="space-y-1.5 mb-4">
+              {profile.title && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Sparkles size={14} className="text-accent" />
+                  <span className="text-accent font-medium">{profile.title}</span>
+                </div>
+              )}
               {profile.profession && (
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <Sparkles size={14} className="text-text-tertiary" />

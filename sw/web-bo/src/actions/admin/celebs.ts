@@ -13,6 +13,7 @@ export interface Celeb {
   avatar_url: string | null
   portrait_url: string | null
   profession: string | null
+  title: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -42,6 +43,7 @@ interface GetCelebsParams {
 interface CreateCelebInput {
   nickname: string
   profession?: string
+  title?: string
   nationality?: string
   birth_date?: string
   death_date?: string
@@ -57,6 +59,7 @@ interface UpdateCelebInput {
   id: string
   nickname?: string
   profession?: string
+  title?: string
   nationality?: string
   birth_date?: string
   death_date?: string
@@ -143,6 +146,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     avatar_url: celeb.avatar_url,
     portrait_url: celeb.portrait_url,
     profession: celeb.profession,
+    title: celeb.title,
     nationality: celeb.nationality,
     birth_date: celeb.birth_date,
     death_date: celeb.death_date,
@@ -192,6 +196,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     avatar_url: data.avatar_url,
     portrait_url: data.portrait_url,
     profession: data.profession,
+    title: data.title,
     nationality: data.nationality,
     birth_date: data.birth_date,
     death_date: data.death_date,
@@ -211,6 +216,19 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
 export async function createCeleb(input: CreateCelebInput): Promise<{ id: string }> {
   // Admin 클라이언트 사용 (RLS 우회 필요)
   const adminClient = createAdminClient()
+
+  // 닉네임 중복 체크
+  const { data: existing } = await adminClient
+    .from('profiles')
+    .select('id')
+    .eq('profile_type', 'CELEB')
+    .eq('nickname', input.nickname.trim())
+    .neq('status', 'deleted')
+    .maybeSingle()
+
+  if (existing) {
+    throw new Error('이미 동일한 이름의 셀럽이 존재합니다.')
+  }
 
   // 더미 이메일 생성 (auth.users FK 제약 때문에 필요)
   const dummyId = crypto.randomUUID()
@@ -234,6 +252,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     .update({
       nickname: input.nickname,
       profession: input.profession || null,
+      title: input.title || null,
       nationality: input.nationality || null,
       birth_date: input.birth_date || null,
       death_date: input.death_date || null,
@@ -309,6 +328,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
 
   if (input.nickname !== undefined) updateData.nickname = input.nickname
   if (input.profession !== undefined) updateData.profession = input.profession
+  if (input.title !== undefined) updateData.title = input.title
   if (input.nationality !== undefined) updateData.nationality = input.nationality
   if (input.birth_date !== undefined) updateData.birth_date = input.birth_date
   if (input.death_date !== undefined) updateData.death_date = input.death_date
@@ -471,6 +491,8 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   if (error) throw error
 
   revalidatePath('/celebs')
+  revalidatePath('/members')
+  revalidatePath('/members/titles')
 }
 // #endregion
 
@@ -658,5 +680,66 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
   if (error) throw error
 
   revalidatePath(`/celebs/${celebId}/contents`)
+}
+// #endregion
+
+// #region getCelebsForTitleEdit - 수식어 편집용 셀럽 목록
+export interface CelebTitleItem {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+  profession: string | null
+  title: string | null
+}
+
+export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, nickname, avatar_url, profession, title')
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .order('nickname', { ascending: true })
+
+  if (error) throw error
+
+  return data || []
+}
+// #endregion
+
+// #region updateCelebTitle - 수식어만 업데이트
+export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ title })
+    .eq('id', celebId)
+    .eq('profile_type', 'CELEB')
+
+  if (error) throw error
+
+  revalidatePath('/members')
+  revalidatePath('/members/titles')
+  revalidatePath(`/members/${celebId}`)
+}
+// #endregion
+
+// #region updateCelebProfession - 직군만 업데이트
+export async function updateCelebProfession(celebId: string, profession: string | null): Promise<void> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ profession })
+    .eq('id', celebId)
+    .eq('profile_type', 'CELEB')
+
+  if (error) throw error
+
+  revalidatePath('/members')
+  revalidatePath('/members/professions')
+  revalidatePath(`/members/${celebId}`)
 }
 // #endregion

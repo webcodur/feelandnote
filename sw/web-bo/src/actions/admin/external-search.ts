@@ -4,15 +4,6 @@ import { searchExternal, type ExternalSearchResult } from '@feelnnote/content-se
 import type { ContentType } from '@feelnnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 
-// UUID 생성 함수
-function generateUUID(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0
-    const v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
-}
-
 // 외부 API 검색
 export async function searchExternalContent(
   contentType: ContentType,
@@ -62,20 +53,20 @@ export async function createContentFromExternal(
 }> {
   try {
     const supabase = await createClient()
+    const contentId = input.externalId
 
-    // 이미 등록된 콘텐츠인지 확인 (external_id로)
+    // 이미 등록된 콘텐츠인지 확인 (id로 직접 조회)
     const { data: existing } = await supabase
       .from('contents')
       .select('id')
-      .eq('external_id', input.externalId)
+      .eq('id', contentId)
       .maybeSingle()
 
     if (existing) {
       return { success: true, contentId: existing.id }
     }
 
-    // 새 콘텐츠 생성
-    const contentId = generateUUID()
+    // 새 콘텐츠 생성 (외부 ID를 id로 직접 사용)
     const { error } = await supabase
       .from('contents')
       .insert({
@@ -84,7 +75,6 @@ export async function createContentFromExternal(
         creator: input.creator || null,
         type: contentType,
         thumbnail_url: input.coverImageUrl,
-        external_id: input.externalId,
         external_source: input.externalSource,
         metadata: input.metadata || {},
       })

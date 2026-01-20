@@ -43,6 +43,7 @@ export interface Member {
   suspended_reason?: string | null
   // CELEB 전용
   profession?: string | null
+  title?: string | null
   nationality?: string | null
   birth_date?: string | null
   death_date?: string | null
@@ -142,6 +143,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
     suspended_at: p.suspended_at,
     suspended_reason: p.suspended_reason,
     profession: p.profession,
+    title: p.title,
     nationality: p.nationality,
     birth_date: p.birth_date,
     death_date: p.death_date,
@@ -169,6 +171,7 @@ function celebToMember(c: Celeb): Member {
     is_verified: c.is_verified,
     created_at: c.created_at,
     profession: c.profession,
+    title: c.title,
     nationality: c.nationality,
     birth_date: c.birth_date,
     death_date: c.death_date,
@@ -273,6 +276,7 @@ export async function getMember(id: string): Promise<Member | null> {
     suspended_at: data.suspended_at,
     suspended_reason: data.suspended_reason,
     profession: data.profession,
+    title: data.title,
     nationality: data.nationality,
     birth_date: data.birth_date,
     death_date: data.death_date,

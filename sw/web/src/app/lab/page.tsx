@@ -2,6 +2,7 @@
 
 import NeoCelebCard from "@/components/features/home/neo-celeb-card";
 import InfluenceBadge from "@/components/ui/InfluenceBadge";
+import TabUIPreview from "@/components/lab/TabUIPreview";
 
 // Mock Data
 const MOCK_CELEB = {
@@ -23,6 +24,17 @@ export default function LabPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-[#e0e0e0] flex flex-col items-center py-20 gap-10">
       <h1 className="text-4xl font-cinzel text-[#d4af37]">Component Lab</h1>
+
+      {/* TAB UI/UX PREVIEW */}
+      <section className="flex flex-col items-center gap-8 p-10 border border-white/5 bg-white/[0.02] rounded-[3rem] w-full max-w-6xl">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Tab UI System</h2>
+          <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">통합 디자인 시스템 프리뷰</p>
+        </div>
+        <div className="w-full">
+          <TabUIPreview />
+        </div>
+      </section>
 
       {/* INFLUENCE BADGES SHOWCASE - All 10 Variations */}
       <section className="flex flex-col items-center gap-8 p-10 border border-white/5 bg-white/[0.02] rounded-[3rem] w-full max-w-6xl">

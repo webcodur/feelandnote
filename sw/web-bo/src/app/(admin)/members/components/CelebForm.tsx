@@ -13,6 +13,7 @@ import { Loader2, Trash2, Star, X, Upload, ImageIcon } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import AIBasicProfileSection from './AIBasicProfileSection'
 import AIInfluenceSection from './AIInfluenceSection'
+import { useToast } from '@/contexts/ToastContext'
 import { resizeSingleImage, createPreviewUrl, type ImageType } from '@/lib/image'
 import type { InfluenceScore } from '@feelnnote/ai-services/celeb-profile'
 import ImageCropModal from '@/components/ui/ImageCropModal'
@@ -21,6 +22,7 @@ import ImageCropModal from '@/components/ui/ImageCropModal'
 interface CelebFormData {
   nickname: string
   profession: string
+  title: string
   nationality: string
   birth_date: string
   death_date: string
@@ -61,6 +63,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
   return {
     nickname: celeb?.nickname || '',
     profession: celeb?.profession || '',
+    title: celeb?.title || '',
     nationality: celeb?.nationality || '',
     birth_date: celeb?.birth_date || '',
     death_date: celeb?.death_date || '',
@@ -108,6 +111,7 @@ function getInitialInfluence(celeb?: Member): GeneratedInfluence {
 
 export default function CelebForm({ mode, celeb }: Props) {
   const router = useRouter()
+  const { showToast } = useToast()
   const { countries, loading: countriesLoading } = useCountries()
   const [formData, setFormData] = useState<CelebFormData>(getInitialFormData(celeb))
   const [influence, setInfluence] = useState<GeneratedInfluence>(getInitialInfluence(celeb))
@@ -115,7 +119,6 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
 
   // 이미지 업로드 상태 (avatar: 썸네일, portrait: 초상화)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
@@ -303,7 +306,6 @@ export default function CelebForm({ mode, celeb }: Props) {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    setSuccess(false)
 
     if (!formData.nickname.trim()) {
       setError('닉네임을 입력해주세요.')
@@ -320,6 +322,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         const result = await createCeleb({
           nickname: formData.nickname.trim(),
           profession: formData.profession || undefined,
+          title: formData.title || undefined,
           nationality: formData.nationality || undefined,
           birth_date: formData.birth_date || undefined,
           death_date: formData.death_date || undefined,
@@ -379,6 +382,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           id: celeb.id,
           nickname: formData.nickname.trim(),
           profession: formData.profession || undefined,
+          title: formData.title || undefined,
           nationality: formData.nationality || undefined,
           birth_date: formData.birth_date || undefined,
           death_date: formData.death_date || undefined,
@@ -390,7 +394,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           status: formData.status,
           influence: hasInfluence ? influence : undefined,
         })
-        setSuccess(true)
+        showToast('success', '저장되었습니다.')
         router.refresh()
       }
     } catch (err) {
@@ -420,7 +424,6 @@ export default function CelebForm({ mode, celeb }: Props) {
     <>
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">{error}</div>}
-      {success && <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 text-green-400 text-sm">저장되었습니다.</div>}
 
       {/* Basic Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
@@ -456,6 +459,9 @@ export default function CelebForm({ mode, celeb }: Props) {
             <option value="">직군 선택</option>
             {CELEB_PROFESSIONS.map((prof) => <option key={prof.value} value={prof.value}>{prof.label}</option>)}
           </select>
+
+          <label htmlFor="title" className="text-sm font-medium text-text-secondary">수식어</label>
+          <input type="text" id="title" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="예: 테슬라 창립자, 철의 여인" className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
 
           <label htmlFor="nationality" className="text-sm font-medium text-text-secondary">국적</label>
           <select id="nationality" value={formData.nationality} onChange={(e) => handleChange('nationality', e.target.value)} disabled={countriesLoading} className="px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none disabled:opacity-50">

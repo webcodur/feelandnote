@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
@@ -100,6 +100,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
 
   const MetaInfo = () => (
     <div className="flex flex-wrap gap-3 text-xs text-text-tertiary">
+      {celeb.profession && (
+        <span className="flex items-center gap-1">
+          <Briefcase size={12} />
+          {getCelebProfessionLabel(celeb.profession)}
+        </span>
+      )}
       {celeb.nationality && (
         <span className="flex items-center gap-1">
           <MapPin size={12} />
@@ -179,10 +185,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
             {/* 오른쪽: 정보 */}
             <div className="flex-1 p-6 flex flex-col">
               <div className="mb-4">
-                <h2 className="text-2xl font-bold text-text-primary mb-1">{celeb.nickname}</h2>
-                {celeb.profession && (
-                  <p className="text-sm text-accent">{getCelebProfessionLabel(celeb.profession)}</p>
+                {celeb.title && (
+                  <p className="text-sm text-accent font-medium mb-1">{celeb.title}</p>
                 )}
+                <h2 className="text-2xl font-bold text-text-primary">{celeb.nickname}</h2>
               </div>
 
               <div className="mb-2"><MetaInfo /></div>
@@ -257,13 +263,15 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
 
               {/* 이미지 위 하단 오버레이 정보 - 시네마틱 센터 정렬 개편 */}
               <div className="absolute bottom-0 left-0 right-0 px-6 pb-0 pt-32 bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent flex flex-col items-center">
-                
-                {/* 직군명: 이름 위에 고정된 관(Crown) 역할 */}
-                <div className="mb-2 px-3 py-0.5 rounded-full border border-accent/20 bg-accent/5">
-                   <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] leading-none">
-                    {getCelebProfessionLabel(celeb.profession)}
-                  </p>
-                </div>
+
+                {/* 수식어: 이름 위에 고정된 관(Crown) 역할 */}
+                {celeb.title && (
+                  <div className="mb-2 px-3 py-0.5 rounded-full border border-accent/20 bg-accent/5">
+                    <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] leading-none">
+                      {celeb.title}
+                    </p>
+                  </div>
+                )}
 
                 {/* 이름: 정갈하고 위엄 있게 중앙 배치 */}
                 <h2 className="text-3xl font-black font-serif text-white leading-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] tracking-tighter text-center break-keep">

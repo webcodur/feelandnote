@@ -1,6 +1,6 @@
 import { getMembers } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
-import { Search, Plus } from 'lucide-react'
+import { Search, Plus, FileEdit, Briefcase } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import MemberTable from './components/MemberTable'
@@ -57,9 +57,21 @@ export default async function MembersPage({ searchParams }: PageProps) {
           <h1 className="text-xl md:text-2xl font-bold text-text-primary">멤버 관리</h1>
           <p className="text-sm text-text-secondary mt-1">총 {total.toLocaleString()}명</p>
         </div>
-        <Link href="/members/new">
-          <Button size="sm" className="w-full sm:w-auto"><Plus className="w-4 h-4" />셀럽 추가</Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/members/titles">
+            <Button size="sm" variant="secondary" className="w-full sm:w-auto">
+              <FileEdit className="w-4 h-4" />수식어 편집
+            </Button>
+          </Link>
+          <Link href="/members/professions">
+            <Button size="sm" variant="secondary" className="w-full sm:w-auto">
+              <Briefcase className="w-4 h-4" />직군 편집
+            </Button>
+          </Link>
+          <Link href="/members/new">
+            <Button size="sm" className="w-full sm:w-auto"><Plus className="w-4 h-4" />셀럽 추가</Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}

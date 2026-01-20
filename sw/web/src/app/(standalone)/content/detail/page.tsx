@@ -9,15 +9,17 @@
 import { useState, useEffect, Suspense, useTransition } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { ArrowLeft, FileText, Bookmark, Check, Loader2, Sparkles, Calendar, User } from "lucide-react";
-import { Button, Card } from "@/components/ui";
+import Link from "next/link";
+import { ArrowLeft, FileText, Bookmark, Check, Loader2, Sparkles, Calendar, User, MessageSquare, Star, EyeOff } from "lucide-react";
+import { Button, Card, Avatar } from "@/components/ui";
 import { getProfile } from "@/actions/user";
 import { generateSummary } from "@/actions/ai";
 import { addContent } from "@/actions/contents/addContent";
 import { getContent } from "@/actions/contents/getContent";
+import { getContentById } from "@/actions/contents/getContentById";
+import { getReviewFeed, type ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { CATEGORIES } from "@/constants/categories";
-import ContentInfoHeader from "@/components/shared/content/ContentInfoHeader";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 import RecordInfo from "@/components/features/user/detail/RecordInfo";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -31,6 +33,10 @@ const CATEGORY_TO_TYPE: Record<string, ContentType> = Object.fromEntries(
   CATEGORIES.map((cat) => [cat.id, cat.dbType as ContentType])
 );
 
+const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat.dbType, cat.id])
+) as Record<ContentType, CategoryId>;
+
 const CATEGORY_ICONS = Object.fromEntries(
   CATEGORIES.map((cat) => [cat.id, cat.icon])
 );
@@ -38,6 +44,15 @@ const CATEGORY_ICONS = Object.fromEntries(
 const CATEGORY_LABELS = Object.fromEntries(
   CATEGORIES.map((cat) => [cat.id, cat.label])
 );
+
+// API 출처 정보
+const API_SOURCE_INFO: Record<CategoryId, { name: string; url: string }> = {
+  book: { name: "네이버 책 API", url: "https://developers.naver.com/docs/serviceapi/search/book/book.md" },
+  video: { name: "TMDB API", url: "https://www.themoviedb.org" },
+  game: { name: "IGDB API", url: "https://www.igdb.com" },
+  music: { name: "Spotify API", url: "https://developer.spotify.com" },
+  certificate: { name: "Q-Net API", url: "https://www.q-net.or.kr" },
+};
 // #endregion
 
 // #region 서브컴포넌트 - ContentDetailContent
@@ -45,34 +60,48 @@ function ContentDetailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // #region sessionStorage에서 데이터 로드
-  const storageKey = searchParams.get("key") || "";
+  // #region 데이터 로드 (외부 검색 API 직접 조회)
+  const contentId = searchParams.get("id") || "";
+  const categoryParam = searchParams.get("category") as CategoryId | null;
   const [contentInfo, setContentInfo] = useState<ContentInfo | null>(null);
+  const [isLoadingContent, setIsLoadingContent] = useState(true);
 
   useEffect(() => {
-    if (!storageKey) return;
-
-    const stored = sessionStorage.getItem(storageKey);
-    if (!stored) return;
-
-    try {
-      const data = JSON.parse(stored);
-      setContentInfo({
-        id: data.id,
-        type: CATEGORY_TO_TYPE[data.category] || "BOOK",
-        category: data.category as CategoryId,
-        title: data.title || "제목 없음",
-        creator: data.creator || undefined,
-        thumbnail: data.thumbnail || undefined,
-        description: data.description || undefined,
-        releaseDate: data.releaseDate || undefined,
-        subtype: data.subtype as VideoSubtype | undefined,
-        metadata: data.metadata || null,
-      });
-    } catch (err) {
-      console.error("콘텐츠 데이터 파싱 실패:", err);
+    if (!contentId) {
+      setIsLoadingContent(false);
+      return;
     }
-  }, [storageKey]);
+
+    const loadContent = async () => {
+      setIsLoadingContent(true);
+
+      try {
+        // 외부 API로 콘텐츠 정보 조회 (ID가 곧 외부 API ID)
+        const category = categoryParam || "book";
+        const apiContent = await getContentById(contentId, category);
+        if (apiContent) {
+          setContentInfo({
+            id: apiContent.id,
+            type: CATEGORY_TO_TYPE[apiContent.category] || "BOOK",
+            category: apiContent.category,
+            title: apiContent.title,
+            creator: apiContent.creator || undefined,
+            thumbnail: apiContent.thumbnail || undefined,
+            description: apiContent.description || undefined,
+            releaseDate: apiContent.releaseDate || undefined,
+            subtype: apiContent.subtype as VideoSubtype | undefined,
+            metadata: apiContent.metadata || null,
+          });
+        }
+      } catch (err) {
+        console.error("콘텐츠 조회 실패:", err);
+      } finally {
+        setIsLoadingContent(false);
+      }
+    };
+
+    loadContent();
+  }, [contentId, categoryParam]);
   // #endregion
 
   // #region 상태
@@ -84,6 +113,11 @@ function ContentDetailContent() {
   const [hasApiKey, setHasApiKey] = useState(false);
   const [summary, setSummary] = useState<string | null>(null);
   const [isSummarizing, setIsSummarizing] = useState(false);
+
+  // 리뷰 피드 상태
+  const [reviews, setReviews] = useState<ReviewFeedItem[]>([]);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true);
+  const [showSpoilers, setShowSpoilers] = useState<Set<string>>(new Set());
   // #endregion
 
   // #region 이펙트
@@ -92,6 +126,16 @@ function ContentDetailContent() {
       setHasApiKey(!!profile?.gemini_api_key);
     });
   }, []);
+
+  // 리뷰 피드 로드
+  useEffect(() => {
+    if (!contentInfo?.id) return;
+
+    setIsLoadingReviews(true);
+    getReviewFeed({ contentId: contentInfo.id, limit: 10 })
+      .then(setReviews)
+      .finally(() => setIsLoadingReviews(false));
+  }, [contentInfo?.id]);
 
   // 저장 여부 확인 및 전체 정보 로드
   useEffect(() => {
@@ -163,8 +207,18 @@ function ContentDetailContent() {
   };
   // #endregion
 
+  // 스포일러 토글 핸들러
+  const toggleSpoiler = (reviewId: string) => {
+    setShowSpoilers((prev) => {
+      const next = new Set(prev);
+      if (next.has(reviewId)) next.delete(reviewId);
+      else next.add(reviewId);
+      return next;
+    });
+  };
+
   // 로딩 중
-  if (!contentInfo) {
+  if (isLoadingContent || !contentInfo) {
     return (
       <div className="flex items-center justify-center py-20">
         <Loader2 size={32} className="animate-spin text-accent" />
@@ -330,7 +384,7 @@ function ContentDetailContent() {
 
       {/* 하단: 소개 */}
       {contentInfo.description && (
-        <Card className="p-4 md:p-6">
+        <Card className="p-4 md:p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base md:text-lg font-bold flex items-center gap-2">
               <FileText size={18} className="md:w-5 md:h-5" /> 소개
@@ -361,6 +415,84 @@ function ContentDetailContent() {
           <p className="text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line">{contentInfo.description}</p>
         </Card>
       )}
+
+      {/* 다른 사람들의 리뷰 */}
+      <Card className="p-4 md:p-6">
+        <h2 className="text-base md:text-lg font-bold flex items-center gap-2 mb-4">
+          <MessageSquare size={18} className="md:w-5 md:h-5" /> 다른 기록자들의 리뷰
+        </h2>
+
+        {isLoadingReviews && (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 size={24} className="animate-spin text-accent" />
+          </div>
+        )}
+
+        {!isLoadingReviews && reviews.length === 0 && (
+          <div className="py-8 text-center text-text-secondary text-sm">
+            아직 작성된 리뷰가 없습니다
+          </div>
+        )}
+
+        {!isLoadingReviews && reviews.length > 0 && (
+          <div className="space-y-4">
+            {reviews.map((review) => (
+              <div key={review.id} className="p-4 bg-black/20 rounded-lg border border-white/5">
+                {/* 사용자 정보 */}
+                <div className="flex items-center gap-3 mb-3">
+                  <Link href={`/${review.user.id}`} className="shrink-0">
+                    <Avatar url={review.user.avatar_url} name={review.user.nickname} size="sm" />
+                  </Link>
+                  <div className="flex-1 min-w-0">
+                    <Link href={`/${review.user.id}`} className="text-sm font-semibold text-text-primary hover:text-accent">
+                      {review.user.nickname}
+                    </Link>
+                    <div className="flex items-center gap-2 text-xs text-text-tertiary">
+                      {review.rating && (
+                        <span className="flex items-center gap-0.5">
+                          <Star size={10} className="text-yellow-400 fill-yellow-400" />
+                          {review.rating}
+                        </span>
+                      )}
+                      <span>{new Date(review.updated_at).toLocaleDateString("ko-KR")}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 리뷰 내용 */}
+                {review.is_spoiler && !showSpoilers.has(review.id) ? (
+                  <button
+                    onClick={() => toggleSpoiler(review.id)}
+                    className="w-full py-4 flex items-center justify-center gap-2 bg-accent/5 border border-dashed border-accent/20 rounded text-accent/60 hover:text-accent text-xs font-medium"
+                  >
+                    <EyeOff size={14} />
+                    스포일러 포함 · 탭하여 보기
+                  </button>
+                ) : (
+                  <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line line-clamp-4">
+                    {review.review}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+
+      {/* API 출처 안내 */}
+      <div className="mt-6 text-center text-xs text-text-tertiary">
+        <p>
+          콘텐츠 정보 제공:{" "}
+          <a
+            href={API_SOURCE_INFO[contentInfo.category].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent/60 hover:text-accent underline underline-offset-2"
+          >
+            {API_SOURCE_INFO[contentInfo.category].name}
+          </a>
+        </p>
+      </div>
     </>
   );
 }

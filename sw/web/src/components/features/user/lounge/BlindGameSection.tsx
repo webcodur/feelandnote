@@ -5,17 +5,18 @@
 */ // ------------------------------
 "use client";
 
-import { Button, Badge, Avatar, Card, FilterChips, type ChipOption } from "@/components/ui";
+import { Button, Badge, Avatar, Card } from "@/components/ui";
+import { Tabs, Tab } from "@/components/ui/Tab";
 import { Flame, Sparkles, Users, User, Target, Quote, Gamepad2, Loader2 } from "lucide-react";
 
 type BlindSubTab = "popular" | "latest" | "following" | "my";
 
-const BLIND_TAB_OPTIONS: ChipOption<BlindSubTab>[] = [
+const BLIND_TAB_OPTIONS = [
   { value: "popular", label: "인기 퀴즈", icon: Flame },
   { value: "latest", label: "최신", icon: Sparkles },
   { value: "following", label: "팔로잉", icon: Users },
   { value: "my", label: "내 문제", icon: User },
-];
+] as const;
 
 interface BlindGameCardData {
   id: string;
@@ -41,7 +42,24 @@ export default function BlindGameSection({ cards, isLoading, onPlayClick, subTab
     <>
       <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hidden">
         <div className="min-w-max">
-          <FilterChips options={BLIND_TAB_OPTIONS} value={subTab} onChange={onSubTabChange} variant="filled" showIcon />
+          <Tabs>
+            {BLIND_TAB_OPTIONS.map((option) => {
+              const Icon = option.icon;
+              return (
+                <Tab
+                  key={option.value}
+                  label={
+                    <span className="flex items-center gap-1.5">
+                      <Icon size={14} />
+                      {option.label}
+                    </span>
+                  }
+                  active={subTab === option.value}
+                  onClick={() => onSubTabChange(option.value)}
+                />
+              );
+            })}
+          </Tabs>
         </div>
       </div>
 

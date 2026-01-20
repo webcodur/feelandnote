@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { DesktopSidebar, MobileSidebar } from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
 import { MobileSidebarProvider } from '@/contexts/MobileSidebarContext'
+import { ToastProvider } from '@/contexts/ToastContext'
 
 export default async function AdminLayout({
   children,
@@ -28,23 +29,25 @@ export default async function AdminLayout({
   }
 
   return (
-    <MobileSidebarProvider>
-      <div className="flex min-h-screen bg-bg-main">
-        <DesktopSidebar />
-        <MobileSidebar />
-        <div className="flex-1 flex flex-col min-w-0">
-          <Header
-            user={{
-              email: user.email || '',
-              nickname: profile.nickname,
-              role: profile.role,
-            }}
-          />
-          <main className="flex-1 p-3 md:p-6 overflow-auto">
-            {children}
-          </main>
+    <ToastProvider>
+      <MobileSidebarProvider>
+        <div className="flex min-h-screen bg-bg-main">
+          <DesktopSidebar />
+          <MobileSidebar />
+          <div className="flex-1 flex flex-col min-w-0">
+            <Header
+              user={{
+                email: user.email || '',
+                nickname: profile.nickname,
+                role: profile.role,
+              }}
+            />
+            <main className="flex-1 p-3 md:p-6 overflow-auto">
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
-    </MobileSidebarProvider>
+      </MobileSidebarProvider>
+    </ToastProvider>
   )
 }

@@ -9,7 +9,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Trophy, Target } from "lucide-react";
-import { FilterChips, type ChipOption } from "@/components/ui";
+import { Tabs, Tab } from "@/components/ui/Tab";
 import SectionHeader from "@/components/ui/SectionHeader";
 import BlindGamePlayModal from "./BlindGamePlayModal";
 import SelectPlaylistModal from "./SelectPlaylistModal";
@@ -20,10 +20,10 @@ import { getRecords } from "@/actions/records";
 
 type LoungeTab = "tier-list" | "blind-game";
 
-const MAIN_TABS: ChipOption<LoungeTab>[] = [
+const MAIN_TABS = [
   { value: "tier-list", label: "티어리스트", icon: Trophy },
   { value: "blind-game", label: "블라인드 게임", icon: Target },
-];
+] as const;
 
 // 주사위 컴포넌트 (점 위치 정확하게)
 function SkeletonDice({ value, className = "" }: { value: 1 | 2 | 3 | 4 | 5 | 6; className?: string }) {
@@ -383,12 +383,29 @@ export default function Lounge() {
       />
 
       <div className="relative mb-6 -mx-4 px-4">
-        {/* Divine Lintel for Lounge - 대시보드와 일관된 투명도 및 위치 조정 */}
+        {/* Divine Lintel for Lounge */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
-        
-        <div className="pt-2 overflow-x-auto scrollbar-hidden border-b border-accent-dim/10">
-          <div className="min-w-max pb-1">
-            <FilterChips options={MAIN_TABS} value={mainTab} onChange={setMainTab} variant="filled" showIcon />
+
+        <div className="pt-2 overflow-x-auto scrollbar-hidden">
+          <div className="min-w-max">
+            <Tabs>
+              {MAIN_TABS.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <Tab
+                    key={tab.value}
+                    label={
+                      <span className="flex items-center gap-1.5">
+                        <Icon size={14} />
+                        {tab.label}
+                      </span>
+                    }
+                    active={mainTab === tab.value}
+                    onClick={() => setMainTab(tab.value)}
+                  />
+                );
+              })}
+            </Tabs>
           </div>
         </div>
       </div>
