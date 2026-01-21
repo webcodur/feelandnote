@@ -210,10 +210,19 @@ export default function HigherLowerGame() {
     <div className="max-w-4xl mx-auto">
       {/* 헤더 - 고정 높이 */}
       <div className="flex items-center justify-between mb-6 h-8">
-        <div className="flex items-center gap-2">
-          <Flame className="text-accent" size={20} />
-          <span className="text-xl font-bold">{streak}</span>
-          <span className="text-text-secondary text-sm">연속</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Flame className="text-accent" size={20} />
+            <span className="text-xl font-bold">{streak}</span>
+            <span className="text-text-secondary text-sm">연속</span>
+          </div>
+          <span
+            className={`px-2 py-0.5 text-xs font-bold rounded ${
+              isHardMode ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"
+            }`}
+          >
+            {isHardMode ? "고수" : "초보"}
+          </span>
         </div>
         <div className="text-text-secondary text-sm">나의 최고: {highScore}</div>
       </div>
