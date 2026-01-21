@@ -43,8 +43,8 @@ const SECTIONS = [
     englishTitle: "Lounge",
     title: "라운지",
     tagline: "잠시 쉬어가는 공간",
-    description: "셀럽 게임, 티어리스트, 블라인드 게임. 기록 사이사이 즐거움을 더합니다.",
-    features: ["셀럽 게임", "티어리스트", "블라인드 게임"],
+    description: "각종 게임을 즐기며 기록 사이사이의 즐거움을 더해보세요.",
+    features: ["하이어/로어", "연대기", "티어리스트", "블라인드 게임"],
   },
   {
     key: "archive",

@@ -37,9 +37,10 @@ interface CelebDetailModalProps {
   celeb: CelebProfile;
   isOpen: boolean;
   onClose: () => void;
+  hideBirthDate?: boolean;
 }
 
-export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false }: CelebDetailModalProps) {
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [isInfluenceOpen, setIsInfluenceOpen] = useState(false);
@@ -112,7 +113,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
           {celeb.nationality}
         </span>
       )}
-      {celeb.birth_date && (
+      {!hideBirthDate && celeb.birth_date && (
         <span className="flex items-center gap-1">
           <Calendar size={12} />
           {celeb.birth_date}

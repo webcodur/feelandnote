@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/user/lounge/Lounge.tsx
   기능: 라운지 페이지 최상위 컴포넌트
-  책임: 셀럽 게임, 티어리스트, 블라인드 게임 UI를 조합하여 렌더링한다.
+  책임: 각 게임 UI를 조합하여 렌더링한다.
 */ // ------------------------------
 
 "use client";
@@ -24,7 +24,7 @@ type LoungeTab = "tier-list" | "blind-game" | "higher-lower" | "timeline";
 
 const MAIN_TABS = [
   { value: "higher-lower", label: "Higher or Lower", icon: TrendingUp },
-  { value: "timeline", label: "타임라인", icon: Clock },
+  { value: "timeline", label: "연대기", icon: Clock },
   { value: "tier-list", label: "티어리스트", icon: Trophy },
   { value: "blind-game", label: "블라인드 게임", icon: Target },
 ] as const;
@@ -389,10 +389,10 @@ export default function Lounge() {
         variant="hero"
         englishTitle="Lounge"
         title="라운지"
-        description="셀럽 게임, 티어리스트, 블라인드 게임을 즐겨보세요"
+        description="각종 게임을 즐기며 기록 사이사이의 즐거움을 더해보세요."
         className="mb-8 md:mb-12"
       />
-
+      <p className="mb-4 text-sm text-accent">하이어-로워, 연대기 게임은 지금 플레이 가능합니다</p>
       <div className="relative mb-6 -mx-4 px-4">
         {/* Divine Lintel for Lounge */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
@@ -445,8 +445,12 @@ export default function Lounge() {
           onSubTabChange={setBlindSubTab}
         />
       )}
-      {mainTab === "higher-lower" && <HigherLowerGame />}
-      {mainTab === "timeline" && <TimelineGame />}
+      {(mainTab === "higher-lower" || mainTab === "timeline") && (
+        <div className="border border-border rounded-xl p-4 md:p-6 bg-bg-card/30">
+          {mainTab === "higher-lower" && <HigherLowerGame />}
+          {mainTab === "timeline" && <TimelineGame />}
+        </div>
+      )}
     </>
   );
 }
