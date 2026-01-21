@@ -103,6 +103,10 @@
   a {
     @apply text-inherit no-underline;
   }
+
+  button {
+    cursor: pointer;
+  }
 }
 
 /* Custom Scrollbar */

@@ -40,6 +40,22 @@ export default function ProfileContent({
         <UserBioSection profile={profile} isOwner={isOwner} />
       )}
 
+      {/* 1.5. Consumption Philosophy (셀럽 전용) */}
+      {profile.profile_type === "CELEB" && profile.consumption_philosophy && (
+        <section className="animate-fade-in" style={{ animationDelay: "0.05s" }}>
+          <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+            <div className="flex justify-center mb-6 sm:mb-8">
+              <DecorativeLabel label="감상 철학" />
+            </div>
+            <div className="max-w-3xl mx-auto">
+              <p className="text-sm md:text-base text-stone-300 font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
+                {profile.consumption_philosophy}
+              </p>
+            </div>
+          </ClassicalBox>
+        </section>
+      )}
+
       {/* 2. Recent Records */}
       <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
         <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20 relative">

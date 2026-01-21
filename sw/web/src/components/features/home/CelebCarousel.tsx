@@ -54,6 +54,7 @@ export default function CelebCarousel({
         nationality={filters.nationality}
         contentType={filters.contentType}
         sortBy={filters.sortBy}
+        search={filters.search}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
@@ -63,6 +64,9 @@ export default function CelebCarousel({
         onNationalityChange={filters.handleNationalityChange}
         onContentTypeChange={filters.handleContentTypeChange}
         onSortChange={filters.handleSortChange}
+        onSearchInput={filters.handleSearchInput}
+        onSearchSubmit={filters.handleSearchSubmit}
+        onSearchClear={filters.handleSearchClear}
       />
 
       <CelebFiltersMobile
@@ -70,6 +74,7 @@ export default function CelebCarousel({
         nationality={filters.nationality}
         contentType={filters.contentType}
         sortBy={filters.sortBy}
+        search={filters.search}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
@@ -82,6 +87,9 @@ export default function CelebCarousel({
         onNationalityChange={filters.handleNationalityChange}
         onContentTypeChange={filters.handleContentTypeChange}
         onSortChange={filters.handleSortChange}
+        onSearchInput={filters.handleSearchInput}
+        onSearchSubmit={filters.handleSearchSubmit}
+        onSearchClear={filters.handleSearchClear}
       />
 
       {/* 셀럽 그리드 영역 - 배경 박스 제거하여 클린하게 변경 */}

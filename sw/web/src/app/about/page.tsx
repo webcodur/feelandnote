@@ -62,9 +62,9 @@ export default function AboutPage() {
           gradient="bg-gradient-to-br from-blue-500 to-blue-500/70"
         />
         <FeatureCard
-          href="/play"
+          href="/lounge"
           icon={<Compass size={24} className="text-white" />}
-          title="휴게실"
+          title="라운지"
           gradient="bg-gradient-to-br from-purple-500 to-purple-500/70"
         />
       </div>

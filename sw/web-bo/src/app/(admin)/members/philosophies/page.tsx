@@ -1,0 +1,29 @@
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
+import { getCelebsForTitleEdit } from '@/actions/admin/celebs'
+import CelebPhilosophyEditor from './CelebPhilosophyEditor'
+
+export default async function CelebPhilosophiesPage() {
+  const celebs = await getCelebsForTitleEdit()
+
+  return (
+    <div className="space-y-4 md:space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-4">
+        <Link
+          href="/members?type=celeb"
+          className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+        <div>
+          <h1 className="text-xl md:text-2xl font-bold text-text-primary">셀럽 감상 철학 편집</h1>
+          <p className="text-sm text-text-secondary mt-1">총 {celebs.length}명의 셀럽</p>
+        </div>
+      </div>
+
+      {/* Editor */}
+      <CelebPhilosophyEditor celebs={celebs} />
+    </div>
+  )
+}

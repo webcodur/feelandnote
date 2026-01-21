@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Star, Users, BookOpen, BadgeCheck, Shield, CheckCircle, Ban, Settings } from 'lucide-react'
@@ -9,13 +8,14 @@ import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import StatusToggle from './StatusToggle'
 
 export default function MemberTable({ members }: { members: Member[] }) {
-  const router = useRouter()
-
   return (
-    <table className="w-full min-w-[600px]">
+    <table className="w-full min-w-[800px]">
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
-          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">멤버</th>
+          <th className="w-12 px-3 md:px-4 py-3" />
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">수식어</th>
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">이름</th>
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">직군</th>
           <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">구분</th>
           <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">상태</th>
           <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">콘텐츠</th>
@@ -25,39 +25,46 @@ export default function MemberTable({ members }: { members: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {members.length === 0 ? (
-          <tr><td colSpan={6} className="px-4 py-12 text-center text-text-secondary text-sm">멤버가 없습니다</td></tr>
+          <tr><td colSpan={9} className="px-4 py-12 text-center text-text-secondary text-sm">멤버가 없습니다</td></tr>
         ) : (
           members.map((m) => {
             const isCeleb = m.profile_type === 'CELEB'
             return (
               <tr
                 key={m.id}
-                onClick={() => router.push(`/members/${m.id}`)}
-                className="odd:bg-white/[0.02] hover:bg-bg-secondary/50 cursor-pointer"
+                className="odd:bg-white/[0.02] hover:bg-bg-secondary/50"
               >
                 <td className="px-3 md:px-4 py-3">
-                  <div className="flex items-center gap-2 md:gap-3">
-                    <div className={`relative w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center overflow-hidden shrink-0 ${isCeleb ? 'bg-yellow-500/20' : 'bg-accent/20'}`}>
-                      {m.avatar_url
-                        ? <Image src={m.avatar_url} alt="" fill unoptimized className="object-cover" />
-                        : isCeleb ? <Star className="w-4 h-4 text-yellow-400" /> : <Users className="w-4 h-4 text-accent" />
-                      }
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[100px] md:max-w-none">{m.nickname || '닉네임 없음'}</p>
-                        {m.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
-                      </div>
-                      {isCeleb ? (
-                        <div className="flex flex-col">
-                          {m.title && <p className="text-xs text-accent truncate max-w-[100px] md:max-w-none">{m.title}</p>}
-                          {m.profession && <p className="text-[10px] text-text-tertiary truncate max-w-[100px] md:max-w-none">{getCelebProfessionLabel(m.profession)}</p>}
-                        </div>
-                      ) : (
-                        <p className="text-xs text-text-secondary truncate max-w-[100px] md:max-w-none">{m.email}</p>
-                      )}
-                    </div>
+                  <div className={`relative w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center overflow-hidden shrink-0 ${isCeleb ? 'bg-yellow-500/20' : 'bg-accent/20'}`}>
+                    {m.avatar_url
+                      ? <Image src={m.avatar_url} alt="" fill unoptimized className="object-cover" />
+                      : isCeleb ? <Star className="w-4 h-4 text-yellow-400" /> : <Users className="w-4 h-4 text-accent" />
+                    }
                   </div>
+                </td>
+                <td className="px-3 md:px-4 py-3">
+                  {isCeleb && m.title && (
+                    <p className="text-xs text-accent truncate max-w-[120px]">{m.title}</p>
+                  )}
+                </td>
+                <td className="px-3 md:px-4 py-3">
+                  <div className="flex items-center gap-1.5">
+                    <Link
+                      href={`/members/${m.id}`}
+                      className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[120px] hover:text-accent hover:underline"
+                    >
+                      {m.nickname || '닉네임 없음'}
+                    </Link>
+                    {m.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
+                  </div>
+                  {!isCeleb && m.email && (
+                    <p className="text-xs text-text-secondary truncate max-w-[120px]">{m.email}</p>
+                  )}
+                </td>
+                <td className="px-3 md:px-4 py-3">
+                  {isCeleb && m.profession && (
+                    <p className="text-xs text-text-tertiary truncate max-w-[100px]">{getCelebProfessionLabel(m.profession)}</p>
+                  )}
                 </td>
                 <td className="px-3 md:px-4 py-3 text-center"><TypeBadge type={m.profile_type} role={m.role} /></td>
                 <td className="px-3 md:px-4 py-3 text-center"><StatusBadge status={m.status} /></td>
@@ -71,7 +78,7 @@ export default function MemberTable({ members }: { members: Member[] }) {
                     <Users className="w-3.5 h-3.5" />{m.follower_count}
                   </span>
                 </td>
-                <td className="px-3 md:px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                <td className="px-3 md:px-4 py-3">
                   <div className="flex items-center justify-center gap-1">
                     {isCeleb && (
                       <Link

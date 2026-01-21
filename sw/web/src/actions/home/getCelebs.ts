@@ -13,6 +13,7 @@ interface GetCelebsParams {
   nationality?: string  // 'all' | 'none' | 국가명
   contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
   sortBy?: CelebSortBy
+  search?: string  // 이름 검색
 }
 
 interface GetCelebsResult {
@@ -31,6 +32,7 @@ interface CelebRow {
   portrait_url: string | null
   profession: string | null
   title: string | null
+  consumption_philosophy: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -45,7 +47,7 @@ interface CelebRow {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'influence' } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'influence', search } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -56,12 +58,13 @@ export async function getCelebs(
   // 전체 개수 조회 (contentType 필터가 있으면 RPC 사용)
   let total = 0
 
-  if (contentType && contentType !== 'all') {
-    // contentType 필터가 있으면 별도 count 쿼리 (JOIN 필요)
+  // search나 contentType 필터가 있으면 RPC count 함수 사용
+  if ((contentType && contentType !== 'all') || search) {
     const { data: countData } = await supabase.rpc('count_celebs_filtered', {
       p_profession: profession ?? null,
       p_nationality: nationality ?? null,
-      p_content_type: contentType,
+      p_content_type: contentType ?? null,
+      p_search: search ?? null,
     })
     total = countData ?? 0
   } else {
@@ -97,6 +100,7 @@ export async function getCelebs(
     p_sort_by: sortBy,
     p_limit: limit,
     p_offset: offset,
+    p_search: search ?? null,
   })
 
   if (error) {
@@ -174,6 +178,7 @@ export async function getCelebs(
     portrait_url: row.portrait_url,
     profession: row.profession,
     title: row.title,
+    consumption_philosophy: row.consumption_philosophy,
     nationality: row.nationality,
     birth_date: row.birth_date,
     death_date: row.death_date,

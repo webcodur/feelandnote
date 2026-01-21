@@ -36,7 +36,7 @@ const ICON_SIZE = 20;
 const NAV_ITEMS = [
   { href: "/explore", label: "탐색" },
   { href: "/feed", label: "피드" },
-  { href: "/play", label: "휴게실" },
+  { href: "/lounge", label: "라운지" },
 ]
 export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();

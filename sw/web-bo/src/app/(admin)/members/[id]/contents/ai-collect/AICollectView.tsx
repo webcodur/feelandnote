@@ -49,7 +49,14 @@ interface Props {
   celebName: string
 }
 
-type InputMode = 'url' | 'text'
+type InputMode = 'url' | 'text' | 'json'
+
+// JSON 입력 파싱용 타입
+interface JsonInputItem {
+  title: string
+  body: string
+  source: string
+}
 
 interface SearchResultItem {
   externalId: string
@@ -65,6 +72,45 @@ interface ProcessedItem extends ExtractedContentWithSearch {
   searchSource: 'ko' | 'original' | 'manual'
   status: string
 }
+
+// JSON 입력 파싱 함수: "작품명(저자)" 형식을 파싱
+function parseJsonInput(jsonText: string, defaultType: ContentType): ExtractedContent[] {
+  const jsonStr = jsonText.trim()
+
+  // JSON 배열 추출 (마크다운 코드 블록 처리)
+  let cleanJson = jsonStr
+  const codeBlockMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/)
+  if (codeBlockMatch) {
+    cleanJson = codeBlockMatch[1].trim()
+  }
+
+  const arrayMatch = cleanJson.match(/\[[\s\S]*\]/)
+  if (!arrayMatch) {
+    throw new Error('유효한 JSON 배열이 아닙니다.')
+  }
+
+  const parsed = JSON.parse(arrayMatch[0]) as JsonInputItem[]
+  if (!Array.isArray(parsed)) {
+    throw new Error('JSON 배열 형식이어야 합니다.')
+  }
+
+  return parsed.map((item) => {
+    // title에서 "(저자)" 부분 분리: "작품명(저자)" → title: "작품명", creator: "저자"
+    const titleMatch = item.title.match(/^(.+?)\s*\(([^)]+)\)\s*$/)
+    const title = titleMatch ? titleMatch[1].trim() : item.title.trim()
+    const creator = titleMatch ? titleMatch[2].trim() : undefined
+
+    return {
+      type: defaultType,
+      title,
+      titleKo: title, // 한국어 제목으로 가정
+      creator,
+      creatorKo: creator,
+      review: item.body?.replace(/\\n/g, '\n') || '',
+      sourceUrl: item.source || undefined,
+    }
+  })
+}
 // #endregion
 
 export default function AICollectView({ celebId, celebName }: Props) {
@@ -74,6 +120,8 @@ export default function AICollectView({ celebId, celebName }: Props) {
   const [inputMode, setInputMode] = useState<InputMode>('text')
   const [url, setUrl] = useState('')
   const [text, setText] = useState('')
+  const [jsonText, setJsonText] = useState('')
+  const [jsonDefaultType, setJsonDefaultType] = useState<ContentType>('BOOK')
 
   // 추출 결과
   const [extractedItems, setExtractedItems] = useState<ExtractedContent[]>([])
@@ -108,6 +156,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
   async function handleExtract() {
     if (inputMode === 'url' && !url.trim()) return
     if (inputMode === 'text' && !text.trim()) return
+    if (inputMode === 'json' && !jsonText.trim()) return
 
     setExtracting(true)
     setError(null)
@@ -116,6 +165,20 @@ export default function AICollectView({ celebId, celebName }: Props) {
     setProcessedItems(new Map())
 
     try {
+      // JSON 모드: 직접 파싱 (API 호출 없음)
+      if (inputMode === 'json') {
+        const items = parseJsonInput(jsonText, jsonDefaultType)
+        if (items.length === 0) {
+          throw new Error('파싱된 콘텐츠가 없습니다.')
+        }
+        setSourceUrl(null)
+        setExtractedItems(items)
+        setSelectedIndices(new Set(items.map((_, i) => i)))
+        setExtracting(false)
+        return
+      }
+
+      // URL/텍스트 모드: AI 추출
       const selectedKeyId = getSelectedKeyId()
       const result =
         inputMode === 'url'
@@ -381,10 +444,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
           </div>
           <div>
             <h1 className="text-xl font-bold text-text-primary">{celebName}</h1>
-            <p className="text-text-secondary text-sm flex items-center gap-1">
-              <Sparkles className="w-4 h-4 text-accent" />
-              AI 콘텐츠 수집
-            </p>
+            <p className="text-text-secondary text-sm">콘텐츠 수집</p>
           </div>
         </div>
       </div>
@@ -408,7 +468,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
             }`}
           >
             <FileText className="w-4 h-4" />
-            텍스트
+            AI 텍스트
           </Button>
           <Button
             unstyled
@@ -420,11 +480,23 @@ export default function AICollectView({ celebId, celebName }: Props) {
             }`}
           >
             <Link2 className="w-4 h-4" />
-            URL
+            AI URL
+          </Button>
+          <Button
+            unstyled
+            onClick={() => setInputMode('json')}
+            className={`flex items-center gap-1.5 px-3 py-2 text-sm ${
+              inputMode === 'json'
+                ? 'bg-accent text-white'
+                : 'bg-bg-secondary text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            JSON
           </Button>
         </div>
 
-        {inputMode === 'text' ? (
+        {inputMode === 'text' && (
           <div className="space-y-2">
             <textarea
               value={text}
@@ -438,7 +510,9 @@ export default function AICollectView({ celebId, celebName }: Props) {
               💡 긴 텍스트는 여러 번 나눠서 입력하면 더 정확한 결과를 얻을 수 있습니다.
             </p>
           </div>
-        ) : (
+        )}
+
+        {inputMode === 'url' && (
           <input
             type="url"
             value={url}
@@ -450,20 +524,66 @@ export default function AICollectView({ celebId, celebName }: Props) {
           />
         )}
 
+        {inputMode === 'json' && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <label className="text-sm text-text-secondary shrink-0">기본 타입:</label>
+              <select
+                value={jsonDefaultType}
+                onChange={(e) => setJsonDefaultType(e.target.value as ContentType)}
+                className="px-3 py-1.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+                disabled={extracting}
+              >
+                {CONTENT_TYPE_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <textarea
+              value={jsonText}
+              onChange={(e) => setJsonText(e.target.value)}
+              placeholder={`[
+  {
+    "title": "작품명(저자)",
+    "body": "감상 경위 또는 리뷰 본문",
+    "source": "https://원본소스URL"
+  }
+]`}
+              rows={10}
+              className="w-full px-4 py-3 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none font-mono text-sm"
+              disabled={extracting}
+            />
+            <p className="text-xs text-text-secondary">
+              💡 title: "작품명(저자)" 형식, body: 리뷰 본문 (\n으로 개행), source: 원본 URL
+            </p>
+          </div>
+        )}
+
         <div className="flex justify-end">
           <Button
             onClick={handleExtract}
-            disabled={extracting || (inputMode === 'url' ? !url.trim() : !text.trim())}
+            disabled={
+              extracting ||
+              (inputMode === 'url' && !url.trim()) ||
+              (inputMode === 'text' && !text.trim()) ||
+              (inputMode === 'json' && !jsonText.trim())
+            }
           >
             {extracting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                추출 중...
+                {inputMode === 'json' ? '파싱 중...' : '추출 중...'}
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4" />
-                AI 추출
+                {inputMode === 'json' ? (
+                  <FileText className="w-4 h-4" />
+                ) : (
+                  <Sparkles className="w-4 h-4" />
+                )}
+                {inputMode === 'json' ? 'JSON 파싱' : 'AI 추출'}
               </>
             )}
           </Button>

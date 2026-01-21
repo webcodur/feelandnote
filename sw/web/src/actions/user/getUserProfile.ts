@@ -18,6 +18,7 @@ export interface PublicUserProfile {
   quotes: string | null
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
+  consumption_philosophy: string | null  // 감상 철학 (3~4 문단)
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -47,7 +48,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select(`
-      id, nickname, avatar_url, portrait_url, bio, quotes, profession, title, nationality, birth_date, death_date, profile_type, is_verified, created_at,
+      id, nickname, avatar_url, portrait_url, bio, quotes, profession, title, consumption_philosophy, nationality, birth_date, death_date, profile_type, is_verified, created_at,
       selected_title:titles!profiles_selected_title_id_fkey (id, name, grade)
     `)
     .eq('id', userId)
@@ -137,6 +138,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       quotes: profile.quotes,
       profession: profile.profession,
       title: profile.title,
+      consumption_philosophy: profile.consumption_philosophy,
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,

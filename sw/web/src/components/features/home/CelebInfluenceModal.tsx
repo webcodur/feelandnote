@@ -1,49 +1,58 @@
 "use client";
-// Neo-Pantheon Plaque of Wisdom Design Updated
+// Neo-Pantheon Influence Modal - Redesigned for better visibility
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Crown, Lightbulb, Cpu, Users, Coins, Palette, Clock } from "lucide-react";
+import { X, Crown, Lightbulb, Cpu, Users, Coins, Palette, Clock, ChevronDown, ChevronUp } from "lucide-react";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Avatar } from "@/components/ui";
 
 // #region 상수 정의
-// 고대 메달 스타일 - 카드와 동일한 금속 질감
-const RANK_STYLES: Record<string, { bg: string; text: string; border: string }> = {
-  S: { bg: "bg-gradient-to-b from-[#d4af37] via-[#f1d279] to-[#b8960c]", text: "text-[#1a1200]", border: "border-[#f1d279]" },
-  A: { bg: "bg-gradient-to-b from-[#c0c0c0] via-[#e8e8e8] to-[#a0a0a0]", text: "text-[#1a1a1a]", border: "border-[#d0d0d0]" },
-  B: { bg: "bg-gradient-to-b from-[#cd7f32] via-[#e6a55a] to-[#8b5a2b]", text: "text-[#1a1000]", border: "border-[#d4935a]" },
-  C: { bg: "bg-gradient-to-b from-[#2a2a2f] via-[#3a3a42] to-[#1a1a1f]", text: "text-text-secondary", border: "border-accent-dim/30" },
-  D: { bg: "bg-gradient-to-b from-[#1f1f24] via-[#28282f] to-[#151518]", text: "text-text-tertiary", border: "border-white/10" },
+const RANK_STYLES: Record<string, { bg: string; text: string; border: string; glow: string }> = {
+  S: { bg: "bg-gradient-to-br from-[#ffd700] via-[#d4af37] to-[#8a732a]", text: "text-[#1a1200]", border: "border-[#ffd700]", glow: "shadow-[0_0_20px_rgba(212,175,55,0.5)]" },
+  A: { bg: "bg-gradient-to-br from-[#e8e8e8] via-[#c0c0c0] to-[#808080]", text: "text-[#1a1a1a]", border: "border-[#e0e0e0]", glow: "shadow-[0_0_15px_rgba(192,192,192,0.4)]" },
+  B: { bg: "bg-gradient-to-br from-[#e6a55a] via-[#cd7f32] to-[#8b5a2b]", text: "text-[#1a1000]", border: "border-[#cd7f32]", glow: "shadow-[0_0_15px_rgba(205,127,50,0.4)]" },
+  C: { bg: "bg-gradient-to-br from-[#4a4a52] via-[#3a3a42] to-[#2a2a2f]", text: "text-text-primary", border: "border-[#4a4a52]", glow: "" },
+  D: { bg: "bg-gradient-to-br from-[#2a2a2f] via-[#1f1f24] to-[#151518]", text: "text-text-secondary", border: "border-[#333]", glow: "" },
 };
 
+// 골드 액센트 기반 단색 테마 - 밝기로 구분
+const GOLD_ACCENT = "#d4af37";
 const INFLUENCE_CATEGORIES = [
-  { key: "political", label: "정치", icon: Crown, color: "#d4af37", angle: 0 },
-  { key: "strategic", label: "전략", icon: Lightbulb, color: "#00b8a9", angle: 60 },
-  { key: "tech", label: "기술", icon: Cpu, color: "#4a9eff", angle: 120 },
-  { key: "social", label: "사회", icon: Users, color: "#4ade80", angle: 180 },
-  { key: "economic", label: "경제", icon: Coins, color: "#f59e0b", angle: 240 },
-  { key: "cultural", label: "문화", icon: Palette, color: "#a855f7", angle: 300 },
+  { key: "political", label: "정치", icon: Crown, angle: 0 },
+  { key: "strategic", label: "전략", icon: Lightbulb, angle: 60 },
+  { key: "tech", label: "기술", icon: Cpu, angle: 120 },
+  { key: "social", label: "사회", icon: Users, angle: 180 },
+  { key: "economic", label: "경제", icon: Coins, angle: 240 },
+  { key: "cultural", label: "문화", icon: Palette, angle: 300 },
 ] as const;
 // #endregion
 
 // #region 레이더 차트 컴포넌트
-function RadarChart({ data }: { data: CelebInfluenceDetail }) {
-  const size = 160;
+function RadarChart({ data, size = 200 }: { data: CelebInfluenceDetail; size?: number }) {
   const center = size / 2;
-  const maxRadius = 50;
+  const maxRadius = size * 0.32;
+  const labelRadius = size * 0.45;
 
   const getPoint = (angle: number, value: number) => {
     const radian = ((angle - 90) * Math.PI) / 180;
-    const radius = Math.max((value / 10) * maxRadius, 5);
+    const radius = Math.max((value / 10) * maxRadius, maxRadius * 0.1);
     return {
       x: center + radius * Math.cos(radian),
       y: center + radius * Math.sin(radian),
     };
   };
 
-  const gridLevels = [5, 10];
+  const getLabelPoint = (angle: number) => {
+    const radian = ((angle - 90) * Math.PI) / 180;
+    return {
+      x: center + labelRadius * Math.cos(radian),
+      y: center + labelRadius * Math.sin(radian),
+    };
+  };
+
+  const gridLevels = [2.5, 5, 7.5, 10];
   const dataPoints = INFLUENCE_CATEGORIES.map((cat) => {
     const value = data[cat.key as keyof CelebInfluenceDetail] as number;
     return getPoint(cat.angle, value);
@@ -52,43 +61,97 @@ function RadarChart({ data }: { data: CelebInfluenceDetail }) {
   const dataPath = dataPoints.map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(" ") + " Z";
 
   return (
-    <div className="relative flex justify-center">
+    <div className="relative flex justify-center items-center">
       <svg width={size} height={size} className="overflow-visible">
+        <defs>
+          <radialGradient id="radarGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(212,175,55,0.12)" />
+            <stop offset="100%" stopColor="transparent" />
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* 배경 원 */}
+        <circle cx={center} cy={center} r={maxRadius} fill="url(#radarGradient)" />
+
         {/* 배경 그리드 */}
         {gridLevels.map((level) => {
           const points = INFLUENCE_CATEGORIES.map((cat) => getPoint(cat.angle, level));
           const path = points.map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(" ") + " Z";
-          return <path key={level} d={path} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />;
+          return (
+            <path
+              key={level}
+              d={path}
+              fill="none"
+              stroke={level === 5 ? "rgba(212,175,55,0.25)" : "rgba(138,115,42,0.15)"}
+              strokeWidth={level === 5 ? "1.5" : "1"}
+            />
+          );
         })}
 
-        {/* 축 라인 - 각 카테고리 색상 */}
+        {/* 축 라인 - 골드 단색 */}
         {INFLUENCE_CATEGORIES.map((cat) => {
           const endPoint = getPoint(cat.angle, 10);
-          return <line key={cat.key} x1={center} y1={center} x2={endPoint.x} y2={endPoint.y} stroke={cat.color} strokeWidth="1" opacity="0.3" />;
+          return (
+            <line
+              key={cat.key}
+              x1={center}
+              y1={center}
+              x2={endPoint.x}
+              y2={endPoint.y}
+              stroke={GOLD_ACCENT}
+              strokeWidth="1"
+              opacity="0.2"
+            />
+          );
         })}
 
-        {/* 데이터 영역 */}
-        <path d={dataPath} fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" />
+        {/* 데이터 영역 - 골드 그라데이션 */}
+        <path
+          d={dataPath}
+          fill="rgba(212,175,55,0.2)"
+          stroke={GOLD_ACCENT}
+          strokeWidth="2"
+          filter="url(#glow)"
+        />
 
-        {/* 데이터 포인트 - 각 카테고리 색상 */}
+        {/* 데이터 포인트 - 골드 단색 */}
         {INFLUENCE_CATEGORIES.map((cat) => {
           const value = data[cat.key as keyof CelebInfluenceDetail] as number;
           const point = getPoint(cat.angle, value);
-          return <circle key={cat.key} cx={point.x} cy={point.y} r="4" fill={cat.color} />;
+          return (
+            <g key={cat.key}>
+              <circle cx={point.x} cy={point.y} r="5" fill={GOLD_ACCENT} opacity="0.3" />
+              <circle cx={point.x} cy={point.y} r="3" fill={GOLD_ACCENT} />
+            </g>
+          );
         })}
 
         {/* 카테고리 레이블 */}
         {INFLUENCE_CATEGORIES.map((cat) => {
-          const labelPoint = getPoint(cat.angle, 14);
+          const labelPoint = getLabelPoint(cat.angle);
           const value = data[cat.key as keyof CelebInfluenceDetail] as number;
+          const Icon = cat.icon;
           return (
             <g key={cat.key}>
-              <text x={labelPoint.x} y={labelPoint.y - 5} textAnchor="middle" className="text-[9px] fill-text-secondary font-medium">
-                {cat.label}
-              </text>
-              <text x={labelPoint.x} y={labelPoint.y + 8} textAnchor="middle" style={{ fill: cat.color }} className="text-xs font-bold">
-                {value}
-              </text>
+              <foreignObject
+                x={labelPoint.x - 24}
+                y={labelPoint.y - 20}
+                width="48"
+                height="40"
+              >
+                <div className="flex flex-col items-center gap-0.5">
+                  <Icon size={14} className="text-accent" />
+                  <span className="text-[10px] text-text-secondary font-medium">{cat.label}</span>
+                  <span className="text-xs font-bold text-accent">{value}</span>
+                </div>
+              </foreignObject>
             </g>
           );
         })}
@@ -101,18 +164,40 @@ function RadarChart({ data }: { data: CelebInfluenceDetail }) {
 // #region 시대초월성 게이지
 function TranshistoricityGauge({ value, maxValue = 40 }: { value: number; maxValue?: number }) {
   const percentage = (value / maxValue) * 100;
+  const segments = 8;
 
   return (
-    <div className="flex items-center gap-3">
-      <Clock size={16} className="text-accent shrink-0" />
-      <div className="flex-1">
-        <div className="flex items-baseline justify-between mb-1">
-          <span className="text-sm font-semibold text-text-primary">시대초월성</span>
-          <span className="text-sm font-bold text-accent">{value}<span className="text-text-tertiary text-xs">/{maxValue}</span></span>
+    <div className="p-4 rounded-lg bg-gradient-to-br from-accent/5 to-transparent border border-accent/20">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+            <Clock size={16} className="text-accent" />
+          </div>
+          <span className="text-sm font-bold text-text-primary">시대초월성</span>
         </div>
-        <div className="h-1.5 bg-white/5 overflow-hidden">
-          <div className="h-full bg-accent" style={{ width: `${percentage}%` }} />
+        <div className="text-end">
+          <span className="text-xl font-black text-accent">{value}</span>
+          <span className="text-text-tertiary text-sm ml-0.5">/ {maxValue}</span>
         </div>
+      </div>
+      <div className="flex gap-1">
+        {Array.from({ length: segments }).map((_, i) => {
+          const segmentThreshold = ((i + 1) / segments) * 100;
+          const isFilled = percentage >= segmentThreshold;
+          const isPartial = percentage > (i / segments) * 100 && percentage < segmentThreshold;
+          return (
+            <div
+              key={i}
+              className={`h-2 flex-1 rounded-sm ${
+                isFilled
+                  ? "bg-accent shadow-[0_0_8px_rgba(212,175,55,0.4)]"
+                  : isPartial
+                  ? "bg-accent/50"
+                  : "bg-white/10"
+              }`}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -135,27 +220,87 @@ function CategoryDetail({
 }) {
   const Icon = category.icon;
   const percentage = (value / 10) * 100;
+  const hasExplanation = !!explanation;
 
   return (
     <button
       type="button"
-      onClick={explanation ? onToggle : undefined}
-      className={`p-2 bg-white/[0.02] border border-white/5 text-left w-full ${explanation ? "cursor-pointer hover:border-white/20" : "cursor-default"}`}
+      onClick={hasExplanation ? onToggle : undefined}
+      className={`
+        p-3 md:p-4 rounded-xl text-left w-full
+        bg-white/[0.02] border border-accent-dim/20
+        ${hasExplanation ? "cursor-pointer hover:bg-white/[0.04] hover:border-accent-dim/40 active:scale-[0.98]" : "cursor-default"}
+        ${isExpanded ? "bg-white/[0.04] border-accent/30" : ""}
+      `}
     >
-      <div className="flex items-center gap-2 mb-1">
-        <Icon size={14} style={{ color: category.color }} />
-        <span className="text-sm font-medium text-text-primary">{category.label}</span>
-        <span className="ml-auto font-bold" style={{ color: category.color }}>{value}</span>
+      {/* 헤더: 아이콘 + 라벨 + 게이지 + 점수 (인라인) */}
+      <div className="flex items-center gap-2.5 mb-2">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-accent/10">
+          <Icon size={16} className="text-accent" />
+        </div>
+        <span className="text-sm font-bold text-text-primary shrink-0">{category.label}</span>
+        {/* 게이지 (라벨과 점수 사이) */}
+        <div className="flex-1 h-1.5 bg-black/30 rounded-full overflow-hidden mx-1">
+          <div
+            className="h-full rounded-full bg-accent"
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+        <span className="text-base font-black text-accent shrink-0">{value}</span>
       </div>
-      <div className="h-1 bg-white/10 overflow-hidden">
-        <div className="h-full" style={{ width: `${percentage}%`, backgroundColor: category.color }} />
-      </div>
-      {explanation && (
-        <p className={`text-xs text-text-secondary leading-relaxed mt-1.5 ${isExpanded ? "" : "line-clamp-1"}`}>
-          {explanation}
-        </p>
+
+      {/* 설명 */}
+      {hasExplanation && (
+        <div className="flex items-start gap-2">
+          <p className={`flex-1 text-xs text-text-secondary leading-relaxed ${isExpanded ? "" : "line-clamp-2"}`}>
+            {explanation}
+          </p>
+          <div className="shrink-0 mt-0.5">
+            {isExpanded ? (
+              <ChevronUp size={14} className="text-accent-dim" />
+            ) : (
+              <ChevronDown size={14} className="text-accent-dim" />
+            )}
+          </div>
+        </div>
       )}
     </button>
+  );
+}
+// #endregion
+
+// #region 주요 영향력 태그 (모바일용)
+function TopInfluenceTags({ data }: { data: CelebInfluenceDetail }) {
+  const sortedCategories = INFLUENCE_CATEGORIES
+    .map(cat => ({ ...cat, value: data[cat.key as keyof CelebInfluenceDetail] as number }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 3);
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {sortedCategories.map((cat, index) => {
+        const Icon = cat.icon;
+        const isTop = index === 0;
+        return (
+          <div
+            key={cat.key}
+            className={`
+              flex items-center gap-1.5 px-3 py-1.5 rounded-full
+              ${isTop ? "bg-accent/15 border border-accent/40" : "bg-white/5 border border-accent-dim/20"}
+            `}
+          >
+            <Icon size={14} className={isTop ? "text-accent" : "text-text-secondary"} />
+            <span className={`text-xs font-bold ${isTop ? "text-accent" : "text-text-secondary"}`}>
+              {cat.label}
+            </span>
+            <span className={`text-xs font-black ${isTop ? "text-text-primary" : "text-text-secondary"}`}>
+              {cat.value}
+            </span>
+            {isTop && <span className="text-[10px] text-accent font-bold ml-0.5">★</span>}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 // #endregion
@@ -191,118 +336,254 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
     setExpandedCategory(expandedCategory === key ? null : key);
   };
 
-  const modalContent = (
-    <div className="fixed inset-0 z-[700] flex items-center justify-center p-3 md:p-4" onClick={onClose}>
-      {/* 백드롭 */}
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
+  // #region 공유 컴포넌트
+  const LoadingSpinner = () => (
+    <div className="flex flex-col items-center justify-center py-20 gap-3">
+      <div className="w-10 h-10 border-3 border-accent/20 border-t-accent rounded-full animate-spin" />
+      <span className="text-sm text-text-secondary">영향력 분석 중...</span>
+    </div>
+  );
 
-      {/* 모달 - 대리석 석판 스타일 */}
+  const ErrorState = () => (
+    <div className="flex flex-col items-center justify-center py-20 gap-2">
+      <span className="text-text-tertiary">정보를 불러올 수 없습니다</span>
+      <button onClick={onClose} className="text-sm text-accent hover:underline">닫기</button>
+    </div>
+  );
+
+  // 주요 영향력 TOP 3 (헤더용)
+  const topCategories = data ? INFLUENCE_CATEGORIES
+    .map(cat => ({ ...cat, value: data[cat.key as keyof CelebInfluenceDetail] as number }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 3) : [];
+
+  const Header = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <div className={`relative ${isMobile ? "p-4" : "p-4 pr-12"}`}>
+      {/* PC: 수평 나열 */}
+      {!isMobile && (
+        <div className="flex items-center gap-4">
+          {/* 아바타 + 등급 */}
+          <div className="relative shrink-0">
+            <div className={`absolute -inset-1 ${rankStyle.bg} ${rankStyle.glow} rounded-lg opacity-50`} />
+            <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
+            {/* 등급 뱃지 (아바타 우하단) */}
+            <div className={`
+              absolute -bottom-1 -right-1 w-6 h-6
+              flex items-center justify-center rounded border
+              ${rankStyle.bg} ${rankStyle.border}
+              shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)]
+            `}>
+              <span className={`text-xs font-black ${rankStyle.text}`}>{data!.rank}</span>
+            </div>
+          </div>
+
+          {/* 이름 + 직군 */}
+          <div className="shrink-0">
+            <h2 className="text-lg font-bold text-text-primary">{data!.nickname}</h2>
+            {professionLabel && <p className="text-[11px] text-accent font-medium">{professionLabel}</p>}
+          </div>
+
+          {/* 구분선 */}
+          <div className="w-px h-8 bg-accent-dim/30" />
+
+          {/* 총점 */}
+          <div className="shrink-0 text-center">
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-2xl font-black text-accent">{data!.total_score}</span>
+              <span className="text-xs text-text-tertiary">/100</span>
+            </div>
+            <p className="text-[9px] text-text-tertiary uppercase tracking-wider">Score</p>
+          </div>
+
+          {/* 구분선 */}
+          <div className="w-px h-8 bg-accent-dim/30" />
+
+          {/* TOP 3 영향력 (수평) */}
+          <div className="flex-1 flex items-center gap-2">
+            {topCategories.map((cat, index) => {
+              const Icon = cat.icon;
+              const isTop = index === 0;
+              return (
+                <div
+                  key={cat.key}
+                  className={`
+                    flex items-center gap-1.5 px-2 py-1 rounded-md
+                    ${isTop ? "bg-accent/10" : "bg-white/[0.03]"}
+                  `}
+                >
+                  <Icon size={12} className={isTop ? "text-accent" : "text-text-tertiary"} />
+                  <span className="text-[11px] text-text-secondary">{cat.label}</span>
+                  <span className={`text-sm font-black ${isTop ? "text-accent" : "text-text-primary"}`}>
+                    {cat.value}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* 모바일: 기존 세로 레이아웃 유지 */}
+      {isMobile && (
+        <div className="flex items-center gap-3">
+          <div className="relative shrink-0">
+            <div className={`absolute -inset-1 ${rankStyle.bg} ${rankStyle.glow} rounded-lg opacity-50`} />
+            <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="text-lg font-bold text-text-primary truncate">{data!.nickname}</h2>
+            {professionLabel && <p className="text-[11px] text-accent font-medium">{professionLabel}</p>}
+            <div className="flex items-center gap-2 mt-1.5">
+              <div className={`
+                w-7 h-7 flex items-center justify-center rounded border
+                ${rankStyle.bg} ${rankStyle.border}
+              `}>
+                <span className={`text-sm font-black ${rankStyle.text}`}>{data!.rank}</span>
+              </div>
+              <span className="text-xl font-black text-accent">{data!.total_score}</span>
+              <span className="text-xs text-text-tertiary">/100</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 닫기 버튼 */}
+      <button
+        onClick={onClose}
+        className="absolute top-3 right-3 p-2 rounded-full bg-white/5 text-text-secondary hover:text-text-primary hover:bg-white/10"
+      >
+        <X size={18} />
+      </button>
+    </div>
+  );
+  // #endregion
+
+  const modalContent = (
+    <div className="fixed inset-0 z-[700] flex items-end md:items-center justify-center" onClick={onClose}>
+      {/* 백드롭 */}
+      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" />
+
+      {/* PC 레이아웃 */}
       <div
-        className="relative w-full max-w-md max-h-[85vh] overflow-hidden flex flex-col"
+        className="hidden md:flex relative w-full max-w-2xl max-h-[90vh] overflow-hidden flex-col rounded-2xl animate-modal-content"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 대리석 배경 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1f] via-[#12121a] to-[#0a0a0f]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.06)_0%,transparent_50%)]" />
-        <div className="absolute inset-0 border border-accent/20" />
-        {/* 상단/하단 장식 라인 */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+        {/* 배경 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-bg-card via-bg-main to-bg-secondary" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08)_0%,transparent_60%)]" />
+        <div className="absolute inset-0 border border-accent/20 rounded-2xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
-        {/* 헤더 */}
-        <div className="relative p-4 border-b border-accent/10">
-          <button onClick={onClose} className="absolute top-3 right-3 p-1 text-text-tertiary hover:text-accent z-20">
-            <X size={18} />
-          </button>
+        {loading ? <LoadingSpinner /> : !data ? <ErrorState /> : (
+          <>
+            <Header />
 
-          {loading ? (
-            <div className="flex items-center justify-center h-16">
-              <div className="w-6 h-6 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
-            </div>
-          ) : data ? (
-            <div className="flex items-center gap-4 pr-6">
-              {/* 아바타 */}
-              <div className="relative shrink-0">
-                <div className="absolute -inset-1 border border-accent/20" />
-                <Avatar url={data.avatar_url} name={data.nickname} size="lg" className="ring-0 rounded-none" />
-              </div>
-
-              {/* 정보 */}
-              <div className="flex-1 min-w-0">
-                <h2 className="text-xl font-bold text-text-primary truncate">{data.nickname}</h2>
-                {professionLabel && <p className="text-xs text-accent">{professionLabel}</p>}
-
-                <div className="flex items-center gap-3 mt-2">
-                  {/* 등급 뱃지 */}
-                  <div className={`w-8 h-8 flex items-center justify-center rounded-sm border ${rankStyle.bg} ${rankStyle.border} shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)]`}>
-                    <span className={`text-base font-bold ${rankStyle.text}`}>{data.rank}</span>
+            {/* 본문 */}
+            <div className="relative flex-1 overflow-y-auto custom-scrollbar">
+              <div className="p-5 pt-0 space-y-5">
+                {/* 상단 섹션: 레이더 차트 + 시대초월성 */}
+                <div className="flex gap-6">
+                  {/* 레이더 차트 */}
+                  <div className="shrink-0 p-4 rounded-xl bg-black/20 border border-white/5">
+                    <RadarChart data={data} size={240} />
                   </div>
-                  {/* 점수 */}
-                  <div>
-                    <span className="text-xl font-bold text-text-primary">{data.total_score}</span>
-                    <span className="text-xs text-text-tertiary">/100</span>
+
+                  {/* 우측: 시대초월성 + 주요 영향력 */}
+                  <div className="flex-1 flex flex-col gap-4">
+                    <TranshistoricityGauge value={data.transhistoricity} />
+                    {data.transhistoricity_exp && (
+                      <p className="text-xs text-text-secondary leading-relaxed px-1">
+                        {data.transhistoricity_exp}
+                      </p>
+                    )}
+                    <div className="pt-3 border-t border-white/5">
+                      <p className="text-xs text-text-tertiary mb-2 font-medium">주요 영향력</p>
+                      <TopInfluenceTags data={data} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 영역별 상세 */}
+                <div className="space-y-3">
+                  <h3 className="text-sm font-bold text-text-primary px-1">영역별 상세</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    {INFLUENCE_CATEGORIES.map((cat) => (
+                      <CategoryDetail
+                        key={cat.key}
+                        category={cat}
+                        value={data[cat.key as keyof CelebInfluenceDetail] as number}
+                        explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
+                        isExpanded={expandedCategory === cat.key}
+                        onToggle={() => toggleCategory(cat.key)}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
-          ) : (
-            <p className="text-center text-text-tertiary py-4">정보를 불러올 수 없습니다</p>
-          )}
+          </>
+        )}
+      </div>
+
+      {/* 모바일 레이아웃 (Bottom Sheet) */}
+      <div
+        className="md:hidden relative w-full max-h-[92vh] overflow-hidden flex flex-col bg-bg-main rounded-t-3xl animate-bottomsheet-content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* 드래그 핸들 */}
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 bg-white/20 rounded-full" onClick={onClose} />
         </div>
 
-        {/* 본문 */}
-        {data && !loading && (
-          <div className="relative p-4 space-y-4 overflow-y-auto custom-scrollbar flex-1">
-            {/* 상단: 레이더 차트 + 우측 요약 */}
-            <div className="flex gap-4">
-              <div className="shrink-0">
-                <RadarChart data={data} />
-              </div>
-              <div className="flex-1 flex flex-col justify-center gap-3">
+        {/* 배경 장식 */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.06)_0%,transparent_50%)] pointer-events-none" />
+
+        {loading ? <LoadingSpinner /> : !data ? <ErrorState /> : (
+          <>
+            <Header isMobile />
+
+            {/* 본문 */}
+            <div className="relative flex-1 overflow-y-auto custom-scrollbar">
+              <div className="p-4 pt-0 pb-8 space-y-5">
+                {/* 레이더 차트 (중앙 배치) */}
+                <div className="flex justify-center py-2">
+                  <div className="p-3 rounded-xl bg-black/20 border border-white/5">
+                    <RadarChart data={data} size={220} />
+                  </div>
+                </div>
+
+                {/* 주요 영향력 태그 */}
+                <div className="flex justify-center">
+                  <TopInfluenceTags data={data} />
+                </div>
+
                 {/* 시대초월성 */}
                 <TranshistoricityGauge value={data.transhistoricity} />
                 {data.transhistoricity_exp && (
-                  <p className="text-[11px] text-text-secondary leading-relaxed">{data.transhistoricity_exp}</p>
+                  <p className="text-xs text-text-secondary leading-relaxed text-center px-2">
+                    {data.transhistoricity_exp}
+                  </p>
                 )}
-                {/* 상위 영역 표시 */}
-                <div className="pt-2 border-t border-white/5">
-                  <p className="text-[10px] text-text-tertiary mb-1.5">주요 영향력</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {INFLUENCE_CATEGORIES
-                      .map(cat => ({ ...cat, value: data[cat.key as keyof CelebInfluenceDetail] as number }))
-                      .sort((a, b) => b.value - a.value)
-                      .slice(0, 3)
-                      .map(cat => (
-                        <span key={cat.key} className="text-xs font-medium px-1.5 py-0.5 rounded-sm" style={{ backgroundColor: `${cat.color}20`, color: cat.color }}>
-                          {cat.label} {cat.value}
-                        </span>
-                      ))
-                    }
+
+                {/* 영역별 상세 */}
+                <div className="space-y-3 pt-2">
+                  <h3 className="text-sm font-bold text-text-primary px-1">영역별 상세</h3>
+                  <div className="grid grid-cols-1 gap-2.5">
+                    {INFLUENCE_CATEGORIES.map((cat) => (
+                      <CategoryDetail
+                        key={cat.key}
+                        category={cat}
+                        value={data[cat.key as keyof CelebInfluenceDetail] as number}
+                        explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
+                        isExpanded={expandedCategory === cat.key}
+                        onToggle={() => toggleCategory(cat.key)}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* 영역별 상세 */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold text-text-secondary">영역별 상세</h3>
-                <span className="text-[10px] text-text-tertiary">탭하여 상세 보기</span>
-              </div>
-              <div className="grid grid-cols-2 gap-1.5">
-                {INFLUENCE_CATEGORIES.map((cat) => (
-                  <CategoryDetail
-                    key={cat.key}
-                    category={cat}
-                    value={data[cat.key as keyof CelebInfluenceDetail] as number}
-                    explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
-                    isExpanded={expandedCategory === cat.key}
-                    onToggle={() => toggleCategory(cat.key)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+          </>
         )}
       </div>
     </div>

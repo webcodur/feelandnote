@@ -683,13 +683,14 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
 }
 // #endregion
 
-// #region getCelebsForTitleEdit - 수식어 편집용 셀럽 목록
+// #region getCelebsForTitleEdit - 수식어/직군/감상철학 편집용 셀럽 목록
 export interface CelebTitleItem {
   id: string
   nickname: string | null
   avatar_url: string | null
   profession: string | null
   title: string | null
+  consumption_philosophy: string | null
 }
 
 export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
@@ -697,7 +698,7 @@ export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, profession, title')
+    .select('id, nickname, avatar_url, profession, title, consumption_philosophy')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .order('nickname', { ascending: true })
@@ -740,6 +741,24 @@ export async function updateCelebProfession(celebId: string, profession: string 
 
   revalidatePath('/members')
   revalidatePath('/members/professions')
+  revalidatePath(`/members/${celebId}`)
+}
+// #endregion
+
+// #region updateCelebPhilosophy - 감상 철학만 업데이트
+export async function updateCelebPhilosophy(celebId: string, philosophy: string | null): Promise<void> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ consumption_philosophy: philosophy })
+    .eq('id', celebId)
+    .eq('profile_type', 'CELEB')
+
+  if (error) throw error
+
+  revalidatePath('/members')
+  revalidatePath('/members/philosophies')
   revalidatePath(`/members/${celebId}`)
 }
 // #endregion
