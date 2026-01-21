@@ -45,6 +45,10 @@
   a {
     @apply text-inherit no-underline;
   }
+
+  button {
+    cursor: pointer;
+  }
 }
 
 @layer utilities {

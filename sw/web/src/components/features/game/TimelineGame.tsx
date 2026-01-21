@@ -1,0 +1,459 @@
+/*
+  파일명: components/features/game/TimelineGame.tsx
+  기능: 타임라인 게임 메인 컴포넌트
+  책임: 셀럽 생년을 시간순으로 배치하는 게임
+*/ // ------------------------------
+
+"use client";
+
+import { useState, useEffect, useCallback, useRef } from "react";
+import { getCelebs } from "@/actions/home/getCelebs";
+import type { CelebProfile } from "@/types/home";
+import { Button } from "@/components/ui";
+import { Flame, Clock, ChevronLeft, ChevronRight, RotateCcw, HelpCircle } from "lucide-react";
+
+type GameState = "idle" | "playing" | "gameover";
+
+interface TimelineCeleb extends CelebProfile {
+  birthYear: number;
+}
+
+// region: 연도 파싱 유틸
+function parseBirthYear(birthDate: string | null): number | null {
+  if (!birthDate) return null;
+
+  // "BC" 또는 "기원전" 처리
+  const bcMatch = birthDate.match(/(?:BC|기원전)\s*(\d+)/i);
+  if (bcMatch) return -parseInt(bcMatch[1], 10);
+
+  // 일반 연도 (4자리)
+  const yearMatch = birthDate.match(/(\d{4})/);
+  if (yearMatch) return parseInt(yearMatch[1], 10);
+
+  return null;
+}
+
+function formatYear(year: number): string {
+  if (year < 0) return `BC ${Math.abs(year)}`;
+  return `${year}년`;
+}
+// endregion
+
+// region: 타임라인 카드 컴포넌트
+function TimelineCard({
+  celeb,
+  showYear,
+  isNew,
+  isWrong,
+  size = "normal",
+}: {
+  celeb: TimelineCeleb;
+  showYear: boolean;
+  isNew?: boolean;
+  isWrong?: boolean;
+  size?: "small" | "normal";
+}) {
+  const sizeStyles = {
+    small: "w-20 h-28",
+    normal: "w-28 h-40 md:w-32 md:h-44",
+  };
+
+  return (
+    <div
+      className={`
+        ${sizeStyles[size]} flex-shrink-0
+        bg-bg-card rounded-xl border overflow-hidden
+        flex flex-col
+        ${isNew ? "border-accent shadow-lg shadow-accent/20" : "border-border"}
+        ${isWrong ? "border-red-500 shadow-lg shadow-red-500/20" : ""}
+      `}
+    >
+      {/* 이미지 */}
+      <div className="flex-1 relative overflow-hidden bg-white/5">
+        {celeb.portrait_url ?? celeb.avatar_url ? (
+          <img
+            src={celeb.portrait_url ?? celeb.avatar_url ?? ""}
+            alt={celeb.nickname}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-2xl text-text-tertiary">
+            {celeb.nickname.charAt(0)}
+          </div>
+        )}
+      </div>
+
+      {/* 정보 */}
+      <div className="p-2 text-center bg-bg-card">
+        <p className={`font-medium text-white truncate ${size === "small" ? "text-xs" : "text-sm"}`}>
+          {celeb.nickname}
+        </p>
+        {showYear ? (
+          <p className={`text-accent font-bold ${size === "small" ? "text-xs" : "text-sm"}`}>
+            {formatYear(celeb.birthYear)}
+          </p>
+        ) : (
+          <p className={`text-text-tertiary ${size === "small" ? "text-xs" : "text-sm"}`}>???</p>
+        )}
+      </div>
+    </div>
+  );
+}
+// endregion
+
+// region: 배치 슬롯 컴포넌트
+function PlacementSlot({
+  onClick,
+  disabled,
+  position,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+  position: "start" | "middle" | "end";
+}) {
+  const positionLabel = {
+    start: "이전",
+    middle: "사이",
+    end: "이후",
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`
+        flex-shrink-0 w-12 h-32 md:h-36
+        border-2 border-dashed border-accent/40 rounded-xl
+        flex items-center justify-center
+        hover:border-accent hover:bg-accent/10
+        disabled:opacity-30 disabled:cursor-not-allowed
+        transition-colors
+      `}
+    >
+      <span className="text-xs text-accent font-medium">{positionLabel[position]}</span>
+    </button>
+  );
+}
+// endregion
+
+// region: 결과 모달
+function ResultModal({
+  isOpen,
+  streak,
+  highScore,
+  onRestart,
+}: {
+  isOpen: boolean;
+  streak: number;
+  highScore: number;
+  onRestart: () => void;
+}) {
+  if (!isOpen) return null;
+
+  const isNewRecord = streak === highScore && streak > 0;
+
+  return (
+    <div className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/70">
+      <div className="bg-bg-card border border-border rounded-2xl p-6 max-w-sm w-full text-center">
+        <h2 className="text-xl font-bold text-white mb-2">게임 오버</h2>
+
+        {isNewRecord && (
+          <p className="text-accent text-sm mb-4">🎉 새로운 최고 기록!</p>
+        )}
+
+        <div className="flex justify-center gap-8 mb-6">
+          <div>
+            <p className="text-text-secondary text-sm">이번 기록</p>
+            <p className="text-2xl font-bold text-white">{streak}</p>
+          </div>
+          <div>
+            <p className="text-text-secondary text-sm">최고 기록</p>
+            <p className="text-2xl font-bold text-accent">{highScore}</p>
+          </div>
+        </div>
+
+        <Button variant="primary" size="lg" onClick={onRestart} className="w-full gap-2">
+          <RotateCcw size={18} />
+          다시 하기
+        </Button>
+      </div>
+    </div>
+  );
+}
+// endregion
+
+export default function TimelineGame() {
+  const [allCelebs, setAllCelebs] = useState<TimelineCeleb[]>([]);
+  const [timeline, setTimeline] = useState<TimelineCeleb[]>([]);
+  const [currentCard, setCurrentCard] = useState<TimelineCeleb | null>(null);
+  const [remainingCelebs, setRemainingCelebs] = useState<TimelineCeleb[]>([]);
+  const [streak, setStreak] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [gameState, setGameState] = useState<GameState>("idle");
+  const [isRevealing, setIsRevealing] = useState(false);
+  const [wrongPosition, setWrongPosition] = useState<number | null>(null);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  // region: 데이터 로드
+  useEffect(() => {
+    const loadCelebs = async () => {
+      const result = await getCelebs({ limit: 100, sortBy: "influence" });
+
+      const withBirthYear = result.celebs
+        .map((c) => {
+          const birthYear = parseBirthYear(c.birth_date);
+          return birthYear !== null ? { ...c, birthYear } : null;
+        })
+        .filter((c): c is TimelineCeleb => c !== null);
+
+      setAllCelebs(withBirthYear);
+      setIsDataLoaded(true);
+
+      const saved = localStorage.getItem("timeline-highscore");
+      if (saved) setHighScore(parseInt(saved, 10));
+    };
+    loadCelebs();
+  }, []);
+  // endregion
+
+  // region: 게임 시작
+  const startGame = useCallback(() => {
+    if (allCelebs.length < 5) return;
+
+    // 셔플
+    const shuffled = [...allCelebs].sort(() => Math.random() - 0.5);
+
+    // 첫 카드는 타임라인에, 두 번째 카드는 현재 카드로
+    const [first, second, ...rest] = shuffled;
+
+    setTimeline([first]);
+    setCurrentCard(second);
+    setRemainingCelebs(rest);
+    setStreak(0);
+    setGameState("playing");
+    setIsRevealing(false);
+    setWrongPosition(null);
+  }, [allCelebs]);
+  // endregion
+
+  // region: 배치 선택
+  const handlePlace = (index: number) => {
+    if (!currentCard || gameState !== "playing" || isRevealing) return;
+
+    setIsRevealing(true);
+
+    // 정답 위치 찾기
+    const correctIndex = timeline.findIndex((c) => c.birthYear > currentCard.birthYear);
+    const actualCorrectIndex = correctIndex === -1 ? timeline.length : correctIndex;
+
+    const isCorrect = index === actualCorrectIndex;
+
+    if (isCorrect) {
+      // 정답: 타임라인에 삽입
+      const newTimeline = [...timeline];
+      newTimeline.splice(index, 0, currentCard);
+      setTimeline(newTimeline);
+
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+
+      if (newStreak > highScore) {
+        setHighScore(newStreak);
+        localStorage.setItem("timeline-highscore", newStreak.toString());
+      }
+
+      // 다음 카드
+      setTimeout(() => {
+        if (remainingCelebs.length === 0) {
+          // 모든 카드 사용 완료 - 승리
+          setGameState("gameover");
+        } else {
+          const [next, ...rest] = remainingCelebs;
+          setCurrentCard(next);
+          setRemainingCelebs(rest);
+        }
+        setIsRevealing(false);
+
+        // 스크롤 조정
+        setTimeout(() => {
+          timelineRef.current?.scrollTo({
+            left: timelineRef.current.scrollWidth / 2 - timelineRef.current.clientWidth / 2,
+            behavior: "smooth",
+          });
+        }, 100);
+      }, 1000);
+    } else {
+      // 오답
+      setWrongPosition(index);
+
+      setTimeout(() => {
+        setGameState("gameover");
+        setIsRevealing(false);
+      }, 1500);
+    }
+  };
+  // endregion
+
+  // region: 스크롤 버튼
+  const scrollTimeline = (direction: "left" | "right") => {
+    if (!timelineRef.current) return;
+    const scrollAmount = 200;
+    timelineRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+  // endregion
+
+  // region: 렌더링
+  if (!isDataLoaded) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-text-secondary">로딩 중...</div>
+      </div>
+    );
+  }
+
+  // 시작 화면
+  if (gameState === "idle") {
+    return (
+      <div className="max-w-md mx-auto">
+        <div className="bg-card border border-border rounded-xl p-6">
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Clock className="text-accent" size={24} />
+              <h2 className="text-xl font-bold text-white">타임라인</h2>
+            </div>
+            <p className="text-sm text-text-secondary">셀럽 생년 배치 게임</p>
+          </div>
+
+          <div className="bg-white/5 rounded-lg p-4 mb-6 text-sm text-text-secondary space-y-2">
+            <p>1. 타임라인에 셀럽 카드가 하나 놓여있습니다</p>
+            <p>2. 새 카드가 나오면 생년 기준 올바른 위치에 배치하세요</p>
+            <p>3. 틀리면 게임 오버!</p>
+          </div>
+
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={startGame}
+            className="w-full"
+            disabled={allCelebs.length < 5}
+          >
+            게임 시작
+          </Button>
+
+          {highScore > 0 && (
+            <p className="text-center text-sm text-text-secondary mt-4">
+              나의 최고 기록: <span className="text-accent font-bold">{highScore}</span>
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // 게임 진행
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Flame className="text-accent" size={20} />
+          <span className="text-xl font-bold">{streak}</span>
+          <span className="text-text-secondary text-sm">연속</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-text-secondary text-sm">남은 카드: {remainingCelebs.length}</span>
+          <span className="text-text-secondary text-sm">최고: {highScore}</span>
+        </div>
+      </div>
+
+      {/* 타임라인 영역 */}
+      <div className="relative bg-bg-card/50 rounded-xl border border-border p-4 mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Clock size={14} className="text-text-tertiary" />
+          <span className="text-xs text-text-tertiary">과거</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-text-tertiary/30 to-text-tertiary/30" />
+          <span className="text-xs text-text-tertiary">현재</span>
+        </div>
+
+        {/* 스크롤 버튼 */}
+        {timeline.length > 2 && (
+          <>
+            <button
+              onClick={() => scrollTimeline("left")}
+              className="absolute start-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-bg-card/90 rounded-full border border-border hover:bg-white/10"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              onClick={() => scrollTimeline("right")}
+              className="absolute end-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-bg-card/90 rounded-full border border-border hover:bg-white/10"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </>
+        )}
+
+        {/* 타임라인 */}
+        <div
+          ref={timelineRef}
+          className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hidden px-8"
+        >
+          {/* 맨 앞 배치 슬롯 */}
+          <PlacementSlot
+            onClick={() => handlePlace(0)}
+            disabled={isRevealing}
+            position="start"
+          />
+
+          {timeline.map((celeb, idx) => (
+            <div key={celeb.id} className="flex items-center gap-2">
+              <TimelineCard celeb={celeb} showYear size="small" />
+
+              {/* 사이 배치 슬롯 */}
+              <PlacementSlot
+                onClick={() => handlePlace(idx + 1)}
+                disabled={isRevealing}
+                position={idx === timeline.length - 1 ? "end" : "middle"}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 현재 카드 */}
+      {currentCard && (
+        <div className="flex flex-col items-center">
+          <p className="text-text-secondary text-sm mb-3">이 셀럽을 타임라인에 배치하세요</p>
+          <TimelineCard
+            celeb={currentCard}
+            showYear={isRevealing}
+            isNew={!isRevealing}
+            isWrong={wrongPosition !== null}
+          />
+          {isRevealing && wrongPosition === null && (
+            <p className="text-green-500 font-bold mt-3">정답!</p>
+          )}
+          {wrongPosition !== null && (
+            <p className="text-red-500 font-bold mt-3">
+              오답! 정답: {formatYear(currentCard.birthYear)}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 결과 모달 */}
+      <ResultModal
+        isOpen={gameState === "gameover"}
+        streak={streak}
+        highScore={highScore}
+        onRestart={() => setGameState("idle")}
+      />
+    </div>
+  );
+}
+// endregion

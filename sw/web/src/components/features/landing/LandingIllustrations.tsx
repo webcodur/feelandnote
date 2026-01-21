@@ -230,7 +230,7 @@ export function ExploreIllustration({ className }: IllustrationProps) {
 }
 // #endregion
 
-// #region 휴게실 섹션 - 책상 위 주사위
+// #region 안식처 섹션 - 책상 위 주사위
 export function LoungeIllustration({ className }: IllustrationProps) {
   return (
     <div className={`relative ${className}`}>

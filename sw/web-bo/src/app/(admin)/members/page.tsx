@@ -1,6 +1,6 @@
 import { getMembers } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
-import { Search, Plus, FileEdit, Briefcase } from 'lucide-react'
+import { Search, Plus, FileEdit, Briefcase, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import MemberTable from './components/MemberTable'
@@ -66,6 +66,11 @@ export default async function MembersPage({ searchParams }: PageProps) {
           <Link href="/members/professions">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
               <Briefcase className="w-4 h-4" />직군 편집
+            </Button>
+          </Link>
+          <Link href="/members/philosophies">
+            <Button size="sm" variant="secondary" className="w-full sm:w-auto">
+              <BookOpen className="w-4 h-4" />감상 철학 편집
             </Button>
           </Link>
           <Link href="/members/new">

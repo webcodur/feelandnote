@@ -1,26 +1,30 @@
 /*
   파일명: /components/features/user/lounge/Lounge.tsx
-  기능: 휴게실 페이지 최상위 컴포넌트
-  책임: 티어리스트와 블라인드 게임 UI를 조합하여 렌더링한다.
+  기능: 라운지 페이지 최상위 컴포넌트
+  책임: 셀럽 게임, 티어리스트, 블라인드 게임 UI를 조합하여 렌더링한다.
 */ // ------------------------------
 
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Trophy, Target } from "lucide-react";
+import { Trophy, Target, TrendingUp, Clock } from "lucide-react";
 import { Tabs, Tab } from "@/components/ui/Tab";
 import SectionHeader from "@/components/ui/SectionHeader";
 import BlindGamePlayModal from "./BlindGamePlayModal";
 import SelectPlaylistModal from "./SelectPlaylistModal";
 import TierListSection from "./TierListSection";
 import BlindGameSection, { type BlindSubTab, type BlindGameCardData } from "./BlindGameSection";
+import HigherLowerGame from "@/components/features/game/HigherLowerGame";
+import TimelineGame from "@/components/features/game/TimelineGame";
 import { getPlaylists, type PlaylistSummary } from "@/actions/playlists";
 import { getRecords } from "@/actions/records";
 
-type LoungeTab = "tier-list" | "blind-game";
+type LoungeTab = "tier-list" | "blind-game" | "higher-lower" | "timeline";
 
 const MAIN_TABS = [
+  { value: "higher-lower", label: "Higher or Lower", icon: TrendingUp },
+  { value: "timeline", label: "타임라인", icon: Clock },
   { value: "tier-list", label: "티어리스트", icon: Trophy },
   { value: "blind-game", label: "블라인드 게임", icon: Target },
 ] as const;
@@ -292,16 +296,23 @@ function LoungeSkeleton() {
 
 export default function Lounge() {
   const router = useRouter();
-  const [mainTab, setMainTab] = useState<LoungeTab>("tier-list");
+  const [mainTab, setMainTab] = useState<LoungeTab>("higher-lower");
   const [blindSubTab, setBlindSubTab] = useState<BlindSubTab>("popular");
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isPlayModalOpen, setIsPlayModalOpen] = useState(false);
 
   const [playlists, setPlaylists] = useState<PlaylistSummary[]>([]);
-  const [isPlaylistLoading, setIsPlaylistLoading] = useState(true); // 초기값 true
+  const [isPlaylistLoading, setIsPlaylistLoading] = useState(true);
   const [blindGameCards, setBlindGameCards] = useState<BlindGameCardData[]>([]);
   const [isBlindLoading, setIsBlindLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // 초기 로딩 해제 (higher-lower, timeline 탭은 별도 데이터 로드 불필요)
+  useEffect(() => {
+    if (mainTab === "higher-lower" || mainTab === "timeline") {
+      setIsInitialLoad(false);
+    }
+  }, [mainTab]);
 
   useEffect(() => {
     if (mainTab === "tier-list") loadPlaylists();
@@ -376,9 +387,9 @@ export default function Lounge() {
     <>
       <SectionHeader
         variant="hero"
-        englishTitle="The Arena of Taste"
-        title="취향의 경기장"
-        description="티어리스트와 블라인드 게임으로 즐기세요"
+        englishTitle="Lounge"
+        title="라운지"
+        description="셀럽 게임, 티어리스트, 블라인드 게임을 즐겨보세요"
         className="mb-8 md:mb-12"
       />
 
@@ -418,13 +429,14 @@ export default function Lounge() {
       />
       <BlindGamePlayModal isOpen={isPlayModalOpen} onClose={() => setIsPlayModalOpen(false)} />
 
-      {mainTab === "tier-list" ? (
+      {mainTab === "tier-list" && (
         <TierListSection
           playlists={playlists}
           isLoading={isPlaylistLoading}
           onOpenSelectModal={() => setIsSelectModalOpen(true)}
         />
-      ) : (
+      )}
+      {mainTab === "blind-game" && (
         <BlindGameSection
           cards={blindGameCards}
           isLoading={isBlindLoading}
@@ -433,6 +445,8 @@ export default function Lounge() {
           onSubTabChange={setBlindSubTab}
         />
       )}
+      {mainTab === "higher-lower" && <HigherLowerGame />}
+      {mainTab === "timeline" && <TimelineGame />}
     </>
   );
 }

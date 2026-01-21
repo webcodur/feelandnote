@@ -16,6 +16,7 @@ export interface CelebProfile {
   portrait_url: string | null  // 초상화 이미지 (세로형)
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
+  consumption_philosophy: string | null  // 감상 철학 (3~4 문단)
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일
   death_date: string | null   // 사망연일

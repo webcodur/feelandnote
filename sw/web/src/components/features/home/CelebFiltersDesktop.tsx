@@ -1,10 +1,11 @@
 /*
   파일명: /components/features/home/CelebFiltersDesktop.tsx
   기능: 셀럽 필터 (데스크톱)
-  책임: 직군, 국적, 콘텐츠, 정렬 필터 UI 제공
+  책임: 직군, 국적, 콘텐츠, 정렬 필터 및 검색 UI 제공
 */
 "use client";
 
+import { Search, X } from "lucide-react";
 import { FilterChipDropdown, type FilterOption } from "@/components/shared/filters";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
@@ -16,6 +17,7 @@ interface CelebFiltersDesktopProps {
   nationality: string;
   contentType: string;
   sortBy: CelebSortBy;
+  search: string;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -30,6 +32,9 @@ interface CelebFiltersDesktopProps {
   onNationalityChange: (value: string) => void;
   onContentTypeChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
+  onSearchInput: (value: string) => void;
+  onSearchSubmit: () => void;
+  onSearchClear: () => void;
 }
 
 export default function CelebFiltersDesktop({
@@ -37,6 +42,7 @@ export default function CelebFiltersDesktop({
   nationality,
   contentType,
   sortBy,
+  search,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -46,6 +52,9 @@ export default function CelebFiltersDesktop({
   onNationalityChange,
   onContentTypeChange,
   onSortChange,
+  onSearchInput,
+  onSearchSubmit,
+  onSearchClear,
 }: CelebFiltersDesktopProps) {
   // 필터별 옵션 생성
   const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value, label }) => ({
@@ -68,8 +77,44 @@ export default function CelebFiltersDesktop({
 
   const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") onSearchSubmit();
+  };
+
   return (
     <div className="hidden md:flex items-center gap-3 mb-6">
+      {/* 검색 입력 */}
+      <div className="relative flex-1 max-w-xs flex gap-1">
+        <div className="relative flex-1">
+          <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => onSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="인물 검색..."
+            className="w-full h-9 ps-9 pe-8 bg-bg-card border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+          />
+          {search && (
+            <button
+              type="button"
+              onClick={onSearchClear}
+              className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded"
+            >
+              <X size={14} className="text-text-tertiary" />
+            </button>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onSearchSubmit}
+          disabled={isLoading}
+          className="h-9 px-3 bg-accent hover:bg-accent-hover disabled:opacity-50 text-white text-sm font-medium rounded-lg"
+        >
+          검색
+        </button>
+      </div>
+
       <FilterChipDropdown
         label="직군"
         value={activeLabels.profession?.label ?? "전체"}

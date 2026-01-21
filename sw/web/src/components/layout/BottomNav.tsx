@@ -87,7 +87,7 @@ export default function BottomNav() {
   const navItems = [
     { href: "/feed", icon: <PantheonIcon size={20} />, label: "피드" },
     { href: "/explore", icon: <AstrolabeIcon size={20} />, label: "탐색" },
-    { href: "/play", icon: <MosaicCoinIcon size={20} />, label: "휴게실" },
+    { href: "/lounge", icon: <MosaicCoinIcon size={20} />, label: "라운지" },
     { href: profileId ? `/${profileId}` : "/login", icon: <BustIcon size={20} />, label: "마이" },
   ];
 

@@ -156,10 +156,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
             <X size={16} />
           </button>
 
-          {/* 내부: 좌우 분할 */}
-          <div className="relative bg-bg-main flex">
+          {/* 내부: 좌우 분할 - 고정 높이 */}
+          <div className="relative bg-bg-main flex h-[560px]">
             {/* 왼쪽: 초상화 */}
-            <div className="relative w-[45%] min-h-[480px] bg-black flex-shrink-0 group/portrait">
+            <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait">
               {portraitImage ? (
                 <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
               ) : (
@@ -182,8 +182,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
               </div>
             </div>
 
-            {/* 오른쪽: 정보 */}
-            <div className="flex-1 p-6 flex flex-col">
+            {/* 오른쪽: 정보 - 높이 제한 */}
+            <div className="flex-1 h-full p-6 flex flex-col overflow-hidden">
               <div className="mb-4">
                 {celeb.title && (
                   <p className="text-sm text-accent font-medium mb-1">{celeb.title}</p>
@@ -204,7 +204,18 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
                 </blockquote>
               )}
 
-              <div className="mt-auto flex gap-3">
+              {celeb.consumption_philosophy && (
+                <div className="flex-1 min-h-0 flex flex-col p-3 bg-white/[0.02] border border-white/5 rounded-sm">
+                  <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2 shrink-0">감상 철학</p>
+                  <div className="flex-1 overflow-y-auto custom-scrollbar">
+                    <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line pr-1">
+                      {celeb.consumption_philosophy}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-4 flex gap-3 shrink-0">
                 <FollowButton className="flex-1 py-3" />
                 <ProfileLink className="flex-1 py-3" />
               </div>
@@ -287,10 +298,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
             </div>
 
             {/* 정보 영역 - 이제 Bio와 Quotes에 집중 */}
-            <div className="px-5 pb-8 space-y-4 pt-0">
+            <div className="px-5 pb-8 pt-0 flex flex-col gap-4">
               {/* 인용구 */}
               {celeb.quotes && (
-                <div className="relative px-8 py-2">
+                <div className="relative px-8 py-2 shrink-0">
                   <span className="text-accent/20 text-4xl font-serif absolute left-0 top-1/2 -translate-y-1/2 leading-none">"</span>
                   <blockquote className="text-center text-sm text-accent/90 italic font-medium leading-relaxed">
                     {celeb.quotes}
@@ -301,13 +312,25 @@ export default function CelebDetailModal({ celeb, isOpen, onClose }: CelebDetail
 
               {/* 바이오 */}
               {celeb.bio && (
-                <p className="text-xs text-text-secondary leading-relaxed opacity-90 text-center break-keep border-t border-accent/10 pt-4">
+                <p className="text-xs text-text-secondary leading-relaxed opacity-90 text-center break-keep border-t border-accent/10 pt-4 shrink-0">
                   {celeb.bio}
                 </p>
               )}
 
+              {/* 감상 철학 */}
+              {celeb.consumption_philosophy && (
+                <div className="flex flex-col p-4 bg-white/[0.02] border border-white/5 rounded-sm max-h-[200px]">
+                  <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2 text-center shrink-0">감상 철학</p>
+                  <div className="flex-1 overflow-y-auto custom-scrollbar">
+                    <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line text-center break-keep px-1">
+                      {celeb.consumption_philosophy}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* 하단 액션: 팔로우와 입장을 동시에 제공 */}
-              <div className="flex gap-2.5 pt-2">
+              <div className="flex gap-2.5 pt-2 shrink-0 mt-auto">
                 <FollowButton className="flex-1 py-4 rounded-2xl text-[11px] tracking-widest" />
                 
                 <Link

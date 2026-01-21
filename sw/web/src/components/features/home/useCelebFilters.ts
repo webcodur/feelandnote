@@ -44,6 +44,8 @@ export function useCelebFilters({
   const [nationality, setNationality] = useState("all");
   const [contentType, setContentType] = useState("all");
   const [sortBy, setSortBy] = useState<CelebSortBy>("influence");
+  const [search, setSearch] = useState("");
+  const [appliedSearch, setAppliedSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
@@ -56,7 +58,8 @@ export function useCelebFilters({
     nation: string,
     cType: string,
     sort: CelebSortBy,
-    page: number
+    page: number,
+    searchTerm: string
   ) => {
     setIsLoading(true);
     const result = await getCelebs({
@@ -66,6 +69,7 @@ export function useCelebFilters({
       nationality: nation,
       contentType: cType,
       sortBy: sort,
+      search: searchTerm || undefined,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);
@@ -76,30 +80,50 @@ export function useCelebFilters({
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
     setCurrentPage(1);
-    loadCelebs(prof, nationality, contentType, sortBy, 1);
-  }, [loadCelebs, nationality, contentType, sortBy]);
+    loadCelebs(prof, nationality, contentType, sortBy, 1, search);
+  }, [loadCelebs, nationality, contentType, sortBy, search]);
 
   const handleNationalityChange = useCallback((nation: string) => {
     setNationality(nation);
     setCurrentPage(1);
-    loadCelebs(profession, nation, contentType, sortBy, 1);
-  }, [loadCelebs, profession, contentType, sortBy]);
+    loadCelebs(profession, nation, contentType, sortBy, 1, search);
+  }, [loadCelebs, profession, contentType, sortBy, search]);
 
   const handleContentTypeChange = useCallback((cType: string) => {
     setContentType(cType);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, cType, sortBy, 1);
-  }, [loadCelebs, profession, nationality, sortBy]);
+    loadCelebs(profession, nationality, cType, sortBy, 1, search);
+  }, [loadCelebs, profession, nationality, sortBy, search]);
 
   const handleSortChange = useCallback((sort: CelebSortBy) => {
     setSortBy(sort);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, sort, 1);
-  }, [loadCelebs, profession, nationality, contentType]);
+    loadCelebs(profession, nationality, contentType, sort, 1, search);
+  }, [loadCelebs, profession, nationality, contentType, search]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-    loadCelebs(profession, nationality, contentType, sortBy, page);
+    loadCelebs(profession, nationality, contentType, sortBy, page, appliedSearch);
+  }, [loadCelebs, profession, nationality, contentType, sortBy, appliedSearch]);
+
+  // 검색어 입력 (UI만 업데이트, API 호출 안 함)
+  const handleSearchInput = useCallback((term: string) => {
+    setSearch(term);
+  }, []);
+
+  // 검색 실행 (버튼 클릭 또는 엔터)
+  const handleSearchSubmit = useCallback(() => {
+    setAppliedSearch(search);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, sortBy, 1, search);
+  }, [loadCelebs, profession, nationality, contentType, sortBy, search]);
+
+  // 검색 초기화
+  const handleSearchClear = useCallback(() => {
+    setSearch("");
+    setAppliedSearch("");
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, sortBy, 1, "");
   }, [loadCelebs, profession, nationality, contentType, sortBy]);
 
   // 현재 선택된 값들의 라벨
@@ -117,6 +141,7 @@ export function useCelebFilters({
     nationality,
     contentType,
     sortBy,
+    search,
     contentUnit,
     activeFilter,
     setActiveFilter,
@@ -132,6 +157,9 @@ export function useCelebFilters({
     handleContentTypeChange,
     handleSortChange,
     handlePageChange,
+    handleSearchInput,
+    handleSearchSubmit,
+    handleSearchClear,
   };
 }
 
