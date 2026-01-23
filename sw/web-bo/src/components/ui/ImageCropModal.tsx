@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
 import { X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react'
 import Button from './Button'
@@ -16,6 +16,31 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+
+  // 썸네일(3:4)에 초상화 이미지를 넣을 때 자동 크롭 위치 조정
+  useEffect(() => {
+    // 썸네일(3:4) 비율이 아니면 기본 동작
+    if (Math.abs(aspectRatio - 3 / 4) > 0.01) return
+
+    const img = new Image()
+    img.onload = () => {
+      const imageRatio = img.width / img.height
+
+      // 이미지가 충분히 큰지 확인 (600x800 이상)
+      const isLargeEnough = img.width >= 600 && img.height >= 800
+
+      // 이미지가 세로로 긴 경우 (초상화 형태: 비율 < 0.75)
+      const isPortraitLike = imageRatio < 0.75
+
+      if (isLargeEnough && isPortraitLike) {
+        // 가로 너비가 원본의 절반 정도가 되도록 zoom 설정
+        setZoom(2)
+        // 세로는 위쪽에 딱 붙이기 (y: -50이 최상단)
+        setCrop({ x: 0, y: -50 })
+      }
+    }
+    img.src = imageSrc
+  }, [imageSrc, aspectRatio])
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)

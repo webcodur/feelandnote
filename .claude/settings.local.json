@@ -133,7 +133,9 @@
       "Bash(test:*)",
       "Bash(npm_config_loglevel=verbose CI=false pnpm build:*)",
       "Bash(./node_modules/.bin/next:*)",
-      "Bash(cmd //c \"node_modules\\\\.bin\\\\next.cmd --version\")"
+      "Bash(cmd //c \"node_modules\\\\.bin\\\\next.cmd --version\")",
+      "Bash(npx eslint:*)",
+      "Bash(awk:*)"
     ],
     "deny": [],
     "ask": []
