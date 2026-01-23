@@ -2,15 +2,12 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 // 인증이 필요한 경로
-const protectedPaths = [
-  '/feed',
-  '/social',
-]
+const protectedPaths: string[] = []
 
 // 인증된 사용자가 접근하면 안 되는 경로
 const authPaths = ['/login', '/signup']
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { supabaseResponse, user } = await updateSession(request)
 
   const pathname = request.nextUrl.pathname
