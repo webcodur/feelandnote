@@ -1,4 +1,13 @@
+import type { Metadata } from 'next'
 import { getMember } from '@/actions/admin/members'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const member = await getMember(id)
+  return {
+    title: member ? `${member.nickname} 상세` : '멤버 상세',
+  }
+}
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Star, Users, Mail, Calendar, Clock, Quote, BookOpen, BadgeCheck, CheckCircle, Ban, Shield } from 'lucide-react'
@@ -24,14 +33,16 @@ export default async function MemberDetailPage({ params }: PageProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/members" className="p-2 hover:bg-bg-card rounded-lg"><ArrowLeft className="w-5 h-5 text-text-secondary" /></Link>
-        <div>
-          <h1 className="text-2xl font-bold text-text-primary">{isUser ? '사용자' : '셀럽'} 상세</h1>
-          <p className="text-text-secondary mt-1">{member.email || member.nickname}</p>
+      {/* Header - 셀럽은 CelebForm에서 자체 헤더 표시 */}
+      {isUser && (
+        <div className="flex items-center gap-4">
+          <Link href="/members" className="p-2 hover:bg-bg-card rounded-lg"><ArrowLeft className="w-5 h-5 text-text-secondary" /></Link>
+          <div>
+            <h1 className="text-2xl font-bold text-text-primary">사용자 상세</h1>
+            <p className="text-text-secondary mt-1">{member.email || member.nickname}</p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Profile Card */}
       <div className="bg-bg-card border border-border rounded-lg p-6">

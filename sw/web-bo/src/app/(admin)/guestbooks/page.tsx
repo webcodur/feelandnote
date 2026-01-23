@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '방명록',
+}
 import GuestbooksClient from './GuestbooksClient'
 
 export default async function GuestbooksPage({

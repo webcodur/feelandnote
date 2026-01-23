@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import type { Content } from '@/types/database'
 
 export interface UserContentWithDetails {
   id: string
@@ -12,17 +13,11 @@ export interface UserContentWithDetails {
   is_spoiler: boolean | null
   created_at: string
   updated_at: string
-  content: {
-    id: string
-    type: string
-    title: string
-    creator: string | null
-    thumbnail_url: string | null
-    description: string | null
-    publisher: string | null
-    release_date: string | null
-    metadata: Record<string, unknown> | null
-  }
+  content: Content
+  user?: {
+    nickname: string | null
+    avatar_url: string | null
+  } | null
 }
 
 export async function getContent(contentId: string): Promise<UserContentWithDetails> {
@@ -64,7 +59,8 @@ export async function getPublicContent(contentId: string, userId: string): Promi
     .from('user_contents')
     .select(`
       *,
-      content:contents(*)
+      content:contents(*),
+      user:profiles!user_contents_user_id_fkey(nickname, avatar_url)
     `)
     .eq('user_id', userId)
     .eq('content_id', contentId)
@@ -75,5 +71,11 @@ export async function getPublicContent(contentId: string, userId: string): Promi
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
-  return data as unknown as UserContentWithDetails
+  // user가 배열로 올 수 있으므로 첫 번째 요소 추출
+  const result = {
+    ...data,
+    user: Array.isArray(data.user) ? data.user[0] : data.user
+  }
+
+  return result as unknown as UserContentWithDetails
 }

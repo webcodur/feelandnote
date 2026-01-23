@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: '../..',
-  },
   transpilePackages: ['@feelnnote/api-clients', '@feelnnote/shared'],
   images: {
     remotePatterns: [

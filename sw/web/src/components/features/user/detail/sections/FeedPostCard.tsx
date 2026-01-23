@@ -7,6 +7,7 @@
 
 import Image from "next/image";
 import { Card, TitleBadge } from "@/components/ui";
+import { BLUR_DATA_URL } from "@/constants/image";
 import type { FeedRecord } from "@/actions/records";
 
 function formatRelativeTime(dateString: string): string {
@@ -57,6 +58,8 @@ export default function FeedPostCard({ record }: FeedPostCardProps) {
               fill
               unoptimized
               className="object-cover"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
             />
           ) : (
             avatar

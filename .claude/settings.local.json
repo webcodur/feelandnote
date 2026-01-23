@@ -121,7 +121,19 @@
       "Bash(NEXT_TELEMETRY_DISABLED=1 npx next build:*)",
       "Bash(script -q -c \"npx next build\" /dev/null)",
       "Bash(npx --no next build:*)",
-      "Bash(script:*)"
+      "Bash(script:*)",
+      "Bash(dir:*)",
+      "Bash(npx next lint:*)",
+      "Bash([ -d \"node_modules/@xyflow/react\" ])",
+      "Bash(node_modules/.bin/next build)",
+      "Bash(NEXT_TURBO=0 ./node_modules/.bin/next build:*)",
+      "mcp__supabase__get_organization",
+      "Bash(env)",
+      "Bash(tty:*)",
+      "Bash(test:*)",
+      "Bash(npm_config_loglevel=verbose CI=false pnpm build:*)",
+      "Bash(./node_modules/.bin/next:*)",
+      "Bash(cmd //c \"node_modules\\\\.bin\\\\next.cmd --version\")"
     ],
     "deny": [],
     "ask": []

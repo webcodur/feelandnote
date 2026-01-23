@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '점수 관리',
+}
 import ScoresClient from './ScoresClient'
 
 export default async function ScoresPage({

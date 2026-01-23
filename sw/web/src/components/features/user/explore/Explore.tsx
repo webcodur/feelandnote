@@ -5,8 +5,8 @@
 */
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Users, Sparkles, Star, UserCheck, UserPlus, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
@@ -68,6 +68,7 @@ interface ExploreProps {
 }
 
 type TabType = "friends" | "following" | "followers" | "celebs" | "similar";
+const VALID_TABS: TabType[] = ["celebs", "friends", "following", "followers", "similar"];
 // #endregion
 
 export default function Explore({
@@ -84,8 +85,45 @@ export default function Explore({
   contentTypeCounts,
 }: ExploreProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>("celebs"); // Default to celebs as it's the main feature now
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  // URL에서 탭 초기값 읽기
+  const getInitialTab = (): TabType => {
+    const urlTab = searchParams.get("tab") as TabType | null;
+    return urlTab && VALID_TABS.includes(urlTab) ? urlTab : "celebs";
+  };
+
+  const [activeTab, setActiveTab] = useState<TabType>(getInitialTab);
   const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
+
+  // URL 파라미터 업데이트 함수
+  const updateTabParam = useCallback((tab: TabType) => {
+    const params = new URLSearchParams(searchParams.toString());
+    // celebs 탭이 아닐 때만 필터 파라미터 제거 (탭 전환 시)
+    if (tab !== "celebs") {
+      params.delete("profession");
+      params.delete("nationality");
+      params.delete("contentType");
+      params.delete("sortBy");
+      params.delete("search");
+      params.delete("page");
+    }
+    // celebs가 기본값이므로 URL에서 제거
+    if (tab === "celebs") {
+      params.delete("tab");
+    } else {
+      params.set("tab", tab);
+    }
+    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(newUrl, { scroll: false });
+  }, [searchParams, pathname, router]);
+
+  // 탭 변경 핸들러
+  const handleTabChange = useCallback((tab: TabType) => {
+    setActiveTab(tab);
+    updateTabParam(tab);
+  }, [updateTabParam]);
 
   const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
@@ -123,7 +161,7 @@ export default function Explore({
               <Tab
                 key={tab.key}
                 active={activeTab === tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                onClick={() => handleTabChange(tab.key)}
                 className="group whitespace-nowrap px-1.5 sm:px-4"
                 label={
                   <span className="flex items-center gap-1 sm:gap-2 py-0.5 sm:py-1">
@@ -157,6 +195,7 @@ export default function Explore({
             contentTypeCounts={contentTypeCounts}
             mode="grid"
             hideHeader={false}
+            syncToUrl
           />
         </div>
       )}

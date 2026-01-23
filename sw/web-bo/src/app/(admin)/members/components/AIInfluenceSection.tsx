@@ -112,25 +112,21 @@ export default function AIInfluenceSection({ guessedName, onApply }: Props) {
   }
 
   return (
-    <div className="bg-bg-secondary/50 border border-border rounded-lg p-4 space-y-3">
+    <div className="bg-bg-secondary/50 border border-border rounded-lg p-3 space-y-2">
       <div className="flex items-center gap-2">
-        <Sparkles className="w-4 h-4 text-accent" />
-        <span className="text-sm font-medium text-text-primary">AI 영향력 생성</span>
+        <Sparkles className="w-3.5 h-3.5 text-accent" />
+        <span className="text-xs font-medium text-text-primary">AI 영향력 생성</span>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="ai-influence-description" className="block text-sm font-medium text-text-secondary">
-          인물 설명 (선택)
-        </label>
+      <div className="space-y-1.5">
         <textarea
           id="ai-influence-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="예: 테슬라 CEO, 스페이스X 창업자..."
+          placeholder="인물 설명 입력 (선택)"
           rows={2}
-          className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
+          className="w-full px-3 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
         />
-        <p className="text-xs text-text-secondary">AI가 7개 영역 영향력을 평가합니다.</p>
       </div>
 
       {error && (
@@ -154,38 +150,38 @@ export default function AIInfluenceSection({ guessedName, onApply }: Props) {
       )}
 
       {result && (
-        <div className="bg-bg-secondary rounded-lg p-4 space-y-3">
+        <div className="bg-bg-secondary rounded-lg p-3 space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium text-text-primary">생성 결과 (적용할 항목 선택)</h4>
+            <h4 className="text-xs font-medium text-text-primary">생성 결과</h4>
             <span className={`px-2 py-0.5 rounded text-xs font-bold ${RANK_COLORS[result.rank]}`}>
               {result.rank}등급 ({result.totalScore}/100)
             </span>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             {FIELD_ORDER.map((field) => {
               const { label, max } = INFLUENCE_LABELS[field]
               const data = result[field]
               const percent = (data.score / max) * 100
               return (
-                <label key={field} className="flex items-start gap-3 p-2 rounded-lg cursor-pointer hover:bg-white/5">
+                <label key={field} className="flex items-start gap-2 p-1.5 rounded-lg cursor-pointer hover:bg-white/5">
                   <input
                     type="checkbox"
                     checked={selected[field]}
                     onChange={() => handleToggle(field)}
-                    className="mt-0.5 w-4 h-4 rounded border-border bg-bg-secondary text-accent focus:ring-accent"
+                    className="mt-0.5 w-3.5 h-3.5 rounded border-border bg-bg-secondary text-accent focus:ring-accent"
                   />
-                  <div className="flex-1 min-w-0 space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-text-secondary">{label}</span>
-                      <span className="text-text-primary">
+                  <div className="flex-1 min-w-0 space-y-0.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-text-secondary">{label}</span>
+                      <span className="text-xs text-text-primary">
                         {data.score}/{max}
                       </span>
                     </div>
-                    <div className="h-1.5 bg-bg-main rounded-full overflow-hidden">
+                    <div className="h-1 bg-bg-main rounded-full overflow-hidden">
                       <div className="h-full bg-accent rounded-full" style={{ width: `${percent}%` }} />
                     </div>
-                    {data.exp && <p className="text-xs text-text-secondary">{data.exp}</p>}
+                    {data.exp && <p className="text-xs text-text-secondary line-clamp-1">{data.exp}</p>}
                   </div>
                 </label>
               )

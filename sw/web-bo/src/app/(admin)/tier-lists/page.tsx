@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '티어 리스트',
+}
 import TierListsClient from './TierListsClient'
 
 const TIER_LIST_TYPE_CONFIG = {

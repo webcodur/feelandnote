@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '노트',
+}
 import NotesClient from './NotesClient'
 
 export default async function NotesPage({

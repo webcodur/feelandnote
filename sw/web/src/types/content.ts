@@ -27,7 +27,10 @@ export interface ContentMetadata {
 
   // 책
   publisher?: string
+  publishDate?: string
   isbn?: string
+  genre?: string
+  link?: string
 
   // 영상
   voteAverage?: number

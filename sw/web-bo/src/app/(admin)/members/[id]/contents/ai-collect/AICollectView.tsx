@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -18,6 +18,7 @@ import {
   Pencil,
   X,
   RotateCcw,
+  ExternalLink,
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import ManualSearchModal from '../ManualSearchModal'
@@ -111,6 +112,39 @@ function parseJsonInput(jsonText: string, defaultType: ContentType): ExtractedCo
     }
   })
 }
+
+// 검색결과 메타데이터 요약 추출
+function getMetadataSummary(result: SearchResultItem, contentType: ContentType): string {
+  const meta = result.metadata
+  const parts: string[] = []
+
+  switch (contentType) {
+    case 'BOOK':
+      if (meta.publisher) parts.push(meta.publisher as string)
+      if (meta.publishDate) parts.push(meta.publishDate as string)
+      if (meta.isbn) parts.push(`ISBN: ${meta.isbn}`)
+      break
+    case 'VIDEO':
+      if (meta.releaseDate) parts.push(meta.releaseDate as string)
+      if (meta.voteAverage) parts.push(`평점 ${(meta.voteAverage as number).toFixed(1)}`)
+      if (meta.genres) parts.push((meta.genres as string[]).slice(0, 2).join(', '))
+      break
+    case 'GAME':
+      if (meta.developer) parts.push(meta.developer as string)
+      if (meta.releaseDate) parts.push(meta.releaseDate as string)
+      if (meta.platforms) parts.push((meta.platforms as string[]).slice(0, 2).join(', '))
+      break
+    case 'MUSIC':
+      if (meta.releaseDate) parts.push(meta.releaseDate as string)
+      if (meta.albumType) parts.push(meta.albumType as string)
+      if (meta.totalTracks) parts.push(`${meta.totalTracks}곡`)
+      break
+    default:
+      break
+  }
+
+  return parts.filter(Boolean).join(' · ')
+}
 // #endregion
 
 export default function AICollectView({ celebId, celebName }: Props) {
@@ -141,12 +175,48 @@ export default function AICollectView({ celebId, celebName }: Props) {
   const [searchModalOpen, setSearchModalOpen] = useState(false)
   const [searchModalIndex, setSearchModalIndex] = useState<number | null>(null)
 
+  // 이미지 팝업
+  const [imagePopupUrl, setImagePopupUrl] = useState<string | null>(null)
+
   // 편집 상태
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
   // 배제/접힘 상태
   const [excludedIndices, setExcludedIndices] = useState<Set<number>>(new Set())
   const [collapsedIndices, setCollapsedIndices] = useState<Set<number>>(new Set())
+
+  // 이탈 방지 - 저장 완료 후 허용
+  const [isSaved, setIsSaved] = useState(false)
+
+  // isDirty - 입력창에 내용이 있거나, 추출 중이거나, 추출된 아이템이 있으면 변경된 것으로 간주
+  const isDirty = useCallback(() => {
+    if (isSaved) return false
+    const hasInput = text.trim() || url.trim() || jsonText.trim()
+    const hasExtracted = extractedItems.length > 0
+    return hasInput || extracting || processing || hasExtracted
+  }, [text, url, jsonText, extracting, processing, extractedItems.length, isSaved])
+
+  // beforeunload 이벤트 - 브라우저 이탈 방지
+  useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      if (isDirty()) {
+        e.preventDefault()
+        return ''
+      }
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [isDirty])
+
+  // 뒤로가기 클릭 핸들러
+  function handleBackClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (isDirty()) {
+      e.preventDefault()
+      if (confirm('저장하지 않은 변경 사항이 있습니다. 정말 나가시겠습니까?')) {
+        router.push(`/members/${celebId}/contents`)
+      }
+    }
+  }
 
   function getSelectedKeyId(): string | undefined {
     return localStorage.getItem(SELECTED_KEY_STORAGE) || undefined
@@ -281,6 +351,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
 
       if (!result.success) throw new Error(result.error)
 
+      setIsSaved(true)
       router.push(`/members/${celebId}/contents`)
       router.refresh()
     } catch (err) {
@@ -434,6 +505,7 @@ export default function AICollectView({ celebId, celebName }: Props) {
       <div className="flex items-center gap-4">
         <Link
           href={`/members/${celebId}/contents`}
+          onClick={handleBackClick}
           className="text-text-secondary hover:text-text-primary"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -731,6 +803,18 @@ export default function AICollectView({ celebId, celebName }: Props) {
                                 💬 {item.review}
                               </p>
                             )}
+                            {item.sourceUrl && (
+                              <a
+                                href={item.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1 text-xs text-blue-400 hover:underline mt-0.5"
+                              >
+                                <ExternalLink className="w-3 h-3" />
+                                출처 링크
+                              </a>
+                            )}
                           </>
                         )}
                       </div>
@@ -901,34 +985,62 @@ export default function AICollectView({ celebId, celebName }: Props) {
                       </div>
 
                       {processed.selectedSearchResult && (
-                        <div className="flex items-center gap-2 p-2 bg-bg-secondary rounded">
-                          <div className="relative w-8 h-10 bg-bg-card rounded overflow-hidden shrink-0">
-                            {processed.selectedSearchResult.coverImageUrl && (
-                              <Image
-                                src={processed.selectedSearchResult.coverImageUrl}
-                                alt=""
-                                fill
-                                unoptimized
-                                className="object-cover"
-                              />
-                            )}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1">
-                              <span className="text-[10px] px-1 rounded bg-accent/20 text-accent">
-                                {processed.searchSource === 'ko'
-                                  ? '한국어'
-                                  : processed.searchSource === 'original'
-                                    ? '원본'
-                                    : '직접'}
-                              </span>
-                              <p className="text-xs font-medium text-text-primary truncate">
-                                {processed.selectedSearchResult.title}
-                              </p>
+                        <div className="p-2 bg-bg-secondary rounded space-y-1.5">
+                          <div className="flex items-start gap-3">
+                            <button
+                              type="button"
+                              onClick={() => processed.selectedSearchResult?.coverImageUrl && setImagePopupUrl(processed.selectedSearchResult.coverImageUrl)}
+                              className={`relative w-16 h-24 bg-bg-card rounded overflow-hidden shrink-0 ${
+                                processed.selectedSearchResult?.coverImageUrl ? 'cursor-pointer hover:ring-2 hover:ring-accent' : ''
+                              }`}
+                              disabled={!processed.selectedSearchResult?.coverImageUrl}
+                            >
+                              {processed.selectedSearchResult.coverImageUrl && (
+                                <Image
+                                  src={processed.selectedSearchResult.coverImageUrl}
+                                  alt=""
+                                  fill
+                                  unoptimized
+                                  className="object-cover"
+                                />
+                              )}
+                            </button>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span
+                                  className="text-[10px] px-1.5 py-0.5 rounded bg-accent/20 text-accent shrink-0"
+                                  title={
+                                    processed.searchSource === 'ko'
+                                      ? '한국어 제목으로 검색한 결과'
+                                      : processed.searchSource === 'original'
+                                        ? '원본 제목으로 검색한 결과'
+                                        : '직접 검색한 결과'
+                                  }
+                                >
+                                  {processed.searchSource === 'ko'
+                                    ? '한국어 검색'
+                                    : processed.searchSource === 'original'
+                                      ? '원본 검색'
+                                      : '직접 검색'}
+                                </span>
+                                <p className="text-xs font-medium text-text-primary truncate">
+                                  {processed.selectedSearchResult.title}
+                                </p>
+                              </div>
+                              {processed.selectedSearchResult.creator && (
+                                <p className="text-xs text-text-secondary truncate mt-0.5">
+                                  {processed.selectedSearchResult.creator}
+                                </p>
+                              )}
+                              {(() => {
+                                const meta = getMetadataSummary(processed.selectedSearchResult, item.type as ContentType)
+                                return meta && (
+                                  <p className="text-[10px] text-text-secondary/70 truncate mt-0.5">
+                                    {meta}
+                                  </p>
+                                )
+                              })()}
                             </div>
-                            <p className="text-xs text-text-secondary truncate">
-                              {processed.selectedSearchResult.creator}
-                            </p>
                           </div>
                         </div>
                       )}
@@ -1008,6 +1120,32 @@ export default function AICollectView({ celebId, celebName }: Props) {
             ''
           }
         />
+      )}
+
+      {/* Image Popup Modal */}
+      {imagePopupUrl && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+          onClick={() => setImagePopupUrl(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setImagePopupUrl(null)}
+            className="absolute top-4 right-4 p-2 text-white hover:text-accent"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <div className="relative max-w-[90vw] max-h-[90vh]">
+            <Image
+              src={imagePopupUrl}
+              alt=""
+              width={400}
+              height={600}
+              unoptimized
+              className="object-contain max-h-[90vh] w-auto"
+            />
+          </div>
+        </div>
       )}
     </div>
   )

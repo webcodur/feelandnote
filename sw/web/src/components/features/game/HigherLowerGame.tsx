@@ -171,14 +171,14 @@ export default function HigherLowerGame() {
               onClick={() => startGame("easy")}
               className="p-4 bg-white/5 hover:bg-white/10 border border-border hover:border-accent/50 rounded-lg"
             >
-              <div className="font-bold text-white">초보</div>
+              <div className="font-bold text-white">쉬움</div>
               <p className="text-xs text-text-tertiary mt-1">모든 정보 공개</p>
             </button>
             <button
               onClick={() => startGame("hard")}
               className="p-4 bg-white/5 hover:bg-white/10 border border-border hover:border-accent/50 rounded-lg"
             >
-              <div className="font-bold text-white">고수</div>
+              <div className="font-bold text-white">어려움</div>
               <p className="text-xs text-text-tertiary mt-1">이름/정보 숨김</p>
             </button>
           </div>

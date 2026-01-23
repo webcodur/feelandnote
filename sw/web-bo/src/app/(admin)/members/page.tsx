@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { getMembers } from '@/actions/admin/members'
+
+export const metadata: Metadata = {
+  title: '멤버 관리',
+}
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { Search, Plus, FileEdit, Briefcase, BookOpen } from 'lucide-react'
 import Link from 'next/link'

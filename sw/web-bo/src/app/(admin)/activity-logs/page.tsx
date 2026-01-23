@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '활동 로그',
+}
 import { Activity } from 'lucide-react'
 import ActivityLogsClient from './ActivityLogsClient'
 

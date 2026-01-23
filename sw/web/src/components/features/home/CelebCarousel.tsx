@@ -18,6 +18,7 @@ interface CelebCarouselProps {
   contentTypeCounts: ContentTypeCounts;
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
+  syncToUrl?: boolean;
 }
 
 export default function CelebCarousel({
@@ -28,6 +29,7 @@ export default function CelebCarousel({
   nationalityCounts,
   contentTypeCounts,
   mode = "grid",
+  syncToUrl = false,
 }: CelebCarouselProps) {
   const filters = useCelebFilters({
     initialCelebs,
@@ -36,6 +38,7 @@ export default function CelebCarousel({
     professionCounts,
     nationalityCounts,
     contentTypeCounts,
+    syncToUrl,
   });
 
   // 캐러셀 모드

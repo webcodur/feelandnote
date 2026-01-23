@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: '감상 철학 편집',
+}
 import { ArrowLeft } from 'lucide-react'
 import { getCelebsForTitleEdit } from '@/actions/admin/celebs'
 import CelebPhilosophyEditor from './CelebPhilosophyEditor'

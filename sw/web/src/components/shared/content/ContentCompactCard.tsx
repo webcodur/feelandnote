@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Book, Star, Bookmark, Check } from "lucide-react";
 import { CATEGORIES } from "@/constants/categories";
+import { BLUR_DATA_URL } from "@/constants/image";
 import AddContentPopover from "./AddContentPopover";
 import type { ContentStatus } from "@/types/database";
 
@@ -137,7 +138,7 @@ export default function ContentCompactCard({
       {/* 썸네일 */}
       <div className="relative aspect-[2/3] bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center overflow-hidden">
         {data.thumbnail ? (
-          <Image src={data.thumbnail} alt={data.title} fill unoptimized className="object-cover" />
+          <Image src={data.thumbnail} alt={data.title} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
         ) : (
           <CategoryIcon size={24} className="text-gray-500" />
         )}

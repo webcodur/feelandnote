@@ -28,6 +28,7 @@ export async function updateApiKey({ geminiApiKey }: UpdateApiKeyParams) {
   }
 
   revalidatePath('/profile')
+  revalidatePath('/reading')
 
   return { success: true }
 }

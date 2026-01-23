@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Feel&Note Admin",
+  title: {
+    template: '%s | F',
+    default: 'F',
+  },
   description: "Feel&Note Back Office",
 };
 

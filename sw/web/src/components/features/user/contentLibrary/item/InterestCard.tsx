@@ -8,6 +8,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
+import { BLUR_DATA_URL } from "@/constants/image";
 import type { ContentType } from "@/types/database";
 
 // #region 타입
@@ -70,6 +71,8 @@ export default function InterestCard({
               fill
               unoptimized
               className="object-cover group-hover:scale-105 transition-transform"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

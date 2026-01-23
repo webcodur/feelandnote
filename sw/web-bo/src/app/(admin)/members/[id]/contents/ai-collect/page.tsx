@@ -1,4 +1,13 @@
+import type { Metadata } from 'next'
 import { getMember } from '@/actions/admin/members'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const member = await getMember(id)
+  return {
+    title: member ? `${member.nickname} AI 수집` : 'AI 수집',
+  }
+}
 import { notFound } from 'next/navigation'
 import AICollectView from './AICollectView'
 

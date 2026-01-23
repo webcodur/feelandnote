@@ -1,4 +1,14 @@
+import type { Metadata } from 'next'
 import { getReport } from '@/actions/admin/reports'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const report = await getReport(id)
+  const targetLabel = report?.target_type === 'user' ? '사용자' : report?.target_type === 'record' ? '기록' : '신고'
+  return {
+    title: report ? `${targetLabel} 신고` : '신고 상세',
+  }
+}
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'

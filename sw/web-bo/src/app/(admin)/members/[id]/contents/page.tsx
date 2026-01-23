@@ -1,25 +1,36 @@
+import type { Metadata } from 'next'
 import { getCeleb, getCelebContents } from '@/actions/admin/celebs'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const celeb = await getCeleb(id)
+  return {
+    title: celeb ? `${celeb.nickname} 콘텐츠` : '콘텐츠 관리',
+  }
+}
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Star, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ContentList from './ContentList'
 import AddContentForm from './AddContentForm'
+import ExportContentButton from './ExportContentButton'
+import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
 
 interface PageProps {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{ page?: string; type?: string }>
 }
 
 export default async function MemberContentsPage({ params, searchParams }: PageProps) {
   const { id } = await params
-  const { page: pageStr } = await searchParams
+  const { page: pageStr, type: contentType } = await searchParams
   const page = Number(pageStr) || 1
 
   const celeb = await getCeleb(id)
   if (!celeb) notFound()
 
-  const { contents, total } = await getCelebContents(id, page, 20)
+  const { contents, total } = await getCelebContents(id, page, 20, contentType)
   const totalPages = Math.ceil(total / 20)
 
   return (
@@ -46,11 +57,34 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="bg-bg-card border border-border rounded-lg p-4">
+      {/* Stats & Filter */}
+      <div className="bg-bg-card border border-border rounded-lg p-4 flex items-center justify-between">
         <p className="text-text-secondary">
           총 <span className="text-text-primary font-semibold">{total}</span>개의 콘텐츠 기록
         </p>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/members/${id}/contents`}
+            className={`px-3 py-1.5 rounded-lg text-sm ${!contentType ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
+          >
+            전체
+          </Link>
+          {CONTENT_TYPES.map((type) => {
+            const config = CONTENT_TYPE_CONFIG[type]
+            const Icon = config.icon
+            const isActive = contentType === type
+            return (
+              <Link
+                key={type}
+                href={`/members/${id}/contents?type=${type}`}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm ${isActive ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {config.label}
+              </Link>
+            )
+          })}
+        </div>
       </div>
 
       {/* Add Content Form */}
@@ -63,6 +97,7 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
           <Sparkles className="w-4 h-4" />
           수집
         </Link>
+        <ExportContentButton celebId={id} />
       </div>
 
       {/* Content List */}
@@ -71,19 +106,24 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link
-              key={p}
-              href={`/members/${id}/contents?page=${p}`}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                p === page
-                  ? 'bg-accent text-white'
-                  : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              {p}
-            </Link>
-          ))}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+            const params = new URLSearchParams()
+            params.set('page', String(p))
+            if (contentType) params.set('type', contentType)
+            return (
+              <Link
+                key={p}
+                href={`/members/${id}/contents?${params.toString()}`}
+                className={`px-4 py-2 rounded-lg text-sm ${
+                  p === page
+                    ? 'bg-accent text-white'
+                    : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
+                }`}
+              >
+                {p}
+              </Link>
+            )
+          })}
         </div>
       )}
     </div>
