@@ -40,16 +40,16 @@ const menuItems = [
   { href: '/settings', label: '설정', icon: Settings },
 ]
 
-function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
+function SidebarContent({ onItemClick, collapsed }: { onItemClick?: () => void; collapsed?: boolean }) {
   const pathname = usePathname()
 
   return (
     <>
       {/* Logo */}
       <div className="p-4 md:p-6 border-b border-border">
-        <Link href="/" className="flex items-center gap-2" onClick={onItemClick}>
-          <LayoutDashboard className="w-8 h-8 text-accent" />
-          <span className="text-xl font-bold text-text-primary">Admin</span>
+        <Link href="/" className="flex items-center gap-2 justify-center" onClick={onItemClick}>
+          <LayoutDashboard className="w-8 h-8 text-accent shrink-0" />
+          {!collapsed && <span className="text-xl font-bold text-text-primary">Admin</span>}
         </Link>
       </div>
 
@@ -67,15 +67,16 @@ function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
                   href={item.href}
                   onClick={onItemClick}
                   className={`
-                    flex items-center gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-lg
+                    flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 md:px-4 py-2.5 md:py-3 rounded-lg
                     ${isActive
                       ? 'bg-accent/10 text-accent'
                       : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
                     }
                   `}
+                  title={collapsed ? item.label : undefined}
                 >
                   <Icon className="w-5 h-5 shrink-0" />
-                  <span className="text-sm md:text-base">{item.label}</span>
+                  {!collapsed && <span className="text-sm md:text-base">{item.label}</span>}
                 </Link>
               </li>
             )
@@ -84,20 +85,27 @@ function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-border">
-        <p className="text-xs text-text-secondary text-center">
-          Feel&Note Admin v0.1
-        </p>
-      </div>
+      {!collapsed && (
+        <div className="p-4 border-t border-border">
+          <p className="text-xs text-text-secondary text-center">
+            Feel&Note Admin v0.1
+          </p>
+        </div>
+      )}
     </>
   )
 }
 
 // 데스크톱 사이드바
 export function DesktopSidebar() {
+  const { desktopCollapsed } = useMobileSidebar()
+
   return (
-    <aside className="hidden md:flex w-64 bg-bg-secondary border-r border-border min-h-screen flex-col shrink-0">
-      <SidebarContent />
+    <aside className={`
+      hidden md:flex bg-bg-secondary border-r border-border min-h-screen flex-col shrink-0
+      ${desktopCollapsed ? 'w-16' : 'w-64'}
+    `}>
+      <SidebarContent collapsed={desktopCollapsed} />
     </aside>
   )
 }

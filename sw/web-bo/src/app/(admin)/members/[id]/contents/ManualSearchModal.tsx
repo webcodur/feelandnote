@@ -133,13 +133,7 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
     if (imageUrl) setPopupImage(imageUrl)
   }
 
-  // 닫기 시 검색 결과가 있으면 확인
   function handleClose() {
-    if (results.length > 0) {
-      if (!confirm('검색 결과가 있습니다. 선택하지 않고 닫으시겠습니까?')) {
-        return
-      }
-    }
     onClose()
   }
 

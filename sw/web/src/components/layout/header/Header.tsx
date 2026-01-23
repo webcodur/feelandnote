@@ -118,44 +118,35 @@ export default function Header({ isMobile }: HeaderProps) {
         {/* 우측 영역 */}
         <div className="flex items-center gap-1 ms-auto">
           {/* 감상 모드 */}
-          {isLoggedIn && (
-            <Link
-              href="/reading"
-              className={`${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
-              title="감상 모드"
-            >
-              <NotebookPen size={ICON_SIZE} />
-            </Link>
-          )}
+          <Link
+            href="/reading"
+            className={`${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
+            title="감상 모드"
+          >
+            <NotebookPen size={ICON_SIZE} />
+          </Link>
 
           {/* 사운드 토글 */}
-          {isLoggedIn && (
-            <Button
-              unstyled
-              noSound
-              onClick={() => {
-                const isNowEnabled = toggleSound();
-                if (isNowEnabled) playSound("volumeCheck", true);
-              }}
-              className={`${ICON_BUTTON_CLASS} hidden md:flex`}
-              title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
-            >
-              {isSoundEnabled ? <LyreIcon size={ICON_SIZE} /> : <LyreSilentIcon size={ICON_SIZE} />}
-            </Button>
-          )}
+          <Button
+            unstyled
+            noSound
+            onClick={() => {
+              const isNowEnabled = toggleSound();
+              if (isNowEnabled) playSound("volumeCheck", true);
+            }}
+            className={`${ICON_BUTTON_CLASS} hidden md:flex`}
+            title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
+          >
+            {isSoundEnabled ? <LyreIcon size={ICON_SIZE} /> : <LyreSilentIcon size={ICON_SIZE} />}
+          </Button>
 
-          {/* 로그인 버튼 */}
-          {isLoggedIn === false && (
-            <Link href="/login">
-              <Button variant="primary" size="sm">로그인</Button>
-            </Link>
-          )}
+          {/* 로그인 버튼 제거 */}
 
-          {/* 알림 */}
-          {isLoggedIn && <HeaderNotifications />}
+          {/* 알림 (로그인 시에만) */}
+          {profile && <HeaderNotifications />}
 
-          {/* 프로필 메뉴 */}
-          {isLoggedIn && <HeaderProfileMenu profile={profile} />}
+          {/* 프로필 메뉴 (로그인 시에만) */}
+          {profile && <HeaderProfileMenu profile={profile} />}
         </div>
       </div>
     </header>

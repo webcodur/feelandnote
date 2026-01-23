@@ -19,7 +19,7 @@ import type { StickyNote } from "./types";
 interface Props {
   userContentId: string;
   content: Content;
-  userId: string;
+  userId?: string;
 }
 
 export default function ReadingSession({ userContentId, content }: Props) {

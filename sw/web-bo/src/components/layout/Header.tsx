@@ -24,7 +24,7 @@ export default function Header({ user }: HeaderProps) {
   const [keyManagerOpen, setKeyManagerOpen] = useState(false)
   const [selectedKeyId, setSelectedKeyId] = useState<string | null>(null)
   const router = useRouter()
-  const { toggle } = useMobileSidebar()
+  const { toggle, toggleDesktop } = useMobileSidebar()
 
   // 로컬스토리지에서 선택된 키 복원
   useEffect(() => {
@@ -33,6 +33,19 @@ export default function Header({ user }: HeaderProps) {
       setSelectedKeyId(stored)
     }
   }, [])
+
+  // Ctrl+B 키보드 단축키
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B' || e.key === 'ㅠ')) {
+        e.preventDefault()
+        toggleDesktop()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [toggleDesktop])
 
   function handleSelectKey(keyId: string | null) {
     setSelectedKeyId(keyId)
@@ -55,10 +68,18 @@ export default function Header({ user }: HeaderProps) {
     <header className="h-14 md:h-16 bg-bg-secondary border-b border-border flex items-center justify-between px-3 md:px-6">
       {/* Left: Menu button + Title */}
       <div className="flex items-center gap-2 md:gap-4">
-        {/* Mobile menu button */}
+        {/* Menu buttons */}
         <button
           onClick={toggle}
           className="md:hidden p-2 -ml-1 rounded-lg hover:bg-bg-card text-text-secondary"
+          title="메뉴 열기"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <button
+          onClick={toggleDesktop}
+          className="hidden md:block p-2 -ml-1 rounded-lg hover:bg-bg-card text-text-secondary"
+          title="사이드바 접기/펼치기 (Ctrl+B)"
         >
           <Menu className="w-5 h-5" />
         </button>

@@ -61,7 +61,7 @@ interface UseReadingWorkspaceReturn {
   importFromJson: (json: string) => boolean;
 }
 
-export function useReadingWorkspace(userId: string): UseReadingWorkspaceReturn {
+export function useReadingWorkspace(userId?: string): UseReadingWorkspaceReturn {
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedBook, setSelectedBook] = useState<SelectedBook | null>(null);
   const [customQuotes, setCustomQuotes] = useState<ReadingQuote[]>([]);

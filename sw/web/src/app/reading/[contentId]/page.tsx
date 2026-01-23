@@ -17,9 +17,6 @@ export default async function ReadingPage({ params }: PageProps) {
   const { contentId } = await params;
 
   const profile = await getProfile();
-  if (!profile) {
-    redirect("/login");
-  }
 
   try {
     const contentData = await getContent(contentId);
@@ -28,7 +25,7 @@ export default async function ReadingPage({ params }: PageProps) {
       <ReadingSession
         userContentId={contentData.id}
         content={contentData.content}
-        userId={profile.id}
+        userId={profile?.id}
       />
     );
   } catch {

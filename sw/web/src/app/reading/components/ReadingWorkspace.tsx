@@ -50,7 +50,7 @@ const MIN_SIDEBAR_WIDTH = 180;
 const MAX_SIDEBAR_WIDTH = 400;
 
 interface Props {
-  userId: string;
+  userId?: string;
 }
 
 // 감상 모드 탭 (추후 확장 가능)

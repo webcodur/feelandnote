@@ -10,13 +10,10 @@ import ReadingWorkspace from "./components/ReadingWorkspace";
 
 export default async function ReadingPage() {
   const profile = await getProfile();
-  if (!profile) {
-    redirect("/login");
-  }
 
   return (
     <ReadingWorkspace
-      userId={profile.id}
+      userId={profile?.id}
     />
   );
 }
