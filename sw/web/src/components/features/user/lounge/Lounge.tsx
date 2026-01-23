@@ -393,7 +393,7 @@ export default function Lounge() {
         className="mb-8 md:mb-12"
       />
       <p className="mb-4 text-sm text-accent">하이어-로워, 연대기 게임은 지금 플레이 가능합니다</p>
-      <div className="relative mb-6 -mx-4 px-4">
+      <div className="relative -mx-4 px-4">
         {/* Divine Lintel for Lounge */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
 
@@ -421,6 +421,8 @@ export default function Lounge() {
         </div>
       </div>
 
+      <div className="w-full h-px bg-accent/10 mb-8" />
+
       <SelectPlaylistModal
         isOpen={isSelectModalOpen}
         onClose={() => setIsSelectModalOpen(false)}
@@ -446,10 +448,10 @@ export default function Lounge() {
         />
       )}
       {(mainTab === "higher-lower" || mainTab === "timeline") && (
-        <div className="border border-border rounded-xl p-4 md:p-6 bg-bg-card/30">
+        <>
           {mainTab === "higher-lower" && <HigherLowerGame />}
           {mainTab === "timeline" && <TimelineGame />}
-        </div>
+        </>
       )}
     </>
   );

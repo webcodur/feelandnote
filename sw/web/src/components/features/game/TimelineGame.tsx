@@ -10,8 +10,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import type { CelebProfile } from "@/types/home";
 import { Button } from "@/components/ui";
-import { Flame, Clock, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import GameHeader from "./GameHeader";
 
 type GameState = "idle" | "playing" | "gameover";
 type Difficulty = "easy" | "hard";
@@ -60,9 +61,9 @@ function TimelineCard({
   clickable?: boolean;
 }) {
   const sizeStyles = {
-    small: "w-20 h-28 md:w-24 md:h-32",
-    normal: "w-28 h-40 md:w-32 md:h-44",
-    large: "w-36 h-52 md:w-44 md:h-64",
+    small: "w-20 h-36 md:w-24 md:h-42",
+    normal: "w-28 h-50 md:w-32 md:h-56",
+    large: "w-36 h-64 md:w-44 md:h-78",
   };
 
   const textStyles = {
@@ -348,15 +349,15 @@ export default function TimelineGame() {
   // 시작 화면
   if (gameState === "idle") {
     return (
-      <div className="max-w-md mx-auto">
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="text-center mb-6">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Clock className="text-accent" size={24} />
-              <h2 className="text-xl font-bold text-white">연대기</h2>
-            </div>
-            <p className="text-sm text-text-secondary">셀럽 생년 순서 맞추기</p>
+      <div className="max-w-md mx-auto py-12">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Clock className="text-accent" size={28} />
+            <h2 className="text-2xl font-black text-white font-serif">연대기</h2>
           </div>
+          <p className="text-sm text-text-secondary">셀럽 생년 순서 맞추기</p>
+          <div className="w-24 h-px bg-accent/20 mx-auto mt-6 shadow-glow" />
+        </div>
 
           <div className="bg-white/5 rounded-lg p-4 mb-6 text-sm text-text-secondary space-y-2">
             <p>1. 연대기에 셀럽 카드가 하나 놓여있습니다</p>
@@ -389,7 +390,6 @@ export default function TimelineGame() {
               나의 최고 기록: <span className="text-accent font-bold">{highScore}</span>
             </p>
           )}
-        </div>
       </div>
     );
   }
@@ -397,27 +397,14 @@ export default function TimelineGame() {
   // 게임 진행
   return (
     <div className="max-w-4xl mx-auto flex flex-col">
-      {/* 헤더 */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Flame className="text-accent" size={20} />
-            <span className="text-xl font-bold">{streak}</span>
-            <span className="text-text-secondary text-sm">연속</span>
-          </div>
-          <span
-            className={`px-2 py-0.5 text-xs font-bold rounded ${
-              isEasyMode ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
-            }`}
-          >
-            {isEasyMode ? "쉬움" : "어려움"}
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-text-secondary text-sm">남은 카드: {remainingCelebs.length}</span>
-          <span className="text-text-secondary text-sm">최고: {highScore}</span>
-        </div>
-      </div>
+      {/* 공통 헤더 */}
+      <GameHeader
+        difficulty={difficulty}
+        difficultyLabel={isEasyMode ? "쉬움" : "어려움"}
+        streak={streak}
+        highScore={highScore}
+        remaining={remainingCelebs.length}
+      />
 
       {/* 상단: 현재 카드 영역 */}
       {currentCard && (
@@ -450,7 +437,10 @@ export default function TimelineGame() {
       )}
 
       {/* 하단: 타임라인 영역 */}
-      <div className="relative bg-bg-card/50 rounded-xl border border-border p-4">
+      <div className="relative md:bg-bg-card/50 md:rounded-xl md:border md:border-border md:p-4 py-4">
+        {/* 모바일용 수평선 (상/하단) */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-border md:hidden" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-border md:hidden" />
         <div className="flex items-center gap-2 mb-3">
           <Clock size={14} className="text-text-tertiary" />
           <span className="text-xs text-text-tertiary">과거</span>

@@ -17,7 +17,6 @@ interface GameCelebCardProps {
   isLeft: boolean;
   isRevealing?: boolean;
   isCorrect?: boolean | null;
-  label?: string;
   onClick?: () => void;
   clickable?: boolean;
   hideInfo?: boolean; // 고수 모드: 이름/수식어 숨김
@@ -29,7 +28,6 @@ export default function GameCelebCard({
   isLeft,
   isRevealing,
   isCorrect,
-  label,
   onClick,
   clickable = false,
   hideInfo = false,
@@ -64,7 +62,7 @@ export default function GameCelebCard({
       `}
     >
       {/* 이미지 영역 */}
-      <div className="relative aspect-[3/4] bg-bg-secondary">
+      <div className="relative aspect-[9/16] bg-bg-secondary">
         {celeb.portrait_url || celeb.avatar_url ? (
           <Image
             src={celeb.portrait_url || celeb.avatar_url || ""}
@@ -80,61 +78,36 @@ export default function GameCelebCard({
 
         {/* 그라데이션 오버레이 */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-        {/* 라벨 */}
-        {label && (
-          <div className="absolute top-3 start-3 px-2 py-1 bg-black/60 rounded text-xs text-text-secondary">
-            {label}
-          </div>
-        )}
-
-        {/* 뱃지 위치 - 점수 공개 시에만 표시 */}
-        {showScore && (
-          <div className="absolute top-3 end-3">
-            <InfluenceBadge rank={rank} size="sm" />
-          </div>
-        )}
       </div>
 
-      {/* 정보 영역 */}
-      <div className="absolute bottom-0 start-0 end-0 p-4">
-        {/* 수식어 */}
+      {/* 정보 영역 - 이름만 남김 */}
+      <div className="absolute bottom-0 start-0 end-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-center">
+        {/* 수식어 - 모바일 숨김 */}
         {!hideInfo && celeb.title && (
-          <div className="text-xs text-text-secondary mb-1">{celeb.title}</div>
+          <div className="hidden sm:block text-xs text-text-secondary mb-0.5 sm:mb-1 truncate">{celeb.title}</div>
         )}
 
         {/* 이름 */}
-        <h3 className="text-xl font-bold text-white mb-1">
+        <h3 className="text-base sm:text-xl font-bold text-white mb-1 truncate drop-shadow-md">
           {hideInfo ? "???" : celeb.nickname}
         </h3>
 
-        {/* 직군 & 생몰년 */}
+        {/* 직군 & 생몰년 - 모바일 숨김 */}
         {!hideInfo && (
-          <div className="flex items-center gap-2 text-sm text-text-secondary mb-3">
-            {professionLabel && <span>{professionLabel}</span>}
+          <div className="hidden sm:flex items-center justify-center gap-2 text-xs sm:text-sm text-text-secondary mb-2 sm:mb-3">
+            {professionLabel && <span className="whitespace-nowrap">{professionLabel}</span>}
             {lifeSpan && (
               <>
                 <span className="text-border">·</span>
-                <span>{lifeSpan}</span>
+                <span className="truncate">{lifeSpan}</span>
               </>
             )}
           </div>
         )}
-        {hideInfo && <div className="mb-3" />}
-
-        {/* 점수 */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-text-secondary">영향력 점수</span>
-          {showScore ? (
-            <span className="text-2xl font-bold text-accent">{score}</span>
-          ) : (
-            <span className="text-2xl font-bold text-text-secondary">???</span>
-          )}
-        </div>
-
-        {/* 클릭 힌트 - 항상 공간 확보 */}
+        
+        {/* 클릭 힌트 - 모바일 숨김 */}
         <p
-          className={`text-xs text-text-tertiary text-center mt-2 ${
+          className={`hidden sm:block text-xs text-text-tertiary mt-1 ${
             clickable && !hideInfo ? "visible" : "invisible"
           }`}
         >
