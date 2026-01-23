@@ -45,7 +45,7 @@ export default function MonthSection({
         onClick={onToggle}
         className={cn(
           "group relative flex items-center w-full py-4 text-left transition-all duration-500 rounded-sm cursor-pointer",
-          "hover:bg-accent/5 px-2"
+          "hover:bg-accent/5"
         )}
       >
         <div className="flex items-end gap-5">
@@ -94,7 +94,7 @@ export default function MonthSection({
 
         {/* 하단 장식선 (닫혔을 때만) */}
         {isCollapsed && (
-          <div className="absolute bottom-0 left-2 right-2 h-[1px] bg-stone-border/30" />
+          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-stone-border/30" />
         )}
       </button>
 
@@ -104,8 +104,8 @@ export default function MonthSection({
         style={{ gridTemplateRows: isCollapsed ? '0fr' : '1fr' }}
       >
         <div className={cn(
-          "overflow-hidden px-2 border-l-2 ml-[3px] transition-all duration-500",
-          isCollapsed ? "border-transparent opacity-0" : "border-accent/10 opacity-100 pt-8"
+          "overflow-hidden transition-all duration-500",
+          isCollapsed ? "opacity-0" : "opacity-100 pt-8"
         )}>
           {children}
         </div>

@@ -325,7 +325,7 @@ export default function ReviewCard({
           <ModalBody>
             <p className="text-text-secondary">
               <span className="text-text-primary font-semibold">{contentTitle}</span>
-              의 상세 페이지로 이동하시겠습니까?
+              의 상세 정보 및 기록 조회 페이지로 이동하시겠습니까?
             </p>
           </ModalBody>
           <ModalFooter className="justify-end">
@@ -382,7 +382,7 @@ export default function ReviewCard({
         <ModalBody>
           <p className="text-text-secondary">
             <span className="text-text-primary font-semibold">{contentTitle}</span>
-            의 상세 페이지로 이동하시겠습니까?
+            의 상세 정보 및 기록 조회 페이지로 이동하시겠습니까?
           </p>
         </ModalBody>
         <ModalFooter className="justify-end">

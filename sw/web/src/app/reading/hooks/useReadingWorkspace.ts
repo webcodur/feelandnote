@@ -61,7 +61,7 @@ interface UseReadingWorkspaceReturn {
   importFromJson: (json: string) => boolean;
 }
 
-export function useReadingWorkspace(userId?: string): UseReadingWorkspaceReturn {
+export function useReadingWorkspace(userId?: string, initialBook?: SelectedBook): UseReadingWorkspaceReturn {
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedBook, setSelectedBook] = useState<SelectedBook | null>(null);
   const [customQuotes, setCustomQuotes] = useState<ReadingQuote[]>([]);
@@ -113,7 +113,8 @@ export function useReadingWorkspace(userId?: string): UseReadingWorkspaceReturn 
           return section;
         });
         setSections(migratedSections);
-        setSelectedBook(data.selectedBook || null);
+        // initialBook이 있으면 우선 사용, 아니면 저장된 책 사용
+        setSelectedBook(initialBook || data.selectedBook || null);
         setCustomQuotes(
           data.customQuotes ||
             READING_QUOTES.map((q) => ({ id: crypto.randomUUID(), ...q }))
@@ -122,9 +123,12 @@ export function useReadingWorkspace(userId?: string): UseReadingWorkspaceReturn 
       } catch {
         // 파싱 실패 시 무시
       }
+    } else if (initialBook) {
+      // 저장된 데이터 없고 initialBook만 있는 경우
+      setSelectedBook(initialBook);
     }
     setIsInitialized(true);
-  }, []);
+  }, [initialBook]);
 
   // 자동 저장 (10초마다)
   useEffect(() => {

@@ -7,7 +7,6 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
 export type SortOption = "recent" | "title";
-export type StatusFilter = "all" | ContentStatus;
 export type ContentLibraryMode = "owner" | "viewer";
 
 export interface PlaylistInfo {
@@ -37,15 +36,9 @@ export interface TabOption {
 // #region 헬퍼 함수
 export function filterAndSortContents(
   contents: UserContentWithContent[],
-  statusFilter: StatusFilter,
   sortOption: SortOption
 ): UserContentWithContent[] {
   let result = [...contents];
-
-  if (statusFilter !== "all") {
-    result = result.filter((item) => item.status === statusFilter);
-  }
-
 
   result.sort((a, b) => {
     if (sortOption === "title") {

@@ -46,7 +46,7 @@ export default function ContentItemRenderer({
     <div className="space-y-4">
       {/* 일반 콘텐츠: 그리드 레이아웃 */}
       {regularContents.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {regularContents.map((item) => (
             <RecordCard
               key={item.id}
