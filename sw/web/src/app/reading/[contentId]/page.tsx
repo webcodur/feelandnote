@@ -28,7 +28,7 @@ export default async function ReadingPage({ params }: PageProps) {
       id: content.id,
       title: content.title,
       author: (content.metadata as { author?: string })?.author,
-      thumbnail: content.image_url || undefined,
+      thumbnail: content.thumbnail_url || undefined,
       publisher: (content.metadata as { publisher?: string })?.publisher,
       publishDate: (content.metadata as { publishDate?: string })?.publishDate,
       description: (content.metadata as { description?: string })?.description,
