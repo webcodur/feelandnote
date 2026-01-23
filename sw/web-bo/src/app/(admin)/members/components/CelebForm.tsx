@@ -10,7 +10,7 @@ import { calculateInfluenceRank, type GeneratedInfluence } from '@feelnnote/ai-s
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
-import { Loader2, Trash2, Star, X, Upload, ArrowLeft, FileJson } from 'lucide-react'
+import { Loader2, Trash2, Star, X, Upload, ArrowLeft, FileJson, BookOpen } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import AIBasicProfileSection from './AIBasicProfileSection'
 import AIInfluenceSection from './AIInfluenceSection'
@@ -20,7 +20,8 @@ import type { InfluenceScore } from '@feelnnote/ai-services/celeb-profile'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 import BasicProfileJSONModal, { type BasicProfileJSONData } from './BasicProfileJSONModal'
 import InfluenceJSONModal, { type InfluenceJSONData } from './InfluenceJSONModal'
-import Accordion from '@/components/ui/Accordion'
+import BasicProfilePromptModal from './BasicProfilePromptModal'
+import InfluencePromptModal from './InfluencePromptModal'
 
 // #region Types
 interface CelebFormData {
@@ -148,6 +149,13 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [basicProfileJSONModalOpen, setBasicProfileJSONModalOpen] = useState(false)
   const [influenceJSONModalOpen, setInfluenceJSONModalOpen] = useState(false)
 
+  // 프로젝트 룰 모달 상태
+  const [basicProfilePromptModalOpen, setBasicProfilePromptModalOpen] = useState(false)
+  const [influencePromptModalOpen, setInfluencePromptModalOpen] = useState(false)
+
+  // 활성 섹션 상태 (Ctrl+V 대상)
+  const [activeSection, setActiveSection] = useState<'basicInfo' | 'influence' | 'philosophy' | null>(null)
+
   // 이탈 방지용 초기값 저장
   const initialFormData = useRef(getInitialFormData(celeb))
   const initialInfluence = useRef(getInitialInfluence(celeb))
@@ -173,6 +181,79 @@ export default function CelebForm({ mode, celeb }: Props) {
     window.addEventListener('beforeunload', handleBeforeUnload)
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [isDirty])
+
+  // Ctrl+V 이벤트 - 활성 섹션에 클립보드 데이터 입력 (입력 필드 밖에서만 작동)
+  useEffect(() => {
+    async function handlePaste(e: KeyboardEvent) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'v' && activeSection) {
+        // 입력 필드(input, textarea, select)에 포커스가 있으면 일반 붙여넣기 허용
+        const target = e.target as HTMLElement
+        const isInputField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT'
+        if (isInputField) {
+          return // 일반 붙여넣기 동작 허용
+        }
+
+        e.preventDefault()
+
+        try {
+          const text = await navigator.clipboard.readText()
+
+          if (activeSection === 'philosophy') {
+            // 일반 텍스트 그대로 입력 (JSON 파싱 불필요)
+            setFormData((prev) => ({ ...prev, consumption_philosophy: text }))
+            showToast('success', '감상 철학이 입력되었습니다.')
+          } else if (activeSection === 'basicInfo') {
+            // JSON 파싱 시도
+            const parsed = JSON.parse(text) as Partial<BasicProfileJSONData>
+            setFormData((prev) => ({
+              ...prev,
+              ...(parsed.nickname && { nickname: parsed.nickname }),
+              ...(parsed.profession && { profession: parsed.profession }),
+              ...(parsed.title && { title: parsed.title }),
+              ...(parsed.nationality && { nationality: parsed.nationality }),
+              ...(parsed.birth_date && { birth_date: parsed.birth_date }),
+              ...(parsed.death_date && { death_date: parsed.death_date }),
+              ...(parsed.bio && { bio: parsed.bio }),
+              ...(parsed.quotes && { quotes: parsed.quotes }),
+              ...(parsed.avatar_url && { avatar_url: parsed.avatar_url }),
+              ...(parsed.portrait_url && { portrait_url: parsed.portrait_url }),
+              ...(parsed.is_verified !== undefined && { is_verified: parsed.is_verified }),
+            }))
+            showToast('success', '기본 정보가 입력되었습니다.')
+          } else if (activeSection === 'influence') {
+            // JSON 파싱 시도
+            const parsed = JSON.parse(text) as Partial<InfluenceJSONData>
+            const updated: GeneratedInfluence = {
+              political: parsed.political || influence.political,
+              strategic: parsed.strategic || influence.strategic,
+              tech: parsed.tech || influence.tech,
+              social: parsed.social || influence.social,
+              economic: parsed.economic || influence.economic,
+              cultural: parsed.cultural || influence.cultural,
+              transhistoricity: parsed.transhistoricity || influence.transhistoricity,
+              totalScore: 0,
+              rank: 'D',
+            }
+            const totalScore =
+              updated.political.score +
+              updated.strategic.score +
+              updated.tech.score +
+              updated.social.score +
+              updated.economic.score +
+              updated.cultural.score +
+              updated.transhistoricity.score
+            setInfluence({ ...updated, totalScore, rank: calculateInfluenceRank(totalScore) })
+            showToast('success', '영향력 정보가 입력되었습니다.')
+          }
+        } catch (err) {
+          showToast('error', 'JSON 형식이 올바르지 않습니다.')
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handlePaste)
+    return () => window.removeEventListener('keydown', handlePaste)
+  }, [activeSection, influence, showToast])
 
   // 뒤로가기 클릭 핸들러
   function handleBackClick(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -571,26 +652,42 @@ export default function CelebForm({ mode, celeb }: Props) {
       </div>
 
       {/* Basic Info */}
-      <Accordion
-        defaultOpen={true}
-        title={
-          <div className="flex items-center justify-between flex-1 mr-4">
+      <div className={`bg-bg-card border-2 rounded-lg overflow-hidden transition-all ${activeSection === 'basicInfo' ? 'border-accent shadow-lg shadow-accent/20' : 'border-border'}`}>
+        <div
+          onClick={() => setActiveSection(activeSection === 'basicInfo' ? null : 'basicInfo')}
+          className={`p-4 cursor-pointer transition-colors ${activeSection === 'basicInfo' ? 'bg-accent/5' : 'hover:bg-white/5'}`}
+        >
+          <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-text-primary">기본정보</h2>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation()
-                setBasicProfileJSONModalOpen(true)
-              }}
-            >
-              <FileJson className="w-4 h-4" />
-              JSON으로 입력
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setBasicProfilePromptModalOpen(true)
+                }}
+              >
+                <BookOpen className="w-4 h-4" />
+                프로젝트 룰
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setBasicProfileJSONModalOpen(true)
+                }}
+              >
+                <FileJson className="w-4 h-4" />
+                JSON 입력
+              </Button>
+            </div>
           </div>
-        }
-      >
+        </div>
+        <div className="px-4 pb-4 space-y-3">
         <div className="grid grid-cols-[1fr_280px] gap-4">
           {/* 좌측: 기본 텍스트 정보 */}
           <div className="space-y-2">
@@ -734,15 +831,30 @@ export default function CelebForm({ mode, celeb }: Props) {
             </div>
           </div>
         </div>
-      </Accordion>
+        </div>
+      </div>
 
       {/* Influence Card */}
-      <Accordion
-        defaultOpen={true}
-        title={
-          <div className="flex items-center justify-between flex-1 mr-4">
-            <h2 className="text-lg font-semibold text-text-primary">영향력 평가</h2>
+      <div className={`bg-bg-card border-2 rounded-lg overflow-hidden transition-all ${activeSection === 'influence' ? 'border-accent shadow-lg shadow-accent/20' : 'border-border'}`}>
+        <div
+          onClick={() => setActiveSection(activeSection === 'influence' ? null : 'influence')}
+          className={`p-4 cursor-pointer transition-colors ${activeSection === 'influence' ? 'bg-accent/5' : 'hover:bg-white/5'}`}
+        >
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold text-text-primary">영향력 평가</h2>
             <div className="flex items-center gap-3">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setInfluencePromptModalOpen(true)
+                }}
+              >
+                <BookOpen className="w-4 h-4" />
+                프로젝트 룰
+              </Button>
               <Button
                 type="button"
                 variant="secondary"
@@ -753,7 +865,7 @@ export default function CelebForm({ mode, celeb }: Props) {
                 }}
               >
                 <FileJson className="w-4 h-4" />
-                JSON으로 입력
+                JSON 입력
               </Button>
               <span className={`px-2 py-0.5 rounded text-xs font-bold ${RANK_COLORS[influence.rank]}`}>{influence.rank}등급 ({influence.totalScore}/100)</span>
               <button
@@ -769,8 +881,8 @@ export default function CelebForm({ mode, celeb }: Props) {
               </button>
             </div>
           </div>
-        }
-      >
+        </div>
+        <div className="px-4 pb-4 space-y-1.5">
         <div className="space-y-1.5">
           {Object.entries(INFLUENCE_LABELS).map(([key, { label, max }]) => {
             const field = influence[key as keyof typeof influence]
@@ -788,13 +900,18 @@ export default function CelebForm({ mode, celeb }: Props) {
             return null
           })}
         </div>
-      </Accordion>
+        </div>
+      </div>
 
       {/* Consumption Philosophy */}
-      <Accordion
-        defaultOpen={false}
-        title={<h2 className="text-base font-semibold text-text-primary">감상 철학</h2>}
-      >
+      <div className={`bg-bg-card border-2 rounded-lg overflow-hidden transition-all ${activeSection === 'philosophy' ? 'border-accent shadow-lg shadow-accent/20' : 'border-border'}`}>
+        <div
+          onClick={() => setActiveSection(activeSection === 'philosophy' ? null : 'philosophy')}
+          className={`p-4 cursor-pointer transition-colors ${activeSection === 'philosophy' ? 'bg-accent/5' : 'hover:bg-white/5'}`}
+        >
+          <h2 className="text-base font-semibold text-text-primary">감상 철학</h2>
+        </div>
+        <div className="px-4 pb-4 space-y-2">
         <div className="space-y-2">
           <p className="text-xs text-text-secondary">셀럽의 콘텐츠 감상 철학이나 취향을 3~4문단으로 작성해주세요.</p>
           <textarea
@@ -805,7 +922,8 @@ export default function CelebForm({ mode, celeb }: Props) {
             className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
           />
         </div>
-      </Accordion>
+        </div>
+      </div>
 
       {/* Actions */}
       <div className="flex items-center justify-between">
@@ -846,6 +964,18 @@ export default function CelebForm({ mode, celeb }: Props) {
       isOpen={influenceJSONModalOpen}
       onClose={() => setInfluenceJSONModalOpen(false)}
       onApply={handleInfluenceJSONApply}
+      guessedName={guessedName}
+    />
+
+    {/* 프로젝트 룰 모달 */}
+    <BasicProfilePromptModal
+      isOpen={basicProfilePromptModalOpen}
+      onClose={() => setBasicProfilePromptModalOpen(false)}
+      guessedName={guessedName}
+    />
+    <InfluencePromptModal
+      isOpen={influencePromptModalOpen}
+      onClose={() => setInfluencePromptModalOpen(false)}
       guessedName={guessedName}
     />
     </>
