@@ -117,25 +117,21 @@ export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
   }
 
   return (
-    <div className="bg-bg-secondary/50 border border-border rounded-lg p-4 space-y-3">
+    <div className="bg-bg-secondary/50 border border-border rounded-lg p-3 space-y-2">
       <div className="flex items-center gap-2">
-        <Sparkles className="w-4 h-4 text-accent" />
-        <span className="text-sm font-medium text-text-primary">AI 기본 정보 생성</span>
+        <Sparkles className="w-3.5 h-3.5 text-accent" />
+        <span className="text-xs font-medium text-text-primary">AI 기본 정보 생성</span>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="ai-basic-description" className="block text-sm font-medium text-text-secondary">
-          인물 설명 (선택)
-        </label>
+      <div className="space-y-1.5">
         <textarea
           id="ai-basic-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="예: 테슬라 CEO, 스페이스X 창업자..."
+          placeholder="인물 설명 입력 (선택)"
           rows={2}
-          className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
+          className="w-full px-3 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
         />
-        <p className="text-xs text-text-secondary">AI가 풀네임, 직군, 국적, 출생/사망일, 소개, 명언을 생성합니다.</p>
       </div>
 
       {error && (
@@ -159,10 +155,10 @@ export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
       )}
 
       {result && (
-        <div className="bg-bg-secondary rounded-lg p-4 space-y-3">
-          <h4 className="text-sm font-medium text-text-primary">생성 결과 (적용할 항목 선택)</h4>
+        <div className="bg-bg-secondary rounded-lg p-3 space-y-2">
+          <h4 className="text-xs font-medium text-text-primary">생성 결과</h4>
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             {FIELD_ORDER.map((field) => {
               const value = getFieldValue(field)
               const hasValue = value !== '(없음)'

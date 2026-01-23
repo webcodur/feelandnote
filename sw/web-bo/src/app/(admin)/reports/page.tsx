@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '신고 관리',
+}
 import { Flag, AlertTriangle, CheckCircle, Clock } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'

@@ -50,6 +50,7 @@ export interface Member {
   quotes?: string | null
   portrait_url?: string | null
   claimed_by?: string | null
+  consumption_philosophy?: string | null
   influence?: MemberInfluence | null
   // 통계
   content_count: number
@@ -176,6 +177,7 @@ function celebToMember(c: Celeb): Member {
     birth_date: c.birth_date,
     death_date: c.death_date,
     quotes: c.quotes,
+    consumption_philosophy: c.consumption_philosophy,
     portrait_url: c.portrait_url,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
@@ -281,6 +283,7 @@ export async function getMember(id: string): Promise<Member | null> {
     birth_date: data.birth_date,
     death_date: data.death_date,
     quotes: data.quotes,
+    consumption_philosophy: data.consumption_philosophy,
     portrait_url: data.portrait_url,
     claimed_by: data.claimed_by,
     influence: influenceData || null,
@@ -306,5 +309,71 @@ export async function promoteToCeleb(userId: string): Promise<void> {
 
   revalidatePath('/members')
   revalidatePath(`/members/${userId}`)
+}
+// #endregion
+
+// #region softDeleteMember
+export async function softDeleteMember(memberId: string): Promise<void> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ status: 'deleted' })
+    .eq('id', memberId)
+
+  if (error) throw error
+
+  revalidatePath('/members')
+}
+// #endregion
+
+// #region hardDeleteMember
+export async function hardDeleteMember(memberId: string): Promise<void> {
+  const supabase = await createClient()
+
+  // note_id, playlist_id 먼저 조회
+  const { data: notes } = await supabase.from('notes').select('id').eq('user_id', memberId)
+  const noteIds = notes?.map((n) => n.id) || []
+
+  const { data: playlists } = await supabase.from('playlists').select('id').eq('user_id', memberId)
+  const playlistIds = playlists?.map((p) => p.id) || []
+
+  // 관련 데이터 순차 삭제 (외래키 의존성 순서)
+  const deleteQueries = [
+    supabase.from('record_likes').delete().eq('user_id', memberId),
+    supabase.from('record_comments').delete().eq('user_id', memberId),
+    ...(noteIds.length > 0 ? [supabase.from('note_sections').delete().in('note_id', noteIds)] : []),
+    supabase.from('notes').delete().eq('user_id', memberId),
+    ...(playlistIds.length > 0 ? [supabase.from('playlist_items').delete().in('playlist_id', playlistIds)] : []),
+    supabase.from('playlists').delete().eq('user_id', memberId),
+    supabase.from('records').delete().eq('user_id', memberId),
+    supabase.from('user_contents').delete().eq('user_id', memberId),
+    supabase.from('follows').delete().or(`follower_id.eq.${memberId},following_id.eq.${memberId}`),
+    supabase.from('blocks').delete().or(`blocker_id.eq.${memberId},blocked_id.eq.${memberId}`),
+    supabase.from('guestbook_entries').delete().or(`profile_id.eq.${memberId},author_id.eq.${memberId}`),
+    supabase.from('activity_logs').delete().eq('user_id', memberId),
+    supabase.from('score_logs').delete().eq('user_id', memberId),
+    supabase.from('user_titles').delete().eq('user_id', memberId),
+    supabase.from('user_scores').delete().eq('user_id', memberId),
+    supabase.from('user_social').delete().eq('user_id', memberId),
+    supabase.from('tier_lists').delete().eq('user_id', memberId),
+    supabase.from('blind_game_scores').delete().eq('user_id', memberId),
+    supabase.from('celeb_influence').delete().eq('celeb_id', memberId),
+    supabase.from('ai_reviews').delete().eq('user_id', memberId),
+  ]
+
+  for (const query of deleteQueries) {
+    await query
+  }
+
+  // 마지막으로 profiles 삭제
+  const { error } = await supabase
+    .from('profiles')
+    .delete()
+    .eq('id', memberId)
+
+  if (error) throw error
+
+  revalidatePath('/members')
 }
 // #endregion

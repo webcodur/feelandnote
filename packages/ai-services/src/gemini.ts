@@ -1,6 +1,5 @@
 // Gemini API 서비스
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent'
 
 interface GeminiRequest {
   apiKey: string
@@ -11,6 +10,7 @@ interface GeminiRequest {
 interface GeminiResponse {
   text: string
   error?: string
+  finishReason?: string
 }
 
 interface GeminiGroundingRequest extends GeminiRequest {
@@ -23,9 +23,10 @@ interface GeminiOptions {
 }
 
 // Gemini API 호출
-export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: GeminiRequest, options?: GeminiOptions): Promise<GeminiResponse> {
+export async function callGemini({ apiKey, prompt, maxOutputTokens = 500, model = 'gemini-2.0-flash' }: GeminiRequest & { model?: string }, options?: GeminiOptions): Promise<GeminiResponse> {
   try {
-    const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
+    const response = await fetch(`${url}?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,19 +48,23 @@ export async function callGemini({ apiKey, prompt, maxOutputTokens = 500 }: Gemi
 
     const data = await response.json()
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
+    const finishReason = data.candidates?.[0]?.finishReason
+
+    if (finishReason && finishReason !== 'STOP') {
+      console.warn(`[callGemini] Response finished with reason: ${finishReason}`)
+    }
 
     // 응답이 비어있거나 차단된 경우
     if (!text) {
-      const blockReason = data.candidates?.[0]?.finishReason
       const safetyRatings = data.candidates?.[0]?.safetyRatings
-      console.error('[callGemini] Empty/blocked response:', { blockReason, safetyRatings, promptFeedback: data.promptFeedback })
-      if (blockReason && blockReason !== 'STOP') {
-        return { text: '', error: `응답이 차단됨: ${blockReason}` }
+      console.error('[callGemini] Empty/blocked response:', { finishReason, safetyRatings, promptFeedback: data.promptFeedback })
+      if (finishReason && finishReason !== 'STOP' && finishReason !== 'MAX_TOKENS') {
+        return { text: '', error: `응답이 차단됨: ${finishReason}` }
       }
       return { text: '', error: 'AI가 빈 응답을 반환했습니다.' }
     }
 
-    return { text }
+    return { text, finishReason }
   } catch (err) {
     console.error('[callGemini] Exception:', err)
     return {
@@ -76,7 +81,8 @@ export async function callGeminiWithGrounding({
   maxOutputTokens = 500,
 }: GeminiGroundingRequest): Promise<GeminiResponse> {
   try {
-    const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`
+    const response = await fetch(`${url}?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -100,7 +106,7 @@ export async function callGeminiWithGrounding({
     const data = await response.json()
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
 
-    return { text }
+    return { text, finishReason: data.candidates?.[0]?.finishReason }
   } catch (err) {
     return {
       text: '',

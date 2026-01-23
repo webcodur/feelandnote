@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Book, Film, Gamepad2, Music, Award, Star } from "lucide-react";
 import useDragScroll from "@/hooks/useDragScroll";
+import { BLUR_DATA_URL } from "@/constants/image";
 import type { ContentType, ContentStatus } from "@/types/database";
 
 // #region 타입
@@ -101,6 +102,8 @@ export default function RecordCard({
               fill
               unoptimized
               className="object-cover group-hover:scale-105 transition-transform"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

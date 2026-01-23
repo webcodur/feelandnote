@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { useSound } from "@/contexts/SoundContext";
@@ -19,9 +19,6 @@ interface MyReviewSectionProps {
   onRatingChange: (rating: number | null) => void;
   onSpoilerChange: (isSpoiler: boolean) => void;
   onSave: () => void;
-  hasApiKey?: boolean;
-  onGenerateExample?: () => void;
-  isGenerating?: boolean;
 }
 
 export default function MyReviewSection({
@@ -33,9 +30,6 @@ export default function MyReviewSection({
   onRatingChange,
   onSpoilerChange,
   onSave,
-  hasApiKey = false,
-  onGenerateExample,
-  isGenerating = false,
 }: MyReviewSectionProps) {
   const { playSound } = useSound();
 
@@ -74,26 +68,6 @@ export default function MyReviewSection({
           </div>
         </div>
         <div className="p-3">
-          {onGenerateExample && (
-            <div className="mb-2 flex justify-end">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onGenerateExample}
-                disabled={!hasApiKey || isGenerating}
-                title={hasApiKey ? "AI로 리뷰 예시 생성" : "마이페이지 > 설정에서 API 키를 등록하세요"}
-                className="text-xs gap-1.5"
-              >
-                {isGenerating ? (
-                  <Loader2 size={14} className="animate-spin" />
-                ) : (
-                  <Sparkles size={14} />
-                )}
-                AI 예시
-              </Button>
-            </div>
-          )}
-
           <textarea
             className="w-full h-40 bg-black/20 border border-border rounded-lg p-2.5 text-text-primary text-sm resize-y outline-none mb-3 font-sans focus:border-accent placeholder:text-text-secondary"
             placeholder="이 작품에 대한 생각을 자유롭게 기록해보세요."

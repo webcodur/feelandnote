@@ -19,6 +19,7 @@ export interface Celeb {
   death_date: string | null
   bio: string | null
   quotes: string | null
+  consumption_philosophy: string | null
   is_verified: boolean | null
   status: string
   claimed_by: string | null
@@ -49,6 +50,7 @@ interface CreateCelebInput {
   death_date?: string
   bio?: string
   quotes?: string
+  consumption_philosophy?: string
   avatar_url?: string
   portrait_url?: string
   is_verified?: boolean
@@ -65,6 +67,7 @@ interface UpdateCelebInput {
   death_date?: string
   bio?: string
   quotes?: string
+  consumption_philosophy?: string
   avatar_url?: string
   portrait_url?: string
   is_verified?: boolean
@@ -152,6 +155,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     death_date: celeb.death_date,
     bio: celeb.bio,
     quotes: celeb.quotes,
+    consumption_philosophy: celeb.consumption_philosophy,
     is_verified: celeb.is_verified,
     status: celeb.status || 'active',
     claimed_by: celeb.claimed_by,
@@ -202,6 +206,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     death_date: data.death_date,
     bio: data.bio,
     quotes: data.quotes,
+    consumption_philosophy: data.consumption_philosophy,
     is_verified: data.is_verified,
     status: data.status || 'active',
     claimed_by: data.claimed_by,
@@ -258,6 +263,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       death_date: input.death_date || null,
       bio: input.bio || null,
       quotes: input.quotes || null,
+      consumption_philosophy: input.consumption_philosophy || null,
       avatar_url: input.avatar_url || null,
       portrait_url: input.portrait_url || null,
       is_verified: input.is_verified || false,
@@ -334,6 +340,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.quotes !== undefined) updateData.quotes = input.quotes
+  if (input.consumption_philosophy !== undefined) updateData.consumption_philosophy = input.consumption_philosophy
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
@@ -520,27 +527,27 @@ export interface CelebContent {
 export async function getCelebContents(
   celebId: string,
   page: number = 1,
-  limit: number = 20
+  limit: number = 20,
+  contentType?: string
 ): Promise<{ contents: CelebContent[]; total: number }> {
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
-  const { data, error, count } = await supabase
+  // 타입 필터가 있으면 !inner join 사용
+  const selectQuery = contentType
+    ? `*, content:contents!inner (id, title, type, creator, thumbnail_url)`
+    : `*, content:contents (id, title, type, creator, thumbnail_url)`
+
+  let query = supabase
     .from('user_contents')
-    .select(
-      `
-      *,
-      content:contents (
-        id,
-        title,
-        type,
-        creator,
-        thumbnail_url
-      )
-    `,
-      { count: 'exact' }
-    )
+    .select(selectQuery, { count: 'exact' })
     .eq('user_id', celebId)
+
+  if (contentType) {
+    query = query.eq('content.type', contentType)
+  }
+
+  const { data, error, count } = await query
     .order('updated_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
@@ -760,5 +767,62 @@ export async function updateCelebPhilosophy(celebId: string, philosophy: string 
   revalidatePath('/members')
   revalidatePath('/members/philosophies')
   revalidatePath(`/members/${celebId}`)
+}
+// #endregion
+
+// #region exportCelebContents - 콘텐츠 추출 (JSON 형식)
+export interface ExportedContent {
+  title: string
+  body: string
+  source: string
+}
+
+export async function exportCelebContents(
+  celebId: string,
+  contentType?: string
+): Promise<{ success: boolean; items?: ExportedContent[]; error?: string }> {
+  const supabase = await createClient()
+
+  let query = supabase
+    .from('user_contents')
+    .select(`
+      review,
+      source_url,
+      content:contents (
+        title,
+        type,
+        creator
+      )
+    `)
+    .eq('user_id', celebId)
+    .order('updated_at', { ascending: false })
+
+  if (contentType && contentType !== 'ALL') {
+    query = query.eq('contents.type', contentType)
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  // content가 null인 항목(타입 필터링으로 제외된 항목) 제거
+  const filteredData = (data || []).filter((item) => item.content !== null)
+
+  const items: ExportedContent[] = filteredData.map((item) => {
+    // Supabase 조인 결과는 배열 또는 단일 객체일 수 있음
+    const contentData = Array.isArray(item.content) ? item.content[0] : item.content
+    const content = contentData as { title: string; type: string; creator: string | null }
+    const title = content.creator ? `${content.title}(${content.creator})` : content.title
+
+    return {
+      title,
+      body: item.review || '',
+      source: item.source_url || '',
+    }
+  })
+
+  return { success: true, items }
 }
 // #endregion

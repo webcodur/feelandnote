@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Calendar, Star } from "lucide-react";
+import { ChevronRight, Star } from "lucide-react";
+import { BLUR_DATA_URL } from "@/constants/image";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 
 interface RecentRecordsProps {
@@ -36,6 +37,8 @@ export default function RecentRecords({ items, userId }: RecentRecordsProps) {
                 fill
                 sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 15vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
+                placeholder="blur"
+                blurDataURL={BLUR_DATA_URL}
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-bg-card/50">

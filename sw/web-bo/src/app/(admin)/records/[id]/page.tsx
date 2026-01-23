@@ -1,4 +1,14 @@
+import type { Metadata } from 'next'
 import { getRecord, getRecordComments } from '@/actions/admin/records'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const record = await getRecord(id)
+  const typeLabel = record?.type === 'NOTE' ? '노트' : record?.type === 'QUOTE' ? '인용' : '기록'
+  return {
+    title: record ? `${record.user?.nickname || '알 수 없음'}의 ${typeLabel}` : '기록 상세',
+  }
+}
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'

@@ -1,4 +1,13 @@
+import type { Metadata } from 'next'
 import { getContent } from '@/actions/admin/contents'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const content = await getContent(id)
+  return {
+    title: content ? `${content.title}` : '콘텐츠 상세',
+  }
+}
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, type TitleInfo } from "@/components/ui";
+import { BLUR_DATA_URL } from "@/constants/image";
 import Button from "@/components/ui/Button";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { Check, Book, ExternalLink, User } from "lucide-react";
@@ -137,6 +138,8 @@ export default function ReviewCard({
             fill
             unoptimized
             className="object-cover opacity-80 grayscale group-hover:opacity-100 group-hover:grayscale-0"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-bg-secondary">

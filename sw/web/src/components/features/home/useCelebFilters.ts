@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
@@ -19,6 +20,8 @@ export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
 export type FilterType = "profession" | "nationality" | "contentType" | "sort";
 
 export const PAGE_SIZE = 24;
+
+const VALID_SORT_VALUES: CelebSortBy[] = ["influence", "follower", "name_asc", "birth_date_desc", "birth_date_asc"];
 // #endregion
 
 interface UseCelebFiltersParams {
@@ -28,6 +31,7 @@ interface UseCelebFiltersParams {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  syncToUrl?: boolean;
 }
 
 export function useCelebFilters({
@@ -37,19 +41,65 @@ export function useCelebFilters({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  syncToUrl = false,
 }: UseCelebFiltersParams) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // URL에서 초기값 읽기
+  const getInitialValue = <T extends string>(key: string, defaultValue: T, validValues?: T[]): T => {
+    if (!syncToUrl) return defaultValue;
+    const urlValue = searchParams.get(key);
+    if (!urlValue) return defaultValue;
+    if (validValues && !validValues.includes(urlValue as T)) return defaultValue;
+    return urlValue as T;
+  };
+
   const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
   const [isLoading, setIsLoading] = useState(false);
-  const [profession, setProfession] = useState("all");
-  const [nationality, setNationality] = useState("all");
-  const [contentType, setContentType] = useState("all");
-  const [sortBy, setSortBy] = useState<CelebSortBy>("influence");
-  const [search, setSearch] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
+  const [profession, setProfession] = useState<string>(() => getInitialValue("profession", "all"));
+  const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
+  const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
+  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "influence", VALID_SORT_VALUES));
+  const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
+  const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    if (!syncToUrl) return 1;
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    return isNaN(page) || page < 1 ? 1 : page;
+  });
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [total, setTotal] = useState(initialTotal);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // URL 파라미터 업데이트 함수
+  const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
+    if (!syncToUrl) return;
+    const params = new URLSearchParams(searchParams.toString());
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === "all" || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "influence")) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(newUrl, { scroll: false });
+  }, [syncToUrl, searchParams, pathname, router]);
+
+  // 초기 URL 파라미터로 데이터 로드
+  useEffect(() => {
+    if (!syncToUrl || isInitialized) return;
+    const hasUrlFilters = searchParams.has("profession") || searchParams.has("nationality") ||
+      searchParams.has("contentType") || searchParams.has("sortBy") ||
+      searchParams.has("search") || searchParams.has("page");
+    if (hasUrlFilters) {
+      loadCelebs(profession, nationality, contentType, sortBy, currentPage, appliedSearch);
+    }
+    setIsInitialized(true);
+  }, [syncToUrl, isInitialized]);
 
   const contentUnit = contentType === "all" ? "개" : getContentUnit(contentType);
 
@@ -81,30 +131,35 @@ export function useCelebFilters({
     setProfession(prof);
     setCurrentPage(1);
     loadCelebs(prof, nationality, contentType, sortBy, 1, search);
-  }, [loadCelebs, nationality, contentType, sortBy, search]);
+    updateUrlParams({ profession: prof, page: null });
+  }, [loadCelebs, nationality, contentType, sortBy, search, updateUrlParams]);
 
   const handleNationalityChange = useCallback((nation: string) => {
     setNationality(nation);
     setCurrentPage(1);
     loadCelebs(profession, nation, contentType, sortBy, 1, search);
-  }, [loadCelebs, profession, contentType, sortBy, search]);
+    updateUrlParams({ nationality: nation, page: null });
+  }, [loadCelebs, profession, contentType, sortBy, search, updateUrlParams]);
 
   const handleContentTypeChange = useCallback((cType: string) => {
     setContentType(cType);
     setCurrentPage(1);
     loadCelebs(profession, nationality, cType, sortBy, 1, search);
-  }, [loadCelebs, profession, nationality, sortBy, search]);
+    updateUrlParams({ contentType: cType, page: null });
+  }, [loadCelebs, profession, nationality, sortBy, search, updateUrlParams]);
 
   const handleSortChange = useCallback((sort: CelebSortBy) => {
     setSortBy(sort);
     setCurrentPage(1);
     loadCelebs(profession, nationality, contentType, sort, 1, search);
-  }, [loadCelebs, profession, nationality, contentType, search]);
+    updateUrlParams({ sortBy: sort, page: null });
+  }, [loadCelebs, profession, nationality, contentType, search, updateUrlParams]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
     loadCelebs(profession, nationality, contentType, sortBy, page, appliedSearch);
-  }, [loadCelebs, profession, nationality, contentType, sortBy, appliedSearch]);
+    updateUrlParams({ page: String(page) });
+  }, [loadCelebs, profession, nationality, contentType, sortBy, appliedSearch, updateUrlParams]);
 
   // 검색어 입력 (UI만 업데이트, API 호출 안 함)
   const handleSearchInput = useCallback((term: string) => {
@@ -116,7 +171,8 @@ export function useCelebFilters({
     setAppliedSearch(search);
     setCurrentPage(1);
     loadCelebs(profession, nationality, contentType, sortBy, 1, search);
-  }, [loadCelebs, profession, nationality, contentType, sortBy, search]);
+    updateUrlParams({ search, page: null });
+  }, [loadCelebs, profession, nationality, contentType, sortBy, search, updateUrlParams]);
 
   // 검색 초기화
   const handleSearchClear = useCallback(() => {
@@ -124,7 +180,8 @@ export function useCelebFilters({
     setAppliedSearch("");
     setCurrentPage(1);
     loadCelebs(profession, nationality, contentType, sortBy, 1, "");
-  }, [loadCelebs, profession, nationality, contentType, sortBy]);
+    updateUrlParams({ search: null, page: null });
+  }, [loadCelebs, profession, nationality, contentType, sortBy, updateUrlParams]);
 
   // 현재 선택된 값들의 라벨
   const activeLabels = useMemo(() => ({

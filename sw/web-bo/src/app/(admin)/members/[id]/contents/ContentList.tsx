@@ -68,8 +68,8 @@ export default function ContentList({ contents, celebId }: Props) {
         return (
           <div key={content.id} className="p-4">
             <div className="flex items-start gap-4">
-              <div className="relative w-16 h-20 bg-bg-secondary rounded overflow-hidden shrink-0 flex items-center justify-center">
-                {content.content.thumbnail_url ? <Image src={content.content.thumbnail_url} alt="" fill unoptimized className="object-cover" /> : <Icon className="w-6 h-6 text-text-secondary" />}
+              <div className="relative w-32 h-40 bg-bg-secondary rounded overflow-hidden shrink-0 flex items-center justify-center">
+                {content.content.thumbnail_url ? <Image src={content.content.thumbnail_url} alt="" fill unoptimized className="object-cover" /> : <Icon className="w-10 h-10 text-text-secondary" />}
               </div>
 
               <div className="flex-1 min-w-0">
@@ -100,7 +100,14 @@ export default function ContentList({ contents, celebId }: Props) {
                       {content.rating && <div className="flex items-center gap-1 text-yellow-400"><Star className="w-3 h-3 fill-current" /><span>{content.rating}</span></div>}
                     </div>
                     {content.review && <p className="text-sm text-text-secondary whitespace-pre-line">{content.review}</p>}
-                    {content.source_url && <a href={content.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">출처 보기</a>}
+                    <div className="text-xs">
+                      <span className="text-text-secondary">출처: </span>
+                      {content.source_url ? (
+                        <a href={content.source_url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline break-all">{content.source_url}</a>
+                      ) : (
+                        <span className="text-text-secondary/50">없음</span>
+                      )}
+                    </div>
                   </div>
                 )}
 

@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: '기록 관리',
+}
 import { FileText, Search, Users, Library, Quote, StickyNote, Globe, Lock, UserCheck } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'

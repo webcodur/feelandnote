@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+
+export const metadata: Metadata = {
+  title: 'API 사용량',
+}
 import ApiUsageClient from './ApiUsageClient'
 
 const ACTION_TYPE_MAP: Record<string, { label: string; color: string }> = {

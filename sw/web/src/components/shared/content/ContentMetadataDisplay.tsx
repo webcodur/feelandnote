@@ -16,6 +16,7 @@ import {
   FileText,
   Disc3,
   ExternalLink,
+  Calendar,
 } from "lucide-react";
 import type { ContentMetadata } from "@/types/content";
 
@@ -24,6 +25,7 @@ interface ContentMetadataDisplayProps {
   metadata: ContentMetadata | null;
   subtype?: string;
   compact?: boolean;
+  hideLink?: boolean;
 }
 
 export default function ContentMetadataDisplay({
@@ -31,6 +33,7 @@ export default function ContentMetadataDisplay({
   metadata,
   subtype,
   compact = false,
+  hideLink = false,
 }: ContentMetadataDisplayProps) {
   if (!metadata) return null;
 
@@ -45,33 +48,49 @@ export default function ContentMetadataDisplay({
     value: string | number;
   }) => (
     <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
-      <Icon size={compact ? 12 : 14} className="text-text-secondary shrink-0" />
-      <span className="text-text-secondary">{label}</span>
-      <span className="text-text-primary font-medium">{value}</span>
+      <Icon size={compact ? 12 : 14} className="text-text-primary/60 shrink-0" />
+      <span className="text-text-primary/60">{label}</span>
+      <span className="text-white font-medium">{value}</span>
     </div>
   );
 
   // 태그 리스트
   const TagList = ({ items, label }: { items: string[]; label: string }) => (
     <div className="flex flex-wrap items-center gap-2">
-      <span className={`${compact ? "text-xs" : "text-sm"} text-text-secondary`}>{label}</span>
+      <span className={`${compact ? "text-xs" : "text-sm"} text-text-primary/60`}>{label}</span>
       {items.slice(0, compact ? 3 : 5).map((item, i) => (
         <span
           key={i}
-          className={`px-2 py-0.5 bg-bg-main rounded-md ${compact ? "text-[10px]" : "text-xs"} text-text-primary`}
+          className={`px-2 py-0.5 bg-white/10 rounded-md ${compact ? "text-[10px]" : "text-xs"} text-white`}
         >
           {item}
         </span>
       ))}
       {items.length > (compact ? 3 : 5) && (
-        <span className="text-xs text-text-secondary">+{items.length - (compact ? 3 : 5)}</span>
+        <span className="text-xs text-text-primary/60">+{items.length - (compact ? 3 : 5)}</span>
       )}
     </div>
   );
 
-  // 타입이 ContentMetadata로 정의되어 있으므로 직접 접근
-  const { publisher, isbn, voteAverage, genres, developer, rating, platforms,
-    albumType, totalTracks, artists, spotifyUrl, qualificationType, series, majorField } = metadata;
+  // metadata에서 값 추출
+  const {
+    publisher,
+    publishDate,
+    isbn,
+    link,
+    voteAverage,
+    genres,
+    developer,
+    rating,
+    platforms,
+    albumType,
+    totalTracks,
+    artists,
+    spotifyUrl,
+    qualificationType,
+    series,
+    majorField,
+  } = metadata;
 
   switch (category.toLowerCase()) {
 
@@ -80,7 +99,19 @@ export default function ContentMetadataDisplay({
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
           {publisher && <InfoItem icon={Building2} label="출판사" value={publisher} />}
+          {publishDate && <InfoItem icon={Calendar} label="출판일" value={publishDate} />}
           {!compact && isbn && <InfoItem icon={Book} label="ISBN" value={isbn} />}
+          {!hideLink && link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-1.5 text-accent hover:underline ${compact ? "text-[11px]" : "text-xs"}`}
+            >
+              <ExternalLink size={compact ? 10 : 12} />
+              상세정보 보기
+            </a>
+          )}
         </div>
       );
 
@@ -94,8 +125,8 @@ export default function ContentMetadataDisplay({
           {voteAverage !== undefined && (
             <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
               <Star size={compact ? 12 : 14} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-text-secondary">평점</span>
-              <span className="text-text-primary font-medium">{voteAverage.toFixed(1)}</span>
+              <span className="text-text-primary/60">평점</span>
+              <span className="text-white font-medium">{voteAverage.toFixed(1)}</span>
             </div>
           )}
           {genres && genres.length > 0 && <TagList items={genres} label="장르" />}
@@ -111,8 +142,8 @@ export default function ContentMetadataDisplay({
           {rating !== undefined && (
             <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
               <Star size={compact ? 12 : 14} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-text-secondary">평점</span>
-              <span className="text-text-primary font-medium">{rating}점</span>
+              <span className="text-text-primary/60">평점</span>
+              <span className="text-white font-medium">{rating}점</span>
             </div>
           )}
           {platforms && platforms.length > 0 && <TagList items={platforms} label="플랫폼" />}

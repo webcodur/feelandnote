@@ -7,6 +7,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { NotebookPen } from "lucide-react";
 import { LyreIcon, LyreSilentIcon } from "@/components/ui/icons/neo-pantheon";
 import { useSound } from "@/contexts/SoundContext";
 import Link from "next/link";
@@ -116,6 +117,17 @@ export default function Header({ isMobile }: HeaderProps) {
 
         {/* 우측 영역 */}
         <div className="flex items-center gap-1 ms-auto">
+          {/* 감상 모드 */}
+          {isLoggedIn && (
+            <Link
+              href="/reading"
+              className={`${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
+              title="감상 모드"
+            >
+              <NotebookPen size={ICON_SIZE} />
+            </Link>
+          )}
+
           {/* 사운드 토글 */}
           {isLoggedIn && (
             <Button

@@ -8,6 +8,7 @@
 import Image from "next/image";
 import { Calendar, User } from "lucide-react";
 import { CATEGORIES, getCategoryById } from "@/constants/categories";
+import { BLUR_DATA_URL } from "@/constants/image";
 import ContentMetadataDisplay from "./ContentMetadataDisplay";
 import type { ContentInfo } from "@/types/content";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -55,7 +56,7 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
           {/* 썸네일 */}
           <div className="relative w-52 h-80 rounded-2xl shadow-2xl shrink-0 overflow-hidden border border-white/10">
             {content.thumbnail ? (
-              <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" />
+              <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
                 <Icon size={64} className="text-gray-500" />
@@ -117,7 +118,7 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
       {/* 썸네일 */}
       <div className="relative w-16 h-24 sm:w-20 sm:h-[120px] rounded-lg shadow-lg shrink-0 overflow-hidden">
         {content.thumbnail ? (
-          <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" />
+          <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
             <Icon size={24} className="text-gray-500" />
