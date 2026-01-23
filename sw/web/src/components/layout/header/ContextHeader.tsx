@@ -203,7 +203,7 @@ export default function ContextHeader({ title, subtitle = "Archive", userId, isO
           <div className="absolute left-[80px] md:left-[220px] top-0 bottom-0 w-[50px] md:w-[100px]">
             <DetailedPillar side="left" opacity={0.35} className="w-full h-full scale-[0.9] translate-x-[-10%]" />
           </div>
-          <div className="absolute left-[140px] md:left-[360px] top-0 bottom-0 w-[40px] md:w-[80px]">
+          <div className="hidden md:block absolute left-[140px] md:left-[360px] top-0 bottom-0 w-[40px] md:w-[80px]">
             <DetailedPillar side="left" opacity={0.15} className="w-full h-full scale-[0.75]" />
           </div>
 
@@ -214,7 +214,7 @@ export default function ContextHeader({ title, subtitle = "Archive", userId, isO
           <div className="absolute right-[80px] md:right-[220px] top-0 bottom-0 w-[50px] md:w-[100px]">
             <DetailedPillar side="right" opacity={0.35} className="w-full h-full scale-[0.9] translate-x-[10%]" />
           </div>
-          <div className="absolute right-[140px] md:right-[360px] top-0 bottom-0 w-[40px] md:w-[80px]">
+          <div className="hidden md:block absolute right-[140px] md:right-[360px] top-0 bottom-0 w-[40px] md:w-[80px]">
             <DetailedPillar side="right" opacity={0.15} className="w-full h-full scale-[0.75]" />
           </div>
         </div>

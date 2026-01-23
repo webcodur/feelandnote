@@ -7,18 +7,16 @@
 
 import { useState } from "react";
 import { FilterChipDropdown, FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
-import type { SortOption, StatusFilter } from "../useContentLibrary";
+import type { SortOption } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
-import { TAB_OPTIONS, STATUS_OPTIONS, SORT_OPTIONS } from "./constants";
+import { TAB_OPTIONS, SORT_OPTIONS } from "./constants";
 import CategoryGuideModal from "./CategoryGuideModal";
 
 export interface ArchiveControlBarProps {
   activeTab: CategoryId;
   onTabChange: (tab: CategoryId) => void;
   typeCounts: ContentTypeCounts;
-  statusFilter: StatusFilter;
-  onStatusFilterChange: (filter: StatusFilter) => void;
   sortOption: SortOption;
   onSortOptionChange: (option: SortOption) => void;
   isAllCollapsed: boolean;
@@ -26,14 +24,12 @@ export interface ArchiveControlBarProps {
   onCollapseAll: () => void;
 }
 
-type FilterType = "category" | "status" | "sort";
+type FilterType = "category" | "sort";
 
 export default function ArchiveControlBar({
   activeTab,
   onTabChange,
   typeCounts,
-  statusFilter,
-  onStatusFilterChange,
   sortOption,
   onSortOptionChange,
 }: ArchiveControlBarProps) {
@@ -47,12 +43,10 @@ export default function ArchiveControlBar({
     count: typeCounts[tab.type] ?? 0,
   }));
 
-  const statusOptions: FilterOption[] = STATUS_OPTIONS.map(({ value, label }) => ({ value, label }));
   const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
 
   // 현재 라벨 조회
   const currentCategoryLabel = TAB_OPTIONS.find((t) => t.value === activeTab)?.label ?? "도서";
-  const currentStatusLabel = STATUS_OPTIONS.find((o) => o.value === statusFilter)?.label ?? "전체";
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortOption)?.label ?? "최근 추가";
 
   return (
@@ -69,14 +63,6 @@ export default function ArchiveControlBar({
               options={categoryOptions}
               currentValue={activeTab}
               onSelect={(v) => onTabChange(v as CategoryId)}
-            />
-            <FilterChipDropdown
-              label="상태"
-              value={currentStatusLabel}
-              isActive={statusFilter !== "all"}
-              options={statusOptions}
-              currentValue={statusFilter}
-              onSelect={(v) => onStatusFilterChange(v as StatusFilter)}
             />
             <FilterChipDropdown
               label="정렬"
@@ -97,12 +83,6 @@ export default function ArchiveControlBar({
               onClick={() => setActiveFilter("category")}
             />
             <FilterChip
-              label="상태"
-              value={currentStatusLabel}
-              isActive={statusFilter !== "all"}
-              onClick={() => setActiveFilter("status")}
-            />
-            <FilterChip
               label="정렬"
               value={currentSortLabel}
               isActive={sortOption !== "recent"}
@@ -120,14 +100,6 @@ export default function ArchiveControlBar({
         options={categoryOptions}
         onClose={() => setActiveFilter(null)}
         onChange={(v) => onTabChange(v as CategoryId)}
-      />
-      <FilterModal
-        title="상태"
-        isOpen={activeFilter === "status"}
-        current={statusFilter}
-        options={statusOptions}
-        onClose={() => setActiveFilter(null)}
-        onChange={(v) => onStatusFilterChange(v as StatusFilter)}
       />
       <FilterModal
         title="정렬"

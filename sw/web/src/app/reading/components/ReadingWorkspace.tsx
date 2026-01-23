@@ -51,6 +51,8 @@ const MAX_SIDEBAR_WIDTH = 400;
 
 interface Props {
   userId?: string;
+  initialBook?: SelectedBook; // 고정된 책 (URL에서 전달)
+  isBookLocked?: boolean; // 책 변경 불가 여부
 }
 
 // 감상 모드 탭 (추후 확장 가능)
@@ -61,7 +63,7 @@ const WORKSPACE_TABS = [
   { id: "listening", label: "듣기", icon: Music, enabled: false },
 ] as const;
 
-export default function ReadingWorkspace({ userId }: Props) {
+export default function ReadingWorkspace({ userId, initialBook, isBookLocked = false }: Props) {
   const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isBookInfoOpen, setIsBookInfoOpen] = useState(false);
@@ -169,7 +171,7 @@ export default function ReadingWorkspace({ userId }: Props) {
     resetTimer,
     closeOnboarding,
     openOnboarding,
-  } = useReadingWorkspace(userId);
+  } = useReadingWorkspace(userId, initialBook);
 
   const handleBookSelect = useCallback(
     (book: SelectedBook) => {
@@ -312,8 +314,8 @@ export default function ReadingWorkspace({ userId }: Props) {
               <button
                 onClick={() => setIsBookInfoOpen(!isBookInfoOpen)}
                 className={`flex items-center gap-2 rounded-lg py-1.5 px-3 transition-colors ${
-                  isBookInfoOpen 
-                    ? "bg-accent/20 text-accent ring-1 ring-accent" 
+                  isBookInfoOpen
+                    ? "bg-accent/20 text-accent ring-1 ring-accent"
                     : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
                 }`}
                 title="책 정보 (클릭하여 상세 보기)"
@@ -324,32 +326,36 @@ export default function ReadingWorkspace({ userId }: Props) {
                   {selectedBook.title}
                 </span>
               </button>
-              
-              <div className="flex items-center gap-0.5">
-                <button
-                  onClick={() => setIsSearchOpen(true)}
-                  className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
-                  title="다른 책 선택"
-                >
-                  <Search className="size-4" />
-                </button>
-                <button
-                  onClick={handleClearBook}
-                  className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
-                  title="책 선택 해제"
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
+
+              {!isBookLocked && (
+                <div className="flex items-center gap-0.5">
+                  <button
+                    onClick={() => setIsSearchOpen(true)}
+                    className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
+                    title="다른 책 선택"
+                  >
+                    <Search className="size-4" />
+                  </button>
+                  <button
+                    onClick={handleClearBook}
+                    className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
+                    title="책 선택 해제"
+                  >
+                    <X className="size-4" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
-            >
-              <Search className="size-4" />
-              <span className="text-sm">책 선택</span>
-            </button>
+            !isBookLocked && (
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
+              >
+                <Search className="size-4" />
+                <span className="text-sm">책 선택</span>
+              </button>
+            )
           )}
         </div>
 

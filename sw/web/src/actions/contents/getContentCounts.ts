@@ -17,6 +17,7 @@ export async function getContentCounts(): Promise<ContentTypeCounts> {
     .from('user_contents')
     .select('content:contents!inner(type)')
     .eq('user_id', user.id)
+    .eq('status', 'FINISHED')
 
   if (error) {
     console.error('콘텐츠 개수 조회 에러:', error)
@@ -78,6 +79,7 @@ export async function getUserContentCounts(userId: string): Promise<ContentTypeC
     .select('content:contents!inner(type)')
     .eq('user_id', userId)
     .eq('visibility', 'public')
+    .eq('status', 'FINISHED')
 
   if (error) {
     console.error('사용자 콘텐츠 개수 조회 에러:', error)

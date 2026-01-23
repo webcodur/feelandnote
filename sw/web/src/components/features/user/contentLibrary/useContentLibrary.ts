@@ -21,7 +21,6 @@ import type { ContentType, ContentStatus, VisibilityType } from "@/types/databas
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import {
   type SortOption,
-  type StatusFilter,
   type PlaylistInfo,
   type UseContentLibraryOptions,
   filterAndSortContents,
@@ -29,7 +28,7 @@ import {
   formatMonthLabel,
 } from "./contentLibraryTypes";
 
-export type { SortOption, StatusFilter, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
+export type { SortOption, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const { maxItems, compact = false, mode = 'owner', targetUserId } = options;
@@ -47,7 +46,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [total, setTotal] = useState(0);
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
 
   const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
     BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
@@ -63,8 +61,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   // #region 파생 상태 (useMemo)
   const filteredAndSortedContents = useMemo(
-    () => filterAndSortContents(contents, statusFilter, sortOption),
-    [contents, statusFilter, sortOption]
+    () => filterAndSortContents(contents, sortOption),
+    [contents, sortOption]
   );
 
   const groupedByMonthData = useMemo(() => groupByMonth(filteredAndSortedContents), [filteredAndSortedContents]);
@@ -117,6 +115,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         const result = await getUserContents({
           userId: targetUserId,
           type: CATEGORY_ID_TO_TYPE[activeTab],
+          status: 'FINISHED',
           page: compact ? 1 : currentPage,
           limit,
         });
@@ -155,7 +154,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         // owner 모드: 내 콘텐츠 조회 (WANT 상태 제외 - 관심 탭으로 분리됨)
         const result = await getMyContents({
           type: CATEGORY_ID_TO_TYPE[activeTab],
-          excludeStatus: ['WANT'],
+          status: 'FINISHED',
           page: compact ? 1 : currentPage,
           limit,
         });
@@ -177,7 +176,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   useEffect(() => {
     setCurrentPage(1);
-    setStatusFilter("all"); // 탭 변경 시 상태 필터 초기화
   }, [activeTab]);
   // #endregion
 
@@ -291,7 +289,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     typeCounts,
     collapsedMonths,
     sortOption, setSortOption,
-    statusFilter, setStatusFilter,
     formatMonthLabel,
     // 파생 상태
     filteredAndSortedContents,

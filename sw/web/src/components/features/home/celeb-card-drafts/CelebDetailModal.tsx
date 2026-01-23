@@ -72,7 +72,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       onClick={handleFollowClick}
       disabled={isLoading}
       className={`
-        flex items-center justify-center gap-2 font-black transition-all active:scale-95
+        flex items-center justify-center gap-2 font-black text-sm transition-all active:scale-95
         ${isFollowing
           ? "bg-black/40 backdrop-blur-md text-accent border border-accent/40 shadow-inner"
           : "bg-accent text-black border border-accent shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
@@ -82,9 +82,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       `}
     >
       {isFollowing ? (
-        <><Check size={14} strokeWidth={3} /> <span className="tracking-tight">FOLLOWING</span></>
+        <><Check size={16} strokeWidth={3} /> <span>팔로잉</span></>
       ) : (
-        <><UserPlus size={14} strokeWidth={3} /> <span className="tracking-tight">FOLLOW</span></>
+        <><UserPlus size={16} strokeWidth={3} /> <span>팔로우</span></>
       )}
     </button>
   );
@@ -92,10 +92,20 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const ProfileLink = ({ className = "" }: { className?: string }) => (
     <Link
       href={`/${celeb.id}`}
-      className={`flex items-center justify-center gap-2 bg-white/5 text-text-primary hover:bg-white/10 text-sm font-medium ${className}`}
+      className={`
+        flex items-center justify-center gap-2
+        bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200
+        border-2 border-amber-400/40
+        text-stone-900 font-black text-sm
+        shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]
+        hover:shadow-[0_0_30px_rgba(251,191,36,0.3)]
+        hover:border-amber-400/60 hover:scale-[1.02]
+        transition-all duration-300
+        ${className}
+      `}
     >
-      <ExternalLink size={16} />
-      프로필 보기
+      <ExternalLink size={16} strokeWidth={3} />
+      <span>프로필 보기</span>
     </Link>
   );
 
@@ -125,10 +135,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   const Stats = () => (
     <div className="w-full grid grid-cols-2 gap-4 py-2 border-y border-white/10 bg-white/[0.02] my-3">
-      <div className="flex flex-col items-center">
+      <Link
+        href={`/${celeb.id}/records`}
+        className="flex flex-col items-center hover:bg-white/5 transition-colors rounded-sm py-1 active:scale-95"
+      >
         <span className="text-white font-black text-lg leading-none">{celeb.content_count || 0}</span>
         <span className="text-[7px] font-bold text-white/30 tracking-widest mt-1 uppercase">Items</span>
-      </div>
+      </Link>
       <div className="relative flex flex-col items-center">
         <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-px h-3 bg-white/10" />
         <span className="text-white font-black text-lg leading-none">{celeb.follower_count || 0}</span>
@@ -320,26 +333,33 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
               {/* 감상 철학 */}
               {celeb.consumption_philosophy && (
-                <div className="flex flex-col p-4 bg-white/[0.02] border border-white/5 rounded-sm max-h-[200px]">
-                  <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2 text-center shrink-0">감상 철학</p>
-                  <div className="flex-1 overflow-y-auto custom-scrollbar">
-                    <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line text-center break-keep px-1">
-                      {celeb.consumption_philosophy}
-                    </p>
-                  </div>
+                <div className="flex flex-col p-4 bg-white/[0.02] border border-white/5 rounded-sm">
+                  <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2 shrink-0">감상 철학</p>
+                  <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line break-keep">
+                    {celeb.consumption_philosophy}
+                  </p>
                 </div>
               )}
 
               {/* 하단 액션: 팔로우와 입장을 동시에 제공 */}
               <div className="flex gap-2.5 pt-2 shrink-0 mt-auto">
-                <FollowButton className="flex-1 py-4 rounded-2xl text-[11px] tracking-widest" />
+                <FollowButton className="flex-1 py-4 rounded-2xl text-[11px]" />
                 
                 <Link
                   href={`/${celeb.id}`}
-                  className="flex-1 flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-text-primary py-4 rounded-2xl text-[11px] font-black tracking-widest uppercase transition-all active:scale-95"
+                  className="
+                    flex-1 flex items-center justify-center gap-2
+                    bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200
+                    border-2 border-amber-400/40
+                    text-stone-900 py-4 rounded-2xl text-[11px] font-black
+                    shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]
+                    active:shadow-[0_0_30px_rgba(251,191,36,0.4)]
+                    active:border-amber-400/60 active:scale-95
+                    transition-all duration-300
+                  "
                 >
-                  <ExternalLink size={14} className="text-accent" />
-                  ENTERING
+                  <ExternalLink size={16} strokeWidth={3} />
+                  <span>입장하기</span>
                 </Link>
               </div>
             </div>

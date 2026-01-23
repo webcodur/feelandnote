@@ -6,6 +6,7 @@ import type { ContentType, ContentStatus, VisibilityType } from '@/types/databas
 interface GetUserContentsParams {
   userId: string
   type?: ContentType
+  status?: ContentStatus
   page?: number
   limit?: number
 }
@@ -40,7 +41,7 @@ export interface GetUserContentsResponse {
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20 } = params
+  const { userId, type, status, page = 1, limit = 20 } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
@@ -73,6 +74,10 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
 
   if (type) {
     query = query.eq('content.type', type)
+  }
+
+  if (status) {
+    query = query.eq('status', status)
   }
 
   query = query.range(offset, offset + limit - 1)
@@ -121,7 +126,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     },
     public_record: (item.rating || item.review) ? {
       rating: item.rating,
-      content_preview: item.review?.slice(0, 100) || null,
+      content_preview: item.review || null,
     } : null,
   }))
 

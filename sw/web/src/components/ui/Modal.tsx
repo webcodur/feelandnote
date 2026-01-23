@@ -43,7 +43,7 @@ export default function Modal({
   icon: Icon,
   size = "md",
   showCloseButton = true,
-  closeOnOverlayClick = false,
+  closeOnOverlayClick = true,
 }: ModalProps) {
   const { playSound } = useSoundOptional();
   const wasOpen = useRef(false);
@@ -101,18 +101,21 @@ export default function Modal({
                 <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
               </div>
             )}
-            {/* 닫기 버튼 (우측 고정) */}
-            {showCloseButton && (
-              <Button
-                unstyled
-                onClick={onClose}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-text-tertiary hover:text-text-primary hover:bg-white/5"
-              >
-                <X size={18} />
-              </Button>
-            )}
+            {/* 기존 헤더용 닫기 버튼은 제거하거나 유지 (여기서는 사용자 요청에 따라 우상단 고정 버튼을 추가하므로 기존 것은 제거하거나 위치 조정 가능) */}
+            {/* 사용자 요청: "모달에서 겹치더라도 우상단에 x 버튼 한번 더 제공" */}
           </div>
         )}
+
+        {/* 우상단 플로팅 닫기 버튼 (항상 제공) */}
+        {showCloseButton && (
+          <button
+            onClick={onClose}
+            className="absolute right-2 top-2 z-[70] w-8 h-8 rounded-full flex items-center justify-center text-text-tertiary hover:text-text-primary hover:bg-white/10 transition-colors bg-bg-card/50 backdrop-blur-sm sm:right-4 sm:top-4"
+          >
+            <X size={20} />
+          </button>
+        )}
+
         {/* 본문 */}
         <AnimatedHeight>{children}</AnimatedHeight>
       </ClassicalBox>

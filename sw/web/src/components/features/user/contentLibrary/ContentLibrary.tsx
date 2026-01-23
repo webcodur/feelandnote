@@ -78,8 +78,6 @@ export default function ContentLibrary({
                 activeTab={lib.activeTab}
                 onTabChange={lib.setActiveTab}
                 typeCounts={lib.typeCounts}
-                statusFilter={lib.statusFilter}
-                onStatusFilterChange={lib.setStatusFilter}
                 sortOption={lib.sortOption}
                 onSortOptionChange={lib.setSortOption}
                 isAllCollapsed={lib.isAllCollapsed}
