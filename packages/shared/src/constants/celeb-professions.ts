@@ -29,7 +29,9 @@ export const CELEB_PROFESSION_FILTERS = [
 // 유틸 함수
 export const getCelebProfessionLabel = (value: string | null | undefined): string => {
   if (!value) return '미분류'
-  const profession = CELEB_PROFESSIONS.find((p) => p.value === value)
+  const normalized = value.toLowerCase()
+  const profession = CELEB_PROFESSIONS.find((p) => p.value.toLowerCase() === normalized)
+  
   return profession?.label ?? value
 }
 

@@ -11,7 +11,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, FileText, Bookmark, Check, Loader2, Sparkles, Calendar, User, MessageSquare, Star, EyeOff } from "lucide-react";
-import { Button, Card, Avatar } from "@/components/ui";
+import { Button, Card, Avatar, FormattedText } from "@/components/ui";
 import { getProfile } from "@/actions/user";
 import { generateSummary } from "@/actions/ai";
 import { addContent } from "@/actions/contents/addContent";
@@ -408,11 +408,11 @@ function ContentDetailContent() {
               <div className="flex items-center gap-1.5 text-xs text-accent mb-2">
                 <Sparkles size={12} /> AI 요약
               </div>
-              <p className="text-sm text-text-primary leading-relaxed">{summary}</p>
+              <p className="text-sm text-text-primary leading-relaxed"><FormattedText text={summary} /></p>
             </div>
           )}
 
-          <p className="text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line">{contentInfo.description}</p>
+          <p className="text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line"><FormattedText text={contentInfo.description} /></p>
         </Card>
       )}
 
@@ -470,7 +470,7 @@ function ContentDetailContent() {
                   </button>
                 ) : (
                   <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line line-clamp-4">
-                    {review.review}
+                    <FormattedText text={review.review} />
                   </p>
                 )}
               </div>

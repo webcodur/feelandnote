@@ -8,12 +8,13 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
 import CelebInfluenceModal from "../CelebInfluenceModal";
 import InfluenceBadge from "@/components/ui/InfluenceBadge";
+import { FormattedText } from "@/components/ui";
 
 // #region Constants
 const RANK_GRADIENTS = {
@@ -22,14 +23,6 @@ const RANK_GRADIENTS = {
   B: "from-amber-600 via-orange-700 to-amber-800",
   C: "from-slate-400 via-slate-500 to-slate-600",
   D: "from-slate-500 via-slate-600 to-slate-700",
-} as const;
-
-const RANK_LABELS = {
-  S: "Diamond",
-  A: "Gold",
-  B: "Silver",
-  C: "Bronze",
-  D: "Iron",
 } as const;
 // #endregion
 
@@ -72,7 +65,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       onClick={handleFollowClick}
       disabled={isLoading}
       className={`
-        flex items-center justify-center gap-2 font-black text-sm transition-all active:scale-95
+        flex items-center justify-center gap-1.5 font-bold text-xs md:text-sm transition-all active:scale-95
         ${isFollowing
           ? "bg-black/40 backdrop-blur-md text-accent border border-accent/40 shadow-inner"
           : "bg-accent text-black border border-accent shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
@@ -82,10 +75,14 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       `}
     >
       {isFollowing ? (
-        <><Check size={16} strokeWidth={3} /> <span>팔로잉</span></>
+        <Check size={14} strokeWidth={3} />
       ) : (
-        <><UserPlus size={16} strokeWidth={3} /> <span>팔로우</span></>
+        <UserPlus size={14} strokeWidth={3} />
       )}
+      <span>{isFollowing ? "팔로잉" : "팔로우"}</span>
+      <span className="ml-1 font-extrabold">
+        {celeb.follower_count || 0}
+      </span>
     </button>
   );
 
@@ -93,24 +90,25 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     <Link
       href={`/${celeb.id}`}
       className={`
-        flex items-center justify-center gap-2
-        bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200
-        border-2 border-amber-400/40
-        text-stone-900 font-black text-sm
-        shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]
-        hover:shadow-[0_0_30px_rgba(251,191,36,0.3)]
-        hover:border-amber-400/60 hover:scale-[1.02]
+        flex items-center justify-center gap-1.5
+        border border-accent/30 hover:border-accent/60
+        text-accent font-bold text-xs md:text-sm
+        hover:bg-accent/5
+        hover:shadow-[0_0_20px_rgba(212,175,55,0.1)]
+        active:scale-[0.98]
         transition-all duration-300
+        backdrop-blur-sm
         ${className}
       `}
     >
-      <ExternalLink size={16} strokeWidth={3} />
-      <span>프로필 보기</span>
+      <ExternalLink size={14} strokeWidth={2} />
+      <span>기록</span>
+      <span className="ml-0.5 font-extrabold opacity-90">{celeb.content_count || 0}</span>
     </Link>
   );
 
   const MetaInfo = () => (
-    <div className="flex flex-wrap gap-3 text-xs text-text-tertiary">
+    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm text-text-tertiary justify-center md:justify-start">
       {celeb.profession && (
         <span className="flex items-center gap-1">
           <Briefcase size={12} />
@@ -132,23 +130,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       )}
     </div>
   );
-
-  const Stats = () => (
-    <div className="w-full grid grid-cols-2 gap-4 py-2 border-y border-white/10 bg-white/[0.02] my-3">
-      <Link
-        href={`/${celeb.id}/records`}
-        className="flex flex-col items-center hover:bg-white/5 transition-colors rounded-sm py-1 active:scale-95"
-      >
-        <span className="text-white font-black text-lg leading-none">{celeb.content_count || 0}</span>
-        <span className="text-[7px] font-bold text-white/30 tracking-widest mt-1 uppercase">Items</span>
-      </Link>
-      <div className="relative flex flex-col items-center">
-        <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-px h-3 bg-white/10" />
-        <span className="text-white font-black text-lg leading-none">{celeb.follower_count || 0}</span>
-        <span className="text-[7px] font-bold text-white/30 tracking-widest mt-1 uppercase">Followers</span>
-      </div>
-    </div>
-  );
   // #endregion
 
   const modalContent = (
@@ -158,9 +139,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     >
       {/* PC 레이아웃: 중앙 모달, 좌우 분할 */}
       <div className="hidden md:flex items-center justify-center h-full p-6">
-        <div className="relative w-full max-w-[720px] animate-modal-content">
+        <div className="relative w-full max-w-[840px] animate-modal-content shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]">
           {/* 그라데이션 테두리 */}
-          <div className={`absolute -inset-[4px] bg-gradient-to-br ${borderGradient} opacity-90`} />
+          <div className={`absolute -inset-[1px] bg-gradient-to-br ${borderGradient} opacity-90 rounded-sm`} />
 
           {/* 닫기 버튼 */}
           <button
@@ -170,10 +151,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             <X size={16} />
           </button>
 
-          {/* 내부: 좌우 분할 - 고정 높이 */}
-          <div className="relative bg-bg-main flex h-[560px]">
+          {/* 내부: 좌우 분할 - 고정 높이 복구, Bio는 다 보여주고 철학은 스크롤 */}
+          <div className="relative bg-bg-main flex h-[720px]">
             {/* 왼쪽: 초상화 */}
-            <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait">
+            <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
               {portraitImage ? (
                 <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
               ) : (
@@ -182,8 +163,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               )}
               
-              {/* 랭크 휘장 (Top-Left): PC 레이아웃용 프리미엄 휘장 */}
-              <div className="absolute top-6 left-6 z-30">
+              {/* 랭크 휘장 (Top-Left): 모서리 밀착 */}
+              <div className="absolute top-4 left-4 z-30">
                 <InfluenceBadge 
                   rank={rank}
                   size="lg"
@@ -196,42 +177,53 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               </div>
             </div>
 
-            {/* 오른쪽: 정보 - 높이 제한 */}
-            <div className="flex-1 h-full p-6 flex flex-col overflow-hidden">
-              <div className="mb-4">
+            {/* 오른쪽: 정보 - 높이 제한 해제 */}
+            <div className="flex-1 flex flex-col p-8 items-center text-center">
+              <div className="mb-4 shrink-0 flex flex-col items-center">
                 {celeb.title && (
-                  <p className="text-sm text-accent font-medium mb-1">{celeb.title}</p>
+                  <p className="text-xs text-accent font-bold uppercase tracking-widest mb-1">{celeb.title}</p>
                 )}
-                <h2 className="text-2xl font-bold text-text-primary">{celeb.nickname}</h2>
+                <h2 className="text-4xl font-black font-serif text-text-primary leading-tight break-all">{celeb.nickname}</h2>
               </div>
 
-              <div className="mb-2"><MetaInfo /></div>
-              <div className="px-1"><Stats /></div>
-
-              {celeb.bio && (
-                <p className="text-sm text-text-secondary mb-4 line-clamp-3 leading-relaxed">{celeb.bio}</p>
-              )}
+              <div className="mb-4 shrink-0 w-full flex justify-center"><MetaInfo /></div>
 
               {celeb.quotes && (
-                <blockquote className="text-sm text-text-tertiary italic border-l-2 border-accent/50 pl-3 mb-4">
-                  "{celeb.quotes}"
+                <blockquote className="text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mb-6 leading-relaxed shrink-0 w-full text-center px-4">
+                  "<FormattedText text={celeb.quotes} />"
                 </blockquote>
               )}
 
+              {celeb.bio && (
+                <p className="text-sm text-text-secondary mb-4 leading-relaxed shrink-0 w-full text-left px-1 break-all">
+                  <User size={18} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
+                  <FormattedText text={celeb.bio} />
+                </p>
+              )}
+
+              {/* 인물 정보와 감상 철학 사이 유일한 수평선 */}
+              {(celeb.bio || celeb.quotes) && celeb.consumption_philosophy && (
+                <div className="w-full h-px bg-accent/20 my-2 shrink-0" />
+              )}
+
               {celeb.consumption_philosophy && (
-                <div className="flex-1 min-h-0 flex flex-col p-3 bg-white/[0.02] border border-white/5 rounded-sm">
-                  <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2 shrink-0">감상 철학</p>
-                  <div className="flex-1 overflow-y-auto custom-scrollbar">
-                    <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line pr-1">
-                      {celeb.consumption_philosophy}
+                <div className="flex-1 min-h-0 flex flex-col px-1 pt-4 w-full text-left relative group">
+                  {/* 스크롤 영역 */}
+                  <div className="flex-1 overflow-y-auto custom-scrollbar text-left pr-2 relative">
+                    <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line pb-8 break-all">
+                      <Feather size={18} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
+                      <FormattedText text={celeb.consumption_philosophy} />
                     </p>
                   </div>
+                  
+                  {/* 하단 페이드 아웃 효과 */}
+                  <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-bg-main to-transparent pointer-events-none rounded-b-sm" />
                 </div>
               )}
 
-              <div className="mt-4 flex gap-3 shrink-0">
-                <FollowButton className="flex-1 py-3" />
-                <ProfileLink className="flex-1 py-3" />
+              <div className="mt-4 flex gap-3 shrink-0 w-full">
+                <FollowButton className="flex-1 py-3 md:py-3.5 rounded-sm" />
+                <ProfileLink className="flex-1 py-3 md:py-3.5 rounded-sm" />
               </div>
             </div>
           </div>
@@ -299,68 +291,55 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 )}
 
                 {/* 이름: 정갈하고 위엄 있게 중앙 배치 */}
-                <h2 className="text-3xl font-black font-serif text-white leading-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] tracking-tighter text-center break-keep">
+                <h2 className="text-3xl font-black font-serif text-white leading-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] tracking-tighter text-center break-all">
                   {celeb.nickname}
                 </h2>
 
-                {/* 하단: 메타 & 통계 (수평적 균형) - 간격 최소화 */}
-                <div className="mt-3 w-full flex flex-col items-center">
+                {/* 하단: 메타 (Stats 제거) */}
+                <div className="mt-4 w-full flex flex-col items-center">
                   <div className="flex justify-center opacity-70 scale-95 mb-1"><MetaInfo /></div>
-                  <Stats />
                 </div>
               </div>
             </div>
 
             {/* 정보 영역 - 이제 Bio와 Quotes에 집중 */}
-            <div className="px-5 pb-8 pt-0 flex flex-col gap-4">
+            <div className="px-5 pb-8 pt-0 flex flex-col gap-2">
               {/* 인용구 */}
               {celeb.quotes && (
-                <div className="relative px-8 py-2 shrink-0">
-                  <span className="text-accent/20 text-4xl font-serif absolute left-0 top-1/2 -translate-y-1/2 leading-none">"</span>
-                  <blockquote className="text-center text-sm text-accent/90 italic font-medium leading-relaxed">
-                    {celeb.quotes}
-                  </blockquote>
-                  <span className="text-accent/20 text-4xl font-serif absolute right-0 top-1/2 -translate-y-1/2 leading-none">"</span>
-                </div>
+                <blockquote className="text-xs text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mt-4 mb-2 leading-relaxed shrink-0 w-full text-center px-4">
+                  "<FormattedText text={celeb.quotes} />"
+                </blockquote>
               )}
 
               {/* 바이오 */}
               {celeb.bio && (
-                <p className="text-xs text-text-secondary leading-relaxed opacity-90 text-center break-keep border-t border-accent/10 pt-4 shrink-0">
-                  {celeb.bio}
-                </p>
+                <div className="flex flex-col pt-4 pb-2 px-2">
+                  <p className="text-xs text-text-secondary leading-relaxed opacity-90 text-left break-all shrink-0">
+                    <User size={14} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
+                    <FormattedText text={celeb.bio} />
+                  </p>
+                </div>
+              )}
+
+              {/* 인물 정보와 감상 철학 사이 유일한 수평선 */}
+              {(celeb.bio || celeb.quotes) && celeb.consumption_philosophy && (
+                <div className="w-full h-px bg-accent/20 my-2 shrink-0" />
               )}
 
               {/* 감상 철학 */}
               {celeb.consumption_philosophy && (
-                <div className="flex flex-col p-4 bg-white/[0.02] border border-white/5 rounded-sm">
-                  <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2 shrink-0">감상 철학</p>
-                  <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line break-keep">
-                    {celeb.consumption_philosophy}
+                <div className="flex flex-col pt-4 px-2">
+                  <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">
+                    <Feather size={14} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
+                    <FormattedText text={celeb.consumption_philosophy} />
                   </p>
                 </div>
               )}
 
               {/* 하단 액션: 팔로우와 입장을 동시에 제공 */}
               <div className="flex gap-2.5 pt-2 shrink-0 mt-auto">
-                <FollowButton className="flex-1 py-4 rounded-2xl text-[11px]" />
-                
-                <Link
-                  href={`/${celeb.id}`}
-                  className="
-                    flex-1 flex items-center justify-center gap-2
-                    bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200
-                    border-2 border-amber-400/40
-                    text-stone-900 py-4 rounded-2xl text-[11px] font-black
-                    shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]
-                    active:shadow-[0_0_30px_rgba(251,191,36,0.4)]
-                    active:border-amber-400/60 active:scale-95
-                    transition-all duration-300
-                  "
-                >
-                  <ExternalLink size={16} strokeWidth={3} />
-                  <span>입장하기</span>
-                </Link>
+                <FollowButton className="flex-1 py-3 rounded-2xl" />
+                <ProfileLink className="flex-1 py-3 rounded-2xl" />
               </div>
             </div>
           </div>

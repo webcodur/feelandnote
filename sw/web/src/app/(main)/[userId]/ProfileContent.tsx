@@ -8,7 +8,7 @@ import { type GuestbookEntryWithAuthor } from "@/types/database";
 import RecentRecords from "@/components/features/user/profile/RecentRecords";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel } from "@/components/ui";
+import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ProfileBioSection from "./ProfileBioSection";
 import UserBioSection from "./UserBioSection";
 
@@ -49,7 +49,7 @@ export default function ProfileContent({
             </div>
             <div className="max-w-3xl mx-auto">
               <p className="text-sm md:text-base text-stone-300 font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
-                {profile.consumption_philosophy}
+                <FormattedText text={profile.consumption_philosophy} />
               </p>
             </div>
           </ClassicalBox>

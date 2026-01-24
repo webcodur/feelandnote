@@ -7,7 +7,7 @@
 
 import { CertificateCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
-import RecordCard from "./RecordCard";
+import RecordCard from "@/components/ui/cards/RecordCard";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 

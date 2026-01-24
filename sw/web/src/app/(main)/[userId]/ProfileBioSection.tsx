@@ -7,7 +7,7 @@ import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel, InnerBox } from "@/components/ui";
+import { DecorativeLabel, InnerBox, FormattedText } from "@/components/ui";
 
 const formatYear = (year: string | null | undefined) => {
   if (!year) return "";
@@ -195,7 +195,7 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
         </div>
         <div className="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-transparent via-stone-700/20 to-transparent" />
         <p className="relative text-sm md:text-lg text-stone-300 font-serif leading-relaxed text-center group-hover/bio:text-stone-200">
-          {profile.bio?.trim() || <span className="text-stone-700 tracking-widest uppercase text-xs font-cinzel">No Bio Inscribed...</span>}
+          {profile.bio?.trim() ? <FormattedText text={profile.bio} /> : <span className="text-stone-700 tracking-widest uppercase text-xs font-cinzel">No Bio Inscribed...</span>}
         </p>
       </InnerBox>
     </div>
@@ -211,7 +211,7 @@ function QuoteBlock({ quote, isCeleb }: { quote: string; isCeleb: boolean }) {
       <div className="absolute inset-0 bg-gradient-to-r from-accent/[0.03] to-transparent pointer-events-none" />
       <div className="flex items-center gap-4 text-center justify-center">
         <Quote size={14} className="text-accent opacity-30 rotate-180 group-hover/quote:opacity-100 shrink-0" />
-        <p className="text-sm md:text-base text-accent font-serif font-black tracking-tight leading-snug drop-shadow-sm">{quote}</p>
+        <p className="text-sm md:text-base text-accent font-serif font-black tracking-tight leading-snug drop-shadow-sm"><FormattedText text={quote} /></p>
         <Quote size={14} className="text-accent opacity-30 group-hover/quote:opacity-100 shrink-0" />
       </div>
     </div>

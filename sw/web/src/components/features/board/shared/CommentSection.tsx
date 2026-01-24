@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
-import { Button } from '@/components/ui'
+import { Button, FormattedText } from '@/components/ui'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import { createComment, deleteComment } from '@/actions/board/comments'
 import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTabletIcon'
@@ -91,7 +91,7 @@ export default function CommentSection({
                   </span>
                 </div>
                 <p className="text-sm text-text-secondary whitespace-pre-wrap font-serif leading-relaxed">
-                  {comment.content}
+                  <FormattedText text={comment.content} />
                 </p>
               </div>
               {canDelete(comment) && (
