@@ -22,6 +22,7 @@ import BasicProfileJSONModal, { type BasicProfileJSONData } from './BasicProfile
 import InfluenceJSONModal, { type InfluenceJSONData } from './InfluenceJSONModal'
 import BasicProfilePromptModal from './BasicProfilePromptModal'
 import InfluencePromptModal from './InfluencePromptModal'
+import PhilosophyPromptModal from './PhilosophyPromptModal'
 
 // #region Types
 interface CelebFormData {
@@ -152,6 +153,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   // 프로젝트 룰 모달 상태
   const [basicProfilePromptModalOpen, setBasicProfilePromptModalOpen] = useState(false)
   const [influencePromptModalOpen, setInfluencePromptModalOpen] = useState(false)
+  const [philosophyPromptModalOpen, setPhilosophyPromptModalOpen] = useState(false)
 
   // 활성 섹션 상태 (Ctrl+V 대상)
   const [activeSection, setActiveSection] = useState<'basicInfo' | 'influence' | 'philosophy' | null>(null)
@@ -184,75 +186,74 @@ export default function CelebForm({ mode, celeb }: Props) {
 
   // Ctrl+V 이벤트 - 활성 섹션에 클립보드 데이터 입력 (입력 필드 밖에서만 작동)
   useEffect(() => {
-    async function handlePaste(e: KeyboardEvent) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'v' && activeSection) {
-        // 입력 필드(input, textarea, select)에 포커스가 있으면 일반 붙여넣기 허용
-        const target = e.target as HTMLElement
-        const isInputField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT'
-        if (isInputField) {
-          return // 일반 붙여넣기 동작 허용
-        }
+    function handlePaste(e: ClipboardEvent) {
+      if (!activeSection) return
 
-        e.preventDefault()
+      // 입력 필드(input, textarea, select)에 포커스가 있으면 일반 붙여넣기 허용
+      const target = e.target as HTMLElement
+      const isInputField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT'
+      if (isInputField) return
 
-        try {
-          const text = await navigator.clipboard.readText()
+      const text = e.clipboardData?.getData('text')
+      if (!text) return
 
-          if (activeSection === 'philosophy') {
-            // 일반 텍스트 그대로 입력 (JSON 파싱 불필요)
-            setFormData((prev) => ({ ...prev, consumption_philosophy: text }))
-            showToast('success', '감상 철학이 입력되었습니다.')
-          } else if (activeSection === 'basicInfo') {
-            // JSON 파싱 시도
-            const parsed = JSON.parse(text) as Partial<BasicProfileJSONData>
-            setFormData((prev) => ({
-              ...prev,
-              ...(parsed.nickname && { nickname: parsed.nickname }),
-              ...(parsed.profession && { profession: parsed.profession }),
-              ...(parsed.title && { title: parsed.title }),
-              ...(parsed.nationality && { nationality: parsed.nationality }),
-              ...(parsed.birth_date && { birth_date: parsed.birth_date }),
-              ...(parsed.death_date && { death_date: parsed.death_date }),
-              ...(parsed.bio && { bio: parsed.bio }),
-              ...(parsed.quotes && { quotes: parsed.quotes }),
-              ...(parsed.avatar_url && { avatar_url: parsed.avatar_url }),
-              ...(parsed.portrait_url && { portrait_url: parsed.portrait_url }),
-              ...(parsed.is_verified !== undefined && { is_verified: parsed.is_verified }),
-            }))
-            showToast('success', '기본 정보가 입력되었습니다.')
-          } else if (activeSection === 'influence') {
-            // JSON 파싱 시도
-            const parsed = JSON.parse(text) as Partial<InfluenceJSONData>
-            const updated: GeneratedInfluence = {
-              political: parsed.political || influence.political,
-              strategic: parsed.strategic || influence.strategic,
-              tech: parsed.tech || influence.tech,
-              social: parsed.social || influence.social,
-              economic: parsed.economic || influence.economic,
-              cultural: parsed.cultural || influence.cultural,
-              transhistoricity: parsed.transhistoricity || influence.transhistoricity,
-              totalScore: 0,
-              rank: 'D',
-            }
-            const totalScore =
-              updated.political.score +
-              updated.strategic.score +
-              updated.tech.score +
-              updated.social.score +
-              updated.economic.score +
-              updated.cultural.score +
-              updated.transhistoricity.score
-            setInfluence({ ...updated, totalScore, rank: calculateInfluenceRank(totalScore) })
-            showToast('success', '영향력 정보가 입력되었습니다.')
+      e.preventDefault()
+
+      try {
+        if (activeSection === 'philosophy') {
+          // 일반 텍스트 그대로 입력 (JSON 파싱 불필요)
+          setFormData((prev) => ({ ...prev, consumption_philosophy: text }))
+          showToast('success', '감상 철학이 입력되었습니다.')
+        } else if (activeSection === 'basicInfo') {
+          // JSON 파싱 시도
+          const parsed = JSON.parse(text) as Partial<BasicProfileJSONData>
+          setFormData((prev) => ({
+            ...prev,
+            ...(parsed.nickname && { nickname: parsed.nickname }),
+            ...(parsed.profession && { profession: parsed.profession }),
+            ...(parsed.title && { title: parsed.title }),
+            ...(parsed.nationality && { nationality: parsed.nationality }),
+            ...(parsed.birth_date && { birth_date: parsed.birth_date }),
+            ...(parsed.death_date && { death_date: parsed.death_date }),
+            ...(parsed.bio && { bio: parsed.bio }),
+            ...(parsed.quotes && { quotes: parsed.quotes }),
+            ...(parsed.avatar_url && { avatar_url: parsed.avatar_url }),
+            ...(parsed.portrait_url && { portrait_url: parsed.portrait_url }),
+            ...(parsed.is_verified !== undefined && { is_verified: parsed.is_verified }),
+          }))
+          showToast('success', '기본 정보가 입력되었습니다.')
+        } else if (activeSection === 'influence') {
+          // JSON 파싱 시도
+          const parsed = JSON.parse(text) as Partial<InfluenceJSONData>
+          const updated: GeneratedInfluence = {
+            political: parsed.political || influence.political,
+            strategic: parsed.strategic || influence.strategic,
+            tech: parsed.tech || influence.tech,
+            social: parsed.social || influence.social,
+            economic: parsed.economic || influence.economic,
+            cultural: parsed.cultural || influence.cultural,
+            transhistoricity: parsed.transhistoricity || influence.transhistoricity,
+            totalScore: 0,
+            rank: 'D',
           }
-        } catch (err) {
-          showToast('error', 'JSON 형식이 올바르지 않습니다.')
+          const totalScore =
+            updated.political.score +
+            updated.strategic.score +
+            updated.tech.score +
+            updated.social.score +
+            updated.economic.score +
+            updated.cultural.score +
+            updated.transhistoricity.score
+          setInfluence({ ...updated, totalScore, rank: calculateInfluenceRank(totalScore) })
+          showToast('success', '영향력 정보가 입력되었습니다.')
         }
+      } catch (err) {
+        showToast('error', 'JSON 형식이 올바르지 않습니다.')
       }
     }
 
-    window.addEventListener('keydown', handlePaste)
-    return () => window.removeEventListener('keydown', handlePaste)
+    window.addEventListener('paste', handlePaste)
+    return () => window.removeEventListener('paste', handlePaste)
   }, [activeSection, influence, showToast])
 
   // 뒤로가기 클릭 핸들러
@@ -909,7 +910,21 @@ export default function CelebForm({ mode, celeb }: Props) {
           onClick={() => setActiveSection(activeSection === 'philosophy' ? null : 'philosophy')}
           className={`p-4 cursor-pointer transition-colors ${activeSection === 'philosophy' ? 'bg-accent/5' : 'hover:bg-white/5'}`}
         >
-          <h2 className="text-base font-semibold text-text-primary">감상 철학</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold text-text-primary">감상 철학</h2>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation()
+                setPhilosophyPromptModalOpen(true)
+              }}
+            >
+              <BookOpen className="w-4 h-4" />
+              프로젝트 룰
+            </Button>
+          </div>
         </div>
         <div className="px-4 pb-4 space-y-2">
         <div className="space-y-2">
@@ -976,6 +991,11 @@ export default function CelebForm({ mode, celeb }: Props) {
     <InfluencePromptModal
       isOpen={influencePromptModalOpen}
       onClose={() => setInfluencePromptModalOpen(false)}
+      guessedName={guessedName}
+    />
+    <PhilosophyPromptModal
+      isOpen={philosophyPromptModalOpen}
+      onClose={() => setPhilosophyPromptModalOpen(false)}
       guessedName={guessedName}
     />
     </>

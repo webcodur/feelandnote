@@ -24,6 +24,21 @@ const getContentTypeInfo = (type: ContentType) => {
   };
 };
 
+// 쌍따옴표 부분 파싱 (인용문 강조)
+function parseQuotedText(text: string): React.ReactNode[] {
+  const parts = text.split(/(".*?")/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('"') && part.endsWith('"')) {
+      return (
+        <span key={i} className="text-accent/80">
+          {part}
+        </span>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 // #region Types
 interface ReviewCardProps {
   // 사용자 정보
@@ -257,7 +272,7 @@ export default function ReviewCard({
               )}
               <div style={scrollStyle}>
                 <p className="text-base md:text-lg text-[#e0e0e0] font-normal leading-[1.7] font-sans antialiased">
-                  {review}
+                  {parseQuotedText(review)}
                 </p>
                 {sourceUrl && (
                   <a

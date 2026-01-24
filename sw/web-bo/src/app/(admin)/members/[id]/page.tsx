@@ -17,6 +17,7 @@ import MemberActions from '../components/MemberActions'
 import ProfileTypeSwitch from '../components/ProfileTypeSwitch'
 import CelebForm from '../components/CelebForm'
 import NationalityBadge from '../components/NationalityBadge'
+import ProjectRulesButton from '../components/ProjectRulesButton'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -46,6 +47,11 @@ export default async function MemberDetailPage({ params }: PageProps) {
 
       {/* Profile Card */}
       <div className="bg-bg-card border border-border rounded-lg p-6">
+        {isCeleb && (
+          <div className="flex justify-end mb-4">
+            <ProjectRulesButton celebName={member.nickname || undefined} />
+          </div>
+        )}
         <div className="flex items-start gap-6">
           {/* 프로필 이미지 - 셀럽은 중형(portrait_url), 일반 유저는 소형(avatar_url) */}
           <div className={`relative flex items-center justify-center overflow-hidden shrink-0 ${isCeleb ? 'w-32 h-32 rounded-xl bg-yellow-500/20' : 'w-24 h-24 rounded-full bg-accent/20'}`}>

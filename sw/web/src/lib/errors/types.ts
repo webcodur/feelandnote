@@ -1,7 +1,11 @@
+// #region ActionFailure 타입
+export type ActionFailure = { success: false; error: ErrorCode; message: string }
+// #endregion
+
 // #region ActionResult 타입
 export type ActionResult<T = null> =
   | { success: true; data: T }
-  | { success: false; error: ErrorCode; message: string }
+  | ActionFailure
 // #endregion
 
 // #region ErrorCode 타입

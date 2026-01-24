@@ -17,7 +17,9 @@ export async function getFeedback(id: string) {
     .single()
 
   if (error) {
-    console.error('[피드백 상세] Error:', error)
+    if (error.code !== 'PGRST116') {
+      console.error('[피드백 상세] Error:', error)
+    }
     return null
   }
 

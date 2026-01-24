@@ -1,5 +1,5 @@
 import type { PostgrestError } from '@supabase/supabase-js'
-import type { ActionResult, ErrorCode, SupabaseErrorCode } from './types'
+import type { ActionResult, ActionFailure, ErrorCode, SupabaseErrorCode } from './types'
 import { ERROR_MESSAGES, SUPABASE_ERROR_MAP, CONTEXT_MESSAGES } from './codes'
 
 type ErrorContext = keyof typeof CONTEXT_MESSAGES
@@ -14,7 +14,7 @@ interface HandleErrorOptions {
 export function handleSupabaseError(
   error: PostgrestError,
   options: HandleErrorOptions = {}
-): ActionResult<never> {
+): ActionFailure {
   const { context, fallbackCode = 'DB_ERROR', logPrefix } = options
 
   // 콘솔 로깅
@@ -47,7 +47,7 @@ export function success<T>(data: T): ActionResult<T> {
 export function failure(
   code: ErrorCode,
   customMessage?: string
-): ActionResult<never> {
+): ActionFailure {
   return {
     success: false,
     error: code,
@@ -57,7 +57,7 @@ export function failure(
 // #endregion
 
 // #region 인증 체크 헬퍼
-export function requireAuth(user: unknown): ActionResult<never> | null {
+export function requireAuth(user: unknown): ActionFailure | null {
   if (!user) {
     return failure('UNAUTHORIZED')
   }

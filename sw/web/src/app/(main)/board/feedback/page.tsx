@@ -6,16 +6,30 @@ export const metadata = {
   title: '피드백',
 }
 
-export default async function FeedbackPage() {
+const ITEMS_PER_PAGE = 10
+
+interface FeedbackPageProps {
+  searchParams: Promise<{ page?: string }>
+}
+
+export default async function FeedbackPage({ searchParams }: FeedbackPageProps) {
+  const { page } = await searchParams
+  const currentPage = Math.max(1, parseInt(page || '1', 10))
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { feedbacks, total } = await getFeedbacks()
+  const { feedbacks, total } = await getFeedbacks({ limit: ITEMS_PER_PAGE, offset })
+
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
 
   return (
     <FeedbackList
-      initialFeedbacks={feedbacks}
-      initialTotal={total}
+      feedbacks={feedbacks}
+      total={total}
+      currentPage={currentPage}
+      totalPages={totalPages}
       isLoggedIn={!!user}
     />
   )

@@ -19,7 +19,9 @@ export async function getNotice(id: string) {
     .single()
 
   if (error) {
-    console.error('[공지사항 상세] Error:', error)
+    if (error.code !== 'PGRST116') {
+      console.error('[공지사항 상세] Error:', error)
+    }
     return null
   }
 

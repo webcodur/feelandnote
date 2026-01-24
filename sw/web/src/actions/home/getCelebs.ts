@@ -55,40 +55,14 @@ export async function getCelebs(
   // 현재 로그인 유저 확인
   const { data: { user } } = await supabase.auth.getUser()
 
-  // 전체 개수 조회 (contentType 필터가 있으면 RPC 사용)
-  let total = 0
-
-  // search나 contentType 필터가 있으면 RPC count 함수 사용
-  if ((contentType && contentType !== 'all') || search) {
-    const { data: countData } = await supabase.rpc('count_celebs_filtered', {
-      p_profession: profession ?? null,
-      p_nationality: nationality ?? null,
-      p_content_type: contentType ?? null,
-      p_search: search ?? null,
-    })
-    total = countData ?? 0
-  } else {
-    let countQuery = supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
-
-    if (profession && profession !== 'all') {
-      countQuery = countQuery.eq('profession', profession)
-    }
-
-    if (nationality && nationality !== 'all') {
-      if (nationality === 'none') {
-        countQuery = countQuery.is('nationality', null)
-      } else {
-        countQuery = countQuery.eq('nationality', nationality)
-      }
-    }
-
-    const { count } = await countQuery
-    total = count ?? 0
-  }
+  // 전체 개수 조회 (RPC 사용 - 컨텐츠 보유 셀럽만 카운트)
+  const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+    p_profession: profession ?? null,
+    p_nationality: nationality ?? null,
+    p_content_type: contentType ?? null,
+    p_search: search ?? null,
+  })
+  const total = countData ?? 0
 
   const totalPages = Math.ceil(total / limit)
 

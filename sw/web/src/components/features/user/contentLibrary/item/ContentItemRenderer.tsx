@@ -48,7 +48,7 @@ export default function ContentItemRenderer({
     <div className="space-y-4">
       {/* 일반 콘텐츠: 그리드 레이아웃 */}
       {regularContents.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4">
           {regularContents.map((item) => (
             <RecordCard
               key={item.id}
@@ -61,6 +61,7 @@ export default function ContentItemRenderer({
               rating={item.rating}
               review={item.review}
               isSpoiler={item.is_spoiler ?? undefined}
+              sourceUrl={item.source_url}
               href={getHref(item)}
               showStatusBadge={false}
               ownerNickname={ownerNickname}

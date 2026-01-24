@@ -368,3 +368,20 @@ export interface FeedbackWithAuthor extends Feedback {
 export interface FeedbackWithDetails extends FeedbackWithAuthor {
   resolver: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
 }
+
+// ===== Board: Comments =====
+export type BoardType = 'NOTICE' | 'FEEDBACK'
+
+export interface BoardComment {
+  id: string
+  board_type: BoardType
+  post_id: string
+  author_id: string
+  content: string
+  created_at: string
+  updated_at: string
+}
+
+export interface BoardCommentWithAuthor extends BoardComment {
+  author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+}
