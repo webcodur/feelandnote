@@ -35,7 +35,7 @@ export const SUPABASE_ERROR_MAP: Partial<Record<SupabaseErrorCode, ErrorCode>> =
 // #endregion
 
 // #region 컨텍스트별 메시지 오버라이드
-type ErrorContext = 'content' | 'follow' | 'guestbook' | 'record' | 'category' | 'playlist' | 'note'
+type ErrorContext = 'content' | 'follow' | 'guestbook' | 'record' | 'category' | 'playlist' | 'note' | 'feedback'
 
 export const CONTEXT_MESSAGES: Record<ErrorContext, Partial<Record<ErrorCode, string>>> = {
   content: {
@@ -65,6 +65,10 @@ export const CONTEXT_MESSAGES: Record<ErrorContext, Partial<Record<ErrorCode, st
   },
   note: {
     NOT_FOUND: '노트를 찾을 수 없다.',
+  },
+  feedback: {
+    NOT_FOUND: '피드백을 찾을 수 없다.',
+    FORBIDDEN: '권한이 없다.',
   },
 }
 // #endregion

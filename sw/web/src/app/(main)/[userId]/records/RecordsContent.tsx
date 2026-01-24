@@ -10,9 +10,10 @@ import { Z_INDEX } from "@/constants/zIndex";
 interface RecordsContentProps {
   userId: string;
   isOwner: boolean;
+  nickname?: string;
 }
 
-export default function RecordsContent({ userId, isOwner }: RecordsContentProps) {
+export default function RecordsContent({ userId, isOwner, nickname }: RecordsContentProps) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -26,6 +27,7 @@ export default function RecordsContent({ userId, isOwner }: RecordsContentProps)
         targetUserId={userId}
         emptyMessage={isOwner ? "아직 기록한 콘텐츠가 없습니다." : "공개된 기록이 없습니다."}
         showPagination={true}
+        ownerNickname={nickname}
       />
 
       {isOwner && (

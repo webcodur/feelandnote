@@ -19,6 +19,7 @@ interface ContentItemRendererProps {
   // 읽기 전용 모드 (타인 기록관)
   readOnly?: boolean;
   targetUserId?: string; // viewer 모드에서 타인 ID
+  ownerNickname?: string; // 기록 소유자 닉네임
 }
 // #endregion
 
@@ -28,6 +29,7 @@ export default function ContentItemRenderer({
   onDelete,
   readOnly = false,
   targetUserId,
+  ownerNickname,
 }: ContentItemRendererProps) {
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
@@ -61,6 +63,7 @@ export default function ContentItemRenderer({
               isSpoiler={item.is_spoiler ?? undefined}
               href={getHref(item)}
               showStatusBadge={false}
+              ownerNickname={ownerNickname}
             />
           ))}
         </div>

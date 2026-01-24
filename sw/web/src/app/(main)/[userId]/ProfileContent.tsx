@@ -65,7 +65,7 @@ export default function ProfileContent({
               href={`/${userId}/records`}
               className="absolute right-4 md:right-8 top-4 md:top-8 text-[9px] sm:text-[10px] md:text-sm font-serif text-accent hover:text-white flex items-center gap-1 md:gap-2 group font-black bg-accent/10 px-2.5 sm:px-3 md:px-4 py-1.5 md:py-2 rounded-sm border border-accent/20 hover:bg-accent shadow-sm whitespace-nowrap transition-colors"
             >
-              기록 전당
+              기록 보기
               <ChevronRight size={12} className="md:size-[18px] group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

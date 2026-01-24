@@ -13,7 +13,7 @@ import {
   ListMusic,
   Compass,
   Megaphone,
-  MessageSquare,
+  MessageSquarePlus,
   LucideIcon,
 } from "lucide-react";
 
@@ -49,7 +49,7 @@ export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps)
       title: "게시판",
       items: [
         { href: "/board/notice", label: "공지사항", icon: Megaphone },
-        { href: "/board/free", label: "자유게시판", icon: MessageSquare },
+        { href: "/board/feedback", label: "피드백", icon: MessageSquarePlus },
       ],
     },
   ];

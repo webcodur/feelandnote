@@ -19,6 +19,11 @@ export default async function InterestsPage({ params }: PageProps) {
     notFound();
   }
 
+  // 셀럽은 관심 페이지 미제공
+  if (result.data.profile_type === 'CELEB') {
+    notFound();
+  }
+
   const isOwner = currentUser?.id === userId;
 
   return <InterestsContent userId={userId} isOwner={isOwner} />;

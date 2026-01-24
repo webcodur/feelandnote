@@ -326,3 +326,45 @@ export interface ActivityLog {
 export interface ActivityLogWithContent extends ActivityLog {
   content: Pick<Content, 'id' | 'title' | 'thumbnail_url' | 'type'> | null
 }
+
+// ===== Board: Notices =====
+export interface Notice {
+  id: string
+  author_id: string
+  title: string
+  content: string
+  is_pinned: boolean
+  view_count: number
+  created_at: string
+  updated_at: string
+}
+
+export interface NoticeWithAuthor extends Notice {
+  author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+}
+
+// ===== Board: Feedbacks =====
+export type FeedbackCategory = 'CELEB_REQUEST' | 'CONTENT_REPORT' | 'FEATURE_SUGGESTION'
+export type FeedbackStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED'
+
+export interface Feedback {
+  id: string
+  author_id: string
+  category: FeedbackCategory
+  title: string
+  content: string
+  status: FeedbackStatus
+  admin_comment: string | null
+  resolved_by: string | null
+  resolved_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface FeedbackWithAuthor extends Feedback {
+  author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+}
+
+export interface FeedbackWithDetails extends FeedbackWithAuthor {
+  resolver: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
+}

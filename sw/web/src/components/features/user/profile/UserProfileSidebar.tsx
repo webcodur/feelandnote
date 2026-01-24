@@ -36,11 +36,13 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // 공개 탭
+  const isCeleb = profile.profile_type === 'CELEB';
+
+  // 공개 탭 (셀럽은 관심 탭 제외)
   const publicTabs = [
     { label: "계보", href: `/${userId}`, icon: BustIcon, exact: true },
     { label: "기록", href: `/${userId}/records`, icon: PillarIcon, exact: false },
-    { label: "관심", href: `/${userId}/interests`, icon: AstrolabeIcon, exact: false },
+    ...(!isCeleb ? [{ label: "관심", href: `/${userId}/interests`, icon: AstrolabeIcon, exact: false }] : []),
     { label: "컬렉션", href: `/${userId}/collections`, icon: ScrollIcon, exact: false },
   ];
 

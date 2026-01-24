@@ -1,13 +1,18 @@
-/*
-  파일명: /app/(main)/archive/playlists/page.tsx
-  기능: 재생목록 페이지
-  책임: Playlists 컴포넌트를 렌더링한다.
-*/ // ------------------------------
-
+import { createClient } from "@/lib/supabase/server";
 import Playlists from "@/components/features/user/playlists/Playlists";
 
 export const metadata = { title: "컬렉션" };
 
-export default function Page() {
-  return <Playlists />;
+interface PageProps {
+  params: Promise<{ userId: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const { userId } = await params;
+  const supabase = await createClient();
+  const { data: { user: currentUser } } = await supabase.auth.getUser();
+
+  const isOwner = currentUser?.id === userId;
+
+  return <Playlists userId={userId} isOwner={isOwner} />;
 }

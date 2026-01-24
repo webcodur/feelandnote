@@ -91,18 +91,13 @@ export default function Modal({
         className={`w-full ${SIZE_CLASSES[size]} rounded-lg overflow-hidden animate-modal-content`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 헤더 */}
-        {(title || showCloseButton) && (
+        {/* 헤더 - title이 있을 때만 렌더링 */}
+        {title && (
           <div className="relative flex items-center justify-center px-6 py-3 sm:py-5 border-b border-border">
-            {/* 타이틀 (중앙) */}
-            {title && (
-              <div className="flex items-center gap-2">
-                {Icon && <Icon size={16} className="text-accent sm:size-18" />}
-                <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
-              </div>
-            )}
-            {/* 기존 헤더용 닫기 버튼은 제거하거나 유지 (여기서는 사용자 요청에 따라 우상단 고정 버튼을 추가하므로 기존 것은 제거하거나 위치 조정 가능) */}
-            {/* 사용자 요청: "모달에서 겹치더라도 우상단에 x 버튼 한번 더 제공" */}
+            <div className="flex items-center gap-2">
+              {Icon && <Icon size={16} className="text-accent sm:size-18" />}
+              <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
+            </div>
           </div>
         )}
 

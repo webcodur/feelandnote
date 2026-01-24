@@ -38,6 +38,7 @@ const NAV_ITEMS = [
   { href: "/explore", label: "탐색" },
   { href: "/feed", label: "피드" },
   { href: "/lounge", label: "라운지" },
+  { href: "/board/notice", label: "게시판" },
 ]
 export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();
@@ -140,13 +141,13 @@ export default function Header({ isMobile }: HeaderProps) {
             {isSoundEnabled ? <LyreIcon size={ICON_SIZE} /> : <LyreSilentIcon size={ICON_SIZE} />}
           </Button>
 
-          {/* 로그인 버튼 제거 */}
-
           {/* 알림 (로그인 시에만) */}
           {profile && <HeaderNotifications />}
 
-          {/* 프로필 메뉴 (로그인 시에만) */}
-          {profile && <HeaderProfileMenu profile={profile} />}
+          {/* 프로필 메뉴 (로그인 여부 확인 후 표시) */}
+          {isLoggedIn !== null && (
+            <HeaderProfileMenu profile={profile} isLoggedIn={isLoggedIn} />
+          )}
         </div>
       </div>
     </header>

@@ -1,0 +1,5 @@
+export { getFeedbacks } from './getFeedbacks'
+export { getFeedback } from './getFeedback'
+export { createFeedback } from './createFeedback'
+export { updateFeedback } from './updateFeedback'
+export { deleteFeedback } from './deleteFeedback'

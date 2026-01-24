@@ -26,6 +26,7 @@ export default async function RecordsPage({ params }: PageProps) {
   }
 
   const isOwner = currentUser?.id === userId;
+  const nickname = result.data.nickname ?? undefined;
 
-  return <RecordsContent userId={userId} isOwner={isOwner} />;
+  return <RecordsContent userId={userId} isOwner={isOwner} nickname={nickname} />;
 }

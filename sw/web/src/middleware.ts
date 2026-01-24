@@ -41,7 +41,8 @@ export const config = {
      * - _next/image (이미지 최적화)
      * - favicon.ico
      * - 이미지 파일들
+     * - auth/callback (OAuth 콜백 - PKCE flow 보호)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
+    '/((?!_next/static|_next/image|favicon.ico|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
   ]
 }

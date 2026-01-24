@@ -18,9 +18,10 @@ interface UserProfile {
 
 interface HeaderProfileMenuProps {
   profile: UserProfile | null;
+  isLoggedIn?: boolean;
 }
 
-export default function HeaderProfileMenu({ profile }: HeaderProfileMenuProps) {
+export default function HeaderProfileMenu({ profile, isLoggedIn = true }: HeaderProfileMenuProps) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -43,6 +44,33 @@ export default function HeaderProfileMenu({ profile }: HeaderProfileMenuProps) {
     window.location.href = "/login";
   };
 
+  // 비로그인 상태
+  if (!isLoggedIn) {
+    return (
+      <div className="relative" data-profile-dropdown>
+        <Button unstyled onClick={() => setShowDropdown(!showDropdown)} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
+          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10" />
+        </Button>
+
+        {showDropdown && (
+          <div className="absolute end-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
+            <div className="py-1">
+              <Link
+                href="/login"
+                onClick={() => setShowDropdown(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
+              >
+                <RomanGateIcon size={16} className="text-text-secondary" />
+                로그인
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // 로그인 상태
   return (
     <div className="relative" data-profile-dropdown>
       <Button unstyled onClick={() => setShowDropdown(!showDropdown)} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">

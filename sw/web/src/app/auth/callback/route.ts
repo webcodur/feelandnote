@@ -49,11 +49,16 @@ export async function GET(request: NextRequest) {
 
   // #region OAuth 흐름 (code 파라미터가 있는 경우)
   if (code) {
+    console.log('[OAuth Callback] code received, attempting exchange...')
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (exchangeError) {
-      console.error('Exchange code error:', exchangeError)
-      return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+      console.error('[OAuth Callback] Exchange code error:', {
+        message: exchangeError.message,
+        status: exchangeError.status,
+        code: exchangeError.code,
+      })
+      return NextResponse.redirect(`${origin}/login?error=auth_failed&reason=${encodeURIComponent(exchangeError.message)}`)
     }
 
     if (data.user) {

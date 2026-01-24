@@ -26,6 +26,7 @@ export default function ContentLibrary({
   emptyMessage = "아직 기록한 콘텐츠가 없습니다",
   mode = "owner",
   targetUserId,
+  ownerNickname,
 }: ContentLibraryProps) {
   const lib = useContentLibrary({ maxItems, compact, mode, targetUserId });
   const isViewer = lib.isViewer;
@@ -40,6 +41,7 @@ export default function ContentLibrary({
       onDelete={lib.handleDelete}
       readOnly={isViewer}
       targetUserId={targetUserId}
+      ownerNickname={ownerNickname}
     />
   );
 

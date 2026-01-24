@@ -23,7 +23,12 @@ const TABS = [
   { id: "saved" as const, label: "저장됨" },
 ];
 
-export default function Playlists() {
+interface PlaylistsProps {
+  userId: string;
+  isOwner: boolean;
+}
+
+export default function Playlists({ userId, isOwner }: PlaylistsProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>("mine");
   const [playlists, setPlaylists] = useState<PlaylistSummary[]>([]);
@@ -34,12 +39,12 @@ export default function Playlists() {
   const loadPlaylists = async () => {
     setIsLoading(true);
     try {
-      if (activeTab === "mine") {
-        const data = await getPlaylists();
-        setPlaylists(data);
-      } else {
+      if (isOwner && activeTab === "saved") {
         const data = await getSavedPlaylists();
         setSavedPlaylists(data);
+      } else {
+        const data = await getPlaylists(userId);
+        setPlaylists(data);
       }
     } catch (error) {
       console.error("재생목록 로드 실패:", error);
@@ -50,7 +55,7 @@ export default function Playlists() {
 
   useEffect(() => {
     loadPlaylists();
-  }, [activeTab]);
+  }, [activeTab, userId]);
 
   const handleSelectPlaylist = (userId: string, playlistId: string) => {
     router.push(`/${userId}/collections/${playlistId}`);
@@ -72,6 +77,37 @@ export default function Playlists() {
   const currentList = activeTab === "mine" ? playlists : savedPlaylists;
   const isEmpty = currentList.length === 0;
 
+  // 타인 컬렉션 페이지
+  if (!isOwner) {
+    return (
+      <>
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 size={28} className="animate-spin text-accent" />
+          </div>
+        ) : isEmpty ? (
+          <EmptyState variant="other" />
+        ) : (
+          <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+            <div className="flex justify-center mb-6">
+              <DecorativeLabel label="컬렉션" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {playlists.map((playlist) => (
+                <PlaylistCard
+                  key={playlist.id}
+                  playlist={playlist}
+                  onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
+                />
+              ))}
+            </div>
+          </ClassicalBox>
+        )}
+      </>
+    );
+  }
+
+  // 본인 컬렉션 페이지
   return (
     <>
       <div className="flex gap-2 p-1 bg-bg-card border border-accent-dim/20 rounded-sm mb-8 w-fit mx-auto sm:mx-0">
@@ -96,7 +132,7 @@ export default function Playlists() {
           <Loader2 size={28} className="animate-spin text-accent" />
         </div>
       ) : isEmpty ? (
-        <EmptyState tab={activeTab} onCreateClick={() => setIsCreateMode(true)} />
+        <EmptyState variant={activeTab} onCreateClick={() => setIsCreateMode(true)} />
       ) : activeTab === "mine" ? (
         <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
           <div className="flex justify-center mb-6">
@@ -133,35 +169,53 @@ export default function Playlists() {
 }
 
 // region 하위 컴포넌트
-function EmptyState({ tab, onCreateClick }: { tab: TabType; onCreateClick: () => void }) {
+type EmptyVariant = "mine" | "saved" | "other";
+
+const EMPTY_CONTENT: Record<EmptyVariant, { icon: typeof ListMusic; title: string; description: string }> = {
+  mine: {
+    icon: ListMusic,
+    title: "아직 컬렉션이 없습니다",
+    description: "나만의 컬렉션을 만들어 좋아하는 콘텐츠를 모아보세요.",
+  },
+  saved: {
+    icon: Bookmark,
+    title: "저장된 컬렉션이 없습니다",
+    description: "다른 사용자의 컬렉션을 저장하면 여기에 표시됩니다.",
+  },
+  other: {
+    icon: ListMusic,
+    title: "공개된 컬렉션이 없습니다",
+    description: "이 사용자가 공개한 컬렉션이 아직 없습니다.",
+  },
+};
+
+function EmptyState({ variant, onCreateClick }: { variant: EmptyVariant; onCreateClick?: () => void }) {
+  const { icon: Icon, title, description } = EMPTY_CONTENT[variant];
+
   return (
     <div className="relative overflow-hidden bg-bg-card border-2 border-dashed border-accent-dim/20 p-12 sm:p-20 text-center">
-      {/* Background Ornament for Empty State */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
-      
+
       <div className="relative z-10">
         <div className="text-accent/30 mb-6 flex justify-center">
-          {tab === "mine" ? <ListMusic size={64} strokeWidth={1} /> : <Bookmark size={64} strokeWidth={1} />}
+          <Icon size={64} strokeWidth={1} />
         </div>
-        <h3 className="text-xl sm:text-2xl font-serif font-black text-text-primary mb-3 uppercase tracking-widest">
-          {tab === "mine" ? "The Archive is Silent" : "No Legacies Found"}
+        <h3 className="text-xl sm:text-2xl font-serif font-black text-text-primary mb-3 tracking-widest">
+          {title}
         </h3>
-        <p className="text-xs sm:text-sm text-text-tertiary mb-8 font-serif italic max-w-sm mx-auto leading-relaxed">
-          {tab === "mine"
-            ? "Your personal collection has not yet been inscribed. Begin your legacy by gathering your first items."
-            : "No sacred scrolls from other seekers have been archived here yet."}
+        <p className="text-xs sm:text-sm text-text-tertiary mb-8 font-serif max-w-sm mx-auto leading-relaxed">
+          {description}
         </p>
-        {tab === "mine" && (
-          <Button 
-            onClick={onCreateClick} 
-            className="group relative px-8 py-3 bg-accent text-bg-main font-serif font-black uppercase tracking-[0.2em] text-xs hover:bg-accent-hover transition-all duration-500 overflow-hidden"
+        {variant === "mine" && onCreateClick && (
+          <Button
+            onClick={onCreateClick}
+            className="group relative px-8 py-3 bg-accent text-bg-main font-serif font-black tracking-widest text-xs hover:bg-accent-hover transition-all duration-500 overflow-hidden"
           >
-            {/* Button Glint */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-            
+
             <div className="relative z-10 flex items-center gap-3">
               <Plus size={16} strokeWidth={3} />
-              Inscribe New Collection
+              새 컬렉션 만들기
             </div>
           </Button>
         )}
@@ -191,8 +245,8 @@ function PlaylistCard({ playlist, onClick }: { playlist: PlaylistSummary; onClic
             {playlist.name}
           </p>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-[10px] font-serif font-bold text-accent/40 uppercase tracking-widest">
-              Legacy Unit / {playlist.item_count}
+            <span className="text-[10px] font-serif font-bold text-accent/40 tracking-widest">
+              {playlist.item_count}개 항목
             </span>
           </div>
         </div>
@@ -230,8 +284,8 @@ function SavedPlaylistCard({ item, onClick }: { item: SavedPlaylistWithDetails; 
             {playlist.name}
           </p>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-[10px] font-serif font-bold text-accent/40 uppercase tracking-widest truncate">
-              {playlist.owner?.nickname || "Seeker"} · {playlist.item_count} units
+            <span className="text-[10px] font-serif font-bold text-accent/40 tracking-widest truncate">
+              {playlist.owner?.nickname || "익명"} · {playlist.item_count}개 항목
             </span>
           </div>
         </div>
