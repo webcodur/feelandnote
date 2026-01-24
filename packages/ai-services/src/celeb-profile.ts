@@ -11,6 +11,7 @@ export interface CelebProfileInput {
 export interface GeneratedCelebProfile {
   bio: string
   profession: string
+  title?: string
   nationality?: string
   birthDate?: string
   deathDate?: string
@@ -88,6 +89,7 @@ export function buildCelebProfilePrompt(input: CelebProfileInput): string {
   "fullname": "정확한 풀네임 (예: Elon Reeve Musk, 알베르트 아인슈타인)",
   "bio": "인물 소개글 (2줄 분량, 한국어)",
   "profession": "직군 코드",
+  "title": "수식어 (해당 인물을 상징하는 핵심 키워드/호칭)",
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
   "birthDate": "출생연일 (YYYY-MM-DD 형식, 기원전은 -YYYY, 예: 1955-02-24, -356)",
   "deathDate": "사망연일 (생존 시 빈 문자열, 예: 2011-10-05, -323)",
@@ -116,7 +118,8 @@ export function buildCelebProfilePrompt(input: CelebProfileInput): string {
 6. quotes는 50자 이내로 작성, 알려진 것이 없으면 빈 문자열
 7. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체. 인용문 작성 시 JSON 형식이 깨지지 않도록 주의
 
-JSON만 출력:`
+JSON만 출력:`;
+
 }
 // #endregion
 
@@ -184,6 +187,7 @@ function parseProfileResponse(response: string): GeneratedCelebProfile | null {
     return {
       bio: parsed.bio.trim(),
       profession,
+      title: typeof parsed.title === 'string' ? parsed.title.trim() : '',
       nationality: typeof parsed.nationality === 'string' ? parsed.nationality.trim() : '',
       birthDate: typeof parsed.birthDate === 'string' ? parsed.birthDate.trim() : '',
       deathDate: typeof parsed.deathDate === 'string' ? parsed.deathDate.trim() : '',
@@ -241,6 +245,7 @@ function buildProfileWithInfluencePrompt(input: CelebProfileInput): string {
   "fullname": "정확한 풀네임 (예: Elon Reeve Musk, 알베르트 아인슈타인)",
   "bio": "인물 소개글 (2줄 분량, 한국어)",
   "profession": "직군 코드",
+  "title": "수식어 (해당 인물을 상징하는 핵심 키워드/호칭)",
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
   "birthDate": "출생연일 (YYYY-MM-DD 형식, 기원전은 -YYYY, 예: 1955-02-24, -356)",
   "deathDate": "사망연일 (생존 시 빈 문자열, 예: 2011-10-05, -323)",
@@ -330,15 +335,16 @@ leader(지도자), politician(정치인), commander(지휘관), entrepreneur(기
 ## 규칙
 1. fullname은 해당 인물의 정확한 풀네임을 입력. 한국인은 한글로, 외국인은 원어 또는 영문으로 작성
 2. bio는 100자 이내로 작성. 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊은 뒤 주요 업적을 이어간다
-3. 각 영향력 exp는 30자 이내 1문장으로 간결하게
-4. 알려진 정보만 반영, 추측 금지
-5. 전문 분야 외 영역은 반드시 낮은 점수 부여
-6. nationality는 ISO 3166-1 alpha-2 국가 코드. 현대인이 아닌 경우 현재 해당 지역의 국가 코드로 재구성 (예: 알렉산더 대왕 → GR, 공자 → CN). 고대 국가로 특정 불가능한 경우 빈 문자열
-7. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성
-8. quotes는 50자 이내로 작성, 알려진 것이 없으면 빈 문자열
-9. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체. 인용문 작성 시 JSON 형식이 깨지지 않도록 주의
+3. **title(수식어) 작성 가이드**: 실제 호칭/별명, 주요 업적, 직업/직책, 대표작/어록 등을 조합하여 요약
+4. 각 영향력 exp는 30자 이내 1문장으로 간결하게
+5. 알려진 정보만 반영, 추측 금지
+6. 전문 분야 외 영역은 반드시 낮은 점수 부여
+7. nationality는 ISO 3166-1 alpha-2 국가 코드. 현대인이 아닌 경우 현재 해당 지역의 국가 코드로 재구성 (예: 알렉산더 대왕 → GR, 공자 → CN). 고대 국가로 특정 불가능한 경우 빈 문자열
+8. birthDate/deathDate는 정확한 날짜를 알 수 없으면 연도만 작성
+9. quotes는 50자 이내로 작성, 알려진 것이 없으면 빈 문자열
+10. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체. 인용문 작성 시 JSON 형식이 깨지지 않도록 주의
 
-JSON만 출력:`
+JSON만 출력:`;
 }
 
 // 영향력 랭크 계산 (단일 원천)
@@ -406,6 +412,7 @@ function parseProfileWithInfluenceResponse(response: string): GeneratedCelebProf
     return {
       bio: parsed.bio.trim(),
       profession,
+      title: typeof parsed.title === 'string' ? parsed.title.trim() : '',
       nationality: typeof parsed.nationality === 'string' ? parsed.nationality.trim() : '',
       birthDate: typeof parsed.birthDate === 'string' ? parsed.birthDate.trim() : '',
       deathDate: typeof parsed.deathDate === 'string' ? parsed.deathDate.trim() : '',
@@ -550,7 +557,8 @@ export function buildInfluencePrompt(input: CelebProfileInput): string {
 3. 전문 분야 외 영역은 반드시 낮은 점수 부여
 4. **출력 제한**: 문자열 내에서 큰따옴표는 작은따옴표로 대체
 
-JSON만 출력:`
+JSON만 출력:`;
+
 }
 
 function parseInfluenceResponse(response: string): GeneratedInfluence | null {

@@ -11,6 +11,7 @@ import Button from '@/components/ui/Button'
 interface GeneratedProfile {
   bio: string
   profession: string
+  title?: string
   nationality?: string
   birthDate?: string
   deathDate?: string
@@ -18,7 +19,7 @@ interface GeneratedProfile {
   fullname?: string
 }
 
-type ProfileField = 'fullname' | 'profession' | 'nationality' | 'birthDate' | 'deathDate' | 'bio' | 'quotes'
+type ProfileField = 'fullname' | 'profession' | 'title' | 'nationality' | 'birthDate' | 'deathDate' | 'bio' | 'quotes'
 
 interface Props {
   guessedName: string
@@ -30,6 +31,7 @@ interface Props {
 const FIELD_LABELS: Record<ProfileField, string> = {
   fullname: '풀네임',
   profession: '직군',
+  title: '수식어',
   nationality: '국적',
   birthDate: '출생',
   deathDate: '사망',
@@ -37,7 +39,7 @@ const FIELD_LABELS: Record<ProfileField, string> = {
   quotes: '명언',
 }
 
-const FIELD_ORDER: ProfileField[] = ['fullname', 'profession', 'nationality', 'birthDate', 'deathDate', 'bio', 'quotes']
+const FIELD_ORDER: ProfileField[] = ['fullname', 'profession', 'title', 'nationality', 'birthDate', 'deathDate', 'bio', 'quotes']
 // #endregion
 
 export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
@@ -51,6 +53,7 @@ export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
   const [selected, setSelected] = useState<Record<ProfileField, boolean>>({
     fullname: true,
     profession: true,
+    title: true,
     nationality: true,
     birthDate: true,
     deathDate: true,
@@ -75,6 +78,7 @@ export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
       setSelected({
         fullname: !!res.profile!.fullname,
         profession: !!res.profile!.profession,
+        title: !!res.profile!.title,
         nationality: !!res.profile!.nationality,
         birthDate: !!res.profile!.birthDate,
         deathDate: !!res.profile!.deathDate,
@@ -97,6 +101,7 @@ export default function AIBasicProfileSection({ guessedName, onApply }: Props) {
     const fields: Partial<GeneratedProfile> = {}
     if (selected.fullname && result.fullname) fields.fullname = result.fullname
     if (selected.profession && result.profession) fields.profession = result.profession
+    if (selected.title && result.title) fields.title = result.title
     if (selected.nationality && result.nationality) fields.nationality = result.nationality
     if (selected.birthDate && result.birthDate) fields.birthDate = result.birthDate
     if (selected.deathDate && result.deathDate) fields.deathDate = result.deathDate

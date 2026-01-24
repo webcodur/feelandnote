@@ -1,2 +1,5 @@
 export { getNotices } from './getNotices'
 export { getNotice } from './getNotice'
+export { createNotice } from './createNotice'
+export { updateNotice } from './updateNotice'
+export { deleteNotice } from './deleteNotice'

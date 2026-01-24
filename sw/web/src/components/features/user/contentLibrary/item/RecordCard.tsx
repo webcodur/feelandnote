@@ -28,6 +28,7 @@ interface RecordCardProps {
   rating?: number | null;
   review?: string | null;
   isSpoiler?: boolean;
+  sourceUrl?: string | null;
   // 링크
   href: string;
   // UI 옵션
@@ -50,6 +51,21 @@ const STATUS_STYLES: Record<ContentStatus, { label: string; color: string }> = {
   WANT: { label: "관심", color: "text-status-wish" },
   FINISHED: { label: "감상", color: "text-status-completed" },
 };
+
+// 쌍따옴표 부분 파싱 (인용문 강조)
+function parseQuotedText(text: string): React.ReactNode[] {
+  const parts = text.split(/(".*?")/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('"') && part.endsWith('"')) {
+      return (
+        <span key={i} className="text-accent/80">
+          {part}
+        </span>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
 // #endregion
 
 export default function RecordCard({
@@ -62,6 +78,7 @@ export default function RecordCard({
   rating,
   review,
   isSpoiler = false,
+  sourceUrl,
   href,
   showStatusBadge = true,
   ownerNickname,
@@ -176,12 +193,22 @@ export default function RecordCard({
                 {canScroll && scrollY > 0 && (
                   <div className="absolute top-0 inset-x-0 h-3 bg-gradient-to-b from-bg-card to-transparent pointer-events-none z-10" />
                 )}
-                <p
-                  className="text-sm text-text-tertiary leading-relaxed whitespace-pre-line break-words"
-                  style={scrollStyle}
-                >
-                  {review}
-                </p>
+                <div style={scrollStyle}>
+                  <p className="text-sm text-text-tertiary leading-relaxed whitespace-pre-line break-words">
+                    {parseQuotedText(review)}
+                  </p>
+                  {sourceUrl && (
+                    <a
+                      href={sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-block mt-2 text-xs text-accent/60 hover:text-accent underline underline-offset-2 break-all"
+                    >
+                      출처: {sourceUrl}
+                    </a>
+                  )}
+                </div>
                 {canScroll && scrollY < maxScroll && (
                   <div className="absolute bottom-0 inset-x-0 h-3 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
                 )}
@@ -197,40 +224,14 @@ export default function RecordCard({
         </div>
       </div>
 
-      {/* 모바일: 이미지 클릭 시 리뷰 모달 */}
+      {/* 모바일: 포스터 비율 카드 */}
       <div className="sm:hidden">
         <div
           onClick={() => setShowModal(true)}
-          className="bg-bg-card border-2 border-border/30 rounded-lg overflow-hidden h-[400px] flex flex-col cursor-pointer active:border-accent/50"
+          className="bg-bg-card border border-border/30 rounded-lg overflow-hidden cursor-pointer active:border-accent/50"
         >
-          {/* 상단 고정 영역: 제목 + 작가 */}
-          <div className="p-3 border-b border-border/30 bg-bg-secondary/50">
-            <h3 className="text-sm font-semibold text-text-primary line-clamp-2">
-              {title}
-            </h3>
-            {creator && (
-              <p className="text-xs text-text-secondary line-clamp-1 mt-0.5">
-                {creator.replace(/\^/g, ", ")}
-              </p>
-            )}
-            {/* 상태 + 별점 */}
-            <div className="flex items-center gap-2 mt-1.5">
-              {showStatusBadge && (
-                <span className={`text-[10px] font-medium ${statusInfo.color}`}>
-                  {statusInfo.label}
-                </span>
-              )}
-              {rating && (
-                <span className="flex items-center gap-0.5 text-[10px] text-text-secondary">
-                  <Star size={10} className="text-yellow-500 fill-yellow-500" />
-                  {rating.toFixed(1)}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* 이미지 영역 */}
-          <div className="flex-1 overflow-hidden relative bg-bg-secondary">
+          {/* 이미지 영역 - 2:3 비율 */}
+          <div className="aspect-[2/3] overflow-hidden relative bg-bg-secondary">
             {thumbnail ? (
               <Image
                 src={thumbnail}
@@ -243,8 +244,27 @@ export default function RecordCard({
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
-                <ContentIcon size={48} className="text-text-tertiary" />
+                <ContentIcon size={32} className="text-text-tertiary" />
               </div>
+            )}
+            {/* 별점 오버레이 */}
+            {rating && (
+              <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-bg-main/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-text-secondary">
+                <Star size={10} className="text-yellow-500 fill-yellow-500" />
+                {rating.toFixed(1)}
+              </div>
+            )}
+          </div>
+
+          {/* 하단 정보 */}
+          <div className="p-2">
+            <h3 className="text-xs font-medium text-text-primary line-clamp-2 leading-tight">
+              {title}
+            </h3>
+            {creator && (
+              <p className="text-[10px] text-text-secondary line-clamp-1 mt-0.5">
+                {creator.replace(/\^/g, ", ")}
+              </p>
             )}
           </div>
         </div>
@@ -272,9 +292,22 @@ export default function RecordCard({
             {ownerNickname ? `${ownerNickname}의 리뷰` : "리뷰"}
           </h4>
           {review && !isSpoiler ? (
-            <p className="text-sm text-text-primary leading-relaxed whitespace-pre-line break-words max-h-[50vh] overflow-y-auto custom-scrollbar pr-2">
-              {review}
-            </p>
+            <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2">
+              <p className="text-sm text-text-primary leading-relaxed whitespace-pre-line break-words">
+                {parseQuotedText(review)}
+              </p>
+              {sourceUrl && (
+                <a
+                  href={sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-block mt-3 text-xs text-accent/60 hover:text-accent underline underline-offset-2 break-all"
+                >
+                  출처: {sourceUrl}
+                </a>
+              )}
+            </div>
           ) : review && isSpoiler ? (
             <p className="text-sm text-text-tertiary italic">스포일러 포함 리뷰</p>
           ) : (

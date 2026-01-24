@@ -135,6 +135,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           is_spoiler: false, // viewer 모드에서는 스포일러 정보 없음
           is_pinned: false,
           pinned_at: null,
+          source_url: item.source_url,
           content: {
             id: item.content.id,
             type: item.content.type as ContentType,

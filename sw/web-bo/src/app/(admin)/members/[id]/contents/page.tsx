@@ -15,6 +15,7 @@ import Image from 'next/image'
 import ContentList from './ContentList'
 import AddContentForm from './AddContentForm'
 import ExportContentButton from './ExportContentButton'
+import ProjectRulesButton from '../../components/ProjectRulesButton'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
 
 interface PageProps {
@@ -55,6 +56,7 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
             </div>
           </div>
         </div>
+        <ProjectRulesButton celebName={celeb.nickname || undefined} />
       </div>
 
       {/* Stats & Filter */}

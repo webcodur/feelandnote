@@ -16,7 +16,7 @@ import { Button } from "@/components/ui";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import GameHeader from "./GameHeader";
 
-type GameState = "idle" | "loading" | "playing" | "revealing" | "gameover";
+type GameState = "idle" | "loading" | "playing" | "thinking" | "revealing" | "gameover";
 type Difficulty = "easy" | "hard";
 
 export default function HigherLowerGame() {
@@ -31,11 +31,14 @@ export default function HigherLowerGame() {
   const [selectedCelebId, setSelectedCelebId] = useState<string | null>(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
+  // 서스펜스 상태
+  const [userChoice, setUserChoice] = useState<"higher" | "lower" | null>(null);
+  const [dotCount, setDotCount] = useState(0);
+
   // 애니메이션 상태
   const [leftFadeOut, setLeftFadeOut] = useState(false);
   const [showSlider, setShowSlider] = useState(false);
   const [sliderAtLeft, setSliderAtLeft] = useState(false);
-  const [rightFadeIn, setRightFadeIn] = useState(false);
   const [pendingNext, setPendingNext] = useState<CelebProfile | null>(null);
 
   // region: 데이터 로드
@@ -82,22 +85,33 @@ export default function HigherLowerGame() {
   const handleChoice = (choice: "higher" | "lower") => {
     if (!currentCeleb || !nextCeleb || gameState !== "playing") return;
 
-    const currentScore = currentCeleb.influence?.total_score ?? 0;
-    const nextScore = nextCeleb.influence?.total_score ?? 0;
-    const correct =
-      choice === "higher" ? nextScore >= currentScore : nextScore <= currentScore;
+    setUserChoice(choice);
+    setDotCount(1);
+    setGameState("thinking");
 
-    setIsCorrect(correct);
-    setGameState("revealing");
+    // 서스펜스: 1초마다 dot 추가
+    setTimeout(() => setDotCount(2), 1000);
+    setTimeout(() => setDotCount(3), 2000);
 
-    if (correct) {
-      const newStreak = streak + 1;
-      setStreak(newStreak);
-      if (newStreak > highScore) {
-        setHighScore(newStreak);
-        localStorage.setItem("higher-lower-highscore", newStreak.toString());
+    // 3초 후 정답 공개
+    setTimeout(() => {
+      const currentScore = currentCeleb.influence?.total_score ?? 0;
+      const nextScore = nextCeleb.influence?.total_score ?? 0;
+      const correct =
+        choice === "higher" ? nextScore >= currentScore : nextScore <= currentScore;
+
+      setIsCorrect(correct);
+      setGameState("revealing");
+
+      if (correct) {
+        const newStreak = streak + 1;
+        setStreak(newStreak);
+        if (newStreak > highScore) {
+          setHighScore(newStreak);
+          localStorage.setItem("higher-lower-highscore", newStreak.toString());
+        }
       }
-    }
+    }, 3000);
   };
 
   const handleNext = () => {
@@ -115,27 +129,26 @@ export default function HigherLowerGame() {
     setLeftFadeOut(true);
 
     setTimeout(() => {
-      // Phase 2: 우측 → 좌측 슬라이드 (300ms)
+      // Phase 2: 우측 → 좌측 슬라이드 (슬라이더가 이동하면서 신규 카드가 드러남)
       setShowSlider(true);
       requestAnimationFrame(() => setSliderAtLeft(true));
 
       setTimeout(() => {
-        // 데이터 스왑
+        // 데이터 스왑 (슬라이더/신규 카드가 가리고 있는 상태)
         setCurrentCeleb(nextCeleb);
         setNextCeleb(newNext);
-        setShowSlider(false);
-        setSliderAtLeft(false);
         setLeftFadeOut(false);
 
-        // Phase 3: 우측 fadein (300ms)
-        setRightFadeIn(true);
-
-        setTimeout(() => {
-          setRightFadeIn(false);
+        // 다음 프레임에서 슬라이더/신규 카드 제거
+        requestAnimationFrame(() => {
+          setShowSlider(false);
+          setSliderAtLeft(false);
           setPendingNext(null);
+          setUserChoice(null);
+          setDotCount(0);
           setGameState("playing");
           setIsCorrect(null);
-        }, 300);
+        });
       }, 300);
     }, 300);
   };
@@ -207,7 +220,7 @@ export default function HigherLowerGame() {
   const isHardMode = difficulty === "hard";
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       {/* 공통 헤더 */}
       <GameHeader
         difficulty={difficulty}
@@ -220,18 +233,10 @@ export default function HigherLowerGame() {
       <div className="relative grid grid-cols-2 gap-4 mb-6">
         {/* 좌측 카드 */}
         <div
-          className={`flex flex-col gap-3 transition-opacity duration-300 ${
-            leftFadeOut ? "opacity-0" : "opacity-100"
+          className={`flex flex-col gap-3 ${
+            leftFadeOut ? "opacity-0 transition-opacity duration-300" : "opacity-100"
           }`}
         >
-          {/* 카드 상단 라벨 */}
-          <div className="text-center">
-            <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-[10px] font-bold tracking-widest uppercase border border-accent/20 rounded-full">
-              Comparison
-            </span>
-            <p className="text-[10px] text-text-tertiary mt-1 font-medium">비교 대상</p>
-          </div>
-
           <GameCelebCard
             celeb={currentCeleb}
             showScore={false}
@@ -248,20 +253,12 @@ export default function HigherLowerGame() {
           </div>
         </div>
 
-        {/* 우측 카드 */}
+        {/* 우측 카드 - 기본 상태 (슬라이더 없을 때) */}
         <div
-          className={`flex flex-col gap-3 transition-opacity duration-300 ${
-            showSlider || rightFadeIn ? "opacity-0" : "opacity-100"
+          className={`flex flex-col gap-3 ${
+            showSlider ? "opacity-0" : "opacity-100"
           }`}
         >
-          {/* 카드 상단 라벨 */}
-          <div className="text-center">
-            <span className="inline-block px-3 py-1 bg-white/5 text-text-secondary text-[10px] font-bold tracking-widest uppercase border border-white/10 rounded-full">
-              Criteria
-            </span>
-            <p className="text-[10px] text-text-tertiary mt-1 font-medium">판별 기준</p>
-          </div>
-
           <GameCelebCard
             celeb={nextCeleb}
             showScore={false}
@@ -284,20 +281,31 @@ export default function HigherLowerGame() {
           </div>
         </div>
 
-        {/* 슬라이딩 카드 (우측 → 좌측 이동) */}
+        {/* 신규 카드 (우측에 미리 배치 - 슬라이더 아래) */}
+        {showSlider && pendingNext && (
+          <div className="absolute top-0 end-0 w-[calc(50%-0.5rem)]">
+            <div className="flex flex-col gap-3">
+              <GameCelebCard
+                celeb={pendingNext}
+                showScore={false}
+                isLeft={false}
+                hideInfo={isHardMode}
+              />
+              <div className="text-center h-8">
+                <span className="text-2xl font-black text-text-tertiary">???</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 슬라이딩 카드 (우측 → 좌측 이동 - 신규 카드 위) */}
         {showSlider && (
           <div
-            className={`absolute top-0 end-0 w-[calc(50%-0.5rem)] transition-transform duration-300 ${
+            className={`absolute top-0 end-0 w-[calc(50%-0.5rem)] z-10 transition-transform duration-300 ${
               sliderAtLeft ? "-translate-x-[calc(100%+1rem)]" : ""
             }`}
           >
             <div className="flex flex-col gap-3">
-              <div className="text-center">
-                <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-[10px] font-bold tracking-widest uppercase border border-accent/20 rounded-full">
-                  Comparison
-                </span>
-                <p className="text-[10px] text-text-tertiary mt-1 font-medium">비교 대상</p>
-              </div>
               <GameCelebCard
                 celeb={nextCeleb}
                 showScore={false}
@@ -305,7 +313,7 @@ export default function HigherLowerGame() {
                 hideInfo={isHardMode}
               />
               <div className="text-center h-8">
-                 <span className="text-2xl font-black text-accent drop-shadow-sm">
+                <span className="text-2xl font-black text-accent drop-shadow-sm">
                   {nextCeleb.influence?.total_score ?? 0}
                 </span>
               </div>
@@ -322,7 +330,10 @@ export default function HigherLowerGame() {
             isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
-          <p className="text-text-secondary text-sm">오른쪽 셀럽의 영향력이 왼쪽보다...</p>
+          <p className="text-text-secondary text-sm">
+            <span className="text-amber-400 font-medium">{isHardMode ? "오른쪽" : nextCeleb.nickname}</span>이(가){" "}
+            <span className="text-amber-400 font-medium">{isHardMode ? "왼쪽" : currentCeleb.nickname}</span>보다...
+          </p>
           <div className="flex gap-3">
             <Button
               size="lg"
@@ -345,14 +356,41 @@ export default function HigherLowerGame() {
           </div>
         </div>
 
+        {/* thinking 상태 (서스펜스) */}
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center gap-3 ${
+            gameState === "thinking" ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <p className="text-sm text-text-secondary">
+            <span className="text-amber-400 font-medium">{isHardMode ? "오른쪽" : nextCeleb.nickname}</span>이(가){" "}
+            <span className="text-amber-400 font-medium">{isHardMode ? "왼쪽" : currentCeleb.nickname}</span>보다{" "}
+            <span className="font-bold text-white">{userChoice === "higher" ? "높다" : "낮다"}</span>?
+          </p>
+          <div className="text-2xl font-bold text-accent tracking-widest">
+            {".".repeat(dotCount)}
+          </div>
+        </div>
+
         {/* revealing 상태 */}
         <div
           className={`absolute inset-0 flex flex-col items-center justify-center gap-3 ${
             isRevealing ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
-          <div className={`text-lg font-bold ${isCorrect ? "text-green-500" : "text-red-500"}`}>
-            {isCorrect ? "정답!" : "오답..."}
+          <div className="text-center">
+            <p className="text-sm text-text-secondary mb-1">
+              <span className="text-amber-400 font-medium">{isHardMode ? "오른쪽" : nextCeleb.nickname}</span>이(가){" "}
+              <span className="text-amber-400 font-medium">{isHardMode ? "왼쪽" : currentCeleb.nickname}</span>보다{" "}
+              <span className="font-bold text-white">
+                {(nextCeleb.influence?.total_score ?? 0) >= (currentCeleb.influence?.total_score ?? 0)
+                  ? "높다"
+                  : "낮다"}
+              </span>
+            </p>
+            <div className={`text-lg font-bold ${isCorrect ? "text-green-500" : "text-red-500"}`}>
+              {isCorrect ? "(정답!)" : "(오답...)"}
+            </div>
           </div>
           <Button
             variant="primary"

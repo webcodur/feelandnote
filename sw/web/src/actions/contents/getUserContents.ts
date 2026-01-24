@@ -17,6 +17,7 @@ export interface UserContentPublic {
   status: ContentStatus
   visibility: VisibilityType | null
   created_at: string
+  source_url: string | null
   content: {
     id: string
     type: ContentType
@@ -62,6 +63,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       review,
       visibility,
       created_at,
+      source_url,
       ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', userId)
@@ -107,6 +109,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     review: string | null
     visibility: VisibilityType | null
     created_at: string
+    source_url: string | null
     content: ContentData
   }>
 
@@ -116,6 +119,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     status: item.status as ContentStatus,
     visibility: item.visibility,
     created_at: item.created_at,
+    source_url: item.source_url,
     content: {
       id: item.content.id,
       type: item.content.type as ContentType,
