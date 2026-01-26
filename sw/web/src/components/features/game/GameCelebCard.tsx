@@ -8,7 +8,6 @@
 
 import Image from "next/image";
 import type { CelebProfile } from "@/types/home";
-import InfluenceBadge from "@/components/ui/InfluenceBadge";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 
 interface GameCelebCardProps {
@@ -33,7 +32,6 @@ export default function GameCelebCard({
   hideInfo = false,
 }: GameCelebCardProps) {
   const score = celeb.influence?.total_score ?? 0;
-  const rank = celeb.influence?.rank ?? "D";
   const professionLabel =
     CELEB_PROFESSIONS.find((p) => p.value === celeb.profession)?.label ?? celeb.profession;
 

@@ -255,6 +255,12 @@
   }
 }
 
+/* LP Spin Animation (명판/카드 공용) */
+@keyframes rotateSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Achievement Unlock Animations */
 @keyframes unlockBounce {
   0% {
@@ -528,4 +534,41 @@
 
 .animate-portrait-reveal {
   animation: portraitReveal 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Slow Spin Animation (for cosmic effects) */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 8s linear infinite;
+}
+
+/* Holographic Animation */
+@keyframes holoGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes holoShimmer {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+.animate-holo-gradient {
+  background-size: 300% 300%;
+  animation: holoGradient 8s ease infinite;
+}
+
+.animate-holo-shimmer {
+  background-size: 200% 200%;
+  animation: holoShimmer 3s ease-in-out infinite;
 }

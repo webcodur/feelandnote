@@ -714,6 +714,31 @@ export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
 
   return data || []
 }
+
+export interface CelebsWithPaginationResponse {
+  celebs: CelebTitleItem[]
+  total: number
+}
+
+export async function getCelebsForPhilosophyEdit(page: number = 1, limit: number = 50): Promise<CelebsWithPaginationResponse> {
+  const supabase = await createClient()
+  const offset = (page - 1) * limit
+
+  const { data, error, count } = await supabase
+    .from('profiles')
+    .select('id, nickname, avatar_url, profession, title, consumption_philosophy', { count: 'exact' })
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .order('nickname', { ascending: true })
+    .range(offset, offset + limit - 1)
+
+  if (error) throw error
+
+  return {
+    celebs: data || [],
+    total: count || 0,
+  }
+}
 // #endregion
 
 // #region updateCelebTitle - 수식어만 업데이트

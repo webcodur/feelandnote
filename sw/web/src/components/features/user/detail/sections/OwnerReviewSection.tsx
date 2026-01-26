@@ -11,6 +11,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import useDragScroll from "@/hooks/useDragScroll";
+import FormattedText from "@/components/ui/FormattedText";
 
 interface OwnerReviewSectionProps {
   review: string | null;
@@ -124,7 +125,7 @@ export default function OwnerReviewSection({
                     <span className="text-xs">스포일러</span>
                   </Button>
                 )}
-                {review}
+                <FormattedText text={review} />
               </div>
               {canScroll && scrollY < maxScroll && (
                 <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />

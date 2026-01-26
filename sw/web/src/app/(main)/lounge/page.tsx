@@ -5,13 +5,14 @@
 */ // ------------------------------
 
 import Lounge from "@/components/features/user/lounge/Lounge";
+import PageContainer from "@/components/layout/PageContainer";
 
 export const metadata = { title: "라운지" };
 
 export default function Page() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <PageContainer>
       <Lounge />
-    </div>
+    </PageContainer>
   );
 }

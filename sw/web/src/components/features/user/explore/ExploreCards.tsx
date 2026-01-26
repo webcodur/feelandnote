@@ -59,19 +59,19 @@ export function MobileUserListItem({ user, onClick, subtext }: { user: UserInfo;
     <Button 
       unstyled 
       onClick={onClick} 
-      className="w-full flex items-center justify-between p-3.5 sm:p-4 bg-bg-card border-2 border-accent-dim/10 rounded-sm active:bg-accent/5 transition-all shadow-md group relative overflow-hidden"
+      className="w-full flex items-center justify-between px-2.5 py-3.5 sm:p-4 bg-bg-card border-2 border-accent-dim/10 rounded-sm active:bg-accent/5 transition-all shadow-md group relative overflow-hidden"
     >
       {/* Subtle background ornament for mobile list item */}
       <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-accent/[0.03] to-transparent pointer-events-none" />
       
-      <div className="flex items-center gap-4 text-left min-w-0 relative z-10">
+      <div className="flex items-center gap-3 text-left min-w-0 relative z-10">
         <div className="relative">
            <Avatar url={user.avatar_url} name={user.nickname} size="sm" verified={user.is_verified} />
            {/* Portico-style mini accent */}
            <div className="absolute -top-1 -left-1 w-2 h-2 border-t border-s border-accent/40 rounded-tl-sm" />
         </div>
         <div className="flex flex-col min-w-0">
-          <span className="text-sm font-serif font-black text-text-primary group-hover:text-accent transition-colors truncate">{user.nickname}</span>
+          <span className="text-xs font-serif font-black text-text-primary group-hover:text-accent transition-colors truncate">{user.nickname}</span>
           {subtext ? (
             <span className="text-[10px] text-accent/60 font-serif font-black tracking-widest uppercase opacity-80 truncate">{subtext}</span>
           ) : (user.title || user.profession) ? (

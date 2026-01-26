@@ -1,12 +1,17 @@
 // 메인페이지(홈) 관련 타입 정의
 
 import type { ContentType } from './database'
+import type { CelebLevel } from '@/constants/materials'
 
 // region: 셀럽 관련 타입
 
 export interface CelebInfluence {
   total_score: number
-  rank: 'S' | 'A' | 'B' | 'C' | 'D'
+  level: CelebLevel
+  /** 전체 중 순위 (1부터 시작) */
+  ranking?: number
+  /** 상위 몇 % (0~100) */
+  percentile?: number
 }
 
 export interface CelebProfile {

@@ -5,11 +5,21 @@ export const metadata: Metadata = {
   title: '감상 철학 편집',
 }
 import { ArrowLeft } from 'lucide-react'
-import { getCelebsForTitleEdit } from '@/actions/admin/celebs'
+import { getCelebsForPhilosophyEdit } from '@/actions/admin/celebs'
 import CelebPhilosophyEditor from './CelebPhilosophyEditor'
 
-export default async function CelebPhilosophiesPage() {
-  const celebs = await getCelebsForTitleEdit()
+interface PageProps {
+  searchParams: Promise<{
+    page?: string
+  }>
+}
+
+export default async function CelebPhilosophiesPage({ searchParams }: PageProps) {
+  const params = await searchParams
+  const page = Number(params.page) || 1
+  const limit = 50
+  
+  const { celebs, total } = await getCelebsForPhilosophyEdit(page, limit)
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -23,12 +33,12 @@ export default async function CelebPhilosophiesPage() {
         </Link>
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-text-primary">셀럽 감상 철학 편집</h1>
-          <p className="text-sm text-text-secondary mt-1">총 {celebs.length}명의 셀럽</p>
+          <p className="text-sm text-text-secondary mt-1">총 {total}명의 셀럽</p>
         </div>
       </div>
 
       {/* Editor */}
-      <CelebPhilosophyEditor celebs={celebs} />
+      <CelebPhilosophyEditor celebs={celebs} page={page} total={total} limit={limit} />
     </div>
   )
 }

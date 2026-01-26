@@ -42,11 +42,11 @@ export async function getFeedActivities(
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    console.log('[getFeedActivities] 로그인 안됨')
+    // console.log('[getFeedActivities] 로그인 안됨')
     return { activities: [], nextCursor: null }
   }
 
-  console.log('[getFeedActivities] user.id:', user.id)
+  // console.log('[getFeedActivities] user.id:', user.id)
 
   // 내가 팔로우하는 사람들 ID 조회
   const { data: following } = await supabase
@@ -54,15 +54,15 @@ export async function getFeedActivities(
     .select('following_id')
     .eq('follower_id', user.id)
 
-  console.log('[getFeedActivities] following:', following)
+  // console.log('[getFeedActivities] following:', following)
 
   if (!following || following.length === 0) {
-    console.log('[getFeedActivities] 팔로잉 없음')
+    // console.log('[getFeedActivities] 팔로잉 없음')
     return { activities: [], nextCursor: null }
   }
 
   const followingIds = following.map(f => f.following_id)
-  console.log('[getFeedActivities] followingIds:', followingIds)
+  // console.log('[getFeedActivities] followingIds:', followingIds)
 
   // contentType 필터가 있으면 해당 타입의 content_id 목록 조회
   let filteredContentIds: string[] | null = null

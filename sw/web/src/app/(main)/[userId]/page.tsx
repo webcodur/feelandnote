@@ -31,7 +31,7 @@ export default async function OverviewPage({ params }: PageProps) {
 
   // 병렬로 데이터 조회
   const [contentsResult, guestbookResult] = await Promise.all([
-    getUserContents({ userId, limit: 9 }),
+    getUserContents({ userId, limit: 9, status: 'FINISHED' }),
     getGuestbookEntries({ profileId: userId }),
   ]);
 

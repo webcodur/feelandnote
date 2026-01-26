@@ -31,7 +31,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   if (variant === "hero") {
     return (
-      <div className={`flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left mb-0 px-2 md:px-4 border-b border-accent-dim/10 pb-6 md:pb-4 ${className}`}>
+      <div className={`flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left mb-0 border-b border-accent-dim/10 pb-6 md:pb-4 ${className}`}>
         <div className={`flex flex-col gap-1 md:gap-2 ${linkHref ? "mb-4 md:mb-0" : ""}`}>
           {englishTitle && (
             <span className="font-cinzel text-[8px] md:text-[10px] text-accent tracking-[0.4em] md:tracking-[0.6em] uppercase">

@@ -18,6 +18,7 @@ import { getReviewFeed, type ReviewFeedItem } from "@/actions/contents/getReview
 import { getAiReviews, generateAiReview, type AiReviewItem } from "@/actions/ai";
 import Button from "@/components/ui/Button";
 import useDragScroll from "@/hooks/useDragScroll";
+import FormattedText from "@/components/ui/FormattedText";
 
 const PAGE_SIZE = 10;
 
@@ -119,73 +120,73 @@ function ReviewFeedCard({ item }: { item: ReviewFeedItem }) {
                   <Eye size={12} />
                 </Button>
               )}
-              {item.review}
+                <FormattedText text={item.review} />
+              </div>
+              {/* 하단 그라데이션 */}
+              {canScroll && scrollY < maxScroll && (
+                <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
+              )}
             </div>
-            {/* 하단 그라데이션 */}
+          )}
+        </div>
+      </Card>
+    );
+  }
+  // #endregion
+  
+  // #region AI 리뷰 카드
+  function AiReviewCard({ item }: { item: AiReviewItem }) {
+    const timeAgo = formatRelativeTime(item.created_at);
+  
+    const {
+      containerRef,
+      scrollY,
+      maxScroll,
+      isDragging,
+      canScroll,
+      onMouseDown,
+      onTouchStart,
+      scrollStyle,
+    } = useDragScroll();
+  
+    return (
+      <Card className="p-0 border-accent/30">
+        <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
+          <div className="relative w-8 h-8 rounded-full flex items-center justify-center bg-accent/20">
+            <Bot size={18} className="text-accent" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-xs flex items-center gap-1">
+              <Sparkles size={10} className="text-accent" />
+              {item.model}
+            </div>
+            <div className="text-[10px] text-text-secondary">{timeAgo}</div>
+          </div>
+        </div>
+        <div className="p-2.5">
+          <div
+            ref={containerRef}
+            className={`h-[80px] overflow-hidden relative select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
+            onMouseDown={onMouseDown}
+            onTouchStart={onTouchStart}
+          >
+            {canScroll && scrollY > 0 && (
+              <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-bg-card to-transparent pointer-events-none z-10" />
+            )}
+            <div
+              className="text-xs leading-relaxed text-text-secondary whitespace-pre-line"
+              style={scrollStyle}
+            >
+              <FormattedText text={item.review} />
+            </div>
             {canScroll && scrollY < maxScroll && (
               <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
             )}
           </div>
-        )}
-      </div>
-    </Card>
-  );
-}
-// #endregion
-
-// #region AI 리뷰 카드
-function AiReviewCard({ item }: { item: AiReviewItem }) {
-  const timeAgo = formatRelativeTime(item.created_at);
-
-  const {
-    containerRef,
-    scrollY,
-    maxScroll,
-    isDragging,
-    canScroll,
-    onMouseDown,
-    onTouchStart,
-    scrollStyle,
-  } = useDragScroll();
-
-  return (
-    <Card className="p-0 border-accent/30">
-      <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
-        <div className="relative w-8 h-8 rounded-full flex items-center justify-center bg-accent/20">
-          <Bot size={18} className="text-accent" />
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="font-medium text-xs flex items-center gap-1">
-            <Sparkles size={10} className="text-accent" />
-            {item.model}
-          </div>
-          <div className="text-[10px] text-text-secondary">{timeAgo}</div>
-        </div>
-      </div>
-      <div className="p-2.5">
-        <div
-          ref={containerRef}
-          className={`h-[80px] overflow-hidden relative select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
-          onMouseDown={onMouseDown}
-          onTouchStart={onTouchStart}
-        >
-          {canScroll && scrollY > 0 && (
-            <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-bg-card to-transparent pointer-events-none z-10" />
-          )}
-          <div
-            className="text-xs leading-relaxed text-text-secondary whitespace-pre-line"
-            style={scrollStyle}
-          >
-            {item.review}
-          </div>
-          {canScroll && scrollY < maxScroll && (
-            <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
-          )}
-        </div>
-      </div>
-    </Card>
-  );
-}
+      </Card>
+    );
+  }
 // #endregion
 
 export default function FeedSection({ contentId, subTab, viewUserId, hasApiKey, contentTitle, contentType }: FeedSectionProps) {

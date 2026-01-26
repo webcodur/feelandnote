@@ -14,6 +14,7 @@ import Button from "@/components/ui/Button";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 import type { ContentStatus, ContentType } from "@/types/database";
 import type { UserContentWithDetails } from "@/actions/contents/getContent";
+import FormattedText from "@/components/ui/FormattedText";
 
 // #region 타입
 interface ArchiveDetailHeaderProps {
@@ -139,9 +140,10 @@ export default function ArchiveDetailHeader({
                 const description = (metadata?.description as string) || content.description;
                 if (!description) return null;
                 return (
-                  <p className="text-sm text-white/80 leading-relaxed whitespace-pre-line">
-                    {description}
-                  </p>
+                  <FormattedText
+                    text={description}
+                    className="text-sm text-white/80 leading-relaxed whitespace-pre-line block"
+                  />
                 );
               })()}
             </div>

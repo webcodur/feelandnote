@@ -409,13 +409,22 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
         {/* 중앙: 캔버스 영역 */}
         <main className="relative flex-1 overflow-hidden bg-main">
           {/* 빈 상태 안내 */}
-          {sections.length === 0 && !selectedBook && (
+          {sections.filter(s => s.isVisible).length === 0 && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-secondary">
-                <p className="text-lg">좌측에서 섹션을 추가하세요</p>
-                <p className="mt-2 text-sm opacity-70">
-                  메모, 조직, 이미지 섹션을 자유롭게 배치할 수 있습니다
-                </p>
+                {selectedBook ? (
+                  <p className="text-lg">
+                    <span className="font-medium text-text-primary">{selectedBook.title}</span>
+                    <span className="text-text-tertiary">을(를)</span> 읽고 있습니다.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-lg">좌측에서 섹션을 추가하세요</p>
+                    <p className="mt-2 text-sm opacity-70">
+                      메모, 조직, 이미지 섹션을 자유롭게 배치할 수 있습니다
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           )}

@@ -8,6 +8,7 @@ import styles from "./styles.module.css";
 import { NeoCelebCardProps } from "./types";
 import { getVariantStyles } from "./variantConfig";
 import { toggleFollow } from "@/actions/user";
+import { getAuraByPercentile, getAuraByScore } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
 
 // 사이즈별 설정
@@ -214,8 +215,8 @@ export default function NeoCelebCard({
                     }}
                     className={`${btn} ${styles.btnBase} ${styles.btnText} flex items-center ${config.buttonPadding} cursor-pointer`}
                 >
-                    <span className={`${config.rankText} tracking-wider`}>RANK</span>
-                    <span className={`${config.rankValue} font-black`}>{celeb.influence?.rank || '-'}</span>
+                    <span className={`${config.rankText} tracking-wider`}>LV</span>
+                    <span className={`${config.rankValue} font-black`}>{celeb.influence?.total_score != null ? getAuraByScore(celeb.influence.total_score) : '-'}</span>
                 </button>
                 <button
                     onClick={handleFollowClick}

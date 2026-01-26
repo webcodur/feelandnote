@@ -5,25 +5,35 @@
 */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
+import { getAuraByPercentile, getAuraByScore, type Aura } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
 import InfluenceBadge from "@/components/ui/InfluenceBadge";
 import { FormattedText } from "@/components/ui";
+import { getCelebReviews } from "@/actions/home/getCelebReviews";
+import type { CelebReview } from "@/types/home";
+import ReviewCard from "@/components/features/home/ReviewCard";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 
-// #region Constants
-const RANK_GRADIENTS = {
-  S: "from-amber-300 via-yellow-500 to-amber-600",
-  A: "from-slate-200 via-gray-400 to-slate-500",
-  B: "from-amber-600 via-orange-700 to-amber-800",
-  C: "from-slate-400 via-slate-500 to-slate-600",
-  D: "from-slate-500 via-slate-600 to-slate-700",
-} as const;
+// #region Constants (materials.ts 기반 오라별 그라데이션)
+const AURA_GRADIENTS: Record<Aura, string> = {
+  1: "from-[#8d6e63] via-[#5d4037] to-[#3e2723]",         // wood (필멸자)
+  2: "from-[#607d8b] via-[#455a64] to-[#263238]",         // stone (순례자)
+  3: "from-[#D4C1A5] via-[#8C7853] to-[#5D4037]",         // bronze (수사)
+  4: "from-[#FFFFFF] via-[#C0C0C0] to-[#808080]",         // silver (전도사)
+  5: "from-[#FCF6BA] via-[#D4AF37] to-[#8A6E2F]",         // gold (사제)
+  6: "from-[#98FB98] via-[#50C878] to-[#2E8B57]",         // emerald (신관)
+  7: "from-[#FF6B6B] via-[#DC143C] to-[#8B0000]",         // crimson (선지자)
+  8: "from-[#E0FFFF] via-[#B0E0E6] to-[#87CEEB]",         // diamond (사도)
+  9: "from-[#FF00FF] via-[#00FFFF] to-[#FFFF00]",         // holographic (불멸자)
+};
 // #endregion
 
 interface CelebDetailModalProps {
@@ -37,9 +47,26 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [isInfluenceOpen, setIsInfluenceOpen] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(false);
+  const [reviews, setReviews] = useState<CelebReview[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
 
-  const rank = celeb.influence?.rank || "D";
-  const borderGradient = RANK_GRADIENTS[rank];
+  // 리뷰 모드 진입 시 데이터 로딩
+  useEffect(() => {
+    if (isReviewMode && reviews.length === 0) {
+      setLoadingReviews(true);
+      getCelebReviews(celeb.id).then((data) => {
+        setReviews(data);
+        setLoadingReviews(false);
+      });
+    }
+  }, [isReviewMode, celeb.id, reviews.length]);
+
+  // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
+  const aura: Aura = celeb.influence?.total_score != null
+    ? getAuraByScore(celeb.influence.total_score)
+    : 1;
+  const borderGradient = AURA_GRADIENTS[aura];
   const portraitImage = celeb.portrait_url || celeb.avatar_url;
 
   const handleFollowClick = async () => {
@@ -130,6 +157,83 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       )}
     </div>
   );
+
+  const ReviewView = () => (
+    <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
+      {/* 헤더: 뒤로가기 및 타이틀 */}
+      <div className="flex items-center justify-between p-4 border-b border-border/50 shrink-0">
+        <button 
+          onClick={() => setIsReviewMode(false)}
+          className="text-text-secondary hover:text-accent transition-colors"
+          aria-label="돌아가기"
+        >
+          <div className="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center">
+             <span className="text-lg">←</span>
+          </div>
+        </button>
+        <h2 className="text-lg font-serif font-bold text-accent">감상 기록</h2>
+        <div className="w-8" />
+      </div>
+
+      {/* 리스트 영역 */}
+      <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
+        {loadingReviews ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-text-tertiary animate-pulse">기록을 불러오는 중...</p>
+          </div>
+        ) : reviews.length > 0 ? (
+          <div className="flex flex-col gap-6 max-w-2xl mx-auto">
+            {reviews.map((review) => (
+              <ReviewCard
+                key={review.id}
+                userId={celeb.id}
+                userName={celeb.nickname}
+                userAvatar={celeb.avatar_url}
+                isOfficial={true}
+                userTitle={null}
+                userSubtitle={celeb.title || undefined}
+                contentType={review.content.type}
+                contentId={review.content.id}
+                contentTitle={review.content.title}
+                contentCreator={review.content.creator}
+                contentThumbnail={review.content.thumbnail_url}
+                review={review.review}
+                timeAgo={formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko })}
+                isSpoiler={review.is_spoiler}
+                sourceUrl={review.source_url}
+              />
+            ))}
+          </div>
+        ) : (
+           <div className="flex flex-col items-center justify-center py-20 text-center">
+             <Feather size={48} className="text-text-tertiary/20 mb-4" />
+             <p className="text-text-secondary font-medium mb-1">아직 공개된 감상이 없습니다</p>
+             <p className="text-xs text-text-tertiary">조금 더 기다려주세요</p>
+           </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const HandleButton = ({ className = "" }: { className?: string }) => (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setIsReviewMode(true);
+      }}
+      className={`
+        absolute flex items-center justify-center
+        w-8 h-16 bg-bg-card border border-accent/20 rounded-l-md shadow-lg
+        text-accent/50 hover:text-accent hover:bg-surface hover:w-10 hover:border-accent/50
+        transition-all duration-300 z-50 cursor-pointer group
+        ${className}
+      `}
+      title="감상 목록 보기"
+    >
+      <div className="w-1 h-8 bg-current rounded-full opacity-30 group-hover:opacity-100 transition-opacity" />
+    </button>
+  );
   // #endregion
 
   const modalContent = (
@@ -141,7 +245,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       <div className="hidden md:flex items-center justify-center h-full p-6">
         <div className="relative w-full max-w-[840px] animate-modal-content shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]">
           {/* 그라데이션 테두리 */}
-          <div className={`absolute -inset-[1px] bg-gradient-to-br ${borderGradient} opacity-90 rounded-sm`} />
+          <div className={`absolute -inset-[3px] bg-gradient-to-br ${borderGradient} opacity-90 rounded-sm`} />
 
           {/* 닫기 버튼 */}
           <button
@@ -152,9 +256,18 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           </button>
 
           {/* 내부: 좌우 분할 - 고정 높이 복구, Bio는 다 보여주고 철학은 스크롤 */}
-          <div className="relative bg-bg-main flex h-[720px]">
-            {/* 왼쪽: 초상화 */}
-            <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
+          <div className="relative bg-bg-main flex h-[720px] overflow-hidden">
+             
+            {/* PC 리뷰 모드 뷰 */}
+            {isReviewMode ? (
+              <ReviewView />
+            ) : (
+               <>
+                 {/* PC 핸들 버튼: 우측 끝 중앙 */}
+                 <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-xl translate-x-1 hover:translate-x-0" />
+                 
+                 {/* 기존 콘텐츠 */}
+                 <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
               {portraitImage ? (
                 <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
               ) : (
@@ -163,10 +276,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               )}
               
-              {/* 랭크 휘장 (Top-Left): 모서리 밀착 */}
+              {/* 레벨 휘장 (Top-Left): 모서리 밀착 */}
               <div className="absolute top-4 left-4 z-30">
-                <InfluenceBadge 
-                  rank={rank}
+                <InfluenceBadge
+                  aura={aura}
                   size="lg"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -226,6 +339,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 <ProfileLink className="flex-1 py-3 md:py-3.5 rounded-sm" />
               </div>
             </div>
+               </>
+            )}
           </div>
         </div>
       </div>
@@ -239,9 +354,19 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         />
         
         <div className="bg-bg-main rounded-t-[2.5rem] flex flex-col animate-bottomsheet-content shadow-[0_-20px_40px_rgba(0,0,0,0.4)] overflow-hidden max-h-[88vh]">
+          
+          {/* 모바일 리뷰 모드 뷰 */}
+          {isReviewMode ? (
+             <div className="flex-1 flex flex-col h-full bg-bg-main overflow-hidden rounded-t-[2.5rem]">
+               <ReviewView />
+             </div>
+          ) : (
+            <>
+              {/* 모바일 핸들 버튼: 우측 화면 끝 중앙 (모달 내부에서 절대 위치) */}
+              <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-xl w-6 h-12 hover:w-8 translate-x-0" />
 
-          {/* 스크롤 영역 */}
-          <div className="flex-1 overflow-y-auto overflow-x-hidden">
+              {/* 스크롤 영역 */}
+              <div className="flex-1 overflow-y-auto overflow-x-hidden">
             {/* 초상화 (9:16 비율) */}
             <div className="relative w-full aspect-[9/16] bg-black">
               {portraitImage ? (
@@ -259,8 +384,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 
                 <div className="flex items-center justify-between mt-2">
                   {/* 2. 좌상단 영향력 휘장 (클릭 시 상세 모달) */}
-                  <InfluenceBadge 
-                    rank={rank}
+                  <InfluenceBadge
+                    aura={aura}
                     size="md"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -343,6 +468,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               </div>
             </div>
           </div>
+              </>
+            )}
 
           {/* 영향력 상세 모달 연동 */}
           <CelebInfluenceModal 

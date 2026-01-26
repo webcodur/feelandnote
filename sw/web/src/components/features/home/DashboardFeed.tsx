@@ -5,6 +5,7 @@ import { Sparkles } from "lucide-react";
 import { CATEGORIES, type ContentTypeFilterValue } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/actions/home";
 import type { FriendActivityTypeCounts } from "@/actions/activity";
+import type { CelebReview } from "@/types/home";
 import FriendActivitySection from "./FriendActivitySection";
 import CelebFeed from "./CelebFeed";
 
@@ -25,12 +26,14 @@ interface DashboardFeedProps {
   userId?: string;
   friendActivityCounts?: FriendActivityTypeCounts;
   celebContentCounts?: ContentTypeCounts;
+  initialReviews?: CelebReview[];
 }
 
 export default function DashboardFeed({
   userId,
   friendActivityCounts,
   celebContentCounts,
+  initialReviews,
 }: DashboardFeedProps) {
   const [activeTab, setActiveTab] = useState<TabType>("celeb");
   const [hoveredTab, setHoveredTab] = useState<TabType | null>(null);
@@ -170,7 +173,7 @@ export default function DashboardFeed({
       <div className="relative min-h-[400px]">
         {/* 셀럽 아카이브 */}
         <div className={`transition-all duration-500 transform ${activeTab === "celeb" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
-          <CelebFeed contentType={contentType} hideFilter />
+          <CelebFeed contentType={contentType} hideFilter initialReviews={initialReviews} />
         </div>
         {/* 친구 동향 */}
         <div className={`transition-all duration-500 transform ${activeTab === "friend" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>

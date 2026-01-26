@@ -1,9 +1,10 @@
 import BoardHeader from '@/components/features/board/shared/BoardHeader'
 import SectionHeader from '@/components/ui/SectionHeader'
+import PageContainer from '@/components/layout/PageContainer'
 
 export default function BoardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <PageContainer>
       <SectionHeader
         variant="hero"
         englishTitle="Community"
@@ -16,6 +17,6 @@ export default function BoardLayout({ children }: { children: React.ReactNode })
       <div className="max-w-3xl mx-auto">
         {children}
       </div>
-    </div>
+    </PageContainer>
   )
 }

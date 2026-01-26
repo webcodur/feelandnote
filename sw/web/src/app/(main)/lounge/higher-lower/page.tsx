@@ -5,13 +5,14 @@
 */ // ------------------------------
 
 import HigherLowerGame from "@/components/features/game/HigherLowerGame";
+import PageContainer from "@/components/layout/PageContainer";
 
 export const metadata = { title: "Higher or Lower" };
 
 export default function Page() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <PageContainer>
       <HigherLowerGame />
-    </div>
+    </PageContainer>
   );
 }

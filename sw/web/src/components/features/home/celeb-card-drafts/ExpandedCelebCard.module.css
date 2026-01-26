@@ -40,25 +40,25 @@
   animation-play-state: running;
 }
 
-/* 랭크별 테두리 그라데이션 (NeoCelebCard 스타일 이식) */
+/* 랭크별 테두리 그라데이션 (InfluenceBadge 기준) */
 .rankS::before {
-  background-image: conic-gradient(from var(--rotate) at 50% 50%, #D4AF37 0%, #FFF8E1 15%, #1a1a1a 50%, #FFF8E1 65%, #D4AF37 100%);
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #004e92 0%, #60a5fa 25%, #020024 50%, #60a5fa 75%, #004e92 100%);
 }
 
 .rankA::before {
-  background-image: conic-gradient(from var(--rotate) at 50% 50%, #AA771C 0%, #BF953F 20%, #FCF6BA 40%, #B38728 60%, #FBF5B7 80%, #AA771C 100%);
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #D4AF37 0%, #FFF9E5 25%, #8A6D07 50%, #FFF9E5 75%, #D4AF37 100%);
 }
 
 .rankB::before {
-  background-image: conic-gradient(from var(--rotate) at 50% 50%, #FFFFFF 0%, #D0D0D0 10%, #E8E8E8 20%, #A0A0A0 30%, #FFFFFF 50%, #A0A0A0 70%, #E8E8E8 80%, #D0D0D0 90%, #FFFFFF 100%);
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #C0C0C0 0%, #F8F9FA 25%, #707070 50%, #F8F9FA 75%, #C0C0C0 100%);
 }
 
 .rankC::before {
-  background-image: conic-gradient(from var(--rotate) at 50% 50%, #8C7853 0%, #D4C1A5 25%, #5D4037 50%, #D4C1A5 75%, #8C7853 100%);
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #CD7F32 0%, #FFE4CC 25%, #663300 50%, #FFE4CC 75%, #CD7F32 100%);
 }
 
 .rankD::before {
-  background-image: conic-gradient(from var(--rotate) at 50% 50%, #2f3e46 0%, #849096 25%, #1a2226 50%, #849096 75%, #2f3e46 100%);
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #1E293B 0%, #475569 25%, #0F172A 50%, #475569 75%, #1E293B 100%);
 }
 
 /* 호버 시 브라이트닝 및 PC에서만 떠오름 효과 */

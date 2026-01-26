@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts } from "@/actions/home";
 import { getFriends, getMyFollowing, getProfile, getFollowers, getSimilarUsers } from "@/actions/user";
 import Explore from "@/components/features/user/explore/Explore";
+import PageContainer from "@/components/layout/PageContainer";
 
 export const metadata = { title: "탐색" };
 
@@ -80,10 +81,10 @@ async function ExploreContentServer() {
 
 export default function ExplorePage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <PageContainer>
       <Suspense fallback={<ExploreSkeleton />}>
         <ExploreContentServer />
       </Suspense>
-    </div>
+    </PageContainer>
   );
 }

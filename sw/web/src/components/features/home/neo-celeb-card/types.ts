@@ -1,6 +1,6 @@
 import { CelebProfile } from "@/types/home";
 
-export type CardVariant = "diamond" | "gold" | "silver" | "bronze" | "iron" | "black-gold" | "rose-gold" | "crimson" | "amethyst" | "holographic";
+export type CardVariant = "diamond" | "gold" | "silver" | "bronze" | "iron" | "black-gold" | "rose-gold" | "crimson" | "amethyst" | "holographic" | "gigas" | "novice" | "mortal" | "emerald" | "stone";
 export type CardSize = "default" | "compact" | "small";
 
 export interface NeoCelebCardProps {

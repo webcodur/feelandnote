@@ -164,17 +164,22 @@
 
 
 /* Unique Variant Identifiers (Required for Module Mapping) */
-.gold {} 
-.silver {} 
-.bronze {} 
+.gold {}
+.silver {}
+.bronze {}
 .iron {}
-.diamond {} 
-.blackGold {} 
-.copper {} 
+.diamond {}
+.blackGold {}
+.copper {}
 .roseGold {}
-.crimson {} 
-.amethyst {} 
+.crimson {}
+.amethyst {}
 .holographic {}
+.gigas {}
+.novice {}
+.mortal {}
+.emerald {}
+.stone {}
 
 /* --- GOLD --- */
 .goldSurface {
@@ -926,4 +931,316 @@
 .btnText {
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   font-weight: 700;
+}
+
+/*
+  GIGAS (거신급)
+  Concept: 다크 메탈릭 그레이 + 레드/오렌지 크랙 용암 글로우
+*/
+.gigasSurface {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 40%, #1f1f1f 100%);
+  position: relative;
+  overflow: hidden;
+}
+.gigasSurface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(255, 100, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(255, 60, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 80, 0, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+  animation: lavaPulse 4s ease-in-out infinite;
+}
+@keyframes lavaPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animatedBorderCard.gigas::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #1a1a1a 0%, #ff4500 15%, #2d2d2d 30%, #ff6a00 50%, #1a1a1a 65%, #ff4500 80%, #2d2d2d 100%);
+}
+.gigas { border-color: #ff4500; }
+.shadowGigas {
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(255, 69, 0, 0.3),
+    0 0 40px rgba(255, 100, 0, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+.shadowGigas:hover {
+  box-shadow: 0 0 30px rgba(255, 69, 0, 0.6), 0 0 50px rgba(255, 100, 0, 0.4);
+}
+.btnGigas {
+  background: linear-gradient(to right, #1a1a1a, #2d2d2d);
+  color: #ff6a00;
+  border: 1px solid #ff4500;
+  box-shadow: 0 4px 10px rgba(255, 69, 0, 0.3);
+}
+.btnGigas:hover { filter: brightness(1.2); }
+.btnGigas:active { filter: brightness(0.9); }
+.textGigas {
+  color: #fff;
+  text-shadow: 0 0 4px rgba(255,100,0,0.5), 0 0 8px rgba(255,69,0,0.3);
+}
+.subTextGigas {
+  color: #ccc;
+  text-shadow: 0 0 3px rgba(255,100,0,0.4);
+}
+.dotGigas {
+  background-color: #ff4500;
+  box-shadow: 0 0 4px rgba(255,69,0,0.5);
+}
+.labelGigas {
+  color: #ff6a00;
+  text-shadow: 0 0 3px rgba(255,100,0,0.4);
+}
+.lpGigas {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(255, 69, 0, 0.3) 20%, transparent 40%);
+  mix-blend-mode: hard-light;
+}
+.imageFrameGigas::before {
+  background: conic-gradient(from 132deg at 50% 50%, #1a1a1a 0%, #ff4500 15%, #2d2d2d 30%, #ff6a00 50%, #1a1a1a 65%, #ff4500 80%, #2d2d2d 100%);
+}
+
+/*
+  NOVICE (초심자급)
+  Concept: 우드 브라운 + 오크 나무
+*/
+.noviceSurface {
+  background: linear-gradient(135deg, #3e2723 0%, #5d4037 40%, #4e342e 100%);
+  background-image:
+    linear-gradient(135deg, #3e2723 0%, #5d4037 40%, #4e342e 100%),
+    url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+  background-blend-mode: overlay;
+  position: relative;
+  overflow: hidden;
+}
+.animatedBorderCard.novice::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #3e2723 0%, #8d6e63 25%, #5d4037 50%, #a1887f 75%, #3e2723 100%);
+}
+.novice { border-color: #8d6e63; }
+.shadowNovice {
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(141, 110, 99, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+.shadowNovice:hover {
+  box-shadow: 0 0 25px rgba(141, 110, 99, 0.4), 0 0 40px rgba(93, 64, 55, 0.3);
+}
+.btnNovice {
+  background: linear-gradient(to right, #3e2723, #5d4037);
+  color: #d7ccc8;
+  border: 1px solid #8d6e63;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+.btnNovice:hover { filter: brightness(1.15); }
+.btnNovice:active { filter: brightness(0.9); }
+.textNovice {
+  color: #efebe9;
+  text-shadow: 0 0 3px rgba(141,110,99,0.4);
+}
+.subTextNovice {
+  color: #bcaaa4;
+  text-shadow: 0 0 2px rgba(141,110,99,0.3);
+}
+.dotNovice {
+  background-color: #8d6e63;
+  box-shadow: 0 0 3px rgba(141,110,99,0.4);
+}
+.labelNovice {
+  color: #a1887f;
+  text-shadow: 0 0 2px rgba(141,110,99,0.3);
+}
+.lpNovice {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(141, 110, 99, 0.4) 20%, transparent 40%);
+  mix-blend-mode: normal;
+  animation-duration: 12s;
+}
+.imageFrameNovice::before {
+  background: conic-gradient(from 132deg at 50% 50%, #3e2723 0%, #8d6e63 25%, #5d4037 50%, #a1887f 75%, #3e2723 100%);
+}
+
+/*
+  MORTAL (필멸자급)
+  Concept: 어스 브라운 + 올리브 흙 뿌리
+*/
+.mortalSurface {
+  background: linear-gradient(135deg, #263238 0%, #37474f 40%, #455a64 100%);
+  background-image:
+    linear-gradient(135deg, #263238 0%, #37474f 40%, #455a64 100%),
+    url("https://www.transparenttextures.com/patterns/dust.png");
+  background-blend-mode: overlay;
+  position: relative;
+  overflow: hidden;
+}
+.animatedBorderCard.mortal::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #263238 0%, #607d8b 25%, #455a64 50%, #78909c 75%, #263238 100%);
+}
+.mortal { border-color: #607d8b; }
+.shadowMortal {
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(96, 125, 139, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+.shadowMortal:hover {
+  box-shadow: 0 0 20px rgba(96, 125, 139, 0.3), 0 0 30px rgba(69, 90, 100, 0.2);
+}
+.btnMortal {
+  background: linear-gradient(to right, #263238, #37474f);
+  color: #b0bec5;
+  border: 1px solid #607d8b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+.btnMortal:hover { filter: brightness(1.1); }
+.btnMortal:active { filter: brightness(0.9); }
+.textMortal {
+  color: #eceff1;
+  text-shadow: 0 0 2px rgba(96,125,139,0.3);
+}
+.subTextMortal {
+  color: #90a4ae;
+  text-shadow: 0 0 2px rgba(96,125,139,0.2);
+}
+.dotMortal {
+  background-color: #607d8b;
+  box-shadow: 0 0 2px rgba(96,125,139,0.3);
+}
+.labelMortal {
+  color: #78909c;
+  text-shadow: 0 0 2px rgba(96,125,139,0.2);
+}
+.lpMortal {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(96, 125, 139, 0.3) 20%, transparent 40%);
+  mix-blend-mode: normal;
+  animation-duration: 15s;
+}
+.imageFrameMortal::before {
+  background: conic-gradient(from 132deg at 50% 50%, #263238 0%, #607d8b 25%, #455a64 50%, #78909c 75%, #263238 100%);
+}
+
+/* Resume Animations on Hover for new variants */
+.cardGroup:hover .gigasSurface::before,
+.cardGroup:hover .noviceSurface::before,
+.cardGroup:hover .mortalSurface::before,
+.cardGroup:hover .emeraldSurface::before,
+.cardGroup:hover .stoneSurface::before {
+  animation-play-state: running;
+}
+
+/*
+  EMERALD (신관급 - 6등급)
+  Concept: 에메랄드 보석, 신비로운 녹색
+*/
+.emeraldSurface {
+  background: radial-gradient(ellipse farthest-corner at right bottom, #98FB98 0%, #50C878 8%, #3CB371 30%, #2E8B57 40%, transparent 80%),
+              radial-gradient(ellipse farthest-corner at left top, #F0FFF0 0%, #98FB98 8%, #50C878 25%, #2E8B57 62.5%, #006400 100%);
+  position: relative;
+  overflow: hidden;
+}
+.animatedBorderCard.emerald::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #2E8B57 0%, #50C878 15%, #98FB98 30%, #2E8B57 50%, #98FB98 65%, #50C878 80%, #2E8B57 100%);
+}
+.emerald { border-color: #3CB371; }
+.shadowEmerald {
+  box-shadow:
+    0 10px 30px rgba(46, 139, 87, 0.5),
+    0 0 20px rgba(80, 200, 120, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+.shadowEmerald:hover {
+  box-shadow: 0 0 30px rgba(80, 200, 120, 0.7), 0 0 50px rgba(46, 139, 87, 0.5);
+}
+.btnEmerald {
+  background: linear-gradient(to right, #2E8B57, #3CB371);
+  color: #F0FFF0;
+  border: 1px solid #50C878;
+  box-shadow: 0 4px 10px rgba(46, 139, 87, 0.4);
+}
+.btnEmerald:hover { filter: brightness(1.2); }
+.btnEmerald:active { filter: brightness(0.9); }
+.textEmerald {
+  color: #004d00;
+  text-shadow: 0 0 4px rgba(152,251,152,0.5), 0 0 8px rgba(80,200,120,0.3);
+}
+.subTextEmerald {
+  color: #0a3d0a;
+  text-shadow: 0 0 3px rgba(152,251,152,0.4), 0 0 6px rgba(80,200,120,0.25);
+}
+.dotEmerald {
+  background-color: #0a3d0a;
+  box-shadow: 0 0 4px rgba(80,200,120,0.5);
+}
+.labelEmerald {
+  color: #2E8B57;
+  text-shadow: 0 0 3px rgba(80,200,120,0.4);
+}
+.lpEmerald {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(80, 200, 120, 0.6) 20%, transparent 40%);
+  mix-blend-mode: overlay;
+}
+.imageFrameEmerald::before {
+  background: conic-gradient(from 132deg at 50% 50%, #2E8B57 0%, #50C878 15%, #98FB98 30%, #2E8B57 50%, #98FB98 65%, #50C878 80%, #2E8B57 100%);
+}
+
+/*
+  STONE (순례자급 - 2등급)
+  Concept: 석판, 무광 다크 그레이
+*/
+.stoneSurface {
+  background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 40%, #4a4a4a 100%);
+  background-image:
+    linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 40%, #4a4a4a 100%),
+    url("https://www.transparenttextures.com/patterns/dust.png");
+  background-blend-mode: overlay;
+  position: relative;
+  overflow: hidden;
+}
+.animatedBorderCard.stone::before {
+  background-image: conic-gradient(from var(--rotate) at 50% 50%, #2d2d2d 0%, #5a5a5a 25%, #4a4a4a 50%, #6b6b6b 75%, #2d2d2d 100%);
+}
+.stone { border-color: #5a5a5a; }
+.shadowStone {
+  box-shadow:
+    0 8px 16px rgba(45, 45, 45, 0.5),
+    0 0 10px rgba(90, 90, 90, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+.shadowStone:hover {
+  box-shadow: 0 0 20px rgba(90, 90, 90, 0.4), 0 0 30px rgba(74, 74, 74, 0.3);
+}
+.btnStone {
+  background: linear-gradient(to right, #2d2d2d, #3d3d3d);
+  color: #b0b0b0;
+  border: 1px solid #5a5a5a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+.btnStone:hover { filter: brightness(1.1); }
+.btnStone:active { filter: brightness(0.9); }
+.textStone {
+  color: #e0e0e0;
+  text-shadow: 0 0 2px rgba(90,90,90,0.3);
+}
+.subTextStone {
+  color: #909090;
+  text-shadow: 0 0 2px rgba(90,90,90,0.2);
+}
+.dotStone {
+  background-color: #5a5a5a;
+  box-shadow: 0 0 2px rgba(90,90,90,0.3);
+}
+.labelStone {
+  color: #6b6b6b;
+  text-shadow: 0 0 2px rgba(90,90,90,0.2);
+}
+.lpStone {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(90, 90, 90, 0.3) 20%, transparent 40%);
+  mix-blend-mode: normal;
+  animation-duration: 15s;
+}
+.imageFrameStone::before {
+  background: conic-gradient(from 132deg at 50% 50%, #2d2d2d 0%, #5a5a5a 25%, #4a4a4a 50%, #6b6b6b 75%, #2d2d2d 100%);
 }

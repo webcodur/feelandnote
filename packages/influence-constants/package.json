@@ -1,0 +1,13 @@
+{
+  "name": "@feelnnote/influence-constants",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core.ts",
+    "./ui": "./src/ui.ts"
+  },
+  "dependencies": {
+    "lucide-react": "^0.469.0"
+  }
+}

@@ -7,13 +7,14 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Users, Sparkles, Star, UserCheck, UserPlus, Info } from "lucide-react";
+import { Users, Sparkles, Star, UserCheck, UserPlus, Info, BarChart3 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
 import FriendCardNameplate from "./FriendCardNameplate";
 import AlgorithmInfoModal from "./AlgorithmInfoModal";
+import InfluenceDistributionModal from "./InfluenceDistributionModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 
 import type { CelebProfile } from "@/types/home";
@@ -96,6 +97,7 @@ export default function Explore({
 
   const [activeTab, setActiveTab] = useState<TabType>(getInitialTab);
   const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
+  const [showInfluenceDistribution, setShowInfluenceDistribution] = useState(false);
 
   // URL 파라미터 업데이트 함수
   const updateTabParam = useCallback((tab: TabType) => {
@@ -186,6 +188,17 @@ export default function Explore({
       {/* 셀럽 탭 - CelebCarousel이 자체 배경/텍스처를 가지므로 별도 처리 */}
       {activeTab === "celebs" && (
         <div className="min-h-[400px]">
+          {/* 셀럽 탭 액션 버튼 */}
+          <div className="flex justify-end mb-4 px-2 md:px-4">
+            <Button
+              unstyled
+              onClick={() => setShowInfluenceDistribution(true)}
+              className="flex items-center gap-2 px-3 py-1.5 text-xs text-text-secondary hover:text-accent bg-bg-card/50 hover:bg-bg-card border border-border/30 rounded-lg"
+            >
+              <BarChart3 size={14} />
+              <span>영향력 분포</span>
+            </Button>
+          </div>
           <CelebCarousel
             initialCelebs={initialCelebs}
             initialTotal={initialTotal}
@@ -323,6 +336,7 @@ export default function Explore({
       </div>
 
       <AlgorithmInfoModal isOpen={showAlgorithmInfo} onClose={() => setShowAlgorithmInfo(false)} />
+      <InfluenceDistributionModal isOpen={showInfluenceDistribution} onClose={() => setShowInfluenceDistribution(false)} />
     </>
   );
 }

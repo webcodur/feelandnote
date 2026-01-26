@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Inbox } from "lucide-react";
 import ReviewCard from "./ReviewCard";
@@ -15,9 +15,9 @@ import type { ContentTypeCounts } from "@/actions/home";
 // #region Skeleton
 function ReviewCardSkeleton() {
   return (
-    <div className="bg-bg-card border border-border/50 rounded-xl overflow-hidden p-4 md:p-6 animate-pulse">
+    <div className="bg-bg-card border border-border/50 rounded-xl overflow-hidden p-4 md:p-6 animate-pulse max-w-4xl mx-auto">
       {/* Desktop Skeleton */}
-      <div className="hidden md:flex gap-6 md:h-[450px]">
+      <div className="hidden md:flex gap-6 md:h-[280px]">
         <div className="w-[160px] lg:w-[180px] h-full bg-white/5 shrink-0 rounded" />
         <div className="flex-1 space-y-4">
           <div className="flex items-center gap-3">
@@ -109,7 +109,7 @@ interface CelebFeedProps {
 }
 
 export default function CelebFeed({
-  initialReviews = [],
+  initialReviews,
   contentTypeCounts,
   hideHeader = false,
   hideFilter = false,
@@ -122,11 +122,14 @@ export default function CelebFeed({
   // 외부에서 전달받은 contentType 우선, 없으면 URL 파라미터 사용
   const contentType = externalContentType ?? urlContentType;
 
-  const [reviews, setReviews] = useState<CelebReview[]>(initialReviews);
-  const [isLoading, setIsLoading] = useState(initialReviews.length === 0);
+  const [reviews, setReviews] = useState<CelebReview[]>(initialReviews || []);
+  const [isLoading, setIsLoading] = useState(initialReviews === undefined);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  
+  // 첫 렌더링 시 데이터가 있으면 로딩 스킵을 위한 ref
+  const isFirstRender = useRef(true);
 
   // 콘텐츠 타입 변경 핸들러 (외부 제어가 아닐 때만 URL 업데이트)
   const handleTypeChange = useCallback((type: ContentTypeFilterValue) => {
@@ -164,8 +167,12 @@ export default function CelebFeed({
 
   // 콘텐츠 타입 변경 시 리셋
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      if (initialReviews !== undefined) return;
+    }
     loadInitial();
-  }, [loadInitial]);
+  }, [loadInitial, initialReviews]);
 
   if (isLoading) {
     return (

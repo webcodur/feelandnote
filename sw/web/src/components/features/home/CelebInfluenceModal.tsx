@@ -3,31 +3,28 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Crown, Lightbulb, Cpu, Users, Coins, Palette, Clock, ChevronDown, ChevronUp } from "lucide-react";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Avatar } from "@/components/ui";
+import { INFLUENCE_CATEGORIES } from "@/constants/influence";
+import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
+import { Clock } from "lucide-react";
 
-// #region 상수 정의
-const RANK_STYLES: Record<string, { bg: string; text: string; border: string; glow: string }> = {
-  S: { bg: "bg-gradient-to-br from-[#ffd700] via-[#d4af37] to-[#8a732a]", text: "text-[#1a1200]", border: "border-[#ffd700]", glow: "shadow-[0_0_20px_rgba(212,175,55,0.5)]" },
-  A: { bg: "bg-gradient-to-br from-[#e8e8e8] via-[#c0c0c0] to-[#808080]", text: "text-[#1a1a1a]", border: "border-[#e0e0e0]", glow: "shadow-[0_0_15px_rgba(192,192,192,0.4)]" },
-  B: { bg: "bg-gradient-to-br from-[#e6a55a] via-[#cd7f32] to-[#8b5a2b]", text: "text-[#1a1000]", border: "border-[#cd7f32]", glow: "shadow-[0_0_15px_rgba(205,127,50,0.4)]" },
-  C: { bg: "bg-gradient-to-br from-[#4a4a52] via-[#3a3a42] to-[#2a2a2f]", text: "text-text-primary", border: "border-[#4a4a52]", glow: "" },
-  D: { bg: "bg-gradient-to-br from-[#2a2a2f] via-[#1f1f24] to-[#151518]", text: "text-text-secondary", border: "border-[#333]", glow: "" },
+// Aura 기반 모달 스타일 (9단계)
+const AURA_MODAL_STYLES: Record<Aura, { bg: string; text: string; border: string; glow: string }> = {
+  1: { bg: 'bg-gradient-to-br from-[#8d6e63] via-[#5d4037] to-[#3e2723]', text: 'text-[#efebe9]', border: 'border-[#8d6e63]', glow: '' }, // Wood
+  2: { bg: 'bg-gradient-to-br from-[#607d8b] via-[#455a64] to-[#263238]', text: 'text-[#eceff1]', border: 'border-[#607d8b]', glow: '' }, // Stone
+  3: { bg: 'bg-gradient-to-br from-[#D4C1A5] via-[#8C7853] to-[#5D4037]', text: 'text-[#F5EFDF]', border: 'border-[#8C7853]', glow: 'shadow-[0_0_15px_rgba(140,120,83,0.4)]' }, // Bronze
+  4: { bg: 'bg-gradient-to-br from-[#FFFFFF] via-[#C0C0C0] to-[#808080]', text: 'text-[#1a1a1a]', border: 'border-[#C0C0C0]', glow: 'shadow-[0_0_15px_rgba(192,192,192,0.4)]' }, // Silver
+  5: { bg: 'bg-gradient-to-br from-[#FCF6BA] via-[#D4AF37] to-[#8A6E2F]', text: 'text-[#1a1200]', border: 'border-[#D4AF37]', glow: 'shadow-[0_0_20px_rgba(212,175,55,0.5)]' }, // Gold
+  6: { bg: 'bg-gradient-to-br from-[#98FB98] via-[#50C878] to-[#2E8B57]', text: 'text-[#004d00]', border: 'border-[#50C878]', glow: 'shadow-[0_0_20px_rgba(80,200,120,0.5)]' }, // Emerald
+  7: { bg: 'bg-gradient-to-br from-[#FF6B6B] via-[#DC143C] to-[#8B0000]', text: 'text-[#ffd0d0]', border: 'border-[#DC143C]', glow: 'shadow-[0_0_20px_rgba(220,20,60,0.5)]' }, // Crimson
+  8: { bg: 'bg-gradient-to-br from-[#E0FFFF] via-[#B0E0E6] to-[#87CEEB]', text: 'text-[#001a3a]', border: 'border-[#87CEEB]', glow: 'shadow-[0_0_20px_rgba(135,206,235,0.5)]' }, // Diamond
+  9: { bg: 'bg-gradient-to-br from-[#FF00FF] via-[#00FFFF] to-[#FFFF00]', text: 'text-[#1a001a]', border: 'border-[#FFFFFF]', glow: 'shadow-[0_0_25px_rgba(255,255,255,0.7)]' }, // Holographic
 };
 
-// 골드 액센트 기반 단색 테마 - 밝기로 구분
 const GOLD_ACCENT = "#d4af37";
-const INFLUENCE_CATEGORIES = [
-  { key: "political", label: "정치", icon: Crown, angle: 0 },
-  { key: "strategic", label: "전략", icon: Lightbulb, angle: 60 },
-  { key: "tech", label: "기술", icon: Cpu, angle: 120 },
-  { key: "social", label: "사회", icon: Users, angle: 180 },
-  { key: "economic", label: "경제", icon: Coins, angle: 240 },
-  { key: "cultural", label: "문화", icon: Palette, angle: 300 },
-] as const;
-// #endregion
 
 // #region 레이더 차트 컴포넌트
 function RadarChart({ data, size = 200 }: { data: CelebInfluenceDetail; size?: number }) {
@@ -329,7 +326,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
 
   if (!isOpen || typeof document === "undefined") return null;
 
-  const rankStyle = data ? RANK_STYLES[data.rank] : RANK_STYLES.D;
+  const aura = data ? getAuraByScore(data.total_score) : 1;
+  const levelStyle = AURA_MODAL_STYLES[aura];
+  const mat = getMaterialConfigByScore(data?.total_score ?? 0);
   const professionLabel = data?.profession ? getCelebProfessionLabel(data.profession) : null;
 
   const toggleCategory = (key: string) => {
@@ -364,16 +363,16 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
         <div className="flex items-center gap-4">
           {/* 아바타 + 등급 */}
           <div className="relative shrink-0">
-            <div className={`absolute -inset-1 ${rankStyle.bg} ${rankStyle.glow} rounded-lg opacity-50`} />
+            <div className={`absolute -inset-1 ${levelStyle.bg} ${levelStyle.glow} rounded-lg opacity-50`} />
             <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
             {/* 등급 뱃지 (아바타 우하단) */}
             <div className={`
               absolute -bottom-1 -right-1 w-6 h-6
               flex items-center justify-center rounded border
-              ${rankStyle.bg} ${rankStyle.border}
+              ${levelStyle.bg} ${levelStyle.border}
               shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)]
             `}>
-              <span className={`text-xs font-black ${rankStyle.text}`}>{data!.rank}</span>
+              <span className={`text-xs font-black ${levelStyle.text}`}>{mat.romanNumeral}</span>
             </div>
           </div>
 
@@ -427,7 +426,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
       {isMobile && (
         <div className="flex items-center gap-3">
           <div className="relative shrink-0">
-            <div className={`absolute -inset-1 ${rankStyle.bg} ${rankStyle.glow} rounded-lg opacity-50`} />
+            <div className={`absolute -inset-1 ${levelStyle.bg} ${levelStyle.glow} rounded-lg opacity-50`} />
             <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
           </div>
           <div className="flex-1 min-w-0">
@@ -436,9 +435,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
             <div className="flex items-center gap-2 mt-1.5">
               <div className={`
                 w-7 h-7 flex items-center justify-center rounded border
-                ${rankStyle.bg} ${rankStyle.border}
+                ${levelStyle.bg} ${levelStyle.border}
               `}>
-                <span className={`text-sm font-black ${rankStyle.text}`}>{data!.rank}</span>
+                <span className={`text-sm font-black ${levelStyle.text}`}>{mat.romanNumeral}</span>
               </div>
               <span className="text-xl font-black text-accent">{data!.total_score}</span>
               <span className="text-xs text-text-tertiary">/100</span>

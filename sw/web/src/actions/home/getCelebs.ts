@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { calculateInfluenceRank } from '@feelnnote/ai-services/celeb-profile'
+import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile } from '@/types/home'
 
 export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence'
@@ -144,31 +144,59 @@ export async function getCelebs(
     myFollowers = new Set((followerData || []).map(f => f.follower_id))
   }
 
-  // CelebProfile 형태로 변환 (이미 DB에서 정렬됨)
-  const celebs: CelebProfile[] = rows.map(row => ({
-    id: row.id,
-    nickname: row.nickname || '',
-    avatar_url: row.avatar_url,
-    portrait_url: row.portrait_url,
-    profession: row.profession,
-    title: row.title,
-    consumption_philosophy: row.consumption_philosophy,
-    nationality: row.nationality,
-    birth_date: row.birth_date,
-    death_date: row.death_date,
-    bio: row.bio,
-    quotes: row.quotes,
-    is_verified: row.is_verified ?? false,
-    is_platform_managed: row.claimed_by === null,
-    follower_count: row.follower_count,
-    content_count: contentCountMap.get(row.id) ?? 0,
-    is_following: myFollowings.has(row.id),
-    is_follower: myFollowers.has(row.id),
-    influence: row.total_score > 0 ? {
-      total_score: row.total_score,
-      rank: calculateInfluenceRank(row.total_score),
-    } : null,
-  }))
+  // 전체 영향력 순위 조회 (점수 내림차순 정렬, 고정 순위)
+  const { data: influenceRankings } = await supabase
+    .from('celeb_influence')
+    .select('celeb_id, total_score')
+    .gt('total_score', 0)
+    .order('total_score', { ascending: false })
+
+  // celeb_id → ranking 매핑 (1부터 시작)
+  const rankingMap = new Map<string, number>()
+  ;(influenceRankings || []).forEach((item, index) => {
+    rankingMap.set(item.celeb_id, index + 1)
+  })
+  const influenceTotal = influenceRankings?.length ?? 0
+
+  // CelebProfile 형태로 변환
+  const celebs: CelebProfile[] = rows.map((row) => {
+    // 전체 영향력 순위 (점수 기반 고정)
+    const ranking = rankingMap.get(row.id)
+
+    // percentile 계산: 전체 중 순위 기반
+    const percentile = ranking && influenceTotal > 0
+      ? (ranking / influenceTotal) * 100
+      : 100 // 순위 정보 없으면 최하위로 간주
+
+    return {
+      id: row.id,
+      nickname: row.nickname || '',
+      avatar_url: row.avatar_url,
+      portrait_url: row.portrait_url,
+      profession: row.profession,
+      title: row.title,
+      consumption_philosophy: row.consumption_philosophy,
+      nationality: row.nationality,
+      birth_date: row.birth_date,
+      death_date: row.death_date,
+      bio: row.bio,
+      quotes: row.quotes,
+      is_verified: row.is_verified ?? false,
+      is_platform_managed: row.claimed_by === null,
+      follower_count: row.follower_count,
+      content_count: contentCountMap.get(row.id) ?? 0,
+      is_following: myFollowings.has(row.id),
+      is_follower: myFollowers.has(row.id),
+      influence: row.total_score > 0 ? {
+        total_score: row.total_score,
+        level: ranking
+          ? getCelebLevelByRanking(ranking, influenceTotal)
+          : getCelebLevelByRanking(1, 1),
+        ranking,
+        percentile,
+      } : null,
+    }
+  })
 
   return { celebs, total, page, totalPages, error: null }
 }

@@ -5,9 +5,10 @@
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { Button, InnerBox } from "@/components/ui";
+import Portal from "@/components/ui/Portal";
 import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -19,6 +20,8 @@ function cn(...classes: (string | undefined | null | false)[]) {
 
 export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpdate }: EntryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
+  const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
+  const moreButtonRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(entry.content);
   const [editIsPrivate, setEditIsPrivate] = useState(entry.is_private);
@@ -141,18 +144,30 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
 
         {/* 메뉴 - 우측 상단 배치 */}
         {(canDelete || canEdit) && !isEditing && (
-          <div className="relative ml-2">
+          <div className="relative ml-2" ref={moreButtonRef}>
             <Button
               unstyled
-              onClick={() => setShowMenu(!showMenu)}
+              onClick={() => {
+                if (!showMenu && moreButtonRef.current) {
+                  const rect = moreButtonRef.current.getBoundingClientRect();
+                  setMenuPos({ top: rect.bottom, right: window.innerWidth - rect.right });
+                }
+                setShowMenu(!showMenu);
+              }}
               className="p-1.5 text-text-tertiary hover:text-accent hover:bg-white/5 rounded-sm transition-all"
             >
               <MoreVertical size={16} />
             </Button>
-            {showMenu && (
-              <>
-                <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-                <div className="absolute end-0 top-8 z-20 bg-bg-card border-2 border-accent border-double rounded-sm shadow-2xl py-1 min-w-[120px] animate-in fade-in slide-in-from-top-2 duration-300">
+            {showMenu && menuPos && (
+              <Portal>
+                <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)} />
+                <div 
+                  className="fixed z-[9999] bg-bg-card border-2 border-accent border-double rounded-sm shadow-2xl py-1 min-w-[120px] animate-in fade-in zoom-in-95 duration-200"
+                  style={{ 
+                    top: `${menuPos.top + 8}px`, 
+                    right: `${menuPos.right}px` 
+                  }}
+                >
                   {canEdit && (
                     <Button
                       unstyled
@@ -180,7 +195,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                     </Button>
                   )}
                 </div>
-              </>
+              </Portal>
             )}
           </div>
         )}

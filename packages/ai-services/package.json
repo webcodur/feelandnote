@@ -7,9 +7,12 @@
     "./celeb-profile": "./src/celeb-profile.ts",
     "./content-extractor": "./src/content-extractor.ts",
     "./title-translator": "./src/title-translator.ts",
-    "./url-fetcher": "./src/url-fetcher.ts"
+    "./url-fetcher": "./src/url-fetcher.ts",
+    "./prompts/celeb-profile-prompt": "./src/prompts/celeb-profile-prompt.ts",
+    "./prompts/influence-rulebook": "./src/prompts/influence-rulebook.ts"
   },
   "dependencies": {
-    "@feelnnote/content-search": "workspace:*"
+    "@feelnnote/content-search": "workspace:*",
+    "@feelnnote/influence-constants": "workspace:*"
   }
 }

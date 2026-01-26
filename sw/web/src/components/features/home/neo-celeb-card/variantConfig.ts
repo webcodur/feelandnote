@@ -137,6 +137,71 @@ export const getVariantStyles = (variant: CardVariant) => {
         lpClass: styles.lpIron,
         imageFrame: styles.imageFrameIron,
       };
+    case "gigas":
+      return {
+        surface: styles.gigasSurface,
+        borderVariant: styles.gigas,
+        shadow: styles.shadowGigas,
+        btn: styles.btnGigas,
+        text: styles.textGigas,
+        subText: styles.subTextGigas,
+        dot: styles.dotGigas,
+        label: styles.labelGigas,
+        lpClass: styles.lpGigas,
+        imageFrame: styles.imageFrameGigas,
+      };
+    case "novice":
+      return {
+        surface: styles.noviceSurface,
+        borderVariant: styles.novice,
+        shadow: styles.shadowNovice,
+        btn: styles.btnNovice,
+        text: styles.textNovice,
+        subText: styles.subTextNovice,
+        dot: styles.dotNovice,
+        label: styles.labelNovice,
+        lpClass: styles.lpNovice,
+        imageFrame: styles.imageFrameNovice,
+      };
+    case "mortal":
+      return {
+        surface: styles.mortalSurface,
+        borderVariant: styles.mortal,
+        shadow: styles.shadowMortal,
+        btn: styles.btnMortal,
+        text: styles.textMortal,
+        subText: styles.subTextMortal,
+        dot: styles.dotMortal,
+        label: styles.labelMortal,
+        lpClass: styles.lpMortal,
+        imageFrame: styles.imageFrameMortal,
+      };
+    case "emerald":
+      return {
+        surface: styles.emeraldSurface,
+        borderVariant: styles.emerald,
+        shadow: styles.shadowEmerald,
+        btn: styles.btnEmerald,
+        text: styles.textEmerald,
+        subText: styles.subTextEmerald,
+        dot: styles.dotEmerald,
+        label: styles.labelEmerald,
+        lpClass: styles.lpEmerald,
+        imageFrame: styles.imageFrameEmerald,
+      };
+    case "stone":
+      return {
+        surface: styles.stoneSurface,
+        borderVariant: styles.stone,
+        shadow: styles.shadowStone,
+        btn: styles.btnStone,
+        text: styles.textStone,
+        subText: styles.subTextStone,
+        dot: styles.dotStone,
+        label: styles.labelStone,
+        lpClass: styles.lpStone,
+        imageFrame: styles.imageFrameStone,
+      };
     default:
        return {
           surface: styles.goldSurface,
