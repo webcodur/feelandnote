@@ -13,6 +13,7 @@ export interface ExtractedContent {
   creatorKo?: string
   review?: string
   sourceUrl?: string
+  rating?: number
 }
 
 export interface ExtractionResult {

@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile } from '@/types/home'
 
-export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence'
+export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
 
 interface GetCelebsParams {
   page?: number

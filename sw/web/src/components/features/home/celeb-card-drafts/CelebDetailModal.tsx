@@ -190,7 +190,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 userId={celeb.id}
                 userName={celeb.nickname}
                 userAvatar={celeb.avatar_url}
-                isOfficial={true}
+                isOfficial={celeb.is_verified}
                 userTitle={null}
                 userSubtitle={celeb.title || undefined}
                 contentType={review.content.type}

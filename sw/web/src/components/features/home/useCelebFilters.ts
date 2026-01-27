@@ -12,6 +12,7 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortB
 export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
   { value: "influence", label: "영향력순" },
   { value: "follower", label: "팔로워순" },
+  { value: "content_count", label: "보유 콘텐츠순" },
   { value: "name_asc", label: "이름순" },
   { value: "birth_date_desc", label: "최근 출생순" },
   { value: "birth_date_asc", label: "오래된 출생순" },
@@ -21,7 +22,7 @@ export type FilterType = "profession" | "nationality" | "contentType" | "sort";
 
 export const PAGE_SIZE = 24;
 
-const VALID_SORT_VALUES: CelebSortBy[] = ["influence", "follower", "name_asc", "birth_date_desc", "birth_date_asc"];
+const VALID_SORT_VALUES: CelebSortBy[] = ["influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 // #endregion
 
 interface UseCelebFiltersParams {

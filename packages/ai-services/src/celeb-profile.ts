@@ -9,6 +9,7 @@ import {
   INFLUENCE_OUTPUT_FORMAT,
   PROFESSION_CODES,
   PROFILE_RULES,
+  PHILOSOPHY_PROMPT,
 } from './prompts/celeb-profile-prompt'
 
 // #region Types

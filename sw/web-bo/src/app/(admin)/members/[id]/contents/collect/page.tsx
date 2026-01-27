@@ -5,17 +5,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params
   const member = await getMember(id)
   return {
-    title: member ? `${member.nickname} AI 수집` : 'AI 수집',
+    title: member ? `${member.nickname} 수집` : '수집',
   }
 }
 import { notFound } from 'next/navigation'
-import AICollectView from './AICollectView'
+import CollectView from './CollectView'
 
 interface PageProps {
   params: Promise<{ id: string }>
 }
 
-export default async function AICollectPage({ params }: PageProps) {
+export default async function CollectPage({ params }: PageProps) {
   const { id } = await params
 
   const member = await getMember(id)
@@ -23,5 +23,5 @@ export default async function AICollectPage({ params }: PageProps) {
     notFound()
   }
 
-  return <AICollectView celebId={id} celebName={member.nickname || '셀럽'} />
+  return <CollectView celebId={id} celebName={member.nickname || '셀럽'} />
 }

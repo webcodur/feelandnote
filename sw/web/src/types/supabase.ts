@@ -10,8 +10,96 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.5"
+  }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action_type: string
+          content_id: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          target_id: string
+          target_type: string
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          content_id?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          target_id: string
+          target_type: string
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          content_id?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          target_id?: string
+          target_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_reviews: {
+        Row: {
+          content_id: string
+          created_at: string | null
+          id: string
+          model: string
+          review: string
+          user_id: string
+        }
+        Insert: {
+          content_id: string
+          created_at?: string | null
+          id?: string
+          model: string
+          review: string
+          user_id: string
+        }
+        Update: {
+          content_id?: string
+          created_at?: string | null
+          id?: string
+          model?: string
+          review?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_reviews_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_reviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blind_game_scores: {
         Row: {
           id: string
@@ -80,11 +168,138 @@ export type Database = {
           },
         ]
       }
+      boards: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          title: string
+          type: Database["public"]["Enums"]["board_type"]
+          updated_at: string | null
+          user_id: string
+          views: number | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          title: string
+          type: Database["public"]["Enums"]["board_type"]
+          updated_at?: string | null
+          user_id: string
+          views?: number | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          title?: string
+          type?: Database["public"]["Enums"]["board_type"]
+          updated_at?: string | null
+          user_id?: string
+          views?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "boards_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_influence: {
+        Row: {
+          art: number
+          auto: string | null
+          biz: number
+          celeb_id: string
+          culture: number
+          edu: number
+          id: string
+          life: number
+          social: number
+          sports: number
+          tech: number
+        }
+        Insert: {
+          art?: number
+          auto?: string | null
+          biz?: number
+          celeb_id: string
+          culture?: number
+          edu?: number
+          id?: string
+          life?: number
+          social?: number
+          sports?: number
+          tech?: number
+        }
+        Update: {
+          art?: number
+          auto?: string | null
+          biz?: number
+          celeb_id?: string
+          culture?: number
+          edu?: number
+          id?: string
+          life?: number
+          social?: number
+          sports?: number
+          tech?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_influence_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_requests: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          reason: string | null
+          requested_by: string
+          status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          reason?: string | null
+          requested_by: string
+          status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          reason?: string | null
+          requested_by?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_requests_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contents: {
         Row: {
           created_at: string
           creator: string | null
           description: string | null
+          external_id: string | null
           id: string
           metadata: Json | null
           publisher: string | null
@@ -97,6 +312,7 @@ export type Database = {
           created_at?: string
           creator?: string | null
           description?: string | null
+          external_id?: string | null
           id: string
           metadata?: Json | null
           publisher?: string | null
@@ -109,6 +325,7 @@ export type Database = {
           created_at?: string
           creator?: string | null
           description?: string | null
+          external_id?: string | null
           id?: string
           metadata?: Json | null
           publisher?: string | null
@@ -118,6 +335,47 @@ export type Database = {
           type?: string
         }
         Relationships: []
+      }
+      feedbacks: {
+        Row: {
+          category: Database["public"]["Enums"]["feedback_category"]
+          content: string
+          created_at: string | null
+          id: string
+          status: Database["public"]["Enums"]["feedback_status"]
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["feedback_category"]
+          content: string
+          created_at?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["feedback_status"]
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["feedback_category"]
+          content?: string
+          created_at?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["feedback_status"]
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedbacks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       folders: {
         Row: {
@@ -176,6 +434,45 @@ export type Database = {
           {
             foreignKeyName: "follows_following_id_fkey"
             columns: ["following_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      guestbooks: {
+        Row: {
+          content: string
+          created_at: string | null
+          host_id: string
+          id: string
+          writer_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          host_id: string
+          id?: string
+          writer_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          host_id?: string
+          id?: string
+          writer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guestbooks_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "guestbooks_writer_id_fkey"
+            columns: ["writer_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -264,6 +561,60 @@ export type Database = {
           },
           {
             foreignKeyName: "notes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          actor_id: string | null
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          link: string | null
+          message: string
+          metadata: Json | null
+          title: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          link?: string | null
+          message: string
+          metadata?: Json | null
+          title?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          link?: string | null
+          message?: string
+          metadata?: Json | null
+          title?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -373,6 +724,7 @@ export type Database = {
           is_verified: boolean | null
           last_seen_at: string | null
           nickname: string | null
+          profession: string | null
           profile_type: string | null
           role: string | null
           status: string | null
@@ -391,6 +743,7 @@ export type Database = {
           is_verified?: boolean | null
           last_seen_at?: string | null
           nickname?: string | null
+          profession?: string | null
           profile_type?: string | null
           role?: string | null
           status?: string | null
@@ -409,6 +762,7 @@ export type Database = {
           is_verified?: boolean | null
           last_seen_at?: string | null
           nickname?: string | null
+          profession?: string | null
           profile_type?: string | null
           role?: string | null
           status?: string | null
@@ -815,62 +1169,50 @@ export type Database = {
           },
         ]
       }
-      user_titles: {
-        Row: {
-          id: string
-          title_id: string
-          unlocked_at: string | null
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          title_id: string
-          unlocked_at?: string | null
-          user_id: string
-        }
-        Update: {
-          id?: string
-          title_id?: string
-          unlocked_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_titles_title_id_fkey"
-            columns: ["title_id"]
-            isOneToOne: false
-            referencedRelation: "titles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_titles_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      is_admin: { Args: never; Returns: boolean }
-      update_influence: { Args: { p_user_id: string }; Returns: undefined }
+      calculate_aura_for_all: {
+        Args: Record<string, never>
+        Returns: undefined
+      }
+      calculate_level_for_all: {
+        Args: Record<string, never>
+        Returns: undefined
+      }
+      calculate_total_scores: {
+        Args: Record<string, never>
+        Returns: undefined
+      }
+      check_user_titles: {
+        Args: {
+          p_user_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      score_type: "activity" | "title"
-      tier_list_type: "all" | "category" | "genre" | "year" | "custom"
-      title_category:
-        | "volume"
-        | "diversity"
-        | "consistency"
-        | "depth"
-        | "social"
-        | "special"
-      title_grade: "common" | "uncommon" | "rare" | "epic" | "legendary"
-      visibility_type: "public" | "followers" | "private"
+      board_type: ["NOTICE", "FEEDBACK"]
+      feedback_category: [
+        "CELEB_REQUEST",
+        "CONTENT_REPORT",
+        "FEATURE_SUGGESTION",
+      ]
+      feedback_status: ["PENDING", "IN_PROGRESS", "COMPLETED", "REJECTED"]
+      score_type: ["activity", "title"]
+      tier_list_type: ["all", "category", "genre", "year", "custom"]
+      title_category: [
+        "volume",
+        "diversity",
+        "consistency",
+        "depth",
+        "social",
+        "special",
+      ]
+      title_grade: ["common", "uncommon", "rare", "epic", "legendary"]
+      visibility_type: ["public", "followers", "private"]
     }
     CompositeTypes: {
       [_ in never]: never
@@ -878,8 +1220,128 @@ export type Database = {
   }
 }
 
-// Helper types
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type TablesInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
-export type TablesUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
-export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
+
+export type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    ? keyof (DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? (DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    ? keyof DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    ? keyof DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    ? keyof DatabaseWithoutInternals[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      board_type: ["NOTICE", "FEEDBACK"],
+      feedback_category: [
+        "CELEB_REQUEST",
+        "CONTENT_REPORT",
+        "FEATURE_SUGGESTION",
+      ],
+      feedback_status: ["PENDING", "IN_PROGRESS", "COMPLETED", "REJECTED"],
+      score_type: ["activity", "title"],
+      tier_list_type: ["all", "category", "genre", "year", "custom"],
+      title_category: [
+        "volume",
+        "diversity",
+        "consistency",
+        "depth",
+        "social",
+        "special",
+      ],
+      title_grade: ["common", "uncommon", "rare", "epic", "legendary"],
+      visibility_type: ["public", "followers", "private"],
+    },
+  },
+} as const

@@ -12,42 +12,49 @@ import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import useDragScroll from "@/hooks/useDragScroll";
 import FormattedText from "@/components/ui/FormattedText";
+import RecordInteractions from "../interactions/RecordInteractions";
 
 interface OwnerReviewSectionProps {
+  recordId: string;
   review: string | null;
   rating: number | null;
   isSpoiler: boolean;
   ownerNickname?: string | null;
   ownerAvatar?: string | null;
   updatedAt?: string | null;
-}
-
-function formatRelativeTime(dateString: string): string {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMinutes = Math.floor(diffMs / (1000 * 60));
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffMinutes < 1) return "방금 전";
-  if (diffMinutes < 60) return `${diffMinutes}분 전`;
-  if (diffHours < 24) return `${diffHours}시간 전`;
-  if (diffDays < 7) return `${diffDays}일 전`;
-  return date.toLocaleDateString("ko-KR");
+  likeCount?: number;
+  commentCount?: number;
 }
 
 export default function OwnerReviewSection({
+  recordId,
   review,
   rating,
   isSpoiler,
   ownerNickname,
   ownerAvatar,
   updatedAt,
+  likeCount = 0,
+  commentCount = 0,
 }: OwnerReviewSectionProps) {
   const [showSpoiler, setShowSpoiler] = useState(false);
   const nickname = ownerNickname || "익명";
   const timeAgo = updatedAt ? formatRelativeTime(updatedAt) : null;
+
+  function formatRelativeTime(dateString: string): string {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffMinutes < 1) return "방금 전";
+    if (diffMinutes < 60) return `${diffMinutes}분 전`;
+    if (diffHours < 24) return `${diffHours}시간 전`;
+    if (diffDays < 7) return `${diffDays}일 전`;
+    return date.toLocaleDateString("ko-KR");
+  }
 
   const {
     containerRef,
@@ -132,6 +139,9 @@ export default function OwnerReviewSection({
               )}
             </div>
           )}
+        </div>
+        <div className="px-3 pb-3">
+             <RecordInteractions recordId={recordId} initialLikeCount={likeCount} initialCommentCount={commentCount} />
         </div>
       </Card>
     </div>

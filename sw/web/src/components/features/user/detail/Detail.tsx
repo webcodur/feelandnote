@@ -137,6 +137,7 @@ export default function Detail({
               />
             ) : (
               <OwnerReviewSection
+                recordId={item.id}
                 review={item.review}
                 rating={item.rating}
                 isSpoiler={item.is_spoiler ?? false}

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Card, TitleBadge } from "@/components/ui";
 import { BLUR_DATA_URL } from "@/constants/image";
 import type { FeedRecord } from "@/actions/records";
+import RecordInteractions from "../interactions/RecordInteractions";
 
 function formatRelativeTime(dateString: string): string {
   const date = new Date(dateString);
@@ -87,6 +88,9 @@ export default function FeedPostCard({ record }: FeedPostCardProps) {
         <div className="text-xs leading-relaxed text-text-secondary line-clamp-3">
           {record.content}
         </div>
+      </div>
+      <div className="px-2.5 pb-2.5">
+           <RecordInteractions recordId={record.id} initialLikeCount={0} initialCommentCount={0} />
       </div>
     </Card>
   );

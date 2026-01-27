@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { X, Search, Loader2, ChevronLeft, ChevronRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -19,7 +19,7 @@ interface SearchResult {
 interface Props {
   isOpen: boolean
   onClose: () => void
-  onSelect: (result: SearchResult) => void
+  onSelect: (result: SearchResult, query: string) => void
   contentType: ContentType
   initialQuery?: string
 }
@@ -124,7 +124,7 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
   }
 
   function handleSelect(result: SearchResult) {
-    onSelect(result)
+    onSelect(result, query)
     onClose()
   }
 
@@ -136,6 +136,17 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
   function handleClose() {
     onClose()
   }
+
+  // ESC 키로 닫기
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (isOpen && e.key === 'Escape') {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
 
   if (!isOpen) return null
 

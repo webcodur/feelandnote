@@ -1,5 +1,16 @@
 import type { Metadata } from 'next'
 import { getCeleb, getCelebContents } from '@/actions/admin/celebs'
+import { notFound } from 'next/navigation'
+import { ArrowLeft, Star, ListVideo } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import ContentList from './ContentList'
+import AddContentForm from './AddContentForm'
+import ExportContentButton from './ExportContentButton'
+import ProjectRulesButton from '../../components/ProjectRulesButton'
+import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
+import ContentCollector from './components/ContentCollector'
+import CollapsibleSection from '@/components/ui/CollapsibleSection'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
@@ -8,15 +19,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     title: celeb ? `${celeb.nickname} 콘텐츠` : '콘텐츠 관리',
   }
 }
-import { notFound } from 'next/navigation'
-import { ArrowLeft, Star, Sparkles } from 'lucide-react'
-import Link from 'next/link'
-import Image from 'next/image'
-import ContentList from './ContentList'
-import AddContentForm from './AddContentForm'
-import ExportContentButton from './ExportContentButton'
-import ProjectRulesButton from '../../components/ProjectRulesButton'
-import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -35,7 +37,7 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
   const totalPages = Math.ceil(total / 20)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -56,78 +58,84 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
             </div>
           </div>
         </div>
-        <ProjectRulesButton celebName={celeb.nickname || undefined} />
-      </div>
-
-      {/* Stats & Filter */}
-      <div className="bg-bg-card border border-border rounded-lg p-4 flex items-center justify-between">
-        <p className="text-text-secondary">
-          총 <span className="text-text-primary font-semibold">{total}</span>개의 콘텐츠 기록
-        </p>
         <div className="flex items-center gap-2">
-          <Link
-            href={`/members/${id}/contents`}
-            className={`px-3 py-1.5 rounded-lg text-sm ${!contentType ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-          >
-            전체
-          </Link>
-          {CONTENT_TYPES.map((type) => {
-            const config = CONTENT_TYPE_CONFIG[type]
-            const Icon = config.icon
-            const isActive = contentType === type
-            return (
-              <Link
-                key={type}
-                href={`/members/${id}/contents?type=${type}`}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm ${isActive ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                {config.label}
-              </Link>
-            )
-          })}
+           <ExportContentButton celebId={id} />
+           <ProjectRulesButton celebName={celeb.nickname || undefined} />
         </div>
       </div>
 
-      {/* Add Content Form */}
-      <div className="flex items-center gap-2">
-        <AddContentForm celebId={id} />
-        <Link
-          href={`/members/${id}/contents/ai-collect`}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/10"
-        >
-          <Sparkles className="w-4 h-4" />
-          수집
-        </Link>
-        <ExportContentButton celebId={id} />
-      </div>
-
-      {/* Content List */}
-      <ContentList contents={contents} celebId={id} />
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
-            const params = new URLSearchParams()
-            params.set('page', String(p))
-            if (contentType) params.set('type', contentType)
-            return (
+      {/* Content List Section - Moved to top */}
+      <CollapsibleSection
+        title="등록된 콘텐츠 목록"
+        icon={<ListVideo className="w-6 h-6" />}
+        count={total}
+        rightElement={<AddContentForm celebId={id} />}
+      >
+        <div className="space-y-4">
+          {/* Stats & Filter */}
+          <div className="bg-bg-card border border-border rounded-lg p-4 flex items-center justify-between">
+            <p className="text-text-secondary">
+              총 <span className="text-text-primary font-semibold">{total}</span>개의 콘텐츠 기록
+            </p>
+            <div className="flex items-center gap-2">
               <Link
-                key={p}
-                href={`/members/${id}/contents?${params.toString()}`}
-                className={`px-4 py-2 rounded-lg text-sm ${
-                  p === page
-                    ? 'bg-accent text-white'
-                    : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
-                }`}
+                href={`/members/${id}/contents`}
+                className={`px-3 py-1.5 rounded-lg text-sm ${!contentType ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
               >
-                {p}
+                전체
               </Link>
-            )
-          })}
+              {CONTENT_TYPES.map((type) => {
+                const config = CONTENT_TYPE_CONFIG[type]
+                const Icon = config.icon
+                const isActive = contentType === type
+                return (
+                  <Link
+                    key={type}
+                    href={`/members/${id}/contents?type=${type}`}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm ${isActive ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    {config.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Content List */}
+          <ContentList contents={contents} celebId={id} />
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                const params = new URLSearchParams()
+                params.set('page', String(p))
+                if (contentType) params.set('type', contentType)
+                return (
+                  <Link
+                    key={p}
+                    href={`/members/${id}/contents?${params.toString()}`}
+                    className={`px-4 py-2 rounded-lg text-sm ${
+                      p === page
+                        ? 'bg-accent text-white'
+                        : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
+                    }`}
+                  >
+                    {p}
+                  </Link>
+                )
+              })}
+            </div>
+          )}
         </div>
-      )}
+      </CollapsibleSection>
+
+      {/* Divider */}
+      <div className="h-px bg-border/50" />
+
+      {/* Collector Section */}
+      <ContentCollector celebId={id} celebName={celeb.nickname || ''} />
     </div>
   )
 }

@@ -62,11 +62,25 @@ const maruburi = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://feelnnote.com"),
   title: {
     default: "Feel&Note",
     template: "%s | F&N",
   },
   description: "Cultural Content Archive & Social Platform",
+  openGraph: {
+    title: "Feel&Note",
+    description: "당신의 문화 기록을 남기고, 영감을 발견하세요.",
+    url: "https://feelnnote.com", // 실 운영 도메인으로 변경 예정
+    siteName: "Feel&Note",
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Feel&Note",
+    description: "Cultural Content Archive & Social Platform",
+  },
 };
 
 export default function RootLayout({
