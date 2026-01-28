@@ -8,6 +8,7 @@
 import { CertificateCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
 import RecordCard from "@/components/ui/cards/RecordCard";
+import { RecommendButton } from "@/components/features/recommendations";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
@@ -49,24 +50,38 @@ export default function ContentItemRenderer({
       {/* 일반 콘텐츠: 그리드 레이아웃 */}
       {regularContents.length > 0 && (
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
-          {regularContents.map((item) => (
-            <RecordCard
-              key={item.id}
-              contentId={item.content_id}
-              contentType={item.content.type}
-              title={item.content.title}
-              creator={item.content.creator}
-              thumbnail={item.content.thumbnail_url}
-              status={item.status}
-              rating={item.rating}
-              review={item.review}
-              isSpoiler={item.is_spoiler ?? undefined}
-              sourceUrl={item.source_url}
-              href={getHref(item)}
-              showStatusBadge={false}
-              ownerNickname={ownerNickname}
-            />
-          ))}
+          {regularContents.map((item) => {
+            // 본인 소유 + FINISHED 상태일 때만 추천 버튼 표시
+            const showRecommend = !readOnly && item.status === "FINISHED";
+
+            return (
+              <RecordCard
+                key={item.id}
+                contentId={item.content_id}
+                contentType={item.content.type}
+                title={item.content.title}
+                creator={item.content.creator}
+                thumbnail={item.content.thumbnail_url}
+                status={item.status}
+                rating={item.rating}
+                review={item.review}
+                isSpoiler={item.is_spoiler ?? undefined}
+                sourceUrl={item.source_url}
+                href={getHref(item)}
+                showStatusBadge={false}
+                ownerNickname={ownerNickname}
+                actionNode={showRecommend ? (
+                  <RecommendButton
+                    userContentId={item.id}
+                    contentTitle={item.content.title}
+                    contentThumbnail={item.content.thumbnail_url}
+                    contentType={item.content.type}
+                    iconOnly
+                  />
+                ) : undefined}
+              />
+            );
+          })}
         </div>
       )}
 

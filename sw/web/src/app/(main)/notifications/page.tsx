@@ -6,17 +6,18 @@ import { Database } from "@/types/supabase";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { 
-  TempleBellIcon, 
-  SacredFlameIcon, 
-  MessageTabletIcon, 
-  BustIcon, 
-  LaurelIcon, 
+import {
+  TempleBellIcon,
+  SacredFlameIcon,
+  MessageTabletIcon,
+  BustIcon,
+  LaurelIcon,
   ScrollIcon
 } from "@/components/ui/icons/neo-pantheon";
-import { Trash2 as TrashIcon, CheckCheck as CheckDoubleIcon } from "lucide-react";
+import { Trash2 as TrashIcon, CheckCheck as CheckDoubleIcon, Gift, Check, X } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
+import { respondRecommendation } from "@/actions/recommendations";
 
 type Notification = Database["public"]["Tables"]["notifications"]["Row"];
 
@@ -123,7 +124,49 @@ export default function NotificationsPage() {
       case "follow": return <BustIcon size={20} />;
       case "achievement": return <LaurelIcon size={20} />;
       case "guestbook": return <ScrollIcon size={20} />;
+      case "recommendation": return <Gift size={20} />;
+      case "recommendation_accepted": return <Gift size={20} />;
       default: return <TempleBellIcon size={20} />;
+    }
+  };
+
+  const [respondingId, setRespondingId] = useState<string | null>(null);
+
+  const handleRecommendationRespond = async (notif: Notification, accept: boolean) => {
+    const metadata = notif.metadata as { recommendation_id?: string } | null;
+    const recommendationId = metadata?.recommendation_id;
+    if (!recommendationId) return;
+
+    setRespondingId(notif.id);
+
+    const result = await respondRecommendation({
+      recommendationId,
+      accept,
+    });
+
+    setRespondingId(null);
+
+    if (result.success) {
+      // 알림 metadata에 응답 상태 저장 + 읽음 처리
+      const updatedMetadata = {
+        ...metadata,
+        responded: true,
+        accepted: accept,
+      };
+
+      await supabase
+        .from("notifications")
+        .update({ is_read: true, metadata: updatedMetadata })
+        .eq("id", notif.id);
+
+      // 로컬 상태 업데이트
+      setNotifications(prev =>
+        prev.map(n =>
+          n.id === notif.id
+            ? { ...n, is_read: true, metadata: updatedMetadata }
+            : n
+        )
+      );
     }
   };
 
@@ -244,8 +287,61 @@ export default function NotificationsPage() {
                   
                   <div className="flex items-center gap-3 text-xs text-text-tertiary">
                     <span>{notif.created_at ? formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: ko }) : ''}</span>
-                    {/* 메타데이터 정보가 있다면 여기에 추가 표시 가능 */}
                   </div>
+
+                  {/* 추천 알림: 수락/거절 버튼 또는 응답 상태 */}
+                  {notif.type === "recommendation" && (() => {
+                    const meta = notif.metadata as { responded?: boolean; accepted?: boolean } | null;
+
+                    // 이미 응답한 경우 상태 표시
+                    if (meta?.responded) {
+                      return (
+                        <div className="mt-3">
+                          {meta.accepted ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+                              <Check size={14} />
+                              수락함
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-text-tertiary border border-border">
+                              <X size={14} />
+                              거절함
+                            </span>
+                          )}
+                        </div>
+                      );
+                    }
+
+                    // 아직 응답 안 한 경우 버튼 표시
+                    return (
+                      <div className="flex gap-2 mt-3">
+                        <Button
+                          unstyled
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRecommendationRespond(notif, false);
+                          }}
+                          disabled={respondingId === notif.id}
+                          className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-text-secondary border border-border disabled:opacity-50"
+                        >
+                          <X size={14} />
+                          거절
+                        </Button>
+                        <Button
+                          unstyled
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRecommendationRespond(notif, true);
+                          }}
+                          disabled={respondingId === notif.id}
+                          className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium bg-accent hover:bg-accent-hover text-white disabled:opacity-50"
+                        >
+                          <Check size={14} />
+                          수락
+                        </Button>
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* 읽지 않음 표시 (우측 데코레이션) */}

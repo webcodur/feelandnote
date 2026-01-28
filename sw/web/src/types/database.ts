@@ -385,3 +385,25 @@ export interface BoardComment {
 export interface BoardCommentWithAuthor extends BoardComment {
   author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
 }
+
+// ===== Celeb Tags =====
+export interface CelebTag {
+  id: string
+  name: string
+  description: string | null
+  color: string
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
+export interface CelebTagAssignment {
+  id: string
+  celeb_id: string
+  tag_id: string
+  assigned_at: string
+}
+
+export interface CelebTagWithCount extends CelebTag {
+  celeb_count: number
+}

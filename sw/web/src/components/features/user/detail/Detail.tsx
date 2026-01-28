@@ -19,6 +19,7 @@ import OwnerReviewSection from "./sections/OwnerReviewSection";
 import CreationSection from "./sections/CreationSection";
 import CreateCreationModal from "../modals/CreateCreationModal";
 import NoteEditor from "./note/NoteEditor";
+import { RecommendButton } from "@/components/features/recommendations";
 import { type UserContentWithDetails } from "@/actions/contents/getContent";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { updateReview } from "@/actions/contents/updateReview";
@@ -114,6 +115,18 @@ export default function Detail({
         onStatusChange={handleStatusChange}
         onDelete={handleDelete}
       />
+
+      {/* 추천 버튼: 본인 소유 + 완료 상태 */}
+      {isOwner && item.status === "FINISHED" && (
+        <div className="flex justify-end mb-4">
+          <RecommendButton
+            userContentId={item.id}
+            contentTitle={item.content.title}
+            contentThumbnail={item.content.thumbnail_url}
+            contentType={item.content.type}
+          />
+        </div>
+      )}
 
       <ArchiveDetailTabs
         activeSubTab={activeSubTab}

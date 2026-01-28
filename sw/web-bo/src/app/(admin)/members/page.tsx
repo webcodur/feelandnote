@@ -4,7 +4,7 @@ import { getMembers } from '@/actions/admin/members'
 export const metadata: Metadata = {
   title: '멤버 관리',
 }
-import { Plus, FileEdit, Briefcase, BookOpen } from 'lucide-react'
+import { Plus, FileEdit, Briefcase, BookOpen, Tag } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import MemberTable from './components/MemberTable'
@@ -76,6 +76,11 @@ export default async function MembersPage({ searchParams }: PageProps) {
           <Link href="/members/philosophies">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
               <BookOpen className="w-4 h-4" />감상 철학 편집
+            </Button>
+          </Link>
+          <Link href="/members/tags">
+            <Button size="sm" variant="secondary" className="w-full sm:w-auto">
+              <Tag className="w-4 h-4" />태그 관리
             </Button>
           </Link>
           <Link href="/members/new">

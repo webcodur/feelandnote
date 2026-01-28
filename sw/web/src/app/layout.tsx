@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://feelnnote.com"),
   title: {
     default: "Feel&Note",
-    template: "%s | F&N",
+    template: "%s",
   },
   description: "Cultural Content Archive & Social Platform",
   openGraph: {

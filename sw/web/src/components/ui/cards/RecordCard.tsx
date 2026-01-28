@@ -364,12 +364,12 @@ export default function RecordCard({
         <ModalFooter className="flex gap-2">
           {/* 1. 콘텐츠 정보 및 다른 리뷰 보기 (Content Detail) */}
           <Button
-            variant="ghost"
+            variant="secondary"
             onClick={() => {
                const categoryId = getCategoryByDbType(contentType)?.id || "book";
                router.push(`/content/detail?id=${contentId}&category=${categoryId}`);
             }}
-            className="flex-1"
+            className="flex-1 gap-2"
             size="md"
           >
             <Book size={14} />
@@ -381,7 +381,7 @@ export default function RecordCard({
             <Button
               variant="primary"
               onClick={handleConfirmNavigate}
-              className="flex-1"
+              className="flex-1 gap-2"
               size="md"
             >
               <ExternalLink size={14} />

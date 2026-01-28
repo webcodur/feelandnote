@@ -53,6 +53,7 @@ export async function removeContent(userContentId: string) {
 
   revalidatePath(`/${user.id}/records`)
   revalidatePath(`/${user.id}/collections`)
+  revalidatePath(`/${user.id}/interests`)
 
   // 활동 로그
   await logActivity({

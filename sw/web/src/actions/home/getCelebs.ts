@@ -14,6 +14,8 @@ interface GetCelebsParams {
   contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
   sortBy?: CelebSortBy
   search?: string  // 이름 검색
+  tagId?: string  // 태그 필터
+  minContentCount?: number // 최소 컨텐츠 개수
 }
 
 interface GetCelebsResult {
@@ -47,7 +49,7 @@ interface CelebRow {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'influence', search } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'influence', search, tagId, minContentCount = 0 } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -61,6 +63,8 @@ export async function getCelebs(
     p_nationality: nationality ?? null,
     p_content_type: contentType ?? null,
     p_search: search ?? null,
+    p_tag_id: tagId ?? null,
+    p_min_content_count: minContentCount,
   })
   const total = countData ?? 0
 
@@ -75,6 +79,8 @@ export async function getCelebs(
     p_limit: limit,
     p_offset: offset,
     p_search: search ?? null,
+    p_tag_id: tagId ?? null,
+    p_min_content_count: minContentCount,
   })
 
   if (error) {
@@ -144,6 +150,23 @@ export async function getCelebs(
     myFollowers = new Set((followerData || []).map(f => f.follower_id))
   }
 
+  // 셀럽별 태그 정보 조회 (설명 포함)
+  type TagRow = { celeb_id: string; short_desc: string | null; long_desc: string | null; tag: { id: string; name: string; color: string } | null }
+  const tagMap = new Map<string, { id: string; name: string; color: string; short_desc: string | null; long_desc: string | null }[]>()
+  if (celebIds.length > 0) {
+    const { data: tagAssignments } = await supabase
+      .from('celeb_tag_assignments')
+      .select('celeb_id, short_desc, long_desc, tag:celeb_tags(id, name, color)')
+      .in('celeb_id', celebIds) as { data: TagRow[] | null }
+
+    ;(tagAssignments ?? []).forEach(item => {
+      if (!item.tag) return
+      const existing = tagMap.get(item.celeb_id) ?? []
+      existing.push({ ...item.tag, short_desc: item.short_desc, long_desc: item.long_desc })
+      tagMap.set(item.celeb_id, existing)
+    })
+  }
+
   // 전체 영향력 순위 조회 (점수 내림차순 정렬, 고정 순위)
   const { data: influenceRankings } = await supabase
     .from('celeb_influence')
@@ -195,6 +218,7 @@ export async function getCelebs(
         ranking,
         percentile,
       } : null,
+      tags: tagMap.get(row.id) ?? [],
     }
   })
 

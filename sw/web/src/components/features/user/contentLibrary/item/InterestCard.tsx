@@ -7,7 +7,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award, Trash2 } from "lucide-react";
 import { BLUR_DATA_URL } from "@/constants/image";
 import type { ContentType } from "@/types/database";
 
@@ -20,6 +20,7 @@ interface InterestCardProps {
   href: string;
   isSelected?: boolean;
   onSelect?: () => void;
+  onDelete?: () => void;
 }
 // #endregion
 
@@ -41,6 +42,7 @@ export default function InterestCard({
   href,
   isSelected = false,
   onSelect,
+  onDelete,
 }: InterestCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
 
@@ -51,16 +53,33 @@ export default function InterestCard({
     }
   };
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDelete?.();
+  };
+
   return (
     <Link
       href={href}
       onClick={handleClick}
-      className={`group block bg-bg-card hover:bg-bg-secondary border rounded-lg overflow-hidden ${
+      className={`group relative block bg-bg-card hover:bg-bg-secondary border rounded-lg overflow-hidden ${
         isSelected
           ? "border-accent ring-2 ring-accent/30 bg-accent/5"
           : "border-border/30 hover:border-accent/50"
       }`}
     >
+      {/* 삭제 버튼 */}
+      {onDelete && (
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-bg-main/80 text-text-tertiary hover:text-red-400 hover:bg-red-400/10 opacity-0 group-hover:opacity-100"
+        >
+          <Trash2 size={14} />
+        </button>
+      )}
+
       <div className="flex gap-3 p-3">
         {/* 썸네일 */}
         <div className="relative w-20 h-28 flex-shrink-0 rounded overflow-hidden bg-bg-secondary">

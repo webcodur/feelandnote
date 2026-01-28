@@ -8,12 +8,13 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, RotateCw } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
 import { getAuraByPercentile, getAuraByScore, type Aura } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
+import CelebTagsModal from "./CelebTagsModal";
 import InfluenceBadge from "@/components/ui/InfluenceBadge";
 import { FormattedText } from "@/components/ui";
 import { getCelebReviews } from "@/actions/home/getCelebReviews";
@@ -44,6 +45,7 @@ interface CelebDetailModalProps {
 }
 
 export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false }: CelebDetailModalProps) {
+  const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [isInfluenceOpen, setIsInfluenceOpen] = useState(false);
@@ -85,6 +87,25 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   };
 
   if (!isOpen || typeof document === "undefined") return null;
+
+  const ReturnButton = ({ className = "" }: { className?: string }) => (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setIsReviewMode(false);
+      }}
+      className={`
+        absolute flex items-center justify-center
+        w-8 h-16 bg-bg-card border border-accent/20 rounded-l-md shadow-lg
+        text-accent/50 hover:text-accent hover:bg-surface hover:w-10 hover:border-accent/50
+        transition-all duration-300 z-50 cursor-pointer group
+        ${className}
+      `}
+      title="프로필로 돌아가기"
+    >
+      <RotateCw size={16} className="text-current opacity-50 group-hover:opacity-100 group-hover:rotate-180 transition-all duration-500" />
+    </button>
+  );
 
   // #region Shared Components
   const FollowButton = ({ className = "" }: { className?: string }) => (
@@ -158,21 +179,53 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     </div>
   );
 
+  const TagBadges = () => {
+    if (!celeb.tags || celeb.tags.length === 0) return null;
+    
+    // 최대 3개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지)
+    const maxTags = 3;
+    const displayTags = celeb.tags.slice(0, maxTags);
+    const remainingCount = celeb.tags.length - maxTags;
+
+    return (
+      <div className="flex items-center justify-center gap-2 w-full max-w-full flex-wrap">
+        {displayTags.map(tag => (
+          <button
+            key={tag.id}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsTagsModalOpen(true);
+            }}
+            className="shrink-0 px-3 py-1 text-[11px] md:text-xs font-medium rounded-full border border-current/20 backdrop-blur-sm shadow-sm transition-all hover:scale-105 active:scale-95"
+            style={{ 
+              backgroundColor: `${tag.color}15`, 
+              color: tag.color,
+              borderColor: `${tag.color}30`
+            }}
+          >
+            {tag.name}
+          </button>
+        ))}
+        {remainingCount > 0 && (
+           <button 
+             onClick={(e) => {
+               e.stopPropagation();
+               setIsTagsModalOpen(true);
+             }}
+             className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] text-text-tertiary font-bold border border-border hover:bg-bg-tertiary hover:text-text-primary transition-colors"
+           >
+             +{remainingCount}
+           </button>
+        )}
+      </div>
+    );
+  };
+
   const ReviewView = () => (
     <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
-      {/* 헤더: 뒤로가기 및 타이틀 */}
-      <div className="flex items-center justify-between p-4 border-b border-border/50 shrink-0">
-        <button 
-          onClick={() => setIsReviewMode(false)}
-          className="text-text-secondary hover:text-accent transition-colors"
-          aria-label="돌아가기"
-        >
-          <div className="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center">
-             <span className="text-lg">←</span>
-          </div>
-        </button>
+      {/* 헤더: 뒤로가기 버튼 제거, 타이틀만 유지 */}
+      <div className="flex items-center justify-center p-4 border-b border-border/50 shrink-0 relative">
         <h2 className="text-lg font-serif font-bold text-accent">감상 기록</h2>
-        <div className="w-8" />
       </div>
 
       {/* 리스트 영역 */}
@@ -260,7 +313,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
              
             {/* PC 리뷰 모드 뷰 */}
             {isReviewMode ? (
-              <ReviewView />
+              <>
+                <ReturnButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-xl translate-x-1 hover:translate-x-0" />
+                <ReviewView />
+              </>
             ) : (
                <>
                  {/* PC 핸들 버튼: 우측 끝 중앙 */}
@@ -300,6 +356,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               </div>
 
               <div className="mb-4 shrink-0 w-full flex justify-center"><MetaInfo /></div>
+
+              {/* 태그 뱃지 */}
+              {celeb.tags && celeb.tags.length > 0 && (
+                <div className="mb-4 shrink-0 w-full max-w-full overflow-hidden flex justify-center">
+                  <TagBadges />
+                </div>
+              )}
 
               {celeb.quotes && (
                 <blockquote className="text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mb-6 leading-relaxed shrink-0 w-full text-center px-4">
@@ -423,6 +486,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 {/* 하단: 메타 (Stats 제거) */}
                 <div className="mt-4 w-full flex flex-col items-center">
                   <div className="flex justify-center opacity-70 scale-95 mb-1"><MetaInfo /></div>
+                  {/* 태그 뱃지 */}
+                  {celeb.tags && celeb.tags.length > 0 && (
+                    <div className="mt-2 w-full max-w-full overflow-hidden flex justify-center">
+                      <TagBadges />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -476,6 +545,14 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             celebId={celeb.id} 
             isOpen={isInfluenceOpen} 
             onClose={() => setIsInfluenceOpen(false)} 
+          />
+
+          {/* 태그 상세 모달 연동 */}
+          <CelebTagsModal 
+            isOpen={isTagsModalOpen}
+            onClose={() => setIsTagsModalOpen(false)}
+            tags={celeb.tags || []}
+            title={`${celeb.nickname}의 키워드`}
           />
         </div>
       </div>

@@ -255,6 +255,22 @@
   }
 }
 
+/* Hero Card Transition Animation */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-hero-fade-in {
+  animation: heroFadeIn 0.4s ease-out;
+}
+
 /* LP Spin Animation (명판/카드 공용) */
 @keyframes rotateSpin {
   from { transform: rotate(0deg); }

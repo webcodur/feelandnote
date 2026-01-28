@@ -14,6 +14,14 @@ export interface CelebInfluence {
   percentile?: number
 }
 
+export interface CelebTagInfo {
+  id: string
+  name: string
+  color: string
+  short_desc: string | null  // 태그 부여 사유 (짧은 문구)
+  long_desc: string | null   // 태그 부여 상세 설명
+}
+
 export interface CelebProfile {
   id: string
   nickname: string
@@ -34,6 +42,7 @@ export interface CelebProfile {
   is_following: boolean  // 현재 유저가 팔로우 중인지
   is_follower: boolean   // 상대방이 나를 팔로우 중인지 (맞팔 = 친구)
   influence: CelebInfluence | null  // 영향력 평가 (없을 수 있음)
+  tags: CelebTagInfo[]  // 태그 목록
 }
 
 export interface CelebReview {

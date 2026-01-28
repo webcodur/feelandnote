@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
+import { getCelebTags, updateCelebTags, type CelebTagInput } from '@/actions/admin/tags'
 import { calculateInfluenceRank, type GeneratedInfluence } from '@feelnnote/ai-services/celeb-profile'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
@@ -23,6 +24,7 @@ import InfluenceJSONModal, { type InfluenceJSONData } from './InfluenceJSONModal
 import BasicProfilePromptModal from './BasicProfilePromptModal'
 import InfluencePromptModal from './InfluencePromptModal'
 import PhilosophyPromptModal from './PhilosophyPromptModal'
+import CelebTagSelector from './CelebTagSelector'
 
 // #region Types
 interface CelebFormData {
@@ -163,14 +165,19 @@ export default function CelebForm({ mode, celeb }: Props) {
   const initialInfluence = useRef(getInitialInfluence(celeb))
   const [isSaved, setIsSaved] = useState(false)
 
+  // 태그 상태 (short_desc, long_desc 포함)
+  const [selectedTags, setSelectedTags] = useState<CelebTagInput[]>([])
+  const initialTags = useRef<CelebTagInput[]>([])
+
   // isDirty 계산 - 폼 데이터가 변경되었는지 확인
   const isDirty = useCallback(() => {
     if (isSaved) return false
     const formChanged = JSON.stringify(formData) !== JSON.stringify(initialFormData.current)
     const influenceChanged = JSON.stringify(influence) !== JSON.stringify(initialInfluence.current)
     const hasNewImages = avatarFile !== null || portraitFile !== null
-    return formChanged || influenceChanged || hasNewImages
-  }, [formData, influence, avatarFile, portraitFile, isSaved])
+    const tagsChanged = JSON.stringify(selectedTags) !== JSON.stringify(initialTags.current)
+    return formChanged || influenceChanged || hasNewImages || tagsChanged
+  }, [formData, influence, avatarFile, portraitFile, isSaved, selectedTags])
 
   // beforeunload 이벤트 - 브라우저 이탈 방지
   useEffect(() => {
@@ -183,6 +190,17 @@ export default function CelebForm({ mode, celeb }: Props) {
     window.addEventListener('beforeunload', handleBeforeUnload)
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [isDirty])
+
+  // 편집 모드 시 태그 로딩
+  useEffect(() => {
+    if (mode === 'edit' && celeb) {
+      getCelebTags(celeb.id).then(tags => {
+        const tagsWithDesc = tags.map(t => ({ tagId: t.id, short_desc: t.short_desc, long_desc: t.long_desc }))
+        setSelectedTags(tagsWithDesc)
+        initialTags.current = tagsWithDesc
+      })
+    }
+  }, [mode, celeb])
 
   // Ctrl+V 이벤트 - 활성 섹션에 클립보드 데이터 입력 (입력 필드 밖에서만 작동)
   useEffect(() => {
@@ -533,6 +551,11 @@ export default function CelebForm({ mode, celeb }: Props) {
           await updateCeleb({ id: result.id, avatar_url: avatarUrl, portrait_url: portraitUrl })
         }
 
+        // 태그 저장 (생성 시)
+        if (selectedTags.length > 0) {
+          await updateCelebTags(result.id, selectedTags)
+        }
+
         setIsSaved(true)
         router.push(`/members/${result.id}`)
       } else if (celeb) {
@@ -570,10 +593,14 @@ export default function CelebForm({ mode, celeb }: Props) {
           influence: hasInfluence ? influence : undefined,
         })
 
+        // 태그 저장
+        await updateCelebTags(celeb.id, selectedTags)
+
         // 저장 후 초기값 업데이트 (isDirty 리셋)
         const updatedFormData = { ...formData, avatar_url: avatarUrl || '', portrait_url: portraitUrl || '' }
         initialFormData.current = updatedFormData
         initialInfluence.current = influence
+        initialTags.current = selectedTags
         setFormData(updatedFormData)
         setAvatarFile(null)
         setPortraitFile(null)
@@ -938,6 +965,18 @@ export default function CelebForm({ mode, celeb }: Props) {
           />
         </div>
         </div>
+      </div>
+
+      {/* Tags */}
+      <div className="bg-bg-card border border-border rounded-lg p-4">
+        <h2 className="text-base font-semibold text-text-primary mb-3">태그</h2>
+        <p className="text-xs text-text-secondary mb-3">
+          셀럽에게 태그를 부여하면 탐색 페이지에서 필터링할 수 있다.
+        </p>
+        <CelebTagSelector
+          selectedTags={selectedTags}
+          onTagsChange={setSelectedTags}
+        />
       </div>
 
       {/* Actions */}

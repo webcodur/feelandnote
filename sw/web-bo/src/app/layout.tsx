@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | F',
-    default: 'F',
+    template: '%s',
+    default: 'Feeln Admin',
   },
   description: "Feel&Note Back Office",
 };

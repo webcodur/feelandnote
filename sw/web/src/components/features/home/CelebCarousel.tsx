@@ -5,9 +5,10 @@ import { Pagination } from "@/components/ui";
 import ExpandedCelebCard from "./celeb-card-drafts/ExpandedCelebCard";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
+import TagQuickFilter from "./TagQuickFilter";
 import { useCelebFilters } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, TagCount } from "@/actions/home";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -16,6 +17,7 @@ interface CelebCarouselProps {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  tagCounts: TagCount[];
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
@@ -28,6 +30,7 @@ export default function CelebCarousel({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  tagCounts,
   mode = "grid",
   syncToUrl = false,
 }: CelebCarouselProps) {
@@ -38,6 +41,7 @@ export default function CelebCarousel({
     professionCounts,
     nationalityCounts,
     contentTypeCounts,
+    tagCounts,
     syncToUrl,
   });
 
@@ -51,22 +55,33 @@ export default function CelebCarousel({
 
   return (
     <div className="space-y-4">
+      {/* 태그 퀵필터 */}
+      <TagQuickFilter
+        tags={tagCounts}
+        currentTagId={filters.tagId}
+        onTagSelect={filters.handleTagChange}
+        isLoading={filters.isLoading}
+      />
+
       {/* 필터/정렬 - 캐러셀 상단 */}
       <CelebFiltersDesktop
         profession={filters.profession}
         nationality={filters.nationality}
         contentType={filters.contentType}
         sortBy={filters.sortBy}
+        tagId={filters.tagId}
         search={filters.search}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
+        tagCounts={tagCounts}
         isLoading={filters.isLoading}
         activeLabels={filters.activeLabels}
         onProfessionChange={filters.handleProfessionChange}
         onNationalityChange={filters.handleNationalityChange}
         onContentTypeChange={filters.handleContentTypeChange}
         onSortChange={filters.handleSortChange}
+        onTagChange={filters.handleTagChange}
         onSearchInput={filters.handleSearchInput}
         onSearchSubmit={filters.handleSearchSubmit}
         onSearchClear={filters.handleSearchClear}
@@ -77,10 +92,12 @@ export default function CelebCarousel({
         nationality={filters.nationality}
         contentType={filters.contentType}
         sortBy={filters.sortBy}
+        tagId={filters.tagId}
         search={filters.search}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
+        tagCounts={tagCounts}
         isLoading={filters.isLoading}
         activeFilter={filters.activeFilter}
         activeLabels={filters.activeLabels}
@@ -90,6 +107,7 @@ export default function CelebCarousel({
         onNationalityChange={filters.handleNationalityChange}
         onContentTypeChange={filters.handleContentTypeChange}
         onSortChange={filters.handleSortChange}
+        onTagChange={filters.handleTagChange}
         onSearchInput={filters.handleSearchInput}
         onSearchSubmit={filters.handleSearchSubmit}
         onSearchClear={filters.handleSearchClear}

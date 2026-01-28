@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts } from "@/actions/home";
+import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getTagCounts } from "@/actions/home";
 import { getFriends, getMyFollowing, getProfile, getFollowers, getSimilarUsers } from "@/actions/user";
 import Explore from "@/components/features/user/explore/Explore";
 import PageContainer from "@/components/layout/PageContainer";
@@ -38,19 +38,21 @@ async function ExploreContentServer() {
   const profile = await getProfile();
 
   const [
-    celebsResult, 
-    professionCounts, 
-    nationalityCounts, 
+    celebsResult,
+    professionCounts,
+    nationalityCounts,
     contentTypeCounts,
-    friendsResult, 
-    followingResult, 
-    followersResult, 
+    tagCounts,
+    friendsResult,
+    followingResult,
+    followersResult,
     similarUsersResult
   ] = await Promise.all([
-    getCelebs({ page: 1, limit: 24 }),
+    getCelebs({ page: 1, limit: 24, minContentCount: 1 }),
     getProfessionCounts(),
     getNationalityCounts(),
     getContentTypeCounts(),
+    getTagCounts(),
     getFriends(),
     getMyFollowing(),
     profile ? getFollowers(profile.id) : Promise.resolve({ success: true, data: [] }),
@@ -74,6 +76,7 @@ async function ExploreContentServer() {
       professionCounts={professionCounts}
       nationalityCounts={nationalityCounts}
       contentTypeCounts={contentTypeCounts}
+      tagCounts={tagCounts}
     />
   );
 }
