@@ -18,7 +18,7 @@ import InfluenceDistributionModal from "./InfluenceDistributionModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, TagCount } from "@/actions/home";
 
 // #region Types
 interface FriendInfo {
@@ -66,6 +66,7 @@ interface ExploreProps {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  tagCounts: TagCount[];
 }
 
 type TabType = "friends" | "following" | "followers" | "celebs" | "similar";
@@ -84,6 +85,7 @@ export default function Explore({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  tagCounts,
 }: ExploreProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -110,6 +112,7 @@ export default function Explore({
       params.delete("sortBy");
       params.delete("search");
       params.delete("page");
+      params.delete("tag");
     }
     // celebs가 기본값이므로 URL에서 제거
     if (tab === "celebs") {
@@ -206,6 +209,7 @@ export default function Explore({
             professionCounts={professionCounts}
             nationalityCounts={nationalityCounts}
             contentTypeCounts={contentTypeCounts}
+            tagCounts={tagCounts}
             mode="grid"
             hideHeader={false}
             syncToUrl

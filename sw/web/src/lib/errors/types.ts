@@ -29,6 +29,7 @@ export type ErrorCode =
   | 'NOT_IN_ARCHIVE'
   // 기타
   | 'UNKNOWN_ERROR'
+  | 'INTERNAL_ERROR'
 // #endregion
 
 // #region Supabase 에러 코드

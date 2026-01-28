@@ -21,6 +21,7 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   NOT_IN_ARCHIVE: '기록관에 추가된 콘텐츠만 가능하다.',
   // 기타
   UNKNOWN_ERROR: '알 수 없는 오류가 발생했다.',
+  INTERNAL_ERROR: '내부 서버 오류가 발생했다.',
 }
 // #endregion
 

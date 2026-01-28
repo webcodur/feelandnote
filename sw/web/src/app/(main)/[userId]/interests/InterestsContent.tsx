@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getWantContentCounts } from "@/actions/contents/getContentCounts";
+import { removeContent } from "@/actions/contents/removeContent";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import InterestCard from "@/components/features/user/contentLibrary/item/InterestCard";
@@ -106,6 +107,23 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     setSelectedContentId(null);
   }, []);
 
+  // 삭제 핸들러
+  const handleDelete = useCallback(async (userContentId: string, title: string) => {
+    if (!window.confirm(`'${title}'을(를) 관심 목록에서 삭제할까요?`)) return;
+
+    try {
+      await removeContent(userContentId);
+      loadContents();
+      loadTypeCounts();
+      if (selectedContentId === userContentId) {
+        setSelectedContentId(null);
+      }
+    } catch (err) {
+      console.error("삭제 실패:", err);
+      alert("삭제에 실패했습니다.");
+    }
+  }, [loadContents, loadTypeCounts, selectedContentId]);
+
   // 렌더링
   const renderContent = () => {
     if (isLoading) {
@@ -168,6 +186,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
                   href={`/${userId}/records/${item.content_id}`}
                   isSelected={isOwner && selectedContentId === item.id}
                   onSelect={isOwner ? () => handleSelect(item.id) : undefined}
+                  onDelete={isOwner ? () => handleDelete(item.id, item.content.title) : undefined}
                 />
               ))}
             </div>
