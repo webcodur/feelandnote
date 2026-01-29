@@ -1,7 +1,8 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { searchBooks } from '@feelnnote/content-search/naver-books'
+import { searchBooks as searchNaverBooks } from '@feelnnote/content-search/naver-books'
+import { getGoogleBookByIsbn } from '@feelnnote/content-search/google-books'
 import { getVideoById } from '@feelnnote/content-search/tmdb'
 import { getGameById } from '@feelnnote/content-search/igdb'
 import { getAlbumById } from '@feelnnote/content-search/spotify'
@@ -20,9 +21,22 @@ async function fetchMetadataFromApi(
 ): Promise<ContentMetadata> {
   switch (type) {
     case 'BOOK': {
-      const result = await searchBooks(id, 1)
-      const book = result.items.find(b => b.externalId === id)
-      return { id, metadata: book?.metadata || null }
+      // 네이버에서 ISBN 검색
+      const naverResult = await searchNaverBooks(id, 1)
+      const naverBook = naverResult.items.find(
+        b => b.externalId === id || b.metadata.isbn === id
+      )
+      if (naverBook) {
+        return { id, metadata: naverBook.metadata }
+      }
+
+      // 없으면 Google Books 폴백
+      const googleBook = await getGoogleBookByIsbn(id)
+      if (googleBook) {
+        return { id, metadata: googleBook.metadata }
+      }
+
+      return { id, metadata: null }
     }
     case 'VIDEO': {
       const video = await getVideoById(id)

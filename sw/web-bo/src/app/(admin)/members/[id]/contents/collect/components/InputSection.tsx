@@ -166,7 +166,7 @@ export default function InputSection({
   {
     "type": "BOOK",
     "title": "작품명(저자)",
-    "body": "감상 경위 또는 리뷰 본문",
+    "body": "감상 경위 또는 리뷰 본문 - 본인이 창작/저술한 작품은 제외 (감상이 아닌 창작에 해당)",
     "source": "https://원본소스URL"
   },
   {

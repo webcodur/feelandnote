@@ -37,6 +37,10 @@ interface ReviewCardProps {
 
   // 링크
   href?: string;
+  
+  // 스타일링
+  className?: string;
+  style?: React.CSSProperties;
 }
 // #endregion
 
@@ -57,6 +61,8 @@ export default function ReviewCard({
   isSpoiler = false,
   sourceUrl,
   href,
+  className,
+  style,
 }: ReviewCardProps) {
   const router = useRouter();
   const [isAdded, setIsAdded] = useState(false);
@@ -183,7 +189,7 @@ export default function ReviewCard({
         headerNode={headerNode}
         actionNode={actionNode}
         heightClass="h-[320px] md:h-[280px]" // 모바일에서 조금 더 높게? 아니면 동일하게?
-        className="max-w-4xl mx-auto"
+        className={`max-w-4xl mx-auto ${className || ""}`}
         // 모바일에서는 RecordCard 내부 스타일이 적용됨 (heightClass는 PC용)
       />
 

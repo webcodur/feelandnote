@@ -21,7 +21,6 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   const supabase = await createClient()
   const today = new Date().toISOString().split('T')[0]
 
-  console.log('[getFeaturedTags] Start')
   const { data: tags, error: tagError } = await supabase
     .from('celeb_tags')
     .select('id, name, description, color')
@@ -30,9 +29,6 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     .or(`end_date.is.null,end_date.gte.${today}`)
     .order('sort_order', { ascending: true })
     .limit(4)
-
-  if (tagError) console.error('[getFeaturedTags] Tag Error:', tagError)
-  console.log('[getFeaturedTags] Found Tags:', tags?.length)
 
   if (tagError || !tags?.length) {
     return []
@@ -48,25 +44,15 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     .gt('total_score', 0)
 
   for (const tag of tags) {
-    // 3. 태그에 속한 셀럽 조회 (최대 8명)
-    console.log('[getFeaturedTags] Processing tag:', tag.name, tag.id)
-    // Join Query 대신 ID만 가져오기 (오류 방지)
     const { data: assignments, error: assignError } = await supabase
       .from('celeb_tag_assignments')
       .select('*')
       .eq('tag_id', tag.id)
       .limit(8)
 
-    if (assignError) {
-      console.error('[getFeaturedTags] Assignment Error Full:', JSON.stringify(assignError, null, 2))
-      console.error('[getFeaturedTags] Assignment Error Msg:', assignError.message)
-    }
-    console.log('[getFeaturedTags] Assignments count:', assignments?.length)
-
     if (!assignments?.length) continue
 
     const celebIds = assignments.map(a => a.celeb_id)
-    console.log('[getFeaturedTags] Celeb IDs:', celebIds)
 
     // 4. 추가 정보 조회 (프로필, 영향력, 태그, 콘텐츠 수, 팔로우 여부)
     
@@ -79,9 +65,6 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
         bio, quotes, is_verified, claimed_by
       `)
       .in('id', celebIds)
-    
-    if (profileError) console.error('[getFeaturedTags] Profile Error:', profileError)
-    console.log('[getFeaturedTags] Profiles found:', profiles?.length)
     
     const profileMap = new Map<string, any>()
     ;(profiles ?? []).forEach(p => profileMap.set(p.id, p))

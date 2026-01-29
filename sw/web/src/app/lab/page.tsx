@@ -1,16 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Layers, Frame } from "lucide-react";
+import { Layers, Frame, Image as ImageIcon, Crown } from "lucide-react";
 import TabUIPreview from "@/components/lab/TabUIPreview";
 import FramePreview from "@/components/lab/FramePreview";
+import LandingIllustrationsPreview from "@/components/lab/LandingIllustrationsPreview";
+import CorinthianPreview from "@/components/lab/CorinthianPreview";
 
 // #region 탭 타입
-type LabTab = "frames" | "tab-ui";
+type LabTab = "frames" | "tab-ui" | "landing-illustrations" | "corinthian";
 
 const LAB_TABS = [
   { key: "frames" as const, label: "기본 프레임", icon: Frame },
   { key: "tab-ui" as const, label: "탭 UI", icon: Layers },
+  { key: "landing-illustrations" as const, label: "랜딩 일러스트", icon: ImageIcon },
+  { key: "corinthian" as const, label: "코린트 양식", icon: Crown },
 ];
 // #endregion
 
@@ -71,6 +75,32 @@ export default function LabPage() {
             </div>
             <div className="w-full">
               <TabUIPreview />
+            </div>
+          </section>
+        )}
+
+        {/* 랜딩 일러스트 탭 */}
+        {activeTab === "landing-illustrations" && (
+          <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Landing Illustrations</h2>
+              <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">랜딩 페이지용 SVG 일러스트레이션</p>
+            </div>
+            <div className="w-full">
+              <LandingIllustrationsPreview />
+            </div>
+          </section>
+        )}
+
+        {/* 코린트 양식 탭 */}
+        {activeTab === "corinthian" && (
+          <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Corinthian Symbol</h2>
+              <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">브랜드 심볼 디자인 실험</p>
+            </div>
+            <div className="w-full">
+              <CorinthianPreview />
             </div>
           </section>
         )}

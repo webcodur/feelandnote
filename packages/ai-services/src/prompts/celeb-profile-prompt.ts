@@ -32,7 +32,7 @@ export const PROFESSION_LABELS: Record<Profession, string> = {
 
 export const PROFILE_OUTPUT_FORMAT = `{
   "fullname": "정확한 풀네임 (예: Elon Reeve Musk, 알베르트 아인슈타인)",
-  "bio": "인물 소개글 (2줄 분량, 한국어)",
+  "bio": "인물 소개글 (2줄 분량, 한국어). 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 주요 업적과 현재 활동을 담백히 정리.",
   "profession": "직군 코드",
   "title": "수식어 (2~8자, 대표작명/호칭/업적 중 하나)",
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
@@ -53,7 +53,7 @@ export const INFLUENCE_OUTPUT_FORMAT = `{
 
 export const PROFILE_WITH_INFLUENCE_OUTPUT_FORMAT = `{
   "fullname": "정확한 풀네임 (예: Elon Reeve Musk, 알베르트 아인슈타인)",
-  "bio": "인물 소개글 (2줄 분량, 한국어)",
+  "bio": "인물 소개글 (2줄 분량, 한국어). 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 주요 업적과 현재 활동을 담백히 정리.",
   "profession": "직군 코드",
   "title": "수식어 (2~8자, 대표작명/호칭/업적 중 하나)",
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
@@ -99,7 +99,7 @@ export const BO_PROFILE_OUTPUT_FORMAT = `{
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
   "birth_date": "출생일 (YYYY-MM-DD 또는 -356 같은 기원전 연도)",
   "death_date": "사망일 (생존시 빈 문자열)",
-  "bio": "셀럽 소개글 (100자 이내, 간결하고 권위 있는 말투)",
+  "bio": "인물 소개글 (2줄 분량, 한국어). 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 주요 업적과 현재 활동을 담백히 정리.",
   "quotes": "대표 명언 (한 문장)",
   "avatar_url": "썸네일 이미지 URL (선택사항)",
   "portrait_url": "초상화 이미지 URL (선택사항)",

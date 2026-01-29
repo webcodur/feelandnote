@@ -4,6 +4,7 @@
   "private": true,
   "exports": {
     "./naver-books": "./src/naver-books.ts",
+    "./google-books": "./src/google-books.ts",
     "./tmdb": "./src/tmdb.ts",
     "./igdb": "./src/igdb.ts",
     "./spotify": "./src/spotify.ts",

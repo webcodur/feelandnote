@@ -8,13 +8,13 @@ import Link from "next/link";
 
 interface SectionHeaderProps {
   title: string;
-  description?: string;
+  description?: React.ReactNode;
   icon?: React.ReactNode;
   action?: React.ReactNode;
   linkText?: string;
   linkHref?: string;
   className?: string;
-  variant?: "default" | "hero";
+  variant?: "default" | "hero" | "classical";
   englishTitle?: string;
 }
 
@@ -30,6 +30,7 @@ export default function SectionHeader({
   englishTitle,
 }: SectionHeaderProps) {
   if (variant === "hero") {
+    // ... existing hero implementation ...
     return (
       <div className={`flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left mb-0 border-b border-accent-dim/10 pb-6 md:pb-4 ${className}`}>
         <div className={`flex flex-col gap-1 md:gap-2 ${linkHref ? "mb-4 md:mb-0" : ""}`}>
@@ -53,6 +54,29 @@ export default function SectionHeader({
             {linkText ?? "더보기"}
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
+        )}
+      </div>
+    );
+  }
+
+  if (variant === "classical") {
+    return (
+      <div className={`flex flex-col items-start justify-center text-left px-1 ${className}`}>
+        <div className="flex items-center gap-3 mb-2 opacity-60">
+           {englishTitle && (
+             <span className="font-cinzel text-[10px] md:text-xs text-accent tracking-[0.3em] uppercase">
+               {englishTitle}
+             </span>
+           )}
+           <div className="h-px w-12 bg-accent/30" />
+        </div>
+        <h2 className="font-serif font-black text-3xl md:text-4xl text-text-primary mb-2">
+          {title}
+        </h2>
+        {description && (
+          <p className="font-sans text-text-secondary text-sm md:text-[15px] max-w-3xl keep-all leading-relaxed text-balance opacity-80 mt-1">
+            {description}
+          </p>
         )}
       </div>
     );
