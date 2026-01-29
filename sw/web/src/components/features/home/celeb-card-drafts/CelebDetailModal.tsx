@@ -128,8 +128,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         <UserPlus size={14} strokeWidth={3} />
       )}
       <span>{isFollowing ? "팔로잉" : "팔로우"}</span>
-      <span className="ml-1 font-extrabold">
-        {celeb.follower_count || 0}
+      <span className="font-extrabold">
+        {celeb.follower_count || 0}명
       </span>
     </button>
   );
@@ -150,8 +150,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       `}
     >
       <ExternalLink size={14} strokeWidth={2} />
-      <span>기록</span>
-      <span className="ml-0.5 font-extrabold opacity-90">{celeb.content_count || 0}</span>
+      <span className="font-extrabold opacity-90">{celeb.content_count || 0}</span>
+      <span>개의 기록 보기</span>
     </Link>
   );
 
@@ -282,7 +282,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         transition-all duration-300 z-50 cursor-pointer group
         ${className}
       `}
-      title="감상 목록 보기"
+      title="감상 목록 빠른 보기"
     >
       <div className="w-1 h-8 bg-current rounded-full opacity-30 group-hover:opacity-100 transition-opacity" />
     </button>

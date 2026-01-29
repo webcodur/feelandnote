@@ -9,7 +9,7 @@
 import { useState, useEffect } from "react";
 import { NotebookPen } from "lucide-react";
 import { LyreIcon, LyreSilentIcon } from "@/components/ui/icons/neo-pantheon";
-import { useSound } from "@/contexts/SoundContext";
+import { useSound, useSoundOptional } from "@/contexts/SoundContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HeaderSearch from "./HeaderSearch";
@@ -44,7 +44,7 @@ export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const { isSoundEnabled, toggleSound, playSound } = useSound();
+  const { isSoundEnabled, toggleSound, playSound } = useSoundOptional();
 
   useEffect(() => {
     const loadProfile = async () => {

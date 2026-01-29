@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { DesktopSidebar, MobileSidebar } from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import { MobileSidebarProvider } from '@/contexts/MobileSidebarContext'
 import { ToastProvider } from '@/contexts/ToastContext'
 
@@ -45,6 +46,7 @@ export default async function AdminLayout({
             <main className="flex-1 p-3 md:p-6 overflow-auto">
               {children}
             </main>
+            <Footer />
           </div>
         </div>
       </MobileSidebarProvider>

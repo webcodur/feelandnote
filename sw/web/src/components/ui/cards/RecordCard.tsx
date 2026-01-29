@@ -136,6 +136,7 @@ export default function RecordCard({
       <div
         onClick={handlePCClick}
         className={`group hidden sm:flex flex-col bg-[#1e1e1e] hover:bg-[#252525] border border-white/10 hover:border-accent/40 rounded-lg overflow-hidden cursor-pointer transition-colors ${className || ""}`}
+        suppressHydrationWarning
       >
         {/* 헤더 슬롯 (존재 시 상단 배치) */}
         {headerNode && (
@@ -163,13 +164,14 @@ export default function RecordCard({
                 src={thumbnail}
                 alt={title}
                 fill
+                sizes="192px"
                 unoptimized
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center bg-white/5">
                 <ContentIcon size={48} className="text-text-tertiary" />
               </div>
             )}
@@ -253,7 +255,7 @@ export default function RecordCard({
       </div>
 
       {/* 모바일: 통합 카드 구조 (헤더가 있을 경우) 또는 포스터 카드 (헤더 없을 경우) */}
-      <div className={`sm:hidden flex flex-col ${headerNode ? "bg-[#1e1e1e] border border-white/10 rounded-xl overflow-hidden shadow-md" : "space-y-2"}`}>
+      <div className={`sm:hidden flex flex-col ${headerNode ? "bg-[#1e1e1e] border border-white/10 rounded-xl overflow-hidden shadow-md" : "space-y-2"} ${className || ""}`} suppressHydrationWarning>
         
         {/* 헤더 슬롯 (통합 카드 내부 상단) */}
         {headerNode && (
@@ -281,13 +283,14 @@ export default function RecordCard({
                 src={thumbnail}
                 alt={title}
                 fill
+                sizes="(max-width: 768px) 100vw, 300px"
                 unoptimized
                 className="object-cover"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center bg-white/5">
                 <ContentIcon size={32} className="text-text-tertiary" />
               </div>
             )}
@@ -385,7 +388,7 @@ export default function RecordCard({
               size="md"
             >
               <ExternalLink size={14} />
-              상세 리뷰 페이지
+              관련 리뷰
             </Button>
           )}
         </ModalFooter>

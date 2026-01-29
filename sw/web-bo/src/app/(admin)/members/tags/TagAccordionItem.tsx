@@ -290,14 +290,15 @@ export default function TagAccordionItem(props: Props) {
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500/10 rounded-lg disabled:opacity-50"
+                className="flex items-center justify-center w-10 h-10 text-red-500 hover:bg-red-500/10 rounded-lg disabled:opacity-50 transition-colors"
+                title="태그 삭제"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-5 h-5" />
               </button>
               <button
                 onClick={handleSave}
                 disabled={!hasChanges || isSaving || !form.name.trim()}
-                className="px-4 py-1.5 text-sm bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50"
+                className="px-6 py-2 text-base font-medium bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50 transition-colors"
               >
                 {isSaving ? '저장 중...' : '저장'}
               </button>
@@ -316,19 +317,22 @@ export default function TagAccordionItem(props: Props) {
                 <h4 className="text-sm font-medium text-text-primary">소속 셀럽</h4>
                 <span className="text-xs text-text-tertiary">({celebs.length || tag.celeb_count || 0})</span>
               </div>
-              {isCelebsExpanded && !showSearch && (
-                <button
-                  onClick={(e) => { e.stopPropagation(); setShowSearch(true) }}
-                  className="flex items-center gap-1 px-2 py-1 text-xs text-accent hover:bg-accent/10 rounded"
-                >
-                  <Plus className="w-3 h-3" /> 추가
-                </button>
-              )}
             </div>
 
             {/* 셀럽 섹션 콘텐츠 */}
             {isCelebsExpanded && (
               <div className="px-4 pb-4 space-y-3">
+                {/* 검색 트리거 버튼 */}
+                {!showSearch && (
+                  <button
+                    onClick={() => setShowSearch(true)}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-dashed border-accent/50 bg-accent/5 text-accent hover:bg-accent/10 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span className="text-sm font-medium">소속 셀럽 추가</span>
+                  </button>
+                )}
+
                 {/* 검색 */}
                 {showSearch && (
                   <div className="space-y-2">
@@ -353,14 +357,16 @@ export default function TagAccordionItem(props: Props) {
                     {searchResults.length > 0 && (
                       <div className="space-y-1">
                         {searchResults.map((c) => (
-                          <div key={c.id} className="flex items-center justify-between p-1.5 rounded hover:bg-bg-secondary">
+                          <div
+                            key={c.id}
+                            onClick={() => handleAddCeleb(c)}
+                            className="flex items-center justify-between p-1.5 rounded hover:bg-bg-secondary cursor-pointer group"
+                          >
                             <div className="flex items-center gap-2">
                               <Avatar url={c.avatar_url} name={c.nickname} size="sm" />
                               <span className="text-sm text-text-primary">{c.nickname}</span>
                             </div>
-                            <button onClick={() => handleAddCeleb(c)} className="p-1 text-accent hover:bg-accent/10 rounded">
-                              <Plus className="w-3.5 h-3.5" />
-                            </button>
+                            <Plus className="w-3.5 h-3.5 text-text-tertiary group-hover:text-accent opacity-0 group-hover:opacity-100 transition-all" />
                           </div>
                         ))}
                       </div>

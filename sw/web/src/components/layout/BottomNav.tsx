@@ -10,12 +10,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
-  PantheonIcon,
-  AstrolabeIcon,
-  MosaicCoinIcon,
-  BustIcon,
-  MoreIcon,
-} from "@/components/ui/icons/neo-pantheon";
+  Compass,
+  ScrollText,
+  Armchair,
+  User,
+  Menu,
+} from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import BottomSheet from "@/components/ui/BottomSheet";
 import BottomNavSheet from "./BottomNavSheet";
@@ -84,11 +84,12 @@ export default function BottomNav() {
     loadProfile();
   }, []);
 
+  // PC Header 순서: Explore -> Feed -> Lounge -> (Board etc)
   const navItems = [
-    { href: "/feed", icon: <PantheonIcon size={20} />, label: "피드" },
-    { href: "/explore", icon: <AstrolabeIcon size={20} />, label: "탐색" },
-    { href: "/lounge", icon: <MosaicCoinIcon size={20} />, label: "라운지" },
-    { href: profileId ? `/${profileId}` : "/login", icon: <BustIcon size={20} />, label: "마이" },
+    { href: "/explore", icon: <Compass size={20} />, label: "탐색" },
+    { href: "/feed", icon: <ScrollText size={20} />, label: "피드" },
+    { href: "/lounge", icon: <Armchair size={20} />, label: "라운지" },
+    { href: profileId ? `/${profileId}` : "/login", icon: <User size={20} />, label: "마이" },
   ];
 
   // 더보기에 포함된 경로들 (활성 상태 체크용)
@@ -126,7 +127,7 @@ export default function BottomNav() {
         {/* 더보기 버튼 */}
         <NavButton
           active={isMoreActive}
-          icon={<MoreIcon size={20} />}
+          icon={<Menu size={20} />}
           label="더보기"
           onClick={() => setIsSheetOpen(true)}
         />

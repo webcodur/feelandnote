@@ -12,7 +12,6 @@ import { Eye } from 'lucide-react'
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
 import Logo from '@/components/ui/Logo'
-import InAppBrowserWarning from './InAppBrowserWarning'
 import EmailLoginForm from './EmailLoginForm'
 
 export default function Page() {
@@ -21,7 +20,6 @@ export default function Page() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-950">
       <div className="w-full max-w-md space-y-8 p-8">
         {/* 인앱 브라우저 경고 */}
-        <InAppBrowserWarning />
 
         {/* 로고 */}
         <div className="text-center">

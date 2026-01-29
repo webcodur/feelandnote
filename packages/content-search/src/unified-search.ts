@@ -1,28 +1,59 @@
 // 통합 외부 API 검색 모듈
 
-import { searchBooks, type BookSearchResult } from './naver-books'
+import { searchBooks as searchNaverBooks, type BookSearchResult } from './naver-books'
+import { searchGoogleBooks, type GoogleBookSearchResult } from './google-books'
 import { searchVideo, type VideoSearchResult } from './tmdb'
 import { searchGames, type GameSearchResult } from './igdb'
 import { searchMusic, type MusicSearchResult } from './spotify'
 import { searchCertificates, type CertificateSearchResult } from './qnet'
 import type { ContentType, SearchResponse } from './types'
 
+// 통합 도서 검색 결과 타입 (네이버 + Google Books)
+export type UnifiedBookSearchResult = BookSearchResult | GoogleBookSearchResult
+
 // 통합 검색 결과 타입
 export type ExternalSearchResult =
   | BookSearchResult
+  | GoogleBookSearchResult
   | VideoSearchResult
   | GameSearchResult
   | MusicSearchResult
   | CertificateSearchResult
 
+// 도서 검색 결과 병합 (ISBN 기준 중복 제거)
+function mergeBookResults(
+  naverItems: BookSearchResult[],
+  googleItems: GoogleBookSearchResult[]
+): UnifiedBookSearchResult[] {
+  const isbnSet = new Set(naverItems.map(item => item.metadata.isbn).filter(Boolean))
+  const uniqueGoogleItems = googleItems.filter(
+    item => item.metadata.isbn && !isbnSet.has(item.metadata.isbn)
+  )
+  return [...naverItems, ...uniqueGoogleItems]
+}
+
 // 콘텐츠 타입별 검색 함수 매핑
 const searchFunctions: Record<ContentType, (query: string, page?: number) => Promise<SearchResponse<ExternalSearchResult>>> = {
   BOOK: async (query, page = 1) => {
-    const result = await searchBooks(query, page)
+    const naverResult = await searchNaverBooks(query, page)
+
+    // 네이버 결과가 충분하면 그대로 반환
+    if (naverResult.items.length >= 10) {
+      return {
+        items: naverResult.items,
+        total: naverResult.total,
+        hasMore: naverResult.hasMore,
+      }
+    }
+
+    // 부족하면 Google Books로 보충
+    const googleResult = await searchGoogleBooks(query, page)
+    const mergedItems = mergeBookResults(naverResult.items, googleResult.items)
+
     return {
-      items: result.items,
-      total: result.total,
-      hasMore: result.hasMore,
+      items: mergedItems,
+      total: Math.max(naverResult.total, googleResult.total),
+      hasMore: naverResult.hasMore || googleResult.hasMore,
     }
   },
   VIDEO: async (query, page = 1) => {
@@ -94,6 +125,7 @@ export function toContentRecord(result: ExternalSearchResult): {
 // Re-export types for convenience
 export type { ContentType, SearchResponse } from './types'
 export type { BookSearchResult } from './naver-books'
+export type { GoogleBookSearchResult } from './google-books'
 export type { VideoSearchResult, VideoSubtype } from './tmdb'
 export type { GameSearchResult } from './igdb'
 export type { MusicSearchResult } from './spotify'
