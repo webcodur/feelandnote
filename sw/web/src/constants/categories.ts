@@ -3,7 +3,7 @@ import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, LaurelIcon } fro
 import type { ContentType } from "@/types/database";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
-export type CategoryId = "book" | "video" | "game" | "music" | "certificate";
+export type CategoryId = "all" | "book" | "video" | "game" | "music" | "certificate";
 
 // 콘텐츠 타입 필터 값 (all 포함)
 export type ContentTypeFilterValue = "all" | ContentType;
@@ -42,8 +42,9 @@ export const TYPE_TO_CATEGORY_ID: Record<ContentType, CategoryId> = {
   CERTIFICATE: "certificate",
 };
 
-// CategoryId → ContentType 매핑
-export const CATEGORY_ID_TO_TYPE: Record<CategoryId, ContentType> = {
+// CategoryId → ContentType 매핑 (all은 undefined)
+export const CATEGORY_ID_TO_TYPE: Record<CategoryId, ContentType | undefined> = {
+  all: undefined,
   book: "BOOK",
   video: "VIDEO",
   game: "GAME",

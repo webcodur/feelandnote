@@ -113,6 +113,9 @@ export default function ExtractedList({
                     <span className="px-1.5 py-0.5 rounded bg-bg-secondary border border-border text-text-primary">
                       <kbd className="font-sans">Ctrl+Shift+F</kbd> 검색
                     </span>
+                    <span className="px-1.5 py-0.5 rounded bg-bg-secondary border border-border text-text-primary">
+                      <kbd className="font-sans">Ctrl+Shift+C</kbd> 검색용 복사
+                    </span>
                   </div>
                 </div>
                 <Button

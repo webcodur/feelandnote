@@ -23,6 +23,7 @@ export interface CelebTagAssignment {
   tag_id: string
   short_desc: string | null
   long_desc: string | null
+  sort_order: number
   celeb?: {
     id: string
     nickname: string
@@ -257,14 +258,15 @@ export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]>
 }
 // #endregion
 
-// #region getTagCelebs - 특정 태그에 소속된 셀럽 목록 (설명 포함)
+// #region getTagCelebs - 특정 태그에 소속된 셀럽 목록 (설명 포함, 순서대로)
 export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, long_desc, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
+    .select('celeb_id, tag_id, short_desc, long_desc, sort_order, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
     .eq('tag_id', tagId)
+    .order('sort_order', { ascending: true })
 
   if (error) {
     console.error('태그 셀럽 조회 에러:', error)
@@ -276,6 +278,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     tag_id: item.tag_id,
     short_desc: item.short_desc,
     long_desc: item.long_desc,
+    sort_order: item.sort_order ?? 0,
     celeb: (Array.isArray(item.celeb) ? item.celeb[0] : item.celeb) as CelebTagAssignment['celeb'],
   }))
 }
@@ -428,14 +431,25 @@ export async function searchCelebsForTag(
 }
 // #endregion
 
-// #region addCelebToTag - 태그에 셀럽 추가
+// #region addCelebToTag - 태그에 셀럽 추가 (가장 뒤 순서로)
 export async function addCelebToTag(
   celebId: string,
   tagId: string,
   short_desc?: string | null,
   long_desc?: string | null
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; error?: string; sort_order?: number }> {
   const supabase = await createClient()
+
+  // 현재 태그의 최대 sort_order 조회
+  const { data: maxData } = await supabase
+    .from('celeb_tag_assignments')
+    .select('sort_order')
+    .eq('tag_id', tagId)
+    .order('sort_order', { ascending: false })
+    .limit(1)
+    .single()
+
+  const nextSortOrder = (maxData?.sort_order ?? -1) + 1
 
   const { error } = await supabase
     .from('celeb_tag_assignments')
@@ -444,6 +458,7 @@ export async function addCelebToTag(
       tag_id: tagId,
       short_desc: short_desc || null,
       long_desc: long_desc || null,
+      sort_order: nextSortOrder,
     })
 
   if (error) {
@@ -456,7 +471,7 @@ export async function addCelebToTag(
 
   revalidatePath('/members/tags')
   revalidatePath(`/members/${celebId}`)
-  return { success: true }
+  return { success: true, sort_order: nextSortOrder }
 }
 // #endregion
 
@@ -480,6 +495,35 @@ export async function removeCelebFromTag(
 
   revalidatePath('/members/tags')
   revalidatePath(`/members/${celebId}`)
+  return { success: true }
+}
+// #endregion
+
+// #region updateTagCelebOrder - 태그 내 셀럽 순서 업데이트
+export async function updateTagCelebOrder(
+  tagId: string,
+  celebIds: string[]
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // 순서대로 sort_order 업데이트
+  const updates = celebIds.map((celebId, index) =>
+    supabase
+      .from('celeb_tag_assignments')
+      .update({ sort_order: index })
+      .eq('tag_id', tagId)
+      .eq('celeb_id', celebId)
+  )
+
+  const results = await Promise.all(updates)
+  const hasError = results.some(r => r.error)
+
+  if (hasError) {
+    console.error('태그 셀럽 순서 변경 에러:', results.find(r => r.error)?.error)
+    return { success: false, error: '셀럽 순서 변경에 실패했다.' }
+  }
+
+  revalidatePath('/members/tags')
   return { success: true }
 }
 // #endregion

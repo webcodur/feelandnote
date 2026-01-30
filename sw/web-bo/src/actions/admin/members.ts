@@ -329,48 +329,55 @@ export async function softDeleteMember(memberId: string): Promise<void> {
 
 // #region hardDeleteMember
 export async function hardDeleteMember(memberId: string): Promise<void> {
-  const supabase = await createClient()
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const adminClient = createAdminClient()
 
   // note_id, playlist_id 먼저 조회
-  const { data: notes } = await supabase.from('notes').select('id').eq('user_id', memberId)
+  const { data: notes } = await adminClient.from('notes').select('id').eq('user_id', memberId)
   const noteIds = notes?.map((n) => n.id) || []
 
-  const { data: playlists } = await supabase.from('playlists').select('id').eq('user_id', memberId)
+  const { data: playlists } = await adminClient.from('playlists').select('id').eq('user_id', memberId)
   const playlistIds = playlists?.map((p) => p.id) || []
+
+  // NO ACTION FK 참조 해제 (contributor_id, resolved_by 등)
+  await adminClient.from('records').update({ contributor_id: null }).eq('contributor_id', memberId)
+  await adminClient.from('user_contents').update({ contributor_id: null }).eq('contributor_id', memberId)
+  await adminClient.from('reports').update({ resolved_by: null }).eq('resolved_by', memberId)
 
   // 관련 데이터 순차 삭제 (외래키 의존성 순서)
   const deleteQueries = [
-    supabase.from('record_likes').delete().eq('user_id', memberId),
-    supabase.from('record_comments').delete().eq('user_id', memberId),
-    ...(noteIds.length > 0 ? [supabase.from('note_sections').delete().in('note_id', noteIds)] : []),
-    supabase.from('notes').delete().eq('user_id', memberId),
-    ...(playlistIds.length > 0 ? [supabase.from('playlist_items').delete().in('playlist_id', playlistIds)] : []),
-    supabase.from('playlists').delete().eq('user_id', memberId),
-    supabase.from('records').delete().eq('user_id', memberId),
-    supabase.from('user_contents').delete().eq('user_id', memberId),
-    supabase.from('follows').delete().or(`follower_id.eq.${memberId},following_id.eq.${memberId}`),
-    supabase.from('blocks').delete().or(`blocker_id.eq.${memberId},blocked_id.eq.${memberId}`),
-    supabase.from('guestbook_entries').delete().or(`profile_id.eq.${memberId},author_id.eq.${memberId}`),
-    supabase.from('activity_logs').delete().eq('user_id', memberId),
-    supabase.from('score_logs').delete().eq('user_id', memberId),
-    supabase.from('user_titles').delete().eq('user_id', memberId),
-    supabase.from('user_scores').delete().eq('user_id', memberId),
-    supabase.from('user_social').delete().eq('user_id', memberId),
-    supabase.from('tier_lists').delete().eq('user_id', memberId),
-    supabase.from('blind_game_scores').delete().eq('user_id', memberId),
-    supabase.from('celeb_influence').delete().eq('celeb_id', memberId),
-    supabase.from('ai_reviews').delete().eq('user_id', memberId),
+    adminClient.from('record_likes').delete().eq('user_id', memberId),
+    adminClient.from('record_comments').delete().eq('user_id', memberId),
+    ...(noteIds.length > 0 ? [adminClient.from('note_sections').delete().in('note_id', noteIds)] : []),
+    adminClient.from('notes').delete().eq('user_id', memberId),
+    ...(playlistIds.length > 0 ? [adminClient.from('playlist_items').delete().in('playlist_id', playlistIds)] : []),
+    adminClient.from('playlists').delete().eq('user_id', memberId),
+    adminClient.from('records').delete().eq('user_id', memberId),
+    adminClient.from('user_contents').delete().eq('user_id', memberId),
+    adminClient.from('follows').delete().or(`follower_id.eq.${memberId},following_id.eq.${memberId}`),
+    adminClient.from('blocks').delete().or(`blocker_id.eq.${memberId},blocked_id.eq.${memberId}`),
+    adminClient.from('guestbook_entries').delete().or(`profile_id.eq.${memberId},author_id.eq.${memberId}`),
+    adminClient.from('activity_logs').delete().eq('user_id', memberId),
+    adminClient.from('score_logs').delete().eq('user_id', memberId),
+    adminClient.from('user_titles').delete().eq('user_id', memberId),
+    adminClient.from('user_scores').delete().eq('user_id', memberId),
+    adminClient.from('user_social').delete().eq('user_id', memberId),
+    adminClient.from('tier_lists').delete().eq('user_id', memberId),
+    adminClient.from('blind_game_scores').delete().eq('user_id', memberId),
+    adminClient.from('celeb_influence').delete().eq('celeb_id', memberId),
+    adminClient.from('celeb_tag_assignments').delete().eq('celeb_id', memberId),
+    adminClient.from('ai_reviews').delete().eq('user_id', memberId),
+    adminClient.from('notifications').delete().eq('user_id', memberId),
+    adminClient.from('content_recommendations').delete().or(`sender_id.eq.${memberId},receiver_id.eq.${memberId}`),
   ]
 
   for (const query of deleteQueries) {
     await query
   }
 
-  // 마지막으로 profiles 삭제
-  const { error } = await supabase
-    .from('profiles')
-    .delete()
-    .eq('id', memberId)
+  // auth.users에서 삭제 (profiles는 CASCADE로 자동 삭제됨)
+  // auth.admin.deleteUser API는 confirmation_token NULL 버그로 실패할 수 있으므로 RPC 사용
+  const { error } = await adminClient.rpc('delete_auth_user', { target_user_id: memberId })
 
   if (error) throw error
 

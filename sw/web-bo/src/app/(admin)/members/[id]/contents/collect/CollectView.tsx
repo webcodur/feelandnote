@@ -154,6 +154,7 @@ export default function CollectView({ celebId, celebName }: Props) {
             extractedItems[searchModalIndex]?.title ||
             ''
           }
+          initialCreator={extractedItems[searchModalIndex]?.creator || ''}
         />
       )}
 

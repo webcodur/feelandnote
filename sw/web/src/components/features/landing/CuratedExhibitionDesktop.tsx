@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+
+const CelebDetailModal = lazy(() => import("@/components/features/home/celeb-card-drafts/CelebDetailModal"));
 
 interface CuratedExhibitionDesktopProps {
   activeTag: FeaturedTag;
@@ -18,19 +19,32 @@ interface CuratedExhibitionDesktopProps {
 export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex, onTagChange }: CuratedExhibitionDesktopProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
-  const [heroKey, setHeroKey] = useState(0); 
+  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null); 
 
-  // Refs & Drags
+  // Refs & Drags (하단 리스트용)
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
   const hasDragged = useRef(false);
 
+  // Hero Card 드래그 (인물 전환용)
+  const heroDragStartX = useRef(0);
+  const [isHeroDragging, setIsHeroDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const heroHasDragged = useRef(false);
+
   const celebs = activeTag.celebs;
   const heroCeleb = celebs[selectedIndex];
-  
-  // Handlers
+  const SWIPE_THRESHOLD = 80;
+
+  // 드래그 방향에 따른 다음/이전 인물
+  const canGoNext = selectedIndex < celebs.length - 1;
+  const canGoPrev = selectedIndex > 0;
+  const willChange = Math.abs(dragOffset) > SWIPE_THRESHOLD &&
+    ((dragOffset < 0 && canGoNext) || (dragOffset > 0 && canGoPrev));
+
+  // 하단 리스트 Handlers
   const handleDragStart = (clientX: number) => {
     if (!scrollContainerRef.current) return;
     setIsDragging(true);
@@ -48,10 +62,47 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
   const handleDragEnd = () => setIsDragging(false);
 
+  // Hero Card 드래그 Handlers
+  const handleHeroDragStart = (clientX: number) => {
+    setIsHeroDragging(true);
+    heroHasDragged.current = false;
+    heroDragStartX.current = clientX;
+    setDragOffset(0);
+  };
+
+  const handleHeroDragMove = (clientX: number) => {
+    if (!isHeroDragging) return;
+    const diff = clientX - heroDragStartX.current;
+    // 끝에서는 저항감 추가
+    const resistance = (!canGoPrev && diff > 0) || (!canGoNext && diff < 0) ? 0.3 : 1;
+    setDragOffset(diff * resistance);
+    if (Math.abs(diff) > 5) heroHasDragged.current = true;
+  };
+
+  const handleHeroDragEnd = () => {
+    if (!isHeroDragging) return;
+
+    if (Math.abs(dragOffset) > SWIPE_THRESHOLD) {
+      if (dragOffset < 0 && canGoNext) {
+        setSlideDirection("left"); // 왼쪽으로 밀었으니 새 카드는 오른쪽에서 등장
+        selectHero(selectedIndex + 1);
+      } else if (dragOffset > 0 && canGoPrev) {
+        setSlideDirection("right"); // 오른쪽으로 밀었으니 새 카드는 왼쪽에서 등장
+        selectHero(selectedIndex - 1);
+      }
+    }
+
+    setDragOffset(0);
+    setIsHeroDragging(false);
+    setTimeout(() => {
+      heroHasDragged.current = false;
+      setSlideDirection(null);
+    }, 350);
+  };
+
   const selectHero = (idx: number) => {
     if (idx !== selectedIndex) {
       setSelectedIndex(idx);
-      setHeroKey(p => p + 1);
     }
   };
 
@@ -89,18 +140,62 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
          </p>
       </div>
 
-      {/* Hero Card */}
-      <div 
-        key={heroKey}
-        className="group relative w-full aspect-[4/5] md:aspect-[16/7] overflow-hidden rounded-[4px] bg-[#0a0a0a] shadow-2xl animate-hero-fade-in"
+      {/* Hero Card - 전체 영역 클릭 시 모달 오픈, 좌우 드래그 시 인물 전환 */}
+      <div
+        className={cn(
+          "group relative w-full aspect-[4/5] md:aspect-[16/7] overflow-hidden rounded-[4px] bg-[#0a0a0a] shadow-2xl select-none",
+          isHeroDragging ? "cursor-grabbing" : "cursor-grab"
+        )}
+        onMouseDown={(e) => handleHeroDragStart(e.clientX)}
+        onMouseMove={(e) => handleHeroDragMove(e.clientX)}
+        onMouseUp={handleHeroDragEnd}
+        onMouseLeave={handleHeroDragEnd}
+        onClick={() => !heroHasDragged.current && heroCeleb && setModalCeleb(heroCeleb)}
       >
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
-        
-        <div className="absolute inset-0 flex flex-col md:flex-row">
+
+        {/* 스와이프 인디케이터 - 좌상단 */}
+        <div className="absolute top-4 left-4 flex gap-1.5 z-30">
+          {celebs.map((_, idx) => {
+            const isNext = (dragOffset < -SWIPE_THRESHOLD && idx === selectedIndex + 1);
+            const isPrev = (dragOffset > SWIPE_THRESHOLD && idx === selectedIndex - 1);
+            return (
+              <div
+                key={idx}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-200",
+                  idx === selectedIndex ? "bg-accent w-4" : "bg-white/30",
+                  (isNext || isPrev) && "bg-accent/70 scale-125"
+                )}
+              />
+            );
+          })}
+        </div>
+
+        {/* 전환 힌트 화살표 */}
+        {willChange && (
+          <div className={cn(
+            "absolute top-1/2 -translate-y-1/2 z-40 text-accent text-4xl font-bold animate-pulse",
+            dragOffset < 0 ? "right-4" : "left-4"
+          )}>
+            {dragOffset < 0 ? "→" : "←"}
+          </div>
+        )}
+
+        <div
+          key={selectedIndex}
+          className={cn(
+            "absolute inset-0 flex flex-col md:flex-row",
+            slideDirection === "left" && "animate-slide-in-right",
+            slideDirection === "right" && "animate-slide-in-left"
+          )}
+          style={{
+            transform: isHeroDragging ? `translateX(${dragOffset * 0.3}px)` : undefined,
+            opacity: isHeroDragging ? 1 - Math.abs(dragOffset) * 0.002 : 1,
+          }}
+        >
             {/* Left Content */}
             <div className="relative z-20 flex-1 p-6 md:p-10 flex flex-col justify-center order-2 md:order-1 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/90 to-transparent">
-                <div className="w-12 h-1 bg-accent mb-6 md:mb-8 shadow-[0_0_15px_rgba(212,175,55,0.4)]" />
-
                 <div className="flex flex-col gap-1 mb-5">
                   {heroCeleb?.title && (
                     <span className="text-sm md:text-base text-accent font-serif font-bold tracking-wider leading-snug">
@@ -130,10 +225,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             </div>
 
             {/* Right Image */}
-            <div 
-              className="relative w-full md:w-[28%] h-[60%] md:h-full order-1 md:order-2 overflow-hidden cursor-pointer"
-              onClick={() => heroCeleb && setModalCeleb(heroCeleb)}
-            >
+            <div className="relative w-full md:w-[28%] h-[60%] md:h-full order-1 md:order-2 overflow-hidden">
                <div className="absolute inset-0 transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                  {heroCeleb?.portrait_url || heroCeleb?.avatar_url ? (
                     <Image
@@ -141,6 +233,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                       alt={heroCeleb.nickname}
                       fill
                       sizes="(max-width: 768px) 100vw, 400px"
+                      priority={selectedIndex === 0}
                       className="object-cover object-top md:object-center filter brightness-[0.85] contrast-[1.1] group-hover:brightness-100 transition-all duration-500"
                     />
                  ) : (
@@ -149,16 +242,25 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                     </div>
                  )}
                </div>
-               
+
                <div className="absolute inset-0 md:bg-gradient-to-l from-transparent via-transparent to-black" />
                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent md:hidden" />
             </div>
         </div>
 
+        {/* 넘버 뱃지 - 우상단 */}
         <div className="absolute top-4 right-4 z-30">
-          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/10 bg-black/20 backdrop-blur-md flex items-center justify-center flex-col gap-0.5 group-hover:bg-accent group-hover:text-black transition-all duration-500">
-             <span className="text-[8px] md:text-[10px] font-cinzel uppercase">No.</span>
-             <span className="text-base md:text-xl font-serif font-bold">{selectedIndex + 1}</span>
+          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/10 bg-black/50 backdrop-blur-md flex items-center justify-center flex-col gap-0.5">
+             <span className="text-[8px] md:text-[10px] font-cinzel uppercase text-white/70">No.</span>
+             <span className="text-base md:text-xl font-serif font-bold text-white">{selectedIndex + 1}</span>
+          </div>
+        </div>
+
+        {/* 클릭 유도 버튼 - 우하단 (더 아래쪽) */}
+        <div className="absolute bottom-6 right-6 z-30">
+          <div className="flex items-center gap-1.5 px-4 py-2 bg-accent/90 group-hover:bg-accent text-black text-sm font-bold rounded-full shadow-lg shadow-accent/30">
+            <Sparkles size={16} />
+            <span>자세히 보기</span>
           </div>
         </div>
       </div>
@@ -222,11 +324,13 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
       </div>
 
       {modalCeleb && (
-        <CelebDetailModal
-          celeb={modalCeleb}
-          isOpen={!!modalCeleb}
-          onClose={() => setModalCeleb(null)}
-        />
+        <Suspense fallback={null}>
+          <CelebDetailModal
+            celeb={modalCeleb}
+            isOpen={!!modalCeleb}
+            onClose={() => setModalCeleb(null)}
+          />
+        </Suspense>
       )}
     </div>
   );

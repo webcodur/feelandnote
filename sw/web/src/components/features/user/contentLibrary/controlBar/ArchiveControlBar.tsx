@@ -36,17 +36,20 @@ export default function ArchiveControlBar({
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
 
+  // 전체 개수 계산
+  const totalCount = Object.values(typeCounts).reduce((sum, count) => sum + count, 0);
+
   // 카테고리 옵션 (count 포함)
   const categoryOptions: FilterOption[] = TAB_OPTIONS.map((tab) => ({
     value: tab.value,
     label: tab.label,
-    count: typeCounts[tab.type] ?? 0,
+    count: tab.type ? typeCounts[tab.type] : totalCount,
   }));
 
   const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
 
   // 현재 라벨 조회
-  const currentCategoryLabel = TAB_OPTIONS.find((t) => t.value === activeTab)?.label ?? "도서";
+  const currentCategoryLabel = TAB_OPTIONS.find((t) => t.value === activeTab)?.label ?? "전체";
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortOption)?.label ?? "최근 추가";
 
   return (

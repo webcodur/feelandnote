@@ -31,7 +31,7 @@ const CATEGORY_SEARCH_GUIDE: Partial<Record<CategoryId, string>> = {
 };
 
 // 카테고리별 API 출처 정보
-const API_SOURCE_INFO: Record<CategoryId, { name: string; url: string }> = {
+const API_SOURCE_INFO: Record<Exclude<CategoryId, "all">, { name: string; url: string }> = {
   book: { name: "네이버 책 API", url: "https://developers.naver.com/docs/serviceapi/search/book/book.md" },
   video: { name: "TMDB", url: "https://www.themoviedb.org" },
   game: { name: "IGDB", url: "https://www.igdb.com" },
@@ -276,12 +276,12 @@ function SearchContent() {
             <span>
               검색 제공:{" "}
               <a
-                href={API_SOURCE_INFO[category].url}
+                href={API_SOURCE_INFO[category as Exclude<CategoryId, "all">].url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent/60 hover:text-accent underline underline-offset-2"
               >
-                {API_SOURCE_INFO[category].name}
+                {API_SOURCE_INFO[category as Exclude<CategoryId, "all">].name}
               </a>
             </span>
           </div>

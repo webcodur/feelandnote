@@ -277,14 +277,16 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       }}
       className={`
         absolute flex items-center justify-center
-        w-8 h-16 bg-bg-card border border-accent/20 rounded-l-md shadow-lg
-        text-accent/50 hover:text-accent hover:bg-surface hover:w-10 hover:border-accent/50
+        w-5 h-10 bg-accent/20 border border-accent/40 rounded-l-md
+        shadow-[0_0_12px_rgba(212,175,55,0.4)] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]
+        text-accent hover:bg-accent/30 hover:w-6 hover:border-accent/60
         transition-all duration-300 z-50 cursor-pointer group
+        animate-pulse
         ${className}
       `}
       title="감상 목록 빠른 보기"
     >
-      <div className="w-1 h-8 bg-current rounded-full opacity-30 group-hover:opacity-100 transition-opacity" />
+      <div className="w-0.5 h-5 bg-accent rounded-full opacity-60 group-hover:opacity-100 transition-opacity" />
     </button>
   );
   // #endregion
@@ -320,7 +322,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             ) : (
                <>
                  {/* PC 핸들 버튼: 우측 끝 중앙 */}
-                 <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-xl translate-x-1 hover:translate-x-0" />
+                 <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg translate-x-0.5 hover:translate-x-0" />
                  
                  {/* 기존 콘텐츠 */}
                  <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
@@ -426,7 +428,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           ) : (
             <>
               {/* 모바일 핸들 버튼: 우측 화면 끝 중앙 (모달 내부에서 절대 위치) */}
-              <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-xl w-6 h-12 hover:w-8 translate-x-0" />
+              <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg w-4 h-8 hover:w-5 translate-x-0" />
 
               {/* 스크롤 영역 */}
               <div className="flex-1 overflow-y-auto overflow-x-hidden">

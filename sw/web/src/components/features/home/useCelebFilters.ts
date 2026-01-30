@@ -126,6 +126,7 @@ export function useCelebFilters({
       sortBy: sort,
       search: searchTerm || undefined,
       tagId: tag || undefined,
+      minContentCount: 1,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);

@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import { EXPLORE_PRESETS } from "./constants";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 
 import CuratedExhibitionMobile from "./CuratedExhibitionMobile";
 import ExploreStackedRowMobile from "./ExploreStackedRowMobile";
+
+const CelebDetailModal = lazy(() => import("@/components/features/home/celeb-card-drafts/CelebDetailModal"));
 
 interface FeaturedCollectionsMobileProps {
   tags: FeaturedTag[];
@@ -70,11 +71,13 @@ export default function FeaturedCollectionsMobile({
       </div>
 
       {modalCeleb && (
-        <CelebDetailModal
-          celeb={modalCeleb}
-          isOpen={!!modalCeleb}
-          onClose={() => setModalCeleb(null)}
-        />
+        <Suspense fallback={null}>
+          <CelebDetailModal
+            celeb={modalCeleb}
+            isOpen={!!modalCeleb}
+            onClose={() => setModalCeleb(null)}
+          />
+        </Suspense>
       )}
     </div>
   );

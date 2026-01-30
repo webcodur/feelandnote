@@ -151,12 +151,14 @@ export async function getCelebs(
   }
 
   // 셀럽별 태그 정보 조회 (설명 포함)
-  type TagRow = { celeb_id: string; short_desc: string | null; long_desc: string | null; tag: { id: string; name: string; color: string } | null }
+  type TagRow = { celeb_id: string; short_desc: string | null; long_desc: string | null; sort_order: number | null; tag: { id: string; name: string; color: string } | null }
   const tagMap = new Map<string, { id: string; name: string; color: string; short_desc: string | null; long_desc: string | null }[]>()
+  const tagSortOrderMap = new Map<string, number>() // 태그별 셀럽 순서 저장 (태그 필터 시 사용)
+
   if (celebIds.length > 0) {
     const { data: tagAssignments } = await supabase
       .from('celeb_tag_assignments')
-      .select('celeb_id, short_desc, long_desc, tag:celeb_tags(id, name, color)')
+      .select('celeb_id, short_desc, long_desc, sort_order, tag:celeb_tags(id, name, color)')
       .in('celeb_id', celebIds) as { data: TagRow[] | null }
 
     ;(tagAssignments ?? []).forEach(item => {
@@ -164,6 +166,11 @@ export async function getCelebs(
       const existing = tagMap.get(item.celeb_id) ?? []
       existing.push({ ...item.tag, short_desc: item.short_desc, long_desc: item.long_desc })
       tagMap.set(item.celeb_id, existing)
+
+      // 태그 필터 시 순서 정보 저장
+      if (tagId && item.tag.id === tagId) {
+        tagSortOrderMap.set(item.celeb_id, item.sort_order ?? 0)
+      }
     })
   }
 
@@ -221,6 +228,15 @@ export async function getCelebs(
       tags: tagMap.get(row.id) ?? [],
     }
   })
+
+  // 태그 필터 시 sort_order 순서로 재정렬
+  if (tagId && tagSortOrderMap.size > 0) {
+    celebs.sort((a, b) => {
+      const orderA = tagSortOrderMap.get(a.id) ?? Number.MAX_SAFE_INTEGER
+      const orderB = tagSortOrderMap.get(b.id) ?? Number.MAX_SAFE_INTEGER
+      return orderA - orderB
+    })
+  }
 
   return { celebs, total, page, totalPages, error: null }
 }

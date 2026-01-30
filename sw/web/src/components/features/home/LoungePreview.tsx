@@ -8,7 +8,7 @@ const LOUNGE_GAMES = [
   {
     id: "higher-lower",
     title: "Higher or Lower",
-    description: "두 콘텐츠 중 더 높은 평점을 맞춰보세요",
+    description: "두 인물 중 더 높은 평점을 맞춰보세요",
     icon: <TrendingUp className="text-accent" width={24} height={24} />,
     link: "/lounge/higher-lower",
     status: "플레이 가능"
@@ -16,7 +16,7 @@ const LOUNGE_GAMES = [
   {
     id: "timeline",
     title: "연대기",
-    description: "콘텐츠의 출시 순서를 맞춰보세요",
+    description: "인물들의 활동 시기를 맞춰보세요",
     icon: <Clock className="text-blue-400" width={24} height={24} />,
     link: "/lounge/timeline",
     status: "플레이 가능"

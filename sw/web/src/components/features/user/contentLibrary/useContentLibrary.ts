@@ -35,7 +35,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const isViewer = mode === 'viewer';
 
   // #region 상태
-  const [activeTab, setActiveTab] = useState<CategoryId>("book");
+  const [activeTab, setActiveTab] = useState<CategoryId>("all");
   const [contents, setContents] = useState<UserContentWithContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

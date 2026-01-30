@@ -25,6 +25,7 @@ import {
   addCelebToTag,
   removeCelebFromTag,
   updateTagAssignmentDesc,
+  updateTagCelebOrder,
 } from '@/actions/admin/tags'
 
 const PRESET_COLORS = [
@@ -79,6 +80,7 @@ export default function TagAccordionItem(props: Props) {
   const [editingDescId, setEditingDescId] = useState<string | null>(null)
   const [editingShortDesc, setEditingShortDesc] = useState('')
   const [editingLongDesc, setEditingLongDesc] = useState('')
+  const [celebDraggedIndex, setCelebDraggedIndex] = useState<number | null>(null)
   // #endregion
 
   // #region 셀럽 로드
@@ -157,11 +159,34 @@ export default function TagAccordionItem(props: Props) {
         tag_id: tag.id,
         short_desc: null,
         long_desc: null,
+        sort_order: result.sort_order ?? prev.length,
         celeb: { id: celeb.id, nickname: celeb.nickname, avatar_url: celeb.avatar_url, title: celeb.title },
       }])
       setSearchResults(prev => prev.filter(c => c.id !== celeb.id))
     }
   }
+
+  // #region 셀럽 드래그 핸들러
+  const handleCelebDragStart = (index: number) => {
+    setCelebDraggedIndex(index)
+  }
+
+  const handleCelebDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault()
+    if (celebDraggedIndex === null || celebDraggedIndex === index) return
+    const newCelebs = [...celebs]
+    const [dragged] = newCelebs.splice(celebDraggedIndex, 1)
+    newCelebs.splice(index, 0, dragged)
+    setCelebs(newCelebs)
+    setCelebDraggedIndex(index)
+  }
+
+  const handleCelebDragEnd = async () => {
+    if (celebDraggedIndex === null) return
+    setCelebDraggedIndex(null)
+    await updateTagCelebOrder(tag.id, celebs.map(c => c.celeb_id))
+  }
+  // #endregion
 
   const handleRemoveCeleb = async (celebId: string) => {
     const result = await removeCelebFromTag(celebId, tag.id)
@@ -381,9 +406,17 @@ export default function TagAccordionItem(props: Props) {
                   <p className="text-xs text-text-tertiary py-4 text-center">등록된 셀럽이 없다.</p>
                 ) : (
                   <div className="space-y-2">
-                    {celebs.map((item) => (
-                      <div key={item.celeb_id} className="p-2 rounded-lg bg-bg-secondary/30 hover:bg-bg-secondary/50">
+                    {celebs.map((item, index) => (
+                      <div
+                        key={item.celeb_id}
+                        draggable
+                        onDragStart={() => handleCelebDragStart(index)}
+                        onDragOver={(e) => handleCelebDragOver(e, index)}
+                        onDragEnd={handleCelebDragEnd}
+                        className={`p-2 rounded-lg bg-bg-secondary/30 hover:bg-bg-secondary/50 ${celebDraggedIndex === index ? 'opacity-50' : ''}`}
+                      >
                         <div className="flex items-center gap-2">
+                          <GripVertical className="w-4 h-4 text-text-tertiary cursor-grab shrink-0" />
                           <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} size="sm" />
                           <p className="flex-1 text-sm font-medium text-text-primary truncate">{item.celeb?.nickname}</p>
                           <button

@@ -1,13 +1,17 @@
-import { CATEGORIES } from "@/constants/categories";
+import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 import type { SortOption } from "../useContentLibrary";
+import { PantheonIcon } from "@/components/ui/icons/neo-pantheon";
 
-export const TAB_OPTIONS = CATEGORIES.map((cat) => ({
-  value: cat.id,
-  label: cat.label,
-  icon: cat.icon,
-  type: cat.dbType as ContentType,
-}));
+export const TAB_OPTIONS: { value: CategoryId; label: string; icon: React.ComponentType<any>; type: ContentType | undefined }[] = [
+  { value: "all", label: "전체", icon: PantheonIcon, type: undefined },
+  ...CATEGORIES.map((cat) => ({
+    value: cat.id as CategoryId,
+    label: cat.label,
+    icon: cat.icon,
+    type: cat.dbType as ContentType,
+  })),
+];
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "recent", label: "최근 추가" },

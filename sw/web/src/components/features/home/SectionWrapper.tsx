@@ -53,13 +53,13 @@ export default function SectionWrapper({ config, children, linkOverride }: Secti
           </div>
 
           {/* 2열: Decorative SVG */}
-          <div className="shrink-0 w-28 h-28 md:w-40 md:h-40 pointer-events-none select-none opacity-80 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]">
+          <div className="relative shrink-0 w-28 h-28 md:w-40 md:h-40 pointer-events-none select-none opacity-80 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]">
             <Image
               src={config.svgSrc}
               alt=""
               fill
               sizes="160px"
-              className="object-contain !relative"
+              className="object-contain"
             />
           </div>
         </div>

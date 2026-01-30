@@ -141,7 +141,8 @@
       "Bash(npx tsx:*)",
       "Bash(npx ts-node:*)",
       "WebFetch(domain:brunch.co.kr)",
-      "WebFetch(domain:lithub.com)"
+      "WebFetch(domain:lithub.com)",
+      "Bash(next:*)"
     ],
     "deny": [],
     "ask": []

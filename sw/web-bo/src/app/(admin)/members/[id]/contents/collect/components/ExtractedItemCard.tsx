@@ -67,7 +67,20 @@ export default function ExtractedItemCard({
   const Icon = typeConfig?.icon || Star
 
   const [reviewCopied, setReviewCopied] = useState(false)
+  const [titleInfoCopied, setTitleInfoCopied] = useState(false)
   const [isUrlEditing, setIsUrlEditing] = useState(false)
+
+  const handleCopyTitleInfo = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const text = `${item.title} - ${item.creator || ''} 번역본`
+    try {
+      await navigator.clipboard.writeText(text)
+      setTitleInfoCopied(true)
+      setTimeout(() => setTitleInfoCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy text: ', err)
+    }
+  }
 
   const handleCopyReview = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -188,14 +201,28 @@ export default function ExtractedItemCard({
           </Button>
 
           {!isExcluded && (
-            <Button
-              unstyled
-              onClick={() => onOpenManualSearch(index)}
-              className="p-1.5 text-text-secondary hover:text-accent rounded shrink-0"
-              title="직접 검색"
-            >
-              <Search className="w-4 h-4" />
-            </Button>
+            <>
+              <Button
+                unstyled
+                onClick={handleCopyTitleInfo}
+                className={`p-1.5 rounded shrink-0 ${
+                  titleInfoCopied
+                    ? 'text-green-400'
+                    : 'text-text-secondary hover:text-accent'
+                }`}
+                title="검색용 복사 (제목 - 저자 번역본)"
+              >
+                {titleInfoCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              </Button>
+              <Button
+                unstyled
+                onClick={() => onOpenManualSearch(index)}
+                className="p-1.5 text-text-secondary hover:text-accent rounded shrink-0"
+                title="직접 검색"
+              >
+                <Search className="w-4 h-4" />
+              </Button>
+            </>
           )}
         </div>
       </div>

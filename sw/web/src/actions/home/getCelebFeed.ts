@@ -17,18 +17,17 @@ export async function getCelebFeed(
 
   const supabase = await createClient()
 
-  // 셀럽 ID 목록 먼저 조회
+  // 셀럽 ID 목록 조회
   const { data: celebs } = await supabase
     .from('profiles')
     .select('id')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
 
-  if (!celebs || celebs.length === 0) {
+  const celebIds = celebs?.map(c => c.id) ?? []
+  if (celebIds.length === 0) {
     return { reviews: [], nextCursor: null, hasMore: false }
   }
-
-  const celebIds = celebs.map(c => c.id)
 
   // 셀럽들의 리뷰 조회
   let query = supabase

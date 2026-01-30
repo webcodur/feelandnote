@@ -14,6 +14,24 @@ import type { InputMode, ProcessedItem, SearchResultItem } from './types'
 
 const SELECTED_KEY_STORAGE = 'feelnnote_selected_api_key'
 
+// 저자 일치 여부로 최적 결과 선택
+function findBestMatchByCreator(
+  results: SearchResultItem[],
+  targetCreator?: string
+): SearchResultItem | null {
+  if (results.length === 0) return null
+  if (!targetCreator?.trim()) return results[0]
+
+  const normalizedTarget = targetCreator.toLowerCase().trim()
+
+  const match = results.find((r) => {
+    const creator = r.creator?.toLowerCase().trim() || ''
+    return creator.includes(normalizedTarget) || normalizedTarget.includes(creator)
+  })
+
+  return match || results[0]
+}
+
 interface UseCollectProps {
   celebId: string
   celebName: string
@@ -168,25 +186,29 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
 
       if (!result.success) throw new Error(result.error)
 
-      // 결과를 Map에 저장
+      // 결과를 Map에 저장 (저자 일치 항목 우선 선택)
       const newProcessed = new Map(processedItems)
       const indices = [...selectedIndices]
       result.items.forEach((item, i) => {
         const originalIndex = indices[i]
+        const extracted = extractedItems[originalIndex]
+        const targetCreator = extracted.creator
+
+        // 저자 일치 항목 우선 선택
+        const bestKo = findBestMatchByCreator(item.searchResultsKo, targetCreator)
+        const bestOrig = findBestMatchByCreator(item.searchResultsOriginal, targetCreator)
+
         const hasKo = item.searchResultsKo.length > 0
         const hasOrig = item.searchResultsOriginal.length > 0
+
         newProcessed.set(originalIndex, {
           ...item,
-          selectedSearchResult: hasKo
-            ? item.searchResultsKo[0]
-            : hasOrig
-              ? item.searchResultsOriginal[0]
-              : null,
+          selectedSearchResult: hasKo ? bestKo : hasOrig ? bestOrig : null,
           searchSource: hasKo ? 'ko' : hasOrig ? 'original' : 'manual',
           status: 'FINISHED',
           lastSearchQuery: hasKo
-            ? extractedItems[originalIndex].titleKo || extractedItems[originalIndex].title
-            : extractedItems[originalIndex].title,
+            ? extracted.titleKo || extracted.title
+            : extracted.title,
         })
       })
       setProcessedItems(newProcessed)
@@ -490,6 +512,14 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
           case 'a': // 전체 접기/펼치기
             e.preventDefault()
             toggleCollapseAll()
+            break
+          case 'c': // 제목 - 저자 번역본 복사
+            e.preventDefault()
+            if (!excludedIndices.has(activeIndex)) {
+              const item = extractedItems[activeIndex]
+              const text = `${item.title} - ${item.creator || ''} 번역본`
+              navigator.clipboard.writeText(text)
+            }
             break
         }
       }

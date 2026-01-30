@@ -22,6 +22,7 @@ interface Props {
   onSelect: (result: SearchResult, query: string) => void
   contentType: ContentType
   initialQuery?: string
+  initialCreator?: string
 }
 
 const ITEMS_PER_PAGE = 20
@@ -80,7 +81,26 @@ const TABLE_CONFIG: Record<ContentType, { headers: string[]; getRowData: (r: Sea
 }
 // #endregion
 
-export default function ManualSearchModal({ isOpen, onClose, onSelect, contentType, initialQuery = '' }: Props) {
+// 저자 일치 여부로 정렬 (일치하는 항목 최상단)
+function sortByCreatorMatch(results: SearchResult[], targetCreator?: string): SearchResult[] {
+  if (!targetCreator?.trim()) return results
+
+  const normalizedTarget = targetCreator.toLowerCase().trim()
+
+  return [...results].sort((a, b) => {
+    const aCreator = a.creator?.toLowerCase().trim() || ''
+    const bCreator = b.creator?.toLowerCase().trim() || ''
+
+    const aMatches = aCreator.includes(normalizedTarget) || normalizedTarget.includes(aCreator)
+    const bMatches = bCreator.includes(normalizedTarget) || normalizedTarget.includes(bCreator)
+
+    if (aMatches && !bMatches) return -1
+    if (!aMatches && bMatches) return 1
+    return 0
+  })
+}
+
+export default function ManualSearchModal({ isOpen, onClose, onSelect, contentType, initialQuery = '', initialCreator = '' }: Props) {
   const [query, setQuery] = useState(initialQuery)
   const [searching, setSearching] = useState(false)
   const [results, setResults] = useState<SearchResult[]>([])
@@ -111,7 +131,8 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
         coverImageUrl: item.coverImageUrl,
         metadata: item.metadata as Record<string, unknown>,
       }))
-      setResults(items)
+      // 저자 일치 항목 최상단 정렬
+      setResults(sortByCreatorMatch(items, initialCreator))
       setPage(searchPage)
       setTotal(response.total || 0)
       setHasMore(response.hasMore || false)
