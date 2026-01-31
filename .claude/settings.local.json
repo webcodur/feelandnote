@@ -142,7 +142,9 @@
       "Bash(npx ts-node:*)",
       "WebFetch(domain:brunch.co.kr)",
       "WebFetch(domain:lithub.com)",
-      "Bash(next:*)"
+      "Bash(next:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": [],
     "ask": []

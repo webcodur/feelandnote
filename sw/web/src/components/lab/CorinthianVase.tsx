@@ -73,13 +73,39 @@ export default function CorinthianVase({ className = "" }: { className?: string 
             <path d="M0 100 Q100 115, 200 100 L200 130 Q100 145, 0 130 Z" fill="url(#vase-dark-gradient)" />
             <path d="M0 102 Q100 117, 200 102 L200 128 Q100 143, 0 128 Z" fill="url(#vase-meander-gold)" opacity="0.9" />
             
-            {/* Lower Body Rays */}
-            <g transform="translate(0, 275) scale(1, -1)">
-                {Array.from({length: 12}).map((_, i) => {
-                     const x = 20 + i * 14.5; 
-                     return <path key={i} d={`M${x} 0 L${x+5} 80 L${x-5} 80 Z`} fill="#2c1810" opacity="0.8" />
-                })}
-            </g>
+            {/* Lower Body Rays - 아래로 볼록한 타원형 배치 */}
+            {Array.from({ length: 15 }).map((_, i) => {
+                // 정규화된 위치 (-0.5 ~ 0.5)
+                const t = (i / 14) - 0.5;
+                const angle = t * Math.PI * 0.85; // -77도 ~ +77도 (보이는 범위)
+
+                // 타원형 x좌표 (중앙 100, 반경 70)
+                const x = 100 + Math.sin(angle) * 70;
+
+                // 원근감: 중앙이 넓고 가장자리가 좁음
+                const perspectiveScale = Math.cos(angle);
+                const width = 12 * perspectiveScale;
+                const height = 70;
+
+                // 하단 타원: 중앙이 가장 아래, 가장자리가 위로
+                const bottomCurveDepth = 35;
+                const baseY = 275 - (1 - perspectiveScale) * bottomCurveDepth;
+
+                // 상단 타원: 하단과 같은 곡선을 따르되 덜 볼록하게 (연속된 곡선)
+                const topCurveDepth = 12;
+                const topY = (275 - height) - (1 - perspectiveScale) * topCurveDepth;
+
+                if (width < 1) return null;
+
+                return (
+                    <path
+                        key={i}
+                        d={`M${x} ${baseY} L${x + width / 2} ${topY} L${x - width / 2} ${topY} Z`}
+                        fill="#2c1810"
+                        opacity={0.5 + 0.35 * perspectiveScale}
+                    />
+                );
+            })}
         </g>
 
         {/* 3. Rim (Lip) */}

@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 
@@ -21,7 +21,10 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
   const celebsCount = activeTag.celebs.length;
 
   const touchStartX = useRef(0);
-  const SWIPE_THRESHOLD = 80;
+  const touchStartY = useRef(0);
+  const touchMoved = useRef(false);
+  const SWIPE_THRESHOLD = 30; // 스와이프 감도 향상
+  const CLICK_THRESHOLD = 8; // 이 이하면 클릭으로 판정
 
   const canGoNext = selectedIndex < celebsCount - 1;
   const canGoPrev = selectedIndex > 0;
@@ -30,18 +33,26 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    touchMoved.current = false;
     setIsSwiping(true);
     setDragOffset(0);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isSwiping) return;
-    const diff = e.touches[0].clientX - touchStartX.current;
-    const resistance = (!canGoPrev && diff > 0) || (!canGoNext && diff < 0) ? 0.3 : 1;
-    setDragOffset(diff * resistance);
+    const diffX = e.touches[0].clientX - touchStartX.current;
+    const diffY = e.touches[0].clientY - touchStartY.current;
+    // X 또는 Y 방향으로 일정 이상 움직이면 드래그로 판정
+    if (Math.abs(diffX) > CLICK_THRESHOLD || Math.abs(diffY) > CLICK_THRESHOLD) {
+      touchMoved.current = true;
+    }
+    const resistance = (!canGoPrev && diffX > 0) || (!canGoNext && diffX < 0) ? 0.3 : 1;
+    setDragOffset(diffX * resistance);
   };
 
   const handleTouchEnd = () => {
+    // 스와이프 처리
     if (Math.abs(dragOffset) > SWIPE_THRESHOLD) {
       if (dragOffset < 0 && canGoNext) {
         setSlideDirection("left");
@@ -50,6 +61,10 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
         setSlideDirection("right");
         setSelectedIndex(selectedIndex - 1);
       }
+    }
+    // 클릭 처리 (터치 이동이 없었을 때)
+    else if (!touchMoved.current && heroCeleb) {
+      onCelebClick(heroCeleb);
     }
     setDragOffset(0);
     setIsSwiping(false);
@@ -84,15 +99,6 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
               })}
             </div>
 
-            {/* 전환 힌트 화살표 */}
-            {willChange && (
-              <div className={cn(
-                "absolute top-1/2 -translate-y-1/2 z-40 text-accent text-3xl font-bold animate-pulse",
-                dragOffset < 0 ? "right-4" : "left-4"
-              )}>
-                {dragOffset < 0 ? "→" : "←"}
-              </div>
-            )}
 
             {/* 드래그에 따라 움직이는 콘텐츠 */}
             <div
@@ -137,14 +143,6 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
               </div>
             </div>
 
-            {/* 클릭 유도 버튼 - 우하단 (더 아래쪽) */}
-            <button
-              onClick={() => onCelebClick(heroCeleb)}
-              className="absolute bottom-8 right-4 z-30 flex items-center gap-1.5 px-3 py-2 bg-accent/90 hover:bg-accent text-black text-xs font-bold rounded-full shadow-lg shadow-accent/30"
-            >
-              <Sparkles size={14} />
-              <span>자세히</span>
-            </button>
          </div>
       </div>
 

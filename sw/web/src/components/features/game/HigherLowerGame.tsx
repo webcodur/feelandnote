@@ -1,6 +1,6 @@
 /*
   파일명: components/features/game/HigherLowerGame.tsx
-  기능: Higher or Lower 게임 메인 컴포넌트
+  기능: 업다운 게임 메인 컴포넌트
   책임: 게임 로직, 상태 관리, UI 렌더링
 */ // ------------------------------
 
@@ -167,7 +167,7 @@ export default function HigherLowerGame() {
     return (
       <div className="max-w-md mx-auto py-12">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-black text-white font-serif">Higher or Lower</h2>
+          <h2 className="text-2xl font-black text-white font-serif">업다운</h2>
           <p className="text-sm text-text-secondary mt-2">셀럽 영향력 비교 게임</p>
           <div className="w-24 h-px bg-accent/20 mx-auto mt-6 shadow-glow" />
         </div>

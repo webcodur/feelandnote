@@ -93,18 +93,16 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
             </div>
           </div>
 
-          {/* 내 기록관 링크 */}
+          {/* 내 페이지 링크 */}
           <div className="py-1">
-            {profile && (
-              <Link
-                href={`/${profile.id}`}
-                onClick={() => setShowDropdown(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-              >
-                <BustIcon size={16} className="text-text-secondary" />
-                내 기록관
-              </Link>
-            )}
+            <Link
+              href={`/${profile?.id}`}
+              onClick={() => setShowDropdown(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
+            >
+              <BustIcon size={16} className="text-text-secondary" />
+              내 페이지
+            </Link>
           </div>
 
           {/* 로그아웃 */}

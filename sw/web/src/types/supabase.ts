@@ -1192,6 +1192,16 @@ export type Database = {
         }
         Returns: undefined
       }
+      get_celeb_feed_type_counts: {
+        Args: Record<string, never>
+        Returns: Json
+      }
+      get_friend_activity_type_counts: {
+        Args: {
+          p_user_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       board_type: ["NOTICE", "FEEDBACK"]

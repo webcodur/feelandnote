@@ -178,17 +178,8 @@ export function useHeaderSearch() {
   const handleResultClick = (result: SearchResult) => {
     saveRecentSearch(query.trim());
     if (result.type === "content") {
-      if (mode === "records" && currentUserId) {
-        router.push(`/${currentUserId}/records/${result.id}`);
-      } else {
-        const key = `content_${result.id}`;
-        sessionStorage.setItem(key, JSON.stringify({
-          id: result.id, title: result.title, category: result.category || "book",
-          creator: result.subtitle, thumbnail: result.thumbnail, description: result.description,
-          releaseDate: result.releaseDate, subtype: result.subtype, metadata: result.metadata,
-        }));
-        router.push(`/content/detail?key=${key}`);
-      }
+      const category = result.category || "book";
+      router.push(`/content/${result.id}?category=${category}`);
     } else if (result.type === "user") {
       router.push(`/${result.id}`);
     } else if (result.type === "tag") {
@@ -229,13 +220,8 @@ export function useHeaderSearch() {
   };
 
   const handleOpenInNewTab = (result: SearchResult) => {
-    const key = `content_${result.id}`;
-    sessionStorage.setItem(key, JSON.stringify({
-      id: result.id, title: result.title, category: result.category || "book",
-      creator: result.subtitle, thumbnail: result.thumbnail, description: result.description,
-      releaseDate: result.releaseDate, subtype: result.subtype, metadata: result.metadata,
-    }));
-    window.open(`/content/detail?key=${key}`, "_blank");
+    const category = result.category || "book";
+    window.open(`/content/${result.id}?category=${category}`, "_blank");
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent) => {

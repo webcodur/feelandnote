@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { Inbox } from "lucide-react";
 import ReviewCard from "./ReviewCard";
 import { LoadMoreButton, FilterTabs } from "@/components/ui";
 import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } from "@/actions/activity";
-import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
+import { CONTENT_TYPE_FILTERS, getCategoryByDbType, type ContentTypeFilterValue } from "@/constants/categories";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { ACTION_CONFIG } from "@/lib/config/activity-actions";
 
@@ -44,7 +44,6 @@ function LoadingSkeleton() {
 
 interface FriendActivitySectionProps {
   userId: string;
-  hideHeader?: boolean;
   hideFilter?: boolean;
   contentType?: ContentTypeFilterValue;
   activityTypeCounts?: FriendActivityTypeCounts;
@@ -52,7 +51,6 @@ interface FriendActivitySectionProps {
 
 export default function FriendActivitySection({
   userId,
-  hideHeader = false,
   hideFilter = false,
   contentType: externalContentType,
   activityTypeCounts,
@@ -106,6 +104,12 @@ export default function FriendActivitySection({
     loadActivities(contentType, cursor);
   }, [cursor, hasMore, isLoadingMore, contentType, loadActivities]);
 
+  // 리뷰가 있는 활동만 필터링 (useMemo로 최적화)
+  const filteredActivities = useMemo(
+    () => activities.filter((activity) => activity.content_type && activity.review),
+    [activities]
+  );
+
   return (
     <section>
       {/* 콘텐츠 타입 필터 */}
@@ -124,33 +128,31 @@ export default function FriendActivitySection({
 
       {isLoading ? (
         <LoadingSkeleton />
-      ) : activities.length === 0 ? (
+      ) : filteredActivities.length === 0 ? (
         <EmptyActivity />
       ) : (
         <div className="space-y-4">
-          {activities
-            .filter((activity) => activity.content_type && activity.review)
-            .map((activity) => {
-              const config = ACTION_CONFIG[activity.action_type];
-              return (
-                <ReviewCard
-                  key={activity.id}
-                  userId={activity.user_id}
-                  userName={activity.user_nickname}
-                  userAvatar={activity.user_avatar_url}
-                  userTitle={activity.user_title}
-                  userSubtitle={config?.verb || "활동"}
-                  contentType={activity.content_type!}
-                  contentId={activity.content_id!}
-                  contentTitle={activity.content_title || ""}
-                  contentThumbnail={activity.content_thumbnail}
-                  review={activity.review!}
-                  timeAgo={formatRelativeTime(activity.created_at)}
-                  sourceUrl={activity.source_url}
-                  href={`/${activity.user_id}/records/${activity.content_id}`}
-                />
-              );
-            })}
+          {filteredActivities.map((activity) => {
+            const config = ACTION_CONFIG[activity.action_type];
+            return (
+              <ReviewCard
+                key={activity.id}
+                userId={activity.user_id}
+                userName={activity.user_nickname}
+                userAvatar={activity.user_avatar_url}
+                userTitle={activity.user_title}
+                userSubtitle={config?.verb || "활동"}
+                contentType={activity.content_type!}
+                contentId={activity.content_id!}
+                contentTitle={activity.content_title || ""}
+                contentThumbnail={activity.content_thumbnail}
+                review={activity.review!}
+                timeAgo={formatRelativeTime(activity.created_at)}
+                sourceUrl={activity.source_url}
+                href={`/content/${activity.content_id}?category=${getCategoryByDbType(activity.content_type!)?.id || "book"}`}
+              />
+            );
+          })}
           <LoadMoreButton
             onClick={loadMore}
             isLoading={isLoadingMore}

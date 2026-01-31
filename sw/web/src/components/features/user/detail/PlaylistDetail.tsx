@@ -10,6 +10,8 @@ import { PlaylistEditor } from "@/components/features/user/playlists";
 import { usePlaylistDetail } from "./playlistDetail/usePlaylistDetail";
 import PlaylistHeader from "./playlistDetail/PlaylistHeader";
 import PlaylistItemList from "./playlistDetail/PlaylistItemList";
+import { getCategoryByDbType } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
 
 interface PlaylistDetailProps {
   playlistId: string;
@@ -95,7 +97,10 @@ export default function PlaylistDetail({ playlistId }: PlaylistDetailProps) {
         isOwner={isOwner}
         isDragging={isDragging}
         draggedIndex={draggedIndex}
-        onItemClick={(contentId) => router.push(`/${playlist.user_id}/records/${contentId}`)}
+        onItemClick={(contentId, contentType) => {
+          const category = getCategoryByDbType(contentType as ContentType)?.id || "book";
+          router.push(`/content/${contentId}?category=${category}`);
+        }}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}

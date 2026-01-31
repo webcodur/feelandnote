@@ -1,18 +1,13 @@
 /*
   파일명: /app/(main)/lounge/page.tsx
-  기능: 라운지 페이지
-  책임: Lounge 컴포넌트를 렌더링한다.
+  기능: 라운지 기본 페이지
+  책임: 기본값으로 업다운 페이지로 리다이렉트한다.
 */ // ------------------------------
 
-import Lounge from "@/components/features/user/lounge/Lounge";
-import PageContainer from "@/components/layout/PageContainer";
+import { redirect } from "next/navigation";
 
 export const metadata = { title: "라운지" };
 
 export default function Page() {
-  return (
-    <PageContainer>
-      <Lounge />
-    </PageContainer>
-  );
+  redirect("/lounge/higher-lower");
 }

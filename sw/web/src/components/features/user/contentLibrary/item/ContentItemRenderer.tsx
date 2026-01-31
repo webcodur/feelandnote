@@ -9,7 +9,7 @@ import { CertificateCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
 import RecordCard from "@/components/ui/cards/RecordCard";
 import { RecommendButton } from "@/components/features/recommendations";
-
+import { getCategoryByDbType } from "@/constants/categories";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
@@ -35,10 +35,10 @@ export default function ContentItemRenderer({
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
 
-  // href 생성: 사용자 ID와 콘텐츠 ID로 경로 구성
+  // href 생성: 콘텐츠 상세 페이지로 이동
   const getHref = (item: UserContentWithContent) => {
-    const userId = targetUserId || item.user_id;
-    return `/${userId}/records/${item.content_id}`;
+    const category = getCategoryByDbType(item.content.type)?.id || "book";
+    return `/content/${item.content_id}?category=${category}`;
   };
 
   // 자격증과 일반 콘텐츠 분리

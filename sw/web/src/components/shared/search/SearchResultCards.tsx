@@ -51,11 +51,9 @@ export function ContentResults({
         const isAdded = addedIds.has(item.id);
         const isSaved = savedIds.has(item.id);
 
-        // records 모드일 때 contentId 사용 (RecordsSearchResult 타입)
+        // 콘텐츠 상세 페이지로 이동 (통합 라우트)
         const contentId = "contentId" in item ? item.contentId : item.id;
-        const href = mode === "records" && currentUserId
-          ? `/${currentUserId}/records/${contentId}`
-          : `/content/detail?id=${item.id}&category=${item.category}`;
+        const href = `/content/${contentId}?category=${item.category}`;
 
         return (
           <ContentCompactCard

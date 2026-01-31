@@ -12,6 +12,7 @@ import {
   Home,
   ListMusic,
   Compass,
+  BookOpen,
   Megaphone,
   MessageSquarePlus,
   LucideIcon,
@@ -43,6 +44,7 @@ export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps)
         { href: "/", label: "홈", icon: Home },
         { href: userId ? `/${userId}/collections` : "/login", label: "재생목록", icon: ListMusic },
         { href: "/explore", label: "탐색", icon: Compass },
+        { href: "/scriptures", label: "지혜의 서고", icon: BookOpen },
       ],
     },
     {

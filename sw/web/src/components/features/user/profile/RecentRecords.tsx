@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Star } from "lucide-react";
 import { BLUR_DATA_URL } from "@/constants/image";
+import { getCategoryByDbType } from "@/constants/categories";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 
 interface RecentRecordsProps {
@@ -25,7 +26,7 @@ export default function RecentRecords({ items, userId }: RecentRecordsProps) {
       {items.map((item) => (
         <Link
           key={item.id}
-          href={`/${userId}/records/${item.content_id}`}
+          href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
           className="group flex flex-col gap-2.5"
         >
           {/* 썸네일 */}

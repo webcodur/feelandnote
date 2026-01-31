@@ -68,23 +68,6 @@ export default function ExpandedCelebCard({ celeb, className = "" }: ExpandedCel
             <h3 className={`font-serif font-bold text-white leading-tight truncate max-w-full ${celeb.nickname.length > 6 ? 'text-[11px] md:text-xs' : 'text-xs md:text-sm'}`}>
               {celeb.nickname}
             </h3>
-            {/* 태그 뱃지 */}
-            {celeb.tags && celeb.tags.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-0.5 mt-1 max-w-full">
-                {celeb.tags.slice(0, 2).map(tag => (
-                  <span
-                    key={tag.id}
-                    className="px-1 py-0.5 text-[8px] rounded-full truncate max-w-[60px]"
-                    style={{ backgroundColor: `${tag.color}30`, color: tag.color }}
-                  >
-                    {tag.name}
-                  </span>
-                ))}
-                {celeb.tags.length > 2 && (
-                  <span className="text-[8px] text-text-tertiary">+{celeb.tags.length - 2}</span>
-                )}
-              </div>
-            )}
           </div>
         </MaterialFrame>
       </button>

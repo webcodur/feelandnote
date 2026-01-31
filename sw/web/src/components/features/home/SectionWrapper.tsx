@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronUp, ChevronDown, ChevronsUp } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
-import { HomeSectionConfig, SECTION_ORDER } from "@/constants/home-sections";
+import { HomeSectionConfig, SECTION_ORDER } from "@/constants/navigation";
 
 interface SectionWrapperProps {
   config: HomeSectionConfig;

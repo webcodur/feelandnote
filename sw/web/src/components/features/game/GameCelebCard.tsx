@@ -1,6 +1,6 @@
 /*
   파일명: components/features/game/GameCelebCard.tsx
-  기능: Higher or Lower 게임용 셀럽 카드
+  기능: 업다운 게임용 셀럽 카드
   책임: 셀럽 정보와 영향력 점수를 표시한다.
 */ // ------------------------------
 

@@ -1,11 +1,13 @@
 "use client";
 
+import { Search, X, BarChart3 } from "lucide-react";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import ExpandedCelebCard from "./celeb-card-drafts/ExpandedCelebCard";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
 import TagQuickFilter from "./TagQuickFilter";
+import TagCelebShowcase from "./TagCelebShowcase";
 import { useCelebFilters } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, TagCount } from "@/actions/home";
@@ -21,6 +23,7 @@ interface CelebCarouselProps {
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
+  onShowInfluenceDistribution?: () => void;
 }
 
 export default function CelebCarousel({
@@ -33,6 +36,7 @@ export default function CelebCarousel({
   tagCounts,
   mode = "grid",
   syncToUrl = false,
+  onShowInfluenceDistribution,
 }: CelebCarouselProps) {
   const filters = useCelebFilters({
     initialCelebs,
@@ -53,38 +57,42 @@ export default function CelebCarousel({
   // 초기 데이터 없으면 숨김
   if (initialTotal === 0) return null;
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") filters.handleSearchSubmit();
+  };
+
   return (
     <div className="space-y-4">
-      {/* 태그 퀵필터 */}
-      <TagQuickFilter
-        tags={tagCounts}
-        currentTagId={filters.tagId}
-        onTagSelect={filters.handleTagChange}
-        isLoading={filters.isLoading}
-      />
+      {/* 1. 컬렉션 (태그 퀵필터) - 중앙정렬 */}
+      <div className="flex justify-center">
+        <TagQuickFilter
+          tags={tagCounts}
+          currentTagId={filters.tagId}
+          onTagSelect={filters.handleTagChange}
+          isLoading={filters.isLoading}
+        />
+      </div>
 
-      {/* 필터/정렬 - 캐러셀 상단 */}
+      {/* 2. 직군/국적/콘텐츠/정렬 필터 */}
       <CelebFiltersDesktop
         profession={filters.profession}
         nationality={filters.nationality}
         contentType={filters.contentType}
         sortBy={filters.sortBy}
-        tagId={filters.tagId}
-        search={filters.search}
+        search=""
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
-        tagCounts={tagCounts}
         isLoading={filters.isLoading}
         activeLabels={filters.activeLabels}
         onProfessionChange={filters.handleProfessionChange}
         onNationalityChange={filters.handleNationalityChange}
         onContentTypeChange={filters.handleContentTypeChange}
         onSortChange={filters.handleSortChange}
-        onTagChange={filters.handleTagChange}
-        onSearchInput={filters.handleSearchInput}
-        onSearchSubmit={filters.handleSearchSubmit}
-        onSearchClear={filters.handleSearchClear}
+        onSearchInput={() => {}}
+        onSearchSubmit={() => {}}
+        onSearchClear={() => {}}
+        hideSearch
       />
 
       <CelebFiltersMobile
@@ -92,12 +100,10 @@ export default function CelebCarousel({
         nationality={filters.nationality}
         contentType={filters.contentType}
         sortBy={filters.sortBy}
-        tagId={filters.tagId}
         search={filters.search}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
-        tagCounts={tagCounts}
         isLoading={filters.isLoading}
         activeFilter={filters.activeFilter}
         activeLabels={filters.activeLabels}
@@ -107,19 +113,75 @@ export default function CelebCarousel({
         onNationalityChange={filters.handleNationalityChange}
         onContentTypeChange={filters.handleContentTypeChange}
         onSortChange={filters.handleSortChange}
-        onTagChange={filters.handleTagChange}
         onSearchInput={filters.handleSearchInput}
         onSearchSubmit={filters.handleSearchSubmit}
         onSearchClear={filters.handleSearchClear}
       />
 
-      {/* 셀럽 그리드 영역 - 배경 박스 제거하여 클린하게 변경 */}
+      {/* 3. 인물검색 + 영향력분포 - 중앙정렬 */}
+      <div className="hidden md:flex items-center justify-center gap-2">
+        {/* 검색 입력 */}
+        <div className="relative w-64">
+          <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+          <input
+            type="text"
+            value={filters.search}
+            onChange={(e) => filters.handleSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="인물 검색..."
+            className="w-full h-9 ps-9 pe-8 bg-bg-card border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+          />
+          {filters.search && (
+            <button
+              type="button"
+              onClick={filters.handleSearchClear}
+              className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded"
+            >
+              <X size={14} className="text-text-tertiary" />
+            </button>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={filters.handleSearchSubmit}
+          disabled={filters.isLoading}
+          className="h-9 px-4 bg-accent hover:bg-accent-hover disabled:opacity-50 text-white text-sm font-medium rounded-lg"
+        >
+          검색
+        </button>
+
+        {/* 영향력 분포 버튼 */}
+        {onShowInfluenceDistribution && (
+          <button
+            type="button"
+            onClick={onShowInfluenceDistribution}
+            className="flex items-center gap-2 h-9 px-3 text-sm text-text-secondary hover:text-accent bg-bg-card hover:bg-bg-card/80 border border-border/50 rounded-lg"
+          >
+            <BarChart3 size={16} />
+            <span>영향력 분포</span>
+          </button>
+        )}
+      </div>
+
+      {/* 셀럽 그리드 영역 */}
       <section className="relative">
         {/* 빈 상태 */}
         {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
 
-        {/* 셀럽 그리드 */}
-        {filters.celebs.length > 0 && (
+        {/* 태그 선택 시 포트레잇 쇼케이스 */}
+        {filters.celebs.length > 0 && filters.tagId && filters.activeLabels.tag && (
+          <TagCelebShowcase
+            celebs={filters.celebs}
+            tag={filters.activeLabels.tag}
+            isLoading={filters.isLoading}
+            currentPage={filters.currentPage}
+            totalPages={filters.totalPages}
+            onPageChange={filters.handlePageChange}
+          />
+        )}
+
+        {/* 일반 셀럽 그리드 (태그 미선택 시) */}
+        {filters.celebs.length > 0 && !filters.tagId && (
           <>
             <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} />
             <div className="mt-8">

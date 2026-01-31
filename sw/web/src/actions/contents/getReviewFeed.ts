@@ -12,6 +12,7 @@ export interface ReviewFeedItem {
     id: string
     nickname: string
     avatar_url: string | null
+    profile_type: 'USER' | 'CELEB'
   }
 }
 
@@ -34,7 +35,7 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
       review,
       is_spoiler,
       updated_at,
-      user:profiles!user_contents_user_id_fkey(id, nickname, avatar_url)
+      user:profiles!user_contents_user_id_fkey(id, nickname, avatar_url, profile_type)
     `)
     .eq('content_id', params.contentId)
     .not('review', 'is', null)

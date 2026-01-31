@@ -103,7 +103,6 @@ function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeader
 interface CelebFeedProps {
   initialReviews?: CelebReview[];
   contentTypeCounts?: ContentTypeCounts;
-  hideHeader?: boolean;
   hideFilter?: boolean;
   contentType?: ContentTypeFilterValue;
 }
@@ -111,7 +110,6 @@ interface CelebFeedProps {
 export default function CelebFeed({
   initialReviews,
   contentTypeCounts,
-  hideHeader = false,
   hideFilter = false,
   contentType: externalContentType,
 }: CelebFeedProps) {

@@ -9,16 +9,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import {
-  Compass,
-  ScrollText,
-  Armchair,
-  User,
-  Menu,
-} from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
-import BottomSheet from "@/components/ui/BottomSheet";
-import BottomNavSheet from "./BottomNavSheet";
+import { BOTTOM_NAV_ITEMS } from "@/constants/navigation";
 
 interface NavItemProps {
   href: string;
@@ -31,116 +23,60 @@ function NavItem({ href, active, icon, label }: NavItemProps) {
   return (
     <Link
       href={href}
-      className={`flex flex-col items-center justify-center gap-1 py-1 flex-1 no-underline transition-all duration-300
-        ${active ? "text-accent scale-110" : "text-text-secondary opacity-60 hover:opacity-100"}`}
+      className={`flex flex-col items-center justify-center gap-1 py-1 flex-1 no-underline
+        ${active ? "text-accent" : "text-text-secondary opacity-60 hover:opacity-100"}`}
     >
-      <div className={`transition-transform duration-300 ${active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}`}>
+      <div className={active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}>
         {icon}
       </div>
-      <span className={`text-[9px] font-serif tracking-tighter transition-all ${active ? "font-black" : "font-medium"}`}>{label}</span>
+      <span className={`text-[9px] font-serif tracking-tighter ${active ? "font-black" : "font-medium"}`}>{label}</span>
     </Link>
-  );
-}
-
-interface NavButtonProps {
-  active: boolean;
-  icon: React.ReactNode;
-  label: string;
-  onClick: () => void;
-}
-
-function NavButton({ active, icon, label, onClick }: NavButtonProps) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`flex flex-col items-center justify-center gap-1 py-1 flex-1 bg-transparent border-none cursor-pointer transition-all duration-300
-        ${active ? "text-accent scale-110" : "text-text-secondary opacity-60 hover:opacity-100"}`}
-    >
-      <div className={`transition-transform duration-300 ${active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}`}>
-        {icon}
-      </div>
-      <span className={`text-[9px] font-serif tracking-tighter transition-all ${active ? "font-black" : "font-medium"}`}>{label}</span>
-    </button>
   );
 }
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const [profileId, setProfileId] = useState<string | null>(null);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadProfile = async () => {
-        // Simple client-side check or use a context if available
-        // For now, importing createClient from client
-        const { createClient } = await import("@/lib/supabase/client");
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            setProfileId(user.id);
-        }
+    const checkAuth = async () => {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserId(user?.id ?? null);
     };
-    loadProfile();
+    checkAuth();
   }, []);
 
-  // PC Header 순서: Explore -> Feed -> Lounge -> (Board etc)
-  const navItems = [
-    { href: "/explore", icon: <Compass size={20} />, label: "탐색" },
-    { href: "/feed", icon: <ScrollText size={20} />, label: "피드" },
-    { href: "/lounge", icon: <Armchair size={20} />, label: "라운지" },
-    { href: profileId ? `/${profileId}` : "/login", icon: <User size={20} />, label: "마이" },
-  ];
-
-  // 더보기에 포함된 경로들 (활성 상태 체크용)
-  const moreMenuPaths = [
-    "/board/notice",
-    "/board/free",
-  ];
-
-  const isMoreActive = moreMenuPaths.some((path) => pathname.startsWith(path));
+  const resolveHref = (href: string) => {
+    if (href.includes("{userId}")) {
+      return userId ? href.replace("{userId}", userId) : "/login";
+    }
+    return href;
+  };
 
   return (
-    <>
-      <nav
-        className="fixed bottom-0 left-0 right-0 h-16 bg-bg-main/80 backdrop-blur-xl border-t border-accent/10 flex items-center md:hidden pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
-        style={{ zIndex: Z_INDEX.bottomNav }}
-      >
-        {/* Subtle top shine for bottom nav */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-        {navItems.map((item) => {
-          const isActive = item.href === "/" 
-            ? pathname === "/" 
-            : pathname.startsWith(item.href);
-          
-          return (
-            <NavItem
-              key={item.href}
-              href={item.href}
-              active={isActive}
-              icon={item.icon}
-              label={item.label}
-            />
-          );
-        })}
+    <nav
+      className="fixed bottom-0 left-0 right-0 h-16 bg-bg-main/80 backdrop-blur-xl border-t border-accent/10 flex items-center md:hidden pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
+      style={{ zIndex: Z_INDEX.bottomNav }}
+    >
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+      {BOTTOM_NAV_ITEMS.map((item) => {
+        const href = resolveHref(item.href);
+        const isActive = item.href.includes("{userId}")
+          ? userId ? pathname.startsWith(`/${userId}`) : false
+          : pathname.startsWith(item.href);
 
-        {/* 더보기 버튼 */}
-        <NavButton
-          active={isMoreActive}
-          icon={<Menu size={20} />}
-          label="더보기"
-          onClick={() => setIsSheetOpen(true)}
-        />
-      </nav>
-
-      {/* 더보기 시트 */}
-      <BottomSheet
-        isOpen={isSheetOpen}
-        onClose={() => setIsSheetOpen(false)}
-        title="메뉴"
-      >
-        <BottomNavSheet onClose={() => setIsSheetOpen(false)} userId={profileId} />
-      </BottomSheet>
-    </>
+        return (
+          <NavItem
+            key={item.key}
+            href={href}
+            active={isActive}
+            icon={<item.icon size={20} />}
+            label={item.label}
+          />
+        );
+      })}
+    </nav>
   );
 }

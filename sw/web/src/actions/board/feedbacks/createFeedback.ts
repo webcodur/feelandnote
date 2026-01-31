@@ -54,7 +54,7 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
     return handleSupabaseError(error, { context: 'feedback', logPrefix: '[피드백 작성]' })
   }
 
-  revalidatePath('/board/feedback')
+  revalidatePath('/lounge/board/feedback')
 
   return success(data as FeedbackWithAuthor)
 }

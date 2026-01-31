@@ -110,7 +110,13 @@ function AuraListItem({
               title={celeb.nickname}
             >
               {celeb.avatar_url ? (
-                <Image src={celeb.avatar_url} alt={celeb.nickname} width={28} height={28} className="w-full h-full object-cover" />
+                <Image
+                  src={celeb.avatar_url}
+                  alt={celeb.nickname}
+                  fill
+                  className="object-cover"
+                  sizes="28px"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[10px] font-bold" style={{ color: mat.colors.text }}>
                   {celeb.nickname.charAt(0)}
@@ -160,7 +166,13 @@ function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCel
                 
                 <div className="w-9 h-9 rounded-full overflow-hidden bg-bg-card flex-shrink-0 border border-border/50">
                   {celeb.avatar_url ? (
-                    <Image src={celeb.avatar_url} alt={celeb.nickname} width={36} height={36} className="w-full h-full object-cover" />
+                    <Image
+                      src={celeb.avatar_url}
+                      alt={celeb.nickname}
+                      fill
+                      className="object-cover"
+                      sizes="36px"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-xs font-bold text-text-secondary">
                       {celeb.nickname.charAt(0)}

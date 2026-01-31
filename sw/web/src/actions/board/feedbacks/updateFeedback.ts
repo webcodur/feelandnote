@@ -74,7 +74,7 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
     return handleSupabaseError(error, { logPrefix: '[피드백 수정]' })
   }
 
-  revalidatePath('/board/feedback')
+  revalidatePath('/lounge/board/feedback')
   revalidatePath(`/board/feedback/${id}`)
 
   return success(data as FeedbackWithAuthor)

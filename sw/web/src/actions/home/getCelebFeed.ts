@@ -10,6 +10,8 @@ interface GetCelebFeedParams {
   limit?: number
 }
 
+const EMPTY_RESPONSE: CelebFeedResponse = { reviews: [], nextCursor: null, hasMore: false }
+
 export async function getCelebFeed(
   params: GetCelebFeedParams = {}
 ): Promise<CelebFeedResponse> {
@@ -17,19 +19,8 @@ export async function getCelebFeed(
 
   const supabase = await createClient()
 
-  // 셀럽 ID 목록 조회
-  const { data: celebs } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-
-  const celebIds = celebs?.map(c => c.id) ?? []
-  if (celebIds.length === 0) {
-    return { reviews: [], nextCursor: null, hasMore: false }
-  }
-
-  // 셀럽들의 리뷰 조회
+  // 셀럽 리뷰 조회 - profiles 조인으로 CELEB 필터링 (별도 쿼리 불필요)
+  // contents 조인에서 type 필터링 (별도 쿼리 불필요)
   let query = supabase
     .from('user_contents')
     .select(`
@@ -39,42 +30,34 @@ export async function getCelebFeed(
       is_spoiler,
       source_url,
       updated_at,
-      content:contents!user_contents_content_id_fkey(
+      content:contents!user_contents_content_id_fkey!inner(
         id,
         title,
         creator,
         thumbnail_url,
         type
       ),
-      celeb:profiles!user_contents_user_id_fkey(
+      celeb:profiles!user_contents_user_id_fkey!inner(
         id,
         nickname,
         avatar_url,
         profession,
         is_verified,
-        claimed_by
+        claimed_by,
+        profile_type,
+        status
       )
     `)
-    .in('user_id', celebIds)
     .not('review', 'is', null)
     .eq('visibility', 'public')
+    .eq('celeb.profile_type', 'CELEB')
+    .eq('celeb.status', 'active')
     .order('updated_at', { ascending: false })
     .limit(limit + 1)
 
-  // 콘텐츠 타입 필터
+  // 콘텐츠 타입 필터 - 조인된 contents에서 직접 필터링
   if (contentType !== 'all') {
-    // 먼저 해당 타입의 콘텐츠 ID 조회
-    const { data: filteredContents } = await supabase
-      .from('contents')
-      .select('id')
-      .eq('type', contentType)
-
-    if (!filteredContents || filteredContents.length === 0) {
-      return { reviews: [], nextCursor: null, hasMore: false }
-    }
-
-    const contentIds = filteredContents.map(c => c.id)
-    query = query.in('content_id', contentIds)
+    query = query.eq('content.type', contentType)
   }
 
   // 커서 기반 페이지네이션
@@ -86,11 +69,11 @@ export async function getCelebFeed(
 
   if (error) {
     console.error('셀럽 피드 조회 에러:', error)
-    return { reviews: [], nextCursor: null, hasMore: false }
+    return EMPTY_RESPONSE
   }
 
   if (!data || data.length === 0) {
-    return { reviews: [], nextCursor: null, hasMore: false }
+    return EMPTY_RESPONSE
   }
 
   const hasMore = data.length > limit

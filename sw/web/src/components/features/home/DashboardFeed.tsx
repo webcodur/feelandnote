@@ -63,22 +63,19 @@ export default function DashboardFeed({
   useEffect(() => {
     updateUnderline();
 
-    // 윈도우 리사이즈 및 탭 너비 변화 감지
+    // 윈도우 리사이즈 감지
     const handleResize = () => updateUnderline();
     window.addEventListener("resize", handleResize);
 
-    const observers: ResizeObserver[] = [];
+    // 단일 ResizeObserver로 모든 탭 요소 관찰
+    const observer = new ResizeObserver(() => updateUnderline());
     tabRefs.current.forEach((el) => {
-      if (el) {
-        const observer = new ResizeObserver(() => updateUnderline());
-        observer.observe(el);
-        observers.push(observer);
-      }
+      if (el) observer.observe(el);
     });
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      observers.forEach(obs => obs.disconnect());
+      observer.disconnect();
     };
   }, [updateUnderline]);
 
@@ -110,11 +107,11 @@ export default function DashboardFeed({
                 ref={(el) => { if (el) tabRefs.current.set(key, el); }}
                 onClick={() => setActiveTab(key)}
                 onMouseEnter={() => setHoveredTab(key)}
-                className={`relative py-3 md:py-4 cursor-pointer transition-all duration-200 whitespace-nowrap px-1 md:px-0 ${
+                className={`relative py-3 md:py-4 cursor-pointer whitespace-nowrap px-1 md:px-0 ${
                   isActive ? 'text-accent' : isHovered ? 'text-text-primary' : 'text-text-tertiary/40'
                 }`}
               >
-                <span className={`font-serif text-[13px] sm:text-base md:text-xl tracking-tighter block transition-all duration-200 ${
+                <span className={`font-serif text-[13px] sm:text-base md:text-xl tracking-tighter block ${
                   isActive ? 'font-black' : isHovered ? 'font-semibold' : 'font-medium'
                 }`}>
                   {label}
@@ -122,9 +119,9 @@ export default function DashboardFeed({
               </button>
             );
           })}
-          {/* 공유 밑줄: 위치를 bottom-0으로 조정하여 보더와 일치시킴 */}
+          {/* 공유 밑줄 */}
           <div
-            className="absolute bottom-0 h-[2px] md:h-[3px] bg-accent shadow-none md:shadow-[0_0_15px_rgba(212,175,55,0.8),0_0_5px_rgba(212,175,55,1)] transition-all duration-300 ease-out z-20"
+            className="absolute bottom-0 h-[2px] md:h-[3px] bg-accent shadow-none md:shadow-[0_0_15px_rgba(212,175,55,0.8),0_0_5px_rgba(212,175,55,1)] z-20"
             style={{ left: underlineStyle.left, width: underlineStyle.width }}
           />
         </div>
@@ -135,7 +132,7 @@ export default function DashboardFeed({
         <div className="relative inline-flex items-center gap-0.5 p-1 bg-white/5 rounded-full border border-accent/10 overflow-x-auto scrollbar-hide max-w-full">
           {/* 슬라이딩 pill 배경 */}
           <div
-            className="absolute top-1 bottom-1 bg-accent/20 rounded-full border border-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.15)] transition-all duration-300 ease-out"
+            className="absolute top-1 bottom-1 bg-accent/20 rounded-full border border-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.15)]"
             style={{ left: pillStyle.left, width: pillStyle.width }}
           />
           {SEGMENT_FILTERS.map(({ value, label, icon: Icon }) => {
@@ -148,7 +145,7 @@ export default function DashboardFeed({
                 key={value}
                 ref={(el) => { if (el) filterRefs.current.set(value, el); }}
                 onClick={() => setContentType(value)}
-                className={`relative z-10 flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-full cursor-pointer transition-all duration-200 whitespace-nowrap ${
+                className={`relative z-10 flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-full cursor-pointer whitespace-nowrap ${
                   isActive
                     ? "text-accent"
                     : "text-text-tertiary/60 hover:text-text-primary"
@@ -171,18 +168,16 @@ export default function DashboardFeed({
 
       {/* 탭 콘텐츠 */}
       <div className="relative min-h-[400px]">
-        {/* 셀럽 아카이브 */}
-        <div className={`transition-all duration-500 transform ${activeTab === "celeb" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
+        {activeTab === "celeb" && (
           <CelebFeed contentType={contentType} hideFilter initialReviews={initialReviews} />
-        </div>
-        {/* 친구 동향 */}
-        <div className={`transition-all duration-500 transform ${activeTab === "friend" ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-4 absolute top-0 left-0 w-full -z-10 pointer-events-none"}`}>
-          {isLoggedIn ? (
+        )}
+        {activeTab === "friend" && (
+          isLoggedIn ? (
             <FriendActivitySection userId={userId!} contentType={contentType} hideFilter />
           ) : (
             <div className="py-10 text-center text-text-secondary font-serif">로그인이 필요합니다.</div>
-          )}
-        </div>
+          )
+        )}
       </div>
     </div>
   );

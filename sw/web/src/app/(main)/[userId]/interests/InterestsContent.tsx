@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getWantContentCounts } from "@/actions/contents/getContentCounts";
 import { removeContent } from "@/actions/contents/removeContent";
-import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
+import { CATEGORY_ID_TO_TYPE, getCategoryByDbType, type CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import InterestCard from "@/components/features/user/contentLibrary/item/InterestCard";
 import InterestsControlBar, { type InterestSortOption } from "./InterestsControlBar";
@@ -183,7 +183,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
                   title={item.content.title}
                   creator={item.content.creator}
                   thumbnail={item.content.thumbnail_url}
-                  href={`/${userId}/records/${item.content_id}`}
+                  href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
                   isSelected={isOwner && selectedContentId === item.id}
                   onSelect={isOwner ? () => handleSelect(item.id) : undefined}
                   onDelete={isOwner ? () => handleDelete(item.id, item.content.title) : undefined}
@@ -201,7 +201,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
                   onStatusChange={() => {}}
                   onRecommendChange={() => {}}
                   onDelete={() => {}}
-                  href={`/${userId}/records/${item.content_id}`}
+                  href={`/content/${item.content_id}?category=certificate`}
                   isBatchMode={false}
                   isSelected={false}
                   readOnly={!isOwner}

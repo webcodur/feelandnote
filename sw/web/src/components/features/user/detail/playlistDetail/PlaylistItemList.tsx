@@ -16,7 +16,7 @@ interface PlaylistItemListProps {
   isOwner: boolean;
   isDragging: boolean;
   draggedIndex: number | null;
-  onItemClick: (contentId: string) => void;
+  onItemClick: (contentId: string, contentType: string) => void;
   onDragStart: (index: number) => void;
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDragEnd: () => void;
@@ -55,7 +55,7 @@ export default function PlaylistItemList({
           onDragStart={isOwner ? () => onDragStart(index) : undefined}
           onDragOver={isOwner ? (e) => onDragOver(e, index) : undefined}
           onDragEnd={isOwner ? onDragEnd : undefined}
-          onClick={() => onItemClick(item.content_id)}
+          onClick={() => onItemClick(item.content_id, item.content.type)}
           className={`flex items-center gap-3 p-3 bg-bg-card rounded-xl cursor-pointer hover:bg-bg-secondary ${isDragging && draggedIndex === index ? "opacity-50" : ""}`}
         >
           {isOwner && (

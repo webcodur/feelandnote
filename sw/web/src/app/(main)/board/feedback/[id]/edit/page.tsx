@@ -1,35 +1,39 @@
-import { notFound, redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import { getFeedback } from '@/actions/board/feedbacks'
-import FeedbackForm from '@/components/features/board/feedbacks/FeedbackForm'
+/*
+  파일명: /app/(main)/board/feedback/[id]/edit/page.tsx
+  기능: 피드백 수정 페이지
+  책임: 작성자가 피드백을 수정할 수 있다.
+*/ // ------------------------------
 
-interface FeedbackEditPageProps {
-  params: Promise<{ id: string }>
+import { notFound, redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { getFeedback } from "@/actions/board/feedbacks";
+import FeedbackForm from "@/components/features/board/feedbacks/FeedbackForm";
+
+interface Props {
+  params: Promise<{ id: string }>;
 }
 
-export const metadata = {
-  title: '피드백 수정',
-}
+export const metadata = { title: "피드백 수정 | 게시판" };
 
-export default async function FeedbackEditPage({ params }: FeedbackEditPageProps) {
-  const { id } = await params
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export default async function FeedbackEditPage({ params }: Props) {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login')
+    redirect("/login");
   }
 
-  const feedback = await getFeedback(id)
+  const feedback = await getFeedback(id);
 
   if (!feedback) {
-    notFound()
+    notFound();
   }
 
   // 본인 글이 아니거나 PENDING 상태가 아니면 접근 불가
-  if (feedback.author_id !== user.id || feedback.status !== 'PENDING') {
-    redirect(`/board/feedback/${id}`)
+  if (feedback.author_id !== user.id || feedback.status !== "PENDING") {
+    redirect(`/board/feedback/${id}`);
   }
 
-  return <FeedbackForm mode="edit" initialData={feedback} />
+  return <FeedbackForm mode="edit" initialData={feedback} />;
 }

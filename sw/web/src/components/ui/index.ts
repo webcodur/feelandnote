@@ -21,3 +21,6 @@ export { default as DecorativeLabel } from "./DecorativeLabel";
 export { default as InnerBox } from "./InnerBox";
 export { default as TitleBadge, type TitleInfo } from "./TitleBadge";
 export { default as FormattedText } from "./FormattedText";
+export { default as Popover } from "./Popover";
+export { default as MeanderDivider } from "./MeanderDivider";
+export { default as PageHeroSection } from "./PageHeroSection";

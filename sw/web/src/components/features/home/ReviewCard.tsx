@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, type TitleInfo } from "@/components/ui";
 import RecordCard from "@/components/ui/cards/RecordCard";
 import Button from "@/components/ui/Button";
-import { Check, Book, ExternalLink, User } from "lucide-react";
+import { Check, User } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -37,10 +37,9 @@ interface ReviewCardProps {
 
   // 링크
   href?: string;
-  
+
   // 스타일링
   className?: string;
-  style?: React.CSSProperties;
 }
 // #endregion
 
@@ -62,7 +61,6 @@ export default function ReviewCard({
   sourceUrl,
   href,
   className,
-  style,
 }: ReviewCardProps) {
   const router = useRouter();
   const [isAdded, setIsAdded] = useState(false);
@@ -164,7 +162,7 @@ export default function ReviewCard({
         <button
           onClick={handleAddToArchive}
           disabled={isChecking || isAdding}
-          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg transition-all"
+          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
         >
           {isChecking ? "..." : isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
         </button>

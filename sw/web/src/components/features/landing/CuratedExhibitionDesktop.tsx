@@ -3,7 +3,7 @@
 import { useState, useRef, lazy, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 
@@ -30,13 +30,15 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
   // Hero Card 드래그 (인물 전환용)
   const heroDragStartX = useRef(0);
+  const heroDragStartY = useRef(0);
   const [isHeroDragging, setIsHeroDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const heroHasDragged = useRef(false);
 
   const celebs = activeTag.celebs;
   const heroCeleb = celebs[selectedIndex];
-  const SWIPE_THRESHOLD = 80;
+  const SWIPE_THRESHOLD = 30; // 스와이프 감도 향상
+  const CLICK_THRESHOLD = 8; // 이 이하면 클릭으로 판정
 
   // 드래그 방향에 따른 다음/이전 인물
   const canGoNext = selectedIndex < celebs.length - 1;
@@ -63,20 +65,25 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
   const handleDragEnd = () => setIsDragging(false);
 
   // Hero Card 드래그 Handlers
-  const handleHeroDragStart = (clientX: number) => {
+  const handleHeroDragStart = (clientX: number, clientY: number) => {
     setIsHeroDragging(true);
     heroHasDragged.current = false;
     heroDragStartX.current = clientX;
+    heroDragStartY.current = clientY;
     setDragOffset(0);
   };
 
-  const handleHeroDragMove = (clientX: number) => {
+  const handleHeroDragMove = (clientX: number, clientY: number) => {
     if (!isHeroDragging) return;
-    const diff = clientX - heroDragStartX.current;
+    const diffX = clientX - heroDragStartX.current;
+    const diffY = clientY - heroDragStartY.current;
     // 끝에서는 저항감 추가
-    const resistance = (!canGoPrev && diff > 0) || (!canGoNext && diff < 0) ? 0.3 : 1;
-    setDragOffset(diff * resistance);
-    if (Math.abs(diff) > 5) heroHasDragged.current = true;
+    const resistance = (!canGoPrev && diffX > 0) || (!canGoNext && diffX < 0) ? 0.3 : 1;
+    setDragOffset(diffX * resistance);
+    // X 또는 Y 방향으로 일정 이상 움직이면 드래그로 판정
+    if (Math.abs(diffX) > CLICK_THRESHOLD || Math.abs(diffY) > CLICK_THRESHOLD) {
+      heroHasDragged.current = true;
+    }
   };
 
   const handleHeroDragEnd = () => {
@@ -146,8 +153,8 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
           "group relative w-full aspect-[4/5] md:aspect-[16/7] overflow-hidden rounded-[4px] bg-[#0a0a0a] shadow-2xl select-none",
           isHeroDragging ? "cursor-grabbing" : "cursor-grab"
         )}
-        onMouseDown={(e) => handleHeroDragStart(e.clientX)}
-        onMouseMove={(e) => handleHeroDragMove(e.clientX)}
+        onMouseDown={(e) => handleHeroDragStart(e.clientX, e.clientY)}
+        onMouseMove={(e) => handleHeroDragMove(e.clientX, e.clientY)}
         onMouseUp={handleHeroDragEnd}
         onMouseLeave={handleHeroDragEnd}
         onClick={() => !heroHasDragged.current && heroCeleb && setModalCeleb(heroCeleb)}
@@ -172,15 +179,6 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
           })}
         </div>
 
-        {/* 전환 힌트 화살표 */}
-        {willChange && (
-          <div className={cn(
-            "absolute top-1/2 -translate-y-1/2 z-40 text-accent text-4xl font-bold animate-pulse",
-            dragOffset < 0 ? "right-4" : "left-4"
-          )}>
-            {dragOffset < 0 ? "→" : "←"}
-          </div>
-        )}
 
         <div
           key={selectedIndex}
@@ -256,13 +254,6 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
           </div>
         </div>
 
-        {/* 클릭 유도 버튼 - 우하단 (더 아래쪽) */}
-        <div className="absolute bottom-6 right-6 z-30">
-          <div className="flex items-center gap-1.5 px-4 py-2 bg-accent/90 group-hover:bg-accent text-black text-sm font-bold rounded-full shadow-lg shadow-accent/30">
-            <Sparkles size={16} />
-            <span>자세히 보기</span>
-          </div>
-        </div>
       </div>
 
       {/* Grid Content */}

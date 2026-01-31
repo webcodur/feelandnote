@@ -8,7 +8,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, RotateCw } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
@@ -88,25 +88,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   if (!isOpen || typeof document === "undefined") return null;
 
-  const ReturnButton = ({ className = "" }: { className?: string }) => (
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setIsReviewMode(false);
-      }}
-      className={`
-        absolute flex items-center justify-center
-        w-8 h-16 bg-bg-card border border-accent/20 rounded-l-md shadow-lg
-        text-accent/50 hover:text-accent hover:bg-surface hover:w-10 hover:border-accent/50
-        transition-all duration-300 z-50 cursor-pointer group
-        ${className}
-      `}
-      title="프로필로 돌아가기"
-    >
-      <RotateCw size={16} className="text-current opacity-50 group-hover:opacity-100 group-hover:rotate-180 transition-all duration-500" />
-    </button>
-  );
-
   // #region Shared Components
   const FollowButton = ({ className = "" }: { className?: string }) => (
     <button
@@ -150,8 +131,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       `}
     >
       <ExternalLink size={14} strokeWidth={2} />
-      <span className="font-extrabold opacity-90">{celeb.content_count || 0}</span>
-      <span>개의 기록 보기</span>
+      <span>프로필 보기</span>
     </Link>
   );
 
@@ -181,9 +161,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   const TagBadges = () => {
     if (!celeb.tags || celeb.tags.length === 0) return null;
-    
-    // 최대 3개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지)
-    const maxTags = 3;
+
+    // 최대 2개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지)
+    const maxTags = 2;
     const displayTags = celeb.tags.slice(0, maxTags);
     const remainingCount = celeb.tags.length - maxTags;
 
@@ -223,9 +203,20 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   const ReviewView = () => (
     <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
-      {/* 헤더: 뒤로가기 버튼 제거, 타이틀만 유지 */}
-      <div className="flex items-center justify-center p-4 border-b border-border/50 shrink-0 relative">
-        <h2 className="text-lg font-serif font-bold text-accent">감상 기록</h2>
+      {/* 헤더: 뒤로가기 버튼 + 타이틀 (기록 수 포함) */}
+      <div className="flex items-center p-4 border-b border-border/50 shrink-0 relative">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsReviewMode(false);
+          }}
+          className="absolute left-4 p-2 rounded-full hover:bg-white/5 text-text-secondary hover:text-text-primary"
+        >
+          <ArrowLeft size={18} />
+        </button>
+        <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent">
+          {celeb.content_count || 0}개의 감상 기록
+        </h2>
       </div>
 
       {/* 리스트 영역 */}
@@ -315,10 +306,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
              
             {/* PC 리뷰 모드 뷰 */}
             {isReviewMode ? (
-              <>
-                <ReturnButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-xl translate-x-1 hover:translate-x-0" />
-                <ReviewView />
-              </>
+              <ReviewView />
             ) : (
                <>
                  {/* PC 핸들 버튼: 우측 끝 중앙 */}

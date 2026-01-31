@@ -8,9 +8,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Trophy, Target, TrendingUp, Clock } from "lucide-react";
+import { Trophy, Target, TrendingUp, Clock, Rss } from "lucide-react";
+import Link from "next/link";
 import { Tabs, Tab } from "@/components/ui/Tab";
-import SectionHeader from "@/components/ui/SectionHeader";
 import BlindGamePlayModal from "./BlindGamePlayModal";
 import SelectPlaylistModal from "./SelectPlaylistModal";
 import TierListSection from "./TierListSection";
@@ -23,7 +23,8 @@ import { getRecords } from "@/actions/records";
 type LoungeTab = "tier-list" | "blind-game" | "higher-lower" | "timeline";
 
 const MAIN_TABS = [
-  { value: "higher-lower", label: "Higher or Lower", icon: TrendingUp },
+  { value: "feed", label: "피드", icon: Rss, href: "/lounge/feed" },
+  { value: "higher-lower", label: "업다운", icon: TrendingUp },
   { value: "timeline", label: "연대기", icon: Clock },
   { value: "tier-list", label: "티어리스트", icon: Trophy },
   { value: "blind-game", label: "블라인드 게임", icon: Target },
@@ -174,15 +175,6 @@ function SkeletonColumn({ className = "" }: { className?: string }) {
 function LoungeSkeleton() {
   return (
     <div className="animate-pulse">
-      {/* SectionHeader 스켈레톤 */}
-      <div className="flex items-end justify-between mb-8 md:mb-12 px-2 md:px-4 border-b border-accent-dim/10 pb-4">
-        <div className="flex flex-col gap-2">
-          <div className="h-3 w-28 bg-bg-card rounded" />
-          <div className="h-8 w-40 bg-bg-card rounded" />
-          <div className="h-4 w-52 bg-bg-card rounded" />
-        </div>
-      </div>
-
       {/* 고대 경기장 영역 */}
       <div className="relative bg-bg-card/30 rounded-xl border border-accent-dim/20 p-6 md:p-10 mb-8 overflow-hidden">
         {/* 배경 장식 - 월계수 */}
@@ -264,7 +256,7 @@ function LoungeSkeleton() {
       </div>
 
       {/* 탭 스켈레톤 */}
-      <div className="flex gap-3 mb-8">
+      <div className="flex justify-center gap-3 mb-8">
         <div className="h-10 w-28 bg-bg-card rounded-lg flex items-center justify-center gap-2 border border-accent-dim/10">
           <div className="w-4 h-4 bg-accent/20 rounded" />
           <div className="w-12 h-3 bg-accent/20 rounded" />
@@ -385,26 +377,17 @@ export default function Lounge() {
 
   return (
     <>
-      <SectionHeader
-        variant="hero"
-        englishTitle="Lounge"
-        title="라운지"
-        description="각종 게임을 즐기며 기록 사이사이의 즐거움을 더해보세요."
-        className="mb-8 md:mb-12"
-      />
-      <p className="mb-4 text-sm text-accent">하이어-로워, 연대기 게임은 지금 플레이 가능합니다</p>
-      <div className="relative -mx-4 px-4">
+      <div className="relative">
         {/* Divine Lintel for Lounge */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
 
-        <div className="pt-2 overflow-x-auto scrollbar-hidden">
+        <div className="pt-2 overflow-x-auto scrollbar-hidden flex justify-center">
           <div className="min-w-max">
             <Tabs>
               {MAIN_TABS.map((tab) => {
                 const Icon = tab.icon;
-                return (
+                const tabElement = (
                   <Tab
-                    key={tab.value}
                     label={
                       <span className="flex items-center gap-1.5">
                         <Icon size={14} />
@@ -412,8 +395,15 @@ export default function Lounge() {
                       </span>
                     }
                     active={mainTab === tab.value}
-                    onClick={() => setMainTab(tab.value)}
+                    onClick={"href" in tab ? undefined : () => setMainTab(tab.value as LoungeTab)}
                   />
+                );
+                return "href" in tab ? (
+                  <Link key={tab.value} href={tab.href} className="no-underline">
+                    {tabElement}
+                  </Link>
+                ) : (
+                  <span key={tab.value}>{tabElement}</span>
                 );
               })}
             </Tabs>

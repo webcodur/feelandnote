@@ -20,7 +20,7 @@ export async function deleteNotice(id: string): Promise<ActionResult<null>> {
     return handleSupabaseError(error, { logPrefix: '[공지사항 삭제]' })
   }
 
-  revalidatePath('/board/notice')
+  revalidatePath('/lounge/board/notice')
 
   return success(null)
 }

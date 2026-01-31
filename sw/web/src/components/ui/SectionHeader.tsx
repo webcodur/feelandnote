@@ -30,10 +30,9 @@ export default function SectionHeader({
   englishTitle,
 }: SectionHeaderProps) {
   if (variant === "hero") {
-    // ... existing hero implementation ...
     return (
-      <div className={`flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left mb-0 border-b border-accent-dim/10 pb-6 md:pb-4 ${className}`}>
-        <div className={`flex flex-col gap-1 md:gap-2 ${linkHref ? "mb-4 md:mb-0" : ""}`}>
+      <div className={`flex flex-col items-center text-center pb-6 md:pb-4 ${className}`}>
+        <div className={`flex flex-col items-center gap-1 md:gap-2 ${linkHref ? "mb-4" : ""}`}>
           {englishTitle && (
             <span className="font-cinzel text-[8px] md:text-[10px] text-accent tracking-[0.4em] md:tracking-[0.6em] uppercase">
               {englishTitle}
@@ -43,7 +42,7 @@ export default function SectionHeader({
             {title}
           </h2>
           {description && (
-            <p className="text-[10px] md:text-sm text-text-tertiary max-w-[280px] md:max-w-none">{description}</p>
+            <p className="text-[10px] md:text-sm text-text-tertiary max-w-[280px] md:max-w-md">{description}</p>
           )}
         </div>
         {linkHref && (

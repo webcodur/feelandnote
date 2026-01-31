@@ -4,15 +4,15 @@ import { getFeaturedTags } from "@/actions/home";
 import { createClient } from "@/lib/supabase/server";
 
 import HomeBanner from "@/components/features/home/HomeBanner";
-import FeedPreview from "@/components/features/home/FeedPreview";
 import ArchivePreview from "@/components/features/home/ArchivePreview";
 import LoungePreview from "@/components/features/home/LoungePreview";
+import ScripturesPreview from "@/components/features/home/ScripturesPreview";
 import BoardPreview from "@/components/features/home/BoardPreview";
 
 import { getUserContents } from "@/actions/contents/getUserContents";
 import type { RecordCardProps } from "@/components/ui/cards/RecordCard";
 import SectionWrapper from "@/components/features/home/SectionWrapper";
-import { HOME_SECTIONS } from "@/constants/home-sections";
+import { HOME_SECTIONS } from "@/constants/navigation";
 
 // #region 서버 컴포넌트
 async function FeaturedSection() {
@@ -57,32 +57,32 @@ export default async function HomePage() {
       </section>
 
       {/* 2. 탐색 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.EXPLORE}>
+      <SectionWrapper config={HOME_SECTIONS.explore}>
         <Suspense fallback={<div className="h-96 animate-pulse bg-bg-card/50 rounded-xl" />}>
           <FeaturedSection />
         </Suspense>
       </SectionWrapper>
 
-      {/* 3. 피드 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.FEED}>
+      {/* 3. 서고 프리뷰 */}
+      <SectionWrapper config={HOME_SECTIONS.scriptures}>
         <Suspense fallback={null}>
-          <FeedPreview />
+          <ScripturesPreview />
         </Suspense>
       </SectionWrapper>
 
       {/* 4. 라운지 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.LOUNGE}>
+      <SectionWrapper config={HOME_SECTIONS.lounge}>
         <LoungePreview />
       </SectionWrapper>
 
       {/* 5. 게시판 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.BOARD}>
+      <SectionWrapper config={HOME_SECTIONS.board}>
         <BoardPreview />
       </SectionWrapper>
 
       {/* 6. 기록관 프리뷰 */}
       <SectionWrapper
-        config={HOME_SECTIONS.ARCHIVE}
+        config={HOME_SECTIONS.archive}
         linkOverride={user ? `/${user.id}` : "/login"}
       >
         <ArchivePreview

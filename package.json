@@ -6,5 +6,8 @@
     "dev:bo": "pnpm --filter @feelnnote/web-bo dev",
     "build:web": "pnpm --filter @feelnnote/web build",
     "build:bo": "pnpm --filter @feelnnote/web-bo build"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.2.1"
   }
 }

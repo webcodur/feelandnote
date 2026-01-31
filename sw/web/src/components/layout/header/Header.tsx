@@ -18,6 +18,7 @@ import HeaderProfileMenu from "./HeaderProfileMenu";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import { HEADER_NAV_ITEMS } from "@/constants/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 interface UserProfile {
@@ -33,13 +34,6 @@ interface HeaderProps {
 
 const ICON_BUTTON_CLASS = "w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5";
 const ICON_SIZE = 20;
-
-const NAV_ITEMS = [
-  { href: "/explore", label: "탐색" },
-  { href: "/feed", label: "피드" },
-  { href: "/lounge", label: "라운지" },
-  { href: "/board/notice", label: "게시판" },
-]
 export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -90,27 +84,26 @@ export default function Header({ isMobile }: HeaderProps) {
         {/* 1차 네비게이션 (데스크톱) */}
         {!isMobile && (
           <nav className="hidden md:flex items-center gap-1 ms-2">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium no-underline ${
-                  isNavActive(item.href) ? "text-accent bg-accent/10 text-glow" : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            {profile && (
-              <Link
-                href={`/${profile.id}`}
-                className={`px-3 py-2 rounded-lg text-sm font-medium no-underline ${
-                  isNavActive(`/${profile.id}`) ? "text-accent bg-accent/10 text-glow" : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
-                }`}
-              >
-                기록관
-              </Link>
-            )}
+            {HEADER_NAV_ITEMS.map((item) => {
+              const href = item.href.includes("{userId}")
+                ? (profile ? item.href.replace("{userId}", profile.id) : "/login")
+                : item.href;
+              const isActive = item.href.includes("{userId}")
+                ? profile ? pathname.startsWith(`/${profile.id}`) : false
+                : isNavActive(item.href);
+
+              return (
+                <Link
+                  key={item.key}
+                  href={href}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium no-underline ${
+                    isActive ? "text-accent bg-accent/10 text-glow" : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
         )}
 

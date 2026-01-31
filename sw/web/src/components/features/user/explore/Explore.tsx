@@ -7,10 +7,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Users, Sparkles, Star, UserCheck, UserPlus, Info, BarChart3 } from "lucide-react";
+import { Users, Sparkles, Star, UserCheck, UserPlus, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
-import SectionHeader from "@/components/ui/SectionHeader";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
 import FriendCardNameplate from "./FriendCardNameplate";
 import AlgorithmInfoModal from "./AlgorithmInfoModal";
@@ -147,20 +146,13 @@ export default function Explore({
 
   return (
     <>
-      <SectionHeader
-        variant="hero"
-        englishTitle="Inspiring People"
-        title="영감을 나누는 사람들"
-        description="다양한 콘텐츠 기록을 탐색하세요"
-      />
-
       {/* 탭 네비게이션 - 모바일 가로 스크롤 대응 및 페이드 효과 */}
       <div className="relative w-full mb-8">
         {/* Shadow Overlay Faders */}
         <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-bg-main to-transparent z-10 pointer-events-none md:hidden" />
         <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-bg-main to-transparent z-10 pointer-events-none md:hidden" />
-        
-        <div className="overflow-x-auto overflow-y-hidden scrollbar-hidden px-2 sm:px-4">
+
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-hidden px-2 sm:px-4 flex justify-center">
           <Tabs className="min-w-max border-b border-accent-dim/10">
             {tabs.map((tab) => (
               <Tab
@@ -191,17 +183,6 @@ export default function Explore({
       {/* 셀럽 탭 - CelebCarousel이 자체 배경/텍스처를 가지므로 별도 처리 */}
       {activeTab === "celebs" && (
         <div className="min-h-[400px]">
-          {/* 셀럽 탭 액션 버튼 */}
-          <div className="flex justify-end mb-4 px-2 md:px-4">
-            <Button
-              unstyled
-              onClick={() => setShowInfluenceDistribution(true)}
-              className="flex items-center gap-2 px-3 py-1.5 text-xs text-text-secondary hover:text-accent bg-bg-card/50 hover:bg-bg-card border border-border/30 rounded-lg"
-            >
-              <BarChart3 size={14} />
-              <span>영향력 분포</span>
-            </Button>
-          </div>
           <CelebCarousel
             initialCelebs={initialCelebs}
             initialTotal={initialTotal}
@@ -213,6 +194,7 @@ export default function Explore({
             mode="grid"
             hideHeader={false}
             syncToUrl
+            onShowInfluenceDistribution={() => setShowInfluenceDistribution(true)}
           />
         </div>
       )}

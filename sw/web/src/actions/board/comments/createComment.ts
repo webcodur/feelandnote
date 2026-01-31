@@ -42,7 +42,7 @@ export async function createComment(params: CreateCommentParams): Promise<Action
     return handleSupabaseError(error, { logPrefix: '[댓글 작성]' })
   }
 
-  const basePath = boardType === 'NOTICE' ? '/board/notice' : '/board/feedback'
+  const basePath = boardType === 'NOTICE' ? '/lounge/board/notice' : '/lounge/board/feedback'
   revalidatePath(`${basePath}/${postId}`)
 
   return success(data as BoardCommentWithAuthor)

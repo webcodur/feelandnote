@@ -44,6 +44,6 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
     return handleSupabaseError(error, { logPrefix: '[공지사항 작성]' })
   }
 
-  revalidatePath('/board/notice')
+  revalidatePath('/lounge/board/notice')
   return success(data as NoticeWithAuthor)
 }

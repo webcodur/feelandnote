@@ -7,15 +7,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Book, Film, Gamepad2, Music, Award, Star, ExternalLink } from "lucide-react";
-import useDragScroll from "@/hooks/useDragScroll";
 import { BLUR_DATA_URL } from "@/constants/image";
-import type { ContentType, ContentStatus } from "@/types/database";
 import { getCategoryByDbType } from "@/constants/categories";
+import type { ContentType, ContentStatus } from "@/types/database";
+import useDragScroll from "@/hooks/useDragScroll";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
-import Button from "@/components/ui/Button";
 
 // #region 타입
 export interface RecordCardProps {
@@ -86,7 +85,6 @@ export default function RecordCard({
 }: RecordCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
   const statusInfo = STATUS_STYLES[status];
-  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
 
   // 리뷰 드래그 스크롤
@@ -112,10 +110,8 @@ export default function RecordCard({
     e.stopPropagation();
   };
 
-  // 모달 확인 시 페이지 이동
-  const handleConfirmNavigate = () => {
-    if (href) router.push(href);
-  };
+  // 콘텐츠 상세 페이지 URL
+  const contentDetailUrl = `/content/${contentId}?category=${getCategoryByDbType(contentType)?.id || "book"}`;
 
   // PC 클릭 핸들러
   const handlePCClick = (e: React.MouseEvent) => {
@@ -364,33 +360,14 @@ export default function RecordCard({
             <p className="text-sm text-text-tertiary italic">작성된 리뷰가 없습니다</p>
           )}
         </ModalBody>
-        <ModalFooter className="flex gap-2">
-          {/* 1. 콘텐츠 정보 및 다른 리뷰 보기 (Content Detail) */}
-          <Button
-            variant="secondary"
-            onClick={() => {
-               const categoryId = getCategoryByDbType(contentType)?.id || "book";
-               router.push(`/content/detail?id=${contentId}&category=${categoryId}`);
-            }}
-            className="flex-1 gap-2"
-            size="md"
+        <ModalFooter>
+          <Link
+            href={contentDetailUrl}
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-5 text-sm font-medium rounded-lg bg-accent text-white hover:bg-accent-hover"
           >
-            <Book size={14} />
-            콘텐츠 정보
-          </Button>
-
-          {/* 2. 상세 리뷰 페이지 이동 (User Record Detail) */}
-          {href && (
-            <Button
-              variant="primary"
-              onClick={handleConfirmNavigate}
-              className="flex-1 gap-2"
-              size="md"
-            >
-              <ExternalLink size={14} />
-              관련 리뷰
-            </Button>
-          )}
+            <ExternalLink size={14} />
+            상세 보기
+          </Link>
         </ModalFooter>
       </Modal>
     </>

@@ -10,19 +10,17 @@ import { FilterChip, FilterModal, type FilterOption } from "@/components/shared/
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { SORT_OPTIONS, type FilterType } from "./useCelebFilters";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy, TagCount } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy } from "@/actions/home";
 
 interface CelebFiltersMobileProps {
   profession: string;
   nationality: string;
   contentType: string;
   sortBy: CelebSortBy;
-  tagId: string;
   search: string;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
-  tagCounts: TagCount[];
   isLoading: boolean;
   activeFilter: FilterType | null;
   activeLabels: {
@@ -30,7 +28,6 @@ interface CelebFiltersMobileProps {
     nationality?: { label: string };
     contentType?: { label: string };
     sort?: { label: string };
-    tag?: { name: string };
   };
   onFilterOpen: (filter: FilterType) => void;
   onFilterClose: () => void;
@@ -38,7 +35,6 @@ interface CelebFiltersMobileProps {
   onNationalityChange: (value: string) => void;
   onContentTypeChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
-  onTagChange: (value: string) => void;
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
   onSearchClear: () => void;
@@ -49,12 +45,10 @@ export default function CelebFiltersMobile({
   nationality,
   contentType,
   sortBy,
-  tagId,
   search,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
-  tagCounts,
   isLoading,
   activeFilter,
   activeLabels,
@@ -64,7 +58,6 @@ export default function CelebFiltersMobile({
   onNationalityChange,
   onContentTypeChange,
   onSortChange,
-  onTagChange,
   onSearchInput,
   onSearchSubmit,
   onSearchClear,
@@ -89,11 +82,6 @@ export default function CelebFiltersMobile({
   }));
 
   const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
-
-  const tagOptions: FilterOption[] = [
-    { value: "", label: "전체" },
-    ...tagCounts.map(({ id, name, count }) => ({ value: id, label: name, count })),
-  ];
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") onSearchSubmit();
@@ -141,9 +129,6 @@ export default function CelebFiltersMobile({
           <FilterChip label="국적" value={activeLabels.nationality?.label ?? "전체"} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" />
           <FilterChip label="콘텐츠" value={activeLabels.contentType?.label ?? "전체"} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" />
           <FilterChip label="정렬" value={activeLabels.sort?.label ?? "영향력순"} isActive={sortBy !== "influence"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full" />
-          {tagCounts.length > 0 && (
-            <FilterChip label="태그" value={activeLabels.tag?.name ?? "전체"} isActive={!!tagId} isLoading={isLoading} onClick={() => onFilterOpen("tag")} className="w-full col-span-2" />
-          )}
         </div>
       </div>
 
@@ -152,7 +137,6 @@ export default function CelebFiltersMobile({
       <FilterModal title="국적" isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} />
       <FilterModal title="콘텐츠" isOpen={activeFilter === "contentType"} current={contentType} options={contentTypeOptions} onClose={onFilterClose} onChange={onContentTypeChange} />
       <FilterModal title="정렬" isOpen={activeFilter === "sort"} current={sortBy} options={sortOptions} onClose={onFilterClose} onChange={(v) => onSortChange(v as CelebSortBy)} />
-      <FilterModal title="태그" isOpen={activeFilter === "tag"} current={tagId} options={tagOptions} onClose={onFilterClose} onChange={onTagChange} />
     </>
   );
 }

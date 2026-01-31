@@ -46,7 +46,7 @@ export async function updateNotice(params: UpdateNoticeParams): Promise<ActionRe
     return handleSupabaseError(error, { logPrefix: '[공지사항 수정]' })
   }
 
-  revalidatePath('/board/notice')
+  revalidatePath('/lounge/board/notice')
   revalidatePath(`/board/notice/${id}`)
   return success(data as NoticeWithAuthor)
 }
