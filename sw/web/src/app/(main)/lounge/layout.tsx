@@ -6,8 +6,8 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import { PageHeroSection } from "@/components/ui";
 import LoungeTabs from "@/components/features/user/lounge/LoungeTabs";
+import LyreBanner from "@/components/lab/LyreBanner";
 
 interface Props {
   children: ReactNode;
@@ -15,14 +15,17 @@ interface Props {
 
 export default function LoungeLayout({ children }: Props) {
   return (
-    <PageContainer>
-      <PageHeroSection
-        englishTitle="Lounge"
+    <>
+      <LyreBanner
+        height={350}
+        compact
         title="라운지"
-        description="휴식 속에서 즐거움을 더해보세요."
+        subtitle="Lounge"
       />
-      <LoungeTabs />
-      {children}
-    </PageContainer>
+      <PageContainer>
+        <LoungeTabs />
+        {children}
+      </PageContainer>
+    </>
   );
 }

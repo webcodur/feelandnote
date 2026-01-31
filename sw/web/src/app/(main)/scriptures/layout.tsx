@@ -6,8 +6,8 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import { PageHeroSection } from "@/components/ui";
 import ScripturesTabs from "@/components/features/scriptures/ScripturesTabs";
+import TreeBanner from "@/components/lab/TreeBanner";
 
 interface Props {
   children: ReactNode;
@@ -15,14 +15,17 @@ interface Props {
 
 export default function ScripturesLayout({ children }: Props) {
   return (
-    <PageContainer>
-      <PageHeroSection
-        englishTitle="Sacred Archives"
+    <>
+      <TreeBanner
+        height={350}
+        compact
         title="지혜의 서고"
-        description="시대를 관통한 지혜가 잠든 곳. 인물들이 남긴 경전을 탐색하세요."
+        subtitle="Sacred Archives"
       />
-      <ScripturesTabs />
-      {children}
-    </PageContainer>
+      <PageContainer>
+        <ScripturesTabs />
+        {children}
+      </PageContainer>
+    </>
   );
 }

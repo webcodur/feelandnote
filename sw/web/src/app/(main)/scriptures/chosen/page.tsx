@@ -1,6 +1,6 @@
 /*
   파일명: /app/(main)/scriptures/chosen/page.tsx
-  기능: 인물들의 선택 페이지
+  기능: 다수의 선택 페이지
   책임: 가장 많은 인물이 감상한 경전을 보여준다.
 */ // ------------------------------
 
@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import ChosenSection from "@/components/features/scriptures/sections/ChosenSection";
 import { getChosenScriptures } from "@/actions/scriptures";
 
-export const metadata = { title: "인물들의 선택 | 지혜의 서고" };
+export const metadata = { title: "다수의 선택 | 지혜의 서고" };
 
 function SectionSkeleton() {
   return (

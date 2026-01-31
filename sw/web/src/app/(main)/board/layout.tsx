@@ -6,8 +6,8 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import { PageHeroSection } from "@/components/ui";
 import BoardTabs from "@/components/features/board/shared/BoardTabs";
+import ArchiveTunnelBanner from "@/components/lab/ArchiveTunnelBanner";
 
 interface Props {
   children: ReactNode;
@@ -15,16 +15,19 @@ interface Props {
 
 export default function BoardLayout({ children }: Props) {
   return (
-    <PageContainer>
-      <PageHeroSection
-        englishTitle="Community"
+    <>
+      <ArchiveTunnelBanner
+        height={350}
+        compact
         title="게시판"
-        description="공지사항을 확인하고 피드백을 남겨주세요"
+        subtitle="Community"
       />
-      <BoardTabs />
-      <div className="max-w-3xl mx-auto">
-        {children}
-      </div>
-    </PageContainer>
+      <PageContainer>
+        <BoardTabs />
+        <div className="max-w-3xl mx-auto">
+          {children}
+        </div>
+      </PageContainer>
+    </>
   );
 }

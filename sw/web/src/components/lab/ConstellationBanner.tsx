@@ -3,7 +3,19 @@
 import { useEffect, useRef } from "react";
 import { Network } from "lucide-react";
 
-export default function ConstellationBanner() {
+interface ConstellationBannerProps {
+  height?: number;
+  compact?: boolean;
+  title?: string;
+  subtitle?: string;
+}
+
+export default function ConstellationBanner({
+  height = 700,
+  compact = false,
+  title = "WEB OF FATE",
+  subtitle = "Connect with the Wisdom of Ages"
+}: ConstellationBannerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -12,15 +24,15 @@ export default function ConstellationBanner() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let width = 0;
-    let height = 0;
+    let canvasWidth = 0;
+    let canvasHeight = 0;
     let particles: Particle[] = [];
     let animationFrameId: number;
 
     // Configuration
-    const PARTICLE_COUNT = 100;
-    const CONNECTION_RADIUS = 150;
-    const MOUSE_RADIUS = 200;
+    const PARTICLE_COUNT = compact ? 60 : 100;
+    const CONNECTION_RADIUS = compact ? 120 : 150;
+    const MOUSE_RADIUS = compact ? 150 : 200;
 
     class Particle {
       x: number;
@@ -30,8 +42,8 @@ export default function ConstellationBanner() {
       size: number;
 
       constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * 2 + 1;
@@ -42,8 +54,8 @@ export default function ConstellationBanner() {
         this.y += this.vy;
 
         // Bounce off walls
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
+        if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
+        if (this.y < 0 || this.y > canvasHeight) this.vy *= -1;
       }
 
       draw() {
@@ -56,10 +68,10 @@ export default function ConstellationBanner() {
     }
 
     const init = () => {
-      width = canvas.parentElement?.clientWidth || window.innerWidth;
-      height = 700;
-      canvas.width = width;
-      canvas.height = height;
+      canvasWidth = canvas.parentElement?.clientWidth || window.innerWidth;
+      canvasHeight = canvas.parentElement?.clientHeight || height;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
       particles = [];
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         particles.push(new Particle());
@@ -73,15 +85,23 @@ export default function ConstellationBanner() {
        mouse.y = e.clientY - rect.top;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+       if (e.touches.length === 0) return;
+       const touch = e.touches[0];
+       const rect = canvas.getBoundingClientRect();
+       mouse.x = touch.clientX - rect.left;
+       mouse.y = touch.clientY - rect.top;
+    };
+
     const animate = () => {
-      ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       // Background Gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, height);
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
       gradient.addColorStop(0, "#050505");
       gradient.addColorStop(1, "#111111");
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
       // Update and draw particles
       particles.forEach((p) => {
@@ -129,31 +149,35 @@ export default function ConstellationBanner() {
     init();
     window.addEventListener("resize", init);
     canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: true });
     animate();
 
     return () => {
       window.removeEventListener("resize", init);
       canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("touchmove", handleTouchMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [height, compact]);
 
   return (
-    <div className="relative w-full h-[700px] overflow-hidden">
+    <div className={`relative w-full overflow-hidden ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : ""}`} style={compact ? undefined : { height }}>
       <canvas ref={canvasRef} className="block" />
-      
+
       {/* Overlay Content */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center">
-         <h2 className="text-5xl md:text-7xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight">
-            WEB OF FATE
+      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center px-4">
+         <h2 className={`font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center ${compact ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-7xl"}`}>
+            {title}
          </h2>
-         <p className="text-[#d4af37] tracking-[0.5em] text-xs mt-4 uppercase font-cinzel">
-            Connect with the Wisdom of Ages
+         <p className={`text-[#d4af37] tracking-[0.2em] sm:tracking-[0.5em] uppercase font-cinzel text-center ${compact ? "text-[10px] mt-2" : "text-[10px] sm:text-xs mt-3 sm:mt-4"}`}>
+            {subtitle}
          </p>
-         <div className="mt-8 flex gap-2 items-center text-white/50 text-xs font-mono animate-pulse">
-            <Network size={14} />
-            <span>INTERACTIVE NEURAL GRAPH</span>
-         </div>
+         {!compact && (
+           <div className="mt-8 flex gap-2 items-center text-white/50 text-xs font-mono animate-pulse">
+              <Network size={14} />
+              <span>INTERACTIVE NEURAL GRAPH</span>
+           </div>
+         )}
       </div>
     </div>
   );

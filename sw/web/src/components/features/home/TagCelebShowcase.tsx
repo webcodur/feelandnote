@@ -178,13 +178,6 @@ function HeroSection({
             {tag.name}
           </h2>
 
-          {/* 설명 */}
-          {tag.description && (
-            <p className="text-sm md:text-base text-text-secondary max-w-xl mx-auto leading-relaxed font-medium italic">
-              "{tag.description}"
-            </p>
-          )}
-
           {/* 하단 장식 */}
           <div className="flex items-center justify-center gap-3 mt-6">
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-white/20" />

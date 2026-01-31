@@ -9,17 +9,6 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Users, Sparkles, Star, UserCheck, UserPlus } from "lucide-react";
-import { Tabs, Tab } from "@/components/ui/Tab";
-
-interface ExploreTabsProps {
-  counts?: {
-    celebs: number;
-    friends: number;
-    following: number;
-    followers: number;
-    similar: number;
-  };
-}
 
 const EXPLORE_TABS = [
   { value: "celebs", label: "셀럽", icon: Sparkles, href: "/explore/celebs" },
@@ -29,49 +18,34 @@ const EXPLORE_TABS = [
   { value: "similar", label: "취향 유사", icon: Star, href: "/explore/similar" },
 ] as const;
 
-export default function ExploreTabs({ counts }: ExploreTabsProps) {
+export default function ExploreTabs() {
   const pathname = usePathname();
-
   const activeTab = EXPLORE_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "celebs";
 
   return (
-    <div className="relative">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
-
-      {/* Shadow Overlay Faders */}
-      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-bg-main to-transparent z-10 pointer-events-none md:hidden" />
-      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-bg-main to-transparent z-10 pointer-events-none md:hidden" />
-
-      <div className="pt-2 overflow-x-auto scrollbar-hidden flex justify-center">
-        <div className="min-w-max">
-          <Tabs>
-            {EXPLORE_TABS.map((tab) => {
-              const Icon = tab.icon;
-              const count = counts?.[tab.value as keyof typeof counts];
-              return (
-                <Link key={tab.value} href={tab.href} className="no-underline">
-                  <Tab
-                    label={
-                      <span className="flex items-center gap-1.5">
-                        <Icon size={14} className={activeTab === tab.value ? "text-accent" : ""} />
-                        <span>{tab.label}</span>
-                        {count !== undefined && (
-                          <span className={`text-xs ${activeTab === tab.value ? "text-accent/80" : "text-text-tertiary"}`}>
-                            {count}
-                          </span>
-                        )}
-                      </span>
-                    }
-                    active={activeTab === tab.value}
-                  />
-                </Link>
-              );
-            })}
-          </Tabs>
-        </div>
+    <div className="mb-8">
+      <div className="flex gap-2 p-1 bg-white/5 rounded-xl overflow-x-auto scrollbar-hidden">
+        {EXPLORE_TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.value;
+          return (
+            <Link
+              key={tab.value}
+              href={tab.href}
+              className={`
+                flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium text-sm whitespace-nowrap
+                ${isActive
+                  ? "bg-accent text-bg-main"
+                  : "text-text-secondary hover:text-text-primary hover:bg-white/5"
+                }
+              `}
+            >
+              <Icon size={16} />
+              <span>{tab.label}</span>
+            </Link>
+          );
+        })}
       </div>
-
-      <div className="w-full h-px bg-accent/10 mt-4 mb-8" />
     </div>
   );
 }

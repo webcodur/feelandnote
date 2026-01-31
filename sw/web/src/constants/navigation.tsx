@@ -116,7 +116,7 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     id: "lounge-section",
     title: "라운지",
     englishTitle: "Lounge",
-    description: "비슷한 취향을 가진 사람들과 이야기하고 즐겨보세요.",
+    description: "휴식 속에서 즐거움을 더해보세요.",
     svgSrc: "/images/decorations/lyre.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/lounge",

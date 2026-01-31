@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/scriptures/Scriptures.tsx
   기능: 지혜의 서고 페이지 메인 뷰
-  책임: 인물들의 선택(SSR), 길의 갈래/오늘의 인물/세대의 경전(lazy load) 렌더링
+  책임: 다수의 선택(SSR), 길의 갈래/오늘의 인물/세대의 경전(lazy load) 렌더링
 */ // ------------------------------
 "use client";
 
@@ -50,7 +50,7 @@ interface SectionConfig {
 
 // #region Constants
 const SECTIONS: SectionConfig[] = [
-  { id: "chosen-section", label: "인물들의 선택", description: "가장 많은 인물이 감상한 경전", icon: Scroll },
+  { id: "chosen-section", label: "다수의 선택", description: "가장 많은 인물들이 감상한 경전", icon: Scroll },
   { id: "profession-section", label: "길의 갈래", description: "분야별 인물들의 필독서", icon: Route, hasBg: true },
   { id: "sage-section", label: "오늘의 인물", description: "매일 새로운 인물의 서재를 탐방하세요", icon: User },
   { id: "era-section", label: "세대의 경전", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
@@ -543,7 +543,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
       {/* 플로팅 목차 FAB */}
       <FloatingTOC activeSection={activeSection} />
 
-      {/* 섹션 1: 인물들의 선택 (SSR) */}
+      {/* 섹션 1: 다수의 선택 (SSR) */}
       <section id={chosenConfig.id} className={`py-12 md:py-16 ${chosenConfig.hasBg ? "bg-bg-card/30" : ""}`}>
         <ScriptureSectionHeader
           sectionId={chosenConfig.id}

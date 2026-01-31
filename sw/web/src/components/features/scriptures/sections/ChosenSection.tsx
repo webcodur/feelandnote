@@ -1,6 +1,6 @@
 /*
   파일명: /components/features/scriptures/sections/ChosenSection.tsx
-  기능: 인물들의 선택 섹션
+  기능: 다수의 선택 섹션
   책임: 가장 많은 인물이 감상한 경전을 카테고리별로 보여준다.
 */ // ------------------------------
 
@@ -60,7 +60,7 @@ export default function ChosenSection({ initialData }: Props) {
       {/* 섹션 헤더 */}
       <div className="flex items-center gap-2 mb-2">
         <Scroll size={20} className="text-accent" />
-        <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">인물들의 선택</h2>
+        <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">다수의 선택</h2>
         <span className="text-sm text-text-tertiary">({data.total})</span>
       </div>
       <p className="text-sm text-text-secondary mb-6">가장 많은 인물이 감상한 경전</p>

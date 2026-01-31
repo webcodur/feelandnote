@@ -9,7 +9,6 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Trophy, Target, TrendingUp, Clock, Rss } from "lucide-react";
-import { Tabs, Tab } from "@/components/ui/Tab";
 
 const LOUNGE_TABS = [
   { value: "feed", label: "피드", icon: Rss, href: "/lounge/feed" },
@@ -21,39 +20,32 @@ const LOUNGE_TABS = [
 
 export default function LoungeTabs() {
   const pathname = usePathname();
-
-  // 현재 활성 탭 결정
   const activeTab = LOUNGE_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "higher-lower";
 
   return (
-    <div className="relative">
-      {/* Divine Lintel for Lounge */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent/20 shadow-glow" />
-
-      <div className="pt-2 overflow-x-auto scrollbar-hidden flex justify-center">
-        <div className="min-w-max">
-          <Tabs>
-            {LOUNGE_TABS.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <Link key={tab.value} href={tab.href} className="no-underline">
-                  <Tab
-                    label={
-                      <span className="flex items-center gap-1.5">
-                        <Icon size={14} />
-                        {tab.label}
-                      </span>
-                    }
-                    active={activeTab === tab.value}
-                  />
-                </Link>
-              );
-            })}
-          </Tabs>
-        </div>
+    <div className="mb-8">
+      <div className="flex gap-2 p-1 bg-white/5 rounded-xl overflow-x-auto scrollbar-hidden">
+        {LOUNGE_TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.value;
+          return (
+            <Link
+              key={tab.value}
+              href={tab.href}
+              className={`
+                flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium text-sm whitespace-nowrap
+                ${isActive
+                  ? "bg-accent text-bg-main"
+                  : "text-text-secondary hover:text-text-primary hover:bg-white/5"
+                }
+              `}
+            >
+              <Icon size={16} />
+              <span>{tab.label}</span>
+            </Link>
+          );
+        })}
       </div>
-
-      <div className="w-full h-px bg-accent/10 mt-4 mb-8" />
     </div>
   );
 }

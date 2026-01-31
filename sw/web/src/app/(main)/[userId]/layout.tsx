@@ -1,9 +1,8 @@
-import ContextHeader from "@/components/layout/header/ContextHeader";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
 import UserProfileSidebar from "@/components/features/user/profile/UserProfileSidebar";
-import { HeroBackgroundText } from "@/components/ui";
+import PrismBanner from "@/components/lab/PrismBanner";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,11 +12,11 @@ interface LayoutProps {
 export default async function UserLayout({ children, params }: LayoutProps) {
   const { userId } = await params;
   const supabase = await createClient();
-  
+
   // 1. 유저 정보 조회
   const result = await getUserProfile(userId);
   if (!result.success || !result.data) {
-    notFound(); 
+    notFound();
   }
   const profile = result.data;
 
@@ -27,14 +26,12 @@ export default async function UserLayout({ children, params }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-bg-main relative overflow-hidden">
-      {/* Hero Background Text */}
-      <HeroBackgroundText text="ARCHIVE" className="top-24 hidden xl:block" />
-
-      {/* Context Header (Slanted/Large Title) */}
-      <ContextHeader
-        title={profile.nickname || "User"}
-        userId={userId}
-        isOwner={isOwner}
+      {/* Prism Banner */}
+      <PrismBanner
+        height={350}
+        compact
+        title={`${profile.nickname || "User"}의 기록관`}
+        subtitle="Official Sacred Record"
       />
 
       <div className="max-w-[1400px] mx-auto px-2 md:px-4 lg:pr-8 py-6 md:py-10 relative z-10">

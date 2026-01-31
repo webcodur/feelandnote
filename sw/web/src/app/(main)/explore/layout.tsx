@@ -6,8 +6,8 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import { PageHeroSection } from "@/components/ui";
 import ExploreTabs from "@/components/features/user/explore/ExploreTabs";
+import ConstellationBanner from "@/components/lab/ConstellationBanner";
 
 interface Props {
   children: ReactNode;
@@ -15,14 +15,17 @@ interface Props {
 
 export default function ExploreLayout({ children }: Props) {
   return (
-    <PageContainer>
-      <PageHeroSection
-        englishTitle="Inspiring People"
-        title="영감을 나누는 사람들"
-        description="다양한 콘텐츠 기록을 탐색하세요"
+    <>
+      <ConstellationBanner
+        height={350}
+        compact
+        title="탐색"
+        subtitle="Explore"
       />
-      <ExploreTabs />
-      {children}
-    </PageContainer>
+      <PageContainer>
+        <ExploreTabs />
+        {children}
+      </PageContainer>
+    </>
   );
 }
