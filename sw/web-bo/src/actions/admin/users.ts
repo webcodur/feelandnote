@@ -47,6 +47,7 @@ export async function getUsers(
       user_social (follower_count, following_count),
       user_scores (total_score)
     `, { count: 'exact' })
+    .or('profile_type.is.null,profile_type.eq.USER')
 
   // 검색 필터
   if (search) {

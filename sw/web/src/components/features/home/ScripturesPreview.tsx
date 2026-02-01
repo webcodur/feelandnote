@@ -1,39 +1,40 @@
 /*
   파일명: /components/features/home/ScripturesPreview.tsx
   기능: 메인페이지 서고 프리뷰
-  책임: 인물들의 선택 콘텐츠를 간략하게 보여준다.
+  책임: 서고 탭 구조와 각 탭의 설명을 안내한다.
 */ // ------------------------------
 
-import { getChosenScriptures } from "@/actions/scriptures";
-import ScriptureCard from "@/components/features/scriptures/ScriptureCard";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { SCRIPTURES_TABS } from "@/constants/scriptures";
 
-export default async function ScripturesPreview() {
-  const { contents } = await getChosenScriptures({ limit: 6 });
-
-  if (!contents.length) {
-    return (
-      <div className="text-center py-8 text-text-secondary">
-        아직 등록된 경전이 없습니다.
-      </div>
-    );
-  }
-
+export default function ScripturesPreview() {
   return (
     <div className="w-full">
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
-        {contents.map((content, index) => (
-          <ScriptureCard
-            key={content.id}
-            id={content.id}
-            title={content.title}
-            creator={content.creator}
-            thumbnail={content.thumbnail_url}
-            type={content.type}
-            celebCount={content.celeb_count}
-            avgRating={content.avg_rating}
-            rank={index + 1}
-          />
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {SCRIPTURES_TABS.map((tab) => {
+          const Icon = tab.icon;
+          return (
+            <Link
+              key={tab.value}
+              href={tab.href}
+              className="group flex items-center gap-4 p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 hover:border-accent/40 hover:bg-white/10"
+            >
+              <div className="shrink-0 p-3 rounded-lg bg-accent/10 text-accent group-hover:bg-accent/20">
+                <Icon size={24} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-medium text-text-primary group-hover:text-accent text-sm md:text-base mb-1">
+                  {tab.label}
+                </h4>
+                <p className="text-xs md:text-sm text-text-secondary line-clamp-1">
+                  {tab.description}
+                </p>
+              </div>
+              <ArrowRight size={18} className="shrink-0 text-text-tertiary group-hover:text-accent" />
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

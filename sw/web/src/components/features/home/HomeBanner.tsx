@@ -1,26 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { 
-  Crown, 
-  Landmark, 
-  Compass, 
-  ScrollText, 
-  Bell, 
-  MessageSquare, 
-  User, 
-  ChevronRight,
-  ChevronDown
-} from "lucide-react";
+import { Landmark, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Logo from "@/components/ui/Logo";
+import { NAV_ITEMS, HOME_SECTIONS } from "@/constants/navigation";
 
-const SECTION_NAV = [
-  { label: "탐색", sub: "EXPLORE", targetId: "explore-section", icon: Compass },
-  { label: "서고", sub: "SCRIPTURES", targetId: "scriptures-section", icon: ScrollText }, 
-  { label: "라운지", sub: "LOUNGE", targetId: "lounge-section", icon: Bell },
-  { label: "게시판", sub: "BOARD", targetId: "board-section", icon: MessageSquare },
-  { label: "기록관", sub: "ARCHIVE", targetId: "archive-section", icon: User },
-] as const;
+// NAV_ITEMS 기반으로 섹션 네비게이션 생성
+const SECTION_NAV = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => ({
+  label: item.label,
+  sub: HOME_SECTIONS[item.key]?.englishTitle.toUpperCase() ?? item.key.toUpperCase(),
+  targetId: HOME_SECTIONS[item.key]?.id ?? `${item.key}-section`,
+  icon: item.icon,
+}));
 
 export default function HomeBanner() {
   const [mounted, setMounted] = useState(false);
@@ -73,51 +65,52 @@ export default function HomeBanner() {
 
       {/* --- Main Content --- */}
       <div className="relative z-20 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
-        
-        {/* Top Decoration */}
-        <div className={cn("mb-6 md:mb-8 opacity-0 transition-opacity duration-1000", mounted && "opacity-100")}>
-           <Crown size={48} className="text-accent/60 md:w-16 md:h-16" strokeWidth={1} />
-        </div>
 
-        {/* Subtitle */}
-        <span 
+        {/* Tagline */}
+        <span
           className={cn(
-            "font-cinzel text-accent tracking-[0.4em] text-xs md:text-sm uppercase mb-4 opacity-0 translate-y-4 transition-all duration-700 delay-100",
-            mounted && "opacity-80 translate-y-0"
+            "font-cormorant text-accent/80 tracking-[0.3em] text-xs md:text-sm uppercase mb-6 md:mb-8 opacity-0 translate-y-4 transition-all duration-700",
+            mounted && "opacity-100 translate-y-0"
           )}
         >
-          Legacy of Wisdom
+          Record Your Inspiration
         </span>
 
-        {/* Main Title */}
-        <h1 
+        {/* Logo as Main Title */}
+        <div
           className={cn(
-            "relative font-serif font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-text-primary mb-6 opacity-0 scale-95 transition-all duration-1000 delay-200",
+            "opacity-0 scale-95 transition-all duration-1000 delay-100",
             mounted && "opacity-100 scale-100"
           )}
         >
-          <span className="block text-3d-gold drop-shadow-2xl">당신의 이야기를</span>
-          <span className="block mt-2 md:mt-4 text-text-primary/90">새기세요</span>
-        </h1>
+          <Logo
+            variant="hero"
+            size="lg"
+            asLink={false}
+          />
+        </div>
 
         {/* Divider */}
-        <div className={cn("my-6 md:my-8 opacity-0 transition-opacity duration-1000 delay-400", mounted && "opacity-100")}>
-          <div className="flex items-center gap-3">
-            <div className="h-[1px] w-12 md:w-24 bg-gradient-to-r from-transparent to-accent/50" />
-            <ChevronRight size={16} className="text-accent/50 rotate-45" />
-            <div className="h-[1px] w-12 md:w-24 bg-gradient-to-l from-transparent to-accent/50" />
+        <div className={cn("my-6 md:my-10 opacity-0 transition-opacity duration-1000 delay-300", mounted && "opacity-100")}>
+          <div className="flex items-center gap-4">
+            <div className="h-[1px] w-16 md:w-32 bg-gradient-to-r from-transparent to-accent/40" />
+            <div className="w-1.5 h-1.5 rotate-45 bg-accent/50" />
+            <div className="h-[1px] w-16 md:w-32 bg-gradient-to-l from-transparent to-accent/40" />
           </div>
         </div>
 
         {/* Description */}
-        <p 
+        <p
           className={cn(
-            "text-text-secondary font-medium text-sm md:text-lg leading-relaxed max-w-2xl opacity-0 translate-y-4 transition-all duration-700 delay-500",
+            "text-text-secondary text-sm md:text-lg leading-relaxed max-w-xl opacity-0 translate-y-4 transition-all duration-700 delay-400",
             mounted && "opacity-100 translate-y-0"
           )}
         >
-          수많은 인물들의 여정 속에서 영감을 얻고,<br className="hidden md:block"/>
-          나만의 고유한 발자취를 남겨보세요.
+          <span className="block font-medium text-text-primary/90 mb-2 md:mb-3 text-base md:text-xl">
+            느끼고, 기록하라
+          </span>
+          책, 영화, 음악, 게임... 모든 경험을 남기고<br className="hidden sm:block" />
+          영감의 흔적을 쌓아가세요.
         </p>
 
         {/* Navigation Menu */}

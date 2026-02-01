@@ -20,7 +20,7 @@ export default function BoardLayout({ children }: Props) {
         height={350}
         compact
         title="게시판"
-        subtitle="Community"
+        subtitle="Board"
       />
       <PageContainer>
         <BoardTabs />

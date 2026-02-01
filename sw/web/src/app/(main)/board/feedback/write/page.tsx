@@ -7,8 +7,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import FeedbackForm from "@/components/features/board/feedbacks/FeedbackForm";
+import { getBoardPageTitle } from "@/constants/board";
 
-export const metadata = { title: "피드백 작성 | 게시판" };
+export const metadata = { title: getBoardPageTitle("feedback", "작성") };
 
 export default async function FeedbackWritePage() {
   const supabase = await createClient();

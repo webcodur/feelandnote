@@ -105,7 +105,7 @@ function AuraListItem({
           {celebs.slice(0, 4).map((celeb) => (
             <div
               key={celeb.id}
-              className="w-7 h-7 rounded-full overflow-hidden border-2 border-surface bg-bg-card shadow-sm"
+              className="relative w-7 h-7 rounded-full overflow-hidden border-2 border-surface bg-bg-card shadow-sm"
               style={{ borderColor: mat.colors.border }}
               title={celeb.nickname}
             >
@@ -164,7 +164,7 @@ function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCel
               >
                 <div className="w-6 text-center text-text-tertiary font-medium text-xs">{celeb.ranking}</div>
                 
-                <div className="w-9 h-9 rounded-full overflow-hidden bg-bg-card flex-shrink-0 border border-border/50">
+                <div className="relative w-9 h-9 rounded-full overflow-hidden bg-bg-card flex-shrink-0 border border-border/50">
                   {celeb.avatar_url ? (
                     <Image
                       src={celeb.avatar_url}

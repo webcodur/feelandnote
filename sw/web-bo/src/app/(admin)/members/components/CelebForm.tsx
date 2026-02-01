@@ -11,7 +11,7 @@ import { calculateInfluenceRank, type GeneratedInfluence } from '@feelnnote/ai-s
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
-import { Loader2, Trash2, Star, X, Upload, ArrowLeft, FileJson, BookOpen } from 'lucide-react'
+import { Loader2, Trash2, Star, X, Upload, ArrowLeft, FileJson, BookOpen, ChevronDown, ChevronUp } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import AIBasicProfileSection from './AIBasicProfileSection'
 import AIInfluenceSection from './AIInfluenceSection'
@@ -156,6 +156,9 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [basicProfilePromptModalOpen, setBasicProfilePromptModalOpen] = useState(false)
   const [influencePromptModalOpen, setInfluencePromptModalOpen] = useState(false)
   const [philosophyPromptModalOpen, setPhilosophyPromptModalOpen] = useState(false)
+
+  // AI 생성 섹션 접힘 상태 (기본: 접힘)
+  const [aiSectionExpanded, setAiSectionExpanded] = useState(false)
 
   // 활성 섹션 상태 (Ctrl+V 대상)
   const [activeSection, setActiveSection] = useState<'basicInfo' | 'influence' | 'philosophy' | null>(null)
@@ -653,30 +656,45 @@ export default function CelebForm({ mode, celeb }: Props) {
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm">{error}</div>}
 
-      {/* AI 생성 섹션 */}
-      <div className="bg-bg-card border border-border rounded-lg p-4 space-y-3">
-        <h2 className="text-base font-semibold text-text-primary">AI 생성 및 JSON 입력</h2>
+      {/* AI 생성 섹션 (접기 가능) */}
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setAiSectionExpanded(!aiSectionExpanded)}
+          className="w-full p-4 flex items-center justify-between hover:bg-white/5"
+        >
+          <h2 className="text-base font-semibold text-text-primary">AI 생성 및 JSON 입력</h2>
+          {aiSectionExpanded ? (
+            <ChevronUp className="w-5 h-5 text-text-secondary" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-text-secondary" />
+          )}
+        </button>
 
-        {/* 추정 닉네임 입력 (AI 검색용) */}
-        <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 space-y-2">
-          <label htmlFor="guessed-name" className="block text-xs font-medium text-text-primary">
-            추정 닉네임 <span className="text-xs text-text-secondary font-normal">(AI 검색 및 json 입출력용)</span>
-          </label>
-          <input
-            type="text"
-            id="guessed-name"
-            value={guessedName}
-            onChange={(e) => setGuessedName(e.target.value)}
-            placeholder="예: Elon Musk, 일론 머스크, 테슬라 CEO..."
-            className="w-full px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
-          />
-        </div>
+        {aiSectionExpanded && (
+          <div className="px-4 pb-4 space-y-3">
+            {/* 추정 닉네임 입력 (AI 검색용) */}
+            <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 space-y-2">
+              <label htmlFor="guessed-name" className="block text-xs font-medium text-text-primary">
+                추정 닉네임 <span className="text-xs text-text-secondary font-normal">(AI 검색 및 json 입출력용)</span>
+              </label>
+              <input
+                type="text"
+                id="guessed-name"
+                value={guessedName}
+                onChange={(e) => setGuessedName(e.target.value)}
+                placeholder="예: Elon Musk, 일론 머스크, 테슬라 CEO..."
+                className="w-full px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+              />
+            </div>
 
-        {/* 2열 레이아웃 */}
-        <div className="grid grid-cols-2 gap-3">
-          <AIBasicProfileSection guessedName={guessedName} onApply={applyBasicProfile} />
-          <AIInfluenceSection guessedName={guessedName} onApply={applyInfluence} />
-        </div>
+            {/* 2열 레이아웃 */}
+            <div className="grid grid-cols-2 gap-3">
+              <AIBasicProfileSection guessedName={guessedName} onApply={applyBasicProfile} />
+              <AIInfluenceSection guessedName={guessedName} onApply={applyInfluence} />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Basic Info */}

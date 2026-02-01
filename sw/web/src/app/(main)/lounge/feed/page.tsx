@@ -9,8 +9,9 @@ import { createClient } from "@/lib/supabase/server";
 import { getContentTypeCounts, getCelebFeed } from "@/actions/home";
 import { getFriendActivityTypeCounts } from "@/actions/activity";
 import DashboardFeed from "@/components/features/home/DashboardFeed";
+import { getLoungePageTitle } from "@/constants/lounge";
 
-export const metadata = { title: "피드 | 라운지" };
+export const metadata = { title: getLoungePageTitle("feed") };
 
 function FeedSkeleton() {
   return (

@@ -140,49 +140,6 @@ function ChipTabs({ items, value, onChange, size = "md", variant = "filled", sho
 }
 // #endregion
 
-// #region 옵션 C: 세그먼트 컨트롤
-interface SegmentTabsProps {
-  items: TabItem[];
-  value: string;
-  onChange: (value: string) => void;
-  size?: TabSize;
-}
-
-const segmentSizeStyles: Record<TabSize, { container: string; button: string; text: string }> = {
-  sm: { container: "p-0.5 gap-0.5", button: "py-1 px-2", text: "text-xs" },
-  md: { container: "p-1 gap-1", button: "py-1.5 px-3", text: "text-sm" },
-  lg: { container: "p-1.5 gap-1.5", button: "py-2 px-4", text: "text-base" },
-};
-
-function SegmentTabs({ items, value, onChange, size = "md" }: SegmentTabsProps) {
-  const styles = segmentSizeStyles[size];
-
-  return (
-    <div className={`inline-flex bg-white/5 rounded-lg ${styles.container}`}>
-      {items.map((item) => {
-        const isActive = value === item.id;
-
-        return (
-          <button
-            key={item.id}
-            onClick={() => onChange(item.id)}
-            className={`
-              rounded-md font-medium ${styles.button} ${styles.text}
-              ${isActive
-                ? "bg-accent text-bg-main font-semibold"
-                : "text-text-secondary hover:text-text-primary"
-              }
-            `}
-          >
-            {item.label}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-// #endregion
-
 // #region Mock 데이터
 const BASIC_TABS: TabItem[] = [
   { id: "celeb", label: "셀럽" },
@@ -204,18 +161,6 @@ const CATEGORY_TABS: TabItem[] = [
   { id: "music", label: "음악", icon: Music, count: 23 },
   { id: "cert", label: "자격증", icon: Award, count: 3 },
 ];
-
-const MODE_TABS: TabItem[] = [
-  { id: "review", label: "리뷰" },
-  { id: "note", label: "노트" },
-  { id: "creation", label: "창작" },
-];
-
-const VISIBILITY_TABS: TabItem[] = [
-  { id: "private", label: "비공개" },
-  { id: "followers", label: "팔로워" },
-  { id: "public", label: "전체" },
-];
 // #endregion
 
 // #region 메인 프리뷰 컴포넌트
@@ -231,10 +176,6 @@ export default function TabUIPreview() {
   const [chipSubtleValue, setChipSubtleValue] = useState("popular");
   const [chipSmValue, setChipSmValue] = useState("popular");
   const [chipLgValue, setChipLgValue] = useState("popular");
-
-  const [segmentValue, setSegmentValue] = useState("review");
-  const [segmentSmValue, setSegmentSmValue] = useState("private");
-  const [segmentLgValue, setSegmentLgValue] = useState("review");
 
   return (
     <div className="space-y-16">
@@ -326,81 +267,6 @@ export default function TabUIPreview() {
                 <ChipTabs items={TABS_WITH_ICONS} value={chipLgValue} onChange={setChipLgValue} size="lg" />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 옵션 C: 세그먼트 컨트롤 */}
-      <section className="space-y-8">
-        <div className="space-y-2">
-          <h3 className="text-xl font-cinzel text-accent tracking-wider">Option C: Segment Control</h3>
-          <p className="text-xs text-text-tertiary">2~4개 옵션의 모드 전환, 뷰 모드, 공개 범위에 적합</p>
-        </div>
-
-        <div className="grid gap-8">
-          {/* 크기 비교 */}
-          <div className="space-y-4 p-6 bg-white/[0.02] rounded-2xl border border-white/5">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">Size Variants</span>
-
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <span className="text-[10px] text-accent/60 uppercase">SM - 공개 범위</span>
-                <SegmentTabs items={VISIBILITY_TABS} value={segmentSmValue} onChange={setSegmentSmValue} size="sm" />
-              </div>
-
-              <div className="space-y-2">
-                <span className="text-[10px] text-accent/60 uppercase">MD (Default) - 탭 전환</span>
-                <SegmentTabs items={MODE_TABS} value={segmentValue} onChange={setSegmentValue} size="md" />
-              </div>
-
-              <div className="space-y-2">
-                <span className="text-[10px] text-accent/60 uppercase">LG</span>
-                <SegmentTabs items={MODE_TABS} value={segmentLgValue} onChange={setSegmentLgValue} size="lg" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 권장 사용 가이드 */}
-      <section className="space-y-4 p-6 bg-accent/5 rounded-2xl border border-accent/20">
-        <h3 className="text-lg font-cinzel text-accent tracking-wider">Option D: Hybrid (권장)</h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div className="space-y-2">
-            <span className="text-accent font-semibold">Underline 사용</span>
-            <ul className="text-text-secondary text-xs space-y-1">
-              <li>• 페이지 상단 네비게이션</li>
-              <li>• 섹션 전환 (홈 탭)</li>
-              <li>• 상세 페이지 하위 탭</li>
-            </ul>
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-accent font-semibold">Chip 사용</span>
-            <ul className="text-text-secondary text-xs space-y-1">
-              <li>• 필터 선택 (카테고리, 상태)</li>
-              <li>• 아이콘 포함 탭</li>
-              <li>• 4개 이상 옵션</li>
-            </ul>
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-accent font-semibold">Segment 사용</span>
-            <ul className="text-text-secondary text-xs space-y-1">
-              <li>• 모드 전환 (리뷰/노트/창작)</li>
-              <li>• 공개 범위 선택</li>
-              <li>• 2~3개 옵션의 토글</li>
-            </ul>
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-text-tertiary font-semibold">통일 규칙</span>
-            <ul className="text-text-tertiary text-xs space-y-1">
-              <li>• 기본 크기: md</li>
-              <li>• 활성 색상: accent</li>
-              <li>• 비활성: text-secondary</li>
-            </ul>
           </div>
         </div>
       </section>

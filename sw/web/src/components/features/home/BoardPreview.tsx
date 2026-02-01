@@ -1,51 +1,40 @@
-"use client";
+/*
+  파일명: /components/features/home/BoardPreview.tsx
+  기능: 메인페이지 게시판 프리뷰
+  책임: 게시판 카테고리 구조와 각 항목의 설명을 안내한다.
+*/ // ------------------------------
 
 import Link from "next/link";
-import { ArrowRight, Megaphone, MessageSquare } from "lucide-react";
-
-const BOARD_PREVIEWS = [
-  {
-    id: "notice",
-    title: "공지사항",
-    description: "Feelnnote의 새로운 소식과 업데이트",
-    icon: <Megaphone className="text-accent" width={24} height={24} />,
-    link: "/board/notice",
-  },
-  {
-    id: "feedback",
-    title: "피드백",
-    description: "서비스 발전을 위한 여러분의 의견",
-    icon: <MessageSquare className="text-blue-400" width={24} height={24} />,
-    link: "/board/feedback",
-  }
-];
+import { ArrowRight } from "lucide-react";
+import { BOARD_ITEMS } from "@/constants/board";
 
 export default function BoardPreview() {
   return (
     <div className="w-full">
-      <div className="grid grid-cols-2 gap-4 md:gap-6">
-        {BOARD_PREVIEWS.map((board) => (
-          <Link
-            key={board.id}
-            href={board.link}
-            className="group relative overflow-hidden rounded-xl bg-white/5 border border-white/10 p-4 md:p-6 text-left transition-all duration-300 hover:border-accent hover:bg-white/10 hover:-translate-y-1"
-          >
-            <div className="flex items-center justify-between mb-3 md:mb-4">
-              <div className="p-2 md:p-3 rounded-full bg-white/5 group-hover:bg-accent/10 transition-colors">
-                {board.icon}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {BOARD_ITEMS.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.value}
+              href={item.href}
+              className="group flex items-center gap-4 p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 hover:border-accent/40 hover:bg-white/10"
+            >
+              <div className="shrink-0 p-3 rounded-lg bg-accent/10 text-accent group-hover:bg-accent/20">
+                <Icon size={24} />
               </div>
-              <ArrowRight size={16} className="text-text-secondary group-hover:text-accent opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-            </div>
-
-            <h3 className="text-base md:text-xl font-serif font-bold text-text-primary mb-1 md:mb-2 group-hover:text-amber-100 transition-colors">
-              {board.title}
-            </h3>
-
-            <p className="text-xs md:text-sm text-text-secondary line-clamp-2">
-              {board.description}
-            </p>
-          </Link>
-        ))}
+              <div className="flex-1 min-w-0">
+                <h4 className="font-medium text-text-primary group-hover:text-accent text-sm md:text-base mb-1">
+                  {item.label}
+                </h4>
+                <p className="text-xs md:text-sm text-text-secondary line-clamp-1">
+                  {item.description}
+                </p>
+              </div>
+              <ArrowRight size={18} className="shrink-0 text-text-tertiary group-hover:text-accent" />
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

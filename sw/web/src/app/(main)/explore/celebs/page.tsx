@@ -6,7 +6,7 @@
 
 import { Suspense } from "react";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
-import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getTagCounts } from "@/actions/home";
+import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getFeaturedTags } from "@/actions/home";
 
 export const metadata = { title: "셀럽 | 탐색" };
 
@@ -28,12 +28,12 @@ function SectionSkeleton() {
 }
 
 async function CelebsContent() {
-  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, tagCounts] = await Promise.all([
+  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, featuredTags] = await Promise.all([
     getCelebs({ page: 1, limit: 24, minContentCount: 1 }),
     getProfessionCounts(),
     getNationalityCounts(),
     getContentTypeCounts(),
-    getTagCounts(),
+    getFeaturedTags(),
   ]);
 
   return (
@@ -44,7 +44,7 @@ async function CelebsContent() {
       professionCounts={professionCounts}
       nationalityCounts={nationalityCounts}
       contentTypeCounts={contentTypeCounts}
-      tagCounts={tagCounts}
+      featuredTags={featuredTags}
     />
   );
 }

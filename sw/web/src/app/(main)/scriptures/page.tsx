@@ -5,8 +5,9 @@
 */ // ------------------------------
 
 import { redirect } from "next/navigation";
+import { SCRIPTURES_SECTION_NAME } from "@/constants/scriptures";
 
-export const metadata = { title: "지혜의 서고" };
+export const metadata = { title: SCRIPTURES_SECTION_NAME };
 
 export default function Page() {
   redirect("/scriptures/chosen");

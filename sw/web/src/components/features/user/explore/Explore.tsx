@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Users, Sparkles, Star, UserCheck, UserPlus, Info } from "lucide-react";
+import { Users, Sparkles, Star, UserCheck, UserPlus, Info, BarChart3 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
@@ -17,7 +17,7 @@ import InfluenceDistributionModal from "./InfluenceDistributionModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, TagCount } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
 
 // #region Types
 interface FriendInfo {
@@ -65,7 +65,6 @@ interface ExploreProps {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
-  tagCounts: TagCount[];
 }
 
 type TabType = "friends" | "following" | "followers" | "celebs" | "similar";
@@ -84,7 +83,6 @@ export default function Explore({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
-  tagCounts,
 }: ExploreProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -111,7 +109,6 @@ export default function Explore({
       params.delete("sortBy");
       params.delete("search");
       params.delete("page");
-      params.delete("tag");
     }
     // celebs가 기본값이므로 URL에서 제거
     if (tab === "celebs") {
@@ -183,6 +180,17 @@ export default function Explore({
       {/* 셀럽 탭 - CelebCarousel이 자체 배경/텍스처를 가지므로 별도 처리 */}
       {activeTab === "celebs" && (
         <div className="min-h-[400px]">
+          {/* 영향력 분포 버튼 */}
+          <div className="flex justify-center mb-6">
+            <button
+              type="button"
+              onClick={() => setShowInfluenceDistribution(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border border-border/50 text-text-secondary hover:border-accent/50 hover:text-text-primary bg-bg-card/50"
+            >
+              <BarChart3 size={14} />
+              <span>영향력 분포</span>
+            </button>
+          </div>
           <CelebCarousel
             initialCelebs={initialCelebs}
             initialTotal={initialTotal}
@@ -190,11 +198,9 @@ export default function Explore({
             professionCounts={professionCounts}
             nationalityCounts={nationalityCounts}
             contentTypeCounts={contentTypeCounts}
-            tagCounts={tagCounts}
             mode="grid"
             hideHeader={false}
             syncToUrl
-            onShowInfluenceDistribution={() => setShowInfluenceDistribution(true)}
           />
         </div>
       )}

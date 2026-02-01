@@ -7,8 +7,9 @@
 import { Suspense } from "react";
 import EraSection from "@/components/features/scriptures/sections/EraSection";
 import { getScripturesByEra } from "@/actions/scriptures";
+import { getScripturesPageTitle } from "@/constants/scriptures";
 
-export const metadata = { title: "세대의 경전 | 지혜의 서고" };
+export const metadata = { title: getScripturesPageTitle("era") };
 
 function SectionSkeleton() {
   return (

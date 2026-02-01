@@ -8,12 +8,13 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getFeedback } from "@/actions/board/feedbacks";
 import FeedbackForm from "@/components/features/board/feedbacks/FeedbackForm";
+import { getBoardPageTitle } from "@/constants/board";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-export const metadata = { title: "피드백 수정 | 게시판" };
+export const metadata = { title: getBoardPageTitle("feedback", "수정") };
 
 export default async function FeedbackEditPage({ params }: Props) {
   const { id } = await params;

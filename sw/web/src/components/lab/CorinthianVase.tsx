@@ -56,17 +56,17 @@ export default function CorinthianVase({ className = "" }: { className?: string 
             {/* Neck Area (Dark) */}
             <rect x="0" y="0" width="200" height="50" fill="url(#vase-dark-gradient)" />
             
-            {/* Shoulder Band */}
-            <g transform="translate(100, 50)">
-                 {Array.from({length: 24}).map((_, i) => (
-                    <path 
-                        key={i} 
-                        d="M-3 0 L3 0 L0 25 Z" 
-                        fill="#2c1810" 
-                        transform={`rotate(${i * 15}) translate(0, 10)`} 
+            {/* Shoulder Band - 투입구에 밀착된 타원형 */}
+            <g transform="translate(100, 38) scale(1, 0.45)">
+                 {Array.from({length: 20}).map((_, i) => (
+                    <path
+                        key={i}
+                        d="M-2.5 0 L2.5 0 L0 22 Z"
+                        fill="#2c1810"
+                        transform={`rotate(${i * 18}) translate(0, 8)`}
                     />
                  ))}
-                 <circle cx="0" cy="0" r="38" fill="none" stroke="#2c1810" strokeWidth="1" />
+                 <ellipse cx="0" cy="0" rx="32" ry="32" fill="none" stroke="#2c1810" strokeWidth="2" />
             </g>
 
             {/* Belly Band */}

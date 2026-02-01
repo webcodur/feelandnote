@@ -1,16 +1,14 @@
 "use client";
 
-import { Search, X, BarChart3 } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import ExpandedCelebCard from "./celeb-card-drafts/ExpandedCelebCard";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
-import TagQuickFilter from "./TagQuickFilter";
-import TagCelebShowcase from "./TagCelebShowcase";
 import { useCelebFilters } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, TagCount } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -19,11 +17,9 @@ interface CelebCarouselProps {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
-  tagCounts: TagCount[];
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
-  onShowInfluenceDistribution?: () => void;
 }
 
 export default function CelebCarousel({
@@ -33,10 +29,8 @@ export default function CelebCarousel({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
-  tagCounts,
   mode = "grid",
   syncToUrl = false,
-  onShowInfluenceDistribution,
 }: CelebCarouselProps) {
   const filters = useCelebFilters({
     initialCelebs,
@@ -45,7 +39,6 @@ export default function CelebCarousel({
     professionCounts,
     nationalityCounts,
     contentTypeCounts,
-    tagCounts,
     syncToUrl,
   });
 
@@ -63,17 +56,7 @@ export default function CelebCarousel({
 
   return (
     <div className="space-y-4">
-      {/* 1. 컬렉션 (태그 퀵필터) - 중앙정렬 */}
-      <div className="flex justify-center">
-        <TagQuickFilter
-          tags={tagCounts}
-          currentTagId={filters.tagId}
-          onTagSelect={filters.handleTagChange}
-          isLoading={filters.isLoading}
-        />
-      </div>
-
-      {/* 2. 직군/국적/콘텐츠/정렬 필터 */}
+      {/* 1. 직군/국적/콘텐츠/정렬 필터 */}
       <CelebFiltersDesktop
         profession={filters.profession}
         nationality={filters.nationality}
@@ -118,9 +101,8 @@ export default function CelebCarousel({
         onSearchClear={filters.handleSearchClear}
       />
 
-      {/* 3. 인물검색 + 영향력분포 - 중앙정렬 */}
+      {/* 2. 인물검색 - 중앙정렬 */}
       <div className="hidden md:flex items-center justify-center gap-2">
-        {/* 검색 입력 */}
         <div className="relative w-64">
           <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
           <input
@@ -149,18 +131,6 @@ export default function CelebCarousel({
         >
           검색
         </button>
-
-        {/* 영향력 분포 버튼 */}
-        {onShowInfluenceDistribution && (
-          <button
-            type="button"
-            onClick={onShowInfluenceDistribution}
-            className="flex items-center gap-2 h-9 px-3 text-sm text-text-secondary hover:text-accent bg-bg-card hover:bg-bg-card/80 border border-border/50 rounded-lg"
-          >
-            <BarChart3 size={16} />
-            <span>영향력 분포</span>
-          </button>
-        )}
       </div>
 
       {/* 셀럽 그리드 영역 */}
@@ -168,20 +138,11 @@ export default function CelebCarousel({
         {/* 빈 상태 */}
         {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
 
-        {/* 태그 선택 시 포트레잇 쇼케이스 */}
-        {filters.celebs.length > 0 && filters.tagId && filters.activeLabels.tag && (
-          <TagCelebShowcase
-            celebs={filters.celebs}
-            tag={filters.activeLabels.tag}
-            isLoading={filters.isLoading}
-            currentPage={filters.currentPage}
-            totalPages={filters.totalPages}
-            onPageChange={filters.handlePageChange}
-          />
-        )}
+        {/* 로딩 스켈레톤 */}
+        {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
 
-        {/* 일반 셀럽 그리드 (태그 미선택 시) */}
-        {filters.celebs.length > 0 && !filters.tagId && (
+        {/* 셀럽 그리드 */}
+        {filters.celebs.length > 0 && (
           <>
             <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} />
             <div className="mt-8">
@@ -209,6 +170,16 @@ function EmptyState() {
     </div>
   );
 }
+
+function GridSkeleton() {
+  return (
+    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-6">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div key={i} className="aspect-[13/19] bg-bg-card animate-pulse rounded-xl" />
+      ))}
+    </div>
+  );
+}
 // #endregion
 
 function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: boolean }) {
@@ -227,11 +198,11 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
   if (total === 0) return null;
 
   const pcCelebs = celebs.slice(0, 12);
-  const mobileCelebs = celebs.slice(0, 5); // 5개만 노출 (마지막은 MoreLink)
+  const mobileCelebs = celebs.slice(0, 5);
 
   return (
     <div className="relative">
-      {/* 모바일: 정적 그리드 (배경 박스 없이 깔끔하게, 좌우 여백 정밀 조정) */}
+      {/* 모바일: 정적 그리드 */}
       <div className="md:hidden grid grid-cols-3 gap-2 px-0.5">
         {mobileCelebs.map((celeb) => (
           <ExpandedCelebCard key={celeb.id} celeb={celeb} />

@@ -37,8 +37,8 @@ export default function ArchiveTunnelBanner({
   };
 
   // Generate mocked items for the tunnel layers
-  const LAYERS = compact ? 3 : 5;
-  const ITEMS_PER_LAYER = compact ? 5 : 8;
+  const LAYERS = compact ? 5 : 12;
+  const ITEMS_PER_LAYER = compact ? 8 : 16;
 
   return (
     <div
@@ -49,6 +49,32 @@ export default function ArchiveTunnelBanner({
     >
       {/* Background Starfield */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#111_0%,#000_100%)]" />
+
+      {/* Floating Particles - isolated from perspective */}
+      <div
+        className="absolute inset-0 pointer-events-none overflow-hidden"
+        style={{ transform: 'translateZ(0)', transformStyle: 'flat' }}
+      >
+        {Array.from({ length: compact ? 20 : 50 }).map((_, i) => {
+          const size = 1 + Math.random() * 2;
+          const left = 10 + Math.random() * 80;
+          const top = 10 + Math.random() * 80;
+          return (
+            <div
+              key={`particle-${i}`}
+              className="absolute rounded-full bg-[#d4af37]/20"
+              style={{
+                width: size,
+                height: size,
+                left: `${left}%`,
+                top: `${top}%`,
+                animation: `pulse ${3 + Math.random() * 2}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 3}s`,
+              }}
+            />
+          );
+        })}
+      </div>
 
       {/*
         The Tunnel Container
@@ -65,7 +91,7 @@ export default function ArchiveTunnelBanner({
            We create multiple rings of items at different Z-depths
         */}
         {Array.from({ length: LAYERS }).map((_, layerIndex) => {
-           const zDepth = -layerIndex * (compact ? 250 : 400);
+           const zDepth = -layerIndex * (compact ? 150 : 200);
            const opacity = 1 - (layerIndex / LAYERS);
 
            return (

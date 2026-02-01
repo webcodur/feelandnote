@@ -7,8 +7,9 @@
 import { Suspense } from "react";
 import SageSection from "@/components/features/scriptures/sections/SageSection";
 import { getTodaySage } from "@/actions/scriptures";
+import { getScripturesPageTitle } from "@/constants/scriptures";
 
-export const metadata = { title: "오늘의 인물 | 지혜의 서고" };
+export const metadata = { title: getScripturesPageTitle("sage") };
 
 function SectionSkeleton() {
   return (

@@ -7,8 +7,9 @@
 import { Suspense } from "react";
 import ProfessionSection from "@/components/features/scriptures/sections/ProfessionSection";
 import { getProfessionContentCounts } from "@/actions/scriptures";
+import { getScripturesPageTitle } from "@/constants/scriptures";
 
-export const metadata = { title: "길의 갈래 | 지혜의 서고" };
+export const metadata = { title: getScripturesPageTitle("profession") };
 
 function SectionSkeleton() {
   return (

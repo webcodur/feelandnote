@@ -1,27 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Book, Layers, Frame, Image as ImageIcon, Crown } from "lucide-react";
+import { Book, Layers, Frame, Crown, Landmark } from "lucide-react";
 import TabUIPreview from "@/components/lab/TabUIPreview";
 import FramePreview from "@/components/lab/FramePreview";
-import LandingIllustrationsPreview from "@/components/lab/LandingIllustrationsPreview";
-import CorinthianPreview from "@/components/lab/CorinthianPreview";
+import GreekSymbolsPreview from "@/components/lab/CorinthianPreview";
 import BookDesignPreview from "@/components/lab/BookDesignPreview";
-import SectionHeaderNeoPreview from "@/components/lab/SectionHeaderNeoPreview";
 import HeroBannerPreview from "@/components/lab/HeroBannerPreview";
-import ExploreMockup from "@/components/lab/ExploreMockup";
 
 // #region 탭 타입
-type LabTab = "frames" | "tab-ui" | "landing-illustrations" | "corinthian" | "book-design" | "section-header" | "hero-banner" | "mockup";
+type LabTab = "frames" | "tab-ui" | "greek-symbols" | "book-design" | "hero-banner";
 
 const LAB_TABS = [
-  { key: "mockup" as const, label: "페이지 목업", icon: Crown },
-  { key: "section-header" as const, label: "헤더 디자인", icon: Crown },
   { key: "frames" as const, label: "기본 프레임", icon: Frame },
   { key: "tab-ui" as const, label: "탭 UI", icon: Layers },
-  { key: "landing-illustrations" as const, label: "랜딩 일러스트", icon: ImageIcon },
-  { key: "corinthian" as const, label: "코린트 양식", icon: Crown },
+  { key: "greek-symbols" as const, label: "그리스 심볼", icon: Landmark },
   { key: "hero-banner" as const, label: "메인 배너", icon: Crown },
   { key: "book-design" as const, label: "책 디자인", icon: Book },
 ];
@@ -62,13 +55,6 @@ export default function LabPage() {
 
       {/* 탭 콘텐츠 */}
       <div className="w-full max-w-6xl">
-        {/* 목업 탭 */}
-        {activeTab === "mockup" && (
-           <div className="w-full border border-white/5 rounded-2xl overflow-hidden">
-              <ExploreMockup />
-           </div>
-        )}
-
         {/* 배너 디자인 탭 */}
         {activeTab === "hero-banner" && (
           <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
@@ -78,19 +64,6 @@ export default function LabPage() {
             </div>
             <div className="w-full">
               <HeroBannerPreview />
-            </div>
-          </section>
-        )}
-
-        {/* 헤더 디자인 탭 */}
-        {activeTab === "section-header" && (
-          <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Neo-Pantheon Header</h2>
-              <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">웅장함과 현대미가 결합된 새로운 헤더 시스템</p>
-            </div>
-            <div className="w-full">
-              <SectionHeaderNeoPreview />
             </div>
           </section>
         )}
@@ -121,28 +94,15 @@ export default function LabPage() {
           </section>
         )}
 
-        {/* 랜딩 일러스트 탭 */}
-        {activeTab === "landing-illustrations" && (
+        {/* 그리스 심볼 탭 */}
+        {activeTab === "greek-symbols" && (
           <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
             <div className="text-center space-y-2">
-              <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Landing Illustrations</h2>
-              <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">랜딩 페이지용 SVG 일러스트레이션</p>
+              <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Greek Symbols</h2>
+              <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">고대 그리스 테마 SVG 일러스트레이션</p>
             </div>
             <div className="w-full">
-              <LandingIllustrationsPreview />
-            </div>
-          </section>
-        )}
-
-        {/* 코린트 양식 탭 */}
-        {activeTab === "corinthian" && (
-          <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">Corinthian Symbol</h2>
-              <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">브랜드 심볼 디자인 실험</p>
-            </div>
-            <div className="w-full">
-              <CorinthianPreview />
+              <GreekSymbolsPreview />
             </div>
           </section>
         )}

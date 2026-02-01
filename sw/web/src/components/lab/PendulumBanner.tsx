@@ -21,8 +21,8 @@ export default function PendulumBanner() {
     const BALL_COUNT = 5;
     const ROPE_LENGTH = 300;
     const ORIGIN_Y = 150;
-    const GRAVITY = 0.2; // Slower physics
-    const DAMPING = 0.995; // Air resistance
+    const GRAVITY = 0.08; // 느린 진자 움직임
+    const DAMPING = 0.9992; // 에너지 손실 최소화 (오래 지속)
     
     // Physics Bodies
     // We model them as simple pendulums constrained to X-axis movement mostly

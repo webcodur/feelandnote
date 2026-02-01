@@ -5,8 +5,9 @@
 */ // ------------------------------
 
 import { redirect } from "next/navigation";
+import { LOUNGE_SECTION_NAME } from "@/constants/lounge";
 
-export const metadata = { title: "라운지" };
+export const metadata = { title: LOUNGE_SECTION_NAME };
 
 export default function Page() {
   redirect("/lounge/higher-lower");

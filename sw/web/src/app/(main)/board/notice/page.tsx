@@ -8,8 +8,9 @@ import { getNotices } from "@/actions/board/notices";
 import { createClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth/checkAdmin";
 import NoticeList from "@/components/features/board/notices/NoticeList";
+import { getBoardPageTitle } from "@/constants/board";
 
-export const metadata = { title: "공지사항 | 게시판" };
+export const metadata = { title: getBoardPageTitle("notice") };
 
 const ITEMS_PER_PAGE = 10;
 

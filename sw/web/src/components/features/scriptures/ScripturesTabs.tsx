@@ -8,14 +8,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Scroll, Route, User, Clock } from "lucide-react";
-
-const SCRIPTURES_TABS = [
-  { value: "chosen", label: "다수의 선택", icon: Scroll, href: "/scriptures/chosen" },
-  { value: "profession", label: "길의 갈래", icon: Route, href: "/scriptures/profession" },
-  { value: "sage", label: "오늘의 인물", icon: User, href: "/scriptures/sage" },
-  { value: "era", label: "세대의 경전", icon: Clock, href: "/scriptures/era" },
-] as const;
+import { SCRIPTURES_TABS } from "@/constants/scriptures";
 
 export default function ScripturesTabs() {
   const pathname = usePathname();

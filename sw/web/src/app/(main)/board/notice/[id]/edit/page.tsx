@@ -9,12 +9,13 @@ import { createClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth/checkAdmin";
 import { getNotice } from "@/actions/board/notices";
 import NoticeForm from "@/components/features/board/notices/NoticeForm";
+import { getBoardPageTitle } from "@/constants/board";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-export const metadata = { title: "공지사항 수정 | 게시판" };
+export const metadata = { title: getBoardPageTitle("notice", "수정") };
 
 export default async function NoticeEditPage({ params }: Props) {
   const { id } = await params;

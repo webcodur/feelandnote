@@ -5,8 +5,9 @@
 */ // ------------------------------
 
 import { redirect } from "next/navigation";
+import { BOARD_SECTION_NAME } from "@/constants/board";
 
-export const metadata = { title: "게시판" };
+export const metadata = { title: BOARD_SECTION_NAME };
 
 export default function Page() {
   redirect("/board/notice");

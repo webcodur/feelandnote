@@ -14,12 +14,14 @@ interface FeaturedCollectionsMobileProps {
   tags: FeaturedTag[];
   activeTagIndex: number;
   setActiveTagIndex: (index: number) => void;
+  hideQuickBrowse?: boolean;
 }
 
 export default function FeaturedCollectionsMobile({
   tags,
   activeTagIndex,
-  setActiveTagIndex
+  setActiveTagIndex,
+  hideQuickBrowse = false,
 }: FeaturedCollectionsMobileProps) {
   
   const activeTag = tags.length > 0 ? tags[activeTagIndex] : null;
@@ -61,14 +63,16 @@ export default function FeaturedCollectionsMobile({
          )}
       </div>
 
-      {/* 3. Quick Browse (Interactive 3-Column Decks) */}
-      <div className="flex flex-col gap-3 px-2 pt-2 border-t border-white/5">
-         <div className="grid grid-cols-3 gap-3">
+      {/* 3. Quick Browse (Interactive 3-Column Decks) - 숨기기 가능 */}
+      {!hideQuickBrowse && (
+        <div className="flex flex-col gap-3 px-2 pt-2 border-t border-white/5">
+          <div className="grid grid-cols-3 gap-3">
             {EXPLORE_PRESETS.map((section) => (
               <ExploreStackedRowMobile key={section.id} section={section} />
             ))}
-         </div>
-      </div>
+          </div>
+        </div>
+      )}
 
       {modalCeleb && (
         <Suspense fallback={null}>

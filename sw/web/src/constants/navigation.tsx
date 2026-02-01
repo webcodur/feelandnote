@@ -85,62 +85,66 @@ export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInBottomNav)
 export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => item.key);
 // #endregion
 
+// #region 헬퍼 함수
+const getNavLabel = (key: string) => NAV_ITEMS.find((item) => item.key === key)?.label ?? "";
+// #endregion
+
 // #region 메인페이지 섹션 설정
 export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
   explore: {
     id: "explore-section",
-    title: "영감을 나누는 사람들",
+    title: `영감의 ${getNavLabel("explore")}`,
     englishTitle: "Explore",
     description: (
       <>
         시대를 초월한 지성을 만나는 여정. <br className="hidden md:block" />
-        깊이 있는 <b>기획전</b>으로 몰입하거나, 다양한 <b>카테고리</b>로 폭넓게 탐색해보세요.
+        깊이 있는 <b>기획전</b>으로 몰입하거나, 다양한 <b>카테고리</b>로 폭넓게 {getNavLabel("explore")}해보세요.
       </>
     ),
     svgSrc: "/images/decorations/owl.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/explore",
-    linkText: "탐색 페이지로 이동",
+    linkText: `${getNavLabel("explore")}으로 이동`,
   },
   scriptures: {
     id: "scriptures-section",
-    title: "지혜의 서고",
+    title: `지혜의 ${getNavLabel("scriptures")}`,
     englishTitle: "Sacred Archives",
-    description: "시대를 관통한 지혜가 잠든 곳. 인물들이 남긴 경전을 탐색하세요.",
+    description: `시대를 관통한 지혜가 잠든 곳. 인물들이 남긴 경전을 ${getNavLabel("explore")}하세요.`,
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/scriptures",
-    linkText: "서고 페이지로 이동",
+    linkText: `${getNavLabel("scriptures")}로 이동`,
   },
   lounge: {
     id: "lounge-section",
-    title: "라운지",
+    title: `휴식의 ${getNavLabel("lounge")}`,
     englishTitle: "Lounge",
-    description: "휴식 속에서 즐거움을 더해보세요.",
+    description: `${getNavLabel("lounge")}에서 즐거움을 더해보세요.`,
     svgSrc: "/images/decorations/lyre.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/lounge",
-    linkText: "라운지 페이지로 이동",
+    linkText: `${getNavLabel("lounge")}로 이동`,
   },
   board: {
     id: "board-section",
-    title: "게시판",
-    englishTitle: "Community",
-    description: "공지사항을 확인하고 피드백을 남겨주세요.",
+    title: `소통의 ${getNavLabel("board")}`,
+    englishTitle: "Board",
+    description: `${getNavLabel("board")}에서 공지사항을 확인하고 피드백을 남겨주세요.`,
     svgSrc: "/images/decorations/horn.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/board",
-    linkText: "게시판으로 이동",
+    linkText: `${getNavLabel("board")}으로 이동`,
   },
   archive: {
     id: "archive-section",
-    title: "나의 기록",
+    title: `나의 ${getNavLabel("archive")}`,
     englishTitle: "Records",
-    description: "책, 영화, 게임... 당신의 모든 영감을 기록하고 관리하세요.",
+    description: `책, 영화, 게임... 당신의 모든 영감을 ${getNavLabel("archive")}하고 관리하세요.`,
     svgSrc: "/images/decorations/vase.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/{userId}",
-    linkText: "기록 페이지로 이동",
+    linkText: `${getNavLabel("archive")}으로 이동`,
   },
 };
 

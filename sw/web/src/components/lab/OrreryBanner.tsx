@@ -130,16 +130,21 @@ export default function OrreryBanner() {
       // angle 90 = front (+z)
       
       const renderList = planets.map(p => {
-         const a = p.angle + rotationOffset; // Apply global rotation
-         const x = Math.cos(a) * p.distance;
-         const z = Math.sin(a) * p.distance; // True depth relative to sun
+         // 1. 기본 타원 좌표 계산 (회전 전)
+         const baseX = Math.cos(p.angle) * p.distance;
+         const baseY = Math.sin(p.angle) * p.distance * pitch;
 
-         const screenX = cx + x;
-         const screenY = cy + z * pitch;
+         // 2. rotationOffset 회전 변환 적용 (궤도 ellipse와 동일한 회전)
+         const rotatedX = baseX * Math.cos(rotationOffset) - baseY * Math.sin(rotationOffset);
+         const rotatedY = baseX * Math.sin(rotationOffset) + baseY * Math.cos(rotationOffset);
+
+         const screenX = cx + rotatedX;
+         const screenY = cy + rotatedY;
+
+         // depth는 원래 각도 기준으로 계산 (앞/뒤 판단용)
+         const z = Math.sin(p.angle) * p.distance;
 
          // Scale based on depth (perspective simulation)
-         // z goes from -distance to +distance
-         // scale factor
          const scale = 1 + z / 1000;
 
          return { planet: p, x: screenX, y: screenY, z, scale };

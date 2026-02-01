@@ -5,8 +5,9 @@
 */ // ------------------------------
 
 import HigherLowerGame from "@/components/features/game/HigherLowerGame";
+import { getLoungePageTitle } from "@/constants/lounge";
 
-export const metadata = { title: "업다운 | 라운지" };
+export const metadata = { title: getLoungePageTitle("higher-lower") };
 
 export default function Page() {
   return <HigherLowerGame />;

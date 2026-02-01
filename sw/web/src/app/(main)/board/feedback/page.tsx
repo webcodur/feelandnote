@@ -7,8 +7,9 @@
 import { createClient } from "@/lib/supabase/server";
 import { getFeedbacks } from "@/actions/board/feedbacks";
 import FeedbackList from "@/components/features/board/feedbacks/FeedbackList";
+import { getBoardPageTitle } from "@/constants/board";
 
-export const metadata = { title: "피드백 | 게시판" };
+export const metadata = { title: getBoardPageTitle("feedback") };
 
 const ITEMS_PER_PAGE = 10;
 

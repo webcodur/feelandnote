@@ -5,8 +5,9 @@
 */ // ------------------------------
 
 import TimelineGame from "@/components/features/game/TimelineGame";
+import { getLoungePageTitle } from "@/constants/lounge";
 
-export const metadata = { title: "연대기 | 라운지" };
+export const metadata = { title: getLoungePageTitle("timeline") };
 
 export default function Page() {
   return <TimelineGame />;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit } from "lucide-react";
+import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail } from "lucide-react";
 import AstrolabeBanner from "./AstrolabeBanner";
 import ArchiveTunnelBanner from "./ArchiveTunnelBanner";
 import LyreBanner from "./LyreBanner";
@@ -12,14 +12,16 @@ import EternalFlameBanner from "./EternalFlameBanner";
 import TreeBanner from "./TreeBanner";
 import PendulumBanner from "./PendulumBanner";
 import OrreryBanner from "./OrreryBanner";
+import SealedEdictBanner from "./SealedEdictBanner";
 
 export default function HeroBannerPreview() {
-  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery">("orrery");
+  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict">("sealed-edict");
 
   return (
     <div className="w-full flex flex-col gap-8">
       {/* Design Selector */}
       <div className="flex flex-wrap justify-center gap-4">
+        {/* ... existing buttons ... */}
         <button
           onClick={() => setActiveDesign("astrolabe")}
           className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
@@ -31,6 +33,8 @@ export default function HeroBannerPreview() {
           <Star size={14} />
           Idea 1: Celestial Mechanism
         </button>
+        {/* ... (skipping some for brevity in diff, but need to be careful with replace context) ... */}
+        {/* It is cleaner to just add the new button at the end of the list */}
         <button
           onClick={() => setActiveDesign("tunnel")}
           className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
@@ -130,6 +134,17 @@ export default function HeroBannerPreview() {
           <Orbit size={14} />
           Idea 10: Grand Orrery
         </button>
+        <button
+          onClick={() => setActiveDesign("sealed-edict")}
+          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
+            activeDesign === "sealed-edict"
+              ? "bg-accent text-bg-main border-accent font-bold"
+              : "border-white/20 text-text-secondary hover:border-accent/50"
+          }`}
+        >
+          <Mail size={14} />
+          Idea 11: Sealed Edict
+        </button>
       </div>
 
       {/* Preview Area */}
@@ -138,12 +153,11 @@ export default function HeroBannerPreview() {
         {activeDesign === "tunnel" && <ArchiveTunnelBanner />}
         {activeDesign === "lyre" && <LyreBanner />}
         {activeDesign === "prism" && <PrismBanner />}
-        {activeDesign === "constellation" && <ConstellationBanner />}
-        {activeDesign === "hexagon" && <HexagonBanner />}
         {activeDesign === "flame" && <EternalFlameBanner />}
         {activeDesign === "tree" && <TreeBanner />}
         {activeDesign === "pendulum" && <PendulumBanner />}
         {activeDesign === "orrery" && <OrreryBanner />}
+        {activeDesign === "sealed-edict" && <SealedEdictBanner />}
       </div>
     </div>
   );
