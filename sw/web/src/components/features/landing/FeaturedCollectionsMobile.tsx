@@ -35,18 +35,23 @@ export default function FeaturedCollectionsMobile({
            <div className="flex gap-2">
              {tags.map((tag, idx) => {
                const isActive = activeTagIndex === idx;
+               const isUpcoming = !tag.is_featured;
                return (
                  <button
                    key={tag.id}
-                   onClick={() => setActiveTagIndex(idx)}
+                   onClick={() => !isUpcoming && setActiveTagIndex(idx)}
+                   disabled={isUpcoming}
                    className={cn(
                      "whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full transition-all",
                      isActive
                        ? "bg-accent text-bg-main font-bold shadow-lg shadow-accent/20"
-                       : "bg-white/5 text-text-tertiary border border-white/10"
+                       : isUpcoming
+                         ? "bg-white/5 text-text-tertiary/40 border border-white/5 opacity-50 cursor-not-allowed"
+                         : "bg-white/5 text-text-tertiary border border-white/10"
                    )}
                  >
                    {tag.name}
+                   {isUpcoming && <span className="ml-1 text-[10px]">Soon</span>}
                  </button>
                );
              })}

@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Orbit } from "lucide-react";
 
-export default function OrreryBanner() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function OrreryBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -201,12 +205,16 @@ export default function OrreryBanner() {
       
       <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center pointer-events-none">
          <div className="mt-[200px] flex flex-col items-center">
-            <h2 className="text-4xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-600 tracking-tight mix-blend-screen">
-               GRAND ORRERY
-            </h2>
-            <p className="text-white/40 tracking-[0.5em] text-xs mt-4 uppercase font-cinzel">
-               Center of Your World
-            </p>
+            {children ?? (
+              <>
+                <h2 className="text-4xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-600 tracking-tight mix-blend-screen">
+                   GRAND ORRERY
+                </h2>
+                <p className="text-white/40 tracking-[0.5em] text-xs mt-4 uppercase font-cinzel">
+                   Center of Your World
+                </p>
+              </>
+            )}
             <div className="mt-8 flex gap-2 items-center text-white/30 text-xs font-mono">
                <Orbit size={14} />
                <span>PLANETARY SYSTEM</span>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { FeaturedTag } from "@/actions/home";
+import type { ExhibitionLocation } from "./FeaturedCollections";
 import { EXPLORE_PRESETS } from "./constants";
 import CuratedExhibitionDesktop from "./CuratedExhibitionDesktop";
 import ExploreStackedRowDesktop from "./ExploreStackedRowDesktop";
@@ -10,6 +11,7 @@ interface FeaturedCollectionsDesktopProps {
   activeTagIndex: number;
   setActiveTagIndex: (index: number) => void;
   hideQuickBrowse?: boolean;
+  location?: Exclude<ExhibitionLocation, "explore-mb">;
 }
 
 export default function FeaturedCollectionsDesktop({
@@ -17,22 +19,24 @@ export default function FeaturedCollectionsDesktop({
   activeTagIndex,
   setActiveTagIndex,
   hideQuickBrowse = false,
+  location = "main",
 }: FeaturedCollectionsDesktopProps) {
 
   const activeTag = tags.length > 0 ? tags[activeTagIndex] : null;
+  const isExplore = location === "explore-pc";
 
   return (
-    <div className="w-full flex flex-col gap-8 md:gap-12">
+    <div className={`w-full flex flex-col ${isExplore ? "gap-10 md:gap-14 pt-4" : "gap-8 md:gap-12"}`}>
 
       {/* 1. Curated Exhibition (Top) */}
       <div className="w-full flex flex-col relative">
            {activeTag ? (
              <CuratedExhibitionDesktop
-               key={activeTag.id}
                activeTag={activeTag}
                tags={tags}
                activeIndex={activeTagIndex}
                onTagChange={setActiveTagIndex}
+               location={location}
              />
            ) : (
              <div className="w-full h-96 flex items-center justify-center border border-dashed border-border rounded-2xl bg-bg-card/30">

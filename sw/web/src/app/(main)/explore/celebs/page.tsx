@@ -29,7 +29,7 @@ function SectionSkeleton() {
 
 async function CelebsContent() {
   const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, featuredTags] = await Promise.all([
-    getCelebs({ page: 1, limit: 24, minContentCount: 1 }),
+    getCelebs({ page: 1, limit: 24, minContentCount: 1, sortBy: "content_count" }),
     getProfessionCounts(),
     getNationalityCounts(),
     getContentTypeCounts(),

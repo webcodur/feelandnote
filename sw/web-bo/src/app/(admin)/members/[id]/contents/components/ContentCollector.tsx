@@ -117,22 +117,25 @@ export default function ContentCollector({ celebId, celebName }: Props) {
       )}
 
       {/* Manual Search Modal */}
-      {searchModalIndex !== null && (
-        <ManualSearchModal
-          isOpen={searchModalOpen}
-          onClose={() => {
-            setSearchModalOpen(false)
-            setSearchModalIndex(null)
-          }}
-          onSelect={handleManualSearchSelect}
-          contentType={extractedItems[searchModalIndex]?.type || 'BOOK'}
-          initialQuery={
-            extractedItems[searchModalIndex]?.titleKo ||
-            extractedItems[searchModalIndex]?.title ||
-            ''
-          }
-        />
-      )}
+      {searchModalIndex !== null && (() => {
+        const item = extractedItems[searchModalIndex]
+        const title = item?.titleKo || item?.title || ''
+        const creator = item?.creator || ''
+        // BOOK만 "제목 - 저자" 형식
+        const query = item?.type === 'BOOK' && creator ? `${title} - ${creator}` : title
+        return (
+          <ManualSearchModal
+            isOpen={searchModalOpen}
+            onClose={() => {
+              setSearchModalOpen(false)
+              setSearchModalIndex(null)
+            }}
+            onSelect={handleManualSearchSelect}
+            contentType={item?.type || 'BOOK'}
+            initialQuery={query}
+          />
+        )
+      })()}
 
       {/* Image Popup Modal */}
       <ImagePopup url={imagePopupUrl} onClose={() => setImagePopupUrl(null)} />

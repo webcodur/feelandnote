@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Mail, Feather } from "lucide-react";
+import { useEffect, useRef, type ReactNode } from "react";
 
-export default function SealedEdictBanner() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function SealedEdictBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -162,23 +165,7 @@ export default function SealedEdictBanner() {
             
             drawLetter(l);
         });
-        
-        // Overlay Text
-        ctx.fillStyle = "rgba(212, 175, 55, 0.8)";
-        ctx.font = "bold 60px 'Cinzel'";
-        ctx.textAlign = "center";
-        ctx.shadowColor = "rgba(212, 175, 55, 0.5)";
-        ctx.shadowBlur = 20;
-        ctx.fillText("UNSEALED FATE", width/2, height/2);
-        ctx.shadowBlur = 0;
-        
-        ctx.font = "14px 'Roboto'";
-        ctx.fillStyle = "rgba(255,255,255,0.4)";
-        ctx.letterSpacing = "4px";
-        ctx.fillText("THE CHRONICLES AWAIT", width/2, height/2 + 40);
-        
-        // Fog/Cloud overlay?
-        
+
         animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -195,14 +182,13 @@ export default function SealedEdictBanner() {
   return (
     <div className="relative w-full h-[700px] overflow-hidden bg-[#050505]">
       <canvas ref={canvasRef} className="block" />
-      
-      {/* Overlay UI */}
-      <div className="absolute bottom-10 left-0 right-0 text-center pointer-events-none">
-        <div className="inline-flex items-center gap-2 text-[#d4af37]/50 text-xs tracking-[0.3em] uppercase">
-            <Mail size={14} />
-            <span>Sealed Edicts</span>
+
+      {/* Overlay Content */}
+      {children && (
+        <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center">
+          {children}
         </div>
-      </div>
+      )}
     </div>
   );
 }

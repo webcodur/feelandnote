@@ -73,7 +73,7 @@ export default function BottomNav() {
             href={href}
             active={isActive}
             icon={<item.icon size={20} />}
-            label={item.label}
+            label={item.mobileLabel ?? item.label}
           />
         );
       })}

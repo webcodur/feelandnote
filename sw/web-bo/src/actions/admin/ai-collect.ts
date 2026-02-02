@@ -2,7 +2,7 @@
 
 import { fetchUrlContent } from '@feelnnote/ai-services/url-fetcher'
 import { extractContentsFromText, type ExtractedContent } from '@feelnnote/ai-services/content-extractor'
-import { searchExternal, type ExternalSearchResult } from '@feelnnote/content-search/unified-search'
+import { searchExternal, type ExternalSearchResult, type SearchOptions } from '@feelnnote/content-search/unified-search'
 import type { ContentType } from '@feelnnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 import { createContentFromExternal } from './external-search'
@@ -132,7 +132,6 @@ export async function extractOnlyFromUrl(input: { url: string; celebName: string
   }
 
   // AI로 콘텐츠 추출
-  console.log(`[Extractor] Starting extraction... (key: ${apiKeyRecord.title})`)
   const extractResult = await extractContentsFromText(apiKeyRecord.api_key, fetchResult.text, input.celebName)
 
   // 사용 기록
@@ -148,7 +147,6 @@ export async function extractOnlyFromUrl(input: { url: string; celebName: string
     return { success: false, error: extractResult.error || '콘텐츠를 추출할 수 없습니다.' }
   }
 
-  console.log(`[Extractor] Found ${extractResult.items.length} items`)
   return { success: true, sourceUrl: input.url, extractedItems: extractResult.items }
 }
 
@@ -165,7 +163,6 @@ export async function extractOnlyFromText(input: { text: string; celebName: stri
   }
 
   // AI로 콘텐츠 추출
-  console.log(`[Extractor] Starting extraction... (key: ${apiKeyRecord.title})`)
   const extractResult = await extractContentsFromText(apiKeyRecord.api_key, input.text, input.celebName)
 
   // 사용 기록
@@ -181,7 +178,6 @@ export async function extractOnlyFromText(input: { text: string; celebName: stri
     return { success: false, error: extractResult.error || '콘텐츠를 추출할 수 없습니다.' }
   }
 
-  console.log(`[Extractor] Found ${extractResult.items.length} items`)
   return { success: true, extractedItems: extractResult.items }
 }
 // #endregion
@@ -200,28 +196,30 @@ export async function processExtractedItems(input: ProcessItemsInput): Promise<P
     return { success: true, items: [], processedCount: 0 }
   }
 
-  console.log(`[Search] Processing items ${input.startIndex + 1}~${input.startIndex + itemsToProcess.length} of ${input.extractedItems.length}`)
 
   const results: ExtractedContentWithSearch[] = []
 
   for (let i = 0; i < itemsToProcess.length; i++) {
     const extracted = itemsToProcess[i]
     const globalIndex = input.startIndex + i
-    const searchTitle = extracted.titleKo || extracted.title
-    console.log(`[Search ${globalIndex + 1}/${input.extractedItems.length}] "${searchTitle}"`)
+    const title = extracted.titleKo || extracted.title
+    // BOOK만 "제목 - 저자" 형식으로 검색 (구글 API가 더 정확하게 매칭)
+    const isBook = extracted.type === 'BOOK'
+    const searchQuery = isBook && extracted.creator ? `${title} - ${extracted.creator}` : title
 
     let searchResultsKo: SearchResultItem[] = []
     let searchResultsOriginal: SearchResultItem[] = []
 
     try {
-      // 한국어 제목으로 먼저 검색
-      const koResponse = await searchExternal(extracted.type, searchTitle, 1)
+      // 한국어 제목으로 먼저 검색 (BOOK만 구글 우선)
+      const koResponse = await searchExternal(extracted.type, searchQuery, 1, { preferGoogle: isBook })
       searchResultsKo = mapSearchResults(koResponse.items)
       console.log(`  → 검색(Ko): ${searchResultsKo.length}건`)
 
       // 한국어로 못 찾으면 원본으로 재검색
-      if (searchResultsKo.length === 0 && searchTitle !== extracted.title) {
-        const origResponse = await searchExternal(extracted.type, extracted.title, 1)
+      if (searchResultsKo.length === 0 && title !== extracted.title) {
+        const origQuery = isBook && extracted.creator ? `${extracted.title} - ${extracted.creator}` : extracted.title
+        const origResponse = await searchExternal(extracted.type, origQuery, 1, { preferGoogle: isBook })
         searchResultsOriginal = mapSearchResults(origResponse.items)
         console.log(`  → 검색(Orig): ${searchResultsOriginal.length}건`)
       }
@@ -243,7 +241,6 @@ export async function processExtractedItems(input: ProcessItemsInput): Promise<P
     }
   }
 
-  console.log(`[Search] Completed: ${results.length} items`)
   return { success: true, items: results, processedCount: results.length }
 }
 // #endregion

@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'pds.joongang.co.kr' },
       { protocol: 'https', hostname: '*.joongang.co.kr' },
+      { protocol: 'https', hostname: 'upload.wikimedia.org' },
     ],
   },
   async redirects() {

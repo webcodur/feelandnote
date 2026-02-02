@@ -11,6 +11,7 @@ export interface ScriptureContent {
   thumbnail_url: string | null
   type: string
   celeb_count: number
+  user_count: number
   avg_rating: number | null
 }
 
@@ -61,9 +62,10 @@ function aggregateContents(
     category?: CategoryId
     page?: number
     limit?: number
+    userCountMap?: Map<string, number>
   } = {}
 ): { contents: ScriptureContent[]; total: number } {
-  const { category, page = 1, limit = 12 } = options
+  const { category, page = 1, limit = 12, userCountMap } = options
 
   const contentMap = new Map<string, {
     content: ScriptureContent
@@ -88,6 +90,7 @@ function aggregateContents(
           thumbnail_url: content.thumbnail_url,
           type: content.type as CategoryId,
           celeb_count: 1,
+          user_count: userCountMap?.get(content.id) ?? 0,
           avg_rating: null
         },
         ratings: item.rating ? [Number(item.rating)] : []
@@ -109,6 +112,109 @@ function aggregateContents(
   const paginatedContents = allContents.slice(startIndex, startIndex + limit)
 
   return { contents: paginatedContents, total }
+}
+// #endregion
+
+// #region 헬퍼 함수 - 페이지네이션으로 모든 데이터 조회
+async function fetchAllUserContents(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  celebIds: string[],
+  category?: string
+) {
+  const PAGE_SIZE = 1000
+  const allData: Array<{
+    content_id: string
+    rating: number | null
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string }
+  }> = []
+
+  let from = 0
+  let hasMore = true
+
+  while (hasMore) {
+    let query = supabase
+      .from('user_contents')
+      .select(`
+        content_id,
+        rating,
+        contents!inner(id, title, creator, thumbnail_url, type)
+      `)
+      .in('user_id', celebIds)
+      .eq('status', 'FINISHED')
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (category) {
+      query = query.eq('contents.type', category)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      console.error('fetchAllUserContents error:', error)
+      break
+    }
+
+    const typedData = (data || []).map(item => ({
+      content_id: item.content_id,
+      rating: item.rating,
+      contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
+    }))
+
+    allData.push(...typedData)
+
+    hasMore = data?.length === PAGE_SIZE
+    from += PAGE_SIZE
+  }
+
+  return allData
+}
+
+// 일반 사용자(USER)의 content_id별 카운트 조회
+async function fetchUserContentCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  category?: string
+): Promise<Map<string, number>> {
+  const PAGE_SIZE = 1000
+  const countMap = new Map<string, number>()
+
+  // USER 프로필 ID 목록 조회
+  const { data: userProfiles } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('profile_type', 'USER')
+
+  if (!userProfiles?.length) return countMap
+
+  const userIds = userProfiles.map(p => p.id)
+  let from = 0
+  let hasMore = true
+
+  while (hasMore) {
+    let query = supabase
+      .from('user_contents')
+      .select('content_id, contents!inner(type)')
+      .in('user_id', userIds)
+      .eq('status', 'FINISHED')
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (category) {
+      query = query.eq('contents.type', category)
+    }
+
+    const { data, error } = await query
+
+    if (error || !data?.length) break
+
+    for (const item of data) {
+      const count = countMap.get(item.content_id) || 0
+      countMap.set(item.content_id, count + 1)
+    }
+
+    hasMore = data.length === PAGE_SIZE
+    from += PAGE_SIZE
+  }
+
+  return countMap
 }
 // #endregion
 
@@ -136,39 +242,17 @@ export async function getChosenScriptures(params?: {
   const celebIds = celebProfiles.map(p => p.id)
   const category = params?.category
 
-  // 2. 해당 셀럽들의 콘텐츠 조회
-  // 카테고리 필터가 있으면 DB에서 직접 필터링 (1000개 limit 문제 해결)
-  let query = supabase
-    .from('user_contents')
-    .select(`
-      content_id,
-      rating,
-      contents!inner(id, title, creator, thumbnail_url, type)
-    `)
-    .in('user_id', celebIds)
-    .eq('status', 'FINISHED')
+  // 2. 해당 셀럽들의 콘텐츠 조회 (페이지네이션으로 모든 데이터 가져오기)
+  const typedData = await fetchAllUserContents(supabase, celebIds, category)
 
-  if (category) {
-    query = query.eq('contents.type', category)
-  }
-
-  const { data, error } = await query.limit(5000)
-
-  if (error) {
-    console.error('getChosenScriptures error:', error)
-    return { contents: [], total: 0, totalPages: 0, currentPage: page }
-  }
-
-  const typedData = (data || []).map(item => ({
-    content_id: item.content_id,
-    rating: item.rating,
-    contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
-  }))
+  // 3. 일반 사용자(USER) 콘텐츠 카운트 조회
+  const userCountMap = await fetchUserContentCounts(supabase, category)
 
   // aggregateContents에서 카테고리 필터는 이미 DB에서 적용됨
   const { contents, total } = aggregateContents(typedData, {
     page,
-    limit
+    limit,
+    userCountMap
   })
 
   return {
@@ -202,30 +286,13 @@ export async function getScripturesByProfession(params?: {
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  // 해당 셀럽들의 콘텐츠 조회
-  const { data, error } = await supabase
-    .from('user_contents')
-    .select(`
-      content_id,
-      rating,
-      contents(id, title, creator, thumbnail_url, type)
-    `)
-    .in('user_id', celebIds)
-    .eq('status', 'FINISHED')
-    .limit(5000)
+  // 해당 셀럽들의 콘텐츠 조회 (페이지네이션으로 모든 데이터 가져오기)
+  const typedData = await fetchAllUserContents(supabase, celebIds)
 
-  if (error) {
-    console.error(`getScripturesByProfession error for ${profession}:`, error)
-    return null
-  }
+  // 일반 사용자(USER) 콘텐츠 카운트 조회
+  const userCountMap = await fetchUserContentCounts(supabase)
 
-  const typedData = (data || []).map(item => ({
-    content_id: item.content_id,
-    rating: item.rating,
-    contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
-  }))
-
-  const { contents, total } = aggregateContents(typedData, { page, limit })
+  const { contents, total } = aggregateContents(typedData, { page, limit, userCountMap })
   const professionInfo = PROFESSION_MAP.find(p => p.key === profession)
 
   return {
@@ -297,21 +364,33 @@ export async function getTodaySage(): Promise<TodaySageResult> {
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  // 2. 해당 셀럽들의 콘텐츠 개수 집계
-  const { data: celebCounts, error: countError } = await supabase
-    .from('user_contents')
-    .select('user_id')
-    .in('user_id', celebIds)
-    .eq('status', 'FINISHED')
-    .limit(5000)
+  // 2. 해당 셀럽들의 콘텐츠 개수 집계 (페이지네이션으로 모든 데이터 가져오기)
+  const PAGE_SIZE = 1000
+  const celebCountsData: { user_id: string }[] = []
+  let from = 0
+  let hasMore = true
 
-  if (countError || !celebCounts?.length) {
+  while (hasMore) {
+    const { data, error } = await supabase
+      .from('user_contents')
+      .select('user_id')
+      .in('user_id', celebIds)
+      .eq('status', 'FINISHED')
+      .range(from, from + PAGE_SIZE - 1)
+
+    if (error || !data?.length) break
+    celebCountsData.push(...data)
+    hasMore = data.length === PAGE_SIZE
+    from += PAGE_SIZE
+  }
+
+  if (!celebCountsData.length) {
     return { sage: null, contents: [] }
   }
 
   // 셀럽별 콘텐츠 개수 집계
   const countMap = new Map<string, number>()
-  for (const item of celebCounts) {
+  for (const item of celebCountsData) {
     const count = countMap.get(item.user_id) || 0
     countMap.set(item.user_id, count + 1)
   }
@@ -349,6 +428,9 @@ export async function getTodaySage(): Promise<TodaySageResult> {
     .eq('user_id', selected.id)
     .eq('status', 'FINISHED')
 
+  // 5. 일반 사용자(USER) 콘텐츠 카운트 조회
+  const userCountMap = await fetchUserContentCounts(supabase)
+
   const contents: ScriptureContent[] = (userContents || []).map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
     return {
@@ -358,6 +440,7 @@ export async function getTodaySage(): Promise<TodaySageResult> {
       thumbnail_url: content?.thumbnail_url || null,
       type: (content?.type as CategoryId) || 'BOOK',
       celeb_count: 1,
+      user_count: userCountMap.get(content?.id || '') ?? 0,
       avg_rating: item.rating ? Number(item.rating) : null
     }
   }).filter(c => c.id)
@@ -434,7 +517,10 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
     }
   }
 
-  // 3. 각 시대별 콘텐츠 조회
+  // 3. 일반 사용자(USER) 콘텐츠 카운트 조회 (한 번만)
+  const userCountMap = await fetchUserContentCounts(supabase)
+
+  // 4. 각 시대별 콘텐츠 조회
   const results: EraScriptures[] = []
 
   for (const [era, config] of Object.entries(ERA_CONFIG) as [Era, typeof ERA_CONFIG[Era]][]) {
@@ -444,20 +530,10 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
       continue
     }
 
-    const { data } = await supabase
-      .from('user_contents')
-      .select('content_id, rating, contents(id, title, creator, thumbnail_url, type)')
-      .in('user_id', celebIds)
-      .eq('status', 'FINISHED')
-      .limit(5000)
+    // 페이지네이션으로 모든 데이터 가져오기
+    const typedData = await fetchAllUserContents(supabase, celebIds)
 
-    const typedData = (data || []).map(item => ({
-      content_id: item.content_id,
-      rating: item.rating,
-      contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
-    }))
-
-    const { contents } = aggregateContents(typedData, { limit: 6 })
+    const { contents } = aggregateContents(typedData, { limit: 6, userCountMap })
     results.push({ era, label: config.label, period: config.period, contents, celebCount: celebIds.length })
   }
 

@@ -513,11 +513,11 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
             e.preventDefault()
             toggleCollapseAll()
             break
-          case 'c': // 제목 - 저자 번역본 복사
+          case 'c': // 제목 - 저자 복사
             e.preventDefault()
             if (!excludedIndices.has(activeIndex)) {
               const item = extractedItems[activeIndex]
-              const text = `${item.title} - ${item.creator || ''} 번역본`
+              const text = item.creator ? `${item.title} - ${item.creator}` : item.title
               navigator.clipboard.writeText(text)
             }
             break

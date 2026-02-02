@@ -5,12 +5,15 @@ import type { FeaturedTag } from "@/actions/home";
 import FeaturedCollectionsDesktop from "./FeaturedCollectionsDesktop";
 import FeaturedCollectionsMobile from "./FeaturedCollectionsMobile";
 
+export type ExhibitionLocation = "main" | "explore-pc" | "explore-mb";
+
 interface FeaturedCollectionsProps {
   tags: FeaturedTag[];
   hideQuickBrowse?: boolean;
+  location?: ExhibitionLocation;
 }
 
-export default function FeaturedCollections({ tags, hideQuickBrowse = false }: FeaturedCollectionsProps) {
+export default function FeaturedCollections({ tags, hideQuickBrowse = false, location = "main" }: FeaturedCollectionsProps) {
   const [activeTagIndex, setActiveTagIndex] = useState(0);
 
   return (
@@ -32,6 +35,7 @@ export default function FeaturedCollections({ tags, hideQuickBrowse = false }: F
           activeTagIndex={activeTagIndex}
           setActiveTagIndex={setActiveTagIndex}
           hideQuickBrowse={hideQuickBrowse}
+          location={location === "explore-mb" ? "main" : location}
         />
       </div>
     </div>

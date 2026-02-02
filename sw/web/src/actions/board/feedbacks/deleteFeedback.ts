@@ -40,7 +40,7 @@ export async function deleteFeedback(id: string): Promise<ActionResult<null>> {
     return handleSupabaseError(error, { logPrefix: '[피드백 삭제]' })
   }
 
-  revalidatePath('/lounge/board/feedback')
+  revalidatePath('/agora/board/feedback')
 
   return success(null)
 }

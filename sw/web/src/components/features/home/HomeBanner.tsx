@@ -32,7 +32,7 @@ export default function HomeBanner() {
   };
 
   return (
-    <section className="relative h-[85vh] min-h-[600px] flex flex-col items-center justify-center overflow-hidden bg-bg-main selection:bg-accent/30">
+    <section className="relative h-[85vh] min-h-[480px] md:min-h-[600px] flex flex-col items-center justify-center overflow-hidden bg-bg-main selection:bg-accent/30">
       
       {/* --- Background Layers --- */}
       
@@ -64,12 +64,12 @@ export default function HomeBanner() {
       </div>
 
       {/* --- Main Content --- */}
-      <div className="relative z-20 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
+      <div className="relative z-20 flex flex-col items-center text-center px-3 md:px-4 w-full max-w-4xl mx-auto">
 
         {/* Tagline */}
         <span
           className={cn(
-            "font-cormorant text-accent/80 tracking-[0.3em] text-xs md:text-sm uppercase mb-6 md:mb-8 opacity-0 translate-y-4 transition-all duration-700",
+            "font-cormorant text-accent/80 tracking-[0.2em] md:tracking-[0.3em] text-[11px] md:text-sm uppercase mb-4 md:mb-8 opacity-0 translate-y-4 transition-all duration-700",
             mounted && "opacity-100 translate-y-0"
           )}
         >
@@ -91,64 +91,68 @@ export default function HomeBanner() {
         </div>
 
         {/* Divider */}
-        <div className={cn("my-6 md:my-10 opacity-0 transition-opacity duration-1000 delay-300", mounted && "opacity-100")}>
-          <div className="flex items-center gap-4">
-            <div className="h-[1px] w-16 md:w-32 bg-gradient-to-r from-transparent to-accent/40" />
-            <div className="w-1.5 h-1.5 rotate-45 bg-accent/50" />
-            <div className="h-[1px] w-16 md:w-32 bg-gradient-to-l from-transparent to-accent/40" />
+        <div className={cn("my-4 md:my-10 opacity-0 transition-opacity duration-1000 delay-300", mounted && "opacity-100")}>
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="h-[1px] w-12 md:w-32 bg-gradient-to-r from-transparent to-accent/40" />
+            <div className="w-1 h-1 md:w-1.5 md:h-1.5 rotate-45 bg-accent/50" />
+            <div className="h-[1px] w-12 md:w-32 bg-gradient-to-l from-transparent to-accent/40" />
           </div>
         </div>
 
         {/* Description */}
         <p
           className={cn(
-            "text-text-secondary text-sm md:text-lg leading-relaxed max-w-xl opacity-0 translate-y-4 transition-all duration-700 delay-400",
+            "text-text-secondary text-sm md:text-lg leading-relaxed max-w-xl opacity-0 translate-y-4 transition-all duration-700 delay-500",
             mounted && "opacity-100 translate-y-0"
           )}
         >
-          <span className="block font-medium text-text-primary/90 mb-2 md:mb-3 text-base md:text-xl">
+          <span className="block font-medium text-text-primary/90 mb-1.5 md:mb-3 text-base md:text-xl">
             느끼고, 기록하라
           </span>
-          책, 영화, 음악, 게임... 모든 경험을 남기고<br className="hidden sm:block" />
+          책, 영화, 음악, 게임... 모든 경험을 남기고<br />
           영감의 흔적을 쌓아가세요.
         </p>
 
         {/* Navigation Menu */}
-        <div 
+        <div
           className={cn(
-            "mt-12 md:mt-16 flex flex-wrap justify-center gap-3 md:gap-6 opacity-0 transition-all duration-1000 delay-700",
+            "mt-8 md:mt-16 mb-12 md:mb-20 w-full opacity-0 transition-all duration-1000 delay-700",
             mounted && "opacity-100"
           )}
         >
-          {SECTION_NAV.map((item) => (
-            <button
-              key={item.targetId}
-              onClick={() => scrollToSection(item.targetId)}
-              className="group relative flex flex-col items-center gap-2 p-3 md:p-4 rounded-xl hover:bg-white/5 transition-all duration-300"
-            >
-              <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent/60 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all bg-bg-card/50 backdrop-blur-sm">
-                <item.icon size={20} className="text-text-secondary group-hover:text-accent transition-colors" />
-              </div>
-              <div className="text-center">
-                <span className="block text-xs md:text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
-                  {item.label}
-                </span>
-                <span className="block text-[10px] text-white/20 font-cinzel tracking-wider group-hover:text-accent/50 transition-colors">
-                  {item.sub}
-                </span>
-              </div>
-            </button>
-          ))}
+          <div className="flex flex-wrap justify-center gap-1 md:gap-4">
+            {SECTION_NAV.map((item) => (
+              <button
+                key={item.targetId}
+                onClick={() => scrollToSection(item.targetId)}
+                className="group relative flex flex-col items-center gap-1.5 md:gap-2 p-2 md:p-4 rounded-xl hover:bg-white/5 transition-all duration-300 w-[4.25rem] md:w-20"
+              >
+                <div className="relative w-9 h-9 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent/60 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all bg-bg-card/50 backdrop-blur-sm">
+                  <item.icon size={18} className="md:hidden text-text-secondary group-hover:text-accent transition-colors" />
+                  <item.icon size={20} className="hidden md:block text-text-secondary group-hover:text-accent transition-colors" />
+                </div>
+                <div className="text-center h-8 md:h-10 flex flex-col justify-start">
+                  <span className="block text-[11px] md:text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                    {item.label}
+                  </span>
+                  <span className="hidden md:block text-[10px] text-white/20 font-cinzel tracking-wider group-hover:text-accent/50 transition-colors leading-tight">
+                    {item.sub}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Scroll Down Indicator (Replaced Component) */}
-      <button 
+      {/* Scroll Down Indicator */}
+      <button
         onClick={() => scrollToSection("explore-section")}
-        className="absolute bottom-10 z-20 animate-bounce text-text-secondary hover:text-accent transition-colors cursor-pointer"
+        className="absolute bottom-6 md:bottom-10 z-20 animate-bounce text-text-secondary hover:text-accent transition-colors cursor-pointer"
         aria-label="Scroll to content"
       >
-        <ChevronDown size={32} strokeWidth={1.5} />
+        <ChevronDown size={28} className="md:hidden" strokeWidth={1.5} />
+        <ChevronDown size={32} className="hidden md:block" strokeWidth={1.5} />
       </button>
 
       {/* Subtle bottom gradient to blend with next section */}

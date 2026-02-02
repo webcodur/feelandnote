@@ -22,40 +22,63 @@ export type ExternalSearchResult =
 
 // 도서 검색 결과 병합 (ISBN 기준 중복 제거)
 function mergeBookResults(
-  naverItems: BookSearchResult[],
-  googleItems: GoogleBookSearchResult[]
+  primaryItems: UnifiedBookSearchResult[],
+  secondaryItems: UnifiedBookSearchResult[]
 ): UnifiedBookSearchResult[] {
-  const isbnSet = new Set(naverItems.map(item => item.metadata.isbn).filter(Boolean))
-  const uniqueGoogleItems = googleItems.filter(
+  const isbnSet = new Set(primaryItems.map(item => item.metadata.isbn).filter(Boolean))
+  const uniqueSecondaryItems = secondaryItems.filter(
     item => item.metadata.isbn && !isbnSet.has(item.metadata.isbn)
   )
-  return [...naverItems, ...uniqueGoogleItems]
+  return [...primaryItems, ...uniqueSecondaryItems]
+}
+
+// 도서 검색 (네이버 우선 - 사용자용)
+async function searchBooksNaverFirst(query: string, page: number): Promise<SearchResponse<ExternalSearchResult>> {
+  const naverResult = await searchNaverBooks(query, page)
+
+  if (naverResult.items.length >= 10) {
+    return {
+      items: naverResult.items,
+      total: naverResult.total,
+      hasMore: naverResult.hasMore,
+    }
+  }
+
+  const googleResult = await searchGoogleBooks(query, page)
+  const mergedItems = mergeBookResults(naverResult.items, googleResult.items)
+
+  return {
+    items: mergedItems,
+    total: Math.max(naverResult.total, googleResult.total),
+    hasMore: naverResult.hasMore || googleResult.hasMore,
+  }
+}
+
+// 도서 검색 (구글 우선 - 관리자용)
+async function searchBooksGoogleFirst(query: string, page: number): Promise<SearchResponse<ExternalSearchResult>> {
+  const googleResult = await searchGoogleBooks(query, page)
+
+  if (googleResult.items.length >= 10) {
+    return {
+      items: googleResult.items,
+      total: googleResult.total,
+      hasMore: googleResult.hasMore,
+    }
+  }
+
+  const naverResult = await searchNaverBooks(query, page)
+  const mergedItems = mergeBookResults(googleResult.items, naverResult.items)
+
+  return {
+    items: mergedItems,
+    total: Math.max(googleResult.total, naverResult.total),
+    hasMore: googleResult.hasMore || naverResult.hasMore,
+  }
 }
 
 // 콘텐츠 타입별 검색 함수 매핑
 const searchFunctions: Record<ContentType, (query: string, page?: number) => Promise<SearchResponse<ExternalSearchResult>>> = {
-  BOOK: async (query, page = 1) => {
-    const naverResult = await searchNaverBooks(query, page)
-
-    // 네이버 결과가 충분하면 그대로 반환
-    if (naverResult.items.length >= 10) {
-      return {
-        items: naverResult.items,
-        total: naverResult.total,
-        hasMore: naverResult.hasMore,
-      }
-    }
-
-    // 부족하면 Google Books로 보충
-    const googleResult = await searchGoogleBooks(query, page)
-    const mergedItems = mergeBookResults(naverResult.items, googleResult.items)
-
-    return {
-      items: mergedItems,
-      total: Math.max(naverResult.total, googleResult.total),
-      hasMore: naverResult.hasMore || googleResult.hasMore,
-    }
-  },
+  BOOK: (query, page = 1) => searchBooksNaverFirst(query, page),
   VIDEO: async (query, page = 1) => {
     const result = await searchVideo(query, page)
     return {
@@ -90,12 +113,24 @@ const searchFunctions: Record<ContentType, (query: string, page?: number) => Pro
   },
 }
 
+export interface SearchOptions {
+  preferGoogle?: boolean // 도서 검색 시 구글 우선 (관리자용)
+}
+
 // 통합 검색 함수
 export async function searchExternal(
   contentType: ContentType,
   query: string,
-  page: number = 1
+  page: number = 1,
+  options: SearchOptions = {}
 ): Promise<SearchResponse<ExternalSearchResult>> {
+  // 도서 검색은 옵션에 따라 분기
+  if (contentType === 'BOOK') {
+    return options.preferGoogle
+      ? searchBooksGoogleFirst(query, page)
+      : searchBooksNaverFirst(query, page)
+  }
+
   const searchFn = searchFunctions[contentType]
   if (!searchFn) {
     throw new Error(`지원하지 않는 콘텐츠 타입: ${contentType}`)

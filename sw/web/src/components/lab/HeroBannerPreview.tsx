@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail } from "lucide-react";
+import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail, Shapes, Shell, Share2, Anchor, ScrollText } from "lucide-react";
 import AstrolabeBanner from "./AstrolabeBanner";
 import ArchiveTunnelBanner from "./ArchiveTunnelBanner";
 import LyreBanner from "./LyreBanner";
@@ -13,9 +13,25 @@ import TreeBanner from "./TreeBanner";
 import PendulumBanner from "./PendulumBanner";
 import OrreryBanner from "./OrreryBanner";
 import SealedEdictBanner from "./SealedEdictBanner";
+import SacredGeometryBanner from "./SacredGeometryBanner";
+import GoldenSpiralBanner from "./GoldenSpiralBanner";
+import MessageBottlesBanner from "./MessageBottlesBanner";
+import ParchmentScrollBanner from "./ParchmentScrollBanner";
+
+// 공통 데모 오버레이
+const demoOverlay = (
+  <>
+    <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center">
+      지혜의 서고
+    </h2>
+    <p className="text-[#d4af37] tracking-[0.2em] sm:tracking-[0.4em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+      Scripture of Wisdom
+    </p>
+  </>
+);
 
 export default function HeroBannerPreview() {
-  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict">("sealed-edict");
+  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict" | "sacred-geometry" | "golden-spiral" | "message-bottles" | "parchment-scroll">("parchment-scroll");
 
   return (
     <div className="w-full flex flex-col gap-8">
@@ -145,19 +161,69 @@ export default function HeroBannerPreview() {
           <Mail size={14} />
           Idea 11: Sealed Edict
         </button>
+        <button
+          onClick={() => setActiveDesign("sacred-geometry")}
+          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
+            activeDesign === "sacred-geometry"
+              ? "bg-accent text-bg-main border-accent font-bold"
+              : "border-white/20 text-text-secondary hover:border-accent/50"
+          }`}
+        >
+          <Shapes size={14} />
+          Idea 12: Sacred Geometry
+        </button>
+        <button
+          onClick={() => setActiveDesign("golden-spiral")}
+          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
+            activeDesign === "golden-spiral"
+              ? "bg-accent text-bg-main border-accent font-bold"
+              : "border-white/20 text-text-secondary hover:border-accent/50"
+          }`}
+        >
+          <Shell size={14} />
+          Idea 13: Golden Spiral
+        </button>
+        <button
+          onClick={() => setActiveDesign("message-bottles")}
+          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
+            activeDesign === "message-bottles"
+              ? "bg-accent text-bg-main border-accent font-bold"
+              : "border-white/20 text-text-secondary hover:border-accent/50"
+          }`}
+        >
+          <Anchor size={14} />
+          Idea 14: Message Bottles
+        </button>
+        <button
+          onClick={() => setActiveDesign("parchment-scroll")}
+          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
+            activeDesign === "parchment-scroll"
+              ? "bg-accent text-bg-main border-accent font-bold"
+              : "border-white/20 text-text-secondary hover:border-accent/50"
+          }`}
+        >
+          <ScrollText size={14} />
+          Idea 15: Parchment Scroll
+        </button>
       </div>
 
       {/* Preview Area */}
       <div className="w-full border border-stone-800 rounded-lg overflow-hidden bg-bg-main relative min-h-[700px]">
-        {activeDesign === "astrolabe" && <AstrolabeBanner />}
-        {activeDesign === "tunnel" && <ArchiveTunnelBanner />}
-        {activeDesign === "lyre" && <LyreBanner />}
-        {activeDesign === "prism" && <PrismBanner />}
-        {activeDesign === "flame" && <EternalFlameBanner />}
-        {activeDesign === "tree" && <TreeBanner />}
-        {activeDesign === "pendulum" && <PendulumBanner />}
-        {activeDesign === "orrery" && <OrreryBanner />}
-        {activeDesign === "sealed-edict" && <SealedEdictBanner />}
+        {activeDesign === "astrolabe" && <AstrolabeBanner>{demoOverlay}</AstrolabeBanner>}
+        {activeDesign === "tunnel" && <ArchiveTunnelBanner>{demoOverlay}</ArchiveTunnelBanner>}
+        {activeDesign === "lyre" && <LyreBanner>{demoOverlay}</LyreBanner>}
+        {activeDesign === "prism" && <PrismBanner>{demoOverlay}</PrismBanner>}
+        {activeDesign === "constellation" && <ConstellationBanner>{demoOverlay}</ConstellationBanner>}
+        {activeDesign === "hexagon" && <HexagonBanner>{demoOverlay}</HexagonBanner>}
+        {activeDesign === "flame" && <EternalFlameBanner>{demoOverlay}</EternalFlameBanner>}
+        {activeDesign === "tree" && <TreeBanner>{demoOverlay}</TreeBanner>}
+        {activeDesign === "pendulum" && <PendulumBanner>{demoOverlay}</PendulumBanner>}
+        {activeDesign === "orrery" && <OrreryBanner>{demoOverlay}</OrreryBanner>}
+        {activeDesign === "sealed-edict" && <SealedEdictBanner>{demoOverlay}</SealedEdictBanner>}
+        {activeDesign === "sacred-geometry" && <SacredGeometryBanner>{demoOverlay}</SacredGeometryBanner>}
+        {activeDesign === "golden-spiral" && <GoldenSpiralBanner>{demoOverlay}</GoldenSpiralBanner>}
+        {activeDesign === "message-bottles" && <MessageBottlesBanner>{demoOverlay}</MessageBottlesBanner>}
+        {activeDesign === "parchment-scroll" && <ParchmentScrollBanner>{demoOverlay}</ParchmentScrollBanner>}
       </div>
     </div>
   );

@@ -1,20 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Layers } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
 
 interface ArchiveTunnelBannerProps {
   height?: number;
   compact?: boolean;
-  title?: string;
-  subtitle?: string;
+  children?: ReactNode;
 }
 
 export default function ArchiveTunnelBanner({
   height = 700,
   compact = false,
-  title = "ARCHIVE TUNNEL",
-  subtitle = "INFINITE KNOWLEDGE BASE"
+  children
 }: ArchiveTunnelBannerProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -132,14 +129,11 @@ export default function ArchiveTunnelBanner({
       </div>
 
       {/* Overlay Text */}
-      <div className="absolute inset-0 z-50 pointer-events-none flex flex-col items-center justify-center px-4">
-         <h2 className={`font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center ${compact ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-7xl"}`}>
-            {title}
-         </h2>
-         <p className={`text-[#d4af37] tracking-[0.2em] sm:tracking-[0.5em] uppercase font-cinzel text-center ${compact ? "text-[10px] mt-2" : "text-[10px] sm:text-xs mt-3 sm:mt-4"}`}>
-            {subtitle}
-         </p>
-      </div>
+      {children && (
+        <div className="absolute inset-0 z-50 pointer-events-none flex flex-col items-center justify-center px-4">
+          {children}
+        </div>
+      )}
 
     </div>
   );

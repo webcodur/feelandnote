@@ -22,7 +22,12 @@ export default function EraSection({ initialData }: Props) {
         <Clock size={20} className="text-accent" />
         <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">세대의 경전</h2>
       </div>
-      <p className="text-sm text-text-secondary mb-6">시대별 인물들의 선택</p>
+      <div className="mb-6">
+        <p className="text-sm text-text-secondary">시대별 인물들의 선택</p>
+        <p className="text-xs text-text-tertiary mt-2 ps-3 border-s-2 border-accent/30 italic">
+          그 시대를 움직인 생각들, 지금 만나보세요.
+        </p>
+      </div>
 
       {initialData.length > 0 ? (
         <div className="space-y-8">
@@ -45,6 +50,7 @@ export default function EraSection({ initialData }: Props) {
                       thumbnail={content.thumbnail_url}
                       type={content.type}
                       celebCount={content.celeb_count}
+                      userCount={content.user_count}
                       avgRating={content.avg_rating}
                       rank={index + 1}
                     />

@@ -8,20 +8,25 @@ import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
 import ScripturesTabs from "@/components/features/scriptures/ScripturesTabs";
 import TreeBanner from "@/components/lab/TreeBanner";
+import { PAGE_BANNER } from "@/constants/navigation";
 
 interface Props {
   children: ReactNode;
 }
 
 export default function ScripturesLayout({ children }: Props) {
+  const { title, englishTitle } = PAGE_BANNER.scriptures;
+
   return (
     <>
-      <TreeBanner
-        height={350}
-        compact
-        title="지혜의 서고"
-        subtitle="Sacred Archives"
-      />
+      <TreeBanner compact>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center">
+          {title}
+        </h1>
+        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+          {englishTitle}
+        </p>
+      </TreeBanner>
       <PageContainer>
         <ScripturesTabs />
         {children}

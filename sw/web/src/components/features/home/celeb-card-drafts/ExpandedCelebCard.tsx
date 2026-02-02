@@ -1,14 +1,13 @@
 /*
-  셀럽 카드 (재질 프레임 적용)
-  - MaterialFrame 컴포넌트 사용 (FramePreview 기반)
-  - 호버 전: 채도 절반, 호버 시: 풀 채색 + LP 애니메이션
+  셀럽 카드 (통일 프레임)
+  - MaterialFrame 컴포넌트 사용 (obsidian 고정)
+  - 호버 전: 채도 절반, 호버 시: 풀 채색
 */
 "use client";
 
 import { useState } from "react";
 import type { CelebProfile } from "@/types/home";
 import MaterialFrame from "@/components/ui/MaterialFrame";
-import { getMaterialKeyByPercentile, getMaterialKeyByScore } from "@/constants/materials";
 import CelebDetailModal from "./CelebDetailModal";
 
 interface ExpandedCelebCardProps {
@@ -18,10 +17,8 @@ interface ExpandedCelebCardProps {
 
 export default function ExpandedCelebCard({ celeb, className = "" }: ExpandedCelebCardProps) {
   const [showModal, setShowModal] = useState(false);
-  // 오라 시스템: score 기반으로 재질 결정 (SSOT: materials.ts/getMaterialKeyByScore)
-  const materialKey = celeb.influence?.total_score != null
-    ? getMaterialKeyByScore(celeb.influence.total_score)
-    : "wood";
+  // 프레임 색상 통일 (obsidian - 흑요석)
+  const materialKey = "obsidian" as const;
 
   return (
     <>

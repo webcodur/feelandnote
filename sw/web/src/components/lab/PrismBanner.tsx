@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Eye } from "lucide-react";
 
 interface PrismBannerProps {
+  children?: ReactNode;
   height?: number;
   compact?: boolean;
   title?: string;
@@ -11,6 +12,7 @@ interface PrismBannerProps {
 }
 
 export default function PrismBanner({
+  children,
   height = 700,
   compact = false,
   title = "PRISM OF INSIGHT",
@@ -139,12 +141,16 @@ export default function PrismBanner({
 
       {/* 3. Text Content */}
       <div className="absolute inset-0 z-50 pointer-events-none flex flex-col items-center justify-center isolate px-4">
-         <h2 className={`font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center ${compact ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-7xl"}`}>
-            {title}
-         </h2>
-         <p className={`text-[#d4af37] tracking-[0.2em] sm:tracking-[0.5em] uppercase font-cinzel text-center ${compact ? "text-[10px] mt-2" : "text-[10px] sm:text-xs mt-3 sm:mt-4"}`}>
-            {subtitle}
-         </p>
+         {children ?? (
+           <>
+             <h2 className={`font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center ${compact ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-7xl"}`}>
+                {title}
+             </h2>
+             <p className={`text-[#d4af37] tracking-[0.2em] sm:tracking-[0.5em] uppercase font-cinzel text-center ${compact ? "text-[10px] mt-2" : "text-[10px] sm:text-xs mt-3 sm:mt-4"}`}>
+                {subtitle}
+             </p>
+           </>
+         )}
       </div>
     </div>
   );

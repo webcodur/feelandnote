@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Star, Compass, MousePointer2 } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
 
-export default function AstrolabeBanner() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function AstrolabeBanner({ children }: Props) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -88,30 +91,15 @@ export default function AstrolabeBanner() {
         {/* Inner Gear: The Core Mechanism - Fast Spin on Hover */}
         <div className="absolute w-[40%] h-[40%] rounded-full border border-[#d4af37] bg-black/80 flex items-center justify-center group">
            <div className="absolute inset-0 rounded-full border-4 border-dashed border-[#d4af37]/30 animate-[spin_20s_linear_infinite]" />
-           
-           <div className="text-center relative z-20 mix-blend-screen">
-              <div className="text-[#d4af37] text-xs font-cinzel tracking-[0.5em] mb-2 animate-pulse">SYSTEM ONLINE</div>
-              <Compass size={48} className="mx-auto text-[#d4af37] animate-float" strokeWidth={1} />
-           </div>
         </div>
       </div>
 
       {/* 3. Foreground Overlay Content (Static, unconnected to rotation) */}
-      <div className="absolute z-20 text-center pointer-events-none">
-        <h1 className="text-6xl md:text-8xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-[#fff] to-[#666] drop-shadow-[0_10px_30px_rgba(0,0,0,1)] tracking-tighter mix-blend-overlay">
-           ARCHITECT <br/>
-           <span className="text-[#d4af37]">OF FATE</span>
-        </h1>
-        <p className="mt-6 text-sm md:text-base font-cinzel text-[#d4af37]/80 tracking-[0.3em] uppercase drop-shadow-md">
-           Navigate the constellations of human history
-        </p>
-
-        {/* Interactive Prompt */}
-        <div className="mt-12 flex items-center justify-center gap-2 text-xs text-stone-500 font-mono animate-bounce">
-           <MousePointer2 size={12} />
-           <span>MOVE CURSOR TO ALIGN THE SPHERES</span>
+      {children && (
+        <div className="absolute z-20 text-center pointer-events-none flex flex-col items-center justify-center">
+          {children}
         </div>
-      </div>
+      )}
 
        {/* 4. Vignette & Grain */}
        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_30%,black_100%)]" />

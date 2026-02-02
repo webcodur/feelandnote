@@ -68,7 +68,6 @@ export async function searchGoogleBooks(
     maxResults: String(maxResults),
     startIndex: String(startIndex),
     printType: 'books',
-    langRestrict: 'en',
   })
 
   if (GOOGLE_BOOKS_API_KEY) {

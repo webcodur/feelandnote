@@ -46,7 +46,12 @@ export default function SageSection({ initialData }: Props) {
         <User size={20} className="text-accent" />
         <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">오늘의 인물</h2>
       </div>
-      <p className="text-sm text-text-secondary mb-6">매일 새로운 인물의 서재를 탐방하세요</p>
+      <div className="mb-6">
+        <p className="text-sm text-text-secondary">매일 새로운 인물의 서재를 탐방하세요</p>
+        <p className="text-xs text-text-tertiary mt-2 ps-3 border-s-2 border-accent/30 italic">
+          한 인물의 독서 여정을 따라가 보세요. 그의 생각이 보이기 시작합니다.
+        </p>
+      </div>
 
       {sage ? (
         <>
@@ -93,6 +98,7 @@ export default function SageSection({ initialData }: Props) {
                   thumbnail={content.thumbnail_url}
                   type={content.type}
                   celebCount={1}
+                  userCount={content.user_count}
                   avgRating={content.avg_rating}
                 />
               ))}

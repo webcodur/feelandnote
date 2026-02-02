@@ -100,11 +100,16 @@ function sortByCreatorMatch(results: SearchResult[], targetCreator?: string): Se
   })
 }
 
+type SearchApi = 'google' | 'naver'
+
 export default function ManualSearchModal({ isOpen, onClose, onSelect, contentType, initialQuery = '', initialCreator = '' }: Props) {
   const [query, setQuery] = useState(initialQuery)
   const [searching, setSearching] = useState(false)
   const [results, setResults] = useState<SearchResult[]>([])
   const [searched, setSearched] = useState(false)
+
+  // 검색 API 선택 (BOOK만 해당, 기본 네이버)
+  const [searchApi, setSearchApi] = useState<SearchApi>('naver')
 
   // 페이지네이션 상태
   const [page, setPage] = useState(1)
@@ -121,7 +126,8 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
     setSearched(true)
 
     try {
-      const response = await searchExternalContent(contentType, query, searchPage)
+      const preferGoogle = contentType === 'BOOK' ? searchApi === 'google' : true
+      const response = await searchExternalContent(contentType, query, searchPage, { preferGoogle })
       // ExternalSearchResult를 SearchResult 형식으로 변환
       const items: SearchResult[] = (response.items || []).map((item) => ({
         externalId: item.externalId,
@@ -188,7 +194,34 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
         </div>
 
         {/* Search Input */}
-        <div className="p-4 border-b border-border">
+        <div className="p-4 border-b border-border space-y-3">
+          {/* API 선택 탭 (BOOK만) */}
+          {contentType === 'BOOK' && (
+            <div className="flex rounded-lg border border-border overflow-hidden w-fit">
+              <button
+                type="button"
+                onClick={() => setSearchApi('google')}
+                className={`px-3 py-1.5 text-xs font-medium ${
+                  searchApi === 'google'
+                    ? 'bg-accent text-white'
+                    : 'bg-bg-secondary text-text-secondary hover:text-text-primary'
+                }`}
+              >
+                Google
+              </button>
+              <button
+                type="button"
+                onClick={() => setSearchApi('naver')}
+                className={`px-3 py-1.5 text-xs font-medium ${
+                  searchApi === 'naver'
+                    ? 'bg-green-500 text-white'
+                    : 'bg-bg-secondary text-text-secondary hover:text-text-primary'
+                }`}
+              >
+                네이버
+              </button>
+            </div>
+          )}
           <div className="flex gap-2">
             <input
               type="text"
@@ -233,11 +266,11 @@ export default function ManualSearchModal({ isOpen, onClose, onSelect, contentTy
                 </tr>
               </thead>
               <tbody>
-                {results.map((result) => {
+                {results.map((result, resultIdx) => {
                   const rowData = config.getRowData(result)
                   return (
                     <tr
-                      key={`${result.externalSource}-${result.externalId}`}
+                      key={`${result.externalSource}-${result.externalId}-${resultIdx}`}
                       onClick={() => handleSelect(result)}
                       className="border-t border-border hover:bg-white/5 cursor-pointer"
                     >
