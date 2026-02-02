@@ -4,17 +4,23 @@
   책임: PC 헤더, MB 바텀탭, 메인페이지 섹션의 네비게이션 아이템을 단일 원천으로 관리한다.
 */
 
-import { Compass, BookOpen, Armchair, MessageSquare, User, type LucideIcon } from "lucide-react";
+import { Compass, BookOpen, Armchair, Gamepad2, User, type LucideIcon } from "lucide-react";
 
 // #region 타입 정의
 export interface NavItem {
   key: string;
   href: string;
   label: string;
+  mobileLabel?: string; // 모바일 바텀탭용 라벨 (없으면 label 사용)
   icon: LucideIcon;
   showInHeader: boolean;
   showInBottomNav: boolean;
   showInHomePage: boolean;
+}
+
+export interface PageBannerConfig {
+  title: string;
+  englishTitle: string;
 }
 
 export interface HomeSectionConfig {
@@ -50,19 +56,19 @@ export const NAV_ITEMS: NavItem[] = [
     showInHomePage: true,
   },
   {
-    key: "lounge",
-    href: "/lounge",
-    label: "라운지",
+    key: "agora",
+    href: "/agora",
+    label: "광장",
     icon: Armchair,
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
   },
   {
-    key: "board",
-    href: "/board",
-    label: "게시판",
-    icon: MessageSquare,
+    key: "arena",
+    href: "/arena",
+    label: "전장",
+    icon: Gamepad2,
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
@@ -70,7 +76,8 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "archive",
     href: "/{userId}",
-    label: "기록",
+    label: "기록관",
+    mobileLabel: "내 페이지",
     icon: User,
     showInHeader: true,
     showInBottomNav: true,
@@ -104,7 +111,7 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     svgSrc: "/images/decorations/owl.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/explore",
-    linkText: `${getNavLabel("explore")}으로 이동`,
+    linkText: `${getNavLabel("explore")} 페이지로 이동`,
   },
   scriptures: {
     id: "scriptures-section",
@@ -114,37 +121,37 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/scriptures",
-    linkText: `${getNavLabel("scriptures")}로 이동`,
+    linkText: `${getNavLabel("scriptures")} 페이지로 이동`,
   },
-  lounge: {
-    id: "lounge-section",
-    title: `휴식의 ${getNavLabel("lounge")}`,
-    englishTitle: "Lounge",
-    description: `${getNavLabel("lounge")}에서 즐거움을 더해보세요.`,
+  agora: {
+    id: "agora-section",
+    title: `소통의 ${getNavLabel("agora")}`,
+    englishTitle: "Agora",
+    description: `${getNavLabel("agora")}에서 피드와 게시판을 확인하세요.`,
     svgSrc: "/images/decorations/lyre.svg",
     className: "bg-bg-main border-t border-white/10",
-    link: "/lounge",
-    linkText: `${getNavLabel("lounge")}로 이동`,
+    link: "/agora",
+    linkText: `${getNavLabel("agora")} 페이지로 이동`,
   },
-  board: {
-    id: "board-section",
-    title: `소통의 ${getNavLabel("board")}`,
-    englishTitle: "Board",
-    description: `${getNavLabel("board")}에서 공지사항을 확인하고 피드백을 남겨주세요.`,
+  arena: {
+    id: "arena-section",
+    title: "격돌의 전장",
+    englishTitle: "Arena",
+    description: "게임과 퀴즈로 지식을 겨루는 공간.",
     svgSrc: "/images/decorations/horn.svg",
     className: "bg-bg-main border-t border-white/10",
-    link: "/board",
-    linkText: `${getNavLabel("board")}으로 이동`,
+    link: "/arena",
+    linkText: `${getNavLabel("arena")} 페이지로 이동`,
   },
   archive: {
     id: "archive-section",
-    title: `나의 ${getNavLabel("archive")}`,
+    title: `나의 기록`,
     englishTitle: "Records",
-    description: `책, 영화, 게임... 당신의 모든 영감을 ${getNavLabel("archive")}하고 관리하세요.`,
+    description: "책, 영화, 게임... 당신의 모든 영감을 기록하고 관리하세요.",
     svgSrc: "/images/decorations/vase.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/{userId}",
-    linkText: `${getNavLabel("archive")}으로 이동`,
+    linkText: "기록관 페이지로 이동",
   },
 };
 
@@ -153,8 +160,33 @@ export const SECTION_ORDER = [
   "home-banner",
   "explore-section",
   "scriptures-section",
-  "lounge-section",
-  "board-section",
+  "agora-section",
+  "arena-section",
   "archive-section",
 ] as const;
+// #endregion
+
+// #region 페이지 배너 설정 (각 페이지 레이아웃에서 사용)
+export const PAGE_BANNER = {
+  explore: {
+    title: HOME_SECTIONS.explore.title,
+    englishTitle: HOME_SECTIONS.explore.englishTitle,
+  },
+  scriptures: {
+    title: HOME_SECTIONS.scriptures.title,
+    englishTitle: HOME_SECTIONS.scriptures.englishTitle,
+  },
+  agora: {
+    title: HOME_SECTIONS.agora.title,
+    englishTitle: HOME_SECTIONS.agora.englishTitle,
+  },
+  arena: {
+    title: HOME_SECTIONS.arena.title,
+    englishTitle: HOME_SECTIONS.arena.englishTitle,
+  },
+  archive: {
+    titleSuffix: "의 기록관",
+    englishTitle: "Official Sacred Record",
+  },
+} as const;
 // #endregion

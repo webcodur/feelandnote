@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
-import { X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react'
+import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3 } from 'lucide-react'
 import Button from './Button'
 
 interface Props {
@@ -12,10 +12,36 @@ interface Props {
   onCancel: () => void
 }
 
+// 격자 오버레이 컴포넌트 (중앙선 + 보조선)
+function GridOverlay({ showGrid }: { showGrid: boolean }) {
+  if (!showGrid) return null
+
+  return (
+    <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 2 }}>
+      {/* 중앙 세로선 */}
+      <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/60" style={{ transform: 'translateX(-50%)' }} />
+      {/* 중앙 가로선 */}
+      <div className="absolute left-0 right-0 top-1/2 h-px bg-white/60" style={{ transform: 'translateY(-50%)' }} />
+
+      {/* 3등분 세로선 */}
+      <div className="absolute top-0 bottom-0 left-1/3 w-px bg-white/30" />
+      <div className="absolute top-0 bottom-0 left-2/3 w-px bg-white/30" />
+
+      {/* 3등분 가로선 */}
+      <div className="absolute left-0 right-0 top-1/3 h-px bg-white/30" />
+      <div className="absolute left-0 right-0 top-2/3 h-px bg-white/30" />
+
+      {/* 눈높이 가이드 (상단 1/4 지점) - 인물 사진용 */}
+      <div className="absolute left-0 right-0 top-1/4 h-px bg-yellow-400/40 border-dashed" />
+    </div>
+  )
+}
+
 export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, onCancel }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+  const [showGrid, setShowGrid] = useState(true)
 
   // 썸네일(3:4)에 초상화 이미지를 넣을 때 자동 크롭 위치 조정
   useEffect(() => {
@@ -86,6 +112,18 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
             cropShape={aspectRatio === 1 ? 'round' : 'rect'}
             showGrid={false}
           />
+          {/* 커스텀 격자 오버레이 - 크롭 영역 내부에 표시 */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div
+              className="relative"
+              style={{
+                aspectRatio: `${aspectRatio}`,
+                height: aspectRatio < 1 ? '85%' : '70%',
+              }}
+            >
+              <GridOverlay showGrid={showGrid} />
+            </div>
+          </div>
         </div>
 
         {/* 컨트롤 */}
@@ -105,6 +143,13 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
             <ZoomIn className="w-4 h-4 text-text-secondary shrink-0" />
             <button onClick={handleReset} className="p-1.5 text-text-secondary hover:text-text-primary" title="초기화">
               <RotateCcw className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setShowGrid(!showGrid)}
+              className={`p-1.5 rounded ${showGrid ? 'text-accent bg-accent/10' : 'text-text-secondary hover:text-text-primary'}`}
+              title="격자 가이드"
+            >
+              <Grid3X3 className="w-4 h-4" />
             </button>
           </div>
 

@@ -62,7 +62,7 @@ export function useCelebFilters({
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
-  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "influence", VALID_SORT_VALUES));
+  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "content_count", VALID_SORT_VALUES));
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
   const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
@@ -80,7 +80,7 @@ export function useCelebFilters({
     if (!syncToUrl) return;
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([key, value]) => {
-      if (value === null || value === "all" || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "influence")) {
+      if (value === null || value === "all" || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "content_count")) {
         params.delete(key);
       } else {
         params.set(key, value);

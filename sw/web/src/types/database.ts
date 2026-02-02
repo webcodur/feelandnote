@@ -163,15 +163,6 @@ export interface TierList {
   updated_at: string | null
 }
 
-export interface BlindGameScore {
-  id: string
-  user_id: string
-  score: number
-  streak: number
-  played_at: string | null
-}
-
-
 export interface Playlist {
   id: string
   user_id: string

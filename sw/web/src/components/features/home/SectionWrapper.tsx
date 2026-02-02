@@ -60,6 +60,7 @@ export default function SectionWrapper({ config, children, linkOverride }: Secti
               fill
               sizes="160px"
               className="object-contain"
+              priority={currentIndex === 1}
             />
           </div>
         </div>

@@ -1,7 +1,9 @@
 "use client";
 
-import { Search, X } from "lucide-react";
+import { useState } from "react";
+import { Search, X, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
+import { cn } from "@/lib/utils";
 import { Pagination } from "@/components/ui";
 import ExpandedCelebCard from "./celeb-card-drafts/ExpandedCelebCard";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
@@ -20,6 +22,9 @@ interface CelebCarouselProps {
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
+  extraButtons?: React.ReactNode;
+  onFilterInteraction?: () => void;
+  customContent?: React.ReactNode;
 }
 
 export default function CelebCarousel({
@@ -31,6 +36,9 @@ export default function CelebCarousel({
   contentTypeCounts,
   mode = "grid",
   syncToUrl = false,
+  extraButtons,
+  onFilterInteraction,
+  customContent,
 }: CelebCarouselProps) {
   const filters = useCelebFilters({
     initialCelebs,
@@ -42,6 +50,8 @@ export default function CelebCarousel({
     syncToUrl,
   });
 
+  const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+
   // 캐러셀 모드
   if (mode === "carousel") {
     return <CarouselMode celebs={filters.celebs} total={initialTotal} />;
@@ -51,33 +61,108 @@ export default function CelebCarousel({
   if (initialTotal === 0) return null;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") filters.handleSearchSubmit();
+    if (e.key === "Enter") {
+      onFilterInteraction?.();
+      filters.handleSearchSubmit();
+    }
+  };
+
+  // 필터 인터랙션 래퍼
+  const withInteraction = <T,>(handler: (v: T) => void) => (value: T) => {
+    onFilterInteraction?.();
+    handler(value);
   };
 
   return (
-    <div className="space-y-4">
-      {/* 1. 직군/국적/콘텐츠/정렬 필터 */}
-      <CelebFiltersDesktop
-        profession={filters.profession}
-        nationality={filters.nationality}
-        contentType={filters.contentType}
-        sortBy={filters.sortBy}
-        search=""
-        professionCounts={professionCounts}
-        nationalityCounts={nationalityCounts}
-        contentTypeCounts={contentTypeCounts}
-        isLoading={filters.isLoading}
-        activeLabels={filters.activeLabels}
-        onProfessionChange={filters.handleProfessionChange}
-        onNationalityChange={filters.handleNationalityChange}
-        onContentTypeChange={filters.handleContentTypeChange}
-        onSortChange={filters.handleSortChange}
-        onSearchInput={() => {}}
-        onSearchSubmit={() => {}}
-        onSearchClear={() => {}}
-        hideSearch
-      />
+    <div>
+      {/* 셀럽 컨트롤 (PC) */}
+      <div className="hidden md:flex justify-center mb-10">
+        <div className="inline-grid border border-white/20 rounded-xl overflow-hidden">
+          {/* 타이틀 바 (클릭하면 접기/펼치기) */}
+          <button
+            type="button"
+            onClick={() => setIsControlsExpanded(!isControlsExpanded)}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 transition-colors"
+          >
+            <SlidersHorizontal size={14} className="text-text-secondary" />
+            <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">Control Panel</span>
+            <ChevronDown
+              size={14}
+              className={cn(
+                "text-text-tertiary transition-transform duration-200",
+                isControlsExpanded && "rotate-180"
+              )}
+            />
+          </button>
 
+          {/* 접히는 영역 */}
+          <div className={cn(
+            "grid transition-all duration-300 ease-in-out",
+            isControlsExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          )}>
+            <div className="overflow-hidden">
+              {/* 1행: 정렬/필터 */}
+              <CelebFiltersDesktop
+                wrapperClassName="flex items-center justify-center gap-3 px-4 min-h-[4.25rem]"
+            profession={filters.profession}
+            nationality={filters.nationality}
+            contentType={filters.contentType}
+            sortBy={filters.sortBy}
+            search=""
+            professionCounts={professionCounts}
+            nationalityCounts={nationalityCounts}
+            contentTypeCounts={contentTypeCounts}
+            isLoading={filters.isLoading}
+            activeLabels={filters.activeLabels}
+            onProfessionChange={withInteraction(filters.handleProfessionChange)}
+            onNationalityChange={withInteraction(filters.handleNationalityChange)}
+            onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+            onSortChange={withInteraction(filters.handleSortChange)}
+            onSearchInput={() => {}}
+            onSearchSubmit={() => {}}
+            onSearchClear={() => {}}
+            hideSearch
+          />
+          {/* 구분선 */}
+          <div className="h-px bg-accent/10" />
+          {/* 2행: 검색/액션 */}
+          <div className="flex items-center gap-3 px-4 min-h-[4.25rem] rounded-b-xl">
+            <div className="relative flex-1 min-w-0">
+              <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+              <input
+                type="text"
+                value={filters.search}
+                onChange={(e) => filters.handleSearchInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="인물 검색..."
+                className="w-full min-w-0 h-10 ps-9 pe-8 bg-white/5 border border-accent/25 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+              />
+              {filters.search && (
+                <button
+                  type="button"
+                  onClick={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
+                  className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded"
+                >
+                  <X size={14} className="text-text-tertiary" />
+                </button>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
+              disabled={filters.isLoading}
+              className="h-10 px-4 bg-white/5 border border-accent/25 hover:border-accent/50 disabled:opacity-50 text-text-primary text-sm font-medium rounded-lg shrink-0"
+            >
+              검색
+            </button>
+            {extraButtons}
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 셀럽 컨트롤 (Mobile) */}
       <CelebFiltersMobile
         profession={filters.profession}
         nationality={filters.nationality}
@@ -92,69 +177,41 @@ export default function CelebCarousel({
         activeLabels={filters.activeLabels}
         onFilterOpen={filters.setActiveFilter}
         onFilterClose={() => filters.setActiveFilter(null)}
-        onProfessionChange={filters.handleProfessionChange}
-        onNationalityChange={filters.handleNationalityChange}
-        onContentTypeChange={filters.handleContentTypeChange}
-        onSortChange={filters.handleSortChange}
-        onSearchInput={filters.handleSearchInput}
-        onSearchSubmit={filters.handleSearchSubmit}
-        onSearchClear={filters.handleSearchClear}
+        onProfessionChange={withInteraction(filters.handleProfessionChange)}
+        onNationalityChange={withInteraction(filters.handleNationalityChange)}
+        onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+        onSortChange={withInteraction(filters.handleSortChange)}
+        onSearchInput={(v) => { onFilterInteraction?.(); filters.handleSearchInput(v); }}
+        onSearchSubmit={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
+        onSearchClear={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
+        extraButtons={extraButtons}
+        isExpanded={isControlsExpanded}
+        onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
       />
 
-      {/* 2. 인물검색 - 중앙정렬 */}
-      <div className="hidden md:flex items-center justify-center gap-2">
-        <div className="relative w-64">
-          <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
-          <input
-            type="text"
-            value={filters.search}
-            onChange={(e) => filters.handleSearchInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="인물 검색..."
-            className="w-full h-9 ps-9 pe-8 bg-bg-card border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
-          />
-          {filters.search && (
-            <button
-              type="button"
-              onClick={filters.handleSearchClear}
-              className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded"
-            >
-              <X size={14} className="text-text-tertiary" />
-            </button>
-          )}
+      {/* 커스텀 컨텐츠 또는 셀럽 그리드 영역 */}
+      {customContent ? (
+        <div key="custom" className="animate-fade-in">
+          {customContent}
         </div>
-        <button
-          type="button"
-          onClick={filters.handleSearchSubmit}
-          disabled={filters.isLoading}
-          className="h-9 px-4 bg-accent hover:bg-accent-hover disabled:opacity-50 text-white text-sm font-medium rounded-lg"
-        >
-          검색
-        </button>
-      </div>
-
-      {/* 셀럽 그리드 영역 */}
-      <section className="relative">
-        {/* 빈 상태 */}
-        {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
-
-        {/* 로딩 스켈레톤 */}
-        {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
-
-        {/* 셀럽 그리드 */}
-        {filters.celebs.length > 0 && (
-          <>
-            <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} />
-            <div className="mt-8">
-              <Pagination
-                currentPage={filters.currentPage}
-                totalPages={filters.totalPages}
-                onPageChange={filters.handlePageChange}
-              />
-            </div>
-          </>
-        )}
-      </section>
+      ) : (
+        <section key="grid" className="relative animate-fade-in">
+          {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
+          {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
+          {filters.celebs.length > 0 && (
+            <>
+              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} />
+              <div className="mt-8">
+                <Pagination
+                  currentPage={filters.currentPage}
+                  totalPages={filters.totalPages}
+                  onPageChange={filters.handlePageChange}
+                />
+              </div>
+            </>
+          )}
+        </section>
+      )}
     </div>
   );
 }

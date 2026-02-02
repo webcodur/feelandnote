@@ -2,19 +2,21 @@
   파일명: components/features/game/HigherLowerGame.tsx
   기능: 업다운 게임 메인 컴포넌트
   책임: 게임 로직, 상태 관리, UI 렌더링
-*/ // ------------------------------
-
+  업데이트: Neo-Pantheon 디자인 적용 (ArenaCard 사용)
+*/
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import type { CelebProfile } from "@/types/home";
-import GameCelebCard from "./GameCelebCard";
 import GameResultModal from "./GameResultModal";
 import CelebInfluenceModal from "@/components/features/home/CelebInfluenceModal";
 import { Button } from "@/components/ui";
-import { ArrowUp, ArrowDown } from "lucide-react";
+import { ArrowUp, ArrowDown, Info } from "lucide-react";
+import { isPublicDomainCeleb, PUBLIC_DOMAIN_NOTICE } from "./utils";
 import GameHeader from "./GameHeader";
+import ArenaCard from "./ArenaCard";
+import { cn } from "@/lib/utils";
 
 type GameState = "idle" | "loading" | "playing" | "thinking" | "revealing" | "gameover";
 type Difficulty = "easy" | "hard";
@@ -33,7 +35,6 @@ export default function HigherLowerGame() {
 
   // 서스펜스 상태
   const [userChoice, setUserChoice] = useState<"higher" | "lower" | null>(null);
-  const [dotCount, setDotCount] = useState(0);
 
   // 애니메이션 상태
   const [leftFadeOut, setLeftFadeOut] = useState(false);
@@ -44,8 +45,10 @@ export default function HigherLowerGame() {
   // region: 데이터 로드
   useEffect(() => {
     const loadCelebs = async () => {
-      const result = await getCelebs({ limit: 100, sortBy: "influence" });
-      const filtered = result.celebs.filter((c) => c.influence?.total_score);
+      const result = await getCelebs({ limit: 200, sortBy: "influence" });
+      const filtered = result.celebs.filter(
+        (c) => c.influence?.total_score && isPublicDomainCeleb(c.death_date ?? null)
+      );
       setCelebs(filtered);
       setIsDataLoaded(true);
 
@@ -86,14 +89,9 @@ export default function HigherLowerGame() {
     if (!currentCeleb || !nextCeleb || gameState !== "playing") return;
 
     setUserChoice(choice);
-    setDotCount(1);
     setGameState("thinking");
 
-    // 서스펜스: 1초마다 dot 추가
-    setTimeout(() => setDotCount(2), 1000);
-    setTimeout(() => setDotCount(3), 2000);
-
-    // 3초 후 정답 공개
+    // 1.5초 딜레이 (긴장감 조성)
     setTimeout(() => {
       const currentScore = currentCeleb.influence?.total_score ?? 0;
       const nextScore = nextCeleb.influence?.total_score ?? 0;
@@ -111,8 +109,18 @@ export default function HigherLowerGame() {
           localStorage.setItem("higher-lower-highscore", newStreak.toString());
         }
       }
-    }, 3000);
+    }, 1500);
   };
+
+  // 정답일 때 자동으로 다음으로 진행
+  useEffect(() => {
+    if (gameState === "revealing" && isCorrect) {
+      const timer = setTimeout(() => {
+        handleNext();
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [gameState, isCorrect]);
 
   const handleNext = () => {
     if (!nextCeleb) return;
@@ -125,39 +133,35 @@ export default function HigherLowerGame() {
     const newNext = pickRandomCeleb(nextCeleb.id);
     setPendingNext(newNext);
 
-    // Phase 1: 좌측 fadeout (300ms)
+    // 슬라이드 애니메이션 시작
     setLeftFadeOut(true);
 
     setTimeout(() => {
-      // Phase 2: 우측 → 좌측 슬라이드 (슬라이더가 이동하면서 신규 카드가 드러남)
       setShowSlider(true);
       requestAnimationFrame(() => setSliderAtLeft(true));
 
       setTimeout(() => {
-        // 데이터 스왑 (슬라이더/신규 카드가 가리고 있는 상태)
         setCurrentCeleb(nextCeleb);
         setNextCeleb(newNext);
         setLeftFadeOut(false);
 
-        // 다음 프레임에서 슬라이더/신규 카드 제거
         requestAnimationFrame(() => {
           setShowSlider(false);
           setSliderAtLeft(false);
           setPendingNext(null);
           setUserChoice(null);
-          setDotCount(0);
           setGameState("playing");
           setIsCorrect(null);
         });
-      }, 300);
-    }, 300);
+      }, 500); // 0.5s 슬라이드
+    }, 300); // 0.3s 페이드아웃
   };
 
   // region: 렌더링
   if (!isDataLoaded) {
     return (
       <div className="flex items-center justify-center min-h-[500px]">
-        <div className="text-text-secondary">로딩 중...</div>
+        <div className="animate-pulse text-text-secondary font-serif">전장 입장 중...</div>
       </div>
     );
   }
@@ -165,248 +169,271 @@ export default function HigherLowerGame() {
   // 게임 시작 화면
   if (gameState === "idle") {
     return (
-      <div className="max-w-md mx-auto py-12">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-black text-white font-serif">업다운</h2>
-          <p className="text-sm text-text-secondary mt-2">셀럽 영향력 비교 게임</p>
-          <div className="w-24 h-px bg-accent/20 mx-auto mt-6 shadow-glow" />
-        </div>
+      <div className="max-w-md mx-auto py-8 md:py-12 flex flex-col items-center text-center">
+        <h2 className="text-4xl font-black text-white font-serif mb-2 tracking-tight">업<span className="text-accent">다운</span></h2>
+        <p className="text-sm text-text-secondary mb-8 font-cinzel">영향력 대결</p>
+        
+        <div className="w-full max-w-sm bg-bg-card border border-border rounded-xl p-6 shadow-2xl relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
+          
+          <div className="space-y-4 relative z-10">
+            <div className="space-y-2">
+               <h3 className="text-lg font-bold text-white font-serif">게임 규칙</h3>
+               <p className="text-sm text-text-secondary leading-relaxed">
+                 왼쪽 인물보다 오른쪽 인물의 영향력이<br/>
+                 <strong className="text-accent">더 높은지</strong> 혹은 <strong className="text-accent">낮은지</strong> 예측하세요.
+               </p>
+            </div>
 
-          <div className="bg-white/5 rounded-lg p-4 mb-6 text-sm text-text-secondary space-y-2">
-            <p>1. 왼쪽 셀럽의 영향력 점수가 공개됩니다</p>
-            <p>2. 오른쪽 셀럽의 점수가 더 높을지, 낮을지 예측하세요</p>
-            <p>3. 정답이면 다음 문제, 오답이면 게임 오버!</p>
-            <p className="text-text-tertiary">* 카드를 탭하면 영향력 상세를 볼 수 있어요</p>
-          </div>
-
-          <p className="text-xs text-text-tertiary text-center mb-2">난이도를 선택하여 게임 시작</p>
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <button
-              onClick={() => startGame("easy")}
-              className="p-4 bg-white/5 hover:bg-white/10 border border-border hover:border-accent/50 rounded-lg"
-            >
-              <div className="font-bold text-white">쉬움</div>
-              <p className="text-xs text-text-tertiary mt-1">모든 정보 공개</p>
-            </button>
-            <button
-              onClick={() => startGame("hard")}
-              className="p-4 bg-white/5 hover:bg-white/10 border border-border hover:border-accent/50 rounded-lg"
-            >
-              <div className="font-bold text-white">어려움</div>
-              <p className="text-xs text-text-tertiary mt-1">이름/정보 숨김</p>
-            </button>
-          </div>
-
-          {highScore > 0 && (
-            <p className="text-center text-sm text-text-secondary">
-              나의 최고 기록: <span className="text-accent font-bold">{highScore}</span>
-            </p>
-          )}
-      </div>
-    );
-  }
-
-  // 게임 진행 중
-  if (!currentCeleb || !nextCeleb) {
-    return (
-      <div className="flex items-center justify-center min-h-[500px]">
-        <div className="text-text-secondary">준비 중...</div>
-      </div>
-    );
-  }
-
-  const isPlaying = gameState === "playing";
-  const isRevealing = gameState === "revealing";
-  const isHardMode = difficulty === "hard";
-
-  return (
-    <div className="max-w-2xl mx-auto">
-      {/* 공통 헤더 */}
-      <GameHeader
-        difficulty={difficulty}
-        difficultyLabel={isHardMode ? "고수" : "초보"}
-        streak={streak}
-        highScore={highScore}
-      />
-
-      {/* 게임 보드 */}
-      <div className="relative grid grid-cols-2 gap-4 mb-6">
-        {/* 좌측 카드 */}
-        <div
-          className={`flex flex-col gap-3 ${
-            leftFadeOut ? "opacity-0 transition-opacity duration-300" : "opacity-100"
-          }`}
-        >
-          <GameCelebCard
-            celeb={currentCeleb}
-            showScore={false}
-            isLeft
-            onClick={isHardMode ? undefined : () => setSelectedCelebId(currentCeleb.id)}
-            clickable={!isHardMode}
-            hideInfo={isHardMode}
-          />
-          {/* 점수 표시 (외부) */}
-          <div className="text-center h-8">
-            <span className="text-2xl font-black text-accent drop-shadow-sm">
-              {currentCeleb.influence?.total_score ?? 0}
-            </span>
-          </div>
-        </div>
-
-        {/* 우측 카드 - 기본 상태 (슬라이더 없을 때) */}
-        <div
-          className={`flex flex-col gap-3 ${
-            showSlider ? "opacity-0" : "opacity-100"
-          }`}
-        >
-          <GameCelebCard
-            celeb={nextCeleb}
-            showScore={false}
-            isLeft={false}
-            isRevealing={isRevealing}
-            isCorrect={isCorrect}
-            onClick={isHardMode ? undefined : () => setSelectedCelebId(nextCeleb.id)}
-            clickable={!isHardMode && isRevealing}
-            hideInfo={isHardMode}
-          />
-          {/* 점수 표시 (외부) - 정답 공개 시에만 표시 */}
-          <div className="text-center h-8">
-            {isRevealing ? (
-              <span className={`text-2xl font-black drop-shadow-sm ${isCorrect ? "text-green-500" : "text-red-500"}`}>
-                {nextCeleb.influence?.total_score ?? 0}
-              </span>
-            ) : (
-              <span className="text-2xl font-black text-text-tertiary">???</span>
+            <div className="grid grid-cols-2 gap-3 mt-6">
+              <button
+                onClick={() => startGame("easy")}
+                className="flex flex-col items-center justify-center p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/50 transition-all active:scale-95"
+              >
+                <div className="font-bold text-white font-serif text-lg">초급</div>
+                <span className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">정보 공개</span>
+              </button>
+              <button
+                onClick={() => startGame("hard")}
+                className="flex flex-col items-center justify-center p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/50 transition-all active:scale-95"
+              >
+                <div className="font-bold text-white font-serif text-lg">고급</div>
+                <span className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">이름 숨김</span>
+              </button>
+            </div>
+            
+            {highScore > 0 && (
+              <div className="pt-4 mt-4 border-t border-white/10">
+                <p className="text-xs text-text-tertiary font-cinzel uppercase">최고 기록</p>
+                <p className="text-2xl font-black text-accent">{highScore}</p>
+              </div>
             )}
           </div>
         </div>
+        
+        <div className="mt-8 flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10">
+           <Info size={14} className="text-accent" />
+           <span className="text-xs text-text-tertiary">{PUBLIC_DOMAIN_NOTICE}</span>
+        </div>
+      </div>
+    );
+  }
 
-        {/* 신규 카드 (우측에 미리 배치 - 슬라이더 아래) */}
-        {showSlider && pendingNext && (
-          <div className="absolute top-0 end-0 w-[calc(50%-0.5rem)]">
-            <div className="flex flex-col gap-3">
-              <GameCelebCard
-                celeb={pendingNext}
-                showScore={false}
-                isLeft={false}
-                hideInfo={isHardMode}
+  if (!currentCeleb || !nextCeleb) return null;
+
+  const isHardMode = difficulty === "hard";
+  const isPlaying = gameState === "playing";
+  const isRevealing = gameState === "revealing";
+  const isThinking = gameState === "thinking";
+
+  const showCorrectEffect = isRevealing && isCorrect;
+
+  return (
+    <div className={cn(
+      "max-w-4xl mx-auto flex flex-col min-h-[500px] md:min-h-[600px] justify-between pb-4 md:pb-8 relative transition-colors duration-300",
+      showCorrectEffect && "bg-green-500/5"
+    )}>
+      {/* Game Header */}
+      <GameHeader
+        difficulty={difficulty}
+        difficultyLabel={isHardMode ? "고급" : "초급"}
+        streak={streak}
+        highScore={highScore}
+        onBack={() => setGameState("idle")}
+        className="mb-2 md:mb-8"
+      />
+
+      {/* Battle Arena */}
+      <div className="flex-1 relative flex flex-col md:flex-row items-center justify-center gap-1 md:gap-12 px-2 md:px-4 py-1 md:py-2">
+        
+        {/* Background Atmosphere (Spotlight) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none" />
+
+        {/* VS Badge (Responsive) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none flex items-center justify-center w-12 h-12 md:w-20 md:h-20 rounded-full bg-bg-main border-2 border-accent shadow-[0_0_20px_rgba(212,175,55,0.4)] md:shadow-[0_0_40px_rgba(212,175,55,0.5)]">
+           <span className="font-cinzel font-black text-accent text-lg md:text-2xl drop-shadow-md pt-1">VS</span>
+        </div>
+
+        {/* Mobile Grid Layout Wrapper */}
+        <div className="grid grid-cols-2 gap-2 md:flex md:gap-12 w-full md:w-auto relative z-10 justify-center">
+          
+          {/* Left Card (Champion) */}
+          <div 
+            className={cn(
+              "w-full md:w-[320px] aspect-[2/3] transition-all duration-500",
+               leftFadeOut ? "opacity-0 -translate-x-10" : "opacity-100"
+            )}
+          >
+            <ArenaCard
+              imageUrl={currentCeleb.portrait_url ?? currentCeleb.avatar_url}
+              name={currentCeleb.nickname}
+              title={currentCeleb.profession}
+              subText={currentCeleb.influence?.total_score?.toLocaleString() ?? 0}
+              subTextLabel="영향력"
+              isRevealed={true}
+              isHidden={isHardMode}
+              status="normal"
+              className="w-full h-full"
+              onClick={isHardMode ? undefined : () => setSelectedCelebId(currentCeleb.id)}
+            />
+          </div>
+
+          {/* Right Card (Challenger) */}
+          <div className="w-full md:w-[320px] aspect-[2/3] relative">
+            {/* Main Card */}
+            <div className={cn(
+              "w-full h-full transition-opacity duration-300",
+              showSlider ? "opacity-0" : "opacity-100"
+            )}>
+              <ArenaCard
+                imageUrl={nextCeleb.portrait_url ?? nextCeleb.avatar_url}
+                name={nextCeleb.nickname}
+                title={nextCeleb.profession}
+                subText={isRevealing ? nextCeleb.influence?.total_score?.toLocaleString() : "???"}
+                subTextLabel="영향력"
+                isRevealed={isRevealing}
+                isHidden={isHardMode}
+                status={
+                  isRevealing 
+                    ? (isCorrect ? "win" : "lose") 
+                    : (isPlaying || isThinking ? "selected" : "normal")
+                }
+                className="w-full h-full"
+                onClick={isHardMode ? undefined : () => setSelectedCelebId(nextCeleb.id)}
               />
-              <div className="text-center h-8">
-                <span className="text-2xl font-black text-text-tertiary">???</span>
-              </div>
             </div>
+
+            {/* Pending Next Card (Under Slider) */}
+            {showSlider && pendingNext && (
+              <div className="absolute inset-0 z-0">
+                 <ArenaCard
+                  imageUrl={pendingNext.portrait_url ?? pendingNext.avatar_url}
+                  name={pendingNext.nickname}
+                  title={pendingNext.profession}
+                  subText="???"
+                  subTextLabel="영향력"
+                  isRevealed={false}
+                  isHidden={isHardMode}
+                  className="w-full h-full"
+                />
+              </div>
+            )}
+
+            {/* Slider Card (Moving Overlay) */}
+            {showSlider && (
+               <div className={cn(
+                 "absolute inset-0 z-10 transition-transform duration-500 ease-in-out",
+                 sliderAtLeft ? "md:-translate-x-[calc(100%+3rem)] -translate-x-full md:-translate-y-0" : "" // 모바일에서는 X축 이동만
+               )}>
+                  <ArenaCard
+                    imageUrl={nextCeleb.portrait_url ?? nextCeleb.avatar_url}
+                    name={nextCeleb.nickname}
+                    title={nextCeleb.profession}
+                    subText={nextCeleb.influence?.total_score?.toLocaleString()}
+                    subTextLabel="영향력"
+                    isRevealed={true}
+                    isHidden={isHardMode}
+                    status="normal"
+                    className="w-full h-full"
+                  />
+               </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Interaction Area */}
+      <div className="mt-2 md:mt-4 flex flex-col items-center justify-center min-h-[100px] z-30">
+        
+        {/* Playing State: Buttons (Stone Tablet Style) */}
+        {isPlaying && (
+          <div className="flex flex-col items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300 w-full md:w-auto px-4 md:px-0">
+             <p className="text-text-secondary text-sm md:text-base font-cinzel">
+                오른쪽 인물이 왼쪽 인물보다 영향력이...
+             </p>
+             <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
+             <button
+                onClick={() => handleChoice("higher")}
+                className="flex-1 md:flex-none min-w-0 md:min-w-[160px] h-14 md:h-16 group relative overflow-hidden rounded-xl border border-white/10 shadow-lg active:scale-95 transition-transform"
+             >
+                {/* Button Background (Stone Texture) */}
+                <div className="absolute inset-0 bg-[#2a2a2a]" />
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
+                
+                {/* Glow on Hover */}
+                <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-300" />
+                
+                {/* Content */}
+                <div className="relative z-10 h-full flex flex-col items-center justify-center gap-0.5">
+                  <div className="flex items-center gap-2 text-white group-hover:text-accent transition-colors drop-shadow-md">
+                    <ArrowUp size={24} className="stroke-[2]" /> 
+                    <span className="font-serif font-medium text-lg md:text-xl tracking-wide">더 높다</span>
+                  </div>
+                  <span className="text-[10px] text-text-tertiary tracking-wider group-hover:text-accent/70 hidden md:block">점수가 더 높음</span>
+                </div>
+             </button>
+
+             <button
+                onClick={() => handleChoice("lower")}
+                className="flex-1 md:flex-none min-w-0 md:min-w-[160px] h-14 md:h-16 group relative overflow-hidden rounded-xl border border-white/10 shadow-lg active:scale-95 transition-transform"
+             >
+                {/* Button Background (Stone Texture) */}
+                <div className="absolute inset-0 bg-[#2a2a2a]" />
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+
+                {/* Glow on Hover */}
+                <div className="absolute inset-0 bg-red-500/0 group-hover:bg-red-500/10 transition-colors duration-300" />
+
+                {/* Content */}
+                <div className="relative z-10 h-full flex flex-col items-center justify-center gap-0.5">
+                  <div className="flex items-center gap-2 text-white group-hover:text-red-400 transition-colors drop-shadow-md">
+                    <ArrowDown size={24} className="stroke-[2]" /> 
+                    <span className="font-serif font-medium text-lg md:text-xl tracking-wide">더 낮다</span>
+                  </div>
+                  <span className="text-[10px] text-text-tertiary tracking-wider group-hover:text-red-400/70 hidden md:block">점수가 더 낮음</span>
+                </div>
+             </button>
+             </div>
           </div>
         )}
 
-        {/* 슬라이딩 카드 (우측 → 좌측 이동 - 신규 카드 위) */}
-        {showSlider && (
-          <div
-            className={`absolute top-0 end-0 w-[calc(50%-0.5rem)] z-10 transition-transform duration-300 ${
-              sliderAtLeft ? "-translate-x-[calc(100%+1rem)]" : ""
-            }`}
-          >
-            <div className="flex flex-col gap-3">
-              <GameCelebCard
-                celeb={nextCeleb}
-                showScore={false}
-                isLeft
-                hideInfo={isHardMode}
-              />
-              <div className="text-center h-8">
-                <span className="text-2xl font-black text-accent drop-shadow-sm">
-                  {nextCeleb.influence?.total_score ?? 0}
-                </span>
+        {/* Thinking State */}
+        {isThinking && (
+           <div className="flex flex-col items-center animate-pulse">
+              <p className="text-xl font-serif text-accent mb-2">
+                 {userChoice === "higher" ? "더 높을 것이다..." : "더 낮을 것이다..."}
+              </p>
+              <div className="flex gap-1.5">
+                 <div className="w-2 h-2 rounded-full bg-accent animate-bounce delay-0" />
+                 <div className="w-2 h-2 rounded-full bg-accent animate-bounce delay-150" />
+                 <div className="w-2 h-2 rounded-full bg-accent animate-bounce delay-300" />
               </div>
-            </div>
-          </div>
+           </div>
+        )}
+
+        {/* Revealing/Result State - 오답일 때만 */}
+        {isRevealing && !isCorrect && (
+           <div className="flex flex-col items-center animate-in zoom-in-95 duration-300">
+              <div className="mb-4 text-center">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-3xl font-black text-red-500 font-serif drop-shadow-glow">패배했습니다</span>
+                  <span className="text-sm text-red-400/80 font-cinzel">게임 종료</span>
+                </div>
+              </div>
+
+              <Button
+                 size="lg"
+                 onClick={handleNext}
+                 className="min-w-[200px] h-14 font-serif text-lg font-bold rounded-xl shadow-xl transition-transform active:scale-95 bg-white/10 text-white hover:bg-white/20 border border-white/20"
+              >
+                 결과 보기
+              </Button>
+           </div>
         )}
       </div>
 
-      {/* 액션 영역 - 고정 높이로 레이아웃 안정화 */}
-      <div className="relative h-32">
-        {/* playing 상태 */}
-        <div
-          className={`absolute inset-0 flex flex-col items-center justify-center gap-3 ${
-            isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        >
-          <p className="text-text-secondary text-sm">
-            <span className="text-amber-400 font-medium">{isHardMode ? "오른쪽" : nextCeleb.nickname}</span>이(가){" "}
-            <span className="text-amber-400 font-medium">{isHardMode ? "왼쪽" : currentCeleb.nickname}</span>보다...
-          </p>
-          <div className="flex gap-3">
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => handleChoice("higher")}
-              className="min-w-[120px] gap-2 transition-none whitespace-nowrap"
-            >
-              <ArrowUp size={18} />
-              <span>높다</span>
-            </Button>
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => handleChoice("lower")}
-              className="min-w-[120px] gap-2 transition-none whitespace-nowrap"
-            >
-              <ArrowDown size={18} />
-              <span>낮다</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* thinking 상태 (서스펜스) */}
-        <div
-          className={`absolute inset-0 flex flex-col items-center justify-center gap-3 ${
-            gameState === "thinking" ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        >
-          <p className="text-sm text-text-secondary">
-            <span className="text-amber-400 font-medium">{isHardMode ? "오른쪽" : nextCeleb.nickname}</span>이(가){" "}
-            <span className="text-amber-400 font-medium">{isHardMode ? "왼쪽" : currentCeleb.nickname}</span>보다{" "}
-            <span className="font-bold text-white">{userChoice === "higher" ? "높다" : "낮다"}</span>?
-          </p>
-          <div className="text-2xl font-bold text-accent tracking-widest">
-            {".".repeat(dotCount)}
-          </div>
-        </div>
-
-        {/* revealing 상태 */}
-        <div
-          className={`absolute inset-0 flex flex-col items-center justify-center gap-3 ${
-            isRevealing ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        >
-          <div className="text-center">
-            <p className="text-sm text-text-secondary mb-1">
-              <span className="text-amber-400 font-medium">{isHardMode ? "오른쪽" : nextCeleb.nickname}</span>이(가){" "}
-              <span className="text-amber-400 font-medium">{isHardMode ? "왼쪽" : currentCeleb.nickname}</span>보다{" "}
-              <span className="font-bold text-white">
-                {(nextCeleb.influence?.total_score ?? 0) >= (currentCeleb.influence?.total_score ?? 0)
-                  ? "높다"
-                  : "낮다"}
-              </span>
-            </p>
-            <div className={`text-lg font-bold ${isCorrect ? "text-green-500" : "text-red-500"}`}>
-              {isCorrect ? "(정답!)" : "(오답...)"}
-            </div>
-          </div>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={handleNext}
-            className="min-w-[160px] transition-none active:scale-95 shadow-lg shadow-accent/25"
-          >
-            {isCorrect ? "다음 문제" : "결과 보기"}
-          </Button>
-          <p className={`text-xs text-text-tertiary ${isHardMode ? "invisible" : ""}`}>
-            카드를 탭하여 상세 보기
-          </p>
-        </div>
-      </div>
-
-      {/* 모달 */}
       <GameResultModal
         isOpen={gameState === "gameover"}
         streak={streak}

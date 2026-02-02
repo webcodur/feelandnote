@@ -49,7 +49,7 @@ interface CelebRow {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'influence', search, tagId, minContentCount = 0 } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'content_count', search, tagId, minContentCount = 0 } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()

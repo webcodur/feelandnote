@@ -198,8 +198,6 @@ export async function translateTitles(
     return { success: true, translations: [] }
   }
 
-  console.log(`[TitleTranslator] Translating ${items.length} items sequentially...`)
-
   // 순차 처리 + 딜레이 (무료 티어 분당 20 요청 제한 대응)
   const translations: TranslatedTitle[] = []
   for (let i = 0; i < items.length; i++) {
@@ -215,7 +213,6 @@ export async function translateTitles(
     }
   }
 
-  console.log(`[TitleTranslator] Completed: ${translations.length}/${items.length}`)
   return { success: true, translations }
 }
 // #endregion

@@ -5,9 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 
 import HomeBanner from "@/components/features/home/HomeBanner";
 import ArchivePreview from "@/components/features/home/ArchivePreview";
-import LoungePreview from "@/components/features/home/LoungePreview";
+import AgoraPreview from "@/components/features/home/AgoraPreview";
 import ScripturesPreview from "@/components/features/home/ScripturesPreview";
-import BoardPreview from "@/components/features/home/BoardPreview";
+import ArenaPreview from "@/components/features/home/ArenaPreview";
 
 import { getUserContents } from "@/actions/contents/getUserContents";
 import type { RecordCardProps } from "@/components/ui/cards/RecordCard";
@@ -17,7 +17,8 @@ import { HOME_SECTIONS } from "@/constants/navigation";
 // #region 서버 컴포넌트
 async function FeaturedSection() {
   const tags = await getFeaturedTags();
-  return <FeaturedCollections tags={tags} />;
+  const activeTags = tags.filter(tag => tag.is_featured);
+  return <FeaturedCollections tags={activeTags} />;
 }
 
 export default async function HomePage() {
@@ -70,14 +71,14 @@ export default async function HomePage() {
         </Suspense>
       </SectionWrapper>
 
-      {/* 4. 라운지 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.lounge}>
-        <LoungePreview />
+      {/* 4. 광장 프리뷰 */}
+      <SectionWrapper config={HOME_SECTIONS.agora}>
+        <AgoraPreview />
       </SectionWrapper>
 
-      {/* 5. 게시판 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.board}>
-        <BoardPreview />
+      {/* 5. 전장 프리뷰 */}
+      <SectionWrapper config={HOME_SECTIONS.arena}>
+        <ArenaPreview />
       </SectionWrapper>
 
       {/* 6. 기록관 프리뷰 */}

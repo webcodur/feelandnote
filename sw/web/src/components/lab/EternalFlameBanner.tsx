@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Flame } from "lucide-react";
 
-export default function EternalFlameBanner() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function EternalFlameBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -169,12 +173,16 @@ export default function EternalFlameBanner() {
       
       {/* Overlay Content */}
       <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center translate-y-[-50px]">
-         <h2 className="text-5xl md:text-7xl font-serif font-black text-[#d4af37] tracking-tight mix-blend-overlay blur-[1px] animate-pulse">
-            PROMETHEUS
-         </h2>
-         <p className="text-orange-500/50 tracking-[0.5em] text-xs mt-4 uppercase font-cinzel">
-            The Eternal Flame
-         </p>
+         {children ?? (
+           <>
+             <h2 className="text-5xl md:text-7xl font-serif font-black text-[#d4af37] tracking-tight mix-blend-overlay blur-[1px] animate-pulse">
+                PROMETHEUS
+             </h2>
+             <p className="text-orange-500/50 tracking-[0.5em] text-xs mt-4 uppercase font-cinzel">
+                The Eternal Flame
+             </p>
+           </>
+         )}
          <div className="mt-8 flex gap-2 items-center text-white/20 text-xs font-mono">
             <Flame size={14} />
             <span>IGNITION SOURCE</span>

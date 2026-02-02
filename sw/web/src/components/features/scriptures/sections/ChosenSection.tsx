@@ -63,7 +63,12 @@ export default function ChosenSection({ initialData }: Props) {
         <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">다수의 선택</h2>
         <span className="text-sm text-text-tertiary">({data.total})</span>
       </div>
-      <p className="text-sm text-text-secondary mb-6">가장 많은 인물이 감상한 경전</p>
+      <div className="mb-6">
+        <p className="text-sm text-text-secondary">가장 많은 인물이 감상한 경전</p>
+        <p className="text-xs text-text-tertiary mt-2 ps-3 border-s-2 border-accent/30 italic">
+          수많은 위인이 같은 책을 선택했다면, 그건 우연이 아닙니다.
+        </p>
+      </div>
 
       {/* 카테고리 탭 */}
       <div className="mb-6 overflow-x-auto scrollbar-hidden flex justify-center">
@@ -93,6 +98,7 @@ export default function ChosenSection({ initialData }: Props) {
                 thumbnail={content.thumbnail_url}
                 type={content.type}
                 celebCount={content.celeb_count}
+                userCount={content.user_count}
                 avgRating={content.avg_rating}
                 rank={(page - 1) * ITEMS_PER_PAGE + index + 1}
               />

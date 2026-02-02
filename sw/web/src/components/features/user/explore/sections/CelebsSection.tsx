@@ -7,7 +7,7 @@
 "use client";
 
 import { useState } from "react";
-import { BarChart3, Sparkles, X } from "lucide-react";
+import { BarChart3, Gem } from "lucide-react";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 import FeaturedCollections from "@/components/features/landing/FeaturedCollections";
 import InfluenceDistributionModal from "../InfluenceDistributionModal";
@@ -36,51 +36,52 @@ export default function CelebsSection({
   const [showInfluenceDistribution, setShowInfluenceDistribution] = useState(false);
   const [isCollectionMode, setIsCollectionMode] = useState(false);
 
-  return (
-    <div className="min-h-[400px]">
-      {/* 상단 버튼 영역 */}
-      <div className="flex justify-center gap-2 mb-6">
+  // 검색 우측에 배치될 버튼들 (1행 FilterChipDropdown 스타일에 맞춤)
+  const extraButtons = (
+    <>
+      <button
+        type="button"
+        onClick={() => setShowInfluenceDistribution(true)}
+        className="h-10 flex items-center justify-center gap-1.5 px-3 rounded-lg text-sm font-medium border border-accent/25 bg-white/5 text-text-secondary hover:border-accent/50 hover:text-text-primary flex-1 md:flex-none md:shrink-0"
+      >
+        <BarChart3 size={14} />
+        <span>영향력</span>
+      </button>
+      {featuredTags.length > 0 && (
         <button
           type="button"
-          onClick={() => setShowInfluenceDistribution(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border border-border/50 text-text-secondary hover:border-accent/50 hover:text-text-primary bg-bg-card/50"
+          onClick={() => setIsCollectionMode(!isCollectionMode)}
+          className={`h-10 flex items-center justify-center gap-1.5 px-3 rounded-lg text-sm font-medium border animate-featured-glow flex-1 md:flex-none md:shrink-0 ${
+            isCollectionMode
+              ? "border-accent bg-accent/15 text-accent"
+              : "border-accent/25 bg-white/5 text-text-secondary hover:border-accent/50 hover:text-text-primary"
+          }`}
         >
-          <BarChart3 size={14} />
-          <span>영향력 분포</span>
+          <Gem size={14} className={isCollectionMode ? "text-accent" : "text-accent/60"} />
+          <span>기획전</span>
         </button>
-        {featuredTags.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setIsCollectionMode(!isCollectionMode)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border ${
-              isCollectionMode
-                ? "border-accent bg-accent/10 text-accent"
-                : "border-border/50 text-text-secondary hover:border-accent/50 hover:text-text-primary bg-bg-card/50"
-            }`}
-          >
-            <Sparkles size={14} />
-            <span>기획전</span>
-            {isCollectionMode && <X size={14} className="ml-1" />}
-          </button>
-        )}
-      </div>
-
-      {/* 기획전 모드: FeaturedCollections 표시 */}
-      {isCollectionMode ? (
-        <FeaturedCollections tags={featuredTags} hideQuickBrowse />
-      ) : (
-        <CelebCarousel
-          initialCelebs={initialCelebs}
-          initialTotal={initialTotal}
-          initialTotalPages={initialTotalPages}
-          professionCounts={professionCounts}
-          nationalityCounts={nationalityCounts}
-          contentTypeCounts={contentTypeCounts}
-          mode="grid"
-          hideHeader={false}
-          syncToUrl
-        />
       )}
+    </>
+  );
+
+  return (
+    <div className="min-h-[400px]">
+      <CelebCarousel
+        initialCelebs={initialCelebs}
+        initialTotal={initialTotal}
+        initialTotalPages={initialTotalPages}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        mode="grid"
+        hideHeader={false}
+        syncToUrl
+        extraButtons={extraButtons}
+        onFilterInteraction={() => setIsCollectionMode(false)}
+        customContent={isCollectionMode ? (
+          <FeaturedCollections tags={featuredTags} hideQuickBrowse location="explore-pc" />
+        ) : undefined}
+      />
 
       <InfluenceDistributionModal
         isOpen={showInfluenceDistribution}

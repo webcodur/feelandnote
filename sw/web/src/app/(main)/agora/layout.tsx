@@ -1,0 +1,36 @@
+/*
+  파일명: /app/(main)/agora/layout.tsx
+  기능: 광장 레이아웃
+  책임: 광장 공통 탭 네비게이션과 레이아웃을 제공한다.
+*/ // ------------------------------
+
+import { ReactNode } from "react";
+import PageContainer from "@/components/layout/PageContainer";
+import AgoraTabs from "@/components/features/user/agora/AgoraTabs";
+import LyreBanner from "@/components/lab/LyreBanner";
+import { PAGE_BANNER } from "@/constants/navigation";
+
+interface Props {
+  children: ReactNode;
+}
+
+export default function AgoraLayout({ children }: Props) {
+  const { title, englishTitle } = PAGE_BANNER.agora;
+
+  return (
+    <>
+      <LyreBanner compact>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center">
+          {title}
+        </h1>
+        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+          {englishTitle}
+        </p>
+      </LyreBanner>
+      <PageContainer>
+        <AgoraTabs />
+        {children}
+      </PageContainer>
+    </>
+  );
+}

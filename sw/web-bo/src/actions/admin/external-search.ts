@@ -8,7 +8,8 @@ import { createClient } from '@/lib/supabase/server'
 export async function searchExternalContent(
   contentType: ContentType,
   query: string,
-  page: number = 1
+  page: number = 1,
+  options: { preferGoogle?: boolean } = {}
 ): Promise<{
   success: boolean
   items?: ExternalSearchResult[]
@@ -17,7 +18,8 @@ export async function searchExternalContent(
   error?: string
 }> {
   try {
-    const result = await searchExternal(contentType, query, page)
+    // 기본은 네이버, 필요 시 구글로 전환
+    const result = await searchExternal(contentType, query, page, { preferGoogle: options.preferGoogle ?? false })
     return {
       success: true,
       items: result.items,

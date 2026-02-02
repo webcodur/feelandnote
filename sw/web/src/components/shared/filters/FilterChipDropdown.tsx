@@ -5,10 +5,11 @@
 */
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
 import { GreekChevronIcon, NeoCheckIcon } from "@/components/ui/icons/neo-pantheon";
-import { FILTER_CHIP_STYLES, FILTER_DROPDOWN_STYLES } from "@/constants/filterStyles";
+import { FILTER_DROPDOWN_STYLES } from "@/constants/filterStyles";
 
 export interface FilterOption {
   value: string;
@@ -36,14 +37,30 @@ export default function FilterChipDropdown({
   onSelect,
 }: FilterChipDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 드롭다운 위치 계산 (fixed 포지션이므로 뷰포트 기준)
+  const updateDropdownPosition = useCallback(() => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setDropdownPos({
+      top: rect.bottom + 4,
+      left: rect.left,
+    });
+  }, []);
 
   // 외부 클릭 시 닫기
   useEffect(() => {
     if (!isOpen) return;
 
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        containerRef.current && !containerRef.current.contains(target) &&
+        dropdownRef.current && !dropdownRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     };
@@ -51,6 +68,18 @@ export default function FilterChipDropdown({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
+
+  // 열릴 때 위치 업데이트 + 스크롤/리사이즈 대응
+  useEffect(() => {
+    if (!isOpen) return;
+    updateDropdownPosition();
+    window.addEventListener("scroll", updateDropdownPosition, true);
+    window.addEventListener("resize", updateDropdownPosition);
+    return () => {
+      window.removeEventListener("scroll", updateDropdownPosition, true);
+      window.removeEventListener("resize", updateDropdownPosition);
+    };
+  }, [isOpen, updateDropdownPosition]);
 
   const handleSelect = (optValue: string) => {
     onSelect(optValue);
@@ -91,8 +120,12 @@ export default function FilterChipDropdown({
         </div>
       </Button>
 
-      {isOpen && (
-        <div className={FILTER_DROPDOWN_STYLES.container}>
+      {isOpen && typeof document !== "undefined" && createPortal(
+        <div
+          ref={dropdownRef}
+          className="fixed min-w-[160px] max-h-[320px] overflow-y-auto bg-bg-card border border-accent/30 rounded-lg shadow-xl z-[9999]"
+          style={{ top: dropdownPos.top, left: dropdownPos.left }}
+        >
           {options.map(({ value: optValue, label: optLabel, count }) => {
             const isSelected = currentValue === optValue;
             const isDisabled = count !== undefined && count === 0;
@@ -114,7 +147,8 @@ export default function FilterChipDropdown({
               </button>
             );
           })}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

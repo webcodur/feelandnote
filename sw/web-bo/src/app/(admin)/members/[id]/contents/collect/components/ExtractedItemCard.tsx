@@ -67,16 +67,31 @@ export default function ExtractedItemCard({
   const Icon = typeConfig?.icon || Star
 
   const [reviewCopied, setReviewCopied] = useState(false)
-  const [titleInfoCopied, setTitleInfoCopied] = useState(false)
+  const [titleCopied, setTitleCopied] = useState(false)
+  const [titleTransCopied, setTitleTransCopied] = useState(false)
   const [isUrlEditing, setIsUrlEditing] = useState(false)
 
-  const handleCopyTitleInfo = async (e: React.MouseEvent) => {
+  // 제목 - 저자 복사
+  const handleCopyTitle = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const text = item.creator ? `${item.title} - ${item.creator}` : item.title
+    try {
+      await navigator.clipboard.writeText(text)
+      setTitleCopied(true)
+      setTimeout(() => setTitleCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy text: ', err)
+    }
+  }
+
+  // 제목 - 저자 번역본 복사
+  const handleCopyTitleTrans = async (e: React.MouseEvent) => {
     e.stopPropagation()
     const text = `${item.title} - ${item.creator || ''} 번역본`
     try {
       await navigator.clipboard.writeText(text)
-      setTitleInfoCopied(true)
-      setTimeout(() => setTitleInfoCopied(false), 2000)
+      setTitleTransCopied(true)
+      setTimeout(() => setTitleTransCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy text: ', err)
     }
@@ -204,15 +219,27 @@ export default function ExtractedItemCard({
             <>
               <Button
                 unstyled
-                onClick={handleCopyTitleInfo}
+                onClick={handleCopyTitle}
                 className={`p-1.5 rounded shrink-0 ${
-                  titleInfoCopied
+                  titleCopied
                     ? 'text-green-400'
                     : 'text-text-secondary hover:text-accent'
                 }`}
-                title="검색용 복사 (제목 - 저자 번역본)"
+                title="복사 (제목 - 저자)"
               >
-                {titleInfoCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                {titleCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              </Button>
+              <Button
+                unstyled
+                onClick={handleCopyTitleTrans}
+                className={`p-1.5 rounded shrink-0 ${
+                  titleTransCopied
+                    ? 'text-green-400'
+                    : 'text-text-secondary hover:text-blue-400'
+                }`}
+                title="복사 (제목 - 저자 번역본)"
+              >
+                {titleTransCopied ? <Check className="w-4 h-4" /> : <span className="text-xs font-bold">번</span>}
               </Button>
               <Button
                 unstyled

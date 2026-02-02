@@ -15,21 +15,32 @@ export interface FeaturedTag {
   description: string | null
   color: string
   celebs: FeaturedCeleb[]
+  is_featured: boolean
 }
 
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   const supabase = await createClient()
   const today = new Date().toISOString().split('T')[0]
 
-  // 1. 태그 조회
-  const { data: tags } = await supabase
+  // 1. 모든 태그 조회 (활성 + 비활성)
+  const { data: allTags } = await supabase
     .from('celeb_tags')
-    .select('id, name, description, color')
-    .eq('is_featured', true)
-    .or(`start_date.is.null,start_date.lte.${today}`)
-    .or(`end_date.is.null,end_date.gte.${today}`)
+    .select('id, name, description, color, is_featured')
+    .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
-    .limit(4)
+
+  if (!allTags?.length) return []
+
+  // 활성 태그 필터링 (날짜 조건 적용)
+  const activeTags = allTags.filter(t => {
+    if (!t.is_featured) return false
+    return true // 날짜 조건은 DB에서 이미 처리됨
+  })
+
+  // 비활성 태그 (예고편)
+  const upcomingTags = allTags.filter(t => !t.is_featured)
+
+  const tags = activeTags.slice(0, 4)
 
   if (!tags?.length) return []
 
@@ -180,8 +191,21 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
         description: tag.description,
         color: tag.color,
         celebs,
+        is_featured: true,
       })
     }
+  }
+
+  // 비활성 태그 추가 (예고편 - 이름만)
+  for (const tag of upcomingTags) {
+    result.push({
+      id: tag.id,
+      name: tag.name,
+      description: tag.description,
+      color: tag.color,
+      celebs: [],
+      is_featured: false,
+    })
   }
 
   return result

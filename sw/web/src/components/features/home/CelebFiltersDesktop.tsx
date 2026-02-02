@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/home/CelebFiltersDesktop.tsx
-  기능: 셀럽 필터 (데스크톱)
-  책임: 직군, 국적, 콘텐츠, 정렬 필터 및 검색 UI 제공
+  기능: 셀럽 컨트롤 (PC) - 1행 정렬/필터 영역
+  책임: 직군, 국적, 콘텐츠, 정렬 필터 UI 제공
 */
 "use client";
 
@@ -36,6 +36,7 @@ interface CelebFiltersDesktopProps {
   onSearchSubmit: () => void;
   onSearchClear: () => void;
   hideSearch?: boolean;
+  wrapperClassName?: string;
 }
 
 export default function CelebFiltersDesktop({
@@ -57,6 +58,7 @@ export default function CelebFiltersDesktop({
   onSearchSubmit,
   onSearchClear,
   hideSearch = false,
+  wrapperClassName,
 }: CelebFiltersDesktopProps) {
   // 필터별 옵션 생성
   const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value, label }) => ({
@@ -84,7 +86,7 @@ export default function CelebFiltersDesktop({
   };
 
   return (
-    <div className="hidden md:flex items-center justify-center gap-3 mb-4">
+    <div className={wrapperClassName ?? "hidden md:flex items-center justify-center gap-3 mb-4"}>
       {/* 검색 입력 - hideSearch가 false일 때만 표시 */}
       {!hideSearch && (
         <div className="relative flex-1 max-w-xs flex gap-1">
@@ -148,8 +150,8 @@ export default function CelebFiltersDesktop({
       />
       <FilterChipDropdown
         label="정렬"
-        value={activeLabels.sort?.label ?? "영향력순"}
-        isActive={sortBy !== "influence"}
+        value={activeLabels.sort?.label ?? "보유 콘텐츠순"}
+        isActive={sortBy !== "content_count"}
         isLoading={isLoading}
         options={sortOptions}
         currentValue={sortBy}

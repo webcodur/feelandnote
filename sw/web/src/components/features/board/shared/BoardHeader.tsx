@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation'
 import { FileText, MessageSquare } from 'lucide-react'
 
 const BOARD_TABS = [
-  { href: '/lounge/board/notice', label: '공지사항', icon: FileText },
-  { href: '/lounge/board/feedback', label: '피드백', icon: MessageSquare },
+  { href: '/agora/board/notice', label: '공지사항', icon: FileText },
+  { href: '/agora/board/feedback', label: '피드백', icon: MessageSquare },
 ]
 
 export default function BoardHeader() {

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Sprout } from "lucide-react";
 
 interface TreeBannerProps {
+  children?: ReactNode;
   height?: number;
   compact?: boolean;
   title?: string;
@@ -11,6 +12,7 @@ interface TreeBannerProps {
 }
 
 export default function TreeBanner({
+  children,
   height = 700,
   compact = false,
   title = "TREE OF WISDOM",
@@ -130,12 +132,16 @@ export default function TreeBanner({
 
       {/* Overlay Content */}
       <div className={`absolute inset-0 pointer-events-none flex flex-col items-center justify-center px-4 ${compact ? "" : "translate-y-[-100px]"}`}>
-         <h2 className={`font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center ${compact ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-7xl"}`}>
-            {title}
-         </h2>
-         <p className={`text-[#d4af37] tracking-[0.2em] sm:tracking-[0.5em] uppercase font-cinzel text-center ${compact ? "text-[10px] mt-2" : "text-[10px] sm:text-xs mt-3 sm:mt-4"}`}>
-            {subtitle}
-         </p>
+         {children ?? (
+           <>
+             <h2 className={`font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center ${compact ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-7xl"}`}>
+                {title}
+             </h2>
+             <p className={`text-[#d4af37] tracking-[0.2em] sm:tracking-[0.5em] uppercase font-cinzel text-center ${compact ? "text-[10px] mt-2" : "text-[10px] sm:text-xs mt-3 sm:mt-4"}`}>
+                {subtitle}
+             </p>
+           </>
+         )}
          {!compact && (
            <div className="mt-8 flex gap-2 items-center text-white/30 text-xs font-mono">
               <Sprout size={14} />

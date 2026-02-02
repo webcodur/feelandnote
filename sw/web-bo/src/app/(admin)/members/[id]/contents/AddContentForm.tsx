@@ -23,6 +23,7 @@ const CONTENT_TYPE_OPTIONS = CONTENT_TYPES.map((type) => ({
 }))
 
 type SearchMode = 'db' | 'external'
+type SearchApi = 'google' | 'naver'
 
 interface DbSearchResult {
   id: string
@@ -42,6 +43,7 @@ export default function AddContentForm({ celebId }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchMode, setSearchMode] = useState<SearchMode>('external')
+  const [searchApi, setSearchApi] = useState<SearchApi>('naver')
   const [contentType, setContentType] = useState<ContentType>('BOOK')
   const [dbResults, setDbResults] = useState<DbSearchResult[]>([])
   const [externalResults, setExternalResults] = useState<ExternalSearchResult[]>([])
@@ -61,7 +63,8 @@ export default function AddContentForm({ celebId }: Props) {
         if (!result.success) throw new Error(result.error)
         setDbResults(result.items || [])
       } else {
-        const result = await searchExternalContent(contentType, searchQuery)
+        const preferGoogle = contentType === 'BOOK' ? searchApi === 'google' : true
+        const result = await searchExternalContent(contentType, searchQuery, 1, { preferGoogle })
         if (!result.success) throw new Error(result.error)
         setExternalResults(result.items || [])
       }
@@ -127,7 +130,7 @@ export default function AddContentForm({ celebId }: Props) {
 
               {!selectedContent ? (
                 <div className="space-y-4">
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     <select value={contentType} onChange={(e) => { setContentType(e.target.value as ContentType); setDbResults([]); setExternalResults([]) }} className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary text-sm focus:border-accent focus:outline-none">
                       {CONTENT_TYPE_OPTIONS.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                     </select>
@@ -135,6 +138,13 @@ export default function AddContentForm({ celebId }: Props) {
                       <button type="button" onClick={() => { setSearchMode('external'); setDbResults([]); setExternalResults([]) }} className={`flex items-center gap-1.5 px-3 py-2 text-sm ${searchMode === 'external' ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}><Globe className="w-4 h-4" />외부</button>
                       <button type="button" onClick={() => { setSearchMode('db'); setDbResults([]); setExternalResults([]) }} className={`flex items-center gap-1.5 px-3 py-2 text-sm ${searchMode === 'db' ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}><Database className="w-4 h-4" />DB</button>
                     </div>
+                    {/* API 선택 (외부 + BOOK만) */}
+                    {searchMode === 'external' && contentType === 'BOOK' && (
+                      <div className="flex rounded-lg border border-border overflow-hidden">
+                        <button type="button" onClick={() => setSearchApi('google')} className={`px-3 py-2 text-sm ${searchApi === 'google' ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}>Google</button>
+                        <button type="button" onClick={() => setSearchApi('naver')} className={`px-3 py-2 text-sm ${searchApi === 'naver' ? 'bg-green-500 text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}>네이버</button>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex gap-2">

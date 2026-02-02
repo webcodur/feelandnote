@@ -34,6 +34,7 @@ export type MaterialKey =
   | "crimson"     // 7등급 - 크림슨레드
   | "diamond"     // 8등급 - 다이아
   | "holographic" // 9등급 - 홀로그래픽
+  | "obsidian"    // 통일 프레임용 - 흑요석
 ;
 
 // 오라 (1~9, 높을수록 상위) - 내부 코드용, UI 노출 X
@@ -442,6 +443,40 @@ export const MATERIALS: Record<MaterialKey, MaterialConfig> = {
     level: 5,
     celebLevel: "COSMIC",
     normalLevel: "PROPHET",
+  },
+
+  // 통일 프레임용 - 흑요석 (오라 시스템 외)
+  obsidian: {
+    key: "obsidian",
+    label: "Obsidian",
+    koreanLabel: "흑요석",
+    aura: 1,
+    auraTitle: "MORTAL",
+    auraTitleKo: "필멸자",
+    romanNumeral: "0",
+    colors: {
+      primary: "#1a1a1a",
+      secondary: "#0d0d0d",
+      light: "#2a2a2a",
+      dark: "#050505",
+      border: "#252525",
+      text: "#808080",
+      textOnSurface: "#a0a0a0",
+    },
+    gradient: {
+      surface: "linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #050505 100%)",
+      border: "conic-gradient(from 0deg at 50% 50%, #0d0d0d 0%, #2a2a2a 25%, #1a1a1a 50%, #2a2a2a 75%, #0d0d0d 100%)",
+      simple: "linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 40%, #0d0d0d 100%)",
+    },
+    shadow: {
+      base: "0 6px 12px rgba(0, 0, 0, 0.6)",
+      hover: "0 0 15px rgba(40, 40, 40, 0.3), 0 0 25px rgba(20, 20, 20, 0.2)",
+      glow: "drop-shadow(0 0 6px rgba(40, 40, 40, 0.3))",
+    },
+    cardVariant: "novice",
+    level: 1,
+    celebLevel: "HERO",
+    normalLevel: "MORTAL",
   },
 };
 // #endregion

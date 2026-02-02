@@ -16,12 +16,14 @@ interface Props {
 export default function BoardLayout({ children }: Props) {
   return (
     <>
-      <ArchiveTunnelBanner
-        height={350}
-        compact
-        title="게시판"
-        subtitle="Board"
-      />
+      <ArchiveTunnelBanner height={350} compact>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center">
+          게시판
+        </h1>
+        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+          Board
+        </p>
+      </ArchiveTunnelBanner>
       <PageContainer>
         <BoardTabs />
         <div className="max-w-3xl mx-auto">

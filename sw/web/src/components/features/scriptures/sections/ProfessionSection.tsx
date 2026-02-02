@@ -78,7 +78,12 @@ export default function ProfessionSection({ professionCounts }: Props) {
         <Route size={20} className="text-accent" />
         <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">길의 갈래</h2>
       </div>
-      <p className="text-sm text-text-secondary mb-6">분야별 인물들의 필독서</p>
+      <div className="mb-6">
+        <p className="text-sm text-text-secondary">분야별 인물들의 필독서</p>
+        <p className="text-xs text-text-tertiary mt-2 ps-3 border-s-2 border-accent/30 italic">
+          당신이 가고자 하는 길의 선배들은 무엇을 읽었을까요?
+        </p>
+      </div>
 
       {/* 분야 탭 */}
       <div className="mb-6 overflow-x-auto scrollbar-hidden">
@@ -113,6 +118,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
                 thumbnail={content.thumbnail_url}
                 type={content.type}
                 celebCount={content.celeb_count}
+                userCount={content.user_count}
                 avgRating={content.avg_rating}
                 rank={(page - 1) * ITEMS_PER_PAGE + index + 1}
               />

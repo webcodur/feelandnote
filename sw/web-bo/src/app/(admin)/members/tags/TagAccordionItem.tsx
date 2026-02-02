@@ -10,8 +10,6 @@ import {
   Search,
   Plus,
   X,
-  Pencil,
-  Check,
   User,
 } from 'lucide-react'
 import {
@@ -77,9 +75,6 @@ export default function TagAccordionItem(props: Props) {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<CelebForTag[]>([])
   const [isSearching, setIsSearching] = useState(false)
-  const [editingDescId, setEditingDescId] = useState<string | null>(null)
-  const [editingShortDesc, setEditingShortDesc] = useState('')
-  const [editingLongDesc, setEditingLongDesc] = useState('')
   const [celebDraggedIndex, setCelebDraggedIndex] = useState<number | null>(null)
   // #endregion
 
@@ -193,24 +188,19 @@ export default function TagAccordionItem(props: Props) {
     if (result.success) setCelebs(prev => prev.filter(c => c.celeb_id !== celebId))
   }
 
-  const handleSaveDesc = async (celebId: string) => {
-    const shortVal = editingShortDesc.trim() || null
-    const longVal = editingLongDesc.trim() || null
-    console.log('[handleSaveDesc] Saving:', { celebId, tagId: tag.id, shortVal, longVal })
-
+  const handleSaveDesc = async (celebId: string, shortDesc: string, longDesc: string) => {
+    const shortVal = shortDesc.trim() || null
+    const longVal = longDesc.trim() || null
     const result = await updateTagAssignmentDesc(celebId, tag.id, shortVal, longVal)
-    console.log('[handleSaveDesc] Result:', result)
-
-    if (result.success) {
-      setCelebs(prev => prev.map(c =>
-        c.celeb_id === celebId
-          ? { ...c, short_desc: shortVal, long_desc: longVal }
-          : c
-      ))
-      setEditingDescId(null)
-    } else {
+    if (!result.success) {
       alert(result.error ?? '설명 저장 실패')
     }
+  }
+
+  const handleDescChange = (celebId: string, field: 'short_desc' | 'long_desc', value: string) => {
+    setCelebs(prev => prev.map(c =>
+      c.celeb_id === celebId ? { ...c, [field]: value } : c
+    ))
   }
   // #endregion
 
@@ -223,38 +213,38 @@ export default function TagAccordionItem(props: Props) {
       className={`border border-border rounded-xl overflow-hidden bg-bg-card ${isDragging ? 'opacity-50' : ''}`}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 p-3 cursor-pointer hover:bg-bg-secondary/50" onClick={onToggle}>
-        <GripVertical className="w-4 h-4 text-text-tertiary cursor-grab shrink-0" />
+      <div className="flex items-center gap-3 p-4 cursor-pointer hover:bg-bg-secondary/50" onClick={onToggle}>
+        <GripVertical className="w-5 h-5 text-text-tertiary cursor-grab shrink-0" />
         <span
-          className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium"
+          className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-medium"
           style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
         >
           {tag.name}
         </span>
-        <span className="text-sm text-text-secondary flex-1 truncate">{tag.description || ''}</span>
+        <span className="text-base text-text-secondary flex-1 truncate">{tag.description || ''}</span>
         {tag.is_featured && (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent shrink-0">
-            <Sparkles className="w-3 h-3" />
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium bg-accent/20 text-accent shrink-0">
+            <Sparkles className="w-4 h-4" />
           </span>
         )}
-        <span className="inline-flex items-center gap-1 text-sm text-text-secondary shrink-0">
-          <Users className="w-3.5 h-3.5" />
+        <span className="inline-flex items-center gap-1.5 text-base text-text-secondary shrink-0">
+          <Users className="w-4 h-4" />
           {celebs.length || tag.celeb_count || 0}
         </span>
-        <ChevronDown className={`w-4 h-4 text-text-tertiary shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-5 h-5 text-text-tertiary shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
       </div>
 
       {/* Expanded Content */}
       {isExpanded && (
         <div className="border-t border-border">
           {/* 태그 정보 수정 */}
-          <div className="p-4 space-y-3">
+          <div className="p-5 space-y-4">
             <FormRow label="태그 이름">
               <input
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="flex-1 px-3 py-1.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                className="flex-1 px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
               />
             </FormRow>
             <FormRow label="설명">
@@ -262,17 +252,17 @@ export default function TagAccordionItem(props: Props) {
                 type="text"
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="flex-1 px-3 py-1.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                className="flex-1 px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
               />
             </FormRow>
             <FormRow label="색상">
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {PRESET_COLORS.map((c) => (
                   <button
                     key={c}
                     type="button"
                     onClick={() => setForm({ ...form, color: c })}
-                    className={`w-6 h-6 rounded-full border-2 ${form.color === c ? 'border-white' : 'border-transparent'}`}
+                    className={`w-8 h-8 rounded-full border-2 ${form.color === c ? 'border-white' : 'border-transparent'}`}
                     style={{ backgroundColor: c }}
                   />
                 ))}
@@ -280,7 +270,7 @@ export default function TagAccordionItem(props: Props) {
                   type="color"
                   value={form.color}
                   onChange={(e) => setForm({ ...form, color: e.target.value })}
-                  className="w-6 h-6 rounded-full cursor-pointer"
+                  className="w-8 h-8 rounded-full cursor-pointer"
                 />
               </div>
             </FormRow>
@@ -290,7 +280,7 @@ export default function TagAccordionItem(props: Props) {
                   type="checkbox"
                   checked={form.is_featured}
                   onChange={(e) => setForm({ ...form, is_featured: e.target.checked })}
-                  className="w-4 h-4 rounded border-border bg-bg-secondary accent-accent"
+                  className="w-5 h-5 rounded border-border bg-bg-secondary accent-accent"
                 />
                 {form.is_featured && (
                   <>
@@ -298,32 +288,32 @@ export default function TagAccordionItem(props: Props) {
                       type="date"
                       value={form.start_date}
                       onChange={(e) => setForm({ ...form, start_date: e.target.value })}
-                      className="px-2 py-1 bg-bg-secondary border border-border rounded text-xs text-text-primary"
+                      className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary"
                     />
-                    <span className="text-text-tertiary text-xs">~</span>
+                    <span className="text-text-tertiary text-sm">~</span>
                     <input
                       type="date"
                       value={form.end_date}
                       onChange={(e) => setForm({ ...form, end_date: e.target.value })}
-                      className="px-2 py-1 bg-bg-secondary border border-border rounded text-xs text-text-primary"
+                      className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary"
                     />
                   </>
                 )}
               </div>
             </FormRow>
-            <div className="flex items-center justify-end gap-2 pt-2">
+            <div className="flex items-center justify-end gap-3 pt-3">
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex items-center justify-center w-10 h-10 text-red-500 hover:bg-red-500/10 rounded-lg disabled:opacity-50 transition-colors"
+                className="flex items-center justify-center w-12 h-12 text-red-500 hover:bg-red-500/10 rounded-lg disabled:opacity-50 transition-colors"
                 title="태그 삭제"
               >
-                <Trash2 className="w-5 h-5" />
+                <Trash2 className="w-6 h-6" />
               </button>
               <button
                 onClick={handleSave}
                 disabled={!hasChanges || isSaving || !form.name.trim()}
-                className="px-6 py-2 text-base font-medium bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50 transition-colors"
+                className="px-8 py-3 text-base font-medium bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50 transition-colors"
               >
                 {isSaving ? '저장 중...' : '저장'}
               </button>
@@ -334,64 +324,64 @@ export default function TagAccordionItem(props: Props) {
           <div className="border-t border-border">
             {/* 셀럽 섹션 헤더 */}
             <div
-              className="flex items-center justify-between p-3 cursor-pointer hover:bg-bg-secondary/30"
+              className="flex items-center justify-between p-4 cursor-pointer hover:bg-bg-secondary/30"
               onClick={() => setIsCelebsExpanded(!isCelebsExpanded)}
             >
               <div className="flex items-center gap-2">
-                <ChevronDown className={`w-4 h-4 text-text-tertiary ${isCelebsExpanded ? 'rotate-180' : ''}`} />
-                <h4 className="text-sm font-medium text-text-primary">소속 셀럽</h4>
-                <span className="text-xs text-text-tertiary">({celebs.length || tag.celeb_count || 0})</span>
+                <ChevronDown className={`w-5 h-5 text-text-tertiary ${isCelebsExpanded ? 'rotate-180' : ''}`} />
+                <h4 className="text-base font-medium text-text-primary">소속 셀럽</h4>
+                <span className="text-sm text-text-tertiary">({celebs.length || tag.celeb_count || 0})</span>
               </div>
             </div>
 
             {/* 셀럽 섹션 콘텐츠 */}
             {isCelebsExpanded && (
-              <div className="px-4 pb-4 space-y-3">
+              <div className="px-4 pb-4 space-y-4">
                 {/* 검색 트리거 버튼 */}
                 {!showSearch && (
                   <button
                     onClick={() => setShowSearch(true)}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-dashed border-accent/50 bg-accent/5 text-accent hover:bg-accent/10 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 py-4 rounded-lg border border-dashed border-accent/50 bg-accent/5 text-accent hover:bg-accent/10 transition-colors"
                   >
-                    <Plus className="w-4 h-4" />
-                    <span className="text-sm font-medium">소속 셀럽 추가</span>
+                    <Plus className="w-5 h-5" />
+                    <span className="text-base font-medium">소속 셀럽 추가</span>
                   </button>
                 )}
 
                 {/* 검색 */}
                 {showSearch && (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="relative">
-                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-tertiary" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
                       <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="셀럽 검색..."
                         autoFocus
-                        className="w-full pl-8 pr-8 py-1.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                        className="w-full pl-10 pr-10 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
                       />
                       <button
                         onClick={() => { setShowSearch(false); setSearchQuery(''); setSearchResults([]) }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-text-secondary"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-text-secondary"
                       >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="w-5 h-5" />
                       </button>
                     </div>
-                    {isSearching && <p className="text-xs text-text-tertiary">검색 중...</p>}
+                    {isSearching && <p className="text-sm text-text-tertiary">검색 중...</p>}
                     {searchResults.length > 0 && (
                       <div className="space-y-1">
                         {searchResults.map((c) => (
                           <div
                             key={c.id}
                             onClick={() => handleAddCeleb(c)}
-                            className="flex items-center justify-between p-1.5 rounded hover:bg-bg-secondary cursor-pointer group"
+                            className="flex items-center justify-between p-2.5 rounded-lg hover:bg-bg-secondary cursor-pointer group"
                           >
-                            <div className="flex items-center gap-2">
-                              <Avatar url={c.avatar_url} name={c.nickname} size="sm" />
-                              <span className="text-sm text-text-primary">{c.nickname}</span>
+                            <div className="flex items-center gap-3">
+                              <Avatar url={c.avatar_url} name={c.nickname} size="md" />
+                              <span className="text-base text-text-primary">{c.nickname}</span>
                             </div>
-                            <Plus className="w-3.5 h-3.5 text-text-tertiary group-hover:text-accent opacity-0 group-hover:opacity-100 transition-all" />
+                            <Plus className="w-5 h-5 text-text-tertiary group-hover:text-accent opacity-0 group-hover:opacity-100 transition-all" />
                           </div>
                         ))}
                       </div>
@@ -401,11 +391,11 @@ export default function TagAccordionItem(props: Props) {
 
                 {/* 셀럽 목록 */}
                 {isLoadingCelebs ? (
-                  <p className="text-xs text-text-tertiary py-4 text-center">로딩 중...</p>
+                  <p className="text-sm text-text-tertiary py-6 text-center">로딩 중...</p>
                 ) : celebs.length === 0 ? (
-                  <p className="text-xs text-text-tertiary py-4 text-center">등록된 셀럽이 없다.</p>
+                  <p className="text-sm text-text-tertiary py-6 text-center">등록된 셀럽이 없다.</p>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {celebs.map((item, index) => (
                       <div
                         key={item.celeb_id}
@@ -413,59 +403,34 @@ export default function TagAccordionItem(props: Props) {
                         onDragStart={() => handleCelebDragStart(index)}
                         onDragOver={(e) => handleCelebDragOver(e, index)}
                         onDragEnd={handleCelebDragEnd}
-                        className={`p-2 rounded-lg bg-bg-secondary/30 hover:bg-bg-secondary/50 ${celebDraggedIndex === index ? 'opacity-50' : ''}`}
+                        className={`p-3 rounded-lg bg-bg-secondary/30 hover:bg-bg-secondary/50 ${celebDraggedIndex === index ? 'opacity-50' : ''}`}
                       >
-                        <div className="flex items-center gap-2">
-                          <GripVertical className="w-4 h-4 text-text-tertiary cursor-grab shrink-0" />
-                          <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} size="sm" />
-                          <p className="flex-1 text-sm font-medium text-text-primary truncate">{item.celeb?.nickname}</p>
-                          <button
-                            onClick={() => {
-                              setEditingDescId(editingDescId === item.celeb_id ? null : item.celeb_id)
-                              setEditingShortDesc(item.short_desc ?? '')
-                              setEditingLongDesc(item.long_desc ?? '')
-                            }}
-                            className="p-1 text-text-tertiary hover:text-text-secondary"
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                          </button>
-                          <button onClick={() => handleRemoveCeleb(item.celeb_id)} className="p-1 text-text-tertiary hover:text-red-500">
-                            <X className="w-3.5 h-3.5" />
+                        <div className="flex items-center gap-3">
+                          <GripVertical className="w-5 h-5 text-text-tertiary cursor-grab shrink-0" />
+                          <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} size="md" />
+                          <p className="flex-1 text-base font-medium text-text-primary truncate">{item.celeb?.nickname}</p>
+                          <button onClick={() => handleRemoveCeleb(item.celeb_id)} className="p-1.5 text-text-tertiary hover:text-red-500">
+                            <X className="w-5 h-5" />
                           </button>
                         </div>
-                        {/* 짧은/긴 설명 표시 */}
-                        {editingDescId !== item.celeb_id && (item.short_desc || item.long_desc) && (
-                          <div className="mt-1.5 pl-9 space-y-0.5">
-                            {item.short_desc && <p className="text-xs text-accent font-medium">{item.short_desc}</p>}
-                            {item.long_desc && <p className="text-xs text-text-tertiary line-clamp-2">{item.long_desc}</p>}
-                          </div>
-                        )}
-                        {editingDescId !== item.celeb_id && !item.short_desc && !item.long_desc && (
-                          <p className="mt-1 pl-9 text-xs text-text-tertiary">(설명 없음)</p>
-                        )}
-                        {/* 편집 폼 */}
-                        {editingDescId === item.celeb_id && (
-                          <div className="mt-2 pl-9 space-y-2">
-                            <input
-                              type="text"
-                              value={editingShortDesc}
-                              onChange={(e) => setEditingShortDesc(e.target.value)}
-                              placeholder="짧은 문구 (예: 무에서 창조, 시대를 앞서감)"
-                              className="w-full px-2 py-1 bg-bg-main border border-border rounded text-xs text-text-primary"
-                            />
-                            <textarea
-                              value={editingLongDesc}
-                              onChange={(e) => setEditingLongDesc(e.target.value)}
-                              placeholder="상세 설명..."
-                              rows={3}
-                              className="w-full px-2 py-1 bg-bg-main border border-border rounded text-xs text-text-primary resize-none"
-                            />
-                            <div className="flex justify-end gap-1">
-                              <button onClick={() => setEditingDescId(null)} className="px-2 py-1 text-xs text-text-secondary hover:bg-bg-tertiary rounded">취소</button>
-                              <button onClick={() => handleSaveDesc(item.celeb_id)} className="px-2 py-1 text-xs text-white bg-accent hover:bg-accent-hover rounded">저장</button>
-                            </div>
-                          </div>
-                        )}
+                        <div className="mt-3 pl-11 space-y-2">
+                          <input
+                            type="text"
+                            value={item.short_desc ?? ''}
+                            onChange={(e) => handleDescChange(item.celeb_id, 'short_desc', e.target.value)}
+                            onBlur={() => handleSaveDesc(item.celeb_id, item.short_desc ?? '', item.long_desc ?? '')}
+                            placeholder="짧은 문구 (예: 무에서 창조, 시대를 앞서감)"
+                            className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                          />
+                          <textarea
+                            value={item.long_desc ?? ''}
+                            onChange={(e) => handleDescChange(item.celeb_id, 'long_desc', e.target.value)}
+                            onBlur={() => handleSaveDesc(item.celeb_id, item.short_desc ?? '', item.long_desc ?? '')}
+                            placeholder="상세 설명..."
+                            rows={2}
+                            className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary resize-none focus:outline-none focus:ring-1 focus:ring-accent/50"
+                          />
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -483,19 +448,20 @@ export default function TagAccordionItem(props: Props) {
 function FormRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4">
-      <label className="w-20 text-xs font-medium text-text-secondary shrink-0">{label}</label>
+      <label className="w-24 text-sm font-medium text-text-secondary shrink-0">{label}</label>
       {children}
     </div>
   )
 }
 
 function Avatar({ url, name, size = 'sm' }: { url?: string | null; name?: string; size?: 'sm' | 'md' }) {
-  const sizeClass = size === 'sm' ? 'w-7 h-7' : 'w-9 h-9'
+  const sizeClass = size === 'sm' ? 'w-8 h-8' : 'w-10 h-10'
+  const iconSize = size === 'sm' ? 'w-4 h-4' : 'w-5 h-5'
   return url ? (
     <img src={url} alt={name} className={`${sizeClass} rounded-full object-cover shrink-0`} />
   ) : (
     <div className={`${sizeClass} rounded-full bg-bg-tertiary flex items-center justify-center shrink-0`}>
-      <User className="w-3.5 h-3.5 text-text-tertiary" />
+      <User className={`${iconSize} text-text-tertiary`} />
     </div>
   )
 }

@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Activity } from "lucide-react";
+import { useEffect, useRef, type ReactNode } from "react";
 
-export default function PendulumBanner() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function PendulumBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -272,26 +275,11 @@ export default function PendulumBanner() {
       <canvas ref={canvasRef} className="block" />
       
       {/* Overlay Content */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center translate-y-[-150px]">
-         <h2 className="text-5xl md:text-7xl font-serif font-black text-[#d4af37]/20 tracking-tighter blur-[1px]">
-            MOMENTUM
-         </h2>
-      </div>
-      
-      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center">
-         <div className="mt-[300px] flex flex-col items-center">
-            <h2 className="text-4xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight mix-blend-overlay">
-               CONSERVATION
-            </h2>
-            <p className="text-[#a0a0a0] tracking-[0.5em] text-xs mt-4 uppercase font-cinzel">
-               Action and Reaction
-            </p>
-         </div>
-      </div>
-       {/* Instruction */}
-       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/10 text-[10px] font-mono pointer-events-none">
-          DRAG SPHERES TO INTERACT
-       </div>
+      {children && (
+        <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
