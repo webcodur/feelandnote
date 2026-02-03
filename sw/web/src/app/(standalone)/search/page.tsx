@@ -16,6 +16,7 @@ import { searchContents, searchUsers, searchTags, searchRecords } from "@/action
 import { addContent } from "@/actions/contents/addContent";
 import { getMyContentIds } from "@/actions/contents/getMyContentIds";
 import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMetadata";
+import { getContentUserCounts } from "@/actions/contents/getContentUserCounts";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
@@ -86,6 +87,7 @@ function SearchContent() {
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [userCounts, setUserCounts] = useState<Record<string, number>>({});
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
@@ -117,6 +119,7 @@ function SearchContent() {
     setContentResults([]);
     setUserResults([]);
     setTagResults([]);
+    setUserCounts({});
   }, [queryParam, modeParam, categoryParam]);
 
   // 초기 검색
@@ -133,6 +136,12 @@ function SearchContent() {
             setContentResults(data.items);
             setTotalCount(data.total);
             setHasMore(data.hasMore);
+            // DB에서 user_count 조회
+            if (data.items.length > 0) {
+              const ids = data.items.map((item) => item.id);
+              const counts = await getContentUserCounts(ids);
+              if (!cancelled) setUserCounts(counts);
+            }
           }
         } else if (modeParam === "records") {
           const data = await searchRecords({ query: queryParam, category: category });
@@ -198,6 +207,12 @@ function SearchContent() {
         const data = await searchContents({ query: queryParam, category: categoryParam, page: nextPage });
         setContentResults((prev) => [...prev, ...data.items]);
         setHasMore(data.hasMore);
+        // 추가 로드된 항목의 user_count 조회
+        if (data.items.length > 0) {
+          const ids = data.items.map((item) => item.id);
+          const counts = await getContentUserCounts(ids);
+          setUserCounts((prev) => ({ ...prev, ...counts }));
+        }
       } else if (modeParam === "records") {
         const data = await searchRecords({ query: queryParam, category: category, page: nextPage });
         setContentResults((prev) => [...prev, ...data.items]);
@@ -315,6 +330,7 @@ function SearchContent() {
           addingIds={addingIds}
           addedIds={addedIds}
           savedIds={savedIds}
+          userCounts={userCounts}
           onBeforeNavigate={handleBeforeNavigate}
           onAddWithStatus={handleAddWithStatus}
         />

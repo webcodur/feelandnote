@@ -38,6 +38,7 @@ export interface UserContentWithContent {
     publisher: string | null
     release_date: string | null
     metadata: Record<string, unknown> | null
+    user_count: number | null
   }
 }
 

@@ -30,7 +30,7 @@ export const ARENA_ITEMS: ArenaItem[] = [
     label: "타임 퍼즐",
     icon: Clock,
     href: "/arena/timeline",
-    description: "콘텐츠의 시간 순서를 맞춰보세요",
+    description: "인물들의 탄생 순서를 맞춰보세요",
   },
   {
     value: "tier-list",

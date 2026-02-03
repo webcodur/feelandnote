@@ -9,9 +9,10 @@ import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/
 interface UpdateStatusParams {
   userContentId: string
   status: ContentStatus
+  clearReview?: boolean // WANT로 변경 시 리뷰 초기화
 }
 
-export async function updateStatus({ userContentId, status }: UpdateStatusParams): Promise<ActionResult<null>> {
+export async function updateStatus({ userContentId, status, clearReview }: UpdateStatusParams): Promise<ActionResult<null>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -27,9 +28,14 @@ export async function updateStatus({ userContentId, status }: UpdateStatusParams
     .eq('user_id', user.id)
     .single()
 
+  // WANT로 변경 시 리뷰 초기화 옵션
+  const updateData = clearReview
+    ? { status, rating: null, review: null, is_spoiler: false }
+    : { status }
+
   const { error } = await supabase
     .from('user_contents')
-    .update({ status })
+    .update(updateData)
     .eq('id', userContentId)
     .eq('user_id', user.id)
 

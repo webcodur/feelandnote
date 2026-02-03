@@ -1,13 +1,12 @@
 /*
   파일명: /components/features/user/ContentItemRenderer.tsx
   기능: 콘텐츠 목록 렌더링 컴포넌트
-  책임: RecordCard를 사용하여 콘텐츠 아이템을 렌더링한다.
+  책임: ContentCard를 사용하여 콘텐츠 아이템을 렌더링한다.
 */ // ------------------------------
 "use client";
 
-import { CertificateCard } from "@/components/ui/cards";
+import { CertificateCard, ContentCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
-import RecordCard from "@/components/ui/cards/RecordCard";
 import { RecommendButton } from "@/components/features/recommendations";
 import { getCategoryByDbType } from "@/constants/categories";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -51,11 +50,11 @@ export default function ContentItemRenderer({
       {regularContents.length > 0 && (
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           {regularContents.map((item) => {
-            // 본인 소유 + FINISHED 상태일 때만 추천 버튼 표시
+            // 본인 소유 + FINISHED 상태일 때만 추천 버튼 표시 (좌상단)
             const showRecommend = !readOnly && item.status === "FINISHED";
 
             return (
-              <RecordCard
+              <ContentCard
                 key={item.id}
                 contentId={item.content_id}
                 contentType={item.content.type}
@@ -70,7 +69,8 @@ export default function ContentItemRenderer({
                 href={getHref(item)}
                 showStatusBadge={false}
                 ownerNickname={ownerNickname}
-                actionNode={showRecommend ? (
+                userCount={item.content.user_count ?? 0}
+                topLeftNode={showRecommend ? (
                   <RecommendButton
                     userContentId={item.id}
                     contentTitle={item.content.title}

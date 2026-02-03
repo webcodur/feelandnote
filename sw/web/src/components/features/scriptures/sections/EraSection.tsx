@@ -8,9 +8,40 @@
 
 import { useState } from "react";
 import { Clock } from "lucide-react";
-import ScriptureCard from "../ScriptureCard";
+import { ContentCard } from "@/components/ui/cards";
+import ScriptureCelebModal from "../ScriptureCelebModal";
 import RepresentativeCelebs from "../RepresentativeCelebs";
+import { getCategoryByDbType } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
+
+// 인라인 래퍼
+function ScriptureContentCard({
+  id, title, creator, thumbnail, type, celebCount, userCount = 0, avgRating, index,
+}: {
+  id: string; title: string; creator?: string | null; thumbnail?: string | null;
+  type: string; celebCount: number; userCount?: number; avgRating?: number | null; index?: number;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const category = getCategoryByDbType(type);
+  const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  return (
+    <>
+      <ContentCard
+        thumbnail={thumbnail} title={title} creator={creator}
+        contentType={type as ContentType} href={href} index={index}
+        celebCount={celebCount} userCount={userCount} avgRating={avgRating ?? undefined}
+        onStatsClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsModalOpen(true); }}
+      />
+      <ScriptureCelebModal
+        isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+        contentId={id} contentTitle={title} celebCount={celebCount} userCount={userCount}
+      />
+    </>
+  );
+}
 import SectionHeader from "@/components/shared/SectionHeader";
+import { DecorativeLabel } from "@/components/ui";
 import { type EraScriptures } from "@/actions/scriptures";
 
 interface Props {
@@ -21,8 +52,8 @@ interface Props {
 function EraContentsGrid({ era }: { era: EraScriptures }) {
   return era.contents.length > 0 ? (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
-      {era.contents.map((content, index) => (
-        <ScriptureCard
+      {era.contents.map((content, idx) => (
+        <ScriptureContentCard
           key={content.id}
           id={content.id}
           title={content.title}
@@ -32,7 +63,7 @@ function EraContentsGrid({ era }: { era: EraScriptures }) {
           celebCount={content.celeb_count}
           userCount={content.user_count}
           avgRating={content.avg_rating}
-          rank={index + 1}
+          index={idx + 1}
         />
       ))}
     </div>
@@ -79,7 +110,10 @@ export default function EraSection({ initialData }: Props) {
 
       {/* 모바일: 시대 선택 탭 */}
       <div className="md:hidden mb-10 overflow-x-auto scrollbar-hidden pb-2 mx-[-1rem] px-4 sm:mx-0 sm:px-0">
-        <div className="flex justify-start sm:justify-center min-w-max">
+        <div className="flex justify-center mb-4">
+          <DecorativeLabel label="시대 선택" />
+        </div>
+        <div className="flex justify-center min-w-max">
           <div className="inline-flex p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner gap-1">
             {initialData.map((era) => {
               const isActive = selectedEra === era.era;
@@ -108,13 +142,13 @@ export default function EraSection({ initialData }: Props) {
 
         {/* 모바일: 선택된 시대 콘텐츠 */}
         {selectedData && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          <div className="mt-8 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* 대표 인물 */}
             {selectedData.topCelebs.length > 0 && (
               <div className="relative">
                  <div className="absolute -inset-4 bg-gradient-to-b from-accent/5 to-transparent rounded-3xl -z-10 blur-xl" />
                 <RepresentativeCelebs
-                  celebs={selectedData.topCelebs}
+                  celebs={selectedData.topCelebs.slice(0, 3)}
                   title="시대의 상징"
                   type="classic"
                 />
@@ -127,11 +161,9 @@ export default function EraSection({ initialData }: Props) {
             
             {/* 경전 목록 */}
             <div>
-              <h3 className="text-xs font-cinzel font-bold text-accent mb-4 flex items-center justify-center gap-2 tracking-widest uppercase opacity-80">
-                <span className="w-8 h-[1px] bg-accent" />
-                Scriptures of the Age
-                <span className="w-8 h-[1px] bg-accent" />
-              </h3>
+              <div className="flex justify-center mb-4">
+                <DecorativeLabel label="시대의 경전" />
+              </div>
               <EraContentsGrid era={selectedData} />
             </div>
           </div>

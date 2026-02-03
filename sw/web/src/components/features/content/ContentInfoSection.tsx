@@ -102,10 +102,23 @@ export default function ContentInfoSection({
 
   const handleStatusChange = (newStatus: ContentStatus) => {
     if (!userRecord) return;
+
+    // WANT로 변경 시 리뷰가 있으면 경고
+    const hasReviewData = userRecord.rating || userRecord.review;
+    if (newStatus === "WANT" && hasReviewData) {
+      const confirmed = confirm("관심으로 변경하면 작성한 별점과 리뷰가 삭제됩니다. 계속하시겠습니까?");
+      if (!confirmed) return;
+    }
+
     startTransition(async () => {
       try {
-        await updateStatus({ userContentId: userRecord.id, status: newStatus });
-        onRecordChange({ ...userRecord, status: newStatus });
+        const clearReview = newStatus === "WANT";
+        await updateStatus({ userContentId: userRecord.id, status: newStatus, clearReview });
+        onRecordChange({
+          ...userRecord,
+          status: newStatus,
+          ...(clearReview ? { rating: null, review: null, isSpoiler: false } : {}),
+        });
       } catch (err) {
         console.error("상태 변경 실패:", err);
       }
@@ -211,14 +224,10 @@ export default function ContentInfoSection({
       {error && <p className="text-red-400 text-xs">{error}</p>}
 
       {isLoggedIn && !userRecord && (
-        <div className="flex gap-2">
-          <Button variant="secondary" size="md" onClick={() => handleAdd("WANT")} disabled={isPending} className="flex-1">
-            {isPending ? <Loader2 size={16} className="animate-spin" /> : <Bookmark size={16} className="text-yellow-500" />}
+        <div className="flex justify-end">
+          <Button variant="secondary" size="sm" onClick={() => handleAdd("WANT")} disabled={isPending}>
+            {isPending ? <Loader2 size={14} className="animate-spin" /> : <Bookmark size={14} className="text-yellow-500" />}
             관심 등록
-          </Button>
-          <Button variant="primary" size="md" onClick={() => handleAdd("FINISHED")} disabled={isPending} className="flex-1">
-            {isPending ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
-            감상 등록
           </Button>
         </div>
       )}

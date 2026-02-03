@@ -8,6 +8,7 @@ import { FileText, Search, Users, Library, Quote, StickyNote, Globe, Lock, UserC
 import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
+import Pagination from '@/components/ui/Pagination'
 
 const TYPE_CONFIG = {
   NOTE: { label: '노트', color: 'bg-blue-500/10 text-blue-400', icon: StickyNote },
@@ -221,23 +222,16 @@ export default async function RecordsPage({ searchParams }: PageProps) {
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1 md:gap-2 flex-wrap">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link
-              key={p}
-              href={`/records?page=${p}&type=${type}&visibility=${visibility}&search=${search}`}
-              className={`px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm ${
-                p === page
-                  ? 'bg-accent text-white'
-                  : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              {p}
-            </Link>
-          ))}
-        </div>
-      )}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        baseHref="/records"
+        params={{
+          type: type !== 'all' ? type : undefined,
+          visibility: visibility !== 'all' ? visibility : undefined,
+          search: search || undefined,
+        }}
+      />
     </div>
   )
 }

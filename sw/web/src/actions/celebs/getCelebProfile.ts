@@ -19,6 +19,7 @@ export async function getCelebProfile(celebId: string): Promise<CelebProfileWith
     .select('*')
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
     .single()
 
   if (error || !profile) {

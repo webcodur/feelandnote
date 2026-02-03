@@ -11,6 +11,7 @@ export interface RecordsSearchResult {
   thumbnail?: string
   status: string
   rating?: number
+  userCount?: number
 }
 
 interface SearchRecordsParams {
@@ -33,6 +34,7 @@ interface ContentData {
   title: string
   creator: string | null
   thumbnail_url: string | null
+  user_count: number | null
 }
 
 interface UserContentRow {
@@ -72,7 +74,8 @@ export async function searchRecords({
         type,
         title,
         creator,
-        thumbnail_url
+        thumbnail_url,
+        user_count
       )
     `, { count: 'exact' })
     .eq('user_id', user.id)
@@ -111,6 +114,7 @@ export async function searchRecords({
         thumbnail: content.thumbnail_url || undefined,
         status: item.status,
         rating: item.rating || undefined,
+        userCount: content.user_count || undefined,
       }
     })
 

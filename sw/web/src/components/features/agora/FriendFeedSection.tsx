@@ -12,7 +12,7 @@ import FriendActivitySection from "@/components/features/home/FriendActivitySect
 
 const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
   { value: "all", label: "전체" },
-  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
+  ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
 ];
 
 interface Props {

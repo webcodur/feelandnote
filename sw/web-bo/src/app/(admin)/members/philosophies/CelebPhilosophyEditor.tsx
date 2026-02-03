@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, Check, X, Loader2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Star, Check, X, Loader2, Trash2 } from 'lucide-react'
 import { updateCelebPhilosophy, deleteCeleb, type CelebTitleItem } from '@/actions/admin/celebs'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { useToast } from '@/contexts/ToastContext'
+import Pagination from '@/components/ui/Pagination'
 
 interface Props {
   celebs: CelebTitleItem[]
@@ -208,25 +209,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
-          <Link
-            href={`/members/philosophies?page=${page - 1}`}
-            className={`p-2 rounded-lg border border-border ${page <= 1 ? 'pointer-events-none opacity-50 bg-bg-secondary' : 'hover:bg-bg-secondary bg-bg-card'}`}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Link>
-          <span className="text-sm font-medium text-text-secondary px-2">
-            {page} / {totalPages}
-          </span>
-          <Link
-            href={`/members/philosophies?page=${page + 1}`}
-            className={`p-2 rounded-lg border border-border ${page >= totalPages ? 'pointer-events-none opacity-50 bg-bg-secondary' : 'hover:bg-bg-secondary bg-bg-card'}`}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-      )}
+      <Pagination page={page} totalPages={totalPages} baseHref="/members/philosophies" />
     </div>
   )
 }

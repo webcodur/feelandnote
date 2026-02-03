@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import RecordCard from "@/components/ui/cards/RecordCard";
+import { ContentCard, type ContentCardProps } from "@/components/ui/cards";
 import { ArrowRight } from "lucide-react";
-import type { RecordCardProps } from "@/components/ui/cards/RecordCard";
 
 // Mock Data for Archive Preview
-const MOCK_RECORDS: Partial<RecordCardProps>[] = [
+const MOCK_RECORDS: Partial<ContentCardProps>[] = [
   {
     contentId: "mock-1",
     contentType: "BOOK",
@@ -46,7 +45,7 @@ const MOCK_RECORDS: Partial<RecordCardProps>[] = [
 ];
 
 interface ArchivePreviewProps {
-  initialRecords?: RecordCardProps[];
+  initialRecords?: ContentCardProps[];
   userId?: string;
 }
 
@@ -68,8 +67,8 @@ export default function ArchivePreview({ initialRecords = [], userId }: ArchiveP
               className="transform hover:-translate-y-2 transition-transform duration-300"
               style={{ transitionDelay: `${idx * 100}ms` }}
             >
-              <RecordCard
-                {...record as RecordCardProps}
+              <ContentCard
+                {...record as ContentCardProps}
                 heightClass="h-[300px]"
                 className="shadow-xl"
               />

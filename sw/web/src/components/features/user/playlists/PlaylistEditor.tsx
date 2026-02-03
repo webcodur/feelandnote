@@ -23,7 +23,7 @@ import { createPlaylist } from "@/actions/playlists/createPlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
 import { updatePlaylistItems } from "@/actions/playlists/updatePlaylistItems";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import SelectableContentCard from "./SelectableContentCard";
+import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
 import { createClient } from "@/lib/supabase/client";
@@ -298,11 +298,17 @@ export default function PlaylistEditor({
       ) : (
         <ContentGrid minWidth={140}>
           {filteredContents.map((item) => (
-            <SelectableContentCard
+            <ContentCard
               key={item.id}
-              item={item}
+              thumbnail={item.content.thumbnail_url}
+              title={item.content.title}
+              creator={item.content.creator}
+              contentType={item.content.type}
+              userCount={item.content.user_count ?? undefined}
+              selectable
               isSelected={selectedIds.has(item.content_id)}
-              onToggle={() => handleToggleSelect(item.content_id)}
+              onSelect={() => handleToggleSelect(item.content_id)}
+              aspectRatio="3/4"
             />
           ))}
         </ContentGrid>

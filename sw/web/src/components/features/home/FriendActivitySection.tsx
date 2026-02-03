@@ -1,13 +1,142 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
-import { Inbox } from "lucide-react";
-import ReviewCard from "./ReviewCard";
-import { LoadMoreButton, FilterTabs } from "@/components/ui";
+import { useEffect, useState, useCallback, useMemo, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Inbox, Check, User } from "lucide-react";
+import { ContentCard } from "@/components/ui/cards";
+import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } from "@/actions/activity";
 import { CONTENT_TYPE_FILTERS, getCategoryByDbType, type ContentTypeFilterValue } from "@/constants/categories";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { ACTION_CONFIG } from "@/lib/config/activity-actions";
+import { addContent } from "@/actions/contents/addContent";
+import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+
+// #region Inline Friend Feed Card
+function FriendFeedCard({ activity }: { activity: FeedActivity }) {
+  const router = useRouter();
+  const config = ACTION_CONFIG[activity.action_type];
+  const [isAdded, setIsAdded] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isAdding, startTransition] = useTransition();
+  const [showUserModal, setShowUserModal] = useState(false);
+
+  const category = getCategoryByDbType(activity.content_type!);
+  const contentTypeLabel = category?.shortLabel ?? activity.content_type;
+
+  useEffect(() => {
+    checkContentSaved(activity.content_id!).then((result) => {
+      setIsAdded(result.saved);
+      setIsChecking(false);
+    });
+  }, [activity.content_id]);
+
+  const handleAddToArchive = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isAdded || isAdding) return;
+
+    startTransition(async () => {
+      const result = await addContent({
+        id: activity.content_id!,
+        type: activity.content_type!,
+        title: activity.content_title || "",
+        creator: undefined,
+        thumbnailUrl: activity.content_thumbnail ?? undefined,
+        status: "WANT",
+      });
+      if (result.success) setIsAdded(true);
+    });
+  };
+
+  const handleNavigateToUser = () => {
+    setShowUserModal(false);
+    router.push(`/${activity.user_id}`);
+  };
+
+  const headerNode = (
+    <div className="flex items-center gap-4 py-1">
+      <button
+        type="button"
+        className="flex-shrink-0 cursor-pointer"
+        onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
+      >
+        <Avatar url={activity.user_avatar_url} name={activity.user_nickname} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+      </button>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="text-sm font-bold text-text-primary tracking-tight hover:text-accent cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
+          >
+            {activity.user_nickname}
+          </button>
+          <TitleBadge title={activity.user_title ?? null} size="sm" />
+        </div>
+        <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+          {config?.verb || "활동"} · {formatRelativeTime(activity.created_at)}
+        </p>
+      </div>
+    </div>
+  );
+
+  const actionNode = (
+    <div>
+      {isAdded ? (
+        <div className="px-3 py-1.5 border border-accent/30 bg-black/80 backdrop-blur-md text-accent font-black text-[10px] tracking-tight flex items-center gap-1.5 rounded shadow-lg">
+          <Check size={12} />
+          <span>저장됨</span>
+        </div>
+      ) : (
+        <button
+          onClick={handleAddToArchive}
+          disabled={isChecking || isAdding}
+          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
+        >
+          {isChecking ? "..." : isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <>
+      <ContentCard
+        contentId={activity.content_id!}
+        contentType={activity.content_type!}
+        title={activity.content_title || ""}
+        creator={null}
+        thumbnail={activity.content_thumbnail}
+        status="FINISHED"
+        review={activity.review!}
+        isSpoiler={false}
+        sourceUrl={activity.source_url}
+        href={`/content/${activity.content_id}?category=${category?.id || "book"}`}
+        ownerNickname={activity.user_nickname}
+        headerNode={headerNode}
+        actionNode={actionNode}
+        heightClass="h-[320px] md:h-[280px]"
+        className="max-w-4xl mx-auto"
+      />
+
+      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
+        <ModalBody>
+          <p className="text-text-secondary">
+            <span className="text-text-primary font-semibold">{activity.user_nickname}</span>
+            님의 기록관으로 이동하시겠습니까?
+          </p>
+        </ModalBody>
+        <ModalFooter className="justify-end">
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+// #endregion
 
 function EmptyActivity() {
   return (
@@ -132,27 +261,9 @@ export default function FriendActivitySection({
         <EmptyActivity />
       ) : (
         <div className="space-y-4">
-          {filteredActivities.map((activity) => {
-            const config = ACTION_CONFIG[activity.action_type];
-            return (
-              <ReviewCard
-                key={activity.id}
-                userId={activity.user_id}
-                userName={activity.user_nickname}
-                userAvatar={activity.user_avatar_url}
-                userTitle={activity.user_title}
-                userSubtitle={config?.verb || "활동"}
-                contentType={activity.content_type!}
-                contentId={activity.content_id!}
-                contentTitle={activity.content_title || ""}
-                contentThumbnail={activity.content_thumbnail}
-                review={activity.review!}
-                timeAgo={formatRelativeTime(activity.created_at)}
-                sourceUrl={activity.source_url}
-                href={`/content/${activity.content_id}?category=${getCategoryByDbType(activity.content_type!)?.id || "book"}`}
-              />
-            );
-          })}
+          {filteredActivities.map((activity) => (
+            <FriendFeedCard key={activity.id} activity={activity} />
+          ))}
           <LoadMoreButton
             onClick={loadMore}
             isLoading={isLoadingMore}

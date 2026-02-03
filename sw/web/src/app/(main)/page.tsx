@@ -10,7 +10,7 @@ import ScripturesPreview from "@/components/features/home/ScripturesPreview";
 import ArenaPreview from "@/components/features/home/ArenaPreview";
 
 import { getUserContents } from "@/actions/contents/getUserContents";
-import type { RecordCardProps } from "@/components/ui/cards/RecordCard";
+import type { ContentCardProps } from "@/components/ui/cards";
 import SectionWrapper from "@/components/features/home/SectionWrapper";
 import { HOME_SECTIONS } from "@/constants/navigation";
 
@@ -63,7 +63,7 @@ export default async function HomePage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   // 사용자 기록 조회 (로그인 시)
-  let userRecords: RecordCardProps[] = [];
+  let userRecords: ContentCardProps[] = [];
   if (user) {
     try {
       const { items } = await getUserContents({ 

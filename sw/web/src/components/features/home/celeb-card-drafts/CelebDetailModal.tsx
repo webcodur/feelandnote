@@ -19,9 +19,16 @@ import InfluenceBadge from "@/components/ui/InfluenceBadge";
 import { FormattedText } from "@/components/ui";
 import { getCelebReviews } from "@/actions/home/getCelebReviews";
 import type { CelebReview } from "@/types/home";
-import ReviewCard from "@/components/features/home/ReviewCard";
+import { ContentCard } from "@/components/ui/cards";
+import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
+import Button from "@/components/ui/Button";
+import { addContent } from "@/actions/contents/addContent";
+import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+import { getCategoryByDbType } from "@/constants/categories";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 // #region Constants (materials.ts 기반 오라별 그라데이션)
 const AURA_GRADIENTS: Record<Aura, string> = {
@@ -35,6 +42,135 @@ const AURA_GRADIENTS: Record<Aura, string> = {
   8: "from-[#E0FFFF] via-[#B0E0E6] to-[#87CEEB]",         // diamond (사도)
   9: "from-[#FF00FF] via-[#00FFFF] to-[#FFFF00]",         // holographic (불멸자)
 };
+// #endregion
+
+// #region Inline Celeb Review Card (for modal)
+function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebProfile }) {
+  const router = useRouter();
+  const [isAdded, setIsAdded] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isAdding, startTransition] = useTransition();
+  const [showUserModal, setShowUserModal] = useState(false);
+
+  const category = getCategoryByDbType(review.content.type);
+  const contentTypeLabel = category?.shortLabel ?? review.content.type;
+  const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
+
+  useEffect(() => {
+    checkContentSaved(review.content.id).then((result) => {
+      setIsAdded(result.saved);
+      setIsChecking(false);
+    });
+  }, [review.content.id]);
+
+  const handleAddToArchive = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isAdded || isAdding) return;
+
+    startTransition(async () => {
+      const result = await addContent({
+        id: review.content.id,
+        type: review.content.type,
+        title: review.content.title,
+        creator: review.content.creator ?? undefined,
+        thumbnailUrl: review.content.thumbnail_url ?? undefined,
+        status: "WANT",
+      });
+      if (result.success) setIsAdded(true);
+    });
+  };
+
+  const handleNavigateToUser = () => {
+    setShowUserModal(false);
+    router.push(`/${celeb.id}`);
+  };
+
+  const headerNode = (
+    <div className="flex items-center gap-4 py-1">
+      <button
+        type="button"
+        className="flex-shrink-0 cursor-pointer"
+        onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
+      >
+        <Avatar url={celeb.avatar_url} name={celeb.nickname} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+      </button>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="text-sm font-bold text-text-primary tracking-tight hover:text-accent cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
+          >
+            {celeb.nickname}
+          </button>
+          <TitleBadge title={null} size="sm" />
+          {celeb.is_verified && (
+            <span className="bg-[#d4af37] text-black text-[8px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
+              OFFICIAL
+            </span>
+          )}
+        </div>
+        <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+          {celeb.title || "기록자"} · {timeAgo}
+        </p>
+      </div>
+    </div>
+  );
+
+  const actionNode = (
+    <div>
+      {isAdded ? (
+        <div className="px-3 py-1.5 border border-accent/30 bg-black/80 backdrop-blur-md text-accent font-black text-[10px] tracking-tight flex items-center gap-1.5 rounded shadow-lg">
+          <Check size={12} />
+          <span>저장됨</span>
+        </div>
+      ) : (
+        <button
+          onClick={handleAddToArchive}
+          disabled={isChecking || isAdding}
+          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
+        >
+          {isChecking ? "..." : isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <>
+      <ContentCard
+        contentId={review.content.id}
+        contentType={review.content.type}
+        title={review.content.title}
+        creator={review.content.creator}
+        thumbnail={review.content.thumbnail_url}
+        status="FINISHED"
+        review={review.review}
+        isSpoiler={review.is_spoiler}
+        sourceUrl={review.source_url}
+        href=""
+        ownerNickname={celeb.nickname}
+        headerNode={headerNode}
+        actionNode={actionNode}
+        heightClass="h-[320px] md:h-[280px]"
+      />
+
+      <UiModal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
+        <ModalBody>
+          <p className="text-text-secondary">
+            <span className="text-text-primary font-semibold">{celeb.nickname}</span>
+            님의 기록관으로 이동하시겠습니까?
+          </p>
+        </ModalBody>
+        <ModalFooter className="justify-end">
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+        </ModalFooter>
+      </UiModal>
+    </>
+  );
+}
 // #endregion
 
 interface CelebDetailModalProps {
@@ -228,25 +364,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           </div>
         ) : reviews.length > 0 ? (
           <div className="flex flex-col gap-6 max-w-2xl mx-auto">
-            {reviews.map((review) => (
-              <ReviewCard
-                key={review.id}
-                userId={celeb.id}
-                userName={celeb.nickname}
-                userAvatar={celeb.avatar_url}
-                isOfficial={celeb.is_verified}
-                userTitle={null}
-                userSubtitle={celeb.title || undefined}
-                contentType={review.content.type}
-                contentId={review.content.id}
-                contentTitle={review.content.title}
-                contentCreator={review.content.creator}
-                contentThumbnail={review.content.thumbnail_url}
-                review={review.review}
-                timeAgo={formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko })}
-                isSpoiler={review.is_spoiler}
-                sourceUrl={review.source_url}
-              />
+            {reviews.map((reviewItem) => (
+              <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} />
             ))}
           </div>
         ) : (

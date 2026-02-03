@@ -3,6 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { getContentById, type ContentDetail } from './getContentById'
 import { fetchContentMetadata } from './fetchContentMetadata'
+import { getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
+import { getAiReviews, type AiReviewItem } from '@/actions/ai'
 import { getProfile } from '@/actions/user'
 import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
@@ -34,6 +36,9 @@ export interface ContentDetailData {
   // 메타 정보
   isLoggedIn: boolean
   hasApiKey: boolean
+  // 초기 리뷰 데이터 (서버에서 프리페치)
+  initialReviews: ReviewFeedItem[]
+  initialAiReviews: AiReviewItem[]
 }
 // #endregion
 
@@ -135,10 +140,18 @@ export async function getContentDetail(
     }
   }
 
+  // 3. 리뷰 데이터 프리페치 (병렬)
+  const [initialReviews, initialAiReviews] = await Promise.all([
+    getReviewFeed({ contentId, limit: 10 }),
+    getAiReviews({ contentId }),
+  ])
+
   return {
     content: contentData,
     userRecord,
     isLoggedIn: !!profile,
     hasApiKey: !!profile?.gemini_api_key,
+    initialReviews,
+    initialAiReviews,
   }
 }

@@ -1,16 +1,152 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useTransition } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Inbox } from "lucide-react";
-import ReviewCard from "./ReviewCard";
-import { LoadMoreButton, FilterTabs } from "@/components/ui";
+import { Inbox, Check, User } from "lucide-react";
+import { ContentCard } from "@/components/ui/cards";
+import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
+import Button from "@/components/ui/Button";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { formatRelativeTime } from "@/lib/utils/date";
+import { addContent } from "@/actions/contents/addContent";
+import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
+import { getCategoryByDbType } from "@/constants/categories";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
+import type { ContentType } from "@/types/database";
+
+// #region Inline Celeb Feed Card
+interface CelebFeedCardProps {
+  review: CelebReview;
+  initialSaved?: boolean;
+}
+
+function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
+  const router = useRouter();
+  const [isAdded, setIsAdded] = useState(initialSaved);
+  const [isAdding, startTransition] = useTransition();
+  const [showUserModal, setShowUserModal] = useState(false);
+
+  // initialSaved prop 변경 시 동기화
+  useEffect(() => {
+    setIsAdded(initialSaved);
+  }, [initialSaved]);
+
+  const category = getCategoryByDbType(review.content.type);
+  const contentTypeLabel = category?.shortLabel ?? review.content.type;
+
+  const handleAddToArchive = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isAdded || isAdding) return;
+
+    startTransition(async () => {
+      const result = await addContent({
+        id: review.content.id,
+        type: review.content.type,
+        title: review.content.title,
+        creator: review.content.creator ?? undefined,
+        thumbnailUrl: review.content.thumbnail_url ?? undefined,
+        status: "WANT",
+      });
+      if (result.success) setIsAdded(true);
+    });
+  };
+
+  const handleNavigateToUser = () => {
+    setShowUserModal(false);
+    router.push(`/${review.celeb.id}`);
+  };
+
+  const headerNode = (
+    <div className="flex items-center gap-4 py-1">
+      <button
+        type="button"
+        className="flex-shrink-0 cursor-pointer"
+        onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
+      >
+        <Avatar url={review.celeb.avatar_url} name={review.celeb.nickname} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+      </button>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="text-sm font-bold text-text-primary tracking-tight hover:text-accent cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
+          >
+            {review.celeb.nickname}
+          </button>
+          <TitleBadge title={null} size="sm" />
+          {review.celeb.is_verified && (
+            <span className="bg-[#d4af37] text-black text-[8px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
+              OFFICIAL
+            </span>
+          )}
+        </div>
+        <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+          {getCelebProfessionLabel(review.celeb.profession) || "지혜의 탐구자"} · {formatRelativeTime(review.updated_at)}
+        </p>
+      </div>
+    </div>
+  );
+
+  const actionNode = (
+    <div>
+      {isAdded ? (
+        <div className="px-3 py-1.5 border border-accent/30 bg-black/80 backdrop-blur-md text-accent font-black text-[10px] tracking-tight flex items-center gap-1.5 rounded shadow-lg">
+          <Check size={12} />
+          <span>저장됨</span>
+        </div>
+      ) : (
+        <button
+          onClick={handleAddToArchive}
+          disabled={isAdding}
+          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
+        >
+          {isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <>
+      <ContentCard
+        contentId={review.content.id}
+        contentType={review.content.type}
+        title={review.content.title}
+        creator={review.content.creator}
+        thumbnail={review.content.thumbnail_url}
+        status="FINISHED"
+        review={review.review}
+        isSpoiler={review.is_spoiler}
+        sourceUrl={review.source_url}
+        href=""
+        ownerNickname={review.celeb.nickname}
+        headerNode={headerNode}
+        actionNode={actionNode}
+        heightClass="h-[320px] md:h-[280px]"
+        className="max-w-4xl mx-auto"
+      />
+
+      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
+        <ModalBody>
+          <p className="text-text-secondary">
+            <span className="text-text-primary font-semibold">{review.celeb.nickname}</span>
+            님의 기록관으로 이동하시겠습니까?
+          </p>
+        </ModalBody>
+        <ModalFooter className="justify-end">
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+// #endregion
 
 // #region Skeleton
 function ReviewCardSkeleton() {
@@ -125,9 +261,17 @@ export default function CelebFeed({
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
-  
+  const [savedContentIds, setSavedContentIds] = useState<Set<string>>(new Set());
+
   // 첫 렌더링 시 데이터가 있으면 로딩 스킵을 위한 ref
   const isFirstRender = useRef(true);
+
+  // 저장 상태 배치 조회
+  useEffect(() => {
+    if (reviews.length === 0) return;
+    const contentIds = reviews.map((r) => r.content.id);
+    checkContentsSaved(contentIds).then(setSavedContentIds);
+  }, [reviews]);
 
   // 콘텐츠 타입 변경 핸들러 (외부 제어가 아닐 때만 URL 업데이트)
   const handleTypeChange = useCallback((type: ContentTypeFilterValue) => {
@@ -199,23 +343,7 @@ export default function CelebFeed({
       {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
       <div className="space-y-4">
         {reviews.map((review) => (
-          <ReviewCard
-            key={review.id}
-            userId={review.celeb.id}
-            userName={review.celeb.nickname}
-            userAvatar={review.celeb.avatar_url}
-            isOfficial={review.celeb.is_verified}
-            userSubtitle={getCelebProfessionLabel(review.celeb.profession) || "지혜의 탐구자"}
-            contentType={review.content.type}
-            contentId={review.content.id}
-            contentTitle={review.content.title}
-            contentCreator={review.content.creator}
-            contentThumbnail={review.content.thumbnail_url}
-            review={review.review}
-            timeAgo={formatRelativeTime(review.updated_at)}
-            isSpoiler={review.is_spoiler}
-            sourceUrl={review.source_url}
-          />
+          <CelebFeedCard key={review.id} review={review} initialSaved={savedContentIds.has(review.content.id)} />
         ))}
 
         {/* 로딩 스켈레톤 */}

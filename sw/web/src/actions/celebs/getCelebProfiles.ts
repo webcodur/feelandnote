@@ -18,6 +18,7 @@ export async function getCelebProfiles(params: GetCelebProfilesParams = {}) {
     .from('profiles')
     .select('*', { count: 'exact' })
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
 

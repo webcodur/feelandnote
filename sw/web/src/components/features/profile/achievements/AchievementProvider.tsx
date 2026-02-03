@@ -22,12 +22,14 @@ interface AchievementContextType {
 
 const AchievementContext = createContext<AchievementContextType | null>(null);
 
+// Context가 없는 환경에서도 안전하게 동작하는 no-op 반환
+const noopContext: AchievementContextType = {
+  showUnlock: () => {},
+};
+
 export function useAchievement() {
   const context = useContext(AchievementContext);
-  if (!context) {
-    throw new Error("useAchievement must be used within AchievementProvider");
-  }
-  return context;
+  return context ?? noopContext;
 }
 
 interface AchievementProviderProps {

@@ -146,7 +146,8 @@
       "Bash(npx playwright install:*)",
       "Bash(npx playwright test:*)",
       "Bash(git branch:*)",
-      "Bash(git worktree remove:*)"
+      "Bash(git worktree remove:*)",
+      "Bash(ss:*)"
     ],
     "deny": [],
     "ask": []

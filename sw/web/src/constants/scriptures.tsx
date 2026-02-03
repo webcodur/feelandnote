@@ -20,7 +20,7 @@ export interface ScripturesTab {
 export const SCRIPTURES_TABS: ScripturesTab[] = [
   {
     value: "chosen",
-    label: "다수의 선택",
+    label: "공통 서가",
     icon: Scroll,
     href: "/scriptures/chosen",
     description: "인물들이 가장 많이 선택한 콘텐츠",

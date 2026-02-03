@@ -8,9 +8,10 @@ interface Props {
   celebId: string
   currentSearch?: string
   currentType?: string
+  basePath?: string
 }
 
-export default function ContentSearchForm({ celebId, currentSearch, currentType }: Props) {
+export default function ContentSearchForm({ celebId, currentSearch, currentType, basePath = '/members' }: Props) {
   const router = useRouter()
   const [query, setQuery] = useState(currentSearch || '')
 
@@ -20,7 +21,7 @@ export default function ContentSearchForm({ celebId, currentSearch, currentType 
     if (query.trim()) params.set('search', query.trim())
     if (currentType) params.set('type', currentType)
     const queryString = params.toString()
-    router.push(`/members/${celebId}/contents${queryString ? `?${queryString}` : ''}`)
+    router.push(`${basePath}/${celebId}/contents${queryString ? `?${queryString}` : ''}`)
   }
 
   function handleClear() {
@@ -28,7 +29,7 @@ export default function ContentSearchForm({ celebId, currentSearch, currentType 
     const params = new URLSearchParams()
     if (currentType) params.set('type', currentType)
     const queryString = params.toString()
-    router.push(`/members/${celebId}/contents${queryString ? `?${queryString}` : ''}`)
+    router.push(`${basePath}/${celebId}/contents${queryString ? `?${queryString}` : ''}`)
   }
 
   return (

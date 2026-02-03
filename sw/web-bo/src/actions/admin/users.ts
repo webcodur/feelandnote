@@ -34,7 +34,9 @@ export async function getUsers(
   limit: number = 20,
   search?: string,
   status?: string,
-  role?: string
+  role?: string,
+  sort: string = 'created_at',
+  sortOrder: 'asc' | 'desc' = 'desc'
 ): Promise<UsersResponse> {
   const supabase = await createClient()
 
@@ -64,9 +66,19 @@ export async function getUsers(
     query = query.eq('role', role)
   }
 
-  const { data, error, count } = await query
-    .order('created_at', { ascending: false })
-    .range(offset, offset + limit - 1)
+  // 정렬 적용
+  const ascending = sortOrder === 'asc'
+  const validSortColumns = ['nickname', 'email', 'role', 'status', 'created_at']
+  const relationSortColumns = ['follower_count', 'content_count']
+
+  if (relationSortColumns.includes(sort)) {
+    query = query.order(sort, { referencedTable: 'user_social', ascending })
+  } else {
+    const sortColumn = validSortColumns.includes(sort) ? sort : 'created_at'
+    query = query.order(sortColumn, { ascending })
+  }
+
+  const { data, error, count } = await query.range(offset, offset + limit - 1)
 
   if (error) throw error
 

@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/scriptures/Scriptures.tsx
   기능: 지혜의 서고 페이지 메인 뷰
-  책임: 다수의 선택(SSR), 길의 갈래/오늘의 인물/세대의 경전(lazy load) 렌더링
+  책임: 공통 서가(SSR), 길의 갈래/오늘의 인물/세대의 경전(lazy load) 렌더링
 */ // ------------------------------
 "use client";
 
@@ -12,7 +12,10 @@ import { Scroll, Route, User, Clock, Menu, X } from "lucide-react";
 import { Tabs, Tab } from "@/components/ui/Tab";
 import { Pagination } from "@/components/ui/Pagination";
 import Button from "@/components/ui/Button";
-import ScriptureCard from "./ScriptureCard";
+import { ContentCard } from "@/components/ui/cards";
+import ScriptureCelebModal from "./ScriptureCelebModal";
+import { getCategoryByDbType } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
 import {
   getChosenScriptures,
   getScripturesByProfession,
@@ -50,7 +53,7 @@ interface SectionConfig {
 
 // #region Constants
 const SECTIONS: SectionConfig[] = [
-  { id: "chosen-section", label: "다수의 선택", description: "가장 많은 인물들이 감상한 경전", icon: Scroll },
+  { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 경전", icon: Scroll },
   { id: "profession-section", label: "길의 갈래", description: "분야별 인물들의 필독서", icon: Route, hasBg: true },
   { id: "sage-section", label: "오늘의 인물", description: "매일 새로운 인물의 서재를 탐방하세요", icon: User },
   { id: "era-section", label: "세대의 경전", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
@@ -139,6 +142,65 @@ function useActiveSection(sectionIds: string[]) {
   }, [sectionIds]);
 
   return activeSection;
+}
+// #endregion
+
+// #region Scripture Content Card (인라인 래퍼)
+interface ScriptureContentCardProps {
+  id: string;
+  title: string;
+  creator?: string | null;
+  thumbnail?: string | null;
+  type: string;
+  celebCount: number;
+  userCount?: number;
+  avgRating?: number | null;
+  index?: number;
+}
+
+function ScriptureContentCard({
+  id,
+  title,
+  creator,
+  thumbnail,
+  type,
+  celebCount,
+  userCount = 0,
+  avgRating,
+  index,
+}: ScriptureContentCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const category = getCategoryByDbType(type);
+  const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  return (
+    <>
+      <ContentCard
+        thumbnail={thumbnail}
+        title={title}
+        creator={creator}
+        contentType={type as ContentType}
+        href={href}
+        index={index}
+        celebCount={celebCount}
+        userCount={userCount}
+        avgRating={avgRating ?? undefined}
+        onStatsClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsModalOpen(true);
+        }}
+      />
+      <ScriptureCelebModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        contentId={id}
+        contentTitle={title}
+        celebCount={celebCount}
+        userCount={userCount}
+      />
+    </>
+  );
 }
 // #endregion
 
@@ -311,7 +373,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
             {professionData && professionData.contents.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
                 {professionData.contents.map((content, index) => (
-                  <ScriptureCard
+                  <ScriptureContentCard
                     key={content.id}
                     id={content.id}
                     title={content.title}
@@ -320,7 +382,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
                     type={content.type}
                     celebCount={content.celeb_count}
                     avgRating={content.avg_rating}
-                    rank={(professionPage - 1) * ITEMS_PER_PAGE + index + 1}
+                    index={(professionPage - 1) * ITEMS_PER_PAGE + index + 1}
                   />
                 ))}
               </div>
@@ -407,7 +469,7 @@ function TodaySageSection() {
           {displayContents.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
               {displayContents.map((content) => (
-                <ScriptureCard
+                <ScriptureContentCard
                   key={content.id}
                   id={content.id}
                   title={content.title}
@@ -480,7 +542,7 @@ function EraSection() {
               {era.contents.length > 0 ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
                   {era.contents.map((content, index) => (
-                    <ScriptureCard
+                    <ScriptureContentCard
                       key={content.id}
                       id={content.id}
                       title={content.title}
@@ -489,7 +551,7 @@ function EraSection() {
                       type={content.type}
                       celebCount={content.celeb_count}
                       avgRating={content.avg_rating}
-                      rank={index + 1}
+                      index={index + 1}
                     />
                   ))}
                 </div>
@@ -543,7 +605,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
       {/* 플로팅 목차 FAB */}
       <FloatingTOC activeSection={activeSection} />
 
-      {/* 섹션 1: 다수의 선택 (SSR) */}
+      {/* 섹션 1: 공통 서가 (SSR) */}
       <section id={chosenConfig.id} className={`py-12 md:py-16 ${chosenConfig.hasBg ? "bg-bg-card/30" : ""}`}>
         <ScriptureSectionHeader
           sectionId={chosenConfig.id}
@@ -568,7 +630,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
           {chosenData.contents.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
               {chosenData.contents.map((content, index) => (
-                <ScriptureCard
+                <ScriptureContentCard
                   key={content.id}
                   id={content.id}
                   title={content.title}
@@ -577,7 +639,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
                   type={content.type}
                   celebCount={content.celeb_count}
                   avgRating={content.avg_rating}
-                  rank={(chosenPage - 1) * ITEMS_PER_PAGE + index + 1}
+                  index={(chosenPage - 1) * ITEMS_PER_PAGE + index + 1}
                 />
               ))}
             </div>

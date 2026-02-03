@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 import { Flag, AlertTriangle, CheckCircle, Clock } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
+import Pagination from '@/components/ui/Pagination'
 
 const STATUS_CONFIG = {
   pending: { label: '대기중', color: 'bg-yellow-500/10 text-yellow-400', icon: Clock },
@@ -147,23 +148,12 @@ export default async function ReportsPage({ searchParams }: PageProps) {
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1 md:gap-2 flex-wrap">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link
-              key={p}
-              href={`/reports?page=${p}&status=${status}`}
-              className={`px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm ${
-                p === page
-                  ? 'bg-accent text-white'
-                  : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              {p}
-            </Link>
-          ))}
-        </div>
-      )}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        baseHref="/reports"
+        params={{ status: status !== 'all' ? status : undefined }}
+      />
     </div>
   )
 }

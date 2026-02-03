@@ -6,18 +6,74 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CornerDownLeft, Edit2 } from "lucide-react";
+
+// #region 아이콘 컴포넌트
+const TripleChevronLeft = ({ className, size = 16 }: { className?: string; size?: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="m19 17-5-5 5-5" />
+    <path d="m14 17-5-5 5-5" />
+    <path d="m9 17-5-5 5-5" />
+  </svg>
+);
+
+const TripleChevronRight = ({ className, size = 16 }: { className?: string; size?: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="m5 17 5-5-5-5" />
+    <path d="m10 17 5-5-5-5" />
+    <path d="m15 17 5-5-5-5" />
+  </svg>
+);
+// #endregion
 
 // #region 상수
 const PAGE_GROUP_SIZE = 5;
-const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
 
 const STYLES = {
-  navButton: "h-8 px-2 flex items-center justify-center rounded-md bg-white/5 text-text-secondary hover:text-text-primary hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed text-sm font-medium select-none",
-  pageButton: "h-8 px-2 flex items-center justify-center rounded-md bg-white/5 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-white/10 select-none",
-  pageButtonActive: "h-8 px-2 flex items-center justify-center rounded-md text-sm font-medium bg-white/15 text-text-primary select-none",
-  input: "h-8 px-2 bg-bg-secondary border border-border rounded-md text-text-primary text-sm focus:border-white/30 focus:outline-none",
-  goButton: "h-8 px-3 bg-white/10 text-text-primary rounded-md text-sm font-medium hover:bg-white/15 disabled:opacity-30 disabled:cursor-not-allowed",
+  // Container: Glassmorphism with subtle gradient border effect
+  container: "flex flex-col gap-3 p-3 rounded-2xl border border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] w-fit mx-auto min-w-[280px] ring-1 ring-white/5",
+  
+  // Segmented Control Group
+  group: "flex items-center bg-white/5 rounded-lg p-0.5 border border-white/5 shadow-inner",
+  
+  // Segmented Button
+  segmentBtn: "h-8 w-8 flex items-center justify-center text-text-secondary hover:text-accent hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed first:rounded-l-md last:rounded-r-md active:scale-90",
+  divider: "w-px h-3 bg-white/10 shadow-[0.5px_0_0_rgba(255,255,255,0.05)]",
+  
+  // Page Numbers
+  numContainer: "flex items-center justify-center gap-1.5 px-1",
+  numBtn: "h-8 min-w-[2rem] px-2 flex items-center justify-center rounded-lg text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-white/10 select-none",
+  // Active Page: Golden Gradient
+  numBtnActive: "h-8 min-w-[2rem] px-2 flex items-center justify-center rounded-lg text-sm font-bold bg-gradient-to-br from-accent via-[#f59e0b] to-[#b45309] text-black shadow-[0_0_15px_rgba(212,175,55,0.3)] select-none scale-105 ring-1 ring-accent/50",
+  
+  // Center Status / Input
+  statusBtn: "group relative h-8 px-2 flex items-center justify-center gap-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 min-w-[70px] cursor-pointer overflow-hidden",
+  inputWrapper: "h-8 flex items-center bg-black/60 border border-accent/50 rounded-lg overflow-hidden w-[70px] shadow-[0_0_10px_rgba(212,175,55,0.1)]",
+  input: "h-full w-full bg-transparent text-center text-sm font-bold text-accent focus:outline-none placeholder:text-accent/30 px-1",
+  submitBtn: "h-full w-8 flex items-center justify-center bg-accent/20 text-accent hover:bg-accent/40 border-l border-accent/20",
 } as const;
 // #endregion
 
@@ -43,20 +99,28 @@ export function Pagination({
   currentPage,
   totalPages,
   onPageChange,
-  pageSize,
-  onPageSizeChange,
-  showPageSizeSelector = false,
+  showPageSizeSelector = false, // Not used in compact mode
 }: PaginationProps) {
+  const [isInputMode, setIsInputMode] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const showSelector = showPageSizeSelector && pageSize && onPageSizeChange;
-
-  if (totalPages <= 1 && !showSelector) return null;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const pages = getPageGroup(currentPage, totalPages);
   const currentGroupStart = pages[0];
   const currentGroupEnd = pages[pages.length - 1];
 
-  // 이동 가능 여부
+  // Auto-focus and select text when mode changes
+  useEffect(() => {
+    if (isInputMode && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select(); // Auto-select active text for quick replacement
+      setInputValue("");
+    }
+  }, [isInputMode]);
+
+  if (totalPages <= 1) return null;
+
+  // Navigation Logic
   const canGoFirst = currentPage > 1;
   const canGoPrevGroup = currentGroupStart > 1;
   const canGoPrev = currentPage > 1;
@@ -64,148 +128,114 @@ export function Pagination({
   const canGoNextGroup = currentGroupEnd < totalPages;
   const canGoLast = currentPage < totalPages;
 
-  // 이동 핸들러
-  const goFirst = () => onPageChange(1);
-  const goPrevGroup = () => onPageChange(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE));
-  const goPrev = () => onPageChange(currentPage - 1);
-  const goNext = () => onPageChange(currentPage + 1);
-  const goNextGroup = () => onPageChange(Math.min(totalPages, currentGroupEnd + 1));
-  const goLast = () => onPageChange(totalPages);
+  const navigate = (page: number) => {
+    onPageChange(page);
+    setIsInputMode(false);
+  };
 
-  const handleGoToPage = () => {
+  const handleManualSubmit = () => {
     const page = parseInt(inputValue, 10);
     if (!isNaN(page) && page >= 1 && page <= totalPages) {
-      onPageChange(page);
-      setInputValue("");
+      navigate(page);
+    } else {
+      setIsInputMode(false);
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleGoToPage();
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleManualSubmit();
+    if (e.key === "Escape") setIsInputMode(false);
   };
 
   return (
-    <nav className="flex items-center justify-center gap-4 flex-wrap" aria-label="페이지네이션">
-      {/* 페이지 사이즈 선택 */}
-      {showSelector && (
-        <select
-          value={pageSize}
-          onChange={(e) => onPageSizeChange(Number(e.target.value))}
-          className={`${STYLES.input} w-20 cursor-pointer`}
-        >
-          {PAGE_SIZE_OPTIONS.map((size) => (
-            <option key={size} value={size}>{size}개</option>
-          ))}
-        </select>
-      )}
-
-      {/* 페이지 네비게이션 */}
-      {totalPages > 1 && (
-        <div className="flex items-center gap-1">
-          {/* 첫 페이지 */}
-          <button
-            onClick={goFirst}
-            disabled={!canGoFirst}
-            className={STYLES.navButton}
-            aria-label="첫 페이지"
-            title="첫 페이지"
-          >
-            «
+    <nav className={STYLES.container} aria-label="페이지네이션">
+      
+      {/* Top Row: Controller Bar */}
+      <div className="flex items-center justify-between w-full gap-4">
+        {/* Left Controls */}
+        <div className={STYLES.group}>
+          <button onClick={() => navigate(1)} disabled={!canGoFirst} className={STYLES.segmentBtn} title="처음">
+            <TripleChevronLeft size={14} />
           </button>
-
-          {/* 이전 그룹 (5페이지) */}
-          <button
-            onClick={goPrevGroup}
-            disabled={!canGoPrevGroup}
-            className={STYLES.navButton}
-            aria-label="이전 5페이지"
-            title="이전 5페이지"
-          >
-            ‹‹
+          <div className={STYLES.divider} />
+          <button onClick={() => navigate(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE))} disabled={!canGoPrevGroup} className={STYLES.segmentBtn} title="-5">
+            <ChevronsLeft size={14} />
           </button>
-
-          {/* 이전 페이지 */}
-          <button
-            onClick={goPrev}
-            disabled={!canGoPrev}
-            className={STYLES.navButton}
-            aria-label="이전 페이지"
-            title="이전 페이지"
-          >
-            ‹
+          <div className={STYLES.divider} />
+          <button onClick={() => navigate(currentPage - 1)} disabled={!canGoPrev} className={STYLES.segmentBtn} title="이전">
+            <ChevronLeft size={14} />
           </button>
+        </div>
 
-          {/* 페이지 번호들 */}
-          <div className="flex items-center gap-0.5 mx-1">
-            {pages.map((page) => (
-              <button
-                key={page}
-                onClick={() => onPageChange(page)}
-                className={page === currentPage ? STYLES.pageButtonActive : STYLES.pageButton}
-                aria-current={page === currentPage ? "page" : undefined}
+        {/* Center: Status / Input */}
+        <div className="flex-1 flex justify-center min-w-[70px]">
+          {isInputMode ? (
+            <div className={STYLES.inputWrapper}>
+              <input
+                ref={inputRef}
+                type="number"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={() => setTimeout(() => setIsInputMode(false), 200)} // Delay so button click registers
+                className={STYLES.input}
+                placeholder={`${currentPage}`}
+              />
+              <button 
+                onClick={handleManualSubmit} 
+                className={STYLES.submitBtn}
+                onMouseDown={(e) => e.preventDefault()} // Prevent blur before click
               >
-                {page}
+                <CornerDownLeft size={12} />
               </button>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <button 
+              onClick={() => setIsInputMode(true)}
+              className={STYLES.statusBtn}
+              title="페이지 직접 입력"
+            >
+              <span className="text-text-secondary font-cinzel text-xs">PAGE</span>
+              <span className="text-accent font-bold text-sm tracking-wide">{currentPage}</span>
+              <span className="text-white/20 text-xs">/</span>
+              <span className="text-text-secondary text-xs">{totalPages}</span>
+              
+              {/* Hover Edit Icon hint - Instant appearance */}
+              <Edit2 size={10} className="text-accent/50 opacity-0 group-hover:opacity-100 absolute right-1.5 top-1.5" />
+            </button>
+          )}
+        </div>
 
-          {/* 다음 페이지 */}
-          <button
-            onClick={goNext}
-            disabled={!canGoNext}
-            className={STYLES.navButton}
-            aria-label="다음 페이지"
-            title="다음 페이지"
-          >
-            ›
+        {/* Right Controls */}
+        <div className={STYLES.group}>
+          <button onClick={() => navigate(currentPage + 1)} disabled={!canGoNext} className={STYLES.segmentBtn} title="다음">
+            <ChevronRight size={14} />
           </button>
-
-          {/* 다음 그룹 (5페이지) */}
-          <button
-            onClick={goNextGroup}
-            disabled={!canGoNextGroup}
-            className={STYLES.navButton}
-            aria-label="다음 5페이지"
-            title="다음 5페이지"
-          >
-            ››
+          <div className={STYLES.divider} />
+          <button onClick={() => navigate(Math.min(totalPages, currentGroupEnd + 1))} disabled={!canGoNextGroup} className={STYLES.segmentBtn} title="+5">
+            <ChevronsRight size={14} />
           </button>
-
-          {/* 마지막 페이지 */}
-          <button
-            onClick={goLast}
-            disabled={!canGoLast}
-            className={STYLES.navButton}
-            aria-label="마지막 페이지"
-            title="마지막 페이지"
-          >
-            »
+          <div className={STYLES.divider} />
+          <button onClick={() => navigate(totalPages)} disabled={!canGoLast} className={STYLES.segmentBtn} title="마지막">
+            <TripleChevronRight size={14} />
           </button>
         </div>
-      )}
+      </div>
 
-      {/* 페이지 직접 이동 */}
-      {totalPages > 1 && (
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            min={1}
-            max={totalPages}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={`1-${totalPages}`}
-            className={`${STYLES.input} w-16 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
-          />
+      {/* Bottom Row: Page Numbers */}
+      <div className={STYLES.numContainer}>
+        {pages.map((page) => (
           <button
-            onClick={handleGoToPage}
-            disabled={!inputValue}
-            className={STYLES.goButton}
+            key={page}
+            onClick={() => navigate(page)}
+            className={page === currentPage ? STYLES.numBtnActive : STYLES.numBtn}
+            aria-current={page === currentPage ? "page" : undefined}
           >
-            이동
+            {page}
           </button>
-        </div>
-      )}
+        ))}
+      </div>
+
     </nav>
   );
 }

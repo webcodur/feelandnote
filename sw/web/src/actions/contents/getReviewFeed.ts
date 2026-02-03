@@ -8,6 +8,7 @@ export interface ReviewFeedItem {
   review: string
   is_spoiler: boolean
   updated_at: string
+  source_url: string | null
   user: {
     id: string
     nickname: string
@@ -35,6 +36,7 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
       review,
       is_spoiler,
       updated_at,
+      source_url,
       user:profiles!user_contents_user_id_fkey(id, nickname, avatar_url, profile_type)
     `)
     .eq('content_id', params.contentId)

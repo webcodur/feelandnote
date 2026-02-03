@@ -1,7 +1,7 @@
 /*
   파일명: /app/(main)/arena/tier-list/page.tsx
   기능: 티어리스트 페이지
-  책임: 플레이리스트 기반 티어리스트 기능을 제공한다.
+  책임: 공개 티어리스트 탐색 및 내 플레이리스트 티어 설정
 */ // ------------------------------
 
 "use client";
@@ -12,26 +12,43 @@ import TierListSection from "@/components/features/user/agora/TierListSection";
 import SelectPlaylistModal from "@/components/features/user/agora/SelectPlaylistModal";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { ARENA_SECTION_HEADERS } from "@/constants/arena";
-import { getPlaylists, type PlaylistSummary } from "@/actions/playlists";
+import { getPlaylists, getPublicTierLists, type PlaylistSummary } from "@/actions/playlists";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 export default function Page() {
   const router = useRouter();
-  const [playlists, setPlaylists] = useState<PlaylistSummary[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [publicTierLists, setPublicTierLists] = useState<PlaylistSummary[]>([]);
+  const [myPlaylists, setMyPlaylists] = useState<PlaylistSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
   useEffect(() => {
-    loadPlaylists();
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
   }, []);
 
-  async function loadPlaylists() {
+  useEffect(() => {
+    loadData();
+  }, [user]);
+
+  async function loadData() {
     setIsLoading(true);
     try {
-      const data = await getPlaylists();
-      setPlaylists(data);
+      // 공개 티어리스트는 항상 로드
+      const publicData = await getPublicTierLists();
+      setPublicTierLists(publicData);
+
+      // 로그인한 사용자만 내 플레이리스트 로드
+      if (user) {
+        const myData = await getPlaylists();
+        setMyPlaylists(myData);
+      }
     } catch (error) {
-      console.error("플레이리스트 로드 실패:", error);
-      setPlaylists([]);
+      console.error("데이터 로드 실패:", error);
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +56,7 @@ export default function Page() {
 
   const handlePlaylistSelect = (playlistId: string) => {
     setIsSelectModalOpen(false);
-    const selectedPlaylist = playlists.find(p => p.id === playlistId);
+    const selectedPlaylist = myPlaylists.find(p => p.id === playlistId);
     if (!selectedPlaylist) return;
     router.push(`/${selectedPlaylist.user_id}/collections/${playlistId}/tiers`);
   };
@@ -66,16 +83,19 @@ export default function Page() {
         }
       />
       <TierListSection
-        playlists={playlists}
+        playlists={publicTierLists}
         isLoading={isLoading}
         onOpenSelectModal={() => setIsSelectModalOpen(true)}
+        isLoggedIn={!!user}
       />
-      <SelectPlaylistModal
-        isOpen={isSelectModalOpen}
-        onClose={() => setIsSelectModalOpen(false)}
-        onSelect={handlePlaylistSelect}
-        playlists={playlists}
-      />
+      {user && (
+        <SelectPlaylistModal
+          isOpen={isSelectModalOpen}
+          onClose={() => setIsSelectModalOpen(false)}
+          onSelect={handlePlaylistSelect}
+          playlists={myPlaylists}
+        />
+      )}
     </>
   );
 }

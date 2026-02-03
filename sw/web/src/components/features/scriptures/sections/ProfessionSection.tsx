@@ -9,8 +9,38 @@
 import { useState, useEffect, useTransition } from "react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
-import ScriptureCard from "../ScriptureCard";
+import { ContentCard } from "@/components/ui/cards";
+import ScriptureCelebModal from "../ScriptureCelebModal";
 import RepresentativeCelebs from "../RepresentativeCelebs";
+import { getCategoryByDbType } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
+
+// 인라인 래퍼
+function ScriptureContentCard({
+  id, title, creator, thumbnail, type, celebCount, userCount = 0, avgRating, index,
+}: {
+  id: string; title: string; creator?: string | null; thumbnail?: string | null;
+  type: string; celebCount: number; userCount?: number; avgRating?: number | null; index?: number;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const category = getCategoryByDbType(type);
+  const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  return (
+    <>
+      <ContentCard
+        thumbnail={thumbnail} title={title} creator={creator}
+        contentType={type as ContentType} href={href} index={index}
+        celebCount={celebCount} userCount={userCount} avgRating={avgRating ?? undefined}
+        onStatsClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsModalOpen(true); }}
+      />
+      <ScriptureCelebModal
+        isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+        contentId={id} contentTitle={title} celebCount={celebCount} userCount={userCount}
+      />
+    </>
+  );
+}
 import SectionHeader from "@/components/shared/SectionHeader";
 import {
   getScripturesByProfession,
@@ -157,7 +187,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
           {data && data.contents.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
               {data.contents.map((content, index) => (
-                <ScriptureCard
+                <ScriptureContentCard
                   key={content.id}
                   id={content.id}
                   title={content.title}
@@ -167,7 +197,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
                   celebCount={content.celeb_count}
                   userCount={content.user_count}
                   avgRating={content.avg_rating}
-                  rank={(page - 1) * ITEMS_PER_PAGE + index + 1}
+                  index={(page - 1) * ITEMS_PER_PAGE + index + 1}
                 />
               ))}
             </div>

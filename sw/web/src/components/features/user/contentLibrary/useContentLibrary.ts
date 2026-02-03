@@ -160,6 +160,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
             publisher: null,
             release_date: null,
             metadata: item.content.metadata,
+            user_count: item.content.user_count ?? null,
           },
         }));
         setContents(mapped);

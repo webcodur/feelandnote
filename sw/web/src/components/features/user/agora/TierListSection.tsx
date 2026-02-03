@@ -5,18 +5,10 @@
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Button, Badge, Card, FilterChips, type ChipOption } from "@/components/ui";
-import { Trophy, ListMusic, Heart, Settings, Loader2 } from "lucide-react";
+import { Button, Badge, Card } from "@/components/ui";
+import { Trophy, ListMusic, Settings, Loader2 } from "lucide-react";
 import type { PlaylistSummary } from "@/actions/playlists";
-
-type TierSubTab = "all" | "with-tiers";
-
-const TIER_TAB_OPTIONS: ChipOption<TierSubTab>[] = [
-  { value: "all", label: "전체", icon: ListMusic },
-  { value: "with-tiers", label: "티어 설정됨", icon: Trophy },
-];
 
 const TIER_COLORS: Record<string, string> = {
   S: "#c5a059", // Gold
@@ -30,16 +22,10 @@ interface TierListSectionProps {
   playlists: PlaylistSummary[];
   isLoading: boolean;
   onOpenSelectModal: () => void;
+  isLoggedIn?: boolean;
 }
 
-export default function TierListSection({ playlists, isLoading, onOpenSelectModal }: TierListSectionProps) {
-  const [subTab, setSubTab] = useState<TierSubTab>("all");
-
-  const filteredPlaylists = playlists.filter(p => {
-    if (subTab === "with-tiers") return p.has_tiers;
-    return true;
-  });
-
+export default function TierListSection({ playlists, isLoading, onOpenSelectModal, isLoggedIn = false }: TierListSectionProps) {
   const getPlaylistHref = (playlist: PlaylistSummary) =>
     playlist.has_tiers 
       ? `/${playlist.user_id}/collections/${playlist.id}` 
@@ -47,26 +33,22 @@ export default function TierListSection({ playlists, isLoading, onOpenSelectModa
 
   return (
     <>
-      <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hidden">
-        <div className="min-w-max">
-          <FilterChips options={TIER_TAB_OPTIONS} value={subTab} onChange={setSubTab} variant="filled" showIcon />
-        </div>
-      </div>
-
       {isLoading ? (
         <div className="flex items-center justify-center py-20"><Loader2 size={32} className="animate-spin text-accent" /></div>
-      ) : filteredPlaylists.length === 0 ? (
+      ) : playlists.length === 0 ? (
         <div className="text-center py-20 text-text-secondary">
           <Trophy size={48} className="mx-auto mb-4 opacity-50" />
-          <p className="mb-2">{subTab === "with-tiers" ? "티어가 설정된 재생목록이 없습니다" : "재생목록이 없습니다"}</p>
-          <p className="text-sm mb-4">{subTab === "with-tiers" ? "재생목록에서 티어를 설정해보세요!" : "먼저 기록관에서 재생목록을 만들어주세요"}</p>
-          {playlists.length > 0 && (
-            <Button variant="primary" onClick={onOpenSelectModal}><Settings size={16} /> 티어 설정하기</Button>
+          <p className="mb-2">공개된 티어리스트가 없습니다</p>
+          <p className="text-sm mb-4">
+            {isLoggedIn ? "내 재생목록으로 티어를 설정해보세요!" : "로그인 후 티어리스트를 만들어보세요"}
+          </p>
+          {isLoggedIn && (
+            <Button variant="primary" onClick={onOpenSelectModal}><Settings size={16} /> 내 티어 만들기</Button>
           )}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {filteredPlaylists.map((playlist) => (
+          {playlists.map((playlist) => (
             <Link key={playlist.id} href={getPlaylistHref(playlist)}>
               <Card hover className="p-0 overflow-hidden cursor-pointer h-full border-white/5 active:bg-white/5 transition-colors flex flex-row sm:flex-col">
               <div className="w-32 sm:w-full h-full sm:h-32 md:h-40 bg-[#1a1c20] p-2 md:p-3 flex flex-col gap-1 shrink-0">

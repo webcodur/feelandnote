@@ -13,7 +13,7 @@ import CelebFeed from "@/components/features/home/CelebFeed";
 
 const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
   { value: "all", label: "전체" },
-  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
+  ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
 ];
 
 interface Props {

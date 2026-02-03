@@ -6,11 +6,41 @@
 
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import MaterialFrame from "@/components/ui/MaterialFrame";
 import { DecorativeLabel } from "@/components/ui";
-import ScriptureCard from "../ScriptureCard";
+import { ContentCard } from "@/components/ui/cards";
+import ScriptureCelebModal from "../ScriptureCelebModal";
 import SectionHeader from "@/components/shared/SectionHeader";
+import { getCategoryByDbType } from "@/constants/categories";
+import type { ContentType } from "@/types/database";
+
+// 인라인 래퍼
+function ScriptureContentCard({
+  id, title, creator, thumbnail, type, celebCount, userCount = 0, avgRating, index,
+}: {
+  id: string; title: string; creator?: string | null; thumbnail?: string | null;
+  type: string; celebCount: number; userCount?: number; avgRating?: number | null; index?: number;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const category = getCategoryByDbType(type);
+  const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  return (
+    <>
+      <ContentCard
+        thumbnail={thumbnail} title={title} creator={creator}
+        contentType={type as ContentType} href={href} index={index}
+        celebCount={celebCount} userCount={userCount} avgRating={avgRating ?? undefined}
+        onStatsClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsModalOpen(true); }}
+      />
+      <ScriptureCelebModal
+        isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+        contentId={id} contentTitle={title} celebCount={celebCount} userCount={userCount}
+      />
+    </>
+  );
+}
 import SagePlaque from "../SagePlaque";
 import { type TodaySageResult } from "@/actions/scriptures";
 
@@ -68,8 +98,8 @@ export default function SageSection({ initialData }: Props) {
           {/* 콘텐츠 그리드 */}
           {displayContents.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
-              {displayContents.map((content) => (
-                <ScriptureCard
+              {displayContents.map((content, idx) => (
+                <ScriptureContentCard
                   key={content.id}
                   id={content.id}
                   title={content.title}
@@ -79,27 +109,24 @@ export default function SageSection({ initialData }: Props) {
                   celebCount={1}
                   userCount={content.user_count}
                   avgRating={content.avg_rating}
+                  index={idx + 1}
                 />
               ))}
               
-              {/* 더보기 카드 (Gate 스타일) */}
-              <Link href={`/${sage.id}`} className="group block h-full">
-                <MaterialFrame
-                  material="stone"
-                  className="h-full aspect-[2/3] rounded-xl transition-all hover:scale-[1.02]"
-                  innerClassName="flex flex-col items-center justify-center bg-neutral-900/80 group-hover:bg-neutral-900"
-                >
-                  <div className="w-12 h-12 rounded-full border border-accent/30 flex items-center justify-center mb-3 group-hover:border-accent group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all">
-                    <span className="text-xl text-accent/70 group-hover:text-accent">→</span>
-                  </div>
-                  <span className="text-xs font-cinzel font-bold text-text-secondary mb-1">VIEW FULL</span>
-                  <span className="text-xs font-serif text-text-tertiary">서재 전체 보기</span>
-                  {remainingCount > 0 && (
-                    <span className="text-[10px] text-accent/70 mt-2 px-2 py-0.5 rounded-full border border-accent/20">
-                      +{remainingCount} MORE
-                    </span>
-                  )}
-                </MaterialFrame>
+              {/* 더보기 카드 */}
+              <Link
+                href={`/${sage.id}`}
+                className="group flex flex-col items-center justify-center aspect-[2/3] bg-bg-card/50 border border-border/30 rounded-xl hover:border-accent/50 hover:bg-accent/5"
+              >
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-3 group-hover:bg-accent/20">
+                  <span className="text-2xl text-accent">→</span>
+                </div>
+                <span className="text-sm font-medium text-text-primary mb-1 text-center px-2">
+                  {sage.nickname}의 기록관으로 가기
+                </span>
+                {remainingCount > 0 && (
+                  <span className="text-xs text-text-tertiary">+{remainingCount}개 더</span>
+                )}
               </Link>
             </div>
           ) : (

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   Users,
+  Star,
   Library,
   FileText,
   Flag,
@@ -24,7 +25,8 @@ import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
 
 const menuItems = [
   { href: '/', label: '대시보드', icon: LayoutDashboard },
-  { href: '/members', label: '멤버 관리', icon: Users },
+  { href: '/users', label: '유저 관리', icon: Users },
+  { href: '/celebs', label: '셀럽 관리', icon: Star },
   { href: '/contents', label: '콘텐츠 관리', icon: Library },
   { href: '/records', label: '기록 관리', icon: FileText },
   { href: '/notes', label: '노트 관리', icon: StickyNote },

@@ -9,8 +9,10 @@ import { useState, useTransition } from "react";
 import { Hash } from "lucide-react";
 import { Card, TitleBadge } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import ContentCompactCard, { ContentCompactGrid } from "@/components/shared/content/ContentCompactCard";
+import { ContentCard } from "@/components/ui/cards";
+import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import { toggleFollow } from "@/actions/user";
+import type { ContentType } from "@/types/database";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import type { ContentStatus } from "@/types/database";
 
@@ -23,6 +25,7 @@ interface ContentResultsProps {
   addingIds?: Set<string>;
   addedIds?: Set<string>;
   savedIds?: Set<string>;
+  userCounts?: Record<string, number>;
   onBeforeNavigate?: (item: ContentResult) => void;
   onAddWithStatus?: (item: ContentResult, status: ContentStatus) => void;
 }
@@ -34,6 +37,7 @@ export function ContentResults({
   addingIds = new Set(),
   addedIds = new Set(),
   savedIds = new Set(),
+  userCounts = {},
   onBeforeNavigate,
   onAddWithStatus,
 }: ContentResultsProps) {
@@ -42,42 +46,47 @@ export function ContentResults({
   const showAddButton = mode === "content";
 
   return (
-    <ContentCompactGrid>
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-1">
       {results.map((item) => {
         const thumbnail = "thumbnail" in item ? item.thumbnail : undefined;
-        const metadata = "metadata" in item ? (item.metadata as Record<string, unknown>) : undefined;
-        const subtype = "subtype" in item ? (item.subtype as string) : undefined;
         const isAdding = addingIds.has(item.id);
         const isAdded = addedIds.has(item.id);
         const isSaved = savedIds.has(item.id);
+        const contentType = item.category.toUpperCase() as ContentType;
 
         // 콘텐츠 상세 페이지로 이동 (통합 라우트)
         const contentId = "contentId" in item ? item.contentId : item.id;
         const href = `/content/${contentId}?category=${item.category}`;
 
+        // userCount: records 모드에서는 item에서, content 모드에서는 userCounts에서
+        const userCount = "userCount" in item ? item.userCount : userCounts[item.id];
+
         return (
-          <ContentCompactCard
+          <ContentCard
             key={item.id}
-            data={{
-              id: item.id,
-              title: item.title,
-              creator: item.creator,
-              category: item.category,
-              thumbnail,
-              subtype,
-              metadata,
-            }}
+            contentId={contentId}
+            thumbnail={thumbnail}
+            title={item.title}
+            creator={item.creator}
+            contentType={contentType}
             href={href}
-            onBeforeNavigate={() => onBeforeNavigate?.(item)}
-            isSaved={isSaved && showAddButton}
-            showAddButton={showAddButton}
-            isAdding={isAdding}
-            isAdded={isAdded}
-            onAddWithStatus={onAddWithStatus ? (status) => onAddWithStatus(item, status) : undefined}
+            onClick={() => onBeforeNavigate?.(item)}
+            saved={isSaved && showAddButton}
+            userCount={userCount}
+            topLeftNode={
+              showAddButton && onAddWithStatus && !isSaved ? (
+                <AddContentPopover
+                  onAdd={(status) => onAddWithStatus(item, status)}
+                  isAdding={isAdding}
+                  isAdded={isAdded}
+                  size="sm"
+                />
+              ) : undefined
+            }
           />
         );
       })}
-    </ContentCompactGrid>
+    </div>
   );
 }
 

@@ -72,12 +72,14 @@ export interface GetMembersParams {
   status?: string
   role?: string
   profession?: string
+  sort?: string
+  sortOrder?: 'asc' | 'desc'
 }
 // #endregion
 
 // #region getMembers
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType, page = 1, limit = 20, search, status, role, profession } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession, sort, sortOrder } = params
 
   // 타입이 지정되면 기존 로직 사용
   if (profileType === 'CELEB') {
@@ -87,13 +89,15 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       search,
       status: status as 'active' | 'suspended' | 'all',
       profession,
+      sort,
+      sortOrder,
     })
     const members: Member[] = celebs.map((c) => celebToMember(c))
     return { members, total }
   }
 
   if (profileType === 'USER') {
-    const { users, total } = await getUsers(page, limit, search, status, role)
+    const { users, total } = await getUsers(page, limit, search, status, role, sort, sortOrder)
     const members: Member[] = users.map((u) => userToMember(u))
     return { members, total }
   }

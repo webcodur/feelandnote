@@ -1,6 +1,6 @@
 /*
   파일명: /components/features/scriptures/sections/ChosenSection.tsx
-  기능: 다수의 선택 섹션
+  기능: 공통 서가 섹션
   책임: 가장 많은 인물이 감상한 경전을 카테고리별로 보여준다.
 */ // ------------------------------
 
@@ -10,9 +10,39 @@ import { useState, useEffect, useTransition } from "react";
 import { Scroll } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
-import ScriptureCard from "../ScriptureCard";
+import { ContentCard } from "@/components/ui/cards";
+import ScriptureCelebModal from "../ScriptureCelebModal";
 import SectionHeader from "@/components/shared/SectionHeader";
+import { getCategoryByDbType } from "@/constants/categories";
 import { getChosenScriptures, type ScripturesResult } from "@/actions/scriptures";
+import type { ContentType } from "@/types/database";
+
+// 인라인 래퍼 - ContentCard + Modal
+function ScriptureContentCard({
+  id, title, creator, thumbnail, type, celebCount, userCount = 0, avgRating, index,
+}: {
+  id: string; title: string; creator?: string | null; thumbnail?: string | null;
+  type: string; celebCount: number; userCount?: number; avgRating?: number | null; index?: number;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const category = getCategoryByDbType(type);
+  const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  return (
+    <>
+      <ContentCard
+        thumbnail={thumbnail} title={title} creator={creator}
+        contentType={type as ContentType} href={href} index={index}
+        celebCount={celebCount} userCount={userCount} avgRating={avgRating ?? undefined}
+        onStatsClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsModalOpen(true); }}
+      />
+      <ScriptureCelebModal
+        isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+        contentId={id} contentTitle={title} celebCount={celebCount} userCount={userCount}
+      />
+    </>
+  );
+}
 
 // #region Types
 type CategoryFilter = "ALL" | "BOOK" | "VIDEO" | "GAME" | "MUSIC";
@@ -59,7 +89,7 @@ export default function ChosenSection({ initialData }: Props) {
   return (
     <div>
       <SectionHeader
-        title="다수의 선택"
+        title="공통 서가"
         label="CHOSEN ONES"
         description={
           <>
@@ -115,18 +145,18 @@ export default function ChosenSection({ initialData }: Props) {
             {/* 배경 장식 (흐릿한 월계관 느낌) */}
             <div className="absolute inset-0 bg-radial-gradient from-accent/5 to-transparent opacity-50 pointer-events-none" />
             
-            {data.contents.map((content, index) => {
-              const globalRank = (page - 1) * ITEMS_PER_PAGE + index + 1;
-              const isTop3 = globalRank <= 3;
-              
+            {data.contents.map((content, idx) => {
+              const globalIndex = (page - 1) * ITEMS_PER_PAGE + idx + 1;
+              const isTop3 = globalIndex <= 3;
+
               return (
                 <div key={content.id} className="relative group">
                   {/* Top 3 강조 효과 */}
                   {isTop3 && (
                     <div className="absolute -inset-1 bg-gradient-to-br from-accent/30 to-transparent rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity" />
                   )}
-                  
-                  <ScriptureCard
+
+                  <ScriptureContentCard
                     id={content.id}
                     title={content.title}
                     creator={content.creator}
@@ -135,7 +165,7 @@ export default function ChosenSection({ initialData }: Props) {
                     celebCount={content.celeb_count}
                     userCount={content.user_count}
                     avgRating={content.avg_rating}
-                    rank={globalRank}
+                    index={globalIndex}
                   />
                   
                   {/* 순위 뱃지 커스텀 (기존 Card 내부 뱃지 외에 추가 강조가 필요하다면) */}

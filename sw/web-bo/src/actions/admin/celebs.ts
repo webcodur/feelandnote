@@ -39,6 +39,8 @@ interface GetCelebsParams {
   search?: string
   status?: 'active' | 'suspended' | 'all'
   profession?: string
+  sort?: string
+  sortOrder?: 'asc' | 'desc'
 }
 
 interface CreateCelebInput {
@@ -96,7 +98,7 @@ interface GenerateInfluenceResult {
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession } = params
+  const { page = 1, limit = 20, search, status, profession, sort = 'created_at', sortOrder = 'desc' } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
@@ -123,9 +125,19 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     query = query.eq('profession', profession)
   }
 
-  const { data, error, count } = await query
-    .order('created_at', { ascending: false })
-    .range(offset, offset + limit - 1)
+  // 정렬 적용
+  const ascending = sortOrder === 'asc'
+  const validSortColumns = ['nickname', 'profession', 'created_at', 'status', 'nationality']
+  const relationSortColumns = ['follower_count', 'content_count']
+
+  if (relationSortColumns.includes(sort)) {
+    query = query.order(sort, { referencedTable: 'user_social', ascending })
+  } else {
+    const sortColumn = validSortColumns.includes(sort) ? sort : 'created_at'
+    query = query.order(sortColumn, { ascending })
+  }
+
+  const { data, error, count } = await query.range(offset, offset + limit - 1)
 
   if (error) throw error
 
@@ -784,6 +796,128 @@ export async function updateCelebPhilosophy(celebId: string, philosophy: string 
   revalidatePath('/members')
   revalidatePath('/members/philosophies')
   revalidatePath(`/members/${celebId}`)
+}
+// #endregion
+
+// #region getCelebStats - 셀럽 통계 조회
+export interface CelebStats {
+  totalCelebs: number
+  activeCelebs: number
+  uniqueProfessions: number
+  uniqueNationalities: number
+  professionDistribution: { profession: string; count: number }[]
+  topFollowerCelebs: { id: string; nickname: string; profession: string | null; follower_count: number }[]
+  topContentCelebs: { id: string; nickname: string; profession: string | null; content_count: number }[]
+  recentCelebs: { id: string; nickname: string; profession: string | null; created_at: string }[]
+}
+
+export async function getCelebStats(): Promise<CelebStats> {
+  const supabase = await createClient()
+
+  // 기본 통계
+  const { data: basicStats } = await supabase
+    .from('profiles')
+    .select('id, status, profession, nationality')
+    .eq('profile_type', 'CELEB')
+
+  const totalCelebs = basicStats?.length || 0
+  const activeCelebs = basicStats?.filter((c) => c.status === 'active').length || 0
+  const professions = new Set(basicStats?.filter((c) => c.status === 'active').map((c) => c.profession).filter(Boolean))
+  const nationalities = new Set(basicStats?.filter((c) => c.status === 'active').map((c) => c.nationality).filter(Boolean))
+
+  // 직업별 분포
+  const professionCount = basicStats
+    ?.filter((c) => c.status === 'active')
+    .reduce((acc, c) => {
+      const prof = c.profession || 'unknown'
+      acc[prof] = (acc[prof] || 0) + 1
+      return acc
+    }, {} as Record<string, number>) || {}
+
+  const professionDistribution = Object.entries(professionCount)
+    .map(([profession, count]) => ({ profession, count }))
+    .sort((a, b) => b.count - a.count)
+
+  // 상위 팔로워 셀럽
+  const { data: followerData } = await supabase
+    .from('profiles')
+    .select('id, nickname, profession, user_social(follower_count)')
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .order('user_social(follower_count)', { ascending: false })
+    .limit(10)
+
+  const topFollowerCelebs = (followerData || []).map((c) => {
+    const social = Array.isArray(c.user_social) ? c.user_social[0] : c.user_social
+    return {
+      id: c.id,
+      nickname: c.nickname || '',
+      profession: c.profession,
+      follower_count: social?.follower_count || 0,
+    }
+  })
+
+  // 상위 콘텐츠 셀럽 (별도 쿼리)
+  const activeCelebIds = basicStats?.filter((c) => c.status === 'active').map((c) => c.id) || []
+  const { data: contentData } = await supabase
+    .from('user_contents')
+    .select('user_id')
+    .in('user_id', activeCelebIds)
+
+  const contentCountMap = (contentData || []).reduce((acc, item) => {
+    acc[item.user_id] = (acc[item.user_id] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  const celebContentList = activeCelebIds.map((id) => ({
+    id,
+    count: contentCountMap[id] || 0,
+  }))
+  celebContentList.sort((a, b) => b.count - a.count)
+  const top10ContentIds = celebContentList.slice(0, 10).map((c) => c.id)
+
+  const { data: topContentProfiles } = await supabase
+    .from('profiles')
+    .select('id, nickname, profession')
+    .in('id', top10ContentIds)
+
+  const profileMap = new Map((topContentProfiles || []).map((p) => [p.id, p]))
+  const topContentCelebs = top10ContentIds.map((id) => {
+    const profile = profileMap.get(id)
+    return {
+      id,
+      nickname: profile?.nickname || '',
+      profession: profile?.profession || null,
+      content_count: contentCountMap[id] || 0,
+    }
+  })
+
+  // 최근 등록 셀럽
+  const { data: recentData } = await supabase
+    .from('profiles')
+    .select('id, nickname, profession, created_at')
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(10)
+
+  const recentCelebs = (recentData || []).map((c) => ({
+    id: c.id,
+    nickname: c.nickname || '',
+    profession: c.profession,
+    created_at: c.created_at,
+  }))
+
+  return {
+    totalCelebs,
+    activeCelebs,
+    uniqueProfessions: professions.size,
+    uniqueNationalities: nationalities.size,
+    professionDistribution,
+    topFollowerCelebs,
+    topContentCelebs,
+    recentCelebs,
+  }
 }
 // #endregion
 

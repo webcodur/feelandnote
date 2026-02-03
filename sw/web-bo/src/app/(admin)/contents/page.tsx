@@ -8,6 +8,7 @@ import { Library, Search, Users, Calendar, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
+import Pagination from '@/components/ui/Pagination'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 
 interface PageProps {
@@ -202,23 +203,12 @@ export default async function ContentsPage({ searchParams }: PageProps) {
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1 md:gap-2 flex-wrap">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link
-              key={p}
-              href={`/contents?page=${p}&search=${search}&type=${type}`}
-              className={`px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm ${
-                p === page
-                  ? 'bg-accent text-white'
-                  : 'bg-bg-card border border-border text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              {p}
-            </Link>
-          ))}
-        </div>
-      )}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        baseHref="/contents"
+        params={{ search: search || undefined, type: type !== 'all' ? type : undefined }}
+      />
     </div>
   )
 }

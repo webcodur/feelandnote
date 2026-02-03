@@ -28,26 +28,46 @@ function SectionSkeleton() {
       </div>
 
       {/* 모바일: 시대 탭 + 콘텐츠 */}
-      <div className="md:hidden mb-10">
-        <div className="flex justify-start sm:justify-center overflow-x-auto pb-2 mx-[-1rem] px-4 sm:mx-0 sm:px-0">
+      <div className="md:hidden mb-10 overflow-x-auto scrollbar-hidden pb-2 mx-[-1rem] px-4 sm:mx-0 sm:px-0">
+        {/* DecorativeLabel: 시대 선택 */}
+        <div className="flex justify-center mb-4">
+          <div className="h-4 w-16 bg-bg-card rounded" />
+        </div>
+        {/* 시대 탭 */}
+        <div className="flex justify-center min-w-max">
           <div className="inline-flex p-1 bg-neutral-900/80 rounded-xl border border-white/10 gap-1">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-12 w-16 bg-bg-card rounded-lg" />
+              <div key={i} className="h-11 w-14 bg-bg-card rounded-lg" />
             ))}
           </div>
         </div>
+
         <div className="mt-8 space-y-8">
-          {/* 대표 인물 스켈레톤 */}
-          <div className="flex justify-center gap-4">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="w-16 h-16 rounded-full bg-bg-card" />
-            ))}
+          {/* 대표 인물 + 시대 설명 */}
+          <div className="relative">
+            <div className="flex justify-center gap-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="w-16 h-16 rounded-full bg-bg-card" />
+              ))}
+            </div>
+            {/* 시대 설명 텍스트 */}
+            <div className="mt-4 px-4 space-y-2">
+              <div className="h-4 w-full bg-bg-card rounded mx-auto" />
+              <div className="h-4 w-3/4 bg-bg-card rounded mx-auto" />
+            </div>
           </div>
-          {/* 경전 그리드 스켈레톤 */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
-            ))}
+
+          {/* DecorativeLabel: 시대의 경전 */}
+          <div>
+            <div className="flex justify-center mb-4">
+              <div className="h-4 w-20 bg-bg-card rounded" />
+            </div>
+            {/* 경전 그리드 */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
+              ))}
+            </div>
           </div>
         </div>
       </div>

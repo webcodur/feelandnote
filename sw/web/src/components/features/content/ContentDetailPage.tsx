@@ -24,18 +24,10 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
-  const { content, userRecord, isLoggedIn, hasApiKey } = data;
+  const { content, userRecord, isLoggedIn, hasApiKey, initialReviews, initialAiReviews } = data;
 
   const handleRecordChange = (newRecord: ContentDetailData["userRecord"]) => {
     setData((prev) => ({ ...prev, userRecord: newRecord }));
-  };
-
-  const handleReviewUpdate = (updates: { rating: number | null; review: string | null; isSpoiler: boolean }) => {
-    if (!data.userRecord) return;
-    setData((prev) => ({
-      ...prev,
-      userRecord: prev.userRecord ? { ...prev.userRecord, ...updates } : null,
-    }));
   };
 
   return (
@@ -62,24 +54,22 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           />
         </AccordionSection>
 
-        {/* 2. 내 리뷰 (기록이 있을 때만) */}
-        {userRecord && (
+        {/* 2. 내 리뷰 (로그인 시 표시) */}
+        {isLoggedIn && (
           <AccordionSection
             title="내 리뷰"
             icon={<Star size={16} />}
             badge={
-              userRecord.rating && (
+              userRecord?.rating && (
                 <span className="text-xs text-yellow-400">{"★".repeat(userRecord.rating)}</span>
               )
             }
             defaultOpen
           >
             <MyReviewSection
-              userContentId={userRecord.id}
-              initialRating={userRecord.rating}
-              initialReview={userRecord.review}
-              initialIsSpoiler={userRecord.isSpoiler}
-              onUpdate={handleReviewUpdate}
+              content={content}
+              userRecord={userRecord}
+              onRecordChange={handleRecordChange}
             />
           </AccordionSection>
         )}
@@ -107,6 +97,8 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             contentTitle={content.title}
             contentType={content.type}
             hasApiKey={hasApiKey}
+            initialReviews={initialReviews}
+            initialAiReviews={initialAiReviews}
           />
         </div>
       </div>

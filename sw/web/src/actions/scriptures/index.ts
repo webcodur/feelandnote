@@ -115,6 +115,15 @@ function aggregateContents(
 }
 // #endregion
 
+// #region 헬퍼 함수 - 배열을 청크로 분할
+function chunkArray<T>(array: T[], size: number): T[][] {
+  const chunks: T[][] = []
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size))
+  }
+  return chunks
+}
+
 // #region 헬퍼 함수 - 페이지네이션으로 모든 데이터 조회
 async function fetchAllUserContents(
   supabase: Awaited<ReturnType<typeof createClient>>,
@@ -122,6 +131,7 @@ async function fetchAllUserContents(
   category?: string
 ) {
   const PAGE_SIZE = 1000
+  const BATCH_SIZE = 50 // URL 길이 제한으로 인해 ID를 배치로 분할
   const allData: Array<{
     user_id: string
     content_id: string
@@ -129,44 +139,52 @@ async function fetchAllUserContents(
     contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string }
   }> = []
 
-  let from = 0
-  let hasMore = true
+  // 빈 배열이면 빈 결과 반환 (Supabase .in()은 빈 배열에서 에러 발생)
+  if (!celebIds.length) return allData
 
-  while (hasMore) {
-    let query = supabase
-      .from('user_contents')
-      .select(`
-        user_id,
-        content_id,
-        rating,
-        contents!inner(id, title, creator, thumbnail_url, type)
-      `)
-      .in('user_id', celebIds)
-      .eq('status', 'FINISHED')
-      .range(from, from + PAGE_SIZE - 1)
+  // ID를 배치로 분할하여 쿼리
+  const idBatches = chunkArray(celebIds, BATCH_SIZE)
 
-    if (category) {
-      query = query.eq('contents.type', category)
+  for (const batchIds of idBatches) {
+    let from = 0
+    let hasMore = true
+
+    while (hasMore) {
+      let query = supabase
+        .from('user_contents')
+        .select(`
+          user_id,
+          content_id,
+          rating,
+          contents!inner(id, title, creator, thumbnail_url, type)
+        `)
+        .in('user_id', batchIds)
+        .eq('status', 'FINISHED')
+        .range(from, from + PAGE_SIZE - 1)
+
+      if (category) {
+        query = query.eq('contents.type', category)
+      }
+
+      const { data, error } = await query
+
+      if (error) {
+        console.error('fetchAllUserContents error:', error.message, error.code, error.details)
+        break
+      }
+
+      const typedData = (data || []).map(item => ({
+        user_id: item.user_id,
+        content_id: item.content_id,
+        rating: item.rating,
+        contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
+      }))
+
+      allData.push(...typedData)
+
+      hasMore = data?.length === PAGE_SIZE
+      from += PAGE_SIZE
     }
-
-    const { data, error } = await query
-
-    if (error) {
-      console.error('fetchAllUserContents error:', error)
-      break
-    }
-
-    const typedData = (data || []).map(item => ({
-      user_id: item.user_id,
-      content_id: item.content_id,
-      rating: item.rating,
-      contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
-    }))
-
-    allData.push(...typedData)
-
-    hasMore = data?.length === PAGE_SIZE
-    from += PAGE_SIZE
   }
 
   return allData
@@ -178,43 +196,57 @@ async function fetchUserContentCounts(
   category?: string
 ): Promise<Map<string, number>> {
   const PAGE_SIZE = 1000
+  const BATCH_SIZE = 50
   const countMap = new Map<string, number>()
 
   // USER 프로필 ID 목록 조회
-  const { data: userProfiles } = await supabase
+  const { data: userProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id')
     .eq('profile_type', 'USER')
 
+  if (profileError) {
+    console.error('fetchUserContentCounts profile error:', profileError.message)
+    return countMap
+  }
+
   if (!userProfiles?.length) return countMap
 
   const userIds = userProfiles.map(p => p.id)
-  let from = 0
-  let hasMore = true
+  const idBatches = chunkArray(userIds, BATCH_SIZE)
 
-  while (hasMore) {
-    let query = supabase
-      .from('user_contents')
-      .select('content_id, contents!inner(type)')
-      .in('user_id', userIds)
-      .eq('status', 'FINISHED')
-      .range(from, from + PAGE_SIZE - 1)
+  for (const batchIds of idBatches) {
+    let from = 0
+    let hasMore = true
 
-    if (category) {
-      query = query.eq('contents.type', category)
+    while (hasMore) {
+      let query = supabase
+        .from('user_contents')
+        .select('content_id, contents!inner(type)')
+        .in('user_id', batchIds)
+        .eq('status', 'FINISHED')
+        .range(from, from + PAGE_SIZE - 1)
+
+      if (category) {
+        query = query.eq('contents.type', category)
+      }
+
+      const { data, error } = await query
+
+      if (error) {
+        console.error('fetchUserContentCounts error:', error.message, error.code)
+        break
+      }
+      if (!data?.length) break
+
+      for (const item of data) {
+        const count = countMap.get(item.content_id) || 0
+        countMap.set(item.content_id, count + 1)
+      }
+
+      hasMore = data.length === PAGE_SIZE
+      from += PAGE_SIZE
     }
-
-    const { data, error } = await query
-
-    if (error || !data?.length) break
-
-    for (const item of data) {
-      const count = countMap.get(item.content_id) || 0
-      countMap.set(item.content_id, count + 1)
-    }
-
-    hasMore = data.length === PAGE_SIZE
-    from += PAGE_SIZE
   }
 
   return countMap
@@ -236,6 +268,7 @@ export async function getChosenScriptures(params?: {
     .from('profiles')
     .select('id')
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
 
   if (profileError || !celebProfiles?.length) {
     console.error('getChosenScriptures profile error:', profileError)
@@ -278,11 +311,12 @@ export async function getScripturesByProfession(params?: {
   const limit = params?.limit || 12
   const profession = params?.profession || 'entrepreneur'
 
-  // 해당 직업의 CELEB 프로필 ID 조회 (기존 쿼리 유지)
+  // 해당 직업의 CELEB 프로필 ID 조회
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id')
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
     .eq('profession', profession)
 
   if (profileError || !celebProfiles?.length) return null
@@ -342,6 +376,7 @@ export async function getProfessionContentCounts(): Promise<Array<{ profession: 
       .from('profiles')
       .select('id', { count: 'exact', head: true })
       .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
       .eq('profession', key)
 
     // 해당 직업의 셀럽이 있으면 추가 (셀럽 인원 수 표시)
@@ -377,6 +412,7 @@ export async function getTodaySage(): Promise<TodaySageResult> {
     .from('profiles')
     .select('id')
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
 
   if (profileError || !celebProfiles?.length) {
     return { sage: null, contents: [] }
@@ -384,24 +420,29 @@ export async function getTodaySage(): Promise<TodaySageResult> {
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  // 2. 해당 셀럽들의 콘텐츠 개수 집계 (페이지네이션으로 모든 데이터 가져오기)
+  // 2. 해당 셀럽들의 콘텐츠 개수 집계 (배치 + 페이지네이션)
   const PAGE_SIZE = 1000
+  const BATCH_SIZE = 50
   const celebCountsData: { user_id: string }[] = []
-  let from = 0
-  let hasMore = true
+  const idBatches = chunkArray(celebIds, BATCH_SIZE)
 
-  while (hasMore) {
-    const { data, error } = await supabase
-      .from('user_contents')
-      .select('user_id')
-      .in('user_id', celebIds)
-      .eq('status', 'FINISHED')
-      .range(from, from + PAGE_SIZE - 1)
+  for (const batchIds of idBatches) {
+    let from = 0
+    let hasMore = true
 
-    if (error || !data?.length) break
-    celebCountsData.push(...data)
-    hasMore = data.length === PAGE_SIZE
-    from += PAGE_SIZE
+    while (hasMore) {
+      const { data, error } = await supabase
+        .from('user_contents')
+        .select('user_id')
+        .in('user_id', batchIds)
+        .eq('status', 'FINISHED')
+        .range(from, from + PAGE_SIZE - 1)
+
+      if (error || !data?.length) break
+      celebCountsData.push(...data)
+      hasMore = data.length === PAGE_SIZE
+      from += PAGE_SIZE
+    }
   }
 
   if (!celebCountsData.length) {
@@ -541,11 +582,12 @@ export interface EraScriptures {
 export async function getScripturesByEra(): Promise<EraScriptures[]> {
   const supabase = await createClient()
 
-  // 1. 셀럽 프로필 + 생년 조회 (기존 쿼리 유지)
+  // 1. 셀럽 프로필 + 생년 조회
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id, birth_date')
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
     .not('birth_date', 'is', null)
 
   if (profileError || !celebProfiles?.length) {
@@ -639,6 +681,7 @@ export async function getCelebsForContent(contentId: string): Promise<CelebInfo[
     .select('id, nickname, avatar_url, profession')
     .in('id', userIds)
     .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
 
   if (profileError) {
     console.error('getCelebsForContent error:', profileError)

@@ -24,6 +24,7 @@ import {
   Gamepad2,
   Music,
   Menu,
+  Monitor,
 } from "lucide-react";
 import LeftSidebar from "./LeftSidebar";
 import SectionWindow from "./SectionWindow";
@@ -240,7 +241,20 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
   }, [addSections]);
 
   return (
-    <div className="flex h-dvh flex-col">
+    <>
+      {/* 모바일 안내 */}
+      <div className="flex h-dvh flex-col items-center justify-center gap-4 p-6 text-center md:hidden">
+        <Monitor className="size-12 text-text-secondary" />
+        <div>
+          <p className="text-lg font-medium text-text-primary">데스크톱 전용 기능</p>
+          <p className="mt-2 text-sm text-text-secondary">
+            독서 모드는 데스크톱에서만 이용 가능합니다.
+          </p>
+        </div>
+      </div>
+
+      {/* 데스크톱 워크스페이스 */}
+      <div className="hidden h-dvh flex-col md:flex">
       {/* #region 헤더 */}
       <header className="relative flex h-14 shrink-0 items-center justify-between border-b border-border bg-secondary px-4">
         {/* 좌측 컨트롤 그룹 */}
@@ -583,7 +597,8 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
 
       {/* 사용 안내 모달 */}
       <OnboardingModal isOpen={showOnboarding} onClose={closeOnboarding} />
-    </div>
+      </div>
+    </>
   );
 }
 
