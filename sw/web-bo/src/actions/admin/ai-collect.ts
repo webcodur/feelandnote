@@ -1,9 +1,9 @@
 'use server'
 
-import { fetchUrlContent } from '@feelnnote/ai-services/url-fetcher'
-import { extractContentsFromText, type ExtractedContent } from '@feelnnote/ai-services/content-extractor'
-import { searchExternal, type ExternalSearchResult, type SearchOptions } from '@feelnnote/content-search/unified-search'
-import type { ContentType } from '@feelnnote/content-search/types'
+import { fetchUrlContent } from '@feelandnote/ai-services/url-fetcher'
+import { extractContentsFromText, type ExtractedContent } from '@feelandnote/ai-services/content-extractor'
+import { searchExternal, type ExternalSearchResult, type SearchOptions } from '@feelandnote/content-search/unified-search'
+import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 import { createContentFromExternal } from './external-search'
 import { addCelebContent } from './celebs'

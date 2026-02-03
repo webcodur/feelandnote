@@ -16,7 +16,7 @@ import {
 import { useState } from 'react'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 import { STATUS_OPTIONS } from '@/constants/statuses'
-import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
+import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import type { ProcessedItem } from '../lib/types'
 import { CONTENT_TYPE_OPTIONS, getMetadataSummary } from '../lib/utils'
 

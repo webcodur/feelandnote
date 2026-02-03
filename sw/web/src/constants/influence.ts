@@ -1,4 +1,4 @@
-// 영향력 상수 - @feelnnote/influence-constants에서 re-export
+// 영향력 상수 - @feelandnote/influence-constants에서 re-export
 export {
   // 영역
   INFLUENCE_CATEGORY_FIELDS,
@@ -23,4 +23,4 @@ export {
   type InfluenceRank,
   type InfluenceCategoryConfig,
   type RankStyleConfig,
-} from '@feelnnote/influence-constants'
+} from '@feelandnote/influence-constants'

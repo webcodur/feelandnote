@@ -1,7 +1,7 @@
 
 import { CONTENT_TYPES, CONTENT_TYPE_CONFIG } from '@/constants/contentTypes'
-import type { ContentType } from '@feelnnote/content-search/types'
-import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
+import type { ContentType } from '@feelandnote/content-search/types'
+import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import type { JsonInputItem, SearchResultItem } from './types'
 
 // CONTENT_TYPE_OPTIONS는 로컬 상수에서 생성

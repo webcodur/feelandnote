@@ -1,11 +1,11 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { searchBooks as searchNaverBooks } from '@feelnnote/content-search/naver-books'
-import { getGoogleBookByIsbn } from '@feelnnote/content-search/google-books'
-import { getVideoById } from '@feelnnote/content-search/tmdb'
-import { getGameById } from '@feelnnote/content-search/igdb'
-import { getAlbumById } from '@feelnnote/content-search/spotify'
+import { searchBooks as searchNaverBooks } from '@feelandnote/content-search/naver-books'
+import { getGoogleBookByIsbn } from '@feelandnote/content-search/google-books'
+import { getVideoById } from '@feelandnote/content-search/tmdb'
+import { getGameById } from '@feelandnote/content-search/igdb'
+import { getAlbumById } from '@feelandnote/content-search/spotify'
 import type { ContentType } from '@/types/database'
 
 export interface ContentMetadata {

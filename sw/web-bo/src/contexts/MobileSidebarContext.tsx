@@ -14,7 +14,7 @@ interface MobileSidebarContextValue {
 
 const MobileSidebarContext = createContext<MobileSidebarContextValue | null>(null)
 
-const DESKTOP_COLLAPSED_KEY = 'feelnnote_sidebar_collapsed'
+const DESKTOP_COLLAPSED_KEY = 'feelandnote_sidebar_collapsed'
 
 export function MobileSidebarProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)

@@ -227,7 +227,7 @@ ${context}
         setError(null);
         alert("데이터가 워크스페이스에 추가되었습니다.");
       } else {
-        setError("유효한 Feelnnote 데이터 구조가 아닙니다.");
+        setError("유효한 Feelandnote 데이터 구조가 아닙니다.");
       }
     } catch (err) {
       setError("JSON 형식이 올바르지 않습니다. 코드를 다시 확인해주세요.");

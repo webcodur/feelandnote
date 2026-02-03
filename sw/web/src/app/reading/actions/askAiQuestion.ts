@@ -7,7 +7,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { callGemini } from "@feelnnote/ai-services/gemini";
+import { callGemini } from "@feelandnote/ai-services/gemini";
 
 export interface AiGeneratedSection {
   type: "character" | "timeline" | "conceptMap" | "comparison" | "glossary";

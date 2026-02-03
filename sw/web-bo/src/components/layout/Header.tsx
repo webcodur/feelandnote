@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 // 선택된 API 키 ID를 로컬스토리지에서 관리
-const SELECTED_KEY_STORAGE = 'feelnnote_selected_api_key'
+const SELECTED_KEY_STORAGE = 'feelandnote_selected_api_key'
 
 export default function Header({ user }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)

@@ -4,4 +4,4 @@ export {
   getCountryName,
   getCountryNameAsync,
   getCountryNamesMap,
-} from '@feelnnote/shared/lib/countries'
+} from '@feelandnote/shared/lib/countries'

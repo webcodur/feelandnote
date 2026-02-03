@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { generateCelebProfile as generateCelebProfileApi, generateCelebInfluence as generateCelebInfluenceApi, type GeneratedInfluence, type GeneratedCelebProfile } from '@feelnnote/ai-services/celeb-profile'
+import { generateCelebProfile as generateCelebProfileApi, generateCelebInfluence as generateCelebInfluenceApi, type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
 import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage } from './api-keys'
 
 // #region Types
@@ -237,7 +237,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 
   // 더미 이메일 생성 (auth.users FK 제약 때문에 필요)
   const dummyId = crypto.randomUUID()
-  const dummyEmail = `celeb_${dummyId}@feelnnote.local`
+  const dummyEmail = `celeb_${dummyId}@feelandnote.local`
   const dummyPassword = crypto.randomUUID() + crypto.randomUUID()
 
   // Supabase Admin API로 더미 auth user 생성

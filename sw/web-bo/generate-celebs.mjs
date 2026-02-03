@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { generateCelebProfileWithInfluence, generateCelebPhilosophy } from '@feelnnote/ai-services/celeb-profile'
+import { generateCelebProfileWithInfluence, generateCelebPhilosophy } from '@feelandnote/ai-services/celeb-profile'
 import { createClient } from '@supabase/supabase-js'
 
 // Env provided via --env-file flag
@@ -11,7 +11,7 @@ if (!GEMINI_API_KEY) {
 }
 
 // Config
-const BASE_DIR = 'C:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote'
+const BASE_DIR = 'C:/Users/webco/바탕 화면/윤시준/PRJ/feelandnote'
 const INPUT_DIR = path.join(BASE_DIR, '인물/no')
 const OUTPUT_SAMPLE_FILE = path.join(BASE_DIR, 'celeb_review_sample.md')
 
@@ -78,7 +78,7 @@ async function insertToDb(data, nameFromFile) {
 
     // UUID 생성
     const newId = crypto.randomUUID()
-    const email = `celeb_${newId}@feelnnote.local`
+    const email = `celeb_${newId}@feelandnote.local`
     
     // Auth User (Service Role RPC or Admin API)
     // NOTE: 여기서는 간단히 Admin API 사용

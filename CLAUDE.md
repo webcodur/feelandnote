@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-Feelnnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. 모노레포 구조:
+Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. 모노레포 구조:
 - `sw/web` - 사용자용 웹 (포트 3000)
 - `sw/web-bo` - 관리자 백오피스 (포트 3001)
 - `packages/api-clients` - 공유 API 클라이언트 (외부 API 호출)

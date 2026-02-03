@@ -1,5 +1,5 @@
 {
-  "name": "@feelnnote/ai-services",
+  "name": "@feelandnote/ai-services",
   "version": "1.0.0",
   "private": true,
   "exports": {
@@ -12,7 +12,7 @@
     "./prompts/influence-rulebook": "./src/prompts/influence-rulebook.ts"
   },
   "dependencies": {
-    "@feelnnote/content-search": "workspace:*",
-    "@feelnnote/influence-constants": "workspace:*"
+    "@feelandnote/content-search": "workspace:*",
+    "@feelandnote/influence-constants": "workspace:*"
   }
 }

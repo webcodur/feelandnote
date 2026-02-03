@@ -1,6 +1,6 @@
 # Vercel 모노레포 배포 설정
 
-Feelnnote 모노레포에서 `sw/web`과 `sw/web-bo`를 각각 독립적으로 배포하는 방법.
+Feelandnote 모노레포에서 `sw/web`과 `sw/web-bo`를 각각 독립적으로 배포하는 방법.
 
 ## 개요
 
@@ -11,7 +11,7 @@ Feelnnote 모노레포에서 `sw/web`과 `sw/web-bo`를 각각 독립적으로 �
 ## 프로젝트 구조
 
 ```
-feelnnote/
+feelandnote/
 ├── sw/
 │   ├── web/          # 사용자 웹 (포트 3000)
 │   └── web-bo/       # 관리자 백오피스 (포트 3001)
@@ -26,7 +26,7 @@ feelnnote/
 #### web (사용자 웹)
 
 1. [Vercel 대시보드](https://vercel.com/dashboard) > **Add New Project**
-2. Git repo 선택: `feelnnote`
+2. Git repo 선택: `feelandnote`
 3. **Root Directory** 설정: `sw/web`
 4. Framework Preset: Next.js (자동 감지)
 5. **Deploy** 클릭
@@ -34,7 +34,7 @@ feelnnote/
 #### web-bo (관리자 백오피스)
 
 1. 동일하게 **Add New Project**
-2. 같은 Git repo 선택: `feelnnote`
+2. 같은 Git repo 선택: `feelandnote`
 3. **Root Directory** 설정: `sw/web-bo`
 4. Framework Preset: Next.js
 5. **Deploy** 클릭

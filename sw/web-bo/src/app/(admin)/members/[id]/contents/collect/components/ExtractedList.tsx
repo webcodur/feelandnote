@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { Check, Loader2, Search, Database, ChevronDown, ChevronUp } from 'lucide-react'
-import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
+import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import type { ProcessedItem } from '../lib/types'
 import ExtractedItemCard from './ExtractedItemCard'
 

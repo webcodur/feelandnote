@@ -47,7 +47,7 @@ export function ShareModal({ isOpen, onClose }: ShareModalProps) {
 
   const getShareUrl = () => typeof window !== "undefined" ? window.location.href : "";
   const getShareText = () => "내 라이브러리를 확인해보세요!";
-  const getShareTitle = () => "Feelnnote - 내 라이브러리";
+  const getShareTitle = () => "Feelandnote - 내 라이브러리";
 
   const shareOptions: ShareOption[] = [
     { label: "X", icon: <XIcon />, bgColor: "#000000", handler: () => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText())}`, "_blank", "width=550,height=420") },

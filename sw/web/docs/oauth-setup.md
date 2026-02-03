@@ -1,6 +1,6 @@
 # OAuth 인증 설정 가이드
 
-Feelnnote 프로젝트의 OAuth 소셜 로그인 설정 문서.
+Feelandnote 프로젝트의 OAuth 소셜 로그인 설정 문서.
 
 ## 아키텍처 개요
 
@@ -27,8 +27,8 @@ Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더�
 
 | 항목 | 값 |
 |------|-----|
-| Site URL | `https://feelnnote.com` |
-| Redirect URLs | `https://feelnnote.com/auth/callback` |
+| Site URL | `https://feelandnote.com` |
+| Redirect URLs | `https://feelandnote.com/auth/callback` |
 | | `http://localhost:3000/**` |
 
 ### Providers 설정 (Authentication → Providers)
@@ -57,8 +57,8 @@ Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더�
 
 #### 승인된 JavaScript 원본
 ```
-https://feelnnote.com
-http://feelnnote.com
+https://feelandnote.com
+http://feelandnote.com
 https://localhost:3000
 http://localhost:3000
 ```
@@ -104,7 +104,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 ### 프로덕션 (Vercel 환경변수)
 ```env
-NEXT_PUBLIC_SITE_URL=https://feelnnote.com
+NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 ```
 
 > `.env` 파일에 `NEXT_PUBLIC_SITE_URL`을 중복 정의하면 마지막 값이 적용되므로 주의.

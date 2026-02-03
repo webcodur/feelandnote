@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import fs from 'fs'
 import path from 'path'
-import { generateCelebProfileWithInfluence, generateCelebPhilosophy } from '@feelnnote/ai-services/celeb-profile'
+import { generateCelebProfileWithInfluence, generateCelebPhilosophy } from '@feelandnote/ai-services/celeb-profile'
 import dotenv from 'dotenv'
 
 // .env 로드 (API Key 확인용)
@@ -28,7 +28,7 @@ const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
 })
 
 // 입력 폴더: 바탕 화면 경로 하드코딩 (사용자 환경)
-const BASE_DIR = 'C:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote'
+const BASE_DIR = 'C:/Users/webco/바탕 화면/윤시준/PRJ/feelandnote'
 const INPUT_DIR = path.join(BASE_DIR, '인물/no')
 const PORTRAIT_WIDTH = 675
 const PORTRAIT_HEIGHT = 1200
@@ -135,7 +135,7 @@ async function main() {
       
       // UUID 생성을 위해 crypto 사용 (Node 19+ global, or import)
       const newId = crypto.randomUUID()
-      const email = `celeb_${newId}@feelnnote.local`
+      const email = `celeb_${newId}@feelandnote.local`
 
       console.log(`  > Inserting into DB (ID: ${newId})...`)
       

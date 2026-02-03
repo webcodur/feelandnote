@@ -1,5 +1,5 @@
 {
-  "name": "@feelnnote/web",
+  "name": "@feelandnote/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@feelnnote/ai-services": "workspace:*",
-    "@feelnnote/content-search": "workspace:*",
-    "@feelnnote/influence-constants": "workspace:*",
-    "@feelnnote/shared": "workspace:*",
+    "@feelandnote/ai-services": "workspace:*",
+    "@feelandnote/content-search": "workspace:*",
+    "@feelandnote/influence-constants": "workspace:*",
+    "@feelandnote/shared": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.2",
     "@vercel/speed-insights": "^1.3.1",

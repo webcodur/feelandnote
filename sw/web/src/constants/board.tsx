@@ -25,7 +25,7 @@ export const BOARD_ITEMS: BoardItem[] = [
     label: "공지사항",
     icon: Megaphone,
     href: "/board/notice",
-    description: "Feelnnote의 새로운 소식과 업데이트",
+    description: "Feelandnote의 새로운 소식과 업데이트",
   },
   {
     value: "feedback",

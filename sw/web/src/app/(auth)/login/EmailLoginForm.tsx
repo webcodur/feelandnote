@@ -12,7 +12,7 @@ interface Props {
   onExpandChange?: (expanded: boolean) => void
 }
 
-const STORAGE_KEY = 'feelnnote_saved_email'
+const STORAGE_KEY = 'feelandnote_saved_email'
 
 export default function EmailLoginForm({ onExpandChange }: Props) {
   const [isExpanded, setIsExpanded] = useState(false)

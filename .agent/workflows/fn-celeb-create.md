@@ -3,7 +3,7 @@ description: 셀럽 정보 생성처리
 ---
 
 ### 1. 작업 개요
-본 워크플로우는 `feelnnote` 프로젝트에서 새로운 셀럽(Celeb) 정보를 생성할 때 따르는 절차입니다.
+본 워크플로우는 `feelandnote` 프로젝트에서 새로운 셀럽(Celeb) 정보를 생성할 때 따르는 절차입니다.
 단순 데이터 입력이 아니라, **AI 룰북을 기반으로 고품질의 텍스트(감상 철학 등)를 생성**하고 DB에 반영하는 것이 핵심입니다.
 
 ### 2. 생성 절차
@@ -23,7 +23,7 @@ DECLARE
   new_id UUID := gen_random_uuid();
   new_email TEXT;
 BEGIN
-  new_email := 'celeb_' || new_id || '@feelnnote.local';
+  new_email := 'celeb_' || new_id || '@feelandnote.local';
 
   -- 1. auth.users (더미 계정)
   INSERT INTO auth.users (

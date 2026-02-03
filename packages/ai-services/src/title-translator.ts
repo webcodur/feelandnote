@@ -2,7 +2,7 @@
 // 2단계 Agent: Gemini로 정식 한국어 제목 및 리뷰 번역
 
 import { callGemini } from './gemini'
-import type { ContentType } from '@feelnnote/content-search/types'
+import type { ContentType } from '@feelandnote/content-search/types'
 
 // #region Types
 export interface TitleItem {
@@ -218,4 +218,4 @@ export async function translateTitles(
 // #endregion
 
 // Re-export ContentType for convenience
-export type { ContentType } from '@feelnnote/content-search/types'
+export type { ContentType } from '@feelandnote/content-search/types'

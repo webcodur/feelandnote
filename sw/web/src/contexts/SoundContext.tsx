@@ -69,7 +69,7 @@ const soundUrls: Record<SoundType, string> = {
 // #region Context
 const SoundContext = createContext<SoundContextValue | null>(null);
 
-const STORAGE_KEY = "feelnnote_sound_enabled";
+const STORAGE_KEY = "feelandnote_sound_enabled";
 
 export function SoundProvider({ children }: SoundProviderProps) {
   const [isSoundEnabled, setIsSoundEnabled] = useState(false);

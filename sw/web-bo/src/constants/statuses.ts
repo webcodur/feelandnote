@@ -4,6 +4,6 @@ export {
   STATUS_OPTIONS,
   getStatusLabel,
   getStatusColor,
-} from '@feelnnote/shared/constants/statuses'
-export type { ContentStatus } from '@feelnnote/shared/types'
-export type { StatusOption, StatusConfig } from '@feelnnote/shared/constants/statuses'
+} from '@feelandnote/shared/constants/statuses'
+export type { ContentStatus } from '@feelandnote/shared/types'
+export type { StatusOption, StatusConfig } from '@feelandnote/shared/constants/statuses'

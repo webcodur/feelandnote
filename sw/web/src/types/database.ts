@@ -1,7 +1,7 @@
 // Supabase 데이터베이스 타입 정의
 
 // ===== Enums (공유 패키지에서 import 후 re-export) =====
-import type { ContentType, ContentStatus } from '@feelnnote/shared/types'
+import type { ContentType, ContentStatus } from '@feelandnote/shared/types'
 export type { ContentType, ContentStatus }
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'

@@ -5,7 +5,7 @@ import {
   EXPLORE_PROFESSION_PRESETS, 
   EXPLORE_NATIONALITY_PRESETS, 
   EXPLORE_CONTENT_PRESETS 
-} from "@feelnnote/shared/constants/explore-presets";
+} from "@feelandnote/shared/constants/explore-presets";
 
 export const EXPLORE_PRESETS = [
   {

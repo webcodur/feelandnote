@@ -7,13 +7,13 @@ export {
   getStatusLabel,
   getStatusColor,
   getStatusBgColor,
-} from '@feelnnote/shared/constants/statuses'
+} from '@feelandnote/shared/constants/statuses'
 export type {
   StatusConfig,
   StatusOption,
   StatusFilter,
   StatusFilterOption,
-} from '@feelnnote/shared/constants/statuses'
+} from '@feelandnote/shared/constants/statuses'
 
 // #region 확장 상태 (레거시 호환용)
 // 레거시 상태를 포함한 전체 상태 라벨 (Single Source of Truth)

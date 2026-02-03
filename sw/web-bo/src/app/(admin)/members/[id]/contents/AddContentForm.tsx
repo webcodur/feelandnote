@@ -9,8 +9,8 @@ import { Plus, Search, Loader2, X, Database, Globe } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
 import { STATUS_OPTIONS } from '@/constants/statuses'
-import type { ExternalSearchResult } from '@feelnnote/content-search/unified-search'
-import type { ContentType } from '@feelnnote/content-search/types'
+import type { ExternalSearchResult } from '@feelandnote/content-search/unified-search'
+import type { ContentType } from '@feelandnote/content-search/types'
 
 interface Props {
   celebId: string

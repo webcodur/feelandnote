@@ -2,7 +2,7 @@
 // 1단계 Agent: 추출만 담당 (번역은 별도 Agent에서 처리)
 
 import { callGemini } from './gemini'
-import type { ContentType } from '@feelnnote/content-search/types'
+import type { ContentType } from '@feelandnote/content-search/types'
 
 // #region Types
 export interface ExtractedContent {
@@ -156,4 +156,4 @@ export async function extractContentsFromText(
 // #endregion
 
 // Re-export ContentType for convenience
-export type { ContentType } from '@feelnnote/content-search/types'
+export type { ContentType } from '@feelandnote/content-search/types'

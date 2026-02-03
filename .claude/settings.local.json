@@ -144,7 +144,9 @@
       "WebFetch(domain:lithub.com)",
       "Bash(next:*)",
       "Bash(npx playwright install:*)",
-      "Bash(npx playwright test:*)"
+      "Bash(npx playwright test:*)",
+      "Bash(git branch:*)",
+      "Bash(git worktree remove:*)"
     ],
     "deny": [],
     "ask": []

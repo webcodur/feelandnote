@@ -59,5 +59,5 @@ export function downloadCSV(csv: string, filename: string): void {
 export function generateExportFilename(type?: string): string {
   const date = new Date().toISOString().split('T')[0].replace(/-/g, '')
   const typeLabel = type || 'ALL'
-  return `feelnnote_${typeLabel}_${date}.csv`
+  return `feelandnote_${typeLabel}_${date}.csv`
 }

@@ -1,7 +1,7 @@
 'use server'
 
-import { searchExternal, type ExternalSearchResult } from '@feelnnote/content-search/unified-search'
-import type { ContentType } from '@feelnnote/content-search/types'
+import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-search/unified-search'
+import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 
 // 외부 API 검색

@@ -1,6 +1,6 @@
 
-import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
-import type { ContentType } from '@feelnnote/content-search/types'
+import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
+import type { ContentType } from '@feelandnote/content-search/types'
 import { ExtractedContentWithSearch } from '@/actions/admin/ai-collect'
 
 export type InputMode = 'url' | 'text' | 'json'

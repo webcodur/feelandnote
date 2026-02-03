@@ -1,9 +1,9 @@
 # GEMINI.md
 
-This file provides context and guidance for Gemini Code Assist when working with the **Feelnnote** project.
+This file provides context and guidance for Gemini Code Assist when working with the **Feelandnote** project.
 
 ## 1. 프로젝트 개요 (Project Overview)
-**Feelnnote**는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스입니다.
+**Feelandnote**는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스입니다.
 사용자는 자신의 문화 생활을 기록하고, 타인(친구, 셀럽)의 기록을 탐색하며 영감을 얻을 수 있습니다.
 
 ### 모노레포 구조

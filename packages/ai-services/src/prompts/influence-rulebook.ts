@@ -1,5 +1,5 @@
 // 인물 영향력 평가 룰북
-// 핵심 상수는 @feelnnote/influence-constants/core에서 가져옴 (UI 의존성 없음)
+// 핵심 상수는 @feelandnote/influence-constants/core에서 가져옴 (UI 의존성 없음)
 
 // re-export
 export {
@@ -16,7 +16,7 @@ export {
   type InfluenceCategoryField,
   type InfluenceField,
   type InfluenceRank,
-} from '@feelnnote/influence-constants/core'
+} from '@feelandnote/influence-constants/core'
 
 // #region Prompt Template
 export const INFLUENCE_RULEBOOK_PROMPT = `## 영향력 평가 기준

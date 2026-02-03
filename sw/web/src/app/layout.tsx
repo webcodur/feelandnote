@@ -62,7 +62,7 @@ const maruburi = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://feelnnote.com"),
+  metadataBase: new URL("https://feelandnote.com"),
   title: {
     default: "Feel&Note",
     template: "%s",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Feel&Note",
     description: "당신의 문화 기록을 남기고, 영감을 발견하세요.",
-    url: "https://feelnnote.com", // 실 운영 도메인으로 변경 예정
+    url: "https://feelandnote.com", // 실 운영 도메인으로 변경 예정
     siteName: "Feel&Note",
     locale: "ko_KR",
     type: "website",

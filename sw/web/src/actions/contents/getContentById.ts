@@ -1,10 +1,10 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { searchBooks } from '@feelnnote/content-search/naver-books'
-import { getVideoById } from '@feelnnote/content-search/tmdb'
-import { getGameById } from '@feelnnote/content-search/igdb'
-import { getAlbumById } from '@feelnnote/content-search/spotify'
+import { searchBooks } from '@feelandnote/content-search/naver-books'
+import { getVideoById } from '@feelandnote/content-search/tmdb'
+import { getGameById } from '@feelandnote/content-search/igdb'
+import { getAlbumById } from '@feelandnote/content-search/spotify'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentDetail {

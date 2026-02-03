@@ -4,5 +4,5 @@ export {
   CELEB_PROFESSION_FILTERS,
   getCelebProfessionLabel,
   getCelebProfession,
-} from '@feelnnote/shared/constants/celeb-professions'
-export type { CelebProfession } from '@feelnnote/shared/types'
+} from '@feelandnote/shared/constants/celeb-professions'
+export type { CelebProfession } from '@feelandnote/shared/types'

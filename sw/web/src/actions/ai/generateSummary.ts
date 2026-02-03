@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { callGemini, buildSummaryPrompt } from '@feelnnote/ai-services/gemini'
+import { callGemini, buildSummaryPrompt } from '@feelandnote/ai-services/gemini'
 
 interface GenerateSummaryParams {
   contentTitle: string

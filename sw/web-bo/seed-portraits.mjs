@@ -10,7 +10,7 @@ const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false }
 })
 
-const TEMP_DIR = 'c:/Users/webco/바탕 화면/윤시준/PRJ/feelnnote/temp'
+const TEMP_DIR = 'c:/Users/webco/바탕 화면/윤시준/PRJ/feelandnote/temp'
 const PORTRAIT_WIDTH = 675
 const PORTRAIT_HEIGHT = 1200
 

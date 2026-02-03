@@ -89,7 +89,7 @@ export async function getSupabaseStats(): Promise<SupabaseStats> {
 
     return {
       project: {
-        name: 'feelnnote',
+        name: 'feelandnote',
         region: 'ap-southeast-1',
         status: 'ACTIVE_HEALTHY',
         databaseVersion: '17.6.1',
@@ -116,7 +116,7 @@ export async function getSupabaseStats(): Promise<SupabaseStats> {
     const limits = PLAN_LIMITS.free
     return {
       project: {
-        name: 'feelnnote',
+        name: 'feelandnote',
         region: 'ap-southeast-1',
         status: 'ACTIVE_HEALTHY',
         databaseVersion: '17.6.1',

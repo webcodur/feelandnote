@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { generateCelebInfluence } from '@/actions/admin/celebs'
-import type { GeneratedInfluence, InfluenceScore } from '@feelnnote/ai-services/celeb-profile'
+import type { GeneratedInfluence, InfluenceScore } from '@feelandnote/ai-services/celeb-profile'
 import { Sparkles, Loader2, Check, X } from 'lucide-react'
 import Button from '@/components/ui/Button'
 

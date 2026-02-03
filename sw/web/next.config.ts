@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@feelnnote/api-clients', '@feelnnote/shared'],
+  transpilePackages: ['@feelandnote/api-clients', '@feelandnote/shared'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'shopping-phinf.pstatic.net' },

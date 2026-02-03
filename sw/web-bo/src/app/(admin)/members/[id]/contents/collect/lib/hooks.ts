@@ -1,8 +1,8 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import type { ExtractedContent } from '@feelnnote/ai-services/content-extractor'
-import type { ContentType } from '@feelnnote/content-search/types'
+import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
+import type { ContentType } from '@feelandnote/content-search/types'
 import {
   extractOnlyFromUrl,
   extractOnlyFromText,
@@ -12,7 +12,7 @@ import {
 import { parseJsonInput } from './utils'
 import type { InputMode, ProcessedItem, SearchResultItem } from './types'
 
-const SELECTED_KEY_STORAGE = 'feelnnote_selected_api_key'
+const SELECTED_KEY_STORAGE = 'feelandnote_selected_api_key'
 
 // 저자 일치 여부로 최적 결과 선택
 function findBestMatchByCreator(
