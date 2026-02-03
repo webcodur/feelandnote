@@ -51,7 +51,7 @@ interface Props {
 // 시대 콘텐츠 그리드
 function EraContentsGrid({ era }: { era: EraScriptures }) {
   return era.contents.length > 0 ? (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
       {era.contents.map((content, idx) => (
         <ScriptureContentCard
           key={content.id}

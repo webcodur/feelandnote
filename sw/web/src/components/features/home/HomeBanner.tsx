@@ -32,7 +32,7 @@ export default function HomeBanner() {
   };
 
   return (
-    <section className="relative h-[85vh] min-h-[480px] md:min-h-[600px] flex flex-col items-center justify-center overflow-hidden bg-bg-main selection:bg-accent/30">
+    <section className="relative min-h-screen pt-16 md:pt-24 flex flex-col items-center justify-center overflow-hidden bg-bg-main selection:bg-accent/30">
       
       {/* --- Background Layers --- */}
       
@@ -125,17 +125,17 @@ export default function HomeBanner() {
               <button
                 key={item.targetId}
                 onClick={() => scrollToSection(item.targetId)}
-                className="group relative flex flex-col items-center gap-1.5 md:gap-2 p-2 md:p-4 rounded-xl hover:bg-white/5 transition-all duration-300 w-[4.25rem] md:w-20"
+                className="group relative flex flex-col items-center gap-1.5 md:gap-2 p-2 md:p-4 rounded-xl hover:bg-white/5 w-[4.25rem] md:w-20"
               >
-                <div className="relative w-9 h-9 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent/60 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all bg-bg-card/50 backdrop-blur-sm">
-                  <item.icon size={18} className="md:hidden text-text-secondary group-hover:text-accent transition-colors" />
-                  <item.icon size={20} className="hidden md:block text-text-secondary group-hover:text-accent transition-colors" />
+                <div className="relative w-9 h-9 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent/60 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] bg-bg-card/50 backdrop-blur-sm">
+                  <item.icon size={18} className="md:hidden text-text-secondary group-hover:text-accent" />
+                  <item.icon size={20} className="hidden md:block text-text-secondary group-hover:text-accent" />
                 </div>
                 <div className="text-center h-8 md:h-10 flex flex-col justify-start">
-                  <span className="block text-[11px] md:text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                  <span className="block text-[11px] md:text-sm font-bold text-text-primary group-hover:text-accent">
                     {item.label}
                   </span>
-                  <span className="hidden md:block text-[10px] text-white/20 font-cinzel tracking-wider group-hover:text-accent/50 transition-colors leading-tight">
+                  <span className="hidden md:block text-[10px] text-white/20 font-cinzel tracking-wider group-hover:text-accent/50 leading-tight">
                     {item.sub}
                   </span>
                 </div>

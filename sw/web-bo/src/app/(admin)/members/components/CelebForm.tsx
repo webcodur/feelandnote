@@ -32,6 +32,7 @@ interface CelebFormData {
   profession: string
   title: string
   nationality: string
+  gender: boolean | null
   birth_date: string
   death_date: string
   bio: string
@@ -74,6 +75,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     profession: celeb?.profession || '',
     title: celeb?.title || '',
     nationality: celeb?.nationality || '',
+    gender: celeb?.gender ?? null,
     birth_date: celeb?.birth_date || '',
     death_date: celeb?.death_date || '',
     bio: celeb?.bio || '',
@@ -81,7 +83,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     avatar_url: celeb?.avatar_url || '',
     portrait_url: celeb?.portrait_url || '',
     is_verified: celeb?.is_verified || false,
-    status: (celeb?.status as 'active' | 'suspended') || 'active',
+    status: (celeb?.status as 'active' | 'suspended') || 'suspended',
     consumption_philosophy: celeb?.consumption_philosophy || '',
   }
 }
@@ -234,6 +236,7 @@ export default function CelebForm({ mode, celeb }: Props) {
             ...(parsed.profession && { profession: parsed.profession }),
             ...(parsed.title && { title: parsed.title }),
             ...(parsed.nationality && { nationality: parsed.nationality }),
+            ...(parsed.gender !== undefined && { gender: parsed.gender }),
             ...(parsed.birth_date && { birth_date: parsed.birth_date }),
             ...(parsed.death_date && { death_date: parsed.death_date }),
             ...(parsed.bio && { bio: parsed.bio }),
@@ -344,6 +347,7 @@ export default function CelebForm({ mode, celeb }: Props) {
       profession: data.profession || prev.profession,
       title: data.title || prev.title,
       nationality: data.nationality || prev.nationality,
+      gender: data.gender ?? prev.gender,
       birth_date: data.birth_date || prev.birth_date,
       death_date: data.death_date || prev.death_date,
       bio: data.bio || prev.bio,
@@ -382,7 +386,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   }
   // #endregion
 
-  function handleChange(field: keyof CelebFormData, value: string | boolean) {
+  function handleChange(field: keyof CelebFormData, value: string | boolean | null) {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
@@ -517,6 +521,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           profession: formData.profession || undefined,
           title: formData.title || undefined,
           nationality: formData.nationality || undefined,
+          gender: formData.gender,
           birth_date: formData.birth_date || undefined,
           death_date: formData.death_date || undefined,
           bio: formData.bio || undefined,
@@ -524,6 +529,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           avatar_url: avatarUrl,
           portrait_url: portraitUrl,
           is_verified: formData.is_verified,
+          status: formData.status,
           consumption_philosophy: formData.consumption_philosophy || undefined,
           influence: hasInfluence ? influence : undefined,
         })
@@ -584,6 +590,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           profession: formData.profession || undefined,
           title: formData.title || undefined,
           nationality: formData.nationality || undefined,
+          gender: formData.gender,
           birth_date: formData.birth_date || undefined,
           death_date: formData.death_date || undefined,
           bio: formData.bio || undefined,
@@ -757,6 +764,13 @@ export default function CelebForm({ mode, celeb }: Props) {
             {countries.map((country) => <option key={country.code} value={country.code}>{country.name}</option>)}
           </select>
 
+          <label htmlFor="gender" className="text-xs font-medium text-text-secondary">성별</label>
+          <select id="gender" value={formData.gender === null ? '' : formData.gender ? 'male' : 'female'} onChange={(e) => handleChange('gender', e.target.value === '' ? null : e.target.value === 'male')} className="px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none">
+            <option value="">선택 안함</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+          </select>
+
           <label htmlFor="birth_date" className="text-xs font-medium text-text-secondary">출생</label>
           <div className="grid grid-cols-2 gap-2">
             <input type="text" id="birth_date" value={formData.birth_date} onChange={(e) => handleChange('birth_date', e.target.value)} placeholder="1955-02-24 또는 -356" className="px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
@@ -775,21 +789,19 @@ export default function CelebForm({ mode, celeb }: Props) {
               <div className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 text-blue-400" /><span className="text-xs text-text-primary">공식 인증 계정</span></div>
             </label>
 
-            {mode === 'edit' && (
+            <div className="flex items-center gap-3">
+              <label className="text-xs font-medium text-text-secondary">상태</label>
               <div className="flex items-center gap-3">
-                <label className="text-xs font-medium text-text-secondary">상태</label>
-                <div className="flex items-center gap-3">
-                  <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="status" value="active" checked={formData.status === 'active'} onChange={() => handleChange('status', 'active')} className="w-3.5 h-3.5" />
-                    <span className="text-xs text-text-primary">활성</span>
-                  </label>
-                  <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="status" value="suspended" checked={formData.status === 'suspended'} onChange={() => handleChange('status', 'suspended')} className="w-3.5 h-3.5" />
-                    <span className="text-xs text-text-primary">비활성</span>
-                  </label>
-                </div>
+                <label className="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="status" value="active" checked={formData.status === 'active'} onChange={() => handleChange('status', 'active')} className="w-3.5 h-3.5" />
+                  <span className="text-xs text-text-primary">활성</span>
+                </label>
+                <label className="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="status" value="suspended" checked={formData.status === 'suspended'} onChange={() => handleChange('status', 'suspended')} className="w-3.5 h-3.5" />
+                  <span className="text-xs text-text-primary">비활성</span>
+                </label>
               </div>
-            )}
+            </div>
           </div>
 
           {/* 우측: 프로필 이미지 */}

@@ -20,6 +20,7 @@ export interface UseContentLibraryOptions {
   showCategories?: boolean;
   mode?: ContentLibraryMode;
   targetUserId?: string;
+  initialSearchQuery?: string;
 }
 
 export interface GroupedContents {

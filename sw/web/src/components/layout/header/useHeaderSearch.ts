@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
-import { SearchMode, ContentCategory, SEARCH_MODES } from "@/components/shared/search/SearchModeDropdown";
+import { SearchMode, ContentCategory, SEARCH_MODES, CONTENT_CATEGORIES } from "@/components/shared/search/SearchModeDropdown";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import { getCategoryById } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
@@ -17,6 +17,8 @@ const categoryToContentType = (category: string): ContentType => {
 
 export function useHeaderSearch() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
   const [mode, setMode] = useState<SearchMode>("content");
@@ -33,6 +35,21 @@ export function useHeaderSearch() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // 검색 페이지에서 URL 파라미터와 동기화
+  useEffect(() => {
+    if (pathname !== "/search") return;
+
+    const urlMode = searchParams.get("mode") as SearchMode;
+    const urlCategory = searchParams.get("category") as ContentCategory;
+
+    if (urlMode && SEARCH_MODES.some((m) => m.id === urlMode)) {
+      setMode(urlMode);
+    }
+    if (urlCategory && CONTENT_CATEGORIES.some((c) => c.id === urlCategory)) {
+      setContentCategory(urlCategory);
+    }
+  }, [pathname, searchParams]);
 
   // 현재 사용자 ID 가져오기
   useEffect(() => {
@@ -170,6 +187,15 @@ export function useHeaderSearch() {
   const handleSearch = () => {
     if (!query.trim()) return;
     saveRecentSearch(query.trim());
+
+    // 내 기록 검색: 사용자의 records 페이지로 이동
+    if (mode === "records") {
+      if (!currentUserId) return;
+      router.push(`/${currentUserId}/records?q=${encodeURIComponent(query.trim())}`);
+      setIsOpen(false);
+      return;
+    }
+
     const categoryParam = mode === "content" ? `&category=${contentCategory}` : "";
     router.push(`/search?mode=${mode}${categoryParam}&q=${encodeURIComponent(query.trim())}`);
     setIsOpen(false);

@@ -10,7 +10,7 @@ import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
 import { useCelebFilters } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -19,12 +19,15 @@ interface CelebCarouselProps {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  genderCounts: GenderCounts;
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
   extraButtons?: React.ReactNode;
   onFilterInteraction?: () => void;
   customContent?: React.ReactNode;
+  includeInactive?: boolean;
+  onIncludeInactiveChange?: (value: boolean) => void;
 }
 
 export default function CelebCarousel({
@@ -34,11 +37,14 @@ export default function CelebCarousel({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  genderCounts,
   mode = "grid",
   syncToUrl = false,
   extraButtons,
   onFilterInteraction,
   customContent,
+  includeInactive = false,
+  onIncludeInactiveChange,
 }: CelebCarouselProps) {
   const filters = useCelebFilters({
     initialCelebs,
@@ -47,7 +53,10 @@ export default function CelebCarousel({
     professionCounts,
     nationalityCounts,
     contentTypeCounts,
+    genderCounts,
     syncToUrl,
+    includeInactive,
+    onIncludeInactiveChange,
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
@@ -106,16 +115,19 @@ export default function CelebCarousel({
                 profession={filters.profession}
                 nationality={filters.nationality}
                 contentType={filters.contentType}
+                gender={filters.gender}
                 sortBy={filters.sortBy}
                 search=""
                 professionCounts={professionCounts}
                 nationalityCounts={nationalityCounts}
                 contentTypeCounts={contentTypeCounts}
+                genderCounts={genderCounts}
                 isLoading={filters.isLoading}
                 activeLabels={filters.activeLabels}
                 onProfessionChange={withInteraction(filters.handleProfessionChange)}
                 onNationalityChange={withInteraction(filters.handleNationalityChange)}
                 onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+                onGenderChange={withInteraction(filters.handleGenderChange)}
                 onSortChange={withInteraction(filters.handleSortChange)}
                 onSearchInput={() => {}}
                 onSearchSubmit={() => {}}
@@ -166,11 +178,13 @@ export default function CelebCarousel({
         profession={filters.profession}
         nationality={filters.nationality}
         contentType={filters.contentType}
+        gender={filters.gender}
         sortBy={filters.sortBy}
         search={filters.search}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
+        genderCounts={genderCounts}
         isLoading={filters.isLoading}
         activeFilter={filters.activeFilter}
         activeLabels={filters.activeLabels}
@@ -179,6 +193,7 @@ export default function CelebCarousel({
         onProfessionChange={withInteraction(filters.handleProfessionChange)}
         onNationalityChange={withInteraction(filters.handleNationalityChange)}
         onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+        onGenderChange={withInteraction(filters.handleGenderChange)}
         onSortChange={withInteraction(filters.handleSortChange)}
         onSearchInput={(v) => { onFilterInteraction?.(); filters.handleSearchInput(v); }}
         onSearchSubmit={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
@@ -229,7 +244,7 @@ function EmptyState() {
 
 function GridSkeleton() {
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-6">
+    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6">
       {Array.from({ length: 12 }).map((_, i) => (
         <div key={i} className="aspect-[13/19] bg-bg-card animate-pulse rounded-xl" />
       ))}
@@ -242,7 +257,7 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
   return (
-    <div className={`grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-6 ${loadingClass}`}>
+    <div className={`grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6 ${loadingClass}`}>
       {celebs.map((celeb) => (
         <CelebCard
           key={celeb.id}
@@ -283,7 +298,7 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
       </div>
 
       {/* PC: Grid */}
-      <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+      <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-6">
         {pcCelebs.map((celeb) => (
           <CelebCard
             key={celeb.id}

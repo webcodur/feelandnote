@@ -1,16 +1,16 @@
 /*
-  파일명: /app/(main)/arena/higher-lower/page.tsx
+  파일명: /app/(main)/arena/up-down/page.tsx
   기능: 업다운 게임 페이지
   책임: 셀럽 영향력 비교 게임을 제공한다.
 */ // ------------------------------
 
-import HigherLowerGame from "@/components/features/game/HigherLowerGame";
+import UpDownGame from "@/components/features/game/UpDownGame";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 
-export const metadata = { title: getArenaPageTitle("higher-lower") };
+export const metadata = { title: getArenaPageTitle("up-down") };
 
-const headerInfo = ARENA_SECTION_HEADERS["higher-lower"];
+const headerInfo = ARENA_SECTION_HEADERS["up-down"];
 
 export default function Page() {
   return (
@@ -32,7 +32,7 @@ export default function Page() {
           </>
         }
       />
-      <HigherLowerGame />
+      <UpDownGame />
     </>
   );
 }

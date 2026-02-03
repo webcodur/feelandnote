@@ -19,10 +19,10 @@ export interface ArenaItem {
 
 export const ARENA_ITEMS: ArenaItem[] = [
   {
-    value: "higher-lower",
+    value: "up-down",
     label: "업다운",
     icon: Scale,
-    href: "/arena/higher-lower",
+    href: "/arena/up-down",
     description: "두 인물 중 더 높은 평점을 맞춰보세요",
   },
   {
@@ -57,7 +57,7 @@ export interface SectionHeaderInfo {
 }
 
 export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
-  "higher-lower": {
+  "up-down": {
     label: "INFLUENCE DUEL",
     title: "업다운",
     description: "영향력 대결",

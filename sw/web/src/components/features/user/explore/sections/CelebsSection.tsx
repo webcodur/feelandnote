@@ -13,7 +13,7 @@ import FeaturedCollectionsDesktop from "@/components/features/landing/FeaturedCo
 import InfluenceDistributionModal from "../InfluenceDistributionModal";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, FeaturedTag } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, FeaturedTag } from "@/actions/home";
 
 const FeaturedCollectionsMobile = lazy(() => import("@/components/features/landing/FeaturedCollectionsMobile"));
 
@@ -24,6 +24,7 @@ interface Props {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  genderCounts: GenderCounts;
   featuredTags: FeaturedTag[];
 }
 
@@ -34,12 +35,14 @@ export default function CelebsSection({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  genderCounts,
   featuredTags,
 }: Props) {
   const [showInfluenceDistribution, setShowInfluenceDistribution] = useState(false);
   const [isCollectionMode, setIsCollectionMode] = useState(false);
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
   const [activeTagIndex, setActiveTagIndex] = useState(0);
+  const [includeInactive, setIncludeInactive] = useState(false);
 
   // 기획전 버튼 클릭 핸들러 (모바일/데스크톱 분기)
   const handleCollectionClick = () => {
@@ -88,6 +91,7 @@ export default function CelebsSection({
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
+        genderCounts={genderCounts}
         mode="grid"
         hideHeader={false}
         syncToUrl
@@ -102,6 +106,8 @@ export default function CelebsSection({
             location="explore-pc"
           />
         ) : undefined}
+        includeInactive={includeInactive}
+        onIncludeInactiveChange={setIncludeInactive}
       />
 
       <InfluenceDistributionModal
@@ -128,6 +134,17 @@ export default function CelebsSection({
           </Suspense>
         </ModalBody>
       </Modal>
+
+      {/* 비활성화 셀럽 포함 토글 버튼 (숨김) */}
+      <div className="flex justify-center mt-16 mb-8">
+        <button
+          type="button"
+          onClick={() => setIncludeInactive(!includeInactive)}
+          className="text-[10px] text-white/10 hover:text-white/30 transition-colors select-none"
+        >
+          activate_all{includeInactive ? " ✓" : ""}
+        </button>
+      </div>
     </div>
   );
 }

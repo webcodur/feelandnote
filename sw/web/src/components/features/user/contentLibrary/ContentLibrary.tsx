@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useContentLibrary } from "./useContentLibrary";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
 import ArchiveControlBar from "./controlBar/ArchiveControlBar";
@@ -28,7 +29,9 @@ export default function ContentLibrary({
   targetUserId,
   ownerNickname,
 }: ContentLibraryProps) {
-  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId });
+  const searchParams = useSearchParams();
+  const initialSearchQuery = searchParams.get("q") || "";
+  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery });
   const isViewer = lib.isViewer;
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);

@@ -185,7 +185,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
           </div>
           
           {data && data.contents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
               {data.contents.map((content, index) => (
                 <ScriptureContentCard
                   key={content.id}
@@ -202,7 +202,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
               ))}
             </div>
           ) : !data ? (
-            <div className="animate-pulse grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+            <div className="animate-pulse grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
               {Array.from({ length: 12 }).map((_, i) => (
                 <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
               ))}

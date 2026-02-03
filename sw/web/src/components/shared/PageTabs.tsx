@@ -74,7 +74,7 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
         {/* Scrollable Area */}
         <div
           ref={containerRef}
-          className="relative flex items-center justify-start md:justify-center gap-1 sm:gap-4 overflow-x-auto scrollbar-hidden px-2 pb-[1px]"
+          className="relative flex items-center justify-center gap-1 sm:gap-4 overflow-x-auto scrollbar-hidden px-2 pb-[1px]"
           onMouseLeave={handleMouseLeave}
         >
           {tabs.map((tab, index) => {

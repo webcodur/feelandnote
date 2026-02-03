@@ -17,6 +17,7 @@ export interface BasicProfileJSONData {
   profession: string
   title: string
   nationality: string
+  gender: boolean | null
   birth_date: string
   death_date: string
   bio: string

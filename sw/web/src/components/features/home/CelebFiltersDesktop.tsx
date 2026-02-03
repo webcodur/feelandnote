@@ -5,32 +5,36 @@
 */
 "use client";
 
-import { Search, X } from "lucide-react";
+import { Search, X, ArrowUpDown } from "lucide-react";
 import { FilterChipDropdown, type FilterOption } from "@/components/shared/filters";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { SORT_OPTIONS } from "./useCelebFilters";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 
 interface CelebFiltersDesktopProps {
   profession: string;
   nationality: string;
   contentType: string;
+  gender: string;
   sortBy: CelebSortBy;
   search: string;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  genderCounts: GenderCounts;
   isLoading: boolean;
   activeLabels: {
     profession?: { label: string };
     nationality?: { label: string };
     contentType?: { label: string };
+    gender?: { label: string };
     sort?: { label: string };
   };
   onProfessionChange: (value: string) => void;
   onNationalityChange: (value: string) => void;
   onContentTypeChange: (value: string) => void;
+  onGenderChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
@@ -43,16 +47,19 @@ export default function CelebFiltersDesktop({
   profession,
   nationality,
   contentType,
+  gender,
   sortBy,
   search,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  genderCounts,
   isLoading,
   activeLabels,
   onProfessionChange,
   onNationalityChange,
   onContentTypeChange,
+  onGenderChange,
   onSortChange,
   onSearchInput,
   onSearchSubmit,
@@ -77,6 +84,12 @@ export default function CelebFiltersDesktop({
     value,
     label,
     count: contentTypeCounts[value] ?? 0,
+  }));
+
+  const genderOptions: FilterOption[] = genderCounts.map(({ value, label, count }) => ({
+    value,
+    label,
+    count,
   }));
 
   const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
@@ -149,6 +162,15 @@ export default function CelebFiltersDesktop({
         onSelect={onContentTypeChange}
       />
       <FilterChipDropdown
+        label="성별"
+        value={activeLabels.gender?.label ?? "전체"}
+        isActive={gender !== "all"}
+        isLoading={isLoading}
+        options={genderOptions}
+        currentValue={gender}
+        onSelect={onGenderChange}
+      />
+      <FilterChipDropdown
         label="정렬"
         value={activeLabels.sort?.label ?? "보유 콘텐츠순"}
         isActive={sortBy !== "content_count"}
@@ -156,6 +178,7 @@ export default function CelebFiltersDesktop({
         options={sortOptions}
         currentValue={sortBy}
         onSelect={(v) => onSortChange(v as CelebSortBy)}
+        icon={<ArrowUpDown size={14} />}
       />
     </div>
   );

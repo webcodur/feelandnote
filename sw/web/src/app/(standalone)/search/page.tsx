@@ -9,7 +9,7 @@
 import { useState, useEffect, Suspense, useTransition, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Search, Loader2, ArrowUpDown, Info } from "lucide-react";
-import { FilterChips, FilterSelect, type FilterOption, type ChipOption } from "@/components/ui";
+import { FilterSelect, type FilterOption } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { ContentResults, UserResults, TagResults } from "@/components/shared/search/SearchResultCards";
 import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
@@ -39,10 +39,6 @@ const API_SOURCE_INFO: Record<Exclude<CategoryId, "all">, { name: string; url: s
   music: { name: "Spotify", url: "https://developer.spotify.com" },
   certificate: { name: "Q-Net", url: "https://www.q-net.or.kr" },
 };
-
-const CATEGORY_CHIP_OPTIONS: ChipOption<CategoryId>[] = CATEGORIES.map((cat) => ({
-  value: cat.id, label: cat.label, icon: cat.icon,
-}));
 
 const CONTENT_SORT_OPTIONS: FilterOption[] = [
   { value: "relevance", label: "관련도순" },
@@ -112,8 +108,9 @@ function SearchContent() {
     router.push(`/search?${params.toString()}`);
   };
 
-  // 검색 조건 변경 시 초기화
+  // 검색 조건 변경 시 초기화 및 URL 파라미터 동기화
   useEffect(() => {
+    setCategory(categoryParam);
     setPage(1);
     setHasMore(false);
     setContentResults([]);
@@ -282,27 +279,53 @@ function SearchContent() {
     <>
       {modeParam === "content" && (
         <div className="mb-6 pb-4 border-b border-border">
-          <div className="flex items-center gap-4">
-            <FilterChips options={CATEGORY_CHIP_OPTIONS} value={category} onChange={(c) => { setCategory(c); updateUrl(c); }} variant="filled" showIcon />
-            <div className="ml-auto"><FilterSelect options={CONTENT_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
-          </div>
-          <div className="mt-3 flex items-center gap-1.5 text-xs text-text-tertiary">
-            <Info size={12} />
-            <span>
-              검색 제공:{" "}
-              <a
-                href={API_SOURCE_INFO[category as Exclude<CategoryId, "all">].url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent/60 hover:text-accent underline underline-offset-2"
-              >
-                {API_SOURCE_INFO[category as Exclude<CategoryId, "all">].name}
-              </a>
-            </span>
+          {/* 카테고리 탭 */}
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-center overflow-x-auto scrollbar-hidden">
+              <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
+                {CATEGORIES.map((cat) => {
+                  const isActive = category === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => { setCategory(cat.id); updateUrl(cat.id); }}
+                      className={`
+                        relative px-4 py-2 rounded-lg text-sm font-bold
+                        ${isActive
+                          ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+                          : "text-text-secondary hover:text-white hover:bg-white/5"
+                        }
+                      `}
+                    >
+                      <span className={isActive ? "font-serif text-black" : "font-sans"}>
+                        {cat.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex justify-center items-center gap-3 text-xs text-text-tertiary">
+              <FilterSelect options={CONTENT_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} />
+              <span className="text-border">|</span>
+              <div className="flex items-center gap-1.5">
+                <Info size={12} />
+                <span>
+                  검색 제공:{" "}
+                  <a
+                    href={API_SOURCE_INFO[category as Exclude<CategoryId, "all">].url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent/60 hover:text-accent underline underline-offset-2"
+                  >
+                    {API_SOURCE_INFO[category as Exclude<CategoryId, "all">].name}
+                  </a>
+                </span>
+              </div>
+            </div>
           </div>
           {CATEGORY_SEARCH_GUIDE[category] && (
-            <div className="mt-1 flex items-center gap-1.5 text-xs text-text-secondary">
-              <Info size={12} className="invisible" />
+            <div className="mt-2 flex justify-center text-xs text-text-secondary">
               <span>{CATEGORY_SEARCH_GUIDE[category]}</span>
             </div>
           )}

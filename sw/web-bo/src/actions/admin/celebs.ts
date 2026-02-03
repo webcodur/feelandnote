@@ -15,6 +15,7 @@ export interface Celeb {
   profession: string | null
   title: string | null
   nationality: string | null
+  gender: boolean | null
   birth_date: string | null
   death_date: string | null
   bio: string | null
@@ -48,6 +49,7 @@ interface CreateCelebInput {
   profession?: string
   title?: string
   nationality?: string
+  gender?: boolean | null
   birth_date?: string
   death_date?: string
   bio?: string
@@ -56,6 +58,7 @@ interface CreateCelebInput {
   avatar_url?: string
   portrait_url?: string
   is_verified?: boolean
+  status?: 'active' | 'suspended'
   influence?: GeneratedInfluence
 }
 
@@ -65,6 +68,7 @@ interface UpdateCelebInput {
   profession?: string
   title?: string
   nationality?: string
+  gender?: boolean | null
   birth_date?: string
   death_date?: string
   bio?: string
@@ -163,6 +167,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     profession: celeb.profession,
     title: celeb.title,
     nationality: celeb.nationality,
+    gender: celeb.gender,
     birth_date: celeb.birth_date,
     death_date: celeb.death_date,
     bio: celeb.bio,
@@ -214,6 +219,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,
+    gender: data.gender,
     birth_date: data.birth_date,
     death_date: data.death_date,
     bio: data.bio,
@@ -271,6 +277,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       profession: input.profession || null,
       title: input.title || null,
       nationality: input.nationality || null,
+      gender: input.gender ?? null,
       birth_date: input.birth_date || null,
       death_date: input.death_date || null,
       bio: input.bio || null,
@@ -280,7 +287,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       portrait_url: input.portrait_url || null,
       is_verified: input.is_verified || false,
       profile_type: 'CELEB',
-      status: 'active',
+      status: input.status || 'suspended',
     })
     .eq('id', userId)
 
@@ -348,6 +355,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.profession !== undefined) updateData.profession = input.profession
   if (input.title !== undefined) updateData.title = input.title
   if (input.nationality !== undefined) updateData.nationality = input.nationality
+  if (input.gender !== undefined) updateData.gender = input.gender
   if (input.birth_date !== undefined) updateData.birth_date = input.birth_date
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio

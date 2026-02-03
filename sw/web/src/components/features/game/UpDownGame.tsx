@@ -1,5 +1,5 @@
 /*
-  파일명: components/features/game/HigherLowerGame.tsx
+  파일명: components/features/game/UpDownGame.tsx
   기능: 업다운 게임 메인 컴포넌트
   책임: 게임 로직, 상태 관리, UI 렌더링
   업데이트: Neo-Pantheon 디자인 적용 (ArenaCard 사용)
@@ -10,7 +10,7 @@ import { useState, useEffect, useCallback } from "react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import type { CelebProfile } from "@/types/home";
 import GameResultModal from "./GameResultModal";
-import CelebInfluenceModal from "@/components/features/home/CelebInfluenceModal";
+import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import { Button } from "@/components/ui";
 import { ArrowUp, ArrowDown, Info } from "lucide-react";
 import { isPublicDomainCeleb, PUBLIC_DOMAIN_NOTICE } from "./utils";
@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 type GameState = "idle" | "loading" | "playing" | "thinking" | "revealing" | "gameover";
 type Difficulty = "easy" | "hard";
 
-export default function HigherLowerGame() {
+export default function UpDownGame() {
   const [celebs, setCelebs] = useState<CelebProfile[]>([]);
   const [currentCeleb, setCurrentCeleb] = useState<CelebProfile | null>(null);
   const [nextCeleb, setNextCeleb] = useState<CelebProfile | null>(null);
@@ -30,7 +30,7 @@ export default function HigherLowerGame() {
   const [gameState, setGameState] = useState<GameState>("idle");
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [selectedCelebId, setSelectedCelebId] = useState<string | null>(null);
+  const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // 서스펜스 상태
@@ -52,7 +52,7 @@ export default function HigherLowerGame() {
       setCelebs(filtered);
       setIsDataLoaded(true);
 
-      const saved = localStorage.getItem("higher-lower-highscore");
+      const saved = localStorage.getItem("up-down-highscore");
       if (saved) setHighScore(parseInt(saved, 10));
     };
     loadCelebs();
@@ -106,7 +106,7 @@ export default function HigherLowerGame() {
         setStreak(newStreak);
         if (newStreak > highScore) {
           setHighScore(newStreak);
-          localStorage.setItem("higher-lower-highscore", newStreak.toString());
+          localStorage.setItem("up-down-highscore", newStreak.toString());
         }
       }
     }, 1500);
@@ -271,7 +271,7 @@ export default function HigherLowerGame() {
               isHidden={isHardMode}
               status="normal"
               className="w-full h-full"
-              onClick={isHardMode ? undefined : () => setSelectedCelebId(currentCeleb.id)}
+              onClick={isHardMode ? undefined : () => setSelectedCeleb(currentCeleb)}
             />
           </div>
 
@@ -296,7 +296,6 @@ export default function HigherLowerGame() {
                     : (isPlaying || isThinking ? "selected" : "normal")
                 }
                 className="w-full h-full"
-                onClick={isHardMode ? undefined : () => setSelectedCelebId(nextCeleb.id)}
               />
             </div>
 
@@ -437,11 +436,14 @@ export default function HigherLowerGame() {
         highScore={highScore}
         onRestart={() => setGameState("idle")}
       />
-      <CelebInfluenceModal
-        celebId={selectedCelebId ?? ""}
-        isOpen={!!selectedCelebId}
-        onClose={() => setSelectedCelebId(null)}
-      />
+      {selectedCeleb && (
+        <CelebDetailModal
+          celeb={selectedCeleb}
+          isOpen={!!selectedCeleb}
+          onClose={() => setSelectedCeleb(null)}
+          hideBirthDate
+        />
+      )}
     </div>
   );
 }

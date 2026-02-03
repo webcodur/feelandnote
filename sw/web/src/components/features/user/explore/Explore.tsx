@@ -17,7 +17,7 @@ import InfluenceDistributionModal from "./InfluenceDistributionModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
 
 // #region Types
 interface FriendInfo {
@@ -65,6 +65,7 @@ interface ExploreProps {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  genderCounts: GenderCounts;
 }
 
 type TabType = "friends" | "following" | "followers" | "celebs" | "similar";
@@ -83,6 +84,7 @@ export default function Explore({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  genderCounts,
 }: ExploreProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -198,6 +200,7 @@ export default function Explore({
             professionCounts={professionCounts}
             nationalityCounts={nationalityCounts}
             contentTypeCounts={contentTypeCounts}
+            genderCounts={genderCounts}
             mode="grid"
             hideHeader={false}
             syncToUrl

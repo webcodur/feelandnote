@@ -141,7 +141,7 @@ export default function ChosenSection({ initialData }: Props) {
       {/* 카드 그리드 */}
       <div className={`min-h-[300px] transition-opacity duration-500 ${isPending ? "opacity-50" : "opacity-100"}`}>
         {data.contents.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4 relative">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4 relative">
             {/* 배경 장식 (흐릿한 월계관 느낌) */}
             <div className="absolute inset-0 bg-radial-gradient from-accent/5 to-transparent opacity-50 pointer-events-none" />
             

@@ -79,7 +79,7 @@ export default async function HomePage() {
         thumbnail: item.content.thumbnail_url,
         status: item.status,
         rating: item.public_record?.rating,
-        review: item.public_record?.content_preview,
+        review: item.public_record?.content_preview ?? null,
       }));
     } catch (e) {
       console.error("Failed to fetch user contents:", e);
@@ -90,7 +90,7 @@ export default async function HomePage() {
     <div className="bg-bg-main">
 
       {/* 1. 배너(히어로) */}
-      <section id="home-banner">
+      <section id="home-banner" className="-mx-2 md:-mx-8 -mt-6 md:-mt-8">
         <HomeBanner />
       </section>
 

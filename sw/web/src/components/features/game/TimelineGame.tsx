@@ -57,21 +57,27 @@ function PlacementSlot({
   position: "start" | "middle" | "end";
   isActive?: boolean;
 }) {
+  // 모바일에서 터치 후 hover 상태가 남는 문제 해결
+  const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
+  };
+
   return (
     <button
       onClick={onClick}
+      onTouchEnd={handleTouchEnd}
       disabled={disabled}
       className={cn(
-        "group relative flex-shrink-0 w-10 h-24 md:w-16 md:h-32 flex items-center justify-center transition-all duration-300",
-        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:w-14 md:hover:w-24"
+        "group relative flex-shrink-0 w-10 h-24 md:w-16 md:h-32 flex items-center justify-center transition-all duration-300 touch-pan-x",
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer [@media(hover:hover)]:hover:w-14 [@media(hover:hover)]:md:hover:w-24"
       )}
     >
       {/* 받침대 기둥 (Hover시 나타남) */}
       <div className={cn(
         "absolute inset-x-1 md:inset-x-2 top-2 md:top-4 bottom-2 md:bottom-4 border-2 border-dashed border-accent/20 rounded-lg transition-all duration-300",
-        isActive ? "bg-accent/10 border-accent/60" : "group-hover:bg-accent/5 group-hover:border-accent/40"
+        isActive ? "bg-accent/10 border-accent/60" : "[@media(hover:hover)]:group-hover:bg-accent/5 [@media(hover:hover)]:group-hover:border-accent/40"
       )}>
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity">
            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent">
              <span className="text-base md:text-xl font-bold">+</span>
            </div>
@@ -79,7 +85,7 @@ function PlacementSlot({
       </div>
 
       {/* 호버 시 텍스트 */}
-      <span className="absolute bottom-0 text-[8px] md:text-[10px] text-accent/60 font-cinzel opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+      <span className="absolute bottom-0 text-[8px] md:text-[10px] text-accent/60 font-cinzel opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity whitespace-nowrap">
         배치
       </span>
     </button>
@@ -431,9 +437,9 @@ export default function TimelineGame() {
         {/* 스크롤 영역 */}
         <div
           ref={timelineRef}
-          className="flex justify-center overflow-x-auto py-4 md:py-8 scrollbar-hide"
+          className="overflow-x-auto py-4 md:py-8 scrollbar-hide touch-pan-x"
         >
-          <div className="inline-flex items-center gap-1 md:gap-2 px-4 md:px-8">
+          <div className="inline-flex items-center gap-1 md:gap-2 px-4 md:px-8 min-w-full justify-center">
             {/* Start Slot */}
             <PlacementSlot
               position="start"

@@ -12,7 +12,7 @@ import PageTabs from "@/components/shared/PageTabs";
 
 export default function ArenaTabs() {
   const pathname = usePathname();
-  const activeTab = ARENA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "higher-lower";
+  const activeTab = ARENA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "up-down";
 
   return (
     <PageTabs 

@@ -31,7 +31,7 @@ import {
 export type { SortOption, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
-  const { maxItems, compact = false, mode = 'owner', targetUserId } = options;
+  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '' } = options;
   const isViewer = mode === 'viewer';
 
   // #region 상태
@@ -47,8 +47,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [pageSize, setPageSize] = useState(10);
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [appliedSearchQuery, setAppliedSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+  const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
 
   const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
     BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,

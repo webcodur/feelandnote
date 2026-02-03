@@ -12,10 +12,12 @@ interface GetCelebsParams {
   profession?: string
   nationality?: string  // 'all' | 'none' | 국가명
   contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
+  gender?: string  // 'all' | 'male' | 'female' (DB: true=male, false=female)
   sortBy?: CelebSortBy
   search?: string  // 이름 검색
   tagId?: string  // 태그 필터
   minContentCount?: number // 최소 컨텐츠 개수
+  includeInactive?: boolean // 비활성화된 셀럽 포함 여부
 }
 
 interface GetCelebsResult {
@@ -49,7 +51,7 @@ interface CelebRow {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, sortBy = 'content_count', search, tagId, minContentCount = 0 } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'content_count', search, tagId, minContentCount = 0, includeInactive = false } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -65,6 +67,8 @@ export async function getCelebs(
     p_search: search ?? null,
     p_tag_id: tagId ?? null,
     p_min_content_count: minContentCount,
+    p_gender: gender ?? null,
+    p_include_inactive: includeInactive,
   })
   const total = countData ?? 0
 
@@ -76,11 +80,13 @@ export async function getCelebs(
     p_nationality: nationality ?? null,
     p_content_type: contentType ?? null,
     p_sort_by: sortBy,
+    p_search: search ?? '',
     p_limit: limit,
     p_offset: offset,
-    p_search: search ?? null,
     p_tag_id: tagId ?? null,
     p_min_content_count: minContentCount,
+    p_gender: gender ?? null,
+    p_include_inactive: includeInactive,
   })
 
   if (error) {

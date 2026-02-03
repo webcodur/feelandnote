@@ -10,5 +10,5 @@ import { ARENA_SECTION_NAME } from "@/constants/arena";
 export const metadata = { title: ARENA_SECTION_NAME };
 
 export default function Page() {
-  redirect("/arena/higher-lower");
+  redirect("/arena/up-down");
 }

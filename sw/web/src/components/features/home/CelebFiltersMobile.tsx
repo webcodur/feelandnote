@@ -5,29 +5,32 @@
 */
 "use client";
 
-import { Search, X, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Search, X, SlidersHorizontal, ArrowUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { SORT_OPTIONS, type FilterType } from "./useCelebFilters";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 
 interface CelebFiltersMobileProps {
   profession: string;
   nationality: string;
   contentType: string;
+  gender: string;
   sortBy: CelebSortBy;
   search: string;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  genderCounts: GenderCounts;
   isLoading: boolean;
   activeFilter: FilterType | null;
   activeLabels: {
     profession?: { label: string };
     nationality?: { label: string };
     contentType?: { label: string };
+    gender?: { label: string };
     sort?: { label: string };
   };
   onFilterOpen: (filter: FilterType) => void;
@@ -35,6 +38,7 @@ interface CelebFiltersMobileProps {
   onProfessionChange: (value: string) => void;
   onNationalityChange: (value: string) => void;
   onContentTypeChange: (value: string) => void;
+  onGenderChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
@@ -48,11 +52,13 @@ export default function CelebFiltersMobile({
   profession,
   nationality,
   contentType,
+  gender,
   sortBy,
   search,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  genderCounts,
   isLoading,
   activeFilter,
   activeLabels,
@@ -61,6 +67,7 @@ export default function CelebFiltersMobile({
   onProfessionChange,
   onNationalityChange,
   onContentTypeChange,
+  onGenderChange,
   onSortChange,
   onSearchInput,
   onSearchSubmit,
@@ -86,6 +93,12 @@ export default function CelebFiltersMobile({
     value,
     label,
     count: contentTypeCounts[value] ?? 0,
+  }));
+
+  const genderOptions: FilterOption[] = genderCounts.map(({ value, label, count }) => ({
+    value,
+    label,
+    count,
   }));
 
   const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
@@ -157,7 +170,8 @@ export default function CelebFiltersMobile({
                 <FilterChip label="직군" value={activeLabels.profession?.label ?? "전체"} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" />
                 <FilterChip label="국적" value={activeLabels.nationality?.label ?? "전체"} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" />
                 <FilterChip label="콘텐츠" value={activeLabels.contentType?.label ?? "전체"} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" />
-                <FilterChip label="정렬" value={activeLabels.sort?.label ?? "보유 콘텐츠순"} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full" />
+                <FilterChip label="성별" value={activeLabels.gender?.label ?? "전체"} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" />
+                <FilterChip label="정렬" value={activeLabels.sort?.label ?? "보유 콘텐츠순"} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full col-span-2" icon={<ArrowUpDown size={12} />} />
               </div>
               {/* 3행: 추가 버튼들 */}
               {extraButtons && (
@@ -177,6 +191,7 @@ export default function CelebFiltersMobile({
       <FilterModal title="직군" isOpen={activeFilter === "profession"} current={profession} options={professionOptions} onClose={onFilterClose} onChange={onProfessionChange} />
       <FilterModal title="국적" isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} />
       <FilterModal title="콘텐츠" isOpen={activeFilter === "contentType"} current={contentType} options={contentTypeOptions} onClose={onFilterClose} onChange={onContentTypeChange} />
+      <FilterModal title="성별" isOpen={activeFilter === "gender"} current={gender} options={genderOptions} onClose={onFilterClose} onChange={onGenderChange} />
       <FilterModal title="정렬" isOpen={activeFilter === "sort"} current={sortBy} options={sortOptions} onClose={onFilterClose} onChange={(v) => onSortChange(v as CelebSortBy)} />
     </>
   );

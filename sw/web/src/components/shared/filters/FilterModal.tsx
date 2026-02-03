@@ -7,7 +7,6 @@
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import { NeoCheckIcon } from "@/components/ui/icons/neo-pantheon";
 import { FILTER_BOTTOMSHEET_STYLES } from "@/constants/filterStyles";
 import type { FilterOption } from "./FilterChipDropdown";
 
@@ -50,7 +49,6 @@ export default function FilterModal({
             >
               <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? 'font-bold' : ''}`}>{label}</span>
               {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? 'text-accent/80' : 'text-text-tertiary'}`}>{count}</span>}
-              {isActive && <NeoCheckIcon size={16} className="flex-shrink-0" />}
             </Button>
           );
         })}

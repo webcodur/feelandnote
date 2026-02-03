@@ -26,7 +26,7 @@ interface Props {
 
 // #region Container Styles
 const containerStyles = {
-  card: "flex gap-4 overflow-x-auto pb-4 scrollbar-hidden snap-x snap-mandatory sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 sm:pb-0 sm:overflow-visible",
+  card: "flex gap-4 overflow-x-auto pb-4 scrollbar-hidden snap-x snap-mandatory sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 sm:pb-0 sm:overflow-visible",
   circle: "flex justify-center gap-8 sm:gap-12",
   medallion: "flex justify-center gap-2",
 };

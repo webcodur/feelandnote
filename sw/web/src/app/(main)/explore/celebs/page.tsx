@@ -6,8 +6,9 @@
 
 import { Suspense } from "react";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
-import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getFeaturedTags } from "@/actions/home";
+import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags } from "@/actions/home";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "셀럽 | 탐색" };
 
 function SectionSkeleton() {
@@ -53,7 +54,7 @@ function SectionSkeleton() {
       </div>
 
       {/* 셀럽 그리드 스켈레톤 (13/19 비율) */}
-      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-6">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6">
         {Array.from({ length: 12 }).map((_, i) => (
           <div key={i} className="aspect-[13/19] bg-bg-card rounded-xl" />
         ))}
@@ -63,11 +64,12 @@ function SectionSkeleton() {
 }
 
 async function CelebsContent() {
-  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, featuredTags] = await Promise.all([
+  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, featuredTags] = await Promise.all([
     getCelebs({ page: 1, limit: 24, minContentCount: 1, sortBy: "content_count" }),
     getProfessionCounts(),
     getNationalityCounts(),
     getContentTypeCounts(),
+    getGenderCounts(),
     getFeaturedTags(),
   ]);
 
@@ -79,6 +81,7 @@ async function CelebsContent() {
       professionCounts={professionCounts}
       nationalityCounts={nationalityCounts}
       contentTypeCounts={contentTypeCounts}
+      genderCounts={genderCounts}
       featuredTags={featuredTags}
     />
   );

@@ -5,10 +5,9 @@
 */
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
-import { GreekChevronIcon, NeoCheckIcon } from "@/components/ui/icons/neo-pantheon";
 import { FILTER_DROPDOWN_STYLES } from "@/constants/filterStyles";
 
 export interface FilterOption {
@@ -25,6 +24,7 @@ interface FilterChipDropdownProps {
   options: FilterOption[];
   currentValue: string;
   onSelect: (value: string) => void;
+  icon?: ReactNode;
 }
 
 export default function FilterChipDropdown({
@@ -35,6 +35,7 @@ export default function FilterChipDropdown({
   options,
   currentValue,
   onSelect,
+  icon,
 }: FilterChipDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
@@ -100,22 +101,22 @@ export default function FilterChipDropdown({
         `}
       >
         <div className="flex items-stretch justify-center w-full min-h-[2.5rem]">
-          {/* 타이틀 섹션 - 고정 비율 (35%) */}
-          <div className="flex-[0.35] flex items-center justify-center border-r border-accent/10 px-3 bg-black/40">
-            <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : 'text-text-tertiary opacity-70'}`}>
-              {label}
-            </span>
+          {/* 타이틀 섹션 */}
+          <div className={`flex items-center justify-center border-r border-accent/10 bg-black/40 ${icon ? 'px-2.5' : 'flex-[0.35] px-3'}`}>
+            {icon ? (
+              <span className={isActive ? 'text-accent' : 'text-text-tertiary opacity-70'}>{icon}</span>
+            ) : (
+              <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : 'text-text-tertiary opacity-70'}`}>
+                {label}
+              </span>
+            )}
           </div>
 
-          {/* 값 섹션 - 나머지 (65%) */}
-          <div className="flex-[0.65] flex items-center justify-between gap-2 px-3 bg-white/[0.02]">
-            <span className={`text-sm font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+          {/* 값 섹션 */}
+          <div className={`${icon ? 'flex-1' : 'flex-[0.65]'} flex items-center justify-center px-3 ${isOpen ? 'bg-accent/10' : 'bg-white/[0.02]'}`}>
+            <span className={`text-sm font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'} ${isOpen ? 'underline underline-offset-2 decoration-accent/50' : ''}`}>
               {value}
             </span>
-            <GreekChevronIcon
-              size={12}
-              className={`flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""} ${isActive ? "text-accent" : "text-text-tertiary opacity-50"}`}
-            />
           </div>
         </div>
       </Button>
@@ -140,10 +141,7 @@ export default function FilterChipDropdown({
                 } ${isDisabled ? FILTER_DROPDOWN_STYLES.item.disabled : ""}`}
               >
                 <span className="font-sans">{optLabel}</span>
-                <span className="flex items-center gap-2">
-                  {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : 'text-text-tertiary'}`}>{count}</span>}
-                  {isSelected && <NeoCheckIcon size={16} />}
-                </span>
+                {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : 'text-text-tertiary'}`}>{count}</span>}
               </button>
             );
           })}

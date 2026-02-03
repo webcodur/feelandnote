@@ -6,7 +6,7 @@ import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, CelebSortBy } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 
 // #region 상수
 export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
@@ -18,7 +18,7 @@ export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
   { value: "birth_date_asc", label: "오래된 출생순" },
 ];
 
-export type FilterType = "profession" | "nationality" | "contentType" | "sort";
+export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort";
 
 export const PAGE_SIZE = 24;
 
@@ -32,7 +32,10 @@ interface UseCelebFiltersParams {
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
+  genderCounts: GenderCounts;
   syncToUrl?: boolean;
+  includeInactive?: boolean;
+  onIncludeInactiveChange?: (value: boolean) => void;
 }
 
 export function useCelebFilters({
@@ -42,7 +45,10 @@ export function useCelebFilters({
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
+  genderCounts,
   syncToUrl = false,
+  includeInactive = false,
+  onIncludeInactiveChange,
 }: UseCelebFiltersParams) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -62,6 +68,7 @@ export function useCelebFilters({
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
+  const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "content_count", VALID_SORT_VALUES));
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
   const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
@@ -94,74 +101,93 @@ export function useCelebFilters({
   useEffect(() => {
     if (!syncToUrl || isInitialized) return;
     const hasUrlFilters = searchParams.has("profession") || searchParams.has("nationality") ||
-      searchParams.has("contentType") || searchParams.has("sortBy") ||
+      searchParams.has("contentType") || searchParams.has("gender") || searchParams.has("sortBy") ||
       searchParams.has("search") || searchParams.has("page");
     if (hasUrlFilters) {
-      loadCelebs(profession, nationality, contentType, sortBy, currentPage, appliedSearch);
+      loadCelebs(profession, nationality, contentType, gender, sortBy, currentPage, appliedSearch);
     }
     setIsInitialized(true);
   }, [syncToUrl, isInitialized]);
 
   const contentUnit = contentType === "all" ? "개" : getContentUnit(contentType);
 
+  // includeInactive 변경 시 데이터 리로드
+  useEffect(() => {
+    if (!isInitialized) return;
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, includeInactive);
+    setCurrentPage(1);
+  }, [includeInactive]);
+
   const loadCelebs = useCallback(async (
     prof: string,
     nation: string,
     cType: string,
+    gend: string,
     sort: CelebSortBy,
     page: number,
-    searchTerm: string
+    searchTerm: string,
+    inactive?: boolean
   ) => {
     setIsLoading(true);
+    const isInactive = inactive ?? includeInactive;
     const result = await getCelebs({
       page,
       limit: PAGE_SIZE,
       profession: prof,
       nationality: nation,
       contentType: cType,
+      gender: gend,
       sortBy: sort,
       search: searchTerm || undefined,
-      minContentCount: 1,
+      minContentCount: isInactive ? 0 : 1,
+      includeInactive: isInactive,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, []);
+  }, [includeInactive]);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
     setCurrentPage(1);
-    loadCelebs(prof, nationality, contentType, sortBy, 1, search);
+    loadCelebs(prof, nationality, contentType, gender, sortBy, 1, search);
     updateUrlParams({ profession: prof, page: null });
-  }, [loadCelebs, nationality, contentType, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, nationality, contentType, gender, sortBy, search, updateUrlParams]);
 
   const handleNationalityChange = useCallback((nation: string) => {
     setNationality(nation);
     setCurrentPage(1);
-    loadCelebs(profession, nation, contentType, sortBy, 1, search);
+    loadCelebs(profession, nation, contentType, gender, sortBy, 1, search);
     updateUrlParams({ nationality: nation, page: null });
-  }, [loadCelebs, profession, contentType, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, profession, contentType, gender, sortBy, search, updateUrlParams]);
 
   const handleContentTypeChange = useCallback((cType: string) => {
     setContentType(cType);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, cType, sortBy, 1, search);
+    loadCelebs(profession, nationality, cType, gender, sortBy, 1, search);
     updateUrlParams({ contentType: cType, page: null });
-  }, [loadCelebs, profession, nationality, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, gender, sortBy, search, updateUrlParams]);
+
+  const handleGenderChange = useCallback((gend: string) => {
+    setGender(gend);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, gend, sortBy, 1, search);
+    updateUrlParams({ gender: gend, page: null });
+  }, [loadCelebs, profession, nationality, contentType, sortBy, search, updateUrlParams]);
 
   const handleSortChange = useCallback((sort: CelebSortBy) => {
     setSortBy(sort);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, sort, 1, search);
+    loadCelebs(profession, nationality, contentType, gender, sort, 1, search);
     updateUrlParams({ sortBy: sort, page: null });
-  }, [loadCelebs, profession, nationality, contentType, search, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, contentType, gender, search, updateUrlParams]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-    loadCelebs(profession, nationality, contentType, sortBy, page, appliedSearch);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, page, appliedSearch);
     updateUrlParams({ page: String(page) });
-  }, [loadCelebs, profession, nationality, contentType, sortBy, appliedSearch, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   // 검색어 입력 (UI만 업데이트, API 호출 안 함)
   const handleSearchInput = useCallback((term: string) => {
@@ -172,26 +198,27 @@ export function useCelebFilters({
   const handleSearchSubmit = useCallback(() => {
     setAppliedSearch(search);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, sortBy, 1, search);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, search);
     updateUrlParams({ search, page: null });
-  }, [loadCelebs, profession, nationality, contentType, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, search, updateUrlParams]);
 
   // 검색 초기화
   const handleSearchClear = useCallback(() => {
     setSearch("");
     setAppliedSearch("");
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, sortBy, 1, "");
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, "");
     updateUrlParams({ search: null, page: null });
-  }, [loadCelebs, profession, nationality, contentType, sortBy, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, updateUrlParams]);
 
   // 현재 선택된 값들의 라벨
   const activeLabels = useMemo(() => ({
     profession: CELEB_PROFESSION_FILTERS.find((f) => f.value === profession),
     nationality: nationalityCounts.find((n) => n.value === nationality),
     contentType: CONTENT_TYPE_FILTERS.find((c) => c.value === contentType),
+    gender: genderCounts.find((g) => g.value === gender),
     sort: SORT_OPTIONS.find((s) => s.value === sortBy),
-  }), [profession, nationality, contentType, sortBy, nationalityCounts]);
+  }), [profession, nationality, contentType, gender, sortBy, nationalityCounts, genderCounts]);
 
   return {
     celebs,
@@ -199,6 +226,7 @@ export function useCelebFilters({
     profession,
     nationality,
     contentType,
+    gender,
     sortBy,
     search,
     contentUnit,
@@ -208,12 +236,14 @@ export function useCelebFilters({
     professionCounts,
     nationalityCounts,
     contentTypeCounts,
+    genderCounts,
     currentPage,
     totalPages,
     total,
     handleProfessionChange,
     handleNationalityChange,
     handleContentTypeChange,
+    handleGenderChange,
     handleSortChange,
     handlePageChange,
     handleSearchInput,

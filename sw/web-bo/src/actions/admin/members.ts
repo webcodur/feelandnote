@@ -45,6 +45,7 @@ export interface Member {
   profession?: string | null
   title?: string | null
   nationality?: string | null
+  gender?: boolean | null
   birth_date?: string | null
   death_date?: string | null
   quotes?: string | null
@@ -150,6 +151,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
     profession: p.profession,
     title: p.title,
     nationality: p.nationality,
+    gender: p.gender,
     birth_date: p.birth_date,
     death_date: p.death_date,
     quotes: p.quotes,
@@ -178,6 +180,7 @@ function celebToMember(c: Celeb): Member {
     profession: c.profession,
     title: c.title,
     nationality: c.nationality,
+    gender: c.gender,
     birth_date: c.birth_date,
     death_date: c.death_date,
     quotes: c.quotes,
@@ -284,6 +287,7 @@ export async function getMember(id: string): Promise<Member | null> {
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,
+    gender: data.gender,
     birth_date: data.birth_date,
     death_date: data.death_date,
     quotes: data.quotes,

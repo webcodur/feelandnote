@@ -211,7 +211,7 @@ function SectionSkeleton({ rows = 1 }: { rows?: number }) {
       {Array.from({ length: rows }).map((_, rowIndex) => (
         <div key={rowIndex} className={rowIndex > 0 ? "mt-8" : ""}>
           <div className="h-5 w-24 bg-bg-card rounded mb-4" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
             ))}
@@ -371,7 +371,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
 
           <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
             {professionData && professionData.contents.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
                 {professionData.contents.map((content, index) => (
                   <ScriptureContentCard
                     key={content.id}
@@ -467,7 +467,7 @@ function TodaySageSection() {
           </Link>
 
           {displayContents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
               {displayContents.map((content) => (
                 <ScriptureContentCard
                   key={content.id}
@@ -540,7 +540,7 @@ function EraSection() {
               </div>
 
               {era.contents.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
                   {era.contents.map((content, index) => (
                     <ScriptureContentCard
                       key={content.id}
@@ -628,7 +628,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
 
         <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
           {chosenData.contents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
               {chosenData.contents.map((content, index) => (
                 <ScriptureContentCard
                   key={content.id}

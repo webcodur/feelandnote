@@ -97,6 +97,7 @@ export const BO_PROFILE_OUTPUT_FORMAT = `{
   "profession": "직군 코드",
   "title": "수식어 (2~8자, 대표작명/호칭/업적 중 하나)",
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
+  "gender": "성별 (남성: true, 여성: false, 불명: null)",
   "birth_date": "출생일 (YYYY-MM-DD 또는 -356 같은 기원전 연도)",
   "death_date": "사망일 (생존시 빈 문자열)",
   "bio": "인물 소개글 (2줄 분량, 한국어). 첫 문장은 주어 없이 출신/직업을 짧게 서술하고 마침표로 끊는다. 주요 업적과 현재 활동을 담백히 정리.",
