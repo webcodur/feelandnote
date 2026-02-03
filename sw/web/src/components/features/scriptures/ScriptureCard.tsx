@@ -82,7 +82,7 @@ export default function ScriptureCard({
 
           {/* 랭크 뱃지 */}
           {rank && (
-            <div className="absolute top-2 left-2 z-20 w-9 h-9 flex items-center justify-center bg-accent text-white text-sm font-bold rounded-full shadow-lg group-hover:scale-110 group-hover:shadow-xl group-hover:bg-accent-hover cursor-pointer">
+            <div className="absolute top-1.5 left-1.5 z-20 w-7 h-7 flex items-center justify-center bg-black/80 backdrop-blur-sm text-white text-xs font-bold rounded border border-white/30 shadow-lg group-hover:border-accent group-hover:text-accent">
               {rank}
             </div>
           )}

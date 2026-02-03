@@ -47,3 +47,32 @@ export const getArenaPageTitle = (itemValue?: string) => {
   const item = ARENA_ITEMS.find((i) => i.value === itemValue);
   return item ? `${item.label} | ${ARENA_SECTION_NAME}` : ARENA_SECTION_NAME;
 };
+
+// 섹션 헤더 정보
+export interface SectionHeaderInfo {
+  label: string;
+  title: string;
+  description: string;
+  subDescription?: string;
+}
+
+export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
+  "higher-lower": {
+    label: "INFLUENCE DUEL",
+    title: "업다운",
+    description: "영향력 대결",
+    subDescription: "두 인물 중 누가 더 큰 영향력을 가졌을까요?",
+  },
+  timeline: {
+    label: "CHRONOS PUZZLE",
+    title: "타임 퍼즐",
+    description: "연대기 퍼즐",
+    subDescription: "인물들의 탄생 순서를 맞춰보세요.",
+  },
+  "tier-list": {
+    label: "PANTHEON",
+    title: "티어리스트",
+    description: "취향의 계보",
+    subDescription: "당신이 사랑한 것들에 순위를 매겨보세요.",
+  },
+};

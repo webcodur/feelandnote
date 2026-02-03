@@ -42,14 +42,14 @@ export default function FilterChip({
       <div className="flex items-stretch justify-center w-full min-h-[2.1rem]">
         {/* 타이틀 섹션 - 고정 비율 (35%) */}
         <div className="flex-[0.35] flex items-center justify-center border-r border-accent/10 px-1 bg-black/20">
-          <span className={`text-[9px] uppercase font-cinzel tracking-tighter leading-none text-center ${isActive ? 'text-accent opacity-90' : 'text-text-tertiary opacity-60'}`}>
+          <span className={`text-[9px] uppercase font-sans font-bold tracking-wide leading-none text-center ${isActive ? 'text-accent opacity-90' : 'text-text-tertiary opacity-60'}`}>
             {label}
           </span>
         </div>
         
         {/* 값 섹션 - 나머지 (65%) */}
         <div className="flex-[0.65] flex items-center justify-between gap-1 pl-2.5 pr-1.5 bg-white/[0.02]">
-          <span className={`text-[11px] font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+          <span className={`text-[11px] font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
             {value}
           </span>
           <GreekChevronIcon 

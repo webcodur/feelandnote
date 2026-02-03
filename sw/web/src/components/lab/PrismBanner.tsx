@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Eye } from "lucide-react";
 
 interface PrismBannerProps {
@@ -74,6 +74,21 @@ export default function PrismBanner({
   const prismSize = compact ? "w-24 h-24 sm:w-32 sm:h-32" : "w-64 h-64";
   const particleCount = compact ? 10 : 30;
 
+  // 파티클 위치를 클라이언트에서만 생성 (hydration 에러 방지)
+  const [particles, setParticles] = useState<Array<{ top: number; left: number; opacity: number; delay: number; duration: number }>>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: particleCount }, () => ({
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        opacity: Math.random() * 0.5 + 0.2,
+        delay: Math.random() * 5,
+        duration: 3 + Math.random() * 5,
+      }))
+    );
+  }, [particleCount]);
+
   return (
     <div
       ref={containerRef}
@@ -124,16 +139,16 @@ export default function PrismBanner({
 
       {/* 2. Floating Particles */}
       <div className="absolute inset-0 pointer-events-none">
-         {Array.from({ length: particleCount }).map((_, i) => (
+         {particles.map((p, i) => (
             <div
                key={i}
                className="absolute w-1 h-1 bg-accent rounded-full blur-[1px] animate-float"
                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  opacity: Math.random() * 0.5 + 0.2,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${3 + Math.random() * 5}s`
+                  top: `${p.top}%`,
+                  left: `${p.left}%`,
+                  opacity: p.opacity,
+                  animationDelay: `${p.delay}s`,
+                  animationDuration: `${p.duration}s`
                }}
             />
          ))}

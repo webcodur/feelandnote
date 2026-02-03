@@ -6,12 +6,14 @@
 "use client";
 
 import { useState } from "react";
+import { Search, X } from "lucide-react";
 import { FilterChipDropdown, FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import type { SortOption } from "../useContentLibrary";
 import type { ContentTypeCounts } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
 import { TAB_OPTIONS, SORT_OPTIONS } from "./constants";
 import CategoryGuideModal from "./CategoryGuideModal";
+import Button from "@/components/ui/Button";
 
 export interface ArchiveControlBarProps {
   activeTab: CategoryId;
@@ -22,6 +24,10 @@ export interface ArchiveControlBarProps {
   isAllCollapsed: boolean;
   onExpandAll: () => void;
   onCollapseAll: () => void;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  onSearch: () => void;
+  onClearSearch: () => void;
 }
 
 type FilterType = "category" | "sort";
@@ -32,6 +38,10 @@ export default function ArchiveControlBar({
   typeCounts,
   sortOption,
   onSortOptionChange,
+  searchQuery,
+  onSearchChange,
+  onSearch,
+  onClearSearch,
 }: ArchiveControlBarProps) {
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
@@ -53,8 +63,41 @@ export default function ArchiveControlBar({
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortOption)?.label ?? "최근 추가";
 
   return (
-    <div>
-      <div className="flex flex-col gap-2">
+    <div className="w-full">
+      <div className="flex flex-col gap-3">
+        {/* 검색창 */}
+        <div className="flex items-center gap-2 bg-black/40 border border-accent-dim/30 rounded-lg px-3 py-2">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && searchQuery.trim().length >= 2) {
+                onSearch();
+              }
+            }}
+            placeholder="제목 또는 저자 검색 (2글자 이상)"
+            className="flex-1 bg-transparent border-none text-text-primary outline-none text-sm placeholder:text-text-tertiary min-w-0"
+          />
+          {searchQuery && (
+            <Button
+              unstyled
+              onClick={onClearSearch}
+              className="text-text-tertiary hover:text-text-primary shrink-0"
+            >
+              <X size={16} />
+            </Button>
+          )}
+          <Button
+            unstyled
+            onClick={onSearch}
+            disabled={searchQuery.trim().length < 2}
+            className="text-text-secondary hover:text-accent disabled:text-text-tertiary disabled:cursor-not-allowed shrink-0"
+          >
+            <Search size={16} />
+          </Button>
+        </div>
+
         {/* 필터 칩 영역 */}
         <div className="flex items-center gap-2 px-1">
           {/* 데스크톱: 드롭다운 */}

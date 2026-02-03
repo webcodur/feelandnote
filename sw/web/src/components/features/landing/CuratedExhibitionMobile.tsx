@@ -28,8 +28,6 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
 
   const canGoNext = selectedIndex < celebsCount - 1;
   const canGoPrev = selectedIndex > 0;
-  const willChange = Math.abs(dragOffset) > SWIPE_THRESHOLD &&
-    ((dragOffset < 0 && canGoNext) || (dragOffset > 0 && canGoPrev));
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -74,32 +72,13 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
   return (
     <>
       {/* Hero Card - 스와이프 지원 */}
-      <div className="px-4 py-8 mb-4">
+      <div className="px-4 py-6 mb-2">
          <div
-           className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl bg-neutral-900 select-none"
+           className="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl bg-neutral-900 select-none"
            onTouchStart={handleTouchStart}
            onTouchMove={handleTouchMove}
            onTouchEnd={handleTouchEnd}
          >
-            {/* 스와이프 인디케이터 - 좌상단 */}
-            <div className="absolute top-4 left-4 flex gap-1.5 z-20">
-              {activeTag.celebs.map((_, idx) => {
-                const isNext = (dragOffset < -SWIPE_THRESHOLD && idx === selectedIndex + 1);
-                const isPrev = (dragOffset > SWIPE_THRESHOLD && idx === selectedIndex - 1);
-                return (
-                  <div
-                    key={idx}
-                    className={cn(
-                      "w-2 h-2 rounded-full transition-all duration-200",
-                      idx === selectedIndex ? "bg-accent w-4" : "bg-white/30",
-                      (isNext || isPrev) && "bg-accent/70 scale-125"
-                    )}
-                  />
-                );
-              })}
-            </div>
-
-
             {/* 드래그에 따라 움직이는 콘텐츠 */}
             <div
               key={selectedIndex}
@@ -129,7 +108,7 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
+              <div className="absolute bottom-0 left-0 right-0 p-6 pb-10 flex flex-col">
                  <div className="w-10 h-1 bg-accent mb-3 shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
                  <span className="text-accent text-xs font-serif font-bold tracking-wider mb-1">
                    {heroCeleb.title}
@@ -143,19 +122,22 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
               </div>
             </div>
 
-         </div>
-      </div>
-
-      {/* Detail Description (Curator's Note) */}
-      <div className="px-3 mb-10 h-40 relative z-10">
-         <div key={heroCeleb.id} className="relative h-full pl-3 border-l-2 border-accent/30 animate-in fade-in slide-in-from-right-2 duration-500 flex flex-col">
-            <h4 className="flex-shrink-0 text-[10px] font-cinzel text-accent mb-1.5 tracking-widest uppercase flex items-center gap-2">
-              Curator's Note
-            </h4>
-            <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-              <p className="text-gray-300 text-sm leading-6 font-sans whitespace-pre-line">
-                {heroCeleb.long_desc}
-              </p>
+            {/* 스와이프 인디케이터 - 하단 중앙 */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+              {activeTag.celebs.map((_, idx) => {
+                const isNext = (dragOffset < -SWIPE_THRESHOLD && idx === selectedIndex + 1);
+                const isPrev = (dragOffset > SWIPE_THRESHOLD && idx === selectedIndex - 1);
+                return (
+                  <div
+                    key={idx}
+                    className={cn(
+                      "w-2 h-2 rounded-full transition-all duration-200",
+                      idx === selectedIndex ? "bg-accent w-4" : "bg-white/30",
+                      (isNext || isPrev) && "bg-accent/70 scale-125"
+                    )}
+                  />
+                );
+              })}
             </div>
          </div>
       </div>

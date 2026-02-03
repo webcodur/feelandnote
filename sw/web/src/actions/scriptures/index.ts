@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { CategoryId } from '@/constants/categories'
+import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 
 // #region Types
 export interface ScriptureContent {
@@ -22,11 +23,21 @@ export interface ScripturesResult {
   currentPage: number
 }
 
+interface TopCeleb {
+  id: string
+  nickname: string
+  avatar_url: string | null
+  title: string | null
+  influence: number | null
+  count: number
+}
+
 export interface ScripturesByProfession {
   profession: string
   label: string
   contents: ScriptureContent[]
   total: number
+  topCelebs: TopCeleb[]
 }
 
 interface CelebInfo {
@@ -36,19 +47,8 @@ interface CelebInfo {
   profession: string | null
 }
 
-// 직업 매핑 (내부용)
-const PROFESSION_MAP = [
-  { key: 'entrepreneur', label: '기업인' },
-  { key: 'scholar', label: '학자' },
-  { key: 'artist', label: '예술가' },
-  { key: 'politician', label: '정치인' },
-  { key: 'author', label: '작가' },
-  { key: 'commander', label: '지휘관' },
-  { key: 'leader', label: '지도자' },
-  { key: 'investor', label: '투자자' },
-  { key: 'athlete', label: '운동선수' },
-  { key: 'actor', label: '배우' },
-] as const
+// 직업 매핑 (공유 패키지에서 변환)
+const PROFESSION_MAP = CELEB_PROFESSIONS.map(p => ({ key: p.value, label: p.label }))
 // #endregion
 
 // #region 헬퍼 함수 - 콘텐츠 집계 (페이지네이션 지원)
@@ -123,6 +123,7 @@ async function fetchAllUserContents(
 ) {
   const PAGE_SIZE = 1000
   const allData: Array<{
+    user_id: string
     content_id: string
     rating: number | null
     contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string }
@@ -135,6 +136,7 @@ async function fetchAllUserContents(
     let query = supabase
       .from('user_contents')
       .select(`
+        user_id,
         content_id,
         rating,
         contents!inner(id, title, creator, thumbnail_url, type)
@@ -155,6 +157,7 @@ async function fetchAllUserContents(
     }
 
     const typedData = (data || []).map(item => ({
+      user_id: item.user_id,
       content_id: item.content_id,
       rating: item.rating,
       contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
@@ -275,7 +278,7 @@ export async function getScripturesByProfession(params?: {
   const limit = params?.limit || 12
   const profession = params?.profession || 'entrepreneur'
 
-  // 해당 직업의 CELEB 프로필 ID 조회
+  // 해당 직업의 CELEB 프로필 ID 조회 (기존 쿼리 유지)
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id')
@@ -287,7 +290,32 @@ export async function getScripturesByProfession(params?: {
   const celebIds = celebProfiles.map(p => p.id)
 
   // 해당 셀럽들의 콘텐츠 조회 (페이지네이션으로 모든 데이터 가져오기)
+  // TopCeleb의 count를 계산하기 위해 먼저 가져옵니다.
   const typedData = await fetchAllUserContents(supabase, celebIds)
+
+  // 영향력 기준 top 5 셀럽 (celeb_influence 테이블 조인)
+  const { data: topCelebsData } = await supabase
+    .from('profiles')
+    .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
+    .in('id', celebIds)
+    .not('celeb_influence', 'is', null)
+    .order('celeb_influence(total_score)', { ascending: false })
+    .limit(5)
+
+  const topCelebs: TopCeleb[] = (topCelebsData || []).map(c => {
+    const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
+    // user_contents 카운트 계산
+    const contentCount = typedData.filter(item => item.user_id === c.id).length
+    
+    return {
+      id: c.id,
+      nickname: c.nickname,
+      avatar_url: c.avatar_url,
+      title: c.title,
+      influence: influence?.total_score ?? null,
+      count: contentCount
+    }
+  })
 
   // 일반 사용자(USER) 콘텐츠 카운트 조회
   const userCountMap = await fetchUserContentCounts(supabase)
@@ -299,32 +327,24 @@ export async function getScripturesByProfession(params?: {
     profession,
     label: professionInfo?.label || profession,
     contents,
-    total
+    total,
+    topCelebs
   }
 }
 
-// 직업별 콘텐츠 개수만 조회 (탭 표시용)
+// 직업별 셀럽 인원 수 조회 (탭 표시용)
 export async function getProfessionContentCounts(): Promise<Array<{ profession: string; label: string; count: number }>> {
   const supabase = await createClient()
   const results: Array<{ profession: string; label: string; count: number }> = []
 
   for (const { key, label } of PROFESSION_MAP) {
-    const { data: celebProfiles } = await supabase
+    const { data: celebProfiles, count } = await supabase
       .from('profiles')
-      .select('id')
+      .select('id', { count: 'exact', head: true })
       .eq('profile_type', 'CELEB')
       .eq('profession', key)
 
-    if (!celebProfiles?.length) continue
-
-    const celebIds = celebProfiles.map(p => p.id)
-
-    const { count } = await supabase
-      .from('user_contents')
-      .select('content_id', { count: 'exact', head: true })
-      .in('user_id', celebIds)
-      .eq('status', 'FINISHED')
-
+    // 해당 직업의 셀럽이 있으면 추가 (셀럽 인원 수 표시)
     if (count && count > 0) {
       results.push({ profession: key, label, count })
     }
@@ -462,11 +482,35 @@ export async function getTodaySage(): Promise<TodaySageResult> {
 // #region 세대의 경전 - 시대별 인기 콘텐츠
 type Era = 'ancient' | 'medieval' | 'modern' | 'contemporary'
 
-const ERA_CONFIG: Record<Era, { label: string; period: string; min: number; max: number }> = {
-  ancient: { label: '고대', period: '~500년', min: -9999, max: 500 },
-  medieval: { label: '중세', period: '500~1500년', min: 500, max: 1500 },
-  modern: { label: '근대', period: '1500~1900년', min: 1500, max: 1900 },
-  contemporary: { label: '현대', period: '1900년~', min: 1900, max: 9999 },
+const ERA_CONFIG: Record<Era, { label: string; period: string; min: number; max: number; description: string }> = {
+  ancient: {
+    label: '고대',
+    period: '~500년',
+    min: -9999,
+    max: 500,
+    description: '철학과 사상의 씨앗이 뿌려진 시대. 소크라테스, 공자, 붓다가 인류의 근본 질문을 던졌다.'
+  },
+  medieval: {
+    label: '중세',
+    period: '500~1500년',
+    min: 500,
+    max: 1500,
+    description: '신앙과 기사도의 시대. 어둠 속에서도 지혜의 불씨를 지킨 수도원과 학자들.'
+  },
+  modern: {
+    label: '근대',
+    period: '1500~1900년',
+    min: 1500,
+    max: 1900,
+    description: '이성의 빛이 세상을 깨우다. 르네상스, 계몽주의, 산업혁명이 세계를 바꿨다.'
+  },
+  contemporary: {
+    label: '현대',
+    period: '1900년~',
+    min: 1900,
+    max: 9999,
+    description: '격변과 혁신의 세기. 지금 우리의 생각을 형성한 거인들이 살았던 시대.'
+  },
 }
 
 function parseYear(birthDate: string | null): number | null {
@@ -475,18 +519,29 @@ function parseYear(birthDate: string | null): number | null {
   return match ? parseInt(match[1]) : null
 }
 
+interface EraCeleb {
+  id: string
+  nickname: string
+  avatar_url: string | null
+  title: string | null
+  influence: number | null
+  count: number
+}
+
 export interface EraScriptures {
   era: Era
   label: string
   period: string
+  description: string
   contents: ScriptureContent[]
   celebCount: number
+  topCelebs: EraCeleb[]
 }
 
 export async function getScripturesByEra(): Promise<EraScriptures[]> {
   const supabase = await createClient()
 
-  // 1. 셀럽 프로필 + 생년 조회
+  // 1. 셀럽 프로필 + 생년 조회 (기존 쿼리 유지)
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id, birth_date')
@@ -497,7 +552,7 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
     return []
   }
 
-  // 2. 시대별 셀럽 분류
+  // 2. 시대별 셀럽 ID 분류
   const eraCelebs: Record<Era, string[]> = {
     ancient: [],
     medieval: [],
@@ -526,20 +581,44 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
   for (const [era, config] of Object.entries(ERA_CONFIG) as [Era, typeof ERA_CONFIG[Era]][]) {
     const celebIds = eraCelebs[era]
     if (!celebIds.length) {
-      results.push({ era, label: config.label, period: config.period, contents: [], celebCount: 0 })
+      results.push({ era, label: config.label, period: config.period, description: config.description, contents: [], celebCount: 0, topCelebs: [] })
       continue
     }
 
-    // 페이지네이션으로 모든 데이터 가져오기
+    // 페이지네이션으로 모든 데이터 가져오기 (먼저 호출해야 카운트 가능)
     const typedData = await fetchAllUserContents(supabase, celebIds)
 
+    // 영향력 기준 top 5 셀럽 (celeb_influence 테이블 조인)
+    const { data: topCelebsData } = await supabase
+      .from('profiles')
+      .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
+      .in('id', celebIds)
+      .not('celeb_influence', 'is', null)
+      .order('celeb_influence(total_score)', { ascending: false })
+      .limit(5)
+
+    const topCelebs: EraCeleb[] = (topCelebsData || []).map(c => {
+      const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
+      
+      // user_contents 카운트 계산
+      const contentCount = typedData.filter(item => item.user_id === c.id).length
+      
+      return {
+        id: c.id,
+        nickname: c.nickname,
+        avatar_url: c.avatar_url,
+        title: c.title,
+        influence: influence?.total_score ?? null,
+        count: contentCount
+      }
+    })
+
     const { contents } = aggregateContents(typedData, { limit: 6, userCountMap })
-    results.push({ era, label: config.label, period: config.period, contents, celebCount: celebIds.length })
+    results.push({ era, label: config.label, period: config.period, description: config.description, contents, celebCount: celebIds.length, topCelebs })
   }
 
   return results
 }
-// #endregion
 
 // #region 콘텐츠를 감상한 셀럽 목록
 export async function getCelebsForContent(contentId: string): Promise<CelebInfo[]> {

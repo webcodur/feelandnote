@@ -38,7 +38,7 @@ export function filterAndSortContents(
   contents: UserContentWithContent[],
   sortOption: SortOption
 ): UserContentWithContent[] {
-  let result = [...contents];
+  const result = [...contents];
 
   result.sort((a, b) => {
     if (sortOption === "title") {

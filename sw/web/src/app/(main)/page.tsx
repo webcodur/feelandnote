@@ -14,6 +14,43 @@ import type { RecordCardProps } from "@/components/ui/cards/RecordCard";
 import SectionWrapper from "@/components/features/home/SectionWrapper";
 import { HOME_SECTIONS } from "@/constants/navigation";
 
+// #region 스켈레톤
+function FeaturedSkeleton() {
+  return (
+    <div className="w-full animate-pulse">
+      {/* Desktop */}
+      <div className="hidden md:flex flex-col gap-8 md:gap-12">
+        {/* CuratedExhibition 스켈레톤 */}
+        <div className="w-full h-96 bg-bg-card/50 rounded-2xl" />
+        {/* QuickBrowse 스켈레톤 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-48 bg-bg-card/30 rounded-xl" />
+          ))}
+        </div>
+      </div>
+      {/* Mobile */}
+      <div className="md:hidden flex flex-col gap-6">
+        {/* 탭 스켈레톤 */}
+        <div className="flex gap-2 px-2 pb-2 border-b border-white/5">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-9 w-20 bg-bg-card rounded-full" />
+          ))}
+        </div>
+        {/* CuratedExhibition 스켈레톤 */}
+        <div className="h-80 bg-bg-card/50 rounded-xl mx-2" />
+        {/* QuickBrowse 스켈레톤 */}
+        <div className="grid grid-cols-3 gap-3 px-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-32 bg-bg-card/30 rounded-lg" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+// #endregion
+
 // #region 서버 컴포넌트
 async function FeaturedSection() {
   const tags = await getFeaturedTags();
@@ -59,7 +96,7 @@ export default async function HomePage() {
 
       {/* 2. 탐색 프리뷰 */}
       <SectionWrapper config={HOME_SECTIONS.explore}>
-        <Suspense fallback={<div className="h-96 animate-pulse bg-bg-card/50 rounded-xl" />}>
+        <Suspense fallback={<FeaturedSkeleton />}>
           <FeaturedSection />
         </Suspense>
       </SectionWrapper>

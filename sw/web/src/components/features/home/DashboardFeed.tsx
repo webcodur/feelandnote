@@ -1,10 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Sparkles } from "lucide-react";
 import { CATEGORIES, type ContentTypeFilterValue } from "@/constants/categories";
-import type { ContentTypeCounts } from "@/actions/home";
-import type { FriendActivityTypeCounts } from "@/actions/activity";
 import type { CelebReview } from "@/types/home";
 import FriendActivitySection from "./FriendActivitySection";
 import CelebFeed from "./CelebFeed";
@@ -16,37 +13,28 @@ const TABS: { key: TabType; label: string }[] = [
   { key: "friend", label: "친구 동향" },
 ];
 
-// 세그먼트 필터 아이템
-const SEGMENT_FILTERS: { value: ContentTypeFilterValue; label: string; icon?: React.ComponentType<{ size?: number; className?: string }> }[] = [
-  { value: "all", label: "전체", icon: Sparkles },
-  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label, icon: c.icon })),
+// 카테고리 탭
+const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
+  { value: "all", label: "전체" },
+  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
 ];
 
 interface DashboardFeedProps {
   userId?: string;
-  friendActivityCounts?: FriendActivityTypeCounts;
-  celebContentCounts?: ContentTypeCounts;
   initialReviews?: CelebReview[];
 }
 
 export default function DashboardFeed({
   userId,
-  friendActivityCounts,
-  celebContentCounts,
   initialReviews,
 }: DashboardFeedProps) {
   const [activeTab, setActiveTab] = useState<TabType>("celeb");
   const [hoveredTab, setHoveredTab] = useState<TabType | null>(null);
   const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
   const tabRefs = useRef<Map<TabType, HTMLButtonElement>>(new Map());
-  const filterRefs = useRef<Map<ContentTypeFilterValue, HTMLButtonElement>>(new Map());
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
-  const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
 
   const isLoggedIn = !!userId;
-
-  // 현재 탭에 맞는 counts 선택
-  const currentCounts = activeTab === "celeb" ? celebContentCounts : friendActivityCounts;
 
   // 탭 밑줄 위치 및 너비 계산 로직
   const updateUnderline = useCallback(() => {
@@ -78,17 +66,6 @@ export default function DashboardFeed({
       observer.disconnect();
     };
   }, [updateUnderline]);
-
-  // 필터 pill 위치 계산
-  useEffect(() => {
-    const el = filterRefs.current.get(contentType);
-    if (el) {
-      setPillStyle({
-        left: el.offsetLeft,
-        width: el.offsetWidth,
-      });
-    }
-  }, [contentType]);
 
   return (
     <div className="flex flex-col gap-8 md:gap-12">
@@ -127,39 +104,26 @@ export default function DashboardFeed({
         </div>
       </div>
 
-      {/* 세그먼트 필터 (중앙 배치) */}
-      <div className="flex justify-center w-full px-1 sm:px-4">
-        <div className="relative inline-flex items-center gap-0.5 p-1 bg-white/5 rounded-full border border-accent/10 overflow-x-auto scrollbar-hide max-w-full">
-          {/* 슬라이딩 pill 배경 */}
-          <div
-            className="absolute top-1 bottom-1 bg-accent/20 rounded-full border border-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.15)]"
-            style={{ left: pillStyle.left, width: pillStyle.width }}
-          />
-          {SEGMENT_FILTERS.map(({ value, label, icon: Icon }) => {
-            const isActive = contentType === value;
-            const count = currentCounts?.[value];
-            const hasCount = count !== undefined && count > 0;
-
+      {/* 카테고리 탭 (석판 스타일) */}
+      <div className="flex justify-center overflow-x-auto pb-4 scrollbar-hidden">
+        <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
+          {CATEGORY_TABS.map((tab) => {
+            const isActive = contentType === tab.value;
             return (
               <button
-                key={value}
-                ref={(el) => { if (el) filterRefs.current.set(value, el); }}
-                onClick={() => setContentType(value)}
-                className={`relative z-10 flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-full cursor-pointer whitespace-nowrap ${
-                  isActive
-                    ? "text-accent"
-                    : "text-text-tertiary/60 hover:text-text-primary"
-                }`}
+                key={tab.value}
+                onClick={() => setContentType(tab.value)}
+                className={`
+                  relative px-4 py-2 rounded-lg text-sm font-bold
+                  ${isActive
+                    ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+                    : "text-text-secondary hover:text-white hover:bg-white/5"
+                  }
+                `}
               >
-                {Icon && <Icon size={12} className={isActive ? "text-accent" : ""} />}
-                <span className={`text-[11px] sm:text-xs md:text-sm ${isActive ? "font-bold" : "font-medium"}`}>
-                  {label}
+                <span className={isActive ? "font-serif text-black" : "font-sans"}>
+                  {tab.label}
                 </span>
-                {hasCount && (
-                  <span className={`text-[9px] md:text-[10px] tabular-nums ${isActive ? "text-accent/70" : "text-text-tertiary/40"}`}>
-                    {count}
-                  </span>
-                )}
               </button>
             );
           })}

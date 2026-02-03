@@ -50,45 +50,46 @@ export default function ContentLibrary({
   // #region 렌더링 - 상태
   const hasContents = lib.contents.length > 0;
   const hasFilteredContents = lib.filteredAndSortedContents.length > 0;
-
-  const renderStates = () => {
-    if (lib.error) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
-    if (lib.isLoading) return <LoadingState compact={compact} />;
-    if (!hasContents) return <EmptyState message={emptyMessage} compact={compact} />;
-    if (!hasFilteredContents) return <EmptyState message="필터 조건에 맞는 콘텐츠가 없습니다" compact={compact} />;
-    return null;
-  };
+  const isSearching = lib.appliedSearchQuery.trim().length >= 2;
   // #endregion
 
   // #region 렌더링
+  // 에러/로딩 상태
+  if (lib.error) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
+  if (lib.isLoading) return <LoadingState compact={compact} />;
+  // 검색 중이 아닌데 콘텐츠가 없으면 빈 상태 표시
+  if (!hasContents && !isSearching) return <EmptyState message={emptyMessage} compact={compact} />;
+
   return (
     <div>
       <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />
 
       <div>
-        {renderStates()}
-
         {/* 콘텐츠 목록 (월별) */}
-        {!lib.isLoading && !lib.error && hasFilteredContents && (
-          <ClassicalBox className="p-4 sm:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-            <div className="flex justify-center mb-6">
-              <DecorativeLabel label="기록관" />
-            </div>
-            {/* Control Bar inside Box */}
-            <InnerBox className="mb-6 p-3 sticky top-0 z-30 backdrop-blur-sm flex justify-center items-center">
-               <ArchiveControlBar
-                activeTab={lib.activeTab}
-                onTabChange={lib.setActiveTab}
-                typeCounts={lib.typeCounts}
-                sortOption={lib.sortOption}
-                onSortOptionChange={lib.setSortOption}
-                isAllCollapsed={lib.isAllCollapsed}
-                onExpandAll={lib.expandAll}
-                onCollapseAll={lib.collapseAll}
-              />
-            </InnerBox>
+        <ClassicalBox className="p-4 sm:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+          <div className="flex justify-center mb-6">
+            <DecorativeLabel label="기록관" />
+          </div>
+          {/* Control Bar inside Box */}
+          <InnerBox className="mb-6 p-3 sticky top-0 z-30 backdrop-blur-sm flex justify-center items-center">
+             <ArchiveControlBar
+              activeTab={lib.activeTab}
+              onTabChange={lib.setActiveTab}
+              typeCounts={lib.typeCounts}
+              sortOption={lib.sortOption}
+              onSortOptionChange={lib.setSortOption}
+              isAllCollapsed={lib.isAllCollapsed}
+              onExpandAll={lib.expandAll}
+              onCollapseAll={lib.collapseAll}
+              searchQuery={lib.searchQuery}
+              onSearchChange={lib.setSearchQuery}
+              onSearch={lib.executeSearch}
+              onClearSearch={lib.clearSearch}
+            />
+          </InnerBox>
 
-            {lib.monthKeys.map((monthKey) => {
+          {hasFilteredContents ? (
+            lib.monthKeys.map((monthKey) => {
               const items = lib.groupedByMonth[monthKey] || [];
               return (
                 <MonthSection
@@ -102,14 +103,25 @@ export default function ContentLibrary({
                   {renderItems(items)}
                 </MonthSection>
               );
-            })}
-          </ClassicalBox>
-        )}
+            })
+          ) : (
+            <div className="py-12 text-center text-text-secondary">
+              검색 결과가 없습니다
+            </div>
+          )}
+        </ClassicalBox>
 
         {/* 페이지네이션 */}
-        {!compact && showPagination && !lib.isLoading && lib.totalPages > 1 && (
+        {!compact && showPagination && !lib.isLoading && (
           <div className="mt-6 flex justify-center">
-            <Pagination currentPage={lib.currentPage} totalPages={lib.totalPages} onPageChange={lib.setCurrentPage} />
+            <Pagination
+              currentPage={lib.currentPage}
+              totalPages={lib.totalPages}
+              onPageChange={lib.setCurrentPage}
+              pageSize={lib.pageSize}
+              onPageSizeChange={lib.setPageSize}
+              showPageSizeSelector
+            />
           </div>
         )}
       </div>

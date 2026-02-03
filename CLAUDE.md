@@ -171,12 +171,13 @@ Supabase MCP 서버가 설정되어 있다. DB 스키마 조회, 마이그레이
 
 ### 색상 (globals.css @theme)
 다크 테마 기반. CSS 변수로 정의되어 있다.
-- 배경: `bg-main` (#0f1115), `bg-secondary` (#161b22), `bg-card` (#1f242c)
-- 텍스트: `text-primary` (white), `text-secondary` (#8b949e)
-- 액센트: `accent` (#7c4dff), `accent-hover` (#651fff)
-- 보더: `border` (#30363d)
-- 글래스: `glass` (rgba(22, 27, 34, 0.7))
-- 상태: watching(#238636), completed(#8957e5), paused(#da3633), wish(#d29922)
+- 배경: `bg-main` (#121212), `bg-secondary` (#0a0a0a), `bg-card` (#1a1a1a)
+- 텍스트: `text-primary` (#e0e0e0), `text-secondary` (#a0a0a0)
+- 주 액센트: `accent` (#d4af37) - 황색 골드, 메인 강조 색상
+- 보조 액센트: `amber-500` (#f59e0b) - 주황색 골드, 보조 강조 색상
+- 보더: `border` (#333333)
+- 글래스: `glass` (rgba(18, 18, 18, 0.85))
+- 상태: watching(#3fb950), completed(#9e7aff), paused(#db4d4d), wish(#d4af37)
 
 ### 타이포그래피
 - 폰트: Pretendard Variable (sans), Maruburi/Noto Serif KR (serif)

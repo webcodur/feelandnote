@@ -44,8 +44,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [appliedSearchQuery, setAppliedSearchQuery] = useState("");
 
   const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
     BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
@@ -89,6 +92,15 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const collapseAll = useCallback(() => {
     setCollapsedMonths(new Set(monthKeys));
   }, [monthKeys]);
+
+  const executeSearch = useCallback(() => {
+    setAppliedSearchQuery(searchQuery);
+  }, [searchQuery]);
+
+  const clearSearch = useCallback(() => {
+    setSearchQuery("");
+    setAppliedSearchQuery("");
+  }, []);
   // #endregion
 
   // #region 데이터 로딩
@@ -108,7 +120,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     setIsLoading(true);
     setError(null);
     try {
-      const limit = maxItems || 20;
+      const limit = maxItems || pageSize;
+      const searchParam = appliedSearchQuery.trim().length >= 2 ? appliedSearchQuery.trim() : undefined;
 
       if (isViewer && targetUserId) {
         // viewer 모드: 타인의 공개 콘텐츠 조회
@@ -118,6 +131,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           status: 'FINISHED',
           page: compact ? 1 : currentPage,
           limit,
+          search: searchParam,
         });
         // UserContentPublic을 UserContentWithContent 형태로 매핑
         const mapped: UserContentWithContent[] = result.items.map((item) => ({
@@ -158,6 +172,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           status: 'FINISHED',
           page: compact ? 1 : currentPage,
           limit,
+          search: searchParam,
         });
         setContents(result.items);
         setTotalPages(result.totalPages);
@@ -168,7 +183,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, currentPage, maxItems, compact, isViewer, targetUserId]);
+  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery]);
 
   useEffect(() => {
     loadContents();
@@ -177,7 +192,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeTab]);
+  }, [activeTab, appliedSearchQuery, pageSize]);
   // #endregion
 
   // #region 핸들러
@@ -287,9 +302,13 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     currentPage, setCurrentPage,
     totalPages,
     total,
+    pageSize, setPageSize,
     typeCounts,
     collapsedMonths,
     sortOption, setSortOption,
+    searchQuery, setSearchQuery,
+    appliedSearchQuery,
+    executeSearch, clearSearch,
     formatMonthLabel,
     // 파생 상태
     filteredAndSortedContents,

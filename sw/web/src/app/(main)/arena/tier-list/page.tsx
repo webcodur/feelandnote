@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TierListSection from "@/components/features/user/agora/TierListSection";
 import SelectPlaylistModal from "@/components/features/user/agora/SelectPlaylistModal";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { ARENA_SECTION_HEADERS } from "@/constants/arena";
 import { getPlaylists, type PlaylistSummary } from "@/actions/playlists";
 
 export default function Page() {
@@ -42,8 +44,27 @@ export default function Page() {
     router.push(`/${selectedPlaylist.user_id}/collections/${playlistId}/tiers`);
   };
 
+  const headerInfo = ARENA_SECTION_HEADERS["tier-list"];
+
   return (
     <>
+      <SectionHeader
+        label={headerInfo.label}
+        title={headerInfo.title}
+        description={
+          <>
+            {headerInfo.description}
+            {headerInfo.subDescription && (
+              <>
+                <br />
+                <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+                  {headerInfo.subDescription}
+                </span>
+              </>
+            )}
+          </>
+        }
+      />
       <TierListSection
         playlists={playlists}
         isLoading={isLoading}

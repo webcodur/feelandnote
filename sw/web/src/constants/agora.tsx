@@ -4,7 +4,7 @@
   책임: 광장 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Rss, Megaphone, MessageCircle, type LucideIcon } from "lucide-react";
+import { Sparkles, Users, Megaphone, MessageCircle, type LucideIcon } from "lucide-react";
 
 // 섹션명
 export const AGORA_SECTION_NAME = "광장";
@@ -19,10 +19,17 @@ export interface AgoraItem {
 
 export const AGORA_ITEMS: AgoraItem[] = [
   {
-    value: "feed",
-    label: "피드",
-    icon: Rss,
-    href: "/agora/feed",
+    value: "celeb-feed",
+    label: "셀럽 피드",
+    icon: Sparkles,
+    href: "/agora/celeb-feed",
+    description: "셀럽들의 아카이브를 확인하세요",
+  },
+  {
+    value: "friend-feed",
+    label: "친구 피드",
+    icon: Users,
+    href: "/agora/friend-feed",
     description: "친구들의 최신 소식을 확인하세요",
   },
   {

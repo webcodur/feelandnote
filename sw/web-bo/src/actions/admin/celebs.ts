@@ -528,13 +528,15 @@ export async function getCelebContents(
   celebId: string,
   page: number = 1,
   limit: number = 20,
-  contentType?: string
+  contentType?: string,
+  search?: string
 ): Promise<{ contents: CelebContent[]; total: number }> {
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
-  // 타입 필터가 있으면 !inner join 사용
-  const selectQuery = contentType
+  // 검색어 또는 타입 필터가 있으면 !inner join 사용
+  const needInnerJoin = contentType || search
+  const selectQuery = needInnerJoin
     ? `*, content:contents!inner (id, title, type, creator, thumbnail_url)`
     : `*, content:contents (id, title, type, creator, thumbnail_url)`
 
@@ -545,6 +547,10 @@ export async function getCelebContents(
 
   if (contentType) {
     query = query.eq('content.type', contentType)
+  }
+
+  if (search) {
+    query = query.or(`title.ilike.%${search}%,creator.ilike.%${search}%`, { referencedTable: 'contents' })
   }
 
   const { data, error, count } = await query
@@ -585,7 +591,7 @@ interface AddCelebContentInput {
   source_url?: string
 }
 
-export async function addCelebContent(input: AddCelebContentInput): Promise<{ id: string }> {
+export async function addCelebContent(input: AddCelebContentInput): Promise<{ id: string; isExisting?: boolean }> {
   const supabase = await createClient()
 
   // 현재 관리자 정보 가져오기
@@ -602,21 +608,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
     .maybeSingle()
 
   if (existing) {
-    // 이미 있으면 리뷰/출처 업데이트
-    const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
-    if (input.review) updateData.review = input.review
-    if (input.source_url) updateData.source_url = input.source_url
-    if (input.status) updateData.status = input.status
-
-    const { error: updateError } = await supabase
-      .from('user_contents')
-      .update(updateData)
-      .eq('id', existing.id)
-
-    if (updateError) throw updateError
-
-    revalidatePath(`/celebs/${input.celeb_id}/contents`)
-    return { id: existing.id }
+    throw new Error('이미 등록된 콘텐츠입니다.')
   }
 
   // 없으면 새로 추가

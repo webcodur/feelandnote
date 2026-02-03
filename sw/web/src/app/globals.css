@@ -200,20 +200,20 @@
   .focus\:border-accent:focus { border-color: var(--color-accent); }
   .focus-within\:border-accent:focus-within { border-color: var(--color-accent); }
 
-  /* Opacity variants */
-  .bg-accent\/5 { background-color: rgba(124, 77, 255, 0.05); }
-  .bg-accent\/10 { background-color: rgba(124, 77, 255, 0.1); }
-  .bg-accent\/20 { background-color: rgba(124, 77, 255, 0.2); }
-  .border-accent\/30 { border-color: rgba(124, 77, 255, 0.3); }
-  .hover\:border-accent\/30:hover { border-color: rgba(124, 77, 255, 0.3); }
-  .hover\:bg-accent\/5:hover { background-color: rgba(124, 77, 255, 0.05); }
+  /* Opacity variants - Gold (#d4af37 = rgb(212, 175, 55)) */
+  .bg-accent\/5 { background-color: rgba(212, 175, 55, 0.05); }
+  .bg-accent\/10 { background-color: rgba(212, 175, 55, 0.1); }
+  .bg-accent\/20 { background-color: rgba(212, 175, 55, 0.2); }
+  .border-accent\/30 { border-color: rgba(212, 175, 55, 0.3); }
+  .hover\:border-accent\/30:hover { border-color: rgba(212, 175, 55, 0.3); }
+  .hover\:bg-accent\/5:hover { background-color: rgba(212, 175, 55, 0.05); }
 
   /* Border opacity variants */
   .border-border\/30 { border-color: rgba(48, 54, 61, 0.3); }
   .border-border\/40 { border-color: rgba(48, 54, 61, 0.4); }
   .border-border\/50 { border-color: rgba(48, 54, 61, 0.5); }
-  .border-accent\/50 { border-color: rgba(124, 77, 255, 0.5); }
-  .hover\:border-accent\/50:hover { border-color: rgba(124, 77, 255, 0.5); }
+  .border-accent\/50 { border-color: rgba(212, 175, 55, 0.5); }
+  .hover\:border-accent\/50:hover { border-color: rgba(212, 175, 55, 0.5); }
 
   /* Background opacity variants */
   .bg-bg-main\/50 { background-color: rgba(15, 17, 21, 0.5); }

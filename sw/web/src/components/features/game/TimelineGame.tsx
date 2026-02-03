@@ -312,10 +312,7 @@ export default function TimelineGame() {
   // 시작 화면
   if (gameState === "idle") {
     return (
-      <div className="max-w-md mx-auto py-8 md:py-12 flex flex-col items-center text-center">
-        <h2 className="text-4xl font-black text-white font-serif mb-2 tracking-tight">타임 <span className="text-accent">퍼즐</span></h2>
-        <p className="text-sm text-text-secondary mb-8 font-cinzel">연대기 퍼즐</p>
-        
+      <div className="max-w-md mx-auto flex flex-col items-center text-center">
         <div className="w-full max-w-sm bg-bg-card border border-border rounded-xl p-6 shadow-2xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
           

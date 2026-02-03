@@ -9,6 +9,7 @@ interface GetMyContentsParams {
   type?: ContentType
   page?: number
   limit?: number
+  search?: string  // 제목/저자 검색
 }
 
 export interface UserContentWithContent {
@@ -50,7 +51,7 @@ export interface GetMyContentsResponse {
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
-  const { page = 1, limit = 20, type, status, excludeStatus } = params
+  const { page = 1, limit = 20, type, status, excludeStatus, search } = params
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -59,8 +60,9 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
 
   const offset = (page - 1) * limit
 
-  // type 필터가 있으면 inner join으로 contents 테이블에서 직접 필터링
-  const contentJoin = type ? 'content:contents!inner(*)' : 'content:contents(*)'
+  // type이나 search 필터가 있으면 inner join
+  const needsInnerJoin = type || search
+  const contentJoin = needsInnerJoin ? 'content:contents!inner(*)' : 'content:contents(*)'
 
   let query = supabase
     .from('user_contents')
@@ -74,6 +76,12 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   // type 필터 - DB 쿼리에서 직접 적용
   if (type) {
     query = query.eq('content.type', type)
+  }
+
+  // 검색 필터 - 제목 또는 저자
+  if (search && search.trim().length >= 2) {
+    const searchTerm = `%${search.trim()}%`
+    query = query.or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`, { referencedTable: 'content' })
   }
 
 

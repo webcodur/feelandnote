@@ -11,6 +11,7 @@ import ProjectRulesButton from '../../components/ProjectRulesButton'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
 import ContentCollector from './components/ContentCollector'
 import CollapsibleSection from '@/components/ui/CollapsibleSection'
+import ContentSearchForm from './ContentSearchForm'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
@@ -22,18 +23,18 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 interface PageProps {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ page?: string; type?: string }>
+  searchParams: Promise<{ page?: string; type?: string; search?: string }>
 }
 
 export default async function MemberContentsPage({ params, searchParams }: PageProps) {
   const { id } = await params
-  const { page: pageStr, type: contentType } = await searchParams
+  const { page: pageStr, type: contentType, search } = await searchParams
   const page = Number(pageStr) || 1
 
   const celeb = await getCeleb(id)
   if (!celeb) notFound()
 
-  const { contents, total } = await getCelebContents(id, page, 20, contentType)
+  const { contents, total } = await getCelebContents(id, page, 20, contentType, search)
   const totalPages = Math.ceil(total / 20)
 
   return (
@@ -73,33 +74,40 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
       >
         <div className="space-y-4">
           {/* Stats & Filter */}
-          <div className="bg-bg-card border border-border rounded-lg p-4 flex items-center justify-between">
-            <p className="text-text-secondary">
-              총 <span className="text-text-primary font-semibold">{total}</span>개의 콘텐츠 기록
-            </p>
-            <div className="flex items-center gap-2">
-              <Link
-                href={`/members/${id}/contents`}
-                className={`px-3 py-1.5 rounded-lg text-sm ${!contentType ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-              >
-                전체
-              </Link>
-              {CONTENT_TYPES.map((type) => {
-                const config = CONTENT_TYPE_CONFIG[type]
-                const Icon = config.icon
-                const isActive = contentType === type
-                return (
-                  <Link
-                    key={type}
-                    href={`/members/${id}/contents?type=${type}`}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm ${isActive ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-                  >
-                    <Icon className="w-3.5 h-3.5" />
-                    {config.label}
-                  </Link>
-                )
-              })}
+          <div className="bg-bg-card border border-border rounded-lg p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-text-secondary">
+                총 <span className="text-text-primary font-semibold">{total}</span>개의 콘텐츠 기록
+                {search && <span className="text-accent ml-2">(&quot;{search}&quot; 검색 결과)</span>}
+              </p>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/members/${id}/contents${search ? `?search=${encodeURIComponent(search)}` : ''}`}
+                  className={`px-3 py-1.5 rounded-lg text-sm ${!contentType ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
+                >
+                  전체
+                </Link>
+                {CONTENT_TYPES.map((type) => {
+                  const config = CONTENT_TYPE_CONFIG[type]
+                  const Icon = config.icon
+                  const isActive = contentType === type
+                  const params = new URLSearchParams()
+                  params.set('type', type)
+                  if (search) params.set('search', search)
+                  return (
+                    <Link
+                      key={type}
+                      href={`/members/${id}/contents?${params.toString()}`}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm ${isActive ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      {config.label}
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
+            <ContentSearchForm celebId={id} currentSearch={search} currentType={contentType} />
           </div>
 
           {/* Content List */}
@@ -112,6 +120,7 @@ export default async function MemberContentsPage({ params, searchParams }: PageP
                 const params = new URLSearchParams()
                 params.set('page', String(p))
                 if (contentType) params.set('type', contentType)
+                if (search) params.set('search', search)
                 return (
                   <Link
                     key={p}

@@ -31,7 +31,7 @@ export default function FeaturedCollectionsMobile({
     <div className="w-full flex flex-col gap-6 pb-6">
       {/* Curated Exhibition (Horizontal Sticky Tabs) */}
       <div className="w-full">
-         <div className="flex overflow-x-auto scrollbar-hidden px-2 mb-4 border-b border-white/5 pb-2 sticky top-0 z-40 bg-bg-main/95 backdrop-blur-sm">
+         <div className="flex overflow-x-auto scrollbar-hidden px-2 mb-4 border-b border-white/5 pb-2">
            <div className="flex gap-2">
              {tags.map((tag, idx) => {
                const isActive = activeTagIndex === idx;

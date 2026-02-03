@@ -10,5 +10,5 @@ import { AGORA_SECTION_NAME } from "@/constants/agora";
 export const metadata = { title: AGORA_SECTION_NAME };
 
 export default function Page() {
-  redirect("/agora/feed");
+  redirect("/agora/celeb-feed");
 }

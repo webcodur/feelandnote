@@ -98,22 +98,21 @@ export default function CelebFiltersMobile({
     <>
       {/* 셀럽 컨트롤 (Mobile) */}
       <div className="md:hidden mb-10">
-        <div className="border border-white/20 rounded-xl overflow-hidden">
+        <div className="border border-white/10 bg-black/40 backdrop-blur-md rounded-lg overflow-hidden relative group">
           {/* 타이틀 바 (클릭하면 접기/펼치기) */}
           <button
             type="button"
             onClick={onToggleExpand}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 active:bg-white/10"
+            className="w-full flex items-center justify-center gap-3 px-4 py-2 bg-white/5 border-b border-white/5 hover:bg-white/10 transition-all z-10"
           >
-            <SlidersHorizontal size={14} className="text-text-secondary" />
-            <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">Control Panel</span>
-            <ChevronDown
-              size={14}
-              className={cn(
-                "text-text-tertiary transition-transform duration-200",
-                isExpanded && "rotate-180"
-              )}
-            />
+            <div className={`h-px w-8 bg-gradient-to-r from-transparent to-accent/50 transition-opacity ${isExpanded ? 'opacity-100' : 'opacity-50'}`} />
+            
+            <span className="font-sans text-base font-bold text-accent tracking-[0.2em] drop-shadow-sm flex items-center gap-2">
+              <SlidersHorizontal size={16} className="text-accent/70" />
+              탐색 제어
+            </span>
+            
+            <div className={`h-px w-8 bg-gradient-to-l from-transparent to-accent/50 transition-opacity ${isExpanded ? 'opacity-100' : 'opacity-50'}`} />
           </button>
 
           {/* 접히는 영역 */}
@@ -124,23 +123,23 @@ export default function CelebFiltersMobile({
             <div className="overflow-hidden">
               {/* 1행: 검색 */}
               <div className="flex gap-2 p-3">
-                <div className="relative flex-1">
-                  <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+                <div className="relative flex-1 group/search">
+                  <div className="absolute inset-0 bg-accent/5 blur-sm opacity-0 group-focus-within/search:opacity-100 transition-opacity rounded-md pointer-events-none" />
                   <input
                     type="text"
                     value={search}
                     onChange={(e) => onSearchInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="인물 검색..."
-                    className="w-full h-10 ps-9 pe-8 bg-white/5 border border-accent/25 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+                    className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
                   />
                   {search && (
                     <button
                       type="button"
                       onClick={onSearchClear}
-                      className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded"
+                      className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
                     >
-                      <X size={14} className="text-text-tertiary" />
+                      <X size={12} />
                     </button>
                   )}
                 </div>
@@ -148,13 +147,11 @@ export default function CelebFiltersMobile({
                   type="button"
                   onClick={onSearchSubmit}
                   disabled={isLoading}
-                  className="h-10 px-4 bg-white/5 border border-accent/25 hover:border-accent/50 disabled:opacity-50 text-text-primary text-sm font-medium rounded-lg shrink-0"
+                  className="h-9 w-9 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
                 >
-                  검색
+                  <Search size={16} />
                 </button>
               </div>
-              {/* 구분선 */}
-              <div className="h-px bg-accent/10" />
               {/* 2행: 필터 칩들 */}
               <div className="grid grid-cols-2 gap-2 p-3">
                 <FilterChip label="직군" value={activeLabels.profession?.label ?? "전체"} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" />

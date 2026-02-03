@@ -94,27 +94,27 @@ export default function FilterChipDropdown({
         onClick={() => setIsOpen(!isOpen)}
         disabled={isLoading}
         className={`
-          flex items-center justify-center rounded-lg border
+          flex items-center justify-center rounded-md border transition-all duration-300
           bg-white/5 whitespace-nowrap overflow-hidden
-          ${isActive ? 'border-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]' : 'border-accent/25'}
+          ${isActive ? 'border-accent shadow-[0_0_10px_rgba(212,175,55,0.2)]' : 'border-accent/20 hover:border-accent/40'}
         `}
       >
         <div className="flex items-stretch justify-center w-full min-h-[2.5rem]">
           {/* 타이틀 섹션 - 고정 비율 (35%) */}
-          <div className="flex-[0.35] flex items-center justify-center border-r border-accent/10 px-3 bg-black/20">
-            <span className={`text-[10px] uppercase font-cinzel tracking-wide leading-none text-center ${isActive ? 'text-accent opacity-90' : 'text-text-tertiary opacity-60'}`}>
+          <div className="flex-[0.35] flex items-center justify-center border-r border-accent/10 px-3 bg-black/40">
+            <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : 'text-text-tertiary opacity-70'}`}>
               {label}
             </span>
           </div>
 
           {/* 값 섹션 - 나머지 (65%) */}
           <div className="flex-[0.65] flex items-center justify-between gap-2 px-3 bg-white/[0.02]">
-            <span className={`text-sm font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+            <span className={`text-sm font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
               {value}
             </span>
             <GreekChevronIcon
               size={12}
-              className={`flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""} ${isActive ? "text-accent/60" : "text-text-tertiary opacity-30"}`}
+              className={`flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""} ${isActive ? "text-accent" : "text-text-tertiary opacity-50"}`}
             />
           </div>
         </div>
@@ -123,7 +123,7 @@ export default function FilterChipDropdown({
       {isOpen && typeof document !== "undefined" && createPortal(
         <div
           ref={dropdownRef}
-          className="fixed min-w-[160px] max-h-[320px] overflow-y-auto bg-bg-card border border-accent/30 rounded-lg shadow-xl z-[9999]"
+          className="fixed min-w-[160px] max-h-[320px] overflow-y-auto bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl z-[9999]"
           style={{ top: dropdownPos.top, left: dropdownPos.left }}
         >
           {options.map(({ value: optValue, label: optLabel, count }) => {
@@ -136,12 +136,12 @@ export default function FilterChipDropdown({
                 onClick={() => !isDisabled && handleSelect(optValue)}
                 disabled={isDisabled}
                 className={`${FILTER_DROPDOWN_STYLES.item.base} ${
-                  isSelected ? FILTER_DROPDOWN_STYLES.item.active : FILTER_DROPDOWN_STYLES.item.inactive
+                  isSelected ? "bg-accent/20 text-accent font-bold" : "text-text-secondary hover:bg-accent/5 hover:text-text-primary"
                 } ${isDisabled ? FILTER_DROPDOWN_STYLES.item.disabled : ""}`}
               >
-                <span>{optLabel}</span>
+                <span className="font-sans">{optLabel}</span>
                 <span className="flex items-center gap-2">
-                  {count !== undefined && <span className="text-xs text-text-tertiary">{count}</span>}
+                  {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : 'text-text-tertiary'}`}>{count}</span>}
                   {isSelected && <NeoCheckIcon size={16} />}
                 </span>
               </button>

@@ -108,6 +108,7 @@ export default function ScriptureCelebModal({
                         src={celeb.avatar_url}
                         alt={celeb.nickname}
                         fill
+                        sizes="40px"
                         className="object-cover"
                       />
                     ) : (

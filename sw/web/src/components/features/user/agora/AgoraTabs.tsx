@@ -13,7 +13,7 @@ import PageTabs from "@/components/shared/PageTabs";
 export default function AgoraTabs() {
   const pathname = usePathname();
   const activeTab =
-    AGORA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "feed";
+    AGORA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "celeb-feed";
 
   return (
     <PageTabs 

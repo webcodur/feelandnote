@@ -9,6 +9,7 @@ interface GetUserContentsParams {
   status?: ContentStatus
   page?: number
   limit?: number
+  search?: string  // 제목/저자 검색
 }
 
 export interface UserContentPublic {
@@ -42,7 +43,7 @@ export interface GetUserContentsResponse {
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, status, page = 1, limit = 20 } = params
+  const { userId, type, status, page = 1, limit = 20, search } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
@@ -50,8 +51,9 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   const { data: { user: currentUser } } = await supabase.auth.getUser()
   const isOwnProfile = currentUser?.id === userId
 
-  // user_contents에서 rating, review, visibility 포함하여 조회
-  const contentJoin = type ? 'content:contents!inner(*)' : 'content:contents(*)'
+  // type이나 search 필터가 있으면 inner join
+  const needsInnerJoin = type || search
+  const contentJoin = needsInnerJoin ? 'content:contents!inner(*)' : 'content:contents(*)'
 
   let query = supabase
     .from('user_contents')
@@ -80,6 +82,12 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
 
   if (status) {
     query = query.eq('status', status)
+  }
+
+  // 검색 필터 - 제목 또는 저자
+  if (search && search.trim().length >= 2) {
+    const searchTerm = `%${search.trim()}%`
+    query = query.or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`, { referencedTable: 'content' })
   }
 
   query = query.range(offset, offset + limit - 1)

@@ -5,10 +5,34 @@
 */ // ------------------------------
 
 import TimelineGame from "@/components/features/game/TimelineGame";
-import { getArenaPageTitle } from "@/constants/arena";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 
 export const metadata = { title: getArenaPageTitle("timeline") };
 
+const headerInfo = ARENA_SECTION_HEADERS.timeline;
+
 export default function Page() {
-  return <TimelineGame />;
+  return (
+    <>
+      <SectionHeader
+        label={headerInfo.label}
+        title={headerInfo.title}
+        description={
+          <>
+            {headerInfo.description}
+            {headerInfo.subDescription && (
+              <>
+                <br />
+                <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+                  {headerInfo.subDescription}
+                </span>
+              </>
+            )}
+          </>
+        }
+      />
+      <TimelineGame />
+    </>
+  );
 }
