@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   transpilePackages: ['@feelandnote/api-clients', '@feelandnote/shared'],
   images: {
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'shopping-phinf.pstatic.net' },
       { protocol: 'https', hostname: 'image.tmdb.org' },

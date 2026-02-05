@@ -6,32 +6,54 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
 import { DecorativeLabel } from "@/components/ui";
 import { ContentCard } from "@/components/ui/cards";
 import ScriptureCelebModal from "../ScriptureCelebModal";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getCategoryByDbType } from "@/constants/categories";
+import { addContent } from "@/actions/contents/addContent";
+import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import type { ContentType } from "@/types/database";
 
 // 인라인 래퍼
 function ScriptureContentCard({
-  id, title, creator, thumbnail, type, celebCount, userCount = 0, avgRating, index,
+  id, title, creator, thumbnail, type, celebCount, userCount = 0, rating,
 }: {
   id: string; title: string; creator?: string | null; thumbnail?: string | null;
-  type: string; celebCount: number; userCount?: number; avgRating?: number | null; index?: number;
+  type: string; celebCount: number; userCount?: number; rating?: number | null;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isAdding, startAddTransition] = useTransition();
   const category = getCategoryByDbType(type);
   const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  useEffect(() => {
+    checkContentSaved(id).then((result) => { setIsAdded(result.saved); setIsChecking(false); });
+  }, [id]);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isAdded || isAdding) return;
+    startAddTransition(async () => {
+      const result = await addContent({ id, type: type as ContentType, title, creator: creator ?? undefined, thumbnailUrl: thumbnail ?? undefined, status: "WANT" });
+      if (result.success) setIsAdded(true);
+    });
+  };
 
   return (
     <>
       <ContentCard
         thumbnail={thumbnail} title={title} creator={creator}
-        contentType={type as ContentType} href={href} index={index}
-        celebCount={celebCount} userCount={userCount} avgRating={avgRating ?? undefined}
+        contentType={type as ContentType} href={href}
+        celebCount={celebCount} userCount={userCount} rating={rating ?? undefined}
+        saved={isAdded}
+        addable={!isChecking && !isAdded && !isAdding}
+        onAdd={handleAdd}
         onStatsClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsModalOpen(true); }}
       />
       <ScriptureCelebModal
@@ -98,7 +120,7 @@ export default function SageSection({ initialData }: Props) {
           {/* 콘텐츠 그리드 */}
           {displayContents.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
-              {displayContents.map((content, idx) => (
+              {displayContents.map((content) => (
                 <ScriptureContentCard
                   key={content.id}
                   id={content.id}
@@ -108,8 +130,7 @@ export default function SageSection({ initialData }: Props) {
                   type={content.type}
                   celebCount={1}
                   userCount={content.user_count}
-                  avgRating={content.avg_rating}
-                  index={idx + 1}
+                  rating={content.avg_rating}
                 />
               ))}
               

@@ -53,6 +53,7 @@ export interface Member {
   claimed_by?: string | null
   consumption_philosophy?: string | null
   influence?: MemberInfluence | null
+  influence_total?: number
   // 통계
   content_count: number
   follower_count: number
@@ -189,6 +190,7 @@ function celebToMember(c: Celeb): Member {
     claimed_by: c.claimed_by,
     content_count: c.content_count,
     follower_count: c.follower_count,
+    influence_total: c.influence_total,
   }
 }
 

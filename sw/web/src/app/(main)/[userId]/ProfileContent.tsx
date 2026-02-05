@@ -17,6 +17,7 @@ interface ProfileContentProps {
   userId: string;
   isOwner: boolean;
   recentContents: UserContentPublic[];
+  savedContentIds?: string[]; // 타인 프로필: 뷰어의 보유 콘텐츠 ID 목록
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
   guestbookCurrentUser: { id: string; nickname: string | null; avatar_url: string | null } | null;
@@ -27,6 +28,7 @@ export default function ProfileContent({
   userId,
   isOwner,
   recentContents,
+  savedContentIds,
   guestbookEntries,
   guestbookTotal,
   guestbookCurrentUser,
@@ -69,7 +71,7 @@ export default function ProfileContent({
               <ChevronRight size={12} className="md:size-[18px] group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <RecentRecords items={recentContents} userId={userId} />
+          <RecentRecords items={recentContents} userId={userId} isOwner={isOwner} savedContentIds={savedContentIds} />
         </ClassicalBox>
       </section>
 

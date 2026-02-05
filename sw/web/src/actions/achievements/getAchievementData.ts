@@ -1,23 +1,10 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { TITLES, type TitleDefinition } from '@/constants/titles'
 
-export interface Title {
-  id: string
-  name: string
-  description: string
-  category: 'volume' | 'diversity' | 'consistency' | 'depth' | 'social' | 'special'
-  grade: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
-  bonus_score: number
-  condition: {
-    type: string
-    value: number
-  }
-  sort_order: number
-  icon_type?: 'lucide' | 'svg' | 'emoji'
-  icon_svg?: string
-  unlocked?: boolean
-  unlocked_at?: string
+export interface TitleWithStatus extends TitleDefinition {
+  unlocked: boolean
 }
 
 export interface ScoreLog {
@@ -35,16 +22,10 @@ export interface UserScore {
 }
 
 export interface AchievementData {
-  titles: Title[]
+  titles: TitleWithStatus[]
   scoreLogs: ScoreLog[]
   userScore: UserScore
-  stats: {
-    contentCount: number
-    recordCount: number
-    categoryCount: number
-    creatorCount: number
-    completedCount: number
-  }
+  stats: Record<string, number>
 }
 
 export async function getAchievementData(): Promise<AchievementData | null> {
@@ -55,115 +36,109 @@ export async function getAchievementData(): Promise<AchievementData | null> {
     return null
   }
 
-  // 병렬로 모든 데이터 조회
-  const [
-    titlesResult,
-    userTitlesResult,
-    scoreLogsResult,
-    userScoreResult,
-    contentCountResult,
-    recordCountResult,
-    categoryResult,
-    creatorResult,
-    completedResult
-  ] = await Promise.all([
-    // 전체 칭호 목록
-    supabase
-      .from('titles')
-      .select('*')
-      .order('category')
-      .order('sort_order'),
-
-    // 사용자가 획득한 칭호
-    supabase
-      .from('user_titles')
-      .select('title_id, unlocked_at')
-      .eq('user_id', user.id),
-
-    // 점수 내역 (최근 20개)
+  // 병렬로 데이터 조회
+  const [stats, scoreLogsResult, userScoreResult] = await Promise.all([
+    getUserStats(supabase, user.id),
     supabase
       .from('score_logs')
       .select('id, type, action, amount, created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(20),
-
-    // 사용자 점수
     supabase
       .from('user_scores')
       .select('activity_score, title_bonus, total_score')
       .eq('user_id', user.id)
       .single(),
-
-    // 콘텐츠 수
-    supabase
-      .from('user_contents')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id),
-
-    // 기록 수
-    supabase
-      .from('records')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id),
-
-    // 카테고리 다양성 (콘텐츠 타입 수)
-    supabase
-      .from('user_contents')
-      .select('content_id, contents!inner(type)')
-      .eq('user_id', user.id),
-
-    // 창작자 다양성
-    supabase
-      .from('user_contents')
-      .select('content_id, contents!inner(creator)')
-      .eq('user_id', user.id),
-
-    // 완료한 콘텐츠 수 (status가 완료 계열)
-    supabase
-      .from('user_contents')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-      .in('status', ['FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED'])
   ])
 
-  // 획득한 칭호 ID Set
-  const unlockedTitleIds = new Set(
-    userTitlesResult.data?.map(ut => ut.title_id) || []
-  )
-  const unlockedMap = new Map(
-    userTitlesResult.data?.map(ut => [ut.title_id, ut.unlocked_at]) || []
-  )
-
-  // 칭호에 획득 정보 추가
-  const titles: Title[] = (titlesResult.data || []).map(title => ({
+  // 실시간으로 칭호 해금 여부 계산
+  const titles: TitleWithStatus[] = TITLES.map(title => ({
     ...title,
-    unlocked: unlockedTitleIds.has(title.id),
-    unlocked_at: unlockedMap.get(title.id)
+    unlocked: checkCondition(title.condition, stats),
   }))
-
-  // 카테고리 수 계산
-  const categoryTypes = new Set(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (categoryResult.data || []).map((item: any) => item.contents?.type).filter(Boolean)
-  )
-
-  // 창작자 수 계산
-  const creators = new Set(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (creatorResult.data || []).map((item: any) => item.contents?.creator).filter(Boolean)
-  )
 
   return {
     titles,
     scoreLogs: scoreLogsResult.data || [],
     userScore: userScoreResult.data || { activity_score: 0, title_bonus: 0, total_score: 0 },
-    stats: {
-      contentCount: contentCountResult.count || 0,
-      recordCount: recordCountResult.count || 0,
-      categoryCount: categoryTypes.size,
-      creatorCount: creators.size,
-      completedCount: completedResult.count || 0
-    }
+    stats,
   }
+}
+
+// 사용자 통계 조회 (export하여 selectTitle에서도 사용)
+export async function getUserStats(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string
+): Promise<Record<string, number>> {
+  const [
+    contentCountResult,
+    recordCountResult,
+    categoryResult,
+    creatorResult,
+    completedResult,
+    reviewLengthResult
+  ] = await Promise.all([
+    supabase
+      .from('user_contents')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId),
+    supabase
+      .from('records')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId),
+    supabase
+      .from('user_contents')
+      .select('content_id, contents!inner(type)')
+      .eq('user_id', userId),
+    supabase
+      .from('user_contents')
+      .select('content_id, contents!inner(creator)')
+      .eq('user_id', userId),
+    supabase
+      .from('user_contents')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .in('status', ['FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED']),
+    supabase
+      .from('user_contents')
+      .select('review')
+      .eq('user_id', userId)
+      .not('review', 'is', null)
+  ])
+
+  // 카테고리 수
+  const categoryTypes = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (categoryResult.data || []).map((item: any) => item.contents?.type).filter(Boolean)
+  )
+
+  // 창작자 수
+  const creators = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (creatorResult.data || []).map((item: any) => item.contents?.creator).filter(Boolean)
+  )
+
+  // 리뷰 통계
+  const reviews = reviewLengthResult.data || []
+  const avgReviewLength = reviews.length > 0
+    ? reviews.reduce((sum, r) => sum + (r.review?.length || 0), 0) / reviews.length
+    : 0
+  const longReviewCount = reviews.filter(r => (r.review?.length || 0) >= 300).length
+
+  return {
+    content_count: contentCountResult.count || 0,
+    record_count: recordCountResult.count || 0,
+    category_count: categoryTypes.size,
+    creator_count: creators.size,
+    completed_count: completedResult.count || 0,
+    avg_review_length: avgReviewLength,
+    long_review_count: longReviewCount,
+  }
+}
+
+// 조건 체크
+function checkCondition(condition: { type: string; value: number }, stats: Record<string, number>): boolean {
+  const statValue = stats[condition.type] || 0
+  return statValue >= condition.value
 }

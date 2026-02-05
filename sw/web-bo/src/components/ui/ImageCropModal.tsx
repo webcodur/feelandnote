@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
-import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3 } from 'lucide-react'
+import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2 } from 'lucide-react'
+
 import Button from './Button'
+import { detectFaceLandmarks, calculateOptimalCrop } from '@/utils/faceDetection'
 
 interface Props {
   imageSrc: string
@@ -27,12 +29,9 @@ function GridOverlay({ showGrid }: { showGrid: boolean }) {
       <div className="absolute top-0 bottom-0 left-1/3 w-px bg-white/30" />
       <div className="absolute top-0 bottom-0 left-2/3 w-px bg-white/30" />
 
-      {/* 3등분 가로선 */}
-      <div className="absolute left-0 right-0 top-1/3 h-px bg-white/30" />
-      <div className="absolute left-0 right-0 top-2/3 h-px bg-white/30" />
-
-      {/* 눈높이 가이드 (상단 1/4 지점) - 인물 사진용 */}
-      <div className="absolute left-0 right-0 top-1/4 h-px bg-yellow-400/40 border-dashed" />
+      {/* 3등분 가로선 (미간/턱 가이드) */}
+      <div className="absolute left-0 right-0 top-1/3 h-px bg-red-400/60 border-t border-red-500 shadow-[0_0_4px_rgba(248,113,113,0.8)]" />
+      <div className="absolute left-0 right-0 top-2/3 h-px bg-blue-400/60 border-t border-blue-500 shadow-[0_0_4px_rgba(96,165,250,0.8)]" />
     </div>
   )
 }
@@ -43,30 +42,86 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
   const [showGrid, setShowGrid] = useState(true)
 
-  // 썸네일(3:4)에 초상화 이미지를 넣을 때 자동 크롭 위치 조정
-  useEffect(() => {
-    // 썸네일(3:4) 비율이 아니면 기본 동작
-    if (Math.abs(aspectRatio - 3 / 4) > 0.01) return
+  // AI 분석 상태
+  const [analyzing, setAnalyzing] = useState(false)
+  const imageSize = useRef<{ width: number; height: number } | null>(null)
+  
+  // 컨테이너 ref (렌더링된 이미지 크기 계산용)
+  const containerRef = useRef<HTMLDivElement>(null)
 
+  // 이미지 크기 저장 + 썸네일(3:4)이면 자동 AI 맞춤
+  useEffect(() => {
     const img = new Image()
     img.onload = () => {
-      const imageRatio = img.width / img.height
+      imageSize.current = { width: img.width, height: img.height }
 
-      // 이미지가 충분히 큰지 확인 (600x800 이상)
-      const isLargeEnough = img.width >= 600 && img.height >= 800
-
-      // 이미지가 세로로 긴 경우 (초상화 형태: 비율 < 0.75)
-      const isPortraitLike = imageRatio < 0.75
-
-      if (isLargeEnough && isPortraitLike) {
-        // 가로 너비가 원본의 절반 정도가 되도록 zoom 설정
-        setZoom(2)
-        // 세로는 위쪽에 딱 붙이기 (y: -50이 최상단)
-        setCrop({ x: 0, y: -50 })
+      // 썸네일(3:4) → 업로드 즉시 AI 자동 맞춤
+      if (Math.abs(aspectRatio - 3 / 4) < 0.01) {
+        handleAutoCrop()
       }
     }
     img.src = imageSrc
   }, [imageSrc, aspectRatio])
+
+
+  // react-easy-crop 미디어 크기 계산 (zoom=1 기준)
+  // 1) crop area = 컨테이너에 aspectRatio로 contain
+  // 2) 미디어 = crop area를 cover
+  const getRenderedDimensions = useCallback(() => {
+    if (!containerRef.current || !imageSize.current) return null
+
+    const containerW = containerRef.current.clientWidth
+    const containerH = containerRef.current.clientHeight
+    const imgRatio = imageSize.current.width / imageSize.current.height
+    const containerRatio = containerW / containerH
+
+    // 크롭 영역 크기 (컨테이너에 맞는 최대 크기)
+    const cropAreaW = aspectRatio > containerRatio ? containerW : containerH * aspectRatio
+    const cropAreaH = aspectRatio > containerRatio ? containerW / aspectRatio : containerH
+    const cropRatio = cropAreaW / cropAreaH
+
+    // 미디어가 크롭 영역을 cover하도록 스케일
+    if (imgRatio > cropRatio) {
+      return { width: cropAreaH * imgRatio, height: cropAreaH }
+    }
+    return { width: cropAreaW, height: cropAreaW / imgRatio }
+  }, [aspectRatio])
+
+  const handleAutoCrop = async () => {
+    if (!imageSize.current) return
+    setAnalyzing(true)
+
+    try {
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.src = imageSrc
+      await img.decode()
+
+      const result = await detectFaceLandmarks(img)
+      if (result) {
+        const suggestion = calculateOptimalCrop(result)
+        
+        const dims = getRenderedDimensions()
+        if (dims) {
+          // Crop Pixels 계산
+          // Zoom된 상태에서의 거리를 이동해야 하므로 zoom을 곱해줍니다.
+          const cropX = (0.5 - suggestion.center.x) * dims.width * suggestion.zoom
+          const cropY = (0.5 - suggestion.center.y) * dims.height * suggestion.zoom
+          
+          console.log("Applying auto-crop with zoom:", { ...suggestion, crop: { x: cropX, y: cropY } })
+          setZoom(suggestion.zoom)
+          setCrop({ x: cropX, y: cropY })
+        }
+      } else {
+        alert('얼굴을 찾을 수 없습니다.')
+      }
+    } catch (e) {
+      console.error(e)
+      alert(`이미지 분석 중 오류가 발생했습니다: ${e instanceof Error ? e.message : String(e)}`)
+    } finally {
+      setAnalyzing(false)
+    }
+  }
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -100,7 +155,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
         </div>
 
         {/* 크롭 영역 */}
-        <div className={`relative bg-black ${aspectRatio < 1 ? 'h-96' : 'h-80'}`}>
+        <div ref={containerRef} className={`relative bg-black ${aspectRatio < 1 ? 'h-96' : 'h-80'}`}>
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -112,13 +167,14 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
             cropShape={aspectRatio === 1 ? 'round' : 'rect'}
             showGrid={false}
           />
-          {/* 커스텀 격자 오버레이 - 크롭 영역 내부에 표시 */}
+          {/* 커스텀 격자 오버레이 (react-easy-crop crop area와 동일 크기) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div
               className="relative"
               style={{
                 aspectRatio: `${aspectRatio}`,
-                height: aspectRatio < 1 ? '85%' : '70%',
+                height: '100%',
+                maxWidth: '100%',
               }}
             >
               <GridOverlay showGrid={showGrid} />
@@ -150,6 +206,28 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
               title="격자 가이드"
             >
               <Grid3X3 className="w-4 h-4" />
+            </button>
+            <div className="w-px h-4 bg-border mx-1" />
+            <button
+              onClick={handleAutoCrop}
+              disabled={analyzing}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                analyzing 
+                  ? 'bg-accent/10 text-accent cursor-wait' 
+                  : 'bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20'
+              }`}
+            >
+              {analyzing ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  분석 중...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  AI 자동 맞춤
+                </>
+              )}
             </button>
           </div>
 

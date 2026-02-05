@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
 
 export interface FeedActivity {
@@ -8,7 +9,7 @@ export interface FeedActivity {
   user_id: string
   user_nickname: string
   user_avatar_url: string | null
-  user_title: { id: string; name: string; grade: string } | null
+  user_title: { name: string; grade: string } | null
   action_type: ActivityActionType
   target_type: ActivityTargetType
   target_id: string
@@ -95,7 +96,7 @@ export async function getFeedActivities(
       user:profiles!user_id(
         nickname,
         avatar_url,
-        selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
+        selected_title
       )
     `)
     .in('user_id', followingIds)
@@ -160,17 +161,10 @@ export async function getFeedActivities(
     }
   }
 
-  type TitleData = { id: string; name: string; grade: string } | null
-  type RawUserProfile = { nickname: string; avatar_url: string | null; selected_title: TitleData[] | TitleData }
-  type UserProfile = { nickname: string; avatar_url: string | null; selected_title: TitleData }
+  type RawUserProfile = { nickname: string; avatar_url: string | null; selected_title: string | null }
 
   const activities: FeedActivity[] = sliced.map((item) => {
     const rawProfile = (Array.isArray(item.user) ? item.user[0] : item.user) as RawUserProfile | null
-    // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
-    const selectedTitle = rawProfile?.selected_title
-      ? (Array.isArray(rawProfile.selected_title) ? rawProfile.selected_title[0] : rawProfile.selected_title)
-      : null
-    const userProfile: UserProfile | null = rawProfile ? { ...rawProfile, selected_title: selectedTitle } : null
     const contentInfo = item.content_id ? contentsMap[item.content_id] : null
     const userContentKey = item.content_id ? `${item.user_id}:${item.content_id}` : null
     const userContentInfo = userContentKey ? userContentsMap[userContentKey] : null
@@ -178,9 +172,9 @@ export async function getFeedActivities(
     return {
       id: item.id,
       user_id: item.user_id,
-      user_nickname: userProfile?.nickname || 'User',
-      user_avatar_url: userProfile?.avatar_url || null,
-      user_title: userProfile?.selected_title || null,
+      user_nickname: rawProfile?.nickname || 'User',
+      user_avatar_url: rawProfile?.avatar_url || null,
+      user_title: getTitleInfo(rawProfile?.selected_title ?? null),
       action_type: item.action_type as ActivityActionType,
       target_type: item.target_type as ActivityTargetType,
       target_id: item.target_id,

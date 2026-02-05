@@ -22,7 +22,8 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
   const isExplore = location === "explore-pc";
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
-  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null); 
+  const [modalCelebIndex, setModalCelebIndex] = useState(-1);
+  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
 
   // Transition State
   const [renderedTag, setRenderedTag] = useState(activeTag);
@@ -275,7 +276,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             onMouseMove={(e) => handleHeroDragMove(e.clientX, e.clientY)}
             onMouseUp={handleHeroDragEnd}
             onMouseLeave={handleHeroDragEnd}
-            onClick={() => !heroHasDragged.current && heroCeleb && setModalCeleb(heroCeleb)}
+            onClick={() => !heroHasDragged.current && heroCeleb && (() => { setModalCeleb(heroCeleb); setModalCelebIndex(selectedIndex); })()}
           >
             <div
               key={selectedIndex}
@@ -456,7 +457,17 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
         {modalCeleb && (
           <Suspense fallback={null}>
-            <CelebDetailModal celeb={modalCeleb} isOpen={!!modalCeleb} onClose={() => setModalCeleb(null)} />
+            <CelebDetailModal
+              celeb={modalCeleb}
+              isOpen={!!modalCeleb}
+              onClose={() => { setModalCeleb(null); setModalCelebIndex(-1); }}
+              onNavigate={(dir) => {
+                const idx = dir === "prev" ? modalCelebIndex - 1 : modalCelebIndex + 1;
+                if (idx >= 0 && idx < celebs.length) { setModalCelebIndex(idx); setModalCeleb(celebs[idx]); }
+              }}
+              hasPrev={modalCelebIndex > 0}
+              hasNext={modalCelebIndex < celebs.length - 1}
+            />
           </Suspense>
         )}
       </div>
@@ -491,7 +502,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
         onMouseMove={(e) => handleHeroDragMove(e.clientX, e.clientY)}
         onMouseUp={handleHeroDragEnd}
         onMouseLeave={handleHeroDragEnd}
-        onClick={() => !heroHasDragged.current && heroCeleb && setModalCeleb(heroCeleb)}
+        onClick={() => !heroHasDragged.current && heroCeleb && (() => { setModalCeleb(heroCeleb); setModalCelebIndex(selectedIndex); })()}
       >
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
 
@@ -598,7 +609,13 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
           <CelebDetailModal
             celeb={modalCeleb}
             isOpen={!!modalCeleb}
-            onClose={() => setModalCeleb(null)}
+            onClose={() => { setModalCeleb(null); setModalCelebIndex(-1); }}
+            onNavigate={(dir) => {
+              const idx = dir === "prev" ? modalCelebIndex - 1 : modalCelebIndex + 1;
+              if (idx >= 0 && idx < celebs.length) { setModalCelebIndex(idx); setModalCeleb(celebs[idx]); }
+            }}
+            hasPrev={modalCelebIndex > 0}
+            hasNext={modalCelebIndex < celebs.length - 1}
           />
         </Suspense>
       )}

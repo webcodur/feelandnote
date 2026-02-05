@@ -715,59 +715,83 @@ export type Database = {
         Row: {
           avatar_url: string | null
           bio: string | null
-          category: string | null
+          birth_date: string | null
           claimed_by: string | null
+          consumption_philosophy: string | null
           created_at: string
+          death_date: string | null
           email: string | null
           gemini_api_key: string | null
+          gender: boolean | null
           id: string
           is_verified: boolean | null
           last_seen_at: string | null
+          nationality: string | null
           nickname: string | null
+          portrait_url: string | null
           profession: string | null
           profile_type: string | null
+          quotes: string | null
           role: string | null
+          selected_title: string | null
           status: string | null
           suspended_at: string | null
           suspended_reason: string | null
+          title: string | null
         }
         Insert: {
           avatar_url?: string | null
           bio?: string | null
-          category?: string | null
+          birth_date?: string | null
           claimed_by?: string | null
+          consumption_philosophy?: string | null
           created_at?: string
+          death_date?: string | null
           email?: string | null
           gemini_api_key?: string | null
+          gender?: boolean | null
           id: string
           is_verified?: boolean | null
           last_seen_at?: string | null
+          nationality?: string | null
           nickname?: string | null
+          portrait_url?: string | null
           profession?: string | null
           profile_type?: string | null
+          quotes?: string | null
           role?: string | null
+          selected_title?: string | null
           status?: string | null
           suspended_at?: string | null
           suspended_reason?: string | null
+          title?: string | null
         }
         Update: {
           avatar_url?: string | null
           bio?: string | null
-          category?: string | null
+          birth_date?: string | null
           claimed_by?: string | null
+          consumption_philosophy?: string | null
           created_at?: string
+          death_date?: string | null
           email?: string | null
           gemini_api_key?: string | null
+          gender?: boolean | null
           id?: string
           is_verified?: boolean | null
           last_seen_at?: string | null
+          nationality?: string | null
           nickname?: string | null
+          portrait_url?: string | null
           profession?: string | null
           profile_type?: string | null
+          quotes?: string | null
           role?: string | null
+          selected_title?: string | null
           status?: string | null
           suspended_at?: string | null
           suspended_reason?: string | null
+          title?: string | null
         }
         Relationships: []
       }

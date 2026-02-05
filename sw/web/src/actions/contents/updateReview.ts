@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { addActivityScore, checkAchievements, type Title } from '@/actions/achievements'
+import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
@@ -13,9 +13,7 @@ interface UpdateReviewParams {
   isSpoiler?: boolean
 }
 
-interface UpdateReviewData {
-  unlockedTitles: Title[]
-}
+type UpdateReviewData = void
 
 export async function updateReview(params: UpdateReviewParams): Promise<ActionResult<UpdateReviewData>> {
   const supabase = await createClient()
@@ -80,9 +78,7 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
   // 첫 리뷰 작성 시 점수 추가
   if (isFirstReview && (params.rating || params.review)) {
     await addActivityScore('Review 작성', 5, params.userContentId)
-    const achievementResult = await checkAchievements()
-    return success({ unlockedTitles: achievementResult.unlocked })
   }
 
-  return success({ unlockedTitles: [] })
+  return success(undefined)
 }

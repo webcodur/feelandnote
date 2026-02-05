@@ -26,6 +26,15 @@ export default function FeaturedCollectionsMobile({
   
   const activeTag = tags.length > 0 ? tags[activeTagIndex] : null;
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
+  const [modalCelebIndex, setModalCelebIndex] = useState(-1);
+
+  const handleCelebClick = (celeb: FeaturedCeleb) => {
+    setModalCeleb(celeb);
+    const idx = (activeTag?.celebs ?? []).findIndex(c => c.id === celeb.id);
+    setModalCelebIndex(idx);
+  };
+
+  const celebList = activeTag?.celebs ?? [];
 
   return (
     <div className="w-full flex flex-col gap-6 pb-6">
@@ -63,7 +72,7 @@ export default function FeaturedCollectionsMobile({
            <CuratedExhibitionMobile
               key={activeTag.id}
               activeTag={activeTag}
-              onCelebClick={(celeb) => setModalCeleb(celeb)}
+              onCelebClick={handleCelebClick}
            />
          )}
       </div>
@@ -84,7 +93,13 @@ export default function FeaturedCollectionsMobile({
           <CelebDetailModal
             celeb={modalCeleb}
             isOpen={!!modalCeleb}
-            onClose={() => setModalCeleb(null)}
+            onClose={() => { setModalCeleb(null); setModalCelebIndex(-1); }}
+            onNavigate={(dir) => {
+              const idx = dir === "prev" ? modalCelebIndex - 1 : modalCelebIndex + 1;
+              if (idx >= 0 && idx < celebList.length) { setModalCelebIndex(idx); setModalCeleb(celebList[idx]); }
+            }}
+            hasPrev={modalCelebIndex > 0}
+            hasNext={modalCelebIndex < celebList.length - 1}
           />
         </Suspense>
       )}

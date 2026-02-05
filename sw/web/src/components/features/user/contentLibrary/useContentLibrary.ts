@@ -9,10 +9,11 @@ import { useState, useEffect, useCallback, useTransition, useMemo } from "react"
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getUserContents } from "@/actions/contents/getUserContents";
+import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
 import type { ContentTypeCounts } from "@/types/content";
 import { updateStatus } from "@/actions/contents/updateStatus";
-import { updateRecommendation } from "@/actions/contents/updateRecommendation";
+import { addContent } from "@/actions/contents/addContent";
 import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
@@ -55,6 +56,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   });
 
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());
+
+  // 타인 콘텐츠 보유 체크 (뷰어 모드용)
+  // null = 비로그인, Set = 로그인 (보유 콘텐츠 ID 집합)
+  const [savedContentIds, setSavedContentIds] = useState<Set<string> | null>(null);
 
   // 개별 삭제 모달 상태
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; contentId: string } | null>(null);
@@ -194,6 +199,15 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   useEffect(() => {
     setCurrentPage(1);
   }, [activeTab, appliedSearchQuery, pageSize]);
+
+  // 뷰어 모드: 콘텐츠 로드 후 보유 여부 배치 체크
+  useEffect(() => {
+    if (!isViewer || contents.length === 0) {
+      setSavedContentIds(null);
+      return;
+    }
+    checkContentsSaved(contents.map(c => c.content_id)).then(setSavedContentIds);
+  }, [isViewer, contents]);
   // #endregion
 
   // #region 핸들러
@@ -248,21 +262,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   // 기존 handleDelete는 모달을 여는 것으로 변경
   const handleDelete = openDeleteModal;
 
-  const handleRecommendChange = useCallback((userContentId: string, isRecommended: boolean) => {
-    setContents((prev) =>
-      prev.map((item) => (item.id === userContentId ? { ...item, is_recommended: isRecommended } : item))
-    );
-    startTransition(async () => {
-      try {
-        await updateRecommendation({ userContentId, isRecommended });
-      } catch (err) {
-        loadContents();
-        console.error("추천 상태 업데이트 실패:", err);
-      }
-    });
-  }, [loadContents]);
-
-
   const handleDateChange = useCallback((userContentId: string, field: "created_at" | "completed_at", date: string) => {
     setContents((prev) =>
       prev.map((item) => (item.id === userContentId ? { ...item, [field]: date } : item))
@@ -290,11 +289,33 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       }
     });
   }, [loadContents]);
+
+  // 뷰어 모드: 콘텐츠 WANT 등록 (addable 클릭)
+  const handleAddContent = useCallback(async (contentId: string) => {
+    const item = contents.find(c => c.content_id === contentId);
+    if (!item) return;
+    const result = await addContent({
+      id: item.content_id,
+      type: item.content.type,
+      title: item.content.title,
+      creator: item.content.creator ?? undefined,
+      thumbnailUrl: item.content.thumbnail_url ?? undefined,
+      status: "WANT",
+    });
+    if (result.success) {
+      setSavedContentIds(prev => {
+        const next = new Set(prev ?? []);
+        next.add(contentId);
+        return next;
+      });
+    }
+  }, [contents]);
   // #endregion
 
   return {
     // 모드
     isViewer,
+    savedContentIds,
     // 기본 상태
     activeTab, setActiveTab,
     contents,
@@ -322,7 +343,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     collapseAll,
     loadContents,
     handleStatusChange,
-    handleRecommendChange,
+    handleAddContent,
     handleDateChange,
     handleVisibilityChange,
     handleDelete,

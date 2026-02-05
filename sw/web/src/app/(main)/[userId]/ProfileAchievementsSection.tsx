@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Trophy, FileText, Check } from "lucide-react";
-import { TITLE_GRADE_CONFIG, TITLE_CATEGORY_CONFIG, type TitleGrade, type TitleCategory } from "@/constants/titles";
-import type { AchievementData, Title } from "@/actions/achievements";
+import { TITLE_GRADE_CONFIG, TITLE_CATEGORY_CONFIG, TITLES, type TitleGrade, type TitleCategory } from "@/constants/titles";
+import type { AchievementData, TitleWithStatus } from "@/actions/achievements";
 import { selectTitle } from "@/actions/achievements";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, InnerBox } from "@/components/ui";
@@ -11,21 +11,21 @@ import Button from "@/components/ui/Button";
 
 interface ProfileAchievementsSectionProps {
   achievements: AchievementData;
-  selectedTitleId: string | null;
+  selectedTitleCode: string | null;
 }
 
-export default function ProfileAchievementsSection({ achievements, selectedTitleId: initialSelectedId }: ProfileAchievementsSectionProps) {
+export default function ProfileAchievementsSection({ achievements, selectedTitleCode: initialSelectedCode }: ProfileAchievementsSectionProps) {
   const [subTab, setSubTab] = useState<"titles" | "history">("titles");
-  const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId);
+  const [selectedCode, setSelectedCode] = useState<string | null>(initialSelectedCode);
   const [isSelecting, setIsSelecting] = useState(false);
   const { titles, scoreLogs, userScore } = achievements;
 
-  const handleSelectTitle = async (titleId: string | null) => {
+  const handleSelectTitle = async (titleCode: string | null) => {
     if (isSelecting) return;
     setIsSelecting(true);
-    const result = await selectTitle(titleId);
+    const result = await selectTitle(titleCode);
     if (result.success) {
-      setSelectedId(titleId);
+      setSelectedCode(titleCode);
     }
     setIsSelecting(false);
   };
@@ -34,7 +34,7 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
     if (!acc[title.category]) acc[title.category] = [];
     acc[title.category].push(title);
     return acc;
-  }, {} as Record<string, Title[]>);
+  }, {} as Record<string, TitleWithStatus[]>);
 
   const categoryStats = Object.entries(titlesByCategory).map(([category, categoryTitles]) => {
     const unlocked = categoryTitles.filter((t) => t.unlocked).length;
@@ -43,7 +43,6 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
 
   const totalTitles = titles.length;
   const unlockedTitles = titles.filter((t) => t.unlocked).length;
-  const totalBonus = titles.filter((t) => t.unlocked).reduce((sum, t) => sum + t.bonus_score, 0);
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -60,6 +59,20 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
     return date.toLocaleDateString("ko-KR");
   };
 
+  const formatCondition = (condition: { type: string; value: number }) => {
+    const conditionLabels: Record<string, string> = {
+      content_count: "콘텐츠 {v}개 추가",
+      record_count: "기록 {v}개 작성",
+      completed_count: "콘텐츠 {v}개 완료",
+      category_count: "{v}개 분야 섭렵",
+      creator_count: "창작자 {v}명 탐험",
+      avg_review_length: "평균 리뷰 {v}자 이상",
+      long_review_count: "긴 리뷰 {v}개 작성",
+    };
+    const template = conditionLabels[condition.type] || `${condition.type}: {v}`;
+    return template.replace("{v}", condition.value.toLocaleString());
+  };
+
   return (
     <section className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
       <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
@@ -70,25 +83,19 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
         {/* 점수 요약 */}
         <InnerBox className="p-4 md:p-5 mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="flex-1">
-            <div className="text-xs text-text-secondary mb-1 font-semibold">총 업적 점수</div>
+            <div className="text-xs text-text-secondary mb-1 font-semibold">총 활동 점수</div>
             <div className="text-3xl md:text-4xl font-black bg-gradient-to-br from-white to-amber-200 bg-clip-text text-transparent leading-none font-serif">
               {userScore.total_score.toLocaleString()}
             </div>
           </div>
-          <div className="flex gap-5">
-            <div className="text-right">
-              <div className="text-lg md:text-xl font-bold text-text-primary">{userScore.activity_score.toLocaleString()}</div>
-              <div className="text-[11px] text-text-secondary">활동 점수</div>
-            </div>
-            <div className="text-right">
-              <div className="text-lg md:text-xl font-bold text-accent">+{userScore.title_bonus.toLocaleString()}</div>
-              <div className="text-[11px] text-text-secondary">칭호 보너스</div>
-            </div>
+          <div className="text-right">
+            <div className="text-lg md:text-xl font-bold text-text-primary">{unlockedTitles} / {totalTitles}</div>
+            <div className="text-[11px] text-text-secondary">해금된 칭호</div>
           </div>
         </InnerBox>
 
         {/* 칭호 표기 안내 */}
-        {selectedId && (
+        {selectedCode && (
           <InnerBox variant="subtle" className="p-3 mb-4 text-xs text-text-secondary">
             <p className="font-medium text-text-primary mb-1.5">선택한 칭호가 표시되는 곳</p>
             <ul className="list-disc list-inside space-y-0.5 text-[11px]">
@@ -97,7 +104,6 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
               <li>친구 활동 피드</li>
               <li>팔로워/팔로잉 목록</li>
               <li>검색 결과</li>
-              <li>콘텐츠 상세 피드</li>
             </ul>
           </InnerBox>
         )}
@@ -141,17 +147,7 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
           <div>
             {/* 진행률 요약 */}
             <InnerBox className="p-4 mb-5">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="text-xs text-text-secondary mb-0.5">전체 진행률</div>
-                  <div className="text-2xl font-bold font-serif">{unlockedTitles} / {totalTitles}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-text-secondary mb-0.5">획득 보너스</div>
-                  <div className="text-2xl font-bold text-accent font-serif">+{totalBonus}점</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {categoryStats.map(({ category, unlocked, total }) => {
                   const config = TITLE_CATEGORY_CONFIG[category as TitleCategory];
                   if (!config) return null;
@@ -184,37 +180,27 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
                     <span className="text-accent [&>svg]:w-4 [&>svg]:h-4"><CategoryIcon size={16} /></span>
                     <h3 className="text-base font-bold font-serif">{config.label}</h3>
                     <span className="text-xs text-text-secondary">({unlocked}/{total})</span>
-                    {config.comingSoon && <span className="text-[10px] font-semibold py-0.5 px-1.5 rounded bg-yellow-500/20 text-yellow-400">개발예정</span>}
                   </div>
                   <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2">
                     {categoryTitles.map((title) => {
                       const gradeConfig = TITLE_GRADE_CONFIG[title.grade as TitleGrade];
-                      const isSelected = selectedId === title.id;
+                      const isSelected = selectedCode === title.code;
                       const canSelect = title.unlocked && !isSelecting;
                       return (
                         <div
-                          key={title.id}
-                          onClick={canSelect ? () => handleSelectTitle(isSelected ? null : title.id) : undefined}
+                          key={title.code}
+                          onClick={canSelect ? () => handleSelectTitle(isSelected ? null : title.code) : undefined}
                           className={`bg-bg-card/50 rounded-lg p-3 border ${isSelected ? "ring-2 ring-accent" : ""} ${gradeConfig?.borderColor || "border-accent-dim/10"} ${!title.unlocked ? "opacity-40 bg-black/40" : `bg-gradient-to-br ${gradeConfig?.marble || ""} cursor-pointer hover:ring-1 hover:ring-accent/50`}`}
                         >
                           <div className="flex items-start justify-between mb-1.5">
                             <div className="flex items-center gap-2.5">
                               <div className={`w-8 h-8 rounded shrink-0 flex items-center justify-center ${gradeConfig?.bgColor || "bg-white/5"}`}>
-                                {title.icon_type === "svg" && title.icon_svg ? (
-                                  <svg className={`w-5 h-5 ${gradeConfig?.color || "text-text-primary"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d={title.icon_svg} />
-                                  </svg>
-                                ) : (
-                                  <CategoryIcon size={18} className={gradeConfig?.color || "text-text-primary"} />
-                                )}
+                                <CategoryIcon size={18} className={gradeConfig?.color || "text-text-primary"} />
                               </div>
                               <div>
-                                <div className={`font-bold text-sm ${gradeConfig?.color || "text-text-primary"} ${title.unlocked ? gradeConfig?.specialEffect || "" : ""}`}>
+                                <div className={`font-bold text-sm ${gradeConfig?.color || "text-text-primary"}`}>
                                   {title.unlocked ? title.name : "???"}
                                 </div>
-                                {title.unlocked && title.unlocked_at && (
-                                  <div className="text-[10px] text-text-secondary/80">{new Date(title.unlocked_at).toLocaleDateString("ko-KR")}</div>
-                                )}
                               </div>
                             </div>
                             <div className="flex items-center gap-1.5">
@@ -223,13 +209,10 @@ export default function ProfileAchievementsSection({ achievements, selectedTitle
                                   <Check size={14} />
                                 </div>
                               )}
-                              <div className="text-[10px] font-semibold py-0.5 px-1.5 rounded bg-black/20 text-accent/80">
-                                {title.unlocked ? `+${title.bonus_score}점` : "???"}
-                              </div>
                             </div>
                           </div>
                           <div className="text-xs text-text-secondary/90 leading-relaxed italic">
-                            {title.unlocked ? `"${title.description}"` : "조건을 달성하면 해금된다"}
+                            {title.unlocked ? `"${title.description}"` : formatCondition(title.condition)}
                           </div>
                         </div>
                       );

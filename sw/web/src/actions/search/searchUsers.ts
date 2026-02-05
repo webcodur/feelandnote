@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getTitleInfo } from '@/constants/titles'
 
 export interface UserSearchResult {
   id: string
@@ -9,7 +10,7 @@ export interface UserSearchResult {
   avatarUrl?: string
   followerCount: number
   isFollowing: boolean
-  selectedTitle: { id: string; name: string; grade: string } | null
+  selectedTitle: { name: string; grade: string } | null
 }
 
 interface SearchUsersParams {
@@ -40,14 +41,10 @@ export async function searchUsers({
 
   const offset = (page - 1) * limit
 
-  // 사용자 검색 쿼리 (칭호 포함)
-  let searchQuery = supabase
+  const searchQuery = supabase
     .from('profiles')
-    .select(`
-      id, nickname, username, avatar_url,
-      selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
-    `, { count: 'exact' })
-    .or(`nickname.ilike.%${query}%,username.ilike.%${query}%`)
+    .select('id, nickname, avatar_url, selected_title', { count: 'exact' })
+    .ilike('nickname', `%${query}%`)
     .range(offset, offset + limit - 1)
     .order('created_at', { ascending: false })
 
@@ -62,7 +59,6 @@ export async function searchUsers({
     return { items: [], total: 0, hasMore: false }
   }
 
-  // 팔로우 관계 조회
   let followingIds: string[] = []
   if (currentUser) {
     const { data: follows } = await supabase
@@ -74,7 +70,6 @@ export async function searchUsers({
     followingIds = (follows || []).map(f => f.following_id)
   }
 
-  // 팔로워 수 조회
   const { data: followerCounts } = await supabase
     .from('follows')
     .select('following_id')
@@ -85,25 +80,16 @@ export async function searchUsers({
     followerCountMap[f.following_id] = (followerCountMap[f.following_id] || 0) + 1
   })
 
-  type TitleData = { id: string; name: string; grade: string } | null
+  let items: UserSearchResult[] = users.map((user) => ({
+    id: user.id,
+    nickname: user.nickname || '사용자',
+    username: `@user_${user.id.slice(0, 8)}`,
+    avatarUrl: user.avatar_url,
+    followerCount: followerCountMap[user.id] || 0,
+    isFollowing: followingIds.includes(user.id),
+    selectedTitle: getTitleInfo(user.selected_title),
+  }))
 
-  let items: UserSearchResult[] = users.map((user) => {
-    // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
-    const selectedTitle = user.selected_title
-      ? (Array.isArray(user.selected_title) ? user.selected_title[0] : user.selected_title) as TitleData
-      : null
-    return {
-      id: user.id,
-      nickname: user.nickname || '사용자',
-      username: user.username ? `@${user.username}` : `@user_${user.id.slice(0, 8)}`,
-      avatarUrl: user.avatar_url,
-      followerCount: followerCountMap[user.id] || 0,
-      isFollowing: followingIds.includes(user.id),
-      selectedTitle,
-    }
-  })
-
-  // 팔로잉만 필터
   if (followingOnly) {
     items = items.filter(u => u.isFollowing)
   }

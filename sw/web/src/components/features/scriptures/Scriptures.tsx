@@ -15,6 +15,8 @@ import Button from "@/components/ui/Button";
 import { ContentCard } from "@/components/ui/cards";
 import ScriptureCelebModal from "./ScriptureCelebModal";
 import { getCategoryByDbType } from "@/constants/categories";
+import { addContent } from "@/actions/contents/addContent";
+import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import type { ContentType } from "@/types/database";
 import {
   getChosenScriptures,
@@ -53,10 +55,10 @@ interface SectionConfig {
 
 // #region Constants
 const SECTIONS: SectionConfig[] = [
-  { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 경전", icon: Scroll },
-  { id: "profession-section", label: "길의 갈래", description: "분야별 인물들의 필독서", icon: Route, hasBg: true },
   { id: "sage-section", label: "오늘의 인물", description: "매일 새로운 인물의 서재를 탐방하세요", icon: User },
-  { id: "era-section", label: "세대의 경전", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
+  { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 경전", icon: Scroll, hasBg: true },
+  { id: "profession-section", label: "갈랫길", description: "분야별 인물들의 필독서", icon: Route },
+  { id: "era-section", label: "시대의 경전", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
 ];
 
 // 섹션 ID로 config 조회
@@ -74,7 +76,9 @@ const ITEMS_PER_PAGE = 12;
 
 const PROFESSION_LABELS: Record<string, string> = {
   entrepreneur: "기업인",
-  scholar: "학자",
+  humanities_scholar: "인문학자",
+  social_scientist: "사회과학자",
+  scientist: "과학자",
   artist: "예술가",
   politician: "정치인",
   author: "작가",
@@ -154,8 +158,7 @@ interface ScriptureContentCardProps {
   type: string;
   celebCount: number;
   userCount?: number;
-  avgRating?: number | null;
-  index?: number;
+  rating?: number | null;
 }
 
 function ScriptureContentCard({
@@ -166,12 +169,28 @@ function ScriptureContentCard({
   type,
   celebCount,
   userCount = 0,
-  avgRating,
-  index,
+  rating,
 }: ScriptureContentCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isAdding, startAddTransition] = useTransition();
   const category = getCategoryByDbType(type);
   const href = `/content/${id}?category=${category?.id || "book"}`;
+
+  useEffect(() => {
+    checkContentSaved(id).then((result) => { setIsAdded(result.saved); setIsChecking(false); });
+  }, [id]);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isAdded || isAdding) return;
+    startAddTransition(async () => {
+      const result = await addContent({ id, type: type as ContentType, title, creator: creator ?? undefined, thumbnailUrl: thumbnail ?? undefined, status: "WANT" });
+      if (result.success) setIsAdded(true);
+    });
+  };
 
   return (
     <>
@@ -181,10 +200,12 @@ function ScriptureContentCard({
         creator={creator}
         contentType={type as ContentType}
         href={href}
-        index={index}
         celebCount={celebCount}
         userCount={userCount}
-        avgRating={avgRating ?? undefined}
+        rating={rating ?? undefined}
+        saved={isAdded}
+        addable={!isChecking && !isAdded && !isAdding}
+        onAdd={handleAdd}
         onStatsClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -372,7 +393,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
           <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
             {professionData && professionData.contents.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
-                {professionData.contents.map((content, index) => (
+                {professionData.contents.map((content) => (
                   <ScriptureContentCard
                     key={content.id}
                     id={content.id}
@@ -381,8 +402,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
                     thumbnail={content.thumbnail_url}
                     type={content.type}
                     celebCount={content.celeb_count}
-                    avgRating={content.avg_rating}
-                    index={(professionPage - 1) * ITEMS_PER_PAGE + index + 1}
+                    rating={content.avg_rating}
                   />
                 ))}
               </div>
@@ -477,7 +497,7 @@ function TodaySageSection() {
                   thumbnail={content.thumbnail_url}
                   type={content.type}
                   celebCount={1}
-                  avgRating={content.avg_rating}
+                  rating={content.avg_rating}
                 />
               ))}
               {/* 더보기 카드 */}
@@ -541,7 +561,7 @@ function EraSection() {
 
               {era.contents.length > 0 ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
-                  {era.contents.map((content, index) => (
+                  {era.contents.map((content) => (
                     <ScriptureContentCard
                       key={content.id}
                       id={content.id}
@@ -550,8 +570,7 @@ function EraSection() {
                       thumbnail={content.thumbnail_url}
                       type={content.type}
                       celebCount={content.celeb_count}
-                      avgRating={content.avg_rating}
-                      index={index + 1}
+                      rating={content.avg_rating}
                     />
                   ))}
                 </div>
@@ -605,7 +624,10 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
       {/* 플로팅 목차 FAB */}
       <FloatingTOC activeSection={activeSection} />
 
-      {/* 섹션 1: 공통 서가 (SSR) */}
+      {/* 섹션 1: 오늘의 인물 (Lazy) */}
+      <TodaySageSection />
+
+      {/* 섹션 2: 공통 서가 (SSR) */}
       <section id={chosenConfig.id} className={`py-12 md:py-16 ${chosenConfig.hasBg ? "bg-bg-card/30" : ""}`}>
         <ScriptureSectionHeader
           sectionId={chosenConfig.id}
@@ -629,7 +651,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
         <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
           {chosenData.contents.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
-              {chosenData.contents.map((content, index) => (
+              {chosenData.contents.map((content) => (
                 <ScriptureContentCard
                   key={content.id}
                   id={content.id}
@@ -638,8 +660,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
                   thumbnail={content.thumbnail_url}
                   type={content.type}
                   celebCount={content.celeb_count}
-                  avgRating={content.avg_rating}
-                  index={(chosenPage - 1) * ITEMS_PER_PAGE + index + 1}
+                  rating={content.avg_rating}
                 />
               ))}
             </div>
@@ -657,13 +678,10 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
         )}
       </section>
 
-      {/* 섹션 2: 길의 갈래 (Lazy) */}
+      {/* 섹션 3: 갈랫길 (Lazy) */}
       <ProfessionSection professionCounts={initialProfessionCounts} />
 
-      {/* 섹션 3: 오늘의 인물 (Lazy) */}
-      <TodaySageSection />
-
-      {/* 섹션 4: 세대의 경전 (Lazy) */}
+      {/* 섹션 4: 시대의 경전 (Lazy) */}
       <EraSection />
     </div>
   );

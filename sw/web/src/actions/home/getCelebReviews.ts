@@ -22,7 +22,8 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
         title,
         creator,
         thumbnail_url,
-        type
+        type,
+        user_count
       ),
       celeb:profiles!user_contents_user_id_fkey(
         id,
@@ -67,6 +68,8 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
           creator: content.creator,
           thumbnail_url: content.thumbnail_url,
           type: content.type as ContentType,
+          celeb_count: 1,
+          user_count: content.user_count ?? 0,
         },
         celeb: {
           id: celeb.id,

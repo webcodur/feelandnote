@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { addActivityScore, checkAchievements, type Title } from '@/actions/achievements'
+import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
@@ -23,7 +23,6 @@ interface CreateRecordData {
   content: string
   location: string | null
   created_at: string
-  unlockedTitles: Title[]
 }
 
 export async function createRecord(params: CreateRecordParams): Promise<ActionResult<CreateRecordData>> {
@@ -75,13 +74,9 @@ export async function createRecord(params: CreateRecordParams): Promise<ActionRe
     metadata: { type: params.type, preview: params.content.slice(0, 50) }
   })
 
-  // 업적 시스템: 점수 추가 및 칭호 체크
+  // 점수 추가
   const actionText = params.type === 'NOTE' ? 'Note 작성' : 'Quote 작성'
   await addActivityScore(actionText, 2, data.id)
-  const achievementResult = await checkAchievements()
 
-  return success({
-    ...data,
-    unlockedTitles: achievementResult.unlocked
-  })
+  return success(data)
 }

@@ -116,18 +116,17 @@ export default function HeaderSearch() {
             placeholder={displayPlaceholder}
             className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] font-serif placeholder:text-text-tertiary placeholder:italic py-2"
           />
-          {query && (
-            <Button
-              unstyled
-              onClick={() => {
-                setQuery("");
-                inputRef.current?.focus();
-              }}
-              className="text-text-tertiary hover:text-text-primary"
-            >
-              <X size={16} />
-            </Button>
-          )}
+          <Button
+            unstyled
+            onClick={() => {
+              setQuery("");
+              inputRef.current?.focus();
+            }}
+            disabled={!query}
+            className={`${query ? "text-text-tertiary hover:text-text-primary" : "text-text-tertiary/30 cursor-not-allowed"}`}
+          >
+            <X size={16} />
+          </Button>
         </div>
       </div>
 
@@ -213,18 +212,17 @@ export default function HeaderSearch() {
             placeholder={displayPlaceholder}
             className="flex-1 h-full bg-transparent border-none text-text-primary outline-none text-[15px] placeholder:text-text-secondary"
           />
-          {query && (
-            <Button
-              unstyled
-              onClick={() => {
-                setQuery("");
-                inputRef.current?.focus();
-              }}
-              className="text-text-secondary hover:text-text-primary"
-            >
-              <X size={16} />
-            </Button>
-          )}
+          <Button
+            unstyled
+            onClick={() => {
+              setQuery("");
+              inputRef.current?.focus();
+            }}
+            disabled={!query}
+            className={`${query ? "text-text-secondary hover:text-text-primary" : "text-text-secondary/30 cursor-not-allowed"}`}
+          >
+            <X size={16} />
+          </Button>
           <Button
             unstyled
             onClick={handleSearch}

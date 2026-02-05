@@ -1,12 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-
-export interface SelectedTitle {
-  id: string
-  name: string
-  grade: string
-}
+import { getTitleInfo } from '@/constants/titles'
 
 export interface UserProfile {
   id: string
@@ -18,7 +13,7 @@ export interface UserProfile {
   nationality: string | null
   quotes: string | null
   gemini_api_key: string | null
-  selected_title: SelectedTitle | null
+  selected_title: { name: string; grade: string } | null
 }
 
 export async function getProfile(): Promise<UserProfile | null> {
@@ -31,10 +26,7 @@ export async function getProfile(): Promise<UserProfile | null> {
 
   const { data: profile, error } = await supabase
     .from('profiles')
-    .select(`
-      *,
-      selected_title:titles!profiles_selected_title_id_fkey (id, name, grade)
-    `)
+    .select('*')
     .eq('id', user.id)
     .single()
 
@@ -52,6 +44,6 @@ export async function getProfile(): Promise<UserProfile | null> {
     nationality: profile.nationality || null,
     quotes: profile.quotes || null,
     gemini_api_key: profile.gemini_api_key || null,
-    selected_title: profile.selected_title as SelectedTitle | null,
+    selected_title: getTitleInfo(profile.selected_title),
   }
 }

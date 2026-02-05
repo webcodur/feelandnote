@@ -5,14 +5,14 @@
 */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
-import { getAuraByPercentile, getAuraByScore, type Aura } from "@/constants/materials";
+import { getAuraByScore, type Aura } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
 import CelebTagsModal from "./CelebTagsModal";
 import InfluenceBadge from "@/components/ui/InfluenceBadge";
@@ -24,7 +24,6 @@ import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/
 import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
-import { getCategoryByDbType } from "@/constants/categories";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -52,8 +51,6 @@ function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebP
   const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
 
-  const category = getCategoryByDbType(review.content.type);
-  const contentTypeLabel = category?.shortLabel ?? review.content.type;
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
 
   useEffect(() => {
@@ -63,11 +60,8 @@ function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebP
     });
   }, [review.content.id]);
 
-  const handleAddToArchive = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleAddToArchive = () => {
     if (isAdded || isAdding) return;
-
     startTransition(async () => {
       const result = await addContent({
         id: review.content.id,
@@ -118,25 +112,6 @@ function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebP
     </div>
   );
 
-  const actionNode = (
-    <div>
-      {isAdded ? (
-        <div className="px-3 py-1.5 border border-accent/30 bg-black/80 backdrop-blur-md text-accent font-black text-[10px] tracking-tight flex items-center gap-1.5 rounded shadow-lg">
-          <Check size={12} />
-          <span>저장됨</span>
-        </div>
-      ) : (
-        <button
-          onClick={handleAddToArchive}
-          disabled={isChecking || isAdding}
-          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
-        >
-          {isChecking ? "..." : isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
-        </button>
-      )}
-    </div>
-  );
-
   return (
     <>
       <ContentCard
@@ -152,7 +127,9 @@ function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebP
         href=""
         ownerNickname={celeb.nickname}
         headerNode={headerNode}
-        actionNode={actionNode}
+        saved={isAdded}
+        addable={!isAdded && !isChecking}
+        onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
       />
 
@@ -178,9 +155,13 @@ interface CelebDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   hideBirthDate?: boolean;
+  // 리스트 컨텍스트 네비게이션 (선택)
+  onNavigate?: (direction: "prev" | "next") => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false }: CelebDetailModalProps) {
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
@@ -188,6 +169,36 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
+
+  // 네비게이션 드래그 상태
+  const [navDragOffset, setNavDragOffset] = useState(0);
+  const [isNavDragging, setIsNavDragging] = useState(false);
+  const navDragStartX = useRef(0);
+  const navDragStartY = useRef(0);
+  const navHasMoved = useRef(false);
+  const NAV_SWIPE_THRESHOLD = 50;
+
+  // celeb 전환 시 내부 상태 리셋
+  useEffect(() => {
+    setIsReviewMode(false);
+    setReviews([]);
+    setIsFollowing(celeb.is_following);
+    setIsInfluenceOpen(false);
+    setIsTagsModalOpen(false);
+    setNavDragOffset(0);
+    setIsNavDragging(false);
+  }, [celeb.id]);
+
+  // 키보드 네비게이션 (← →)
+  useEffect(() => {
+    if (!isOpen || !onNavigate) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && hasPrev) onNavigate("prev");
+      if (e.key === "ArrowRight" && hasNext) onNavigate("next");
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isOpen, onNavigate, hasPrev, hasNext]);
 
   // 리뷰 모드 진입 시 데이터 로딩
   useEffect(() => {
@@ -379,6 +390,93 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     </div>
   );
 
+  // #region 네비게이션 드래그 핸들러
+  const handleNavDragStart = (clientX: number, clientY: number) => {
+    if (!onNavigate) return;
+    setIsNavDragging(true);
+    navHasMoved.current = false;
+    navDragStartX.current = clientX;
+    navDragStartY.current = clientY;
+    setNavDragOffset(0);
+  };
+
+  const handleNavDragMove = (clientX: number, clientY: number) => {
+    if (!isNavDragging || !onNavigate) return;
+    const diffX = clientX - navDragStartX.current;
+    const diffY = clientY - navDragStartY.current;
+    // 세로 스크롤 우선: Y 이동이 X보다 크면 무시
+    if (!navHasMoved.current && Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 10) {
+      setIsNavDragging(false);
+      setNavDragOffset(0);
+      return;
+    }
+    if (Math.abs(diffX) > 8) navHasMoved.current = true;
+    const resistance = (!hasPrev && diffX > 0) || (!hasNext && diffX < 0) ? 0.3 : 1;
+    setNavDragOffset(diffX * resistance);
+  };
+
+  const handleNavDragEnd = () => {
+    if (!isNavDragging || !onNavigate) return;
+    if (Math.abs(navDragOffset) > NAV_SWIPE_THRESHOLD) {
+      if (navDragOffset > 0 && hasPrev) onNavigate("prev");
+      else if (navDragOffset < 0 && hasNext) onNavigate("next");
+    }
+    setNavDragOffset(0);
+    setIsNavDragging(false);
+  };
+
+  const navDragHandlers = onNavigate ? {
+    onMouseDown: (e: React.MouseEvent) => handleNavDragStart(e.clientX, e.clientY),
+    onMouseMove: (e: React.MouseEvent) => handleNavDragMove(e.clientX, e.clientY),
+    onMouseUp: handleNavDragEnd,
+    onMouseLeave: handleNavDragEnd,
+    onTouchStart: (e: React.TouchEvent) => handleNavDragStart(e.touches[0].clientX, e.touches[0].clientY),
+    onTouchMove: (e: React.TouchEvent) => handleNavDragMove(e.touches[0].clientX, e.touches[0].clientY),
+    onTouchEnd: handleNavDragEnd,
+  } : {};
+
+  const navDragStyle = onNavigate && isNavDragging ? {
+    transform: `translateX(${navDragOffset * 0.3}px)`,
+    opacity: 1 - Math.abs(navDragOffset) * 0.002,
+  } : undefined;
+  // #endregion
+
+  // 네비게이션 화살표 (초상화 하단 좌우)
+  // mousedown/touchstart 전파 차단: 부모의 드래그 핸들러 간섭 방지
+  const stopDrag = {
+    onMouseDown: (e: React.MouseEvent) => e.stopPropagation(),
+    onTouchStart: (e: React.TouchEvent) => e.stopPropagation(),
+  };
+  const NavArrows = ({ size = "md" }: { size?: "sm" | "md" }) => {
+    if (!onNavigate) return null;
+    const btnClass = size === "sm"
+      ? "w-8 h-8"
+      : "w-10 h-10";
+    const iconSize = size === "sm" ? 16 : 20;
+    return (
+      <>
+        {hasPrev && (
+          <button
+            {...stopDrag}
+            onClick={(e) => { e.stopPropagation(); onNavigate("prev"); }}
+            className={`absolute bottom-4 start-4 z-30 ${btnClass} rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-95`}
+          >
+            <ChevronLeft size={iconSize} />
+          </button>
+        )}
+        {hasNext && (
+          <button
+            {...stopDrag}
+            onClick={(e) => { e.stopPropagation(); onNavigate("next"); }}
+            className={`absolute bottom-4 end-4 z-30 ${btnClass} rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-95`}
+          >
+            <ChevronRight size={iconSize} />
+          </button>
+        )}
+      </>
+    );
+  };
+
   const HandleButton = ({ className = "" }: { className?: string }) => (
     <button
       onClick={(e) => {
@@ -431,8 +529,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                  {/* PC 핸들 버튼: 우측 끝 중앙 */}
                  <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg translate-x-0.5 hover:translate-x-0" />
                  
-                 {/* 기존 콘텐츠 */}
+                 {/* 기존 콘텐츠 - PC는 화살표+키보드만 지원 (드래그 없음) */}
                  <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
+              <div key={celeb.id} className="w-full h-full">
               {portraitImage ? (
                 <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
               ) : (
@@ -440,7 +539,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   <span className="text-6xl text-white/20 font-serif">{celeb.nickname[0]}</span>
                 </div>
               )}
-              
+              </div>
+
               {/* 레벨 휘장 (Top-Left): 모서리 밀착 */}
               <div className="absolute top-4 left-4 z-30">
                 <InfluenceBadge
@@ -453,6 +553,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   className="shadow-2xl"
                 />
               </div>
+
+              {/* 좌우 네비게이션 화살표 */}
+              <NavArrows size="md" />
             </div>
 
             {/* 오른쪽: 정보 - 높이 제한 해제 */}
@@ -540,7 +643,11 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               {/* 스크롤 영역 */}
               <div className="flex-1 overflow-y-auto overflow-x-hidden">
             {/* 초상화 (9:16 비율) */}
-            <div className="relative w-full aspect-[9/16] bg-black">
+            <div
+              className={`relative w-full aspect-[9/16] bg-black ${onNavigate ? "select-none" : ""}`}
+              {...navDragHandlers}
+            >
+              <div key={celeb.id} className="w-full h-full" style={navDragStyle}>
               {portraitImage ? (
                 <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
               ) : (
@@ -548,6 +655,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                    <span className="text-6xl text-white/10">{celeb.nickname[0]}</span>
                 </div>
               )}
+              </div>
 
               {/* 최상단 오버레이 액션바: 핸들 중앙화 및 휘장/버튼 좌우 배치 */}
               <div className="absolute top-0 left-0 right-0 p-5 z-20">
@@ -603,6 +711,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   )}
                 </div>
               </div>
+
+              {/* 좌우 네비게이션 화살표 (모바일) */}
+              <NavArrows size="sm" />
             </div>
 
             {/* 정보 영역 - 이제 Bio와 Quotes에 집중 */}

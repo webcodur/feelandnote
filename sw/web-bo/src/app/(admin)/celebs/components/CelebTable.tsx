@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Settings } from 'lucide-react'
+import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap } from 'lucide-react'
 import { type Member } from '@/actions/admin/members'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import StatusToggle from '../../members/components/StatusToggle'
@@ -20,6 +20,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           <SortableTableHeader column="profession" label="직군" />
           <SortableTableHeader column="nationality" label="국적" align="center" />
           <SortableTableHeader column="status" label="상태" align="center" />
+          <SortableTableHeader column="influence_total" label="영향력" align="center" />
           <SortableTableHeader column="content_count" label="콘텐츠" align="center" />
           <SortableTableHeader column="follower_count" label="팔로워" align="center" />
           <SortableTableHeader column="created_at" label="등록일시" align="center" />
@@ -28,7 +29,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={10} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={11} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
@@ -67,8 +68,16 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
               <td className="px-3 md:px-4 py-3 text-center"><StatusBadge status={celeb.status} /></td>
               <td className="px-3 md:px-4 py-3 text-center">
                 <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
-                  <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
+                  <Zap className="w-3.5 h-3.5" />{celeb.influence_total || 0}
                 </span>
+              </td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <Link
+                  href={`/celebs/${celeb.id}/contents`}
+                  className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary hover:text-accent"
+                >
+                  <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
+                </Link>
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
                 <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
@@ -79,14 +88,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                 <DateTimeCell date={celeb.created_at} />
               </td>
               <td className="px-3 md:px-4 py-3">
-                <div className="flex items-center justify-center gap-1">
-                  <Link
-                    href={`/celebs/${celeb.id}/contents`}
-                    className="p-1.5 md:p-2 rounded-lg text-text-secondary hover:text-accent hover:bg-accent/10"
-                    title="콘텐츠 관리"
-                  >
-                    <Settings className="w-4 h-4" />
-                  </Link>
+                <div className="flex items-center justify-center">
                   <StatusToggle member={celeb} />
                 </div>
               </td>
@@ -115,7 +117,7 @@ function StatusBadge({ status }: { status: string }) {
 function DateTimeCell({ date }: { date: string }) {
   const d = new Date(date)
   const pad = (n: number) => String(n).padStart(2, '0')
-  const ymd = `${d.getFullYear()}. ${pad(d.getMonth() + 1)}. ${pad(d.getDate())}.`
+  const ymd = `${String(d.getFullYear()).slice(2)}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`
   const hms = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
   return (
     <div className="text-xs text-text-secondary leading-tight">

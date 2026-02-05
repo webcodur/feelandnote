@@ -114,6 +114,7 @@ export function useHeaderSearch() {
           data.items.forEach((item) => {
             searchResults.push({
               id: item.id, type: "user", title: item.nickname, subtitle: item.username,
+              thumbnail: item.avatarUrl,
               extra: `팔로워 ${item.followerCount >= 1000 ? `${(item.followerCount / 1000).toFixed(1)}K` : item.followerCount}`,
             });
           });
@@ -161,8 +162,9 @@ export function useHeaderSearch() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.code === "KeyK") {
         e.preventDefault();
-        inputRef.current?.focus();
         setIsOpen(true);
+        // 상태 업데이트 후 포커스 설정
+        requestAnimationFrame(() => inputRef.current?.focus());
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -288,10 +290,12 @@ export function useHeaderSearch() {
     if (e.key === "@" && query === "") {
       e.preventDefault();
       setMode("user");
-    } else if (e.key === "#" && query === "") {
-      e.preventDefault();
-      setMode("tag");
     }
+    // 태그 검색 비활성화
+    // else if (e.key === "#" && query === "") {
+    //   e.preventDefault();
+    //   setMode("tag");
+    // }
   };
 
   const handleModeChange = (newMode: SearchMode) => {

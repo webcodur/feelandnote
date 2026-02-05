@@ -11,7 +11,6 @@ import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { updateReview } from "@/actions/contents/updateReview";
 import { useSound } from "@/contexts/SoundContext";
-import { useAchievement } from "@/components/features/profile/achievements";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 
 interface MyReviewSectionProps {
@@ -26,7 +25,6 @@ export default function MyReviewSection({
   onRecordChange,
 }: MyReviewSectionProps) {
   const { playSound } = useSound();
-  const { showUnlock } = useAchievement();
   const [isPending, startTransition] = useTransition();
 
   const [rating, setRating] = useState<number | null>(userRecord?.rating ?? null);
@@ -87,9 +85,6 @@ export default function MyReviewSection({
             createdAt: userRecord?.createdAt ?? new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           });
-          if (result.data.unlockedTitles?.length) {
-            showUnlock(result.data.unlockedTitles);
-          }
         }
       } catch (err) {
         console.error("리뷰 저장 실패:", err);

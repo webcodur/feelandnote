@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
+import FriendCardNameplate from "@/components/features/user/explore/FriendCardNameplate";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { ContentStatus } from "@/types/database";
 
@@ -93,13 +94,33 @@ export default function SearchResultsDropdown({
           <Button
             unstyled
             onClick={onViewAllResults}
-            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
           >
             <Search size={16} />
             전체 검색결과 보기
           </Button>
 
           {results.map((result, index) => {
+            // 사용자 결과: FriendCardNameplate 사용
+            if (result.type === "user") {
+              return (
+                <div
+                  key={result.id}
+                  className={`px-2 py-1 ${selectedIndex === index ? "bg-accent/10" : ""}`}
+                >
+                  <FriendCardNameplate
+                    friend={{
+                      id: result.id,
+                      nickname: result.title,
+                      avatar_url: result.thumbnail || null,
+                      content_count: 0,
+                    }}
+                    onClick={() => onResultClick(result)}
+                  />
+                </div>
+              );
+            }
+
             const CategoryIcon = result.category ? CATEGORY_ICONS[result.category] || Book : null;
             const isContentResult = result.type === "content" && showContentUtils;
             const isAdding = addingIds.has(result.id);
@@ -131,9 +152,6 @@ export default function SearchResultsDropdown({
                         <CategoryIcon size={16} className="text-text-secondary" />
                       ) : null}
                     </div>
-                  )}
-                  {result.type === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 shrink-0 ring-1 ring-white/10" />
                   )}
                   {result.type === "tag" && (
                     <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">

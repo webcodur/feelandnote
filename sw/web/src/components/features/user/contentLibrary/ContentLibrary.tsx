@@ -42,9 +42,11 @@ export default function ContentLibrary({
       items={items}
       compact={compact}
       onDelete={lib.handleDelete}
+      onAddContent={lib.handleAddContent}
       readOnly={isViewer}
       targetUserId={targetUserId}
       ownerNickname={ownerNickname}
+      savedContentIds={lib.savedContentIds}
     />
   );
 

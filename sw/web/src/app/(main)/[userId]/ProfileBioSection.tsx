@@ -71,24 +71,19 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
 function PortraitFrame({ url, alt }: { url: string; alt: string }) {
   return (
     <div className="flex-shrink-0 flex justify-center">
-      <div className="relative w-40 sm:w-52 md:w-64 aspect-[3/4] md:h-full min-h-[210px] sm:min-h-[260px] md:min-h-[320px]">
-        {/* Frame Outer Relief */}
-        <div className="absolute inset-0 bg-gradient-to-br from-stone-600 via-stone-800 to-stone-950 rounded-sm shadow-[0_10px_30px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(255,255,255,0.05)]" />
-        
-        {/* Inner Engraved Borders */}
-        <div className="absolute inset-1 sm:inset-1.5 border border-stone-500/30 rounded-sm" />
-        <div className="absolute inset-2 sm:inset-3 border border-black/40 rounded-sm shadow-inner" />
-        
-        {/* Corner Brackets (Enhanced for visibility) */}
-        <div className="absolute top-0 start-0 w-6 h-6 border-t-2 border-s-2 border-stone-400/60 rounded-tl-sm z-20" />
-        <div className="absolute top-0 end-0 w-6 h-6 border-t-2 border-e-2 border-stone-400/60 rounded-tr-sm z-20" />
-        <div className="absolute bottom-0 start-0 w-6 h-6 border-b-2 border-s-2 border-stone-400/60 rounded-bl-sm z-20" />
-        <div className="absolute bottom-0 end-0 w-6 h-6 border-b-2 border-e-2 border-stone-400/60 rounded-br-sm z-20" />
-        
-        {/* Image Container */}
-        <div className="absolute inset-2.5 sm:inset-4 rounded-sm overflow-hidden border border-stone-950 bg-stone-950 shadow-[inset_0_5px_15px_rgba(0,0,0,0.7)] group">
-          <Image src={url} alt={alt} fill className="object-cover group-hover:scale-110 transition-transform duration-1000 opacity-90 group-hover:opacity-100" />
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 to-transparent pointer-events-none" />
+      <div className="relative w-40 sm:w-52 md:w-64 aspect-[3/4] group">
+        {/* 프레임 */}
+        <div className="absolute inset-0 rounded bg-gradient-to-b from-neutral-700/90 to-neutral-950 p-1.5 md:p-2 shadow-xl">
+          <div className="relative w-full h-full rounded-sm overflow-hidden bg-black">
+            <Image
+              src={url}
+              alt={alt}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+            {/* 하단 비네팅 */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+          </div>
         </div>
       </div>
     </div>

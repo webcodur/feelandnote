@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Check, Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Trash2, AlertTriangle } from "lucide-react";
+import { Check, Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Trash2, AlertTriangle, Lock } from "lucide-react";
 import { type PublicUserProfile, updateProfile, updateApiKey } from "@/actions/user";
-import { deleteAccount } from "@/actions/auth";
+import { deleteAccount, changePassword } from "@/actions/auth";
 import { useCountries } from "@/hooks/useCountries";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, InnerBox } from "@/components/ui";
@@ -13,9 +13,10 @@ import SearchableSelect from "@/components/ui/SearchableSelect";
 interface ProfileSettingsSectionProps {
   profile: PublicUserProfile;
   initialApiKey?: string | null;
+  isEmailUser?: boolean;
 }
 
-export default function ProfileSettingsSection({ profile, initialApiKey }: ProfileSettingsSectionProps) {
+export default function ProfileSettingsSection({ profile, initialApiKey, isEmailUser }: ProfileSettingsSectionProps) {
   return (
     <section className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
       <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
@@ -24,6 +25,7 @@ export default function ProfileSettingsSection({ profile, initialApiKey }: Profi
         </div>
         <div className="space-y-6">
         <ProfileEditCard profile={profile} />
+        {isEmailUser && <PasswordChangeCard />}
         <ApiKeyCard initialApiKey={initialApiKey} />
         <DangerZoneCard />
         </div>
@@ -124,6 +126,97 @@ function ProfileEditCard({ profile }: { profile: PublicUserProfile }) {
             <label className="text-xs text-text-secondary mb-1 block">좌우명</label>
             <input type="text" value={quotes} onChange={(e) => setQuotes(e.target.value)} placeholder="나를 표현하는 한 줄" maxLength={100} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
           </div>
+        </div>
+      </div>
+    </InnerBox>
+  );
+}
+// #endregion
+
+// #region 비밀번호 변경 카드
+function PasswordChangeCard() {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const canSubmit = currentPassword && newPassword && confirmPassword && newPassword === confirmPassword;
+
+  const handleSave = async () => {
+    setError("");
+
+    if (newPassword !== confirmPassword) {
+      setError("새 비밀번호가 일치하지 않습니다");
+      return;
+    }
+
+    setIsSaving(true);
+    const result = await changePassword({ currentPassword, newPassword });
+
+    if (result.error) {
+      setError(result.error);
+    } else {
+      setSaveSuccess(true);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setTimeout(() => setSaveSuccess(false), 2000);
+    }
+    setIsSaving(false);
+  };
+
+  return (
+    <InnerBox className="p-6 md:p-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <Lock size={20} className="text-accent" />
+          <h3 className="text-lg font-serif font-bold text-text-primary">비밀번호 변경</h3>
+        </div>
+        <div className="flex items-center gap-2">
+          {saveSuccess && <Check size={16} className="text-green-400" />}
+          <button onClick={handleSave} disabled={isSaving || !canSubmit} className="px-4 py-2 text-sm bg-accent text-bg-main font-bold rounded-sm hover:bg-accent-hover disabled:opacity-50">
+            {isSaving ? <Loader2 size={14} className="animate-spin" /> : "변경"}
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {error && (
+          <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-sm">
+            <p className="text-sm text-red-400">{error}</p>
+          </div>
+        )}
+
+        <div>
+          <label className="text-xs text-text-secondary mb-1 block">현재 비밀번호</label>
+          <div className="relative">
+            <input type={showCurrent ? "text" : "password"} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="현재 비밀번호 입력" className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+            <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute end-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary">
+              {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-xs text-text-secondary mb-1 block">새 비밀번호</label>
+          <div className="relative">
+            <input type={showNew ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="새 비밀번호 입력 (6자 이상)" className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+            <button type="button" onClick={() => setShowNew(!showNew)} className="absolute end-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary">
+              {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-xs text-text-secondary mb-1 block">새 비밀번호 확인</label>
+          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="새 비밀번호 다시 입력" className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+          {confirmPassword && newPassword !== confirmPassword && (
+            <p className="text-xs text-red-400 mt-1">비밀번호가 일치하지 않습니다</p>
+          )}
         </div>
       </div>
     </InnerBox>

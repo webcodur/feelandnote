@@ -66,8 +66,8 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
     sections: [
       {
         name: "일반 콘텐츠",
-        card: "InterestCard",
-        description: "관심(WANT) 등록한 콘텐츠. 가로 레이아웃.",
+        card: "ContentCard",
+        description: "관심(WANT) 등록한 콘텐츠. 포스터 레이아웃 + saved 뱃지.",
       },
       {
         name: "자격증 섹션",
@@ -163,13 +163,7 @@ const CARD_COMPONENTS: CardComponentInfo[] = [
     imageRatio: "2:3 / 3:4 / 가로형(리뷰)",
     description: "통합 카드. 슬롯 기반 + 리뷰 모드로 모든 콘텐츠 카드 대체.",
   },
-  {
-    name: "InterestCard",
-    path: "components/features/user/contentLibrary/item/InterestCard.tsx",
-    imageRatio: "가로형",
-    description: "관심 목록 전용 가로 레이아웃.",
-  },
-  {
+{
     name: "CertificateCard",
     path: "components/ui/cards/CertificateCard.tsx",
     imageRatio: "그라데이션",
@@ -336,24 +330,22 @@ export default function ContentCardsPreview() {
 
             {/* 인덱스 + 통계 + 평균별점 (경전 스타일) */}
             <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5">
-              <h4 className="text-sm font-medium text-text-primary mb-3">인덱스 + 통계 + 평균별점 (경전 스타일)</h4>
+              <h4 className="text-sm font-medium text-text-primary mb-3">통계 + 평균별점 (경전 스타일)</h4>
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
                     title="사피엔스"
                     creator="유발 하라리"
                     contentType="BOOK"
-                    index={1}
                     celebCount={12}
                     userCount={340}
-                    avgRating={4.7}
+                    rating={4.7}
                     onStatsClick={(e) => { e.stopPropagation(); alert("통계 모달 열기"); }}
                   />
                 </div>
                 <div className="flex-1 text-xs text-text-tertiary space-y-1">
-                  <code className="text-purple-400 block">{`index={1}`}</code>
                   <code className="text-purple-400 block">{`celebCount={12} userCount={340}`}</code>
-                  <code className="text-purple-400 block">{`avgRating={4.7}`}</code>
+                  <code className="text-purple-400 block">{`rating={4.7}`}</code>
                   <code className="text-purple-400 block">{`onStatsClick={...}`}</code>
                 </div>
               </div>
@@ -436,24 +428,22 @@ export default function ContentCardsPreview() {
               </div>
             </div>
 
-            {/* 우하단 체크박스 (일괄 선택) */}
+            {/* 추천 가능 (감상 완료 스타일) */}
             <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5">
-              <h4 className="text-sm font-medium text-text-primary mb-3">우하단 체크박스 (일괄 선택)</h4>
+              <h4 className="text-sm font-medium text-text-primary mb-3">추천 가능 (감상 완료 스타일)</h4>
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
                     title="아이유 5집"
                     creator="아이유"
                     contentType="MUSIC"
-                    bottomRightCheckbox
-                    isBottomRightSelected={selectedCards.has(3)}
-                    onBottomRightSelect={(e) => { e.stopPropagation(); toggleSelect(3); }}
+                    recommendable
+                    userContentId="preview-demo"
                   />
                 </div>
                 <div className="flex-1 text-xs text-text-tertiary space-y-1">
-                  <code className="text-purple-400 block">{`bottomRightCheckbox`}</code>
-                  <code className="text-purple-400 block">{`isBottomRightSelected={...}`}</code>
-                  <code className="text-purple-400 block">{`onBottomRightSelect={...}`}</code>
+                  <code className="text-purple-400 block">{`recommendable`}</code>
+                  <code className="text-purple-400 block">{`userContentId="..."`}</code>
                 </div>
               </div>
             </div>
@@ -492,7 +482,6 @@ export default function ContentCardsPreview() {
                   </tr>
                 </thead>
                 <tbody className="text-text-tertiary">
-                  <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>index</code></td><td>number</td><td>좌상단</td><td>순위 뱃지</td></tr>
                   <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>selectable</code></td><td>boolean</td><td>좌상단</td><td>체크박스 모드</td></tr>
                   <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>saved</code></td><td>boolean</td><td>좌상단</td><td>보관됨 뱃지</td></tr>
                   <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>rating</code></td><td>number</td><td>우상단</td><td>별점 뱃지</td></tr>
@@ -643,7 +632,7 @@ export default function ContentCardsPreview() {
           <ul className="text-xs text-text-secondary space-y-1.5">
             <li>• <code className="text-red-400 line-through">ContentCompactCard</code> → <code className="text-purple-400">ContentCard</code> (saved, topRightNode 슬롯)</li>
             <li>• <code className="text-red-400 line-through">SelectableContentCard</code> → <code className="text-purple-400">ContentCard</code> (selectable 슬롯)</li>
-            <li>• <code className="text-red-400 line-through">RecordCard</code> → <code className="text-purple-400">ContentCard</code> (리뷰 모드: headerNode, actionNode)</li>
+            <li>• <code className="text-red-400 line-through">RecordCard</code> → <code className="text-purple-400">ContentCard</code> (리뷰 모드: headerNode, saved/addable)</li>
             <li>• <code className="text-red-400 line-through">ScriptureCard</code> → <code className="text-purple-400">ContentCard</code> (인라인 래퍼 패턴)</li>
             <li>• <code className="text-red-400 line-through">ReviewCard</code> → <code className="text-purple-400">ContentCard</code> (인라인 래퍼 패턴)</li>
           </ul>
