@@ -27,6 +27,7 @@ export interface Celeb {
   created_at: string
   content_count: number
   follower_count: number
+  influence_total: number
 }
 
 export interface CelebsResponse {
@@ -111,7 +112,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     .select(
       `
       *,
-      user_social (follower_count)
+      user_social (follower_count),
+      celeb_influence (total_score)
     `,
       { count: 'exact' }
     )
@@ -131,17 +133,19 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   // 정렬 적용
   const ascending = sortOrder === 'asc'
-  const validSortColumns = ['nickname', 'profession', 'created_at', 'status', 'nationality']
-  const relationSortColumns = ['follower_count', 'content_count']
+  const directSortColumns = ['nickname', 'profession', 'created_at', 'status', 'nationality']
+  const computedSortColumns = ['influence_total', 'content_count', 'follower_count']
+  const needsInMemorySort = computedSortColumns.includes(sort)
 
-  if (relationSortColumns.includes(sort)) {
-    query = query.order(sort, { referencedTable: 'user_social', ascending })
-  } else {
-    const sortColumn = validSortColumns.includes(sort) ? sort : 'created_at'
+  if (!needsInMemorySort) {
+    const sortColumn = directSortColumns.includes(sort) ? sort : 'created_at'
     query = query.order(sortColumn, { ascending })
   }
 
-  const { data, error, count } = await query.range(offset, offset + limit - 1)
+  // 계산 컬럼 정렬 시 전체 조회 후 인메모리 정렬, 아니면 DB 페이지네이션
+  const { data, error, count } = needsInMemorySort
+    ? await query.order('created_at', { ascending: false })
+    : await query.range(offset, offset + limit - 1)
 
   if (error) throw error
 
@@ -159,7 +163,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     {} as Record<string, number>
   )
 
-  const celebs: Celeb[] = (data || []).map((celeb) => ({
+  let celebs: Celeb[] = (data || []).map((celeb) => ({
     id: celeb.id,
     nickname: celeb.nickname,
     avatar_url: celeb.avatar_url,
@@ -179,7 +183,19 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     created_at: celeb.created_at,
     content_count: contentCountMap[celeb.id] || 0,
     follower_count: celeb.user_social?.follower_count || 0,
+    influence_total: celeb.celeb_influence?.total_score || 0,
   }))
+
+  // 계산 컬럼 인메모리 정렬 + 페이지네이션
+  if (needsInMemorySort) {
+    const key = sort as keyof Celeb
+    celebs.sort((a, b) => {
+      const av = (a[key] as number) || 0
+      const bv = (b[key] as number) || 0
+      return ascending ? av - bv : bv - av
+    })
+    celebs = celebs.slice(offset, offset + limit)
+  }
 
   return {
     celebs,
@@ -197,7 +213,8 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     .select(
       `
       *,
-      user_social (follower_count)
+      user_social (follower_count),
+      celeb_influence (total_score)
     `
     )
     .eq('id', celebId)
@@ -229,6 +246,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     status: data.status || 'active',
     claimed_by: data.claimed_by,
     created_at: data.created_at,
+    influence_total: data.celeb_influence?.total_score || 0,
     content_count: contentCount || 0,
     follower_count: data.user_social?.follower_count || 0,
   }
@@ -666,12 +684,20 @@ interface UpdateCelebContentInput {
   is_spoiler?: boolean
   visibility?: string
   source_url?: string | null
+  // contents 테이블 필드
+  content_id?: string
+  content_type?: string
+  content_title?: string
+  content_creator?: string | null
+  // 콘텐츠 교체 시 새 content_id
+  new_content_id?: string
 }
 
 export async function updateCelebContent(input: UpdateCelebContentInput): Promise<void> {
   // Admin 클라이언트 사용 (RLS 우회)
   const adminClient = createAdminClient()
 
+  // user_contents 테이블 업데이트
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
 
   if (input.status !== undefined) updateData.status = input.status
@@ -681,9 +707,29 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   if (input.visibility !== undefined) updateData.visibility = input.visibility
   if (input.source_url !== undefined) updateData.source_url = input.source_url
 
+  // 콘텐츠 교체 시 content_id 업데이트
+  if (input.new_content_id !== undefined) {
+    updateData.content_id = input.new_content_id
+  }
+
   const { error } = await adminClient.from('user_contents').update(updateData).eq('id', input.id)
 
   if (error) throw error
+
+  // contents 테이블 업데이트 (type, title, creator) - 교체가 아닌 경우에만
+  if (!input.new_content_id && input.content_id && (input.content_type !== undefined || input.content_title !== undefined || input.content_creator !== undefined)) {
+    const contentUpdateData: Record<string, unknown> = {}
+
+    if (input.content_type !== undefined) contentUpdateData.type = input.content_type
+    if (input.content_title !== undefined) contentUpdateData.title = input.content_title
+    if (input.content_creator !== undefined) contentUpdateData.creator = input.content_creator
+
+    if (Object.keys(contentUpdateData).length > 0) {
+      const { error: contentError } = await adminClient.from('contents').update(contentUpdateData).eq('id', input.content_id)
+
+      if (contentError) throw contentError
+    }
+  }
 
   revalidatePath(`/celebs/${input.celeb_id}/contents`)
 }

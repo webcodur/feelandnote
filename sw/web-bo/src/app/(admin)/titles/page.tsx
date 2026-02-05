@@ -64,7 +64,7 @@ export default async function TitlesPage() {
               return (
                 <div
                   key={title.id}
-                  className={`bg-bg-card border rounded-xl p-6 transition-all hover:border-accent/50 ${gradeConfig?.borderColor || 'border-border'} ${gradeConfig?.glowColor ? `hover:${gradeConfig.glowColor}` : ''}`}
+                  className={`bg-bg-card border rounded-xl p-6 transition-all hover:border-accent/50 ${gradeConfig?.borderColor || 'border-border'}`}
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
