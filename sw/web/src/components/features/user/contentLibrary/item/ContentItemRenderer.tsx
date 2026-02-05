@@ -7,7 +7,6 @@
 
 import { CertificateCard, ContentCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
-import { RecommendButton } from "@/components/features/recommendations";
 import { getCategoryByDbType } from "@/constants/categories";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
@@ -16,10 +15,13 @@ interface ContentItemRendererProps {
   items: UserContentWithContent[];
   compact?: boolean;
   onDelete: (userContentId: string) => void;
+  onAddContent?: (contentId: string) => void;
   // 읽기 전용 모드 (타인 기록관)
   readOnly?: boolean;
-  targetUserId?: string; // viewer 모드에서 타인 ID
-  ownerNickname?: string; // 기록 소유자 닉네임
+  targetUserId?: string;
+  ownerNickname?: string;
+  // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
+  savedContentIds?: Set<string> | null;
 }
 // #endregion
 
@@ -27,9 +29,11 @@ export default function ContentItemRenderer({
   items,
   compact = false,
   onDelete,
+  onAddContent,
   readOnly = false,
   targetUserId,
   ownerNickname,
+  savedContentIds,
 }: ContentItemRendererProps) {
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
@@ -44,16 +48,17 @@ export default function ContentItemRenderer({
   const certificates = items.filter((item) => item.content.type === "CERTIFICATE");
   const regularContents = items.filter((item) => item.content.type !== "CERTIFICATE");
 
+  // 뷰어 보유 여부
+  const isViewerSaved = (contentId: string) =>
+    savedContentIds !== null && savedContentIds !== undefined && savedContentIds.has(contentId);
+  const isViewerLoggedIn = savedContentIds !== null && savedContentIds !== undefined;
+
   return (
     <div className="space-y-4">
       {/* 일반 콘텐츠: 그리드 레이아웃 */}
       {regularContents.length > 0 && (
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
-          {regularContents.map((item) => {
-            // 본인 소유 + FINISHED 상태일 때만 추천 버튼 표시 (좌상단)
-            const showRecommend = !readOnly && item.status === "FINISHED";
-
-            return (
+          {regularContents.map((item) => (
               <ContentCard
                 key={item.id}
                 contentId={item.content_id}
@@ -70,18 +75,16 @@ export default function ContentItemRenderer({
                 showStatusBadge={false}
                 ownerNickname={ownerNickname}
                 userCount={item.content.user_count ?? 0}
-                topLeftNode={showRecommend ? (
-                  <RecommendButton
-                    userContentId={item.id}
-                    contentTitle={item.content.title}
-                    contentThumbnail={item.content.thumbnail_url}
-                    contentType={item.content.type}
-                    iconOnly
-                  />
-                ) : undefined}
+                // 본인 + FINISHED → 선물(추천) 모달
+                userContentId={item.id}
+                recommendable={!readOnly && item.status === "FINISHED"}
+                // 타인(로그인) + 보유 → 북마크(채움)
+                saved={readOnly && isViewerSaved(item.content_id)}
+                // 타인(로그인) + 미보유 → 북마크(빈)
+                addable={readOnly && isViewerLoggedIn && !isViewerSaved(item.content_id)}
+                onAdd={() => onAddContent?.(item.content_id)}
               />
-            );
-          })}
+          ))}
         </div>
       )}
 

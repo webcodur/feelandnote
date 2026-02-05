@@ -58,6 +58,8 @@ export interface CelebReview {
     creator: string | null
     thumbnail_url: string | null
     type: ContentType
+    celeb_count: number
+    user_count: number
   }
   celeb: {
     id: string

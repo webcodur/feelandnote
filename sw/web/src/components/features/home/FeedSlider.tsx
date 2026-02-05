@@ -2,13 +2,12 @@
 
 import { useRef, useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Check, User } from "lucide-react";
+import { ArrowLeft, ArrowRight, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
-import { getCategoryByDbType } from "@/constants/categories";
 import type { CelebReview as Review } from "@/types/home";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -21,8 +20,6 @@ function SliderFeedCard({ review }: { review: Review }) {
   const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
 
-  const category = getCategoryByDbType(review.content.type);
-  const contentTypeLabel = category?.shortLabel ?? review.content.type;
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
 
   useEffect(() => {
@@ -32,11 +29,8 @@ function SliderFeedCard({ review }: { review: Review }) {
     });
   }, [review.content.id]);
 
-  const handleAddToArchive = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleAddToArchive = () => {
     if (isAdded || isAdding) return;
-
     startTransition(async () => {
       const result = await addContent({
         id: review.content.id,
@@ -87,25 +81,6 @@ function SliderFeedCard({ review }: { review: Review }) {
     </div>
   );
 
-  const actionNode = (
-    <div>
-      {isAdded ? (
-        <div className="px-3 py-1.5 border border-accent/30 bg-black/80 backdrop-blur-md text-accent font-black text-[10px] tracking-tight flex items-center gap-1.5 rounded shadow-lg">
-          <Check size={12} />
-          <span>저장됨</span>
-        </div>
-      ) : (
-        <button
-          onClick={handleAddToArchive}
-          disabled={isChecking || isAdding}
-          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
-        >
-          {isChecking ? "..." : isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
-        </button>
-      )}
-    </div>
-  );
-
   return (
     <>
       <ContentCard
@@ -121,7 +96,9 @@ function SliderFeedCard({ review }: { review: Review }) {
         href={`/contents/${review.content.id}`}
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
-        actionNode={actionNode}
+        saved={isAdded}
+        addable={!isAdded && !isChecking}
+        onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
       />
 

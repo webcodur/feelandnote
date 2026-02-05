@@ -19,6 +19,13 @@ export interface ScripturesTab {
 
 export const SCRIPTURES_TABS: ScripturesTab[] = [
   {
+    value: "sage",
+    label: "오늘의 인물",
+    icon: User,
+    href: "/scriptures/sage",
+    description: "매일 새로운 인물 소개",
+  },
+  {
     value: "chosen",
     label: "공통 서가",
     icon: Scroll,
@@ -27,21 +34,14 @@ export const SCRIPTURES_TABS: ScripturesTab[] = [
   },
   {
     value: "profession",
-    label: "길의 갈래",
+    label: "갈랫길",
     icon: Route,
     href: "/scriptures/profession",
     description: "직업별 추천 콘텐츠",
   },
   {
-    value: "sage",
-    label: "오늘의 인물",
-    icon: User,
-    href: "/scriptures/sage",
-    description: "매일 새로운 인물 소개",
-  },
-  {
     value: "era",
-    label: "세대의 경전",
+    label: "시대의 경전",
     icon: Clock,
     href: "/scriptures/era",
     description: "시대별 명저 탐색",

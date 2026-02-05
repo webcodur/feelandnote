@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useMemo, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Inbox, Check, User } from "lucide-react";
+import { Inbox, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
@@ -23,7 +23,6 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
   const [showUserModal, setShowUserModal] = useState(false);
 
   const category = getCategoryByDbType(activity.content_type!);
-  const contentTypeLabel = category?.shortLabel ?? activity.content_type;
 
   useEffect(() => {
     checkContentSaved(activity.content_id!).then((result) => {
@@ -56,48 +55,29 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
   };
 
   const headerNode = (
-    <div className="flex items-center gap-4 py-1">
+    <div className="flex items-center gap-2 sm:gap-3">
       <button
         type="button"
         className="flex-shrink-0 cursor-pointer"
         onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
       >
-        <Avatar url={activity.user_avatar_url} name={activity.user_nickname} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+        <Avatar url={activity.user_avatar_url} name={activity.user_nickname} size="sm" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
       </button>
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-0.5">
+        <div className="flex items-center gap-1.5">
           <button
             type="button"
-            className="text-sm font-bold text-text-primary tracking-tight hover:text-accent cursor-pointer"
+            className="text-xs sm:text-sm font-bold text-text-primary tracking-tight hover:text-accent cursor-pointer truncate max-w-[80px] sm:max-w-none"
             onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
           >
             {activity.user_nickname}
           </button>
           <TitleBadge title={activity.user_title ?? null} size="sm" />
         </div>
-        <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+        <p className="text-[9px] sm:text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
           {config?.verb || "활동"} · {formatRelativeTime(activity.created_at)}
         </p>
       </div>
-    </div>
-  );
-
-  const actionNode = (
-    <div>
-      {isAdded ? (
-        <div className="px-3 py-1.5 border border-accent/30 bg-black/80 backdrop-blur-md text-accent font-black text-[10px] tracking-tight flex items-center gap-1.5 rounded shadow-lg">
-          <Check size={12} />
-          <span>저장됨</span>
-        </div>
-      ) : (
-        <button
-          onClick={handleAddToArchive}
-          disabled={isChecking || isAdding}
-          className="px-3 py-1.5 border border-accent/50 bg-black/60 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-black text-[10px] tracking-tight cursor-pointer disabled:cursor-wait rounded shadow-lg"
-        >
-          {isChecking ? "..." : isAdding ? "저장 중" : `${contentTypeLabel} 추가`}
-        </button>
-      )}
     </div>
   );
 
@@ -116,9 +96,11 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         href={`/content/${activity.content_id}?category=${category?.id || "book"}`}
         ownerNickname={activity.user_nickname}
         headerNode={headerNode}
-        actionNode={actionNode}
+        saved={isAdded}
+        addable={!isChecking && !isAdded && !isAdding}
+        onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
-        className="max-w-4xl mx-auto"
+        className="sm:max-w-4xl sm:mx-auto"
       />
 
       <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
@@ -150,21 +132,53 @@ function EmptyActivity() {
   );
 }
 
-function LoadingSkeleton() {
+function LoadingSkeletonCard() {
   return (
-    <div className="space-y-2">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="flex gap-3 p-3 rounded-xl bg-bg-card animate-pulse">
-          <div className="w-24 md:w-40 h-[180px] md:h-[280px] rounded-lg bg-white/10 shrink-0" />
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-white/10" />
-              <div className="w-24 h-3 bg-white/10 rounded" />
+    <>
+      {/* Desktop Skeleton */}
+      <div className="hidden sm:block bg-bg-card border border-border/50 rounded-xl overflow-hidden p-4 md:p-6 animate-pulse max-w-4xl mx-auto">
+        <div className="flex gap-6 md:h-[280px]">
+          <div className="w-[160px] lg:w-[180px] h-full bg-white/5 shrink-0 rounded" />
+          <div className="flex-1 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-white/10" />
+              <div className="w-32 h-4 bg-white/10 rounded" />
             </div>
-            <div className="w-32 h-4 bg-white/10 rounded" />
-            <div className="w-20 h-3 bg-white/10 rounded" />
+            <div className="space-y-2">
+              <div className="w-full h-3 bg-white/5 rounded" />
+              <div className="w-full h-3 bg-white/5 rounded" />
+              <div className="w-2/3 h-3 bg-white/5 rounded" />
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Skeleton - 포스터 카드 */}
+      <div className="sm:hidden bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden animate-pulse">
+        <div className="px-2.5 py-2 flex items-center gap-2 border-b border-white/5">
+          <div className="w-7 h-7 rounded-full bg-white/10 shrink-0" />
+          <div className="space-y-1">
+            <div className="w-14 h-2.5 bg-white/10 rounded" />
+            <div className="w-9 h-2 bg-white/5 rounded" />
+          </div>
+        </div>
+        <div>
+          <div className="aspect-[2/3] bg-white/5" />
+          <div className="px-2 py-1.5 space-y-1">
+            <div className="w-3/4 h-2.5 bg-white/10 rounded" />
+            <div className="w-1/2 h-2 bg-white/5 rounded" />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-4">
+      {[1, 2, 3].map((i) => (
+        <LoadingSkeletonCard key={i} />
       ))}
     </div>
   );
@@ -260,16 +274,18 @@ export default function FriendActivitySection({
       ) : filteredActivities.length === 0 ? (
         <EmptyActivity />
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-4">
           {filteredActivities.map((activity) => (
             <FriendFeedCard key={activity.id} activity={activity} />
           ))}
-          <LoadMoreButton
-            onClick={loadMore}
-            isLoading={isLoadingMore}
-            hasMore={hasMore}
-            className="mt-3"
-          />
+          <div className="col-span-full">
+            <LoadMoreButton
+              onClick={loadMore}
+              isLoading={isLoadingMore}
+              hasMore={hasMore}
+              className="mt-3"
+            />
+          </div>
         </div>
       )}
     </section>

@@ -2,9 +2,9 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { type ActionResult, failure } from '@/lib/errors'
+import { getTitleInfo } from '@/constants/titles'
 
 export interface SelectedTitle {
-  id: string
   name: string
   grade: string
 }
@@ -17,8 +17,8 @@ export interface PublicUserProfile {
   bio: string | null
   quotes: string | null
   profession: string | null
-  title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
-  consumption_philosophy: string | null  // 감상 철학 (3~4 문단)
+  title: string | null
+  consumption_philosophy: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -41,16 +41,11 @@ export interface PublicUserProfile {
 export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {
   const supabase = await createClient()
 
-  // 현재 로그인한 사용자 확인
   const { data: { user: currentUser } } = await supabase.auth.getUser()
 
-  // 대상 유저 프로필 조회 (칭호 조인 포함)
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select(`
-      id, nickname, avatar_url, portrait_url, bio, quotes, profession, title, consumption_philosophy, nationality, birth_date, death_date, profile_type, is_verified, created_at,
-      selected_title:titles!profiles_selected_title_id_fkey (id, name, grade)
-    `)
+    .select('id, nickname, avatar_url, portrait_url, bio, quotes, profession, title, consumption_philosophy, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
     .eq('id', userId)
     .single()
 
@@ -58,19 +53,16 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
     return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   }
 
-  // 콘텐츠 수 조회 (공개 기록이 있는 콘텐츠)
   const { count: contentCount } = await supabase
     .from('user_contents')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
 
-  // 팔로워/팔로잉 수 조회
   const [followerResult, followingResult] = await Promise.all([
     supabase.from('follows').select('follower_id', { count: 'exact' }).eq('following_id', userId),
     supabase.from('follows').select('following_id', { count: 'exact' }).eq('follower_id', userId),
   ])
 
-  // 친구 수 직접 계산 (맞팔)
   let friendCount = 0
   if (followingResult.data && followingResult.data.length > 0) {
     const targetFollowingIds = followingResult.data.map(f => f.following_id)
@@ -82,19 +74,16 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
     friendCount = count || 0
   }
 
-  // 방명록 수 조회
   const { count: guestbookCount } = await supabase
     .from('guestbook_entries')
     .select('*', { count: 'exact', head: true })
     .eq('profile_id', userId)
 
-  // 팔로우 상태 확인 (로그인한 경우만)
   let isFollowing = false
   let isFollower = false
   let isBlocked = false
 
   if (currentUser && currentUser.id !== userId) {
-    // 내가 이 유저를 팔로우하는지
     const { data: followingData } = await supabase
       .from('follows')
       .select('id')
@@ -103,7 +92,6 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       .single()
     isFollowing = !!followingData
 
-    // 이 유저가 나를 팔로우하는지
     const { data: followerData } = await supabase
       .from('follows')
       .select('id')
@@ -112,7 +100,6 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       .single()
     isFollower = !!followerData
 
-    // 차단 상태 확인
     const { data: blockData } = await supabase
       .from('blocks')
       .select('id')
@@ -122,10 +109,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
     isBlocked = !!blockData
   }
 
-  // 칭호 정보 추출 (Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체)
-  const selectedTitle = profile.selected_title
-    ? (Array.isArray(profile.selected_title) ? profile.selected_title[0] : profile.selected_title) as SelectedTitle
-    : null
+  const selectedTitle = getTitleInfo(profile.selected_title)
 
   return {
     success: true,

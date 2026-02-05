@@ -1,4 +1,4 @@
-export { getAchievementData } from './getAchievementData'
-export type { Title, ScoreLog, UserScore, AchievementData } from './getAchievementData'
-export { checkAchievements, addActivityScore } from './checkAchievements'
+export { getAchievementData, getUserStats } from './getAchievementData'
+export type { TitleWithStatus, ScoreLog, UserScore, AchievementData } from './getAchievementData'
+export { addActivityScore } from './checkAchievements'
 export { selectTitle, getSelectedTitle } from './selectTitle'

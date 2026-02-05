@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
-import { addActivityScore, checkAchievements, type Title } from '@/actions/achievements'
+import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
@@ -26,7 +26,6 @@ interface AddContentParams {
 interface AddContentData {
   contentId: string
   userContentId: string
-  unlockedTitles: Title[]
 }
 
 export async function addContent(params: AddContentParams): Promise<ActionResult<AddContentData>> {
@@ -107,13 +106,11 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     contentId: params.id
   })
 
-  // 업적 시스템: 점수 추가 및 칭호 체크
+  // 점수 추가
   await addActivityScore(`콘텐츠 추가 (${params.title})`, 1, userContent.id)
-  const achievementResult = await checkAchievements()
 
   return success({
     contentId: params.id,
     userContentId: userContent.id,
-    unlockedTitles: achievementResult.unlocked
   })
 }

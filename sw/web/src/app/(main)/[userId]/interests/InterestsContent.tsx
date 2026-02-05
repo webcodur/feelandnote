@@ -2,11 +2,15 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import { getWantContentCounts } from "@/actions/contents/getContentCounts";
+import { getUserContents } from "@/actions/contents/getUserContents";
+import { getWantContentCounts, getUserWantContentCounts } from "@/actions/contents/getContentCounts";
+import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { removeContent } from "@/actions/contents/removeContent";
+import { addContent } from "@/actions/contents/addContent";
 import { CATEGORY_ID_TO_TYPE, getCategoryByDbType, type CategoryId } from "@/constants/categories";
+import type { ContentType, ContentStatus } from "@/types/database";
 import type { ContentTypeCounts } from "@/types/content";
-import InterestCard from "@/components/features/user/contentLibrary/item/InterestCard";
+import { ContentCard } from "@/components/ui/cards";
 import InterestsControlBar, { type InterestSortOption } from "./InterestsControlBar";
 import InterestsEditPanel from "./InterestsEditPanel";
 import { ChevronLeft, ChevronRight, Inbox } from "lucide-react";
@@ -35,6 +39,9 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
   });
 
+  // 뷰어 모드: 보유 콘텐츠 체크 (null = 비로그인)
+  const [savedContentIds, setSavedContentIds] = useState<Set<string> | null>(null);
+
   // 선택된 콘텐츠 상태
   const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
 
@@ -43,30 +50,75 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     setIsLoading(true);
     setError(null);
     try {
-      const result = await getMyContents({
-        type: CATEGORY_ID_TO_TYPE[activeTab],
-        status: "WANT",
-        page: currentPage,
-        limit: 20,
-      });
-      setContents(result.items);
-      setTotalPages(result.totalPages);
-      setTotal(result.total);
+      if (isOwner) {
+        const result = await getMyContents({
+          type: CATEGORY_ID_TO_TYPE[activeTab],
+          status: "WANT",
+          page: currentPage,
+          limit: 20,
+        });
+        setContents(result.items);
+        setTotalPages(result.totalPages);
+        setTotal(result.total);
+      } else {
+        // 뷰어 모드: 타인의 공개 WANT 콘텐츠 조회
+        const result = await getUserContents({
+          userId,
+          type: CATEGORY_ID_TO_TYPE[activeTab],
+          status: "WANT",
+          page: currentPage,
+          limit: 20,
+        });
+        const mapped: UserContentWithContent[] = result.items.map((item) => ({
+          id: item.id,
+          content_id: item.content_id,
+          user_id: userId,
+          status: item.status as ContentStatus,
+          visibility: item.visibility ?? "public",
+          created_at: item.created_at,
+          updated_at: item.created_at,
+          completed_at: null,
+          rating: null,
+          review: null,
+          is_recommended: false,
+          is_spoiler: false,
+          is_pinned: false,
+          pinned_at: null,
+          source_url: item.source_url,
+          content: {
+            id: item.content.id,
+            type: item.content.type as ContentType,
+            title: item.content.title,
+            creator: item.content.creator,
+            thumbnail_url: item.content.thumbnail_url,
+            description: null,
+            publisher: null,
+            release_date: null,
+            metadata: item.content.metadata,
+            user_count: item.content.user_count ?? null,
+          },
+        }));
+        setContents(mapped);
+        setTotalPages(result.totalPages);
+        setTotal(result.total);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "콘텐츠를 불러오는데 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, currentPage]);
+  }, [activeTab, currentPage, isOwner, userId]);
 
   const loadTypeCounts = useCallback(async () => {
     try {
-      const counts = await getWantContentCounts();
+      const counts = isOwner
+        ? await getWantContentCounts()
+        : await getUserWantContentCounts(userId);
       setTypeCounts(counts);
     } catch (err) {
       console.error("타입별 개수 로드 실패:", err);
     }
-  }, []);
+  }, [isOwner, userId]);
 
   useEffect(() => {
     loadContents();
@@ -76,6 +128,15 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
   useEffect(() => {
     setCurrentPage(1);
   }, [activeTab]);
+
+  // 뷰어 모드: 콘텐츠 로드 후 보유 여부 배치 체크
+  useEffect(() => {
+    if (isOwner || contents.length === 0) {
+      setSavedContentIds(null);
+      return;
+    }
+    checkContentsSaved(contents.map(c => c.content_id)).then(setSavedContentIds);
+  }, [isOwner, contents]);
 
   // 정렬된 콘텐츠
   const sortedContents = useMemo(() => {
@@ -123,6 +184,25 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
       alert("삭제에 실패했습니다.");
     }
   }, [loadContents, loadTypeCounts, selectedContentId]);
+
+  // 콘텐츠 추가 핸들러 (뷰어 모드: addable 클릭)
+  const handleAddContent = useCallback(async (item: UserContentWithContent) => {
+    const result = await addContent({
+      id: item.content_id,
+      type: item.content.type,
+      title: item.content.title,
+      creator: item.content.creator ?? undefined,
+      thumbnailUrl: item.content.thumbnail_url ?? undefined,
+      status: "WANT",
+    });
+    if (result.success) {
+      setSavedContentIds(prev => {
+        const next = new Set(prev ?? []);
+        next.add(item.content_id);
+        return next;
+      });
+    }
+  }, []);
 
   // 렌더링
   const renderContent = () => {
@@ -175,18 +255,28 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
 
         <div className="space-y-4">
           {regularContents.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
               {regularContents.map((item) => (
-                <InterestCard
+                <ContentCard
                   key={item.id}
+                  contentId={item.content_id}
                   contentType={item.content.type}
                   title={item.content.title}
                   creator={item.content.creator}
                   thumbnail={item.content.thumbnail_url}
                   href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
+                  userCount={item.content.user_count ?? 0}
+                  // 본인: 선택 + 삭제
+                  selectable={isOwner}
                   isSelected={isOwner && selectedContentId === item.id}
                   onSelect={isOwner ? () => handleSelect(item.id) : undefined}
+                  deletable={isOwner}
                   onDelete={isOwner ? () => handleDelete(item.id, item.content.title) : undefined}
+                  // 타인(로그인) + 보유 → 북마크(채움)
+                  saved={!isOwner && savedContentIds !== null && savedContentIds.has(item.content_id)}
+                  // 타인(로그인) + 미보유 → 북마크(빈)
+                  addable={!isOwner && savedContentIds !== null && !savedContentIds.has(item.content_id)}
+                  onAdd={() => handleAddContent(item)}
                 />
               ))}
             </div>

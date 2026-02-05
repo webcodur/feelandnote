@@ -14,7 +14,6 @@ import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/types/database";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import { STATUS_OPTIONS } from "@/constants/statuses";
-import { useAchievement } from "@/components/features/profile/achievements";
 import { useSound } from "@/contexts/SoundContext";
 
 interface AddContentModalProps {
@@ -31,7 +30,6 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   const [status, setStatus] = useState<ContentStatus>("WANT");
   const [error, setError] = useState<string | null>(null);
   const [isAdding, startAddTransition] = useTransition();
-  const { showUnlock } = useAchievement();
   const { playSound } = useSound();
 
   const handleGoToSearch = () => {
@@ -71,10 +69,6 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         playSound("success");
         onSuccess?.();
         handleClose();
-
-        if (response.data.unlockedTitles?.length > 0) {
-          showUnlock(response.data.unlockedTitles);
-        }
       } catch (err) {
         playSound("error");
         setError(err instanceof Error ? err.message : "콘텐츠 추가 중 오류가 발생했습니다.");

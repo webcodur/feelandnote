@@ -51,13 +51,14 @@ export async function checkContentSaved(contentId: string): Promise<{
 }
 
 // 여러 콘텐츠의 저장 상태를 한 번에 확인 (배치 조회)
-export async function checkContentsSaved(contentIds: string[]): Promise<Set<string>> {
+// 비로그인 시 null 반환 (빈 Set과 구분)
+export async function checkContentsSaved(contentIds: string[]): Promise<Set<string> | null> {
   if (contentIds.length === 0) return new Set()
 
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return new Set()
+  if (!user) return null
 
   const { data, error } = await supabase
     .from('user_contents')

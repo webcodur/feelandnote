@@ -25,6 +25,7 @@ import BasicProfilePromptModal from './BasicProfilePromptModal'
 import InfluencePromptModal from './InfluencePromptModal'
 import PhilosophyPromptModal from './PhilosophyPromptModal'
 import CelebTagSelector from './CelebTagSelector'
+import FormattedText from '@/components/ui/FormattedText'
 
 // #region Types
 interface CelebFormData {
@@ -146,6 +147,9 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [cropTargetType, setCropTargetType] = useState<ImageType>('avatar')
 
+  // 감상 철학 textarea ref (자동 높이 조절용)
+  const philosophyTextareaRef = useRef<HTMLTextAreaElement>(null)
+
   // DND 상태
   const [avatarDragging, setAvatarDragging] = useState(false)
   const [portraitDragging, setPortraitDragging] = useState(false)
@@ -164,6 +168,12 @@ export default function CelebForm({ mode, celeb }: Props) {
 
   // 활성 섹션 상태 (Ctrl+V 대상)
   const [activeSection, setActiveSection] = useState<'basicInfo' | 'influence' | 'philosophy' | null>(null)
+
+  // 파일명 → 인물명 자동 입력 토글 (localStorage 연동)
+  const [autoNameFromFile, setAutoNameFromFile] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return localStorage.getItem('celeb-auto-name') !== 'false'
+  })
 
   // 이탈 방지용 초기값 저장
   const initialFormData = useRef(getInitialFormData(celeb))
@@ -206,6 +216,25 @@ export default function CelebForm({ mode, celeb }: Props) {
       })
     }
   }, [mode, celeb])
+
+  // 감상 철학 textarea 자동 높이 조절
+  const adjustPhilosophyHeight = useCallback(() => {
+    const textarea = philosophyTextareaRef.current
+    if (textarea) {
+      textarea.style.height = 'auto'
+      textarea.style.height = `${textarea.scrollHeight}px`
+    }
+  }, [])
+
+  useEffect(() => {
+    adjustPhilosophyHeight()
+  }, [formData.consumption_philosophy, adjustPhilosophyHeight])
+
+  // 화면 리사이즈 시 높이 재조정
+  useEffect(() => {
+    window.addEventListener('resize', adjustPhilosophyHeight)
+    return () => window.removeEventListener('resize', adjustPhilosophyHeight)
+  }, [adjustPhilosophyHeight])
 
   // Ctrl+V 이벤트 - 활성 섹션에 클립보드 데이터 입력 (입력 필드 밖에서만 작동)
   useEffect(() => {
@@ -386,6 +415,21 @@ export default function CelebForm({ mode, celeb }: Props) {
   }
   // #endregion
 
+  function toggleAutoName() {
+    setAutoNameFromFile(prev => {
+      const next = !prev
+      localStorage.setItem('celeb-auto-name', String(next))
+      return next
+    })
+  }
+
+  // 파일명에서 인물명 추출 → nickname 자동 입력
+  function applyFileNameAsNickname(file: File) {
+    if (!autoNameFromFile || formData.nickname.trim()) return
+    const name = file.name.replace(/\.[^.]+$/, '').trim()
+    if (name) setFormData(prev => ({ ...prev, nickname: name }))
+  }
+
   function handleChange(field: keyof CelebFormData, value: string | boolean | null) {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
@@ -399,7 +443,8 @@ export default function CelebForm({ mode, celeb }: Props) {
       return
     }
 
-    // 크롭 모달 열기
+    applyFileNameAsNickname(file)
+
     const preview = await createPreviewUrl(file)
     setCropImageSrc(preview)
     setCropTargetType(type)
@@ -470,7 +515,8 @@ export default function CelebForm({ mode, celeb }: Props) {
       return
     }
 
-    // 크롭 모달 열기
+    applyFileNameAsNickname(file)
+
     const preview = await createPreviewUrl(file)
     setCropImageSrc(preview)
     setCropTargetType(type)
@@ -660,7 +706,7 @@ export default function CelebForm({ mode, celeb }: Props) {
       </div>
     )}
 
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form id="celeb-form" onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm">{error}</div>}
 
       {/* AI 생성 섹션 (접기 가능) */}
@@ -806,6 +852,10 @@ export default function CelebForm({ mode, celeb }: Props) {
 
           {/* 우측: 프로필 이미지 */}
           <div className="space-y-3">
+            <label className="flex items-center gap-1.5 cursor-pointer" onClick={e => e.stopPropagation()}>
+              <input type="checkbox" checked={autoNameFromFile} onChange={toggleAutoName} className="w-3.5 h-3.5 rounded border-border bg-bg-secondary text-accent focus:ring-accent" />
+              <span className="text-xs text-text-secondary">파일명 → 인물명</span>
+            </label>
             {/* 썸네일 (3:4) */}
             <div className="space-y-1.5">
               <p className="text-xs font-medium text-text-secondary">썸네일 <span className="text-xs font-normal">(300×400)</span></p>
@@ -962,7 +1012,7 @@ export default function CelebForm({ mode, celeb }: Props) {
       </div>
 
       {/* Consumption Philosophy */}
-      <div className={`bg-bg-card border-2 rounded-lg overflow-hidden transition-all ${activeSection === 'philosophy' ? 'border-accent shadow-lg shadow-accent/20' : 'border-border'}`}>
+      <div className={`bg-bg-card border-2 rounded-lg transition-all ${activeSection === 'philosophy' ? 'border-accent shadow-lg shadow-accent/20' : 'border-border'}`}>
         <div
           onClick={() => setActiveSection(activeSection === 'philosophy' ? null : 'philosophy')}
           className={`p-4 cursor-pointer transition-colors ${activeSection === 'philosophy' ? 'bg-accent/5' : 'hover:bg-white/5'}`}
@@ -983,17 +1033,32 @@ export default function CelebForm({ mode, celeb }: Props) {
             </Button>
           </div>
         </div>
-        <div className="px-4 pb-4 space-y-2">
-        <div className="space-y-2">
-          <p className="text-xs text-text-secondary">셀럽의 콘텐츠 감상 철학이나 취향을 3~4문단으로 작성해주세요.</p>
-          <textarea
-            value={formData.consumption_philosophy}
-            onChange={(e) => handleChange('consumption_philosophy', e.target.value)}
-            placeholder="예: 콘텐츠를 선택할 때 가장 중요하게 생각하는 기준은..."
-            rows={8}
-            className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
-          />
-        </div>
+        <div className="px-4 pb-4 space-y-3">
+          <div className="space-y-2">
+            <p className="text-xs text-text-secondary">셀럽의 콘텐츠 감상 철학이나 취향을 3~4문단으로 작성해주세요.</p>
+            <textarea
+              ref={philosophyTextareaRef}
+              value={formData.consumption_philosophy}
+              onChange={(e) => handleChange('consumption_philosophy', e.target.value)}
+              placeholder="예: 콘텐츠를 선택할 때 가장 중요하게 생각하는 기준은..."
+              rows={4}
+              className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden"
+            />
+          </div>
+
+          {/* 미리보기 */}
+          {formData.consumption_philosophy && (
+            <div className="space-y-2">
+              <p className="text-xs text-text-secondary font-medium">미리보기</p>
+              <div className="p-4 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-3">
+                {formData.consumption_philosophy.split('\n\n').map((paragraph, idx) => (
+                  <p key={idx}>
+                    <FormattedText text={paragraph} />
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1009,23 +1074,25 @@ export default function CelebForm({ mode, celeb }: Props) {
         />
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center justify-between">
-        {mode === 'edit' ? (
-          <Button type="button" variant="danger" onClick={handleDelete} disabled={deleteLoading}>
-            {deleteLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}계정 삭제
-          </Button>
-        ) : <div />}
-
-        <div className="flex items-center gap-3">
-          {mode === 'create' && <Button type="button" variant="secondary" onClick={() => router.push('/members?tab=celeb')}>취소</Button>}
-          <Button type="submit" disabled={loading}>
-            {loading ? <><Loader2 className="w-4 h-4 animate-spin" />{mode === 'create' ? '생성 중...' : '저장 중...'}</> : mode === 'create' ? '생성' : '저장'}
-          </Button>
-        </div>
-      </div>
+      {/* 플로팅 버튼 영역 확보를 위한 여백 */}
+      <div className="h-20" />
 
     </form>
+
+    {/* Floating Actions */}
+    <div className="fixed bottom-6 right-6 flex items-center gap-3 z-50">
+      {mode === 'edit' && (
+        <Button type="button" variant="danger" onClick={handleDelete} disabled={deleteLoading}>
+          {deleteLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}삭제
+        </Button>
+      )}
+      {mode === 'create' && (
+        <Button type="button" variant="secondary" onClick={() => router.push('/members?tab=celeb')}>취소</Button>
+      )}
+      <Button type="submit" form="celeb-form" disabled={loading}>
+        {loading ? <><Loader2 className="w-4 h-4 animate-spin" />{mode === 'create' ? '생성 중...' : '저장 중...'}</> : mode === 'create' ? '생성' : '저장'}
+      </Button>
+    </div>
 
     {/* 이미지 크롭 모달 */}
     {cropModalOpen && cropImageSrc && (

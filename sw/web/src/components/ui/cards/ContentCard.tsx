@@ -1,14 +1,21 @@
 /*
   파일명: /components/ui/cards/ContentCard.tsx
   기능: 통합 콘텐츠 카드
-  책임: 모든 콘텐츠 카드 기능을 슬롯 기반으로 조합 가능하게 제공
+  책임: 단일 슬롯 시스템으로 모든 콘텐츠 카드 렌더링 담당
+
+  슬롯 레이아웃:
+    좌상단 - [카테고리 레이블] (항상 표시)
+    좌하단 - [인물 구성 숫자 뱃지]
+    우상단 - [삭제] OR [선물(추천)] OR [북마크(보유)] OR [북마크(추가)]
+    우하단 - [별점]
+    중앙   - [선택 체크 오버레이] (선택 모드 시)
 */ // ------------------------------
 "use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award, Star, Users, Check, Plus, Gift, ExternalLink, Crown, User, Loader2 } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award, Star, Users, Check, Bookmark, Gift, ExternalLink, Crown, User, Loader2, Trash2 } from "lucide-react";
 import { BLUR_DATA_URL } from "@/constants/image";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -17,7 +24,41 @@ import useDragScroll from "@/hooks/useDragScroll";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
 import { getCelebsForContent } from "@/actions/scriptures";
+import { getCelebCountsForContents } from "@/actions/contents/getCelebCounts";
 import type { ContentType, ContentStatus } from "@/types/database";
+import { RecommendationModal } from "@/components/features/recommendations";
+
+// #region 셀럽 카운트 배치 조회
+let celebCountQueue: string[] = [];
+let celebCountResolvers = new Map<string, (count: number) => void>();
+let celebCountTimer: ReturnType<typeof setTimeout> | null = null;
+
+function requestCelebCount(contentId: string): Promise<number> {
+  return new Promise(resolve => {
+    celebCountQueue.push(contentId);
+    celebCountResolvers.set(contentId, resolve);
+
+    if (!celebCountTimer) {
+      celebCountTimer = setTimeout(async () => {
+        const ids = [...new Set(celebCountQueue)];
+        const resolvers = new Map(celebCountResolvers);
+        celebCountQueue = [];
+        celebCountResolvers = new Map();
+        celebCountTimer = null;
+
+        try {
+          const counts = await getCelebCountsForContents(ids);
+          for (const [id, resolver] of resolvers) {
+            resolver(counts[id] ?? 0);
+          }
+        } catch {
+          for (const resolver of resolvers.values()) resolver(0);
+        }
+      }, 100);
+    }
+  });
+}
+// #endregion
 
 // #region 타입
 export interface ContentCardProps {
@@ -34,21 +75,21 @@ export interface ContentCardProps {
   // 레이아웃
   aspectRatio?: "2/3" | "3/4";
 
-  // 좌상단 슬롯 (우선순위: topLeftNode > index > selectable > recommendable > saved > addable)
-  topLeftNode?: React.ReactNode;
-  index?: number;
+  // 좌상단: 카테고리 레이블 (자동)
+  // 선택 모드: 포스터 중앙 오버레이
   selectable?: boolean;
   isSelected?: boolean;
   onSelect?: () => void;
+
+  // 우상단 슬롯 (우선순위: topRightNode > deletable > recommendable > saved > addable)
+  topRightNode?: React.ReactNode;
+  deletable?: boolean;
+  onDelete?: (e: React.MouseEvent) => void;
   recommendable?: boolean;
-  onRecommend?: (e: React.MouseEvent) => void;
+  userContentId?: string;
   saved?: boolean;
   addable?: boolean;
   onAdd?: (e: React.MouseEvent) => void;
-
-  // 우상단 슬롯
-  rating?: number | null;
-  topRightNode?: React.ReactNode;
 
   // 좌하단 슬롯
   celebCount?: number;
@@ -56,10 +97,7 @@ export interface ContentCardProps {
   onStatsClick?: (e: React.MouseEvent) => void;
 
   // 우하단 슬롯
-  avgRating?: number | null;
-  bottomRightCheckbox?: boolean;
-  isBottomRightSelected?: boolean;
-  onBottomRightSelect?: (e: React.MouseEvent) => void;
+  rating?: number | null;
 
   // 하단 정보
   showInfo?: boolean;
@@ -74,7 +112,6 @@ export interface ContentCardProps {
   showStatusBadge?: boolean;
   ownerNickname?: string;
   headerNode?: React.ReactNode;
-  actionNode?: React.ReactNode;
 
   // 스타일
   className?: string;
@@ -100,62 +137,72 @@ const ASPECT_STYLES = {
   "2/3": "aspect-[2/3]",
   "3/4": "aspect-[3/4]",
 };
+
+const TYPE_INFO: { type: ContentType; icon: typeof Book; label: string; desc: string }[] = [
+  { type: "BOOK", icon: Book, label: "도서", desc: "책, 만화, 웹소설, 에세이 등" },
+  { type: "VIDEO", icon: Film, label: "영상", desc: "영화, 드라마, 다큐멘터리, 애니메이션 등" },
+  { type: "GAME", icon: Gamepad2, label: "게임", desc: "비디오 게임, 보드게임, 인디 게임 등" },
+  { type: "MUSIC", icon: Music, label: "음악", desc: "앨범, 싱글, 클래식, 팟캐스트 등" },
+  { type: "CERTIFICATE", icon: Award, label: "자격증", desc: "공부 중인 자격증이 있다면 등록하여 관리해 보세요" },
+];
 // #endregion
 
 // #region 서브 컴포넌트
-function IndexBadge({ index }: { index: number }) {
-  return (
-    <div
-      className="absolute top-1.5 left-1.5 w-7 h-7 flex items-center justify-center bg-black/80 backdrop-blur-sm text-white text-xs font-bold rounded border border-white/30 shadow-lg group-hover:border-accent group-hover:text-accent"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      {index}
-    </div>
-  );
-}
-
-function SelectCheckbox({ isSelected, position }: { isSelected: boolean; position: "top-left" | "bottom-right" }) {
-  const positionClass = position === "top-left" ? "top-2 left-2" : "bottom-2 right-2";
-
-  return (
-    <div
-      className={`absolute ${positionClass} w-6 h-6 rounded-md flex items-center justify-center ${
-        isSelected
-          ? "bg-accent"
-          : "border-2 border-white/60 bg-black/30 group-hover:border-white"
-      }`}
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      {isSelected && <Check size={14} className="text-white" strokeWidth={3} />}
-    </div>
-  );
-}
-
-function SavedBadge() {
-  return (
-    <div
-      className="absolute top-1.5 left-1.5 w-7 h-7 flex items-center justify-center bg-accent rounded-md shadow-lg"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Check size={14} className="text-white" strokeWidth={3} />
-    </div>
-  );
-}
-
-function AddButton({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
+function TypeLabel({ type, onOpen }: { type: ContentType; onOpen: () => void }) {
+  const Icon = TYPE_ICONS[type];
   return (
     <button
       type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClick?.(e);
-      }}
-      className="absolute top-1.5 left-1.5 w-7 h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-white/30 shadow-lg hover:bg-accent hover:border-accent group/add"
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOpen(); }}
+      className="absolute top-1.5 left-1.5 w-7 h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-accent/40 shadow-lg hover:bg-accent hover:border-accent group/type"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
-      <Plus size={14} className="text-white group-hover/add:text-white" strokeWidth={2.5} />
+      <Icon size={14} className="text-accent group-hover/type:text-white" strokeWidth={2} />
     </button>
+  );
+}
+
+function TypeInfoModal({ isOpen, onClose, currentType }: { isOpen: boolean; onClose: () => void; currentType: ContentType }) {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="콘텐츠 분류" size="sm">
+      <ModalBody>
+        <div className="space-y-1">
+          {TYPE_INFO.map(({ type, icon: Icon, label, desc }) => (
+            <div
+              key={type}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg ${type === currentType ? "bg-accent/10 border border-accent/30" : ""}`}
+            >
+              <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 ${type === currentType ? "bg-accent/20" : "bg-white/5"}`}>
+                <Icon size={16} className={type === currentType ? "text-accent" : "text-text-tertiary"} strokeWidth={2} />
+              </div>
+              <div className="min-w-0">
+                <p className={`text-sm font-semibold ${type === currentType ? "text-accent" : "text-text-primary"}`}>{label}</p>
+                <p className="text-xs text-text-tertiary">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ModalBody>
+    </Modal>
+  );
+}
+
+function SelectOverlay({ isSelected }: { isSelected: boolean }) {
+  return (
+    <div
+      className={`absolute inset-0 flex items-center justify-center ${
+        isSelected ? "bg-black/40" : "bg-transparent group-hover:bg-black/20"
+      }`}
+      style={{ zIndex: Z_INDEX.cardBadge }}
+    >
+      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+        isSelected
+          ? "bg-accent shadow-[0_0_15px_rgba(212,175,55,0.5)]"
+          : "border-2 border-white/60 bg-black/40 group-hover:border-white"
+      }`}>
+        {isSelected && <Check size={20} className="text-white" strokeWidth={3} />}
+      </div>
+    </div>
   );
 }
 
@@ -168,23 +215,11 @@ function RecommendButton({ onClick }: { onClick?: (e: React.MouseEvent) => void 
         e.stopPropagation();
         onClick?.(e);
       }}
-      className="absolute top-1.5 left-1.5 w-7 h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-accent/50 shadow-lg hover:bg-accent hover:border-accent group/rec"
+      className="absolute top-1.5 right-1.5 w-7 h-7 flex items-center justify-center backdrop-blur-sm rounded-md shadow-lg bg-black/70 border border-accent/50 hover:bg-accent hover:border-accent group/rec"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
       <Gift size={14} className="text-accent group-hover/rec:text-white" strokeWidth={2} />
     </button>
-  );
-}
-
-function RatingBadge({ rating }: { rating: number }) {
-  return (
-    <div
-      className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-bg-main/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-text-secondary"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Star size={10} className="text-yellow-500 fill-yellow-500" />
-      {rating.toFixed(1)}
-    </div>
   );
 }
 
@@ -197,7 +232,6 @@ function StatsBadge({
   userCount?: number;
   onClick?: (e: React.MouseEvent) => void;
 }) {
-  // celebCount 또는 userCount 중 하나라도 있어야 표시
   const hasCeleb = celebCount !== undefined && celebCount > 0;
   const hasUser = userCount !== undefined && userCount > 0;
   if (!hasCeleb && !hasUser) return null;
@@ -239,14 +273,14 @@ function StatsBadge({
   );
 }
 
-function AvgRatingBadge({ avgRating }: { avgRating: number }) {
+function RatingBadge({ rating }: { rating: number }) {
   return (
     <div
       className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-full"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
       <Star size={12} className="text-yellow-500 fill-yellow-500" />
-      <span className="text-xs text-text-primary font-medium">{avgRating.toFixed(1)}</span>
+      <span className="text-xs text-text-primary font-medium">{rating.toFixed(1)}</span>
     </div>
   );
 }
@@ -261,29 +295,25 @@ export default function ContentCard({
   href,
   onClick,
   aspectRatio = "2/3",
-  // 좌상단
-  topLeftNode,
-  index,
+  // 선택 모드
   selectable,
   isSelected = false,
   onSelect,
+  // 우상단
+  topRightNode,
+  deletable,
+  onDelete,
   recommendable,
-  onRecommend,
+  userContentId,
   saved,
   addable,
   onAdd,
-  // 우상단
-  rating,
-  topRightNode,
   // 좌하단
   celebCount,
   userCount,
   onStatsClick,
   // 우하단
-  avgRating,
-  bottomRightCheckbox,
-  isBottomRightSelected = false,
-  onBottomRightSelect,
+  rating,
   // 하단 정보
   showInfo = true,
   showGradient = true,
@@ -296,7 +326,6 @@ export default function ContentCard({
   showStatusBadge = true,
   ownerNickname,
   headerNode,
-  actionNode,
   // 스타일
   className,
   heightClass = "h-[280px]",
@@ -307,6 +336,15 @@ export default function ContentCard({
   const [showModal, setShowModal] = useState(false);
   const [isBadgeHovered, setIsBadgeHovered] = useState(false);
   const [showStatsModal, setShowStatsModal] = useState(false);
+  const [isRecommendModalOpen, setIsRecommendModalOpen] = useState(false);
+  const [isTypeInfoOpen, setIsTypeInfoOpen] = useState(false);
+  const [fetchedCelebCount, setFetchedCelebCount] = useState<number | undefined>(undefined);
+
+  // 셀럽 카운트 자동 배치 조회
+  useEffect(() => {
+    if (!contentId) return;
+    requestCelebCount(contentId).then(setFetchedCelebCount);
+  }, [contentId]);
 
   // 리뷰 드래그 스크롤
   const {
@@ -357,35 +395,22 @@ export default function ContentCard({
     }
     if (onClick) {
       onClick();
-      // href가 없을 때만 preventDefault (href가 있으면 네비게이션 허용)
       if (!href) {
         e.preventDefault();
       }
     }
   };
 
-  // 좌상단 슬롯 렌더링 (우선순위: topLeftNode > index > selectable > recommendable > saved > addable)
-  const renderTopLeft = () => {
-    if (topLeftNode) {
-      return (
-        <div
-          className="absolute top-1.5 left-1.5"
-          style={{ zIndex: Z_INDEX.cardBadge }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {topLeftNode}
-        </div>
-      );
-    }
-    if (index !== undefined) return <IndexBadge index={index} />;
-    if (selectable) return <SelectCheckbox isSelected={isSelected} position="top-left" />;
-    if (recommendable) return <RecommendButton onClick={onRecommend} />;
-    if (saved) return <SavedBadge />;
-    if (addable) return <AddButton onClick={onAdd} />;
-    return null;
+  // 좌상단 슬롯: 카테고리 레이블 (항상 표시)
+  const renderTopLeft = () => <TypeLabel type={contentType} onOpen={() => setIsTypeInfoOpen(true)} />;
+
+  // 선택 모드: 포스터 중앙 오버레이
+  const renderSelectOverlay = () => {
+    if (!selectable) return null;
+    return <SelectOverlay isSelected={isSelected} />;
   };
 
-  // 우상단 슬롯 렌더링 (우선순위: topRightNode > actionNode > rating)
+  // 우상단 슬롯 렌더링 (우선순위: topRightNode > deletable > recommendable > saved > addable)
   const renderTopRight = () => {
     if (topRightNode) {
       return (
@@ -398,27 +423,50 @@ export default function ContentCard({
         </div>
       );
     }
-    if (actionNode) {
+    if (deletable) {
+      return (
+        <button
+          type="button"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete?.(e); }}
+          className="absolute top-1.5 right-1.5 w-7 h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-red-500/50 shadow-lg hover:bg-red-500 hover:border-red-500 group/del"
+          style={{ zIndex: Z_INDEX.cardBadge }}
+        >
+          <Trash2 size={13} className="text-red-400 group-hover/del:text-white" strokeWidth={2} />
+        </button>
+      );
+    }
+    if (recommendable) return <RecommendButton onClick={() => setIsRecommendModalOpen(true)} />;
+    if (saved) {
       return (
         <div
-          className="absolute top-2 right-2"
+          className="absolute top-1.5 right-1.5 w-7 h-7 flex items-center justify-center bg-accent rounded-md shadow-lg"
           style={{ zIndex: Z_INDEX.cardBadge }}
-          onClick={(e) => e.stopPropagation()}
         >
-          {actionNode}
+          <Bookmark size={14} className="text-white fill-white" strokeWidth={2} />
         </div>
       );
     }
-    if (rating) return <RatingBadge rating={rating} />;
+    if (addable) {
+      return (
+        <button
+          type="button"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAdd?.(e); }}
+          className="absolute top-1.5 right-1.5 w-7 h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-white/30 shadow-lg hover:bg-accent hover:border-accent group/add"
+          style={{ zIndex: Z_INDEX.cardBadge }}
+        >
+          <Bookmark size={14} className="text-white/70 group-hover/add:text-white" strokeWidth={2} />
+        </button>
+      );
+    }
     return null;
   };
 
-  // 좌하단 슬롯 렌더링 (celebCount 또는 userCount 중 하나라도 있으면 표시)
+  // 좌하단 슬롯 렌더링
   const renderBottomLeft = () => {
-    const hasCeleb = celebCount !== undefined && celebCount > 0;
+    const effectiveCelebCount = fetchedCelebCount ?? celebCount;
+    const hasCeleb = effectiveCelebCount !== undefined && effectiveCelebCount > 0;
     const hasUser = userCount !== undefined && userCount > 0;
     if (hasCeleb || hasUser) {
-      // onStatsClick이 없으면 내부 모달 열기
       const handleStatsClick = onStatsClick || ((e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -429,23 +477,16 @@ export default function ContentCard({
           onMouseEnter={() => setIsBadgeHovered(true)}
           onMouseLeave={() => setIsBadgeHovered(false)}
         >
-          <StatsBadge celebCount={celebCount} userCount={userCount} onClick={handleStatsClick} />
+          <StatsBadge celebCount={effectiveCelebCount} userCount={userCount} onClick={handleStatsClick} />
         </div>
       );
     }
     return null;
   };
 
-  // 우하단 슬롯 렌더링 (우선순위: bottomRightCheckbox > avgRating)
+  // 우하단 슬롯 렌더링
   const renderBottomRight = () => {
-    if (bottomRightCheckbox) {
-      return (
-        <div onClick={onBottomRightSelect}>
-          <SelectCheckbox isSelected={isBottomRightSelected} position="bottom-right" />
-        </div>
-      );
-    }
-    if (avgRating) return <AvgRatingBadge avgRating={avgRating} />;
+    if (rating) return <RatingBadge rating={rating} />;
     return null;
   };
 
@@ -456,6 +497,18 @@ export default function ContentCard({
       : "hover:ring-1 hover:ring-border"
     : "";
 
+  // 추천 모달 (리뷰 모드·기본 모드 모두에서 사용)
+  const recommendModal = recommendable && userContentId ? (
+    <RecommendationModal
+      isOpen={isRecommendModalOpen}
+      onClose={() => setIsRecommendModalOpen(false)}
+      userContentId={userContentId}
+      contentTitle={title}
+      contentThumbnail={thumbnail ?? null}
+      contentType={contentType}
+    />
+  ) : null;
+
   // #region 리뷰 모드 렌더링
   if (isReviewMode) {
     return (
@@ -464,7 +517,6 @@ export default function ContentCard({
         <div
           onClick={handleClick}
           className={`group hidden sm:flex flex-col bg-[#1e1e1e] hover:bg-[#252525] border border-white/10 hover:border-accent/40 rounded-lg overflow-hidden cursor-pointer ${className || ""}`}
-          suppressHydrationWarning
         >
           {/* 헤더 슬롯 */}
           {headerNode && (
@@ -476,11 +528,8 @@ export default function ContentCard({
           <div className={`flex gap-4 p-4 ${headerNode ? "pt-2" : ""} w-full ${heightClass} relative`}>
             {/* 좌측: 이미지 */}
             <div className="relative w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5">
-              {actionNode && (
-                <div className="absolute top-2 right-2 z-20" onClick={(e) => e.stopPropagation()}>
-                  {actionNode}
-                </div>
-              )}
+              {renderTopLeft()}
+              {renderTopRight()}
 
               {thumbnail ? (
                 <Image
@@ -489,7 +538,7 @@ export default function ContentCard({
                   fill
                   sizes="160px"
                   unoptimized
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105"
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
                 />
@@ -499,8 +548,9 @@ export default function ContentCard({
                 </div>
               )}
 
-              {/* 좌하단: userCount 뱃지 */}
               {renderBottomLeft()}
+              {renderSelectOverlay()}
+              {renderBottomRight()}
             </div>
 
             {/* 우측: 제목 + 리뷰 영역 */}
@@ -582,24 +632,20 @@ export default function ContentCard({
 
         {/* 모바일: 포스터 카드 */}
         <div
-          className={`sm:hidden flex flex-col ${headerNode ? "bg-[#1e1e1e] border border-white/10 rounded-xl overflow-hidden shadow-md" : "space-y-2"} ${className || ""}`}
-          suppressHydrationWarning
+          className={`sm:hidden flex flex-col ${headerNode ? "bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden shadow-md" : "space-y-2"} ${className || ""}`}
         >
           {headerNode && (
-            <div className="px-3 py-3 flex justify-between items-start bg-black/20 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
+            <div className="px-2.5 py-2 flex justify-between items-start bg-black/20 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
               <div className="flex-1">{headerNode}</div>
             </div>
           )}
 
           <div
             onClick={handleClick}
-            className={`cursor-pointer relative ${headerNode ? "mx-3 mb-3 rounded-lg overflow-hidden border border-white/5 bg-bg-secondary" : "bg-[#212121] border border-border/60 rounded-lg overflow-hidden active:border-accent/50"}`}
+            className={`cursor-pointer relative ${headerNode ? "overflow-hidden bg-bg-secondary" : "bg-[#212121] border border-border/60 rounded-lg overflow-hidden active:border-accent/50"}`}
           >
-            {actionNode && (
-              <div className="absolute top-2 right-2 z-20" onClick={(e) => e.stopPropagation()}>
-                {actionNode}
-              </div>
-            )}
+            {renderTopLeft()}
+            {renderTopRight()}
 
             <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
               {thumbnail ? (
@@ -618,18 +664,13 @@ export default function ContentCard({
                   <ContentIcon size={32} className="text-text-tertiary" />
                 </div>
               )}
-              {rating && (
-                <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-bg-main/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-text-secondary z-10">
-                  <Star size={10} className="text-yellow-500 fill-yellow-500" />
-                  {rating.toFixed(1)}
-                </div>
-              )}
-              {/* 좌하단: userCount 뱃지 */}
               {renderBottomLeft()}
+              {renderSelectOverlay()}
+              {renderBottomRight()}
             </div>
 
-            <div className={`p-3 ${headerNode ? "bg-[#151515]" : ""}`}>
-              <h3 className="text-xs font-bold text-text-primary line-clamp-2 leading-tight">
+            <div className={`p-2 ${headerNode ? "bg-[#151515]" : ""}`}>
+              <h3 className="text-[11px] font-bold text-text-primary line-clamp-2 leading-tight">
                 {title}
               </h3>
               {creator && (
@@ -694,6 +735,8 @@ export default function ContentCard({
             </ModalFooter>
           )}
         </Modal>
+        <TypeInfoModal isOpen={isTypeInfoOpen} onClose={() => setIsTypeInfoOpen(false)} currentType={contentType} />
+        {recommendModal}
       </>
     );
   }
@@ -709,7 +752,7 @@ export default function ContentCard({
             alt={title}
             fill
             unoptimized
-            className={`object-cover ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "group-hover:scale-105" : ""} transition-transform`}
+            className={`object-cover ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "group-hover:scale-105" : ""}`}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
           />
@@ -726,6 +769,7 @@ export default function ContentCard({
         {renderTopLeft()}
         {renderTopRight()}
         {renderBottomLeft()}
+        {renderSelectOverlay()}
         {renderBottomRight()}
       </div>
 
@@ -746,14 +790,19 @@ export default function ContentCard({
 
   const containerClass = `group flex flex-col bg-bg-card border border-border/30 rounded-xl overflow-hidden cursor-pointer ${!isBadgeHovered ? "hover:border-accent/50" : ""} ${selectableClass} ${className || ""}`;
 
-  // 인원 구성 모달 (onStatsClick이 없을 때 내부에서 관리)
+  // 콘텐츠 분류 안내 모달
+  const typeInfoModal = (
+    <TypeInfoModal isOpen={isTypeInfoOpen} onClose={() => setIsTypeInfoOpen(false)} currentType={contentType} />
+  );
+
+  // 인원 구성 모달
   const statsModal = (
     <ContentStatsModal
       isOpen={showStatsModal}
       onClose={() => setShowStatsModal(false)}
       contentId={contentId || ""}
       contentTitle={title}
-      celebCount={celebCount || 0}
+      celebCount={fetchedCelebCount ?? celebCount ?? 0}
       userCount={userCount || 0}
     />
   );
@@ -765,6 +814,8 @@ export default function ContentCard({
           {cardContent}
         </Link>
         {statsModal}
+        {typeInfoModal}
+        {recommendModal}
       </>
     );
   }
@@ -775,6 +826,8 @@ export default function ContentCard({
         {cardContent}
       </div>
       {statsModal}
+      {typeInfoModal}
+      {recommendModal}
     </>
   );
   // #endregion
@@ -856,7 +909,7 @@ function ContentStatsModal({
           )}
         </div>
 
-        {/* 셀럽 목록 (셀럽이 있을 때만) */}
+        {/* 셀럽 목록 */}
         {hasCeleb && (
           <div className="pt-2">
             <h4 className="text-xs font-medium text-text-tertiary mb-3">이 콘텐츠를 선택한 셀럽</h4>
@@ -919,5 +972,4 @@ function ContentStatsModal({
     </Modal>
   );
 }
-// #endregion
 // #endregion

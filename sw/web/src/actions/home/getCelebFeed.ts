@@ -35,7 +35,8 @@ export async function getCelebFeed(
         title,
         creator,
         thumbnail_url,
-        type
+        type,
+        user_count
       ),
       celeb:profiles!user_contents_user_id_fkey!inner(
         id,
@@ -79,9 +80,30 @@ export async function getCelebFeed(
   const hasMore = data.length > limit
   const sliced = hasMore ? data.slice(0, limit) : data
 
-  const reviews: CelebReview[] = sliced
-    .filter(row => row.content && row.celeb && row.review)
-    .map(row => {
+  const filtered = sliced.filter(row => row.content && row.celeb && row.review)
+
+  // 셀럽 카운트 배치 조회
+  const contentIds = [...new Set(filtered.map(row => {
+    const c = Array.isArray(row.content) ? row.content[0] : row.content
+    return c.id
+  }))]
+
+  const celebCountMap = new Map<string, number>()
+  if (contentIds.length > 0) {
+    const { data: counts } = await supabase
+      .from('user_contents')
+      .select('content_id, profiles!user_contents_user_id_fkey!inner(profile_type)')
+      .in('content_id', contentIds)
+      .eq('profiles.profile_type', 'CELEB')
+
+    if (counts) {
+      for (const row of counts) {
+        celebCountMap.set(row.content_id, (celebCountMap.get(row.content_id) ?? 0) + 1)
+      }
+    }
+  }
+
+  const reviews: CelebReview[] = filtered.map(row => {
       const content = Array.isArray(row.content) ? row.content[0] : row.content
       const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
@@ -98,6 +120,8 @@ export async function getCelebFeed(
           creator: content.creator,
           thumbnail_url: content.thumbnail_url,
           type: content.type as ContentType,
+          celeb_count: celebCountMap.get(content.id) ?? 0,
+          user_count: content.user_count ?? 0,
         },
         celeb: {
           id: celeb.id,

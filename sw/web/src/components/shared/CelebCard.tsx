@@ -24,6 +24,9 @@ interface CelebCardProps {
   className?: string;
   celebProfile?: CelebProfile;
   variant?: Variant;
+  // 부모에서 모달 관리 시 위임 (네비게이션 지원용)
+  onOpenModal?: (celeb: CelebProfile, index: number) => void;
+  index?: number;
 }
 // #endregion
 
@@ -65,6 +68,8 @@ export default function CelebCard({
   className = "",
   celebProfile,
   variant = "card",
+  onOpenModal,
+  index = 0,
 }: CelebCardProps) {
   const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,6 +81,7 @@ export default function CelebCard({
     if (isLoading) return;
 
     if (celebProfile) {
+      if (onOpenModal) { onOpenModal(celebProfile, index); return; }
       setSelectedCeleb(celebProfile);
       setIsModalOpen(true);
       return;
@@ -85,6 +91,7 @@ export default function CelebCard({
     try {
       const data = await getCelebForModal(id);
       if (data) {
+        if (onOpenModal) { onOpenModal(data, index); return; }
         setSelectedCeleb(data);
         setIsModalOpen(true);
       }
@@ -144,7 +151,7 @@ export default function CelebCard({
           </div>
         </button>
 
-        {selectedCeleb && (
+        {!onOpenModal && selectedCeleb && (
           <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         )}
       </>
@@ -199,7 +206,7 @@ export default function CelebCard({
         )}
       </button>
 
-      {selectedCeleb && (
+      {!onOpenModal && selectedCeleb && (
         <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       )}
     </>

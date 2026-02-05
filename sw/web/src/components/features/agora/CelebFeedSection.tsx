@@ -18,13 +18,15 @@ const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
 
 interface Props {
   initialReviews?: CelebReview[];
+  initialCursor?: string | null;
+  initialHasMore?: boolean;
 }
 
-export default function CelebFeedSection({ initialReviews }: Props) {
+export default function CelebFeedSection({ initialReviews, initialCursor, initialHasMore }: Props) {
   const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
 
   return (
-    <div className="flex flex-col gap-8 md:gap-12">
+    <div className="flex flex-col gap-4 md:gap-12">
       {/* 카테고리 탭 (석판 스타일) */}
       <div className="flex justify-center overflow-x-auto pb-4 scrollbar-hidden">
         <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
@@ -53,7 +55,7 @@ export default function CelebFeedSection({ initialReviews }: Props) {
 
       {/* 피드 콘텐츠 */}
       <div className="relative min-h-[400px]">
-        <CelebFeed contentType={contentType} hideFilter initialReviews={initialReviews} />
+        <CelebFeed contentType={contentType} hideFilter initialReviews={initialReviews} initialCursor={initialCursor} initialHasMore={initialHasMore} />
       </div>
     </div>
   );

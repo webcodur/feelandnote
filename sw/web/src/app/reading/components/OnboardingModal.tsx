@@ -15,11 +15,6 @@ interface Props {
 
 const FEATURES = [
   {
-    icon: MousePointer2,
-    title: "더블클릭으로 메모 추가",
-    description: "화면 어디든 더블클릭하면 포스트잇 메모가 생성됩니다. 드래그로 위치를 옮길 수 있습니다.",
-  },
-  {
     icon: BookOpen,
     title: "책 선택 (선택사항)",
     description: "상단의 책 검색 버튼으로 현재 읽고 있는 책을 선택할 수 있습니다. 선택하지 않아도 됩니다.",
@@ -37,7 +32,7 @@ const FEATURES = [
   {
     icon: Sparkles,
     title: "AI 질문",
-    description: "Gemini API 키를 설정하면 AI에게 책 관련 질문을 할 수 있습니다. 메모 내용이 함께 전달됩니다.",
+    description: "Gemini API 키를 설정하면 AI에게 책 관련 질문을 할 수 있습니다. 창에 떠 있는 모든 메모가 함께 전달됩니다.",
   },
   {
     icon: StickyNote,

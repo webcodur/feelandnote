@@ -190,6 +190,47 @@ async function fetchAllUserContents(
   return allData
 }
 
+// content_id별 전체 셀럽 카운트 조회 (직업/시대 스코프 무관)
+async function fetchGlobalCelebCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  contentIds: string[]
+): Promise<Map<string, number>> {
+  if (!contentIds.length) return new Map()
+
+  // 해당 콘텐츠의 user_contents 조회
+  const { data: ucData } = await supabase
+    .from('user_contents')
+    .select('content_id, user_id')
+    .in('content_id', contentIds)
+    .eq('status', 'FINISHED')
+
+  if (!ucData?.length) return new Map()
+
+  // 고유 user_id에서 CELEB만 필터
+  const uniqueUserIds = [...new Set(ucData.map(r => r.user_id))]
+  const celebIdSet = new Set<string>()
+
+  for (const batch of chunkArray(uniqueUserIds, 50)) {
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('id')
+      .in('id', batch)
+      .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
+
+    if (profiles) profiles.forEach(p => celebIdSet.add(p.id))
+  }
+
+  // content_id별 셀럽 수 집계
+  const countMap = new Map<string, number>()
+  for (const item of ucData) {
+    if (!celebIdSet.has(item.user_id)) continue
+    countMap.set(item.content_id, (countMap.get(item.content_id) || 0) + 1)
+  }
+
+  return countMap
+}
+
 // 일반 사용자(USER)의 content_id별 카운트 조회
 async function fetchUserContentCounts(
   supabase: Awaited<ReturnType<typeof createClient>>,
@@ -355,6 +396,13 @@ export async function getScripturesByProfession(params?: {
   const userCountMap = await fetchUserContentCounts(supabase)
 
   const { contents, total } = aggregateContents(typedData, { page, limit, userCountMap })
+
+  // 뱃지에는 전체 셀럽 카운트 표시 (직업 스코프 무관)
+  const globalCounts = await fetchGlobalCelebCounts(supabase, contents.map(c => c.id))
+  for (const content of contents) {
+    content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
+  }
+
   const professionInfo = PROFESSION_MAP.find(p => p.key === profession)
 
   return {
@@ -657,6 +705,15 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
 
     const { contents } = aggregateContents(typedData, { limit: 6, userCountMap })
     results.push({ era, label: config.label, period: config.period, description: config.description, contents, celebCount: celebIds.length, topCelebs })
+  }
+
+  // 뱃지에는 전체 셀럽 카운트 표시 (시대 스코프 무관)
+  const allContentIds = results.flatMap(r => r.contents.map(c => c.id))
+  const globalCounts = await fetchGlobalCelebCounts(supabase, allContentIds)
+  for (const era of results) {
+    for (const content of era.contents) {
+      content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
+    }
   }
 
   return results

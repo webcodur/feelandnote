@@ -16,6 +16,7 @@ export interface UserContentPublic {
   id: string
   content_id: string
   status: ContentStatus
+  is_recommended: boolean
   visibility: VisibilityType | null
   created_at: string
   source_url: string | null
@@ -62,6 +63,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       id,
       content_id,
       status,
+      is_recommended,
       rating,
       review,
       visibility,
@@ -115,6 +117,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     id: string
     content_id: string
     status: string
+    is_recommended: boolean
     rating: number | null
     review: string | null
     visibility: VisibilityType | null
@@ -127,6 +130,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     id: item.id,
     content_id: item.content_id,
     status: item.status as ContentStatus,
+    is_recommended: item.is_recommended ?? false,
     visibility: item.visibility,
     created_at: item.created_at,
     source_url: item.source_url,

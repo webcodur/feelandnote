@@ -30,5 +30,8 @@ export default async function SettingsPage({ params }: PageProps) {
 
   const apiKey = myProfile?.gemini_api_key ?? null;
 
-  return <ProfileSettingsSection profile={profileResult.data} initialApiKey={apiKey} />;
+  // OAuth 사용자인지 확인 (email provider가 아니면 OAuth)
+  const isEmailUser = currentUser.app_metadata?.provider === 'email';
+
+  return <ProfileSettingsSection profile={profileResult.data} initialApiKey={apiKey} isEmailUser={isEmailUser} />;
 }

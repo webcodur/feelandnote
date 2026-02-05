@@ -3,9 +3,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { TITLES } from '@/constants/titles'
+import { getUserStats } from './getAchievementData'
 
-// 칭호 선택
-export async function selectTitle(titleId: string | null): Promise<ActionResult<void>> {
+// 칭호 선택 (code 기반)
+export async function selectTitle(titleCode: string | null): Promise<ActionResult<void>> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -13,16 +15,16 @@ export async function selectTitle(titleId: string | null): Promise<ActionResult<
     return failure('UNAUTHORIZED', '로그인이 필요하다')
   }
 
-  // titleId가 있으면 해당 칭호가 해금되었는지 확인
-  if (titleId) {
-    const { data: userTitle } = await supabase
-      .from('user_titles')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('title_id', titleId)
-      .single()
+  // titleCode가 있으면 해당 칭호가 해금되었는지 확인
+  if (titleCode) {
+    const title = TITLES.find(t => t.code === titleCode)
+    if (!title) {
+      return failure('NOT_FOUND', '존재하지 않는 칭호다')
+    }
 
-    if (!userTitle) {
+    const stats = await getUserStats(supabase, user.id)
+    const isUnlocked = checkCondition(title.condition, stats)
+    if (!isUnlocked) {
       return failure('FORBIDDEN', '해금되지 않은 칭호는 선택할 수 없다')
     }
   }
@@ -30,7 +32,7 @@ export async function selectTitle(titleId: string | null): Promise<ActionResult<
   // profiles 업데이트
   const { error } = await supabase
     .from('profiles')
-    .update({ selected_title_id: titleId })
+    .update({ selected_title: titleCode })
     .eq('id', user.id)
 
   if (error) {
@@ -49,20 +51,18 @@ export async function getSelectedTitle(userId: string) {
 
   const { data } = await supabase
     .from('profiles')
-    .select(`
-      selected_title_id,
-      titles:selected_title_id (
-        id,
-        name,
-        grade
-      )
-    `)
+    .select('selected_title')
     .eq('id', userId)
     .single()
 
-  if (!data?.titles) return null
+  if (!data?.selected_title) return null
 
-  // Supabase FK relation은 단일 객체를 반환하지만 TS가 배열로 추론함
-  const titles = data.titles as unknown as { id: string; name: string; grade: string }
-  return titles
+  const title = TITLES.find(t => t.code === data.selected_title)
+  return title || null
+}
+
+// 조건 체크 (내부 사용)
+function checkCondition(condition: { type: string; value: number }, stats: Record<string, number>): boolean {
+  const statValue = stats[condition.type] || 0
+  return statValue >= condition.value
 }

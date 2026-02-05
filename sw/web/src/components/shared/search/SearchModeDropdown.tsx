@@ -22,7 +22,7 @@ export interface SearchModeConfig {
 export const SEARCH_MODES: SearchModeConfig[] = [
   { id: "content", label: "콘텐츠", placeholder: "작품명, 저자, 감독..." },
   { id: "user", label: "사용자", placeholder: "닉네임, @username..." },
-  { id: "tag", label: "태그", placeholder: "태그명..." },
+  // { id: "tag", label: "태그", placeholder: "태그명..." },
   { id: "records", label: "내 기록", placeholder: "내 기록에서 검색..." },
 ];
 

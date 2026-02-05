@@ -1,105 +1,95 @@
-import { Target, Sparkles, Zap, Star, Heart, Trophy, Award } from 'lucide-react';
+import { Target, Sparkles, Star } from 'lucide-react';
 
-/**
- * 칭호 등급(Grade) 설정
- * Neo-Pantheon 테마의 색상과 스타일을 정의합니다.
- */
+// #region 등급 설정
 export const TITLE_GRADE_CONFIG = {
   common: {
     label: '일반',
     color: 'text-stone-400',
     borderColor: 'border-stone-500/30',
     bgColor: 'bg-stone-500/10',
-    glowColor: 'shadow-stone-500/20',
     marble: 'from-stone-800 to-stone-900',
-    specialEffect: '',
   },
   uncommon: {
     label: '고급',
     color: 'text-emerald-400',
     borderColor: 'border-emerald-500/30',
     bgColor: 'bg-emerald-500/10',
-    glowColor: 'shadow-emerald-500/20',
     marble: 'from-emerald-900/40 to-stone-900',
-    specialEffect: '',
   },
   rare: {
     label: '희귀',
     color: 'text-cyan-400',
     borderColor: 'border-cyan-500/30',
     bgColor: 'bg-cyan-500/10',
-    glowColor: 'shadow-cyan-500/20',
     marble: 'from-cyan-900/40 to-stone-900',
-    specialEffect: '',
   },
   epic: {
     label: '영웅',
     color: 'text-purple-400',
     borderColor: 'border-purple-500/30',
     bgColor: 'bg-purple-500/10',
-    glowColor: 'shadow-purple-500/20',
     marble: 'from-purple-900/40 to-stone-900',
-    specialEffect: '',
-  },
-  legendary: {
-    label: '전설',
-    color: 'text-amber-400',
-    borderColor: 'border-amber-500/50',
-    bgColor: 'bg-amber-500/10',
-    glowColor: 'shadow-amber-500/40',
-    marble: 'from-amber-900/40 to-stone-900',
-    specialEffect: 'animate-pulse',
   },
 } as const;
+// #endregion
 
+// #region 카테고리 설정
 interface TitleCategoryInfo {
   readonly label: string;
   readonly color: string;
   readonly icon: React.ComponentType<{ size?: number; className?: string }>;
-  readonly comingSoon?: boolean;
 }
 
-/**
- * 칭호 카테고리(Category) 설정
- */
 export const TITLE_CATEGORY_CONFIG: Record<string, TitleCategoryInfo> = {
-  volume: {
-    label: '양',
-    color: 'text-blue-400',
-    icon: Target,
-  },
-  diversity: {
-    label: '다양성',
-    color: 'text-green-400',
-    icon: Sparkles,
-  },
-  consistency: {
-    label: '꾸준함',
-    color: 'text-purple-400',
-    icon: Zap,
-  },
-  depth: {
-    label: '깊이',
-    color: 'text-orange-400',
-    icon: Star,
-  },
-  social: {
-    label: '소셜',
-    color: 'text-pink-400',
-    icon: Heart,
-    comingSoon: true,
-  },
-  special: {
-    label: '특별',
-    color: 'text-yellow-400',
-    icon: Trophy,
-  },
-  default: {
-    label: '기본',
-    color: 'text-stone-400',
-    icon: Award,
-  }
+  volume: { label: '축적', color: 'text-blue-400', icon: Target },
+  diversity: { label: '섭렵', color: 'text-green-400', icon: Sparkles },
+  depth: { label: '탐구', color: 'text-orange-400', icon: Star },
 } as const;
+// #endregion
+
+// #region 칭호 정의
+export interface TitleDefinition {
+  code: string;
+  name: string;
+  description: string;
+  category: 'volume' | 'diversity' | 'depth';
+  grade: 'common' | 'uncommon' | 'rare' | 'epic';
+  condition: { type: string; value: number };
+}
+
+export const TITLES: TitleDefinition[] = [
+  // 축적 - 콘텐츠 수
+  { code: 'content_1', name: '첫 발자국', description: '여정의 시작', category: 'volume', grade: 'common', condition: { type: 'content_count', value: 1 } },
+  { code: 'content_10', name: '열 걸음', description: '꾸준히 걷는 중', category: 'volume', grade: 'common', condition: { type: 'content_count', value: 10 } },
+  { code: 'content_50', name: '서재의 주인', description: '50권을 넘기다', category: 'volume', grade: 'uncommon', condition: { type: 'content_count', value: 50 } },
+  { code: 'content_100', name: '백 권의 무게', description: '서재가 묵직해졌다', category: 'volume', grade: 'rare', condition: { type: 'content_count', value: 100 } },
+  // 축적 - 기록 수
+  { code: 'record_1', name: '첫 번째 이야기', description: '기록의 시작', category: 'volume', grade: 'common', condition: { type: 'record_count', value: 1 } },
+  { code: 'record_10', name: '이야기꾼', description: '10개의 기록', category: 'volume', grade: 'common', condition: { type: 'record_count', value: 10 } },
+  { code: 'record_50', name: '기록의 달인', description: '50개의 기록', category: 'volume', grade: 'uncommon', condition: { type: 'record_count', value: 50 } },
+  // 섭렵 - 카테고리 수
+  { code: 'category_2', name: '장르 여행자', description: '경계를 넘다', category: 'diversity', grade: 'common', condition: { type: 'category_count', value: 2 } },
+  { code: 'category_3', name: '장르 탐험가', description: '미지의 영역으로', category: 'diversity', grade: 'uncommon', condition: { type: 'category_count', value: 3 } },
+  { code: 'category_4', name: '르네상스인', description: '모든 분야의 감상가', category: 'diversity', grade: 'rare', condition: { type: 'category_count', value: 4 } },
+  // 섭렵 - 창작자 수
+  { code: 'creator_10', name: '작가 헌터', description: '다양한 목소리', category: 'diversity', grade: 'uncommon', condition: { type: 'creator_count', value: 10 } },
+  { code: 'creator_30', name: '세계 일주', description: '국경 없는 감상', category: 'diversity', grade: 'rare', condition: { type: 'creator_count', value: 30 } },
+  // 탐구 - 리뷰 품질
+  { code: 'avg_review_100', name: '꼼꼼한 독자', description: '세심한 기록', category: 'depth', grade: 'common', condition: { type: 'avg_review_length', value: 100 } },
+  { code: 'avg_review_300', name: '완벽주의자', description: '빈틈없는 기록', category: 'depth', grade: 'uncommon', condition: { type: 'avg_review_length', value: 300 } },
+  { code: 'long_review_10', name: '리뷰 장인', description: '말이 많은 감상가', category: 'depth', grade: 'rare', condition: { type: 'long_review_count', value: 10 } },
+  // 탐구 - 완료 수
+  { code: 'completed_10', name: '구획 마스터', description: '처음부터 끝까지', category: 'depth', grade: 'uncommon', condition: { type: 'completed_count', value: 10 } },
+  { code: 'completed_50', name: '아카이브 장인', description: '기록의 달인', category: 'depth', grade: 'epic', condition: { type: 'completed_count', value: 50 } },
+];
+// #endregion
 
 export type TitleGrade = keyof typeof TITLE_GRADE_CONFIG;
 export type TitleCategory = keyof typeof TITLE_CATEGORY_CONFIG;
+
+// 칭호 코드로 정보 조회
+export function getTitleInfo(code: string | null): { name: string; grade: string } | null {
+  if (!code) return null;
+  const title = TITLES.find(t => t.code === code);
+  return title ? { name: title.name, grade: title.grade } : null;
+}

@@ -513,7 +513,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
             <div className="mb-4 flex items-start gap-2 rounded-lg bg-yellow-500/10 p-3 text-xs text-yellow-200/80">
               <Info className="mt-0.5 size-4 shrink-0" />
               <p>
-                메모는 브라우저 로컬 스토리지에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기 접근 시 메모를 볼 수 없습니다.
+                모든 메모는 브라우저 로컬 스토리지에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기 접근 시 메모를 볼 수 없습니다.
               </p>
             </div>
 

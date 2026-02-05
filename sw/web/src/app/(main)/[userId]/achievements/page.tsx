@@ -21,14 +21,14 @@ export default async function AchievementsPage({ params }: PageProps) {
 
   const [achievements, profileResult] = await Promise.all([
     getAchievementData(),
-    supabase.from("profiles").select("selected_title_id").eq("id", userId).single(),
+    supabase.from("profiles").select("selected_title").eq("id", userId).single(),
   ]);
 
   if (!achievements) {
     notFound();
   }
 
-  const selectedTitleId = profileResult.data?.selected_title_id || null;
+  const selectedTitleCode = profileResult.data?.selected_title || null;
 
-  return <ProfileAchievementsSection achievements={achievements} selectedTitleId={selectedTitleId} />;
+  return <ProfileAchievementsSection achievements={achievements} selectedTitleCode={selectedTitleCode} />;
 }

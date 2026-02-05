@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getTitleInfo } from '@/constants/titles'
 import type { RecordType } from './createRecord'
 
 export interface FeedRecord {
@@ -14,7 +15,7 @@ export interface FeedRecord {
     id: string
     nickname: string
     avatar_url: string | null
-    selected_title: { id: string; name: string; grade: string } | null
+    selected_title: { name: string; grade: string } | null
   }
 }
 
@@ -43,13 +44,12 @@ export async function getFeedRecords(params: GetFeedRecordsParams): Promise<Feed
         id,
         nickname,
         avatar_url,
-        selected_title:titles!profiles_selected_title_id_fkey(id, name, grade)
+        selected_title
       )
     `)
     .eq('content_id', params.contentId)
     .order('created_at', { ascending: false })
 
-  // 로그인한 사용자가 있으면 본인 기록 제외
   if (user) {
     query = query.neq('user_id', user.id)
   }
@@ -73,15 +73,18 @@ export async function getFeedRecords(params: GetFeedRecordsParams): Promise<Feed
     return []
   }
 
+  type RawUser = { id: string; nickname: string; avatar_url: string | null; selected_title: string | null }
+
   return (data || []).map(record => {
-    const rawUser = Array.isArray(record.user) ? record.user[0] : record.user
-    // Supabase FK relation이 배열로 타입 추론되지만 실제로는 단일 객체
-    const selectedTitle = rawUser?.selected_title
-      ? (Array.isArray(rawUser.selected_title) ? rawUser.selected_title[0] : rawUser.selected_title)
-      : null
+    const rawUser = (Array.isArray(record.user) ? record.user[0] : record.user) as RawUser | null
     return {
       ...record,
-      user: rawUser ? { ...rawUser, selected_title: selectedTitle } : rawUser
+      user: rawUser ? {
+        id: rawUser.id,
+        nickname: rawUser.nickname,
+        avatar_url: rawUser.avatar_url,
+        selected_title: getTitleInfo(rawUser.selected_title),
+      } : rawUser,
     }
   }) as FeedRecord[]
 }
