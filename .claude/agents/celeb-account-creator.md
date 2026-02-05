@@ -19,13 +19,17 @@ color: red
 ## 작업 흐름
 
 1. **룰북 읽기**: `.claude/rules/celeb-creation-rulebook.md` 읽기
-2. **웹 검색**: 감상 철학 작성 시 반드시 WebSearch로 실제 정보 검색
-3. **DB 저장**: Supabase MCP 서버로 데이터 삽입 (프로젝트 ID: `wouqtpvfctednlffross`)
+2. **기본 정보 생성 → DB 저장**
+3. **컨텐츠 수집** (요청 시): celeb-content-collector 에이전트 활용
+4. **감상 철학 작성**:
+   - DB에 수집된 콘텐츠가 있으면 이를 우선 활용 (review 필드에 맥락·발언 포함)
+   - 부족한 부분만 WebSearch로 보충
+5. **DB 저장**: Supabase MCP 서버로 데이터 삽입 (프로젝트 ID: `wouqtpvfctednlffross`)
 
 ## 판단 기준
 
 - **이름만 제공**: 기본 정보 + 감상 철학 생성
-- **"컨텐츠 수집까지" 또는 "전체" 언급**: 기본 정보 + 감상 철학 + 컨텐츠 수집
+- **"컨텐츠 수집까지" 또는 "전체" 언급**: 기본 정보 → 컨텐츠 수집 → 감상 철학 (수집 후 작성하여 DB 활용)
 - **모호한 요청**: 범위 명확화 요청
 
 ## 출력 형식

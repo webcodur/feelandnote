@@ -40,7 +40,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   // 비활성 태그 (예고편)
   const upcomingTags = allTags.filter(t => !t.is_featured)
 
-  const tags = activeTags.slice(0, 4)
+  const tags = activeTags
 
   if (!tags?.length) return []
 

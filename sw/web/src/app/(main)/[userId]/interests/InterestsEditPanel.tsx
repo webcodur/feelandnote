@@ -141,7 +141,7 @@ export default function InterestsEditPanel({
 
   const handleMarkWatched = () => {
     if (!selectedContent) return;
-    if (!window.confirm(`'${selectedContent.content.title}'을(를) 감상함으로 처리할까?`)) return;
+    if (!window.confirm(`'${selectedContent.content.title}'을(를) 감상함으로 처리할까요?`)) return;
 
     setError(null);
     startTransition(async () => {
