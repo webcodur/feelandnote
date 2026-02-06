@@ -66,7 +66,7 @@ export default function PlaylistDetail({ playlistId }: PlaylistDetailProps) {
     return (
       <div className="text-center py-20">
         <p className="text-red-400 mb-4">{error || "재생목록을 찾을 수 없습니다"}</p>
-        <Link href={currentUserId ? `/${currentUserId}/collections` : "/"} className="text-accent hover:underline">
+        <Link href={currentUserId ? `/${currentUserId}/reading/collections` : "/"} className="text-accent hover:underline">
           재생목록으로 돌아가기
         </Link>
       </div>

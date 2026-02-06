@@ -6,55 +6,13 @@
 
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
 import { DecorativeLabel } from "@/components/ui";
-import { ContentCard } from "@/components/ui/cards";
+import { SavedContentCard } from "@/components/ui/cards";
+import ContentGrid from "@/components/ui/ContentGrid";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getCategoryByDbType } from "@/constants/categories";
-import { addContent } from "@/actions/contents/addContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import type { ContentType } from "@/types/database";
-
-// 인라인 래퍼: contentId 기반으로 인원 구성 뱃지 자동 조회
-function ScriptureContentCard({
-  id, title, creator, thumbnail, type, rating,
-}: {
-  id: string; title: string; creator?: string | null; thumbnail?: string | null;
-  type: string; rating?: number | null;
-}) {
-  const [isAdded, setIsAdded] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAdding, startAddTransition] = useTransition();
-  const category = getCategoryByDbType(type);
-  const href = `/content/${id}?category=${category?.id || "book"}`;
-
-  useEffect(() => {
-    checkContentSaved(id).then((result) => { setIsAdded(result.saved); setIsChecking(false); });
-  }, [id]);
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isAdded || isAdding) return;
-    startAddTransition(async () => {
-      const result = await addContent({ id, type: type as ContentType, title, creator: creator ?? undefined, thumbnailUrl: thumbnail ?? undefined, status: "WANT" });
-      if (result.success) setIsAdded(true);
-    });
-  };
-
-  return (
-    <ContentCard
-      contentId={id}
-      thumbnail={thumbnail} title={title} creator={creator}
-      contentType={type as ContentType} href={href}
-      rating={rating ?? undefined}
-      saved={isAdded}
-      addable={!isChecking && !isAdded && !isAdding}
-      onAdd={handleAdd}
-    />
-  );
-}
 import SagePlaque from "../SagePlaque";
 import { type TodaySageResult } from "@/actions/scriptures";
 
@@ -111,19 +69,20 @@ export default function SageSection({ initialData }: Props) {
 
           {/* 콘텐츠 그리드 */}
           {displayContents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
+            <ContentGrid>
               {displayContents.map((content) => (
-                <ScriptureContentCard
+                <SavedContentCard
                   key={content.id}
-                  id={content.id}
+                  contentId={content.id}
+                  contentType={content.type as ContentType}
                   title={content.title}
                   creator={content.creator}
                   thumbnail={content.thumbnail_url}
-                  type={content.type}
-                  rating={content.avg_rating}
+                  rating={content.avg_rating ?? undefined}
+                  href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                 />
               ))}
-              
+
               {/* 더보기 카드 */}
               <Link
                 href={`/${sage.id}`}
@@ -139,7 +98,7 @@ export default function SageSection({ initialData }: Props) {
                   <span className="text-xs text-text-tertiary">+{remainingCount}개 더</span>
                 )}
               </Link>
-            </div>
+            </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-32 text-text-tertiary text-sm font-serif italic opacity-60">
               아직 공개된 서재가 없습니다

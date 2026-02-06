@@ -69,7 +69,7 @@ export async function createPlaylist(params: CreatePlaylistParams): Promise<Acti
     return handleSupabaseError(itemsError, { context: 'playlist', logPrefix: '[아이템 추가]' })
   }
 
-  revalidatePath(`/${user.id}/collections`)
+  revalidatePath(`/${user.id}/reading/collections`)
 
   return success({ playlistId: playlist.id })
 }

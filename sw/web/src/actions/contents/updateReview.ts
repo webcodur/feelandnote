@@ -60,7 +60,7 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
   }
 
   revalidatePath(`/${user.id}/records/${existing.content_id}`)
-  revalidatePath(`/${user.id}/records`)
+  revalidatePath(`/${user.id}/reading`)
   revalidatePath('/achievements')
 
   // 활동 로그

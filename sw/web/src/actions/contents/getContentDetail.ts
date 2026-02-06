@@ -108,35 +108,59 @@ export async function getContentDetail(
       metadata: metadataResult.metadata,
     }
   } else {
-    // 외부 API에서 조회 (category 필수)
-    if (!category) {
-      throw new Error('카테고리가 필요합니다')
-    }
+    // contents 테이블에서 직접 조회 (셀럽 콘텐츠 등 본인 기록이 아닌 경우)
+    const { data: dbContent } = await supabase
+      .from('contents')
+      .select('id, type, title, creator, thumbnail_url, description, release_date')
+      .eq('id', contentId)
+      .single()
 
-    const apiContent = await getContentById(contentId, category)
-    if (!apiContent) {
-      throw new Error('콘텐츠를 찾을 수 없습니다')
-    }
+    if (dbContent) {
+      const categoryId = TYPE_TO_CATEGORY[dbContent.type as ContentType]
+      const metadataResult = await fetchContentMetadata(dbContent.id, dbContent.type as ContentType)
 
-    const typeMap: Record<CategoryId, ContentType> = {
-      book: 'BOOK',
-      video: 'VIDEO',
-      game: 'GAME',
-      music: 'MUSIC',
-      certificate: 'CERTIFICATE',
-      all: 'BOOK',
-    }
+      contentData = {
+        id: dbContent.id,
+        title: dbContent.title,
+        creator: dbContent.creator || undefined,
+        thumbnail: dbContent.thumbnail_url || undefined,
+        description: dbContent.description || undefined,
+        releaseDate: dbContent.release_date || undefined,
+        type: dbContent.type as ContentType,
+        category: categoryId,
+        metadata: metadataResult.metadata,
+      }
+    } else {
+      // 외부 API에서 조회 (category 필수)
+      if (!category) {
+        throw new Error('카테고리가 필요합니다')
+      }
 
-    contentData = {
-      id: apiContent.id,
-      title: apiContent.title,
-      creator: apiContent.creator || undefined,
-      thumbnail: apiContent.thumbnail || undefined,
-      description: apiContent.description || undefined,
-      releaseDate: apiContent.releaseDate || undefined,
-      type: typeMap[category],
-      category,
-      metadata: apiContent.metadata || null,
+      const apiContent = await getContentById(contentId, category)
+      if (!apiContent) {
+        throw new Error('콘텐츠를 찾을 수 없습니다')
+      }
+
+      const typeMap: Record<CategoryId, ContentType> = {
+        book: 'BOOK',
+        video: 'VIDEO',
+        game: 'GAME',
+        music: 'MUSIC',
+        certificate: 'CERTIFICATE',
+        all: 'BOOK',
+      }
+
+      contentData = {
+        id: apiContent.id,
+        title: apiContent.title,
+        creator: apiContent.creator || undefined,
+        thumbnail: apiContent.thumbnail || undefined,
+        description: apiContent.description || undefined,
+        releaseDate: apiContent.releaseDate || undefined,
+        type: typeMap[category],
+        category,
+        metadata: apiContent.metadata || null,
+      }
     }
   }
 

@@ -316,6 +316,62 @@ export async function getMovieDetails(movieId: number): Promise<{
   }
 }
 
+// YouTube 트레일러 키 조회
+interface TMDBVideoResult {
+  key: string
+  site: string
+  type: string
+  official: boolean
+}
+
+export async function getVideoTrailer(externalId: string): Promise<string | null> {
+  if (!TMDB_API_KEY) return null
+
+  // tmdb-movie-123, tmdb-tv-123, tmdb_123 모두 지원
+  const fullMatch = externalId.match(/^tmdb-(movie|tv)-(\d+)$/)
+  const shortMatch = externalId.match(/^tmdb[_-](\d+)$/)
+
+  // mediaType이 명시된 경우 해당 타입만, 아닌 경우 movie → tv 순서로 시도
+  const candidates: [string, string][] = fullMatch
+    ? [[fullMatch[1], fullMatch[2]]]
+    : shortMatch
+      ? [['movie', shortMatch[1]], ['tv', shortMatch[1]]]
+      : []
+
+  if (candidates.length === 0) return null
+
+  try {
+    for (const [mediaType, id] of candidates) {
+      // 양 언어의 트레일러를 모두 수집한 뒤 공식 영상 우선 선택
+      const allTrailers: TMDBVideoResult[] = []
+
+      for (const lang of ['ko-KR', 'en-US']) {
+        const res = await fetch(
+          `${TMDB_BASE_URL}/${mediaType}/${id}/videos?api_key=${TMDB_API_KEY}&language=${lang}`
+        )
+        if (!res.ok) continue
+
+        const data: { results: TMDBVideoResult[] } = await res.json()
+        const trailers = data.results.filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'))
+        allTrailers.push(...trailers)
+      }
+
+      // 공식 Trailer > 공식 Teaser > 비공식 Trailer > 비공식 Teaser
+      allTrailers.sort((a, b) => {
+        if (a.official !== b.official) return a.official ? -1 : 1
+        if (a.type !== b.type) return a.type === 'Trailer' ? -1 : 1
+        return 0
+      })
+
+      if (allTrailers.length > 0) return allTrailers[0].key
+    }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
 // ID로 영상 정보 조회 (metadata 포함)
 export async function getVideoById(externalId: string): Promise<VideoSearchResult | null> {
   if (!TMDB_API_KEY) return null

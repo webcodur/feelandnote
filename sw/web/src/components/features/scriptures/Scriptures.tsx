@@ -5,17 +5,16 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect, useTransition, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Scroll, Route, User, Clock, Menu, X } from "lucide-react";
 import { Tabs, Tab } from "@/components/ui/Tab";
 import { Pagination } from "@/components/ui/Pagination";
 import Button from "@/components/ui/Button";
-import { ContentCard } from "@/components/ui/cards";
+import ContentGrid from "@/components/ui/ContentGrid";
+import { SavedContentCard } from "@/components/ui/cards";
 import { getCategoryByDbType } from "@/constants/categories";
-import { addContent } from "@/actions/contents/addContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import type { ContentType } from "@/types/database";
 import {
   getChosenScriptures,
@@ -148,61 +147,6 @@ function useActiveSection(sectionIds: string[]) {
 }
 // #endregion
 
-// #region Scripture Content Card (인라인 래퍼: contentId 기반으로 인원 구성 뱃지 자동 조회)
-interface ScriptureContentCardProps {
-  id: string;
-  title: string;
-  creator?: string | null;
-  thumbnail?: string | null;
-  type: string;
-  rating?: number | null;
-}
-
-function ScriptureContentCard({
-  id,
-  title,
-  creator,
-  thumbnail,
-  type,
-  rating,
-}: ScriptureContentCardProps) {
-  const [isAdded, setIsAdded] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAdding, startAddTransition] = useTransition();
-  const category = getCategoryByDbType(type);
-  const href = `/content/${id}?category=${category?.id || "book"}`;
-
-  useEffect(() => {
-    checkContentSaved(id).then((result) => { setIsAdded(result.saved); setIsChecking(false); });
-  }, [id]);
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isAdded || isAdding) return;
-    startAddTransition(async () => {
-      const result = await addContent({ id, type: type as ContentType, title, creator: creator ?? undefined, thumbnailUrl: thumbnail ?? undefined, status: "WANT" });
-      if (result.success) setIsAdded(true);
-    });
-  };
-
-  return (
-    <ContentCard
-      contentId={id}
-      thumbnail={thumbnail}
-      title={title}
-      creator={creator}
-      contentType={type as ContentType}
-      href={href}
-      rating={rating ?? undefined}
-      saved={isAdded}
-      addable={!isChecking && !isAdded && !isAdding}
-      onAdd={handleAdd}
-    />
-  );
-}
-// #endregion
-
 // #region Section Skeleton
 function SectionSkeleton({ rows = 1 }: { rows?: number }) {
   return (
@@ -210,11 +154,11 @@ function SectionSkeleton({ rows = 1 }: { rows?: number }) {
       {Array.from({ length: rows }).map((_, rowIndex) => (
         <div key={rowIndex} className={rowIndex > 0 ? "mt-8" : ""}>
           <div className="h-5 w-24 bg-bg-card rounded mb-4" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
+          <ContentGrid>
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
             ))}
-          </div>
+          </ContentGrid>
         </div>
       ))}
     </div>
@@ -370,19 +314,20 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
 
           <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
             {professionData && professionData.contents.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
+              <ContentGrid>
                 {professionData.contents.map((content) => (
-                  <ScriptureContentCard
+                  <SavedContentCard
                     key={content.id}
-                    id={content.id}
+                    contentId={content.id}
+                    contentType={content.type as ContentType}
                     title={content.title}
                     creator={content.creator}
                     thumbnail={content.thumbnail_url}
-                    type={content.type}
-                    rating={content.avg_rating}
+                    rating={content.avg_rating ?? undefined}
+                    href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                   />
                 ))}
-              </div>
+              </ContentGrid>
             ) : (
               <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
                 <p className="text-text-tertiary text-sm">해당 분야의 경전이 없습니다</p>
@@ -464,16 +409,17 @@ function TodaySageSection() {
           </Link>
 
           {displayContents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
+            <ContentGrid>
               {displayContents.map((content) => (
-                <ScriptureContentCard
+                <SavedContentCard
                   key={content.id}
-                  id={content.id}
+                  contentId={content.id}
+                  contentType={content.type as ContentType}
                   title={content.title}
                   creator={content.creator}
                   thumbnail={content.thumbnail_url}
-                  type={content.type}
-                  rating={content.avg_rating}
+                  rating={content.avg_rating ?? undefined}
+                  href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                 />
               ))}
               {/* 더보기 카드 */}
@@ -489,7 +435,7 @@ function TodaySageSection() {
                   <span className="text-xs text-text-tertiary">+{remainingCount}개 더</span>
                 )}
               </Link>
-            </div>
+            </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
               <p className="text-text-tertiary text-sm">감상 기록이 없습니다</p>
@@ -536,19 +482,20 @@ function EraSection() {
               </div>
 
               {era.contents.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
+                <ContentGrid>
                   {era.contents.map((content) => (
-                    <ScriptureContentCard
+                    <SavedContentCard
                       key={content.id}
-                      id={content.id}
+                      contentId={content.id}
+                      contentType={content.type as ContentType}
                       title={content.title}
                       creator={content.creator}
                       thumbnail={content.thumbnail_url}
-                      type={content.type}
-                      rating={content.avg_rating}
+                      rating={content.avg_rating ?? undefined}
+                      href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                     />
                   ))}
-                </div>
+                </ContentGrid>
               ) : (
                 <div className="flex items-center justify-center h-24 bg-bg-card/50 rounded-xl border border-border/30">
                   <p className="text-text-tertiary text-sm">해당 시대의 경전이 없습니다</p>
@@ -625,19 +572,20 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
 
         <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
           {chosenData.contents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4">
+            <ContentGrid>
               {chosenData.contents.map((content) => (
-                <ScriptureContentCard
+                <SavedContentCard
                   key={content.id}
-                  id={content.id}
+                  contentId={content.id}
+                  contentType={content.type as ContentType}
                   title={content.title}
                   creator={content.creator}
                   thumbnail={content.thumbnail_url}
-                  type={content.type}
-                  rating={content.avg_rating}
+                  rating={content.avg_rating ?? undefined}
+                  href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                 />
               ))}
-            </div>
+            </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
               <p className="text-text-tertiary text-sm">해당 카테고리의 경전이 없습니다</p>

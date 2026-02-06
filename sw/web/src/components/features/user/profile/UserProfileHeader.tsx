@@ -224,7 +224,7 @@ export default function UserProfileHeader({
           {/* 통계 - 320px 대응 폰트 및 간격 대폭 축소 */}
           <div className="grid grid-cols-5 gap-1 sm:gap-2 md:flex md:items-center md:gap-6 text-sm py-2 border-t border-accent-dim/20 mt-2">
             <Link 
-              href={`/${profile.id}/records`}
+              href={`/${profile.id}/reading`}
               className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary hover:text-text-primary transition-colors group"
             >
               <BookOpen size={14} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors shrink-0" />

@@ -69,7 +69,7 @@ export async function updateRecord(params: UpdateRecordParams): Promise<ActionRe
   }
 
   revalidatePath(`/${user.id}/records/${data.content_id}`)
-  revalidatePath(`/${user.id}/records`)
+  revalidatePath(`/${user.id}/reading`)
 
   // 활동 로그
   await logActivity({

@@ -177,7 +177,7 @@ export default function PlaylistEditor({
         }
         onSuccess?.();
         if (currentUserId) {
-          router.push(`/${currentUserId}/collections/${result.data.playlistId}`);
+          router.push(`/${currentUserId}/reading/collections/${result.data.playlistId}`);
         }
       } else if (playlistId) {
         // 이름/공개 상태 변경

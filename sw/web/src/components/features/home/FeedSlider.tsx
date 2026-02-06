@@ -1,13 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect, useTransition } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, User } from "lucide-react";
-import { ContentCard } from "@/components/ui/cards";
+import { SavedContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import { addContent } from "@/actions/contents/addContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import type { CelebReview as Review } from "@/types/home";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -15,34 +13,9 @@ import { ko } from "date-fns/locale";
 // #region Inline Slider Feed Card
 function SliderFeedCard({ review }: { review: Review }) {
   const router = useRouter();
-  const [isAdded, setIsAdded] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
 
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
-
-  useEffect(() => {
-    checkContentSaved(review.content.id).then((result) => {
-      setIsAdded(result.saved);
-      setIsChecking(false);
-    });
-  }, [review.content.id]);
-
-  const handleAddToArchive = () => {
-    if (isAdded || isAdding) return;
-    startTransition(async () => {
-      const result = await addContent({
-        id: review.content.id,
-        type: review.content.type,
-        title: review.content.title,
-        creator: review.content.creator ?? undefined,
-        thumbnailUrl: review.content.thumbnail_url ?? undefined,
-        status: "WANT",
-      });
-      if (result.success) setIsAdded(true);
-    });
-  };
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
@@ -83,7 +56,7 @@ function SliderFeedCard({ review }: { review: Review }) {
 
   return (
     <>
-      <ContentCard
+      <SavedContentCard
         contentId={review.content.id}
         contentType={review.content.type}
         title={review.content.title}
@@ -96,9 +69,6 @@ function SliderFeedCard({ review }: { review: Review }) {
         href={`/contents/${review.content.id}`}
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
-        saved={isAdded}
-        addable={!isAdded && !isChecking}
-        onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
       />
 

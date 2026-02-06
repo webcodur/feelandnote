@@ -150,7 +150,7 @@ export async function respondRecommendation(
       type: "recommendation_accepted",
       title: "추천 수락",
       message: `${receiverName}님이 회원님의 추천을 수락했습니다.`,
-      link: `/${user.id}/records`,
+      link: `/${user.id}/reading`,
       metadata: {
         recommendation_id: recommendation.id,
       },
@@ -158,7 +158,7 @@ export async function respondRecommendation(
   }
 
   revalidatePath("/notifications");
-  revalidatePath(`/${user.id}/records`);
+  revalidatePath(`/${user.id}/reading`);
 
   return success({
     accepted: params.accept,

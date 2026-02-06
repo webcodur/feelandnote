@@ -28,27 +28,30 @@ export interface AchievementData {
   stats: Record<string, number>
 }
 
-export async function getAchievementData(): Promise<AchievementData | null> {
+export async function getAchievementData(targetUserId?: string): Promise<AchievementData | null> {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return null
+  // targetUserId가 없으면 로그인 유저 기준
+  let userId = targetUserId
+  if (!userId) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return null
+    userId = user.id
   }
 
   // 병렬로 데이터 조회
   const [stats, scoreLogsResult, userScoreResult] = await Promise.all([
-    getUserStats(supabase, user.id),
+    getUserStats(supabase, userId),
     supabase
       .from('score_logs')
       .select('id, type, action, amount, created_at')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(20),
     supabase
       .from('user_scores')
       .select('activity_score, title_bonus, total_score')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .single(),
   ])
 

@@ -10,7 +10,6 @@ import { Hash } from "lucide-react";
 import { Card, TitleBadge } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { ContentCard } from "@/components/ui/cards";
-import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import { toggleFollow } from "@/actions/user";
 import type { ContentType } from "@/types/database";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
@@ -22,8 +21,6 @@ interface ContentResultsProps {
   results: ContentResult[];
   mode: "content" | "records";
   currentUserId?: string | null;
-  addingIds?: Set<string>;
-  addedIds?: Set<string>;
   savedIds?: Set<string>;
   userCounts?: Record<string, number>;
   onBeforeNavigate?: (item: ContentResult) => void;
@@ -34,8 +31,6 @@ export function ContentResults({
   results,
   mode,
   currentUserId,
-  addingIds = new Set(),
-  addedIds = new Set(),
   savedIds = new Set(),
   userCounts = {},
   onBeforeNavigate,
@@ -49,8 +44,6 @@ export function ContentResults({
     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-1">
       {results.map((item) => {
         const thumbnail = "thumbnail" in item ? item.thumbnail : undefined;
-        const isAdding = addingIds.has(item.id);
-        const isAdded = addedIds.has(item.id);
         const isSaved = savedIds.has(item.id);
         const contentType = item.category.toUpperCase() as ContentType;
 
@@ -72,16 +65,8 @@ export function ContentResults({
             href={href}
             onClick={() => onBeforeNavigate?.(item)}
             saved={isSaved && showAddButton}
-            topRightNode={
-              showAddButton && onAddWithStatus && !isSaved ? (
-                <AddContentPopover
-                  onAdd={(status) => onAddWithStatus(item, status)}
-                  isAdding={isAdding}
-                  isAdded={isAdded}
-                  size="sm"
-                />
-              ) : undefined
-            }
+            addable={showAddButton && !isSaved && !!onAddWithStatus}
+            onAdd={() => onAddWithStatus?.(item, "WANT")}
           />
         );
       })}

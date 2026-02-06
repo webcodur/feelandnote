@@ -30,7 +30,7 @@ export async function loginWithEmail(formData: FormData) {
   }
 
   const { data: { user } } = await supabase.auth.getUser()
-  redirect(`/${user!.id}/records`)
+  redirect(`/${user!.id}/reading`)
 }
 
 export async function signupWithEmail(formData: FormData) {

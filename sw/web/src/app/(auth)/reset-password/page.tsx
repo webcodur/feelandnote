@@ -44,7 +44,7 @@ export default function ResetPasswordPage() {
     setSuccess(true)
     const { data: { user } } = await supabase.auth.getUser()
     setTimeout(() => {
-      router.push(user ? `/${user.id}/records` : '/')
+      router.push(user ? `/${user.id}/reading` : '/')
     }, 2000)
   }
 

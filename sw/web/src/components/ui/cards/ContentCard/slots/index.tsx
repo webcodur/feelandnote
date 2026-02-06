@@ -149,14 +149,18 @@ export function DeleteButton({ onClick }: { onClick?: (e: React.MouseEvent) => v
 // #endregion
 
 // #region SavedBadge
-export function SavedBadge() {
+export function SavedBadge({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
+  const interactive = !!onClick;
   return (
-    <div
-      className="absolute top-1.5 right-1.5 md:top-2 md:right-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-accent rounded-md shadow-lg"
+    <button
+      type="button"
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
+      disabled={!interactive}
+      className={`absolute top-1.5 right-1.5 md:top-2 md:right-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-accent rounded-md shadow-lg ${interactive ? "hover:bg-accent/80 cursor-pointer" : ""}`}
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
       <Bookmark size={14} className="text-white fill-white" strokeWidth={2} />
-    </div>
+    </button>
   );
 }
 // #endregion

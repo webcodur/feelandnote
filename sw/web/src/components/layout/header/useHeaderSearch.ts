@@ -193,7 +193,7 @@ export function useHeaderSearch() {
     // 내 기록 검색: 사용자의 records 페이지로 이동
     if (mode === "records") {
       if (!currentUserId) return;
-      router.push(`/${currentUserId}/records?q=${encodeURIComponent(query.trim())}`);
+      router.push(`/${currentUserId}/reading?q=${encodeURIComponent(query.trim())}`);
       setIsOpen(false);
       return;
     }

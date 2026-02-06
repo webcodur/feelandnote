@@ -6,8 +6,8 @@
 "use client";
 
 import { useState } from "react";
-import { CertificateCard, ContentCard } from "@/components/ui/cards";
-import { ContentGrid } from "@/components/ui";
+import { ContentCard } from "@/components/ui/cards";
+import ContentGrid from "@/components/ui/ContentGrid";
 import { getCategoryByDbType } from "@/constants/categories";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
@@ -59,10 +59,6 @@ export default function ContentItemRenderer({
     return `/content/${item.content_id}?category=${category}`;
   };
 
-  // 자격증과 일반 콘텐츠 분리
-  const certificates = items.filter((item) => item.content.type === "CERTIFICATE");
-  const regularContents = items.filter((item) => item.content.type !== "CERTIFICATE");
-
   // 뷰어 보유 여부
   const isViewerSaved = (contentId: string) =>
     savedContentIds !== null && savedContentIds !== undefined && savedContentIds.has(contentId);
@@ -70,69 +66,44 @@ export default function ContentItemRenderer({
 
   return (
     <div className="space-y-4">
-      {/* 일반 콘텐츠 */}
-      {regularContents.length > 0 && (
-        <div className={viewMode === "list"
-          ? "grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4"
-          : "grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4"
-        }>
-          {regularContents.map((item) => {
-            const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
-            // list 모드: review prop 전달 → ContentCard 리뷰 모드 활성화
-            const reviewProp = viewMode === "list" ? item.review : undefined;
-            return (
-              <ContentCard
-                key={item.id}
-                contentId={item.content_id}
-                contentType={item.content.type}
-                title={item.content.title}
-                creator={item.content.creator}
-                thumbnail={item.content.thumbnail_url}
-                status={item.status}
-                rating={currentRating}
-                review={reviewProp}
-                isSpoiler={item.is_spoiler ?? undefined}
-                sourceUrl={item.source_url}
-                href={getHref(item)}
-                showStatusBadge={false}
-                ownerNickname={ownerNickname}
-                userContentId={item.id}
-                recommendable={!readOnly && item.status === "FINISHED"}
-                onRatingClick={!readOnly ? (e) => {
-                  e.stopPropagation();
-                  setRatingEditTarget({
-                    userContentId: item.id,
-                    contentTitle: item.content.title,
-                    rating: currentRating,
-                  });
-                } : undefined}
-                saved={readOnly && isViewerSaved(item.content_id)}
-                addable={readOnly && isViewerLoggedIn && !isViewerSaved(item.content_id)}
-                onAdd={() => onAddContent?.(item.content_id)}
-              />
-            );
-          })}
-        </div>
-      )}
-
-      {/* 자격증: 그리드 레이아웃 유지 */}
-      {certificates.length > 0 && (
-        <ContentGrid compact={compact} minWidth={compact ? 300 : 330}>
-          {certificates.map((item) => (
-            <CertificateCard
-              key={item.id}
-              item={item}
-              onStatusChange={() => {}}
-              onRecommendChange={() => {}}
-              onDelete={deleteHandler}
+      <ContentGrid variant={viewMode === "list" ? "list" : "wide"}>
+        {items.map((item) => {
+          const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
+          const reviewProp = viewMode === "list" ? item.review : undefined;
+          return (
+            <div key={item.id} className="w-full max-w-[300px] md:max-w-none">
+            <ContentCard
+              contentId={item.content_id}
+              contentType={item.content.type}
+              title={item.content.title}
+              creator={item.content.creator}
+              thumbnail={item.content.thumbnail_url}
+              status={item.status}
+              rating={currentRating}
+              review={reviewProp}
+              isSpoiler={item.is_spoiler ?? undefined}
+              sourceUrl={item.source_url}
               href={getHref(item)}
-              isBatchMode={false}
-              isSelected={false}
-              readOnly={readOnly}
+              showStatusBadge={false}
+              ownerNickname={ownerNickname}
+              userContentId={item.id}
+              recommendable={!readOnly && item.status === "FINISHED"}
+              onRatingClick={!readOnly ? (e) => {
+                e.stopPropagation();
+                setRatingEditTarget({
+                  userContentId: item.id,
+                  contentTitle: item.content.title,
+                  rating: currentRating,
+                });
+              } : undefined}
+              saved={readOnly && isViewerSaved(item.content_id)}
+              addable={readOnly && isViewerLoggedIn && !isViewerSaved(item.content_id)}
+              onAdd={() => onAddContent?.(item.content_id)}
             />
-          ))}
-        </ContentGrid>
-      )}
+            </div>
+          );
+        })}
+      </ContentGrid>
 
       {/* 별점 편집 모달 */}
       {ratingEditTarget && (

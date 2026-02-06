@@ -18,6 +18,9 @@ export const Z_INDEX = {
   // FAB (Floating Action Button)
   fab: 50,
 
+  // 플로팅 뮤직 플레이어
+  floatingPlayer: 150,
+
   // 네비게이션
   sidebar: 100,
   bottomNav: 100,

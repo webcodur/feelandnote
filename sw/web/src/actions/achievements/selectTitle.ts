@@ -40,25 +40,29 @@ export async function selectTitle(titleCode: string | null): Promise<ActionResul
   }
 
   revalidatePath(`/${user.id}`)
-  revalidatePath(`/${user.id}/achievements`)
+  revalidatePath(`/${user.id}/merits`)
 
   return success(undefined)
 }
 
-// 사용자의 선택된 칭호 조회
+// 사용자의 선택된 칭호 + 진열대 조회
 export async function getSelectedTitle(userId: string) {
   const supabase = await createClient()
 
   const { data } = await supabase
     .from('profiles')
-    .select('selected_title')
+    .select('selected_title, showcase_titles')
     .eq('id', userId)
     .single()
 
-  if (!data?.selected_title) return null
+  const selectedTitle = data?.selected_title
+    ? TITLES.find(t => t.code === data.selected_title) || null
+    : null
 
-  const title = TITLES.find(t => t.code === data.selected_title)
-  return title || null
+  return {
+    selectedTitle,
+    showcaseTitles: (data?.showcase_titles as string[]) || [],
+  }
 }
 
 // 조건 체크 (내부 사용)

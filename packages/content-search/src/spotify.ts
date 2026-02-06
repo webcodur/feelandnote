@@ -188,6 +188,75 @@ export async function getAlbumDetails(albumId: string): Promise<{
   }
 }
 
+// Spotify ID의 엔티티 타입 판별 (track vs album)
+export async function getSpotifyEntityType(
+  spotifyId: string
+): Promise<'track' | 'album' | null> {
+  try {
+    const token = await getAccessToken()
+
+    // album 먼저 시도 (더 흔한 케이스)
+    const albumRes = await fetch(`${SPOTIFY_BASE_URL}/albums/${spotifyId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (albumRes.ok) return 'album'
+
+    const trackRes = await fetch(`${SPOTIFY_BASE_URL}/tracks/${spotifyId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (trackRes.ok) return 'track'
+
+    return null
+  } catch {
+    return null
+  }
+}
+
+// 배치 엔티티 타입 판별 (albums API 20개, tracks API 50개 단위)
+export async function batchGetSpotifyEntityTypes(
+  spotifyIds: string[]
+): Promise<Map<string, 'track' | 'album'>> {
+  if (spotifyIds.length === 0) return new Map()
+
+  try {
+    const token = await getAccessToken()
+    const result = new Map<string, 'track' | 'album'>()
+
+    // 앨범 먼저 (대다수가 앨범)
+    for (let i = 0; i < spotifyIds.length; i += 20) {
+      const batch = spotifyIds.slice(i, i + 20)
+      const res = await fetch(`${SPOTIFY_BASE_URL}/albums?ids=${batch.join(',')}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        ;(data.albums as (SpotifyAlbum | null)[]).forEach((album, idx) => {
+          if (album) result.set(batch[idx], 'album')
+        })
+      }
+    }
+
+    // 나머지 → 트랙 확인
+    const remaining = spotifyIds.filter((id) => !result.has(id))
+    for (let i = 0; i < remaining.length; i += 50) {
+      const batch = remaining.slice(i, i + 50)
+      const res = await fetch(`${SPOTIFY_BASE_URL}/tracks?ids=${batch.join(',')}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        ;(data.tracks as ({ id: string } | null)[]).forEach((track, idx) => {
+          if (track) result.set(batch[idx], 'track')
+        })
+      }
+    }
+
+    return result
+  } catch {
+    return new Map()
+  }
+}
+
 // ID로 앨범 정보 조회 (metadata 포함)
 export async function getAlbumById(externalId: string): Promise<MusicSearchResult | null> {
   // externalId 형식: spotify-abc123

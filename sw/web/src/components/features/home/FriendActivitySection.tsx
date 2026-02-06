@@ -1,53 +1,23 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo, useTransition } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Inbox, User } from "lucide-react";
-import { ContentCard } from "@/components/ui/cards";
+import { SavedContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } from "@/actions/activity";
 import { CONTENT_TYPE_FILTERS, getCategoryByDbType, type ContentTypeFilterValue } from "@/constants/categories";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { ACTION_CONFIG } from "@/lib/config/activity-actions";
-import { addContent } from "@/actions/contents/addContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 
 // #region Inline Friend Feed Card
 function FriendFeedCard({ activity }: { activity: FeedActivity }) {
   const router = useRouter();
   const config = ACTION_CONFIG[activity.action_type];
-  const [isAdded, setIsAdded] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
 
   const category = getCategoryByDbType(activity.content_type!);
-
-  useEffect(() => {
-    checkContentSaved(activity.content_id!).then((result) => {
-      setIsAdded(result.saved);
-      setIsChecking(false);
-    });
-  }, [activity.content_id]);
-
-  const handleAddToArchive = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isAdded || isAdding) return;
-
-    startTransition(async () => {
-      const result = await addContent({
-        id: activity.content_id!,
-        type: activity.content_type!,
-        title: activity.content_title || "",
-        creator: undefined,
-        thumbnailUrl: activity.content_thumbnail ?? undefined,
-        status: "WANT",
-      });
-      if (result.success) setIsAdded(true);
-    });
-  };
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
@@ -83,7 +53,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
 
   return (
     <>
-      <ContentCard
+      <SavedContentCard
         contentId={activity.content_id!}
         contentType={activity.content_type!}
         title={activity.content_title || ""}
@@ -96,9 +66,6 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         href={`/content/${activity.content_id}?category=${category?.id || "book"}`}
         ownerNickname={activity.user_nickname}
         headerNode={headerNode}
-        saved={isAdded}
-        addable={!isChecking && !isAdded && !isAdding}
-        onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
         className="sm:max-w-4xl sm:mx-auto"
       />

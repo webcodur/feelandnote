@@ -4,7 +4,7 @@
   책임: 전장 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Scale, Clock, Trophy, type LucideIcon } from "lucide-react";
+import { Scale, Clock, MessageCircle, type LucideIcon } from "lucide-react";
 
 // 섹션명
 export const ARENA_SECTION_NAME = "전장";
@@ -20,24 +20,24 @@ export interface ArenaItem {
 export const ARENA_ITEMS: ArenaItem[] = [
   {
     value: "up-down",
-    label: "업다운",
+    label: "용호상박",
     icon: Scale,
     href: "/arena/up-down",
     description: "두 인물 중 더 높은 평점을 맞춰보세요",
   },
   {
-    value: "timeline",
-    label: "타임 퍼즐",
+    value: "time-puzzle",
+    label: "장유유서",
     icon: Clock,
-    href: "/arena/timeline",
+    href: "/arena/time-puzzle",
     description: "인물들의 탄생 순서를 맞춰보세요",
   },
   {
-    value: "tier-list",
-    label: "티어리스트",
-    icon: Trophy,
-    href: "/arena/tier-list",
-    description: "나만의 콘텐츠 순위표를 만들어보세요",
+    value: "quote",
+    label: "온고지신",
+    icon: MessageCircle,
+    href: "/arena/quote",
+    description: "명언을 보고 인물을 맞춰보세요",
   },
 ];
 
@@ -59,20 +59,20 @@ export interface SectionHeaderInfo {
 export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
   "up-down": {
     label: "INFLUENCE DUEL",
-    title: "업다운",
-    description: "영향력 대결",
-    subDescription: "두 인물 중 누가 더 큰 영향력을 가졌을까요?",
+    title: "용호상박",
+    description: "막상막하의 대결",
+    subDescription: "두 거인을 저울에 올리며 영향력의 무게를 가늠해보세요.",
   },
-  timeline: {
+  "time-puzzle": {
     label: "CHRONOS PUZZLE",
-    title: "타임 퍼즐",
-    description: "연대기 퍼즐",
-    subDescription: "인물들의 탄생 순서를 맞춰보세요.",
+    title: "장유유서",
+    description: "선후의 질서",
+    subDescription: "위인들의 선후를 가리며 시간의 질서를 세워보세요.",
   },
-  "tier-list": {
-    label: "PANTHEON",
-    title: "티어리스트",
-    description: "취향의 계보",
-    subDescription: "당신이 사랑한 것들에 순위를 매겨보세요.",
+  quote: {
+    label: "QUOTE BLIND",
+    title: "온고지신",
+    description: "옛 지혜의 발견",
+    subDescription: "금언의 주인을 가리며 옛 지혜를 되새겨보세요.",
   },
 };

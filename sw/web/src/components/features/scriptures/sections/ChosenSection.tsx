@@ -10,53 +10,12 @@ import { useState, useEffect, useTransition } from "react";
 import { Scroll } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
-import { ContentCard } from "@/components/ui/cards";
+import { SavedContentCard } from "@/components/ui/cards";
+import ContentGrid from "@/components/ui/ContentGrid";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getCategoryByDbType } from "@/constants/categories";
-import { addContent } from "@/actions/contents/addContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { getChosenScriptures, type ScripturesResult } from "@/actions/scriptures";
 import type { ContentType } from "@/types/database";
-
-// 인라인 래퍼: contentId 기반으로 인원 구성 뱃지 자동 조회
-function ScriptureContentCard({
-  id, title, creator, thumbnail, type, rating,
-}: {
-  id: string; title: string; creator?: string | null; thumbnail?: string | null;
-  type: string; rating?: number | null;
-}) {
-  const [isAdded, setIsAdded] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAdding, startAddTransition] = useTransition();
-  const category = getCategoryByDbType(type);
-  const href = `/content/${id}?category=${category?.id || "book"}`;
-
-  useEffect(() => {
-    checkContentSaved(id).then((result) => { setIsAdded(result.saved); setIsChecking(false); });
-  }, [id]);
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isAdded || isAdding) return;
-    startAddTransition(async () => {
-      const result = await addContent({ id, type: type as ContentType, title, creator: creator ?? undefined, thumbnailUrl: thumbnail ?? undefined, status: "WANT" });
-      if (result.success) setIsAdded(true);
-    });
-  };
-
-  return (
-    <ContentCard
-      contentId={id}
-      thumbnail={thumbnail} title={title} creator={creator}
-      contentType={type as ContentType} href={href}
-      rating={rating ?? undefined}
-      saved={isAdded}
-      addable={!isChecking && !isAdded && !isAdding}
-      onAdd={handleAdd}
-    />
-  );
-}
 
 // #region Types
 type CategoryFilter = "ALL" | "BOOK" | "VIDEO" | "GAME" | "MUSIC";
@@ -155,7 +114,7 @@ export default function ChosenSection({ initialData }: Props) {
       {/* 카드 그리드 */}
       <div className={`min-h-[300px] transition-opacity duration-500 ${isPending ? "opacity-50" : "opacity-100"}`}>
         {data.contents.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 md:gap-4 relative">
+          <ContentGrid className="relative">
             {/* 배경 장식 (흐릿한 월계관 느낌) */}
             <div className="absolute inset-0 bg-radial-gradient from-accent/5 to-transparent opacity-50 pointer-events-none" />
             
@@ -169,20 +128,21 @@ export default function ChosenSection({ initialData }: Props) {
                     <div className="absolute -inset-1 bg-gradient-to-br from-accent/30 to-transparent rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity" />
                   )}
 
-                  <ScriptureContentCard
-                    id={content.id}
+                  <SavedContentCard
+                    contentId={content.id}
+                    contentType={content.type as ContentType}
                     title={content.title}
                     creator={content.creator}
                     thumbnail={content.thumbnail_url}
-                    type={content.type}
-                    rating={content.avg_rating}
+                    rating={content.avg_rating ?? undefined}
+                    href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                   />
                   
                   {/* 순위 뱃지 커스텀 (기존 Card 내부 뱃지 외에 추가 강조가 필요하다면) */}
                 </div>
               );
             })}
-          </div>
+          </ContentGrid>
         ) : (
           <div className="flex flex-col items-center justify-center h-60 bg-bg-card/30 rounded-xl border border-border/30 backdrop-blur-sm">
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">

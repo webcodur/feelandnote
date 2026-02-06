@@ -42,7 +42,7 @@ export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps)
       title: "바로가기",
       items: [
         { href: "/", label: "홈", icon: Home },
-        { href: userId ? `/${userId}/collections` : "/login", label: "재생목록", icon: ListMusic },
+        { href: userId ? `/${userId}/reading/collections` : "/login", label: "재생목록", icon: ListMusic },
         { href: "/explore", label: "탐색", icon: Compass },
         { href: "/scriptures", label: "지혜의 서고", icon: BookOpen },
       ],

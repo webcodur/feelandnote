@@ -40,6 +40,22 @@ interface PlaylistHeaderProps {
   handleToggleSave: () => void;
 }
 
+const TIER_KEYS = ["S", "A", "B", "C", "D"] as const;
+const TIER_COLORS: Record<string, string> = {
+  S: "bg-red-500",
+  A: "bg-orange-500",
+  B: "bg-yellow-500",
+  C: "bg-green-500",
+  D: "bg-blue-500",
+};
+const TIER_DOT_COLORS: Record<string, string> = {
+  S: "bg-red-500",
+  A: "bg-orange-500",
+  B: "bg-yellow-500",
+  C: "bg-green-500",
+  D: "bg-blue-500",
+};
+
 export default function PlaylistHeader({
   playlist,
   playlistId,
@@ -54,11 +70,18 @@ export default function PlaylistHeader({
   handleDelete,
   handleToggleSave,
 }: PlaylistHeaderProps) {
+  const tierCounts = TIER_KEYS.map((key) => ({
+    key,
+    count: playlist.tiers?.[key]?.length || 0,
+  }));
+  const rankedCount = tierCounts.reduce((s, t) => s + t.count, 0);
+  const unrankedCount = (playlist.item_count || 0) - rankedCount;
+
   return (
     <>
       {/* 헤더 영역 */}
       <div className="flex items-start gap-4 mb-6">
-        <Link href={`/${playlist.user_id}/collections`} className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
+        <Link href={`/${playlist.user_id}/reading/collections`} className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
           <ArrowLeft size={24} />
         </Link>
 
@@ -95,7 +118,9 @@ export default function PlaylistHeader({
                 <span className="flex items-center gap-1 text-xs text-text-secondary"><Lock size={12} /> 비공개</span>
               )}
               {playlist.has_tiers && (
-                <span className="flex items-center gap-1 text-xs text-amber-400"><Trophy size={12} /> 티어 설정됨</span>
+                <span className="flex items-center gap-1 text-xs text-amber-400">
+                  <Trophy size={12} /> {TIER_KEYS.reduce((s, k) => s + (playlist.tiers?.[k]?.length || 0), 0)}/{playlist.item_count} 배치
+                </span>
               )}
             </div>
           </div>
@@ -150,11 +175,60 @@ export default function PlaylistHeader({
           >
             <Pencil size={16} />편집
           </Button>
-          <Link href={`/${playlist.user_id}/collections/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
+          <Link href={`/${playlist.user_id}/reading/collections/${playlistId}/tiers`} className="flex items-center gap-2 px-4 py-2 bg-bg-card hover:bg-bg-secondary border border-border rounded-lg text-sm">
             <Trophy size={16} />티어 설정
           </Link>
         </div>
       )}
+
+      {/* 티어 분포 바 */}
+      {playlist.has_tiers && rankedCount > 0 && (
+        <TierDistributionBar tierCounts={tierCounts} rankedCount={rankedCount} unrankedCount={unrankedCount} />
+      )}
     </>
   );
 }
+
+// region 티어 분포 바
+function TierDistributionBar({
+  tierCounts,
+  rankedCount,
+  unrankedCount,
+}: {
+  tierCounts: { key: string; count: number }[];
+  rankedCount: number;
+  unrankedCount: number;
+}) {
+  const total = rankedCount + unrankedCount;
+
+  return (
+    <div className="mb-6">
+      {/* 분포 바 */}
+      <div className="flex h-2 rounded-full overflow-hidden bg-white/5">
+        {tierCounts.map(({ key, count }) =>
+          count > 0 && (
+            <div
+              key={key}
+              className={`${TIER_COLORS[key]} first:rounded-l-full last:rounded-r-full`}
+              style={{ width: `${(count / total) * 100}%` }}
+            />
+          ),
+        )}
+      </div>
+
+      {/* 범례 */}
+      <div className="flex items-center gap-3 mt-2 text-[10px] text-text-secondary flex-wrap">
+        {tierCounts.map(({ key, count }) => (
+          <span key={key} className="flex items-center gap-1">
+            <span className={`inline-block w-2 h-2 rounded-full ${TIER_DOT_COLORS[key]}`} />
+            {key} {count}
+          </span>
+        ))}
+        {unrankedCount > 0 && (
+          <span className="ml-auto text-text-tertiary">미분류 {unrankedCount}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+// endregion

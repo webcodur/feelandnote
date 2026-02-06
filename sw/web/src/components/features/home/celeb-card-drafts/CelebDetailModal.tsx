@@ -19,17 +19,14 @@ import InfluenceBadge from "@/components/ui/InfluenceBadge";
 import { FormattedText } from "@/components/ui";
 import { getCelebReviews } from "@/actions/home/getCelebReviews";
 import type { CelebReview } from "@/types/home";
-import { ContentCard } from "@/components/ui/cards";
+import { SavedContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import { addContent } from "@/actions/contents/addContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 
 // #region Constants (materials.ts 기반 오라별 그라데이션)
 const AURA_GRADIENTS: Record<Aura, string> = {
@@ -48,36 +45,11 @@ const AURA_GRADIENTS: Record<Aura, string> = {
 // #region Inline Celeb Review Card (for modal)
 function CelebReviewCard({ review, celeb, onRatingUpdate }: { review: CelebReview; celeb: CelebProfile; onRatingUpdate?: (id: string, rating: number | null) => void }) {
   const router = useRouter();
-  const [isAdded, setIsAdded] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [currentRating, setCurrentRating] = useState<number | null>(review.rating);
 
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
-
-  useEffect(() => {
-    checkContentSaved(review.content.id).then((result) => {
-      setIsAdded(result.saved);
-      setIsChecking(false);
-    });
-  }, [review.content.id]);
-
-  const handleAddToArchive = () => {
-    if (isAdded || isAdding) return;
-    startTransition(async () => {
-      const result = await addContent({
-        id: review.content.id,
-        type: review.content.type,
-        title: review.content.title,
-        creator: review.content.creator ?? undefined,
-        thumbnailUrl: review.content.thumbnail_url ?? undefined,
-        status: "WANT",
-      });
-      if (result.success) setIsAdded(true);
-    });
-  };
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
@@ -118,7 +90,7 @@ function CelebReviewCard({ review, celeb, onRatingUpdate }: { review: CelebRevie
 
   return (
     <>
-      <ContentCard
+      <SavedContentCard
         contentId={review.content.id}
         contentType={review.content.type}
         title={review.content.title}
@@ -135,9 +107,6 @@ function CelebReviewCard({ review, celeb, onRatingUpdate }: { review: CelebRevie
         href=""
         ownerNickname={celeb.nickname}
         headerNode={headerNode}
-        saved={isAdded}
-        addable={!isAdded && !isChecking}
-        onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
       />
 
@@ -177,13 +146,15 @@ interface CelebDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   hideBirthDate?: boolean;
+  hideInfluence?: boolean;
+  hideQuotes?: boolean;
   // 리스트 컨텍스트 네비게이션 (선택)
   onNavigate?: (direction: "prev" | "next") => void;
   hasPrev?: boolean;
   hasNext?: boolean;
 }
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, hideInfluence = false, hideQuotes = false, onNavigate, hasPrev = false, hasNext = false }: CelebDetailModalProps) {
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
@@ -576,17 +547,19 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               </div>
 
               {/* 레벨 휘장 (Top-Left): 모서리 밀착 */}
-              <div className="absolute top-4 left-4 z-30">
-                <InfluenceBadge
-                  aura={aura}
-                  size="lg"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsInfluenceOpen(true);
-                  }}
-                  className="shadow-2xl"
-                />
-              </div>
+              {!hideInfluence && (
+                <div className="absolute top-4 left-4 z-30">
+                  <InfluenceBadge
+                    aura={aura}
+                    size="lg"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsInfluenceOpen(true);
+                    }}
+                    className="shadow-2xl"
+                  />
+                </div>
+              )}
 
               {/* 좌우 네비게이션 화살표 */}
               <NavArrows size="md" />
@@ -610,7 +583,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               )}
 
-              {celeb.quotes && (
+              {!hideQuotes && celeb.quotes && (
                 <blockquote className="text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mb-6 leading-relaxed shrink-0 w-full text-center px-4">
                   "<FormattedText text={celeb.quotes} />"
                 </blockquote>
@@ -698,15 +671,17 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 
                 <div className="flex items-center justify-between mt-2">
                   {/* 2. 좌상단 영향력 휘장 (클릭 시 상세 모달) */}
-                  <InfluenceBadge
-                    aura={aura}
-                    size="md"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsInfluenceOpen(true);
-                    }}
-                    className="shadow-2xl active:scale-90 transition-transform"
-                  />
+                  {!hideInfluence ? (
+                    <InfluenceBadge
+                      aura={aura}
+                      size="md"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsInfluenceOpen(true);
+                      }}
+                      className="shadow-2xl active:scale-90 transition-transform"
+                    />
+                  ) : <div />}
 
                   {/* 3. 우측 액션 버튼들 (닫기만 유지) */}
                   <div className="flex items-center gap-2">
@@ -753,7 +728,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             {/* 정보 영역 - 이제 Bio와 Quotes에 집중 */}
             <div className="px-5 pb-8 pt-0 flex flex-col gap-2">
               {/* 인용구 */}
-              {celeb.quotes && (
+              {!hideQuotes && celeb.quotes && (
                 <blockquote className="text-xs text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mt-4 mb-2 leading-relaxed shrink-0 w-full text-center px-4">
                   "<FormattedText text={celeb.quotes} />"
                 </blockquote>

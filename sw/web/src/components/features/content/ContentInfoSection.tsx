@@ -11,6 +11,7 @@ import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Lo
 import Button from "@/components/ui/Button";
 import { FormattedText } from "@/components/ui";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
+import MediaEmbed from "./MediaEmbed";
 import { addContent } from "@/actions/contents/addContent";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { removeContent } from "@/actions/contents/removeContent";
@@ -219,6 +220,9 @@ export default function ContentInfoSection({
           </p>
         </div>
       )}
+
+      {/* 미디어 임베드 */}
+      <MediaEmbed contentId={content.id} type={content.type} />
 
       {/* 기록 상태 / 추가 버튼 */}
       {error && <p className="text-red-400 text-xs">{error}</p>}

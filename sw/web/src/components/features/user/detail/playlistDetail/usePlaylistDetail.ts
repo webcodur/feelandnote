@@ -64,7 +64,7 @@ export function usePlaylistDetail(playlistId: string) {
     try {
       await deletePlaylist(playlistId);
       if (currentUserId) {
-        router.push(`/${currentUserId}/collections`);
+        router.push(`/${currentUserId}/reading/collections`);
       }
     } catch (err) {
       alert(err instanceof Error ? err.message : "삭제에 실패했습니다");

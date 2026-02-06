@@ -62,7 +62,7 @@ export async function createRecord(params: CreateRecordParams): Promise<ActionRe
   }
 
   revalidatePath(`/${user.id}/records/${params.contentId}`)
-  revalidatePath(`/${user.id}/records`)
+  revalidatePath(`/${user.id}/reading`)
   revalidatePath('/achievements')
 
   // 활동 로그

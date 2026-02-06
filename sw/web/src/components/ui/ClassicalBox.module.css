@@ -87,3 +87,33 @@
   /* Keep base border visible to prevent jumping, just add glow */
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
+
+/* Danger variant - red borders & glow */
+.danger {
+  --cb-color: #ef4444;
+  background-image:
+    linear-gradient(to right, var(--cb-color), var(--cb-color)),
+    linear-gradient(to bottom, var(--cb-color), var(--cb-color)),
+    linear-gradient(to left, var(--cb-color), var(--cb-color)),
+    linear-gradient(to bottom, var(--cb-color), var(--cb-color)),
+    linear-gradient(to left, var(--cb-color), var(--cb-color)),
+    linear-gradient(to top, var(--cb-color), var(--cb-color)),
+    linear-gradient(to right, var(--cb-color), var(--cb-color)),
+    linear-gradient(to top, var(--cb-color), var(--cb-color)),
+    radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+}
+
+.danger::before,
+.danger::after {
+  border-color: var(--cb-color);
+}
+
+.danger.hoverable:hover::before,
+.danger.hoverable:hover::after {
+  border-color: var(--cb-color);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.danger.hoverable:hover {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}

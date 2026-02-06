@@ -12,11 +12,12 @@ import type { ContentType, ContentStatus } from "@/types/database";
 import type { ContentTypeCounts } from "@/types/content";
 import { ContentCard } from "@/components/ui/cards";
 import InterestsControlBar, { type InterestSortOption } from "./InterestsControlBar";
-import InterestsEditPanel from "./InterestsEditPanel";
-import { Inbox } from "lucide-react";
-import { CertificateCard } from "@/components/ui/cards";
+import InterestsReviewModal from "./InterestsReviewModal";
+import { Inbox, SlidersHorizontal } from "lucide-react";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel, InnerBox, Pagination } from "@/components/ui";
+import ContentGrid from "@/components/ui/ContentGrid";
+import { InnerBox, Pagination } from "@/components/ui";
+import ControlPanel from "@/components/shared/ControlPanel";
 
 interface InterestsContentProps {
   userId: string;
@@ -41,8 +42,16 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
   // 뷰어 모드: 보유 콘텐츠 체크 (null = 비로그인)
   const [savedContentIds, setSavedContentIds] = useState<Set<string> | null>(null);
 
-  // 선택된 콘텐츠 상태
-  const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
+  // 모달 상태
+  const [selectedContent, setSelectedContent] = useState<UserContentWithContent | null>(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
+  // ControlPanel 상태
+  const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+
+  // 검색 상태
+  const [searchQuery, setSearchQuery] = useState("");
+  const [appliedSearch, setAppliedSearch] = useState("");
 
   // 데이터 로딩
   const loadContents = useCallback(async () => {
@@ -55,12 +64,12 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
           status: "WANT",
           page: currentPage,
           limit: 10,
+          search: appliedSearch || undefined,
         });
         setContents(result.items);
         setTotalPages(result.totalPages);
         setTotal(result.total);
       } else {
-        // 뷰어 모드: 타인의 공개 WANT 콘텐츠 조회
         const result = await getUserContents({
           userId,
           type: CATEGORY_ID_TO_TYPE[activeTab],
@@ -106,7 +115,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, currentPage, isOwner, userId]);
+  }, [activeTab, currentPage, isOwner, userId, appliedSearch]);
 
   const loadTypeCounts = useCallback(async () => {
     try {
@@ -142,29 +151,25 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     if (sortOption === "title") {
       return [...contents].sort((a, b) => a.content.title.localeCompare(b.content.title, "ko"));
     }
-    return contents; // recent는 이미 서버에서 정렬됨
+    return contents;
   }, [contents, sortOption]);
 
-  // 선택된 콘텐츠 객체
-  const selectedContent = useMemo(
-    () => contents.find((c) => c.id === selectedContentId) ?? null,
-    [contents, selectedContentId]
-  );
-
-  // 카드 선택 핸들러
-  const handleSelect = useCallback((contentId: string) => {
-    setSelectedContentId((prev) => (prev === contentId ? null : contentId));
+  // 카드 클릭 → 모달 열기
+  const handleCardClick = useCallback((item: UserContentWithContent) => {
+    setSelectedContent(item);
+    setIsReviewModalOpen(true);
   }, []);
 
-  // 편집 패널에서 저장 완료 시
-  const handleEditSaved = useCallback(() => {
+  // 모달에서 저장 완료 시
+  const handleReviewSaved = useCallback(() => {
     loadContents();
     loadTypeCounts();
   }, [loadContents, loadTypeCounts]);
 
-  // 편집 패널 닫기
-  const handleEditClose = useCallback(() => {
-    setSelectedContentId(null);
+  // 모달 닫기
+  const handleModalClose = useCallback(() => {
+    setIsReviewModalOpen(false);
+    setSelectedContent(null);
   }, []);
 
   // 삭제 핸들러
@@ -175,16 +180,13 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
       await removeContent(userContentId);
       loadContents();
       loadTypeCounts();
-      if (selectedContentId === userContentId) {
-        setSelectedContentId(null);
-      }
     } catch (err) {
       console.error("삭제 실패:", err);
       alert("삭제에 실패했습니다.");
     }
-  }, [loadContents, loadTypeCounts, selectedContentId]);
+  }, [loadContents, loadTypeCounts]);
 
-  // 콘텐츠 추가 핸들러 (뷰어 모드: addable 클릭)
+  // 콘텐츠 추가 핸들러 (뷰어 모드)
   const handleAddContent = useCallback(async (item: UserContentWithContent) => {
     const result = await addContent({
       id: item.content_id,
@@ -203,15 +205,29 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     }
   }, []);
 
+  // 검색 핸들러
+  const handleSearch = useCallback(() => {
+    if (searchQuery.trim().length >= 2) {
+      setAppliedSearch(searchQuery.trim());
+      setCurrentPage(1);
+    }
+  }, [searchQuery]);
+
+  const handleClearSearch = useCallback(() => {
+    setSearchQuery("");
+    setAppliedSearch("");
+    setCurrentPage(1);
+  }, []);
+
   // 렌더링
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <ContentGrid>
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="bg-bg-card rounded-lg h-[140px] animate-shimmer" />
           ))}
-        </div>
+        </ContentGrid>
       );
     }
 
@@ -227,77 +243,34 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
       return (
         <div className="text-center py-16">
           <Inbox size={48} className="mx-auto mb-4 text-text-tertiary opacity-50" />
-          <p className="text-text-secondary">아직 관심 콘텐츠가 없습니다.</p>
+          <p className="text-text-secondary">
+            {appliedSearch ? `'${appliedSearch}'에 대한 검색 결과가 없습니다.` : "아직 관심 콘텐츠가 없습니다."}
+          </p>
         </div>
       );
     }
 
-    // 자격증과 일반 콘텐츠 분리
-    const certificates = sortedContents.filter((item) => item.content.type === "CERTIFICATE");
-    const regularContents = sortedContents.filter((item) => item.content.type !== "CERTIFICATE");
-
     return (
-      <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-        <div className="flex justify-center mb-6">
-          <DecorativeLabel label="관심 목록" />
-        </div>
-        <InnerBox className="mb-6 p-3 sticky top-0 z-30 backdrop-blur-sm flex justify-center items-center">
-          <InterestsControlBar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            typeCounts={typeCounts}
-            total={total}
-            sortOption={sortOption}
-            onSortChange={setSortOption}
-          />
-        </InnerBox>
-
-        <div className="space-y-4">
-          {regularContents.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-              {regularContents.map((item) => (
-                <ContentCard
-                  key={item.id}
-                  contentId={item.content_id}
-                  contentType={item.content.type}
-                  title={item.content.title}
-                  creator={item.content.creator}
-                  thumbnail={item.content.thumbnail_url}
-                  href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
-                  // 본인: 선택 + 삭제
-                  selectable={isOwner}
-                  isSelected={isOwner && selectedContentId === item.id}
-                  onSelect={isOwner ? () => handleSelect(item.id) : undefined}
-                  deletable={isOwner}
-                  onDelete={isOwner ? () => handleDelete(item.id, item.content.title) : undefined}
-                  // 타인(로그인) + 보유 → 북마크(채움)
-                  saved={!isOwner && savedContentIds !== null && savedContentIds.has(item.content_id)}
-                  // 타인(로그인) + 미보유 → 북마크(빈)
-                  addable={!isOwner && savedContentIds !== null && !savedContentIds.has(item.content_id)}
-                  onAdd={() => handleAddContent(item)}
-                />
-              ))}
-            </div>
-          )}
-
-          {certificates.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {certificates.map((item) => (
-                <CertificateCard
-                  key={item.id}
-                  item={item}
-                  onStatusChange={() => {}}
-                  onRecommendChange={() => {}}
-                  onDelete={() => {}}
-                  href={`/content/${item.content_id}?category=certificate`}
-                  isBatchMode={false}
-                  isSelected={false}
-                  readOnly={!isOwner}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+      <>
+        <ContentGrid>
+          {sortedContents.map((item) => (
+            <ContentCard
+              key={item.id}
+              contentId={item.content_id}
+              contentType={item.content.type}
+              title={item.content.title}
+              creator={item.content.creator}
+              thumbnail={item.content.thumbnail_url}
+              href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
+              onClick={isOwner ? () => handleCardClick(item) : undefined}
+              deletable={isOwner}
+              onDelete={isOwner ? () => handleDelete(item.id, item.content.title) : undefined}
+              saved={!isOwner && savedContentIds !== null && savedContentIds.has(item.content_id)}
+              addable={!isOwner && savedContentIds !== null && !savedContentIds.has(item.content_id)}
+              onAdd={() => handleAddContent(item)}
+            />
+          ))}
+        </ContentGrid>
 
         <hr className="border-white/10 mt-6" />
         <div className="mt-6">
@@ -307,22 +280,50 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
             onPageChange={setCurrentPage}
           />
         </div>
-      </ClassicalBox>
+      </>
     );
   };
 
   return (
     <div className="w-full">
-      {/* 편집 영역 (소유자만 표시) */}
+      {/* 제어 패널 */}
+      <ControlPanel
+        title="관심 제어"
+        icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+        isExpanded={isControlsExpanded}
+        onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+        className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
+      >
+        <div className="px-6 py-4 flex justify-center items-center">
+          <InterestsControlBar
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            typeCounts={typeCounts}
+            total={total}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onSearch={handleSearch}
+            onClearSearch={handleClearSearch}
+          />
+        </div>
+      </ControlPanel>
+
+      {/* 콘텐츠 목록 */}
+      <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+        {renderContent()}
+      </ClassicalBox>
+
+      {/* 리뷰 모달 (소유자만) */}
       {isOwner && (
-        <InterestsEditPanel
+        <InterestsReviewModal
           selectedContent={selectedContent}
-          onClose={handleEditClose}
-          onSaved={handleEditSaved}
+          isOpen={isReviewModalOpen}
+          onClose={handleModalClose}
+          onSaved={handleReviewSaved}
         />
       )}
-
-      {renderContent()}
     </div>
   );
 }
