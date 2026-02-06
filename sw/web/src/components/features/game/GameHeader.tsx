@@ -26,8 +26,6 @@ export default function GameHeader({
   onBack,
   className,
 }: GameHeaderProps) {
-  const isEasy = difficulty === "easy";
-
   return (
     <div className={cn("relative w-full h-10 md:h-14 px-2 md:px-0 flex items-center justify-center", className)}>
       {/* Back button (always on the left if present) */}
@@ -43,7 +41,7 @@ export default function GameHeader({
         </div>
       )}
 
-      {/* Central HUD Container (Stone Tablet Style) - 2 Column Layout */}
+      {/* Central HUD Container (Stone Tablet Style) */}
       <div className="flex items-center gap-6 md:gap-12 px-5 md:px-10 py-2 md:py-3 rounded-full border border-white/10 bg-black/40 backdrop-blur-md shadow-xl">
 
         {/* Difficulty Column */}

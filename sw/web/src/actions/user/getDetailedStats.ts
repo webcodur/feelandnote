@@ -28,11 +28,11 @@ export interface DetailedStats {
   }>
 }
 
-export async function getDetailedStats(): Promise<DetailedStats> {
+export async function getDetailedStats(targetUserId?: string): Promise<DetailedStats> {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  const uid = targetUserId ?? (await supabase.auth.getUser()).data.user?.id
+  if (!uid) {
     return getEmptyStats()
   }
 
@@ -49,34 +49,32 @@ export async function getDetailedStats(): Promise<DetailedStats> {
     supabase
       .from('user_contents')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id),
-    // 리뷰 카운트: user_contents에서 rating 또는 review가 있는 항목
+      .eq('user_id', uid),
     supabase
       .from('user_contents')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
+      .eq('user_id', uid)
       .or('rating.not.is.null,review.not.is.null'),
     supabase
       .from('records')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
+      .eq('user_id', uid)
       .eq('type', 'NOTE'),
     supabase
       .from('records')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
+      .eq('user_id', uid)
       .eq('type', 'QUOTE'),
     supabase
       .from('user_contents')
       .select('id, content:contents!inner(type)', { count: 'exact', head: true })
-      .eq('user_id', user.id)
+      .eq('user_id', uid)
       .eq('contents.type', 'BOOK'),
     supabase
       .from('user_contents')
       .select('id, content:contents!inner(type)', { count: 'exact', head: true })
-      .eq('user_id', user.id)
+      .eq('user_id', uid)
       .eq('contents.type', 'MOVIE'),
-    // 최근 활동: records에서 NOTE, QUOTE만
     supabase
       .from('records')
       .select(`
@@ -85,7 +83,7 @@ export async function getDetailedStats(): Promise<DetailedStats> {
         created_at,
         contentData:contents(title)
       `)
-      .eq('user_id', user.id)
+      .eq('user_id', uid)
       .order('created_at', { ascending: false })
       .limit(10)
   ])

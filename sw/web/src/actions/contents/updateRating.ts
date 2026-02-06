@@ -36,7 +36,7 @@ export async function updateUserContentRating({
     return { success: false, error: error.message }
   }
 
-  revalidatePath(`/${data.user_id}/records`)
+  revalidatePath(`/${data.user_id}/reading`)
 
   return { success: true }
 }

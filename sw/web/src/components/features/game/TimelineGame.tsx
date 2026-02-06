@@ -10,7 +10,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import type { CelebProfile } from "@/types/home";
 import { Button } from "@/components/ui";
-import { ChevronLeft, ChevronRight, RotateCcw, Info, XCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { isPublicDomainCeleb, PUBLIC_DOMAIN_NOTICE } from "./utils";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import GameHeader from "./GameHeader";
@@ -28,11 +28,9 @@ interface TimelineCeleb extends CelebProfile {
 function parseBirthYear(birthDate: string | null): number | null {
   if (!birthDate) return null;
 
-  // "BC" 또는 "기원전" 처리
   const bcMatch = birthDate.match(/(?:BC|기원전)\s*(\d+)/i);
   if (bcMatch) return -parseInt(bcMatch[1], 10);
 
-  // 일반 연도 (4자리)
   const yearMatch = birthDate.match(/(\d{4})/);
   if (yearMatch) return parseInt(yearMatch[1], 10);
 
@@ -40,12 +38,12 @@ function parseBirthYear(birthDate: string | null): number | null {
 }
 
 function formatYear(year: number): string {
-  if (year < 0) return `기원전 ${Math.abs(year)}`;
-  return `${year}`;
+  if (year < 0) return `기원전 ${Math.abs(year)}년`;
+  return `${year}년`;
 }
 // endregion
 
-// region: 배치 슬롯 컴포넌트 (빈 받침대 스타일)
+// region: 배치 슬롯 컴포넌트
 function PlacementSlot({
   onClick,
   disabled,
@@ -57,7 +55,6 @@ function PlacementSlot({
   position: "start" | "middle" | "end";
   isActive?: boolean;
 }) {
-  // 모바일에서 터치 후 hover 상태가 남는 문제 해결
   const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
   };
@@ -72,7 +69,6 @@ function PlacementSlot({
         disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer [@media(hover:hover)]:hover:w-14 [@media(hover:hover)]:md:hover:w-24"
       )}
     >
-      {/* 받침대 기둥 (Hover시 나타남) */}
       <div className={cn(
         "absolute inset-x-1 md:inset-x-2 top-2 md:top-4 bottom-2 md:bottom-4 border-2 border-dashed border-accent/20 rounded-lg transition-all duration-300",
         isActive ? "bg-accent/10 border-accent/60" : "[@media(hover:hover)]:group-hover:bg-accent/5 [@media(hover:hover)]:group-hover:border-accent/40"
@@ -84,64 +80,10 @@ function PlacementSlot({
         </div>
       </div>
 
-      {/* 호버 시 텍스트 */}
       <span className="absolute bottom-0 text-[8px] md:text-[10px] text-accent/60 font-cinzel opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity whitespace-nowrap">
         배치
       </span>
     </button>
-  );
-}
-// endregion
-
-// region: 결과 모달
-function ResultModal({
-  isOpen,
-  streak,
-  highScore,
-  onRestart,
-}: {
-  isOpen: boolean;
-  streak: number;
-  highScore: number;
-  onRestart: () => void;
-}) {
-  if (!isOpen) return null;
-
-  const isNewRecord = streak === highScore && streak > 0;
-
-  return (
-    <div className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="bg-bg-card border border-border rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl relative overflow-hidden">
-        {/* 장식 배경 */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl" />
-        
-        <h2 className="text-3xl font-black text-white mb-2 font-serif">게임 종료</h2>
-
-        {isNewRecord && (
-          <div className="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6">
-             <p className="text-accent text-xs font-bold uppercase tracking-wider">🎉 신기록 달성!</p>
-          </div>
-        )}
-
-        <div className="flex justify-center gap-8 mb-8 mt-4">
-          <div className="flex flex-col gap-1">
-            <p className="text-text-tertiary text-xs font-cinzel uppercase">점수</p>
-            <p className="text-4xl font-black text-white font-serif">{streak}</p>
-          </div>
-          <div className="w-px bg-white/10" />
-          <div className="flex flex-col gap-1">
-            <p className="text-text-tertiary text-xs font-cinzel uppercase">최고</p>
-            <p className="text-4xl font-black text-accent font-serif">{highScore}</p>
-          </div>
-        </div>
-
-        <Button variant="primary" size="lg" onClick={onRestart} className="w-full gap-2 font-serif text-lg h-14">
-          <RotateCcw size={18} />
-          다시 하기
-        </Button>
-      </div>
-    </div>
   );
 }
 // endregion
@@ -156,8 +98,8 @@ export default function TimelineGame() {
   const [gameState, setGameState] = useState<GameState>("idle");
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
   const [isRevealing, setIsRevealing] = useState(false);
-  const [wrongPosition, setWrongPosition] = useState<number | null>(null); // 사용자가 선택한 틀린 위치
-  const [correctPosition, setCorrectPosition] = useState<number | null>(null); // 실제 정답 위치
+  const [wrongPosition, setWrongPosition] = useState<number | null>(null);
+  const [correctPosition, setCorrectPosition] = useState<number | null>(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [selectedCeleb, setSelectedCeleb] = useState<TimelineCeleb | null>(null);
   const [pendingTimeline, setPendingTimeline] = useState<TimelineCeleb[] | null>(null);
@@ -165,13 +107,14 @@ export default function TimelineGame() {
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const isEasyMode = difficulty === "easy";
+  const isNewRecord = streak === highScore && streak > 0;
+  const isGameOver = gameState === "gameover";
 
   // region: 데이터 로드
   useEffect(() => {
     const loadCelebs = async () => {
       const result = await getCelebs({ limit: 200, sortBy: "influence" });
 
-      // 1920년 이전 사망자 + 생년 파싱 가능한 셀럽만 필터링
       const withBirthYear = result.celebs
         .filter((c) => isPublicDomainCeleb(c.death_date ?? null))
         .map((c) => {
@@ -197,10 +140,7 @@ export default function TimelineGame() {
 
       setDifficulty(selectedDifficulty);
 
-      // 셔플
       const shuffled = [...allCelebs].sort(() => Math.random() - 0.5);
-
-      // 첫 카드는 타임라인에, 두 번째 카드는 현재 카드로
       const [first, second, ...rest] = shuffled;
 
       setTimeline([first]);
@@ -220,7 +160,6 @@ export default function TimelineGame() {
   const handlePlace = (index: number) => {
     if (!currentCard || gameState !== "playing" || isRevealing) return;
 
-    // 정답 위치 찾기
     const foundCorrectIndex = timeline.findIndex((c) => c.birthYear > currentCard.birthYear);
     const actualCorrectIndex = foundCorrectIndex === -1 ? timeline.length : foundCorrectIndex;
 
@@ -228,7 +167,6 @@ export default function TimelineGame() {
     setIsRevealing(true);
 
     if (isCorrect) {
-      // 정답: 타임라인에 삽입 (모달이 닫힐 때 처리하도록 pending에 저장)
       const newTimeline = [...timeline];
       newTimeline.splice(index, 0, currentCard);
       setCorrectPosition(index);
@@ -244,11 +182,8 @@ export default function TimelineGame() {
         return next;
       });
     } else {
-      // 오답
       setWrongPosition(index);
-      // 실제 정답 위치도 알려줌?
-      // 여기서는 심플하게 오답 처리 후 게임오버
-      
+
       setTimeout(() => {
         setGameState("gameover");
         setIsRevealing(false);
@@ -274,7 +209,6 @@ export default function TimelineGame() {
     setIsRevealing(false);
     setPendingTimeline(null);
 
-    // 부드러운 스크롤
     setTimeout(() => {
       timelineRef.current?.scrollTo({
         left: pendingPlaceIndex * 140,
@@ -284,7 +218,6 @@ export default function TimelineGame() {
     }, 100);
   }, [pendingTimeline, pendingPlaceIndex, remainingCelebs]);
 
-  // 정답일 때 자동으로 다음 라운드 진행
   useEffect(() => {
     if (isRevealing && wrongPosition === null && pendingTimeline) {
       const timer = setTimeout(() => {
@@ -315,13 +248,12 @@ export default function TimelineGame() {
      );
   }
 
-  // 시작 화면
   if (gameState === "idle") {
     return (
       <div className="max-w-md mx-auto flex flex-col items-center text-center">
         <div className="w-full max-w-sm bg-bg-card border border-border rounded-xl p-6 shadow-2xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
-          
+
            <div className="space-y-4 relative z-10">
              <div className="space-y-2">
                 <h3 className="text-lg font-bold text-white font-serif">게임 규칙</h3>
@@ -349,7 +281,7 @@ export default function TimelineGame() {
                  <span className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">연도 숨김</span>
                </button>
              </div>
-             
+
              {highScore > 0 && (
                <div className="pt-4 mt-4 border-t border-white/10">
                  <p className="text-xs text-text-tertiary font-cinzel uppercase">최고 기록</p>
@@ -358,7 +290,7 @@ export default function TimelineGame() {
              )}
            </div>
         </div>
-        
+
         <div className="mt-8 flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10">
            <Info size={14} className="text-accent" />
            <span className="text-xs text-text-tertiary">{PUBLIC_DOMAIN_NOTICE}</span>
@@ -367,13 +299,14 @@ export default function TimelineGame() {
     );
   }
 
-  // 게임 진행
   const showCorrectEffect = isRevealing && wrongPosition === null;
+  const showWrongEffect = wrongPosition !== null;
 
   return (
     <div className={cn(
       "max-w-6xl mx-auto flex flex-col min-h-[500px] md:min-h-[600px] justify-between pb-4 md:pb-8 transition-colors duration-300",
-      showCorrectEffect && "bg-green-500/5"
+      showCorrectEffect && "bg-green-900/20",
+      showWrongEffect && "bg-red-900/20"
     )}>
       {/* 공통 헤더 */}
       <GameHeader
@@ -386,9 +319,9 @@ export default function TimelineGame() {
         className="mb-2 md:mb-4"
       />
 
-      {/* 상단: 현재 카드 (주인공) - 오답 시 숨김 */}
+      {/* 상단: 현재 카드 */}
       <div className="flex-1 flex flex-col items-center justify-center mb-3 md:mb-8 relative">
-        {currentCard && gameState === "playing" && !(isRevealing && wrongPosition !== null) && (
+        {currentCard && (
           <div className="relative z-20 flex flex-col items-center animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="py-2 md:py-3 text-center">
               <h2 className="text-sm md:text-base font-serif font-bold text-text-secondary">
@@ -401,11 +334,12 @@ export default function TimelineGame() {
                 imageUrl={currentCard.portrait_url ?? currentCard.avatar_url}
                 name={currentCard.nickname}
                 title={currentCard.profession}
-                subText={isRevealing ? formatYear(currentCard.birthYear) : "????"}
-                isRevealed={isRevealing}
+                subText={(isRevealing || isGameOver) ? formatYear(currentCard.birthYear) : "????"}
+                isRevealed={isRevealing || isGameOver}
                 status="selected"
                 className="w-full h-full border-accent ring-4 ring-accent/20"
                 onClick={isEasyMode ? () => setSelectedCeleb(currentCard) : undefined}
+                onInfoClick={() => setSelectedCeleb(currentCard)}
               />
             </div>
           </div>
@@ -433,7 +367,6 @@ export default function TimelineGame() {
            <ChevronRight size={20} />
         </button>
 
-
         {/* 스크롤 영역 */}
         <div
           ref={timelineRef}
@@ -444,7 +377,7 @@ export default function TimelineGame() {
             <PlacementSlot
               position="start"
               onClick={() => handlePlace(0)}
-              disabled={isRevealing || gameState === "gameover"}
+              disabled={isRevealing || isGameOver}
               isActive={correctPosition === 0}
             />
 
@@ -464,6 +397,7 @@ export default function TimelineGame() {
                       status="normal"
                       isHidden={false}
                       className="w-full h-full"
+                      onInfoClick={() => setSelectedCeleb(celeb)}
                     />
 
                     {/* 연결 선 (좌우) */}
@@ -472,11 +406,11 @@ export default function TimelineGame() {
                   </div>
                 </div>
 
-                {/* 사이 슬롯 (마지막 카드 다음에만 배치) */}
+                {/* 사이 슬롯 */}
                 <PlacementSlot
                   position={index === timeline.length - 1 ? "end" : "middle"}
                   onClick={() => handlePlace(index + 1)}
-                  disabled={isRevealing || gameState === "gameover"}
+                  disabled={isRevealing || isGameOver}
                   isActive={correctPosition === index + 1}
                 />
               </div>
@@ -485,33 +419,21 @@ export default function TimelineGame() {
         </div>
       </div>
 
-      {/* 오답 피드백 오버레이 */}
-      {isRevealing && wrongPosition !== null && (
-         <div className="fixed inset-0 z-modal flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="flex flex-col items-center gap-6 p-8 bg-bg-card border border-red-500/30 rounded-2xl shadow-2xl animate-in zoom-in-95">
-               <XCircle size={56} className="text-red-500" />
-               <div className="text-center">
-                  <h3 className="text-2xl md:text-3xl font-serif font-black text-red-500 mb-1">잘못된 선택</h3>
-                  <p className="text-sm text-red-400/70 font-cinzel">시간선이 붕괴되었습니다</p>
-               </div>
-               <Button
-                  size="lg"
-                  onClick={() => setGameState("gameover")}
-                  className="w-full bg-white/10 hover:bg-white/20 font-serif"
-               >
-                  결과 보기
-               </Button>
-            </div>
-         </div>
+      {/* 게임오버 - 다시하기 */}
+      {isGameOver && (
+        <div className="flex flex-col items-center gap-2 py-4 animate-in fade-in duration-300">
+          {isNewRecord && (
+            <span className="text-xs text-accent font-bold">신기록 달성!</span>
+          )}
+          <Button
+            size="lg"
+            onClick={() => setGameState("idle")}
+            className="min-w-[160px] h-12 font-serif font-bold rounded-xl active:scale-95 bg-white/10 text-white hover:bg-white/20 border border-white/20 animate-pulse shadow-[0_0_20px_rgba(255,255,255,0.15),0_0_40px_rgba(212,175,55,0.1)]"
+          >
+            다시 하기
+          </Button>
+        </div>
       )}
-
-      {/* 결과 모달 */}
-      <ResultModal
-        isOpen={gameState === "gameover"}
-        streak={streak}
-        highScore={highScore}
-        onRestart={() => setGameState("idle")}
-      />
 
       {/* 셀럽 상세 모달 */}
       {selectedCeleb && (

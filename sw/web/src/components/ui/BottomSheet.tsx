@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import Button from "./Button";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useSoundOptional } from "@/contexts/SoundContext";
+import { useSound } from "@/contexts/SoundContext";
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ interface BottomSheetProps {
 }
 
 export default function BottomSheet({ isOpen, onClose, children, title }: BottomSheetProps) {
-  const { playSound } = useSoundOptional();
+  const { playSound } = useSound();
   const wasOpen = useRef(false);
 
   // 시트 열림/닫힘 사운드

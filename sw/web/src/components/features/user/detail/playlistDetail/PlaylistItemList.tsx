@@ -11,6 +11,26 @@ import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
 import type { PlaylistWithItems } from "@/types/database";
 
+const TIER_KEYS = ["S", "A", "B", "C", "D"] as const;
+const TIER_BADGE_STYLES: Record<string, string> = {
+  S: "bg-red-500/20 text-red-400 border-red-500/30",
+  A: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+  B: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+  C: "bg-green-500/20 text-green-400 border-green-500/30",
+  D: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+};
+
+function buildTierMap(tiers: Record<string, string[]> | undefined): Map<string, string> {
+  const map = new Map<string, string>();
+  if (!tiers) return map;
+  for (const key of TIER_KEYS) {
+    for (const id of tiers[key] || []) {
+      map.set(id, key);
+    }
+  }
+  return map;
+}
+
 interface PlaylistItemListProps {
   playlist: PlaylistWithItems;
   isOwner: boolean;
@@ -34,6 +54,8 @@ export default function PlaylistItemList({
   onDragEnd,
   setIsEditMode,
 }: PlaylistItemListProps) {
+  const tierMap = playlist.has_tiers ? buildTierMap(playlist.tiers) : null;
+
   if (playlist.items.length === 0) {
     return (
       <div className="text-center py-20 text-text-secondary">
@@ -74,6 +96,11 @@ export default function PlaylistItemList({
             <p className="font-medium text-sm truncate">{item.content.title}</p>
             <p className="text-xs text-text-secondary truncate">{item.content.creator?.replace(/\^/g, ', ') || "\u00A0"}</p>
           </div>
+          {tierMap?.get(item.content_id) && (
+            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${TIER_BADGE_STYLES[tierMap.get(item.content_id)!]}`}>
+              {tierMap.get(item.content_id)}
+            </span>
+          )}
           <div className="text-xs text-text-secondary px-2 py-1 bg-bg-secondary rounded">
             {CATEGORIES.find((c) => c.dbType === item.content.type)?.label}
           </div>

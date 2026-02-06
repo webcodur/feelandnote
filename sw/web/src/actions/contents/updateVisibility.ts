@@ -28,7 +28,7 @@ export async function updateVisibility({ userContentId, visibility }: UpdateVisi
     throw new Error('공개 설정 변경에 실패했습니다')
   }
 
-  revalidatePath(`/${user.id}/records`)
+  revalidatePath(`/${user.id}/reading`)
 
   return { success: true }
 }

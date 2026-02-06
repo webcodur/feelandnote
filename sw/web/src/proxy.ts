@@ -26,7 +26,7 @@ export async function proxy(request: NextRequest) {
   if (authPaths.some((path) => pathname.startsWith(path))) {
     if (user) {
       const url = request.nextUrl.clone()
-      url.pathname = `/${user.id}/records`
+      url.pathname = `/${user.id}/reading`
       return NextResponse.redirect(url)
     }
   }

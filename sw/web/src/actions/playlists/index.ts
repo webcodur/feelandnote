@@ -1,5 +1,4 @@
 export { getPlaylists, type PlaylistSummary } from './getPlaylists'
-export { getPublicTierLists } from './getPublicTierLists'
 export { getPlaylist } from './getPlaylist'
 export { createPlaylist } from './createPlaylist'
 export { updatePlaylist } from './updatePlaylist'

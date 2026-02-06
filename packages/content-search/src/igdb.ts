@@ -213,6 +213,37 @@ export async function getGameDetails(gameId: number): Promise<{
   }
 }
 
+// YouTube 게임 트레일러 키 조회
+export async function getGameTrailer(externalId: string): Promise<string | null> {
+  // igdb-123, igdb_123 모두 지원
+  const match = externalId.match(/^igdb[_-](\d+)$/)
+  if (!match) return null
+
+  try {
+    const token = await getAccessToken()
+
+    const body = `fields videos.video_id; where id = ${match[1]};`
+    const response = await fetch(`${IGDB_BASE_URL}/games`, {
+      method: 'POST',
+      headers: {
+        'Client-ID': TWITCH_CLIENT_ID!,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'text/plain',
+      },
+      body,
+    })
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    if (!data[0]?.videos?.length) return null
+
+    return data[0].videos[0].video_id as string
+  } catch {
+    return null
+  }
+}
+
 // ID로 게임 정보 조회 (metadata 포함)
 export async function getGameById(externalId: string): Promise<GameSearchResult | null> {
   // externalId 형식: igdb-123

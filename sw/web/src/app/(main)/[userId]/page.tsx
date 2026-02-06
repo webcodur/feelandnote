@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
-import { getUserContents } from "@/actions/contents/getUserContents";
-import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import ProfileContent from "./ProfileContent";
 
@@ -30,20 +28,7 @@ export default async function OverviewPage({ params }: PageProps) {
   }
   const profile = result.data;
 
-  // 병렬로 데이터 조회
-  const [contentsResult, guestbookResult] = await Promise.all([
-    getUserContents({ userId, limit: 10, status: 'FINISHED' }),
-    getGuestbookEntries({ profileId: userId }),
-  ]);
-
-  const recentContents = contentsResult.items;
-
-  // 타인 프로필 열람 시 뷰어의 보유 콘텐츠 배치 체크
-  let savedContentIds: string[] | undefined;
-  if (!isOwner && currentUser && recentContents.length > 0) {
-    const savedSet = await checkContentsSaved(recentContents.map(c => c.content_id));
-    savedContentIds = savedSet ? Array.from(savedSet) : undefined;
-  }
+  const guestbookResult = await getGuestbookEntries({ profileId: userId });
 
   // 본인일 때만 방명록 읽음 처리
   if (isOwner) {
@@ -62,9 +47,6 @@ export default async function OverviewPage({ params }: PageProps) {
       profile={profile}
       userId={userId}
       isOwner={isOwner}
-      recentContents={recentContents}
-      recentTotalPages={contentsResult.totalPages}
-      savedContentIds={savedContentIds}
       guestbookEntries={guestbookResult.entries}
       guestbookTotal={guestbookResult.total}
       guestbookCurrentUser={guestbookCurrentUser}

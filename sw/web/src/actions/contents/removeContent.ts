@@ -51,9 +51,9 @@ export async function removeContent(userContentId: string) {
     throw new Error('콘텐츠 삭제에 실패했습니다')
   }
 
-  revalidatePath(`/${user.id}/records`)
-  revalidatePath(`/${user.id}/collections`)
-  revalidatePath(`/${user.id}/interests`)
+  revalidatePath(`/${user.id}/reading`)
+  revalidatePath(`/${user.id}/reading/collections`)
+  revalidatePath(`/${user.id}/reading/interests`)
 
   // 활동 로그
   await logActivity({

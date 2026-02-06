@@ -44,7 +44,7 @@ export default function SagePlaque({
     <>
       <button
         onClick={handleClick}
-        className="w-full text-left block mb-8 group relative isolate"
+        className="w-full max-w-3xl mx-auto text-left block mb-8 group relative isolate"
       >
         {/* Background Atmosphere */}
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/80 to-neutral-950/80 rounded-2xl -z-20 transform transition-transform duration-500 group-hover:scale-[1.01]" />

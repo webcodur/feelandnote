@@ -6,6 +6,7 @@
 "use client";
 
 import Image from "next/image";
+import { HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
@@ -24,6 +25,7 @@ interface ArenaCardProps {
   status?: "normal" | "win" | "lose" | "selected";
   
   onClick?: () => void;
+  onInfoClick?: () => void; // ? 버튼 클릭 (셀럽 상세 모달)
   className?: string; // 외부 스타일 주입
 }
 
@@ -37,12 +39,13 @@ export default function ArenaCard({
   isHidden = false,
   status = "normal",
   onClick,
+  onInfoClick,
   className,
 }: ArenaCardProps) {
   
   // 상태별 테두리 색상
   const borderClass = {
-    normal: "border-border/60 hover:border-accent/50",
+    normal: "border-border/60 hover:border-accent",
     win: "border-green-500/80 shadow-green-500/20",
     lose: "border-red-500/80 shadow-red-500/20",
     selected: "border-accent shadow-accent/30 scale-[1.02]",
@@ -52,8 +55,8 @@ export default function ArenaCard({
     <div
       onClick={onClick}
       className={cn(
-        "relative group flex flex-col overflow-hidden transition-all duration-300 isolate",
-        "rounded-xl border-[1.5px]", // 기본 구조
+        "relative group flex flex-col overflow-hidden isolate",
+        "rounded-xl border-2", // 기본 구조
         "shadow-2xl shadow-black/60", // 깊은 그림자
         borderClass[status],
         onClick ? "cursor-pointer" : "cursor-default",
@@ -76,10 +79,7 @@ export default function ArenaCard({
             alt={name}
             fill
             sizes="(max-width: 768px) 50vw, 320px"
-            className={cn(
-              "object-cover object-top transition-transform duration-700",
-              status === "selected" || status === "win" ? "scale-110" : "group-hover:scale-105"
-            )}
+            className="object-cover object-top"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-bg-secondary">
@@ -92,27 +92,25 @@ export default function ArenaCard({
         {/* 오버레이: 상단 -> 투명, 하단 -> 검정 (텍스트 가독성 확보를 위해 더 진하게) */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
         
-        {/* 상태 오버레이 (정답/오답 시 색상 틴트 + 광택) */}
-        {status === "win" && (
-           <>
-             <div className="absolute inset-0 bg-green-500/20 mix-blend-overlay" />
-             <div className="absolute inset-0 ring-inset ring-2 ring-green-400/50 rounded-xl" />
-           </>
-        )}
-        {status === "lose" && (
-           <>
-             <div className="absolute inset-0 bg-red-500/20 mix-blend-overlay" />
-             <div className="absolute inset-0 ring-inset ring-2 ring-red-400/50 rounded-xl" />
-           </>
-        )}
       </div>
+
+      {/* 1.5. 인물 정보 버튼 (우상단) */}
+      {onInfoClick && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onInfoClick(); }}
+          className="absolute top-1.5 end-1.5 md:top-2.5 md:end-2.5 z-20 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-black/70 active:scale-90"
+        >
+          <HelpCircle size={14} className="md:hidden" />
+          <HelpCircle size={16} className="hidden md:block" />
+        </button>
+      )}
 
       {/* 2. 텍스트 정보 레이어 (하단 배치) */}
       <div className="absolute bottom-0 left-0 right-0 p-1.5 md:p-3 flex flex-col items-center text-center z-10">
 
         {/* 수식어 (작은 글씨) - 국문 변환 */}
         {title && !isHidden && (
-          <span className="text-[8px] md:text-[10px] text-accent/90 tracking-wider mb-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+          <span className="text-[10px] md:text-xs text-accent font-bold tracking-wider mb-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
             {getCelebProfessionLabel(title)}
           </span>
         )}
@@ -130,25 +128,22 @@ export default function ArenaCard({
         {/* 구분선 (금빛 그라데이션) */}
         <div className="w-6 h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent my-0.5 md:my-1" />
 
-        {/* 하단 스탯 (점수/연도 등) */}
-        <div className="flex flex-col items-center gap-0 justify-center">
-          {subTextLabel && (
-            <span className="text-[7px] md:text-[9px] text-text-tertiary font-cinzel tracking-[0.15em] uppercase mb-0.5">
-              {subTextLabel}
-            </span>
-          )}
-
+        {/* 하단 스탯 (점수/연도 등) - 인라인 */}
+        <div className="flex items-baseline gap-1 justify-center">
           <div className={cn(
             "font-cinzel font-bold tracking-tighter drop-shadow-xl transition-all leading-none",
             "text-base md:text-xl",
-            status === "win" ? "text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]" :
-            status === "lose" ? "text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)]" :
             status === "selected" ? "text-accent drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : "text-white"
           )}>
             {isRevealed ? subText : (
                <span className="opacity-50 tracking-widest text-sm md:text-lg">???</span>
             )}
           </div>
+          {subTextLabel && isRevealed && (
+            <span className="text-[9px] md:text-xs text-text-secondary font-cinzel">
+              {subTextLabel}
+            </span>
+          )}
         </div>
       </div>
       

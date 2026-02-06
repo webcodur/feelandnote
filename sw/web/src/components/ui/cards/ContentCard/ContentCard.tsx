@@ -13,15 +13,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Star, ExternalLink } from "lucide-react";
+import { Star, ExternalLink, Bookmark, Check, X } from "lucide-react";
 import { BLUR_DATA_URL } from "@/constants/image";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getCategoryByDbType } from "@/constants/categories";
 import useDragScroll from "@/hooks/useDragScroll";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
+import Button from "@/components/ui/Button";
 import FormattedText from "@/components/ui/FormattedText";
 import { RecommendationModal } from "@/components/features/recommendations";
 
+import { getFieldTheme } from "../certificateThemes";
 import type { ContentCardProps } from "./types";
 import { TYPE_ICONS, STATUS_STYLES, ASPECT_STYLES } from "./constants";
 import { useContentCounts } from "./hooks/useCelebCount";
@@ -55,6 +57,8 @@ export default function ContentCard({
   recommendable,
   userContentId,
   saved,
+  onSavedStatusChange,
+  onSavedRemove,
   addable,
   onAdd,
   celebCount,
@@ -85,6 +89,8 @@ export default function ContentCard({
   const [showStatsModal, setShowStatsModal] = useState(false);
   const [isRecommendModalOpen, setIsRecommendModalOpen] = useState(false);
   const [isTypeInfoOpen, setIsTypeInfoOpen] = useState(false);
+  const [showAddConfirm, setShowAddConfirm] = useState(false);
+  const [showSavedAction, setShowSavedAction] = useState(false);
 
   // 인원 구성: prop으로 전달되면 사용, 없으면 자동 조회
   const shouldFetch = celebCount === undefined;
@@ -145,6 +151,34 @@ export default function ContentCard({
     }
   };
 
+  // 자격증 테마 (thumbnail 폴백용)
+  const certTheme = contentType === "CERTIFICATE"
+    ? getFieldTheme(title, creator ?? "")
+    : null;
+
+  // #region 자격증 폴백 렌더링
+  const renderCertificateFallback = (iconSize: number) => {
+    if (!certTheme) return null;
+    const CertIcon = certTheme.icon;
+    return (
+      <div className={`w-full h-full bg-gradient-to-br ${certTheme.gradient} overflow-hidden`}>
+        <div className="absolute inset-0 opacity-100" style={{ backgroundImage: `url("${certTheme.pattern}")` }} />
+        <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-xl" />
+        <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-black/10 rounded-full blur-lg" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative">
+            <div className="absolute inset-0 bg-white/20 rounded-full blur-xl scale-150" />
+            <div className="relative w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center shadow-lg">
+              <CertIcon size={iconSize} className="text-white drop-shadow-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // #endregion
+
   // #region 슬롯 렌더링
   const renderTopLeft = () => (
     <TypeLabel type={contentType} onOpen={() => setIsTypeInfoOpen(true)} />
@@ -169,8 +203,11 @@ export default function ContentCard({
     }
     if (deletable) return <DeleteButton onClick={onDelete} />;
     if (recommendable) return <RecommendButton onClick={() => setIsRecommendModalOpen(true)} />;
-    if (saved) return <SavedBadge />;
-    if (addable) return <AddButton onClick={onAdd} />;
+    if (saved) {
+      const hasSavedAction = onSavedStatusChange || onSavedRemove;
+      return <SavedBadge onClick={hasSavedAction ? () => setShowSavedAction(true) : undefined} />;
+    }
+    if (addable) return <AddButton onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAddConfirm(true); }} />;
     return null;
   };
 
@@ -237,6 +274,49 @@ export default function ContentCard({
           contentType={contentType}
         />
       )}
+      <Modal isOpen={showAddConfirm} onClose={() => setShowAddConfirm(false)} title="관심 등록" icon={Bookmark} size="sm" closeOnOverlayClick>
+        <ModalBody>
+          <p className="text-text-secondary">
+            <span className="text-text-primary font-semibold">{title}</span>
+            을(를) 관심 목록에 추가하시겠습니까?
+          </p>
+        </ModalBody>
+        <ModalFooter className="justify-end">
+          <Button variant="ghost" size="md" onClick={() => setShowAddConfirm(false)}>취소</Button>
+          <Button variant="primary" size="md" onClick={(e) => { setShowAddConfirm(false); onAdd?.(e as React.MouseEvent); }}>등록</Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={showSavedAction} onClose={() => setShowSavedAction(false)} title="관심 콘텐츠 관리" icon={Bookmark} size="sm" closeOnOverlayClick>
+        <ModalBody>
+          <p className="text-sm text-text-secondary mb-4">
+            <span className="text-text-primary font-semibold">{title}</span>
+          </p>
+          <div className="flex flex-col gap-2">
+            {onSavedStatusChange && (
+              <Button
+                variant="secondary"
+                size="md"
+                className="w-full justify-start gap-2"
+                onClick={() => { setShowSavedAction(false); onSavedStatusChange("FINISHED"); }}
+              >
+                <Check size={16} className="text-green-400" />
+                감상완료로 변경
+              </Button>
+            )}
+            {onSavedRemove && (
+              <Button
+                variant="secondary"
+                size="md"
+                className="w-full justify-start gap-2 text-red-400 hover:text-red-300"
+                onClick={() => { setShowSavedAction(false); onSavedRemove(); }}
+              >
+                <X size={16} />
+                관심 해제
+              </Button>
+            )}
+          </div>
+        </ModalBody>
+      </Modal>
     </>
   );
 
@@ -270,6 +350,8 @@ export default function ContentCard({
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
                 />
+              ) : certTheme ? (
+                renderCertificateFallback(32)
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-white/5">
                   <ContentIcon size={48} className="text-text-tertiary" />
@@ -278,6 +360,7 @@ export default function ContentCard({
               {renderBottomLeft()}
               {renderSelectOverlay()}
               {renderBottomRight()}
+      
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col">
@@ -382,6 +465,8 @@ export default function ContentCard({
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
                 />
+              ) : certTheme ? (
+                renderCertificateFallback(32)
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-white/5">
                   <ContentIcon size={32} className="text-text-tertiary" />
@@ -390,17 +475,16 @@ export default function ContentCard({
               {renderBottomLeft()}
               {renderSelectOverlay()}
               {renderBottomRight()}
+      
             </div>
 
             <div className={`p-2 ${headerNode ? "bg-[#151515]" : ""}`}>
-              <h3 className="text-[11px] font-bold text-text-primary line-clamp-2 leading-tight">
+              <h3 className="text-[11px] font-bold text-text-primary line-clamp-2 leading-tight min-h-[28px]">
                 {title}
               </h3>
-              {creator && (
-                <p className="text-[10px] text-text-secondary line-clamp-1 mt-1">
-                  {creator.replace(/\^/g, ", ")}
-                </p>
-              )}
+              <p className="text-[10px] text-text-secondary line-clamp-1 mt-1">
+                {creator ? creator.replace(/\^/g, ", ") : "\u00A0"}
+              </p>
             </div>
           </div>
         </div>
@@ -478,13 +562,15 @@ export default function ContentCard({
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
           />
+        ) : certTheme ? (
+          renderCertificateFallback(32)
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-white/5">
             <ContentIcon size={32} className="text-text-tertiary" />
           </div>
         )}
 
-        {showGradient && (
+        {showGradient && !certTheme && (
           <div className="absolute inset-x-0 bottom-0 h-16 md:h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
         )}
 
@@ -493,24 +579,23 @@ export default function ContentCard({
         {renderBottomLeft()}
         {renderSelectOverlay()}
         {renderBottomRight()}
+
       </div>
 
       {showInfo && (
-        <div className="p-2 md:p-2.5">
-          <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
+        <div className="p-2 md:p-2.5 bg-black/20 border-t border-white/[0.04]">
+          <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight min-h-[30px] md:min-h-[35px] ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
             {title}
           </h3>
-          {creator && (
-            <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 mt-0.5 md:mt-1">
-              {creator.replace(/\^/g, ", ")}
-            </p>
-          )}
+          <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 mt-0.5 md:mt-1">
+            {creator ? creator.replace(/\^/g, ", ") : "\u00A0"}
+          </p>
         </div>
       )}
     </>
   );
 
-  const containerClass = `group flex flex-col bg-bg-card border border-border/30 rounded-xl overflow-hidden cursor-pointer ${!isBadgeHovered ? "hover:border-accent/50" : ""} ${selectableClass} ${className || ""}`;
+  const containerClass = `group flex flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden cursor-pointer ${!isBadgeHovered ? "hover:border-accent/30" : ""} ${selectableClass} ${className || ""}`;
 
   if (href && !selectable) {
     return (

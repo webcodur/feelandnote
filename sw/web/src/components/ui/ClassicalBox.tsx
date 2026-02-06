@@ -5,6 +5,7 @@ interface ClassicalBoxProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   as?: ElementType;
   hover?: boolean;
+  variant?: "default" | "danger";
 }
 
 export default function ClassicalBox({
@@ -12,14 +13,19 @@ export default function ClassicalBox({
   className = "",
   as: Component = "div",
   hover = true,
+  variant = "default",
   ...rest
 }: ClassicalBoxProps) {
+  const isDanger = variant === "danger";
+
   return (
     <Component
       className={`
         ${styles.classicalBox}
         ${hover ? styles.hoverable : ""}
-        bg-bg-card border-double border-4 border-accent-dim/40 shadow-lg
+        ${isDanger ? styles.danger : ""}
+        bg-bg-card border-double border-4 shadow-lg
+        ${isDanger ? "border-red-500/40" : "border-accent-dim/40"}
         ${className}
       `}
       {...rest}

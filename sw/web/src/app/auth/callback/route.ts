@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(`${origin}/reset-password`)
       }
 
-      const redirectPath = nextParam ?? `/${data.user.id}/records`
+      const redirectPath = nextParam ?? `/${data.user.id}/reading`
       return NextResponse.redirect(`${origin}${redirectPath}`)
     }
   }
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
 
     if (data.user) {
       await createProfileIfNotExists(supabase, data.user)
-      const redirectPath = nextParam ?? `/${data.user.id}/records`
+      const redirectPath = nextParam ?? `/${data.user.id}/reading`
       return NextResponse.redirect(`${origin}${redirectPath}`)
     }
   }
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 
   if (user) {
     await createProfileIfNotExists(supabase, user)
-    const redirectPath = nextParam ?? `/${user.id}/records`
+    const redirectPath = nextParam ?? `/${user.id}/reading`
     return NextResponse.redirect(`${origin}${redirectPath}`)
   }
   // #endregion

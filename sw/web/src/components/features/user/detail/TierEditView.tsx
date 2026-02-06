@@ -132,7 +132,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     try {
       await updatePlaylist({ playlistId, hasTiers: true, tiers: tiers as Record<string, string[]> });
       playSound("success");
-      router.push(`/${playlist.user_id}/collections/${playlistId}`);
+      router.push(`/${playlist.user_id}/reading/collections/${playlistId}`);
     } catch (err) {
       playSound("error");
       alert(err instanceof Error ? err.message : "저장에 실패했습니다");

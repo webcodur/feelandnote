@@ -365,8 +365,6 @@ function SearchContent() {
           results={contentResults}
           mode={modeParam}
           currentUserId={currentUserId}
-          addingIds={addingIds}
-          addedIds={addedIds}
           savedIds={savedIds}
           userCounts={userCounts}
           onBeforeNavigate={handleBeforeNavigate}

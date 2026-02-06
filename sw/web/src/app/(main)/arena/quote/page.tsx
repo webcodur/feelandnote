@@ -1,16 +1,16 @@
 /*
-  파일명: /app/(main)/arena/timeline/page.tsx
-  기능: 연대기 게임 페이지
-  책임: 콘텐츠 연대기 정렬 게임을 제공한다.
-*/ // ------------------------------
+  파일명: /app/(main)/arena/quote/page.tsx
+  기능: 온고지신 게임 페이지
+  책임: 명언을 보고 인물을 맞추는 퀴즈 게임을 제공한다.
+*/
 
-import TimelineGame from "@/components/features/game/TimelineGame";
+import QuoteGame from "@/components/features/game/QuoteGame";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 
-export const metadata = { title: getArenaPageTitle("timeline") };
+export const metadata = { title: getArenaPageTitle("quote") };
 
-const headerInfo = ARENA_SECTION_HEADERS.timeline;
+const headerInfo = ARENA_SECTION_HEADERS["quote"];
 
 export default function Page() {
   return (
@@ -32,7 +32,7 @@ export default function Page() {
           </>
         }
       />
-      <TimelineGame />
+      <QuoteGame />
     </>
   );
 }

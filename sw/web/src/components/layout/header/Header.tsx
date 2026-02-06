@@ -8,8 +8,7 @@
 
 import { useState, useEffect } from "react";
 import { NotebookPen } from "lucide-react";
-import { LyreIcon, LyreSilentIcon } from "@/components/ui/icons/neo-pantheon";
-import { useSound, useSoundOptional } from "@/contexts/SoundContext";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HeaderSearch from "./HeaderSearch";
@@ -19,6 +18,8 @@ import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { HEADER_NAV_ITEMS } from "@/constants/navigation";
+
+const SoundToggle = dynamic(() => import("./SoundToggle"), { ssr: false });
 import { createClient } from "@/lib/supabase/client";
 import { getTitleInfo } from "@/constants/titles";
 
@@ -39,8 +40,6 @@ export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const { isSoundEnabled, toggleSound, playSound } = useSoundOptional();
-
   useEffect(() => {
     const loadProfile = async () => {
       const supabase = createClient();
@@ -116,19 +115,8 @@ export default function Header({ isMobile }: HeaderProps) {
             <NotebookPen size={ICON_SIZE} />
           </Link>
 
-          {/* 사운드 토글 */}
-          <Button
-            unstyled
-            noSound
-            onClick={() => {
-              const isNowEnabled = toggleSound();
-              if (isNowEnabled) playSound("volumeCheck", true);
-            }}
-            className={`${ICON_BUTTON_CLASS} hidden md:flex`}
-            title={isSoundEnabled ? "사운드 끄기" : "사운드 켜기"}
-          >
-            {isSoundEnabled ? <LyreIcon size={ICON_SIZE} /> : <LyreSilentIcon size={ICON_SIZE} />}
-          </Button>
+          {/* 사운드 토글 (dynamic ssr:false로 hydration 불일치 방지) */}
+          <SoundToggle />
 
           {/* 알림 (로그인 시에만) */}
           {profile && <HeaderNotifications />}

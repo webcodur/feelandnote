@@ -36,7 +36,7 @@ export async function deleteRecord(recordId: string): Promise<ActionResult<null>
   }
 
   revalidatePath(`/${user.id}/records/${record.content_id}`)
-  revalidatePath(`/${user.id}/records`)
+  revalidatePath(`/${user.id}/reading`)
 
   // 활동 로그
   await logActivity({

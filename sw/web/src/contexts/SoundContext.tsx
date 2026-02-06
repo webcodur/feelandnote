@@ -136,21 +136,14 @@ export function SoundProvider({ children }: SoundProviderProps) {
 // #endregion
 
 // #region Hook
-export function useSound() {
-  const context = useContext(SoundContext);
-  if (!context) {
-    throw new Error("useSound must be used within SoundProvider");
-  }
-  return context;
-}
+const NOOP_SOUND: SoundContextValue = {
+  isSoundEnabled: false,
+  toggleSound: () => false,
+  playSound: () => {},
+};
 
-// 선택적 훅: Provider 밖에서도 안전하게 사용 가능 (사운드 비활성화 상태)
-export function useSoundOptional(): SoundContextValue {
+export function useSound(): SoundContextValue {
   const context = useContext(SoundContext);
-  return context ?? {
-    isSoundEnabled: false,
-    toggleSound: () => false,
-    playSound: () => {},
-  };
+  return context ?? NOOP_SOUND;
 }
 // #endregion

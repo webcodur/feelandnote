@@ -46,6 +46,7 @@ interface CelebRow {
   claimed_by: string | null
   follower_count: number
   total_score: number
+  content_count: number
 }
 
 export async function getCelebs(
@@ -96,45 +97,10 @@ export async function getCelebs(
 
   const rows = (data || []) as CelebRow[]
 
-  // 팔로우 상태 및 콘텐츠 카운트 조회
+  // 팔로우 상태 조회
   const celebIds = rows.map(row => row.id)
   let myFollowings: Set<string> = new Set()
   let myFollowers: Set<string> = new Set()
-  let contentCountMap: Map<string, number> = new Map()
-
-  if (celebIds.length > 0) {
-    // 콘텐츠 카운트 조회 (contentType 필터 적용)
-    if (contentType && contentType !== 'all') {
-      const { data: contents } = await supabase
-        .from('contents')
-        .select('id')
-        .eq('type', contentType) as { data: { id: string }[] | null }
-
-      if (contents && contents.length > 0) {
-        const contentIds = contents.map(c => c.id)
-        const { data: contentCountData } = await supabase
-          .from('user_contents')
-          .select('user_id')
-          .in('user_id', celebIds)
-          .in('content_id', contentIds) as { data: { user_id: string }[] | null }
-
-        (contentCountData || []).forEach(row => {
-          const count = contentCountMap.get(row.user_id) ?? 0
-          contentCountMap.set(row.user_id, count + 1)
-        })
-      }
-    } else {
-      const { data: contentCountData } = await supabase
-        .from('user_contents')
-        .select('user_id')
-        .in('user_id', celebIds) as { data: { user_id: string }[] | null }
-
-      (contentCountData || []).forEach(row => {
-        const count = contentCountMap.get(row.user_id) ?? 0
-        contentCountMap.set(row.user_id, count + 1)
-      })
-    }
-  }
 
   if (user && celebIds.length > 0) {
     // 내가 팔로우 중인 셀럽
@@ -220,7 +186,7 @@ export async function getCelebs(
       is_verified: row.is_verified ?? false,
       is_platform_managed: row.claimed_by === null,
       follower_count: row.follower_count,
-      content_count: contentCountMap.get(row.id) ?? 0,
+      content_count: row.content_count ?? 0,
       is_following: myFollowings.has(row.id),
       is_follower: myFollowers.has(row.id),
       influence: row.total_score > 0 ? {

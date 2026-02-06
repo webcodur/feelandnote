@@ -46,7 +46,7 @@ export async function togglePin({ userContentId, isPinned }: TogglePinParams): P
     return handleSupabaseError(error, { context: 'content', logPrefix: '[핀 상태 변경]' })
   }
 
-  revalidatePath(`/${user.id}/records`)
+  revalidatePath(`/${user.id}/reading`)
 
   return success(null)
 }

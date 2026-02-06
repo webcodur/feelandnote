@@ -12,7 +12,7 @@ import { X, type LucideIcon } from "lucide-react";
 import Button from "./Button";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useSoundOptional } from "@/contexts/SoundContext";
+import { useSound } from "@/contexts/SoundContext";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
 
@@ -45,7 +45,7 @@ export default function Modal({
   showCloseButton = true,
   closeOnOverlayClick = true,
 }: ModalProps) {
-  const { playSound } = useSoundOptional();
+  const { playSound } = useSound();
   const wasOpen = useRef(false);
 
   // 모달 열림/닫힘 사운드

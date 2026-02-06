@@ -1,137 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { Check, Eye, EyeOff, ExternalLink, Loader2, Sparkles, User, Trash2, AlertTriangle, Lock } from "lucide-react";
-import { type PublicUserProfile, updateProfile, updateApiKey } from "@/actions/user";
+import { Check, Eye, EyeOff, ExternalLink, Loader2, AlertTriangle } from "lucide-react";
+import { updateApiKey } from "@/actions/user";
 import { deleteAccount, changePassword } from "@/actions/auth";
-import { useCountries } from "@/hooks/useCountries";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel, InnerBox } from "@/components/ui";
-import SearchableSelect from "@/components/ui/SearchableSelect";
+import { DecorativeLabel } from "@/components/ui";
 
 interface ProfileSettingsSectionProps {
-  profile: PublicUserProfile;
   initialApiKey?: string | null;
   isEmailUser?: boolean;
 }
 
-export default function ProfileSettingsSection({ profile, initialApiKey, isEmailUser }: ProfileSettingsSectionProps) {
+export default function ProfileSettingsSection({ initialApiKey, isEmailUser }: ProfileSettingsSectionProps) {
   return (
-    <section className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
-      <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
-        <div className="flex justify-center mb-6 sm:mb-8">
-          <DecorativeLabel label="설정" />
-        </div>
-        <div className="space-y-6">
-        <ProfileEditCard profile={profile} />
-        {isEmailUser && <PasswordChangeCard />}
-        <ApiKeyCard initialApiKey={initialApiKey} />
-        <DangerZoneCard />
-        </div>
-      </ClassicalBox>
+    <section className="space-y-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+      {isEmailUser && <PasswordChangeCard />}
+      <ApiKeyCard initialApiKey={initialApiKey} />
+      <DangerZoneCard />
     </section>
   );
 }
-
-// #region 프로필 편집 카드
-function ProfileEditCard({ profile }: { profile: PublicUserProfile }) {
-  const { countries, loading: countriesLoading } = useCountries();
-  const [nickname, setNickname] = useState(profile.nickname);
-  const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
-  const [birthDate, setBirthDate] = useState(profile.birth_date || "");
-  const [nationality, setNationality] = useState(profile.nationality || "");
-  const [quotes, setQuotes] = useState(profile.quotes || "");
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
-
-  const hasChanges =
-    nickname !== profile.nickname ||
-    avatarUrl !== (profile.avatar_url || "") ||
-    birthDate !== (profile.birth_date || "") ||
-    nationality !== (profile.nationality || "") ||
-    quotes !== (profile.quotes || "");
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    const result = await updateProfile({
-      nickname,
-      avatar_url: avatarUrl || undefined,
-      birth_date: birthDate || null,
-      nationality: nationality || null,
-      quotes: quotes || null,
-    });
-    if (result.success) {
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 2000);
-    }
-    setIsSaving(false);
-  };
-
-  return (
-    <InnerBox className="p-6 md:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <User size={20} className="text-accent" />
-          <h3 className="text-lg font-serif font-bold text-text-primary">프로필</h3>
-        </div>
-        <div className="flex items-center gap-2">
-          {saveSuccess && <Check size={16} className="text-green-400" />}
-          <button onClick={handleSave} disabled={isSaving || !hasChanges} className="px-4 py-2 text-sm bg-accent text-bg-main font-bold rounded-sm hover:bg-accent-hover disabled:opacity-50">
-            {isSaving ? <Loader2 size={14} className="animate-spin" /> : "저장"}
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          {avatarUrl ? (
-            <div className="relative w-16 h-16 shrink-0">
-              <Image src={avatarUrl} alt="프로필" fill unoptimized className="rounded-full object-cover ring-2 ring-accent/30" />
-            </div>
-          ) : (
-            <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-2xl font-bold text-accent ring-2 ring-accent/30 shrink-0">
-              {nickname.charAt(0).toUpperCase()}
-            </div>
-          )}
-          <div className="flex-1">
-            <label className="text-xs text-text-secondary mb-1 block">닉네임</label>
-            <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50" />
-          </div>
-        </div>
-        <div>
-          <label className="text-xs text-text-secondary mb-1 block">프로필 이미지 URL</label>
-          <input type="url" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} placeholder="https://..." className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
-        </div>
-
-        <div className="pt-4 border-t border-border/30">
-          <p className="text-xs text-text-secondary mb-3">추가 정보 (선택)</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-xs text-text-secondary mb-1 block">생년월일</label>
-              <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50" />
-            </div>
-            <div>
-              <label className="text-xs text-text-secondary mb-1 block">국적/지역</label>
-              <SearchableSelect
-                options={countries.map((c) => ({ value: c.code, label: c.name }))}
-                value={nationality}
-                onChange={setNationality}
-                placeholder={countriesLoading ? "로딩 중..." : "선택"}
-                disabled={countriesLoading}
-              />
-            </div>
-          </div>
-          <div className="mt-4">
-            <label className="text-xs text-text-secondary mb-1 block">좌우명</label>
-            <input type="text" value={quotes} onChange={(e) => setQuotes(e.target.value)} placeholder="나를 표현하는 한 줄" maxLength={100} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
-          </div>
-        </div>
-      </div>
-    </InnerBox>
-  );
-}
-// #endregion
 
 // #region 비밀번호 변경 카드
 function PasswordChangeCard() {
@@ -170,12 +59,11 @@ function PasswordChangeCard() {
   };
 
   return (
-    <InnerBox className="p-6 md:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <Lock size={20} className="text-accent" />
-          <h3 className="text-lg font-serif font-bold text-text-primary">비밀번호 변경</h3>
-        </div>
+    <ClassicalBox className="p-6 md:p-8">
+      <div className="flex justify-center mb-6">
+        <DecorativeLabel label="비밀번호 변경" />
+      </div>
+      <div className="flex justify-end mb-4">
         <div className="flex items-center gap-2">
           {saveSuccess && <Check size={16} className="text-green-400" />}
           <button onClick={handleSave} disabled={isSaving || !canSubmit} className="px-4 py-2 text-sm bg-accent text-bg-main font-bold rounded-sm hover:bg-accent-hover disabled:opacity-50">
@@ -219,7 +107,7 @@ function PasswordChangeCard() {
           )}
         </div>
       </div>
-    </InnerBox>
+    </ClassicalBox>
   );
 }
 // #endregion
@@ -242,12 +130,11 @@ function ApiKeyCard({ initialApiKey }: { initialApiKey?: string | null }) {
   };
 
   return (
-    <InnerBox className="p-6 md:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <Sparkles size={20} className="text-accent" />
-          <h3 className="text-lg font-serif font-bold text-text-primary">AI 설정</h3>
-        </div>
+    <ClassicalBox className="p-6 md:p-8">
+      <div className="flex justify-center mb-6">
+        <DecorativeLabel label="AI 설정" />
+      </div>
+      <div className="flex justify-end mb-4">
         <div className="flex items-center gap-2">
           {saveSuccess && <Check size={16} className="text-green-400" />}
           <button onClick={handleSave} disabled={isSaving || !hasChanges} className="px-4 py-2 text-sm bg-accent text-bg-main font-bold rounded-sm hover:bg-accent-hover disabled:opacity-50">
@@ -273,7 +160,7 @@ function ApiKeyCard({ initialApiKey }: { initialApiKey?: string | null }) {
           <span>AI 리뷰 생성, 줄거리 요약에 사용</span>
         </div>
       </div>
-    </InnerBox>
+    </ClassicalBox>
   );
 }
 // #endregion
@@ -294,10 +181,9 @@ function DangerZoneCard() {
   };
 
   return (
-    <InnerBox className="p-6 md:p-8 border-red-500/30">
-      <div className="flex items-center gap-3 mb-6">
-        <Trash2 size={20} className="text-red-400" />
-        <h3 className="text-lg font-serif font-bold text-red-400">위험 영역</h3>
+    <ClassicalBox variant="danger" className="p-6 md:p-8">
+      <div className="flex justify-center mb-6">
+        <DecorativeLabel label="위험 영역" className="[&_span]:text-red-400 [&_div]:to-red-400" />
       </div>
 
       {!showConfirm ? (
@@ -329,7 +215,7 @@ function DangerZoneCard() {
           </div>
         </div>
       )}
-    </InnerBox>
+    </ClassicalBox>
   );
 }
 // #endregion

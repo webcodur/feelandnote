@@ -8,7 +8,7 @@
 
 import { ReactNode, ButtonHTMLAttributes, SelectHTMLAttributes } from "react";
 import { LucideIcon, ChevronDown } from "lucide-react";
-import { useSoundOptional } from "@/contexts/SoundContext";
+import { useSound } from "@/contexts/SoundContext";
 
 // #region Base Button
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -47,7 +47,7 @@ export default function Button({
   onClick,
   ...props
 }: ButtonProps) {
-  const { playSound } = useSoundOptional();
+  const { playSound } = useSound();
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
 
   // unstyled가 true이면 기본 스타일을 적용하지 않음
@@ -90,7 +90,7 @@ export function IconButton({
   onClick,
   ...props
 }: IconButtonProps) {
-  const { playSound } = useSoundOptional();
+  const { playSound } = useSound();
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

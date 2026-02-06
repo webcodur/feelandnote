@@ -118,7 +118,7 @@ export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProf
               </Button>
             )}
             <Link
-              href={`/${profile.id}/records`}
+              href={`/${profile.id}/reading`}
               onClick={(e) => e.stopPropagation()}
               className="flex-1"
             >

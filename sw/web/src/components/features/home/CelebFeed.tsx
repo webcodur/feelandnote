@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef, useTransition } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Inbox, User } from "lucide-react";
-import { ContentCard } from "@/components/ui/cards";
+import { SavedContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { formatRelativeTime } from "@/lib/utils/date";
-import { addContent } from "@/actions/contents/addContent";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
@@ -23,32 +22,7 @@ interface CelebFeedCardProps {
 
 function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
   const router = useRouter();
-  const [isAdded, setIsAdded] = useState(initialSaved);
-  const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
-
-  // initialSaved prop 변경 시 동기화
-  useEffect(() => {
-    setIsAdded(initialSaved);
-  }, [initialSaved]);
-
-  const handleAddToArchive = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isAdded || isAdding) return;
-
-    startTransition(async () => {
-      const result = await addContent({
-        id: review.content.id,
-        type: review.content.type,
-        title: review.content.title,
-        creator: review.content.creator ?? undefined,
-        thumbnailUrl: review.content.thumbnail_url ?? undefined,
-        status: "WANT",
-      });
-      if (result.success) setIsAdded(true);
-    });
-  };
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
@@ -89,7 +63,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
 
   return (
     <>
-      <ContentCard
+      <SavedContentCard
         contentId={review.content.id}
         contentType={review.content.type}
         title={review.content.title}
@@ -102,9 +76,8 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         href=""
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
-        saved={isAdded}
-        addable={!isAdded && !isAdding}
-        onAdd={handleAddToArchive}
+        initialSaved={initialSaved}
+        autoCheck={false}
         heightClass="h-[320px] md:h-[280px]"
         className="sm:max-w-4xl sm:mx-auto"
       />

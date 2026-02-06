@@ -45,7 +45,7 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
     ],
   },
   {
-    url: "/[userId]/records",
+    url: "/[userId]/reading",
     pageName: "기록관",
     sections: [
       {
@@ -55,13 +55,13 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
       },
       {
         name: "자격증 섹션",
-        card: "CertificateCard",
-        description: "자격증 전용 카드. 그라데이션 배경 + 골드 스탬프.",
+        card: "ContentCard",
+        description: "자격증도 ContentCard로 통합. 그라데이션 폴백 + 골드 스탬프.",
       },
     ],
   },
   {
-    url: "/[userId]/interests",
+    url: "/[userId]/reading/interests",
     pageName: "관심 목록",
     sections: [
       {
@@ -71,13 +71,13 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
       },
       {
         name: "자격증 섹션",
-        card: "CertificateCard",
-        description: "관심 자격증 전용.",
+        card: "ContentCard",
+        description: "관심 자격증도 ContentCard로 통합.",
       },
     ],
   },
   {
-    url: "/[userId]/collections/[id]",
+    url: "/[userId]/reading/collections/[id]",
     pageName: "컬렉션 상세",
     sections: [
       {
@@ -164,12 +164,6 @@ const CARD_COMPONENTS: CardComponentInfo[] = [
     description: "통합 카드. 슬롯 기반 + 리뷰 모드로 모든 콘텐츠 카드 대체.",
   },
 {
-    name: "CertificateCard",
-    path: "components/ui/cards/CertificateCard.tsx",
-    imageRatio: "그라데이션",
-    description: "자격증 전용 특수 디자인.",
-  },
-  {
     name: "RecommendationCard",
     path: "components/features/recommendations/RecommendationCard.tsx",
     imageRatio: "가로형",
@@ -641,6 +635,7 @@ export default function ContentCardsPreview() {
             <li>• <code className="text-red-400 line-through">RecordCard</code> → <code className="text-purple-400">ContentCard</code> (리뷰 모드: headerNode, saved/addable)</li>
             <li>• <code className="text-red-400 line-through">ScriptureCard</code> → <code className="text-purple-400">ContentCard</code> (인라인 래퍼 패턴)</li>
             <li>• <code className="text-red-400 line-through">ReviewCard</code> → <code className="text-purple-400">ContentCard</code> (인라인 래퍼 패턴)</li>
+            <li>• <code className="text-red-400 line-through">CertificateCard</code> → <code className="text-purple-400">ContentCard</code> (thumbnail 폴백: 그라데이션 배경 + 골드 스탬프)</li>
           </ul>
         </div>
       </section>

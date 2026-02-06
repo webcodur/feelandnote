@@ -22,7 +22,7 @@ export default async function RecordsPage({ params }: PageProps) {
 
   const result = await getUserProfile(userId);
   if (!result.success || !result.data) {
-    notFound(); 
+    notFound();
   }
 
   const isOwner = currentUser?.id === userId;

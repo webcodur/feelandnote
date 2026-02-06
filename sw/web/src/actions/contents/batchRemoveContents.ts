@@ -52,7 +52,7 @@ export async function batchRemoveContents({ userContentIds }: BatchRemoveParams)
     throw new Error('일괄 삭제에 실패했습니다')
   }
 
-  revalidatePath(`/${user.id}/records`)
-  revalidatePath(`/${user.id}/collections`)
+  revalidatePath(`/${user.id}/reading`)
+  revalidatePath(`/${user.id}/reading/collections`)
   return { success: true, count: userContentIds.length }
 }

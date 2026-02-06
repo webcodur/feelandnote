@@ -74,39 +74,40 @@ export default function ContentLibrary({
     <div>
       <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />
 
+      {/* 컨트롤 패널 */}
+      <ControlPanel
+        title="기록 제어"
+        icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+        isExpanded={isControlsExpanded}
+        onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+        className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
+      >
+        <ArchiveControlBar
+          activeTab={lib.activeTab}
+          onTabChange={lib.setActiveTab}
+          typeCounts={lib.typeCounts}
+          sortOption={lib.sortOption}
+          onSortOptionChange={lib.setSortOption}
+          reviewFilter={lib.reviewFilter}
+          onReviewFilterChange={lib.setReviewFilter}
+          viewMode={lib.viewMode}
+          onViewModeChange={lib.setViewMode}
+          isAllCollapsed={lib.isAllCollapsed}
+          onExpandAll={lib.expandAll}
+          onCollapseAll={lib.collapseAll}
+          searchQuery={lib.searchQuery}
+          onSearchChange={lib.setSearchQuery}
+          onSearch={lib.executeSearch}
+          onClearSearch={lib.clearSearch}
+        />
+      </ControlPanel>
+
+      {/* 콘텐츠 목록 */}
       <div>
-        {/* 콘텐츠 목록 (월별) */}
         <ClassicalBox className="p-4 sm:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
           <div className="flex justify-center mb-6">
-            <DecorativeLabel label="기록관" />
+            <DecorativeLabel label="시간별 연대기" />
           </div>
-          {/* Control Bar inside Box */}
-          <ControlPanel
-            title="기록 제어"
-            icon={<SlidersHorizontal size={16} className="text-accent/70" />}
-            isExpanded={isControlsExpanded}
-            onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
-            className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
-          >
-            <ArchiveControlBar
-              activeTab={lib.activeTab}
-              onTabChange={lib.setActiveTab}
-              typeCounts={lib.typeCounts}
-              sortOption={lib.sortOption}
-              onSortOptionChange={lib.setSortOption}
-              reviewFilter={lib.reviewFilter}
-              onReviewFilterChange={lib.setReviewFilter}
-              viewMode={lib.viewMode}
-              onViewModeChange={lib.setViewMode}
-              isAllCollapsed={lib.isAllCollapsed}
-              onExpandAll={lib.expandAll}
-              onCollapseAll={lib.collapseAll}
-              searchQuery={lib.searchQuery}
-              onSearchChange={lib.setSearchQuery}
-              onSearch={lib.executeSearch}
-              onClearSearch={lib.clearSearch}
-            />
-          </ControlPanel>
 
           {hasFilteredContents ? (
             lib.sortOption === "recent" ? (

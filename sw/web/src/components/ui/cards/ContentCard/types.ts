@@ -35,6 +35,8 @@ export interface ContentCardProps {
   recommendable?: boolean;
   userContentId?: string;
   saved?: boolean;
+  onSavedStatusChange?: (status: ContentStatus) => void;
+  onSavedRemove?: () => void;
   addable?: boolean;
   onAdd?: (e: React.MouseEvent) => void;
 
