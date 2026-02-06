@@ -8,9 +8,11 @@
 
 import { useState, useEffect, Suspense, useTransition, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Search, Loader2, ArrowUpDown, Info } from "lucide-react";
+import { Search, Loader2, ArrowUpDown, Info, SlidersHorizontal } from "lucide-react";
 import { FilterSelect, type FilterOption } from "@/components/ui";
+import { FilterChipDropdown } from "@/components/shared/filters";
 import Button from "@/components/ui/Button";
+import ControlPanel from "@/components/shared/ControlPanel";
 import { ContentResults, UserResults, TagResults } from "@/components/shared/search/SearchResultCards";
 import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
@@ -68,6 +70,7 @@ function SearchContent() {
   const [category, setCategory] = useState<CategoryId>(categoryParam);
   const [sortBy, setSortBy] = useState("relevance");
   const [isLoading, setIsLoading] = useState(false);
+  const [isControlsExpanded, setIsControlsExpanded] = useState(true);
 
   const [contentResults, setContentResults] = useState<ContentResult[]>([]);
   const [userResults, setUserResults] = useState<UserSearchResult[]>([]);
@@ -278,57 +281,69 @@ function SearchContent() {
   return (
     <>
       {modeParam === "content" && (
-        <div className="mb-6 pb-4 border-b border-border">
-          {/* 카테고리 탭 */}
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-center overflow-x-auto scrollbar-hidden">
-              <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
-                {CATEGORIES.map((cat) => {
-                  const isActive = category === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => { setCategory(cat.id); updateUrl(cat.id); }}
-                      className={`
-                        relative px-4 py-2 rounded-lg text-sm font-bold
-                        ${isActive
-                          ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
-                          : "text-text-secondary hover:text-white hover:bg-white/5"
-                        }
-                      `}
+        <div className="mb-6 flex justify-center">
+          <ControlPanel
+            title="검색 제어"
+            icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+            isExpanded={isControlsExpanded}
+            onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+            className="w-full max-w-3xl"
+          >
+            <div className="bg-black/20">
+              {/* 1행: 카테고리 + 정렬 필터 */}
+              <div className="flex items-center justify-center gap-2 px-6 py-4">
+                {/* 카테고리 필터 */}
+                <FilterChipDropdown
+                  label="카테고리"
+                  value={CATEGORIES.find((c) => c.id === category)?.label || "책"}
+                  isActive={category !== "book"}
+                  isLoading={isLoading}
+                  options={CATEGORIES.map((cat) => ({
+                    value: cat.id,
+                    label: cat.label,
+                  }))}
+                  currentValue={category}
+                  onSelect={(value) => {
+                    setCategory(value as CategoryId);
+                    updateUrl(value as CategoryId);
+                  }}
+                />
+
+                {/* 정렬 필터 */}
+                <FilterChipDropdown
+                  label="정렬"
+                  value={CONTENT_SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label || "관련도순"}
+                  isActive={sortBy !== "relevance"}
+                  isLoading={isLoading}
+                  options={CONTENT_SORT_OPTIONS}
+                  currentValue={sortBy}
+                  onSelect={setSortBy}
+                  icon={<ArrowUpDown size={14} />}
+                />
+              </div>
+
+              {/* 2행: API 출처 + 검색 안내 */}
+              <div className="flex items-center justify-between gap-4 px-6 py-3 text-xs text-text-tertiary border-t border-white/5">
+                <div className="flex items-center gap-1.5">
+                  <Info size={12} />
+                  <span>
+                    검색 제공:{" "}
+                    <a
+                      href={API_SOURCE_INFO[category as Exclude<CategoryId, "all">].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent/60 hover:text-accent underline underline-offset-2 transition-colors"
                     >
-                      <span className={isActive ? "font-serif text-black" : "font-sans"}>
-                        {cat.label}
-                      </span>
-                    </button>
-                  );
-                })}
+                      {API_SOURCE_INFO[category as Exclude<CategoryId, "all">].name}
+                    </a>
+                  </span>
+                </div>
+                {CATEGORY_SEARCH_GUIDE[category] && (
+                  <span className="text-text-secondary">{CATEGORY_SEARCH_GUIDE[category]}</span>
+                )}
               </div>
             </div>
-            <div className="flex justify-center items-center gap-3 text-xs text-text-tertiary">
-              <FilterSelect options={CONTENT_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} />
-              <span className="text-border">|</span>
-              <div className="flex items-center gap-1.5">
-                <Info size={12} />
-                <span>
-                  검색 제공:{" "}
-                  <a
-                    href={API_SOURCE_INFO[category as Exclude<CategoryId, "all">].url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent/60 hover:text-accent underline underline-offset-2"
-                  >
-                    {API_SOURCE_INFO[category as Exclude<CategoryId, "all">].name}
-                  </a>
-                </span>
-              </div>
-            </div>
-          </div>
-          {CATEGORY_SEARCH_GUIDE[category] && (
-            <div className="mt-2 flex justify-center text-xs text-text-secondary">
-              <span>{CATEGORY_SEARCH_GUIDE[category]}</span>
-            </div>
-          )}
+          </ControlPanel>
         </div>
       )}
 

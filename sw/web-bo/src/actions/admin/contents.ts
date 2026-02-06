@@ -13,6 +13,7 @@ export interface Content {
   publisher: string | null
   release_date: string | null
   subtype: string | null
+  external_source: string | null
   metadata: Record<string, unknown>
   created_at: string
   user_count: number

@@ -234,8 +234,15 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                 <span className="font-serif text-xl">{celeb.nickname[0]}</span>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
-              <p className="text-white text-xs font-serif font-bold truncate text-center">{celeb.nickname}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col items-center justify-end pb-1 pt-4 px-2">
+              {celeb.title && (
+                <span className="text-[10px] font-cinzel font-bold text-amber-500 tracking-widest uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] break-keep leading-tight">
+                  {celeb.title}
+                </span>
+              )}
+              <span className="text-[11px] font-sans font-bold text-white tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] truncate w-full text-center">
+                {celeb.nickname}
+              </span>
             </div>
           </div>
         );

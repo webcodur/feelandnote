@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { deleteCelebContent, updateCelebContent, CelebContent } from '@/actions/admin/celebs'
 import { createContentFromExternal } from '@/actions/admin/external-search'
-import { Star, Edit2, Trash2, Loader2, X, Check, RefreshCw } from 'lucide-react'
+import { Star, Edit2, Trash2, Loader2, X, Check, RefreshCw, Hash, Database, Link2, Copy } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import ContentSelector, { type SelectedContent } from '@/components/content/ContentSelector'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES, type ContentType } from '@/constants/contentTypes'
@@ -206,6 +206,35 @@ export default function ContentList({ contents, celebId }: Props) {
                         <DisplayIcon className="w-3 h-3" />
                         {displayTypeConfig?.label || displayContent.type}
                       </span>
+                    </div>
+                    {/* 콘텐츠 메타 정보 */}
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px]">
+                      <button
+                        onClick={() => navigator.clipboard.writeText(content.content.id)}
+                        className="inline-flex items-center gap-1 text-text-secondary/70 hover:text-accent font-mono group"
+                        title="ID 복사"
+                      >
+                        <Hash className="w-3 h-3" />
+                        <span className="max-w-[120px] truncate">{content.content.id}</span>
+                        <Copy className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100" />
+                      </button>
+                      {content.content.external_source && (
+                        <span className="inline-flex items-center gap-1 text-text-secondary/50">
+                          <Database className="w-3 h-3" />
+                          {content.content.external_source}
+                        </span>
+                      )}
+                      {content.content.thumbnail_url && (
+                        <button
+                          onClick={() => navigator.clipboard.writeText(content.content.thumbnail_url || '')}
+                          className="inline-flex items-center gap-1 text-text-secondary/70 hover:text-accent group"
+                          title="이미지 URL 복사"
+                        >
+                          <Link2 className="w-3 h-3" />
+                          <span>이미지 URL</span>
+                          <Copy className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100" />
+                        </button>
+                      )}
                     </div>
                   </div>
 

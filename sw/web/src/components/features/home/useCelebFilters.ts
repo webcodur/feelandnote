@@ -97,15 +97,9 @@ export function useCelebFilters({
     router.replace(newUrl, { scroll: false });
   }, [syncToUrl, searchParams, pathname, router]);
 
-  // 초기 URL 파라미터로 데이터 로드
+  // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 재패칭 불필요
   useEffect(() => {
     if (!syncToUrl || isInitialized) return;
-    const hasUrlFilters = searchParams.has("profession") || searchParams.has("nationality") ||
-      searchParams.has("contentType") || searchParams.has("gender") || searchParams.has("sortBy") ||
-      searchParams.has("search") || searchParams.has("page");
-    if (hasUrlFilters) {
-      loadCelebs(profession, nationality, contentType, gender, sortBy, currentPage, appliedSearch);
-    }
     setIsInitialized(true);
   }, [syncToUrl, isInitialized]);
 

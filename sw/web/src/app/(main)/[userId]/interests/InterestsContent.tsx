@@ -13,11 +13,10 @@ import type { ContentTypeCounts } from "@/types/content";
 import { ContentCard } from "@/components/ui/cards";
 import InterestsControlBar, { type InterestSortOption } from "./InterestsControlBar";
 import InterestsEditPanel from "./InterestsEditPanel";
-import { ChevronLeft, ChevronRight, Inbox } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Inbox } from "lucide-react";
 import { CertificateCard } from "@/components/ui/cards";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel, InnerBox } from "@/components/ui";
+import { DecorativeLabel, InnerBox, Pagination } from "@/components/ui";
 
 interface InterestsContentProps {
   userId: string;
@@ -55,7 +54,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
           type: CATEGORY_ID_TO_TYPE[activeTab],
           status: "WANT",
           page: currentPage,
-          limit: 20,
+          limit: 10,
         });
         setContents(result.items);
         setTotalPages(result.totalPages);
@@ -67,7 +66,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
           type: CATEGORY_ID_TO_TYPE[activeTab],
           status: "WANT",
           page: currentPage,
-          limit: 20,
+          limit: 10,
         });
         const mapped: UserContentWithContent[] = result.items.map((item) => ({
           id: item.id,
@@ -265,7 +264,6 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
                   creator={item.content.creator}
                   thumbnail={item.content.thumbnail_url}
                   href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
-                  userCount={item.content.user_count ?? 0}
                   // 본인: 선택 + 삭제
                   selectable={isOwner}
                   isSelected={isOwner && selectedContentId === item.id}
@@ -300,6 +298,15 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
             </div>
           )}
         </div>
+
+        <hr className="border-white/10 mt-6" />
+        <div className="mt-6">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </div>
       </ClassicalBox>
     );
   };
@@ -308,43 +315,14 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
     <div className="w-full">
       {/* 편집 영역 (소유자만 표시) */}
       {isOwner && (
-        <div className="mt-4">
-          <InterestsEditPanel
-            selectedContent={selectedContent}
-            onClose={handleEditClose}
-            onSaved={handleEditSaved}
-          />
-        </div>
+        <InterestsEditPanel
+          selectedContent={selectedContent}
+          onClose={handleEditClose}
+          onSaved={handleEditSaved}
+        />
       )}
 
-      <div className={isOwner ? "" : "mt-4"}>
-        {renderContent()}
-      </div>
-
-      {/* 페이지네이션 */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeft size={16} />
-          </Button>
-          <span className="text-sm text-text-secondary">
-            {currentPage} / {totalPages}
-          </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRight size={16} />
-          </Button>
-        </div>
-      )}
+      {renderContent()}
     </div>
   );
 }

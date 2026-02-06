@@ -7,8 +7,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Info, Star, Lock, MessageSquare } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Button from "@/components/ui/Button";
+import DecorativeLabel from "@/components/ui/DecorativeLabel";
 import AccordionSection from "./AccordionSection";
 import ContentInfoSection from "./ContentInfoSection";
 import MyReviewSection from "./MyReviewSection";
@@ -44,7 +45,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
 
       <div className="space-y-4">
         {/* 1. 콘텐츠 정보 */}
-        <AccordionSection title="콘텐츠 정보" icon={<Info size={16} />} defaultOpen>
+        <AccordionSection title="콘텐츠 정보" defaultOpen>
           <ContentInfoSection
             content={content}
             userRecord={userRecord}
@@ -58,7 +59,6 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {isLoggedIn && (
           <AccordionSection
             title="내 리뷰"
-            icon={<Star size={16} />}
             badge={
               userRecord?.rating && (
                 <span className="text-xs text-yellow-400">{"★".repeat(userRecord.rating)}</span>
@@ -78,7 +78,6 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {userRecord && isLoggedIn && (
           <AccordionSection
             title="내 노트"
-            icon={<Lock size={16} />}
             badge={<span className="text-[10px] text-text-tertiary bg-white/5 px-1.5 py-0.5 rounded">비공개</span>}
             defaultOpen={false}
           >
@@ -88,9 +87,8 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
 
         {/* 4. 모든 리뷰 (항상 표시) */}
         <div className="bg-bg-card border border-border rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <MessageSquare size={16} className="text-accent" />
-            <h3 className="font-semibold text-sm text-text-primary">다른 기록자들의 리뷰</h3>
+          <div className="mb-4">
+            <DecorativeLabel label="다른 기록자들의 리뷰" />
           </div>
           <AllReviewsSection
             contentId={content.id}

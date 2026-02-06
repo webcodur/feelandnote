@@ -300,11 +300,11 @@ export default function PlaylistEditor({
           {filteredContents.map((item) => (
             <ContentCard
               key={item.id}
+              contentId={item.content_id}
               thumbnail={item.content.thumbnail_url}
               title={item.content.title}
               creator={item.content.creator}
               contentType={item.content.type}
-              userCount={item.content.user_count ?? undefined}
               selectable
               isSelected={selectedIds.has(item.content_id)}
               onSelect={() => handleToggleSelect(item.content_id)}

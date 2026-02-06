@@ -24,6 +24,8 @@ import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/
 import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+import { updateUserContentRating } from "@/actions/contents/updateRating";
+import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -44,12 +46,14 @@ const AURA_GRADIENTS: Record<Aura, string> = {
 // #endregion
 
 // #region Inline Celeb Review Card (for modal)
-function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebProfile }) {
+function CelebReviewCard({ review, celeb, onRatingUpdate }: { review: CelebReview; celeb: CelebProfile; onRatingUpdate?: (id: string, rating: number | null) => void }) {
   const router = useRouter();
   const [isAdded, setIsAdded] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isAdding, startTransition] = useTransition();
   const [showUserModal, setShowUserModal] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [currentRating, setCurrentRating] = useState<number | null>(review.rating);
 
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
 
@@ -120,6 +124,10 @@ function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebP
         title={review.content.title}
         creator={review.content.creator}
         thumbnail={review.content.thumbnail_url}
+        celebCount={review.content.celeb_count}
+        userCount={review.content.user_count}
+        rating={currentRating}
+        onRatingClick={(e) => { e.stopPropagation(); setShowRatingModal(true); }}
         status="FINISHED"
         review={review.review}
         isSpoiler={review.is_spoiler}
@@ -131,6 +139,20 @@ function CelebReviewCard({ review, celeb }: { review: CelebReview; celeb: CelebP
         addable={!isAdded && !isChecking}
         onAdd={handleAddToArchive}
         heightClass="h-[320px] md:h-[280px]"
+      />
+
+      <RatingEditModal
+        isOpen={showRatingModal}
+        onClose={() => setShowRatingModal(false)}
+        contentTitle={review.content.title}
+        currentRating={currentRating}
+        onSave={async (rating) => {
+          const result = await updateUserContentRating({ userContentId: review.id, rating });
+          if (result.success) {
+            setCurrentRating(rating);
+            onRatingUpdate?.(review.id, rating);
+          }
+        }}
       />
 
       <UiModal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
@@ -169,6 +191,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
+  const [displayCount, setDisplayCount] = useState(20);
 
   // 네비게이션 드래그 상태
   const [navDragOffset, setNavDragOffset] = useState(0);
@@ -182,6 +205,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   useEffect(() => {
     setIsReviewMode(false);
     setReviews([]);
+    setDisplayCount(20);
     setIsFollowing(celeb.is_following);
     setIsInfluenceOpen(false);
     setIsTagsModalOpen(false);
@@ -374,10 +398,20 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             <p className="text-sm text-text-tertiary animate-pulse">기록을 불러오는 중...</p>
           </div>
         ) : reviews.length > 0 ? (
-          <div className="flex flex-col gap-6 max-w-2xl mx-auto">
-            {reviews.map((reviewItem) => (
-              <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} />
-            ))}
+          <div className="max-w-4xl mx-auto space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              {reviews.slice(0, displayCount).map((reviewItem) => (
+                <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} />
+              ))}
+            </div>
+            {displayCount < reviews.length && (
+              <button
+                onClick={() => setDisplayCount((prev) => prev + 20)}
+                className="w-full py-3 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/5 active:scale-[0.98]"
+              >
+                더보기 ({reviews.length - displayCount}개 남음)
+              </button>
+            )}
           </div>
         ) : (
            <div className="flex flex-col items-center justify-center py-20 text-center">

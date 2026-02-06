@@ -22,6 +22,8 @@ import type { ContentType, ContentStatus, VisibilityType } from "@/types/databas
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import {
   type SortOption,
+  type ReviewFilter,
+  type ViewMode,
   type PlaylistInfo,
   type UseContentLibraryOptions,
   filterAndSortContents,
@@ -29,7 +31,7 @@ import {
   formatMonthLabel,
 } from "./contentLibraryTypes";
 
-export type { SortOption, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
+export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '' } = options;
@@ -48,6 +50,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [pageSize, setPageSize] = useState(10);
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [reviewFilter, setReviewFilter] = useState<ReviewFilter>("all");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
 
@@ -127,6 +131,12 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     try {
       const limit = maxItems || pageSize;
       const searchParam = appliedSearchQuery.trim().length >= 2 ? appliedSearchQuery.trim() : undefined;
+      const hasReviewParam = reviewFilter === 'has_review' ? true : reviewFilter === 'no_review' ? false : undefined;
+      // 서버 정렬 가능: recent, rating_desc, rating_asc. 나머지는 recent로 보내고 클라이언트에서 정렬
+      const serverSortable = ['recent', 'rating_desc', 'rating_asc'] as const;
+      const sortByParam = (serverSortable as readonly string[]).includes(sortOption)
+        ? (sortOption as 'recent' | 'rating_desc' | 'rating_asc')
+        : 'recent';
 
       if (isViewer && targetUserId) {
         // viewer 모드: 타인의 공개 콘텐츠 조회
@@ -137,6 +147,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           page: compact ? 1 : currentPage,
           limit,
           search: searchParam,
+          hasReview: hasReviewParam,
+          sortBy: sortByParam,
         });
         // UserContentPublic을 UserContentWithContent 형태로 매핑
         const mapped: UserContentWithContent[] = result.items.map((item) => ({
@@ -179,6 +191,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           page: compact ? 1 : currentPage,
           limit,
           search: searchParam,
+          hasReview: hasReviewParam,
+          sortBy: sortByParam,
         });
         setContents(result.items);
         setTotalPages(result.totalPages);
@@ -189,7 +203,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery]);
+  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption]);
 
   useEffect(() => {
     loadContents();
@@ -198,7 +212,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeTab, appliedSearchQuery, pageSize]);
+  }, [activeTab, appliedSearchQuery, pageSize, reviewFilter, sortOption]);
 
   // 뷰어 모드: 콘텐츠 로드 후 보유 여부 배치 체크
   useEffect(() => {
@@ -328,6 +342,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     typeCounts,
     collapsedMonths,
     sortOption, setSortOption,
+    reviewFilter, setReviewFilter,
+    viewMode, setViewMode,
     searchQuery, setSearchQuery,
     appliedSearchQuery,
     executeSearch, clearSearch,

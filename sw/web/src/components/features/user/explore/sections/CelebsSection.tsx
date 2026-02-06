@@ -7,13 +7,15 @@
 "use client";
 
 import { useState, lazy, Suspense } from "react";
-import { BarChart3, Gem } from "lucide-react";
+import { BarChart3, Gem, PieChart } from "lucide-react";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 import FeaturedCollectionsDesktop from "@/components/features/landing/FeaturedCollectionsDesktop";
 import InfluenceDistributionModal from "../InfluenceDistributionModal";
+import CelebStatsModal from "../CelebStatsModal";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, FeaturedTag } from "@/actions/home";
+
 
 const FeaturedCollectionsMobile = lazy(() => import("@/components/features/landing/FeaturedCollectionsMobile"));
 
@@ -39,6 +41,7 @@ export default function CelebsSection({
   featuredTags,
 }: Props) {
   const [showInfluenceDistribution, setShowInfluenceDistribution] = useState(false);
+  const [showCelebStats, setShowCelebStats] = useState(false);
   const [isCollectionMode, setIsCollectionMode] = useState(false);
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
   const [activeTagIndex, setActiveTagIndex] = useState(0);
@@ -63,6 +66,14 @@ export default function CelebsSection({
       >
         <BarChart3 size={14} className="opacity-70" />
         <span>영향력</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => setShowCelebStats(true)}
+        className="h-9 flex items-center justify-center gap-2 px-3 rounded-md text-xs font-sans font-bold tracking-wider border border-accent/20 bg-accent/5 text-accent/80 hover:bg-accent/10 hover:border-accent/40 hover:text-accent transition-all duration-300 flex-1 md:flex-none md:shrink-0"
+      >
+        <PieChart size={14} className="opacity-70" />
+        <span>통계</span>
       </button>
       {featuredTags.length > 0 && (
         <button
@@ -113,6 +124,15 @@ export default function CelebsSection({
       <InfluenceDistributionModal
         isOpen={showInfluenceDistribution}
         onClose={() => setShowInfluenceDistribution(false)}
+      />
+
+      <CelebStatsModal
+        isOpen={showCelebStats}
+        onClose={() => setShowCelebStats(false)}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        genderCounts={genderCounts}
       />
 
       {/* 모바일 기획전 모달 */}

@@ -304,7 +304,7 @@ function DangerZoneCard() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-text-primary">회원탈퇴</p>
-            <p className="text-xs text-text-secondary mt-1">모든 기록, 플레이리스트, 팔로우 정보가 영구 삭제된다.</p>
+            <p className="text-xs text-text-secondary mt-1">모든 기록, 플레이리스트, 팔로우 정보가 영구 삭제됩니다.</p>
           </div>
           <button onClick={() => setShowConfirm(true)} className="px-4 py-2 text-sm text-red-400 border border-red-500/30 rounded-sm hover:bg-red-500/10">탈퇴하기</button>
         </div>
@@ -314,7 +314,7 @@ function DangerZoneCard() {
             <AlertTriangle size={18} className="text-red-400 mt-0.5 shrink-0" />
             <div className="text-sm">
               <p className="font-medium text-red-400">정말 탈퇴하시겠습니까?</p>
-              <p className="text-text-secondary mt-1">이 작업은 되돌릴 수 없다. 모든 데이터가 즉시 삭제된다.</p>
+              <p className="text-text-secondary mt-1">이 작업은 되돌릴 수 없다. 모든 데이터가 즉시 삭제됩니다.</p>
             </div>
           </div>
           <div>

@@ -72,7 +72,6 @@ export function ContentResults({
             href={href}
             onClick={() => onBeforeNavigate?.(item)}
             saved={isSaved && showAddButton}
-            userCount={userCount}
             topRightNode={
               showAddButton && onAddWithStatus && !isSaved ? (
                 <AddContentPopover

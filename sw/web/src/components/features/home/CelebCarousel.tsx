@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Search, X, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Search, X, SlidersHorizontal } from "lucide-react";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
-import { cn } from "@/lib/utils";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
 import CelebDetailModal from "./celeb-card-drafts/CelebDetailModal";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
+import ControlPanel from "@/components/shared/ControlPanel";
 import { useCelebFilters } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
@@ -87,91 +87,75 @@ export default function CelebCarousel({
     <div>
       {/* 셀럽 컨트롤 (PC) */}
       <div className="hidden md:flex justify-center my-12">
-        <div className="inline-grid w-full max-w-2xl border border-white/10 bg-black/40 backdrop-blur-md rounded-lg overflow-hidden relative group">
-          {/* 타이틀 바 (클릭하면 접기/펼치기) */}
-          <button
-            type="button"
-            onClick={() => setIsControlsExpanded(!isControlsExpanded)}
-            className="relative flex items-center justify-center gap-3 px-6 py-2 bg-white/5 border-b border-white/5 hover:bg-white/10 transition-all z-10"
-          >
-            <div className={`h-px w-12 bg-gradient-to-r from-transparent to-accent/50 transition-opacity ${isControlsExpanded ? 'opacity-100' : 'opacity-50'}`} />
-            
-            <span className="font-sans text-base font-bold text-accent tracking-[0.2em] drop-shadow-sm flex items-center gap-2">
-              <SlidersHorizontal size={16} className="text-accent/70" />
-              탐색 제어
-            </span>
-            
-            <div className={`h-px w-12 bg-gradient-to-l from-transparent to-accent/50 transition-opacity ${isControlsExpanded ? 'opacity-100' : 'opacity-50'}`} />
-          </button>
+        <ControlPanel
+          title="탐색 제어"
+          icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+          isExpanded={isControlsExpanded}
+          onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+          className="w-full max-w-2xl"
+        >
+          <div className="bg-black/20">
+            {/* 1행: 정렬/필터 */}
+            <CelebFiltersDesktop
+              wrapperClassName="flex items-center justify-center gap-2 px-6 py-4 min-h-[4.5rem]"
+              profession={filters.profession}
+              nationality={filters.nationality}
+              contentType={filters.contentType}
+              gender={filters.gender}
+              sortBy={filters.sortBy}
+              search=""
+              professionCounts={professionCounts}
+              nationalityCounts={nationalityCounts}
+              contentTypeCounts={contentTypeCounts}
+              genderCounts={genderCounts}
+              isLoading={filters.isLoading}
+              activeLabels={filters.activeLabels}
+              onProfessionChange={withInteraction(filters.handleProfessionChange)}
+              onNationalityChange={withInteraction(filters.handleNationalityChange)}
+              onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+              onGenderChange={withInteraction(filters.handleGenderChange)}
+              onSortChange={withInteraction(filters.handleSortChange)}
+              onSearchInput={() => {}}
+              onSearchSubmit={() => {}}
+              onSearchClear={() => {}}
+              hideSearch
+            />
 
-          {/* 접히는 영역 */}
-          <div className={cn(
-            "grid transition-all duration-500 ease-in-out relative z-10",
-            isControlsExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-          )}>
-            <div className="overflow-hidden bg-black/20">
-              {/* 1행: 정렬/필터 */}
-              <CelebFiltersDesktop
-                wrapperClassName="flex items-center justify-center gap-2 px-6 py-4 min-h-[4.5rem]"
-                profession={filters.profession}
-                nationality={filters.nationality}
-                contentType={filters.contentType}
-                gender={filters.gender}
-                sortBy={filters.sortBy}
-                search=""
-                professionCounts={professionCounts}
-                nationalityCounts={nationalityCounts}
-                contentTypeCounts={contentTypeCounts}
-                genderCounts={genderCounts}
-                isLoading={filters.isLoading}
-                activeLabels={filters.activeLabels}
-                onProfessionChange={withInteraction(filters.handleProfessionChange)}
-                onNationalityChange={withInteraction(filters.handleNationalityChange)}
-                onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
-                onGenderChange={withInteraction(filters.handleGenderChange)}
-                onSortChange={withInteraction(filters.handleSortChange)}
-                onSearchInput={() => {}}
-                onSearchSubmit={() => {}}
-                onSearchClear={() => {}}
-                hideSearch
-              />
-              
-              {/* 2행: 검색/액션 */}
-              <div className="flex items-center gap-2 px-6 py-3">
-                <div className="relative flex-1 min-w-0 group/search">
-                  <div className="absolute inset-0 bg-accent/5 blur-sm opacity-0 group-focus-within/search:opacity-100 transition-opacity rounded-md pointer-events-none" />
-                  <input
-                    type="text"
-                    value={filters.search}
-                    onChange={(e) => filters.handleSearchInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="인물 검색..."
-                    className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
-                  />
-                  {filters.search && (
-                    <button
-                      type="button"
-                      onClick={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
-                      className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
-                    >
-                      <X size={12} />
-                    </button>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
-                  disabled={filters.isLoading}
-                  className="h-9 w-9 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
-                >
-                  <Search size={16} />
-                </button>
-                <div className="w-px h-5 bg-white/10 mx-1" />
-                {extraButtons}
+            {/* 2행: 검색/액션 */}
+            <div className="flex items-center gap-2 px-6 py-3">
+              <div className="relative flex-1 min-w-0 group/search">
+                <div className="absolute inset-0 bg-accent/5 blur-sm opacity-0 group-focus-within/search:opacity-100 transition-opacity rounded-md pointer-events-none" />
+                <input
+                  type="text"
+                  value={filters.search}
+                  onChange={(e) => filters.handleSearchInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="인물 검색..."
+                  className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
+                />
+                {filters.search && (
+                  <button
+                    type="button"
+                    onClick={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
+                    className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
               </div>
+              <button
+                type="button"
+                onClick={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
+                disabled={filters.isLoading}
+                className="h-9 w-9 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
+              >
+                <Search size={16} />
+              </button>
+              <div className="w-px h-5 bg-white/10 mx-1" />
+              {extraButtons}
             </div>
           </div>
-        </div>
+        </ControlPanel>
       </div>
 
       {/* 셀럽 컨트롤 (Mobile) */}

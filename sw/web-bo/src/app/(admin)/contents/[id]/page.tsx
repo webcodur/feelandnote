@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, Library, Users, Calendar, Building2, FileText } from 'lucide-react'
+import { ArrowLeft, Library, Users, Calendar, Building2, FileText, Hash, Database, Image as ImageIcon } from 'lucide-react'
 import ContentActions from './ContentActions'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 import { STATUS_CONFIG, type ContentStatus } from '@/constants/statuses'
@@ -77,6 +77,10 @@ export default async function ContentDetailPage({ params }: PageProps) {
             </div>
 
             <div className="mt-6 pt-6 border-t border-border space-y-4">
+              <InfoRow icon={Hash} label="콘텐츠 ID" value={content.id} mono />
+              {content.external_source && (
+                <InfoRow icon={Database} label="외부 소스" value={content.external_source} />
+              )}
               <InfoRow icon={Users} label="등록 사용자" value={`${content.user_count}명`} />
               {content.publisher && (
                 <InfoRow icon={Building2} label="출판/제작" value={content.publisher} />
@@ -89,6 +93,15 @@ export default async function ContentDetailPage({ params }: PageProps) {
                 label="등록일"
                 value={new Date(content.created_at).toLocaleDateString('ko-KR')}
               />
+              {content.thumbnail_url && (
+                <div className="flex items-start gap-3">
+                  <ImageIcon className="w-4 h-4 text-text-secondary mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-text-secondary">썸네일 URL</p>
+                    <p className="text-xs text-text-primary font-mono break-all">{content.thumbnail_url}</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {content.description && (
@@ -195,17 +208,19 @@ function InfoRow({
   icon: Icon,
   label,
   value,
+  mono,
 }: {
   icon: React.ElementType
   label: string
   value: string
+  mono?: boolean
 }) {
   return (
     <div className="flex items-center gap-3">
       <Icon className="w-4 h-4 text-text-secondary" />
-      <div>
+      <div className="min-w-0 flex-1">
         <p className="text-xs text-text-secondary">{label}</p>
-        <p className="text-sm text-text-primary">{value}</p>
+        <p className={`text-sm text-text-primary break-all ${mono ? 'font-mono text-xs' : ''}`}>{value}</p>
       </div>
     </div>
   )

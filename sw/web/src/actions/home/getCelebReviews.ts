@@ -17,6 +17,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
       is_spoiler,
       source_url,
       updated_at,
+      content_id,
       content:contents!user_contents_content_id_fkey(
         id,
         title,
@@ -38,7 +39,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
     .not('review', 'is', null)
     .eq('visibility', 'public')
     .order('updated_at', { ascending: false })
-    .limit(50) // 적절한 limit 설정
+    .limit(100)
 
   if (error) {
     console.error('셀럽 리뷰 조회 에러:', error)
@@ -48,6 +49,10 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
   if (!data || data.length === 0) {
     return []
   }
+
+  // 인원 구성 배치 조회 (셀럽 + 일반인)
+  const contentIds = [...new Set(data.map(row => row.content_id))]
+  const contentCounts = await getContentCountsForContents(supabase, contentIds)
 
   const reviews: CelebReview[] = data
     .filter(row => row.content && row.celeb && row.review)
@@ -68,8 +73,8 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
           creator: content.creator,
           thumbnail_url: content.thumbnail_url,
           type: content.type as ContentType,
-          celeb_count: 1,
-          user_count: content.user_count ?? 0,
+          celeb_count: contentCounts[content.id]?.celebCount ?? 0,
+          user_count: contentCounts[content.id]?.userCount ?? 0,
         },
         celeb: {
           id: celeb.id,
@@ -83,4 +88,57 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
     })
 
   return reviews
+}
+
+interface ContentCounts {
+  celebCount: number
+  userCount: number
+}
+
+// 콘텐츠별 인원 구성 조회 (내부 함수)
+async function getContentCountsForContents(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  contentIds: string[]
+): Promise<Record<string, ContentCounts>> {
+  if (!contentIds.length) return {}
+
+  // FINISHED 상태인 user_contents 조회
+  const { data: ucData } = await supabase
+    .from('user_contents')
+    .select('content_id, user_id')
+    .in('content_id', contentIds)
+    .eq('status', 'FINISHED')
+
+  if (!ucData?.length) return {}
+
+  // CELEB 프로필 식별
+  const uniqueUserIds = [...new Set(ucData.map(r => r.user_id))]
+  const celebIdSet = new Set<string>()
+
+  for (let i = 0; i < uniqueUserIds.length; i += 50) {
+    const batch = uniqueUserIds.slice(i, i + 50)
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('id')
+      .in('id', batch)
+      .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
+
+    if (profiles) profiles.forEach(p => celebIdSet.add(p.id))
+  }
+
+  // content_id별 셀럽/일반인 수 집계
+  const counts: Record<string, ContentCounts> = {}
+  for (const item of ucData) {
+    if (!counts[item.content_id]) {
+      counts[item.content_id] = { celebCount: 0, userCount: 0 }
+    }
+    if (celebIdSet.has(item.user_id)) {
+      counts[item.content_id].celebCount++
+    } else {
+      counts[item.content_id].userCount++
+    }
+  }
+
+  return counts
 }

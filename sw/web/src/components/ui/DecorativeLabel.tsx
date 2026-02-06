@@ -14,14 +14,14 @@ export default function DecorativeLabel({ label, className = "" }: DecorativeLab
   const words = label.split(" ").map((word) => word.split("").join(" "));
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <div className="h-px w-10 bg-accent/40" />
-      <span className="flex items-center gap-4 text-serif text-accent text-xs sm:text-sm tracking-widest font-black whitespace-nowrap">
+    <div className={`flex items-center justify-center gap-4 ${className}`}>
+      <div className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-accent opacity-60" />
+      <span className="flex items-center gap-4 font-sans text-accent text-xs sm:text-sm tracking-widest font-black whitespace-nowrap">
         {words.map((word, i) => (
           <span key={i}>{word}</span>
         ))}
       </span>
-      <div className="h-px w-10 bg-accent/40" />
+      <div className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-accent opacity-60" />
     </div>
   );
 }

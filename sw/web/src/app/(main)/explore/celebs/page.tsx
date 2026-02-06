@@ -7,9 +7,12 @@
 import { Suspense } from "react";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags } from "@/actions/home";
+import type { CelebSortBy } from "@/actions/home";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "셀럽 | 탐색" };
+
+const VALID_SORT_VALUES = ["influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 
 function SectionSkeleton() {
   return (
@@ -63,9 +66,37 @@ function SectionSkeleton() {
   );
 }
 
-async function CelebsContent() {
+// URL searchParams에서 필터/정렬 값 파싱
+function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
+  const v = params[key];
+  return typeof v === "string" ? v : undefined;
+}
+
+async function CelebsContent({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+  const profession = parseParam(searchParams, "profession");
+  const nationality = parseParam(searchParams, "nationality");
+  const contentType = parseParam(searchParams, "contentType");
+  const gender = parseParam(searchParams, "gender");
+  const search = parseParam(searchParams, "search");
+  const sortByRaw = parseParam(searchParams, "sortBy");
+  const sortBy = (sortByRaw && VALID_SORT_VALUES.includes(sortByRaw) ? sortByRaw : "content_count") as CelebSortBy;
+  const pageRaw = parseInt(parseParam(searchParams, "page") || "1", 10);
+  const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
+
+  const notAll = (v?: string) => v && v !== "all" ? v : undefined;
+
   const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, featuredTags] = await Promise.all([
-    getCelebs({ page: 1, limit: 24, minContentCount: 1, sortBy: "content_count" }),
+    getCelebs({
+      page,
+      limit: 24,
+      minContentCount: 1,
+      sortBy,
+      profession: notAll(profession),
+      nationality: notAll(nationality),
+      contentType: notAll(contentType),
+      gender: notAll(gender),
+      search: search || undefined,
+    }),
     getProfessionCounts(),
     getNationalityCounts(),
     getContentTypeCounts(),
@@ -87,10 +118,11 @@ async function CelebsContent() {
   );
 }
 
-export default function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams;
   return (
     <Suspense fallback={<SectionSkeleton />}>
-      <CelebsContent />
+      <CelebsContent searchParams={params} />
     </Suspense>
   );
 }

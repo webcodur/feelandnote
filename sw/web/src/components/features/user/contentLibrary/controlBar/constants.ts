@@ -1,6 +1,6 @@
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
-import type { SortOption } from "../useContentLibrary";
+import type { SortOption, ReviewFilter } from "../contentLibraryTypes";
 import { PantheonIcon } from "@/components/ui/icons/neo-pantheon";
 
 export const TAB_OPTIONS: { value: CategoryId; label: string; icon: React.ComponentType<any>; type: ContentType | undefined }[] = [
@@ -16,6 +16,15 @@ export const TAB_OPTIONS: { value: CategoryId; label: string; icon: React.Compon
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "recent", label: "최근 추가" },
   { value: "title", label: "이름순" },
+  { value: "rating_desc", label: "별점 높은순" },
+  { value: "rating_asc", label: "별점 낮은순" },
+  { value: "creator", label: "저자순" },
+];
+
+export const REVIEW_FILTER_OPTIONS: { value: ReviewFilter; label: string }[] = [
+  { value: "all", label: "전체" },
+  { value: "has_review", label: "리뷰 있음" },
+  { value: "no_review", label: "리뷰 없음" },
 ];
 
 export const CONTROL_BUTTON_VARIANTS = {

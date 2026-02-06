@@ -2,10 +2,15 @@
 
 import { createClient } from '@/lib/supabase/server'
 
-// 콘텐츠별 셀럽 감상 수 배치 조회
+export interface ContentCounts {
+  celebCount: number
+  userCount: number
+}
+
+// 콘텐츠별 셀럽/일반인 감상 수 배치 조회
 export async function getCelebCountsForContents(
   contentIds: string[]
-): Promise<Record<string, number>> {
+): Promise<Record<string, ContentCounts>> {
   if (!contentIds.length) return {}
 
   const supabase = await createClient()
@@ -19,7 +24,7 @@ export async function getCelebCountsForContents(
 
   if (!ucData?.length) return {}
 
-  // 2. 고유 user_id 중 CELEB 프로필만 필터
+  // 2. 고유 user_id 중 CELEB 프로필 식별
   const uniqueUserIds = [...new Set(ucData.map(r => r.user_id))]
   const celebIdSet = new Set<string>()
 
@@ -35,11 +40,17 @@ export async function getCelebCountsForContents(
     if (profiles) profiles.forEach(p => celebIdSet.add(p.id))
   }
 
-  // 3. content_id별 셀럽 수 집계
-  const counts: Record<string, number> = {}
+  // 3. content_id별 셀럽/일반인 수 집계
+  const counts: Record<string, ContentCounts> = {}
   for (const item of ucData) {
-    if (!celebIdSet.has(item.user_id)) continue
-    counts[item.content_id] = (counts[item.content_id] || 0) + 1
+    if (!counts[item.content_id]) {
+      counts[item.content_id] = { celebCount: 0, userCount: 0 }
+    }
+    if (celebIdSet.has(item.user_id)) {
+      counts[item.content_id].celebCount++
+    } else {
+      counts[item.content_id].userCount++
+    }
   }
 
   return counts

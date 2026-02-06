@@ -40,7 +40,7 @@ export default async function UserLayout({ children, params }: LayoutProps) {
         </p>
       </PrismBanner>
 
-      <div className="max-w-[1400px] 2xl:max-w-[1800px] mx-auto px-2 md:px-4 lg:pr-8 py-6 md:py-10 relative z-10">
+      <div className="container mx-auto py-4 md:py-8 relative z-10">
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 items-start">
           {/* Sidebar */}
           <UserProfileSidebar profile={profile} isOwner={isOwner} userId={userId} />

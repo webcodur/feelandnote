@@ -94,8 +94,8 @@ export default function Modal({
         {/* 헤더 - title이 있을 때만 렌더링 */}
         {title && (
           <div className="relative flex items-center justify-center px-6 py-3 sm:py-5 border-b border-border">
-            <div className="flex items-center gap-2">
-              {Icon && <Icon size={16} className="text-accent sm:size-18" />}
+            <div className="flex items-center gap-1.5">
+              {Icon && <Icon size={16} className="text-accent" />}
               <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
             </div>
           </div>

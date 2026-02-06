@@ -6,7 +6,9 @@ import type { ContentType, ContentStatus } from "@/types/database";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
-export type SortOption = "recent" | "title";
+export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
+export type ReviewFilter = "all" | "has_review" | "no_review";
+export type ViewMode = "grid" | "list";
 export type ContentLibraryMode = "owner" | "viewer";
 
 export interface PlaylistInfo {
@@ -41,13 +43,15 @@ export function filterAndSortContents(
 ): UserContentWithContent[] {
   const result = [...contents];
 
-  result.sort((a, b) => {
-    if (sortOption === "title") {
-      return (a.content?.title ?? "").localeCompare(b.content?.title ?? "");
-    }
-    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-  });
+  const sortFns: Record<SortOption, (a: UserContentWithContent, b: UserContentWithContent) => number> = {
+    recent: (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    title: (a, b) => (a.content?.title ?? "").localeCompare(b.content?.title ?? ""),
+    rating_desc: (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+    rating_asc: (a, b) => (a.rating ?? 0) - (b.rating ?? 0),
+    creator: (a, b) => (a.content?.creator ?? "").localeCompare(b.content?.creator ?? ""),
+  };
 
+  result.sort(sortFns[sortOption]);
   return result;
 }
 

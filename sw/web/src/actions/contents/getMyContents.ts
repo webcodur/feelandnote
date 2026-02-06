@@ -3,6 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 
+type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
+
 interface GetMyContentsParams {
   status?: ContentStatus
   excludeStatus?: ContentStatus[]  // 제외할 상태 목록
@@ -10,6 +12,8 @@ interface GetMyContentsParams {
   page?: number
   limit?: number
   search?: string  // 제목/저자 검색
+  hasReview?: boolean  // true=리뷰 있음, false=리뷰 없음
+  sortBy?: SortByOption  // 서버 정렬 (title, creator는 클라이언트)
 }
 
 export interface UserContentWithContent {
@@ -52,7 +56,7 @@ export interface GetMyContentsResponse {
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
-  const { page = 1, limit = 20, type, status, excludeStatus, search } = params
+  const { page = 1, limit = 20, type, status, excludeStatus, search, hasReview, sortBy = 'recent' } = params
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -72,7 +76,15 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
       ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
+
+  // 정렬
+  if (sortBy === 'rating_desc') {
+    query = query.order('rating', { ascending: false, nullsFirst: false })
+  } else if (sortBy === 'rating_asc') {
+    query = query.order('rating', { ascending: true, nullsFirst: false })
+  } else {
+    query = query.order('created_at', { ascending: false })
+  }
 
   // type 필터 - DB 쿼리에서 직접 적용
   if (type) {
@@ -85,6 +97,12 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     query = query.or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`, { referencedTable: 'content' })
   }
 
+  // 리뷰 필터
+  if (hasReview === true) {
+    query = query.not('review', 'is', null).neq('review', '')
+  } else if (hasReview === false) {
+    query = query.or('review.is.null,review.eq.')
+  }
 
   // 상태 필터
   if (status) {

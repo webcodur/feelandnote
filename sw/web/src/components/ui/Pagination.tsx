@@ -65,7 +65,7 @@ const STYLES = {
   
   // Page Numbers
   numContainer: "flex items-center justify-center gap-1.5 px-1",
-  numBtn: "h-8 min-w-[2rem] px-2 flex items-center justify-center rounded-lg text-sm font-medium text-text-secondary border border-white/10 hover:text-text-primary hover:bg-white/10 select-none",
+  numBtn: "h-8 min-w-[2rem] px-2 flex items-center justify-center rounded-lg text-sm font-medium text-text-secondary bg-white/5 border border-white/5 hover:text-text-primary hover:bg-white/10 select-none disabled:text-text-secondary/20 disabled:cursor-not-allowed disabled:hover:bg-white/5",
   // Active Page: Golden Gradient
   numBtnActive: "h-8 min-w-[2rem] px-2 flex items-center justify-center rounded-lg text-sm font-bold bg-gradient-to-br from-accent via-[#f59e0b] to-[#b45309] text-black shadow-[0_0_15px_rgba(212,175,55,0.3)] select-none scale-105 ring-1 ring-accent/50",
   
@@ -85,13 +85,11 @@ interface PaginationProps {
   showPageSizeSelector?: boolean;
 }
 
-// 현재 페이지가 속한 그룹의 페이지 번호들 생성
-function getPageGroup(currentPage: number, totalPages: number): number[] {
+// 현재 페이지가 속한 그룹의 페이지 번호들 생성 (항상 5개)
+function getPageGroup(currentPage: number): number[] {
   const groupIndex = Math.floor((currentPage - 1) / PAGE_GROUP_SIZE);
   const startPage = groupIndex * PAGE_GROUP_SIZE + 1;
-  const endPage = Math.min(startPage + PAGE_GROUP_SIZE - 1, totalPages);
-
-  return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  return Array.from({ length: PAGE_GROUP_SIZE }, (_, i) => startPage + i);
 }
 
 export function Pagination({
@@ -103,11 +101,9 @@ export function Pagination({
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const pages = getPageGroup(currentPage, totalPages);
+  const pages = getPageGroup(currentPage);
   const currentGroupStart = pages[0];
   const currentGroupEnd = pages[pages.length - 1];
-
-  if (totalPages <= 1) return null;
 
   // Navigation Logic
   const canGoFirst = currentPage > 1;
@@ -184,20 +180,24 @@ export function Pagination({
       </div>
 
       {/* Bottom Row: Page Numbers + Total */}
-      <div className="flex items-center justify-between w-full">
-        <div className={`${STYLES.numContainer} flex-1`}>
-          {pages.map((page) => (
-            <button
-              key={page}
-              onClick={() => navigate(page)}
-              className={page === currentPage ? STYLES.numBtnActive : STYLES.numBtn}
-              aria-current={page === currentPage ? "page" : undefined}
-            >
-              {page}
-            </button>
-          ))}
+      <div className="relative flex items-center justify-center w-full">
+        <div className={STYLES.numContainer}>
+          {pages.map((page) => {
+            const isDisabled = page > totalPages;
+            return (
+              <button
+                key={page}
+                onClick={() => navigate(page)}
+                disabled={isDisabled}
+                className={page === currentPage ? STYLES.numBtnActive : STYLES.numBtn}
+                aria-current={page === currentPage ? "page" : undefined}
+              >
+                {page}
+              </button>
+            );
+          })}
         </div>
-        <span className="text-text-secondary/70 text-xs font-medium tabular-nums shrink-0 pe-1">총 {totalPages} 페이지</span>
+        <span className="absolute right-1 text-text-secondary/70 text-xs font-medium tabular-nums">1 - {totalPages}</span>
       </div>
 
     </nav>

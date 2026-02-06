@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 export const metadata: Metadata = {
   title: '콘텐츠 관리',
 }
-import { Library, Search, Users, Calendar, Building2 } from 'lucide-react'
+import { Library, Search, Users, Calendar, Building2, Hash, Database } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
@@ -147,6 +147,18 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                             <p className="text-xs text-text-secondary line-clamp-1">
                               {content.creator || '-'}
                             </p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <span className="inline-flex items-center gap-0.5 text-[10px] text-text-secondary/70 font-mono" title={content.id}>
+                                <Hash className="w-2.5 h-2.5" />
+                                <span className="max-w-[100px] truncate">{content.id}</span>
+                              </span>
+                              {content.external_source && (
+                                <span className="text-[10px] text-text-secondary/50">
+                                  <Database className="w-2.5 h-2.5 inline mr-0.5" />
+                                  {content.external_source}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </td>

@@ -175,12 +175,22 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
                       </div>
                     )}
                  </div>
-                 <span className={cn(
-                   "text-xs text-center truncate font-serif transition-colors",
-                   isSelected ? "text-accent font-bold" : "text-text-secondary"
-                 )}>
-                   {celeb.nickname}
-                 </span>
+                 <div className="flex flex-col items-center">
+                   {celeb.title && (
+                     <span className={cn(
+                       "text-[9px] font-cinzel font-bold tracking-widest uppercase leading-tight truncate w-full text-center",
+                       isSelected ? "text-amber-500" : "text-amber-500/60"
+                     )}>
+                       {celeb.title}
+                     </span>
+                   )}
+                   <span className={cn(
+                     "text-[11px] text-center truncate font-sans font-bold tracking-wide w-full transition-colors",
+                     isSelected ? "text-white" : "text-text-secondary"
+                   )}>
+                     {celeb.nickname}
+                   </span>
+                 </div>
               </div>
             );
           })}

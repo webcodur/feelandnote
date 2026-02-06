@@ -5,15 +5,20 @@
 */ // ------------------------------
 "use client";
 
+import { useState } from "react";
 import { CertificateCard, ContentCard } from "@/components/ui/cards";
 import { ContentGrid } from "@/components/ui";
 import { getCategoryByDbType } from "@/constants/categories";
+import { updateUserContentRating } from "@/actions/contents/updateRating";
+import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+import type { ViewMode } from "../contentLibraryTypes";
 
 // #region 타입
 interface ContentItemRendererProps {
   items: UserContentWithContent[];
   compact?: boolean;
+  viewMode?: ViewMode;
   onDelete: (userContentId: string) => void;
   onAddContent?: (contentId: string) => void;
   // 읽기 전용 모드 (타인 기록관)
@@ -28,6 +33,7 @@ interface ContentItemRendererProps {
 export default function ContentItemRenderer({
   items,
   compact = false,
+  viewMode = "grid",
   onDelete,
   onAddContent,
   readOnly = false,
@@ -35,6 +41,15 @@ export default function ContentItemRenderer({
   ownerNickname,
   savedContentIds,
 }: ContentItemRendererProps) {
+  // 별점 편집 모달 상태
+  const [ratingEditTarget, setRatingEditTarget] = useState<{
+    userContentId: string;
+    contentTitle: string;
+    rating: number | null;
+  } | null>(null);
+  // 별점 로컬 상태 (서버 반영 후 즉시 UI 업데이트용)
+  const [localRatings, setLocalRatings] = useState<Record<string, number | null>>({});
+
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
 
@@ -55,10 +70,17 @@ export default function ContentItemRenderer({
 
   return (
     <div className="space-y-4">
-      {/* 일반 콘텐츠: 그리드 레이아웃 */}
+      {/* 일반 콘텐츠 */}
       {regularContents.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 sm:gap-4">
-          {regularContents.map((item) => (
+        <div className={viewMode === "list"
+          ? "grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4"
+          : "grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4"
+        }>
+          {regularContents.map((item) => {
+            const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
+            // list 모드: review prop 전달 → ContentCard 리뷰 모드 활성화
+            const reviewProp = viewMode === "list" ? item.review : undefined;
+            return (
               <ContentCard
                 key={item.id}
                 contentId={item.content_id}
@@ -67,24 +89,29 @@ export default function ContentItemRenderer({
                 creator={item.content.creator}
                 thumbnail={item.content.thumbnail_url}
                 status={item.status}
-                rating={item.rating}
-                review={item.review}
+                rating={currentRating}
+                review={reviewProp}
                 isSpoiler={item.is_spoiler ?? undefined}
                 sourceUrl={item.source_url}
                 href={getHref(item)}
                 showStatusBadge={false}
                 ownerNickname={ownerNickname}
-                userCount={item.content.user_count ?? 0}
-                // 본인 + FINISHED → 선물(추천) 모달
                 userContentId={item.id}
                 recommendable={!readOnly && item.status === "FINISHED"}
-                // 타인(로그인) + 보유 → 북마크(채움)
+                onRatingClick={!readOnly ? (e) => {
+                  e.stopPropagation();
+                  setRatingEditTarget({
+                    userContentId: item.id,
+                    contentTitle: item.content.title,
+                    rating: currentRating,
+                  });
+                } : undefined}
                 saved={readOnly && isViewerSaved(item.content_id)}
-                // 타인(로그인) + 미보유 → 북마크(빈)
                 addable={readOnly && isViewerLoggedIn && !isViewerSaved(item.content_id)}
                 onAdd={() => onAddContent?.(item.content_id)}
               />
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -105,6 +132,28 @@ export default function ContentItemRenderer({
             />
           ))}
         </ContentGrid>
+      )}
+
+      {/* 별점 편집 모달 */}
+      {ratingEditTarget && (
+        <RatingEditModal
+          isOpen={true}
+          onClose={() => setRatingEditTarget(null)}
+          contentTitle={ratingEditTarget.contentTitle}
+          currentRating={ratingEditTarget.rating}
+          onSave={async (rating) => {
+            const result = await updateUserContentRating({
+              userContentId: ratingEditTarget.userContentId,
+              rating,
+            });
+            if (result.success) {
+              setLocalRatings((prev) => ({
+                ...prev,
+                [ratingEditTarget.userContentId]: rating,
+              }));
+            }
+          }}
+        />
       )}
     </div>
   );

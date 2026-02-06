@@ -109,8 +109,12 @@ export default function Playlists({ userId, isOwner }: PlaylistsProps) {
 
   // 본인 컬렉션 페이지
   return (
-    <>
-      <div className="flex gap-2 p-1 bg-bg-card border border-accent-dim/20 rounded-sm mb-8 w-fit mx-auto sm:mx-0">
+    <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
+      <div className="flex justify-center mb-6">
+        <DecorativeLabel label="컬렉션" />
+      </div>
+
+      <div className="flex gap-2 p-1 bg-bg-card border border-accent-dim/20 rounded-sm mb-6 w-fit mx-auto sm:mx-0">
         {TABS.map((tab) => (
           <Button
             key={tab.id}
@@ -133,38 +137,26 @@ export default function Playlists({ userId, isOwner }: PlaylistsProps) {
         </div>
       ) : isEmpty ? (
         <EmptyState variant={activeTab} onCreateClick={() => setIsCreateMode(true)} />
-      ) : activeTab === "mine" ? (
-        <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-          <div className="flex justify-center mb-6">
-            <DecorativeLabel label="내 컬렉션" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {playlists.map((playlist) => (
-              <PlaylistCard
-                key={playlist.id}
-                playlist={playlist}
-                onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
-              />
-            ))}
-          </div>
-        </ClassicalBox>
       ) : (
-        <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-          <div className="flex justify-center mb-6">
-            <DecorativeLabel label="저장된 컬렉션" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {savedPlaylists.map((item) => (
-              <SavedPlaylistCard
-                key={item.id}
-                item={item}
-                onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
-              />
-            ))}
-          </div>
-        </ClassicalBox>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {activeTab === "mine"
+            ? playlists.map((playlist) => (
+                <PlaylistCard
+                  key={playlist.id}
+                  playlist={playlist}
+                  onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
+                />
+              ))
+            : savedPlaylists.map((item) => (
+                <SavedPlaylistCard
+                  key={item.id}
+                  item={item}
+                  onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
+                />
+              ))}
+        </div>
       )}
-    </>
+    </ClassicalBox>
   );
 }
 

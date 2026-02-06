@@ -10,21 +10,19 @@ import { useState, useEffect, useTransition } from "react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
 import { ContentCard } from "@/components/ui/cards";
-import ScriptureCelebModal from "../ScriptureCelebModal";
 import RepresentativeCelebs from "../RepresentativeCelebs";
 import { getCategoryByDbType } from "@/constants/categories";
 import { addContent } from "@/actions/contents/addContent";
 import { checkContentSaved } from "@/actions/contents/getMyContentIds";
 import type { ContentType } from "@/types/database";
 
-// 인라인 래퍼
+// 인라인 래퍼: contentId 기반으로 인원 구성 뱃지 자동 조회
 function ScriptureContentCard({
-  id, title, creator, thumbnail, type, celebCount, userCount = 0, rating,
+  id, title, creator, thumbnail, type, rating,
 }: {
   id: string; title: string; creator?: string | null; thumbnail?: string | null;
-  type: string; celebCount: number; userCount?: number; rating?: number | null;
+  type: string; rating?: number | null;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isAdding, startAddTransition] = useTransition();
@@ -46,21 +44,15 @@ function ScriptureContentCard({
   };
 
   return (
-    <>
-      <ContentCard
-        thumbnail={thumbnail} title={title} creator={creator}
-        contentType={type as ContentType} href={href}
-        celebCount={celebCount} userCount={userCount} rating={rating ?? undefined}
-        saved={isAdded}
-        addable={!isChecking && !isAdded && !isAdding}
-        onAdd={handleAdd}
-        onStatsClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsModalOpen(true); }}
-      />
-      <ScriptureCelebModal
-        isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
-        contentId={id} contentTitle={title} celebCount={celebCount} userCount={userCount}
-      />
-    </>
+    <ContentCard
+      contentId={id}
+      thumbnail={thumbnail} title={title} creator={creator}
+      contentType={type as ContentType} href={href}
+      rating={rating ?? undefined}
+      saved={isAdded}
+      addable={!isChecking && !isAdded && !isAdding}
+      onAdd={handleAdd}
+    />
   );
 }
 import SectionHeader from "@/components/shared/SectionHeader";
@@ -216,8 +208,6 @@ export default function ProfessionSection({ professionCounts }: Props) {
                   creator={content.creator}
                   thumbnail={content.thumbnail_url}
                   type={content.type}
-                  celebCount={content.celeb_count}
-                  userCount={content.user_count}
                   rating={content.avg_rating}
                 />
               ))}

@@ -559,6 +559,7 @@ export interface CelebContent {
     type: string
     creator: string | null
     thumbnail_url: string | null
+    external_source: string | null
   }
 }
 
@@ -575,8 +576,8 @@ export async function getCelebContents(
   // 검색어 또는 타입 필터가 있으면 !inner join 사용
   const needInnerJoin = contentType || search
   const selectQuery = needInnerJoin
-    ? `*, content:contents!inner (id, title, type, creator, thumbnail_url)`
-    : `*, content:contents (id, title, type, creator, thumbnail_url)`
+    ? `*, content:contents!inner (id, title, type, creator, thumbnail_url, external_source)`
+    : `*, content:contents (id, title, type, creator, thumbnail_url, external_source)`
 
   let query = supabase
     .from('user_contents')

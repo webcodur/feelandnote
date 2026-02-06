@@ -8,6 +8,7 @@
 import { useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
+import DecorativeLabel from "@/components/ui/DecorativeLabel";
 
 interface AccordionSectionProps {
   title: string;
@@ -43,17 +44,16 @@ export default function AccordionSection({
         type="button"
         onClick={handleToggle}
         disabled={disabled}
-        className={`w-full flex items-center justify-between p-4 text-start hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50 ${headerClassName}`}
+        className={`relative w-full flex items-center justify-center p-4 text-start hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50 ${headerClassName}`}
       >
-        <div className="flex items-center gap-2">
-          {icon && <span className="text-accent">{icon}</span>}
-          <h3 className="font-semibold text-sm text-text-primary">{title}</h3>
+        <DecorativeLabel label={title} />
+        <div className="absolute right-4 flex items-center gap-3">
           {badge}
+          <ChevronDown
+            size={18}
+            className={`text-text-secondary transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          />
         </div>
-        <ChevronDown
-          size={18}
-          className={`text-text-secondary transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-        />
       </button>
 
       {/* 콘텐츠 */}

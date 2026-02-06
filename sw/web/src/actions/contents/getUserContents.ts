@@ -3,6 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 
+type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
+
 interface GetUserContentsParams {
   userId: string
   type?: ContentType
@@ -10,6 +12,8 @@ interface GetUserContentsParams {
   page?: number
   limit?: number
   search?: string  // 제목/저자 검색
+  hasReview?: boolean  // true=리뷰 있음, false=리뷰 없음
+  sortBy?: SortByOption  // 서버 정렬
 }
 
 export interface UserContentPublic {
@@ -45,7 +49,7 @@ export interface GetUserContentsResponse {
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, status, page = 1, limit = 20, search } = params
+  const { userId, type, status, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
@@ -72,7 +76,15 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', userId)
-    .order('created_at', { ascending: false })
+
+  // 정렬
+  if (sortBy === 'rating_desc') {
+    query = query.order('rating', { ascending: false, nullsFirst: false })
+  } else if (sortBy === 'rating_asc') {
+    query = query.order('rating', { ascending: true, nullsFirst: false })
+  } else {
+    query = query.order('created_at', { ascending: false })
+  }
 
   // 타인 프로필 조회 시 public만 표시
   if (!isOwnProfile) {
@@ -91,6 +103,13 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   if (search && search.trim().length >= 2) {
     const searchTerm = `%${search.trim()}%`
     query = query.or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`, { referencedTable: 'content' })
+  }
+
+  // 리뷰 필터
+  if (hasReview === true) {
+    query = query.not('review', 'is', null).neq('review', '')
+  } else if (hasReview === false) {
+    query = query.or('review.is.null,review.eq.')
   }
 
   query = query.range(offset, offset + limit - 1)

@@ -317,6 +317,7 @@ export default function ContentCardsPreview() {
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
+                    contentId="demo-basic"
                     title="데미안"
                     creator="헤르만 헤세"
                     contentType="BOOK"
@@ -334,17 +335,16 @@ export default function ContentCardsPreview() {
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
+                    contentId="test-content-id"
                     title="사피엔스"
                     creator="유발 하라리"
                     contentType="BOOK"
-                    celebCount={12}
-                    userCount={340}
                     rating={4.7}
                     onStatsClick={(e) => { e.stopPropagation(); alert("통계 모달 열기"); }}
                   />
                 </div>
                 <div className="flex-1 text-xs text-text-tertiary space-y-1">
-                  <code className="text-purple-400 block">{`celebCount={12} userCount={340}`}</code>
+                  <code className="text-purple-400 block">{`contentId="..." // 인원 구성 뱃지 자동 조회`}</code>
                   <code className="text-purple-400 block">{`rating={4.7}`}</code>
                   <code className="text-purple-400 block">{`onStatsClick={...}`}</code>
                 </div>
@@ -358,6 +358,7 @@ export default function ContentCardsPreview() {
                 <div className="flex gap-3">
                   <div className="w-28">
                     <ContentCard
+                      contentId="demo-1984"
                       title="1984"
                       creator="조지 오웰"
                       contentType="BOOK"
@@ -368,6 +369,7 @@ export default function ContentCardsPreview() {
                   </div>
                   <div className="w-28">
                     <ContentCard
+                      contentId="demo-brave-new-world"
                       title="멋진 신세계"
                       creator="올더스 헉슬리"
                       contentType="BOOK"
@@ -392,6 +394,7 @@ export default function ContentCardsPreview() {
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
+                    contentId="demo-interstellar"
                     title="인터스텔라"
                     creator="크리스토퍼 놀란"
                     contentType="VIDEO"
@@ -416,6 +419,7 @@ export default function ContentCardsPreview() {
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
+                    contentId="demo-zelda"
                     title="젤다의 전설"
                     creator="닌텐도"
                     contentType="GAME"
@@ -434,6 +438,7 @@ export default function ContentCardsPreview() {
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
+                    contentId="demo-iu-album"
                     title="아이유 5집"
                     creator="아이유"
                     contentType="MUSIC"
@@ -454,6 +459,7 @@ export default function ContentCardsPreview() {
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard
+                    contentId="demo-aspect-ratio"
                     title="콘텐츠 제목"
                     creator="작가명"
                     contentType="VIDEO"

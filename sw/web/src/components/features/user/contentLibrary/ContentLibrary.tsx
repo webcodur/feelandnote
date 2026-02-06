@@ -5,7 +5,9 @@
 */ // ------------------------------
 "use client";
 
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { SlidersHorizontal } from "lucide-react";
 import { useContentLibrary } from "./useContentLibrary";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
 import ArchiveControlBar from "./controlBar/ArchiveControlBar";
@@ -14,8 +16,9 @@ import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
-import { Pagination, DeleteConfirmModal, InnerBox, DecorativeLabel } from "@/components/ui";
+import { Pagination, DeleteConfirmModal, DecorativeLabel } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import ControlPanel from "@/components/shared/ControlPanel";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
@@ -33,6 +36,7 @@ export default function ContentLibrary({
   const initialSearchQuery = searchParams.get("q") || "";
   const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery });
   const isViewer = lib.isViewer;
+  const [isControlsExpanded, setIsControlsExpanded] = useState(true);
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
 
@@ -41,6 +45,7 @@ export default function ContentLibrary({
     <ContentItemRenderer
       items={items}
       compact={compact}
+      viewMode={lib.viewMode}
       onDelete={lib.handleDelete}
       onAddContent={lib.handleAddContent}
       readOnly={isViewer}
@@ -76,13 +81,23 @@ export default function ContentLibrary({
             <DecorativeLabel label="기록관" />
           </div>
           {/* Control Bar inside Box */}
-          <InnerBox className="mb-6 p-3 sticky top-0 z-30 backdrop-blur-sm flex justify-center items-center">
-             <ArchiveControlBar
+          <ControlPanel
+            title="기록 제어"
+            icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+            isExpanded={isControlsExpanded}
+            onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+            className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
+          >
+            <ArchiveControlBar
               activeTab={lib.activeTab}
               onTabChange={lib.setActiveTab}
               typeCounts={lib.typeCounts}
               sortOption={lib.sortOption}
               onSortOptionChange={lib.setSortOption}
+              reviewFilter={lib.reviewFilter}
+              onReviewFilterChange={lib.setReviewFilter}
+              viewMode={lib.viewMode}
+              onViewModeChange={lib.setViewMode}
               isAllCollapsed={lib.isAllCollapsed}
               onExpandAll={lib.expandAll}
               onCollapseAll={lib.collapseAll}
@@ -91,44 +106,51 @@ export default function ContentLibrary({
               onSearch={lib.executeSearch}
               onClearSearch={lib.clearSearch}
             />
-          </InnerBox>
+          </ControlPanel>
 
           {hasFilteredContents ? (
-            lib.monthKeys.map((monthKey) => {
-              const items = lib.groupedByMonth[monthKey] || [];
-              return (
-                <MonthSection
-                  key={monthKey}
-                  monthKey={monthKey}
-                  label={lib.formatMonthLabel(monthKey)}
-                  itemCount={items.length}
-                  isCollapsed={lib.collapsedMonths.has(monthKey)}
-                  onToggle={() => lib.toggleMonth(monthKey)}
-                >
-                  {renderItems(items)}
-                </MonthSection>
-              );
-            })
+            lib.sortOption === "recent" ? (
+              lib.monthKeys.map((monthKey) => {
+                const items = lib.groupedByMonth[monthKey] || [];
+                return (
+                  <MonthSection
+                    key={monthKey}
+                    monthKey={monthKey}
+                    label={lib.formatMonthLabel(monthKey)}
+                    itemCount={items.length}
+                    isCollapsed={lib.collapsedMonths.has(monthKey)}
+                    onToggle={() => lib.toggleMonth(monthKey)}
+                  >
+                    {renderItems(items)}
+                  </MonthSection>
+                );
+              })
+            ) : (
+              renderItems(lib.filteredAndSortedContents)
+            )
           ) : (
             <div className="py-12 text-center text-text-secondary">
               검색 결과가 없습니다
             </div>
           )}
-        </ClassicalBox>
 
-        {/* 페이지네이션 */}
-        {!compact && showPagination && !lib.isLoading && (
-          <div className="mt-6 flex justify-center">
-            <Pagination
-              currentPage={lib.currentPage}
-              totalPages={lib.totalPages}
-              onPageChange={lib.setCurrentPage}
-              pageSize={lib.pageSize}
-              onPageSizeChange={lib.setPageSize}
-              showPageSizeSelector
-            />
-          </div>
-        )}
+          {/* 페이지네이션 */}
+          {!compact && showPagination && !lib.isLoading && (
+            <>
+              <hr className="border-white/10 mt-6" />
+              <div className="mt-6 flex justify-center">
+                <Pagination
+                  currentPage={lib.currentPage}
+                  totalPages={lib.totalPages}
+                  onPageChange={lib.setCurrentPage}
+                  pageSize={lib.pageSize}
+                  onPageSizeChange={lib.setPageSize}
+                  showPageSizeSelector
+                />
+              </div>
+            </>
+          )}
+        </ClassicalBox>
       </div>
 
 
