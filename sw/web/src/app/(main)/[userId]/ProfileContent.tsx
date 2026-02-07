@@ -7,6 +7,7 @@ import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ProfileBioSection from "./ProfileBioSection";
 import UserBioSection from "./UserBioSection";
+import ImageGallery from "@/components/features/profile/ImageGallery";
 
 interface ProfileContentProps {
   profile: PublicUserProfile;
@@ -50,7 +51,19 @@ export default function ProfileContent({
         </section>
       )}
 
-      {/* 3. Guestbook */}
+      {/* 3. Image Gallery (셀럽 전용) */}
+      {profile.profile_type === "CELEB" && (
+        <section className="animate-fade-in" style={{ animationDelay: "0.075s" }}>
+          <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+            <div className="flex justify-center mb-6 sm:mb-8">
+              <DecorativeLabel label="갤러리" />
+            </div>
+            <ImageGallery nickname={profile.nickname} />
+          </ClassicalBox>
+        </section>
+      )}
+
+      {/* 4. Guestbook */}
       <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
         <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
           <div className="flex justify-center mb-6 sm:mb-8">

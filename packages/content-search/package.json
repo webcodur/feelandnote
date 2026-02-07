@@ -10,6 +10,8 @@
     "./spotify": "./src/spotify.ts",
     "./qnet": "./src/qnet.ts",
     "./unified-search": "./src/unified-search.ts",
+    "./naver-news": "./src/naver-news.ts",
+    "./naver-image": "./src/naver-image.ts",
     "./types": "./src/types.ts"
   },
   "dependencies": {

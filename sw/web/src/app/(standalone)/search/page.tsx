@@ -358,7 +358,37 @@ function SearchContent() {
         <div className="mb-6"><h1 className="text-xl font-bold">"{queryParam}" 검색 결과 <span className="text-accent">{totalCount}건</span></h1></div>
       )}
 
-      {isLoading && <div className="flex items-center justify-center py-20"><Loader2 size={32} className="animate-spin text-accent" /></div>}
+      {isLoading && (
+        <div className="animate-pulse space-y-4">
+          {(modeParam === "content" || modeParam === "records") && (
+            <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))" }}>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
+              ))}
+            </div>
+          )}
+          {modeParam === "user" && (
+            <div className="space-y-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-bg-card">
+                  <div className="w-12 h-12 rounded-full bg-white/5" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-32 bg-white/5 rounded" />
+                    <div className="h-3 w-20 bg-white/5 rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {modeParam === "tag" && (
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="h-8 w-20 bg-bg-card rounded-full" />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {!isLoading && (modeParam === "content" || modeParam === "records") && (
         <ContentResults

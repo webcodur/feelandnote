@@ -83,6 +83,14 @@ export default function ContentCard({
   const aspectClass = ASPECT_STYLES[aspectRatio];
   const statusInfo = status ? STATUS_STYLES[status] : null;
 
+  // 이미지 로드 실패 또는 플레이스홀더 감지 시 폴백
+  const [imageError, setImageError] = useState(false);
+  const showImage = !!thumbnail && !imageError;
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    if (naturalWidth < 80 || naturalHeight < 80) setImageError(true);
+  };
+
   // 모달 상태
   const [showModal, setShowModal] = useState(false);
   const [isBadgeHovered, setIsBadgeHovered] = useState(false);
@@ -339,7 +347,7 @@ export default function ContentCard({
             <div className="relative w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5">
               {renderTopLeft()}
               {renderTopRight()}
-              {thumbnail ? (
+              {showImage ? (
                 <Image
                   src={thumbnail}
                   alt={title}
@@ -349,6 +357,8 @@ export default function ContentCard({
                   className="object-cover transition-transform duration-300 delay-150 group-hover:scale-105"
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
+                  onError={() => setImageError(true)}
+                  onLoad={handleImageLoad}
                 />
               ) : certTheme ? (
                 renderCertificateFallback(32)
@@ -454,7 +464,7 @@ export default function ContentCard({
             {renderTopRight()}
 
             <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
-              {thumbnail ? (
+              {showImage ? (
                 <Image
                   src={thumbnail}
                   alt={title}
@@ -464,6 +474,8 @@ export default function ContentCard({
                   className="object-cover"
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
+                  onError={() => setImageError(true)}
+                  onLoad={handleImageLoad}
                 />
               ) : certTheme ? (
                 renderCertificateFallback(32)
@@ -552,7 +564,7 @@ export default function ContentCard({
   const cardContent = (
     <>
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
-        {thumbnail ? (
+        {showImage ? (
           <Image
             src={thumbnail}
             alt={title}
@@ -561,6 +573,8 @@ export default function ContentCard({
             className={`object-cover transition-transform duration-300 delay-150 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "group-hover:scale-105" : ""}`}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
+            onError={() => setImageError(true)}
+            onLoad={handleImageLoad}
           />
         ) : certTheme ? (
           renderCertificateFallback(32)

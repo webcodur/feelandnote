@@ -303,40 +303,36 @@ export async function getChosenScriptures(params?: {
   const supabase = await createClient()
   const page = params?.page || 1
   const limit = params?.limit || 12
+  const offset = (page - 1) * limit
 
-  // 1. CELEB 프로필 ID 목록 조회
-  const { data: celebProfiles, error: profileError } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+  const { data, error } = await supabase.rpc('get_chosen_scriptures', {
+    p_category: params?.category || null,
+    p_limit: limit,
+    p_offset: offset,
+  })
 
-  if (profileError || !celebProfiles?.length) {
-    console.error('getChosenScriptures profile error:', profileError)
+  if (error || !data?.length) {
+    if (error) console.error('getChosenScriptures error:', error)
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
-  const celebIds = celebProfiles.map(p => p.id)
-  const category = params?.category
-
-  // 2. 해당 셀럽들의 콘텐츠 조회 (페이지네이션으로 모든 데이터 가져오기)
-  const typedData = await fetchAllUserContents(supabase, celebIds, category)
-
-  // 3. 일반 사용자(USER) 콘텐츠 카운트 조회
-  const userCountMap = await fetchUserContentCounts(supabase, category)
-
-  // aggregateContents에서 카테고리 필터는 이미 DB에서 적용됨
-  const { contents, total } = aggregateContents(typedData, {
-    page,
-    limit,
-    userCountMap
-  })
+  const total = Number((data as Record<string, unknown>[])[0]?.total_count ?? 0)
+  const contents: ScriptureContent[] = (data as Record<string, unknown>[]).map(row => ({
+    id: row.content_id as string,
+    title: row.title as string,
+    creator: (row.creator as string) ?? null,
+    thumbnail_url: (row.thumbnail_url as string) ?? null,
+    type: row.content_type as string,
+    celeb_count: Number(row.celeb_count),
+    user_count: Number(row.user_count),
+    avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+  }))
 
   return {
     contents,
     total,
     totalPages: Math.ceil(total / limit),
-    currentPage: page
+    currentPage: page,
   }
 }
 // #endregion

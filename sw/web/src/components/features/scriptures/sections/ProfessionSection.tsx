@@ -38,7 +38,8 @@ const ITEMS_PER_PAGE = 12;
 const PROFESSION_ROWS = [
   ['entrepreneur', 'investor', 'politician', 'author', 'actor'],
   ['leader', 'scientist', 'athlete', 'social_scientist'],
-  ['commander', 'artist', 'humanities_scholar', 'influencer'],
+  ['commander', 'director', 'musician', 'visual_artist'],
+  ['humanities_scholar', 'influencer'],
 ] as const;
 
 export default function ProfessionSection({ professionCounts }: Props) {

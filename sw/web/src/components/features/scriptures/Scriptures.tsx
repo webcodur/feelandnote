@@ -53,7 +53,7 @@ interface SectionConfig {
 
 // #region Constants
 const SECTIONS: SectionConfig[] = [
-  { id: "sage-section", label: "오늘의 인물", description: "매일 새로운 인물의 서재를 탐방하세요", icon: User },
+  { id: "sage-section", label: "오늘의 인물", description: "매일 자정, 한 명의 인물이 새롭게 선정됩니다", icon: User },
   { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 경전", icon: Scroll, hasBg: true },
   { id: "profession-section", label: "갈랫길", description: "분야별 인물들의 필독서", icon: Route },
   { id: "era-section", label: "시대의 경전", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
@@ -77,7 +77,9 @@ const PROFESSION_LABELS: Record<string, string> = {
   humanities_scholar: "인문학자",
   social_scientist: "사회과학자",
   scientist: "과학자",
-  artist: "예술가",
+  director: "감독",
+  musician: "음악인",
+  visual_artist: "미술인",
   politician: "정치인",
   author: "작가",
   commander: "지휘관",
@@ -523,20 +525,26 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
 
   const activeSection = useActiveSection(SECTIONS.map((s) => s.id));
 
-  useEffect(() => {
+  const fetchChosenData = (category: CategoryFilter, targetPage: number) => {
     startTransition(async () => {
       const result = await getChosenScriptures({
-        category: categoryFilter === "ALL" ? undefined : categoryFilter,
-        page: chosenPage,
+        category: category === "ALL" ? undefined : category,
+        page: targetPage,
         limit: ITEMS_PER_PAGE,
       });
       setChosenData(result);
     });
-  }, [categoryFilter, chosenPage]);
+  };
 
   const handleCategoryChange = (category: CategoryFilter) => {
     setCategoryFilter(category);
     setChosenPage(1);
+    fetchChosenData(category, 1);
+  };
+
+  const handleChosenPageChange = (targetPage: number) => {
+    setChosenPage(targetPage);
+    fetchChosenData(categoryFilter, targetPage);
   };
 
   const chosenConfig = getSectionConfig("chosen-section");
@@ -581,6 +589,8 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
                   title={content.title}
                   creator={content.creator}
                   thumbnail={content.thumbnail_url}
+                  celebCount={content.celeb_count}
+                  userCount={content.user_count}
                   rating={content.avg_rating ?? undefined}
                   href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                 />
@@ -595,7 +605,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
 
         {chosenData.totalPages > 1 && (
           <div className="mt-6">
-            <Pagination currentPage={chosenPage} totalPages={chosenData.totalPages} onPageChange={setChosenPage} />
+            <Pagination currentPage={chosenPage} totalPages={chosenData.totalPages} onPageChange={handleChosenPageChange} />
           </div>
         )}
       </section>
