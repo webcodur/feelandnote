@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
   const supabase = await createClient()
@@ -95,50 +96,25 @@ interface ContentCounts {
   userCount: number
 }
 
-// 콘텐츠별 인원 구성 조회 (내부 함수)
+// 콘텐츠별 셀럽/일반인 수 집계 (RPC 단일 호출)
 async function getContentCountsForContents(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: SupabaseClient,
   contentIds: string[]
 ): Promise<Record<string, ContentCounts>> {
   if (!contentIds.length) return {}
 
-  // FINISHED 상태인 user_contents 조회
-  const { data: ucData } = await supabase
-    .from('user_contents')
-    .select('content_id, user_id')
-    .in('content_id', contentIds)
-    .eq('status', 'FINISHED')
+  const { data, error } = await supabase.rpc('get_content_celeb_user_counts', {
+    p_content_ids: contentIds,
+  })
 
-  if (!ucData?.length) return {}
+  if (error || !data) return {}
 
-  // CELEB 프로필 식별
-  const uniqueUserIds = [...new Set(ucData.map(r => r.user_id))]
-  const celebIdSet = new Set<string>()
-
-  for (let i = 0; i < uniqueUserIds.length; i += 50) {
-    const batch = uniqueUserIds.slice(i, i + 50)
-    const { data: profiles } = await supabase
-      .from('profiles')
-      .select('id')
-      .in('id', batch)
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
-
-    if (profiles) profiles.forEach(p => celebIdSet.add(p.id))
-  }
-
-  // content_id별 셀럽/일반인 수 집계
   const counts: Record<string, ContentCounts> = {}
-  for (const item of ucData) {
-    if (!counts[item.content_id]) {
-      counts[item.content_id] = { celebCount: 0, userCount: 0 }
-    }
-    if (celebIdSet.has(item.user_id)) {
-      counts[item.content_id].celebCount++
-    } else {
-      counts[item.content_id].userCount++
+  for (const row of data as { content_id: string; celeb_count: number; user_count: number }[]) {
+    counts[row.content_id] = {
+      celebCount: row.celeb_count,
+      userCount: row.user_count,
     }
   }
-
   return counts
 }

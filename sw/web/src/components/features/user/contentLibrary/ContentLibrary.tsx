@@ -17,7 +17,6 @@ import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
 import { Pagination, DeleteConfirmModal, DecorativeLabel } from "@/components/ui";
-import ClassicalBox from "@/components/ui/ClassicalBox";
 import ControlPanel from "@/components/shared/ControlPanel";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -104,8 +103,8 @@ export default function ContentLibrary({
 
       {/* 콘텐츠 목록 */}
       <div>
-        <ClassicalBox className="p-4 sm:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-          <div className="flex justify-center mb-6">
+        <div className="py-8">
+          <div className="flex justify-center mb-8">
             <DecorativeLabel label="시간별 연대기" />
           </div>
 
@@ -138,8 +137,8 @@ export default function ContentLibrary({
           {/* 페이지네이션 */}
           {!compact && showPagination && !lib.isLoading && (
             <>
-              <hr className="border-white/10 mt-6" />
-              <div className="mt-6 flex justify-center">
+              <hr className="border-white/10 mt-8 mb-8" />
+              <div className="flex justify-center">
                 <Pagination
                   currentPage={lib.currentPage}
                   totalPages={lib.totalPages}
@@ -151,7 +150,7 @@ export default function ContentLibrary({
               </div>
             </>
           )}
-        </ClassicalBox>
+        </div>
       </div>
 
 

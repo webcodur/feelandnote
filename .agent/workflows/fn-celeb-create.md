@@ -46,7 +46,7 @@ BEGIN
   ) VALUES (
     new_id,
     '[이름]', 
-    '[직군코드: artist|humanities_scholar|social_scientist|scientist|leader...]', 
+    '[직군코드: director|musician|visual_artist|humanities_scholar|social_scientist|scientist|leader...]',
     '[수식어]', 
     '[국가코드: KR|US...]', 
     'YYYY-MM-DD', 

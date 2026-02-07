@@ -195,16 +195,16 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     return () => window.removeEventListener("keydown", handler);
   }, [isOpen, onNavigate, hasPrev, hasNext]);
 
-  // 리뷰 모드 진입 시 데이터 로딩
-  useEffect(() => {
-    if (isReviewMode && reviews.length === 0) {
-      setLoadingReviews(true);
-      getCelebReviews(celeb.id).then((data) => {
-        setReviews(data);
-        setLoadingReviews(false);
-      });
-    }
-  }, [isReviewMode, celeb.id, reviews.length]);
+  // 리뷰 모드 진입 핸들러 (useEffect 대신 직접 호출 — Strict Mode 이중 fetch 방지)
+  const handleEnterReviewMode = () => {
+    setIsReviewMode(true);
+    if (reviews.length > 0) return;
+    setLoadingReviews(true);
+    getCelebReviews(celeb.id).then((data) => {
+      setReviews(data);
+      setLoadingReviews(false);
+    });
+  };
 
   // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
   const aura: Aura = celeb.influence?.total_score != null
@@ -486,7 +486,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     <button
       onClick={(e) => {
         e.stopPropagation();
-        setIsReviewMode(true);
+        handleEnterReviewMode();
       }}
       className={`
         absolute flex items-center justify-center

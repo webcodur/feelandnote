@@ -37,10 +37,10 @@ export default function SageSection({ initialData }: Props) {
         label="TODAY'S SAGE"
         description={
           <>
-            매일 새로운 인물의 서재를 탐방하세요.
+            매일 자정, 한 명의 인물이 새롭게 선정됩니다.
             <br />
             <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
-              한 인물의 독서 여정을 따라가 보세요. 그의 생각이 보이기 시작합니다.
+              그가 읽고, 보고, 들은 것들을 따라가 보세요.
             </span>
           </>
         }

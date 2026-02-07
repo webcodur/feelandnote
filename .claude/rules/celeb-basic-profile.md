@@ -35,7 +35,9 @@
 | `humanities_scholar` | 인문학자 |
 | `social_scientist` | 사회과학자 |
 | `scientist` | 과학자 |
-| `artist` | 예술인 |
+| `director` | 감독 |
+| `musician` | 음악인 |
+| `visual_artist` | 미술인 |
 | `author` | 작가 |
 | `actor` | 배우 |
 | `influencer` | 인플루엔서 |

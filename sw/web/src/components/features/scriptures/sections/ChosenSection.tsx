@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Scroll } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
@@ -43,20 +43,27 @@ export default function ChosenSection({ initialData }: Props) {
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
+  // useEffect 제거 — 이벤트 핸들러에서 직접 fetch (Strict Mode 이중 실행 방지)
+  const fetchData = (category: CategoryFilter, targetPage: number) => {
     startTransition(async () => {
       const result = await getChosenScriptures({
-        category: categoryFilter === "ALL" ? undefined : categoryFilter,
-        page,
+        category: category === "ALL" ? undefined : category,
+        page: targetPage,
         limit: ITEMS_PER_PAGE,
       });
       setData(result);
     });
-  }, [categoryFilter, page]);
+  };
 
   const handleCategoryChange = (category: CategoryFilter) => {
     setCategoryFilter(category);
     setPage(1);
+    fetchData(category, 1);
+  };
+
+  const handlePageChange = (targetPage: number) => {
+    setPage(targetPage);
+    fetchData(categoryFilter, targetPage);
   };
 
   return (
@@ -90,9 +97,9 @@ export default function ChosenSection({ initialData }: Props) {
                 key={tab.value}
                 onClick={() => handleCategoryChange(tab.value)}
                 className={`
-                  relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300
-                  ${isActive 
-                    ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]" 
+                  relative px-4 py-2 rounded-lg text-sm font-bold
+                  ${isActive
+                    ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
                     : "text-text-secondary hover:text-white hover:bg-white/5"
                   }
                 `}
@@ -112,12 +119,12 @@ export default function ChosenSection({ initialData }: Props) {
       </div>
 
       {/* 카드 그리드 */}
-      <div className={`min-h-[300px] transition-opacity duration-500 ${isPending ? "opacity-50" : "opacity-100"}`}>
+      <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
         {data.contents.length > 0 ? (
           <ContentGrid className="relative">
             {/* 배경 장식 (흐릿한 월계관 느낌) */}
             <div className="absolute inset-0 bg-radial-gradient from-accent/5 to-transparent opacity-50 pointer-events-none" />
-            
+
             {data.contents.map((content, idx) => {
               const isTop3 = ((page - 1) * ITEMS_PER_PAGE + idx + 1) <= 3;
 
@@ -125,7 +132,7 @@ export default function ChosenSection({ initialData }: Props) {
                 <div key={content.id} className="relative group">
                   {/* Top 3 강조 효과 */}
                   {isTop3 && (
-                    <div className="absolute -inset-1 bg-gradient-to-br from-accent/30 to-transparent rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute -inset-1 bg-gradient-to-br from-accent/30 to-transparent rounded-xl blur-sm opacity-0 group-hover:opacity-100" />
                   )}
 
                   <SavedContentCard
@@ -134,10 +141,12 @@ export default function ChosenSection({ initialData }: Props) {
                     title={content.title}
                     creator={content.creator}
                     thumbnail={content.thumbnail_url}
+                    celebCount={content.celeb_count}
+                    userCount={content.user_count}
                     rating={content.avg_rating ?? undefined}
                     href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                   />
-                  
+
                   {/* 순위 뱃지 커스텀 (기존 Card 내부 뱃지 외에 추가 강조가 필요하다면) */}
                 </div>
               );
@@ -156,7 +165,7 @@ export default function ChosenSection({ initialData }: Props) {
       {/* 페이지네이션 */}
       {data.totalPages > 1 && (
         <div className="mt-6">
-          <Pagination currentPage={page} totalPages={data.totalPages} onPageChange={setPage} />
+          <Pagination currentPage={page} totalPages={data.totalPages} onPageChange={handlePageChange} />
         </div>
       )}
     </div>
