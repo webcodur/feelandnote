@@ -80,16 +80,12 @@ export default function Playlists({ userId, isOwner }: PlaylistsProps) {
   return (
     <div className="w-full max-w-[1600px] mx-auto pb-20">
       {/* 헤더 섹션 */}
-      <div className="flex flex-col items-center justify-center py-12 mb-8 relative">
-        <DecorativeLabel label="GALLERY OF WISDOM" />
-        <span className="mt-2 text-xs font-serif text-accent/60 tracking-widest uppercase">
-          {isOwner ? "나의 소장품" : "소장품"}
-        </span>
-        
+      <div className="flex flex-col items-center justify-center mb-4 relative">
+        <DecorativeLabel label="소장중인 재생목록" />
         {isOwner && (
            <Button
              onClick={() => setIsCreateMode(true)}
-             className="mt-8 px-6 py-2 bg-accent/10 border border-accent/30 text-accent hover:bg-accent hover:text-black transition-all font-serif font-bold text-sm tracking-widest flex items-center gap-2"
+             className="mt-10 px-4 py-2 bg-accent/10 border border-accent/30 text-accent hover:bg-accent hover:text-black transition-all font-serif font-bold text-sm tracking-widest flex items-center gap-2"
            >
              <Plus size={16} />
              NEW COLLECTION
@@ -100,7 +96,7 @@ export default function Playlists({ userId, isOwner }: PlaylistsProps) {
       {isEmpty ? (
         <EmptyState variant={isOwner ? "mine" : "other"} onCreateClick={() => setIsCreateMode(true)} />
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6 px-3 md:px-0">
+        <div className="mt-10 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6 px-3 md:px-0">
           {/* 내 컬렉션 */}
           {playlists.map((playlist) => (
             <CollectionCard

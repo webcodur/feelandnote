@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
@@ -51,7 +51,6 @@ export function useCelebFilters({
   onIncludeInactiveChange,
 }: UseCelebFiltersParams) {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   // URL에서 초기값 읽기
@@ -82,7 +81,7 @@ export function useCelebFilters({
   const [total, setTotal] = useState(initialTotal);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // URL 파라미터 업데이트 함수
+  // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
   const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
     if (!syncToUrl) return;
     const params = new URLSearchParams(searchParams.toString());
@@ -94,8 +93,8 @@ export function useCelebFilters({
       }
     });
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    router.replace(newUrl, { scroll: false });
-  }, [syncToUrl, searchParams, pathname, router]);
+    window.history.replaceState(null, "", newUrl);
+  }, [syncToUrl, searchParams, pathname]);
 
   // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 재패칭 불필요
   useEffect(() => {

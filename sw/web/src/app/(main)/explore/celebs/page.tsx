@@ -19,40 +19,61 @@ function SectionSkeleton() {
     <div className="animate-pulse">
       {/* PC 컨트롤 패널 스켈레톤 */}
       <div className="hidden md:flex justify-center my-12">
-        <div className="inline-grid w-full max-w-2xl border border-white/10 bg-black/40 rounded-lg overflow-hidden">
+        <div className="w-full max-w-2xl border border-white/10 bg-black/40 rounded-lg overflow-hidden">
           {/* 타이틀 바 */}
           <div className="flex items-center justify-center gap-3 px-6 py-2 bg-white/5 border-b border-white/5">
             <div className="h-[1px] w-12 bg-bg-card" />
             <div className="h-5 w-20 bg-bg-card rounded" />
             <div className="h-[1px] w-12 bg-bg-card" />
           </div>
-          {/* 1행: 필터 */}
-          <div className="flex items-center justify-center gap-2 px-6 py-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-9 w-24 bg-bg-card rounded-md" />
-            ))}
-          </div>
-          {/* 2행: 검색/버튼 */}
-          <div className="flex items-center gap-2 px-6 py-3">
-            <div className="flex-1 h-9 bg-bg-card rounded-md" />
-            <div className="h-9 w-9 bg-bg-card rounded-md" />
-            <div className="w-px h-5 bg-white/10" />
-            <div className="h-9 w-16 bg-bg-card rounded-md" />
-            <div className="h-9 w-16 bg-bg-card rounded-md" />
+          <div className="bg-black/20">
+            {/* 1행: 필터 (5개) */}
+            <div className="flex items-center justify-center gap-2 px-6 py-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="h-9 w-24 bg-bg-card rounded-md" />
+              ))}
+            </div>
+            {/* 2행: 검색 + 버튼 3개 */}
+            <div className="flex items-center gap-2 px-6 py-3">
+              <div className="flex-1 h-9 bg-bg-card rounded-md" />
+              <div className="h-9 w-9 bg-bg-card rounded-md" />
+              <div className="w-px h-5 bg-white/10 mx-1" />
+              <div className="h-9 w-[4.5rem] bg-bg-card rounded-md" />
+              <div className="h-9 w-[4.5rem] bg-bg-card rounded-md" />
+              <div className="h-9 w-[4.5rem] bg-bg-card rounded-md" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* 모바일 컨트롤 스켈레톤 */}
-      <div className="md:hidden mb-6">
-        <div className="flex items-center gap-2 px-1 py-2">
-          <div className="flex-1 h-10 bg-bg-card rounded-md" />
-          <div className="h-10 w-10 bg-bg-card rounded-md" />
-        </div>
-        <div className="flex gap-2 mt-2 overflow-x-auto pb-2">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-9 w-20 bg-bg-card rounded-lg shrink-0" />
-          ))}
+      <div className="md:hidden mb-10">
+        <div className="border border-white/10 bg-black/40 rounded-lg overflow-hidden">
+          {/* 타이틀 바 */}
+          <div className="flex items-center justify-center gap-3 px-6 py-2 bg-white/5 border-b border-white/5">
+            <div className="h-[1px] w-8 bg-bg-card" />
+            <div className="h-5 w-20 bg-bg-card rounded" />
+            <div className="h-[1px] w-8 bg-bg-card" />
+          </div>
+          {/* 1행: 필터칩 2x2 + 정렬 풀폭 */}
+          <div className="grid grid-cols-2 gap-2 p-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-9 bg-bg-card rounded-lg" />
+            ))}
+            <div className="h-9 bg-bg-card rounded-lg col-span-2" />
+          </div>
+          {/* 2행: 검색 */}
+          <div className="flex gap-2 p-3">
+            <div className="flex-1 h-9 bg-bg-card rounded-md" />
+            <div className="h-9 w-9 bg-bg-card rounded-md" />
+          </div>
+          {/* 3행: 추가 버튼들 */}
+          <div className="h-px bg-accent/10" />
+          <div className="flex gap-2 p-3">
+            <div className="flex-1 h-9 bg-bg-card rounded-md" />
+            <div className="flex-1 h-9 bg-bg-card rounded-md" />
+            <div className="flex-1 h-9 bg-bg-card rounded-md" />
+          </div>
         </div>
       </div>
 

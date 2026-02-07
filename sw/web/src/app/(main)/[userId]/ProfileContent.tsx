@@ -1,12 +1,14 @@
 "use client";
 
 import { type PublicUserProfile } from "@/actions/user";
+import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ProfileBioSection from "./ProfileBioSection";
 import UserBioSection from "./UserBioSection";
+import ProfileInfluenceSection from "./ProfileInfluenceSection";
 import ImageGallery from "@/components/features/profile/ImageGallery";
 
 interface ProfileContentProps {
@@ -16,6 +18,7 @@ interface ProfileContentProps {
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
   guestbookCurrentUser: { id: string; nickname: string | null; avatar_url: string | null } | null;
+  influenceData: CelebInfluenceDetail | null;
 }
 
 export default function ProfileContent({
@@ -25,6 +28,7 @@ export default function ProfileContent({
   guestbookEntries,
   guestbookTotal,
   guestbookCurrentUser,
+  influenceData,
 }: ProfileContentProps) {
   return (
     <div className="space-y-8 sm:space-y-12">
@@ -51,9 +55,16 @@ export default function ProfileContent({
         </section>
       )}
 
-      {/* 3. Image Gallery (셀럽 전용) */}
-      {profile.profile_type === "CELEB" && (
+      {/* 3. Influence (셀럽 전용) */}
+      {profile.profile_type === "CELEB" && influenceData && (
         <section className="animate-fade-in" style={{ animationDelay: "0.075s" }}>
+          <ProfileInfluenceSection data={influenceData} />
+        </section>
+      )}
+
+      {/* 4. Image Gallery (셀럽 전용) */}
+      {profile.profile_type === "CELEB" && (
+        <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
               <DecorativeLabel label="갤러리" />
@@ -63,8 +74,8 @@ export default function ProfileContent({
         </section>
       )}
 
-      {/* 4. Guestbook */}
-      <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
+      {/* 5. Guestbook */}
+      <section className="animate-fade-in" style={{ animationDelay: "0.125s" }}>
         <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
           <div className="flex justify-center mb-6 sm:mb-8">
             <DecorativeLabel label="방명록" />

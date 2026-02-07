@@ -25,7 +25,8 @@ function SpotifyEmbed({ contentId }: { contentId: string }) {
         className="rounded-xl"
       />
       <p className="text-[11px] text-text-tertiary">
-        미리듣기만 재생됩니다.{' '}
+        <span className="block mb-0.5">모바일 브라우저에서는 30초만 듣기가 가능합니다.</span>
+        PC에서는 {' '}
         <a
           href="https://accounts.spotify.com/login"
           target="_blank"
@@ -34,7 +35,7 @@ function SpotifyEmbed({ contentId }: { contentId: string }) {
         >
           Spotify 로그인
         </a>
-        {' '}후 페이지로 돌아오시면 전체 곡을 감상할 수 있습니다. Spotify 성인 인증 시 전체 곡을 감상할 수 있습니다.
+        {' '}후 돌아오시면 음악을 끝까지 감상할 수 있습니다. Spotify 성인 인증 시 모든 곡을 감상할 수 있습니다.
       </p>
     </div>
   )

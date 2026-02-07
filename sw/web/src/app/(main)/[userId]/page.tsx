@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
+import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import ProfileContent from "./ProfileContent";
 
 interface PageProps {
@@ -42,6 +43,11 @@ export default async function OverviewPage({ params }: PageProps) {
     avatar_url: profile.avatar_url,
   } : null;
 
+  // 셀럽 영향력 데이터
+  const influenceData = profile.profile_type === "CELEB"
+    ? await getCelebInfluence(userId)
+    : null;
+
   return (
     <ProfileContent
       profile={profile}
@@ -50,6 +56,7 @@ export default async function OverviewPage({ params }: PageProps) {
       guestbookEntries={guestbookResult.entries}
       guestbookTotal={guestbookResult.total}
       guestbookCurrentUser={guestbookCurrentUser}
+      influenceData={influenceData}
     />
   );
 }

@@ -169,6 +169,17 @@ VALUES
 
 **external_source 값:** BOOK=`naver_book`, VIDEO=`tmdb`, GAME=`igdb`, MUSIC=`spotify`
 
+**⚠️ contents.id 형식 (필수):**
+
+| 타입 | ID 형식 | 예시 |
+|------|---------|------|
+| BOOK | ISBN 그대로 | `9788932917245` |
+| VIDEO | tmdb ID 그대로 | `550` |
+| GAME | igdb ID 그대로 | `1942` |
+| MUSIC | **`spotify-{spotifyId}`** (하이픈) | `spotify-0lOn8nKk4dzzRfnCCCRbwp` |
+
+- MUSIC ID는 반드시 **하이픈(`-`)** 사용. 언더스코어(`_`) 사용 금지
+
 ---
 
 ## body 작성 가이드라인

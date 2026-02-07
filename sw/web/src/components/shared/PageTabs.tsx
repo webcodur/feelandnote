@@ -74,7 +74,7 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
         {/* Scrollable Area */}
         <div
           ref={containerRef}
-          className="relative flex items-center justify-center gap-1 sm:gap-4 overflow-x-auto scrollbar-hidden px-2 pb-[1px]"
+          className="relative flex items-center justify-center gap-0 sm:gap-4 overflow-x-auto scrollbar-hidden px-2 pb-[1px]"
           onMouseLeave={handleMouseLeave}
         >
           {tabs.map((tab, index) => {
@@ -85,7 +85,7 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
                 key={tab.value}
                 ref={(el) => { tabRefs.current[index] = el; }}
                 href={tab.href}
-                className="relative px-3 sm:px-6 py-3 whitespace-nowrap select-none"
+                className="relative px-2.5 sm:px-6 py-3 whitespace-nowrap select-none"
                 onMouseEnter={() => handleMouseEnter(index)}
               >
                 {/* Text Content */}

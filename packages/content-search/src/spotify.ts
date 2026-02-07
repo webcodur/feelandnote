@@ -259,8 +259,8 @@ export async function batchGetSpotifyEntityTypes(
 
 // ID로 앨범 정보 조회 (metadata 포함)
 export async function getAlbumById(externalId: string): Promise<MusicSearchResult | null> {
-  // externalId 형식: spotify-abc123
-  const match = externalId.match(/^spotify-(.+)$/)
+  // externalId 형식: spotify-abc123 (spotify_ 형식도 허용)
+  const match = externalId.match(/^spotify[-_](.+)$/)
   if (!match) return null
 
   const albumId = match[1]
