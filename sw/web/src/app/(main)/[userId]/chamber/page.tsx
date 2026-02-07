@@ -1,9 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { getProfile } from "@/actions/user";
+import { getProfile, getDetailedStats } from "@/actions/user";
 import { notFound } from "next/navigation";
 import ProfileSettingsSection from "../ProfileSettingsSection";
+import ProfileStatsSection from "../ProfileStatsSection";
 
-export const metadata = { title: "내실" };
+export const metadata = { title: "관리" };
 
 interface PageProps {
   params: Promise<{ userId: string }>;
@@ -14,16 +15,22 @@ export default async function ChamberPage({ params }: PageProps) {
   const supabase = await createClient();
   const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-  // 본인만 내실 접근 가능
+  // 본인만 접근 가능
   if (!currentUser || currentUser.id !== userId) {
     notFound();
   }
 
-  const myProfile = await getProfile();
-  const apiKey = myProfile?.gemini_api_key ?? null;
+  const [myProfile, stats] = await Promise.all([
+    getProfile(),
+    getDetailedStats(userId),
+  ]);
 
-  // OAuth 사용자인지 확인
   const isEmailUser = currentUser.app_metadata?.provider === 'email';
 
-  return <ProfileSettingsSection initialApiKey={apiKey} isEmailUser={isEmailUser} />;
+  return (
+    <div className="space-y-8">
+      <ProfileStatsSection stats={stats} />
+      <ProfileSettingsSection isEmailUser={isEmailUser} />
+    </div>
+  );
 }

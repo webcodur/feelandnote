@@ -6,12 +6,14 @@
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
-import { Star, Check, Loader2, AlertTriangle } from "lucide-react";
+import { Star, Check, Loader2, AlertTriangle, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import { updateReview } from "@/actions/contents/updateReview";
 import { updateStatus } from "@/actions/contents/updateStatus";
+import { getCategoryByDbType } from "@/constants/categories";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 interface InterestsReviewModalProps {
@@ -193,6 +195,15 @@ export default function InterestsReviewModal({
               <p className="text-sm text-text-secondary truncate mt-0.5">
                 {content.creator.replace(/\^/g, ", ")}
               </p>
+            )}
+            {selectedContent && (
+              <Link
+                href={`/content/${selectedContent.content_id}?category=${getCategoryByDbType(selectedContent.content.type)?.id || "book"}`}
+                className="inline-flex items-center gap-1 text-xs text-text-tertiary hover:text-accent mt-1.5"
+              >
+                <ExternalLink size={12} />
+                상세 정보 보기
+              </Link>
             )}
           </div>
         </div>

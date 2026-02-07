@@ -71,7 +71,7 @@ export default function ContentItemRenderer({
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const reviewProp = viewMode === "list" ? item.review : undefined;
           return (
-            <div key={item.id} className="w-full max-w-[300px] md:max-w-none">
+            <div key={item.id} className={`w-full ${viewMode === "list" ? "max-w-[300px] md:max-w-none" : ""}`}>
             <ContentCard
               contentId={item.content_id}
               contentType={item.content.type}

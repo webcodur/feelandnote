@@ -116,7 +116,7 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
                  <h3 className="text-3xl text-white font-serif font-black leading-none mb-3">
                    {heroCeleb.nickname}
                  </h3>
-                 <p className="text-white/80 text-sm font-serif italic line-clamp-2">
+                 <p className="text-white/80 text-sm font-sans line-clamp-2">
                    "{heroCeleb.short_desc}"
                  </p>
               </div>

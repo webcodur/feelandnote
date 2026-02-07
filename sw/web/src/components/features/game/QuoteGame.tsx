@@ -13,10 +13,9 @@ import { isPublicDomainCeleb, PUBLIC_DOMAIN_NOTICE } from "./utils";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import GameHeader from "./GameHeader";
 import ArenaCard from "./ArenaCard";
-import GameResultModal from "./GameResultModal";
 import { cn } from "@/lib/utils";
 
-type GameState = "idle" | "playing" | "thinking" | "revealing" | "gameover";
+type GameState = "idle" | "playing" | "thinking" | "revealing";
 type Difficulty = "easy" | "hard";
 
 interface QuoteRound {
@@ -190,7 +189,7 @@ export default function QuoteGame() {
 
       const nextRound = buildRound(newUsed);
       if (!nextRound) {
-        setGameState("gameover");
+        setGameState("idle");
         return;
       }
       setRound(nextRound);
@@ -201,10 +200,6 @@ export default function QuoteGame() {
     return () => clearTimeout(timer);
   }, [gameState, round, selectedId, usedIds, buildRound]);
 
-  // region: 오답 → 게임오버
-  const handleGameover = () => {
-    setGameState("gameover");
-  };
 
   // region: 카드 상태 결정
   const getCardStatus = (celebId: string): "normal" | "win" | "lose" | "selected" => {
@@ -354,26 +349,23 @@ export default function QuoteGame() {
               <span className="text-2xl md:text-3xl font-black text-red-500 font-serif drop-shadow-glow">
                 패배했습니다
               </span>
+              {streak > 0 && (
+                <p className="text-sm text-text-secondary mt-1">{streak}연승 달성</p>
+              )}
             </div>
             <button
-              onClick={handleGameover}
+              onClick={() => setGameState("idle")}
               className={cn(
                 "min-w-[160px] h-12 font-serif text-base font-bold rounded-xl shadow-xl",
                 "bg-white/10 text-white hover:bg-white/20 border border-white/20 active:scale-95"
               )}
             >
-              결과 보기
+              다시하기
             </button>
           </div>
         )}
       </div>
 
-      <GameResultModal
-        isOpen={gameState === "gameover"}
-        streak={streak}
-        highScore={highScore}
-        onRestart={() => setGameState("idle")}
-      />
       {selectedCeleb && (
         <CelebDetailModal
           celeb={selectedCeleb}

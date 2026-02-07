@@ -36,7 +36,7 @@ export default function CollectionCard({ playlist, onClick, className = "" }: Co
       <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
 
       {/* Image Area (Showcase) */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#111]">
+      <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#111]">
          {/* Thumbnail or Fallback */}
          {playlist.items?.[0]?.content?.thumbnail_url ? (
             <Image
@@ -55,32 +55,33 @@ export default function CollectionCard({ playlist, onClick, className = "" }: Co
           )}
           
           {/* Overlay text for count */}
-          <div className="absolute top-3 right-3 px-2 py-1 bg-black/60 backdrop-blur-sm border border-white/10 rounded flex items-center gap-1.5 z-10">
-            <ListMusic size={12} className="text-accent" />
-            <span className="text-[10px] font-serif font-bold text-white/90 tracking-wide">
-              {playlist.item_count} ITEMS
+          <div className="absolute top-2 right-2 md:top-3 md:right-3 px-1.5 md:px-2 py-0.5 md:py-1 bg-black/60 backdrop-blur-sm border border-white/10 rounded flex items-center gap-1 md:gap-1.5 z-10">
+            <ListMusic size={10} className="text-accent md:hidden" />
+            <ListMusic size={12} className="text-accent hidden md:block" />
+            <span className="text-[9px] md:text-[10px] font-serif font-bold text-white/90 tracking-wide">
+              {playlist.item_count}
             </span>
           </div>
 
           {!playlist.is_public && (
-            <div className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-sm border border-white/10 rounded flex items-center gap-1.5 z-10">
+            <div className="absolute top-2 left-2 md:top-3 md:left-3 px-1.5 md:px-2 py-0.5 md:py-1 bg-black/60 backdrop-blur-sm border border-white/10 rounded flex items-center gap-1.5 z-10">
               <Lock size={10} className="text-text-secondary" />
             </div>
           )}
       </div>
 
       {/* Content Area (Label) */}
-      <div className="relative flex-1 flex flex-col p-5 bg-[#1a1a1a] group-hover:bg-[#202020] transition-colors duration-500">
+      <div className="relative flex-1 flex flex-col p-3 md:p-5 bg-[#1a1a1a] group-hover:bg-[#202020] transition-colors duration-500">
          <div className="flex-1">
-            <div className="flex items-start justify-between gap-4">
-              <h3 className="text-lg font-serif font-black text-white/90 group-hover:text-accent transition-colors line-clamp-2 leading-snug">
+            <div className="flex items-start justify-between gap-2 md:gap-4">
+              <h3 className="text-sm md:text-lg font-serif font-black text-white/90 group-hover:text-accent transition-colors line-clamp-2 leading-snug">
                 {playlist.name}
               </h3>
             </div>
          </div>
 
          {/* Footer Info */}
-         <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
+         <div className="mt-2 md:mt-4 flex items-center justify-between border-t border-white/5 pt-2 md:pt-3">
             <div className="flex items-center gap-3">
                {playlist.has_tiers && rankedCount > 0 && (
                   <div className="flex items-center justify-center w-5 h-5 bg-amber-500/10 border border-amber-500/20 rounded-full" title="Tier Rated">
@@ -88,8 +89,8 @@ export default function CollectionCard({ playlist, onClick, className = "" }: Co
                   </div>
                )}
             </div>
-            
-            <div className="flex items-center gap-1 text-accent/50 group-hover:text-accent transition-colors text-xs font-serif font-bold tracking-widest">
+
+            <div className="flex items-center gap-1 text-accent/50 group-hover:text-accent transition-colors text-[10px] md:text-xs font-serif font-bold tracking-widest">
                OPEN <ChevronRight size={12} strokeWidth={3} />
             </div>
          </div>

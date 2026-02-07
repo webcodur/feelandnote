@@ -47,7 +47,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   // ControlPanel 상태
-  const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+  const [isControlsExpanded, setIsControlsExpanded] = useState(false);
 
   // 검색 상태
   const [searchQuery, setSearchQuery] = useState("");
@@ -261,7 +261,7 @@ export default function InterestsContent({ userId, isOwner }: InterestsContentPr
               title={item.content.title}
               creator={item.content.creator}
               thumbnail={item.content.thumbnail_url}
-              href={`/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
+              href={isOwner ? undefined : `/content/${item.content_id}?category=${getCategoryByDbType(item.content.type)?.id || "book"}`}
               onClick={isOwner ? () => handleCardClick(item) : undefined}
               deletable={isOwner}
               onDelete={isOwner ? () => handleDelete(item.id, item.content.title) : undefined}

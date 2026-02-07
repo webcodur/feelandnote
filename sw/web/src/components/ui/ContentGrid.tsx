@@ -8,7 +8,7 @@
 const VARIANT_CONFIG = {
   poster: { minWidth: 150, gap: 12 },
   list: { minWidth: 340, gap: 16 },
-  wide: { minWidth: 176, gap: 16 },
+  wide: { minWidth: 150, gap: 12 },
 } as const;
 
 type Variant = keyof typeof VARIANT_CONFIG;
@@ -36,7 +36,7 @@ export default function ContentGrid({
   const actualGap = gap ?? (compact ? 12 : config.gap);
 
   // list/wide: 모바일에서 세로 정렬, md부터 그리드
-  const isMobileStack = variant === "list" || variant === "wide";
+  const isMobileStack = variant === "list";
 
   const gridStyle = {
     gridTemplateColumns: `repeat(auto-fill, minmax(${actualMinWidth}px, 1fr))`,

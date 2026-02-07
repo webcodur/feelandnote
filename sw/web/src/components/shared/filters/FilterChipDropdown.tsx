@@ -87,12 +87,20 @@ export default function FilterChipDropdown({
     setIsOpen(false);
   };
 
+  const handleToggle = () => {
+    if (!isOpen && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setDropdownPos({ top: rect.bottom + 4, left: rect.left });
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div ref={containerRef} className="relative">
       <Button
         type="button"
         unstyled
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         disabled={isLoading}
         className={`
           flex items-center justify-center rounded-md border transition-all duration-300

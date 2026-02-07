@@ -35,7 +35,7 @@ export default function ContentLibrary({
   const initialSearchQuery = searchParams.get("q") || "";
   const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery });
   const isViewer = lib.isViewer;
-  const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+  const [isControlsExpanded, setIsControlsExpanded] = useState(false);
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
 

@@ -100,7 +100,7 @@ export default function Playlists({ userId, isOwner }: PlaylistsProps) {
       {isEmpty ? (
         <EmptyState variant={isOwner ? "mine" : "other"} onCreateClick={() => setIsCreateMode(true)} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-0">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6 px-3 md:px-0">
           {/* 내 컬렉션 */}
           {playlists.map((playlist) => (
             <CollectionCard

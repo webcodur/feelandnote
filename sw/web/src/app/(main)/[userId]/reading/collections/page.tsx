@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Playlists from "@/components/features/user/playlists/Playlists";
 
-export const metadata = { title: "컬렉션" };
+export const metadata = { title: "묶음" };
 
 interface PageProps {
   params: Promise<{ userId: string }>;

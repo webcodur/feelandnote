@@ -120,12 +120,12 @@ function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpdating, onRemove 
       {/* Spotlight Effect */}
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#d4af37]/10 via-transparent to-transparent opacity-60 pointer-events-none" />
       
-      <div className="relative p-6 sm:p-10 flex flex-col items-center">
-        <div className="mb-10 relative z-10">
+      <div className="relative p-4 sm:p-10 flex flex-col items-center">
+        <div className="mb-6 sm:mb-10 relative z-10">
           <DecorativeLabel label="명예의 전당" className="scale-110 drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl px-4">
+        <div className="grid grid-cols-3 gap-2 sm:gap-6 w-full max-w-4xl px-0 sm:px-4">
           {slots.map((title, i) => {
             if (title) {
               const gradeConfig = TITLE_GRADE_CONFIG[title.grade as TitleGrade];
@@ -146,8 +146,8 @@ function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpdating, onRemove 
                 >
                   {/* The Plaque */}
                   <div className={`
-                    relative aspect-[3/4] rounded-lg p-5 flex flex-col items-center justify-center text-center gap-4
-                    border-[3px] transition-all duration-500
+                    relative aspect-[3/4] rounded-lg p-2 sm:p-5 flex flex-col items-center justify-center text-center gap-2 sm:gap-4
+                    border-2 sm:border-[3px] transition-all duration-500
                     ${tierStyle.bg} ${tierStyle.border} ${tierStyle.text} ${tierStyle.shadow}
                     ${isRareOrAbove ? 'shadow-glow-sm' : ''}
                   `}>
@@ -157,27 +157,27 @@ function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpdating, onRemove 
                     {/* Content */}
                     <div className="relative z-10 flex flex-col items-center gap-1 w-full">
                       <div className={`
-                        p-3.5 rounded-full mb-3 shadow-inner ring-1 ring-white/10
+                        p-2 sm:p-3.5 rounded-full mb-1 sm:mb-3 shadow-inner ring-1 ring-white/10
                         ${tierStyle.iconBg || 'bg-black/20'}
                         transition-transform duration-500 group-hover/card:scale-110 group-hover/card:rotate-3
                       `}>
-                        <CategoryIcon size={32} className={`
+                        <CategoryIcon className={`size-5 sm:size-8
                           ${isRareOrAbove ? 'text-inherit drop-shadow-md' : 'text-inherit opacity-90'}
                         `} />
                       </div>
                       
                       <div className="space-y-1.5 w-full">
-                        <div className="font-serif font-black text-xl leading-tight break-keep drop-shadow-sm line-clamp-2 min-h-[2.5em] flex items-center justify-center">
+                        <div className="font-serif font-black text-xs sm:text-xl leading-tight break-keep drop-shadow-sm line-clamp-2 min-h-[2em] sm:min-h-[2.5em] flex items-center justify-center">
                           {title.name}
                         </div>
-                        <div className={`text-xs font-bold uppercase tracking-widest opacity-70 ${isRareOrAbove ? 'font-cinzel' : ''}`}>
+                        <div className={`text-[9px] sm:text-xs font-bold uppercase tracking-widest opacity-70 ${isRareOrAbove ? 'font-cinzel' : ''}`}>
                           {gradeConfig.label}
                         </div>
                       </div>
 
-                      <div className="w-12 h-[1px] bg-current opacity-30 my-3" />
+                      <div className="w-8 sm:w-12 h-[1px] bg-current opacity-30 my-1 sm:my-3" />
 
-                      <div className="text-[11px] font-medium opacity-80 leading-relaxed px-1 break-keep line-clamp-3">
+                      <div className="hidden sm:block text-[11px] font-medium opacity-80 leading-relaxed px-1 break-keep line-clamp-3">
                         &ldquo;{title.description}&rdquo;
                       </div>
                     </div>
@@ -197,13 +197,13 @@ function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpdating, onRemove 
             }
 
             // Empty Slot (The Niche)
-            if (!isOwner) return <div key={`empty-${i}`} className="hidden sm:block" />;
+            if (!isOwner) return <div key={`empty-${i}`} />;
             
             return (
-              <div key={`empty-${i}`} className="aspect-[3/4] rounded-lg bg-[#0a0a0a]/40 border border-[#333] flex flex-col items-center justify-center p-4 relative overflow-hidden group/empty shadow-inner hover:border-[#d4af37]/30 hover:bg-[#0a0a0a]/60 transition-all duration-300">
+              <div key={`empty-${i}`} className="aspect-[3/4] rounded-lg bg-[#0a0a0a]/40 border border-[#333] flex flex-col items-center justify-center p-2 sm:p-4 relative overflow-hidden group/empty shadow-inner hover:border-[#d4af37]/30 hover:bg-[#0a0a0a]/60 transition-all duration-300">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4af37]/5 to-transparent opacity-0 group-hover/empty:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <Plus size={32} className="text-[#333] group-hover/empty:text-[#d4af37] transition-all duration-300 mb-3 group-hover/empty:scale-110 group-hover/empty:rotate-90" />
-                <span className="text-xs text-[#444] font-cinzel font-bold tracking-widest group-hover/empty:text-[#d4af37] transition-colors duration-300 uppercase">
+                <Plus className="size-6 sm:size-8 text-[#333] group-hover/empty:text-[#d4af37] transition-all duration-300 mb-1 sm:mb-3 group-hover/empty:scale-110 group-hover/empty:rotate-90" />
+                <span className="text-[9px] sm:text-xs text-[#444] font-cinzel font-bold tracking-widest group-hover/empty:text-[#d4af37] transition-colors duration-300 uppercase">
                   Empty Niche
                 </span>
               </div>

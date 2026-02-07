@@ -1,22 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Eye, EyeOff, ExternalLink, Loader2, AlertTriangle } from "lucide-react";
-import { updateApiKey } from "@/actions/user";
+import { Check, Eye, EyeOff, Loader2, AlertTriangle } from "lucide-react";
 import { deleteAccount, changePassword } from "@/actions/auth";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
 
 interface ProfileSettingsSectionProps {
-  initialApiKey?: string | null;
   isEmailUser?: boolean;
 }
 
-export default function ProfileSettingsSection({ initialApiKey, isEmailUser }: ProfileSettingsSectionProps) {
+export default function ProfileSettingsSection({ isEmailUser }: ProfileSettingsSectionProps) {
   return (
     <section className="space-y-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
       {isEmailUser && <PasswordChangeCard />}
-      <ApiKeyCard initialApiKey={initialApiKey} />
       <DangerZoneCard />
     </section>
   );
@@ -105,59 +102,6 @@ function PasswordChangeCard() {
           {confirmPassword && newPassword !== confirmPassword && (
             <p className="text-xs text-red-400 mt-1">비밀번호가 일치하지 않습니다</p>
           )}
-        </div>
-      </div>
-    </ClassicalBox>
-  );
-}
-// #endregion
-
-// #region API 키 카드
-function ApiKeyCard({ initialApiKey }: { initialApiKey?: string | null }) {
-  const [apiKey, setApiKey] = useState(initialApiKey || "");
-  const [showKey, setShowKey] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
-
-  const hasChanges = apiKey !== (initialApiKey || "");
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    await updateApiKey({ geminiApiKey: apiKey });
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 2000);
-    setIsSaving(false);
-  };
-
-  return (
-    <ClassicalBox className="p-6 md:p-8">
-      <div className="flex justify-center mb-6">
-        <DecorativeLabel label="AI 설정" />
-      </div>
-      <div className="flex justify-end mb-4">
-        <div className="flex items-center gap-2">
-          {saveSuccess && <Check size={16} className="text-green-400" />}
-          <button onClick={handleSave} disabled={isSaving || !hasChanges} className="px-4 py-2 text-sm bg-accent text-bg-main font-bold rounded-sm hover:bg-accent-hover disabled:opacity-50">
-            {isSaving ? <Loader2 size={14} className="animate-spin" /> : "저장"}
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        <div className="relative">
-          <label className="text-xs text-text-secondary mb-1 block">Gemini API 키</label>
-          <div className="relative">
-            <input type={showKey ? "text" : "password"} value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="API 키 입력" className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
-            <button type="button" onClick={() => setShowKey(!showKey)} className="absolute end-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary">
-              {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between text-xs text-text-secondary">
-          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-accent hover:underline">
-            <ExternalLink size={12} />API 키 발급
-          </a>
-          <span>AI 리뷰 생성, 줄거리 요약에 사용</span>
         </div>
       </div>
     </ClassicalBox>

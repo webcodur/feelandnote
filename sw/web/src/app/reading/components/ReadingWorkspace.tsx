@@ -18,7 +18,6 @@ import {
   ChevronDown,
   ChevronUp,
   X,
-  Sparkles,
   BookOpen,
   Film,
   Gamepad2,
@@ -31,7 +30,6 @@ import SectionWindow from "./SectionWindow";
 import Stopwatch from "./Stopwatch";
 import BookSearchModal from "./BookSearchModal";
 import BookInfoWindow from "./BookInfoWindow";
-import AiGenerationPanel from "./AiGenerationPanel";
 import RotatingQuote from "./RotatingQuote";
 import OnboardingModal from "./OnboardingModal";
 import { useReadingWorkspace } from "../hooks/useReadingWorkspace";
@@ -41,8 +39,7 @@ import {
   READING_REASONS,
   READING_METHODS,
 } from "../constants";
-import type { SelectedBook, Section, SectionType } from "../types";
-import type { AiGeneratedSection } from "../actions/askAiQuestion";
+import type { SelectedBook, Section } from "../types";
 
 const SIDEBAR_STORAGE_KEY = "reading_sidebar_widths";
 const DEFAULT_LEFT_WIDTH = 224; // w-56 = 14rem = 224px
@@ -81,7 +78,6 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true);
   
   const [isModeDropdownOpen, setIsModeDropdownOpen] = useState(false);
-  const [isAiPanelOpen, setIsAiPanelOpen] = useState(false);
   const resizeStartRef = useRef({ x: 0, width: 0 });
 
   // 사이드바 너비 로드
@@ -156,7 +152,6 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
     setElapsedTime,
     setIsRunning,
     addSection,
-    addSections,
     updateSection,
     deleteSection,
     toggleSectionVisibility,
@@ -191,54 +186,6 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
   };
-
-  const handleAddAiSections = useCallback((generatedSections: AiGeneratedSection[]) => {
-    const processedSections = generatedSections.map(gs => {
-      let data = gs.data;
-
-      // 인물 조직도 섹션의 경우 데이터 정규화 필요
-      if (gs.type === "character" && data && "characters" in data) {
-        const characters = (data as any).characters || [];
-        
-        // 1. 모든 인물에게 ID 할당 및 이름 매핑 생성
-        const nameToIdMap: Record<string, string> = {};
-        const normalizedCharacters = characters.map((char: any) => {
-          const id = char.id || crypto.randomUUID();
-          if (char.names && Array.isArray(char.names)) {
-            char.names.forEach((name: string) => {
-              if (name) nameToIdMap[name] = id;
-            });
-          }
-          return { ...char, id };
-        });
-
-        // 2. targetName을 targetId로 변환
-        const finalCharacters = normalizedCharacters.map((char: any) => {
-          const relations = (char.relations || []).map((rel: any) => {
-            if (rel.targetName && !rel.targetId) {
-              return {
-                type: rel.type,
-                targetId: nameToIdMap[rel.targetName] || rel.targetName // 매핑 실패 시 이름 그대로 유지 (에러 방지)
-              };
-            }
-            return rel;
-          });
-          return { ...char, relations };
-        });
-
-        data = { ...data, characters: finalCharacters };
-      }
-
-      return {
-        title: gs.title,
-        type: gs.type,
-        data,
-        size: gs.type === "character" ? { width: 600, height: 400 } : { width: 320, height: 260 }
-      };
-    });
-
-    addSections(processedSections);
-  }, [addSections]);
 
   return (
     <>
@@ -467,29 +414,6 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
               />
             ))}
 
-          {/* 우측 하단 AI 플로팅 버튼 */}
-          <button
-            onClick={() => setIsAiPanelOpen(!isAiPanelOpen)}
-            className={`absolute bottom-6 right-6 z-50 flex size-12 items-center justify-center rounded-full shadow-2xl transition-all active:scale-95 ${
-              isAiPanelOpen 
-                ? "bg-accent text-white rotate-90" 
-                : "bg-[#1a1f27] text-accent border border-accent/30 hover:bg-accent hover:text-white"
-            }`}
-            title="인물 관계 분석 AI"
-          >
-            {isAiPanelOpen ? <X className="size-6" /> : <Sparkles className="size-6" />}
-          </button>
-
-          {/* AI 패널 오버레이 */}
-          {isAiPanelOpen && (
-            <div className="absolute bottom-20 right-6 z-50 w-80 animate-in fade-in slide-in-from-bottom-4 duration-300">
-              <AiGenerationPanel
-                selectedBook={selectedBook}
-                notes={sections.filter(s => s.type === 'basic').map(s => (s.data as any).content || '')}
-                onAddSections={handleAddAiSections}
-              />
-            </div>
-          )}
         </main>
 
         {/* 우측 사이드바: 독서 지원 섹션 */}

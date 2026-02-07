@@ -7,13 +7,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Loader2, ArrowRight, Eye, EyeOff, Sparkles, Bot } from "lucide-react";
+import { Loader2, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { FormattedText } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
 import { getReviewFeed, type ReviewFeedItem } from "@/actions/contents/getReviewFeed";
-import { generateAiReview, type AiReviewItem } from "@/actions/ai";
 
 const PAGE_SIZE = 10;
 
@@ -98,57 +97,19 @@ function ReviewCard({ item }: { item: ReviewFeedItem }) {
 }
 // #endregion
 
-// #region AI 리뷰 카드
-function AiReviewCard({ item }: { item: AiReviewItem }) {
-  const timeAgo = formatRelativeTime(item.created_at);
-
-  return (
-    <div className="bg-bg-card border border-accent/30 rounded-xl">
-      <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
-        <div className="relative w-10 h-10 rounded-full flex items-center justify-center bg-accent/20">
-          <Bot size={20} className="text-accent" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="font-medium text-xs flex items-center gap-1">
-            <Sparkles size={10} className="text-accent" />
-            {item.model}
-          </div>
-          <div className="text-[10px] text-text-secondary">{timeAgo}</div>
-        </div>
-      </div>
-      <div className="p-2.5">
-        <div className="max-h-[200px] md:max-h-[300px] overflow-y-auto custom-scrollbar">
-          <div className="text-sm leading-relaxed text-text-secondary whitespace-pre-line">
-            <FormattedText text={item.review} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-// #endregion
-
 interface AllReviewsSectionProps {
   contentId: string;
   contentTitle: string;
   contentType: string;
-  hasApiKey: boolean;
   initialReviews: ReviewFeedItem[];
-  initialAiReviews: AiReviewItem[];
 }
 
 export default function AllReviewsSection({
   contentId,
-  contentTitle,
-  contentType,
-  hasApiKey,
   initialReviews,
-  initialAiReviews,
 }: AllReviewsSectionProps) {
   const [reviews, setReviews] = useState<ReviewFeedItem[]>(initialReviews);
-  const [aiReviews, setAiReviews] = useState<AiReviewItem[]>(initialAiReviews);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [isGeneratingAi, setIsGeneratingAi] = useState(false);
   const [hasMore, setHasMore] = useState(initialReviews.length === PAGE_SIZE);
 
   const loadMoreReviews = async () => {
@@ -164,41 +125,15 @@ export default function AllReviewsSection({
     }
   };
 
-  const handleGenerateAi = async () => {
-    setIsGeneratingAi(true);
-    try {
-      const result = await generateAiReview({ contentId, contentTitle, contentType });
-      if (result.success && result.data) {
-        const { id, review, model, created_at } = result.data;
-        setAiReviews((prev) => [{ id, review, model, created_at, isAi: true as const }, ...prev]);
-      }
-    } catch (err) {
-      console.error("AI 리뷰 생성 실패:", err);
-    } finally {
-      setIsGeneratingAi(false);
-    }
-  };
-
-  const isEmpty = reviews.length === 0 && aiReviews.length === 0;
+  const isEmpty = reviews.length === 0;
 
   return (
     <div className="space-y-3">
-      {/* AI 리뷰 생성 버튼 */}
-      {hasApiKey && (
-        <Button variant="secondary" size="sm" onClick={handleGenerateAi} disabled={isGeneratingAi} className="gap-1.5">
-          {isGeneratingAi ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-          AI 리뷰 만들기
-        </Button>
-      )}
-
-      {isEmpty && !hasApiKey && (
+      {isEmpty && (
         <div className="py-8 text-center text-text-secondary text-sm">
           아직 작성된 리뷰가 없습니다
         </div>
       )}
-
-      {/* AI 리뷰 */}
-      {aiReviews.map((item) => <AiReviewCard key={item.id} item={item} />)}
 
       {/* 일반 리뷰 */}
       {reviews.map((item) => <ReviewCard key={item.id} item={item} />)}

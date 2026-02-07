@@ -24,6 +24,7 @@ export default async function UserLayout({ children, params }: LayoutProps) {
 
   const { data: { user } } = await supabase.auth.getUser();
   const isOwner = user?.id === userId;
+  const isCeleb = profile.profile_type === "CELEB";
 
   const { titleSuffix, englishTitle } = PAGE_BANNER.archive;
   const pageTitle = `${profile.nickname || "User"}${titleSuffix}`;
@@ -39,9 +40,9 @@ export default async function UserLayout({ children, params }: LayoutProps) {
         </p>
       </PrismBanner>
       <PageContainer>
-        <ArchiveTabs userId={userId} isOwner={isOwner} />
+        <ArchiveTabs userId={userId} isOwner={isOwner} isCeleb={isCeleb} />
         <main className="max-w-3xl mx-auto animate-fade-in">
-          <ArchiveSectionHeader userId={userId} isOwner={isOwner} />
+          <ArchiveSectionHeader userId={userId} isOwner={isOwner} isCeleb={isCeleb} />
           {children}
         </main>
       </PageContainer>

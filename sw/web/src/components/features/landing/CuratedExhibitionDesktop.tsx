@@ -175,7 +175,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
   // #region 공통 서브 컴포넌트
   const TagButtons = () => (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1">
       {tags.map((tag, idx) => {
         const isActive = activeIndex === idx;
         return (
@@ -183,16 +183,16 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             key={tag.id}
             onClick={() => onTagChange(idx)}
             className={cn(
-              "relative px-4 py-2 text-sm font-medium transition-all duration-300",
+              "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300",
               isActive
                 ? "text-accent font-bold"
-                : "text-text-tertiary hover:text-text-primary"
+                : "text-text-tertiary hover:text-text-primary hover:bg-white/5"
             )}
           >
             {isActive && (
               <span className="absolute inset-0 bg-accent/5 rounded-t-lg border-b-2 border-accent" />
             )}
-            <span className="relative z-10 font-serif tracking-wide">{tag.name}</span>
+            <span className="relative z-10 font-sans tracking-wide">{tag.name}</span>
           </button>
         );
       })}
@@ -310,7 +310,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
                   {/* Short Description */}
                   {heroCeleb?.short_desc && (
-                    <p className="text-lg text-white/90 font-serif italic leading-relaxed">"{heroCeleb.short_desc}"</p>
+                    <p className="text-lg text-white/90 font-sans leading-relaxed">"{heroCeleb.short_desc}"</p>
                   )}
 
                   {/* Long Description */}
@@ -382,7 +382,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
               </div>
               
               <h2 className={cn(
-                "text-2xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/70 leading-tight mb-3 transition-opacity duration-300 delay-75",
+                "text-2xl font-sans font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/70 leading-tight mb-3 transition-opacity duration-300 delay-75",
                 isTransitioning ? "opacity-0" : "opacity-100"
               )}>
               {renderedTag.name}
@@ -433,7 +433,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
                     {/* Title */}
                     <span className={cn(
-                      "flex-1 text-[15px] font-serif tracking-wide transition-colors line-clamp-1",
+                      "flex-1 text-[15px] font-sans tracking-wide transition-colors line-clamp-1",
                       isActive ? "text-white font-bold" : "text-text-secondary group-hover:text-white"
                     )}>
                       {tag.name}
@@ -487,7 +487,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
     <div className="flex flex-col gap-6">
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-2 pb-2 border-b border-white/5">
+      <div className="flex flex-wrap gap-1 pb-2 border-b border-white/5">
         <TagButtons />
       </div>
 
@@ -542,7 +542,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
                   {/* Short Description */}
                   {heroCeleb?.short_desc && (
-                    <p className="text-lg md:text-xl text-white font-serif font-bold italic leading-relaxed text-balance opacity-90">
+                    <p className="text-lg md:text-xl text-white font-sans font-medium leading-relaxed text-balance opacity-90">
                       "{heroCeleb.short_desc}"
                     </p>
                   )}

@@ -3,7 +3,7 @@ import { getAchievementData } from "@/actions/achievements";
 import { notFound } from "next/navigation";
 import ProfileAchievementsSection from "../ProfileAchievementsSection";
 
-export const metadata = { title: "공적비" };
+export const metadata = { title: "업적" };
 
 interface PageProps {
   params: Promise<{ userId: string }>;

@@ -12,7 +12,6 @@ export interface UserProfile {
   birth_date: string | null
   nationality: string | null
   quotes: string | null
-  gemini_api_key: string | null
   selected_title: { name: string; grade: string } | null
 }
 
@@ -43,7 +42,6 @@ export async function getProfile(): Promise<UserProfile | null> {
     birth_date: profile.birth_date || null,
     nationality: profile.nationality || null,
     quotes: profile.quotes || null,
-    gemini_api_key: profile.gemini_api_key || null,
     selected_title: getTitleInfo(profile.selected_title),
   }
 }

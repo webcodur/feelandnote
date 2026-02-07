@@ -7,7 +7,7 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Loader2, Sparkles, Trash2 } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Loader2, Trash2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { FormattedText } from "@/components/ui";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
@@ -15,7 +15,6 @@ import MediaEmbed from "./MediaEmbed";
 import { addContent } from "@/actions/contents/addContent";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { removeContent } from "@/actions/contents/removeContent";
-import { generateSummary } from "@/actions/ai";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import type { ContentStatus, ContentType } from "@/types/database";
 import type { CategoryId, VideoSubtype } from "@/constants/categories";
@@ -47,7 +46,6 @@ const STATUS_LABELS: Record<ContentStatus, string> = {
 interface ContentInfoSectionProps {
   content: ContentDetailData["content"];
   userRecord: ContentDetailData["userRecord"];
-  hasApiKey: boolean;
   isLoggedIn: boolean;
   onRecordChange: (record: ContentDetailData["userRecord"]) => void;
 }
@@ -55,13 +53,10 @@ interface ContentInfoSectionProps {
 export default function ContentInfoSection({
   content,
   userRecord,
-  hasApiKey,
   isLoggedIn,
   onRecordChange,
 }: ContentInfoSectionProps) {
   const [isPending, startTransition] = useTransition();
-  const [summary, setSummary] = useState<string | null>(null);
-  const [isSummarizing, setIsSummarizing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const Icon = TYPE_ICONS[content.type];
@@ -138,18 +133,6 @@ export default function ContentInfoSection({
     });
   };
 
-  const handleSummarize = async () => {
-    if (!content.description) return;
-    setIsSummarizing(true);
-    try {
-      const result = await generateSummary({ contentTitle: content.title, description: content.description });
-      setSummary(result.text);
-    } catch (err) {
-      console.error("AI 요약 실패:", err);
-    } finally {
-      setIsSummarizing(false);
-    }
-  };
   // #endregion
 
   return (
@@ -201,20 +184,7 @@ export default function ContentInfoSection({
       {/* 소개 */}
       {content.description && (
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-medium text-text-secondary">소개</h3>
-            {hasApiKey && (
-              <Button variant="ghost" size="sm" onClick={handleSummarize} disabled={isSummarizing} className="text-xs gap-1">
-                {isSummarizing ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
-                AI 요약
-              </Button>
-            )}
-          </div>
-          {summary && (
-            <div className="p-3 bg-accent/10 border border-accent/20 rounded-lg">
-              <p className="text-sm text-text-primary leading-relaxed"><FormattedText text={summary} /></p>
-            </div>
-          )}
+          <h3 className="text-xs font-medium text-text-secondary">소개</h3>
           <p className="text-sm text-text-secondary leading-relaxed line-clamp-4">
             <FormattedText text={content.description} />
           </p>

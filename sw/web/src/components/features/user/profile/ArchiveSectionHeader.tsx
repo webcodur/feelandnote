@@ -7,25 +7,23 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ARCHIVE_TABS } from "@/constants/archive";
+import { buildArchiveTabs } from "@/constants/archive";
 import SectionHeader from "@/components/shared/SectionHeader";
 
 interface Props {
   userId: string;
   isOwner: boolean;
+  isCeleb: boolean;
 }
 
-export default function ArchiveSectionHeader({ userId, isOwner }: Props) {
+export default function ArchiveSectionHeader({ userId, isOwner, isCeleb }: Props) {
   const pathname = usePathname();
+  const tabs = buildArchiveTabs(userId, isOwner, isCeleb);
 
-  // 가장 긴 경로 매치 우선 (ArchiveTabs와 동일 로직)
-  const tabsWithHref = ARCHIVE_TABS.map((tab) => ({
-    ...tab,
-    fullHref: `/${userId}${tab.href}`,
-  }));
-  const sorted = [...tabsWithHref].sort((a, b) => b.fullHref.length - a.fullHref.length);
+  // 가장 긴 경로 매치 우선
+  const sorted = [...tabs].sort((a, b) => b.fullHref.length - a.fullHref.length);
   const activeTab = sorted.find((tab) => {
-    if (tab.value === "reception") return pathname === tab.fullHref;
+    if (tab.value === "intro") return pathname === tab.fullHref;
     return pathname.startsWith(tab.fullHref);
   });
 

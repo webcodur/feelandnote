@@ -25,7 +25,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
-  const { content, userRecord, isLoggedIn, hasApiKey, initialReviews, initialAiReviews } = data;
+  const { content, userRecord, isLoggedIn, initialReviews } = data;
 
   const handleRecordChange = (newRecord: ContentDetailData["userRecord"]) => {
     setData((prev) => ({ ...prev, userRecord: newRecord }));
@@ -49,7 +49,6 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           <ContentInfoSection
             content={content}
             userRecord={userRecord}
-            hasApiKey={hasApiKey}
             isLoggedIn={isLoggedIn}
             onRecordChange={handleRecordChange}
           />
@@ -94,9 +93,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             contentId={content.id}
             contentTitle={content.title}
             contentType={content.type}
-            hasApiKey={hasApiKey}
             initialReviews={initialReviews}
-            initialAiReviews={initialAiReviews}
           />
         </div>
       </div>
