@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ArrowLeft, Save, RotateCcw } from "lucide-react";
+import { ArrowLeft, Save, RotateCcw, Trophy, GripVertical } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getPlaylist } from "@/actions/playlists/getPlaylist";
 import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
@@ -22,12 +22,12 @@ interface TierEditViewProps {
 }
 
 const TIER_LABELS = ["S", "A", "B", "C", "D"] as const;
-const TIER_COLORS: Record<string, string> = {
-  S: "bg-red-500",
-  A: "bg-orange-500",
-  B: "bg-yellow-500",
-  C: "bg-green-500",
-  D: "bg-blue-500",
+const TIER_CONFIG: Record<string, { label: string; color: string; border: string; bg: string; icon: string }> = {
+  S: { label: "MYTHIC", color: "text-red-500", border: "border-red-500/50", bg: "bg-red-500/10", icon: "👑" },
+  A: { label: "LEGENDARY", color: "text-orange-500", border: "border-orange-500/50", bg: "bg-orange-500/10", icon: "💎" },
+  B: { label: "EPIC", color: "text-amber-400", border: "border-amber-400/50", bg: "bg-amber-400/10", icon: "⚔️" },
+  C: { label: "RARE", color: "text-green-500", border: "border-green-500/50", bg: "bg-green-500/10", icon: "🌿" },
+  D: { label: "COMMON", color: "text-blue-500", border: "border-blue-500/50", bg: "bg-blue-500/10", icon: "stone" },
 };
 
 type TierLabel = (typeof TIER_LABELS)[number];
@@ -151,7 +151,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <div className="flex items-center justify-center py-20 bg-[#0a0a0a] min-h-screen">
         <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -159,7 +159,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
 
   if (error || !playlist) {
     return (
-      <div className="text-center py-20">
+      <div className="text-center py-20 bg-[#0a0a0a] min-h-screen">
         <p className="text-red-400 mb-4">{error}</p>
         <Button unstyled onClick={() => router.back()} className="text-accent hover:underline">돌아가기</Button>
       </div>
@@ -167,82 +167,161 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary sticky top-0" style={{ zIndex: Z_INDEX.sticky }}>
-        <div className="flex items-center gap-3">
-          <Button unstyled onClick={() => router.back()} className="p-2 -ml-2 text-text-secondary hover:text-text-primary">
+    <div className="min-h-screen flex flex-col bg-[#050505]">
+      {/* Header */}
+      <header className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur sticky top-0 z-50">
+        <div className="flex items-center gap-4">
+          <Button unstyled onClick={() => router.back()} className="p-2 -ml-2 text-white/50 hover:text-white transition-colors">
             <ArrowLeft size={24} />
           </Button>
           <div>
-            <h1 className="font-bold">티어 설정</h1>
-            <p className="text-xs text-text-secondary">{playlist.name}</p>
+            <h1 className="font-serif font-black text-xl text-white tracking-wide">HALL OF JUDGMENT</h1>
+            <p className="text-xs text-accent/60 font-serif tracking-widest uppercase">{playlist.name}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button unstyled onClick={handleReset} className="p-2 text-text-secondary hover:text-text-primary" title="초기화">
+        <div className="flex items-center gap-3">
+          <Button unstyled onClick={handleReset} className="p-2 text-white/40 hover:text-white transition-colors" title="초기화">
             <RotateCcw size={20} />
           </Button>
-          <Button unstyled onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover disabled:bg-accent/50 text-white text-sm font-medium rounded-lg">
+          <Button 
+            unstyled 
+            onClick={handleSave} 
+            disabled={isSaving} 
+            className="flex items-center gap-2 px-6 py-2 bg-accent text-black font-bold text-sm tracking-wider hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <Save size={16} />
-            {isSaving ? "저장 중..." : "저장"}
+            {isSaving ? "SAVING..." : "SAVE DECISIONS"}
           </Button>
         </div>
       </header>
 
+      {/* Filter Tabs */}
       {availableTypes.length > 1 && (
-        <div className="px-4 py-3 border-b border-border">
-          <div className="flex gap-2 overflow-x-auto">
-            <Button unstyled onClick={() => setSelectedType("all")} className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${selectedType === "all" ? "bg-accent text-white" : "bg-bg-card text-text-secondary hover:bg-bg-secondary"}`}>전체</Button>
+        <div className="px-6 py-2 border-b border-white/5 bg-[#0a0a0a]">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            <Button 
+              unstyled 
+              onClick={() => setSelectedType("all")} 
+              className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors ${selectedType === "all" ? "text-accent border-b border-accent" : "text-white/40 hover:text-white"}`}
+            >
+              ALL
+            </Button>
             {availableTypes.map((type) => {
               const cat = CATEGORIES.find((c) => c.dbType === type);
               return (
-                <Button unstyled key={type} onClick={() => setSelectedType(type)} className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap ${selectedType === type ? "bg-accent text-white" : "bg-bg-card text-text-secondary hover:bg-bg-secondary"}`}>{cat?.label || type}</Button>
+                <Button 
+                  unstyled 
+                  key={type} 
+                  onClick={() => setSelectedType(type)} 
+                  className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${selectedType === type ? "text-accent border-b border-accent" : "text-white/40 hover:text-white"}`}
+                >
+                  {cat?.label || type}
+                </Button>
               );
             })}
           </div>
         </div>
       )}
 
-      <div className="flex-1 p-4 space-y-2 overflow-y-auto">
-        {TIER_LABELS.map((tier) => (
-          <div key={tier} className="flex min-h-[80px] bg-bg-card rounded-xl overflow-hidden" onDragOver={handleDragOver} onDrop={() => handleDropOnTier(tier)}>
-            <div className={`w-16 flex-shrink-0 flex items-center justify-center ${TIER_COLORS[tier]} text-white font-bold text-2xl`}>{tier}</div>
-            <div className="flex-1 flex flex-wrap gap-2 p-2 items-start content-start">
-              {getFilteredIds(tiers[tier]).map((contentId) => {
-                const item = getItemById(contentId);
-                if (!item) return null;
-                return (
-                  <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`relative w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
-                    {item.content.thumbnail_url ? (
-                      <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover" title={item.content.title} />
-                    ) : (
-                      <div className="w-full h-full bg-bg-secondary flex items-center justify-center text-xs text-text-secondary">{item.content.title.slice(0, 2)}</div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+      {/* Main Content */}
+      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+        
+        {/* Tier Lists */}
+        <div className="space-y-4">
+          {TIER_LABELS.map((tier) => (
+            <div 
+              key={tier} 
+              className={`relative flex min-h-[140px] rounded-lg border border-white/5 overflow-hidden transition-all duration-300 ${draggedId ? "bg-white/[0.02]" : "bg-[#0a0a0a]"}`}
+              onDragOver={handleDragOver} 
+              onDrop={() => handleDropOnTier(tier)}
+            >
+              {/* Tier Label (Left Pillar) */}
+              <div className={`w-24 md:w-32 flex-shrink-0 flex flex-col items-center justify-center gap-2 border-r border-white/5 ${TIER_CONFIG[tier].bg} relative overflow-hidden group`}>
+                <span className={`text-4xl md:text-5xl font-black font-serif ${TIER_CONFIG[tier].color} drop-shadow-lg z-10`}>{tier}</span>
+                <span className={`text-[10px] font-bold tracking-[0.2em] ${TIER_CONFIG[tier].color} opacity-60 z-10`}>{TIER_CONFIG[tier].label}</span>
+                
+                {/* Background Glow */}
+                <div className={`absolute inset-0 opacity-20 ${tier === 'S' ? 'animate-pulse' : ''} bg-gradient-to-br from-transparent via-${TIER_CONFIG[tier].color.split('-')[1]}-500/20 to-transparent`} />
+              </div>
 
-        <div className="min-h-[100px] bg-bg-secondary rounded-xl p-4" onDragOver={handleDragOver} onDrop={handleDropOnUnranked}>
-          <h3 className="text-sm font-medium text-text-secondary mb-3">미분류 ({getFilteredIds(unranked).length})</h3>
-          <div className="flex flex-wrap gap-2">
-            {getFilteredIds(unranked).map((contentId) => {
-              const item = getItemById(contentId);
-              if (!item) return null;
-              return (
-                <div key={contentId} draggable onDragStart={() => handleDragStart(contentId)} className={`relative w-14 h-14 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${draggedId === contentId ? "opacity-50" : ""}`}>
-                  {item.content.thumbnail_url ? (
-                    <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover" title={item.content.title} />
-                  ) : (
-                    <div className="w-full h-full bg-bg-card flex items-center justify-center text-xs text-text-secondary">{item.content.title.slice(0, 2)}</div>
+              {/* Items Area */}
+              <div className="flex-1 p-4">
+                 <div className="flex flex-wrap gap-3">
+                  {getFilteredIds(tiers[tier]).length === 0 && (
+                    <div className="w-full h-full flex items-center justify-center opacity-10 pointer-events-none min-h-[100px]">
+                      <span className="text-4xl grayscale opacity-20">{TIER_CONFIG[tier].icon}</span>
+                    </div>
                   )}
-                </div>
-              );
-            })}
-          </div>
+
+                  {getFilteredIds(tiers[tier]).map((contentId) => {
+                    const item = getItemById(contentId);
+                    if (!item) return null;
+                    return (
+                      <div 
+                        key={contentId} 
+                        draggable 
+                        onDragStart={() => handleDragStart(contentId)} 
+                        className={`relative group w-20 aspect-[2/3] md:w-24 bg-[#151515] rounded border border-white/10 hover:border-accent/50 cursor-grab active:cursor-grabbing shadow-lg transition-all hover:-translate-y-1 ${draggedId === contentId ? "opacity-50" : ""}`}
+                      >
+                        {item.content.thumbnail_url ? (
+                          <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
+                           <p className="text-[10px] text-white line-clamp-2 leading-tight">{item.content.title}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                 </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Unranked Vault */}
+        <div 
+           className="mt-8 border border-white/10 rounded-lg bg-[#080808] p-6 relative overflow-hidden" 
+           onDragOver={handleDragOver} 
+           onDrop={handleDropOnUnranked}
+        >
+           {/* Vault Pattern */}
+           <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+           
+           <div className="relative z-10">
+              <h3 className="text-sm font-bold text-white/40 tracking-widest uppercase mb-4 flex items-center gap-2">
+                 <div className="w-2 h-2 rounded-full bg-white/20" />
+                 THE VAULT ({getFilteredIds(unranked).length})
+              </h3>
+              
+              <div className="flex flex-wrap gap-2">
+                {getFilteredIds(unranked).length === 0 && (
+                   <div className="w-full py-12 text-center text-white/20 text-sm font-serif italic">
+                      모든 기록이 심판대에 올랐습니다.
+                   </div>
+                )}
+                {getFilteredIds(unranked).map((contentId) => {
+                  const item = getItemById(contentId);
+                  if (!item) return null;
+                  return (
+                    <div 
+                      key={contentId} 
+                      draggable 
+                      onDragStart={() => handleDragStart(contentId)} 
+                      className={`relative w-16 aspect-square rounded overflow-hidden cursor-grab active:cursor-grabbing border border-white/5 hover:border-white/20 transition-all ${draggedId === contentId ? "opacity-50 scale-90" : ""}`}
+                    >
+                      {item.content.thumbnail_url ? (
+                        <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover opacity-60 hover:opacity-100 transition-opacity" />
+                      ) : (
+                        <div className="w-full h-full bg-[#111] flex items-center justify-center text-[10px] text-white/20 p-1 text-center">{item.content.title.slice(0, 4)}</div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+           </div>
         </div>
       </div>
     </div>

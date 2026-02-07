@@ -62,7 +62,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Leave your immortal words upon this stone..."
-          className="w-full bg-black/20 p-4 border border-accent-dim/10 text-sm sm:text-base font-serif leading-relaxed resize-none focus:outline-none focus:border-accent/40 placeholder:text-text-tertiary placeholder:italic transition-colors"
+          className="w-full bg-transparent border-none resize-none focus:ring-0 text-text-primary placeholder:text-text-tertiary/50 min-h-[100px] font-serif leading-relaxed"
           rows={4}
           maxLength={500}
         />
@@ -79,7 +79,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
             />
             {isPrivate && <Lock size={10} className="text-bg-main" strokeWidth={3} />}
           </div>
-          <span className="uppercase tracking-[0.15em] font-serif font-black opacity-60 group-hover/label:opacity-100 italic">Secret Vow</span>
+          <span className="uppercase tracking-[0.15em] font-serif font-black opacity-60 group-hover/label:opacity-100">Secret Vow</span>
         </label>
 
         <div className="flex items-center gap-4">

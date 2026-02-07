@@ -78,7 +78,11 @@ export default function UserProfileHeader({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4 sm:p-6 md:p-8 mb-6 md:mb-8 border border-accent-dim/20 bg-bg-card/50 backdrop-blur-sm rounded-sm">
+    <div className="w-full max-w-5xl mx-auto p-6 sm:p-8 md:p-10 mb-8 md:mb-12 border border-accent-dim/20 bg-gradient-to-br from-bg-card/80 via-bg-card/60 to-bg-card/40 backdrop-blur-md rounded-xl shadow-2xl relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
+      
       {/* 모바일: 세로 배치, 데스크톱: 가로 배치 */}
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-4">
         {/* 프로필 이미지 + 기본 정보 (모바일에서 가로 배치) */}
@@ -92,7 +96,7 @@ export default function UserProfileHeader({
               disabled={!hasPortrait}
             >
               {profileImageUrl ? (
-                <div className={`relative rounded-full overflow-hidden border-2 border-accent-dim/30 group-hover:border-accent transition-colors ${isCeleb ? 'w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] md:w-[120px] md:h-[120px]' : 'w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20'}`}>
+                <div className={`relative rounded-full overflow-hidden border-2 border-accent/30 group-hover:border-accent transition-all duration-300 shadow-lg ${isCeleb ? 'w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] md:w-[120px] md:h-[120px]' : 'w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20'}`}>
                   <Image
                     src={profileImageUrl}
                     alt={profile.nickname}
@@ -108,7 +112,7 @@ export default function UserProfileHeader({
                 </div>
               ) : (
                 <div
-                  className={`rounded-full flex items-center justify-center font-bold text-bg-main border-2 border-accent-dim/30 ${isCeleb ? 'w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] md:w-[120px] md:h-[120px] text-xl sm:text-2xl md:text-4xl' : 'w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 text-lg sm:text-xl md:text-2xl'}`}
+                  className={`rounded-full flex items-center justify-center font-bold text-bg-main border-2 border-accent/30 shadow-lg ${isCeleb ? 'w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] md:w-[120px] md:h-[120px] text-xl sm:text-2xl md:text-4xl' : 'w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 text-lg sm:text-xl md:text-2xl'}`}
                   style={{ background: "linear-gradient(135deg, #d4af37, #f9d76e)" }}
                 >
                   {profile.nickname.charAt(0).toUpperCase()}

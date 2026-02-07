@@ -119,7 +119,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
               <div className="p-3 bg-accent/5 rounded-lg border border-accent/10">
                 <div className="flex items-start gap-2">
                   <Quote size={14} className="text-accent flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-text-secondary italic">"{profile.quotes}"</p>
+                  <p className="text-sm text-text-secondary font-serif">"{profile.quotes}"</p>
                 </div>
               </div>
             )}

@@ -75,7 +75,10 @@ export async function getSavedPlaylists(): Promise<SavedPlaylistWithDetails[]> {
       playlist:playlists(
         *,
         playlist_items(count),
-        owner:profiles!playlists_user_id_fkey(id, nickname, avatar_url)
+        owner:profiles!playlists_user_id_fkey(id, nickname, avatar_url),
+        items:playlist_items(
+          content:contents(thumbnail_url)
+        )
       )
     `)
     .eq('user_id', user.id)
@@ -86,7 +89,8 @@ export async function getSavedPlaylists(): Promise<SavedPlaylistWithDetails[]> {
     throw new Error('저장된 플레이리스트를 불러오는데 실패했습니다')
   }
 
-  const results = (data || []) as unknown as SavedPlaylistQueryResult[]
+  // Supabase 응답 타입이 복잡하므로 unknown으로 단언 후 처리
+  const results = (data || []) as unknown as any[]
 
   return results
     .filter((item) => item.playlist)
@@ -96,7 +100,8 @@ export async function getSavedPlaylists(): Promise<SavedPlaylistWithDetails[]> {
       playlist: {
         ...item.playlist,
         item_count: item.playlist.playlist_items?.[0]?.count || 0,
-        owner: item.playlist.owner
+        owner: item.playlist.owner,
+        items: item.playlist.items?.slice(0, 1) || []
       }
     }))
 }

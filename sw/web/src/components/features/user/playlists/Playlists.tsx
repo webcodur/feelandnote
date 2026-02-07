@@ -8,12 +8,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ListMusic, Plus, ChevronRight, Loader2, Bookmark, Trophy } from "lucide-react";
+import { ListMusic, Plus, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { DecorativeLabel } from "@/components/ui";
 import { getPlaylists, getSavedPlaylists, type PlaylistSummary } from "@/actions/playlists";
 import PlaylistEditor from "./PlaylistEditor";
-import ClassicalBox from "@/components/ui/ClassicalBox";
+import CollectionCard from "./CollectionCard";
 import type { SavedPlaylistWithDetails } from "@/types/database";
 
 interface PlaylistsProps {
@@ -69,68 +69,59 @@ export default function Playlists({ userId, isOwner }: PlaylistsProps) {
 
   const isEmpty = playlists.length === 0 && savedPlaylists.length === 0;
 
-  // 타인 컬렉션 페이지
-  if (!isOwner) {
+  if (isLoading) {
     return (
-      <>
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 size={28} className="animate-spin text-accent" />
-          </div>
-        ) : playlists.length === 0 ? (
-          <EmptyState variant="other" />
-        ) : (
-          <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-            <div className="flex justify-center mb-6">
-              <DecorativeLabel label="컬렉션" />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {playlists.map((playlist) => (
-                <PlaylistCard
-                  key={playlist.id}
-                  playlist={playlist}
-                  onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
-                />
-              ))}
-            </div>
-          </ClassicalBox>
-        )}
-      </>
+      <div className="flex items-center justify-center py-24">
+        <Loader2 size={32} className="animate-spin text-accent" />
+      </div>
     );
   }
 
-  // 본인 컬렉션 페이지 (통합 목록)
   return (
-    <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/50 shadow-2xl border-accent-dim/20">
-      <div className="flex justify-center mb-6">
-        <DecorativeLabel label="컬렉션" />
+    <div className="w-full max-w-[1600px] mx-auto pb-20">
+      {/* 헤더 섹션 */}
+      <div className="flex flex-col items-center justify-center py-12 mb-8 relative">
+        <DecorativeLabel label="GALLERY OF WISDOM" />
+        <span className="mt-2 text-xs font-serif text-accent/60 tracking-widest uppercase">
+          {isOwner ? "나의 소장품" : "소장품"}
+        </span>
+        
+        {isOwner && (
+           <Button
+             onClick={() => setIsCreateMode(true)}
+             className="mt-8 px-6 py-2 bg-accent/10 border border-accent/30 text-accent hover:bg-accent hover:text-black transition-all font-serif font-bold text-sm tracking-widest flex items-center gap-2"
+           >
+             <Plus size={16} />
+             NEW COLLECTION
+           </Button>
+        )}
       </div>
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 size={28} className="animate-spin text-accent" />
-        </div>
-      ) : isEmpty ? (
-        <EmptyState variant="mine" onCreateClick={() => setIsCreateMode(true)} />
+      {isEmpty ? (
+        <EmptyState variant={isOwner ? "mine" : "other"} onCreateClick={() => setIsCreateMode(true)} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-0">
+          {/* 내 컬렉션 */}
           {playlists.map((playlist) => (
-            <PlaylistCard
+            <CollectionCard
               key={playlist.id}
               playlist={playlist}
               onClick={() => handleSelectPlaylist(playlist.user_id, playlist.id)}
             />
           ))}
+          
+          {/* 저장된 남의 컬렉션 (isOwner일 때만 표시) */}
           {savedPlaylists.map((item) => (
-            <SavedPlaylistCard
+            <CollectionCard
               key={item.id}
-              item={item}
+              playlist={item.playlist}
               onClick={() => handleSelectPlaylist(item.playlist.user_id, item.playlist.id)}
+              className="opacity-90 grayscale-[30%] hover:grayscale-0" 
             />
           ))}
         </div>
       )}
-    </ClassicalBox>
+    </div>
   );
 }
 
@@ -140,13 +131,13 @@ type EmptyVariant = "mine" | "other";
 const EMPTY_CONTENT: Record<EmptyVariant, { icon: typeof ListMusic; title: string; description: string }> = {
   mine: {
     icon: ListMusic,
-    title: "아직 컬렉션이 없습니다",
-    description: "나만의 컬렉션을 만들어 좋아하는 콘텐츠를 모아보세요.",
+    title: "소장품이 없습니다",
+    description: "새로운 컬렉션을 만들어 지혜를 기록해보세요.",
   },
   other: {
     icon: ListMusic,
-    title: "공개된 컬렉션이 없습니다",
-    description: "이 사용자가 공개한 컬렉션이 아직 없습니다.",
+    title: "공개된 소장품이 없습니다",
+    description: "아직 전시된 컬렉션이 없습니다.",
   },
 };
 
@@ -154,120 +145,33 @@ function EmptyState({ variant, onCreateClick }: { variant: EmptyVariant; onCreat
   const { icon: Icon, title, description } = EMPTY_CONTENT[variant];
 
   return (
-    <div className="relative overflow-hidden bg-bg-card border-2 border-dashed border-accent-dim/20 p-12 sm:p-20 text-center">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+    <div className="relative overflow-hidden border border-white/5 bg-[#111] p-16 text-center max-w-lg mx-auto rounded-none">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-accent/5 rounded-full blur-[60px] pointer-events-none" />
 
-      <div className="relative z-10">
-        <div className="text-accent/30 mb-6 flex justify-center">
-          <Icon size={64} strokeWidth={1} />
+      <div className="relative z-10 flex flex-col items-center">
+        <div className="w-16 h-16 border border-white/10 flex items-center justify-center mb-6 rotate-45">
+           <div className="-rotate-45">
+              <Icon size={32} strokeWidth={1} className="text-white/40" />
+           </div>
         </div>
-        <h3 className="text-xl sm:text-2xl font-serif font-black text-text-primary mb-3 tracking-widest">
+        
+        <h3 className="text-xl font-serif font-black text-text-primary mb-3 tracking-wider">
           {title}
         </h3>
-        <p className="text-xs sm:text-sm text-text-tertiary mb-8 font-serif max-w-sm mx-auto leading-relaxed">
+        <p className="text-sm text-text-tertiary mb-8 font-serif leading-relaxed opacity-60">
           {description}
         </p>
+        
         {variant === "mine" && onCreateClick && (
           <Button
             onClick={onCreateClick}
-            className="group relative px-8 py-3 bg-accent text-bg-main font-serif font-black tracking-widest text-xs hover:bg-accent-hover transition-all duration-500 overflow-hidden"
+            className="px-8 py-3 bg-[#1a1a1a] border border-accent/30 text-accent font-serif font-bold text-xs tracking-widest hover:bg-accent hover:text-black transition-all"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-
-            <div className="relative z-10 flex items-center gap-3">
-              <Plus size={16} strokeWidth={3} />
-              새 컬렉션 만들기
-            </div>
+            CREATE FIRST COLLECTION
           </Button>
         )}
       </div>
     </div>
-  );
-}
-
-function PlaylistCard({ playlist, onClick }: { playlist: PlaylistSummary; onClick: () => void }) {
-  const TIER_KEYS = ["S", "A", "B", "C", "D"] as const;
-  const rankedCount = playlist.has_tiers
-    ? TIER_KEYS.reduce((sum, key) => sum + (playlist.tiers?.[key]?.length || 0), 0)
-    : 0;
-
-  return (
-    <button
-      onClick={onClick}
-      className="group relative bg-bg-card border-2 border-accent-dim/10 p-5 text-left w-full transition-all duration-500 hover:border-accent hover:shadow-glow-sm active:translate-y-1 overflow-hidden"
-    >
-      {/* Stone texture overlay */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
-
-      <div className="flex items-center gap-5 relative z-10">
-        <div className="w-14 h-14 bg-black border border-accent/20 flex items-center justify-center flex-shrink-0 relative group-hover:rotate-6 transition-transform duration-500">
-          <div className="absolute inset-1 border border-white/5" />
-          <ListMusic size={28} className="text-accent/60 group-hover:text-accent group-hover:drop-shadow-glow-sm transition-all" />
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <p className="text-base font-serif font-black text-text-primary tracking-tight truncate group-hover:text-accent transition-colors">
-            {playlist.name}
-          </p>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-[10px] font-serif font-bold text-accent/40 tracking-widest">
-              {playlist.item_count}개 항목
-            </span>
-            {playlist.has_tiers && (
-              <span className="flex items-center gap-1 text-[10px] font-serif font-bold text-amber-400/80 tracking-widest">
-                <Trophy size={10} /> {rankedCount}/{playlist.item_count}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-          <ChevronRight size={20} strokeWidth={3} />
-        </div>
-      </div>
-
-      {/* Corner Brackets for active card focus */}
-      <div className="absolute top-0 left-0 w-2 h-2 border-t border-s border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-e border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-    </button>
-  );
-}
-
-function SavedPlaylistCard({ item, onClick }: { item: SavedPlaylistWithDetails; onClick: () => void }) {
-  const { playlist } = item;
-
-  return (
-    <button
-      onClick={onClick}
-      className="group relative bg-bg-card border-2 border-accent-dim/10 p-5 text-left w-full transition-all duration-500 hover:border-accent hover:shadow-glow-sm active:translate-y-1 overflow-hidden"
-    >
-      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
-
-      <div className="flex items-center gap-5 relative z-10">
-        <div className="w-14 h-14 bg-black border border-accent/20 flex items-center justify-center flex-shrink-0 relative group-hover:rotate-6 transition-transform duration-500">
-          <div className="absolute inset-1 border border-white/5" />
-          <Bookmark size={28} className="text-accent/60 group-hover:text-accent group-hover:drop-shadow-glow-sm transition-all" />
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <p className="text-base font-serif font-black text-text-primary tracking-tight truncate group-hover:text-accent transition-colors">
-            {playlist.name}
-          </p>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-[10px] font-serif font-bold text-accent/40 tracking-widest truncate">
-              {playlist.owner?.nickname || "익명"} · {playlist.item_count}개 항목
-            </span>
-          </div>
-        </div>
-
-        <div className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-          <ChevronRight size={20} strokeWidth={3} />
-        </div>
-      </div>
-
-       <div className="absolute top-0 left-0 w-2 h-2 border-t border-s border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-       <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-e border-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-    </button>
   );
 }
 // endregion

@@ -69,7 +69,7 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
   if (currentItems.length === 0 && !isLoading) {
     return (
       <div className="p-12 text-center border border-dashed border-accent-dim/30 rounded-sm">
-        <p className="text-text-secondary font-serif italic">The archives are currently empty.</p>
+        <p className="text-text-secondary font-serif">The archives are currently empty.</p>
       </div>
     );
   }

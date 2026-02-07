@@ -98,8 +98,8 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
               <textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                className="w-full bg-transparent border-none text-sm font-serif leading-relaxed resize-none focus:outline-none placeholder:text-text-tertiary"
-                rows={4}
+                className="w-full bg-black/30 border border-accent/20 rounded-md p-3 text-text-primary focus:border-accent/50 focus:ring-0 resize-none font-serif leading-relaxed mb-3"
+                rows={3}
                 maxLength={500}
               />
               <div className="flex items-center justify-between pt-3 border-t border-white/5">
@@ -132,10 +132,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
             <div className="relative">
               {/* Decorative quote marks */}
               <div className="absolute -top-1 -left-1 text-xl text-accent/10 font-serif leading-none transition-opacity group-hover:opacity-40 select-none">"</div>
-              <p className={cn(
-                "text-[13px] sm:text-[15px] leading-relaxed font-serif break-words",
-                isHiddenPrivate ? "text-text-tertiary italic opacity-40" : "text-text-secondary"
-              )}>
+              <p className={`whitespace-pre-wrap leading-relaxed font-serif text-[15px] ${isHiddenPrivate ? "text-text-tertiary opacity-50" : "text-text-primary"}`}>
                 {isHiddenPrivate ? "The words are sealed in stone..." : entry.content}
               </p>
             </div>

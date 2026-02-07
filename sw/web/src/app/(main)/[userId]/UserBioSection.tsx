@@ -130,7 +130,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       ) : profile.bio ? (
         <p className="text-sm text-text-primary leading-relaxed mb-3">{profile.bio}</p>
       ) : isOwner ? (
-        <p className="text-sm text-text-secondary/50 italic mb-3">자기소개를 작성해보세요...</p>
+        <p className="text-sm text-text-secondary/50 mb-3">자기소개를 작성해보세요...</p>
       ) : null}
 
       {/* 좌우명 */}
@@ -141,7 +141,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       ) : profile.quotes ? (
         <div className="flex items-start gap-3 pt-3 border-t border-border/30">
           <Quote size={16} className="text-accent/40 shrink-0 mt-0.5" />
-          <p className="text-sm text-text-secondary italic leading-relaxed">&ldquo;{profile.quotes}&rdquo;</p>
+          <p className="text-sm text-text-secondary leading-relaxed font-serif">&ldquo;{profile.quotes}&rdquo;</p>
         </div>
       ) : null}
 

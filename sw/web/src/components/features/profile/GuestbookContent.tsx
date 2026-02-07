@@ -6,13 +6,15 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Button, InnerBox } from "@/components/ui";
+import { InnerBox, Pagination } from "@/components/ui";
 import { MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
 import EntryItem from "./guestbook/EntryItem";
 import WriteForm from "./guestbook/WriteForm";
 import type { GuestbookContentProps } from "./guestbook/types";
+
+const PAGE_SIZE = 10;
 
 export default function GuestbookContent({
   profileId,
@@ -21,15 +23,33 @@ export default function GuestbookContent({
   initialEntries,
   initialTotal,
 }: GuestbookContentProps) {
-  const [entries, setEntries] = useState(initialEntries);
+  const [entries, setEntries] = useState(initialEntries.slice(0, PAGE_SIZE));
   const [total, setTotal] = useState(initialTotal);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const hasMore = entries.length < total;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+  const fetchPage = async (page: number) => {
+    setIsLoading(true);
+    try {
+      const offset = (page - 1) * PAGE_SIZE;
+      const result = await getGuestbookEntries({ profileId, limit: PAGE_SIZE, offset });
+      setEntries(result.entries);
+      setTotal(result.total);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error("Fetch page error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleAddEntry = useCallback((entry: GuestbookEntryWithAuthor) => {
-    setEntries((prev) => [entry, ...prev]);
+    // 새 글 작성 시 1페이지로 이동하여 최신 목록 표시
+    setEntries((prev) => [entry, ...prev].slice(0, PAGE_SIZE));
     setTotal((prev) => prev + 1);
+    setCurrentPage(1);
   }, []);
 
   const handleDeleteEntry = useCallback(async (id: string) => {
@@ -60,20 +80,6 @@ export default function GuestbookContent({
     []
   );
 
-  const handleLoadMore = async () => {
-    if (isLoadingMore || !hasMore) return;
-
-    setIsLoadingMore(true);
-    try {
-      const result = await getGuestbookEntries({ profileId, offset: entries.length });
-      setEntries((prev) => [...prev, ...result.entries]);
-    } catch (error) {
-      console.error("Load more error:", error);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  };
-
   return (
     <>
       {/* 작성 폼 (로그인 사용자만) */}
@@ -81,7 +87,7 @@ export default function GuestbookContent({
 
       {/* 방명록 목록 */}
       {entries.length > 0 ? (
-        <div className="space-y-4">
+        <div className={`space-y-4${isLoading ? " opacity-50 pointer-events-none" : ""}`}>
           {entries.map((entry) => (
             <EntryItem
               key={entry.id}
@@ -93,22 +99,19 @@ export default function GuestbookContent({
             />
           ))}
 
-          {/* 더보기 */}
-          {hasMore && (
-            <Button
-              unstyled
-              onClick={handleLoadMore}
-              disabled={isLoadingMore}
-              className="w-full py-4 text-sm text-text-secondary hover:text-accent disabled:opacity-50 border-t border-accent-dim/20 transition-colors uppercase tracking-widest"
-            >
-              {isLoadingMore ? "Loading..." : "Load More"}
-            </Button>
-          )}
+          {/* 페이지네이션 */}
+          <div className="pt-4">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={fetchPage}
+            />
+          </div>
         </div>
       ) : (
         <InnerBox className="text-center py-16">
           <MessageSquare size={48} strokeWidth={1} className="mx-auto mb-4 text-accent-dim opacity-50" />
-          <p className="text-lg text-text-secondary mb-2">The Guestbook is Empty</p>
+          <p className="text-lg text-text-secondary mb-2 font-serif">The Guestbook is Empty</p>
           {currentUser && <p className="text-sm text-text-tertiary">Be the first to sign this guestbook.</p>}
         </InnerBox>
       )}

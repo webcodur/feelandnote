@@ -5,19 +5,19 @@
 */ // ------------------------------
 "use client";
 
-import Image from "next/image";
-import { GripVertical, ListMusic } from "lucide-react";
+import { GripVertical, ListMusic, Trash2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
 import type { PlaylistWithItems } from "@/types/database";
+import ContentCard from "@/components/ui/cards/ContentCard/ContentCard";
 
 const TIER_KEYS = ["S", "A", "B", "C", "D"] as const;
 const TIER_BADGE_STYLES: Record<string, string> = {
-  S: "bg-red-500/20 text-red-400 border-red-500/30",
-  A: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-  B: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  C: "bg-green-500/20 text-green-400 border-green-500/30",
-  D: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  S: "bg-red-500 text-white border-red-500",
+  A: "bg-orange-500 text-white border-orange-500",
+  B: "bg-yellow-500 text-black border-yellow-500",
+  C: "bg-green-500 text-black border-green-500",
+  D: "bg-blue-500 text-white border-blue-500",
 };
 
 function buildTierMap(tiers: Record<string, string[]> | undefined): Map<string, string> {
@@ -58,54 +58,68 @@ export default function PlaylistItemList({
 
   if (playlist.items.length === 0) {
     return (
-      <div className="text-center py-20 text-text-secondary">
+      <div className="text-center py-20 text-text-secondary border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
         <ListMusic size={48} className="mx-auto mb-4 opacity-50" />
-        <p>재생목록이 비어있습니다</p>
-        <Button unstyled onClick={() => setIsEditMode(true)} className="mt-4 text-accent hover:underline">
-          콘텐츠 추가하기
-        </Button>
+        <p className="font-serif text-lg text-text-primary mb-2">소장된 기록이 없습니다</p>
+        <p className="text-sm opacity-60 mb-6">지혜의 조각들을 모아 컬렉션을 완성해보세요.</p>
+        {isOwner && (
+          <Button onClick={() => setIsEditMode(true)} className="px-6 py-2 bg-accent text-black font-bold hover:bg-accent-hover rounded-full">
+            콘텐츠 추가하기
+          </Button>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="space-y-2">
-      {playlist.items.map((item, index) => (
-        <div
-          key={item.id}
-          draggable={isOwner}
-          onDragStart={isOwner ? () => onDragStart(index) : undefined}
-          onDragOver={isOwner ? (e) => onDragOver(e, index) : undefined}
-          onDragEnd={isOwner ? onDragEnd : undefined}
-          onClick={() => onItemClick(item.content_id, item.content.type)}
-          className={`flex items-center gap-3 p-3 bg-bg-card rounded-xl cursor-pointer hover:bg-bg-secondary ${isDragging && draggedIndex === index ? "opacity-50" : ""}`}
-        >
-          {isOwner && (
-            <div className="text-text-secondary hover:text-text-primary cursor-grab active:cursor-grabbing" onClick={(e) => e.stopPropagation()}>
-              <GripVertical size={18} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 pb-20">
+      {playlist.items.map((item, index) => {
+         const tier = tierMap?.get(item.content_id);
+
+         return (
+            <div
+               key={item.id}
+               draggable={isOwner}
+               onDragStart={isOwner ? () => onDragStart(index) : undefined}
+               onDragOver={isOwner ? (e) => onDragOver(e, index) : undefined}
+               onDragEnd={isOwner ? onDragEnd : undefined}
+               className={`relative group ${isDragging && draggedIndex === index ? "opacity-30 scale-95" : "opacity-100"}`}
+            >
+               <ContentCard
+                  contentId={item.content.id}
+                  thumbnail={item.content.thumbnail_url}
+                  title={item.content.title}
+                  creator={item.content.creator}
+                  contentType={item.content.type}
+                  onClick={() => onItemClick(item.content_id, item.content.type)}
+                  className="h-full bg-[#151515] border-white/5 hover:border-accent/40"
+                  aspectRatio="2/3"
+                  topRightNode={
+                     isOwner ? (
+                        <div 
+                           className="p-1.5 bg-black/60 backdrop-blur-md rounded-md text-white/70 hover:text-white cursor-grab active:cursor-grabbing border border-white/10"
+                           onMouseDown={(e) => e.stopPropagation()} // Prevent card click
+                        >
+                           <GripVertical size={16} />
+                        </div>
+                     ) : tier ? (
+                        <div className={`px-2 py-0.5 rounded text-[10px] font-bold border ${TIER_BADGE_STYLES[tier]}`}>
+                           {tier}
+                        </div>
+                     ) : undefined
+                  }
+               />
+               
+               {/* Order Badge (Optional, maybe too cluttered) */}
+               {isOwner && (
+                  <div className="absolute top-2 left-2 w-6 h-6 flex items-center justify-center bg-black/60 backdrop-blur-md rounded-full text-[10px] font-bold text-white/50 border border-white/10 pointer-events-none">
+                     {index + 1}
+                  </div>
+               )}
             </div>
-          )}
-          <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-bg-secondary">
-            {item.content.thumbnail_url ? (
-              <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-text-secondary text-xs">No</div>
-            )}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm truncate">{item.content.title}</p>
-            <p className="text-xs text-text-secondary truncate">{item.content.creator?.replace(/\^/g, ', ') || "\u00A0"}</p>
-          </div>
-          {tierMap?.get(item.content_id) && (
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${TIER_BADGE_STYLES[tierMap.get(item.content_id)!]}`}>
-              {tierMap.get(item.content_id)}
-            </span>
-          )}
-          <div className="text-xs text-text-secondary px-2 py-1 bg-bg-secondary rounded">
-            {CATEGORIES.find((c) => c.dbType === item.content.type)?.label}
-          </div>
-        </div>
-      ))}
+         );
+      })}
     </div>
   );
 }
+

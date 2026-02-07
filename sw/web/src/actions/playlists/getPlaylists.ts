@@ -5,6 +5,7 @@ import type { Playlist } from '@/types/database'
 
 export interface PlaylistSummary extends Playlist {
   item_count: number
+  items?: { content: { thumbnail_url: string | null } }[]
 }
 
 export async function getPlaylists(targetUserId?: string): Promise<PlaylistSummary[]> {
@@ -20,12 +21,15 @@ export async function getPlaylists(targetUserId?: string): Promise<PlaylistSumma
 
   const isOwner = user?.id === userId
 
-  // 재생목록 + 아이템 개수 조회
+  // 재생목록 + 아이템 개수 + 첫 번째 아이템(썸네일용) 조회
   let query = supabase
     .from('playlists')
     .select(`
       *,
-      playlist_items(count)
+      playlist_items(count),
+      items:playlist_items(
+        content:contents(thumbnail_url)
+      )
     `)
     .eq('user_id', userId)
     .order('updated_at', { ascending: false })
@@ -42,8 +46,10 @@ export async function getPlaylists(targetUserId?: string): Promise<PlaylistSumma
     throw new Error('재생목록을 불러오는데 실패했습니다')
   }
 
-  return (data || []).map((playlist) => ({
+  // items는 배열로 오므로, 필요한 형태로 가공 (여기서는 첫 번째 아이템의 썸네일만 필요하지만 구조상 배열 유지)
+  return (data || []).map((playlist: any) => ({
     ...playlist,
-    item_count: playlist.playlist_items?.[0]?.count || 0
+    item_count: playlist.playlist_items?.[0]?.count || 0,
+    items: playlist.items?.slice(0, 1) || [] // 썸네일용으로 첫 번째 아이템만 남김 (쿼리에서 limit을 못 쓰는 경우 대비)
   }))
 }
