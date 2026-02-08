@@ -1,6 +1,6 @@
 /*
   콘텐츠 저장 상태 관리 훅
-  - 초기 저장 여부 확인 (checkContentSaved)
+  - 초기 저장 여부 확인 (배치 조회 활용)
   - 관심 등록 (addContent)
   - 상태 변경 (updateStatus)
   - 관심 해제 (removeContent)
@@ -13,7 +13,7 @@ import { useState, useEffect, useTransition, useCallback } from "react";
 import { addContent } from "@/actions/contents/addContent";
 import { updateStatus } from "@/actions/contents/updateStatus";
 import { removeContent } from "@/actions/contents/removeContent";
-import { checkContentSaved } from "@/actions/contents/getMyContentIds";
+import { useSavedStatusBatch, updateSavedCache } from "@/hooks/useSavedStatusBatch";
 import type { ContentType, ContentStatus } from "@/types/database";
 
 interface UseSavedContentParams {
@@ -51,8 +51,15 @@ export default function useSavedContent({
   initialSaved,
   autoCheck = true,
 }: UseSavedContentParams): UseSavedContentReturn {
+  // 배치 조회 훅 사용 (initialSaved가 없을 때만)
+  const shouldAutoCheck = initialSaved === undefined && autoCheck;
+  const { saved: batchSaved, isChecking: batchChecking } = useSavedStatusBatch(
+    shouldAutoCheck ? contentId : undefined,
+    shouldAutoCheck
+  );
+
   const [isAdded, setIsAdded] = useState(initialSaved ?? false);
-  const [isChecking, setIsChecking] = useState(initialSaved === undefined && autoCheck);
+  const [isChecking, setIsChecking] = useState(shouldAutoCheck);
   const [isPending, startTransition] = useTransition();
   const [userContentId, setUserContentId] = useState<string | null>(null);
 
@@ -61,15 +68,20 @@ export default function useSavedContent({
     if (initialSaved !== undefined) setIsAdded(initialSaved);
   }, [initialSaved]);
 
-  // 자동 저장 여부 확인
+  // 배치 조회 결과 동기화
   useEffect(() => {
-    if (initialSaved !== undefined || !autoCheck) return;
-    checkContentSaved(contentId).then((result) => {
-      setIsAdded(result.saved);
-      if (result.saved && result.userContentId) setUserContentId(result.userContentId);
+    if (batchSaved !== undefined) {
+      setIsAdded(batchSaved);
       setIsChecking(false);
-    });
-  }, [contentId, initialSaved, autoCheck]);
+    }
+  }, [batchSaved]);
+
+  // 배치 체크 상태 동기화
+  useEffect(() => {
+    if (!batchChecking && shouldAutoCheck) {
+      setIsChecking(false);
+    }
+  }, [batchChecking, shouldAutoCheck]);
 
   const handleAdd = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -87,6 +99,7 @@ export default function useSavedContent({
       if (result.success) {
         setIsAdded(true);
         setUserContentId(result.data.userContentId);
+        updateSavedCache(contentId, true); // 캐시 즉시 업데이트
       }
     });
   }, [contentId, contentType, title, creator, thumbnailUrl, isAdded, isPending]);
@@ -105,8 +118,9 @@ export default function useSavedContent({
       await removeContent(userContentId);
       setIsAdded(false);
       setUserContentId(null);
+      updateSavedCache(contentId, false); // 캐시 즉시 업데이트
     });
-  }, [userContentId]);
+  }, [userContentId, contentId]);
 
   return {
     isAdded,

@@ -353,7 +353,6 @@ export default function ContentCard({
                   alt={title}
                   fill
                   sizes="160px"
-                  unoptimized
                   className="object-cover transition-transform duration-300 delay-150 group-hover:scale-105"
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
@@ -470,7 +469,6 @@ export default function ContentCard({
                   alt={title}
                   fill
                   sizes="(max-width: 768px) 100vw, 300px"
-                  unoptimized
                   className="object-cover"
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
@@ -569,7 +567,6 @@ export default function ContentCard({
             src={thumbnail}
             alt={title}
             fill
-            unoptimized
             className={`object-cover transition-transform duration-300 delay-150 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "group-hover:scale-105" : ""}`}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}

@@ -13,8 +13,34 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { userId } = await params;
   const result = await getUserProfile(userId);
-  const nickname = result.success ? result.data?.nickname : "사용자";
-  return { title: nickname };
+  
+  if (!result.success || !result.data) {
+    return { title: "사용자를 찾을 수 없습니다" };
+  }
+
+  const profile = result.data;
+  const nickname = profile.nickname;
+  // 셀럽이면 bio, 아니면 기본 설명
+  const description = profile.profile_type === 'CELEB' && profile.bio 
+    ? profile.bio.slice(0, 160) 
+    : `${nickname}님의 문화 기록관입니다.`;
+
+  return {
+    title: `${nickname} - Feel&Note`,
+    description,
+    openGraph: {
+      title: `${nickname} - Feel&Note`,
+      description,
+      images: profile.avatar_url ? [profile.avatar_url] : [],
+      type: "profile",
+    },
+    twitter: {
+      card: "summary",
+      title: `${nickname} - Feel&Note`,
+      description,
+      images: profile.avatar_url ? [profile.avatar_url] : [],
+    },
+  };
 }
 
 export default async function OverviewPage({ params }: PageProps) {

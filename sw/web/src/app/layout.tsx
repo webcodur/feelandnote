@@ -90,6 +90,21 @@ export const metadata: Metadata = {
     description: "Cultural Content Archive & Social Platform",
     images: ["/opengraph-image"],
   },
+  verification: {
+    google: "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg", // Google Search Console HTML 태그 인증용
+    other: {
+      "naver-site-verification": "YOUR_VERIFICATION_CODE", // TODO: 네이버 서치어드바이저에서 발급받은 코드로 교체해주세요.
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  keywords: ["culture", "archive", "note", "review", "book", "movie", "music", "game", "celebrity", "inspiration", "문화", "기록", "감상", "영감", "필앤노트"],
 };
 
 export default function RootLayout({
