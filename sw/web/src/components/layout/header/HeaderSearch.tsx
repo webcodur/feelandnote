@@ -58,7 +58,7 @@ export default function HeaderSearch() {
     <Button
       unstyled
       onClick={() => setIsMobileExpanded(true)}
-      className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
+      className="xl:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
     >
       <Search size={20} className="text-text-primary" />
     </Button>
@@ -68,7 +68,7 @@ export default function HeaderSearch() {
   // region: 모바일 확장 검색창 (풀스크린 오버레이)
   const MobileExpandedSearch = isMobileExpanded && (
     <div
-      className="md:hidden fixed inset-0 bg-bg-main"
+      className="xl:hidden fixed inset-0 bg-bg-main"
       style={{ zIndex: Z_INDEX.modal }}
     >
       {/* Subtle stone texture for overlay */}
@@ -174,7 +174,7 @@ export default function HeaderSearch() {
       {MobileExpandedSearch}
 
       {/* 데스크톱: 인라인 검색창 */}
-      <div ref={containerRef} className="hidden md:block flex-1 max-w-md mx-auto relative">
+      <div ref={containerRef} className="hidden xl:block flex-1 max-w-md mx-auto relative">
       {/* Search Bar */}
       <div
         className={`w-full h-10 bg-white/5 backdrop-blur-sm border rounded-lg flex items-center transition-all duration-300

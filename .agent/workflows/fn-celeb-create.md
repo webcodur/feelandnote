@@ -91,3 +91,31 @@ BEGIN
   );
 END $$;
 ```
+
+---
+
+### 4. 🚫 콘텐츠 등록 규칙 (필수 준수)
+
+> [!CAUTION]
+> AI가 셀럽의 추천 콘텐츠를 등록할 때 **외부 API에서 검증되지 않은 콘텐츠는 절대 등록하지 않습니다.**
+
+#### 허용되는 등록 방법
+
+| 콘텐츠 유형 | 검증 방법 | content_id 형식 |
+|-------------|-----------|-----------------|
+| **BOOK** | Naver Book API로 ISBN 검색 | ISBN (예: `9788937460470`) |
+| **VIDEO** | TMDB API로 ID 검색 | `tmdb_123456` |
+| **GAME** | IGDB API로 ID 검색 | `igdb-123456` |
+| **MUSIC** | Spotify API로 ID 검색 | `spotify-xxxxx` |
+| **CERTIFICATE** | Q-Net API로 검색 | `qnet-1234` |
+
+#### 금지 사항
+
+- ❌ `external_source = 'manual'` 로 등록하는 것 금지
+- ❌ 임의로 `content_id`를 만들어 등록하는 것 금지 (예: `morgan_gutenberg_bible`)
+- ❌ 외부 API에서 찾을 수 없는 고서, 필사본, 희귀 자료 등록 금지
+
+#### 대안
+
+- 해당 콘텐츠가 외부 API에 없는 경우: **등록하지 않음**
+- 셀럽의 `consumption_philosophy`(감상 철학) 텍스트에서 언급하는 것으로 대체

@@ -9,7 +9,14 @@ import SageSection from "@/components/features/scriptures/sections/SageSection";
 import { getTodaySage } from "@/actions/scriptures";
 import { SCRIPTURES_SECTION_NAME } from "@/constants/scriptures";
 
-export const metadata = { title: SCRIPTURES_SECTION_NAME };
+export const metadata = {
+  title: `${SCRIPTURES_SECTION_NAME} - Feel&Note`,
+  description: "역사 속 위대한 인물들의 지혜와 철학을 만나보세요.",
+  openGraph: {
+    title: `${SCRIPTURES_SECTION_NAME} - Feel&Note`,
+    description: "역사 속 위대한 인물들의 지혜와 철학을 만나보세요.",
+  },
+};
 
 function SectionSkeleton() {
   return (
