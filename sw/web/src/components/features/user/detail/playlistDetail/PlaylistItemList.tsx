@@ -10,6 +10,9 @@ import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
 import type { PlaylistWithItems } from "@/types/database";
 import ContentCard from "@/components/ui/cards/ContentCard/ContentCard";
+import DropdownMenu from "@/components/ui/DropdownMenu";
+import { updatePlaylistItems } from "@/actions/playlists/updatePlaylistItems";
+import { useRouter } from "next/navigation";
 
 const TIER_KEYS = ["S", "A", "B", "C", "D"] as const;
 const TIER_BADGE_STYLES: Record<string, string> = {
@@ -54,7 +57,32 @@ export default function PlaylistItemList({
   onDragEnd,
   setIsEditMode,
 }: PlaylistItemListProps) {
+  const router = useRouter();
   const tierMap = playlist.has_tiers ? buildTierMap(playlist.tiers) : null;
+
+  const handleRemoveItem = async (contentId: string) => {
+    if (!confirm("이 콘텐츠를 재생목록에서 삭제하시겠습니까?")) return;
+
+    try {
+      const newItems = playlist.items.filter((item) => item.content_id !== contentId);
+      const newContentIds = newItems.map((item) => item.content_id);
+
+      const result = await updatePlaylistItems({
+        playlistId: playlist.id,
+        contentIds: newContentIds
+      });
+
+      if (!result.success) {
+        throw new Error("플레이리스트 업데이트에 실패했습니다.");
+      }
+      
+      router.refresh();
+      
+    } catch (error) {
+      console.error("삭제 실패:", error);
+      alert("삭제에 실패했습니다.");
+    }
+  };
 
   if (playlist.items.length === 0) {
     return (
@@ -96,11 +124,25 @@ export default function PlaylistItemList({
                   aspectRatio="2/3"
                   topRightNode={
                      isOwner ? (
-                        <div 
-                           className="p-1.5 bg-black/60 backdrop-blur-md rounded-md text-white/70 hover:text-white cursor-grab active:cursor-grabbing border border-white/10"
-                           onMouseDown={(e) => e.stopPropagation()} // Prevent card click
-                        >
-                           <GripVertical size={16} />
+                        <div className="flex items-center gap-1" onMouseDown={(e) => e.stopPropagation()}>
+                           <div 
+                              className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/60 backdrop-blur-md rounded-md text-white/70 hover:text-white cursor-grab active:cursor-grabbing border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30"
+                              title="순서 변경 (드래그)"
+                           >
+                              <GripVertical size={16} />
+                           </div>
+                           <DropdownMenu
+                              items={[
+                                 {
+                                    label: "목록에서 삭제",
+                                    icon: <Trash2 size={14} />,
+                                    onClick: () => handleRemoveItem(item.content_id),
+                                    variant: "danger"
+                                 }
+                              ]}
+                              buttonClassName="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/60 backdrop-blur-md rounded-md border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30 text-white/90"
+                              iconSize={16}
+                           />
                         </div>
                      ) : tier ? (
                         <div className={`px-2 py-0.5 rounded text-[10px] font-bold border ${TIER_BADGE_STYLES[tier]}`}>

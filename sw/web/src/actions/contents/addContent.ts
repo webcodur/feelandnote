@@ -18,7 +18,8 @@ interface AddContentParams {
   releaseDate?: string
   metadata?: Record<string, unknown>  // 원본 메타데이터
   subtype?: string              // video의 경우 movie | tv
-  status?: ContentStatus        // 기본값: 'WANT'
+  /** @deprecated status는 더 이상 사용하지 않음. 리뷰 유무로 감상 여부 판단. */
+  status?: ContentStatus
   createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
   isRecommended?: boolean       // 추천 여부
 }
@@ -72,7 +73,8 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   } = {
     user_id: user.id,
     content_id: params.id,
-    status: (params.status ?? 'WANT') as ContentStatus,
+    // status는 deprecated - 레거시 호환을 위해 FINISHED로 고정
+    status: 'FINISHED' as ContentStatus,
   }
 
   // 날짜가 지정된 경우 created_at 설정

@@ -1,23 +1,27 @@
 /*
   파일명: /components/shared/content/AddContentPopover.tsx
-  기능: 콘텐츠 추가 시 상태 선택 팝오버
-  책임: Plus 버튼 클릭 시 "관심 등록"/"감상 등록" 선택 UI 제공
+  기능: 콘텐츠 추가 버튼
+  책임: Plus 버튼 클릭 시 바로 기록 추가 (상태 선택 UI 제거됨)
 */ // ------------------------------
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Plus, Bookmark, Check, Loader2 } from "lucide-react";
+import { Plus, Check, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
-import type { ContentStatus } from "@/types/database";
 
 interface AddContentPopoverProps {
-  onAdd: (status: ContentStatus) => void;
+  /** @deprecated status 파라미터는 무시됨. 리뷰 기반으로 전환. */
+  onAdd: (status?: string) => void;
   isAdding?: boolean;
   isAdded?: boolean;
   size?: "sm" | "md";
   className?: string;
 }
 
+/**
+ * 콘텐츠 추가 버튼
+ * 기존에는 상태(WANT/FINISHED) 선택 팝오버였으나,
+ * 리뷰 기반 전환으로 인해 단순 버튼으로 변경됨.
+ */
 export default function AddContentPopover({
   onAdd,
   isAdding = false,
@@ -25,27 +29,6 @@ export default function AddContentPopover({
   size = "sm",
   className = "",
 }: AddContentPopoverProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
-
-  // 외부 클릭 시 닫기
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [isOpen]);
-
-  const handleSelect = (status: ContentStatus) => {
-    setIsOpen(false);
-    onAdd(status);
-  };
-
   const iconSize = size === "sm" ? 12 : 14;
   const buttonPadding = size === "sm" ? "p-1" : "p-1.5";
 
@@ -59,52 +42,18 @@ export default function AddContentPopover({
   }
 
   return (
-    <div ref={popoverRef} className={`relative ${className}`}>
-      <Button
-        unstyled
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsOpen(!isOpen);
-        }}
-        disabled={isAdding}
-        className={`${buttonPadding} rounded-md bg-accent/80 text-white hover:bg-accent`}
-        title="기록관에 추가"
-      >
-        {isAdding ? <Loader2 size={iconSize} className="animate-spin" /> : <Plus size={iconSize} />}
-      </Button>
-
-      {isOpen && (
-        <div
-          className="absolute top-full right-0 mt-1 bg-bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50 min-w-[120px]"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Button
-            unstyled
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleSelect("WANT");
-            }}
-            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-primary hover:bg-white/5"
-          >
-            <Bookmark size={14} className="text-yellow-500" />
-            관심 등록
-          </Button>
-          <Button
-            unstyled
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleSelect("FINISHED");
-            }}
-            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-primary hover:bg-white/5"
-          >
-            <Check size={14} className="text-green-500" />
-            감상 등록
-          </Button>
-        </div>
-      )}
-    </div>
+    <Button
+      unstyled
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onAdd();
+      }}
+      disabled={isAdding}
+      className={`${buttonPadding} rounded-md bg-accent/80 text-white hover:bg-accent ${className}`}
+      title="기록하기"
+    >
+      {isAdding ? <Loader2 size={iconSize} className="animate-spin" /> : <Plus size={iconSize} />}
+    </Button>
   );
 }

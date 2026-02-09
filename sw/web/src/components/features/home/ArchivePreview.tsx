@@ -11,7 +11,6 @@ const MOCK_RECORDS: Partial<ContentCardProps>[] = [
     contentType: "BOOK",
     title: "The Great Gatsby",
     creator: "F. Scott Fitzgerald",
-    status: "FINISHED",
     rating: 4.5,
     review: "화려함 뒤에 숨겨진 공허함. 아메리칸 드림의 허상을 날카롭게 비판하면서도 아름다운 문체로 그려낸 걸작."
   },
@@ -20,7 +19,6 @@ const MOCK_RECORDS: Partial<ContentCardProps>[] = [
     contentType: "VIDEO",
     title: "Interstellar",
     creator: "Christopher Nolan",
-    status: "FINISHED",
     rating: 5.0,
     review: "사랑은 시공간을 초월하는 유일한 것. 과학적 상상력과 휴머니즘의 완벽한 조화."
   },
@@ -29,7 +27,6 @@ const MOCK_RECORDS: Partial<ContentCardProps>[] = [
     contentType: "MUSIC",
     title: "Bohemian Rhapsody",
     creator: "Queen",
-    status: "WANT",
     rating: null,
     review: "오페라와 록의 파격적인 만남."
   },
@@ -38,7 +35,6 @@ const MOCK_RECORDS: Partial<ContentCardProps>[] = [
     contentType: "GAME",
     title: "The Legend of Zelda",
     creator: "Nintendo",
-    status: "FINISHED",
     rating: 4.8,
     review: "진정한 모험이란 무엇인가를 보여주는 게임."
   }

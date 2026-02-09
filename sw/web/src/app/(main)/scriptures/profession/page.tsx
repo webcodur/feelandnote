@@ -7,7 +7,8 @@
 import { Suspense } from "react";
 import ProfessionSection from "@/components/features/scriptures/sections/ProfessionSection";
 import { getProfessionContentCounts } from "@/actions/scriptures";
-import { getScripturesPageTitle } from "@/constants/scriptures";
+import { getScripturesPageTitle, PROFESSION_ROWS } from "@/constants/scriptures";
+import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
 export const metadata = { title: getScripturesPageTitle("profession") };
 
@@ -35,21 +36,18 @@ function SectionSkeleton() {
       {/* 3행 탭 구조 스켈레톤 */}
       <div className="mb-10 flex justify-center">
         <div className="inline-flex flex-col items-center gap-1.5 p-2.5 bg-neutral-900/80 rounded-xl border border-white/10">
-          <div className="inline-flex gap-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-8 w-14 bg-bg-card rounded-lg" />
-            ))}
-          </div>
-          <div className="inline-flex gap-1">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-8 w-16 bg-bg-card rounded-lg" />
-            ))}
-          </div>
-          <div className="inline-flex gap-1">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-8 w-14 bg-bg-card rounded-lg" />
-            ))}
-          </div>
+          {(PROFESSION_ROWS as readonly (readonly string[])[]).map((rowKeys, rowIndex) => (
+            <div key={rowIndex} className="inline-flex gap-1">
+              {rowKeys.map((key) => (
+                <div
+                  key={key}
+                  className="px-3 py-1.5 rounded-lg text-sm font-bold bg-bg-card text-transparent select-none"
+                >
+                  {getCelebProfessionLabel(key)}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
 

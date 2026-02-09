@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { updateReview } from "@/actions/contents/updateReview";
 import { useSound } from "@/contexts/SoundContext";
+import ExternalResourceSearch from "../quickRecord/ExternalResourceSearch";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 
 interface MyReviewSectionProps {
@@ -137,6 +138,16 @@ export default function MyReviewSection({
         <Button variant="primary" size="sm" onClick={handleSave} disabled={isPending}>
           {isPending ? <Loader2 size={14} className="animate-spin" /> : hasRecord ? "저장" : "등록"}
         </Button>
+      </div>
+
+      {/* 외부 자료 검색 */}
+      <div className="pt-6 border-t border-white/5">
+        <ExternalResourceSearch 
+          title={content.title}
+          creator={content.creator}
+          type={content.type}
+          className="h-[450px]"
+        />
       </div>
     </div>
   );

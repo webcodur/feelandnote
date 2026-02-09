@@ -19,11 +19,11 @@ import type { ContentType } from "@/types/database";
 import {
   getChosenScriptures,
   getScripturesByProfession,
-  getTodaySage,
+  getTodayFigure,
   getScripturesByEra,
   type ScripturesResult,
   type ScripturesByProfession as ProfessionData,
-  type TodaySageResult,
+  type TodayFigureResult,
   type EraScriptures,
 } from "@/actions/scriptures";
 import type { LucideIcon } from "lucide-react";
@@ -357,16 +357,16 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
 const SAGE_MAX_DISPLAY = 11;
 
 function TodaySageSection() {
-  const [data, setData] = useState<TodaySageResult | null>(null);
+  const [data, setData] = useState<TodayFigureResult | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const ref = useIntersectionObserver(async () => {
-    const result = await getTodaySage();
+    const result = await getTodayFigure();
     setData(result);
     setIsLoaded(true);
   });
 
-  const sage = data?.sage;
+  const figure = data?.figure;
   const allContents = data?.contents || [];
   const displayContents = allContents.slice(0, SAGE_MAX_DISPLAY);
   const remainingCount = allContents.length - SAGE_MAX_DISPLAY;
@@ -378,16 +378,16 @@ function TodaySageSection() {
 
       {!isLoaded ? (
         <SectionSkeleton />
-      ) : sage ? (
+      ) : figure ? (
         <>
           <Link
-            href={`/${sage.id}`}
+            href={`/${figure.id}`}
             className="flex items-start gap-4 p-4 mb-6 bg-bg-card/50 rounded-xl border border-border/30 hover:border-accent/30"
           >
-            {sage.avatar_url ? (
+            {figure.avatar_url ? (
               <Image
-                src={sage.avatar_url}
-                alt={sage.nickname}
+                src={figure.avatar_url}
+                alt={figure.nickname}
                 width={64}
                 height={64}
                 className="rounded-full object-cover shrink-0"
@@ -395,18 +395,18 @@ function TodaySageSection() {
               />
             ) : (
               <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-xl text-accent font-bold shrink-0">
-                {sage.nickname[0]}
+                {figure.nickname[0]}
               </div>
             )}
             <div className="min-w-0">
-              <h3 className="text-base font-semibold text-text-primary mb-1">{sage.nickname}</h3>
-              {sage.profession && (
+              <h3 className="text-base font-semibold text-text-primary mb-1">{figure.nickname}</h3>
+              {figure.profession && (
                 <p className="text-xs text-accent mb-2">
-                  {PROFESSION_LABELS[sage.profession] || sage.profession}
+                  {PROFESSION_LABELS[figure.profession] || figure.profession}
                 </p>
               )}
-              {sage.bio && <p className="text-sm text-text-secondary line-clamp-2">{sage.bio}</p>}
-              <p className="text-xs text-text-tertiary mt-2">감상 기록 {sage.contentCount}개</p>
+              {figure.bio && <p className="text-sm text-text-secondary line-clamp-2">{figure.bio}</p>}
+              <p className="text-xs text-text-tertiary mt-2">감상 기록 {figure.contentCount}개</p>
             </div>
           </Link>
 
@@ -426,7 +426,7 @@ function TodaySageSection() {
               ))}
               {/* 더보기 카드 */}
               <Link
-                href={`/${sage.id}`}
+                href={`/${figure.id}`}
                 className="group flex flex-col items-center justify-center aspect-[2/3] bg-bg-card/50 border border-border/30 rounded-xl hover:border-accent/50 hover:bg-accent/5"
               >
                 <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-3 group-hover:bg-accent/20">

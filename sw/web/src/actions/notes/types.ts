@@ -1,16 +1,6 @@
-export type VisibilityType = 'public' | 'followers' | 'private'
 
 export interface Snapshot {
-  context?: string
-}
-
-export interface Template {
-  context?: string
-  summary?: string
-  questions?: string
-  moment?: string
-  quote?: string
-  change?: string
+  // 스냅샷 데이터는 현재 사용하지 않거나 최소화됨
 }
 
 export interface NoteSection {
@@ -28,9 +18,8 @@ export interface Note {
   id: string
   user_id: string
   content_id: string
-  visibility: VisibilityType
+  memo: string | null
   snapshot: Snapshot
-  template: Template
   created_at: string
   updated_at: string
   sections?: NoteSection[]

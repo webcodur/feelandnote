@@ -12,6 +12,11 @@ interface UpdateStatusParams {
   clearReview?: boolean // WANT로 변경 시 리뷰 초기화
 }
 
+/**
+ * @deprecated status 컬럼은 더 이상 사용하지 않음.
+ * 리뷰(rating/review) 유무로 감상 여부를 판단함.
+ * 이 함수는 레거시 호환성을 위해 유지되며, 추후 제거 예정.
+ */
 export async function updateStatus({ userContentId, status, clearReview }: UpdateStatusParams): Promise<ActionResult<null>> {
   const supabase = await createClient()
 

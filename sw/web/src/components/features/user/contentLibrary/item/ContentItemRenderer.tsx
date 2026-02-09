@@ -78,7 +78,6 @@ export default function ContentItemRenderer({
               title={item.content.title}
               creator={item.content.creator}
               thumbnail={item.content.thumbnail_url}
-              status={item.status}
               rating={currentRating}
               review={reviewProp}
               isSpoiler={item.is_spoiler ?? undefined}
@@ -87,7 +86,7 @@ export default function ContentItemRenderer({
               showStatusBadge={false}
               ownerNickname={ownerNickname}
               userContentId={item.id}
-              recommendable={!readOnly && item.status === "FINISHED"}
+              recommendable={!readOnly}
               onRatingClick={!readOnly ? (e) => {
                 e.stopPropagation();
                 setRatingEditTarget({
@@ -99,6 +98,12 @@ export default function ContentItemRenderer({
               saved={readOnly && isViewerSaved(item.content_id)}
               addable={readOnly && isViewerLoggedIn && !isViewerSaved(item.content_id)}
               onAdd={() => onAddContent?.(item.content_id)}
+              deletable={!readOnly}
+              onDelete={!readOnly ? (e) => {
+                // 이벤트 전파 방지 (카드 클릭 방지)
+                e?.stopPropagation();
+                deleteHandler(item.id);
+              } : undefined}
             />
             </div>
           );

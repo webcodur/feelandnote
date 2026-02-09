@@ -41,13 +41,13 @@ export default function Avatar({ url, name, size = "md", gradient, verified, cla
           alt={name || "avatar"}
           width={styles.pixels}
           height={styles.pixels}
-          className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 transition-all duration-300 saturate-[0.5] group-hover:saturate-100 group-active:saturate-100 ${className}`}
+          className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 transition-all duration-300 ${className}`}
           unoptimized={!url.includes('supabase.co')}
           priority={priority}
         />
       ) : (
         <div
-          className={`${styles.container} rounded-full flex items-center justify-center font-bold text-white ring-2 ring-accent/20 transition-all duration-300 saturate-[0.5] group-hover:saturate-100 group-active:saturate-100 ${styles.text} ${className}`}
+          className={`${styles.container} rounded-full flex items-center justify-center font-bold text-white ring-2 ring-accent/20 transition-all duration-300 ${styles.text} ${className}`}
           style={{ background: bg }}
         >
           {initial}

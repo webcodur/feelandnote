@@ -11,6 +11,7 @@
     "./qnet": "./src/qnet.ts",
     "./unified-search": "./src/unified-search.ts",
     "./naver-news": "./src/naver-news.ts",
+    "./naver-blog": "./src/naver-blog.ts",
     "./naver-image": "./src/naver-image.ts",
     "./types": "./src/types.ts"
   },

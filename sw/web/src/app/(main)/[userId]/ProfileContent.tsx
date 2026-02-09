@@ -67,7 +67,7 @@ export default function ProfileContent({
         <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
-              <DecorativeLabel label="갤러리" />
+              <DecorativeLabel label="이미지 검색결과" />
             </div>
             <ImageGallery nickname={profile.nickname} />
           </ClassicalBox>

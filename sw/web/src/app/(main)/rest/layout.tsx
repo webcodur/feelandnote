@@ -1,7 +1,7 @@
 /*
-  파일명: /app/(main)/arena/layout.tsx
-  기능: 전장 레이아웃
-  책임: 전장 공통 탭 네비게이션과 레이아웃을 제공한다.
+  파일명: /app/(main)/rest/layout.tsx
+  기능: 쉼터 레이아웃
+  책임: 쉼터 공통 탭 네비게이션과 레이아웃을 제공한다.
 */ // ------------------------------
 
 import { ReactNode } from "react";
@@ -14,8 +14,8 @@ interface Props {
   children: ReactNode;
 }
 
-export default function ArenaLayout({ children }: Props) {
-  const { title, englishTitle } = PAGE_BANNER.arena;
+export default function RestLayout({ children }: Props) {
+  const { title, englishTitle } = PAGE_BANNER.rest;
 
   return (
     <>

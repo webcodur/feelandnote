@@ -32,7 +32,7 @@ const heroSizeClasses = {
   sm: "text-[clamp(1rem,8vw,4rem)] md:text-6xl",
   md: "text-[clamp(1.1rem,10vw,5rem)] md:text-7xl",
   lg: "text-[clamp(1.15rem,12vw,6rem)] md:text-8xl",
-  xl: "text-[clamp(1.2rem,15vw,8rem)] md:text-9xl",
+  xl: "text-[clamp(2.5rem,13vw,5.5rem)] md:text-7xl lg:text-8xl",
 };
 // #endregion
 

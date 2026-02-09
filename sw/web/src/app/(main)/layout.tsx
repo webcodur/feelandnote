@@ -6,10 +6,16 @@
 
 import MainLayout from "@/components/layout/LayoutMain";
 
+import { QuickRecordProvider } from "@/contexts/QuickRecordContext";
+
 export default function MainGroupLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <MainLayout>{children}</MainLayout>;
+  return (
+    <QuickRecordProvider>
+      <MainLayout>{children}</MainLayout>
+    </QuickRecordProvider>
+  );
 }

@@ -1,6 +1,6 @@
 /*
   파일명: components/features/game/UpDownGame.tsx
-  기능: 용호상박 게임 메인 컴포넌트
+  기능: 업다운 게임 메인 컴포넌트
   매커닉: 매 라운드 새 2장, 영향력 더 높은 인물 선택
 */
 "use client";
@@ -151,7 +151,7 @@ export default function UpDownGame() {
   if (!isDataLoaded) {
     return (
       <div className="flex items-center justify-center min-h-[500px]">
-        <div className="animate-pulse text-text-secondary font-serif">전장 입장 중...</div>
+        <div className="animate-pulse text-text-secondary font-serif">쉼터 입장 중...</div>
       </div>
     );
   }

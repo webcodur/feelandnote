@@ -13,10 +13,12 @@ import { FormattedText } from "@/components/ui";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 import MediaEmbed from "./MediaEmbed";
 import { addContent } from "@/actions/contents/addContent";
-import { updateStatus } from "@/actions/contents/updateStatus";
 import { removeContent } from "@/actions/contents/removeContent";
+import { updateUserContentRating } from "@/actions/contents/updateRating";
+import StarRatingInput from "@/components/ui/StarRatingInput";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
-import type { ContentStatus, ContentType } from "@/types/database";
+import type { ContentType } from "@/types/database";
+import type { ContentMetadata } from "@/types/content";
 import type { CategoryId, VideoSubtype } from "@/constants/categories";
 
 // #region 상수
@@ -35,11 +37,6 @@ const CATEGORY_LABELS: Record<CategoryId, string> = {
   music: "음악",
   certificate: "자격증",
   all: "전체",
-};
-
-const STATUS_LABELS: Record<ContentStatus, string> = {
-  WANT: "관심",
-  FINISHED: "감상 완료",
 };
 // #endregion
 
@@ -63,7 +60,8 @@ export default function ContentInfoSection({
   const categoryLabel = CATEGORY_LABELS[content.category];
 
   // #region 핸들러
-  const handleAdd = (status: ContentStatus) => {
+  // 콘텐츠 기록 추가 (상태 파라미터 제거 - 리뷰 기반으로 전환)
+  const handleAdd = () => {
     startTransition(async () => {
       try {
         const result = await addContent({
@@ -74,7 +72,6 @@ export default function ContentInfoSection({
           thumbnailUrl: content.thumbnail,
           description: content.description,
           releaseDate: content.releaseDate,
-          status,
         });
         if (!result.success) {
           setError(result.message);
@@ -82,7 +79,7 @@ export default function ContentInfoSection({
         }
         onRecordChange({
           id: result.data.userContentId,
-          status,
+          status: 'FINISHED', // deprecated - 레거시 호환용
           rating: null,
           review: null,
           isSpoiler: false,
@@ -96,30 +93,6 @@ export default function ContentInfoSection({
     });
   };
 
-  const handleStatusChange = (newStatus: ContentStatus) => {
-    if (!userRecord) return;
-
-    // WANT로 변경 시 리뷰가 있으면 경고
-    const hasReviewData = userRecord.rating || userRecord.review;
-    if (newStatus === "WANT" && hasReviewData) {
-      const confirmed = confirm("관심으로 변경하면 작성한 별점과 리뷰가 삭제됩니다. 계속하시겠습니까?");
-      if (!confirmed) return;
-    }
-
-    startTransition(async () => {
-      try {
-        const clearReview = newStatus === "WANT";
-        await updateStatus({ userContentId: userRecord.id, status: newStatus, clearReview });
-        onRecordChange({
-          ...userRecord,
-          status: newStatus,
-          ...(clearReview ? { rating: null, review: null, isSpoiler: false } : {}),
-        });
-      } catch (err) {
-        console.error("상태 변경 실패:", err);
-      }
-    });
-  };
 
   const handleDelete = () => {
     if (!userRecord || !confirm("이 콘텐츠를 기록관에서 삭제하시겠습니까?")) return;
@@ -133,7 +106,28 @@ export default function ContentInfoSection({
     });
   };
 
+
+
+  const handleRatingChange = async (rating: number) => {
+    if (!userRecord) return;
+    try {
+      const result = await updateUserContentRating({
+        userContentId: userRecord.id,
+        rating,
+      });
+      if (result.success) {
+        onRecordChange({ ...userRecord, rating });
+      } else {
+        console.error(result.error);
+      }
+    } catch (e) {
+      console.error("별점 수정 실패", e);
+    }
+  };
+
   // #endregion
+
+  const metadata = content.metadata as unknown as ContentMetadata | null;
 
   return (
     <div className="pt-4 space-y-4">
@@ -170,14 +164,21 @@ export default function ContentInfoSection({
       </div>
 
       {/* 메타데이터 */}
-      {content.metadata && (
+      {metadata && (
         <div className="p-3 bg-black/20 rounded-lg border border-white/5">
           <ContentMetadataDisplay
             category={content.category}
-            metadata={content.metadata as Record<string, unknown>}
-            subtype={content.metadata?.subtype as VideoSubtype | undefined}
+            metadata={metadata}
+            subtype={metadata.subtype}
             compact
           />
+        </div>
+      )}
+
+      {/* 태그라인 (영상) */}
+      {content.type === 'VIDEO' && metadata?.tagline && (
+        <div className="text-center italic text-text-secondary/80 text-sm px-6 py-3 border-y border-white/5 bg-black/20">
+            "{metadata.tagline}"
         </div>
       )}
 
@@ -185,11 +186,106 @@ export default function ContentInfoSection({
       {content.description && (
         <div className="space-y-2">
           <h3 className="text-xs font-medium text-text-secondary">소개</h3>
-          <p className="text-sm text-text-secondary leading-relaxed line-clamp-4">
+          <div className="text-sm text-text-secondary leading-relaxed p-3 bg-white/5 rounded-lg border border-white/5 whitespace-pre-wrap">
             <FormattedText text={content.description} />
-          </p>
+          </div>
         </div>
       )}
+      
+      {/* 3. 게임 전용: 스토리라인 */}
+      {content.type === 'GAME' && metadata?.storyline && (
+          <div className="space-y-2">
+              <h3 className="text-xs font-medium text-text-secondary">스토리라인</h3>
+              <div className="text-sm text-text-secondary leading-relaxed p-3 bg-white/5 rounded-lg border border-white/5 whitespace-pre-wrap">
+                  <FormattedText text={metadata.storyline} />
+              </div>
+          </div>
+      )}
+
+      {/* 5. 영상 전용: 출연진 & 감독 */}
+      {content.type === 'VIDEO' && metadata && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {metadata.director && (
+                  <div className="space-y-2">
+                      <h3 className="text-xs font-medium text-text-secondary">감독</h3>
+                      <p className="text-sm text-text-primary pl-1">
+                          {metadata.director}
+                      </p>
+                  </div>
+              )}
+              {metadata.runtime && (
+                  <div className="space-y-2">
+                      <h3 className="text-xs font-medium text-text-secondary">러닝타임</h3>
+                      <p className="text-sm text-text-secondary pl-1">
+                          {metadata.runtime}분
+                      </p>
+                  </div>
+              )}
+              {metadata.cast?.length ? (
+                  <div className="space-y-2 col-span-full">
+                      <h3 className="text-xs font-medium text-text-secondary">출연진</h3>
+                      <div className="flex flex-wrap gap-2">
+                          {metadata.cast?.map((actor, i) => (
+                              <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-full border border-white/10">
+                                  {actor.name} <span className="text-text-tertiary">({actor.character})</span>
+                              </span>
+                          ))}
+                      </div>
+                  </div>
+              ) : null}
+          </div>
+      )}
+
+      {/* 6. 음악 전용: 트랙 목록 & 레이블 */}
+      {content.type === 'MUSIC' && metadata && (
+          <div className="space-y-4">
+              {metadata.tracks?.length ? (
+                  <div className="space-y-2">
+                      <h3 className="text-xs font-medium text-text-secondary">트랙 목록</h3>
+                      <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg">
+                          {metadata.tracks?.map((track, i) => (
+                              <div key={i} className="flex items-center justify-between text-xs px-3 py-2 bg-white/5 hover:bg-white/10 transition-colors border-b border-white/5 last:border-0">
+                                  <span className="text-text-secondary">
+                                      <span className="text-text-tertiary mr-3 w-4 inline-block text-right">{track.trackNumber}.</span>
+                                      {track.name}
+                                  </span>
+                                  <span className="text-text-tertiary font-mono">
+                                      {Math.floor(track.durationMs / 60000)}:{String(Math.floor((track.durationMs % 60000) / 1000)).padStart(2, '0')}
+                                  </span>
+                              </div>
+                          ))}
+                      </div>
+                  </div>
+              ) : null}
+              {metadata.label && (
+                  <div className="space-y-1">
+                      <h3 className="text-xs font-medium text-text-secondary">레이블</h3>
+                      <p className="text-sm text-text-secondary pl-1">
+                          {metadata.label}
+                      </p>
+                  </div>
+              )}
+          </div>
+      )}
+
+      {/* 7. 게임 전용: 스크린샷 갤러리 */}
+      {content.type === 'GAME' && metadata?.screenshots?.length ? (
+          <div className="space-y-2">
+              <h3 className="text-xs font-medium text-text-secondary">스크린샷</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {metadata.screenshots?.map((url, i) => (
+                      <div key={i} className="relative aspect-video rounded-lg overflow-hidden border border-white/10 group">
+                          <Image 
+                            src={url} 
+                            alt={`Screenshot ${i + 1}`} 
+                            fill 
+                            className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                          />
+                      </div>
+                  ))}
+              </div>
+          </div>
+      ) : null}
 
       {/* 미디어 임베드 */}
       <MediaEmbed contentId={content.id} type={content.type} />
@@ -199,9 +295,9 @@ export default function ContentInfoSection({
 
       {isLoggedIn && !userRecord && (
         <div className="flex justify-end">
-          <Button variant="secondary" size="sm" onClick={() => handleAdd("WANT")} disabled={isPending}>
-            {isPending ? <Loader2 size={14} className="animate-spin" /> : <Bookmark size={14} className="text-yellow-500" />}
-            관심 등록
+          <Button variant="secondary" size="sm" onClick={handleAdd} disabled={isPending}>
+            {isPending ? <Loader2 size={14} className="animate-spin" /> : <Bookmark size={14} />}
+            기록하기
           </Button>
         </div>
       )}
@@ -209,18 +305,17 @@ export default function ContentInfoSection({
       {userRecord && (
         <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
           <div className="flex items-center gap-2">
-            <span className={`text-xs font-medium ${userRecord.status === "FINISHED" ? "text-status-completed" : "text-status-wish"}`}>
-              {STATUS_LABELS[userRecord.status]}
+            <Check size={14} className="text-green-400" />
+            <span className="text-xs font-medium text-text-secondary">
+              기록 완료
             </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleStatusChange(userRecord.status === "FINISHED" ? "WANT" : "FINISHED")}
-              disabled={isPending}
-              className="text-xs"
-            >
-              {userRecord.status === "FINISHED" ? "관심으로 변경" : "감상 완료로 변경"}
-            </Button>
+            <div className="flex items-center">
+              <StarRatingInput 
+                value={userRecord.rating || 0} 
+                onChange={handleRatingChange} 
+                size={16} 
+              />
+            </div>
           </div>
           <Button variant="ghost" size="sm" onClick={handleDelete} disabled={isPending} className="text-red-400 hover:text-red-300">
             <Trash2 size={14} />

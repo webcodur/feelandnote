@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/explore',
     '/scriptures',
     '/agora',
-    '/arena',
+    '/rest',
     '/about',
   ].map((route) => ({
     url: `${baseUrl}${route}`,

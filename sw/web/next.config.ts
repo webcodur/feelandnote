@@ -4,18 +4,8 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@feelandnote/api-clients', '@feelandnote/shared'],
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'shopping-phinf.pstatic.net' },
-      { protocol: 'https', hostname: 'image.tmdb.org' },
-      { protocol: 'https', hostname: 'books.google.com' },
-      { protocol: 'http', hostname: 'books.google.com' },
-      { protocol: 'https', hostname: 'i.scdn.co' },
-      { protocol: 'https', hostname: 'images.igdb.com' },
-      { protocol: 'https', hostname: 'encrypted-tbn0.gstatic.net' },
-      { protocol: 'https', hostname: 'encrypted-tbn0.gstatic.com' },
-      { protocol: 'https', hostname: '*.supabase.co' },
-      { protocol: 'https', hostname: 'pds.joongang.co.kr' },
-      { protocol: 'https', hostname: '*.joongang.co.kr' },
-      { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
     ],
   },
   async redirects() {

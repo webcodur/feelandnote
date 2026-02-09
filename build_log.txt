@@ -1,0 +1,26 @@
+
+> @feelandnote/web@0.1.0 build C:\Users\webco\바탕 화면\윤시준\PRJ\feelnnote\sw\web
+> next build
+
+▲ Next.js 16.1.1 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.4s
+  Running TypeScript ...
+Failed to compile.
+
+./src/components/features/scriptures/Scriptures.tsx:22:3
+Type error: Module '"@/actions/scriptures"' has no exported member 'getTodaySage'.
+
+[0m [90m 20 |[39m   getChosenScriptures[33m,[39m
+ [90m 21 |[39m   getScripturesByProfession[33m,[39m
+[31m[1m>[22m[39m[90m 22 |[39m   getTodaySage[33m,[39m
+ [90m    |[39m   [31m[1m^[22m[39m
+ [90m 23 |[39m   getScripturesByEra[33m,[39m
+ [90m 24 |[39m   type [33mScripturesResult[39m[33m,[39m
+ [90m 25 |[39m   type [33mScripturesByProfession[39m [36mas[39m [33mProfessionData[39m[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null
+C:\Users\webco\바탕 화면\윤시준\PRJ\feelnnote\sw\web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @feelandnote/web@0.1.0 build: `next build`
+Exit status 1

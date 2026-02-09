@@ -78,6 +78,14 @@ export interface VideoSearchResult {
     overview: string
     voteAverage: number
     genres: string[]
+    // 추가 상세 정보 (getVideoById에서만 제공)
+    tagline?: string
+    runtime?: number // 분 단위
+    budget?: number
+    revenue?: number
+    cast?: { name: string; character: string }[]
+    director?: string
+    backdropUrl?: string
   }
 }
 
@@ -372,7 +380,7 @@ export async function getVideoTrailer(externalId: string): Promise<string | null
   }
 }
 
-// ID로 영상 정보 조회 (metadata 포함)
+// ID로 영상 정보 조회 (metadata 포함 - 상세 정보 강화)
 export async function getVideoById(externalId: string): Promise<VideoSearchResult | null> {
   if (!TMDB_API_KEY) return null
 
@@ -384,14 +392,34 @@ export async function getVideoById(externalId: string): Promise<VideoSearchResul
   const isMovie = mediaType === 'movie'
 
   try {
-    const response = await fetch(
-      `${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=ko-KR`
-    )
+    // 상세 정보 + Credits 병렬 요청
+    const [detailRes, creditsRes] = await Promise.all([
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=ko-KR`),
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}/credits?api_key=${TMDB_API_KEY}&language=ko-KR`)
+    ])
 
-    if (!response.ok) return null
+    if (!detailRes.ok) return null
 
-    const data = await response.json()
-    const genres = isMovie ? MOVIE_GENRES : TV_GENRES
+    const data = await detailRes.json()
+    
+    // Credits 파싱 (실패해도 계속 진행)
+    let cast: { name: string; character: string }[] = []
+    let director = ''
+    
+    if (creditsRes.ok) {
+      const credits: TMDBCredits = await creditsRes.json()
+      // 상위 5명의 출연진
+      cast = credits.cast.slice(0, 5).map(c => ({ name: c.name, character: c.character }))
+      // 감독 찾기 (영화만 해당, TV는 created_by 필드 사용)
+      if (isMovie) {
+        director = credits.crew.find(c => c.job === 'Director')?.name || ''
+      }
+    }
+    
+    // TV 시리즈의 경우 created_by 필드 사용
+    if (!isMovie && data.created_by?.length > 0) {
+      director = data.created_by.map((c: { name: string }) => c.name).join(', ')
+    }
 
     return {
       externalId,
@@ -399,14 +427,22 @@ export async function getVideoById(externalId: string): Promise<VideoSearchResul
       category: 'video',
       subtype: mediaType as 'movie' | 'tv',
       title: isMovie ? data.title : data.name,
-      creator: '',
+      creator: director,
       coverImageUrl: data.poster_path ? `${TMDB_IMAGE_BASE}${data.poster_path}` : null,
       metadata: {
         originalTitle: isMovie ? data.original_title : data.original_name,
         releaseDate: isMovie ? data.release_date || '' : data.first_air_date || '',
         overview: data.overview || '',
         voteAverage: data.vote_average,
-        genres: (data.genres || []).map((g: { id: number; name: string }) => g.name)
+        genres: (data.genres || []).map((g: { id: number; name: string }) => g.name),
+        // 추가 상세 정보
+        tagline: data.tagline || undefined,
+        runtime: isMovie ? data.runtime : (data.episode_run_time?.[0] || undefined),
+        budget: isMovie ? data.budget : undefined,
+        revenue: isMovie ? data.revenue : undefined,
+        cast: cast.length > 0 ? cast : undefined,
+        director: director || undefined,
+        backdropUrl: data.backdrop_path ? `${TMDB_IMAGE_BASE}${data.backdrop_path}` : undefined
       }
     }
   } catch {

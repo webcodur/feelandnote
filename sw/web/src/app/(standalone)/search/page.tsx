@@ -239,7 +239,7 @@ function SearchContent() {
     // 외부 API로 직접 조회하므로 별도 저장 불필요
   };
 
-  const handleAddWithStatus = (item: ContentResult, status: ContentStatus) => {
+  const handleAddContent = (item: ContentResult) => {
     if (addingIds.has(item.id) || addedIds.has(item.id)) return;
 
     setAddingIds((prev) => new Set(prev).add(item.id));
@@ -262,7 +262,7 @@ function SearchContent() {
           releaseDate,
           metadata,
           subtype,
-          status,
+          // status 제거
         });
         setAddedIds((prev) => new Set(prev).add(item.id));
         setSavedIds((prev) => new Set(prev).add(item.id));
@@ -398,7 +398,7 @@ function SearchContent() {
           savedIds={savedIds}
           userCounts={userCounts}
           onBeforeNavigate={handleBeforeNavigate}
-          onAddWithStatus={handleAddWithStatus}
+          onAddContent={handleAddContent}
         />
       )}
       {!isLoading && modeParam === "user" && (

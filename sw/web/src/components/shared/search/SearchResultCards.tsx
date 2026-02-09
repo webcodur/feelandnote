@@ -24,7 +24,7 @@ interface ContentResultsProps {
   savedIds?: Set<string>;
   userCounts?: Record<string, number>;
   onBeforeNavigate?: (item: ContentResult) => void;
-  onAddWithStatus?: (item: ContentResult, status: ContentStatus) => void;
+  onAddContent?: (item: ContentResult) => void;
 }
 
 export function ContentResults({
@@ -34,7 +34,7 @@ export function ContentResults({
   savedIds = new Set(),
   userCounts = {},
   onBeforeNavigate,
-  onAddWithStatus,
+  onAddContent,
 }: ContentResultsProps) {
   if (results.length === 0) return null;
 
@@ -65,8 +65,8 @@ export function ContentResults({
             href={href}
             onClick={() => onBeforeNavigate?.(item)}
             saved={isSaved && showAddButton}
-            addable={showAddButton && !isSaved && !!onAddWithStatus}
-            onAdd={() => onAddWithStatus?.(item, "WANT")}
+            addable={showAddButton && !isSaved && !!onAddContent}
+            onAdd={() => onAddContent?.(item)}
           />
         );
       })}

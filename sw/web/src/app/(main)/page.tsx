@@ -1,134 +1,96 @@
+ 
+// However, page.tsx itself should remain a Server Component to fetch initial data.
+// HomeRecordSection is a Client Component.
+
 import { Suspense } from "react";
-import FeaturedCollections from "@/components/features/landing/FeaturedCollections";
-import { getFeaturedTags } from "@/actions/home";
 import { createClient } from "@/lib/supabase/server";
-
-import HomeBanner from "@/components/features/home/HomeBanner";
-import ArchivePreview from "@/components/features/home/ArchivePreview";
-import AgoraPreview from "@/components/features/home/AgoraPreview";
-import ScripturesPreview from "@/components/features/home/ScripturesPreview";
-import ArenaPreview from "@/components/features/home/ArenaPreview";
-
 import { getUserContents } from "@/actions/contents/getUserContents";
-import type { ContentCardProps } from "@/components/ui/cards";
-import SectionWrapper from "@/components/features/home/SectionWrapper";
-import { HOME_SECTIONS } from "@/constants/navigation";
+import { getRecentContents } from "@/actions/contents/getRecentContents";
+import HomeRecordSection from "@/components/features/quickRecord/HomeRecordSection";
+import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
+import HomeTabSection from "@/components/features/home/HomeTabSection";
+import { HomeNavigationLinks } from "@/components/features/home/HomeNavigationLinks";
+
+import { getProfile } from "@/actions/user/getProfile";
+import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/scriptures";
 
 // #region 스켈레톤
-function FeaturedSkeleton() {
+function HomeSectionSkeleton() {
   return (
-    <div className="w-full animate-pulse">
-      {/* Desktop */}
-      <div className="hidden md:flex flex-col gap-8 md:gap-12">
-        {/* CuratedExhibition 스켈레톤 */}
-        <div className="w-full h-96 bg-bg-card/50 rounded-2xl" />
-        {/* QuickBrowse 스켈레톤 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-48 bg-bg-card/30 rounded-xl" />
-          ))}
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 space-y-12">
+        <div className="h-[400px] bg-white/5 rounded-2xl animate-pulse" />
+        <div className="space-y-4">
+            <div className="h-8 w-32 bg-white/5 rounded animate-pulse" />
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[...Array(5)].map((_, i) => (
+                    <div key={i} className="h-[240px] bg-white/5 rounded-xl animate-pulse" />
+                ))}
+            </div>
         </div>
-      </div>
-      {/* Mobile */}
-      <div className="md:hidden flex flex-col gap-6">
-        {/* 탭 스켈레톤 */}
-        <div className="flex gap-2 px-2 pb-2 border-b border-white/5">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-9 w-20 bg-bg-card rounded-full" />
-          ))}
-        </div>
-        {/* CuratedExhibition 스켈레톤 */}
-        <div className="h-80 bg-bg-card/50 rounded-xl mx-2" />
-        {/* QuickBrowse 스켈레톤 */}
-        <div className="grid grid-cols-3 gap-3 px-2">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-32 bg-bg-card/30 rounded-lg" />
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
 // #endregion
 
-// #region 서버 컴포넌트
-async function FeaturedSection() {
-  const tags = await getFeaturedTags();
-  const activeTags = tags.filter(tag => tag.is_featured);
-  return <FeaturedCollections tags={activeTags} />;
-}
-
-export default async function HomePage() {
+export default async function MainPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // 사용자 기록 조회 (로그인 시)
-  let userRecords: ContentCardProps[] = [];
-  if (user) {
-    try {
-      const { items } = await getUserContents({ 
-        userId: user.id, 
-        limit: 4 
-      });
+  // 1. 작성 대기 중인 목록 (리뷰 없음)
+  const unreviewedPromise = user 
+    ? getUserContents({ userId: user.id, hasReview: false, limit: 10, sortBy: 'recent' }) 
+    : Promise.resolve({ items: [] });
 
-      userRecords = items.map(item => ({
-        contentId: item.content_id,
-        contentType: item.content.type,
-        title: item.content.title,
-        creator: item.content.creator,
-        thumbnail: item.content.thumbnail_url,
-        status: item.status,
-        rating: item.public_record?.rating,
-        review: item.public_record?.content_preview ?? null,
-      }));
-    } catch (e) {
-      console.error("Failed to fetch user contents:", e);
-    }
-  }
+  // 2. 나의 최근 기록 (리뷰 있음)
+  const reviewedPromise = user 
+    ? getUserContents({ userId: user.id, hasReview: true, limit: 10, sortBy: 'recent' }) 
+    : Promise.resolve({ items: [] });
+    
+  // 3. 사용자 프로필
+  const profilePromise = getProfile();
+
+  // 4. 오늘의 인물 (Today's Figure)
+  const todayFigurePromise = getTodayFigure();
+
+
+
+  const [unreviewedResult, reviewedResult, profile, todayFigureResult, initialSuggestions] = await Promise.all([
+    unreviewedPromise, 
+    reviewedPromise,
+    profilePromise,
+    todayFigurePromise,
+    getQuickRecordSuggestions('BOOK')
+  ]);
+
+  const RecordSection = (
+    <Suspense fallback={<HomeSectionSkeleton />}>
+      <HomeRecordSection 
+          unreviewedList={unreviewedResult.items}
+          reviewedList={reviewedResult.items}
+          profile={profile}
+          initialSuggestions={initialSuggestions}
+      />
+    </Suspense>
+  );
+
+  const FigureSectionContent = (
+    <div className="flex flex-col gap-12">
+      <Suspense fallback={<div className="h-64 bg-white/5 rounded-xl animate-pulse" />}>
+        <TodayFigureSection figure={todayFigureResult.figure!} contents={todayFigureResult.contents} />
+      </Suspense>
+
+      <HomeNavigationLinks />
+    </div>
+  );
 
   return (
-    <div className="bg-bg-main">
-
-      {/* 1. 배너(히어로) */}
-      <section id="home-banner" className="-mx-2 md:-mx-8 -mt-6 md:-mt-8">
-        <HomeBanner />
-      </section>
-
-      {/* 2. 탐색 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.explore}>
-        <Suspense fallback={<FeaturedSkeleton />}>
-          <FeaturedSection />
-        </Suspense>
-      </SectionWrapper>
-
-      {/* 3. 서고 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.scriptures}>
-        <Suspense fallback={null}>
-          <ScripturesPreview />
-        </Suspense>
-      </SectionWrapper>
-
-      {/* 4. 광장 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.agora}>
-        <AgoraPreview />
-      </SectionWrapper>
-
-      {/* 5. 전장 프리뷰 */}
-      <SectionWrapper config={HOME_SECTIONS.arena}>
-        <ArenaPreview />
-      </SectionWrapper>
-
-      {/* 6. 기록관 프리뷰 */}
-      <SectionWrapper
-        config={HOME_SECTIONS.archive}
-        linkOverride={user ? `/${user.id}` : "/login"}
-      >
-        <ArchivePreview
-          initialRecords={userRecords}
-          userId={user?.id}
-        />
-      </SectionWrapper>
-
+    <div className="pb-20">
+      <HomeTabSection 
+        recordSection={RecordSection}
+        figureSection={FigureSectionContent}
+      />
     </div>
   );
 }

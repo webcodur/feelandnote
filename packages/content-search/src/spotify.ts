@@ -79,6 +79,11 @@ export interface MusicSearchResult {
     totalTracks: number
     artists: string[]
     spotifyUrl: string
+    // 추가 상세 정보 (getAlbumById에서만 제공)
+    tracks?: { name: string; durationMs: number; trackNumber: number }[]
+    label?: string
+    copyrights?: string[]
+    genres?: string[]
   }
 }
 
@@ -257,7 +262,7 @@ export async function batchGetSpotifyEntityTypes(
   }
 }
 
-// ID로 앨범 정보 조회 (metadata 포함)
+// ID로 앨범 정보 조회 (metadata 포함 - 상세 정보 강화)
 export async function getAlbumById(externalId: string): Promise<MusicSearchResult | null> {
   // externalId 형식: spotify-abc123 (spotify_ 형식도 허용)
   const match = externalId.match(/^spotify[-_](.+)$/)
@@ -276,9 +281,10 @@ export async function getAlbumById(externalId: string): Promise<MusicSearchResul
 
     if (!response.ok) return null
 
-    const album: SpotifyAlbum = await response.json()
-    const coverUrl = album.images[0]?.url || null
-    const artistNames = album.artists.map((a) => a.name)
+    // 전체 앨범 데이터 (트랙, 레이블, 저작권 포함)
+    const album = await response.json()
+    const coverUrl = album.images?.[0]?.url || null
+    const artistNames = album.artists?.map((a: { name: string }) => a.name) || []
     const primaryArtist = artistNames[0] || ''
 
     const albumTypeMap: Record<string, string> = {
@@ -286,6 +292,19 @@ export async function getAlbumById(externalId: string): Promise<MusicSearchResul
       single: '싱글',
       compilation: '컴필레이션',
     }
+
+    // 트랙 목록 파싱
+    const tracks = album.tracks?.items?.map((track: { name: string; duration_ms: number; track_number: number }) => ({
+      name: track.name,
+      durationMs: track.duration_ms,
+      trackNumber: track.track_number,
+    })) || []
+
+    // 저작권 정보 파싱
+    const copyrights = album.copyrights?.map((c: { text: string }) => c.text) || []
+
+    // 장르 정보 (아티스트에서 가져오기 위해 추가 요청 필요하나, 일단 앨범 장르만 사용)
+    const genres = album.genres || []
 
     return {
       externalId,
@@ -300,7 +319,12 @@ export async function getAlbumById(externalId: string): Promise<MusicSearchResul
         albumType: albumTypeMap[album.album_type] || album.album_type,
         totalTracks: album.total_tracks,
         artists: artistNames,
-        spotifyUrl: album.external_urls.spotify,
+        spotifyUrl: album.external_urls?.spotify || '',
+        // 추가 상세 정보
+        tracks: tracks.length > 0 ? tracks : undefined,
+        label: album.label || undefined,
+        copyrights: copyrights.length > 0 ? copyrights : undefined,
+        genres: genres.length > 0 ? genres : undefined,
       },
     }
   } catch {

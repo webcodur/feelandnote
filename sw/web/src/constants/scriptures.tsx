@@ -18,13 +18,7 @@ export interface ScripturesTab {
 }
 
 export const SCRIPTURES_TABS: ScripturesTab[] = [
-  {
-    value: "sage",
-    label: "오늘의 인물",
-    icon: User,
-    href: "/scriptures/sage",
-    description: "매일 새로운 인물 소개",
-  },
+
   {
     value: "chosen",
     label: "공통 서가",
@@ -47,6 +41,13 @@ export const SCRIPTURES_TABS: ScripturesTab[] = [
     description: "시대별 명저 탐색",
   },
 ];
+
+// 3행 구조: 5x5x5 그리드 (갈랫길 페이지용)
+export const PROFESSION_ROWS = [
+  ["entrepreneur", "investor", "athlete", "humanities_scholar", "director"],
+  ["leader", "scientist", "politician", "social_scientist", "author"],
+  ["commander", "musician", "visual_artist", "influencer", "actor"],
+] as const;
 
 // 헬퍼: 페이지 타이틀 생성
 export const getScripturesPageTitle = (tabValue?: string) => {

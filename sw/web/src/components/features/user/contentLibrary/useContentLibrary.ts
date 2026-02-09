@@ -143,7 +143,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         const result = await getUserContents({
           userId: targetUserId,
           type: CATEGORY_ID_TO_TYPE[activeTab],
-          status: 'FINISHED',
+          // status 제거: 모든 상태 조회
           page: compact ? 1 : currentPage,
           limit,
           search: searchParam,
@@ -187,7 +187,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         // owner 모드: 내 콘텐츠 조회 (WANT 상태 제외 - 관심 탭으로 분리됨)
         const result = await getMyContents({
           type: CATEGORY_ID_TO_TYPE[activeTab],
-          status: 'FINISHED',
+          // status 제거: 모든 상태 조회
           page: compact ? 1 : currentPage,
           limit,
           search: searchParam,
@@ -314,7 +314,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       title: item.content.title,
       creator: item.content.creator ?? undefined,
       thumbnailUrl: item.content.thumbnail_url ?? undefined,
-      status: "WANT",
+      // status 제거 (addContent에서 처리)
     });
     if (result.success) {
       setSavedContentIds(prev => {

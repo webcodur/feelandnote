@@ -69,7 +69,6 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         title={review.content.title}
         creator={review.content.creator}
         thumbnail={review.content.thumbnail_url}
-        status="FINISHED"
         review={review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}

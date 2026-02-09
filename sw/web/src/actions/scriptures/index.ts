@@ -14,6 +14,9 @@ export interface ScriptureContent {
   celeb_count: number
   user_count: number
   avg_rating: number | null
+  review?: string | null
+  is_spoiler?: boolean
+  user_content_id?: string
 }
 
 export interface ScripturesResult {
@@ -335,6 +338,18 @@ export async function getChosenScriptures(params?: {
     currentPage: page,
   }
 }
+
+// 빠른 기록용 추천 목록 (성경 제외)
+export async function getQuickRecordSuggestions(category: string = 'BOOK'): Promise<ScriptureContent[]> {
+  // 1. 넉넉하게 가져와서 필터링 (성경 제외)
+  const result = await getChosenScriptures({ category, limit: 30 })
+  
+  // 2. "성경" 키워드 제외 필터링
+  const suggestions = result.contents.filter(item => !item.title.includes('성경'))
+
+  // 3. 상위 10개만 반환
+  return suggestions.slice(0, 10)
+}
 // #endregion
 
 // #region 길의 갈래 - 직업별 인기 콘텐츠
@@ -434,7 +449,7 @@ export async function getProfessionContentCounts(): Promise<Array<{ profession: 
 // #endregion
 
 // #region 오늘의 인물 - 매일 랜덤 셀럽 1명의 콘텐츠
-export interface TodaySage {
+export interface TodayFigure {
   id: string
   nickname: string
   avatar_url: string | null
@@ -443,12 +458,12 @@ export interface TodaySage {
   contentCount: number
 }
 
-export interface TodaySageResult {
-  sage: TodaySage | null
+export interface TodayFigureResult {
+  figure: TodayFigure | null
   contents: ScriptureContent[]
 }
 
-export async function getTodaySage(): Promise<TodaySageResult> {
+export async function getTodayFigure(): Promise<TodayFigureResult> {
   const supabase = await createClient()
 
   // 1. 셀럽 프로필 ID 목록 조회
@@ -459,7 +474,7 @@ export async function getTodaySage(): Promise<TodaySageResult> {
     .eq('status', 'active')
 
   if (profileError || !celebProfiles?.length) {
-    return { sage: null, contents: [] }
+    return { figure: null, contents: [] }
   }
 
   const celebIds = celebProfiles.map(p => p.id)
@@ -490,7 +505,7 @@ export async function getTodaySage(): Promise<TodaySageResult> {
   }
 
   if (!celebCountsData.length) {
-    return { sage: null, contents: [] }
+    return { figure: null, contents: [] }
   }
 
   // 셀럽별 콘텐츠 개수 집계
@@ -506,7 +521,7 @@ export async function getTodaySage(): Promise<TodaySageResult> {
     .map(([id, count]) => ({ id, count }))
 
   if (!eligibleCelebs.length) {
-    return { sage: null, contents: [] }
+    return { figure: null, contents: [] }
   }
 
   // 2. 오늘 날짜 기반 결정적 랜덤 선택
@@ -523,13 +538,13 @@ export async function getTodaySage(): Promise<TodaySageResult> {
     .single()
 
   if (!profile) {
-    return { sage: null, contents: [] }
+    return { figure: null, contents: [] }
   }
 
   // 4. 해당 셀럽의 콘텐츠 조회
   const { data: userContents } = await supabase
     .from('user_contents')
-    .select('content_id, rating, contents(id, title, creator, thumbnail_url, type)')
+    .select('id, content_id, rating, review, is_spoiler, contents(id, title, creator, thumbnail_url, type)')
     .eq('user_id', selected.id)
     .eq('status', 'FINISHED')
 
@@ -546,12 +561,15 @@ export async function getTodaySage(): Promise<TodaySageResult> {
       type: (content?.type as CategoryId) || 'BOOK',
       celeb_count: 1,
       user_count: userCountMap.get(content?.id || '') ?? 0,
-      avg_rating: item.rating ? Number(item.rating) : null
+      avg_rating: item.rating ? Number(item.rating) : null,
+      review: item.review,
+      is_spoiler: item.is_spoiler,
+      user_content_id: item.id
     }
   }).filter(c => c.id)
 
   return {
-    sage: {
+    figure: {
       id: profile.id,
       nickname: profile.nickname,
       avatar_url: profile.avatar_url,

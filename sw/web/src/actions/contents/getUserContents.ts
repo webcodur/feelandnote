@@ -37,6 +37,7 @@ export interface UserContentPublic {
   public_record?: {
     rating: number | null
     content_preview: string | null
+    is_spoiler?: boolean
   } | null
 }
 
@@ -70,6 +71,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       is_recommended,
       rating,
       review,
+      is_spoiler,
       visibility,
       created_at,
       source_url,
@@ -95,9 +97,10 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     query = query.eq('content.type', type)
   }
 
-  if (status) {
-    query = query.eq('status', status)
-  }
+  // status 필터 제거 (사용자 요구사항: status 무관하게 리뷰 유무로만 판단)
+  // if (status) {
+  //   query = query.eq('status', status)
+  // }
 
   // 검색 필터 - 제목 또는 저자
   if (search && search.trim().length >= 2) {
@@ -105,12 +108,15 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     query = query.or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`, { referencedTable: 'content' })
   }
 
-  // 리뷰 필터
+  // 리뷰 필터 (강화됨)
   if (hasReview === true) {
+    // 리뷰가 있는 경우: null이 아니고 빈 문자열도 아닌 경우
     query = query.not('review', 'is', null).neq('review', '')
   } else if (hasReview === false) {
+    // 리뷰가 없는 경우: null이거나 빈 문자열인 경우
     query = query.or('review.is.null,review.eq.')
   }
+
 
   query = query.range(offset, offset + limit - 1)
 
@@ -139,6 +145,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     is_recommended: boolean
     rating: number | null
     review: string | null
+    is_spoiler: boolean
     visibility: VisibilityType | null
     created_at: string
     source_url: string | null
@@ -165,6 +172,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     public_record: (item.rating || item.review) ? {
       rating: item.rating,
       content_preview: item.review || null,
+      is_spoiler: item.is_spoiler, 
     } : null,
   }))
 

@@ -73,7 +73,7 @@ Supabase (PostgreSQL)을 사용하며, **Project ID**는 `wouqtpvfctednlffross`�
 | 키 | 라벨 | 경로 | 설명 |
 |---|---|---|---|
 | explore | 탐색 | /explore | 셀럽/사용자 탐색, 기획전 |
-| scriptures | 서고 | /scriptures | 셀럽 아카이브 (시대별, 직군별, 선택, 현인) |
+| scriptures | 서고 | /scriptures | 셀럽 아카이브 (시대별, 직군별, 선택, 인물) |
 | agora | 광장 | /agora | 피드, 게시판 |
 | arena | 전장 | /arena | 게임/퀴즈 (명언, 티어리스트, 타임퍼즐, 업다운) |
 | archive | 기록관 | /[userId] | 개인 프로필 (서재, 업적, 독서) |
@@ -89,7 +89,7 @@ Supabase (PostgreSQL)을 사용하며, **Project ID**는 `wouqtpvfctednlffross`�
   content/[contentId]/ # 콘텐츠 상세
   explore/            # 탐색 (celebs, followers, following, friends, similar)
   notifications/
-  scriptures/         # 서고 (chosen, era, profession, sage)
+  scriptures/         # 서고 (chosen, era, profession, figure)
 (policy)/             # 약관
 (standalone)/         # 독립 레이아웃 (content, search)
 about/  |  auth/callback/  |  lab/

@@ -1,15 +1,15 @@
 /*
-  파일명: /app/(main)/scriptures/sage/page.tsx
+  파일명: /app/(main)/scriptures/figure/page.tsx
   기능: 오늘의 인물 페이지
   책임: 매일 새로운 인물의 서재를 보여준다.
 */ // ------------------------------
 
 import { Suspense } from "react";
-import SageSection from "@/components/features/scriptures/sections/SageSection";
-import { getTodaySage } from "@/actions/scriptures";
+import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
+import { getTodayFigure } from "@/actions/scriptures";
 import { getScripturesPageTitle } from "@/constants/scriptures";
 
-export const metadata = { title: getScripturesPageTitle("sage") };
+export const metadata = { title: getScripturesPageTitle("figure") };
 
 function SectionSkeleton() {
   return (
@@ -32,7 +32,7 @@ function SectionSkeleton() {
         <div className="h-4 w-20 bg-bg-card rounded" />
       </div>
 
-      {/* SagePlaque 스켈레톤 (가로형 명판) */}
+      {/* FigurePlaque 스켈레톤 (가로형 명판) */}
       <div className="mb-8 relative bg-neutral-900/80 rounded-2xl border border-white/10 p-6 md:p-10">
         <div className="flex flex-col sm:flex-row items-center gap-6">
           {/* 아바타 */}
@@ -62,15 +62,16 @@ function SectionSkeleton() {
   );
 }
 
-async function SageContent() {
-  const sageData = await getTodaySage();
-  return <SageSection initialData={sageData} />;
+async function FigureContent() {
+  const { figure, contents } = await getTodayFigure();
+  if (!figure) return null;
+  return <TodayFigureSection figure={figure} contents={contents} />;
 }
 
 export default function Page() {
   return (
     <Suspense fallback={<SectionSkeleton />}>
-      <SageContent />
+      <FigureContent />
     </Suspense>
   );
 }

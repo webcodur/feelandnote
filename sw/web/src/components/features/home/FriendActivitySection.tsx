@@ -59,7 +59,6 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         title={activity.content_title || ""}
         creator={null}
         thumbnail={activity.content_thumbnail}
-        status="FINISHED"
         review={activity.review!}
         isSpoiler={false}
         sourceUrl={activity.source_url}

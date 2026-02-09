@@ -98,7 +98,7 @@ export async function getContentDetail(
       title: savedContent.title,
       creator: savedContent.creator || undefined,
       thumbnail: savedContent.thumbnail_url || undefined,
-      description: savedContent.description || undefined,
+      description: savedContent.description || (metadataResult.metadata?.description as string) || undefined,
       releaseDate: savedContent.release_date || undefined,
       type: savedContent.type,
       category: categoryId,

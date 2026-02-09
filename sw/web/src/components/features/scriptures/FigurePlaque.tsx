@@ -1,6 +1,6 @@
 /*
-  파일명: /components/features/scriptures/SagePlaque.tsx
-  기능: 현인 명판 (Sage Plaque)
+  파일명: /components/features/scriptures/FigurePlaque.tsx
+  기능: 인물 명판 (Figure Plaque)
   책임: 셀럽 프로필을 가로형 명판 스타일로 표시하고, 클릭 시 디테일 모달을 띄운다.
 */ // ------------------------------
 "use client";
@@ -12,7 +12,7 @@ import CelebDetailModal from "@/components/features/home/celeb-card-drafts/Celeb
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import type { CelebProfile } from "@/types/home";
 
-interface SagePlaqueProps {
+interface FigurePlaqueProps {
   id: string;
   nickname: string;
   avatarUrl: string | null;
@@ -22,15 +22,15 @@ interface SagePlaqueProps {
   subtitle?: string;
 }
 
-export default function SagePlaque({
+export default function FigurePlaque({
   id,
   nickname,
   avatarUrl,
   bio,
   contentCount,
-  badge = "Today's Sage",
-  subtitle = "Curator of Wisdom",
-}: SagePlaqueProps) {
+  badge = "Today's Figure",
+  subtitle = "Inspiring Figure",
+}: FigurePlaqueProps) {
   const [showModal, setShowModal] = useState(false);
   const [celebProfile, setCelebProfile] = useState<CelebProfile | null>(null);
 
@@ -97,7 +97,7 @@ export default function SagePlaque({
             </div>
 
             <p className="text-sm sm:text-base text-text-secondary leading-relaxed line-clamp-2 sm:line-clamp-none max-w-2xl mx-auto sm:mx-0">
-              {bio || "이 시대의 통찰을 전하는 현자입니다."}
+              {bio || "이 시대를 살아가는 인물입니다."}
             </p>
 
             {/* Stats */}
@@ -105,7 +105,7 @@ export default function SagePlaque({
               <div className="flex items-center gap-1.5 text-xs text-text-tertiary">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500/50" />
                 <span className="text-amber-500 font-bold">{contentCount}</span>
-                <span>Scriptures Selected</span>
+                <span>Selected Contents</span>
               </div>
             </div>
           </div>

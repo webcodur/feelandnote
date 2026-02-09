@@ -35,17 +35,30 @@ export interface ContentMetadata {
   // 영상
   voteAverage?: number
   genres?: string[]
+  tagline?: string
+  runtime?: number
+  budget?: number
+  revenue?: number
+  cast?: { name: string; character: string }[]
+  director?: string
+  backdropUrl?: string
 
   // 게임
   developer?: string
+  rate?: number // rating -> rate? check usage. API returns 'rating', interface has 'rating'.
   rating?: number
   platforms?: string[]
+  storyline?: string
+  screenshots?: string[]
 
   // 음악
   albumType?: string
   totalTracks?: number
   artists?: string[]
   spotifyUrl?: string
+  tracks?: { name: string; durationMs: number; trackNumber: number }[]
+  label?: string
+  copyrights?: string[]
 
   // 자격증
   qualificationType?: string

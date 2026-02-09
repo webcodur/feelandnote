@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Eye } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import { formatKST } from '@/lib/utils/date'
 import type { NoticeWithAuthor } from '@/types/database'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
 
@@ -44,6 +45,10 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
             <span>
               {formatDistanceToNow(new Date(notice.created_at), { addSuffix: true, locale: ko })}
             </span>
+            <span className="text-accent-dim/30">
+              ({formatKST(notice.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
+            </span>
+
             <span className="text-accent-dim/50">·</span>
             <span className="flex items-center gap-1">
               <Eye size={12} className="text-accent-dim" />

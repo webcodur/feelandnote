@@ -9,6 +9,7 @@ import type { SearchResult } from "@/components/shared/search/SearchResultsDropd
 import { getCategoryById } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
 import { createClient } from "@/lib/supabase/client";
+import { useQuickRecord } from "@/contexts/QuickRecordContext";
 
 const categoryToContentType = (category: string): ContentType => {
   const config = getCategoryById(category as ContentCategory);
@@ -216,13 +217,15 @@ export function useHeaderSearch() {
     setIsOpen(false);
   };
 
-  const handleAddWithStatus = (result: SearchResult, status: ContentStatus) => {
+  const { openQuickRecord } = useQuickRecord();
+
+  const handleAddContent = (result: SearchResult) => {
     if (addingIds.has(result.id) || addedIds.has(result.id)) return;
     setAddingIds((prev) => new Set(prev).add(result.id));
 
     startTransition(async () => {
       try {
-        await addContent({
+        const addResult = await addContent({
           id: result.id,
           type: categoryToContentType(result.category || "book"),
           title: result.title,
@@ -232,9 +235,21 @@ export function useHeaderSearch() {
           releaseDate: result.releaseDate,
           metadata: result.metadata,
           subtype: result.subtype,
-          status,
+          // status 제거 (addContent 내부에서 처리 혹은 deprecated)
         });
-        setAddedIds((prev) => new Set(prev).add(result.id));
+        
+        if (addResult.success) {
+            setAddedIds((prev) => new Set(prev).add(result.id));
+            
+            // 빠른 기록 패널 열기
+            openQuickRecord({
+                id: addResult.data.userContentId, // user_contents.id 사용
+                type: categoryToContentType(result.category || "book"),
+                title: result.title,
+                thumbnailUrl: result.thumbnail,
+                creator: result.subtitle,
+            });
+        }
       } catch (err) {
         console.error("추가 실패:", err);
       } finally {
@@ -318,7 +333,7 @@ export function useHeaderSearch() {
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
     // Handlers
-    handleSearch, handleResultClick, handleAddWithStatus, handleOpenInNewTab,
+    handleSearch, handleResultClick, handleAddContent, handleOpenInNewTab,
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   };
 }

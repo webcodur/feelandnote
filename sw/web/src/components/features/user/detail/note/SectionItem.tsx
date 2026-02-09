@@ -20,23 +20,26 @@ export default function SectionItem({ section, onUpdate, onDelete }: SectionItem
   const [memo, setMemo] = useState(section.memo || "");
 
   return (
-    <div className="bg-bg-secondary rounded-xl p-4 border border-border">
-      <div className="flex items-center gap-3 mb-3">
-        <span className="font-semibold flex-1">{section.title}</span>
+    <div className="group/item border-b border-white/5 pb-6 last:border-none">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="cursor-grab text-text-tertiary/30 hover:text-accent transition-colors">
+          <GripVertical size={12} />
+        </div>
+        <span className="text-[11px] font-bold text-accent/60 flex-1 uppercase tracking-widest">{section.title}</span>
         <Button
           unstyled
           onClick={() => onDelete(section.id)}
-          className="text-text-secondary hover:text-red-400"
+          className="text-text-tertiary/40 hover:text-red-400/80 transition-colors p-1"
         >
-          <Trash2 size={14} />
+          <Trash2 size={12} />
         </Button>
-        <div className="cursor-grab text-gray-500">
-          <GripVertical size={14} />
-        </div>
       </div>
+      
+      <hr className="border-white/5 mb-3" />
+
       <textarea
-        className="w-full bg-black/20 border border-border rounded-lg p-3 text-text-primary text-sm resize-y min-h-[80px] outline-none focus:border-accent"
-        placeholder="메모를 입력하세요..."
+        className="w-full bg-transparent text-text-primary text-[14px] leading-relaxed resize-y min-h-[40px] outline-none placeholder:text-text-tertiary/10"
+        placeholder="본인만 볼 수 있도록 비공개로 안전하게 기록됩니다."
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
         onBlur={() => {

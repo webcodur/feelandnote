@@ -10,6 +10,7 @@ import { useState, useTransition } from "react";
 import { Scroll } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
+import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { SavedContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import SectionHeader from "@/components/shared/SectionHeader";
@@ -88,30 +89,12 @@ export default function ChosenSection({ initialData }: Props) {
       <div className="-mt-2 mb-4 flex justify-center">
         <DecorativeLabel label="카테고리 선택" />
       </div>
-      <div className="mb-8 flex justify-center overflow-x-auto pb-4 scrollbar-hidden">
-        <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
-          {CATEGORY_TABS.map((tab) => {
-            const isActive = categoryFilter === tab.value;
-            return (
-              <button
-                key={tab.value}
-                onClick={() => handleCategoryChange(tab.value)}
-                className={`
-                  relative px-4 py-2 rounded-lg text-sm font-bold
-                  ${isActive
-                    ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
-                    : "text-text-secondary hover:text-white hover:bg-white/5"
-                  }
-                `}
-              >
-                <span className={isActive ? "font-serif text-black" : "font-sans"}>
-                  {tab.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <CategoryTabFilter
+        options={CATEGORY_TABS}
+        value={categoryFilter}
+        onChange={handleCategoryChange}
+        className="mb-8"
+      />
 
       {/* 본문 라벨 */}
       <div className="mb-4 flex justify-center">

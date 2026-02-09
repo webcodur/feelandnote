@@ -19,6 +19,7 @@ import {
   getScripturesByProfession,
   type ScripturesByProfession as ProfessionData,
 } from "@/actions/scriptures";
+import { PROFESSION_ROWS } from "@/constants/scriptures";
 
 // #region Types
 interface ProfessionCount {
@@ -33,14 +34,6 @@ interface Props {
 // #endregion
 
 const ITEMS_PER_PAGE = 12;
-
-// 3행 구조: 3글자 중요도 순 (기업가 1등)
-const PROFESSION_ROWS = [
-  ['entrepreneur', 'investor', 'politician', 'author', 'actor'],
-  ['leader', 'scientist', 'athlete', 'social_scientist'],
-  ['commander', 'director', 'musician', 'visual_artist'],
-  ['humanities_scholar', 'influencer'],
-] as const;
 
 export default function ProfessionSection({ professionCounts }: Props) {
   const [data, setData] = useState<ProfessionData | null>(null);

@@ -1,13 +1,13 @@
 /*
   파일명: /constants/arena.tsx
-  기능: 전장 관련 상수 Single Source of Truth
-  책임: 전장 메뉴 정보를 단일 원천으로 관리한다.
+  기능: 쉼터 관련 상수 Single Source of Truth
+  책임: 쉼터 메뉴 정보를 단일 원천으로 관리한다.
 */
 
 import { Scale, Clock, MessageCircle, type LucideIcon } from "lucide-react";
 
 // 섹션명
-export const ARENA_SECTION_NAME = "전장";
+export const ARENA_SECTION_NAME = "쉼터";
 
 export interface ArenaItem {
   value: string;
@@ -20,23 +20,23 @@ export interface ArenaItem {
 export const ARENA_ITEMS: ArenaItem[] = [
   {
     value: "up-down",
-    label: "용호상박",
+    label: "업다운",
     icon: Scale,
-    href: "/arena/up-down",
+    href: "/rest/up-down",
     description: "두 인물 중 더 높은 평점을 맞춰보세요",
   },
   {
     value: "time-puzzle",
-    label: "장유유서",
+    label: "타임퍼즐",
     icon: Clock,
-    href: "/arena/time-puzzle",
+    href: "/rest/time-puzzle",
     description: "인물들의 탄생 순서를 맞춰보세요",
   },
   {
     value: "quote",
-    label: "온고지신",
+    label: "인물찾기",
     icon: MessageCircle,
-    href: "/arena/quote",
+    href: "/rest/quote",
     description: "명언을 보고 인물을 맞춰보세요",
   },
 ];
@@ -58,21 +58,21 @@ export interface SectionHeaderInfo {
 
 export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
   "up-down": {
-    label: "INFLUENCE DUEL",
-    title: "용호상박",
-    description: "막상막하의 대결",
-    subDescription: "두 거인을 저울에 올리며 영향력의 무게를 가늠해보세요.",
+    label: "UP DOWN",
+    title: "업다운",
+    description: "누가 더 높을까?",
+    subDescription: "두 인물 중 영향력 점수가 더 높은 사람을 맞춰보세요.",
   },
   "time-puzzle": {
-    label: "CHRONOS PUZZLE",
-    title: "장유유서",
-    description: "선후의 질서",
-    subDescription: "위인들의 선후를 가리며 시간의 질서를 세워보세요.",
+    label: "TIME PUZZLE",
+    title: "타임퍼즐",
+    description: "시간 순서 맞추기",
+    subDescription: "인물들을 태어난 순서대로 정렬해보세요.",
   },
   quote: {
-    label: "QUOTE BLIND",
-    title: "온고지신",
-    description: "옛 지혜의 발견",
-    subDescription: "금언의 주인을 가리며 옛 지혜를 되새겨보세요.",
+    label: "GUESS WHO",
+    title: "인물찾기",
+    description: "누구의 명언일까?",
+    subDescription: "명언을 읽고 어떤 인물이 남긴 말인지 맞춰보세요.",
   },
 };

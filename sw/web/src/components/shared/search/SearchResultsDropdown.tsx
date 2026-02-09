@@ -11,7 +11,6 @@ import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import FriendCardNameplate from "@/components/features/user/explore/FriendCardNameplate";
 import { Z_INDEX } from "@/constants/zIndex";
-import type { ContentStatus } from "@/types/database";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -49,7 +48,8 @@ interface SearchResultsDropdownProps {
   onRecentSearchClick: (search: string) => void;
   onClearRecentSearches: () => void;
   onViewAllResults: () => void;
-  onAddWithStatus?: (result: SearchResult, status: ContentStatus) => void;
+  /** @deprecated status 파라미터는 무시됨 */
+  onAddContent?: (result: SearchResult) => void;
   onOpenInNewTab?: (result: SearchResult) => void;
   isMobile?: boolean;
 }
@@ -67,7 +67,7 @@ export default function SearchResultsDropdown({
   onRecentSearchClick,
   onClearRecentSearches,
   onViewAllResults,
-  onAddWithStatus,
+  onAddContent,
   onOpenInNewTab,
   isMobile = false,
 }: SearchResultsDropdownProps) {
@@ -172,10 +172,10 @@ export default function SearchResultsDropdown({
                 {/* 콘텐츠 유틸 버튼 (추가, 새창 열기) */}
                 {isContentResult && (
                   <div className="flex items-center gap-1 shrink-0">
-                    {onAddWithStatus && (
+                    {onAddContent && (
                       <div className={isAdded ? "" : "hidden group-hover:block"}>
                         <AddContentPopover
-                          onAdd={(status) => onAddWithStatus(result, status)}
+                          onAdd={() => onAddContent(result)}
                           isAdding={isAdding}
                           isAdded={isAdded}
                           size="md"

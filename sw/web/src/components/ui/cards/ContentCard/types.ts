@@ -55,7 +55,6 @@ export interface ContentCardProps {
   showGradient?: boolean;
 
   // 리뷰 모드
-  status?: ContentStatus;
   review?: string | null;
   isSpoiler?: boolean;
   sourceUrl?: string | null;
@@ -66,4 +65,12 @@ export interface ContentCardProps {
   // 스타일
   className?: string;
   heightClass?: string;
+  
+  // 강제 포스터 모드 (리뷰가 있어도 포스터 형태 유지)
+  forcePoster?: boolean;
+
+  // 모바일 레이아웃 (기본값: poster)
+  // poster: 세로형 포스터 카드 (작은 썸네일 + 하단 텍스트)
+  // review: 가로형 리뷰 카드 (좌측 썸네일 + 우측 텍스트)
+  mobileLayout?: "poster" | "review";
 }

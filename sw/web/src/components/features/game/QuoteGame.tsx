@@ -1,6 +1,6 @@
 /*
   파일명: components/features/game/QuoteGame.tsx
-  기능: 온고지신 게임
+  기능: 인물찾기 게임
   책임: 명언을 보여주고 4지선다로 인물을 맞추는 퀴즈 게임
 */
 "use client";
@@ -217,7 +217,7 @@ export default function QuoteGame() {
   if (!isDataLoaded) {
     return (
       <div className="flex items-center justify-center min-h-[500px]">
-        <div className="animate-pulse text-text-secondary font-serif">전장 입장 중...</div>
+        <div className="animate-pulse text-text-secondary font-serif">쉼터 입장 중...</div>
       </div>
     );
   }

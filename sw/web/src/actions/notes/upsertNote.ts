@@ -2,13 +2,11 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import type { Snapshot, Template, VisibilityType, Note } from './types'
+import type { Snapshot, Note } from './types'
 
 interface UpsertNoteParams {
   contentId: string
-  visibility?: VisibilityType
   snapshot?: Snapshot
-  template?: Template
 }
 
 export async function upsertNote(params: UpsertNoteParams): Promise<Note> {
@@ -38,9 +36,8 @@ export async function upsertNote(params: UpsertNoteParams): Promise<Note> {
       {
         user_id: user.id,
         content_id: params.contentId,
-        visibility: params.visibility ?? 'private',
+        memo: '', // 초기화 시 빈 값
         snapshot: params.snapshot ?? {},
-        template: params.template ?? {},
         updated_at: new Date().toISOString(),
       },
       {
@@ -61,6 +58,29 @@ export async function upsertNote(params: UpsertNoteParams): Promise<Note> {
   revalidatePath(`/${user.id}/records/${params.contentId}`)
 
   return data as Note
+}
+
+export async function updateNoteMemo(
+  noteId: string,
+  memo: string
+): Promise<void> {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    throw new Error('로그인이 필요합니다')
+  }
+
+  const { error } = await supabase
+    .from('notes')
+    .update({ memo, updated_at: new Date().toISOString() })
+    .eq('id', noteId)
+    .eq('user_id', user.id)
+
+  if (error) {
+    console.error('Update memo error:', error)
+    throw new Error('메모 저장에 실패했습니다')
+  }
 }
 
 export async function updateNoteSnapshot(
@@ -86,48 +106,4 @@ export async function updateNoteSnapshot(
   }
 }
 
-export async function updateNoteTemplate(
-  noteId: string,
-  template: Template
-): Promise<void> {
-  const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    throw new Error('로그인이 필요합니다')
-  }
-
-  const { error } = await supabase
-    .from('notes')
-    .update({ template, updated_at: new Date().toISOString() })
-    .eq('id', noteId)
-    .eq('user_id', user.id)
-
-  if (error) {
-    console.error('Update template error:', error)
-    throw new Error('템플릿 저장에 실패했습니다')
-  }
-}
-
-export async function updateNoteVisibility(
-  noteId: string,
-  visibility: VisibilityType
-): Promise<void> {
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    throw new Error('로그인이 필요합니다')
-  }
-
-  const { error } = await supabase
-    .from('notes')
-    .update({ visibility, updated_at: new Date().toISOString() })
-    .eq('id', noteId)
-    .eq('user_id', user.id)
-
-  if (error) {
-    console.error('Update visibility error:', error)
-    throw new Error('공개 설정 변경에 실패했습니다')
-  }
-}

@@ -1,16 +1,16 @@
 /*
-  파일명: /app/(main)/arena/time-puzzle/page.tsx
-  기능: 장유유서 게임 페이지
-  책임: 인물 탄생 순서 정렬 게임을 제공한다.
-*/ // ------------------------------
+  파일명: /app/(main)/rest/quote/page.tsx
+  기능: 인물찾기 게임 페이지
+  책임: 명언을 보고 인물을 맞추는 퀴즈 게임을 제공한다.
+*/
 
-import TimelineGame from "@/components/features/game/TimelineGame";
+import QuoteGame from "@/components/features/game/QuoteGame";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 
-export const metadata = { title: getArenaPageTitle("time-puzzle") };
+export const metadata = { title: getArenaPageTitle("quote") };
 
-const headerInfo = ARENA_SECTION_HEADERS["time-puzzle"];
+const headerInfo = ARENA_SECTION_HEADERS["quote"];
 
 export default function Page() {
   return (
@@ -32,7 +32,7 @@ export default function Page() {
           </>
         }
       />
-      <TimelineGame />
+      <QuoteGame />
     </>
   );
 }

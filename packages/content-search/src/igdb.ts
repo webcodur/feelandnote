@@ -42,11 +42,16 @@ interface IGDBGame {
   name: string
   slug: string
   summary?: string
+  storyline?: string
   first_release_date?: number
   cover?: {
     id: number
     image_id: string
   }
+  screenshots?: {
+    id: number
+    image_id: string
+  }[]
   genres?: { id: number; name: string }[]
   platforms?: { id: number; name: string }[]
   involved_companies?: {
@@ -75,6 +80,9 @@ export interface GameSearchResult {
     rating: number | null
     developer: string
     publisher: string
+    // 추가 상세 정보 (getGameById에서만 제공)
+    storyline?: string
+    screenshots?: string[]
   }
 }
 
@@ -244,7 +252,7 @@ export async function getGameTrailer(externalId: string): Promise<string | null>
   }
 }
 
-// ID로 게임 정보 조회 (metadata 포함)
+// ID로 게임 정보 조회 (metadata 포함 - 상세 정보 강화)
 export async function getGameById(externalId: string): Promise<GameSearchResult | null> {
   // externalId 형식: igdb-123
   const match = externalId.match(/^igdb-(\d+)$/)
@@ -256,8 +264,9 @@ export async function getGameById(externalId: string): Promise<GameSearchResult 
     const token = await getAccessToken()
 
     const body = `
-      fields name, slug, summary, first_release_date,
+      fields name, slug, summary, storyline, first_release_date,
              cover.image_id,
+             screenshots.image_id,
              genres.name,
              platforms.name,
              involved_companies.company.name,
@@ -293,6 +302,11 @@ export async function getGameById(externalId: string): Promise<GameSearchResult 
       : ''
     const rating = game.total_rating || game.aggregated_rating || game.rating || null
 
+    // 스크린샷 URL 생성 (상위 5개)
+    const screenshots = game.screenshots?.slice(0, 5).map(
+      s => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${s.image_id}.jpg`
+    ) || []
+
     return {
       externalId,
       externalSource: 'igdb',
@@ -308,6 +322,9 @@ export async function getGameById(externalId: string): Promise<GameSearchResult 
         rating: rating ? Math.round(rating) : null,
         developer,
         publisher,
+        // 추가 상세 정보
+        storyline: game.storyline || undefined,
+        screenshots: screenshots.length > 0 ? screenshots : undefined,
       },
     }
   } catch {

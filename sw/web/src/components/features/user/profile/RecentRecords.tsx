@@ -7,6 +7,7 @@ import { getCategoryByDbType } from "@/constants/categories";
 import { addContent } from "@/actions/contents/addContent";
 import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
+import { removeContent } from "@/actions/contents/removeContent";
 
 const PAGE_LIMIT = 10;
 
@@ -34,7 +35,7 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
   const handlePageChange = useCallback(async (page: number) => {
     setIsLoading(true);
     try {
-      const result = await getUserContents({ userId, limit: PAGE_LIMIT, status: "FINISHED", page });
+      const result = await getUserContents({ userId, limit: PAGE_LIMIT, hasReview: true, page });
       setCurrentItems(result.items);
       setTotalPages(result.totalPages);
       setCurrentPage(page);
@@ -59,10 +60,22 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
       title: item.content.title,
       creator: item.content.creator ?? undefined,
       thumbnailUrl: item.content.thumbnail_url ?? undefined,
-      status: "WANT",
+
     });
     if (result.success) {
       setAddedIds(prev => new Set(prev).add(item.content_id));
+    }
+  }, []);
+
+  // 콘텐츠 삭제 핸들러 (소유자 모드)
+  const handleDelete = useCallback(async (userContentId: string) => {
+    if (!confirm("정말 이 기록을 삭제하시겠습니까?")) return;
+    try {
+      await removeContent(userContentId);
+      setCurrentItems(prev => prev.filter(item => item.id !== userContentId));
+    } catch (err) {
+      console.error("삭제 실패:", err);
+      alert("삭제하지 못했습니다.");
     }
   }, []);
 
@@ -96,6 +109,8 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
             saved={!isOwner && savedContentIds !== undefined && isViewerSaved(item.content_id)}
             addable={!isOwner && savedContentIds !== undefined && !isViewerSaved(item.content_id)}
             onAdd={() => handleAdd(item)}
+            deletable={isOwner}
+            onDelete={isOwner ? (e) => { e.stopPropagation(); handleDelete(item.id); } : undefined}
           />
         ))}
       </div>

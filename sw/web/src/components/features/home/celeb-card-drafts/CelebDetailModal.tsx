@@ -100,7 +100,6 @@ function CelebReviewCard({ review, celeb, onRatingUpdate }: { review: CelebRevie
         userCount={review.content.user_count}
         rating={currentRating}
         onRatingClick={(e) => { e.stopPropagation(); setShowRatingModal(true); }}
-        status="FINISHED"
         review={review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}

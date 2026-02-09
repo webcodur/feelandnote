@@ -1,5 +1,5 @@
 export { getNote, getNoteByContentId } from './getNote'
-export { upsertNote } from './upsertNote'
+export { upsertNote, updateNoteMemo } from './upsertNote'
 export { deleteNote } from './deleteNote'
 export {
   addSection,
@@ -7,4 +7,4 @@ export {
   deleteSection,
   reorderSections,
 } from './sections'
-export type { Note, NoteSection, Snapshot, Template } from './types'
+export type { Note, NoteSection, Snapshot } from './types'

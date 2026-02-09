@@ -40,7 +40,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "explore",
     href: "/explore",
-    label: "탐색",
+    label: "인물",
     icon: Compass,
     showInHeader: true,
     showInBottomNav: true,
@@ -49,7 +49,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "scriptures",
     href: "/scriptures",
-    label: "서고",
+    label: "서가",
     icon: BookOpen,
     showInHeader: true,
     showInBottomNav: true,
@@ -65,19 +65,19 @@ export const NAV_ITEMS: NavItem[] = [
     showInHomePage: true,
   },
   {
-    key: "arena",
-    href: "/arena",
-    label: "전장",
+    key: "rest",
+    href: "/rest",
+    label: "쉼터",
     icon: Gamepad2,
-    showInHeader: true,
-    showInBottomNav: true,
-    showInHomePage: true,
+    showInHeader: false,
+    showInBottomNav: false,
+    showInHomePage: false,
   },
   {
     key: "archive",
     href: "/{userId}",
-    label: "기록관",
-    mobileLabel: "내 페이지",
+    label: "내 기록관",
+    mobileLabel: "내 기록관",
     icon: User,
     showInHeader: true,
     showInBottomNav: true,
@@ -100,58 +100,53 @@ const getNavLabel = (key: string) => NAV_ITEMS.find((item) => item.key === key)?
 export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
   explore: {
     id: "explore-section",
-    title: `영감의 ${getNavLabel("explore")}`,
+    title: getNavLabel("explore"),
     englishTitle: "Explore",
-    description: (
-      <>
-        시대를 초월한 지성을 만나는 여정. <br className="hidden md:block" />
-        깊이 있는 <b>기획전</b>으로 몰입하거나, 다양한 <b>카테고리</b>로 폭넓게 {getNavLabel("explore")}해보세요.
-      </>
-    ),
+    description: "다양한 인물과 그들이 즐긴 콘텐츠를 만나보세요.",
     svgSrc: "/images/decorations/owl.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/explore",
-    linkText: `${getNavLabel("explore")} 페이지로 이동`,
+    linkText: `${getNavLabel("explore")} 보러가기`,
   },
   scriptures: {
     id: "scriptures-section",
-    title: `지혜의 ${getNavLabel("scriptures")}`,
-    englishTitle: "Sacred Archives",
-    description: `시대를 관통한 지혜가 잠든 곳. 인물들이 남긴 경전을 ${getNavLabel("explore")}하세요.`,
+    title: getNavLabel("scriptures"),
+    englishTitle: "Library",
+    description: "오늘의 인물, 공통 서가, 직업별 추천을 확인하세요.",
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/scriptures",
-    linkText: `${getNavLabel("scriptures")} 페이지로 이동`,
+    linkText: `${getNavLabel("scriptures")} 보러가기`,
   },
   agora: {
     id: "agora-section",
-    title: `소통의 ${getNavLabel("agora")}`,
-    englishTitle: "Agora",
-    description: `${getNavLabel("agora")}에서 피드와 게시판을 확인하세요.`,
+    title: getNavLabel("agora"),
+    englishTitle: "Community",
+    description: "다른 사용자들과 소통하고 피드를 확인하세요.",
     svgSrc: "/images/decorations/lyre.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/agora",
-    linkText: `${getNavLabel("agora")} 페이지로 이동`,
+    linkText: `${getNavLabel("agora")} 보러가기`,
   },
-  arena: {
-    id: "arena-section",
-    title: "격돌의 전장",
-    englishTitle: "Arena",
-    description: "게임과 퀴즈로 지식을 겨루는 공간.",
+  rest: {
+    id: "rest-section",
+    title: "쉼터",
+    englishTitle: "Take a Rest",
+    description: "잠시 쉬어가며 가볍게 즐기는 미니게임.",
     svgSrc: "/images/decorations/horn.svg",
     className: "bg-bg-main border-t border-white/10",
-    link: "/arena",
-    linkText: `${getNavLabel("arena")} 페이지로 이동`,
+    link: "/rest",
+    linkText: `${getNavLabel("rest")} 가기`,
   },
   archive: {
     id: "archive-section",
-    title: `나의 기록`,
-    englishTitle: "Records",
-    description: "책, 영화, 게임... 당신의 모든 영감을 기록하고 관리하세요.",
+    title: getNavLabel("archive"),
+    englishTitle: "My Archives",
+    description: "내가 본 콘텐츠를 기록하고 관리하세요.",
     svgSrc: "/images/decorations/vase.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/{userId}",
-    linkText: "기록관 페이지로 이동",
+    linkText: `${getNavLabel("archive")} 보러가기`,
   },
 };
 
@@ -161,7 +156,7 @@ export const SECTION_ORDER = [
   "explore-section",
   "scriptures-section",
   "agora-section",
-  "arena-section",
+  "rest-section",
   "archive-section",
 ] as const;
 // #endregion
@@ -180,9 +175,9 @@ export const PAGE_BANNER = {
     title: HOME_SECTIONS.agora.title,
     englishTitle: HOME_SECTIONS.agora.englishTitle,
   },
-  arena: {
-    title: HOME_SECTIONS.arena.title,
-    englishTitle: HOME_SECTIONS.arena.englishTitle,
+  rest: {
+    title: HOME_SECTIONS.rest.title,
+    englishTitle: HOME_SECTIONS.rest.englishTitle,
   },
   archive: {
     titleSuffix: "의 기록관",

@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import NoteEditor from "@/components/features/user/detail/note/NoteEditor";
+import MyNotePanel from "@/components/features/user/detail/note/MyNotePanel";
 
 interface MyNoteSectionProps {
   contentId: string;
@@ -14,7 +14,7 @@ interface MyNoteSectionProps {
 export default function MyNoteSection({ contentId }: MyNoteSectionProps) {
   return (
     <div className="pt-4">
-      <NoteEditor contentId={contentId} />
+      <MyNotePanel contentId={contentId} />
     </div>
   );
 }
