@@ -495,6 +495,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
         .select('user_id')
         .in('user_id', batchIds)
         .eq('status', 'FINISHED')
+        .eq('visibility', 'public')
         .range(from, from + PAGE_SIZE - 1)
 
       if (error || !data?.length) break
@@ -547,6 +548,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     .select('id, content_id, rating, review, is_spoiler, contents(id, title, creator, thumbnail_url, type)')
     .eq('user_id', selected.id)
     .eq('status', 'FINISHED')
+    .eq('visibility', 'public')
 
   // 5. 일반 사용자(USER) 콘텐츠 카운트 조회
   const userCountMap = await fetchUserContentCounts(supabase)

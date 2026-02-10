@@ -147,7 +147,7 @@ export function HomeEditorArea({
         <div ref={editorRef} className="w-full mt-6 scroll-mt-28 flex flex-col gap-8">
             {/* 1. Featured Work Info */}
             <div className="flex flex-col gap-4">
-                <DecorativeLabel label="선택한 컨텐츠" />
+                <DecorativeLabel label="선택된 컨텐츠" />
                 <FeaturedWorkInfo 
                     targetContent={targetContent} 
                     suggestionProps={suggestionProps}
