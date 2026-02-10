@@ -98,7 +98,8 @@ export async function getContentDetail(
       title: savedContent.title,
       creator: savedContent.creator || undefined,
       thumbnail: savedContent.thumbnail_url || undefined,
-      description: savedContent.description || (metadataResult.metadata?.description as string) || undefined,
+      // Description은 메타데이터(원본)를 Source of Truth로 사용 (DB 값 무시)
+      description: (metadataResult.metadata?.description as string) || undefined,
       releaseDate: savedContent.release_date || undefined,
       type: savedContent.type,
       category: categoryId,
@@ -121,7 +122,8 @@ export async function getContentDetail(
         title: dbContent.title,
         creator: dbContent.creator || undefined,
         thumbnail: dbContent.thumbnail_url || undefined,
-        description: dbContent.description || undefined,
+        // Description은 메타데이터(원본)를 Source of Truth로 사용 (DB 값 무시)
+        description: (metadataResult.metadata?.description as string) || undefined,
         releaseDate: dbContent.release_date || undefined,
         type: dbContent.type as ContentType,
         category: categoryId,
