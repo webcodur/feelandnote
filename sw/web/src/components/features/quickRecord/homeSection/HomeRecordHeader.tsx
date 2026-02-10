@@ -62,22 +62,33 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                     )}
                 </>
             ) : (
-                <div className="flex flex-col items-center gap-4 mb-4">
-                    <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                        <Users size={24} className="text-text-tertiary" />
-                    </div>
-                    <div className="text-center">
-                        <p className="text-lg font-serif text-text-secondary mb-3">
-                            나만의 서재를 만들어보세요
-                        </p>
-                        <Link
-                            href="/login"
-                            className="inline-flex items-center justify-center px-6 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-bold hover:bg-accent/20 transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]"
-                        >
-                            로그인하기
-                        </Link>
-                    </div>
-                </div>
+                <>
+                    <Link
+                        href="/login"
+                        className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl transition-all duration-500 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
+                    >
+                        <div className="relative">
+                            <div className="w-[100px] h-[100px] rounded-full bg-white/5 flex items-center justify-center border-2 border-white/10 group-hover:border-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500">
+                                <Users size={40} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                            </div>
+                        </div>
+                        <div className="text-center space-y-2">
+                            <h2 className="text-3xl md:text-4xl font-serif font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent transition-all duration-500">
+                                나만의 서재
+                            </h2>
+                            <div className="flex items-center justify-center gap-3">
+                                <span className="text-sm text-text-secondary font-medium px-2 py-0.5 rounded bg-white/5 border border-white/5">
+                                    로그인이 필요합니다
+                                </span>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* 간단한 소개글 */}
+                    <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
+                        &ldquo;나만의 서재를 만들어보세요&rdquo;
+                    </p>
+                </>
             )}
         </div>
     );

@@ -32,24 +32,17 @@ export function HomeSuggestions({
     isDragging
 }: HomeSuggestionsProps) {
     return (
-        <section className="relative animate-in fade-in zoom-in-95 duration-500 mt-8 md:mt-12">
-            <div className="flex items-center justify-between mb-4 px-2">
-                <h3 className="text-lg font-serif font-bold text-text-primary flex items-center gap-2">
-                    <Sparkles size={18} className="text-accent" />
-                    셀럽들의 최고 인기 {categoryLabel} 리뷰하기
-                </h3>
-                {isSwitchingCategory && <Loader2 className="animate-spin text-text-tertiary" size={18} />}
-            </div>
+        <section className="relative animate-in fade-in zoom-in-95 duration-500 px-2">
+            {isSwitchingCategory && (
+                <div className="absolute inset-0 z-10 bg-black/50 flex items-center justify-center rounded-lg">
+                    <Loader2 className="animate-spin text-accent" size={32} />
+                </div>
+            )}
 
             {suggestions.length > 0 ? (
-                <div
-                    ref={scrollRef}
-                    {...events}
-                    className={`flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-                    style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
-                >
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-2 pb-4">
                     {suggestions.map((item) => (
-                        <div key={item.id} className="relative flex-none w-[140px] md:w-[160px]">
+                        <div key={item.id} className="relative flex-none w-full mt-2">
                             <ContentCard
                                 contentId={item.id}
                                 contentType={item.type as ContentType}

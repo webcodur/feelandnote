@@ -56,6 +56,7 @@ export interface ContentCardProps {
 
   // 리뷰 모드
   review?: string | null;
+  reviewPresets?: string[] | null;
   isSpoiler?: boolean;
   sourceUrl?: string | null;
   showStatusBadge?: boolean;

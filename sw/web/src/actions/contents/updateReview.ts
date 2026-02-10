@@ -10,6 +10,7 @@ interface UpdateReviewParams {
   userContentId: string
   rating?: number | null
   review?: string | null
+  reviewPresets?: string[] | null
   isSpoiler?: boolean
 }
 
@@ -44,9 +45,10 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
 
   const isFirstReview = !existing.rating && !existing.review
 
-  const updateData: { rating?: number | null; review?: string | null; is_spoiler?: boolean } = {}
+  const updateData: { rating?: number | null; review?: string | null; review_presets?: string[] | null; is_spoiler?: boolean } = {}
   if (params.rating !== undefined) updateData.rating = params.rating
   if (params.review !== undefined) updateData.review = params.review
+  if (params.reviewPresets !== undefined) updateData.review_presets = params.reviewPresets
   if (params.isSpoiler !== undefined) updateData.is_spoiler = params.isSpoiler
 
   const { error } = await supabase

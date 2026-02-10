@@ -4,6 +4,8 @@ import { useState, useTransition, useEffect, useRef } from "react";
 import { searchContents } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
+import { updateUserContentRating } from "@/actions/contents/updateRating";
+import { updateReview } from "@/actions/contents/updateReview";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
@@ -102,6 +104,7 @@ export default function HomeRecordSection({
                 creator: unreviewedItem.content.creator,
                 initialRating: unreviewedItem.public_record?.rating || 0,
                 initialReview: unreviewedItem.public_record?.content_preview || "",
+                initialPresets: unreviewedItem.public_record?.review_presets || [],
             });
         } 
         
@@ -119,6 +122,7 @@ export default function HomeRecordSection({
                     title: firstItem.title,
                     thumbnailUrl: firstItem.thumbnail_url,
                     creator: firstItem.creator,
+                    initialPresets: [],
                     isRecommendation: true,
                 });
             }
@@ -159,6 +163,61 @@ export default function HomeRecordSection({
     });
   }, [debouncedQuery]);
 
+  // Guest Logic: Check for pending content
+  useEffect(() => {
+    if (userId) {
+        const pending = localStorage.getItem('guest_content_pending');
+        if (pending) {
+            try {
+                const data = JSON.parse(pending);
+                // 약간의 지연 후 실행 (UI 렌더링 후)
+                setTimeout(() => {
+                    if (confirm(`'${data.title}'에 대한 작성 중인 리뷰가 있습니다.\n지금 등록하시겠습니까?`)) {
+                        (async () => {
+                            try {
+                                const result = await addContent({
+                                    id: data.contentId,
+                                    type: data.type,
+                                    title: data.title,
+                                    creator: data.creator,
+                                    thumbnailUrl: data.thumbnailUrl
+                                });
+                                
+                                if (result.success && result.data) {
+                                    const userContentId = result.data.userContentId;
+                                    if (data.rating > 0) {
+                                        await updateUserContentRating({ userContentId, rating: data.rating });
+                                    }
+                                    if (data.review || (data.presets && data.presets.length > 0)) {
+                                        await updateReview({
+                                            userContentId,
+                                            review: data.review,
+                                            reviewPresets: data.presets
+                                        });
+                                    }
+                                    localStorage.removeItem('guest_content_pending');
+                                    alert("성공적으로 등록되었습니다.");
+                                    window.location.reload();
+                                }
+                            } catch (e) {
+                                console.error(e);
+                                alert("등록 중 오류가 발생했습니다.");
+                            }
+                        })();
+                    } else {
+                        if (confirm("작성 중인 기록을 삭제하시겠습니까?")) {
+                            localStorage.removeItem('guest_content_pending');
+                        }
+                    }
+                }, 500);
+            } catch (e) {
+                console.error("Invalid guest data", e);
+                localStorage.removeItem('guest_content_pending');
+            }
+        }
+    }
+  }, [userId]);
+
   const handleEditorComplete = () => {
     closeQuickRecord();
     setQuery("");
@@ -191,6 +250,26 @@ export default function HomeRecordSection({
             creator: item.content.creator,
             initialRating: item.public_record?.rating || 0,
             initialReview: item.public_record?.content_preview || "",
+            initialPresets: item.public_record?.review_presets || [],
+        });
+        if (editorRef.current) {
+            editorRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        return;
+    }
+
+    if (!userId) {
+        openQuickRecord({
+            id: `guest-${item.id}`,
+            contentId: item.id,
+            type: item.type,
+            title: item.title,
+            thumbnailUrl: item.thumbnailUrl || item.thumbnail,
+            creator: item.creator,
+            initialPresets: [],
+            isRecommendation: false,
+            initialRating: 0,
+            initialReview: "",
         });
         if (editorRef.current) {
             editorRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -218,6 +297,7 @@ export default function HomeRecordSection({
                 title: item.title,
                 thumbnailUrl: item.thumbnailUrl || item.thumbnail,
                 creator: item.creator,
+                initialPresets: [],
                 isRecommendation: false,
              });
              if (editorRef.current) {
@@ -267,39 +347,35 @@ export default function HomeRecordSection({
                 placeholder={currentCategoryConfig?.placeholder}
             />
 
-            {/* 3. Editor Area: RecordEditor & Search Helper */}
+        {/* 3. Editor Area: RecordEditor & Search Helper */}
             <HomeEditorArea 
                 targetContent={targetContent}
                 onEditorComplete={handleEditorComplete}
                 editorRef={editorRef}
-            />
-
-            {/* 4. Suggestions Area: Popular Content */}
-            <HomeSuggestions 
-                suggestions={suggestions}
-                categoryLabel={currentCategoryConfig?.label}
-                isSwitchingCategory={isSwitchingCategory}
-                localUnreviewedList={localUnreviewedList}
-                allReviewedItems={allReviewedItems}
-                onItemClick={handleItemClick}
-                onDelete={handleDelete}
-                scrollRef={suggestionScrollRef}
-                events={suggestionEvents}
-                isDragging={isSuggestionDragging}
+                suggestionProps={{
+                    suggestions,
+                    categoryLabel: currentCategoryConfig?.label,
+                    isSwitchingCategory,
+                    localUnreviewedList,
+                    allReviewedItems,
+                    onItemClick: handleItemClick,
+                    onDelete: handleDelete,
+                    scrollRef: suggestionScrollRef,
+                    events: suggestionEvents,
+                    isDragging: isSuggestionDragging,
+                }}
+                archiveProps={{
+                    userId,
+                    unreviewedList: localUnreviewedList,
+                    allReviewedItems,
+                    onItemClick: handleItemClick,
+                    onDelete: handleDelete,
+                    scrollRef,
+                    events,
+                    isDragging,
+                }}
             />
         </section>
-
-        {/* 5. Archive Area: Unreviewed & Reviewed Lists */}
-        <HomeArchiveArea 
-            userId={userId}
-            unreviewedList={localUnreviewedList}
-            allReviewedItems={allReviewedItems}
-            onItemClick={handleItemClick}
-            onDelete={handleDelete}
-            scrollRef={scrollRef}
-            events={events}
-            isDragging={isDragging}
-        />
     </div>
   );
 }

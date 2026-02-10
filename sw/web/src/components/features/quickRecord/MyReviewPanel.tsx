@@ -1,23 +1,35 @@
-"use client";
-
-import { useRef } from "react";
-import { PenTool, Eye, Save, Loader2, Star } from "lucide-react";
+import { useRef, useState } from "react";
+import { PenTool, Eye, Save, Loader2, Star, Plus, X } from "lucide-react";
 import FormattedText from "@/components/ui/FormattedText";
 import StarRatingInput from "@/components/ui/StarRatingInput";
+import ReviewPresetModal from "./ReviewPresetModal";
+import { 
+    type ReviewPreset, 
+    getAllCommonPresets, 
+    getPresetsByCategory,
+    getPresetByKeyword,
+    getSentimentColorClasses
+} from "@/constants/review-presets";
+import type { CategoryId } from "@/constants/categories";
 
 interface MyReviewPanelProps {
   review: string;
   setReview: (value: string) => void;
   rating: number;
   setRating: (value: number) => void;
+  presets: string[];
+  setPresets: (value: string[]) => void;
   initialReview?: string;
   initialRating?: number;
+  initialPresets?: string[];
   viewMode: 'EDIT' | 'PREVIEW';
   setViewMode: (mode: 'EDIT' | 'PREVIEW') => void;
   contentTitle?: string;
   isRecommendation?: boolean;
   onSave: () => void;
   isSubmitting: boolean;
+  hideHeader?: boolean;
+  contentType: CategoryId; // 필수
 }
 
 export default function MyReviewPanel({
@@ -25,28 +37,39 @@ export default function MyReviewPanel({
   setReview,
   rating,
   setRating,
+  presets,
+  setPresets,
   initialReview = "",
   initialRating = 0,
+  initialPresets = [],
   viewMode,
   setViewMode,
   onSave,
   isSubmitting,
   contentTitle,
   isRecommendation,
+  hideHeader = false,
+  contentType,
 }: MyReviewPanelProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
 
-  const isDirty = (review !== initialReview) || (rating !== initialRating);
+  // 프리셋 비교: 순서 무관하게 내용이 같은지 확인
+  const arePresetsEqual = (a: string[], b: string[]) => {
+      if (a.length !== b.length) return false;
+      const setA = new Set(a);
+      return b.every(item => setA.has(item));
+  };
+
+  const isDirty = (review !== initialReview) || (rating !== initialRating) || !arePresetsEqual(presets, initialPresets);
 
   // 추천 모드일 때 안내 문구 표시 로직
-  // 리뷰가 비어있고 isRecommendation이 true일 때만 placeholder가 다르게 보이거나, 아예 오버레이가 보일 수 있음.
-  // 여기서는 textarea placeholder를 동적으로 변경하는 방식을 사용.
-  
   const placeholderText = isRecommendation 
     ? `셀럽들이 최고로 추천하는 《${contentTitle}》입니다.\n작품을 경험하셨다면 솔직한 리뷰를 남겨보세요.` 
-    : `작품에서 발견한 영감을 자유롭게 기록해 보세요.
+    : `작품에서 발견한 영감을 자유롭게 기록하세요.
 
- 다음의 문장 부호로 텍스트를 꾸밀 수 있습니다.
+ 다음 부호로 텍스트를 꾸밀 수 있습니다.
+ 
  • 《작품명》 : 제목이나 큰 주제 강조 (Bold)
  • "명언" : 중요한 문장이나 인용구 (Accent)
  • <키워드> : 특정 단어나 소주제 강조 (Serif)
@@ -69,12 +92,9 @@ export default function MyReviewPanel({
     
     setReview(newText);
     
-    // 커서 위치 조정 (삽입된 텍스트 사이로 이동)
-    // requestAnimationFrame을 사용하여 React 상태 업데이트 이후에 커서 이동 보장
     requestAnimationFrame(() => {
         textarea.focus();
         const newCursorPos = start + startChar.length + selectedText.length + (selectedText ? endChar.length : 0);
-        // 선택된 텍스트가 있었다면 감싼 뒤 전체 끝으로, 없었다면 사이로
         if (selectedText) {
              textarea.setSelectionRange(newCursorPos, newCursorPos);
         } else {
@@ -83,66 +103,120 @@ export default function MyReviewPanel({
     });
   };
 
+  // 프리셋 선택 핸들러 (모달용)
+  const handleSelectPreset = (preset: ReviewPreset) => {
+      if (!presets.includes(preset.keyword)) {
+          setPresets([...presets, preset.keyword]);
+      }
+  };
+
+  const handleDeselectPreset = (preset: ReviewPreset) => {
+      setPresets(presets.filter(p => p !== preset.keyword));
+      // 텍스트 제거는 복잡하므로 하지 않음 (유저가 직접 수정)
+  };
+
+  // 퀵 프리셋 (상단 노출용) - 공통 3개 + 카테고리 3개
+  const commonPresets = getAllCommonPresets().slice(0, 3);
+  const categoryPresets = getPresetsByCategory(contentType).slice(0, 3);
+  const quickPresets = [...commonPresets, ...categoryPresets];
+
   return (
-    <div className="flex-1 flex flex-col h-auto md:h-full">
+    <div className="flex-1 flex flex-col h-full">
       {/* Editor/Preview Toggle Header */}
-      <div className="px-4 py-2 border-b border-white/5 bg-white/2 flex items-center justify-between shadow-sm shrink-0 min-h-[52px]">
-        {/* 좌측: 탭 */}
-        <div className="flex-1 flex items-center">
-            <div className="flex bg-black/20 p-1 rounded-lg">
-                <button
-                    onClick={() => setViewMode('EDIT')}
-                    className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
-                        viewMode === 'EDIT' 
-                        ? 'bg-accent/20 text-accent shadow-sm' 
-                        : 'text-text-tertiary hover:text-text-secondary'
-                    }`}
-                >
-                    쓰기
-                </button>
-                <button
-                    onClick={() => setViewMode('PREVIEW')}
-                    className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
-                        viewMode === 'PREVIEW' 
-                        ? 'bg-accent/20 text-accent shadow-sm' 
-                        : 'text-text-tertiary hover:text-text-secondary'
-                    }`}
-                >
-                    읽기
-                </button>
+      {!hideHeader && (
+          <div className="px-4 py-2 border-b border-white/5 bg-white/2 flex items-center justify-between shadow-sm shrink-0 min-h-[52px]">
+            {/* 좌측: 탭 */}
+            <div className="flex-1 flex items-center">
+                <div className="flex bg-black/20 p-1 rounded-lg">
+                    <button
+                        onClick={() => setViewMode('EDIT')}
+                        className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+                            viewMode === 'EDIT' 
+                            ? 'bg-accent/20 text-accent shadow-sm' 
+                            : 'text-text-tertiary hover:text-text-secondary'
+                        }`}
+                    >
+                        쓰기
+                    </button>
+                    <button
+                        onClick={() => setViewMode('PREVIEW')}
+                        className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+                            viewMode === 'PREVIEW' 
+                            ? 'bg-accent/20 text-accent shadow-sm' 
+                            : 'text-text-tertiary hover:text-text-secondary'
+                        }`}
+                    >
+                        읽기
+                    </button>
+                </div>
             </div>
-        </div>
 
-        {/* 중앙: 타이틀 */}
-        <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
-            <PenTool size={16} className="text-accent" />
-            <span className="text-sm font-bold uppercase tracking-wider">내 리뷰</span>
-        </div>
+            {/* 중앙: 타이틀 */}
+            <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
+                <PenTool size={16} className="text-accent" />
+                <span className="text-sm font-bold uppercase tracking-wider">내 리뷰</span>
+            </div>
 
-        {/* 우측: 저장 버튼 */}
-        <div className="flex-1 flex items-center justify-end">
-              <button 
-                onClick={onSave} 
-                disabled={!isDirty || isSubmitting}
-                className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${
-                    isDirty 
-                    ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
-                    : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
-                }`}
-                title="저장"
-              >
-                {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-              </button>
-        </div>
-      </div>
+            {/* 우측: 저장 버튼 */}
+            <div className="flex-1 flex items-center justify-end">
+                  <button 
+                    onClick={onSave} 
+                    disabled={!isDirty || isSubmitting}
+                    className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${
+                        isDirty 
+                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
+                        : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
+                    }`}
+                    title="저장"
+                  >
+                    {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                  </button>
+            </div>
+          </div>
+      )}
 
       {/* Editor Content Area */}
       <div className="flex-1 flex flex-col bg-bg-main/30 overflow-hidden relative">
          {viewMode === 'EDIT' ? (
             <div className="flex flex-col h-full relative">
+                {/* Review Presets Chips Area */}
+                <div className="px-4 py-3 flex flex-wrap gap-2 items-center border-b border-white/5 bg-black/10">
+                    <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mr-1">Keywords</span>
+                    
+                    {/* Selected Presets (Always visible) */}
+                    {presets.map((presetKeyword) => {
+                        const preset = getPresetByKeyword(presetKeyword);
+                        const sentiment = preset?.sentiment || "etc";
+                        const colorClasses = getSentimentColorClasses(sentiment);
+
+                        return (
+                            <button
+                                key={presetKeyword}
+                                onClick={() => {
+                                    // 선택 해제
+                                    setPresets(presets.filter(p => p !== presetKeyword));
+                                }}
+                                className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-sans border transition-all animate-in zoom-in-50 ${colorClasses} hover:opacity-80`}
+                            >
+                                <span>{presetKeyword}</span>
+                                <X size={10} strokeWidth={3} className="text-current" />
+                            </button>
+                        );
+                    })}
+
+                    {/* Add More Button */}
+                    <button
+                        onClick={() => setIsPresetModalOpen(true)}
+                        className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 text-text-tertiary text-xs font-sans border border-white/10 hover:bg-white/10 hover:text-text-secondary transition-all"
+                    >
+                        <Plus size={10} />
+                        <span>키워드 추가</span>
+                    </button>
+                </div>
+
                 {/* Custom Placeholder with FormattedText */}
                 {!review && (
-                    <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center p-8">
+                    <div className="absolute inset-0 top-[50px] pointer-events-none z-0 flex items-center justify-center p-8">
                         <div className="text-text-tertiary/20 leading-relaxed text-base font-sans font-normal whitespace-pre-wrap text-center">
                             <FormattedText text={placeholderText} className="opacity-60" />
                         </div>
@@ -182,7 +256,24 @@ export default function MyReviewPanel({
                 </div>
             </div>
          ) : (
-            <div className="w-full h-full p-6 overflow-y-auto custom-scrollbar">
+            <div className="w-full h-full p-6 overflow-y-auto custom-scrollbar flex flex-col gap-4">
+                 {/* Preview Presets */}
+                 {presets.length > 0 && (
+                     <div className="flex flex-wrap gap-2 pb-4 border-b border-white/5">
+                         {presets.map((presetKeyword) => {
+                             const preset = getPresetByKeyword(presetKeyword);
+                             const sentiment = preset?.sentiment || "etc";
+                             const colorClasses = getSentimentColorClasses(sentiment);
+
+                             return (
+                                 <span key={presetKeyword} className={`px-2.5 py-1 rounded-full text-xs font-sans font-bold border ${colorClasses}`}>
+                                     {presetKeyword}
+                                 </span>
+                             );
+                         })}
+                     </div>
+                 )}
+
                 {review ? (
                     <div className="text-text-primary/90 leading-relaxed whitespace-pre-wrap">
                         <FormattedText text={review} />
@@ -220,6 +311,15 @@ export default function MyReviewPanel({
               )}
           </div>
       </div>
+
+      <ReviewPresetModal
+        isOpen={isPresetModalOpen}
+        onClose={() => setIsPresetModalOpen(false)}
+        category={contentType}
+        selectedPresets={presets}
+        onSelectPreset={handleSelectPreset}
+        onDeselectPreset={handleDeselectPreset}
+      />
     </div>
   );
 }

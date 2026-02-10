@@ -28,24 +28,14 @@ export function HomeArchiveArea({
 }: HomeArchiveAreaProps) {
     const hasUnreviewed = unreviewedList.length > 0;
     const hasReviewed = allReviewedItems.length > 0;
-    const showSeparator = hasUnreviewed && hasReviewed;
 
     return (
-        <section className="relative group/section animate-in fade-in delay-200 duration-700 mt-12">
-            <div className="flex items-center gap-2 mb-4 px-2">
-                <Bookmark size={18} className="text-accent" />
-                <h3 className="text-lg font-bold font-serif text-text-primary">보관함의 콘텐츠 리뷰하기</h3>
-            </div>
+        <section className="relative group/section animate-in fade-in delay-200 duration-700 px-2">
 
-            <div
-                ref={scrollRef}
-                {...events}
-                className={`flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide pt-4 select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-                style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
-            >
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-2 pb-4">
                 {/* 1. Unreviewed List (작성 대기) */}
                 {unreviewedList.map((item) => (
-                    <div key={`unreviewed-${item.id}`} className="group relative flex-none w-[140px] md:w-[160px] mt-2">
+                    <div key={`unreviewed-${item.id}`} className="group relative flex-none w-full mt-2">
                         <ContentCard
                             contentId={item.content.id}
                             contentType={item.content.type}
@@ -67,14 +57,12 @@ export function HomeArchiveArea({
                     </div>
                 ))}
 
-                {/* 2. Vertical Separator */}
-                {showSeparator && (
-                    <div className="flex-none w-[1px] mx-2 self-stretch bg-gradient-to-b from-transparent via-white/20 to-transparent mt-2" />
-                )}
+                {/* 2. Divider (Visual separation in grid if needed, or just omit) */}
+                {/* Grid flow handles separation naturally, but we could add a full-width divider if we used fragment/col-span, but let's keep simple grid for now. */}
 
                 {/* 3. Reviewed List (완료) */}
                 {allReviewedItems.map((item) => (
-                    <div key={`reviewed-${item.id}`} className="group relative flex-none w-[140px] md:w-[160px] mt-2">
+                    <div key={`reviewed-${item.id}`} className="group relative flex-none w-full mt-2">
                         <ContentCard
                             contentId={item.content.id}
                             contentType={item.content.type}
@@ -102,7 +90,7 @@ export function HomeArchiveArea({
                 {hasReviewed && (
                     <Link
                         href={`/${userId}`}
-                        className="flex-none w-[140px] md:w-[160px] h-[200px] md:h-[230px] mt-2 flex flex-col items-center justify-center gap-3 bg-white/5 rounded-xl border border-white/5 border-dashed hover:bg-white/10 hover:border-accent/30 transition-all group/more text-center px-4"
+                        className="flex-none w-full h-[200px] md:h-[230px] mt-2 flex flex-col items-center justify-center gap-3 bg-white/5 rounded-xl border border-white/5 border-dashed hover:bg-white/10 hover:border-accent/30 transition-all group/more text-center px-4"
                     >
                         <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover/more:bg-accent/20 group-hover/more:text-accent transition-colors">
                             <ChevronRight size={20} />

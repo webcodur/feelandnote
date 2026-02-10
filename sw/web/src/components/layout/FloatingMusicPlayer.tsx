@@ -166,8 +166,8 @@ export default function FloatingMusicPlayer() {
         </button>
       )}
 
-      {isOpen && (
-        <div className="fixed bottom-4 end-4 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden [&_*]:!font-sans" style={{ ...zStyle, width: panelW, height: panelH }}>
+
+        <div className={`fixed bottom-4 end-4 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden [&_*]:!font-sans ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...zStyle, width: panelW, height: panelH }}>
           {/* 패널 리사이즈 핸들 */}
           <div className="absolute top-0 start-0 w-5 h-5 cursor-nw-resize z-10 group" onMouseDown={handleResizeStart}>
             <div className="absolute top-1.5 start-1.5 w-2 h-2 border-t-2 border-s-2 border-text-tertiary/30 group-hover:border-text-secondary rounded-tl-sm" />
@@ -234,7 +234,7 @@ export default function FloatingMusicPlayer() {
             </>
           )}
         </div>
-      )}
+
     </>
   )
 }

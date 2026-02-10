@@ -5,6 +5,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui";
+import DecorativeLabel from "@/components/ui/DecorativeLabel";
 import { ContentCard, type ContentCardProps } from "@/components/ui/cards";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 import { Calendar, ArrowRight, BookOpen } from "lucide-react";
@@ -43,14 +44,15 @@ interface TodayFigureSectionProps {
     contents: Content[];
 }
 
-const categoryToContentType = (category: string): ContentType => {
+const categoryToContentType = (category: string): ContentType | undefined => {
+  if (category === 'all') return undefined;
   const config = getCategoryById(category as any);
-  return (config?.dbType as ContentType) || "BOOK";
+  return (config?.dbType as ContentType);
 };
 
 export default function TodayFigureSection({ figure, contents: initialContents }: TodayFigureSectionProps) {
     const [contents, setContents] = useState(initialContents);
-    const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
+    const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
     
     const [query, setQuery] = useState("");
     const debouncedQuery = useDebounce(query, 300);
@@ -169,11 +171,20 @@ export default function TodayFigureSection({ figure, contents: initialContents }
                     onResultClick={() => {}}
                     placeholder={`인물의 서재 검색...`}
                     showDropdown={false}
+                    searchLabel="서재 탐색"
+                    options={[
+                        { value: "all", label: "전체" },
+                        ...CATEGORIES
+                            .filter(c => c.id !== "certificate")
+                            .map(c => ({ value: c.id, label: c.label }))
+                    ]}
                 />
             </div>
 
             {/* 콘텐츠 리스트 (Grid) */}
             <div className="space-y-4 min-h-[200px]">
+                <DecorativeLabel label={`${figure.nickname}의 서재`} className="mb-8" />
+
                 {contents.length > 0 ? (
                     <div className={cn(
                         "grid gap-3 md:gap-4",
@@ -206,7 +217,7 @@ export default function TodayFigureSection({ figure, contents: initialContents }
                         </div>
                         <div className="space-y-1">
                             <p className="text-text-secondary font-medium">
-                                {query ? `'${query}' 검색 결과가 없습니다` : `${getCategoryById(selectedCategory)?.label} 기록이 존재하지 않습니다`}
+                                {query ? `'${query}' 검색 결과가 없습니다` : `${selectedCategory === 'all' ? '전체' : getCategoryById(selectedCategory)?.label} 기록이 존재하지 않습니다`}
                             </p>
                             {contents.length > 0 && (
                                 <p className="text-xs text-text-tertiary">다른 카테고리를 선택해보세요.</p>

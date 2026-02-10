@@ -23,6 +23,7 @@ import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import FormattedText from "@/components/ui/FormattedText";
 import { RecommendationModal } from "@/components/features/recommendations";
+import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 
 import { getFieldTheme } from "../certificateThemes";
 import type { ContentCardProps } from "./types";
@@ -72,6 +73,7 @@ export default function ContentCard({
   showGradient = true,
   contentId,
   review,
+  reviewPresets,
   isSpoiler = false,
   sourceUrl,
   ownerNickname,
@@ -123,12 +125,10 @@ export default function ContentCard({
     isDragging,
     canScroll,
     onMouseDown,
-    onTouchStart,
-    scrollStyle,
   } = useDragScroll();
 
   // 리뷰 모드 여부: 리뷰 데이터가 있고, 강제 포스터 모드가 아닐 때
-  const isReviewMode = (review !== undefined || headerNode !== undefined) && !forcePoster;
+  const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
 
   // 콘텐츠 상세 페이지 URL
   const contentDetailUrl = contentId
@@ -141,10 +141,7 @@ export default function ContentCard({
     e.stopPropagation();
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    onTouchStart(e);
-    e.stopPropagation();
-  };
+
 
   // 클릭 핸들러
   const handleClick = (e: React.MouseEvent) => {
@@ -353,6 +350,24 @@ export default function ContentCard({
 
             {review && !isSpoiler ? (
               <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
+                {reviewPresets && reviewPresets.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                        {reviewPresets.map((presetKeyword, idx) => {
+                            const preset = getPresetByKeyword(presetKeyword);
+                            const sentiment = preset?.sentiment || "etc";
+                            const colorClasses = getSentimentColorClasses(sentiment);
+
+                            return (
+                                <span 
+                                    key={`${presetKeyword}-${idx}`}
+                                    className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
+                                >
+                                    {presetKeyword}
+                                </span>
+                            );
+                        })}
+                    </div>
+                )}
                 <p className="text-sm text-text-primary leading-relaxed whitespace-pre-line break-words">
                   <FormattedText text={review} />
                 </p>
@@ -370,6 +385,25 @@ export default function ContentCard({
               </div>
             ) : review && isSpoiler ? (
               <p className="text-sm text-text-tertiary italic">스포일러 포함 리뷰</p>
+            ) : (reviewPresets && reviewPresets.length > 0) ? (
+                 <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                        {reviewPresets.map((presetKeyword, idx) => {
+                            const preset = getPresetByKeyword(presetKeyword);
+                            const sentiment = preset?.sentiment || "etc";
+                            const colorClasses = getSentimentColorClasses(sentiment);
+
+                            return (
+                                <span 
+                                    key={`${presetKeyword}-${idx}`}
+                                    className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
+                                >
+                                    {presetKeyword}
+                                </span>
+                            );
+                        })}
+                    </div>
+                </div>
             ) : (
               <p className="text-sm text-text-tertiary italic">작성된 리뷰가 없습니다</p>
             )}
@@ -539,17 +573,37 @@ export default function ContentCard({
                 </div>
               )}
 
-              {review && !isSpoiler && (
-                <div
-                  ref={containerRef}
-                  className={`flex-1 overflow-hidden relative select-none min-h-0 ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
-                  onMouseDown={handleMouseDown}
-                  onTouchStart={handleTouchStart}
-                >
+              <div className="flex-1 flex flex-col min-h-0 bg-[#1e1e1e]">
+                {/* 프리셋 먼저 표시 */}
+                {reviewPresets && reviewPresets.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-2 px-0.5">
+                        {reviewPresets.map((presetKeyword, idx) => {
+                            const preset = getPresetByKeyword(presetKeyword);
+                            const sentiment = preset?.sentiment || "etc";
+                            const colorClasses = getSentimentColorClasses(sentiment);
+
+                            return (
+                                <span 
+                                    key={`${presetKeyword}-${idx}`}
+                                    className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
+                                >
+                                    {presetKeyword}
+                                </span>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {(review && !isSpoiler) && (
+                  <div className="flex-1 relative min-h-0">
                   {canScroll && scrollY > 0 && (
                     <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-[#1e1e1e] to-transparent pointer-events-none z-10" />
                   )}
-                  <div style={scrollStyle}>
+                  <div
+                    ref={containerRef}
+                    className={`h-full overflow-y-auto overscroll-y-contain scrollbar-hidden select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
+                    onMouseDown={handleMouseDown}
+                  >
                     <p className={`text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans`}>
                       <FormattedText text={review} />
                     </p>
@@ -566,20 +620,23 @@ export default function ContentCard({
                     )}
                   </div>
                   {canScroll && scrollY < maxScroll && (
-                    <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none" />
+                    <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none z-10" />
                   )}
                 </div>
-              )}
-              {review && isSpoiler && (
-                <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
-                  <p className="text-sm text-text-tertiary">스포일러 포함</p>
-                </div>
-              )}
-              {!review && (
-                <div className="flex-1 flex items-center justify-center">
-                  <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
-                </div>
-              )}
+                )}
+                
+                {review && isSpoiler && (
+                    <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
+                        <p className="text-sm text-text-tertiary">스포일러 포함</p>
+                    </div>
+                )}
+
+                {!review && (!reviewPresets || reviewPresets.length === 0) && (
+                    <div className="flex-1 flex items-center justify-center">
+                    <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
+                    </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ export interface QuickRecordTarget {
   creator?: string | null;
   initialRating?: number;
   initialReview?: string | null;
+  initialPresets?: string[] | null;
   isRecommendation?: boolean; // 추천 아이템 여부 (안내 문구 표시용)
 }
 

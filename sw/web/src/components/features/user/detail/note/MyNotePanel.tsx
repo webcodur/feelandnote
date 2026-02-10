@@ -1,4 +1,4 @@
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useRef } from "react";
 import { Lock, Users, Globe, Loader2, FileText, LayoutList, CloudCheck, Cloud } from "lucide-react";
 import SectionList from "./SectionList";
 import AccordionSection from "@/components/features/content/AccordionSection";
@@ -62,6 +62,20 @@ export default function MyNotePanel({
     return () => clearTimeout(timeoutId);
   }, [memo, note, startSaveTransition]);
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto'; // Reset height
+      textarea.style.height = `${textarea.scrollHeight}px`; // Set to scrollHeight
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight();
+  }, [memo]);
+
   async function ensureNote(): Promise<string> {
     if (note) return note.id;
     const newNote = await upsertNote({ contentId, snapshot });
@@ -109,29 +123,24 @@ export default function MyNotePanel({
   }
 
   return (
-    <div className="flex flex-col h-full bg-transparent p-6">
-      <div className="flex-1 min-h-[200px]">
+    <div className="flex flex-col w-full bg-transparent p-6">
+      <div className="w-full">
         {activeTab === "memo" && (
-          <div className="h-full animate-in fade-in slide-in-from-bottom-2 duration-300 relative flex flex-col">
-            {!memo && (
-              <div className="absolute inset-0 pointer-events-none flex items-center justify-center p-8 z-0">
-                <span className="text-text-tertiary/10 leading-relaxed text-base font-sans text-center max-w-[80%] opacity-80">
-                  작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요.
-                </span>
-              </div>
-            )}
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 relative flex flex-col">
             <textarea
+              ref={textareaRef}
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
-              className="w-full flex-1 bg-transparent text-text-primary focus:outline-none transition-colors resize-none leading-relaxed text-base font-sans mt-2 custom-scrollbar z-10 relative"
+              rows={3}
+              placeholder="작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요."
+              className="w-full bg-transparent text-text-primary focus:outline-none transition-colors resize-none leading-relaxed text-base font-sans mt-2 custom-scrollbar overflow-hidden"
             />
           </div>
         )}
 
-
         {activeTab === "sections" && (
-          <div className="h-full animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col">
-            <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col">
+            <div className="flex-1 pr-2">
               <SectionList
                 sections={note?.sections || []}
                 isSaving={isSaving}

@@ -1,16 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useImperativeHandle, forwardRef, useEffect } from "react";
 import { Search, X, FileText, ExternalLink } from "lucide-react";
 import SearchHelper from "./SearchHelper";
 import LinkPreviewModal from "./LinkPreviewModal";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
+
+export interface ExternalResourceSearchHandle {
+    clearResults: () => void;
+}
 
 interface ExternalResourceSearchProps {
     title: string;
     creator?: string | null;
     type: string;
     className?: string;
+    hideHeader?: boolean;
+    onResultsChange?: (hasResults: boolean) => void;
 }
 
 interface BlogSearchResultData {
@@ -18,35 +24,49 @@ interface BlogSearchResultData {
     items: BlogSearchResult[];
 }
 
-export default function ExternalResourceSearch({
+const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, ExternalResourceSearchProps>(({
     title,
     creator,
     type,
-    className = ""
-}: ExternalResourceSearchProps) {
+    className = "",
+    hideHeader = false,
+    onResultsChange
+}, ref) => {
     const [blogSearchResult, setBlogSearchResult] = useState<BlogSearchResultData | null>(null);
     const [previewUrl, setPreviewUrl] = useState<{ url: string; title?: string } | null>(null);
 
+    useImperativeHandle(ref, () => ({
+        clearResults: () => {
+            setBlogSearchResult(null);
+        }
+    }));
+
+    useEffect(() => {
+        onResultsChange?.(!!blogSearchResult);
+    }, [blogSearchResult, onResultsChange]);
+
     return (
         <div className={`bg-bg-card/50 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-xl flex flex-col ${className}`}>
-            <div className="px-4 py-2 border-b border-white/5 bg-white/2 flex items-center justify-between shadow-sm shrink-0 min-h-[52px]">
-                <div className="flex-1" /> {/* Left spacer */}
-                <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
-                    <Search size={16} className="text-accent" />
-                    <span className="text-sm font-bold uppercase tracking-wider">해당 작품의 외부 자료 탐색하기</span>
+            {!hideHeader && (
+                <div className="px-4 py-2 border-b border-white/5 bg-white/2 flex items-center justify-between shadow-sm shrink-0 min-h-[52px]">
+                    <div className="flex-1" /> {/* Left spacer */}
+                    <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
+                        <Search size={16} className="text-accent" />
+                        <span className="text-sm font-bold uppercase tracking-wider">해당 작품의 외부 자료 탐색하기</span>
+                    </div>
+                    <div className="flex-1 flex justify-end">
+                        {blogSearchResult && (
+                            <button
+                                onClick={() => setBlogSearchResult(null)}
+                                className="p-1.5 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
+                                title="결과 초기화"
+                            >
+                                <X size={14} />
+                            </button>
+                        )}
+                    </div>
                 </div>
-                <div className="flex-1 flex justify-end">
-                    {blogSearchResult && (
-                        <button
-                            onClick={() => setBlogSearchResult(null)}
-                            className="p-1.5 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
-                            title="결과 초기화"
-                        >
-                            <X size={14} />
-                        </button>
-                    )}
-                </div>
-            </div>
+            )}
 
             <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
                 <div className="flex flex-col gap-6">
@@ -111,4 +131,8 @@ export default function ExternalResourceSearch({
             )}
         </div>
     );
-}
+});
+
+ExternalResourceSearch.displayName = "ExternalResourceSearch";
+
+export default ExternalResourceSearch;

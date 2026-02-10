@@ -37,6 +37,7 @@ export interface UserContentPublic {
   public_record?: {
     rating: number | null
     content_preview: string | null
+    review_presets: string[] | null
     is_spoiler?: boolean
   } | null
 }
@@ -71,6 +72,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       is_recommended,
       rating,
       review,
+      review_presets,
       is_spoiler,
       visibility,
       created_at,
@@ -145,6 +147,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     is_recommended: boolean
     rating: number | null
     review: string | null
+    review_presets: string[] | null
     is_spoiler: boolean
     visibility: VisibilityType | null
     created_at: string
@@ -169,9 +172,10 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       metadata: item.content.metadata || null,
       user_count: item.content.user_count ?? null,
     },
-    public_record: (item.rating || item.review) ? {
+    public_record: (item.rating || item.review || (item.review_presets && item.review_presets.length > 0)) ? {
       rating: item.rating,
       content_preview: item.review || null,
+      review_presets: item.review_presets || null,
       is_spoiler: item.is_spoiler, 
     } : null,
   }))

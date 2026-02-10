@@ -30,12 +30,16 @@ interface InfoPanelProps {
     thumbnailUrl?: string | null;
     creator?: string | null;
   };
+  initialTab?: InfoTab;
+  hideTabs?: boolean;
 }
 
 export default function InfoPanel({
   content,
+  initialTab = 'BASIC',
+  hideTabs = false,
 }: InfoPanelProps) {
-  const [activeTab, setActiveTab] = useState<InfoTab>('BASIC');
+  const [activeTab, setActiveTab] = useState<InfoTab>(initialTab);
   const [detailData, setDetailData] = useState<ContentDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -90,6 +94,7 @@ export default function InfoPanel({
   return (
     <div className="w-full h-full flex flex-col bg-bg-secondary/30">
       {/* Tabs */}
+      {!hideTabs && (
       <div className="flex border-b border-white/10 bg-black/10 overflow-x-auto scrollbar-hide shrink-0">
         <button onClick={() => setActiveTab('BASIC')} className={getTabStyle('BASIC')}>
             <Info size={14} /> 기본
@@ -112,6 +117,7 @@ export default function InfoPanel({
             <MessageSquare size={14} /> 일반리뷰
         </button>
       </div>
+      )}
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto custom-scrollbar relative">

@@ -5,6 +5,7 @@ import { Search, Loader2, BookOpen } from "lucide-react";
 import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
+import DecorativeLabel from "@/components/ui/DecorativeLabel";
 
 interface HomeSearchAreaProps {
     selectedCategory: CategoryId;
@@ -16,6 +17,8 @@ interface HomeSearchAreaProps {
     onResultClick: (result: SearchResult) => void;
     placeholder?: string;
     showDropdown?: boolean;
+    searchLabel?: string;
+    options?: { value: CategoryId; label: string }[];
 }
 
 export function HomeSearchArea({
@@ -27,7 +30,9 @@ export function HomeSearchArea({
     searchResults,
     onResultClick,
     placeholder,
-    showDropdown = true
+    showDropdown = true,
+    searchLabel = "컨텐츠 검색",
+    options
 }: HomeSearchAreaProps) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -62,6 +67,8 @@ export function HomeSearchArea({
         setIsOpen(false);
     };
 
+    const categoryOptions = options || CATEGORIES.map(c => ({ value: c.id, label: c.label }));
+
     return (
         <div 
             ref={containerRef}
@@ -69,8 +76,9 @@ export function HomeSearchArea({
             className="flex flex-col gap-1 mx-auto w-fit max-w-full z-20"
         >
             {/* 카테고리 선택 탭 */}
+            <DecorativeLabel label={searchLabel} className="mb-2" />
             <CategoryTabFilter
-                options={CATEGORIES.map(c => ({ value: c.id, label: c.label }))}
+                options={categoryOptions}
                 value={selectedCategory}
                 onChange={onCategoryChange}
             />

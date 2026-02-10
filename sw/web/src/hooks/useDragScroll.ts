@@ -7,16 +7,16 @@ interface UseDragScrollReturn {
   isDragging: boolean;
   canScroll: boolean;
   onMouseDown: (e: React.MouseEvent) => void;
-  onTouchStart: (e: React.TouchEvent) => void;
-  scrollStyle: { transform: string };
 }
 
-// 드래그/터치로 세로 스크롤하는 커스텀 훅
+// 드래그로 세로 스크롤하는 커스텀 훅 (Native ScrollTop 제어)
 export default function useDragScroll(): UseDragScrollReturn {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  
+  // 드래그 상태
   const dragStartY = useRef(0);
   const scrollStartY = useRef(0);
 
@@ -27,6 +27,8 @@ export default function useDragScroll(): UseDragScrollReturn {
     const contentHeight = container.scrollHeight;
     const containerHeight = container.clientHeight;
     setMaxScroll(Math.max(0, contentHeight - containerHeight));
+    // 현재 스크롤 위치 동기화
+    setScrollY(container.scrollTop);
   }, []);
 
   // 초기 계산 + ResizeObserver로 크기 변경 감지
@@ -43,56 +45,60 @@ export default function useDragScroll(): UseDragScrollReturn {
     });
     observer.observe(container);
 
-    return () => observer.disconnect();
+    // 스크롤 이벤트 리스너 (그라데이션 표시용 상태 업데이트)
+    const handleScroll = () => {
+        setScrollY(container.scrollTop);
+    };
+    container.addEventListener("scroll", handleScroll);
+
+    return () => {
+        observer.disconnect();
+        container.removeEventListener("scroll", handleScroll);
+    };
   }, [recalculate]);
 
   const handleDragStart = useCallback((clientY: number) => {
+    if (!containerRef.current) return;
     setIsDragging(true);
     dragStartY.current = clientY;
-    scrollStartY.current = scrollY;
-  }, [scrollY]);
+    scrollStartY.current = containerRef.current.scrollTop;
+    
+    // 텍스트 선택 방지
+    document.body.style.userSelect = "none";
+  }, []);
 
   const handleDragMove = useCallback((clientY: number) => {
-    if (!isDragging) return;
+    if (!isDragging || !containerRef.current) return;
     const delta = dragStartY.current - clientY;
-    const newScroll = Math.max(0, Math.min(maxScroll, scrollStartY.current + delta));
-    setScrollY(newScroll);
-  }, [isDragging, maxScroll]);
+    containerRef.current.scrollTop = scrollStartY.current + delta;
+  }, [isDragging]);
 
   const handleDragEnd = useCallback(() => {
     setIsDragging(false);
+    document.body.style.userSelect = "";
   }, []);
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     if (maxScroll <= 0) return;
-    e.preventDefault();
+    // 기본 드래그 방지 (브라우저 기본 드래그 앤 드롭 동작 방지)
+    e.preventDefault(); 
     handleDragStart(e.clientY);
   }, [maxScroll, handleDragStart]);
 
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
-    if (maxScroll <= 0) return;
-    handleDragStart(e.touches[0].clientY);
-  }, [maxScroll, handleDragStart]);
-
-  // 전역 이벤트 리스너
+  // 전역 이벤트 리스너 (마우스 드래그)
   useEffect(() => {
     if (!isDragging) return;
 
     const onMove = (e: MouseEvent) => handleDragMove(e.clientY);
     const onUp = () => handleDragEnd();
-    const onTouchMove = (e: TouchEvent) => handleDragMove(e.touches[0].clientY);
-    const onTouchEnd = () => handleDragEnd();
-
+    
+    // 마우스가 브라우저 밖으로 나갔을 때도 처리를 위해 window에 부착
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onTouchMove);
-    window.addEventListener("touchend", onTouchEnd);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
     };
   }, [isDragging, handleDragMove, handleDragEnd]);
 
@@ -103,7 +109,5 @@ export default function useDragScroll(): UseDragScrollReturn {
     isDragging,
     canScroll: maxScroll > 0,
     onMouseDown,
-    onTouchStart,
-    scrollStyle: { transform: `translateY(-${scrollY}px)` },
   };
 }
