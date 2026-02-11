@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Inbox, User } from "lucide-react";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } from "@/actions/activity";
@@ -53,7 +53,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
 
   return (
     <>
-      <SavedContentCard
+      <ContentCard
         contentId={activity.content_id!}
         contentType={activity.content_type!}
         title={activity.content_title || ""}

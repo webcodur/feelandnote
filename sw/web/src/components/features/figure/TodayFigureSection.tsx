@@ -36,6 +36,7 @@ interface Content {
     avg_rating?: number | null;
     review?: string | null;
     is_spoiler?: boolean;
+    source_url?: string | null;
     user_content_id?: string;
 }
 
@@ -85,6 +86,7 @@ export default function TodayFigureSection({ figure, contents: initialContents }
                     avg_rating: item.public_record?.rating,
                     review: item.public_record?.content_preview,
                     is_spoiler: item.public_record?.is_spoiler,
+                    source_url: item.source_url,
                     user_content_id: item.id
                 }));
                 
@@ -191,7 +193,7 @@ export default function TodayFigureSection({ figure, contents: initialContents }
                         "grid-cols-1 md:grid-cols-2" // 1 column mobile, 2 columns desktop (Review Card style)
                     )}>
                         {contents.slice(0, 8).map((content) => (
-                            <ContentCard // is_spoiler prop passed if available in Content interface
+                            <ContentCard
                                 key={content.id}
                                 contentId={content.id}
                                 contentType={content.type as any}
@@ -201,6 +203,7 @@ export default function TodayFigureSection({ figure, contents: initialContents }
                                 rating={content.avg_rating ?? undefined}
                                 review={content.review ?? ""}
                                 isSpoiler={content.is_spoiler}
+                                sourceUrl={content.source_url ?? undefined}
                                 ownerNickname={figure.nickname}
                                 heightClass="h-[280px]"
                                 mobileLayout="review"

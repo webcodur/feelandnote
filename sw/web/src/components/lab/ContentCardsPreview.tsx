@@ -89,7 +89,7 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
   },
   {
     url: "/scriptures",
-    pageName: "경전 (지혜의 서고)",
+    pageName: "작품 (지혜의 서고)",
     sections: [
       {
         name: "공통 서가",
@@ -107,7 +107,7 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
         description: "데일리 셀럽 추천 콘텐츠.",
       },
       {
-        name: "세대의 경전 (시대별)",
+        name: "세대의 작품 (시대별)",
         card: "ContentCard",
         description: "시대별 콘텐츠 분류.",
       },
@@ -323,9 +323,9 @@ export default function ContentCardsPreview() {
               </div>
             </div>
 
-            {/* 인덱스 + 통계 + 평균별점 (경전 스타일) */}
+            {/* 인덱스 + 통계 + 평균별점 (작품 스타일) */}
             <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5">
-              <h4 className="text-sm font-medium text-text-primary mb-3">통계 + 평균별점 (경전 스타일)</h4>
+              <h4 className="text-sm font-medium text-text-primary mb-3">통계 + 평균별점 (작품 스타일)</h4>
               <div className="flex gap-4">
                 <div className="w-28">
                   <ContentCard

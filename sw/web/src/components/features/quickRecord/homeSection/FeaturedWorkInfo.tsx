@@ -216,72 +216,107 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 {targetContent.type}
                             </div>
                             
-                            <div className="flex flex-col gap-2 items-center text-sm">
-                                <p className="text-lg text-text-secondary flex items-center gap-2">
-                                    <User size={18} className="text-accent/70" />
-                                    {targetContent.creator || 'Unknown Creator'}
-                                </p>
+                            {/* Metadata (Icon + Value layout) */}
+                            {isLoading ? (
+                                <div className="flex items-center gap-2 text-text-tertiary justify-center">
+                                    <Loader2 size={14} className="animate-spin" />
+                                    <span>정보 로딩 중...</span>
+                                </div>
+                            ) : (
+                                <div className="mx-auto w-fit">
+                                    <div className="grid grid-cols-[auto_auto] gap-x-4 gap-y-2.5 text-sm">
+                                        {/* Creator (항상 표시) */}
+                                        <span className="text-text-tertiary flex items-center justify-center">
+                                            <User size={16} className="opacity-70" />
+                                        </span>
+                                        <span className="text-text-primary text-center">{targetContent.creator || 'Unknown'}</span>
 
-                                {/* Additional Metadata (Restored) */}
-                                {isLoading ? (
-                                    <div className="flex items-center gap-2 text-text-tertiary">
-                                        <Loader2 size={14} className="animate-spin" />
-                                        <span>정보 로딩 중...</span>
-                                    </div>
-                                ) : (
-                                    <div className="text-text-tertiary space-y-1">
-                                         {/* 출판사 (BOOK) */}
-                                        {targetContent.type === 'BOOK' && metadata?.publisher && (
-                                            <p className="flex items-center gap-2 justify-center">
-                                                <Building2 size={14} className="shrink-0 opacity-70" />
-                                                <span>{metadata.publisher}</span>
-                                            </p>
-                                        )}
-                                        
-                                        {/* 감독 (VIDEO) */}
-                                        {targetContent.type === 'VIDEO' && metadata?.director && (
-                                            <p className="flex items-center gap-2 justify-center">
-                                                <Film size={14} className="shrink-0 opacity-70" />
-                                                <span>{metadata.director}</span>
-                                            </p>
+                                        {/* BOOK */}
+                                        {targetContent.type === 'BOOK' && (
+                                            <>
+                                                {metadata?.publisher && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Building2 size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.publisher}</span>
+                                                    </>
+                                                )}
+                                                {metadata?.publishDate && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Calendar size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.publishDate}</span>
+                                                    </>
+                                                )}
+                                            </>
                                         )}
 
-                                        {/* 출연진 (VIDEO) - 첫 번째만 */}
-                                        {targetContent.type === 'VIDEO' && !metadata?.director && metadata?.cast?.[0] && (
-                                            <p className="flex items-center gap-2 justify-center">
-                                                <Users size={14} className="shrink-0 opacity-70" />
-                                                <span>{metadata.cast[0].name}</span>
-                                            </p>
-                                        )}
-
-                                        {/* 출시일 / 출간일 */}
-                                        {(detailData?.content?.releaseDate || metadata?.publishDate) && (
-                                            <p className="flex items-center gap-2 justify-center">
-                                                <Calendar size={14} className="shrink-0 opacity-70" />
-                                                <span>{detailData?.content?.releaseDate || metadata?.publishDate}</span>
-                                            </p>
+                                        {/* VIDEO */}
+                                        {targetContent.type === 'VIDEO' && (
+                                            <>
+                                                {metadata?.director && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Film size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.director}</span>
+                                                    </>
+                                                )}
+                                                {metadata?.cast?.[0] && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Users size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.cast[0].name}</span>
+                                                    </>
+                                                )}
+                                                {detailData?.content?.releaseDate && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Calendar size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{detailData.content.releaseDate}</span>
+                                                    </>
+                                                )}
+                                            </>
                                         )}
 
                                         {/* MUSIC */}
                                         {targetContent.type === 'MUSIC' && (
                                             <>
                                                 {metadata?.albumType && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Disc size={14} className="shrink-0 opacity-70" />
-                                                        <span className="capitalize">{metadata.albumType}</span>
-                                                    </p>
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Disc size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center capitalize">{metadata.albumType}</span>
+                                                    </>
                                                 )}
                                                 {metadata?.totalTracks && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Music size={14} className="shrink-0 opacity-70" />
-                                                        <span>{metadata.totalTracks} Tracks</span>
-                                                    </p>
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Music size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.totalTracks} Tracks</span>
+                                                    </>
                                                 )}
                                                 {metadata?.label && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Building2 size={14} className="shrink-0 opacity-70" />
-                                                        <span>{metadata.label}</span>
-                                                    </p>
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center">
+                                                            <Building2 size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary">{metadata.label}</span>
+                                                    </>
+                                                )}
+                                                {detailData?.content?.releaseDate && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Calendar size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{detailData.content.releaseDate}</span>
+                                                    </>
                                                 )}
                                             </>
                                         )}
@@ -290,16 +325,28 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                         {targetContent.type === 'GAME' && (
                                             <>
                                                 {metadata?.developer && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Code size={14} className="shrink-0 opacity-70" />
-                                                        <span>{metadata.developer}</span>
-                                                    </p>
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Code size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.developer}</span>
+                                                    </>
                                                 )}
                                                 {metadata?.platforms && metadata.platforms.length > 0 && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Gamepad2 size={14} className="shrink-0 opacity-70" />
-                                                        <span>{metadata.platforms.slice(0, 3).join(', ')}</span>
-                                                    </p>
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Gamepad2 size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.platforms.slice(0, 3).join(', ')}</span>
+                                                    </>
+                                                )}
+                                                {detailData?.content?.releaseDate && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Calendar size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{detailData.content.releaseDate}</span>
+                                                    </>
                                                 )}
                                             </>
                                         )}
@@ -308,24 +355,34 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                         {targetContent.type === 'CERTIFICATE' && (
                                             <>
                                                 {metadata?.qualificationType && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Award size={14} className="shrink-0 opacity-70" />
-                                                        <span>{metadata.qualificationType}</span>
-                                                    </p>
-                                                )}
-                                                {(metadata?.majorField || metadata?.series) && (
-                                                    <p className="flex items-center gap-2 justify-center">
-                                                        <Briefcase size={14} className="shrink-0 opacity-70" />
-                                                        <span>
-                                                            {[metadata.majorField, metadata.series].filter(Boolean).join(' / ')}
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Award size={16} className="opacity-70" />
                                                         </span>
-                                                    </p>
+                                                        <span className="text-text-primary text-center">{metadata.qualificationType}</span>
+                                                    </>
+                                                )}
+                                                {metadata?.majorField && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <Briefcase size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.majorField}</span>
+                                                    </>
+                                                )}
+                                                {metadata?.series && (
+                                                    <>
+                                                        <span className="text-text-tertiary flex items-center justify-center">
+                                                            <List size={16} className="opacity-70" />
+                                                        </span>
+                                                        <span className="text-text-primary text-center">{metadata.series}</span>
+                                                    </>
                                                 )}
                                             </>
                                         )}
                                     </div>
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Action Buttons Grid */}

@@ -1,7 +1,7 @@
 /*
   파일명: /app/(main)/scriptures/chosen/page.tsx
   기능: 공통 서가 페이지
-  책임: 가장 많은 인물이 감상한 경전을 보여준다.
+  책임: 가장 많은 인물이 감상한 작품을 보여준다.
 */ // ------------------------------
 
 import { Suspense } from "react";

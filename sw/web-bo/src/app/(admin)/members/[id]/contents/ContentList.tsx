@@ -26,6 +26,15 @@ interface EditFormState {
   content_creator: string
 }
 
+function getProxiedImageUrl(url: string | null | undefined): string {
+  if (!url) return '/images/no-cover.png'
+  if (url.startsWith('/')) return url
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return `/api/image-proxy?url=${encodeURIComponent(url)}`
+  }
+  return url
+}
+
 export default function ContentList({ contents, celebId }: Props) {
   const router = useRouter()
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -34,6 +43,7 @@ export default function ContentList({ contents, celebId }: Props) {
   const [showContentSelector, setShowContentSelector] = useState(false)
   const [replacementContent, setReplacementContent] = useState<SelectedContent | null>(null)
   const [currentContentDbId, setCurrentContentDbId] = useState<string | null>(null)
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
 
   function startEdit(content: CelebContent) {
     setEditingId(content.id)
@@ -180,13 +190,23 @@ export default function ContentList({ contents, celebId }: Props) {
 
         const displayTypeConfig = CONTENT_TYPE_CONFIG[displayContent.type as ContentType]
         const DisplayIcon = displayTypeConfig?.icon || Star
+        const hasImageError = imageErrors.has(content.id)
 
         return (
           <div key={content.id} className="p-4">
             <div className="flex items-start gap-4">
               <div className="relative w-32 h-40 bg-bg-secondary rounded overflow-hidden shrink-0 flex items-center justify-center">
-                {displayContent.thumbnail_url ? (
-                  <Image src={displayContent.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+                {displayContent.thumbnail_url && !hasImageError ? (
+                  <Image
+                    src={getProxiedImageUrl(displayContent.thumbnail_url)}
+                    alt=""
+                    fill
+                    unoptimized
+                    className="object-cover"
+                    onError={() => {
+                      setImageErrors((prev) => new Set(prev).add(content.id))
+                    }}
+                  />
                 ) : (
                   <DisplayIcon className="w-10 h-10 text-text-secondary" />
                 )}

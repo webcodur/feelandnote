@@ -49,6 +49,7 @@ export function HomeArchiveArea({
                             onDelete={(e) => { e.stopPropagation(); onDelete(item.id); }}
                             recommendable
                             userContentId={item.id}
+                            saved={true}
                         />
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-black/80 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded-full text-[10px] text-accent flex items-center gap-1 shadow-lg whitespace-nowrap">
                             <Sparkles size={8} className="text-accent" />
@@ -76,6 +77,7 @@ export function HomeArchiveArea({
                             onDelete={(e) => { e.stopPropagation(); onDelete(item.id); }}
                             recommendable
                             userContentId={item.id}
+                            saved={true}
                         />
                         {item.public_record?.rating && (
                             <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-accent flex items-center gap-0.5 pointer-events-none">

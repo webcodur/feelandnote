@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/scriptures/Scriptures.tsx
   기능: 지혜의 서고 페이지 메인 뷰
-  책임: 공통 서가(SSR), 길의 갈래/오늘의 인물/세대의 경전(lazy load) 렌더링
+  책임: 공통 서가(SSR), 길의 갈래/오늘의 인물/세대의 작품(lazy load) 렌더링
 */ // ------------------------------
 "use client";
 
@@ -13,7 +13,7 @@ import { Tabs, Tab } from "@/components/ui/Tab";
 import { Pagination } from "@/components/ui/Pagination";
 import Button from "@/components/ui/Button";
 import ContentGrid from "@/components/ui/ContentGrid";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import { getCategoryByDbType } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 import {
@@ -54,9 +54,9 @@ interface SectionConfig {
 // #region Constants
 const SECTIONS: SectionConfig[] = [
   { id: "sage-section", label: "오늘의 인물", description: "매일 자정, 한 명의 인물이 새롭게 선정됩니다", icon: User },
-  { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 경전", icon: Scroll, hasBg: true },
+  { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 작품", icon: Scroll, hasBg: true },
   { id: "profession-section", label: "갈랫길", description: "분야별 인물들의 필독서", icon: Route },
-  { id: "era-section", label: "시대의 경전", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
+  { id: "era-section", label: "시대의 작품", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
 ];
 
 // 섹션 ID로 config 조회
@@ -318,7 +318,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
             {professionData && professionData.contents.length > 0 ? (
               <ContentGrid>
                 {professionData.contents.map((content) => (
-                  <SavedContentCard
+                  <ContentCard
                     key={content.id}
                     contentId={content.id}
                     contentType={content.type as ContentType}
@@ -332,7 +332,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
               </ContentGrid>
             ) : (
               <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-                <p className="text-text-tertiary text-sm">해당 분야의 경전이 없습니다</p>
+                <p className="text-text-tertiary text-sm">해당 분야의 작품이 없습니다</p>
               </div>
             )}
           </div>
@@ -413,7 +413,7 @@ function TodaySageSection() {
           {displayContents.length > 0 ? (
             <ContentGrid>
               {displayContents.map((content) => (
-                <SavedContentCard
+                <ContentCard
                   key={content.id}
                   contentId={content.id}
                   contentType={content.type as ContentType}
@@ -454,7 +454,7 @@ function TodaySageSection() {
 }
 // #endregion
 
-// #region 세대의 경전 Section
+// #region 세대의 작품 Section
 function EraSection() {
   const [data, setData] = useState<EraScriptures[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -486,7 +486,7 @@ function EraSection() {
               {era.contents.length > 0 ? (
                 <ContentGrid>
                   {era.contents.map((content) => (
-                    <SavedContentCard
+                    <ContentCard
                       key={content.id}
                       contentId={content.id}
                       contentType={content.type as ContentType}
@@ -500,7 +500,7 @@ function EraSection() {
                 </ContentGrid>
               ) : (
                 <div className="flex items-center justify-center h-24 bg-bg-card/50 rounded-xl border border-border/30">
-                  <p className="text-text-tertiary text-sm">해당 시대의 경전이 없습니다</p>
+                  <p className="text-text-tertiary text-sm">해당 시대의 작품이 없습니다</p>
                 </div>
               )}
             </div>
@@ -582,7 +582,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
           {chosenData.contents.length > 0 ? (
             <ContentGrid>
               {chosenData.contents.map((content) => (
-                <SavedContentCard
+                <ContentCard
                   key={content.id}
                   contentId={content.id}
                   contentType={content.type as ContentType}
@@ -598,7 +598,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">해당 카테고리의 경전이 없습니다</p>
+              <p className="text-text-tertiary text-sm">해당 카테고리의 작품이 없습니다</p>
             </div>
           )}
         </div>
@@ -613,7 +613,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
       {/* 섹션 3: 갈랫길 (Lazy) */}
       <ProfessionSection professionCounts={initialProfessionCounts} />
 
-      {/* 섹션 4: 시대의 경전 (Lazy) */}
+      {/* 섹션 4: 시대의 작품 (Lazy) */}
       <EraSection />
     </div>
   );

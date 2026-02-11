@@ -94,6 +94,26 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     .single()
 
   if (userContentError) {
+    // 중복 에러(23505)인 경우 기존 레코드 조회
+    if (userContentError.code === '23505') {
+      const { data: existing, error: fetchError } = await supabase
+        .from('user_contents')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('content_id', params.id)
+        .single()
+
+      if (fetchError || !existing) {
+        return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
+      }
+
+      // 기존 레코드 반환
+      return success({
+        contentId: params.id,
+        userContentId: existing.id,
+      })
+    }
+
     return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
   }
 

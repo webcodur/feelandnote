@@ -24,6 +24,10 @@ import Button from "@/components/ui/Button";
 import FormattedText from "@/components/ui/FormattedText";
 import { RecommendationModal } from "@/components/features/recommendations";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import { addContent } from "@/actions/contents/addContent";
+import { removeContent } from "@/actions/contents/removeContent";
 
 import { getFieldTheme } from "../certificateThemes";
 import type { ContentCardProps } from "./types";
@@ -86,6 +90,33 @@ export default function ContentCard({
   const ContentIcon = TYPE_ICONS[contentType];
   const aspectClass = ASPECT_STYLES[aspectRatio];
 
+  // 인증 상태 확인
+  const [user, setUser] = useState<User | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setIsCheckingAuth(false);
+    };
+    checkAuth();
+  }, []);
+
+  // 내부 saved 상태 관리 (props 기본값 + 동적 업데이트)
+  const [internalSaved, setInternalSaved] = useState(saved);
+  const [internalUserContentId, setInternalUserContentId] = useState(userContentId);
+
+  // props 변경 시 동기화
+  useEffect(() => {
+    setInternalSaved(saved);
+  }, [saved]);
+
+  useEffect(() => {
+    setInternalUserContentId(userContentId);
+  }, [userContentId]);
+
   // 이미지 로드 실패 또는 플레이스홀더 감지 시 폴백
   const [imageError, setImageError] = useState(false);
   
@@ -129,6 +160,21 @@ export default function ContentCard({
 
   // 리뷰 모드 여부: 리뷰 데이터가 있고, 강제 포스터 모드가 아닐 때
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
+
+  // 리뷰/프리셋 콘텐츠가 있을 때 sourceUrl 필수 검증
+  useEffect(() => {
+    const hasReviewContent = review !== undefined || (reviewPresets && reviewPresets.length > 0);
+    if (hasReviewContent && !sourceUrl) {
+      console.error('[ContentCard] 리뷰/프리셋이 있는데 sourceUrl이 없습니다:', {
+        title,
+        contentId,
+        userContentId,
+        review: review?.substring(0, 50),
+        reviewPresets,
+        hasHeaderNode: !!headerNode
+      });
+    }
+  }, [review, reviewPresets, sourceUrl, title, contentId, userContentId, headerNode]);
 
   // 콘텐츠 상세 페이지 URL
   const contentDetailUrl = contentId
@@ -222,74 +268,73 @@ export default function ContentCard({
       );
     }
 
-    // 액션 메뉴 아이템 구성 (추천, 삭제 등)
+    // 인증 확인 중이거나 비로그인: 액션 버튼 숨김
+    if (isCheckingAuth || !user) {
+      return null;
+    }
+
+    // 로그인 상태: 액션 메뉴 아이템 구성
     const menuItems: DropdownMenuItem[] = [];
 
-    if (recommendable) {
-      menuItems.push({
-        label: "추천",
-        icon: <ThumbsUp size={14} />,
-        onClick: () => setIsRecommendModalOpen(true),
-      });
-    }
+    // 서재에 있음: 추천 | 삭제
+    if (internalSaved) {
+      // 추천 (recommendable이 false가 아니면 기본 표시)
+      if (recommendable !== false) {
+        menuItems.push({
+          label: "추천",
+          icon: <ThumbsUp size={14} />,
+          onClick: () => setIsRecommendModalOpen(true),
+        });
+      }
 
-    if (deletable && onDelete) {
-      menuItems.push({
-        label: "삭제",
-        icon: <Trash2 size={14} />,
-        onClick: () => onDelete({ stopPropagation: () => {}, preventDefault: () => {} } as any),
-        variant: "danger",
-      });
+      // 삭제 (deletable이 false가 아니면 기본 표시)
+      if (deletable !== false) {
+        menuItems.push({
+          label: "삭제",
+          icon: <Trash2 size={14} />,
+          onClick: async () => {
+            if (onDelete) {
+              onDelete({ stopPropagation: () => {}, preventDefault: () => {} } as any);
+            } else if (internalUserContentId) {
+              // 내부에서 직접 삭제
+              await removeContent(internalUserContentId);
+              setInternalSaved(false);
+              setInternalUserContentId(undefined);
+            }
+          },
+          variant: "danger",
+        });
+      }
     }
-
-    if (addable) {
+    // 서재에 없음: 담기 (기본 표시)
+    else {
       menuItems.push({
         label: "서재에 담기",
         icon: <Bookmark size={14} />,
-        onClick: () => { 
-          // DropdownMenu 내부에서 stopPropagation 처리됨
-          setShowAddConfirm(true); 
+        onClick: () => {
+          if (onAdd) {
+            onAdd({ stopPropagation: () => {}, preventDefault: () => {} } as any);
+          } else {
+            setShowAddConfirm(true);
+          }
         },
       });
     }
 
-    // 액션이 하나라도 있으면 드롭다운 메뉴 렌더링
-    if (menuItems.length > 0) {
-      return (
-        <div
-          className="absolute top-1.5 right-1.5 md:top-2 md:right-2"
-          style={{ zIndex: Z_INDEX.cardBadge }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <DropdownMenu
-            items={menuItems}
-            buttonClassName="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30 text-white/90"
-            iconSize={16}
-          />
-        </div>
-      );
-    }
-    
-    // 이미 기록된 경우 (saved) - 체크 아이콘
-    if (saved) {
-      const hasSavedAction = onSavedStatusChange || onSavedRemove;
-      return (
-        <div 
-          className="w-8 h-8 flex items-center justify-center rounded-full bg-green-500/20 text-green-500 backdrop-blur-sm border border-green-500/30 shadow-lg"
-          title="서재에 있음"
-          onClick={(e) => {
-            e.stopPropagation();
-            if (hasSavedAction) setShowSavedAction(true);
-          }}
-        >
-          <Check size={16} strokeWidth={3} />
-        </div>
-      );
-    }
-
-    // 기록 추가 가능한 경우 (addable) - 이제 메뉴 아이템으로 통합됨
-    // if (addable) { ... }
-    return null;
+    // 로그인 상태면 항상 메뉴 표시
+    return (
+      <div
+        className="absolute top-1.5 right-1.5 md:top-2 md:right-2"
+        style={{ zIndex: Z_INDEX.cardBadge }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <DropdownMenu
+          items={menuItems}
+          buttonClassName="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30 text-white/90"
+          iconSize={16}
+        />
+      </div>
+    );
   };
 
   // 좌하단: 인원 구성 뱃지 (셀럽 | 일반인)
@@ -358,7 +403,7 @@ export default function ContentCard({
                             const colorClasses = getSentimentColorClasses(sentiment);
 
                             return (
-                                <span 
+                                <span
                                     key={`${presetKeyword}-${idx}`}
                                     className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
                                 >
@@ -371,17 +416,6 @@ export default function ContentCard({
                 <p className="text-sm text-text-primary leading-relaxed whitespace-pre-line break-words">
                   <FormattedText text={review} />
                 </p>
-                {sourceUrl && (
-                  <a
-                    href={sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-block mt-3 text-xs text-accent/60 hover:text-accent underline underline-offset-2 break-all"
-                  >
-                    출처: {sourceUrl}
-                  </a>
-                )}
               </div>
             ) : review && isSpoiler ? (
               <p className="text-sm text-text-tertiary italic">스포일러 포함 리뷰</p>
@@ -394,7 +428,7 @@ export default function ContentCard({
                             const colorClasses = getSentimentColorClasses(sentiment);
 
                             return (
-                                <span 
+                                <span
                                     key={`${presetKeyword}-${idx}`}
                                     className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
                                 >
@@ -407,6 +441,25 @@ export default function ContentCard({
             ) : (
               <p className="text-sm text-text-tertiary italic">작성된 리뷰가 없습니다</p>
             )}
+
+            {/* 출처 링크 (필수) */}
+            <div className="mt-3 text-xs break-all">
+              {sourceUrl ? (
+                <a
+                  href={sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-accent/60 hover:text-accent underline underline-offset-2"
+                >
+                  출처: {sourceUrl}
+                </a>
+              ) : (
+                <span className="text-red-500 font-semibold">
+                  ⚠️ 출처 URL 누락
+                </span>
+              )}
+            </div>
           </ModalBody>
           {contentDetailUrl && (
             <ModalFooter>
@@ -437,11 +490,11 @@ export default function ContentCard({
         contentThumbnail={thumbnail}
         celebCount={effectiveCelebCount ?? 0}
       />
-      {recommendable && userContentId && (
+      {internalSaved && internalUserContentId && (
         <RecommendationModal
           isOpen={isRecommendModalOpen}
           onClose={() => setIsRecommendModalOpen(false)}
-          userContentId={userContentId}
+          userContentId={internalUserContentId}
           contentTitle={title}
           contentThumbnail={thumbnail ?? null}
           contentType={contentType}
@@ -456,7 +509,41 @@ export default function ContentCard({
         </ModalBody>
         <ModalFooter className="justify-end">
           <Button variant="ghost" size="md" onClick={() => setShowAddConfirm(false)}>취소</Button>
-          <Button variant="primary" size="md" onClick={(e) => { setShowAddConfirm(false); onAdd?.(e as React.MouseEvent); }}>등록</Button>
+          <Button variant="primary" size="md" onClick={async (e) => {
+            setShowAddConfirm(false);
+            if (onAdd) {
+              onAdd(e as React.MouseEvent);
+            } else {
+              // 내부에서 직접 추가
+              if (!contentId) {
+                console.error('[ContentCard] contentId 없음');
+                return;
+              }
+
+              try {
+                const result = await addContent({
+                  id: contentId,
+                  type: contentType,
+                  title,
+                  creator: creator ?? undefined,
+                  thumbnailUrl: thumbnail ?? undefined,
+                  status: "WANT",
+                });
+
+                console.log('[ContentCard] addContent 결과:', result);
+
+                if (result.success && result.data) {
+                  setInternalSaved(true);
+                  setInternalUserContentId(result.data.userContentId);
+                  console.log('[ContentCard] 서재 추가 완료:', result.data.userContentId);
+                } else {
+                  console.error('[ContentCard] addContent 실패:', result);
+                }
+              } catch (error) {
+                console.error('[ContentCard] addContent 에러:', error);
+              }
+            }
+          }}>등록</Button>
         </ModalFooter>
       </Modal>
       <Modal isOpen={showSavedAction} onClose={() => setShowSavedAction(false)} title="서재 관리" icon={Bookmark} size="sm" closeOnOverlayClick>
@@ -536,6 +623,8 @@ export default function ContentCard({
                   blurDataURL={BLUR_DATA_URL}
                   onError={() => setImageError(true)}
                   onLoad={handleImageLoad}
+                  unoptimized
+                  loading="lazy"
                 />
               ) : certTheme ? (
                 renderCertificateFallback(32)
@@ -583,7 +672,7 @@ export default function ContentCard({
                             const colorClasses = getSentimentColorClasses(sentiment);
 
                             return (
-                                <span 
+                                <span
                                     key={`${presetKeyword}-${idx}`}
                                     className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
                                 >
@@ -607,24 +696,13 @@ export default function ContentCard({
                     <p className={`text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans`}>
                       <FormattedText text={review} />
                     </p>
-                    {sourceUrl && (
-                      <a
-                        href={sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-block mt-3 text-xs text-accent/60 hover:text-accent underline underline-offset-2 break-all"
-                      >
-                        출처: {sourceUrl}
-                      </a>
-                    )}
                   </div>
                   {canScroll && scrollY < maxScroll && (
                     <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none z-10" />
                   )}
                 </div>
                 )}
-                
+
                 {review && isSpoiler && (
                     <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
                         <p className="text-sm text-text-tertiary">스포일러 포함</p>
@@ -636,6 +714,25 @@ export default function ContentCard({
                     <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
                     </div>
                 )}
+
+                {/* 출처 링크 (필수) */}
+                <div className="mt-2 text-xs break-all">
+                  {sourceUrl ? (
+                    <a
+                      href={sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-accent/60 hover:text-accent underline underline-offset-2"
+                    >
+                      출처: {sourceUrl}
+                    </a>
+                  ) : (
+                    <span className="text-red-500 font-semibold">
+                      ⚠️ 출처 URL 누락
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -670,6 +767,8 @@ export default function ContentCard({
                   blurDataURL={BLUR_DATA_URL}
                   onError={() => setImageError(true)}
                   onLoad={handleImageLoad}
+                  unoptimized
+                  loading="lazy"
                 />
               ) : certTheme ? (
                 renderCertificateFallback(32)
@@ -716,6 +815,8 @@ export default function ContentCard({
             blurDataURL={BLUR_DATA_URL}
             onError={() => setImageError(true)}
             onLoad={handleImageLoad}
+            unoptimized
+            loading="lazy"
           />
         ) : certTheme ? (
           renderCertificateFallback(32)

@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Inbox, User } from "lucide-react";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getCelebFeed } from "@/actions/home";
@@ -63,7 +63,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
 
   return (
     <>
-      <SavedContentCard
+      <ContentCard
         contentId={review.content.id}
         contentType={review.content.type}
         title={review.content.title}
@@ -75,8 +75,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         href=""
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
-        initialSaved={initialSaved}
-        autoCheck={false}
+        saved={initialSaved}
         heightClass="h-[320px] md:h-[280px]"
         className="sm:max-w-4xl sm:mx-auto"
       />

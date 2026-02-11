@@ -1,20 +1,16 @@
 import { useState, useEffect, useTransition, useRef } from "react";
-import { Lock, Users, Globe, Loader2, FileText, LayoutList, CloudCheck, Cloud } from "lucide-react";
-import SectionList from "./SectionList";
-import AccordionSection from "@/components/features/content/AccordionSection";
-import { getNoteByContentId, upsertNote, addSection, updateSection, deleteSection, updateNoteMemo } from "@/actions/notes";
-import type { Note, Snapshot, NoteSection } from "@/actions/notes/types";
+import { Loader2 } from "lucide-react";
+import { getNoteByContentId, updateNoteMemo } from "@/actions/notes";
+import type { Note, Snapshot } from "@/actions/notes/types";
 
 interface MyNotePanelProps {
   contentId: string;
-  activeTab?: "memo" | "sections";
   onDirtyChange?: (isDirty: boolean) => void;
 }
 
-export default function MyNotePanel({ 
-  contentId, 
-  activeTab = "memo",
-  onDirtyChange 
+export default function MyNotePanel({
+  contentId,
+  onDirtyChange
 }: MyNotePanelProps) {
   const [note, setNote] = useState<Note | null>(null);
   const [memo, setMemo] = useState("");
@@ -22,10 +18,8 @@ export default function MyNotePanel({
   const [isSaving, startSaveTransition] = useTransition();
   const [snapshot, setSnapshot] = useState<Snapshot>({});
 
-  // dirty 상태 계산 및 부모에게 알림
   const isMemoDirty = note !== null && memo !== (note.memo || "");
-  // sections의 경우 복잡하므로 여기서는 memo 위주로 처리하거나 간단히 체크
-  
+
   useEffect(() => {
     onDirtyChange?.(isMemoDirty);
   }, [isMemoDirty, onDirtyChange]);
@@ -76,44 +70,6 @@ export default function MyNotePanel({
     adjustHeight();
   }, [memo]);
 
-  async function ensureNote(): Promise<string> {
-    if (note) return note.id;
-    const newNote = await upsertNote({ contentId, snapshot });
-    setNote(newNote);
-    return newNote.id;
-  }
-
-  const handleAddSection = async (title: string, memo?: string) => {
-    startSaveTransition(async () => {
-      try {
-        const noteId = await ensureNote();
-        const newSection = await addSection({ noteId, title, memo });
-        setNote((prev: Note | null) => prev ? { ...prev, sections: [...(prev.sections || []), newSection] } : prev);
-      } catch (err) { console.error("구획 추가 실패:", err); }
-    });
-  };
-
-  const handleUpdateSection = async (sectionId: string, updates: { title?: string; memo?: string }) => {
-    startSaveTransition(async () => {
-      try {
-        await updateSection({ sectionId, ...updates });
-        setNote((prev: Note | null) => prev ? {
-          ...prev,
-          sections: prev.sections?.map((s: NoteSection) => s.id === sectionId ? { ...s, ...updates } : s),
-        } : prev);
-      } catch (err) { console.error("구획 수정 실패:", err); }
-    });
-  };
-
-  const handleDeleteSection = async (sectionId: string) => {
-    startSaveTransition(async () => {
-      try {
-        await deleteSection(sectionId);
-        setNote((prev: Note | null) => prev ? { ...prev, sections: prev.sections?.filter((s: NoteSection) => s.id !== sectionId) } : prev);
-      } catch (err) { console.error("구획 삭제 실패:", err); }
-    });
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -125,32 +81,19 @@ export default function MyNotePanel({
   return (
     <div className="flex flex-col w-full bg-transparent p-6">
       <div className="w-full">
-        {activeTab === "memo" && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 relative flex flex-col">
-            <textarea
-              ref={textareaRef}
-              value={memo}
-              onChange={(e) => setMemo(e.target.value)}
-              rows={3}
-              placeholder="작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요."
-              className="w-full bg-transparent text-text-primary focus:outline-none transition-colors resize-none leading-relaxed text-base font-sans mt-2 custom-scrollbar overflow-hidden"
-            />
-          </div>
-        )}
-
-        {activeTab === "sections" && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col">
-            <div className="flex-1 pr-2">
-              <SectionList
-                sections={note?.sections || []}
-                isSaving={isSaving}
-                onAdd={handleAddSection}
-                onUpdate={handleUpdateSection}
-                onDelete={handleDeleteSection}
-              />
-            </div>
-          </div>
-        )}
+        <div
+          className="animate-in fade-in slide-in-from-bottom-2 duration-300 relative flex flex-col min-h-[400px] cursor-text"
+          onClick={() => textareaRef.current?.focus()}
+        >
+          <textarea
+            ref={textareaRef}
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
+            rows={3}
+            placeholder="작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요."
+            className="w-full min-h-[400px] bg-transparent text-text-primary border border-transparent outline-none resize-none leading-relaxed text-base font-sans mt-2 custom-scrollbar overflow-hidden transition-all focus:border-accent/30 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] focus:bg-accent/5"
+          />
+        </div>
       </div>
     </div>
   );

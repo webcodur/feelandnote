@@ -27,7 +27,7 @@ interface NaverSearchResponse {
 
 export interface BookSearchResult {
   externalId: string
-  externalSource: 'naver'
+  externalSource: 'naver_book'
   category: 'book'
   title: string
   creator: string
@@ -78,7 +78,7 @@ async function fetchBooks(
   return {
     items: items.map((book) => ({
       externalId: book.isbn || book.link,
-      externalSource: 'naver' as const,
+      externalSource: 'naver_book' as const,
       category: 'book' as const,
       title: extractMainTitle(book.title),
       creator: formatAuthor(book.author),

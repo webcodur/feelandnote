@@ -33,6 +33,8 @@ export default function CelebImage({
       fill
       className={`object-cover ${shapeClass} ${className}`}
       sizes={sizes}
+      unoptimized
+      loading="lazy"
     />
   ) : (
     <div className={`w-full h-full flex items-center justify-center bg-bg-secondary ${shapeClass}`}>

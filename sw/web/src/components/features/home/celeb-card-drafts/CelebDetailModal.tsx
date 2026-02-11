@@ -19,7 +19,7 @@ import InfluenceBadge from "@/components/ui/InfluenceBadge";
 import { FormattedText } from "@/components/ui";
 import { getCelebReviews } from "@/actions/home/getCelebReviews";
 import type { CelebReview } from "@/types/home";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
@@ -27,6 +27,8 @@ import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEdit
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
+import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
+import type { ContentType } from "@/types/database";
 
 // #region Constants (materials.ts 기반 오라별 그라데이션)
 const AURA_GRADIENTS: Record<Aura, string> = {
@@ -40,6 +42,16 @@ const AURA_GRADIENTS: Record<Aura, string> = {
   8: "from-[#E0FFFF] via-[#B0E0E6] to-[#87CEEB]",         // diamond (사도)
   9: "from-[#FF00FF] via-[#00FFFF] to-[#FFFF00]",         // holographic (불멸자)
 };
+
+type CategoryFilter = "ALL" | "BOOK" | "VIDEO" | "GAME" | "MUSIC";
+
+const CATEGORY_TABS: { value: CategoryFilter; label: string }[] = [
+  { value: "ALL", label: "전체" },
+  { value: "BOOK", label: "도서" },
+  { value: "VIDEO", label: "영상" },
+  { value: "GAME", label: "게임" },
+  { value: "MUSIC", label: "음악" },
+];
 // #endregion
 
 // #region Inline Celeb Review Card (for modal)
@@ -90,7 +102,7 @@ function CelebReviewCard({ review, celeb, onRatingUpdate }: { review: CelebRevie
 
   return (
     <>
-      <SavedContentCard
+      <ContentCard
         contentId={review.content.id}
         contentType={review.content.type}
         title={review.content.title}
@@ -162,20 +174,22 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [reviews, setReviews] = useState<CelebReview[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
   const [displayCount, setDisplayCount] = useState(20);
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("ALL");
 
-  // 네비게이션 드래그 상태
+  // 리뷰 모드 전환 드래그 상태
   const [navDragOffset, setNavDragOffset] = useState(0);
   const [isNavDragging, setIsNavDragging] = useState(false);
   const navDragStartX = useRef(0);
   const navDragStartY = useRef(0);
   const navHasMoved = useRef(false);
-  const NAV_SWIPE_THRESHOLD = 50;
+  const NAV_SWIPE_THRESHOLD = 80;
 
   // celeb 전환 시 내부 상태 리셋
   useEffect(() => {
     setIsReviewMode(false);
     setReviews([]);
     setDisplayCount(20);
+    setCategoryFilter("ALL");
     setIsFollowing(celeb.is_following);
     setIsInfluenceOpen(false);
     setIsTagsModalOpen(false);
@@ -183,26 +197,30 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     setIsNavDragging(false);
   }, [celeb.id]);
 
-  // 키보드 네비게이션 (← →)
+  // 키보드 네비게이션 (←): 리뷰 모드 진입만
   useEffect(() => {
-    if (!isOpen || !onNavigate) return;
+    if (!isOpen || isReviewMode) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" && hasPrev) onNavigate("prev");
-      if (e.key === "ArrowRight" && hasNext) onNavigate("next");
+      if (e.key === "ArrowLeft") handleEnterReviewMode();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [isOpen, onNavigate, hasPrev, hasNext]);
+  }, [isOpen, isReviewMode]);
 
   // 리뷰 모드 진입 핸들러 (useEffect 대신 직접 호출 — Strict Mode 이중 fetch 방지)
-  const handleEnterReviewMode = () => {
+  const handleEnterReviewMode = async () => {
     setIsReviewMode(true);
     if (reviews.length > 0) return;
     setLoadingReviews(true);
-    getCelebReviews(celeb.id).then((data) => {
+    try {
+      const data = await getCelebReviews(celeb.id);
       setReviews(data);
+    } catch (error) {
+      console.error('[CelebDetailModal] 리뷰 로딩 실패:', error);
+      setReviews([]);
+    } finally {
       setLoadingReviews(false);
-    });
+    }
   };
 
   // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
@@ -342,61 +360,81 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     );
   };
 
-  const ReviewView = () => (
-    <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
-      {/* 헤더: 뒤로가기 버튼 + 타이틀 (기록 수 포함) */}
-      <div className="flex items-center p-4 border-b border-border/50 shrink-0 relative">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsReviewMode(false);
-          }}
-          className="absolute left-4 p-2 rounded-full hover:bg-white/5 text-text-secondary hover:text-text-primary"
-        >
-          <ArrowLeft size={18} />
-        </button>
-        <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent">
-          {celeb.content_count || 0}개의 감상 기록
-        </h2>
-      </div>
+  const ReviewView = () => {
+    const filteredReviews = categoryFilter === "ALL"
+      ? reviews
+      : reviews.filter(r => r.content.type === categoryFilter);
 
-      {/* 리스트 영역 */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-        {loadingReviews ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-text-tertiary animate-pulse">기록을 불러오는 중...</p>
-          </div>
-        ) : reviews.length > 0 ? (
-          <div className="max-w-4xl mx-auto space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              {reviews.slice(0, displayCount).map((reviewItem) => (
-                <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} />
-              ))}
+    return (
+      <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
+        {/* 헤더: 뒤로가기 버튼 + 타이틀 (기록 수 포함) */}
+        <div className="flex items-center p-4 border-b border-border/50 shrink-0 relative">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsReviewMode(false);
+            }}
+            className="absolute left-4 p-2 rounded-full hover:bg-white/5 text-text-secondary hover:text-text-primary"
+          >
+            <ArrowLeft size={18} />
+          </button>
+          <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent">
+            {celeb.content_count || 0}개의 감상 기록
+          </h2>
+        </div>
+
+        {/* 카테고리 필터 */}
+        <div className="shrink-0 px-4 pt-4 pb-2">
+          <CategoryTabFilter
+            options={CATEGORY_TABS}
+            value={categoryFilter}
+            onChange={setCategoryFilter}
+            className="mb-0"
+          />
+        </div>
+
+        {/* 리스트 영역 */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
+          {loadingReviews ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-4">
+              <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+              <p className="text-sm text-text-tertiary animate-pulse">기록을 불러오는 중...</p>
             </div>
-            {displayCount < reviews.length && (
-              <button
-                onClick={() => setDisplayCount((prev) => prev + 20)}
-                className="w-full py-3 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/5 active:scale-[0.98]"
-              >
-                더보기 ({reviews.length - displayCount}개 남음)
-              </button>
-            )}
-          </div>
-        ) : (
-           <div className="flex flex-col items-center justify-center py-20 text-center">
-             <Feather size={48} className="text-text-tertiary/20 mb-4" />
-             <p className="text-text-secondary font-medium mb-1">아직 공개된 감상이 없습니다</p>
-             <p className="text-xs text-text-tertiary">조금 더 기다려주세요</p>
-           </div>
-        )}
+          ) : filteredReviews.length > 0 ? (
+            <div className="max-w-4xl mx-auto space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                {filteredReviews.slice(0, displayCount).map((reviewItem) => (
+                  <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} />
+                ))}
+              </div>
+              {displayCount < filteredReviews.length && (
+                <button
+                  onClick={() => setDisplayCount((prev) => prev + 20)}
+                  className="w-full py-3 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/5 active:scale-[0.98]"
+                >
+                  더보기 ({filteredReviews.length - displayCount}개 남음)
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <Feather size={48} className="text-text-tertiary/20 mb-4" />
+              <p className="text-text-secondary font-medium mb-1">
+                {categoryFilter === "ALL"
+                  ? "아직 공개된 감상이 없습니다"
+                  : `${CATEGORY_TABS.find(t => t.value === categoryFilter)?.label} 감상이 없습니다`}
+              </p>
+              <p className="text-xs text-text-tertiary">조금 더 기다려주세요</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
-  // #region 네비게이션 드래그 핸들러
+  // #region 리뷰 모드 진입 드래그 핸들러 (인물 정보 → 리뷰 모드만)
   const handleNavDragStart = (clientX: number, clientY: number) => {
-    if (!onNavigate) return;
+    if (isReviewMode) return; // 리뷰 모드에서는 드래그 비활성화
     setIsNavDragging(true);
     navHasMoved.current = false;
     navDragStartX.current = clientX;
@@ -405,7 +443,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   };
 
   const handleNavDragMove = (clientX: number, clientY: number) => {
-    if (!isNavDragging || !onNavigate) return;
+    if (!isNavDragging || isReviewMode) return;
     const diffX = clientX - navDragStartX.current;
     const diffY = clientY - navDragStartY.current;
     // 세로 스크롤 우선: Y 이동이 X보다 크면 무시
@@ -415,69 +453,54 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       return;
     }
     if (Math.abs(diffX) > 8) navHasMoved.current = true;
-    const resistance = (!hasPrev && diffX > 0) || (!hasNext && diffX < 0) ? 0.3 : 1;
+    // 좌 스와이프만 허용 (우 스와이프는 저항)
+    const resistance = diffX > 0 ? 0.3 : 1;
     setNavDragOffset(diffX * resistance);
   };
 
   const handleNavDragEnd = () => {
-    if (!isNavDragging || !onNavigate) return;
-    if (Math.abs(navDragOffset) > NAV_SWIPE_THRESHOLD) {
-      if (navDragOffset > 0 && hasPrev) onNavigate("prev");
-      else if (navDragOffset < 0 && hasNext) onNavigate("next");
+    if (!isNavDragging || isReviewMode) return;
+    // 좌 스와이프 → 리뷰 모드 진입
+    if (navDragOffset < -NAV_SWIPE_THRESHOLD) {
+      handleEnterReviewMode();
     }
     setNavDragOffset(0);
     setIsNavDragging(false);
   };
 
-  const navDragHandlers = onNavigate ? {
-    onMouseDown: (e: React.MouseEvent) => handleNavDragStart(e.clientX, e.clientY),
-    onMouseMove: (e: React.MouseEvent) => handleNavDragMove(e.clientX, e.clientY),
-    onMouseUp: handleNavDragEnd,
-    onMouseLeave: handleNavDragEnd,
+  // 모바일 전용 터치 핸들러 (PC 마우스 드래그 제외)
+  const navDragHandlers = {
     onTouchStart: (e: React.TouchEvent) => handleNavDragStart(e.touches[0].clientX, e.touches[0].clientY),
     onTouchMove: (e: React.TouchEvent) => handleNavDragMove(e.touches[0].clientX, e.touches[0].clientY),
     onTouchEnd: handleNavDragEnd,
-  } : {};
+  };
 
-  const navDragStyle = onNavigate && isNavDragging ? {
+  const navDragStyle = isNavDragging ? {
     transform: `translateX(${navDragOffset * 0.3}px)`,
     opacity: 1 - Math.abs(navDragOffset) * 0.002,
   } : undefined;
   // #endregion
 
-  // 네비게이션 화살표 (초상화 하단 좌우)
-  // mousedown/touchstart 전파 차단: 부모의 드래그 핸들러 간섭 방지
+  // 리뷰 모드 진입 화살표 (인물 정보 화면에만 표시)
   const stopDrag = {
     onMouseDown: (e: React.MouseEvent) => e.stopPropagation(),
     onTouchStart: (e: React.TouchEvent) => e.stopPropagation(),
   };
-  const NavArrows = ({ size = "md" }: { size?: "sm" | "md" }) => {
-    if (!onNavigate) return null;
-    const btnClass = size === "sm"
-      ? "w-8 h-8"
-      : "w-10 h-10";
+  const ReviewModeToggleArrow = ({ size = "md" }: { size?: "sm" | "md" }) => {
+    if (isReviewMode) return null; // 리뷰 모드에서는 표시 안 함
+
+    const btnClass = size === "sm" ? "w-8 h-8" : "w-10 h-10";
     const iconSize = size === "sm" ? 16 : 20;
+
     return (
-      <>
-        {hasPrev && (
-          <button
-            {...stopDrag}
-            onClick={(e) => { e.stopPropagation(); onNavigate("prev"); }}
-            className={`absolute bottom-4 start-4 z-30 ${btnClass} rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-95`}
-          >
-            <ChevronLeft size={iconSize} />
-          </button>
-        )}
-        {hasNext && (
-          <button
-            {...stopDrag}
-            onClick={(e) => { e.stopPropagation(); onNavigate("next"); }}
-            className={`absolute bottom-4 end-4 z-30 ${btnClass} rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-95`}
-          >
-            <ChevronRight size={iconSize} />
-          </button>
-        )}
-      </>
+      <button
+        {...stopDrag}
+        onClick={(e) => { e.stopPropagation(); handleEnterReviewMode(); }}
+        className={`absolute bottom-4 end-4 z-30 ${btnClass} rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-95`}
+        title="감상 기록으로"
+      >
+        <ChevronLeft size={iconSize} />
+      </button>
     );
   };
 
@@ -533,11 +556,11 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                  {/* PC 핸들 버튼: 우측 끝 중앙 */}
                  <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg translate-x-0.5 hover:translate-x-0" />
                  
-                 {/* 기존 콘텐츠 - PC는 화살표+키보드만 지원 (드래그 없음) */}
+                 {/* PC 초상화 영역 */}
                  <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
               <div key={celeb.id} className="w-full h-full">
               {portraitImage ? (
-                <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
+                <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" draggable="false" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-neutral-900">
                   <span className="text-6xl text-white/20 font-serif">{celeb.nickname[0]}</span>
@@ -560,8 +583,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               )}
 
-              {/* 좌우 네비게이션 화살표 */}
-              <NavArrows size="md" />
+              {/* 리뷰 모드 전환 화살표 */}
+              <ReviewModeToggleArrow size="md" />
             </div>
 
             {/* 오른쪽: 정보 - 높이 제한 해제 */}
@@ -650,12 +673,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               <div className="flex-1 overflow-y-auto overflow-x-hidden">
             {/* 초상화 (9:16 비율) */}
             <div
-              className={`relative w-full aspect-[9/16] bg-black ${onNavigate ? "select-none" : ""}`}
+              className="relative w-full aspect-[9/16] bg-black select-none"
               {...navDragHandlers}
             >
               <div key={celeb.id} className="w-full h-full" style={navDragStyle}>
               {portraitImage ? (
-                <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" />
+                <img src={portraitImage} alt={celeb.nickname} className="w-full h-full object-cover object-top animate-portrait-reveal" draggable="false" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-neutral-900 font-serif">
                    <span className="text-6xl text-white/10">{celeb.nickname[0]}</span>
@@ -667,7 +690,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               <div className="absolute top-0 left-0 right-0 p-5 z-20">
                 {/* 1. 중앙 드래그 핸들 (위치 고정) */}
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/20 rounded-full" onClick={onClose} />
-                
+
                 <div className="flex items-center justify-between mt-2">
                   {/* 2. 좌상단 영향력 휘장 (클릭 시 상세 모달) */}
                   {!hideInfluence ? (
@@ -720,8 +743,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               </div>
 
-              {/* 좌우 네비게이션 화살표 (모바일) */}
-              <NavArrows size="sm" />
+              {/* 리뷰 모드 전환 화살표 (모바일) */}
+              <ReviewModeToggleArrow size="sm" />
             </div>
 
             {/* 정보 영역 - 이제 Bio와 Quotes에 집중 */}
