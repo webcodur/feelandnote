@@ -33,7 +33,7 @@ function SectionSkeleton() {
         <div className="h-4 w-16 bg-bg-card rounded" />
       </div>
 
-      {/* 3행 탭 구조 스켈레톤 */}
+      {/* 4행 탭 구조 스켈레톤 */}
       <div className="mb-10 flex justify-center">
         <div className="inline-flex flex-col items-center gap-1.5 p-2.5 bg-neutral-900/80 rounded-xl border border-white/10">
           {(PROFESSION_ROWS as readonly (readonly string[])[]).map((rowKeys, rowIndex) => (

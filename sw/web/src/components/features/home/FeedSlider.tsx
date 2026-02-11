@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, User } from "lucide-react";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import type { CelebReview as Review } from "@/types/home";
@@ -56,7 +56,7 @@ function SliderFeedCard({ review }: { review: Review }) {
 
   return (
     <>
-      <SavedContentCard
+      <ContentCard
         contentId={review.content.id}
         contentType={review.content.type}
         title={review.content.title}

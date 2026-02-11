@@ -9,7 +9,7 @@
 import { useState, useEffect, useTransition } from "react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import RepresentativeCelebs from "../RepresentativeCelebs";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -20,6 +20,7 @@ import {
   type ScripturesByProfession as ProfessionData,
 } from "@/actions/scriptures";
 import { PROFESSION_ROWS } from "@/constants/scriptures";
+import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
 // #region Types
 interface ProfessionCount {
@@ -139,7 +140,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
           <div className="mb-10 sm:mb-14">
             <RepresentativeCelebs
               celebs={data.topCelebs}
-              title="대표 인물"
+              title={`대표 ${getCelebProfessionLabel(activeProfession)}`}
               centered
             />
           </div>
@@ -148,13 +149,13 @@ export default function ProfessionSection({ professionCounts }: Props) {
         {/* 카드 그리드 */}
         <div>
           <div className="flex justify-center mb-6">
-            <DecorativeLabel label="추천 경전" />
+            <DecorativeLabel label="추천 작품" />
           </div>
           
           {data && data.contents.length > 0 ? (
             <ContentGrid>
               {data.contents.map((content) => (
-                <SavedContentCard
+                <ContentCard
                   key={content.id}
                   contentId={content.id}
                   contentType={content.type as ContentType}
@@ -163,6 +164,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
                   thumbnail={content.thumbnail_url}
                   rating={content.avg_rating ?? undefined}
                   href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
+                  addable={true}
                 />
               ))}
             </ContentGrid>
@@ -174,7 +176,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">해당 분야의 경전이 없습니다</p>
+              <p className="text-text-tertiary text-sm">해당 분야의 작품이 없습니다</p>
             </div>
           )}
         </div>

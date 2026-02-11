@@ -58,7 +58,6 @@ export function HomeEditorArea({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isNoteDirty, setIsNoteDirty] = useState(false);
     const [activeTab, setActiveTab] = useState<'EDIT' | 'PREVIEW'>('EDIT');
-    const [activeNoteTab, setActiveNoteTab] = useState<'memo' | 'sections'>('memo');
     const [activeMainTab, setActiveMainTab] = useState<'REVIEW' | 'NOTE'>('REVIEW');
 
     // 프리셋 비교: 순서 무관하게 내용이 같은지 확인
@@ -76,7 +75,6 @@ export function HomeEditorArea({
             setPresets(targetContent.initialPresets || []);
             setIsNoteDirty(false);
             setActiveTab('EDIT');
-            setActiveNoteTab('memo');
         }
     }, [targetContent?.id]);
 
@@ -231,30 +229,6 @@ export function HomeEditorArea({
                             </>
                         ) : (
                             <>
-                                {/* Note Tabs */}
-                                <div className="flex bg-black/20 p-1 rounded-lg">
-                                    <button
-                                        onClick={() => setActiveNoteTab('memo')}
-                                        className={`px-3.5 py-2 rounded-md text-xs font-sans font-bold transition-all ${
-                                            activeNoteTab === 'memo' 
-                                            ? 'bg-accent/20 text-accent shadow-sm' 
-                                            : 'text-text-tertiary hover:text-text-secondary'
-                                        }`}
-                                    >
-                                        자유
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveNoteTab('sections')}
-                                        className={`px-3.5 py-2 rounded-md text-xs font-sans font-bold transition-all ${
-                                            activeNoteTab === 'sections' 
-                                            ? 'bg-accent/20 text-accent shadow-sm' 
-                                            : 'text-text-tertiary hover:text-text-secondary'
-                                        }`}
-                                    >
-                                        구획
-                                    </button>
-                                </div>
-
                                 {/* Note Save Button (Indicator) */}
                                 <button 
                                     disabled={!isNoteDirty}
@@ -291,15 +265,15 @@ export function HomeEditorArea({
                                 onSave={handleSubmit}
                                 isSubmitting={isSubmitting}
                                 contentTitle={targetContent.title}
+                                contentCreator={targetContent.creator}
                                 isRecommendation={targetContent.isRecommendation}
                                 hideHeader={true}
                                 contentType={targetContent.type}
                             />
                         </div>
                     ) : (
-                        <MyNotePanel 
-                            contentId={realContentId} 
-                            activeTab={activeNoteTab} 
+                        <MyNotePanel
+                            contentId={realContentId}
                             onDirtyChange={setIsNoteDirty}
                         />
                     )}

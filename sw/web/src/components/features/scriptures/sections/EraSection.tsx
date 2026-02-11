@@ -1,6 +1,6 @@
 /*
   파일명: /components/features/scriptures/sections/EraSection.tsx
-  기능: 세대의 경전 섹션
+  기능: 세대의 작품 섹션
   책임: 시대별 인물들의 선택을 보여준다.
 */ // ------------------------------
 
@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { Clock } from "lucide-react";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import RepresentativeCelebs from "../RepresentativeCelebs";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -26,7 +26,7 @@ function EraContentsGrid({ era }: { era: EraScriptures }) {
   return era.contents.length > 0 ? (
     <ContentGrid>
       {era.contents.map((content) => (
-        <SavedContentCard
+        <ContentCard
           key={content.id}
           contentId={content.id}
           contentType={content.type as ContentType}
@@ -40,7 +40,7 @@ function EraContentsGrid({ era }: { era: EraScriptures }) {
     </ContentGrid>
   ) : (
     <div className="flex items-center justify-center h-24 bg-bg-card/50 rounded-xl border border-border/30">
-      <p className="text-text-tertiary text-sm">해당 시대의 경전이 없습니다</p>
+      <p className="text-text-tertiary text-sm">해당 시대의 작품이 없습니다</p>
     </div>
   );
 }
@@ -54,7 +54,7 @@ export default function EraSection({ initialData }: Props) {
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Clock size={20} className="text-accent" />
-          <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">세대의 경전</h2>
+          <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">세대의 작품</h2>
         </div>
         <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
           <p className="text-text-tertiary text-sm">시대별 데이터가 없습니다</p>
@@ -66,7 +66,7 @@ export default function EraSection({ initialData }: Props) {
   return (
     <div>
       <SectionHeader
-        title="세대의 경전"
+        title="세대의 작품"
         label="TIMELESS LEGACY"
         description={
           <>
@@ -129,11 +129,11 @@ export default function EraSection({ initialData }: Props) {
                 </p>
               </div>
             )}
-            
-            {/* 경전 목록 */}
+
+            {/* 작품 목록 */}
             <div>
               <div className="flex justify-center mb-4">
-                <DecorativeLabel label="시대의 경전" />
+                <DecorativeLabel label="시대의 작품" />
               </div>
               <EraContentsGrid era={selectedData} />
             </div>
@@ -183,7 +183,7 @@ export default function EraSection({ initialData }: Props) {
                   </div>
               )}
 
-              {/* 경전 목록 섹션 (우측 9칸) */}
+              {/* 작품 목록 섹션 (우측 9칸) */}
               <div className="col-span-9">
                 <EraContentsGrid era={era} />
               </div>

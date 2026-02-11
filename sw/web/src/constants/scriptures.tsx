@@ -35,18 +35,19 @@ export const SCRIPTURES_TABS: ScripturesTab[] = [
   },
   {
     value: "era",
-    label: "시대의 경전",
+    label: "시대의 작품",
     icon: Clock,
     href: "/scriptures/era",
     description: "시대별 명저 탐색",
   },
 ];
 
-// 3행 구조: 5x5x5 그리드 (갈랫길 페이지용)
+// 4행 구조: 4x4x4x3 그리드 (갈랫길 페이지용)
 export const PROFESSION_ROWS = [
-  ["entrepreneur", "investor", "athlete", "humanities_scholar", "director"],
-  ["leader", "scientist", "politician", "social_scientist", "author"],
-  ["commander", "musician", "visual_artist", "influencer", "actor"],
+  ["entrepreneur", "investor", "commander", "leader"],
+  ["politician", "scientist", "director", "humanities_scholar"],
+  ["musician", "visual_artist", "actor", "athlete"],
+  ["influencer", "author", "social_scientist"],
 ] as const;
 
 // 헬퍼: 페이지 타이틀 생성

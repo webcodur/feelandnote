@@ -26,6 +26,15 @@ const sizeStyles = {
   "3xl": { container: "w-[100px] h-[100px]", pixels: 100, text: "text-4xl", badge: "w-6 h-6" },
 };
 
+const sizeMap = {
+  sm: { px: "32px" },
+  md: { px: "40px" },
+  lg: { px: "56px" },
+  xl: { px: "64px" },
+  "2xl": { px: "100px" },
+  "3xl": { px: "100px" },
+};
+
 const defaultGradient = "linear-gradient(135deg, #8b5cf6, #ec4899)";
 
 export default function Avatar({ url, name, size = "md", gradient, verified, className = "", priority = false }: AvatarProps) {
@@ -42,7 +51,7 @@ export default function Avatar({ url, name, size = "md", gradient, verified, cla
           width={styles.pixels}
           height={styles.pixels}
           className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 transition-all duration-300 ${className}`}
-          unoptimized={!url.includes('supabase.co')}
+          unoptimized
           priority={priority}
         />
       ) : (

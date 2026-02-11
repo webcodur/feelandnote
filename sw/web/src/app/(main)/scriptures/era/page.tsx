@@ -1,6 +1,6 @@
 /*
   파일명: /app/(main)/scriptures/era/page.tsx
-  기능: 세대의 경전 페이지
+  기능: 세대의 작품 페이지
   책임: 시대별 인물들의 선택을 보여준다.
 */ // ------------------------------
 
@@ -57,12 +57,12 @@ function SectionSkeleton() {
             </div>
           </div>
 
-          {/* DecorativeLabel: 시대의 경전 */}
+          {/* DecorativeLabel: 시대의 작품 */}
           <div>
             <div className="flex justify-center mb-4">
               <div className="h-4 w-20 bg-bg-card rounded" />
             </div>
-            {/* 경전 그리드 */}
+            {/* 작품 그리드 */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />

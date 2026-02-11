@@ -16,6 +16,7 @@ export interface ScriptureContent {
   avg_rating: number | null
   review?: string | null
   is_spoiler?: boolean
+  source_url?: string | null
   user_content_id?: string
 }
 
@@ -545,7 +546,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   // 4. 해당 셀럽의 콘텐츠 조회
   const { data: userContents } = await supabase
     .from('user_contents')
-    .select('id, content_id, rating, review, is_spoiler, contents(id, title, creator, thumbnail_url, type)')
+    .select('id, content_id, rating, review, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type)')
     .eq('user_id', selected.id)
     .eq('status', 'FINISHED')
     .eq('visibility', 'public')
@@ -566,6 +567,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
       avg_rating: item.rating ? Number(item.rating) : null,
       review: item.review,
       is_spoiler: item.is_spoiler,
+      source_url: item.source_url,
       user_content_id: item.id
     }
   }).filter(c => c.id)
@@ -584,7 +586,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
 }
 // #endregion
 
-// #region 세대의 경전 - 시대별 인기 콘텐츠
+// #region 세대의 작품 - 시대별 인기 콘텐츠
 type Era = 'ancient' | 'medieval' | 'modern' | 'contemporary'
 
 const ERA_CONFIG: Record<Era, { label: string; period: string; min: number; max: number; description: string }> = {

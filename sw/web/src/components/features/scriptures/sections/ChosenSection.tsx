@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/scriptures/sections/ChosenSection.tsx
   기능: 공통 서가 섹션
-  책임: 가장 많은 인물이 감상한 경전을 카테고리별로 보여준다.
+  책임: 가장 많은 인물이 감상한 작품을 카테고리별로 보여준다.
 */ // ------------------------------
 
 "use client";
@@ -11,7 +11,7 @@ import { Scroll } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
 import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
-import { SavedContentCard } from "@/components/ui/cards";
+import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -74,7 +74,7 @@ export default function ChosenSection({ initialData }: Props) {
         label="CHOSEN ONES"
         description={
           <>
-            가장 많은 인물이 감상한 경전.
+            가장 많은 인물이 감상한 작품.
             <br />
             <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
               수많은 위인이 같은 책을 선택했다면, 그건 우연이 아닙니다.
@@ -98,7 +98,7 @@ export default function ChosenSection({ initialData }: Props) {
 
       {/* 본문 라벨 */}
       <div className="mb-4 flex justify-center">
-        <DecorativeLabel label="경전 목록" />
+        <DecorativeLabel label="작품 목록" />
       </div>
 
       {/* 카드 그리드 */}
@@ -118,7 +118,7 @@ export default function ChosenSection({ initialData }: Props) {
                     <div className="absolute -inset-1 bg-gradient-to-br from-accent/30 to-transparent rounded-xl blur-sm opacity-0 group-hover:opacity-100" />
                   )}
 
-                  <SavedContentCard
+                  <ContentCard
                     contentId={content.id}
                     contentType={content.type as ContentType}
                     title={content.title}
@@ -140,7 +140,7 @@ export default function ChosenSection({ initialData }: Props) {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
               <Scroll size={24} className="text-text-tertiary opacity-50" />
             </div>
-            <p className="text-text-tertiary text-sm font-serif">선택된 경전이 없습니다</p>
+            <p className="text-text-tertiary text-sm font-serif">선택된 작품이 없습니다</p>
           </div>
         )}
       </div>

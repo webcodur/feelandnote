@@ -67,7 +67,7 @@ export default function FigurePlaque({
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 96px, 128px"
-                    priority
+                    unoptimized
                   />
                 ) : (
                   <div className="w-full h-full bg-neutral-800 flex items-center justify-center">

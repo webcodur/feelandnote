@@ -25,6 +25,7 @@ interface MyReviewPanelProps {
   viewMode: 'EDIT' | 'PREVIEW';
   setViewMode: (mode: 'EDIT' | 'PREVIEW') => void;
   contentTitle?: string;
+  contentCreator?: string | null;
   isRecommendation?: boolean;
   onSave: () => void;
   isSubmitting: boolean;
@@ -47,6 +48,7 @@ export default function MyReviewPanel({
   onSave,
   isSubmitting,
   contentTitle,
+  contentCreator,
   isRecommendation,
   hideHeader = false,
   contentType,
@@ -78,20 +80,20 @@ export default function MyReviewPanel({
   // 텍스트 삽입 헬퍼
   const insertText = (startChar: string, endChar: string) => {
     if (!textareaRef.current) return;
-    
+
     const textarea = textareaRef.current;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const text = textarea.value;
-    
+
     const selectedText = text.substring(start, end);
     const before = text.substring(0, start);
     const after = text.substring(end);
-    
+
     const newText = before + startChar + selectedText + endChar + after;
-    
+
     setReview(newText);
-    
+
     requestAnimationFrame(() => {
         textarea.focus();
         const newCursorPos = start + startChar.length + selectedText.length + (selectedText ? endChar.length : 0);
@@ -100,6 +102,24 @@ export default function MyReviewPanel({
         } else {
              textarea.setSelectionRange(start + startChar.length, start + startChar.length);
         }
+    });
+  };
+
+  // 프리셋 텍스트 삽입 헬퍼
+  const insertPresetText = (text: string) => {
+    if (!textareaRef.current) return;
+    const textarea = textareaRef.current;
+    const start = textarea.selectionStart;
+    const before = textarea.value.substring(0, start);
+    const after = textarea.value.substring(start);
+
+    const newText = before + text + after;
+    setReview(newText);
+
+    requestAnimationFrame(() => {
+      textarea.focus();
+      const newPos = start + text.length;
+      textarea.setSelectionRange(newPos, newPos);
     });
   };
 
@@ -227,32 +247,95 @@ export default function MyReviewPanel({
                     ref={textareaRef}
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
-                    className="w-full flex-1 p-6 bg-transparent border-none outline-none resize-none text-text-primary leading-relaxed text-base font-sans font-normal custom-scrollbar z-10 relative bg-transparent"
+                    className="w-full flex-1 p-6 bg-transparent border border-transparent outline-none resize-none text-text-primary leading-relaxed text-base font-sans font-normal custom-scrollbar z-10 relative transition-all focus:border-accent/30 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] focus:bg-accent/5"
                 />
 
-                {/* 포맷팅 버튼 에디터 내부 우측 하단 배치 */}
-                <div className="absolute right-4 bottom-4 flex items-center gap-1.5 z-20">
-                    <button
-                      onClick={() => insertText('《', '》')}
-                      className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-white border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
-                      title="제목/강조: 《작품명》"
-                    >
-                      《》
-                    </button>
-                    <button
-                      onClick={() => insertText('"', '"')}
-                      className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
-                      title="인용/강조: '문장'"
-                    >
-                      " "
-                    </button>
-                    <button
-                      onClick={() => insertText('<', '>')}
-                      className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-accent font-serif border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
-                      title="소주제/강조: <키워드>"
-                    >
-                      &lt;&gt;
-                    </button>
+                {/* 포맷팅 및 프리셋 버튼 에디터 내부 우측 하단 배치 */}
+                <div className="absolute right-4 bottom-4 flex flex-col gap-2 items-end z-20">
+                    {/* 1줄: 포맷팅 버튼 */}
+                    <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => insertText('《', '》')}
+                          className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-white border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
+                          title="제목/강조: 《작품명》"
+                        >
+                          《》
+                        </button>
+                        <button
+                          onClick={() => insertText('"', '"')}
+                          className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
+                          title="인용/강조: '문장'"
+                        >
+                          " "
+                        </button>
+                        <button
+                          onClick={() => insertText('<', '>')}
+                          className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-accent font-serif border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
+                          title="소주제/강조: <키워드>"
+                        >
+                          &lt;&gt;
+                        </button>
+                    </div>
+
+                    {/* 2줄: 프리셋 텍스트 버튼 */}
+                    <div className="flex flex-wrap gap-1.5 max-w-[400px] justify-end">
+                        <button
+                          onClick={() => insertPresetText('등장인물')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="등장인물 섹션 삽입"
+                        >
+                          등장인물
+                        </button>
+                        <button
+                          onClick={() => insertPresetText('줄거리')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="줄거리 섹션 삽입"
+                        >
+                          줄거리
+                        </button>
+                        <button
+                          onClick={() => insertPresetText(contentTitle ?? '')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="작품 제목 삽입"
+                        >
+                          [제목]
+                        </button>
+                        <button
+                          onClick={() => insertPresetText(contentCreator ?? '')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="작가/크리에이터명 삽입"
+                        >
+                          [작가]
+                        </button>
+                        <button
+                          onClick={() => insertPresetText('핵심 메시지')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="핵심 메시지 섹션 삽입"
+                        >
+                          핵심 메시지
+                        </button>
+                        <button
+                          onClick={() => insertPresetText('인상 깊은 장면')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="인상 깊은 장면 섹션 삽입"
+                        >
+                          인상 깊은 장면
+                        </button>
+                        <button
+                          onClick={() => insertPresetText('아쉬운 점')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="아쉬운 점 섹션 삽입"
+                        >
+                          아쉬운 점
+                        </button>
+                        <button
+                          onClick={() => insertPresetText('추천 대상')}
+                          className="px-3 py-1.5 rounded-md text-[10px] font-bold bg-black/40 hover:bg-accent/20 text-text-secondary hover:text-accent border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-md"
+                          title="추천 대상 섹션 삽입"
+                        >
+                          추천 대상
+                        </button>
+                    </div>
                 </div>
             </div>
          ) : (

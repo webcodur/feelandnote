@@ -596,7 +596,10 @@ export async function getCelebContents(
     .order('updated_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
-  if (error) throw error
+  if (error) {
+    console.error('[getCelebContents] Error:', error)
+    throw error
+  }
 
   const contents: CelebContent[] = (data || []).map((item) => ({
     id: item.id,
