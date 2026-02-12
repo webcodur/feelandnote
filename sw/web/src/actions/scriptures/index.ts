@@ -109,7 +109,10 @@ function aggregateContents(
         ? Math.round((ratings.reduce((a, b) => a + b, 0) / ratings.length) * 10) / 10
         : null
     }))
-    .sort((a, b) => b.celeb_count - a.celeb_count)
+    .sort((a, b) => {
+      if (b.celeb_count !== a.celeb_count) return b.celeb_count - a.celeb_count
+      return a.title.localeCompare(b.title, 'ko')
+    })
 
   const total = allContents.length
   const startIndex = (page - 1) * limit
@@ -721,7 +724,22 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
       }
     })
 
-    const { contents } = aggregateContents(typedData, { limit: 6, userCountMap })
+    let { contents } = aggregateContents(typedData, { limit: 999, userCountMap })
+
+    // 전체 셀럽 카운트로 덮어쓰기 (시대 스코프 무관)
+    const globalCounts = await fetchGlobalCelebCounts(supabase, contents.map(c => c.id))
+    for (const content of contents) {
+      content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
+    }
+
+    // 전체 셀럽 수 기준으로 다시 정렬 후 상위 6개만
+    contents = contents
+      .sort((a, b) => {
+        if (b.celeb_count !== a.celeb_count) return b.celeb_count - a.celeb_count
+        return a.title.localeCompare(b.title, 'ko')
+      })
+      .slice(0, 6)
+
     results.push({ era, label: config.label, period: config.period, description: config.description, contents, celebCount: celebIds.length, topCelebs })
   }
 

@@ -86,9 +86,12 @@ export default function ContentStatsModal({
             <div className="sm:w-[160px] shrink-0 p-5 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
               {/* 썸네일 */}
               {contentThumbnail ? (
-                <img
+                <Image
                   src={contentThumbnail}
                   alt={contentTitle}
+                  width={80}
+                  height={112}
+                  unoptimized
                   className="w-[80px] h-[112px] object-cover rounded-lg border border-accent/30 shadow-lg"
                 />
               ) : (
@@ -141,6 +144,7 @@ export default function ContentStatsModal({
                               alt={celeb.nickname}
                               width={36}
                               height={36}
+                              unoptimized
                               className="w-9 h-9 rounded-full object-cover border border-border/30"
                             />
                           ) : (

@@ -511,7 +511,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
         onMouseLeave={handleHeroDragEnd}
         onClick={() => !heroHasDragged.current && heroCeleb && (() => { setModalCeleb(heroCeleb); setModalCelebIndex(selectedIndex); })()}
       >
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('/images/stardust.png')]" />
 
         <div
           key={selectedIndex}

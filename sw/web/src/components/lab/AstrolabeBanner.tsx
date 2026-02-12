@@ -27,7 +27,7 @@ export default function AstrolabeBanner({ children }: Props) {
     >
       {/* 0. Background Deep Space & Nebulas */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#1a1500_0%,#000000_70%)] opacity-80" />
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 animate-pulse-slow" />
+      <div className="absolute inset-0 bg-[url('/images/stardust.png')] opacity-30 animate-pulse-slow" />
       
       {/* 1. Constellations Layer (Slow Rotate) */}
       <div className="absolute inset-[-50%] w-[200%] h-[200%] opacity-40 animate-[spin_240s_linear_infinite]">
