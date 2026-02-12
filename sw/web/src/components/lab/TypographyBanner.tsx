@@ -19,7 +19,7 @@ export default function TypographyBanner() {
       onMouseMove={handleMouseMove}
     >
       {/* Background Texture (Subtle Noise) */}
-      <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="absolute inset-0 opacity-20 bg-[url('/images/noise.svg')]" />
       
       {/* 
         The Main Title 

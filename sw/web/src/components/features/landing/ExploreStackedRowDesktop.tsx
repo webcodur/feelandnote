@@ -65,7 +65,7 @@ export default function ExploreStackedRowDesktop({ section }: { section: typeof 
               )}
               onClick={() => isTop && handleNext()}
             >
-               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-linen.png')] opacity-40 pointer-events-none" />
+               <div className="absolute inset-0 bg-[url('/images/black-linen.png')] opacity-40 pointer-events-none" />
 
                <div className="relative z-10 text-center flex flex-col items-center justify-center h-full gap-2">
                   <span className="font-cinzel text-[10px] text-accent/60 uppercase tracking-widest">

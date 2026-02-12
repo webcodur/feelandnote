@@ -66,7 +66,7 @@ export default function ArenaCard({
       {/* 0. 배경 텍스처 (대리석 질감 시뮬레이션) */}
       <div className="absolute inset-0 bg-[#1a1a1a] -z-10">
          {/* Noise Texture */}
-         <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
+         <div className="absolute inset-0 opacity-20 bg-[url('/images/noise.svg')] brightness-100 contrast-150" />
          {/* Marble Veins (Subtle Gradient) */}
          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 opacity-50" />
       </div>
