@@ -11,7 +11,7 @@ export type ReviewFilter = "all" | "has_review" | "no_review";
 export type ViewMode = "grid" | "list";
 export type ContentLibraryMode = "owner" | "viewer";
 
-export interface PlaylistInfo {
+export interface FlowInfo {
   id: string;
   name: string;
 }

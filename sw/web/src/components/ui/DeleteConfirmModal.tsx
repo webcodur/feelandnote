@@ -1,7 +1,7 @@
 /*
   파일명: /components/ui/DeleteConfirmModal.tsx
   기능: 삭제 확인 모달
-  책임: 콘텐츠 삭제 시 영향받는 재생목록을 표시하고 확인을 받는다.
+  책임: 콘텐츠 삭제 시 영향받는 플로우를 표시하고 확인을 받는다.
 */ // ------------------------------
 
 "use client";
@@ -10,7 +10,7 @@ import { AlertTriangle, ListMusic, Loader2 } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "./Modal";
 import Button from "./Button";
 
-interface PlaylistInfo {
+interface FlowInfo {
   id: string;
   name: string;
 }
@@ -22,7 +22,7 @@ interface DeleteConfirmModalProps {
   isLoading?: boolean;
   title?: string;
   message?: string;
-  affectedPlaylists?: PlaylistInfo[];
+  affectedPlaylists?: FlowInfo[];
   itemCount?: number;
 }
 

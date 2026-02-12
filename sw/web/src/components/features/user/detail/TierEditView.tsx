@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/user/detail/TierEditView.tsx
-  기능: 플레이리스트 티어 편집 뷰
-  책임: S~D 티어 형태로 플레이리스트 아이템을 드래그 앤 드롭으로 배치한다.
+  기능: 플로우 티어 편집 뷰
+  책임: S~D 티어 형태로 플로우 아이템을 드래그 앤 드롭으로 배치한다.
 */ // ------------------------------
 "use client";
 
@@ -10,15 +10,15 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft, Save, RotateCcw, Trophy, GripVertical } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { getPlaylist } from "@/actions/playlists/getPlaylist";
-import { updatePlaylist } from "@/actions/playlists/updatePlaylist";
-import type { PlaylistWithItems, PlaylistItemWithContent, ContentType } from "@/types/database";
+import { getFlow } from "@/actions/flows/getFlow";
+import { updateFlow } from "@/actions/flows/updateFlow";
+import type { FlowWithStages, FlowNodeWithContent, ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useSound } from "@/contexts/SoundContext";
 
 interface TierEditViewProps {
-  playlistId: string;
+  flowId: string;
 }
 
 const TIER_LABELS = ["S", "A", "B", "C", "D"] as const;
@@ -32,9 +32,9 @@ const TIER_CONFIG: Record<string, { label: string; color: string; border: string
 
 type TierLabel = (typeof TIER_LABELS)[number];
 
-export default function TierEditView({ playlistId }: TierEditViewProps) {
+export default function TierEditView({ flowId }: TierEditViewProps) {
   const router = useRouter();
-  const [playlist, setPlaylist] = useState<PlaylistWithItems | null>(null);
+  const [flow, setFlow] = useState<FlowWithStages | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,47 +50,62 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await getPlaylist(playlistId);
-      setPlaylist(data);
+      const data = await getFlow(flowId);
+      setFlow(data);
 
       const types = new Set<ContentType>();
-      data.items.forEach((item) => types.add(item.content.type as ContentType));
+      // flow에서 모든 노드의 콘텐츠 타입 추출
+      data.stages.forEach(stage => 
+        stage.nodes.forEach(node => types.add(node.content.type as ContentType))
+      );
       setAvailableTypes(Array.from(types));
+
+      // 모든 노드의 콘텐츠 ID 목록
+      const allContentIds = data.stages.flatMap(s => s.nodes.map(n => n.content_id));
 
       if (data.has_tiers && data.tiers) {
         const loadedTiers: Record<TierLabel, string[]> = { S: [], A: [], B: [], C: [], D: [] };
         TIER_LABELS.forEach((tier) => {
-          loadedTiers[tier] = (data.tiers[tier] || []) as string[];
+          loadedTiers[tier] = (data.tiers![tier] || []) as string[];
         });
         setTiers(loadedTiers);
 
         const rankedIds = new Set(Object.values(loadedTiers).flat());
-        const unrankedIds = data.items.map((item) => item.content_id).filter((id) => !rankedIds.has(id));
+        const unrankedIds = allContentIds.filter((id) => !rankedIds.has(id));
         setUnranked(unrankedIds);
       } else {
-        setUnranked(data.items.map((item) => item.content_id));
+        setUnranked(allContentIds);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "재생목록을 불러오는데 실패했습니다");
     } finally {
       setIsLoading(false);
     }
-  }, [playlistId]);
+  }, [flowId]);
 
   useEffect(() => {
     loadPlaylist();
   }, [loadPlaylist]);
 
   const getFilteredIds = (ids: string[]) => {
-    if (selectedType === "all" || !playlist) return ids;
+    if (selectedType === "all" || !flow) return ids;
     return ids.filter((id) => {
-      const item = playlist.items.find((i) => i.content_id === id);
-      return item?.content.type === selectedType;
+      // 모든 스테이지에서 노드 찾기
+      for (const stage of flow.stages) {
+        const node = stage.nodes.find(n => n.content_id === id);
+        if (node) return node.content.type === selectedType;
+      }
+      return false;
     });
   };
 
-  const getItemById = (contentId: string): PlaylistItemWithContent | undefined => {
-    return playlist?.items.find((item) => item.content_id === contentId);
+  const getItemById = (contentId: string): FlowNodeWithContent | undefined => {
+    if (!flow) return undefined;
+    for (const stage of flow.stages) {
+      const node = stage.nodes.find(n => n.content_id === contentId);
+      if (node) return node;
+    }
+    return undefined;
   };
 
   const handleDragStart = (contentId: string) => {
@@ -127,12 +142,12 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   };
 
   const handleSave = async () => {
-    if (!playlist) return;
+    if (!flow) return;
     setIsSaving(true);
     try {
-      await updatePlaylist({ playlistId, hasTiers: true, tiers: tiers as Record<string, string[]> });
+      await updateFlow({ flowId, hasTiers: true, tiers: tiers as Record<string, string[]> });
       playSound("success");
-      router.push(`/${playlist.user_id}/reading/collections/${playlistId}`);
+      router.push(`/${flow.user_id}/reading/collections/${flowId}`);
     } catch (err) {
       playSound("error");
       alert(err instanceof Error ? err.message : "저장에 실패했습니다");
@@ -144,8 +159,9 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
   const handleReset = () => {
     if (!confirm("모든 티어 설정을 초기화하시겠습니까?")) return;
     setTiers({ S: [], A: [], B: [], C: [], D: [] });
-    if (playlist) {
-      setUnranked(playlist.items.map((item) => item.content_id));
+    if (flow) {
+      const allIds = flow.stages.flatMap(s => s.nodes.map(n => n.content_id));
+      setUnranked(allIds);
     }
   };
 
@@ -157,7 +173,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
     );
   }
 
-  if (error || !playlist) {
+  if (error || !flow) {
     return (
       <div className="text-center py-20 bg-[#0a0a0a] min-h-screen">
         <p className="text-red-400 mb-4">{error}</p>
@@ -176,7 +192,7 @@ export default function TierEditView({ playlistId }: TierEditViewProps) {
           </Button>
           <div>
             <h1 className="font-serif font-black text-xl text-white tracking-wide">HALL OF JUDGMENT</h1>
-            <p className="text-xs text-accent/60 font-serif tracking-widest uppercase">{playlist.name}</p>
+            <p className="text-xs text-accent/60 font-serif tracking-widest uppercase">{flow.name}</p>
           </div>
         </div>
 

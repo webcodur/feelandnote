@@ -14,5 +14,5 @@ interface PageProps {
 
 export default async function TierEditPage({ params }: PageProps) {
   const { id } = await params;
-  return <TierEditView playlistId={id} />;
+  return <TierEditView flowId={id} />;
 }

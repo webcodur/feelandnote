@@ -107,7 +107,7 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
         description: "데일리 셀럽 추천 콘텐츠.",
       },
       {
-        name: "세대의 작품 (시대별)",
+        name: "시대의 작품 (시대별)",
         card: "ContentCard",
         description: "시대별 콘텐츠 분류.",
       },

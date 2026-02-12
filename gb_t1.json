@@ -1,0 +1,178 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 1000000,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "YySclF120rsC",
+      "etag": "HvxKka+bpZg",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/YySclF120rsC",
+      "volumeInfo": {
+        "title": "Sharp Teeth",
+        "authors": [
+          "Toby Barlow"
+        ],
+        "publisher": "Random House",
+        "publishedDate": "2008-09-04",
+        "description": "An ancient race of lycanthropes survives in modern L.A. and its numbers are growing as packs convert the city's downtrodden into their fold. Stuck in the middle are a local dogcatcher and the woman he loves, whose secret past haunts her as she fights a bloody one-woman battle to save their relationship. Sharp Teeth is a novel-in-verse that blends epic themes with dark humour, dogs playing cards, crystal meth labs, and acts of heartache and betrayal in Southern California.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781407013398"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1407013394"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": false
+        },
+        "pageCount": 330,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "4.27.10.0.preview.2",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=YySclF120rsC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=YySclF120rsC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.kr/books?id=YySclF120rsC&printsec=frontcover&dq=Sharp+Teeth+Toby+Barlow&hl=&cd=1&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=YySclF120rsC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=YySclF120rsC"
+      },
+      "saleInfo": {
+        "country": "KR",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 31121,
+          "currencyCode": "KRW"
+        },
+        "retailPrice": {
+          "amount": 28009,
+          "currencyCode": "KRW"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=YySclF120rsC&rdid=book-YySclF120rsC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 31121000000,
+              "currencyCode": "KRW"
+            },
+            "retailPrice": {
+              "amountInMicros": 28009000000,
+              "currencyCode": "KRW"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "KR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.kr/books/download/Sharp_Teeth-sample-epub.acsm?id=YySclF120rsC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=YySclF120rsC&hl=&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Sharp Teeth is a novel-in-verse that blends epic themes with dark humour, dogs playing cards, crystal meth labs, and acts of heartache and betrayal in Southern California."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "8u02DwAAQBAJ",
+      "etag": "aRd4GiAqiWo",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/8u02DwAAQBAJ",
+      "volumeInfo": {
+        "title": "A Dark California",
+        "subtitle": "Essays on Dystopian Depictions in Popular Culture",
+        "authors": [
+          "Katarzyna Nowak-McNeice",
+          "Agata Zarzycka"
+        ],
+        "publisher": "McFarland",
+        "publishedDate": "2018-02-14",
+        "description": "Focusing on portrayals of California in popular culture, this collection of new essays traces a central theme of darkness through literature (Toby Barlow, Angela Carter, Joan Didion, Thomas Pynchon, and Claire Vaye Watkins), video games (L.A. Noire), music (Death Grips, Lana Del Rey, and the Red Hot Chili Peppers), TV (True Detective and American Horror Story), and film (Starry Eyes, Southland Tales and A Girl Walks Home Alone at Night). Providing insight into the significance of Californian icons, the contributors explore the interplay between positive stereotypes connected to the myth of the Golden State and ambivalent responses to the myth based on social and political power, the consequences of consumerism, transformations of the landscape and the dominance of hyperreality.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781476667836"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1476667837"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 216,
+        "printType": "BOOK",
+        "categories": [
+          "Literary Criticism"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.2.2.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=8u02DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=8u02DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.kr/books?id=8u02DwAAQBAJ&pg=PA75&dq=Sharp+Teeth+Toby+Barlow&hl=&cd=2&source=gbs_api",
+        "infoLink": "http://books.google.co.kr/books?id=8u02DwAAQBAJ&dq=Sharp+Teeth+Toby+Barlow&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/A_Dark_California.html?hl=&id=8u02DwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "KR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "KR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.kr/books/download/A_Dark_California-sample-pdf.acsm?id=8u02DwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=8u02DwAAQBAJ&hl=&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "... \u003cb\u003eToby Barlow&#39;s Sharp Teeth\u003c/b\u003e CARYS CROSSEN The city of Los Angeles is almost literally a fractured one . Built on the San Andreas fault - line , and subject to numerous earthquakes , it is an unstable city . Located in California , at the&nbsp;..."
+      }
+    }
+  ]
+}

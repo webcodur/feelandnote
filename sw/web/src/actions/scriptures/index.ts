@@ -528,7 +528,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
 
   // 2. 오늘 날짜 기반 결정적 랜덤 선택
   const today = new Date().toISOString().slice(0, 10)
-  const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0)
+  const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1 // +1로 다음 인물 선택
   const selectedIndex = seed % eligibleCelebs.length
   const selected = eligibleCelebs[selectedIndex]
 
@@ -586,7 +586,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
 }
 // #endregion
 
-// #region 세대의 작품 - 시대별 인기 콘텐츠
+// #region 시대의 작품 - 시대별 인기 콘텐츠
 type Era = 'ancient' | 'medieval' | 'modern' | 'contemporary'
 
 const ERA_CONFIG: Record<Era, { label: string; period: string; min: number; max: number; description: string }> = {
@@ -723,15 +723,6 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
 
     const { contents } = aggregateContents(typedData, { limit: 6, userCountMap })
     results.push({ era, label: config.label, period: config.period, description: config.description, contents, celebCount: celebIds.length, topCelebs })
-  }
-
-  // 뱃지에는 전체 셀럽 카운트 표시 (시대 스코프 무관)
-  const allContentIds = results.flatMap(r => r.contents.map(c => c.id))
-  const globalCounts = await fetchGlobalCelebCounts(supabase, allContentIds)
-  for (const era of results) {
-    for (const content of era.contents) {
-      content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
-    }
   }
 
   return results

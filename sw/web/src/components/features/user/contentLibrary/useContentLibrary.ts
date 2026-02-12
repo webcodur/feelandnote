@@ -17,14 +17,14 @@ import { addContent } from "@/actions/contents/addContent";
 import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
-import { getPlaylistsContainingContent } from "@/actions/playlists";
+import { getFlowsContainingContent } from "@/actions/flows";
 import type { ContentType, ContentStatus, VisibilityType } from "@/types/database";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import {
   type SortOption,
   type ReviewFilter,
   type ViewMode,
-  type PlaylistInfo,
+  type FlowInfo,
   type UseContentLibraryOptions,
   filterAndSortContents,
   groupByMonth,
@@ -67,7 +67,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   // 개별 삭제 모달 상태
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; contentId: string } | null>(null);
-  const [deleteAffectedPlaylists, setDeleteAffectedPlaylists] = useState<PlaylistInfo[]>([]);
+  const [deleteAffectedFlows, setDeleteAffectedFlows] = useState<FlowInfo[]>([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   // #endregion
 
@@ -245,14 +245,14 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     if (!item) return;
 
     setDeleteTarget({ id: userContentId, contentId: item.content_id });
-    const playlists = await getPlaylistsContainingContent(item.content_id);
-    setDeleteAffectedPlaylists(playlists);
+    const flows = await getFlowsContainingContent(item.content_id);
+    setDeleteAffectedFlows(flows);
   }, [contents]);
 
   // 삭제 모달 닫기
   const closeDeleteModal = useCallback(() => {
     setDeleteTarget(null);
-    setDeleteAffectedPlaylists([]);
+    setDeleteAffectedFlows([]);
   }, []);
 
   // 실제 삭제 실행
@@ -365,7 +365,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     handleDelete,
     // 개별 삭제 모달
     isDeleteModalOpen: deleteTarget !== null,
-    deleteAffectedPlaylists,
+    deleteAffectedFlows,
     isDeleteLoading,
     closeDeleteModal,
     confirmDelete,

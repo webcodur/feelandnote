@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, PenTool, FileText } from "lucide-react";
+import { Save, PenTool, FileText, Eye } from "lucide-react";
 import MyReviewPanel from "../MyReviewPanel";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
@@ -161,26 +161,24 @@ export function HomeEditorArea({
                 <div className="flex items-center justify-between pb-1">
                     {/* Main Tabs */}
                     <div className="flex items-center gap-6">
-                        <button 
+                        <button
                             onClick={() => setActiveMainTab('REVIEW')}
-                            className={`flex items-center gap-2 pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
+                            className={`pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
                                 activeMainTab === 'REVIEW'
                                 ? 'text-accent border-accent'
                                 : 'text-text-tertiary border-transparent hover:text-text-secondary'
                             }`}
                         >
-                            <PenTool size={20} />
                             리뷰
                         </button>
-                        <button 
+                        <button
                             onClick={() => setActiveMainTab('NOTE')}
-                            className={`flex items-center gap-2 pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
+                            className={`pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
                                 activeMainTab === 'NOTE'
                                 ? 'text-accent border-accent'
                                 : 'text-text-tertiary border-transparent hover:text-text-secondary'
                             }`}
                         >
-                            <FileText size={20} />
                             노트
                         </button>
                     </div>
@@ -193,23 +191,25 @@ export function HomeEditorArea({
                                 <div className="flex bg-black/20 p-1 rounded-lg">
                                     <button
                                         onClick={() => setActiveTab('EDIT')}
-                                        className={`px-3.5 py-2 rounded-md text-xs font-sans font-bold transition-all ${
-                                            activeTab === 'EDIT' 
-                                            ? 'bg-accent/20 text-accent shadow-sm' 
+                                        className={`flex items-center justify-center p-2 rounded-md transition-all ${
+                                            activeTab === 'EDIT'
+                                            ? 'bg-accent/20 text-accent shadow-sm'
                                             : 'text-text-tertiary hover:text-text-secondary'
                                         }`}
+                                        title="쓰기"
                                     >
-                                        쓰기
+                                        <PenTool size={14} />
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('PREVIEW')}
-                                        className={`px-3.5 py-2 rounded-md text-xs font-sans font-bold transition-all ${
-                                            activeTab === 'PREVIEW' 
-                                            ? 'bg-accent/20 text-accent shadow-sm' 
+                                        className={`flex items-center justify-center p-2 rounded-md transition-all ${
+                                            activeTab === 'PREVIEW'
+                                            ? 'bg-accent/20 text-accent shadow-sm'
                                             : 'text-text-tertiary hover:text-text-secondary'
                                         }`}
+                                        title="읽기"
                                     >
-                                        읽기
+                                        <Eye size={14} />
                                     </button>
                                 </div>
                                 

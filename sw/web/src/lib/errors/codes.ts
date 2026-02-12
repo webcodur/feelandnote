@@ -36,7 +36,7 @@ export const SUPABASE_ERROR_MAP: Partial<Record<SupabaseErrorCode, ErrorCode>> =
 // #endregion
 
 // #region 컨텍스트별 메시지 오버라이드
-type ErrorContext = 'content' | 'follow' | 'guestbook' | 'record' | 'category' | 'playlist' | 'note' | 'feedback'
+type ErrorContext = 'content' | 'follow' | 'guestbook' | 'record' | 'category' | 'playlist' | 'flow' | 'note' | 'feedback'
 
 export const CONTEXT_MESSAGES: Record<ErrorContext, Partial<Record<ErrorCode, string>>> = {
   content: {
@@ -63,6 +63,10 @@ export const CONTEXT_MESSAGES: Record<ErrorContext, Partial<Record<ErrorCode, st
     VALIDATION_ERROR: '재생목록 이름을 입력해달라.',
     INVALID_INPUT: '최소 1개 이상의 콘텐츠를 선택해달라.',
     NOT_FOUND: '재생목록을 찾을 수 없다.',
+  },
+  flow: {
+    VALIDATION_ERROR: '플로우 제목을 입력해달라.',
+    NOT_FOUND: '플로우를 찾을 수 없다.',
   },
   note: {
     NOT_FOUND: '노트를 찾을 수 없다.',

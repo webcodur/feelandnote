@@ -1,6 +1,6 @@
 /*
   파일명: /components/features/scriptures/sections/EraSection.tsx
-  기능: 세대의 작품 섹션
+  기능: 시대의 작품 섹션
   책임: 시대별 인물들의 선택을 보여준다.
 */ // ------------------------------
 
@@ -54,7 +54,7 @@ export default function EraSection({ initialData }: Props) {
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Clock size={20} className="text-accent" />
-          <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">세대의 작품</h2>
+          <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">시대의 작품</h2>
         </div>
         <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
           <p className="text-text-tertiary text-sm">시대별 데이터가 없습니다</p>
@@ -66,7 +66,7 @@ export default function EraSection({ initialData }: Props) {
   return (
     <div>
       <SectionHeader
-        title="세대의 작품"
+        title="시대의 작품"
         label="TIMELESS LEGACY"
         description={
           <>

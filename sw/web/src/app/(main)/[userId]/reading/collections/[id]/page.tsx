@@ -1,18 +1,18 @@
 /*
-  파일명: /app/(main)/archive/playlists/[id]/page.tsx
-  기능: 재생목록 상세 페이지
-  책임: 재생목록의 상세 정보를 표시한다.
-*/ // ------------------------------
+  파일명: /app/(main)/[userId]/reading/collections/[id]/page.tsx
+  기능: 플로우 상세 페이지
+  책임: 플로우의 상세 정보를 표시한다.
+*/
 
-import PlaylistDetail from "@/components/features/user/detail/PlaylistDetail";
+import FlowDetail from "@/components/features/user/detail/FlowDetail";
 
-export const metadata = { title: "컬렉션 상세" };
+export const metadata = { title: "플로우 상세" };
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function PlaylistDetailPage({ params }: PageProps) {
+export default async function FlowDetailPage({ params }: PageProps) {
   const { id } = await params;
-  return <PlaylistDetail playlistId={id} />;
+  return <FlowDetail flowId={id} />;
 }

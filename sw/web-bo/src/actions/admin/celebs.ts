@@ -104,66 +104,62 @@ interface GenerateInfluenceResult {
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, sort = 'created_at', sortOrder = 'desc' } = params
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const offset = (page - 1) * limit
 
-  let query = supabase
-    .from('profiles')
-    .select(
-      `
-      *,
-      user_social (follower_count),
-      celeb_influence (total_score)
-    `,
-      { count: 'exact' }
-    )
-    .eq('profile_type', 'CELEB')
-
-  if (search) {
-    query = query.ilike('nickname', `%${search}%`)
+  // RPC 함수 사용 (프로덕션과 동일한 방식)
+  const sortByMap: Record<string, string> = {
+    content_count: 'content_count',
+    follower_count: 'follower',
+    influence_total: 'influence',
+    nickname: 'name_asc',
+    created_at: 'content_count', // 기본 정렬
   }
 
-  if (status && status !== 'all') {
-    query = query.eq('status', status)
+  const rpcSortBy = sortByMap[sort] || 'content_count'
+
+  // status 필터: 'all'이면 모두, 아니면 active만 (RPC는 active/inactive만 구분)
+  const includeInactive = !status || status === 'all'
+
+  // 전체 개수 조회
+  const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+    p_profession: profession && profession !== 'all' ? profession : null,
+    p_nationality: null,
+    p_content_type: null,
+    p_search: search || null,
+    p_tag_id: null,
+    p_min_content_count: 0,
+    p_gender: null,
+    p_include_inactive: includeInactive,
+  })
+  const total = countData ?? 0
+
+  // 오름차순일 때 오프셋 반대로 계산 (RPC는 항상 DESC 정렬)
+  const actualOffset = sortOrder === 'asc'
+    ? Math.max(0, total - page * limit)
+    : offset
+
+  // 정렬된 셀럽 목록 조회
+  const { data, error } = await supabase.rpc('get_celebs_sorted', {
+    p_profession: profession && profession !== 'all' ? profession : null,
+    p_nationality: null,
+    p_content_type: null,
+    p_sort_by: rpcSortBy,
+    p_search: search || '',
+    p_limit: limit,
+    p_offset: actualOffset,
+    p_tag_id: null,
+    p_min_content_count: 0,
+    p_gender: null,
+    p_include_inactive: includeInactive,
+  })
+
+  if (error) {
+    console.error('[getCelebs] RPC 조회 실패:', error)
+    throw error
   }
 
-  if (profession && profession !== 'all') {
-    query = query.eq('profession', profession)
-  }
-
-  // 정렬 적용
-  const ascending = sortOrder === 'asc'
-  const directSortColumns = ['nickname', 'profession', 'created_at', 'status', 'nationality']
-  const computedSortColumns = ['influence_total', 'content_count', 'follower_count']
-  const needsInMemorySort = computedSortColumns.includes(sort)
-
-  if (!needsInMemorySort) {
-    const sortColumn = directSortColumns.includes(sort) ? sort : 'created_at'
-    query = query.order(sortColumn, { ascending })
-  }
-
-  // 계산 컬럼 정렬 시 전체 조회 후 인메모리 정렬, 아니면 DB 페이지네이션
-  const { data, error, count } = needsInMemorySort
-    ? await query.order('created_at', { ascending: false })
-    : await query.range(offset, offset + limit - 1)
-
-  if (error) throw error
-
-  const userIds = (data || []).map((u) => u.id)
-  const { data: contentCounts } = await supabase
-    .from('user_contents')
-    .select('user_id')
-    .in('user_id', userIds)
-
-  const contentCountMap = (contentCounts || []).reduce(
-    (acc, item) => {
-      acc[item.user_id] = (acc[item.user_id] || 0) + 1
-      return acc
-    },
-    {} as Record<string, number>
-  )
-
-  let celebs: Celeb[] = (data || []).map((celeb) => ({
+  let celebs: Celeb[] = (data || []).map((celeb: any) => ({
     id: celeb.id,
     nickname: celeb.nickname,
     avatar_url: celeb.avatar_url,
@@ -171,35 +167,29 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     profession: celeb.profession,
     title: celeb.title,
     nationality: celeb.nationality,
-    gender: celeb.gender,
+    gender: null, // RPC 함수에 gender 필드 없음
     birth_date: celeb.birth_date,
     death_date: celeb.death_date,
     bio: celeb.bio,
     quotes: celeb.quotes,
     consumption_philosophy: celeb.consumption_philosophy,
     is_verified: celeb.is_verified,
-    status: celeb.status || 'active',
+    status: 'active', // RPC 함수에 status 필드 없음
     claimed_by: celeb.claimed_by,
-    created_at: celeb.created_at,
-    content_count: contentCountMap[celeb.id] || 0,
-    follower_count: celeb.user_social?.follower_count || 0,
-    influence_total: celeb.celeb_influence?.total_score || 0,
+    created_at: '', // RPC 함수에 created_at 필드 없음
+    content_count: celeb.content_count || 0,
+    follower_count: celeb.follower_count || 0,
+    influence_total: celeb.total_score || 0,
   }))
 
-  // 계산 컬럼 인메모리 정렬 + 페이지네이션
-  if (needsInMemorySort) {
-    const key = sort as keyof Celeb
-    celebs.sort((a, b) => {
-      const av = (a[key] as number) || 0
-      const bv = (b[key] as number) || 0
-      return ascending ? av - bv : bv - av
-    })
-    celebs = celebs.slice(offset, offset + limit)
+  // 오름차순일 때 결과 뒤집기 (RPC는 항상 DESC 정렬)
+  if (sortOrder === 'asc' && rpcSortBy !== 'name_asc') {
+    celebs.reverse()
   }
 
   return {
     celebs,
-    total: count || 0,
+    total,
   }
 }
 // #endregion

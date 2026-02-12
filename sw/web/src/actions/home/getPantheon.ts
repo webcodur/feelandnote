@@ -1,9 +1,9 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { TierList, Playlist, ContentRecord, Profile } from '@/types/database'
+import type { TierList, Flow, ContentRecord, Profile } from '@/types/database'
 
-export type PantheonItemType = 'tier-list' | 'playlist' | 'blind-test'
+export type PantheonItemType = 'tier-list' | 'flow' | 'blind-test'
 
 export interface PantheonItem {
   id: string
@@ -23,9 +23,9 @@ export async function getPantheon(): Promise<PantheonItem[]> {
   const items: PantheonItem[] = []
 
   // 1. Fetch Top Tier Lists (Public)
-  // has_tiers = true인 playlists를 조회
+  // has_tiers = true인 flows를 조회
   const { data: tierLists } = await supabase
-    .from('playlists')
+    .from('flows')
     .select(`
       id, 
       name, 
@@ -53,10 +53,9 @@ export async function getPantheon(): Promise<PantheonItem[]> {
     })
   }
 
-  // 2. Fetch Top Playlists (Public)
-  // item_count 등은 조인이 필요할 수 있음
-  const { data: playlists } = await supabase
-    .from('playlists')
+  // 2. Fetch Top Flows (Public)
+  const { data: flows } = await supabase
+    .from('flows')
     .select(`
       id, 
       name, 
@@ -65,18 +64,18 @@ export async function getPantheon(): Promise<PantheonItem[]> {
       user_id
     `)
     .eq('is_public', true)
-    .eq('has_tiers', false) // 순수 플레이리스트만
+    .eq('has_tiers', false) // 순수 플로우만
     .order('created_at', { ascending: false })
     .limit(3)
 
-  if (playlists) {
-    playlists.forEach(pl => {
+  if (flows) {
+    flows.forEach(fl => {
         items.push({
-            id: pl.id,
-            type: 'playlist',
-            title: pl.name,
+            id: fl.id,
+            type: 'flow',
+            title: fl.name,
             subtitle: '',
-            userId: pl.user_id,
+            userId: fl.user_id,
             metadata: {
                 author: 'Curator'
             }

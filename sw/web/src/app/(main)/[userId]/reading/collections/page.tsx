@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import Playlists from "@/components/features/user/playlists/Playlists";
+import Flows from "@/components/features/user/flows/Flows";
 
-export const metadata = { title: "묶음" };
+export const metadata = { title: "플로우" };
 
 interface PageProps {
   params: Promise<{ userId: string }>;
@@ -14,5 +14,5 @@ export default async function Page({ params }: PageProps) {
 
   const isOwner = currentUser?.id === userId;
 
-  return <Playlists userId={userId} isOwner={isOwner} />;
+  return <Flows userId={userId} isOwner={isOwner} />;
 }

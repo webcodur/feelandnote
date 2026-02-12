@@ -161,7 +161,7 @@ export default function ContentLibrary({
           onClose={lib.closeDeleteModal}
           onConfirm={lib.confirmDelete}
           isLoading={lib.isDeleteLoading}
-          affectedPlaylists={lib.deleteAffectedPlaylists}
+          affectedPlaylists={lib.deleteAffectedFlows}
           itemCount={1}
         />
       )}

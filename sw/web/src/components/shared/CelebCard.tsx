@@ -176,7 +176,7 @@ export default function CelebCard({
           ${variant === "medallion" ? "group-hover/celeb:scale-105 transition-all shadow-xl" : ""}
           ${isLoading ? "animate-pulse border-accent/50" : ""}
         `}>
-          <div className="relative w-full h-full rounded-full overflow-hidden">
+          <div className="absolute inset-0.5 rounded-full overflow-hidden">
             <CelebImage
               src={avatar_url}
               alt={nickname}

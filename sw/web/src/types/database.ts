@@ -164,26 +164,59 @@ export interface TierList {
   updated_at: string | null
 }
 
-export interface Playlist {
+// ===== Flow 시스템 (3단 위계: Flow > Stage > Node) =====
+export interface Flow {
   id: string
   user_id: string
   name: string
   description: string | null
   cover_url: string | null
-  content_type: ContentType | null  // null = 혼합
+  theme_colors: { primary: string; secondary: string } | null
+  difficulty: number | null  // 1~5
+  estimated_duration: number | null  // 분 단위
   is_public: boolean
+  completion_message: string | null
   has_tiers: boolean
-  tiers: Record<string, string[]>  // { "S": ["id1"], "A": [...] }
+  tiers: Record<string, string[]> | null
   created_at: string
   updated_at: string
 }
 
-export interface PlaylistItem {
+export interface FlowStage {
   id: string
-  playlist_id: string
-  content_id: string
+  flow_id: string
+  name: string
+  description: string | null
   sort_order: number
-  added_at: string
+  badge_title: string | null
+  badge_icon: string | null
+  theme_color: string | null
+  created_at: string | null
+}
+
+export interface FlowNode {
+  id: string
+  flow_id: string
+  stage_id: string | null
+  content_id: string
+  description: string | null
+  sort_order: number
+  difficulty: number | null  // 1~5
+  is_optional: boolean
+  bonus_content_ids: string[] | null
+  theme_color: string | null
+}
+
+export interface FlowProgress {
+  id: string
+  user_id: string
+  flow_id: string
+  current_stage_id: string | null
+  current_node_index: number
+  completed_stages: string[]  // Stage ID 배열
+  completed_at: string | null
+  started_at: string | null
+  updated_at: string | null
 }
 
 // ===== 조인된 타입들 =====
@@ -217,36 +250,43 @@ export interface TitleWithUnlock extends Title {
   user_titles: UserTitle[] | null
 }
 
-export interface PlaylistItemWithContent extends PlaylistItem {
+// Flow 조인 타입들
+export interface FlowNodeWithContent extends FlowNode {
   content: Content
 }
 
-export interface PlaylistWithItems extends Playlist {
-  items: PlaylistItemWithContent[]
-  item_count: number
+export interface FlowStageWithNodes extends FlowStage {
+  nodes: FlowNodeWithContent[]
 }
 
-export interface PlaylistSummary extends Playlist {
-  item_count: number
+export interface FlowWithStages extends Flow {
+  stages: FlowStageWithNodes[]
+  node_count: number
 }
 
-export interface SavedPlaylist {
+export interface FlowSummary extends Flow {
+  node_count: number
+  stage_count: number
+  stages?: { nodes?: { content: { thumbnail_url: string | null } }[] }[]
+}
+
+export interface SavedFlow {
   id: string
   user_id: string
-  playlist_id: string
+  flow_id: string
   saved_at: string
 }
 
-export interface PlaylistOwner {
+export interface FlowOwner {
   id: string
   nickname: string | null
   avatar_url: string | null
 }
 
-export interface SavedPlaylistWithDetails {
+export interface SavedFlowWithDetails {
   id: string
   saved_at: string
-  playlist: PlaylistSummary & { owner: PlaylistOwner }
+  flow: FlowSummary & { owner: FlowOwner }
 }
 
 export interface RecordCommentWithUser extends RecordComment {
