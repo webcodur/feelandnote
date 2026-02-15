@@ -8,7 +8,7 @@
 
 import { useState, useEffect } from "react";
 import { NotebookPen } from "lucide-react";
-import dynamic from "next/dynamic";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HeaderSearch from "./HeaderSearch";
@@ -19,7 +19,7 @@ import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { HEADER_NAV_ITEMS } from "@/constants/navigation";
 
-const SoundToggle = dynamic(() => import("./SoundToggle"), { ssr: false });
+
 import { createClient } from "@/lib/supabase/client";
 import { getTitleInfo } from "@/constants/titles";
 
@@ -114,9 +114,6 @@ export default function Header({ isMobile }: HeaderProps) {
           >
             <NotebookPen size={ICON_SIZE} />
           </Link>
-
-          {/* 사운드 토글 (dynamic ssr:false로 hydration 불일치 방지) */}
-          <SoundToggle />
 
           {/* 알림 (로그인 시에만) */}
           {profile && <HeaderNotifications />}

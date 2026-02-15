@@ -11,6 +11,7 @@ import { X } from "lucide-react";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface ImageViewerModalProps {
   src: string;
@@ -44,7 +45,8 @@ export default function ImageViewerModal({
   // Portal to move modal outside of parent stacking contexts (like transforms)
   return createPortal(
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      style={{ zIndex: Z_INDEX.top }}
       onClick={onClose}
     >
       <Button

@@ -121,6 +121,7 @@ export function Tabs({ children, className = "" }: TabsProps) {
   const [indicator, setIndicator] = useState<TabIndicator | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [updateTrigger, setUpdateTrigger] = useState(0);
+  const isInitialRender = useRef(true);
 
   // indicator 업데이트 로직을 메모이제이션하여 재사용 가능하게 분리
   const updateIndicator = useCallback(() => {
@@ -152,6 +153,10 @@ export function Tabs({ children, className = "" }: TabsProps) {
   // 1. 상태 변경 시 업데이트 (즉시 및 트랜지션 후 재측정)
   useEffect(() => {
     updateIndicator();
+    // 첫 렌더 후 트랜지션 활성화
+    if (isInitialRender.current) {
+      requestAnimationFrame(() => { isInitialRender.current = false; });
+    }
     // 폰트 두께 변화나 scale 트랜지션 완료 후의 너비를 정확히 잡기 위해 두 번 측정
     const timeoutId = setTimeout(updateIndicator, 150);
     const timeoutId2 = setTimeout(updateIndicator, 310); // transition duration(300ms) 직후
@@ -205,7 +210,7 @@ export function Tabs({ children, className = "" }: TabsProps) {
         {children}
         {indicator && (
           <span
-            className="absolute bottom-0 h-0.5 bg-accent transition-all duration-200 ease-out z-10"
+            className={`absolute bottom-0 h-0.5 bg-accent ease-out z-10 ${isInitialRender.current ? '' : 'transition-all duration-200'}`}
             style={{
               left: indicator.left,
               width: indicator.width,

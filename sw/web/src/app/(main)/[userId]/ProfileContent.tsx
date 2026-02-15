@@ -2,6 +2,7 @@
 
 import { type PublicUserProfile } from "@/actions/user";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
+import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -9,6 +10,7 @@ import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ProfileBioSection from "./ProfileBioSection";
 import UserBioSection from "./UserBioSection";
 import ProfileInfluenceSection from "./ProfileInfluenceSection";
+import ProfilePersonaSection from "./ProfilePersonaSection";
 import ImageGallery from "@/components/features/profile/ImageGallery";
 
 interface ProfileContentProps {
@@ -19,6 +21,7 @@ interface ProfileContentProps {
   guestbookTotal: number;
   guestbookCurrentUser: { id: string; nickname: string | null; avatar_url: string | null } | null;
   influenceData: CelebInfluenceDetail | null;
+  personaData: SimilarByCelebResult | null;
 }
 
 export default function ProfileContent({
@@ -29,6 +32,7 @@ export default function ProfileContent({
   guestbookTotal,
   guestbookCurrentUser,
   influenceData,
+  personaData,
 }: ProfileContentProps) {
   return (
     <div className="space-y-8 sm:space-y-12">
@@ -62,7 +66,18 @@ export default function ProfileContent({
         </section>
       )}
 
-      {/* 4. Image Gallery (셀럽 전용) */}
+      {/* 4. 인물 분석 + 유사 인물 (셀럽 전용) */}
+      {profile.profile_type === "CELEB" && personaData?.targetPersona && (
+        <section className="animate-fade-in" style={{ animationDelay: "0.088s" }}>
+          <ProfilePersonaSection
+            nickname={profile.nickname}
+            targetPersona={personaData.targetPersona}
+            similarCelebs={personaData.similarCelebs}
+          />
+        </section>
+      )}
+
+      {/* 5. Image Gallery (셀럽 전용) */}
       {profile.profile_type === "CELEB" && (
         <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">

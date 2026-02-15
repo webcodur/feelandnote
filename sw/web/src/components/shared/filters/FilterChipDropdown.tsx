@@ -8,6 +8,7 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
+import { Z_INDEX } from "@/constants/zIndex";
 import { FILTER_DROPDOWN_STYLES } from "@/constants/filterStyles";
 
 export interface FilterOption {
@@ -132,8 +133,8 @@ export default function FilterChipDropdown({
       {isOpen && typeof document !== "undefined" && createPortal(
         <div
           ref={dropdownRef}
-          className="fixed min-w-[160px] max-h-[320px] overflow-y-auto bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl z-[9999]"
-          style={{ top: dropdownPos.top, left: dropdownPos.left }}
+          className="fixed min-w-[160px] max-h-[320px] overflow-y-auto bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl"
+          style={{ top: dropdownPos.top, left: dropdownPos.left, zIndex: Z_INDEX.dropdown }}
         >
           {options.map(({ value: optValue, label: optLabel, count }) => {
             const isSelected = currentValue === optValue;

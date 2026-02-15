@@ -11,10 +11,13 @@ import { Users, Sparkles, Star, UserCheck, UserPlus, Info, BarChart3 } from "luc
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
-import FriendCardNameplate from "./FriendCardNameplate";
+
+import PersonNameplate from "./PersonNameplate";
 import AlgorithmInfoModal from "./AlgorithmInfoModal";
 import InfluenceDistributionModal from "./InfluenceDistributionModal";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
+
+
 
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
@@ -217,9 +220,9 @@ export default function Explore({
             {friends.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {friends.map((friend) => (
-                  <FriendCardNameplate
+                  <PersonNameplate
                     key={friend.id}
-                    friend={friend}
+                    person={friend}
                     onClick={() => handleSelectUser(friend.id)}
                   />
                 ))}

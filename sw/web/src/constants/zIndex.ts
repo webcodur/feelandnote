@@ -1,5 +1,9 @@
 // z-index 레이어 관리
 // 숫자가 클수록 상위 레이어
+//
+// 사용 규칙:
+//   글로벌(fixed/portal) 요소 → 반드시 Z_INDEX 상수 사용
+//   로컬(부모 내부 relative) 요소 → z-[1]~z-[10] 인라인 허용
 
 export const Z_INDEX = {
   // 배경 요소 (음수)
@@ -18,13 +22,13 @@ export const Z_INDEX = {
   // FAB (Floating Action Button)
   fab: 50,
 
-  // 플로팅 뮤직 플레이어
-  floatingPlayer: 150,
-
   // 네비게이션
   sidebar: 100,
   bottomNav: 100,
   header: 100,
+
+  // 플로팅 뮤직 플레이어
+  floatingPlayer: 150,
 
   // 드롭다운, 팝오버
   dropdown: 200,
@@ -39,7 +43,7 @@ export const Z_INDEX = {
   toast: 700,
   notification: 700,
 
-  // 최상위 (긴급 알림, 로딩 등)
+  // 최상위 (긴급 알림, 전체 화면 게임 등)
   top: 9999,
 } as const;
 

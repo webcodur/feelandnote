@@ -10,19 +10,21 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCoun
 
 // #region 상수
 export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
-  { value: "influence", label: "영향력순" },
-  { value: "follower", label: "팔로워순" },
-  { value: "content_count", label: "보유 콘텐츠순" },
-  { value: "name_asc", label: "이름순" },
-  { value: "birth_date_desc", label: "최근 출생순" },
-  { value: "birth_date_asc", label: "오래된 출생순" },
+  { value: "daily_recommend", label: "오늘의 추천" },
+  { value: "composite", label: "종합 점수" },
+  { value: "follower", label: "팔로워" },
+  { value: "influence", label: "영향력" },
+  { value: "content_count", label: "보유 콘텐츠" },
+  { value: "name_asc", label: "이름" },
+  { value: "birth_date_desc", label: "최근 출생" },
+  { value: "birth_date_asc", label: "오래된 출생" },
 ];
 
 export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort";
 
 export const PAGE_SIZE = 24;
 
-const VALID_SORT_VALUES: CelebSortBy[] = ["influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
+const VALID_SORT_VALUES: CelebSortBy[] = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 // #endregion
 
 interface UseCelebFiltersParams {
@@ -68,7 +70,7 @@ export function useCelebFilters({
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
   const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
-  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "content_count", VALID_SORT_VALUES));
+  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "daily_recommend", VALID_SORT_VALUES));
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
   const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
@@ -86,7 +88,7 @@ export function useCelebFilters({
     if (!syncToUrl) return;
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([key, value]) => {
-      if (value === null || value === "all" || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "content_count")) {
+      if (value === null || value === "all" || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "daily_recommend")) {
         params.delete(key);
       } else {
         params.set(key, value);

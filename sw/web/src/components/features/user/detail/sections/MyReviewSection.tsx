@@ -8,7 +8,6 @@
 import { Loader2 } from "lucide-react";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import { useSound } from "@/contexts/SoundContext";
 
 interface MyReviewSectionProps {
   reviewText: string;
@@ -31,15 +30,11 @@ export default function MyReviewSection({
   onSpoilerChange,
   onSave,
 }: MyReviewSectionProps) {
-  const { playSound } = useSound();
-
   const handleRatingChange = (star: number) => {
-    playSound("star");
     onRatingChange(reviewRating === star ? null : star);
   };
 
   const handleSpoilerChange = (checked: boolean) => {
-    playSound("toggle");
     onSpoilerChange(checked);
   };
 
@@ -53,7 +48,6 @@ export default function MyReviewSection({
               {[1, 2, 3, 4, 5].map((star) => (
                 <Button
                   unstyled
-                  noSound
                   key={star}
                   onClick={() => handleRatingChange(star)}
                   className={`text-lg ${

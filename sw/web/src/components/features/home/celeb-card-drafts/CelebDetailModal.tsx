@@ -8,8 +8,9 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft } from "lucide-react";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { Z_INDEX } from "@/constants/zIndex";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
 import { getAuraByScore, type Aura } from "@/constants/materials";
@@ -170,7 +171,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [isInfluenceOpen, setIsInfluenceOpen] = useState(false);
-  const [isReviewMode, setIsReviewMode] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(true);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
   const [displayCount, setDisplayCount] = useState(20);
@@ -183,10 +184,11 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const navDragStartY = useRef(0);
   const navHasMoved = useRef(false);
   const NAV_SWIPE_THRESHOLD = 80;
+  const fetchedForRef = useRef<string | null>(null);
 
-  // celeb 전환 시 내부 상태 리셋
+  // celeb 전환 시 내부 상태 리셋 + 감상 기록 자동 로딩 (기본 뷰)
   useEffect(() => {
-    setIsReviewMode(false);
+    setIsReviewMode(true);
     setReviews([]);
     setDisplayCount(20);
     setCategoryFilter("ALL");
@@ -195,32 +197,34 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     setIsTagsModalOpen(false);
     setNavDragOffset(0);
     setIsNavDragging(false);
+    // Strict Mode 중복 fetch 방지 (cleanup 없이 ref로 관리)
+    if (fetchedForRef.current === celeb.id) return;
+    fetchedForRef.current = celeb.id;
+    setLoadingReviews(true);
+    getCelebReviews(celeb.id)
+      .then(data => setReviews(data))
+      .catch(err => {
+        if (err?.name === 'AbortError') return;
+        console.error('[CelebDetailModal] 리뷰 로딩 실패:', err);
+        setReviews([]);
+      })
+      .finally(() => setLoadingReviews(false));
   }, [celeb.id]);
 
-  // 키보드 네비게이션 (←): 리뷰 모드 진입만
+  // 키보드 네비게이션: ← 감상 기록 / → 프로필
   useEffect(() => {
-    if (!isOpen || isReviewMode) return;
+    if (!isOpen) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") handleEnterReviewMode();
+      if (isReviewMode && e.key === "ArrowRight") setIsReviewMode(false);
+      else if (!isReviewMode && e.key === "ArrowLeft") setIsReviewMode(true);
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [isOpen, isReviewMode]);
 
-  // 리뷰 모드 진입 핸들러 (useEffect 대신 직접 호출 — Strict Mode 이중 fetch 방지)
-  const handleEnterReviewMode = async () => {
+  // 감상 기록 모드 복귀 (데이터는 이미 자동 로딩됨)
+  const handleEnterReviewMode = () => {
     setIsReviewMode(true);
-    if (reviews.length > 0) return;
-    setLoadingReviews(true);
-    try {
-      const data = await getCelebReviews(celeb.id);
-      setReviews(data);
-    } catch (error) {
-      console.error('[CelebDetailModal] 리뷰 로딩 실패:', error);
-      setReviews([]);
-    } finally {
-      setLoadingReviews(false);
-    }
   };
 
   // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
@@ -367,20 +371,21 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
     return (
       <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
-        {/* 헤더: 뒤로가기 버튼 + 타이틀 (기록 수 포함) */}
+        {/* 헤더: 타이틀 + 프로필 진입 버튼 */}
         <div className="flex items-center p-4 border-b border-border/50 shrink-0 relative">
+          <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent">
+            {celeb.content_count || 0}개의 감상 기록
+          </h2>
           <button
             onClick={(e) => {
               e.stopPropagation();
               setIsReviewMode(false);
             }}
-            className="absolute left-4 p-2 rounded-full hover:bg-white/5 text-text-secondary hover:text-text-primary"
+            className="absolute right-4 flex items-center gap-1 px-3 py-1.5 rounded-full hover:bg-white/5 text-text-secondary hover:text-text-primary text-xs font-medium transition-colors"
           >
-            <ArrowLeft size={18} />
+            <User size={14} />
+            <span>프로필</span>
           </button>
-          <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent">
-            {celeb.content_count || 0}개의 감상 기록
-          </h2>
         </div>
 
         {/* 카테고리 필터 */}
@@ -453,15 +458,15 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       return;
     }
     if (Math.abs(diffX) > 8) navHasMoved.current = true;
-    // 좌 스와이프만 허용 (우 스와이프는 저항)
-    const resistance = diffX > 0 ? 0.3 : 1;
+    // 우 스와이프만 허용 (좌 스와이프는 저항)
+    const resistance = diffX < 0 ? 0.3 : 1;
     setNavDragOffset(diffX * resistance);
   };
 
   const handleNavDragEnd = () => {
     if (!isNavDragging || isReviewMode) return;
-    // 좌 스와이프 → 리뷰 모드 진입
-    if (navDragOffset < -NAV_SWIPE_THRESHOLD) {
+    // 우 스와이프 → 감상 기록으로 복귀
+    if (navDragOffset > NAV_SWIPE_THRESHOLD) {
       handleEnterReviewMode();
     }
     setNavDragOffset(0);
@@ -481,34 +486,11 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   } : undefined;
   // #endregion
 
-  // 리뷰 모드 진입 화살표 (인물 정보 화면에만 표시)
-  const stopDrag = {
-    onMouseDown: (e: React.MouseEvent) => e.stopPropagation(),
-    onTouchStart: (e: React.TouchEvent) => e.stopPropagation(),
-  };
-  const ReviewModeToggleArrow = ({ size = "md" }: { size?: "sm" | "md" }) => {
-    if (isReviewMode) return null; // 리뷰 모드에서는 표시 안 함
-
-    const btnClass = size === "sm" ? "w-8 h-8" : "w-10 h-10";
-    const iconSize = size === "sm" ? 16 : 20;
-
-    return (
-      <button
-        {...stopDrag}
-        onClick={(e) => { e.stopPropagation(); handleEnterReviewMode(); }}
-        className={`absolute bottom-4 end-4 z-30 ${btnClass} rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-95`}
-        title="감상 기록으로"
-      >
-        <ChevronLeft size={iconSize} />
-      </button>
-    );
-  };
-
   const HandleButton = ({ className = "" }: { className?: string }) => (
     <button
       onClick={(e) => {
         e.stopPropagation();
-        handleEnterReviewMode();
+        setIsReviewMode(false);
       }}
       className={`
         absolute flex items-center justify-center
@@ -519,7 +501,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         animate-pulse
         ${className}
       `}
-      title="감상 목록 빠른 보기"
+      title="프로필 보기"
     >
       <div className="w-0.5 h-5 bg-accent rounded-full opacity-60 group-hover:opacity-100 transition-opacity" />
     </button>
@@ -528,7 +510,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[600] bg-black/70 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm animate-fade-in"
+      style={{ zIndex: Z_INDEX.modal }}
       onClick={handleBackdropClick}
     >
       {/* PC 레이아웃: 중앙 모달, 좌우 분할 */}
@@ -548,14 +531,15 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           {/* 내부: 좌우 분할 - 고정 높이 복구, Bio는 다 보여주고 철학은 스크롤 */}
           <div className="relative bg-bg-main flex h-[720px] overflow-hidden">
              
-            {/* PC 리뷰 모드 뷰 */}
+            {/* PC 리뷰 모드 뷰 (기본) */}
             {isReviewMode ? (
-              <ReviewView />
+              <>
+                {/* PC 핸들 버튼: 우측 끝 중앙 → 프로필 진입 */}
+                <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg translate-x-0.5 hover:translate-x-0" />
+                <ReviewView />
+              </>
             ) : (
                <>
-                 {/* PC 핸들 버튼: 우측 끝 중앙 */}
-                 <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg translate-x-0.5 hover:translate-x-0" />
-                 
                  {/* PC 초상화 영역 */}
                  <div className="relative w-[45%] h-full bg-black flex-shrink-0 group/portrait text-left">
               <div key={celeb.id} className="w-full h-full">
@@ -583,12 +567,18 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               )}
 
-              {/* 리뷰 모드 전환 화살표 */}
-              <ReviewModeToggleArrow size="md" />
             </div>
 
-            {/* 오른쪽: 정보 - 높이 제한 해제 */}
+            {/* 오른쪽: 정보 */}
             <div className="flex-1 flex flex-col p-8 items-center text-center">
+              {/* 감상 기록으로 돌아가기 */}
+              <button
+                onClick={() => setIsReviewMode(true)}
+                className="self-start flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary mb-3 -mt-2 transition-colors"
+              >
+                <ArrowLeft size={14} />
+                <span>감상 기록</span>
+              </button>
               <div className="mb-4 shrink-0 flex flex-col items-center">
                 {celeb.title && (
                   <p className="text-xs text-accent font-bold uppercase tracking-widest mb-1">{celeb.title}</p>
@@ -659,15 +649,17 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         
         <div className="bg-bg-main rounded-t-[2.5rem] flex flex-col animate-bottomsheet-content shadow-[0_-20px_40px_rgba(0,0,0,0.4)] overflow-hidden max-h-[88vh]">
           
-          {/* 모바일 리뷰 모드 뷰 */}
+          {/* 모바일: 감상 기록(기본) / 프로필 전환 */}
           {isReviewMode ? (
-             <div className="flex-1 flex flex-col h-full bg-bg-main overflow-hidden rounded-t-[2.5rem]">
-               <ReviewView />
-             </div>
+             <>
+               {/* 모바일 핸들 버튼: 우측 화면 끝 중앙 → 프로필 진입 */}
+               <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg w-4 h-8 hover:w-5 translate-x-0" />
+               <div className="flex-1 flex flex-col h-full bg-bg-main overflow-hidden rounded-t-[2.5rem]">
+                 <ReviewView />
+               </div>
+             </>
           ) : (
             <>
-              {/* 모바일 핸들 버튼: 우측 화면 끝 중앙 (모달 내부에서 절대 위치) */}
-              <HandleButton className="right-0 top-1/2 -translate-y-1/2 rounded-r-none rounded-l-lg w-4 h-8 hover:w-5 translate-x-0" />
 
               {/* 스크롤 영역 */}
               <div className="flex-1 overflow-y-auto overflow-x-hidden">
@@ -692,20 +684,28 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/20 rounded-full" onClick={onClose} />
 
                 <div className="flex items-center justify-between mt-2">
-                  {/* 2. 좌상단 영향력 휘장 (클릭 시 상세 모달) */}
-                  {!hideInfluence ? (
-                    <InfluenceBadge
-                      aura={aura}
-                      size="md"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsInfluenceOpen(true);
-                      }}
-                      className="shadow-2xl active:scale-90 transition-transform"
-                    />
-                  ) : <div />}
+                  {/* 좌측: 감상 기록 복귀 + 영향력 휘장 */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setIsReviewMode(true)}
+                      className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white shadow-xl active:scale-95"
+                    >
+                      <ArrowLeft size={20} />
+                    </button>
+                    {!hideInfluence && (
+                      <InfluenceBadge
+                        aura={aura}
+                        size="md"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsInfluenceOpen(true);
+                        }}
+                        className="shadow-2xl active:scale-90 transition-transform"
+                      />
+                    )}
+                  </div>
 
-                  {/* 3. 우측 액션 버튼들 (닫기만 유지) */}
+                  {/* 우측: 닫기 */}
                   <div className="flex items-center gap-2">
                     <button onClick={onClose} className="w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white shadow-xl active:scale-95">
                       <X size={20} />
@@ -743,8 +743,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </div>
               </div>
 
-              {/* 리뷰 모드 전환 화살표 (모바일) */}
-              <ReviewModeToggleArrow size="sm" />
             </div>
 
             {/* 정보 영역 - 이제 Bio와 Quotes에 집중 */}

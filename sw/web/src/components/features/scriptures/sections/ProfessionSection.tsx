@@ -96,41 +96,43 @@ export default function ProfessionSection({ professionCounts }: Props) {
       />
 
       {/* 분야 선택 */}
-      <div className="-mt-2 mb-4 flex justify-center">
-        <DecorativeLabel label="직군 선택" />
-      </div>
-      <div className="mb-10 flex justify-center">
-        <div className="inline-flex flex-col items-center gap-1.5 p-2.5 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
-          {PROFESSION_ROWS.map((rowKeys, rowIndex) => {
-            const rowItems = rowKeys
-              .map(key => professionCounts.find(p => p.profession === key))
-              .filter((item): item is ProfessionCount => !!item);
+      <div className="mb-6">
+        <div className="flex justify-center mb-4">
+          <DecorativeLabel label="직군 선택" />
+        </div>
+        <div className="flex justify-center">
+          <div className="inline-flex flex-col items-center gap-1.5 p-2.5 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
+            {PROFESSION_ROWS.map((rowKeys, rowIndex) => {
+              const rowItems = rowKeys
+                .map(key => professionCounts.find(p => p.profession === key))
+                .filter((item): item is ProfessionCount => !!item);
 
-            if (rowItems.length === 0) return null;
+              if (rowItems.length === 0) return null;
 
-            return (
-              <div key={rowIndex} className="inline-flex gap-1">
-                {rowItems.map((item) => {
-                  const isActive = activeProfession === item.profession;
-                  return (
-                    <button
-                      key={item.profession}
-                      onClick={() => handleProfessionChange(item.profession)}
-                      className={`
-                        px-3 py-1.5 rounded-lg text-sm font-bold
-                        ${isActive
-                          ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
-                          : "text-text-secondary hover:text-white hover:bg-white/5"
-                        }
-                      `}
-                    >
-                      {item.label}
-                    </button>
-                  );
-                })}
-              </div>
-            );
-          })}
+              return (
+                <div key={rowIndex} className="inline-flex gap-1">
+                  {rowItems.map((item) => {
+                    const isActive = activeProfession === item.profession;
+                    return (
+                      <button
+                        key={item.profession}
+                        onClick={() => handleProfessionChange(item.profession)}
+                        className={`
+                          px-3 py-1.5 rounded-lg text-sm font-bold
+                          ${isActive
+                            ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+                            : "text-text-secondary hover:text-white hover:bg-white/5"
+                          }
+                        `}
+                      >
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 

@@ -12,7 +12,7 @@ export default function ArenaPreview() {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {ARENA_ITEMS.map((item) => {
+        {ARENA_ITEMS.filter((item) => !item.hidden).map((item) => {
           const Icon = item.icon;
           return (
             <Link

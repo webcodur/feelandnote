@@ -9,6 +9,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Quote, Settings2, Plus, Trash2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReadingQuote } from "../types";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface Props {
   quotes: ReadingQuote[];
@@ -96,7 +97,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
 
       {/* 관리 모달 (중앙 집중형) */}
       {isManaging && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" style={{ zIndex: Z_INDEX.modal }}>
           <div className="flex h-[80vh] w-full max-w-lg flex-col rounded-2xl border border-border bg-[#1a1f27] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             {/* 헤더 */}
             <div className="flex items-center justify-between border-b border-border bg-secondary/50 p-4">

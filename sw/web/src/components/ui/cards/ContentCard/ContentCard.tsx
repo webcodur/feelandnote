@@ -18,7 +18,6 @@ import DropdownMenu, { DropdownMenuItem } from "@/components/ui/DropdownMenu";
 import { BLUR_DATA_URL } from "@/constants/image";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getCategoryByDbType } from "@/constants/categories";
-import useDragScroll from "@/hooks/useDragScroll";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import FormattedText from "@/components/ui/FormattedText";
@@ -95,13 +94,22 @@ export default function ContentCard({
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     const checkAuth = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      setIsCheckingAuth(false);
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!cancelled) {
+          setUser(user);
+          setIsCheckingAuth(false);
+        }
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') return;
+        if (!cancelled) setIsCheckingAuth(false);
+      }
     };
     checkAuth();
+    return () => { cancelled = true; };
   }, []);
 
   // 내부 saved 상태 관리 (props 기본값 + 동적 업데이트)
@@ -148,15 +156,6 @@ export default function ContentCard({
   const effectiveCelebCount = celebCount ?? fetched.celebCount;
   const effectiveUserCount = userCount ?? fetched.userCount ?? 0;
 
-  // 리뷰 드래그 스크롤
-  const {
-    containerRef,
-    scrollY,
-    maxScroll,
-    isDragging,
-    canScroll,
-    onMouseDown,
-  } = useDragScroll();
 
   // 리뷰 모드 여부: 리뷰 데이터가 있고, 강제 포스터 모드가 아닐 때
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
@@ -181,20 +180,9 @@ export default function ContentCard({
     ? `/content/${contentId}?category=${getCategoryByDbType(contentType)?.id || "book"}`
     : href;
 
-  // 드래그 중 클릭 방지
-  const handleMouseDown = (e: React.MouseEvent) => {
-    onMouseDown(e);
-    e.stopPropagation();
-  };
-
-
 
   // 클릭 핸들러
   const handleClick = (e: React.MouseEvent) => {
-    if (isDragging) {
-      e.preventDefault();
-      return;
-    }
     if (selectable && onSelect) {
       e.preventDefault();
       onSelect();
@@ -684,23 +672,12 @@ export default function ContentCard({
                 )}
 
                 {(review && !isSpoiler) && (
-                  <div className="flex-1 relative min-h-0">
-                  {canScroll && scrollY > 0 && (
-                    <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-[#1e1e1e] to-transparent pointer-events-none z-10" />
-                  )}
-                  <div
-                    ref={containerRef}
-                    className={`h-full overflow-y-auto overscroll-y-contain scrollbar-hidden select-none ${canScroll ? "cursor-grab" : ""} ${isDragging ? "cursor-grabbing" : ""}`}
-                    onMouseDown={handleMouseDown}
-                  >
-                    <p className={`text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans`}>
+                  <div className="flex-1 relative min-h-0 overflow-hidden">
+                    <p className={`text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans line-clamp-[8]`}>
                       <FormattedText text={review} />
                     </p>
+                    <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none" />
                   </div>
-                  {canScroll && scrollY < maxScroll && (
-                    <div className="absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none z-10" />
-                  )}
-                </div>
                 )}
 
                 {review && isSpoiler && (
@@ -716,7 +693,7 @@ export default function ContentCard({
                 )}
 
                 {/* 출처 링크 (필수) */}
-                <div className="mt-2 text-xs break-all">
+                <div className="mt-2 text-xs truncate">
                   {sourceUrl ? (
                     <a
                       href={sourceUrl}

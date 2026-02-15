@@ -11,13 +11,11 @@ import { Lock, Send } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
 import type { WriteFormProps } from "./types";
-import { useSound } from "@/contexts/SoundContext";
 
 export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   const [content, setContent] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { playSound } = useSound();
 
   const handleSubmit = async () => {
     if (!content.trim() || isSubmitting) return;
@@ -30,16 +28,13 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
         isPrivate,
       });
       if (!result.success) {
-        playSound("error");
         alert(result.message);
         return;
       }
-      playSound("success");
       onSubmit(result.data as GuestbookEntryWithAuthor);
       setContent("");
       setIsPrivate(false);
     } catch (error) {
-      playSound("error");
       console.error("Create guestbook entry error:", error);
       alert(error instanceof Error ? error.message : "작성에 실패했습니다");
     } finally {
@@ -48,7 +43,6 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   };
 
   const handleTogglePrivate = (checked: boolean) => {
-    playSound("toggle");
     setIsPrivate(checked);
   };
 

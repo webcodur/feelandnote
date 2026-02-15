@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { createPortal } from "react-dom";
 import type { CelebTagInfo } from "@/types/home";
+import { Z_INDEX } from "@/constants/zIndex";
 
 interface CelebTagsModalProps {
   isOpen: boolean;
@@ -16,7 +17,8 @@ export default function CelebTagsModal({ isOpen, onClose, tags, title }: CelebTa
 
   const content = (
     <div 
-      className="fixed inset-0 z-[700] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      style={{ zIndex: Z_INDEX.modal }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

@@ -2,24 +2,76 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import type { FlowNodeWithContent } from '@/types/database'
 
 // Node 추가
-export async function addNode(params: { flowId: string; stageId: string; contentId: string; description?: string }) {
+export async function addNode(params: {
+  flowId: string;
+  stageId: string;
+  contentId: string;
+  description?: string;
+  insertBeforeNodeId?: string;
+}) {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
-  // 현재 최대 sort_order
-  const { data: maxNode } = await supabase
-    .from('flow_nodes')
-    .select('sort_order')
-    .eq('stage_id', params.stageId)
-    .order('sort_order', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+  let targetOrder: number
 
-  const nextOrder = (maxNode?.sort_order ?? -1) + 1
+  if (params.insertBeforeNodeId) {
+    // 특정 노드 앞에 삽입
+    const { data: targetNode } = await supabase
+      .from('flow_nodes')
+      .select('sort_order')
+      .eq('id', params.insertBeforeNodeId)
+      .eq('stage_id', params.stageId)
+      .single()
+
+    if (targetNode) {
+      targetOrder = targetNode.sort_order
+
+      // 해당 위치 이후의 모든 노드들을 조회
+      const { data: nodesToShift } = await supabase
+        .from('flow_nodes')
+        .select('id')
+        .eq('stage_id', params.stageId)
+        .gte('sort_order', targetOrder)
+
+      // 한 칸씩 뒤로 이동
+      if (nodesToShift && nodesToShift.length > 0) {
+        const updates = nodesToShift.map((node, index) =>
+          supabase
+            .from('flow_nodes')
+            .update({ sort_order: targetOrder + index + 1 })
+            .eq('id', node.id)
+        )
+        await Promise.all(updates)
+      }
+    } else {
+      // 타겟 노드를 찾지 못하면 맨 끝에 추가
+      const { data: maxNode } = await supabase
+        .from('flow_nodes')
+        .select('sort_order')
+        .eq('stage_id', params.stageId)
+        .order('sort_order', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+
+      targetOrder = (maxNode?.sort_order ?? -1) + 1
+    }
+  } else {
+    // 맨 끝에 추가
+    const { data: maxNode } = await supabase
+      .from('flow_nodes')
+      .select('sort_order')
+      .eq('stage_id', params.stageId)
+      .order('sort_order', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    targetOrder = (maxNode?.sort_order ?? -1) + 1
+  }
 
   const { data: node, error } = await supabase
     .from('flow_nodes')
@@ -27,10 +79,36 @@ export async function addNode(params: { flowId: string; stageId: string; content
       flow_id: params.flowId,
       stage_id: params.stageId,
       content_id: params.contentId,
-      sort_order: nextOrder,
+      sort_order: targetOrder,
       description: params.description?.trim() || null,
     })
-    .select('id')
+    .select(`
+      id,
+      flow_id,
+      stage_id,
+      content_id,
+      sort_order,
+      description,
+      difficulty,
+      is_optional,
+      bonus_content_ids,
+      theme_color,
+      created_at,
+      content:contents!inner(
+        id,
+        type,
+        subtype,
+        genre,
+        title,
+        creator,
+        thumbnail_url,
+        description,
+        publisher,
+        release_date,
+        metadata,
+        created_at
+      )
+    `)
     .single()
 
   if (error) {
@@ -40,7 +118,14 @@ export async function addNode(params: { flowId: string; stageId: string; content
 
   revalidatePath(`/${user.id}/reading/collections/${params.flowId}`)
 
-  return node
+  // Supabase returns content as array for FK join; normalize to single object
+  const raw = node as any
+  const normalized: FlowNodeWithContent = {
+    ...raw,
+    content: Array.isArray(raw.content) ? raw.content[0] : raw.content,
+  }
+
+  return normalized
 }
 
 // Node 삭제

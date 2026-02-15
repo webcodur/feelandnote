@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -15,6 +15,8 @@ import ContentInfoSection from "./ContentInfoSection";
 import MyReviewSection from "./MyReviewSection";
 import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
+import RecentContentsSection from "./RecentContentsSection";
+import { useRecentContents } from "@/hooks/useRecentContents";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 
 interface ContentDetailPageProps {
@@ -26,6 +28,19 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const [data, setData] = useState(initialData);
 
   const { content, userRecord, isLoggedIn, initialReviews } = data;
+
+  // 최근 접근 콘텐츠
+  const { recentItems, addItem } = useRecentContents(content.id);
+
+  useEffect(() => {
+    addItem({
+      id: content.id,
+      type: content.type,
+      title: content.title,
+      creator: content.creator ?? null,
+      thumbnail: content.thumbnail ?? null,
+    });
+  }, [content.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleRecordChange = (newRecord: ContentDetailData["userRecord"]) => {
     setData((prev) => ({ ...prev, userRecord: newRecord }));
@@ -42,6 +57,9 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         <ArrowLeft size={16} />
         <span>뒤로 가기</span>
       </Button>
+
+      {/* 최근 본 콘텐츠 */}
+      <RecentContentsSection items={recentItems} />
 
       <div className="space-y-4">
         {/* 1. 콘텐츠 정보 */}
@@ -96,6 +114,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             initialReviews={initialReviews}
           />
         </div>
+
       </div>
     </div>
   );

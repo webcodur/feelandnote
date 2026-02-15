@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
-import FriendCardNameplate from "@/components/features/user/explore/FriendCardNameplate";
+import PersonNameplate from "@/components/features/user/explore/PersonNameplate";
 import { Z_INDEX } from "@/constants/zIndex";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
@@ -108,8 +108,8 @@ export default function SearchResultsDropdown({
                   key={result.id}
                   className={`px-2 py-1 ${selectedIndex === index ? "bg-accent/10" : ""}`}
                 >
-                  <FriendCardNameplate
-                    friend={{
+                  <PersonNameplate
+                    person={{
                       id: result.id,
                       nickname: result.title,
                       avatar_url: result.thumbnail || null,

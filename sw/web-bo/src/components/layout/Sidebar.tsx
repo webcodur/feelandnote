@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -19,6 +20,8 @@ import {
   Gamepad2,
   Trophy,
   BarChart3,
+  Calendar,
+  Menu,
   X,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -27,6 +30,7 @@ const menuItems = [
   { href: '/', label: '대시보드', icon: LayoutDashboard },
   { href: '/users', label: '유저 관리', icon: Users },
   { href: '/celebs', label: '셀럽 관리', icon: Star },
+  { href: '/today-figure', label: '오늘의 인물', icon: Calendar },
   { href: '/contents', label: '콘텐츠 관리', icon: Library },
   { href: '/records', label: '기록 관리', icon: FileText },
   { href: '/notes', label: '노트 관리', icon: StickyNote },
@@ -42,17 +46,29 @@ const menuItems = [
   { href: '/settings', label: '설정', icon: Settings },
 ]
 
-function SidebarContent({ onItemClick, collapsed }: { onItemClick?: () => void; collapsed?: boolean }) {
+function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: () => void; collapsed?: boolean; onToggle?: () => void }) {
   const pathname = usePathname()
 
   return (
     <>
-      {/* Logo */}
-      <div className="p-4 md:p-6 border-b border-border">
-        <Link href="/" className="flex items-center gap-2 justify-center" onClick={onItemClick}>
-          <LayoutDashboard className="w-8 h-8 text-accent shrink-0" />
-          {!collapsed && <span className="text-xl font-bold text-text-primary">Admin</span>}
-        </Link>
+      {/* Header */}
+      <div className="p-4 md:p-6 border-b border-border flex items-center gap-3">
+        {onToggle ? (
+          <button
+            onClick={onToggle}
+            className="p-1.5 rounded-lg hover:bg-bg-card text-text-secondary shrink-0"
+            title="사이드바 접기/펼치기 (Ctrl+B)"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        ) : (
+          <Menu className="w-5 h-5 text-text-secondary shrink-0" />
+        )}
+        {!collapsed && (
+          <Link href="/" className="text-xl font-bold text-text-primary whitespace-nowrap" onClick={onItemClick}>
+            FEEL&NOTE
+          </Link>
+        )}
       </div>
 
       {/* Navigation */}
@@ -100,14 +116,25 @@ function SidebarContent({ onItemClick, collapsed }: { onItemClick?: () => void; 
 
 // 데스크톱 사이드바
 export function DesktopSidebar() {
-  const { desktopCollapsed } = useMobileSidebar()
+  const { desktopCollapsed, toggleDesktop } = useMobileSidebar()
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B' || e.key === 'ㅠ')) {
+        e.preventDefault()
+        toggleDesktop()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [toggleDesktop])
 
   return (
     <aside className={`
       hidden md:flex bg-bg-secondary border-r border-border min-h-screen flex-col shrink-0
       ${desktopCollapsed ? 'w-16' : 'w-64'}
     `}>
-      <SidebarContent collapsed={desktopCollapsed} />
+      <SidebarContent collapsed={desktopCollapsed} onToggle={toggleDesktop} />
     </aside>
   )
 }

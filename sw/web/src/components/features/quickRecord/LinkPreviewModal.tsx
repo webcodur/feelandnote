@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, ExternalLink, Loader2, Globe, BookOpen, LayoutTemplate } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useSound } from "@/contexts/SoundContext";
 import { fetchUrlContent } from "@/actions/search/fetchUrlContent";
 
 interface LinkPreviewModalProps {
@@ -20,16 +19,14 @@ export default function LinkPreviewModal({
   url,
   title
 }: LinkPreviewModalProps) {
-  const { playSound } = useSound();
   const [mode, setMode] = useState<'READER' | 'ORIGINAL'>('READER');
   const [isLoading, setIsLoading] = useState(true);
   const [readerContent, setReaderContent] = useState<{title?: string, content?: string, error?: string} | null>(null);
   const [iframeError, setIframeError] = useState(false);
 
-  // Sound effects & Reset state
+  // Reset state
   useEffect(() => {
     if (isOpen) {
-      playSound("modalOpen");
       setMode('READER'); // Default to Reader Mode
       setReaderContent(null);
       setIframeError(false);
@@ -52,7 +49,7 @@ export default function LinkPreviewModal({
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, url, playSound]);
+  }, [isOpen, url]);
 
   // ESC key handler
   useEffect(() => {

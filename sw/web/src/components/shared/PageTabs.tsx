@@ -20,6 +20,7 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const isInitialRender = useRef(true);
 
   const activeIndex = tabs.findIndex((tab) => tab.value === activeTabValue);
 
@@ -42,6 +43,10 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
   useEffect(() => {
     if (hoveredIndex === null && activeIndex >= 0) {
       updateIndicator(activeIndex);
+      // 첫 렌더 후 트랜지션 활성화
+      if (isInitialRender.current) {
+        requestAnimationFrame(() => { isInitialRender.current = false; });
+      }
     }
   }, [activeIndex, hoveredIndex, updateIndicator]);
 
@@ -109,7 +114,7 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
 
           {/* Sliding Indicator */}
           <div
-            className="absolute bottom-0 h-[2px] bg-accent shadow-[0_0_10px_#d4af37] transition-all duration-300 ease-out"
+            className={`absolute bottom-0 h-[2px] bg-accent shadow-[0_0_10px_#d4af37] ease-out ${isInitialRender.current ? '' : 'transition-all duration-300'}`}
             style={{
               left: indicatorStyle.left,
               width: indicatorStyle.width,

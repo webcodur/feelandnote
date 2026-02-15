@@ -8,7 +8,7 @@
 
 import { useRouter } from "next/navigation";
 import { Users } from "lucide-react";
-import FriendCardNameplate from "../FriendCardNameplate";
+import PersonNameplate from "../PersonNameplate";
 import { EmptyState } from "../ExploreCards";
 
 interface FriendInfo {
@@ -29,11 +29,11 @@ export default function FriendsSection({ friends }: Props) {
   return (
     <div className="bg-surface rounded-2xl p-4 md:p-8 min-h-[400px] border border-accent-dim/10 shadow-inner shadow-black/20">
       {friends.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {friends.map((friend) => (
-            <FriendCardNameplate
+            <PersonNameplate
               key={friend.id}
-              friend={friend}
+              person={friend}
               onClick={() => handleSelectUser(friend.id)}
             />
           ))}

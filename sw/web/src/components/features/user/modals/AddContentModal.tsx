@@ -14,7 +14,6 @@ import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/types/database";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import { STATUS_OPTIONS } from "@/constants/statuses";
-import { useSound } from "@/contexts/SoundContext";
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -30,7 +29,6 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   const [status, setStatus] = useState<ContentStatus>("WANT");
   const [error, setError] = useState<string | null>(null);
   const [isAdding, startAddTransition] = useTransition();
-  const { playSound } = useSound();
 
   const handleGoToSearch = () => {
     handleClose();
@@ -62,15 +60,12 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           status,
         });
         if (!response.success) {
-          playSound("error");
           setError(response.message);
           return;
         }
-        playSound("success");
         onSuccess?.();
         handleClose();
       } catch (err) {
-        playSound("error");
         setError(err instanceof Error ? err.message : "콘텐츠 추가 중 오류가 발생했습니다.");
       }
     });

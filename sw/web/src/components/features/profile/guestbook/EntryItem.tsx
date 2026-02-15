@@ -13,6 +13,7 @@ import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import type { EntryItemProps } from "./types";
+import { Z_INDEX } from "@/constants/zIndex";
 
 function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
@@ -157,12 +158,13 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
             </Button>
             {showMenu && menuPos && (
               <Portal>
-                <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)} />
-                <div 
-                  className="fixed z-[9999] bg-bg-card border-2 border-accent border-double rounded-sm shadow-2xl py-1 min-w-[120px] animate-in fade-in zoom-in-95 duration-200"
-                  style={{ 
-                    top: `${menuPos.top + 8}px`, 
-                    right: `${menuPos.right}px` 
+                <div className="fixed inset-0" style={{ zIndex: Z_INDEX.dropdown - 1 }} onClick={() => setShowMenu(false)} />
+                <div
+                  className="fixed bg-bg-card border-2 border-accent border-double rounded-sm shadow-2xl py-1 min-w-[120px] animate-in fade-in zoom-in-95 duration-200"
+                  style={{
+                    zIndex: Z_INDEX.dropdown,
+                    top: `${menuPos.top + 8}px`,
+                    right: `${menuPos.right}px`
                   }}
                 >
                   {canEdit && (

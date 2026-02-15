@@ -8,7 +8,7 @@ import { Avatar } from "@/components/ui";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
 import { ContentCard, type ContentCardProps } from "@/components/ui/cards";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
-import { Calendar, ArrowRight, BookOpen } from "lucide-react";
+import { Calendar, ArrowRight, BookOpen, Newspaper, Shuffle } from "lucide-react";
 import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
 import { HomeSearchArea } from "@/components/features/quickRecord/homeSection/HomeSearchArea";
 import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
@@ -40,9 +40,15 @@ interface Content {
     user_content_id?: string;
 }
 
+interface TodayFigureSource {
+    type: 'news' | 'seed';
+    newsCount: number;
+}
+
 interface TodayFigureSectionProps {
     figure: Figure;
     contents: Content[];
+    source?: TodayFigureSource;
 }
 
 const categoryToContentType = (category: string): ContentType | undefined => {
@@ -51,7 +57,7 @@ const categoryToContentType = (category: string): ContentType | undefined => {
   return (config?.dbType as ContentType);
 };
 
-export default function TodayFigureSection({ figure, contents: initialContents }: TodayFigureSectionProps) {
+export default function TodayFigureSection({ figure, contents: initialContents, source }: TodayFigureSectionProps) {
     const [contents, setContents] = useState(initialContents);
     const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
     
@@ -158,6 +164,27 @@ export default function TodayFigureSection({ figure, contents: initialContents }
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
                         &ldquo;{figure.bio}&rdquo;
                     </p>
+                )}
+
+                {/* 선정 과정 안내 */}
+                {source && (
+                    <div className="max-w-md mx-auto mt-2 mb-2">
+                        {source.type === 'news' ? (
+                            <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                                <Newspaper size={14} className="text-blue-400 shrink-0" />
+                                <p className="text-xs text-blue-300/90">
+                                    최근 48시간 뉴스에서 <strong className="text-blue-300">{source.newsCount}건</strong> 언급되어 선정되었습니다
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/5">
+                                <Shuffle size={14} className="text-text-tertiary shrink-0" />
+                                <p className="text-xs text-text-tertiary">
+                                    감상 기록 5개 이상인 인물 중 오늘의 날짜 기반으로 선정되었습니다
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 )}
             </div>
 

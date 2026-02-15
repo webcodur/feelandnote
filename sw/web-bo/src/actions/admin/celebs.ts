@@ -176,7 +176,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     is_verified: celeb.is_verified,
     status: 'active', // RPC 함수에 status 필드 없음
     claimed_by: celeb.claimed_by,
-    created_at: '', // RPC 함수에 created_at 필드 없음
+    created_at: celeb.created_at || '',
     content_count: celeb.content_count || 0,
     follower_count: celeb.follower_count || 0,
     influence_total: celeb.total_score || 0,

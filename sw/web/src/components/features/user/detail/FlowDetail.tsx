@@ -1,27 +1,29 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Layers, Loader } from "lucide-react";
 import {
   DndContext,
+  DragEndEvent,
+  DragStartEvent,
   DragOverlay,
   PointerSensor,
-  TouchSensor,
   useSensor,
   useSensors,
-  type DragEndEvent,
-  type DragStartEvent,
+  closestCenter
 } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { useFlowDetail } from "./flowDetail/useFlowDetail";
 import FlowHeader from "./flowDetail/FlowHeader";
 import FlowStageList from "./flowDetail/FlowStageList";
 import FlowContentEditor from "./flowDetail/FlowContentEditor";
-import { addNode, moveNode, reorderNodes } from "@/actions/flows/flowNodes";
-import { addStage } from "@/actions/flows/flowStages";
-import type { Content } from "@/types/database";
+import { addNode, reorderNodes } from "@/actions/flows/flowNodes";
+import { addStage, reorderStages } from "@/actions/flows/flowStages";
+import type { Content, FlowStageWithNodes } from "@/types/database";
 
 interface FlowDetailProps {
   flowId: string;
@@ -57,131 +59,39 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
     currentUserId,
     isSaved,
     isOwner,
-    expandedStages,
     handleDelete,
     handleTogglePublic,
-    toggleStageExpand,
     getCategoryCounts,
     handleToggleSave,
-    insertNodeToStage,
-    reorderNodeInStage,
-    moveNodeAcrossStages,
     loadFlow,
   } = useFlowDetail(flowId);
 
   const router = useRouter();
   const [draggingContent, setDraggingContent] = useState<Content | null>(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [localStages, setLocalStages] = useState<FlowStageWithNodes[]>([]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } })
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8
+      }
+    })
   );
+
+  // flow가 변경되면 localStages 업데이트
+  useEffect(() => {
+    if (flow) {
+      setLocalStages(flow.stages);
+    }
+  }, [flow]);
+
+  // 헬퍼: 노드가 속한 스테이지 찾기
+  const findStageForNode = (nodeId: string | number) =>
+    localStages.find(s => s.nodes.some(n => n.id === nodeId));
 
   const handleNodeClick = (contentId: string, contentType: string) => {
     router.push(`/content/${contentId}?category=${contentType}`);
-  };
-
-  const handleDragStart = (event: DragStartEvent) => {
-    const data = event.active.data.current;
-    if (data?.type === "library-content" || data?.type === "stage-node") {
-      setDraggingContent(data.content as Content);
-    }
-  };
-
-  const handleDragEnd = async (event: DragEndEvent) => {
-    setDraggingContent(null);
-
-    const { active, over } = event;
-    if (!over || isAdding) return;
-
-    const activeData = active.data.current;
-    const overData = over.data.current;
-
-    if (activeData?.type === "library-content" && overData?.type === "stage-insert") {
-      const contentId = activeData.contentId as string;
-      const stageId = overData.stageId as string;
-      const stage = flow?.stages.find((item) => item.id === stageId);
-      const insertIndex = overData.insertIndex as number;
-      const boundedInsertIndex = Math.max(0, Math.min(insertIndex ?? 0, stage?.nodes.length ?? 0));
-
-      setIsAdding(true);
-      try {
-        const createdNode = await addNode({ flowId, stageId, contentId });
-        insertNodeToStage({
-          stageId,
-          nodeId: createdNode.id,
-          content: activeData.content as Content,
-          insertIndex: boundedInsertIndex,
-        });
-
-        if (stage && boundedInsertIndex < stage.nodes.length) {
-          const nextIds = [...stage.nodes.map((node) => node.id)];
-          nextIds.splice(boundedInsertIndex, 0, createdNode.id);
-          await reorderNodes({ stageId, nodeIds: nextIds });
-        }
-      } catch (err) {
-        console.error("콘텐츠 추가 실패:", err);
-        alert("콘텐츠 추가에 실패했습니다.");
-      } finally {
-        setIsAdding(false);
-      }
-      return;
-    }
-
-    if (activeData?.type === "stage-node" && overData?.type === "stage-insert" && flow) {
-      const nodeId = activeData.nodeId as string;
-      const fromStageId = activeData.stageId as string;
-      const toStageId = overData.stageId as string;
-
-      const sourceStage = flow.stages.find((item) => item.id === fromStageId);
-      const targetStage = flow.stages.find((item) => item.id === toStageId);
-      if (!sourceStage || !targetStage) return;
-
-      const rawInsertIndex = (overData.insertIndex as number) ?? targetStage.nodes.length;
-      const boundedInsertIndex = Math.max(0, Math.min(rawInsertIndex, targetStage.nodes.length));
-
-      setIsAdding(true);
-      try {
-        if (fromStageId === toStageId) {
-          const currentIndex = sourceStage.nodes.findIndex((node) => node.id === nodeId);
-          if (currentIndex < 0) return;
-
-          const insertIndex = boundedInsertIndex > currentIndex ? boundedInsertIndex - 1 : boundedInsertIndex;
-          if (insertIndex === currentIndex) return;
-
-          const nextIds = [...sourceStage.nodes.map((node) => node.id)];
-          nextIds.splice(currentIndex, 1);
-          nextIds.splice(insertIndex, 0, nodeId);
-
-          await reorderNodes({ stageId: fromStageId, nodeIds: nextIds });
-          reorderNodeInStage({ stageId: fromStageId, nodeId, insertIndex });
-        } else {
-          await moveNode({ nodeId, targetStageId: toStageId });
-
-          const sourceIds = sourceStage.nodes
-            .filter((node) => node.id !== nodeId)
-            .map((node) => node.id);
-          await reorderNodes({ stageId: fromStageId, nodeIds: sourceIds });
-
-          const targetIds = [...targetStage.nodes.map((node) => node.id)];
-          targetIds.splice(boundedInsertIndex, 0, nodeId);
-          await reorderNodes({ stageId: toStageId, nodeIds: targetIds });
-
-          moveNodeAcrossStages({
-            nodeId,
-            fromStageId,
-            toStageId,
-            insertIndex: boundedInsertIndex,
-          });
-        }
-      } catch (err) {
-        console.error("노드 재배치 실패:", err);
-        alert("노드 재배치에 실패했습니다.");
-      } finally {
-        setIsAdding(false);
-      }
-    }
   };
 
   const handleEnterEditMode = async () => {
@@ -192,6 +102,162 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
         await loadFlow();
       } catch (err) {
         console.error("기본 스테이지 생성 실패:", err);
+      }
+    }
+  };
+
+  const handleDragStart = (event: DragStartEvent) => {
+    const data = event.active.data.current;
+    if (data?.type === "library-content") {
+      setDraggingContent(data.content as Content);
+    }
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    setDraggingContent(null);
+
+    const { active, over } = event;
+    if (!over || isAdding || active.id === over.id) return;
+
+    const activeData = active.data.current;
+    const overData = over.data.current;
+
+    // 라이브러리에서 스테이지로 드래그
+    if (activeData?.type === "library-content") {
+      const contentId = activeData.contentId as string;
+
+      // 빈 스테이지에 드롭
+      if (overData?.type === "stage-drop") {
+        const stageId = overData.stageId as string;
+
+        setIsAdding(true);
+        try {
+          const newNode = await addNode({ flowId, stageId, contentId });
+
+          setLocalStages(prev => prev.map(stage =>
+            stage.id === stageId
+              ? { ...stage, nodes: [...stage.nodes, newNode] }
+              : stage
+          ));
+        } catch (err) {
+          console.error("콘텐츠 추가 실패:", err);
+          alert("콘텐츠 추가에 실패했습니다.");
+        } finally {
+          setIsAdding(false);
+        }
+        return;
+      }
+
+      // 드롭 슬롯에 드롭 (stageId 포함)
+      if (overData?.type === "drop-slot") {
+        const targetNodeId = overData.nodeId as string;
+        const stageId = overData.stageId as string;
+
+        setIsAdding(true);
+        try {
+          const newNode = await addNode({
+            flowId,
+            stageId,
+            contentId,
+            insertBeforeNodeId: targetNodeId
+          });
+
+          setLocalStages(prev => prev.map(stage => {
+            if (stage.id !== stageId) return stage;
+
+            const targetIndex = stage.nodes.findIndex(n => n.id === targetNodeId);
+            const newNodes = [...stage.nodes];
+            newNodes.splice(targetIndex, 0, newNode);
+
+            return { ...stage, nodes: newNodes };
+          }));
+        } catch (err) {
+          console.error("콘텐츠 추가 실패:", err);
+          alert("콘텐츠 추가에 실패했습니다.");
+        } finally {
+          setIsAdding(false);
+        }
+        return;
+      }
+
+      // 노드 위에 직접 드롭 (폴백)
+      const targetStage = findStageForNode(over.id);
+      if (targetStage) {
+        const overNode = targetStage.nodes.find(n => n.id === over.id);
+        if (overNode) {
+          setIsAdding(true);
+          try {
+            const newNode = await addNode({
+              flowId,
+              stageId: targetStage.id,
+              contentId,
+              insertBeforeNodeId: overNode.id
+            });
+
+            setLocalStages(prev => prev.map(stage => {
+              if (stage.id !== targetStage.id) return stage;
+
+              const targetIndex = stage.nodes.findIndex(n => n.id === overNode.id);
+              const newNodes = [...stage.nodes];
+              newNodes.splice(targetIndex, 0, newNode);
+
+              return { ...stage, nodes: newNodes };
+            }));
+          } catch (err) {
+            console.error("콘텐츠 추가 실패:", err);
+            alert("콘텐츠 추가에 실패했습니다.");
+          } finally {
+            setIsAdding(false);
+          }
+          return;
+        }
+      }
+    }
+
+    // 스테이지 순서 변경
+    const activeStageIndex = localStages.findIndex(s => s.id === active.id);
+    const overStageIndex = localStages.findIndex(s => s.id === over.id);
+
+    if (activeStageIndex !== -1 && overStageIndex !== -1) {
+      const newStages = arrayMove(localStages, activeStageIndex, overStageIndex);
+      setLocalStages(newStages);
+
+      try {
+        await reorderStages({
+          flowId,
+          stageIds: newStages.map(s => s.id)
+        });
+      } catch (error) {
+        console.error("스테이지 순서 변경 실패:", error);
+        if (flow) setLocalStages(flow.stages);
+        alert("스테이지 순서 변경에 실패했습니다.");
+      }
+      return;
+    }
+
+    // 노드 순서 변경
+    const activeNodeStage = findStageForNode(active.id);
+    if (activeNodeStage) {
+      const activeNodeIndex = activeNodeStage.nodes.findIndex(n => n.id === active.id);
+      const overNodeIndex = activeNodeStage.nodes.findIndex(n => n.id === over.id);
+
+      if (activeNodeIndex !== -1 && overNodeIndex !== -1) {
+        const newNodes = arrayMove(activeNodeStage.nodes, activeNodeIndex, overNodeIndex);
+
+        setLocalStages(localStages.map(s =>
+          s.id === activeNodeStage.id ? { ...s, nodes: newNodes } : s
+        ));
+
+        try {
+          await reorderNodes({
+            stageId: activeNodeStage.id,
+            nodeIds: newNodes.map(n => n.id)
+          });
+        } catch (error) {
+          console.error("노드 순서 변경 실패:", error);
+          if (flow) setLocalStages(flow.stages);
+          alert("노드 순서 변경에 실패했습니다.");
+        }
       }
     }
   };
@@ -208,65 +274,81 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
     return (
       <div className="text-center py-20 text-text-secondary">
         <Layers size={48} className="mx-auto mb-4 opacity-50" />
-        <p className="font-serif text-lg text-text-primary mb-2">{error || "플로우를 찾을 수 없습니다"}</p>
+        <p className="font-serif text-lg text-text-primary mb-2">
+          {error || "플로우를 찾을 수 없습니다"}
+        </p>
       </div>
     );
   }
 
-  const stageListContent = (
-    <div className="px-4 md:px-10">
-      <FlowStageList
-        flowId={flowId}
-        stages={flow.stages}
-        isOwner={isOwner}
-        isEditMode={isEditMode}
-        expandedStages={expandedStages}
-        toggleStageExpand={toggleStageExpand}
-        onNodeClick={handleNodeClick}
-        setIsEditMode={(edit: boolean) => {
-          if (edit) handleEnterEditMode();
-          else setIsEditMode(false);
-        }}
-        onRefresh={loadFlow}
-      />
-    </div>
-  );
-
   return (
-    <div className="w-full">
-      <div className="w-full px-6 md:px-10 mb-3 md:mb-4">
-        <Link
-          href={`/${flow.user_id}/reading/collections`}
-          className="inline-flex p-2 text-white/50 hover:text-white transition-colors"
-        >
-          <ArrowLeft size={24} />
-        </Link>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="w-full">
+        {/* 뒤로가기 */}
+        <div className="w-full px-6 md:px-10 mb-3 md:mb-4">
+          <Link
+            href={`/${flow.user_id}/reading/collections`}
+            className="inline-flex p-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={24} />
+          </Link>
+        </div>
+
+        {/* 헤더 */}
+        <FlowHeader
+          flow={flow}
+          flowId={flowId}
+          isOwner={isOwner}
+          isEditMode={isEditMode}
+          currentUserId={currentUserId}
+          isSaved={isSaved}
+          categoryCounts={getCategoryCounts()}
+          setIsEditMode={(edit: boolean) => {
+            if (edit) handleEnterEditMode();
+            else setIsEditMode(false);
+          }}
+          handleTogglePublic={handleTogglePublic}
+          handleDelete={handleDelete}
+          handleToggleSave={handleToggleSave}
+        />
+
+        {/* 스테이지 목록 (편집 모드 시 사이드 패널 폭만큼 마진) */}
+        <div className={cn("flex-1 min-w-0 px-4 md:px-10", isEditMode && "md:me-80")}>
+          <FlowStageList
+            flowId={flowId}
+            stages={localStages}
+            isOwner={isOwner}
+            isEditMode={isEditMode}
+            onNodeClick={handleNodeClick}
+            setIsEditMode={(edit: boolean) => {
+              if (edit) handleEnterEditMode();
+              else setIsEditMode(false);
+            }}
+            onRefresh={loadFlow}
+          />
+        </div>
+
+        {/* 우측 사이드 콘텐츠 패널 */}
+        {isEditMode && (
+          <FlowContentEditor
+            flowId={flowId}
+            stages={localStages}
+            isDragging={draggingContent !== null}
+            onClose={() => setIsEditMode(false)}
+            onRefresh={loadFlow}
+          />
+        )}
+
+        {/* 드래그 오버레이 */}
+        <DragOverlay>
+          {draggingContent && <DragOverlayContent content={draggingContent} />}
+        </DragOverlay>
       </div>
-
-      <FlowHeader
-        flow={flow}
-        flowId={flowId}
-        isOwner={isOwner}
-        isEditMode={isEditMode}
-        currentUserId={currentUserId}
-        isSaved={isSaved}
-        categoryCounts={getCategoryCounts()}
-        setIsEditMode={(edit: boolean) => {
-          if (edit) handleEnterEditMode();
-          else setIsEditMode(false);
-        }}
-        handleTogglePublic={handleTogglePublic}
-        handleDelete={handleDelete}
-        handleToggleSave={handleToggleSave}
-      />
-
-      <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-        {stageListContent}
-
-        {isEditMode && <FlowContentEditor flowId={flowId} stages={flow.stages} onClose={() => setIsEditMode(false)} />}
-
-        <DragOverlay>{draggingContent && <DragOverlayContent content={draggingContent} />}</DragOverlay>
-      </DndContext>
-    </div>
+    </DndContext>
   );
 }

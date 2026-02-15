@@ -11,10 +11,7 @@ import PageTabs from "@/components/shared/PageTabs";
 
 const EXPLORE_TABS = [
   { value: "celebs", label: "셀럽", href: "/explore/celebs" },
-  { value: "friends", label: "친구", href: "/explore/friends" },
-  { value: "following", label: "팔로잉", href: "/explore/following" },
-  { value: "followers", label: "팔로워", href: "/explore/followers" },
-  { value: "similar", label: "취향 유사", href: "/explore/similar" },
+  { value: "people", label: "소셜", href: "/explore/people" },
 ] as const;
 
 export default function ExploreTabs() {

@@ -115,7 +115,9 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function DateTimeCell({ date }: { date: string }) {
+  if (!date) return <span className="text-xs text-text-tertiary">-</span>
   const d = new Date(date)
+  if (isNaN(d.getTime())) return <span className="text-xs text-text-tertiary">-</span>
   const pad = (n: number) => String(n).padStart(2, '0')
   const ymd = `${String(d.getFullYear()).slice(2)}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`
   const hms = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`

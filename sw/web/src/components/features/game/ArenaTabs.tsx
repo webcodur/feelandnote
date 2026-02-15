@@ -12,12 +12,13 @@ import PageTabs from "@/components/shared/PageTabs";
 
 export default function ArenaTabs() {
   const pathname = usePathname();
-  const activeTab = ARENA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "up-down";
+  const visibleItems = ARENA_ITEMS.filter((item) => !item.hidden);
+  const activeTab = ARENA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "dawn";
 
   return (
-    <PageTabs 
-      tabs={ARENA_ITEMS} 
-      activeTabValue={activeTab} 
+    <PageTabs
+      tabs={visibleItems}
+      activeTabValue={activeTab}
     />
   );
 }

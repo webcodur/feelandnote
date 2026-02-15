@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile } from '@/types/home'
 
-export type CelebSortBy = 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
+export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
 
 interface GetCelebsParams {
   page?: number
@@ -52,7 +52,7 @@ interface CelebRow {
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'content_count', search, tagId, minContentCount = 0, includeInactive = false } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()

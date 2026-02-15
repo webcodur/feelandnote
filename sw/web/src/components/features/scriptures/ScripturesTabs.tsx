@@ -12,7 +12,7 @@ import PageTabs from "@/components/shared/PageTabs";
 
 export default function ScripturesTabs() {
   const pathname = usePathname();
-  const activeTab = SCRIPTURES_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "chosen";
+  const activeTab = SCRIPTURES_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "era";
 
   return (
     <PageTabs 

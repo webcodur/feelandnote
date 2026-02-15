@@ -15,7 +15,6 @@ import { updateFlow } from "@/actions/flows/updateFlow";
 import type { FlowWithStages, FlowNodeWithContent, ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useSound } from "@/contexts/SoundContext";
 
 interface TierEditViewProps {
   flowId: string;
@@ -44,7 +43,6 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
   const [selectedType, setSelectedType] = useState<ContentType | "all">("all");
   const [availableTypes, setAvailableTypes] = useState<ContentType[]>([]);
   const [draggedId, setDraggedId] = useState<string | null>(null);
-  const { playSound } = useSound();
 
   const loadPlaylist = useCallback(async () => {
     setIsLoading(true);
@@ -109,14 +107,12 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
   };
 
   const handleDragStart = (contentId: string) => {
-    playSound("drag");
     setDraggedId(contentId);
   };
   const handleDragOver = (e: React.DragEvent) => e.preventDefault();
 
   const handleDropOnTier = (tier: TierLabel) => {
     if (!draggedId) return;
-    playSound("drop");
     const newTiers = { ...tiers };
     TIER_LABELS.forEach((t) => {
       newTiers[t] = newTiers[t].filter((id) => id !== draggedId);
@@ -129,7 +125,6 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
 
   const handleDropOnUnranked = () => {
     if (!draggedId) return;
-    playSound("drop");
     const newTiers = { ...tiers };
     TIER_LABELS.forEach((t) => {
       newTiers[t] = newTiers[t].filter((id) => id !== draggedId);
@@ -146,10 +141,8 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
     setIsSaving(true);
     try {
       await updateFlow({ flowId, hasTiers: true, tiers: tiers as Record<string, string[]> });
-      playSound("success");
       router.push(`/${flow.user_id}/reading/collections/${flowId}`);
     } catch (err) {
-      playSound("error");
       alert(err instanceof Error ? err.message : "저장에 실패했습니다");
     } finally {
       setIsSaving(false);

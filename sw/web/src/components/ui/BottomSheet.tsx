@@ -6,12 +6,11 @@
 
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import Button from "./Button";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useSound } from "@/contexts/SoundContext";
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -21,19 +20,6 @@ interface BottomSheetProps {
 }
 
 export default function BottomSheet({ isOpen, onClose, children, title }: BottomSheetProps) {
-  const { playSound } = useSound();
-  const wasOpen = useRef(false);
-
-  // 시트 열림/닫힘 사운드
-  useEffect(() => {
-    if (isOpen && !wasOpen.current) {
-      playSound("modalOpen");
-    } else if (!isOpen && wasOpen.current) {
-      playSound("modalClose");
-    }
-    wasOpen.current = isOpen;
-  }, [isOpen, playSound]);
-
   // ESC 키로 닫기
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

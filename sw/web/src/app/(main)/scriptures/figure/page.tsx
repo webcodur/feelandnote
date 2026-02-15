@@ -63,9 +63,9 @@ function SectionSkeleton() {
 }
 
 async function FigureContent() {
-  const { figure, contents } = await getTodayFigure();
+  const { figure, contents, source } = await getTodayFigure();
   if (!figure) return null;
-  return <TodayFigureSection figure={figure} contents={contents} />;
+  return <TodayFigureSection figure={figure} contents={contents} source={source} />;
 }
 
 export default function Page() {

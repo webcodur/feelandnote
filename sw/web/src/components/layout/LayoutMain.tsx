@@ -6,6 +6,7 @@ import Header from "./header/Header";
 import BottomNav from "./BottomNav";
 
 const FloatingMusicPlayer = dynamic(() => import("./FloatingMusicPlayer"), { ssr: false });
+const RecentProfilesSection = dynamic(() => import("@/components/features/profile/RecentProfilesSection"), { ssr: false });
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -43,6 +44,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </main>
       {isMobile && <BottomNav />}
       {!isMobile && <FloatingMusicPlayer />}
+      {!isMobile && <RecentProfilesSection />}
     </>
   );
 }

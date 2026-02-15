@@ -78,7 +78,7 @@ export default async function MainPage() {
   const FigureSectionContent = (
     <div className="flex flex-col gap-12">
       <Suspense fallback={<div className="h-64 bg-white/5 rounded-xl animate-pulse" />}>
-        <TodayFigureSection figure={todayFigureResult.figure!} contents={todayFigureResult.contents} />
+        <TodayFigureSection figure={todayFigureResult.figure!} contents={todayFigureResult.contents} source={todayFigureResult.source} />
       </Suspense>
 
       <HomeNavigationLinks />

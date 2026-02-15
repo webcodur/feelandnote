@@ -462,14 +462,42 @@ export interface TodayFigure {
   contentCount: number
 }
 
+export interface TodayFigureSource {
+  type: 'news' | 'seed'
+  newsCount: number
+}
+
 export interface TodayFigureResult {
   figure: TodayFigure | null
   contents: ScriptureContent[]
+  source: TodayFigureSource
 }
 
 export async function getTodayFigure(): Promise<TodayFigureResult> {
   const supabase = await createClient()
+  const today = new Date().toISOString().slice(0, 10)
 
+  // 0. daily_figures에서 오늘 데이터 확인 (Cron이 저장한 뉴스 기반 인물)
+  const { data: dailyFigure } = await supabase
+    .from('daily_figures')
+    .select('celeb_id, source, news_count')
+    .eq('date', today)
+    .single()
+
+  if (dailyFigure) {
+    const result = await fetchFigureContents(supabase, dailyFigure.celeb_id)
+    return {
+      ...result,
+      source: {
+        type: dailyFigure.source as 'news' | 'seed',
+        newsCount: dailyFigure.news_count || 0,
+      },
+    }
+  }
+
+  const seedSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
+
+  // Fallback: 기존 seed 알고리즘
   // 1. 셀럽 프로필 ID 목록 조회
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
@@ -478,7 +506,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     .eq('status', 'active')
 
   if (profileError || !celebProfiles?.length) {
-    return { figure: null, contents: [] }
+    return { figure: null, contents: [], source: seedSource }
   }
 
   const celebIds = celebProfiles.map(p => p.id)
@@ -510,7 +538,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   }
 
   if (!celebCountsData.length) {
-    return { figure: null, contents: [] }
+    return { figure: null, contents: [], source: seedSource }
   }
 
   // 셀럽별 콘텐츠 개수 집계
@@ -526,35 +554,45 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     .map(([id, count]) => ({ id, count }))
 
   if (!eligibleCelebs.length) {
-    return { figure: null, contents: [] }
+    return { figure: null, contents: [], source: seedSource }
   }
 
-  // 2. 오늘 날짜 기반 결정적 랜덤 선택
-  const today = new Date().toISOString().slice(0, 10)
-  const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1 // +1로 다음 인물 선택
+  // seed 기반 결정적 랜덤 선택
+  const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1
   const selectedIndex = seed % eligibleCelebs.length
   const selected = eligibleCelebs[selectedIndex]
 
-  // 3. 선택된 셀럽 프로필 조회
+  const result = await fetchFigureContents(supabase, selected.id)
+  return { ...result, source: seedSource }
+}
+
+/** 셀럽 ID로 프로필 + 콘텐츠 조회 (공통 로직) */
+async function fetchFigureContents(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  celebId: string
+): Promise<TodayFigureResult> {
+  const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
+
+  // 프로필 조회
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, nickname, avatar_url, profession, bio')
-    .eq('id', selected.id)
+    .eq('id', celebId)
     .single()
 
   if (!profile) {
-    return { figure: null, contents: [] }
+    return { figure: null, contents: [], source: defaultSource }
   }
 
-  // 4. 해당 셀럽의 콘텐츠 조회
+  // 콘텐츠 조회
   const { data: userContents } = await supabase
     .from('user_contents')
     .select('id, content_id, rating, review, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type)')
-    .eq('user_id', selected.id)
+    .eq('user_id', celebId)
     .eq('status', 'FINISHED')
     .eq('visibility', 'public')
 
-  // 5. 일반 사용자(USER) 콘텐츠 카운트 조회
+  // 일반 사용자(USER) 콘텐츠 카운트 조회
   const userCountMap = await fetchUserContentCounts(supabase)
 
   const contents: ScriptureContent[] = (userContents || []).map(item => {
@@ -582,9 +620,10 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
       avatar_url: profile.avatar_url,
       profession: profile.profession,
       bio: profile.bio,
-      contentCount: selected.count
+      contentCount: contents.length
     },
-    contents
+    contents,
+    source: defaultSource
   }
 }
 // #endregion
@@ -598,28 +637,28 @@ const ERA_CONFIG: Record<Era, { label: string; period: string; min: number; max:
     period: '~500년',
     min: -9999,
     max: 500,
-    description: '철학과 사상의 씨앗이 뿌려진 시대. 소크라테스, 공자, 붓다가 인류의 근본 질문을 던졌다.'
+    description: '철학과 사상의 씨앗이 뿌려진 시대입니다. 소크라테스, 공자, 붓다가 던진 근본적인 질문들이 오늘날까지 인류를 이끌고 있습니다.'
   },
   medieval: {
     label: '중세',
     period: '500~1500년',
     min: 500,
     max: 1500,
-    description: '신앙과 기사도의 시대. 어둠 속에서도 지혜의 불씨를 지킨 수도원과 학자들.'
+    description: '신앙과 기사도가 꽃피운 시대입니다. 어둠 속에서도 지혜의 불씨를 꺼뜨리지 않은 수도원과 학자들의 헌신이 오늘의 문명을 만들었습니다.'
   },
   modern: {
     label: '근대',
     period: '1500~1900년',
     min: 1500,
     max: 1900,
-    description: '이성의 빛이 세상을 깨우다. 르네상스, 계몽주의, 산업혁명이 세계를 바꿨다.'
+    description: '이성의 빛이 세상을 깨운 시대입니다. 르네상스, 계몽주의, 산업혁명을 통해 인류는 전례 없는 변화를 경험했습니다.'
   },
   contemporary: {
     label: '현대',
     period: '1900년~',
     min: 1900,
     max: 9999,
-    description: '격변과 혁신의 세기. 지금 우리의 생각을 형성한 거인들이 살았던 시대.'
+    description: '격변과 혁신의 세기입니다. 지금 우리의 생각과 삶의 방식을 형성한 거인들이 이 시대를 살아갔습니다.'
   },
 }
 
@@ -699,30 +738,42 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
     // 페이지네이션으로 모든 데이터 가져오기 (먼저 호출해야 카운트 가능)
     const typedData = await fetchAllUserContents(supabase, celebIds)
 
-    // 영향력 기준 top 5 셀럽 (celeb_influence 테이블 조인)
+    // 1단계: 각 셀럽의 콘텐츠 개수 집계
+    const celebContentCountMap = new Map<string, number>()
+    for (const item of typedData) {
+      const count = celebContentCountMap.get(item.user_id) || 0
+      celebContentCountMap.set(item.user_id, count + 1)
+    }
+
+    // 2단계: 5개 이상인 셀럽만 필터링
+    const eligibleCelebIds = Array.from(celebContentCountMap.entries())
+      .filter(([, count]) => count >= 5)
+      .map(([id]) => id)
+
+    // 3단계: 영향력 조회 (5개 이상인 셀럽 중에서만)
     const { data: topCelebsData } = await supabase
       .from('profiles')
       .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
-      .in('id', celebIds)
-      .not('celeb_influence', 'is', null)
-      .order('celeb_influence(total_score)', { ascending: false })
-      .limit(5)
+      .in('id', eligibleCelebIds.length > 0 ? eligibleCelebIds : ['00000000-0000-0000-0000-000000000000'])
 
-    const topCelebs: EraCeleb[] = (topCelebsData || []).map(c => {
-      const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
-      
-      // user_contents 카운트 계산
-      const contentCount = typedData.filter(item => item.user_id === c.id).length
-      
-      return {
-        id: c.id,
-        nickname: c.nickname,
-        avatar_url: c.avatar_url,
-        title: c.title,
-        influence: influence?.total_score ?? null,
-        count: contentCount
-      }
-    })
+    // 4단계: JavaScript에서 정렬 및 필터링
+    const topCelebs: EraCeleb[] = (topCelebsData || [])
+      .map(c => {
+        const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
+        const contentCount = celebContentCountMap.get(c.id) || 0
+
+        return {
+          id: c.id,
+          nickname: c.nickname,
+          avatar_url: c.avatar_url,
+          title: c.title,
+          influence: influence?.total_score ?? null,
+          count: contentCount
+        }
+      })
+      .filter(c => c.influence !== null)
+      .sort((a, b) => (b.influence || 0) - (a.influence || 0))
+      .slice(0, 5)
 
     let { contents } = aggregateContents(typedData, { limit: 999, userCountMap })
 
@@ -778,5 +829,69 @@ export async function getCelebsForContent(contentId: string): Promise<CelebInfo[
     avatar_url: p.avatar_url,
     profession: p.profession
   }))
+}
+// #endregion
+
+// #region 전 시대 통합 - 최고 영향력 셀럽 Top 3 (감상 기록 5개 이상)
+export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
+  const supabase = await createClient()
+
+  // 1. 모든 셀럽의 콘텐츠 개수 집계 (5개 이상만)
+  const { data: contentCounts, error: contentError } = await supabase
+    .from('user_contents')
+    .select('user_id, profiles!user_contents_user_id_fkey!inner(profile_type, status)')
+    .eq('status', 'FINISHED')
+    .eq('profiles.profile_type', 'CELEB')
+    .eq('profiles.status', 'active')
+
+  console.log('[getTopCelebsAcrossAllEras] contentCounts:', contentCounts?.length, 'error:', contentError)
+
+  if (!contentCounts?.length) return []
+
+  // 셀럽별 카운트 집계 (5개 이상만)
+  const countMap = new Map<string, number>()
+  for (const item of contentCounts) {
+    const count = countMap.get(item.user_id) || 0
+    countMap.set(item.user_id, count + 1)
+  }
+
+  const eligibleCelebIds = Array.from(countMap.entries())
+    .filter(([, count]) => count >= 5)
+    .map(([id]) => id)
+
+  console.log('[getTopCelebsAcrossAllEras] eligibleCelebIds:', eligibleCelebIds.length)
+
+  if (!eligibleCelebIds.length) return []
+
+  // 2. 해당 셀럽들 중 영향력 조회
+  const { data: topCelebsData, error: celebError } = await supabase
+    .from('profiles')
+    .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
+    .in('id', eligibleCelebIds)
+
+  console.log('[getTopCelebsAcrossAllEras] topCelebsData:', topCelebsData?.length, 'error:', celebError)
+
+  if (!topCelebsData?.length) return []
+
+  // 3. JavaScript에서 정렬 및 필터링
+  const celebs = topCelebsData
+    .map(c => {
+      const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
+      return {
+        id: c.id,
+        nickname: c.nickname,
+        avatar_url: c.avatar_url,
+        title: c.title,
+        influence: influence?.total_score ?? null,
+        count: countMap.get(c.id) || 0
+      }
+    })
+    .filter(c => c.influence !== null)
+    .sort((a, b) => (b.influence || 0) - (a.influence || 0))
+    .slice(0, 3)
+
+  console.log('[getTopCelebsAcrossAllEras] final celebs:', celebs.length, celebs)
+
+  return celebs
 }
 // #endregion

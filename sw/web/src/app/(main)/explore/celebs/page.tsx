@@ -12,7 +12,7 @@ import type { CelebSortBy } from "@/actions/home";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "셀럽 | 탐색" };
 
-const VALID_SORT_VALUES = ["influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
+const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 
 function SectionSkeleton() {
   return (
@@ -100,7 +100,7 @@ async function CelebsContent({ searchParams }: { searchParams: Record<string, st
   const gender = parseParam(searchParams, "gender");
   const search = parseParam(searchParams, "search");
   const sortByRaw = parseParam(searchParams, "sortBy");
-  const sortBy = (sortByRaw && VALID_SORT_VALUES.includes(sortByRaw) ? sortByRaw : "content_count") as CelebSortBy;
+  const sortBy = (sortByRaw && VALID_SORT_VALUES.includes(sortByRaw) ? sortByRaw : "daily_recommend") as CelebSortBy;
   const pageRaw = parseInt(parseParam(searchParams, "page") || "1", 10);
   const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
 

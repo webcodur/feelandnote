@@ -7,6 +7,11 @@
 import { Compass, BookOpen, Armchair, Gamepad2, User, type LucideIcon } from "lucide-react";
 
 // #region 타입 정의
+export interface NavSubLink {
+  href: string;
+  label: string;
+}
+
 export interface NavItem {
   key: string;
   href: string;
@@ -16,6 +21,7 @@ export interface NavItem {
   showInHeader: boolean;
   showInBottomNav: boolean;
   showInHomePage: boolean;
+  subLinks?: NavSubLink[];
 }
 
 export interface PageBannerConfig {
@@ -45,6 +51,10 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
+    subLinks: [
+      { href: "/explore/celebs", label: "셀럽" },
+      { href: "/explore/people", label: "소셜" },
+    ],
   },
   {
     key: "scriptures",
@@ -54,6 +64,10 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
+    subLinks: [
+      { href: "/scriptures/era", label: "불후의 명작" },
+      { href: "/scriptures/profession", label: "갈림길" },
+    ],
   },
   {
     key: "agora",
@@ -63,6 +77,12 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
+    subLinks: [
+      { href: "/agora/celeb-feed", label: "셀럽 피드" },
+      { href: "/agora/friend-feed", label: "친구 피드" },
+      { href: "/agora/board/notice", label: "공지사항" },
+      { href: "/agora/board/feedback", label: "피드백" },
+    ],
   },
   {
     key: "rest",
@@ -72,6 +92,11 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: false,
     showInBottomNav: false,
     showInHomePage: false,
+    subLinks: [
+      { href: "/rest/dawn", label: "여명" },
+      { href: "/rest/labyrinth", label: "미궁" },
+      { href: "/rest/hegemony", label: "패권" },
+    ],
   },
   {
     key: "archive",
@@ -90,6 +115,16 @@ export const NAV_ITEMS: NavItem[] = [
 export const HEADER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInHeader);
 export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInBottomNav);
 export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => item.key);
+export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length);
+// #endregion
+
+// #region 풋터 브랜드 링크
+export const FOOTER_BRAND_LINKS: NavSubLink[] = [
+  { href: "/about", label: "서비스 소개" },
+  { href: "/search", label: "검색" },
+  { href: "/terms", label: "이용약관" },
+  { href: "/privacy", label: "개인정보처리방침" },
+];
 // #endregion
 
 // #region 헬퍼 함수

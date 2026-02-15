@@ -43,6 +43,6 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
     ...flow,
     stage_count: flow.flow_stages?.[0]?.count || 0,
     node_count: flow.flow_nodes?.[0]?.count || 0,
-    stages: flow.stages?.slice(0, 1) || []
+    stages: flow.stages || []
   }))
 }

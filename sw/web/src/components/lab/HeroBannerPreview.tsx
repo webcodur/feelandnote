@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail, Shapes, Shell, Share2, Anchor, ScrollText } from "lucide-react";
+import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail, Shapes, Shell, Share2, Anchor, ScrollText, Map as MapIcon } from "lucide-react";
 import AstrolabeBanner from "./AstrolabeBanner";
 import ArchiveTunnelBanner from "./ArchiveTunnelBanner";
 import LyreBanner from "./LyreBanner";
@@ -17,6 +17,7 @@ import SacredGeometryBanner from "./SacredGeometryBanner";
 import GoldenSpiralBanner from "./GoldenSpiralBanner";
 import MessageBottlesBanner from "./MessageBottlesBanner";
 import ParchmentScrollBanner from "./ParchmentScrollBanner";
+import HegemonyMapBanner from "./HegemonyMapBanner";
 
 // 공통 데모 오버레이
 const demoOverlay = (
@@ -31,7 +32,7 @@ const demoOverlay = (
 );
 
 export default function HeroBannerPreview() {
-  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict" | "sacred-geometry" | "golden-spiral" | "message-bottles" | "parchment-scroll">("parchment-scroll");
+  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict" | "sacred-geometry" | "golden-spiral" | "message-bottles" | "parchment-scroll" | "hegemony-map">("hegemony-map");
 
   return (
     <div className="w-full flex flex-col gap-8">
@@ -205,6 +206,17 @@ export default function HeroBannerPreview() {
           <ScrollText size={14} />
           Idea 15: Parchment Scroll
         </button>
+        <button
+          onClick={() => setActiveDesign("hegemony-map")}
+          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
+            activeDesign === "hegemony-map"
+              ? "bg-accent text-bg-main border-accent font-bold"
+              : "border-white/20 text-text-secondary hover:border-accent/50"
+          }`}
+        >
+          <MapIcon size={14} />
+          Idea 16: Hegemony Map
+        </button>
       </div>
 
       {/* Preview Area */}
@@ -224,6 +236,7 @@ export default function HeroBannerPreview() {
         {activeDesign === "golden-spiral" && <GoldenSpiralBanner>{demoOverlay}</GoldenSpiralBanner>}
         {activeDesign === "message-bottles" && <MessageBottlesBanner>{demoOverlay}</MessageBottlesBanner>}
         {activeDesign === "parchment-scroll" && <ParchmentScrollBanner>{demoOverlay}</ParchmentScrollBanner>}
+        {activeDesign === "hegemony-map" && <HegemonyMapBanner>{demoOverlay}</HegemonyMapBanner>}
       </div>
     </div>
   );

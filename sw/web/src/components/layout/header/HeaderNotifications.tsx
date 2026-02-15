@@ -62,9 +62,6 @@ export default function HeaderNotifications() {
             const newNotif = payload.new as Notification;
             setNotifications((prev) => [newNotif, ...prev]);
             setUnreadCount((prev) => prev + 1);
-            
-            // Sound effect
-            new Audio("/sounds/미사용/notification1.mp3").play().catch(() => {});
           }
         )
         .subscribe();

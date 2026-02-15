@@ -55,7 +55,7 @@ interface SectionConfig {
 const SECTIONS: SectionConfig[] = [
   { id: "sage-section", label: "오늘의 인물", description: "매일 자정, 한 명의 인물이 새롭게 선정됩니다", icon: User },
   { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 작품", icon: Scroll, hasBg: true },
-  { id: "profession-section", label: "갈랫길", description: "분야별 인물들의 필독서", icon: Route },
+  { id: "profession-section", label: "갈림길", description: "분야별 인물들의 필독서", icon: Route },
   { id: "era-section", label: "시대의 작품", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
 ];
 
@@ -406,7 +406,12 @@ function TodaySageSection() {
                 </p>
               )}
               {figure.bio && <p className="text-sm text-text-secondary line-clamp-2">{figure.bio}</p>}
-              <p className="text-xs text-text-tertiary mt-2">감상 기록 {figure.contentCount}개</p>
+              <p className="text-xs text-text-tertiary mt-2">
+                감상 기록 {figure.contentCount}개
+                {data?.source?.type === 'news' && (
+                  <span className="ml-2 text-blue-400">· 뉴스 {data.source.newsCount}건 언급</span>
+                )}
+              </p>
             </div>
           </Link>
 
@@ -610,7 +615,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
         )}
       </section>
 
-      {/* 섹션 3: 갈랫길 (Lazy) */}
+      {/* 섹션 3: 갈림길 (Lazy) */}
       <ProfessionSection professionCounts={initialProfessionCounts} />
 
       {/* 섹션 4: 시대의 작품 (Lazy) */}

@@ -3,6 +3,7 @@ import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
 import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSectionHeader";
+import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageContainer from "@/components/layout/PageContainer";
 import { PAGE_BANNER } from "@/constants/navigation";
@@ -39,6 +40,15 @@ export default async function UserLayout({ children, params }: LayoutProps) {
           {englishTitle}
         </p>
       </PrismBanner>
+      <RecentProfileTracker
+        profile={{
+          id: userId,
+          nickname: profile.nickname,
+          avatarUrl: profile.avatar_url ?? null,
+          title: profile.title ?? null,
+          profileType: profile.profile_type as "USER" | "CELEB",
+        }}
+      />
       <PageContainer>
         <ArchiveTabs userId={userId} isOwner={isOwner} isCeleb={isCeleb} />
         <main className="max-w-3xl mx-auto animate-fade-in">

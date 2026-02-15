@@ -122,8 +122,8 @@
 
 **절판 책 및 ISBN 없는 책**:
 - 절판된 책도 ISBN이 있으면 Naver API에서 검색 가능 (재고 여부와 무관)
-- **ISBN이 없는 책**(고서적, 1970년대 이전 출판물 등)은 Naver API 검색 불가
-- ISBN 없는 책은 web-bo에서 UUID 기반으로 수동 등록 필요
+- **ISBN이 없는 책은 등록하지 않는다** (고서적, 1970년대 이전 출판물 등)
+- ISBN을 확보할 수 없는 도서는 수집 대상에서 제외. slug ID 생성 금지
 
 ---
 
@@ -231,11 +231,14 @@ VALUES
 | 타입 | ID 형식 | 예시 |
 |------|---------|------|
 | BOOK | ISBN 그대로 | `9788932917245` |
-| VIDEO | tmdb ID 그대로 | `550` |
-| GAME | igdb ID 그대로 | `1942` |
-| MUSIC | **`spotify-{spotifyId}`** (하이픈) | `spotify-0lOn8nKk4dzzRfnCCCRbwp` |
+| VIDEO (영화) | **`tmdb-movie-{tmdbId}`** | `tmdb-movie-550` |
+| VIDEO (TV) | **`tmdb-tv-{tmdbId}`** | `tmdb-tv-1399` |
+| GAME | **`igdb-{igdbId}`** | `igdb-1942` |
+| MUSIC | **`spotify-{spotifyId}`** | `spotify-0lOn8nKk4dzzRfnCCCRbwp` |
 
-- MUSIC ID는 반드시 **하이픈(`-`)** 사용. 언더스코어(`_`) 사용 금지
+- 모든 외부 ID는 반드시 **접두사 포함** (tmdb-movie-, tmdb-tv-, igdb-, spotify-)
+- 하이픈(`-`)만 사용. 언더스코어(`_`) 사용 금지
+- VIDEO는 TMDB API 응답의 media_type에 따라 movie/tv 구분 필수
 
 ---
 

@@ -18,31 +18,23 @@ export interface ScripturesTab {
 }
 
 export const SCRIPTURES_TABS: ScripturesTab[] = [
-
   {
-    value: "chosen",
-    label: "공통 서가",
-    icon: Scroll,
-    href: "/scriptures/chosen",
-    description: "인물들이 가장 많이 선택한 콘텐츠",
+    value: "era",
+    label: "불후의 명작",
+    icon: Clock,
+    href: "/scriptures/era",
+    description: "전 시대의 대표작과 시대별 명저",
   },
   {
     value: "profession",
-    label: "갈랫길",
+    label: "갈림길",
     icon: Route,
     href: "/scriptures/profession",
     description: "직업별 추천 콘텐츠",
   },
-  {
-    value: "era",
-    label: "시대의 작품",
-    icon: Clock,
-    href: "/scriptures/era",
-    description: "시대별 명저 탐색",
-  },
 ];
 
-// 4행 구조: 4x4x4x3 그리드 (갈랫길 페이지용)
+// 4행 구조: 4x4x4x3 그리드 (갈림길 페이지용)
 export const PROFESSION_ROWS = [
   ["entrepreneur", "investor", "commander", "leader"],
   ["politician", "scientist", "director", "humanities_scholar"],

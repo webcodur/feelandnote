@@ -7,6 +7,7 @@ import { updateStatus } from '@/actions/contents/updateStatus'
 import { removeContent } from '@/actions/contents/removeContent'
 import type { MusicTrack } from '@/actions/contents/getMyMusicList'
 import type { ContentStatus } from '@/types/database'
+import { Z_INDEX } from '@/constants/zIndex'
 
 // #region Constants
 const STATUS_LABEL: Record<string, { text: string; color: string }> = {
@@ -111,7 +112,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
         <div
           ref={menuRef}
           className="fixed w-28 py-1 bg-bg-card border border-border rounded-lg shadow-xl [&_*]:!font-sans"
-          style={{ top: menuPos.top, left: menuPos.left, transform: 'translateY(-100%)', zIndex: 9999 }}
+          style={{ top: menuPos.top, left: menuPos.left, transform: 'translateY(-100%)', zIndex: Z_INDEX.dropdown }}
         >
           {STATUS_OPTIONS.map((opt) => (
             <button

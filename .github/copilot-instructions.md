@@ -11,7 +11,7 @@
 - 프론트엔드 앱: `sw/web/src/app` — 라우트는 App Router 구조, Server Actions는 `sw/web/src/actions/*`에 모여 있음.
 - 백오피스: `sw/web-bo/src/app` 및 `sw/web-bo/src/actions/admin/*`.
 - 검색/AI 서비스: `packages/content-search/src/*` (tmdb, spotify, naver-*, google-books 등), `packages/ai-services/src/*` (Gemini 연동, title-translator 등).
-- DB/콘텐츠 ID: 웹(사용자-facing)은 외부 API ID(문자열)를 `contents.id`로 사용. 백오피스는 `contents.id`로 UUID를 쓰고 외부 ID는 `external_id`에 보관 — ID 타입 차이에 유의.
+- DB/콘텐츠 ID: 웹(사용자-facing)은 접두사 포함 외부 ID를 `contents.id`로 사용 (VIDEO: `tmdb-movie-{id}`/`tmdb-tv-{id}`, MUSIC: `spotify-{id}`, GAME: `igdb-{id}`, BOOK: ISBN). 백오피스는 `contents.id`로 UUID를 쓰고 외부 ID는 `external_id`에 보관 — ID 타입 차이에 유의.
 - 핵심 호출 예: 콘텐츠 상세는 `/content/[contentId]` → `getContentDetail(contentId, category)` 호출 경로를 추적하세요.
 
 프로젝트 규약(에이전트가 지켜야 할 구체적 규칙)

@@ -10,7 +10,6 @@ import { Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { updateReview } from "@/actions/contents/updateReview";
-import { useSound } from "@/contexts/SoundContext";
 import ExternalResourceSearch from "../quickRecord/ExternalResourceSearch";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 
@@ -25,7 +24,6 @@ export default function MyReviewSection({
   userRecord,
   onRecordChange,
 }: MyReviewSectionProps) {
-  const { playSound } = useSound();
   const [isPending, startTransition] = useTransition();
 
   const [rating, setRating] = useState<number | null>(userRecord?.rating ?? null);
@@ -35,12 +33,10 @@ export default function MyReviewSection({
   const hasRecord = !!userRecord;
 
   const handleRatingChange = (star: number) => {
-    playSound("star");
     setRating(rating === star ? null : star);
   };
 
   const handleSpoilerChange = (checked: boolean) => {
-    playSound("toggle");
     setIsSpoiler(checked);
   };
 
@@ -103,7 +99,6 @@ export default function MyReviewSection({
             {[1, 2, 3, 4, 5].map((star) => (
               <Button
                 unstyled
-                noSound
                 key={star}
                 onClick={() => handleRatingChange(star)}
                 className={`text-lg ${(rating ?? 0) >= star ? "text-yellow-400" : "text-gray-600 hover:text-yellow-400/50"}`}

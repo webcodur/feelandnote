@@ -37,7 +37,7 @@ color: amber
 
 ### DB 등록
 - [ ] 타입별 API로 이미지 URL 확보
-- [ ] 외부 ID를 contents.id로 사용
+- [ ] contents.id 정규 형식 준수: `tmdb-movie-{id}` / `tmdb-tv-{id}` / `igdb-{id}` / `spotify-{id}` / ISBN
 - [ ] 배치 INSERT + ON CONFLICT
 
 ## 보고 규칙

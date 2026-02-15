@@ -7,6 +7,7 @@ import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/get
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Avatar } from "@/components/ui";
 import { INFLUENCE_CATEGORIES } from "@/constants/influence";
+import { Z_INDEX } from "@/constants/zIndex";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
 import { RadarChart, TranshistoricityGauge, CategoryDetail, TopInfluenceTags } from "@/components/features/influence";
 
@@ -179,7 +180,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
   // #endregion
 
   const modalContent = (
-    <div className="fixed inset-0 z-[700] flex items-end md:items-center justify-center" onClick={onClose}>
+    <div className="fixed inset-0 flex items-end md:items-center justify-center" style={{ zIndex: Z_INDEX.modal }} onClick={onClose}>
       {/* 백드롭 */}
       <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" />
 

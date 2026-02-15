@@ -8,7 +8,6 @@
 
 import { ReactNode, ButtonHTMLAttributes, SelectHTMLAttributes } from "react";
 import { LucideIcon, ChevronDown } from "lucide-react";
-import { useSound } from "@/contexts/SoundContext";
 
 // #region Base Button
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,7 +15,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   unstyled?: boolean;
-  noSound?: boolean; // 클릭 사운드 비활성화
 }
 
 const variantStyles = {
@@ -43,27 +41,20 @@ export default function Button({
   className = "",
   disabled,
   unstyled,
-  noSound = false,
   onClick,
   ...props
 }: ButtonProps) {
-  const { playSound } = useSound();
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
 
   // unstyled가 true이면 기본 스타일을 적용하지 않음
   const variantStyle = !unstyled && variant ? variantStyles[variant] : "";
   const sizeStyle = !unstyled && size ? sizeStyles[size] : "";
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!noSound) playSound("click");
-    onClick?.(e);
-  };
-
   return (
     <button
       className={`${disabledStyles} ${variantStyle} ${sizeStyle} ${className}`}
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
       {...props}
     >
       {children}
@@ -77,7 +68,6 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: LucideIcon;
   size?: number;
   active?: boolean;
-  noSound?: boolean;
 }
 
 export function IconButton({
@@ -86,23 +76,16 @@ export function IconButton({
   active = false,
   className = "",
   disabled,
-  noSound = false,
   onClick,
   ...props
 }: IconButtonProps) {
-  const { playSound } = useSound();
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!noSound) playSound("click");
-    onClick?.(e);
-  };
 
   return (
     <button
       className={`flex items-center justify-center rounded-lg ${disabledStyles} ${className}`}
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
       {...props}
     >
       <Icon size={size} strokeWidth={active ? 2.5 : 2} />

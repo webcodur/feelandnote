@@ -4,6 +4,7 @@ import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
+import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import ProfileContent from "./ProfileContent";
 
 interface PageProps {
@@ -74,6 +75,11 @@ export default async function OverviewPage({ params }: PageProps) {
     ? await getCelebInfluence(userId)
     : null;
 
+  // 셀럽 인물 분석 + 유사 인물
+  const personaData = profile.profile_type === "CELEB"
+    ? await getSimilarByCelebId(userId, 5)
+    : null;
+
   return (
     <ProfileContent
       profile={profile}
@@ -83,6 +89,7 @@ export default async function OverviewPage({ params }: PageProps) {
       guestbookTotal={guestbookResult.total}
       guestbookCurrentUser={guestbookCurrentUser}
       influenceData={influenceData}
+      personaData={personaData}
     />
   );
 }
