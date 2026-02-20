@@ -8,17 +8,18 @@ export type ItemCategory = 'scroll' | 'painting' | 'manual' | 'score'
 export type ItemGrade = 'legendary' | 'heroic' | 'rare' | 'common' | 'plain'
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 export type GamePhase = 'title' | 'setup' | 'strategy' | 'battle' | 'manage' | 'result'
-export type BattleAction = 'move' | 'attack' | 'shoot' | 'tactic' | 'sorcery' | 'inspire' | 'defend' | 'retreat'
-export type Terrain = 'plain' | 'forest' | 'mountain' | 'river' | 'desert' | 'snow' | 'coast' | 'sea' | 'wall' | 'gate' | 'town' | 'road'
 export type AIPersonality = 'conqueror' | 'schemer' | 'economist' | 'virtuous' | 'culturist'
-export type DuelChoice = 'attack' | 'defend' | 'fatal'
 export type RegionId = 'east_asia' | 'south_asia' | 'middle_east' | 'mediterranean' | 'west_europe' | 'north_europe' | 'new_world'
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
+
+// ── 전술 시스템 ──
+
+export type TacticType = 'charge' | 'defend' | 'stratagem' | 'fire' | 'morale' | 'feint'
 
 // ── 실시간 시스템 ──
 
 export type GameSpeed = 0 | 1 | 2 | 3  // 0=pause
-export type CharacterTask = 'idle' | 'moving' | 'building' | 'working' | 'training' | 'patrolling'
+export type CharacterTask = 'idle' | 'building' | 'working' | 'training'
 
 export interface GameTime {
   year: number       // 시작: 1002
@@ -31,24 +32,9 @@ export interface CharacterPlacement {
   characterId: string
   factionId: string
   territoryId: TerritoryId
-  x: number
-  y: number
   task: CharacterTask
-  taskProgress: number   // 0-1 (이동 중: 현재 타일 내 진행도)
-  taskTargetBuildingDefId?: string  // building 태스크용
-  taskTargetPos?: Position         // 도착 후 작업 위치
-  path: Position[]       // 남은 이동 경로
-}
-
-export interface ConstructionSite {
-  id: string             // 고유 ID
-  buildingDefId: string
-  workerId: string       // 건설 중인 캐릭터 ID
-  territoryId: TerritoryId
-  x: number
-  y: number
-  progress: number       // 0-1
-  totalTicks: number
+  taskProgress: number   // 0-1
+  assignedBuildingId: string | null  // BuildingCard.instanceId
 }
 
 // ── 영토 ID (17개) ──
@@ -146,21 +132,14 @@ export interface BuildingEffect {
   special?: string
 }
 
-// 맵에 배치된 건물 인스턴스
-export interface BuildingInstance {
+// 영토 내 건물 카드 (타일 제거 후 카드 기반)
+export interface BuildingCard {
+  instanceId: string
   defId: string
-  level: number
-  hp: number
-  maxHp: number
-  assigneeId: string | null
-  turnsLeft: number  // 0이면 완성
-}
-
-// 레거시 호환
-export interface Building {
-  def: BuildingDef
-  assigneeId: string | null
-  turnsLeft: number
+  assigneeId: string | null        // 근무 캐릭터 (건설 완료 후 건설자가 자동 배치)
+  isConstructing: boolean
+  constructionProgress: number     // 0~1
+  constructionWorkerId: string | null
 }
 
 // ── 자원 ──
@@ -173,21 +152,6 @@ export interface Resources {
   troops: number
 }
 
-// ── 영토 맵 ──
-
-export interface TerritoryTile {
-  terrain: Terrain
-  building: BuildingInstance | null
-  x: number
-  y: number
-}
-
-export interface TerritoryMap {
-  grid: TerritoryTile[][]
-  width: number   // 16
-  height: number  // 12
-}
-
 // ── 거점/지역 ──
 
 export type TaxRate = 'low' | 'normal' | 'high'
@@ -196,8 +160,8 @@ export interface Territory {
   id: TerritoryId
   name: string
   regionId: RegionId
-  buildings: Building[]
-  map: TerritoryMap
+  buildingCards: BuildingCard[]
+  maxBuildings: number  // 인구 비례 슬롯 상한 (8~12)
   population: number
   morale: number // 민심 0-100
   resources: Resources
@@ -240,53 +204,26 @@ export interface Faction {
   aiPersonality: AIPersonality | null // null = 플레이어
 }
 
-// ── 전투 ──
+// ── 전투 (카드/전술 선택형) ──
 
-export interface BattleUnit {
+export interface BattleParticipant {
   character: GameCharacter
   factionId: string
-  x: number
-  y: number
-  currentHp: number
-  troops: number      // 현재 병사 수
+  troops: number
   morale: number
-  acted: boolean
   isLeader: boolean
-  chargeDistance: number  // 이동 후 공격 시 돌격 보너스용
+  isDefeated: boolean
 }
 
-export interface BattleTile {
-  terrain: Terrain
-  building: BuildingInstance | null
-  x: number
-  y: number
-  unit: BattleUnit | null
-  wallHp?: number     // wall/gate 전용
-  wallMaxHp?: number
-}
-
-export interface BattleState {
-  grid: BattleTile[][]
-  width: number
-  height: number
-  turnNumber: number
-  maxTurns: number
-  currentFaction: string
-  attackerFactionId: string
-  defenderFactionId: string
-  defenderTerritoryId: TerritoryId | null
-  selectedUnit: BattleUnit | null
-  movablePositions: Position[]
-  attackablePositions: Position[]
-  log: BattleLogEntry[]
-  phase: 'select' | 'move' | 'action' | 'enemy' | 'result'
-  result: 'pending' | 'attacker_wins' | 'defender_wins' | 'draw'
-  townOccupyTurns: number  // 본진 점령 카운트
-}
-
-export interface Position {
-  x: number
-  y: number
+export interface BattleRound {
+  roundNumber: number
+  attackerTactic: TacticType
+  defenderTactic: TacticType
+  attackerDamage: number
+  defenderDamage: number
+  attackerTroopLoss: number
+  defenderTroopLoss: number
+  narrative: string
 }
 
 export interface BattleLogEntry {
@@ -295,19 +232,20 @@ export interface BattleLogEntry {
   type: 'attack' | 'tactic' | 'morale' | 'death' | 'system' | 'wall'
 }
 
-// ── 전투 스킬 ──
-
-export interface ClassSkill {
-  id: string
-  name: string
-  icon: string
-  unitClass: UnitClass
-  costTroops: number     // 사용 시 소모 병사 수
-  range: number          // 사거리
-  aoe: number            // 범위 (0=단일, 1=십자 등)
-  power: number          // 위력 배율
-  effect?: 'stun' | 'burn' | 'morale_down' | 'heal' | 'buff_power'
-  description: string
+export interface BattleState {
+  attackers: BattleParticipant[]
+  defenders: BattleParticipant[]
+  attackerFactionId: string
+  defenderFactionId: string
+  defenderTerritoryId: TerritoryId | null
+  roundNumber: number
+  maxRounds: number            // 10
+  phase: 'tactic_select' | 'resolving' | 'round_result' | 'result'
+  playerTactic: TacticType | null
+  rounds: BattleRound[]
+  log: BattleLogEntry[]
+  result: 'pending' | 'attacker_wins' | 'defender_wins' | 'draw'
+  defenderHasWalls: boolean
 }
 
 // ── 게임 전체 상태 ──
@@ -319,7 +257,6 @@ export interface GameState {
   speed: GameSpeed
   factions: Faction[]
   placements: CharacterPlacement[]
-  constructions: ConstructionSite[]
   wanderers: GameCharacter[]
   allItems: GameItem[]
   playerFactionId: string
@@ -339,8 +276,6 @@ export interface GameState {
 
 export interface AssetManifest {
   portraits: Record<string, string>
-  tiles: Record<Terrain, string | null>
-  buildings: Record<string, string | null>
   bgm: Record<string, string | null>
   se: Record<string, string | null>
 }

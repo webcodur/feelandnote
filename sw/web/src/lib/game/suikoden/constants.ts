@@ -1,6 +1,6 @@
 // 천도 — 상수 정의
 
-import type { BuildingDef, Grade, ItemGrade, UnitClass, Terrain, Region, RegionId, Stats, TerritoryDef, TerritoryId, ClassSkill, GameTime } from './types'
+import type { BuildingDef, Grade, ItemGrade, UnitClass, Region, RegionId, Stats, TerritoryDef, TerritoryId, GameTime, TacticType } from './types'
 
 // ── 실시간 엔진 상수 ──
 
@@ -12,13 +12,6 @@ export const RT = {
   CONSTRUCTION_TICKS_PER_TURN: 720, // 기존 buildTurns 1 = 30일 = 720틱
   FOOD_CONSUME_INTERVAL: 720,  // 30일마다 식량 소비
 } as const
-
-export const TERRAIN_MOVE_TICKS: Record<Terrain, number> = {
-  plain: 1, road: 1, town: 1, gate: 1, coast: 1,
-  forest: 2, river: 2, desert: 2, snow: 2,
-  mountain: 3,
-  wall: 999, sea: 999,
-}
 
 export const INITIAL_GAME_TIME: GameTime = { year: 1002, month: 3, day: 1, hour: 0 }
 
@@ -111,21 +104,22 @@ export const ITEM_GRADE_COLORS: Record<ItemGrade, string> = {
   plain: '#d1d5db',
 }
 
-// ── 지형 ──
+// ── 건물 카테고리 ──
 
-export const TERRAIN_INFO: Record<Terrain, { name: string; moveCost: number; defBonus: number; color: string; icon: string }> = {
-  plain:    { name: '평지', moveCost: 1, defBonus: 0,    color: '#86efac', icon: '' },
-  forest:   { name: '숲',   moveCost: 2, defBonus: 0.2,  color: '#166534', icon: '🌲' },
-  mountain: { name: '산',   moveCost: 3, defBonus: 0.4,  color: '#78716c', icon: '⛰️' },
-  river:    { name: '강',   moveCost: 2, defBonus: -0.1, color: '#60a5fa', icon: '〜' },
-  desert:   { name: '사막', moveCost: 2, defBonus: 0,    color: '#fde68a', icon: '' },
-  snow:     { name: '설원', moveCost: 2, defBonus: 0,    color: '#e2e8f0', icon: '❄️' },
-  coast:    { name: '해안', moveCost: 1, defBonus: 0,    color: '#bae6fd', icon: '' },
-  sea:      { name: '바다', moveCost: 99,defBonus: 0,    color: '#1d4ed8', icon: '🌊' },
-  wall:     { name: '성벽', moveCost: 99,defBonus: 0.6,  color: '#57534e', icon: '🧱' },
-  gate:     { name: '성문', moveCost: 1, defBonus: 0.3,  color: '#a8a29e', icon: '🚪' },
-  town:     { name: '마을', moveCost: 1, defBonus: 0.1,  color: '#fed7aa', icon: '🏠' },
-  road:     { name: '도로', moveCost: 1, defBonus: 0,    color: '#d6d3d1', icon: '' },
+export type BuildingCategory = 'agriculture' | 'commerce' | 'military' | 'culture'
+
+export const BUILDING_CATEGORY: Record<string, BuildingCategory> = {
+  farm: 'agriculture', lumber: 'agriculture', mine: 'agriculture',
+  market: 'commerce', trade: 'commerce',
+  barracks: 'military', training: 'military', walls: 'military', armory: 'military',
+  library: 'culture', academy: 'culture', temple: 'culture', theater: 'culture',
+}
+
+export const BUILDING_CATEGORY_INFO: Record<BuildingCategory, { name: string; icon: string; color: string }> = {
+  agriculture: { name: '농업', icon: '🌾', color: '#22c55e' },
+  commerce:    { name: '상업', icon: '🪙', color: '#eab308' },
+  military:    { name: '군사', icon: '⚔️', color: '#ef4444' },
+  culture:     { name: '문화', icon: '📚', color: '#8b5cf6' },
 }
 
 // ── 건물 정의 ──
@@ -145,6 +139,44 @@ export const BUILDINGS: BuildingDef[] = [
   { id: 'temple',    name: '사원',   icon: '⛩️', costGold: 400, costMaterial: 0,   buildTurns: 3, requireStat: 'virtue', requireStatMin: 7, effect: { moralePerTurn: 5, special: 'sorcery' } },
   { id: 'theater',   name: '극장',   icon: '🎭', costGold: 300, costMaterial: 0,   buildTurns: 3, effect: { moralePerTurn: 10, culturePerTurn: 5 } },
 ]
+
+// ── 전술 상성 매트릭스 ──
+
+export const TACTIC_MATCHUP: Record<TacticType, Record<TacticType, number>> = {
+  charge:    { charge: 1.0, defend: 0.65, stratagem: 1.4,  fire: 1.0,  morale: 1.0,  feint: 0.65 },
+  defend:    { charge: 1.0, defend: 1.0,  stratagem: 1.0,  fire: 1.4,  morale: 1.0,  feint: 1.0  },
+  stratagem: { charge: 0.65,defend: 1.0,  stratagem: 1.0,  fire: 1.0,  morale: 1.4,  feint: 1.4  },
+  fire:      { charge: 1.0, defend: 0.65, stratagem: 1.0,  fire: 1.0,  morale: 0.65, feint: 1.0  },
+  morale:    { charge: 1.0, defend: 1.0,  stratagem: 0.65, fire: 1.0,  morale: 1.0,  feint: 1.0  },
+  feint:     { charge: 1.4, defend: 1.0,  stratagem: 0.65, fire: 1.0,  morale: 1.0,  feint: 1.0  },
+}
+
+// ── 전술 정보 ──
+
+export const TACTIC_INFO: Record<TacticType, { name: string; icon: string; description: string; troopCostRate: number }> = {
+  charge:    { name: '돌격', icon: '🐎', description: '강력한 돌격. 피해↑ 손실↑', troopCostRate: 0.15 },
+  defend:    { name: '방어', icon: '🛡️', description: '피해 경감. 화공에 강함', troopCostRate: 0 },
+  stratagem: { name: '계략', icon: '🪭', description: '지력 대결. 사기전에 강함', troopCostRate: 0.05 },
+  fire:      { name: '화공', icon: '🔥', description: '광역 피해. 방어에 약함', troopCostRate: 0.10 },
+  morale:    { name: '고무', icon: '📯', description: '사기 회복. 계략에 약함', troopCostRate: 0 },
+  feint:     { name: '유인', icon: '🗡️', description: '반격. 돌격에 강함', troopCostRate: 0.05 },
+}
+
+// ── 전투 상수 ──
+
+export const BATTLE_MAX_ROUNDS = 10
+export const BATTLE_MAX_UNITS = 5
+
+// ── 병과별 전술 위력 보정 ──
+
+export const CLASS_TACTIC_BONUS: Record<UnitClass, Partial<Record<TacticType, number>>> = {
+  general:    { charge: 0.30 },
+  strategist: { stratagem: 0.40, fire: 0.30 },
+  official:   { defend: 0.20 },
+  artist:     { morale: 0.50 },
+  ranger:     { feint: 0.40, fire: 0.10 },
+  artisan:    { defend: 0.20 },
+}
 
 // ── 17개 영토 정의 ──
 
@@ -186,18 +218,6 @@ export const REGIONS: Region[] = [
   { id: 'north_europe',   name: '북유럽',       nameEn: 'North Europe',   neighbors: ['mediterranean', 'west_europe'],         territoryIds: ['scandinavia', 'rus'],                       color: '#8b5cf6', position: { x: 49, y: 15 } },
   { id: 'new_world',      name: '신대륙',       nameEn: 'New World',      neighbors: ['west_europe'],                          territoryIds: ['north_america', 'south_america'],           color: '#ec4899', position: { x: 16, y: 39 } },
 ]
-
-// ── 권역별 지형 분포 (맵 생성용, 확률) ──
-
-export const REGION_TERRAIN_DIST: Record<RegionId, Partial<Record<Terrain, number>>> = {
-  east_asia:     { plain: 0.45, forest: 0.2, mountain: 0.15, river: 0.1, road: 0.1 },
-  south_asia:    { plain: 0.35, forest: 0.25, mountain: 0.1, river: 0.15, desert: 0.05, road: 0.1 },
-  middle_east:   { plain: 0.2, desert: 0.4, mountain: 0.15, road: 0.15, river: 0.1 },
-  mediterranean: { plain: 0.35, forest: 0.1, mountain: 0.15, coast: 0.15, road: 0.15, river: 0.1 },
-  west_europe:   { plain: 0.4, forest: 0.2, mountain: 0.1, river: 0.1, road: 0.15, coast: 0.05 },
-  north_europe:  { plain: 0.25, forest: 0.25, snow: 0.2, mountain: 0.1, river: 0.1, road: 0.1 },
-  new_world:     { plain: 0.35, forest: 0.3, mountain: 0.15, river: 0.1, coast: 0.1 },
-}
 
 // ── nationality → regionId 매핑 ──
 
@@ -243,25 +263,6 @@ export const DIFFICULTY_CONFIG = {
   hard:   { aiFactions: 7, startMembers: 1, maxTurns: 80,  startAP: 3 },
 } as const
 
-// ── 전투 상수 ──
-
-export const BATTLE_GRID = { width: 16, height: 12 }
-export const BATTLE_MAX_UNITS = 5
-export const BATTLE_MAX_TURNS = 30
-export const TILE_SIZE = 40
-
-export const MOVE_RANGE: Record<UnitClass, number> = {
-  general: 3, strategist: 2, artisan: 2, official: 2, artist: 2, ranger: 4,
-}
-export const SHOOT_RANGE: Record<UnitClass, number> = {
-  general: 0, strategist: 3, artisan: 2, official: 0, artist: 0, ranger: 2,
-}
-
-// ── 성벽/성문 HP ──
-
-export const WALL_HP = 200
-export const GATE_HP = 120
-
 // ── 스탯 라벨 ──
 
 export const STAT_LABELS: Record<keyof Stats, { name: string; icon: string }> = {
@@ -273,24 +274,3 @@ export const STAT_LABELS: Record<keyof Stats, { name: string; icon: string }> = 
   virtue:    { name: '인애', icon: '💎' },
   courage:   { name: '용기', icon: '🔥' },
 }
-
-// ── 병과별 스킬 ──
-
-export const CLASS_SKILLS: ClassSkill[] = [
-  // 장수
-  { id: 'charge',     name: '돌격',     icon: '🐎', unitClass: 'general',    costTroops: 50,  range: 1, aoe: 0, power: 2.0, description: '병사를 이끌고 강력한 돌격' },
-  { id: 'rally',      name: '고무',     icon: '📯', unitClass: 'general',    costTroops: 0,   range: 0, aoe: 2, power: 0,   effect: 'buff_power', description: '주변 아군 공격력 상승' },
-  // 책사
-  { id: 'fire_arrow', name: '화시',     icon: '🏹', unitClass: 'strategist', costTroops: 30,  range: 3, aoe: 1, power: 1.5, effect: 'burn', description: '불 화살로 범위 공격' },
-  { id: 'confuse',    name: '혼란',     icon: '🌀', unitClass: 'strategist', costTroops: 0,   range: 3, aoe: 0, power: 0,   effect: 'stun', description: '적 1턴 행동불능' },
-  // 장인
-  { id: 'siege_ram',  name: '파성추',   icon: '🪵', unitClass: 'artisan',    costTroops: 40,  range: 1, aoe: 0, power: 3.0, description: '성벽/성문에 3배 데미지' },
-  { id: 'repair',     name: '수리',     icon: '🔧', unitClass: 'artisan',    costTroops: 0,   range: 0, aoe: 0, power: 0,   effect: 'heal', description: '인접 건물/성벽 수리' },
-  // 관료
-  { id: 'decree',     name: '포고',     icon: '📜', unitClass: 'official',   costTroops: 0,   range: 0, aoe: 3, power: 0,   effect: 'morale_down', description: '적 전체 사기 하락' },
-  // 예인
-  { id: 'inspire',    name: '고취',     icon: '🎵', unitClass: 'artist',     costTroops: 0,   range: 0, aoe: 3, power: 0,   effect: 'heal', description: '아군 전체 HP 회복' },
-  // 유격
-  { id: 'ambush',     name: '기습',     icon: '🗡️', unitClass: 'ranger',     costTroops: 20,  range: 1, aoe: 0, power: 2.5, description: '방어 무시 기습 공격' },
-  { id: 'scout',      name: '정찰',     icon: '👁️', unitClass: 'ranger',     costTroops: 0,   range: 0, aoe: 0, power: 0,   effect: 'buff_power', description: '다음 공격 치명타 확정' },
-]

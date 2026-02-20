@@ -1,237 +1,135 @@
-// 천도 — 전투 스킬 실행
+// 천도 — 전술 판정 헬퍼
 
-import type { BattleState, BattleUnit, BattleTile, BattleLogEntry, Position, ClassSkill } from './types'
-import { CLASS_SKILLS, WALL_HP, GATE_HP } from './constants'
+import type { BattleParticipant, BattleRound, TacticType, UnitClass } from './types'
+import { TACTIC_MATCHUP, CLASS_TACTIC_BONUS, TACTIC_INFO } from './constants'
+import { calcTacticDamage } from './utils'
 
-// ── 스킬 목록 조회 ──
+// ── 병과별 사용 가능 전술 ──
 
-export function getSkillsForUnit(unit: BattleUnit): ClassSkill[] {
-  return CLASS_SKILLS.filter(s => s.unitClass === unit.character.unitClass)
+const CLASS_AVAILABLE_TACTICS: Record<UnitClass, TacticType[]> = {
+  general:    ['charge', 'defend', 'morale', 'feint'],
+  strategist: ['stratagem', 'fire', 'defend', 'feint'],
+  artisan:    ['defend', 'fire', 'feint', 'charge'],
+  official:   ['defend', 'stratagem', 'morale', 'feint'],
+  artist:     ['morale', 'defend', 'stratagem', 'feint'],
+  ranger:     ['feint', 'fire', 'charge', 'defend'],
 }
 
-// ── 스킬 사용 가능 여부 ──
+/** 참가자들의 병과를 종합하여 사용 가능한 전술 목록 반환 */
+export function getAvailableTactics(participants: BattleParticipant[]): TacticType[] {
+  const alive = participants.filter(p => !p.isDefeated)
+  if (alive.length === 0) return ['defend'] // 최소 방어는 가능
 
-export function canUseSkill(unit: BattleUnit, skill: ClassSkill): boolean {
-  return unit.troops >= skill.costTroops
-}
-
-// ── 스킬 실행 ──
-
-export function executeSkill(
-  battle: BattleState,
-  caster: BattleUnit,
-  skill: ClassSkill,
-  targetPos: Position | null,
-): BattleState {
-  const grid = battle.grid.map(row => row.map(t => ({
-    ...t,
-    unit: t.unit ? { ...t.unit } : null,
-  })))
-  const log: BattleLogEntry[] = [...battle.log]
-
-  // 병사 소모
-  const casterOnGrid = grid[caster.y][caster.x]?.unit
-  if (casterOnGrid && skill.costTroops > 0) {
-    casterOnGrid.troops = Math.max(0, casterOnGrid.troops - skill.costTroops)
+  const tacticSet = new Set<TacticType>()
+  for (const p of alive) {
+    const available = CLASS_AVAILABLE_TACTICS[p.character.unitClass] ?? ['defend']
+    for (const t of available) tacticSet.add(t)
   }
+  return Array.from(tacticSet)
+}
 
-  switch (skill.id) {
-    case 'charge': {
-      // 강력한 근접 공격 (power 배율)
-      if (!targetPos) break
-      const target = grid[targetPos.y]?.[targetPos.x]?.unit
-      if (!target) break
-      const dmg = Math.round(caster.character.stats.power * skill.power * (1 + caster.troops / 500) * (0.8 + Math.random() * 0.4))
-      target.currentHp -= dmg
-      target.troops = Math.max(0, target.troops - Math.floor(dmg * 2))
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 돌격! ${target.character.nickname}에게 ${dmg} 피해!`, type: 'attack' })
-      if (target.currentHp <= 0) {
-        log.push({ turn: battle.turnNumber, message: `${target.character.nickname} 쓰러졌다!`, type: 'death' })
-        grid[targetPos.y][targetPos.x].unit = null
-      }
-      break
-    }
+/** 전술 대결 판정 → BattleRound 반환 */
+export function resolveTacticClash(
+  attackers: BattleParticipant[],
+  defenders: BattleParticipant[],
+  atkTactic: TacticType,
+  defTactic: TacticType,
+  roundNumber: number,
+  defenderHasWalls: boolean,
+): BattleRound {
+  // 공격측 대표 (리더 우선, 없으면 첫 생존자)
+  const atkAlive = attackers.filter(p => !p.isDefeated)
+  const defAlive = defenders.filter(p => !p.isDefeated)
+  const atkLeader = atkAlive.find(p => p.isLeader) ?? atkAlive[0]
+  const defLeader = defAlive.find(p => p.isLeader) ?? defAlive[0]
 
-    case 'rally': {
-      // 주변 아군 버프
-      const allies = getUnitsInRange(grid, caster, skill.aoe, caster.factionId, true)
-      for (const ally of allies) {
-        ally.morale = Math.min(100, ally.morale + 15)
-      }
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 고무! 아군 사기 상승!`, type: 'morale' })
-      break
-    }
-
-    case 'fire_arrow': {
-      // 범위 원거리 공격
-      if (!targetPos) break
-      const targets = getUnitsInRange(grid, { x: targetPos.x, y: targetPos.y } as any, skill.aoe, caster.factionId, false)
-      for (const target of targets) {
-        const dmg = Math.round(caster.character.stats.intellect * skill.power * (0.8 + Math.random() * 0.4))
-        target.currentHp -= dmg
-        log.push({ turn: battle.turnNumber, message: `화시! ${target.character.nickname}에게 ${dmg} 피해!`, type: 'attack' })
-        if (target.currentHp <= 0) {
-          log.push({ turn: battle.turnNumber, message: `${target.character.nickname} 쓰러졌다!`, type: 'death' })
-          const pos = findUnitPos(grid, target)
-          if (pos) grid[pos.y][pos.x].unit = null
-        }
-      }
-      break
-    }
-
-    case 'confuse': {
-      // 적 행동불능
-      if (!targetPos) break
-      const target = grid[targetPos.y]?.[targetPos.x]?.unit
-      if (!target) break
-      target.acted = true
-      target.morale = Math.max(0, target.morale - 20)
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 혼란! ${target.character.nickname} 행동불능!`, type: 'tactic' })
-      break
-    }
-
-    case 'siege_ram': {
-      // 성벽/성문 특화 공격
-      if (!targetPos) break
-      const tile = grid[targetPos.y]?.[targetPos.x]
-      if (!tile) break
-      if (tile.terrain === 'wall' || tile.terrain === 'gate') {
-        const dmg = Math.round(caster.character.stats.skill * skill.power * 3)
-        tile.wallHp = Math.max(0, (tile.wallHp ?? 0) - dmg)
-        log.push({ turn: battle.turnNumber, message: `파성추! ${tile.terrain === 'wall' ? '성벽' : '성문'}에 ${dmg} 피해! (잔여: ${tile.wallHp})`, type: 'wall' })
-        if (tile.wallHp <= 0) {
-          const wallName = tile.terrain === 'wall' ? '성벽' : '성문'
-          tile.terrain = 'plain'
-          tile.wallHp = undefined
-          tile.wallMaxHp = undefined
-          log.push({ turn: battle.turnNumber, message: `${wallName} 파괴!`, type: 'wall' })
-        }
-      } else if (tile.unit && tile.unit.factionId !== caster.factionId) {
-        const dmg = Math.round(caster.character.stats.power * skill.power * (0.8 + Math.random() * 0.4))
-        tile.unit.currentHp -= dmg
-        log.push({ turn: battle.turnNumber, message: `파성추! ${tile.unit.character.nickname}에게 ${dmg} 피해!`, type: 'attack' })
-        if (tile.unit.currentHp <= 0) {
-          log.push({ turn: battle.turnNumber, message: `${tile.unit.character.nickname} 쓰러졌다!`, type: 'death' })
-          tile.unit = null
-        }
-      }
-      break
-    }
-
-    case 'repair': {
-      // 인접 성벽 수리
-      for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
-        const nx = caster.x + dx
-        const ny = caster.y + dy
-        if (nx < 0 || nx >= battle.width || ny < 0 || ny >= battle.height) continue
-        const tile = grid[ny][nx]
-        if ((tile.terrain === 'wall' || tile.terrain === 'gate') && tile.wallHp !== undefined && tile.wallMaxHp !== undefined) {
-          const heal = Math.round(caster.character.stats.skill * 5)
-          tile.wallHp = Math.min(tile.wallMaxHp, tile.wallHp + heal)
-          log.push({ turn: battle.turnNumber, message: `수리! 성벽 HP +${heal}`, type: 'wall' })
-        }
-      }
-      break
-    }
-
-    case 'decree': {
-      // 적 전체 사기 하락
-      const enemies = getAllUnitsOfFaction(grid, caster.factionId === battle.attackerFactionId ? battle.defenderFactionId : battle.attackerFactionId)
-      const drop = 10 + Math.floor(caster.character.stats.intellect)
-      for (const enemy of enemies) {
-        enemy.morale = Math.max(0, enemy.morale - drop)
-      }
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 포고! 적 전체 사기 -${drop}!`, type: 'morale' })
-      break
-    }
-
-    case 'inspire': {
-      // 아군 전체 HP 회복
-      const allies = getAllUnitsOfFaction(grid, caster.factionId)
-      const heal = 5 + Math.floor(caster.character.stats.virtue * 1.5)
-      for (const ally of allies) {
-        ally.currentHp = Math.min(ally.character.maxHp, ally.currentHp + heal)
-      }
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 고취! 아군 전체 HP +${heal}!`, type: 'morale' })
-      break
-    }
-
-    case 'ambush': {
-      // 방어 무시 공격
-      if (!targetPos) break
-      const target = grid[targetPos.y]?.[targetPos.x]?.unit
-      if (!target) break
-      const dmg = Math.round(caster.character.stats.power * skill.power * (0.9 + Math.random() * 0.2))
-      target.currentHp -= dmg
-      target.troops = Math.max(0, target.troops - Math.floor(dmg * 1.5))
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 기습! ${target.character.nickname}에게 ${dmg} 피해!`, type: 'attack' })
-      if (target.currentHp <= 0) {
-        log.push({ turn: battle.turnNumber, message: `${target.character.nickname} 쓰러졌다!`, type: 'death' })
-        grid[targetPos.y][targetPos.x].unit = null
-      }
-      break
-    }
-
-    case 'scout': {
-      // 다음 공격 치명타 (사기로 표현)
-      if (casterOnGrid) {
-        casterOnGrid.morale = Math.min(100, casterOnGrid.morale + 30)
-      }
-      log.push({ turn: battle.turnNumber, message: `${caster.character.nickname}의 정찰! 다음 공격 강화!`, type: 'tactic' })
-      break
+  if (!atkLeader || !defLeader) {
+    return {
+      roundNumber,
+      attackerTactic: atkTactic,
+      defenderTactic: defTactic,
+      attackerDamage: 0,
+      defenderDamage: 0,
+      attackerTroopLoss: 0,
+      defenderTroopLoss: 0,
+      narrative: '전투 속행 불가.',
     }
   }
 
-  // 행동 완료
-  if (casterOnGrid) casterOnGrid.acted = true
+  // 공격측 → 방어측 피해
+  const atkResult = calcTacticDamage(atkLeader, defLeader, atkTactic, defTactic, defenderHasWalls)
+  // 방어측 → 공격측 피해
+  const defResult = calcTacticDamage(defLeader, atkLeader, defTactic, atkTactic, false)
+
+  // 피해 분배 (전체 참가자에게 분산)
+  distributeParticipantDamage(defAlive, atkResult.damage, atkResult.troopLoss)
+  distributeParticipantDamage(atkAlive, defResult.damage, defResult.troopLoss)
+
+  // 사기 변동 적용
+  if (atkTactic === 'morale') {
+    for (const p of atkAlive) p.morale = Math.min(100, p.morale + atkResult.moraleDelta)
+  }
+  if (defTactic === 'morale') {
+    for (const p of defAlive) p.morale = Math.min(100, p.morale + defResult.moraleDelta)
+  }
+
+  // 피해로 인한 사기 하락
+  if (atkResult.damage > 0) {
+    for (const p of defAlive) p.morale = Math.max(0, p.morale - 3)
+  }
+  if (defResult.damage > 0) {
+    for (const p of atkAlive) p.morale = Math.max(0, p.morale - 3)
+  }
+
+  // 패배 판정 (HP 0 이하 또는 병사 0)
+  for (const p of [...atkAlive, ...defAlive]) {
+    if (p.character.hp <= 0 || p.troops <= 0) {
+      p.isDefeated = true
+    }
+  }
+
+  // 전투 서술 생성
+  const matchup = TACTIC_MATCHUP[atkTactic][defTactic]
+  const atkInfo = TACTIC_INFO[atkTactic]
+  const defInfo = TACTIC_INFO[defTactic]
+  let narrative = `${atkLeader.character.nickname}의 ${atkInfo.name} vs ${defLeader.character.nickname}의 ${defInfo.name}. `
+  if (matchup > 1.2) narrative += `${atkInfo.name}이(가) ${defInfo.name}을(를) 압도했다!`
+  else if (matchup < 0.8) narrative += `${defInfo.name}이(가) ${atkInfo.name}을(를) 막아냈다!`
+  else narrative += '호각의 접전이 벌어졌다.'
+
+  // 패자 서술
+  const newDefDefeated = defAlive.filter(p => p.isDefeated)
+  const newAtkDefeated = atkAlive.filter(p => p.isDefeated)
+  for (const p of newDefDefeated) narrative += ` ${p.character.nickname} 쓰러졌다!`
+  for (const p of newAtkDefeated) narrative += ` ${p.character.nickname} 쓰러졌다!`
 
   return {
-    ...battle,
-    grid,
-    log,
-    selectedUnit: null,
-    movablePositions: [],
-    attackablePositions: [],
-    phase: 'select',
+    roundNumber,
+    attackerTactic: atkTactic,
+    defenderTactic: defTactic,
+    attackerDamage: atkResult.damage,
+    defenderDamage: defResult.damage,
+    attackerTroopLoss: atkResult.troopLoss,
+    defenderTroopLoss: defResult.troopLoss,
+    narrative,
   }
 }
 
-// ── 헬퍼 ──
+/** 피해를 참가자들에게 균등 분배 */
+function distributeParticipantDamage(targets: BattleParticipant[], totalDamage: number, totalTroopLoss: number) {
+  if (targets.length === 0) return
 
-function getUnitsInRange(
-  grid: BattleTile[][],
-  center: { x: number; y: number },
-  range: number,
-  factionId: string,
-  allies: boolean,
-): BattleUnit[] {
-  const units: BattleUnit[] = []
-  for (let dy = -range; dy <= range; dy++) {
-    for (let dx = -range; dx <= range; dx++) {
-      if (Math.abs(dx) + Math.abs(dy) > range) continue
-      const nx = center.x + dx
-      const ny = center.y + dy
-      if (ny < 0 || ny >= grid.length || nx < 0 || nx >= grid[0].length) continue
-      const unit = grid[ny][nx].unit
-      if (!unit) continue
-      if (allies && unit.factionId === factionId) units.push(unit)
-      if (!allies && unit.factionId !== factionId) units.push(unit)
-    }
+  const perUnit = Math.ceil(totalDamage / targets.length)
+  const perTroop = Math.ceil(totalTroopLoss / targets.length)
+
+  for (const t of targets) {
+    if (t.isDefeated) continue
+    t.character.hp = Math.max(0, t.character.hp - perUnit)
+    t.troops = Math.max(0, t.troops - perTroop)
   }
-  return units
 }
 
-function getAllUnitsOfFaction(grid: BattleTile[][], factionId: string): BattleUnit[] {
-  const units: BattleUnit[] = []
-  for (const row of grid) for (const t of row) if (t.unit?.factionId === factionId) units.push(t.unit)
-  return units
-}
-
-function findUnitPos(grid: BattleTile[][], unit: BattleUnit): Position | null {
-  for (const row of grid) {
-    for (const t of row) {
-      if (t.unit === unit) return { x: t.x, y: t.y }
-    }
-  }
-  return null
+/** 병과별 전술 위력 보정 조회 */
+export function getTacticClassBonus(unitClass: UnitClass, tactic: TacticType): number {
+  return CLASS_TACTIC_BONUS[unitClass]?.[tactic] ?? 0
 }

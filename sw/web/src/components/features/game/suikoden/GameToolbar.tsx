@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useState, useRef, useEffect } from 'react'
-import type { GameState, Territory, TerritoryId, Position } from '@/lib/game/suikoden/types'
+import { useState, useRef, useEffect } from 'react'
+import type { GameState, Territory } from '@/lib/game/suikoden/types'
 import { BUILDINGS, CLASS_INFO } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
 
@@ -10,18 +10,16 @@ interface Props {
   territory: Territory
   selectedCharId: string | null
   onSelectChar: (id: string | null) => void
-  onPatrol: () => void
   onIdle: () => void
   onRecruit: () => void
   onToggleAutoAssign: () => void
   onDetailChar: (id: string) => void
-  onFocusBuilding: (pos: Position) => void
 }
 
 export default function GameToolbar({
   state, territory, selectedCharId,
-  onSelectChar, onPatrol, onIdle, onRecruit,
-  onToggleAutoAssign, onDetailChar, onFocusBuilding,
+  onSelectChar, onIdle, onRecruit,
+  onToggleAutoAssign, onDetailChar,
 }: Props) {
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
   const selectedChar = selectedCharId ? playerFaction.members.find(m => m.id === selectedCharId) : null
@@ -32,7 +30,6 @@ export default function GameToolbar({
   const charRef = useRef<HTMLDivElement>(null)
   const facilityRef = useRef<HTMLDivElement>(null)
 
-  // 외부 클릭으로 드롭다운 닫기
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (charRef.current && !charRef.current.contains(e.target as Node)) setCharDropdown(false)
@@ -42,27 +39,28 @@ export default function GameToolbar({
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  // 건물 목록 (현 영토)
-  const builtFacilities = territory.map.grid.flatMap(row =>
-    row.filter(t => t.building).map(t => ({
-      tile: t,
-      def: BUILDINGS.find(b => b.id === t.building?.defId),
-      worker: state.placements.find(p =>
-        p.territoryId === territory.id && p.task === 'working' &&
-        Math.abs(p.x - t.x) + Math.abs(p.y - t.y) <= 1
-      ),
+  // 건물 카드 기반 시설 목록
+  const builtFacilities = territory.buildingCards
+    .filter(c => !c.isConstructing)
+    .map(c => ({
+      card: c,
+      def: BUILDINGS.find(b => b.id === c.defId),
+      worker: c.assigneeId ? playerFaction.members.find(m => m.id === c.assigneeId) : null,
     }))
-  ).filter(f => f.def)
+    .filter(f => f.def)
 
   // 영토 자원 수입 요약
   const dailyIncome = { gold: 2, food: 2, knowledge: 0, material: 0 }
-  for (const bld of territory.buildings) {
-    if (bld.turnsLeft > 0) continue
-    const e = bld.def.effect
-    if (e.goldPerTurn) dailyIncome.gold += Math.floor(e.goldPerTurn / 24)
-    if (e.foodPerTurn) dailyIncome.food += Math.floor(e.foodPerTurn / 24)
-    if (e.knowledgePerTurn) dailyIncome.knowledge += Math.floor(e.knowledgePerTurn / 24)
-    if (e.materialPerTurn) dailyIncome.material += Math.floor(e.materialPerTurn / 24)
+  for (const card of territory.buildingCards) {
+    if (card.isConstructing) continue
+    const bDef = BUILDINGS.find(b => b.id === card.defId)
+    if (!bDef) continue
+    const e = bDef.effect
+    const mul = card.assigneeId ? 1.5 : 1
+    if (e.goldPerTurn) dailyIncome.gold += Math.floor(e.goldPerTurn / 24 * mul)
+    if (e.foodPerTurn) dailyIncome.food += Math.floor(e.foodPerTurn / 24 * mul)
+    if (e.knowledgePerTurn) dailyIncome.knowledge += Math.floor(e.knowledgePerTurn / 24 * mul)
+    if (e.materialPerTurn) dailyIncome.material += Math.floor(e.materialPerTurn / 24 * mul)
   }
 
   return (
@@ -127,25 +125,20 @@ export default function GameToolbar({
             {builtFacilities.length === 0 ? (
               <div className="px-3 py-2 text-stone-500">건설된 시설 없음</div>
             ) : (
-              builtFacilities.map((f, i) => {
-                const workerChar = f.worker ? playerFaction.members.find(m => m.id === f.worker!.characterId) : null
-                return (
-                  <button
-                    key={i}
-                    onClick={() => { onFocusBuilding({ x: f.tile.x, y: f.tile.y }); setFacilityDropdown(false) }}
-                    className="w-full flex items-center gap-2 px-3 py-1.5 hover:bg-stone-700 transition-colors"
-                  >
-                    <span>{f.def!.icon}</span>
-                    <span className="flex-1 text-left text-stone-200">{f.def!.name}</span>
-                    {workerChar ? (
-                      <span className="text-[9px] text-green-400">{workerChar.nickname}</span>
-                    ) : (
-                      <span className="text-[9px] text-stone-600">무인</span>
-                    )}
-                    <span className="text-[9px] text-stone-500">({f.tile.x},{f.tile.y})</span>
-                  </button>
-                )
-              })
+              builtFacilities.map((f, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 px-3 py-1.5 hover:bg-stone-700 transition-colors"
+                >
+                  <span>{f.def!.icon}</span>
+                  <span className="flex-1 text-left text-stone-200">{f.def!.name}</span>
+                  {f.worker ? (
+                    <span className="text-[9px] text-green-400">{f.worker.nickname}</span>
+                  ) : (
+                    <span className="text-[9px] text-stone-600">무인</span>
+                  )}
+                </div>
+              ))
             )}
           </div>
         )}
@@ -156,11 +149,6 @@ export default function GameToolbar({
 
       {/* 빠른 명령 버튼 */}
       <div className="flex items-center gap-1">
-        <ToolButton
-          icon="👁️" label="순찰"
-          disabled={!selectedChar || selectedPlacement?.task !== 'idle'}
-          onClick={onPatrol}
-        />
         <ToolButton
           icon="💤" label="대기"
           disabled={!selectedChar || selectedPlacement?.task === 'idle'}
@@ -190,7 +178,7 @@ export default function GameToolbar({
       <div className="flex items-center gap-3 text-[10px] text-stone-400">
         <span title="인구">🏘️ {territory.population.toLocaleString()}</span>
         <span title="민심" className={territory.morale >= 50 ? 'text-green-400' : 'text-red-400'}>
-          {territory.morale >= 80 ? '😊' : territory.morale >= 50 ? '😐' : territory.morale >= 20 ? '😠' : '🔥'} {territory.morale}
+          {territory.morale >= 80 ? '😊' : territory.morale >= 50 ? '😐' : territory.morale >= 20 ? '😠' : '🔥'} {Math.round(territory.morale)}
         </span>
         <span title="일일 금 수입" className="text-amber-400">+🪙{dailyIncome.gold}</span>
         <span title="일일 식량 수입" className="text-green-400">+🌾{dailyIncome.food}</span>
@@ -201,7 +189,6 @@ export default function GameToolbar({
   )
 }
 
-// 도구바 버튼
 function ToolButton({ icon, label, disabled, active, onClick }: {
   icon: string; label: string; disabled?: boolean; active?: boolean; onClick: () => void
 }) {
@@ -226,7 +213,7 @@ function ToolButton({ icon, label, disabled, active, onClick }: {
 function taskLabel(task?: string): string {
   if (!task) return ''
   const labels: Record<string, string> = {
-    idle: '대기', moving: '이동 중', building: '건설 중', working: '근무 중', training: '훈련 중', patrolling: '순찰 중',
+    idle: '대기', building: '건설 중', working: '근무 중', training: '훈련 중',
   }
   return labels[task] ?? task
 }

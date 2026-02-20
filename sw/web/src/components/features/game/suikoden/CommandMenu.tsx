@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { GameState, TerritoryId, TaxRate } from '@/lib/game/suikoden/types'
-import { BUILDINGS, TERRITORIES } from '@/lib/game/suikoden/constants'
+import { BUILDINGS, BUILDING_CATEGORY, BUILDING_CATEGORY_INFO, TERRITORIES } from '@/lib/game/suikoden/constants'
 import { getRelation, isAllied } from '@/lib/game/suikoden/diplomacy'
 import CharacterPortrait from './CharacterPortrait'
 
@@ -10,7 +10,6 @@ interface Props {
   state: GameState
   selectedCharId: string | null
   viewingTerritoryId: TerritoryId
-  onPatrol: () => void
   onIdle: () => void
   onRecruit: () => void
   onTrain: () => void
@@ -19,7 +18,6 @@ interface Props {
   onAttack: (targetTerritoryId: TerritoryId) => void
   onClaim: (territoryId: TerritoryId) => void
   onDiplomacy: (action: string, targetFactionId: string) => void
-  onDemolish: (buildingDefId: string) => void
   onSetTaxRate: (rate: TaxRate) => void
   autoAssign: boolean
   onToggleAutoAssign: () => void
@@ -27,14 +25,19 @@ interface Props {
 
 type Tab = 'develop' | 'personnel' | 'military' | 'diplomacy'
 
-export default function CommandMenu({ state, selectedCharId, viewingTerritoryId, onPatrol, onIdle, onRecruit, onTrain, onReward, onPunish, onAttack, onClaim, onDiplomacy, onDemolish, onSetTaxRate, autoAssign, onToggleAutoAssign }: Props) {
+export default function CommandMenu({
+  state, selectedCharId, viewingTerritoryId,
+  onIdle, onRecruit, onTrain, onReward, onPunish,
+  onAttack, onClaim, onDiplomacy, onSetTaxRate,
+  autoAssign, onToggleAutoAssign,
+}: Props) {
   const [tab, setTab] = useState<Tab>('develop')
 
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
   const territory = playerFaction.territories.find(t => t.id === viewingTerritoryId)
   const selectedChar = selectedCharId ? playerFaction.members.find(m => m.id === selectedCharId) : null
   const selectedPlacement = selectedCharId ? state.placements.find(p => p.characterId === selectedCharId) : null
-  const hasTrainingGround = territory?.buildings.some(b => b.def.id === 'training' && b.turnsLeft === 0) ?? false
+  const hasTrainingGround = territory?.buildingCards.some(c => c.defId === 'training' && !c.isConstructing) ?? false
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: 'develop', label: '개발', icon: '🏗️' },
@@ -43,7 +46,6 @@ export default function CommandMenu({ state, selectedCharId, viewingTerritoryId,
     { id: 'diplomacy', label: '외교', icon: '🤝' },
   ]
 
-  // 인접 영토 목록
   const neighbors = territory ? getNeighborInfo(state, territory.id) : []
 
   return (
@@ -72,7 +74,6 @@ export default function CommandMenu({ state, selectedCharId, viewingTerritoryId,
               <div className="text-xs font-bold text-stone-200 truncate">{selectedChar.nickname}</div>
               <div className="text-[10px] text-stone-500">
                 {taskLabel(selectedPlacement.task)}
-                {selectedPlacement.task === 'building' && ` · ${BUILDINGS.find(b => b.id === selectedPlacement.taskTargetBuildingDefId)?.name ?? ''}`}
               </div>
             </div>
             {selectedPlacement.task !== 'idle' && (
@@ -109,36 +110,22 @@ export default function CommandMenu({ state, selectedCharId, viewingTerritoryId,
             )}
 
             <p className="text-[10px] text-stone-500">
-              {!selectedChar
-                ? '캐릭터를 선택한 뒤 맵에서 우클릭으로 건설한다.'
-                : '빈 타일을 우클릭 → 건설 메뉴에서 건물을 선택한다.'}
+              건물 그리드에서 + 버튼으로 건설한다. 인물을 선택한 뒤 건물 카드에서 배치/해제한다.
             </p>
-            {/* 건물 목록 */}
+
+            {/* 건물 현황 요약 */}
             {territory && (
               <div className="space-y-0.5">
-                {BUILDINGS.map(b => {
-                  const exists = territory.buildings.some(tb => tb.def.id === b.id)
-                  const affordable = playerFaction.resources.gold >= b.costGold && playerFaction.resources.material >= b.costMaterial
+                {Object.entries(BUILDING_CATEGORY_INFO).map(([catId, catInfo]) => {
+                  const catCards = territory.buildingCards.filter(c => BUILDING_CATEGORY[c.defId] === catId)
+                  if (catCards.length === 0) return null
                   return (
-                    <div
-                      key={b.id}
-                      className={`flex items-center justify-between px-2 py-1 text-[10px] rounded ${exists ? '' : !affordable ? 'opacity-50' : 'text-stone-300'}`}
-                    >
-                      <span className={exists ? 'text-stone-500' : ''}>{b.icon} {b.name}</span>
-                      {exists ? (
-                        <button
-                          onClick={() => onDemolish(b.id)}
-                          className="text-red-400 hover:text-red-300 text-[9px]"
-                          title="철거"
-                        >
-                          🗑️ 철거
-                        </button>
-                      ) : (
-                        <span className="text-stone-500">
-                          {b.costGold > 0 && `🪙${b.costGold}`}
-                          {b.costMaterial > 0 && ` 🪵${b.costMaterial}`}
-                        </span>
-                      )}
+                    <div key={catId} className="flex items-center gap-2 text-[10px]">
+                      <span style={{ color: catInfo.color }}>{catInfo.icon} {catInfo.name}</span>
+                      <span className="text-stone-500">{catCards.length}동</span>
+                      <span className="text-stone-600">
+                        ({catCards.filter(c => c.isConstructing).length} 건설 중)
+                      </span>
                     </div>
                   )
                 })}
@@ -168,15 +155,12 @@ export default function CommandMenu({ state, selectedCharId, viewingTerritoryId,
             </button>
             {selectedChar && selectedPlacement?.task === 'idle' && (
               <div className="space-y-1">
-                <button onClick={onPatrol} className="w-full py-1.5 text-xs text-stone-400 bg-stone-700 rounded hover:bg-stone-600">
-                  👁️ 순찰
-                </button>
                 {hasTrainingGround && (
                   <button onClick={onTrain} className="w-full py-1.5 text-xs text-stone-400 bg-stone-700 rounded hover:bg-stone-600">
                     🎯 훈련
                   </button>
                 )}
-                <p className="text-[10px] text-stone-600">건물 타일을 우클릭하면 근무 배치 가능</p>
+                <p className="text-[10px] text-stone-600">건물 그리드에서 직접 배치 가능</p>
               </div>
             )}
             {selectedChar && (
@@ -314,7 +298,7 @@ export default function CommandMenu({ state, selectedCharId, viewingTerritoryId,
 
 function taskLabel(task: string): string {
   const labels: Record<string, string> = {
-    idle: '대기', moving: '이동 중', building: '건설 중', working: '근무 중', training: '훈련 중', patrolling: '순찰 중',
+    idle: '대기', building: '건설 중', working: '근무 중', training: '훈련 중',
   }
   return labels[task] ?? task
 }
@@ -327,4 +311,3 @@ function getNeighborInfo(state: GameState, territoryId: TerritoryId) {
     return { id: nId as TerritoryId, name: TERRITORIES.find(t => t.id === nId)?.name ?? nId, owner }
   })
 }
-

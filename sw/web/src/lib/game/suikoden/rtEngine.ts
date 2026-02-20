@@ -1,12 +1,9 @@
 // 천도 — 실시간 게임 엔진
 
 import type {
-  GameState, GameTime, CharacterPlacement, ConstructionSite,
-  Position, Season, TerritoryId, Terrain, TaxRate,
+  GameState, GameTime, Season, TerritoryId, TaxRate, BuildingCard,
 } from './types'
-import { RT, TERRAIN_MOVE_TICKS, BUILDINGS, TERRITORIES, DIFFICULTY_CONFIG } from './constants'
-import { findPath } from './pathfinding'
-import { generateTerritoryMap, addWallsToMap } from './mapGenerator'
+import { RT, BUILDINGS, TERRITORIES, DIFFICULTY_CONFIG } from './constants'
 import { evaluateAIDecisions, assignIdleCharactersForFaction } from './aiRealtime'
 import { checkSeasonEvents } from './events'
 
@@ -18,23 +15,20 @@ export function processTick(state: GameState): GameState {
   // 1. 시간 진행
   s = advanceTime(s)
 
-  // 2. 캐릭터 이동
-  s = moveCharacters(s)
-
-  // 3. 건설 진행
+  // 2. 건설 진행
   s = updateConstructions(s)
 
-  // 4. 자원 생산 (매 24틱 = 1일)
+  // 3. 자원 생산 (매 24틱 = 1일)
   if (s.tickCount % RT.RESOURCE_INTERVAL === 0) {
     s = generateResources(s)
   }
 
-  // 5. 식량 소비 (매 720틱 = 30일)
+  // 4. 식량 소비 (매 720틱 = 30일)
   if (s.tickCount % RT.FOOD_CONSUME_INTERVAL === 0) {
     s = consumeFood(s)
   }
 
-  // 5.5. 훈련 진행
+  // 5. 훈련 진행
   s = processTraining(s)
 
   // 6. AI 평가 (매 120틱 = 5일)
@@ -60,7 +54,12 @@ export function processTick(state: GameState): GameState {
     s = updatePopulation(s)
   }
 
-  // 9. 이벤트 체크
+  // 9. maxBuildings 갱신 (매일)
+  if (s.tickCount % RT.RESOURCE_INTERVAL === 0) {
+    s = updateMaxBuildings(s)
+  }
+
+  // 10. 이벤트 체크
   s = checkEvents(s)
 
   return s
@@ -94,125 +93,81 @@ function getSeasonForMonth(month: number): Season {
   return 'winter'
 }
 
-// ── 캐릭터 이동 ──
-
-function moveCharacters(state: GameState): GameState {
-  const placements = state.placements.map(p => {
-    if (p.task !== 'moving' || p.path.length === 0) return p
-
-    const next = p.path[0]
-    const territory = findTerritoryForPlacement(state, p)
-    if (!territory) return p
-
-    const terrain = territory.map.grid[next.y]?.[next.x]?.terrain ?? 'plain'
-    const cost = TERRAIN_MOVE_TICKS[terrain]
-
-    const newProgress = p.taskProgress + 1 / cost
-    if (newProgress >= 1) {
-      const newPath = p.path.slice(1)
-      if (newPath.length === 0) {
-        // 도착: 예약된 태스크 전환
-        if (p.taskTargetBuildingDefId) {
-          return { ...p, x: next.x, y: next.y, path: [], taskProgress: 0, task: 'building' as const }
-        }
-        if (p.task === 'moving' && p.taskTargetPos) {
-          // 연병장 근처 도착이면 training
-          const nearTraining = territory!.map.grid.flatMap(r => r).some(t =>
-            t.building?.defId === 'training' &&
-            Math.abs(t.x - next.x) + Math.abs(t.y - next.y) <= 1
-          )
-          if (nearTraining && !p.taskTargetBuildingDefId) {
-            return { ...p, x: next.x, y: next.y, path: [], taskProgress: 0, task: 'training' as const }
-          }
-          return { ...p, x: next.x, y: next.y, path: [], taskProgress: 0, task: 'working' as const }
-        }
-        return { ...p, x: next.x, y: next.y, path: [], taskProgress: 0, task: 'idle' as const }
-      }
-      return { ...p, x: next.x, y: next.y, path: newPath, taskProgress: 0 }
-    }
-    return { ...p, taskProgress: newProgress }
-  })
-  return { ...state, placements }
-}
-
-function findTerritoryForPlacement(state: GameState, p: CharacterPlacement) {
-  for (const f of state.factions) {
-    const t = f.territories.find(t => t.id === p.territoryId)
-    if (t) return t
-  }
-  return null
-}
-
 // ── 건설 진행 ──
 
 function updateConstructions(state: GameState): GameState {
-  const completed: string[] = []
-  const constructions = state.constructions.map(c => {
-    // 빌더가 건설 위치에 있는지 확인
-    const builder = state.placements.find(p => p.characterId === c.workerId && p.task === 'building')
-    if (!builder) return c
+  let changed = false
+  const log = [...state.log]
 
-    const newProgress = c.progress + 1 / c.totalTicks
-    if (newProgress >= 1) {
-      completed.push(c.id)
-      return { ...c, progress: 1 }
-    }
-    return { ...c, progress: newProgress }
-  })
+  const factions = state.factions.map(f => ({
+    ...f,
+    territories: f.territories.map(t => {
+      const cards = t.buildingCards.map(card => {
+        if (!card.isConstructing || !card.constructionWorkerId) return card
 
-  if (completed.length === 0) return { ...state, constructions }
+        // 빌더가 building 상태인지 확인
+        const builder = state.placements.find(
+          p => p.characterId === card.constructionWorkerId && p.task === 'building'
+        )
+        if (!builder) return card
 
-  // 완성된 건설 처리
-  let s = { ...state, constructions: constructions.filter(c => !completed.includes(c.id)) }
-  const log = [...s.log]
+        const bDef = BUILDINGS.find(b => b.id === card.defId)
+        if (!bDef) return card
 
-  for (const cId of completed) {
-    const site = constructions.find(c => c.id === cId)!
-    const bDef = BUILDINGS.find(b => b.id === site.buildingDefId)
-    if (!bDef) continue
+        const totalTicks = bDef.buildTurns * RT.CONSTRUCTION_TICKS_PER_TURN
+        const newProgress = card.constructionProgress + 1 / totalTicks
 
-    // 건물 인스턴스 배치
-    s = {
-      ...s,
-      factions: s.factions.map(f => ({
-        ...f,
-        territories: f.territories.map(t => {
-          if (t.id !== site.territoryId) return t
-          const newBuilding = { def: bDef, assigneeId: null, turnsLeft: 0 }
-          let map = t.map
-          // 성벽이면 맵에 반영
-          if (bDef.id === 'walls') {
-            map = addWallsToMap(map)
+        if (newProgress >= 1) {
+          changed = true
+          log.push(`${bDef.name} 건설 완료! (명성 +2)`)
+          // 건설 완료 → 건설자가 자동으로 근무자가 됨
+          return {
+            ...card,
+            isConstructing: false,
+            constructionProgress: 1,
+            assigneeId: card.constructionWorkerId, // 자동 근무 전환
+            constructionWorkerId: null,
           }
-          // 건물 아이콘을 맵 타일에 배치
-          const grid = map.grid.map(row => row.map(tile => {
-            if (tile.x === site.x && tile.y === site.y) {
-              return { ...tile, building: { defId: bDef.id, level: 1, hp: 100, maxHp: 100, assigneeId: null, turnsLeft: 0 } }
-            }
-            return tile
-          }))
-          return { ...t, buildings: [...t.buildings, newBuilding], map: { ...map, grid } }
-        }),
-      })),
-    }
+        }
+        return { ...card, constructionProgress: newProgress }
+      })
+      return { ...t, buildingCards: cards }
+    }),
+  }))
 
-    // 빌더를 idle로 전환
-    s = {
-      ...s,
-      placements: s.placements.map(p =>
-        p.characterId === site.workerId && p.task === 'building'
-          ? { ...p, task: 'idle' as const, taskProgress: 0, taskTargetBuildingDefId: undefined }
-          : p
-      ),
-    }
-
-    log.push(`${bDef.name} 건설 완료! (명성 +2)`)
-
-    // 명성 +2 (건설 완료)
-    s = addFame(s, site.workerId, 2)
+  if (!changed) {
+    // progress만 갱신
+    return { ...state, factions }
   }
 
-  return { ...s, log }
+  // 건설 완료된 건물의 빌더를 working으로 전환
+  let placements = state.placements
+  for (const f of factions) {
+    for (const t of f.territories) {
+      for (const card of t.buildingCards) {
+        if (!card.isConstructing && card.assigneeId) {
+          // 이전에 building이었던 캐릭터를 working으로 전환
+          const oldCard = state.factions
+            .flatMap(ff => ff.territories)
+            .find(tt => tt.id === t.id)
+            ?.buildingCards.find(c => c.instanceId === card.instanceId)
+
+          if (oldCard?.isConstructing && !card.isConstructing) {
+            placements = placements.map(p =>
+              p.characterId === card.assigneeId && p.task === 'building'
+                ? { ...p, task: 'working' as const, taskProgress: 0, assignedBuildingId: card.instanceId }
+                : p
+            )
+          }
+        }
+      }
+    }
+  }
+
+  // 명성 추가
+  let s = { ...state, factions, placements, log }
+  // TODO: addFame 로직 간소화
+  return s
 }
 
 // ── 자원 생산 ──
@@ -223,21 +178,18 @@ function generateResources(state: GameState): GameState {
   const factions = state.factions.map(f => {
     const resources = { ...f.resources }
     for (const territory of f.territories) {
-      // 기본 수입 (영토당, 세율 보정)
+      // 기본 수입
       const taxMul = TAX_MULTIPLIER[territory.taxRate ?? 'normal']
       resources.gold += Math.floor(2 * taxMul)
       resources.food += 2
 
-      for (const bld of territory.buildings) {
-        if (bld.turnsLeft > 0) continue
-        const e = bld.def.effect
-
-        // 근무자 보너스: 해당 건물에 근무 중인 캐릭터가 있으면 1.5배
-        const hasWorker = state.placements.some(p =>
-          p.task === 'working' && p.territoryId === territory.id &&
-          isNearBuilding(p, territory, bld.def.id)
-        )
-        const mul = hasWorker ? 1.5 : 1
+      // 건물 생산
+      for (const card of territory.buildingCards) {
+        if (card.isConstructing) continue
+        const bDef = BUILDINGS.find(b => b.id === card.defId)
+        if (!bDef) continue
+        const e = bDef.effect
+        const mul = card.assigneeId ? 1.5 : 1
 
         if (e.goldPerTurn) resources.gold += Math.floor(e.goldPerTurn / 24 * mul)
         if (e.foodPerTurn) resources.food += Math.floor(e.foodPerTurn / 24 * mul)
@@ -249,20 +201,6 @@ function generateResources(state: GameState): GameState {
     return { ...f, resources }
   })
   return { ...state, factions }
-}
-
-function isNearBuilding(
-  p: CharacterPlacement,
-  territory: { map: { grid: { x: number; y: number; building: { defId: string } | null }[][] } },
-  buildingDefId: string,
-): boolean {
-  for (const [dx, dy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) {
-    const nx = p.x + dx
-    const ny = p.y + dy
-    const tile = territory.map.grid[ny]?.[nx]
-    if (tile?.building?.defId === buildingDefId) return true
-  }
-  return false
 }
 
 // ── 식량 소비 ──
@@ -290,7 +228,6 @@ function consumeFood(state: GameState): GameState {
 // ── 이벤트 체크 ──
 
 function checkEvents(state: GameState): GameState {
-  // 승리 체크
   const activeFactions = state.factions.filter(f => f.territories.length > 0)
   if (activeFactions.length === 1) {
     return {
@@ -301,40 +238,17 @@ function checkEvents(state: GameState): GameState {
       speed: 0,
     }
   }
-
-  // 계절/랜덤 이벤트
   return checkSeasonEvents(state)
 }
 
 // ── 명령 함수 ──
-
-/** 캐릭터에게 이동 명령 */
-export function commandMove(state: GameState, charId: string, targetPos: Position): GameState {
-  const placement = state.placements.find(p => p.characterId === charId)
-  if (!placement) return state
-
-  const territory = findTerritoryForPlacement(state, placement)
-  if (!territory) return state
-
-  const path = findPath({ x: placement.x, y: placement.y }, targetPos, territory.map)
-  if (path.length === 0) return state
-
-  return {
-    ...state,
-    placements: state.placements.map(p =>
-      p.characterId === charId
-        ? { ...p, task: 'moving' as const, path, taskProgress: 0, taskTargetBuildingDefId: undefined, taskTargetPos: undefined }
-        : p
-    ),
-  }
-}
 
 /** 캐릭터에게 건설 명령 */
 export function commandBuild(
   state: GameState,
   charId: string,
   buildingDefId: string,
-  targetPos: Position,
+  territoryId: TerritoryId,
 ): GameState {
   const placement = state.placements.find(p => p.characterId === charId)
   if (!placement) return state
@@ -342,15 +256,14 @@ export function commandBuild(
   const bDef = BUILDINGS.find(b => b.id === buildingDefId)
   if (!bDef) return state
 
-  // 자원 차감
   const faction = state.factions.find(f => f.id === placement.factionId)
   if (!faction) return state
   if (faction.resources.gold < bDef.costGold || faction.resources.material < bDef.costMaterial) return state
 
-  const territory = findTerritoryForPlacement(state, placement)
+  // 슬롯 체크
+  const territory = faction.territories.find(t => t.id === territoryId)
   if (!territory) return state
-
-  const path = findPath({ x: placement.x, y: placement.y }, targetPos, territory.map)
+  if (territory.buildingCards.length >= territory.maxBuildings) return state
 
   // 자원 차감
   const factions = state.factions.map(f =>
@@ -359,99 +272,93 @@ export function commandBuild(
       : f
   )
 
-  // ConstructionSite 생성
-  const construction: ConstructionSite = {
-    id: `cs_${Date.now()}_${charId}`,
-    buildingDefId,
-    workerId: charId,
-    territoryId: placement.territoryId,
-    x: targetPos.x,
-    y: targetPos.y,
-    progress: 0,
-    totalTicks: bDef.buildTurns * RT.CONSTRUCTION_TICKS_PER_TURN,
+  // BuildingCard 생성
+  const newCard: BuildingCard = {
+    instanceId: `bc_${Date.now()}_${charId}`,
+    defId: buildingDefId,
+    assigneeId: null,
+    isConstructing: true,
+    constructionProgress: 0,
+    constructionWorkerId: charId,
   }
 
-  // 이미 위치에 있으면 바로 건설 시작
-  const isAtTarget = placement.x === targetPos.x && placement.y === targetPos.y
-  const isAdjacent = Math.abs(placement.x - targetPos.x) + Math.abs(placement.y - targetPos.y) <= 1
+  // 영토에 카드 추가
+  const updatedFactions = factions.map(f => ({
+    ...f,
+    territories: f.territories.map(t =>
+      t.id === territoryId
+        ? { ...t, buildingCards: [...t.buildingCards, newCard] }
+        : t
+    ),
+  }))
 
   return {
     ...state,
-    factions,
-    constructions: [...state.constructions, construction],
+    factions: updatedFactions,
     placements: state.placements.map(p =>
       p.characterId === charId
-        ? {
-            ...p,
-            task: (isAtTarget || isAdjacent) ? 'building' as const : 'moving' as const,
-            path: (isAtTarget || isAdjacent) ? [] : path,
-            taskProgress: 0,
-            taskTargetBuildingDefId: buildingDefId,
-            taskTargetPos: targetPos,
-          }
+        ? { ...p, task: 'building' as const, taskProgress: 0, assignedBuildingId: newCard.instanceId }
         : p
     ),
     log: [...state.log, `${bDef.name} 건설 명령`],
   }
 }
 
-/** 캐릭터에게 근무 명령 */
-export function commandWork(state: GameState, charId: string, buildingPos: Position): GameState {
+/** 캐릭터를 건물에 배치 */
+export function commandAssign(state: GameState, charId: string, buildingInstanceId: string): GameState {
   const placement = state.placements.find(p => p.characterId === charId)
   if (!placement) return state
 
-  const territory = findTerritoryForPlacement(state, placement)
-  if (!territory) return state
+  // 해당 건물 찾기
+  let found = false
+  const factions = state.factions.map(f => ({
+    ...f,
+    territories: f.territories.map(t => ({
+      ...t,
+      buildingCards: t.buildingCards.map(card => {
+        if (card.instanceId === buildingInstanceId && !card.isConstructing && !card.assigneeId) {
+          found = true
+          return { ...card, assigneeId: charId }
+        }
+        return card
+      }),
+    })),
+  }))
 
-  // 인접 타일 중 빈 곳으로 이동
-  const path = findPath({ x: placement.x, y: placement.y }, buildingPos, territory.map)
-  const isNear = Math.abs(placement.x - buildingPos.x) + Math.abs(placement.y - buildingPos.y) <= 1
+  if (!found) return state
 
   return {
     ...state,
+    factions,
     placements: state.placements.map(p =>
       p.characterId === charId
-        ? {
-            ...p,
-            task: isNear ? 'working' as const : 'moving' as const,
-            path: isNear ? [] : path,
-            taskProgress: 0,
-            taskTargetBuildingDefId: undefined,
-            taskTargetPos: buildingPos,
-          }
+        ? { ...p, task: 'working' as const, taskProgress: 0, assignedBuildingId: buildingInstanceId }
         : p
     ),
   }
 }
 
-/** 캐릭터 순찰 명령 */
-export function commandPatrol(state: GameState, charId: string): GameState {
+/** 캐릭터를 건물에서 해제 */
+export function commandUnassign(state: GameState, charId: string): GameState {
   const placement = state.placements.find(p => p.characterId === charId)
   if (!placement) return state
 
-  const territory = findTerritoryForPlacement(state, placement)
-  if (!territory) return state
-
-  // town 타일 주변을 순찰 경로로 생성
-  const townTiles: Position[] = []
-  for (const row of territory.map.grid) {
-    for (const tile of row) {
-      if (tile.terrain === 'town') townTiles.push({ x: tile.x, y: tile.y })
-    }
-  }
-
-  if (townTiles.length === 0) return state
-
-  // 순찰 경로: 현재 위치 → town 순회
-  const patrolTarget = townTiles[Math.floor(Math.random() * townTiles.length)]
-  const path = findPath({ x: placement.x, y: placement.y }, patrolTarget, territory.map)
-  if (path.length === 0) return state
+  const factions = state.factions.map(f => ({
+    ...f,
+    territories: f.territories.map(t => ({
+      ...t,
+      buildingCards: t.buildingCards.map(card =>
+        card.assigneeId === charId ? { ...card, assigneeId: null } : card
+      ),
+    })),
+  }))
 
   return {
     ...state,
+    factions,
     placements: state.placements.map(p =>
       p.characterId === charId
-        ? { ...p, task: 'patrolling' as const, path, taskProgress: 0 }
+        ? { ...p, task: 'idle' as const, taskProgress: 0, assignedBuildingId: null }
         : p
     ),
   }
@@ -459,14 +366,7 @@ export function commandPatrol(state: GameState, charId: string): GameState {
 
 /** 캐릭터를 idle로 전환 */
 export function commandIdle(state: GameState, charId: string): GameState {
-  return {
-    ...state,
-    placements: state.placements.map(p =>
-      p.characterId === charId
-        ? { ...p, task: 'idle' as const, path: [], taskProgress: 0, taskTargetBuildingDefId: undefined, taskTargetPos: undefined }
-        : p
-    ),
-  }
+  return commandUnassign(state, charId)
 }
 
 /** 캐릭터 훈련 명령 (연병장 필요) */
@@ -474,34 +374,23 @@ export function commandTrain(state: GameState, charId: string): GameState {
   const placement = state.placements.find(p => p.characterId === charId)
   if (!placement) return state
 
-  // 해당 영토에 연병장이 있는지 확인
-  const territory = findTerritoryForPlacement(state, placement)
+  // 해당 영토에 연병장 건물 카드가 있는지 확인
+  const territory = state.factions
+    .flatMap(f => f.territories)
+    .find(t => t.id === placement.territoryId)
   if (!territory) return state
-  const hasTrainingGround = territory.buildings.some(b => b.def.id === 'training' && b.turnsLeft === 0)
-  if (!hasTrainingGround) return state
 
-  // 연병장 타일 찾기
-  const trainingTile = territory.map.grid.flatMap(row => row).find(t => t.building?.defId === 'training')
-  if (!trainingTile) return state
-
-  const path = findPath({ x: placement.x, y: placement.y }, { x: trainingTile.x, y: trainingTile.y }, territory.map)
-  const isNear = Math.abs(placement.x - trainingTile.x) + Math.abs(placement.y - trainingTile.y) <= 1
+  const trainingCard = territory.buildingCards.find(c => c.defId === 'training' && !c.isConstructing)
+  if (!trainingCard) return state
 
   return {
     ...state,
     placements: state.placements.map(p =>
       p.characterId === charId
-        ? {
-            ...p,
-            task: isNear ? 'training' as const : 'moving' as const,
-            path: isNear ? [] : path,
-            taskProgress: 0,
-            taskTargetBuildingDefId: undefined,
-            taskTargetPos: { x: trainingTile.x, y: trainingTile.y },
-          }
+        ? { ...p, task: 'training' as const, taskProgress: 0, assignedBuildingId: trainingCard.instanceId }
         : p
     ),
-    log: [...state.log, `훈련 명령`],
+    log: [...state.log, '훈련 명령'],
   }
 }
 
@@ -531,7 +420,7 @@ export function commandReward(state: GameState, charId: string): GameState {
   }
 }
 
-/** 처벌 (충성도 하락 + 사기 하락, 반란 억제) */
+/** 처벌 */
 export function commandPunish(state: GameState, charId: string): GameState {
   const faction = state.factions.find(f => f.members.some(m => m.id === charId))
   if (!faction) return state
@@ -549,14 +438,14 @@ export function commandPunish(state: GameState, charId: string): GameState {
         ),
       }
     }),
-    log: [...state.log, `처벌`],
+    log: [...state.log, '처벌'],
   }
 }
 
-// ── 훈련 진행 (processTick에서 호출) ──
+// ── 훈련 진행 ──
 
 export function processTraining(state: GameState): GameState {
-  const TRAINING_TICK_INTERVAL = 720 // 30일마다 스탯 성장
+  const TRAINING_TICK_INTERVAL = 720
   if (state.tickCount % TRAINING_TICK_INTERVAL !== 0) return state
 
   let changed = false
@@ -567,7 +456,6 @@ export function processTraining(state: GameState): GameState {
 
       changed = true
       const stats = { ...m.stats }
-      // 훈련 시 power, skill, stamina 중 랜덤 1개 +1 (최대 99)
       const trainable: (keyof typeof stats)[] = ['power', 'skill', 'stamina']
       const target = trainable[Math.floor(Math.random() * trainable.length)]
       if (stats[target] < 99) stats[target] = stats[target] + 1
@@ -591,16 +479,25 @@ function updateMorale(state: GameState): GameState {
       let delta = TAX_MORALE[t.taxRate ?? 'normal']
 
       // 사원/극장 효과
-      for (const b of t.buildings) {
-        if (b.turnsLeft > 0) continue
-        if (b.def.effect.moralePerTurn) delta += b.def.effect.moralePerTurn / 24
+      for (const card of t.buildingCards) {
+        if (card.isConstructing) continue
+        const bDef = BUILDINGS.find(b => b.id === card.defId)
+        if (bDef?.effect.moralePerTurn) delta += bDef.effect.moralePerTurn / 24
       }
 
-      // 순찰 효과: 순찰 중인 캐릭터가 있으면 민심 +0.5/일
-      const hasPatrol = state.placements.some(p => p.territoryId === t.id && p.task === 'patrolling')
-      if (hasPatrol) delta += 0.5
+      // 캐릭터 virtue 기반 민심 보정 (순찰 대체)
+      const territoryPlacements = state.placements.filter(p => p.territoryId === t.id && p.factionId === f.id)
+      if (territoryPlacements.length > 0) {
+        const chars = territoryPlacements
+          .map(p => f.members.find(m => m.id === p.characterId))
+          .filter(Boolean)
+        if (chars.length > 0) {
+          const avgVirtue = chars.reduce((s, c) => s + (c!.stats.virtue ?? 0), 0) / chars.length
+          delta += avgVirtue * 0.05 // virtue 10이면 +0.5/일
+        }
+      }
 
-      // 식량 부족 시 민심 하락
+      // 식량 부족
       if (f.resources.food <= 0) delta -= 2
 
       const morale = Math.max(0, Math.min(100, t.morale + delta))
@@ -616,12 +513,11 @@ function updateMorale(state: GameState): GameState {
 function updatePopulation(state: GameState): GameState {
   const factions = state.factions.map(f => {
     const territories = f.territories.map(t => {
-      // 민심에 따른 인구 증감
       let growth = 0
-      if (t.morale >= 80) growth = Math.floor(t.population * 0.02)      // 2% 증가
-      else if (t.morale >= 50) growth = Math.floor(t.population * 0.005) // 0.5% 증가
-      else if (t.morale >= 20) growth = -Math.floor(t.population * 0.01) // 1% 감소
-      else growth = -Math.floor(t.population * 0.03)                     // 3% 감소 (폭동)
+      if (t.morale >= 80) growth = Math.floor(t.population * 0.02)
+      else if (t.morale >= 50) growth = Math.floor(t.population * 0.005)
+      else if (t.morale >= 20) growth = -Math.floor(t.population * 0.01)
+      else growth = -Math.floor(t.population * 0.03)
 
       const population = Math.max(100, t.population + growth)
       return { ...t, population }
@@ -631,60 +527,73 @@ function updatePopulation(state: GameState): GameState {
   return { ...state, factions }
 }
 
+// ── maxBuildings 갱신 ──
+
+function updateMaxBuildings(state: GameState): GameState {
+  const factions = state.factions.map(f => ({
+    ...f,
+    territories: f.territories.map(t => ({
+      ...t,
+      maxBuildings: Math.min(12, Math.floor(8 + t.population / 5000)),
+    })),
+  }))
+  return { ...state, factions }
+}
+
 // ── 경영 명령 ──
 
-/** 건물 철거 (자재 50% 회수) */
-export function commandDemolish(state: GameState, territoryId: TerritoryId, buildingDefId: string): GameState {
-  const bDef = BUILDINGS.find(b => b.id === buildingDefId)
-  if (!bDef) return state
+/** 건물 철거 */
+export function commandDemolish(state: GameState, territoryId: TerritoryId, buildingInstanceId: string): GameState {
+  let demolishedDefId: string | null = null
+  let demolishedAssigneeId: string | null = null
 
-  const materialReturn = Math.floor(bDef.costMaterial * 0.5)
-  const goldReturn = Math.floor(bDef.costGold * 0.3)
+  const factions = state.factions.map(f => ({
+    ...f,
+    territories: f.territories.map(t => {
+      if (t.id !== territoryId) return t
+      const card = t.buildingCards.find(c => c.instanceId === buildingInstanceId)
+      if (!card) return t
 
-  // 해당 건물에서 근무 중인 캐릭터 해제
-  const buildingTile = state.factions.flatMap(f => f.territories)
-    .find(t => t.id === territoryId)
-    ?.map.grid.flatMap(r => r).find(t => t.building?.defId === buildingDefId)
+      demolishedDefId = card.defId
+      demolishedAssigneeId = card.assigneeId ?? card.constructionWorkerId
+
+      return {
+        ...t,
+        buildingCards: t.buildingCards.filter(c => c.instanceId !== buildingInstanceId),
+      }
+    }),
+  }))
+
+  const bDef = demolishedDefId ? BUILDINGS.find(b => b.id === demolishedDefId) : null
+  const materialReturn = bDef ? Math.floor(bDef.costMaterial * 0.5) : 0
+  const goldReturn = bDef ? Math.floor(bDef.costGold * 0.3) : 0
+
+  // 자원 반환
+  const factionsWithReturn = factions.map(f =>
+    f.territories.some(t => t.id === territoryId)
+      ? { ...f, resources: { ...f.resources, material: f.resources.material + materialReturn, gold: f.resources.gold + goldReturn } }
+      : f
+  )
+
+  // 배치된 캐릭터 해제
+  const placements = demolishedAssigneeId
+    ? state.placements.map(p =>
+        p.characterId === demolishedAssigneeId
+          ? { ...p, task: 'idle' as const, taskProgress: 0, assignedBuildingId: null }
+          : p
+      )
+    : state.placements
 
   return {
     ...state,
-    factions: state.factions.map(f => ({
-      ...f,
-      resources: f.territories.some(t => t.id === territoryId)
-        ? { ...f.resources, material: f.resources.material + materialReturn, gold: f.resources.gold + goldReturn }
-        : f.resources,
-      territories: f.territories.map(t => {
-        if (t.id !== territoryId) return t
-        return {
-          ...t,
-          buildings: t.buildings.filter(b => b.def.id !== buildingDefId),
-          map: {
-            ...t.map,
-            grid: t.map.grid.map(row => row.map(tile =>
-              tile.building?.defId === buildingDefId
-                ? { ...tile, building: null }
-                : tile
-            )),
-          },
-        }
-      }),
-    })),
-    placements: buildingTile
-      ? state.placements.map(p =>
-          p.task === 'working' && p.territoryId === territoryId &&
-          Math.abs(p.x - buildingTile.x) + Math.abs(p.y - buildingTile.y) <= 1
-            ? { ...p, task: 'idle' as const, path: [], taskProgress: 0 }
-            : p
-        )
-      : state.placements,
-    log: [...state.log, `${bDef.name} 철거 (금+${goldReturn} 자재+${materialReturn})`],
+    factions: factionsWithReturn,
+    placements,
+    log: [...state.log, `${bDef?.name ?? '건물'} 철거 (금+${goldReturn} 자재+${materialReturn})`],
   }
 }
 
-/** 세율 조정 */
 // ── 명성 ──
 
-/** 캐릭터가 속한 세력의 명성을 증감. amount가 음수이면 감소. */
 export function addFame(state: GameState, charOrFactionId: string, amount: number): GameState {
   return {
     ...state,
@@ -697,6 +606,7 @@ export function addFame(state: GameState, charOrFactionId: string, amount: numbe
   }
 }
 
+/** 세율 조정 */
 export function commandSetTaxRate(state: GameState, territoryId: TerritoryId, taxRate: TaxRate): GameState {
   return {
     ...state,

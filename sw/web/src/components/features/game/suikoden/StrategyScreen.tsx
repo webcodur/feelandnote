@@ -1,17 +1,16 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef } from 'react'
-import type { GameState, GameSpeed, TerritoryId, Position } from '@/lib/game/suikoden/types'
+import type { GameState, GameSpeed, TerritoryId } from '@/lib/game/suikoden/types'
 import { RT, TERRITORIES, GRADE_FAME_REQ } from '@/lib/game/suikoden/constants'
 import { initBattle } from '@/lib/game/suikoden/engine'
 import type { TaxRate } from '@/lib/game/suikoden/types'
-import { processTick, commandMove, commandBuild, commandWork, commandPatrol, commandIdle, commandTrain, commandReward, commandPunish, commandDemolish, commandSetTaxRate } from '@/lib/game/suikoden/rtEngine'
+import { processTick, commandBuild, commandAssign, commandUnassign, commandIdle, commandTrain, commandReward, commandPunish, commandDemolish, commandSetTaxRate } from '@/lib/game/suikoden/rtEngine'
 import { getRegionForNationality } from '@/lib/game/suikoden/utils'
 import { commandAlliance, commandCeasefire, commandTribute, commandSurrender } from '@/lib/game/suikoden/diplomacy'
-import { generateTerritoryMap } from '@/lib/game/suikoden/mapGenerator'
 import GameHUD from './GameHUD'
 import GameToolbar from './GameToolbar'
-import TerritoryInteriorView from './TerritoryInteriorView'
+import BuildingCardGrid from './BuildingCardGrid'
 import WorldMapMini from './WorldMapMini'
 import CommandMenu from './CommandMenu'
 import CharacterDetailModal from './CharacterDetailModal'
@@ -27,7 +26,6 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
   const [detailCharacter, setDetailCharacter] = useState<string | null>(null)
   const [recruitResult, setRecruitResult] = useState<string | null>(null)
   const [showHelp, setShowHelp] = useState(state.tickCount === 0)
-  const [showMembers, setShowMembers] = useState(false)
 
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
   const viewingTerritory = playerFaction.territories.find(t => t.id === state.viewingTerritoryId)
@@ -47,64 +45,32 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
 
   // ── 영토 전환 ──
   const handleSelectTerritory = useCallback((tId: TerritoryId) => {
-    // 플레이어 영토면 직접 보기
     if (playerFaction.territories.some(t => t.id === tId)) {
       onUpdateState(s => ({ ...s, viewingTerritoryId: tId }))
     }
     onUpdateState(s => ({ ...s, selectedTerritoryId: tId }))
   }, [playerFaction, onUpdateState])
 
-  // ── 타일 클릭 (이동 명령) ──
-  const handleTileClick = useCallback((pos: Position) => {
-    if (!selectedCharId) return
-    const placement = state.placements.find(p => p.characterId === selectedCharId)
-    if (!placement || placement.factionId !== state.playerFactionId) return
-    onUpdateState(s => commandMove(s, selectedCharId, pos))
-  }, [selectedCharId, state, onUpdateState])
+  // ── 건설 명령 ──
+  const handleBuild = useCallback((buildingDefId: string) => {
+    if (!selectedCharId || !viewingTerritory) return
+    onUpdateState(s => commandBuild(s, selectedCharId, buildingDefId, viewingTerritory.id))
+  }, [selectedCharId, viewingTerritory, onUpdateState])
 
-  // ── 컨텍스트 메뉴 액션 디스패치 ──
-  const handleContextAction = useCallback((actionId: string, tilePos: Position) => {
-    if (actionId === 'move') {
-      if (!selectedCharId) return
-      onUpdateState(s => commandMove(s, selectedCharId, tilePos))
-    } else if (actionId.startsWith('build:')) {
-      if (!selectedCharId) return
-      const buildingId = actionId.replace('build:', '')
-      onUpdateState(s => commandBuild(s, selectedCharId, buildingId, tilePos))
-    } else if (actionId === 'work') {
-      if (!selectedCharId) return
-      onUpdateState(s => commandWork(s, selectedCharId, tilePos))
-    } else if (actionId === 'patrol') {
-      if (!selectedCharId) return
-      onUpdateState(s => commandPatrol(s, selectedCharId))
-    } else if (actionId.startsWith('idle:')) {
-      const charId = actionId.replace('idle:', '')
-      onUpdateState(s => commandIdle(s, charId))
-    } else if (actionId.startsWith('detail:')) {
-      const charId = actionId.replace('detail:', '')
-      setDetailCharacter(charId)
-    } else if (actionId.startsWith('select:')) {
-      const charId = actionId.replace('select:', '')
-      setSelectedCharId(charId)
-    }
-  }, [selectedCharId, onUpdateState])
+  // ── 배치 명령 ──
+  const handleAssign = useCallback((charId: string, buildingInstanceId: string) => {
+    onUpdateState(s => commandAssign(s, charId, buildingInstanceId))
+  }, [onUpdateState])
 
-  // ── 순찰 명령 ──
-  const handlePatrol = useCallback(() => {
-    if (!selectedCharId) return
-    onUpdateState(s => commandPatrol(s, selectedCharId))
-  }, [selectedCharId, onUpdateState])
+  // ── 해제 명령 ──
+  const handleUnassign = useCallback((charId: string) => {
+    onUpdateState(s => commandUnassign(s, charId))
+  }, [onUpdateState])
 
   // ── 자동 내정 토글 ──
   const handleToggleAutoAssign = useCallback(() => {
     onUpdateState(s => ({ ...s, autoAssign: !s.autoAssign }))
   }, [onUpdateState])
-
-  // ── 시설 포커스 (도구바에서 시설 클릭 시) ──
-  const handleFocusBuilding = useCallback((pos: Position) => {
-    // 해당 위치로 이동 명령 (선택된 캐릭터가 있으면)
-    // 없으면 단순 포커스 효과만 (추후 맵 스크롤 연동)
-  }, [])
 
   // ── 대기 명령 ──
   const handleIdle = useCallback(() => {
@@ -131,9 +97,9 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
   }, [selectedCharId, onUpdateState])
 
   // ── 철거 명령 ──
-  const handleDemolish = useCallback((buildingDefId: string) => {
+  const handleDemolish = useCallback((buildingInstanceId: string) => {
     if (!viewingTerritory) return
-    onUpdateState(s => commandDemolish(s, viewingTerritory.id, buildingDefId))
+    onUpdateState(s => commandDemolish(s, viewingTerritory.id, buildingInstanceId))
   }, [viewingTerritory, onUpdateState])
 
   // ── 세율 조정 ──
@@ -175,12 +141,10 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
     const currentFame = playerFaction.fame
     const candidates = state.wanderers.filter(w => {
       if (getRegionForNationality(w.nationality) !== playerRegion) return false
-      // 명성 부족 시 영입 불가
       const reqFame = GRADE_FAME_REQ[w.grade] ?? 0
       return currentFame >= reqFame
     })
     if (candidates.length === 0) {
-      // 지역 내 인재가 있지만 명성 부족인지 구분
       const regionAll = state.wanderers.filter(w => getRegionForNationality(w.nationality) === playerRegion)
       if (regionAll.length > 0) {
         const minReq = Math.min(...regionAll.map(w => GRADE_FAME_REQ[w.grade] ?? 0))
@@ -199,9 +163,7 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
 
     if (Math.random() < rate) {
       onUpdateState(s => {
-        // 신규 멤버를 영토의 town에 배치
         const territory = s.factions.find(f => f.id === s.playerFactionId)!.territories[0]
-        const townPos = findOpenTownPos(territory, s.placements)
         return {
           ...s,
           factions: s.factions.map(f =>
@@ -211,16 +173,17 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
             characterId: target.id,
             factionId: s.playerFactionId,
             territoryId: territory.id,
-            x: townPos.x, y: townPos.y,
-            task: 'idle' as const, taskProgress: 0, path: [],
+            task: 'idle' as const,
+            taskProgress: 0,
+            assignedBuildingId: null,
           }],
           wanderers: s.wanderers.filter(w => w.id !== target.id),
           log: [...s.log, `${target.nickname}이(가) 합류했다!`],
         }
       })
-      setRecruitResult(`✅ ${target.nickname}이(가) 합류했다!`)
+      setRecruitResult(`${target.nickname}이(가) 합류했다!`)
     } else {
-      setRecruitResult(`❌ ${target.nickname}이(가) 거절했다.`)
+      setRecruitResult(`${target.nickname}이(가) 거절했다.`)
     }
     setTimeout(() => setRecruitResult(null), 2500)
   }, [state, playerFaction, onUpdateState])
@@ -233,11 +196,11 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
     if (!defenderFaction) return
 
     const pf = state.factions.find(f => f.id === state.playerFactionId)!
-    const attackers = pf.members.slice(0, 5)
-    const defenders = defenderFaction.members.slice(0, 5)
-    if (attackers.length === 0 || defenders.length === 0) return
+    const attackerIds = pf.members.slice(0, 5).map(m => m.id)
+    const defenderIds = defenderFaction.members.slice(0, 5).map(m => m.id)
+    if (attackerIds.length === 0 || defenderIds.length === 0) return
 
-    const battle = initBattle(pf, defenderFaction, attackers, defenders, targetTerritoryId)
+    const battle = initBattle(pf, defenderFaction, attackerIds, defenderIds, targetTerritoryId)
 
     onUpdateState(s => ({
       ...s,
@@ -260,8 +223,8 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
               id: territoryId,
               name: def.name,
               regionId: def.regionId,
-              buildings: [],
-              map: generateTerritoryMap(territoryId),
+              buildingCards: [],
+              maxBuildings: 8,
               population: 500,
               morale: 60,
               resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
@@ -287,23 +250,23 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
             <button onClick={() => setShowHelp(false)} className="text-stone-500 hover:text-stone-300 text-xs">닫기 ✕</button>
           </div>
           <div className="text-xs text-stone-300 space-y-2 leading-relaxed">
-            <p><b className="text-amber-400">실시간</b>: 시간이 자동으로 흐른다. 배속 조절 (1x/2x/3x) 또는 일시정지(⏸) 가능.</p>
+            <p><b className="text-amber-400">실시간</b>: 시간이 자동으로 흐른다. 배속 조절 (1x/2x/3x) 또는 일시정지 가능.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="p-2 bg-stone-900 rounded">
-                <p className="font-bold text-stone-200 mb-1">🗺️ 영토 내부맵</p>
-                <p>캐릭터가 맵 위에서 실제로 이동한다. 타일 클릭으로 이동 명령.</p>
-              </div>
-              <div className="p-2 bg-stone-900 rounded">
                 <p className="font-bold text-stone-200 mb-1">🏗️ 건설</p>
-                <p>캐릭터 선택 → 빈 타일 우클릭 → 건설 메뉴에서 건물 선택.</p>
+                <p>인물 선택 → 건물 그리드에서 + 버튼 → 건물 선택. 건설 완료 시 자동 근무.</p>
               </div>
               <div className="p-2 bg-stone-900 rounded">
-                <p className="font-bold text-stone-200 mb-1">⚙️ 시설 근무</p>
-                <p>캐릭터 선택 → 건물 타일 우클릭 → 근무 명령. 자원 생산량 1.5배.</p>
+                <p className="font-bold text-stone-200 mb-1">⚙️ 배치</p>
+                <p>인물 선택 → 빈 건물 카드의 '배치' 클릭. 근무자가 있으면 생산 1.5배.</p>
               </div>
               <div className="p-2 bg-stone-900 rounded">
                 <p className="font-bold text-stone-200 mb-1">⚔️ 전투</p>
-                <p>군사 탭에서 인접 적 영토에 침공. 전투는 턴제.</p>
+                <p>군사 탭에서 인접 적 영토에 침공. 전투는 전술 카드 대결.</p>
+              </div>
+              <div className="p-2 bg-stone-900 rounded">
+                <p className="font-bold text-stone-200 mb-1">🗺️ 외교</p>
+                <p>외교 탭에서 동맹/정전/조공/항복 등 외교 행동.</p>
               </div>
             </div>
           </div>
@@ -320,27 +283,26 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
           territory={viewingTerritory}
           selectedCharId={selectedCharId}
           onSelectChar={setSelectedCharId}
-          onPatrol={handlePatrol}
           onIdle={handleIdle}
           onRecruit={handleRecruit}
           onToggleAutoAssign={handleToggleAutoAssign}
           onDetailChar={setDetailCharacter}
-          onFocusBuilding={handleFocusBuilding}
         />
       )}
 
       {/* 메인 레이아웃 */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-        {/* 영토 내부맵 (3/4) */}
+        {/* 건물 카드 그리드 (3/4) */}
         <div className="lg:col-span-3">
           {viewingTerritory && (
-            <TerritoryInteriorView
+            <BuildingCardGrid
               state={state}
               territory={viewingTerritory}
               selectedCharId={selectedCharId}
-              onSelectChar={setSelectedCharId}
-              onTileClick={handleTileClick}
-              onContextAction={handleContextAction}
+              onBuild={handleBuild}
+              onAssign={handleAssign}
+              onUnassign={handleUnassign}
+              onDemolish={handleDemolish}
             />
           )}
         </div>
@@ -362,7 +324,6 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
             state={state}
             selectedCharId={selectedCharId}
             viewingTerritoryId={state.viewingTerritoryId}
-            onPatrol={handlePatrol}
             onIdle={handleIdle}
             onRecruit={handleRecruit}
             onTrain={handleTrain}
@@ -371,7 +332,6 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
             onAttack={handleAttack}
             onClaim={handleClaim}
             onDiplomacy={handleDiplomacy}
-            onDemolish={handleDemolish}
             onSetTaxRate={handleSetTaxRate}
             autoAssign={state.autoAssign}
             onToggleAutoAssign={handleToggleAutoAssign}
@@ -491,21 +451,7 @@ function useGameLoop(state: GameState, onUpdateState: (fn: (s: GameState) => Gam
 function taskLabel(task?: string): string {
   if (!task) return ''
   const labels: Record<string, string> = {
-    idle: '', moving: '🚶', building: '🔨', working: '⚙️', training: '🎯', patrolling: '👁️',
+    idle: '', building: '🔨', working: '⚙️', training: '🎯',
   }
   return labels[task] ?? ''
-}
-
-function findOpenTownPos(territory: { id: string; map: { grid: { x: number; y: number; terrain: string }[][] } }, placements: { territoryId: string; x: number; y: number }[]): Position {
-  const occupied = new Set(
-    placements.filter(p => p.territoryId === territory.id).map(p => `${p.x},${p.y}`)
-  )
-  for (const row of territory.map.grid) {
-    for (const tile of row) {
-      if (tile.terrain === 'town' && !occupied.has(`${tile.x},${tile.y}`)) {
-        return { x: tile.x, y: tile.y }
-      }
-    }
-  }
-  return { x: 8, y: 6 }
 }

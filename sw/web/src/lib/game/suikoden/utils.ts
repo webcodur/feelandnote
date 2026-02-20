@@ -1,17 +1,42 @@
 // 천도 — 유틸리티 함수
 
-import type { GameCharacter, GameItem, Stats, Grade, ItemGrade, UnitClass, ContentType, ItemCategory, Position, BattleTile, Terrain, TerritoryId } from './types'
-import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, ITEM_GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, TERRAIN_INFO, MOVE_RANGE, SHOOT_RANGE, GRADE_TROOPS } from './constants'
+import type { GameCharacter, GameItem, Stats, Grade, ItemGrade, UnitClass, ContentType, ItemCategory, TerritoryId, TacticType, BattleParticipant, BuildingCard } from './types'
+import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, ITEM_GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TACTIC_MATCHUP, CLASS_TACTIC_BONUS, BUILDINGS, TACTIC_INFO } from './constants'
 import type { RegionId } from './types'
 
 // ── DB → GameCharacter 변환 (7스탯 매핑) ──
 
-export function dbToCharacter(profile: any, influence: any): GameCharacter {
+interface DbProfile {
+  id: string
+  nickname?: string | null
+  title?: string | null
+  profession?: string | null
+  nationality?: string | null
+  gender?: boolean | null
+  birth_date?: string | null
+  death_date?: string | null
+  bio?: string | null
+  quotes?: string | null
+  avatar_url?: string | null
+  portrait_url?: string | null
+}
+
+interface DbInfluence {
+  strategic?: number | null
+  tech?: number | null
+  political?: number | null
+  social?: number | null
+  economic?: number | null
+  cultural?: number | null
+  transhistoricity?: number | null
+  total_score?: number | null
+}
+
+export function dbToCharacter(profile: DbProfile, influence: DbInfluence): GameCharacter {
   const strategic = influence.strategic ?? 0
   const tech = influence.tech ?? 0
   const political = influence.political ?? 0
   const social = influence.social ?? 0
-  const economic = influence.economic ?? 0
   const cultural = influence.cultural ?? 0
   const trans = influence.transhistoricity ?? 0
   const totalScore = influence.total_score ?? 0
@@ -35,7 +60,7 @@ export function dbToCharacter(profile: any, influence: any): GameCharacter {
     title: profile.title ?? '',
     profession: profile.profession ?? 'other',
     nationality: profile.nationality ?? '',
-    gender: profile.gender,
+    gender: profile.gender ?? null,
     birthDate: profile.birth_date ?? '',
     deathDate: profile.death_date ?? '',
     bio: profile.bio ?? '',
@@ -45,7 +70,7 @@ export function dbToCharacter(profile: any, influence: any): GameCharacter {
     hp: Math.max(10, Math.round(trans * 2.5)),
     maxHp: Math.max(10, Math.round(trans * 2.5)),
     grade,
-    unitClass: PROFESSION_TO_CLASS[profile.profession] ?? 'ranger',
+    unitClass: (profile.profession ? PROFESSION_TO_CLASS[profile.profession] : undefined) ?? 'ranger',
     totalScore,
     troops: maxTroops,
     maxTroops,
@@ -58,7 +83,20 @@ export function dbToCharacter(profile: any, influence: any): GameCharacter {
 
 // ── DB → GameItem 변환 ──
 
-export function dbToItem(content: any, userContent: any, avgScore: number): GameItem {
+interface DbContent {
+  id: string
+  type: string
+  title?: string | null
+  creator?: string | null
+  thumbnail_url?: string | null
+}
+
+interface DbUserContent {
+  user_id: string
+  review?: string | null
+}
+
+export function dbToItem(content: DbContent, userContent: DbUserContent, avgScore: number): GameItem {
   const ct = content.type as ContentType
   const category = contentTypeToCategory(ct)
   const grade = calcItemGrade(avgScore)
@@ -130,115 +168,93 @@ export function getDeathYear(deathDate: string): number {
   return 9999
 }
 
-// ── 전투 유틸 ──
+// ── 전술 피해 계산 ──
 
-export function getMovablePositions(unit: { x: number; y: number; character: { unitClass: UnitClass } }, grid: BattleTile[][]): Position[] {
-  const range = MOVE_RANGE[unit.character.unitClass]
-  const positions: Position[] = []
-  const h = grid.length
-  const w = grid[0].length
+/** 전술 상성 + 스탯 기반 피해 계산 */
+export function calcTacticDamage(
+  attacker: BattleParticipant,
+  defender: BattleParticipant,
+  atkTactic: TacticType,
+  defTactic: TacticType,
+  defenderHasWalls: boolean,
+): { damage: number; troopLoss: number; moraleDelta: number } {
+  const matchup = TACTIC_MATCHUP[atkTactic][defTactic]
+  const atkChar = attacker.character
 
-  const visited = new Map<string, number>()
-  const queue: { x: number; y: number; cost: number }[] = [{ x: unit.x, y: unit.y, cost: 0 }]
-  visited.set(`${unit.x},${unit.y}`, 0)
+  // 기본 위력: 병과별 보정
+  const classBonus = CLASS_TACTIC_BONUS[atkChar.unitClass]?.[atkTactic] ?? 0
+  const tacticCostRate = TACTIC_INFO[atkTactic].troopCostRate
 
-  while (queue.length > 0) {
-    const cur = queue.shift()!
-    for (const [dx, dy] of [[0,1],[0,-1],[1,0],[-1,0]]) {
-      const nx = cur.x + dx
-      const ny = cur.y + dy
-      if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue
-      const tile = grid[ny][nx]
-      const moveCost = TERRAIN_INFO[tile.terrain].moveCost
-      const totalCost = cur.cost + moveCost
-      const key = `${nx},${ny}`
-      if (totalCost <= range && (!visited.has(key) || visited.get(key)! > totalCost)) {
-        visited.set(key, totalCost)
-        if (!tile.unit) positions.push({ x: nx, y: ny })
-        if (moveCost < 99) queue.push({ x: nx, y: ny, cost: totalCost })
-      }
-    }
+  // 스탯 기반 기본 피해
+  let basePower: number
+  if (atkTactic === 'charge' || atkTactic === 'feint') {
+    basePower = atkChar.stats.power * 2 + atkChar.stats.courage
+  } else if (atkTactic === 'stratagem' || atkTactic === 'fire') {
+    basePower = atkChar.stats.intellect * 2 + atkChar.stats.skill
+  } else if (atkTactic === 'morale') {
+    basePower = atkChar.stats.virtue * 2 + atkChar.stats.courage
+  } else {
+    // defend
+    basePower = atkChar.stats.stamina * 2 + atkChar.stats.power
   }
-  return positions
-}
 
-export function getAttackablePositions(unit: { x: number; y: number; character: { unitClass: UnitClass; stats: Stats } }, grid: BattleTile[][], factionId: string): Position[] {
-  const positions: Position[] = []
-  const h = grid.length
-  const w = grid[0].length
-  const shootRange = SHOOT_RANGE[unit.character.unitClass]
-  const range = shootRange > 0 && unit.character.stats.skill >= 5 ? shootRange : 1
-
-  for (let dy = -range; dy <= range; dy++) {
-    for (let dx = -range; dx <= range; dx++) {
-      if (dx === 0 && dy === 0) continue
-      if (Math.abs(dx) + Math.abs(dy) > range) continue
-      const nx = unit.x + dx
-      const ny = unit.y + dy
-      if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue
-      const tile = grid[ny][nx]
-      // 적 유닛 공격
-      if (tile.unit && tile.unit.factionId !== factionId) {
-        positions.push({ x: nx, y: ny })
-      }
-      // 성벽/성문 공격 (인접만)
-      if (Math.abs(dx) + Math.abs(dy) === 1 && (tile.terrain === 'wall' || tile.terrain === 'gate') && tile.wallHp && tile.wallHp > 0) {
-        positions.push({ x: nx, y: ny })
-      }
-    }
+  // 아이템 보너스
+  let itemBonus = 0
+  if (atkChar.equippedScroll) {
+    const bonuses = atkChar.equippedScroll.bonuses
+    if (atkTactic === 'charge' || atkTactic === 'feint') itemBonus += (bonuses.power ?? 0) * 2
+    if (atkTactic === 'stratagem' || atkTactic === 'fire') itemBonus += (bonuses.intellect ?? 0) * 2
   }
-  return positions
+  if (atkChar.equippedTreasure) {
+    const bonuses = atkChar.equippedTreasure.bonuses
+    if (atkTactic === 'charge' || atkTactic === 'feint') itemBonus += (bonuses.power ?? 0) * 2
+    if (atkTactic === 'stratagem' || atkTactic === 'fire') itemBonus += (bonuses.intellect ?? 0) * 2
+  }
+
+  // 병사 수 보정
+  const troopMul = 1 + attacker.troops / 500
+
+  // 성벽 방어 보정 (방어측만)
+  const wallDefense = defenderHasWalls ? 0.7 : 1.0
+
+  // 랜덤 요소
+  const randomFactor = 0.85 + Math.random() * 0.3
+
+  const damage = Math.max(1, Math.round(
+    (basePower + itemBonus) * (1 + classBonus) * matchup * troopMul * wallDefense * randomFactor
+  ))
+
+  // 병사 손실
+  const troopLoss = Math.max(0, Math.floor(attacker.troops * tacticCostRate + damage * 0.5))
+
+  // 사기 변동
+  let moraleDelta = 0
+  if (atkTactic === 'morale') {
+    moraleDelta = 10 + Math.floor(atkChar.stats.virtue) // 공격자 사기 회복
+  }
+  if (defTactic === 'morale') {
+    moraleDelta = -(5 + Math.floor(defender.character.stats.virtue * 0.5)) // 방어자 사기 회복 → 공격자 불이익
+  }
+
+  return { damage, troopLoss, moraleDelta }
 }
 
-// ── 대미지 계산 (병사 수 반영) ──
+// ── 건물 생산량 계산 ──
 
-export function calcDamage(attacker: GameCharacter, defender: GameCharacter, terrain: Terrain, isRanged: boolean): number {
-  const atkStat = isRanged ? attacker.stats.skill : attacker.stats.power
-  const classMul = getClassAttackMultiplier(attacker.unitClass, isRanged)
-  const baseDmg = atkStat * classMul
+export function calcBuildingOutput(card: BuildingCard, hasAssignee: boolean): Record<string, number> {
+  if (card.isConstructing) return {}
+  const bDef = BUILDINGS.find(b => b.id === card.defId)
+  if (!bDef) return {}
 
-  // 병사 수 보너스
-  const troopsMul = 1 + attacker.troops / 500
-
-  const defRate = Math.min(0.7, defender.stats.power * 0.05 + TERRAIN_INFO[terrain].defBonus)
-  const defMul = isRanged ? 1 - defRate * 0.5 : 1 - defRate
-
-  const randomFactor = 0.8 + Math.random() * 0.4
-  return Math.max(1, Math.round(baseDmg * troopsMul * defMul * randomFactor))
-}
-
-// ── 데미지 프리뷰 (랜덤 없음) ──
-
-export function calcDamagePreview(
-  attacker: GameCharacter,
-  defender: GameCharacter,
-  terrain: Terrain,
-  isRanged: boolean,
-  chargeDistance: number = 0,
-  flankingAllies: number = 0,
-): number {
-  const atkStat = isRanged ? attacker.stats.skill : attacker.stats.power
-  const classMul = getClassAttackMultiplier(attacker.unitClass, isRanged)
-  const baseDmg = atkStat * classMul
-  const troopsMul = 1 + attacker.troops / 500
-  const defRate = Math.min(0.7, defender.stats.power * 0.05 + TERRAIN_INFO[terrain].defBonus)
-  const defMul = isRanged ? 1 - defRate * 0.5 : 1 - defRate
-  const chargeBonus = chargeDistance > 0 ? 1 + chargeDistance * (attacker.unitClass === 'general' ? 0.15 : 0.1) : 1
-  const flankBonus = 1 + Math.min(0.6, flankingAllies * 0.2)
-  return Math.max(1, Math.round(baseDmg * troopsMul * defMul * chargeBonus * flankBonus))
-}
-
-// ── 성벽/성문 데미지 ──
-
-export function calcWallDamage(attacker: GameCharacter): number {
-  const baseDmg = attacker.stats.power * 1.5
-  const troopsMul = 1 + attacker.troops / 500
-  return Math.max(1, Math.round(baseDmg * troopsMul * (0.8 + Math.random() * 0.4)))
-}
-
-function getClassAttackMultiplier(cls: UnitClass, isRanged: boolean): number {
-  if (isRanged) return cls === 'artisan' ? 1.5 : cls === 'strategist' ? 1.3 : 1.0
-  return cls === 'general' ? 1.5 : 1.0
+  const mul = hasAssignee ? 1.5 : 1
+  const output: Record<string, number> = {}
+  const e = bDef.effect
+  if (e.goldPerTurn) output.gold = Math.floor(e.goldPerTurn / 24 * mul)
+  if (e.foodPerTurn) output.food = Math.floor(e.foodPerTurn / 24 * mul)
+  if (e.knowledgePerTurn) output.knowledge = Math.floor(e.knowledgePerTurn / 24 * mul)
+  if (e.materialPerTurn) output.material = Math.floor(e.materialPerTurn / 24 * mul)
+  if (e.troopsPerTurn) output.troops = Math.floor(e.troopsPerTurn / 24 * mul)
+  return output
 }
 
 // ── 계략 성공률 ──
@@ -263,8 +279,4 @@ export function shuffle<T>(arr: T[]): T[] {
 
 export function getPortraitPath(character: GameCharacter): string {
   return `/assets/suikoden/portraits/${character.id}.png`
-}
-
-export function getTilePath(terrain: Terrain): string {
-  return `/assets/suikoden/tiles/${terrain}.png`
 }

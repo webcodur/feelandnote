@@ -1,10 +1,9 @@
 // 천도 — AI 실시간 행동
 
-import type { GameState, Faction, TerritoryId, CharacterPlacement, Position } from './types'
-import { BUILDINGS, TERRITORIES } from './constants'
-import { findPath } from './pathfinding'
-import { generateTerritoryMap } from './mapGenerator'
+import type { GameState, Faction, TerritoryId } from './types'
+import { BUILDINGS, TERRITORIES, BUILDING_CATEGORY } from './constants'
 import { shuffle } from './utils'
+import { commandBuild, commandAssign } from './rtEngine'
 
 /** 매 120틱마다 호출. AI 세력들의 의사결정 실행. */
 export function evaluateAIDecisions(state: GameState): GameState {
@@ -32,9 +31,9 @@ function executeAIFaction(state: GameState, faction: Faction): GameState {
     s = aiBuild(s, faction, personality)
   }
 
-  // 3. 병사 모집 (병영 가동 중이면)
+  // 3. 병사 모집
   const hasBarracks = faction.territories.some(t =>
-    t.buildings.some(b => b.def.id === 'barracks' && b.turnsLeft === 0)
+    t.buildingCards.some(c => c.defId === 'barracks' && !c.isConstructing)
   )
   if (hasBarracks && faction.resources.food > 100) {
     s = aiRecruit(s, faction)
@@ -51,7 +50,7 @@ function executeAIFaction(state: GameState, faction: Faction): GameState {
   return s
 }
 
-// ── idle 캐릭터에게 근무/순찰 배정 ──
+// ── idle 캐릭터에게 건물 배치 ──
 
 /** 외부에서도 호출 가능한 범용 함수 (플레이어 자동 내정용) */
 export function assignIdleCharactersForFaction(state: GameState, faction: Faction): GameState {
@@ -70,67 +69,18 @@ function assignIdleCharacters(state: GameState, faction: Faction): GameState {
     const territory = faction.territories.find(t => t.id === placement.territoryId)
     if (!territory) continue
 
-    // 가동 중 건물에 근무자 없으면 배정
-    const activeBuildings = territory.buildings.filter(b => b.turnsLeft === 0 && !b.assigneeId)
-    if (activeBuildings.length > 0) {
-      // 건물 위치 찾기 (맵에서)
-      const buildingTile = findBuildingTile(territory, activeBuildings[0].def.id)
-      if (buildingTile) {
-        const path = findPath(
-          { x: placement.x, y: placement.y },
-          buildingTile,
-          territory.map,
-        )
-        if (path.length > 0 || (placement.x === buildingTile.x && placement.y === buildingTile.y)) {
-          const isNear = Math.abs(placement.x - buildingTile.x) + Math.abs(placement.y - buildingTile.y) <= 1
-          s = {
-            ...s,
-            placements: s.placements.map(p =>
-              p.characterId === placement.characterId
-                ? { ...p, task: isNear ? 'working' as const : 'moving' as const, path: isNear ? [] : path, taskProgress: 0, taskTargetPos: buildingTile }
-                : p
-            ),
-          }
-          continue
-        }
-      }
-    }
-
-    // 건물 없으면 순찰
-    if (Math.random() < 0.3) {
-      const townTiles: Position[] = []
-      for (const row of territory.map.grid) {
-        for (const tile of row) {
-          if (tile.terrain === 'town') townTiles.push({ x: tile.x, y: tile.y })
-        }
-      }
-      if (townTiles.length > 0) {
-        const target = townTiles[Math.floor(Math.random() * townTiles.length)]
-        const path = findPath({ x: placement.x, y: placement.y }, target, territory.map)
-        if (path.length > 0) {
-          s = {
-            ...s,
-            placements: s.placements.map(p =>
-              p.characterId === placement.characterId
-                ? { ...p, task: 'patrolling' as const, path, taskProgress: 0 }
-                : p
-            ),
-          }
-        }
-      }
+    // assigneeId가 null인 완성된 건물 찾기
+    const unassignedCards = territory.buildingCards.filter(
+      c => !c.isConstructing && !c.assigneeId
+    )
+    if (unassignedCards.length > 0) {
+      s = commandAssign(s, placement.characterId, unassignedCards[0].instanceId)
+      // faction 업데이트된 state에서 다시 찾기
+      continue
     }
   }
 
   return s
-}
-
-function findBuildingTile(territory: { map: { grid: { x: number; y: number; building: { defId: string } | null }[][] } }, defId: string): Position | null {
-  for (const row of territory.map.grid) {
-    for (const tile of row) {
-      if (tile.building?.defId === defId) return { x: tile.x, y: tile.y }
-    }
-  }
-  return null
 }
 
 // ── 건설 ──
@@ -138,8 +88,9 @@ function findBuildingTile(territory: { map: { grid: { x: number; y: number; buil
 function aiBuild(state: GameState, faction: Faction, personality: string): GameState {
   const territory = faction.territories[0]
   if (!territory) return state
+  if (territory.buildingCards.length >= territory.maxBuildings) return state
 
-  const existingIds = new Set(territory.buildings.map(b => b.def.id))
+  const existingIds = new Set(territory.buildingCards.map(c => c.defId))
 
   const priorities: Record<string, string[]> = {
     conqueror: ['barracks', 'training', 'armory', 'farm'],
@@ -163,66 +114,10 @@ function aiBuild(state: GameState, faction: Faction, personality: string): GameS
     )
     if (!builder) break
 
-    // 건설 위치: town 근처 빈 타일
-    const buildPos = findEmptyNearTown(territory)
-    if (!buildPos) break
-
-    // 자원 차감 + 건설 사이트 생성
-    const factions = state.factions.map(f =>
-      f.id === faction.id
-        ? { ...f, resources: { ...f.resources, gold: f.resources.gold - bDef.costGold, material: f.resources.material - bDef.costMaterial } }
-        : f
-    )
-
-    const path = findPath({ x: builder.x, y: builder.y }, buildPos, territory.map)
-    const isNear = Math.abs(builder.x - buildPos.x) + Math.abs(builder.y - buildPos.y) <= 1
-
-    return {
-      ...state,
-      factions,
-      constructions: [...state.constructions, {
-        id: `cs_ai_${Date.now()}_${builder.characterId}`,
-        buildingDefId: bId,
-        workerId: builder.characterId,
-        territoryId: territory.id,
-        x: buildPos.x,
-        y: buildPos.y,
-        progress: 0,
-        totalTicks: bDef.buildTurns * 720,
-      }],
-      placements: state.placements.map(p =>
-        p.characterId === builder.characterId
-          ? { ...p, task: isNear ? 'building' as const : 'moving' as const, path: isNear ? [] : path, taskProgress: 0, taskTargetBuildingDefId: bId, taskTargetPos: buildPos }
-          : p
-      ),
-    }
+    return commandBuild(state, builder.characterId, bId, territory.id)
   }
 
   return state
-}
-
-function findEmptyNearTown(territory: { map: { grid: { x: number; y: number; terrain: string; building: { defId: string } | null }[][] } }): Position | null {
-  const townTiles: Position[] = []
-  for (const row of territory.map.grid) {
-    for (const tile of row) {
-      if (tile.terrain === 'town') townTiles.push({ x: tile.x, y: tile.y })
-    }
-  }
-  if (townTiles.length === 0) return null
-
-  // town 인접 빈 타일 찾기
-  for (const town of townTiles) {
-    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]) {
-      const nx = town.x + dx
-      const ny = town.y + dy
-      const tile = territory.map.grid[ny]?.[nx]
-      if (!tile) continue
-      if (tile.building) continue
-      if (tile.terrain === 'wall' || tile.terrain === 'sea' || tile.terrain === 'mountain') continue
-      return { x: nx, y: ny }
-    }
-  }
-  return null
 }
 
 // ── 병사 모집 ──
@@ -259,11 +154,11 @@ function aiExpand(state: GameState, faction: Faction): GameState {
       if (allOccupied.has(nId)) continue
       if (Math.random() < 0.1) {
         const newTerritory = {
-          id: nId,
+          id: nId as TerritoryId,
           name: TERRITORIES.find(t => t.id === nId)?.name ?? '미지',
           regionId: TERRITORIES.find(t => t.id === nId)?.regionId ?? 'mediterranean' as const,
-          buildings: [],
-          map: generateTerritoryMap(nId),
+          buildingCards: [],
+          maxBuildings: 8,
           population: 500,
           morale: 60,
           resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
@@ -310,8 +205,6 @@ function aiInvade(state: GameState, faction: Faction): GameState {
 
   if (neighbors.length === 0) return state
 
-  // 침공 대상은 StrategyScreen에서 전투 초기화할 때 처리
-  // 여기서는 침공 플래그만 설정 (실시간에선 바로 전투 진입)
   const targetId = neighbors[Math.floor(Math.random() * neighbors.length)]
   const targetName = TERRITORIES.find(t => t.id === targetId)?.name ?? '미지'
 
