@@ -231,8 +231,8 @@ const RANDOM_EVENTS: GameEvent[] = [
 
 /** 이벤트 체크 (월 1회, 매월 1일에 호출) */
 export function checkSeasonEvents(state: GameState): GameState {
-  // 매월 1일 0시에만 체크
-  if (state.gameTime.day !== 1 || state.gameTime.hour !== 0) return state
+  // 매월 1일에만 체크
+  if (state.gameTime.day !== 1) return state
 
   let s = state
 

@@ -6,7 +6,7 @@
 "use client";
 
 import { useRef, useCallback, useState, useEffect, type MutableRefObject } from "react";
-import { Play, Pause, Volume1, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, Volume1, Volume2, VolumeX, SkipBack, SkipForward } from "lucide-react";
 
 export interface GameAudioControls {
   isPlaying: boolean;
@@ -18,6 +18,12 @@ export interface GameAudioControls {
   seek: (time: number) => void;
   /** 오디오 엘리먼트 ref — 플레이어가 자체 폴링으로 currentTime을 읽는다 */
   bgmRef?: MutableRefObject<HTMLAudioElement | null>;
+  /** 플레이리스트 지원 */
+  trackLabel?: string;
+  trackIndex?: number;
+  trackCount?: number;
+  nextTrack?: () => void;
+  prevTrack?: () => void;
 }
 
 interface GameAudioPlayerProps {
@@ -32,7 +38,8 @@ function formatTime(sec: number): string {
 }
 
 export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
-  const { isPlaying, volume, duration, togglePlay, setVolume, seek, bgmRef } = controls;
+  const { isPlaying, volume, duration, togglePlay, setVolume, seek, bgmRef, trackLabel, trackIndex = 0, trackCount = 1, nextTrack, prevTrack } = controls;
+  const hasPlaylist = trackCount > 1;
 
   // 자체 rAF 폴링으로 currentTime 표시 (부모 리렌더 없음)
   const [localTime, setLocalTime] = useState(0);
@@ -83,6 +90,16 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
 
   return (
     <div className="flex items-center gap-3 w-full max-w-xl">
+      {/* 이전 트랙 */}
+      <button
+        onClick={prevTrack}
+        disabled={!hasPlaylist || trackIndex <= 0}
+        className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
+        title="이전 곡"
+      >
+        <SkipBack size={12} />
+      </button>
+
       {/* 재생/일시정지 */}
       <button
         onClick={togglePlay}
@@ -91,6 +108,24 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
       >
         {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
       </button>
+
+      {/* 다음 트랙 */}
+      <button
+        onClick={nextTrack}
+        disabled={!hasPlaylist || trackIndex >= trackCount - 1}
+        className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
+        title="다음 곡"
+      >
+        <SkipForward size={12} />
+      </button>
+
+      {/* 트랙 정보 */}
+      {trackLabel && (
+        <span className="text-[10px] text-text-tertiary shrink-0 max-w-28 truncate" title={hasPlaylist ? `${trackIndex + 1}/${trackCount} ${trackLabel}` : trackLabel}>
+          {hasPlaylist && <span className="text-accent/60 mr-1">{trackIndex + 1}/{trackCount}</span>}
+          {trackLabel}
+        </span>
+      )}
 
       {/* 시간 + 프로그레스 바 */}
       <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8 text-right">

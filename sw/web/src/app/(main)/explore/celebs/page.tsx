@@ -103,13 +103,15 @@ async function CelebsContent({ searchParams }: { searchParams: Record<string, st
   const sortBy = (sortByRaw && VALID_SORT_VALUES.includes(sortByRaw) ? sortByRaw : "daily_recommend") as CelebSortBy;
   const pageRaw = parseInt(parseParam(searchParams, "page") || "1", 10);
   const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
+  const pageSizeRaw = parseInt(parseParam(searchParams, "pageSize") || "24", 10);
+  const pageSize = [12, 24, 48, 96].includes(pageSizeRaw) ? pageSizeRaw : 24;
 
   const notAll = (v?: string) => v && v !== "all" ? v : undefined;
 
   const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, featuredTags] = await Promise.all([
     getCelebs({
       page,
-      limit: 24,
+      limit: pageSize,
       minContentCount: 1,
       sortBy,
       profession: notAll(profession),

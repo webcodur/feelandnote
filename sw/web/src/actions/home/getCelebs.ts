@@ -31,9 +31,9 @@ interface GetCelebsResult {
 // RPC 함수 반환 타입
 interface CelebRow {
   id: string
+  slug: string | null
   nickname: string | null
   avatar_url: string | null
-  portrait_url: string | null
   profession: string | null
   title: string | null
   consumption_philosophy: string | null
@@ -172,9 +172,9 @@ export async function getCelebs(
 
     return {
       id: row.id,
+      slug: row.slug ?? null,
       nickname: row.nickname || '',
       avatar_url: row.avatar_url,
-      portrait_url: row.portrait_url,
       profession: row.profession,
       title: row.title,
       consumption_philosophy: row.consumption_philosophy,

@@ -1,6 +1,7 @@
 // 천도 — 외교 시스템
 
 import type { GameState, Faction } from './types'
+import { getTotalPower } from './utils'
 
 /** 외교 행동 결과 */
 export interface DiplomacyResult {
@@ -26,8 +27,8 @@ function calcDiplomacyRate(state: GameState, targetFactionId: string): number {
   const relationBonus = relation * 0.005
 
   // 전력 차이 보정 (우리가 강하면 유리)
-  const ourPower = player.members.reduce((s, m) => s + m.totalScore, 0)
-  const theirPower = target.members.reduce((s, m) => s + m.totalScore, 0)
+  const ourPower = getTotalPower(player)
+  const theirPower = getTotalPower(target)
   const powerRatio = ourPower / Math.max(theirPower, 1)
   const powerBonus = Math.min(0.2, (powerRatio - 1) * 0.1)
 
@@ -150,8 +151,8 @@ export function commandSurrender(state: GameState, targetFactionId: string): { s
   const target = state.factions.find(f => f.id === targetFactionId)
   if (!target) return { state, result: { success: false, message: '대상 세력을 찾을 수 없다.' } }
 
-  const ourPower = player.members.reduce((s, m) => s + m.totalScore, 0)
-  const theirPower = target.members.reduce((s, m) => s + m.totalScore, 0)
+  const ourPower = getTotalPower(player)
+  const theirPower = getTotalPower(target)
 
   if (theirPower > ourPower * 0.3) {
     return { state, result: { success: false, message: '상대 전력이 아직 높다. (30% 이하일 때 가능)' } }
@@ -175,6 +176,7 @@ export function commandSurrender(state: GameState, targetFactionId: string): { s
         return {
           ...f,
           members: [...f.members, ...target.members],
+          prisoners: [...f.prisoners, ...(target.prisoners ?? [])],
           territories: [...f.territories, ...target.territories],
           resources: {
             gold: f.resources.gold + target.resources.gold,

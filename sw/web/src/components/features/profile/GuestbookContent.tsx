@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { InnerBox, Pagination } from "@/components/ui";
+import { Pagination } from "@/components/ui";
 import { MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
@@ -87,33 +87,35 @@ export default function GuestbookContent({
 
       {/* 방명록 목록 */}
       {entries.length > 0 ? (
-        <div className={`space-y-4${isLoading ? " opacity-50 pointer-events-none" : ""}`}>
-          {entries.map((entry) => (
-            <EntryItem
-              key={entry.id}
-              entry={entry}
-              currentUser={currentUser}
-              isOwner={isOwner}
-              onDelete={handleDeleteEntry}
-              onUpdate={handleUpdateEntry}
-            />
-          ))}
-
-          {/* 페이지네이션 */}
-          <div className="pt-4">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={fetchPage}
-            />
+        <div className={isLoading ? "opacity-50 pointer-events-none" : ""}>
+          <div className="divide-y divide-white/[0.04]">
+            {entries.map((entry) => (
+              <EntryItem
+                key={entry.id}
+                entry={entry}
+                currentUser={currentUser}
+                isOwner={isOwner}
+                onDelete={handleDeleteEntry}
+                onUpdate={handleUpdateEntry}
+              />
+            ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="pt-6 mt-4 border-t border-white/[0.04]">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={fetchPage}
+              />
+            </div>
+          )}
         </div>
       ) : (
-        <InnerBox className="text-center py-16">
-          <MessageSquare size={48} strokeWidth={1} className="mx-auto mb-4 text-accent-dim opacity-50" />
-          <p className="text-lg text-text-secondary mb-2 font-serif">The Guestbook is Empty</p>
-          {currentUser && <p className="text-sm text-text-tertiary">Be the first to sign this guestbook.</p>}
-        </InnerBox>
+        <div className="text-center py-10">
+          <MessageSquare size={20} strokeWidth={1.5} className="mx-auto mb-2 text-text-tertiary/15" />
+          <p className="text-xs text-text-tertiary/40 font-sans">아직 방명록이 비어있습니다.</p>
+        </div>
       )}
     </>
   );

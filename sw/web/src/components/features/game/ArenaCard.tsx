@@ -55,30 +55,23 @@ export default function ArenaCard({
     <div
       onClick={onClick}
       className={cn(
-        "relative group flex flex-col overflow-hidden isolate",
-        "rounded-xl border-2", // 기본 구조
-        "shadow-2xl shadow-black/60", // 깊은 그림자
-        borderClass[status],
+        "group flex flex-col items-center",
         onClick ? "cursor-pointer" : "cursor-default",
         className
       )}
     >
-      {/* 0. 배경 텍스처 (대리석 질감 시뮬레이션) */}
-      <div className="absolute inset-0 bg-[#1a1a1a] -z-10">
-         {/* Noise Texture */}
-         <div className="absolute inset-0 opacity-20 bg-[url('/images/noise.svg')] brightness-100 contrast-150" />
-         {/* Marble Veins (Subtle Gradient) */}
-         <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 opacity-50" />
-      </div>
-
-      {/* 1. 이미지 레이어 */}
-      <div className="relative flex-1 w-full bg-bg-secondary overflow-hidden">
+      {/* 1. 원형 이미지 */}
+      <div className={cn(
+        "relative aspect-square w-full rounded-full overflow-hidden",
+        "border-2 shadow-2xl shadow-black/60",
+        borderClass[status],
+      )}>
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={name}
             fill
-            sizes="(max-width: 768px) 50vw, 320px"
+            sizes="(max-width: 768px) 25vw, 240px"
             className="object-cover object-top"
           />
         ) : (
@@ -88,50 +81,47 @@ export default function ArenaCard({
              </span>
           </div>
         )}
-        
-        {/* 오버레이: 상단 -> 투명, 하단 -> 검정 (텍스트 가독성 확보를 위해 더 진하게) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-        
+
+        {/* 인물 정보 버튼 */}
+        {onInfoClick && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onInfoClick(); }}
+            className="absolute top-1 end-1 md:top-2 md:end-2 z-20 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-black/70 active:scale-90"
+          >
+            <HelpCircle size={14} className="md:hidden" />
+            <HelpCircle size={16} className="hidden md:block" />
+          </button>
+        )}
+
+        {/* 선택됨 효과 */}
+        {status === "selected" && (
+          <div className="absolute inset-0 ring-2 ring-accent/50 rounded-full animate-pulse pointer-events-none" />
+        )}
       </div>
 
-      {/* 1.5. 인물 정보 버튼 (우상단) */}
-      {onInfoClick && (
-        <button
-          onClick={(e) => { e.stopPropagation(); onInfoClick(); }}
-          className="absolute top-1.5 end-1.5 md:top-2.5 md:end-2.5 z-20 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-black/70 active:scale-90"
-        >
-          <HelpCircle size={14} className="md:hidden" />
-          <HelpCircle size={16} className="hidden md:block" />
-        </button>
-      )}
+      {/* 2. 텍스트 정보 (하단) */}
+      <div className="mt-1.5 md:mt-2 flex flex-col items-center text-center w-full">
 
-      {/* 2. 텍스트 정보 레이어 (하단 배치) */}
-      <div className="absolute bottom-0 left-0 right-0 p-1.5 md:p-3 flex flex-col items-center text-center z-10">
-
-        {/* 수식어 (작은 글씨) - 국문 변환 */}
         {title && !isHidden && (
-          <span className="text-[10px] md:text-xs text-accent font-bold tracking-wider mb-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+          <span className="text-[10px] md:text-xs text-accent font-bold tracking-wider mb-0.5">
             {getCelebProfessionLabel(title)}
           </span>
         )}
 
-        {/* 이름 (메인, Serif) - 크기 대폭 축소 */}
-        <div className="w-full flex items-center justify-center">
-          <h3 className={cn(
-            "font-serif font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight word-keep-all",
-            name.length > 8 ? "text-[11px] md:text-sm line-clamp-2" : "text-xs md:text-base line-clamp-1"
-          )}>
-            {isHidden ? "???" : name}
-          </h3>
-        </div>
+        <h3 className={cn(
+          "font-serif font-bold text-white leading-tight word-keep-all",
+          name.length > 8 ? "text-[11px] md:text-sm line-clamp-2" : "text-xs md:text-base line-clamp-1"
+        )}>
+          {isHidden ? "???" : name}
+        </h3>
 
-        {/* 구분선 (금빛 그라데이션) */}
+        {/* 구분선 */}
         <div className="w-6 h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent my-0.5 md:my-1" />
 
-        {/* 하단 스탯 (점수/연도 등) - 인라인 */}
+        {/* 하단 스탯 */}
         <div className="flex items-baseline gap-1 justify-center">
           <div className={cn(
-            "font-cinzel font-bold tracking-tighter drop-shadow-xl transition-all leading-none",
+            "font-cinzel font-bold tracking-tighter transition-all leading-none",
             "text-base md:text-xl",
             status === "selected" ? "text-accent drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : "text-white"
           )}>
@@ -146,14 +136,6 @@ export default function ArenaCard({
           )}
         </div>
       </div>
-      
-      {/* 3. 장식적 요소 (Inner Border/Shine) */}
-      <div className="absolute inset-0 border border-white/10 rounded-xl pointer-events-none" />
-      
-      {/* 4. 선택됨 효과 (Gold Glow) */}
-      {status === "selected" && (
-         <div className="absolute inset-0 ring-2 ring-accent/50 rounded-xl animate-pulse pointer-events-none" />
-      )}
     </div>
   );
 }

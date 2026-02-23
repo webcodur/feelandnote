@@ -24,9 +24,9 @@ export interface CelebTagInfo {
 
 export interface CelebProfile {
   id: string
+  slug: string | null
   nickname: string
   avatar_url: string | null
-  portrait_url: string | null  // 초상화 이미지 (세로형)
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
   consumption_philosophy: string | null  // 감상 철학 (3~4 문단)
@@ -63,6 +63,7 @@ export interface CelebReview {
   }
   celeb: {
     id: string
+    slug: string | null
     nickname: string
     avatar_url: string | null
     profession: string | null

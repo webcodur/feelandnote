@@ -11,9 +11,9 @@ export interface SelectedTitle {
 
 export interface PublicUserProfile {
   id: string
+  slug: string | null
   nickname: string
   avatar_url: string | null
-  portrait_url: string | null
   bio: string | null
   quotes: string | null
   profession: string | null
@@ -45,7 +45,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, portrait_url, bio, quotes, profession, title, consumption_philosophy, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
+    .select('id, slug, nickname, avatar_url, bio, quotes, profession, title, consumption_philosophy, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
     .eq('id', userId)
     .single()
 
@@ -115,9 +115,9 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
     success: true,
     data: {
       id: profile.id,
+      slug: profile.slug ?? null,
       nickname: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
-      portrait_url: profile.portrait_url,
       bio: profile.bio,
       quotes: profile.quotes,
       profession: profile.profession,

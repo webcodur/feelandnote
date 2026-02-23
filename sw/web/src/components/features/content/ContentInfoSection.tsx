@@ -7,7 +7,8 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Loader2, Trash2 } from "lucide-react";
+import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Loader2, Trash2, ExternalLink, ShoppingCart } from "lucide-react";
+import { AFFILIATE_PLATFORMS, type AffiliatePlatformKey } from "@/constants/affiliatePlatforms";
 import Button from "@/components/ui/Button";
 import { FormattedText } from "@/components/ui";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
@@ -291,7 +292,38 @@ export default function ContentInfoSection({
       {/* 미디어 임베드 */}
       <MediaEmbed contentId={content.id} type={content.type} />
 
-      {/* 외부 플랫폼 링크 - 제휴 수익화 연동 후 활성화 예정 */}
+      {/* 제휴 링크 */}
+      {content.affiliateLinks && content.affiliateLinks.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex flex-col gap-2">
+            {content.affiliateLinks.map((link) => {
+              const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey]
+              if (!platform) return null
+              return (
+                <a
+                  key={link.platform}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 text-white text-sm font-semibold rounded-lg transition-opacity hover:opacity-85"
+                  style={{ backgroundColor: platform.color }}
+                >
+                  <ShoppingCart size={14} />
+                  {platform.label}에서 구매하기
+                  <ExternalLink size={14} />
+                </a>
+              )
+            })}
+          </div>
+          {content.affiliateLinks.some(l => l.platform === 'coupang') && (
+            <p className="text-[10px] text-text-tertiary text-center">
+              {AFFILIATE_PLATFORMS.coupang.notice}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 외부 플랫폼 링크 - 추후 활성화 예정 */}
       {/* <ExternalPlatformLinks
         contentId={content.id}
         contentType={content.type}

@@ -33,20 +33,7 @@ export default function Page() {
         }
       />
 
-      {/* 모바일: 안내 문구 */}
-      <div className="flex lg:hidden flex-col items-center justify-center py-20 px-6 text-center">
-        <p className="text-text-secondary text-sm">
-          패권 게임은 PC 환경에서만 이용할 수 있습니다.
-        </p>
-        <p className="text-text-tertiary text-xs mt-2">
-          데스크톱 브라우저에서 접속해 주세요.
-        </p>
-      </div>
-
-      {/* PC: 게임 */}
-      <div className="hidden lg:block">
-        <HegemonyGame />
-      </div>
+      <HegemonyGame />
     </>
   );
 }

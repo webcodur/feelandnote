@@ -23,7 +23,6 @@ export interface BasicProfileJSONData {
   bio: string
   quotes: string
   avatar_url: string
-  portrait_url: string
   is_verified: boolean
 }
 

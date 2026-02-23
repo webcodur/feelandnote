@@ -11,7 +11,6 @@ export interface Celeb {
   id: string
   nickname: string | null
   avatar_url: string | null
-  portrait_url: string | null
   profession: string | null
   title: string | null
   nationality: string | null
@@ -57,7 +56,6 @@ interface CreateCelebInput {
   quotes?: string
   consumption_philosophy?: string
   avatar_url?: string
-  portrait_url?: string
   is_verified?: boolean
   status?: 'active' | 'suspended'
   influence?: GeneratedInfluence
@@ -76,7 +74,6 @@ interface UpdateCelebInput {
   quotes?: string
   consumption_philosophy?: string
   avatar_url?: string
-  portrait_url?: string
   is_verified?: boolean
   status?: 'active' | 'suspended'
   influence?: GeneratedInfluence
@@ -113,10 +110,13 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     follower_count: 'follower',
     influence_total: 'influence',
     nickname: 'name_asc',
-    created_at: 'content_count', // 기본 정렬
+    profession: `profession_${sortOrder}`,
+    status: `status_${sortOrder}`,
+    nationality: `nationality_${sortOrder}`,
+    created_at: `created_at_${sortOrder}`,
   }
 
-  const rpcSortBy = sortByMap[sort] || 'content_count'
+  const rpcSortBy = sortByMap[sort] || `created_at_${sortOrder}`
 
   // status 필터: 'all'이면 모두, 아니면 active만 (RPC는 active/inactive만 구분)
   const includeInactive = !status || status === 'all'
@@ -134,8 +134,10 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   })
   const total = countData ?? 0
 
-  // 오름차순일 때 오프셋 반대로 계산 (RPC는 항상 DESC 정렬)
-  const actualOffset = sortOrder === 'asc'
+  // 숫자형 정렬(content_count, follower, influence)은 RPC가 항상 DESC → asc 시 오프셋 반전 필요
+  const numericSorts = ['content_count', 'follower', 'influence']
+  const needsReverse = sortOrder === 'asc' && numericSorts.includes(rpcSortBy)
+  const actualOffset = needsReverse
     ? Math.max(0, total - page * limit)
     : offset
 
@@ -163,7 +165,6 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     id: celeb.id,
     nickname: celeb.nickname,
     avatar_url: celeb.avatar_url,
-    portrait_url: celeb.portrait_url,
     profession: celeb.profession,
     title: celeb.title,
     nationality: celeb.nationality,
@@ -174,7 +175,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     quotes: celeb.quotes,
     consumption_philosophy: celeb.consumption_philosophy,
     is_verified: celeb.is_verified,
-    status: 'active', // RPC 함수에 status 필드 없음
+    status: celeb.status || 'active',
     claimed_by: celeb.claimed_by,
     created_at: celeb.created_at || '',
     content_count: celeb.content_count || 0,
@@ -182,8 +183,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     influence_total: celeb.total_score || 0,
   }))
 
-  // 오름차순일 때 결과 뒤집기 (RPC는 항상 DESC 정렬)
-  if (sortOrder === 'asc' && rpcSortBy !== 'name_asc') {
+  // 숫자형 정렬은 RPC가 항상 DESC → asc 시 결과 뒤집기
+  if (needsReverse) {
     celebs.reverse()
   }
 
@@ -222,7 +223,6 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     id: data.id,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
-    portrait_url: data.portrait_url,
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,
@@ -292,7 +292,6 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       quotes: input.quotes || null,
       consumption_philosophy: input.consumption_philosophy || null,
       avatar_url: input.avatar_url || null,
-      portrait_url: input.portrait_url || null,
       is_verified: input.is_verified || false,
       profile_type: 'CELEB',
       status: input.status || 'suspended',
@@ -370,7 +369,6 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.quotes !== undefined) updateData.quotes = input.quotes
   if (input.consumption_philosophy !== undefined) updateData.consumption_philosophy = input.consumption_philosophy
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
-  if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
 

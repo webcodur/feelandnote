@@ -1,88 +1,32 @@
 /*
   파일명: components/features/game/battle/GameResult.tsx
-  기능: 최종 결과 화면
-  책임: 6라운드 종료 후 총점과 라운드별 기록을 보여준다.
+  기능: 패권 v5 최종 결과 화면
+  책임: RoundRecord 기반 라운드별 히스토리, 국력/민심 최종 수치를 보여준다.
 */
 "use client";
 
-import { useState, useCallback } from "react";
-import Image from "next/image";
-import type { RoundResult, BattleCard } from "@/lib/game/types";
-import type { CelebProfile } from "@/types/home";
-import { DOMAIN_LABELS } from "@/lib/game/types";
-import { Swords, RotateCcw, Home, Crown } from "lucide-react";
-import Link from "next/link";
-import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import { Swords, RotateCcw, Home, Skull } from "lucide-react";
+import type { RoundRecord, NationState, Command, CounterResult } from "@/lib/game/types";
+import { COMMAND_LABELS } from "@/lib/game/types";
 
 interface Props {
-  playerScore: number;
-  aiScore: number;
-  rounds: RoundResult[];
+  playerNation: NationState;
+  aiNation: NationState;
+  roundRecords: RoundRecord[];
   onRestart: () => void;
+  onHome: () => void;
+  playSfx?: (name: string) => void;
 }
 
-/** 카드의 작은 아바타+이름 칩 */
-function CardChip({
-  card,
-  isWinner,
-  side,
-  onClick,
-}: {
-  card: BattleCard;
-  isWinner: boolean;
-  side: "player" | "ai";
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`
-        flex items-center gap-1.5 px-2 py-1 rounded-lg border transition-all
-        hover:bg-white/5 active:scale-95 cursor-pointer
-        ${isWinner
-          ? side === "player"
-            ? "border-accent/30 bg-accent/5"
-            : "border-red-500/30 bg-red-500/5"
-          : "border-white/5 bg-white/[0.02]"
-        }
-      `}
-    >
-      <div className="relative w-6 h-6 rounded-full overflow-hidden bg-white/10 shrink-0">
-        {card.avatarUrl ? (
-          <Image src={card.avatarUrl} alt={card.nickname} fill className="object-cover" sizes="24px" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-[8px] text-white/30">?</div>
-        )}
-      </div>
-      <span className={`text-[11px] font-medium truncate max-w-[64px] ${
-        isWinner
-          ? side === "player" ? "text-accent" : "text-red-400"
-          : "text-text-secondary"
-      }`}>
-        {card.nickname}
-      </span>
-      {isWinner && (
-        <Crown size={10} className={`${side === "player" ? "text-accent" : "text-red-400"} shrink-0`} />
-      )}
-    </button>
-  );
-}
+const COUNTER_LABEL: Record<CounterResult, { text: string; color: string }> = {
+  win: { text: "카운터", color: "text-amber-300" },
+  lose: { text: "역습", color: "text-red-400" },
+  draw: { text: "접전", color: "text-yellow-300" },
+};
 
-export default function GameResult({ playerScore, aiScore, rounds, onRestart }: Props) {
-  const playerWins = playerScore > aiScore;
-  const aiWins = aiScore > playerScore;
-
-  const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
-  const [loadingId, setLoadingId] = useState<string | null>(null);
-
-  const handleCelebClick = useCallback(async (celebId: string) => {
-    if (loadingId) return;
-    setLoadingId(celebId);
-    const celeb = await getCelebForModal(celebId);
-    setLoadingId(null);
-    if (celeb) setModalCeleb(celeb);
-  }, [loadingId]);
+export default function GameResult({ playerNation, aiNation, roundRecords, onRestart, onHome, playSfx }: Props) {
+  const playerWins = playerNation.power > aiNation.power;
+  const aiWins = aiNation.power > playerNation.power;
 
   return (
     <div className="max-w-4xl mx-auto flex flex-col items-center gap-6 py-4 relative">
@@ -107,73 +51,84 @@ export default function GameResult({ playerScore, aiScore, rounds, onRestart }: 
         </h2>
       </div>
 
-      {/* 총점 */}
-      <div className="flex items-center gap-6 px-8 py-5 rounded-xl border border-white/10 bg-black/40 animate-fade-in">
+      {/* 국력/민심 최종 */}
+      <div className="flex items-center gap-6 px-8 py-5 rounded-xl border border-white/10 bg-[#0e0e12] animate-fade-in">
         <div className="text-center">
           <span className="text-xs text-text-tertiary font-cinzel uppercase">나</span>
-          <div className="text-4xl font-black text-accent animate-score-pop">{playerScore}</div>
+          <div className="text-4xl font-black text-accent animate-score-pop">{playerNation.power}</div>
+          <div className="text-xs text-text-tertiary mt-1">민심 {playerNation.morale}</div>
         </div>
-        <div className="text-2xl text-text-tertiary font-cinzel">:</div>
+        <div className="text-center">
+          <span className="text-xs text-text-tertiary font-cinzel">국력</span>
+          <div className="text-2xl text-text-tertiary font-cinzel">:</div>
+        </div>
         <div className="text-center">
           <span className="text-xs text-text-tertiary font-cinzel uppercase">AI</span>
-          <div className="text-4xl font-black text-red-400 animate-score-pop">{aiScore}</div>
+          <div className="text-4xl font-black text-red-400 animate-score-pop">{aiNation.power}</div>
+          <div className="text-xs text-text-tertiary mt-1">민심 {aiNation.morale}</div>
         </div>
       </div>
 
-      {/* 라운드 히스토리 */}
+      {/* 라운드별 히스토리 */}
       <div className="w-full">
         <h3 className="text-xs text-text-tertiary font-cinzel uppercase tracking-wider text-center mb-4">
-          ROUND HISTORY
+          ROUND HISTORY ({roundRecords.length} rounds)
         </h3>
 
         <div className="flex flex-col gap-1.5">
-          {rounds.map((r, i) => {
-            const pWin = r.pointsAwarded.player > r.pointsAwarded.ai;
-            const aWin = r.pointsAwarded.ai > r.pointsAwarded.player;
-
+          {roundRecords.map((r, i) => {
+            const counterInfo = COUNTER_LABEL[r.counterResult];
             return (
               <div
                 key={i}
-                className="animate-slide-up flex items-center gap-2 px-3 py-2 rounded-lg border border-white/5 bg-white/[0.02]"
-                style={{ animationDelay: `${i * 80}ms` }}
+                className="animate-slide-up flex items-center gap-2 px-3 py-2 rounded-lg border border-white/5 bg-[#131317]"
+                style={{ animationDelay: `${i * 40}ms` }}
               >
                 {/* 라운드 번호 */}
-                <div className={`
-                  w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0
-                  ${pWin ? "bg-accent/20 text-accent" : aWin ? "bg-red-500/20 text-red-400" : "bg-white/5 text-text-tertiary"}
-                `}>
-                  {i + 1}
+                <div className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 bg-white/5 text-white/40">
+                  {r.round}
                 </div>
 
-                {/* 플레이어 카드 */}
-                <CardChip
-                  card={r.playerCard}
-                  isWinner={pWin}
-                  side="player"
-                  onClick={() => handleCelebClick(r.playerCard.id)}
-                />
+                {/* 플레이어 카드+명령 */}
+                <div className="flex-1 min-w-0">
+                  <span className="text-[9px] font-bold text-accent/70">{r.player.card.nickname}</span>
+                  <span className="text-[8px] text-text-tertiary ml-1">{COMMAND_LABELS[r.player.command]}</span>
+                </div>
 
-                {/* 점수 */}
-                <div className="flex items-center gap-1 shrink-0 mx-auto">
-                  <span className={`text-sm font-bold tabular-nums ${pWin ? "text-accent" : "text-text-tertiary"}`}>
-                    {r.playerDomainScore}
+                {/* 상성 결과 */}
+                {counterInfo && (
+                  <span className={`text-[8px] font-bold shrink-0 ${counterInfo.color}`}>
+                    {counterInfo.text}
                   </span>
-                  <div className="flex flex-col items-center">
-                    <span className="text-[8px] text-text-tertiary leading-none">{DOMAIN_LABELS[r.domain]}</span>
-                    {r.isTiebreak && <span className="text-[7px] text-text-tertiary leading-none">TB</span>}
-                  </div>
-                  <span className={`text-sm font-bold tabular-nums ${aWin ? "text-red-400" : "text-text-tertiary"}`}>
-                    {r.aiDomainScore}
+                )}
+
+                <span className="text-[8px] text-white/15 shrink-0">vs</span>
+
+                {/* AI 카드+명령 */}
+                <div className="flex-1 min-w-0 text-right">
+                  <span className="text-[9px] font-bold text-red-400/70">{r.ai.card.nickname}</span>
+                  <span className="text-[8px] text-text-tertiary ml-1">{COMMAND_LABELS[r.ai.command]}</span>
+                </div>
+
+                {/* 국력 변동 */}
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className={`text-[10px] font-bold tabular-nums ${
+                    r.powerDelta.player < 0 ? "text-red-400" : r.powerDelta.player > 0 ? "text-green-400" : "text-text-tertiary"
+                  }`}>
+                    {r.powerDelta.player >= 0 ? "+" : ""}{r.powerDelta.player}
+                  </span>
+                  <div className="w-px h-3 bg-white/[0.06]" />
+                  <span className={`text-[10px] font-bold tabular-nums ${
+                    r.powerDelta.ai < 0 ? "text-red-400" : r.powerDelta.ai > 0 ? "text-green-400" : "text-text-tertiary"
+                  }`}>
+                    {r.powerDelta.ai >= 0 ? "+" : ""}{r.powerDelta.ai}
                   </span>
                 </div>
 
-                {/* AI 카드 */}
-                <CardChip
-                  card={r.aiCard}
-                  isWinner={aWin}
-                  side="ai"
-                  onClick={() => handleCelebClick(r.aiCard.id)}
-                />
+                {/* 반란 */}
+                {(r.rebellion.player || r.rebellion.ai) && (
+                  <Skull size={12} className="text-red-400 shrink-0" />
+                )}
               </div>
             );
           })}
@@ -183,29 +138,20 @@ export default function GameResult({ playerScore, aiScore, rounds, onRestart }: 
       {/* 버튼 */}
       <div className="flex items-center gap-3 animate-fade-in">
         <button
-          onClick={onRestart}
+          onClick={() => { playSfx?.("sfx-confirm.mp3"); onRestart(); }}
           className="flex items-center gap-2 px-6 py-3 rounded-lg bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
         >
           <RotateCcw size={16} className="text-accent" />
           <span className="font-serif font-bold text-accent">다시 대전</span>
         </button>
-        <Link
-          href="/rest"
+        <button
+          onClick={onHome}
           className="flex items-center gap-2 px-6 py-3 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/5 active:scale-95 transition-all"
         >
           <Home size={16} className="text-text-secondary" />
-          <span className="font-serif font-bold text-text-secondary">쉼터로</span>
-        </Link>
+          <span className="font-serif font-bold text-text-secondary">로비로</span>
+        </button>
       </div>
-
-      {/* 셀럽 상세 모달 */}
-      {modalCeleb && (
-        <CelebDetailModal
-          celeb={modalCeleb}
-          isOpen={!!modalCeleb}
-          onClose={() => setModalCeleb(null)}
-        />
-      )}
     </div>
   );
 }

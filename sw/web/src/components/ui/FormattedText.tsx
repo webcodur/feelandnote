@@ -56,8 +56,17 @@ export default function FormattedText({ text, className = "" }: FormattedTextPro
           );
         }
 
-        // 일반 텍스트
-        return <span key={i}>{part}</span>;
+        // 일반 텍스트 (개행 처리)
+        return (
+          <React.Fragment key={i}>
+            {part.split("\n").map((line, j, arr) => (
+              <React.Fragment key={j}>
+                {line}
+                {j < arr.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        );
       })}
     </span>
   );

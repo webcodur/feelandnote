@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSectionHeader";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
@@ -22,6 +22,11 @@ export default async function UserLayout({ children, params }: LayoutProps) {
     notFound();
   }
   const profile = result.data;
+
+  // 셀럽이면 slug 기반 URL로 redirect
+  if (profile.profile_type === 'CELEB' && profile.slug) {
+    redirect(`/celeb/${profile.slug}`);
+  }
 
   const { data: { user } } = await supabase.auth.getUser();
   const isOwner = user?.id === userId;

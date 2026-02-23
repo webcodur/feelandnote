@@ -1,29 +1,42 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import type { GameCharacter } from '@/lib/game/suikoden/types'
-import { GRADE_COLORS, CLASS_INFO, STAT_LABELS, REGIONS, NATIONALITY_TO_REGION } from '@/lib/game/suikoden/constants'
+import type { GameCharacter, Era } from '@/lib/game/suikoden/types'
+import { GRADE_COLORS, CLASS_INFO, REGIONS, NATIONALITY_TO_REGION, ERA_CONFIG } from '@/lib/game/suikoden/constants'
+import { getBirthYear } from '@/lib/game/suikoden/utils'
 import CharacterPortrait from './CharacterPortrait'
+import StatBars from './StatBars'
 
 interface Props {
   characters: GameCharacter[]
-  onComplete: (leaderId: string, difficulty: 'easy' | 'normal' | 'hard') => void
+  onComplete: (leaderId: string, difficulty: 'easy' | 'normal' | 'hard', era: Era) => void
   onBack: () => void
+}
+
+function isCharInEra(c: GameCharacter, era: Era): boolean {
+  const year = getBirthYear(c.birthDate)
+  if (era === 'ancient') return year <= 500
+  if (era === 'medieval') return year > 500 && year <= 1500
+  return year > 1500
 }
 
 export default function SetupScreen({ characters, onComplete, onBack }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [difficulty, setDifficulty] = useState<'easy' | 'normal' | 'hard'>('normal')
+  const [era, setEra] = useState<Era>('ancient')
   const [filter, setFilter] = useState('')
 
+  const eraCharacters = useMemo(() => characters.filter(c => isCharInEra(c, era)), [characters, era])
+
   const filtered = useMemo(() => {
-    if (!filter) return characters.slice(0, 60)
+    const base = eraCharacters
+    if (!filter) return base.slice(0, 60)
     const lower = filter.toLowerCase()
-    return characters.filter(c =>
+    return base.filter(c =>
       c.nickname.toLowerCase().includes(lower) ||
       c.title.toLowerCase().includes(lower)
     ).slice(0, 60)
-  }, [characters, filter])
+  }, [eraCharacters, filter])
 
   const selected = characters.find(c => c.id === selectedId)
 
@@ -34,6 +47,32 @@ export default function SetupScreen({ characters, onComplete, onBack }: Props) {
         <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">← 뒤로</button>
         <h2 className="text-lg font-bold text-stone-200">주군 선택</h2>
         <div />
+      </div>
+
+      {/* 시대 선택 */}
+      <div className="space-y-2">
+        <div className="text-xs text-stone-500 text-center">시대 선택</div>
+        <div className="flex gap-2 justify-center">
+          {(['ancient', 'medieval', 'modern'] as Era[]).map(e => {
+            const cfg = ERA_CONFIG[e]
+            const count = characters.filter(c => isCharInEra(c, e)).length
+            return (
+              <button
+                key={e}
+                onClick={() => { setEra(e); setSelectedId(null) }}
+                className={`px-4 py-2 rounded text-sm border transition-colors flex flex-col items-center gap-0.5 ${
+                  era === e
+                    ? 'border-amber-500 bg-amber-500/10 text-amber-300'
+                    : 'border-stone-700 text-stone-500 hover:border-stone-500'
+                }`}
+              >
+                <span>{cfg.icon} {cfg.name}</span>
+                <span className="text-[10px] text-stone-600">{count}명</span>
+              </button>
+            )
+          })}
+        </div>
+        <p className="text-[11px] text-stone-600 text-center">{ERA_CONFIG[era].description}</p>
       </div>
 
       {/* 난이도 */}
@@ -110,23 +149,7 @@ export default function SetupScreen({ characters, onComplete, onBack }: Props) {
               </div>
 
               {/* 스탯 바 */}
-              <div className="space-y-1.5">
-                {(Object.keys(STAT_LABELS) as (keyof typeof STAT_LABELS)[]).map(key => (
-                  <div key={key} className="flex items-center gap-2 text-xs">
-                    <span className="w-12 text-stone-400">{STAT_LABELS[key].icon} {STAT_LABELS[key].name}</span>
-                    <div className="flex-1 h-2 bg-stone-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{
-                          width: `${selected.stats[key] * 10}%`,
-                          backgroundColor: selected.stats[key] >= 8 ? '#fbbf24' : selected.stats[key] >= 5 ? '#60a5fa' : '#6b7280',
-                        }}
-                      />
-                    </div>
-                    <span className="w-5 text-right text-stone-300">{selected.stats[key]}</span>
-                  </div>
-                ))}
-              </div>
+              <StatBars stats={selected.stats} />
 
               {/* 전투 정보 */}
               <div className="grid grid-cols-3 gap-2 text-xs">
@@ -152,7 +175,7 @@ export default function SetupScreen({ characters, onComplete, onBack }: Props) {
               </div>
 
               <button
-                onClick={() => onComplete(selected.id, difficulty)}
+                onClick={() => onComplete(selected.id, difficulty, era)}
                 className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded transition-colors"
               >
                 {selected.nickname}(으)로 시작

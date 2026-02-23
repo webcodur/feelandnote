@@ -29,9 +29,11 @@ interface CelebInfluenceModalProps {
   celebId: string;
   isOpen: boolean;
   onClose: () => void;
+  /** 커스텀 z-index */
+  zIndex?: number;
 }
 
-export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebInfluenceModalProps) {
+export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }: CelebInfluenceModalProps) {
   const [data, setData] = useState<CelebInfluenceDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -180,7 +182,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose }: CelebI
   // #endregion
 
   const modalContent = (
-    <div className="fixed inset-0 flex items-end md:items-center justify-center" style={{ zIndex: Z_INDEX.modal }} onClick={onClose}>
+    <div className="fixed inset-0 flex items-end md:items-center justify-center" style={{ zIndex: zIndex ?? Z_INDEX.modal }} onClick={onClose}>
       {/* 백드롭 */}
       <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" />
 

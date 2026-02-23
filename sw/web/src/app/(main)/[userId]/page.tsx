@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
@@ -55,6 +55,11 @@ export default async function OverviewPage({ params }: PageProps) {
     notFound();
   }
   const profile = result.data;
+
+  // 셀럽이면 slug 기반 URL로 redirect
+  if (profile.profile_type === 'CELEB' && profile.slug) {
+    redirect(`/celeb/${profile.slug}`);
+  }
 
   const guestbookResult = await getGuestbookEntries({ profileId: userId });
 

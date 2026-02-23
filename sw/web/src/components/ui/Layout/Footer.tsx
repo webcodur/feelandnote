@@ -43,11 +43,8 @@ export default function Footer() {
           {/* Top: Logo & Tagline */}
           <div className="flex flex-col items-center gap-3 mb-10">
             <Logo size="sm" variant="default" />
-            <p className="font-cinzel text-xs tracking-[0.25em] text-text-tertiary/60">
-              Archive of Taste
-            </p>
             <p className="text-text-tertiary/30 text-[11px] font-light tracking-wide">
-              기록이 쌓여 취향의 아카이브가 됩니다.
+              기록을 쌓고 취향의 아카이브를 만들어 보세요.
             </p>
           </div>
 

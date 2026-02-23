@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, Library, Users, Calendar, Building2, FileText, Hash, Database, Image as ImageIcon } from 'lucide-react'
+import { ArrowLeft, Library, Users, FileText } from 'lucide-react'
 import ContentActions from './ContentActions'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 import { STATUS_CONFIG, type ContentStatus } from '@/constants/statuses'
@@ -41,187 +41,168 @@ export default async function ContentDetailPage({ params }: PageProps) {
         >
           <ArrowLeft className="w-5 h-5 text-text-secondary" />
         </Link>
-        <div>
-          <h1 className="text-2xl font-bold text-text-primary">콘텐츠 상세</h1>
-          <p className="text-text-secondary mt-1">{content.title}</p>
+        <div className="flex items-center gap-3">
+          <div className="relative w-10 h-14 rounded bg-bg-secondary flex items-center justify-center overflow-hidden shrink-0">
+            {content.thumbnail_url ? (
+              <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+            ) : (
+              <TypeIcon className="w-5 h-5 text-text-secondary" />
+            )}
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-text-primary leading-tight">{content.title}</h1>
+            <div className="flex items-center gap-2 mt-0.5">
+              {content.creator && (
+                <span className="text-sm text-text-secondary">{content.creator}</span>
+              )}
+              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${typeConfig?.bgColor} ${typeConfig?.color}`}>
+                <TypeIcon className="w-2.5 h-2.5" />
+                {typeConfig?.label || content.type}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Content Card */}
-        <div className="lg:col-span-1">
-          <div className="bg-bg-card border border-border rounded-xl p-6">
-            <div className="text-center">
-              <div className="relative w-32 h-44 mx-auto rounded-lg bg-bg-secondary flex items-center justify-center overflow-hidden">
-                {content.thumbnail_url ? (
-                  <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
-                ) : (
-                  <TypeIcon className="w-12 h-12 text-text-secondary" />
-                )}
-              </div>
-
-              <h2 className="mt-4 text-lg font-semibold text-text-primary line-clamp-2">
-                {content.title}
-              </h2>
-
-              {content.creator && (
-                <p className="text-text-secondary text-sm mt-1">{content.creator}</p>
-              )}
-
-              <div className="mt-4">
-                <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${typeConfig?.bgColor} ${typeConfig?.color}`}>
-                  <TypeIcon className="w-3 h-3" />
-                  {typeConfig?.label || content.type}
-                </span>
-              </div>
+      {/* 정보 그리드 — 2열 수평 */}
+      <div className="bg-bg-card border border-border rounded-xl p-5">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+          <Field label="콘텐츠 ID" value={content.id} mono />
+          <Field label="등록 사용자" value={`${content.user_count}명`} />
+          {content.external_source && (
+            <Field label="외부 소스" value={content.external_source} />
+          )}
+          {content.publisher && (
+            <Field label="출판/제작" value={content.publisher} />
+          )}
+          {content.release_date && (
+            <Field label="출시일" value={content.release_date} />
+          )}
+          <Field label="등록일" value={new Date(content.created_at).toLocaleDateString('ko-KR')} />
+          {content.thumbnail_url && (
+            <div className="col-span-2">
+              <Field label="썸네일 URL" value={content.thumbnail_url} mono />
             </div>
-
-            <div className="mt-6 pt-6 border-t border-border space-y-4">
-              <InfoRow icon={Hash} label="콘텐츠 ID" value={content.id} mono />
-              {content.external_source && (
-                <InfoRow icon={Database} label="외부 소스" value={content.external_source} />
-              )}
-              <InfoRow icon={Users} label="등록 사용자" value={`${content.user_count}명`} />
-              {content.publisher && (
-                <InfoRow icon={Building2} label="출판/제작" value={content.publisher} />
-              )}
-              {content.release_date && (
-                <InfoRow icon={Calendar} label="출시일" value={content.release_date} />
-              )}
-              <InfoRow
-                icon={Calendar}
-                label="등록일"
-                value={new Date(content.created_at).toLocaleDateString('ko-KR')}
-              />
-              {content.thumbnail_url && (
-                <div className="flex items-start gap-3">
-                  <ImageIcon className="w-4 h-4 text-text-secondary mt-0.5" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-text-secondary">썸네일 URL</p>
-                    <p className="text-xs text-text-primary font-mono break-all">{content.thumbnail_url}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {content.description && (
-              <div className="mt-6 pt-6 border-t border-border">
-                <p className="text-xs text-text-secondary mb-2">설명</p>
-                <p className="text-sm text-text-primary">{content.description}</p>
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
-        {/* Details */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Actions */}
-          <div className="bg-bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">관리 액션</h3>
-            <ContentActions content={content} />
+        {content.description && (
+          <div className="mt-4 pt-4 border-t border-border">
+            <span className="text-xs text-text-secondary">설명</span>
+            <p className="text-sm text-text-primary mt-1">{content.description}</p>
           </div>
+        )}
 
-          {/* Users who have this content */}
-          <div className="bg-bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">등록한 사용자</h3>
-            {content.users.length === 0 ? (
-              <p className="text-text-secondary text-center py-4">등록한 사용자가 없습니다</p>
-            ) : (
-              <div className="space-y-3">
-                {content.users.map((user) => (
-                  <Link
-                    key={user.id}
-                    href={`/users/${user.id}`}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-bg-secondary"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
-                        {user.avatar_url ? (
-                          <Image src={user.avatar_url} alt="" fill unoptimized className="object-cover" />
-                        ) : (
-                          <Users className="w-5 h-5 text-accent" />
-                        )}
-                      </div>
-                      <span className="text-sm font-medium text-text-primary">
-                        {user.nickname || '닉네임 없음'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${STATUS_CONFIG[user.status as ContentStatus]?.bgColor || 'bg-gray-500/10'} ${STATUS_CONFIG[user.status as ContentStatus]?.color || 'text-gray-400'}`}>
-                        {STATUS_CONFIG[user.status as ContentStatus]?.label || user.status}
-                      </span>
-                      <span className="text-xs text-text-secondary">
-                        {new Date(user.created_at).toLocaleDateString('ko-KR')}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
+        {/* 제휴 링크 */}
+        {content.affiliate_url && content.affiliate_url.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-border">
+            <span className="text-xs text-text-secondary">제휴 링크</span>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {content.affiliate_url.map((link, i) => (
+                <a
+                  key={i}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline"
+                >
+                  <span className="font-medium text-text-secondary bg-bg-secondary px-1.5 py-0.5 rounded text-[10px]">
+                    {link.platform}
+                  </span>
+                  <span className="truncate max-w-[300px]">{link.url}</span>
+                </a>
+              ))}
+            </div>
           </div>
+        )}
+      </div>
 
-          {/* Records */}
-          <div className="bg-bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">관련 기록</h3>
-            {content.records.length === 0 ? (
-              <p className="text-text-secondary text-center py-4">관련 기록이 없습니다</p>
-            ) : (
-              <div className="space-y-3">
-                {content.records.map((record) => (
-                  <Link
-                    key={record.id}
-                    href={`/records/${record.id}`}
-                    className="block p-3 rounded-lg hover:bg-bg-secondary"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <FileText className="w-3.5 h-3.5 text-text-secondary" />
-                          <span className="text-xs text-text-secondary">
-                            {record.type === 'NOTE' ? '노트' : '인용'}
-                          </span>
-                          <span className="text-xs text-text-secondary">·</span>
-                          <span className="text-xs text-text-secondary">
-                            {record.user.nickname || '알 수 없음'}
-                          </span>
-                        </div>
-                        <p className="text-sm text-text-primary line-clamp-2">
-                          {record.content}
-                        </p>
-                      </div>
-                      <span className="text-xs text-text-secondary flex-shrink-0">
-                        {new Date(record.created_at).toLocaleDateString('ko-KR')}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* 관리 액션 */}
+        <div className="bg-bg-card border border-border rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">관리 액션</h3>
+          <ContentActions content={content} />
+        </div>
+
+        {/* 등록한 사용자 */}
+        <div className="bg-bg-card border border-border rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">등록한 사용자</h3>
+          {content.users.length === 0 ? (
+            <p className="text-text-secondary text-center py-4 text-sm">등록한 사용자가 없습니다</p>
+          ) : (
+            <div className="space-y-1">
+              {content.users.map((user) => (
+                <Link
+                  key={user.id}
+                  href={`/users/${user.id}`}
+                  className="flex items-center justify-between py-2 px-2 rounded hover:bg-bg-secondary"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="relative w-7 h-7 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+                      {user.avatar_url ? (
+                        <Image src={user.avatar_url} alt="" fill unoptimized className="object-cover" />
+                      ) : (
+                        <Users className="w-3.5 h-3.5 text-accent" />
+                      )}
+                    </div>
+                    <span className="text-sm text-text-primary">
+                      {user.nickname || '닉네임 없음'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${STATUS_CONFIG[user.status as ContentStatus]?.bgColor || 'bg-gray-500/10'} ${STATUS_CONFIG[user.status as ContentStatus]?.color || 'text-gray-400'}`}>
+                      {STATUS_CONFIG[user.status as ContentStatus]?.label || user.status}
+                    </span>
+                    <span className="text-[10px] text-text-tertiary">
+                      {new Date(user.created_at).toLocaleDateString('ko-KR')}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 관련 기록 */}
+        <div className="lg:col-span-2 bg-bg-card border border-border rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">관련 기록</h3>
+          {content.records.length === 0 ? (
+            <p className="text-text-secondary text-center py-4 text-sm">관련 기록이 없습니다</p>
+          ) : (
+            <div className="space-y-1">
+              {content.records.map((record) => (
+                <Link
+                  key={record.id}
+                  href={`/records/${record.id}`}
+                  className="flex items-start justify-between gap-4 py-2 px-2 rounded hover:bg-bg-secondary"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <FileText className="w-3 h-3 text-text-secondary" />
+                      <span className="text-[10px] text-text-tertiary">
+                        {record.type === 'NOTE' ? '노트' : '인용'} · {record.user.nickname || '알 수 없음'}
                       </span>
                     </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+                    <p className="text-sm text-text-primary line-clamp-1">{record.content}</p>
+                  </div>
+                  <span className="text-[10px] text-text-tertiary shrink-0">
+                    {new Date(record.created_at).toLocaleDateString('ko-KR')}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
   )
 }
 
-function InfoRow({
-  icon: Icon,
-  label,
-  value,
-  mono,
-}: {
-  icon: React.ElementType
-  label: string
-  value: string
-  mono?: boolean
-}) {
+function Field({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
-    <div className="flex items-center gap-3">
-      <Icon className="w-4 h-4 text-text-secondary" />
-      <div className="min-w-0 flex-1">
-        <p className="text-xs text-text-secondary">{label}</p>
-        <p className={`text-sm text-text-primary break-all ${mono ? 'font-mono text-xs' : ''}`}>{value}</p>
-      </div>
+    <div className="flex items-baseline gap-3 py-1">
+      <span className="text-xs text-text-secondary shrink-0 w-20">{label}</span>
+      <span className={`text-sm text-text-primary truncate ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
     </div>
   )
 }

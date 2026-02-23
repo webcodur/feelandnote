@@ -45,6 +45,9 @@ export const Z_INDEX = {
 
   // 최상위 (긴급 알림, 전체 화면 게임 등)
   top: 9999,
+
+  // 전체화면 게임 위에 표시되는 모달
+  gameModal: 10000,
 } as const;
 
 export type ZIndexKey = keyof typeof Z_INDEX;

@@ -61,9 +61,9 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
 
   return {
     id: profile.id,
+    slug: profile.slug ?? null,
     nickname: profile.nickname || '익명',
     avatar_url: profile.avatar_url,
-    portrait_url: profile.portrait_url,
     profession: profile.profession,
     title: profile.title,
     consumption_philosophy: profile.consumption_philosophy,

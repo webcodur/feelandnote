@@ -18,7 +18,7 @@ const CLASS_AVAILABLE_TACTICS: Record<UnitClass, TacticType[]> = {
 /** 참가자들의 병과를 종합하여 사용 가능한 전술 목록 반환 */
 export function getAvailableTactics(participants: BattleParticipant[]): TacticType[] {
   const alive = participants.filter(p => !p.isDefeated)
-  if (alive.length === 0) return ['defend'] // 최소 방어는 가능
+  if (alive.length === 0) return ['defend']
 
   const tacticSet = new Set<TacticType>()
   for (const p of alive) {
@@ -28,7 +28,14 @@ export function getAvailableTactics(participants: BattleParticipant[]): TacticTy
   return Array.from(tacticSet)
 }
 
-/** 전술 대결 판정 → BattleRound 반환 */
+/** 전술 대결 판정 결과 */
+export interface TacticClashResult {
+  round: BattleRound
+  attackers: BattleParticipant[]
+  defenders: BattleParticipant[]
+}
+
+/** 전술 대결 판정 — 불변: 새 배열 반환 */
 export function resolveTacticClash(
   attackers: BattleParticipant[],
   defenders: BattleParticipant[],
@@ -36,8 +43,7 @@ export function resolveTacticClash(
   defTactic: TacticType,
   roundNumber: number,
   defenderHasWalls: boolean,
-): BattleRound {
-  // 공격측 대표 (리더 우선, 없으면 첫 생존자)
+): TacticClashResult {
   const atkAlive = attackers.filter(p => !p.isDefeated)
   const defAlive = defenders.filter(p => !p.isDefeated)
   const atkLeader = atkAlive.find(p => p.isLeader) ?? atkAlive[0]
@@ -45,14 +51,18 @@ export function resolveTacticClash(
 
   if (!atkLeader || !defLeader) {
     return {
-      roundNumber,
-      attackerTactic: atkTactic,
-      defenderTactic: defTactic,
-      attackerDamage: 0,
-      defenderDamage: 0,
-      attackerTroopLoss: 0,
-      defenderTroopLoss: 0,
-      narrative: '전투 속행 불가.',
+      round: {
+        roundNumber,
+        attackerTactic: atkTactic,
+        defenderTactic: defTactic,
+        attackerDamage: 0,
+        defenderDamage: 0,
+        attackerTroopLoss: 0,
+        defenderTroopLoss: 0,
+        narrative: '전투 속행 불가.',
+      },
+      attackers,
+      defenders,
     }
   }
 
@@ -61,32 +71,41 @@ export function resolveTacticClash(
   // 방어측 → 공격측 피해
   const defResult = calcTacticDamage(defLeader, atkLeader, defTactic, atkTactic, false)
 
-  // 피해 분배 (전체 참가자에게 분산)
-  distributeParticipantDamage(defAlive, atkResult.damage, atkResult.troopLoss)
-  distributeParticipantDamage(atkAlive, defResult.damage, defResult.troopLoss)
+  // 피해 분배 (새 배열 반환)
+  let newDefenders = applyDamage(defenders, atkResult.damage, atkResult.troopLoss)
+  let newAttackers = applyDamage(attackers, defResult.damage, defResult.troopLoss)
 
   // 사기 변동 적용
   if (atkTactic === 'morale') {
-    for (const p of atkAlive) p.morale = Math.min(100, p.morale + atkResult.moraleDelta)
+    newAttackers = newAttackers.map(p =>
+      p.isDefeated ? p : { ...p, morale: Math.min(100, p.morale + atkResult.moraleDelta) }
+    )
   }
   if (defTactic === 'morale') {
-    for (const p of defAlive) p.morale = Math.min(100, p.morale + defResult.moraleDelta)
+    newDefenders = newDefenders.map(p =>
+      p.isDefeated ? p : { ...p, morale: Math.min(100, p.morale + defResult.moraleDelta) }
+    )
   }
 
   // 피해로 인한 사기 하락
   if (atkResult.damage > 0) {
-    for (const p of defAlive) p.morale = Math.max(0, p.morale - 3)
+    newDefenders = newDefenders.map(p =>
+      p.isDefeated ? p : { ...p, morale: Math.max(0, p.morale - 3) }
+    )
   }
   if (defResult.damage > 0) {
-    for (const p of atkAlive) p.morale = Math.max(0, p.morale - 3)
+    newAttackers = newAttackers.map(p =>
+      p.isDefeated ? p : { ...p, morale: Math.max(0, p.morale - 3) }
+    )
   }
 
   // 패배 판정 (HP 0 이하 또는 병사 0)
-  for (const p of [...atkAlive, ...defAlive]) {
-    if (p.character.hp <= 0 || p.troops <= 0) {
-      p.isDefeated = true
-    }
-  }
+  newAttackers = newAttackers.map(p =>
+    !p.isDefeated && (p.character.hp <= 0 || p.troops <= 0) ? { ...p, isDefeated: true } : p
+  )
+  newDefenders = newDefenders.map(p =>
+    !p.isDefeated && (p.character.hp <= 0 || p.troops <= 0) ? { ...p, isDefeated: true } : p
+  )
 
   // 전투 서술 생성
   const matchup = TACTIC_MATCHUP[atkTactic][defTactic]
@@ -98,35 +117,43 @@ export function resolveTacticClash(
   else narrative += '호각의 접전이 벌어졌다.'
 
   // 패자 서술
-  const newDefDefeated = defAlive.filter(p => p.isDefeated)
-  const newAtkDefeated = atkAlive.filter(p => p.isDefeated)
+  const newDefDefeated = newDefenders.filter(p => p.isDefeated && !defenders.find(d => d.character.id === p.character.id)?.isDefeated)
+  const newAtkDefeated = newAttackers.filter(p => p.isDefeated && !attackers.find(a => a.character.id === p.character.id)?.isDefeated)
   for (const p of newDefDefeated) narrative += ` ${p.character.nickname} 쓰러졌다!`
   for (const p of newAtkDefeated) narrative += ` ${p.character.nickname} 쓰러졌다!`
 
   return {
-    roundNumber,
-    attackerTactic: atkTactic,
-    defenderTactic: defTactic,
-    attackerDamage: atkResult.damage,
-    defenderDamage: defResult.damage,
-    attackerTroopLoss: atkResult.troopLoss,
-    defenderTroopLoss: defResult.troopLoss,
-    narrative,
+    round: {
+      roundNumber,
+      attackerTactic: atkTactic,
+      defenderTactic: defTactic,
+      attackerDamage: atkResult.damage,
+      defenderDamage: defResult.damage,
+      attackerTroopLoss: atkResult.troopLoss,
+      defenderTroopLoss: defResult.troopLoss,
+      narrative,
+    },
+    attackers: newAttackers,
+    defenders: newDefenders,
   }
 }
 
-/** 피해를 참가자들에게 균등 분배 */
-function distributeParticipantDamage(targets: BattleParticipant[], totalDamage: number, totalTroopLoss: number) {
-  if (targets.length === 0) return
+/** 피해를 참가자들에게 균등 분배 (불변) */
+function applyDamage(targets: BattleParticipant[], totalDamage: number, totalTroopLoss: number): BattleParticipant[] {
+  const alive = targets.filter(p => !p.isDefeated)
+  if (alive.length === 0) return targets
 
-  const perUnit = Math.ceil(totalDamage / targets.length)
-  const perTroop = Math.ceil(totalTroopLoss / targets.length)
+  const perUnit = Math.ceil(totalDamage / alive.length)
+  const perTroop = Math.ceil(totalTroopLoss / alive.length)
 
-  for (const t of targets) {
-    if (t.isDefeated) continue
-    t.character.hp = Math.max(0, t.character.hp - perUnit)
-    t.troops = Math.max(0, t.troops - perTroop)
-  }
+  return targets.map(t => {
+    if (t.isDefeated) return t
+    return {
+      ...t,
+      character: { ...t.character, hp: Math.max(0, t.character.hp - perUnit) },
+      troops: Math.max(0, t.troops - perTroop),
+    }
+  })
 }
 
 /** 병과별 전술 위력 보정 조회 */

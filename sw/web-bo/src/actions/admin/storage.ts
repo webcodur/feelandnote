@@ -12,14 +12,13 @@ interface UploadCelebImageInput {
 interface UploadCelebImageResult {
   success: boolean
   avatarUrl?: string
-  portraitUrl?: string
   error?: string
 }
 
 interface UploadSingleImageInput {
   celebId: string
   image: string // base64
-  type: 'avatar' | 'portrait'
+  type: 'avatar'
 }
 
 interface UploadSingleImageResult {
@@ -81,7 +80,6 @@ export async function uploadCelebImages(
   return {
     success: true,
     avatarUrl: smUrlData.publicUrl,
-    portraitUrl: mdUrlData.publicUrl,
   }
 }
 // #endregion
@@ -91,9 +89,8 @@ export async function deleteCelebImages(celebId: string): Promise<void> {
   const adminClient = createAdminClient()
 
   const smPath = `${CELEB_FOLDER}/${celebId}/avatar.webp`
-  const mdPath = `${CELEB_FOLDER}/${celebId}/portrait.webp`
 
-  await adminClient.storage.from(BUCKET_NAME).remove([smPath, mdPath])
+  await adminClient.storage.from(BUCKET_NAME).remove([smPath])
 }
 // #endregion
 
@@ -102,10 +99,10 @@ export async function uploadCelebImage(
   input: UploadSingleImageInput
 ): Promise<UploadSingleImageResult> {
   const adminClient = createAdminClient()
-  const { celebId, image, type } = input
+  const { celebId, image } = input
 
   const buffer = Buffer.from(image.split(',')[1], 'base64')
-  const filename = type === 'avatar' ? 'avatar.webp' : 'portrait.webp'
+  const filename = 'avatar.webp'
   const path = `${CELEB_FOLDER}/${celebId}/${filename}`
 
   // 기존 이미지 삭제 후 업로드

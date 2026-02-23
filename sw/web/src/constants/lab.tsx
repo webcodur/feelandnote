@@ -4,7 +4,7 @@
   책임: Lab 탭 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Book, Layers, Frame, Crown, Landmark, LayoutGrid, Waves, Users, type LucideIcon } from "lucide-react";
+import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, type LucideIcon } from "lucide-react";
 
 // 섹션명
 export const LAB_SECTION_NAME = "Component Lab";
@@ -52,14 +52,6 @@ export const LAB_ITEMS: LabItem[] = [
     subtitle: "고대 그리스 테마 SVG 일러스트레이션",
   },
   {
-    value: "hero-banner",
-    label: "메인 배너",
-    icon: Crown,
-    href: "/lab/hero-banner",
-    title: "Monumental Banner",
-    subtitle: "압도적 위엄의 메인 배너 제안 (2종)",
-  },
-  {
     value: "book-design",
     label: "책 디자인",
     icon: Book,
@@ -82,5 +74,13 @@ export const LAB_ITEMS: LabItem[] = [
     href: "/lab/persona",
     title: "Persona Cards",
     subtitle: "인물 정보 카드 및 벡터 시각화",
+  },
+  {
+    value: "electric-border",
+    label: "전기 테두리",
+    icon: Zap,
+    href: "/lab/electric-border",
+    title: "Electric Border",
+    subtitle: "SVG feTurbulence 기반 전기 테두리 효과",
   },
 ];

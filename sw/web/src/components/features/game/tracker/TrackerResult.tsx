@@ -7,10 +7,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Book, Film, Gamepad2, Music, Trophy, User } from "lucide-react";
+import { Trophy, User } from "lucide-react";
 import type { TrackerContent } from "@/actions/game/getTrackerRound";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { cn } from "@/lib/utils";
+import { getCelebProfileUrl } from "@/lib/url";
+import GameContentItem from "../shared/GameContentItem";
 
 const SCORE_LABELS: Record<number, string> = {
   6: "완벽한 추리!",
@@ -22,15 +24,9 @@ const SCORE_LABELS: Record<number, string> = {
   0: "아쉽지만 다음에!",
 };
 
-const TYPE_ICONS: Record<string, typeof Book> = {
-  BOOK: Book,
-  VIDEO: Film,
-  GAME: Gamepad2,
-  MUSIC: Music,
-};
-
 interface TrackerResultProps {
   celebId: string;
+  celebSlug: string | null;
   nickname: string;
   profession: string;
   avatarUrl: string | null;
@@ -45,6 +41,7 @@ interface TrackerResultProps {
 
 export default function TrackerResult({
   celebId,
+  celebSlug,
   nickname,
   profession,
   avatarUrl,
@@ -90,7 +87,7 @@ export default function TrackerResult({
           <h3 className="text-xl font-serif font-bold text-white">{nickname}</h3>
         </div>
         <Link
-          href={`/${celebId}`}
+          href={getCelebProfileUrl({ id: celebId, slug: celebSlug, profile_type: 'CELEB' })}
           target="_blank"
           className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs text-text-secondary hover:bg-white/10 hover:text-white"
         >
@@ -103,43 +100,23 @@ export default function TrackerResult({
       {contents.length > 0 && (
         <div className="space-y-2">
           <h4 className="text-xs text-text-tertiary font-cinzel uppercase tracking-wider text-center">
-            이 인물의 작품
+            이 인물이 감상한 작품
           </h4>
           <div className="space-y-1.5">
-            {contents.map((c) => {
-              const Icon = TYPE_ICONS[c.type] ?? Book;
-              return (
-                <Link
-                  key={c.id}
-                  href={`/content/${c.id}?category=${c.type}`}
-                  target="_blank"
-                  className="flex items-center gap-2.5 rounded-lg border border-white/10 bg-black/20 px-3 py-2 hover:bg-white/5"
-                >
-                  <div className="relative h-10 w-8 shrink-0 rounded overflow-hidden bg-bg-secondary">
-                    {c.thumbnailUrl ? (
-                      <Image
-                        src={c.thumbnailUrl}
-                        alt={c.title}
-                        fill
-                        sizes="32px"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center">
-                        <Icon size={14} className="text-text-secondary" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-white truncate">{c.title}</p>
-                    {c.creator && (
-                      <p className="text-xs text-text-secondary truncate">{c.creator}</p>
-                    )}
-                  </div>
-                  <Icon size={14} className="shrink-0 text-text-tertiary" />
-                </Link>
-              );
-            })}
+            {contents.map((c) => (
+              <GameContentItem
+                key={c.id}
+                contentId={c.id}
+                title={c.title}
+                creator={c.creator}
+                thumbnailUrl={c.thumbnailUrl}
+                type={c.type}
+                review={c.review}
+                sourceUrl={c.sourceUrl}
+                ownerNickname={nickname}
+                size="md"
+              />
+            ))}
           </div>
         </div>
       )}

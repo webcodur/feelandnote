@@ -13,9 +13,10 @@ interface Props {
   label?: string;         // 영문 서브 라벨 (예: CHOSEN ONES) - 선택사항
   description: ReactNode; // 설명 문구 (줄바꿈 가능)
   className?: string;
+  as?: "h1" | "h2" | "h3"; // 제목 태그 (기본: h2)
 }
 
-export default function SectionHeader({ title, label, description, className = "" }: Props) {
+export default function SectionHeader({ title, label, description, className = "", as: Tag = "h2" }: Props) {
   return (
     <div className={`text-center py-6 sm:py-8 mb-6 ${className}`}>
       {/* 상단 장식 라인 (기둥 모티브) */}
@@ -33,9 +34,9 @@ export default function SectionHeader({ title, label, description, className = "
       )}
 
       {/* 메인 타이틀 */}
-      <h2 className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-3">
+      <Tag className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-3">
         {title}
-      </h2>
+      </Tag>
 
       {/* 설명 문구 */}
       <div className="text-sm sm:text-base text-text-secondary/80 font-medium leading-relaxed max-w-xl mx-auto whitespace-pre-line break-keep">

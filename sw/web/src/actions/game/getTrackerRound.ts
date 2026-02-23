@@ -15,6 +15,7 @@ export interface TrackerContent {
   thumbnailUrl: string | null;
   type: string;
   review: string;
+  sourceUrl: string | null;
 }
 
 export interface TrackerOption {
@@ -47,6 +48,7 @@ export interface TrackerPersona {
 
 export interface TrackerRound {
   celebId: string;
+  celebSlug: string | null;
   nickname: string;
   profession: string;
   avatarUrl: string | null;
@@ -97,7 +99,7 @@ export async function getTrackerRound(
 
   // 랜덤 선택
   const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-  return buildRound(supabase, chosen.id, chosen.nickname, chosen.profession, chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes);
+  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession, chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes);
 }
 
 async function getTrackerRoundFallback(
@@ -108,7 +110,7 @@ async function getTrackerRoundFallback(
   // 자격 있는 셀럽 목록: persona 존재 + philosophy 존재 + 리뷰 있는 콘텐츠 존재
   const { data: allCelebs } = await supabase
     .from("profiles")
-    .select("id, nickname, profession, avatar_url, consumption_philosophy, death_date, nationality, birth_date, bio, quotes")
+    .select("id, slug, nickname, profession, avatar_url, consumption_philosophy, death_date, nationality, birth_date, bio, quotes")
     .eq("profile_type", "CELEB")
     .not("consumption_philosophy", "is", null)
     .not("death_date", "is", null);
@@ -156,12 +158,13 @@ async function getTrackerRoundFallback(
   if (eligible.length === 0) return null;
 
   const chosen = eligible[Math.floor(Math.random() * eligible.length)];
-  return buildRound(supabase, chosen.id, chosen.nickname, chosen.profession ?? "other", chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes);
+  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession ?? "other", chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes);
 }
 
 async function buildRound(
   supabase: Awaited<ReturnType<typeof createClient>>,
   celebId: string,
+  celebSlug: string | null,
   nickname: string,
   profession: string,
   avatarUrl: string | null,
@@ -186,7 +189,7 @@ async function buildRound(
   // 3. 리뷰 있는 콘텐츠 최대 5건
   const { data: ucData } = await supabase
     .from("user_contents")
-    .select("content_id, review")
+    .select("content_id, review, source_url")
     .eq("user_id", celebId)
     .not("review", "is", null)
     .neq("review", "")
@@ -204,6 +207,9 @@ async function buildRound(
     const reviewMap = new Map(
       (ucData ?? []).map((uc) => [uc.content_id, uc.review as string])
     );
+    const sourceUrlMap = new Map(
+      (ucData ?? []).map((uc) => [uc.content_id, (uc as any).source_url as string | null])
+    );
 
     contents = (cData ?? []).map((c) => ({
       id: c.id,
@@ -212,41 +218,49 @@ async function buildRound(
       thumbnailUrl: c.thumbnail_url,
       type: c.type ?? "BOOK",
       review: censorName(reviewMap.get(c.id) ?? "", nickname),
+      sourceUrl: sourceUrlMap.get(c.id) ?? null,
     }));
   }
 
-  // 4. 같은 직군 오답 보기 3명
-  const { data: sameProf } = await supabase
+  // 4. 유사 인물 오답 보기 3명 (직군·국적·생몰년 유사도)
+  const { data: pool } = await supabase
     .from("profiles")
-    .select("id, nickname, avatar_url")
+    .select("id, nickname, avatar_url, profession, nationality, birth_date, death_date")
     .eq("profile_type", "CELEB")
-    .eq("profession", profession)
     .neq("id", celebId)
     .not("death_date", "is", null)
-    .limit(20);
+    .limit(100);
 
-  // 퍼블릭 도메인 필터는 여기서도 적용 (death_date 정보 추가 조회 대신 단순 3명 선택)
-  const distractors = (sameProf ?? [])
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+  const birthYear = parseYear(birthDate);
+  const deathYear = parseYear(deathDate);
 
-  // 3명 미달 시 다른 직군에서 보충
-  if (distractors.length < 3) {
-    const { data: others } = await supabase
-      .from("profiles")
-      .select("id, nickname, avatar_url")
-      .eq("profile_type", "CELEB")
-      .neq("id", celebId)
-      .not("death_date", "is", null)
-      .limit(10);
+  const scored = (pool ?? []).map((d) => {
+    let similarity = 0;
+    // 직군 일치 +3
+    if (d.profession === profession) similarity += 3;
+    // 국적 일치 +2
+    if (nationality && d.nationality === nationality) similarity += 2;
+    // 생년 유사도 (50년 이내일수록 높음, 최대 +3)
+    const dBirth = parseYear(d.birth_date);
+    if (birthYear !== null && dBirth !== null) {
+      const gap = Math.abs(birthYear - dBirth);
+      if (gap <= 50) similarity += 3;
+      else if (gap <= 150) similarity += 2;
+      else if (gap <= 300) similarity += 1;
+    }
+    // 사망년 유사도 (최대 +2)
+    const dDeath = parseYear(d.death_date);
+    if (deathYear !== null && dDeath !== null) {
+      const gap = Math.abs(deathYear - dDeath);
+      if (gap <= 50) similarity += 2;
+      else if (gap <= 150) similarity += 1;
+    }
+    return { ...d, similarity };
+  });
 
-    const existing = new Set([celebId, ...distractors.map((d) => d.id)]);
-    const extra = (others ?? [])
-      .filter((o) => !existing.has(o.id))
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3 - distractors.length);
-    distractors.push(...extra);
-  }
+  // 유사도 내림차순 정렬 후, 동점 내 랜덤 셔플
+  scored.sort((a, b) => b.similarity - a.similarity || Math.random() - 0.5);
+  const distractors = scored.slice(0, 3);
 
   const options: TrackerOption[] = [
     { id: celebId, nickname, avatarUrl },
@@ -261,6 +275,7 @@ async function buildRound(
 
   return {
     celebId,
+    celebSlug,
     nickname,
     profession,
     avatarUrl,
@@ -275,4 +290,15 @@ async function buildRound(
     contents,
     options,
   };
+}
+
+/** 날짜 문자열에서 연도 추출 (BC는 음수) */
+function parseYear(date: string | null | undefined): number | null {
+  if (!date || date === "") return null;
+  if (date.startsWith("-")) {
+    const n = parseInt(date.slice(1), 10);
+    return isNaN(n) ? null : -n;
+  }
+  const match = date.match(/^(\d{1,4})/);
+  return match ? parseInt(match[1], 10) : null;
 }

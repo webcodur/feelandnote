@@ -12,6 +12,7 @@ interface PageHeroSectionNeoProps {
   title: string;
   description?: string;
   className?: string;
+  titleTag?: 'h1' | 'div';
 }
 
 export default function PageHeroSectionNeo({
@@ -19,7 +20,9 @@ export default function PageHeroSectionNeo({
   title,
   description,
   className,
+  titleTag = 'h1',
 }: PageHeroSectionNeoProps) {
+  const TitleTag = titleTag;
   return (
     <div className={cn("relative flex flex-col items-center justify-center py-20 md:py-32 px-4 overflow-hidden", className)}>
       {/* Background Ambience */}
@@ -42,12 +45,12 @@ export default function PageHeroSectionNeo({
             {englishTitle}
           </span>
           
-          <h1 className="relative font-serif font-black text-4xl md:text-6xl lg:text-7xl text-text-primary tracking-tight leading-tight">
+          <TitleTag className="relative font-serif font-black text-4xl md:text-6xl lg:text-7xl text-text-primary tracking-tight leading-tight">
             <span className="absolute -inset-1 blur-2xl bg-accent/10 rounded-full opacity-50" />
             <span className="relative bg-gradient-to-b from-[#fff] via-[#e0e0e0] to-[#999] bg-clip-text text-transparent drop-shadow-2xl">
               {title}
             </span>
-          </h1>
+          </TitleTag>
         </div>
 
         {/* Divider & Description */}

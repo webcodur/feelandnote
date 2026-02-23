@@ -221,26 +221,37 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
               dragState.current.hasMoved = false;
             }}
             className={cn(
-              "flex-shrink-0 relative w-[100px] md:w-[120px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-all duration-300",
+              "flex-shrink-0 w-[80px] md:w-[100px] flex flex-col gap-1.5 cursor-pointer transition-all duration-300",
               isSelected
-                ? "ring-2 ring-accent ring-offset-2 ring-offset-bg-main shadow-lg scale-[1.02]"
+                ? "scale-[1.02]"
                 : "opacity-60 hover:opacity-100 hover:-translate-y-1"
             )}
           >
-            {celeb.avatar_url ? (
-              <Image src={celeb.avatar_url} alt={celeb.nickname} fill sizes="150px" className="object-cover" />
-            ) : (
-              <div className="w-full h-full bg-bg-card flex items-center justify-center text-text-tertiary">
-                <span className="font-serif text-xl">{celeb.nickname[0]}</span>
-              </div>
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col items-center justify-end pb-1 pt-4 px-2">
+            <div className={cn(
+              "relative aspect-square rounded-lg overflow-hidden transition-all",
+              isSelected ? "ring-2 ring-accent ring-offset-2 ring-offset-bg-main shadow-lg" : ""
+            )}>
+              {celeb.avatar_url ? (
+                <Image src={celeb.avatar_url} alt={celeb.nickname} fill sizes="150px" className="object-cover" />
+              ) : (
+                <div className="w-full h-full bg-bg-card flex items-center justify-center text-text-tertiary">
+                  <span className="font-serif text-xl">{celeb.nickname[0]}</span>
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col items-center">
               {celeb.title && (
-                <span className="text-[10px] font-cinzel font-bold text-amber-500 tracking-widest uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] break-keep leading-tight">
+                <span className={cn(
+                  "text-[9px] font-cinzel font-bold tracking-widest uppercase leading-tight truncate w-full text-center",
+                  isSelected ? "text-amber-500" : "text-amber-500/60"
+                )}>
                   {celeb.title}
                 </span>
               )}
-              <span className="text-[11px] font-sans font-bold text-white tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] truncate w-full text-center">
+              <span className={cn(
+                "text-[11px] font-sans font-bold tracking-wide truncate w-full text-center transition-colors",
+                isSelected ? "text-white" : "text-text-secondary"
+              )}>
                 {celeb.nickname}
               </span>
             </div>
@@ -250,7 +261,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
       {!isExplore && (
         <Link
           href={`/explore?tagId=${activeTag.id}`}
-          className="flex-shrink-0 w-[80px] md:w-[100px] aspect-[3/4] flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-white/10 hover:border-accent hover:bg-accent/5 transition-all group"
+          className="flex-shrink-0 w-[80px] md:w-[100px] aspect-square flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-white/10 hover:border-accent hover:bg-accent/5 transition-all group"
         >
           <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-accent group-hover:text-accent">
             <ArrowRight size={14} />
@@ -265,7 +276,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
   // #region explore-pc 전용 2열 레이아웃
   if (isExplore) {
     return (
-      <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-8 overflow-hidden">
+      <div className="grid grid-cols-[minmax(0,1fr)_280px] gap-8 overflow-hidden max-w-5xl mx-auto">
         {/* 좌측 열: Hero Card + 썸네일 배열 */}
         <div 
           className={cn(
@@ -273,10 +284,10 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             isTransitioning ? "opacity-0 translate-y-2 scale-[0.98]" : "opacity-100 translate-y-0 scale-100"
           )}
         >
-          {/* Hero Card (이미지 + 정보 포함) */}
+          {/* Hero Card (텍스트 중심) */}
           <div
             className={cn(
-              "group relative w-full aspect-[16/9] overflow-hidden rounded-lg bg-[#0a0a0a] shadow-xl select-none",
+              "group relative w-full overflow-hidden rounded-lg bg-[#0a0a0a] shadow-xl select-none",
               isHeroDragging ? "cursor-grabbing" : "cursor-grab"
             )}
             onMouseDown={(e) => handleHeroDragStart(e.clientX, e.clientY)}
@@ -288,7 +299,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             <div
               key={selectedIndex}
               className={cn(
-                "absolute inset-0 flex",
+                "relative flex items-center gap-6 p-8",
                 slideDirection === "left" && "animate-slide-in-right",
                 slideDirection === "right" && "animate-slide-in-left"
               )}
@@ -297,46 +308,40 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                 opacity: isHeroDragging ? 1 - Math.abs(dragOffset) * 0.002 : 1,
               }}
             >
-              {/* 텍스트 영역 */}
-              <div className="relative z-20 flex-1 p-8 flex flex-col justify-center items-start bg-gradient-to-r from-black via-black/90 to-transparent">
-                <div className="flex flex-col gap-3">
-                  {/* Title + Name */}
-                  <div className="flex flex-col gap-2">
-                    {heroCeleb?.title && (
-                      <span className="text-xs text-accent font-serif font-bold tracking-wider">{heroCeleb.title}</span>
-                    )}
-                    <h3 className="text-2xl font-serif font-black text-white leading-tight">{heroCeleb?.nickname}</h3>
-                  </div>
-
-                  {/* Short Description */}
-                  {heroCeleb?.short_desc && (
-                    <p className="text-lg text-white/90 font-sans leading-relaxed">"{heroCeleb.short_desc}"</p>
-                  )}
-
-                  {/* Long Description */}
-                  {heroCeleb?.long_desc && (
-                    <p className="text-sm text-text-secondary font-sans leading-relaxed break-keep line-clamp-3">{heroCeleb.long_desc}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* 이미지 영역 */}
-              <div className="relative w-[35%] h-full overflow-hidden">
-                {heroCeleb?.portrait_url || heroCeleb?.avatar_url ? (
+              {/* 원형 아바타 */}
+              <div className="flex-shrink-0 w-20 h-20 rounded-full overflow-hidden ring-2 ring-accent/30 ring-offset-2 ring-offset-[#0a0a0a]">
+                {heroCeleb?.avatar_url ? (
                   <Image
-                    src={heroCeleb.portrait_url || heroCeleb.avatar_url!}
-                    alt={heroCeleb.nickname}
-                    fill
-                    sizes="400px"
+                    src={heroCeleb.avatar_url}
+                    alt={heroCeleb?.nickname ?? ""}
+                    width={80}
+                    height={80}
                     priority={selectedIndex === 0}
-                    className="object-cover object-center filter brightness-[0.9] group-hover:brightness-100 transition-all duration-500"
+                    className="object-cover w-full h-full"
                   />
                 ) : (
-                  <div className="w-full h-full bg-neutral-900 flex items-center justify-center">
-                    <span className="text-6xl text-white/5 font-serif font-black">{heroCeleb?.nickname?.[0]}</span>
+                  <div className="w-full h-full bg-neutral-800 flex items-center justify-center">
+                    <span className="text-2xl text-white/20 font-serif font-black">{heroCeleb?.nickname?.[0]}</span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/50" />
+              </div>
+
+              {/* 텍스트 영역 */}
+              <div className="flex-1 flex flex-col gap-2 min-w-0">
+                <div className="flex flex-col gap-1">
+                  {heroCeleb?.title && (
+                    <span className="text-xs text-accent font-serif font-bold tracking-wider">{heroCeleb.title}</span>
+                  )}
+                  <h3 className="text-2xl font-serif font-black text-white leading-tight">{heroCeleb?.nickname}</h3>
+                </div>
+
+                {heroCeleb?.short_desc && (
+                  <p className="text-base text-white/90 font-sans leading-relaxed">"{heroCeleb.short_desc}"</p>
+                )}
+
+                {heroCeleb?.long_desc && (
+                  <p className="text-sm text-text-secondary font-sans leading-relaxed break-keep line-clamp-3">{heroCeleb.long_desc}</p>
+                )}
               </div>
             </div>
 
@@ -484,7 +489,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
 
   // #region main 기본 레이아웃 (수직 배치)
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 max-w-5xl mx-auto">
 
       {/* Tags */}
       <div className="flex flex-wrap gap-1 pb-2 border-b border-white/5">
@@ -498,10 +503,10 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
          </p>
       </div>
 
-      {/* Hero Card - 전체 영역 클릭 시 모달 오픈, 좌우 드래그 시 인물 전환 */}
+      {/* Hero Card - 텍스트 중심, 좌우 드래그 시 인물 전환 */}
       <div
         className={cn(
-          "group relative w-full aspect-[4/5] md:aspect-[16/7] overflow-hidden rounded-[4px] bg-[#0a0a0a] shadow-2xl select-none transition-all duration-300",
+          "group relative w-full overflow-hidden rounded-[4px] bg-[#0a0a0a] shadow-2xl select-none transition-all duration-300",
           isHeroDragging ? "cursor-grabbing" : "cursor-grab",
           isTransitioning ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"
         )}
@@ -516,7 +521,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
         <div
           key={selectedIndex}
           className={cn(
-            "absolute inset-0 flex flex-col md:flex-row",
+            "relative flex items-center gap-6 md:gap-8 p-6 md:p-10",
             slideDirection === "left" && "animate-slide-in-right",
             slideDirection === "right" && "animate-slide-in-left"
           )}
@@ -525,11 +530,27 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             opacity: isHeroDragging ? 1 - Math.abs(dragOffset) * 0.002 : 1,
           }}
         >
-            {/* Left Content - 텍스트 영역 */}
-            <div className="relative z-20 flex-1 p-6 md:p-10 flex flex-col justify-center items-start order-2 md:order-1 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/90 to-transparent">
-                <div className="flex flex-col gap-3 max-w-xl">
-                  {/* Title + Name */}
-                  <div className="flex flex-col gap-2">
+            {/* 원형 아바타 */}
+            <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden ring-2 ring-accent/30 ring-offset-2 ring-offset-[#0a0a0a]">
+              {heroCeleb?.avatar_url ? (
+                <Image
+                  src={heroCeleb.avatar_url}
+                  alt={heroCeleb?.nickname ?? ""}
+                  width={96}
+                  height={96}
+                  priority={selectedIndex === 0}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <div className="w-full h-full bg-neutral-800 flex items-center justify-center">
+                  <span className="text-3xl text-white/20 font-serif font-black">{heroCeleb?.nickname?.[0]}</span>
+                </div>
+              )}
+            </div>
+
+            {/* 텍스트 영역 */}
+            <div className="flex-1 flex flex-col gap-3 min-w-0 max-w-xl">
+                  <div className="flex flex-col gap-1">
                     {heroCeleb?.title && (
                       <span className="text-xs md:text-sm text-accent font-serif font-bold tracking-wider leading-snug">
                         {heroCeleb.title}
@@ -540,43 +561,17 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                     </h3>
                   </div>
 
-                  {/* Short Description */}
                   {heroCeleb?.short_desc && (
-                    <p className="text-lg md:text-xl text-white font-sans font-medium leading-relaxed text-balance opacity-90">
+                    <p className="text-base md:text-lg text-white font-sans font-medium leading-relaxed text-balance opacity-90">
                       "{heroCeleb.short_desc}"
                     </p>
                   )}
 
-                  {/* Long Description */}
                   {heroCeleb?.long_desc && (
                     <p className="text-sm md:text-[15px] text-text-secondary font-sans leading-relaxed break-keep opacity-80 line-clamp-4">
                       {heroCeleb.long_desc}
                     </p>
                   )}
-                </div>
-            </div>
-
-            {/* Right Image */}
-            <div className="relative w-full md:w-[28%] h-[60%] md:h-full order-1 md:order-2 overflow-hidden">
-               <div className="absolute inset-0 transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
-                 {heroCeleb?.portrait_url || heroCeleb?.avatar_url ? (
-                    <Image
-                      src={heroCeleb.portrait_url || heroCeleb.avatar_url!}
-                      alt={heroCeleb.nickname}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 400px"
-                      priority={selectedIndex === 0}
-                      className="object-cover object-top md:object-center filter brightness-[0.85] contrast-[1.1] group-hover:brightness-100 transition-all duration-500"
-                    />
-                 ) : (
-                    <div className="w-full h-full bg-neutral-900 flex items-center justify-center">
-                       <span className="text-9xl text-white/5 font-serif font-black">{heroCeleb?.nickname?.[0]}</span>
-                    </div>
-                 )}
-               </div>
-
-               <div className="absolute inset-0 md:bg-gradient-to-l from-transparent via-transparent to-black" />
-               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent md:hidden" />
             </div>
         </div>
 

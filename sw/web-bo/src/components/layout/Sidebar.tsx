@@ -28,8 +28,8 @@ import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
 
 const menuItems = [
   { href: '/', label: '대시보드', icon: LayoutDashboard },
-  { href: '/users', label: '유저 관리', icon: Users },
   { href: '/celebs', label: '셀럽 관리', icon: Star },
+  { href: '/users', label: '유저 관리', icon: Users },
   { href: '/today-figure', label: '오늘의 인물', icon: Calendar },
   { href: '/contents', label: '콘텐츠 관리', icon: Library },
   { href: '/records', label: '기록 관리', icon: FileText },

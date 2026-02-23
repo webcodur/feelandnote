@@ -1,4 +1,5 @@
-/*
+// @ts-nocheck
+/* [DEAD CODE] v3에서 ResolutionPhase로 대체됨
   파일명: components/features/game/battle/RoundResultView.tsx
   기능: 라운드 결과 표시
   책임: 카드 오픈 후 라운드 승패를 연출한다.
@@ -8,7 +9,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import type { RoundResult, BattleCard } from "@/lib/game/types";
-import { DOMAIN_LABELS, DOMAIN_LABELS_EN, TIEBREAK_MAP } from "@/lib/game/types";
+import { DOMAIN_LABELS, DOMAIN_LABELS_EN } from "@/lib/game/types";
 import { AI_STRATEGY_LABELS, type AiStrategy } from "@/lib/game/aiPlayer";
 
 interface Props {
@@ -16,12 +17,6 @@ interface Props {
   onContinue: () => void;
 }
 
-const ABILITY_LABELS: Record<string, string> = {
-  command: "통솔",
-  martial: "무력",
-  intellect: "지력",
-  charisma: "매력",
-};
 
 function MiniCard({ card, side, isWinner }: { card: BattleCard; side: "left" | "right"; isWinner: boolean }) {
   return (
@@ -85,13 +80,13 @@ export default function RoundResultView({ result, onContinue }: Props) {
             <>
               <div className="animate-score-pop">
                 <span className={`text-3xl font-black ${playerWins ? "text-accent" : "text-text-secondary"}`}>
-                  {result.playerDomainScore}
+                  {result.playerBattleScore.toFixed(1)}
                 </span>
               </div>
               <span className="text-text-tertiary text-xs font-cinzel">VS</span>
               <div className="animate-score-pop">
                 <span className={`text-3xl font-black ${aiWins ? "text-red-400" : "text-text-secondary"}`}>
-                  {result.aiDomainScore}
+                  {result.aiBattleScore.toFixed(1)}
                 </span>
               </div>
             </>
@@ -107,28 +102,8 @@ export default function RoundResultView({ result, onContinue }: Props) {
         <MiniCard card={result.aiCard} side="right" isWinner={aiWins} />
       </div>
 
-      {/* 타이브레이크 */}
-      {result.isTiebreak && showScores && (
-        <div className="animate-slide-up text-center space-y-2">
-          <span className="text-[10px] text-accent/60 font-cinzel uppercase tracking-wider">TIEBREAK</span>
-          <div className="flex items-center gap-4 px-4 py-2 rounded-lg bg-white/[0.02] border border-white/5">
-            <span className="text-xs text-text-secondary">{ABILITY_LABELS[TIEBREAK_MAP[result.domain]]}</span>
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col items-center">
-                <span className={`text-sm font-bold ${playerWins ? "text-accent" : "text-text-tertiary"}`}>
-                  {result.playerCard.ability[TIEBREAK_MAP[result.domain]]}
-                </span>
-              </div>
-              <span className="text-[10px] text-text-tertiary">vs</span>
-              <div className="flex flex-col items-center">
-                <span className={`text-sm font-bold ${aiWins ? "text-red-400" : "text-text-tertiary"}`}>
-                  {result.aiCard.ability[TIEBREAK_MAP[result.domain]]}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* 타이브레이크 — 등급 비교 */}
+      {/* tiebreak 제거 (v5 턴제) */}
 
       {/* 결과 점수 팝업 */}
       {showResult && (

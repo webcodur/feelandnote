@@ -1,14 +1,17 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import type { GameState, GameCharacter, GameItem, GamePhase } from '@/lib/game/suikoden/types'
+import type { GameState, GameCharacter, GameItem, GamePhase, Era, DialogEntry } from '@/lib/game/suikoden/types'
 import { initGame } from '@/lib/game/suikoden/engine'
 import { preloadAssets } from '@/lib/game/suikoden/assetManager'
 import TitleScreen from './TitleScreen'
 import SetupScreen from './SetupScreen'
+import WanderingScreen from './WanderingScreen'
 import StrategyScreen from './StrategyScreen'
 import BattleScreen from './BattleScreen'
+import DispositionScreen from './DispositionScreen'
 import ResultScreen from './ResultScreen'
+import DialogSnackbar from './DialogSnackbar'
 
 interface Props {
   characters: GameCharacter[]
@@ -22,6 +25,19 @@ export default function SuikodenGame({ characters, items }: Props) {
   const [prePhase, setPrePhase] = useState<PreGamePhase | null>('title')
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
+  const [dialogQueue, setDialogQueue] = useState<DialogEntry[]>([])
+
+  const pushDialog = useCallback((entry: DialogEntry) => {
+    setDialogQueue(prev => [...prev, entry])
+  }, [])
+
+  const dismissDialog = useCallback(() => {
+    setDialogQueue(prev => prev.slice(1))
+  }, [])
+
+  const clearDialogs = useCallback(() => {
+    setDialogQueue([])
+  }, [])
 
   useEffect(() => {
     preloadAssets(characters).then(() => setAssetsLoaded(true))
@@ -29,11 +45,11 @@ export default function SuikodenGame({ characters, items }: Props) {
 
   const handleStart = useCallback(() => setPrePhase('setup'), [])
 
-  const handleSetupComplete = useCallback((leaderId: string, difficulty: 'easy' | 'normal' | 'hard') => {
-    const state = initGame(characters, leaderId, difficulty)
+  const handleSetupComplete = useCallback((leaderId: string, difficulty: 'easy' | 'normal' | 'hard', era: Era) => {
+    const state = initGame(characters, leaderId, difficulty, era)
     state.allItems = items
     setGameState(state)
-    setPrePhase(null) // 프리게임 종료 → gameState.phase가 'strategy'
+    setPrePhase(null) // 프리게임 종료 → gameState.phase가 'wandering'
   }, [characters, items])
 
   const handleRestart = useCallback(() => {
@@ -63,23 +79,51 @@ export default function SuikodenGame({ characters, items }: Props) {
     if (prePhase === 'setup') return <SetupScreen characters={characters} onComplete={handleSetupComplete} onBack={() => setPrePhase('title')} />
   }
 
-  // ── 인게임: gameState.phase로 분기 ──
+  // ── 인게임: 메인 콘텐츠 + 오버레이 레이어 ──
   if (!gameState) return null
   const phase = gameState.phase
 
-  switch (phase) {
-    case 'strategy':
-      return <StrategyScreen state={gameState} onUpdateState={updateState} />
-    case 'battle':
-      return gameState.battle ? (
-        <BattleScreen
-          state={gameState}
-          onUpdateState={updateState}
+  return (
+    <>
+      {/* 메인 콘텐츠: 방랑 OR 전략 (둘 중 하나만) */}
+      {phase === 'wandering' && <WanderingScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} onClearDialogs={clearDialogs} />}
+      {(phase === 'strategy' || phase === 'battle' || phase === 'disposition' || phase === 'result') && (
+        <StrategyScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} />
+      )}
+
+      {/* 오버레이: 전투 */}
+      {phase === 'battle' && gameState.battle && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center overflow-y-auto">
+          <div className="w-full max-w-2xl mx-4 my-8">
+            <BattleScreen state={gameState} onUpdateState={updateState} />
+          </div>
+        </div>
+      )}
+
+      {/* 오버레이: 포로 처분 */}
+      {phase === 'disposition' && gameState.disposition && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center overflow-y-auto">
+          <div className="w-full max-w-md mx-4 my-8">
+            <DispositionScreen state={gameState} onUpdateState={updateState} />
+          </div>
+        </div>
+      )}
+
+      {/* 대화 스낵바 */}
+      {gameState.settings && (
+        <DialogSnackbar
+          queue={dialogQueue}
+          settings={gameState.settings}
+          onDismiss={dismissDialog}
         />
-      ) : null
-    case 'result':
-      return <ResultScreen state={gameState} onRestart={handleRestart} />
-    default:
-      return <StrategyScreen state={gameState} onUpdateState={updateState} />
-  }
+      )}
+
+      {/* 오버레이: 결과 */}
+      {phase === 'result' && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+          <ResultScreen state={gameState} onRestart={handleRestart} />
+        </div>
+      )}
+    </>
+  )
 }

@@ -8,7 +8,7 @@
 
 import React, { useEffect, useRef } from "react";
 
-export default function StrategicHexagonBackground() {
+export default function StrategicHexagonBackground({ fullScreen }: { fullScreen?: boolean } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
 
@@ -154,16 +154,20 @@ export default function StrategicHexagonBackground() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden rounded-xl border border-[#334155]/50 shadow-2xl bg-[#0f172a]">
-      {/* 텍스트 오버레이 */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
-        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#e2e8f0] to-[#64748b] opacity-90 tracking-widest drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
-          STRATEGY
-        </h2>
-        <p className="mt-4 text-sm md:text-base text-[#94a3b8] tracking-[0.3em] uppercase opacity-70 drop-shadow-md">
-          The Living Map
-        </p>
-      </div>
+    <div className={fullScreen
+      ? "relative w-full h-full overflow-hidden bg-[#0f172a]"
+      : "relative w-full h-[600px] overflow-hidden rounded-xl border border-[#334155]/50 shadow-2xl bg-[#0f172a]"
+    }>
+      {!fullScreen && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
+          <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#e2e8f0] to-[#64748b] opacity-90 tracking-widest drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+            STRATEGY
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-[#94a3b8] tracking-[0.3em] uppercase opacity-70 drop-shadow-md">
+            The Living Map
+          </p>
+        </div>
+      )}
 
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>

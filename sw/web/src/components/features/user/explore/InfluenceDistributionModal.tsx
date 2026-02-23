@@ -17,6 +17,7 @@ import {
   AURA_ORDER_DESC,
   getMaterialFromAura,
 } from "@/constants/materials";
+import { getCelebProfileUrl } from "@/lib/url";
 
 interface InfluenceDistributionModalProps {
   isOpen: boolean;
@@ -143,7 +144,7 @@ function AuraListItem({
   );
 }
 
-function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCelebClick: (id: string) => void }) {
+function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCelebClick: (celeb: { id: string; slug: string | null }) => void }) {
   if (ranking.length === 0) {
      return <div className="h-full flex items-center justify-center text-text-tertiary text-sm">해당 등급의 셀럽이 없습니다.</div>;
   }
@@ -159,7 +160,7 @@ function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCel
             return (
               <div
                 key={celeb.id}
-                onClick={() => onCelebClick(celeb.id)}
+                onClick={() => onCelebClick({ id: celeb.id, slug: celeb.slug })}
                 className="flex items-center gap-3 p-3 border-b border-border/30 hover:bg-accent/5 cursor-pointer transition-colors last:border-0"
               >
                 <div className="w-6 text-center text-text-tertiary font-medium text-xs">{celeb.ranking}</div>
@@ -271,9 +272,9 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
     setSelectedAura(null);
   };
 
-  const handleCelebClick = (celebId: string) => {
+  const handleCelebClick = (celeb: { id: string; slug: string | null }) => {
     onClose();
-    router.push(`/${celebId}`);
+    router.push(getCelebProfileUrl({ ...celeb, profile_type: 'CELEB' }));
   };
 
   // 필터링된 랭킹 리스트 (선택된 오라가 있으면 해당 오라만)

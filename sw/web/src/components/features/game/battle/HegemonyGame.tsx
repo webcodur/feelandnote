@@ -10,20 +10,22 @@ import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFul
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import { useBattleAudio } from "./hooks/useBattleAudio";
 import BattleGame from "./BattleGame";
+import GameBackground from "./GameBackground";
 
 const PHASE_LABEL: Record<string, string> = {
   idle: "로비",
   loading: "로딩",
   draft: "드래프트",
+  captain: "주장 선택",
   battle: "대전",
-  revealing: "대전",
   result: "결과",
 };
 
 export default function HegemonyGame() {
-  const { setBgm, playSfx, stopAll, audioControls } = useBattleAudio();
+  const { setBgm, playSfx, stopAll, audioControls, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted } = useBattleAudio();
   const homeRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
+  const [playerWins, setPlayerWins] = useState(false);
 
   const handleHome = useCallback(() => {
     homeRef.current?.();
@@ -46,15 +48,21 @@ export default function HegemonyGame() {
       footerExtra={<GameAudioPlayer controls={audioControls} />}
       onExitFullScreen={stopAll}
       onHome={handleHome}
+      background={<GameBackground phase={phase} playerWins={playerWins} />}
     >
       {({ enterFullScreen, isFullScreen }) => (
         <BattleGame
           onEnterFullScreen={enterFullScreen}
           onHomeRef={homeRef}
           onPhaseChange={setPhase}
+          onPlayerWinsChange={setPlayerWins}
           initialAudioReady={isFullScreen}
           setBgm={setBgm}
           playSfx={playSfx}
+          bgmMuted={bgmMuted}
+          sfxMuted={sfxMuted}
+          toggleBgmMuted={toggleBgmMuted}
+          toggleSfxMuted={toggleSfxMuted}
         />
       )}
     </GameFullScreen>

@@ -35,8 +35,8 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
               <td className="px-3 md:px-4 py-3">
                 <div className="relative w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center overflow-hidden shrink-0 bg-yellow-500/20">
-                  {(celeb.portrait_url || celeb.avatar_url)
-                    ? <Image src={celeb.portrait_url || celeb.avatar_url!} alt="" fill unoptimized className="object-cover" />
+                  {celeb.avatar_url
+                    ? <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
                     : <Star className="w-4 h-4 text-yellow-400" />
                   }
                 </div>

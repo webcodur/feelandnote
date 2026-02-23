@@ -9,7 +9,7 @@ export default function Loading() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl px-4">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] rounded-lg bg-white/5 border border-white/10" />
+              <div key={i} className="aspect-square rounded-lg bg-white/5 border border-white/10" />
             ))}
           </div>
         </div>

@@ -16,7 +16,7 @@ import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
-import { Pagination, DeleteConfirmModal, DecorativeLabel } from "@/components/ui";
+import { Pagination, DeleteConfirmModal } from "@/components/ui";
 import ControlPanel from "@/components/shared/ControlPanel";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -30,10 +30,11 @@ export default function ContentLibrary({
   mode = "owner",
   targetUserId,
   ownerNickname,
+  defaultViewMode,
 }: ContentLibraryProps) {
   const searchParams = useSearchParams();
   const initialSearchQuery = searchParams.get("q") || "";
-  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery });
+  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode });
   const isViewer = lib.isViewer;
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);
 
@@ -104,10 +105,6 @@ export default function ContentLibrary({
       {/* 콘텐츠 목록 */}
       <div>
         <div className="py-8">
-          <div className="flex justify-center mb-8">
-            <DecorativeLabel label="시간별 연대기" />
-          </div>
-
           {hasFilteredContents ? (
             lib.sortOption === "recent" ? (
               lib.monthKeys.map((monthKey) => {

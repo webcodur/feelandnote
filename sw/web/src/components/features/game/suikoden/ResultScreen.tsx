@@ -12,9 +12,9 @@ export default function ResultScreen({ state, onRestart }: Props) {
   const isVictory = state.winner === state.playerFactionId
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-      <div className="text-6xl">
-        {isVictory ? '🏆' : state.winner ? '💀' : '⏳'}
+    <div className="flex flex-col items-center justify-center text-center space-y-6 p-8">
+      <div className="text-4xl font-black text-stone-300">
+        {isVictory ? '[통일]' : state.winner ? '[패망]' : '[시간초과]'}
       </div>
 
       <div>

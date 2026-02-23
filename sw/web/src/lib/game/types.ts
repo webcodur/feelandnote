@@ -1,8 +1,12 @@
 /*
   파일명: lib/game/types.ts
-  기능: 영향력 대전 게임 타입 정의
+  기능: 패권 v6 동시 행동 전략 게임 타입 정의
   책임: 게임 전체에서 사용하는 타입을 단일 원천으로 관리한다.
 */
+
+import type { AbilityKey } from "@/lib/persona/constants";
+
+// ─── 도메인 (영향력 6대 영역) ───
 
 export type Domain = "political" | "strategic" | "tech" | "social" | "economic" | "cultural";
 
@@ -17,6 +21,15 @@ export const DOMAIN_LABELS: Record<Domain, string> = {
   cultural: "문화",
 };
 
+export const DOMAIN_LABELS_FULL: Record<Domain, string> = {
+  political: "정치·외교",
+  strategic: "전략·안보",
+  tech: "기술·과학",
+  social: "사회·윤리",
+  economic: "산업·경제",
+  cultural: "문화·예술",
+};
+
 export const DOMAIN_LABELS_EN: Record<Domain, string> = {
   political: "POLITICAL",
   strategic: "STRATEGIC",
@@ -26,7 +39,7 @@ export const DOMAIN_LABELS_EN: Record<Domain, string> = {
   cultural: "CULTURAL",
 };
 
-export type Tier = "S" | "A" | "B" | "C" | "D" | "E";
+// ─── 카드 ───
 
 export interface BattleCard {
   id: string;
@@ -35,70 +48,139 @@ export interface BattleCard {
   title: string;
   nationality: string;
   avatarUrl: string | null;
+  portraitUrl: string | null;
   quotes: string;
-  tier: Tier;
   influence: Record<Domain, number>; // 0-10
-  ability: {
-    command: number;
-    martial: number;
-    intellect: number;
-    charisma: number;
-  }; // 0-100
+  /** 능력치 4개 — 단일원천: persona/constants.ts AbilityKey */
+  ability: Record<AbilityKey, number>;
 }
 
-export interface RoundResult {
-  domain: Domain;
-  playerCard: BattleCard;
-  aiCard: BattleCard;
-  playerDomainScore: number;
-  aiDomainScore: number;
-  pointsAwarded: { player: number; ai: number };
-  isTiebreak: boolean;
-  aiStrategy?: string;
+// ─── 명령 체계 (3명령 RPS) ───
+
+export type Command = "assault" | "stratagem" | "govern";
+
+export const COMMANDS: Command[] = ["assault", "stratagem", "govern"];
+
+export const COMMAND_LABELS: Record<Command, string> = {
+  assault: "전투",
+  stratagem: "책략",
+  govern: "내정",
+};
+
+export const COMMAND_DESCRIPTIONS: Record<Command, string> = {
+  assault: "상대 국력 직접 타격. 민심 -3",
+  stratagem: "상대 민심 공격",
+  govern: "국력·민심 회복 + 버린패 회수. 카드 유지",
+};
+
+// ─── 국가 상태 ───
+
+export const INITIAL_POWER = 30;
+export const INITIAL_MORALE = 50;
+export const MAX_POWER = 35;
+export const MAX_MORALE = 60;
+
+export interface NationState {
+  power: number;  // 국력 (초기 30, 0 이하 = 패배)
+  morale: number; // 민심 (초기 50, 0 이하 = 반란)
 }
 
-export type GamePhase = "idle" | "loading" | "draft" | "battle" | "revealing" | "result";
+// ─── v6 게임 페이즈 ───
+
+export type GamePhase = "idle" | "loading" | "draft" | "captain" | "battle" | "result";
+
+export type Difficulty = "normal" | "hard";
+
+// ─── 드래프트 상태 ───
+
+export interface DraftState {
+  pool: BattleCard[];           // 15장 풀
+  playerPicks: BattleCard[];    // 플레이어 픽
+  aiPicks: BattleCard[];        // AI 픽
+  currentPicker: "player" | "ai" | "done";
+  round: number;                // 1-14 (교대 픽)
+}
+
+// ─── 배틀 서브 페이즈 ───
+
+export type BattleSubPhase = "selecting" | "clashing" | "resolving";
+
+// ─── 상성 결과 ───
+
+export type CounterResult = "win" | "lose" | "draw";
+
+// ─── 라운드 행동 ───
+
+export interface RoundAction {
+  cardId: string;
+  command: Command;
+  recoverId?: string;
+  card: BattleCard;
+  aptitude: number;
+  mandateBonus: boolean;
+  effectiveAptitude: number;
+}
+
+// ─── 라운드 기록 ───
+
+export interface RoundRecord {
+  round: number;
+  player: RoundAction;
+  ai: RoundAction;
+  counterResult: CounterResult;   // 플레이어 관점
+  result: string;
+  powerDelta: { player: number; ai: number };
+  moraleDelta: { player: number; ai: number };
+  rebellion: { player: boolean; ai: boolean };
+  nationAfter: { player: NationState; ai: NationState };
+}
+
+// ─── 천명 (라운드 보너스) ───
+
+export interface Mandate {
+  command: Command;
+  label: string;
+  description: string;
+}
+
+export const MANDATE_POOL: Mandate[] = [
+  { command: "assault",   label: "풍운의 천명", description: "전투 적성 ×1.5" },
+  { command: "stratagem", label: "암중의 천명", description: "책략 적성 ×1.5" },
+  { command: "govern",    label: "태평의 천명", description: "내정 적성 ×1.5" },
+];
+
+export const MANDATE_BONUS = 1.5;
+
+// ─── 주장 (지휘관 오라) ───
+
+/** 주장이 손패에 있을 때 아군 전원 적성 보너스 */
+export const CAPTAIN_AURA_BONUS = 0.15;
+/** 주장이 직접 출전할 때 본인 적성 배수 */
+export const CAPTAIN_PLAY_BONUS = 1.5;
+
+// ─── 게임 상태 ───
 
 export interface GameState {
   phase: GamePhase;
-  pool: BattleCard[]; // 12명 드래프트 풀
-  domainOrder: Domain[];
-  currentRound: number; // 0-5
+  difficulty: Difficulty;
+  // 드래프트
+  draft: DraftState;
+  // 배틀
   playerHand: BattleCard[];
   aiHand: BattleCard[];
-  playerScore: number;
-  aiScore: number;
-  rounds: RoundResult[];
-  draftTurn: number; // 드래프트 진행도 (0-11)
-  nextDomain: Domain | null; // 다음 영역 미리보기
+  playerDiscard: BattleCard[];
+  aiDiscard: BattleCard[];
+  playerNation: NationState;
+  aiNation: NationState;
+  // 라운드 기반
+  currentRound: number;
+  battleSubPhase: BattleSubPhase;
+  roundRecords: RoundRecord[];
+  pendingRound: { playerAction: RoundAction; aiAction: RoundAction } | null;
+  // 천명
+  mandates: Mandate[];       // 셔플된 천명 순서
+  mandateIndex: number;       // 현재 천명 인덱스
+  // 주장
+  playerCaptainId: string | null;
+  aiCaptainId: string | null;
 }
-
-// 스네이크 드래프트 순서: P→AI→AI→P→P→AI→AI→P→P→AI→AI→P
-export const DRAFT_ORDER: ("player" | "ai")[] = [
-  "player", "ai", "ai", "player", "player", "ai",
-  "ai", "player", "player", "ai", "ai", "player",
-];
-
-// 타이브레이크 매핑: 영역 → 능력
-export const TIEBREAK_MAP: Record<Domain, keyof BattleCard["ability"]> = {
-  political: "command",
-  strategic: "martial",
-  tech: "intellect",
-  social: "charisma",
-  economic: "command",
-  cultural: "charisma",
-};
-
-/** 등급 서열 (높을수록 강함) */
-export const TIER_RANK: Record<Tier, number> = {
-  S: 6, A: 5, B: 4, C: 3, D: 2, E: 1,
-};
-
-export const TIER_COLORS: Record<Tier, string> = {
-  S: "text-red-400 bg-red-500/10 border-red-500/30",
-  A: "text-orange-400 bg-orange-500/10 border-orange-500/30",
-  B: "text-yellow-400 bg-yellow-500/10 border-yellow-500/30",
-  C: "text-green-400 bg-green-500/10 border-green-500/30",
-  D: "text-blue-400 bg-blue-500/10 border-blue-500/30",
-  E: "text-purple-400 bg-purple-500/10 border-purple-500/30",
-};

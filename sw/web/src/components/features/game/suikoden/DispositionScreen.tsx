@@ -1,0 +1,202 @@
+'use client'
+
+import { useState, useCallback } from 'react'
+import type { GameState, DispositionAction } from '@/lib/game/suikoden/types'
+import { CLASS_INFO } from '@/lib/game/suikoden/constants'
+import { calcRecruitRate, applyDisposition, finalizeDisposition } from '@/lib/game/suikoden/engine'
+import CharacterPortrait from './CharacterPortrait'
+
+interface Props {
+  state: GameState
+  onUpdateState: (fn: (s: GameState) => GameState) => void
+}
+
+const ACTION_INFO: Record<DispositionAction, { label: string; color: string; desc: string }> = {
+  recruit: { label: '등용', color: 'bg-blue-600 hover:bg-blue-500', desc: '세력에 합류시킨다' },
+  imprison: { label: '포로', color: 'bg-stone-600 hover:bg-stone-500', desc: '포로로 가둔다' },
+  execute: { label: '처형', color: 'bg-red-700 hover:bg-red-600', desc: '처형한다 (명성 -30)' },
+  release: { label: '해방', color: 'bg-green-700 hover:bg-green-600', desc: '풀어준다 (명성 +10)' },
+}
+
+export default function DispositionScreen({ state, onUpdateState }: Props) {
+  const disp = state.disposition!
+  const [resultMsg, setResultMsg] = useState<string | null>(null)
+  const [acting, setActing] = useState(false)
+  const [showSummary, setShowSummary] = useState(false)
+
+  const isComplete = disp.currentIndex >= disp.targets.length
+  const current = !isComplete ? disp.targets[disp.currentIndex] : null
+
+  const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
+  const recruitRate = current ? calcRecruitRate(playerFaction, current) : 0
+
+  const handleAction = useCallback((action: DispositionAction) => {
+    if (acting || !current) return
+    setActing(true)
+
+    onUpdateState(s => {
+      const { state: ns, result } = applyDisposition(s, current.character.id, action)
+
+      // 결과 메시지
+      if (action === 'recruit') {
+        setResultMsg(result.success
+          ? `${result.characterName} 등용 성공!`
+          : `${result.characterName}이(가) 거절했다.`)
+      } else {
+        const labels: Record<string, string> = { imprison: '포로로 잡았다', execute: '처형했다', release: '풀어주었다' }
+        setResultMsg(`${result.characterName}을(를) ${labels[action]}.`)
+      }
+
+      return ns
+    })
+
+    // 결과 연출 후 다음으로
+    setTimeout(() => {
+      setResultMsg(null)
+      setActing(false)
+      // 마지막이면 요약 표시
+      onUpdateState(s => {
+        if (s.disposition && s.disposition.currentIndex >= s.disposition.targets.length) {
+          setShowSummary(true)
+        }
+        return s
+      })
+    }, 1200)
+  }, [acting, current, onUpdateState])
+
+  const handleFinish = useCallback(() => {
+    onUpdateState(s => finalizeDisposition(s))
+  }, [onUpdateState])
+
+  // 요약 화면
+  if (showSummary || isComplete) {
+    const results = disp.results
+    return (
+      <div className="space-y-4">
+        <h2 className="text-center text-lg font-bold text-stone-200">처분 결과</h2>
+        <div className="space-y-1.5">
+          {results.map((r, i) => (
+            <div key={i} className="flex items-center justify-between p-2 bg-stone-800 border border-stone-700 rounded text-xs">
+              <span className="text-stone-200">{r.characterName}</span>
+              <span className={
+                r.action === 'recruit' && r.success ? 'text-blue-400' :
+                r.action === 'recruit' && !r.success ? 'text-stone-500' :
+                r.action === 'imprison' ? 'text-stone-400' :
+                r.action === 'execute' ? 'text-red-400' :
+                'text-green-400'
+              }>
+                {r.action === 'recruit' ? (r.success ? '등용 성공' : '등용 거절') :
+                 r.action === 'imprison' ? '포로' :
+                 r.action === 'execute' ? '처형' : '해방'}
+              </span>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={handleFinish}
+          className="w-full py-2.5 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500"
+        >
+          돌아가기
+        </button>
+      </div>
+    )
+  }
+
+  if (!current) return null
+
+  const char = current.character
+  const cls = CLASS_INFO[char.unitClass]
+  const originFaction = state.factions.find(f => f.id === current.factionId)
+
+  return (
+    <div className="space-y-4">
+      {/* 진행 표시 */}
+      <div className="flex items-center justify-between text-xs text-stone-400">
+        <span className="font-bold text-stone-200">포로 처분</span>
+        <span>{disp.currentIndex + 1} / {disp.targets.length}</span>
+      </div>
+
+      {/* 결과 연출 */}
+      {resultMsg && (
+        <div className="p-3 bg-stone-800 border border-amber-500/30 rounded text-center">
+          <p className="text-sm text-amber-300 font-bold animate-pulse">{resultMsg}</p>
+        </div>
+      )}
+
+      {/* 캐릭터 정보 */}
+      {!resultMsg && (
+        <>
+          <div className="p-4 bg-stone-800 border border-stone-700 rounded space-y-3">
+            <div className="flex items-center gap-3">
+              <CharacterPortrait character={char} size={48} />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-stone-200">{char.nickname}</span>
+                  <span className="text-[10px] px-1.5 py-0.5 bg-stone-700 rounded text-stone-400">{char.grade}</span>
+                </div>
+                <div className="flex items-center gap-2 text-[10px] text-stone-500 mt-0.5">
+                  <span>{cls.name}</span>
+                  <span>{char.title}</span>
+                </div>
+                {originFaction && (
+                  <div className="flex items-center gap-1.5 mt-1 text-[10px]">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: originFaction.color }} />
+                    <span className="text-stone-500">{originFaction.name}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 주요 스탯 */}
+            <div className="grid grid-cols-4 gap-2 text-[10px]">
+              {(['power', 'intellect', 'skill', 'virtue'] as const).map(stat => (
+                <div key={stat} className="text-center">
+                  <div className="text-stone-500">
+                    {stat === 'power' ? '완력' : stat === 'intellect' ? '지력' : stat === 'skill' ? '기량' : '인애'}
+                  </div>
+                  <div className="text-stone-300 font-bold">{char.stats[stat]}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* 충성도/충의 */}
+            <div className="flex items-center gap-4 text-[10px]">
+              <span className="text-stone-500">충성도 <span className="text-stone-300">{char.loyaltyValue}</span></span>
+              <span className="text-stone-500">충의 <span className="text-stone-300">{char.stats.loyalty}</span></span>
+            </div>
+
+            {/* 등용 성공률 */}
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-stone-500">등용 성공률</span>
+              <div className="flex-1 h-2 bg-stone-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-blue-500"
+                  style={{ width: `${recruitRate}%` }}
+                />
+              </div>
+              <span className="text-xs font-bold text-blue-400">{recruitRate}%</span>
+            </div>
+          </div>
+
+          {/* 행동 버튼 */}
+          <div className="grid grid-cols-2 gap-2">
+            {(['recruit', 'imprison', 'execute', 'release'] as DispositionAction[]).map(action => {
+              const info = ACTION_INFO[action]
+              return (
+                <button
+                  key={action}
+                  onClick={() => handleAction(action)}
+                  disabled={acting}
+                  className={`py-2.5 rounded text-sm text-stone-100 font-bold transition-colors disabled:opacity-40 ${info.color}`}
+                >
+                  <div>{info.label}</div>
+                  <div className="text-[9px] font-normal text-stone-300/70 mt-0.5">{info.desc}</div>
+                </button>
+              )
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}

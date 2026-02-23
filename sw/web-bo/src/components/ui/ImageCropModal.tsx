@@ -5,7 +5,7 @@ import Cropper, { Area } from 'react-easy-crop'
 import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2 } from 'lucide-react'
 
 import Button from './Button'
-import { detectFaceLandmarks, calculateOptimalCrop } from '@/utils/faceDetection'
+import { detectFaceLandmarks, calculateFaceCropArea } from '@/utils/faceDetection'
 
 interface Props {
   imageSrc: string
@@ -45,47 +45,23 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
   // AI 분석 상태
   const [analyzing, setAnalyzing] = useState(false)
   const imageSize = useRef<{ width: number; height: number } | null>(null)
-  
-  // 컨테이너 ref (렌더링된 이미지 크기 계산용)
-  const containerRef = useRef<HTMLDivElement>(null)
 
-  // 이미지 크기 저장 + 썸네일(3:4)이면 자동 AI 맞춤
+  // initialCroppedAreaPixels + key remount 방식
+  const [initialArea, setInitialArea] = useState<Area | undefined>(undefined)
+  const [cropperKey, setCropperKey] = useState(0)
+
+  // 이미지 크기 저장 + 1:1이면 자동 AI 맞춤
   useEffect(() => {
     const img = new Image()
     img.onload = () => {
       imageSize.current = { width: img.width, height: img.height }
 
-      // 썸네일(3:4) → 업로드 즉시 AI 자동 맞춤
-      if (Math.abs(aspectRatio - 3 / 4) < 0.01) {
+      if (Math.abs(aspectRatio - 1) < 0.01) {
         handleAutoCrop()
       }
     }
     img.src = imageSrc
   }, [imageSrc, aspectRatio])
-
-
-  // react-easy-crop 미디어 크기 계산 (zoom=1 기준)
-  // 1) crop area = 컨테이너에 aspectRatio로 contain
-  // 2) 미디어 = crop area를 cover
-  const getRenderedDimensions = useCallback(() => {
-    if (!containerRef.current || !imageSize.current) return null
-
-    const containerW = containerRef.current.clientWidth
-    const containerH = containerRef.current.clientHeight
-    const imgRatio = imageSize.current.width / imageSize.current.height
-    const containerRatio = containerW / containerH
-
-    // 크롭 영역 크기 (컨테이너에 맞는 최대 크기)
-    const cropAreaW = aspectRatio > containerRatio ? containerW : containerH * aspectRatio
-    const cropAreaH = aspectRatio > containerRatio ? containerW / aspectRatio : containerH
-    const cropRatio = cropAreaW / cropAreaH
-
-    // 미디어가 크롭 영역을 cover하도록 스케일
-    if (imgRatio > cropRatio) {
-      return { width: cropAreaH * imgRatio, height: cropAreaH }
-    }
-    return { width: cropAreaW, height: cropAreaW / imgRatio }
-  }, [aspectRatio])
 
   const handleAutoCrop = async () => {
     if (!imageSize.current) return
@@ -99,19 +75,12 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
 
       const result = await detectFaceLandmarks(img)
       if (result) {
-        const suggestion = calculateOptimalCrop(result)
-        
-        const dims = getRenderedDimensions()
-        if (dims) {
-          // Crop Pixels 계산
-          // Zoom된 상태에서의 거리를 이동해야 하므로 zoom을 곱해줍니다.
-          const cropX = (0.5 - suggestion.center.x) * dims.width * suggestion.zoom
-          const cropY = (0.5 - suggestion.center.y) * dims.height * suggestion.zoom
-          
-          console.log("Applying auto-crop with zoom:", { ...suggestion, crop: { x: cropX, y: cropY } })
-          setZoom(suggestion.zoom)
-          setCrop({ x: cropX, y: cropY })
-        }
+        const area = calculateFaceCropArea(result, img.naturalWidth, img.naturalHeight)
+        console.log('[AutoCrop] area:', area)
+
+        // react-easy-crop에게 "이 영역을 보여줘"라고 지시 → 내부에서 crop+zoom 자동 계산
+        setInitialArea(area)
+        setCropperKey(k => k + 1)
       } else {
         alert('얼굴을 찾을 수 없습니다.')
       }
@@ -137,6 +106,8 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
   const handleReset = () => {
     setCrop({ x: 0, y: 0 })
     setZoom(1)
+    setInitialArea(undefined)
+    setCropperKey(k => k + 1)
   }
 
   return (
@@ -155,8 +126,9 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
         </div>
 
         {/* 크롭 영역 */}
-        <div ref={containerRef} className={`relative bg-black ${aspectRatio < 1 ? 'h-96' : 'h-80'}`}>
+        <div className={`relative bg-black ${aspectRatio < 1 ? 'h-96' : 'h-80'}`}>
           <Cropper
+            key={cropperKey}
             image={imageSrc}
             crop={crop}
             zoom={zoom}
@@ -166,6 +138,8 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
             onCropComplete={onCropComplete}
             cropShape={aspectRatio === 1 ? 'round' : 'rect'}
             showGrid={false}
+            restrictPosition={false}
+            initialCroppedAreaPixels={initialArea}
           />
           {/* 커스텀 격자 오버레이 (react-easy-crop crop area와 동일 크기) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -212,8 +186,8 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
               onClick={handleAutoCrop}
               disabled={analyzing}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                analyzing 
-                  ? 'bg-accent/10 text-accent cursor-wait' 
+                analyzing
+                  ? 'bg-accent/10 text-accent cursor-wait'
                   : 'bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20'
               }`}
             >
@@ -251,17 +225,25 @@ async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<strin
   canvas.width = pixelCrop.width
   canvas.height = pixelCrop.height
 
-  ctx.drawImage(
-    image,
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height,
-    0,
-    0,
-    pixelCrop.width,
-    pixelCrop.height
-  )
+  // restrictPosition=false 시 크롭 영역이 이미지 밖으로 나갈 수 있음
+  // 이미지 밖 영역은 투명 유지 (누끼 보존)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  // 이미지 소스 영역 클램핑
+  const sx = Math.max(0, pixelCrop.x)
+  const sy = Math.max(0, pixelCrop.y)
+  const sRight = Math.min(image.naturalWidth, pixelCrop.x + pixelCrop.width)
+  const sBottom = Math.min(image.naturalHeight, pixelCrop.y + pixelCrop.height)
+  const sw = sRight - sx
+  const sh = sBottom - sy
+
+  // 캔버스 대상 위치 (음수 오프셋 보정)
+  const dx = sx - pixelCrop.x
+  const dy = sy - pixelCrop.y
+
+  if (sw > 0 && sh > 0) {
+    ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh)
+  }
 
   return canvas.toDataURL('image/webp', 0.9)
 }

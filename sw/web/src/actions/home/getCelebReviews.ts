@@ -29,6 +29,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
       ),
       celeb:profiles!user_contents_user_id_fkey(
         id,
+        slug,
         nickname,
         avatar_url,
         profession,
@@ -79,6 +80,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
         },
         celeb: {
           id: celeb.id,
+          slug: celeb.slug ?? null,
           nickname: celeb.nickname || '',
           avatar_url: celeb.avatar_url,
           profession: celeb.profession ?? null,

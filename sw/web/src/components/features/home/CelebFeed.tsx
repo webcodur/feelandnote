@@ -13,6 +13,7 @@ import { formatRelativeTime } from "@/lib/utils/date";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
+import { getCelebProfileUrl } from "@/lib/url";
 
 // #region Inline Celeb Feed Card
 interface CelebFeedCardProps {
@@ -26,7 +27,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
-    router.push(`/${review.celeb.id}`);
+    router.push(getCelebProfileUrl({ ...review.celeb, profile_type: 'CELEB' }));
   };
 
   const headerNode = (

@@ -81,6 +81,7 @@ interface PaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   pageSize?: number;
+  pageSizeOptions?: number[];
   onPageSizeChange?: (size: number) => void;
   showPageSizeSelector?: boolean;
 }
@@ -96,7 +97,10 @@ export function Pagination({
   currentPage,
   totalPages,
   onPageChange,
-  showPageSizeSelector = false, // Not used in compact mode
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
+  showPageSizeSelector = false,
 }: PaginationProps) {
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -203,6 +207,26 @@ export function Pagination({
         </div>
         <span className="absolute right-1 text-text-secondary/70 text-[10px] md:text-xs font-medium tabular-nums">1 - {totalPages}</span>
       </div>
+
+      {/* Page Size Selector */}
+      {showPageSizeSelector && pageSize != null && onPageSizeChange && pageSizeOptions && (
+        <div className="flex items-center justify-center gap-1.5">
+          {pageSizeOptions.map((size) => (
+            <button
+              key={size}
+              onClick={() => onPageSizeChange(size)}
+              className={`h-6 min-w-[2rem] px-1.5 flex items-center justify-center rounded text-[10px] md:text-xs font-medium transition-all ${
+                size === pageSize
+                  ? "bg-accent/20 text-accent border border-accent/40"
+                  : "text-text-secondary/60 bg-white/5 border border-white/5 hover:text-text-primary hover:bg-white/10"
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+          <span className="text-text-secondary/40 text-[10px] ml-1">/ page</span>
+        </div>
+      )}
 
     </nav>
   );

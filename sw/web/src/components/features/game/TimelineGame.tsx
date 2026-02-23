@@ -9,12 +9,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import type { CelebProfile } from "@/types/home";
-import { Button } from "@/components/ui";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { isPublicDomainCeleb, PUBLIC_DOMAIN_NOTICE } from "./utils";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import GameHeader from "./GameHeader";
 import ArenaCard from "./ArenaCard";
+import TimelineResult from "./timeline/TimelineResult";
 import { cn } from "@/lib/utils";
 
 type GameState = "idle" | "playing" | "gameover";
@@ -31,7 +31,12 @@ function parseBirthYear(birthDate: string | null): number | null {
   const bcMatch = birthDate.match(/(?:BC|기원전)\s*(\d+)/i);
   if (bcMatch) return -parseInt(bcMatch[1], 10);
 
-  const yearMatch = birthDate.match(/(\d{4})/);
+  if (birthDate.startsWith("-")) {
+    const n = parseInt(birthDate.slice(1), 10);
+    return isNaN(n) ? null : -n;
+  }
+
+  const yearMatch = birthDate.match(/^(\d{1,4})/);
   if (yearMatch) return parseInt(yearMatch[1], 10);
 
   return null;
@@ -331,7 +336,7 @@ export default function TimelineGame() {
 
             <div className="w-32 md:w-48 aspect-[2/3] relative group perspective-1000">
               <ArenaCard
-                imageUrl={currentCard.portrait_url ?? currentCard.avatar_url}
+                imageUrl={currentCard.avatar_url}
                 name={currentCard.nickname}
                 title={currentCard.profession}
                 subText={(isRevealing || isGameOver) ? formatYear(currentCard.birthYear) : "????"}
@@ -389,7 +394,7 @@ export default function TimelineGame() {
                 <div className="flex flex-col items-center">
                   <div className="w-24 h-36 md:w-40 md:h-60 relative shrink-0">
                     <ArenaCard
-                      imageUrl={celeb.portrait_url ?? celeb.avatar_url}
+                      imageUrl={celeb.avatar_url}
                       name={celeb.nickname}
                       title={null}
                       subText={formatYear(celeb.birthYear)}
@@ -419,20 +424,15 @@ export default function TimelineGame() {
         </div>
       </div>
 
-      {/* 게임오버 - 다시하기 */}
+      {/* 게임오버 - 타임라인 결과 */}
       {isGameOver && (
-        <div className="flex flex-col items-center gap-2 py-4 animate-in fade-in duration-300">
-          {isNewRecord && (
-            <span className="text-xs text-accent font-bold">신기록 달성!</span>
-          )}
-          <Button
-            size="lg"
-            onClick={() => setGameState("idle")}
-            className="min-w-[160px] h-12 font-serif font-bold rounded-xl active:scale-95 bg-white/10 text-white hover:bg-white/20 border border-white/20 animate-pulse shadow-[0_0_20px_rgba(255,255,255,0.15),0_0_40px_rgba(212,175,55,0.1)]"
-          >
-            다시 하기
-          </Button>
-        </div>
+        <TimelineResult
+          timeline={timeline}
+          currentCard={currentCard}
+          streak={streak}
+          isNewRecord={isNewRecord}
+          onReplay={() => setGameState("idle")}
+        />
       )}
 
       {/* 셀럽 상세 모달 */}

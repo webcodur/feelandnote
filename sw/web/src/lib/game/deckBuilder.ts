@@ -1,10 +1,12 @@
 /*
   파일명: lib/game/deckBuilder.ts
-  기능: 드래프트 풀 생성
-  책임: 658명 중 등급 분포에 맞게 12명을 선택한다.
+  기능: v5 드래프트 풀 생성 + AI 드래프트 픽
+  책임: 175명 단일 풀에서 15장 풀 생성, 교대 드래프트 AI 로직을 담당한다.
 */
 
-import type { BattleCard, Tier } from "./types";
+import type { BattleCard, Command } from "./types";
+import { COMMANDS } from "./types";
+import { calcAptitude } from "./gameEngine";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -15,43 +17,95 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function pickRandom<T>(arr: T[], count: number): T[] {
-  return shuffle(arr).slice(0, count);
-}
-
 /**
- * 12명 풀 생성
- * S/A 2명, B/C 4명, D/E 4명, 랜덤 2명
+ * 15장 드래프트 풀 생성
+ * 전체 후보에서 14장을 순수 랜덤으로 뽑고, 마지막 1장만 밸런스 보정한다.
  */
 export function buildDraftPool(allCards: BattleCard[]): BattleCard[] {
-  const byTier: Record<string, BattleCard[]> = { SA: [], BC: [], DE: [] };
+  const count = 15;
+  if (allCards.length <= count) return shuffle(allCards);
 
-  for (const card of allCards) {
-    if (card.tier === "S" || card.tier === "A") byTier.SA.push(card);
-    else if (card.tier === "B" || card.tier === "C") byTier.BC.push(card);
-    else byTier.DE.push(card);
+  const shuffled = shuffle([...allCards]);
+
+  // 14장 순수 랜덤
+  const pool = shuffled.slice(0, count - 1);
+  const remaining = shuffled.slice(count - 1);
+
+  // 마지막 1장: 가장 약한 명령을 보강
+  const cmdMax: Record<Command, number> = {
+    assault: 0, stratagem: 0, govern: 0,
+  };
+  for (const card of pool) {
+    for (const cmd of COMMANDS) {
+      cmdMax[cmd] = Math.max(cmdMax[cmd], calcAptitude(card, cmd));
+    }
   }
+  const weakestCmd = COMMANDS.reduce((a, b) => cmdMax[a] < cmdMax[b] ? a : b);
+  remaining.sort((a, b) => calcAptitude(b, weakestCmd) - calcAptitude(a, weakestCmd));
+  const topN = Math.min(5, remaining.length);
+  pool.push(remaining[Math.floor(Math.random() * topN)]);
 
-  const sa = pickRandom(byTier.SA, 2);
-  const bc = pickRandom(byTier.BC, 4);
-  const de = pickRandom(byTier.DE, 4);
+  return shuffle(pool);
+}
 
-  const picked = new Set([...sa, ...bc, ...de].map((c) => c.id));
-  const remaining = allCards.filter((c) => !picked.has(c.id));
-  const wild = pickRandom(remaining, 2);
+// ─── 드래프트 AI 픽 ───
 
-  return shuffle([...sa, ...bc, ...de, ...wild]);
+/** 카드의 종합 적성 합산 (티어 대체) */
+function totalAptitude(card: BattleCard): number {
+  let sum = 0;
+  for (const cmd of COMMANDS) sum += calcAptitude(card, cmd);
+  return sum;
 }
 
 /**
- * 총점(6개 영역 합 + 통시성) → 등급
- * 총점 범위: 0-100 (영역 0-60 + 통시성 0-40)
+ * AI가 드래프트에서 1장을 선택한다.
+ * 현재 내 픽에서 약한 명령을 보강하는 카드를 우선 선택한다.
  */
-export function toTier(totalScore: number): Tier {
-  if (totalScore >= 75) return "S";
-  if (totalScore >= 60) return "A";
-  if (totalScore >= 45) return "B";
-  if (totalScore >= 30) return "C";
-  if (totalScore >= 15) return "D";
-  return "E";
+export function aiDraftPick(
+  availableCards: BattleCard[],
+  aiPicks: BattleCard[],
+  playerPicks: BattleCard[],
+): BattleCard {
+  if (availableCards.length === 1) return availableCards[0];
+
+  // AI 픽이 없으면 종합 적성 최고 카드 선택
+  if (aiPicks.length === 0) {
+    let best = availableCards[0];
+    let bestScore = -Infinity;
+    for (const card of availableCards) {
+      const score = totalAptitude(card) + Math.random() * 3;
+      if (score > bestScore) {
+        bestScore = score;
+        best = card;
+      }
+    }
+    return best;
+  }
+
+  // AI 기존 픽에서 명령별 최고 적성 계산
+  const cmdMax: Record<Command, number> = {
+    assault: 0, stratagem: 0, govern: 0,
+  };
+  for (const card of aiPicks) {
+    for (const cmd of COMMANDS) {
+      cmdMax[cmd] = Math.max(cmdMax[cmd], calcAptitude(card, cmd));
+    }
+  }
+
+  // 가장 약한 명령 찾기
+  const weakestCmd = COMMANDS.reduce((a, b) => cmdMax[a] < cmdMax[b] ? a : b);
+
+  // 그 명령 적성이 높은 카드를 우선 선택 (약간의 랜덤성)
+  let best = availableCards[0];
+  let bestScore = -Infinity;
+  for (const card of availableCards) {
+    const weakScore = calcAptitude(card, weakestCmd) * 2;
+    let score = weakScore + totalAptitude(card) + Math.random() * 3;
+    if (score > bestScore) {
+      bestScore = score;
+      best = card;
+    }
+  }
+
+  return best;
 }

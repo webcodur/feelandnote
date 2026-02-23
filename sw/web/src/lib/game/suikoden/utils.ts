@@ -1,8 +1,7 @@
 // 천도 — 유틸리티 함수
 
-import type { GameCharacter, GameItem, Stats, Grade, ItemGrade, UnitClass, ContentType, ItemCategory, TerritoryId, TacticType, BattleParticipant, BuildingCard } from './types'
-import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, ITEM_GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TACTIC_MATCHUP, CLASS_TACTIC_BONUS, BUILDINGS, TACTIC_INFO } from './constants'
-import type { RegionId } from './types'
+import type { GameCharacter, GameItem, Stats, Grade, ItemGrade, UnitClass, ContentType, ItemCategory, TerritoryId, RegionId, TacticType, BattleParticipant, BuildingCard, Faction, Territory, GameState, TerritoryDef, Region } from './types'
+import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, ITEM_GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TACTIC_MATCHUP, CLASS_TACTIC_BONUS, BUILDINGS, TACTIC_INFO, TERRITORIES, REGIONS } from './constants'
 
 // ── DB → GameCharacter 변환 (7스탯 매핑) ──
 
@@ -18,7 +17,6 @@ interface DbProfile {
   bio?: string | null
   quotes?: string | null
   avatar_url?: string | null
-  portrait_url?: string | null
 }
 
 interface DbInfluence {
@@ -65,7 +63,7 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence): GameC
     deathDate: profile.death_date ?? '',
     bio: profile.bio ?? '',
     quotes: profile.quotes ?? '',
-    avatarUrl: profile.avatar_url ?? profile.portrait_url ?? null,
+    avatarUrl: profile.avatar_url ?? null,
     stats,
     hp: Math.max(10, Math.round(trans * 2.5)),
     maxHp: Math.max(10, Math.round(trans * 2.5)),
@@ -152,19 +150,28 @@ export function calcItemGrade(avgScore: number): ItemGrade {
 // ── 지역 판별 ──
 
 export function getRegionForNationality(nat: string): RegionId {
-  return NATIONALITY_TO_REGION[nat] ?? 'mediterranean'
+  return NATIONALITY_TO_REGION[nat] ?? 'west_europe'
 }
 
 export function getTerritoryForNationality(nat: string): TerritoryId {
-  return NATIONALITY_TO_TERRITORY[nat] ?? 'rome'
+  return NATIONALITY_TO_TERRITORY[nat] ?? 'paris'
 }
 
 // ── 연도 추출 ──
 
+export function getBirthYear(birthDate: string): number {
+  if (!birthDate) return 0
+  if (/^-?\d{1,4}$/.test(birthDate)) return parseInt(birthDate, 10)
+  const bMatch = birthDate.match(/^(-?\d{1,4})-/)
+  if (bMatch) return parseInt(bMatch[1], 10)
+  return 0
+}
+
 export function getDeathYear(deathDate: string): number {
   if (!deathDate) return 9999
   if (/^-?\d{1,4}$/.test(deathDate)) return parseInt(deathDate, 10)
-  if (/^\d{4}-/.test(deathDate)) return parseInt(deathDate.substring(0, 4), 10)
+  const dMatch = deathDate.match(/^(-?\d{1,4})-/)
+  if (dMatch) return parseInt(dMatch[1], 10)
   return 9999
 }
 
@@ -275,8 +282,67 @@ export function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
-// ── 에셋 경로 ──
+// ── Faction / Territory 헬퍼 ──
 
-export function getPortraitPath(character: GameCharacter): string {
-  return `/assets/suikoden/portraits/${character.id}.png`
+/** 영토 정의 조회 (상수 테이블) */
+export function getTerritoryDef(id: TerritoryId): TerritoryDef | undefined {
+  return TERRITORIES.find(t => t.id === id)
+}
+
+/** 지역 정의 조회 */
+export function getRegionDef(id: RegionId): Region | undefined {
+  return REGIONS.find(r => r.id === id)
+}
+
+/** 세력 총 병력 */
+export function getTotalTroops(faction: Faction): number {
+  return faction.members.reduce((s, m) => s + m.troops, 0)
+}
+
+/** 세력 총 전력 (totalScore 합산) */
+export function getTotalPower(faction: Faction): number {
+  return faction.members.reduce((s, m) => s + m.totalScore, 0)
+}
+
+/** 영토 소유 세력 조회 */
+export function getTerritoryOwner(state: GameState, territoryId: TerritoryId): Faction | undefined {
+  return state.factions.find(f => f.territories.some(t => t.id === territoryId))
+}
+
+/** 세력의 자원을 delta만큼 변경한 새 state 반환 */
+export function updateFactionResources(
+  state: GameState,
+  factionId: string,
+  deltas: Partial<Record<keyof Faction['resources'], number>>,
+): GameState {
+  return {
+    ...state,
+    factions: state.factions.map(f =>
+      f.id !== factionId ? f : {
+        ...f,
+        resources: {
+          gold: f.resources.gold + (deltas.gold ?? 0),
+          food: f.resources.food + (deltas.food ?? 0),
+          knowledge: f.resources.knowledge + (deltas.knowledge ?? 0),
+          material: f.resources.material + (deltas.material ?? 0),
+          troops: f.resources.troops + (deltas.troops ?? 0),
+        },
+      },
+    ),
+  }
+}
+
+/** 전투 참가자 중 살아있는 자만 필터 */
+export function getAliveParticipants(participants: BattleParticipant[]): BattleParticipant[] {
+  return participants.filter(p => !p.isDefeated)
+}
+
+/** 인접 영토 정보 조회 */
+export function getNeighborInfo(state: GameState, territoryId: TerritoryId) {
+  const def = getTerritoryDef(territoryId)
+  if (!def) return []
+  return def.neighbors.map(nId => {
+    const owner = state.factions.find(f => f.territories.some(t => t.id === nId))
+    return { id: nId as TerritoryId, name: getTerritoryDef(nId)?.name ?? nId, owner }
+  })
 }

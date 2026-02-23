@@ -82,7 +82,7 @@ export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
     label: "HEGEMONY",
     title: "패권",
     description: "강한 자가 지배한다",
-    subDescription: "6개 영역에 셀럽 카드를 배치하여 AI와 대결하세요.",
+    subDescription: "카드를 전략적으로 배치하여 상대를 무찌르세요.",
   },
   suikoden: {
     label: "CHEONDO",

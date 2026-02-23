@@ -108,10 +108,14 @@ export function useSavedStatusBatch(contentId?: string, autoCheck = true): Saved
       return;
     }
 
+    let cancelled = false;
     requestSavedStatus(contentId).then(result => {
-      setSaved(result);
-      setIsChecking(false);
+      if (!cancelled) {
+        setSaved(result);
+        setIsChecking(false);
+      }
     });
+    return () => { cancelled = true; };
   }, [contentId, autoCheck]);
 
   return {

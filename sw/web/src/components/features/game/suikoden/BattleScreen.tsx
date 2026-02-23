@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { GameState, TacticType } from '@/lib/game/suikoden/types'
 import { TACTIC_INFO, BATTLE_MAX_ROUNDS } from '@/lib/game/suikoden/constants'
-import { selectPlayerTactic, selectAITactic, resolveRound, checkBattleResult, applyBattleResult } from '@/lib/game/suikoden/engine'
+import { selectPlayerTactic, selectAITactic, resolveRound, checkBattleResult, applyBattleResult, collectDispositionTargets } from '@/lib/game/suikoden/engine'
 import { getAvailableTactics } from '@/lib/game/suikoden/skills'
 import BattleParticipantCard from './BattleParticipantCard'
 import TacticSelectPanel from './TacticSelectPanel'
@@ -66,10 +66,22 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
   // 전투 종료 처리
   const handleBattleComplete = useCallback(() => {
     onUpdateState(s => {
-      let ns = applyBattleResult(s, s.battle!)
-      ns = { ...ns, battle: null, phase: 'strategy', speed: ns.prevSpeed || 1 }
+      const b = s.battle!
+      let ns = applyBattleResult(s, b)
 
-      // 승리 조건 확인
+      // 패배 장수 수집 (플레이어 승리 시)
+      const targets = collectDispositionTargets(b, s.playerFactionId)
+      if (targets.length > 0) {
+        // disposition 화면으로 전환
+        return {
+          ...ns,
+          phase: 'disposition',
+          disposition: { targets, currentIndex: 0, results: [] },
+        }
+      }
+
+      // 처분 대상 없으면 기존 흐름
+      ns = { ...ns, battle: null, phase: 'strategy' }
       const active = ns.factions.filter(f => f.territories.length > 0)
       if (active.length === 1) {
         ns = { ...ns, isGameOver: true, winner: active[0].id, phase: 'result' }
@@ -115,7 +127,7 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
         </div>
         <div className="flex items-center gap-3 text-stone-400">
           {battle.defenderHasWalls && (
-            <span className="text-amber-400 text-[10px]">🏰 성벽</span>
+            <span className="text-amber-400 text-[10px]">[성벽]</span>
           )}
           <span>라운드 {battle.roundNumber}/{battle.maxRounds}</span>
         </div>
@@ -164,7 +176,7 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
               <div className="flex items-center gap-1.5 text-xs font-bold text-stone-300">
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
                 방어
-                {battle.defenderHasWalls && <span className="text-[9px] text-amber-400">🏰</span>}
+                {battle.defenderHasWalls && <span className="text-[9px] text-amber-400">[성벽]</span>}
               </div>
               <div className="space-y-1.5">
                 {battle.defenders.map((p, i) => (

@@ -38,18 +38,16 @@ interface CelebInfoModalProps {
 
 export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoModalProps) {
   const lifespan = formatLifespan(profile.birth_date, profile.death_date);
-  const hasPortrait = !!profile.portrait_url;
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" closeOnOverlayClick>
       <ModalBody className="p-0">
         <div className="flex flex-col md:flex-row">
-          {/* 좌측: 중형 초상화 (2:3 비율) */}
+          {/* 좌측: 아바타 */}
           <div className="flex-shrink-0 bg-bg-secondary">
-            {hasPortrait ? (
-              <div className="relative w-full md:w-44 aspect-[2/3]">
+            {profile.avatar_url ? (
+              <div className="relative w-full md:w-44 aspect-square">
                 <Image
-                  src={profile.portrait_url!}
+                  src={profile.avatar_url}
                   alt={profile.nickname}
                   fill
                   unoptimized
@@ -58,7 +56,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
               </div>
             ) : (
               <div
-                className="w-full md:w-44 aspect-[2/3] flex items-center justify-center"
+                className="w-full md:w-44 aspect-square flex items-center justify-center"
                 style={{ background: "linear-gradient(135deg, #050505, #111111)" }}
               >
                 <span className="text-6xl font-bold text-white">

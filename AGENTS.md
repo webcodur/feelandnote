@@ -47,6 +47,11 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 ### 셀럽 전용
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural, 각 0~10) + transhistoricity(0~40) = total_score(0~100)
+- **`celeb_persona`**: 인물 페르소나 수치. **3개 카테고리를 반드시 구분할 것** (단일원천: `sw/web/src/lib/persona/constants.ts`)
+  - **덕목 8개** (VirtueKey, 0~100): temperance 절제, diligence 근면, reflection 성찰, courage 용기, loyalty 충의, benevolence 인애, fairness 공정, humility 겸양
+  - **능력 4개** (AbilityKey, 0~100): command 통솔, martial 무력, intellect 지력, charisma 매력
+  - **성향 4개** (TendencyKey, -50~+50): pessimism_optimism, conservative_progressive, individual_social, cautious_bold
+  - ⚠️ 덕목(품성)과 능력(역량)은 별개. 덕목을 능력으로 취급하거나 혼용 금지
 - **`celeb_tags`** / **`celeb_tag_assignments`**: 기획전 태그 (is_featured, 기간 설정)
 
 ### 커뮤니티/시스템

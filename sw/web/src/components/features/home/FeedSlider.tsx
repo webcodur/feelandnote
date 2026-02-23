@@ -7,6 +7,7 @@ import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import type { CelebReview as Review } from "@/types/home";
+import { getCelebProfileUrl } from "@/lib/url";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 
@@ -19,7 +20,7 @@ function SliderFeedCard({ review }: { review: Review }) {
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
-    router.push(`/${review.celeb.id}`);
+    router.push(getCelebProfileUrl({ ...review.celeb, profile_type: 'CELEB' }));
   };
 
   const headerNode = (

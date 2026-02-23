@@ -10,6 +10,7 @@ import {
 
 export interface RankedCeleb {
   id: string
+  slug: string | null
   nickname: string
   avatar_url: string | null
   profession: string | null
@@ -42,6 +43,7 @@ export async function getInfluenceDistribution(): Promise<InfluenceDistribution>
       total_score,
       profiles!celeb_influence_celeb_id_fkey (
         id,
+        slug,
         nickname,
         avatar_url,
         profession,
@@ -68,6 +70,7 @@ export async function getInfluenceDistribution(): Promise<InfluenceDistribution>
   const activeCelebs = data.filter(row => {
     const profile = row.profiles as unknown as {
       id: string
+      slug: string | null
       nickname: string
       avatar_url: string | null
       profession: string | null
@@ -87,6 +90,7 @@ export async function getInfluenceDistribution(): Promise<InfluenceDistribution>
   activeCelebs.forEach((row, index) => {
     const profile = row.profiles as unknown as {
       id: string
+      slug: string | null
       nickname: string
       avatar_url: string | null
       profession: string | null
@@ -106,6 +110,7 @@ export async function getInfluenceDistribution(): Promise<InfluenceDistribution>
     // 전체 랭킹 리스트에 추가
     distribution.ranking.push({
       id: profile.id,
+      slug: profile.slug ?? null,
       nickname: profile.nickname,
       avatar_url: profile.avatar_url,
       profession: profile.profession,

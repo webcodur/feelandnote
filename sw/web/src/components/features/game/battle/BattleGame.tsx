@@ -1,40 +1,50 @@
 /*
   파일명: components/features/game/battle/BattleGame.tsx
-  기능: 영향력 대전 게임 컨테이너
+  기능: 패권 v6 게임 컨테이너
   책임: 게임 페이즈에 따라 적절한 하위 컴포넌트를 라우팅한다.
 */
 "use client";
 
-import { useState, useEffect, useCallback, useRef, type MutableRefObject } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo, type MutableRefObject } from "react";
 import { Swords, Volume2 } from "lucide-react";
 import { useBattleGame } from "./hooks/useBattleGame";
 import DraftPhase from "./DraftPhase";
-import BattlePhase from "./BattlePhase";
+import PlayPhase from "./PlayPhase";
 import GameResult from "./GameResult";
 import BattleLobby from "./BattleLobby";
-import type { CelebProfile } from "@/types/home";
-import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import CaptainSelect from "./CaptainSelect";
+import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
+import CardInfoModal from "./CardInfoModal";
+import { Z_INDEX } from "@/constants/zIndex";
+import type { BattleCard, GamePhase, Difficulty } from "@/lib/game/types";
 
 interface BattleGameProps {
   onEnterFullScreen?: () => void;
   onHomeRef?: MutableRefObject<(() => void) | null>;
   onPhaseChange?: (phase: string) => void;
+  onPlayerWinsChange?: (wins: boolean) => void;
   initialAudioReady?: boolean;
-  setBgm: (phase: "idle" | "loading" | "draft" | "battle" | "revealing" | "result", playerWins?: boolean) => void;
+  setBgm: (phase: GamePhase, playerWins?: boolean) => void;
   playSfx: (name: string) => void;
+  bgmMuted: boolean;
+  sfxMuted: boolean;
+  toggleBgmMuted: () => void;
+  toggleSfxMuted: () => void;
 }
 
-export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange, initialAudioReady = false, setBgm, playSfx }: BattleGameProps) {
+export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onPlayerWinsChange, initialAudioReady = false, setBgm, playSfx, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleGameProps) {
   const {
     state,
-    lastResult,
-    aiDraftPending,
-    aiDraftCards,
     startGame,
     draftPick,
-    playCard,
-    continueFromReveal,
+    draftAiTurn,
+    reshuffleDraft,
+    autoDraft,
+    confirmDraft,
+    selectCaptain,
+    submitRound,
+    advanceBattle,
+    advanceRound,
     reset,
   } = useBattleGame();
 
@@ -49,47 +59,99 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
     onPhaseChange?.(state.phase);
   }, [state.phase, onPhaseChange]);
 
-  // 셀럽 상세 모달
-  const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
-  const loadingRef = useRef(false);
+  // 승패 변경 알림
+  useEffect(() => {
+    onPlayerWinsChange?.(state.playerNation.power > state.aiNation.power);
+  }, [state.playerNation.power, state.aiNation.power, onPlayerWinsChange]);
 
-  const handleCardInfo = useCallback(async (celebId: string) => {
-    if (loadingRef.current) return;
-    loadingRef.current = true;
-    const celeb = await getCelebForModal(celebId);
-    loadingRef.current = false;
-    if (celeb) setModalCeleb(celeb);
+  // 카드 상세 모달
+  const [modalCardId, setModalCardId] = useState<string | null>(null);
+
+  // 모든 카드를 하나의 풀에서 검색
+  const allCards = useMemo(() => {
+    const cards: BattleCard[] = [
+      ...state.playerHand, ...state.aiHand,
+      ...state.playerDiscard, ...state.aiDiscard,
+      ...state.draft.pool, ...state.draft.playerPicks, ...state.draft.aiPicks,
+    ];
+    return cards;
+  }, [state]);
+
+  const modalCard = useMemo(
+    () => modalCardId ? allCards.find((c) => c.id === modalCardId) ?? null : null,
+    [modalCardId, allCards],
+  );
+
+  const handleCardInfo = useCallback((celebId: string) => {
+    setModalCardId(celebId);
   }, []);
 
-  // 오디오 활성화 게이트 — 유저 클릭 전까지 BGM 미재생
+  // 오디오 활성화 게이트
   const [audioReady, setAudioReady] = useState(initialAudioReady);
 
   const handleEnterGame = useCallback(() => {
     setAudioReady(true);
+    playSfx("sfx-enter-gate.mp3");
     onEnterFullScreen?.();
-  }, [onEnterFullScreen]);
+  }, [onEnterFullScreen, playSfx]);
 
-  // BGM 페이즈 전환 (audioReady 이후에만)
+  // BGM 페이즈 전환
   useEffect(() => {
     if (!audioReady) return;
-    const playerWins = state.playerScore > state.aiScore;
+    const playerWins = state.playerNation.power > state.aiNation.power;
     setBgm(state.phase, playerWins);
-  }, [audioReady, state.phase, state.playerScore, state.aiScore, setBgm]);
+  }, [audioReady, state.phase, state.playerNation.power, state.aiNation.power, setBgm]);
 
-  // "대전 시작" 래퍼: SFX + 원래 로직
-  const handleStart = useCallback(() => {
-    playSfx("sfx-start.mp3");
-    startGame();
+  // SFX 래퍼
+  const handleStart = useCallback((difficulty: Difficulty = "normal") => {
+    playSfx("sfx-confirm.mp3");
+    startGame(difficulty);
   }, [playSfx, startGame]);
 
-  // 드래프트 픽 래퍼
-  const handleDraftPick = useCallback(
-    (cardId: string) => {
-      playSfx("sfx-card-pick.mp3");
-      draftPick(cardId);
-    },
-    [playSfx, draftPick]
-  );
+  // 페이즈 전환 알림
+  const [announce, setAnnounce] = useState<AnnounceData | null>(null);
+  const prevPhaseRef = useRef(state.phase);
+
+  useEffect(() => {
+    const prevPhase = prevPhaseRef.current;
+    prevPhaseRef.current = state.phase;
+
+    if (state.phase === "draft" && prevPhase !== "draft") {
+      setAnnounce({
+        key: "draft",
+        label: "PHASE",
+        title: "드래프트",
+        subtitle: "15장에서 5장씩 선택합니다",
+      });
+      return;
+    }
+
+    if (state.phase === "captain" && prevPhase !== "captain") {
+      playSfx("sfx-draft-complete.mp3");
+      setAnnounce({
+        key: "captain",
+        label: "CAPTAIN",
+        title: "주장 선택",
+        subtitle: "아군의 지휘관을 임명합니다",
+      });
+      return;
+    }
+
+    if (state.phase === "battle" && prevPhase !== "battle") {
+      playSfx("sfx-confirm.mp3");
+      setAnnounce({
+        key: "battle",
+        label: "BATTLE",
+        title: "대전",
+        subtitle: "동시에 카드와 명령을 선택합니다",
+      });
+      return;
+    }
+
+    if (state.phase === "result" && prevPhase !== "result") {
+      return;
+    }
+  }, [state.phase, playSfx]);
 
   // 페이즈별 콘텐츠
   let content: React.ReactNode = null;
@@ -101,7 +163,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
           <div className="space-y-2">
             <Swords size={40} className="mx-auto text-accent/60" />
             <h2 className="text-2xl font-serif font-black text-white">패권</h2>
-            <p className="text-sm text-text-secondary">영향력 대전 시뮬레이션</p>
+            <p className="text-sm text-text-secondary">동시 행동 전략 게임</p>
           </div>
           <button
             onClick={handleEnterGame}
@@ -128,35 +190,58 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
       </div>
     );
   } else if (state.phase === "idle") {
-    content = <BattleLobby onStartVsAi={handleStart} />;
+    content = (
+      <BattleLobby
+        onStartVsAi={handleStart}
+        bgmMuted={bgmMuted}
+        sfxMuted={sfxMuted}
+        toggleBgmMuted={toggleBgmMuted}
+        toggleSfxMuted={toggleSfxMuted}
+      />
+    );
   } else if (state.phase === "draft") {
     content = (
       <DraftPhase
-        pool={state.pool}
-        playerHand={state.playerHand}
-        aiHand={state.aiHand}
-        draftTurn={state.draftTurn}
-        onPick={handleDraftPick}
-        aiDraftPending={aiDraftPending}
-        aiDraftCards={aiDraftCards}
+        draft={state.draft}
+        onPlayerPick={draftPick}
+        onAiPick={draftAiTurn}
+        onReshuffle={reshuffleDraft}
+        onAutoDraft={autoDraft}
+        onConfirmDraft={confirmDraft}
         onCardInfo={handleCardInfo}
+        playSfx={playSfx}
       />
     );
-  } else if (state.phase === "battle" || state.phase === "revealing") {
+  } else if (state.phase === "captain") {
     content = (
-      <BattlePhase
+      <CaptainSelect
+        playerHand={state.playerHand}
+        onSelect={selectCaptain}
+        onCardInfo={handleCardInfo}
+        playSfx={playSfx}
+      />
+    );
+  } else if (state.phase === "battle") {
+    content = (
+      <PlayPhase
         playerHand={state.playerHand}
         aiHand={state.aiHand}
-        domainOrder={state.domainOrder}
+        playerNation={state.playerNation}
+        aiNation={state.aiNation}
+        playerDiscard={state.playerDiscard}
+        aiDiscard={state.aiDiscard}
         currentRound={state.currentRound}
-        playerScore={state.playerScore}
-        aiScore={state.aiScore}
-        rounds={state.rounds}
-        nextDomain={state.nextDomain}
-        onPlayCard={playCard}
-        revealing={state.phase === "revealing"}
-        lastResult={lastResult}
-        onContinueFromReveal={continueFromReveal}
+        battleSubPhase={state.battleSubPhase}
+        roundRecords={state.roundRecords}
+        pendingRound={state.pendingRound}
+        mandate={state.mandates[state.mandateIndex % state.mandates.length] ?? null}
+        nextMandate={state.mandates[(state.mandateIndex + 1) % state.mandates.length] ?? null}
+        playerCaptainId={state.playerCaptainId}
+        aiCaptainId={state.aiCaptainId}
+        difficulty={state.difficulty}
+        onSubmit={submitRound}
+        onAdvanceBattle={advanceBattle}
+        onAdvance={advanceRound}
         playSfx={playSfx}
         onCardInfo={handleCardInfo}
       />
@@ -164,10 +249,12 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
   } else if (state.phase === "result") {
     content = (
       <GameResult
-        playerScore={state.playerScore}
-        aiScore={state.aiScore}
-        rounds={state.rounds}
-        onRestart={handleStart}
+        playerNation={state.playerNation}
+        aiNation={state.aiNation}
+        roundRecords={state.roundRecords}
+        onRestart={() => handleStart(state.difficulty)}
+        onHome={reset}
+        playSfx={playSfx}
       />
     );
   }
@@ -175,11 +262,12 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
   return (
     <>
       {content}
-      {modalCeleb && (
-        <CelebDetailModal
-          celeb={modalCeleb}
-          isOpen={!!modalCeleb}
-          onClose={() => setModalCeleb(null)}
+      <PhaseAnnounce data={announce} onDone={() => setAnnounce(null)} />
+      {modalCard && (
+        <CardInfoModal
+          card={modalCard}
+          onClose={() => setModalCardId(null)}
+          zIndex={Z_INDEX.gameModal}
         />
       )}
     </>

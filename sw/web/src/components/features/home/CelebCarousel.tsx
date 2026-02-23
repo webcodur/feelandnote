@@ -9,7 +9,7 @@ import CelebDetailModal from "./celeb-card-drafts/CelebDetailModal";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
 import ControlPanel from "@/components/shared/ControlPanel";
-import { useCelebFilters } from "./useCelebFilters";
+import { useCelebFilters, PAGE_SIZE_OPTIONS } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
 
@@ -205,6 +205,10 @@ export default function CelebCarousel({
                   currentPage={filters.currentPage}
                   totalPages={filters.totalPages}
                   onPageChange={filters.handlePageChange}
+                  pageSize={filters.pageSize}
+                  pageSizeOptions={PAGE_SIZE_OPTIONS}
+                  onPageSizeChange={filters.handlePageSizeChange}
+                  showPageSizeSelector
                 />
               </div>
             </>

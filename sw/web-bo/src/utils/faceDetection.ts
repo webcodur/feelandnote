@@ -1,121 +1,76 @@
-import { FaceLandmarker, FilesetResolver, NormalizedLandmark } from "@mediapipe/tasks-vision";
+import * as faceapi from 'face-api.js';
 
-// 싱글톤 인스턴스
-let faceLandmarker: FaceLandmarker | null = null;
+let modelsLoaded = false;
 
-// 초기화 함수
-export async function initFaceLandmarker() {
-  if (faceLandmarker) return faceLandmarker;
-
-  try {
-    console.log("Initializing FaceLandmarker...");
-    const filesetResolver = await FilesetResolver.forVisionTasks(
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.32/wasm"
-    );
-    console.log("FilesetResolver created");
-    
-    faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
-      baseOptions: {
-        modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
-        delegate: "CPU"
-      },
-      outputFaceBlendshapes: false,
-      runningMode: "IMAGE",
-      numFaces: 1
-    });
-    console.log("FaceLandmarker created");
-    return faceLandmarker;
-  } catch (error) {
-    console.error("Failed to initialize FaceLandmarker:", error);
-    throw error;
-  }
+async function loadModels() {
+  if (modelsLoaded) return;
+  await Promise.all([
+    faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+  ]);
+  modelsLoaded = true;
 }
 
-// 랜드마크 감지 함수
-// 이미지를 80%로 축소 + 여백 추가하여 턱 최하단 인식 정확도 개선
-const DETECT_SCALE = 0.8;
+export interface FaceDetectionResult {
+  landmarks: faceapi.FaceLandmarks68;
+  box: { x: number; y: number; width: number; height: number };
+}
 
-export async function detectFaceLandmarks(image: HTMLImageElement): Promise<NormalizedLandmark[] | null> {
+export async function detectFaceLandmarks(
+  image: HTMLImageElement
+): Promise<FaceDetectionResult | null> {
   if (!image.complete || image.naturalWidth === 0) return null;
 
   try {
-    const landmarker = await initFaceLandmarker();
-
-    // 캔버스에 축소 배치 (주변 여백 확보)
-    const canvas = document.createElement('canvas');
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalHeight;
-    const ctx = canvas.getContext('2d')!;
-
-    const scaledW = canvas.width * DETECT_SCALE;
-    const scaledH = canvas.height * DETECT_SCALE;
-    const offsetX = (canvas.width - scaledW) / 2;
-    const offsetY = (canvas.height - scaledH) / 2;
-
-    ctx.fillStyle = '#808080';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, offsetX, offsetY, scaledW, scaledH);
-
-    const result = landmarker.detect(canvas);
-
-    if (result.faceLandmarks && result.faceLandmarks.length > 0) {
-      // 좌표를 원본 이미지 기준으로 역변환
-      const margin = (1 - DETECT_SCALE) / 2;
-      return result.faceLandmarks[0].map(lm => ({
-        ...lm,
-        x: (lm.x - margin) / DETECT_SCALE,
-        y: (lm.y - margin) / DETECT_SCALE,
-      }));
-    }
-    return null;
+    await loadModels();
+    const detection = await faceapi
+      .detectSingleFace(image, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks();
+    if (!detection) return null;
+    const { x, y, width, height } = detection.detection.box;
+    return { landmarks: detection.landmarks, box: { x, y, width, height } };
   } catch (e) {
-    console.error("Error during detection:", e);
+    console.error('Face detection error:', e);
     throw e;
   }
 }
 
-export interface OptimalCropResult {
-  zoom: number;
-  center: { x: number; y: number }; // Normalized (0-1) target center on image
-}
+// 얼굴이 1:1 프레임에서 차지할 비율
+const FACE_FRAME_RATIO = 0.55;
 
-// 턱 최하단부 찾기: 하악 윤곽 랜드마크 중 y가 가장 큰 점 + 피부 보정
-function findChinBottom(landmarks: NormalizedLandmark[], glabellaY: number) {
-  const JAW_BOTTOM_INDICES = [152, 175, 199, 377, 148, 176, 400];
-  let maxY = 0;
-  let x = landmarks[152].x;
+/**
+ * 원본 이미지 픽셀 좌표로 최적 크롭 영역을 반환한다.
+ * react-easy-crop의 initialCroppedAreaPixels에 직접 사용 가능.
+ */
+export function calculateFaceCropArea(
+  result: FaceDetectionResult,
+  imageWidth: number,
+  imageHeight: number
+): { x: number; y: number; width: number; height: number } {
+  const { landmarks, box } = result;
 
-  for (const idx of JAW_BOTTOM_INDICES) {
-    if (landmarks[idx].y > maxY) {
-      maxY = landmarks[idx].y;
-      x = landmarks[idx].x;
-    }
-  }
+  // landmark 27 (콧대 상단) = 양눈 사이 정중앙, 모든 얼굴에서 일관된 기준점
+  const nose = landmarks.getNose();
+  const noseBridgeTop = nose[0]; // landmark 27
 
-  // 피부 최하단 보정 (미간~턱 거리의 10%)
-  const padding = (maxY - glabellaY) * 0.10;
-  return { x, y: maxY + padding };
-}
+  const faceCenterX = noseBridgeTop.x;
+  const faceCenterY = noseBridgeTop.y;
 
-// 최적 크롭 계산 함수
-export function calculateOptimalCrop(
-  landmarks: NormalizedLandmark[]
-): OptimalCropResult {
-  const glabella = landmarks[168]; // 미간
-  const chin = findChinBottom(landmarks, glabella.y); // 턱 최하단
+  // 1:1 크롭 영역 크기: 바운딩 박스의 큰 축 / FACE_FRAME_RATIO
+  const faceSize = Math.max(box.width, box.height);
+  const cropSize = faceSize / FACE_FRAME_RATIO;
 
-  // 미간(1/3) ~ 턱끝(2/3) = 뷰포트 높이의 1/3
-  // 한 단계(0.1) 축소하여 턱 최하단 여유 확보
-  const faceHeight = chin.y - glabella.y;
-  const z = 1 / (3 * faceHeight);
-  const zoom = Math.min(5, Math.max(1, z - 0.1));
+  // 이미지 경계를 넘지 않도록 클램프
+  const clampedSize = Math.min(cropSize, imageWidth, imageHeight);
+  const halfSize = clampedSize / 2;
 
-  // 뷰포트 상단 1/3에 미간이 오도록 중심점 계산
-  const targetCenterY = glabella.y + (1 / 6) / zoom;
-  const targetCenterX = (glabella.x + chin.x) / 2;
+  const cx = Math.max(halfSize, Math.min(imageWidth - halfSize, faceCenterX));
+  const cy = Math.max(halfSize, Math.min(imageHeight - halfSize, faceCenterY));
 
   return {
-    zoom,
-    center: { x: targetCenterX, y: targetCenterY },
+    x: cx - halfSize,
+    y: cy - halfSize,
+    width: clampedSize,
+    height: clampedSize,
   };
 }

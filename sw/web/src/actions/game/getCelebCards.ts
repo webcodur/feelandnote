@@ -7,7 +7,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { BattleCard, Domain } from "@/lib/game/types";
-import { toTier } from "@/lib/game/deckBuilder";
 import { isPublicDomainCeleb } from "@/components/features/game/utils";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
@@ -30,8 +29,8 @@ export async function getCelebCards(): Promise<BattleCard[]> {
   if (error || !data) return [];
 
   return data
-    .filter((row: any) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
-    .map((row: any) => {
+    .filter((row) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
+    .map((row) => {
       const inf = Array.isArray(row.celeb_influence)
         ? row.celeb_influence[0]
         : row.celeb_influence;
@@ -39,14 +38,10 @@ export async function getCelebCards(): Promise<BattleCard[]> {
         ? row.celeb_persona[0]
         : row.celeb_persona;
 
-      const influence: Record<Domain, number> = {} as any;
-      let domainSum = 0;
+      const influence = {} as Record<Domain, number>;
       for (const key of DOMAIN_KEYS) {
-        const val = inf[key] ?? 0;
-        influence[key] = val;
-        domainSum += val;
+        influence[key] = inf[key] ?? 0;
       }
-      const totalScore = domainSum + (inf.transhistoricity ?? 0);
 
       return {
         id: row.id,
@@ -55,8 +50,8 @@ export async function getCelebCards(): Promise<BattleCard[]> {
         title: row.title ?? "",
         nationality: row.nationality ?? "",
         avatarUrl: row.avatar_url,
+        portraitUrl: null,
         quotes: row.quotes ?? "",
-        tier: toTier(totalScore),
         influence,
         ability: {
           command: per.command ?? 0,

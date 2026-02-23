@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { Check, RotateCcw } from "lucide-react";
 import type { TrackerOption } from "@/actions/game/getTrackerRound";
 import ArenaCard from "../ArenaCard";
 
@@ -21,21 +22,32 @@ export default function MultipleChoice({
   onSelect,
 }: MultipleChoiceProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
   const handleClick = (id: string) => {
-    if (selectedId) return; // 이미 선택됨
+    if (confirmed) return;
     setSelectedId(id);
+  };
 
-    // 1.2초 후 결과 공개 → 상위로 전달
+  const handleConfirm = () => {
+    if (!selectedId || confirmed) return;
+    setConfirmed(true);
+
     setTimeout(() => {
       setRevealed(true);
-      setTimeout(() => onSelect(id), 800);
+      setTimeout(() => onSelect(selectedId), 800);
     }, 1200);
+  };
+
+  const handleReset = () => {
+    if (confirmed) return;
+    setSelectedId(null);
   };
 
   const getStatus = (id: string): "normal" | "win" | "lose" | "selected" => {
     if (!selectedId) return "normal";
+    if (!confirmed) return id === selectedId ? "selected" : "normal";
     if (!revealed) return id === selectedId ? "selected" : "normal";
     if (id === correctId) return "win";
     if (id === selectedId) return "lose";
@@ -43,28 +55,39 @@ export default function MultipleChoice({
   };
 
   return (
-    <div className="space-y-6">
-      {/* 스테이지 라벨 */}
-      <div className="text-center">
-        <p className="text-xs text-text-tertiary font-cinzel uppercase tracking-wider">
-          Stage 6 — Final Guess
-        </p>
-        <p className="text-sm text-text-secondary mt-1">4명 중 정답을 고르세요</p>
-      </div>
-
-      {/* 4지선다 카드 */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 px-2">
+    <div className="space-y-3">
+      <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 px-2 md:max-w-2xl md:mx-auto">
         {options.map((opt) => (
           <ArenaCard
             key={opt.id}
             imageUrl={opt.avatarUrl}
             name={opt.nickname}
             status={getStatus(opt.id)}
-            onClick={!selectedId ? () => handleClick(opt.id) : undefined}
-            className="aspect-square md:aspect-[2/3]"
+            onClick={!confirmed ? () => handleClick(opt.id) : undefined}
+            className="aspect-[2/3]"
           />
         ))}
       </div>
+
+      {/* 확인 / 다시 선택 버튼 */}
+      {selectedId && !confirmed && (
+        <div className="flex items-center justify-center gap-3 animate-in fade-in">
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm text-text-tertiary hover:text-text-secondary border border-white/10 hover:border-white/20"
+          >
+            <RotateCcw size={14} />
+            다시 선택
+          </button>
+          <button
+            onClick={handleConfirm}
+            className="flex items-center gap-1.5 px-5 py-2 rounded-lg text-sm font-bold text-accent bg-accent/15 border border-accent/30 hover:bg-accent/25 active:scale-95"
+          >
+            <Check size={14} />
+            확정
+          </button>
+        </div>
+      )}
     </div>
   );
 }

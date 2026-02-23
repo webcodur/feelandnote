@@ -28,7 +28,7 @@ export default function ContentReveal({
   const revealed = contents.slice(0, revealCount);
 
   return (
-    <div className="space-y-3 max-w-lg mx-auto">
+    <div className="space-y-3 max-w-lg mx-auto animate-clue-reveal">
       <p className="text-[10px] text-text-tertiary font-cinzel uppercase tracking-wider text-center">
         Stage 2 — Content {revealCount}/{contents.length}
       </p>

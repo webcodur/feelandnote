@@ -16,6 +16,8 @@ interface RatingEditModalProps {
   contentTitle: string;
   currentRating: number | null;
   onSave: (rating: number | null) => Promise<void>;
+  /** 커스텀 z-index */
+  zIndex?: number;
 }
 
 // 별 하나의 채움 상태 계산
@@ -38,6 +40,7 @@ export default function RatingEditModal({
   contentTitle,
   currentRating,
   onSave,
+  zIndex,
 }: RatingEditModalProps) {
   const [rating, setRating] = useState<number | null>(currentRating);
   const [isSaving, setIsSaving] = useState(false);
@@ -90,7 +93,7 @@ export default function RatingEditModal({
   const handleDragEnd = () => setIsDragging(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="별점 수정" size="sm">
+    <Modal isOpen={isOpen} onClose={onClose} title="별점 수정" size="sm" zIndex={zIndex}>
       <ModalBody className="space-y-4">
         <div className="text-center pb-3 border-b border-border/30">
           <p className="text-sm text-text-secondary line-clamp-2">{contentTitle}</p>

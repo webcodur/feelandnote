@@ -24,6 +24,8 @@ interface ModalProps {
   size?: "sm" | "md" | "lg" | "xl" | "full";
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
+  /** 커스텀 z-index (게임 전체화면 등 상위 모달 위에 표시할 때) */
+  zIndex?: number;
 }
 
 const SIZE_CLASSES = {
@@ -43,6 +45,7 @@ export default function Modal({
   size = "md",
   showCloseButton = true,
   closeOnOverlayClick = true,
+  zIndex,
 }: ModalProps) {
   // ESC 키로 닫기
   useEffect(() => {
@@ -70,7 +73,7 @@ export default function Modal({
   const modalContent = (
     <div
       className="fixed inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-modal-overlay"
-      style={{ zIndex: Z_INDEX.modal }}
+      style={{ zIndex: zIndex ?? Z_INDEX.modal }}
       onClick={handleOverlayClick}
     >
       <ClassicalBox

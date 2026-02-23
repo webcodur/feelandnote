@@ -7,25 +7,24 @@ export type Grade = 'SS' | 'S' | 'A' | 'B' | 'C' | 'D' | 'E'
 export type ItemCategory = 'scroll' | 'painting' | 'manual' | 'score'
 export type ItemGrade = 'legendary' | 'heroic' | 'rare' | 'common' | 'plain'
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
-export type GamePhase = 'title' | 'setup' | 'strategy' | 'battle' | 'manage' | 'result'
+export type GamePhase = 'title' | 'setup' | 'wandering' | 'strategy' | 'battle' | 'disposition' | 'manage' | 'result'
+export type Era = 'ancient' | 'medieval' | 'modern'
 export type AIPersonality = 'conqueror' | 'schemer' | 'economist' | 'virtuous' | 'culturist'
-export type RegionId = 'east_asia' | 'south_asia' | 'middle_east' | 'mediterranean' | 'west_europe' | 'north_europe' | 'new_world'
+export type RegionId = 'east_asia' | 'southeast_asia' | 'south_asia' | 'central_asia' | 'middle_east' | 'east_europe' | 'west_europe' | 'africa' | 'americas' | 'oceania'
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
 // ── 전술 시스템 ──
 
 export type TacticType = 'charge' | 'defend' | 'stratagem' | 'fire' | 'morale' | 'feint'
 
-// ── 실시간 시스템 ──
+// ── 턴제 시스템 ──
 
-export type GameSpeed = 0 | 1 | 2 | 3  // 0=pause
-export type CharacterTask = 'idle' | 'building' | 'working' | 'training'
+export type CharacterTask = 'idle' | 'building' | 'working' | 'training' | 'hunting'
 
 export interface GameTime {
   year: number       // 시작: 1002
   month: number      // 1-12
   day: number        // 1-30
-  hour: number       // 0-23
 }
 
 export interface CharacterPlacement {
@@ -33,20 +32,22 @@ export interface CharacterPlacement {
   factionId: string
   territoryId: TerritoryId
   task: CharacterTask
-  taskProgress: number   // 0-1
   assignedBuildingId: string | null  // BuildingCard.instanceId
 }
 
-// ── 영토 ID (17개) ──
+// ── 영토 ID (22개) ──
 
 export type TerritoryId =
-  | 'huabei' | 'jiangnan' | 'liaodong'          // 동아시아
-  | 'india' | 'ceylon'                           // 남아시아
-  | 'mesopotamia' | 'persia'                     // 중동
-  | 'rome' | 'greece' | 'iberia'                 // 지중해
-  | 'france' | 'britannia' | 'germania'          // 서유럽
-  | 'scandinavia' | 'rus'                        // 북유럽
-  | 'north_america' | 'south_america'            // 신대륙
+  | 'beijing' | 'nanjing' | 'pyongyang'          // 동아시아
+  | 'hanoi' | 'angkor'                           // 동남아시아
+  | 'delhi' | 'kolkata'                          // 남아시아
+  | 'samarkand' | 'moscow'                       // 중앙아시아
+  | 'baghdad' | 'cairo'                          // 중동
+  | 'constantinople' | 'berlin'                  // 동유럽
+  | 'rome' | 'paris' | 'london'                  // 서유럽
+  | 'carthage' | 'timbuktu' | 'nairobi'          // 아프리카
+  | 'new_york' | 'tenochtitlan'                  // 아메리카
+  | 'sydney'                                     // 오세아니아
 
 // ── 7스탯 시스템 ──
 
@@ -138,7 +139,7 @@ export interface BuildingCard {
   defId: string
   assigneeId: string | null        // 근무 캐릭터 (건설 완료 후 건설자가 자동 배치)
   isConstructing: boolean
-  constructionProgress: number     // 0~1
+  constructionTurnsLeft: number    // 남은 건설 턴 수 (0이면 완료)
   constructionWorkerId: string | null
 }
 
@@ -176,6 +177,7 @@ export interface Region {
   territoryIds: TerritoryId[]
   color: string
   position: { x: number; y: number }
+  latlng: [number, number]  // [위도, 경도] — 대륙 중심점
 }
 
 // ── 영토 정의 (상수용) ──
@@ -186,6 +188,29 @@ export interface TerritoryDef {
   regionId: RegionId
   neighbors: TerritoryId[]
   position: { x: number; y: number }  // 세계맵 좌표 (% 기반)
+  latlng: [number, number]             // [위도, 경도] — D3 지구본용
+}
+
+// ── 포로 처분 시스템 ──
+
+export type DispositionAction = 'recruit' | 'imprison' | 'execute' | 'release'
+
+export interface DispositionTarget {
+  character: GameCharacter
+  factionId: string  // 원 소속 세력
+}
+
+export interface DispositionResult {
+  characterId: string
+  characterName: string
+  action: DispositionAction
+  success: boolean  // recruit 성공/실패
+}
+
+export interface DispositionState {
+  targets: DispositionTarget[]
+  currentIndex: number
+  results: DispositionResult[]
 }
 
 // ── 세력 ──
@@ -196,6 +221,7 @@ export interface Faction {
   leaderId: string
   color: string
   members: GameCharacter[]
+  prisoners: GameCharacter[]
   territories: Territory[]
   resources: Resources
   items: GameItem[]
@@ -248,13 +274,76 @@ export interface BattleState {
   defenderHasWalls: boolean
 }
 
+// ── 방랑 이벤트 ──
+
+export type WanderingEventType =
+  | 'guest'           // 객장 방문 — 수락/거절
+  | 'bandit_win'      // 도적 격퇴 — 금 획득
+  | 'bandit_lose'     // 도적 습격 — 금 손실
+  | 'villager_aid'    // 주민 지원 — 금 획득
+  | 'scenery'         // 풍경/이동 묘사
+  | 'rumor'           // 소문
+
+export interface WanderingEvent {
+  type: WanderingEventType
+  description: string
+  character?: GameCharacter   // guest 이벤트용
+  goldDelta?: number          // 금화 변동
+  resolved: boolean           // 처리 완료 여부
+  recruitAttempted?: boolean  // 등용 시도 여부 (방랑 guest용)
+}
+
+// ── 방랑 상태 ──
+
+export interface WanderingState {
+  leaderId: string
+  leader: GameCharacter
+  currentRegionId: RegionId
+  companions: GameCharacter[]
+  gold: number
+  turnsWandered: number
+  currentEvent: WanderingEvent | null
+  eventLog: string[]
+  // 이동 중 상태
+  travelTarget: RegionId | null   // 이동 목표 지역 (null = 체류 중)
+  travelProgress: number          // 0~travelDuration
+  travelDuration: number           // 이동 소요 턴
+}
+
+// ── 출몰 위협 ──
+
+export type ThreatType = 'bandit' | 'beast' | 'plague' | 'spy'
+
+export interface ThreatCard {
+  id: string
+  type: ThreatType
+  name: string
+  icon: string
+  power: number           // 난이도 1-10
+  territoryId: TerritoryId
+  arrivalTurn: number
+  expiryTurn: number
+  assignedCharId: string | null
+  turnsToResolve: number  // 배정 후 다음 턴에 판정 (1)
+}
+
+// ── 선술집 방문자 ──
+
+export interface TavernVisitor {
+  character: GameCharacter
+  territoryId: TerritoryId
+  arrivalTurn: number
+  departureTurn: number
+  recruiterId: string | null       // 등용 할당된 인물 ID (null = 미할당)
+  recruiterAssignedTurn: number | null  // 할당된 턴 (판정 타이밍 계산용)
+}
+
 // ── 게임 전체 상태 ──
 
 export interface GameState {
   phase: GamePhase
   season: Season
   gameTime: GameTime
-  speed: GameSpeed
   factions: Faction[]
   placements: CharacterPlacement[]
   wanderers: GameCharacter[]
@@ -262,14 +351,43 @@ export interface GameState {
   playerFactionId: string
   difficulty: 'easy' | 'normal' | 'hard'
   battle: BattleState | null
+  disposition: DispositionState | null
   viewingTerritoryId: TerritoryId  // 현재 보고 있는 영토
   selectedTerritoryId: TerritoryId | null  // 세계맵에서 선택된 영토
   log: string[]
   isGameOver: boolean
   winner: string | null
-  tickCount: number  // 총 틱 수
-  prevSpeed: GameSpeed  // 일시정지 전 속도 복원용
+  turnCount: number  // 총 턴 수
   autoAssign: boolean  // 자동 내정 모드
+  era: Era
+  wandering: WanderingState | null  // 거병 후 null
+  tavernVisitors: TavernVisitor[]
+  threats: ThreatCard[]
+  settings: GameSettings
+}
+
+// ── 대화 시스템 ──
+
+export type SpeechTone = 'commander' | 'scholar' | 'artisan' | 'noble' | 'gentle' | 'free'
+
+export type DialogType =
+  | 'recruit_success' | 'recruit_fail' | 'recruit_reject'
+  | 'recruit_ask' | 'dismiss_farewell'
+  | 'turn_start'
+  | 'battle_start' | 'battle_win' | 'battle_lose'
+  | 'building_complete' | 'visitor_arrive'
+
+export interface DialogEntry {
+  id: string
+  characterId: string
+  characterName: string
+  avatarUrl: string | null
+  message: string
+  type: DialogType
+}
+
+export interface GameSettings {
+  dialogMode: 'auto' | 'manual'
 }
 
 // ── 에셋 ──

@@ -1,167 +1,183 @@
 /*
   파일명: lib/game/aiPlayer.ts
-  기능: AI 플레이어 로직
-  책임: 혼합 전략 기반 카드 선택을 제공한다.
+  기능: 패권 v6 동시 행동 AI
+  책임: 플레이어 행동을 모르는 상태에서 카드+명령을 선택한다.
 */
 
-import type { BattleCard, Domain } from "./types";
+import type { BattleCard, Command, NationState, RoundRecord } from "./types";
+import { COMMANDS } from "./types";
+import { calcAptitude, calcAptitudeWithCaptain, getCounterResult } from "./gameEngine";
 
-export type AiDifficulty = "easy" | "normal";
+interface AiRoundParams {
+  hand: BattleCard[];
+  aiNation: NationState;
+  playerNation: NationState;
+  playerHand: BattleCard[];     // 오픈 정보
+  aiDiscard: BattleCard[];
+  roundRecords: RoundRecord[];
+  currentRound: number;
+  mandateCommand?: Command;     // 현재 천명 보너스 명령
+  aiCaptainId?: string | null;  // AI 주장 카드 ID
+}
 
-export type AiStrategy = "dominate" | "prepare";
+export interface AiRoundChoice {
+  cardId: string;
+  command: Command;
+  recoverId?: string;
+}
 
-export const AI_STRATEGY_LABELS: Record<AiStrategy, string> = {
-  dominate: "공세 — 상대방이 이 영역을 반드시 따내겠다고 판단하고 가장 유리한 카드를 출전시켰습니다.",
-  prepare: "포석 — 상대방이 다음 영역이 더 중요하다고 판단하고 핵심 카드를 아껴두었습니다.",
-};
+/** 최근 N라운드에서 플레이어가 가장 많이 사용한 명령 예측 */
+function predictPlayerCommand(records: RoundRecord[], lookback: number = 3): Command | null {
+  if (records.length === 0) return null;
 
-type Strategy = AiStrategy;
-
-/** 가중 랜덤 선택 */
-function weightedRandom(weights: Record<Strategy, number>): Strategy {
-  const entries = Object.entries(weights) as [Strategy, number][];
-  const total = entries.reduce((sum, [, w]) => sum + w, 0);
-  let rand = Math.random() * total;
-  for (const [strategy, weight] of entries) {
-    rand -= weight;
-    if (rand <= 0) return strategy;
+  const recent = records.slice(-lookback);
+  const counts: Record<Command, number> = {
+    assault: 0, stratagem: 0, govern: 0,
+  };
+  for (const r of recent) {
+    counts[r.player.command]++;
   }
-  return entries[0][0];
+
+  let maxCmd: Command = "assault";
+  let maxCount = 0;
+  for (const cmd of COMMANDS) {
+    if (counts[cmd] > maxCount) {
+      maxCount = counts[cmd];
+      maxCmd = cmd;
+    }
+  }
+  return maxCount > 0 ? maxCmd : null;
 }
 
-/** 상대 패에서 해당 영역 최강 점수 추정 (공개 정보) */
-function estimateOpponentBest(opponentHand: BattleCard[], domain: Domain): number {
-  if (opponentHand.length === 0) return 0;
-  return Math.max(...opponentHand.map((c) => c.influence[domain]));
-}
+/** AI 라운드 선택: 카드+명령 (플레이어 행동 모르는 상태) */
+export function aiSelectRound(params: AiRoundParams): AiRoundChoice {
+  const {
+    hand, aiNation, playerNation,
+    aiDiscard, roundRecords, currentRound, mandateCommand,
+    aiCaptainId,
+  } = params;
 
-/** 전략별 가중치 산출 (상황 적응형) */
-function computeWeights(
-  scoreDiff: number, // AI 점수 - 플레이어 점수
-  remainingRounds: number,
-): Record<Strategy, number> {
-  const weights: Record<Strategy, number> = {
-    dominate: 50,
-    prepare: 50,
+  if (hand.length === 0) {
+    return { cardId: "", command: "govern" };
+  }
+
+  // ─── 전략 가중치 ───
+  const weights: Record<Command, number> = {
+    assault: 1.0,
+    stratagem: 1.0,
+    govern: 0.7,
   };
 
-  if (scoreDiff < 0) {
-    // AI가 뒤지고 있으면 → 압도 비중 상승
-    weights.dominate += Math.abs(scoreDiff) * 15;
-    weights.prepare -= Math.abs(scoreDiff) * 10;
-  } else if (scoreDiff > 0) {
-    // AI가 앞서면 → 포석 비중 상승
-    weights.prepare += scoreDiff * 12;
-    weights.dominate -= scoreDiff * 8;
+  const powerAdvantage = aiNation.power - playerNation.power;
+  const aiMoraleCritical = aiNation.morale <= 15;
+  const hasDiscard = aiDiscard.length > 0;
+  const isLateGame = currentRound >= 5;
+
+  // 상황별 조정
+  if (powerAdvantage > 5) {
+    weights.assault = 1.5;
+  }
+  if (aiMoraleCritical) {
+    weights.govern = 2.0;
+    weights.assault = 0.5;
+  }
+  if (!hasDiscard) {
+    weights.govern *= 0.5;
+  }
+  if (isLateGame && powerAdvantage >= 0) {
+    weights.assault = 1.8;
+  }
+  if (hand.length <= 2) {
+    weights.govern = 1.5;
+    weights.assault = 0.6;
   }
 
-  // 마지막 라운드엔 포석 무의미 → 압도
-  if (remainingRounds <= 1) {
-    weights.prepare = 0;
-    weights.dominate = 100;
+  // ─── 예측 기반 상성 가중치 ───
+  const predictedCmd = predictPlayerCommand(roundRecords);
+  if (predictedCmd) {
+    for (const cmd of COMMANDS) {
+      const counter = getCounterResult(cmd, predictedCmd);
+      if (counter === "win") {
+        weights[cmd] *= 1.3;
+      } else if (counter === "lose") {
+        weights[cmd] *= 0.8;
+      }
+    }
   }
 
-  // 2라운드 남았을 때 포석 약간 감소
-  if (remainingRounds === 2) {
-    weights.prepare = Math.floor(weights.prepare * 0.6);
+  // ─── 모든 카드 x 명령 조합 평가 ───
+  let bestScore = -Infinity;
+  let bestChoice: AiRoundChoice = {
+    cardId: hand[0].id,
+    command: "assault",
+  };
+
+  for (const card of hand) {
+    for (const cmd of COMMANDS) {
+      if (weights[cmd] === 0) continue;
+
+      const captainInHand = !!aiCaptainId && hand.some(c => c.id === aiCaptainId);
+      const rawApt = calcAptitudeWithCaptain(card, cmd, aiCaptainId ?? null, captainInHand);
+      const apt = mandateCommand === cmd ? rawApt * 1.5 : rawApt;
+      let score = apt * weights[cmd];
+
+      if (cmd === "govern" && !hasDiscard) {
+        score *= 0.5;
+      }
+
+      // 랜덤성 추가
+      score += Math.random() * 2;
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestChoice = { cardId: card.id, command: cmd };
+      }
+    }
   }
 
-  // 최소 0 보정
-  for (const k of Object.keys(weights) as Strategy[]) {
-    if (weights[k] < 0) weights[k] = 0;
+  // 내정 시 회수할 카드 선택
+  if (bestChoice.command === "govern" && aiDiscard.length > 0) {
+    bestChoice.recoverId = aiSelectRecovery(aiDiscard);
   }
 
-  return weights;
+  return bestChoice;
 }
 
-/** 압도: 이길 수 있으면 최소 투자로, 못 이기면 최강 투입 */
-function dominatePick(hand: BattleCard[], domain: Domain, opponentBest: number): BattleCard {
-  // 이길 수 있는 카드 중 가장 약한 것
-  const winners = hand
-    .filter((c) => c.influence[domain] > opponentBest)
-    .sort((a, b) => a.influence[domain] - b.influence[domain]);
-  if (winners.length > 0) return winners[0];
+/**
+ * AI 주장 선택: 종합 적성이 중간인 카드를 선택한다.
+ * 최강 카드보다 중간 카드를 주장으로 두면 오라(+15%)가 더 효율적이다.
+ */
+export function aiSelectCaptain(hand: BattleCard[]): string {
+  if (hand.length <= 1) return hand[0].id;
 
-  // 이길 수 없으면 해당 영역 최강 카드
-  return hand.reduce((best, card) =>
-    card.influence[domain] > best.influence[domain] ? card : best
-  );
+  const scored = hand.map(card => {
+    let total = 0;
+    for (const cmd of COMMANDS) total += calcAptitude(card, cmd);
+    return { id: card.id, total };
+  }).sort((a, b) => b.total - a.total);
+
+  // 중간 순위 카드 선택 (2~3번째), 약간의 랜덤성
+  const midIdx = Math.min(1 + Math.floor(Math.random() * 2), scored.length - 1);
+  return scored[midIdx].id;
 }
 
-/** 포석: 미래 영역에서의 가치가 낮은 카드를 현재 소모 */
-function preparePick(hand: BattleCard[], currentDomain: Domain, futureDomains: Domain[]): BattleCard {
-  if (futureDomains.length === 0) return dominatePick(hand, currentDomain, Infinity);
+/** AI 내정 시 회수할 카드 선택: 종합 적성 최고 */
+function aiSelectRecovery(discard: BattleCard[]): string | undefined {
+  if (discard.length === 0) return undefined;
 
-  // 각 카드의 "미래 가치" = 남은 영역들에서의 최고 점수
-  const scored = hand.map((card) => {
-    const futureMax = Math.max(...futureDomains.map((d) => card.influence[d]));
-    return { card, futureMax };
-  });
+  let bestCard = discard[0];
+  let bestScore = -Infinity;
 
-  // 미래 가치가 낮은 카드를 우선 소모
-  scored.sort((a, b) => a.futureMax - b.futureMax);
-  return scored[0].card;
-}
-
-export interface AiBattleResult {
-  card: BattleCard;
-  strategy: AiStrategy;
-}
-
-/** 혼합 전략 AI 배틀 픽 */
-function smartPick(
-  hand: BattleCard[],
-  currentDomain: Domain,
-  playerHand: BattleCard[],
-  aiScore: number,
-  playerScore: number,
-  remainingRounds: number,
-  futureDomains: Domain[],
-): AiBattleResult {
-  if (hand.length <= 1) return { card: hand[0], strategy: "dominate" };
-
-  const scoreDiff = aiScore - playerScore;
-  const opponentBest = estimateOpponentBest(playerHand, currentDomain);
-  const weights = computeWeights(scoreDiff, remainingRounds);
-  let strategy = weightedRandom(weights);
-
-  let card: BattleCard;
-  switch (strategy) {
-    case "dominate":
-      card = dominatePick(hand, currentDomain, opponentBest);
-      break;
-    case "prepare":
-      card = preparePick(hand, currentDomain, futureDomains);
-      break;
+  for (const card of discard) {
+    let score = 0;
+    for (const cmd of COMMANDS) {
+      score += calcAptitude(card, cmd);
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestCard = card;
+    }
   }
 
-  return { card, strategy };
-}
-
-/** AI 드래프트 픽 */
-export function aiDraftPick(
-  pool: BattleCard[],
-  _difficulty: AiDifficulty = "normal"
-): BattleCard {
-  // 총합이 가장 높은 카드를 선택 (단순하지만 효과적)
-  return pool.reduce((best, card) => {
-    const sum = Object.values(card.influence).reduce((a, b) => a + b, 0);
-    const bestSum = Object.values(best.influence).reduce((a, b) => a + b, 0);
-    return sum > bestSum ? card : best;
-  });
-}
-
-/** AI 배틀 픽 */
-export function aiBattlePick(
-  hand: BattleCard[],
-  currentDomain: Domain,
-  _nextDomain: Domain | null,
-  _difficulty: AiDifficulty = "normal",
-  playerHand: BattleCard[] = [],
-  aiScore: number = 0,
-  playerScore: number = 0,
-  remainingRounds: number = 1,
-  futureDomains: Domain[] = [],
-): AiBattleResult {
-  return smartPick(hand, currentDomain, playerHand, aiScore, playerScore, remainingRounds, futureDomains);
+  return bestCard.id;
 }

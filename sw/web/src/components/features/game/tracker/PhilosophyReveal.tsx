@@ -11,7 +11,7 @@ interface PhilosophyRevealProps {
 
 export default function PhilosophyReveal({ philosophy }: PhilosophyRevealProps) {
   return (
-    <div className="space-y-2 max-w-lg mx-auto">
+    <div className="relative space-y-2 max-w-lg mx-auto animate-clue-reveal animate-clue-glow-line overflow-hidden">
       <p className="text-[10px] text-text-tertiary font-cinzel uppercase tracking-wider text-center">
         Stage 3 — Philosophy
       </p>

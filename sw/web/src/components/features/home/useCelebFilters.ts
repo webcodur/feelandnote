@@ -22,7 +22,8 @@ export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
 
 export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort";
 
-export const PAGE_SIZE = 24;
+export const DEFAULT_PAGE_SIZE = 24;
+export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
 
 const VALID_SORT_VALUES: CelebSortBy[] = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 // #endregion
@@ -81,6 +82,11 @@ export function useCelebFilters({
   });
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [total, setTotal] = useState(initialTotal);
+  const [pageSize, setPageSize] = useState(() => {
+    if (!syncToUrl) return DEFAULT_PAGE_SIZE;
+    const ps = parseInt(searchParams.get("pageSize") || String(DEFAULT_PAGE_SIZE), 10);
+    return PAGE_SIZE_OPTIONS.includes(ps) ? ps : DEFAULT_PAGE_SIZE;
+  });
   const [isInitialized, setIsInitialized] = useState(false);
 
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
@@ -121,13 +127,14 @@ export function useCelebFilters({
     sort: CelebSortBy,
     page: number,
     searchTerm: string,
-    inactive?: boolean
+    inactive?: boolean,
+    limitOverride?: number
   ) => {
     setIsLoading(true);
     const isInactive = inactive ?? includeInactive;
     const result = await getCelebs({
       page,
-      limit: PAGE_SIZE,
+      limit: limitOverride ?? pageSize,
       profession: prof,
       nationality: nation,
       contentType: cType,
@@ -141,7 +148,7 @@ export function useCelebFilters({
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, [includeInactive]);
+  }, [includeInactive, pageSize]);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
@@ -182,6 +189,13 @@ export function useCelebFilters({
     setCurrentPage(page);
     loadCelebs(profession, nationality, contentType, gender, sortBy, page, appliedSearch);
     updateUrlParams({ page: String(page) });
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
+
+  const handlePageSizeChange = useCallback((size: number) => {
+    setPageSize(size);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, size);
+    updateUrlParams({ pageSize: size === DEFAULT_PAGE_SIZE ? null : String(size), page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   // 검색어 입력 (UI만 업데이트, API 호출 안 함)
@@ -235,12 +249,14 @@ export function useCelebFilters({
     currentPage,
     totalPages,
     total,
+    pageSize,
     handleProfessionChange,
     handleNationalityChange,
     handleContentTypeChange,
     handleGenderChange,
     handleSortChange,
     handlePageChange,
+    handlePageSizeChange,
     handleSearchInput,
     handleSearchSubmit,
     handleSearchClear,

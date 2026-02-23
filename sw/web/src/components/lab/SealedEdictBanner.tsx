@@ -4,9 +4,10 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;
+  compact?: boolean;
 }
 
-export default function SealedEdictBanner({ children }: Props) {
+export default function SealedEdictBanner({ children, compact = false }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export default function SealedEdictBanner({ children }: Props) {
     let animationFrameId: number;
 
     // Config
-    const LETTER_COUNT = 15;
+    const LETTER_COUNT = compact ? 8 : 15;
     
     // Types
     type Letter = {
@@ -41,7 +42,7 @@ export default function SealedEdictBanner({ children }: Props) {
 
     const init = () => {
       width = canvas.parentElement?.clientWidth || window.innerWidth;
-      height = 700;
+      height = compact ? canvas.parentElement?.clientHeight || 350 : 700;
       canvas.width = width;
       canvas.height = height;
       
@@ -177,10 +178,10 @@ export default function SealedEdictBanner({ children }: Props) {
       window.removeEventListener("resize", init);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [compact]);
 
   return (
-    <div className="relative w-full h-[700px] overflow-hidden bg-[#050505]">
+    <div className={`relative w-full overflow-hidden bg-[#050505] ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : "h-[700px]"}`}>
       <canvas ref={canvasRef} className="block" />
 
       {/* Overlay Content */}

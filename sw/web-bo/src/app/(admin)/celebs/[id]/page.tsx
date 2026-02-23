@@ -8,6 +8,7 @@ import Image from 'next/image'
 import CelebForm from '../../members/components/CelebForm'
 import NationalityBadge from '../../members/components/NationalityBadge'
 import ProjectRulesButton from '../../members/components/ProjectRulesButton'
+import PersonaStatBars from '@/components/celeb/PersonaStatBars'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
@@ -40,8 +41,8 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
         <div className="flex items-start gap-6">
           <div className="relative w-32 h-32 rounded-xl flex items-center justify-center overflow-hidden shrink-0 bg-yellow-500/20">
-            {(celeb.portrait_url || celeb.avatar_url) ? (
-              <Image src={celeb.portrait_url || celeb.avatar_url!} alt="" fill unoptimized className="object-cover" />
+            {celeb.avatar_url ? (
+              <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
             ) : (
               <Star className="w-12 h-12 text-yellow-400" />
             )}
@@ -91,6 +92,22 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
       {/* Celeb Form */}
       <CelebForm mode="edit" celeb={celeb} />
+
+      {/* Persona Stats */}
+      {celeb.persona && (
+        <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
+          <h3 className="text-lg font-semibold text-text-primary">페르소나</h3>
+          <PersonaStatBars
+            personas={[{
+              id: celeb.id,
+              nickname: celeb.nickname || '',
+              ...celeb.persona,
+            }]}
+            showLegend={false}
+            compact
+          />
+        </div>
+      )}
 
       {/* Account Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">

@@ -10,15 +10,17 @@ interface CelebTagsModalProps {
   onClose: () => void;
   tags: CelebTagInfo[];
   title?: string;
+  /** 커스텀 z-index */
+  zIndex?: number;
 }
 
-export default function CelebTagsModal({ isOpen, onClose, tags, title }: CelebTagsModalProps) {
+export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }: CelebTagsModalProps) {
   if (!isOpen || typeof document === "undefined") return null;
 
   const content = (
     <div 
       className="fixed inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
-      style={{ zIndex: Z_INDEX.modal }}
+      style={{ zIndex: zIndex ?? Z_INDEX.modal }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

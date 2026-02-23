@@ -1,4 +1,5 @@
 import type { ContentLibraryMode } from "./useContentLibrary";
+import type { ViewMode } from "./contentLibraryTypes";
 
 export interface ContentLibraryProps {
   compact?: boolean;
@@ -10,4 +11,5 @@ export interface ContentLibraryProps {
   mode?: ContentLibraryMode;
   targetUserId?: string; // viewer 모드에서 필수
   ownerNickname?: string; // 기록 소유자 닉네임
+  defaultViewMode?: ViewMode; // 초기 뷰 모드 (기본: grid)
 }

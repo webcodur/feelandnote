@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useTransition, useMemo } from "react";
+import { useState, useTransition } from "react";
 import { Scroll } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
@@ -18,7 +18,7 @@ import { DecorativeLabel } from "@/components/ui";
 import SectionHeader from "@/components/shared/SectionHeader";
 import type { ContentType } from "@/types/database";
 import type { EraScriptures, ScripturesResult } from "@/actions/scriptures";
-import { getChosenScriptures } from "@/actions/scriptures";
+import { getChosenScriptures, getEraContents } from "@/actions/scriptures";
 
 // #region Types
 type TabValue = "all" | "contemporary" | "modern" | "medieval" | "ancient";
@@ -269,45 +269,43 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
 
   const selectedEraData = initialEraData.find((era) => era.era === selectedTab);
 
-  // 시대별 콘텐츠 카테고리 필터링 (클라이언트 사이드)
-  const filteredEraContents = useMemo(() => {
-    if (!selectedEraData || categoryFilter === "ALL") {
-      return selectedEraData?.contents || [];
-    }
-    return selectedEraData.contents.filter((c) => c.type === categoryFilter);
-  }, [selectedEraData, categoryFilter]);
-
-  const fetchData = (category: CategoryFilter, targetPage: number) => {
+  const fetchData = (tab: TabValue, category: CategoryFilter, targetPage: number) => {
     startTransition(async () => {
-      const result = await getChosenScriptures({
-        category: category === "ALL" ? undefined : category,
-        page: targetPage,
-        limit: ITEMS_PER_PAGE,
-      });
-      setData(result);
+      if (tab === "all") {
+        const result = await getChosenScriptures({
+          category: category === "ALL" ? undefined : category,
+          page: targetPage,
+          limit: ITEMS_PER_PAGE,
+        });
+        setData(result);
+      } else {
+        const result = await getEraContents({
+          era: tab,
+          category: category === "ALL" ? undefined : category,
+          page: targetPage,
+          limit: ITEMS_PER_PAGE,
+        });
+        setData(result);
+      }
     });
   };
 
   const handleCategoryChange = (category: CategoryFilter) => {
     setCategoryFilter(category);
-    if (selectedTab === "all") {
-      setPage(1);
-      fetchData(category, 1);
-    }
+    setPage(1);
+    fetchData(selectedTab, category, 1);
   };
 
   const handlePageChange = (targetPage: number) => {
     setPage(targetPage);
-    fetchData(categoryFilter, targetPage);
+    fetchData(selectedTab, categoryFilter, targetPage);
   };
 
   const handleTabChange = (tab: TabValue) => {
     setSelectedTab(tab);
     setCategoryFilter("ALL");
-    if (tab === "all") {
-      setPage(1);
-      fetchData("ALL", 1);
-    }
+    setPage(1);
+    fetchData(tab, "ALL", 1);
   };
 
   if (initialEraData.length === 0 && initialChosenData.contents.length === 0) {
@@ -400,7 +398,13 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
         ) : selectedEraData ? (
           <>
             <EraInfo era={selectedEraData} />
-            <ContentSection contents={filteredEraContents} />
+            <ContentSection
+              contents={data.contents}
+              isPending={isPending}
+              page={page}
+              totalPages={data.totalPages}
+              onPageChange={handlePageChange}
+            />
           </>
         ) : (
           <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">

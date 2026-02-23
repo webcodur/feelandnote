@@ -80,7 +80,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   ] = await Promise.all([
     // 프로필
     supabase.from('profiles').select(`
-      id, nickname, avatar_url, portrait_url, title, profession,
+      id, slug, nickname, avatar_url, title, profession,
       consumption_philosophy, nationality, birth_date, death_date,
       bio, quotes, is_verified, claimed_by
     `).in('id', celebIdArray),
@@ -154,9 +154,9 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
 
         return {
           id: c.id,
+          slug: c.slug ?? null,
           nickname: c.nickname,
           avatar_url: c.avatar_url,
-          portrait_url: c.portrait_url,
           title: c.title,
           profession: c.profession,
           consumption_philosophy: c.consumption_philosophy,

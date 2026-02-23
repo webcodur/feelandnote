@@ -16,7 +16,7 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .select(`
       id, nickname, title, profession, nationality, gender,
       birth_date, death_date, bio, quotes,
-      avatar_url, portrait_url,
+      avatar_url,
       celeb_influence (
         political, strategic, tech, social, economic, cultural,
         transhistoricity, total_score

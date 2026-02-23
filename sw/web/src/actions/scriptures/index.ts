@@ -797,6 +797,69 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
   return results
 }
 
+// #region 단일 시대 콘텐츠 조회 (카테고리 필터 + 페이지네이션)
+export async function getEraContents(params: {
+  era: string
+  category?: string
+  page?: number
+  limit?: number
+}): Promise<ScripturesResult> {
+  const supabase = await createClient()
+  const era = params.era as Era
+  const page = params.page || 1
+  const limit = params.limit || 12
+  const category = params.category || undefined
+
+  const config = ERA_CONFIG[era]
+  if (!config) {
+    return { contents: [], total: 0, totalPages: 0, currentPage: page }
+  }
+
+  // 1. 해당 시대 셀럽 ID 조회
+  const { data: celebProfiles } = await supabase
+    .from('profiles')
+    .select('id, birth_date')
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .not('birth_date', 'is', null)
+
+  if (!celebProfiles?.length) {
+    return { contents: [], total: 0, totalPages: 0, currentPage: page }
+  }
+
+  const celebIds = celebProfiles.filter(c => {
+    const year = parseYear(c.birth_date)
+    return year !== null && year >= config.min && year < config.max
+  }).map(c => c.id)
+
+  if (!celebIds.length) {
+    return { contents: [], total: 0, totalPages: 0, currentPage: page }
+  }
+
+  // 2. 해당 셀럽들의 콘텐츠 조회 (카테고리 필터 포함)
+  const typedData = await fetchAllUserContents(supabase, celebIds, category)
+
+  // 3. 일반 사용자 카운트
+  const userCountMap = await fetchUserContentCounts(supabase, category)
+
+  // 4. 집계 + 페이지네이션
+  let { contents, total } = aggregateContents(typedData, { category: category as CategoryId, page, limit, userCountMap })
+
+  // 5. 전체 셀럽 카운트로 덮어쓰기
+  const globalCounts = await fetchGlobalCelebCounts(supabase, contents.map(c => c.id))
+  for (const content of contents) {
+    content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
+  }
+
+  return {
+    contents,
+    total,
+    totalPages: Math.ceil(total / limit),
+    currentPage: page,
+  }
+}
+// #endregion
+
 // #region 콘텐츠를 감상한 셀럽 목록
 export async function getCelebsForContent(contentId: string): Promise<CelebInfo[]> {
   const supabase = await createClient()

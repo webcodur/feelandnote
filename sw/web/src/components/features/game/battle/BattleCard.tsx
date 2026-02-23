@@ -1,74 +1,96 @@
 /*
   파일명: components/features/game/battle/BattleCard.tsx
-  기능: 셀럽 카드 컴포넌트
-  책임: 드래프트/대전에서 사용하는 셀럽 카드를 렌더링한다.
+  기능: 셀럽 카드 컴포넌트 (container query 반응형)
+  책임: 드래프트/플레이에서 공통으로 사용하는 셀럽 카드를 렌더링한다.
+  구조: 3행 — 1행 초상화+이름 / 2행 명령 아이콘 5개 / 3행 적성 수치 5개
 */
 "use client";
 
 import Image from "next/image";
-import { Check, Info } from "lucide-react";
-import type { BattleCard as BattleCardType, Domain, Tier } from "@/lib/game/types";
+import { Swords, ScrollText, Landmark, Crown } from "lucide-react";
+import type { BattleCard as BattleCardType, Command } from "@/lib/game/types";
+import { COMMANDS } from "@/lib/game/types";
+import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
+
+const CMD_HIGHLIGHT: Record<Command, string> = {
+  assault: "text-red-400",
+  stratagem: "text-purple-400",
+  govern: "text-amber-400",
+};
+
+const CMD_ICON: Record<Command, React.ReactNode> = {
+  assault: <Swords />,
+  stratagem: <ScrollText />,
+  govern: <Landmark />,
+};
 
 interface Props {
   card: BattleCardType;
   onClick?: () => void;
-  onConfirm?: () => void;
   disabled?: boolean;
-  highlightDomain?: Domain;
-  activeDomain?: Domain;
-  onDomainClick?: (domain: Domain) => void;
   onInfo?: () => void;
-  usedDomains?: Domain[];
   selected?: boolean;
   faceDown?: boolean;
-  /** 드래프트에서 픽된 귀속 표시 ("player" | "ai") */
   pickedBy?: "player" | "ai";
+  mode?: "draft" | "command" | "target";
+  activeCommand?: Command;
+  /** 초상화+이름만 표시하는 컴팩트 모드 */
+  compact?: boolean;
+  /** 모략 타겟으로 지목 가능한 상태 */
+  targetable?: boolean;
+  /** 모략 타겟으로 지목된 상태 */
+  targeted?: boolean;
+  /** 적성 수치를 ? 로 마스킹 (상대 미공개 카드) */
+  masked?: boolean;
+  /** 주장 카드 표시 */
+  isCaptain?: boolean;
+  /** 부모 높이에 맞춰 초상화를 늘림 (주장 대형 카드용) */
+  stretch?: boolean;
+  /** 주장 배지 클릭 시 설명 모달 */
+  onCaptainInfo?: () => void;
 }
 
-const DOMAIN_KEY: Record<Domain, string> = {
-  political: "정치",
-  strategic: "전략",
-  tech: "기술",
-  social: "사회",
-  economic: "경제",
-  cultural: "문화",
-};
-
-const TIER_ACCENT: Record<Tier, string> = {
-  S: "border-red-500/60 text-red-400",
-  A: "border-orange-500/50 text-orange-400",
-  B: "border-yellow-500/40 text-yellow-400",
-  C: "border-green-500/30 text-green-400",
-  D: "border-blue-500/30 text-blue-400",
-  E: "border-neutral-500/30 text-neutral-400",
-};
-
-/** 카드 크기 상수 — faceDown·DraftPhase 래퍼와 동기화 필수 */
-const CARD = "w-[80px] h-[130px] sm:w-[148px] sm:h-[248px]";
-
 export default function BattleCard({
-  card,
-  onClick,
-  onConfirm,
-  disabled,
-  highlightDomain,
-  activeDomain,
-  onDomainClick,
-  onInfo,
-  usedDomains = [],
-  selected,
-  faceDown,
-  pickedBy,
+  card, onClick, disabled, onInfo, selected, faceDown,
+  pickedBy, mode = "draft", activeCommand, compact,
+  targetable, targeted, masked, isCaptain, stretch, onCaptainInfo,
 }: Props) {
   if (faceDown) {
     return (
-      <div className={`flex items-center justify-center rounded-lg border border-white/8 bg-[#141418] ${CARD}`}>
-        <span className="text-white/15 text-2xl font-sans font-bold">?</span>
+      <div
+        className="relative flex items-center justify-center rounded-md overflow-hidden aspect-square"
+        style={{
+          background: "radial-gradient(circle at 50% 40%, #24242e 0%, #14141a 70%, #0e0e14 100%)",
+          border: "1px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        <div className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: `
+              repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(212,175,55,0.3) 8px, rgba(212,175,55,0.3) 9px),
+              repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(212,175,55,0.3) 8px, rgba(212,175,55,0.3) 9px)
+            `,
+          }}
+        />
+        <div className="relative flex items-center justify-center w-7 h-7">
+          <div className="absolute inset-0 rounded-full border border-accent/10" />
+          <span className="text-accent/15 text-sm font-cinzel font-bold">F</span>
+        </div>
       </div>
     );
   }
 
-  const usedSet = new Set(usedDomains);
+  const borderClass = targeted
+    ? "border-purple-400 ring-2 ring-purple-400/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+    : selected
+    ? "border-accent ring-1 ring-accent/30 shadow-[0_0_16px_rgba(212,175,55,0.2)]"
+    : targetable
+    ? "border-purple-400/40 hover:border-purple-400/70 cursor-crosshair"
+    : pickedBy === "player"
+      ? "border-accent/40"
+      : pickedBy === "ai"
+        ? "border-red-400/40"
+        : "border-white/[0.06] hover:border-white/15";
 
   return (
     <div
@@ -77,113 +99,113 @@ export default function BattleCard({
       onClick={!disabled ? onClick : undefined}
       onKeyDown={onClick && !disabled ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } } : undefined}
       className={`
-        group relative flex flex-col rounded-lg border overflow-hidden font-sans transition-colors duration-300 ${CARD}
-        ${selected
-          ? "border-accent ring-1 ring-accent/30 bg-[#1a1a1a]"
-          : pickedBy === "player"
-            ? "border-accent/50 bg-accent/[0.04]"
-            : pickedBy === "ai"
-              ? "border-red-400/50 bg-red-400/[0.04]"
-              : "border-white/8 bg-[#141418] hover:border-white/40 hover:bg-[#1a1a1f] hover:shadow-[0_0_18px_rgba(255,255,255,0.1)]"}
-        ${disabled
-          ? "cursor-not-allowed"
-          : "cursor-pointer"}
+        group relative flex flex-col rounded-md border overflow-hidden font-sans transition-all duration-200
+        ${stretch ? "h-full" : ""}
+        ${borderClass}
+        ${disabled ? "cursor-not-allowed" : onClick ? "cursor-pointer hover:-translate-y-0.5" : ""}
       `}
     >
-      {/* 이미지 — flex-1로 남은 공간 전부 차지 */}
-      <div className="relative w-full flex-1 min-h-0 bg-black/60">
+      {/* ── 1행: 초상화 ── */}
+      <div className={`relative w-full ${stretch ? "flex-1 min-h-0" : "aspect-square"}`} style={{ background: "radial-gradient(circle at 50% 40%, #24242e 0%, #14141a 70%, #0e0e14 100%)" }}>
         {card.avatarUrl ? (
-          <Image src={card.avatarUrl} alt={card.nickname} fill className="object-cover" sizes="(min-width:640px) 148px, 80px" />
+          <Image src={card.avatarUrl} alt={card.nickname} fill className="object-cover" sizes="120px" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-white/10 text-2xl">?</div>
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-white/[0.06] text-xl font-cinzel">{card.nickname[0]}</span>
+          </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141418] via-transparent to-transparent" />
-        <span className={`absolute top-0.5 left-0.5 sm:top-1 sm:left-1 text-[7px] sm:text-[10px] font-bold px-1 sm:px-1.5 py-px sm:py-0.5 rounded border bg-black/60 ${TIER_ACCENT[card.tier]}`}>
-          {card.tier}
-        </span>
+
+        {/* 주장 왕관 배지 */}
+        {isCaptain && (
+          onCaptainInfo ? (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onCaptainInfo(); }}
+              onTouchStart={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              className="absolute top-0.5 left-0.5 z-[1] flex items-center justify-center w-5 h-5 rounded-full bg-amber-500/90 shadow-[0_0_8px_rgba(212,175,55,0.5)] hover:bg-amber-500 active:scale-90 transition-all cursor-help"
+            >
+              <Crown className="w-3 h-3 text-white" />
+            </button>
+          ) : (
+            <div className="absolute top-0.5 left-0.5 z-[1] flex items-center justify-center w-4 h-4 rounded-full bg-amber-500/90 shadow-[0_0_8px_rgba(212,175,55,0.5)]">
+              <Crown className="w-2.5 h-2.5 text-white" />
+            </div>
+          )
+        )}
+
+        {/* 타겟 크로스헤어 오버레이 */}
+        {targetable && (
+          <div className="absolute inset-0 flex items-center justify-center bg-purple-500/5">
+            <span className="text-purple-400/30 text-2xl">+</span>
+          </div>
+        )}
+
+        {/* 상세 버튼 */}
         {onInfo && (
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onInfo(); }}
-            className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full bg-black/50 text-white/40 hover:text-white hover:bg-black/70 active:scale-90 transition-all z-10"
+            onTouchStart={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            className="absolute top-1 right-1 text-[7px] text-white/15 hover:text-white/50 transition-colors z-[1]"
           >
-            <Info size={10} className="sm:hidden" />
-            <Info size={13} className="hidden sm:block" />
+            ···
           </button>
         )}
       </div>
 
-      {/* 이름 */}
-      <div className="shrink-0 px-1 sm:px-2 pt-1 sm:pt-1.5">
-        <p className="font-bold text-white truncate leading-tight text-[9px] sm:text-[13px]">{card.nickname}</p>
-        <p className="hidden sm:block text-white/35 truncate leading-tight mt-px text-[11px]">{card.title}</p>
+      {/* ── 수식어 + 이름 (이미지 하단 분리) ── */}
+      <div className="bg-gradient-to-b from-[#1a1714] to-[#141210] border-t border-amber-500/10 px-1.5 py-1 text-center">
+        {card.title && (
+          <p className="text-[7px] @min-[120px]:text-[9px] font-cinzel font-bold text-amber-500 tracking-widest uppercase truncate leading-tight">{card.title}</p>
+        )}
+        <p className="text-[10px] @min-[120px]:text-xs font-sans font-bold text-white truncate leading-tight">{card.nickname}</p>
       </div>
 
-      {/* 선택 체크 오버레이 */}
-      {selected && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none animate-[check-pop_250ms_ease-out_both]">
-          <div
-            className="
-              pointer-events-auto
-              w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center
-              bg-accent/80 shadow-[0_0_20px_rgba(212,175,55,0.4)]
-              hover:bg-accent hover:scale-110 hover:shadow-[0_0_30px_rgba(212,175,55,0.6)]
-              active:scale-95
-              transition-all duration-150 cursor-pointer
-            "
-            onClick={(e) => { e.stopPropagation(); onConfirm?.(); }}
-          >
-            <Check size={22} className="text-black sm:hidden" strokeWidth={3} />
-            <Check size={30} className="text-black hidden sm:block" strokeWidth={3} />
+      {/* ── 2행: 명령 아이콘 + 3행: 적성 수치 ── */}
+      {!compact && (
+        <div className="bg-[#141210] border-t border-amber-500/5 py-1">
+          {/* 아이콘 행 */}
+          <div className="flex items-center justify-around px-1">
+            {COMMANDS.map((cmd) => {
+              const isActive = activeCommand === cmd;
+              return (
+                <span key={cmd} className={`[&>svg]:w-3.5 [&>svg]:h-3.5 @min-[120px]:[&>svg]:w-4 @min-[120px]:[&>svg]:h-4 transition-all ${
+                  isActive ? CMD_HIGHLIGHT[cmd] : activeCommand ? "text-white/10" : "text-white/30"
+                }`}>
+                  {CMD_ICON[cmd]}
+                </span>
+              );
+            })}
+          </div>
+          {/* 수치 행 */}
+          <div className="flex items-center justify-around px-1 mt-0.5">
+            {COMMANDS.map((cmd) => {
+              if (masked) {
+                return (
+                  <span key={cmd} className="text-[11px] @min-[120px]:text-xs font-bold tabular-nums leading-none text-white/15">
+                    ?
+                  </span>
+                );
+              }
+              const stars = aptitudeToStars(calcAptitude(card, cmd));
+              const isActive = activeCommand === cmd;
+              return (
+                <span key={cmd} className={`text-[11px] @min-[120px]:text-xs font-bold tabular-nums leading-none transition-all ${
+                  isActive
+                    ? `${CMD_HIGHLIGHT[cmd]} scale-110`
+                    : activeCommand
+                      ? "text-white/10"
+                      : stars >= 4 ? "text-accent" : stars >= 2 ? "text-white/50" : "text-white/20"
+                }`}>
+                  {stars}
+                </span>
+              );
+            })}
           </div>
         </div>
       )}
-
-      {/* 영향력 수치 — 2×3 그리드 */}
-      <div className="shrink-0 px-1 pb-1 pt-0.5 sm:px-1.5 sm:pb-1.5 sm:pt-1 w-full">
-        <div className="grid grid-cols-3 gap-0.5">
-          {(Object.keys(DOMAIN_KEY) as Domain[]).map((d) => {
-            const isLens = highlightDomain === d;
-            const isActive = activeDomain === d;
-            const isUsed = usedSet.has(d);
-            return (
-              <div
-                key={d}
-                role={onDomainClick ? "button" : undefined}
-                onClick={onDomainClick ? (e) => { e.stopPropagation(); onDomainClick(d); } : undefined}
-                className={`
-                  flex items-center justify-center gap-0.5 rounded-sm py-0.5 sm:py-1
-                  ${onDomainClick ? "cursor-pointer hover:bg-white/10 active:scale-95 transition-all" : ""}
-                  ${isUsed
-                    ? "bg-white/[0.01]"
-                    : isLens
-                      ? selected ? "bg-emerald-500/20" : "bg-emerald-500/10"
-                      : isActive
-                        ? "bg-accent/10"
-                        : "bg-white/[0.02]"}
-                `}
-              >
-                <span className={`hidden sm:inline text-[9px] ${
-                  isUsed ? "text-white/15 line-through"
-                    : isLens ? "text-emerald-400/70"
-                    : isActive ? "text-accent/70"
-                    : "text-white/30"
-                }`}>
-                  {DOMAIN_KEY[d]}
-                </span>
-                <span className={`font-bold tabular-nums text-[11px] sm:text-[13px] ${
-                  isUsed ? "text-white/15"
-                    : isLens ? "text-emerald-400"
-                    : isActive ? "text-accent"
-                    : "text-white/60"
-                }`}>
-                  {card.influence[d]}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
     </div>
   );
 }

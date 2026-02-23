@@ -51,11 +51,8 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
         )}
       </div>
 
-      {/* Portrait + Info Layout */}
+      {/* Info Layout */}
       <div className="flex flex-col md:flex-row gap-4 sm:gap-8">
-        {/* Portrait Image */}
-        {profile.portrait_url && <PortraitFrame url={profile.portrait_url} alt={profile.nickname} />}
-
         {/* Info + Bio + Quote */}
         <div className="flex-1 flex flex-col gap-3 sm:gap-4 min-h-0">
           <ProfileMetadata profile={profile} />
@@ -68,28 +65,6 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
 }
 
 // #region 하위 컴포넌트
-function PortraitFrame({ url, alt }: { url: string; alt: string }) {
-  return (
-    <div className="flex-shrink-0 flex justify-center">
-      <div className="relative w-40 sm:w-52 md:w-64 aspect-[3/4] group">
-        {/* 프레임 */}
-        <div className="absolute inset-0 rounded bg-gradient-to-b from-neutral-700/90 to-neutral-950 p-1.5 md:p-2 shadow-xl">
-          <div className="relative w-full h-full rounded-sm overflow-hidden bg-black">
-            <Image
-              src={url}
-              alt={alt}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            {/* 하단 비네팅 */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
   const isCeleb = profile.profile_type === "CELEB";
   // 일반 유저: title, profession, death_date 제외

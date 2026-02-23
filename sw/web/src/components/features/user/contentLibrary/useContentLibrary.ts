@@ -34,7 +34,7 @@ import {
 export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
-  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '' } = options;
+  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode } = options;
   const isViewer = mode === 'viewer';
 
   // #region 상태
@@ -51,7 +51,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
   const [reviewFilter, setReviewFilter] = useState<ReviewFilter>("all");
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [viewMode, setViewMode] = useState<ViewMode>(defaultViewMode ?? "grid");
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
 
@@ -163,7 +163,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           rating: item.public_record?.rating ?? null,
           review: item.public_record?.content_preview ?? null,
           is_recommended: false,
-          is_spoiler: false, // viewer 모드에서는 스포일러 정보 없음
+          is_spoiler: item.public_record?.is_spoiler ?? false,
           is_pinned: false,
           pinned_at: null,
           source_url: item.source_url,

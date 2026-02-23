@@ -7,7 +7,7 @@
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
 import AgoraTabs from "@/components/features/user/agora/AgoraTabs";
-import LyreBanner from "@/components/lab/LyreBanner";
+import AstrolabeBanner from "@/components/lab/AstrolabeBanner";
 import { PAGE_BANNER } from "@/constants/navigation";
 
 interface Props {
@@ -19,14 +19,14 @@ export default function AgoraLayout({ children }: Props) {
 
   return (
     <>
-      <LyreBanner compact>
+      <AstrolabeBanner compact>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
           {title}
         </h1>
         <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
           {englishTitle}
         </p>
-      </LyreBanner>
+      </AstrolabeBanner>
       <PageContainer>
         <AgoraTabs />
         {children}

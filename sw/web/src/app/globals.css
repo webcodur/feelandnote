@@ -226,6 +226,7 @@
     animation: fadeIn 0.3s ease;
   }
 
+
   /* Scrollbar utilities */
   .scrollbar-stable {
     scrollbar-gutter: stable;
@@ -535,24 +536,6 @@
   animation: bottomSheetContentIn 0.25s ease-out;
 }
 
-/* Portrait Reveal Animation (Fade in from darkness) */
-@keyframes portraitReveal {
-  from {
-    opacity: 0;
-    filter: brightness(0);
-    transform: scale(1.05);
-  }
-  to {
-    opacity: 1;
-    filter: brightness(1);
-    transform: scale(1);
-  }
-}
-
-.animate-portrait-reveal {
-  animation: portraitReveal 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
 /* Slow Spin Animation (for cosmic effects) */
 @keyframes spinSlow {
   from {
@@ -859,4 +842,116 @@
 
 .animate-score-float {
   animation: score-float 1.5s ease-out forwards;
+}
+
+/* Clue Reveal — 단서 등장 애니메이션 */
+@keyframes clueReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.005);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes clueGlowLine {
+  0% { width: 0; opacity: 0; }
+  50% { width: 100%; opacity: 1; }
+  100% { width: 100%; opacity: 0; }
+}
+
+.animate-clue-reveal {
+  animation: clueReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-clue-glow-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+  animation: clueGlowLine 0.8s ease-out forwards;
+}
+
+/* Phase Announce — 페이즈/라운드 전환 오버레이 */
+@keyframes phaseAnnounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes phaseAnnounceOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(4px);
+  }
+}
+
+.animate-phase-announce-in {
+  animation: phaseAnnounceIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-phase-announce-out {
+  animation: phaseAnnounceOut 0.4s ease-in forwards;
+}
+
+/* Dialog Snackbar Timer */
+@keyframes dialogTimer {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* Mandate Glow — 천명 목판 테두리 */
+@keyframes mandateGlow {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(212, 168, 67, 0.3), inset 0 0 2px rgba(212, 168, 67, 0.1);
+    border-color: rgba(212, 168, 67, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(212, 168, 67, 0.6), inset 0 0 4px rgba(212, 168, 67, 0.15);
+    border-color: rgba(212, 168, 67, 0.6);
+  }
+}
+
+.animate-mandate-glow {
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  animation: mandateGlow 2s ease-in-out infinite;
+}
+
+/* Game Background Layer — lab 배경 컴포넌트의 고정 크기/장식을 오버라이드 */
+.game-bg-layer > div {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 배경 컴포넌트 내부 텍스트 오버레이 숨김 */
+.game-bg-layer h2,
+.game-bg-layer p {
+  display: none !important;
 }

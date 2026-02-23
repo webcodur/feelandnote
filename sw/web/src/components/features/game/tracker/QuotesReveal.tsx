@@ -13,7 +13,7 @@ interface QuotesRevealProps {
 
 export default function QuotesReveal({ quotes }: QuotesRevealProps) {
   return (
-    <div className="space-y-2 max-w-lg mx-auto animate-in fade-in slide-in-from-bottom-2">
+    <div className="relative space-y-2 max-w-lg mx-auto animate-clue-reveal animate-clue-glow-line overflow-hidden">
       <p className="text-[10px] text-text-tertiary font-cinzel uppercase tracking-wider text-center">
         Stage 5 — Quotes
       </p>

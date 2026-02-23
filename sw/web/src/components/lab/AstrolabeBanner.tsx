@@ -4,9 +4,10 @@ import { useRef, useState, type ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;
+  compact?: boolean;
 }
 
-export default function AstrolabeBanner({ children }: Props) {
+export default function AstrolabeBanner({ children, compact = false }: Props) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +24,7 @@ export default function AstrolabeBanner({ children }: Props) {
     <div 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative w-full h-[700px] overflow-hidden bg-[#020202] text-[#e0e0e0] flex items-center justify-center perspective-[1000px]"
+      className={`relative w-full overflow-hidden bg-[#020202] text-[#e0e0e0] flex items-center justify-center perspective-[1000px] ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : "h-[700px]"}`}
     >
       {/* 0. Background Deep Space & Nebulas */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#1a1500_0%,#000000_70%)] opacity-80" />

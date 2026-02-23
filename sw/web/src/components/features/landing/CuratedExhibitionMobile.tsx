@@ -71,10 +71,10 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
 
   return (
     <>
-      {/* Hero Card - 스와이프 지원 */}
+      {/* Hero Card - 텍스트 중심, 스와이프 지원 */}
       <div className="px-4 py-6 mb-2">
          <div
-           className="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl bg-neutral-900 select-none"
+           className="relative w-full rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-b from-[#0a0a0a] to-[#111] select-none"
            onTouchStart={handleTouchStart}
            onTouchMove={handleTouchMove}
            onTouchEnd={handleTouchEnd}
@@ -83,7 +83,7 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
             <div
               key={selectedIndex}
               className={cn(
-                "absolute inset-0",
+                "relative flex flex-col items-center py-8 px-6 pb-12",
                 slideDirection === "left" && "animate-slide-in-right",
                 slideDirection === "right" && "animate-slide-in-left"
               )}
@@ -92,33 +92,40 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
                 opacity: isSwiping ? 1 - Math.abs(dragOffset) * 0.002 : 1,
               }}
             >
-              {heroCeleb.portrait_url || heroCeleb.avatar_url ? (
-                <Image
-                  src={heroCeleb.portrait_url || heroCeleb.avatar_url!}
-                  alt={heroCeleb.nickname}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 400px"
-                  priority={selectedIndex === 0}
-                  className="object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-6xl text-white/10 font-serif font-black">{heroCeleb.nickname[0]}</span>
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+              {/* 원형 아바타 */}
+              <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-accent/30 ring-offset-2 ring-offset-[#0a0a0a] mb-5">
+                {heroCeleb.avatar_url ? (
+                  <Image
+                    src={heroCeleb.avatar_url}
+                    alt={heroCeleb.nickname}
+                    width={96}
+                    height={96}
+                    priority={selectedIndex === 0}
+                    className="object-cover w-full h-full"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-neutral-800 flex items-center justify-center">
+                    <span className="text-3xl text-white/20 font-serif font-black">{heroCeleb.nickname[0]}</span>
+                  </div>
+                )}
+              </div>
 
-              <div className="absolute bottom-0 left-0 right-0 p-6 pb-10 flex flex-col">
-                 <div className="w-10 h-1 bg-accent mb-3 shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
-                 <span className="text-accent text-xs font-serif font-bold tracking-wider mb-1">
-                   {heroCeleb.title}
-                 </span>
-                 <h3 className="text-3xl text-white font-serif font-black leading-none mb-3">
-                   {heroCeleb.nickname}
-                 </h3>
-                 <p className="text-white/80 text-sm font-sans line-clamp-2">
-                   "{heroCeleb.short_desc}"
-                 </p>
+              {/* 텍스트 영역 */}
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="w-8 h-0.5 bg-accent mb-1 shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
+                {heroCeleb.title && (
+                  <span className="text-accent text-xs font-serif font-bold tracking-wider">
+                    {heroCeleb.title}
+                  </span>
+                )}
+                <h3 className="text-2xl text-white font-serif font-black leading-tight">
+                  {heroCeleb.nickname}
+                </h3>
+                {heroCeleb.short_desc && (
+                  <p className="text-white/80 text-sm font-sans line-clamp-2 mt-1">
+                    "{heroCeleb.short_desc}"
+                  </p>
+                )}
               </div>
             </div>
 
@@ -149,16 +156,16 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
           {activeTag.celebs.map((celeb, idx) => {
             const isSelected = idx === selectedIndex;
             return (
-              <div 
+              <div
                 key={celeb.id}
                 className={cn(
-                  "flex-shrink-0 w-24 flex flex-col gap-2 transition-all duration-300",
+                  "flex-shrink-0 w-20 flex flex-col gap-2 transition-all duration-300",
                   isSelected ? "opacity-100 scale-105" : "opacity-60"
                 )}
                 onClick={() => setSelectedIndex(idx)}
               >
                  <div className={cn(
-                   "relative w-24 h-32 rounded-lg overflow-hidden border bg-bg-card transition-colors",
+                   "relative w-20 h-20 rounded-lg overflow-hidden border bg-bg-card transition-colors",
                    isSelected ? "border-accent shadow-lg shadow-accent/10" : "border-white/10"
                  )}>
                     {celeb.avatar_url ? (
@@ -197,7 +204,7 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
           
           <Link 
             href={`/explore?tagId=${activeTag.id}`}
-            className="flex-shrink-0 w-24 h-32 rounded-lg border border-dashed border-white/10 flex flex-col items-center justify-center gap-2 bg-white/5 opacity-60"
+            className="flex-shrink-0 w-20 h-20 rounded-lg border border-dashed border-white/10 flex flex-col items-center justify-center gap-2 bg-white/5 opacity-60"
           >
              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-text-tertiary">
                <ArrowRight size={14} />

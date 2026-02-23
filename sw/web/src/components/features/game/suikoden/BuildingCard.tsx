@@ -21,12 +21,12 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
 
   const effectLines: string[] = []
   const e = bDef.effect
-  if (e.goldPerTurn) effectLines.push(`🪙 +${e.goldPerTurn}/일`)
-  if (e.foodPerTurn) effectLines.push(`🌾 +${e.foodPerTurn}/일`)
-  if (e.knowledgePerTurn) effectLines.push(`📚 +${e.knowledgePerTurn}/일`)
-  if (e.materialPerTurn) effectLines.push(`🪵 +${e.materialPerTurn}/일`)
-  if (e.troopsPerTurn) effectLines.push(`⚔️ +${e.troopsPerTurn}/일`)
-  if (e.moralePerTurn) effectLines.push(`❤️ +${e.moralePerTurn}/일`)
+  if (e.goldPerTurn) effectLines.push(`🪙 +${e.goldPerTurn}/턴`)
+  if (e.foodPerTurn) effectLines.push(`🌾 +${e.foodPerTurn}/턴`)
+  if (e.knowledgePerTurn) effectLines.push(`📚 +${e.knowledgePerTurn}/턴`)
+  if (e.materialPerTurn) effectLines.push(`🪵 +${e.materialPerTurn}/턴`)
+  if (e.troopsPerTurn) effectLines.push(`⚔️ +${e.troopsPerTurn}/턴`)
+  if (e.moralePerTurn) effectLines.push(`❤️ +${e.moralePerTurn}/턴`)
   if (e.defenseBonus) effectLines.push(`🛡️ 방어 +${e.defenseBonus}%`)
   if (e.special === 'training') effectLines.push('🎯 훈련')
   if (e.special === 'weapons') effectLines.push('⚔️ 무장')
@@ -39,14 +39,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
       {/* 건설 중 오버레이 */}
       {card.isConstructing && (
         <div className="absolute inset-0 bg-stone-900/60 flex flex-col items-center justify-center rounded z-10">
-          <span className="text-[10px] text-amber-400 font-bold">건설 중</span>
-          <div className="w-16 h-1.5 bg-stone-700 rounded-full mt-1">
-            <div
-              className="h-full bg-amber-500 rounded-full transition-all"
-              style={{ width: `${card.constructionProgress * 100}%` }}
-            />
-          </div>
-          <span className="text-[9px] text-stone-500 mt-0.5">{Math.round(card.constructionProgress * 100)}%</span>
+          <span className="text-[10px] text-amber-500/80 font-bold">건설 {bDef.buildTurns - card.constructionTurnsLeft}/{bDef.buildTurns}</span>
         </div>
       )}
 

@@ -23,6 +23,7 @@ export interface UseContentLibraryOptions {
   mode?: ContentLibraryMode;
   targetUserId?: string;
   initialSearchQuery?: string;
+  defaultViewMode?: ViewMode;
 }
 
 export interface GroupedContents {

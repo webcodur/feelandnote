@@ -26,7 +26,7 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
     >
       {/* 리더 마크 */}
       {isLeader && (
-        <div className="absolute -top-1.5 -right-1.5 text-[10px]">👑</div>
+        <div className="absolute -top-1.5 -right-1.5 text-[9px] text-amber-400 font-bold">[주]</div>
       )}
 
       {/* 격파 오버레이 */}
@@ -40,10 +40,10 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
         <CharacterPortrait character={character} size={28} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <span className="text-[10px]">{cls.icon}</span>
+            <span className="text-[10px] text-stone-500">{cls.name}</span>
             <span className="text-[11px] font-bold text-stone-200 truncate">{character.nickname}</span>
           </div>
-          <div className="text-[9px] text-stone-500">{cls.name}</div>
+          <div className="text-[9px] text-stone-600">{character.grade}</div>
         </div>
       </div>
 
@@ -66,9 +66,9 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
 
       {/* 병력/사기 */}
       <div className="flex items-center gap-3 mt-1 text-[9px]">
-        <span className="text-stone-400">⚔️ {troops}</span>
+        <span className="text-stone-400">병력 {troops}</span>
         <span className={morale >= 50 ? 'text-green-400' : 'text-red-400'}>
-          📯 {morale}
+          사기 {morale}
         </span>
       </div>
     </div>

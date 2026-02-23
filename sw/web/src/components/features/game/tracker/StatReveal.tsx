@@ -43,7 +43,7 @@ export default function StatReveal({
 }: StatRevealProps) {
   const revealed = !!revealedName;
   return (
-    <div className="rounded-lg border border-white/20 bg-[#d9d9d9]/5 p-3 sm:p-4 max-w-lg mx-auto space-y-3">
+    <div className="relative rounded-lg border border-white/20 bg-[#d9d9d9]/5 p-3 sm:p-4 max-w-lg mx-auto space-y-3 animate-clue-reveal animate-clue-glow-line overflow-hidden">
       {/* 기본 정보 */}
       <div className="space-y-3">
         <p className="text-[10px] text-text-tertiary font-cinzel uppercase tracking-wider text-center">

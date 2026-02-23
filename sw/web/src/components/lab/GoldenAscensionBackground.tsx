@@ -19,7 +19,7 @@ interface Particle {
   angularSpeed: number; // Rotation speed
 }
 
-export default function GoldenAscensionBackground() {
+export default function GoldenAscensionBackground({ fullScreen }: { fullScreen?: boolean } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -128,16 +128,20 @@ export default function GoldenAscensionBackground() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden rounded-xl border border-[#D4AF37]/40 shadow-2xl bg-[#191512]">
-      {/* 텍스트 오버레이 */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
-        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF8DC] via-[#FFD700] to-[#DAA520] opacity-90 tracking-widest drop-shadow-[0_4px_15px_rgba(218,165,32,0.4)]">
-          ASCENSION
-        </h2>
-        <p className="mt-4 text-sm md:text-base text-[#F0E68C] tracking-[0.3em] uppercase opacity-80 drop-shadow-md">
-          The Golden Era
-        </p>
-      </div>
+    <div className={fullScreen
+      ? "relative w-full h-full overflow-hidden bg-[#191512]"
+      : "relative w-full h-[600px] overflow-hidden rounded-xl border border-[#D4AF37]/40 shadow-2xl bg-[#191512]"
+    }>
+      {!fullScreen && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
+          <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF8DC] via-[#FFD700] to-[#DAA520] opacity-90 tracking-widest drop-shadow-[0_4px_15px_rgba(218,165,32,0.4)]">
+            ASCENSION
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-[#F0E68C] tracking-[0.3em] uppercase opacity-80 drop-shadow-md">
+            The Golden Era
+          </p>
+        </div>
+      )}
 
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>

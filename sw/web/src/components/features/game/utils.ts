@@ -14,8 +14,8 @@ export function parseDeathYear(deathDate: string | null): number | null {
     return match ? -parseInt(match[1], 10) : null;
   }
 
-  // "1519-05-02" 또는 "1783" 형식
-  const yearMatch = deathDate.match(/^(\d{4})/);
+  // "1519-05-02", "1783", "220" 등 1~4자리 연도 형식
+  const yearMatch = deathDate.match(/^(\d{1,4})/);
   return yearMatch ? parseInt(yearMatch[1], 10) : null;
 }
 

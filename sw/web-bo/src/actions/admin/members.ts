@@ -26,6 +26,25 @@ export interface MemberInfluence {
   total_score: number
 }
 
+export interface MemberPersona {
+  temperance: number
+  diligence: number
+  reflection: number
+  courage: number
+  loyalty: number
+  benevolence: number
+  fairness: number
+  humility: number
+  command: number
+  martial: number
+  intellect: number
+  charisma: number
+  pessimism_optimism: number
+  conservative_progressive: number
+  individual_social: number
+  cautious_bold: number
+}
+
 export interface Member {
   id: string
   email: string | null
@@ -49,11 +68,11 @@ export interface Member {
   birth_date?: string | null
   death_date?: string | null
   quotes?: string | null
-  portrait_url?: string | null
   claimed_by?: string | null
   consumption_philosophy?: string | null
   influence?: MemberInfluence | null
   influence_total?: number
+  persona?: MemberPersona | null
   // 통계
   content_count: number
   follower_count: number
@@ -156,7 +175,6 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
     birth_date: p.birth_date,
     death_date: p.death_date,
     quotes: p.quotes,
-    portrait_url: p.portrait_url,
     claimed_by: p.claimed_by,
     content_count: contentCounts.get(p.id) || 0,
     follower_count: p.user_social?.follower_count || 0,
@@ -186,7 +204,6 @@ function celebToMember(c: Celeb): Member {
     death_date: c.death_date,
     quotes: c.quotes,
     consumption_philosophy: c.consumption_philosophy,
-    portrait_url: c.portrait_url,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
     follower_count: c.follower_count,
@@ -252,6 +269,12 @@ export async function getMember(id: string): Promise<Member | null> {
         cultural, cultural_exp,
         transhistoricity, transhistoricity_exp,
         total_score
+      ),
+      celeb_persona (
+        temperance, diligence, reflection, courage,
+        loyalty, benevolence, fairness, humility,
+        command, martial, intellect, charisma,
+        pessimism_optimism, conservative_progressive, individual_social, cautious_bold
       )
     `
     )
@@ -271,6 +294,11 @@ export async function getMember(id: string): Promise<Member | null> {
   const influenceData = Array.isArray(data.celeb_influence)
     ? data.celeb_influence[0]
     : data.celeb_influence
+
+  // celeb_persona 데이터 추출
+  const personaData = Array.isArray(data.celeb_persona)
+    ? data.celeb_persona[0]
+    : data.celeb_persona
 
   return {
     id: data.id,
@@ -294,9 +322,9 @@ export async function getMember(id: string): Promise<Member | null> {
     death_date: data.death_date,
     quotes: data.quotes,
     consumption_philosophy: data.consumption_philosophy,
-    portrait_url: data.portrait_url,
     claimed_by: data.claimed_by,
     influence: influenceData || null,
+    persona: personaData || null,
     content_count: count || 0,
     follower_count: data.user_social?.follower_count || 0,
     following_count: data.user_social?.following_count || 0,

@@ -40,7 +40,7 @@ interface Star extends Point3D {
 
 type Cloud = Point3D & { size: number, opacity: number };
 
-export default function OlympusOrbitBackground() {
+export default function OlympusOrbitBackground({ fullScreen }: { fullScreen?: boolean } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
     // --- Camera Settings & Constants ---
@@ -428,16 +428,20 @@ export default function OlympusOrbitBackground() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden rounded-xl border border-[#475569]/50 shadow-2xl bg-[#020617]">
-      {/* 텍스트 오버레이 */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
-        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#e2e8f0] via-[#cbd5e1] to-[#64748b] opacity-80 tracking-widest drop-shadow-[0_4px_10px_rgba(255,255,255,0.2)]" style={{ marginTop: '-250px' }}>
-          OLYMPUS
-        </h2>
-        <p className="mt-4 text-sm md:text-base text-[#94a3b8] tracking-[0.3em] uppercase opacity-60 drop-shadow-md">
-          Sanctuary of the Gods
-        </p>
-      </div>
+    <div className={fullScreen
+      ? "relative w-full h-full overflow-hidden bg-[#020617]"
+      : "relative w-full h-[600px] overflow-hidden rounded-xl border border-[#475569]/50 shadow-2xl bg-[#020617]"
+    }>
+      {!fullScreen && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
+          <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#e2e8f0] via-[#cbd5e1] to-[#64748b] opacity-80 tracking-widest drop-shadow-[0_4px_10px_rgba(255,255,255,0.2)]" style={{ marginTop: '-250px' }}>
+            OLYMPUS
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-[#94a3b8] tracking-[0.3em] uppercase opacity-60 drop-shadow-md">
+            Sanctuary of the Gods
+          </p>
+        </div>
+      )}
 
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>

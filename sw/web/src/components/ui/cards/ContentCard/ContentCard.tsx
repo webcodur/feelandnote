@@ -13,7 +13,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Star, ExternalLink, Bookmark, Check, X, Trash2, ThumbsUp } from "lucide-react";
+import { Star, Bookmark, Check, X, Trash2, ThumbsUp } from "lucide-react";
 import DropdownMenu, { DropdownMenuItem } from "@/components/ui/DropdownMenu";
 import { BLUR_DATA_URL } from "@/constants/image";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -23,6 +23,7 @@ import Button from "@/components/ui/Button";
 import FormattedText from "@/components/ui/FormattedText";
 import { RecommendationModal } from "@/components/features/recommendations";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
+import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { addContent } from "@/actions/contents/addContent";
@@ -85,6 +86,7 @@ export default function ContentCard({
   heightClass = "h-[280px]",
   forcePoster = false,
   mobileLayout = "poster",
+  modalZIndex,
 }: ContentCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
   const aspectClass = ASPECT_STYLES[aspectRatio];
@@ -247,7 +249,7 @@ export default function ContentCard({
     if (topRightNode) {
       return (
         <div
-          className="absolute top-1.5 right-1.5 md:top-2 md:right-2"
+          className="absolute top-1 right-1"
           style={{ zIndex: Z_INDEX.cardBadge }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -312,14 +314,14 @@ export default function ContentCard({
     // 로그인 상태면 항상 메뉴 표시
     return (
       <div
-        className="absolute top-1.5 right-1.5 md:top-2 md:right-2"
+        className="absolute top-1 right-1"
         style={{ zIndex: Z_INDEX.cardBadge }}
         onClick={(e) => e.stopPropagation()}
       >
         <DropdownMenu
           items={menuItems}
-          buttonClassName="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30 text-white/90"
-          iconSize={16}
+          buttonClassName="w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30 text-white/90"
+          iconSize={14}
         />
       </div>
     );
@@ -364,103 +366,19 @@ export default function ContentCard({
 
   // 공통 모달 (모든 모드에서 동일하게 렌더링)
   const ReviewModal = (
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">
-          <ModalBody>
-            <div className="mb-4 pb-3 border-b border-border/30">
-              <h3 className="text-base font-semibold text-text-primary line-clamp-2">{title}</h3>
-              {creator && (
-                <p className="text-xs text-text-secondary line-clamp-1 mt-1">
-                  {creator.replace(/\^/g, ", ")}
-                </p>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-xs font-medium text-text-secondary">
-                {ownerNickname ? `${ownerNickname}의 리뷰` : "리뷰"}
-              </h4>
-            </div>
-
-            {review && !isSpoiler ? (
-              <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
-                {reviewPresets && reviewPresets.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                        {reviewPresets.map((presetKeyword, idx) => {
-                            const preset = getPresetByKeyword(presetKeyword);
-                            const sentiment = preset?.sentiment || "etc";
-                            const colorClasses = getSentimentColorClasses(sentiment);
-
-                            return (
-                                <span
-                                    key={`${presetKeyword}-${idx}`}
-                                    className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
-                                >
-                                    {presetKeyword}
-                                </span>
-                            );
-                        })}
-                    </div>
-                )}
-                <p className="text-sm text-text-primary leading-relaxed whitespace-pre-line break-words">
-                  <FormattedText text={review} />
-                </p>
-              </div>
-            ) : review && isSpoiler ? (
-              <p className="text-sm text-text-tertiary italic">스포일러 포함 리뷰</p>
-            ) : (reviewPresets && reviewPresets.length > 0) ? (
-                 <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                        {reviewPresets.map((presetKeyword, idx) => {
-                            const preset = getPresetByKeyword(presetKeyword);
-                            const sentiment = preset?.sentiment || "etc";
-                            const colorClasses = getSentimentColorClasses(sentiment);
-
-                            return (
-                                <span
-                                    key={`${presetKeyword}-${idx}`}
-                                    className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
-                                >
-                                    {presetKeyword}
-                                </span>
-                            );
-                        })}
-                    </div>
-                </div>
-            ) : (
-              <p className="text-sm text-text-tertiary italic">작성된 리뷰가 없습니다</p>
-            )}
-
-            {/* 출처 링크 (필수) */}
-            <div className="mt-3 text-xs break-all">
-              {sourceUrl ? (
-                <a
-                  href={sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-accent/60 hover:text-accent underline underline-offset-2"
-                >
-                  출처: {sourceUrl}
-                </a>
-              ) : (
-                <span className="text-red-500 font-semibold">
-                  ⚠️ 출처 URL 누락
-                </span>
-              )}
-            </div>
-          </ModalBody>
-          {contentDetailUrl && (
-            <ModalFooter>
-              <Link
-                href={contentDetailUrl}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-5 text-sm font-medium rounded-lg bg-accent text-white hover:bg-accent-hover"
-              >
-                <ExternalLink size={14} />
-                상세 보기
-              </Link>
-            </ModalFooter>
-          )}
-        </Modal>
+    <ContentReviewModal
+      isOpen={showModal}
+      onClose={() => setShowModal(false)}
+      title={title}
+      creator={creator}
+      review={review}
+      reviewPresets={reviewPresets}
+      isSpoiler={isSpoiler}
+      sourceUrl={sourceUrl}
+      ownerNickname={ownerNickname}
+      contentDetailUrl={contentDetailUrl}
+      zIndex={modalZIndex}
+    />
   );
 
   const modals = (
@@ -488,7 +406,7 @@ export default function ContentCard({
           contentType={contentType}
         />
       )}
-      <Modal isOpen={showAddConfirm} onClose={() => setShowAddConfirm(false)} title="서재에 담기" icon={Bookmark} size="sm" closeOnOverlayClick>
+      <Modal isOpen={showAddConfirm} onClose={() => setShowAddConfirm(false)} title="서재에 담기" icon={Bookmark} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
         <ModalBody>
           <p className="text-text-secondary">
             <span className="text-text-primary font-semibold">{title}</span>
@@ -534,7 +452,7 @@ export default function ContentCard({
           }}>등록</Button>
         </ModalFooter>
       </Modal>
-      <Modal isOpen={showSavedAction} onClose={() => setShowSavedAction(false)} title="서재 관리" icon={Bookmark} size="sm" closeOnOverlayClick>
+      <Modal isOpen={showSavedAction} onClose={() => setShowSavedAction(false)} title="서재 관리" icon={Bookmark} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
         <ModalBody>
           <p className="text-sm text-text-secondary mb-4">
             <span className="text-text-primary font-semibold">{title}</span>

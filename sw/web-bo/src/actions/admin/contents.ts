@@ -3,6 +3,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
+export interface AffiliateLink {
+  platform: string
+  url: string
+}
+
 export interface Content {
   id: string
   type: string
@@ -15,6 +20,7 @@ export interface Content {
   subtype: string | null
   external_source: string | null
   metadata: Record<string, unknown>
+  affiliate_url: AffiliateLink[] | null
   created_at: string
   user_count: number
 }
@@ -122,6 +128,65 @@ export async function updateContent(
   const { error } = await supabase
     .from('contents')
     .update(data)
+    .eq('id', contentId)
+
+  if (error) throw error
+
+  revalidatePath('/contents')
+  revalidatePath(`/contents/${contentId}`)
+}
+
+export async function updateAffiliateLinks(
+  contentId: string,
+  links: AffiliateLink[] | null
+): Promise<void> {
+  const supabase = await createClient()
+
+  const value = links && links.length > 0 ? links : null
+
+  const { error } = await supabase
+    .from('contents')
+    .update({ affiliate_url: value })
+    .eq('id', contentId)
+
+  if (error) throw error
+
+  revalidatePath('/contents')
+  revalidatePath(`/contents/${contentId}`)
+}
+
+/** 단일 플랫폼 링크를 upsert(추가/수정)하거나 삭제한다. url이 빈 문자열이면 해당 플랫폼 제거. */
+export async function upsertAffiliatePlatform(
+  contentId: string,
+  platform: string,
+  url: string
+): Promise<void> {
+  const supabase = await createClient()
+
+  // 현재 값 조회
+  const { data } = await supabase
+    .from('contents')
+    .select('affiliate_url')
+    .eq('id', contentId)
+    .single()
+
+  const current: AffiliateLink[] = (data?.affiliate_url as AffiliateLink[]) || []
+
+  let next: AffiliateLink[]
+  if (url.trim()) {
+    // upsert
+    const exists = current.some(l => l.platform === platform)
+    next = exists
+      ? current.map(l => l.platform === platform ? { platform, url: url.trim() } : l)
+      : [...current, { platform, url: url.trim() }]
+  } else {
+    // 삭제
+    next = current.filter(l => l.platform !== platform)
+  }
+
+  const { error } = await supabase
+    .from('contents')
+    .update({ affiliate_url: next.length > 0 ? next : null })
     .eq('id', contentId)
 
   if (error) throw error

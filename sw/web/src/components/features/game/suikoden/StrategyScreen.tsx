@@ -1,55 +1,99 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
-import type { GameState, GameSpeed, TerritoryId } from '@/lib/game/suikoden/types'
-import { RT, TERRITORIES, GRADE_FAME_REQ } from '@/lib/game/suikoden/constants'
-import { initBattle } from '@/lib/game/suikoden/engine'
+import { useState, useCallback, useRef, useEffect } from 'react'
+import type { GameState, TerritoryId, DialogEntry } from '@/lib/game/suikoden/types'
+import { getTerritoryDef } from '@/lib/game/suikoden/utils'
+import { initBattle, abandonFortress } from '@/lib/game/suikoden/engine'
 import type { TaxRate } from '@/lib/game/suikoden/types'
-import { processTick, commandBuild, commandAssign, commandUnassign, commandIdle, commandTrain, commandReward, commandPunish, commandDemolish, commandSetTaxRate } from '@/lib/game/suikoden/rtEngine'
-import { getRegionForNationality } from '@/lib/game/suikoden/utils'
+import { advanceTurn, commandBuild, commandAssign, commandReassign, commandUnassign, commandIdle, commandTrain, commandReward, commandPunish, commandDemolish, commandSetTaxRate, commandAssignRecruiter, commandCancelRecruiter, commandDispatch, commandRecall } from '@/lib/game/suikoden/turnEngine'
 import { commandAlliance, commandCeasefire, commandTribute, commandSurrender } from '@/lib/game/suikoden/diplomacy'
+import { generateDialog } from '@/lib/game/suikoden/dialog'
 import GameHUD from './GameHUD'
 import GameToolbar from './GameToolbar'
 import BuildingCardGrid from './BuildingCardGrid'
-import WorldMapMini from './WorldMapMini'
-import CommandMenu from './CommandMenu'
-import CharacterDetailModal from './CharacterDetailModal'
-import CharacterPortrait from './CharacterPortrait'
+import WorldMapView from './WorldMapView'
+import TextMapView from './TextMapView'
+import CharacterInfoPanel from './CharacterInfoPanel'
 
 interface Props {
   state: GameState
   onUpdateState: (fn: (s: GameState) => GameState) => void
+  onDialog?: (entry: DialogEntry) => void
 }
 
-export default function StrategyScreen({ state, onUpdateState }: Props) {
+export default function StrategyScreen({ state, onUpdateState, onDialog }: Props) {
   const [selectedCharId, setSelectedCharId] = useState<string | null>(null)
-  const [detailCharacter, setDetailCharacter] = useState<string | null>(null)
-  const [recruitResult, setRecruitResult] = useState<string | null>(null)
-  const [showHelp, setShowHelp] = useState(state.tickCount === 0)
+  const [mapMode, setMapMode] = useState<'globe' | 'text'>('globe')
+  const [toast, setToast] = useState<string | null>(null)
+  const [showHelp, setShowHelp] = useState(state.turnCount === 0)
+  const [focusTarget, setFocusTarget] = useState<{ id: TerritoryId; key: number } | null>(null)
+  const [mapOpen, setMapOpen] = useState(true)
+  const [charPanelOpen, setCharPanelOpen] = useState(true)
+  const focusKeyRef = useRef(0)
+
+  const showToast = useCallback((msg: string) => {
+    setToast(msg)
+    setTimeout(() => setToast(null), 2500)
+  }, [])
 
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
-  const viewingTerritory = playerFaction.territories.find(t => t.id === state.viewingTerritoryId)
-    ?? playerFaction.territories[0]
+  // 모든 세력의 영토에서 조회 (적/무주지 포함)
+  const allTerritories = state.factions.flatMap(f => f.territories)
+  const viewingTerritory = allTerritories.find(t => t.id === state.viewingTerritoryId)
+    ?? (() => {
+      // 무주지: 기본 Territory 생성
+      const tDef = state.viewingTerritoryId ? getTerritoryDef(state.viewingTerritoryId) : null
+      if (tDef) return {
+        id: tDef.id as TerritoryId,
+        name: tDef.name,
+        regionId: tDef.regionId,
+        buildingCards: [],
+        maxBuildings: 8,
+        population: 0,
+        morale: 0,
+        resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
+        taxRate: 'normal' as TaxRate,
+      }
+      return playerFaction.territories[0]
+    })()
+  const isViewingOwn = playerFaction.territories.some(t => t.id === viewingTerritory.id)
 
-  // ── 실시간 게임 루프 ──
-  useGameLoop(state, onUpdateState)
-
-  // ── 배속 설정 ──
-  const handleSetSpeed = useCallback((speed: GameSpeed) => {
-    onUpdateState(s => ({
-      ...s,
-      speed,
-      prevSpeed: speed === 0 ? s.prevSpeed : speed,
-    }))
-  }, [onUpdateState])
-
-  // ── 영토 전환 ──
-  const handleSelectTerritory = useCallback((tId: TerritoryId) => {
-    if (playerFaction.territories.some(t => t.id === tId)) {
-      onUpdateState(s => ({ ...s, viewingTerritoryId: tId }))
+  // ── 다음 턴 ──
+  const handleNextTurn = useCallback(() => {
+    const prevSeason = state.season
+    const next = advanceTurn(state)
+    onUpdateState(() => next)
+    // 계절 변경 시 대화 (updater 밖에서 호출)
+    if (onDialog && next.season !== prevSeason) {
+      const leader = playerFaction.members.find(m => m.id === playerFaction.leaderId)
+      if (leader) onDialog(generateDialog('turn_start', leader))
     }
-    onUpdateState(s => ({ ...s, selectedTerritoryId: tId }))
-  }, [playerFaction, onUpdateState])
+    // 건설 완료 감지
+    if (onDialog) {
+      for (const faction of next.factions) {
+        if (faction.id !== next.playerFactionId) continue
+        for (const territory of faction.territories) {
+          for (const card of territory.buildingCards) {
+            if (!card.isConstructing && card.constructionWorkerId) {
+              const prevTerritory = state.factions
+                .find(f => f.id === state.playerFactionId)?.territories
+                .find(t => t.id === territory.id)
+              const prevCard = prevTerritory?.buildingCards.find(c => c.instanceId === card.instanceId)
+              if (prevCard?.isConstructing) {
+                const worker = faction.members.find(m => m.id === card.constructionWorkerId)
+                if (worker) onDialog(generateDialog('building_complete', worker))
+              }
+            }
+          }
+        }
+      }
+    }
+  }, [state, onUpdateState, onDialog, playerFaction])
+
+  // ── 영토 전환 (적/무주지 포함) ──
+  const handleSelectTerritory = useCallback((tId: TerritoryId) => {
+    onUpdateState(s => ({ ...s, viewingTerritoryId: tId, selectedTerritoryId: tId }))
+  }, [onUpdateState])
 
   // ── 건설 명령 ──
   const handleBuild = useCallback((buildingDefId: string) => {
@@ -62,6 +106,11 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
     onUpdateState(s => commandAssign(s, charId, buildingInstanceId))
   }, [onUpdateState])
 
+  // ── 재배치 명령 (기존 건물에서 해제 → 새 건물 배치를 원자적으로) ──
+  const handleReassign = useCallback((charId: string, buildingInstanceId: string) => {
+    onUpdateState(s => commandReassign(s, charId, buildingInstanceId))
+  }, [onUpdateState])
+
   // ── 해제 명령 ──
   const handleUnassign = useCallback((charId: string) => {
     onUpdateState(s => commandUnassign(s, charId))
@@ -70,6 +119,17 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
   // ── 자동 내정 토글 ──
   const handleToggleAutoAssign = useCallback(() => {
     onUpdateState(s => ({ ...s, autoAssign: !s.autoAssign }))
+  }, [onUpdateState])
+
+  // ── 대화 모드 토글 ──
+  const handleToggleDialogMode = useCallback(() => {
+    onUpdateState(s => ({
+      ...s,
+      settings: {
+        ...s.settings,
+        dialogMode: s.settings.dialogMode === 'auto' ? 'manual' : 'auto',
+      },
+    }))
   }, [onUpdateState])
 
   // ── 대기 명령 ──
@@ -109,84 +169,48 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
   }, [viewingTerritory, onUpdateState])
 
   // ── 외교 명령 ──
-  const [diplomacyResult, setDiplomacyResult] = useState<string | null>(null)
   const handleDiplomacy = useCallback((action: string, targetFactionId: string) => {
-    onUpdateState(s => {
-      let result: { state: GameState; result: { success: boolean; message: string } }
-      switch (action) {
-        case 'alliance':
-          result = commandAlliance(s, targetFactionId)
-          break
-        case 'ceasefire':
-          result = commandCeasefire(s, targetFactionId)
-          break
-        case 'tribute':
-          result = commandTribute(s, targetFactionId, 100)
-          break
-        case 'surrender':
-          result = commandSurrender(s, targetFactionId)
-          break
-        default:
-          return s
-      }
-      setDiplomacyResult(result.result.message)
-      setTimeout(() => setDiplomacyResult(null), 3000)
-      return result.state
-    })
+    let result: { state: GameState; result: { success: boolean; message: string } }
+    switch (action) {
+      case 'alliance':
+        result = commandAlliance(state, targetFactionId)
+        break
+      case 'ceasefire':
+        result = commandCeasefire(state, targetFactionId)
+        break
+      case 'tribute':
+        result = commandTribute(state, targetFactionId, 100)
+        break
+      case 'surrender':
+        result = commandSurrender(state, targetFactionId)
+        break
+      default:
+        return
+    }
+    onUpdateState(() => result.state)
+    showToast(result.result.message)
+  }, [state, onUpdateState, showToast])
+
+  // ── 선술집 등용 할당 ──
+  const handleAssignRecruiter = useCallback((visitorCharId: string, recruiterCharId: string) => {
+    onUpdateState(s => commandAssignRecruiter(s, visitorCharId, recruiterCharId))
+    showToast('등용 인물을 할당했다. 다음 턴에 판정.')
+  }, [onUpdateState, showToast])
+
+  // ── 선술집 등용 할당 해제 ──
+  const handleCancelRecruiter = useCallback((visitorCharId: string) => {
+    onUpdateState(s => commandCancelRecruiter(s, visitorCharId))
   }, [onUpdateState])
 
-  // ── 인재 탐색 ──
-  const handleRecruit = useCallback(() => {
-    const playerRegion = getRegionForNationality(playerFaction.members[0]?.nationality ?? '')
-    const currentFame = playerFaction.fame
-    const candidates = state.wanderers.filter(w => {
-      if (getRegionForNationality(w.nationality) !== playerRegion) return false
-      const reqFame = GRADE_FAME_REQ[w.grade] ?? 0
-      return currentFame >= reqFame
-    })
-    if (candidates.length === 0) {
-      const regionAll = state.wanderers.filter(w => getRegionForNationality(w.nationality) === playerRegion)
-      if (regionAll.length > 0) {
-        const minReq = Math.min(...regionAll.map(w => GRADE_FAME_REQ[w.grade] ?? 0))
-        setRecruitResult(`명성이 부족하다. (최소 ${minReq} 필요, 현재 ${currentFame})`)
-      } else {
-        setRecruitResult('이 지역에 영입 가능한 인재가 없다.')
-      }
-      setTimeout(() => setRecruitResult(null), 2500)
-      return
-    }
+  // ── 토벌 배정 ──
+  const handleDispatch = useCallback((charId: string, threatId: string) => {
+    onUpdateState(s => commandDispatch(s, charId, threatId))
+  }, [onUpdateState])
 
-    const target = candidates[Math.floor(Math.random() * candidates.length)]
-    const leader = playerFaction.members.find(m => m.id === playerFaction.leaderId)!
-    const fameBonus = Math.min(0.15, currentFame * 0.00015)
-    const rate = 0.3 + leader.stats.virtue * 0.05 + fameBonus
-
-    if (Math.random() < rate) {
-      onUpdateState(s => {
-        const territory = s.factions.find(f => f.id === s.playerFactionId)!.territories[0]
-        return {
-          ...s,
-          factions: s.factions.map(f =>
-            f.id === s.playerFactionId ? { ...f, fame: f.fame + 1, members: [...f.members, target] } : f
-          ),
-          placements: [...s.placements, {
-            characterId: target.id,
-            factionId: s.playerFactionId,
-            territoryId: territory.id,
-            task: 'idle' as const,
-            taskProgress: 0,
-            assignedBuildingId: null,
-          }],
-          wanderers: s.wanderers.filter(w => w.id !== target.id),
-          log: [...s.log, `${target.nickname}이(가) 합류했다!`],
-        }
-      })
-      setRecruitResult(`${target.nickname}이(가) 합류했다!`)
-    } else {
-      setRecruitResult(`${target.nickname}이(가) 거절했다.`)
-    }
-    setTimeout(() => setRecruitResult(null), 2500)
-  }, [state, playerFaction, onUpdateState])
+  // ── 토벌 해제 ──
+  const handleRecall = useCallback((charId: string) => {
+    onUpdateState(s => commandRecall(s, charId))
+  }, [onUpdateState])
 
   // ── 침공 ──
   const handleAttack = useCallback((targetTerritoryId: TerritoryId) => {
@@ -206,15 +230,13 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
       ...s,
       battle,
       phase: 'battle' as const,
-      speed: 0,
-      prevSpeed: s.speed || 1,
-      log: [...s.log, `${defenderFaction.name}의 ${TERRITORIES.find(t => t.id === targetTerritoryId)?.name}에 침공!`],
+      log: [...s.log, `${defenderFaction.name}의 ${getTerritoryDef(targetTerritoryId)?.name}에 침공!`],
     }))
   }, [state, onUpdateState])
 
   // ── 무주지 점령 ──
   const handleClaim = useCallback((territoryId: TerritoryId) => {
-    const def = TERRITORIES.find(t => t.id === territoryId)!
+    const def = getTerritoryDef(territoryId)!
     onUpdateState(s => ({
       ...s,
       factions: s.factions.map(f =>
@@ -236,146 +258,281 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
     }))
   }, [onUpdateState])
 
-  const detailChar = detailCharacter ? playerFaction.members.find(m => m.id === detailCharacter) : null
+  // ── 본진 복귀 ──
+  const handleGoHome = useCallback(() => {
+    const homeId = playerFaction.territories[0]?.id
+    if (homeId) {
+      onUpdateState(s => ({ ...s, viewingTerritoryId: homeId }))
+      focusKeyRef.current += 1
+      setFocusTarget({ id: homeId, key: focusKeyRef.current })
+    }
+  }, [playerFaction, onUpdateState])
+
+  // ── 거병 포기 (방랑 복귀) ──
+  const handleAbandon = useCallback(() => {
+    onUpdateState(s => abandonFortress(s))
+  }, [onUpdateState])
 
   return (
-    <div className="space-y-3">
-      {detailChar && <CharacterDetailModal character={detailChar} onClose={() => setDetailCharacter(null)} />}
+    <div className="relative space-y-3">
 
-      {/* 가이드 */}
-      {showHelp && (
-        <div className="p-4 bg-stone-800 border border-amber-500/30 rounded space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-amber-300">📜 천도 — 실시간 전략</h3>
-            <button onClick={() => setShowHelp(false)} className="text-stone-500 hover:text-stone-300 text-xs">닫기 ✕</button>
+      {/* 토스트 알림 — absolute, 레이아웃 무영향 */}
+      {toast && (
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30">
+          <div className="p-2 px-4 bg-stone-900 border border-amber-500/30 rounded text-xs text-amber-300 text-center shadow-lg whitespace-nowrap">
+            {toast}
           </div>
-          <div className="text-xs text-stone-300 space-y-2 leading-relaxed">
-            <p><b className="text-amber-400">실시간</b>: 시간이 자동으로 흐른다. 배속 조절 (1x/2x/3x) 또는 일시정지 가능.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <div className="p-2 bg-stone-900 rounded">
-                <p className="font-bold text-stone-200 mb-1">🏗️ 건설</p>
-                <p>인물 선택 → 건물 그리드에서 + 버튼 → 건물 선택. 건설 완료 시 자동 근무.</p>
+        </div>
+      )}
+
+      {/* 가이드 모달 */}
+      {showHelp && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowHelp(false)}>
+          <div className="bg-stone-800 border border-amber-500/30 rounded-lg shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-5 space-y-3 animate-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold text-amber-300">천도 — 턴제 전략</h3>
+              <button onClick={() => setShowHelp(false)} className="text-stone-500 hover:text-stone-300 text-xs">✕</button>
+            </div>
+            <div className="text-xs text-stone-300 space-y-2 leading-relaxed">
+              <p><b className="text-amber-400">턴제</b>: '다음 턴' 버튼으로 10일씩 진행. 건설·자원·AI가 매 턴 처리된다.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="p-2 bg-stone-900 rounded">
+                  <p className="font-bold text-stone-200 mb-1">건설</p>
+                  <p>인물 선택 → 건물 그리드에서 + 버튼 → 건물 선택. 건설 완료 시 자동 근무.</p>
+                </div>
+                <div className="p-2 bg-stone-900 rounded">
+                  <p className="font-bold text-stone-200 mb-1">배치</p>
+                  <p>인물 선택 → 빈 건물 카드의 '배치' 클릭. 근무자가 있으면 생산 1.5배.</p>
+                </div>
+                <div className="p-2 bg-stone-900 rounded">
+                  <p className="font-bold text-stone-200 mb-1">전투</p>
+                  <p>군사 탭에서 인접 적 영토에 침공. 전투는 전술 카드 대결.</p>
+                </div>
+                <div className="p-2 bg-stone-900 rounded">
+                  <p className="font-bold text-stone-200 mb-1">외교</p>
+                  <p>외교 탭에서 동맹/정전/조공/항복 등 외교 행동.</p>
+                </div>
               </div>
-              <div className="p-2 bg-stone-900 rounded">
-                <p className="font-bold text-stone-200 mb-1">⚙️ 배치</p>
-                <p>인물 선택 → 빈 건물 카드의 '배치' 클릭. 근무자가 있으면 생산 1.5배.</p>
-              </div>
-              <div className="p-2 bg-stone-900 rounded">
-                <p className="font-bold text-stone-200 mb-1">⚔️ 전투</p>
-                <p>군사 탭에서 인접 적 영토에 침공. 전투는 전술 카드 대결.</p>
-              </div>
-              <div className="p-2 bg-stone-900 rounded">
-                <p className="font-bold text-stone-200 mb-1">🗺️ 외교</p>
-                <p>외교 탭에서 동맹/정전/조공/항복 등 외교 행동.</p>
+
+              {/* 스탯 가이드 */}
+              <div className="border-t border-stone-700 pt-2 mt-1">
+                <p className="font-bold text-amber-400 mb-1.5">인물 스탯 (0~10)</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-0.5 text-[11px]">
+                  <p><b className="text-stone-200">완력</b> — 돌격·허공 전술 주력. 연병장 건설 조건</p>
+                  <p><b className="text-stone-200">기량</b> — 교역소·광산·성벽 건설 조건. 계략 보조</p>
+                  <p><b className="text-stone-200">지력</b> — 계략·화공 전술 주력. 학당 건설·외교 보정</p>
+                  <p><b className="text-stone-200">체력</b> — 방어 전술 주력. HP 결정</p>
+                  <p><b className="text-stone-200">충의</b> — 충성도 초기값 결정</p>
+                  <p><b className="text-stone-200">인애</b> — 고무 전술 주력. 사원 건설·민심·외교 보정</p>
+                  <p><b className="text-stone-200">용기</b> — 돌격·고무 보조. 완력·지력 중 높은 값</p>
+                </div>
+                <p className="text-[10px] text-stone-500 mt-1.5">훈련 가능: 완력, 기량, 체력. 인물 상세에서 각 스탯 설명 확인 가능.</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* HUD */}
-      <GameHUD state={state} onSetSpeed={handleSetSpeed} />
+      {/* HUD — 상태 표시줄 (읽기 전용) */}
+      <PanelLabel name="자원 현황" />
+      <GameHUD state={state} territory={viewingTerritory} />
 
-      {/* 도구바 */}
-      {viewingTerritory && (
+      {/* 도구바 — 내 영토: 풀 도구바, 적 영토: 복귀 버튼 */}
+      <PanelLabel name="명령 도구바" />
+      {viewingTerritory && isViewingOwn ? (
         <GameToolbar
           state={state}
           territory={viewingTerritory}
-          selectedCharId={selectedCharId}
-          onSelectChar={setSelectedCharId}
-          onIdle={handleIdle}
-          onRecruit={handleRecruit}
+          onNextTurn={handleNextTurn}
           onToggleAutoAssign={handleToggleAutoAssign}
-          onDetailChar={setDetailCharacter}
+          onAttack={handleAttack}
+          onClaim={handleClaim}
+          onDiplomacy={handleDiplomacy}
+          onSetTaxRate={handleSetTaxRate}
+          onAbandon={handleAbandon}
+          onGoHome={handleGoHome}
+          onToggleDialogMode={handleToggleDialogMode}
         />
-      )}
+      ) : viewingTerritory && !isViewingOwn ? (
+        <div className="bg-stone-800/80 border border-stone-700 rounded-lg p-2 flex items-center gap-3">
+          <button
+            onClick={handleGoHome}
+            className="px-3 py-1.5 bg-amber-700/50 hover:bg-amber-700 text-amber-200 text-xs font-bold rounded transition-colors"
+          >
+            본화면으로
+          </button>
+          <span className="text-[11px] text-stone-500">
+            {state.factions.some(f => f.territories.some(t => t.id === viewingTerritory.id))
+              ? '다른 세력의 영토를 살펴보고 있다'
+              : `${viewingTerritory.name} — 무주지`}
+          </span>
+        </div>
+      ) : null}
 
       {/* 메인 레이아웃 */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-        {/* 건물 카드 그리드 (3/4) */}
-        <div className="lg:col-span-3">
-          {viewingTerritory && (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        {/* 좌측: 건물 칩 리스트 (2/3) */}
+        <div className="lg:col-span-2 space-y-3">
+          <PanelLabel name="건물 배치" />
+          {viewingTerritory && isViewingOwn && (
             <BuildingCardGrid
               state={state}
               territory={viewingTerritory}
               selectedCharId={selectedCharId}
+              onSelectChar={setSelectedCharId}
               onBuild={handleBuild}
-              onAssign={handleAssign}
+              onReassign={handleReassign}
               onUnassign={handleUnassign}
               onDemolish={handleDemolish}
+              onAssignRecruiter={handleAssignRecruiter}
+              onCancelRecruiter={handleCancelRecruiter}
+              onDispatch={handleDispatch}
+              onRecall={handleRecall}
+              onToast={showToast}
             />
           )}
+
+          {/* 적/무주지 — 플레이어 화면과 동일한 BuildingCardGrid (readOnly) */}
+          {viewingTerritory && !isViewingOwn && (() => {
+            const owner = state.factions.find(f => f.territories.some(t => t.id === viewingTerritory.id))
+
+            if (!owner) {
+              return (
+                <div className="border border-stone-700 rounded-lg p-6 bg-stone-800/60 text-center space-y-3">
+                  <p className="text-stone-400">아무도 점령하지 않은 땅이다.</p>
+                  <button
+                    onClick={() => handleClaim(viewingTerritory.id)}
+                    className="px-6 py-3 bg-green-900/50 border border-green-700 rounded-lg hover:bg-green-800/60 hover:border-green-500 transition-colors text-sm text-stone-100 font-bold"
+                  >
+                    점령
+                  </button>
+                </div>
+              )
+            }
+
+            return (
+              <BuildingCardGrid
+                state={state}
+                territory={viewingTerritory}
+                selectedCharId={null}
+                onSelectChar={() => {}}
+                onBuild={() => {}}
+                onReassign={() => {}}
+                onUnassign={() => {}}
+                onDemolish={() => {}}
+                onAssignRecruiter={() => {}}
+                onCancelRecruiter={() => {}}
+                onDispatch={() => {}}
+                onRecall={() => {}}
+                onToast={() => {}}
+                readOnly
+                factionOverrideId={owner.id}
+              />
+            )
+          })()}
+
+          {/* 이벤트 로그 */}
+          <PanelLabel name="이벤트 로그" />
+          <div className="border border-stone-700 rounded-lg p-2 bg-stone-800/50 max-h-24 overflow-y-auto">
+            {state.log.slice(-8).reverse().map((l, i) => (
+              <p key={i} className="text-[9px] text-stone-500 leading-relaxed">{l}</p>
+            ))}
+          </div>
         </div>
 
-        {/* 우측 패널 (1/4) */}
+        {/* 우측 패널 (1/3) */}
         <div className="space-y-3">
-          {/* 미니맵 */}
-          <WorldMapMini
-            state={state}
-            viewingTerritoryId={state.viewingTerritoryId}
-            onSelectTerritory={handleSelectTerritory}
-          />
-
-          {/* 도움말 토글 */}
-          <button onClick={() => setShowHelp(!showHelp)} className="w-full text-[10px] text-stone-600 hover:text-amber-400">❓ 가이드</button>
-
-          {/* 명령 메뉴 */}
-          <CommandMenu
-            state={state}
-            selectedCharId={selectedCharId}
-            viewingTerritoryId={state.viewingTerritoryId}
-            onIdle={handleIdle}
-            onRecruit={handleRecruit}
-            onTrain={handleTrain}
-            onReward={handleReward}
-            onPunish={handlePunish}
-            onAttack={handleAttack}
-            onClaim={handleClaim}
-            onDiplomacy={handleDiplomacy}
-            onSetTaxRate={handleSetTaxRate}
-            autoAssign={state.autoAssign}
-            onToggleAutoAssign={handleToggleAutoAssign}
-          />
-
-          {recruitResult && (
-            <div className="p-2 bg-stone-800 border border-amber-500/30 rounded text-xs text-amber-300 text-center animate-pulse">
-              {recruitResult}
-            </div>
-          )}
-          {diplomacyResult && (
-            <div className="p-2 bg-stone-800 border border-blue-500/30 rounded text-xs text-blue-300 text-center animate-pulse">
-              {diplomacyResult}
-            </div>
-          )}
-
-          {/* 인재 목록 토글 */}
-          <details className="border border-stone-700 rounded bg-stone-800/50">
-            <summary className="p-2 text-xs font-bold text-stone-300 cursor-pointer hover:text-stone-100">
-              👥 인재 ({playerFaction.members.length})
-            </summary>
-            <div className="px-2 pb-2 space-y-1 max-h-36 overflow-y-auto">
-              {playerFaction.members.map(m => {
-                const p = state.placements.find(pl => pl.characterId === m.id)
-                return (
+          {/* 세계 지도 — 아코디언 */}
+          <div className="bg-stone-800/80 border border-stone-700 rounded-lg">
+            <div
+              className="flex items-center gap-2 p-2.5 cursor-pointer select-none"
+              onClick={(e) => {
+                // 탭 버튼 클릭은 무시 (헤더 빈 영역만 토글)
+                if ((e.target as HTMLElement).closest('button')) return
+                setMapOpen(v => !v)
+              }}
+            >
+              <span className="text-[8px] text-stone-600">{mapOpen ? '\u25BC' : '\u25B6'}</span>
+              <span className="text-xs font-bold text-stone-400 mr-auto">세계 지도</span>
+              {mapOpen && (
+                <div className="flex bg-stone-900/80 rounded p-0.5 gap-0.5">
                   <button
-                    key={m.id}
-                    onClick={() => setSelectedCharId(m.id === selectedCharId ? null : m.id)}
-                    className={`w-full flex items-center gap-1.5 text-xs rounded p-1 transition-colors ${
-                      selectedCharId === m.id ? 'bg-amber-800/30' : 'hover:bg-stone-700'
+                    onClick={() => setMapMode('globe')}
+                    className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
+                      mapMode === 'globe'
+                        ? 'bg-stone-700 text-stone-200 font-bold'
+                        : 'text-stone-500 hover:text-stone-400'
                     }`}
                   >
-                    <CharacterPortrait character={m} size={20} />
-                    <span className="text-stone-200 flex-1 truncate text-left text-[10px]">{m.nickname}</span>
-                    <span className="text-stone-500 text-[9px]">{p?.task === 'idle' ? '' : taskLabel(p?.task)}</span>
+                    3D 지구
                   </button>
-                )
-              })}
+                  <button
+                    onClick={() => setMapMode('text')}
+                    className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
+                      mapMode === 'text'
+                        ? 'bg-stone-700 text-stone-200 font-bold'
+                        : 'text-stone-500 hover:text-stone-400'
+                    }`}
+                  >
+                    텍스트
+                  </button>
+                </div>
+              )}
             </div>
-          </details>
+
+            {mapOpen && (
+              <div className="px-2.5 pb-2.5">
+                {mapMode === 'globe' ? (
+                  <WorldMapView
+                    state={state}
+                    viewingTerritoryId={state.viewingTerritoryId}
+                    selectedTerritoryId={state.selectedTerritoryId}
+                    onSelectTerritory={handleSelectTerritory}
+                    phase="strategy"
+                    focusTerritoryId={focusTarget?.id ?? null}
+                    focusKey={focusTarget?.key ?? 0}
+                  />
+                ) : (
+                  <TextMapView
+                    state={state}
+                    viewingTerritoryId={state.viewingTerritoryId}
+                    selectedTerritoryId={state.selectedTerritoryId}
+                    onSelectTerritory={handleSelectTerritory}
+                    phase="strategy"
+                  />
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* 선택 인물 상세 — 아코디언 */}
+          <div className="bg-stone-800 border border-stone-700 rounded">
+            <div
+              className="flex items-center gap-2 p-2 cursor-pointer select-none"
+              onClick={() => setCharPanelOpen(v => !v)}
+            >
+              <span className="text-[8px] text-stone-600">{charPanelOpen ? '\u25BC' : '\u25B6'}</span>
+              <span className="text-xs font-bold text-stone-400">인물 상세</span>
+              {selectedCharId && !charPanelOpen && (() => {
+                const c = playerFaction.members.find(m => m.id === selectedCharId)
+                return c ? <span className="ml-auto text-[10px] text-stone-500 truncate">{c.nickname}</span> : null
+              })()}
+            </div>
+            {charPanelOpen && (
+              <CharacterInfoPanel
+                state={state}
+                selectedCharId={selectedCharId}
+                onIdle={handleIdle}
+                onTrain={handleTrain}
+                onReward={handleReward}
+                onPunish={handlePunish}
+              />
+            )}
+          </div>
 
           {/* 세력 현황 */}
           <details className="border border-stone-700 rounded bg-stone-800/50" open>
-            <summary className="p-2 text-xs font-bold text-stone-300 cursor-pointer hover:text-stone-100">🏳️ 세력</summary>
+            <summary className="p-2 text-xs font-bold text-stone-300 cursor-pointer hover:text-stone-100">세력 현황</summary>
             <div className="px-2 pb-2 space-y-1">
               {state.factions.map(f => (
                 <div key={f.id} className="flex items-center gap-1.5 text-[10px]">
@@ -390,68 +547,16 @@ export default function StrategyScreen({ state, onUpdateState }: Props) {
             </div>
           </details>
 
-          {/* 이벤트 로그 */}
-          <div className="border border-stone-700 rounded p-2 bg-stone-800/50 max-h-24 overflow-y-auto">
-            {state.log.slice(-8).reverse().map((l, i) => (
-              <p key={i} className="text-[9px] text-stone-500 leading-relaxed">{l}</p>
-            ))}
-          </div>
+          {/* 도움말 토글 */}
+          <button onClick={() => setShowHelp(!showHelp)} className="w-full text-[10px] text-stone-600 hover:text-amber-400">도움말</button>
         </div>
       </div>
     </div>
   )
 }
 
-// ── 게임 루프 Hook ──
-
-function useGameLoop(state: GameState, onUpdateState: (fn: (s: GameState) => GameState) => void) {
-  const stateRef = useRef(state)
-  stateRef.current = state
-
-  const accRef = useRef(0)
-  const lastRef = useRef(0)
-
-  useEffect(() => {
-    let rafId: number
-
-    const loop = (timestamp: number) => {
-      const s = stateRef.current
-      if (s.speed === 0 || s.phase !== 'strategy' || s.isGameOver) {
-        lastRef.current = timestamp
-        rafId = requestAnimationFrame(loop)
-        return
-      }
-
-      const delta = lastRef.current ? timestamp - lastRef.current : 0
-      lastRef.current = timestamp
-
-      accRef.current += delta
-      const tickMs = RT.BASE_TICK_MS / s.speed
-
-      let ticked = false
-      while (accRef.current >= tickMs) {
-        accRef.current -= tickMs
-        ticked = true
-      }
-
-      if (ticked) {
-        onUpdateState(prev => processTick(prev))
-      }
-
-      rafId = requestAnimationFrame(loop)
-    }
-
-    rafId = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(rafId)
-  }, [onUpdateState])
-}
-
-// ── 유틸 ──
-
-function taskLabel(task?: string): string {
-  if (!task) return ''
-  const labels: Record<string, string> = {
-    idle: '', building: '🔨', working: '⚙️', training: '🎯',
-  }
-  return labels[task] ?? ''
+function PanelLabel({ name }: { name: string }) {
+  return (
+    <div className="text-[9px] text-stone-600 uppercase tracking-wider mb-0.5">{name}</div>
+  )
 }

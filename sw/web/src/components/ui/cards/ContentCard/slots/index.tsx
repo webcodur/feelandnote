@@ -20,10 +20,10 @@ export function TypeLabel({ type, onOpen }: { type: ContentType; onOpen: () => v
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOpen(); }}
-      className="absolute top-1.5 left-1.5 md:top-2 md:left-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-accent/40 shadow-lg hover:bg-accent hover:border-accent group/type"
+      className="absolute top-1 left-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-accent/40 shadow-lg hover:bg-accent hover:border-accent group/type"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
-      <Icon size={14} className="text-accent group-hover/type:text-white" strokeWidth={2} />
+      <Icon size={12} className="text-accent group-hover/type:text-white" strokeWidth={2} />
     </button>
   );
 }
@@ -60,10 +60,10 @@ export function RecommendButton({ onClick }: { onClick?: (e: React.MouseEvent) =
         e.stopPropagation();
         onClick?.(e);
       }}
-      className="absolute top-1.5 right-1.5 md:top-2 md:right-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center backdrop-blur-sm rounded-md shadow-lg bg-black/70 border border-accent/50 hover:bg-accent hover:border-accent group/rec"
+      className="absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center backdrop-blur-sm rounded-md shadow-lg bg-black/70 border border-accent/50 hover:bg-accent hover:border-accent group/rec"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
-      <Gift size={14} className="text-accent group-hover/rec:text-white" strokeWidth={2} />
+      <Gift size={12} className="text-accent group-hover/rec:text-white" strokeWidth={2} />
     </button>
   );
 }
@@ -87,16 +87,16 @@ export function StatsBadge({
 
   return (
     <div
-      className="absolute bottom-1.5 left-1.5 md:bottom-2 md:left-2"
+      className="absolute bottom-1 left-1"
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
     >
-      <div className={`flex items-center gap-0.5 md:gap-1 bg-black/70 backdrop-blur-sm px-1.5 py-0.5 md:px-2 md:py-1 rounded-md border border-white/10 shadow-lg ${onClick ? "hover:bg-accent hover:border-accent cursor-pointer group/stats" : ""}`}>
-        <Crown size={10} className={`text-accent ${onClick ? "group-hover/stats:text-white" : ""}`} />
-        <span className={`text-[10px] md:text-xs text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{celebCount}</span>
-        <span className={`text-text-tertiary text-[10px] md:text-xs mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
-        <User size={10} className={`text-text-secondary ${onClick ? "group-hover/stats:text-white/80" : ""}`} />
-        <span className={`text-[10px] md:text-xs text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
+      <div className={`flex items-center gap-0.5 bg-black/70 backdrop-blur-sm px-1 py-0.5 md:px-1.5 rounded-md border border-white/10 shadow-lg ${onClick ? "hover:bg-accent hover:border-accent cursor-pointer group/stats" : ""}`}>
+        <Crown size={9} className={`text-accent ${onClick ? "group-hover/stats:text-white" : ""}`} />
+        <span className={`text-[9px] md:text-[10px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{celebCount}</span>
+        <span className={`text-text-tertiary text-[9px] md:text-[10px] mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
+        <User size={9} className={`text-text-secondary ${onClick ? "group-hover/stats:text-white/80" : ""}`} />
+        <span className={`text-[9px] md:text-[10px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
       </div>
     </div>
   );
@@ -122,12 +122,12 @@ export function RatingBadge({
 
   return (
     <div
-      className={`absolute bottom-1.5 right-1.5 md:bottom-2 md:right-2 flex items-center gap-0.5 md:gap-1 bg-black/70 backdrop-blur-sm px-1.5 py-0.5 md:px-2 md:py-1 rounded-md border border-white/10 shadow-lg ${onClick ? "cursor-pointer hover:bg-yellow-500 hover:border-yellow-500 group/rating" : ""}`}
+      className={`absolute bottom-1 right-1 flex items-center gap-0.5 bg-black/70 backdrop-blur-sm px-1 py-0.5 md:px-1.5 rounded-md border border-white/10 shadow-lg ${onClick ? "cursor-pointer hover:bg-yellow-500 hover:border-yellow-500 group/rating" : ""}`}
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
     >
-      <Star size={10} className={hasRating ? `text-yellow-500 fill-yellow-500 ${onClick ? "group-hover/rating:text-white group-hover/rating:fill-white" : ""}` : `text-text-tertiary ${onClick ? "group-hover/rating:text-white" : ""}`} />
-      <span className={`text-[10px] md:text-xs text-text-primary font-medium ${onClick ? "group-hover/rating:text-white" : ""}`}>{hasRating ? rating.toFixed(1) : "-"}</span>
+      <Star size={9} className={hasRating ? `text-yellow-500 fill-yellow-500 ${onClick ? "group-hover/rating:text-white group-hover/rating:fill-white" : ""}` : `text-text-tertiary ${onClick ? "group-hover/rating:text-white" : ""}`} />
+      <span className={`text-[9px] md:text-[10px] text-text-primary font-medium ${onClick ? "group-hover/rating:text-white" : ""}`}>{hasRating ? rating.toFixed(1) : "-"}</span>
     </div>
   );
 }
@@ -139,10 +139,10 @@ export function DeleteButton({ onClick }: { onClick?: (e: React.MouseEvent) => v
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
-      className="absolute top-1.5 right-1.5 md:top-2 md:right-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-red-500/50 shadow-lg hover:bg-red-500 hover:border-red-500 group/del"
+      className="absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-red-500/50 shadow-lg hover:bg-red-500 hover:border-red-500 group/del"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
-      <Trash2 size={13} className="text-red-400 group-hover/del:text-white" strokeWidth={2} />
+      <Trash2 size={11} className="text-red-400 group-hover/del:text-white" strokeWidth={2} />
     </button>
   );
 }
@@ -156,10 +156,10 @@ export function SavedBadge({ onClick }: { onClick?: (e: React.MouseEvent) => voi
       type="button"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
       disabled={!interactive}
-      className={`absolute top-1.5 right-1.5 md:top-2 md:right-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-accent rounded-md shadow-lg ${interactive ? "hover:bg-accent/80 cursor-pointer" : ""}`}
+      className={`absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-accent rounded-md shadow-lg ${interactive ? "hover:bg-accent/80 cursor-pointer" : ""}`}
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
-      <Bookmark size={14} className="text-white fill-white" strokeWidth={2} />
+      <Bookmark size={12} className="text-white fill-white" strokeWidth={2} />
     </button>
   );
 }
@@ -171,10 +171,10 @@ export function AddButton({ onClick }: { onClick?: (e: React.MouseEvent) => void
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
-      className="absolute top-1.5 right-1.5 md:top-2 md:right-2 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-white/30 shadow-lg hover:bg-accent hover:border-accent group/add"
+      className="absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-white/30 shadow-lg hover:bg-accent hover:border-accent group/add"
       style={{ zIndex: Z_INDEX.cardBadge }}
     >
-      <Bookmark size={14} className="text-white/70 group-hover/add:text-white" strokeWidth={2} />
+      <Bookmark size={12} className="text-white/70 group-hover/add:text-white" strokeWidth={2} />
     </button>
   );
 }

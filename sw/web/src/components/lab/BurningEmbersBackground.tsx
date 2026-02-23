@@ -19,7 +19,7 @@ interface Particle {
   isEmber: boolean; // true: 불씨 (glowing), false: 재 (darker)
 }
 
-export default function BurningEmbersBackground() {
+export default function BurningEmbersBackground({ fullScreen }: { fullScreen?: boolean } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -127,16 +127,20 @@ export default function BurningEmbersBackground() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden rounded-xl border border-[#450a0a]/50 shadow-2xl bg-[#020617]">
-      {/* 텍스트 오버레이 */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
-        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fca5a5] to-[#b91c1c] opacity-90 tracking-widest drop-shadow-[0_4px_15px_rgba(255,0,0,0.4)]">
-          WARFARE
-        </h2>
-        <p className="mt-4 text-sm md:text-base text-[#fca5a5] tracking-[0.3em] uppercase opacity-70 drop-shadow-md">
-          The Burning Aftermath
-        </p>
-      </div>
+    <div className={fullScreen
+      ? "relative w-full h-full overflow-hidden bg-[#020617]"
+      : "relative w-full h-[600px] overflow-hidden rounded-xl border border-[#450a0a]/50 shadow-2xl bg-[#020617]"
+    }>
+      {!fullScreen && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
+          <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fca5a5] to-[#b91c1c] opacity-90 tracking-widest drop-shadow-[0_4px_15px_rgba(255,0,0,0.4)]">
+            WARFARE
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-[#fca5a5] tracking-[0.3em] uppercase opacity-70 drop-shadow-md">
+            The Burning Aftermath
+          </p>
+        </div>
+      )}
 
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>

@@ -7,6 +7,7 @@ import { getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
 import { getProfile } from '@/actions/user'
 import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
+import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -21,6 +22,7 @@ export interface ContentDetailData {
     type: ContentType
     category: CategoryId
     metadata?: Record<string, unknown> | null
+    affiliateLinks?: AffiliateLink[]
   }
   // 사용자 기록 (없으면 null)
   userRecord: {
@@ -57,14 +59,14 @@ export async function getContentDetail(
 
   // 1. 로그인 사용자의 기록 확인
   let userRecord: ContentDetailData['userRecord'] = null
-  let savedContent: { id: string; type: ContentType; title: string; creator?: string; thumbnail_url?: string; description?: string; release_date?: string } | null = null
+  let savedContent: { id: string; type: ContentType; title: string; creator?: string; thumbnail_url?: string; description?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
 
   if (profile) {
     const { data } = await supabase
       .from('user_contents')
       .select(`
         id, status, rating, review, is_spoiler, created_at, updated_at,
-        content:contents(id, type, title, creator, thumbnail_url, description, release_date)
+        content:contents(id, type, title, creator, thumbnail_url, description, release_date, affiliate_url)
       `)
       .eq('user_id', profile.id)
       .eq('content_id', contentId)
@@ -104,12 +106,13 @@ export async function getContentDetail(
       type: savedContent.type,
       category: categoryId,
       metadata: metadataResult.metadata,
+      affiliateLinks: savedContent.affiliate_url?.length ? savedContent.affiliate_url : undefined,
     }
   } else {
     // contents 테이블에서 직접 조회 (셀럽 콘텐츠 등 본인 기록이 아닌 경우)
     const { data: dbContent } = await supabase
       .from('contents')
-      .select('id, type, title, creator, thumbnail_url, description, release_date')
+      .select('id, type, title, creator, thumbnail_url, description, release_date, affiliate_url')
       .eq('id', contentId)
       .single()
 
@@ -128,6 +131,7 @@ export async function getContentDetail(
         type: dbContent.type as ContentType,
         category: categoryId,
         metadata: metadataResult.metadata,
+        affiliateLinks: (dbContent.affiliate_url as unknown as AffiliateLink[])?.length ? (dbContent.affiliate_url as unknown as AffiliateLink[]) : undefined,
       }
     } else {
       // 외부 API에서 조회 (category 필수)

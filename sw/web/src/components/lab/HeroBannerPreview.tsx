@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail, Shapes, Shell, Share2, Anchor, ScrollText, Map as MapIcon } from "lucide-react";
+import { ChevronRight, Star, Play, BookOpen, Crown, Gem, Box, Layers, Waves, Network, Grid, Flashlight, Music, Wind, Flame, Sprout, Activity, Columns, Orbit, Stars, Mail, Shapes, Shell, Share2, ScrollText, Map as MapIcon } from "lucide-react";
 import AstrolabeBanner from "./AstrolabeBanner";
 import ArchiveTunnelBanner from "./ArchiveTunnelBanner";
 import LyreBanner from "./LyreBanner";
@@ -15,7 +15,6 @@ import OrreryBanner from "./OrreryBanner";
 import SealedEdictBanner from "./SealedEdictBanner";
 import SacredGeometryBanner from "./SacredGeometryBanner";
 import GoldenSpiralBanner from "./GoldenSpiralBanner";
-import MessageBottlesBanner from "./MessageBottlesBanner";
 import ParchmentScrollBanner from "./ParchmentScrollBanner";
 import HegemonyMapBanner from "./HegemonyMapBanner";
 
@@ -32,7 +31,7 @@ const demoOverlay = (
 );
 
 export default function HeroBannerPreview() {
-  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict" | "sacred-geometry" | "golden-spiral" | "message-bottles" | "parchment-scroll" | "hegemony-map">("hegemony-map");
+  const [activeDesign, setActiveDesign] = useState<"astrolabe" | "tunnel" | "lyre" | "prism" | "constellation" | "hexagon" | "flame" | "tree" | "pendulum" | "orrery" | "sealed-edict" | "sacred-geometry" | "golden-spiral" | "parchment-scroll" | "hegemony-map">("hegemony-map");
 
   return (
     <div className="w-full flex flex-col gap-8">
@@ -185,17 +184,6 @@ export default function HeroBannerPreview() {
           Idea 13: Golden Spiral
         </button>
         <button
-          onClick={() => setActiveDesign("message-bottles")}
-          className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
-            activeDesign === "message-bottles"
-              ? "bg-accent text-bg-main border-accent font-bold"
-              : "border-white/20 text-text-secondary hover:border-accent/50"
-          }`}
-        >
-          <Anchor size={14} />
-          Idea 14: Message Bottles
-        </button>
-        <button
           onClick={() => setActiveDesign("parchment-scroll")}
           className={`px-6 py-2 rounded-full border transition-all flex items-center gap-2 ${
             activeDesign === "parchment-scroll"
@@ -234,7 +222,6 @@ export default function HeroBannerPreview() {
         {activeDesign === "sealed-edict" && <SealedEdictBanner>{demoOverlay}</SealedEdictBanner>}
         {activeDesign === "sacred-geometry" && <SacredGeometryBanner>{demoOverlay}</SacredGeometryBanner>}
         {activeDesign === "golden-spiral" && <GoldenSpiralBanner>{demoOverlay}</GoldenSpiralBanner>}
-        {activeDesign === "message-bottles" && <MessageBottlesBanner>{demoOverlay}</MessageBottlesBanner>}
         {activeDesign === "parchment-scroll" && <ParchmentScrollBanner>{demoOverlay}</ParchmentScrollBanner>}
         {activeDesign === "hegemony-map" && <HegemonyMapBanner>{demoOverlay}</HegemonyMapBanner>}
       </div>

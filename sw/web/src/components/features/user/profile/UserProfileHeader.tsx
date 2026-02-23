@@ -57,7 +57,7 @@ export default function UserProfileHeader({
 
   const isFriend = isFollowing && profile.is_follower;
   const isCeleb = profile.profile_type === 'CELEB';
-  const hasPortrait = isCeleb && !!profile.portrait_url;
+  const hasPortrait = false;
   const isLoggedIn = !!currentUser;
 
   // 원형 아바타는 항상 avatar_url 사용 (중형 초상화는 모달에서 표시)

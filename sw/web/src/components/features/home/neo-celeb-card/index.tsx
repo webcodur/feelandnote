@@ -10,6 +10,7 @@ import { getVariantStyles } from "./variantConfig";
 import { toggleFollow } from "@/actions/user";
 import { getAuraByPercentile, getAuraByScore } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
+import { getCelebProfileUrl } from "@/lib/url";
 
 // 사이즈별 설정
 const SIZE_CONFIG = {
@@ -166,7 +167,7 @@ export default function NeoCelebCard({
         style={{ height: `${config.inner.height}px` }}
       >
       {/* Inner Surface with Clipping - 카드 클릭 시 프로필 이동 */}
-      <Link href={`/${celeb.id}`} className={`relative w-full h-full overflow-hidden block ${surface}`}>
+      <Link href={getCelebProfileUrl(celeb)} className={`relative w-full h-full overflow-hidden block ${surface}`}>
         {/* LP Effect Layer (Modular) */}
         <div className={`${styles.lpBase} ${lpClass || ""}`} />
 
