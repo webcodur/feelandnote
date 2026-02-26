@@ -236,7 +236,7 @@ export default function TodayFigureSection({ figure, contents: initialContents, 
                                 mobileLayout="review"
                                 recommendable={true}
                                 userContentId={content.user_content_id}
-                                className="shadow-lg hover:ring-2 hover:ring-accent/50 transition-all"
+                                className="shadow-lg transition-all"
                             />
                         ))}
                     </div>

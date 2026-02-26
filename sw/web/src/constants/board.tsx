@@ -24,14 +24,14 @@ export const BOARD_ITEMS: BoardItem[] = [
     value: "notice",
     label: "공지사항",
     icon: Megaphone,
-    href: "/board/notice",
+    href: "/agora/board/notice",
     description: "Feelandnote의 새로운 소식과 업데이트",
   },
   {
     value: "feedback",
     label: "피드백",
     icon: MessageSquare,
-    href: "/board/feedback",
+    href: "/agora/board/feedback",
     description: "서비스 발전을 위한 여러분의 의견",
   },
 ];

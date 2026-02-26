@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { getMember } from '@/actions/admin/members'
+import { getCelebDialogues, type DialogueLines } from '@/actions/admin/dialogues'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Star, Users, Quote, BookOpen, BadgeCheck, CheckCircle, Ban } from 'lucide-react'
+import { ArrowLeft, Star, Users, Quote, BookOpen, BadgeCheck, CheckCircle, Ban, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import CelebForm from '../../members/components/CelebForm'
@@ -24,7 +25,10 @@ interface PageProps {
 
 export default async function CelebDetailPage({ params }: PageProps) {
   const { id } = await params
-  const celeb = await getMember(id)
+  const [celeb, dialogueLines] = await Promise.all([
+    getMember(id),
+    getCelebDialogues(id),
+  ])
 
   if (!celeb || celeb.profile_type !== 'CELEB') notFound()
 
@@ -109,6 +113,9 @@ export default async function CelebDetailPage({ params }: PageProps) {
         </div>
       )}
 
+      {/* Dialogue Lines */}
+      <DialogueSection lines={dialogueLines} />
+
       {/* Account Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
         <h3 className="text-lg font-semibold text-text-primary">계정 정보</h3>
@@ -122,6 +129,59 @@ export default async function CelebDetailPage({ params }: PageProps) {
     </div>
   )
 }
+
+// #region DialogueSection
+const DIALOGUE_TYPE_LABELS: Record<string, string> = {
+  select: '선택 시',
+  deploy: '출전 시',
+  battle_win: '승리',
+  battle_draw: '무승부',
+  battle_lose: '패배',
+  clash_attack: '공격',
+}
+
+function DialogueSection({ lines }: { lines: DialogueLines | null }) {
+  if (!lines) {
+    return (
+      <div className="bg-bg-card border border-border rounded-lg p-6 space-y-2">
+        <div className="flex items-center gap-2">
+          <MessageSquare className="w-5 h-5 text-text-secondary" />
+          <h3 className="text-lg font-semibold text-text-primary">고유 대사</h3>
+        </div>
+        <p className="text-sm text-text-secondary">등록된 고유 대사가 없습니다. 공통 대사를 사용합니다.</p>
+      </div>
+    )
+  }
+
+  const types = ['select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
+
+  return (
+    <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
+      <div className="flex items-center gap-2">
+        <MessageSquare className="w-5 h-5 text-accent" />
+        <h3 className="text-lg font-semibold text-text-primary">고유 대사</h3>
+        <span className="text-xs text-text-secondary ml-auto">
+          {Object.values(lines).flat().filter(l => l?.trim()).length}/18
+        </span>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {types.map((type) => (
+          <div key={type} className="space-y-1.5">
+            <p className="text-xs font-medium text-text-secondary uppercase tracking-wide">
+              {DIALOGUE_TYPE_LABELS[type]}
+            </p>
+            {lines[type]?.map((line, i) => (
+              <p key={i} className="text-sm text-text-primary bg-bg-secondary rounded-lg px-3 py-1.5 break-all">
+                {line || <span className="text-text-secondary italic">비어있음</span>}
+              </p>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+// #endregion
 
 // #region Helper Components
 function InfoItem({ label, value, mono }: { label: string; value: string; mono?: boolean }) {

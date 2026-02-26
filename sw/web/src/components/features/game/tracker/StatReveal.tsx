@@ -6,9 +6,8 @@
 "use client";
 
 import Image from "next/image";
-import { Globe, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import type { TrackerPersona } from "@/actions/game/getTrackerRound";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 
 // region: 연도 포맷
@@ -24,8 +23,6 @@ function formatEra(birth: string | null, death: string | null): string {
 
 interface StatRevealProps {
   persona: TrackerPersona;
-  profession: string;
-  nationalityLabel: string | null;
   birthDate: string | null;
   deathDate: string | null;
   revealedName?: string;
@@ -34,8 +31,6 @@ interface StatRevealProps {
 
 export default function StatReveal({
   persona,
-  profession,
-  nationalityLabel,
   birthDate,
   deathDate,
   revealedName,
@@ -43,39 +38,34 @@ export default function StatReveal({
 }: StatRevealProps) {
   const revealed = !!revealedName;
   return (
-    <div className="relative rounded-lg border border-white/20 bg-[#d9d9d9]/5 p-3 sm:p-4 max-w-lg mx-auto space-y-3 animate-clue-reveal animate-clue-glow-line overflow-hidden">
+    <div className="relative rounded-lg border border-white/20 bg-bg-main p-3 sm:p-4 max-w-lg mx-auto max-h-[45vh] flex flex-col animate-clue-reveal animate-clue-glow-line overflow-hidden">
       {/* 기본 정보 */}
-      <div className="space-y-3">
+      <div className="shrink-0 space-y-2">
         <p className="text-[10px] text-text-tertiary font-cinzel uppercase tracking-wider text-center">
           Stage 1 — Profile & Stats
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <span className="inline-flex items-center gap-1 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
-            {getCelebProfessionLabel(profession)}
-          </span>
-          {nationalityLabel && (
-            <span className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-text-secondary">
-              <Globe size={11} />
-              {nationalityLabel}
-            </span>
-          )}
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-text-secondary font-mono">
-            <Calendar size={11} />
+        <div className="flex items-center justify-center">
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-[#1a1a1a] px-3 py-1 text-xs text-text-secondary font-mono">
+            <Calendar size={12} />
             {formatEra(birthDate, deathDate)}
           </span>
         </div>
       </div>
 
       {/* 스탯 패널 */}
-      <div className="rounded border border-white/20 bg-black/25">
-        <div className="flex items-center gap-3 border-b border-white/10 bg-black/30 p-3">
-          <div className="relative h-14 w-14 rounded-sm border border-white/20 bg-bg-secondary flex items-center justify-center overflow-hidden">
+      <div className="rounded border border-white/20 bg-[#0e0e0e] mt-3 min-h-0 overflow-y-auto">
+        <div className="flex items-center gap-3 border-b border-white/10 bg-[#0a0a0a] p-3">
+          <div
+            className="relative h-14 w-14 rounded-sm border border-white/20 flex items-center justify-center overflow-hidden ring-1 ring-inset ring-white/5"
+            style={{ background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[12px] opacity-40 pointer-events-none mix-blend-screen" />
             {revealed && revealedAvatar ? (
-              <Image src={revealedAvatar} alt={revealedName!} fill sizes="56px" className="object-cover animate-in fade-in zoom-in-95" />
+              <Image src={revealedAvatar} alt={revealedName!} fill sizes="56px" className="object-cover relative z-10 animate-in fade-in zoom-in-95 drop-shadow-[0_6px_10px_rgba(0,0,0,0.8)]" />
             ) : revealed ? (
-              <span className="text-xl font-serif text-accent animate-in fade-in">{revealedName!.charAt(0)}</span>
+              <span className="relative z-10 text-xl font-serif text-accent animate-in fade-in">{revealedName!.charAt(0)}</span>
             ) : (
-              <span className="text-2xl font-serif text-text-secondary">?</span>
+              <span className="relative z-10 text-2xl font-serif text-text-secondary">?</span>
             )}
           </div>
           <div>

@@ -329,7 +329,7 @@ export default function ParchmentScrollBanner({
       }
 
       // 애니메이션 진행
-      progress += (1 - progress) * 0.02;
+      progress += (1 - progress) * 0.08;
 
       const centerX = width / 2;
       const centerY = height / 2;

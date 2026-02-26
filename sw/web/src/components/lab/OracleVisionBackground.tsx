@@ -7,8 +7,16 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
-export default function OracleVisionBackground() {
+const BG_TOP = "#191724";
+const BG_BOTTOM = "#2a2640";
+
+interface OracleVisionBackgroundProps {
+  className?: string;
+}
+
+export default function OracleVisionBackground({ className }: OracleVisionBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -117,8 +125,8 @@ export default function OracleVisionBackground() {
 
       // Background
       const grad = ctx.createLinearGradient(0, 0, 0, height);
-      grad.addColorStop(0, "#191724"); // Darker Purple/Navy
-      grad.addColorStop(1, "#2a2640"); 
+      grad.addColorStop(0, BG_TOP);
+      grad.addColorStop(1, BG_BOTTOM);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
@@ -150,19 +158,8 @@ export default function OracleVisionBackground() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden rounded-xl border border-purple-900/20 shadow-2xl bg-[#191724]">
-      {/* 텍스트 오버레이 */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none">
-        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#e9d5ff] via-[#c084fc] to-[#7e22ce] opacity-60 tracking-widest blur-[1px]">
-          ORACLE
-        </h2>
-        <p className="mt-4 text-sm md:text-base text-[#d8b4fe] tracking-[0.3em] uppercase opacity-50 blur-[0.5px]">
-          The unseen truth
-        </p>
-      </div>
-
-      <canvas ref={canvasRef} className="w-full h-full block filter blur-[8px] scale-110" /> 
-      {/* Heavy CSS blur on canvas and slight scale to hide edges */}
+    <div className={cn("absolute inset-0 w-full h-full overflow-hidden", className)} style={{ backgroundColor: BG_TOP }}>
+      <canvas ref={canvasRef} className="w-full h-full block filter blur-[8px] scale-110" />
     </div>
   );
 }

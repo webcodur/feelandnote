@@ -49,9 +49,11 @@ function SectionSkeleton() {
 }
 
 async function EraContent() {
-  const eraData = await getScripturesByEra();
-  const chosenData = await getChosenScriptures({ page: 1, limit: 12 });
-  const topCelebs = await getTopCelebsAcrossAllEras();
+  const [eraData, chosenData, topCelebs] = await Promise.all([
+    getScripturesByEra(),
+    getChosenScriptures({ page: 1, limit: 12 }),
+    getTopCelebsAcrossAllEras(),
+  ]);
 
   return <EraSection initialEraData={eraData} initialChosenData={chosenData} topCelebsAcrossAllEras={topCelebs} />;
 }

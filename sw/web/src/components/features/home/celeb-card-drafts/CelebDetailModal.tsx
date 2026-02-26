@@ -179,6 +179,14 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   const fetchedForRef = useRef<string | null>(null);
 
+  // 모달 열릴 때 body 스크롤 잠금
+  useEffect(() => {
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [isOpen]);
+
   // celeb 전환 시 내부 상태 리셋 + 감상 기록 자동 로딩 (기본 뷰)
   useEffect(() => {
     setIsReviewMode(true);
@@ -354,21 +362,21 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       : reviews.filter(r => r.content.type === categoryFilter);
 
     return (
-      <div className="relative w-full h-full flex flex-col bg-bg-main animate-fade-in">
+      <div className="relative w-full h-full min-h-0 flex flex-col bg-bg-main animate-fade-in">
         {/* 헤더: 타이틀 + 프로필 진입 버튼 */}
         <div className="flex items-center p-4 border-b border-border/50 shrink-0 relative">
           <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent truncate px-20">
-            {celeb.content_count || 0}개의 감상 기록
+            {celeb.nickname}의 {celeb.content_count || 0}개의 감상 기록
           </h2>
           <button
             onClick={(e) => {
               e.stopPropagation();
               setIsReviewMode(false);
             }}
-            className="absolute right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/5 text-text-secondary hover:text-text-primary text-xs font-medium transition-colors"
+            className="absolute right-4 flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary transition-colors"
           >
-            <Avatar url={celeb.avatar_url} name={celeb.nickname} size="sm" className="ring-1 ring-accent/30 rounded-full" />
-            <span className="hidden sm:inline">{celeb.nickname}</span>
+            <span>인물 정보</span>
+            <ArrowLeft size={14} className="rotate-180" />
           </button>
         </div>
 
@@ -383,7 +391,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         </div>
 
         {/* 리스트 영역 */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 md:p-8 custom-scrollbar">
           {loadingReviews ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
               <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
@@ -391,7 +399,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             </div>
           ) : filteredReviews.length > 0 ? (
             <div className="max-w-4xl mx-auto space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {filteredReviews.slice(0, displayCount).map((reviewItem) => (
                   <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} modalZIndex={zIndex ? zIndex + 1 : undefined} />
                 ))}
@@ -520,7 +528,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             <X size={16} />
           </button>
 
-          <div className="relative bg-bg-main max-h-[720px] overflow-hidden flex flex-col">
+          <div className="relative bg-bg-main h-[720px] max-h-[80vh] overflow-hidden flex flex-col">
             {isReviewMode ? (
               <ReviewView />
             ) : (
@@ -533,7 +541,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       {/* 모바일: Bottom Sheet */}
       <div className="md:hidden flex flex-col justify-end h-full relative">
         <div className="shrink-0 h-[12vh] w-full z-10" onClick={onClose} />
-        <div className="bg-bg-main rounded-t-[2.5rem] flex flex-col animate-bottomsheet-content shadow-[0_-20px_40px_rgba(0,0,0,0.4)] overflow-hidden max-h-[88vh]">
+        <div className="bg-bg-main rounded-t-[2.5rem] flex flex-col animate-bottomsheet-content shadow-[0_-20px_40px_rgba(0,0,0,0.4)] overflow-hidden h-[88vh]">
           {isReviewMode ? (
             <ReviewView />
           ) : (

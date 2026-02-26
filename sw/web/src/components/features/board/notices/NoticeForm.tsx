@@ -32,7 +32,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
       : await updateNotice({ id: notice!.id, title, content, is_pinned: isPinned })
 
     if (result.success) {
-      router.push(mode === 'create' ? '/board/notice' : `/board/notice/${notice!.id}`)
+      router.push(mode === 'create' ? '/agora/board/notice' : `/agora/board/notice/${notice!.id}`)
     } else {
       alert(result.message)
       setIsSubmitting(false)
@@ -42,7 +42,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
   return (
     <div className="relative">
       <Link
-        href={mode === 'create' ? '/board/notice' : `/board/notice/${notice?.id}`}
+        href={mode === 'create' ? '/agora/board/notice' : `/agora/board/notice/${notice?.id}`}
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
@@ -108,7 +108,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
         </div>
 
         <div className="flex justify-end gap-3 pt-2">
-          <Link href={mode === 'create' ? '/board/notice' : `/board/notice/${notice?.id}`}>
+          <Link href={mode === 'create' ? '/agora/board/notice' : `/agora/board/notice/${notice?.id}`}>
             <Button type="button" variant="ghost" className="font-serif">
               취소
             </Button>

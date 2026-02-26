@@ -7,12 +7,14 @@
 import HegemonyGame from "@/components/features/game/battle/HegemonyGame";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
 export const metadata = { title: getArenaPageTitle("hegemony") };
 
 const headerInfo = ARENA_SECTION_HEADERS["hegemony"];
 
 export default function Page() {
+  const bgImages = getGameBackgroundImages("hegemony-1");
   return (
     <>
       <SectionHeader
@@ -33,7 +35,7 @@ export default function Page() {
         }
       />
 
-      <HegemonyGame />
+      <HegemonyGame bgImages={bgImages} />
     </>
   );
 }

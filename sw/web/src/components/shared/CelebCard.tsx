@@ -35,7 +35,7 @@ interface CelebCardProps {
 
 // #region Variant Styles
 const badgeStyles = {
-  card: "absolute top-1.5 right-1.5 min-w-[20px] px-1.5 py-0.5 bg-black/60 backdrop-blur-[2px] rounded-full border border-white/10 text-[9px]",
+  card: "absolute top-1.5 right-1.5 min-w-[22px] px-1.5 py-0.5 bg-accent/90 rounded-full text-[10px] font-semibold shadow-md shadow-accent/30",
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 bg-accent text-black rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent text-black rounded-full border border-black/20 shadow-lg text-[10px]",
 };
@@ -144,7 +144,7 @@ export default function CelebCard({
 
             {count !== undefined && count > 0 && (
               <div className={`${badgeStyles.card} z-20 flex items-center justify-center`}>
-                <span className="font-bold text-white/90 leading-none">{count}</span>
+                <span className="font-bold text-black leading-none">{count}</span>
               </div>
             )}
 

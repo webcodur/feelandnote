@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.997.0",
     "@feelandnote/ai-services": "workspace:*",
     "@feelandnote/content-search": "workspace:*",
     "@feelandnote/shared": "workspace:*",

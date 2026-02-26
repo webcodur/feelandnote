@@ -6,10 +6,11 @@
 "use client";
 
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import ImageBackground from "@/components/lab/ImageBackground";
+import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
 // lazy load — 캔버스 배경은 무거우므로 필요할 때만 로드
 const OlympusOrbit = lazy(() => import("@/components/lab/OlympusOrbitBackground"));
-const StrategicHexagon = lazy(() => import("@/components/lab/StrategicHexagonBackground"));
 const BurningEmbers = lazy(() => import("@/components/lab/BurningEmbersBackground"));
 const GoldenAscension = lazy(() => import("@/components/lab/GoldenAscensionBackground"));
 
@@ -20,6 +21,7 @@ function bgKeyFromPhase(phase: string, playerWins?: boolean): BgKey {
     case "idle":
     case "loading":
       return "intro";
+    case "captain":
     case "draft":
     case "battle":
       return "game";
@@ -30,12 +32,15 @@ function bgKeyFromPhase(phase: string, playerWins?: boolean): BgKey {
   }
 }
 
-function BgComponent({ bgKey }: { bgKey: BgKey }) {
+function BgComponent({ bgKey, bgImages }: { bgKey: BgKey; bgImages?: GameBackgroundImages | null }) {
   switch (bgKey) {
     case "intro":
       return <OlympusOrbit fullScreen />;
     case "game":
-      return <StrategicHexagon fullScreen />;
+      if (bgImages) {
+        return <ImageBackground src={bgImages.pc} srcMobile={bgImages.mb} fullScreen />;
+      }
+      return <OlympusOrbit fullScreen />;
     case "victory":
       return <GoldenAscension fullScreen />;
     case "defeat":
@@ -48,9 +53,10 @@ const FADE_MS = 800;
 interface Props {
   phase: string;
   playerWins?: boolean;
+  bgImages?: GameBackgroundImages | null;
 }
 
-export default function GameBackground({ phase, playerWins }: Props) {
+export default function GameBackground({ phase, playerWins, bgImages }: Props) {
   const currentKey = bgKeyFromPhase(phase, playerWins);
   const [layers, setLayers] = useState<{ key: BgKey; opacity: number; id: number }[]>([
     { key: currentKey, opacity: 1, id: 0 },
@@ -94,7 +100,7 @@ export default function GameBackground({ phase, playerWins }: Props) {
           }}
         >
           <Suspense fallback={null}>
-            <BgComponent bgKey={layer.key} />
+            <BgComponent bgKey={layer.key} bgImages={bgImages} />
           </Suspense>
         </div>
       ))}

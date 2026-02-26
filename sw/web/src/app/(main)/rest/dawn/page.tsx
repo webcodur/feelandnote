@@ -2,17 +2,19 @@
   파일명: /app/(main)/rest/dawn/page.tsx
   기능: 여명 게임 페이지
   책임: 인물 탄생 순서 정렬 게임을 제공한다.
-*/ // ------------------------------
+*/
 
-import TimelineGame from "@/components/features/game/TimelineGame";
+import DawnGameWrapper from "@/components/features/game/dawn/DawnGameWrapper";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
 export const metadata = { title: getArenaPageTitle("dawn") };
 
 const headerInfo = ARENA_SECTION_HEADERS["dawn"];
 
 export default function Page() {
+  const bgImages = getGameBackgroundImages("dawn-1");
   return (
     <>
       <SectionHeader
@@ -32,7 +34,8 @@ export default function Page() {
           </>
         }
       />
-      <TimelineGame />
+
+      <DawnGameWrapper bgImages={bgImages} />
     </>
   );
 }

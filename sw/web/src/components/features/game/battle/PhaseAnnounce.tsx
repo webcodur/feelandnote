@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import ParchmentScrollBanner from "@/components/lab/ParchmentScrollBanner";
 
 export interface AnnounceData {
@@ -56,29 +56,54 @@ const TONE_MAP = {
 export default function PhaseAnnounce({ data, onDone }: Props) {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const doneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
+
+  // 이미 처리 완료된 key를 추적하여 깜빡임 방지
+  const handledKeyRef = useRef<string | null>(null);
+
+  const clearAllTimers = useCallback(() => {
+    if (exitTimerRef.current) { clearTimeout(exitTimerRef.current); exitTimerRef.current = null; }
+    if (doneTimerRef.current) { clearTimeout(doneTimerRef.current); doneTimerRef.current = null; }
+  }, []);
+
+  // 클릭 시 즉시 제거
+  const dismiss = useCallback(() => {
+    if (!visible || exiting) return;
+    clearAllTimers();
+    if (data?.key) handledKeyRef.current = data.key;
+    setVisible(false);
+    setExiting(false);
+    onDoneRef.current?.();
+  }, [visible, exiting, clearAllTimers, data?.key]);
 
   useEffect(() => {
     if (!data) {
+      clearAllTimers();
       setVisible(false);
       setExiting(false);
       return;
     }
 
+    // 이미 처리한 key면 무시 (깜빡임 방지)
+    if (handledKeyRef.current === data.key) return;
+
     setVisible(true);
     setExiting(false);
 
-    const exitTimer = setTimeout(() => setExiting(true), DISPLAY_MS - FADE_OUT_MS);
-    const doneTimer = setTimeout(() => {
+    exitTimerRef.current = setTimeout(() => setExiting(true), DISPLAY_MS - FADE_OUT_MS);
+    doneTimerRef.current = setTimeout(() => {
+      handledKeyRef.current = data.key;
       setVisible(false);
       setExiting(false);
-      onDone?.();
+      onDoneRef.current?.();
     }, DISPLAY_MS);
 
-    return () => {
-      clearTimeout(exitTimer);
-      clearTimeout(doneTimer);
-    };
-  }, [data?.key, onDone]);
+    return () => clearAllTimers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.key]);
 
   if (!visible || !data) return null;
 
@@ -87,9 +112,10 @@ export default function PhaseAnnounce({ data, onDone }: Props) {
   return (
     <div
       className={`
-        fixed inset-0 z-50 flex items-center justify-center pointer-events-none
+        fixed inset-0 z-50 flex items-center justify-center cursor-pointer
         ${exiting ? "animate-phase-announce-out" : "animate-phase-announce-in"}
       `}
+      onClick={dismiss}
     >
       {/* 배경 비네트 */}
       <div

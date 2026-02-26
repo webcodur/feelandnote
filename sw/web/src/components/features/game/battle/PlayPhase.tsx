@@ -7,7 +7,7 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Swords, ScrollText, Landmark, Check, HelpCircle, AlertTriangle, ScrollTextIcon } from "lucide-react";
+import { Swords, ScrollText, Landmark, AlertTriangle, ScrollTextIcon } from "lucide-react";
 import type { BattleCard as BattleCardType, Command, NationState, RoundRecord, Mandate, BattleSubPhase, RoundAction, Difficulty } from "@/lib/game/types";
 import { COMMANDS, COMMAND_LABELS, MANDATE_BONUS, MAX_POWER, MAX_MORALE } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars, getEscalation } from "@/lib/game/gameEngine";
@@ -16,6 +16,7 @@ import CommandInfoModal, { CMD_DETAILS } from "./CommandInfoModal";
 import CaptainInfoModal from "./CaptainInfoModal";
 import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
 import { Z_INDEX } from "@/constants/zIndex";
+import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
 
 interface Props {
   playerHand: BattleCardType[];
@@ -37,6 +38,7 @@ interface Props {
   onAdvanceBattle: () => "blocked" | RoundRecord | null;
   onAdvance: () => void;
   playSfx: (name: string) => void;
+  showDialogue?: (celebId: string, tone: SpeechTone, type: DialogueType, meta?: { nickname: string; avatarUrl: string | null }) => void;
   onCardInfo?: (celebId: string) => void;
 }
 
@@ -81,6 +83,14 @@ const CLASH_KEYFRAMES = `
 @keyframes result-reveal {
   0% { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes deploy-pulse {
+  0%, 100% { box-shadow: 0 0 12px 2px rgba(180,40,40,0.3), inset 0 0 20px rgba(180,40,40,0.1); }
+  50% { box-shadow: 0 0 24px 6px rgba(200,50,50,0.5), inset 0 0 30px rgba(200,60,60,0.2); }
+}
+@keyframes deploy-ripple {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 `;
 
@@ -155,16 +165,16 @@ const NARRATIVE_STYLE: Record<NarrativeType, { icon: React.ReactNode | null; cls
     mobileCls: "border-red-400/20 bg-red-500/10 text-red-300",
   },
   mandate: { icon: null, cls: "text-amber-300", mobileCls: "text-amber-300" },
-  normal: { icon: null, cls: "text-white/50", mobileCls: "text-white/50" },
+  normal: { icon: null, cls: "text-white/70", mobileCls: "text-white/70" },
 };
 
 /** 에칭 구분선 */
 function EtchedDivider({ className = "" }: { className?: string }) {
   return (
     <div className={`w-full flex items-center gap-3 ${className}`}>
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-      <div className="w-1 h-1 rounded-full bg-white/[0.08]" />
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <div className="w-1 h-1 rounded-full bg-white/15" />
+      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
     </div>
   );
 }
@@ -187,7 +197,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
   /* ─── 모바일 (compact) ─── */
   if (compact) {
     return (
-      <div className="animate-fade-in rounded-lg border border-white/[0.06] bg-[#0c0c10]/90 px-4 py-4 space-y-3">
+      <div className="animate-fade-in rounded-lg border border-white/15 bg-black/90 px-4 py-4 space-y-3">
 
         {/* ① VS 히어로 + 좌우 명령 */}
         <div className="flex items-center justify-center gap-3">
@@ -222,9 +232,9 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <CounterBadge result={record.counterResult} />
-              {counterExplain && <span className="text-[11px] text-white/20">{counterExplain}</span>}
+              {counterExplain && <span className="text-[11px] text-white/50">{counterExplain}</span>}
               {record.counterResult === "draw" && (
-                <span className="text-[11px] text-white/25">
+                <span className="text-[11px] text-white/50">
                   적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)} → {
                     record.player.aptitude > record.ai.aptitude
                       ? `${record.player.card.nickname} 우세`
@@ -240,10 +250,10 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
               const isSpecial = n.type !== "normal";
               return (
                 <div key={i} className={`flex items-start gap-1.5 text-xs rounded px-2 py-1 border ${
-                  isSpecial ? style.mobileCls : "border-transparent text-white/45"
+                  isSpecial ? style.mobileCls : "border-transparent text-white/70"
                 }`}>
                   {style.icon}
-                  <span className="text-white/25 shrink-0 w-5">
+                  <span className="text-white/50 shrink-0 w-5">
                     {n.side === "player" ? "아" : n.side === "ai" ? "적" : ""}
                   </span>
                   <span className="leading-relaxed">{n.text}</span>
@@ -269,58 +279,34 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
 
   /* ─── 데스크톱 ─── */
   return (
-    <div className="pointer-events-auto rounded-2xl bg-black/70 backdrop-blur-xl border border-white/[0.06] shadow-[0_8px_60px_rgba(0,0,0,0.7)] px-10 py-8 max-w-lg mx-auto space-y-5" style={stagger(0)}>
+    <div className="pointer-events-auto rounded-2xl bg-black/90 border border-white/15 shadow-[0_8px_60px_rgba(0,0,0,0.7)] px-8 py-6 max-w-2xl mx-auto space-y-5" style={stagger(0)}>
 
-      {/* ① VS 히어로 + 좌우 명령 */}
-      <div className="flex items-center justify-center gap-6" style={stagger(0)}>
-        {/* 플레이어 측 */}
-        <div className="flex-1 flex flex-col items-end gap-1 min-w-0">
-          <p className="text-base font-bold text-accent leading-tight truncate">{record.player.card.nickname}</p>
-          <div className={`flex items-center gap-1.5 ${CMD_STYLE[record.player.command].text}`}>
-            {CMD_ICON[record.player.command]}
-            <span className="text-sm font-bold">{COMMAND_LABELS[record.player.command]}</span>
-          </div>
+      {/* ① 좌우 카드 + 중앙 VS + 상성 */}
+      <div className="flex items-start justify-center gap-6" style={stagger(0)}>
+        {/* 플레이어 카드 */}
+        <div className="flex flex-col items-center gap-2 min-w-0 flex-1">
+          <FeaturedCard card={record.player.card} accent="player" command={record.player.command} />
           <span className={`text-[10px] tabular-nums ${record.player.effectiveAptitude > 0 ? "text-accent/70" : "text-accent/40"}`}>
             적성 {record.player.aptitude.toFixed(1)}{record.player.mandateBonus && " ★"}{record.player.effectiveAptitude === 0 && " (무효)"}
           </span>
         </div>
-        {/* VS 중앙 */}
-        <div className="flex flex-col items-center shrink-0">
+        {/* VS + 상성 중앙 */}
+        <div className="flex flex-col items-center justify-center shrink-0 pt-6 gap-3">
           <span
             className="text-4xl font-cinzel font-bold text-white/80 tracking-[0.15em] drop-shadow-[0_0_20px_rgba(255,255,255,0.15)] select-none"
             style={{ animation: "clash-flash 0.5s ease-out forwards" }}
           >
             VS
           </span>
-        </div>
-        {/* AI 측 */}
-        <div className="flex-1 flex flex-col items-start gap-1 min-w-0">
-          <p className="text-base font-bold text-red-400 leading-tight truncate">{record.ai.card.nickname}</p>
-          <div className={`flex items-center gap-1.5 ${CMD_STYLE[record.ai.command].text}`}>
-            <span className="text-sm font-bold">{COMMAND_LABELS[record.ai.command]}</span>
-            {CMD_ICON[record.ai.command]}
-          </div>
-          <span className={`text-[10px] tabular-nums ${record.ai.effectiveAptitude > 0 ? "text-red-400/70" : "text-red-400/40"}`}>
-            적성 {record.ai.aptitude.toFixed(1)}{record.ai.mandateBonus && " ★"}{record.ai.effectiveAptitude === 0 && " (무효)"}
-          </span>
-        </div>
-      </div>
-
-      <EtchedDivider />
-
-      {/* ② 상성 태그 + 이벤트 로그 */}
-      <div className="space-y-2" style={stagger(1)}>
-        {/* 상성 태그 (인라인, 작게) */}
-        <div className="flex items-center gap-2">
           <CounterBadge result={record.counterResult} />
           {counterExplain && (
-            <span className="text-xs text-white/20">
+            <span className="text-[11px] text-white/50 text-center leading-snug">
               {counterExplain}
             </span>
           )}
           {record.counterResult === "draw" && (
-            <span className="text-xs text-white/25">
-              적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)} → {
+            <span className="text-[11px] text-white/50 text-center leading-snug">
+              적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)}<br />{
                 record.player.aptitude > record.ai.aptitude
                   ? `${record.player.card.nickname} 우세`
                   : record.ai.aptitude > record.player.aptitude
@@ -330,12 +316,25 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
             </span>
           )}
         </div>
+        {/* AI 카드 */}
+        <div className="flex flex-col items-center gap-2 min-w-0 flex-1">
+          <FeaturedCard card={record.ai.card} accent="ai" command={record.ai.command} />
+          <span className={`text-[10px] tabular-nums ${record.ai.effectiveAptitude > 0 ? "text-red-400/70" : "text-red-400/40"}`}>
+            적성 {record.ai.aptitude.toFixed(1)}{record.ai.mandateBonus && " ★"}{record.ai.effectiveAptitude === 0 && " (무효)"}
+          </span>
+        </div>
+      </div>
+
+      <EtchedDivider />
+
+      {/* ② 이벤트 로그 */}
+      <div className="space-y-2" style={stagger(1)}>
         {/* 이벤트 로그 */}
         {playerNarrs.length > 0 && (
-          <div className="rounded-lg border border-accent/[0.08] bg-accent/[0.02] px-4 py-2.5">
+          <div className="rounded-lg border border-accent/20 bg-accent/5 px-4 py-2.5">
             <div className="flex items-center gap-1.5 mb-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent/40" />
-              <span className="text-[10px] font-bold text-accent/35 uppercase tracking-wider">아군</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-accent/60" />
+              <span className="text-[10px] font-bold text-accent/60 uppercase tracking-wider">아군</span>
             </div>
             <div className="space-y-1">
               {playerNarrs.map((n, i) => {
@@ -343,7 +342,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
                 const isSpecial = n.type !== "normal";
                 return (
                   <div key={i} className={`flex items-center gap-2 text-xs leading-relaxed ${
-                    isSpecial ? `${style.cls} rounded px-2 py-1 border` : "text-white/50"
+                    isSpecial ? `${style.cls} rounded px-2 py-1 border` : "text-white/70"
                   }`}>
                     {style.icon}
                     <span>{n.text}</span>
@@ -354,10 +353,10 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           </div>
         )}
         {aiNarrs.length > 0 && (
-          <div className="rounded-lg border border-red-400/[0.08] bg-red-500/[0.02] px-4 py-2.5">
+          <div className="rounded-lg border border-red-400/20 bg-red-500/5 px-4 py-2.5">
             <div className="flex items-center gap-1.5 mb-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-red-400/40" />
-              <span className="text-[10px] font-bold text-red-400/35 uppercase tracking-wider">적군</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
+              <span className="text-[10px] font-bold text-red-400/60 uppercase tracking-wider">적군</span>
             </div>
             <div className="space-y-1">
               {aiNarrs.map((n, i) => {
@@ -365,7 +364,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
                 const isSpecial = n.type !== "normal";
                 return (
                   <div key={i} className={`flex items-center gap-2 text-xs leading-relaxed ${
-                    isSpecial ? `${style.cls} rounded px-2 py-1 border` : "text-white/50"
+                    isSpecial ? `${style.cls} rounded px-2 py-1 border` : "text-white/70"
                   }`}>
                     {style.icon}
                     <span>{n.text}</span>
@@ -378,7 +377,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
         {systemNarrs.map((n, i) => {
           const style = NARRATIVE_STYLE[n.type];
           return (
-            <div key={i} className={`flex items-center gap-2 text-xs rounded-lg border px-4 py-2.5 ${style.cls}`}>
+            <div key={i} className={`flex items-center justify-center gap-2 text-xs rounded-lg border px-4 py-2.5 ${style.cls}`}>
               {style.icon}
               <span className="leading-relaxed">{n.text}</span>
             </div>
@@ -409,7 +408,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
   const powerBar = isPlayer ? "bg-accent" : "bg-red-500";
   const moraleBar = isPlayer ? "bg-accent/60" : "bg-red-500/60";
   const numColor = isPlayer ? "text-accent" : "text-red-400";
-  const labelColor = isPlayer ? "text-accent/40" : "text-red-400/40";
+  const labelColor = isPlayer ? "text-accent/70" : "text-red-400/70";
   const pd = powerDelta ?? 0;
   const md = moraleDelta ?? 0;
   const prevPower = power - pd;
@@ -419,7 +418,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
     <div className="space-y-1">
       <div className="flex items-center gap-1.5">
         <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>국력</span>
-        <div className="flex-1 h-2 rounded-full bg-white/[0.06] overflow-hidden flex relative">
+        <div className="flex-1 h-2 rounded-full bg-white/15 overflow-hidden flex relative">
           {pd < 0 && (
             <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevPower / maxPower) * 100}%` }} />
           )}
@@ -439,7 +438,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
       </div>
       <div className="flex items-center gap-1.5">
         <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>민심</span>
-        <div className="flex-1 h-1.5 rounded-full bg-white/[0.06] overflow-hidden relative">
+        <div className="flex-1 h-1.5 rounded-full bg-white/15 overflow-hidden relative">
           {md < 0 && (
             <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevMorale / MAX_MORALE) * 100}%` }} />
           )}
@@ -461,73 +460,37 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
   );
 }
 
-/** 모바일 헤더용 국력/민심 패널 (delta 잔상 지원) */
-function MobileNationPanel({ nation, accent, delta }: {
-  nation: NationState; accent: "player" | "ai";
-  delta?: { power: number; morale: number };
-}) {
-  const isPlayer = accent === "player";
-  const powerBar = isPlayer ? "bg-accent" : "bg-red-500";
-  const moraleBar = isPlayer ? "bg-accent/60" : "bg-red-500/60";
-  const pd = delta?.power ?? 0;
-  const md = delta?.morale ?? 0;
-  const prevPower = nation.power - pd;
-  const prevMorale = nation.morale - md;
+/** 모바일 헤더용 국력/민심 패널 (삭제 또는 내부 구현으로 대체. 여기서는 내부에서 직접 그리도록 사용 안함) */
+function MobileNationPanel() { return null; }
 
-  return (
-    <div className="flex-1 flex flex-col gap-1.5 px-4 py-3 min-w-0">
-      <span className={`text-xs font-bold ${isPlayer ? "text-accent/40" : "text-red-400/40"} tracking-wider uppercase mb-0.5`}>{isPlayer ? "Player" : "Enemy"}</span>
-      <div className="flex items-center gap-2">
-        <span className={`text-sm ${isPlayer ? "text-accent/60" : "text-red-400/60"} font-bold shrink-0`}>국력</span>
-        <div className="flex-1 h-2.5 rounded-full bg-white/5 overflow-hidden relative">
-          {pd < 0 && <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevPower / MAX_POWER) * 100}%` }} />}
-          {pd > 0 && <div className="absolute inset-y-0 left-0 rounded-full bg-emerald-500/30" style={{ width: `${(nation.power / MAX_POWER) * 100}%` }} />}
-          <div className={`absolute inset-y-0 left-0 rounded-full ${powerBar} transition-all duration-700 ease-out`} style={{ width: `${(nation.power / MAX_POWER) * 100}%` }} />
-        </div>
-        <div className="flex items-center gap-0.5 shrink-0">
-          <span className={`text-base font-bold tabular-nums ${isPlayer ? "text-accent/80" : "text-red-400/80"}`}>{nation.power}</span>
-          {pd !== 0 && <span className={`text-[9px] font-bold tabular-nums ${pd > 0 ? "text-emerald-400" : "text-red-400"}`}>{pd > 0 ? `+${pd}` : pd}</span>}
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className={`text-xs ${isPlayer ? "text-accent/40" : "text-red-400/40"} font-bold shrink-0`}>민심</span>
-        <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden relative">
-          {md < 0 && <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevMorale / MAX_MORALE) * 100}%` }} />}
-          {md > 0 && <div className="absolute inset-y-0 left-0 rounded-full bg-emerald-500/30" style={{ width: `${(nation.morale / MAX_MORALE) * 100}%` }} />}
-          <div className={`absolute inset-y-0 left-0 rounded-full ${moraleBar} transition-all duration-700 ease-out`} style={{ width: `${(nation.morale / MAX_MORALE) * 100}%` }} />
-        </div>
-        <div className="flex items-center gap-0.5 shrink-0">
-          <span className={`text-sm font-bold tabular-nums ${isPlayer ? "text-accent/50" : "text-red-400/50"}`}>{nation.morale}</span>
-          {md !== 0 && <span className={`text-[9px] font-bold tabular-nums ${md > 0 ? "text-emerald-400" : "text-red-400"}`}>{md > 0 ? `+${md}` : md}</span>}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/** 좌우 패널용 대형 카드 */
-function FeaturedCard({ card, accent }: { card: BattleCardType; accent: "player" | "ai" }) {
-  const border = accent === "player" ? "border-accent/20" : "border-red-500/20";
-  const bg = accent === "player" ? "bg-accent/[0.03]" : "bg-red-500/[0.03]";
-  const nameColor = accent === "player" ? "text-accent/90" : "text-red-400/90";
-  const titleColor = accent === "player" ? "text-accent/40" : "text-red-400/40";
+/** 좌우 패널용 충돌 카드 */
+function FeaturedCard({ card, accent, command }: { card: BattleCardType; accent: "player" | "ai"; command?: Command }) {
+  const border = accent === "player" ? "border-accent/40" : "border-red-500/40";
+  const bg = accent === "player" ? "bg-black/90" : "bg-black/90";
+  const nameColor = accent === "player" ? "text-accent" : "text-red-400";
+  const titleColor = accent === "player" ? "text-accent/70" : "text-red-400/70";
   const imgSrc = card.avatarUrl;
-  const aspectClass = "aspect-square";
 
   return (
-    <div className={`max-w-[280px] mx-auto rounded-xl border ${border} ${bg} overflow-hidden`}>
+    <div className={`w-full rounded-xl border ${border} ${bg} overflow-hidden`}>
       {imgSrc ? (
-        <div className={`relative w-full ${aspectClass}`}>
-          <Image src={imgSrc} alt={card.nickname} fill className="object-cover" sizes="280px" />
+        <div className="relative w-full aspect-square">
+          <Image src={imgSrc} alt={card.nickname} fill className="object-cover" sizes="200px" />
         </div>
       ) : (
         <div className="w-full aspect-square bg-white/5 flex items-center justify-center">
-          <span className="text-5xl text-white/15 font-bold">{card.nickname[0]}</span>
+          <span className="text-3xl text-white/40 font-bold">{card.nickname[0]}</span>
         </div>
       )}
-      <div className="p-2.5 space-y-0.5">
-        <p className={`text-base font-bold truncate ${nameColor}`}>{card.nickname}</p>
-        {card.title && <p className={`text-xs truncate ${titleColor}`}>{card.title}</p>}
+      <div className="px-2.5 py-2 space-y-1">
+        <p className={`text-sm font-bold truncate ${nameColor}`}>{card.nickname}</p>
+        {card.title && <p className={`text-[11px] truncate ${titleColor}`}>{card.title}</p>}
+        {command && (
+          <div className={`flex items-center gap-1.5 text-xs ${CMD_STYLE[command].text}`}>
+            {CMD_ICON[command]}
+            <span className="font-bold">{COMMAND_LABELS[command]}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -544,33 +507,33 @@ function BattleLogModal({ records, mandate, onClose }: {
   return (
     <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: Z_INDEX.gameModal }}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-md mx-4 rounded-2xl border border-white/[0.06] bg-[#0c0c10]/95 backdrop-blur-xl shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06]">
+      <div className="relative w-full max-w-md mx-4 rounded-2xl border border-white/15 bg-black/95 backdrop-blur-xl shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/15">
           <div className="flex items-center gap-2">
-            <ScrollTextIcon size={16} className="text-white/30" />
-            <span className="text-sm font-bold text-white/50">전황 기록</span>
-            {mandate && <span className="text-[10px] text-amber-400/50 font-bold">{mandate.label}</span>}
+            <ScrollTextIcon size={16} className="text-white/60" />
+            <span className="text-sm font-bold text-white/80">전황 기록</span>
+            {mandate && <span className="text-[10px] text-amber-400/70 font-bold">{mandate.label}</span>}
           </div>
-          <button type="button" onClick={onClose} className="text-white/30 hover:text-white/60 transition-colors p-1">
+          <button type="button" onClick={onClose} className="text-white/50 hover:text-white/80 transition-colors p-1">
             <span className="text-lg leading-none">&times;</span>
           </button>
         </div>
         <div className="max-h-[60vh] overflow-y-auto px-4 py-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
           {reversed.length === 0 && (
-            <div className="text-center text-white/10 text-xs py-8">전황 기록 없음</div>
+            <div className="text-center text-white/40 text-xs py-8">전황 기록 없음</div>
           )}
           {reversed.map((rec) => {
             const pDelta = rec.powerDelta.player;
             const counterLabel = rec.counterResult === "win" ? "카운터" : rec.counterResult === "lose" ? "역습" : "접전";
             const counterColor = rec.counterResult === "win" ? "text-amber-300" : rec.counterResult === "lose" ? "text-red-400" : "text-yellow-300";
             return (
-              <div key={rec.round} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-white/40 rounded-lg hover:bg-white/[0.02]">
-                <span className="w-6 h-6 rounded-full bg-white/[0.06] flex items-center justify-center text-[10px] font-bold shrink-0">{rec.round}</span>
-                <span className="text-accent/50 truncate">{rec.player.card.nickname}</span>
-                <span className="text-white/15 text-[10px]">vs</span>
-                <span className="text-red-400/50 truncate">{rec.ai.card.nickname}</span>
+              <div key={rec.round} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-white/60 rounded-lg hover:bg-white/5">
+                <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-bold shrink-0">{rec.round}</span>
+                <span className="text-accent/70 truncate">{rec.player.card.nickname}</span>
+                <span className="text-white/40 text-[10px]">vs</span>
+                <span className="text-red-400/70 truncate">{rec.ai.card.nickname}</span>
                 <span className={`text-[10px] font-bold ${counterColor}`}>{counterLabel}</span>
-                <span className={`text-[10px] font-bold ml-auto ${pDelta > 0 ? "text-emerald-400/60" : pDelta < 0 ? "text-red-400/60" : "text-white/15"}`}>
+                <span className={`text-[10px] font-bold ml-auto ${pDelta > 0 ? "text-emerald-400/80" : pDelta < 0 ? "text-red-400/80" : "text-white/40"}`}>
                   {pDelta > 0 ? `+${pDelta}` : `${pDelta}`}
                 </span>
               </div>
@@ -589,7 +552,7 @@ export default function PlayPhase({
   mandate, nextMandate,
   playerCaptainId, aiCaptainId,
   difficulty = "normal",
-  onSubmit, onAdvanceBattle, onAdvance, playSfx, onCardInfo,
+  onSubmit, onAdvanceBattle, onAdvance, playSfx, showDialogue, onCardInfo,
 }: Props) {
   const hardMode = difficulty === "hard";
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -637,8 +600,11 @@ export default function PlayPhase({
   useEffect(() => {
     if (battleSubPhase === "clashing" && pendingRound) {
       playSfx("sfx-confirm.mp3");
+      // 출전 카드의 deploy 보이스
+      const playerCard = playerHand.find((c) => c.id === pendingRound.playerAction.cardId);
+      if (playerCard) showDialogue?.(playerCard.id, playerCard.speechTone, "deploy", { nickname: playerCard.nickname, avatarUrl: playerCard.avatarUrl });
     }
-  }, [battleSubPhase, pendingRound, playSfx]);
+  }, [battleSubPhase, pendingRound, playSfx, showDialogue, playerHand]);
 
   const selectedCard = useMemo(
     () => playerHand.find((c) => c.id === selectedCardId),
@@ -695,7 +661,14 @@ export default function PlayPhase({
     } else {
       playSfx("sfx-clash-slash.mp3");
     }
-  }, [onAdvanceBattle, playSfx]);
+
+    // 충돌 결과 보이스 (플레이어 카드 기준)
+    const pCard = playerHand.find((c) => c.id === rec.player.cardId);
+    if (pCard) {
+      const voiceType = rec.counterResult === "win" ? "battle_win" : rec.counterResult === "lose" ? "battle_lose" : "battle_draw";
+      showDialogue?.(pCard.id, pCard.speechTone, voiceType, { nickname: pCard.nickname, avatarUrl: pCard.avatarUrl });
+    }
+  }, [onAdvanceBattle, playSfx, showDialogue, playerHand]);
 
   // ── 카드 배열: 주장 분리 + 나머지 2×2 ──
   // 주장은 hand 또는 discard 어디에 있든 대형 슬롯에 표시
@@ -712,94 +685,191 @@ export default function PlayPhase({
   const aiOthersDiscard = aiCaptain ? aiDiscard.filter(c => c.id !== aiCaptainId) : aiDiscard;
 
   return (
-    <div className="w-full select-none flex flex-col relative">
+    <div className="w-full lg:flex-1 lg:min-h-0 select-none flex flex-col relative gap-2 sm:gap-4 pb-4">
       {isClash && <style>{CLASH_KEYFRAMES}</style>}
 
       {/* ━━━━━ 헤더 (데스크톱) ━━━━━ */}
-      <div className="hidden lg:flex items-center relative px-4 py-3 border-b border-white/[0.04]">
-        {/* 좌: 라운드 + 천명 */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-xs font-cinzel text-white/25 tracking-widest uppercase">Round</span>
-            <span className="text-2xl font-cinzel font-bold text-white/60 leading-none">{currentRound}</span>
-          </div>
-          {mandate && (
-            <span className="text-[10px] text-amber-400/60 font-bold px-2 py-0.5 rounded border border-amber-400/15 bg-amber-400/[0.03]">
-              {mandate.label}
-            </span>
-          )}
-        </div>
-
+      <div className="hidden lg:block relative px-4 py-3">
         {/* 중앙: 나 국력·민심 | 상대 국력·민심 (absolute 중앙) */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-6 w-full max-w-xl px-4 pointer-events-none">
-          <div className="flex-1 min-w-0 pointer-events-auto">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-6 w-full max-w-xl px-16 pointer-events-none">
+          <div className="flex-1 min-w-0 pointer-events-auto bg-black/80 rounded-lg px-4 py-2.5">
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-[10px] font-bold text-accent/40 uppercase tracking-wider">Player</span>
+              <span className="text-[10px] font-bold text-accent/70 uppercase tracking-wider">Player</span>
             </div>
             <NationStats power={playerNation.power} maxPower={MAX_POWER} morale={playerNation.morale} accent="player" powerDelta={isResolving && lastRecord ? lastRecord.powerDelta.player : undefined} moraleDelta={isResolving && lastRecord ? lastRecord.moraleDelta.player : undefined} />
           </div>
-          <div className="w-px h-8 bg-white/[0.06] shrink-0" />
-          <div className="flex-1 min-w-0 pointer-events-auto">
+          <div className="w-px h-8 bg-white/15 shrink-0" />
+          <div className="flex-1 min-w-0 pointer-events-auto bg-black/80 rounded-lg px-4 py-2.5">
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-[10px] font-bold text-red-400/40 uppercase tracking-wider">Enemy</span>
+              <span className="text-[10px] font-bold text-red-400/70 uppercase tracking-wider">Enemy</span>
             </div>
             <NationStats power={aiNation.power} maxPower={MAX_POWER} morale={aiNation.morale} accent="ai" powerDelta={isResolving && lastRecord ? lastRecord.powerDelta.ai : undefined} moraleDelta={isResolving && lastRecord ? lastRecord.moraleDelta.ai : undefined} />
           </div>
         </div>
 
-        {/* 우: 로그 버튼 */}
-        <button
-          type="button"
-          onClick={() => setShowLog(true)}
-          className="ml-auto shrink-0 w-9 h-9 rounded-lg border border-white/[0.06] bg-white/[0.02] flex items-center justify-center text-white/30 hover:text-white/60 hover:bg-white/[0.04] transition-colors"
-          title="전황 기록"
-        >
-          <ScrollTextIcon size={16} />
-        </button>
+        {/* 라운드 + 로그 (중앙 배치) */}
+        <div className="relative flex items-center justify-center gap-3">
+          <div className="flex items-center gap-3 shrink-0 bg-black/80 rounded-lg px-4 py-2.5">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-xs font-cinzel text-white/50 tracking-widest uppercase">Round</span>
+              <span className="text-2xl font-cinzel font-bold text-white/80 leading-none">{currentRound}</span>
+            </div>
+            {mandate && (
+              <span className="text-[10px] text-amber-400/80 font-bold px-2 py-0.5 rounded border border-amber-400/30 bg-amber-400/10">
+                {mandate.label}
+              </span>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowLog(true)}
+            className="shrink-0 w-9 h-9 rounded-lg border border-white/15 bg-black/80 flex items-center justify-center text-white/50 hover:text-white/80 hover:bg-white/10 transition-colors"
+            title="전황 기록"
+          >
+            <ScrollTextIcon size={16} />
+          </button>
+        </div>
       </div>
 
-      {/* ━━━━━ 모바일 상태 헤더 ━━━━━ */}
-      <div className="lg:hidden flex items-stretch gap-0 rounded-lg border border-white/[0.06] bg-[#0e0e12] overflow-hidden">
-        <MobileNationPanel nation={playerNation} accent="player" delta={isResolving && lastRecord ? { power: lastRecord.powerDelta.player, morale: lastRecord.moraleDelta.player } : undefined} />
-        <div className="flex flex-col items-center justify-center px-4 border-x border-white/[0.06] bg-white/[0.02]">
-          <span className="text-sm font-cinzel text-white/25 tracking-widest uppercase">Round</span>
-          <span className="text-2xl font-cinzel font-bold text-white/60 leading-none">{currentRound}</span>
-          {isClashing && <span className="text-xs text-white/30 font-bold">충돌!</span>}
-          {isResolving && lastRecord && <span className="text-xs text-white/30 font-bold">결과</span>}
+      {/* ━━━━━ 모바일 프리미엄 상태 헤더 ━━━━━ */}
+      <div className="lg:hidden flex items-stretch rounded-xl border border-white/10 bg-[#16141a]/90 backdrop-blur shadow-[0_4px_24px_rgba(0,0,0,0.4)] overflow-hidden min-h-[85px] relative shrink-0">
+
+        {/* 좌측 (Player) */}
+        <div className="flex-1 flex flex-col justify-center pl-5 pr-2 py-2">
+          <span className="text-[11px] font-black text-accent/90 tracking-widest uppercase mb-1 text-center">PLAYER</span>
+          
+          <div className="flex flex-col gap-1">
+            {/* 플레이어 국력 */}
+            <div className="flex items-center gap-1.5 w-full">
+              <span className="text-[10px] text-accent/70 font-bold shrink-0">국력</span>
+              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
+                {isResolving && lastRecord && lastRecord.powerDelta.player > 0 && (
+                  <div className="absolute inset-y-0 left-0 rounded-full bg-emerald-500/30" style={{ width: `${(playerNation.power / MAX_POWER) * 100}%` }} />
+                )}
+                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 transition-all duration-700 ease-out" style={{ width: `${(playerNation.power / MAX_POWER) * 100}%` }} />
+              </div>
+              <span className="text-sm font-bold font-cinzel text-accent shrink-0 min-w-[20px] text-right leading-none">{playerNation.power}</span>
+            </div>
+
+            {/* 플레이어 민심 */}
+            <div className="flex items-center gap-1.5 w-full">
+              <span className="text-[10px] text-accent/70 font-bold shrink-0">민심</span>
+              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
+                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-yellow-700/60 to-yellow-500/60 transition-all duration-700 ease-out" style={{ width: `${(playerNation.morale / MAX_MORALE) * 100}%` }} />
+              </div>
+              <span className="text-sm font-bold font-cinzel text-accent/80 shrink-0 min-w-[20px] text-right leading-none">{playerNation.morale}</span>
+            </div>
+          </div>
         </div>
-        <MobileNationPanel nation={aiNation} accent="ai" delta={isResolving && lastRecord ? { power: lastRecord.powerDelta.ai, morale: lastRecord.moraleDelta.ai } : undefined} />
+
+        {/* 중앙 (Round) */}
+        <div className="shrink-0 w-[60px] sm:w-[70px] flex flex-col items-center justify-center relative">
+          <span className="text-[9px] sm:text-[10px] font-cinzel text-white/50 tracking-[0.2em] uppercase">RND</span>
+          <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] mt-0.5">{currentRound}</span>
+          {isClashing && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">충돌!</span>}
+          {isResolving && lastRecord && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">결과</span>}
+        </div>
+
+        {/* 우측 (Enemy) */}
+        <div className="flex-1 flex flex-col justify-center pl-2 pr-5 py-2">
+          <span className="text-[11px] font-black text-red-500/90 tracking-widest uppercase mb-1 text-center">ENEMY</span>
+          
+          <div className="flex flex-col gap-1">
+            {/* 적군 국력 */}
+            <div className="flex items-center gap-1.5 w-full">
+              <span className="text-[10px] text-red-400/70 font-bold shrink-0">국력</span>
+              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
+                {isResolving && lastRecord && lastRecord.powerDelta.ai > 0 && (
+                  <div className="absolute inset-y-0 left-0 rounded-full bg-emerald-500/30" style={{ width: `${(aiNation.power / MAX_POWER) * 100}%` }} />
+                )}
+                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-red-700 to-red-500 transition-all duration-700 ease-out" style={{ width: `${(aiNation.power / MAX_POWER) * 100}%` }} />
+              </div>
+              <span className="text-sm font-bold font-cinzel text-red-400 shrink-0 min-w-[20px] text-right leading-none">{aiNation.power}</span>
+            </div>
+
+            {/* 적군 민심 */}
+            <div className="flex items-center gap-1.5 w-full">
+              <span className="text-[10px] text-red-400/70 font-bold shrink-0">민심</span>
+              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
+                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-red-900/60 to-red-600/60 transition-all duration-700 ease-out" style={{ width: `${(aiNation.morale / MAX_MORALE) * 100}%` }} />
+              </div>
+              <span className="text-sm font-bold font-cinzel text-red-400/80 shrink-0 min-w-[20px] text-right leading-none">{aiNation.morale}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ━━━━━ 본문 ━━━━━ */}
-      <div className="flex flex-col gap-3 min-w-0 relative overflow-hidden flex-1">
+      <div className="flex flex-col lg:min-w-0 lg:min-h-0 relative lg:flex-1 w-full gap-4">
 
         {/* ── 모바일: 충돌 연출 (clashing) ── */}
         {isClashing && pendingRound && (
-          <div className="lg:hidden animate-fade-in rounded-lg border border-white/[0.06] bg-[#0c0c10]/90 px-4 py-6 flex flex-col items-center gap-3">
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col items-end gap-0.5">
-                <span className="text-accent font-bold text-sm">{pendingRound.playerAction.card.nickname}</span>
-                <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[pendingRound.playerAction.command].text}`}>
-                  {CMD_ICON[pendingRound.playerAction.command]}
-                  {COMMAND_LABELS[pendingRound.playerAction.command]}
+          <div
+            className="lg:hidden fixed inset-0 flex items-center justify-center bg-black/80 cursor-pointer"
+            style={{ zIndex: Z_INDEX.gameModal - 1 }}
+            onClick={handleBattleClick}
+          >
+            <div className="flex items-center gap-3 animate-fade-in">
+              {/* 아군 카드 */}
+              <div className="flex flex-col items-center gap-2" style={{ animation: "clash-left 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }}>
+                <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-accent/50 shadow-[0_0_16px_rgba(212,175,55,0.3)]">
+                  {pendingRound.playerAction.card.avatarUrl ? (
+                    <Image src={pendingRound.playerAction.card.avatarUrl} alt={pendingRound.playerAction.card.nickname} width={80} height={80} className="object-cover w-full h-full" />
+                  ) : (
+                    <div className="w-full h-full bg-[#1a1a20] flex items-center justify-center">
+                      <span className="text-2xl text-white/30 font-bold">{pendingRound.playerAction.card.nickname[0]}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-accent font-bold text-sm">{pendingRound.playerAction.card.nickname}</span>
+                  <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[pendingRound.playerAction.command].text}`}>
+                    {CMD_ICON[pendingRound.playerAction.command]}
+                    {COMMAND_LABELS[pendingRound.playerAction.command]}
+                  </span>
+                </div>
+              </div>
+
+              {/* VS */}
+              <div className="flex flex-col items-center gap-1" style={{ animation: "clash-flash 0.5s ease-out forwards" }}>
+                <span className="text-3xl font-cinzel font-bold text-white/80 tracking-widest drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                  VS
                 </span>
               </div>
-              <span className="text-2xl font-cinzel font-bold text-white/70 tracking-widest px-1">VS</span>
-              <div className="flex flex-col items-start gap-0.5">
-                <span className="text-red-400 font-bold text-sm">{pendingRound.aiAction.card.nickname}</span>
-                <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[pendingRound.aiAction.command].text}`}>
-                  {COMMAND_LABELS[pendingRound.aiAction.command]}
-                  {CMD_ICON[pendingRound.aiAction.command]}
-                </span>
+
+              {/* 적군 카드 */}
+              <div className="flex flex-col items-center gap-2" style={{ animation: "clash-right 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }}>
+                <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-red-400/50 shadow-[0_0_16px_rgba(248,113,113,0.3)]">
+                  {pendingRound.aiAction.card.avatarUrl ? (
+                    <Image src={pendingRound.aiAction.card.avatarUrl} alt={pendingRound.aiAction.card.nickname} width={80} height={80} className="object-cover w-full h-full" />
+                  ) : (
+                    <div className="w-full h-full bg-[#1a1a20] flex items-center justify-center">
+                      <span className="text-2xl text-white/30 font-bold">{pendingRound.aiAction.card.nickname[0]}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-red-400 font-bold text-sm">{pendingRound.aiAction.card.nickname}</span>
+                  <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[pendingRound.aiAction.command].text}`}>
+                    {COMMAND_LABELS[pendingRound.aiAction.command]}
+                    {CMD_ICON[pendingRound.aiAction.command]}
+                  </span>
+                </div>
               </div>
             </div>
+            <span className="absolute bottom-12 text-xs text-white/40 animate-pulse">탭하여 계속</span>
           </div>
         )}
 
         {/* ── 모바일: 라운드 결과 (resolving) ── */}
         {isResolving && lastRecord && (
-          <div className="lg:hidden">
-            <RoundResultPanel record={lastRecord} compact playSfx={playSfx} onAdvance={onAdvance} />
+          <div
+            className="lg:hidden fixed inset-0 flex items-center justify-center px-4 bg-black/80"
+            style={{ zIndex: Z_INDEX.gameModal - 1 }}
+          >
+            <div className="w-full max-w-sm">
+              <RoundResultPanel record={lastRecord} compact playSfx={playSfx} onAdvance={onAdvance} />
+            </div>
           </div>
         )}
 
@@ -812,7 +882,7 @@ export default function PlayPhase({
                 className="hidden lg:block absolute inset-0 z-20 cursor-pointer"
                 onClick={handleBattleClick}
               >
-                <span className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/25 animate-pulse">
+                <span className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/50 animate-pulse">
                   클릭하여 계속
                 </span>
               </div>
@@ -820,31 +890,17 @@ export default function PlayPhase({
             <div className={`hidden lg:flex absolute inset-0 flex-col items-center justify-center z-10 pointer-events-none ${isClashing ? "animate-shake" : ""}`}>
               {/* VS 대형 카드 + 좌우 명령 (clashing) */}
               {isClashing && (
-                <div className="flex items-center gap-8">
-                  <div style={{ animation: "clash-left 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }} className="w-[240px]">
-                    <FeaturedCard card={pendingRound.playerAction.card} accent="player" />
+                <div className="flex items-center gap-6">
+                  <div style={{ animation: "clash-left 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }} className="w-[160px] xl:w-[200px]">
+                    <FeaturedCard card={pendingRound.playerAction.card} accent="player" command={pendingRound.playerAction.command} />
                   </div>
-                  <div className="flex flex-col items-center gap-3" style={{ animation: "clash-flash 0.5s ease-out forwards" }}>
-                    <div className="flex flex-col items-end gap-1">
-                      <span className="text-sm font-bold text-accent/80">{pendingRound.playerAction.card.nickname}</span>
-                      <span className={`flex items-center gap-1.5 text-sm ${CMD_STYLE[pendingRound.playerAction.command].text}`}>
-                        {CMD_ICON[pendingRound.playerAction.command]}
-                        <span className="font-bold">{COMMAND_LABELS[pendingRound.playerAction.command]}</span>
-                      </span>
-                    </div>
-                    <span className="text-6xl font-cinzel font-bold text-white/80 tracking-widest drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                  <div className="bg-black/80 rounded-xl px-5 py-4 flex items-center justify-center" style={{ animation: "clash-flash 0.5s ease-out forwards" }}>
+                    <span className="text-5xl font-cinzel font-bold text-white/80 tracking-widest drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
                       VS
                     </span>
-                    <div className="flex flex-col items-start gap-1">
-                      <span className="text-sm font-bold text-red-400/80">{pendingRound.aiAction.card.nickname}</span>
-                      <span className={`flex items-center gap-1.5 text-sm ${CMD_STYLE[pendingRound.aiAction.command].text}`}>
-                        <span className="font-bold">{COMMAND_LABELS[pendingRound.aiAction.command]}</span>
-                        {CMD_ICON[pendingRound.aiAction.command]}
-                      </span>
-                    </div>
                   </div>
-                  <div style={{ animation: "clash-right 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }} className="w-[240px]">
-                    <FeaturedCard card={pendingRound.aiAction.card} accent="ai" />
+                  <div style={{ animation: "clash-right 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }} className="w-[160px] xl:w-[200px]">
+                    <FeaturedCard card={pendingRound.aiAction.card} accent="ai" command={pendingRound.aiAction.command} />
                   </div>
                 </div>
               )}
@@ -857,172 +913,124 @@ export default function PlayPhase({
           </>
         )}
 
-        {/* ── 데스크톱 selecting: 좌우 패 + 중앙 absolute ── */}
-        <div className={`hidden lg:block relative py-4 ${isClash ? "invisible" : ""}`}>
+        {/* ── 데스크톱 selecting: 좌 내패 | 중앙 군령 | 우 상대패 ── */}
+        <div className={`hidden lg:flex items-center justify-center flex-1 min-h-0 px-4 py-4 gap-4 ${isClash ? "invisible" : ""}`}>
 
-          {/* 좌우 패 컨테이너 (양끝 정렬) */}
-          <div className="flex justify-between px-4">
-
-            {/* ─ 좌측: 내 패 (좌측 정렬) ─ */}
-            <div className="flex flex-col gap-3 items-start">
+            {/* ─ 좌측: 내 패 ─ */}
+            <div className="flex flex-col gap-2 bg-black/80 rounded-xl p-3">
               <div className="flex items-center gap-2 px-1">
-                <h3 className="text-sm font-bold text-accent/60 tracking-wide uppercase">내 패</h3>
-                <span className="text-xs text-accent/40">{playerHand.length}장</span>
-                {playerDiscard.length > 0 && <span className="text-xs text-accent/25">사용 {playerDiscard.length}</span>}
-                {selectedCard && isSelecting && (
-                  <span className="flex items-center gap-1 text-xs text-accent/70">
-                    <Check size={14} /> {selectedCard.nickname}
-                  </span>
-                )}
+                <h3 className="text-xs font-bold text-accent/70 tracking-wide uppercase">내 패</h3>
+                <span className="text-xs text-accent/50">{playerHand.length}장</span>
+                {playerDiscard.length > 0 && <span className="text-xs text-accent/40">사용 {playerDiscard.length}</span>}
               </div>
-
-              {/* 주장 + 2×2 통합 그리드 */}
-              <div className="flex gap-3 items-stretch">
-                {/* 주장 대형 카드 (사용되어도 비활성화 UI로 유지) */}
-                {playerCaptain && (() => {
-                  const captainRecoverable = !!playerCaptainInDiscard && selectedCommand === "govern" && isSelecting;
-                  const captainRecoverSelected = captainRecoverable && selectedRecoverId === playerCaptain.id;
+              <div className="flex items-start gap-3">
+                {/* 일반 카드 2×2 */}
+                {(() => {
+                  const allCards = [
+                    ...playerOthers.map(c => ({ card: c, isDiscard: false })),
+                    ...playerOthersDiscard.map(c => ({ card: c, isDiscard: true })),
+                  ];
                   return (
-                    <div
-                      className={`@container w-[208px] relative transition-all ${
-                        playerCaptainInDiscard
-                          ? captainRecoverable
-                            ? captainRecoverSelected
-                              ? "ring-1 ring-amber-400 rounded-md opacity-100 cursor-pointer"
-                              : "opacity-50 hover:opacity-100 cursor-pointer grayscale-[50%] hover:grayscale-0"
-                            : "opacity-30 grayscale pointer-events-none"
-                          : ""
-                      }`}
-                      onClick={captainRecoverable ? () => {
-                        playSfx("sfx-card-select.mp3");
-                        setSelectedRecoverId(captainRecoverSelected ? null : playerCaptain.id);
-                      } : undefined}
-                    >
-                      <BattleCard
-                        card={playerCaptain} mode="command"
-                        activeCommand={isSelecting && playerCaptainInHand ? selectedCommand ?? undefined : undefined}
-                        onClick={isSelecting && playerCaptainInHand ? () => handleCardClick(playerCaptain.id) : undefined}
-                        selected={isSelecting && selectedCardId === playerCaptain.id}
-                        disabled={!isSelecting || (!!playerCaptainInDiscard && !captainRecoverable)}
-                        onInfo={onCardInfo ? () => onCardInfo(playerCaptain.id) : undefined}
-                        onCaptainInfo={() => setShowCaptainInfo(true)}
-                        isCaptain stretch
-                      />
-                      {playerCaptainInDiscard && !captainRecoverable && (
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <span className="text-sm font-bold text-white/50 bg-black/60 border border-white/10 px-3 py-1 rounded">사용</span>
-                        </div>
-                      )}
+                    <div className="grid grid-cols-[repeat(2,100px)] xl:grid-cols-[repeat(2,130px)] gap-2 xl:gap-3">
+                      {allCards.map(({ card, isDiscard }) => {
+                        if (isDiscard) {
+                          const isRecoverable = selectedCommand === "govern" && isSelecting;
+                          const isRecoverSelected = selectedRecoverId === card.id;
+                          return (
+                            <div key={card.id}
+                              className={`@container relative transition-all ${
+                                isRecoverable
+                                  ? isRecoverSelected
+                                    ? "ring-1 ring-amber-400 rounded-md opacity-100 cursor-pointer"
+                                    : "opacity-50 hover:opacity-100 cursor-pointer grayscale-[50%] hover:grayscale-0"
+                                  : "opacity-30 grayscale pointer-events-none"
+                              }`}
+                              onClick={isRecoverable ? () => {
+                                playSfx("sfx-card-select.mp3");
+                                setSelectedRecoverId(isRecoverSelected ? null : card.id);
+                              } : undefined}
+                            >
+                              <BattleCard card={card} disabled={!isRecoverable} selected={isRecoverSelected} isCaptain={false} />
+                              {!isRecoverable && (
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                  <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        }
+                        return (
+                          <div key={card.id} className="@container">
+                            <BattleCard
+                              card={card} mode="command"
+                              activeCommand={isSelecting ? selectedCommand ?? undefined : undefined}
+                              onClick={isSelecting ? () => handleCardClick(card.id) : undefined}
+                              selected={isSelecting && selectedCardId === card.id}
+                              disabled={!isSelecting}
+                              onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
+                              isCaptain={false}
+                            />
+                          </div>
+                        );
+                      })}
                     </div>
                   );
                 })()}
-
-                {/* 2×2 그리드: 핸드 + 버린패 통합 (주장 제외) */}
-                <div className="grid grid-cols-2 gap-2">
-                  {playerOthers.map((card) => (
-                    <div key={card.id} className="@container w-[100px]">
-                      <BattleCard
-                        card={card} mode="command"
-                        activeCommand={isSelecting ? selectedCommand ?? undefined : undefined}
-                        onClick={isSelecting ? () => handleCardClick(card.id) : undefined}
-                        selected={isSelecting && selectedCardId === card.id}
-                        disabled={!isSelecting}
-                        onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
-                      />
-                    </div>
-                  ))}
-                  {playerOthersDiscard.map((card) => {
+                {/* 주장 (우측 — 군령패에 가까운 쪽) */}
+                {playerCaptain && (() => {
+                  const isCaptainDiscard = !!playerCaptainInDiscard;
+                  if (isCaptainDiscard) {
                     const isRecoverable = selectedCommand === "govern" && isSelecting;
-                    const isRecoverSelected = selectedRecoverId === card.id;
+                    const isRecoverSelected = selectedRecoverId === playerCaptain.id;
                     return (
-                      <div key={card.id}
-                        className={`@container relative w-[100px] transition-all ${
-                          isRecoverable
-                            ? isRecoverSelected
-                              ? "ring-1 ring-amber-400 rounded-md opacity-100 cursor-pointer"
-                              : "opacity-50 hover:opacity-100 cursor-pointer grayscale-[50%] hover:grayscale-0"
-                            : "opacity-30 grayscale pointer-events-none"
-                        }`}
-                        onClick={isRecoverable ? () => {
-                          playSfx("sfx-card-select.mp3");
-                          setSelectedRecoverId(isRecoverSelected ? null : card.id);
-                        } : undefined}
-                      >
-                        <BattleCard card={card} disabled={!isRecoverable} selected={isRecoverSelected} />
-                        {!isRecoverable && (
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
-                          </div>
-                        )}
+                      <div className="shrink-0 self-center">
+                        <div
+                          className={`@container w-[120px] xl:w-[160px] relative transition-all ${
+                            isRecoverable
+                              ? isRecoverSelected
+                                ? "ring-1 ring-amber-400 rounded-md opacity-100 cursor-pointer"
+                                : "opacity-50 hover:opacity-100 cursor-pointer grayscale-[50%] hover:grayscale-0"
+                              : "opacity-30 grayscale pointer-events-none"
+                          }`}
+                          onClick={isRecoverable ? () => {
+                            playSfx("sfx-card-select.mp3");
+                            setSelectedRecoverId(isRecoverSelected ? null : playerCaptain.id);
+                          } : undefined}
+                        >
+                          <BattleCard card={playerCaptain} disabled={!isRecoverable} selected={isRecoverSelected} isCaptain onCaptainInfo={() => setShowCaptainInfo(true)} />
+                          {!isRecoverable && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* ─ 우측: 상대 패 (우측 정렬) ─ */}
-            <div className="flex flex-col gap-3 items-end">
-              <div className="flex items-center gap-2 px-1">
-                <h3 className="text-sm font-bold text-red-400/60 tracking-wide uppercase">상대 패</h3>
-                <span className="text-xs text-red-400/40">{aiHand.length}장</span>
-                {aiDiscard.length > 0 && <span className="text-xs text-red-400/25">사용 {aiDiscard.length}</span>}
-              </div>
-
-              {/* 2×2 통합 그리드 + 주장 대형 (미러) */}
-              <div className="flex gap-3 items-stretch">
-                {/* 2×2 그리드: 핸드 + 버린패 통합 (주장 제외) */}
-                <div className="grid grid-cols-2 gap-2">
-                  {aiOthers.map((card) => {
-                    const isAiSelected = aiSelectedCardId === card.id;
-                    const showFace = isClash && isAiSelected;
-                    return (
-                      <div key={card.id} className={`@container w-[100px] ${showFace ? "ring-1 ring-red-400/50 rounded-md animate-fade-in" : ""}`}>
+                  }
+                  return (
+                    <div className="shrink-0 self-center">
+                      <div className="@container w-[120px] xl:w-[160px]">
                         <BattleCard
-                          card={card} mode="target" masked={hardMode}
-                          disabled
-                          onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
+                          card={playerCaptain} mode="command"
+                          activeCommand={isSelecting ? selectedCommand ?? undefined : undefined}
+                          onClick={isSelecting ? () => handleCardClick(playerCaptain.id) : undefined}
+                          selected={isSelecting && selectedCardId === playerCaptainId}
+                          disabled={!isSelecting}
+                          onInfo={onCardInfo ? () => onCardInfo(playerCaptain.id) : undefined}
+                          isCaptain
+                          onCaptainInfo={() => setShowCaptainInfo(true)}
                         />
                       </div>
-                    );
-                  })}
-                  {aiOthersDiscard.map((card) => (
-                    <div key={card.id} className="@container relative w-[100px] opacity-30 grayscale pointer-events-none">
-                      <BattleCard card={card} disabled />
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
-                      </div>
                     </div>
-                  ))}
-                </div>
-
-                {/* 주장 대형 카드 (사용되어도 비활성화 UI로 유지) */}
-                {aiCaptain && (
-                  <div className={`@container w-[208px] relative ${aiCaptainInDiscard ? "opacity-30 grayscale pointer-events-none" : ""}`}>
-                    <BattleCard
-                      card={aiCaptain} mode="target" masked={hardMode && !aiCaptainInDiscard}
-                      disabled
-                      onInfo={onCardInfo ? () => onCardInfo(aiCaptain.id) : undefined}
-                      onCaptainInfo={() => setShowCaptainInfo(true)}
-                      isCaptain stretch
-                    />
-                    {aiCaptainInDiscard && (
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span className="text-sm font-bold text-white/50 bg-black/60 border border-white/10 px-3 py-1 rounded">사용</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                  );
+                })()}
               </div>
             </div>
 
-          </div>{/* /좌우 패 */}
-
-          {/* ─ 중앙: 군령패 + 가이드 + 출전 (absolute, 패와 독립) ─ */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="flex flex-col items-center gap-3 pointer-events-auto">
+            {/* ─ 중앙: 군령패 + 가이드 + 출전 ─ */}
+            <div className="flex flex-col items-center gap-3 shrink-0 bg-black/80 rounded-xl p-4 pt-8">
               {/* 군령패 3개 (세로 목패) */}
-              <div className="flex items-end gap-2">
+              <div className="flex items-end gap-2.5 xl:gap-3.5">
                 {COMMANDS.map((cmd) => {
                   const isSelected = selectedCommand === cmd;
                   const rawApt = selectedCard ? calcAptitude(selectedCard, cmd) : 0;
@@ -1034,59 +1042,119 @@ export default function PlayPhase({
 
                   return (
                     <div key={cmd}
-                      className={`relative flex flex-col items-center transition-all duration-200 ${
-                        isSelected ? "-translate-y-4" : isDisabled ? "" : "hover:-translate-y-0.5"
+                      className={`relative flex flex-col items-center transition-all duration-300 ease-out ${
+                        isSelected ? "-translate-y-3" : isDisabled ? "" : "hover:-translate-y-1"
                       }`}
                     >
+                      {/* 선택 시 하단 광원 */}
+                      {isSelected && !isDisabled && (
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[80%] h-3 rounded-full pointer-events-none" style={{
+                          background: "radial-gradient(ellipse, rgba(248,113,113,0.5) 0%, transparent 70%)",
+                          filter: "blur(4px)",
+                        }} />
+                      )}
                       <button type="button"
                         onClick={() => !isDisabled && handleCommandClick(cmd)}
                         disabled={isDisabled}
-                        className={`relative flex flex-col items-center w-[64px] rounded-[3px] overflow-hidden bg-black shadow-[2px_3px_10px_rgba(0,0,0,0.6)] transition-shadow ${
+                        className={`relative flex flex-col items-center w-[64px] xl:w-[88px] rounded-[3px] overflow-hidden bg-black transition-all duration-300 ${
                           isDisabled
-                            ? "opacity-30 cursor-not-allowed saturate-0"
+                            ? "opacity-30 cursor-not-allowed saturate-0 shadow-[1px_2px_6px_rgba(0,0,0,0.4)]"
                             : isSelected
-                              ? "cursor-pointer ring-2 ring-red-400/60 shadow-[0_0_12px_rgba(248,113,113,0.3)]"
-                              : "cursor-pointer"
+                              ? "cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.7),0_0_15px_rgba(248,113,113,0.2)]"
+                              : "cursor-pointer shadow-[2px_3px_10px_rgba(0,0,0,0.6)] brightness-[0.85] hover:brightness-100"
                         }`}
                       >
+                        {/* 목재 텍스처 */}
                         <div className="absolute inset-0 bg-cover bg-center"
                           style={{
                             backgroundImage: "url('/images/textures/wood-tablet.jpg')",
-                            filter: isSelected ? "brightness(0.45) saturate(0.8)" : "brightness(0.3) saturate(0.7)",
+                            filter: isSelected ? "brightness(0.4) saturate(1.1)" : "brightness(0.25) saturate(0.8)",
                           }}
                         />
-                        <div className="relative w-full flex flex-col items-center pt-2.5 pb-1 gap-1"
+                        {/* 스크래치/마모 오버레이 */}
+                        <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay" style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                        }} />
+                        {/* 모서리 마모 (비네팅) */}
+                        <div className="absolute inset-0 rounded-[3px]" style={{
+                          boxShadow: "inset 3px 3px 6px rgba(0,0,0,0.35), inset -3px -3px 6px rgba(0,0,0,0.25), inset 0 0 12px rgba(0,0,0,0.2)",
+                        }} />
+                        {/* 외곽 금속/옻칠 테두리 */}
+                        <div className="absolute inset-0 rounded-[3px]" style={{
+                          boxShadow: isSelected
+                            ? "inset 0 0 0 1.5px rgba(180,80,50,0.5), 0 0 0 1px rgba(0,0,0,0.6)"
+                            : "inset 0 0 0 1px rgba(100,70,45,0.3), 0 0 0 1px rgba(0,0,0,0.4)",
+                        }} />
+                        {/* 상단: 봉인 인장 + 정보 */}
+                        <div className="relative w-full flex flex-col items-center pt-2 xl:pt-2.5 pb-1 gap-1"
                           onClick={(e) => { e.stopPropagation(); setInfoCmd(cmd); }}
                         >
-                          <HelpCircle size={14} className="text-white/20 hover:text-white/50 transition-colors" />
-                          <div className="w-7 h-px bg-gradient-to-r from-transparent via-[#a07850]/50 to-transparent" />
+                          <div className="relative w-5 h-5 xl:w-6 xl:h-6 flex items-center justify-center cursor-help">
+                            {/* 인장 원형 베이스 */}
+                            <div className="absolute inset-0 rounded-full" style={{
+                              background: "radial-gradient(circle at 40% 35%, #6a4830 0%, #3a2818 60%, #2a1a10 100%)",
+                              boxShadow: "inset 0 1px 2px rgba(140,100,60,0.3), inset 0 -1px 2px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.4)",
+                            }} />
+                            <span className="relative text-[8px] xl:text-[10px] font-bold select-none" style={{
+                              fontFamily: "'Noto Serif KR', serif",
+                              color: "rgba(200,160,100,0.6)",
+                              textShadow: "0 -1px 1px rgba(0,0,0,0.8)",
+                            }}>
+                              {cmd === "assault" ? "武" : cmd === "stratagem" ? "智" : "政"}
+                            </span>
+                          </div>
+                          <div className="w-7 xl:w-9 h-px bg-gradient-to-r from-transparent via-[#a07850]/40 to-transparent" />
                         </div>
-                        <div className="relative flex flex-col items-center gap-0.5 py-1.5">
+                        {/* 중앙: 명령 글자 (붓 터치 강조) */}
+                        <div className="relative flex flex-col items-center gap-0.5 xl:gap-1 py-1.5 xl:py-2">
                           {label.split("").map((char, i) => (
                             <span key={i}
-                              className={`text-xl font-serif font-bold leading-none transition-colors ${
+                              className={`text-xl xl:text-2xl font-bold leading-none transition-all duration-300 ${
                                 isMandateCmd
-                                  ? "text-[#f0c850] drop-shadow-[0_0_6px_rgba(212,168,67,0.8)]"
+                                  ? "drop-shadow-[0_0_8px_rgba(212,168,67,0.8)]"
                                   : isSelected
-                                    ? "text-[#ff6b6b] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-                                    : "text-[#c83232] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
+                                    ? "drop-shadow-[0_0_6px_rgba(248,113,113,0.3)]"
+                                    : "drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
                               }`}
+                              style={{
+                                fontFamily: "'Noto Serif KR', serif",
+                                ...(isMandateCmd ? {
+                                  background: "linear-gradient(170deg, #f0d060 0%, #d4a843 40%, #f0c850 100%)",
+                                  WebkitBackgroundClip: "text",
+                                  WebkitTextFillColor: "transparent",
+                                } : isSelected ? {
+                                  background: "linear-gradient(170deg, #ff8a8a 0%, #ff5555 40%, #ff7070 100%)",
+                                  WebkitBackgroundClip: "text",
+                                  WebkitTextFillColor: "transparent",
+                                } : {
+                                  color: "#9a2a2a",
+                                  textShadow: "0 1px 2px rgba(0,0,0,0.6), 0 -1px 1px rgba(140,60,40,0.15)",
+                                }),
+                              }}
                             >{char}</span>
                           ))}
                         </div>
-                        <div className="relative flex flex-col items-center gap-px py-2">
-                          {Array.from({ length: 5 }, (_, i) => (
-                            <span key={i}
-                              className={`text-[10px] leading-none ${
-                                selectedCard && i < stars
-                                  ? "text-amber-300 drop-shadow-[0_0_2px_rgba(217,169,78,0.6)]"
-                                  : "text-[#1a1008]"
-                              }`}
-                            >★</span>
-                          ))}
+                        {/* 하단: 별점 (금속 핀 스타일) */}
+                        <div className="relative flex flex-col items-center gap-[3px] xl:gap-1 py-2 xl:py-2.5">
+                          {Array.from({ length: 5 }, (_, i) => {
+                            const lit = selectedCard && i < stars;
+                            return (
+                              <span key={i}
+                                className="text-[10px] xl:text-xs leading-none transition-all duration-200"
+                                style={lit ? {
+                                  color: "#e8c050",
+                                  textShadow: "0 0 4px rgba(217,169,78,0.7), 0 1px 1px rgba(0,0,0,0.5)",
+                                  filter: "drop-shadow(0 0 2px rgba(217,169,78,0.4))",
+                                } : {
+                                  color: "rgba(60,40,20,0.4)",
+                                  textShadow: "0 1px 1px rgba(0,0,0,0.3)",
+                                }}
+                              >★</span>
+                            );
+                          })}
                         </div>
-                        <div className="relative w-full flex flex-col items-center pb-2">
-                          <div className="w-7 h-px bg-[#8b6040]/30" />
+                        <div className="relative w-full flex flex-col items-center pb-2 xl:pb-2.5">
+                          <div className="w-7 xl:w-9 h-px bg-gradient-to-r from-transparent via-[#8b6040]/25 to-transparent" />
                         </div>
                       </button>
                     </div>
@@ -1094,219 +1162,650 @@ export default function PlayPhase({
                 })}
               </div>
               {/* 가이드 텍스트 */}
-              <p className="text-xs text-white/30">{guideText}</p>
+              <p className="text-xs xl:text-sm text-white/60">{guideText}</p>
               {/* 출전 버튼 */}
-              <button
-                type="button"
-                onClick={handleConfirm}
-                disabled={!isReady || !isSelecting}
-                className={`px-10 py-3 rounded-lg font-bold text-sm transition-all ${
-                  isReady && isSelecting
-                    ? "bg-accent/20 border border-accent/40 text-accent hover:bg-accent/30 shadow-[0_0_16px_rgba(212,175,55,0.3)] cursor-pointer"
-                    : "bg-white/[0.03] border border-white/[0.06] text-white/15 cursor-not-allowed"
-                }`}
-              >
-                출전
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        {/* ── 모바일: 카드 영역 (기존 1열 유지) ── */}
-        <div className={`lg:hidden flex flex-col gap-3 min-h-0 ${isClash ? "opacity-0 pointer-events-none" : ""}`}>
-          {/* 상대 패 */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-2 px-1">
-              <h3 className="text-base font-bold text-red-400/60 tracking-wide uppercase">상대 패</h3>
-              <span className="text-sm text-red-400/40">{aiHand.length}장</span>
-              {aiDiscard.length > 0 && <span className="text-sm text-red-400/25">사용 {aiDiscard.length}</span>}
-            </div>
-            <div className="flex flex-wrap justify-center gap-2">
-              {aiHand.map((card) => {
-                const isAiSelected = aiSelectedCardId === card.id;
-                const showFace = isClash && isAiSelected;
-                return (
-                  <div key={card.id} className={`@container w-[calc(30vw-8px)] sm:w-[120px] ${showFace ? "ring-1 ring-red-400/50 rounded-md animate-fade-in" : ""}`}>
-                    <BattleCard
-                      card={card} mode="target" masked={hardMode}
-                      disabled
-                      onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
-                      isCaptain={card.id === aiCaptainId}
-                      onCaptainInfo={card.id === aiCaptainId ? () => setShowCaptainInfo(true) : undefined}
-                    />
-                  </div>
-                );
-              })}
-              {aiDiscard.map((card) => (
-                <div key={card.id} className="@container relative w-[calc(30vw-8px)] sm:w-[120px] opacity-30 grayscale pointer-events-none">
-                  <BattleCard card={card} disabled />
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 내 패 */}
-          <div className="flex flex-col gap-1.5 min-w-0">
-            <div className="flex items-center gap-2 px-1">
-              <h3 className="text-base font-bold text-accent/60 tracking-wide uppercase">내 패</h3>
-              <span className="text-sm text-accent/40">{playerHand.length}장</span>
-              {playerDiscard.length > 0 && <span className="text-sm text-accent/25">사용 {playerDiscard.length}</span>}
-              {selectedCard && isSelecting && (
-                <span className="flex items-center gap-1 text-sm text-accent/70">
-                  <Check size={16} /> {selectedCard.nickname}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-wrap justify-center gap-2">
-              {playerHand.map((card) => {
-                const isPlayerSelected = pendingRound?.playerAction.cardId === card.id;
-                const highlight = isClash && isPlayerSelected;
-                return (
-                  <div key={card.id} className={`@container relative w-[calc(30vw-8px)] sm:w-[140px] ${highlight ? "ring-1 ring-accent/50 rounded-md" : ""}`}>
-                    <BattleCard
-                      card={card} mode="command"
-                      activeCommand={isSelecting ? selectedCommand ?? undefined : undefined}
-                      onClick={isSelecting ? () => handleCardClick(card.id) : undefined}
-                      selected={isSelecting && selectedCardId === card.id}
-                      disabled={!isSelecting}
-                      onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
-                      isCaptain={card.id === playerCaptainId}
-                      onCaptainInfo={card.id === playerCaptainId ? () => setShowCaptainInfo(true) : undefined}
-                    />
-                  </div>
-                );
-              })}
-              {playerDiscard.map((card) => {
-                const isRecoverable = selectedCommand === "govern" && isSelecting;
-                const isRecoverSelected = selectedRecoverId === card.id;
-                return (
-                  <div key={card.id}
-                    className={`@container relative w-[calc(30vw-8px)] sm:w-[140px] transition-all ${
-                      isRecoverable
-                        ? isRecoverSelected
-                          ? "ring-1 ring-amber-400 rounded-md opacity-100 cursor-pointer"
-                          : "opacity-50 hover:opacity-100 cursor-pointer grayscale-[50%] hover:grayscale-0"
-                        : "opacity-30 grayscale pointer-events-none"
-                    }`}
-                    onClick={isRecoverable ? () => {
-                      playSfx("sfx-card-select.mp3");
-                      setSelectedRecoverId(isRecoverSelected ? null : card.id);
-                    } : undefined}
-                  >
-                    <BattleCard card={card} disabled={!isRecoverable} selected={isRecoverSelected} />
-                    {!isRecoverable && (
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 모바일: 군령패 + 출전 */}
-          <div className={`fixed bottom-16 left-0 right-0 transition-opacity duration-300 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/95 to-transparent pt-6 pb-2 ${
-            isClash ? "opacity-0 pointer-events-none" : ""
-          }`}
-            style={{ zIndex: Z_INDEX.gameModal - 1 }}
-          >
-            <p className="text-sm text-white/30 font-sans text-center mb-2">{guideText}</p>
-            <div className="flex items-end justify-center gap-4">
-              <div className="flex gap-2">
-                {COMMANDS.map((cmd) => {
-                  const isSelected = selectedCommand === cmd;
-                  const rawApt = selectedCard ? calcAptitude(selectedCard, cmd) : 0;
-                  const isMandateCmd = mandate?.command === cmd;
-                  const apt = isMandateCmd ? rawApt * MANDATE_BONUS : rawApt;
-                  const stars = selectedCard ? aptitudeToStars(apt) : 0;
-                  const isDisabled = !isSelecting;
-                  const label = COMMAND_LABELS[cmd];
-
-                  return (
-                    <div key={cmd}
-                      className={`relative flex flex-col items-center transition-all duration-200 ${
-                        isSelected ? "-translate-y-4" : isDisabled ? "" : "hover:-translate-y-0.5"
-                      }`}
-                    >
-                      <button type="button"
-                        onClick={() => !isDisabled && handleCommandClick(cmd)}
-                        disabled={isDisabled}
-                        className={`relative flex flex-col items-center w-[64px] rounded-[3px] overflow-hidden bg-black shadow-[2px_3px_10px_rgba(0,0,0,0.6)] transition-shadow ${
-                          isDisabled
-                            ? "opacity-30 cursor-not-allowed saturate-0"
-                            : isSelected
-                              ? "cursor-pointer ring-2 ring-red-400/60 shadow-[0_0_12px_rgba(248,113,113,0.3)]"
-                              : "cursor-pointer"
-                        }`}
-                      >
-                        <div className="absolute inset-0 bg-cover bg-center"
-                          style={{
-                            backgroundImage: "url('/images/textures/wood-tablet.jpg')",
-                            filter: isSelected ? "brightness(0.45) saturate(0.8)" : "brightness(0.3) saturate(0.7)",
-                          }}
-                        />
-                        <div className="relative w-full flex flex-col items-center pt-2.5 pb-1 gap-1"
-                          onClick={(e) => { e.stopPropagation(); setInfoCmd(cmd); }}
-                        >
-                          <HelpCircle size={14} className="text-white/20 hover:text-white/50 transition-colors" />
-                          <div className="w-7 h-px bg-gradient-to-r from-transparent via-[#a07850]/50 to-transparent" />
-                        </div>
-                        <div className="relative flex flex-col items-center gap-0.5 py-1.5">
-                          {label.split("").map((char, i) => (
-                            <span key={i}
-                              className={`text-xl font-serif font-bold leading-none transition-colors ${
-                                isMandateCmd
-                                  ? "text-[#f0c850] drop-shadow-[0_0_6px_rgba(212,168,67,0.8)]"
-                                  : isSelected
-                                    ? "text-[#ff6b6b] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-                                    : "text-[#c83232] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-                              }`}
-                            >{char}</span>
-                          ))}
-                        </div>
-                        <div className="relative flex flex-col items-center gap-px py-2">
-                          {Array.from({ length: 5 }, (_, i) => (
-                            <span key={i}
-                              className={`text-[10px] leading-none ${
-                                selectedCard && i < stars
-                                  ? "text-amber-300 drop-shadow-[0_0_2px_rgba(217,169,78,0.6)]"
-                                  : "text-[#1a1008]"
-                              }`}
-                            >★</span>
-                          ))}
-                        </div>
-                        <div className="relative w-full flex flex-col items-center pb-2">
-                          <div className="w-7 h-px bg-[#8b6040]/30" />
-                        </div>
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex flex-col items-center justify-end pb-1 min-w-[72px]">
+              <div className="relative mt-4 w-full flex justify-center">
+                {/* 클릭 시 파동 링 (CSS 애니메이션) */}
+                {isReady && isSelecting && (
+                  <div className="absolute inset-0 max-w-[210px] xl:max-w-[260px] mx-auto rounded-[6px] pointer-events-none" style={{ animation: "deploy-pulse 2s ease-in-out infinite" }} />
+                )}
                 <button
                   type="button"
                   onClick={handleConfirm}
                   disabled={!isReady || !isSelecting}
-                  className={`px-5 py-3 rounded-lg font-bold text-sm transition-all ${
+                  className={`relative w-[210px] xl:w-[260px] h-[56px] xl:h-[64px] rounded-[6px] transition-all duration-300 group/btn ${
                     isReady && isSelecting
-                      ? "bg-accent/20 border border-accent/40 text-accent hover:bg-accent/30 shadow-[0_0_16px_rgba(212,175,55,0.3)] cursor-pointer"
-                      : "bg-white/[0.03] border border-white/[0.06] text-white/15 cursor-not-allowed"
+                      ? "cursor-pointer active:scale-[0.97] active:translate-y-[2px] hover:scale-[1.02]"
+                      : "cursor-not-allowed opacity-40 grayscale"
                   }`}
                 >
-                  출전
+                  {/* 외곽 흑금 프레임 */}
+                  <div className="absolute inset-0 rounded-[6px] bg-gradient-to-b from-[#4a3d32] to-[#1a1410] border border-[#5a483a]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_4px_10px_rgba(0,0,0,0.6)]" />
+                  
+                  {/* 중앙 패널 (붉은 옻칠 느낌) */}
+                  <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px]" style={{
+                    background: isReady && isSelecting
+                      ? "linear-gradient(to bottom, #8a1515, #5a0b0b)"
+                      : "#333",
+                    boxShadow: "inset 0 2px 6px rgba(0,0,0,0.7), inset 0 -1px 2px rgba(255,100,100,0.15)",
+                  }} />
+
+                  {/* 옻칠 하이라이트 */}
+                  {isReady && isSelecting && (
+                    <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px] opacity-[0.25] pointer-events-none" style={{
+                      background: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 35%)",
+                    }} />
+                  )}
+
+                  {/* 미세한 텍스처 오버레이 */}
+                  {isReady && isSelecting && (
+                     <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px] opacity-[0.08] mix-blend-overlay pointer-events-none" style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                     }} />
+                  )}
+
+                  {/* 텍스트 및 장식 */}
+                  <div className="absolute inset-0 flex items-center justify-center gap-4 xl:gap-5 pointer-events-none">
+                    {/* 양옆 장식 (다이아몬드 - 음각 금박 느낌) */}
+                    <span className={`text-[12px] xl:text-[14px] font-serif leading-none ${isReady && isSelecting ? "" : "text-white/20"}`}
+                      style={isReady && isSelecting ? {
+                        background: "linear-gradient(135deg, #a67c00 0%, #bf953f 30%, #fcf6ba 50%, #b38728 70%, #fdffcc 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        filter: "drop-shadow(0 -1px 1px rgba(30,5,5,0.9)) drop-shadow(0 1px 1px rgba(255,255,255,0.15)) inset 0px 2px 3px rgba(0,0,0,0.8)",
+                      } : {}}
+                    >◆</span>
+                    
+                    <div className="flex flex-col items-center justify-center mt-[-1px]">
+                       <span className={`text-[22px] xl:text-[26px] font-bold tracking-[0.2em] ml-[0.2em] select-none leading-none ${
+                        isReady && isSelecting ? "" : "text-white/40"
+                      }`} style={{
+                        fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
+                        ...(isReady && isSelecting ? {
+                          background: "linear-gradient(to bottom, #fcf6ea 0%, #e6c565 35%, #b47a20 50%, #d4a843 70%, #ffe8a1 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          filter: "drop-shadow(0 -3px 2px rgba(20,0,0,0.9)) drop-shadow(0 2px 2px rgba(255,255,200,0.3)) drop-shadow(0 0 12px rgba(212,168,67,0.5))",
+                        } : {}),
+                      }}>
+                        出戰
+                      </span>
+                      {isReady && isSelecting && (
+                        <span className="text-[9px] xl:text-[10px] tracking-[0.4em] ml-[0.4em] font-bold text-[#d4a843]/60 leading-tight mt-1" style={{
+                          filter: "drop-shadow(0 -1px 1px rgba(0,0,0,0.8)) drop-shadow(0 1px 1px rgba(255,255,255,0.15))"
+                        }}>
+                          진군
+                        </span>
+                      )}
+                    </div>
+
+                    <span className={`text-[12px] xl:text-[14px] font-serif leading-none ${isReady && isSelecting ? "" : "text-white/20"}`}
+                      style={isReady && isSelecting ? {
+                        background: "linear-gradient(135deg, #a67c00 0%, #bf953f 30%, #fcf6ba 50%, #b38728 70%, #fdffcc 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        filter: "drop-shadow(0 -1px 1px rgba(30,5,5,0.9)) drop-shadow(0 1px 1px rgba(255,255,255,0.15)) inset 0px 2px 3px rgba(0,0,0,0.8)",
+                      } : {}}
+                    >◆</span>
+                  </div>
+
+                  {/* Hover 은은한 붉은 광원 */}
+                  {isReady && isSelecting && (
+                    <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
+                      background: "radial-gradient(ellipse at center, rgba(255,100,100,0.2) 0%, transparent 70%)"
+                    }} />
+                  )}
                 </button>
               </div>
             </div>
-          </div>
+
+            {/* ─ 우측: 상대 패 ─ */}
+            <div className="flex flex-col gap-2 bg-black/80 rounded-xl p-3">
+              <div className="flex items-center gap-2 px-1">
+                <h3 className="text-xs font-bold text-red-400/70 tracking-wide uppercase">상대 패</h3>
+                <span className="text-xs text-red-400/50">{aiHand.length}장</span>
+                {aiDiscard.length > 0 && <span className="text-xs text-red-400/40">사용 {aiDiscard.length}</span>}
+              </div>
+              <div className="flex items-start gap-3">
+                {/* 주장 (좌측 — 군령패에 가까운 쪽) */}
+                {aiCaptain && (() => {
+                  const isCaptainDiscard = !!aiCaptainInDiscard;
+                  if (isCaptainDiscard) {
+                    return (
+                      <div className="shrink-0 self-center">
+                        <div className="@container w-[120px] xl:w-[160px] relative opacity-30 grayscale pointer-events-none">
+                          <BattleCard card={aiCaptain} disabled isCaptain onCaptainInfo={() => setShowCaptainInfo(true)} />
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                  const isAiSelected = aiSelectedCardId === aiCaptain.id;
+                  const showFace = isClash && isAiSelected;
+                  return (
+                    <div className="shrink-0 self-center">
+                      <div className={`@container w-[120px] xl:w-[160px] ${showFace ? "ring-1 ring-red-400/50 rounded-md animate-fade-in" : ""}`}>
+                        <BattleCard
+                          card={aiCaptain} mode="target" masked={false}
+                          disabled
+                          onInfo={onCardInfo ? () => onCardInfo(aiCaptain.id) : undefined}
+                          isCaptain
+                          onCaptainInfo={() => setShowCaptainInfo(true)}
+                        />
+                      </div>
+                    </div>
+                  );
+                })()}
+                {/* 일반 카드 2×2 */}
+                {(() => {
+                  const allAiCards = [
+                    ...aiOthers.map(c => ({ card: c, isDiscard: false })),
+                    ...aiOthersDiscard.map(c => ({ card: c, isDiscard: true })),
+                  ];
+                  return (
+                    <div className="grid grid-cols-[repeat(2,100px)] xl:grid-cols-[repeat(2,130px)] gap-2 xl:gap-3">
+                      {allAiCards.map(({ card, isDiscard }) => {
+                        if (isDiscard) {
+                          return (
+                            <div key={card.id} className="@container relative opacity-30 grayscale pointer-events-none">
+                              <BattleCard card={card} disabled isCaptain={false} />
+                              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                              </div>
+                            </div>
+                          );
+                        }
+                        const isAiSelected = aiSelectedCardId === card.id;
+                        const showFace = isClash && isAiSelected;
+                        return (
+                          <div key={card.id} className={`@container ${showFace ? "ring-1 ring-red-400/50 rounded-md animate-fade-in" : ""}`}>
+                            <BattleCard
+                              card={card} mode="target" masked={hardMode}
+                              disabled
+                              onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
+                              isCaptain={false}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+
         </div>
 
-      </div>{/* /본문 */}
+        {/* ── 모바일: 카드 칩 (좌 아군 | 우 적군) — 자연스러운 흐름 배치 (내부 스크롤 제거) ── */}
+        <div className={`lg:hidden w-full transition-opacity duration-300 ${isClash ? "opacity-0 pointer-events-none" : ""}`}>
+          <div className="flex flex-col justify-start px-4 pt-2">
+            <div className="grid grid-cols-2 gap-3 w-full max-w-sm mx-auto">
+              {/* ─ 좌측: 아군 ─ */}
+              <div className="flex flex-col gap-2 relative">
+                {(() => {
+                  const allPlayer = [
+                    ...(playerCaptain ? [{ card: playerCaptain, isDiscard: !!playerCaptainInDiscard, isCaptain: true }] : []),
+                    ...playerOthers.map(c => ({ card: c, isDiscard: false, isCaptain: false })),
+                    ...playerOthersDiscard.map(c => ({ card: c, isDiscard: true, isCaptain: false })),
+                  ];
+                  return (
+                    <div className="flex flex-col gap-2">
+                      {allPlayer.map(({ card, isDiscard, isCaptain }) => {
+                        if (isDiscard) {
+                          const isRecoverable = selectedCommand === "govern" && isSelecting;
+                          const isRecoverSelected = selectedRecoverId === card.id;
+                          return (
+                            <button key={card.id} type="button"
+                              onClick={isRecoverable ? () => {
+                                playSfx("sfx-card-select.mp3");
+                                setSelectedRecoverId(isRecoverSelected ? null : card.id);
+                              } : undefined}
+                              disabled={!isRecoverable}
+                              className={`relative flex flex-col items-center justify-center h-[64px] rounded-[3px] transition-all overflow-hidden ${
+                                isRecoverable
+                                  ? isRecoverSelected
+                                    ? "shadow-[0_0_12px_rgba(217,169,78,0.2)]"
+                                    : "active:scale-[0.97] shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                                  : "cursor-not-allowed opacity-50 grayscale shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
+                              }`}
+                            >
+                              <div className="absolute inset-0 bg-cover bg-center pointer-events-none transition-all duration-300"
+                                style={{
+                                  backgroundImage: "url('/images/textures/wood-tablet.jpg')",
+                                  filter: isRecoverSelected ? "brightness(0.2) sepia(0.3) hue-rotate(-10deg)" : "brightness(0.2) sepia(0.2)",
+                                }}
+                              />
+                              <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+                              <div className="absolute inset-0 rounded-[3px] pointer-events-none" style={{
+                                boxShadow: isRecoverSelected
+                                  ? "inset 0 0 0 1px rgba(217,169,78,0.3), inset 2px 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(0,0,0,0.4)"
+                                  : "inset 0 0 0 1px rgba(160,120,80,0.15), inset 2px 2px 4px rgba(0,0,0,0.6)",
+                              }} />
+
+                              <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-0.5">
+                                {isCaptain && <span className="text-amber-400 text-[12px] shrink-0 drop-shadow-[0_0_4px_rgba(217,169,78,0.5)]">&#9813;</span>}
+                                <span className={`text-[13px] font-['Noto_Serif_KR',_serif] font-bold truncate ${
+                                  isRecoverSelected ? "text-[#ffeeb5] drop-shadow-[0_0_6px_rgba(217,169,78,0.5)]" : isRecoverable ? "text-[#a09070]" : "text-[#706050] line-through"
+                                }`}>{card.nickname}</span>
+                              </div>
+                              <span className="text-[10px] font-['Noto_Serif_KR',_serif] font-bold text-[#d9a94e]/40 mt-0.5 z-10">{isRecoverable ? "회수" : "사용됨"}</span>
+                            </button>
+                          );
+                        }
+                        const isSelected = isSelecting && selectedCardId === card.id;
+                        const stars = COMMANDS.map(cmd => aptitudeToStars(calcAptitude(card, cmd)));
+                        return (
+                          <button key={card.id} type="button"
+                            onClick={isSelecting ? () => handleCardClick(card.id) : undefined}
+                            disabled={!isSelecting}
+                            className={`relative flex flex-col items-center justify-center gap-1 h-[64px] rounded-[3px] transition-all overflow-hidden ${
+                              isSelected
+                                ? "shadow-[0_4px_16px_rgba(217,169,78,0.4),0_0_8px_rgba(217,169,78,0.2)] scale-[1.02] z-10 cursor-pointer"
+                                : isSelecting
+                                  ? "hover:-translate-y-0.5 active:scale-[0.97] shadow-[0_3px_8px_rgba(0,0,0,0.6)] cursor-pointer"
+                                  : "opacity-60 saturate-50 cursor-not-allowed shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                            }`}
+                          >
+                            {/* 실제 목판 텍스처 배경 */}
+                            <div className="absolute inset-0 bg-cover bg-center transition-all duration-300 pointer-events-none"
+                              style={{
+                                backgroundImage: "url('/images/textures/wood-tablet.jpg')",
+                                filter: isSelected ? "brightness(0.3) sepia(0.3) hue-rotate(-10deg) saturate(1.2)" : "brightness(0.25) sepia(0.2) saturate(0.8)",
+                              }}
+                            />
+                            {/* 노이즈 및 스크래치 질감 보강 */}
+                            <div className="absolute inset-0 opacity-[0.1] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+                            
+                            {/* 금속 재질의 다이아몬드 커팅 느낌 테두리 */}
+                            <div className="absolute inset-0 rounded-[3px] pointer-events-none" style={{
+                              boxShadow: isSelected
+                                ? "inset 0 0 0 1px rgba(217,169,78,0.4), inset 0 0 8px rgba(217,169,78,0.3), inset 2px 2px 4px rgba(0,0,0,0.4), inset -2px -2px 4px rgba(0,0,0,0.3)"
+                                : "inset 0 0 0 1px rgba(160,120,80,0.2), inset 2px 2px 5px rgba(0,0,0,0.6), inset -2px -2px 5px rgba(0,0,0,0.4)",
+                            }} />
+
+                            {isSelected && (
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#d9a94e]/20 via-transparent to-transparent pointer-events-none" />
+                            )}
+
+                            <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-1">
+                              {isCaptain && <span className="text-amber-400 text-[12px] shrink-0 drop-shadow-[0_0_4px_rgba(217,169,78,0.6)]">&#9813;</span>}
+                              <span className={`text-[14px] leading-tight truncate font-['Noto_Serif_KR',_serif] font-bold ${
+                                isSelected ? "text-[#ffeeb5] drop-shadow-[0_0_8px_rgba(217,169,78,0.6)]" : isSelecting ? "text-[#e8d4a2] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" : "text-[#a09070]"
+                              }`}>
+                                {card.nickname}
+                              </span>
+                            </div>
+
+                            <div className="relative w-[80%] h-px bg-gradient-to-r from-transparent via-[#d9a94e]/30 to-transparent mt-0.5 mb-1 z-10" />
+
+                            <div className="flex items-center justify-center gap-2.5 z-10 mb-1">
+                              {stars.map((s, i) => (
+                                <span key={i} className={`flex items-center gap-[2px] text-[11px] font-['Noto_Serif_KR',_serif] font-black tabular-nums ${
+                                  selectedCommand === COMMANDS[i]
+                                    ? CMD_STYLE[COMMANDS[i]].text
+                                    : s >= 4 ? "text-[#e8c050]" : "text-[#a09070]/70"
+                                }`} style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                                  <span className={`[&>svg]:w-[11px] [&>svg]:h-[11px] ${s >= 4 && selectedCommand !== COMMANDS[i] ? "text-red-400/90" : ""}`}>
+                                    {CMD_ICON[COMMANDS[i]]}
+                                  </span>
+                                  {s}
+                                </span>
+                              ))}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+              </div>
+
+            {/* ─ 우측: 적군 ─ */}
+            <div className="flex flex-col gap-2 relative">
+              {(() => {
+                const allAi = [
+                  ...(aiCaptain ? [{ card: aiCaptain, isDiscard: !!aiCaptainInDiscard, isCaptain: true }] : []),
+                  ...aiOthers.map(c => ({ card: c, isDiscard: false, isCaptain: false })),
+                  ...aiOthersDiscard.map(c => ({ card: c, isDiscard: true, isCaptain: false })),
+                ];
+                return (
+                  <div className="flex flex-col gap-2">
+                    {allAi.map(({ card, isDiscard, isCaptain }) => {
+                      if (isDiscard) {
+                        return (
+                          <div key={card.id}
+                            className="relative flex flex-col items-center justify-center h-[64px] rounded-[3px] overflow-hidden opacity-50 grayscale shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
+                          >
+                            <div className="absolute inset-0 bg-cover bg-center pointer-events-none"
+                              style={{
+                                backgroundImage: "url('/images/textures/wood-tablet.jpg')",
+                                filter: "brightness(0.2) sepia(0.4) hue-rotate(320deg)",
+                              }}
+                            />
+                            <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+                            <div className="absolute inset-0 rounded-[3px] pointer-events-none" style={{
+                              boxShadow: "inset 0 0 0 1px rgba(120,40,40,0.2), inset 2px 2px 4px rgba(0,0,0,0.6)",
+                            }} />
+
+                            <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-0.5">
+                              {isCaptain && <span className="text-amber-400/40 text-[12px] shrink-0">&#9813;</span>}
+                              <span className="text-[13px] font-['Noto_Serif_KR',_serif] font-bold truncate text-[#806060] line-through">{card.nickname}</span>
+                            </div>
+                            <span className="text-[10px] font-['Noto_Serif_KR',_serif] font-bold text-[#806060]/50 mt-0.5 z-10">사용됨</span>
+                          </div>
+                        );
+                      }
+                      const isAiSelected = aiSelectedCardId === card.id;
+                      const showFace = isClash && isAiSelected;
+                      const stars = COMMANDS.map(cmd => aptitudeToStars(calcAptitude(card, cmd)));
+                      return (
+                        <div key={card.id}
+                          className={`relative flex flex-col items-center justify-center gap-1 h-[64px] rounded-[3px] transition-all overflow-hidden ${
+                            showFace
+                              ? "shadow-[0_4px_16px_rgba(248,113,113,0.3),0_0_8px_rgba(248,113,113,0.2)] scale-[1.02] z-10"
+                              : "shadow-[0_3px_8px_rgba(0,0,0,0.6)]"
+                          }`}
+                        >
+                          {/* 적군 흑철/적목재 명패 베이스 */}
+                          <div className="absolute inset-0 bg-cover bg-center transition-all duration-300 pointer-events-none"
+                            style={{
+                              backgroundImage: "url('/images/textures/wood-tablet.jpg')",
+                              filter: showFace ? "brightness(0.2) sepia(0.6) hue-rotate(320deg) saturate(1.5)" : "brightness(0.18) sepia(0.4) hue-rotate(320deg) saturate(0.8)",
+                            }}
+                          />
+                          <div className="absolute inset-0 opacity-[0.1] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+                          
+                          {/* 적군 특유 붉은 금속성 테두리 */}
+                          <div className="absolute inset-0 rounded-[3px] pointer-events-none" style={{
+                            boxShadow: showFace
+                              ? "inset 0 0 0 1px rgba(248,113,113,0.3), inset 0 0 8px rgba(248,113,113,0.2), inset 2px 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(0,0,0,0.4)"
+                              : "inset 0 0 0 1px rgba(120,40,40,0.3), inset 2px 2px 5px rgba(0,0,0,0.7), inset -2px -2px 5px rgba(0,0,0,0.5)",
+                          }} />
+
+                          {showFace && (
+                            <div className="absolute inset-0 bg-gradient-to-t from-red-500/20 via-transparent to-transparent pointer-events-none animate-fade-in" />
+                          )}
+
+                          <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-1">
+                            {isCaptain && <span className="text-amber-400 text-[12px] shrink-0 drop-shadow-[0_0_4px_rgba(217,169,78,0.5)]">&#9813;</span>}
+                            <span className={`text-[14px] leading-tight truncate font-['Noto_Serif_KR',_serif] font-bold ${
+                              showFace ? "text-[#ffcccc] drop-shadow-[0_0_8px_rgba(248,113,113,0.6)]" : "text-[#b08080] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+                            }`}>
+                              {hardMode && !isCaptain ? "???" : card.nickname}
+                            </span>
+                          </div>
+
+                          <div className="relative w-[80%] h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent mt-0.5 mb-1 z-10" />
+
+                          {!hardMode || isCaptain ? (
+                            <div className="flex items-center justify-center gap-2.5 z-10 mb-1">
+                              {stars.map((s, i) => (
+                                <span key={i} className={`flex items-center gap-[2px] text-[11px] font-['Noto_Serif_KR',_serif] font-black tabular-nums ${
+                                  selectedCommand === COMMANDS[i]
+                                    ? CMD_STYLE[COMMANDS[i]].text
+                                    : s >= 4 ? "text-[#e8c050]" : "text-[#b08080]/70"
+                                }`} style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                                  <span className={`[&>svg]:w-[11px] [&>svg]:h-[11px] ${s >= 4 && selectedCommand !== COMMANDS[i] ? "text-red-500/90" : ""}`}>
+                                    {CMD_ICON[COMMANDS[i]]}
+                                  </span>
+                                  {s}
+                                </span>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center gap-2.5 z-10 mb-1 text-[11px] font-['Noto_Serif_KR',_serif] font-bold text-[#b08080]/50" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                              {COMMANDS.map((cmd, i) => (
+                                <span key={i} className="flex items-center gap-[2px]">
+                                  <span className="[&>svg]:w-[11px] [&>svg]:h-[11px]">{CMD_ICON[cmd]}</span>?
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      </div>
+
+          {/* 모바일: 군령패 + 출전 (목패 스타일) */}
+          <div className={`lg:hidden shrink-0 transition-opacity duration-300 bg-[#0a0a0c]/90 backdrop-blur border border-white/5 rounded-2xl pt-4 pb-6 px-4 w-[calc(100%-2rem)] max-w-md mx-auto relative z-10 shadow-[0_8px_32px_rgba(0,0,0,0.6)] mb-8 mt-2 ${
+            isClash ? "opacity-0 hidden" : ""
+          }`}>
+            {/* 좌/우 2열 고정 비율 레이아웃 */}
+            <div className="pointer-events-auto flex items-center justify-center gap-4 w-full px-2 max-w-md mx-auto">
+              
+              {/* 좌측 1열: 선택된 카드 초상화 (크게 확대) */}
+              <div className="flex-1 w-0 flex items-center justify-center">
+                <div className="w-full aspect-[3/4] max-w-[150px] rounded-md relative overflow-hidden bg-[#1a1410] flex items-center justify-center border border-[#5a483a]/60 shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
+                     style={{
+                     boxShadow: selectedCard ? "0 0 15px rgba(217,169,78,0.2), inset 0 0 0 1px rgba(217,169,78,0.4)" : "inset 0 0 0 1px rgba(100,70,45,0.3)"
+                   }}>
+                {/* 텍스처 배경 */}
+                <div className="absolute inset-0 opacity-[0.4] bg-cover bg-center" style={{ backgroundImage: "url('/images/textures/wood-tablet.jpg')" }} />
+                
+                {selectedCard ? (
+                  <div className="absolute inset-1 rounded-[1px] overflow-hidden bg-black">
+                    <img 
+                      src={selectedCard.avatarUrl || `/images/cards/${selectedCard.id}.png`} 
+                      alt={selectedCard.nickname}
+                      className="w-full h-full object-cover object-top opacity-90 transition-opacity duration-300"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.style.display = 'none';
+                      }}
+                    />
+                    {/* 초상화 내부 그라데이션 및 이름 표기 */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute bottom-1 left-0 right-0 text-center">
+                      <span className="text-[11px] font-bold text-[#e8d4a2] drop-shadow-[0_1px_3px_rgba(0,0,0,1)] font-['Noto_Serif_KR',_serif] tracking-wider truncate px-1 block">
+                        {selectedCard.nickname}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center gap-1 opacity-40">
+                    <span className="text-[24px] text-[#a07850] opacity-50 font-serif">?</span>
+                    <span className="text-[8px] font-bold text-[#a07850] tracking-widest">출전 대기</span>
+                  </div>
+                )}
+                
+                  <div className="absolute inset-0 opacity-[0.1] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+                </div>
+              </div>
+
+              {/* 우측 2열: 가이드 텍스트 + 군령패 + 출전 버튼 (수직/수평 중앙 정렬) */}
+              <div className="flex-1 flex flex-col items-center justify-center min-w-0">
+                
+                {/* 가이드 텍스트 */}
+                <p className="w-full text-[12px] font-bold text-accent/80 tracking-[0.2em] text-center mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,1)] truncate"
+                   style={{ fontFamily: "'Noto Serif KR', serif" }}
+                >
+                  {guideText}
+                </p>
+
+                {/* 군령 3목패 수평 배치 */}
+                <div className="flex items-center justify-center gap-1.5 mb-4">
+                  {COMMANDS.map((cmd) => {
+                    const isSelected = selectedCommand === cmd;
+                    const rawApt = selectedCard ? calcAptitude(selectedCard, cmd) : 0;
+                    const isMandateCmd = mandate?.command === cmd;
+                    const apt = isMandateCmd ? rawApt * MANDATE_BONUS : rawApt;
+                    const stars = selectedCard ? aptitudeToStars(apt) : 0;
+                    const isDisabled = !isSelecting;
+                    const label = COMMAND_LABELS[cmd];
+
+                    return (
+                      <div key={cmd} className={`relative transition-all duration-300 ease-out ${
+                        isSelected ? "-translate-y-1.5" : ""
+                      }`}>
+                        {isSelected && !isDisabled && (
+                          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-[70%] h-2 rounded-full pointer-events-none" style={{
+                            background: "radial-gradient(ellipse, rgba(248,113,113,0.5) 0%, transparent 70%)",
+                            filter: "blur(2px)",
+                          }} />
+                        )}
+                        <button type="button"
+                          onClick={() => !isDisabled && handleCommandClick(cmd)}
+                          disabled={isDisabled}
+                          className={`relative flex flex-col items-center w-[52px] h-[86px] rounded-[3px] overflow-hidden transition-all duration-300 ${
+                            isDisabled
+                              ? "opacity-30 cursor-not-allowed saturate-0 shadow-[1px_2px_4px_rgba(0,0,0,0.3)]"
+                              : isSelected
+                                ? "cursor-pointer shadow-[0_3px_12px_rgba(0,0,0,0.6),0_0_10px_rgba(248,113,113,0.15)]"
+                                : "cursor-pointer active:scale-95 shadow-[2px_3px_6px_rgba(0,0,0,0.5)] brightness-[0.85]"
+                          }`}
+                        >
+                          {/* 목재 텍스처 */}
+                          <div className="absolute inset-0 bg-cover bg-center"
+                            style={{
+                              backgroundImage: "url('/images/textures/wood-tablet.jpg')",
+                              filter: isSelected ? "brightness(0.4) saturate(1.1)" : "brightness(0.25) saturate(0.8)",
+                            }}
+                          />
+                          <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay" style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                          }} />
+                          <div className="absolute inset-0 rounded-[3px]" style={{
+                            boxShadow: "inset 1px 1px 3px rgba(0,0,0,0.3), inset -1px -1px 3px rgba(0,0,0,0.2), inset 0 0 6px rgba(0,0,0,0.2)",
+                          }} />
+                          <div className="absolute inset-0 rounded-[3px]" style={{
+                            boxShadow: isSelected
+                              ? "inset 0 0 0 1px rgba(180,80,50,0.5), 0 0 0 1px rgba(0,0,0,0.5)"
+                              : "inset 0 0 0 1px rgba(100,70,45,0.3), 0 0 0 1px rgba(0,0,0,0.3)",
+                          }} />
+                          
+                          {/* 봉인 인장 (크기 축소) */}
+                          <div className="relative w-full flex justify-center pt-2 pb-0.5"
+                            onClick={(e) => { e.stopPropagation(); setInfoCmd(cmd); }}
+                          >
+                            <div className="relative w-3.5 h-3.5 flex items-center justify-center cursor-help">
+                              <div className="absolute inset-0 rounded-full" style={{
+                                background: "radial-gradient(circle at 40% 35%, #6a4830 0%, #3a2818 60%, #2a1a10 100%)",
+                                boxShadow: "inset 0 1px 1px rgba(140,100,60,0.3), inset 0 -1px 1px rgba(0,0,0,0.5)",
+                              }} />
+                              <span className="relative text-[7px] font-bold select-none text-[#c8a064]/60 font-['Noto_Serif_KR',_serif]">
+                                {cmd === "assault" ? "武" : cmd === "stratagem" ? "智" : "政"}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="relative w-4 h-px bg-gradient-to-r from-transparent via-[#a07850]/40 to-transparent mb-0.5" />
+                          
+                          {/* 글자 세로 */}
+                          <div className="relative flex-1 flex flex-col items-center justify-center -mt-0.5">
+                            {label.split("").map((char, i) => (
+                              <span key={i}
+                                className="text-[13px] font-bold leading-none"
+                                style={{
+                                  fontFamily: "'Noto Serif KR', serif",
+                                  ...(isMandateCmd ? {
+                                    color: "#f0c850",
+                                    textShadow: "0 1px 2px rgba(0,0,0,0.8), 0 0 4px rgba(212,168,67,0.6)",
+                                  } : isSelected ? {
+                                    color: "#ff7070",
+                                    textShadow: "0 1px 2px rgba(0,0,0,0.8), 0 0 4px rgba(255,112,112,0.4)",
+                                  } : {
+                                    color: "#9a2a2a",
+                                    textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+                                  }),
+                                }}
+                              >{char}</span>
+                            ))}
+                          </div>
+                          
+                          {/* 적성 숫자 */}
+                          <div className="relative w-4 h-[1.5px] bg-gradient-to-r from-transparent via-[#8b6040]/30 to-transparent mb-1" />
+                          <div className="relative flex items-center justify-center pb-2">
+                            <span className="text-[12px] font-cinzel font-bold tabular-nums leading-none"
+                              style={selectedCard && stars > 0 ? (
+                                stars >= 4 ? { color: "#e8c050", textShadow: "0 0 4px rgba(217,169,78,0.7)" } : 
+                                stars >= 2 ? { color: "rgba(232,192,80,0.6)" } : 
+                                { color: "rgba(60,40,20,0.5)" }
+                              ) : { color: "rgba(40,25,10,0.4)" }}
+                            >{selectedCard ? stars : "-"}</span>
+                          </div>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 가로형 출전 버튼 (크기 및 여백 최적화) */}
+                <div className="relative w-full max-w-[170px] mx-auto">
+                  
+                  {/* 외곽 펄스 (오퍼시티로 제어) */}
+                  <div className={`absolute inset-0 rounded-[3px] pointer-events-none transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-100' : 'opacity-0'}`} style={{ animation: "deploy-pulse 2s ease-in-out infinite" }} />
+                  
+                  <button
+                    type="button"
+                    onClick={handleConfirm}
+                    disabled={!isReady || !isSelecting}
+                    className={`relative w-full h-[42px] rounded-[3px] transition-all duration-300 group/btn ${
+                      isReady && isSelecting
+                        ? "cursor-pointer active:scale-[0.98] active:translate-y-[1px]"
+                        : "cursor-not-allowed opacity-[0.45] grayscale"
+                    }`}
+                    style={isReady && isSelecting ? { filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.6))" } : { filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
+                  >
+                    <div className="absolute inset-0 rounded-[3px] bg-gradient-to-b from-[#4a3d32] to-[#1a1410] border border-[#5a483a]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+                    
+                    {/* 활성화 상태 배경 (오퍼시티 트랜지션) */}
+                    <div className={`absolute inset-[2px] rounded-[1px] transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-100' : 'opacity-0'}`} style={{
+                      background: "linear-gradient(to bottom, #8a1515, #5a0b0b)",
+                      boxShadow: "inset 0 1px 3px rgba(0,0,0,0.7), inset 0 -1px 2px rgba(255,100,100,0.15)",
+                    }} />
+
+                    {/* 비활성화 상태 배경 (오퍼시티 트랜지션) */}
+                    <div className={`absolute inset-[2px] rounded-[1px] bg-[#333] transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-0' : 'opacity-100'}`} style={{
+                      boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)",
+                    }} />
+
+                    {/* 투명 그라데이션 광택 (오퍼시티 트랜지션) */}
+                    <div className={`absolute inset-[2px] rounded-[1px] transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-[0.2]' : 'opacity-0'}`} style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 40%)" }} />
+                    
+                    {/* 텍스처 오버레이 (오퍼시티 트랜지션) */}
+                    <div className={`absolute inset-[2px] mix-blend-overlay pointer-events-none transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-[0.08]' : 'opacity-0'}`} style={{
+                       backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                    }} />
+                    
+                    {/* 텍스트 영역 */}
+                    <div className="absolute inset-0 flex items-center justify-center gap-2 pointer-events-none">
+                      <span className={`text-[10px] font-serif transition-colors duration-300 ${isReady && isSelecting ? "text-[#e8d4a2]" : "text-white/20"}`}
+                        style={isReady && isSelecting ? {
+                          textShadow: "0 1px 2px rgba(0,0,0,0.8)",
+                        } : {}}
+                      >◆</span>
+                      
+                      <div className="flex flex-col items-center justify-center">
+                         <span className={`text-[18px] font-bold tracking-[0.2em] ml-[0.2em] leading-none select-none font-['Noto_Serif_KR',_serif] transition-colors duration-300 ${
+                          isReady && isSelecting ? "text-[#fcf6ea]" : "text-white/40"
+                        }`} style={isReady && isSelecting ? {
+                          textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(212,168,67,0.5)",
+                        } : {}}>
+                          出戰
+                        </span>
+                      </div>
+                      
+                      <span className={`text-[10px] font-serif transition-colors duration-300 ${isReady && isSelecting ? "text-[#e8d4a2]" : "text-white/20"}`}
+                        style={isReady && isSelecting ? {
+                          textShadow: "0 1px 2px rgba(0,0,0,0.8)",
+                        } : {}}
+                      >◆</span>
+                    </div>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>{/* /본문 */}
 
       {/* ━━━━━ 모달 ━━━━━ */}
       {infoCmd && (

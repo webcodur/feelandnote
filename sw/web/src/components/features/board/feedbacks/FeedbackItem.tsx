@@ -12,7 +12,7 @@ interface FeedbackItemProps {
 export default function FeedbackItem({ feedback }: FeedbackItemProps) {
   return (
     <Link
-      href={`/board/feedback/${feedback.id}`}
+      href={`/agora/board/feedback/${feedback.id}`}
       className={`
         group block relative p-4 rounded-lg
         bg-bg-card/60 backdrop-blur-sm

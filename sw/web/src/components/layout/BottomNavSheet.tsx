@@ -50,8 +50,8 @@ export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps)
     {
       title: "게시판",
       items: [
-        { href: "/board/notice", label: "공지사항", icon: Megaphone },
-        { href: "/board/feedback", label: "피드백", icon: MessageSquarePlus },
+        { href: "/agora/board/notice", label: "공지사항", icon: Megaphone },
+        { href: "/agora/board/feedback", label: "피드백", icon: MessageSquarePlus },
       ],
     },
   ];

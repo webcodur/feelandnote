@@ -51,7 +51,9 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - **덕목 8개** (VirtueKey, 0~100): temperance 절제, diligence 근면, reflection 성찰, courage 용기, loyalty 충의, benevolence 인애, fairness 공정, humility 겸양
   - **능력 4개** (AbilityKey, 0~100): command 통솔, martial 무력, intellect 지력, charisma 매력
   - **성향 4개** (TendencyKey, -50~+50): pessimism_optimism, conservative_progressive, individual_social, cautious_bold
+  - **speech_tone** (text): 말투 6종 (loyal/composed/bold/humble/gentle/free). 패권 게임 대사 톤 결정
   - ⚠️ 덕목(품성)과 능력(역량)은 별개. 덕목을 능력으로 취급하거나 혼용 금지
+- **`celeb_dialogues`**: 인물별 고유 대사. celeb_id(PK, profiles FK), lines(JSONB: 6상황×3변형=18개 대사)
 - **`celeb_tags`** / **`celeb_tag_assignments`**: 기획전 태그 (is_featured, 기간 설정)
 
 ### 커뮤니티/시스템
@@ -70,9 +72,8 @@ app/
   (auth)/              # 인증 (login, signup, reset-password)
   (main)/              # 메인 레이아웃
     [userId]/           # 프로필/기록관 (chamber, merits, reading)
-    agora/              # 광장 (feed, celeb-feed, friend-feed, board)
-    arena/              # 전장 (quote, tier-list, time-puzzle)
-    board/              # 게시판 (notice, feedback)
+    agora/              # 광장 (feed, celeb-feed, friend-feed, board/notice, board/feedback)
+    rest/               # 쉼터 (dawn, labyrinth, hegemony)
     content/[contentId]/ # 콘텐츠 상세
     explore/            # 탐색 (celebs, followers, following, friends, similar)
     notifications/
@@ -109,7 +110,7 @@ actions/admin/  |  components/  |  constants/  |  contexts/  |  hooks/  |  lib/s
 | explore | 탐색 | /explore | 셀럽/사용자 탐색, 기획전 |
 | scriptures | 서고 | /scriptures | 셀럽 아카이브 (시대별, 직군별, 선택, 현인) |
 | agora | 광장 | /agora | 피드, 게시판 |
-| arena | 전장 | /arena | 게임/퀴즈 (명언, 티어리스트, 타임퍼즐) |
+| rest | 쉼터 | /rest | 미니게임 (여명, 미궁, 패권) |
 | archive | 기록관 | /[userId] | 개인 프로필 (서재, 업적, 독서) |
 
 ### 콘텐츠 상세 라우팅
@@ -176,7 +177,18 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 - 컬렉션 → 유산(Legacy), 방명록 → 방명석, 팔로우 → 지혜의 결속
 - 스타일: Pillar(기둥), Sarcophagus/Slab(석판)
 
-## MCP 서버
+## 외부 서비스
 
-Supabase MCP 서버 설정됨. DB 스키마 조회, 마이그레이션, SQL 실행 가능.
+### Supabase (MCP 서버)
+DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
+
+### Cloudflare R2 (이미지 저장소)
+셀럽 아바타 이미지를 Cloudflare R2에 저장한다. S3 호환 API 사용.
+- **버킷명**: `feelandnote`
+- **Public URL**: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev`
+- **오브젝트 경로**: `celebs/{celebId}/avatar.webp`
+- **URL 형식**: `{R2_PUBLIC_URL}/celebs/{celebId}/avatar.webp?v={timestamp}`
+- **환경변수**: `sw/web-bo/.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`
+- **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
+- **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`

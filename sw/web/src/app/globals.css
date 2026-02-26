@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   /* Background Colors (Dark Stone Theme) */
@@ -484,6 +485,11 @@
     border-top: 1px solid var(--color-accent-dim);
     box-shadow: 0 -5px 15px rgba(212,175,55,0.1);
   }
+
+  /* Safe Area (iOS notch/home indicator) */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 
 @keyframes modalOverlayIn {
@@ -954,4 +960,35 @@
 .game-bg-layer h2,
 .game-bg-layer p {
   display: none !important;
+}
+
+/* Image Background Pan Animations */
+@keyframes panLeft {
+  0% { transform: translate(0, -5%) scale(1.15); }
+  100% { transform: translate(-10%, -5%) scale(1.15); }
+}
+@keyframes panRight {
+  0% { transform: translate(-10%, -5%) scale(1.15); }
+  100% { transform: translate(0, -5%) scale(1.15); }
+}
+@keyframes panUp {
+  0% { transform: translate(-5%, 0) scale(1.15); }
+  100% { transform: translate(-5%, -10%) scale(1.15); }
+}
+@keyframes panDown {
+  0% { transform: translate(-5%, -10%) scale(1.15); }
+  100% { transform: translate(-5%, 0) scale(1.15); }
+}
+
+.animate-pan-left {
+  animation: panLeft 30s ease-in-out infinite alternate;
+}
+.animate-pan-right {
+  animation: panRight 30s ease-in-out infinite alternate;
+}
+.animate-pan-up {
+  animation: panUp 30s ease-in-out infinite alternate;
+}
+.animate-pan-down {
+  animation: panDown 30s ease-in-out infinite alternate;
 }

@@ -15,8 +15,12 @@ import BattleLobby from "./BattleLobby";
 import CaptainSelect from "./CaptainSelect";
 import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
 import CardInfoModal from "./CardInfoModal";
+import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
+import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { Z_INDEX } from "@/constants/zIndex";
-import type { BattleCard, GamePhase, Difficulty } from "@/lib/game/types";
+import type { BattleCard, Difficulty } from "@/lib/game/types";
+import type { DialogueLines } from "@/lib/game/voice/types";
+import { useDialogue } from "@/components/features/game/shared/hooks/useDialogue";
 
 interface BattleGameProps {
   onEnterFullScreen?: () => void;
@@ -24,7 +28,7 @@ interface BattleGameProps {
   onPhaseChange?: (phase: string) => void;
   onPlayerWinsChange?: (wins: boolean) => void;
   initialAudioReady?: boolean;
-  setBgm: (phase: GamePhase, playerWins?: boolean) => void;
+  setBgm: (state: string, context?: Record<string, unknown>) => void;
   playSfx: (name: string) => void;
   bgmMuted: boolean;
   sfxMuted: boolean;
@@ -33,6 +37,16 @@ interface BattleGameProps {
 }
 
 export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onPlayerWinsChange, initialAudioReady = false, setBgm, playSfx, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleGameProps) {
+  // 대사 시스템 — sfxMuted 상태를 ref로 동기화
+  const sfxMutedRef = useRef(sfxMuted);
+  sfxMutedRef.current = sfxMuted;
+
+  // 자막 상태 — 매번 새 객체 참조로 동일 대사도 재표시
+  const [dialogueSub, setDialogueSub] = useState<DialogueSubtitleData | null>(null);
+  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => {
+    setDialogueSub({ ...sub });
+  }, []);
+
   const {
     state,
     startGame,
@@ -67,7 +81,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
   // 카드 상세 모달
   const [modalCardId, setModalCardId] = useState<string | null>(null);
 
-  // 모든 카드를 하나의 풀에서 검색
+  // 모든 카드를 하나의 풀에서 검색 (개별 배열에만 의존)
   const allCards = useMemo(() => {
     const cards: BattleCard[] = [
       ...state.playerHand, ...state.aiHand,
@@ -75,7 +89,18 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
       ...state.draft.pool, ...state.draft.playerPicks, ...state.draft.aiPicks,
     ];
     return cards;
-  }, [state]);
+  }, [state.playerHand, state.aiHand, state.playerDiscard, state.aiDiscard, state.draft.pool, state.draft.playerPicks, state.draft.aiPicks]);
+
+  // 개인별 대사 Map 구성
+  const personalDialogues = useMemo(() => {
+    const map = new Map<string, DialogueLines>();
+    for (const card of allCards) {
+      if (card.dialogueLines) map.set(card.id, card.dialogueLines);
+    }
+    return map;
+  }, [allCards]);
+
+  const { showDialogue } = useDialogue({ sfxMutedRef, onSubtitle: handleSubtitle, personalDialogues });
 
   const modalCard = useMemo(
     () => modalCardId ? allCards.find((c) => c.id === modalCardId) ?? null : null,
@@ -89,6 +114,11 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
   // 오디오 활성화 게이트
   const [audioReady, setAudioReady] = useState(initialAudioReady);
 
+  // 전체화면 탈출 시 게이트로 복귀
+  useEffect(() => {
+    if (!initialAudioReady) setAudioReady(false);
+  }, [initialAudioReady]);
+
   const handleEnterGame = useCallback(() => {
     setAudioReady(true);
     playSfx("sfx-enter-gate.mp3");
@@ -99,7 +129,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
   useEffect(() => {
     if (!audioReady) return;
     const playerWins = state.playerNation.power > state.aiNation.power;
-    setBgm(state.phase, playerWins);
+    setBgm(state.phase, { playerWins });
   }, [audioReady, state.phase, state.playerNation.power, state.aiNation.power, setBgm]);
 
   // SFX 래퍼
@@ -159,7 +189,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
   if (!audioReady) {
     content = (
       <div className="max-w-md mx-auto flex flex-col items-center text-center">
-        <div className="w-full max-w-sm flex flex-col items-center gap-6 py-8">
+        <div className="w-full max-w-sm flex flex-col items-center gap-6 py-8 bg-black/80 rounded-xl px-6">
           <div className="space-y-2">
             <Swords size={40} className="mx-auto text-accent/60" />
             <h2 className="text-2xl font-serif font-black text-white">패권</h2>
@@ -172,14 +202,14 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
             <Volume2 size={18} className="text-accent" />
             <span className="font-serif font-bold text-accent text-lg">게임 입장</span>
           </button>
-          <p className="text-[10px] text-text-tertiary">사운드와 함께 진행됩니다</p>
+          <p className="text-[10px] text-white/50">사운드와 함께 진행됩니다</p>
         </div>
       </div>
     );
   } else if (state.phase === "loading") {
     content = (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 bg-black/80 rounded-xl px-8 py-6">
           <div className="flex gap-1.5">
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce" />
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:150ms]" />
@@ -210,6 +240,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
         onConfirmDraft={confirmDraft}
         onCardInfo={handleCardInfo}
         playSfx={playSfx}
+        showDialogue={showDialogue}
       />
     );
   } else if (state.phase === "captain") {
@@ -219,9 +250,16 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
         onSelect={selectCaptain}
         onCardInfo={handleCardInfo}
         playSfx={playSfx}
+        showDialogue={showDialogue}
       />
     );
   } else if (state.phase === "battle") {
+    const curMandate = state.mandates.length > 0
+      ? state.mandates[state.mandateIndex % state.mandates.length]
+      : null;
+    const nxtMandate = state.mandates.length > 0
+      ? state.mandates[(state.mandateIndex + 1) % state.mandates.length]
+      : null;
     content = (
       <PlayPhase
         playerHand={state.playerHand}
@@ -234,8 +272,8 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
         battleSubPhase={state.battleSubPhase}
         roundRecords={state.roundRecords}
         pendingRound={state.pendingRound}
-        mandate={state.mandates[state.mandateIndex % state.mandates.length] ?? null}
-        nextMandate={state.mandates[(state.mandateIndex + 1) % state.mandates.length] ?? null}
+        mandate={curMandate}
+        nextMandate={nxtMandate}
         playerCaptainId={state.playerCaptainId}
         aiCaptainId={state.aiCaptainId}
         difficulty={state.difficulty}
@@ -243,6 +281,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
         onAdvanceBattle={advanceBattle}
         onAdvance={advanceRound}
         playSfx={playSfx}
+        showDialogue={showDialogue}
         onCardInfo={handleCardInfo}
       />
     );
@@ -263,6 +302,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
     <>
       {content}
       <PhaseAnnounce data={announce} onDone={() => setAnnounce(null)} />
+      <DialogueSubtitle subtitle={dialogueSub} />
       {modalCard && (
         <CardInfoModal
           card={modalCard}

@@ -11,9 +11,9 @@
 */
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { Minimize2, Home, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 
 export interface BreadcrumbItem {
@@ -30,17 +30,30 @@ interface GameFullScreenProps {
   onHome?: () => void;
   /** 전체화면 뒷배경 (콘텐츠 뒤에 렌더링) */
   background?: React.ReactNode;
+  /** 페이지 진입 시 바로 전체화면 */
+  initialFullScreen?: boolean;
 }
 
-export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background }: GameFullScreenProps) {
-  const [isFullScreen, setIsFullScreen] = useState(false);
+const subscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen }: GameFullScreenProps) {
+  const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [isFullScreen, setIsFullScreen] = useState(initialFullScreen ?? false);
   const [visible, setVisible] = useState(false);
 
   const enterFullScreen = useCallback(() => setIsFullScreen(true), []);
   const exitFullScreen = useCallback(() => {
     setVisible(false);
     onExitFullScreen?.();
-    setTimeout(() => setIsFullScreen(false), 300);
+    setTimeout(() => {
+      setIsFullScreen(false);
+      // 탈출 후 탭 위치로 스크롤
+      requestAnimationFrame(() => {
+        document.getElementById("arena-tabs")?.scrollIntoView({ block: "start" });
+      });
+    }, 300);
   }, [onExitFullScreen]);
 
   // 마운트 후 페이드인
@@ -66,13 +79,13 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
     ? children({ enterFullScreen, isFullScreen })
     : children;
 
-  if (!isFullScreen) {
+  if (!isFullScreen || !isMounted) {
     return <div className="relative">{rendered}</div>;
   }
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-bg-main transition-opacity duration-500 ease-out"
+      className="fixed inset-0 bg-bg-main transition-opacity duration-200 ease-out"
       style={{ zIndex: Z_INDEX.top, opacity: visible ? 1 : 0, isolation: "isolate" }}
     >
       {/* ── Layer 0: 배경 ── */}
@@ -85,66 +98,54 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
       {/* ── Layer 1: UI ── */}
       <div className="absolute inset-0 flex flex-col" style={{ zIndex: 1 }}>
         {/* 헤더 */}
-        <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-black/80 backdrop-blur-sm border-b border-white/10">
+        <div className="shrink-0 flex items-center px-4 py-2 bg-bg-main border-b border-white/10">
           <nav className="flex items-center gap-1.5 min-w-0">
+            <button
+              onClick={() => {
+                exitFullScreen();
+                if (initialFullScreen && onHome) onHome();
+              }}
+              className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-serif transition-colors shrink-0"
+              title="나가기 (ESC)"
+            >
+              나가기
+            </button>
             {onHome && breadcrumbs && breadcrumbs.length > 0 ? (
-              <>
-                <button
-                  onClick={breadcrumbs[0].onClick ?? onHome}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary transition-colors shrink-0"
-                  title="메인화면"
-                >
-                  <Home size={13} />
-                  <span className="text-xs font-serif font-bold">{breadcrumbs[0].label}</span>
-                </button>
-                {breadcrumbs.slice(1).map((item, i) => {
-                  const isLast = i === breadcrumbs.length - 2;
-                  return (
-                    <span key={i} className="flex items-center gap-1 min-w-0">
-                      <ChevronRight size={12} className="text-white/15 shrink-0" />
-                      {isLast ? (
-                        <span className="text-xs font-serif text-accent/80 truncate">{item.label}</span>
-                      ) : (
-                        <button
-                          onClick={item.onClick}
-                          className="text-xs font-serif text-white/40 hover:text-white/70 truncate transition-colors"
-                        >
-                          {item.label}
-                        </button>
-                      )}
-                    </span>
-                  );
-                })}
-              </>
-            ) : onHome ? (
-              <button
-                onClick={onHome}
-                className="p-1.5 rounded-md bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary transition-colors shrink-0"
-                title="메인화면"
-              >
-                <Home size={14} />
-              </button>
+              breadcrumbs.map((item, i) => {
+                const isLast = i === breadcrumbs.length - 1;
+                return (
+                  <span key={i} className="flex items-center gap-1.5 min-w-0">
+                    <ChevronRight size={12} className="text-white/15 shrink-0" />
+                    {isLast ? (
+                      <span className="text-xs font-serif text-accent/80 truncate">{item.label}</span>
+                    ) : (
+                      <button
+                        onClick={item.onClick ?? onHome}
+                        className="text-xs font-serif font-bold text-text-secondary hover:text-text-primary transition-colors truncate"
+                      >
+                        {item.label}
+                      </button>
+                    )}
+                  </span>
+                );
+              })
             ) : title ? (
-              <span className="text-xs font-serif text-accent/80 truncate">{title}</span>
+              <>
+                <ChevronRight size={12} className="text-white/15 shrink-0" />
+                <span className="text-xs font-serif text-accent/80 truncate">{title}</span>
+              </>
             ) : null}
           </nav>
-          <button
-            onClick={exitFullScreen}
-            className="p-1.5 rounded-md bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary transition-colors shrink-0"
-            title="전체화면 해제 (ESC)"
-          >
-            <Minimize2 size={16} />
-          </button>
         </div>
 
         {/* 콘텐츠 */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 md:px-8 lg:px-10 flex flex-col min-h-0">
+        <div className="flex-1 overflow-y-auto px-3 py-2 sm:px-4 md:px-6 lg:px-8 flex flex-col min-h-0">
           {rendered}
         </div>
 
         {/* 푸터 */}
         {footerExtra && (
-          <div className="shrink-0 flex items-center justify-center px-4 py-2 bg-black/80 backdrop-blur-sm border-t border-white/10">
+          <div className="shrink-0 flex items-center justify-center px-4 py-2 bg-bg-main border-t border-white/10">
             {footerExtra}
           </div>
         )}

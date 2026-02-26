@@ -81,9 +81,9 @@ export default function Footer() {
 
           {/* Bottom: Pediment */}
           <div className="mt-10 pt-5 border-t border-white/[0.06] flex items-center justify-between">
-            <p className="font-cinzel text-[10px] text-accent/20 tracking-[0.3em]">
+            <Link href="/lab" className="font-cinzel text-[10px] text-accent/20 tracking-[0.3em] hover:text-accent/30 transition-colors">
               Neo Pantheon Archive
-            </p>
+            </Link>
             <p className="text-[10px] text-text-tertiary/25 font-sans tracking-widest uppercase">
               &copy; {currentYear} FeelDT. All rights reserved.
             </p>
@@ -99,9 +99,9 @@ export default function Footer() {
           {/* Logo & Tagline */}
           <div className="flex flex-col items-center gap-2 mb-6">
             <Logo size="sm" variant="default" />
-            <p className="text-text-tertiary/40 text-[10px] font-light tracking-wide">
+            <Link href="/lab" className="text-text-tertiary/40 text-[10px] font-light tracking-wide hover:text-text-tertiary/50 transition-colors">
               Archive of Taste
-            </p>
+            </Link>
           </div>
 
           {/* Brand Links (inline dot-separated) */}

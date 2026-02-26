@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/shared/GameContentItem.tsx
   기능: 게임 결과 콘텐츠 행 아이템
-  책임: TrackerResult, TimelineResult 공통 콘텐츠 행. 클릭 시 리뷰 모달 또는 상세 페이지 이동
+  책임: TrackerResult, DawnResult 공통 콘텐츠 행. 클릭 시 리뷰 모달 또는 상세 페이지 이동
 */
 "use client";
 
@@ -50,6 +50,8 @@ export interface GameContentItemProps {
   sourceUrl?: string | null;
   ownerNickname?: string;
   size?: "sm" | "md";
+  /** 외부에서 클릭 핸들링 시 모달 대신 호출 */
+  onClickOverride?: () => void;
 }
 
 export default function GameContentItem({
@@ -62,6 +64,7 @@ export default function GameContentItem({
   sourceUrl,
   ownerNickname,
   size = "md",
+  onClickOverride,
 }: GameContentItemProps) {
   const [showReview, setShowReview] = useState(false);
   const Icon = TYPE_ICONS[type] ?? Book;
@@ -106,21 +109,23 @@ export default function GameContentItem({
       <>
         <button
           type="button"
-          onClick={() => setShowReview(true)}
+          onClick={() => onClickOverride ? onClickOverride() : setShowReview(true)}
           className={`flex items-center ${cfg.container} w-full rounded-lg border border-white/10 bg-black/20 hover:bg-white/5 text-left`}
         >
           {inner}
         </button>
-        <ContentReviewModal
-          isOpen={showReview}
-          onClose={() => setShowReview(false)}
-          title={title}
-          creator={creator}
-          review={review}
-          sourceUrl={sourceUrl}
-          ownerNickname={ownerNickname}
-          contentDetailUrl={contentDetailUrl}
-        />
+        {!onClickOverride && (
+          <ContentReviewModal
+            isOpen={showReview}
+            onClose={() => setShowReview(false)}
+            title={title}
+            creator={creator}
+            review={review}
+            sourceUrl={sourceUrl}
+            ownerNickname={ownerNickname}
+            contentDetailUrl={contentDetailUrl}
+          />
+        )}
       </>
     );
   }

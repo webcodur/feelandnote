@@ -5,6 +5,7 @@
 */
 
 import type { AbilityKey } from "@/lib/persona/constants";
+import type { SpeechTone, DialogueLines } from "@/lib/game/voice/types";
 
 // ─── 도메인 (영향력 6대 영역) ───
 
@@ -50,9 +51,13 @@ export interface BattleCard {
   avatarUrl: string | null;
   portraitUrl: string | null;
   quotes: string;
+  gender: boolean | null;
+  speechTone: SpeechTone;
   influence: Record<Domain, number>; // 0-10
   /** 능력치 4개 — 단일원천: persona/constants.ts AbilityKey */
   ability: Record<AbilityKey, number>;
+  /** 인물별 고유 대사 (없으면 공통 대사 폴백) */
+  dialogueLines?: DialogueLines;
 }
 
 // ─── 명령 체계 (3명령 RPS) ───

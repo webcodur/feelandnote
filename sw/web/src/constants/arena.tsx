@@ -46,7 +46,6 @@ export const ARENA_ITEMS: ArenaItem[] = [
     icon: Crown,
     href: "/rest/suikoden",
     description: "역사 속 인물들로 문명을 통일하는 전략 시뮬레이션",
-    hidden: true,
   },
 ];
 

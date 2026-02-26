@@ -662,12 +662,6 @@ const ERA_CONFIG: Record<Era, { label: string; period: string; min: number; max:
   },
 }
 
-function parseYear(birthDate: string | null): number | null {
-  if (!birthDate) return null
-  const match = birthDate.match(/^(-?\d+)/)
-  return match ? parseInt(match[1]) : null
-}
-
 interface EraCeleb {
   id: string
   nickname: string
@@ -690,111 +684,58 @@ export interface EraScriptures {
 export async function getScripturesByEra(): Promise<EraScriptures[]> {
   const supabase = await createClient()
 
-  // 1. 셀럽 프로필 + 생년 조회
-  const { data: celebProfiles, error: profileError } = await supabase
-    .from('profiles')
-    .select('id, birth_date')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .not('birth_date', 'is', null)
+  const { data, error } = await supabase.rpc('get_scriptures_by_era', {
+    p_era: null,
+    p_category: null,
+    p_limit: 6,
+    p_offset: 0,
+  })
 
-  if (profileError || !celebProfiles?.length) {
+  if (error || !data?.length) {
+    if (error) console.error('getScripturesByEra error:', error)
     return []
   }
 
-  // 2. 시대별 셀럽 ID 분류
-  const eraCelebs: Record<Era, string[]> = {
-    ancient: [],
-    medieval: [],
-    modern: [],
-    contemporary: [],
-  }
+  // RPC 결과를 시대별로 그룹핑
+  const eraMap = new Map<string, EraScriptures>()
+  const rows = data as Record<string, unknown>[]
 
-  for (const celeb of celebProfiles) {
-    const year = parseYear(celeb.birth_date)
-    if (year === null) continue
-
-    for (const [era, config] of Object.entries(ERA_CONFIG) as [Era, typeof ERA_CONFIG[Era]][]) {
-      if (year >= config.min && year < config.max) {
-        eraCelebs[era].push(celeb.id)
-        break
-      }
-    }
-  }
-
-  // 3. 일반 사용자(USER) 콘텐츠 카운트 조회 (한 번만)
-  const userCountMap = await fetchUserContentCounts(supabase)
-
-  // 4. 각 시대별 콘텐츠 조회
-  const results: EraScriptures[] = []
-
-  for (const [era, config] of Object.entries(ERA_CONFIG) as [Era, typeof ERA_CONFIG[Era]][]) {
-    const celebIds = eraCelebs[era]
-    if (!celebIds.length) {
-      results.push({ era, label: config.label, period: config.period, description: config.description, contents: [], celebCount: 0, topCelebs: [] })
-      continue
-    }
-
-    // 페이지네이션으로 모든 데이터 가져오기 (먼저 호출해야 카운트 가능)
-    const typedData = await fetchAllUserContents(supabase, celebIds)
-
-    // 1단계: 각 셀럽의 콘텐츠 개수 집계
-    const celebContentCountMap = new Map<string, number>()
-    for (const item of typedData) {
-      const count = celebContentCountMap.get(item.user_id) || 0
-      celebContentCountMap.set(item.user_id, count + 1)
-    }
-
-    // 2단계: 5개 이상인 셀럽만 필터링
-    const eligibleCelebIds = Array.from(celebContentCountMap.entries())
-      .filter(([, count]) => count >= 5)
-      .map(([id]) => id)
-
-    // 3단계: 영향력 조회 (5개 이상인 셀럽 중에서만)
-    const { data: topCelebsData } = await supabase
-      .from('profiles')
-      .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
-      .in('id', eligibleCelebIds.length > 0 ? eligibleCelebIds : ['00000000-0000-0000-0000-000000000000'])
-
-    // 4단계: JavaScript에서 정렬 및 필터링
-    const topCelebs: EraCeleb[] = (topCelebsData || [])
-      .map(c => {
-        const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
-        const contentCount = celebContentCountMap.get(c.id) || 0
-
-        return {
-          id: c.id,
-          nickname: c.nickname,
-          avatar_url: c.avatar_url,
-          title: c.title,
-          influence: influence?.total_score ?? null,
-          count: contentCount
-        }
+  for (const row of rows) {
+    const era = row.era as Era
+    if (!eraMap.has(era)) {
+      eraMap.set(era, {
+        era,
+        label: row.era_label as string,
+        period: row.era_period as string,
+        description: row.era_description as string,
+        contents: [],
+        celebCount: Number(row.celeb_count_in_era),
+        topCelebs: [],
       })
-      .filter(c => c.influence !== null)
-      .sort((a, b) => (b.influence || 0) - (a.influence || 0))
-      .slice(0, 5)
-
-    let { contents } = aggregateContents(typedData, { limit: 999, userCountMap })
-
-    // 전체 셀럽 카운트로 덮어쓰기 (시대 스코프 무관)
-    const globalCounts = await fetchGlobalCelebCounts(supabase, contents.map(c => c.id))
-    for (const content of contents) {
-      content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
     }
-
-    // 전체 셀럽 수 기준으로 다시 정렬 후 상위 6개만
-    contents = contents
-      .sort((a, b) => {
-        if (b.celeb_count !== a.celeb_count) return b.celeb_count - a.celeb_count
-        return a.title.localeCompare(b.title, 'ko')
-      })
-      .slice(0, 6)
-
-    results.push({ era, label: config.label, period: config.period, description: config.description, contents, celebCount: celebIds.length, topCelebs })
+    eraMap.get(era)!.contents.push({
+      id: row.content_id as string,
+      title: row.title as string,
+      creator: (row.creator as string) ?? null,
+      thumbnail_url: (row.thumbnail_url as string) ?? null,
+      type: row.content_type as string,
+      celeb_count: Number(row.celeb_count),
+      user_count: Number(row.user_count),
+      avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+    })
   }
 
-  return results
+  // ERA_CONFIG 순서 보장
+  const eras: Era[] = ['ancient', 'medieval', 'modern', 'contemporary']
+  return eras.map(era => eraMap.get(era) ?? {
+    era,
+    label: ERA_CONFIG[era].label,
+    period: ERA_CONFIG[era].period,
+    description: ERA_CONFIG[era].description,
+    contents: [],
+    celebCount: 0,
+    topCelebs: [],
+  })
 }
 
 // #region 단일 시대 콘텐츠 조회 (카테고리 필터 + 페이지네이션)
@@ -808,48 +749,37 @@ export async function getEraContents(params: {
   const era = params.era as Era
   const page = params.page || 1
   const limit = params.limit || 12
-  const category = params.category || undefined
+  const category = params.category || null
 
-  const config = ERA_CONFIG[era]
-  if (!config) {
+  if (!ERA_CONFIG[era]) {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
-  // 1. 해당 시대 셀럽 ID 조회
-  const { data: celebProfiles } = await supabase
-    .from('profiles')
-    .select('id, birth_date')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .not('birth_date', 'is', null)
+  const offset = (page - 1) * limit
+  const { data, error } = await supabase.rpc('get_scriptures_by_era', {
+    p_era: era,
+    p_category: category,
+    p_limit: limit,
+    p_offset: offset,
+  })
 
-  if (!celebProfiles?.length) {
+  if (error || !data?.length) {
+    if (error) console.error('getEraContents error:', error)
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
-  const celebIds = celebProfiles.filter(c => {
-    const year = parseYear(c.birth_date)
-    return year !== null && year >= config.min && year < config.max
-  }).map(c => c.id)
-
-  if (!celebIds.length) {
-    return { contents: [], total: 0, totalPages: 0, currentPage: page }
-  }
-
-  // 2. 해당 셀럽들의 콘텐츠 조회 (카테고리 필터 포함)
-  const typedData = await fetchAllUserContents(supabase, celebIds, category)
-
-  // 3. 일반 사용자 카운트
-  const userCountMap = await fetchUserContentCounts(supabase, category)
-
-  // 4. 집계 + 페이지네이션
-  let { contents, total } = aggregateContents(typedData, { category: category as CategoryId, page, limit, userCountMap })
-
-  // 5. 전체 셀럽 카운트로 덮어쓰기
-  const globalCounts = await fetchGlobalCelebCounts(supabase, contents.map(c => c.id))
-  for (const content of contents) {
-    content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
-  }
+  const rows = data as Record<string, unknown>[]
+  const total = Number(rows[0]?.total_count ?? 0)
+  const contents: ScriptureContent[] = rows.map(row => ({
+    id: row.content_id as string,
+    title: row.title as string,
+    creator: (row.creator as string) ?? null,
+    thumbnail_url: (row.thumbnail_url as string) ?? null,
+    type: row.content_type as string,
+    celeb_count: Number(row.celeb_count),
+    user_count: Number(row.user_count),
+    avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+  }))
 
   return {
     contents,
@@ -899,62 +829,22 @@ export async function getCelebsForContent(contentId: string): Promise<CelebInfo[
 export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
   const supabase = await createClient()
 
-  // 1. 모든 셀럽의 콘텐츠 개수 집계 (5개 이상만)
-  const { data: contentCounts, error: contentError } = await supabase
-    .from('user_contents')
-    .select('user_id, profiles!user_contents_user_id_fkey!inner(profile_type, status)')
-    .eq('status', 'FINISHED')
-    .eq('profiles.profile_type', 'CELEB')
-    .eq('profiles.status', 'active')
+  const { data, error } = await supabase.rpc('get_top_celebs_across_eras', {
+    p_limit: 3,
+  })
 
-  console.log('[getTopCelebsAcrossAllEras] contentCounts:', contentCounts?.length, 'error:', contentError)
-
-  if (!contentCounts?.length) return []
-
-  // 셀럽별 카운트 집계 (5개 이상만)
-  const countMap = new Map<string, number>()
-  for (const item of contentCounts) {
-    const count = countMap.get(item.user_id) || 0
-    countMap.set(item.user_id, count + 1)
+  if (error || !data?.length) {
+    if (error) console.error('getTopCelebsAcrossAllEras error:', error)
+    return []
   }
 
-  const eligibleCelebIds = Array.from(countMap.entries())
-    .filter(([, count]) => count >= 5)
-    .map(([id]) => id)
-
-  console.log('[getTopCelebsAcrossAllEras] eligibleCelebIds:', eligibleCelebIds.length)
-
-  if (!eligibleCelebIds.length) return []
-
-  // 2. 해당 셀럽들 중 영향력 조회
-  const { data: topCelebsData, error: celebError } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
-    .in('id', eligibleCelebIds)
-
-  console.log('[getTopCelebsAcrossAllEras] topCelebsData:', topCelebsData?.length, 'error:', celebError)
-
-  if (!topCelebsData?.length) return []
-
-  // 3. JavaScript에서 정렬 및 필터링
-  const celebs = topCelebsData
-    .map(c => {
-      const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
-      return {
-        id: c.id,
-        nickname: c.nickname,
-        avatar_url: c.avatar_url,
-        title: c.title,
-        influence: influence?.total_score ?? null,
-        count: countMap.get(c.id) || 0
-      }
-    })
-    .filter(c => c.influence !== null)
-    .sort((a, b) => (b.influence || 0) - (a.influence || 0))
-    .slice(0, 3)
-
-  console.log('[getTopCelebsAcrossAllEras] final celebs:', celebs.length, celebs)
-
-  return celebs
+  return (data as Record<string, unknown>[]).map(row => ({
+    id: row.id as string,
+    nickname: row.nickname as string,
+    avatar_url: (row.avatar_url as string) ?? null,
+    title: (row.title as string) ?? null,
+    influence: row.influence ? Number(row.influence) : null,
+    count: Number(row.content_count),
+  }))
 }
 // #endregion

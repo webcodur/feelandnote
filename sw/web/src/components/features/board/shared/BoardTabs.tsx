@@ -10,8 +10,8 @@ import { usePathname } from "next/navigation";
 import PageTabs from "@/components/shared/PageTabs";
 
 const BOARD_TABS = [
-  { value: "notice", label: "공지사항", href: "/board/notice" },
-  { value: "feedback", label: "피드백", href: "/board/feedback" },
+  { value: "notice", label: "공지사항", href: "/agora/board/notice" },
+  { value: "feedback", label: "피드백", href: "/agora/board/feedback" },
 ] as const;
 
 export default function BoardTabs() {

@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
 
 // #region Types
 interface UploadCelebImageInput {
@@ -29,68 +29,52 @@ interface UploadSingleImageResult {
 // #endregion
 
 // #region Constants
-const BUCKET_NAME = 'avatars'
 const CELEB_FOLDER = 'celebs'
 // #endregion
+
+function buildKey(celebId: string, filename: string): string {
+  return `${CELEB_FOLDER}/${celebId}/${filename}`
+}
+
+function buildPublicUrl(key: string): string {
+  return `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
+}
 
 // #region uploadCelebImages
 export async function uploadCelebImages(
   input: UploadCelebImageInput
 ): Promise<UploadCelebImageResult> {
-  const adminClient = createAdminClient()
   const { celebId, smImage, mdImage } = input
 
-  // base64 → Buffer 변환
   const smBuffer = Buffer.from(smImage.split(',')[1], 'base64')
   const mdBuffer = Buffer.from(mdImage.split(',')[1], 'base64')
 
-  const smPath = `${CELEB_FOLDER}/${celebId}/sm.webp`
-  const mdPath = `${CELEB_FOLDER}/${celebId}/md.webp`
+  const smKey = buildKey(celebId, 'sm.webp')
+  const mdKey = buildKey(celebId, 'md.webp')
 
-  // 기존 이미지 삭제 (있으면)
-  await adminClient.storage.from(BUCKET_NAME).remove([smPath, mdPath])
+  try {
+    await Promise.all([
+      uploadToR2(smKey, smBuffer, 'image/webp'),
+      uploadToR2(mdKey, mdBuffer, 'image/webp'),
+    ])
 
-  // 새 이미지 업로드
-  const [smResult, mdResult] = await Promise.all([
-    adminClient.storage.from(BUCKET_NAME).upload(smPath, smBuffer, {
-      contentType: 'image/webp',
-      upsert: true,
-    }),
-    adminClient.storage.from(BUCKET_NAME).upload(mdPath, mdBuffer, {
-      contentType: 'image/webp',
-      upsert: true,
-    }),
-  ])
-
-  if (smResult.error || mdResult.error) {
+    return {
+      success: true,
+      avatarUrl: buildPublicUrl(smKey),
+    }
+  } catch (err) {
     return {
       success: false,
-      error: smResult.error?.message || mdResult.error?.message,
+      error: err instanceof Error ? err.message : 'R2 upload failed',
     }
-  }
-
-  // Public URL 생성
-  const { data: smUrlData } = adminClient.storage
-    .from(BUCKET_NAME)
-    .getPublicUrl(smPath)
-  const { data: mdUrlData } = adminClient.storage
-    .from(BUCKET_NAME)
-    .getPublicUrl(mdPath)
-
-  return {
-    success: true,
-    avatarUrl: smUrlData.publicUrl,
   }
 }
 // #endregion
 
 // #region deleteCelebImages
 export async function deleteCelebImages(celebId: string): Promise<void> {
-  const adminClient = createAdminClient()
-
-  const smPath = `${CELEB_FOLDER}/${celebId}/avatar.webp`
-
-  await adminClient.storage.from(BUCKET_NAME).remove([smPath])
+  const key = buildKey(celebId, 'avatar.webp')
+  await deleteFromR2(key)
 }
 // #endregion
 
@@ -98,28 +82,19 @@ export async function deleteCelebImages(celebId: string): Promise<void> {
 export async function uploadCelebImage(
   input: UploadSingleImageInput
 ): Promise<UploadSingleImageResult> {
-  const adminClient = createAdminClient()
   const { celebId, image } = input
 
   const buffer = Buffer.from(image.split(',')[1], 'base64')
-  const filename = 'avatar.webp'
-  const path = `${CELEB_FOLDER}/${celebId}/${filename}`
+  const key = buildKey(celebId, 'avatar.webp')
 
-  // 기존 이미지 삭제 후 업로드
-  await adminClient.storage.from(BUCKET_NAME).remove([path])
-
-  const { error } = await adminClient.storage.from(BUCKET_NAME).upload(path, buffer, {
-    contentType: 'image/webp',
-    upsert: true,
-  })
-
-  if (error) {
-    return { success: false, error: error.message }
+  try {
+    await uploadToR2(key, buffer, 'image/webp')
+    return { success: true, url: buildPublicUrl(key) }
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : 'R2 upload failed',
+    }
   }
-
-  const { data } = adminClient.storage.from(BUCKET_NAME).getPublicUrl(path)
-  // 캐시 무효화를 위한 타임스탬프 추가
-  const urlWithCacheBust = `${data.publicUrl}?v=${Date.now()}`
-  return { success: true, url: urlWithCacheBust }
 }
 // #endregion

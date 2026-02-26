@@ -32,6 +32,13 @@ export const SCRIPTURES_TABS: ScripturesTab[] = [
     href: "/scriptures/profession",
     description: "직업별 추천 콘텐츠",
   },
+  {
+    value: "history",
+    label: "콘텐츠 역사",
+    icon: Scroll,
+    href: "/scriptures/history",
+    description: "인류 지식 매체와 콘텐츠의 연대기",
+  },
 ];
 
 // 4행 구조: 4x4x4x3 그리드 (갈림길 페이지용)

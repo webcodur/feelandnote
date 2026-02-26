@@ -33,14 +33,14 @@ export default function FeedbackList({
       params.set('page', String(page))
     }
     const query = params.toString()
-    router.push(`/board/feedback${query ? `?${query}` : ''}`)
+    router.push(`/agora/board/feedback${query ? `?${query}` : ''}`)
   }
 
   return (
     <div>
       {isLoggedIn && (
         <div className="flex justify-end mb-6">
-          <Link href="/board/feedback/write">
+          <Link href="/agora/board/feedback/write">
             <Button size="sm" className="gap-2">
               <Plus size={16} />
               <span className="font-serif">피드백 작성</span>

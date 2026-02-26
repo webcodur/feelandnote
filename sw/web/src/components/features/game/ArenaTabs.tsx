@@ -16,9 +16,11 @@ export default function ArenaTabs() {
   const activeTab = ARENA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "dawn";
 
   return (
-    <PageTabs
-      tabs={visibleItems}
-      activeTabValue={activeTab}
-    />
+    <div id="arena-tabs" className="scroll-mt-16">
+      <PageTabs
+        tabs={visibleItems}
+        activeTabValue={activeTab}
+      />
+    </div>
   );
 }

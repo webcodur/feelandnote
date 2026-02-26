@@ -33,14 +33,14 @@ export default function NoticeList({
       params.set('page', String(page))
     }
     const query = params.toString()
-    router.push(`/board/notice${query ? `?${query}` : ''}`)
+    router.push(`/agora/board/notice${query ? `?${query}` : ''}`)
   }
 
   return (
     <div>
       {isAdmin && (
         <div className="flex justify-end mb-6">
-          <Link href="/board/notice/write">
+          <Link href="/agora/board/notice/write">
             <Button size="sm" className="gap-2">
               <Plus size={16} />
               <span className="font-serif">공지 작성</span>

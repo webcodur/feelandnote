@@ -32,7 +32,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
       : await updateFeedback({ id: initialData!.id, title, content })
 
     if (result.success) {
-      router.push(`/board/feedback/${result.data.id}`)
+      router.push(`/agora/board/feedback/${result.data.id}`)
     } else {
       setError(result.message)
       setIsSubmitting(false)
@@ -43,7 +43,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
     <div>
       {/* 뒤로가기 */}
       <Link
-        href="/board/feedback"
+        href="/agora/board/feedback"
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-6"
       >
         <ArrowLeft size={16} />
@@ -123,7 +123,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
 
         {/* 제출 버튼 */}
         <div className="flex justify-end gap-3">
-          <Link href="/board/feedback">
+          <Link href="/agora/board/feedback">
             <Button type="button" variant="ghost">
               취소
             </Button>

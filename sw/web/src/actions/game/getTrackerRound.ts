@@ -70,11 +70,17 @@ function censorName(text: string, nickname: string): string {
   const escaped = nickname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   let result = text.replace(new RegExp(escaped, "gi"), "■■■");
 
-  // 성/이름 부분일치 치환 (2글자 이상 토큰만)
-  const tokens = nickname.split(/\s+/).filter((t) => t.length >= 2);
+  // 모든 토큰 치환 (성/이름 부분일치)
+  const tokens = nickname.split(/\s+/).filter(Boolean);
   for (const token of tokens) {
     const esc = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    result = result.replace(new RegExp(esc, "gi"), "■■■");
+    if (token.length >= 2) {
+      // 2글자 이상: 그대로 치환
+      result = result.replace(new RegExp(esc, "gi"), "■■■");
+    } else {
+      // 1글자: 뒤에 조사/공백이 따라올 때만 치환 (오탐 방지)
+      result = result.replace(new RegExp(esc + "(?=[은는이가의를을에]|\\s|$)", "g"), "■■■");
+    }
   }
   return result;
 }
@@ -82,17 +88,18 @@ function censorName(text: string, nickname: string): string {
 export async function getTrackerRound(
   excludeIds: string[] = []
 ): Promise<TrackerRound | null> {
+  const safeIds = Array.isArray(excludeIds) ? excludeIds : [];
   const supabase = await createClient();
 
   // 1. 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + persona + review 있는 콘텐츠 + philosophy)
   const { data: candidates, error: candErr } = await supabase.rpc(
     "get_tracker_candidates",
-    { exclude_ids: excludeIds }
+    { exclude_ids: safeIds }
   );
 
   // RPC가 없으면 직접 쿼리
   if (candErr) {
-    return getTrackerRoundFallback(excludeIds);
+    return getTrackerRoundFallback(safeIds);
   }
 
   if (!candidates || candidates.length === 0) return null;
@@ -135,16 +142,23 @@ async function getTrackerRoundFallback(
 
   const personaSet = new Set((personas ?? []).map((p) => p.celeb_id));
 
-  // 리뷰 있는 콘텐츠 존재 확인
-  const { data: reviewCounts } = await supabase
+  // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
+  const { data: reviewRows } = await supabase
     .from("user_contents")
     .select("user_id")
     .in("user_id", celebIds)
     .not("review", "is", null)
     .neq("review", "");
 
-  const reviewSet = new Set((reviewCounts ?? []).map((r) => r.user_id));
-  const excludeSet = new Set(excludeIds);
+  const reviewCountMap = new Map<string, number>();
+  for (const r of reviewRows ?? []) {
+    reviewCountMap.set(r.user_id, (reviewCountMap.get(r.user_id) ?? 0) + 1);
+  }
+  const reviewSet = new Set(
+    [...reviewCountMap.entries()].filter(([, count]) => count >= 4).map(([id]) => id)
+  );
+  const safeExclude = Array.isArray(excludeIds) ? excludeIds : [];
+  const excludeSet = new Set(safeExclude);
 
   const eligible = publicDomain.filter(
     (c) =>
@@ -186,14 +200,14 @@ async function buildRound(
 
   if (!personaData) return null;
 
-  // 3. 리뷰 있는 콘텐츠 최대 5건
+  // 3. 리뷰 있는 콘텐츠 최대 8건
   const { data: ucData } = await supabase
     .from("user_contents")
     .select("content_id, review, source_url")
     .eq("user_id", celebId)
     .not("review", "is", null)
     .neq("review", "")
-    .limit(5);
+    .limit(8);
 
   const contentIds = (ucData ?? []).map((uc) => uc.content_id);
   let contents: TrackerContent[] = [];
@@ -260,7 +274,7 @@ async function buildRound(
 
   // 유사도 내림차순 정렬 후, 동점 내 랜덤 셔플
   scored.sort((a, b) => b.similarity - a.similarity || Math.random() - 0.5);
-  const distractors = scored.slice(0, 3);
+  const distractors = scored.slice(0, 5);
 
   const options: TrackerOption[] = [
     { id: celebId, nickname, avatarUrl },

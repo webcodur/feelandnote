@@ -1,10 +1,14 @@
+/*
+  파일명: components/features/game/suikoden/SuikodenGame.tsx
+  기능: 천도 게임 메인 컴포넌트
+  책임: GameShell의 Game 인터페이스를 구현. setup → wandering → strategy → battle → result 흐름 관리.
+*/
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
-import type { GameState, GameCharacter, GameItem, GamePhase, Era, DialogEntry } from '@/lib/game/suikoden/types'
+import { useState, useCallback, useEffect, type MutableRefObject } from 'react'
+import type { GameState, GameCharacter, GameItem, Era, DialogEntry } from '@/lib/game/suikoden/types'
 import { initGame } from '@/lib/game/suikoden/engine'
 import { preloadAssets } from '@/lib/game/suikoden/assetManager'
-import TitleScreen from './TitleScreen'
 import SetupScreen from './SetupScreen'
 import WanderingScreen from './WanderingScreen'
 import StrategyScreen from './StrategyScreen'
@@ -13,19 +17,23 @@ import DispositionScreen from './DispositionScreen'
 import ResultScreen from './ResultScreen'
 import DialogSnackbar from './DialogSnackbar'
 
-interface Props {
+interface SuikodenGameProps {
   characters: GameCharacter[]
   items: GameItem[]
+  onEnterFullScreen?: () => void
+  onHomeRef?: MutableRefObject<(() => void) | null>
+  onPhaseChange?: (phase: string) => void
+  onStartRef?: MutableRefObject<((...args: any[]) => void) | null>
 }
 
-/** phase를 gameState.phase로 일원화. title/setup은 gameState 없이 별도 관리 */
-type PreGamePhase = 'title' | 'setup'
+type InternalPhase = 'idle' | 'setup' | 'ingame'
 
-export default function SuikodenGame({ characters, items }: Props) {
-  const [prePhase, setPrePhase] = useState<PreGamePhase | null>('title')
+export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChange, onStartRef }: SuikodenGameProps) {
+  const [internalPhase, setInternalPhase] = useState<InternalPhase>('idle')
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [dialogQueue, setDialogQueue] = useState<DialogEntry[]>([])
+  const [devBlocked, setDevBlocked] = useState(false)
 
   const pushDialog = useCallback((entry: DialogEntry) => {
     setDialogQueue(prev => [...prev, entry])
@@ -39,59 +47,105 @@ export default function SuikodenGame({ characters, items }: Props) {
     setDialogQueue([])
   }, [])
 
+  // 에셋 프리로드
   useEffect(() => {
     preloadAssets(characters).then(() => setAssetsLoaded(true))
   }, [characters])
 
-  const handleStart = useCallback(() => setPrePhase('setup'), [])
+  // phase 리포트
+  useEffect(() => {
+    if (internalPhase === 'idle') {
+      onPhaseChange?.('idle')
+    } else if (internalPhase === 'setup') {
+      onPhaseChange?.('setup')
+    } else if (gameState) {
+      onPhaseChange?.(gameState.phase)
+    }
+  }, [internalPhase, gameState?.phase, onPhaseChange])
 
+  // 홈 (idle 복귀)
+  const handleHome = useCallback(() => {
+    setGameState(null)
+    setDialogQueue([])
+    setInternalPhase('idle')
+  }, [])
+
+  useEffect(() => {
+    if (onHomeRef) onHomeRef.current = handleHome
+  }, [onHomeRef, handleHome])
+
+  // 시작 (로비에서 호출)
+  const handleStart = useCallback(() => {
+    if (process.env.NODE_ENV !== 'development') {
+      setDevBlocked(true)
+      return
+    }
+    setInternalPhase('setup')
+  }, [])
+
+  useEffect(() => {
+    if (onStartRef) onStartRef.current = handleStart
+  }, [onStartRef, handleStart])
+
+  // 셋업 완료 → 인게임
   const handleSetupComplete = useCallback((leaderId: string, difficulty: 'easy' | 'normal' | 'hard', era: Era) => {
     const state = initGame(characters, leaderId, difficulty, era)
     state.allItems = items
     setGameState(state)
-    setPrePhase(null) // 프리게임 종료 → gameState.phase가 'wandering'
+    setInternalPhase('ingame')
   }, [characters, items])
 
-  const handleRestart = useCallback(() => {
-    setGameState(null)
-    setPrePhase('title')
-  }, [])
-
-  // gameState 업데이트 (모든 화면에서 공용)
+  // gameState 업데이트
   const updateState = useCallback((fn: (s: GameState) => GameState) => {
     setGameState(prev => prev ? fn(prev) : prev)
   }, [])
 
-  // ── 프리게임 (title / setup) ──
-  if (prePhase !== null) {
-    if (!assetsLoaded && prePhase === 'title') {
+  // ── idle: 아무것도 렌더하지 않음 (로비는 GameShell이 관리) ──
+  if (internalPhase === 'idle') {
+    return (
+      <>
+        {devBlocked && (
+          <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center" onClick={() => setDevBlocked(false)}>
+            <div className="bg-bg-main border border-white/10 rounded-xl px-8 py-6 text-center max-w-xs mx-4" onClick={e => e.stopPropagation()}>
+              <div className="text-3xl mb-3">🔨</div>
+              <p className="text-white font-serif font-bold mb-2">개발 중</p>
+              <p className="text-text-secondary text-sm leading-relaxed">천도는 현재 개발 중입니다.<br />조금만 기다려주세요.</p>
+              <button onClick={() => setDevBlocked(false)} className="mt-4 px-6 py-2 bg-white/5 border border-white/10 rounded-xl text-text-secondary text-sm hover:bg-white/10 transition-colors">
+                확인
+              </button>
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
+
+  // ── setup ──
+  if (internalPhase === 'setup') {
+    if (!assetsLoaded) {
       return (
-        <div className="flex items-center justify-center min-h-[60vh] text-stone-400">
+        <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <div className="text-4xl mb-4 animate-pulse">⚔️</div>
-            <p>데이터 로딩 중...</p>
-            <p className="text-sm text-stone-500 mt-2">{characters.length}명의 인물</p>
+            <div className="animate-pulse text-text-secondary font-serif">데이터 로딩 중...</div>
+            <p className="text-xs text-text-tertiary mt-2">{characters.length}명의 인물</p>
           </div>
         </div>
       )
     }
-    if (prePhase === 'title') return <TitleScreen characterCount={characters.length} onStart={handleStart} />
-    if (prePhase === 'setup') return <SetupScreen characters={characters} onComplete={handleSetupComplete} onBack={() => setPrePhase('title')} />
+    return <SetupScreen characters={characters} onComplete={handleSetupComplete} onBack={handleHome} />
   }
 
-  // ── 인게임: 메인 콘텐츠 + 오버레이 레이어 ──
+  // ── ingame ──
   if (!gameState) return null
   const phase = gameState.phase
 
   return (
     <>
-      {/* 메인 콘텐츠: 방랑 OR 전략 (둘 중 하나만) */}
       {phase === 'wandering' && <WanderingScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} onClearDialogs={clearDialogs} />}
       {(phase === 'strategy' || phase === 'battle' || phase === 'disposition' || phase === 'result') && (
         <StrategyScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} />
       )}
 
-      {/* 오버레이: 전투 */}
       {phase === 'battle' && gameState.battle && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center overflow-y-auto">
           <div className="w-full max-w-2xl mx-4 my-8">
@@ -100,7 +154,6 @@ export default function SuikodenGame({ characters, items }: Props) {
         </div>
       )}
 
-      {/* 오버레이: 포로 처분 */}
       {phase === 'disposition' && gameState.disposition && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center overflow-y-auto">
           <div className="w-full max-w-md mx-4 my-8">
@@ -109,7 +162,6 @@ export default function SuikodenGame({ characters, items }: Props) {
         </div>
       )}
 
-      {/* 대화 스낵바 */}
       {gameState.settings && (
         <DialogSnackbar
           queue={dialogQueue}
@@ -118,10 +170,9 @@ export default function SuikodenGame({ characters, items }: Props) {
         />
       )}
 
-      {/* 오버레이: 결과 */}
       {phase === 'result' && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
-          <ResultScreen state={gameState} onRestart={handleRestart} />
+          <ResultScreen state={gameState} onRestart={handleHome} />
         </div>
       )}
     </>

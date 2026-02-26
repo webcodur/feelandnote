@@ -44,8 +44,6 @@ interface Props {
   masked?: boolean;
   /** 주장 카드 표시 */
   isCaptain?: boolean;
-  /** 부모 높이에 맞춰 초상화를 늘림 (주장 대형 카드용) */
-  stretch?: boolean;
   /** 주장 배지 클릭 시 설명 모달 */
   onCaptainInfo?: () => void;
 }
@@ -53,7 +51,7 @@ interface Props {
 export default function BattleCard({
   card, onClick, disabled, onInfo, selected, faceDown,
   pickedBy, mode = "draft", activeCommand, compact,
-  targetable, targeted, masked, isCaptain, stretch, onCaptainInfo,
+  targetable, targeted, masked, isCaptain, onCaptainInfo,
 }: Props) {
   if (faceDown) {
     return (
@@ -99,14 +97,13 @@ export default function BattleCard({
       onClick={!disabled ? onClick : undefined}
       onKeyDown={onClick && !disabled ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } } : undefined}
       className={`
-        group relative flex flex-col rounded-md border overflow-hidden font-sans transition-all duration-200
-        ${stretch ? "h-full" : ""}
-        ${borderClass}
+        group relative flex flex-col rounded-md overflow-hidden font-sans transition-all duration-200
+        border ${borderClass}
         ${disabled ? "cursor-not-allowed" : onClick ? "cursor-pointer hover:-translate-y-0.5" : ""}
       `}
     >
       {/* ── 1행: 초상화 ── */}
-      <div className={`relative w-full ${stretch ? "flex-1 min-h-0" : "aspect-square"}`} style={{ background: "radial-gradient(circle at 50% 40%, #24242e 0%, #14141a 70%, #0e0e14 100%)" }}>
+      <div className="relative w-full aspect-square" style={{ background: "radial-gradient(circle at 50% 40%, #24242e 0%, #14141a 70%, #0e0e14 100%)" }}>
         {card.avatarUrl ? (
           <Image src={card.avatarUrl} alt={card.nickname} fill className="object-cover" sizes="120px" />
         ) : (

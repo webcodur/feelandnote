@@ -41,7 +41,7 @@ export default function FeedbackDetail({
     const result = await deleteFeedback(feedback.id)
 
     if (result.success) {
-      router.push('/board/feedback')
+      router.push('/agora/board/feedback')
     } else {
       alert(result.message)
       setIsDeleting(false)
@@ -52,7 +52,7 @@ export default function FeedbackDetail({
     <div className="relative">
       {/* 뒤로가기 */}
       <Link
-        href="/board/feedback"
+        href="/agora/board/feedback"
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
@@ -76,7 +76,7 @@ export default function FeedbackDetail({
           </div>
           {canEdit && (
             <div className="flex items-center gap-2">
-              <Link href={`/board/feedback/${feedback.id}/edit`}>
+              <Link href={`/agora/board/feedback/${feedback.id}/edit`}>
                 <Button variant="ghost" size="sm" className="font-serif">
                   <Edit3 size={14} />
                   수정

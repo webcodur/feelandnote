@@ -1,135 +1,110 @@
 /*
   파일명: components/features/game/TrackerGame.tsx
   기능: 인물추적 게임 메인 컴포넌트
-  책임: 6단계 게임 플로우 관리 (스탯→콘텐츠→철학→소개→명언→최종→결과)
+  책임: 5단계 배제형 힌트 해금 게임 플로우 관리 (6명 후보)
+    - Stage 1 (단서 1): 콘텐츠 1개 — 시작 시 무료
+    - Stage 2 (단서 2): 콘텐츠 2개째 — 배제 1회로 해금
+    - Stage 3 (단서 3): 콘텐츠 3개째 — 배제 2회로 해금
+    - Stage 4 (단서 4): 콘텐츠 4개째 — 배제 3회로 해금
+    - Stage 5 (철학): 감상 철학 — 배제 4회로 해금
 */
 "use client";
 
-import { Fragment, useState, useCallback, useEffect } from "react";
-import { Info, Crosshair, CheckCircle, Flame, SkipForward } from "lucide-react";
+import { useState, useCallback, useEffect, useMemo, type MutableRefObject } from "react";
+import { CheckCircle, BookOpen, Brain, Lock, ShieldCheck, Search } from "lucide-react";
 import { getTrackerRound, type TrackerRound } from "@/actions/game/getTrackerRound";
 import { cn } from "@/lib/utils";
-import { PUBLIC_DOMAIN_NOTICE } from "./utils";
-import StatReveal from "./tracker/StatReveal";
 import ContentReveal from "./tracker/ContentReveal";
 import PhilosophyReveal from "./tracker/PhilosophyReveal";
-import BioReveal from "./tracker/BioReveal";
-import QuotesReveal from "./tracker/QuotesReveal";
 import MultipleChoice from "./tracker/MultipleChoice";
 import TrackerResult from "./tracker/TrackerResult";
 
-type GameStage = "idle" | "loading" | "stat" | "content" | "philosophy" | "bio" | "quotes" | "choice" | "result";
+type GameStage = "idle" | "loading" | "stage1" | "stage2" | "stage3" | "stage4" | "stage5" | "result";
 
-const STAGE_SCORES: Record<string, number> = {
-  stat: 6, content: 5, philosophy: 4, bio: 3, quotes: 2, choice: 1,
-};
+const HINT_STAGES = [
+  { key: "stage1", label: "단서 1", icon: Search },
+  { key: "stage2", label: "단서 2", icon: Search },
+  { key: "stage3", label: "단서 3", icon: BookOpen },
+  { key: "stage4", label: "단서 4", icon: BookOpen },
+  { key: "stage5", label: "철학", icon: Brain },
+] as const;
 
-const HIGHSCORE_KEY = "tracker-highscore";
-const ALL_STAGES: GameStage[] = ["stat", "content", "philosophy", "bio", "quotes", "choice"];
+interface TrackerGameProps {
+  onEnterFullScreen?: () => void;
+  onHomeRef?: MutableRefObject<(() => void) | null>;
+  onPhaseChange?: (phase: string) => void;
+  onStartRef?: MutableRefObject<((excludeIds?: string[]) => void) | null>;
+}
 
-export default function TrackerGame() {
+export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onStartRef }: TrackerGameProps = {}) {
   const [stage, setStage] = useState<GameStage>("idle");
   const [round, setRound] = useState<TrackerRound | null>(null);
-  const [contentIndex, setContentIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [totalScore, setTotalScore] = useState(0);
-  const [streak, setStreak] = useState(0);
-  const [highScore, setHighScore] = useState(0);
-  const [isNewRecord, setIsNewRecord] = useState(false);
+  const [eliminatedIds, setEliminatedIds] = useState<string[]>([]);
   const [solved, setSolved] = useState(false);
-  const [showScorePop, setShowScorePop] = useState(false);
+  const [correct, setCorrect] = useState(false);
   const [usedIds, setUsedIds] = useState<string[]>([]);
+  const [viewStage, setViewStage] = useState<GameStage>("stage1");
+  const [eliminateToast, setEliminateToast] = useState<string | null>(null);
 
+  // 해금: stage1 무료, stage2=배제1회, ... stage5=배제4회
+  const unlockedIndex = useMemo(() => {
+    return Math.min(eliminatedIds.length, 4);
+  }, [eliminatedIds]);
+
+  // stage 진행 시 viewStage 동기화
   useEffect(() => {
-    const saved = localStorage.getItem(HIGHSCORE_KEY);
-    if (saved) setHighScore(parseInt(saved, 10));
-  }, []);
+    if (stage === "stage1" || stage === "stage2" || stage === "stage3" || stage === "stage4" || stage === "stage5") {
+      setViewStage(stage);
+    }
+  }, [stage]);
 
-  const updateHighScore = useCallback(
-    (newTotal: number) => {
-      if (newTotal > highScore) {
-        setHighScore(newTotal);
-        setIsNewRecord(true);
-        localStorage.setItem(HIGHSCORE_KEY, newTotal.toString());
-      } else {
-        setIsNewRecord(false);
-      }
-    },
-    [highScore]
-  );
+  useEffect(() => { onPhaseChange?.(stage); }, [stage, onPhaseChange]);
 
   const startRound = useCallback(async (excludeIds: string[] = []) => {
     setStage("loading");
-    setContentIndex(0);
-    setScore(0);
+    setEliminatedIds([]);
+    setEliminateToast(null);
     setSolved(false);
-    setShowScorePop(false);
-    setIsNewRecord(false);
+    setCorrect(false);
     const data = await getTrackerRound(excludeIds);
     if (!data) { setStage("idle"); return; }
     setRound(data);
-    setStage("stat");
+    setStage("stage1");
   }, []);
-
-  const handleCorrect = useCallback(
-    (stageKey: string) => {
-      const earned = STAGE_SCORES[stageKey] ?? 0;
-      const newTotal = totalScore + earned;
-      setScore(earned);
-      setTotalScore(newTotal);
-      setStreak((s) => s + 1);
-      updateHighScore(newTotal);
-      setSolved(true);
-      setShowScorePop(true);
-      setTimeout(() => setShowScorePop(false), 1500);
-    },
-    [totalScore, updateHighScore]
-  );
 
   const goToResult = useCallback(() => setStage("result"), []);
 
-  const getNextStage = useCallback(
-    (current: GameStage): GameStage => {
-      if (!round) return "choice";
-      const idx = ALL_STAGES.indexOf(current);
-      for (let i = idx + 1; i < ALL_STAGES.length; i++) {
-        const next = ALL_STAGES[i];
-        if (next === "content" && round.contents.length === 0) continue;
-        if (next === "philosophy" && !round.consumptionPhilosophy) continue;
-        if (next === "bio" && !round.bio) continue;
-        if (next === "quotes" && !round.quotes) continue;
-        return next;
+  // 배제 핸들러
+  const handleEliminate = useCallback(
+    (id: string) => {
+      if (!round || solved) return;
+      if (id === round.celebId) {
+        setCorrect(false);
+        setSolved(true);
+        return;
       }
-      return "choice";
+      const newEliminated = [...eliminatedIds, id];
+      setEliminatedIds(newEliminated);
+      const eliminated = round.options.find(o => o.id === id);
+      setEliminateToast(eliminated?.nickname ?? "용의자");
+      setTimeout(() => setEliminateToast(null), 1500);
+      // 배제 성공 → 다음 stage 해금 및 자동 이동
+      if (newEliminated.length === 1) setStage("stage2");
+      else if (newEliminated.length === 2) setStage("stage3");
+      else if (newEliminated.length === 3) setStage("stage4");
+      else if (newEliminated.length === 4) setStage("stage5");
     },
-    [round]
+    [round, solved, eliminatedIds]
   );
-
-  const advanceStage = useCallback((next: GameStage) => {
-    if (next === "content") setContentIndex(1);
-    setStage(next);
-  }, []);
-
-  const handlePass = useCallback(() => {
-    if (stage === "content" && round) {
-      const max = Math.min(round.contents.length, 5);
-      if (contentIndex < max) { setContentIndex((p) => p + 1); return; }
-    }
-    advanceStage(getNextStage(stage));
-  }, [stage, round, contentIndex, getNextStage, advanceStage]);
 
   const handleChoiceSelect = useCallback(
     (selectedId: string) => {
       if (!round) return;
-      if (selectedId === round.celebId) {
-        handleCorrect(stage);
-      } else {
-        setScore(0);
-        setStreak(0);
-        setSolved(true);
-      }
+      const isCorrect = selectedId === round.celebId;
+      setCorrect(isCorrect);
+      setSolved(true);
     },
-    [round, stage, handleCorrect]
+    [round]
   );
 
   const handleNext = useCallback(() => {
@@ -143,9 +118,16 @@ export default function TrackerGame() {
     setStage("idle");
     setRound(null);
     setUsedIds([]);
-    setTotalScore(0);
-    setStreak(0);
   }, []);
+
+  useEffect(() => {
+    if (onHomeRef) onHomeRef.current = handleQuit;
+  }, [onHomeRef, handleQuit]);
+  useEffect(() => {
+    if (onStartRef) onStartRef.current = startRound;
+  }, [onStartRef, startRound]);
+
+  const canEliminate = eliminatedIds.length < 4 && !solved;
 
   // region: 로딩
   if (stage === "loading") {
@@ -163,222 +145,149 @@ export default function TrackerGame() {
     );
   }
 
-  // region: Idle
-  if (stage === "idle") {
-    return (
-      <div className="max-w-md mx-auto flex flex-col items-center text-center">
-        <div className="w-full max-w-sm bg-bg-card border border-border rounded-xl p-6 shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
-          <div className="space-y-4 relative z-10">
-            <div className="space-y-2">
-              <h3 className="text-lg font-bold text-white font-serif">게임 규칙</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                단서를 보고 4명 중 <strong className="text-accent">누구인지</strong> 맞춰보세요.
-                <br />
-                빠르게 맞출수록 높은 점수!
-              </p>
-            </div>
-            <div className="grid grid-cols-6 gap-1 text-center text-[10px]">
-              {[
-                { s: "스탯", p: "6점" }, { s: "콘텐츠", p: "5점" }, { s: "철학", p: "4점" },
-                { s: "소개", p: "3점" }, { s: "명언", p: "2점" }, { s: "최종", p: "1점" },
-              ].map((item) => (
-                <div key={item.s} className="rounded bg-white/5 border border-white/10 py-1.5 px-1">
-                  <div className="text-text-tertiary">{item.s}</div>
-                  <div className="font-bold text-accent text-xs">{item.p}</div>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={() => startRound()}
-              className="w-full flex items-center justify-center gap-2 p-4 rounded-lg bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95"
-            >
-              <Crosshair size={20} className="text-accent" />
-              <span className="font-bold text-white font-serif text-lg">추적 시작</span>
-            </button>
-            {highScore > 0 && (
-              <div className="pt-4 mt-4 border-t border-white/10">
-                <p className="text-xs text-text-tertiary font-cinzel uppercase">최고 점수</p>
-                <p className="text-2xl font-black text-accent">{highScore}</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="mt-8 flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10">
-          <Info size={14} className="text-accent" />
-          <span className="text-xs text-text-tertiary">{PUBLIC_DOMAIN_NOTICE}</span>
-        </div>
-      </div>
-    );
-  }
-
+  if (stage === "idle") return null;
   if (!round) return null;
 
-  const currentIdx = ALL_STAGES.indexOf(stage);
-  const isPlayStage = stage !== "result";
-
-  const stageNum: Record<string, string> = {
-    stat: "1", content: "2", philosophy: "3", bio: "4", quotes: "5", choice: "6", result: "끝",
-  };
-
-  // region: 게임 진행
   return (
-    <div className="max-w-2xl md:max-w-4xl mx-auto flex flex-col pb-4 md:pb-8 relative">
-      {/* 점수 팝업 */}
-      {showScorePop && score > 0 && (
+    <div className="w-full relative flex-1 flex flex-col">
+      {/* 배제 성공 토스트 */}
+      {eliminateToast && (
         <div className="fixed top-1/3 left-1/2 -translate-x-1/2 pointer-events-none z-50 animate-score-float">
-          <span className="text-5xl font-black font-serif text-accent drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
-            +{score}
-          </span>
+          <div className="flex items-center gap-2 rounded-xl bg-[#0f1a14] border border-green-500/40 px-5 py-3 shadow-lg shadow-green-500/10">
+            <ShieldCheck size={20} className="text-green-400 shrink-0" />
+            <span className="text-sm font-serif font-bold text-green-400">
+              {eliminateToast} 배제 성공!
+            </span>
+          </div>
         </div>
       )}
 
-      {/* HUD */}
-      <div className="relative w-full h-10 md:h-14 px-2 md:px-0 flex items-center justify-center mb-2 md:mb-4">
-        <div className="absolute left-2 md:left-0">
-          <button
-            onClick={handleQuit}
-            className="flex items-center justify-center w-7 h-7 md:w-10 md:h-10 rounded-full border border-white/10 bg-black/40 hover:bg-white/10 hover:border-accent/50 text-text-secondary hover:text-white"
-          >
-            <span className="text-xs md:text-sm">&#x2715;</span>
-          </button>
-        </div>
-        <div className="flex items-center gap-6 md:gap-12 px-5 md:px-10 py-2 md:py-3 rounded-full border border-white/10 bg-black/40 backdrop-blur-md shadow-xl">
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-[9px] md:text-xs text-text-tertiary font-cinzel tracking-wider uppercase">단계</span>
-            <span className="text-lg md:text-2xl font-serif font-black text-white leading-none">
-              {stageNum[stage] ?? ""}
-            </span>
-          </div>
-          <div className="h-8 md:h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-[9px] md:text-xs text-text-tertiary font-cinzel tracking-wider uppercase">점수</span>
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-lg md:text-2xl font-serif font-black text-white leading-none">{totalScore}</span>
-              <span className="text-sm md:text-lg font-serif font-medium text-text-secondary">/</span>
-              <span className="text-lg md:text-2xl font-serif font-black text-accent leading-none">{highScore}</span>
+      {/* 중앙 콘텐츠 */}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="max-w-lg w-full flex flex-col pb-4">
+
+        {stage !== "result" && (
+          <div className="flex flex-col">
+            {/* ── 질문 ── */}
+            <p className="text-center text-sm font-serif text-text-secondary mb-2">
+              이 인물은 누구일까요?
+            </p>
+
+            {/* ── 단계 표시기 ── */}
+            <div className="shrink-0 flex items-center justify-center gap-1 mb-3 px-1">
+              {HINT_STAGES.map((hs, i) => {
+                const isUnlocked = i <= unlockedIndex;
+                const isViewing = viewStage === hs.key;
+                const isCurrent = i === unlockedIndex;
+                const Icon = hs.icon;
+                return (
+                  <button
+                    key={hs.key}
+                    onClick={() => isUnlocked && setViewStage(hs.key as GameStage)}
+                    disabled={!isUnlocked}
+                    className={cn(
+                      "relative flex flex-col items-center gap-1 w-16 py-2 rounded-lg text-xs font-semibold transition-all",
+                      isViewing
+                        ? "text-accent bg-[#1a1710] border border-accent/30"
+                        : isUnlocked
+                          ? "text-text-secondary hover:text-white hover:bg-[#1a1a1a] border border-transparent"
+                          : "text-white/20 cursor-default border border-transparent",
+                      isCurrent && !isViewing && isUnlocked && "text-text-primary"
+                    )}
+                  >
+                    {isUnlocked ? <Icon size={18} /> : <Lock size={14} className="opacity-40" />}
+                    <span>{hs.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* ── 힌트 콘텐츠 ── */}
+            <div className="px-1">
+              {/* Stage 1~4: 콘텐츠 단서 (각 탭이 1개씩 표시) */}
+              {(viewStage === "stage1" || viewStage === "stage2" || viewStage === "stage3" || viewStage === "stage4") && (() => {
+                const idx = parseInt(viewStage.replace("stage", "")) - 1;
+                const content = round.contents[idx];
+                return content ? (
+                  <ContentReveal content={content} index={idx} total={round.contents.length} />
+                ) : (
+                  <div className="flex items-center justify-center py-8 text-text-secondary text-sm font-serif">
+                    {idx === 0 ? "단서가 없습니다" : "추가 단서가 없습니다"}
+                  </div>
+                );
+              })()}
+              {/* Stage 5: 감상 철학 */}
+              {viewStage === "stage5" && (
+                <div>
+                  {round.consumptionPhilosophy ? (
+                    <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
+                  ) : (
+                    <div className="flex items-center justify-center py-8 text-text-secondary text-sm font-serif">
+                      단서가 없습니다
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* ── 하단 영역 ── */}
+            <div className="shrink-0">
+              {!solved && (
+                <div className="pt-3">
+                  <p className="text-center text-[11px] text-text-tertiary mb-2">
+                    한 명을 배제하거나 정답을 맞추세요
+                  </p>
+                  <MultipleChoice
+                    key={round.celebId}
+                    options={round.options}
+                    correctId={round.celebId}
+                    eliminatedIds={eliminatedIds}
+                    canEliminate={canEliminate}
+                    onSelect={handleChoiceSelect}
+                    onEliminate={handleEliminate}
+                  />
+                </div>
+              )}
+              {solved && (
+                <div className="w-full max-w-sm mx-auto pt-3 space-y-3 animate-in fade-in">
+                  <div className={cn(
+                    "flex items-center justify-center gap-2 rounded-lg px-4 py-3",
+                    correct
+                      ? "border border-accent/40 bg-[#1a1710]"
+                      : "border border-red-500/40 bg-[#1a0f0f]"
+                  )}>
+                    <CheckCircle size={18} className={correct ? "text-accent" : "text-red-400"} />
+                    <span className={cn("text-sm font-bold font-serif", correct ? "text-accent" : "text-red-400")}>
+                      {correct ? "정답!" : "오답"}
+                    </span>
+                  </div>
+                  <button
+                    onClick={goToResult}
+                    className="w-full h-11 rounded-xl text-sm font-bold font-serif bg-[#1a1710] text-accent hover:bg-[#231f15] border border-accent/30 active:scale-95"
+                  >
+                    결과 보기
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-          <div className="h-8 md:h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-[9px] md:text-xs text-text-tertiary font-cinzel tracking-wider uppercase">연승</span>
-            <div className="flex items-center gap-0.5">
-              {streak >= 2 && <Flame size={14} className="text-orange-400" />}
-              <span className={cn(
-                "text-lg md:text-2xl font-serif font-black leading-none",
-                streak >= 2 ? "text-orange-400" : "text-white"
-              )}>
-                {streak}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+        )}
 
-      {/* 스테이지 진행 바 */}
-      <div className="flex items-center justify-center gap-0 mb-2 px-8 max-w-xs mx-auto">
-        {ALL_STAGES.map((s, i) => {
-          const passed = currentIdx > i || stage === "result";
-          const active = currentIdx === i && stage !== "result";
-          return (
-            <Fragment key={s}>
-              {i > 0 && <div className={cn("h-px flex-1", passed ? "bg-accent/50" : "bg-white/10")} />}
-              <div className={cn(
-                "w-3 h-3 rounded-full border-2 shrink-0",
-                passed && "bg-accent border-accent",
-                active && "bg-accent border-accent shadow-[0_0_8px_rgba(212,175,55,0.5)]",
-                !passed && !active && "bg-transparent border-white/20"
-              )} />
-            </Fragment>
-          );
-        })}
-      </div>
-
-      {/* 누적 힌트 영역 */}
-      <div className="space-y-4 mb-6">
-        <StatReveal
-          persona={round.persona}
-          profession={round.profession}
-          nationalityLabel={round.nationalityLabel}
-          birthDate={round.birthDate}
-          deathDate={round.deathDate}
-          revealedName={solved ? round.nickname : undefined}
-          revealedAvatar={solved ? round.avatarUrl : undefined}
-        />
-
-        {currentIdx >= 1 && round.contents.length > 0 && (
-          <ContentReveal
+        {stage === "result" && (
+          <TrackerResult
+            celebId={round.celebId}
+            celebSlug={round.celebSlug}
+            nickname={round.nickname}
+            profession={round.profession}
+            avatarUrl={round.avatarUrl}
+            correct={correct}
             contents={round.contents}
-            revealCount={stage === "content" ? contentIndex : Math.min(round.contents.length, 5)}
+            onNext={handleNext}
+            onQuit={handleQuit}
           />
         )}
-
-        {currentIdx >= 2 && round.consumptionPhilosophy && (
-          <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
-        )}
-
-        {currentIdx >= 3 && round.bio && <BioReveal bio={round.bio} />}
-        {currentIdx >= 4 && round.quotes && <QuotesReveal quotes={round.quotes} />}
+        </div>
       </div>
-
-      {/* 4지선다 */}
-      {isPlayStage && !solved && (
-        <div className="space-y-3 mb-6">
-          {stage !== "choice" && (
-            <div className="flex justify-center">
-              <button
-                onClick={handlePass}
-                className="flex items-center gap-1.5 text-sm text-text-tertiary hover:text-text-secondary"
-              >
-                <SkipForward size={14} />
-                다음 단서
-              </button>
-            </div>
-          )}
-          <MultipleChoice options={round.options} correctId={round.celebId} onSelect={handleChoiceSelect} />
-        </div>
-      )}
-
-      {/* 정답 확인 배너 + 결과 보기 */}
-      {solved && stage !== "result" && (
-        <div className="w-full max-w-sm mx-auto space-y-3 animate-in fade-in">
-          <div className={cn(
-            "flex items-center justify-center gap-2 rounded-lg px-4 py-3",
-            score > 0
-              ? "border border-accent/40 bg-accent/10"
-              : "border border-red-500/40 bg-red-500/10"
-          )}>
-            <CheckCircle size={18} className={score > 0 ? "text-accent" : "text-red-400"} />
-            <span className={cn("text-sm font-bold font-serif", score > 0 ? "text-accent" : "text-red-400")}>
-              {score > 0 ? `정답! +${score}점` : "오답"}
-            </span>
-          </div>
-          <button
-            onClick={goToResult}
-            className="w-full h-11 rounded-xl text-sm font-bold font-serif bg-accent/20 text-accent hover:bg-accent/30 border border-accent/30 active:scale-95"
-          >
-            결과 보기
-          </button>
-        </div>
-      )}
-
-      {/* 결과 */}
-      {stage === "result" && (
-        <TrackerResult
-          celebId={round.celebId}
-          celebSlug={round.celebSlug}
-          nickname={round.nickname}
-          profession={round.profession}
-          avatarUrl={round.avatarUrl}
-          score={score}
-          totalScore={totalScore}
-          streak={streak}
-          isNewRecord={isNewRecord}
-          contents={round.contents}
-          onNext={handleNext}
-          onQuit={handleQuit}
-        />
-      )}
     </div>
   );
 }

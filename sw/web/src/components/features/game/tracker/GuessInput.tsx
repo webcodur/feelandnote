@@ -122,7 +122,7 @@ export default function GuessInput({
       <div className="relative" ref={dropdownRef}>
         <div
           className={cn(
-            "flex items-center gap-2 rounded-lg border bg-black/30 px-3 py-2",
+            "flex items-center gap-2 rounded-lg border bg-[#0e0e0e] px-3 py-2",
             shake ? "animate-shake border-red-500/60" : "border-white/20 focus-within:border-accent/50"
           )}
         >
@@ -142,7 +142,7 @@ export default function GuessInput({
           <button
             onClick={() => submitGuess(value)}
             disabled={disabled || !value.trim()}
-            className="shrink-0 rounded-md bg-accent/20 px-3 py-1 text-xs font-bold text-accent hover:bg-accent/30 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="shrink-0 rounded-md bg-[#1a1710] px-3 py-1 text-xs font-bold text-accent hover:bg-[#231f15] disabled:opacity-40 disabled:cursor-not-allowed"
           >
             확인
           </button>
@@ -156,8 +156,8 @@ export default function GuessInput({
                 key={c.id}
                 onClick={() => handleSelect(c.nickname)}
                 className={cn(
-                  "w-full text-left px-3 py-2 text-sm hover:bg-white/10",
-                  i === selectedIndex ? "bg-accent/15 text-accent" : "text-text-primary"
+                  "w-full text-left px-3 py-2 text-sm hover:bg-[#1a1a1a]",
+                  i === selectedIndex ? "bg-[#1a1710] text-accent" : "text-text-primary"
                 )}
               >
                 {c.nickname}

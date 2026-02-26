@@ -30,7 +30,7 @@ export default function NoticeDetail({
     if (!confirm('공지사항을 삭제하시겠습니까?')) return
     const result = await deleteNotice(notice.id)
     if (result.success) {
-      router.push('/board/notice')
+      router.push('/agora/board/notice')
     } else {
       alert(result.message)
     }
@@ -40,7 +40,7 @@ export default function NoticeDetail({
     <div className="relative">
       {/* 뒤로가기 */}
       <Link
-        href="/board/notice"
+        href="/agora/board/notice"
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
@@ -68,7 +68,7 @@ export default function NoticeDetail({
           </div>
           {isAdmin && (
             <div className="flex items-center gap-2">
-              <Link href={`/board/notice/${notice.id}/edit`}>
+              <Link href={`/agora/board/notice/${notice.id}/edit`}>
                 <Button variant="ghost" size="sm" className="font-serif">
                   <Edit3 size={14} />
                   수정

@@ -5,12 +5,15 @@
 */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Swords, Bot, Users, Settings, BookOpen, ChevronRight,
   ArrowLeft, Crown, Layers, Trophy, Lightbulb,
-  Music, Volume2, BarChart3, ScrollText, Landmark, Shield, Flame,
+  BarChart3, ScrollText, Landmark, Shield, Flame,
 } from "lucide-react";
+import GameLobbySettings from "@/components/features/game/shared/GameLobbySettings";
+import GameLobbyNavRow from "@/components/features/game/shared/GameLobbyNavRow";
+import GameLobbyMain from "@/components/features/game/shared/GameLobbyMain";
 import type { Difficulty } from "@/lib/game/types";
 
 interface BattleLobbyProps {
@@ -30,21 +33,11 @@ type MenuId = "main" | "rules" | "settings" | "difficulty";
 export default function BattleLobby({ onStartVsAi, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleLobbyProps) {
   const [menu, setMenu] = useState<MenuId>("main");
 
-  // 시퀀셜 입장 애니메이션 — 최초 마운트 시 1회만 실행
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    const t1 = setTimeout(() => setStep(1), 100);   // 타이틀
-    const t2 = setTimeout(() => setStep(2), 500);   // 부제
-    const t3 = setTimeout(() => setStep(3), 900);   // CTA
-    const t4 = setTimeout(() => setStep(4), 1200);  // 하단 메뉴
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
-  }, []);
-
   if (menu === "rules") return <LobbyRules onBack={() => setMenu("main")} />;
   if (menu === "difficulty") return <DifficultySelect onBack={() => setMenu("main")} onStart={onStartVsAi} />;
   if (menu === "settings") {
     return (
-      <LobbySettings
+      <GameLobbySettings
         onBack={() => setMenu("main")}
         bgmMuted={bgmMuted} sfxMuted={sfxMuted}
         toggleBgmMuted={toggleBgmMuted} toggleSfxMuted={toggleSfxMuted}
@@ -53,136 +46,27 @@ export default function BattleLobby({ onStartVsAi, bgmMuted, sfxMuted, toggleBgm
   }
 
   return (
-    <div className="flex flex-col flex-1 relative">
-
-      {/* ── 우측 사이드 패널: 배경 중앙(신전)을 비우고 우측에 UI 배치 ── */}
-      <div className="flex flex-col justify-end h-full w-full max-w-none mx-auto text-center px-4 pb-6 sm:ml-auto sm:mr-0 sm:text-right sm:max-w-[360px] sm:pr-8 sm:pb-10 sm:pl-4">
-
-        {/* ═══ 타이틀 블록 ═══ */}
-        <div className="text-right mb-6 sm:mb-10">
-          {/* 한글 타이틀 */}
-          <h1
-            className={`text-6xl sm:text-8xl font-serif font-black text-white leading-none tracking-[0.15em] transition-all duration-1000 ease-out ${
-              step >= 1 ? "opacity-100 translate-x-0 blur-0" : "opacity-0 translate-x-8 blur-sm"
-            }`}
-            style={{
-              textShadow: "0 4px 30px rgba(212,175,55,0.2), 0 0 80px rgba(212,175,55,0.06), 0 2px 0 rgba(0,0,0,0.8)",
-            }}
-          >
-            패권
-          </h1>
-
-          {/* 영문 부제 — HEGEMONY 강조 */}
-          <div className={`mt-1 sm:mt-3 transition-all duration-700 delay-200 ${
-            step >= 2 ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
-          }`}>
-            <div className="flex items-center justify-end gap-3">
-              <div className="w-12 sm:w-24 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(212,175,55,0.3))" }} />
-              <span
-                className="text-base sm:text-xl font-cinzel font-bold uppercase tracking-[0.4em] text-accent/40"
-                style={{
-                  textShadow: "0 0 20px rgba(212,175,55,0.15), 0 0 40px rgba(212,175,55,0.05)",
-                }}
-              >
-                Hegemony
-              </span>
-            </div>
-          </div>
-
-          {/* 캐치프레이즈 */}
-          <p className={`text-xs sm:text-sm text-white/20 mt-2 font-serif tracking-[0.25em] transition-all duration-700 delay-300 ${
-            step >= 2 ? "opacity-100" : "opacity-0"
-          }`}>
-            천년의 대국
-          </p>
-        </div>
-
-        {/* ═══ CTA: AI 대전 ═══ */}
-        <div className={`w-full mb-4 transition-all duration-700 ease-out ${
-          step >= 3 ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-        }`}>
-          <button
-            onClick={() => setMenu("difficulty")}
-            className="group relative w-full overflow-hidden active:scale-[0.97] transition-transform"
-          >
-            {/* 배경 — 금속 플레이트 */}
-            <div className="absolute inset-0 rounded-xl"
-              style={{
-                background: "linear-gradient(160deg, rgba(212,175,55,0.12) 0%, rgba(212,175,55,0.03) 40%, rgba(212,175,55,0.08) 100%)",
-                border: "1px solid rgba(212,175,55,0.2)",
-              }}
-            />
-            {/* 호버 시 빛 sweep */}
-            <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              style={{
-                background: "linear-gradient(105deg, transparent 20%, rgba(212,175,55,0.1) 45%, rgba(212,175,55,0.15) 50%, rgba(212,175,55,0.1) 55%, transparent 80%)",
-              }}
-            />
-            {/* 상하 인라인 글로우 */}
-            <div className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(to right, transparent 10%, rgba(212,175,55,0.3) 50%, transparent 90%)" }} />
-            <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: "linear-gradient(to right, transparent 10%, rgba(212,175,55,0.15) 50%, transparent 90%)" }} />
-
-            {/* 콘텐츠 */}
-            <div className="relative flex items-center gap-3 px-5 py-4 sm:py-5">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shrink-0"
-                style={{
-                  background: "linear-gradient(145deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.05) 100%)",
-                  boxShadow: "0 0 20px rgba(212,175,55,0.1), inset 0 1px 3px rgba(212,175,55,0.15)",
-                }}
-              >
-                <Bot size={22} className="text-accent sm:hidden" />
-                <Bot size={26} className="text-accent hidden sm:block" />
-              </div>
-              <div className="text-left flex-1 min-w-0">
-                <span className="text-lg sm:text-xl font-serif font-black text-accent tracking-wide">AI 대전</span>
-                <p className="text-[10px] sm:text-[11px] text-accent/30 mt-0.5 font-cinzel tracking-wider uppercase">vs Computer</p>
-              </div>
-              <ChevronRight size={20} className="text-accent/25 group-hover:text-accent/60 group-hover:translate-x-1.5 transition-all duration-300 shrink-0" />
-            </div>
-          </button>
-        </div>
-
-        {/* ═══ 하단 메뉴 — 세로 스택 ═══ */}
-        <div className={`w-full flex flex-col gap-0.5 transition-all duration-700 ${
-          step >= 4 ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
-        }`}>
-          <NavRow icon={<BookOpen size={14} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
-          <NavRow icon={<Users size={14} />} label="대인전" sub="Multiplayer" disabled />
-          <NavRow icon={<Settings size={14} />} label="설정" sub="Settings" onClick={() => setMenu("settings")} />
-          <NavRow icon={<BarChart3 size={14} />} label="전적" sub="Records" disabled />
-        </div>
-
-        {/* 맨 하단 크레딧 */}
-        <p className={`text-[9px] text-white/[0.08] mt-5 text-right font-cinzel tracking-[0.3em] uppercase transition-all duration-500 ${
-          step >= 4 ? "opacity-100" : "opacity-0"
-        }`}>
-          Feel & Note
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/** 우측 메뉴 행 */
-function NavRow({ icon, label, sub, onClick, disabled }: { icon: React.ReactNode; label: string; sub: string; onClick?: () => void; disabled?: boolean }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`group flex items-center gap-3 w-full px-4 py-2.5 rounded-lg transition-all text-left
-        ${disabled
-          ? "text-white/25 cursor-not-allowed"
-          : "text-white/70 hover:text-white hover:bg-white/[0.06] active:scale-[0.97] cursor-pointer"
-        }
-      `}
-    >
-      <span className="shrink-0 opacity-80">{icon}</span>
-      <span className="flex-1 min-w-0">
-        <span className="text-sm font-serif font-bold block leading-tight">{label}</span>
-        <span className={`text-[9px] font-cinzel uppercase tracking-widest block mt-px ${disabled ? "text-white/[0.12]" : "text-white/30"}`}>{sub}</span>
-      </span>
-      {!disabled && <ChevronRight size={14} className="text-white/10 group-hover:text-white/30 group-hover:translate-x-0.5 transition-all shrink-0" />}
-    </button>
+    <GameLobbyMain
+      title="패권"
+      englishTitle="Hegemony"
+      catchphrase="천년의 대국"
+      cta={{
+        icon: <>
+          <Bot size={22} className="text-accent sm:hidden" />
+          <Bot size={26} className="text-accent hidden sm:block" />
+        </>,
+        label: "AI 대전",
+        sub: "vs Computer",
+        onClick: () => setMenu("difficulty"),
+        showChevron: true,
+      }}
+      navItems={<>
+        <GameLobbyNavRow icon={<BookOpen size={16} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
+        <GameLobbyNavRow icon={<Users size={16} />} label="대인전" sub="Multiplayer" disabled />
+        <GameLobbyNavRow icon={<Settings size={16} />} label="설정" sub="Settings" onClick={() => setMenu("settings")} />
+        <GameLobbyNavRow icon={<BarChart3 size={16} />} label="전적" sub="Records" disabled />
+      </>}
+    />
   );
 }
 
@@ -215,8 +99,8 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
       <section className="text-center px-6 mb-12">
         <p className="text-sm text-text-secondary leading-[1.8]">
           <span className="text-accent font-bold">패권</span>은 역사 속 인물들을 인재로 영입하고,
-          매 라운드 카드 1장과 군령패 1장을 동시에 내어 상대를 굴복시키는 전략 게임입니다.
-          상대의 국력을 0으로 만들면 승리하고, 민심이 0 이하가 되면 반란이 발생합니다.
+          매 라운드 카드 1장에 군령을 내려 상대와 동시에 격돌하는 전략 게임입니다.
+          주장을 임명하고, 천명을 읽고, 상성을 꿰뚫어 상대의 국력을 0으로 만드세요.
         </p>
       </section>
 
@@ -226,11 +110,12 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
           <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 1</p>
           <h3 className="text-lg font-serif font-black text-white">게임 흐름</h3>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-4 gap-2">
           {[
-            { step: "01", icon: <Layers size={18} />, title: "드래프트", desc: "15명 중 7명을 교대 선택" },
-            { step: "02", icon: <Swords size={18} />, title: "배틀", desc: "매 라운드 동시 격돌" },
-            { step: "03", icon: <Trophy size={18} />, title: "결과", desc: "국력 비교로 승패 결정" },
+            { step: "01", icon: <Layers size={18} />, title: "드래프트", desc: "15명 중 5명을 교대 선택" },
+            { step: "02", icon: <Crown size={18} />, title: "주장 선택", desc: "5명 중 지휘관 1명 임명" },
+            { step: "03", icon: <Swords size={18} />, title: "배틀", desc: "매 라운드 동시 격돌" },
+            { step: "04", icon: <Trophy size={18} />, title: "결과", desc: "국력 비교로 승패 결정" },
           ].map((item) => (
             <div key={item.step} className="text-center px-3 py-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
               <span className="text-accent/30 font-cinzel text-[10px] tracking-wider">{item.step}</span>
@@ -242,8 +127,8 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
         </div>
         <div className="mt-4 px-4 py-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
           <p className="text-[11px] text-text-secondary leading-relaxed text-center">
-            드래프트는 교대 픽으로 진행됩니다.
-            전반(1~10픽)은 플레이어 선공, 후반(11~14픽)은 AI 선공으로 순서가 역전됩니다.
+            드래프트는 3장씩 공개되며, 2장을 교대로 선택하고 1장은 폐기됩니다.
+            배치마다 선공이 바뀌어 공정한 픽이 보장됩니다.
             마음에 들지 않으면 첫 픽 전에 <span className="text-accent/70 font-bold">다시 섞기</span>가 가능합니다.
           </p>
         </div>
@@ -267,7 +152,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             <p className="text-sky-400 font-bold text-lg mb-1">민심 50</p>
             <p className="text-[11px] text-text-secondary leading-relaxed">
               0 이하가 되면 <span className="text-red-400 font-bold">반란</span>이 발생합니다.
-              반란 시 국력 -5, 민심 10으로 리셋됩니다.
+              초과분은 국력 피해로 전환되며, 라운드가 진행될수록 반란 피해가 증가합니다.
             </p>
           </div>
         </div>
@@ -334,10 +219,45 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      {/* PART 4: 카드 소모와 회수 */}
+      {/* PART 4: 주장 시스템 */}
       <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
         <div className="text-center mb-6">
           <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 4</p>
+          <h3 className="text-lg font-serif font-black text-white">주장</h3>
+        </div>
+        <p className="text-[11px] text-text-secondary leading-relaxed text-center mb-4">
+          드래프트 후 5장 중 <span className="text-accent font-bold">주장(지휘관)</span> 1명을 임명합니다.
+          주장은 손패에서 아군을 지원하거나, 직접 출전하여 강력한 힘을 발휘합니다.
+        </p>
+        <div className="space-y-2">
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-accent/[0.03] border border-accent/10">
+            <Crown size={16} className="text-accent/60 shrink-0" />
+            <div>
+              <p className="text-xs font-bold text-accent">오라 효과</p>
+              <p className="text-[10px] text-text-secondary mt-0.5">주장이 손패에 대기 중이면 출전하는 카드의 적성 <span className="text-accent font-bold">+15%</span></p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-accent/[0.03] border border-accent/10">
+            <Swords size={16} className="text-accent/60 shrink-0" />
+            <div>
+              <p className="text-xs font-bold text-accent">직접 출전</p>
+              <p className="text-[10px] text-text-secondary mt-0.5">주장이 직접 출전하면 본인 적성 <span className="text-accent font-bold">x1.5</span> (오라 소멸)</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+            <span className="text-white/30 shrink-0 text-xs">💀</span>
+            <div>
+              <p className="text-xs font-bold text-white/60">주장 소모</p>
+              <p className="text-[10px] text-text-secondary mt-0.5">주장이 버린패로 가면 오라 효과가 사라집니다</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* PART 5: 카드 소모와 회수 */}
+      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
+        <div className="text-center mb-6">
+          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 5</p>
           <h3 className="text-lg font-serif font-black text-white">카드 운용</h3>
         </div>
         <div className="space-y-4">
@@ -365,10 +285,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      {/* PART 5: 천명 시스템 */}
+      {/* PART 6: 천명 시스템 */}
       <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
         <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 5</p>
+          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 6</p>
           <h3 className="text-lg font-serif font-black text-white">천명</h3>
         </div>
         <div className="space-y-4">
@@ -528,85 +448,3 @@ function DifficultySelect({ onBack, onStart }: { onBack: () => void; onStart: (d
   );
 }
 
-/* ═══════════════════════════════════════════
-   설정 서브메뉴 (기존 유지)
-   ═══════════════════════════════════════════ */
-
-interface LobbySettingsProps {
-  onBack: () => void;
-  bgmMuted: boolean;
-  sfxMuted: boolean;
-  toggleBgmMuted: () => void;
-  toggleSfxMuted: () => void;
-}
-
-function LobbySettings({ onBack, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: LobbySettingsProps) {
-  return (
-    <div className="lg:ml-auto lg:w-1/3 lg:min-w-[360px]">
-      <div className="flex flex-col animate-fade-in lg:bg-black/50 lg:backdrop-blur-sm lg:rounded-l-2xl lg:border-l lg:border-white/[0.05]">
-
-      <div className="relative text-center py-8 px-4">
-        <button
-          onClick={onBack}
-          className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          돌아가기
-        </button>
-        <Settings size={28} className="mx-auto text-accent/40 mb-2" />
-        <h2 className="text-2xl font-serif font-black text-white tracking-wide">설정</h2>
-        <p className="text-sm text-text-tertiary mt-1.5">오디오 설정</p>
-      </div>
-
-      <div className="px-6 pb-10 space-y-4">
-        <button
-          onClick={toggleBgmMuted}
-          className="w-full flex items-center gap-4 px-5 py-4 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] transition-colors"
-        >
-          <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-            <Music size={20} className="text-accent/70" />
-          </div>
-          <div className="flex-1 text-left">
-            <p className="text-sm font-bold text-text-primary">게임 음악</p>
-            <p className="text-[10px] text-text-tertiary mt-0.5">배경 음악 (BGM)</p>
-          </div>
-          <TogglePill active={!bgmMuted} />
-        </button>
-
-        <button
-          onClick={toggleSfxMuted}
-          className="w-full flex items-center gap-4 px-5 py-4 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] transition-colors"
-        >
-          <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-            <Volume2 size={20} className="text-accent/70" />
-          </div>
-          <div className="flex-1 text-left">
-            <p className="text-sm font-bold text-text-primary">사운드 이펙트</p>
-            <p className="text-[10px] text-text-tertiary mt-0.5">효과음 (SFX)</p>
-          </div>
-          <TogglePill active={!sfxMuted} />
-        </button>
-      </div>
-
-      <div className="text-center py-6 border-t border-white/[0.06]">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          로비로 돌아가기
-        </button>
-      </div>
-
-      </div>
-    </div>
-  );
-}
-
-function TogglePill({ active }: { active: boolean }) {
-  return (
-    <div className={`relative w-11 h-6 rounded-full shrink-0 transition-colors ${active ? "bg-accent/30" : "bg-white/10"}`}>
-      <div className={`absolute top-0.5 w-5 h-5 rounded-full transition-all ${active ? "left-[22px] bg-accent" : "left-0.5 bg-white/40"}`} />
-    </div>
-  );
-}

@@ -46,6 +46,26 @@ import {
 import TypeInfoModal from "./modals/TypeInfoModal";
 import ContentStatsModal from "./modals/ContentStatsModal";
 
+const CORNER_SIZE = 16;
+
+const CORNER_RADIUS = {
+  lg: { tl: "rounded-tl-lg", tr: "rounded-tr-lg", bl: "rounded-bl-lg", br: "rounded-br-lg" },
+  xl: { tl: "rounded-tl-xl", tr: "rounded-tr-xl", bl: "rounded-bl-xl", br: "rounded-br-xl" },
+};
+
+const CORNER_COMMON = "drop-shadow-[0_0_3px_rgba(212,175,55,0.6)]";
+
+function CornerAccents({ radius = "xl" }: { radius?: "lg" | "xl" }) {
+  const r = CORNER_RADIUS[radius];
+  return (
+    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-200" style={{ zIndex: Z_INDEX.cardBadge - 1 }}>
+      <span className={`absolute top-0 left-0 border-t-[2.5px] border-l-[2.5px] border-accent ${CORNER_COMMON} ${r.tl}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
+      <span className={`absolute top-0 right-0 border-t-[2.5px] border-r-[2.5px] border-accent ${CORNER_COMMON} ${r.tr}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
+      <span className={`absolute bottom-0 left-0 border-b-[2.5px] border-l-[2.5px] border-accent ${CORNER_COMMON} ${r.bl}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
+      <span className={`absolute bottom-0 right-0 border-b-[2.5px] border-r-[2.5px] border-accent ${CORNER_COMMON} ${r.br}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
+    </div>
+  );
+}
 
 export default function ContentCard({
   thumbnail,
@@ -162,17 +182,16 @@ export default function ContentCard({
   // 리뷰 모드 여부: 리뷰 데이터가 있고, 강제 포스터 모드가 아닐 때
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
 
-  // 리뷰/프리셋 콘텐츠가 있을 때 sourceUrl 필수 검증
+  // 리뷰/프리셋 콘텐츠가 있을 때 sourceUrl 필수 검증 (headerNode 모드는 제외)
   useEffect(() => {
     const hasReviewContent = review !== undefined || (reviewPresets && reviewPresets.length > 0);
-    if (hasReviewContent && !sourceUrl) {
+    if (hasReviewContent && !sourceUrl && !headerNode) {
       console.error('[ContentCard] 리뷰/프리셋이 있는데 sourceUrl이 없습니다:', {
         title,
         contentId,
         userContentId,
         review: review?.substring(0, 50),
         reviewPresets,
-        hasHeaderNode: !!headerNode
       });
     }
   }, [review, reviewPresets, sourceUrl, title, contentId, userContentId, headerNode]);
@@ -502,134 +521,132 @@ export default function ContentCard({
 
     return (
       <>
-        {/* 가로 레이아웃 (PC 기본, 모바일 옵션) */}
-        <div
-          onClick={handleClick}
-          className={`group ${horizontalVisibility} flex-col bg-[#1e1e1e] hover:bg-[#252525] border border-white/10 hover:border-accent/40 rounded-lg overflow-hidden cursor-pointer ${className || ""}`}
-        >
-          {headerNode && (
-            <div className="px-4 py-3 flex justify-between items-start bg-black/20 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
-              <div className="flex-1">{headerNode}</div>
-            </div>
-          )}
+        {/* 가로 레이아웃 (PC 기본, 모바일 옵션) - 썸네일/리뷰 나란히 배치 */}
+        <div className={`relative group/card ${horizontalVisibility} ${className || ""}`}>
+          <CornerAccents radius="lg" />
+          <div
+            onClick={handleClick}
+            className="flex items-stretch gap-3 cursor-pointer w-full"
+          >
+          {/* 썸네일 영역 */}
+          <div className={`relative ${isMobileReview ? "w-28 sm:w-40" : "w-40"} flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
+            {renderTopLeft()}
+            {renderTopRight()}
+            {showImage ? (
+              <Image
+                src={thumbnail}
+                alt={title}
+                fill
+                sizes="160px"
+                className="object-cover transition-transform duration-300 delay-150 group-hover:scale-105"
+                placeholder="blur"
+                blurDataURL={BLUR_DATA_URL}
+                onError={() => setImageError(true)}
+                onLoad={handleImageLoad}
+                unoptimized
+                loading="lazy"
+              />
+            ) : certTheme ? (
+              renderCertificateFallback(32)
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-white/5">
+                <ContentIcon size={48} className="text-text-tertiary" />
+              </div>
+            )}
+            {renderBottomLeft()}
+            {renderSelectOverlay()}
+            {renderBottomRight()}
+          </div>
 
-          <div className={`flex gap-4 p-4 ${headerNode ? "pt-2" : ""} w-full ${heightClass} relative`}>
-            {/* 썸네일 영역 - 모바일 대응 크기 조정 */}
-            <div className={`relative ${isMobileReview ? "w-28 sm:w-40" : "w-40"} flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5`}>
-              {renderTopLeft()}
-              {renderTopRight()}
-              {showImage ? (
-                <Image
-                  src={thumbnail}
-                  alt={title}
-                  fill
-                  sizes="160px"
-                  className="object-cover transition-transform duration-300 delay-150 group-hover:scale-105"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
-                  onError={() => setImageError(true)}
-                  onLoad={handleImageLoad}
-                  unoptimized
-                  loading="lazy"
-                />
-              ) : certTheme ? (
-                renderCertificateFallback(32)
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-white/5">
-                  <ContentIcon size={48} className="text-text-tertiary" />
+          {/* 리뷰 영역 */}
+          <div className={`flex-1 min-w-0 flex flex-col ${heightClass} bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden p-3 sm:p-4`}>
+            {headerNode && (
+              <div className="mb-2 pb-2 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
+                {headerNode}
+              </div>
+            )}
+
+            <div className="mb-2">
+              <h3 className="text-xs sm:text-sm font-bold text-text-primary line-clamp-2 leading-tight group-hover:text-accent">
+                {title}
+              </h3>
+              {creator && (
+                <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 mt-1">
+                  {creator.replace(/\^/g, ", ")}
+                </p>
+              )}
+            </div>
+
+            {!headerNode && rating && (
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex items-center gap-1 text-xs text-text-primary font-medium">
+                  <Star size={12} className="text-yellow-500 fill-yellow-500" />
+                  {rating.toFixed(1)}
+                </span>
+              </div>
+            )}
+
+            <div className="flex-1 flex flex-col min-h-0">
+              {/* 프리셋 먼저 표시 */}
+              {reviewPresets && reviewPresets.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mb-2 px-0.5">
+                  {reviewPresets.map((presetKeyword, idx) => {
+                    const preset = getPresetByKeyword(presetKeyword);
+                    const sentiment = preset?.sentiment || "etc";
+                    const colorClasses = getSentimentColorClasses(sentiment);
+                    return (
+                      <span
+                        key={`${presetKeyword}-${idx}`}
+                        className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
+                      >
+                        {presetKeyword}
+                      </span>
+                    );
+                  })}
                 </div>
               )}
-              {renderBottomLeft()}
-              {renderSelectOverlay()}
-              {renderBottomRight()}
-      
-            </div>
 
-            <div className="flex-1 min-w-0 flex flex-col">
-              <div className="mb-2">
-                <h3 className="text-sm sm:text-base font-bold text-text-primary line-clamp-2 leading-tight group-hover:text-accent">
-                  {title}
-                </h3>
-                {creator && (
-                  <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 mt-1">
-                    {creator.replace(/\^/g, ", ")}
+              {(review && !isSpoiler) && (
+                <div className="flex-1 relative min-h-0 overflow-hidden">
+                  <p className="text-[11px] sm:text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans line-clamp-[8]">
+                    <FormattedText text={review} />
                   </p>
-                )}
-              </div>
-
-              {!headerNode && rating && (
-                <div className="flex items-center gap-2 mb-2">
-                  {rating && (
-                    <span className="flex items-center gap-1 text-xs text-text-primary font-medium">
-                      <Star size={12} className="text-yellow-500 fill-yellow-500" />
-                      {rating.toFixed(1)}
-                    </span>
-                  )}
+                  <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none" />
                 </div>
               )}
 
-              <div className="flex-1 flex flex-col min-h-0 bg-[#1e1e1e]">
-                {/* 프리셋 먼저 표시 */}
-                {reviewPresets && reviewPresets.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mb-2 px-0.5">
-                        {reviewPresets.map((presetKeyword, idx) => {
-                            const preset = getPresetByKeyword(presetKeyword);
-                            const sentiment = preset?.sentiment || "etc";
-                            const colorClasses = getSentimentColorClasses(sentiment);
-
-                            return (
-                                <span
-                                    key={`${presetKeyword}-${idx}`}
-                                    className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
-                                >
-                                    {presetKeyword}
-                                </span>
-                            );
-                        })}
-                    </div>
-                )}
-
-                {(review && !isSpoiler) && (
-                  <div className="flex-1 relative min-h-0 overflow-hidden">
-                    <p className={`text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans line-clamp-[8]`}>
-                      <FormattedText text={review} />
-                    </p>
-                    <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none" />
-                  </div>
-                )}
-
-                {review && isSpoiler && (
-                    <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
-                        <p className="text-sm text-text-tertiary">스포일러 포함</p>
-                    </div>
-                )}
-
-                {!review && (!reviewPresets || reviewPresets.length === 0) && (
-                    <div className="flex-1 flex items-center justify-center">
-                    <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
-                    </div>
-                )}
-
-                {/* 출처 링크 (필수) */}
-                <div className="mt-2 text-xs truncate">
-                  {sourceUrl ? (
-                    <a
-                      href={sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-accent/60 hover:text-accent underline underline-offset-2"
-                    >
-                      출처: {sourceUrl}
-                    </a>
-                  ) : (
-                    <span className="text-red-500 font-semibold">
-                      ⚠️ 출처 URL 누락
-                    </span>
-                  )}
+              {review && isSpoiler && (
+                <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
+                  <p className="text-sm text-text-tertiary">스포일러 포함</p>
                 </div>
+              )}
+
+              {!review && (!reviewPresets || reviewPresets.length === 0) && (
+                <div className="flex-1 flex items-center justify-center">
+                  <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
+                </div>
+              )}
+
+              {/* 출처 링크 (필수) */}
+              <div className="mt-2 text-xs truncate">
+                {sourceUrl ? (
+                  <a
+                    href={sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-accent/60 hover:text-accent underline underline-offset-2"
+                  >
+                    출처: {sourceUrl}
+                  </a>
+                ) : (
+                  <span className="text-red-500 font-semibold">
+                    ⚠️ 출처 URL 누락
+                  </span>
+                )}
               </div>
             </div>
+          </div>
           </div>
         </div>
 
@@ -746,26 +763,28 @@ export default function ContentCard({
     </>
   );
 
-  const containerClass = `group flex flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden cursor-pointer ${!isBadgeHovered ? "hover:border-accent/30" : ""} ${selectableClass} ${className || ""}`;
+  const containerClass = `group relative flex flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden cursor-pointer ${selectableClass} ${className || ""}`;
 
   if (href && !selectable) {
     return (
-      <>
+      <div className="relative group/card">
+        <CornerAccents />
         <Link href={href} className={containerClass} onClick={handleClick}>
           {cardContent}
         </Link>
         {modals}
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="relative group">
+      <CornerAccents />
       <div className={containerClass} onClick={handleClick}>
         {cardContent}
       </div>
       {modals}
-    </>
+    </div>
   );
   // #endregion
 }

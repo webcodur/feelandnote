@@ -22,7 +22,7 @@ export default function TrackerTimer({ duration, onExpire }: TrackerTimerProps) 
   }, [duration]);
 
   return (
-    <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+    <div className="w-full h-1.5 rounded-full bg-[#1a1a1a] overflow-hidden">
       <div
         className="h-full rounded-full animate-[timer-shrink_linear_forwards]"
         style={{ animationDuration: `${duration}s` }}

@@ -17,16 +17,23 @@ import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/scriptures"
 // #region 스켈레톤
 function HomeSectionSkeleton() {
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-8 space-y-12">
-        <div className="h-[400px] bg-white/5 rounded-2xl animate-pulse" />
-        <div className="space-y-4">
-            <div className="h-8 w-32 bg-white/5 rounded animate-pulse" />
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className="h-[240px] bg-white/5 rounded-xl animate-pulse" />
-                ))}
-            </div>
+    <div className="w-full flex flex-col gap-8 animate-pulse">
+      {/* 프로필 헤더 */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-white/5" />
+        <div className="h-5 w-32 bg-white/5 rounded" />
+      </div>
+      {/* 카테고리 탭 + 검색바 */}
+      <div className="space-y-4">
+        <div className="flex gap-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-8 w-12 bg-white/5 rounded-full" />
+          ))}
         </div>
+        <div className="h-10 w-full bg-white/5 rounded-lg" />
+      </div>
+      {/* 에디터 영역 */}
+      <div className="h-[200px] bg-white/5 rounded-xl" />
     </div>
   );
 }

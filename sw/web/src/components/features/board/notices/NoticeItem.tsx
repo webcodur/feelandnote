@@ -13,7 +13,7 @@ interface NoticeItemProps {
 export default function NoticeItem({ notice }: NoticeItemProps) {
   return (
     <Link
-      href={`/board/notice/${notice.id}`}
+      href={`/agora/board/notice/${notice.id}`}
       className={`
         group block relative p-4 rounded-lg
         bg-bg-card/60 backdrop-blur-sm
