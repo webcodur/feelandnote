@@ -9,7 +9,10 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
-export const metadata = { title: getArenaPageTitle("hegemony") };
+export const metadata = {
+  title: getArenaPageTitle("hegemony"),
+  description: "셀럽 영향력 카드로 겨루는 1:1 전략 대전. 역사 속 인물들의 능력치로 승부하세요.",
+};
 
 const headerInfo = ARENA_SECTION_HEADERS["hegemony"];
 

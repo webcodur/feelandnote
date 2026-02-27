@@ -4,6 +4,7 @@ import FeedbackList from '@/components/features/board/feedbacks/FeedbackList'
 
 export const metadata = {
   title: '피드백',
+  description: 'Feel&Note 서비스에 대한 피드백과 건의사항을 남겨주세요.',
 }
 
 const ITEMS_PER_PAGE = 10

@@ -9,7 +9,10 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
-export const metadata = { title: getArenaPageTitle("labyrinth") };
+export const metadata = {
+  title: getArenaPageTitle("labyrinth"),
+  description: "단서를 보고 역사 속 인물을 추리하는 미궁 게임. 누구인지 맞춰보세요.",
+};
 
 const headerInfo = ARENA_SECTION_HEADERS["labyrinth"];
 

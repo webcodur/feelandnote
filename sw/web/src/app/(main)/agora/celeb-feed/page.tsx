@@ -9,7 +9,10 @@ import { getCelebFeed } from "@/actions/home";
 import CelebFeedSection from "@/components/features/agora/CelebFeedSection";
 import { getAgoraPageTitle } from "@/constants/agora";
 
-export const metadata = { title: getAgoraPageTitle("celeb-feed") };
+export const metadata = {
+  title: getAgoraPageTitle("celeb-feed"),
+  description: "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요.",
+};
 
 function FeedSkeleton() {
   return (

@@ -63,13 +63,13 @@ const maruburi = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://feelandnote.com"),
   title: {
-    default: "Feel&Note",
-    template: "%s",
+    default: "Feel&Note - 감상 아카이브",
+    template: "%s | Feel&Note",
   },
-  description: "Cultural Content Archive & Social Platform",
+  description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
   openGraph: {
-    title: "Feel&Note",
-    description: "당신의 문화 기록을 남기고, 영감을 발견하세요.",
+    title: "Feel&Note - 감상 아카이브",
+    description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
     url: "https://feelandnote.com",
     siteName: "Feel&Note",
     locale: "ko_KR",
@@ -86,13 +86,13 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Feel&Note",
-    description: "Cultural Content Archive & Social Platform",
+    description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 감상 아카이브 플랫폼.",
     images: ["/opengraph-image"],
   },
   verification: {
-    google: "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg", // Google Search Console HTML 태그 인증용
+    google: "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg",
     other: {
-      "naver-site-verification": "YOUR_VERIFICATION_CODE", // TODO: 네이버 서치어드바이저에서 발급받은 코드로 교체해주세요.
+      "naver-site-verification": "693d325afc4dad4701aa2c7c4a29c78f2ee7e445",
     },
   },
   robots: {
@@ -103,7 +103,7 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
-  keywords: ["culture", "archive", "note", "review", "book", "movie", "music", "game", "celebrity", "inspiration", "문화", "기록", "감상", "영감", "필앤노트"],
+  keywords: ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 철학", "필앤노트", "feelandnote", "book", "movie", "music", "game", "celebrity"],
 };
 
 export default function RootLayout({

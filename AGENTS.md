@@ -192,3 +192,24 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **환경변수**: `sw/web-bo/.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
+
+## 크론잡
+
+### Vercel Cron (sw/web/vercel.json)
+
+| 경로 | 스케줄 | 설명 |
+|------|--------|------|
+| `/api/cron/today-figure` | `5 15 * * *` (매일 00:05 KST) | 오늘의 인물 선정 (뉴스 기반 + seed fallback) |
+
+- Vercel Hobby(무료) 플랜: 크론 **하루 1회** 제한
+- 인증: `CRON_SECRET` 환경변수 (Vercel에서 자동 주입)
+
+### GitHub Actions (.github/workflows/)
+
+| 워크플로우 | 스케줄 | 설명 |
+|-----------|--------|------|
+| `keep-alive.yml` | `*/5 * * * *` (5분 간격) | Supabase Free 플랜 자동 일시정지 방지 |
+
+- Supabase REST API에 간단한 SELECT 쿼리를 보내 프로젝트를 깨운 상태로 유지
+- GitHub Secrets 필요: `SUPABASE_ANON_KEY`
+- 월 소모량: ~150분 (GitHub Actions 무료 한도 2,000분/월)

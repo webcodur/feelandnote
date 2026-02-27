@@ -9,10 +9,11 @@
 
 import { motion } from "framer-motion";
 import { Scroll, ChevronLeft, ChevronRight } from "lucide-react";
-import { CONTENT_HISTORY_TIMELINE, HISTORY_CATEGORIES, HISTORY_TIMELINES, HistoryEra } from "@/constants/scripturesHistory";
+import { CONTENT_HISTORY_TIMELINE, HISTORY_CATEGORIES, HISTORY_TIMELINES, HistoryEra, HistorySubCategory } from "@/constants/scripturesHistory";
 import { FormattedText } from "@/components/ui";
 import Image from "next/image";
 import { useEffect, useState, useRef, useCallback } from "react";
+import EraGanttChart from "./EraGanttChart";
 
 // #region 에세이 본문 렌더러 (FormattedText 활용)
 function EssayContent({ markdown }: { markdown: string }) {
@@ -52,6 +53,35 @@ function CategoryTabs({ activeId, onChange }: { activeId: string; onChange: (id:
               <span className={`flex items-center gap-1.5 ${isActive ? "font-serif text-black" : "font-sans"}`}>
                 {cat.label}
               </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+// #endregion
+
+// #region 서브 카테고리 탭 (매체/필기구 등)
+function SubCategoryTabs({ subCategories, activeId, onChange }: { subCategories: HistorySubCategory[]; activeId: string; onChange: (id: string) => void }) {
+  return (
+    <div className="flex justify-center mt-3 sm:mt-4">
+      <div className="inline-flex p-0.5 bg-white/[0.04] rounded-lg border border-white/[0.06] gap-0.5">
+        {subCategories.map((sub) => {
+          const isActive = sub.id === activeId;
+          return (
+            <button
+              key={sub.id}
+              onClick={() => onChange(sub.id)}
+              className={`
+                px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
+                ${isActive
+                  ? "text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/20"
+                  : "text-white/40 hover:text-white/70 border border-transparent"
+                }
+              `}
+            >
+              {sub.label}
             </button>
           );
         })}
@@ -254,8 +284,8 @@ function EraSection({ era, index, eras }: { era: HistoryEra; index: number; eras
     <section id={`era-${era.id}`} className="relative scroll-mt-4">
       {/* 구분선 (첫 번째 제외) */}
       {index > 0 && (
-        <div className="flex items-center justify-center py-4 sm:py-6">
-          <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
+        <div className="flex items-center justify-center py-10 sm:py-16 md:py-20">
+          <div className="w-px h-12 sm:h-16 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
         </div>
       )}
 
@@ -440,14 +470,31 @@ export default function ContentHistoryTimeline({
   categoryId: categoryIdProp = "book",
 }: ContentHistoryTimelineProps) {
   const [activeCategoryId, setActiveCategoryId] = useState(categoryIdProp);
-  const eras = erasProp ?? HISTORY_TIMELINES[activeCategoryId] ?? CONTENT_HISTORY_TIMELINE;
+  const activeCategory = HISTORY_CATEGORIES.find((c) => c.id === activeCategoryId);
+  const subCategories = activeCategory?.subCategories;
+  const [activeSubId, setActiveSubId] = useState(subCategories?.[0]?.id ?? "");
+
+  // 카테고리 변경 시 서브 탭 리셋
+  useEffect(() => {
+    const subs = HISTORY_CATEGORIES.find((c) => c.id === activeCategoryId)?.subCategories;
+    setActiveSubId(subs?.[0]?.id ?? "");
+  }, [activeCategoryId]);
+
+  // 타임라인 키: 서브 카테고리가 있으면 "book/media" 형태, 없으면 "video" 형태
+  const timelineKey = subCategories ? `${activeCategoryId}/${activeSubId}` : activeCategoryId;
+  const eras = erasProp ?? HISTORY_TIMELINES[timelineKey] ?? CONTENT_HISTORY_TIMELINE;
   const [activeEraId, setActiveEraId] = useState(eras[0]?.id ?? "");
   const contentTopRef = useRef<HTMLDivElement>(null);
+
+  // 설명 텍스트: 서브 카테고리가 있으면 해당 서브의 description, 없으면 카테고리 description
+  const description = subCategories
+    ? subCategories.find((s) => s.id === activeSubId)?.description
+    : activeCategory?.description;
 
   // eras가 변경되면 첫 번째 항목으로 리셋
   useEffect(() => {
     setActiveEraId(eras[0]?.id ?? "");
-  }, [activeCategoryId]);
+  }, [activeCategoryId, activeSubId]);
 
   // 스크롤 위치 기반으로 현재 보이는 시대 감지
   useEffect(() => {
@@ -499,7 +546,7 @@ export default function ContentHistoryTimeline({
             콘텐츠의 연대기
           </h1>
           <p className="text-white/60 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8">
-            {HISTORY_CATEGORIES.find((c) => c.id === activeCategoryId)?.description ?? "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다."}
+            {description ?? "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다."}
           </p>
         </motion.div>
 
@@ -510,7 +557,15 @@ export default function ContentHistoryTimeline({
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <CategoryTabs activeId={activeCategoryId} onChange={setActiveCategoryId} />
+          {subCategories && subCategories.length > 1 && (
+            <SubCategoryTabs subCategories={subCategories} activeId={activeSubId} onChange={setActiveSubId} />
+          )}
         </motion.div>
+      </div>
+
+      {/* 간트 차트 인포그래픽 */}
+      <div className="px-4 sm:px-0">
+        <EraGanttChart key={timelineKey} eras={eras} />
       </div>
 
       {/* 시대별 인라인 섹션 */}

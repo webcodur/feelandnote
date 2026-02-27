@@ -4,6 +4,12 @@
   책임: 헤더/사이드바 없는 풀스크린 몰입 환경 제공
 */ // ------------------------------
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
 export default function ReadingLayout({
   children,
 }: {

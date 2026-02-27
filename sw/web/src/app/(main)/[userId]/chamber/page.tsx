@@ -4,7 +4,10 @@ import { notFound } from "next/navigation";
 import ProfileSettingsSection from "../ProfileSettingsSection";
 import ProfileStatsSection from "../ProfileStatsSection";
 
-export const metadata = { title: "관리" };
+export const metadata = {
+  title: "관리",
+  robots: { index: false, follow: false },
+};
 
 interface PageProps {
   params: Promise<{ userId: string }>;

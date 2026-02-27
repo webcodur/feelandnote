@@ -4,19 +4,28 @@ import { createClient } from '@/lib/supabase/server'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://feelandnote.com'
 
-  // 정적 라우트 (Static Routes)
-  const routes = [
-    '',
-    '/explore',
-    '/scriptures',
-    '/agora',
-    '/rest',
-    '/about',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
+  // 정적 라우트
+  const staticRoutes = [
+    { path: '', priority: 1, changeFrequency: 'daily' as const },
+    { path: '/explore', priority: 0.8, changeFrequency: 'daily' as const },
+    { path: '/explore/celebs', priority: 0.8, changeFrequency: 'daily' as const },
+    { path: '/explore/people', priority: 0.6, changeFrequency: 'daily' as const },
+    { path: '/scriptures', priority: 0.8, changeFrequency: 'daily' as const },
+    { path: '/scriptures/era', priority: 0.8, changeFrequency: 'weekly' as const },
+    { path: '/scriptures/history', priority: 0.7, changeFrequency: 'monthly' as const },
+    { path: '/scriptures/figure', priority: 0.7, changeFrequency: 'daily' as const },
+    { path: '/scriptures/profession', priority: 0.7, changeFrequency: 'weekly' as const },
+    { path: '/agora', priority: 0.7, changeFrequency: 'daily' as const },
+    { path: '/agora/celeb-feed', priority: 0.7, changeFrequency: 'daily' as const },
+    { path: '/rest', priority: 0.5, changeFrequency: 'monthly' as const },
+    { path: '/about', priority: 0.5, changeFrequency: 'monthly' as const },
+    { path: '/terms', priority: 0.3, changeFrequency: 'yearly' as const },
+    { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },
+  ].map(({ path, priority, changeFrequency }) => ({
+    url: `${baseUrl}${path}`,
     lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: route === '' ? 1 : 0.8,
+    changeFrequency,
+    priority,
   }))
 
   // 셀럽 동적 라우트
@@ -35,5 +44,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...routes, ...celebRoutes]
+  return [...staticRoutes, ...celebRoutes]
 }

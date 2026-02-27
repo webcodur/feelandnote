@@ -9,7 +9,10 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
-export const metadata = { title: getArenaPageTitle("dawn") };
+export const metadata = {
+  title: getArenaPageTitle("dawn"),
+  description: "역사 속 인물들의 탄생 순서를 맞추는 퀴즈 게임. 당신의 역사 지식을 시험하세요.",
+};
 
 const headerInfo = ARENA_SECTION_HEADERS["dawn"];
 

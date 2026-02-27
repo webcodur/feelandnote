@@ -11,7 +11,10 @@ import FollowersSection from "@/components/features/user/explore/sections/Follow
 import SimilarSection from "@/components/features/user/explore/sections/SimilarSection";
 import { getFriends, getMyFollowing, getFollowers, getSimilarUsers, getProfile } from "@/actions/user";
 
-export const metadata = { title: "사람 | 탐색" };
+export const metadata = {
+  title: "사람 | 탐색",
+  robots: { index: false, follow: false },
+};
 
 function SectionHeader({ icon: Icon, title, count }: { icon: React.ComponentType<{ className?: string }>; title: string; count: number }) {
   return (

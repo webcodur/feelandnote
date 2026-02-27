@@ -4,6 +4,12 @@
   책임: 로그인/회원가입 페이지의 공통 레이아웃을 제공한다.
 */ // ------------------------------
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
 export default function AuthLayout({
   children
 }: {

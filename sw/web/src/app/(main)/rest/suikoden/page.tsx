@@ -9,7 +9,10 @@ import SuikodenGameWrapper from "@/components/features/game/suikoden/SuikodenGam
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
 
-export const metadata = { title: getArenaPageTitle("suikoden") };
+export const metadata = {
+  title: getArenaPageTitle("suikoden"),
+  description: "역사 속 인물들을 모아 나만의 군단을 편성하는 전략 시뮬레이션 게임.",
+};
 
 const headerInfo = ARENA_SECTION_HEADERS["suikoden"];
 

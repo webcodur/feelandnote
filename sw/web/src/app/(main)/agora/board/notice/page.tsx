@@ -5,6 +5,7 @@ import NoticeList from '@/components/features/board/notices/NoticeList'
 
 export const metadata = {
   title: '공지사항',
+  description: 'Feel&Note 서비스 공지사항입니다.',
 }
 
 const ITEMS_PER_PAGE = 10

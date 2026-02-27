@@ -27,17 +27,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     : `${nickname}님의 문화 기록관입니다.`;
 
   return {
-    title: `${nickname} - Feel&Note`,
+    title: nickname,
     description,
     openGraph: {
-      title: `${nickname} - Feel&Note`,
+      title: nickname,
       description,
       images: profile.avatar_url ? [profile.avatar_url] : [],
       type: "profile",
     },
     twitter: {
       card: "summary",
-      title: `${nickname} - Feel&Note`,
+      title: nickname,
       description,
       images: profile.avatar_url ? [profile.avatar_url] : [],
     },

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/', '/admin/', '/api/'],
+      disallow: ['/private/', '/admin/', '/api/', '/notifications', '/login', '/signup', '/reset-password', '/search', '/lab', '/reading'],
     },
     sitemap: 'https://feelandnote.com/sitemap.xml',
   }

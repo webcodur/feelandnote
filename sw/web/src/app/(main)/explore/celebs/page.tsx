@@ -10,7 +10,10 @@ import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCou
 import type { CelebSortBy } from "@/actions/home";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "셀럽 | 탐색" };
+export const metadata = {
+  title: "셀럽 | 탐색",
+  description: "역사 속 위인부터 현대 문화 아이콘까지, 셀럽들의 감상 기록과 추천 작품을 탐색하세요.",
+};
 
 const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 

@@ -27,16 +27,16 @@ export async function generateMetadata(
     const desc = description || `${title}에 대한 기록과 리뷰를 확인해보세요.`;
 
     return {
-      title: `${title} - Feel&Note`,
+      title,
       description: desc,
       openGraph: {
-        title: `${title} - Feel&Note`,
+        title,
         description: desc,
         images: thumbnail ? [thumbnail] : [],
       },
       twitter: {
         card: "summary_large_image",
-        title: `${title} - Feel&Note`,
+        title,
         description: desc,
         images: thumbnail ? [thumbnail] : [],
       },
@@ -49,13 +49,44 @@ export async function generateMetadata(
   }
 }
 
+/** 콘텐츠 타입 → schema.org 타입 매핑 */
+function getSchemaType(type: string): string {
+  switch (type) {
+    case "BOOK": return "Book";
+    case "VIDEO": return "Movie";
+    case "MUSIC": return "MusicRecording";
+    case "GAME": return "VideoGame";
+    default: return "CreativeWork";
+  }
+}
+
 export default async function Page({ params, searchParams }: PageProps) {
   const { contentId } = await params;
   const { category } = await searchParams;
 
   try {
     const data = await getContentDetail(contentId, category as CategoryId | undefined);
-    return <ContentDetailPage initialData={data} />;
+    const { content } = data;
+
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": getSchemaType(content.type),
+      name: content.title,
+      ...(content.creator && { author: { "@type": "Person", name: content.creator } }),
+      ...(content.description && { description: content.description }),
+      ...(content.thumbnail && { image: content.thumbnail }),
+      ...(content.releaseDate && { datePublished: content.releaseDate }),
+    };
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <ContentDetailPage initialData={data} />
+      </>
+    );
   } catch {
     notFound();
   }

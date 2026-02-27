@@ -10,7 +10,10 @@ import { getProfessionContentCounts } from "@/actions/scriptures";
 import { getScripturesPageTitle, PROFESSION_ROWS } from "@/constants/scriptures";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
-export const metadata = { title: getScripturesPageTitle("profession") };
+export const metadata = {
+  title: getScripturesPageTitle("profession"),
+  description: "지도자, 과학자, 예술가 등 분야별 인물들이 선택한 필독서와 추천 작품을 만나보세요.",
+};
 
 function SectionSkeleton() {
   return (

@@ -9,7 +9,10 @@ import TodayFigureSection from "@/components/features/figure/TodayFigureSection"
 import { getTodayFigure } from "@/actions/scriptures";
 import { getScripturesPageTitle } from "@/constants/scriptures";
 
-export const metadata = { title: getScripturesPageTitle("figure") };
+export const metadata = {
+  title: getScripturesPageTitle("figure"),
+  description: "매일 새로운 인물의 서재를 탐험하세요. 오늘의 인물이 읽고, 보고, 들은 작품을 소개합니다.",
+};
 
 function SectionSkeleton() {
   return (
