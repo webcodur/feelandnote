@@ -19,17 +19,20 @@ export async function getCelebCards(): Promise<BattleCard[]> {
   const { data, error } = await supabase
     .from("profiles")
     .select(`
-      id, nickname, profession, title, nationality, avatar_url, quotes, death_date, gender,
+      id, nickname, profession, title, nationality, avatar_url, quotes, death_date, gender, speech_tone,
       celeb_influence!inner(
         political, strategic, tech, social, economic, cultural, transhistoricity
       ),
-      celeb_persona!inner(command, martial, intellect, charisma, speech_tone),
+      celeb_persona!inner(command, martial, intellect, charisma),
       celeb_dialogues(lines)
     `)
     .eq("profile_type", "CELEB")
     .not("death_date", "is", null);
 
-  if (error || !data) return [];
+  if (error || !data) {
+    console.error("[getCelebCards] 셀럽 카드 조회 실패:", error?.message);
+    return [];
+  }
 
   return data
     .filter((row) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
@@ -51,7 +54,7 @@ export async function getCelebCards(): Promise<BattleCard[]> {
 
       const profession = row.profession ?? "other";
       const gender = row.gender ?? null;
-      const speechTone = validateSpeechTone(per.speech_tone);
+      const speechTone = validateSpeechTone(row.speech_tone);
 
       // 개인별 대사: lines JSONB가 비어있지 않으면 사용
       const dialogueLines = dlg?.lines && Object.keys(dlg.lines).length > 0

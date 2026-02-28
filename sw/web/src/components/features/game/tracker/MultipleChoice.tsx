@@ -1,11 +1,11 @@
 /*
   파일명: components/features/game/tracker/MultipleChoice.tsx
-  기능: 6지선다 — 카드 클릭=정답 확정 모달, X 클릭=배제 확정 모달 (카드 위 오버레이)
+  기능: 6지선다 — 카드 클릭 시 지목(O) / 배제(X) 선택 모달 표시 및 외부 영역 클릭 시 닫힘 기능 포함
 */
 "use client";
 
-import { useState } from "react";
-import { Check, X, ShieldOff } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Check, ShieldOff } from "lucide-react";
 import type { TrackerOption } from "@/actions/game/getTrackerRound";
 import TrackerCard from "./TrackerCard";
 
@@ -16,9 +16,8 @@ interface MultipleChoiceProps {
   canEliminate: boolean;
   onSelect: (selectedId: string) => void;
   onEliminate: (id: string) => void;
+  onCardClick?: (id: string) => void;
 }
-
-type PendingAction = { id: string; type: "select" | "eliminate" } | null;
 
 export default function MultipleChoice({
   options,
@@ -27,55 +26,69 @@ export default function MultipleChoice({
   canEliminate,
   onSelect,
   onEliminate,
+  onCardClick,
 }: MultipleChoiceProps) {
-  const [pending, setPending] = useState<PendingAction>(null);
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [actioning, setActioning] = useState<{ id: string; type: "select" | "eliminate" } | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
-  const handleCardClick = (id: string) => {
-    if (confirmed || eliminatedIds.includes(id)) return;
-    setPending({ id, type: "select" });
+  // 외부 영역 클릭 시 닫기
+  useEffect(() => {
+    if (!pendingId || confirmed) return;
+
+    const handleDocumentClick = () => {
+      setPendingId(null);
+    };
+
+    document.addEventListener("click", handleDocumentClick);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [pendingId, confirmed]);
+
+  const handleCardClick = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // document click으로 전파되지 않도록 방지
+    if (confirmed || eliminatedIds.includes(id) || actioning) return;
+    setPendingId(id);
+    onCardClick?.(id);
   };
 
-  const handleEliminateClick = (id: string) => {
-    if (confirmed || eliminatedIds.includes(id)) return;
-    setPending({ id, type: "eliminate" });
-  };
-
-  const handleConfirm = () => {
-    if (!pending || confirmed) return;
-    if (pending.type === "eliminate") {
-      onEliminate(pending.id);
-      setPending(null);
+  const handleAction = (id: string, type: "select" | "eliminate", e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (type === "eliminate") {
+      setPendingId(null);
+      onEliminate(id);
       return;
     }
-    // 정답 선택 확정
+    // 지목 확정
+    setActioning({ id, type });
+    setPendingId(null);
     setConfirmed(true);
     setTimeout(() => {
       setRevealed(true);
-      setTimeout(() => onSelect(pending.id), 800);
+      setTimeout(() => onSelect(id), 800);
     }, 1200);
   };
 
-  const handleCancel = () => {
-    if (confirmed) return;
-    setPending(null);
+  const handleCancel = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setPendingId(null);
   };
 
   const getStatus = (id: string): "normal" | "win" | "lose" | "selected" | "eliminated" => {
     if (eliminatedIds.includes(id)) return "eliminated";
-    if (!confirmed) return pending?.id === id ? "selected" : "normal";
-    if (!revealed) return pending?.id === id ? "selected" : "normal";
+    if (!confirmed) return pendingId === id ? "selected" : "normal";
+    if (!revealed) return actioning?.id === id ? "selected" : "normal";
     if (id === correctId) return "win";
-    if (id === pending?.id) return "lose";
+    if (id === actioning?.id) return "lose";
     return "normal";
   };
 
   return (
-    <div className="grid grid-cols-3 gap-1.5 sm:gap-2 px-1">
+    <div className="grid grid-cols-3 gap-2 sm:gap-4 px-2 max-w-2xl mx-auto">
       {options.map((opt) => {
-        const isPending = pending?.id === opt.id && !confirmed;
-        const isEliminated = eliminatedIds.includes(opt.id);
+        const isPending = pendingId === opt.id && !confirmed;
 
         return (
           <div key={opt.id} className="relative">
@@ -83,34 +96,45 @@ export default function MultipleChoice({
               imageUrl={opt.avatarUrl}
               name={opt.nickname}
               status={getStatus(opt.id)}
-              onClick={!confirmed && !isPending ? () => handleCardClick(opt.id) : undefined}
-              onEliminate={canEliminate && !confirmed && !isEliminated && !isPending ? () => handleEliminateClick(opt.id) : undefined}
-
+              onClick={!confirmed ? (e) => handleCardClick(opt.id, e) : undefined}
             />
 
-            {/* 카드 위 확정 오버레이 */}
+            {/* 카드 위 O/X 선택 오버레이 */}
             {isPending && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-xl bg-black/70 animate-in fade-in duration-150 z-40">
+              <div 
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-black/80 animate-in fade-in zoom-in-95 duration-150 z-40 cursor-pointer"
+                onClick={handleCancel}
+              >
+                <div className="flex items-center gap-3">
+                  {/* 지목(O) 버튼 */}
+                  <button
+                    onClick={(e) => handleAction(opt.id, "select", e)}
+                    className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-accent/40 bg-[#1a1710] text-accent hover:bg-[#231f15] active:scale-90 transition-all shadow-lg"
+                  >
+                    <Check size={20} strokeWidth={3} />
+                  </button>
+
+                  {/* 배제(X) 버튼 */}
+                  {canEliminate && (
+                    <button
+                      onClick={(e) => handleAction(opt.id, "eliminate", e)}
+                      className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-red-500/40 bg-[#1a0a0a] text-red-400 hover:bg-red-900/50 active:scale-90 transition-all shadow-lg"
+                    >
+                      <ShieldOff size={20} strokeWidth={3} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {/* 지목 확정 중(actioning) 상태일 때 기존의 오버레이 유지 */}
+            {actioning?.id === opt.id && !revealed && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-xl bg-black/70 animate-in fade-in duration-150 z-40 pointer-events-none">
                 <p className="text-[11px] sm:text-xs font-serif text-white text-center px-2 leading-tight">
-                  {pending.type === "select" ? "정답으로 확정?" : "배제할까요?"}
+                  용의자 대조 중...
                 </p>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleCancel}
-                    className="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 bg-[#1a1a1a] text-text-tertiary hover:text-white active:scale-90 transition-all"
-                  >
-                    <X size={14} />
-                  </button>
-                  <button
-                    onClick={handleConfirm}
-                    className={`flex items-center justify-center w-8 h-8 rounded-full border active:scale-90 transition-all ${
-                      pending.type === "select"
-                        ? "border-accent/40 bg-[#1a1710] text-accent hover:bg-[#231f15]"
-                        : "border-red-500/40 bg-[#1a0a0a] text-red-400 hover:bg-red-900/50"
-                    }`}
-                  >
-                    {pending.type === "select" ? <Check size={14} /> : <ShieldOff size={14} />}
-                  </button>
+                <div className="flex items-center justify-center w-8 h-8 rounded-full border border-accent/40 bg-[#1a1710] text-accent">
+                  <Check size={14} />
                 </div>
               </div>
             )}

@@ -9,7 +9,9 @@
 
 import { motion } from "framer-motion";
 import { Scroll, ChevronLeft, ChevronRight } from "lucide-react";
-import { CONTENT_HISTORY_TIMELINE, HISTORY_CATEGORIES, HISTORY_TIMELINES, HistoryEra, HistorySubCategory } from "@/constants/scripturesHistory";
+import { CONTENT_HISTORY_TIMELINE, HISTORY_CATEGORIES, HISTORY_TIMELINES, TYPOGRAPHY_CLASSES, READING_METHODS, SUB_CATEGORY_VIEW_TYPE, HistoryEra, HistorySubCategory } from "@/constants/scripturesHistory";
+import TypographyCatalog from "./TypographyCatalog";
+import ReadingComparison from "./ReadingComparison";
 import { FormattedText } from "@/components/ui";
 import Image from "next/image";
 import { useEffect, useState, useRef, useCallback } from "react";
@@ -482,6 +484,7 @@ export default function ContentHistoryTimeline({
 
   // 타임라인 키: 서브 카테고리가 있으면 "book/media" 형태, 없으면 "video" 형태
   const timelineKey = subCategories ? `${activeCategoryId}/${activeSubId}` : activeCategoryId;
+  const viewType = SUB_CATEGORY_VIEW_TYPE[timelineKey] ?? 'timeline';
   const eras = erasProp ?? HISTORY_TIMELINES[timelineKey] ?? CONTENT_HISTORY_TIMELINE;
   const [activeEraId, setActiveEraId] = useState(eras[0]?.id ?? "");
   const contentTopRef = useRef<HTMLDivElement>(null);
@@ -525,11 +528,11 @@ export default function ContentHistoryTimeline({
 
   return (
     <div className="w-full max-w-5xl mx-auto py-8 sm:py-12 md:py-20 pb-24 sm:pb-28 xl:pb-20">
-      {/* 사이드 목차 (데스크톱) */}
-      <TableOfContents activeId={activeEraId} eras={eras} contentTopRef={contentTopRef} />
+      {/* 사이드 목차 (데스크톱) — 타임라인일 때만 */}
+      {viewType === 'timeline' && <TableOfContents activeId={activeEraId} eras={eras} contentTopRef={contentTopRef} />}
 
-      {/* 하단 네비게이터 (모바일/태블릿) */}
-      <MobileNavigator activeId={activeEraId} eras={eras} />
+      {/* 하단 네비게이터 (모바일/태블릿) — 타임라인일 때만 */}
+      {viewType === 'timeline' && <MobileNavigator activeId={activeEraId} eras={eras} />}
 
       {/* 페이지 헤더 */}
       <div className="mb-6 sm:mb-10 md:mb-12 text-center px-4">
@@ -563,17 +566,21 @@ export default function ContentHistoryTimeline({
         </motion.div>
       </div>
 
-      {/* 간트 차트 인포그래픽 */}
-      <div className="px-4 sm:px-0">
-        <EraGanttChart key={timelineKey} eras={eras} />
-      </div>
-
-      {/* 시대별 인라인 섹션 */}
-      <div ref={contentTopRef} className="flex flex-col">
-        {eras.map((era, index) => (
-          <EraSection key={era.id} era={era} index={index} eras={eras} />
-        ))}
-      </div>
+      {/* 콘텐츠 영역: 뷰 타입에 따라 분기 */}
+      {viewType === 'timeline' && (
+        <>
+          <div className="px-4 sm:px-0">
+            <EraGanttChart key={timelineKey} eras={eras} />
+          </div>
+          <div ref={contentTopRef} className="flex flex-col">
+            {eras.map((era, index) => (
+              <EraSection key={era.id} era={era} index={index} eras={eras} />
+            ))}
+          </div>
+        </>
+      )}
+      {viewType === 'catalog' && <TypographyCatalog data={TYPOGRAPHY_CLASSES} />}
+      {viewType === 'comparison' && <ReadingComparison data={READING_METHODS} />}
     </div>
   );
 }

@@ -55,6 +55,8 @@ export async function getContentDetail(
   category?: CategoryId
 ): Promise<ContentDetailData> {
   const supabase = await createClient()
+  // 리뷰 피드는 contentId만 필요하므로 콘텐츠 조회와 병렬 시작
+  const reviewsPromise = getReviewFeed({ contentId, limit: 10 })
   const profile = await getProfile()
 
   // 1. 로그인 사용자의 기록 확인
@@ -167,8 +169,8 @@ export async function getContentDetail(
     }
   }
 
-  // 3. 리뷰 데이터 프리페치
-  const initialReviews = await getReviewFeed({ contentId, limit: 10 })
+  // 3. 리뷰 데이터 (병렬 시작된 프로미스 대기)
+  const initialReviews = await reviewsPromise
 
   return {
     content: contentData,

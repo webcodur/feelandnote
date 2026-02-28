@@ -4,11 +4,14 @@
   책임: 서버에서 데이터를 프리페치하여 ContentDetailPage에 전달한다.
 */ // ------------------------------
 
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getContentDetail } from "@/actions/contents/getContentDetail";
 import type { CategoryId } from "@/constants/categories";
 import type { Metadata } from "next";
+
+const getContentDetailCached = cache(getContentDetail);
 
 interface PageProps {
   params: Promise<{ contentId: string }>;
@@ -22,16 +25,20 @@ export async function generateMetadata(
   const { category } = await searchParams;
 
   try {
-    const data = await getContentDetail(contentId, category as CategoryId | undefined);
+    const data = await getContentDetailCached(contentId, category as CategoryId | undefined);
     const { title, description, thumbnail } = data.content;
     const desc = description || `${title}에 대한 기록과 리뷰를 확인해보세요.`;
+
+    const canonicalUrl = `https://feelandnote.com/content/${contentId}`;
 
     return {
       title,
       description: desc,
+      alternates: { canonical: canonicalUrl },
       openGraph: {
         title,
         description: desc,
+        url: canonicalUrl,
         images: thumbnail ? [thumbnail] : [],
       },
       twitter: {
@@ -65,7 +72,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { category } = await searchParams;
 
   try {
-    const data = await getContentDetail(contentId, category as CategoryId | undefined);
+    const data = await getContentDetailCached(contentId, category as CategoryId | undefined);
     const { content } = data;
 
     const jsonLd = {
@@ -87,7 +94,8 @@ export default async function Page({ params, searchParams }: PageProps) {
         <ContentDetailPage initialData={data} />
       </>
     );
-  } catch {
+  } catch (err) {
+    console.error("[content/page] 콘텐츠 상세 로드 실패:", contentId, err);
     notFound();
   }
 }

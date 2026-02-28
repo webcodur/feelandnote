@@ -48,6 +48,9 @@ export const Z_INDEX = {
 
   // 전체화면 게임 위에 표시되는 모달
   gameModal: 10000,
+
+  // 일기토 (게임 모달 위)
+  gameDuel: 10001,
 } as const;
 
 export type ZIndexKey = keyof typeof Z_INDEX;

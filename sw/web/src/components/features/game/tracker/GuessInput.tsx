@@ -169,7 +169,7 @@ export default function GuessInput({
 
       <div className="flex items-center justify-center gap-3">
         {wrongMsg && (
-          <p className="text-xs text-red-400 animate-in fade-in">틀렸습니다</p>
+          <p className="text-xs text-red-400 animate-in fade-in">추적 실패</p>
         )}
         <button
           onClick={onPass}

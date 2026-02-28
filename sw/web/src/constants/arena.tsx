@@ -31,7 +31,7 @@ export const ARENA_ITEMS: ArenaItem[] = [
     label: "미궁",
     icon: Crosshair,
     href: "/rest/labyrinth",
-    description: "단서를 모아 인물을 추적하세요",
+    description: "용의자 속 숨어든 인물을 추적하세요",
   },
   {
     value: "hegemony",
@@ -74,8 +74,8 @@ export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
   labyrinth: {
     label: "LABYRINTH",
     title: "미궁",
-    description: "단서를 모아 정체를 밝혀라",
-    subDescription: "점진적으로 공개되는 단서를 보고 인물을 맞춰보세요.",
+    description: "숨어든 자를 추적하라",
+    subDescription: "용의자 6인의 단서를 분석하여 숨어든 인물을 찾아내세요.",
   },
   hegemony: {
     label: "HEGEMONY",

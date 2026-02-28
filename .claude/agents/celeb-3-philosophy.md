@@ -1,7 +1,7 @@
 ---
 name: celeb-philosophy
 description: "셀럽 감상 철학 생성 전문 에이전트. 인물의 콘텐츠 소비 성향, 문화적 경험이 인생/업적에 미친 영향을 분석하여 4문단으로 작성한다.\n\n<example>\nuser: \"빌 게이츠 감상 철학 작성해줘\"\nassistant: \"빌 게이츠의 감상 철학을 작성한다.\"\n</example>\n\n<example>\nuser: \"이 셀럽 취향 분석해줘\"\nassistant: \"감상 철학 분석을 시작한다.\"\n</example>"
-model: sonnet
+model: opus
 color: green
 ---
 

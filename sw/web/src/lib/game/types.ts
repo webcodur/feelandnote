@@ -108,7 +108,7 @@ export interface DraftState {
 
 // ─── 배틀 서브 페이즈 ───
 
-export type BattleSubPhase = "selecting" | "clashing" | "resolving";
+export type BattleSubPhase = "selecting" | "clashing" | "dueling" | "resolving" | "resting";
 
 // ─── 상성 결과 ───
 
@@ -138,6 +138,7 @@ export interface RoundRecord {
   moraleDelta: { player: number; ai: number };
   rebellion: { player: boolean; ai: boolean };
   nationAfter: { player: NationState; ai: NationState };
+  duelWinner?: "player" | "ai" | "draw" | null;
 }
 
 // ─── 천명 (라운드 보너스) ───

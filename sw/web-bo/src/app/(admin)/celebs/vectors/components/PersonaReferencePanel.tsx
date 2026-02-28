@@ -13,17 +13,8 @@ const AXES: { key: ReferenceAxis; label: string }[] = [
   { key: 'charisma', label: '매력' },
 ]
 
-const toScore100 = (axis: ReferenceAxis, value: number): number => {
-  if (
-    axis === 'pessimism_optimism' ||
-    axis === 'conservative_progressive' ||
-    axis === 'individual_social' ||
-    axis === 'cautious_bold'
-  ) {
-    return (value + 5) * 10
-  }
-  return value * 10
-}
+// DB 값이 이미 0~100(능력/덕목) 또는 -50~+50(성향) 스케일이므로 그대로 사용
+const toScore100 = (_axis: ReferenceAxis, value: number): number => value
 
 interface Props {
   vectors: PersonaData[]
@@ -46,54 +37,42 @@ export default function PersonaReferencePanel({ vectors }: Props) {
   }, [vectors])
 
   return (
-    <section className="rounded-xl border border-accent/20 bg-bg-card/50 p-4 md:p-5 space-y-4">
-      <div>
-        <h2 className="text-base md:text-lg font-semibold text-text-primary">KOEI 삼국지 기준점</h2>
-        <p className="text-xs md:text-sm text-text-secondary mt-1">
-          삼국지 시리즈 대표 수치를 기준점으로 사용. 현재 DB 인물이 매칭되면 편차를 표시합니다.
-        </p>
+    <section className="rounded-xl border border-accent/20 bg-bg-card/50 p-3 md:p-4 space-y-3">
+      <div className="flex items-baseline gap-2">
+        <h2 className="text-sm font-semibold text-text-primary">KOEI 삼국지 기준점</h2>
+        <span className="text-[11px] text-text-secondary">DB 인물 매칭 시 편차 표시</span>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {rowsByAxis.map(({ key, label, rows }) => (
           <div key={key} className="rounded-lg border border-white/10 bg-black/20">
-            <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-              <h3 className="text-xs md:text-sm font-semibold text-text-primary">{label}</h3>
-              <span className="text-[11px] md:text-xs text-text-secondary">
-                기준점 {rows.length}명
-              </span>
+            <div className="border-b border-white/10 px-2.5 py-1.5">
+              <h3 className="text-xs font-semibold text-text-primary">{label}</h3>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-[11px] md:text-xs">
-                <thead>
-                  <tr className="border-b border-border/60">
-                    <th className="text-left py-2 px-2 text-text-secondary font-medium">기준점수</th>
-                    <th className="text-left py-2 px-2 text-text-secondary font-medium">인물</th>
-                    <th className="text-left py-2 px-2 text-text-secondary font-medium">현재점수</th>
-                    <th className="text-left py-2 px-2 text-text-secondary font-medium">편차</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row) => (
-                    <tr key={`${key}-${row.nickname}`} className="border-b border-border/30">
-                      <td className="py-2 px-2 font-mono text-text-primary">{row.score100}</td>
-                      <td className="py-2 px-2 text-text-primary">{row.nickname}</td>
-                      <td className="py-2 px-2 font-mono text-text-primary">{row.currentScore ?? '-'}</td>
-                      <td className={`py-2 px-2 font-mono ${
-                        row.delta == null
-                          ? 'text-text-tertiary'
-                          : row.delta > 0
-                            ? 'text-green-400'
-                            : row.delta < 0
-                              ? 'text-red-400'
-                              : 'text-text-secondary'
-                      }`}>
-                        {row.delta == null ? '-' : `${row.delta > 0 ? '+' : ''}${row.delta}`}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="px-1 py-1">
+              {rows.map((row) => (
+                <div
+                  key={`${key}-${row.nickname}`}
+                  className="grid grid-cols-[28px_1fr_28px_36px] items-center px-1.5 py-0.5 text-[11px]"
+                >
+                  <span className="font-mono text-text-secondary tabular-nums">{row.score100}</span>
+                  <span className="text-text-primary truncate">{row.nickname}</span>
+                  <span className="font-mono text-text-primary tabular-nums text-right">
+                    {row.currentScore ?? <span className="text-text-tertiary">-</span>}
+                  </span>
+                  <span className={`font-mono tabular-nums text-right ${
+                    row.delta == null
+                      ? 'text-text-tertiary'
+                      : row.delta > 0
+                        ? 'text-green-400'
+                        : row.delta < 0
+                          ? 'text-red-400'
+                          : 'text-text-secondary'
+                  }`}>
+                    {row.delta == null ? '-' : `${row.delta > 0 ? '+' : ''}${row.delta}`}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         ))}

@@ -5,10 +5,10 @@
 */
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/types";
 import { VARIANTS_PER_LINE } from "@/lib/game/voice/types";
-import { VOICE_TEMPLATES } from "@/lib/game/voice/voiceLines";
+import defaultLinesData from "@/lib/game/voice/defaultLines";
 
 /** [emotion, ...] 태그를 제거하고 순수 대사 텍스트만 반환 */
 export function stripEmotionTag(text: string): string {
@@ -16,6 +16,7 @@ export function stripEmotionTag(text: string): string {
 }
 
 export interface DialogueSubtitleData {
+  key: number;
   tone: SpeechTone;
   text: string;
   nickname?: string;
@@ -38,29 +39,57 @@ interface UseDialogueOptions {
 }
 
 export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseDialogueOptions) {
+  const keyCounter = useRef(0);
+
   const showDialogue = useCallback((celebId: string, tone: SpeechTone, type: DialogueType, meta?: DialogueCharacterMeta) => {
     if (sfxMutedRef.current) return;
+    if (!onSubtitle) return;
 
     const index = Math.floor(Math.random() * VARIANTS_PER_LINE);
 
-    // 1순위: 개인별 고유 대사
     const personal = personalDialogues?.get(celebId);
-    let raw = personal?.[type]?.[index];
+    const raw = personal?.[type]?.[index];
 
-    // 2순위: 공통 대사 폴백
-    if (!raw) {
-      raw = VOICE_TEMPLATES[tone]?.[type]?.[index];
-    }
-
-    if (raw && onSubtitle) {
+    if (raw) {
       onSubtitle({
+        key: ++keyCounter.current,
         tone,
         text: stripEmotionTag(raw),
+        nickname: meta?.nickname,
+        avatarUrl: meta?.avatarUrl,
+      });
+      return;
+    }
+
+    // 개인 대사 없으면 defaultLines 폴백
+    const fallback = defaultLinesData[type]?.[tone];
+    if (fallback?.length) {
+      onSubtitle({
+        key: ++keyCounter.current,
+        tone,
+        text: fallback[Math.floor(Math.random() * fallback.length)],
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
       });
     }
   }, [sfxMutedRef, onSubtitle, personalDialogues]);
 
-  return { showDialogue };
+  /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
+  const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {
+    if (sfxMutedRef.current) return;
+
+    const lines = defaultLinesData[key]?.[tone];
+    if (!lines?.length || !onSubtitle) return;
+
+    const raw = lines[Math.floor(Math.random() * lines.length)];
+    onSubtitle({
+      key: Date.now(),
+      tone,
+      text: raw,
+      nickname: meta?.nickname,
+      avatarUrl: meta?.avatarUrl,
+    });
+  }, [sfxMutedRef, onSubtitle]);
+
+  return { showDialogue, showDefaultLine };
 }

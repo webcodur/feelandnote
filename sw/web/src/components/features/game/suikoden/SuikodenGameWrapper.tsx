@@ -43,8 +43,8 @@ export default function SuikodenGameWrapper({ characters, items }: Props) {
 
   const Lobby = useMemo(
     () =>
-      function SuikodenLobbyAdapter({ onStart }: { highScore: number; onStart: () => void }) {
-        return <SuikodenLobby characterCount={characters.length} onStart={onStart} />;
+      function SuikodenLobbyAdapter({ onStart, onExit }: { onStart: () => void; onExit: () => void }) {
+        return <SuikodenLobby characterCount={characters.length} onStart={onStart} onExit={onExit} />;
       },
     [characters.length],
   );
@@ -68,7 +68,6 @@ export default function SuikodenGameWrapper({ characters, items }: Props) {
       gateIcon={<Crown size={40} className="mx-auto text-accent/60" />}
       gateSubtitle="셀럽 전략 시뮬레이션"
       phaseLabels={PHASE_LABELS}
-      highScoreKey="suikoden-highscore"
       Background={SuikodenBackground}
       Lobby={Lobby}
       Game={Game}

@@ -1,10 +1,11 @@
 /*
   파일명: actions/game/getTrackerRound.ts
   기능: 인물추적 게임 라운드 데이터 조회
-  책임: 랜덤 셀럽 1명 + 페르소나 + 콘텐츠 + 오답 보기 3명 일괄 조회
+  책임: 랜덤 셀럽 1명(추적 대상) + 페르소나 + 콘텐츠 + 위장 용의자 3명 일괄 조회
 */
 "use server";
 
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { getCountryNameAsync } from "@/lib/countries";
 
@@ -15,6 +16,8 @@ export interface TrackerContent {
   thumbnailUrl: string | null;
   type: string;
   review: string;
+  /** 마스킹 전 원본 리뷰 (결과 화면용) */
+  rawReview: string;
   sourceUrl: string | null;
 }
 
@@ -22,6 +25,8 @@ export interface TrackerOption {
   id: string;
   nickname: string;
   avatarUrl: string | null;
+  speechTone?: string | null;
+  dialogueLines?: any | null;
 }
 
 export interface TrackerPersona {
@@ -64,25 +69,64 @@ export interface TrackerRound {
   options: TrackerOption[];
 }
 
-// 셀럽 이름을 블러 치환
-function censorName(text: string, nickname: string): string {
+// 셀럽 이름을 블러 치환 (보호 단어 지정: 작품명, 작가명 등을 마스킹에서 제외)
+function censorName(text: string, nickname: string, safeWords: string[] = []): string {
   if (!text || !nickname) return text;
-  const escaped = nickname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  let result = text.replace(new RegExp(escaped, "gi"), "■■■");
 
-  // 모든 토큰 치환 (성/이름 부분일치)
+  // 1. 보호 단어를 임시 플레이스홀더로 치환
+  let result = text;
+  const placeholders: string[] = [];
+  
+  // 긴 단어부터 치환하기 위해 길이순 정렬
+  const sortedSafeWords = [...safeWords]
+    .filter((word) => word && word.trim().length > 0)
+    .sort((a, b) => b.length - a.length);
+
+  sortedSafeWords.forEach((word, index) => {
+    // word가 정규식 특수문자를 포함할 수 있으므로 escape
+    const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const placeholder = `__SAFE_WORD_${index}__`;
+    placeholders.push(word);
+    result = result.replace(new RegExp(escapedWord, "gi"), placeholder);
+  });
+
+  // 2. 닉네임 블라인드 처리
+  const escaped = nickname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  result = result.replace(new RegExp(escaped, "gi"), "■■■");
+
+  // 토큰별 치환 (성/이름 부분일치)
   const tokens = nickname.split(/\s+/).filter(Boolean);
   for (const token of tokens) {
     const esc = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     if (token.length >= 2) {
-      // 2글자 이상: 그대로 치환
-      result = result.replace(new RegExp(esc, "gi"), "■■■");
+      // 2글자 이상: 앞쪽에 한글이나 영문/숫자가 없는 경우에만 치환 (부정형 후방 탐색 방어)
+      const regexStr = `(?<![가-힣ㄱ-ㅎa-zA-Z0-9_])${esc}`;
+      result = result.replace(new RegExp(regexStr, "gi"), "■■■");
     } else {
-      // 1글자: 뒤에 조사/공백이 따라올 때만 치환 (오탐 방지)
+      // 1글자: 뒤에 조사/공백이 따라올 때만 치환 (기존 오탐 방지)
       result = result.replace(new RegExp(esc + "(?=[은는이가의를을에]|\\s|$)", "g"), "■■■");
     }
   }
+
+  // 3. 임시 플레이스홀더를 원래 보호 단어로 복구
+  placeholders.forEach((word, index) => {
+    const placeholder = `__SAFE_WORD_${index}__`;
+    result = result.replace(new RegExp(placeholder, "g"), word);
+  });
+
   return result;
+}
+
+/** Accept-Language 헤더 기반 한국어 우선 여부 판별 */
+async function isKoreanLocale(): Promise<boolean> {
+  try {
+    const h = await headers();
+    const lang = h.get("accept-language") ?? "";
+    // ko가 첫 번째 언어이거나 높은 우선순위인 경우
+    return /^ko\b/i.test(lang) || /ko-KR/i.test(lang);
+  } catch {
+    return true; // 기본값: 한국어 우선
+  }
 }
 
 export async function getTrackerRound(
@@ -99,6 +143,7 @@ export async function getTrackerRound(
 
   // RPC가 없으면 직접 쿼리
   if (candErr) {
+    console.error("[getTrackerRound] RPC 실패, fallback 사용:", candErr.message);
     return getTrackerRoundFallback(safeIds);
   }
 
@@ -106,7 +151,8 @@ export async function getTrackerRound(
 
   // 랜덤 선택
   const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession, chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes);
+  const preferKo = await isKoreanLocale();
+  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession, chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes, preferKo);
 }
 
 async function getTrackerRoundFallback(
@@ -172,7 +218,8 @@ async function getTrackerRoundFallback(
   if (eligible.length === 0) return null;
 
   const chosen = eligible[Math.floor(Math.random() * eligible.length)];
-  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession ?? "other", chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes);
+  const preferKo = await isKoreanLocale();
+  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession ?? "other", chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes, preferKo);
 }
 
 async function buildRound(
@@ -187,27 +234,28 @@ async function buildRound(
   birthDate: string | null,
   deathDate: string | null,
   bio: string | null,
-  quotes: string | null
+  quotes: string | null,
+  preferKo: boolean = true
 ): Promise<TrackerRound | null> {
-  // 2. 페르소나 조회
-  const { data: personaData } = await supabase
-    .from("celeb_persona")
-    .select(
-      "command, martial, intellect, charisma, temperance, diligence, reflection, courage, loyalty, benevolence, fairness, humility, pessimism_optimism, conservative_progressive, individual_social, cautious_bold"
-    )
-    .eq("celeb_id", celebId)
-    .single();
+  // 2+3. 페르소나 + 리뷰 콘텐츠 병렬 조회
+  const [{ data: personaData }, { data: ucData }] = await Promise.all([
+    supabase
+      .from("celeb_persona")
+      .select(
+        "command, martial, intellect, charisma, temperance, diligence, reflection, courage, loyalty, benevolence, fairness, humility, pessimism_optimism, conservative_progressive, individual_social, cautious_bold"
+      )
+      .eq("celeb_id", celebId)
+      .single(),
+    supabase
+      .from("user_contents")
+      .select("content_id, review, source_url")
+      .eq("user_id", celebId)
+      .not("review", "is", null)
+      .neq("review", "")
+      .limit(8),
+  ]);
 
   if (!personaData) return null;
-
-  // 3. 리뷰 있는 콘텐츠 최대 8건
-  const { data: ucData } = await supabase
-    .from("user_contents")
-    .select("content_id, review, source_url")
-    .eq("user_id", celebId)
-    .not("review", "is", null)
-    .neq("review", "")
-    .limit(8);
 
   const contentIds = (ucData ?? []).map((uc) => uc.content_id);
   let contents: TrackerContent[] = [];
@@ -225,15 +273,27 @@ async function buildRound(
       (ucData ?? []).map((uc) => [uc.content_id, (uc as any).source_url as string | null])
     );
 
-    contents = (cData ?? []).map((c) => ({
-      id: c.id,
-      title: c.title ?? "",
-      creator: c.creator,
-      thumbnailUrl: c.thumbnail_url,
-      type: c.type ?? "BOOK",
-      review: censorName(reviewMap.get(c.id) ?? "", nickname),
-      sourceUrl: sourceUrlMap.get(c.id) ?? null,
-    }));
+    contents = (cData ?? [])
+      .map((c) => {
+        const raw = reviewMap.get(c.id) ?? "";
+        return {
+          id: c.id,
+          title: c.title ?? "",
+          creator: c.creator,
+          thumbnailUrl: c.thumbnail_url,
+          type: c.type ?? "BOOK",
+          review: censorName(raw, nickname, [c.title ?? "", c.creator ?? ""]),
+          rawReview: raw,
+          sourceUrl: sourceUrlMap.get(c.id) ?? null,
+        };
+      })
+      // 로케일 기반 정렬: 한국 접속 → 한글 제목 우선, 해외 접속 → 영문 제목 우선
+      .sort((a, b) => {
+        const aIsKo = /[가-힣]/.test(a.title);
+        const bIsKo = /[가-힣]/.test(b.title);
+        if (aIsKo !== bIsKo) return preferKo ? (aIsKo ? -1 : 1) : (aIsKo ? 1 : -1);
+        return 0;
+      });
   }
 
   // 4. 유사 인물 오답 보기 3명 (직군·국적·생몰년 유사도)
@@ -276,7 +336,7 @@ async function buildRound(
   scored.sort((a, b) => b.similarity - a.similarity || Math.random() - 0.5);
   const distractors = scored.slice(0, 5);
 
-  const options: TrackerOption[] = [
+  const rawOptions: TrackerOption[] = [
     { id: celebId, nickname, avatarUrl },
     ...distractors.map((d) => ({
       id: d.id,
@@ -285,7 +345,23 @@ async function buildRound(
     })),
   ].sort(() => Math.random() - 0.5);
 
+  const optionIds = rawOptions.map(o => o.id);
+  const [{ data: tones }, { data: dialogues }] = await Promise.all([
+    supabase.from("celeb_persona").select("celeb_id, speech_tone").in("celeb_id", optionIds),
+    supabase.from("celeb_dialogues").select("celeb_id, lines").in("celeb_id", optionIds)
+  ]);
+
+  const toneMap = new Map<string, string>((tones ?? []).map(t => [t.celeb_id, (t as any).speech_tone as string]));
+  const dialogueMap = new Map<string, any>((dialogues ?? []).map(d => [d.celeb_id, d.lines]));
+
+  const options: TrackerOption[] = rawOptions.map(o => ({
+    ...o,
+    speechTone: toneMap.get(o.id) ?? "composed",
+    dialogueLines: dialogueMap.get(o.id) ?? null
+  }));
+
   const nationalityLabel = nationality ? await getCountryNameAsync(nationality) : null;
+  const safeWords = Array.from(new Set(contents.flatMap(c => [c.title, c.creator]).filter(Boolean))) as string[];
 
   return {
     celebId,
@@ -297,9 +373,9 @@ async function buildRound(
     birthDate,
     deathDate,
     nationalityLabel,
-    bio: bio ? censorName(bio, nickname) : null,
-    quotes: quotes ? censorName(quotes, nickname) : null,
-    consumptionPhilosophy: philosophy ? censorName(philosophy, nickname) : null,
+    bio: bio ? censorName(bio, nickname, safeWords) : null,
+    quotes: quotes ? censorName(quotes, nickname, safeWords) : null,
+    consumptionPhilosophy: philosophy ? censorName(philosophy, nickname, safeWords) : null,
     persona: personaData as TrackerPersona,
     contents,
     options,

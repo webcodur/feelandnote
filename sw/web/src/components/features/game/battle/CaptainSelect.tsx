@@ -26,7 +26,7 @@ export default function CaptainSelect({ playerHand, onSelect, onCardInfo, playSf
     if (!selectedId) return;
     playSfx("sfx-confirm.mp3");
     const captain = playerHand.find((c) => c.id === selectedId);
-    if (captain) showDialogue?.(captain.id, captain.speechTone, "select", { nickname: captain.nickname, avatarUrl: captain.avatarUrl });
+    if (captain) showDialogue?.(captain.id, captain.speechTone, "deploy", { nickname: captain.nickname, avatarUrl: captain.avatarUrl });
     onSelect(selectedId);
   };
 
@@ -55,6 +55,7 @@ export default function CaptainSelect({ playerHand, onSelect, onCardInfo, playSf
               onClick={() => {
                 playSfx("sfx-card-select.mp3");
                 setSelectedId(card.id);
+                showDialogue?.(card.id, card.speechTone, "select", { nickname: card.nickname, avatarUrl: card.avatarUrl });
               }}
               onInfo={() => onCardInfo(card.id)}
             />

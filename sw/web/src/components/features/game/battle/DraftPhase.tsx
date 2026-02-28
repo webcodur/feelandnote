@@ -6,7 +6,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Shuffle, Zap, X } from "lucide-react";
+import { Shuffle, Zap, X, Check } from "lucide-react";
 import type { DraftState } from "@/lib/game/types";
 import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
 import BattleCard from "./BattleCard";
@@ -32,6 +32,9 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
   const { pool, playerPicks, aiPicks, currentPicker, round } = draft;
 
   const batchIndex = Math.floor((round - 1) / 2);
+
+  // ─── 선택 상태 (2단계: 클릭=선택, 확인=픽) ───
+  const [pendingPickId, setPendingPickId] = useState<string | null>(null);
 
   // ─── 시각 상태 (ref 기반 타이머로 관리, effect cleanup에 영향받지 않음) ───
   const [displayBatch, setDisplayBatch] = useState(0);
@@ -229,7 +232,7 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
       </div>
 
       {/* ── 15장 그리드 (모바일 3열 5행 / PC 5열 3행) ── */}
-      <div className="grid grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 px-2 w-full max-w-sm md:max-w-none justify-items-center">
+      <div className="grid grid-cols-3 md:grid-cols-5 md:grid-rows-3 md:grid-flow-col gap-3 md:gap-4 px-2 w-full max-w-sm md:max-w-4xl justify-items-center">
         {pool.map((card, idx) => {
           const cardBatch = Math.floor(idx / BATCH_SIZE);
           const isActive = cardBatch === displayBatch;
@@ -239,6 +242,8 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
           const isDiscarded = discardedIds.has(card.id);
           const isPicked = pickedIds.has(card.id);
           const canPick = isActive && isPlayerTurn && !isPicked;
+          const isThisSelected = pendingPickId === card.id;
+          const canClick = canPick || isThisSelected;
 
           return (
             <div
@@ -252,10 +257,34 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
               <BattleCard
                 card={card}
                 compact
-                disabled={!canPick}
-                onClick={canPick ? () => { playSfx?.("sfx-draft-pick.mp3"); showDialogue?.(card.id, card.speechTone, "select", { nickname: card.nickname, avatarUrl: card.avatarUrl }); onPlayerPick(card.id); } : undefined}
+                disabled={!canClick}
+                selected={isThisSelected}
+                onClick={canClick ? () => {
+                  if (isThisSelected) {
+                    setPendingPickId(null);
+                    return;
+                  }
+                  playSfx?.("sfx-card-select.mp3");
+                  setPendingPickId(card.id);
+                  showDialogue?.(card.id, card.speechTone, "greeting", { nickname: card.nickname, avatarUrl: card.avatarUrl });
+                } : undefined}
                 pickedBy={isPlayerPick ? "player" : isAiPick ? "ai" : undefined}
                 onInfo={onCardInfo ? () => onCardInfo(card.id) : undefined}
+                footerSlot={pendingPickId === card.id && isPlayerTurn ? (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playSfx?.("sfx-draft-pick.mp3");
+                      showDialogue?.(card.id, card.speechTone, "deploy", { nickname: card.nickname, avatarUrl: card.avatarUrl });
+                      onPlayerPick(card.id);
+                      setPendingPickId(null);
+                    }}
+                    className="flex items-center justify-center gap-1.5 w-full bg-accent hover:bg-accent/80 text-black text-xs font-bold py-1.5 transition-all active:scale-95"
+                  >
+                    <Check size={14} />
+                    확정
+                  </button>
+                ) : undefined}
               />
               {/* P 배지 */}
               {isPlayerPick && (

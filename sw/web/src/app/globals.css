@@ -111,30 +111,7 @@
   }
 }
 
-/* Custom Scrollbar */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(48, 54, 61, 0.5) transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(48, 54, 61, 0.5);
-  border-radius: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(48, 54, 61, 0.8);
-}
-
+/* Custom Scrollbar — 전역 * 셀렉터로 기본 적용, 아래는 accent 컬러용 */
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--color-accent-dim) transparent;
@@ -929,6 +906,20 @@
   from { width: 100%; }
   to { width: 0%; }
 }
+@keyframes dialogTimerVertical {
+  from { height: 100%; }
+  to { height: 0%; }
+}
+
+/* 동일 대사 반복 시 glow 펄스 */
+@keyframes dialogueGlow {
+  0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+  20% { box-shadow: 0 0 8px 2px rgba(251, 191, 36, 0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+}
+.animate-dialogue-glow {
+  animation: dialogueGlow 0.8s ease-out;
+}
 
 /* Mandate Glow — 천명 목판 테두리 */
 @keyframes mandateGlow {
@@ -962,33 +953,3 @@
   display: none !important;
 }
 
-/* Image Background Pan Animations */
-@keyframes panLeft {
-  0% { transform: translate(0, -5%) scale(1.15); }
-  100% { transform: translate(-10%, -5%) scale(1.15); }
-}
-@keyframes panRight {
-  0% { transform: translate(-10%, -5%) scale(1.15); }
-  100% { transform: translate(0, -5%) scale(1.15); }
-}
-@keyframes panUp {
-  0% { transform: translate(-5%, 0) scale(1.15); }
-  100% { transform: translate(-5%, -10%) scale(1.15); }
-}
-@keyframes panDown {
-  0% { transform: translate(-5%, -10%) scale(1.15); }
-  100% { transform: translate(-5%, 0) scale(1.15); }
-}
-
-.animate-pan-left {
-  animation: panLeft 30s ease-in-out infinite alternate;
-}
-.animate-pan-right {
-  animation: panRight 30s ease-in-out infinite alternate;
-}
-.animate-pan-up {
-  animation: panUp 30s ease-in-out infinite alternate;
-}
-.animate-pan-down {
-  animation: panDown 30s ease-in-out infinite alternate;
-}

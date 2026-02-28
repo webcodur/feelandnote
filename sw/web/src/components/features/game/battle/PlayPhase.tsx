@@ -15,8 +15,10 @@ import BattleCard from "./BattleCard";
 import CommandInfoModal, { CMD_DETAILS } from "./CommandInfoModal";
 import CaptainInfoModal from "./CaptainInfoModal";
 import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
+import ClashArena from "../duel/ClashArena";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
+import MobileBottomSpacer from "../shared/MobileBottomSpacer";
 
 interface Props {
   playerHand: BattleCardType[];
@@ -35,8 +37,11 @@ interface Props {
   aiCaptainId: string | null;
   difficulty?: Difficulty;
   onSubmit: (cardId: string, command: Command, recoverId?: string) => void;
+  onSubmitRest?: () => void;
   onAdvanceBattle: () => "blocked" | RoundRecord | null;
   onAdvance: () => void;
+  onAdvanceRest?: () => void;
+  onCompleteDuel?: (winner: "player" | "ai" | "draw") => void;
   playSfx: (name: string) => void;
   showDialogue?: (celebId: string, tone: SpeechTone, type: DialogueType, meta?: { nickname: string; avatarUrl: string | null }) => void;
   onCardInfo?: (celebId: string) => void;
@@ -231,18 +236,26 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
         {(narratives.length > 0) && (
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <CounterBadge result={record.counterResult} />
-              {counterExplain && <span className="text-[11px] text-white/50">{counterExplain}</span>}
-              {record.counterResult === "draw" && (
-                <span className="text-[11px] text-white/50">
-                  적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)} → {
-                    record.player.aptitude > record.ai.aptitude
-                      ? `${record.player.card.nickname} 우세`
-                      : record.ai.aptitude > record.player.aptitude
-                        ? `${record.ai.card.nickname} 우세`
-                        : "동률"
-                  }
+              {record.duelWinner ? (
+                <span className={`text-[11px] font-bold ${record.duelWinner === "player" ? "text-accent" : record.duelWinner === "ai" ? "text-red-400" : "text-yellow-300"}`}>
+                  ⚔ 일기토 {record.duelWinner === "player" ? "승" : record.duelWinner === "ai" ? "패" : "무"}
                 </span>
+              ) : (
+                <>
+                  <CounterBadge result={record.counterResult} />
+                  {counterExplain && <span className="text-[11px] text-white/50">{counterExplain}</span>}
+                  {record.counterResult === "draw" && (
+                    <span className="text-[11px] text-white/50">
+                      적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)} → {
+                        record.player.aptitude > record.ai.aptitude
+                          ? `${record.player.card.nickname} 우세`
+                          : record.ai.aptitude > record.player.aptitude
+                            ? `${record.ai.card.nickname} 우세`
+                            : "동률"
+                      }
+                    </span>
+                  )}
+                </>
               )}
             </div>
             {narratives.map((n, i) => {
@@ -298,22 +311,30 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           >
             VS
           </span>
-          <CounterBadge result={record.counterResult} />
-          {counterExplain && (
-            <span className="text-[11px] text-white/50 text-center leading-snug">
-              {counterExplain}
+          {record.duelWinner ? (
+            <span className={`text-sm font-bold ${record.duelWinner === "player" ? "text-accent" : record.duelWinner === "ai" ? "text-red-400" : "text-yellow-300"}`}>
+              ⚔ 일기토 {record.duelWinner === "player" ? "승" : record.duelWinner === "ai" ? "패" : "무"}
             </span>
-          )}
-          {record.counterResult === "draw" && (
-            <span className="text-[11px] text-white/50 text-center leading-snug">
-              적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)}<br />{
-                record.player.aptitude > record.ai.aptitude
-                  ? `${record.player.card.nickname} 우세`
-                  : record.ai.aptitude > record.player.aptitude
-                    ? `${record.ai.card.nickname} 우세`
-                    : "동률"
-              }
-            </span>
+          ) : (
+            <>
+              <CounterBadge result={record.counterResult} />
+              {counterExplain && (
+                <span className="text-[11px] text-white/50 text-center leading-snug">
+                  {counterExplain}
+                </span>
+              )}
+              {record.counterResult === "draw" && (
+                <span className="text-[11px] text-white/50 text-center leading-snug">
+                  적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)}<br />{
+                    record.player.aptitude > record.ai.aptitude
+                      ? `${record.player.card.nickname} 우세`
+                      : record.ai.aptitude > record.player.aptitude
+                        ? `${record.ai.card.nickname} 우세`
+                        : "동률"
+                  }
+                </span>
+              )}
+            </>
           )}
         </div>
         {/* AI 카드 */}
@@ -418,7 +439,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
     <div className="space-y-1">
       <div className="flex items-center gap-1.5">
         <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>국력</span>
-        <div className="flex-1 h-2 rounded-full bg-white/15 overflow-hidden flex relative">
+        <div className="flex-1 h-[6px] lg:h-2 rounded-full bg-black/50 lg:bg-white/15 overflow-hidden relative">
           {pd < 0 && (
             <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevPower / maxPower) * 100}%` }} />
           )}
@@ -427,7 +448,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
           )}
           <div className={`absolute inset-y-0 left-0 rounded-full ${powerBar} transition-all duration-700 ease-out`} style={{ width: `${(power / maxPower) * 100}%` }} />
         </div>
-        <div className="flex items-center gap-0.5 shrink-0 min-w-[40px] justify-end">
+        <div className="flex items-center gap-0.5 shrink-0 min-w-[32px] lg:min-w-[40px] justify-end">
           <span className={`text-sm font-cinzel font-bold tabular-nums text-right ${numColor}`}>{power}</span>
           {pd !== 0 && (
             <span className={`text-[9px] font-bold tabular-nums ${pd > 0 ? "text-emerald-400" : "text-red-400"}`}>
@@ -438,7 +459,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
       </div>
       <div className="flex items-center gap-1.5">
         <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>민심</span>
-        <div className="flex-1 h-1.5 rounded-full bg-white/15 overflow-hidden relative">
+        <div className="flex-1 h-[6px] lg:h-1.5 rounded-full bg-black/50 lg:bg-white/15 overflow-hidden relative">
           {md < 0 && (
             <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevMorale / MAX_MORALE) * 100}%` }} />
           )}
@@ -447,7 +468,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
           )}
           <div className={`absolute inset-y-0 left-0 rounded-full ${moraleBar} transition-all duration-700 ease-out`} style={{ width: `${(morale / MAX_MORALE) * 100}%` }} />
         </div>
-        <div className="flex items-center gap-0.5 shrink-0 min-w-[30px] justify-end">
+        <div className="flex items-center gap-0.5 shrink-0 min-w-[24px] lg:min-w-[30px] justify-end">
           <span className={`text-xs font-cinzel font-bold tabular-nums text-right ${numColor}`}>{morale}</span>
           {md !== 0 && (
             <span className={`text-[9px] font-bold tabular-nums ${md > 0 ? "text-emerald-400" : "text-red-400"}`}>
@@ -460,8 +481,6 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
   );
 }
 
-/** 모바일 헤더용 국력/민심 패널 (삭제 또는 내부 구현으로 대체. 여기서는 내부에서 직접 그리도록 사용 안함) */
-function MobileNationPanel() { return null; }
 
 /** 좌우 패널용 충돌 카드 */
 function FeaturedCard({ card, accent, command }: { card: BattleCardType; accent: "player" | "ai"; command?: Command }) {
@@ -524,8 +543,12 @@ function BattleLogModal({ records, mandate, onClose }: {
           )}
           {reversed.map((rec) => {
             const pDelta = rec.powerDelta.player;
-            const counterLabel = rec.counterResult === "win" ? "카운터" : rec.counterResult === "lose" ? "역습" : "접전";
-            const counterColor = rec.counterResult === "win" ? "text-amber-300" : rec.counterResult === "lose" ? "text-red-400" : "text-yellow-300";
+            const counterLabel = rec.duelWinner
+              ? `⚔ 일기토 ${rec.duelWinner === "player" ? "승" : rec.duelWinner === "ai" ? "패" : "무"}`
+              : rec.counterResult === "win" ? "카운터" : rec.counterResult === "lose" ? "역습" : "접전";
+            const counterColor = rec.duelWinner
+              ? (rec.duelWinner === "player" ? "text-accent" : rec.duelWinner === "ai" ? "text-red-400" : "text-yellow-300")
+              : rec.counterResult === "win" ? "text-amber-300" : rec.counterResult === "lose" ? "text-red-400" : "text-yellow-300";
             return (
               <div key={rec.round} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-white/60 rounded-lg hover:bg-white/5">
                 <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-bold shrink-0">{rec.round}</span>
@@ -552,7 +575,7 @@ export default function PlayPhase({
   mandate, nextMandate,
   playerCaptainId, aiCaptainId,
   difficulty = "normal",
-  onSubmit, onAdvanceBattle, onAdvance, playSfx, showDialogue, onCardInfo,
+  onSubmit, onSubmitRest, onAdvanceBattle, onAdvance, onAdvanceRest, onCompleteDuel, playSfx, showDialogue, onCardInfo,
 }: Props) {
   const hardMode = difficulty === "hard";
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -586,7 +609,9 @@ export default function PlayPhase({
   const isSelecting = battleSubPhase === "selecting";
   const isClashing = battleSubPhase === "clashing";
   const isResolving = battleSubPhase === "resolving";
+  const isResting = battleSubPhase === "resting";
   const isClash = isClashing || isResolving;
+  const playerExhausted = isSelecting && playerHand.length === 0 && playerDiscard.length > 0;
 
   useEffect(() => {
     if (battleSubPhase === "selecting") {
@@ -606,6 +631,22 @@ export default function PlayPhase({
     }
   }, [battleSubPhase, pendingRound, playSfx, showDialogue, playerHand]);
 
+  // ── 일기토 결과 대사: dueling → resolving 전환 시 ──
+  const prevSubPhaseRef = useRef(battleSubPhase);
+  useEffect(() => {
+    const prev = prevSubPhaseRef.current;
+    prevSubPhaseRef.current = battleSubPhase;
+    if (prev === "dueling" && battleSubPhase === "resolving" && roundRecords.length > 0) {
+      const lastRec = roundRecords[roundRecords.length - 1];
+      const pCard = playerHand.find((c) => c.id === lastRec.player.cardId);
+      if (pCard) {
+        const voiceType = lastRec.counterResult === "win" ? "battle_win" : lastRec.counterResult === "lose" ? "battle_lose" : "battle_draw";
+        showDialogue?.(pCard.id, pCard.speechTone, voiceType, { nickname: pCard.nickname, avatarUrl: pCard.avatarUrl });
+        playSfx(lastRec.counterResult === "draw" ? "sfx-clash-clang.mp3" : "sfx-clash-slash.mp3");
+      }
+    }
+  }, [battleSubPhase, roundRecords, playerHand, showDialogue, playSfx]);
+
   const selectedCard = useMemo(
     () => playerHand.find((c) => c.id === selectedCardId),
     [playerHand, selectedCardId],
@@ -623,7 +664,9 @@ export default function PlayPhase({
       playSfx("sfx-draft-pick.mp3");
       return cardId;
     });
-  }, [playSfx, isSelecting]);
+    const card = playerHand.find((c) => c.id === cardId);
+    if (card) showDialogue?.(card.id, card.speechTone, "select", { nickname: card.nickname, avatarUrl: card.avatarUrl });
+  }, [playSfx, isSelecting, playerHand, showDialogue]);
 
   const handleConfirm = useCallback(() => {
     if (!isReady || !selectedCardId || !selectedCommand || !isSelecting) return;
@@ -642,14 +685,22 @@ export default function PlayPhase({
 
   const guideText = !isSelecting
     ? isClashing ? "충돌!" : "결과 처리 중..."
+    : playerExhausted
+    ? "손패가 소진되었습니다"
     : !selectedCardId
     ? "카드를 선택하세요"
     : !selectedCommand
     ? "군령패를 선택하세요"
     : "출전 준비 완료";
 
-  // clashing에서 클릭 → resolving + 결과 SFX 직접 재생
+  // clashing에서 클릭 → clash_attack 보이스 → resolving + 결과 SFX 직접 재생
   const handleBattleClick = useCallback(() => {
+    // 충돌 기합 (clash_attack)
+    if (pendingRound) {
+      const atkCard = playerHand.find((c) => c.id === pendingRound.playerAction.cardId);
+      if (atkCard) showDialogue?.(atkCard.id, atkCard.speechTone, "clash_attack", { nickname: atkCard.nickname, avatarUrl: atkCard.avatarUrl });
+    }
+
     const result = onAdvanceBattle();
     if (result === "blocked" || !result) return;
 
@@ -668,7 +719,7 @@ export default function PlayPhase({
       const voiceType = rec.counterResult === "win" ? "battle_win" : rec.counterResult === "lose" ? "battle_lose" : "battle_draw";
       showDialogue?.(pCard.id, pCard.speechTone, voiceType, { nickname: pCard.nickname, avatarUrl: pCard.avatarUrl });
     }
-  }, [onAdvanceBattle, playSfx, showDialogue, playerHand]);
+  }, [onAdvanceBattle, playSfx, showDialogue, playerHand, pendingRound]);
 
   // ── 카드 배열: 주장 분리 + 나머지 2×2 ──
   // 주장은 hand 또는 discard 어디에 있든 대형 슬롯에 표시
@@ -688,114 +739,60 @@ export default function PlayPhase({
     <div className="w-full lg:flex-1 lg:min-h-0 select-none flex flex-col relative gap-2 sm:gap-4 pb-4">
       {isClash && <style>{CLASH_KEYFRAMES}</style>}
 
-      {/* ━━━━━ 헤더 (데스크톱) ━━━━━ */}
-      <div className="hidden lg:block relative px-4 py-3">
-        {/* 중앙: 나 국력·민심 | 상대 국력·민심 (absolute 중앙) */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-6 w-full max-w-xl px-16 pointer-events-none">
-          <div className="flex-1 min-w-0 pointer-events-auto bg-black/80 rounded-lg px-4 py-2.5">
-            <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-[10px] font-bold text-accent/70 uppercase tracking-wider">Player</span>
+      {/* ━━━━━ 휴식 턴 오버레이 ━━━━━ */}
+      {isResting && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-2xl">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <span className="text-2xl">🔄</span>
+            <div>
+              <p className="text-sm font-bold text-white/80">패 재편성</p>
+              <p className="text-xs text-white/50 mt-1">손패가 소진되어 1턴 휴식합니다</p>
             </div>
-            <NationStats power={playerNation.power} maxPower={MAX_POWER} morale={playerNation.morale} accent="player" powerDelta={isResolving && lastRecord ? lastRecord.powerDelta.player : undefined} moraleDelta={isResolving && lastRecord ? lastRecord.moraleDelta.player : undefined} />
-          </div>
-          <div className="w-px h-8 bg-white/15 shrink-0" />
-          <div className="flex-1 min-w-0 pointer-events-auto bg-black/80 rounded-lg px-4 py-2.5">
-            <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-[10px] font-bold text-red-400/70 uppercase tracking-wider">Enemy</span>
-            </div>
-            <NationStats power={aiNation.power} maxPower={MAX_POWER} morale={aiNation.morale} accent="ai" powerDelta={isResolving && lastRecord ? lastRecord.powerDelta.ai : undefined} moraleDelta={isResolving && lastRecord ? lastRecord.moraleDelta.ai : undefined} />
+            <button
+              type="button"
+              onClick={onAdvanceRest}
+              className="px-5 py-2 rounded-lg bg-accent/15 border border-accent/25 text-accent text-xs font-bold hover:bg-accent/25 transition-colors"
+            >
+              재편성 완료
+            </button>
           </div>
         </div>
+      )}
 
-        {/* 라운드 + 로그 (중앙 배치) */}
-        <div className="relative flex items-center justify-center gap-3">
-          <div className="flex items-center gap-3 shrink-0 bg-black/80 rounded-lg px-4 py-2.5">
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-xs font-cinzel text-white/50 tracking-widest uppercase">Round</span>
-              <span className="text-2xl font-cinzel font-bold text-white/80 leading-none">{currentRound}</span>
-            </div>
-            {mandate && (
-              <span className="text-[10px] text-amber-400/80 font-bold px-2 py-0.5 rounded border border-amber-400/30 bg-amber-400/10">
-                {mandate.label}
-              </span>
-            )}
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowLog(true)}
-            className="shrink-0 w-9 h-9 rounded-lg border border-white/15 bg-black/80 flex items-center justify-center text-white/50 hover:text-white/80 hover:bg-white/10 transition-colors"
-            title="전황 기록"
-          >
-            <ScrollTextIcon size={16} />
-          </button>
-        </div>
-      </div>
-
-      {/* ━━━━━ 모바일 프리미엄 상태 헤더 ━━━━━ */}
-      <div className="lg:hidden flex items-stretch rounded-xl border border-white/10 bg-[#16141a]/90 backdrop-blur shadow-[0_4px_24px_rgba(0,0,0,0.4)] overflow-hidden min-h-[85px] relative shrink-0">
+      {/* ━━━━━ 통합 상태 헤더 (모바일 + PC) ━━━━━ */}
+      <div className="flex items-stretch rounded-xl border border-white/10 bg-[#16141a]/90 backdrop-blur shadow-[0_4px_24px_rgba(0,0,0,0.4)] overflow-hidden min-h-[85px] lg:max-w-3xl lg:mx-auto lg:w-full relative shrink-0">
 
         {/* 좌측 (Player) */}
         <div className="flex-1 flex flex-col justify-center pl-5 pr-2 py-2">
           <span className="text-[11px] font-black text-accent/90 tracking-widest uppercase mb-1 text-center">PLAYER</span>
-          
-          <div className="flex flex-col gap-1">
-            {/* 플레이어 국력 */}
-            <div className="flex items-center gap-1.5 w-full">
-              <span className="text-[10px] text-accent/70 font-bold shrink-0">국력</span>
-              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
-                {isResolving && lastRecord && lastRecord.powerDelta.player > 0 && (
-                  <div className="absolute inset-y-0 left-0 rounded-full bg-emerald-500/30" style={{ width: `${(playerNation.power / MAX_POWER) * 100}%` }} />
-                )}
-                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 transition-all duration-700 ease-out" style={{ width: `${(playerNation.power / MAX_POWER) * 100}%` }} />
-              </div>
-              <span className="text-sm font-bold font-cinzel text-accent shrink-0 min-w-[20px] text-right leading-none">{playerNation.power}</span>
-            </div>
-
-            {/* 플레이어 민심 */}
-            <div className="flex items-center gap-1.5 w-full">
-              <span className="text-[10px] text-accent/70 font-bold shrink-0">민심</span>
-              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
-                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-yellow-700/60 to-yellow-500/60 transition-all duration-700 ease-out" style={{ width: `${(playerNation.morale / MAX_MORALE) * 100}%` }} />
-              </div>
-              <span className="text-sm font-bold font-cinzel text-accent/80 shrink-0 min-w-[20px] text-right leading-none">{playerNation.morale}</span>
-            </div>
-          </div>
+          <NationStats power={playerNation.power} maxPower={MAX_POWER} morale={playerNation.morale} accent="player" powerDelta={isResolving && lastRecord ? lastRecord.powerDelta.player : undefined} moraleDelta={isResolving && lastRecord ? lastRecord.moraleDelta.player : undefined} />
         </div>
 
-        {/* 중앙 (Round) */}
-        <div className="shrink-0 w-[60px] sm:w-[70px] flex flex-col items-center justify-center relative">
+        {/* 중앙 (Round + 로그) */}
+        <div className="shrink-0 w-[60px] sm:w-[70px] lg:w-[90px] flex flex-col items-center justify-center relative gap-0.5">
           <span className="text-[9px] sm:text-[10px] font-cinzel text-white/50 tracking-[0.2em] uppercase">RND</span>
-          <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] mt-0.5">{currentRound}</span>
+          <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">{currentRound}</span>
+          {mandate && (
+            <span className="text-[8px] lg:text-[9px] text-amber-400/80 font-bold mt-0.5 truncate max-w-full px-1">{mandate.label}</span>
+          )}
           {isClashing && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">충돌!</span>}
           {isResolving && lastRecord && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">결과</span>}
         </div>
 
         {/* 우측 (Enemy) */}
-        <div className="flex-1 flex flex-col justify-center pl-2 pr-5 py-2">
-          <span className="text-[11px] font-black text-red-500/90 tracking-widest uppercase mb-1 text-center">ENEMY</span>
-          
-          <div className="flex flex-col gap-1">
-            {/* 적군 국력 */}
-            <div className="flex items-center gap-1.5 w-full">
-              <span className="text-[10px] text-red-400/70 font-bold shrink-0">국력</span>
-              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
-                {isResolving && lastRecord && lastRecord.powerDelta.ai > 0 && (
-                  <div className="absolute inset-y-0 left-0 rounded-full bg-emerald-500/30" style={{ width: `${(aiNation.power / MAX_POWER) * 100}%` }} />
-                )}
-                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-red-700 to-red-500 transition-all duration-700 ease-out" style={{ width: `${(aiNation.power / MAX_POWER) * 100}%` }} />
-              </div>
-              <span className="text-sm font-bold font-cinzel text-red-400 shrink-0 min-w-[20px] text-right leading-none">{aiNation.power}</span>
-            </div>
-
-            {/* 적군 민심 */}
-            <div className="flex items-center gap-1.5 w-full">
-              <span className="text-[10px] text-red-400/70 font-bold shrink-0">민심</span>
-              <div className="flex-1 h-[6px] rounded-full bg-black/50 overflow-hidden relative">
-                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-red-900/60 to-red-600/60 transition-all duration-700 ease-out" style={{ width: `${(aiNation.morale / MAX_MORALE) * 100}%` }} />
-              </div>
-              <span className="text-sm font-bold font-cinzel text-red-400/80 shrink-0 min-w-[20px] text-right leading-none">{aiNation.morale}</span>
-            </div>
+        <div className="flex-1 flex flex-col justify-center pl-2 pr-4 py-2">
+          <div className="flex items-center justify-center gap-1.5 mb-1">
+            <span className="text-[11px] font-black text-red-500/90 tracking-widest uppercase text-center">ENEMY</span>
+            <button
+              type="button"
+              onClick={() => setShowLog(true)}
+              className="shrink-0 w-5 h-5 rounded border border-white/15 bg-black/40 flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-colors"
+              title="전황 기록"
+            >
+              <ScrollTextIcon size={10} />
+            </button>
           </div>
+          <NationStats power={aiNation.power} maxPower={MAX_POWER} morale={aiNation.morale} accent="ai" powerDelta={isResolving && lastRecord ? lastRecord.powerDelta.ai : undefined} moraleDelta={isResolving && lastRecord ? lastRecord.moraleDelta.ai : undefined} />
         </div>
       </div>
 
@@ -1109,23 +1106,15 @@ export default function PlayPhase({
                         <div className="relative flex flex-col items-center gap-0.5 xl:gap-1 py-1.5 xl:py-2">
                           {label.split("").map((char, i) => (
                             <span key={i}
-                              className={`text-xl xl:text-2xl font-bold leading-none transition-all duration-300 ${
-                                isMandateCmd
-                                  ? "drop-shadow-[0_0_8px_rgba(212,168,67,0.8)]"
-                                  : isSelected
-                                    ? "drop-shadow-[0_0_6px_rgba(248,113,113,0.3)]"
-                                    : "drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-                              }`}
+                              className="block text-xl xl:text-2xl font-bold leading-none transition-colors duration-300"
                               style={{
                                 fontFamily: "'Noto Serif KR', serif",
                                 ...(isMandateCmd ? {
-                                  background: "linear-gradient(170deg, #f0d060 0%, #d4a843 40%, #f0c850 100%)",
-                                  WebkitBackgroundClip: "text",
-                                  WebkitTextFillColor: "transparent",
+                                  color: "#f0c850",
+                                  textShadow: "0 1px 2px rgba(0,0,0,0.8), 0 0 8px rgba(212,168,67,0.6)",
                                 } : isSelected ? {
-                                  background: "linear-gradient(170deg, #ff8a8a 0%, #ff5555 40%, #ff7070 100%)",
-                                  WebkitBackgroundClip: "text",
-                                  WebkitTextFillColor: "transparent",
+                                  color: "#ff7070",
+                                  textShadow: "0 1px 2px rgba(0,0,0,0.8), 0 0 6px rgba(248,113,113,0.4)",
                                 } : {
                                   color: "#9a2a2a",
                                   textShadow: "0 1px 2px rgba(0,0,0,0.6), 0 -1px 1px rgba(140,60,40,0.15)",
@@ -1163,8 +1152,40 @@ export default function PlayPhase({
               </div>
               {/* 가이드 텍스트 */}
               <p className="text-xs xl:text-sm text-white/60">{guideText}</p>
-              {/* 출전 버튼 */}
+              {/* 출전 / 한 턴 쉬기 버튼 */}
               <div className="relative mt-4 w-full flex justify-center">
+                {playerExhausted ? (
+                  /* ─ 한 턴 쉬기 버튼 (유저 패 소진) ─ */
+                  <button
+                    type="button"
+                    onClick={onSubmitRest}
+                    className="relative w-[210px] xl:w-[260px] h-[56px] xl:h-[64px] rounded-[6px] cursor-pointer active:scale-[0.97] active:translate-y-[2px] hover:scale-[1.02] transition-all duration-300 group/btn"
+                  >
+                    <div className="absolute inset-0 rounded-[6px] bg-gradient-to-b from-[#3a3d42] to-[#1a1c20] border border-[#4a5060]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_10px_rgba(0,0,0,0.6)]" />
+                    <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px]" style={{
+                      background: "linear-gradient(to bottom, #2a4a6a, #1a2a3a)",
+                      boxShadow: "inset 0 2px 6px rgba(0,0,0,0.7), inset 0 -1px 2px rgba(100,180,255,0.1)",
+                    }} />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="flex flex-col items-center">
+                        <span className="text-[18px] xl:text-[22px] font-bold tracking-[0.15em] ml-[0.15em] select-none text-blue-200/90" style={{
+                          fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
+                          textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(100,180,255,0.3)",
+                        }}>
+                          한 턴 쉬기
+                        </span>
+                        <span className="text-[9px] xl:text-[10px] text-blue-300/50 mt-1">
+                          버린패에서 랜덤 징집
+                        </span>
+                      </div>
+                    </div>
+                    <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
+                      background: "radial-gradient(ellipse at center, rgba(100,180,255,0.15) 0%, transparent 70%)"
+                    }} />
+                  </button>
+                ) : (
+                  /* ─ 기존 출전 버튼 ─ */
+                  <>
                 {/* 클릭 시 파동 링 (CSS 애니메이션) */}
                 {isReady && isSelecting && (
                   <div className="absolute inset-0 max-w-[210px] xl:max-w-[260px] mx-auto rounded-[6px] pointer-events-none" style={{ animation: "deploy-pulse 2s ease-in-out infinite" }} />
@@ -1181,7 +1202,7 @@ export default function PlayPhase({
                 >
                   {/* 외곽 흑금 프레임 */}
                   <div className="absolute inset-0 rounded-[6px] bg-gradient-to-b from-[#4a3d32] to-[#1a1410] border border-[#5a483a]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_4px_10px_rgba(0,0,0,0.6)]" />
-                  
+
                   {/* 중앙 패널 (붉은 옻칠 느낌) */}
                   <div className="absolute inset-[3px] xl:inset-[4px] rounded-[3px]" style={{
                     background: isReady && isSelecting
@@ -1207,29 +1228,31 @@ export default function PlayPhase({
                   {/* 텍스트 및 장식 */}
                   <div className="absolute inset-0 flex items-center justify-center gap-4 xl:gap-5 pointer-events-none">
                     {/* 양옆 장식 (다이아몬드 - 음각 금박 느낌) */}
-                    <span className={`text-[12px] xl:text-[14px] font-serif leading-none ${isReady && isSelecting ? "" : "text-white/20"}`}
-                      style={isReady && isSelecting ? {
-                        background: "linear-gradient(135deg, #a67c00 0%, #bf953f 30%, #fcf6ba 50%, #b38728 70%, #fdffcc 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        filter: "drop-shadow(0 -1px 1px rgba(30,5,5,0.9)) drop-shadow(0 1px 1px rgba(255,255,255,0.15)) inset 0px 2px 3px rgba(0,0,0,0.8)",
-                      } : {}}
-                    >◆</span>
-                    
-                    <div className="flex flex-col items-center justify-center mt-[-1px]">
-                       <span className={`text-[22px] xl:text-[26px] font-bold tracking-[0.2em] ml-[0.2em] select-none leading-none ${
-                        isReady && isSelecting ? "" : "text-white/40"
-                      }`} style={{
-                        fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
-                        ...(isReady && isSelecting ? {
-                          background: "linear-gradient(to bottom, #fcf6ea 0%, #e6c565 35%, #b47a20 50%, #d4a843 70%, #ffe8a1 100%)",
+                    <div style={isReady && isSelecting ? { filter: "drop-shadow(0 -1px 1px rgba(30,5,5,0.9)) drop-shadow(0 1px 1px rgba(255,255,255,0.15))" } : {}}>
+                      <span className={`block text-[12px] xl:text-[14px] font-serif leading-none ${isReady && isSelecting ? "" : "text-white/20"}`}
+                        style={isReady && isSelecting ? {
+                          background: "linear-gradient(135deg, #a67c00 0%, #bf953f 30%, #fcf6ba 50%, #b38728 70%, #fdffcc 100%)",
                           WebkitBackgroundClip: "text",
                           WebkitTextFillColor: "transparent",
-                          filter: "drop-shadow(0 -3px 2px rgba(20,0,0,0.9)) drop-shadow(0 2px 2px rgba(255,255,200,0.3)) drop-shadow(0 0 12px rgba(212,168,67,0.5))",
-                        } : {}),
-                      }}>
-                        出戰
-                      </span>
+                        } : {}}
+                      >◆</span>
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center mt-[-1px]">
+                       <div style={isReady && isSelecting ? { filter: "drop-shadow(0 -3px 2px rgba(20,0,0,0.9)) drop-shadow(0 2px 2px rgba(255,255,200,0.3)) drop-shadow(0 0 12px rgba(212,168,67,0.5))" } : {}}>
+                         <span className={`block text-[22px] xl:text-[26px] font-bold tracking-[0.2em] ml-[0.2em] select-none leading-none ${
+                          isReady && isSelecting ? "" : "text-white/40"
+                        }`} style={{
+                          fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
+                          ...(isReady && isSelecting ? {
+                            background: "linear-gradient(to bottom, #fcf6ea 0%, #e6c565 35%, #b47a20 50%, #d4a843 70%, #ffe8a1 100%)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                          } : {}),
+                        }}>
+                          出戰
+                        </span>
+                      </div>
                       {isReady && isSelecting && (
                         <span className="text-[9px] xl:text-[10px] tracking-[0.4em] ml-[0.4em] font-bold text-[#d4a843]/60 leading-tight mt-1" style={{
                           filter: "drop-shadow(0 -1px 1px rgba(0,0,0,0.8)) drop-shadow(0 1px 1px rgba(255,255,255,0.15))"
@@ -1239,14 +1262,15 @@ export default function PlayPhase({
                       )}
                     </div>
 
-                    <span className={`text-[12px] xl:text-[14px] font-serif leading-none ${isReady && isSelecting ? "" : "text-white/20"}`}
-                      style={isReady && isSelecting ? {
-                        background: "linear-gradient(135deg, #a67c00 0%, #bf953f 30%, #fcf6ba 50%, #b38728 70%, #fdffcc 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        filter: "drop-shadow(0 -1px 1px rgba(30,5,5,0.9)) drop-shadow(0 1px 1px rgba(255,255,255,0.15)) inset 0px 2px 3px rgba(0,0,0,0.8)",
-                      } : {}}
-                    >◆</span>
+                    <div style={isReady && isSelecting ? { filter: "drop-shadow(0 -1px 1px rgba(30,5,5,0.9)) drop-shadow(0 1px 1px rgba(255,255,255,0.15))" } : {}}>
+                      <span className={`block text-[12px] xl:text-[14px] font-serif leading-none ${isReady && isSelecting ? "" : "text-white/20"}`}
+                        style={isReady && isSelecting ? {
+                          background: "linear-gradient(135deg, #a67c00 0%, #bf953f 30%, #fcf6ba 50%, #b38728 70%, #fdffcc 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                        } : {}}
+                      >◆</span>
+                    </div>
                   </div>
 
                   {/* Hover 은은한 붉은 광원 */}
@@ -1256,6 +1280,8 @@ export default function PlayPhase({
                     }} />
                   )}
                 </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -1574,14 +1600,13 @@ export default function PlayPhase({
         </div>
       </div>
 
-          {/* 모바일: 군령패 + 출전 (목패 스타일) */}
-          <div className={`lg:hidden shrink-0 transition-opacity duration-300 bg-[#0a0a0c]/90 backdrop-blur border border-white/5 rounded-2xl pt-4 pb-6 px-4 w-[calc(100%-2rem)] max-w-md mx-auto relative z-10 shadow-[0_8px_32px_rgba(0,0,0,0.6)] mb-8 mt-2 ${
+          {/* 모바일: 초상화 + 군령패 + 출전 */}
+          <div className={`lg:hidden shrink-0 transition-opacity duration-300 w-full px-4 mt-2 ${
             isClash ? "opacity-0 hidden" : ""
           }`}>
-            {/* 좌/우 2열 고정 비율 레이아웃 */}
-            <div className="pointer-events-auto flex items-center justify-center gap-4 w-full px-2 max-w-md mx-auto">
-              
-              {/* 좌측 1열: 선택된 카드 초상화 (크게 확대) */}
+            <div className="pointer-events-auto flex items-center justify-center gap-4 w-full max-w-md mx-auto">
+
+              {/* 좌측: 선택된 카드 초상화 */}
               <div className="flex-1 w-0 flex items-center justify-center">
                 <div className="w-full aspect-[3/4] max-w-[150px] rounded-md relative overflow-hidden bg-[#1a1410] flex items-center justify-center border border-[#5a483a]/60 shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
                      style={{
@@ -1737,12 +1762,33 @@ export default function PlayPhase({
                   })}
                 </div>
 
-                {/* 가로형 출전 버튼 (크기 및 여백 최적화) */}
+                {/* 가로형 출전 / 한 턴 쉬기 버튼 */}
                 <div className="relative w-full max-w-[170px] mx-auto">
-                  
+                  {playerExhausted ? (
+                    <button
+                      type="button"
+                      onClick={onSubmitRest}
+                      className="relative w-full h-[42px] rounded-[3px] cursor-pointer active:scale-[0.98] active:translate-y-[1px] transition-all duration-300 group/btn"
+                      style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.6))" }}
+                    >
+                      <div className="absolute inset-0 rounded-[3px] bg-gradient-to-b from-[#3a3d42] to-[#1a1c20] border border-[#4a5060]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]" />
+                      <div className="absolute inset-[2px] rounded-[1px]" style={{
+                        background: "linear-gradient(to bottom, #2a4a6a, #1a2a3a)",
+                        boxShadow: "inset 0 1px 3px rgba(0,0,0,0.7), inset 0 -1px 2px rgba(100,180,255,0.1)",
+                      }} />
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <span className="text-[14px] font-bold tracking-[0.1em] ml-[0.1em] select-none text-blue-200/90 font-['Noto_Serif_KR',_serif]" style={{
+                          textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 6px rgba(100,180,255,0.3)",
+                        }}>
+                          한 턴 쉬기
+                        </span>
+                      </div>
+                    </button>
+                  ) : (
+                    <>
                   {/* 외곽 펄스 (오퍼시티로 제어) */}
                   <div className={`absolute inset-0 rounded-[3px] pointer-events-none transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-100' : 'opacity-0'}`} style={{ animation: "deploy-pulse 2s ease-in-out infinite" }} />
-                  
+
                   <button
                     type="button"
                     onClick={handleConfirm}
@@ -1755,7 +1801,7 @@ export default function PlayPhase({
                     style={isReady && isSelecting ? { filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.6))" } : { filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
                   >
                     <div className="absolute inset-0 rounded-[3px] bg-gradient-to-b from-[#4a3d32] to-[#1a1410] border border-[#5a483a]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
-                    
+
                     {/* 활성화 상태 배경 (오퍼시티 트랜지션) */}
                     <div className={`absolute inset-[2px] rounded-[1px] transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-100' : 'opacity-0'}`} style={{
                       background: "linear-gradient(to bottom, #8a1515, #5a0b0b)",
@@ -1769,12 +1815,12 @@ export default function PlayPhase({
 
                     {/* 투명 그라데이션 광택 (오퍼시티 트랜지션) */}
                     <div className={`absolute inset-[2px] rounded-[1px] transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-[0.2]' : 'opacity-0'}`} style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 40%)" }} />
-                    
+
                     {/* 텍스처 오버레이 (오퍼시티 트랜지션) */}
                     <div className={`absolute inset-[2px] mix-blend-overlay pointer-events-none transition-opacity duration-300 ${isReady && isSelecting ? 'opacity-[0.08]' : 'opacity-0'}`} style={{
                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
                     }} />
-                    
+
                     {/* 텍스트 영역 */}
                     <div className="absolute inset-0 flex items-center justify-center gap-2 pointer-events-none">
                       <span className={`text-[10px] font-serif transition-colors duration-300 ${isReady && isSelecting ? "text-[#e8d4a2]" : "text-white/20"}`}
@@ -1782,7 +1828,7 @@ export default function PlayPhase({
                           textShadow: "0 1px 2px rgba(0,0,0,0.8)",
                         } : {}}
                       >◆</span>
-                      
+
                       <div className="flex flex-col items-center justify-center">
                          <span className={`text-[18px] font-bold tracking-[0.2em] ml-[0.2em] leading-none select-none font-['Noto_Serif_KR',_serif] transition-colors duration-300 ${
                           isReady && isSelecting ? "text-[#fcf6ea]" : "text-white/40"
@@ -1792,7 +1838,7 @@ export default function PlayPhase({
                           出戰
                         </span>
                       </div>
-                      
+
                       <span className={`text-[10px] font-serif transition-colors duration-300 ${isReady && isSelecting ? "text-[#e8d4a2]" : "text-white/20"}`}
                         style={isReady && isSelecting ? {
                           textShadow: "0 1px 2px rgba(0,0,0,0.8)",
@@ -1800,11 +1846,14 @@ export default function PlayPhase({
                       >◆</span>
                     </div>
                   </button>
+                    </>
+                  )}
                 </div>
 
               </div>
             </div>
           </div>
+          <MobileBottomSpacer />
         </div>{/* /본문 */}
 
       {/* ━━━━━ 모달 ━━━━━ */}
@@ -1818,6 +1867,16 @@ export default function PlayPhase({
         <CaptainInfoModal onClose={() => setShowCaptainInfo(false)} zIndex={Z_INDEX.gameModal} />
       )}
       <PhaseAnnounce data={escalationAnnounce} onDone={() => setEscalationAnnounce(null)} />
+
+      {/* ─── 일기토 (draw 시 서브페이즈) ─── */}
+      {battleSubPhase === "dueling" && pendingRound && onCompleteDuel && (
+        <ClashArena
+          playerCard={pendingRound.playerAction.card}
+          aiCard={pendingRound.aiAction.card}
+          command={pendingRound.playerAction.command}
+          onComplete={onCompleteDuel}
+        />
+      )}
     </div>
   );
 }

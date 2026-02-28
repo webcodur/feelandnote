@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -23,31 +23,131 @@ import {
   Calendar,
   Menu,
   X,
+  ChevronDown,
+  Megaphone,
+  MonitorCog,
+  Sparkles,
+  MessageSquareQuote,
+  Brain,
+  Theater,
+  Dices,
+  Radar,
+  Target,
+  Flame,
+  type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
 
-const menuItems = [
-  { href: '/', label: '대시보드', icon: LayoutDashboard },
-  { href: '/celebs', label: '셀럽 관리', icon: Star },
-  { href: '/users', label: '유저 관리', icon: Users },
-  { href: '/today-figure', label: '오늘의 인물', icon: Calendar },
-  { href: '/contents', label: '콘텐츠 관리', icon: Library },
-  { href: '/records', label: '기록 관리', icon: FileText },
-  { href: '/notes', label: '노트 관리', icon: StickyNote },
-  { href: '/playlists', label: '플레이리스트', icon: ListMusic },
-  { href: '/tier-lists', label: '티어 리스트', icon: Layers },
-  { href: '/guestbooks', label: '방명록', icon: BookOpen },
-  { href: '/reports', label: '신고 관리', icon: Flag },
-  { href: '/titles', label: '칭호 관리', icon: Award },
-  { href: '/scores', label: '점수/랭킹', icon: Trophy },
-  { href: '/blind-game', label: '블라인드 게임', icon: Gamepad2 },
-  { href: '/activity-logs', label: '활동 로그', icon: Activity },
-  { href: '/api-usage', label: 'API 사용량', icon: BarChart3 },
-  { href: '/settings', label: '설정', icon: Settings },
+type MenuItem = { href: string; label: string; icon: LucideIcon }
+type MenuGroup = {
+  key: string
+  label: string
+  icon: LucideIcon
+  href?: string
+  children?: MenuItem[]
+}
+
+const menuGroups: MenuGroup[] = [
+  { key: 'dashboard', label: '대시보드', icon: LayoutDashboard, href: '/' },
+  {
+    key: 'celebs', label: '셀럽', icon: Star,
+    children: [
+      { href: '/celebs', label: '목록', icon: Star },
+      { href: '/celebs/titles', label: '수식어', icon: Sparkles },
+      { href: '/celebs/professions', label: '직군', icon: Target },
+      { href: '/celebs/tags', label: '태그', icon: Layers },
+      { href: '/celebs/philosophies', label: '감상 철학', icon: Brain },
+      { href: '/celebs/vectors', label: '페르소나', icon: Radar },
+      { href: '/celebs/influence', label: '영향력', icon: Flame },
+      { href: '/celebs/dialogues', label: '대사', icon: Theater },
+      { href: '/celebs/quotes', label: '명언', icon: MessageSquareQuote },
+      { href: '/celebs/stats', label: '통계', icon: BarChart3 },
+    ],
+  },
+  {
+    key: 'users', label: '유저', icon: Users,
+    children: [
+      { href: '/users', label: '목록', icon: Users },
+    ],
+  },
+  {
+    key: 'contents', label: '콘텐츠', icon: Library,
+    children: [
+      { href: '/contents', label: '콘텐츠 관리', icon: Library },
+      { href: '/records', label: '기록', icon: FileText },
+      { href: '/notes', label: '노트', icon: StickyNote },
+      { href: '/playlists', label: '플레이리스트', icon: ListMusic },
+    ],
+  },
+  {
+    key: 'games', label: '게임', icon: Gamepad2,
+    children: [
+      { href: '/blind-game', label: '블라인드 게임', icon: Dices },
+      { href: '/scores', label: '점수/랭킹', icon: Trophy },
+      { href: '/tier-lists', label: '티어 리스트', icon: Layers },
+    ],
+  },
+  {
+    key: 'operations', label: '운영', icon: Megaphone,
+    children: [
+      { href: '/today-figure', label: '오늘의 인물', icon: Calendar },
+      { href: '/guestbooks', label: '방명록', icon: BookOpen },
+      { href: '/reports', label: '신고 관리', icon: Flag },
+      { href: '/titles', label: '칭호 관리', icon: Award },
+    ],
+  },
+  {
+    key: 'system', label: '시스템', icon: MonitorCog,
+    children: [
+      { href: '/activity-logs', label: '활동 로그', icon: Activity },
+      { href: '/api-usage', label: 'API 사용량', icon: BarChart3 },
+      { href: '/settings', label: '설정', icon: Settings },
+    ],
+  },
 ]
+
+function isGroupActive(group: MenuGroup, pathname: string): boolean {
+  if (group.href) return pathname === group.href
+  return group.children?.some(c =>
+    pathname === c.href || (c.href !== '/' && pathname.startsWith(c.href + '/'))
+  ) ?? false
+}
+
+function getInitialOpen(pathname: string): Set<string> {
+  const open = new Set<string>()
+  for (const group of menuGroups) {
+    if (group.children && isGroupActive(group, pathname)) {
+      open.add(group.key)
+    }
+  }
+  return open
+}
 
 function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: () => void; collapsed?: boolean; onToggle?: () => void }) {
   const pathname = usePathname()
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() => getInitialOpen(pathname))
+
+  // 페이지 이동 시 해당 그룹 자동 펼침
+  useEffect(() => {
+    setOpenGroups(prev => {
+      const next = new Set(prev)
+      for (const group of menuGroups) {
+        if (group.children && isGroupActive(group, pathname)) {
+          next.add(group.key)
+        }
+      }
+      return next.size !== prev.size ? next : prev
+    })
+  }, [pathname])
+
+  const toggleGroup = useCallback((key: string) => {
+    setOpenGroups(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }, [])
 
   return (
     <>
@@ -74,28 +174,87 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
       {/* Navigation */}
       <nav className="flex-1 p-3 md:p-4 overflow-y-auto">
         <ul className="space-y-1">
-          {menuItems.map((item) => {
-            const isActive = pathname === item.href ||
-              (item.href !== '/' && pathname.startsWith(item.href))
-            const Icon = item.icon
+          {menuGroups.map((group) => {
+            const GroupIcon = group.icon
+
+            // 단독 항목 (대시보드)
+            if (group.href) {
+              const isActive = pathname === group.href
+              return (
+                <li key={group.key}>
+                  <Link
+                    href={group.href}
+                    onClick={onItemClick}
+                    className={`
+                      flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 md:px-4 py-2.5 md:py-3 rounded-lg
+                      ${isActive
+                        ? 'bg-accent/10 text-accent'
+                        : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
+                      }
+                    `}
+                    title={collapsed ? group.label : undefined}
+                  >
+                    <GroupIcon className="w-5 h-5 shrink-0" />
+                    {!collapsed && <span className="text-sm md:text-base">{group.label}</span>}
+                  </Link>
+                </li>
+              )
+            }
+
+            // 그룹 항목
+            const isOpen = openGroups.has(group.key)
+            const groupActive = isGroupActive(group, pathname)
 
             return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={onItemClick}
+              <li key={group.key}>
+                {/* 그룹 헤더 */}
+                <button
+                  onClick={() => toggleGroup(group.key)}
                   className={`
-                    flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 md:px-4 py-2.5 md:py-3 rounded-lg
-                    ${isActive
-                      ? 'bg-accent/10 text-accent'
+                    w-full flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 md:px-4 py-2.5 md:py-3 rounded-lg
+                    ${groupActive
+                      ? 'text-accent'
                       : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
                     }
                   `}
-                  title={collapsed ? item.label : undefined}
+                  title={collapsed ? group.label : undefined}
                 >
-                  <Icon className="w-5 h-5 shrink-0" />
-                  {!collapsed && <span className="text-sm md:text-base">{item.label}</span>}
-                </Link>
+                  <GroupIcon className="w-5 h-5 shrink-0" />
+                  {!collapsed && (
+                    <>
+                      <span className="text-sm md:text-base flex-1 text-left">{group.label}</span>
+                      <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${isOpen ? '' : '-rotate-90'}`} />
+                    </>
+                  )}
+                </button>
+
+                {/* 하위 메뉴 */}
+                {!collapsed && isOpen && group.children && (
+                  <ul className="mt-0.5 ml-4 pl-3 border-l border-border/50 space-y-0.5">
+                    {group.children.map((item) => {
+                      const isActive = pathname === item.href ||
+                        (item.href !== '/' && pathname.startsWith(item.href + '/'))
+                      return (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            onClick={onItemClick}
+                            className={`
+                              flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm
+                              ${isActive
+                                ? 'bg-accent/10 text-accent'
+                                : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
+                              }
+                            `}
+                          >
+                            <item.icon className="w-4 h-4 shrink-0" />
+                            <span>{item.label}</span>
+                          </Link>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
               </li>
             )
           })}

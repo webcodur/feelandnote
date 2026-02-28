@@ -1,0 +1,248 @@
+[
+  {
+    "file": "book.json",
+    "category": "BOOK_READING_HISTORY_TIMELINE",
+    "title": "묵독의 등장",
+    "url": "/images/scriptures/book/typography/04_placeholder.png",
+    "prompt": "소리 내어 읽던 대중적 음독 문화에서, 눈으로만 글자를 좇는 내면적 묵독으로 수용 방식이 변화하며 개인의 이성과 자아가 확립된 독서의 대전환기이다."
+  },
+  {
+    "file": "book.json",
+    "category": "BOOK_READING_HISTORY_TIMELINE",
+    "title": "하이퍼텍스트",
+    "url": "/images/scriptures/book/typography/08_placeholder.png",
+    "prompt": "순차적으로 읽어야 했던 선형적 종이 지면을 해체하고, 거미줄처럼 얽힌 링크를 타고 넘나드는 파편적이고 산발적인 디지털 읽기의 시대를 열었다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "세리프",
+    "prompt": "글자 획 끝에 작은 돌기(세리프)가 달린 서체. 로마 석비의 정(chisel) 자국에서 유래하며, 인쇄 활자의 표준으로 수백 년간 본문 서체를 지배했다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "산세리프",
+    "prompt": "세리프(돌기)를 제거한 깔끔한 서체. 산업혁명기 광고판에서 탄생했으며, 20세기 모더니즘과 디지털 스크린 시대의 절대 강자로 군림한다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "슬랩 세리프",
+    "prompt": "두껍고 각진 판형 세리프가 특징인 서체. 산업혁명기 광고 포스터에서 멀리서도 눈에 띄기 위해 탄생했으며, 타자기 시대의 기본 서체이기도 하다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "스크립트",
+    "prompt": "손글씨의 흐름과 필기체의 연결감을 모방한 서체. 초대장, 로고, 감성적 디자인에서 개성과 우아함을 부여하는 역할을 한다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "디스플레이",
+    "prompt": "큰 크기에서 시선을 사로잡도록 디자인된 장식적 서체. 제목, 포스터, 로고 등 짧은 텍스트에 강렬한 인상을 남기는 데 특화되어 있다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "모노스페이스",
+    "prompt": "모든 글자가 동일한 폭을 차지하는 등폭 서체. 타자기에서 시작되어 프로그래밍 코드와 터미널 환경의 표준 서체로 자리 잡았다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "블랙레터",
+    "prompt": "중세 유럽의 필사 문화에서 탄생한 장식적 고딕 서체. 좁고 날카로운 획과 장엄한 인상이 특징이며, 오늘날에도 맥주·신문·음악 등에서 전통과 권위의 상징으로 사용된다."
+  },
+  {
+    "file": "book.json",
+    "category": "TYPOGRAPHY_CLASSES",
+    "title": "한글 서체",
+    "prompt": "세종대왕이 창제한 한글의 과학적 구조(자음+모음 조합)를 기반으로 발전한 고유 서체 체계. 네모틀과 탈네모틀, 명조와 고딕이라는 독자적 분류를 형성하며 진화 중이다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "음독",
+    "prompt": "소리를 내어 읽는 독서법. 고대에는 모든 독서가 음독이었으며, 청각과 운동 영역을 동시에 활성화하여 이중 부호화 효과를 만든다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "묵독",
+    "prompt": "소리 없이 눈으로만 읽는 독서법. 중세 띄어쓰기 도입 이후 보편화되었으며, 개인의 내면적 사유와 비판적 사고의 기반이 되었다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "정독",
+    "prompt": "한 문장, 한 단락을 깊이 파고들며 의미를 분석하는 독서법. 느리지만 심층 부호화를 통해 가장 높은 이해도와 기억 정착률을 달성한다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "속독",
+    "prompt": "시선 이동과 청킹 기법을 활용해 읽기 속도를 극대화하는 독서법. 대량의 텍스트를 빠르게 훑을 수 있지만, 심층 이해와 기억 정착에는 한계가 있다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "다독",
+    "prompt": "많은 양의 텍스트를 폭넓게 읽는 독서법. 완벽한 이해보다 흐름에 몸을 맡기며, 반복 노출을 통해 어휘력과 배경지식을 누적적으로 쌓아간다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "필사",
+    "prompt": "텍스트를 직접 손으로 베껴 쓰며 읽는 독서법. 시각·청각·운동 감각의 삼중 부호화로 가장 높은 기억 정착 효과를 발휘하지만, 가장 느리다."
+  },
+  {
+    "file": "book.json",
+    "category": "READING_METHODS",
+    "title": "디지털 독서",
+    "prompt": "스마트폰, 태블릿, 전자책 리더 등 디지털 기기로 수행하는 독서. F패턴 스캐닝과 하이퍼링크 점프로 특징되며, 편의성과 깊이의 트레이드오프가 핵심 과제이다."
+  },
+  {
+    "file": "game.json",
+    "category": "GAME_HISTORY_TIMELINE",
+    "title": "가정용 콘솔",
+    "prompt": "TV에 연결해 가정에서 게임을 즐기는 전용 기기. 닌텐도가 아타리 쇼크 이후의 산업을 부활시키고, 게임 디자인의 표준을 확립했다."
+  },
+  {
+    "file": "game.json",
+    "category": "GAME_HISTORY_TIMELINE",
+    "title": "휴대용과 모바일",
+    "prompt": "게임보이에서 시작된 이동식 게임이 스마트폰 시대에 접어들며 전 세계 30억 인구의 일상이 되었다."
+  },
+  {
+    "file": "game.json",
+    "category": "GAME_HISTORY_TIMELINE",
+    "title": "온라인 · VR · 클라우드",
+    "prompt": "인터넷이 수만 명을 하나의 가상 세계에 접속시키고, VR 헤드셋이 화면과 눈 사이의 거리를 지우며, 클라우드가 하드웨어 제약을 넘는다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "원시 악기",
+    "url": "/images/scriptures/music/instrument/01_bone_drum.png",
+    "prompt": "자연물로 리듬과 음률을 처음 빚어낸 시기이다. 악기는 주술 의례와 전쟁 신호를 위한 원초적 도구였으며, 이집트와 메소포타미아에서 최초의 현악기가 등장했다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "동서양 악기",
+    "url": "/images/scriptures/music/instrument/02_eastern_western.png",
+    "prompt": "동아시아와 유럽에서 독자적인 악기 체계가 확립된 시기이다. 실크로드를 통해 악기가 교류하고, 교회 오르간과 궁중 현악기가 음악의 골격을 형성했다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "현악기",
+    "url": "/images/scriptures/music/instrument/03_luthier.png",
+    "prompt": "목재와 금속 가공 기술이 발전하며 악기 제작이 공예의 정점으로 격상된 시기이다. 바이올린, 첼로, 오보에 등 오케스트라의 뼈대를 이루는 악기들이 형태를 갖추었다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "건반악기",
+    "url": "/images/scriptures/music/instrument/04_piano.png",
+    "prompt": "해머로 현을 쳐서 강약을 조절하는 메커니즘이 도입되었다. 피아노는 단일 악기로 오케스트라에 필적하는 화성과 다이내믹을 구현하며 낭만주의 음악을 폭발시켰다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "금관악기",
+    "url": "/images/scriptures/music/instrument/05_brass_wind.png",
+    "prompt": "밸브 시스템이 발명되어 금관악기가 모든 반음을 연주할 수 있게 되었다. 관현악단이 완전한 편성을 갖추었고, 색소폰이라는 혼종 악기가 재즈의 목소리가 되었다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "일렉트릭 기타",
+    "url": "/images/scriptures/music/instrument/06_electric.png",
+    "prompt": "마그네틱 픽업이 현의 진동을 전기 신호로 바꾸고 앰프가 증폭시킨다. 솔리드 바디 기타와 디스토션은 록 음악이라는 장르를 창조했다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_INST_HISTORY_TIMELINE",
+    "title": "신시사이저",
+    "url": "/images/scriptures/music/instrument/07_synthesizer.png",
+    "prompt": "전압으로 음파를 합성하는 신시사이저에서 출발해, 디지털 FM 합성과 소프트웨어 가상 악기로 진화했다. 물리적 매체 없이 소리를 설계하는 시대가 열렸다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "제의와 광장",
+    "url": "/images/scriptures/music/experience/01_ritual_square.png",
+    "prompt": "음악을 듣는 유일한 방법은 연주가 벌어지는 자리에 가는 것이었다. 신전에서는 신에게 바치는 의례로, 장터와 축제 마당에서는 민중의 놀이로 음악이 울렸다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "성당·장터·궁정",
+    "url": "/images/scriptures/music/experience/02_cathedral_court.png",
+    "prompt": "음악이 울리는 공간이 셋으로 나뉘었다. 성당에서는 성가가, 궁정에서는 실내악이, 장터와 선술집에서는 민중의 노래가 각자의 청중을 찾았다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "콘서트홀",
+    "url": "/images/scriptures/music/experience/03_concert_hall.png",
+    "prompt": "부르주아 계급의 성장과 함께 입장료를 내면 누구나 들어갈 수 있는 콘서트홀이 등장했다. 악보 출판이 대중화되며 중산층 거실의 살롱 음악도 꽃피웠다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "재즈 클럽",
+    "url": "/images/scriptures/music/experience/04_cabaret_jazz.png",
+    "prompt": "콘서트홀의 격식을 벗어던진 새로운 청취 공간이 도시 곳곳에 생겨났다. 카바레, 댄스홀, 재즈 클럽에서 음악은 몸을 움직이고 술잔을 기울이며 듣는 것이 되었다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "페스티벌",
+    "url": "/images/scriptures/music/experience/05_festival_stadium.png",
+    "prompt": "음악 청취가 수만 명이 운집하는 야외 페스티벌과 스타디움으로 확장되었다. 고출력 PA 시스템과 조명이 결합되어 집단적 열광의 체험을 만들어냈다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "클럽과 DJ",
+    "url": "/images/scriptures/music/experience/06_club_dj.png",
+    "prompt": "DJ가 레코드를 믹싱하여 끊김 없는 음악의 흐름을 만들어내는 새로운 청취 공간이 탄생했다. 디스코, 하우스, 테크노가 클럽 플로어를 지배했다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "개인 청취",
+    "url": "/images/scriptures/music/experience/07_portable.png",
+    "prompt": "초소형 재생 장치와 이어폰이 결합되어 다수가 공유하던 음악을 개인의 폐쇄적 청취로 전환시켰다. 도시의 소음 속에서 나만의 사운드트랙을 갖게 되었다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_EXP_HISTORY_TIMELINE",
+    "title": "스트리밍",
+    "url": "/images/scriptures/music/experience/08_algorithm.png",
+    "prompt": "노이즈 캔슬링이 외부 소음을 차단하고, 알고리즘이 개인 취향에 맞춘 플레이리스트를 끊임없이 공급하는 현재의 청취 방식이다."
+  },
+  {
+    "file": "music.json",
+    "category": "MUSIC_HISTORY_TIMELINE",
+    "title": "생음악",
+    "prompt": "녹음 기술이 존재하지 않던 시대, 음악은 오직 그 자리에서 연주되고 그 자리에서 사라졌다. 악보가 발명된 뒤에도 '듣는 행위'는 언제나 살아 있는 연주자를 필요로 했다."
+  },
+  {
+    "file": "video.json",
+    "category": "VIDEO_TECH_HISTORY_TIMELINE",
+    "title": "편집과 몽타주",
+    "url": "/images/scriptures/video/technique/02_placeholder.png",
+    "prompt": "물리적 기술인 시각 특수효과를 넘어, 필름을 자르고 붙여 시간과 공간을 창조하는 영상 매체만의 고유한 서사 문법(Editing)이 확립된 시기이다."
+  },
+  {
+    "file": "video.json",
+    "category": "VIDEO_TECH_HISTORY_TIMELINE",
+    "title": "버추얼 프로덕션",
+    "prompt": "배우의 연기를 디지털 캐릭터에 실시간 동기화하는 모션 캡처 기술과, 초대형 LED 스크린에 가상 세계를 즉각 투사하는 버추얼 프로덕션 시스템의 결합이다."
+  }
+]

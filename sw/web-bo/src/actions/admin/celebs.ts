@@ -791,6 +791,47 @@ export async function getCelebsForPhilosophyEdit(page: number = 1, limit: number
 }
 // #endregion
 
+// #region getCelebsForQuotesEdit / updateCelebQuotes - 명언 편집
+export interface CelebQuotesItem {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+  profession: string | null
+  quotes: string | null
+}
+
+export async function getCelebsForQuotesEdit(): Promise<CelebQuotesItem[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, nickname, avatar_url, profession, quotes')
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .order('nickname', { ascending: true })
+
+  if (error) throw error
+
+  return data || []
+}
+
+export async function updateCelebQuotes(celebId: string, quotes: string | null): Promise<void> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ quotes })
+    .eq('id', celebId)
+    .eq('profile_type', 'CELEB')
+
+  if (error) throw error
+
+  revalidatePath('/celebs')
+  revalidatePath('/celebs/quotes')
+  revalidatePath(`/celebs/${celebId}`)
+}
+// #endregion
+
 // #region updateCelebTitle - 수식어만 업데이트
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
   const supabase = await createClient()

@@ -18,65 +18,59 @@ const TYPE_CONFIG: Record<string, { icon: typeof Book; label: string; color: str
 
 interface ContentRevealProps {
   content: TrackerContent;
-  index: number;
-  total: number;
 }
 
-export default function ContentReveal({ content, index, total }: ContentRevealProps) {
+export default function ContentReveal({ content }: ContentRevealProps) {
   const config = TYPE_CONFIG[content.type] ?? TYPE_CONFIG.BOOK;
   const Icon = config.icon;
 
   return (
-    <div className="relative rounded-lg border border-white/20 bg-bg-main p-3 sm:p-4 max-w-lg mx-auto max-h-[45vh] flex flex-col animate-clue-reveal animate-clue-glow-line overflow-hidden">
-      <p className="shrink-0 text-[10px] text-text-tertiary font-cinzel uppercase tracking-wider text-center mb-3">
-        Clue {index + 1}/{total}
-      </p>
-
-      <div className="rounded border border-accent/40 bg-[#0e0e0e] p-3 min-h-0 overflow-y-auto animate-in fade-in slide-in-from-bottom-2">
-        <div className="flex gap-3">
-          {/* 썸네일 */}
-          <div className="relative h-16 w-12 shrink-0 rounded overflow-hidden bg-bg-secondary border border-white/10">
-            {content.thumbnailUrl ? (
-              <Image
-                src={content.thumbnailUrl}
-                alt={content.title}
-                fill
-                sizes="48px"
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center">
-                <Icon size={16} className={config.color} />
-              </div>
-            )}
-          </div>
-
-          {/* 정보 */}
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <Icon size={12} className={config.color} />
-              <span className={`text-[10px] font-bold ${config.color}`}>
-                {config.label}
-              </span>
+    <div className="relative rounded-xl border border-accent/30 bg-[#12100e] p-4 sm:p-5 w-full max-w-2xl mx-auto max-h-[55vh] md:max-h-[60vh] overflow-y-auto custom-scrollbar animate-clue-reveal shadow-2xl">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start">
+        {/* 썸네일 */}
+        <div className="relative h-28 w-20 sm:h-32 sm:w-24 shrink-0 rounded-md overflow-hidden bg-bg-secondary border border-white/10 shadow-lg">
+          {content.thumbnailUrl ? (
+            <Image
+              src={content.thumbnailUrl}
+              alt={content.title}
+              fill
+              sizes="(max-width: 640px) 80px, 96px"
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center opacity-50">
+              <Icon size={24} className={config.color} />
             </div>
-            <h4 className="text-sm font-bold text-white truncate">
-              {content.title}
-            </h4>
-            {content.creator && (
-              <p className="text-xs text-text-secondary truncate">
-                {content.creator}
-              </p>
-            )}
-          </div>
+          )}
         </div>
 
-        {/* 리뷰 */}
-        {content.review && (
-          <p className="mt-2 text-xs text-text-secondary leading-relaxed border-t border-white/5 pt-2">
+        {/* 정보 */}
+        <div className="min-w-0 flex-1 w-full space-y-1">
+          <div className="flex items-center gap-1.5 mb-1.5 opacity-90">
+            <Icon size={14} className={config.color} />
+            <span className={`text-xs font-bold tracking-wide ${config.color}`}>
+              {config.label}
+            </span>
+          </div>
+          <h4 className="text-base sm:text-lg font-bold text-white leading-snug">
+            {content.title}
+          </h4>
+          {content.creator && (
+            <p className="text-sm text-text-secondary">
+              {content.creator}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* 리뷰 내용 */}
+      {content.review && (
+        <div className="mt-5 border-t border-white/10 pt-4">
+          <p className="text-[13px] sm:text-[15px] font-serif text-text-secondary leading-relaxed tracking-wide text-justify">
             {content.review}
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

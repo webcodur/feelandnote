@@ -7,43 +7,59 @@
 
 import { useState } from "react";
 import {
-  Crown, BookOpen, BarChart3, ArrowLeft,
+  Crown, BookOpen, BarChart3, LogOut,
   Map, Swords, Users, Scroll, Shield, Building,
 } from "lucide-react";
 import GameLobbyNavRow from "@/components/features/game/shared/GameLobbyNavRow";
 import GameLobbyMain from "@/components/features/game/shared/GameLobbyMain";
+import GameLobbySubmenu from "@/components/features/game/shared/GameLobbySubmenu";
+import GameStartModal from "@/components/features/game/shared/GameStartModal";
+import GameRulesSection from "@/components/features/game/shared/GameRulesSection";
 
 interface SuikodenLobbyProps {
   characterCount: number;
   onStart: () => void;
+  onExit: () => void;
 }
 
 type MenuId = "main" | "rules";
 
-export default function SuikodenLobby({ characterCount, onStart }: SuikodenLobbyProps) {
+export default function SuikodenLobby({ characterCount, onStart, onExit }: SuikodenLobbyProps) {
   const [menu, setMenu] = useState<MenuId>("main");
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (menu === "rules") return <LobbyRules onBack={() => setMenu("main")} />;
 
   return (
-    <GameLobbyMain
-        title="천도"
-        englishTitle="Cheondo"
-        catchphrase="뜻이 있는 자, 천하를 얻으리라"
-        cta={{
-          icon: <>
-            <Crown size={22} className="text-accent sm:hidden" />
-            <Crown size={26} className="text-accent hidden sm:block" />
-          </>,
-          label: "게임 시작",
-          sub: `${characterCount} Heroes Await`,
-          onClick: onStart,
-        }}
-        navItems={<>
-          <GameLobbyNavRow icon={<BookOpen size={16} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
-          <GameLobbyNavRow icon={<BarChart3 size={16} />} label="전적" sub="Records" disabled />
-        </>}
-    />
+    <>
+      <GameLobbyMain
+          title="천도"
+          englishTitle="Cheondo"
+          catchphrase="뜻이 있는 자, 천하를 얻으리라"
+          cta={{
+            icon: <>
+              <Crown size={22} className="text-accent sm:hidden" />
+              <Crown size={26} className="text-accent hidden sm:block" />
+            </>,
+            label: "게임 시작",
+            sub: `${characterCount} Heroes Await`,
+            onClick: () => setModalOpen(true),
+          }}
+          navItems={<>
+            <GameLobbyNavRow icon={<BookOpen size={16} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
+            <GameLobbyNavRow icon={<BarChart3 size={16} />} label="전적" sub="Records" disabled />
+            <GameLobbyNavRow icon={<LogOut size={16} />} label="나가기" sub="Exit" onClick={onExit} />
+          </>}
+      />
+      <GameStartModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onStart={() => onStart()}
+        icon={<Crown size={28} className="text-accent/40" />}
+        title="게임 시작"
+        desc={`${characterCount}명의 영웅이 기다립니다`}
+      />
+    </>
   );
 }
 
@@ -53,25 +69,14 @@ export default function SuikodenLobby({ characterCount, onStart }: SuikodenLobby
 
 function LobbyRules({ onBack }: { onBack: () => void }) {
   return (
-    <div className="lg:ml-auto lg:w-1/3 lg:min-w-[360px]">
-      <div className="flex flex-col animate-fade-in lg:bg-black/50 lg:backdrop-blur-sm lg:rounded-l-2xl lg:border-l lg:border-white/[0.05]">
-
-      {/* 헤더 */}
-      <div className="relative text-center py-8 mb-2 px-4">
-        <button
-          onClick={onBack}
-          className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          돌아가기
-        </button>
-        <Crown size={28} className="mx-auto text-accent/40 mb-2" />
-        <h2 className="text-2xl font-serif font-black text-white tracking-wide">게임 규칙</h2>
-        <p className="text-sm text-text-tertiary mt-1.5 max-w-md mx-auto leading-relaxed">
-          역사 속 인물들로 세력을 키우는 전략 시뮬레이션
-        </p>
-      </div>
-
+    <GameLobbySubmenu
+      onBack={onBack}
+      icon={<Crown size={28} className="text-accent/40" />}
+      title="게임 규칙"
+      desc="역사 속 인물들로 세력을 키우는 전략 시뮬레이션"
+      longDesc
+      showBackBottom
+    >
       {/* 개요 */}
       <section className="text-center px-6 mb-12">
         <p className="text-sm text-text-secondary leading-[1.8]">
@@ -82,11 +87,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
       </section>
 
       {/* PART 1: 게임 흐름 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 1</p>
-          <h3 className="text-lg font-serif font-black text-white">게임 흐름</h3>
-        </div>
+      <GameRulesSection partLabel="Part 1" title="게임 흐름">
         <div className="grid grid-cols-3 gap-2">
           {[
             { step: "01", icon: <Map size={18} />, title: "방랑", desc: "세계를 탐험하며 인재를 모집" },
@@ -101,14 +102,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             </div>
           ))}
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* PART 2: 핵심 시스템 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 2</p>
-          <h3 className="text-lg font-serif font-black text-white">핵심 시스템</h3>
-        </div>
+      <GameRulesSection partLabel="Part 2" title="핵심 시스템">
         <div className="space-y-2">
           {[
             { icon: <Users size={14} />, title: "인재 영입", desc: "방랑 중 만난 인물을 설득하여 세력에 합류시킵니다", color: "text-accent border-accent/20 bg-accent/5" },
@@ -125,20 +122,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* 하단 돌아가기 */}
-      <div className="text-center py-6">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          로비로 돌아가기
-        </button>
-      </div>
-
-      </div>
-    </div>
+      </GameRulesSection>
+    </GameLobbySubmenu>
   );
 }

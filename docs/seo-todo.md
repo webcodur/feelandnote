@@ -78,6 +78,14 @@ manifest.ts와 apple-touch-icon에 필요한 이미지 파일이다.
 | sitemap.ts 정적+동적 라우트 확장 | `app/sitemap.ts` | 완료 |
 | 비공개 페이지 noindex 처리 | auth, notifications 등 | 완료 |
 | Naver 인증 플레이스홀더 정리 | `app/layout.tsx` | 완료 |
+| Naver 인증코드 실제 적용 | `app/layout.tsx` | 완료 |
+| 홈페이지 메타데이터 추가 | `(main)/page.tsx` | 완료 |
+| 서가(scriptures) 메타데이터 추가 | `scriptures/page.tsx` | 완료 |
+| 광장(agora) description 추가 | `agora/page.tsx` | 완료 |
+| 쉼터(rest) description 추가 | `rest/page.tsx` | 완료 |
+| 이용약관/개인정보 noindex 처리 | `terms/page.tsx`, `privacy/page.tsx` | 완료 |
+| 검색 페이지 noindex 처리 | `search/layout.tsx` | 완료 |
+| 콘텐츠 상세 canonical URL 추가 | `content/[contentId]/page.tsx` | 완료 |
 
 ### 추가 개선 가능 (선택)
 

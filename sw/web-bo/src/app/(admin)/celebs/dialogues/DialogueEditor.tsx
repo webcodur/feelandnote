@@ -23,8 +23,9 @@ const TONE_LABELS: Record<string, string> = {
   free: '호방',
 }
 
-const DIALOGUE_TYPES = ['select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
+const DIALOGUE_TYPES = ['greeting', 'select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
 const TYPE_LABELS: Record<string, string> = {
+  greeting: '인사',
   select: '선택 시',
   deploy: '출전 시',
   battle_win: '승리',
@@ -34,6 +35,7 @@ const TYPE_LABELS: Record<string, string> = {
 }
 
 const EMPTY_LINES: DialogueLines = {
+  greeting: ['', '', ''],
   select: ['', '', ''],
   deploy: ['', '', ''],
   battle_win: ['', '', ''],
@@ -165,7 +167,7 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
                   <td className="px-4 py-3">
                     {lineCount > 0 ? (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
-                        고유 대사 {lineCount}/18
+                        고유 대사 {lineCount}/21
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-text-secondary border border-border">

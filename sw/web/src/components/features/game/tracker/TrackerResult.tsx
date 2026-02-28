@@ -1,14 +1,15 @@
 /*
   파일명: components/features/game/tracker/TrackerResult.tsx
   기능: 결과 화면
-  책임: 정답 셀럽 공개, 콘텐츠 목록, 프로필 링크 표시
+  책임: 추적 대상 셀럽 공개, 콘텐츠 목록, 프로필 링크 표시
 */
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { CheckCircle, XCircle, Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
-import type { TrackerContent } from "@/actions/game/getTrackerRound";
+import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
+import type { TrackerContent, TrackerOption } from "@/actions/game/getTrackerRound";
+import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
@@ -32,8 +33,10 @@ interface TrackerResultProps {
   avatarUrl: string | null;
   correct: boolean;
   contents: TrackerContent[];
+  options: TrackerOption[];
   onNext: () => void;
   onQuit: () => void;
+  showDialogue?: (celebId: string, tone: SpeechTone, type: DialogueType, meta?: { nickname: string, avatarUrl: string | null }) => void;
 }
 
 export default function TrackerResult({
@@ -44,11 +47,15 @@ export default function TrackerResult({
   avatarUrl,
   correct,
   contents,
+  options,
   onNext,
   onQuit,
+  showDialogue,
 }: TrackerResultProps) {
   const [showCelebModal, setShowCelebModal] = useState(false);
   const [reviewContent, setReviewContent] = useState<TrackerContent | null>(null);
+
+  // 대사는 O 클릭 시점(handleChoiceSelect)에서 이미 재생됨. 결과 화면에서 중복 재생하지 않는다.
 
   const celebProfile = useMemo((): CelebProfile => ({
     id: celebId,
@@ -74,57 +81,69 @@ export default function TrackerResult({
   }), [celebId, celebSlug, nickname, avatarUrl, profession, contents.length]);
 
   return (
-    <div className="w-full max-w-lg mx-auto space-y-6 animate-in fade-in">
-      {/* 정답/오답 표시 */}
-      <div className="text-center">
-        <div className={cn(
-          "inline-flex items-center gap-2 rounded-full px-4 py-1.5",
-          correct ? "bg-[#1a1710] border border-accent/30" : "bg-[#1a0f0f] border border-red-500/30"
-        )}>
-          {correct ? <CheckCircle size={16} className="text-accent" /> : <XCircle size={16} className="text-red-400" />}
-          <span className={cn("text-lg font-black font-serif", correct ? "text-accent" : "text-red-400")}>
-            {correct ? "정답!" : "오답"}
-          </span>
-        </div>
-      </div>
+    <div className="w-full max-w-lg mx-auto space-y-8 animate-in fade-in duration-500 pb-8">
+      {/* 검거 성공/도주 허용 문구 */}
+      <p className={cn(
+        "text-center text-sm font-serif leading-relaxed animate-slide-up",
+        correct ? "text-accent/90" : "text-red-400/80"
+      )}>
+        {correct
+          ? <>{nickname}을(를) 검거했다.</>
+          : <>아쉽게도 <span className="font-bold text-red-400">{nickname}</span>의 도주를 허용했다.</>
+        }
+      </p>
 
-      {/* 정답 셀럽 */}
-      <div className="flex flex-col items-center gap-3 rounded-xl border border-accent/30 bg-bg-main p-5">
+      {/* 추적 대상 셀럽 (초상화 크기 확대 및 카드 스타일링 고급화) */}
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/10 bg-[#12100e] p-8 shadow-2xl relative overflow-hidden animate-slide-up" style={{ animationDelay: "100ms" }}>
+        {/* 장식용 빛 */}
+        {correct && (
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-accent/10 blur-[40px] rounded-full mix-blend-screen pointer-events-none" />
+        )}
+        
         <button
           type="button"
-          onClick={() => setShowCelebModal(true)}
-          className="relative h-20 w-20 rounded-full overflow-hidden border-2 border-accent/50 ring-1 ring-inset ring-white/5 shadow-xl cursor-pointer hover:ring-accent/40 hover:scale-105 transition-all"
+          onClick={() => {
+            const opt = options.find(o => o.id === celebId);
+            if (opt && showDialogue) {
+              showDialogue(celebId, (opt.speechTone as SpeechTone) || "composed", "greeting", {
+                nickname,
+                avatarUrl,
+              });
+            }
+            setShowCelebModal(true);
+          }}
+          className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-full overflow-hidden border-2 border-accent/60 ring-2 ring-inset ring-accent/20 shadow-[0_0_30px_rgba(234,179,8,0.15)] cursor-pointer hover:ring-accent/50 hover:scale-105 transition-all duration-300 group"
           style={{ background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
         >
           <div
-            className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+            className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay group-hover:opacity-20 transition-opacity"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
           />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 pointer-events-none mix-blend-screen" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full bg-accent/20 blur-[25px] opacity-60 pointer-events-none mix-blend-screen animate-pulse" />
           {avatarUrl ? (
-            <Image src={avatarUrl} alt={nickname} fill sizes="80px" className="object-cover relative z-10 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)]" />
+            <Image src={avatarUrl} alt={nickname} fill sizes="128px" className="object-cover relative z-10 drop-shadow-[0_15px_20px_rgba(0,0,0,0.9)]" />
           ) : (
-            <div className="relative z-10 flex h-full w-full items-center justify-center text-2xl font-serif text-text-secondary">
+            <div className="relative z-10 flex h-full w-full items-center justify-center text-4xl font-serif text-text-secondary">
               {nickname.charAt(0)}
             </div>
           )}
         </button>
-        <div className="text-center">
-          <span className="text-xs text-accent font-bold">
+        <div className="text-center relative z-10 space-y-1 mt-2">
+          <span className="text-[13px] text-accent font-bold tracking-[0.2em] font-cinzel">
             {getCelebProfessionLabel(profession)}
           </span>
-          <h3 className="text-xl font-serif font-bold text-white">{nickname}</h3>
+          <h3 className="text-2xl sm:text-3xl font-serif font-black text-white drop-shadow-md tracking-wide">{nickname}</h3>
         </div>
       </div>
 
-      {/* 콘텐츠 목록 */}
+      {/* 콘텐츠 목록 (시각적 카드 분리 및 체인 애니메이션 적용) */}
       {contents.length > 0 && (
-        <div className="space-y-2">
-          <h4 className="text-xs text-text-tertiary font-cinzel uppercase tracking-wider text-center">
+        <div className="space-y-4 pt-2">
+          <h4 className="text-sm text-text-tertiary font-cinzel text-center font-bold tracking-[0.3em] mb-4 opacity-80">
             이 인물이 감상한 작품
           </h4>
-          <div className="space-y-1">
-            {contents.map((c) => {
+          <div className="space-y-2.5">
+            {contents.map((c, idx) => {
               const Icon = TYPE_ICONS[c.type] ?? Book;
               const hasReview = !!c.review;
               return (
@@ -133,20 +152,36 @@ export default function TrackerResult({
                   type="button"
                   onClick={() => hasReview && setReviewContent(c)}
                   className={cn(
-                    "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-left transition-colors",
+                    "flex flex-col sm:flex-row sm:items-center gap-3 w-full px-5 py-3.5 rounded-xl border transition-all duration-300 animate-slide-up group text-left",
                     hasReview
-                      ? "hover:bg-[#1a1a1a] cursor-pointer"
-                      : "opacity-60 cursor-default"
+                      ? "bg-[#181614] border-white/10 hover:border-accent/30 hover:bg-[#1f1c19] cursor-pointer shadow-lg"
+                      : "bg-[#12100e] border-white/5 opacity-80 cursor-default"
                   )}
+                  style={{ animationDelay: `${200 + idx * 80}ms`, animationFillMode: "both" }}
                 >
-                  <Icon size={14} className="shrink-0 text-text-tertiary" />
-                  <span className="flex-1 min-w-0 text-sm text-white truncate">{c.title}</span>
-                  {c.creator && (
-                    <span className="hidden sm:block text-xs text-text-tertiary truncate max-w-[120px]">{c.creator}</span>
-                  )}
-                  {hasReview && (
-                    <MessageSquare size={12} className="shrink-0 text-text-tertiary" />
-                  )}
+                  <div className="flex items-center gap-3 w-full sm:w-auto flex-1 min-w-0">
+                    <div className="relative w-9 h-12 shrink-0 rounded overflow-hidden bg-black/40 border border-white/5 group-hover:border-accent/20 transition-colors">
+                      {c.thumbnailUrl ? (
+                        <Image src={c.thumbnailUrl} alt={c.title} fill sizes="36px" className="object-cover" />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <Icon size={14} className="text-text-secondary group-hover:text-accent transition-colors" />
+                        </div>
+                      )}
+                    </div>
+                    <span className="flex-1 min-w-0 text-[15px] font-bold text-white/90 truncate group-hover:text-white transition-colors">{c.title}</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pl-11 sm:pl-0 sm:shrink-0">
+                    {c.creator && (
+                      <span className="text-[13px] font-medium text-text-tertiary truncate max-w-[140px]">{c.creator}</span>
+                    )}
+                    {hasReview ? (
+                      <MessageSquare size={14} className="shrink-0 text-accent/70 group-hover:text-accent group-hover:scale-110 transition-all" />
+                    ) : (
+                      <div className="w-3.5" /> // 아이콘 맞춰주기용 스페이서
+                    )}
+                  </div>
                 </button>
               );
             })}
@@ -154,13 +189,13 @@ export default function TrackerResult({
         </div>
       )}
 
-      {/* 액션 버튼 */}
-      <div className="flex gap-3">
+      {/* 액션 버튼 (명확한 강조, 후광 효과) */}
+      <div className="flex gap-4 pt-4 animate-slide-up" style={{ animationDelay: `${200 + contents.length * 80 + 100}ms`, animationFillMode: "both" }}>
         <button
           onClick={onQuit}
           className={cn(
-            "flex-1 h-11 rounded-xl text-sm font-bold font-serif",
-            "bg-[#1a1a1a] text-white hover:bg-[#222] border border-white/20 active:scale-95"
+            "flex-1 h-14 rounded-xl text-[15px] font-bold font-serif tracking-widest",
+            "bg-[#151515] text-text-secondary hover:text-white hover:bg-[#1f1f1f] border border-white/10 active:scale-95 transition-all shadow-md"
           )}
         >
           그만하기
@@ -168,11 +203,12 @@ export default function TrackerResult({
         <button
           onClick={onNext}
           className={cn(
-            "flex-1 h-11 rounded-xl text-sm font-bold font-serif",
-            "bg-[#1a1710] text-accent hover:bg-[#231f15] border border-accent/30 active:scale-95"
+            "flex-1 h-14 rounded-xl text-[15px] font-bold font-serif tracking-widest relative overflow-hidden group",
+            "bg-[#1f1a10] text-accent hover:bg-[#2a2315] border border-accent/40 active:scale-95 transition-all shadow-[0_0_15px_rgba(234,179,8,0.15)]"
           )}
         >
-          다음 문제
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent -translate-x-full group-hover:animate-shine" />
+          다음 추적
         </button>
       </div>
 
@@ -190,7 +226,7 @@ export default function TrackerResult({
         onClose={() => setReviewContent(null)}
         title={reviewContent?.title ?? ""}
         creator={reviewContent?.creator}
-        review={reviewContent?.review}
+        review={reviewContent?.rawReview}
         sourceUrl={reviewContent?.sourceUrl}
         ownerNickname={nickname}
         contentDetailUrl={reviewContent ? `/content/${reviewContent.id}?category=${getCategoryByDbType(reviewContent.type)?.id || "book"}` : undefined}

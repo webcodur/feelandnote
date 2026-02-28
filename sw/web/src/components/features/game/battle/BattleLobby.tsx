@@ -5,36 +5,61 @@
 */
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
-  Swords, Bot, Users, Settings, BookOpen, ChevronRight,
-  ArrowLeft, Crown, Layers, Trophy, Lightbulb,
+  Swords, Bot, Users, Settings, BookOpen, LogOut,
+  Crown, Layers, Trophy,
   BarChart3, ScrollText, Landmark, Shield, Flame,
 } from "lucide-react";
 import GameLobbySettings from "@/components/features/game/shared/GameLobbySettings";
 import GameLobbyNavRow from "@/components/features/game/shared/GameLobbyNavRow";
 import GameLobbyMain from "@/components/features/game/shared/GameLobbyMain";
+import GameLobbySubmenu from "@/components/features/game/shared/GameLobbySubmenu";
+import GameStartModal from "@/components/features/game/shared/GameStartModal";
+import GameRulesSection from "@/components/features/game/shared/GameRulesSection";
+import DuelDevStudio from "@/components/features/game/duel/DuelDevStudio";
 import type { Difficulty } from "@/lib/game/types";
 
 interface BattleLobbyProps {
   onStartVsAi: (difficulty: Difficulty) => void;
+  onExit: () => void;
   bgmMuted: boolean;
   sfxMuted: boolean;
   toggleBgmMuted: () => void;
   toggleSfxMuted: () => void;
 }
 
-type MenuId = "main" | "rules" | "settings" | "difficulty";
+type MenuId = "main" | "rules" | "settings" | "dev_studio";
+
+const DIFFICULTY_OPTIONS = [
+  { value: "normal", label: "보통", englishLabel: "Normal", desc: "플레이어가 먼저 픽. 상대 카드 적성 공개.", icon: <Shield size={22} />, color: "accent" as const },
+  { value: "hard", label: "어려움", englishLabel: "Hard", desc: "AI가 먼저 픽. 상대 카드 적성 비공개.", icon: <Flame size={22} />, color: "red" as const },
+];
 
 /* ═══════════════════════════════════════════
    메인 로비: 시네마틱 타이틀 스크린
    ═══════════════════════════════════════════ */
 
-export default function BattleLobby({ onStartVsAi, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleLobbyProps) {
+export default function BattleLobby({ onStartVsAi, onExit, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleLobbyProps) {
   const [menu, setMenu] = useState<MenuId>("main");
+  const tapCountRef = useRef(0);
+  const tapTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  const handleTitleTap = useCallback(() => {
+    tapCountRef.current += 1;
+    clearTimeout(tapTimerRef.current);
+    if (tapCountRef.current >= 7) {
+      tapCountRef.current = 0;
+      setMenu("dev_studio");
+      return;
+    }
+    tapTimerRef.current = setTimeout(() => { tapCountRef.current = 0; }, 2000);
+  }, []);
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  if (menu === "dev_studio") return <DuelDevStudio onBack={() => setMenu("main")} />;
   if (menu === "rules") return <LobbyRules onBack={() => setMenu("main")} />;
-  if (menu === "difficulty") return <DifficultySelect onBack={() => setMenu("main")} onStart={onStartVsAi} />;
   if (menu === "settings") {
     return (
       <GameLobbySettings
@@ -46,55 +71,56 @@ export default function BattleLobby({ onStartVsAi, bgmMuted, sfxMuted, toggleBgm
   }
 
   return (
-    <GameLobbyMain
-      title="패권"
-      englishTitle="Hegemony"
-      catchphrase="천년의 대국"
-      cta={{
-        icon: <>
-          <Bot size={22} className="text-accent sm:hidden" />
-          <Bot size={26} className="text-accent hidden sm:block" />
-        </>,
-        label: "AI 대전",
-        sub: "vs Computer",
-        onClick: () => setMenu("difficulty"),
-        showChevron: true,
-      }}
-      navItems={<>
-        <GameLobbyNavRow icon={<BookOpen size={16} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
-        <GameLobbyNavRow icon={<Users size={16} />} label="대인전" sub="Multiplayer" disabled />
-        <GameLobbyNavRow icon={<Settings size={16} />} label="설정" sub="Settings" onClick={() => setMenu("settings")} />
-        <GameLobbyNavRow icon={<BarChart3 size={16} />} label="전적" sub="Records" disabled />
-      </>}
-    />
+    <>
+      <GameLobbyMain
+        title="패권"
+        englishTitle="Hegemony"
+        catchphrase="천년의 대국"
+        onTitleTap={handleTitleTap}
+        cta={{
+          icon: <>
+            <Bot size={22} className="text-accent sm:hidden" />
+            <Bot size={26} className="text-accent hidden sm:block" />
+          </>,
+          label: "AI 대전",
+          sub: "vs Computer",
+          onClick: () => setModalOpen(true),
+        }}
+        navItems={<>
+          <GameLobbyNavRow icon={<BookOpen size={16} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
+          <GameLobbyNavRow icon={<Users size={16} />} label="대인전" sub="Multiplayer" disabled />
+          <GameLobbyNavRow icon={<Settings size={16} />} label="설정" sub="Settings" onClick={() => setMenu("settings")} />
+          <GameLobbyNavRow icon={<BarChart3 size={16} />} label="전적" sub="Records" disabled />
+          <GameLobbyNavRow icon={<LogOut size={16} />} label="나가기" sub="Exit" onClick={onExit} />
+        </>}
+      />
+      <GameStartModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onStart={(v) => onStartVsAi(v as Difficulty)}
+        icon={<Bot size={28} className="text-accent/40" />}
+        title="AI 대전"
+        desc="난이도를 선택하세요"
+        options={DIFFICULTY_OPTIONS}
+      />
+    </>
   );
 }
 
 /* ═══════════════════════════════════════════
-   게임 규칙 서브메뉴 (기존 유지)
+   게임 규칙 서브메뉴
    ═══════════════════════════════════════════ */
 
 function LobbyRules({ onBack }: { onBack: () => void }) {
   return (
-    <div className="lg:ml-auto lg:w-1/3 lg:min-w-[360px]">
-      <div className="flex flex-col animate-fade-in lg:bg-black/50 lg:backdrop-blur-sm lg:rounded-l-2xl lg:border-l lg:border-white/[0.05]">
-
-      {/* 헤더 */}
-      <div className="relative text-center py-8 mb-2 px-4">
-        <button
-          onClick={onBack}
-          className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          돌아가기
-        </button>
-        <Swords size={28} className="mx-auto text-accent/40 mb-2" />
-        <h2 className="text-2xl font-serif font-black text-white tracking-wide">게임 규칙</h2>
-        <p className="text-sm text-text-tertiary mt-1.5 max-w-md mx-auto leading-relaxed">
-          역사 속 인물들을 영입하여 매 라운드 상대와 동시에 격돌하는 전략 게임
-        </p>
-      </div>
-
+    <GameLobbySubmenu
+      onBack={onBack}
+      icon={<Swords size={28} className="text-accent/40" />}
+      title="게임 규칙"
+      desc="역사 속 인물들을 영입하여 매 라운드 상대와 동시에 격돌하는 전략 게임"
+      longDesc
+      showBackBottom
+    >
       {/* 개요 */}
       <section className="text-center px-6 mb-12">
         <p className="text-sm text-text-secondary leading-[1.8]">
@@ -105,11 +131,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
       </section>
 
       {/* PART 1: 게임 흐름 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 1</p>
-          <h3 className="text-lg font-serif font-black text-white">게임 흐름</h3>
-        </div>
+      <GameRulesSection partLabel="Part 1" title="게임 흐름">
         <div className="grid grid-cols-4 gap-2">
           {[
             { step: "01", icon: <Layers size={18} />, title: "드래프트", desc: "15명 중 5명을 교대 선택" },
@@ -132,14 +154,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             마음에 들지 않으면 첫 픽 전에 <span className="text-accent/70 font-bold">다시 섞기</span>가 가능합니다.
           </p>
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* PART 2: 국가 상태 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 2</p>
-          <h3 className="text-lg font-serif font-black text-white">국가 상태</h3>
-        </div>
+      <GameRulesSection partLabel="Part 2" title="국가 상태">
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="px-4 py-4 rounded-xl bg-accent/[0.03] border border-accent/10 text-center">
             <p className="text-accent font-bold text-lg mb-1">국력 30</p>
@@ -156,14 +174,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             </p>
           </div>
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* PART 3: 3대 군령 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 3</p>
-          <h3 className="text-lg font-serif font-black text-white">3대 군령</h3>
-        </div>
+      <GameRulesSection partLabel="Part 3" title="3대 군령">
         <p className="text-sm text-text-secondary leading-[1.8] text-center mb-6">
           매 라운드 손패에서 <span className="text-white font-medium">카드 1장</span>을 선택하고
           3가지 군령 중 하나를 지정합니다.
@@ -217,14 +231,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             같은 명령끼리 접전 시 적성이 높은 쪽만 효과 발동.
           </p>
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* PART 4: 주장 시스템 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 4</p>
-          <h3 className="text-lg font-serif font-black text-white">주장</h3>
-        </div>
+      <GameRulesSection partLabel="Part 4" title="주장">
         <p className="text-[11px] text-text-secondary leading-relaxed text-center mb-4">
           드래프트 후 5장 중 <span className="text-accent font-bold">주장(지휘관)</span> 1명을 임명합니다.
           주장은 손패에서 아군을 지원하거나, 직접 출전하여 강력한 힘을 발휘합니다.
@@ -252,14 +262,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             </div>
           </div>
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* PART 5: 카드 소모와 회수 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 5</p>
-          <h3 className="text-lg font-serif font-black text-white">카드 운용</h3>
-        </div>
+      <GameRulesSection partLabel="Part 5" title="카드 운용">
         <div className="space-y-4">
           <div className="px-5 py-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
             <p className="text-sm font-bold text-white mb-2">카드 소모</p>
@@ -283,14 +289,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             </p>
           </div>
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* PART 6: 천명 시스템 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-cinzel text-accent/40 uppercase tracking-[0.4em] mb-1">Part 6</p>
-          <h3 className="text-lg font-serif font-black text-white">천명</h3>
-        </div>
+      <GameRulesSection partLabel="Part 6" title="천명">
         <div className="space-y-4">
           <p className="text-[11px] text-text-secondary leading-relaxed text-center">
             매 라운드 하나의 <span className="text-amber-300 font-bold">천명</span>이 발동됩니다.
@@ -313,16 +315,10 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             천명 순서는 게임 시작 시 랜덤 결정되며, 같은 천명이 연속으로 나오지 않습니다.
           </p>
         </div>
-      </div>
+      </GameRulesSection>
 
       {/* 전략 팁 */}
-      <div className="border-t border-white/[0.06] pt-10 pb-12 px-6">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center gap-2">
-            <Lightbulb size={16} className="text-accent/40" />
-            <h3 className="text-lg font-serif font-black text-white">전략 팁</h3>
-          </div>
-        </div>
+      <GameRulesSection title="전략 팁">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="px-5 py-5 rounded-xl bg-accent/[0.03] border border-accent/10">
             <p className="text-accent font-bold text-sm mb-2">전투와 민심</p>
@@ -357,94 +353,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             </p>
           </div>
         </div>
-      </div>
-
-      {/* 하단 돌아가기 */}
-      <div className="text-center py-6">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          로비로 돌아가기
-        </button>
-      </div>
-
-      </div>
-    </div>
+      </GameRulesSection>
+    </GameLobbySubmenu>
   );
 }
-
-/* ═══════════════════════════════════════════
-   난이도 선택 서브메뉴
-   ═══════════════════════════════════════════ */
-
-function DifficultySelect({ onBack, onStart }: { onBack: () => void; onStart: (d: Difficulty) => void }) {
-  return (
-    <div className="lg:ml-auto lg:w-1/3 lg:min-w-[360px]">
-      <div className="flex flex-col animate-fade-in lg:bg-black/50 lg:backdrop-blur-sm lg:rounded-l-2xl lg:border-l lg:border-white/[0.05]">
-
-      <div className="relative text-center py-8 px-4">
-        <button
-          onClick={onBack}
-          className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          돌아가기
-        </button>
-        <Bot size={28} className="mx-auto text-accent/40 mb-2" />
-        <h2 className="text-2xl font-serif font-black text-white tracking-wide">AI 대전</h2>
-        <p className="text-sm text-text-tertiary mt-1.5">난이도를 선택하세요</p>
-      </div>
-
-      <div className="px-6 pb-10 space-y-3">
-        {/* 보통 */}
-        <button
-          onClick={() => onStart("normal")}
-          className="group w-full text-left px-5 py-5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-accent/[0.06] hover:border-accent/20 active:scale-[0.97] transition-all"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-              <Shield size={22} className="text-accent/70" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-serif font-black text-accent">보통</span>
-                <span className="text-[9px] font-cinzel text-accent/30 uppercase tracking-wider">Normal</span>
-              </div>
-              <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
-                플레이어가 먼저 픽. 상대 카드 적성 공개.
-              </p>
-            </div>
-            <ChevronRight size={16} className="text-white/10 group-hover:text-accent/40 transition-colors shrink-0" />
-          </div>
-        </button>
-
-        {/* 어려움 */}
-        <button
-          onClick={() => onStart("hard")}
-          className="group w-full text-left px-5 py-5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-red-500/[0.06] hover:border-red-500/20 active:scale-[0.97] transition-all"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
-              <Flame size={22} className="text-red-400/70" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-serif font-black text-red-400">어려움</span>
-                <span className="text-[9px] font-cinzel text-red-400/30 uppercase tracking-wider">Hard</span>
-              </div>
-              <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
-                AI가 먼저 픽. 상대 카드 적성 비공개.
-              </p>
-            </div>
-            <ChevronRight size={16} className="text-white/10 group-hover:text-red-400/40 transition-colors shrink-0" />
-          </div>
-        </button>
-      </div>
-
-      </div>
-    </div>
-  );
-}
-

@@ -4,7 +4,7 @@
   책임: Lab 탭 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, type LucideIcon } from "lucide-react";
+import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, Swords, ImageIcon, type LucideIcon } from "lucide-react";
 
 // 섹션명
 export const LAB_SECTION_NAME = "Component Lab";
@@ -82,5 +82,21 @@ export const LAB_ITEMS: LabItem[] = [
     href: "/lab/electric-border",
     title: "Electric Border",
     subtitle: "SVG feTurbulence 기반 전기 테두리 효과",
+  },
+  {
+    value: "duel-studio",
+    label: "일기토",
+    icon: Swords,
+    href: "/lab/duel-studio",
+    title: "Duel Studio",
+    subtitle: "일기토 이펙트 실시간 테스트 환경",
+  },
+  {
+    value: "image-ui",
+    label: "Image UI",
+    icon: ImageIcon,
+    href: "/lab/image-ui",
+    title: "Image UI",
+    subtitle: "이미지 기반 UI 요소 실험",
   },
 ];

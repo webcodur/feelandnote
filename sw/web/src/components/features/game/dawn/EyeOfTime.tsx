@@ -23,34 +23,34 @@ interface EyeOfTimeProps {
 }
 
 // ── 난이도 스케일링 (범위 폭 기반) ──
-// holdBase >= |drift| 이므로 누르는 동안은 절대 떨어지지 않음
-// holdRamp: 누를수록 우측 가속 — 난이도 높을수록 급격히 튐
+// holdBase < |drift| 이므로 누르기만으로는 밀림을 완전히 상쇄 못함
+// holdRamp: 누를수록 우측 가속 — 타이밍 있는 탭핑이 핵심
 function getDifficultyParams(rangeWidth: number) {
   if (rangeWidth >= 1500)
     return {
-      drift: -2.5, holdBase: 2.6, holdRamp: 6.0,
-      duration: 5, safeStart: 0.44, safeEnd: 0.56,
-      windInterval: 80, windRange: [-2.0, 1.0] as [number, number],
+      drift: -3.8, holdBase: 3.2, holdRamp: 8.0,
+      duration: 6, safeStart: 0.46, safeEnd: 0.54,
+      windInterval: 60, windRange: [-3.0, 1.5] as [number, number],
       label: "극한",
     };
   if (rangeWidth >= 800)
     return {
-      drift: -1.8, holdBase: 1.9, holdRamp: 4.5,
-      duration: 4.5, safeStart: 0.42, safeEnd: 0.58,
-      windInterval: 120, windRange: [-1.5, 0.8] as [number, number],
+      drift: -2.8, holdBase: 2.4, holdRamp: 6.0,
+      duration: 5, safeStart: 0.44, safeEnd: 0.56,
+      windInterval: 90, windRange: [-2.2, 1.2] as [number, number],
       label: "어려움",
     };
   if (rangeWidth >= 300)
     return {
-      drift: -1.4, holdBase: 1.5, holdRamp: 3.5,
-      duration: 4, safeStart: 0.40, safeEnd: 0.60,
-      windInterval: 160, windRange: [-1.2, 0.6] as [number, number],
+      drift: -2.0, holdBase: 1.7, holdRamp: 4.5,
+      duration: 4.5, safeStart: 0.42, safeEnd: 0.58,
+      windInterval: 130, windRange: [-1.6, 0.8] as [number, number],
       label: "보통",
     };
   return {
-    drift: -1.0, holdBase: 1.1, holdRamp: 2.5,
-    duration: 3.5, safeStart: 0.38, safeEnd: 0.62,
-    windInterval: 200, windRange: [-0.9, 0.5] as [number, number],
+    drift: -1.5, holdBase: 1.3, holdRamp: 3.2,
+    duration: 4, safeStart: 0.40, safeEnd: 0.60,
+    windInterval: 170, windRange: [-1.2, 0.6] as [number, number],
     label: "쉬움",
   };
 }
@@ -172,48 +172,50 @@ export default function EyeOfTime({
 
   // ── Phase 2 진입 ──
   const confirmRange = () => {
-    // 정답이 범위 밖이면 즉시 실패
-    if (correctYear < rangeMin || correctYear > rangeMax) {
+    // 정답이 범위 밖이면 즉시 실패 (fullMin/fullMax 기준 안전장치 포함)
+    const safeMin = Math.min(rangeMin, fullMin);
+    const safeMax = Math.max(rangeMax, fullMax);
+    const isOutside = correctYear < safeMin || correctYear > safeMax;
+    if (isOutside) {
       setPhase("balance");
       setResult("miss");
       return;
     }
-    // 범위 폭 기반 난이도 산출 후 균형 게임 시작
+    // 범위 폭 기반 난이도 산출 후 균형 게임 즉시 시작
     const params = getDifficultyParams(rangeWidth);
     paramsRef.current = params;
+    posRef.current = 0.5;
+    velRef.current = 0;
+    windRef.current = 0;
+    lastTimeRef.current = 0;
+    windTimerRef.current = 0;
+    startTimeRef.current = 0;
+    centerFramesRef.current = 0;
+    totalFramesRef.current = 0;
+    setPosition(0.5);
     setPhase("balance");
     setTimeLeft(params.duration);
-    // 약간의 딜레이 후 자동 시작
-    setTimeout(() => {
-      posRef.current = 0.5;
-      velRef.current = 0;
-      windRef.current = 0;
-      lastTimeRef.current = 0;
-      windTimerRef.current = 0;
-      startTimeRef.current = 0;
-      centerFramesRef.current = 0;
-      totalFramesRef.current = 0;
-      setPosition(0.5);
-      setIsPlaying(true);
-    }, 600);
+    setIsPlaying(true);
   };
 
   // ── 홀드 시작/종료 ──
+  // phase === "balance"이면 게임 시작 여부와 무관하게 즉시 반응
   const startHold = useCallback(() => {
-    if (!isPlaying || result || holdingRef.current) return;
+    if (result || holdingRef.current) return;
     holdingRef.current = true;
     holdStartRef.current = performance.now();
     setIsHolding(true);
-  }, [isPlaying, result]);
+  }, [result]);
 
   const endHold = useCallback(() => {
     holdingRef.current = false;
     setIsHolding(false);
   }, []);
 
-  // ── 키보드 (스페이스 홀드) ──
+  // ── 글로벌 입력 (키보드 + 포인터) ──
+  // window 레벨에서 모든 up/cancel을 감지해 홀드 누락 방지
   useEffect(() => {
-    if (!isPlaying || result) return;
+    if (phase !== "balance" || result) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.code === "Space" || e.key === " ") && !e.repeat) {
         e.preventDefault();
@@ -225,13 +227,19 @@ export default function EyeOfTime({
         endHold();
       }
     };
+    const onPointerUp = () => endHold();
+    const onPointerCancel = () => endHold();
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerCancel);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerCancel);
     };
-  }, [isPlaying, result, startHold, endHold]);
+  }, [phase, result, startHold, endHold]);
 
   // ── 메인 게임 루프 ──
   useEffect(() => {
@@ -260,7 +268,7 @@ export default function EyeOfTime({
 
       // 홀드: 누르는 순간 좌측 속도 즉시 제거 + 기본 힘 + 시간 비례 가속
       if (holdingRef.current) {
-        if (velRef.current < 0) velRef.current = 0; // 후퇴 즉시 중단
+        if (velRef.current < 0) velRef.current *= 0.5; // 후퇴 감속 (완전 제거 X)
         const holdSec = (time - holdStartRef.current) / 1000;
         accel += p.holdBase + holdSec * p.holdRamp;
       }
@@ -282,15 +290,13 @@ export default function EyeOfTime({
         centerFramesRef.current++;
       }
 
-      // 경계 이탈 → MISS
-      if (posRef.current < 0 || posRef.current > 1) {
-        posRef.current = Math.max(0, Math.min(1, posRef.current));
-        setPosition(posRef.current);
-        setResult("miss");
-        setIsPlaying(false);
-        holdingRef.current = false;
-        setIsHolding(false);
-        return;
+      // 경계 클램프 + 반발 (이탈해도 게임 종료 아님)
+      if (posRef.current < 0) {
+        posRef.current = 0;
+        velRef.current = Math.abs(velRef.current) * 0.3; // 바닥 반발
+      } else if (posRef.current > 1) {
+        posRef.current = 1;
+        velRef.current = -Math.abs(velRef.current) * 0.3; // 천장 반발
       }
 
       // 시간 경과
@@ -300,8 +306,14 @@ export default function EyeOfTime({
       setPosition(posRef.current);
 
       if (remaining <= 0) {
-        const centerRatio = centerFramesRef.current / totalFramesRef.current;
-        setResult(centerRatio >= 0.6 ? "perfect" : "good");
+        const inSafe = posRef.current >= p.safeStart && posRef.current <= p.safeEnd;
+        if (!inSafe) {
+          // 시간 종료 시 safe zone 밖이면 실패
+          setResult("miss");
+        } else {
+          const centerRatio = centerFramesRef.current / totalFramesRef.current;
+          setResult(centerRatio >= 0.6 ? "perfect" : "good");
+        }
         setIsPlaying(false);
         holdingRef.current = false;
         setIsHolding(false);
@@ -336,7 +348,10 @@ export default function EyeOfTime({
   const maxHandlePercent = ((rangeMax - fullMin) / fullRange) * 100;
 
   return (
-    <div className="absolute inset-0 z-[60] flex items-center justify-center">
+    <div
+      className="absolute inset-0 z-[60] flex items-center justify-center"
+      onPointerDown={phase === "balance" && !result ? startHold : undefined}
+    >
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
       <div className="relative w-full max-w-lg mx-4 flex flex-col items-center gap-6">
@@ -366,10 +381,7 @@ export default function EyeOfTime({
         {/* ════ Phase 1: 범위 선택 ════ */}
         {phase === "range" && (
           <div
-            className="w-full flex flex-col items-center gap-5 animate-in fade-in duration-300 touch-none select-none"
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
+            className="w-full flex flex-col items-center gap-5 animate-in fade-in duration-300 select-none"
           >
             {/* 선택된 범위 */}
             <div className="flex items-center gap-3 text-lg font-cinzel font-bold text-white">
@@ -397,10 +409,13 @@ export default function EyeOfTime({
               </span>
             </div>
 
-            {/* 듀얼 핸들 슬라이더 */}
+            {/* 듀얼 핸들 슬라이더 — 포인터 이벤트를 트랙에만 한정 */}
             <div
               ref={sliderRef}
-              className="relative w-full h-12"
+              className="relative w-full h-12 touch-none"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
             >
               <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-2 rounded-full bg-white/10" />
               <div
@@ -447,98 +462,36 @@ export default function EyeOfTime({
         )}
 
         {/* ════ Phase 2: 균형 유지 게임 ════ */}
-        {phase === "balance" && (
+        {phase === "balance" && !result && (
           <div
             className="w-full flex flex-col items-center select-none touch-none animate-in fade-in duration-300"
-            onClick={result ? handleResultTap : undefined}
-            onPointerDown={result ? undefined : startHold}
-            onPointerUp={result ? undefined : endHold}
-            onPointerLeave={result ? undefined : endHold}
           >
-            {/* 상단 텍스트 슬롯 — 고정 높이 */}
-            <div className="h-12 flex flex-col items-center justify-center">
-              {result === "perfect" && (
-                <span className="text-2xl font-serif font-black text-yellow-300 drop-shadow-[0_0_16px_rgba(250,204,21,0.6)] animate-in zoom-in-95 fade-in duration-400">
-                  PERFECT!
-                </span>
-              )}
-              {result === "good" && (
-                <span className="text-2xl font-serif font-black text-green-300 drop-shadow-[0_0_12px_rgba(74,222,128,0.4)] animate-in zoom-in-95 fade-in duration-400">
-                  GOOD
-                </span>
-              )}
-              {result === "miss" && (
-                <span className="text-2xl font-serif font-black text-red-300 drop-shadow-[0_0_12px_rgba(248,113,113,0.4)] animate-in zoom-in-95 fade-in duration-400">
-                  MISS
-                </span>
-              )}
-              {!result && !isPlaying && (
-                <span className="text-sm text-white/60 font-serif">
-                  균형 유지 — {getDifficultyParams(rangeWidth).label}
-                </span>
-              )}
-              {!result && isPlaying && (
-                <span className="text-xs text-white/50">
-                  {isHolding ? "누르는 중..." : "꾹 누르면 우측 가속"}
-                </span>
-              )}
+            {/* 난이도 라벨 */}
+            <div className="h-10 flex items-center justify-center">
+              <span className="text-sm text-white/60 font-serif">
+                균형 유지 — {getDifficultyParams(rangeWidth).label}
+              </span>
             </div>
 
-            {/* 부가 텍스트 슬롯 — 고정 높이 */}
-            <div className="h-5 flex items-center justify-center">
-              {result === "perfect" && (
-                <span className="text-xs text-yellow-200/60">완벽한 균형! 횃불 +1</span>
-              )}
-              {result === "good" && (
-                <span className="text-xs text-green-200/60">버텼다 — 자동 배치</span>
-              )}
-              {result === "miss" && (
-                <span className="text-xs text-red-200/60">
-                  {correctYear < rangeMin || correctYear > rangeMax
-                    ? "정답이 범위 밖이다..."
-                    : "균형을 잃었다..."}
-                </span>
-              )}
-              {!result && !isPlaying && (
-                <span className="text-[11px] text-white/35">
-                  꾹 누르면 우측 가속 · {getDifficultyParams(rangeWidth).duration}초 버티기
-                </span>
-              )}
-              {!result && isPlaying && !inSafeZone && (
-                <span className="text-[10px] text-orange-400/70 animate-pulse">위험 구간!</span>
-              )}
-            </div>
-
-            {/* 진행 바 — 항상 표시 */}
-            <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden mt-4">
+            {/* 진행 바 */}
+            <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden mt-2">
               <div
-                className={cn(
-                  "h-full rounded-full transition-none",
-                  result === "miss"
-                    ? "bg-red-500"
-                    : result
-                      ? "bg-green-500"
-                      : "bg-purple-500"
-                )}
+                className="h-full rounded-full transition-none bg-purple-500"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
 
-            {/* 타이머 슬롯 — 고정 높이 */}
+            {/* 타이머 */}
             <div className="h-5 flex items-center justify-center mt-1">
               {isPlaying && (
                 <span className="text-xs font-cinzel text-white/40">
                   {timeLeft.toFixed(1)}s
                 </span>
               )}
-              {result && (
-                <span className="text-xs text-white/30 animate-pulse">탭하여 계속</span>
-              )}
             </div>
 
-            {/* 게이지 바 — 항상 표시 */}
+            {/* 게이지 바 */}
             <div className="relative w-full h-16 rounded-xl bg-white/5 border border-white/10 overflow-hidden mt-2">
-              {/* 안전 존 배경 */}
               <div
                 className="absolute top-0 bottom-0 bg-green-500/10 border-x border-green-400/20"
                 style={{
@@ -546,27 +499,65 @@ export default function EyeOfTime({
                   width: `${(p.safeEnd - p.safeStart) * 100}%`,
                 }}
               />
-
-              {/* 중앙선 */}
               <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/10" />
-
-              {/* 바늘 */}
               <div
                 className={cn(
                   "absolute top-1 bottom-1 w-2 rounded-full transition-none -translate-x-1/2",
-                  result === "miss"
-                    ? "bg-red-400 shadow-[0_0_12px_rgba(248,113,113,0.6)]"
-                    : result === "perfect"
-                      ? "bg-yellow-400 shadow-[0_0_16px_rgba(250,204,21,0.8)]"
-                      : result === "good"
-                        ? "bg-green-400 shadow-[0_0_12px_rgba(74,222,128,0.6)]"
-                        : inSafeZone
-                          ? "bg-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.6)]"
-                          : "bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.6)]"
+                  inSafeZone
+                    ? "bg-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.6)]"
+                    : "bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.6)]"
                 )}
                 style={{ left: `${position * 100}%` }}
               />
             </div>
+          </div>
+        )}
+
+        {/* ════ 결과 모달 ════ */}
+        {phase === "balance" && result && (
+          <div className="flex flex-col items-center gap-4 animate-in zoom-in-95 fade-in duration-300">
+            {/* 결과 라벨 */}
+            {result === "perfect" && (
+              <span className="text-4xl font-serif font-black text-yellow-300 drop-shadow-[0_0_20px_rgba(250,204,21,0.6)]">
+                PERFECT!
+              </span>
+            )}
+            {result === "good" && (
+              <span className="text-4xl font-serif font-black text-green-300 drop-shadow-[0_0_16px_rgba(74,222,128,0.4)]">
+                GOOD
+              </span>
+            )}
+            {result === "miss" && (
+              <span className="text-4xl font-serif font-black text-red-300 drop-shadow-[0_0_16px_rgba(248,113,113,0.4)]">
+                MISS
+              </span>
+            )}
+
+            {/* 정답 안내 */}
+            <p className="text-sm text-white/70 text-center leading-relaxed mt-1">
+              <span className="font-bold text-white/90">{celebName}</span>
+              은(는){" "}
+              <span className="font-bold text-accent">{formatYear(correctYear)}</span>
+              {" "}사람이다.
+            </p>
+
+            {result === "perfect" && (
+              <span className="text-xs text-yellow-200/50">횃불 +1</span>
+            )}
+
+            <button
+              onClick={handleResultTap}
+              className={cn(
+                "mt-3 px-8 py-3 rounded-xl font-serif font-bold text-base transition-all active:scale-95 border",
+                result === "perfect"
+                  ? "bg-yellow-600/30 hover:bg-yellow-500/40 border-yellow-400/30 text-yellow-200"
+                  : result === "good"
+                    ? "bg-green-600/30 hover:bg-green-500/40 border-green-400/30 text-green-200"
+                    : "bg-red-600/30 hover:bg-red-500/40 border-red-400/30 text-red-200"
+              )}
+            >
+              계속
+            </button>
           </div>
         )}
       </div>

@@ -1,0 +1,38 @@
+[File Not Found] File: book.json, List: BOOK_READING_HISTORY_TIMELINE, ID: silent_reading, Name: 묵독의 등장, Path: /images/scriptures/book/typography/04_placeholder.png
+[File Not Found] File: book.json, List: BOOK_READING_HISTORY_TIMELINE, ID: hypertext_reading, Name: 하이퍼텍스트, Path: /images/scriptures/book/typography/08_placeholder.png
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: serif, Name: 세리프
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: sans_serif, Name: 산세리프
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: slab_serif, Name: 슬랩 세리프
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: script, Name: 스크립트
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: display, Name: 디스플레이
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: monospace, Name: 모노스페이스
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: blackletter, Name: 블랙레터
+[Missing imageUrl Field] File: book.json, List: TYPOGRAPHY_CLASSES, ID: hangul, Name: 한글 서체
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: oral_reading, Name: 음독
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: silent_reading, Name: 묵독
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: intensive, Name: 정독
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: speed_reading, Name: 속독
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: extensive, Name: 다독
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: transcription, Name: 필사
+[Missing imageUrl Field] File: book.json, List: READING_METHODS, ID: digital, Name: 디지털 독서
+[File Not Found] File: video.json, List: VIDEO_TECH_HISTORY_TIMELINE, ID: editing_montage, Name: 편집과 몽타주, Path: /images/scriptures/video/technique/02_placeholder.png
+[Missing imageUrl Field] File: video.json, List: VIDEO_TECH_HISTORY_TIMELINE, ID: virtual_production, Name: 버추얼 프로덕션
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: bone_drum, Name: 원시 악기, Path: /images/scriptures/music/instrument/01_bone_drum.png
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: eastern_western, Name: 동서양 악기, Path: /images/scriptures/music/instrument/02_eastern_western.png
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: luthier, Name: 현악기, Path: /images/scriptures/music/instrument/03_luthier.png
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: piano, Name: 건반악기, Path: /images/scriptures/music/instrument/04_piano.png
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: brass_wind, Name: 금관악기, Path: /images/scriptures/music/instrument/05_brass_wind.png
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: electric, Name: 일렉트릭 기타, Path: /images/scriptures/music/instrument/06_electric.png
+[File Not Found] File: music.json, List: MUSIC_INST_HISTORY_TIMELINE, ID: synthesizer, Name: 신시사이저, Path: /images/scriptures/music/instrument/07_synthesizer.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: ritual_square, Name: 제의와 광장, Path: /images/scriptures/music/experience/01_ritual_square.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: cathedral_court, Name: 성당·장터·궁정, Path: /images/scriptures/music/experience/02_cathedral_court.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: concert_hall, Name: 콘서트홀, Path: /images/scriptures/music/experience/03_concert_hall.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: cabaret_jazz, Name: 재즈 클럽, Path: /images/scriptures/music/experience/04_cabaret_jazz.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: festival_stadium, Name: 페스티벌, Path: /images/scriptures/music/experience/05_festival_stadium.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: club_dj, Name: 클럽과 DJ, Path: /images/scriptures/music/experience/06_club_dj.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: portable, Name: 개인 청취, Path: /images/scriptures/music/experience/07_portable.png
+[File Not Found] File: music.json, List: MUSIC_EXP_HISTORY_TIMELINE, ID: algorithm, Name: 스트리밍, Path: /images/scriptures/music/experience/08_algorithm.png
+[Missing imageUrl Field] File: music.json, List: MUSIC_HISTORY_TIMELINE, ID: live_music, Name: 생음악
+[Missing imageUrl Field] File: game.json, List: GAME_HISTORY_TIMELINE, ID: home_console, Name: 가정용 콘솔
+[Missing imageUrl Field] File: game.json, List: GAME_HISTORY_TIMELINE, ID: handheld_mobile, Name: 휴대용과 모바일
+[Missing imageUrl Field] File: game.json, List: GAME_HISTORY_TIMELINE, ID: online_vr_cloud, Name: 온라인 · VR · 클라우드

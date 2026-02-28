@@ -7,7 +7,7 @@
 "use client";
 
 import Image from "next/image";
-import { HelpCircle } from "lucide-react";
+import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
@@ -17,6 +17,7 @@ interface DawnBoardCardProps {
   year: string;
   profession?: string | null;
   isHighlighted?: boolean;
+  isNewlyPlaced?: boolean;
   onInfoClick?: () => void;
   className?: string;
 }
@@ -27,17 +28,34 @@ export default function DawnBoardCard({
   year,
   profession,
   isHighlighted,
+  isNewlyPlaced,
   onInfoClick,
   className,
 }: DawnBoardCardProps) {
   return (
-    <div className={cn(
-      "group flex flex-col overflow-hidden rounded-xl border-2 shadow-lg shadow-black/40 transition-all duration-500",
-      isHighlighted
-        ? "border-accent shadow-[0_0_16px_rgba(212,175,55,0.4)]"
-        : "border-accent/40",
-      className
-    )}>
+    <div
+      data-board-card
+      className={cn(
+        "group relative flex flex-col overflow-hidden rounded-xl border-2 shadow-lg shadow-black/40 transition-all duration-500",
+        isNewlyPlaced
+          ? "border-accent shadow-[0_0_20px_rgba(212,175,55,0.5)]"
+          : isHighlighted
+            ? "border-accent shadow-[0_0_16px_rgba(212,175,55,0.4)]"
+            : "border-accent/40",
+        className
+      )}
+    >
+      {/* 우상단 인포 아이콘 */}
+      {onInfoClick && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onInfoClick(); }}
+          className="absolute top-1 right-1 z-10 w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full bg-black/60 border border-white/20 text-white/60 hover:text-white hover:bg-black/80 transition-colors"
+        >
+          <Info size={12} className="md:hidden" />
+          <Info size={14} className="hidden md:block" />
+        </button>
+      )}
+
       {/* 이미지 — 모바일: 정사각형 / 데스크탑: 3:4 */}
       <div className="relative aspect-square md:aspect-[3/4] w-full overflow-hidden">
         {imageUrl ? (
@@ -54,17 +72,6 @@ export default function DawnBoardCard({
               {name.charAt(0)}
             </span>
           </div>
-        )}
-
-        {/* 인물 정보 버튼 */}
-        {onInfoClick && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onInfoClick(); }}
-            className="absolute top-0.5 end-0.5 md:top-1 md:end-1 z-20 w-5 h-5 md:w-6 md:h-6 rounded-full bg-black/40 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white/40 hover:text-white hover:bg-black/60 active:scale-90 transition-all"
-          >
-            <HelpCircle size={11} className="md:hidden" />
-            <HelpCircle size={13} className="hidden md:block" />
-          </button>
         )}
       </div>
 

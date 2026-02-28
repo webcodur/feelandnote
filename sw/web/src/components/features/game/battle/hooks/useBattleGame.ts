@@ -7,7 +7,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { BattleCard, GameState, Command, DraftState, Mandate, RoundAction, Difficulty } from "@/lib/game/types";
-import { INITIAL_POWER, INITIAL_MORALE, MANDATE_POOL } from "@/lib/game/types";
+import { INITIAL_POWER, INITIAL_MORALE, MANDATE_POOL, COMMANDS } from "@/lib/game/types";
 import { executeRound, calcAptitudeWithCaptain, applyCounter, getCounterResult } from "@/lib/game/gameEngine";
 import { aiSelectRound, aiSelectCaptain } from "@/lib/game/aiPlayer";
 import { buildDraftPool, aiDraftPick } from "@/lib/game/deckBuilder";
@@ -225,7 +225,10 @@ export function useBattleGame() {
 
     while (round <= DRAFT_ROUNDS) {
       const pickedIds = new Set([...playerPicks.map((c) => c.id), ...aiPicks.map((c) => c.id)]);
-      const available = prev.draft.pool.filter((c) => !pickedIds.has(c.id));
+      // 수동 드래프트와 동일하게 현재 배치(3장)에서만 선택
+      const { start, end } = getDraftBatch(round, prev.draft.pool.length);
+      const batchCards = prev.draft.pool.slice(start, end);
+      const available = batchCards.filter((c) => !pickedIds.has(c.id));
       if (available.length === 0) break;
 
       const picker = getPickerForRound(round, prev.difficulty);
@@ -294,22 +297,40 @@ export function useBattleGame() {
 
     const mandate = getCurrentMandate(prev);
 
-    // AI 동시 선택
-    const aiChoice = aiSelectRound({
-      hand: prev.aiHand,
-      aiNation: prev.aiNation,
-      playerNation: prev.playerNation,
-      playerHand: prev.playerHand,
-      aiDiscard: prev.aiDiscard,
-      roundRecords: prev.roundRecords,
-      currentRound: prev.currentRound,
-      mandateCommand: mandate?.command,
-      aiCaptainId: prev.aiCaptainId,
-    });
+    // AI 패 소진 시 버린패에서 랜덤 1장 징집
+    let effectiveAiHand = prev.aiHand;
+    let effectiveAiDiscard = prev.aiDiscard;
+    let aiCard: BattleCard | undefined;
+    let aiChoice: { cardId: string; command: Command; recoverId?: string };
 
-    const aiCard = prev.aiHand.find((c) => c.id === aiChoice.cardId);
+    if (effectiveAiHand.length > 0) {
+      aiChoice = aiSelectRound({
+        hand: effectiveAiHand,
+        aiNation: prev.aiNation,
+        playerNation: prev.playerNation,
+        playerHand: prev.playerHand,
+        aiDiscard: effectiveAiDiscard,
+        roundRecords: prev.roundRecords,
+        currentRound: prev.currentRound,
+        mandateCommand: mandate?.command,
+        aiCaptainId: prev.aiCaptainId,
+      });
+      aiCard = effectiveAiHand.find((c) => c.id === aiChoice.cardId);
+    } else if (effectiveAiDiscard.length > 0) {
+      // AI 손패 소진: 버린패에서 랜덤 1장 징집
+      const idx = Math.floor(Math.random() * effectiveAiDiscard.length);
+      const conscript = effectiveAiDiscard[idx];
+      aiCard = conscript;
+      aiChoice = {
+        cardId: conscript.id,
+        command: COMMANDS[Math.floor(Math.random() * COMMANDS.length)],
+      };
+      effectiveAiHand = [conscript];
+      effectiveAiDiscard = effectiveAiDiscard.filter((_, i) => i !== idx);
+    } else {
+      aiChoice = { cardId: "", command: "assault" };
+    }
 
-    // AI가 카드를 낼 수 없으면 (손패 소진) → 즉시 결과 화면으로
     if (!aiCard) {
       setState((s) => ({ ...s, phase: "result" }));
       return;
@@ -317,7 +338,7 @@ export function useBattleGame() {
 
     // 적성 + 주장 오라 + 상성 보정 계산
     const pCaptainInHand = !!prev.playerCaptainId && prev.playerHand.some(c => c.id === prev.playerCaptainId);
-    const aCaptainInHand = !!prev.aiCaptainId && prev.aiHand.some(c => c.id === prev.aiCaptainId);
+    const aCaptainInHand = !!prev.aiCaptainId && effectiveAiHand.some(c => c.id === prev.aiCaptainId);
     const pRawApt = calcAptitudeWithCaptain(playerCard, command, prev.playerCaptainId, pCaptainInHand);
     const aRawApt = calcAptitudeWithCaptain(aiCard, aiChoice.command, prev.aiCaptainId, aCaptainInHand);
     const pMandateBonus = mandate?.command === command;
@@ -354,6 +375,110 @@ export function useBattleGame() {
       ...s,
       battleSubPhase: "clashing",
       pendingRound: { playerAction, aiAction },
+      // AI 징집 시 손패/버린패 반영
+      aiHand: effectiveAiHand,
+      aiDiscard: effectiveAiDiscard,
+    }));
+  }, []);
+
+  // ─── 배틀: 유저 패 소진 시 "한 턴 쉬기" 제출 ───
+  const submitRestRound = useCallback(() => {
+    const prev = stateRef.current;
+    if (prev.phase !== "battle" || prev.battleSubPhase !== "selecting") return;
+    if (prev.playerHand.length > 0) return; // 패가 있으면 일반 제출 사용
+    if (prev.playerDiscard.length === 0) {
+      setState((s) => ({ ...s, phase: "result" }));
+      return;
+    }
+
+    // 유저 버린패에서 랜덤 1장 징집
+    const pIdx = Math.floor(Math.random() * prev.playerDiscard.length);
+    const playerConscript = prev.playerDiscard[pIdx];
+    const playerCommand = COMMANDS[Math.floor(Math.random() * COMMANDS.length)];
+    const effectivePlayerHand = [playerConscript];
+    const effectivePlayerDiscard = prev.playerDiscard.filter((_, i) => i !== pIdx);
+
+    const mandate = getCurrentMandate(prev);
+
+    // AI 측 처리 (AI도 패 소진 가능)
+    let effectiveAiHand = prev.aiHand;
+    let effectiveAiDiscard = prev.aiDiscard;
+    let aiCard: BattleCard | undefined;
+    let aiChoice: { cardId: string; command: Command; recoverId?: string };
+
+    if (effectiveAiHand.length > 0) {
+      aiChoice = aiSelectRound({
+        hand: effectiveAiHand,
+        aiNation: prev.aiNation,
+        playerNation: prev.playerNation,
+        playerHand: effectivePlayerHand,
+        aiDiscard: effectiveAiDiscard,
+        roundRecords: prev.roundRecords,
+        currentRound: prev.currentRound,
+        mandateCommand: mandate?.command,
+        aiCaptainId: prev.aiCaptainId,
+      });
+      aiCard = effectiveAiHand.find((c) => c.id === aiChoice.cardId);
+    } else if (effectiveAiDiscard.length > 0) {
+      const idx = Math.floor(Math.random() * effectiveAiDiscard.length);
+      const conscript = effectiveAiDiscard[idx];
+      aiCard = conscript;
+      aiChoice = {
+        cardId: conscript.id,
+        command: COMMANDS[Math.floor(Math.random() * COMMANDS.length)],
+      };
+      effectiveAiHand = [conscript];
+      effectiveAiDiscard = effectiveAiDiscard.filter((_, i) => i !== idx);
+    } else {
+      aiChoice = { cardId: "", command: "assault" };
+    }
+
+    if (!aiCard) {
+      setState((s) => ({ ...s, phase: "result" }));
+      return;
+    }
+
+    // 적성 계산
+    const pCaptainInHand = !!prev.playerCaptainId && effectivePlayerHand.some(c => c.id === prev.playerCaptainId);
+    const aCaptainInHand = !!prev.aiCaptainId && effectiveAiHand.some(c => c.id === prev.aiCaptainId);
+    const pRawApt = calcAptitudeWithCaptain(playerConscript, playerCommand, prev.playerCaptainId, pCaptainInHand);
+    const aRawApt = calcAptitudeWithCaptain(aiCard, aiChoice.command, prev.aiCaptainId, aCaptainInHand);
+    const pMandateBonus = mandate?.command === playerCommand;
+    const aMandateBonus = mandate?.command === aiChoice.command;
+    const pApt = pMandateBonus ? pRawApt * 1.5 : pRawApt;
+    const aApt = aMandateBonus ? aRawApt * 1.5 : aRawApt;
+
+    const counterResult = getCounterResult(playerCommand, aiChoice.command);
+    const { myMul: pMul, oppMul: aMul } = applyCounter(counterResult, pApt, aApt);
+
+    const playerAction: RoundAction = {
+      cardId: playerConscript.id,
+      command: playerCommand,
+      card: playerConscript,
+      aptitude: pApt,
+      mandateBonus: !!pMandateBonus,
+      effectiveAptitude: pApt * pMul,
+    };
+
+    const aiAction: RoundAction = {
+      cardId: aiChoice.cardId,
+      command: aiChoice.command,
+      recoverId: aiChoice.recoverId,
+      card: aiCard,
+      aptitude: aApt,
+      mandateBonus: !!aMandateBonus,
+      effectiveAptitude: aApt * aMul,
+    };
+
+    phaseEnteredAt.current = Date.now();
+    setState((s) => ({
+      ...s,
+      battleSubPhase: "clashing",
+      pendingRound: { playerAction, aiAction },
+      playerHand: effectivePlayerHand,
+      playerDiscard: effectivePlayerDiscard,
+      aiHand: effectiveAiHand,
+      aiDiscard: effectiveAiDiscard,
     }));
   }, []);
 
@@ -367,6 +492,47 @@ export function useBattleGame() {
     if (elapsed < MIN_PHASE_MS) return "blocked";
 
     if (cur.battleSubPhase !== "clashing" || !cur.pendingRound) return null;
+
+    const { playerAction: pa, aiAction: aa } = cur.pendingRound;
+    const counterResult = getCounterResult(pa.command, aa.command);
+
+    // ─── draw 시 일기토 여부 판정 ───
+    // 적성 차이가 작을수록 일기토 확률 ↑ (차이 0 → 80%, 차이 30+ → 10%)
+    if (counterResult === "draw") {
+      const pCaptainInHand = !!cur.playerCaptainId && cur.playerHand.some(c => c.id === cur.playerCaptainId);
+      const aCaptainInHand = !!cur.aiCaptainId && cur.aiHand.some(c => c.id === cur.aiCaptainId);
+      const pApt = calcAptitudeWithCaptain(pa.card, pa.command, cur.playerCaptainId, pCaptainInHand);
+      const aApt = calcAptitudeWithCaptain(aa.card, aa.command, cur.aiCaptainId, aCaptainInHand);
+      const gap = Math.abs(pApt - aApt);
+      // 차이 0→80%, 10→60%, 20→40%, 30+→10%
+      const duelChance = Math.max(0.1, 0.8 - gap * 0.023);
+
+      if (Math.random() < duelChance) {
+        setState((s) => ({ ...s, battleSubPhase: "dueling" }));
+        return null;
+      }
+      // 일기토 불발 → 적성 비교로 통상 결산
+    }
+
+    return resolvePendingRound(cur);
+  }, []);
+
+  /** 일기토 결과 → 라운드 결산 (draw 배수를 일기토 승자에 따라 결정) */
+  const completeDuel = useCallback((winner: "player" | "ai" | "draw") => {
+    const cur = stateRef.current;
+    if (cur.battleSubPhase !== "dueling" || !cur.pendingRound) return;
+
+    // 일기토 결과에 따라 applyCounter의 draw 분기를 오버라이드
+    duelWinnerRef.current = winner;
+    resolvePendingRound(cur);
+    duelWinnerRef.current = null;
+  }, []);
+
+  const duelWinnerRef = useRef<"player" | "ai" | "draw" | null>(null);
+
+  /** 공통 라운드 결산 로직 */
+  const resolvePendingRound = useCallback((cur: GameState) => {
+    if (!cur.pendingRound) return null;
 
     const { playerAction: pa, aiAction: aa } = cur.pendingRound;
     const curMandate = getCurrentMandate(cur);
@@ -388,6 +554,7 @@ export function useBattleGame() {
       mandateCommand: curMandate?.command,
       playerCaptainId: cur.playerCaptainId,
       aiCaptainId: cur.aiCaptainId,
+      duelWinner: duelWinnerRef.current,
     });
 
     const gameOver = result.newPlayerNation.power <= 0 || result.newAiNation.power <= 0;
@@ -417,7 +584,22 @@ export function useBattleGame() {
       if (s.battleSubPhase !== "resolving") return s;
       if (s.phase === "result") return s; // 게임 종료 시 무시
 
-      // 손패 소진 시 버린패에서 랜덤 1장 자동 회수
+      const nextRound = s.currentRound + 1;
+      return {
+        ...s,
+        currentRound: nextRound,
+        mandateIndex: nextRound - 1,
+        battleSubPhase: "selecting" as const,
+        pendingRound: null,
+      };
+    });
+  }, []);
+
+  // ─── 휴식 턴 종료 → 버린패 전체 회수 ───
+  const advanceRest = useCallback(() => {
+    setState((s) => {
+      if (s.battleSubPhase !== "resting") return s;
+
       let playerHand = s.playerHand;
       let playerDiscard = s.playerDiscard;
       let aiHand = s.aiHand;
@@ -434,13 +616,9 @@ export function useBattleGame() {
         aiDiscard = aiDiscard.filter((_, i) => i !== idx);
       }
 
-      const nextRound = s.currentRound + 1;
       return {
         ...s,
-        currentRound: nextRound,
-        mandateIndex: nextRound - 1,
         battleSubPhase: "selecting" as const,
-        pendingRound: null,
         playerHand,
         playerDiscard,
         aiHand,
@@ -464,8 +642,11 @@ export function useBattleGame() {
     confirmDraft,
     selectCaptain,
     submitRound,
+    submitRestRound,
     advanceBattle,
     advanceRound,
+    advanceRest,
+    completeDuel,
     reset,
   };
 }

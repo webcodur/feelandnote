@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/shared/GameShell.tsx
   기능: 게임 공통 래퍼
-  책임: GameFullScreen + 게이트(진입 버튼) + 배경 + 로비/게임 전환 + 브레드크럼 + highScore 관리.
+  책임: GameFullScreen + 게이트(진입 버튼) + 배경 + 로비/게임 전환 + 브레드크럼.
         config(상수)만 교체하면 미궁·여명 등 다양한 게임에 재사용 가능.
 */
 "use client";
@@ -15,9 +15,8 @@ interface GameShellConfig {
   gateIcon: ReactNode;
   gateSubtitle: string;
   phaseLabels: Record<string, string>;
-  highScoreKey: string;
   Background: ComponentType<{ className?: string; phase?: string }>;
-  Lobby: ComponentType<{ highScore: number; onStart: (...args: any[]) => void }>;
+  Lobby: ComponentType<{ onStart: (...args: any[]) => void; onExit: () => void }>;
   Game: ComponentType<{
     onEnterFullScreen?: () => void;
     onHomeRef?: React.MutableRefObject<(() => void) | null>;
@@ -32,32 +31,13 @@ interface GameShellConfig {
   onExitFullScreenExternal?: () => void;
 }
 
-export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabels, highScoreKey, Background, Lobby, Game, footerExtra, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig) {
+export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig) {
   const homeRef = useRef<(() => void) | null>(null);
   const startRef = useRef<((...args: any[]) => void) | null>(null);
   const enterFullScreenRef = useRef<(() => void) | null>(null);
+  const exitFullScreenRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
-  const [highScore, setHighScore] = useState(0);
   const [gateEntered, setGateEntered] = useState(false);
-
-  // mount 시 highScore 로드
-  useEffect(() => {
-    const saved = localStorage.getItem(highScoreKey);
-    if (saved) setHighScore(parseInt(saved, 10));
-  }, [highScoreKey]);
-
-  // idle 복귀 시 highScore 갱신
-  useEffect(() => {
-    if (phase === "idle") {
-      const saved = localStorage.getItem(highScoreKey);
-      if (saved) setHighScore(parseInt(saved, 10));
-    }
-  }, [phase, highScoreKey]);
-
-  // phase 변화 시 외부 콜백 (게이트 진입 후에만)
-  useEffect(() => {
-    if (gateEntered) onPhaseChangeExternal?.(phase);
-  }, [phase, gateEntered, onPhaseChangeExternal]);
 
   const handleHome = useCallback(() => {
     homeRef.current?.();
@@ -72,6 +52,21 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
     setGateEntered(true);
     enterFullScreenRef.current?.();
   }, []);
+
+  // 게이트 화면 Enter 키 입장
+  useEffect(() => {
+    if (gateEntered) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleEnterGate(); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [gateEntered, handleEnterGate]);
+
+  // phase 변화 시 외부 콜백 (게이트 진입 후에만)
+  useEffect(() => {
+    if (gateEntered) onPhaseChangeExternal?.(phase);
+  }, [phase, gateEntered, onPhaseChangeExternal]);
 
   const handleExitFullScreen = useCallback(() => {
     onExitFullScreenExternal?.();
@@ -97,26 +92,27 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
       onExitFullScreen={handleExitFullScreen}
       background={<Background phase={phase} />}
     >
-      {({ enterFullScreen }) => {
+      {({ enterFullScreen, exitFullScreen }) => {
         enterFullScreenRef.current = enterFullScreen;
+        exitFullScreenRef.current = exitFullScreen;
 
         if (!gateEntered) {
           return (
             <div className="max-w-md mx-auto flex flex-col items-center text-center">
-              <div className="w-full max-w-sm flex flex-col items-center gap-6 py-8 bg-black/80 rounded-xl px-6">
-                <div className="space-y-2">
+              <div className="w-full max-w-xs flex flex-col items-center gap-4 py-6 bg-bg-main/95 backdrop-blur-md rounded-xl px-5 border border-white/[0.06]">
+                <div className="space-y-1.5">
                   {gateIcon}
-                  <h2 className="text-2xl font-serif font-black text-white">{gameName}</h2>
-                  <p className="text-sm text-text-secondary">{gateSubtitle}</p>
+                  <h2 className="text-xl font-serif font-black text-white">{gameName}</h2>
+                  <p className="text-xs text-text-secondary">{gateSubtitle}</p>
                 </div>
                 <button
                   onClick={handleEnterGate}
-                  className="flex items-center gap-2 px-8 py-4 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
                 >
-                  <Volume2 size={18} className="text-accent" />
-                  <span className="font-serif font-bold text-accent text-lg">게임 입장</span>
+                  <Volume2 size={16} className="text-accent" />
+                  <span className="font-serif font-bold text-accent text-base">게임 입장</span>
                 </button>
-                <p className="text-[10px] text-white/50">사운드와 함께 진행됩니다</p>
+                <p className="text-[9px] text-white/50">사운드와 함께 진행됩니다</p>
               </div>
             </div>
           );
@@ -125,9 +121,9 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
         return (
           <>
             {phase === "idle" && (
-              <Lobby highScore={highScore} onStart={handleStart} />
+              <Lobby onStart={handleStart} onExit={() => exitFullScreenRef.current?.()} />
             )}
-            <div className={phase === "idle" ? "hidden" : ""}>
+            <div className={`flex-1 flex flex-col w-full ${phase === "idle" ? "hidden" : ""}`}>
               <Game
                 onEnterFullScreen={enterFullScreen}
                 onHomeRef={homeRef}

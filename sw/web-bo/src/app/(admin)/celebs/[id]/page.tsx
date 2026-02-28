@@ -114,7 +114,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
       )}
 
       {/* Dialogue Lines */}
-      <DialogueSection lines={dialogueLines} />
+      <DialogueSection lines={dialogueLines} speechTone={celeb.speech_tone} />
 
       {/* Account Info */}
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
@@ -132,6 +132,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
 // #region DialogueSection
 const DIALOGUE_TYPE_LABELS: Record<string, string> = {
+  greeting: '인사',
   select: '선택 시',
   deploy: '출전 시',
   battle_win: '승리',
@@ -140,28 +141,49 @@ const DIALOGUE_TYPE_LABELS: Record<string, string> = {
   clash_attack: '공격',
 }
 
-function DialogueSection({ lines }: { lines: DialogueLines | null }) {
+const TONE_LABELS: Record<string, string> = {
+  loyal: '충의',
+  composed: '침착',
+  bold: '당돌',
+  humble: '겸양',
+  gentle: '온화',
+  free: '호방',
+}
+
+function DialogueSection({ lines, speechTone }: { lines: DialogueLines | null; speechTone?: string | null }) {
+  const toneLabel = speechTone ? TONE_LABELS[speechTone] || speechTone : null
+
   if (!lines) {
     return (
       <div className="bg-bg-card border border-border rounded-lg p-6 space-y-2">
         <div className="flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-text-secondary" />
           <h3 className="text-lg font-semibold text-text-primary">고유 대사</h3>
+          {toneLabel && (
+            <span className="px-2 py-0.5 rounded text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              말투: {toneLabel}
+            </span>
+          )}
         </div>
         <p className="text-sm text-text-secondary">등록된 고유 대사가 없습니다. 공통 대사를 사용합니다.</p>
       </div>
     )
   }
 
-  const types = ['select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
+  const types = ['greeting', 'select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
 
   return (
     <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
       <div className="flex items-center gap-2">
         <MessageSquare className="w-5 h-5 text-accent" />
         <h3 className="text-lg font-semibold text-text-primary">고유 대사</h3>
+        {toneLabel && (
+          <span className="px-2 py-0.5 rounded text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            말투: {toneLabel}
+          </span>
+        )}
         <span className="text-xs text-text-secondary ml-auto">
-          {Object.values(lines).flat().filter(l => l?.trim()).length}/18
+          {Object.values(lines).flat().filter(l => l?.trim()).length}/21
         </span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

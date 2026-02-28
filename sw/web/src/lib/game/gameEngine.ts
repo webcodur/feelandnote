@@ -121,6 +121,8 @@ export interface ExecuteRoundParams {
   mandateCommand?: Command;
   playerCaptainId?: string | null;
   aiCaptainId?: string | null;
+  /** 일기토 승자. draw 시 applyCounter 대신 이 결과로 배수 결정 */
+  duelWinner?: "player" | "ai" | "draw" | null;
 }
 
 export interface ExecuteRoundResult {
@@ -161,7 +163,20 @@ export function executeRound(params: ExecuteRoundParams): ExecuteRoundResult {
 
   // 2. 상성 판정 + 이진 효과 배수
   const counterResult = getCounterResult(params.playerCommand, params.aiCommand);
-  const { myMul: pMul, oppMul: aMul } = applyCounter(counterResult, pApt, aApt);
+  let pMul: number, aMul: number;
+
+  // 일기토 결과가 있으면 draw 배수를 오버라이드
+  if (counterResult === "draw" && params.duelWinner) {
+    if (params.duelWinner === "player") {
+      pMul = 1.0; aMul = 0;
+    } else if (params.duelWinner === "ai") {
+      pMul = 0; aMul = 1.0;
+    } else {
+      pMul = 0.5; aMul = 0.5;
+    }
+  } else {
+    ({ myMul: pMul, oppMul: aMul } = applyCounter(counterResult, pApt, aApt));
+  }
 
   // 3. 양쪽 명령 동시 결산
   const pResult = resolveCommand({
@@ -301,6 +316,7 @@ export function executeRound(params: ExecuteRoundParams): ExecuteRoundResult {
       player: { power: newPlayerPower, morale: newPlayerMorale },
       ai: { power: newAiPower, morale: newAiMorale },
     },
+    duelWinner: params.duelWinner ?? null,
   };
 
   return {

@@ -55,9 +55,10 @@ export default function HegemonyGame({ bgImages }: Props) {
       onHome={handleHome}
       background={<GameBackground phase={phase} playerWins={playerWins} bgImages={bgImages} />}
     >
-      {({ enterFullScreen, isFullScreen }) => (
+      {({ enterFullScreen, exitFullScreen, isFullScreen }) => (
         <BattleGame
           onEnterFullScreen={enterFullScreen}
+          onExitFullScreen={exitFullScreen}
           onHomeRef={homeRef}
           onPhaseChange={setPhase}
           onPlayerWinsChange={setPlayerWins}

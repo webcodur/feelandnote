@@ -46,12 +46,15 @@ interface Props {
   isCaptain?: boolean;
   /** 주장 배지 클릭 시 설명 모달 */
   onCaptainInfo?: () => void;
+  /** 하단 정보 섹션을 대체할 커스텀 슬롯 */
+  footerSlot?: React.ReactNode;
 }
 
 export default function BattleCard({
   card, onClick, disabled, onInfo, selected, faceDown,
   pickedBy, mode = "draft", activeCommand, compact,
   targetable, targeted, masked, isCaptain, onCaptainInfo,
+  footerSlot,
 }: Props) {
   if (faceDown) {
     return (
@@ -152,13 +155,15 @@ export default function BattleCard({
         )}
       </div>
 
-      {/* ── 수식어 + 이름 (이미지 하단 분리) ── */}
-      <div className="bg-gradient-to-b from-[#1a1714] to-[#141210] border-t border-amber-500/10 px-1.5 py-1 text-center">
-        {card.title && (
-          <p className="text-[7px] @min-[120px]:text-[9px] font-cinzel font-bold text-amber-500 tracking-widest uppercase truncate leading-tight">{card.title}</p>
-        )}
-        <p className="text-[10px] @min-[120px]:text-xs font-sans font-bold text-white truncate leading-tight">{card.nickname}</p>
-      </div>
+      {/* ── 하단: footerSlot 또는 기본 정보 ── */}
+      {footerSlot || (
+        <div className="bg-gradient-to-b from-[#1a1714] to-[#141210] border-t border-amber-500/10 px-1.5 py-1 text-center">
+          {card.title && (
+            <p className="text-[7px] @min-[120px]:text-[9px] font-cinzel font-bold text-amber-500 tracking-widest uppercase truncate leading-tight">{card.title}</p>
+          )}
+          <p className="text-[10px] @min-[120px]:text-xs font-sans font-bold text-white truncate leading-tight">{card.nickname}</p>
+        </div>
+      )}
 
       {/* ── 2행: 명령 아이콘 + 3행: 적성 수치 ── */}
       {!compact && (

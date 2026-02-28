@@ -38,7 +38,6 @@ export default function DawnGameWrapper({ bgImages }: Props) {
       gateIcon={<Clock size={40} className="mx-auto text-accent/60" />}
       gateSubtitle="시간 순서 정렬 게임"
       phaseLabels={PHASE_LABELS}
-      highScoreKey="dawn-highscore"
       Background={Background}
       Lobby={DawnLobby}
       Game={DawnGame}

@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/tracker/TrackerCard.tsx
   기능: 미궁(Tracker) 게임 전용 카드 UI
-  디자인: 원형 이미지 + 이름, 선택/정답/오답/배제 상태, 배제용 X 뱃지
+  디자인: 원형 이미지 + 이름, 선택/발각/도주/배제 상태, 배제용 X 뱃지
 */
 "use client";
 
@@ -13,8 +13,7 @@ interface TrackerCardProps {
   imageUrl?: string | null;
   name: string;
   status?: "normal" | "win" | "lose" | "selected" | "eliminated";
-  onClick?: () => void;
-  onEliminate?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   className?: string;
 }
 
@@ -23,7 +22,6 @@ export default function TrackerCard({
   name,
   status = "normal",
   onClick,
-  onEliminate,
   className,
 }: TrackerCardProps) {
   const borderClass = {
@@ -92,16 +90,7 @@ export default function TrackerCard({
           )}
         </div>
 
-        {/* 배제 X 뱃지 — 우상단 */}
-        {onEliminate && status !== "eliminated" && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onEliminate(); }}
-            className="absolute -top-0.5 -right-0.5 z-30 flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-full bg-[#1a0a0a] border border-red-500/40 text-red-400 hover:bg-red-900 hover:border-red-500/60 active:scale-75 transition-all duration-150 shadow-lg shadow-black/50"
-          >
-            <X size={12} strokeWidth={3} />
-          </button>
-        )}
+
       </div>
 
       {/* 이름 */}

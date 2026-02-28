@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
 export interface DialogueLines {
+  greeting: [string, string, string]
   select: [string, string, string]
   deploy: [string, string, string]
   battle_win: [string, string, string]
@@ -32,8 +33,7 @@ export async function getCelebsForDialogueEdit(
   const { data, error, count } = await supabase
     .from('profiles')
     .select(
-      `id, nickname, avatar_url, profession,
-       celeb_persona(speech_tone),
+      `id, nickname, avatar_url, profession, speech_tone,
        celeb_dialogues(lines)`,
       { count: 'exact' },
     )
@@ -46,9 +46,6 @@ export async function getCelebsForDialogueEdit(
   if (error) throw error
 
   const celebs: CelebDialogueItem[] = (data || []).map((row) => {
-    const persona = Array.isArray(row.celeb_persona)
-      ? row.celeb_persona[0]
-      : row.celeb_persona
     const dlg = Array.isArray(row.celeb_dialogues)
       ? row.celeb_dialogues[0]
       : row.celeb_dialogues
@@ -58,7 +55,7 @@ export async function getCelebsForDialogueEdit(
       nickname: row.nickname,
       avatar_url: row.avatar_url,
       profession: row.profession,
-      speech_tone: persona?.speech_tone ?? null,
+      speech_tone: row.speech_tone ?? null,
       dialogue_lines:
         dlg?.lines && Object.keys(dlg.lines).length > 0
           ? (dlg.lines as DialogueLines)
@@ -78,9 +75,9 @@ export async function updateSpeechTone(
   const supabase = await createClient()
 
   const { error } = await supabase
-    .from('celeb_persona')
+    .from('profiles')
     .update({ speech_tone: tone })
-    .eq('celeb_id', celebId)
+    .eq('id', celebId)
 
   if (error) throw error
 

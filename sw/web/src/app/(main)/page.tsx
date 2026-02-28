@@ -1,8 +1,10 @@
- 
-// However, page.tsx itself should remain a Server Component to fetch initial data.
-// HomeRecordSection is a Client Component.
-
+import type { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "홈",
+  description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
+};
 import { createClient } from "@/lib/supabase/server";
 import { getUserContents } from "@/actions/contents/getUserContents";
 import { getRecentContents } from "@/actions/contents/getRecentContents";

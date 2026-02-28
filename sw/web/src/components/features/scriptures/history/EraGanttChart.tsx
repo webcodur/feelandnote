@@ -2,6 +2,7 @@
   파일명: /components/features/scriptures/history/EraGanttChart.tsx
   기능: 매체별 존속 기간을 간트 차트 형태로 시각화
   책임: 각 시대의 시작~종료 연도를 수평 바로 표현하고, 클릭 시 해당 섹션으로 스크롤한다.
+        고대~현대 범위가 극단적인 경우 고대 구간을 자동 절단하여 가독성을 확보한다.
 */ // ------------------------------
 
 "use client";
@@ -17,12 +18,53 @@ function formatYear(year: number): string {
   return `${year}`;
 }
 
+/**
+ * 고대 구간 절단 판별.
+ * 시대의 과반수가 몰려있는 주 클러스터를 찾고,
+ * 그 클러스터 밖의 이탈점(outlier)이 전체 범위의 70% 이상을 차지하면 절단한다.
+ */
+function calcTruncation(eras: HistoryEra[]) {
+  const starts = eras.map((e) => e.startYear).sort((a, b) => a - b);
+  const realMin = starts[0];
+  const totalSpan = CURRENT_YEAR - realMin;
+  if (totalSpan <= 0 || starts.length < 3) {
+    return { displayMin: realMin };
+  }
+
+  // 중앙값(median) 기준으로 주 클러스터의 시작을 추정
+  const medianStart = starts[Math.floor(starts.length / 2)];
+  // 주 클러스터에 속하는 시대: medianStart 이전 범위가 전체의 30% 이내인 것들
+  const clusterThreshold = realMin + totalSpan * 0.3;
+  const outliers = starts.filter((s) => s < clusterThreshold);
+  const clusterStarts = starts.filter((s) => s >= clusterThreshold);
+
+  // 이탈점이 전체의 소수(전체의 30% 미만)이고, 갭이 전체의 70% 초과일 때만 절단
+  if (
+    outliers.length === 0 ||
+    clusterStarts.length === 0 ||
+    outliers.length >= starts.length * 0.5
+  ) {
+    return { displayMin: realMin };
+  }
+
+  const clusterMin = clusterStarts[0];
+  const gap = clusterMin - realMin;
+  if (gap / totalSpan < 0.7) {
+    return { displayMin: realMin };
+  }
+
+  // 클러스터 시작 전에 ~20% 패딩
+  const clusterSpan = CURRENT_YEAR - clusterMin;
+  const padding = Math.round(clusterSpan * 0.2);
+  const displayMin = clusterMin - padding;
+
+  return { displayMin };
+}
+
 export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
-  const { minYear, maxYear, totalSpan } = useMemo(() => {
-    const min = Math.min(...eras.map((e) => e.startYear));
-    const max = CURRENT_YEAR;
-    return { minYear: min, maxYear: max, totalSpan: max - min };
-  }, [eras]);
+  const { displayMin } = useMemo(() => calcTruncation(eras), [eras]);
+  const maxYear = CURRENT_YEAR;
+  const displaySpan = maxYear - displayMin;
 
   const handleClick = useCallback((id: string) => {
     const el = document.getElementById(`era-${id}`);
@@ -31,17 +73,17 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
     }
   }, []);
 
-  // 축 눈금 생성
+  // 축 눈금 생성 (displayMin 기준)
   const ticks = useMemo(() => {
     const result: { year: number; label: string }[] = [];
-    // 적응적 간격: 전체 범위에 따라 조절
     let step: number;
-    if (totalSpan > 4000) step = 1000;
-    else if (totalSpan > 2000) step = 500;
-    else if (totalSpan > 500) step = 200;
+    if (displaySpan > 4000) step = 1000;
+    else if (displaySpan > 2000) step = 500;
+    else if (displaySpan > 500) step = 200;
+    else if (displaySpan > 200) step = 100;
     else step = 50;
 
-    const start = Math.ceil(minYear / step) * step;
+    const start = Math.ceil(displayMin / step) * step;
     for (let y = start; y <= maxYear; y += step) {
       result.push({
         year: y,
@@ -49,12 +91,13 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
       });
     }
     return result;
-  }, [minYear, maxYear, totalSpan]);
+  }, [displayMin, maxYear, displaySpan]);
 
   const getBarStyle = (era: HistoryEra) => {
     const end = era.endYear ?? CURRENT_YEAR;
-    const left = ((era.startYear - minYear) / totalSpan) * 100;
-    const width = ((end - era.startYear) / totalSpan) * 100;
+    const clampedStart = Math.max(era.startYear, displayMin);
+    const left = ((clampedStart - displayMin) / displaySpan) * 100;
+    const width = ((end - clampedStart) / displaySpan) * 100;
     return { left: `${left}%`, width: `${Math.max(width, 0.8)}%` };
   };
 
@@ -71,11 +114,11 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
           {/* 축 눈금 */}
           <div className="relative h-6 ml-[100px] sm:ml-[120px]">
             {ticks.map((tick) => {
-              const pos = ((tick.year - minYear) / totalSpan) * 100;
+              const pos = ((tick.year - displayMin) / displaySpan) * 100;
               return (
                 <div
                   key={tick.year}
-                  className="absolute top-0 flex flex-col items-center"
+                  className="absolute top-0 -translate-x-1/2"
                   style={{ left: `${pos}%` }}
                 >
                   <span className="text-[9px] sm:text-[10px] text-white/30 font-mono whitespace-nowrap">
@@ -108,7 +151,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                   <div className="relative flex-1 h-5 sm:h-6">
                     {/* 배경 그리드 라인 */}
                     {ticks.map((tick) => {
-                      const pos = ((tick.year - minYear) / totalSpan) * 100;
+                      const pos = ((tick.year - displayMin) / displaySpan) * 100;
                       return (
                         <div
                           key={tick.year}
@@ -128,12 +171,13 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                         ease: "easeOut",
                       }}
                       className={`
-                        absolute top-1 bottom-1 rounded-full
+                        absolute top-1 bottom-1
                         bg-gradient-to-r from-[#d4af37]/70 to-[#d4af37]/40
                         group-hover:from-[#d4af37] group-hover:to-[#d4af37]/60
                         transition-all duration-200
                         shadow-[0_0_8px_rgba(212,175,55,0.15)]
                         group-hover:shadow-[0_0_12px_rgba(212,175,55,0.3)]
+                        rounded-full
                         ${isOngoing ? "rounded-r-none border-r-2 border-r-[#d4af37]/50" : ""}
                       `}
                       style={{

@@ -24,6 +24,7 @@ import { useDialogue } from "@/components/features/game/shared/hooks/useDialogue
 
 interface BattleGameProps {
   onEnterFullScreen?: () => void;
+  onExitFullScreen?: () => void;
   onHomeRef?: MutableRefObject<(() => void) | null>;
   onPhaseChange?: (phase: string) => void;
   onPlayerWinsChange?: (wins: boolean) => void;
@@ -36,7 +37,7 @@ interface BattleGameProps {
   toggleSfxMuted: () => void;
 }
 
-export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onPlayerWinsChange, initialAudioReady = false, setBgm, playSfx, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleGameProps) {
+export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHomeRef, onPhaseChange, onPlayerWinsChange, initialAudioReady = false, setBgm, playSfx, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleGameProps) {
   // 대사 시스템 — sfxMuted 상태를 ref로 동기화
   const sfxMutedRef = useRef(sfxMuted);
   sfxMutedRef.current = sfxMuted;
@@ -57,8 +58,11 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
     confirmDraft,
     selectCaptain,
     submitRound,
+    submitRestRound,
     advanceBattle,
     advanceRound,
+    advanceRest,
+    completeDuel,
     reset,
   } = useBattleGame();
 
@@ -223,6 +227,7 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
     content = (
       <BattleLobby
         onStartVsAi={handleStart}
+        onExit={() => onExitFullScreen?.()}
         bgmMuted={bgmMuted}
         sfxMuted={sfxMuted}
         toggleBgmMuted={toggleBgmMuted}
@@ -278,8 +283,11 @@ export default function BattleGame({ onEnterFullScreen, onHomeRef, onPhaseChange
         aiCaptainId={state.aiCaptainId}
         difficulty={state.difficulty}
         onSubmit={submitRound}
+        onSubmitRest={submitRestRound}
         onAdvanceBattle={advanceBattle}
         onAdvance={advanceRound}
+        onAdvanceRest={advanceRest}
+        onCompleteDuel={completeDuel}
         playSfx={playSfx}
         showDialogue={showDialogue}
         onCardInfo={handleCardInfo}

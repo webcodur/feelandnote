@@ -70,6 +70,7 @@ export interface Member {
   quotes?: string | null
   claimed_by?: string | null
   consumption_philosophy?: string | null
+  speech_tone?: string | null
   influence?: MemberInfluence | null
   influence_total?: number
   persona?: MemberPersona | null
@@ -322,6 +323,7 @@ export async function getMember(id: string): Promise<Member | null> {
     death_date: data.death_date,
     quotes: data.quotes,
     consumption_philosophy: data.consumption_philosophy,
+    speech_tone: data.speech_tone ?? null,
     claimed_by: data.claimed_by,
     influence: influenceData || null,
     persona: personaData || null,

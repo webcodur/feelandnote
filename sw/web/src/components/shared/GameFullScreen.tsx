@@ -22,7 +22,7 @@ export interface BreadcrumbItem {
 }
 
 interface GameFullScreenProps {
-  children: React.ReactNode | ((opts: { enterFullScreen: () => void; isFullScreen: boolean }) => React.ReactNode);
+  children: React.ReactNode | ((opts: { enterFullScreen: () => void; exitFullScreen: () => void; isFullScreen: boolean }) => React.ReactNode);
   title?: string;
   breadcrumbs?: BreadcrumbItem[];
   footerExtra?: React.ReactNode;
@@ -76,7 +76,7 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
   }, [isFullScreen, exitFullScreen]);
 
   const rendered = typeof children === "function"
-    ? children({ enterFullScreen, isFullScreen })
+    ? children({ enterFullScreen, exitFullScreen, isFullScreen })
     : children;
 
   if (!isFullScreen || !isMounted) {

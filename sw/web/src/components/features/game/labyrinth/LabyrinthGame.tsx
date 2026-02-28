@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/labyrinth/LabyrinthGame.tsx
   기능: 미궁 게임 클라이언트 래퍼
-  책임: GameShell에 미궁 전용 config(배경, 로비, 페이즈 라벨)를 전달한다.
+  책임: GameShell에 미궁(추적 게임) 전용 config(배경, 로비, 페이즈 라벨)를 전달한다.
 */
 "use client";
 
@@ -41,9 +41,8 @@ export default function LabyrinthGame({ bgImages }: Props) {
     <GameShell
       gameName="미궁"
       gateIcon={<Crosshair size={40} className="mx-auto text-accent/60" />}
-      gateSubtitle="인물 추적 게임"
+      gateSubtitle="용의자 추적 게임"
       phaseLabels={PHASE_LABELS}
-      highScoreKey="tracker-highscore"
       Background={Background}
       Lobby={LabyrinthLobby}
       Game={TrackerGame}
