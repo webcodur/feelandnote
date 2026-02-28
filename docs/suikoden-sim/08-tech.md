@@ -2,234 +2,139 @@
 
 ## 기술 스택
 
-| 계층 | 기술 | 이유 |
+| 계층 | 기술 | 비고 |
 |------|------|------|
-| **프레임워크** | Next.js (기존 프로젝트) | 코드베이스 통합 |
-| **렌더링** | HTML Canvas + Pixi.js | 2D 스프라이트, 타일맵, 성능 |
-| **상태 관리** | Zustand 또는 useReducer | 게임 상태 (턴, 자원, 유닛) |
-| **DB** | Supabase (기존) | 캐릭터/콘텐츠 로딩 |
-| **오디오** | Howler.js | BGM/SE 재생, 볼륨 제어 |
-| **타일맵** | @pixi/tilemap 또는 수동 구현 | 전장 렌더링 |
+| **프레임워크** | Next.js (App Router) | 기존 프로젝트 통합 |
+| **렌더링** | React DOM + Tailwind CSS | Canvas/Pixi.js 미사용 |
+| **상태 관리** | useState + useCallback | Zustand 미사용, 순수 React 상태 |
+| **DB** | Supabase | 캐릭터/콘텐츠/대사 동적 로딩 |
+| **Server Action** | Next.js Server Actions | DB 쿼리 서버사이드 실행 |
 
 ---
 
-## 디렉터리 구조 (예상)
+## 디렉터리 구조
+
+### 게임 로직 (`sw/web/src/lib/game/suikoden/`)
+
+| 파일 | 역할 | 주요 export |
+|------|------|------------|
+| **types.ts** | 전체 타입 정의 | `GameState`, `GameCharacter`, `Faction`, `WorldPreview` 등 |
+| **constants.ts** | 상수 테이블 | `BUILDINGS`, `TERRITORIES`, `REGIONS`, `TACTIC_MATCHUP` 등 |
+| **engine.ts** | 게임 초기화 | `previewWorld()`, `finalizeGame()`, `resolveRound()`, 전투 로직 |
+| **turnEngine.ts** | 턴 엔진 | `advanceTurn()` — 자원/건설/식량/훈련/민심/인구 처리 |
+| **aiTurn.ts** | AI 의사결정 | `evaluateAIDecisions()` — idle 배치, 건설, 확장, 침공 |
+| **diplomacy.ts** | 외교 시스템 | `commandAlliance`, `commandCeasefire`, `commandTribute` |
+| **events.ts** | 이벤트 시스템 | `checkSeasonEvents()` — 계절/랜덤 이벤트 |
+| **skills.ts** | 전투 스킬 | 병과별 전술 가용 여부, 스킬 정의 |
+| **dialog.ts** | 대사 시스템 | DB 대사 + 기본 대사 선택 |
+| **utils.ts** | 유틸리티 | `dbToCharacter()`, `calcPersonaGrade()`, 등급 계산 |
+| **assetManager.ts** | 에셋 관리 | 이미지 프리로드 |
+
+### UI 컴포넌트 (`sw/web/src/components/features/game/suikoden/`)
+
+| 파일 | 역할 |
+|------|------|
+| **SuikodenGame.tsx** | 최상위 — idle/setup/ingame 전환 |
+| **SuikodenGameWrapper.tsx** | 래퍼 — Server Action 호출, 데이터 주입 |
+| **SuikodenLobby.tsx** | 로비 화면 |
+| **SetupScreen.tsx** | 2단계 셋업 (시대/난이도 → AI 세력 미리보기 + 주군 선택) |
+| **WanderingScreen.tsx** | 방랑 페이즈 — 이벤트, 동료 모집, 지역 이동 |
+| **StrategyScreen.tsx** | 전략 화면 — 모든 내정/군사/외교 핸들러 |
+| **GameHUD.tsx** | 상단바 — 날짜, 계절, 자원, 명성 |
+| **GameToolbar.tsx** | 도구바 — 캐릭터/시설 드롭다운, 영토 정보 |
+| **CommandMenu.tsx** | 사이드 패널 — 개발/인사/군사/외교 탭 |
+| **WorldMapView.tsx** | 세계맵 — 10지역 22영토 SVG/DOM |
+| **TextMapView.tsx** | 텍스트 기반 맵 뷰 |
+| **BattleScreen.tsx** | 전투 — 전술 선택 + 라운드 결과 |
+| **TacticSelectPanel.tsx** | 전술 선택 UI |
+| **BattleParticipantCard.tsx** | 전투 참가자 카드 |
+| **DispositionScreen.tsx** | 포로 처분 화면 |
+| **BuildingCard.tsx** | 건물 카드 |
+| **BuildingCardGrid.tsx** | 건물 카드 그리드 |
+| **CharacterPortrait.tsx** | 캐릭터 초상화 (도트 생성) |
+| **CharacterDetailModal.tsx** | 캐릭터 상세 모달 |
+| **CharacterInfoPanel.tsx** | 캐릭터 정보 패널 |
+| **StatBars.tsx** | 스탯 바 |
+| **DialogSnackbar.tsx** | 대사 스낵바 |
+| **ResultScreen.tsx** | 결과 화면 |
+| **SuikodenBackground.tsx** | 배경 |
+
+### Server Actions (`sw/web/src/actions/game/suikoden/index.ts`)
+
+| 함수 | 역할 |
+|------|------|
+| `loadSuikodenCharacters()` | DB에서 캐릭터 로딩 (profiles + celeb_influence + celeb_persona) |
+| `loadSuikodenItems()` | DB에서 아이템 로딩 (user_contents + contents) |
+
+### 라우트
 
 ```
-sw/web/src/
-├── app/(main)/rest/suikoden/       # 라우트
-│   └── page.tsx                     # 게임 진입점
-├── components/features/game/suikoden/
-│   ├── SuikodenGame.tsx             # 메인 게임 컴포넌트
-│   ├── screens/
-│   │   ├── TitleScreen.tsx          # 타이틀
-│   │   ├── SetupScreen.tsx          # 주군 선택, 난이도
-│   │   ├── StrategyScreen.tsx       # 전략 맵 (메인 루프)
-│   │   ├── BattleScreen.tsx         # 전투 씬
-│   │   ├── ManagementScreen.tsx     # 거점 경영
-│   │   └── ResultScreen.tsx         # 승리/패배
-│   ├── ui/
-│   │   ├── CharacterCard.tsx        # 캐릭터 정보 카드
-│   │   ├── StatsBar.tsx             # 스탯 표시
-│   │   ├── ResourceBar.tsx          # 자원 표시
-│   │   ├── MiniMap.tsx              # 미니맵
-│   │   └── DialogBox.tsx            # 대화/이벤트 창
-│   ├── battle/
-│   │   ├── BattleMap.tsx            # 전투 맵 렌더링 (Canvas)
-│   │   ├── BattleHUD.tsx            # 전투 UI
-│   │   ├── UnitSprite.tsx           # 유닛 스프라이트
-│   │   └── EffectLayer.tsx          # 이펙트 레이어
-│   └── hooks/
-│       ├── useGameState.ts          # 게임 전체 상태
-│       ├── useBattleEngine.ts       # 전투 로직
-│       ├── useAI.ts                 # AI 행동 결정
-│       └── useAudio.ts             # 음악/효과음
-├── lib/game/suikoden/
-│   ├── types.ts                     # 게임 타입 정의
-│   ├── constants.ts                 # 상수 (건물, 지형, 등급 등)
-│   ├── engine/
-│   │   ├── gameEngine.ts            # 턴 진행, 상태 전이
-│   │   ├── combatEngine.ts          # 전투 계산
-│   │   ├── economyEngine.ts         # 자원/경영 계산
-│   │   ├── diplomacyEngine.ts       # 외교 계산
-│   │   └── eventEngine.ts           # 이벤트 판정
-│   ├── ai/
-│   │   ├── aiController.ts          # AI 의사결정
-│   │   ├── strategies.ts            # 정복/책략/경제/인덕/문화형
-│   │   └── pathfinding.ts           # 이동 경로 계산
-│   ├── data/
-│   │   ├── mapData.ts               # 지역/거점 정의
-│   │   ├── buildingData.ts          # 건물 데이터
-│   │   └── eventData.ts             # 이벤트 데이터
-│   └── utils/
-│       ├── statCalc.ts              # 스탯 계산 유틸
-│       ├── gradeCalc.ts             # 등급 산정
-│       └── itemCalc.ts              # 아이템 효과 계산
-└── actions/game/suikoden/
-    ├── loadCharacters.ts            # DB에서 캐릭터 로딩
-    └── loadItems.ts                 # DB에서 아이템 로딩
+sw/web/src/app/(main)/rest/suikoden/page.tsx
 ```
 
 ---
 
 ## DB 연동
 
-### 게임 시작 시 로딩
+### 캐릭터 로딩 쿼리
 
-```typescript
-// loadCharacters.ts
-async function loadGameCharacters() {
-  // 1906년 이전 사망자 + 영향력 데이터 있는 인물
-  const { data } = await supabase
-    .from('profiles')
-    .select(`
-      id, nickname, title, profession, nationality, gender,
-      birth_date, death_date, bio, quotes,
-      avatar_url, portrait_url,
-      celeb_influence (
-        political, strategic, tech, social, economic, cultural,
-        transhistoricity, total_score
-      )
-    `)
-    .not('death_date', 'is', null)
-    .not('death_date', 'eq', '')
-    // 연도 필터는 클라이언트에서 처리
-
-  return data.filter(c => getDeathYear(c.death_date) <= currentYear - 120)
-}
+```sql
+SELECT p.*, ci.*, cp.command, cp.martial, cp.intellect, cp.charisma
+FROM profiles p
+JOIN celeb_influence ci ON ci.celeb_id = p.id
+LEFT JOIN celeb_persona cp ON cp.celeb_id = p.id
+WHERE p.death_date IS NOT NULL
+  AND p.death_date != ''
+  -- 사망 120년 이전 인물만
 ```
 
-```typescript
-// loadItems.ts
-async function loadGameItems() {
-  // 게임 캐릭터들의 콘텐츠를 아이템으로 변환
-  const { data } = await supabase
-    .from('user_contents')
-    .select(`
-      content_id,
-      user_id,
-      review,
-      contents (
-        id, type, title, creator, thumbnail_url
-      )
-    `)
-    .in('user_id', characterIds)
+- `celeb_influence` 기반 7스탯 매핑
+- `celeb_persona` 있으면 페르소나 기반 Grade 산정 (우선)
+- `celeb_persona` 없으면 `total_score` 기반 Grade 폴백
 
-  return data
-}
+### 아이템 로딩
+
+```sql
+SELECT uc.*, c.*
+FROM user_contents uc
+JOIN contents c ON c.id = uc.content_id
+WHERE uc.user_id IN (게임 캐릭터 ID 목록)
 ```
 
-### 게임 세이브 (선택적)
+콘텐츠 타입(BOOK/VIDEO/GAME/MUSIC) → 아이템 카테고리(scroll/painting/manual/score) 변환.
 
-- localStorage 기반 세이브 (MVP)
-- 추후 Supabase에 `game_saves` 테이블 추가 가능
+### 게임 세이브
 
----
-
-## 핵심 타입 정의
-
-```typescript
-interface GameCharacter {
-  id: string
-  nickname: string
-  title: string
-  profession: Profession
-  nationality: string
-  gender: boolean | null
-  birthDate: string
-  deathDate: string
-  bio: string
-  quotes: string
-  avatarUrl: string | null
-  portraitUrl: string | null
-
-  // 전투 스탯 (DB에서 매핑)
-  stats: {
-    martial: number    // strategic → 무력
-    craft: number      // tech → 기술
-    intellect: number  // political → 지략
-    virtue: number     // social → 덕망
-    economy: number    // economic → 경영
-    culture: number    // cultural → 문화
-  }
-
-  // 파생 스탯
-  hp: number           // transhistoricity × 2.5
-  command: number      // max(martial, intellect)
-  charm: number        // (virtue + culture) / 2
-  grade: Grade         // total_score 기반
-  unitClass: UnitClass // profession 기반
-}
-
-interface GameItem {
-  id: string
-  contentId: string
-  type: 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
-  title: string
-  creator: string
-  thumbnailUrl: string | null
-  category: 'scroll' | 'painting' | 'manual' | 'score'
-  grade: ItemGrade
-  bonuses: StatBonuses
-  originCelebId: string  // 어떤 셀럽이 추천했는지
-  review: string | null  // 추천 이유
-}
-
-interface GameState {
-  turn: number
-  season: 'spring' | 'summer' | 'autumn' | 'winter'
-  phase: 'management' | 'action' | 'event' | 'settlement'
-  factions: Faction[]
-  wanderers: GameCharacter[]
-  map: WorldMap
-  selectedFaction: string // 플레이어 세력 ID
-}
-
-interface Faction {
-  id: string
-  leaderId: string
-  name: string
-  color: string
-  members: GameCharacter[]
-  territories: Territory[]
-  resources: Resources
-  items: GameItem[]
-  fame: number          // 명성
-  relations: Record<string, number> // 다른 세력과의 관계
-}
-```
+- localStorage 기반 (추후 구현 예정)
 
 ---
 
 ## 렌더링 방식
 
-### 전략 맵
+전체 DOM 기반. Canvas/WebGL 미사용.
 
-- **DOM 기반** (React 컴포넌트)
-- SVG 또는 CSS Grid로 지역/거점 표시
-- 클릭/터치로 거점 선택
-- 간단한 애니메이션 (CSS transition)
-
-### 전투 씬
-
-- **Canvas 기반** (Pixi.js)
-- 32×32 타일 그리드
-- 스프라이트 시트에서 프레임 애니메이션
-- 이펙트 레이어 오버레이
-
-### UI
-
-- **DOM 기반** (React + Tailwind)
-- 게임 화면 위에 오버레이
-- 반응형 (모바일 대응)
+| 화면 | 렌더링 |
+|------|--------|
+| 세계맵 | React 컴포넌트 (SVG/DOM, 좌표 기반 배치) |
+| 전투 | React 컴포넌트 (카드 UI, 전술 선택 패널) |
+| 내정 | React 컴포넌트 (카드 그리드, 드롭다운 메뉴) |
+| UI 전체 | Tailwind CSS, 반응형 |
 
 ---
 
-## 개발 단계
+## 상태 관리
 
-| 단계 | 범위 | 예상 에셋 |
-|------|------|----------|
-| **MVP** | 주군 선택 → 턴제 전투 1회 | 초상화 템플릿, 전투 타일, 전투 BGM 1곡, SE 5종 |
-| **Alpha** | 전략 맵 + 전투 + 영입 | + 세계 지도, 건물 5종, BGM 3곡 |
-| **Beta** | 경영 + 외교 + AI | + 건물 전체, UI 전체, BGM 전체 |
-| **Release** | 이벤트 + 밸런싱 + 세이브 | + 이펙트 전체, SE 전체 |
+```
+SuikodenGame (최상위)
+  ├── gameState: GameState          // useState
+  ├── worldPreview: WorldPreview    // useState (셋업 중)
+  ├── dialogQueue: DialogEntry[]    // useState
+  └── updateState: (fn) => void     // useCallback
+
+StrategyScreen
+  └── advanceTurn(state) → newState  // 순수 함수
+```
+
+- 게임 상태는 `GameState` 단일 객체로 관리
+- 턴 엔진(`advanceTurn`)은 순수 함수 — 이전 상태를 받아 새 상태를 반환
+- `onUpdateState(fn)` 패턴으로 부모에서 상태 갱신

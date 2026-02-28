@@ -20,7 +20,7 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
   if (error || !profile) return null
 
   // 병렬 조회
-  const [contentResult, followerResult, followResult, influenceResult, tagsResult] = await Promise.all([
+  const [contentResult, followerResult, followResult, influenceResult, tagsResult, dialogueResult] = await Promise.all([
     supabase.from('user_contents').select('*', { count: 'exact', head: true }).eq('user_id', celebId),
     supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', celebId),
     currentUser
@@ -31,6 +31,7 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
       .from('celeb_tag_assignments')
       .select('short_desc, long_desc, tag:celeb_tags(id, name, color)')
       .eq('celeb_id', celebId),
+    supabase.from('celeb_dialogues').select('lines').eq('celeb_id', celebId).maybeSingle(),
   ])
 
   // 팔로워 여부 (상대방이 나를 팔로우하는지)
@@ -80,5 +81,6 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     is_follower: !!followerCheck.data,
     influence,
     tags,
+    greeting: (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null,
   }
 }

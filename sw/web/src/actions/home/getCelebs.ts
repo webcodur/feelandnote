@@ -146,6 +146,22 @@ export async function getCelebs(
     })
   }
 
+  // 셀럽별 greeting 대사 조회
+  const greetingMap = new Map<string, string[]>()
+  if (celebIds.length > 0) {
+    const { data: dialogueRows } = await supabase
+      .from('celeb_dialogues')
+      .select('celeb_id, lines')
+      .in('celeb_id', celebIds)
+
+    ;(dialogueRows ?? []).forEach(row => {
+      const lines = row.lines as Record<string, string[]> | null
+      if (lines?.greeting) {
+        greetingMap.set(row.celeb_id, lines.greeting)
+      }
+    })
+  }
+
   // 전체 영향력 순위 조회 (점수 내림차순 정렬, 고정 순위)
   const { data: influenceRankings } = await supabase
     .from('celeb_influence')
@@ -198,6 +214,7 @@ export async function getCelebs(
         percentile,
       } : null,
       tags: tagMap.get(row.id) ?? [],
+      greeting: greetingMap.get(row.id) ?? null,
     }
   })
 

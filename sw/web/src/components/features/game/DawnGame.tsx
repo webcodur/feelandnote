@@ -186,6 +186,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   const [dialogueDataMap, setDialogueDataMap] = useState<Record<string, DawnDialogueData>>({});
   const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
   const sfxMutedRef = useRef(false);
+  const subtitleKeyRef = useRef(0);
 
   const personalDialogues = useMemo(() => {
     const map = new Map<string, DialogueLines>();
@@ -353,7 +354,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
     const quote = dialogueDataMap[currentCard.id]?.quote;
     if (quote) {
       setSubtitle({
-        key: Date.now(),
+        key: ++subtitleKeyRef.current,
         tone: getTone(currentCard.id),
         text: quote,
         nickname: currentCard.nickname,

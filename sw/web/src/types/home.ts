@@ -43,6 +43,7 @@ export interface CelebProfile {
   is_follower: boolean   // 상대방이 나를 팔로우 중인지 (맞팔 = 친구)
   influence: CelebInfluence | null  // 영향력 평가 (없을 수 있음)
   tags: CelebTagInfo[]  // 태그 목록
+  greeting?: string[] | null  // 인사 대사 (3변형)
 }
 
 export interface CelebReview {

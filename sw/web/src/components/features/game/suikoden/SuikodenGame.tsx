@@ -6,8 +6,8 @@
 'use client'
 
 import { useState, useCallback, useEffect, type MutableRefObject } from 'react'
-import type { GameState, GameCharacter, GameItem, Era, DialogEntry } from '@/lib/game/suikoden/types'
-import { initGame } from '@/lib/game/suikoden/engine'
+import type { GameState, GameCharacter, GameItem, Era, DialogEntry, WorldPreview } from '@/lib/game/suikoden/types'
+import { initGame, previewWorld, finalizeGame } from '@/lib/game/suikoden/engine'
 import { preloadAssets } from '@/lib/game/suikoden/assetManager'
 import SetupScreen from './SetupScreen'
 import WanderingScreen from './WanderingScreen'
@@ -31,6 +31,7 @@ type InternalPhase = 'idle' | 'setup' | 'ingame'
 export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChange, onStartRef }: SuikodenGameProps) {
   const [internalPhase, setInternalPhase] = useState<InternalPhase>('idle')
   const [gameState, setGameState] = useState<GameState | null>(null)
+  const [worldPreview, setWorldPreview] = useState<WorldPreview | null>(null)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [dialogQueue, setDialogQueue] = useState<DialogEntry[]>([])
   const [devBlocked, setDevBlocked] = useState(false)
@@ -66,6 +67,7 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
   // 홈 (idle 복귀)
   const handleHome = useCallback(() => {
     setGameState(null)
+    setWorldPreview(null)
     setDialogQueue([])
     setInternalPhase('idle')
   }, [])
@@ -80,6 +82,7 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
       setDevBlocked(true)
       return
     }
+    setWorldPreview(null)
     setInternalPhase('setup')
   }, [])
 
@@ -87,13 +90,29 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
     if (onStartRef) onStartRef.current = handleStart
   }, [onStartRef, handleStart])
 
-  // 셋업 완료 → 인게임
-  const handleSetupComplete = useCallback((leaderId: string, difficulty: 'easy' | 'normal' | 'hard', era: Era) => {
-    const state = initGame(characters, leaderId, difficulty, era)
-    state.allItems = items
+  // 1단계 → 세력 미리보기 생성
+  const handlePreviewWorld = useCallback((difficulty: 'easy' | 'normal' | 'hard', era: Era) => {
+    const preview = previewWorld(characters, difficulty, era)
+    setWorldPreview(preview)
+  }, [characters])
+
+  // 2단계 → 게임 시작
+  const handleSetupComplete = useCallback((leaderId: string) => {
+    if (!worldPreview) return
+    const state = finalizeGame(worldPreview, leaderId, items)
     setGameState(state)
+    setWorldPreview(null)
     setInternalPhase('ingame')
-  }, [characters, items])
+  }, [worldPreview, items])
+
+  // 뒤로 (2단계 → 1단계, 또는 1단계 → idle)
+  const handleBack = useCallback(() => {
+    if (worldPreview) {
+      setWorldPreview(null)
+    } else {
+      handleHome()
+    }
+  }, [worldPreview, handleHome])
 
   // gameState 업데이트
   const updateState = useCallback((fn: (s: GameState) => GameState) => {
@@ -132,7 +151,15 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
         </div>
       )
     }
-    return <SetupScreen characters={characters} onComplete={handleSetupComplete} onBack={handleHome} />
+    return (
+      <SetupScreen
+        characters={characters}
+        worldPreview={worldPreview}
+        onPreviewWorld={handlePreviewWorld}
+        onComplete={handleSetupComplete}
+        onBack={handleBack}
+      />
+    )
   }
 
   // ── ingame ──

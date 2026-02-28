@@ -5,17 +5,19 @@
 */
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { BattleCard, Command } from "@/lib/game/types";
 import {
   type DuelAction, type DuelPhase, type DuelClashResult,
   calcDuelHp, resolveDuelClash, updateMomentum, duelAiDecide,
   MAX_MOMENTUM, INITIAL_MOMENTUM, DUEL_TIME_LIMIT_PVP,
-  DUEL_ACTION_LABELS, DUEL_ACTION_ICONS,
+  DUEL_CMD_CONFIG,
 } from "@/lib/game/duelEngine";
 import DuelFighter, { type FighterPose } from "./DuelFighter";
 import { Z_INDEX } from "@/constants/zIndex";
+import defaultLinesData from "@/lib/game/voice/defaultLines";
+import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 
 // ─── Props ───
 
@@ -31,7 +33,6 @@ interface Props {
 
 function HpBar({ hp, maxHp, side }: { hp: number; maxHp: number; side: "player" | "ai" }) {
   const pct = Math.max(0, (hp / maxHp) * 100);
-  // 채도 낮은 톤: 충분 → 금색, 위험 → 붉은 돌색
   const fill = pct > 50
     ? "bg-gradient-to-r from-[#8a732a] to-[#d4af37]"
     : pct > 25
@@ -41,11 +42,11 @@ function HpBar({ hp, maxHp, side }: { hp: number; maxHp: number; side: "player" 
 
   return (
     <div className="flex-1">
-      <div className={`h-4 md:h-[18px] rounded-[3px] overflow-hidden flex ${dir}`}
+      <div className={`h-5 md:h-6 rounded-[3px] overflow-hidden flex ${dir}`}
         style={{
           background: "linear-gradient(to bottom, rgba(8,8,8,0.95), rgba(20,20,20,0.9))",
           boxShadow: "inset 0 2px 4px rgba(0,0,0,0.8), inset 0 -1px 0 rgba(255,255,255,0.04), 0 1px 2px rgba(0,0,0,0.5)",
-          border: "1px solid rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.08)",
         }}
       >
         <motion.div
@@ -60,15 +61,15 @@ function HpBar({ hp, maxHp, side }: { hp: number; maxHp: number; side: "player" 
   );
 }
 
-// ─── 기세 게이지 — 작은 석판 블록 ───
+// ─── 기세 게이지 — 석판 블록 ───
 
 function MomentumGauge({ level, side }: { level: number; side: "player" | "ai" }) {
   return (
-    <div className={`flex items-center gap-[3px] ${side === "ai" ? "justify-end" : "justify-start"}`}>
+    <div className={`flex items-center gap-1 ${side === "ai" ? "justify-end" : "justify-start"}`}>
       {Array.from({ length: MAX_MOMENTUM }).map((_, i) => (
         <div
           key={i}
-          className={`w-3 h-2 md:w-3.5 md:h-2.5 rounded-[2px] ${
+          className={`w-4 h-3 md:w-5 md:h-3.5 rounded-[2px] ${
             i < level
               ? "shadow-[0_0_6px_rgba(212,175,55,0.5)]"
               : ""
@@ -107,7 +108,7 @@ function DuelTimer({ active, onTimeout }: { active: boolean; onTimeout: () => vo
   }, [active, limit]);
 
   return (
-    <span className={`text-[10px] font-mono tabular-nums ${timeLeft <= 2 ? "text-[#a03030]" : "text-white/30"}`}>
+    <span className={`text-sm font-mono tabular-nums ${timeLeft <= 2 ? "text-[#a03030]" : "text-white/50"}`}>
       {timeLeft}s
     </span>
   );
@@ -134,28 +135,249 @@ const shakeVariants = {
   },
 };
 
+// ─── 대시 (공격 시 상대 방향으로 돌진) ───
+
+// Player(하단좌) → 우상 방향 돌진
+const playerDashVariants = {
+  idle: { x: 0, y: 0, transition: { duration: 0.3, ease: "easeOut" as const } },
+  dash: {
+    x: [0, 60, 20],
+    y: [0, -50, -15],
+    transition: { duration: 0.35, ease: "easeOut" as const },
+  },
+  recoil: {
+    x: [-20, 0],
+    y: [10, 0],
+    transition: { duration: 0.3, ease: "easeOut" as const },
+  },
+};
+
+// AI(상단우) → 좌하 방향 돌진
+const aiDashVariants = {
+  idle: { x: 0, y: 0, transition: { duration: 0.3, ease: "easeOut" as const } },
+  dash: {
+    x: [0, -60, -20],
+    y: [0, 50, 15],
+    transition: { duration: 0.35, ease: "easeOut" as const },
+  },
+  recoil: {
+    x: [20, 0],
+    y: [-10, 0],
+    transition: { duration: 0.3, ease: "easeOut" as const },
+  },
+};
+
+function poseToDash(pose: FighterPose): "idle" | "dash" | "recoil" {
+  if (pose === "slash") return "dash";
+  if (pose === "hit") return "recoil";
+  return "idle";
+}
+
 // ─── 액션 버튼 설정 ───
 
-const ACTION_CFG = {
+const ACTION_STYLE: Record<DuelAction, {
+  activeClass: string;
+  color: string;
+  glowColor: string;
+  bgTint: string;
+  borderColor: string;
+}> = {
   charge: {
-    label: "충전",
     activeClass: "text-[#d4af37]",
-    activeBorder: "border-[#8a732a]/50",
-    activeBg: "bg-[#d4af37]/[0.04]",
+    color: "#d4af37",
+    glowColor: "rgba(212,175,55,0.3)",
+    bgTint: "rgba(212,175,55,0.10)",
+    borderColor: "rgba(212,175,55,0.45)",
   },
   strike: {
-    label: "공격",
-    activeClass: "text-[#c0805a]",
-    activeBorder: "border-[#8a5a2a]/50",
-    activeBg: "bg-[#c0805a]/[0.04]",
+    activeClass: "text-[#e8734a]",
+    color: "#e8734a",
+    glowColor: "rgba(232,115,74,0.35)",
+    bgTint: "rgba(232,115,74,0.12)",
+    borderColor: "rgba(232,115,74,0.55)",
   },
   brace: {
-    label: "버티기",
     activeClass: "text-[#7a9ab0]",
-    activeBorder: "border-[#4a6a80]/50",
-    activeBg: "bg-[#7a9ab0]/[0.04]",
+    color: "#7a9ab0",
+    glowColor: "rgba(122,154,176,0.3)",
+    bgTint: "rgba(122,154,176,0.10)",
+    borderColor: "rgba(122,154,176,0.45)",
   },
-} as const;
+};
+
+// ─── 인트로 액션 색상 ───
+
+const INTRO_ACTION_COLOR: Record<DuelAction, string> = {
+  charge: "text-[#d4af37]",
+  strike: "text-[#c0805a]",
+  brace: "text-[#7a9ab0]",
+};
+
+// ─── SVG 아이콘 (명령별) ───
+
+function AssaultChargeIcon({ color, size = 28 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill={color} fillOpacity="0.15" />
+    </svg>
+  );
+}
+
+function AssaultStrikeIcon({ color, size = 28 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.5 2L20 7.5 8 19.5 2.5 14 14.5 2z" fill={color} fillOpacity="0.1" />
+      <path d="M16 8L2 22" />
+      <path d="M8 2v4h4" />
+    </svg>
+  );
+}
+
+function AssaultBraceIcon({ color, size = 28 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3L4 9v6c0 4 3.5 7.5 8 9 4.5-1.5 8-5 8-9V9l-8-6z" fill={color} fillOpacity="0.1" />
+    </svg>
+  );
+}
+
+function StratagemChargeIcon({ color, size = 28 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" fill={color} fillOpacity="0.08" />
+      <path d="M9 9c0-1.5 1.2-3 3-3s3 1.5 3 3c0 2-3 2.5-3 4.5" />
+      <circle cx="12" cy="17.5" r="0.8" fill={color} />
+    </svg>
+  );
+}
+
+function StratagemStrikeIcon({ color, size = 28 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      {/* 확성기 본체 */}
+      <path
+        d="M4 9h3l5-5v16l-5-5H4a1 1 0 01-1-1v-4a1 1 0 011-1z"
+        fill={color} fillOpacity="0.12"
+        stroke={color} strokeWidth="1.8"
+      />
+      {/* 음파 — 전방 확산 */}
+      <path d="M16 8c1.5 1.2 2.2 2.8 2.2 4.5S17.5 15.3 16 16.5" stroke={color} strokeWidth="1.8" />
+      <path d="M19 5.5c2.3 2 3.5 4.7 3.5 7s-1.2 5-3.5 7" stroke={color} strokeWidth="1.5" opacity="0.6" />
+    </svg>
+  );
+}
+
+function StratagemBraceIcon({ color, size = 28 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2C7 2 3 6 3 11v2c0 5 4 9 9 9s9-4 9-9v-2c0-5-4-9-9-9z" fill={color} fillOpacity="0.06" />
+      <path d="M8 12c1.5-2 3-2 4 0s2.5 2 4 0" />
+      <path d="M8 8c1.5-2 3-2 4 0s2.5 2 4 0" />
+      <path d="M8 16c1.5-2 3-2 4 0s2.5 2 4 0" />
+    </svg>
+  );
+}
+
+type IconComponent = React.FC<{ color: string; size?: number }>;
+
+const ACTION_ICONS: Record<Command, Record<DuelAction, IconComponent>> = {
+  assault: {
+    charge: AssaultChargeIcon,
+    strike: AssaultStrikeIcon,
+    brace: AssaultBraceIcon,
+  },
+  stratagem: {
+    charge: StratagemChargeIcon,
+    strike: StratagemStrikeIcon,
+    brace: StratagemBraceIcon,
+  },
+  govern: {
+    charge: AssaultChargeIcon,
+    strike: AssaultStrikeIcon,
+    brace: AssaultBraceIcon,
+  },
+};
+
+// ─── 대사 선택 ───
+
+function pickDuelLine(card: BattleCard, action: DuelAction, command: Command): string {
+  // strike → 개인 clash_attack 우선
+  if (action === "strike" && card.dialogueLines?.clash_attack) {
+    const lines = card.dialogueLines.clash_attack;
+    const raw = lines[Math.floor(Math.random() * lines.length)];
+    if (raw) return stripEmotionTag(raw);
+  }
+
+  const isDebate = command === "stratagem";
+  const keyMap: Record<DuelAction, string> = {
+    charge: isDebate ? "duel_debate_charge" : "duel_charge",
+    strike: isDebate ? "duel_debate_strike" : "duel_strike",
+    brace: isDebate ? "duel_debate_brace" : "duel_brace",
+  };
+
+  const tone = card.speechTone;
+  const lines = defaultLinesData[keyMap[action]]?.[tone];
+  if (lines?.length) return lines[Math.floor(Math.random() * lines.length)];
+  return "";
+}
+
+/** idle/클릭 시 대사: select → greeting 순으로 개인 대사 탐색, 없으면 defaultLines 폴백 */
+function pickIdleLine(card: BattleCard): string {
+  for (const type of ["select", "greeting"] as const) {
+    const personal = card.dialogueLines?.[type];
+    if (personal) {
+      const raw = personal[Math.floor(Math.random() * personal.length)];
+      if (raw) return stripEmotionTag(raw);
+    }
+  }
+  const fallback = defaultLinesData["greeting"]?.[card.speechTone];
+  if (fallback?.length) return fallback[Math.floor(Math.random() * fallback.length)];
+  return "";
+}
+
+// ─── 말풍선 ───
+
+function SpeechBubble({ text, side }: { text: string; side: "player" | "ai" }) {
+  const isPlayer = side === "player";
+  // DuelFighter는 200×200, 아바타(88px)는 중앙 배치 → 머리 위 = top ≈ 36px
+  // 양쪽 모두 인물 머리 바로 위에 띄운다
+  return (
+    <motion.div
+      className="absolute z-30 pointer-events-none"
+      style={{
+        width: 170,
+        bottom: 160, // 200px 컨테이너 바닥에서 160px 위 = 머리 바로 위
+        ...(isPlayer ? { left: -10 } : { right: -10 }),
+      }}
+      initial={{ scale: 0.6, opacity: 0, y: 8 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      exit={{ scale: 0.7, opacity: 0 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+    >
+      <div
+        className="relative rounded-lg px-3 py-2 text-xs leading-relaxed text-white/90"
+        style={{
+          background: "rgba(10,8,6,0.9)",
+          border: "1px solid rgba(212,175,55,0.2)",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.6)",
+        }}
+      >
+        {text}
+        {/* Tail — 말풍선 꼬리 (항상 아래쪽) */}
+        <div
+          className="absolute w-2.5 h-2.5 rotate-45"
+          style={{
+            background: "rgba(10,8,6,0.9)",
+            bottom: -5,
+            ...(isPlayer
+              ? { left: 20, borderRight: "1px solid rgba(212,175,55,0.2)", borderBottom: "1px solid rgba(212,175,55,0.2)" }
+              : { right: 20, borderRight: "1px solid rgba(212,175,55,0.2)", borderBottom: "1px solid rgba(212,175,55,0.2)" }),
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+}
 
 // ─── 메인 컴포넌트 ───
 
@@ -171,10 +393,15 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   const [aiPose, setAiPose] = useState<FighterPose>("idle");
   const [lastClash, setLastClash] = useState<DuelClashResult | null>(null);
   const [shakeScreen, setShakeScreen] = useState(false);
+  const [playerBubble, setPlayerBubble] = useState("");
+  const [aiBubble, setAiBubble] = useState("");
 
   const maxPlayerHp = calcDuelHp(playerCard, command);
   const maxAiHp = calcDuelHp(aiCard, command);
   const canAct = phase === "select";
+
+  const cmdCfg = useMemo(() => DUEL_CMD_CONFIG[command], [command]);
+  const statLabel = command === "assault" ? "무력" : command === "stratagem" ? "논리" : "통솔";
 
   const playerStat = command === "assault" ? playerCard.ability.martial
     : command === "stratagem" ? playerCard.ability.intellect
@@ -198,6 +425,53 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
     if (phase === "intro") setPhase("select");
   }, [phase]);
 
+  // ─── idle 잡담: select 대기 중 번갈아 대사 ───
+  const idleTurnRef = useRef<"player" | "ai">("ai");
+  const idleDismissRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showIdleBubble = useCallback((side: "player" | "ai") => {
+    const card = side === "player" ? playerCard : aiCard;
+    const line = pickIdleLine(card);
+    if (!line) return;
+
+    if (side === "player") setPlayerBubble(line);
+    else setAiBubble(line);
+
+    // 2.5초 후 자동 소멸
+    if (idleDismissRef.current) clearTimeout(idleDismissRef.current);
+    idleDismissRef.current = setTimeout(() => {
+      if (side === "player") setPlayerBubble("");
+      else setAiBubble("");
+    }, 2500);
+  }, [playerCard, aiCard]);
+
+  useEffect(() => {
+    if (phase !== "select") return;
+
+    const tick = () => {
+      const side = idleTurnRef.current;
+      showIdleBubble(side);
+      idleTurnRef.current = side === "player" ? "ai" : "player";
+    };
+
+    // 첫 대사 3초 후, 이후 4초 간격 교대
+    const first = setTimeout(tick, 3000);
+    const interval = setInterval(tick, 4000);
+
+    return () => {
+      clearTimeout(first);
+      clearInterval(interval);
+      if (idleDismissRef.current) clearTimeout(idleDismissRef.current);
+    };
+  }, [phase, showIdleBubble]);
+
+  // ─── 파이터 클릭 → 대사 ───
+  const handleFighterClick = useCallback((side: "player" | "ai", e: React.MouseEvent) => {
+    e.stopPropagation(); // 화면 탭 스킵 방지
+    if (phase !== "select") return;
+    showIdleBubble(side);
+  }, [phase, showIdleBubble]);
+
   const handleAction = useCallback((playerAction: DuelAction) => {
     if (phase !== "select") return;
     setPhase("clash");
@@ -207,31 +481,38 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
     const clash = resolveDuelClash(playerAction, aiAction, playerMomentum, aiMomentum, playerAdvantage);
     setLastClash(clash);
 
+    // ── 순차 연출: 플레이어 → AI → 결과 ──
+
+    // t=0: 플레이어 행동 + 대사
     setPlayerPose(actionToPose(playerAction, false));
-    setAiPose(actionToPose(aiAction, false));
+    setPlayerBubble(pickDuelLine(playerCard, playerAction, command));
 
-    if (playerAction === "strike" || aiAction === "strike") setShakeScreen(true);
-
-    // resolve 콜백 — 클릭 스킵과 타이머 양쪽에서 사용
     const doResolve = () => {
+      // t=1400: 피격 + 데미지 적용
       if (clash.playerDamage > 0) setPlayerPose("hit");
       if (clash.aiDamage > 0) setAiPose("hit");
-      setPlayerHp(Math.max(0, playerHp - clash.playerDamage));
-      setAiHp(Math.max(0, aiHp - clash.aiDamage));
-      setPlayerMomentum(updateMomentum(playerAction, playerMomentum));
-      setAiMomentum(updateMomentum(aiAction, aiMomentum));
-      setShakeScreen(false);
-      setPhase("resolve");
-      pendingResolve.current = null;
+      if (playerAction === "strike" || aiAction === "strike") setShakeScreen(true);
+
+      timersRef.current.push(setTimeout(() => {
+        setPlayerHp(Math.max(0, playerHp - clash.playerDamage));
+        setAiHp(Math.max(0, aiHp - clash.aiDamage));
+        setPlayerMomentum(updateMomentum(playerAction, playerMomentum));
+        setAiMomentum(updateMomentum(aiAction, aiMomentum));
+        setShakeScreen(false);
+        setPhase("resolve");
+        pendingResolve.current = null;
+      }, 600));
     };
     pendingResolve.current = doResolve;
 
     timersRef.current.push(
+      // t=700: AI 행동 + 대사
       setTimeout(() => {
-        if (clash.playerDamage > 0) setPlayerPose("hit");
-        if (clash.aiDamage > 0) setAiPose("hit");
-      }, 200),
-      setTimeout(doResolve, 800),
+        setAiPose(actionToPose(aiAction, false));
+        setAiBubble(pickDuelLine(aiCard, aiAction, command));
+      }, 700),
+      // t=1400: 충돌 결과
+      setTimeout(doResolve, 1400),
     );
   }, [phase, playerMomentum, aiMomentum, playerHp, aiHp, round, playerAdvantage, clearTimers]);
 
@@ -248,13 +529,15 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
         setRound(r => r + 1);
         setPlayerPose("idle");
         setAiPose("idle");
+        setPlayerBubble("");
+        setAiBubble("");
         setPhase("select");
       }
       pendingAdvance.current = null;
     };
     pendingAdvance.current = doAdvance;
 
-    const t = setTimeout(doAdvance, 1000);
+    const t = setTimeout(doAdvance, 1200);
     return () => { clearTimeout(t); pendingAdvance.current = null; };
   }, [phase, playerHp, aiHp]);
 
@@ -269,18 +552,15 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
 
   // ─── 화면 클릭: 모션 스킵 ───
   const handleScreenClick = useCallback(() => {
-    // clash 중 → 즉시 resolve
     if (phase === "clash" && pendingResolve.current) {
       clearTimers();
       pendingResolve.current();
       return;
     }
-    // resolve 중 → 즉시 다음 합/종료
     if (phase === "resolve" && pendingAdvance.current) {
       pendingAdvance.current();
       return;
     }
-    // end 중 → 즉시 완료
     if (phase === "end") {
       onComplete(playerHp > aiHp ? "player" : aiHp > playerHp ? "ai" : "draw");
       return;
@@ -294,7 +574,6 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   }, [phase, playerMomentum, handleAction]);
 
   const strikeDmg = Math.max(1, playerMomentum);
-  const nextMomentum = Math.min(playerMomentum + 1, MAX_MOMENTUM);
 
   return (
     <div className="fixed inset-0" style={{ zIndex: Z_INDEX.gameDuel }} onClick={handleScreenClick}>
@@ -303,12 +582,12 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       <motion.div
         className="absolute inset-0 flex flex-col"
         style={{
-          backgroundColor: "#0a0a0a",
+          backgroundColor: "#151310",
           backgroundImage: `
             var(--pattern-noise),
-            radial-gradient(ellipse 60% 40% at 50% 45%, rgba(212,175,55,0.03) 0%, transparent 70%),
-            radial-gradient(ellipse 100% 100% at 50% 50%, rgba(20,18,12,0.8) 0%, rgba(10,10,10,1) 70%),
-            linear-gradient(to bottom, #0a0a0a, #0e0e0e 30%, #080808)
+            radial-gradient(ellipse 60% 40% at 50% 45%, rgba(212,175,55,0.06) 0%, transparent 70%),
+            radial-gradient(ellipse 100% 100% at 50% 50%, rgba(30,26,18,0.8) 0%, rgba(16,14,10,1) 70%),
+            linear-gradient(to bottom, #151310, #1a1714 30%, #121010)
           `,
         }}
         initial={{ y: "-100%", opacity: 0.7 }}
@@ -321,61 +600,61 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       >
       <div className="flex flex-col h-full w-full max-w-lg mx-auto">
 
-        {/* ═══ HUD 상단 — 석재 패널 ═══ */}
-        <div className="shrink-0 px-3 pt-3 pb-2 md:px-5 md:pt-4"
+        {/* ═══ HUD 상단 — 3컬럼 (Player | Round | Enemy) ═══ */}
+        <div
+          className="shrink-0 flex items-stretch overflow-hidden min-h-[80px]"
           style={{
-            background: "linear-gradient(to bottom, rgba(22,20,16,0.95), rgba(14,13,10,0.9))",
-            borderBottom: "1px solid rgba(212,175,55,0.08)",
-            boxShadow: "0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03), inset 0 -1px 0 rgba(0,0,0,0.3)",
+            background: "linear-gradient(to bottom, rgba(32,28,22,0.97), rgba(22,20,16,0.95))",
+            borderBottom: "1px solid rgba(212,175,55,0.12)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)",
           }}
         >
-
-          {/* 닉네임 행 */}
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] md:text-xs font-serif text-white/50 truncate max-w-[100px] md:max-w-[130px] tracking-wide">
-              {aiCard.nickname}
-            </span>
-
-            <div className="flex items-center gap-2">
-              <span className="font-cinzel text-[#d4af37]/70 text-xs md:text-sm tracking-[0.2em]"
-                style={{ textShadow: "0 0 8px rgba(212,175,55,0.2)" }}
-              >
-                {phase !== "intro" && phase !== "end" ? `${round}합` : ""}
-              </span>
-              {!vsAi && <DuelTimer active={phase === "select"} onTimeout={handleTimeout} />}
+          {/* 좌측 — Player */}
+          <div className="flex-1 flex flex-col justify-center pl-4 pr-2 py-2 md:pl-6">
+            <span className="text-[11px] font-bold text-[#d4af37]/80 tracking-widest uppercase mb-1">PLAYER</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">{statLabel}</span>
+              <HpBar hp={playerHp} maxHp={maxPlayerHp} side="player" />
+              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerHp}</span>
             </div>
-
-            <span className="text-[11px] md:text-xs font-serif text-white/50 truncate max-w-[100px] md:max-w-[130px] text-right tracking-wide">
-              {playerCard.nickname}
-            </span>
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">기세</span>
+              <MomentumGauge level={playerMomentum} side="player" />
+              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerMomentum}</span>
+            </div>
           </div>
 
-          {/* HP 바 행 */}
-          <div className="flex items-center gap-2 md:gap-2.5">
-            <span className="text-[10px] md:text-[11px] font-mono text-white/30 w-7 md:w-9 text-right tabular-nums font-bold">
-              {aiHp}
-            </span>
-            <HpBar hp={aiHp} maxHp={maxAiHp} side="ai" />
-
-            {/* 중앙 구분 — 금빛 다이아몬드 */}
-            <div className="shrink-0 w-1.5 h-1.5 rotate-45 bg-[#d4af37]/30" style={{ boxShadow: "0 0 4px rgba(212,175,55,0.2)" }} />
-
-            <HpBar hp={playerHp} maxHp={maxPlayerHp} side="player" />
-            <span className="text-[10px] md:text-[11px] font-mono text-white/30 w-7 md:w-9 tabular-nums font-bold">
-              {playerHp}
-            </span>
+          {/* 중앙 — Round */}
+          <div className="shrink-0 w-[60px] sm:w-[70px] flex flex-col items-center justify-center relative">
+            {phase !== "intro" && phase !== "end" ? (
+              <>
+                <span className="text-[9px] font-cinzel text-white/40 tracking-[0.2em] uppercase">합</span>
+                <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none"
+                  style={{ textShadow: "0 0 8px rgba(212,175,55,0.2)" }}
+                >
+                  {round}
+                </span>
+              </>
+            ) : (
+              <span className="text-sm font-cinzel text-[#d4af37]/50 tracking-[0.2em]">DUEL</span>
+            )}
+            {!vsAi && <DuelTimer active={phase === "select"} onTimeout={handleTimeout} />}
           </div>
 
-          {/* 기세 행 */}
-          <div className="flex items-center justify-between mt-1.5">
-            <MomentumGauge level={aiMomentum} side="ai" />
-            <MomentumGauge level={playerMomentum} side="player" />
+          {/* 우측 — Enemy */}
+          <div className="flex-1 flex flex-col justify-center pl-2 pr-4 py-2 md:pr-6">
+            <span className="text-[11px] font-bold text-red-400/80 tracking-widest uppercase mb-1 text-right">ENEMY</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiHp}</span>
+              <HpBar hp={aiHp} maxHp={maxAiHp} side="ai" />
+              <span className="text-[10px] font-bold text-red-400/50 shrink-0">{statLabel}</span>
+            </div>
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiMomentum}</span>
+              <MomentumGauge level={aiMomentum} side="ai" />
+              <span className="text-[10px] font-bold text-red-400/50 shrink-0">기세</span>
+            </div>
           </div>
-
-          {/* HUD 하단 장식선 */}
-          <div className="mt-2 h-px"
-            style={{ background: "linear-gradient(to right, transparent, rgba(212,175,55,0.15) 20%, rgba(212,175,55,0.15) 80%, transparent)" }}
-          />
         </div>
 
         {/* ═══ 대치 영역 — 가변 높이 ═══ */}
@@ -390,97 +669,114 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               width: "70%",
               paddingBottom: "35%",
               borderRadius: "50%",
-              border: "1px solid rgba(212,175,55,0.06)",
-              background: "radial-gradient(ellipse at center, rgba(212,175,55,0.02) 0%, transparent 70%)",
+              border: "1px solid rgba(212,175,55,0.12)",
+              background: "radial-gradient(ellipse at center, rgba(212,175,55,0.04) 0%, transparent 70%)",
               boxShadow: "inset 0 0 40px rgba(0,0,0,0.3)",
             }}
           />
 
-          {/* AI (상단 우측) */}
-          <div className="absolute top-[10%] right-[10%] md:top-[15%] md:right-[16%]">
-            <DuelFighter
-              avatarUrl={aiCard.avatarUrl}
-              nickname={aiCard.nickname}
-              pose={aiPose}
-              flipped
-              momentum={aiMomentum}
-            />
-          </div>
+          {/* AI (상단 우측) — 공격 시 좌하 돌진 */}
+          <motion.div
+            className="absolute top-[10%] right-[10%] md:top-[15%] md:right-[16%] cursor-pointer"
+            onClick={(e) => handleFighterClick("ai", e)}
+            variants={aiDashVariants}
+            animate={poseToDash(aiPose)}
+          >
+            <div className="relative">
+              <DuelFighter
+                avatarUrl={aiCard.avatarUrl}
+                nickname={aiCard.nickname}
+                pose={aiPose}
+                flipped
+                momentum={aiMomentum}
+                command={command}
+              />
+              <AnimatePresence>
+                {aiBubble && (
+                  <SpeechBubble key={`ai-b-${round}-${aiBubble.slice(0, 6)}`} text={aiBubble} side="ai" />
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
 
-          {/* 합 워터마크 — 바닥 각인 */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-            <span className="font-cinzel text-white/[0.03] text-6xl md:text-7xl tracking-[0.4em] select-none"
-              style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}
-            >
-              {phase !== "intro" && phase !== "end" ? `${round}` : ""}
-            </span>
-          </div>
-
-          {/* Player (하단 좌측) */}
-          <div className="absolute bottom-[10%] left-[10%] md:bottom-[15%] md:left-[16%]">
-            <DuelFighter
-              avatarUrl={playerCard.avatarUrl}
-              nickname={playerCard.nickname}
-              pose={playerPose}
-              momentum={playerMomentum}
-            />
-          </div>
+          {/* Player (하단 좌측) — 공격 시 우상 돌진 */}
+          <motion.div
+            className="absolute bottom-[10%] left-[10%] md:bottom-[15%] md:left-[16%] cursor-pointer"
+            onClick={(e) => handleFighterClick("player", e)}
+            variants={playerDashVariants}
+            animate={poseToDash(playerPose)}
+          >
+            <div className="relative">
+              <AnimatePresence>
+                {playerBubble && (
+                  <SpeechBubble key={`p-b-${round}-${playerBubble.slice(0, 6)}`} text={playerBubble} side="player" />
+                )}
+              </AnimatePresence>
+              <DuelFighter
+                avatarUrl={playerCard.avatarUrl}
+                nickname={playerCard.nickname}
+                pose={playerPose}
+                momentum={playerMomentum}
+                command={command}
+              />
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* ═══ 하단 컨트롤 ═══ */}
-        <div className="shrink-0 px-3 pb-4 pt-2 md:px-5 md:pb-5 safe-area-bottom"
+        <div className="shrink-0 px-4 pb-5 pt-3 md:px-6 md:pb-6 safe-area-bottom"
           style={{
-            background: "linear-gradient(to top, rgba(14,13,10,0.95), rgba(14,13,10,0.7) 60%, transparent)",
+            background: "linear-gradient(to top, rgba(24,22,18,0.97), rgba(20,18,14,0.8) 60%, transparent)",
           }}
         >
 
           {/* 내러티브 */}
-          <div className="text-center h-6 mb-3">
+          <div className="text-center h-7 mb-3">
             {lastClash ? (
               <motion.span
                 key={`${round}-${lastClash.playerAction}`}
-                className="text-xs font-serif text-white/50"
+                className="text-sm text-white/70"
                 initial={{ opacity: 0, y: 3 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                {DUEL_ACTION_LABELS[lastClash.playerAction]}
-                <span className="text-white/25 mx-1.5">vs</span>
-                {DUEL_ACTION_LABELS[lastClash.aiAction]}
-                <span className="text-white/15 mx-1.5">&mdash;</span>
-                <span className="text-white/40">{lastClash.narrative}</span>
+                {cmdCfg.labels[lastClash.playerAction]}
+                <span className="text-white/40 mx-2">vs</span>
+                {cmdCfg.labels[lastClash.aiAction]}
+                <span className="text-white/30 mx-2">&mdash;</span>
+                <span className="text-white/60">{lastClash.narrative}</span>
               </motion.span>
             ) : (
-              <span className="text-xs font-serif text-white/25">
+              <span className="text-sm text-white/40">
                 {phase === "intro" ? "" : "행동을 선택하세요"}
               </span>
             )}
           </div>
 
           {/* 액션 버튼 3열 */}
-          <div className="flex gap-2.5 md:gap-3">
-            {/* 충전 */}
+          <div className="flex gap-3 md:gap-4">
             <ActionButton
               action="charge"
-              icon={DUEL_ACTION_ICONS.charge}
-              sub={`${playerMomentum}→${nextMomentum}`}
+              label={cmdCfg.labels.charge}
+              Icon={ACTION_ICONS[command].charge}
+              sub="기세 +1"
               canAct={canAct}
               highlight={false}
               onClick={() => handleAction("charge")}
             />
-            {/* 공격 */}
             <ActionButton
               action="strike"
-              icon={DUEL_ACTION_ICONS.strike}
-              sub={`${strikeDmg}`}
+              label={cmdCfg.labels.strike}
+              Icon={ACTION_ICONS[command].strike}
+              sub={`피해 ${strikeDmg}`}
               canAct={canAct}
               highlight={canAct && playerMomentum >= 4}
               onClick={() => handleAction("strike")}
             />
-            {/* 버티기 */}
             <ActionButton
               action="brace"
-              icon={DUEL_ACTION_ICONS.brace}
-              sub="반감"
+              label={cmdCfg.labels.brace}
+              Icon={ACTION_ICONS[command].brace}
+              sub="피해 반감"
               canAct={canAct}
               highlight={false}
               onClick={() => handleAction("brace")}
@@ -498,13 +794,13 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute inset-0" style={{ background: "rgba(10,10,10,0.88)" }} />
+              <div className="absolute inset-0" style={{ background: "rgba(10,10,10,0.82)" }} />
               <button
                 onClick={dismissIntro}
-                className="relative w-full max-w-[300px] md:max-w-xs text-left rounded-sm px-5 py-5 space-y-4"
+                className="relative w-full max-w-sm md:max-w-md text-left rounded-sm px-6 py-6 space-y-5"
                 style={{
-                  background: "linear-gradient(to bottom, #1e1c18, #141310)",
-                  border: "1px solid rgba(212,175,55,0.18)",
+                  background: "linear-gradient(to bottom, #2a2720, #1c1a16)",
+                  border: "1px solid rgba(212,175,55,0.22)",
                   boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -1px 0 rgba(0,0,0,0.3), 0 12px 40px rgba(0,0,0,0.7), 0 0 60px rgba(212,175,55,0.04)",
                 }}
               >
@@ -514,34 +810,38 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                 />
 
                 <div className="text-center">
-                  <div className="font-cinzel text-[#d4af37] text-lg tracking-[0.3em]"
+                  <div className="font-cinzel text-[#d4af37] text-2xl tracking-[0.3em]"
                     style={{ textShadow: "0 0 8px rgba(212,175,55,0.15)" }}
                   >
                     DUEL
                   </div>
-                  <div className="text-[11px] font-serif text-white/30 mt-1 tracking-wide">
+                  <div className="text-sm text-white/50 mt-1.5 tracking-wide">
                     {playerCard.nickname} vs {aiCard.nickname}
                   </div>
                 </div>
 
-                <div className="space-y-2 text-[11px] text-white/40">
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-5 text-center text-sm opacity-70">{DUEL_ACTION_ICONS.charge}</span>
-                    <span><span className="text-[#d4af37]/70 font-serif">충전</span> <span className="text-white/25">&mdash;</span> 기세를 1 올린다</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-5 text-center text-sm opacity-70">{DUEL_ACTION_ICONS.strike}</span>
-                    <span><span className="text-[#c0805a]/70 font-serif">공격</span> <span className="text-white/25">&mdash;</span> 기세만큼 피해</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-5 text-center text-sm opacity-70">{DUEL_ACTION_ICONS.brace}</span>
-                    <span><span className="text-[#7a9ab0]/70 font-serif">버티기</span> <span className="text-white/25">&mdash;</span> 피해 반감</span>
-                  </div>
+                <div className="space-y-3 text-sm text-white/60">
+                  {(["charge", "strike", "brace"] as DuelAction[]).map((action) => {
+                    const IntroIcon = ACTION_ICONS[command][action];
+                    return (
+                      <div key={action} className="flex items-center gap-3">
+                        <div className="shrink-0 w-7 flex justify-center">
+                          <IntroIcon color={ACTION_STYLE[action].color} size={22} />
+                        </div>
+                        <span>
+                          <span className={`${INTRO_ACTION_COLOR[action]} font-bold`}>{cmdCfg.labels[action]}</span>
+                          <span className="text-white/40 mx-2">&mdash;</span>
+                          {cmdCfg.descriptions[action]}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
 
-                <div className="text-[9px] text-white/20 space-y-0.5 font-serif">
-                  <div>충전 중 공격당하면 풀데미지</div>
-                  <div>상대 HP를 먼저 0으로 만들면 승리</div>
+                <div className="text-xs text-white/40 space-y-1">
+                  {cmdCfg.rules.map((rule, i) => (
+                    <div key={i}>{rule}</div>
+                  ))}
                 </div>
 
                 {/* 하단 장식선 */}
@@ -549,7 +849,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                   style={{ background: "linear-gradient(to right, transparent, rgba(212,175,55,0.12), transparent)" }}
                 />
 
-                <div className="text-center text-[9px] font-cinzel text-[#d4af37]/30 tracking-[0.2em] pt-1 animate-pulse">
+                <div className="text-center text-xs font-cinzel text-[#d4af37]/60 tracking-[0.2em] pt-1 animate-pulse">
                   TAP TO START
                 </div>
               </button>
@@ -573,14 +873,14 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                     ? "radial-gradient(ellipse at center, rgba(212,175,55,0.08) 0%, rgba(10,10,10,0.9) 60%)"
                     : "rgba(10,10,10,0.88)",
               }} />
-              <div className="relative text-center px-10 py-8 rounded-sm"
+              <div className="relative text-center px-12 py-10 rounded-sm"
                 style={{
-                  background: "linear-gradient(to bottom, #1e1c18, #111)",
+                  background: "linear-gradient(to bottom, #2a2720, #1a1816)",
                   border: `1px solid ${playerHp > aiHp ? "rgba(212,175,55,0.2)" : playerHp < aiHp ? "rgba(160,48,48,0.2)" : "rgba(255,255,255,0.06)"}`,
                   boxShadow: "0 16px 48px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.04)",
                 }}
               >
-                <div className={`text-2xl md:text-3xl font-cinzel tracking-[0.25em] font-bold ${
+                <div className={`text-3xl md:text-4xl font-cinzel tracking-[0.25em] font-bold ${
                   playerHp > aiHp
                     ? "text-[#d4af37]"
                     : playerHp < aiHp
@@ -596,10 +896,10 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                 >
                   {playerHp > aiHp ? "VICTORY" : playerHp < aiHp ? "DEFEAT" : "DRAW"}
                 </div>
-                <div className="text-[11px] md:text-xs font-mono text-white/30 mt-3 tabular-nums">
-                  {playerCard.nickname} {playerHp} vs {aiHp} {aiCard.nickname}
+                <div className="text-sm md:text-base font-mono text-white/50 mt-4 tabular-nums">
+                  {playerCard.nickname} {playerHp}/{maxPlayerHp} vs {aiHp}/{maxAiHp} {aiCard.nickname}
                 </div>
-                <div className="text-[10px] md:text-[11px] font-serif text-white/25 mt-2">
+                <div className="text-sm text-white/40 mt-2">
                   {playerHp > aiHp
                     ? "아군 명령 효과 100% 적용"
                     : playerHp < aiHp
@@ -625,11 +925,9 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {/* 상단 임팩트 라인 */}
             <div className="absolute top-0 left-0 right-0 h-1"
               style={{ background: "linear-gradient(to right, transparent, rgba(212,175,55,0.5), transparent)" }}
             />
-            {/* 전체 백색 플래시 */}
             <div className="absolute inset-0 bg-white/[0.06]" />
           </motion.div>
         )}
@@ -642,49 +940,55 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
 
 function ActionButton({
   action,
-  icon,
+  label,
+  Icon,
   sub,
   canAct,
   highlight,
   onClick,
 }: {
   action: DuelAction;
-  icon: string;
+  label: string;
+  Icon: IconComponent;
   sub: string;
   canAct: boolean;
   highlight: boolean;
   onClick: () => void;
 }) {
-  const cfg = ACTION_CFG[action];
+  const cfg = ACTION_STYLE[action];
+  const iconColor = canAct ? cfg.color : "rgba(255,255,255,0.25)";
 
   return (
     <button
       onClick={onClick}
       disabled={!canAct}
-      className={`flex-1 flex flex-col items-center justify-center py-3.5 md:py-4 rounded-[4px] min-h-[60px] md:min-h-[68px]
+      className={`flex-1 flex flex-col items-center justify-center gap-1.5 py-5 md:py-6 rounded-lg min-h-[84px] md:min-h-[96px] transition-colors
         ${canAct
-          ? `${cfg.activeClass} active:scale-[0.97] cursor-pointer`
-          : "text-white/10 cursor-not-allowed"
+          ? "active:scale-[0.97] cursor-pointer"
+          : "cursor-not-allowed"
         }
         ${highlight ? "animate-pulse" : ""}
       `}
       style={{
         background: canAct
-          ? "linear-gradient(to bottom, rgba(38,36,30,0.8), rgba(20,18,14,0.95))"
-          : "linear-gradient(to bottom, rgba(14,14,14,0.6), rgba(10,10,10,0.8))",
-        border: canAct
-          ? `2px solid ${highlight ? "rgba(212,175,55,0.35)" : "rgba(255,255,255,0.08)"}`
-          : "1px solid rgba(255,255,255,0.03)",
+          ? `linear-gradient(to bottom, ${cfg.bgTint}, rgba(18,16,12,0.95))`
+          : "linear-gradient(to bottom, rgba(24,22,18,0.5), rgba(16,14,12,0.7))",
+        borderTop: canAct ? `3px solid ${cfg.borderColor}` : "1px solid rgba(255,255,255,0.06)",
+        borderLeft: canAct ? `1px solid ${highlight ? cfg.color + "40" : "rgba(255,255,255,0.08)"}` : "1px solid rgba(255,255,255,0.06)",
+        borderRight: canAct ? `1px solid ${highlight ? cfg.color + "40" : "rgba(255,255,255,0.08)"}` : "1px solid rgba(255,255,255,0.06)",
+        borderBottom: canAct ? `1px solid rgba(255,255,255,0.05)` : "1px solid rgba(255,255,255,0.06)",
         boxShadow: canAct
-          ? `inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -2px 4px rgba(0,0,0,0.4), 0 4px 8px rgba(0,0,0,0.4)${highlight ? ", 0 0 12px rgba(212,175,55,0.15)" : ""}`
+          ? `inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -2px 6px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.5)${highlight ? `, 0 0 20px ${cfg.glowColor}` : ""}`
           : "inset 0 1px 3px rgba(0,0,0,0.5)",
       }}
     >
-      <span className="text-base md:text-lg" style={{ opacity: canAct ? 0.9 : 0.3 }}>{icon}</span>
-      <span className={`text-[11px] md:text-xs font-serif font-bold mt-1 tracking-wide ${canAct ? cfg.activeClass : ""}`}>
-        {cfg.label}
+      <div style={{ opacity: canAct ? 1 : 0.3, filter: canAct ? `drop-shadow(0 0 4px ${cfg.glowColor})` : "none" }}>
+        <Icon color={iconColor} size={30} />
+      </div>
+      <span className={`text-sm md:text-base font-bold tracking-wide ${canAct ? cfg.activeClass : "text-white/25"}`}>
+        {label}
       </span>
-      <span className={`text-[9px] md:text-[10px] font-mono mt-0.5 ${canAct ? "text-white/30" : "text-white/10"}`}>
+      <span className={`text-[11px] md:text-xs font-mono ${canAct ? "text-white/45" : "text-white/20"}`}>
         {sub}
       </span>
     </button>

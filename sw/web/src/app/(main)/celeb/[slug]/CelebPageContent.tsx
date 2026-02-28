@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
+import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
+import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import type { CelebProfile } from "@/types/home";
 import { type PublicUserProfile } from "@/actions/user";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
@@ -38,6 +41,7 @@ interface CelebPageContentProps {
     nickname: string | null;
     avatar_url: string | null;
   } | null;
+  greeting?: string[] | null;
 }
 
 
@@ -55,6 +59,7 @@ export default function CelebPageContent({
   guestbookEntries,
   guestbookTotal,
   guestbookCurrentUser,
+  greeting,
 }: CelebPageContentProps) {
   const professionLabel = getCelebProfessionLabel(profile.profession);
   const birthYear = formatYear(profile.birth_date);
@@ -65,6 +70,21 @@ export default function CelebPageContent({
       : `${birthYear} —`
     : "";
 
+  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const keyCounter = useRef(0);
+
+  const handleAvatarClick = useCallback(() => {
+    if (!greeting || greeting.length === 0) return;
+    const raw = greeting[Math.floor(Math.random() * greeting.length)];
+    setSubtitle({
+      key: ++keyCounter.current,
+      tone: "composed",
+      text: stripEmotionTag(raw),
+      nickname: profile.nickname,
+      avatarUrl: profile.avatar_url,
+    });
+  }, [greeting, profile.nickname, profile.avatar_url]);
+
   return (
     <div className="space-y-16">
 
@@ -73,8 +93,12 @@ export default function CelebPageContent({
               <DecorativeLabel label="인물 소개" />
               <ClassicalBox hover={false} className="px-5 py-5">
                 <div className="grid grid-cols-[auto_1fr] gap-6">
-                  {/* 1열: 이미지 */}
-                  <div className="w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 bg-bg-secondary self-start">
+                  {/* 1열: 이미지 (클릭 시 greeting 대사) */}
+                  <button
+                    type="button"
+                    onClick={handleAvatarClick}
+                    className="w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary self-start transition-all duration-300 cursor-pointer active:scale-95"
+                  >
                     {profile.avatar_url ? (
                       <Image
                         src={profile.avatar_url}
@@ -89,7 +113,7 @@ export default function CelebPageContent({
                         {profile.nickname.charAt(0)}
                       </div>
                     )}
-                  </div>
+                  </button>
                   {/* 2열: 정보 */}
                   <div className="space-y-2 min-w-0">
                     <p className="font-serif text-xl md:text-2xl text-text-primary tracking-tight">{profile.nickname}</p>
@@ -161,10 +185,11 @@ export default function CelebPageContent({
                 />
               </ClassicalBox>
             </section>
+
+      <DialogueSubtitle subtitle={subtitle} />
     </div>
   );
 }
-
 
 
 

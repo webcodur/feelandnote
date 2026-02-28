@@ -197,3 +197,33 @@ export const DUEL_ACTION_ICONS: Record<DuelAction, string> = {
   strike: "⚔",
   brace: "🛡",
 };
+
+// ─── 명령별 일기토 설정 ───
+
+export interface DuelCmdConfig {
+  labels: Record<DuelAction, string>;
+  icons: Record<DuelAction, string>;
+  descriptions: Record<DuelAction, string>;
+  rules: string[];
+}
+
+export const DUEL_CMD_CONFIG: Record<Command, DuelCmdConfig> = {
+  assault: {
+    labels: { charge: "충전", strike: "공격", brace: "버티기" },
+    icons: { charge: "⚡", strike: "⚔", brace: "🛡" },
+    descriptions: { charge: "기세를 1 올린다", strike: "기세만큼 피해", brace: "피해 반감" },
+    rules: ["충전 중 공격당하면 풀데미지", "상대 HP를 먼저 0으로 만들면 승리"],
+  },
+  stratagem: {
+    labels: { charge: "고민", strike: "논파", brace: "궤변" },
+    icons: { charge: "💭", strike: "🗯️", brace: "🌀" },
+    descriptions: { charge: "기세를 1 올린다", strike: "기세만큼 피해", brace: "피해 반감" },
+    rules: ["고민 중 논파당하면 풀데미지", "상대 HP를 먼저 0으로 만들면 승리"],
+  },
+  govern: {
+    labels: { charge: "충전", strike: "공격", brace: "버티기" },
+    icons: { charge: "⚡", strike: "⚔", brace: "🛡" },
+    descriptions: { charge: "기세를 1 올린다", strike: "기세만큼 피해", brace: "피해 반감" },
+    rules: ["충전 중 공격당하면 풀데미지", "상대 HP를 먼저 0으로 만들면 승리"],
+  },
+};

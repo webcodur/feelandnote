@@ -61,6 +61,10 @@ export const CLASS_INFO: Record<UnitClass, { name: string; icon: string; color: 
   ranger:     { name: '유격', icon: '🗡️', color: '#059669' },
 }
 
+// ── 플레이어 선택 기준 (Grade 점수) ──
+
+export const PLAYER_GRADE_THRESHOLD = 55  // 이 점수 미만만 플레이어 선택 가능
+
 // ── 등급 ──
 
 export const GRADE_THRESHOLDS: { min: number; grade: Grade }[] = [
@@ -186,8 +190,153 @@ export const TACTIC_INFO: Record<TacticType, { name: string; icon: string; descr
 
 // ── 전투 상수 ──
 
-export const BATTLE_MAX_ROUNDS = 10
+export const BATTLE_MAX_ROUNDS = 10   // 레거시 (전술 상성 시스템용)
 export const BATTLE_MAX_UNITS = 5
+
+// ── 개별 유닛 턴제 전투 상수 ──
+
+export const BATTLE_MAX_TURNS = 30
+export const BATTLE_GRID_ROWS = 3
+export const BATTLE_GRID_COLS = 5
+
+/** 병과별 속도 보정 */
+export const CLASS_SPEED_BONUS: Record<UnitClass, number> = {
+  ranger: 3,
+  strategist: 1,
+  general: 0,
+  official: 0,
+  artist: -1,
+  artisan: -2,
+}
+
+/** 병과별 근접 공격 배율 */
+export const CLASS_ATTACK_MULT: Record<UnitClass, number> = {
+  general: 1.5,
+  ranger: 1.0,
+  artisan: 1.0,
+  official: 0.7,
+  strategist: 0.5,
+  artist: 0.3,
+}
+
+/** 병과별 기본 배치 행 (0=전열, 1=중열, 2=후열) */
+export const CLASS_DEFAULT_ROW: Record<UnitClass, number> = {
+  general: 0,
+  official: 0,
+  ranger: 1,
+  artisan: 1,
+  strategist: 2,
+  artist: 2,
+}
+
+/** 병과별 성인 추가 */
+export const UNIT_CLASS_WITH_SAINT = ['general', 'strategist', 'artisan', 'official', 'artist', 'ranger'] as const
+
+/** 스킬 정의 타입 */
+export interface SkillDef {
+  id: string
+  name: string
+  icon: string
+  description: string
+  targetType: 'single_enemy' | 'single_ally' | 'row_enemy' | 'all_ally' | 'all_enemy' | 'self'
+  classes: UnitClass[]   // 사용 가능 병과
+  statReq?: { stat: 'power' | 'skill' | 'intellect' | 'virtue'; min: number }
+  isRanged?: boolean     // 원거리 (전열 무시)
+}
+
+export const SKILL_DEFS: Record<string, SkillDef> = {
+  // 장수
+  charge: {
+    id: 'charge', name: '돌격', icon: '🐎',
+    description: '대미지 ×2, 자신도 피해',
+    targetType: 'single_enemy', classes: ['general'],
+    statReq: { stat: 'power', min: 5 },
+  },
+  duel_provoke: {
+    id: 'duel_provoke', name: '일기토 도발', icon: '⚔️',
+    description: '인접 적 1:1 대결',
+    targetType: 'single_enemy', classes: ['general'],
+    statReq: { stat: 'power', min: 5 },
+  },
+  // 책사
+  confuse: {
+    id: 'confuse', name: '혼란', icon: '🌀',
+    description: '적 1턴 행동불가 (지력 판정)',
+    targetType: 'single_enemy', classes: ['strategist'],
+    statReq: { stat: 'intellect', min: 6 }, isRanged: true,
+  },
+  fire_attack: {
+    id: 'fire_attack', name: '화공', icon: '🔥',
+    description: '적 행 범위 대미지',
+    targetType: 'row_enemy', classes: ['strategist'],
+    statReq: { stat: 'intellect', min: 6 }, isRanged: true,
+  },
+  // 장인
+  trap: {
+    id: 'trap', name: '함정 설치', icon: '⚙️',
+    description: '전열에 함정 설치',
+    targetType: 'self', classes: ['artisan'],
+    statReq: { stat: 'skill', min: 5 },
+  },
+  siege_strike: {
+    id: 'siege_strike', name: '공성 강타', icon: '🔨',
+    description: '성벽 대미지 ×3',
+    targetType: 'single_enemy', classes: ['artisan'],
+    statReq: { stat: 'skill', min: 5 },
+  },
+  // 관료
+  iron_wall: {
+    id: 'iron_wall', name: '철벽', icon: '🛡️',
+    description: '인접 아군 방어력 ×2',
+    targetType: 'single_ally', classes: ['official'],
+    statReq: { stat: 'intellect', min: 5 },
+  },
+  diplomacy_threat: {
+    id: 'diplomacy_threat', name: '외교 위협', icon: '📜',
+    description: '적 사기 -15',
+    targetType: 'all_enemy', classes: ['official'],
+    statReq: { stat: 'intellect', min: 5 }, isRanged: true,
+  },
+  // 예인
+  inspire: {
+    id: 'inspire', name: '고무', icon: '📯',
+    description: '아군 전원 사기 +10',
+    targetType: 'all_ally', classes: ['artist'],
+    statReq: { stat: 'virtue', min: 5 },
+  },
+  culture_sway: {
+    id: 'culture_sway', name: '문화 감화', icon: '🎭',
+    description: '적 사기 -10',
+    targetType: 'all_enemy', classes: ['artist'],
+    statReq: { stat: 'virtue', min: 5 }, isRanged: true,
+  },
+  // 유격
+  ambush: {
+    id: 'ambush', name: '기습', icon: '🗡️',
+    description: '선제 대미지, 회피 불가',
+    targetType: 'single_enemy', classes: ['ranger'],
+    statReq: { stat: 'skill', min: 5 },
+  },
+  detect_trap: {
+    id: 'detect_trap', name: '매복 탐지', icon: '👁️',
+    description: '적 함정 무효화',
+    targetType: 'self', classes: ['ranger'],
+    statReq: { stat: 'skill', min: 5 },
+  },
+  // 성인 (leader)
+  heal: {
+    id: 'heal', name: '치유', icon: '💚',
+    description: '아군 1명 HP 30% 회복',
+    targetType: 'single_ally', classes: ['general'], // leader profession → general class
+    statReq: { stat: 'virtue', min: 7 },
+  },
+  barrier: {
+    id: 'barrier', name: '결계', icon: '✨',
+    description: '아군 1명 1턴 무적',
+    targetType: 'single_ally', classes: ['general'],
+    statReq: { stat: 'virtue', min: 7 },
+  },
+}
 
 // ── 병과별 전술 위력 보정 ──
 

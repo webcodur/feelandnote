@@ -130,26 +130,23 @@ export async function getFeedActivities(
   let userContentsMap: Record<string, { review: string | null; rating: number | null; source_url: string | null }> = {}
 
   if (contentIds.length > 0) {
-    const { data: contents } = await supabase
-      .from('contents')
-      .select('id, title, thumbnail_url, type')
-      .in('id', contentIds)
+    // contents + user_contents 병렬 조회
+    const [{ data: contents }, { data: userContents }] = await Promise.all([
+      supabase
+        .from('contents')
+        .select('id, title, thumbnail_url, type')
+        .in('id', contentIds),
+      supabase
+        .from('user_contents')
+        .select('user_id, content_id, review, rating, source_url')
+        .in('content_id', contentIds),
+    ])
 
     if (contents) {
       contentsMap = Object.fromEntries(
         contents.map(c => [c.id, { title: c.title, thumbnail_url: c.thumbnail_url, type: c.type as ContentType }])
       )
     }
-
-    // user_contents에서 리뷰/별점 조회 (user_id + content_id 조합 키)
-    const userContentPairs = sliced
-      .filter(item => item.content_id)
-      .map(item => ({ user_id: item.user_id, content_id: item.content_id }))
-
-    const { data: userContents } = await supabase
-      .from('user_contents')
-      .select('user_id, content_id, review, rating, source_url')
-      .in('content_id', contentIds)
 
     if (userContents) {
       userContentsMap = Object.fromEntries(

@@ -379,18 +379,17 @@ export async function getScripturesByProfession(params?: {
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  // 해당 셀럽들의 콘텐츠 조회 (페이지네이션으로 모든 데이터 가져오기)
-  // TopCeleb의 count를 계산하기 위해 먼저 가져옵니다.
-  const typedData = await fetchAllUserContents(supabase, celebIds)
-
-  // 영향력 기준 top 5 셀럽 (celeb_influence 테이블 조인)
-  const { data: topCelebsData } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
-    .in('id', celebIds)
-    .not('celeb_influence', 'is', null)
-    .order('celeb_influence(total_score)', { ascending: false })
-    .limit(5)
+  // 콘텐츠 + top5 셀럽 병렬 조회 (둘 다 celebIds만 필요)
+  const [typedData, { data: topCelebsData }] = await Promise.all([
+    fetchAllUserContents(supabase, celebIds),
+    supabase
+      .from('profiles')
+      .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
+      .in('id', celebIds)
+      .not('celeb_influence', 'is', null)
+      .order('celeb_influence(total_score)', { ascending: false })
+      .limit(5),
+  ])
 
   const topCelebs: TopCeleb[] = (topCelebsData || []).map(c => {
     const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
@@ -432,23 +431,23 @@ export async function getScripturesByProfession(params?: {
 // 직업별 셀럽 인원 수 조회 (탭 표시용)
 export async function getProfessionContentCounts(): Promise<Array<{ profession: string; label: string; count: number }>> {
   const supabase = await createClient()
-  const results: Array<{ profession: string; label: string; count: number }> = []
 
-  for (const { key, label } of PROFESSION_MAP) {
-    const { data: celebProfiles, count } = await supabase
-      .from('profiles')
-      .select('id', { count: 'exact', head: true })
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
-      .eq('profession', key)
+  const results = await Promise.all(
+    PROFESSION_MAP.map(async ({ key, label }) => {
+      const { count } = await supabase
+        .from('profiles')
+        .select('id', { count: 'exact', head: true })
+        .eq('profile_type', 'CELEB')
+        .eq('status', 'active')
+        .eq('profession', key)
 
-    // 해당 직업의 셀럽이 있으면 추가 (셀럽 인원 수 표시)
-    if (count && count > 0) {
-      results.push({ profession: key, label, count })
-    }
-  }
+      return count && count > 0 ? { profession: key, label, count } : null
+    })
+  )
 
-  return results.sort((a, b) => b.count - a.count)
+  return results
+    .filter((r): r is NonNullable<typeof r> => r !== null)
+    .sort((a, b) => b.count - a.count)
 }
 // #endregion
 
@@ -573,27 +572,25 @@ async function fetchFigureContents(
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url, profession, bio')
-    .eq('id', celebId)
-    .single()
+  // 프로필 + 콘텐츠 + 유저 카운트 병렬 조회
+  const [{ data: profile }, { data: userContents }, userCountMap] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('id, nickname, avatar_url, profession, bio')
+      .eq('id', celebId)
+      .single(),
+    supabase
+      .from('user_contents')
+      .select('id, content_id, rating, review, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type)')
+      .eq('user_id', celebId)
+      .eq('status', 'FINISHED')
+      .eq('visibility', 'public'),
+    fetchUserContentCounts(supabase),
+  ])
 
   if (!profile) {
     return { figure: null, contents: [], source: defaultSource }
   }
-
-  // 콘텐츠 조회
-  const { data: userContents } = await supabase
-    .from('user_contents')
-    .select('id, content_id, rating, review, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type)')
-    .eq('user_id', celebId)
-    .eq('status', 'FINISHED')
-    .eq('visibility', 'public')
-
-  // 일반 사용자(USER) 콘텐츠 카운트 조회
-  const userCountMap = await fetchUserContentCounts(supabase)
 
   const contents: ScriptureContent[] = (userContents || []).map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents

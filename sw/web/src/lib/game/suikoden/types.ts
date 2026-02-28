@@ -7,15 +7,62 @@ export type Grade = 'SS' | 'S' | 'A' | 'B' | 'C' | 'D' | 'E'
 export type ItemCategory = 'scroll' | 'painting' | 'manual' | 'score'
 export type ItemGrade = 'legendary' | 'heroic' | 'rare' | 'common' | 'plain'
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
-export type GamePhase = 'title' | 'setup' | 'wandering' | 'strategy' | 'battle' | 'disposition' | 'manage' | 'result'
+export type GamePhase = 'title' | 'setup' | 'wandering' | 'strategy' | 'placement' | 'battle' | 'disposition' | 'manage' | 'result'
 export type Era = 'ancient' | 'medieval' | 'modern'
 export type AIPersonality = 'conqueror' | 'schemer' | 'economist' | 'virtuous' | 'culturist'
 export type RegionId = 'east_asia' | 'southeast_asia' | 'south_asia' | 'central_asia' | 'middle_east' | 'east_europe' | 'west_europe' | 'africa' | 'americas' | 'oceania'
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
-// ── 전술 시스템 ──
+// ── 전술 시스템 (레거시 — 참조용으로 유지) ──
 
 export type TacticType = 'charge' | 'defend' | 'stratagem' | 'fire' | 'morale' | 'feint'
+
+// ── 개별 유닛 턴제 전투 시스템 ──
+
+export interface GridPosition { row: number; col: number }  // row 0=전열, 1=중열, 2=후열
+
+export type StatusEffectType = 'confused' | 'defending' | 'trapped' | 'shielded'
+
+export interface StatusEffect {
+  type: StatusEffectType
+  turnsLeft: number
+}
+
+export interface BattleUnit {
+  id: string                 // character.id
+  character: GameCharacter
+  factionId: string
+  position: GridPosition
+  hp: number
+  maxHp: number
+  morale: number
+  isDefeated: boolean
+  isLeader: boolean
+  statusEffects: StatusEffect[]
+}
+
+export type BattleActionType = 'attack' | 'ranged' | 'skill' | 'defend' | 'retreat'
+
+export interface BattleAction {
+  actorId: string
+  type: BattleActionType
+  skillId?: string
+  targetId?: string
+  targetRow?: number  // 범위 공격용
+}
+
+export type BattlePhase = 'placement' | 'action_select' | 'animating' | 'result'
+
+export type BattleAnimationType = 'melee' | 'ranged' | 'fire' | 'heal' | 'buff' | 'debuff' | 'defend'
+
+export interface BattleAnimation {
+  type: BattleAnimationType
+  actorId: string
+  targetId?: string
+  targetRow?: number
+  damage?: number
+  heal?: number
+}
 
 // ── 턴제 시스템 ──
 
@@ -79,6 +126,8 @@ export interface GameCharacter {
   hp: number
   maxHp: number
   grade: Grade
+  personaGrade?: Grade
+  personaGradeScore?: number  // 페르소나 기반 Grade 점수 (0~100)
   unitClass: UnitClass
   totalScore: number
   // 병사 시스템
@@ -230,7 +279,7 @@ export interface Faction {
   aiPersonality: AIPersonality | null // null = 플레이어
 }
 
-// ── 전투 (카드/전술 선택형) ──
+// ── 전투 (개별 유닛 턴제) ──
 
 export interface BattleParticipant {
   character: GameCharacter
@@ -241,37 +290,32 @@ export interface BattleParticipant {
   isDefeated: boolean
 }
 
-export interface BattleRound {
-  roundNumber: number
-  attackerTactic: TacticType
-  defenderTactic: TacticType
-  attackerDamage: number
-  defenderDamage: number
-  attackerTroopLoss: number
-  defenderTroopLoss: number
-  narrative: string
-}
-
 export interface BattleLogEntry {
   turn: number
   message: string
-  type: 'attack' | 'tactic' | 'morale' | 'death' | 'system' | 'wall'
+  type: 'attack' | 'skill' | 'morale' | 'death' | 'system' | 'wall' | 'heal'
 }
 
 export interface BattleState {
-  attackers: BattleParticipant[]
-  defenders: BattleParticipant[]
+  allies: BattleUnit[]
+  enemies: BattleUnit[]
   attackerFactionId: string
   defenderFactionId: string
   defenderTerritoryId: TerritoryId | null
-  roundNumber: number
-  maxRounds: number            // 10
-  phase: 'tactic_select' | 'resolving' | 'round_result' | 'result'
-  playerTactic: TacticType | null
-  rounds: BattleRound[]
+  turnOrder: string[]          // 유닛 ID 배열 (속도순)
+  currentTurnIndex: number
+  turnNumber: number
+  maxTurns: number             // 30
+  phase: BattlePhase
   log: BattleLogEntry[]
   result: 'pending' | 'attacker_wins' | 'defender_wins' | 'draw'
   defenderHasWalls: boolean
+  allyMorale: number           // 세력 사기 0~100
+  enemyMorale: number
+  animation: BattleAnimation | null
+  // 레거시 호환 (applyBattleResult용)
+  attackers: BattleParticipant[]
+  defenders: BattleParticipant[]
 }
 
 // ── 방랑 이벤트 ──
@@ -388,6 +432,16 @@ export interface DialogEntry {
 
 export interface GameSettings {
   dialogMode: 'auto' | 'manual'
+}
+
+// ── 세력 미리보기 (2단계 셋업) ──
+
+export interface WorldPreview {
+  aiFactions: Faction[]
+  wanderers: GameCharacter[]
+  era: Era
+  difficulty: 'easy' | 'normal' | 'hard'
+  placements: CharacterPlacement[]
 }
 
 // ── 에셋 ──

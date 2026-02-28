@@ -105,7 +105,7 @@ export default async function CelebPage({ params }: PageProps) {
   const userId = profile.id;
   const pageTitle = buildPageTitle(profile.nickname, profile.profession, profile.contentTypeCounts);
 
-  const [guestbookResult, personaData, contentListResult] = await Promise.all([
+  const [guestbookResult, personaData, contentListResult, dialogueResult] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getSimilarByCelebId(userId, 3),
     // JSON-LD ItemList용 콘텐츠 목록 (최대 50개)
@@ -114,7 +114,14 @@ export default async function CelebPage({ params }: PageProps) {
       .select('contents!inner(id, type, title, creator)')
       .eq('user_id', userId)
       .limit(50),
+    supabase
+      .from('celeb_dialogues')
+      .select('lines')
+      .eq('celeb_id', userId)
+      .maybeSingle(),
   ]);
+
+  const greeting = (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null;
 
   const guestbookCurrentUser = currentUser
     ? { id: currentUser.id, nickname: profile.nickname, avatar_url: profile.avatar_url }
@@ -174,6 +181,7 @@ export default async function CelebPage({ params }: PageProps) {
         guestbookEntries={guestbookResult.entries}
         guestbookTotal={guestbookResult.total}
         guestbookCurrentUser={guestbookCurrentUser}
+        greeting={greeting}
       />
     </>
   );

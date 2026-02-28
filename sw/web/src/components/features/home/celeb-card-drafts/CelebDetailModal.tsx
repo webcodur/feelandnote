@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft } from "lucide-react";
@@ -21,13 +21,13 @@ import { getCelebReviews } from "@/actions/home/getCelebReviews";
 import type { CelebReview } from "@/types/home";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
+import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import Button from "@/components/ui/Button";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 
 // #region Constants (materials.ts 기반 오라별 그라데이션)
 const AURA_GRADIENTS: Record<Aura, string> = {
@@ -42,15 +42,6 @@ const AURA_GRADIENTS: Record<Aura, string> = {
   9: "from-[#FF00FF] via-[#00FFFF] to-[#FFFF00]",         // holographic (불멸자)
 };
 
-type CategoryFilter = "ALL" | "BOOK" | "VIDEO" | "GAME" | "MUSIC";
-
-const CATEGORY_TABS: { value: CategoryFilter; label: string }[] = [
-  { value: "ALL", label: "전체" },
-  { value: "BOOK", label: "도서" },
-  { value: "VIDEO", label: "영상" },
-  { value: "GAME", label: "게임" },
-  { value: "MUSIC", label: "음악" },
-];
 // #endregion
 
 // #region Inline Celeb Review Card (for modal)
@@ -175,7 +166,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [reviews, setReviews] = useState<CelebReview[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
   const [displayCount, setDisplayCount] = useState(20);
-  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("ALL");
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
   const fetchedForRef = useRef<string | null>(null);
 
@@ -192,7 +183,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     setIsReviewMode(true);
     setReviews([]);
     setDisplayCount(20);
-    setCategoryFilter("ALL");
+    setCategoryFilter(null);
     setIsFollowing(celeb.is_following);
     setIsTagsModalOpen(false);
     // Strict Mode 중복 fetch 방지 (cleanup 없이 ref로 관리)
@@ -357,9 +348,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   };
 
   const ReviewView = () => {
-    const filteredReviews = categoryFilter === "ALL"
-      ? reviews
-      : reviews.filter(r => r.content.type === categoryFilter);
+    const filteredReviews = categoryFilter
+      ? reviews.filter(r => r.content.type === categoryFilter)
+      : reviews;
 
     return (
       <div className="relative w-full h-full min-h-0 flex flex-col bg-bg-main animate-fade-in">
@@ -380,15 +371,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           </button>
         </div>
 
-        {/* 카테고리 필터 */}
-        <div className="shrink-0 px-4 pt-4 pb-2">
-          <CategoryTabFilter
-            options={CATEGORY_TABS}
-            value={categoryFilter}
-            onChange={setCategoryFilter}
-            className="mb-0"
-          />
-        </div>
+        {/* 타입별 개수 요약 (클릭 시 필터) */}
+        <ContentTypeSummary
+          items={reviews.map(r => r.content)}
+          value={categoryFilter}
+          onChange={(type) => { setCategoryFilter(type); setDisplayCount(20); }}
+          className="shrink-0 px-4 pt-4 pb-2"
+        />
 
         {/* 리스트 영역 */}
         <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 md:p-8 custom-scrollbar">
@@ -416,11 +405,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           ) : (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <Feather size={48} className="text-text-tertiary/20 mb-4" />
-              <p className="text-text-secondary font-medium mb-1">
-                {categoryFilter === "ALL"
-                  ? "아직 공개된 감상이 없습니다"
-                  : `${CATEGORY_TABS.find(t => t.value === categoryFilter)?.label} 감상이 없습니다`}
-              </p>
+              <p className="text-text-secondary font-medium mb-1">아직 공개된 감상이 없습니다</p>
               <p className="text-xs text-text-tertiary">조금 더 기다려주세요</p>
             </div>
           )}

@@ -30,7 +30,14 @@ interface DbInfluence {
   total_score?: number | null
 }
 
-export function dbToCharacter(profile: DbProfile, influence: DbInfluence): GameCharacter {
+interface DbPersona {
+  command?: number | null
+  martial?: number | null
+  intellect?: number | null
+  charisma?: number | null
+}
+
+export function dbToCharacter(profile: DbProfile, influence: DbInfluence, persona?: DbPersona): GameCharacter {
   const strategic = influence.strategic ?? 0
   const tech = influence.tech ?? 0
   const political = influence.political ?? 0
@@ -50,7 +57,17 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence): GameC
   const stats: Stats = { power, skill, intellect, stamina, loyalty, virtue, courage }
 
   const grade = calcGrade(totalScore)
-  const maxTroops = GRADE_TROOPS[grade]
+
+  // 페르소나 기반 Grade 계산
+  let personaGrade: Grade | undefined
+  let _personaGradeScore: number | undefined
+  if (persona && persona.command != null && persona.martial != null && persona.intellect != null && persona.charisma != null) {
+    _personaGradeScore = calcPersonaGrade(persona.command, persona.martial, persona.intellect, persona.charisma)
+    personaGrade = calcGrade(_personaGradeScore)
+  }
+
+  const effectiveGrade = personaGrade ?? grade
+  const maxTroops = GRADE_TROOPS[effectiveGrade]
 
   return {
     id: profile.id,
@@ -68,6 +85,8 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence): GameC
     hp: Math.max(10, Math.round(trans * 2.5)),
     maxHp: Math.max(10, Math.round(trans * 2.5)),
     grade,
+    personaGrade,
+    personaGradeScore: _personaGradeScore,
     unitClass: (profile.profession ? PROFESSION_TO_CLASS[profile.profession] : undefined) ?? 'ranger',
     totalScore,
     troops: maxTroops,
@@ -129,6 +148,23 @@ function calcItemBonuses(cat: ItemCategory, score: number): Partial<Stats> {
     case 'manual':   return { power: Math.floor(score / 20), skill: Math.floor(score / 20) }
     case 'score':    return { virtue: Math.floor(score / 20), courage: Math.floor(score / 30) }
   }
+}
+
+// ── 페르소나 기반 등급 계산 ──
+
+export function calcPersonaGrade(command: number, martial: number, intellect: number, charisma: number): number {
+  const sorted = [command, martial, intellect, charisma].sort((a, b) => b - a)
+  return sorted[0] * 0.4 + sorted[1] * 0.3 + sorted[2] * 0.2 + sorted[3] * 0.1
+}
+
+/** personaGrade 우선, 없으면 기존 grade 폴백 */
+export function getEffectiveGrade(c: GameCharacter): Grade {
+  return c.personaGrade ?? c.grade
+}
+
+/** personaGrade 점수 (숫자) 반환. persona 없으면 totalScore 폴백 */
+export function getEffectiveGradeScore(c: GameCharacter): number {
+  return c.personaGradeScore ?? c.totalScore
 }
 
 // ── 등급 계산 ──

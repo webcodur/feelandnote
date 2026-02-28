@@ -20,13 +20,19 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
       celeb_influence (
         political, strategic, tech, social, economic, cultural,
         transhistoricity, total_score
+      ),
+      celeb_persona (
+        command, martial, intellect, charisma
       )
     `)
     .not('death_date', 'is', null)
     .not('death_date', 'eq', '')
     .not('profession', 'is', null)
 
-  if (error || !data) return []
+  if (error || !data) {
+    console.error("[loadSuikodenCharacters] 캐릭터 조회 실패:", error?.message);
+    return [];
+  }
 
   return data
     .filter((p: any) => {
@@ -37,7 +43,8 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     })
     .map((p: any) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
-      return dbToCharacter(p, influence)
+      const persona = Array.isArray(p.celeb_persona) ? p.celeb_persona[0] : p.celeb_persona
+      return dbToCharacter(p, influence, persona ?? undefined)
     })
     .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
 }
@@ -55,7 +62,10 @@ export async function loadSuikodenItems(characterIds: string[]): Promise<GameIte
     `)
     .in('user_id', characterIds.slice(0, 100)) // 배치 제한
 
-  if (error || !data) return []
+  if (error || !data) {
+    console.error("[loadSuikodenItems] 아이템 조회 실패:", error?.message);
+    return [];
+  }
 
   // 콘텐츠별 평균 점수 계산을 위해 그룹핑
   const contentScores = new Map<string, number[]>()

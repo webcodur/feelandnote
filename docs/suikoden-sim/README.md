@@ -10,8 +10,8 @@
 | 파일 | 내용 |
 |------|------|
 | [01-overview.md](./01-overview.md) | 게임 컨셉, 목표, 핵심 루프 |
-| [02-characters.md](./02-characters.md) | 캐릭터 시스템 (스탯, 병과, 동적 로딩) |
-| [03-combat.md](./03-combat.md) | 전투 시스템 (턴제, 지형, 계략) |
+| [02-characters.md](./02-characters.md) | 캐릭터 시스템 (페르소나 스탯, 병과, 동적 로딩) |
+| [03-combat.md](./03-combat.md) | 전투 시스템 (카드/전술 선택형) |
 | [04-management.md](./04-management.md) | 거점 경영 (건물, 자원, 내정) |
 | [05-items.md](./05-items.md) | 아이템 시스템 (콘텐츠 기반 장비) |
 | [06-campaign.md](./06-campaign.md) | 캠페인 (맵, 세력, 승리 조건) |
@@ -24,8 +24,9 @@
 
 ## 데이터 소스
 
-- **캐릭터**: Supabase `profiles` + `celeb_influence` (1906년 이전 사망자, ~148명, 계속 추가)
-- **아이템**: Supabase `contents` + `user_contents` (~6,488건)
+- **캐릭터**: Supabase `profiles` + `celeb_influence` + `celeb_persona` (사망 120년 이상 인물)
+- **아이템**: Supabase `contents` + `user_contents`
+- **대사**: Supabase `celeb_dialogues`
 - **게임 시작 시 DB에서 동적 로딩** — 캐릭터는 사전 정의되지 않음
 
 ---

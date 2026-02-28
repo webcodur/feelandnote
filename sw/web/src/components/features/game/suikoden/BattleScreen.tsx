@@ -1,12 +1,18 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import type { GameState, TacticType } from '@/lib/game/suikoden/types'
-import { TACTIC_INFO, BATTLE_MAX_ROUNDS } from '@/lib/game/suikoden/constants'
-import { selectPlayerTactic, selectAITactic, resolveRound, checkBattleResult, applyBattleResult, collectDispositionTargets } from '@/lib/game/suikoden/engine'
-import { getAvailableTactics } from '@/lib/game/suikoden/skills'
-import BattleParticipantCard from './BattleParticipantCard'
-import TacticSelectPanel from './TacticSelectPanel'
+import { useState, useCallback } from 'react'
+import type { GameState, BattleUnit, BattleAction, BattleActionType } from '@/lib/game/suikoden/types'
+import { SKILL_DEFS } from '@/lib/game/suikoden/constants'
+import {
+  executeAction, getValidTargets, selectAIAction,
+  confirmPlacement, checkBattleEnd, syncLegacyParticipants,
+} from '@/lib/game/suikoden/battleEngine'
+import { applyBattleResult, collectDispositionTargets } from '@/lib/game/suikoden/engine'
+import TurnOrderBar from './TurnOrderBar'
+import BattleGridView from './BattleGridView'
+import ActionPanel from './ActionPanel'
+import PlacementScreen from './PlacementScreen'
+import BattleSVGOverlay from './BattleSVGOverlay'
 
 interface Props {
   state: GameState
@@ -15,64 +21,177 @@ interface Props {
 
 export default function BattleScreen({ state, onUpdateState }: Props) {
   const battle = state.battle!
-  const factions = state.factions
   const playerFactionId = state.playerFactionId
   const isPlayerAttacker = battle.attackerFactionId === playerFactionId
 
-  const [selectedTactic, setSelectedTactic] = useState<TacticType | null>(null)
-  const [resolving, setResolving] = useState(false)
+  const [selectedAction, setSelectedAction] = useState<string | null>(null)
+  const [selectedTargetId, setSelectedTargetId] = useState<string | null>(null)
+  const [animating, setAnimating] = useState(false)
 
-  const attackerFaction = factions.find(f => f.id === battle.attackerFactionId)
-  const defenderFaction = factions.find(f => f.id === battle.defenderFactionId)
+  const attackerFaction = state.factions.find(f => f.id === battle.attackerFactionId)
+  const defenderFaction = state.factions.find(f => f.id === battle.defenderFactionId)
 
-  // 플레이어 참가자
-  const playerParticipants = isPlayerAttacker ? battle.attackers : battle.defenders
-  const enemyParticipants = isPlayerAttacker ? battle.defenders : battle.attackers
-  const playerAvailableTactics = getAvailableTactics(playerParticipants)
+  // 현재 행동자
+  const currentUnitId = battle.turnOrder[battle.currentTurnIndex] ?? null
+  const currentUnit = currentUnitId
+    ? (battle.allies.find(u => u.id === currentUnitId) ?? battle.enemies.find(u => u.id === currentUnitId))
+    : null
+  const isPlayerTurn = currentUnit
+    ? battle.allies.some(u => u.id === currentUnit.id)
+    : false
 
-  // AI 성격
-  const enemyFaction = factions.find(f => f.id === (isPlayerAttacker ? battle.defenderFactionId : battle.attackerFactionId))
-  const aiPersonality = enemyFaction?.aiPersonality ?? 'economist'
+  // 유효 타겟 계산
+  const getTargets = useCallback((action: string): string[] => {
+    if (!currentUnitId) return []
+    if (action === 'attack') {
+      return getValidTargets(battle, currentUnitId, 'attack')
+    }
+    if (action === 'defend' || action === 'retreat') {
+      return [currentUnitId]
+    }
+    if (action.startsWith('skill:')) {
+      const skillId = action.replace('skill:', '')
+      return getValidTargets(battle, currentUnitId, 'skill', skillId)
+    }
+    return []
+  }, [battle, currentUnitId])
 
-  // 전술 선택 → 라운드 해결
-  const handleConfirmTactic = useCallback(() => {
-    if (!selectedTactic || resolving) return
-    setResolving(true)
+  const validTargetIds = selectedAction ? getTargets(selectedAction) : []
 
-    // 1. 플레이어 전술 적용
-    let b = selectPlayerTactic(battle, selectedTactic)
+  // 행동 선택
+  const handleSelectAction = useCallback((action: string) => {
+    setSelectedAction(action)
+    setSelectedTargetId(null)
 
-    // 2. AI 전술 선택
-    const aiTactic = selectAITactic(b, aiPersonality)
+    // 자기 타겟 행동은 즉시 실행
+    if (action === 'defend' || action === 'retreat') {
+      executePlayerAction(action, currentUnitId!)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUnitId])
 
-    // 3. 공격/방어 전술 결정
-    const atkTactic = isPlayerAttacker ? selectedTactic : aiTactic
-    const defTactic = isPlayerAttacker ? aiTactic : selectedTactic
+  // 타겟 선택 → 실행
+  const handleSelectTarget = useCallback((targetId: string) => {
+    if (!selectedAction || !currentUnitId) return
+    setSelectedTargetId(targetId)
+    executePlayerAction(selectedAction, targetId)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAction, currentUnitId])
 
-    // 4. 라운드 해결
-    b = resolveRound(b, atkTactic, defTactic)
+  // 행동 실행
+  const executePlayerAction = useCallback((actionStr: string, targetId: string) => {
+    if (!currentUnitId || animating) return
+    setAnimating(true)
 
-    // 5. 전투 결과 확인
-    b = checkBattleResult(b)
+    let action: BattleAction
+    if (actionStr.startsWith('skill:')) {
+      const skillId = actionStr.replace('skill:', '')
+      const skillDef = SKILL_DEFS[skillId]
+      action = {
+        actorId: currentUnitId,
+        type: 'skill',
+        skillId,
+        targetId: skillDef?.targetType === 'row_enemy' ? undefined : targetId,
+        targetRow: skillDef?.targetType === 'row_enemy' ? Number(targetId) : undefined,
+      }
+    } else {
+      action = {
+        actorId: currentUnitId,
+        type: actionStr as BattleActionType,
+        targetId: actionStr === 'defend' || actionStr === 'retreat' ? currentUnitId : targetId,
+      }
+    }
 
-    // 애니메이션 딜레이 후 state 반영
+    // 실행
+    onUpdateState(s => {
+      const b = s.battle!
+      const newBattle = executeAction(b, action)
+      return { ...s, battle: newBattle }
+    })
+
+    // 애니메이션 후 AI 턴 체인
     setTimeout(() => {
-      onUpdateState(s => ({ ...s, battle: b }))
-      setSelectedTactic(null)
-      setResolving(false)
-    }, 1200)
-  }, [battle, selectedTactic, resolving, isPlayerAttacker, aiPersonality, onUpdateState])
+      setSelectedAction(null)
+      setSelectedTargetId(null)
+      setAnimating(false)
+      runAITurns()
+    }, 900)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUnitId, animating, onUpdateState])
+
+  // AI 턴 자동 실행
+  const runAITurns = useCallback(() => {
+    const runNext = () => {
+      onUpdateState(s => {
+        const b = s.battle
+        if (!b || b.result !== 'pending' || b.phase === 'result') return s
+
+        const unitId = b.turnOrder[b.currentTurnIndex]
+        if (!unitId) return s
+
+        const isAlly = b.allies.some(u => u.id === unitId && !u.isDefeated)
+        if (isAlly) return s // 플레이어 턴 → 중단
+
+        // AI 행동
+        const aiAction = selectAIAction(b, unitId)
+        const newBattle = executeAction(b, aiAction)
+
+        // 결과 체크
+        if (newBattle.result !== 'pending') {
+          return { ...s, battle: newBattle }
+        }
+
+        // 다음이 플레이어면 중단, AI면 계속
+        const nextUnitId = newBattle.turnOrder[newBattle.currentTurnIndex]
+        const nextIsAlly = newBattle.allies.some(u => u.id === nextUnitId && !u.isDefeated)
+
+        if (!nextIsAlly && newBattle.result === 'pending') {
+          // 연속 AI 턴 — 약간의 딜레이
+          setTimeout(runNext, 400)
+        }
+
+        return { ...s, battle: newBattle }
+      })
+    }
+
+    // 첫 AI 체크
+    setTimeout(runNext, 300)
+  }, [onUpdateState])
+
+  // 배치 확정
+  const handlePlacementConfirm = useCallback((allies: BattleUnit[]) => {
+    onUpdateState(s => {
+      const b = s.battle!
+      const newBattle = confirmPlacement({ ...b, allies })
+
+      // 첫 행동자가 AI면 AI 턴 시작
+      const firstId = newBattle.turnOrder[0]
+      const firstIsAlly = newBattle.allies.some(u => u.id === firstId)
+      if (!firstIsAlly) {
+        setTimeout(() => runAITurns(), 300)
+      }
+
+      return { ...s, battle: newBattle }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onUpdateState])
+
+  // SVG 애니메이션 종료
+  const handleAnimationEnd = useCallback(() => {
+    onUpdateState(s => {
+      if (!s.battle) return s
+      return { ...s, battle: { ...s.battle, animation: null } }
+    })
+  }, [onUpdateState])
 
   // 전투 종료 처리
   const handleBattleComplete = useCallback(() => {
     onUpdateState(s => {
-      const b = s.battle!
+      const b = syncLegacyParticipants(s.battle!)
       let ns = applyBattleResult(s, b)
 
-      // 패배 장수 수집 (플레이어 승리 시)
       const targets = collectDispositionTargets(b, s.playerFactionId)
       if (targets.length > 0) {
-        // disposition 화면으로 전환
         return {
           ...ns,
           phase: 'disposition',
@@ -80,7 +199,6 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
         }
       }
 
-      // 처분 대상 없으면 기존 흐름
       ns = { ...ns, battle: null, phase: 'strategy' }
       const active = ns.factions.filter(f => f.territories.length > 0)
       if (active.length === 1) {
@@ -90,11 +208,11 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
     })
   }, [onUpdateState])
 
-  // 유닛 수
-  const countAlive = (participants: typeof battle.attackers) =>
-    participants.filter(p => !p.isDefeated).length
+  // 아군/적군 생존 수
+  const allyAlive = battle.allies.filter(u => !u.isDefeated).length
+  const enemyAlive = battle.enemies.filter(u => !u.isDefeated).length
 
-  // 전투 결과 텍스트
+  // 결과 텍스트
   const resultLabel = () => {
     if (battle.result === 'attacker_wins') {
       return isPlayerAttacker ? '승리!' : '패배...'
@@ -105,41 +223,70 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
     return '무승부'
   }
 
-  // 최신 라운드
-  const lastRound = battle.rounds.length > 0 ? battle.rounds[battle.rounds.length - 1] : null
+  // ── 배치 화면 ──
+  if (battle.phase === 'placement') {
+    return <PlacementScreen state={battle} onConfirm={handlePlacementConfirm} />
+  }
 
+  // ── 전투 화면 ──
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {/* 전투 HUD */}
       <div className="flex items-center justify-between p-2 bg-stone-800 border border-stone-700 rounded text-xs">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: attackerFaction?.color }} />
             <span className="text-stone-200">{attackerFaction?.name.replace('의 세력', '')}</span>
-            <span className="text-stone-500 text-[10px]">({countAlive(battle.attackers)})</span>
+            <span className="text-stone-500 text-[10px]">({isPlayerAttacker ? allyAlive : enemyAlive})</span>
           </div>
           <span className="text-stone-500">vs</span>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
             <span className="text-stone-200">{defenderFaction?.name.replace('의 세력', '')}</span>
-            <span className="text-stone-500 text-[10px]">({countAlive(battle.defenders)})</span>
+            <span className="text-stone-500 text-[10px]">({isPlayerAttacker ? enemyAlive : allyAlive})</span>
           </div>
         </div>
         <div className="flex items-center gap-3 text-stone-400">
-          {battle.defenderHasWalls && (
-            <span className="text-amber-400 text-[10px]">[성벽]</span>
-          )}
-          <span>라운드 {battle.roundNumber}/{battle.maxRounds}</span>
+          {battle.defenderHasWalls && <span className="text-amber-400 text-[10px]">[성벽]</span>}
+          <span>턴 {battle.turnNumber}/{battle.maxTurns}</span>
         </div>
       </div>
+
+      {/* 사기 게이지 */}
+      <div className="flex gap-2 text-[10px]">
+        <div className="flex-1">
+          <div className="flex justify-between mb-0.5">
+            <span className="text-green-400">아군 사기</span>
+            <span className="text-stone-400">{battle.allyMorale}</span>
+          </div>
+          <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-green-500 rounded-full transition-all"
+              style={{ width: `${battle.allyMorale}%` }}
+            />
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="flex justify-between mb-0.5">
+            <span className="text-red-400">적군 사기</span>
+            <span className="text-stone-400">{battle.enemyMorale}</span>
+          </div>
+          <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-red-500 rounded-full transition-all"
+              style={{ width: `${battle.enemyMorale}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 턴 오더 바 */}
+      <TurnOrderBar state={battle} playerFactionId={playerFactionId} />
 
       {/* 전투 결과 */}
       {battle.result !== 'pending' && (
         <div className="p-4 bg-stone-800 border border-amber-500/30 rounded text-center space-y-3">
           <p className="text-xl font-bold text-stone-200">{resultLabel()}</p>
-          {lastRound && (
-            <p className="text-xs text-stone-400">{lastRound.narrative}</p>
-          )}
           <button
             onClick={handleBattleComplete}
             className="px-6 py-2 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500"
@@ -149,87 +296,63 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
         </div>
       )}
 
-      {/* 참가자 카드 + 전술 선택 */}
+      {/* 전투 진행 중 */}
       {battle.result === 'pending' && (
         <>
-          {/* 양측 참가자 */}
-          <div className="grid grid-cols-2 gap-3">
-            {/* 공격측 */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-stone-300">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: attackerFaction?.color }} />
-                공격
+          {/* 그리드 영역 */}
+          <div className="relative">
+            <div className="grid grid-cols-2 gap-2">
+              {/* 아군 그리드 */}
+              <div>
+                <p className="text-[9px] text-green-400 mb-1 font-bold">아군</p>
+                <BattleGridView
+                  units={battle.allies}
+                  isAlly={true}
+                  currentUnitId={currentUnitId}
+                  selectedTargetId={selectedTargetId}
+                  validTargetIds={isPlayerTurn ? [] : validTargetIds}
+                  animation={battle.animation}
+                  onSelectTarget={handleSelectTarget}
+                />
               </div>
-              <div className="space-y-1.5">
-                {battle.attackers.map((p, i) => (
-                  <BattleParticipantCard
-                    key={i}
-                    participant={p}
-                    isPlayer={p.factionId === playerFactionId}
-                  />
-                ))}
+
+              {/* 적군 그리드 */}
+              <div>
+                <p className="text-[9px] text-red-400 mb-1 font-bold">적군</p>
+                <BattleGridView
+                  units={battle.enemies}
+                  isAlly={false}
+                  currentUnitId={currentUnitId}
+                  selectedTargetId={selectedTargetId}
+                  validTargetIds={isPlayerTurn ? validTargetIds : []}
+                  animation={battle.animation}
+                  onSelectTarget={handleSelectTarget}
+                />
               </div>
             </div>
 
-            {/* 방어측 */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-stone-300">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
-                방어
-                {battle.defenderHasWalls && <span className="text-[9px] text-amber-400">[성벽]</span>}
-              </div>
-              <div className="space-y-1.5">
-                {battle.defenders.map((p, i) => (
-                  <BattleParticipantCard
-                    key={i}
-                    participant={p}
-                    isPlayer={p.factionId === playerFactionId}
-                  />
-                ))}
-              </div>
-            </div>
+            {/* SVG 애니메이션 오버레이 */}
+            <BattleSVGOverlay animation={battle.animation} onAnimationEnd={handleAnimationEnd} />
           </div>
 
-          {/* 라운드 결과 서술 */}
-          {lastRound && (
-            <div className="p-3 bg-stone-800 border border-stone-700 rounded">
-              <div className="flex items-center gap-2 text-xs mb-1.5">
-                <span className="text-stone-500">라운드 {lastRound.roundNumber}</span>
-                <span className="text-amber-300">{TACTIC_INFO[lastRound.attackerTactic].icon} {TACTIC_INFO[lastRound.attackerTactic].name}</span>
-                <span className="text-stone-500">vs</span>
-                <span className="text-red-300">{TACTIC_INFO[lastRound.defenderTactic].icon} {TACTIC_INFO[lastRound.defenderTactic].name}</span>
-              </div>
-              <p className="text-[11px] text-stone-300 leading-relaxed">{lastRound.narrative}</p>
-              <div className="flex gap-4 mt-1.5 text-[10px] text-stone-500">
-                <span>공격측 피해: {lastRound.attackerDamage} (병력 -{lastRound.attackerTroopLoss})</span>
-                <span>방어측 피해: {lastRound.defenderDamage} (병력 -{lastRound.defenderTroopLoss})</span>
-              </div>
-            </div>
-          )}
-
-          {/* 전술 선택 패널 */}
-          {battle.phase === 'tactic_select' && (
-            <div className="space-y-2">
-              <TacticSelectPanel
-                availableTactics={playerAvailableTactics}
-                selectedTactic={selectedTactic}
-                onSelect={setSelectedTactic}
-                disabled={resolving}
+          {/* 행동 패널 (플레이어 턴) */}
+          {isPlayerTurn && currentUnit && !animating && (
+            <div className="p-2 bg-stone-800 border border-stone-700 rounded">
+              <ActionPanel
+                unit={currentUnit}
+                selectedAction={selectedAction}
+                onSelectAction={handleSelectAction}
+                disabled={animating}
               />
-              <button
-                onClick={handleConfirmTactic}
-                disabled={!selectedTactic || resolving}
-                className="w-full py-2.5 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-              >
-                {resolving ? '판정 중...' : selectedTactic ? `${TACTIC_INFO[selectedTactic].name} 실행` : '전술을 선택하세요'}
-              </button>
             </div>
           )}
 
-          {/* 해결 중 표시 */}
-          {resolving && (
-            <div className="text-center py-4">
-              <span className="text-amber-400 text-sm animate-pulse">전술 판정 중...</span>
+          {/* AI 턴 표시 */}
+          {!isPlayerTurn && currentUnit && (
+            <div className="text-center py-2">
+              <span className="text-red-400 text-sm animate-pulse">
+                {currentUnit.character.nickname} 행동 중...
+              </span>
             </div>
           )}
         </>
@@ -241,8 +364,9 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
           <p key={i} className={
             entry.type === 'death' ? 'text-red-400' :
             entry.type === 'attack' ? 'text-stone-300' :
-            entry.type === 'tactic' ? 'text-purple-400' :
+            entry.type === 'skill' ? 'text-purple-400' :
             entry.type === 'morale' ? 'text-green-400' :
+            entry.type === 'heal' ? 'text-emerald-400' :
             entry.type === 'system' ? 'text-amber-300 font-bold' :
             'text-stone-500'
           }>

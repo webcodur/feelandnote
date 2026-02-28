@@ -19,9 +19,10 @@ export default async function FeedbackPage({ searchParams }: FeedbackPageProps) 
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  const { feedbacks, total } = await getFeedbacks({ limit: ITEMS_PER_PAGE, offset })
+  const [{ data: { user } }, { feedbacks, total }] = await Promise.all([
+    supabase.auth.getUser(),
+    getFeedbacks({ limit: ITEMS_PER_PAGE, offset }),
+  ])
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
 
