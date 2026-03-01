@@ -2,21 +2,15 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui";
-import DecorativeLabel from "@/components/ui/DecorativeLabel";
-import { ContentCard, type ContentCardProps } from "@/components/ui/cards";
-import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
-import { Calendar, ArrowRight, BookOpen, Newspaper, Shuffle } from "lucide-react";
-import { CATEGORIES, getCategoryById, type CategoryId } from "@/constants/categories";
-import { HomeSearchArea } from "@/components/features/quickRecord/homeSection/HomeSearchArea";
-import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
-import { useDebounce } from "@/hooks/useDebounce";
-import { Copy, Check } from "lucide-react";
-import { useEffect, useTransition } from "react";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { ContentCard } from "@/components/ui/cards";
+import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
+import { CELEB_PROFESSIONS, getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { Calendar, ArrowRight, BookOpen, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { ContentType } from "@/types/database";
 
 interface Figure {
     id: string;
@@ -51,64 +45,46 @@ interface TodayFigureSectionProps {
     source?: TodayFigureSource;
 }
 
-const categoryToContentType = (category: string): ContentType | undefined => {
-  if (category === 'all') return undefined;
-  const config = getCategoryById(category as any);
-  return (config?.dbType as ContentType);
-};
+/** 마지막 글자의 받침 유무로 '이/가' 반환 */
+function subjectParticle(name: string): string {
+  const last = name.charCodeAt(name.length - 1);
+  if (last < 0xac00 || last > 0xd7a3) return "이";
+  return (last - 0xac00) % 28 === 0 ? "가" : "이";
+}
 
-export default function TodayFigureSection({ figure, contents: initialContents, source }: TodayFigureSectionProps) {
-    const [contents, setContents] = useState(initialContents);
-    const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
-    
-    const [query, setQuery] = useState("");
-    const debouncedQuery = useDebounce(query, 300);
-    const [isSearching, startTransition] = useTransition();
+function buildLibraryLabel(
+  nickname: string,
+  profession: string | null,
+  contents: Content[],
+): string {
+  const professionLabel = getCelebProfessionLabel(profession);
+  const counts = { BOOK: 0, VIDEO: 0, MUSIC: 0, GAME: 0 };
+  for (const c of contents) {
+    if (c.type in counts) counts[c.type as keyof typeof counts]++;
+  }
+  const parts: string[] = [];
+  if (counts.BOOK > 0) parts.push(`${counts.BOOK}권의 책`);
+  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO}편의 영화`);
+  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC}곡의 음악`);
+  if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
+
+  if (parts.length === 0) {
+    return `${professionLabel} ${nickname}의 감상 기록`;
+  }
+  const particle = subjectParticle(nickname);
+  return `${professionLabel} ${nickname}${particle} 감상한 ${parts.join(", ")}`;
+}
+
+export default function TodayFigureSection({ figure, contents, source }: TodayFigureSectionProps) {
+    const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
     if (!figure) return null;
 
     const professionLabel = CELEB_PROFESSIONS.find(p => p.value === figure.profession)?.label || figure.profession;
 
-    // Search & Filter Logic
-    useEffect(() => {
-        const fetchContents = async () => {
-             const type = categoryToContentType(selectedCategory);
-             
-             try {
-                const result = await getUserContents({
-                    userId: figure.id,
-                    type,
-                    search: debouncedQuery,
-                    limit: 100, // Enough to show plenty of results
-                    sortBy: 'recent'
-                });
-
-                const mappedContents: Content[] = result.items.map(item => ({
-                    id: item.content.id,
-                    type: item.content.type,
-                    title: item.content.title,
-                    creator: item.content.creator,
-                    thumbnail_url: item.content.thumbnail_url,
-                    avg_rating: item.public_record?.rating,
-                    review: item.public_record?.content_preview,
-                    is_spoiler: item.public_record?.is_spoiler,
-                    source_url: item.source_url,
-                    user_content_id: item.id
-                }));
-                
-                setContents(mappedContents);
-             } catch (error) {
-                 console.error("Failed to fetch figure contents:", error);
-                 // Keep previous contents or empty? maybe empty on error
-                 setContents([]);
-             }
-        };
-
-        startTransition(async () => {
-            await fetchContents();
-        });
-
-    }, [selectedCategory, debouncedQuery, figure.id]);
+    const filteredContents = categoryFilter
+        ? contents.filter(c => c.type === categoryFilter)
+        : contents;
 
     // 오늘 날짜 포맷
     const today = new Date();
@@ -158,68 +134,50 @@ export default function TodayFigureSection({ figure, contents: initialContents, 
                         </div>
                     </div>
                 </Link>
-                
+
+                {/* 선정 과정 안내 (뉴스 기반일 때만) */}
+                {source?.type === 'news' && (
+                    <div className="max-w-md mx-auto mt-2 mb-2">
+                        <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                            <Newspaper size={14} className="text-blue-400 shrink-0" />
+                            <p className="text-xs text-blue-300/90">
+                                최근 48시간 뉴스에서 <strong className="text-blue-300">{source.newsCount}건</strong> 언급되어 선정되었습니다
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 {/* 간단한 소개글 */}
                 {figure.bio && (
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
                         &ldquo;{figure.bio}&rdquo;
                     </p>
                 )}
-
-                {/* 선정 과정 안내 */}
-                {source && (
-                    <div className="max-w-md mx-auto mt-2 mb-2">
-                        {source.type === 'news' ? (
-                            <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                                <Newspaper size={14} className="text-blue-400 shrink-0" />
-                                <p className="text-xs text-blue-300/90">
-                                    최근 48시간 뉴스에서 <strong className="text-blue-300">{source.newsCount}건</strong> 언급되어 선정되었습니다
-                                </p>
-                            </div>
-                        ) : (
-                            <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                                <Shuffle size={14} className="text-text-tertiary shrink-0" />
-                                <p className="text-xs text-text-tertiary">
-                                    감상 기록 5개 이상인 인물 중 오늘의 날짜 기반으로 선정되었습니다
-                                </p>
-                            </div>
-                        )}
-                    </div>
-                )}
-            </div>
-
-            {/* 카테고리 탭 & 검색바 */}
-            <div className="mb-10 md:mb-16">
-                <HomeSearchArea
-                    selectedCategory={selectedCategory}
-                    onCategoryChange={setSelectedCategory}
-                    query={query}
-                    onQueryChange={setQuery}
-                    isSearching={false}
-                    searchResults={[]} // No dropdown
-                    onResultClick={() => {}}
-                    placeholder={`인물의 서재 검색...`}
-                    showDropdown={false}
-                    searchLabel="서재 탐색"
-                    options={[
-                        { value: "all", label: "전체" },
-                        ...CATEGORIES
-                            .filter(c => c.id !== "certificate")
-                            .map(c => ({ value: c.id, label: c.label }))
-                    ]}
-                />
             </div>
 
             {/* 콘텐츠 리스트 (Grid) */}
             <div className="space-y-4 min-h-[200px]">
-                <DecorativeLabel label={`${figure.nickname}의 서재`} className="mb-8" />
+                <SectionHeader
+                    title={buildLibraryLabel(figure.nickname, figure.profession, contents)}
+                    label="LEGACY"
+                    description="방명록에 당신의 생각을 남겨보세요."
+                />
 
-                {contents.length > 0 ? (
+                {/* 타입별 필터 (ContentTypeSummary) */}
+                <ContentTypeSummary
+                    items={contents}
+                    value={categoryFilter}
+                    onChange={(type) => setCategoryFilter(type)}
+                    size="md"
+                    className="mb-8"
+                />
+
+                {filteredContents.length > 0 ? (
                     <div className={cn(
                         "grid gap-3 md:gap-4",
-                        "grid-cols-1 md:grid-cols-2" // 1 column mobile, 2 columns desktop (Review Card style)
+                        "grid-cols-1 md:grid-cols-2"
                     )}>
-                        {contents.slice(0, 8).map((content) => (
+                        {filteredContents.slice(0, 8).map((content) => (
                             <ContentCard
                                 key={content.id}
                                 contentId={content.id}
@@ -247,23 +205,20 @@ export default function TodayFigureSection({ figure, contents: initialContents, 
                         </div>
                         <div className="space-y-1">
                             <p className="text-text-secondary font-medium">
-                                {query ? `'${query}' 검색 결과가 없습니다` : `${selectedCategory === 'all' ? '전체' : getCategoryById(selectedCategory)?.label} 기록이 존재하지 않습니다`}
+                                해당 카테고리의 기록이 존재하지 않습니다
                             </p>
-                            {contents.length > 0 && (
-                                <p className="text-xs text-text-tertiary">다른 카테고리를 선택해보세요.</p>
-                            )}
                         </div>
                     </div>
                 )}
-                
+
                 {/* 전체 보기 링크 - 콘텐츠가 있을 때만 */}
-                {contents.length > 0 && !query && (
+                {filteredContents.length > 0 && (
                     <div className="flex justify-end mt-4">
                          <Link
                             href={`/${figure.id}`}
                             className="text-xs text-accent hover:underline flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity"
                         >
-                            {figure.nickname}의 서재 전체 보기 <ArrowRight size={12} />
+                            전체 보기 <ArrowRight size={12} />
                         </Link>
                     </div>
                 )}

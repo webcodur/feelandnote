@@ -1,9 +1,9 @@
 // 천도 — 유틸리티 함수
 
-import type { GameCharacter, GameItem, Stats, Grade, ItemGrade, UnitClass, ContentType, ItemCategory, TerritoryId, RegionId, TacticType, BattleParticipant, BuildingCard, Faction, Territory, GameState, TerritoryDef, Region } from './types'
-import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, ITEM_GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TACTIC_MATCHUP, CLASS_TACTIC_BONUS, BUILDINGS, TACTIC_INFO, TERRITORIES, REGIONS } from './constants'
+import type { GameCharacter, Stats, Grade, UnitClass, TerritoryId, RegionId, TacticType, BattleParticipant, BuildingCard, Faction, Territory, GameState, TerritoryDef, Region } from './types'
+import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TACTIC_MATCHUP, CLASS_TACTIC_BONUS, BUILDINGS, TACTIC_INFO, TERRITORIES, REGIONS } from './constants'
 
-// ── DB → GameCharacter 변환 (7스탯 매핑) ──
+// ── DB → GameCharacter 변환 (16페르소나 매핑) ──
 
 interface DbProfile {
   id: string
@@ -31,43 +31,79 @@ interface DbInfluence {
 }
 
 interface DbPersona {
+  // 능력 (0~100)
   command?: number | null
   martial?: number | null
   intellect?: number | null
   charisma?: number | null
+  // 덕목 (0~100)
+  temperance?: number | null
+  diligence?: number | null
+  reflection?: number | null
+  courage?: number | null
+  loyalty?: number | null
+  benevolence?: number | null
+  fairness?: number | null
+  humility?: number | null
+  // 성향 (-50~+50)
+  pessimism_optimism?: number | null
+  conservative_progressive?: number | null
+  individual_social?: number | null
+  cautious_bold?: number | null
 }
 
 export function dbToCharacter(profile: DbProfile, influence: DbInfluence, persona?: DbPersona): GameCharacter {
-  const strategic = influence.strategic ?? 0
-  const tech = influence.tech ?? 0
-  const political = influence.political ?? 0
-  const social = influence.social ?? 0
-  const cultural = influence.cultural ?? 0
-  const trans = influence.transhistoricity ?? 0
   const totalScore = influence.total_score ?? 0
 
-  const power = Math.min(10, Math.round(strategic))
-  const skill = Math.min(10, Math.round(tech))
-  const intellect = Math.min(10, Math.round(political))
-  const stamina = Math.min(10, Math.round(trans / 4))
-  const loyalty = Math.min(10, Math.round(social))
-  const virtue = Math.min(10, Math.round(cultural))
-  const courage = Math.min(10, Math.max(power, intellect))
-
-  const stats: Stats = { power, skill, intellect, stamina, loyalty, virtue, courage }
-
-  const grade = calcGrade(totalScore)
-
-  // 페르소나 기반 Grade 계산
-  let personaGrade: Grade | undefined
-  let _personaGradeScore: number | undefined
-  if (persona && persona.command != null && persona.martial != null && persona.intellect != null && persona.charisma != null) {
-    _personaGradeScore = calcPersonaGrade(persona.command, persona.martial, persona.intellect, persona.charisma)
-    personaGrade = calcGrade(_personaGradeScore)
+  // 페르소나 16값 → Stats 직접 매핑
+  let stats: Stats
+  if (persona && persona.command != null) {
+    stats = {
+      command: persona.command ?? 0,
+      martial: persona.martial ?? 0,
+      intellect: persona.intellect ?? 0,
+      charisma: persona.charisma ?? 0,
+      temperance: persona.temperance ?? 50,
+      diligence: persona.diligence ?? 50,
+      reflection: persona.reflection ?? 50,
+      courage: persona.courage ?? 50,
+      loyalty: persona.loyalty ?? 50,
+      benevolence: persona.benevolence ?? 50,
+      fairness: persona.fairness ?? 50,
+      humility: persona.humility ?? 50,
+      pessimism_optimism: persona.pessimism_optimism ?? 0,
+      conservative_progressive: persona.conservative_progressive ?? 0,
+      individual_social: persona.individual_social ?? 0,
+      cautious_bold: persona.cautious_bold ?? 0,
+    }
+  } else {
+    // influence 기반 폴백: 0~10 → 0~100 스케일
+    const strategic = influence.strategic ?? 0
+    const tech = influence.tech ?? 0
+    const political = influence.political ?? 0
+    const social = influence.social ?? 0
+    const cultural = influence.cultural ?? 0
+    stats = {
+      command: Math.min(100, Math.round(strategic * 10)),
+      martial: Math.min(100, Math.round(tech * 8)),
+      intellect: Math.min(100, Math.round(political * 10)),
+      charisma: Math.min(100, Math.round(cultural * 10)),
+      temperance: 50, diligence: 50, reflection: 50, courage: 50,
+      loyalty: Math.min(100, Math.round(social * 10)),
+      benevolence: 50, fairness: 50, humility: 50,
+      pessimism_optimism: 0, conservative_progressive: 0,
+      individual_social: 0, cautious_bold: 0,
+    }
   }
 
-  const effectiveGrade = personaGrade ?? grade
+  const gradeScore = calcPersonaGrade(stats.command, stats.martial, stats.intellect, stats.charisma)
+  const grade = calcGrade(gradeScore)
+
+  const effectiveGrade = grade
   const maxTroops = GRADE_TROOPS[effectiveGrade]
+
+  // HP = 100 + command * 0.5 + martial * 0.3
+  const hp = Math.max(10, Math.round(100 + stats.command * 0.5 + stats.martial * 0.3))
 
   return {
     id: profile.id,
@@ -82,71 +118,18 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
     quotes: profile.quotes ?? '',
     avatarUrl: profile.avatar_url ?? null,
     stats,
-    hp: Math.max(10, Math.round(trans * 2.5)),
-    maxHp: Math.max(10, Math.round(trans * 2.5)),
+    hp,
+    maxHp: hp,
     grade,
-    personaGrade,
-    personaGradeScore: _personaGradeScore,
+    personaGrade: persona?.command != null ? grade : undefined,
+    personaGradeScore: persona?.command != null ? gradeScore : undefined,
     unitClass: (profile.profession ? PROFESSION_TO_CLASS[profile.profession] : undefined) ?? 'ranger',
     totalScore,
     troops: maxTroops,
     maxTroops,
-    loyaltyValue: Math.min(100, loyalty * 10 + 20),
+    loyaltyValue: Math.min(100, stats.loyalty),
     morale: 80,
-    equippedScroll: null,
-    equippedTreasure: null,
-  }
-}
-
-// ── DB → GameItem 변환 ──
-
-interface DbContent {
-  id: string
-  type: string
-  title?: string | null
-  creator?: string | null
-  thumbnail_url?: string | null
-}
-
-interface DbUserContent {
-  user_id: string
-  review?: string | null
-}
-
-export function dbToItem(content: DbContent, userContent: DbUserContent, avgScore: number): GameItem {
-  const ct = content.type as ContentType
-  const category = contentTypeToCategory(ct)
-  const grade = calcItemGrade(avgScore)
-  return {
-    id: content.id,
-    contentType: ct,
-    title: content.title ?? '???',
-    creator: content.creator ?? '',
-    thumbnailUrl: content.thumbnail_url ?? null,
-    category,
-    grade,
-    bonuses: calcItemBonuses(category, avgScore),
-    moralBonus: category === 'score' || category === 'painting' ? Math.floor(avgScore / 15) : 0,
-    originCelebId: userContent.user_id,
-    review: userContent.review ?? null,
-  }
-}
-
-function contentTypeToCategory(type: ContentType): ItemCategory {
-  switch (type) {
-    case 'BOOK': return 'scroll'
-    case 'VIDEO': return 'painting'
-    case 'GAME': return 'manual'
-    case 'MUSIC': return 'score'
-  }
-}
-
-function calcItemBonuses(cat: ItemCategory, score: number): Partial<Stats> {
-  switch (cat) {
-    case 'scroll':   return { intellect: Math.floor(score / 20), virtue: Math.floor(score / 25) }
-    case 'painting':  return { power: Math.floor(score / 25), intellect: Math.floor(score / 25) }
-    case 'manual':   return { power: Math.floor(score / 20), skill: Math.floor(score / 20) }
-    case 'score':    return { virtue: Math.floor(score / 20), courage: Math.floor(score / 30) }
+    equipment: { weapons: 0, horses: 0, ships: 0, charms: 0 },
   }
 }
 
@@ -174,13 +157,6 @@ export function calcGrade(totalScore: number): Grade {
     if (totalScore >= t.min) return t.grade
   }
   return 'E'
-}
-
-export function calcItemGrade(avgScore: number): ItemGrade {
-  for (const t of ITEM_GRADE_THRESHOLDS) {
-    if (avgScore >= t.min) return t.grade
-  }
-  return 'plain'
 }
 
 // ── 지역 판별 ──
@@ -228,31 +204,28 @@ export function calcTacticDamage(
   const classBonus = CLASS_TACTIC_BONUS[atkChar.unitClass]?.[atkTactic] ?? 0
   const tacticCostRate = TACTIC_INFO[atkTactic].troopCostRate
 
-  // 스탯 기반 기본 피해
+  // 스탯 기반 기본 피해 (0~100 스케일)
   let basePower: number
   if (atkTactic === 'charge' || atkTactic === 'feint') {
-    basePower = atkChar.stats.power * 2 + atkChar.stats.courage
+    basePower = atkChar.stats.martial * 0.2 + atkChar.stats.courage * 0.1
   } else if (atkTactic === 'stratagem' || atkTactic === 'fire') {
-    basePower = atkChar.stats.intellect * 2 + atkChar.stats.skill
+    basePower = atkChar.stats.intellect * 0.2 + atkChar.stats.reflection * 0.1
   } else if (atkTactic === 'morale') {
-    basePower = atkChar.stats.virtue * 2 + atkChar.stats.courage
+    basePower = atkChar.stats.charisma * 0.2 + atkChar.stats.benevolence * 0.1
   } else {
     // defend
-    basePower = atkChar.stats.stamina * 2 + atkChar.stats.power
+    basePower = atkChar.stats.command * 0.15 + atkChar.stats.diligence * 0.1
   }
 
-  // 아이템 보너스
-  let itemBonus = 0
-  if (atkChar.equippedScroll) {
-    const bonuses = atkChar.equippedScroll.bonuses
-    if (atkTactic === 'charge' || atkTactic === 'feint') itemBonus += (bonuses.power ?? 0) * 2
-    if (atkTactic === 'stratagem' || atkTactic === 'fire') itemBonus += (bonuses.intellect ?? 0) * 2
-  }
-  if (atkChar.equippedTreasure) {
-    const bonuses = atkChar.equippedTreasure.bonuses
-    if (atkTactic === 'charge' || atkTactic === 'feint') itemBonus += (bonuses.power ?? 0) * 2
-    if (atkTactic === 'stratagem' || atkTactic === 'fire') itemBonus += (bonuses.intellect ?? 0) * 2
-  }
+  // 장비 보정
+  const eq = atkChar.equipment
+  const weaponMod = eq.weapons / 10000 * 0.3    // 무기: 최대 +30% 공격력
+  const horseMod = (atkTactic === 'charge') ? eq.horses / 1000 * 0.2 : 0  // 군마: 돌격 시 최대 +20%
+  // 방어측 부적 → 계략/화공 저항
+  const defEq = defender.character.equipment
+  const charmResist = (atkTactic === 'stratagem' || atkTactic === 'fire')
+    ? 1 - defEq.charms / 1000 * 0.3  // 부적: 최대 -30% 피해
+    : 1.0
 
   // 병사 수 보정
   const troopMul = 1 + attacker.troops / 500
@@ -264,19 +237,19 @@ export function calcTacticDamage(
   const randomFactor = 0.85 + Math.random() * 0.3
 
   const damage = Math.max(1, Math.round(
-    (basePower + itemBonus) * (1 + classBonus) * matchup * troopMul * wallDefense * randomFactor
+    basePower * (1 + classBonus + weaponMod + horseMod) * matchup * troopMul * wallDefense * charmResist * randomFactor
   ))
 
   // 병사 손실
   const troopLoss = Math.max(0, Math.floor(attacker.troops * tacticCostRate + damage * 0.5))
 
-  // 사기 변동
+  // 사기 변동 (0~100 스케일)
   let moraleDelta = 0
   if (atkTactic === 'morale') {
-    moraleDelta = 10 + Math.floor(atkChar.stats.virtue) // 공격자 사기 회복
+    moraleDelta = 10 + Math.floor(atkChar.stats.charisma * 0.1)
   }
   if (defTactic === 'morale') {
-    moraleDelta = -(5 + Math.floor(defender.character.stats.virtue * 0.5)) // 방어자 사기 회복 → 공격자 불이익
+    moraleDelta = -(5 + Math.floor(defender.character.stats.charisma * 0.05))
   }
 
   return { damage, troopLoss, moraleDelta }
@@ -362,6 +335,10 @@ export function updateFactionResources(
           knowledge: f.resources.knowledge + (deltas.knowledge ?? 0),
           material: f.resources.material + (deltas.material ?? 0),
           troops: f.resources.troops + (deltas.troops ?? 0),
+          weapons: f.resources.weapons + (deltas.weapons ?? 0),
+          horses: f.resources.horses + (deltas.horses ?? 0),
+          ships: f.resources.ships + (deltas.ships ?? 0),
+          charms: f.resources.charms + (deltas.charms ?? 0),
         },
       },
     ),
@@ -381,4 +358,22 @@ export function getNeighborInfo(state: GameState, territoryId: TerritoryId) {
     const owner = state.factions.find(f => f.territories.some(t => t.id === nId))
     return { id: nId as TerritoryId, name: getTerritoryDef(nId)?.name ?? nId, owner }
   })
+}
+
+/** 활성 거점만 필터한 인접 영토 정보 */
+export function getActiveNeighborInfo(state: GameState, territoryId: TerritoryId) {
+  const all = getNeighborInfo(state, territoryId)
+  if (state.activeTerritoryIds.length === 0) return all
+  const active = new Set(state.activeTerritoryIds)
+  return all.filter(n => active.has(n.id))
+}
+
+/** 거점 ID가 활성 거점에 포함되는지 확인 (빈 배열 = 전체 활성) */
+export function isActiveTerritory(state: GameState, tid: TerritoryId): boolean {
+  return state.activeTerritoryIds.length === 0 || state.activeTerritoryIds.includes(tid)
+}
+
+/** 지역 ID가 활성 지역에 포함되는지 확인 (빈 배열 = 전체 활성) */
+export function isActiveRegion(state: GameState, rid: RegionId): boolean {
+  return state.activeRegionIds.length === 0 || state.activeRegionIds.includes(rid)
 }

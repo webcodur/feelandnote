@@ -40,8 +40,8 @@ export default function AstrolabeBanner({ children, compact = false }: Props) {
               key={i} 
               className="absolute w-1 h-1 bg-white rounded-full animate-twinkle"
               style={{
-                top: `${50 + Math.cos(i) * 30}%`,
-                left: `${50 + Math.sin(i) * 30}%`,
+                top: `${(50 + Math.cos(i) * 30).toFixed(4)}%`,
+                left: `${(50 + Math.sin(i) * 30).toFixed(4)}%`,
                 animationDelay: `${i * 0.5}s`
               }} 
             />

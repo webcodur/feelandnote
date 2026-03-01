@@ -14,6 +14,7 @@ export interface ContentDetailData {
   // 콘텐츠 정보
   content: {
     id: string
+    externalId: string
     title: string
     creator?: string
     thumbnail?: string
@@ -61,14 +62,14 @@ export async function getContentDetail(
 
   // 1. 로그인 사용자의 기록 확인
   let userRecord: ContentDetailData['userRecord'] = null
-  let savedContent: { id: string; type: ContentType; title: string; creator?: string; thumbnail_url?: string; description?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
+  let savedContent: { id: string; external_id: string | null; type: ContentType; title: string; creator?: string; thumbnail_url?: string; description?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
 
   if (profile) {
     const { data } = await supabase
       .from('user_contents')
       .select(`
         id, status, rating, review, is_spoiler, created_at, updated_at,
-        content:contents(id, type, title, creator, thumbnail_url, description, release_date, affiliate_url)
+        content:contents(id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url)
       `)
       .eq('user_id', profile.id)
       .eq('content_id', contentId)
@@ -95,10 +96,12 @@ export async function getContentDetail(
   if (savedContent) {
     // DB에 저장된 콘텐츠 정보 사용
     const categoryId = TYPE_TO_CATEGORY[savedContent.type]
-    const metadataResult = await fetchContentMetadata(savedContent.id, savedContent.type)
+    const externalId = savedContent.external_id || savedContent.id
+    const metadataResult = await fetchContentMetadata(externalId, savedContent.type)
 
     contentData = {
       id: savedContent.id,
+      externalId,
       title: savedContent.title,
       creator: savedContent.creator || undefined,
       thumbnail: savedContent.thumbnail_url || undefined,
@@ -112,18 +115,35 @@ export async function getContentDetail(
     }
   } else {
     // contents 테이블에서 직접 조회 (셀럽 콘텐츠 등 본인 기록이 아닌 경우)
-    const { data: dbContent } = await supabase
+    // UUID 또는 external_id로 검색
+    let dbContent: { id: string; external_id: string | null; type: string; title: string; creator: string | null; thumbnail_url: string | null; description: string | null; release_date: string | null; affiliate_url: unknown } | null = null
+
+    const { data: byId } = await supabase
       .from('contents')
-      .select('id, type, title, creator, thumbnail_url, description, release_date, affiliate_url')
+      .select('id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url')
       .eq('id', contentId)
-      .single()
+      .maybeSingle()
+
+    if (byId) {
+      dbContent = byId
+    } else {
+      // UUID가 아닌 경우 external_id로 재검색
+      const { data: byExternalId } = await supabase
+        .from('contents')
+        .select('id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url')
+        .eq('external_id', contentId)
+        .maybeSingle()
+      dbContent = byExternalId
+    }
 
     if (dbContent) {
       const categoryId = TYPE_TO_CATEGORY[dbContent.type as ContentType]
-      const metadataResult = await fetchContentMetadata(dbContent.id, dbContent.type as ContentType)
+      const externalId = dbContent.external_id || dbContent.id
+      const metadataResult = await fetchContentMetadata(externalId, dbContent.type as ContentType)
 
       contentData = {
         id: dbContent.id,
+        externalId,
         title: dbContent.title,
         creator: dbContent.creator || undefined,
         thumbnail: dbContent.thumbnail_url || undefined,
@@ -136,7 +156,7 @@ export async function getContentDetail(
         affiliateLinks: (dbContent.affiliate_url as unknown as AffiliateLink[])?.length ? (dbContent.affiliate_url as unknown as AffiliateLink[]) : undefined,
       }
     } else {
-      // 외부 API에서 조회 (category 필수)
+      // 외부 API에서 조회 (category 필수, contentId를 externalId로 사용)
       if (!category) {
         throw new Error('카테고리가 필요합니다')
       }
@@ -157,6 +177,7 @@ export async function getContentDetail(
 
       contentData = {
         id: apiContent.id,
+        externalId: apiContent.id,
         title: apiContent.title,
         creator: apiContent.creator || undefined,
         thumbnail: apiContent.thumbnail || undefined,

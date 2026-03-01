@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { GameState, Territory, TerritoryId, TaxRate } from '@/lib/game/suikoden/types'
 import { BUILDING_CATEGORY, BUILDING_CATEGORY_INFO, WANDERING_MAX_COMPANIONS } from '@/lib/game/suikoden/constants'
 import { getRelation, isAllied } from '@/lib/game/suikoden/diplomacy'
-import { getNeighborInfo, getTotalPower } from '@/lib/game/suikoden/utils'
+import { getActiveNeighborInfo, getTotalPower } from '@/lib/game/suikoden/utils'
 
 interface Props {
   state: GameState
@@ -53,7 +53,7 @@ export default function GameToolbar({
   }
 
   // 인접 영토
-  const neighbors = getNeighborInfo(state, territory.id)
+  const neighbors = getActiveNeighborInfo(state, territory.id)
 
   return (
     <div className="bg-stone-800/80 border border-stone-700 rounded-lg p-2" ref={dropdownRef}>

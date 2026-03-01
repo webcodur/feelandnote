@@ -10,14 +10,17 @@ export function getAvailableSkills(unit: BattleUnit): SkillDef[] {
   const result: SkillDef[] = []
   const unitClass = unit.character.unitClass
   const stats = unit.character.stats
-  const profession = unit.character.profession
 
   for (const [, skillDef] of Object.entries(SKILL_DEFS)) {
     // 병과 체크 (leader → general 매핑이므로 추가 체크)
     if (!skillDef.classes.includes(unitClass)) continue
 
-    // 성인 스킬 (heal, barrier)은 leader profession만
-    if ((skillDef.id === 'heal' || skillDef.id === 'barrier') && profession !== 'leader') continue
+    // charge 복합 조건: martial ≥ 50 OR command ≥ 70
+    if (skillDef.id === 'charge') {
+      if ((stats.martial ?? 0) < 50 && (stats.command ?? 0) < 70) continue
+      result.push(skillDef)
+      continue
+    }
 
     // 스탯 요구사항 체크
     if (skillDef.statReq) {
@@ -45,6 +48,7 @@ export function getAvailableActions(unit: BattleUnit): string[] {
 
 const CLASS_AVAILABLE_TACTICS: Record<UnitClass, TacticType[]> = {
   general:    ['charge', 'defend', 'morale', 'feint'],
+  saint:      ['morale', 'defend', 'stratagem', 'feint'],
   strategist: ['stratagem', 'fire', 'defend', 'feint'],
   artisan:    ['defend', 'fire', 'feint', 'charge'],
   official:   ['defend', 'stratagem', 'morale', 'feint'],

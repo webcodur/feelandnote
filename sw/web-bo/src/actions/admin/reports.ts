@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export interface Report {
@@ -116,7 +117,7 @@ export async function resolveReport(
   } else if (action === 'delete_content') {
     const tableName = TARGET_TYPE_MAP[report.target_type as keyof typeof TARGET_TYPE_MAP]
     if (tableName && tableName !== 'profiles') {
-      await supabase.from(tableName).delete().eq('id', report.target_id)
+      await createAdminClient().from(tableName).delete().eq('id', report.target_id)
     }
   }
 

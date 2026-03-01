@@ -1,25 +1,31 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import type { GameState, BattleUnit, BattleAction, BattleActionType } from '@/lib/game/suikoden/types'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import type { GameState, BattleUnit, BattleAction, BattleActionType, DialogEntry } from '@/lib/game/suikoden/types'
 import { SKILL_DEFS } from '@/lib/game/suikoden/constants'
 import {
   executeAction, getValidTargets, selectAIAction,
   confirmPlacement, checkBattleEnd, syncLegacyParticipants,
 } from '@/lib/game/suikoden/battleEngine'
 import { applyBattleResult, collectDispositionTargets } from '@/lib/game/suikoden/engine'
+import { generateDialog } from '@/lib/game/suikoden/dialog'
 import TurnOrderBar from './TurnOrderBar'
 import BattleGridView from './BattleGridView'
 import ActionPanel from './ActionPanel'
 import PlacementScreen from './PlacementScreen'
 import BattleSVGOverlay from './BattleSVGOverlay'
 
+/** characterId → celeb_dialogues.lines */
+type DialoguesMap = Record<string, Record<string, string[]>>
+
 interface Props {
   state: GameState
   onUpdateState: (fn: (s: GameState) => GameState) => void
+  onDialog?: (entry: DialogEntry) => void
+  dialogues?: DialoguesMap
 }
 
-export default function BattleScreen({ state, onUpdateState }: Props) {
+export default function BattleScreen({ state, onUpdateState, onDialog, dialogues }: Props) {
   const battle = state.battle!
   const playerFactionId = state.playerFactionId
   const isPlayerAttacker = battle.attackerFactionId === playerFactionId
@@ -30,6 +36,21 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
 
   const attackerFaction = state.factions.find(f => f.id === battle.attackerFactionId)
   const defenderFaction = state.factions.find(f => f.id === battle.defenderFactionId)
+
+  // 전투 결과 감지 → 대사 (한 번만)
+  const prevResultRef = useRef(battle.result)
+  useEffect(() => {
+    if (prevResultRef.current !== 'pending' || battle.result === 'pending') return
+    prevResultRef.current = battle.result
+    if (!onDialog) return
+
+    const playerWon = (battle.result === 'attacker_wins' && isPlayerAttacker)
+      || (battle.result === 'defender_wins' && !isPlayerAttacker)
+    const type = playerWon ? 'battle_win' : 'battle_lose'
+    const pf = state.factions.find(f => f.id === playerFactionId)
+    const leader = pf?.members.find((m: any) => m.id === pf.leaderId)
+    if (leader) onDialog(generateDialog(type as any, leader as any, dialogues?.[leader.id]))
+  }, [battle.result])
 
   // 현재 행동자
   const currentUnitId = battle.turnOrder[battle.currentTurnIndex] ?? null
@@ -160,6 +181,13 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
 
   // 배치 확정
   const handlePlacementConfirm = useCallback((allies: BattleUnit[]) => {
+    // battle_start 대사
+    if (onDialog) {
+      const pf = state.factions.find(f => f.id === playerFactionId)
+      const leader = pf?.members.find((m: any) => m.id === pf.leaderId)
+      if (leader) onDialog(generateDialog('battle_start' as any, leader as any, dialogues?.[leader.id]))
+    }
+
     onUpdateState(s => {
       const b = s.battle!
       const newBattle = confirmPlacement({ ...b, allies })
@@ -174,7 +202,7 @@ export default function BattleScreen({ state, onUpdateState }: Props) {
       return { ...s, battle: newBattle }
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onUpdateState])
+  }, [onUpdateState, onDialog, dialogues])
 
   // SVG 애니메이션 종료
   const handleAnimationEnd = useCallback(() => {

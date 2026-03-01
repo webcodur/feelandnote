@@ -5,12 +5,13 @@ import { type ReactNode } from "react";
 interface Props {
   children?: ReactNode;
   hideOverlay?: boolean;
+  compact?: boolean;
 }
 
-export default function HegemonyMapBanner({ children, hideOverlay = false }: Props) {
+export default function HegemonyMapBanner({ children, hideOverlay = false, compact = false }: Props) {
   return (
-    <div 
-      className="relative w-full h-[700px] overflow-hidden bg-[#1a1814] text-[#d4c5a3] flex items-center justify-center font-serif"
+    <div
+      className={`relative w-full overflow-hidden bg-[#1a1814] text-[#d4c5a3] flex items-center justify-center font-serif ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : "h-[700px]"}`}
     >
       <style>{`
         @keyframes drift {

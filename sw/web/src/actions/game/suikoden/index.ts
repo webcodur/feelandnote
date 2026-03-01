@@ -1,8 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { GameCharacter, GameItem } from '@/lib/game/suikoden/types'
-import { dbToCharacter, dbToItem, getDeathYear } from '@/lib/game/suikoden/utils'
+import type { GameCharacter } from '@/lib/game/suikoden/types'
+import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
 
 const CUTOFF_YEARS = 120
 
@@ -22,7 +22,11 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
         transhistoricity, total_score
       ),
       celeb_persona (
-        command, martial, intellect, charisma
+        command, martial, intellect, charisma,
+        temperance, diligence, reflection, courage,
+        loyalty, benevolence, fairness, humility,
+        pessimism_optimism, conservative_progressive,
+        individual_social, cautious_bold
       )
     `)
     .not('death_date', 'is', null)
@@ -49,36 +53,30 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
 }
 
-export async function loadSuikodenItems(characterIds: string[]): Promise<GameItem[]> {
-  if (characterIds.length === 0) return []
+/** celeb_dialogues 로딩 — characterId → lines 매핑 */
+export async function loadSuikodenDialogues(
+  characterIds: string[],
+): Promise<Record<string, Record<string, string[]>>> {
+  if (characterIds.length === 0) return {}
 
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('user_contents')
-    .select(`
-      user_id, content_id, review,
-      contents (id, type, title, creator, thumbnail_url)
-    `)
-    .in('user_id', characterIds.slice(0, 100)) // 배치 제한
+    .from('celeb_dialogues')
+    .select('celeb_id, lines')
+    .in('celeb_id', characterIds.slice(0, 200))
 
   if (error || !data) {
-    console.error("[loadSuikodenItems] 아이템 조회 실패:", error?.message);
-    return [];
+    console.error("[loadSuikodenDialogues] 대사 조회 실패:", error?.message)
+    return {}
   }
 
-  // 콘텐츠별 평균 점수 계산을 위해 그룹핑
-  const contentScores = new Map<string, number[]>()
-  // 간단히 50점 기본값 사용
-  const items: GameItem[] = []
-  const seen = new Set<string>()
-
-  for (const uc of data as any[]) {
-    const content = uc.contents
-    if (!content || seen.has(content.id)) continue
-    seen.add(content.id)
-    items.push(dbToItem(content, uc, 40)) // 기본 점수 40
+  const map: Record<string, Record<string, string[]>> = {}
+  for (const row of data as any[]) {
+    if (row.lines && typeof row.lines === 'object') {
+      map[row.celeb_id] = row.lines
+    }
   }
-
-  return items
+  return map
 }
+

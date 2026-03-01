@@ -37,6 +37,7 @@ export default function BuildingCardGrid({
 }: Props) {
   const [dragOverTarget, setDragOverTarget] = useState<string | null>(null)
   const [infoBuilding, setInfoBuilding] = useState<string | null>(null)
+  const [viewMode, setViewMode] = useState(false)
 
   const playerFaction = state.factions.find(f => f.id === (factionOverrideId ?? state.playerFactionId)) ?? null
   const slotUsed = territory.buildingCards.length
@@ -117,12 +118,42 @@ export default function BuildingCardGrid({
   const hasTavern = territory.buildingCards.some(c => c.defId === 'tavern' && !c.isConstructing)
 
   return (
-    <div className="bg-stone-800/80 border border-stone-700 rounded-lg p-3 space-y-3">
+    <div className="relative border border-stone-700 rounded-lg p-3 overflow-hidden">
+      {/* 거점 배경 이미지 */}
+      <div
+        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${viewMode ? 'opacity-100' : 'opacity-30'}`}
+        style={{ backgroundImage: `url(/images/game/suikoden/territories/${territory.id}.png)` }}
+      />
+      <div className={`absolute inset-0 transition-colors duration-500 ${viewMode ? 'bg-stone-900/30' : 'bg-stone-900/80'}`} />
+
+      {/* 감상모드 오버레이 */}
+      {viewMode && (
+        <div className="absolute inset-0 z-20 flex items-end justify-end p-4">
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-white/80 font-serif">{territory.name}</span>
+            <button
+              onClick={() => setViewMode(false)}
+              className="w-7 h-7 rounded-full bg-black/40 text-white/70 hover:text-white hover:bg-black/60 transition-colors text-xs flex items-center justify-center"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className={`relative z-10 space-y-3 ${viewMode ? 'invisible' : ''}`}>
       {/* ── 헤더 ── */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold text-stone-200">{territory.name}</span>
           <span className="text-[10px] text-stone-500">건물 {slotUsed}/{slotMax}</span>
+          <button
+            onClick={() => setViewMode(true)}
+            className="text-[10px] text-stone-500 hover:text-amber-300 transition-colors"
+            title="배경 감상"
+          >
+            🖼️
+          </button>
         </div>
         <div className="flex items-center gap-2 text-[10px] text-stone-400">
           <span>인구 {territory.population.toLocaleString()}</span>
@@ -456,6 +487,7 @@ export default function BuildingCardGrid({
 
       {/* 건물 정보 모달 */}
       {infoBuilding && <BuildingInfoModal defId={infoBuilding} onClose={() => setInfoBuilding(null)} />}
+      </div>
     </div>
   )
 }

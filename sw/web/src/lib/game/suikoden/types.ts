@@ -2,10 +2,8 @@
 
 // ── 기본 열거 ──
 
-export type UnitClass = 'general' | 'strategist' | 'artisan' | 'official' | 'artist' | 'ranger'
+export type UnitClass = 'general' | 'saint' | 'strategist' | 'official' | 'artist' | 'artisan' | 'ranger'
 export type Grade = 'SS' | 'S' | 'A' | 'B' | 'C' | 'D' | 'E'
-export type ItemCategory = 'scroll' | 'painting' | 'manual' | 'score'
-export type ItemGrade = 'legendary' | 'heroic' | 'rare' | 'common' | 'plain'
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 export type GamePhase = 'title' | 'setup' | 'wandering' | 'strategy' | 'placement' | 'battle' | 'disposition' | 'manage' | 'result'
 export type Era = 'ancient' | 'medieval' | 'modern'
@@ -96,16 +94,37 @@ export type TerritoryId =
   | 'new_york' | 'tenochtitlan'                  // 아메리카
   | 'sydney'                                     // 오세아니아
 
-// ── 7스탯 시스템 ──
+// ── 16 페르소나 스탯 시스템 ──
 
 export interface Stats {
-  power: number      // 완력 (전투 공격력)
-  skill: number      // 기량 (원거리/제작)
-  intellect: number  // 지력 (계략/외교)
-  stamina: number    // 체력 (HP 기반)
-  loyalty: number    // 충의 (충성도 기본값)
-  virtue: number     // 인애 (민심/매력)
-  courage: number    // 용기 (사기)
+  // 능력 (0~100)
+  command: number      // 통솔
+  martial: number      // 무력
+  intellect: number    // 지력
+  charisma: number     // 매력
+  // 덕목 (0~100)
+  temperance: number   // 절제
+  diligence: number    // 근면
+  reflection: number   // 성찰
+  courage: number      // 용기
+  loyalty: number      // 충의
+  benevolence: number  // 인자
+  fairness: number     // 공정
+  humility: number     // 겸양
+  // 성향 (-50~+50)
+  pessimism_optimism: number
+  conservative_progressive: number
+  individual_social: number
+  cautious_bold: number
+}
+
+// ── 병력 장비 (원작 4종 수량제) ──
+
+export interface TroopEquipment {
+  weapons: number   // 무기 0~10000, 공격력 보정
+  horses: number    // 군마 0~1000, 기동력/돌격 보정
+  ships: number     // 조선 0~1000, 수상전 보정
+  charms: number    // 부적 0~1000, 계략 방어 보정
 }
 
 // ── 캐릭터 ──
@@ -134,26 +153,9 @@ export interface GameCharacter {
   troops: number
   maxTroops: number
   loyaltyValue: number   // 현재 충성도 0-100
-  // 전투 중 상태
+  /** 부대 사기 0-100 */
   morale: number
-  equippedScroll: GameItem | null
-  equippedTreasure: GameItem | null
-}
-
-// ── 아이템 ──
-
-export interface GameItem {
-  id: string
-  contentType: ContentType
-  title: string
-  creator: string
-  thumbnailUrl: string | null
-  category: ItemCategory
-  grade: ItemGrade
-  bonuses: Partial<Stats>
-  moralBonus: number
-  originCelebId: string
-  review: string | null
+  equipment: TroopEquipment
 }
 
 // ── 건물 ──
@@ -200,6 +202,11 @@ export interface Resources {
   knowledge: number
   material: number
   troops: number
+  // 장비 재고 (세력 단위)
+  weapons: number
+  horses: number
+  ships: number
+  charms: number
 }
 
 // ── 거점/지역 ──
@@ -227,6 +234,7 @@ export interface Region {
   color: string
   position: { x: number; y: number }
   latlng: [number, number]  // [위도, 경도] — 대륙 중심점
+  imageUrl?: string         // 지역 배경 이미지
 }
 
 // ── 영토 정의 (상수용) ──
@@ -238,6 +246,7 @@ export interface TerritoryDef {
   neighbors: TerritoryId[]
   position: { x: number; y: number }  // 세계맵 좌표 (% 기반)
   latlng: [number, number]             // [위도, 경도] — D3 지구본용
+  imageUrl?: string                    // 영토 배경 이미지
 }
 
 // ── 포로 처분 시스템 ──
@@ -273,7 +282,6 @@ export interface Faction {
   prisoners: GameCharacter[]
   territories: Territory[]
   resources: Resources
-  items: GameItem[]
   fame: number
   relations: Record<string, number> // factionId → -100~100
   aiPersonality: AIPersonality | null // null = 플레이어
@@ -391,7 +399,6 @@ export interface GameState {
   factions: Faction[]
   placements: CharacterPlacement[]
   wanderers: GameCharacter[]
-  allItems: GameItem[]
   playerFactionId: string
   difficulty: 'easy' | 'normal' | 'hard'
   battle: BattleState | null
@@ -404,6 +411,9 @@ export interface GameState {
   turnCount: number  // 총 턴 수
   autoAssign: boolean  // 자동 내정 모드
   era: Era
+  scenarioId: string | null  // 시나리오 기반 시작 시 설정
+  activeTerritoryIds: TerritoryId[]  // 시나리오 활성 거점 (빈 배열 = 전체)
+  activeRegionIds: RegionId[]        // 활성 지역 (빈 배열 = 전체)
   wandering: WanderingState | null  // 거병 후 null
   tavernVisitors: TavernVisitor[]
   threats: ThreatCard[]
@@ -412,14 +422,14 @@ export interface GameState {
 
 // ── 대화 시스템 ──
 
-export type SpeechTone = 'commander' | 'scholar' | 'artisan' | 'noble' | 'gentle' | 'free'
+export type SpeechTone = 'loyal' | 'composed' | 'bold' | 'humble' | 'gentle' | 'free'
 
 export type DialogType =
-  | 'recruit_success' | 'recruit_fail' | 'recruit_reject'
-  | 'recruit_ask' | 'dismiss_farewell'
+  | 'join_accept' | 'join_refuse' | 'join_rejected'
+  | 'recruit_ask' | 'farewell'
   | 'turn_start'
   | 'battle_start' | 'battle_win' | 'battle_lose'
-  | 'building_complete' | 'visitor_arrive'
+  | 'building_done' | 'visitor_arrive'
 
 export interface DialogEntry {
   id: string
@@ -434,11 +444,41 @@ export interface GameSettings {
   dialogMode: 'auto' | 'manual'
 }
 
+// ── 시나리오 정의 ──
+
+export interface ScenarioPlayerCandidate {
+  profileId: string
+  startTerritoryId: TerritoryId
+  startDescription: string
+}
+
+export interface ScenarioAIFaction {
+  leaderId: string
+  memberIds: string[]
+  territoryId: TerritoryId
+  personality: AIPersonality
+}
+
+export interface ScenarioDef {
+  id: string
+  name: string
+  subtitle: string
+  era: Era
+  description: string
+  objective: string
+  difficulty: 'easy' | 'normal' | 'hard'
+  playerCandidates: ScenarioPlayerCandidate[]
+  aiFactions: ScenarioAIFaction[]
+  wandererIds: string[]
+}
+
 // ── 세력 미리보기 (2단계 셋업) ──
 
 export interface WorldPreview {
+  scenarioId: string
   aiFactions: Faction[]
   wanderers: GameCharacter[]
+  playerCandidates: (ScenarioPlayerCandidate & { character: GameCharacter })[]
   era: Era
   difficulty: 'easy' | 'normal' | 'hard'
   placements: CharacterPlacement[]

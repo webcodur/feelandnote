@@ -4,16 +4,18 @@ import type { ContentType } from "@/types/database";
 
 interface ExternalPlatformLinksProps {
   contentId: string;
+  externalId: string;
   contentType: ContentType;
   title: string;
 }
 
 export default function ExternalPlatformLinks({
   contentId,
+  externalId,
   contentType,
   title,
 }: ExternalPlatformLinksProps) {
-  const links = generatePlatformLinks(contentId, contentType, title);
+  const links = generatePlatformLinks(contentId, externalId, contentType, title);
   if (!links.length) return null;
 
   return (

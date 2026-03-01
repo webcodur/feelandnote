@@ -4,7 +4,7 @@
   책임: 게임 데이터를 서버에서 로딩하고 클라이언트 게임 컴포넌트에 전달한다.
 */
 
-import { loadSuikodenCharacters, loadSuikodenItems } from "@/actions/game/suikoden";
+import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
 import SuikodenGameWrapper from "@/components/features/game/suikoden/SuikodenGameWrapper";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
@@ -19,7 +19,7 @@ const headerInfo = ARENA_SECTION_HEADERS["suikoden"];
 export default async function Page() {
   const characters = await loadSuikodenCharacters();
   const characterIds = characters.slice(0, 100).map((c) => c.id);
-  const items = await loadSuikodenItems(characterIds);
+  const dialogues = await loadSuikodenDialogues(characterIds);
 
   return (
     <>
@@ -41,7 +41,7 @@ export default async function Page() {
         }
       />
 
-      <SuikodenGameWrapper characters={characters} items={items} />
+      <SuikodenGameWrapper characters={characters} dialogues={dialogues} />
     </>
   );
 }

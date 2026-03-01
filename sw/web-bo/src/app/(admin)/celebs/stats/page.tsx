@@ -9,22 +9,22 @@ export const metadata: Metadata = {
 
 // 직업 라벨 매핑
 const professionLabels: Record<string, string> = {
-  politician: '정치인',
-  humanities_scholar: '인문학자',
-  entrepreneur: '기업가',
-  scientist: '과학자',
-  commander: '지휘관',
-  author: '작가',
-  director: '감독',
-  musician: '음악인',
-  visual_artist: '미술인',
-  leader: '종교/사상 지도자',
-  investor: '투자자',
-  social_scientist: '사회과학자',
-  actor: '배우',
-  athlete: '운동선수',
-  influencer: '인플루언서',
-  unknown: '미분류',
+  politician: 'politician',
+  humanities_scholar: 'humanities_scholar',
+  entrepreneur: 'entrepreneur',
+  scientist: 'scientist',
+  commander: 'commander',
+  author: 'author',
+  director: 'director',
+  musician: 'musician',
+  visual_artist: 'visual_artist',
+  leader: 'leader',
+  investor: 'investor',
+  social_scientist: 'social_scientist',
+  actor: 'actor',
+  athlete: 'athlete',
+  influencer: 'influencer',
+  unknown: 'unknown',
 }
 
 export default async function CelebStatsPage() {
@@ -78,7 +78,7 @@ export default async function CelebStatsPage() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* 직업별 분포 */}
         <div className="bg-bg-card border border-border rounded-xl p-4 md:p-6">
-          <h2 className="text-lg font-semibold text-text-primary mb-4">직업별 분포</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-4">profession 분포</h2>
           <div className="space-y-3">
             {stats.professionDistribution.map(({ profession, count }) => {
               const percentage = Math.round((count / stats.activeCelebs) * 100)
@@ -104,7 +104,7 @@ export default async function CelebStatsPage() {
 
         {/* 상위 팔로워 */}
         <div className="bg-bg-card border border-border rounded-xl p-4 md:p-6">
-          <h2 className="text-lg font-semibold text-text-primary mb-4">팔로워 TOP 10</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-4">follower_count TOP 10</h2>
           <div className="space-y-2">
             {stats.topFollowerCelebs.map((celeb, idx) => (
               <Link
@@ -131,7 +131,7 @@ export default async function CelebStatsPage() {
 
         {/* 상위 콘텐츠 */}
         <div className="bg-bg-card border border-border rounded-xl p-4 md:p-6">
-          <h2 className="text-lg font-semibold text-text-primary mb-4">콘텐츠 수 TOP 10</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-4">content_count TOP 10</h2>
           <div className="space-y-2">
             {stats.topContentCelebs.map((celeb, idx) => (
               <Link

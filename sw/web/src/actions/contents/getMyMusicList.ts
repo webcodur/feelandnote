@@ -8,6 +8,7 @@ export type SpotifyEntity = 'track' | 'album'
 
 export interface MusicTrack {
   id: string
+  externalId: string
   userContentId: string
   title: string
   creator: string | null
@@ -25,7 +26,7 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
 
   const { data, error } = await supabase
     .from('user_contents')
-    .select('id, status, content:contents!inner(id, title, creator, thumbnail_url)')
+    .select('id, status, content:contents!inner(id, external_id, title, creator, thumbnail_url)')
     .eq('user_id', user.id)
     .eq('content.type', 'MUSIC')
     .order('created_at', { ascending: false })
@@ -39,17 +40,18 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
 
   // Spotify ID 추출 + 배치 엔티티 타입 판별
   const spotifyIds = items.map((item) => {
-    const c = item.content as unknown as { id: string }
-    return c.id.replace(/^spotify[-_]/, '')
+    const c = item.content as unknown as { external_id: string }
+    return (c.external_id || '').replace(/^spotify[-_]/, '')
   })
   const entityMap = await batchGetSpotifyEntityTypes(spotifyIds)
 
   return items.map((item, idx) => {
     const c = item.content as unknown as {
-      id: string; title: string; creator: string | null; thumbnail_url: string | null
+      id: string; external_id: string; title: string; creator: string | null; thumbnail_url: string | null
     }
     return {
       id: c.id,
+      externalId: c.external_id || '',
       userContentId: item.id as string,
       title: c.title,
       creator: c.creator,

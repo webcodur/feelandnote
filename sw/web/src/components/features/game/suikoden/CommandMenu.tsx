@@ -4,7 +4,7 @@ import { useState } from 'react'
 import type { GameState, TerritoryId, TaxRate } from '@/lib/game/suikoden/types'
 import { BUILDINGS, BUILDING_CATEGORY, BUILDING_CATEGORY_INFO, WANDERING_MAX_COMPANIONS } from '@/lib/game/suikoden/constants'
 import { getRelation, isAllied } from '@/lib/game/suikoden/diplomacy'
-import { getNeighborInfo, getTotalPower } from '@/lib/game/suikoden/utils'
+import { getActiveNeighborInfo, getTotalPower } from '@/lib/game/suikoden/utils'
 import CharacterPortrait from './CharacterPortrait'
 
 interface Props {
@@ -51,7 +51,7 @@ export default function CommandMenu({
     { id: 'etc', label: '기타' },
   ]
 
-  const neighbors = territory ? getNeighborInfo(state, territory.id) : []
+  const neighbors = territory ? getActiveNeighborInfo(state, territory.id) : []
 
   return (
     <div className="bg-stone-800 border border-stone-700 rounded">

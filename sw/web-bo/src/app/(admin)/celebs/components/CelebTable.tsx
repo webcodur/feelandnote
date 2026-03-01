@@ -15,16 +15,16 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
           <th className="w-12 px-3 md:px-4 py-3" />
-          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">수식어</th>
-          <SortableTableHeader column="nickname" label="이름" />
-          <SortableTableHeader column="profession" label="직군" />
-          <SortableTableHeader column="nationality" label="국적" align="center" />
-          <SortableTableHeader column="status" label="상태" align="center" />
-          <SortableTableHeader column="influence_total" label="영향력" align="center" />
-          <SortableTableHeader column="content_count" label="콘텐츠" align="center" />
-          <SortableTableHeader column="follower_count" label="팔로워" align="center" />
-          <SortableTableHeader column="created_at" label="등록일시" align="center" />
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-24">액션</th>
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">title</th>
+          <SortableTableHeader column="nickname" label="nickname" />
+          <SortableTableHeader column="profession" label="profession" />
+          <SortableTableHeader column="nationality" label="nationality" align="center" />
+          <SortableTableHeader column="status" label="status" align="center" />
+          <SortableTableHeader column="influence_total" label="influence_total" align="center" />
+          <SortableTableHeader column="content_count" label="content_count" align="center" />
+          <SortableTableHeader column="follower_count" label="follower_count" align="center" />
+          <SortableTableHeader column="created_at" label="created_at" align="center" />
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-24">actions</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-border">
@@ -102,9 +102,9 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
-    active: { label: '활성', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
-    suspended: { label: '정지', className: 'bg-red-500/10 text-red-400', icon: Ban },
-    deleted: { label: '삭제됨', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
+    active: { label: 'active', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
+    suspended: { label: 'suspended', className: 'bg-red-500/10 text-red-400', icon: Ban },
+    deleted: { label: 'deleted', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
   }
   const { label, className, icon: Icon } = config[status] || config.active
   return (

@@ -26,7 +26,9 @@ export default function TagFormModal({ tag, onClose }: Props) {
   const isEdit = !!tag
 
   const [name, setName] = useState(tag?.name ?? '')
+  const [nameEn, setNameEn] = useState(tag?.name_en ?? '')
   const [description, setDescription] = useState(tag?.description ?? '')
+  const [descriptionEn, setDescriptionEn] = useState(tag?.description_en ?? '')
   const [color, setColor] = useState(tag?.color ?? '#7c4dff')
   const [isFeatured, setIsFeatured] = useState(tag?.is_featured ?? false)
   const [startDate, setStartDate] = useState(tag?.start_date ?? '')
@@ -46,7 +48,9 @@ export default function TagFormModal({ tag, onClose }: Props) {
 
     const tagData = {
       name,
+      name_en: nameEn || null,
       description,
+      description_en: descriptionEn || null,
       color,
       is_featured: isFeatured,
       start_date: startDate || null,
@@ -73,6 +77,8 @@ export default function TagFormModal({ tag, onClose }: Props) {
         onClose({
           id: result.id,
           ...tagData,
+          name_en: nameEn || null,
+          description_en: descriptionEn || null,
           sort_order: 999,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -115,6 +121,13 @@ export default function TagFormModal({ tag, onClose }: Props) {
               placeholder="예: 자수성가, 혁신가"
               className="w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
+            <input
+              type="text"
+              value={nameEn}
+              onChange={(e) => setNameEn(e.target.value)}
+              placeholder="EN (e.g. Self-made, Innovator)"
+              className="mt-1.5 w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
+            />
           </div>
 
           {/* 설명 */}
@@ -128,6 +141,13 @@ export default function TagFormModal({ tag, onClose }: Props) {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="태그에 대한 간단한 설명"
               className="w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
+            />
+            <input
+              type="text"
+              value={descriptionEn}
+              onChange={(e) => setDescriptionEn(e.target.value)}
+              placeholder="EN description (optional)"
+              className="mt-1.5 w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
           </div>
 

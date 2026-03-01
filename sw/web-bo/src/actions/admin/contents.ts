@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export interface AffiliateLink {
@@ -10,9 +11,14 @@ export interface AffiliateLink {
 
 export interface Content {
   id: string
+  external_id: string | null
   type: string
   title: string
+  title_ko: string | null
+  title_en: string | null
   creator: string | null
+  creator_en: string | null
+  isbn_en: string | null
   thumbnail_url: string | null
   description: string | null
   publisher: string | null
@@ -25,7 +31,18 @@ export interface Content {
   user_count: number
 }
 
+export interface ContentEdition {
+  locale: string
+  title: string | null
+  creator: string | null
+  isbn: string | null
+  thumbnail_url: string | null
+  publisher: string | null
+  affiliate_url: AffiliateLink[] | null
+}
+
 export interface ContentDetail extends Content {
+  editions: ContentEdition[]
   users: {
     id: string
     nickname: string | null
@@ -52,6 +69,13 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
     .single()
 
   if (error || !content) return null
+
+  // 에디션 정보 (BOOK)
+  const { data: editions } = await supabase
+    .from('content_editions')
+    .select('locale, title, creator, isbn, thumbnail_url, publisher, affiliate_url')
+    .eq('content_id', contentId)
+    .order('locale')
 
   // 이 콘텐츠를 등록한 사용자들
   const { data: userContents } = await supabase
@@ -88,6 +112,7 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
   return {
     ...content,
     user_count: userCount || 0,
+    editions: (editions || []) as ContentEdition[],
     users: (userContents || []).map(uc => {
       const profiles = uc.profiles as { id: string; nickname: string | null; avatar_url: string | null }[] | { id: string; nickname: string | null; avatar_url: string | null } | null
       const profile = Array.isArray(profiles) ? profiles[0] : profiles
@@ -117,7 +142,11 @@ export async function updateContent(
   contentId: string,
   data: {
     title?: string
+    title_ko?: string | null
+    title_en?: string | null
     creator?: string
+    creator_en?: string | null
+    isbn_en?: string | null
     description?: string
     publisher?: string
     release_date?: string
@@ -196,13 +225,13 @@ export async function upsertAffiliatePlatform(
 }
 
 export async function deleteContent(contentId: string): Promise<void> {
-  const supabase = await createClient()
+  const admin = createAdminClient()
 
-  // 관련 데이터 삭제 (cascading이 설정되어 있지 않은 경우)
-  await supabase.from('user_contents').delete().eq('content_id', contentId)
-  await supabase.from('records').delete().eq('content_id', contentId)
+  // 관련 데이터 삭제 (RLS 우회 필요)
+  await admin.from('user_contents').delete().eq('content_id', contentId)
+  await admin.from('records').delete().eq('content_id', contentId)
 
-  const { error } = await supabase
+  const { error } = await admin
     .from('contents')
     .delete()
     .eq('id', contentId)

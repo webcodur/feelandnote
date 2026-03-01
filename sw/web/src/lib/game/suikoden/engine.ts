@@ -1,10 +1,10 @@
 // 천도 — 게임 엔진 (전투 + 초기화)
 
 import type {
-  GameState, GameCharacter, GameItem, Faction, Territory, BuildingCard, BattleState, BattleParticipant,
+  GameState, GameCharacter, Faction, Territory, BuildingCard, BattleState, BattleParticipant,
   Resources, TerritoryId, BattleLogEntry, CharacterPlacement, AIPersonality,
   Era, RegionId, WanderingEvent, DispositionState, DispositionTarget, DispositionResult, DispositionAction,
-  WorldPreview,
+  WorldPreview, ScenarioDef,
 } from './types'
 import {
   DIFFICULTY_CONFIG, FACTION_COLORS,
@@ -15,7 +15,7 @@ import {
 } from './constants'
 import {
   getRegionForNationality, getTerritoryForNationality, shuffle, getBirthYear,
-  getTerritoryDef, getEffectiveGradeScore,
+  getTerritoryDef, getEffectiveGradeScore, isActiveTerritory, isActiveRegion,
 } from './utils'
 import { initBattleState, syncLegacyParticipants } from './battleEngine'
 
@@ -100,7 +100,7 @@ export function previewWorld(
       prisoners: [],
       territories: [createTerritory(territoryId)],
       resources: { ...INITIAL_RESOURCES.AI_FACTION },
-      items: [],
+
       fame: 0,
       relations: {},
       aiPersonality: personality,
@@ -133,7 +133,103 @@ export function previewWorld(
     ...aiCandidates.filter(c => !usedIds.has(c.id)),
   ]
 
-  return { aiFactions, wanderers, era, difficulty, placements }
+  return { scenarioId: '', aiFactions, wanderers, playerCandidates: [], era, difficulty, placements }
+}
+
+// ── 시나리오 기반 세계 미리보기 ──
+
+export function previewScenario(
+  scenario: ScenarioDef,
+  allCharacters: GameCharacter[],
+): WorldPreview {
+  const charMap = new Map(allCharacters.map(c => [c.id, c]))
+  const usedIds = new Set<string>()
+  const aiFactions: Faction[] = []
+  const placements: CharacterPlacement[] = []
+
+  // AI 세력 구성
+  for (let i = 0; i < scenario.aiFactions.length; i++) {
+    const def = scenario.aiFactions[i]
+    const leader = charMap.get(def.leaderId)
+    if (!leader) continue
+
+    const members: GameCharacter[] = [leader]
+    usedIds.add(leader.id)
+
+    for (const memberId of def.memberIds) {
+      const member = charMap.get(memberId)
+      if (member) {
+        members.push(member)
+        usedIds.add(member.id)
+      }
+    }
+
+    const faction: Faction = {
+      id: `ai_${i}`,
+      name: `${leader.nickname}의 세력`,
+      leaderId: leader.id,
+      color: FACTION_COLORS[(i + 1) % FACTION_COLORS.length],
+      members,
+      prisoners: [],
+      territories: [createTerritory(def.territoryId)],
+      resources: { ...INITIAL_RESOURCES.AI_FACTION },
+
+      fame: 0,
+      relations: {},
+      aiPersonality: def.personality,
+    }
+
+    aiFactions.push(faction)
+
+    for (const member of members) {
+      placements.push({
+        characterId: member.id,
+        factionId: faction.id,
+        territoryId: def.territoryId,
+        task: 'idle',
+        assignedBuildingId: null,
+      })
+    }
+  }
+
+  // AI 세력 간 관계 초기화
+  for (const f of aiFactions) {
+    for (const other of aiFactions) {
+      if (f.id !== other.id) f.relations[other.id] = 0
+    }
+  }
+
+  // 플레이어 후보 (usedIds에 추가하지 않음 — 선택 전)
+  const playerCandidates = scenario.playerCandidates
+    .map(pc => {
+      const character = charMap.get(pc.profileId)
+      if (!character) return null
+      return { ...pc, character }
+    })
+    .filter((pc): pc is NonNullable<typeof pc> => pc !== null)
+
+  // 플레이어 후보 ID (방랑자에서 제외)
+  const candidateIds = new Set(playerCandidates.map(pc => pc.profileId))
+
+  // 방랑자 구성
+  const wanderers: GameCharacter[] = []
+  for (const wId of scenario.wandererIds) {
+    const char = charMap.get(wId)
+    if (char && !usedIds.has(wId)) {
+      wanderers.push(char)
+      usedIds.add(wId)
+    }
+  }
+
+  return {
+    scenarioId: scenario.id,
+    aiFactions,
+    wanderers,
+    playerCandidates,
+    era: scenario.era,
+    difficulty: scenario.difficulty,
+    placements,
+  }
 }
 
 // ── 미리보기 → 게임 확정 ──
@@ -141,27 +237,102 @@ export function previewWorld(
 export function finalizeGame(
   preview: WorldPreview,
   playerLeaderId: string,
-  allItems: GameItem[],
 ): GameState {
-  const player = preview.wanderers.find(c => c.id === playerLeaderId)!
-  const playerRegion = getRegionForNationality(player.nationality)
+  // 시나리오 모드: playerCandidates에서 찾기
+  const candidate = preview.playerCandidates.find(pc => pc.profileId === playerLeaderId)
+  const player = candidate?.character ?? preview.wanderers.find(c => c.id === playerLeaderId)!
 
-  // wanderers에서 리더 제거
-  const wanderers = preview.wanderers.filter(c => c.id !== playerLeaderId)
+  // 시나리오 모드: 선택되지 않은 후보를 AI 세력으로 전환
+  const extraFactions: Faction[] = []
+  const extraPlacements: CharacterPlacement[] = []
+  if (preview.scenarioId && preview.playerCandidates.length > 0) {
+    const unselected = preview.playerCandidates.filter(pc => pc.profileId !== playerLeaderId)
+    const existingFactionCount = preview.aiFactions.length
+    for (let i = 0; i < unselected.length; i++) {
+      const uc = unselected[i]
+      const factionId = `ai_${existingFactionCount + i}`
+      const personality = getAIPersonality(uc.character)
+      const faction: Faction = {
+        id: factionId,
+        name: `${uc.character.nickname}의 세력`,
+        leaderId: uc.character.id,
+        color: FACTION_COLORS[(existingFactionCount + i + 1) % FACTION_COLORS.length],
+        members: [uc.character],
+        prisoners: [],
+        territories: [createTerritory(uc.startTerritoryId)],
+        resources: { ...INITIAL_RESOURCES.AI_FACTION },
+  
+        fame: 0,
+        relations: {},
+        aiPersonality: personality,
+      }
+      extraFactions.push(faction)
+      extraPlacements.push({
+        characterId: uc.character.id,
+        factionId,
+        territoryId: uc.startTerritoryId,
+        task: 'idle',
+        assignedBuildingId: null,
+      })
+    }
+  }
+
+  const allFactions = [...preview.aiFactions, ...extraFactions]
+  // 관계 초기화 (새 세력 포함)
+  for (const f of allFactions) {
+    for (const other of allFactions) {
+      if (f.id !== other.id && !(other.id in f.relations)) {
+        f.relations[other.id] = 0
+      }
+    }
+  }
+
+  // 방랑자에서 플레이어 및 후보 제외
+  const candidateIds = new Set(preview.playerCandidates.map(pc => pc.profileId))
+  const wanderers = preview.wanderers.filter(c => c.id !== playerLeaderId && !candidateIds.has(c.id))
+
+  // 시작 지역 결정
+  const startTerritory = candidate?.startTerritoryId
+  const playerRegion = startTerritory
+    ? (getTerritoryDef(startTerritory)?.regionId ?? getRegionForNationality(player.nationality))
+    : getRegionForNationality(player.nationality)
+
+  // 시나리오 활성 거점/지역 도출
+  const activeTerritoryIds: TerritoryId[] = []
+  const activeRegionIds: RegionId[] = []
+  if (preview.scenarioId) {
+    const tids = new Set<TerritoryId>()
+    const rids = new Set<RegionId>()
+    // AI 세력 거점
+    for (const f of allFactions) {
+      for (const t of f.territories) {
+        tids.add(t.id)
+        const td = getTerritoryDef(t.id)
+        if (td) rids.add(td.regionId)
+      }
+    }
+    // 플레이어 시작 거점
+    for (const pc of preview.playerCandidates) {
+      tids.add(pc.startTerritoryId)
+      const td = getTerritoryDef(pc.startTerritoryId)
+      if (td) rids.add(td.regionId)
+    }
+    activeTerritoryIds.push(...tids)
+    activeRegionIds.push(...rids)
+  }
 
   return {
     phase: 'wandering',
     season: 'spring',
     gameTime: { ...INITIAL_GAME_TIME },
-    factions: [...preview.aiFactions],
-    placements: [...preview.placements],
+    factions: allFactions,
+    placements: [...preview.placements, ...extraPlacements],
     wanderers,
-    allItems,
     playerFactionId: 'player',
     difficulty: preview.difficulty,
     battle: null,
     disposition: null,
-    viewingTerritoryId: getTerritoryForNationality(player.nationality),
+    viewingTerritoryId: startTerritory ?? getTerritoryForNationality(player.nationality),
     selectedTerritoryId: null,
     log: [`${player.nickname}이(가) 방랑을 시작했다.`],
     isGameOver: false,
@@ -169,6 +340,9 @@ export function finalizeGame(
     turnCount: 0,
     autoAssign: false,
     era: preview.era,
+    scenarioId: preview.scenarioId ?? null,
+    activeTerritoryIds,
+    activeRegionIds,
     wandering: {
       leaderId: player.id,
       leader: player,
@@ -246,7 +420,7 @@ export function initGame(
       prisoners: [],
       territories: [createTerritory(territoryId)],
       resources: { ...INITIAL_RESOURCES.AI_FACTION },
-      items: [],
+
       fame: 0,
       relations: {},
       aiPersonality: personality,
@@ -291,7 +465,6 @@ export function initGame(
     factions,
     placements,
     wanderers,
-    allItems: [],
     playerFactionId: 'player',
     difficulty,
     battle: null,
@@ -304,6 +477,9 @@ export function initGame(
     turnCount: 0,
     autoAssign: false,
     era,
+    scenarioId: null,
+    activeTerritoryIds: [],
+    activeRegionIds: [],
     wandering: {
       leaderId: player.id,
       leader: player,
@@ -332,6 +508,9 @@ export function raiseArmy(state: GameState, territoryId: TerritoryId): GameState
   const isOccupied = state.factions.some(f => f.territories.some(t => t.id === territoryId))
   if (isOccupied) return state
 
+  // 활성 거점 확인
+  if (!isActiveTerritory(state, territoryId)) return state
+
   // 현재 지역의 영토인지 확인
   const tDef = getTerritoryDef(territoryId)
   if (!tDef || tDef.regionId !== state.wandering.currentRegionId) return state
@@ -351,7 +530,6 @@ export function raiseArmy(state: GameState, territoryId: TerritoryId): GameState
     prisoners: [],
     territories: [createTerritory(territoryId)],
     resources: { ...INITIAL_RESOURCES.PLAYER_RAISE, gold: startGold },
-    items: [],
     fame: 0,
     relations: {},
     aiPersonality: null,
@@ -505,11 +683,17 @@ export function generateWanderingEvent(state: GameState): GameState {
 
   if (roll < guestChance) {
     // 인물 조우 이벤트 — "만났다" (등용은 유저 선택)
-    const regionCandidates = state.wanderers.filter(c => {
+    const activeCandidatePool = state.activeRegionIds.length > 0
+      ? state.wanderers.filter(c => {
+          const charRegion = NATIONALITY_TO_REGION[c.nationality] ?? 'west_europe'
+          return state.activeRegionIds.includes(charRegion)
+        })
+      : state.wanderers
+    const regionCandidates = activeCandidatePool.filter(c => {
       const charRegion = NATIONALITY_TO_REGION[c.nationality] ?? 'west_europe'
       return charRegion === w.currentRegionId
     })
-    const candidates = regionCandidates.length > 0 ? regionCandidates : state.wanderers
+    const candidates = regionCandidates.length > 0 ? regionCandidates : activeCandidatePool
     if (candidates.length > 0) {
       const char = candidates[Math.floor(Math.random() * candidates.length)]
       event = {
@@ -592,10 +776,10 @@ export function attemptRecruitGuest(state: GameState): GameState {
 
   if (w.companions.length >= WANDERING_MAX_COMPANIONS) return state
 
-  // 판정: 기본 20% + 리더 인애×2% + 리더 보정 - 등급 패널티
+  // 판정: 기본 20% + charisma 보정 + benevolence 보정 - 등급 패널티
   const leader = w.leader
-  const virtueBonus = leader.stats.virtue * 0.02
-  const charismaBonus = (leader.stats.loyalty + leader.stats.courage) / 30 * 0.08
+  const virtueBonus = leader.stats.charisma * 0.003
+  const charismaBonus = leader.stats.benevolence * 0.002
   const gradePenalty: Record<string, number> = { SS: 0.25, S: 0.15, A: 0.10, B: 0.05, C: 0, D: 0, E: 0 }
   const penalty = gradePenalty[char.grade] ?? 0
   const rate = Math.max(0.05, Math.min(0.80, 0.20 + virtueBonus + charismaBonus - penalty))
@@ -657,6 +841,9 @@ export function moveToRegion(state: GameState, regionId: RegionId): GameState {
   if (!w) return state
   if (w.travelTarget) return state // 이미 이동 중
 
+  // 활성 지역 확인
+  if (!isActiveRegion(state, regionId)) return state
+
   const currentRegion = REGIONS.find(r => r.id === w.currentRegionId)
   if (!currentRegion?.neighbors.includes(regionId)) return state
 
@@ -676,12 +863,12 @@ export function moveToRegion(state: GameState, regionId: RegionId): GameState {
 }
 
 function getAIPersonality(leader: GameCharacter): AIPersonality {
-  const { power, intellect, skill, virtue } = leader.stats
-  const max = Math.max(power, intellect, skill, virtue)
-  if (max === power) return 'conqueror'
+  const { martial, intellect, command, charisma } = leader.stats
+  const max = Math.max(martial, intellect, command, charisma)
+  if (max === martial) return 'conqueror'
   if (max === intellect) return 'schemer'
-  if (max === skill) return 'economist'
-  if (max === virtue) return 'virtuous'
+  if (max === command) return 'economist'
+  if (max === charisma) return 'virtuous'
   return 'culturist'
 }
 
@@ -706,7 +893,7 @@ function createTerritory(id: TerritoryId): Territory {
     maxBuildings: preset?.maxBuildings ?? 8,
     population: preset?.population ?? 1000,
     morale: preset?.morale ?? 70,
-    resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
+    resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0, weapons: 0, horses: 0, ships: 0, charms: 0 },
     taxRate: 'normal',
   }
 }
@@ -841,11 +1028,11 @@ export function collectDispositionTargets(
 export function calcRecruitRate(playerFaction: Faction, target: DispositionTarget): number {
   const leader = playerFaction.members.find(m => m.id === playerFaction.leaderId)
   const fame = playerFaction.fame
-  const virtue = leader?.stats.virtue ?? 50
+  const charisma = leader?.stats.charisma ?? 50
 
   let rate = 30
   rate += Math.min(20, fame * 0.0002 * 100)     // fame 보너스 (최대 +20%)
-  rate += Math.min(15, virtue * 0.15)             // 인애 보너스 (최대 +15%)
+  rate += Math.min(15, charisma * 0.15)           // 매력 보너스 (최대 +15%)
   rate -= Math.min(25, target.character.loyaltyValue * 0.25) // 충성도 패널티 (최대 -25%)
   rate -= Math.min(20, target.character.stats.loyalty * 0.2) // 충의 패널티 (최대 -20%)
 
@@ -881,7 +1068,7 @@ export function applyDisposition(
           originFaction.members = originFaction.members.filter(m => m.id !== char.id)
         }
         // 플레이어 세력에 합류
-        const recruited = { ...char, loyaltyValue: 50, morale: 60, troops: Math.max(50, Math.floor(char.maxTroops * 0.3)) }
+        const recruited = { ...char, loyaltyValue: 50, morale: 60, troops: Math.max(50, Math.floor(char.maxTroops * 0.3)), equipment: { weapons: 0, horses: 0, ships: 0, charms: 0 } }
         playerFaction.members.push(recruited)
         // placement 생성
         const territoryId = playerFaction.territories[0]?.id

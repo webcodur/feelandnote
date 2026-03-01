@@ -21,6 +21,13 @@ export interface InfluenceData {
   economic_exp: string | null
   cultural_exp: string | null
   transhistoricity_exp: string | null
+  political_exp_en: string | null
+  strategic_exp_en: string | null
+  tech_exp_en: string | null
+  social_exp_en: string | null
+  economic_exp_en: string | null
+  cultural_exp_en: string | null
+  transhistoricity_exp_en: string | null
 }
 
 export type InfluenceAxis = 'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural'
@@ -32,13 +39,13 @@ export async function getInfluenceList(): Promise<InfluenceData[]> {
     .from('celeb_influence')
     .select(`
       celeb_id,
-      political, political_exp,
-      strategic, strategic_exp,
-      tech, tech_exp,
-      social, social_exp,
-      economic, economic_exp,
-      cultural, cultural_exp,
-      transhistoricity, transhistoricity_exp,
+      political, political_exp, political_exp_en,
+      strategic, strategic_exp, strategic_exp_en,
+      tech, tech_exp, tech_exp_en,
+      social, social_exp, social_exp_en,
+      economic, economic_exp, economic_exp_en,
+      cultural, cultural_exp, cultural_exp_en,
+      transhistoricity, transhistoricity_exp, transhistoricity_exp_en,
       total_score,
       profiles!celeb_influence_celeb_id_fkey (nickname, profession)
     `)
@@ -65,5 +72,12 @@ export async function getInfluenceList(): Promise<InfluenceData[]> {
     economic_exp: row.economic_exp,
     cultural_exp: row.cultural_exp,
     transhistoricity_exp: row.transhistoricity_exp,
+    political_exp_en: row.political_exp_en,
+    strategic_exp_en: row.strategic_exp_en,
+    tech_exp_en: row.tech_exp_en,
+    social_exp_en: row.social_exp_en,
+    economic_exp_en: row.economic_exp_en,
+    cultural_exp_en: row.cultural_exp_en,
+    transhistoricity_exp_en: row.transhistoricity_exp_en,
   }))
 }

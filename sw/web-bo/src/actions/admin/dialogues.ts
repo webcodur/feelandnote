@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 export interface DialogueLines {
   greeting: [string, string, string]
-  select: [string, string, string]
+  answer: [string, string, string]
   deploy: [string, string, string]
   battle_win: [string, string, string]
   battle_draw: [string, string, string]
@@ -20,6 +20,7 @@ export interface CelebDialogueItem {
   profession: string | null
   speech_tone: string | null
   dialogue_lines: DialogueLines | null
+  dialogue_lines_en: DialogueLines | null
 }
 
 // #region getCelebsForDialogueEdit
@@ -34,7 +35,7 @@ export async function getCelebsForDialogueEdit(
     .from('profiles')
     .select(
       `id, nickname, avatar_url, profession, speech_tone,
-       celeb_dialogues(lines)`,
+       celeb_dialogues(lines, lines_en)`,
       { count: 'exact' },
     )
     .eq('profile_type', 'CELEB')
@@ -59,6 +60,10 @@ export async function getCelebsForDialogueEdit(
       dialogue_lines:
         dlg?.lines && Object.keys(dlg.lines).length > 0
           ? (dlg.lines as DialogueLines)
+          : null,
+      dialogue_lines_en:
+        dlg?.lines_en && Object.keys(dlg.lines_en).length > 0
+          ? (dlg.lines_en as DialogueLines)
           : null,
     }
   })
@@ -85,38 +90,56 @@ export async function updateSpeechTone(
 }
 // #endregion
 
+export interface CelebDialoguesResult {
+  lines: DialogueLines | null
+  lines_en: DialogueLines | null
+}
+
 // #region getCelebDialogues
 export async function getCelebDialogues(
   celebId: string,
-): Promise<DialogueLines | null> {
+): Promise<CelebDialoguesResult> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
     .from('celeb_dialogues')
-    .select('lines')
+    .select('lines, lines_en')
     .eq('celeb_id', celebId)
     .maybeSingle()
 
   if (error) throw error
-  if (!data?.lines || Object.keys(data.lines).length === 0) return null
 
-  return data.lines as DialogueLines
+  return {
+    lines:
+      data?.lines && Object.keys(data.lines).length > 0
+        ? (data.lines as DialogueLines)
+        : null,
+    lines_en:
+      data?.lines_en && Object.keys(data.lines_en).length > 0
+        ? (data.lines_en as DialogueLines)
+        : null,
+  }
 }
 // #endregion
 
 // #region saveCelebDialogues
 export async function saveCelebDialogues(
   celebId: string,
-  lines: DialogueLines,
+  lines: DialogueLines | null,
+  lines_en: DialogueLines | null,
 ): Promise<void> {
   const supabase = await createClient()
 
+  const payload: Record<string, unknown> = {
+    celeb_id: celebId,
+    updated_at: new Date().toISOString(),
+  }
+  if (lines !== null) payload.lines = lines
+  if (lines_en !== null) payload.lines_en = lines_en
+
   const { error } = await supabase
     .from('celeb_dialogues')
-    .upsert(
-      { celeb_id: celebId, lines, updated_at: new Date().toISOString() },
-      { onConflict: 'celeb_id' },
-    )
+    .upsert(payload, { onConflict: 'celeb_id' })
 
   if (error) throw error
 

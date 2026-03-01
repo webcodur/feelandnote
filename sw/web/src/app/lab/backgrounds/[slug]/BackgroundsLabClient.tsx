@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Menu } from "lucide-react";
 
 // Background components
 import SeaWavesBackground from "@/components/lab/SeaWavesBackground";
@@ -14,6 +15,8 @@ import ParticleWarpBackground from "@/components/lab/ParticleWarpBackground";
 import InfiniteCorridorBackground from "@/components/lab/InfiniteCorridorBackground";
 import GoldenDawnBackground from "@/components/lab/GoldenDawnBackground";
 import ImageBackground from "@/components/lab/ImageBackground";
+import WindsOfLiangshanBackground from "@/components/lab/WindsOfLiangshanBackground";
+import WindsOfLiangshanGeminiBackground from "@/components/lab/WindsOfLiangshanGeminiBackground";
 
 // Banner components
 import AstrolabeBanner from "@/components/lab/AstrolabeBanner";
@@ -48,6 +51,8 @@ const CINEMATIC_BACKGROUNDS: BgItem[] = [
   { id: "particle-warp", label: "Particle Warp", desc: "여명의 끝을 향해 황금빛 입자 속을 날아가는 무한의 비행", component: <ParticleWarpBackground /> },
   { id: "infinite-corridor", label: "Geometric Infinite Corridor", desc: "기하학적 무한 회랑 — 끊임없이 다가오는 정밀한 3D 와이어프레임 미궁", component: <InfiniteCorridorBackground /> },
   { id: "golden-dawn", label: "Golden Dawn", desc: "황금빛 여명의 바다를 거니는 시네마틱 패닝", component: <GoldenDawnBackground /> },
+  { id: "winds-of-liangshan", label: "Winds of Liangshan", desc: "두루마리 산수화처럼 흘러가는 양산박의 거친 갈대밭과 초원", component: <WindsOfLiangshanBackground /> },
+  { id: "winds-of-liangshan-gemini", label: "Winds of Liangshan 2 (Gemini)", desc: "붉은 달빛 아래 일렁이는 갈대밭 — 송나라 강호 황혼 모드", component: <WindsOfLiangshanGeminiBackground /> },
 ];
 
 const BANNER_BACKGROUNDS: BgItem[] = [
@@ -92,6 +97,7 @@ interface Props {
 export default function BackgroundsLabClient({ slug, imageFiles }: Props) {
   const router = useRouter();
   const currentSlug = slug || "deep-sea";
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const imageBgs = useMemo<BgItem[]>(
     () =>
@@ -132,12 +138,30 @@ export default function BackgroundsLabClient({ slug, imageFiles }: Props) {
   return (
     <section className="flex gap-6 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
       {/* Col 1: Inventory Navigation */}
-      <div className="w-56 shrink-0 border border-white/10 rounded-xl p-5 bg-white/[0.02] self-start">
-        <div className="space-y-3">
-          <NavSection title="Cinematic Backgrounds" items={CINEMATIC_BACKGROUNDS} />
-          {imageBgs.length > 0 && <NavSection title="Image Backgrounds" items={imageBgs} />}
-          <NavSection title="Banner Effects" items={BANNER_BACKGROUNDS} />
+      <div 
+        className={cn(
+          "shrink-0 border border-white/10 rounded-xl bg-white/[0.02] self-start flex flex-col",
+          isSidebarOpen ? "w-56 p-5" : "w-[52px] p-3 items-center"
+        )}
+      >
+        <div className={cn("flex w-full mb-4", isSidebarOpen ? "justify-end" : "justify-center")}>
+          <button 
+            type="button" 
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+            className="text-text-secondary hover:text-text-primary p-1 bg-white/5 hover:bg-white/10 rounded-md"
+            aria-label="Toggle Navigation"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
+
+        {isSidebarOpen && (
+          <div className="space-y-3">
+            <NavSection title="Cinematic Backgrounds" items={CINEMATIC_BACKGROUNDS} />
+            {imageBgs.length > 0 && <NavSection title="Image Backgrounds" items={imageBgs} />}
+            <NavSection title="Banner Effects" items={BANNER_BACKGROUNDS} />
+          </div>
+        )}
       </div>
 
       {/* Col 2: Preview */}

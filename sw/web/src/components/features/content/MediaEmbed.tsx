@@ -10,9 +10,7 @@ interface MediaEmbedProps {
 }
 
 // Spotify 임베드 (entity 타입에 따라 track/album URL 구분)
-function SpotifyEmbed({ contentId, entity }: { contentId: string; entity: SpotifyEntityType }) {
-  const spotifyId = contentId.replace(/^spotify[-_]/, '')
-
+function SpotifyEmbed({ spotifyId, entity }: { spotifyId: string; entity: SpotifyEntityType }) {
   return (
     <div className="space-y-1.5">
       <iframe
@@ -62,7 +60,9 @@ export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
     }
     // embed 결과가 있으면 spotifyEntity 사용, 없으면 album으로 fallback (검색 결과는 대부분 album)
     const entity = embed?.spotifyEntity ?? 'album'
-    return <SpotifyEmbed contentId={contentId} entity={entity} />
+    const spotifyId = embed?.embedId ?? ''
+    if (!spotifyId) return null
+    return <SpotifyEmbed spotifyId={spotifyId} entity={entity} />
   }
 
   if (loading) {

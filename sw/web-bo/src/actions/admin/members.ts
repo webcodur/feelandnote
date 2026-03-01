@@ -68,8 +68,13 @@ export interface Member {
   birth_date?: string | null
   death_date?: string | null
   quotes?: string | null
-  claimed_by?: string | null
+  nickname_en?: string | null
+  title_en?: string | null
+  bio_en?: string | null
+  quotes_en?: string | null
   consumption_philosophy?: string | null
+  consumption_philosophy_en?: string | null
+  claimed_by?: string | null
   speech_tone?: string | null
   influence?: MemberInfluence | null
   influence_total?: number
@@ -322,7 +327,12 @@ export async function getMember(id: string): Promise<Member | null> {
     birth_date: data.birth_date,
     death_date: data.death_date,
     quotes: data.quotes,
+    nickname_en: data.nickname_en ?? null,
+    title_en: data.title_en ?? null,
+    bio_en: data.bio_en ?? null,
+    quotes_en: data.quotes_en ?? null,
     consumption_philosophy: data.consumption_philosophy,
+    consumption_philosophy_en: data.consumption_philosophy_en ?? null,
     speech_tone: data.speech_tone ?? null,
     claimed_by: data.claimed_by,
     influence: influenceData || null,

@@ -67,24 +67,69 @@ export default async function ContentDetailPage({ params }: PageProps) {
       {/* 정보 그리드 — 2열 수평 */}
       <div className="bg-bg-card border border-border rounded-xl p-5">
         <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-          <Field label="콘텐츠 ID" value={content.id} mono />
-          <Field label="등록 사용자" value={`${content.user_count}명`} />
+          <Field label="contents.id" value={content.id} mono />
+          {content.external_id && (
+            <Field label="external_id" value={content.external_id} mono />
+          )}
+          <Field label="user_count" value={`${content.user_count}명`} />
           {content.external_source && (
-            <Field label="외부 소스" value={content.external_source} />
+            <Field label="external_source" value={content.external_source} />
           )}
           {content.publisher && (
-            <Field label="출판/제작" value={content.publisher} />
+            <Field label="publisher" value={content.publisher} />
           )}
           {content.release_date && (
-            <Field label="출시일" value={content.release_date} />
+            <Field label="release_date" value={content.release_date} />
           )}
-          <Field label="등록일" value={new Date(content.created_at).toLocaleDateString('ko-KR')} />
+          <Field label="created_at" value={new Date(content.created_at).toLocaleDateString('ko-KR')} />
           {content.thumbnail_url && (
             <div className="col-span-2">
-              <Field label="썸네일 URL" value={content.thumbnail_url} mono />
+              <Field label="thumbnail_url" value={content.thumbnail_url} mono />
             </div>
           )}
         </div>
+
+        {/* 에디션 (BOOK) */}
+        {content.editions.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-border">
+            <span className="text-xs font-medium text-text-secondary font-mono">editions</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              {content.editions.map((ed) => (
+                <div key={ed.locale} className="flex gap-3 p-3 bg-bg-secondary rounded-lg">
+                  <div className="relative w-12 h-16 rounded bg-bg-card flex items-center justify-center overflow-hidden shrink-0">
+                    {ed.thumbnail_url ? (
+                      <Image src={ed.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+                    ) : (
+                      <span className="text-xs text-text-tertiary">—</span>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1 space-y-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-accent/10 text-accent">
+                        {ed.locale.toUpperCase()}
+                      </span>
+                      <p className="text-sm font-medium text-text-primary truncate">{ed.title || '—'}</p>
+                    </div>
+                    <p className="text-xs text-text-secondary truncate">{ed.creator || '—'}</p>
+                    {ed.isbn && <p className="text-[10px] font-mono text-text-tertiary">ISBN {ed.isbn}</p>}
+                    {ed.publisher && <p className="text-[10px] text-text-tertiary">{ed.publisher}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* i18n 필드 (에디션 없는 콘텐츠) */}
+        {content.editions.length === 0 && (content.title_ko || content.title_en) && (
+          <div className="mt-4 pt-4 border-t border-border">
+            <span className="text-xs font-medium text-text-secondary">다국어 제목</span>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-2">
+              <Field label="🇰🇷 제목" value={content.title_ko || '—'} />
+              <Field label="🇺🇸 제목" value={content.title_en || '—'} />
+            </div>
+          </div>
+        )}
 
         {content.description && (
           <div className="mt-4 pt-4 border-t border-border">

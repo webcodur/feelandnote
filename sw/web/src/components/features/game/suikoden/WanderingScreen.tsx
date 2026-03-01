@@ -7,19 +7,23 @@ import { getTerritoryDef } from '@/lib/game/suikoden/utils'
 import { generateWanderingEvent, attemptRecruitGuest, dismissGuest, raiseArmy, moveToRegion } from '@/lib/game/suikoden/engine'
 import { generateDialog } from '@/lib/game/suikoden/dialog'
 import CharacterPortrait from './CharacterPortrait'
-import StatBars from './StatBars'
+import CharacterInfoPanel from './CharacterInfoPanel'
 import BuildingCardGrid from './BuildingCardGrid'
 import WorldMapView from './WorldMapView'
 import TextMapView from './TextMapView'
+
+/** characterId → celeb_dialogues.lines */
+type DialoguesMap = Record<string, Record<string, string[]>>
 
 interface Props {
   state: GameState
   onUpdateState: (fn: (s: GameState) => GameState) => void
   onDialog?: (entry: DialogEntry) => void
   onClearDialogs?: () => void
+  dialogues?: DialoguesMap
 }
 
-export default function WanderingScreen({ state, onUpdateState, onDialog, onClearDialogs }: Props) {
+export default function WanderingScreen({ state, onUpdateState, onDialog, onClearDialogs, dialogues }: Props) {
   const wandering = state.wandering
 
   // ── hooks (early return 전에 모두 선언) ──
@@ -33,10 +37,12 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
   const emptyTerritories = useMemo(() => {
     if (!wandering) return []
     const occupiedIds = new Set(state.factions.flatMap(f => f.territories.map(t => t.id)))
+    const activeSet = state.activeTerritoryIds.length > 0 ? new Set(state.activeTerritoryIds) : null
     return TERRITORIES.filter(t =>
       t.regionId === wandering.currentRegionId && !occupiedIds.has(t.id)
+      && (!activeSet || activeSet.has(t.id))
     )
-  }, [state.factions, wandering?.currentRegionId, wandering])
+  }, [state.factions, wandering?.currentRegionId, wandering, state.activeTerritoryIds])
 
   const event = wandering?.currentEvent ?? null
 
@@ -51,18 +57,19 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
 
     if (event.recruitAttempted) {
       // 리더: "함께하지 않겠는가"
-      onDialog(generateDialog('recruit_ask', wandering.leader))
+      onDialog(generateDialog('recruit_ask', wandering.leader, dialogues?.[wandering.leader.id]))
       const joined = wandering.companions.some(c => c.id === char.id)
       if (joined) {
         // 상대: 수락 대사
-        onDialog(generateDialog('recruit_success', char))
+        onDialog(generateDialog('join_accept', char, dialogues?.[char.id]))
       } else {
         // 상대: 거절 대사
-        onDialog(generateDialog('recruit_fail', char))
+        onDialog(generateDialog('join_refuse', char, dialogues?.[char.id]))
       }
     } else {
-      // 지나침: 상대 작별 대사
-      onDialog(generateDialog('dismiss_farewell', char))
+      // 지나침: 인물 서운한 반응 → 작별 대사
+      onDialog(generateDialog('join_rejected', char, dialogues?.[char.id]))
+      onDialog(generateDialog('farewell', char, dialogues?.[char.id]))
     }
   }, [event, wandering?.turnsWandered, wandering, onDialog])
 
@@ -207,74 +214,38 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                       {/* 객장 방문 — 인물 상세 + 수락/거절 */}
                       {event.type === 'guest' && event.character && (
                         <div className="bg-stone-900/60 rounded-lg border border-stone-700">
-                          {/* 헤더 */}
-                          <div className="flex items-center gap-3 p-3 border-b border-stone-700">
-                            <CharacterPortrait character={event.character} size={44} />
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm font-bold text-stone-100 truncate">{event.character.nickname}</span>
-                                <span className="text-[10px] font-bold" style={{ color: GRADE_COLORS[event.character.grade] }}>{event.character.grade}</span>
+                          <CharacterInfoPanel
+                            character={event.character}
+                            footer={
+                              <div className="px-3 pb-3">
+                                {!event.resolved ? (
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={handleAttemptRecruit}
+                                      disabled={wandering.companions.length >= WANDERING_MAX_COMPANIONS}
+                                      className="flex-1 py-2 bg-amber-700 hover:bg-amber-600 disabled:bg-stone-700 disabled:text-stone-500 text-stone-100 text-sm font-bold rounded transition-colors"
+                                    >
+                                      등용 시도
+                                    </button>
+                                    <button
+                                      onClick={handleDismiss}
+                                      className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-stone-300 text-sm rounded transition-colors"
+                                    >
+                                      지나친다
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <p className="text-xs text-stone-500 text-center">
+                                    {wandering.companions.some(c => c.id === event.character?.id)
+                                      ? '동료가 되었다.'
+                                      : event.recruitAttempted
+                                        ? '등용에 실패했다.'
+                                        : '헤어졌다.'}
+                                  </p>
+                                )}
                               </div>
-                              <p className="text-[10px] text-stone-400">{event.character.title}</p>
-                              <p className="text-[10px] text-stone-500">
-                                {CLASS_INFO[event.character.unitClass].icon} {CLASS_INFO[event.character.unitClass].name}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* HP / 병사 */}
-                          <div className="grid grid-cols-2 gap-1.5 px-3 py-2 border-b border-stone-700">
-                            <div className="bg-stone-800 rounded p-1.5 text-center">
-                              <div className="text-[9px] text-stone-500">HP</div>
-                              <div className="text-[10px] text-stone-200 font-bold">{event.character.hp}/{event.character.maxHp}</div>
-                            </div>
-                            <div className="bg-stone-800 rounded p-1.5 text-center">
-                              <div className="text-[9px] text-stone-500">병사</div>
-                              <div className="text-[10px] text-stone-200 font-bold">{event.character.troops}/{event.character.maxTroops}</div>
-                            </div>
-                          </div>
-
-                          {/* 스탯 바 7개 */}
-                          <div className="px-3 py-2 border-b border-stone-700">
-                            <StatBars stats={event.character.stats} />
-                          </div>
-
-                          {/* 소개 / 명언 */}
-                          {(event.character.bio || event.character.quotes) && (
-                            <div className="px-3 py-2 border-b border-stone-700 space-y-1">
-                              {event.character.bio && <p className="text-[10px] text-stone-400 leading-relaxed">{event.character.bio}</p>}
-                              {event.character.quotes && <p className="text-[10px] italic text-stone-500">&ldquo;{event.character.quotes}&rdquo;</p>}
-                            </div>
-                          )}
-
-                          {/* 등용 시도 / 지나친다 */}
-                          <div className="p-3">
-                            {!event.resolved ? (
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={handleAttemptRecruit}
-                                  disabled={wandering.companions.length >= WANDERING_MAX_COMPANIONS}
-                                  className="flex-1 py-2 bg-amber-700 hover:bg-amber-600 disabled:bg-stone-700 disabled:text-stone-500 text-stone-100 text-sm font-bold rounded transition-colors"
-                                >
-                                  등용 시도
-                                </button>
-                                <button
-                                  onClick={handleDismiss}
-                                  className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-stone-300 text-sm rounded transition-colors"
-                                >
-                                  지나친다
-                                </button>
-                              </div>
-                            ) : (
-                              <p className="text-xs text-stone-500 text-center">
-                                {wandering.companions.some(c => c.id === event.character?.id)
-                                  ? '동료가 되었다.'
-                                  : event.recruitAttempted
-                                    ? '등용에 실패했다.'
-                                    : '헤어졌다.'}
-                              </p>
-                            )}
-                          </div>
+                            }
+                          />
                         </div>
                       )}
 
@@ -450,47 +421,11 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
             const isLeader = char.id === wandering.leader.id
             return (
               <div className="bg-stone-800 border border-stone-700 rounded-lg">
-                {/* 헤더 */}
-                <div className="flex items-center gap-3 p-3 border-b border-stone-700">
-                  <CharacterPortrait character={char} size={44} />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-stone-100 truncate">{char.nickname}</span>
-                      <span className="text-[10px] font-bold" style={{ color: GRADE_COLORS[char.grade] }}>{char.grade}</span>
-                    </div>
-                    <p className="text-[10px] text-stone-400">{char.title}</p>
-                    <p className="text-[10px] text-stone-500">
-                      {CLASS_INFO[char.unitClass].icon} {CLASS_INFO[char.unitClass].name}
-                      {isLeader && <span className="ml-1 text-amber-400">· 군주</span>}
-                    </p>
-                  </div>
-                  <button onClick={() => setSelectedCharId(null)} className="text-stone-600 hover:text-stone-400 text-sm">✕</button>
-                </div>
-
-                {/* HP / 병사 */}
-                <div className="grid grid-cols-2 gap-1.5 px-3 py-2 border-b border-stone-700">
-                  <div className="bg-stone-900 rounded p-1.5 text-center">
-                    <div className="text-[9px] text-stone-500">HP</div>
-                    <div className="text-[10px] text-stone-200 font-bold">{char.hp}/{char.maxHp}</div>
-                  </div>
-                  <div className="bg-stone-900 rounded p-1.5 text-center">
-                    <div className="text-[9px] text-stone-500">병사</div>
-                    <div className="text-[10px] text-stone-200 font-bold">{char.troops}/{char.maxTroops}</div>
-                  </div>
-                </div>
-
-                {/* 스탯 바 7개 */}
-                <div className="px-3 py-2 border-b border-stone-700">
-                  <StatBars stats={char.stats} />
-                </div>
-
-                {/* 소개 / 명언 */}
-                {(char.bio || char.quotes) && (
-                  <div className="px-3 py-2 space-y-1">
-                    {char.bio && <p className="text-[10px] text-stone-400 leading-relaxed">{char.bio}</p>}
-                    {char.quotes && <p className="text-[10px] italic text-stone-500">&ldquo;{char.quotes}&rdquo;</p>}
-                  </div>
-                )}
+                <CharacterInfoPanel
+                  character={char}
+                  badge={isLeader ? '군주' : undefined}
+                  onClose={() => setSelectedCharId(null)}
+                />
               </div>
             )
           })()}
@@ -526,7 +461,7 @@ function TerritoryInspectView({ state, territoryId, wanderingRegionId, canRaiseA
     maxBuildings: 8,
     population: 1000,
     morale: 70,
-    resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
+    resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0, weapons: 0, horses: 0, ships: 0, charms: 0 },
     taxRate: 'normal' as TaxRate,
   }
 

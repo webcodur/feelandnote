@@ -15,13 +15,17 @@ import WorldMapView from './WorldMapView'
 import TextMapView from './TextMapView'
 import CharacterInfoPanel from './CharacterInfoPanel'
 
+/** characterId → celeb_dialogues.lines */
+type DialoguesMap = Record<string, Record<string, string[]>>
+
 interface Props {
   state: GameState
   onUpdateState: (fn: (s: GameState) => GameState) => void
   onDialog?: (entry: DialogEntry) => void
+  dialogues?: DialoguesMap
 }
 
-export default function StrategyScreen({ state, onUpdateState, onDialog }: Props) {
+export default function StrategyScreen({ state, onUpdateState, onDialog, dialogues }: Props) {
   const [selectedCharId, setSelectedCharId] = useState<string | null>(null)
   const [mapMode, setMapMode] = useState<'globe' | 'text'>('globe')
   const [toast, setToast] = useState<string | null>(null)
@@ -29,6 +33,8 @@ export default function StrategyScreen({ state, onUpdateState, onDialog }: Props
   const [focusTarget, setFocusTarget] = useState<{ id: TerritoryId; key: number } | null>(null)
   const [mapOpen, setMapOpen] = useState(true)
   const [charPanelOpen, setCharPanelOpen] = useState(true)
+  const [splash, setSplash] = useState<{ name: string; id: string } | null>(null)
+  const [splashVisible, setSplashVisible] = useState(false)
   const focusKeyRef = useRef(0)
 
   const showToast = useCallback((msg: string) => {
@@ -51,7 +57,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog }: Props
         maxBuildings: 8,
         population: 0,
         morale: 0,
-        resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
+        resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0, weapons: 0, horses: 0, ships: 0, charms: 0 },
         taxRate: 'normal' as TaxRate,
       }
       return playerFaction.territories[0]
@@ -61,12 +67,21 @@ export default function StrategyScreen({ state, onUpdateState, onDialog }: Props
   // ── 다음 턴 ──
   const handleNextTurn = useCallback(() => {
     const prevSeason = state.season
+    const prevVisitorIds = new Set(state.tavernVisitors.map(v => v.character.id))
     const next = advanceTurn(state)
     onUpdateState(() => next)
     // 계절 변경 시 대화 (updater 밖에서 호출)
     if (onDialog && next.season !== prevSeason) {
       const leader = playerFaction.members.find(m => m.id === playerFaction.leaderId)
-      if (leader) onDialog(generateDialog('turn_start', leader))
+      if (leader) onDialog(generateDialog('turn_start', leader, dialogues?.[leader.id]))
+    }
+    // 선술집 신규 방문자 대사
+    if (onDialog) {
+      for (const v of next.tavernVisitors) {
+        if (!prevVisitorIds.has(v.character.id)) {
+          onDialog(generateDialog('visitor_arrive', v.character, dialogues?.[v.character.id]))
+        }
+      }
     }
     // 건설 완료 감지
     if (onDialog) {
@@ -81,19 +96,32 @@ export default function StrategyScreen({ state, onUpdateState, onDialog }: Props
               const prevCard = prevTerritory?.buildingCards.find(c => c.instanceId === card.instanceId)
               if (prevCard?.isConstructing) {
                 const worker = faction.members.find(m => m.id === card.constructionWorkerId)
-                if (worker) onDialog(generateDialog('building_complete', worker))
+                if (worker) onDialog(generateDialog('building_done', worker, dialogues?.[worker.id]))
               }
             }
           }
         }
       }
     }
-  }, [state, onUpdateState, onDialog, playerFaction])
+  }, [state, onUpdateState, onDialog, playerFaction, dialogues])
 
   // ── 영토 전환 (적/무주지 포함) ──
   const handleSelectTerritory = useCallback((tId: TerritoryId) => {
+    if (tId !== state.viewingTerritoryId) {
+      const tDef = getTerritoryDef(tId)
+      if (tDef) {
+        setSplash({ name: tDef.name, id: tId })
+        // 다음 프레임에서 opacity를 1로 전환 → fade-in
+        requestAnimationFrame(() => setSplashVisible(true))
+        setTimeout(() => {
+          setSplashVisible(false)
+          // fade-out 완료 후 DOM 제거
+          setTimeout(() => setSplash(null), 500)
+        }, 1500)
+      }
+    }
     onUpdateState(s => ({ ...s, viewingTerritoryId: tId, selectedTerritoryId: tId }))
-  }, [onUpdateState])
+  }, [onUpdateState, state.viewingTerritoryId])
 
   // ── 건설 명령 ──
   const handleBuild = useCallback((buildingDefId: string) => {
@@ -249,7 +277,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog }: Props
               maxBuildings: 8,
               population: 500,
               morale: 60,
-              resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
+              resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0, weapons: 0, horses: 0, ships: 0, charms: 0 },
               taxRate: 'normal' as const,
             }] }
           : f
@@ -275,6 +303,23 @@ export default function StrategyScreen({ state, onUpdateState, onDialog }: Props
 
   return (
     <div className="relative space-y-3">
+
+      {/* 영토 전환 스플래시 */}
+      {splash && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none transition-opacity duration-500"
+          style={{ opacity: splashVisible ? 1 : 0 }}
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(/images/game/suikoden/territories/${splash.id}.png)` }}
+          />
+          <div className="absolute inset-0 bg-black/50" />
+          <span className="relative text-2xl font-serif text-white/90 tracking-widest drop-shadow-lg">
+            【{splash.name}】
+          </span>
+        </div>
+      )}
 
       {/* 토스트 알림 — absolute, 레이아웃 무영향 */}
       {toast && (

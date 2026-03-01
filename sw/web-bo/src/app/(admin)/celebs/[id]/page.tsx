@@ -1,15 +1,12 @@
 import type { Metadata } from 'next'
 import { getMember } from '@/actions/admin/members'
-import { getCelebDialogues, type DialogueLines } from '@/actions/admin/dialogues'
-import { getCelebProfessionLabel } from '@/constants/celebCategories'
+import { getCelebDialogues } from '@/actions/admin/dialogues'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Star, Users, Quote, BookOpen, BadgeCheck, CheckCircle, Ban, MessageSquare } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Ban } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import CelebForm from '../../members/components/CelebForm'
-import NationalityBadge from '../../members/components/NationalityBadge'
-import ProjectRulesButton from '../../members/components/ProjectRulesButton'
-import PersonaStatBars from '@/components/celeb/PersonaStatBars'
+import ExtraSections from './ExtraSections'
+import { LangModeProvider } from '@/contexts/LangModeContext'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
@@ -33,188 +30,44 @@ export default async function CelebDetailPage({ params }: PageProps) {
   if (!celeb || celeb.profile_type !== 'CELEB') notFound()
 
   return (
-    <div className="space-y-6">
-      {/* Profile Card */}
-      <div className="bg-bg-card border border-border rounded-lg p-6">
-        <div className="flex justify-between mb-4">
-          <Link href="/celebs" className="p-2 hover:bg-bg-secondary rounded-lg">
-            <ArrowLeft className="w-5 h-5 text-text-secondary" />
-          </Link>
-          <ProjectRulesButton celebName={celeb.nickname || undefined} />
-        </div>
-
-        <div className="flex items-start gap-6">
-          <div className="relative w-32 h-32 rounded-xl flex items-center justify-center overflow-hidden shrink-0 bg-yellow-500/20">
-            {celeb.avatar_url ? (
-              <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
-            ) : (
-              <Star className="w-12 h-12 text-yellow-400" />
-            )}
-          </div>
-
-          <div className="flex-1 space-y-3">
-            <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-bold text-text-primary">{celeb.nickname || '이름 없음'}</h2>
-              {celeb.is_verified && <BadgeCheck className="w-5 h-5 text-blue-400" />}
-            </div>
-
-            <div className="flex items-center gap-3 flex-wrap">
-              {celeb.title && (
-                <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-accent/10 text-accent border border-accent/20">
-                  {celeb.title}
-                </span>
-              )}
-              {celeb.profession && (
-                <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-500/10 text-gray-400">
-                  {getCelebProfessionLabel(celeb.profession)}
-                </span>
-              )}
-              {celeb.nationality && <NationalityBadge code={celeb.nationality} />}
-              <StatusBadge status={celeb.status} />
-            </div>
-
-            {celeb.bio && <p className="text-text-secondary">{celeb.bio}</p>}
-
-            {celeb.quotes && (
-              <div className="flex items-start gap-2 p-3 bg-accent/5 rounded-lg border border-accent/10">
-                <Quote className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-text-secondary italic">"{celeb.quotes}"</p>
-              </div>
-            )}
-
-            <div className="flex items-center gap-6 pt-2 text-text-secondary text-sm">
-              <span className="flex items-center gap-1.5"><BookOpen className="w-4 h-4" />콘텐츠 {celeb.content_count}개</span>
-              <span className="flex items-center gap-1.5"><Users className="w-4 h-4" />팔로워 {celeb.follower_count}명</span>
-            </div>
-
-            <Link href={`/celebs/${celeb.id}/contents`} className="text-sm text-accent hover:underline inline-block">
+    <div className="space-y-4">
+      {/* Navigation */}
+      <div className="flex items-center gap-4">
+        <Link href="/celebs" className="p-2 hover:bg-bg-secondary rounded-lg">
+          <ArrowLeft className="w-5 h-5 text-text-secondary" />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary">{celeb.nickname || '이름 없음'}</h1>
+          <div className="flex items-center gap-2 mt-1">
+            <StatusBadge status={celeb.status} />
+            <Link href={`/celebs/${celeb.id}/contents`} className="text-sm text-accent hover:underline">
               콘텐츠 관리 →
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Celeb Form */}
-      <CelebForm mode="edit" celeb={celeb} />
+      <LangModeProvider>
+        {/* CelebForm 내부: 기본정보 / 영향력 / 감상철학 / 태그 아코디언 */}
+        <CelebForm mode="edit" celeb={celeb} />
 
-      {/* Persona Stats */}
-      {celeb.persona && (
-        <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
-          <h3 className="text-lg font-semibold text-text-primary">페르소나</h3>
-          <PersonaStatBars
-            personas={[{
-              id: celeb.id,
-              nickname: celeb.nickname || '',
-              ...celeb.persona,
-            }]}
-            showLegend={false}
-            compact
-          />
-        </div>
-      )}
+        {/* 페르소나 / 고유대사 / 계정정보 — 동일 카드형 아코디언 */}
+        <ExtraSections
+          persona={celeb.persona ? { id: celeb.id, nickname: celeb.nickname || '', ...celeb.persona } : null}
+          dialogueLines={dialogueLines}
+          speechTone={celeb.speech_tone}
+          accountInfo={{ id: celeb.id, claimed_by: celeb.claimed_by, created_at: celeb.created_at }}
+        />
+      </LangModeProvider>
 
-      {/* Dialogue Lines */}
-      <DialogueSection lines={dialogueLines} speechTone={celeb.speech_tone} />
-
-      {/* Account Info */}
-      <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-text-primary">계정 정보</h3>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <InfoItem label="계정 ID" value={celeb.id} mono />
-          <InfoItem label="인수 상태" value={celeb.claimed_by ? '인수됨' : '미인수'} />
-          {celeb.claimed_by && <InfoItem label="인수자 ID" value={celeb.claimed_by} mono />}
-          <InfoItem label="생성일" value={new Date(celeb.created_at).toLocaleString('ko-KR')} />
-        </div>
-      </div>
+      {/* 플로팅 버튼 영역 확보 */}
+      <div className="h-20" />
     </div>
   )
 }
 
-// #region DialogueSection
-const DIALOGUE_TYPE_LABELS: Record<string, string> = {
-  greeting: '인사',
-  select: '선택 시',
-  deploy: '출전 시',
-  battle_win: '승리',
-  battle_draw: '무승부',
-  battle_lose: '패배',
-  clash_attack: '공격',
-}
-
-const TONE_LABELS: Record<string, string> = {
-  loyal: '충의',
-  composed: '침착',
-  bold: '당돌',
-  humble: '겸양',
-  gentle: '온화',
-  free: '호방',
-}
-
-function DialogueSection({ lines, speechTone }: { lines: DialogueLines | null; speechTone?: string | null }) {
-  const toneLabel = speechTone ? TONE_LABELS[speechTone] || speechTone : null
-
-  if (!lines) {
-    return (
-      <div className="bg-bg-card border border-border rounded-lg p-6 space-y-2">
-        <div className="flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-text-secondary" />
-          <h3 className="text-lg font-semibold text-text-primary">고유 대사</h3>
-          {toneLabel && (
-            <span className="px-2 py-0.5 rounded text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              말투: {toneLabel}
-            </span>
-          )}
-        </div>
-        <p className="text-sm text-text-secondary">등록된 고유 대사가 없습니다. 공통 대사를 사용합니다.</p>
-      </div>
-    )
-  }
-
-  const types = ['greeting', 'select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
-
-  return (
-    <div className="bg-bg-card border border-border rounded-lg p-6 space-y-4">
-      <div className="flex items-center gap-2">
-        <MessageSquare className="w-5 h-5 text-accent" />
-        <h3 className="text-lg font-semibold text-text-primary">고유 대사</h3>
-        {toneLabel && (
-          <span className="px-2 py-0.5 rounded text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
-            말투: {toneLabel}
-          </span>
-        )}
-        <span className="text-xs text-text-secondary ml-auto">
-          {Object.values(lines).flat().filter(l => l?.trim()).length}/21
-        </span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {types.map((type) => (
-          <div key={type} className="space-y-1.5">
-            <p className="text-xs font-medium text-text-secondary uppercase tracking-wide">
-              {DIALOGUE_TYPE_LABELS[type]}
-            </p>
-            {lines[type]?.map((line, i) => (
-              <p key={i} className="text-sm text-text-primary bg-bg-secondary rounded-lg px-3 py-1.5 break-all">
-                {line || <span className="text-text-secondary italic">비어있음</span>}
-              </p>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-// #endregion
 
 // #region Helper Components
-function InfoItem({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
-  return (
-    <div>
-      <span className="text-text-secondary">{label}</span>
-      <p className={`text-text-primary ${mono ? 'font-mono text-xs' : ''}`}>{value}</p>
-    </div>
-  )
-}
-
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
     active: { label: '활성', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },

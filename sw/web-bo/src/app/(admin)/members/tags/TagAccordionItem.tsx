@@ -49,7 +49,9 @@ export default function TagAccordionItem(props: Props) {
   // #region 태그 폼 상태
   const [form, setForm] = useState({
     name: tag.name,
+    name_en: tag.name_en ?? '',
     description: tag.description ?? '',
+    description_en: tag.description_en ?? '',
     color: tag.color,
     is_featured: tag.is_featured,
     start_date: tag.start_date ?? '',
@@ -60,7 +62,9 @@ export default function TagAccordionItem(props: Props) {
 
   const hasChanges =
     form.name !== tag.name ||
+    form.name_en !== (tag.name_en ?? '') ||
     form.description !== (tag.description ?? '') ||
+    form.description_en !== (tag.description_en ?? '') ||
     form.color !== tag.color ||
     form.is_featured !== tag.is_featured ||
     form.start_date !== (tag.start_date ?? '') ||
@@ -116,7 +120,9 @@ export default function TagAccordionItem(props: Props) {
     const result = await updateTag({
       id: tag.id,
       name: form.name,
+      name_en: form.name_en,
       description: form.description,
+      description_en: form.description_en,
       color: form.color,
       is_featured: form.is_featured,
       start_date: form.start_date || null,
@@ -127,6 +133,8 @@ export default function TagAccordionItem(props: Props) {
       onUpdate({
         ...tag,
         ...form,
+        name_en: form.name_en || null,
+        description_en: form.description_en || null,
         start_date: form.start_date || null,
         end_date: form.end_date || null,
         celeb_count: celebs.length,
@@ -154,6 +162,8 @@ export default function TagAccordionItem(props: Props) {
         tag_id: tag.id,
         short_desc: null,
         long_desc: null,
+        short_desc_en: null,
+        long_desc_en: null,
         sort_order: result.sort_order ?? prev.length,
         celeb: { id: celeb.id, nickname: celeb.nickname, avatar_url: celeb.avatar_url, title: celeb.title },
       }])
@@ -188,16 +198,18 @@ export default function TagAccordionItem(props: Props) {
     if (result.success) setCelebs(prev => prev.filter(c => c.celeb_id !== celebId))
   }
 
-  const handleSaveDesc = async (celebId: string, shortDesc: string, longDesc: string) => {
-    const shortVal = shortDesc.trim() || null
-    const longVal = longDesc.trim() || null
-    const result = await updateTagAssignmentDesc(celebId, tag.id, shortVal, longVal)
+  const handleSaveDesc = async (celebId: string, item: CelebTagAssignment) => {
+    const shortVal = item.short_desc?.trim() || null
+    const longVal = item.long_desc?.trim() || null
+    const shortEnVal = item.short_desc_en?.trim() || null
+    const longEnVal = item.long_desc_en?.trim() || null
+    const result = await updateTagAssignmentDesc(celebId, tag.id, shortVal, longVal, shortEnVal, longEnVal)
     if (!result.success) {
       alert(result.error ?? '설명 저장 실패')
     }
   }
 
-  const handleDescChange = (celebId: string, field: 'short_desc' | 'long_desc', value: string) => {
+  const handleDescChange = (celebId: string, field: 'short_desc' | 'long_desc' | 'short_desc_en' | 'long_desc_en', value: string) => {
     setCelebs(prev => prev.map(c =>
       c.celeb_id === celebId ? { ...c, [field]: value } : c
     ))
@@ -215,13 +227,27 @@ export default function TagAccordionItem(props: Props) {
       {/* Header */}
       <div className="flex items-center gap-3 p-4 cursor-pointer hover:bg-bg-secondary/50" onClick={onToggle}>
         <GripVertical className="w-5 h-5 text-text-tertiary cursor-grab shrink-0" />
-        <span
-          className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-medium"
-          style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
-        >
-          {tag.name}
-        </span>
-        <span className="text-base text-text-secondary flex-1 truncate">{tag.description || ''}</span>
+        <div className="flex flex-col min-w-0">
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-medium shrink-0"
+              style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
+            >
+              {tag.name}
+            </span>
+            {tag.name_en && (
+              <span className="text-xs text-text-tertiary shrink-0">{tag.name_en}</span>
+            )}
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col min-w-0 truncate">
+          {tag.description && (
+            <span className="text-base text-text-secondary truncate">{tag.description}</span>
+          )}
+          {tag.description_en && (
+            <span className="text-xs text-text-tertiary truncate">{tag.description_en}</span>
+          )}
+        </div>
         {tag.is_featured && (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium bg-accent/20 text-accent shrink-0">
             <Sparkles className="w-4 h-4" />
@@ -240,20 +266,38 @@ export default function TagAccordionItem(props: Props) {
           {/* 태그 정보 수정 */}
           <div className="p-5 space-y-4">
             <FormRow label="태그 이름">
-              <input
-                type="text"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="flex-1 px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
-              />
+              <div className="flex-1 space-y-1.5">
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="w-full px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                />
+                <input
+                  type="text"
+                  value={form.name_en}
+                  onChange={(e) => setForm({ ...form, name_en: e.target.value })}
+                  placeholder="EN name (optional)"
+                  className="w-full px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                />
+              </div>
             </FormRow>
             <FormRow label="설명">
-              <input
-                type="text"
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="flex-1 px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
-              />
+              <div className="flex-1 space-y-1.5">
+                <input
+                  type="text"
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  className="w-full px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                />
+                <input
+                  type="text"
+                  value={form.description_en}
+                  onChange={(e) => setForm({ ...form, description_en: e.target.value })}
+                  placeholder="EN description (optional)"
+                  className="w-full px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                />
+              </div>
             </FormRow>
             <FormRow label="색상">
               <div className="flex flex-wrap gap-2">
@@ -414,22 +458,42 @@ export default function TagAccordionItem(props: Props) {
                           </button>
                         </div>
                         <div className="mt-3 pl-11 space-y-2">
-                          <input
-                            type="text"
-                            value={item.short_desc ?? ''}
-                            onChange={(e) => handleDescChange(item.celeb_id, 'short_desc', e.target.value)}
-                            onBlur={() => handleSaveDesc(item.celeb_id, item.short_desc ?? '', item.long_desc ?? '')}
-                            placeholder="짧은 문구 (예: 무에서 창조, 시대를 앞서감)"
-                            className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
-                          />
-                          <textarea
-                            value={item.long_desc ?? ''}
-                            onChange={(e) => handleDescChange(item.celeb_id, 'long_desc', e.target.value)}
-                            onBlur={() => handleSaveDesc(item.celeb_id, item.short_desc ?? '', item.long_desc ?? '')}
-                            placeholder="상세 설명..."
-                            rows={2}
-                            className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary resize-none focus:outline-none focus:ring-1 focus:ring-accent/50"
-                          />
+                          <div className="space-y-1">
+                            <input
+                              type="text"
+                              value={item.short_desc ?? ''}
+                              onChange={(e) => handleDescChange(item.celeb_id, 'short_desc', e.target.value)}
+                              onBlur={() => handleSaveDesc(item.celeb_id, item)}
+                              placeholder="짧은 문구 (예: 무에서 창조, 시대를 앞서감)"
+                              className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                            />
+                            <input
+                              type="text"
+                              value={item.short_desc_en ?? ''}
+                              onChange={(e) => handleDescChange(item.celeb_id, 'short_desc_en', e.target.value)}
+                              onBlur={() => handleSaveDesc(item.celeb_id, item)}
+                              placeholder="EN short desc (optional)"
+                              className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-xs text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <textarea
+                              value={item.long_desc ?? ''}
+                              onChange={(e) => handleDescChange(item.celeb_id, 'long_desc', e.target.value)}
+                              onBlur={() => handleSaveDesc(item.celeb_id, item)}
+                              placeholder="상세 설명..."
+                              rows={2}
+                              className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-sm text-text-primary resize-none focus:outline-none focus:ring-1 focus:ring-accent/50"
+                            />
+                            <textarea
+                              value={item.long_desc_en ?? ''}
+                              onChange={(e) => handleDescChange(item.celeb_id, 'long_desc_en', e.target.value)}
+                              onBlur={() => handleSaveDesc(item.celeb_id, item)}
+                              placeholder="EN long desc (optional)"
+                              rows={2}
+                              className="w-full px-3 py-2 bg-bg-main border border-border rounded-lg text-xs text-text-primary placeholder:text-text-tertiary resize-none focus:outline-none focus:ring-1 focus:ring-accent/50"
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}

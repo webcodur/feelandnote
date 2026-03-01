@@ -29,10 +29,23 @@ celeb_persona (
   conservative_progressive   smallint DEFAULT 0,  -- 보수 ↔ 진보
   individual_social          smallint DEFAULT 0,  -- 개인 ↔ 공동체
   cautious_bold              smallint DEFAULT 0,  -- 신중 ↔ 대담
+  rationale                  text,                -- 페르소나 해설지 (역사적/비평적 근거)
   created_at  timestamptz DEFAULT now(),
   updated_at  timestamptz DEFAULT now()
 )
 ```
+
+---
+
+## 페르소나 해설지 (Rationale)
+
+사용자가 인물의 수치를 납득할 수 있도록 역사적 사실이나 비평적 관점을 바탕으로 작성한다.
+
+### 작성 원칙
+1. **근거 중심**: "지력이 높다"는 주장 대신 "평생 500여 권의 저서를 남긴 업적"과 같은 구체적 사례를 언급한다.
+2. **입체적 분석**: 강점뿐만 아니라 약점(예: 자부심으로 인한 겸양 부족)에 대해서도 수치와 연결하여 설명한다.
+3. **톤앤매너**: Neo-Pantheon 테마에 어울리는 정중하고 권위 있는 문체를 사용한다.
+4. **분량**: 1문단 (약 150~300자 내외).
 
 ---
 
@@ -157,7 +170,9 @@ ON CONFLICT (celeb_id) DO NOTHING;
   "loyalty": 0, "benevolence": 0, "fairness": 0, "humility": 0,
   "command": 0, "martial": 0, "intellect": 0, "charisma": 0,
   "pessimism_optimism": 0, "conservative_progressive": 0,
-  "individual_social": 0, "cautious_bold": 0
+  "individual_social": 0, "cautious_bold": 0,
+  "speech_tone": "loyal",
+  "rationale": "이 인물의 수치 산정 근거에 대한 설명..."
 }
 ```
 

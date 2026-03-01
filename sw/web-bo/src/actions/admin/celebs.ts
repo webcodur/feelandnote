@@ -64,15 +64,20 @@ interface CreateCelebInput {
 interface UpdateCelebInput {
   id: string
   nickname?: string
+  nickname_en?: string
   profession?: string
   title?: string
+  title_en?: string
   nationality?: string
   gender?: boolean | null
   birth_date?: string
   death_date?: string
   bio?: string
+  bio_en?: string
   quotes?: string
+  quotes_en?: string
   consumption_philosophy?: string
+  consumption_philosophy_en?: string
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'suspended'
@@ -359,15 +364,20 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   const updateData: Record<string, unknown> = {}
 
   if (input.nickname !== undefined) updateData.nickname = input.nickname
+  if (input.nickname_en !== undefined) updateData.nickname_en = input.nickname_en || null
   if (input.profession !== undefined) updateData.profession = input.profession
   if (input.title !== undefined) updateData.title = input.title
+  if (input.title_en !== undefined) updateData.title_en = input.title_en || null
   if (input.nationality !== undefined) updateData.nationality = input.nationality
   if (input.gender !== undefined) updateData.gender = input.gender
   if (input.birth_date !== undefined) updateData.birth_date = input.birth_date
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio
+  if (input.bio_en !== undefined) updateData.bio_en = input.bio_en || null
   if (input.quotes !== undefined) updateData.quotes = input.quotes
+  if (input.quotes_en !== undefined) updateData.quotes_en = input.quotes_en || null
   if (input.consumption_philosophy !== undefined) updateData.consumption_philosophy = input.consumption_philosophy
+  if (input.consumption_philosophy_en !== undefined) updateData.consumption_philosophy_en = input.consumption_philosophy_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
@@ -798,6 +808,7 @@ export interface CelebQuotesItem {
   avatar_url: string | null
   profession: string | null
   quotes: string | null
+  quotes_en: string | null
 }
 
 export async function getCelebsForQuotesEdit(): Promise<CelebQuotesItem[]> {
@@ -805,7 +816,7 @@ export async function getCelebsForQuotesEdit(): Promise<CelebQuotesItem[]> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, profession, quotes')
+    .select('id, nickname, avatar_url, profession, quotes, quotes_en')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .order('nickname', { ascending: true })

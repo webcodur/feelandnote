@@ -84,12 +84,12 @@ export const LAB_ITEMS: LabItem[] = [
     subtitle: "SVG feTurbulence 기반 전기 테두리 효과",
   },
   {
-    value: "duel-studio",
-    label: "일기토",
+    value: "clash-arena",
+    label: "접전 미니게임",
     icon: Swords,
-    href: "/lab/duel-studio",
-    title: "Duel Studio",
-    subtitle: "일기토 이펙트 실시간 테스트 환경",
+    href: "/lab/clash-arena",
+    title: "Clash Arena Studio",
+    subtitle: "접전 미니게임 3종 실시간 테스트",
   },
   {
     value: "image-ui",

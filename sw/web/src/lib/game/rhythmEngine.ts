@@ -10,9 +10,12 @@ import type { BattleCard } from "./types";
 
 export type RhythmJudgment = "perfect" | "good" | "miss";
 
+export type Lane = 0 | 1 | 2;
+
 export interface RhythmNote {
   id: number;
   targetTime: number; // ms (게임 시작 기준)
+  lane: Lane;
 }
 
 export interface RhythmResult {
@@ -22,7 +25,8 @@ export interface RhythmResult {
 
 // ─── 상수 ───
 
-export const NOTE_INTERVAL = 800;   // 노트 간격 (ms)
+export const NOTE_COUNT = 12;        // 기본 노트 개수
+export const NOTE_INTERVAL = 700;    // 노트 간격 (ms)
 export const FIRST_NOTE_DELAY = 1200; // 첫 노트까지 대기 (ms)
 export const PERFECT_WINDOW = 50;   // ±ms
 export const GOOD_WINDOW = 120;     // ±ms
@@ -37,15 +41,46 @@ const JUDGMENT_SCORES: Record<RhythmJudgment, number> = {
 // ─── 노트 생성 ───
 
 export function generateNotes(count = 5): RhythmNote[] {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    targetTime: FIRST_NOTE_DELAY + i * NOTE_INTERVAL,
-  }));
+  const notes: RhythmNote[] = [];
+  let consecutiveCount = 0;
+  let prevLane: Lane = -1 as Lane;
+
+  for (let i = 0; i < count; i++) {
+    let lane: Lane;
+
+    // 같은 레인 최대 2연속까지만 허용
+    if (consecutiveCount >= 2) {
+      const candidates = ([0, 1, 2] as Lane[]).filter(l => l !== prevLane);
+      lane = candidates[Math.floor(Math.random() * candidates.length)];
+    } else {
+      lane = Math.floor(Math.random() * 3) as Lane;
+    }
+
+    consecutiveCount = lane === prevLane ? consecutiveCount + 1 : 1;
+    prevLane = lane;
+
+    notes.push({
+      id: i,
+      targetTime: FIRST_NOTE_DELAY + i * NOTE_INTERVAL,
+      lane,
+    });
+  }
+
+  return notes;
 }
 
 // ─── 판정 ───
 
-export function judgeInput(inputTime: number, targetTime: number): RhythmJudgment {
+export function judgeInput(
+  inputTime: number,
+  targetTime: number,
+  inputLane?: Lane,
+  noteLane?: Lane,
+): RhythmJudgment {
+  // 레인 불일치 시 무조건 miss
+  if (inputLane !== undefined && noteLane !== undefined && inputLane !== noteLane) {
+    return "miss";
+  }
   const diff = Math.abs(inputTime - targetTime);
   if (diff <= PERFECT_WINDOW) return "perfect";
   if (diff <= GOOD_WINDOW) return "good";

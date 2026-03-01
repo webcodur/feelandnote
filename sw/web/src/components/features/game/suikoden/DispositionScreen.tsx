@@ -149,10 +149,10 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
 
             {/* 주요 스탯 */}
             <div className="grid grid-cols-4 gap-2 text-[10px]">
-              {(['power', 'intellect', 'skill', 'virtue'] as const).map(stat => (
+              {(['command', 'martial', 'intellect', 'charisma'] as const).map(stat => (
                 <div key={stat} className="text-center">
                   <div className="text-stone-500">
-                    {stat === 'power' ? '완력' : stat === 'intellect' ? '지력' : stat === 'skill' ? '기량' : '인애'}
+                    {stat === 'command' ? '통솔' : stat === 'martial' ? '무력' : stat === 'intellect' ? '지력' : '매력'}
                   </div>
                   <div className="text-stone-300 font-bold">{char.stats[stat]}</div>
                 </div>

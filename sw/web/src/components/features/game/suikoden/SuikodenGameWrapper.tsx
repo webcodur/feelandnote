@@ -13,7 +13,7 @@ import SuikodenGame from "./SuikodenGame";
 import SuikodenLobby from "./SuikodenLobby";
 import SuikodenBackground from "./SuikodenBackground";
 import { useSuikodenAudio } from "./hooks/useSuikodenAudio";
-import type { GameCharacter, GameItem } from "@/lib/game/suikoden/types";
+import type { GameCharacter } from "@/lib/game/suikoden/types";
 
 const PHASE_LABELS: Record<string, string> = {
   idle: "로비",
@@ -25,12 +25,15 @@ const PHASE_LABELS: Record<string, string> = {
   result: "결과",
 };
 
+/** characterId → celeb_dialogues.lines */
+export type DialoguesMap = Record<string, Record<string, string[]>>;
+
 interface Props {
   characters: GameCharacter[];
-  items: GameItem[];
+  dialogues: DialoguesMap;
 }
 
-export default function SuikodenGameWrapper({ characters, items }: Props) {
+export default function SuikodenGameWrapper({ characters, dialogues }: Props) {
   const { setBgm, stopAll, audioControls } = useSuikodenAudio();
 
   const handlePhaseChange = useCallback((phase: string) => {
@@ -57,9 +60,9 @@ export default function SuikodenGameWrapper({ characters, items }: Props) {
         onPhaseChange?: (phase: string) => void;
         onStartRef?: React.MutableRefObject<((...args: any[]) => void) | null>;
       }) {
-        return <SuikodenGame characters={characters} items={items} {...props} />;
+        return <SuikodenGame characters={characters} dialogues={dialogues} {...props} />;
       },
-    [characters, items],
+    [characters, dialogues],
   );
 
   return (

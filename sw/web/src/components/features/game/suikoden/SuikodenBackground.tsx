@@ -5,7 +5,7 @@
 */
 "use client";
 
-import OracleVisionBackground from "@/components/lab/OracleVisionBackground";
+import WindsOfLiangshanBackground from "@/components/lab/WindsOfLiangshanBackground";
 
 interface Props {
   phase?: string;
@@ -15,5 +15,5 @@ export default function SuikodenBackground({ phase }: Props) {
   if (phase && phase !== "idle") {
     return <div className="absolute inset-0 bg-bg-main" />;
   }
-  return <OracleVisionBackground />;
+  return <WindsOfLiangshanBackground />;
 }

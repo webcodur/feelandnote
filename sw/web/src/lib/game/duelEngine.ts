@@ -60,58 +60,79 @@ export function calcDuelHp(card: BattleCard, command: Command): number {
   return 3;
 }
 
+// ─── 능력치 보정 ───
+
+/**
+ * 능력치 차이 → 공방 보정값 (-2 ~ +2)
+ * diff 60+ → +2, 30~59 → +1, -29~29 → 0, -59~-30 → -1, -60이하 → -2
+ */
+export function calcStatMod(myStat: number, theirStat: number): number {
+  return Math.max(-2, Math.min(2, Math.floor((myStat - theirStat) / 30)));
+}
+
+/** 공격 데미지 = 기세 + 능력치 보정 (최소 0) */
+function calcStrikeDmg(momentum: number, attackerStat: number, defenderStat: number): number {
+  return Math.max(0, momentum + calcStatMod(attackerStat, defenderStat));
+}
+
+/** 방어 시 피해 = floor(데미지/2) - 방어자 보정 (최소 0) */
+function calcBraceDmg(rawDamage: number, defenderStat: number, attackerStat: number): number {
+  const halved = Math.floor(rawDamage / 2);
+  const defBonus = Math.max(0, calcStatMod(defenderStat, attackerStat));
+  return Math.max(0, halved - defBonus);
+}
+
 // ─── 행동 매트릭스 ───
 
 /**
- * 충전-해방 격투 매트릭스:
+ * 충전-해방 격투 매트릭스 (능력치 보정 포함):
  *
- * | 나 \ 상대   | 충전        | 공격             | 버티기      |
- * |------------|-------------|-----------------|------------|
- * | 충전        | 양쪽 기세+1  | 나 피격(풀데미지) | 양쪽 기세+1  |
- * | 공격        | 상대 피격    | 양쪽 피격        | 상대 피격(반감)|
- * | 버티기      | 양쪽 기세+1  | 나 피격(반감)    | 아무일 없음   |
+ * | 나 \ 상대   | 충전              | 공격             | 버티기         |
+ * |------------|-------------------|-----------------|---------------|
+ * | 충전        | 양쪽 기세+1        | 나 피격(풀+보정)  | 양쪽 기세+1    |
+ * | 공격        | 상대 피격(풀+보정)  | 양쪽 피격(+보정)  | 상대 피격(반감) |
+ * | 버티기      | 양쪽 기세+1        | 나 피격(반감)     | 아무일 없음    |
  */
 export function resolveDuelClash(
   playerAction: DuelAction,
   aiAction: DuelAction,
   playerMomentum: number,
   aiMomentum: number,
-  playerAdvantage: boolean, // 능력치 우세 (동시 공격 시 보너스)
+  playerStat: number,
+  aiStat: number,
 ): DuelClashResult {
   let playerDamage = 0;
   let aiDamage = 0;
   let narrative = "";
 
-  // 공격 데미지 = max(1, 기세). 기세 0이어도 기본 공격 1
-  const pDmg = Math.max(1, playerMomentum);
-  const aDmg = Math.max(1, aiMomentum);
-
   if (playerAction === "charge" && aiAction === "charge") {
     narrative = "양쪽 기세 충전";
   } else if (playerAction === "charge" && aiAction === "strike") {
-    playerDamage = aDmg;
-    narrative = `적 공격 적중! ${aDmg} 피해`;
+    playerDamage = calcStrikeDmg(aiMomentum, aiStat, playerStat);
+    narrative = aiMomentum === 0 ? "적 헛공격! 기세 부족" : `적 공격 적중! ${playerDamage} 피해`;
   } else if (playerAction === "charge" && aiAction === "brace") {
     narrative = "양쪽 기세 충전";
   } else if (playerAction === "strike" && aiAction === "charge") {
-    aiDamage = pDmg;
-    narrative = `아군 공격 적중! ${pDmg} 피해`;
+    aiDamage = calcStrikeDmg(playerMomentum, playerStat, aiStat);
+    narrative = playerMomentum === 0 ? "헛공격! 기세 부족" : `아군 공격 적중! ${aiDamage} 피해`;
   } else if (playerAction === "strike" && aiAction === "strike") {
-    // 양쪽 공격: 풀데미지. 우세 측 +1 보너스
-    playerDamage = aDmg;
-    aiDamage = pDmg;
-    if (playerAdvantage) aiDamage += 1;
-    narrative = `양쪽 교차 공격!`;
+    // 양쪽 공격: 풀데미지 + 능력치 보정
+    playerDamage = calcStrikeDmg(aiMomentum, aiStat, playerStat);
+    aiDamage = calcStrikeDmg(playerMomentum, playerStat, aiStat);
+    const bothEmpty = playerMomentum === 0 && aiMomentum === 0;
+    narrative = bothEmpty ? "양쪽 헛공격!" : `양쪽 교차 공격!`;
   } else if (playerAction === "strike" && aiAction === "brace") {
-    // 공격 vs 버티기: 반감
-    aiDamage = Math.max(1, Math.ceil(pDmg / 2));
-    narrative = `적이 버텼다! ${aiDamage} 피해 (반감)`;
+    // 공격 vs 버티기: 능력치 반영 반감
+    const raw = calcStrikeDmg(playerMomentum, playerStat, aiStat);
+    aiDamage = calcBraceDmg(raw, aiStat, playerStat);
+    narrative = playerMomentum === 0 ? "헛공격! 기세 부족" : aiDamage === 0 ? "완벽 방어!" : `적이 버텼다! ${aiDamage} 피해 (반감)`;
   } else if (playerAction === "brace" && aiAction === "charge") {
     narrative = "양쪽 기세 충전";
   } else if (playerAction === "brace" && aiAction === "strike") {
-    // 버티기 vs 공격: 반감
-    playerDamage = Math.max(1, Math.ceil(aDmg / 2));
-    narrative = `버텨냈다! ${playerDamage} 피해 (반감)`;
+    // 버티기 vs 공격: 능력치 반영 반감
+    const raw = calcStrikeDmg(aiMomentum, aiStat, playerStat);
+    playerDamage = calcBraceDmg(raw, playerStat, aiStat);
+    narrative = aiMomentum === 0 ? "적 헛공격! 기세 부족" : playerDamage === 0 ? "완벽 방어!" : `버텨냈다! ${playerDamage} 피해 (반감)`;
   } else {
     // brace vs brace
     narrative = "소강 상태";
@@ -144,42 +165,58 @@ export function duelAiDecide(
   aiHp: number,
   playerHp: number,
   round: number,
+  playerLastAction?: DuelAction,
 ): DuelAction {
-  // 기세 0이면 충전 우선 (공격은 가능하나 기본 데미지 1)
+  // 기세 0 → 반드시 충전 (공격해도 0 데미지)
   if (aiMomentum === 0) {
-    if (playerMomentum >= 3) return Math.random() < 0.6 ? "brace" : "charge";
-    return Math.random() < 0.8 ? "charge" : "strike";
+    // 상대 기세 높으면 brace 섞기
+    if (playerMomentum >= 3) return Math.random() < 0.5 ? "brace" : "charge";
+    return "charge";
   }
 
-  // 기세 최대 → 높은 확률로 공격
+  // 기세 최대 → 공격
   if (aiMomentum >= MAX_MOMENTUM) {
     return "strike";
   }
 
-  // 상대 기세 높으면 방어적
+  // 상대 기세 높으면(>=4) 방어적 대응
   if (playerMomentum >= 4) {
     const r = Math.random();
-    if (r < 0.4) return "brace";
-    if (r < 0.7) return "strike";
+    if (r < 0.50) return "brace";
+    if (r < 0.80) return aiMomentum >= 2 ? "strike" : "charge";
     return "charge";
   }
 
-  // HP 위급 → 공격적
-  if (aiHp <= 2 && aiMomentum >= 2) {
-    return Math.random() < 0.7 ? "strike" : "charge";
+  // 상대가 직전에 strike → 상대 기세 소진 상태, 충전 기회
+  if (playerLastAction === "strike") {
+    const r = Math.random();
+    if (r < 0.45) return "charge";
+    if (r < 0.80) return aiMomentum >= 2 ? "strike" : "charge";
+    return "brace";
   }
 
-  // 초반 (1~2합) → 충전 경향
+  // HP 위급 + 기세 있음 → 공격적
+  if (aiHp <= 2 && aiMomentum >= 2) {
+    return Math.random() < 0.70 ? "strike" : "brace";
+  }
+
+  // 초반 (1~2합): 상대 기세가 높으면(>=2) brace 비중 높임
   if (round <= 2) {
+    if (playerMomentum >= 2) {
+      const r = Math.random();
+      if (r < 0.45) return "brace";
+      if (r < 0.75) return "charge";
+      return aiMomentum >= 2 ? "strike" : "charge";
+    }
     const r = Math.random();
-    if (r < 0.6) return "charge";
-    if (r < 0.85) return "brace";
+    if (r < 0.50) return "charge";
+    if (r < 0.80) return "brace";
     return aiMomentum >= 2 ? "strike" : "charge";
   }
 
-  // 일반 상황
+  // 일반 상황: 균형 잡힌 분포
   const r = Math.random();
-  if (r < 0.35) return "charge";
+  if (r < 0.30) return "charge";
   if (r < 0.65) return aiMomentum >= 2 ? "strike" : "charge";
   return "brace";
 }

@@ -23,10 +23,10 @@ const TONE_LABELS: Record<string, string> = {
   free: '호방',
 }
 
-const DIALOGUE_TYPES = ['greeting', 'select', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
+const DIALOGUE_TYPES = ['greeting', 'answer', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
 const TYPE_LABELS: Record<string, string> = {
   greeting: '인사',
-  select: '선택 시',
+  answer: '호명',
   deploy: '출전 시',
   battle_win: '승리',
   battle_draw: '무승부',
@@ -36,13 +36,15 @@ const TYPE_LABELS: Record<string, string> = {
 
 const EMPTY_LINES: DialogueLines = {
   greeting: ['', '', ''],
-  select: ['', '', ''],
+  answer: ['', '', ''],
   deploy: ['', '', ''],
   battle_win: ['', '', ''],
   battle_draw: ['', '', ''],
   battle_lose: ['', '', ''],
   clash_attack: ['', '', ''],
 }
+
+type Lang = 'ko' | 'en'
 
 interface Props {
   celebs: CelebDialogueItem[]
@@ -58,7 +60,9 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
   )
   const [savingTone, setSavingTone] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
-  const [editLines, setEditLines] = useState<DialogueLines>(EMPTY_LINES)
+  const [activeLang, setActiveLang] = useState<Lang>('ko')
+  const [editLinesKo, setEditLinesKo] = useState<DialogueLines>(EMPTY_LINES)
+  const [editLinesEn, setEditLinesEn] = useState<DialogueLines>(EMPTY_LINES)
   const [savingLines, setSavingLines] = useState(false)
 
   // speech_tone 변경
@@ -78,16 +82,26 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
   // 대사 편집 모달 열기
   function openEdit(celeb: CelebDialogueItem) {
     setEditingId(celeb.id)
-    setEditLines(celeb.dialogue_lines ? structuredClone(celeb.dialogue_lines) : structuredClone(EMPTY_LINES))
+    setActiveLang('ko')
+    setEditLinesKo(
+      celeb.dialogue_lines ? structuredClone(celeb.dialogue_lines) : structuredClone(EMPTY_LINES),
+    )
+    setEditLinesEn(
+      celeb.dialogue_lines_en ? structuredClone(celeb.dialogue_lines_en) : structuredClone(EMPTY_LINES),
+    )
   }
 
   function closeEdit() {
     setEditingId(null)
-    setEditLines(EMPTY_LINES)
+    setEditLinesKo(EMPTY_LINES)
+    setEditLinesEn(EMPTY_LINES)
   }
 
+  const activeLines = activeLang === 'ko' ? editLinesKo : editLinesEn
+  const setActiveLines = activeLang === 'ko' ? setEditLinesKo : setEditLinesEn
+
   function updateLine(type: string, index: number, value: string) {
-    setEditLines((prev) => {
+    setActiveLines((prev) => {
       const next = { ...prev }
       const arr = [...next[type as keyof DialogueLines]] as [string, string, string]
       arr[index] = value
@@ -100,7 +114,7 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
     if (!editingId) return
     setSavingLines(true)
     try {
-      await saveCelebDialogues(editingId, editLines)
+      await saveCelebDialogues(editingId, editLinesKo, editLinesEn)
       showToast('success', '대사가 저장되었습니다.')
       closeEdit()
     } catch {
@@ -134,6 +148,7 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
           <tbody className="divide-y divide-border">
             {celebs.map((celeb) => {
               const lineCount = countLines(celeb.dialogue_lines)
+              const lineCountEn = countLines(celeb.dialogue_lines_en)
               return (
                 <tr key={celeb.id} className="hover:bg-bg-secondary/50">
                   <td className="px-4 py-3">
@@ -165,15 +180,26 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
                     {savingTone === celeb.id && <Loader2 className="inline w-3 h-3 ml-1 animate-spin text-accent" />}
                   </td>
                   <td className="px-4 py-3">
-                    {lineCount > 0 ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
-                        고유 대사 {lineCount}/21
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-text-secondary border border-border">
-                        공통 대사 사용 중
-                      </span>
-                    )}
+                    <div className="flex flex-col gap-1">
+                      {lineCount > 0 ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+                          KO {lineCount}/21
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-text-secondary border border-border">
+                          KO 없음
+                        </span>
+                      )}
+                      {lineCountEn > 0 ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          EN {lineCountEn}/21
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/5 text-text-secondary border border-border">
+                          EN 없음
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button
@@ -215,6 +241,34 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
               </button>
             </div>
 
+            {/* 언어 토글 */}
+            <div className="px-6 pt-4">
+              <div className="inline-flex rounded-lg border border-border overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setActiveLang('ko')}
+                  className={`px-4 py-1.5 text-sm font-medium transition-colors ${
+                    activeLang === 'ko'
+                      ? 'bg-accent/20 text-accent'
+                      : 'bg-bg-secondary text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  한국어
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveLang('en')}
+                  className={`px-4 py-1.5 text-sm font-medium transition-colors ${
+                    activeLang === 'en'
+                      ? 'bg-accent/20 text-accent'
+                      : 'bg-bg-secondary text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  English
+                </button>
+              </div>
+            </div>
+
             {/* 대사 입력 필드 */}
             <div className="px-6 py-4 space-y-5">
               {DIALOGUE_TYPES.map((type) => (
@@ -225,7 +279,7 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
                       <input
                         key={i}
                         type="text"
-                        value={editLines[type][i]}
+                        value={activeLines[type][i]}
                         onChange={(e) => updateLine(type, i, e.target.value)}
                         placeholder={`${TYPE_LABELS[type]} 변형 ${i + 1}`}
                         className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"

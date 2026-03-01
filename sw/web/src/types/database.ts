@@ -29,6 +29,7 @@ export interface Profile {
 
 export interface Content {
   id: string
+  external_id: string | null
   type: ContentType
   subtype: string | null
   genre: string | null

@@ -294,6 +294,89 @@ export type Database = {
           },
         ]
       }
+      celeb_persona: {
+        Row: {
+          id: string
+          celeb_id: string
+          temperance: number | null
+          diligence: number | null
+          reflection: number | null
+          courage: number | null
+          loyalty: number | null
+          benevolence: number | null
+          fairness: number | null
+          humility: number | null
+          command: number | null
+          martial: number | null
+          intellect: number | null
+          charisma: number | null
+          pessimism_optimism: number | null
+          conservative_progressive: number | null
+          individual_social: number | null
+          cautious_bold: number | null
+          speech_tone: string | null
+          rationale: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          celeb_id: string
+          temperance?: number | null
+          diligence?: number | null
+          reflection?: number | null
+          courage?: number | null
+          loyalty?: number | null
+          benevolence?: number | null
+          fairness?: number | null
+          humility?: number | null
+          command?: number | null
+          martial?: number | null
+          intellect?: number | null
+          charisma?: number | null
+          pessimism_optimism?: number | null
+          conservative_progressive?: number | null
+          individual_social?: number | null
+          cautious_bold?: number | null
+          speech_tone?: string | null
+          rationale?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          celeb_id?: string
+          temperance?: number | null
+          diligence?: number | null
+          reflection?: number | null
+          courage?: number | null
+          loyalty?: number | null
+          benevolence?: number | null
+          fairness?: number | null
+          humility?: number | null
+          command?: number | null
+          martial?: number | null
+          intellect?: number | null
+          charisma?: number | null
+          pessimism_optimism?: number | null
+          conservative_progressive?: number | null
+          individual_social?: number | null
+          cautious_bold?: number | null
+          speech_tone?: string | null
+          rationale?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_persona_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contents: {
         Row: {
           created_at: string

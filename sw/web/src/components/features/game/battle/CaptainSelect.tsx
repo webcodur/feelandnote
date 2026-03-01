@@ -55,7 +55,7 @@ export default function CaptainSelect({ playerHand, onSelect, onCardInfo, playSf
               onClick={() => {
                 playSfx("sfx-card-select.mp3");
                 setSelectedId(card.id);
-                showDialogue?.(card.id, card.speechTone, "select", { nickname: card.nickname, avatarUrl: card.avatarUrl });
+                showDialogue?.(card.id, card.speechTone, "answer", { nickname: card.nickname, avatarUrl: card.avatarUrl });
               }}
               onInfo={() => onCardInfo(card.id)}
             />

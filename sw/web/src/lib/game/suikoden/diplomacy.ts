@@ -19,8 +19,8 @@ function calcDiplomacyRate(state: GameState, targetFactionId: string): number {
   if (!leader) return 0
 
   const baseRate = 0.3
-  const intellectBonus = leader.stats.intellect * 0.03
-  const virtueBonus = leader.stats.virtue * 0.02
+  const intellectBonus = leader.stats.intellect * 0.003
+  const virtueBonus = leader.stats.charisma * 0.002
 
   // 관계도 보정
   const relation = player.relations[targetFactionId] ?? 0
@@ -184,6 +184,10 @@ export function commandSurrender(state: GameState, targetFactionId: string): { s
             knowledge: f.resources.knowledge + target.resources.knowledge,
             material: f.resources.material + target.resources.material,
             troops: f.resources.troops + target.resources.troops,
+            weapons: f.resources.weapons + target.resources.weapons,
+            horses: f.resources.horses + target.resources.horses,
+            ships: f.resources.ships + target.resources.ships,
+            charms: f.resources.charms + target.resources.charms,
           },
         }
       }

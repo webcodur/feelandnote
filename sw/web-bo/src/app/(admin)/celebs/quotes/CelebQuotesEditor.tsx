@@ -134,6 +134,7 @@ export default function CelebQuotesEditor({ celebs }: Props) {
             <tr>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[240px]">셀럽</th>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary">명언</th>
+              <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[280px]">명언 (EN)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -207,12 +208,19 @@ export default function CelebQuotesEditor({ celebs }: Props) {
                       </button>
                     )}
                   </td>
+                  <td className="px-4 py-3">
+                    {celeb.quotes_en ? (
+                      <p className="text-xs text-gray-500 italic px-3 py-1.5">{celeb.quotes_en}</p>
+                    ) : (
+                      <span className="text-xs text-gray-600 px-3 py-1.5">—</span>
+                    )}
+                  </td>
                 </tr>
               )
             })}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={2} className="px-4 py-12 text-center text-sm text-text-secondary">
+                <td colSpan={3} className="px-4 py-12 text-center text-sm text-text-secondary">
                   검색 결과가 없습니다.
                 </td>
               </tr>

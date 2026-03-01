@@ -9,6 +9,7 @@ import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titlin
 import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/components/ui/Layout/Footer";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 // Cinzel (English Headings - 권위적/신전 느낌)
 const cinzel = Cinzel({
@@ -118,6 +119,7 @@ export default function RootLayout({
           {children}
           <Footer />
       </body>
+      <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
     </html>
   );
 }

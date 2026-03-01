@@ -34,8 +34,8 @@ const NOTICE_ITEMS = [
 // #endregion
 
 // #region Helpers
-const extractSpotifyId = (contentId: string) =>
-  contentId.replace(/^spotify[-_]/, '')
+const extractSpotifyId = (externalId: string) =>
+  externalId.replace(/^spotify[-_]/, '')
 
 const spotifyEmbedUrl = (id: string, entity: 'track' | 'album') =>
   `https://open.spotify.com/embed/${entity}/${id}?utm_source=generator&theme=0`
@@ -214,7 +214,7 @@ export default function FloatingMusicPlayer() {
               {/* Spotify 임베드 */}
               <div style={{ height: clamped }}>
                 {current && (
-                  <iframe className="block" key={`${current.id}-${splitKey}`} src={spotifyEmbedUrl(extractSpotifyId(current.id), current.spotifyEntity)} width="100%" height={clamped} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />
+                  <iframe className="block" key={`${current.id}-${splitKey}`} src={spotifyEmbedUrl(extractSpotifyId(current.externalId), current.spotifyEntity)} width="100%" height={clamped} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />
                 )}
               </div>
 

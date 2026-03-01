@@ -9,7 +9,7 @@
 | 코드 | 상황 | 톤 | 글자수 |
 |------|------|-----|--------|
 | `greeting` | 첫인사, 자기소개 | 본인 정체성 | ≤20자 |
-| `select` | 호명, 대기 | 짧은 수락 | ≤20자 |
+| `answer` | 호명, 대기 | 짧은 수락 | ≤20자 |
 | `deploy` | 행동 개시, 출전 | 결단, 실천 | ≤20자 |
 | `battle_win` | 성공, 승리 | 통쾌, 여유 | ≤20자 |
 | `battle_draw` | 무승부, 미결 | 인내, 재도전 | ≤20자 |
@@ -48,7 +48,7 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
     "[proud, imperious] 하늘의 뜻이 나를 택했다.",
     "[dominant, absolute] 어떤 문도 내 앞에 닫히지 않았다."
   ],
-  "select": [
+  "answer": [
     "[confident, imperial] 내가 나서겠다.",
     "[bold, ready] 맡겨라.",
     "[commanding, decisive] 짐이 결정하겠다."
@@ -90,7 +90,7 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
     "[dutiful, composed] 군사와 함께 먹고 자는 장수입니다.",
     "[respectful, firm] 부국강병, 그것이 내 사명입니다."
   ],
-  "select": [
+  "answer": [
     "[loyal, ready] 존명, 따르겠습니다.",
     "[dutiful, resolute] 명을 받들겠습니다.",
     "[solemn, awaiting] 언제든 준비되어 있습니다."
@@ -191,7 +191,7 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
 | 대사 | 사유 |
 |------|------|
 | `greeting` | 카드 클릭 시 대사 없음. 비게임 영역(프로필 등)에서 활용 |
-| `select` | 인물이 임무를 수락하는 맥락 없음 |
+| `answer` | 인물이 임무를 수락하는 맥락 없음 |
 | `deploy` | 인물이 직접 행동 개시하는 시점 없음 |
 | `battle_draw` | defaultLines.cleared로 대체 |
 | `clash_attack` | 충돌 없음 |
@@ -242,9 +242,9 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
 |---|------|------|----------|------|
 | 1 | 드래프트 카드 클릭 | `greeting` | 첫 등장. "나는 이런 사람이다" | 2단계: 클릭=선택+greeting |
 | 2 | 드래프트 선택 확정 | `deploy` | 결의. "내가 나서겠다" | 확정 버튼 클릭 시 |
-| 3 | 주장 카드 클릭 | `select` | 호명 수락. "맡겨라" | |
+| 3 | 주장 카드 클릭 | `answer` | 호명 수락. "맡겨라" | |
 | 4 | 주장 임명 확정 | `deploy` | 결의. "직접 열겠다" | |
-| 5 | 배틀-카드 선택 | `select` | 호명 수락 | |
+| 5 | 배틀-카드 선택 | `answer` | 호명 수락 | |
 | 6 | 배틀-출전 (clashing) | `deploy` | 행동 개시 | |
 | 7 | 배틀-충돌 클릭 | `clash_attack` | 기합 | |
 | 8 | 라운드 승 / 일기토 승 | `battle_win` | 통쾌 | |
@@ -257,9 +257,9 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
 |---|---------|------|
 | 1 `greeting` | "황제의 자리, 내가 차지했다" | "인의가 병법의 근본입니다" |
 | 2 `deploy` | "내가 직접 열겠다" | "인의를 앞세워 나아가겠습니다" |
-| 3 `select` | "내가 나서겠다" | "존명, 따르겠습니다" |
+| 3 `answer` | "내가 나서겠다" | "존명, 따르겠습니다" |
 | 4 `deploy` | "길은 내가 만든다" | "병사와 함께라면 두렵지 않습니다" |
-| 5 `select` | "맡겨라" | "명을 받들겠습니다" |
+| 5 `answer` | "맡겨라" | "명을 받들겠습니다" |
 | 6 `deploy` | "직접 나아가겠다" | "이 전선, 반드시 지켜내겠습니다" |
 | 7 `clash_attack` | "내가 간다!" | "뚫겠습니다!" |
 | 8 `battle_win` | "하늘의 뜻이 맞았다" | "예상한 승리입니다" |
@@ -269,8 +269,8 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
 ### 필요 작업
 
 - [x] 드래프트: 즉시 픽 → 2단계 (클릭=greeting, 확정 버튼=deploy)
-- [x] 주장 선택: 카드 클릭에 `select` 추가, 임명 확정을 `deploy`로 변경
-- [x] 배틀 카드 선택: `select` 유지
+- [x] 주장 선택: 카드 클릭에 `answer` 추가, 임명 확정을 `deploy`로 변경
+- [x] 배틀 카드 선택: `answer` 유지
 - [x] 배틀 출전(clashing): `deploy` 유지
 - [x] 충돌 클릭: `clash_attack` 유지
 - [x] 일기토 결과 대사 추가 (dueling→resolving 전환 시 battle_win/draw/lose)
@@ -321,7 +321,7 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
 
 | 대사 | 사유 |
 |------|------|
-| `select` | 정답 배치 시 대사 없음 (새 카드 greeting과 겹침 방지) |
+| `answer` | 정답 배치 시 대사 없음 (새 카드 greeting과 겹침 방지) |
 | `deploy` | 배치 게임이라 "출전" 맥락 없음 |
 | `battle_draw` | `defaultLines.dawn_wrong`으로 대체 |
 | `battle_lose` | `defaultLines.dawn_wrong`으로 통합 |
@@ -460,7 +460,7 @@ greeting만 보유한 479명은 전원 현대 인물(생존 또는 1920 이후 �
 
 ```typescript
 // lib/game/voice/types.ts
-type DialogueType = "greeting" | "select" | "deploy" | "battle_win" | "battle_draw" | "battle_lose" | "clash_attack"
+type DialogueType = "greeting" | "answer" | "deploy" | "battle_win" | "battle_draw" | "battle_lose" | "clash_attack"
 ```
 
 ### quote (명언)

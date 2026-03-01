@@ -13,13 +13,13 @@ export default function UserTable({ users }: { users: Member[] }) {
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
           <th className="w-12 px-3 md:px-4 py-3" />
-          <SortableTableHeader column="nickname" label="이름" />
-          <SortableTableHeader column="email" label="이메일" />
-          <SortableTableHeader column="role" label="역할" align="center" />
-          <SortableTableHeader column="status" label="상태" align="center" />
-          <SortableTableHeader column="content_count" label="콘텐츠" align="center" />
-          <SortableTableHeader column="created_at" label="가입일" align="center" />
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-16">액션</th>
+          <SortableTableHeader column="nickname" label="nickname" />
+          <SortableTableHeader column="email" label="email" />
+          <SortableTableHeader column="role" label="role" align="center" />
+          <SortableTableHeader column="status" label="status" align="center" />
+          <SortableTableHeader column="content_count" label="content_count" align="center" />
+          <SortableTableHeader column="created_at" label="created_at" align="center" />
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-16">actions</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-border">
@@ -75,9 +75,9 @@ export default function UserTable({ users }: { users: Member[] }) {
 
 function RoleBadge({ role }: { role?: string }) {
   const config: Record<string, { label: string; className: string }> = {
-    user: { label: '사용자', className: 'bg-gray-500/10 text-gray-400' },
-    admin: { label: '관리자', className: 'bg-blue-500/10 text-blue-400' },
-    super_admin: { label: '최고관리자', className: 'bg-purple-500/10 text-purple-400' },
+    user: { label: 'user', className: 'bg-gray-500/10 text-gray-400' },
+    admin: { label: 'admin', className: 'bg-blue-500/10 text-blue-400' },
+    super_admin: { label: 'super_admin', className: 'bg-purple-500/10 text-purple-400' },
   }
   const { label, className } = config[role || 'user'] || config.user
   return (
@@ -89,9 +89,9 @@ function RoleBadge({ role }: { role?: string }) {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
-    active: { label: '활성', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
-    suspended: { label: '정지', className: 'bg-red-500/10 text-red-400', icon: Ban },
-    deleted: { label: '삭제됨', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
+    active: { label: 'active', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
+    suspended: { label: 'suspended', className: 'bg-red-500/10 text-red-400', icon: Ban },
+    deleted: { label: 'deleted', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
   }
   const { label, className, icon: Icon } = config[status] || config.active
   return (

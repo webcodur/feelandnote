@@ -665,7 +665,7 @@ export default function PlayPhase({
       return cardId;
     });
     const card = playerHand.find((c) => c.id === cardId);
-    if (card) showDialogue?.(card.id, card.speechTone, "select", { nickname: card.nickname, avatarUrl: card.avatarUrl });
+    if (card) showDialogue?.(card.id, card.speechTone, "answer", { nickname: card.nickname, avatarUrl: card.avatarUrl });
   }, [playSfx, isSelecting, playerHand, showDialogue]);
 
   const handleConfirm = useCallback(() => {

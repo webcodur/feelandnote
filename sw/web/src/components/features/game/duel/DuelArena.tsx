@@ -11,10 +11,12 @@ import type { BattleCard, Command } from "@/lib/game/types";
 import {
   type DuelAction, type DuelPhase, type DuelClashResult,
   calcDuelHp, resolveDuelClash, updateMomentum, duelAiDecide,
+  calcStatMod,
   MAX_MOMENTUM, INITIAL_MOMENTUM, DUEL_TIME_LIMIT_PVP,
   DUEL_CMD_CONFIG,
 } from "@/lib/game/duelEngine";
 import DuelFighter, { type FighterPose } from "./DuelFighter";
+import ArenaHud from "./shared/ArenaHud";
 import { Z_INDEX } from "@/constants/zIndex";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
@@ -321,9 +323,9 @@ function pickDuelLine(card: BattleCard, action: DuelAction, command: Command): s
   return "";
 }
 
-/** idle/클릭 시 대사: select → greeting 순으로 개인 대사 탐색, 없으면 defaultLines 폴백 */
+/** idle/클릭 시 대사: answer → greeting 순으로 개인 대사 탐색, 없으면 defaultLines 폴백 */
 function pickIdleLine(card: BattleCard): string {
-  for (const type of ["select", "greeting"] as const) {
+  for (const type of ["answer", "greeting"] as const) {
     const personal = card.dialogueLines?.[type];
     if (personal) {
       const raw = personal[Math.floor(Math.random() * personal.length)];
@@ -395,6 +397,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   const [shakeScreen, setShakeScreen] = useState(false);
   const [playerBubble, setPlayerBubble] = useState("");
   const [aiBubble, setAiBubble] = useState("");
+  const [playerLastAction, setPlayerLastAction] = useState<DuelAction | undefined>(undefined);
 
   const maxPlayerHp = calcDuelHp(playerCard, command);
   const maxAiHp = calcDuelHp(aiCard, command);
@@ -409,7 +412,6 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   const aiStat = command === "assault" ? aiCard.ability.martial
     : command === "stratagem" ? aiCard.ability.intellect
     : aiCard.ability.command;
-  const playerAdvantage = playerStat > aiStat;
 
   // ─── 타이머 ref (스킵용) ───
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -477,8 +479,9 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
     setPhase("clash");
     clearTimers();
 
-    const aiAction = duelAiDecide(aiMomentum, playerMomentum, aiHp, playerHp, round);
-    const clash = resolveDuelClash(playerAction, aiAction, playerMomentum, aiMomentum, playerAdvantage);
+    const aiAction = duelAiDecide(aiMomentum, playerMomentum, aiHp, playerHp, round, playerLastAction);
+    setPlayerLastAction(playerAction);
+    const clash = resolveDuelClash(playerAction, aiAction, playerMomentum, aiMomentum, playerStat, aiStat);
     setLastClash(clash);
 
     // ── 순차 연출: 플레이어 → AI → 결과 ──
@@ -514,7 +517,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       // t=1400: 충돌 결과
       setTimeout(doResolve, 1400),
     );
-  }, [phase, playerMomentum, aiMomentum, playerHp, aiHp, round, playerAdvantage, clearTimers]);
+  }, [phase, playerMomentum, aiMomentum, playerHp, aiHp, round, playerStat, aiStat, playerLastAction, clearTimers]);
 
   // resolve → 다음 합 or 종료
   useEffect(() => {
@@ -573,7 +576,8 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
     handleAction(actions[Math.floor(Math.random() * actions.length)]);
   }, [phase, playerMomentum, handleAction]);
 
-  const strikeDmg = Math.max(1, playerMomentum);
+  const statMod = calcStatMod(playerStat, aiStat);
+  const strikeDmg = Math.max(0, playerMomentum + statMod);
 
   return (
     <div className="fixed inset-0" style={{ zIndex: Z_INDEX.gameDuel }} onClick={handleScreenClick}>
@@ -600,62 +604,52 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       >
       <div className="flex flex-col h-full w-full max-w-lg mx-auto">
 
-        {/* ═══ HUD 상단 — 3컬럼 (Player | Round | Enemy) ═══ */}
-        <div
-          className="shrink-0 flex items-stretch overflow-hidden min-h-[80px]"
-          style={{
-            background: "linear-gradient(to bottom, rgba(32,28,22,0.97), rgba(22,20,16,0.95))",
-            borderBottom: "1px solid rgba(212,175,55,0.12)",
-            boxShadow: "0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)",
-          }}
-        >
-          {/* 좌측 — Player */}
-          <div className="flex-1 flex flex-col justify-center pl-4 pr-2 py-2 md:pl-6">
-            <span className="text-[11px] font-bold text-[#d4af37]/80 tracking-widest uppercase mb-1">PLAYER</span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">{statLabel}</span>
-              <HpBar hp={playerHp} maxHp={maxPlayerHp} side="player" />
-              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerHp}</span>
-            </div>
-            <div className="flex items-center gap-1.5 mt-1">
-              <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">기세</span>
-              <MomentumGauge level={playerMomentum} side="player" />
-              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerMomentum}</span>
-            </div>
-          </div>
-
-          {/* 중앙 — Round */}
-          <div className="shrink-0 w-[60px] sm:w-[70px] flex flex-col items-center justify-center relative">
-            {phase !== "intro" && phase !== "end" ? (
+        {/* ═══ HUD 상단 — ArenaHud ═══ */}
+        <ArenaHud
+          playerCard={playerCard}
+          aiCard={aiCard}
+          themeColor="212,175,55"
+          centerContent={
+            phase !== "intro" && phase !== "end" ? (
               <>
                 <span className="text-[9px] font-cinzel text-white/40 tracking-[0.2em] uppercase">합</span>
                 <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none"
-                  style={{ textShadow: "0 0 8px rgba(212,175,55,0.2)" }}
-                >
-                  {round}
-                </span>
+                  style={{ textShadow: "0 0 8px rgba(212,175,55,0.2)" }}>{round}</span>
+                {!vsAi && <DuelTimer active={phase === "select"} onTimeout={handleTimeout} />}
               </>
             ) : (
               <span className="text-sm font-cinzel text-[#d4af37]/50 tracking-[0.2em]">DUEL</span>
-            )}
-            {!vsAi && <DuelTimer active={phase === "select"} onTimeout={handleTimeout} />}
-          </div>
-
-          {/* 우측 — Enemy */}
-          <div className="flex-1 flex flex-col justify-center pl-2 pr-4 py-2 md:pr-6">
-            <span className="text-[11px] font-bold text-red-400/80 tracking-widest uppercase mb-1 text-right">ENEMY</span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiHp}</span>
-              <HpBar hp={aiHp} maxHp={maxAiHp} side="ai" />
-              <span className="text-[10px] font-bold text-red-400/50 shrink-0">{statLabel}</span>
-            </div>
-            <div className="flex items-center gap-1.5 mt-1">
-              <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiMomentum}</span>
-              <MomentumGauge level={aiMomentum} side="ai" />
-              <span className="text-[10px] font-bold text-red-400/50 shrink-0">기세</span>
-            </div>
-          </div>
-        </div>
+            )
+          }
+          playerContent={
+            <>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">{statLabel}</span>
+                <HpBar hp={playerHp} maxHp={maxPlayerHp} side="player" />
+                <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerHp}</span>
+              </div>
+              <div className="flex items-center gap-1.5 mt-1">
+                <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">기세</span>
+                <MomentumGauge level={playerMomentum} side="player" />
+                <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerMomentum}</span>
+              </div>
+            </>
+          }
+          aiContent={
+            <>
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiHp}</span>
+                <HpBar hp={aiHp} maxHp={maxAiHp} side="ai" />
+                <span className="text-[10px] font-bold text-red-400/50 shrink-0">{statLabel}</span>
+              </div>
+              <div className="flex items-center gap-1.5 mt-1">
+                <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiMomentum}</span>
+                <MomentumGauge level={aiMomentum} side="ai" />
+                <span className="text-[10px] font-bold text-red-400/50 shrink-0">기세</span>
+              </div>
+            </>
+          }
+        />
 
         {/* ═══ 대치 영역 — 가변 높이 ═══ */}
         <motion.div
@@ -752,7 +746,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
             )}
           </div>
 
-          {/* 액션 버튼 3열 */}
+          {/* 액션 버튼 3열 + 기권 */}
           <div className="flex gap-3 md:gap-4">
             <ActionButton
               action="charge"
@@ -781,6 +775,17 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               highlight={false}
               onClick={() => handleAction("brace")}
             />
+          </div>
+
+          {/* 기권 버튼 */}
+          <div className="flex justify-end mt-2">
+            <button
+              onClick={(e) => { e.stopPropagation(); onComplete("ai"); }}
+              className="text-[11px] text-white/30 hover:text-white/50 transition-colors px-2 py-1 rounded"
+              style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+            >
+              기권
+            </button>
           </div>
         </div>
 

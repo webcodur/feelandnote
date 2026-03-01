@@ -37,12 +37,22 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     return failure('UNAUTHORIZED')
   }
 
-  // 1. 콘텐츠 upsert (기존 콘텐츠도 metadata 업데이트)
-  const { error: contentError } = await supabase
+  // 1. external_id로 기존 콘텐츠 확인
+  const { data: existingContent } = await supabase
     .from('contents')
-    .upsert(
-      {
-        id: params.id,
+    .select('id')
+    .eq('external_id', params.id)
+    .maybeSingle()
+
+  let contentId: string
+
+  if (existingContent) {
+    contentId = existingContent.id
+  } else {
+    // 새 콘텐츠 생성 (id 자동 생성)
+    const { data: newContent, error: contentError } = await supabase
+      .from('contents')
+      .insert({
         type: params.type,
         subtype: params.subtype || null,
         title: params.title,
@@ -52,15 +62,15 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
         publisher: params.publisher || null,
         release_date: params.releaseDate || null,
         metadata: params.metadata || null,
-      },
-      {
-        onConflict: 'id',
-        ignoreDuplicates: false
-      }
-    )
+        external_id: params.id,
+      })
+      .select('id')
+      .single()
 
-  if (contentError) {
-    return handleSupabaseError(contentError, { context: 'content', logPrefix: '[콘텐츠 생성]' })
+    if (contentError || !newContent) {
+      return handleSupabaseError(contentError!, { context: 'content', logPrefix: '[콘텐츠 생성]' })
+    }
+    contentId = newContent.id
   }
 
   // 2. user_contents 생성 (status 기본값: WANT)
@@ -72,7 +82,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     is_recommended?: boolean
   } = {
     user_id: user.id,
-    content_id: params.id,
+    content_id: contentId,
     // status는 deprecated - 레거시 호환을 위해 FINISHED로 고정
     status: 'FINISHED' as ContentStatus,
   }
@@ -100,7 +110,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
         .from('user_contents')
         .select('id')
         .eq('user_id', user.id)
-        .eq('content_id', params.id)
+        .eq('content_id', contentId)
         .single()
 
       if (fetchError || !existing) {
@@ -109,7 +119,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
 
       // 기존 레코드 반환
       return success({
-        contentId: params.id,
+        contentId,
         userContentId: existing.id,
       })
     }
@@ -125,14 +135,14 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     actionType: 'CONTENT_ADD',
     targetType: 'content',
     targetId: userContent.id,
-    contentId: params.id
+    contentId,
   })
 
   // 점수 추가
   await addActivityScore(`콘텐츠 추가 (${params.title})`, 1, userContent.id)
 
   return success({
-    contentId: params.id,
+    contentId,
     userContentId: userContent.id,
   })
 }

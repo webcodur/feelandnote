@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export interface Record {
@@ -93,13 +94,13 @@ export async function getRecordComments(recordId: string) {
 }
 
 export async function deleteRecord(recordId: string): Promise<void> {
-  const supabase = await createClient()
+  const admin = createAdminClient()
 
-  // 관련 데이터 삭제
-  await supabase.from('record_likes').delete().eq('record_id', recordId)
-  await supabase.from('record_comments').delete().eq('record_id', recordId)
+  // 관련 데이터 삭제 (RLS 우회 필요)
+  await admin.from('record_likes').delete().eq('record_id', recordId)
+  await admin.from('record_comments').delete().eq('record_id', recordId)
 
-  const { error } = await supabase
+  const { error } = await admin
     .from('records')
     .delete()
     .eq('id', recordId)

@@ -67,7 +67,7 @@ export default function ContentInfoSection({
     startTransition(async () => {
       try {
         const result = await addContent({
-          id: content.id,
+          id: content.externalId,
           type: content.type,
           title: content.title,
           creator: content.creator,
@@ -326,6 +326,7 @@ export default function ContentInfoSection({
       {/* 외부 플랫폼 링크 - 추후 활성화 예정 */}
       {/* <ExternalPlatformLinks
         contentId={content.id}
+        externalId={content.externalId}
         contentType={content.type}
         title={content.title}
       /> */}

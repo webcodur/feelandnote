@@ -36,11 +36,17 @@ export default function TextMapView({
       className="max-h-[420px] overflow-y-auto"
       style={{ fontFamily: 'var(--font-sans)', display: 'flex', flexDirection: 'column', gap: '3px' }}
     >
-      {REGIONS.map(region => {
+      {REGIONS.filter(r =>
+        state.activeRegionIds.length === 0 || state.activeRegionIds.includes(r.id)
+      ).map(region => {
         const isCurrent = region.id === viewingRegionId
         const isFocused = region.id === focusedRegion
         const isLinked = focusedNeighbors.includes(region.id)
-        const regionTerritories = TERRITORIES.filter(t => t.regionId === region.id)
+          && (state.activeRegionIds.length === 0 || state.activeRegionIds.includes(region.id))
+        const activeSet = state.activeTerritoryIds.length > 0 ? new Set(state.activeTerritoryIds) : null
+        const regionTerritories = TERRITORIES.filter(t =>
+          t.regionId === region.id && (!activeSet || activeSet.has(t.id))
+        )
 
         return (
           <div

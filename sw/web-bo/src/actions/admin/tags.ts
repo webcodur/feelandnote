@@ -7,7 +7,9 @@ import { revalidatePath } from 'next/cache'
 export interface CelebTag {
   id: string
   name: string
+  name_en: string | null
   description: string | null
+  description_en: string | null
   color: string
   sort_order: number
   is_featured: boolean
@@ -23,6 +25,8 @@ export interface CelebTagAssignment {
   tag_id: string
   short_desc: string | null
   long_desc: string | null
+  short_desc_en: string | null
+  long_desc_en: string | null
   sort_order: number
   celeb?: {
     id: string
@@ -34,7 +38,9 @@ export interface CelebTagAssignment {
 
 interface CreateTagInput {
   name: string
+  name_en?: string | null
   description?: string
+  description_en?: string | null
   color?: string
   is_featured?: boolean
   start_date?: string | null
@@ -44,7 +50,9 @@ interface CreateTagInput {
 interface UpdateTagInput {
   id: string
   name?: string
+  name_en?: string | null
   description?: string
+  description_en?: string | null
   color?: string
   sort_order?: number
   is_featured?: boolean
@@ -128,7 +136,9 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
     .from('celeb_tags')
     .insert({
       name: input.name.trim(),
+      name_en: input.name_en?.trim() || null,
       description: input.description?.trim() || null,
+      description_en: input.description_en?.trim() || null,
       color: input.color || '#7c4dff',
       sort_order: nextSortOrder,
       is_featured: input.is_featured ?? false,
@@ -160,7 +170,9 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   }
 
   if (input.name !== undefined) updateData.name = input.name.trim()
+  if (input.name_en !== undefined) updateData.name_en = input.name_en?.trim() || null
   if (input.description !== undefined) updateData.description = input.description?.trim() || null
+  if (input.description_en !== undefined) updateData.description_en = input.description_en?.trim() || null
   if (input.color !== undefined) updateData.color = input.color
   if (input.sort_order !== undefined) updateData.sort_order = input.sort_order
   if (input.is_featured !== undefined) updateData.is_featured = input.is_featured
@@ -233,6 +245,8 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
 export interface CelebTagWithDesc extends CelebTag {
   short_desc: string | null
   long_desc: string | null
+  short_desc_en: string | null
+  long_desc_en: string | null
 }
 
 export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]> {
@@ -240,7 +254,7 @@ export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]>
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .select('short_desc, long_desc, tag:celeb_tags(*)')
+    .select('short_desc, long_desc, short_desc_en, long_desc_en, tag:celeb_tags(*)')
     .eq('celeb_id', celebId)
 
   if (error) {
@@ -253,6 +267,8 @@ export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]>
       ...(item.tag as unknown as CelebTag),
       short_desc: item.short_desc as string | null,
       long_desc: item.long_desc as string | null,
+      short_desc_en: item.short_desc_en as string | null,
+      long_desc_en: item.long_desc_en as string | null,
     }))
     .filter(t => t.id)
 }
@@ -264,7 +280,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, long_desc, sort_order, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
+    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, sort_order, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
 
@@ -278,6 +294,8 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     tag_id: item.tag_id,
     short_desc: item.short_desc,
     long_desc: item.long_desc,
+    short_desc_en: (item as any).short_desc_en ?? null,
+    long_desc_en: (item as any).long_desc_en ?? null,
     sort_order: item.sort_order ?? 0,
     celeb: (Array.isArray(item.celeb) ? item.celeb[0] : item.celeb) as CelebTagAssignment['celeb'],
   }))
@@ -337,15 +355,21 @@ export async function updateTagAssignmentDesc(
   celebId: string,
   tagId: string,
   short_desc: string | null,
-  long_desc: string | null
+  long_desc: string | null,
+  short_desc_en?: string | null,
+  long_desc_en?: string | null
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  console.log('[updateTagAssignmentDesc] Input:', { celebId, tagId, short_desc, long_desc })
+  console.log('[updateTagAssignmentDesc] Input:', { celebId, tagId, short_desc, long_desc, short_desc_en, long_desc_en })
+
+  const updatePayload: Record<string, string | null> = { short_desc, long_desc }
+  if (short_desc_en !== undefined) updatePayload.short_desc_en = short_desc_en
+  if (long_desc_en !== undefined) updatePayload.long_desc_en = long_desc_en
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .update({ short_desc, long_desc })
+    .update(updatePayload)
     .eq('celeb_id', celebId)
     .eq('tag_id', tagId)
     .select()

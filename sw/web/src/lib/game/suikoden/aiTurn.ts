@@ -2,8 +2,8 @@
 
 import type { GameState, Faction, TerritoryId } from './types'
 import { BUILDINGS, BUILDING_CATEGORY } from './constants'
-import { shuffle, getTerritoryDef, getTotalTroops } from './utils'
-import { commandBuild, commandAssign, commandTrain, commandDispatch, commandAssignRecruiter } from './turnEngine'
+import { shuffle, getTerritoryDef, getTotalTroops, isActiveTerritory } from './utils'
+import { commandBuild, commandAssign, commandTrain, commandDispatch, commandAssignRecruiter, commandEquip } from './turnEngine'
 import { initBattle } from './engine'
 
 /** 매 턴마다 호출. AI 세력들의 의사결정 실행. */
@@ -46,11 +46,34 @@ function executeAIFaction(state: GameState, faction: Faction): GameState {
   // 4. 무주지 확장
   s = aiExpand(s, faction)
 
-  // 5. 침공 판단 (이미 전투 중이면 스킵)
+  // 5. 장비 자동 분배
+  s = aiDistributeEquipment(s, faction)
+
+  // 6. 침공 판단 (이미 전투 중이면 스킵)
   if (!s.battle && shouldInvade(s, faction, personality)) {
     s = aiInvade(s, faction)
   }
 
+  return s
+}
+
+/** AI 장비 자동 분배: 세력 재고를 등급순 멤버에게 균등 분배 */
+function aiDistributeEquipment(state: GameState, faction: Faction): GameState {
+  let s = state
+  const f = s.factions.find(ff => ff.id === faction.id)
+  if (!f) return s
+
+  const types = ['weapons', 'horses', 'ships', 'charms'] as const
+  for (const type of types) {
+    if (f.resources[type] <= 0) continue
+    // 등급순 정렬 (높은 등급 우선)
+    const sorted = [...f.members].sort((a, b) => b.totalScore - a.totalScore)
+    const perMember = Math.floor(f.resources[type] / sorted.length)
+    if (perMember <= 0) continue
+    for (const member of sorted) {
+      s = commandEquip(s, faction.id, member.id, type, perMember)
+    }
+  }
   return s
 }
 
@@ -82,12 +105,12 @@ function assignIdleCharacters(state: GameState, faction: Faction): GameState {
     for (const threat of unassignedThreats) {
       const idleInTerritory = getIdlePlacements().filter(p => p.territoryId === territory.id && canWork(p.characterId))
       if (idleInTerritory.length === 0) break
-      // 가장 전투력 높은 인물 (power + courage)
+      // 가장 전투력 높은 인물 (martial + courage)
       const best = idleInTerritory
         .map(p => {
           const f = s.factions.find(ff => ff.id === faction.id)
           const m = f?.members.find(mm => mm.id === p.characterId)
-          return { placement: p, score: m ? m.stats.power + m.stats.courage : 0 }
+          return { placement: p, score: m ? m.stats.martial + m.stats.courage : 0 }
         })
         .sort((a, b) => b.score - a.score)[0]
       if (best) {
@@ -104,12 +127,12 @@ function assignIdleCharacters(state: GameState, faction: Faction): GameState {
     for (const visitor of unassignedVisitors) {
       const idleInTerritory = getIdlePlacements().filter(p => p.territoryId === territory.id && canWork(p.characterId))
       if (idleInTerritory.length === 0) break
-      // 인애(virtue) 높은 인물 우선
+      // 매력(charisma) 높은 인물 우선
       const best = idleInTerritory
         .map(p => {
           const f = s.factions.find(ff => ff.id === faction.id)
           const m = f?.members.find(mm => mm.id === p.characterId)
-          return { placement: p, score: m ? m.stats.virtue : 0 }
+          return { placement: p, score: m ? m.stats.charisma : 0 }
         })
         .sort((a, b) => b.score - a.score)[0]
       if (best) {
@@ -241,6 +264,7 @@ function aiExpand(state: GameState, faction: Faction): GameState {
     if (!def) continue
     for (const nId of def.neighbors) {
       if (allOccupied.has(nId)) continue
+      if (!isActiveTerritory(state, nId as TerritoryId)) continue
       if (Math.random() < 0.1) {
         const nDef = getTerritoryDef(nId)
         const newTerritory = {
@@ -251,7 +275,7 @@ function aiExpand(state: GameState, faction: Faction): GameState {
           maxBuildings: 8,
           population: 500,
           morale: 60,
-          resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 },
+          resources: { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0, weapons: 0, horses: 0, ships: 0, charms: 0 },
           taxRate: 'normal' as const,
         }
         return {

@@ -56,6 +56,7 @@ sw/web/src/lib/game/suikoden/
   skills.ts       — 스킬
   dialog.ts       — 대사
   utils.ts        — 유틸
+  scenarios.ts    — 시나리오 정의 (5개)
   assetManager.ts — 에셋 관리
 ```
 

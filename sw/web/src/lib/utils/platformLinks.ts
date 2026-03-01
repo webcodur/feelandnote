@@ -10,6 +10,7 @@ export interface GeneratedPlatformLink {
 /** 콘텐츠 정보로 외부 플랫폼 링크 목록 생성 */
 export function generatePlatformLinks(
   contentId: string,
+  externalId: string,
   contentType: ContentType,
   title: string,
 ): GeneratedPlatformLink[] {
@@ -20,7 +21,7 @@ export function generatePlatformLinks(
     .map((p) => ({
       key: p.key,
       name: p.name,
-      url: p.buildUrl({ id: contentId, title }),
+      url: p.buildUrl({ id: contentId, externalId, title }),
     }))
     .filter((link) => link.url !== "");
 }

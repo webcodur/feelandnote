@@ -15,45 +15,46 @@ export interface ContentMetadata {
 }
 
 // 외부 API에서 메타데이터 조회 (내부 함수)
+// externalId: 외부 API 식별자 (ISBN, tmdb-movie-123, igdb-123, spotify-xxx)
 async function fetchMetadataFromApi(
-  id: string,
+  externalId: string,
   type: ContentType
 ): Promise<ContentMetadata> {
   switch (type) {
     case 'BOOK': {
       // 네이버에서 ISBN 검색
-      const naverResult = await searchNaverBooks(id, 1)
+      const naverResult = await searchNaverBooks(externalId, 1)
       const naverBook = naverResult.items.find(
-        b => b.externalId === id || b.metadata.isbn === id
+        b => b.externalId === externalId || b.metadata.isbn === externalId
       )
       if (naverBook) {
-        return { id, metadata: naverBook.metadata }
+        return { id: externalId, metadata: naverBook.metadata }
       }
 
       // 없으면 Google Books 폴백
-      const googleBook = await getGoogleBookByIsbn(id)
+      const googleBook = await getGoogleBookByIsbn(externalId)
       if (googleBook) {
-        return { id, metadata: googleBook.metadata }
+        return { id: externalId, metadata: googleBook.metadata }
       }
 
-      return { id, metadata: null }
+      return { id: externalId, metadata: null }
     }
     case 'VIDEO': {
-      const video = await getVideoById(id)
-      return { id, metadata: video?.metadata || null, subtype: video?.subtype }
+      const video = await getVideoById(externalId)
+      return { id: externalId, metadata: video?.metadata || null, subtype: video?.subtype }
     }
     case 'GAME': {
-      const game = await getGameById(id)
-      return { id, metadata: game?.metadata || null }
+      const game = await getGameById(externalId)
+      return { id: externalId, metadata: game?.metadata || null }
     }
     case 'MUSIC': {
-      const album = await getAlbumById(id)
-      return { id, metadata: album?.metadata || null }
+      const album = await getAlbumById(externalId)
+      return { id: externalId, metadata: album?.metadata || null }
     }
     case 'CERTIFICATE':
-      return { id, metadata: null }
+      return { id: externalId, metadata: null }
     default:
-      return { id, metadata: null }
+      return { id: externalId, metadata: null }
   }
 }
 
@@ -65,31 +66,32 @@ const getCachedMetadata = unstable_cache(
 )
 
 // 단일 콘텐츠 metadata 조회
+// externalId: 외부 API 식별자 (ISBN, tmdb-movie-123 등)
 export async function fetchContentMetadata(
-  id: string,
+  externalId: string,
   type: ContentType
 ): Promise<ContentMetadata> {
   try {
-    return await getCachedMetadata(id, type)
+    return await getCachedMetadata(externalId, type)
   } catch (error) {
-    console.error(`[fetchContentMetadata] ${type} ${id} 에러:`, error)
-    return { id, metadata: null }
+    console.error(`[fetchContentMetadata] ${type} ${externalId} 에러:`, error)
+    return { id: externalId, metadata: null }
   }
 }
 
 // 여러 콘텐츠 metadata 일괄 조회
 export async function fetchContentsMetadata(
-  items: Array<{ id: string; type: ContentType }>
+  items: Array<{ externalId: string; type: ContentType }>
 ): Promise<Map<string, ContentMetadata>> {
   const results = await Promise.allSettled(
-    items.map(item => fetchContentMetadata(item.id, item.type))
+    items.map(item => fetchContentMetadata(item.externalId, item.type))
   )
 
   const metadataMap = new Map<string, ContentMetadata>()
 
   results.forEach((result, index) => {
     if (result.status === 'fulfilled' && result.value.metadata) {
-      metadataMap.set(items[index].id, result.value)
+      metadataMap.set(items[index].externalId, result.value)
     }
   })
 

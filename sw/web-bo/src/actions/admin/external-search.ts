@@ -55,38 +55,39 @@ export async function createContentFromExternal(
 }> {
   try {
     const supabase = await createClient()
-    const contentId = input.externalId
 
-    // 이미 등록된 콘텐츠인지 확인 (id로 직접 조회)
+    // external_id로 기존 콘텐츠 확인
     const { data: existing } = await supabase
       .from('contents')
       .select('id')
-      .eq('id', contentId)
+      .eq('external_id', input.externalId)
       .maybeSingle()
 
     if (existing) {
       return { success: true, contentId: existing.id }
     }
 
-    // 새 콘텐츠 생성 (외부 ID를 id로 직접 사용)
-    const { error } = await supabase
+    // 새 콘텐츠 생성 (id 자동 생성, external_id에 외부 ID 저장)
+    const { data: newContent, error } = await supabase
       .from('contents')
       .insert({
-        id: contentId,
         title: input.title,
         creator: input.creator || null,
         type: contentType,
         thumbnail_url: input.coverImageUrl,
         external_source: input.externalSource,
+        external_id: input.externalId,
         metadata: input.metadata || {},
       })
+      .select('id')
+      .single()
 
-    if (error) {
+    if (error || !newContent) {
       console.error('[createContentFromExternal] Insert error:', error)
-      return { success: false, error: error.message }
+      return { success: false, error: error?.message ?? 'Insert failed' }
     }
 
-    return { success: true, contentId }
+    return { success: true, contentId: newContent.id }
   } catch (err) {
     console.error('[createContentFromExternal] Exception:', err)
     return {

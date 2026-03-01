@@ -271,6 +271,7 @@ export default function WorldMapView({
       topoData.objects.countries
     ) as unknown as GeoJSON.FeatureCollection
 
+    const activeRSet = state.activeRegionIds.length > 0 ? new Set(state.activeRegionIds) : null
     for (const feat of countries.features) {
       const countryId = String(feat.id ?? '')
       const regionId = COUNTRY_TO_REGION[countryId]
@@ -278,7 +279,10 @@ export default function WorldMapView({
       ctx.beginPath()
       path(feat)
 
-      if (regionId) {
+      // 비활성 지역은 어둡게
+      const isRegionActive = !activeRSet || (regionId != null && activeRSet.has(regionId))
+
+      if (regionId && isRegionActive) {
         const isHoveredRegion = regionId === hoverRegion
         if (phase === 'wandering' && regionId === currentRegionId) {
           ctx.fillStyle = REGION_FILL[regionId].replace('0.15', '0.35')
@@ -292,9 +296,9 @@ export default function WorldMapView({
       }
       ctx.fill()
 
-      // 호버 대륙 국가 경계선 강조
+      // 호버 대륙 국가 경계선 강조 (활성 지역만)
       const countryRegion = COUNTRY_TO_REGION[countryId]
-      if (countryRegion === hoverRegion) {
+      if (countryRegion === hoverRegion && isRegionActive) {
         ctx.strokeStyle = REGION_FILL[countryRegion].replace('0.15', '0.6')
         ctx.lineWidth = 1
       } else {
@@ -314,9 +318,11 @@ export default function WorldMapView({
       ctx.stroke()
     }
 
-    // 연결선 (great arc) — 양쪽 다 가시 반구에 있을 때만
+    // 연결선 (great arc) — 활성 거점 간만, 양쪽 다 가시 반구에 있을 때만
+    const activeTSet = state.activeTerritoryIds.length > 0 ? new Set(state.activeTerritoryIds) : null
     const playerTerritoryIds = new Set(playerFaction?.territories.map(t => t.id) ?? [])
     for (const [from, to] of EDGES) {
+      if (activeTSet && (!activeTSet.has(from) || !activeTSet.has(to))) continue
       const tFrom = TERRITORIES.find(t => t.id === from)!
       const tTo = TERRITORIES.find(t => t.id === to)!
 
@@ -355,8 +361,11 @@ export default function WorldMapView({
       ctx.setLineDash([])
     }
 
-    // 거점 dot — 가시 반구에 있는 것만 렌더링
-    for (const territory of TERRITORIES) {
+    // 거점 dot — 활성 거점 중 가시 반구에 있는 것만 렌더링
+    const activeTs = state.activeTerritoryIds.length > 0
+      ? TERRITORIES.filter(t => state.activeTerritoryIds.includes(t.id))
+      : TERRITORIES
+    for (const territory of activeTs) {
       if (!isPointVisible(territory.latlng, rotation)) continue
 
       const [lat, lng] = territory.latlng
@@ -579,16 +588,20 @@ export default function WorldMapView({
     }
 
     // ── 대륙 중심점 + 인접 연결선 ──
-    for (const region of REGIONS) {
+    const activeRs = state.activeRegionIds.length > 0
+      ? REGIONS.filter(r => state.activeRegionIds.includes(r.id))
+      : REGIONS
+    for (const region of activeRs) {
       if (!isPointVisible(region.latlng, rotation)) continue
       const pos = projection(region.latlng.slice().reverse() as [number, number])
       if (!pos) continue
 
       const isHovered = region.id === hoverRegion
 
-      // 인접 대륙 연결선 (hover 시)
+      // 인접 대륙 연결선 (hover 시, 활성 지역만)
       if (isHovered) {
         for (const neighborId of region.neighbors) {
+          if (state.activeRegionIds.length > 0 && !state.activeRegionIds.includes(neighborId)) continue
           const neighbor = REGIONS.find(r => r.id === neighborId)
           if (!neighbor) continue
           if (!isPointVisible(neighbor.latlng, rotation)) continue
@@ -833,7 +846,10 @@ export default function WorldMapView({
     let closestDist = Infinity
     const HIT_RADIUS = 18
 
-    for (const t of TERRITORIES) {
+    const hitTargets = state.activeTerritoryIds.length > 0
+      ? TERRITORIES.filter(t => state.activeTerritoryIds.includes(t.id))
+      : TERRITORIES
+    for (const t of hitTargets) {
       // 반대편 거점 무시
       if (!isPointVisible(t.latlng, rotation)) continue
 

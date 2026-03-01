@@ -6,8 +6,8 @@
 'use client'
 
 import { useState, useCallback, useEffect, type MutableRefObject } from 'react'
-import type { GameState, GameCharacter, GameItem, Era, DialogEntry, WorldPreview } from '@/lib/game/suikoden/types'
-import { initGame, previewWorld, finalizeGame } from '@/lib/game/suikoden/engine'
+import type { GameState, GameCharacter, Era, DialogEntry, WorldPreview, ScenarioDef } from '@/lib/game/suikoden/types'
+import { initGame, previewWorld, previewScenario, finalizeGame } from '@/lib/game/suikoden/engine'
 import { preloadAssets } from '@/lib/game/suikoden/assetManager'
 import SetupScreen from './SetupScreen'
 import WanderingScreen from './WanderingScreen'
@@ -17,9 +17,12 @@ import DispositionScreen from './DispositionScreen'
 import ResultScreen from './ResultScreen'
 import DialogSnackbar from './DialogSnackbar'
 
+/** characterId → celeb_dialogues.lines */
+type DialoguesMap = Record<string, Record<string, string[]>>
+
 interface SuikodenGameProps {
   characters: GameCharacter[]
-  items: GameItem[]
+  dialogues: DialoguesMap
   onEnterFullScreen?: () => void
   onHomeRef?: MutableRefObject<(() => void) | null>
   onPhaseChange?: (phase: string) => void
@@ -28,7 +31,7 @@ interface SuikodenGameProps {
 
 type InternalPhase = 'idle' | 'setup' | 'ingame'
 
-export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChange, onStartRef }: SuikodenGameProps) {
+export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhaseChange, onStartRef }: SuikodenGameProps) {
   const [internalPhase, setInternalPhase] = useState<InternalPhase>('idle')
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [worldPreview, setWorldPreview] = useState<WorldPreview | null>(null)
@@ -90,20 +93,20 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
     if (onStartRef) onStartRef.current = handleStart
   }, [onStartRef, handleStart])
 
-  // 1단계 → 세력 미리보기 생성
-  const handlePreviewWorld = useCallback((difficulty: 'easy' | 'normal' | 'hard', era: Era) => {
-    const preview = previewWorld(characters, difficulty, era)
+  // 1단계 → 시나리오 선택 → 세력 미리보기 생성
+  const handleSelectScenario = useCallback((scenario: ScenarioDef) => {
+    const preview = previewScenario(scenario, characters)
     setWorldPreview(preview)
   }, [characters])
 
   // 2단계 → 게임 시작
   const handleSetupComplete = useCallback((leaderId: string) => {
     if (!worldPreview) return
-    const state = finalizeGame(worldPreview, leaderId, items)
+    const state = finalizeGame(worldPreview, leaderId)
     setGameState(state)
     setWorldPreview(null)
     setInternalPhase('ingame')
-  }, [worldPreview, items])
+  }, [worldPreview])
 
   // 뒤로 (2단계 → 1단계, 또는 1단계 → idle)
   const handleBack = useCallback(() => {
@@ -155,7 +158,7 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
       <SetupScreen
         characters={characters}
         worldPreview={worldPreview}
-        onPreviewWorld={handlePreviewWorld}
+        onSelectScenario={handleSelectScenario}
         onComplete={handleSetupComplete}
         onBack={handleBack}
       />
@@ -168,15 +171,15 @@ export default function SuikodenGame({ characters, items, onHomeRef, onPhaseChan
 
   return (
     <>
-      {phase === 'wandering' && <WanderingScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} onClearDialogs={clearDialogs} />}
+      {phase === 'wandering' && <WanderingScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} onClearDialogs={clearDialogs} dialogues={dialogues} />}
       {(phase === 'strategy' || phase === 'battle' || phase === 'disposition' || phase === 'result') && (
-        <StrategyScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} />
+        <StrategyScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} dialogues={dialogues} />
       )}
 
       {phase === 'battle' && gameState.battle && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center overflow-y-auto">
           <div className="w-full max-w-2xl mx-4 my-8">
-            <BattleScreen state={gameState} onUpdateState={updateState} />
+            <BattleScreen state={gameState} onUpdateState={updateState} onDialog={pushDialog} dialogues={dialogues} />
           </div>
         </div>
       )}

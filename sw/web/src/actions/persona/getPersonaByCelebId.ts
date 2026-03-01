@@ -49,6 +49,7 @@ export async function getPersonaByCelebId(celebId: string): Promise<PersonaVecto
       loyalty, benevolence, fairness, humility,
       command, martial, intellect, charisma,
       pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
+      speech_tone, rationale,
       profiles!celeb_persona_celeb_id_fkey (
         nickname,
         profession,

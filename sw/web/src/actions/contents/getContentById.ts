@@ -20,14 +20,15 @@ export interface ContentDetail {
 }
 
 // 외부 API에서 콘텐츠 정보 조회 (내부 함수)
+// externalId: 외부 API 식별자 (ISBN, tmdb-movie-123 등)
 async function fetchContentFromApi(
-  id: string,
+  externalId: string,
   category: CategoryId
 ): Promise<ContentDetail | null> {
   switch (category) {
     case 'book': {
-      const result = await searchBooks(id, 1)
-      const book = result.items.find(b => b.externalId === id)
+      const result = await searchBooks(externalId, 1)
+      const book = result.items.find(b => b.externalId === externalId)
       if (!book) return null
       return {
         id: book.externalId,
@@ -42,7 +43,7 @@ async function fetchContentFromApi(
     }
 
     case 'video': {
-      const video = await getVideoById(id)
+      const video = await getVideoById(externalId)
       if (!video) return null
       return {
         id: video.externalId,
@@ -58,7 +59,7 @@ async function fetchContentFromApi(
     }
 
     case 'game': {
-      const game = await getGameById(id)
+      const game = await getGameById(externalId)
       if (!game) return null
       return {
         id: game.externalId,
@@ -73,7 +74,7 @@ async function fetchContentFromApi(
     }
 
     case 'music': {
-      const album = await getAlbumById(id)
+      const album = await getAlbumById(externalId)
       if (!album) return null
       return {
         id: album.externalId,
@@ -102,15 +103,15 @@ const getCachedContent = unstable_cache(
   { revalidate: 3600 }
 )
 
-// ID와 카테고리로 외부 API에서 콘텐츠 정보 조회
+// externalId와 카테고리로 외부 API에서 콘텐츠 정보 조회
 export async function getContentById(
-  id: string,
+  externalId: string,
   category: CategoryId
 ): Promise<ContentDetail | null> {
   try {
-    return await getCachedContent(id, category)
+    return await getCachedContent(externalId, category)
   } catch (error) {
-    console.error(`[getContentById] ${category} ${id} 에러:`, error)
+    console.error(`[getContentById] ${category} ${externalId} 에러:`, error)
     return null
   }
 }

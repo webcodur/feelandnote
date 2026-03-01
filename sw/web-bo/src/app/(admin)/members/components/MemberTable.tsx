@@ -13,14 +13,14 @@ export default function MemberTable({ members }: { members: Member[] }) {
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
           <th className="w-12 px-3 md:px-4 py-3" />
-          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">수식어</th>
-          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">이름</th>
-          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary">직군</th>
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">구분</th>
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">상태</th>
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">콘텐츠</th>
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">팔로워</th>
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-20 md:w-24">액션</th>
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">title</th>
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">nickname</th>
+          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">profession</th>
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">profile_type</th>
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">status</th>
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">content_count</th>
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">follower_count</th>
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-20 md:w-24">actions</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-border">
@@ -103,12 +103,12 @@ export default function MemberTable({ members }: { members: Member[] }) {
 
 function TypeBadge({ type, role }: { type: string; role?: string }) {
   if (type === 'CELEB') {
-    return <span className="inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium bg-yellow-500/10 text-yellow-400 whitespace-nowrap"><Star className="w-3 h-3" />셀럽</span>
+    return <span className="inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium bg-yellow-500/10 text-yellow-400 whitespace-nowrap"><Star className="w-3 h-3" />CELEB</span>
   }
   const roleConfig: Record<string, { label: string; className: string }> = {
-    user: { label: '사용자', className: 'bg-gray-500/10 text-gray-400' },
-    admin: { label: '관리자', className: 'bg-blue-500/10 text-blue-400' },
-    super_admin: { label: '최고관리자', className: 'bg-purple-500/10 text-purple-400' },
+    user: { label: 'user', className: 'bg-gray-500/10 text-gray-400' },
+    admin: { label: 'admin', className: 'bg-blue-500/10 text-blue-400' },
+    super_admin: { label: 'super_admin', className: 'bg-purple-500/10 text-purple-400' },
   }
   const { label, className } = roleConfig[role || 'user'] || roleConfig.user
   return <span className={`inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium whitespace-nowrap ${className}`}><Shield className="w-3 h-3" />{label}</span>
@@ -116,9 +116,9 @@ function TypeBadge({ type, role }: { type: string; role?: string }) {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
-    active: { label: '활성', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
-    suspended: { label: '정지', className: 'bg-red-500/10 text-red-400', icon: Ban },
-    deleted: { label: '삭제됨', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
+    active: { label: 'active', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
+    suspended: { label: 'suspended', className: 'bg-red-500/10 text-red-400', icon: Ban },
+    deleted: { label: 'deleted', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
   }
   const { label, className, icon: Icon } = config[status] || config.active
   return <span className={`inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium whitespace-nowrap ${className}`}><Icon className="w-3 h-3" />{label}</span>

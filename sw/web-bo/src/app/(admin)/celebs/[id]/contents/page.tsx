@@ -7,7 +7,6 @@ import Image from 'next/image'
 import ContentList from '../../../members/[id]/contents/ContentList'
 import AddContentForm from '../../../members/[id]/contents/AddContentForm'
 import ExportContentButton from '../../../members/[id]/contents/ExportContentButton'
-import ProjectRulesButton from '../../../members/components/ProjectRulesButton'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES } from '@/constants/contentTypes'
 import ContentCollector from '../../../members/[id]/contents/components/ContentCollector'
 import CollapsibleSection from '@/components/ui/CollapsibleSection'
@@ -60,10 +59,7 @@ export default async function CelebContentsPage({ params, searchParams }: PagePr
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <ExportContentButton celebId={id} />
-          <ProjectRulesButton celebName={celeb.nickname || undefined} />
-        </div>
+        <ExportContentButton celebId={id} />
       </div>
 
       {/* Content List Section */}

@@ -110,7 +110,7 @@ export default function InfluenceDashboard({ data }: Props) {
                     }`}
                     onClick={() => setSortBy(a.key)}
                   >
-                    {a.label.split('·')[0]}
+                    {a.label}
                   </th>
                 ))}
                 <th
@@ -171,16 +171,23 @@ export default function InfluenceDashboard({ data }: Props) {
                               score: row[a.key],
                               max: 10,
                               exp: row[`${a.key}_exp` as keyof InfluenceData] as string | null,
+                              expEn: row[`${a.key}_exp_en` as keyof InfluenceData] as string | null,
                             })), {
                               label: '통시성',
                               score: row.transhistoricity,
                               max: 40,
                               exp: row.transhistoricity_exp,
+                              expEn: row.transhistoricity_exp_en,
                             }].map((item) => (
                               <div key={item.label} className="grid grid-cols-[72px_36px_1fr] items-baseline gap-1.5">
                                 <span className="text-text-secondary">{item.label}</span>
                                 <span className="font-mono tabular-nums text-text-primary">{item.score}/{item.max}</span>
-                                <span className="text-text-tertiary">{item.exp || '-'}</span>
+                                <div>
+                                  <span className="text-text-tertiary">{item.exp || '-'}</span>
+                                  {item.expEn && (
+                                    <span className="block text-[10px] text-text-tertiary/60 mt-0.5">{item.expEn}</span>
+                                  )}
+                                </div>
                               </div>
                             ))}
                           </div>

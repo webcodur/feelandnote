@@ -232,21 +232,26 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 ### contents 배치 INSERT
 
 ```sql
-INSERT INTO contents (id, type, title, creator, thumbnail_url, external_source)
+INSERT INTO contents (external_id, type, title, creator, thumbnail_url, external_source)
 VALUES
   ('{외부ID1}', '{TYPE}', '{제목1}', '{창작자1}', '{이미지URL1}', '{source}'),
   ('{외부ID2}', '{TYPE}', '{제목2}', '{창작자2}', '{이미지URL2}', '{source}'),
   ...
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (external_id) WHERE external_id IS NOT NULL DO NOTHING
+RETURNING id, external_id;
 ```
 
+**주의**: `contents.id`는 UUID 자동 생성. 외부 API 식별자는 `external_id` 컬럼에 저장한다.
+
 ### user_contents 배치 INSERT
+
+contents INSERT의 RETURNING 결과에서 UUID `id`를 확보한 뒤 사용한다.
 
 ```sql
 INSERT INTO user_contents (id, user_id, content_id, status, review, source_url, visibility)
 VALUES
-  (gen_random_uuid(), '{셀럽ID}', '{외부ID1}', 'FINISHED', '{body1}', '{source1}', 'public'),
-  (gen_random_uuid(), '{셀럽ID}', '{외부ID2}', 'FINISHED', '{body2}', '{source2}', 'public'),
+  (gen_random_uuid(), '{셀럽ID}', '{contents.id UUID}', 'FINISHED', '{body1}', '{source1}', 'public'),
+  (gen_random_uuid(), '{셀럽ID}', '{contents.id UUID}', 'FINISHED', '{body2}', '{source2}', 'public'),
   ...;
 ```
 
@@ -256,9 +261,9 @@ VALUES
 - GAME: `igdb`
 - MUSIC: `spotify`
 
-**⚠️ contents.id 형식 (필수):**
+**⚠️ contents.external_id 형식 (필수):**
 
-| 타입 | ID 형식 | 예시 |
+| 타입 | external_id 형식 | 예시 |
 |------|---------|------|
 | BOOK | ISBN 그대로 | `9788932917245` |
 | VIDEO (영화) | **`tmdb-movie-{tmdbId}`** | `tmdb-movie-550` |

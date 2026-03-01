@@ -1,9 +1,9 @@
 // 천도 — 턴제 게임 엔진
 
 import type {
-  GameState, GameTime, Season, TerritoryId, TaxRate, BuildingCard, ThreatCard, ThreatType,
+  GameState, GameTime, Season, TerritoryId, TaxRate, BuildingCard, ThreatCard, ThreatType, TroopEquipment,
 } from './types'
-import { TURN, BUILDINGS, TERRITORIES, DIFFICULTY_CONFIG, THREAT_DEFS, GRADE_SALARY, GRADE_FAME_REQ } from './constants'
+import { TURN, BUILDINGS, TERRITORIES, DIFFICULTY_CONFIG, THREAT_DEFS, GRADE_SALARY, GRADE_FAME_REQ, EQUIPMENT_MAX } from './constants'
 import { getTerritoryDef, getTotalTroops } from './utils'
 import { evaluateAIDecisions, assignIdleCharactersForFaction } from './aiTurn'
 import { checkSeasonEvents } from './events'
@@ -205,6 +205,8 @@ function generateResources(state: GameState): GameState {
         if (e.knowledgePerTurn) resources.knowledge += Math.floor(e.knowledgePerTurn / 3 * mul)
         if (e.materialPerTurn) resources.material += Math.floor(e.materialPerTurn / 3 * mul)
         if (e.troopsPerTurn) resources.troops += Math.floor(e.troopsPerTurn / 3 * mul)
+        // 무기고: 무기 생산 (턴당 100, 배치 시 150)
+        if (e.special === 'weapons') resources.weapons += Math.floor(100 / 3 * mul)
       }
     }
     return { ...f, resources }
@@ -603,9 +605,9 @@ export function processTraining(state: GameState): GameState {
 
       changed = true
       const stats = { ...m.stats }
-      const trainable: (keyof typeof stats)[] = ['power', 'skill', 'stamina']
+      const trainable: ('command' | 'martial' | 'intellect')[] = ['command', 'martial', 'intellect']
       const target = trainable[Math.floor(Math.random() * trainable.length)]
-      if (stats[target] < 99) stats[target] = stats[target] + 1
+      if (stats[target] < 100) stats[target] = stats[target] + 1
 
       return { ...m, stats }
     })
@@ -632,15 +634,15 @@ function updateMorale(state: GameState): GameState {
         if (bDef?.effect.moralePerTurn) delta += bDef.effect.moralePerTurn / 3
       }
 
-      // 캐릭터 virtue 기반 민심 보정
+      // 캐릭터 benevolence+charisma 기반 민심 보정 (0~100 스케일)
       const territoryPlacements = state.placements.filter(p => p.territoryId === t.id && p.factionId === f.id)
       if (territoryPlacements.length > 0) {
         const chars = territoryPlacements
           .map(p => f.members.find(m => m.id === p.characterId))
           .filter(Boolean)
         if (chars.length > 0) {
-          const avgVirtue = chars.reduce((s, c) => s + (c!.stats.virtue ?? 0), 0) / chars.length
-          delta += avgVirtue * 0.5 // virtue 10이면 +5/턴
+          const avgVirtue = chars.reduce((s, c) => s + ((c!.stats.benevolence + c!.stats.charisma) / 2), 0) / chars.length
+          delta += avgVirtue * 0.05 // 100이면 +5/턴
         }
       }
 
@@ -779,9 +781,9 @@ function updateTavernVisitors(state: GameState): GameState {
     const leader = faction.members.find(m => m.id === faction.leaderId)
     const fameBonus = Math.min(0.20, faction.fame * 0.0002)
     const leaderBonus = leader
-      ? (leader.stats.loyalty + leader.stats.virtue + leader.stats.courage) / 30 * 0.15
+      ? (leader.stats.charisma * 0.3 + leader.stats.benevolence * 0.1 + leader.stats.fairness * 0.1) / 100 * 0.15
       : 0
-    const charBonus = recruiter ? recruiter.stats.virtue * 0.03 : 0
+    const charBonus = recruiter ? recruiter.stats.charisma * 0.003 : 0
     const rate = Math.min(0.95, 0.30 + fameBonus + leaderBonus + charBonus)
 
     const char = visitor.character
@@ -929,7 +931,7 @@ function updateThreats(state: GameState): GameState {
 
         // 성공률 = 기존 토벌과 동일
         const rate = Math.max(10, Math.min(95,
-          40 + patrolChar.stats.power * 3 + patrolChar.stats.courage * 2 - threat.power * 5
+          40 + patrolChar.stats.martial * 0.4 + patrolChar.stats.courage * 0.2 - threat.power * 5
         ))
         if (Math.random() * 100 < rate) {
           const goldReward = 10 + threat.power * 5
@@ -992,8 +994,8 @@ function updateThreats(state: GameState): GameState {
     const char = faction.members.find(m => m.id === charId)
     if (!char) continue
 
-    // 성공률 = 40 + (완력*3) + (용기*2) - (위협power*5), 클램프 10~95
-    const rate = Math.max(10, Math.min(95, 40 + char.stats.power * 3 + char.stats.courage * 2 - threat.power * 5))
+    // 성공률 = 40 + martial*0.4 + courage*0.2 - 위협power*5, 클램프 10~95
+    const rate = Math.max(10, Math.min(95, 40 + char.stats.martial * 0.4 + char.stats.courage * 0.2 - threat.power * 5))
     const roll = Math.random() * 100
 
     if (roll < rate) {
@@ -1131,5 +1133,41 @@ export function commandSetTaxRate(state: GameState, territoryId: TerritoryId, ta
       ),
     })),
     log: [...state.log, `세율 변경: ${taxRate === 'low' ? '낮음' : taxRate === 'high' ? '높음' : '보통'}`],
+  }
+}
+
+/** 장비 배분: 세력 재고 → 캐릭터 장비 이전 */
+export function commandEquip(
+  state: GameState,
+  factionId: string,
+  charId: string,
+  type: keyof TroopEquipment,
+  amount: number,
+): GameState {
+  const faction = state.factions.find(f => f.id === factionId)
+  if (!faction) return state
+  const char = faction.members.find(m => m.id === charId)
+  if (!char) return state
+
+  const available = faction.resources[type]
+  const max = EQUIPMENT_MAX[type]
+  const current = char.equipment[type]
+  const actual = Math.min(amount, available, max - current)
+  if (actual <= 0) return state
+
+  return {
+    ...state,
+    factions: state.factions.map(f =>
+      f.id !== factionId ? f : {
+        ...f,
+        resources: { ...f.resources, [type]: f.resources[type] - actual },
+        members: f.members.map(m =>
+          m.id !== charId ? m : {
+            ...m,
+            equipment: { ...m.equipment, [type]: m.equipment[type] + actual },
+          },
+        ),
+      },
+    ),
   }
 }

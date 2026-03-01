@@ -3,7 +3,7 @@ import type { ContentType } from "@/types/database";
 export interface PlatformLink {
   key: string;
   name: string;
-  buildUrl: (params: { id: string; title: string }) => string;
+  buildUrl: (params: { id: string; externalId: string; title: string }) => string;
 }
 
 /** 콘텐츠 타입별 외부 플랫폼 링크 정의 */
@@ -12,20 +12,20 @@ export const PLATFORM_LINKS: Record<ContentType, PlatformLink[]> = {
     {
       key: "aladin",
       name: "알라딘",
-      buildUrl: ({ id }) =>
-        `https://www.aladin.co.kr/search/wsearchresult.aspx?SearchWord=${id}`,
+      buildUrl: ({ externalId }) =>
+        `https://www.aladin.co.kr/search/wsearchresult.aspx?SearchWord=${externalId}`,
     },
     {
       key: "yes24",
       name: "YES24",
-      buildUrl: ({ id }) =>
-        `https://www.yes24.com/Product/Search?domain=BOOK&query=${id}`,
+      buildUrl: ({ externalId }) =>
+        `https://www.yes24.com/Product/Search?domain=BOOK&query=${externalId}`,
     },
     {
       key: "kyobobook",
       name: "교보문고",
-      buildUrl: ({ id }) =>
-        `https://search.kyobobook.co.kr/search?keyword=${id}`,
+      buildUrl: ({ externalId }) =>
+        `https://search.kyobobook.co.kr/search?keyword=${externalId}`,
     },
     {
       key: "millie",
@@ -38,9 +38,9 @@ export const PLATFORM_LINKS: Record<ContentType, PlatformLink[]> = {
     {
       key: "tmdb",
       name: "TMDB",
-      buildUrl: ({ id }) => {
-        const movieMatch = id.match(/^tmdb-movie-(\d+)$/);
-        const tvMatch = id.match(/^tmdb-tv-(\d+)$/);
+      buildUrl: ({ externalId }) => {
+        const movieMatch = externalId.match(/^tmdb-movie-(\d+)$/);
+        const tvMatch = externalId.match(/^tmdb-tv-(\d+)$/);
         if (movieMatch) return `https://www.themoviedb.org/movie/${movieMatch[1]}`;
         if (tvMatch) return `https://www.themoviedb.org/tv/${tvMatch[1]}`;
         return "";
@@ -71,8 +71,8 @@ export const PLATFORM_LINKS: Record<ContentType, PlatformLink[]> = {
     {
       key: "spotify",
       name: "Spotify",
-      buildUrl: ({ id }) => {
-        const spotifyId = id.replace(/^spotify-/, "");
+      buildUrl: ({ externalId }) => {
+        const spotifyId = externalId.replace(/^spotify-/, "");
         return `https://open.spotify.com/album/${spotifyId}`;
       },
     },

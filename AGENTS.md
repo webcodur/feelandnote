@@ -52,6 +52,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - **능력 4개** (AbilityKey, 0~100): command 통솔, martial 무력, intellect 지력, charisma 매력
   - **성향 4개** (TendencyKey, -50~+50): pessimism_optimism, conservative_progressive, individual_social, cautious_bold
   - **speech_tone** (text): 말투 6종 (loyal/composed/bold/humble/gentle/free). 패권 게임 대사 톤 결정
+  - **rationale** (text): 페르소나 수치에 대한 역사적/비평적 근거 (해설지). 사용자의 납득을 위한 필수 데이터
   - ⚠️ 덕목(품성)과 능력(역량)은 별개. 덕목을 능력으로 취급하거나 혼용 금지
 - **`celeb_dialogues`**: 인물별 고유 대사(**dialogueLines**). celeb_id(PK, profiles FK), lines(JSONB: 7상황×3변형=21개 대사. greeting/select/deploy/battle_win/battle_draw/battle_lose/clash_attack)
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블). 인물별 고유 대사

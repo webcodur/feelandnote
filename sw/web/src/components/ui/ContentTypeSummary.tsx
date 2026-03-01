@@ -9,11 +9,19 @@
 import React from "react";
 import { BookOpen, Film, Gamepad2, Music } from "lucide-react";
 
-const CONTENT_TYPE_META: { type: string; label: string; icon: React.ReactNode }[] = [
-  { type: "BOOK", label: "도서", icon: <BookOpen size={16} /> },
-  { type: "VIDEO", label: "영상", icon: <Film size={16} /> },
-  { type: "GAME", label: "게임", icon: <Gamepad2 size={16} /> },
-  { type: "MUSIC", label: "음악", icon: <Music size={16} /> },
+type Size = "sm" | "md" | "lg";
+
+const SIZE_CONFIG: Record<Size, { icon: number; text: string; gap: string }> = {
+  sm: { icon: 16, text: "text-sm", gap: "gap-4" },
+  md: { icon: 18, text: "text-base", gap: "gap-5" },
+  lg: { icon: 20, text: "text-lg", gap: "gap-6" },
+};
+
+const CONTENT_TYPE_META = [
+  { type: "BOOK", label: "도서", Icon: BookOpen },
+  { type: "VIDEO", label: "영상", Icon: Film },
+  { type: "GAME", label: "게임", Icon: Gamepad2 },
+  { type: "MUSIC", label: "음악", Icon: Music },
 ];
 
 interface ContentTypeSummaryProps {
@@ -23,10 +31,13 @@ interface ContentTypeSummaryProps {
   value: string | null;
   /** 타입 선택/해제 콜백 */
   onChange: (type: string | null) => void;
+  /** 크기 (sm | md | lg, 기본 sm) */
+  size?: Size;
   className?: string;
 }
 
-export function ContentTypeSummary({ items, value, onChange, className = "" }: ContentTypeSummaryProps) {
+export function ContentTypeSummary({ items, value, onChange, size = "sm", className = "" }: ContentTypeSummaryProps) {
+  const cfg = SIZE_CONFIG[size];
   const typeCounts = CONTENT_TYPE_META
     .map(m => ({ ...m, count: items.filter(item => item.type === m.type).length }))
     .filter(m => m.count > 0)
@@ -35,7 +46,7 @@ export function ContentTypeSummary({ items, value, onChange, className = "" }: C
   if (typeCounts.length === 0) return null;
 
   return (
-    <div className={`flex items-center justify-center gap-4 ${className}`}>
+    <div className={`flex items-center justify-center ${cfg.gap} ${className}`}>
       {typeCounts.map((item, i) => {
         const isActive = value === item.type;
         return (
@@ -43,13 +54,15 @@ export function ContentTypeSummary({ items, value, onChange, className = "" }: C
             {i > 0 && <span className="text-text-tertiary/30 text-sm select-none">&gt;</span>}
             <button
               onClick={() => onChange(isActive ? null : item.type)}
-              className={`flex items-center gap-1.5 text-sm transition-colors ${
+              className={`flex items-center gap-1.5 ${cfg.text} transition-colors ${
                 isActive
                   ? "text-accent font-bold"
                   : "text-text-secondary hover:text-text-primary"
               }`}
             >
-              <span className={isActive ? "text-accent" : "text-accent/70"}>{item.icon}</span>
+              <span className={isActive ? "text-accent" : "text-accent/70"}>
+                <item.Icon size={cfg.icon} />
+              </span>
               <span>{item.label}({item.count})</span>
             </button>
           </React.Fragment>

@@ -11,14 +11,14 @@ import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 
 const TYPE_CONFIG = {
-  NOTE: { label: '노트', color: 'bg-blue-500/10 text-blue-400', icon: StickyNote },
-  QUOTE: { label: '인용', color: 'bg-purple-500/10 text-purple-400', icon: Quote },
+  NOTE: { label: 'NOTE', color: 'bg-blue-500/10 text-blue-400', icon: StickyNote },
+  QUOTE: { label: 'QUOTE', color: 'bg-purple-500/10 text-purple-400', icon: Quote },
 }
 
 const VISIBILITY_CONFIG = {
-  public: { label: '공개', color: 'bg-green-500/10 text-green-400', icon: Globe },
-  followers: { label: '팔로워', color: 'bg-blue-500/10 text-blue-400', icon: UserCheck },
-  private: { label: '비공개', color: 'bg-gray-500/10 text-gray-400', icon: Lock },
+  public: { label: 'public', color: 'bg-green-500/10 text-green-400', icon: Globe },
+  followers: { label: 'followers', color: 'bg-blue-500/10 text-blue-400', icon: UserCheck },
+  private: { label: 'private', color: 'bg-gray-500/10 text-gray-400', icon: Lock },
 }
 
 interface PageProps {
@@ -126,13 +126,13 @@ export default async function RecordsPage({ searchParams }: PageProps) {
           <table className="w-full min-w-[900px]">
             <thead className="bg-bg-secondary border-b border-border">
               <tr className="divide-x divide-border">
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary">사용자</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary">콘텐츠</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">유형</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary">내용</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">공개범위</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap">등록일</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary">액션</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary font-mono">user_id</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary font-mono">content_id</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">type</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary font-mono">content</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">visibility</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">created_at</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary">actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

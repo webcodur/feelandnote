@@ -208,12 +208,17 @@ export default function CelebTagSelector({ selectedTags, onTagsChange }: Props) 
                     className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-bg-secondary"
                   >
                     <span
-                      className="w-3 h-3 rounded-full"
+                      className="w-3 h-3 rounded-full shrink-0"
                       style={{ backgroundColor: tag.color }}
                     />
-                    <span className="text-sm text-text-primary">{tag.name}</span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm text-text-primary">{tag.name}</span>
+                      {tag.name_en && (
+                        <span className="ml-1.5 text-xs text-text-tertiary">{tag.name_en}</span>
+                      )}
+                    </div>
                     {tag.celeb_count !== undefined && (
-                      <span className="ml-auto text-xs text-text-tertiary">
+                      <span className="ml-auto text-xs text-text-tertiary shrink-0">
                         {tag.celeb_count}명
                       </span>
                     )}

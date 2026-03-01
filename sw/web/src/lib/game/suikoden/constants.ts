@@ -1,6 +1,6 @@
 // 천도 — 상수 정의
 
-import type { BuildingDef, Grade, ItemGrade, UnitClass, Region, RegionId, Stats, TerritoryDef, TerritoryId, GameTime, TacticType, Era, ThreatType } from './types'
+import type { BuildingDef, Grade, UnitClass, Region, RegionId, Stats, TerritoryDef, TerritoryId, GameTime, TacticType, Era, ThreatType } from './types'
 
 // ── 턴제 엔진 상수 ──
 
@@ -33,19 +33,19 @@ export const WANDERING_TRAVEL_TURNS = 20   // 지역 이동 소요 턴
 
 export const PROFESSION_TO_CLASS: Record<string, UnitClass> = {
   commander: 'general',
-  leader: 'general',
   athlete: 'general',
+  leader: 'saint',
   humanities_scholar: 'strategist',
   social_scientist: 'strategist',
-  scientist: 'artisan',
-  entrepreneur: 'artisan',
-  investor: 'artisan',
   politician: 'official',
+  investor: 'official',
   author: 'artist',
   musician: 'artist',
   visual_artist: 'artist',
   director: 'artist',
   actor: 'artist',
+  scientist: 'artisan',
+  entrepreneur: 'artisan',
   influencer: 'ranger',
   other: 'ranger',
 }
@@ -54,10 +54,11 @@ export const PROFESSION_TO_CLASS: Record<string, UnitClass> = {
 
 export const CLASS_INFO: Record<UnitClass, { name: string; icon: string; color: string }> = {
   general:    { name: '장수', icon: '⚔️', color: '#dc2626' },
+  saint:      { name: '성인', icon: '✨', color: '#f59e0b' },
   strategist: { name: '책사', icon: '🪭', color: '#7c3aed' },
-  artisan:    { name: '장인', icon: '🔨', color: '#d97706' },
   official:   { name: '관료', icon: '📜', color: '#2563eb' },
   artist:     { name: '예인', icon: '🎭', color: '#ec4899' },
+  artisan:    { name: '장인', icon: '🔨', color: '#d97706' },
   ranger:     { name: '유격', icon: '🗡️', color: '#059669' },
 }
 
@@ -68,12 +69,12 @@ export const PLAYER_GRADE_THRESHOLD = 55  // 이 점수 미만만 플레이어 �
 // ── 등급 ──
 
 export const GRADE_THRESHOLDS: { min: number; grade: Grade }[] = [
-  { min: 75, grade: 'SS' },
-  { min: 65, grade: 'S' },
-  { min: 55, grade: 'A' },
-  { min: 45, grade: 'B' },
-  { min: 35, grade: 'C' },
-  { min: 25, grade: 'D' },
+  { min: 85, grade: 'SS' },
+  { min: 75, grade: 'S' },
+  { min: 65, grade: 'A' },
+  { min: 55, grade: 'B' },
+  { min: 45, grade: 'C' },
+  { min: 35, grade: 'D' },
   { min: 0,  grade: 'E' },
 ]
 
@@ -101,31 +102,32 @@ export const GRADE_SALARY: Record<Grade, number> = {
 // ── 등급별 병사 수 ──
 
 export const GRADE_TROOPS: Record<Grade, number> = {
-  SS: 800,
-  S: 600,
-  A: 500,
-  B: 400,
-  C: 300,
-  D: 200,
-  E: 100,
+  SS: 1000,
+  S: 800,
+  A: 700,
+  B: 500,
+  C: 400,
+  D: 300,
+  E: 200,
 }
 
-// ── 아이템 등급 ──
+// ── 장비 상수 ──
 
-export const ITEM_GRADE_THRESHOLDS: { min: number; grade: ItemGrade }[] = [
-  { min: 65, grade: 'legendary' },
-  { min: 50, grade: 'heroic' },
-  { min: 35, grade: 'rare' },
-  { min: 20, grade: 'common' },
-  { min: 0,  grade: 'plain' },
-]
+export const EQUIPMENT_MAX = { weapons: 10000, horses: 1000, ships: 1000, charms: 1000 } as const
 
-export const ITEM_GRADE_COLORS: Record<ItemGrade, string> = {
-  legendary: '#fbbf24',
-  heroic: '#a78bfa',
-  rare: '#60a5fa',
-  common: '#34d399',
-  plain: '#d1d5db',
+export const EQUIPMENT_LABELS: Record<string, { name: string; icon: string; desc: string }> = {
+  weapons: { name: '무기', icon: '⚔️', desc: '공격력 보정 (최대 +30%)' },
+  horses:  { name: '군마', icon: '🐎', desc: '돌격 보정 (최대 +20%)' },
+  ships:   { name: '조선', icon: '⛵', desc: '수상전 보정' },
+  charms:  { name: '부적', icon: '📿', desc: '계략 방어 보정 (최대 -30% 피해)' },
+}
+
+/** 장비 구매 단가 { gold, material } */
+export const EQUIPMENT_COST: Record<string, { gold: number; material: number }> = {
+  weapons: { gold: 2, material: 1 },
+  horses:  { gold: 5, material: 0 },
+  ships:   { gold: 8, material: 3 },
+  charms:  { gold: 3, material: 0 },
 }
 
 // ── 건물 카테고리 ──
@@ -151,16 +153,16 @@ export const BUILDING_CATEGORY_INFO: Record<BuildingCategory, { name: string; ic
 export const BUILDINGS: BuildingDef[] = [
   { id: 'farm',      name: '농장',   icon: '🌾', costGold: 100, costMaterial: 0,   buildTurns: 2, effect: { foodPerTurn: 20 } },
   { id: 'market',    name: '시장',   icon: '🪙', costGold: 150, costMaterial: 0,   buildTurns: 2, effect: { goldPerTurn: 15 } },
-  { id: 'trade',     name: '교역소', icon: '⚖️', costGold: 300, costMaterial: 0,   buildTurns: 3, requireStat: 'skill', requireStatMin: 6, effect: { goldPerTurn: 30 } },
+  { id: 'trade',     name: '교역소', icon: '⚖️', costGold: 300, costMaterial: 0,   buildTurns: 3, requireStat: 'charisma', requireStatMin: 50, effect: { goldPerTurn: 30 } },
   { id: 'lumber',    name: '벌목장', icon: '🪵', costGold: 80,  costMaterial: 0,   buildTurns: 2, effect: { materialPerTurn: 15 } },
-  { id: 'mine',      name: '광산',   icon: '⛏️', costGold: 200, costMaterial: 0,   buildTurns: 3, requireStat: 'skill', requireStatMin: 5, effect: { materialPerTurn: 25 } },
+  { id: 'mine',      name: '광산',   icon: '⛏️', costGold: 200, costMaterial: 0,   buildTurns: 3, requireStat: 'command', requireStatMin: 40, effect: { materialPerTurn: 25 } },
   { id: 'barracks',  name: '병영',   icon: '🏕️', costGold: 200, costMaterial: 0,   buildTurns: 2, effect: { troopsPerTurn: 50 } },
-  { id: 'training',  name: '연병장', icon: '🎯', costGold: 300, costMaterial: 0,   buildTurns: 3, requireStat: 'power', requireStatMin: 6, effect: { special: 'training' } },
-  { id: 'walls',     name: '성벽',   icon: '🏰', costGold: 0,   costMaterial: 500, buildTurns: 4, requireStat: 'skill', requireStatMin: 5, effect: { defenseBonus: 40 } },
+  { id: 'training',  name: '연병장', icon: '🎯', costGold: 300, costMaterial: 0,   buildTurns: 3, requireStat: 'martial', requireStatMin: 30, effect: { special: 'training' } },
+  { id: 'walls',     name: '성벽',   icon: '🏰', costGold: 0,   costMaterial: 500, buildTurns: 4, requireStat: 'command', requireStatMin: 40, effect: { defenseBonus: 40 } },
   { id: 'armory',    name: '무기고', icon: '⚒️', costGold: 250, costMaterial: 200, buildTurns: 3, effect: { special: 'weapons' } },
   { id: 'library',   name: '도서관', icon: '📚', costGold: 200, costMaterial: 0,   buildTurns: 2, effect: { knowledgePerTurn: 15 } },
-  { id: 'academy',   name: '학당',   icon: '🎓', costGold: 350, costMaterial: 0,   buildTurns: 3, requireStat: 'intellect', requireStatMin: 7, effect: { knowledgePerTurn: 25, special: 'discover' } },
-  { id: 'temple',    name: '사원',   icon: '⛩️', costGold: 400, costMaterial: 0,   buildTurns: 3, requireStat: 'virtue', requireStatMin: 7, effect: { moralePerTurn: 5, special: 'sorcery' } },
+  { id: 'academy',   name: '학당',   icon: '🎓', costGold: 350, costMaterial: 0,   buildTurns: 3, requireStat: 'intellect', requireStatMin: 70, effect: { knowledgePerTurn: 25, special: 'discover' } },
+  { id: 'temple',    name: '사원',   icon: '⛩️', costGold: 400, costMaterial: 0,   buildTurns: 3, requireStat: 'benevolence', requireStatMin: 70, effect: { moralePerTurn: 5, special: 'sorcery' } },
   { id: 'theater',   name: '극장',   icon: '🎭', costGold: 300, costMaterial: 0,   buildTurns: 3, effect: { moralePerTurn: 10, culturePerTurn: 5 } },
   { id: 'tavern',    name: '선술집', icon: '🍺', costGold: 150, costMaterial: 0,   buildTurns: 2, effect: { goldPerTurn: 10, special: 'recruit' } },
   { id: 'patrol',    name: '순찰소', icon: '🛡️', costGold: 120, costMaterial: 0,   buildTurns: 2, effect: { moralePerTurn: 2, special: 'patrol' } },
@@ -201,22 +203,24 @@ export const BATTLE_GRID_COLS = 5
 
 /** 병과별 속도 보정 */
 export const CLASS_SPEED_BONUS: Record<UnitClass, number> = {
-  ranger: 3,
-  strategist: 1,
+  ranger: 4,
+  strategist: 2,
   general: 0,
-  official: 0,
-  artist: -1,
-  artisan: -2,
+  saint: 0,
+  official: -1,
+  artist: -2,
+  artisan: -3,
 }
 
 /** 병과별 근접 공격 배율 */
 export const CLASS_ATTACK_MULT: Record<UnitClass, number> = {
-  general: 1.5,
+  general: 1.3,
   ranger: 1.0,
-  artisan: 1.0,
-  official: 0.7,
-  strategist: 0.5,
-  artist: 0.3,
+  artisan: 0.85,
+  official: 0.6,
+  saint: 0.4,
+  strategist: 0.4,
+  artist: 0.2,
 }
 
 /** 병과별 기본 배치 행 (0=전열, 1=중열, 2=후열) */
@@ -225,6 +229,7 @@ export const CLASS_DEFAULT_ROW: Record<UnitClass, number> = {
   official: 0,
   ranger: 1,
   artisan: 1,
+  saint: 2,
   strategist: 2,
   artist: 2,
 }
@@ -240,7 +245,7 @@ export interface SkillDef {
   description: string
   targetType: 'single_enemy' | 'single_ally' | 'row_enemy' | 'all_ally' | 'all_enemy' | 'self'
   classes: UnitClass[]   // 사용 가능 병과
-  statReq?: { stat: 'power' | 'skill' | 'intellect' | 'virtue'; min: number }
+  statReq?: { stat: keyof Stats; min: number }
   isRanged?: boolean     // 원거리 (전열 무시)
 }
 
@@ -248,93 +253,93 @@ export const SKILL_DEFS: Record<string, SkillDef> = {
   // 장수
   charge: {
     id: 'charge', name: '돌격', icon: '🐎',
-    description: '대미지 ×2, 자신도 피해',
+    description: '대미지 ×1.5, 자신도 피해',
     targetType: 'single_enemy', classes: ['general'],
-    statReq: { stat: 'power', min: 5 },
+    statReq: { stat: 'martial', min: 50 },
   },
   duel_provoke: {
     id: 'duel_provoke', name: '일기토 도발', icon: '⚔️',
     description: '인접 적 1:1 대결',
     targetType: 'single_enemy', classes: ['general'],
-    statReq: { stat: 'power', min: 5 },
+    statReq: { stat: 'martial', min: 50 },
+  },
+  // 성인
+  heal: {
+    id: 'heal', name: '치유', icon: '💚',
+    description: '아군 1명 HP 30% 회복',
+    targetType: 'single_ally', classes: ['saint'],
+    statReq: { stat: 'benevolence', min: 70 },
+  },
+  barrier: {
+    id: 'barrier', name: '결계', icon: '✨',
+    description: '아군 1명 1턴 무적',
+    targetType: 'single_ally', classes: ['saint'],
+    statReq: { stat: 'benevolence', min: 70 },
   },
   // 책사
   confuse: {
     id: 'confuse', name: '혼란', icon: '🌀',
     description: '적 1턴 행동불가 (지력 판정)',
     targetType: 'single_enemy', classes: ['strategist'],
-    statReq: { stat: 'intellect', min: 6 }, isRanged: true,
+    statReq: { stat: 'intellect', min: 60 }, isRanged: true,
   },
   fire_attack: {
     id: 'fire_attack', name: '화공', icon: '🔥',
     description: '적 행 범위 대미지',
     targetType: 'row_enemy', classes: ['strategist'],
-    statReq: { stat: 'intellect', min: 6 }, isRanged: true,
-  },
-  // 장인
-  trap: {
-    id: 'trap', name: '함정 설치', icon: '⚙️',
-    description: '전열에 함정 설치',
-    targetType: 'self', classes: ['artisan'],
-    statReq: { stat: 'skill', min: 5 },
-  },
-  siege_strike: {
-    id: 'siege_strike', name: '공성 강타', icon: '🔨',
-    description: '성벽 대미지 ×3',
-    targetType: 'single_enemy', classes: ['artisan'],
-    statReq: { stat: 'skill', min: 5 },
+    statReq: { stat: 'intellect', min: 60 }, isRanged: true,
   },
   // 관료
   iron_wall: {
     id: 'iron_wall', name: '철벽', icon: '🛡️',
     description: '인접 아군 방어력 ×2',
     targetType: 'single_ally', classes: ['official'],
-    statReq: { stat: 'intellect', min: 5 },
+    statReq: { stat: 'command', min: 50 },
   },
   diplomacy_threat: {
     id: 'diplomacy_threat', name: '외교 위협', icon: '📜',
     description: '적 사기 -15',
     targetType: 'all_enemy', classes: ['official'],
-    statReq: { stat: 'intellect', min: 5 }, isRanged: true,
+    statReq: { stat: 'command', min: 50 }, isRanged: true,
   },
   // 예인
   inspire: {
     id: 'inspire', name: '고무', icon: '📯',
     description: '아군 전원 사기 +10',
     targetType: 'all_ally', classes: ['artist'],
-    statReq: { stat: 'virtue', min: 5 },
+    statReq: { stat: 'charisma', min: 40 },
   },
   culture_sway: {
     id: 'culture_sway', name: '문화 감화', icon: '🎭',
-    description: '적 사기 -10',
+    description: '적 사기 -15',
     targetType: 'all_enemy', classes: ['artist'],
-    statReq: { stat: 'virtue', min: 5 }, isRanged: true,
+    statReq: { stat: 'charisma', min: 50 }, isRanged: true,
+  },
+  // 장인
+  trap: {
+    id: 'trap', name: '함정 설치', icon: '⚙️',
+    description: '전열에 함정 설치',
+    targetType: 'self', classes: ['artisan'],
+    statReq: { stat: 'intellect', min: 50 },
+  },
+  siege_strike: {
+    id: 'siege_strike', name: '공성 강타', icon: '🔨',
+    description: '성벽 대미지 ×3',
+    targetType: 'single_enemy', classes: ['artisan'],
+    statReq: { stat: 'intellect', min: 50 },
   },
   // 유격
   ambush: {
     id: 'ambush', name: '기습', icon: '🗡️',
     description: '선제 대미지, 회피 불가',
     targetType: 'single_enemy', classes: ['ranger'],
-    statReq: { stat: 'skill', min: 5 },
+    statReq: { stat: 'courage', min: 50 },
   },
   detect_trap: {
     id: 'detect_trap', name: '매복 탐지', icon: '👁️',
     description: '적 함정 무효화',
     targetType: 'self', classes: ['ranger'],
-    statReq: { stat: 'skill', min: 5 },
-  },
-  // 성인 (leader)
-  heal: {
-    id: 'heal', name: '치유', icon: '💚',
-    description: '아군 1명 HP 30% 회복',
-    targetType: 'single_ally', classes: ['general'], // leader profession → general class
-    statReq: { stat: 'virtue', min: 7 },
-  },
-  barrier: {
-    id: 'barrier', name: '결계', icon: '✨',
-    description: '아군 1명 1턴 무적',
-    targetType: 'single_ally', classes: ['general'],
-    statReq: { stat: 'virtue', min: 7 },
+    statReq: { stat: 'courage', min: 50 },
   },
 }
 
@@ -342,43 +347,44 @@ export const SKILL_DEFS: Record<string, SkillDef> = {
 
 export const CLASS_TACTIC_BONUS: Record<UnitClass, Partial<Record<TacticType, number>>> = {
   general:    { charge: 0.30 },
+  saint:      { morale: 0.30, defend: 0.10 },
   strategist: { stratagem: 0.40, fire: 0.30 },
   official:   { defend: 0.20 },
   artist:     { morale: 0.50 },
-  ranger:     { feint: 0.40, fire: 0.10 },
   artisan:    { defend: 0.20 },
+  ranger:     { feint: 0.40, fire: 0.10 },
 }
 
 // ── 22개 영토 정의 ──
 
 export const TERRITORIES: TerritoryDef[] = [
   // 동아시아
-  { id: 'beijing',    name: '베이징',       regionId: 'east_asia',      neighbors: ['nanjing', 'pyongyang', 'samarkand'],                          position: { x: 80, y: 28 }, latlng: [39.9, 116.4] },
-  { id: 'nanjing',    name: '난징',         regionId: 'east_asia',      neighbors: ['beijing', 'pyongyang', 'hanoi', 'delhi'],                     position: { x: 84, y: 38 }, latlng: [32.1, 118.8] },
-  { id: 'pyongyang',  name: '평양',         regionId: 'east_asia',      neighbors: ['beijing', 'nanjing'],                                         position: { x: 88, y: 24 }, latlng: [39.0, 125.8] },
+  { id: 'beijing',    name: '베이징',       regionId: 'east_asia',      neighbors: ['nanjing', 'pyongyang', 'samarkand'],                          position: { x: 80, y: 28 }, latlng: [39.9, 116.4], imageUrl: '/images/game/suikoden/territories/beijing.png' },
+  { id: 'nanjing',    name: '난징',         regionId: 'east_asia',      neighbors: ['beijing', 'pyongyang', 'hanoi', 'delhi'],                     position: { x: 84, y: 38 }, latlng: [32.1, 118.8], imageUrl: '/images/game/suikoden/territories/nanjing.png' },
+  { id: 'pyongyang',  name: '평양',         regionId: 'east_asia',      neighbors: ['beijing', 'nanjing'],                                         position: { x: 88, y: 24 }, latlng: [39.0, 125.8], imageUrl: '/images/game/suikoden/territories/pyongyang.png' },
   // 동남아시아
-  { id: 'hanoi',      name: '하노이',       regionId: 'southeast_asia', neighbors: ['nanjing', 'angkor'],                                          position: { x: 80, y: 48 }, latlng: [21.0, 105.8] },
-  { id: 'angkor',     name: '앙코르',       regionId: 'southeast_asia', neighbors: ['hanoi', 'kolkata', 'sydney'],                                 position: { x: 82, y: 54 }, latlng: [13.4, 103.9] },
+  { id: 'hanoi',      name: '하노이',       regionId: 'southeast_asia', neighbors: ['nanjing', 'angkor'],                                          position: { x: 80, y: 48 }, latlng: [21.0, 105.8], imageUrl: '/images/game/suikoden/territories/hanoi.png' },
+  { id: 'angkor',     name: '앙코르',       regionId: 'southeast_asia', neighbors: ['hanoi', 'kolkata', 'sydney'],                                 position: { x: 82, y: 54 }, latlng: [13.4, 103.9], imageUrl: '/images/game/suikoden/territories/angkor.png' },
   // 남아시아
-  { id: 'delhi',      name: '델리',         regionId: 'south_asia',     neighbors: ['nanjing', 'kolkata', 'samarkand', 'baghdad'],                 position: { x: 68, y: 42 }, latlng: [28.6, 77.2] },
-  { id: 'kolkata',    name: '콜카타',       regionId: 'south_asia',     neighbors: ['delhi', 'angkor'],                                            position: { x: 72, y: 50 }, latlng: [22.6, 88.4] },
+  { id: 'delhi',      name: '델리',         regionId: 'south_asia',     neighbors: ['nanjing', 'kolkata', 'samarkand', 'baghdad'],                 position: { x: 68, y: 42 }, latlng: [28.6, 77.2], imageUrl: '/images/game/suikoden/territories/delhi.png' },
+  { id: 'kolkata',    name: '콜카타',       regionId: 'south_asia',     neighbors: ['delhi', 'angkor'],                                            position: { x: 72, y: 50 }, latlng: [22.6, 88.4], imageUrl: '/images/game/suikoden/territories/kolkata.png' },
   // 중앙아시아
-  { id: 'samarkand',  name: '사마르칸트',   regionId: 'central_asia',   neighbors: ['beijing', 'delhi', 'baghdad', 'moscow'],                      position: { x: 64, y: 28 }, latlng: [39.7, 66.9] },
-  { id: 'moscow',     name: '모스크바',     regionId: 'central_asia',   neighbors: ['samarkand', 'baghdad', 'constantinople', 'berlin'],           position: { x: 54, y: 18 }, latlng: [55.8, 37.6] },
+  { id: 'samarkand',  name: '사마르칸트',   regionId: 'central_asia',   neighbors: ['beijing', 'delhi', 'baghdad', 'moscow'],                      position: { x: 64, y: 28 }, latlng: [39.7, 66.9], imageUrl: '/images/game/suikoden/territories/samarkand.png' },
+  { id: 'moscow',     name: '모스크바',     regionId: 'central_asia',   neighbors: ['samarkand', 'baghdad', 'constantinople', 'berlin'],           position: { x: 54, y: 18 }, latlng: [55.8, 37.6], imageUrl: '/images/game/suikoden/territories/moscow.png' },
   // 중동
-  { id: 'baghdad',    name: '바그다드',     regionId: 'middle_east',    neighbors: ['samarkand', 'delhi', 'moscow', 'cairo', 'constantinople'],    position: { x: 56, y: 38 }, latlng: [33.3, 44.4] },
-  { id: 'cairo',      name: '카이로',       regionId: 'middle_east',    neighbors: ['baghdad', 'constantinople', 'carthage', 'nairobi'],           position: { x: 50, y: 44 }, latlng: [30.1, 31.2] },
+  { id: 'baghdad',    name: '바그다드',     regionId: 'middle_east',    neighbors: ['samarkand', 'delhi', 'moscow', 'cairo', 'constantinople'],    position: { x: 56, y: 38 }, latlng: [33.3, 44.4], imageUrl: '/images/game/suikoden/territories/baghdad.png' },
+  { id: 'cairo',      name: '카이로',       regionId: 'middle_east',    neighbors: ['baghdad', 'constantinople', 'carthage', 'nairobi'],           position: { x: 50, y: 44 }, latlng: [30.1, 31.2], imageUrl: '/images/game/suikoden/territories/cairo.png' },
   // 동유럽
-  { id: 'constantinople', name: '콘스탄티노플', regionId: 'east_europe', neighbors: ['moscow', 'baghdad', 'cairo', 'rome', 'berlin'],             position: { x: 48, y: 34 }, latlng: [41.0, 28.9] },
-  { id: 'berlin',     name: '베를린',       regionId: 'east_europe',    neighbors: ['moscow', 'constantinople', 'paris', 'london'],                position: { x: 42, y: 22 }, latlng: [52.5, 13.4] },
+  { id: 'constantinople', name: '콘스탄티노플', regionId: 'east_europe', neighbors: ['moscow', 'baghdad', 'cairo', 'rome', 'berlin'],             position: { x: 48, y: 34 }, latlng: [41.0, 28.9], imageUrl: '/images/game/suikoden/territories/constantinople.png' },
+  { id: 'berlin',     name: '베를린',       regionId: 'east_europe',    neighbors: ['moscow', 'constantinople', 'paris', 'london'],                position: { x: 42, y: 22 }, latlng: [52.5, 13.4], imageUrl: '/images/game/suikoden/territories/berlin.png' },
   // 서유럽
-  { id: 'rome',       name: '로마',         regionId: 'west_europe',    neighbors: ['constantinople', 'paris', 'carthage'],                        position: { x: 44, y: 34 }, latlng: [41.9, 12.5] },
-  { id: 'paris',      name: '파리',         regionId: 'west_europe',    neighbors: ['berlin', 'rome', 'london', 'carthage'],                      position: { x: 38, y: 28 }, latlng: [48.9, 2.4] },
-  { id: 'london',     name: '런던',         regionId: 'west_europe',    neighbors: ['berlin', 'paris', 'new_york'],                                position: { x: 34, y: 18 }, latlng: [51.5, -0.1] },
+  { id: 'rome',       name: '로마',         regionId: 'west_europe',    neighbors: ['constantinople', 'paris', 'carthage'],                        position: { x: 44, y: 34 }, latlng: [41.9, 12.5], imageUrl: '/images/game/suikoden/territories/rome.png' },
+  { id: 'paris',      name: '파리',         regionId: 'west_europe',    neighbors: ['berlin', 'rome', 'london', 'carthage'],                      position: { x: 38, y: 28 }, latlng: [48.9, 2.4], imageUrl: '/images/game/suikoden/territories/paris.png' },
+  { id: 'london',     name: '런던',         regionId: 'west_europe',    neighbors: ['berlin', 'paris', 'new_york'],                                position: { x: 34, y: 18 }, latlng: [51.5, -0.1], imageUrl: '/images/game/suikoden/territories/london.png' },
   // 아프리카
-  { id: 'carthage',   name: '카르타고',     regionId: 'africa',         neighbors: ['cairo', 'rome', 'paris', 'timbuktu', 'nairobi'],              position: { x: 40, y: 44 }, latlng: [36.8, 10.2] },
-  { id: 'timbuktu',   name: '팀북투',       regionId: 'africa',         neighbors: ['carthage', 'nairobi', 'new_york'],                            position: { x: 34, y: 54 }, latlng: [16.8, -3.0] },
-  { id: 'nairobi',    name: '나이로비',     regionId: 'africa',         neighbors: ['cairo', 'carthage', 'timbuktu'],                              position: { x: 48, y: 60 }, latlng: [-1.3, 36.8] },
+  { id: 'carthage',   name: '카르타고',     regionId: 'africa',         neighbors: ['cairo', 'rome', 'paris', 'timbuktu', 'nairobi'],              position: { x: 40, y: 44 }, latlng: [36.8, 10.2], imageUrl: '/images/game/suikoden/territories/carthage.png' },
+  { id: 'timbuktu',   name: '팀북투',       regionId: 'africa',         neighbors: ['carthage', 'nairobi', 'new_york'],                            position: { x: 34, y: 54 }, latlng: [16.8, -3.0], imageUrl: '/images/game/suikoden/territories/timbuktu.png' },
+  { id: 'nairobi',    name: '나이로비',     regionId: 'africa',         neighbors: ['cairo', 'carthage', 'timbuktu'],                              position: { x: 48, y: 60 }, latlng: [-1.3, 36.8], imageUrl: '/images/game/suikoden/territories/nairobi.png' },
   // 아메리카
   { id: 'new_york',   name: '뉴욕',         regionId: 'americas',       neighbors: ['london', 'timbuktu', 'tenochtitlan'],                         position: { x: 16, y: 28 }, latlng: [40.7, -74.0] },
   { id: 'tenochtitlan', name: '테노치티틀란', regionId: 'americas',     neighbors: ['new_york', 'sydney'],                                         position: { x: 14, y: 46 }, latlng: [19.4, -99.1] },
@@ -389,14 +395,14 @@ export const TERRITORIES: TerritoryDef[] = [
 // ── 지역 ──
 
 export const REGIONS: Region[] = [
-  { id: 'east_asia',      name: '동아시아',     nameEn: 'East Asia',       neighbors: ['southeast_asia', 'south_asia', 'central_asia'],       territoryIds: ['beijing', 'nanjing', 'pyongyang'],       color: '#ef4444', position: { x: 84, y: 30 }, latlng: [35, 115] },
-  { id: 'southeast_asia', name: '동남아시아',   nameEn: 'Southeast Asia',  neighbors: ['east_asia', 'south_asia', 'oceania'],                 territoryIds: ['hanoi', 'angkor'],                        color: '#f97316', position: { x: 82, y: 52 }, latlng: [15, 105] },
-  { id: 'south_asia',     name: '남아시아',     nameEn: 'South Asia',      neighbors: ['east_asia', 'southeast_asia', 'central_asia', 'middle_east'], territoryIds: ['delhi', 'kolkata'],              color: '#eab308', position: { x: 70, y: 46 }, latlng: [25, 82] },
-  { id: 'central_asia',   name: '중앙아시아',   nameEn: 'Central Asia',    neighbors: ['east_asia', 'south_asia', 'middle_east', 'east_europe'],      territoryIds: ['samarkand', 'moscow'],          color: '#84cc16', position: { x: 60, y: 24 }, latlng: [48, 52] },
-  { id: 'middle_east',    name: '중동',         nameEn: 'Middle East',     neighbors: ['south_asia', 'central_asia', 'east_europe', 'africa'],        territoryIds: ['baghdad', 'cairo'],              color: '#22c55e', position: { x: 52, y: 40 }, latlng: [32, 38] },
-  { id: 'east_europe',    name: '동유럽',       nameEn: 'East Europe',     neighbors: ['central_asia', 'middle_east', 'west_europe'],                 territoryIds: ['constantinople', 'berlin'],      color: '#06b6d4', position: { x: 46, y: 28 }, latlng: [47, 21] },
-  { id: 'west_europe',    name: '서유럽',       nameEn: 'West Europe',     neighbors: ['east_europe', 'africa', 'americas'],                          territoryIds: ['rome', 'paris', 'london'],       color: '#3b82f6', position: { x: 38, y: 26 }, latlng: [47, 5] },
-  { id: 'africa',         name: '아프리카',     nameEn: 'Africa',          neighbors: ['middle_east', 'west_europe', 'americas'],                     territoryIds: ['carthage', 'timbuktu', 'nairobi'], color: '#8b5cf6', position: { x: 42, y: 54 }, latlng: [10, 20] },
+  { id: 'east_asia',      name: '동아시아',     nameEn: 'East Asia',       neighbors: ['southeast_asia', 'south_asia', 'central_asia'],       territoryIds: ['beijing', 'nanjing', 'pyongyang'],       color: '#ef4444', position: { x: 84, y: 30 }, latlng: [35, 115], imageUrl: '/images/game/suikoden/regions/east_asia.png' },
+  { id: 'southeast_asia', name: '동남아시아',   nameEn: 'Southeast Asia',  neighbors: ['east_asia', 'south_asia', 'oceania'],                 territoryIds: ['hanoi', 'angkor'],                        color: '#f97316', position: { x: 82, y: 52 }, latlng: [15, 105], imageUrl: '/images/game/suikoden/regions/southeast_asia.png' },
+  { id: 'south_asia',     name: '남아시아',     nameEn: 'South Asia',      neighbors: ['east_asia', 'southeast_asia', 'central_asia', 'middle_east'], territoryIds: ['delhi', 'kolkata'],              color: '#eab308', position: { x: 70, y: 46 }, latlng: [25, 82], imageUrl: '/images/game/suikoden/regions/south_asia.png' },
+  { id: 'central_asia',   name: '중앙아시아',   nameEn: 'Central Asia',    neighbors: ['east_asia', 'south_asia', 'middle_east', 'east_europe'],      territoryIds: ['samarkand', 'moscow'],          color: '#84cc16', position: { x: 60, y: 24 }, latlng: [48, 52], imageUrl: '/images/game/suikoden/regions/central_asia.png' },
+  { id: 'middle_east',    name: '중동',         nameEn: 'Middle East',     neighbors: ['south_asia', 'central_asia', 'east_europe', 'africa'],        territoryIds: ['baghdad', 'cairo'],              color: '#22c55e', position: { x: 52, y: 40 }, latlng: [32, 38], imageUrl: '/images/game/suikoden/regions/middle_east.png' },
+  { id: 'east_europe',    name: '동유럽',       nameEn: 'East Europe',     neighbors: ['central_asia', 'middle_east', 'west_europe'],                 territoryIds: ['constantinople', 'berlin'],      color: '#06b6d4', position: { x: 46, y: 28 }, latlng: [47, 21], imageUrl: '/images/game/suikoden/regions/east_europe.png' },
+  { id: 'west_europe',    name: '서유럽',       nameEn: 'West Europe',     neighbors: ['east_europe', 'africa', 'americas'],                          territoryIds: ['rome', 'paris', 'london'],       color: '#3b82f6', position: { x: 38, y: 26 }, latlng: [47, 5], imageUrl: '/images/game/suikoden/regions/west_europe.png' },
+  { id: 'africa',         name: '아프리카',     nameEn: 'Africa',          neighbors: ['middle_east', 'west_europe', 'americas'],                     territoryIds: ['carthage', 'timbuktu', 'nairobi'], color: '#8b5cf6', position: { x: 42, y: 54 }, latlng: [10, 20], imageUrl: '/images/game/suikoden/regions/africa.png' },
   { id: 'americas',       name: '아메리카',     nameEn: 'Americas',        neighbors: ['west_europe', 'africa', 'oceania'],                           territoryIds: ['new_york', 'tenochtitlan'],      color: '#ec4899', position: { x: 16, y: 38 }, latlng: [25, -85] },
   { id: 'oceania',        name: '오세아니아',   nameEn: 'Oceania',         neighbors: ['southeast_asia', 'americas'],                                 territoryIds: ['sydney'],                         color: '#f59e0b', position: { x: 90, y: 68 }, latlng: [-25, 135] },
 ]
@@ -524,15 +530,39 @@ export const DIFFICULTY_CONFIG = {
 
 // ── 스탯 라벨 ──
 
-export const STAT_LABELS: Record<keyof Stats, { name: string; icon: string; desc: string }> = {
-  power:     { name: '완력', icon: '⚔️', desc: '돌격·허공 전술 주력. 연병장 건설 조건' },
-  skill:     { name: '기량', icon: '🔧', desc: '교역소·광산·성벽 건설 조건. 계략 보조' },
-  intellect: { name: '지력', icon: '🧠', desc: '계략·화공 전술 주력. 학당 건설·외교 보정' },
-  stamina:   { name: '체력', icon: '❤️', desc: '방어 전술 주력. HP 결정' },
-  loyalty:   { name: '충의', icon: '🛡️', desc: '충성도 초기값 결정' },
-  virtue:    { name: '인애', icon: '💎', desc: '고무 전술 주력. 사원 건설·민심·외교 보정' },
-  courage:   { name: '용기', icon: '🔥', desc: '돌격·고무 보조. 완력·지력 중 높은 값' },
+// 능력 4종 + 덕목 8종 라벨 (성향은 별도)
+export const STAT_LABELS: Record<string, { name: string; icon: string; desc: string }> = {
+  // 능력
+  command:     { name: '통솔', icon: '👑', desc: '조직·군대·국가를 이끄는 능력' },
+  martial:     { name: '무력', icon: '⚔️', desc: '전투 공격력. 돌격·일기토 주력' },
+  intellect:   { name: '지력', icon: '🧠', desc: '계략·화공·외교. 학당 건설 조건' },
+  charisma:    { name: '매력', icon: '💎', desc: '등용·외교·민심 보정' },
+  // 덕목
+  temperance:  { name: '절제', icon: '⚖️', desc: '욕망/감정/권력을 자제' },
+  diligence:   { name: '근면', icon: '🔨', desc: '건축 효율·생산량 보정' },
+  reflection:  { name: '성찰', icon: '📖', desc: '계략 보조·연구 효율' },
+  courage:     { name: '용기', icon: '🔥', desc: '순찰 성공률·돌격 보조' },
+  loyalty:     { name: '충의', icon: '🛡️', desc: '신념·관계에 대한 헌신' },
+  benevolence: { name: '인자', icon: '💚', desc: '사원 건설·등용·치유' },
+  fairness:    { name: '공정', icon: '⚖️', desc: '외교·동맹 보정' },
+  humility:    { name: '겸양', icon: '🙏', desc: '방어·수비 보정' },
 }
+
+// 능력 4종 키 (UI 표시 순서용)
+export const ABILITY_STAT_KEYS = ['command', 'martial', 'intellect', 'charisma'] as const
+
+// 덕목 8종 키
+export const VIRTUE_STAT_KEYS = ['temperance', 'diligence', 'reflection', 'courage', 'loyalty', 'benevolence', 'fairness', 'humility'] as const
+
+// 성향 4축 라벨
+export const DISPOSITION_LABELS: Record<string, { neg: string; pos: string; icon: string }> = {
+  pessimism_optimism:        { neg: '비관', pos: '낙관', icon: '☀️' },
+  conservative_progressive:  { neg: '보수', pos: '진보', icon: '🔄' },
+  individual_social:         { neg: '개인', pos: '공동체', icon: '🤝' },
+  cautious_bold:             { neg: '신중', pos: '대담', icon: '⚡' },
+}
+
+export const DISPOSITION_KEYS = ['pessimism_optimism', 'conservative_progressive', 'individual_social', 'cautious_bold'] as const
 
 // ── 방랑 이벤트 텍스트 ──
 
@@ -558,8 +588,8 @@ export const RUMOR_TEXTS = [
 // ── 초기 리소스 ──
 
 export const INITIAL_RESOURCES = {
-  AI_FACTION: { gold: 500, food: 300, knowledge: 100, material: 200, troops: 200 },
-  PLAYER_RAISE: { gold: 300, food: 300, knowledge: 100, material: 200, troops: 200 },
+  AI_FACTION: { gold: 500, food: 300, knowledge: 100, material: 200, troops: 200, weapons: 0, horses: 0, ships: 0, charms: 0 },
+  PLAYER_RAISE: { gold: 300, food: 300, knowledge: 100, material: 200, troops: 200, weapons: 0, horses: 0, ships: 0, charms: 0 },
   WANDERING_START_GOLD: 100,
 } as const
 

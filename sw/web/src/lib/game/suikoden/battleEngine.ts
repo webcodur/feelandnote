@@ -14,14 +14,14 @@ import { getAvailableSkills } from './skills'
 // ── HP 공식 ──
 
 export function calcUnitHp(character: GameCharacter): number {
-  const { stamina, courage } = character.stats
-  return 100 + stamina * 8 + courage * 4
+  const { command, martial } = character.stats
+  return Math.max(10, Math.round(300 + command * 2.0 + martial * 1.0))
 }
 
 // ── 속도 공식 ──
 
 export function calcSpeed(character: GameCharacter): number {
-  return 5 + (CLASS_SPEED_BONUS[character.unitClass] ?? 0) + Math.floor(character.stats.skill / 50)
+  return 10 + (CLASS_SPEED_BONUS[character.unitClass] ?? 0) + Math.floor(character.stats.martial / 25)
 }
 
 // ── 유닛 생성 ──
@@ -230,40 +230,44 @@ function getTargetsByRow(hostiles: BattleUnit[]): string[] {
 // ── 대미지 계산 ──
 
 export function calcMeleeDamage(attacker: BattleUnit, target: BattleUnit, moraleMod: number): number {
-  const power = attacker.character.stats.power
+  const martial = attacker.character.stats.martial
   const classMult = CLASS_ATTACK_MULT[attacker.character.unitClass] ?? 1.0
-  const defRate = Math.min(0.7, target.character.stats.stamina * 0.03 + target.character.stats.courage * 0.015)
+  const defRate = Math.min(0.5, target.character.stats.command * 0.004 + target.character.stats.courage * 0.002)
   const defending = target.statusEffects.some(e => e.type === 'defending') ? 0.5 : 0
+  const weaponMod = 1 + attacker.character.equipment.weapons / 10000 * 0.3  // 무기: 최대 +30%
   const random = 0.85 + Math.random() * 0.3
 
   return Math.max(1, Math.round(
-    power * 12 * classMult * (1 - defRate - defending) * moraleMod * random
+    martial * 0.8 * classMult * weaponMod * (1 - defRate - defending) * moraleMod * random
   ))
 }
 
 export function calcRangedDamage(attacker: BattleUnit, target: BattleUnit): number {
-  const skill = attacker.character.stats.skill
+  const martial = attacker.character.stats.martial
   const classMult = CLASS_ATTACK_MULT[attacker.character.unitClass] ?? 1.0
-  const defRate = Math.min(0.7, target.character.stats.stamina * 0.03 + target.character.stats.courage * 0.015)
+  const defRate = Math.min(0.5, target.character.stats.command * 0.004 + target.character.stats.courage * 0.002)
   const random = 0.85 + Math.random() * 0.3
 
   return Math.max(1, Math.round(
-    skill * 10 * classMult * (1 - defRate * 0.5) * random
+    martial * 1.0 * classMult * (1 - defRate * 0.5) * random
   ))
 }
 
 export function calcStratagemDamage(attacker: BattleUnit, target: BattleUnit): number {
   const intellect = attacker.character.stats.intellect
-  const resist = target.character.stats.intellect * 0.03
+  const resist = target.character.stats.intellect * 0.004
+  const charmResist = 1 - target.character.equipment.charms / 1000 * 0.3  // 부적: 최대 -30% 피해
   const random = 0.9 + Math.random() * 0.2
-  return Math.max(1, Math.round(intellect * 10 * (1 - resist) * random))
+  return Math.max(1, Math.round(intellect * 0.7 * (1 - resist) * charmResist * random))
 }
 
 function getMoraleMod(morale: number): number {
-  if (morale >= 80) return 1.1
+  if (morale >= 90) return 1.15
+  if (morale >= 70) return 1.05
   if (morale >= 50) return 1.0
-  if (morale >= 20) return 0.8
-  return 0.6
+  if (morale >= 30) return 0.85
+  if (morale >= 10) return 0.7
+  return 0.5
 }
 
 // ── 행동 실행 ──
@@ -350,8 +354,9 @@ function executeSkill(state: BattleState, actor: BattleUnit, action: BattleActio
       const target = findUnit(state, action.targetId!)
       if (!target) break
       const moraleMod = getMoraleMod(isActorAlly ? state.allyMorale : state.enemyMorale)
-      const damage = calcMeleeDamage(actor, target, moraleMod) * 2
-      const selfDamage = Math.floor(damage * 0.2)
+      const horseMod = 1 + actor.character.equipment.horses / 1000 * 0.2  // 군마: 최대 +20%
+      const damage = Math.round(calcMeleeDamage(actor, target, moraleMod) * 1.5 * horseMod)
+      const selfDamage = Math.floor(damage * 0.15)
       newState = applyDamageToUnit(newState, target.id, damage)
       newState = applyDamageToUnit(newState, actor.id, selfDamage)
       newState.log = [...newState.log, {
@@ -471,10 +476,10 @@ function executeSkill(state: BattleState, actor: BattleUnit, action: BattleActio
 
     case 'culture_sway': {
       const mod = isActorAlly ? 'enemyMorale' : 'allyMorale'
-      newState = { ...newState, [mod]: Math.max(0, newState[mod] - 10) }
+      newState = { ...newState, [mod]: Math.max(0, newState[mod] - 15) }
       newState.log = [...newState.log, {
         turn: state.turnNumber,
-        message: `${actor.character.nickname}의 문화 감화! 적 사기 -10!`,
+        message: `${actor.character.nickname}의 문화 감화! 적 사기 -15!`,
         type: 'morale',
       }]
       newState.animation = { type: 'debuff', actorId: actor.id }

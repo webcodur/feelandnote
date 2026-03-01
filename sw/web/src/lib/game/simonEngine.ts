@@ -9,7 +9,7 @@ import type { BattleCard } from "./types";
 // ─── 상수 ───
 
 export const GRID_SIZE = 6;         // 2×3 그리드
-export const MAX_ROUNDS = 3;
+export const MAX_ROUNDS = 5;
 export const SHOW_INTERVAL = 600;   // 점등 간격 (ms)
 export const SHOW_DURATION = 400;   // 단일 점등 시간 (ms)
 
