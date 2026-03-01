@@ -17,7 +17,8 @@
   "death_date": "사망일 (생존시 빈 문자열)",
   "bio": "인물 소개글 (2줄 분량, 한국어)",
   "quotes": "대표 명언 (한 문장)",
-  "is_verified": false
+  "is_verified": false,
+  "status": "inactive"
 }
 ```
 
@@ -125,6 +126,10 @@
 
 7. **is_verified**
    - **항상 false** (공식 인증은 수동 처리)
+
+8. **status**
+   - **항상 `'inactive'`** — 신규 셀럽은 비활성 상태로 생성
+   - 검수 완료 후 수동으로 `'active'`로 전환
 
 ---
 

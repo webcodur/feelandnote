@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { FOOTER_NAV_ITEMS, FOOTER_BRAND_LINKS, HOME_SECTIONS } from "@/constants/navigation";
 import Logo from "@/components/ui/Logo";
 
 const linkClassName = "block text-sm text-text-tertiary hover:text-white transition-colors duration-300 font-sans";
 const sectionTitleClassName = "text-xs font-cinzel font-medium tracking-[0.2em] text-accent/50 mb-4";
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations();
   const currentYear = new Date().getFullYear();
 
   const DecorativeBorder = () => (
@@ -44,7 +46,7 @@ export default function Footer() {
           <div className="flex flex-col items-center gap-3 mb-10">
             <Logo size="sm" variant="default" />
             <p className="text-text-tertiary/30 text-[11px] font-light tracking-wide">
-              기록을 쌓고 취향의 아카이브를 만들어 보세요.
+              {t("layout.footer.tagline")}
             </p>
           </div>
 
@@ -56,7 +58,7 @@ export default function Footer() {
               <nav className="flex flex-col gap-2">
                 {FOOTER_BRAND_LINKS.map((link) => (
                   <Link key={link.href} href={link.href} className={linkClassName}>
-                    {link.label}
+                    {t(`nav.footer.${link.key}`)}
                   </Link>
                 ))}
               </nav>
@@ -71,7 +73,7 @@ export default function Footer() {
                 <nav className="flex flex-col gap-2">
                   {item.subLinks!.map((link) => (
                     <Link key={link.href} href={link.href} className={linkClassName}>
-                      {link.label}
+                      {link.key ? t(`nav.sub.${link.key}`) : link.label}
                     </Link>
                   ))}
                 </nav>
@@ -110,7 +112,7 @@ export default function Footer() {
               <span key={link.href} className="flex items-center gap-1.5">
                 {i > 0 && <span className="text-white/10">·</span>}
                 <Link href={link.href} className="hover:text-white/70 transition-colors">
-                  {link.label}
+                  {t(`nav.footer.${link.key}`)}
                 </Link>
               </span>
             ))}

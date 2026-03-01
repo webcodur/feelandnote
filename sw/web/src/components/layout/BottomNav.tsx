@@ -9,6 +9,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
 import { BOTTOM_NAV_ITEMS } from "@/constants/navigation";
 
@@ -36,6 +37,7 @@ function NavItem({ href, active, icon, label }: NavItemProps) {
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function BottomNav() {
             href={href}
             active={isActive}
             icon={<item.icon size={20} />}
-            label={item.mobileLabel ?? item.label}
+            label={t(item.key)}
           />
         );
       })}

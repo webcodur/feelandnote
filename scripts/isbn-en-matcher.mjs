@@ -1,5 +1,5 @@
 /**
- * isbn_en 2차 매칭 스크립트
+ * isbn_en 매칭 스크립트 (6-key rotation)
  * Google Books API로 영어권 ISBN을 검색하여 contents 테이블에 업데이트
  */
 import fs from 'fs';
@@ -17,18 +17,38 @@ function getEnv(key) {
 
 const SUPABASE_URL = getEnv('NEXT_PUBLIC_SUPABASE_URL');
 const SUPABASE_KEY = getEnv('SUPABASE_SERVICE_ROLE_KEY');
-const GOOGLE_API_KEY = getEnv('GOOGLE_BOOKS_API_KEY_2');
+
+const API_KEYS = [
+  'AIzaSyAoiyt1a9IUgC72aF2GceL9bBQPng7RZhk',
+  'AIzaSyDBY0O9_FyyU6NSEb3hZXjY2X4jAJFy-ug',
+  'AIzaSyCw1umdhl82s6KgKCpjHZe28ezntQV2TcE',
+  'AIzaSyAPQzKqbfwa47Mp55fF4b0uQA0w6hPfpCw',
+  'AIzaSyAmDjhWvAvapwxvpAdJsrTMzvTzV7QdiBI',
+  'AIzaSyCmkA28LT_0fc_gK3mTOOf1N-avKfwVnzg',
+];
+let currentKeyIndex = 0;
 
 const BATCH_SIZE = 200;  // Supabase fetch batch
 const UPDATE_BATCH = 50; // DB update batch
 const DELAY_MS = 220;    // Rate limit delay
-const MAX_ITEMS = 800;   // Max items to process
 
 const VALID_ISBN_PREFIXES = ['978-0', '978-1', '979-8', '9780', '9781', '9798'];
 
 const stats = { total: 0, apiCalls: 0, matched: 0, skipped: 0, errors: 0, updated: 0 };
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function getApiKey() { return API_KEYS[currentKeyIndex]; }
+
+function rotateKey() {
+  currentKeyIndex++;
+  if (currentKeyIndex >= API_KEYS.length) {
+    console.error('\n[FATAL] 모든 API 키 소진.');
+    return false;
+  }
+  console.log(`\n[KEY] 키 로테이션 → ${currentKeyIndex + 1}/${API_KEYS.length}`);
+  return true;
+}
 
 async function supabaseFetch(endpoint) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
@@ -61,7 +81,7 @@ async function supabasePatch(table, body, matchFilter) {
 async function fetchTargets() {
   const all = [];
   let offset = 0;
-  while (all.length < MAX_ITEMS) {
+  while (true) {
     const rows = await supabaseFetch(
       `contents?select=id,title_en,creator,creator_en&type=eq.BOOK&title_en=not.is.null&title_en=neq.&or=(isbn_en.is.null,isbn_en.eq.)&order=id&limit=${BATCH_SIZE}&offset=${offset}`
     );
@@ -70,7 +90,7 @@ async function fetchTargets() {
     offset += BATCH_SIZE;
     if (rows.length < BATCH_SIZE) break;
   }
-  return all.slice(0, MAX_ITEMS);
+  return all;
 }
 
 function getAuthor(row) {
@@ -126,13 +146,27 @@ async function searchGoogleBooks(title, author) {
   let query = `intitle:${encodeURIComponent(title)}`;
   if (author) query += `+inauthor:${encodeURIComponent(author)}`;
 
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${GOOGLE_API_KEY}&maxResults=3&langRestrict=en`;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${getApiKey()}&maxResults=3&langRestrict=en`;
 
   const res = await fetch(url);
+
   if (res.status === 403 || res.status === 429) {
-    console.error(`\n[QUOTA] ${res.status} - API 쿼터 소진. 중단.`);
-    return null; // Signal to stop
+    const canContinue = rotateKey();
+    if (!canContinue) return null; // 모든 키 소진
+    // 재시도
+    const retryUrl = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${getApiKey()}&maxResults=3&langRestrict=en`;
+    const retry = await fetch(retryUrl);
+    if (retry.status === 403 || retry.status === 429) {
+      const canContinue2 = rotateKey();
+      if (!canContinue2) return null;
+      return [];
+    }
+    if (!retry.ok) { stats.errors++; return []; }
+    stats.apiCalls++;
+    const data = await retry.json();
+    return data.items || [];
   }
+
   if (!res.ok) {
     stats.errors++;
     return [];
@@ -147,7 +181,7 @@ async function processItem(row) {
   const author = getAuthor(row);
   const results = await searchGoogleBooks(row.title_en, author);
 
-  if (results === null) return null; // quota exhausted
+  if (results === null) return null; // all keys exhausted
 
   for (const item of results) {
     const vi = item.volumeInfo || {};
@@ -166,29 +200,14 @@ async function processItem(row) {
 }
 
 async function batchUpdate(matches) {
-  // Use individual PATCH calls since Supabase REST doesn't support CASE
-  // We'll use the SQL endpoint via RPC instead
   if (!matches.length) return;
 
-  // Build SQL CASE statement
-  const cases = matches.map(m => `WHEN '${m.id}' THEN '${m.isbn_en}'`).join('\n    ');
-  const ids = matches.map(m => `'${m.id}'`).join(',');
-  const sql = `UPDATE contents SET isbn_en = CASE id\n    ${cases}\n  END\n  WHERE id IN (${ids});`;
-
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/`, {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query: sql })
-  });
-
-  // Fallback: use individual patches if RPC fails
-  if (!res.ok) {
-    for (const m of matches) {
-      await supabasePatch('contents', { isbn_en: m.isbn_en }, `id=eq.${m.id}`);
+  // Use individual PATCH calls
+  for (const m of matches) {
+    try {
+      await supabasePatch('contents', { isbn_en: m.isbn_en }, `id=eq.${encodeURIComponent(m.id)}`);
+    } catch (e) {
+      console.error(`  [ERROR] ${m.id} 업데이트 실패: ${e.message}`);
     }
   }
 
@@ -197,30 +216,33 @@ async function batchUpdate(matches) {
 }
 
 async function main() {
-  console.log('=== isbn_en 2차 매칭 시작 ===');
-  console.log(`API Key: ${GOOGLE_API_KEY.substring(0, 10)}...`);
+  console.log('=== isbn_en 매칭 시작 (6-key rotation) ===');
+  console.log(`API Keys: ${API_KEYS.length}개`);
 
   console.log('\n[1/3] 대상 조회 중...');
   const targets = await fetchTargets();
   stats.total = targets.length;
   console.log(`  대상: ${stats.total}건`);
 
+  if (stats.total === 0) {
+    console.log('\n매칭 대상 없음. 종료.');
+    return;
+  }
+
   console.log('\n[2/3] Google Books API 매칭 시작...');
   let pendingMatches = [];
-  let quotaExhausted = false;
 
   for (let i = 0; i < targets.length; i++) {
     const row = targets[i];
 
     if (i > 0 && i % 50 === 0) {
-      console.log(`  [${i}/${stats.total}] API: ${stats.apiCalls}, 매칭: ${stats.matched}, 스킵: ${stats.skipped}, 에러: ${stats.errors}`);
+      console.log(`  [${i}/${stats.total}] API: ${stats.apiCalls}, 매칭: ${stats.matched}, 스킵: ${stats.skipped}, 에러: ${stats.errors}, 키: ${currentKeyIndex + 1}/${API_KEYS.length}`);
     }
 
     const isbn = await processItem(row);
 
     if (isbn === null) {
-      quotaExhausted = true;
-      console.log(`\n  쿼터 소진! ${i}번째에서 중단.`);
+      console.log(`\n  모든 API 키 소진! ${i}번째에서 중단.`);
       break;
     }
 
@@ -249,7 +271,7 @@ async function main() {
   console.log(`매칭 실패:  ${stats.skipped}건`);
   console.log(`에러:       ${stats.errors}건`);
   console.log(`DB 반영:    ${stats.updated}건`);
-  if (quotaExhausted) console.log(`[!] 쿼터 소진으로 조기 중단`);
+  console.log(`사용 키:    ${currentKeyIndex + 1}/${API_KEYS.length}`);
 }
 
 main().catch(e => {

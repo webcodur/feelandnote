@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   transpilePackages: ['@feelandnote/api-clients', '@feelandnote/shared'],
@@ -33,9 +36,8 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: false,
       },
-      // 기본 archive 경로는 일단 두되, 특정 기능에 대한 리다이렉트를 강화
     ];
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

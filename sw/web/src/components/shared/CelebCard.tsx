@@ -234,8 +234,8 @@ export default function CelebCard({
 
             {/* 오버레이: 인포 + 팔로우 버튼 */}
             {isActive && (
-              <div className={`absolute inset-0 z-30 flex flex-col items-center justify-end bg-black/70 backdrop-blur-sm ${roundedClass} p-2 animate-fade-in`}>
-                <div className="flex items-center gap-1.5 w-full">
+              <div className={`absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm ${roundedClass} p-2 animate-fade-in`}>
+                <div className="flex flex-col gap-1.5 w-full">
                   <button
                     onClick={handleInfoClick}
                     className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white text-[10px] sm:text-xs font-medium transition-colors"

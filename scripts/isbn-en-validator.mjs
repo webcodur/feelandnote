@@ -30,6 +30,7 @@ let currentKeyIndex = 0;
 
 const BATCH_SIZE = 200;
 const DELAY_MS = 200;
+const SKIP_COUNT = parseInt(process.argv[2] || '0', 10); // node script.mjs 304
 
 const stats = { total: 0, valid: 0, invalid: 0, apiCalls: 0, errors: 0, nullified: 0 };
 const invalidRecords = [];
@@ -133,27 +134,27 @@ function authorMatch(dbCreator, dbCreatorEn, apiAuthors) {
 }
 
 async function lookupIsbn(isbn) {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${getApiKey()}`;
-  const res = await fetch(url);
+  while (currentKeyIndex < API_KEYS.length) {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${getApiKey()}`;
+    const res = await fetch(url);
 
-  if (res.status === 403 || res.status === 429) {
-    const canContinue = rotateKey();
-    if (!canContinue) return null; // 모든 키 소진
-    // 재시도
-    const retry = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${getApiKey()}`);
-    if (retry.status === 403 || retry.status === 429) {
-      const canContinue2 = rotateKey();
-      if (!canContinue2) return null;
-      return { items: [] };
+    if (res.status === 403 || res.status === 429) {
+      console.log(`  [${res.status}] 키 ${currentKeyIndex + 1} 쿼터 소진`);
+      currentKeyIndex++;
+      if (currentKeyIndex >= API_KEYS.length) {
+        console.error('\n[FATAL] 모든 API 키 소진.');
+        return null;
+      }
+      console.log(`  [KEY] → ${currentKeyIndex + 1}/${API_KEYS.length}`);
+      await sleep(500);
+      continue; // 새 키로 재시도
     }
-    if (!retry.ok) { stats.errors++; return { items: [] }; }
-    stats.apiCalls++;
-    return retry.json();
-  }
 
-  if (!res.ok) { stats.errors++; return { items: [] }; }
-  stats.apiCalls++;
-  return res.json();
+    if (!res.ok) { stats.errors++; return { items: [] }; }
+    stats.apiCalls++;
+    return res.json();
+  }
+  return null;
 }
 
 function validateItem(row, googleData) {
@@ -207,10 +208,14 @@ async function main() {
   stats.total = targets.length;
   console.log(`  대상: ${stats.total}건 (isbn_en != id인 레코드)\n`);
 
+  if (SKIP_COUNT > 0) {
+    console.log(`  [SKIP] 처음 ${SKIP_COUNT}건 건너뛰기 (이미 검증됨)\n`);
+  }
+
   console.log('[2/3] Google Books ISBN 역조회 시작...');
   let pendingNullify = [];
 
-  for (let i = 0; i < targets.length; i++) {
+  for (let i = SKIP_COUNT; i < targets.length; i++) {
     const row = targets[i];
 
     if (i > 0 && i % 50 === 0) {

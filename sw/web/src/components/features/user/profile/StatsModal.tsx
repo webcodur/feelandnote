@@ -9,7 +9,7 @@
 import { useState, useCallback } from "react";
 import { BarChart3, X, Loader2 } from "lucide-react";
 import { getDetailedStats, type DetailedStats } from "@/actions/user";
-import ProfileStatsSection from "@/app/(main)/[userId]/ProfileStatsSection";
+import ProfileStatsSection from "@/app/[locale]/(main)/[userId]/ProfileStatsSection";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 

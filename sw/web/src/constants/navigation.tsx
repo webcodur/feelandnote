@@ -8,6 +8,7 @@ import { Compass, BookOpen, Armchair, Gamepad2, User, type LucideIcon } from "lu
 
 // #region 타입 정의
 export interface NavSubLink {
+  key?: string;
   href: string;
   label: string;
 }
@@ -52,8 +53,8 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { href: "/explore/celebs", label: "셀럽" },
-      { href: "/explore/people", label: "소셜" },
+      { key: "celebs", href: "/explore/celebs", label: "셀럽" },
+      { key: "people", href: "/explore/people", label: "소셜" },
     ],
   },
   {
@@ -65,8 +66,8 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { href: "/scriptures/era", label: "불후의 명작" },
-      { href: "/scriptures/profession", label: "갈림길" },
+      { key: "masterpieces", href: "/scriptures/era", label: "불후의 명작" },
+      { key: "crossroads", href: "/scriptures/profession", label: "갈림길" },
     ],
   },
   {
@@ -78,10 +79,10 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { href: "/agora/celeb-feed", label: "셀럽 피드" },
-      { href: "/agora/friend-feed", label: "친구 피드" },
-      { href: "/agora/board/notice", label: "공지사항" },
-      { href: "/agora/board/feedback", label: "피드백" },
+      { key: "celebFeed", href: "/agora/celeb-feed", label: "셀럽 피드" },
+      { key: "friendFeed", href: "/agora/friend-feed", label: "친구 피드" },
+      { key: "notice", href: "/agora/board/notice", label: "공지사항" },
+      { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
     ],
   },
   {
@@ -93,9 +94,9 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: false,
     showInHomePage: false,
     subLinks: [
-      { href: "/rest/dawn", label: "여명" },
-      { href: "/rest/labyrinth", label: "미궁" },
-      { href: "/rest/hegemony", label: "패권" },
+      { key: "dawn", href: "/rest/dawn", label: "여명" },
+      { key: "labyrinth", href: "/rest/labyrinth", label: "미궁" },
+      { key: "hegemony", href: "/rest/hegemony", label: "패권" },
     ],
   },
   {
@@ -120,10 +121,10 @@ export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length
 
 // #region 풋터 브랜드 링크
 export const FOOTER_BRAND_LINKS: NavSubLink[] = [
-  { href: "/about", label: "서비스 소개" },
-  { href: "/search", label: "검색" },
-  { href: "/terms", label: "이용약관" },
-  { href: "/privacy", label: "개인정보처리방침" },
+  { key: "about", href: "/about", label: "서비스 소개" },
+  { key: "search", href: "/search", label: "검색" },
+  { key: "terms", href: "/terms", label: "이용약관" },
+  { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
 ];
 // #endregion
 

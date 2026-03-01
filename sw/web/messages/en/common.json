@@ -1,0 +1,255 @@
+{
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you requested does not exist or has been moved.",
+    "backHome": "Back to Home"
+  },
+  "nav": {
+    "explore": "Explore",
+    "scriptures": "Library",
+    "agora": "Community",
+    "rest": "Lounge",
+    "archive": "My Archives",
+    "sub": {
+      "celebs": "Celebs",
+      "people": "Social",
+      "masterpieces": "Masterpieces",
+      "crossroads": "Crossroads",
+      "celebFeed": "Celeb Feed",
+      "friendFeed": "Friend Feed",
+      "notice": "Announcements",
+      "feedback": "Feedback",
+      "dawn": "Dawn",
+      "labyrinth": "Labyrinth",
+      "hegemony": "Hegemony"
+    },
+    "footer": {
+      "about": "About",
+      "search": "Search",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "home": {
+    "explore": {
+      "englishTitle": "Explore",
+      "description": "Discover notable figures and the content they enjoyed.",
+      "link": "Go to Explore"
+    },
+    "scriptures": {
+      "englishTitle": "Library",
+      "description": "Check today's figure, shared shelves, and career-based picks.",
+      "link": "Go to Library"
+    },
+    "agora": {
+      "englishTitle": "Community",
+      "description": "Connect with other users and check feeds.",
+      "link": "Go to Community"
+    },
+    "rest": {
+      "englishTitle": "Take a Rest",
+      "description": "Take a break with casual mini-games.",
+      "link": "Go to Lounge"
+    },
+    "archive": {
+      "englishTitle": "My Archives",
+      "description": "Record and manage the content you've enjoyed.",
+      "link": "Go to My Archives"
+    }
+  },
+  "banner": {
+    "archiveSuffix": "'s Archives",
+    "archiveEnglish": "Official Sacred Record"
+  },
+  "content": {
+    "category": {
+      "all": "All",
+      "book": "Books",
+      "video": "Videos",
+      "game": "Games",
+      "music": "Music",
+      "certificate": "Certificates"
+    },
+    "placeholder": {
+      "book": "Book title, author...",
+      "video": "Movie, drama, anime...",
+      "game": "Game title, developer...",
+      "music": "Album, artist...",
+      "certificate": "Certificate name, field..."
+    },
+    "unit": {
+      "book": "books",
+      "video": "titles",
+      "game": "games",
+      "music": "tracks",
+      "certificate": "certs"
+    },
+    "creator": {
+      "book": "Author",
+      "video": "Director",
+      "game": "Developer",
+      "music": "Artist",
+      "certificate": "Issuer"
+    }
+  },
+  "status": {
+    "want": "Interested",
+    "watching": "In Progress",
+    "dropped": "Dropped",
+    "finished": "Finished",
+    "recommended": "Recommended",
+    "notRecommended": "Not Recommended",
+    "export": {
+      "want": "Want to see",
+      "watching": "Watching",
+      "finished": "Finished"
+    }
+  },
+  "profession": {
+    "all": "All",
+    "leader": "Leader",
+    "politician": "Politician",
+    "commander": "Commander",
+    "entrepreneur": "Entrepreneur",
+    "investor": "Investor",
+    "scientist": "Scientist",
+    "humanities_scholar": "Humanities Scholar",
+    "social_scientist": "Social Scientist",
+    "director": "Director",
+    "musician": "Musician",
+    "visual_artist": "Visual Artist",
+    "author": "Author",
+    "actor": "Actor",
+    "influencer": "Influencer",
+    "athlete": "Athlete",
+    "uncategorized": "Uncategorized"
+  },
+  "title": {
+    "grade": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic"
+    },
+    "category": {
+      "volume": "Volume",
+      "diversity": "Diversity",
+      "depth": "Depth"
+    },
+    "titles": {
+      "content_1": { "name": "First Step", "description": "The journey begins" },
+      "content_10": { "name": "Ten Steps", "description": "Steadily walking" },
+      "content_50": { "name": "Library Owner", "description": "Surpassed 50 titles" },
+      "content_100": { "name": "Weight of a Hundred", "description": "A formidable collection" },
+      "record_1": { "name": "First Story", "description": "Recording begins" },
+      "record_10": { "name": "Storyteller", "description": "10 records" },
+      "record_50": { "name": "Master Recorder", "description": "50 records" },
+      "category_2": { "name": "Genre Traveler", "description": "Crossing boundaries" },
+      "category_3": { "name": "Genre Explorer", "description": "Into the unknown" },
+      "category_4": { "name": "Renaissance Soul", "description": "Connoisseur of all fields" },
+      "creator_10": { "name": "Creator Hunter", "description": "Diverse voices" },
+      "creator_30": { "name": "World Tour", "description": "No borders in taste" },
+      "avg_review_100": { "name": "Careful Reader", "description": "Meticulous records" },
+      "avg_review_300": { "name": "Perfectionist", "description": "Thorough records" },
+      "long_review_10": { "name": "Review Master", "description": "A prolific critic" },
+      "completed_10": { "name": "Completion Master", "description": "From start to finish" },
+      "completed_50": { "name": "Archive Artisan", "description": "Master of records" }
+    }
+  },
+  "layout": {
+    "readingMode": "Reading Mode",
+    "notifications": {
+      "title": "Notifications",
+      "newCount": "{count} new",
+      "loading": "Loading...",
+      "markAllRead": "Mark all read",
+      "empty": "No new notifications",
+      "viewAll": "View all"
+    },
+    "profile": {
+      "avatar": "Profile",
+      "defaultName": "User",
+      "login": "Login",
+      "myPage": "My Page",
+      "logout": "Logout"
+    },
+    "footer": {
+      "tagline": "Build your archives and curate your taste."
+    }
+  },
+  "review": {
+    "positive": {
+      "POS_01": "Highly Recommend",
+      "POS_02": "Fun",
+      "POS_03": "Informative",
+      "POS_04": "Moving",
+      "POS_05": "Well Made",
+      "POS_06": "Worth Revisiting",
+      "POS_07": "Deep Content",
+      "POS_08": "Time Flew By",
+      "POS_09": "My Taste Exactly",
+      "POS_10": "Immersive"
+    },
+    "negative": {
+      "NEG_01": "Difficult",
+      "NEG_02": "Boring",
+      "NEG_03": "Disappointing",
+      "NEG_04": "Not Recommended",
+      "NEG_05": "Below Expectations",
+      "NEG_06": "Hard to Focus",
+      "NEG_07": "Too Predictable"
+    },
+    "neutral": {
+      "NEU_01": "Average",
+      "NEU_02": "Thought-Provoking",
+      "NEU_03": "Decent",
+      "NEU_04": "Depends on Taste",
+      "NEU_05": "Good for Killing Time"
+    },
+    "groupLabel": {
+      "positive": "Positive",
+      "negative": "Negative",
+      "neutral": "Neutral & Other"
+    },
+    "book": {
+      "BOOK_01": { "keyword": "Page Turner", "description": "Couldn't put it down, finished in one sitting" },
+      "BOOK_02": { "keyword": "Knowledge Bomb", "description": "Packed with new insights and knowledge" },
+      "BOOK_03": { "keyword": "Beautiful Writing", "description": "Stunning or powerful prose" },
+      "BOOK_04": { "keyword": "Lingering Aftertaste", "description": "Kept thinking about it long after" },
+      "BOOK_05": { "keyword": "Hard Read", "description": "Too difficult or heavy to get through" }
+    },
+    "music": {
+      "MUSIC_01": { "keyword": "Earworm", "description": "Melody sticks in your head, keeps you humming" },
+      "MUSIC_02": { "keyword": "Mood Booster", "description": "Instantly lifts your mood" },
+      "MUSIC_03": { "keyword": "Addictive", "description": "Can't stop hitting replay" },
+      "MUSIC_04": { "keyword": "Relatable Lyrics", "description": "Lyrics perfectly match my situation" },
+      "MUSIC_05": { "keyword": "Amazing Production", "description": "Top-tier audio quality and mixing" }
+    },
+    "video": {
+      "VIDEO_01": { "keyword": "Plot Twist", "description": "Mind-blowing twists and turns" },
+      "VIDEO_02": { "keyword": "Eye Candy", "description": "Gorgeous cinematography and visuals" },
+      "VIDEO_03": { "keyword": "Hilarious", "description": "Laughed until it hurt" },
+      "VIDEO_04": { "keyword": "Tearjerker", "description": "Emotional overload, couldn't hold back tears" },
+      "VIDEO_05": { "keyword": "Brilliant Editing", "description": "Masterful editing and direction" }
+    },
+    "game": {
+      "GAME_01": { "keyword": "Addictive", "description": "Lost track of time playing" },
+      "GAME_02": { "keyword": "Great Multiplayer", "description": "Really fun in online/co-op mode" },
+      "GAME_03": { "keyword": "Smooth Controls", "description": "Satisfying and responsive controls" },
+      "GAME_04": { "keyword": "Story Immersion", "description": "Completely drawn into the narrative" },
+      "GAME_05": { "keyword": "Broken Balance", "description": "Poor balance ruined the fun" }
+    },
+    "certificate": {
+      "CERT_01": { "keyword": "Worth Getting", "description": "Actually helped with career and salary" },
+      "CERT_02": { "keyword": "Practical Skills", "description": "Directly applicable to real work" },
+      "CERT_03": { "keyword": "Reasonable Study Load", "description": "Reasonable prep time and amount" },
+      "CERT_04": { "keyword": "Fair Difficulty", "description": "Not as hard as expected" },
+      "CERT_05": { "keyword": "Good Fundamentals", "description": "Great for building basic understanding" },
+      "CERT_06": { "keyword": "Not Worth the Time", "description": "Poor return on investment" },
+      "CERT_07": { "keyword": "Tough Preparation", "description": "The preparation process was grueling" },
+      "CERT_08": { "keyword": "Dump-Dependent", "description": "Passable with practice tests and dumps" },
+      "CERT_09": { "keyword": "First-Try Passable", "description": "Easy enough to pass on the first attempt" },
+      "CERT_10": { "keyword": "Worth Retrying", "description": "Failed but motivated to try again" }
+    }
+  }
+}

@@ -6,7 +6,8 @@
 
 import { Suspense } from "react";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
-import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags } from "@/actions/home";
+import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
+import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags, getCelebsByProfession } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
 
 export const dynamic = "force-dynamic";
@@ -96,7 +97,17 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
   return typeof v === "string" ? v : undefined;
 }
 
-async function CelebsContent({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+// 그리드 뷰인지 판단: view=grid 이거나 필터 파라미터가 있으면 그리드
+const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId"];
+function isGridView(params: Record<string, string | string[] | undefined>): boolean {
+  if (parseParam(params, "view") === "grid") return true;
+  return FILTER_KEYS.some((key) => {
+    const v = params[key];
+    return typeof v === "string" && v.length > 0;
+  });
+}
+
+async function CelebsFilterContent({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   const profession = parseParam(searchParams, "profession");
   const nationality = parseParam(searchParams, "nationality");
   const contentType = parseParam(searchParams, "contentType");
@@ -144,11 +155,48 @@ async function CelebsContent({ searchParams }: { searchParams: Record<string, st
   );
 }
 
+async function CelebsCarouselContent() {
+  const sections = await getCelebsByProfession();
+  return <CelebsByProfession sections={sections} />;
+}
+
+function CarouselSkeleton() {
+  return (
+    <div className="animate-pulse space-y-8">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i}>
+          <div className="flex items-center justify-between mb-3 px-1">
+            <div className="h-5 w-20 bg-bg-card rounded" />
+            <div className="h-4 w-14 bg-bg-card rounded" />
+          </div>
+          <div className="flex gap-2 md:gap-3 overflow-hidden">
+            {Array.from({ length: 8 }).map((_, j) => (
+              <div key={j} className="flex-shrink-0 w-[28%] sm:w-[22%] md:w-[16%] lg:w-[13%] xl:w-[11%] 2xl:w-[9%]">
+                <div className="aspect-square bg-bg-card rounded-full" />
+                <div className="mt-1.5 h-3 w-3/4 bg-bg-card rounded mx-auto" />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
+
+  if (isGridView(params)) {
+    return (
+      <Suspense fallback={<SectionSkeleton />}>
+        <CelebsFilterContent searchParams={params} />
+      </Suspense>
+    );
+  }
+
   return (
-    <Suspense fallback={<SectionSkeleton />}>
-      <CelebsContent searchParams={params} />
+    <Suspense fallback={<CarouselSkeleton />}>
+      <CelebsCarouselContent />
     </Suspense>
   );
 }

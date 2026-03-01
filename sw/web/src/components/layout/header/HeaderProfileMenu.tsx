@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { RomanGateIcon, BustIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
@@ -23,6 +24,7 @@ interface HeaderProfileMenuProps {
 
 export default function HeaderProfileMenu({ profile, isLoggedIn = true }: HeaderProfileMenuProps) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const t = useTranslations("layout.profile");
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -61,7 +63,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
                 className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
               >
                 <RomanGateIcon size={16} className="text-text-secondary" />
-                로그인
+                {t("login")}
               </Link>
             </div>
           </div>
@@ -76,7 +78,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
       <Button unstyled onClick={() => setShowDropdown(!showDropdown)} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
         {profile?.avatar_url ? (
           <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/10">
-            <Image src={profile.avatar_url} alt="프로필" fill unoptimized className="object-cover" />
+            <Image src={profile.avatar_url} alt={t("avatar")} fill unoptimized className="object-cover" />
           </div>
         ) : (
           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10" />
@@ -88,7 +90,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
           {/* 프로필 헤더 */}
           <div className="px-4 py-3 border-b border-border">
             <div className="flex items-center gap-2">
-              <p className="font-semibold text-sm truncate">{profile?.nickname || "사용자"}</p>
+              <p className="font-semibold text-sm truncate">{profile?.nickname || t("defaultName")}</p>
               <TitleBadge title={profile?.selected_title ?? null} size="sm" />
             </div>
           </div>
@@ -101,7 +103,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
               className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
             >
               <BustIcon size={16} className="text-text-secondary" />
-              내 페이지
+              {t("myPage")}
             </Link>
           </div>
 
@@ -109,7 +111,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
           <div className="border-t border-border py-1">
             <Button unstyled onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 w-full">
               <RomanGateIcon size={16} />
-              로그아웃
+              {t("logout")}
             </Button>
           </div>
         </div>

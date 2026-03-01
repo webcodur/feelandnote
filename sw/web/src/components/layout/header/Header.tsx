@@ -11,6 +11,7 @@ import { NotebookPen } from "lucide-react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import HeaderSearch from "./HeaderSearch";
 import HeaderNotifications from "./HeaderNotifications";
 import HeaderProfileMenu from "./HeaderProfileMenu";
@@ -38,6 +39,7 @@ const ICON_BUTTON_CLASS = "w-9 h-9 flex items-center justify-center rounded-lg h
 const ICON_SIZE = 20;
 export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();
+  const t = useTranslations();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   useEffect(() => {
@@ -95,7 +97,7 @@ export default function Header({ isMobile }: HeaderProps) {
                     isActive ? "text-accent bg-accent/10 text-glow" : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
                   }`}
                 >
-                  {item.label}
+                  {t(`nav.${item.key}`)}
                 </Link>
               );
             })}
@@ -110,7 +112,7 @@ export default function Header({ isMobile }: HeaderProps) {
           <Link
             href="/reading"
             className={`${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
-            title="감상 모드"
+            title={t("layout.readingMode")}
           >
             <NotebookPen size={ICON_SIZE} />
           </Link>

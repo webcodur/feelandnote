@@ -7,11 +7,12 @@
 | 항목 | 상태 |
 |------|------|
 | Next.js | 16.1.1 (App Router) |
-| i18n 라이브러리 | 미설치 |
-| UI 텍스트 언어 | 한국어 100% (하드코딩) |
-| DB 번역 데이터 | **~33,000 단위 완료** (Phase 6) |
+| i18n 라이브러리 | `next-intl` v4.8.3 ✅ |
+| 라우팅 | `app/[locale]/` 구조, `localePrefix: 'as-needed'` ✅ |
+| UI 텍스트 언어 | 한국어 하드코딩 → 번역 키 ~200개 추출 완료 (Phase 1) |
+| DB 번역 데이터 | **~33,000 단위 완료** (Phase 5~6, 9) |
 | DB 구조 변경 | contents.id UUID 전환 완료, external_id/isbn_ko 컬럼 추가 |
-| 남은 작업 | 데이터 정비(Phase 9), 프론트 인프라(Phase 0~4), user_contents 번역, 게임 UI(Phase 7) |
+| 남은 작업 | 컴포넌트 전환(Phase 2~4), 게임 UI(Phase 7), QA(Phase 8) |
 
 ---
 
@@ -69,6 +70,45 @@
 - InfluenceDashboard: *_exp_en 표시
 - celebs/[id] 상세: consumption_philosophy_en, DialogueSection (KO/EN 토글)
 
+### 프론트 인프라 (Phase 0) ✅ — 2026-03-02
+
+| 파일 | 작업 | 비고 |
+|------|------|------|
+| `sw/web/src/i18n/routing.ts` | 신규 | `locales: ['ko','en']`, `localePrefix: 'as-needed'` |
+| `sw/web/src/i18n/request.ts` | 신규 | 서버 요청 locale + messages 로딩 |
+| `sw/web/src/i18n/navigation.ts` | 신규 | locale-aware Link, useRouter 등 |
+| `sw/web/messages/ko/common.json` | 신규 | 한국어 번역 키 (~200개) |
+| `sw/web/messages/en/common.json` | 신규 | 영문 번역 |
+| `sw/web/src/app/[locale]/layout.tsx` | 신규 | metadata, NextIntlClientProvider, Footer, GA |
+| `sw/web/next.config.ts` | 수정 | `withNextIntl` 플러그인 래핑 |
+| `sw/web/src/proxy.ts` | 수정 | next-intl middleware + Supabase 세션 통합, `api/` 제외 |
+| `sw/web/src/app/layout.tsx` | 수정 | shell로 경량화 (폰트 + `getLocale()` 동적 lang) |
+| `sw/web/src/app/[locale]/not-found.tsx` | 이동+수정 | `useTranslations('notFound')` 다국어 적용 |
+| route groups 7개 | 이동 | `app/(main)` 등 → `app/[locale]/(main)` 등 |
+
+**핵심 설계:**
+- `localePrefix: 'as-needed'` → 한국어 URL 무변경 (`/explore`), 영어만 `/en/explore`
+- `proxy.ts`에서 next-intl middleware와 Supabase `updateSession` 쿠키 통합
+- `api/`, `auth/callback` 은 locale routing 제외
+
+### 번역 키 추출 (Phase 1) ✅ — 2026-03-02
+
+| 네임스페이스 | 키 수 | 소스 상수 파일 |
+|-------------|-------|--------------|
+| `nav` | ~20 | `navigation.tsx` |
+| `home` | ~15 | `navigation.tsx` (HOME_SECTIONS) |
+| `banner` | 2 | `navigation.tsx` (PAGE_BANNER) |
+| `content` | ~25 | `categories.ts` |
+| `status` | ~10 | `statuses.ts` |
+| `profession` | ~17 | `celebProfessions.ts` (shared) |
+| `title` | ~40 | `titles.ts` |
+| `review` | ~70 | `review-presets.ts` |
+| **합계** | **~200** | |
+
+- `filterStyles.ts`: 한국어 텍스트 없음 (CSS 클래스만), 스킵
+- `materials.ts`: 이미 `{ en, ko }` 구조 내장, JSON 분리 불필요, 스킵
+- 상수 파일 자체는 미수정 — Phase 2에서 컴포넌트 전환 시 함께 리팩터링
+
 ---
 
 ## 4. 데이터 정비 (Phase 9) — 진행 중
@@ -97,46 +137,50 @@
 
 미보유 잔여: BOOK title_en ~203건(한국 고유 저작), BOOK title_ko ~458건(한국어 번역본 없음), MUSIC/GAME title_ko 대부분(영어권 콘텐츠) — 모두 **정상 빈값**.
 
-### 9.4 isbn_en 매칭 🔄 진행 중
+### 9.4 isbn_en 매칭 ✅
 
 | 방법 | 건수 | 상태 |
 |------|------|------|
-| external_id 자체가 영어 ISBN → isbn_en 복사 | 804 | ✅ |
-| Google Books API 매칭 (기존) | 760 | ⚠️ 오염 의심 → 역검증 중 |
-| **역검증**: isbn_en → Google Books 역조회 → 제목/저자 불일치 시 삭제 | — | 🔄 진행 중 |
-| **재매칭**: 역검증 후 빈 자리 + 미매칭 → 엄격 5조건 매칭 | ~942 | 대기 |
-| **합계 isbn_en 보유 (검증 전)** | **1,564 / 2,708** (58%) | |
+| external_id 자체가 영어 ISBN → isbn_en 복사 | 934 | ✅ |
+| Google Books API 매칭 + 재매칭 | ~1,085 | ✅ |
+| **역검증**: isbn_en → Google Books 역조회 → 6건 오염 제거 | 985/2,019 검증 | ✅ |
+| **합계 isbn_en 보유** | **2,019 / 2,708** (75%) | |
 
-역검증 5조건:
-1. 제목: 정규화 후 완전 일치 또는 포함
-2. 저자: 성+이름 매칭
-3. ISBN 접두사: 978-0/1, 979-8만
-4. 언어: Google Books language = "en"
-5. 자기참조 방지
+잔여 ~690건은 영어판 ISBN이 Google Books에 미등록 — **정상 빈값**.
 
-API 키 6개 로테이션 (일일 6,000건 쿼터).
+API 키 14개 로테이션 (KEY ~ KEY_13).
 
-### 9.5 creator_en 보충 (대기)
+### 9.5 creator_en 보충 ✅
 
 | 현황 | 건수 |
 |------|------|
-| creator_en 보유 | 1,009 / 2,708 (37%) |
-| isbn_en 확보 후 Google Books에서 역조회 예정 | ~1,700 |
+| creator_en 보유 | ~1,714 / 2,708 (63%) |
+| Google Books ISBN 역조회 일괄 보충 | 705건 (98.1% 성공률) ✅ |
 
 ---
 
 ## 5. 남은 작업
 
-### Phase 0: 프론트 인프라 구축
+### Phase 0: 프론트 인프라 구축 ✅
 
-- [ ] `next-intl` 설치
-- [ ] `i18n/config.ts`, `i18n/request.ts` 작성
-- [ ] `middleware.ts` (locale 감지, 리다이렉트)
-- [ ] `app/[locale]/layout.tsx` 생성
-- [ ] 기존 라우트를 `app/[locale]/` 하위로 이동
-- [ ] 빈 번역 파일 생성 (`messages/ko/*.json`, `messages/en/*.json`)
+- [x] `next-intl` v4.8.3 설치
+- [x] `i18n/routing.ts`, `i18n/request.ts`, `i18n/navigation.ts` 작성
+- [x] `proxy.ts` (next-intl middleware + Supabase 세션 통합)
+- [x] `app/[locale]/layout.tsx` 생성 (metadata, NextIntlClientProvider, Footer, GA)
+- [x] `app/layout.tsx` → shell로 경량화 (폰트 + getLocale() 동적 lang)
+- [x] 기존 라우트 7개 그룹을 `app/[locale]/` 하위로 이동
+- [x] `not-found.tsx` 다국어 적용 (useTranslations)
+- [x] `next.config.ts` withNextIntl 플러그인 래핑
+- [x] `localePrefix: 'as-needed'` — 한국어 URL 무변경, 영어만 `/en/` prefix
 
-### Phase 1: 상수 파일 마이그레이션
+### Phase 1: 상수 파일 번역 키 추출 ✅
+
+- [x] `messages/ko/common.json` — 전체 상수 번역 키 추출 (~200개)
+- [x] `messages/en/common.json` — 영문 번역 완료
+- [x] 네임스페이스: nav, home, banner, content, status, profession, title, review
+- [x] 상수 파일 자체는 미수정 (Phase 2에서 컴포넌트 전환 시 함께 리팩터링)
+
+**추출 대상:**
 
 | 파일 | 텍스트 수 | 내용 |
 |------|----------|------|
@@ -144,17 +188,62 @@ API 키 6개 로테이션 (일일 6,000건 쿼터).
 | `constants/categories.ts` | ~5 | 콘텐츠 카테고리 |
 | `constants/statuses.ts` | ~6 | 상태 라벨 |
 | `constants/titles.ts` | ~25 | 칭호 |
-| `constants/filterStyles.ts` | ~10 | 필터 라벨 |
+| `constants/filterStyles.ts` | ~10 | 필터 라벨 (실제 한국어 없음, 스킵) |
 | `constants/materials.ts` | ~100+ | 대량 UI 텍스트 |
 | `constants/review-presets.ts` | ~50+ | 리뷰 템플릿 |
 
-### Phase 2: 핵심 페이지 변환
+### Phase 2: 핵심 페이지 변환 — 다음 작업
 
-- [ ] 인증 페이지 (login, signup, reset-password)
-- [ ] 레이아웃 (Header, Sidebar, Footer)
-- [ ] 탐색 페이지 (explore)
-- [ ] 프로필/기록관 페이지
-- [ ] 페이지 메타데이터 (`generateMetadata` 전환)
+**전략**: 상수 파일 자체의 `label` 제거가 아니라, 컴포넌트에서 `t()` 호출로 전환. 상수의 `key`/`id` 필드를 번역 키로 활용.
+
+#### 2.1 레이아웃 컴포넌트 (우선)
+
+| 파일 | 한국어 텍스트 | 작업 |
+|------|-------------|------|
+| `components/layout/header/Header.tsx` | "감상 모드" (1건) | `t()` 전환 |
+| `components/layout/header/HeaderNotifications.tsx` | "알림 보관함", "N개의 새 소식", "로딩 중...", "모두 읽음" (4건) | `t()` 전환 |
+| `components/layout/header/HeaderProfileMenu.tsx` | "프로필", "사용자" (2건) | `t()` 전환 |
+| `components/layout/BottomNav.tsx` | navigation.tsx label 참조 | `t('nav.{key}')` 전환 |
+| `components/ui/Layout/Footer.tsx` | navigation.tsx label 참조 | `t('nav.{key}')` 전환 |
+
+#### 2.2 인증 페이지
+
+| 파일 | 한국어 텍스트 | 작업 |
+|------|-------------|------|
+| `(auth)/login/page.tsx` | "또는" (1건) + 로그인 컴포넌트 내부 | `auth` 네임스페이스 추가, `t()` 전환 |
+| `(auth)/signup/page.tsx` | 회원가입 컴포넌트 참조 | 동일 |
+| `(auth)/reset-password/page.tsx` | "비밀번호가 변경되었습니다" 등 (6건) | 동일 |
+
+#### 2.3 탐색 페이지 (explore)
+
+| 파일 | 한국어 텍스트 | 작업 |
+|------|-------------|------|
+| `explore/page.tsx` | metadata "탐색" (2건) | `generateMetadata` + `getTranslations` |
+| `explore/celebs/page.tsx` | metadata "셀럽 \| 탐색" (2건) | 동일 |
+| `explore/people/page.tsx` | "친구", "팔로잉", "팔로워", "취향 유사" (4건) | `t()` 전환 |
+
+#### 2.4 메타데이터 전환
+
+- `export const metadata` → `export async function generateMetadata()` + `getTranslations` 패턴
+- 대상: explore, scriptures, agora, content, about 등 모든 정적 metadata
+
+#### 2.5 번역 JSON 추가 키 (Phase 2용)
+
+`messages/{locale}/common.json`에 추가 필요:
+
+```
+layout.readingMode, layout.notifications.title, layout.notifications.new,
+layout.notifications.loading, layout.notifications.readAll,
+layout.profile.alt, layout.profile.defaultName,
+auth.login.or, auth.resetPassword.changed, auth.resetPassword.redirecting,
+auth.resetPassword.title, auth.resetPassword.description,
+auth.resetPassword.newPassword, auth.resetPassword.placeholder,
+auth.resetPassword.confirm, auth.resetPassword.confirmPlaceholder,
+explore.meta.title, explore.meta.description,
+explore.celebs.meta.title, explore.celebs.meta.description,
+explore.people.friends, explore.people.following,
+explore.people.followers, explore.people.similar
+```
 
 ### Phase 3: 서고 코드 연동
 
@@ -188,26 +277,18 @@ API 키 6개 로테이션 (일일 6,000건 쿼터).
 
 ---
 
-## 6. user_contents 번역 (대기)
+## 6. user_contents 번역 ✅
 
 ### 규모
 
-- 8,825건 (셀럽 감상평, 10자 이상 유의미 리뷰)
-- `review` → `review_en` 컬럼 추가 필요
+- 8,826건 (셀럽 감상평, 10자 이상 유의미 리뷰)
 
-### 선행 조건
+### 완료 내역
 
 - [x] contents 타이틀 양방향 매칭 완료
-- [ ] review_en 컬럼 마이그레이션
-- [ ] 번역 방법 결정 (Claude API / 기타)
-
-### 남은 단계
-
-```
-1. review_en 컬럼 마이그레이션
-2. review 8,825건 영문 번역 (AI 에이전트 배치 처리)
-3. 빈값 정책: 번역 불가 시 null 유지
-```
+- [x] review_en 컬럼 마이그레이션
+- [x] Claude Sonnet 에이전트 병렬 번역 (4~6기 동시 운용)
+- [x] **8,826건 전량 번역 완료** (2026-03-02)
 
 ---
 

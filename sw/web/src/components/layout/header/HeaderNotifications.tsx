@@ -8,22 +8,27 @@ import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/types/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
+import { ko, enUS } from "date-fns/locale";
 
 type Notification = Database["public"]["Tables"]["notifications"]["Row"];
 
 const ICON_BUTTON_CLASS = "w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5 transition-colors";
 const ICON_SIZE = 20;
 
+const DATE_LOCALES = { ko, en: enUS } as const;
+
 export default function HeaderNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
-  
+
   const supabase = createClient();
   const router = useRouter();
+  const t = useTranslations("layout.notifications");
+  const locale = useLocale();
 
   useEffect(() => {
     const init = async () => {
@@ -143,13 +148,13 @@ export default function HeaderNotifications() {
       {showDropdown && (
         <div className="absolute end-0 top-11 w-[calc(100vw-24px)] sm:w-80 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200" style={{ zIndex: Z_INDEX.dropdown }}>
           <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-bg-primary/50 backdrop-blur-sm">
-            <span className="font-serif font-bold text-sm">알림 보관함</span>
-            {unreadCount > 0 && <span className="text-xs text-accent font-medium">{unreadCount}개의 새 소식</span>}
+            <span className="font-serif font-bold text-sm">{t("title")}</span>
+            {unreadCount > 0 && <span className="text-xs text-accent font-medium">{t("newCount", { count: unreadCount })}</span>}
           </div>
           
           <div className="max-h-[320px] overflow-y-auto">
             {loading ? (
-               <div className="p-8 flex justify-center text-text-secondary text-xs">로딩 중...</div>
+               <div className="p-8 flex justify-center text-text-secondary text-xs">{t("loading")}</div>
             ) : notifications.length > 0 ? (
               notifications.map((notif) => (
                 <div 
@@ -165,7 +170,7 @@ export default function HeaderNotifications() {
                       {notif.message}
                     </p>
                     <p className="text-[10px] text-text-tertiary mt-1.5 flex items-center gap-1">
-                        {notif.created_at && formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: ko })}
+                        {notif.created_at && formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? enUS })}
                     </p>
                   </div>
                   {!notif.is_read && <div className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-2" />}
@@ -174,16 +179,16 @@ export default function HeaderNotifications() {
             ) : (
               <div className="py-12 text-center text-text-secondary text-sm flex flex-col items-center gap-2">
                 <TempleBellIcon size={24} className="opacity-20" />
-                <span>새로운 알림이 없습니다</span>
+                <span>{t("empty")}</span>
               </div>
             )}
           </div>
           
           {notifications.length > 0 && (
             <div className="px-4 py-2.5 flex justify-between items-center border-t border-border bg-bg-primary/30">
-              <Button unstyled onClick={handleReadAll} className="text-xs text-text-secondary hover:text-text-primary transition-colors">모두 읽음</Button>
+              <Button unstyled onClick={handleReadAll} className="text-xs text-text-secondary hover:text-text-primary transition-colors">{t("markAllRead")}</Button>
               <Link href="/notifications" onClick={() => setShowDropdown(false)} className="text-xs text-accent hover:underline decoration-accent/50 underline-offset-2 font-medium">
-                전체 기록 보기
+                {t("viewAll")}
               </Link>
             </div>
           )}

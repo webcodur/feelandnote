@@ -4,17 +4,44 @@ Feelandnote 플랫폼의 셀럽 프로필 전체 생성 가이드. Claude Code a
 
 ---
 
+## 셀럽 티어 (celeb_tier)
+
+`profiles.celeb_tier` 컬럼으로 두 가지 티어를 구분한다.
+
+| 티어 | 설명 | 콘텐츠 수집 | 프로필 페이지 |
+|------|------|------------|-------------|
+| **full** | 감상 콘텐츠 보유 셀럽 (기본값) | O | 콘텐츠 탭 표시 |
+| **light** | 감상 콘텐츠 없는 셀럽 | X | 콘텐츠 탭 숨김 |
+
+- 두 티어 모두 **감상 철학(consumption_philosophy)은 필수**
+- light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'full'`
+
+---
+
 ## 작업 순서
+
+### full 파이프라인
 
 | # | 단계 | 룰북 | 비고 |
 |---|------|------|------|
 | 1 | 기본 정보 | `.claude/rules/celeb-1-basic-profile.md` | 필수 |
-| 2 | 콘텐츠 수집 | `.claude/rules/celeb-2-content-collector.md` | 요청 시 |
+| 2 | 콘텐츠 수집 | `.claude/rules/celeb-2-content-collector.md` | full 전용 |
 | 3 | 감상 철학 | `.claude/rules/celeb-3-philosophy.md` | 필수 |
 | 4 | 영향력 평가 | `.claude/rules/celeb-4-influence.md` | 필수 |
 | 5 | 페르소나 | `.claude/rules/celeb-5-persona.md` | 필수 |
 | 6 | 고유 대사 | `.claude/rules/celeb-8-dialogue.md` | 조건부 (아래 참조) |
 | 7 | 영문 번역 (i18n) | `docs/i18n-plan.md` Phase 5~6 참조 | 6단계 완료 후 |
+
+### light 파이프라인
+
+| # | 단계 | 룰북 | 비고 |
+|---|------|------|------|
+| 1 | 기본 정보 | `.claude/rules/celeb-1-basic-profile.md` | 필수 |
+| 2 | 감상 철학 | `.claude/rules/celeb-3-philosophy.md` | 필수 (웹 리서치 기반) |
+| 3 | 영향력 평가 | `.claude/rules/celeb-4-influence.md` | 필수 |
+| 4 | 페르소나 | `.claude/rules/celeb-5-persona.md` | 필수 |
+| 5 | 고유 대사 | `.claude/rules/celeb-8-dialogue.md` | 조건부 (아래 참조) |
+| 6 | 영문 번역 (i18n) | `docs/i18n-plan.md` Phase 5~6 참조 | 5단계 완료 후 |
 
 **각 단계의 상세 규칙은 해당 룰북을 참조한다. 이 문서에서 중복 기술하지 않는다.**
 
@@ -22,7 +49,7 @@ Feelandnote 플랫폼의 셀럽 프로필 전체 생성 가이드. Claude Code a
 
 ## 고유 대사 자동 포함 규칙
 
-6단계(고유 대사)는 **퍼블릭 도메인 셀럽**(1920년 이전 사망자)에게만 자동 실행한다.
+고유 대사 단계는 **퍼블릭 도메인 셀럽**(1920년 이전 사망자)에게만 자동 실행한다.
 
 | 조건 | 대사 생성 |
 |------|----------|
@@ -36,12 +63,19 @@ Feelandnote 플랫폼의 셀럽 프로필 전체 생성 가이드. Claude Code a
 
 ## 판단 기준
 
-- **이름만 제공**: 1 → 3 → 4 → 5 → (6) (콘텐츠 수집 건너뜀)
-- **"컨텐츠 수집까지" 또는 "전체" 언급**: 1 → 2 → 3 → 4 → 5 → (6) (전체 실행)
-- **모호한 요청**: 범위 명확화 요청
+- **이름만 제공**: 티어 판단 → light 또는 full 파이프라인 실행
+- **"컨텐츠 수집까지" 또는 "전체" 언급**: full 파이프라인 (콘텐츠 수집 포함)
+- **"라이트"/"light" 명시**: light 파이프라인
+- **모호한 요청**: 티어 확인 요청
 
-(6)은 퍼블릭 도메인 셀럽일 때만 자동 포함.
-(7)은 6단계까지 완료된 셀럽에 대해 실행.
+### 티어 자동 판단 기준
+
+- 현대인(인터뷰·SNS 등 감상 기록 풍부) → **full**
+- 고대~근대 인물 중 감상 기록이 문헌으로 확인됨 → **full**
+- 고대~근대 인물 중 감상 기록이 빈약하거나 없음 → **light**
+
+고유 대사는 퍼블릭 도메인 셀럽일 때만 자동 포함.
+영문 번역은 대사 단계까지 완료된 셀럽에 대해 실행.
 
 ---
 

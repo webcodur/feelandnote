@@ -1,15 +1,13 @@
 /*
   파일명: /app/layout.tsx
-  기능: 루트 레이아웃
-  책임: HTML 기본 구조와 전역 스타일을 적용한다.
+  기능: 루트 레이아웃 (shell)
+  책임: HTML 기본 구조와 폰트를 적용한다. locale/metadata는 [locale]/layout.tsx에서 처리.
 */ // ------------------------------
 
-import type { Metadata } from "next";
 import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
 import localFont from "next/font/local";
+import { getLocale } from "next-intl/server";
 import "./globals.css";
-import Footer from "@/components/ui/Layout/Footer";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 // Cinzel (English Headings - 권위적/신전 느낌)
 const cinzel = Cinzel({
@@ -50,8 +48,7 @@ const castoro = Castoro_Titling({
   display: "swap",
 });
 
-
-// 마루부리 폰트 (기존 유지 - 필요시 사용)
+// 마루부리 폰트
 const maruburi = localFont({
   src: [
     { path: "../fonts/MaruBuriOTF/MaruBuri-Regular.otf", weight: "400" },
@@ -61,65 +58,19 @@ const maruburi = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://feelandnote.com"),
-  title: {
-    default: "Feel&Note - 감상 아카이브",
-    template: "%s | Feel&Note",
-  },
-  description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
-  openGraph: {
-    title: "Feel&Note - 감상 아카이브",
-    description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
-    url: "https://feelandnote.com",
-    siteName: "Feel&Note",
-    locale: "ko_KR",
-    type: "website",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Feel&Note",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Feel&Note",
-    description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 감상 아카이브 플랫폼.",
-    images: ["/opengraph-image"],
-  },
-  verification: {
-    google: "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg",
-    other: {
-      "naver-site-verification": "693d325afc4dad4701aa2c7c4a29c78f2ee7e445",
-    },
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
-  keywords: ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 철학", "필앤노트", "feelandnote", "book", "movie", "music", "game", "celebrity"],
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
-    <html lang="ko" data-scroll-behavior="smooth" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
       <head />
       <body>
-          {children}
-          <Footer />
+        {children}
       </body>
-      <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
     </html>
   );
 }

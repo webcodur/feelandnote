@@ -12,6 +12,7 @@ import CelebCarousel from "@/components/features/home/CelebCarousel";
 import FeaturedCollectionsDesktop from "@/components/features/landing/FeaturedCollectionsDesktop";
 import InfluenceDistributionModal from "../InfluenceDistributionModal";
 import CelebStatsModal from "../CelebStatsModal";
+import ViewToggle from "../ViewToggle";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, FeaturedTag } from "@/actions/home";
@@ -95,6 +96,11 @@ export default function CelebsSection({
 
   return (
     <div className="min-h-[400px]">
+      {/* 뷰 전환 */}
+      <div className="flex justify-end mb-4">
+        <ViewToggle current="grid" />
+      </div>
+
       <CelebCarousel
         initialCelebs={initialCelebs}
         initialTotal={initialTotal}
