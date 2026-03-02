@@ -8,6 +8,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { User } from "lucide-react";
+import { useTranslations } from "next-intl";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import type { CelebProfile } from "@/types/home";
@@ -33,6 +34,7 @@ export default function FigurePlaque({
 }: FigurePlaqueProps) {
   const [showModal, setShowModal] = useState(false);
   const [celebProfile, setCelebProfile] = useState<CelebProfile | null>(null);
+  const t = useTranslations("scriptures.page");
 
   const handleClick = async () => {
     setShowModal(true);
@@ -97,7 +99,7 @@ export default function FigurePlaque({
             </div>
 
             <p className="text-sm sm:text-base text-text-secondary leading-relaxed line-clamp-2 sm:line-clamp-none max-w-2xl mx-auto sm:mx-0">
-              {bio || "이 시대를 살아가는 인물입니다."}
+              {bio || t("defaultBio")}
             </p>
 
             {/* Stats */}

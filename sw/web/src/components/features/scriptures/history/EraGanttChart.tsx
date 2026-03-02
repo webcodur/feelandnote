@@ -10,6 +10,7 @@
 import { motion } from "framer-motion";
 import { useCallback, useMemo } from "react";
 import type { HistoryEra } from "@/constants/scripturesHistory";
+import { useTranslations } from "next-intl";
 
 const CURRENT_YEAR = 2026;
 
@@ -65,6 +66,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
   const { displayMin } = useMemo(() => calcTruncation(eras), [eras]);
   const maxYear = CURRENT_YEAR;
   const displaySpan = maxYear - displayMin;
+  const t = useTranslations("scriptures.history");
 
   const handleClick = useCallback((id: string) => {
     const el = document.getElementById(`era-${id}`);
@@ -190,7 +192,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                         <span className="text-[8px] sm:text-[9px] font-mono text-black/80 font-bold whitespace-nowrap px-1">
                           {formatYear(era.startYear)}
                           {" ~ "}
-                          {isOngoing ? "현재" : formatYear(era.endYear!)}
+                          {isOngoing ? t("present") : formatYear(era.endYear!)}
                         </span>
                       </div>
                     </motion.div>

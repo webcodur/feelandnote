@@ -12,6 +12,7 @@ import { ChevronDown, Type } from "lucide-react";
 import { TypographyClass } from "@/constants/scripturesHistory";
 import { FormattedText } from "@/components/ui";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 function EssayContent({ markdown }: { markdown: string }) {
   const paragraphs = markdown.split("\n\n");
@@ -28,6 +29,7 @@ function EssayContent({ markdown }: { markdown: string }) {
 
 function TypographyCard({ item }: { item: TypographyClass }) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("scriptures.history");
 
   return (
     <motion.div
@@ -70,7 +72,7 @@ function TypographyCard({ item }: { item: TypographyClass }) {
 
         {/* 대표 서체 */}
         <div className="mb-2">
-          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">대표 서체</h4>
+          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">{t("representativeTypeface")}</h4>
           <div className="flex flex-wrap gap-1.5">
             {item.representatives.map((font, i) => (
               <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-white/5 text-white/70 border border-white/[0.06]">
@@ -82,7 +84,7 @@ function TypographyCard({ item }: { item: TypographyClass }) {
 
         {/* 사용 맥락 */}
         <div>
-          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">사용 맥락</h4>
+          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">{t("usageContext")}</h4>
           <div className="flex flex-wrap gap-1.5">
             {item.useCases.map((uc, i) => (
               <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.04] text-white/50 border border-white/[0.06]">
@@ -114,7 +116,7 @@ function TypographyCard({ item }: { item: TypographyClass }) {
             onClick={() => setOpen(!open)}
             className="w-full flex items-center justify-center gap-1.5 py-2.5 border-t border-white/[0.06] text-white/40 hover:text-white/70 transition-colors text-[11px] font-medium"
           >
-            <span>{open ? "에세이 접기" : "에세이 펼치기"}</span>
+            <span>{open ? t("foldEssay") : t("unfoldEssay")}</span>
             <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
           </button>
           <AnimatePresence>

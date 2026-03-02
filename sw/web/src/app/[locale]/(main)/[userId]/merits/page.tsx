@@ -1,9 +1,13 @@
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getAchievementData } from "@/actions/achievements";
 import { notFound } from "next/navigation";
 import ProfileAchievementsSection from "../ProfileAchievementsSection";
 
-export const metadata = { title: "업적" };
+export async function generateMetadata() {
+  const t = await getTranslations("pages");
+  return { title: t("merits") };
+}
 
 interface PageProps {
   params: Promise<{ userId: string }>;

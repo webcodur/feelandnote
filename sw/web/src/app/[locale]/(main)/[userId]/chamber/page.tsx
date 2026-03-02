@@ -1,13 +1,14 @@
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile, getDetailedStats } from "@/actions/user";
 import { notFound } from "next/navigation";
 import ProfileSettingsSection from "../ProfileSettingsSection";
 import ProfileStatsSection from "../ProfileStatsSection";
 
-export const metadata = {
-  title: "관리",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("pages");
+  return { title: t("chamber"), robots: { index: false, follow: false } };
+}
 
 interface PageProps {
   params: Promise<{ userId: string }>;

@@ -19,6 +19,7 @@ import {
   Calendar,
 } from "lucide-react";
 import type { ContentMetadata } from "@/types/content";
+import { useTranslations } from "next-intl";
 
 interface ContentMetadataDisplayProps {
   category: string;
@@ -35,6 +36,7 @@ export default function ContentMetadataDisplay({
   compact = false,
   hideLink = false,
 }: ContentMetadataDisplayProps) {
+  const t = useTranslations("shared.content");
   if (!metadata) return null;
 
   // 정보 아이템
@@ -98,8 +100,8 @@ export default function ContentMetadataDisplay({
     case "book":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
-          {publisher && <InfoItem icon={Building2} label="출판사" value={publisher} />}
-          {publishDate && <InfoItem icon={Calendar} label="출판일" value={publishDate} />}
+          {publisher && <InfoItem icon={Building2} label={t("publisher")} value={publisher} />}
+          {publishDate && <InfoItem icon={Calendar} label={t("publishDate")} value={publishDate} />}
           {!compact && isbn && <InfoItem icon={Book} label="ISBN" value={isbn} />}
           {!hideLink && link && (
             <a
@@ -109,7 +111,7 @@ export default function ContentMetadataDisplay({
               className={`flex items-center gap-1.5 text-accent hover:underline ${compact ? "text-[11px]" : "text-xs"}`}
             >
               <ExternalLink size={compact ? 10 : 12} />
-              상세정보 보기
+              {t("viewDetails")}
             </a>
           )}
         </div>
@@ -120,16 +122,16 @@ export default function ContentMetadataDisplay({
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
           {subtype && (
-            <InfoItem icon={Tv} label="유형" value={subtype === "movie" ? "영화" : "TV 프로그램"} />
+            <InfoItem icon={Tv} label={t("type")} value={subtype === "movie" ? t("movie") : t("tvProgram")} />
           )}
           {voteAverage !== undefined && (
             <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
               <Star size={compact ? 12 : 14} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-text-primary/60">평점</span>
+              <span className="text-text-primary/60">{t("rating")}</span>
               <span className="text-white font-medium">{voteAverage.toFixed(1)}</span>
             </div>
           )}
-          {genres && genres.length > 0 && <TagList items={genres} label="장르" />}
+          {genres && genres.length > 0 && <TagList items={genres} label={t("genre")} />}
         </div>
       );
 
@@ -137,17 +139,17 @@ export default function ContentMetadataDisplay({
     case "game":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
-          {developer && <InfoItem icon={Gamepad2} label="개발사" value={developer} />}
-          {!compact && publisher && <InfoItem icon={Building2} label="퍼블리셔" value={publisher} />}
+          {developer && <InfoItem icon={Gamepad2} label={t("developer")} value={developer} />}
+          {!compact && publisher && <InfoItem icon={Building2} label={t("gamePublisher")} value={publisher} />}
           {rating !== undefined && (
             <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
               <Star size={compact ? 12 : 14} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-text-primary/60">평점</span>
-              <span className="text-white font-medium">{rating}점</span>
+              <span className="text-text-primary/60">{t("rating")}</span>
+              <span className="text-white font-medium">{t("ratingScore", { score: rating })}</span>
             </div>
           )}
-          {platforms && platforms.length > 0 && <TagList items={platforms} label="플랫폼" />}
-          {!compact && genres && genres.length > 0 && <TagList items={genres} label="장르" />}
+          {platforms && platforms.length > 0 && <TagList items={platforms} label={t("platform")} />}
+          {!compact && genres && genres.length > 0 && <TagList items={genres} label={t("genre")} />}
         </div>
       );
 
@@ -155,11 +157,11 @@ export default function ContentMetadataDisplay({
     case "music":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
-          {albumType && <InfoItem icon={Disc3} label="앨범 유형" value={albumType} />}
+          {albumType && <InfoItem icon={Disc3} label={t("albumType")} value={albumType} />}
           {totalTracks !== undefined && (
-            <InfoItem icon={Music} label="수록곡" value={`${totalTracks}곡`} />
+            <InfoItem icon={Music} label={t("tracks", { count: totalTracks })} value={totalTracks} />
           )}
-          {!compact && artists && artists.length > 1 && <TagList items={artists} label="아티스트" />}
+          {!compact && artists && artists.length > 1 && <TagList items={artists} label={t("artist")} />}
           {!compact && spotifyUrl && (
             <a
               href={spotifyUrl}
@@ -168,7 +170,7 @@ export default function ContentMetadataDisplay({
               className="flex items-center gap-2 text-sm text-accent hover:underline"
             >
               <ExternalLink size={14} />
-              Spotify에서 듣기
+              {t("listenOnSpotify")}
             </a>
           )}
         </div>
@@ -179,10 +181,10 @@ export default function ContentMetadataDisplay({
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
           {qualificationType && (
-            <InfoItem icon={Award} label="자격 유형" value={qualificationType} />
+            <InfoItem icon={Award} label={t("qualificationType")} value={qualificationType} />
           )}
-          {series && <InfoItem icon={Building2} label="계열" value={series} />}
-          {!compact && majorField && <InfoItem icon={FileText} label="직무분야" value={majorField} />}
+          {series && <InfoItem icon={Building2} label={t("series")} value={series} />}
+          {!compact && majorField && <InfoItem icon={FileText} label={t("majorField")} value={majorField} />}
         </div>
       );
 

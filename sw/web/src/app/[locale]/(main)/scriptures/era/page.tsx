@@ -5,13 +5,14 @@
 */ // ------------------------------
 
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 import EraSection from "@/components/features/scriptures/sections/EraSection";
 import { getScripturesByEra, getChosenScriptures, getTopCelebsAcrossAllEras } from "@/actions/scriptures";
 
-export const metadata = {
-  title: "불후의 명작 | 지혜의 서고",
-  description: "전 시대의 대표작과 시대별 명저를 만나보세요.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("scriptures.era");
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
 function SectionSkeleton() {
   return (

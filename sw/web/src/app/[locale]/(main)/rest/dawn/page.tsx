@@ -4,15 +4,16 @@
   책임: 인물 탄생 순서 정렬 게임을 제공한다.
 */
 
+import { getTranslations } from "next-intl/server";
 import DawnGameWrapper from "@/components/features/game/dawn/DawnGameWrapper";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { ARENA_SECTION_HEADERS } from "@/constants/arena";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
-export const metadata = {
-  title: getArenaPageTitle("dawn"),
-  description: "역사 속 인물들의 탄생 순서를 맞추는 퀴즈 게임. 당신의 역사 지식을 시험하세요.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("rest.dawn");
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
 const headerInfo = ARENA_SECTION_HEADERS["dawn"];
 

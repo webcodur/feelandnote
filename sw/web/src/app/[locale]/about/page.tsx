@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import Logo from "@/components/ui/Logo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "우리는 너무 많이 보고, 너무 빨리 잊습니다. 기록은 흐려지지 않는 지혜가 됩니다.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("pages.about");
+  return { title: t("title"), description: t("description") };
+}
 
 export default function AboutPage() {
   return (

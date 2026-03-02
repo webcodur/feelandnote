@@ -7,6 +7,7 @@
 
 import { Plus, Check, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { useTranslations } from "next-intl";
 
 interface AddContentPopoverProps {
   /** @deprecated status 파라미터는 무시됨. 리뷰 기반으로 전환. */
@@ -29,6 +30,7 @@ export default function AddContentPopover({
   size = "sm",
   className = "",
 }: AddContentPopoverProps) {
+  const t = useTranslations("shared.content");
   const iconSize = size === "sm" ? 12 : 14;
   const buttonPadding = size === "sm" ? "p-1" : "p-1.5";
 
@@ -51,7 +53,7 @@ export default function AddContentPopover({
       }}
       disabled={isAdding}
       className={`${buttonPadding} rounded-md bg-accent/80 text-white hover:bg-accent ${className}`}
-      title="기록하기"
+      title={t("addToRecord")}
     >
       {isAdding ? <Loader2 size={iconSize} className="animate-spin" /> : <Plus size={iconSize} />}
     </Button>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useActionState } from 'react'
 import { loginWithEmail } from '@/actions/auth'
+import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
 import { ArrowLeft, Mail, Eye, EyeOff } from 'lucide-react'
@@ -19,6 +20,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
   const [email, setEmail] = useState('')
   const [saveEmail, setSaveEmail] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const t = useTranslations('auth.login')
 
   // 저장된 이메일 불러오기
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800"
       >
         <Mail className="h-5 w-5" />
-        <span>이메일로 계속하기</span>
+        <span>{t('email')}</span>
       </Button>
     )
   }
@@ -78,14 +80,14 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white"
       >
         <ArrowLeft className="h-4 w-4" />
-        <span>다른 방법으로 로그인</span>
+        <span>{t('otherMethods')}</span>
       </Button>
 
       <div className="space-y-3">
         <input
           type="email"
           name="email"
-          placeholder="이메일"
+          placeholder={t('emailPlaceholder')}
           required
           autoFocus
           value={email}
@@ -96,7 +98,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
           <input
             type={showPassword ? 'text' : 'password'}
             name="password"
-            placeholder="비밀번호"
+            placeholder={t('passwordPlaceholder')}
             required
             className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 pr-12 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
           />
@@ -119,7 +121,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
           onChange={(e) => setSaveEmail(e.target.checked)}
           className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-accent focus:ring-accent focus:ring-offset-0"
         />
-        <span className="text-sm text-zinc-400">이메일 저장</span>
+        <span className="text-sm text-zinc-400">{t('saveEmail')}</span>
       </label>
 
       {state?.error && (
@@ -131,13 +133,13 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         disabled={isPending}
         className="w-full rounded-lg bg-accent px-4 py-3 font-medium text-white hover:bg-accent-hover disabled:opacity-50"
       >
-        {isPending ? '로그인 중...' : '로그인'}
+        {isPending ? t('loggingIn') : t('submit')}
       </Button>
 
       <p className="text-center text-sm text-zinc-500">
-        계정이 없으신가요?{' '}
+        {t('noAccount')}{' '}
         <Link href="/signup" className="text-accent hover:underline">
-          회원가입
+          {t('signupLink')}
         </Link>
       </p>
     </form>

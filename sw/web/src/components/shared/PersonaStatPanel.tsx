@@ -10,18 +10,14 @@ import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
   OUTER_VIRTUE_KEYS,
-  STAT_LABELS,
   TENDENCY_KEYS,
-  TENDENCY_LABELS,
 } from "@/lib/persona/constants";
+import type { StatKey, TendencyKey } from "@/lib/persona/constants";
+import { useTranslations } from "next-intl";
 
 type TabType = "ability" | "virtue" | "tendency";
 
-const TABS: { key: TabType; label: string }[] = [
-  { key: "ability", label: "능력" },
-  { key: "virtue", label: "품성" },
-  { key: "tendency", label: "성향" },
-];
+const TAB_KEYS: TabType[] = ["ability", "virtue", "tendency"];
 
 const clamp0100 = (v: number) => Math.max(0, Math.min(100, v));
 
@@ -98,8 +94,22 @@ interface PersonaStatPanelProps {
   stats: PersonaStats | null;
 }
 
+const TENDENCY_MAP: Record<TendencyKey, [string, string]> = {
+  pessimism_optimism: ["pessimism", "optimism"],
+  conservative_progressive: ["conservative", "progressive"],
+  individual_social: ["individual", "social"],
+  cautious_bold: ["cautious", "bold"],
+};
+
 export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
+  const t = useTranslations("shared.persona");
   const [tab, setTab] = useState<TabType>("ability");
+
+  const statLabel = (key: StatKey) => t(`stat.${key}`);
+  const tendencyLabels = (key: TendencyKey): [string, string] => {
+    const [a, b] = TENDENCY_MAP[key];
+    return [t(`tendency_label.${a}`), t(`tendency_label.${b}`)];
+  };
 
   const content = useMemo(() => {
     if (!stats) return null;
@@ -107,7 +117,7 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
       ability: (
         <div className="space-y-3">
           {ABILITY_KEYS.map((key) => (
-            <StatRow key={key} label={STAT_LABELS[key]} value={stats[key]} />
+            <StatRow key={key} label={statLabel(key)} value={stats[key]} />
           ))}
         </div>
       ),
@@ -115,12 +125,12 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-3">
             {INNER_VIRTUE_KEYS.map((key) => (
-              <StatRow key={key} label={STAT_LABELS[key]} value={stats[key]} />
+              <StatRow key={key} label={statLabel(key)} value={stats[key]} />
             ))}
           </div>
           <div className="space-y-3">
             {OUTER_VIRTUE_KEYS.map((key) => (
-              <StatRow key={key} label={STAT_LABELS[key]} value={stats[key]} />
+              <StatRow key={key} label={statLabel(key)} value={stats[key]} />
             ))}
           </div>
         </div>
@@ -128,29 +138,30 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
       tendency: (
         <div className="space-y-4">
           {TENDENCY_KEYS.map((key) => (
-            <TendencyRow key={key} labels={TENDENCY_LABELS[key]} value={stats[key]} />
+            <TendencyRow key={key} labels={tendencyLabels(key)} value={stats[key]} />
           ))}
         </div>
       ),
     };
-  }, [stats]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stats, t]);
 
   return (
     <>
       {/* 탭 */}
       <div className="flex border-b border-white/10 bg-black/20 px-2 pt-2">
-        {TABS.map((t) => (
+        {TAB_KEYS.map((key) => (
           <button
-            key={t.key}
+            key={key}
             type="button"
-            onClick={() => setTab(t.key)}
+            onClick={() => setTab(key)}
             className={`rounded-t px-3 py-1.5 text-xs font-semibold ${
-              tab === t.key
+              tab === key
                 ? "border border-b-0 border-white/20 bg-bg-card text-text-primary"
                 : "text-text-secondary"
             }`}
           >
-            {t.label}
+            {t(key)}
           </button>
         ))}
       </div>
@@ -158,7 +169,7 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
       {/* 탭 콘텐츠 */}
       <div className="p-3 sm:p-4">
         {content ? content[tab] : (
-          <p className="text-sm text-text-secondary">데이터 없음</p>
+          <p className="text-sm text-text-secondary">{t("noData")}</p>
         )}
       </div>
     </>

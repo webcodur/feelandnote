@@ -4,10 +4,12 @@
   책임: Feel&Note 개인정보 수집 및 이용 내역을 표시한다.
 */
 
-export const metadata = {
-  title: "개인정보처리방침",
-  robots: { index: false, follow: false },
-};
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("policy");
+  return { title: t("privacy"), robots: { index: false, follow: false } };
+}
 
 export default function PrivacyPage() {
   return (

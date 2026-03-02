@@ -14,6 +14,7 @@ import { toggleFollow } from "@/actions/user";
 import type { ContentType } from "@/types/database";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import type { ContentStatus } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 type ContentResult = ContentSearchResult | RecordsSearchResult;
 
@@ -92,6 +93,8 @@ export function UserResults({ results, onItemClick }: UserResultsProps) {
 }
 
 function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemClick: (user: UserSearchResult) => void }) {
+  const t = useTranslations("shared.search");
+  const tc = useTranslations("shared.celeb");
   const [isFollowing, setIsFollowing] = useState(user.isFollowing);
   const [isPending, startTransition] = useTransition();
 
@@ -120,7 +123,7 @@ function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemC
           <p className="text-sm text-text-secondary">{user.username}</p>
         </div>
         <div className="text-sm text-text-secondary">
-          팔로워 {user.followerCount >= 1000 ? `${(user.followerCount / 1000).toFixed(1)}K` : user.followerCount}
+          {t("follower")} {user.followerCount >= 1000 ? `${(user.followerCount / 1000).toFixed(1)}K` : user.followerCount}
         </div>
         <Button
           unstyled
@@ -130,7 +133,7 @@ function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemC
             ${isPending ? "opacity-50" : ""}`}
           onClick={handleFollowClick}
         >
-          {isFollowing ? "팔로잉" : "팔로우"}
+          {isFollowing ? tc("following") : tc("follow")}
         </Button>
       </div>
     </Card>
@@ -143,6 +146,7 @@ interface TagResultsProps {
 }
 
 export function TagResults({ results, onItemClick }: TagResultsProps) {
+  const t = useTranslations("shared.search");
   if (results.length === 0) return null;
 
   return (
@@ -159,7 +163,7 @@ export function TagResults({ results, onItemClick }: TagResultsProps) {
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-text-primary">#{tag.name}</h3>
-              <p className="text-sm text-text-secondary">게시물 {tag.postCount.toLocaleString()}개</p>
+              <p className="text-sm text-text-secondary">{t("posts", { count: tag.postCount.toLocaleString() })}</p>
             </div>
           </div>
         </Card>

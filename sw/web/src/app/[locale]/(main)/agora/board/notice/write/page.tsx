@@ -1,10 +1,12 @@
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeForm from '@/components/features/board/notices/NoticeForm'
 
-export const metadata = {
-  title: '공지사항 작성',
+export async function generateMetadata() {
+  const t = await getTranslations('agora.notice')
+  return { title: t('write') }
 }
 
 export default async function NoticeWritePage() {

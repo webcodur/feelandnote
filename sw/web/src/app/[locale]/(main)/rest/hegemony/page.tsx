@@ -4,15 +4,16 @@
   책임: 셀럽 영향력 카드를 이용한 1:1 전략 대전을 제공한다.
 */
 
+import { getTranslations } from "next-intl/server";
 import HegemonyGame from "@/components/features/game/battle/HegemonyGame";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { ARENA_SECTION_HEADERS } from "@/constants/arena";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
-export const metadata = {
-  title: getArenaPageTitle("hegemony"),
-  description: "셀럽 영향력 카드로 겨루는 1:1 전략 대전. 역사 속 인물들의 능력치로 승부하세요.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("rest.hegemony");
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
 const headerInfo = ARENA_SECTION_HEADERS["hegemony"];
 

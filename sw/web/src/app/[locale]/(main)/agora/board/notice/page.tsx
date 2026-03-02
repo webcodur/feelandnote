@@ -1,11 +1,12 @@
+import { getTranslations } from 'next-intl/server'
 import { getNotices } from '@/actions/board/notices'
 import { createClient } from '@/lib/supabase/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeList from '@/components/features/board/notices/NoticeList'
 
-export const metadata = {
-  title: '공지사항',
-  description: 'Feel&Note 서비스 공지사항입니다.',
+export async function generateMetadata() {
+  const t = await getTranslations('agora.notice')
+  return { title: t('title'), description: t('description') }
 }
 
 const ITEMS_PER_PAGE = 10

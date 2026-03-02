@@ -9,6 +9,7 @@ import { ChevronDown } from "lucide-react";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 export type SearchMode = "content" | "user" | "tag" | "records";
 export type ContentCategory = CategoryId;
@@ -19,12 +20,15 @@ export interface SearchModeConfig {
   placeholder: string;
 }
 
+/** @deprecated Use useTranslations("shared.search.mode") for labels/placeholders */
 export const SEARCH_MODES: SearchModeConfig[] = [
   { id: "content", label: "콘텐츠", placeholder: "작품명, 저자, 감독..." },
   { id: "user", label: "사용자", placeholder: "닉네임, @username..." },
   // { id: "tag", label: "태그", placeholder: "태그명..." },
   { id: "records", label: "내 기록", placeholder: "내 기록에서 검색..." },
 ];
+
+const SEARCH_MODE_IDS: SearchMode[] = ["content", "user", "records"];
 
 // CATEGORIES를 그대로 사용
 export const CONTENT_CATEGORIES = CATEGORIES;
@@ -48,9 +52,10 @@ export default function SearchModeDropdown({
   onCategoryChange,
   onClose,
 }: SearchModeDropdownProps) {
-  const currentMode = SEARCH_MODES.find((m) => m.id === mode)!;
+  const t = useTranslations("shared.search");
+  const tc = useTranslations("content.category");
   const currentCategory = CONTENT_CATEGORIES.find((c) => c.id === contentCategory)!;
-  const displayLabel = mode === "content" ? currentCategory.label : currentMode.label;
+  const displayLabel = mode === "content" ? tc(currentCategory.id) : t(`mode.${mode}`);
 
   const handleCategorySelect = (category: ContentCategory) => {
     onModeChange("content");
@@ -77,7 +82,7 @@ export default function SearchModeDropdown({
       {isOpen && (
         <div className="absolute top-full left-0 mt-2 bg-[#0a0a0a] border border-accent/20 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] py-1 min-w-[180px] backdrop-blur-xl" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 콘텐츠 카테고리 */}
-          <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-b border-white/5">콘텐츠</div>
+          <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-b border-white/5">{t("sectionContent")}</div>
           {CONTENT_CATEGORIES.map((cat) => (
             <Button
               unstyled
@@ -86,21 +91,21 @@ export default function SearchModeDropdown({
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors
                 ${mode === "content" && contentCategory === cat.id ? "bg-accent/10 text-accent font-medium pl-2 border-l-2 border-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary border-l-2 border-transparent"}`}
             >
-              <span>{cat.label}</span>
+              <span>{tc(cat.id)}</span>
             </Button>
           ))}
 
           {/* 기타 모드 */}
-          <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-t border-b border-white/5 mt-1">기타</div>
-          {SEARCH_MODES.filter((m) => m.id !== "content").map((m) => (
+          <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-t border-b border-white/5 mt-1">{t("sectionOther")}</div>
+          {SEARCH_MODE_IDS.filter((id) => id !== "content").map((id) => (
             <Button
               unstyled
-              key={m.id}
-              onClick={() => handleModeSelect(m.id)}
+              key={id}
+              onClick={() => handleModeSelect(id)}
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors
-                ${mode === m.id ? "bg-accent/10 text-accent font-medium pl-2 border-l-2 border-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary border-l-2 border-transparent"}`}
+                ${mode === id ? "bg-accent/10 text-accent font-medium pl-2 border-l-2 border-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary border-l-2 border-transparent"}`}
             >
-              <span>{m.label}</span>
+              <span>{t(`mode.${id}`)}</span>
             </Button>
           ))}
         </div>

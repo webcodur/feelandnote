@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
 import Logo from '@/components/ui/Logo'
@@ -15,18 +16,19 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const router = useRouter()
+  const t = useTranslations('auth.resetPassword')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
 
     if (password.length < 6) {
-      setError('비밀번호는 6자 이상이어야 합니다')
+      setError(t('minLength'))
       return
     }
 
     if (password !== confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다')
+      setError(t('mismatch'))
       return
     }
 
@@ -53,8 +55,8 @@ export default function ResetPasswordPage() {
       <div className="flex min-h-screen items-center justify-center bg-zinc-950">
         <div className="w-full max-w-md space-y-8 p-8 text-center">
           <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
-          <h1 className="text-xl font-semibold text-white">비밀번호가 변경되었습니다</h1>
-          <p className="text-zinc-400">잠시 후 메인 페이지로 이동합니다...</p>
+          <h1 className="text-xl font-semibold text-white">{t('success')}</h1>
+          <p className="text-zinc-400">{t('redirecting')}</p>
         </div>
       </div>
     )
@@ -65,20 +67,20 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-md space-y-8 p-8">
         <div className="text-center">
           <Logo size="lg" />
-          <h1 className="mt-4 text-xl font-semibold text-white">새 비밀번호 설정</h1>
-          <p className="mt-2 text-zinc-400">새로운 비밀번호를 입력해주세요</p>
+          <h1 className="mt-4 text-xl font-semibold text-white">{t('heading')}</h1>
+          <p className="mt-2 text-zinc-400">{t('description')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-zinc-400 mb-2">새 비밀번호</label>
+            <label className="block text-sm text-zinc-400 mb-2">{t('newPassword')}</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 pr-12 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
-                placeholder="6자 이상 입력"
+                placeholder={t('passwordPlaceholder')}
                 required
               />
               <Button
@@ -93,13 +95,13 @@ export default function ResetPasswordPage() {
           </div>
 
           <div>
-            <label className="block text-sm text-zinc-400 mb-2">비밀번호 확인</label>
+            <label className="block text-sm text-zinc-400 mb-2">{t('confirmPassword')}</label>
             <input
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
-              placeholder="비밀번호 재입력"
+              placeholder={t('confirmPlaceholder')}
               required
             />
           </div>
@@ -118,10 +120,10 @@ export default function ResetPasswordPage() {
             {loading ? (
               <>
                 <Loader2 className="h-5 w-5 animate-spin" />
-                변경 중...
+                {t('changing')}
               </>
             ) : (
-              '비밀번호 변경'
+              t('submit')
             )}
           </Button>
         </form>

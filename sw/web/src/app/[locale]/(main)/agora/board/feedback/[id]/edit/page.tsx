@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { getFeedback } from '@/actions/board/feedbacks'
 import FeedbackForm from '@/components/features/board/feedbacks/FeedbackForm'
@@ -7,8 +8,9 @@ interface FeedbackEditPageProps {
   params: Promise<{ id: string }>
 }
 
-export const metadata = {
-  title: '피드백 수정',
+export async function generateMetadata() {
+  const t = await getTranslations('agora.feedback')
+  return { title: t('edit') }
 }
 
 export default async function FeedbackEditPage({ params }: FeedbackEditPageProps) {

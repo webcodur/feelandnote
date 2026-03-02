@@ -16,6 +16,7 @@ import { CelebImage } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
+import { useTranslations } from "next-intl";
 
 // #region Types
 type Variant = "card" | "circle" | "medallion";
@@ -62,6 +63,7 @@ export default function CelebCard({
   index = 0,
   onSubtitle,
 }: CelebCardProps) {
+  const t = useTranslations("shared.celeb");
   const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -241,7 +243,7 @@ export default function CelebCard({
                     className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white text-[10px] sm:text-xs font-medium transition-colors"
                   >
                     <Info size={12} />
-                    <span>정보</span>
+                    <span>{t("info")}</span>
                   </button>
                   <button
                     onClick={handleFollowClick}
@@ -255,7 +257,7 @@ export default function CelebCard({
                     `}
                   >
                     {isFollowing ? <Check size={12} strokeWidth={3} /> : <UserPlus size={12} />}
-                    <span>{isFollowing ? "팔로잉" : "팔로우"}</span>
+                    <span>{isFollowing ? t("following") : t("follow")}</span>
                   </button>
                 </div>
               </div>

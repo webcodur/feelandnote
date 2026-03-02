@@ -4,9 +4,13 @@
   책임: 플로우의 상세 정보를 표시한다.
 */
 
+import { getTranslations } from "next-intl/server";
 import FlowDetail from "@/components/features/user/detail/FlowDetail";
 
-export const metadata = { title: "플로우 상세" };
+export async function generateMetadata() {
+  const t = await getTranslations("pages");
+  return { title: t("collectionDetail") };
+}
 
 interface PageProps {
   params: Promise<{ id: string }>;

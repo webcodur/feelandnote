@@ -15,6 +15,7 @@ import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { ChevronRight } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 export interface BreadcrumbItem {
   label: string;
@@ -39,6 +40,7 @@ const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
 export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen }: GameFullScreenProps) {
+  const t = useTranslations("shared.game");
   const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [isFullScreen, setIsFullScreen] = useState(initialFullScreen ?? false);
   const [visible, setVisible] = useState(false);
@@ -106,9 +108,9 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
                 if (initialFullScreen && onHome) onHome();
               }}
               className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-serif transition-colors shrink-0"
-              title="나가기 (ESC)"
+              title={t("exitEsc")}
             >
-              나가기
+              {t("exit")}
             </button>
             {onHome && breadcrumbs && breadcrumbs.length > 0 ? (
               breadcrumbs.map((item, i) => {

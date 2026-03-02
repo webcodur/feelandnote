@@ -11,7 +11,7 @@ import { Scroll } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import RepresentativeCelebs from "../RepresentativeCelebs";
-import { getCategoryByDbType } from "@/constants/categories";
+import { getCategoryByDbType, CATEGORIES } from "@/constants/categories";
 import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
@@ -19,6 +19,7 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import type { ContentType } from "@/types/database";
 import type { EraScriptures, ScripturesResult } from "@/actions/scriptures";
 import { getChosenScriptures, getEraContents } from "@/actions/scriptures";
+import { useTranslations } from "next-intl";
 
 // #region Types
 type TabValue = "all" | "contemporary" | "modern" | "medieval" | "ancient";
@@ -52,21 +53,7 @@ interface ScriptureContent {
 // #endregion
 
 // #region Constants
-const ERA_TABS: { value: TabValue; label: string }[] = [
-  { value: "all", label: "전체" },
-  { value: "contemporary", label: "현대" },
-  { value: "modern", label: "근대" },
-  { value: "medieval", label: "중세" },
-  { value: "ancient", label: "고대" },
-];
-
-const CATEGORY_TABS: { value: CategoryFilter; label: string }[] = [
-  { value: "ALL", label: "전체" },
-  { value: "BOOK", label: "도서" },
-  { value: "VIDEO", label: "영상" },
-  { value: "GAME", label: "게임" },
-  { value: "MUSIC", label: "음악" },
-];
+const ERA_TAB_VALUES: TabValue[] = ["all", "contemporary", "modern", "medieval", "ancient"];
 
 const ITEMS_PER_PAGE = 12;
 
@@ -94,11 +81,13 @@ function ContentSection({
   onPageChange,
   showTop3Effect = false,
 }: ContentSectionProps) {
+  const te = useTranslations("scriptures.page.eraPage");
+  const tempty = useTranslations("scriptures.page.empty");
   return (
     <div>
       {/* 작품 라벨 */}
       <div className="mb-4 flex justify-center">
-        <DecorativeLabel label="작품 목록" />
+        <DecorativeLabel label={te("worksList")} />
       </div>
 
       {/* 카드 그리드 */}
@@ -138,7 +127,7 @@ function ContentSection({
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
               <Scroll size={24} className="text-text-tertiary opacity-50" />
             </div>
-            <p className="text-text-tertiary text-sm font-serif">작품이 없습니다</p>
+            <p className="text-text-tertiary text-sm font-serif">{tempty("noWorks")}</p>
           </div>
         )}
       </div>
@@ -164,6 +153,8 @@ interface EraInfoProps {
 }
 
 function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCelebCount = 0, totalContentCount = 0 }: EraInfoProps) {
+  const t = useTranslations("scriptures.page.eraPage");
+
   if (isAllEra) {
     return (
       <div className="mb-10 space-y-8">
@@ -175,17 +166,13 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
             <div className="h-[1px] w-8 sm:w-12 bg-accent/30" />
           </div>
           <h3 className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-2">
-            전체 시대
+            {t("allEras")}
           </h3>
           <p className="text-sm sm:text-base font-cinzel text-accent/80 mb-4">All Eras</p>
           <div className="flex items-center justify-center gap-4 text-xs sm:text-sm text-text-secondary">
-            <span>
-              <span className="text-accent font-semibold">{totalCelebCount}</span>명의 위인
-            </span>
+            <span>{t("figureCount", { count: totalCelebCount })}</span>
             <span className="text-accent/30">·</span>
-            <span>
-              <span className="text-accent font-semibold">{totalContentCount}</span>개의 작품
-            </span>
+            <span>{t("worksCount", { count: totalContentCount })}</span>
           </div>
         </div>
 
@@ -193,16 +180,14 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
         <div className="grid md:grid-cols-12 gap-6 md:gap-8">
           {topCelebsAcrossAllEras.length > 0 && (
             <div className="md:col-span-4">
-              <RepresentativeCelebs celebs={topCelebsAcrossAllEras} title="전체 시대" type="classic" />
+              <RepresentativeCelebs celebs={topCelebsAcrossAllEras} title={t("allEras")} type="classic" />
             </div>
           )}
 
           <div className={topCelebsAcrossAllEras.length > 0 ? "md:col-span-8 flex items-center" : "md:col-span-12"}>
             <div className="w-full">
-              <p className="text-sm sm:text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10">
-                시대를 초월해 가장 많은 인물들의 선택을 받은 작품들.
-                <br />
-                수많은 위인이 같은 책을 선택했다면, 그건 우연이 아닙니다.
+              <p className="text-sm sm:text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10 whitespace-pre-line">
+                {t("crossEraDescription")}
               </p>
             </div>
           </div>
@@ -227,13 +212,9 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
         </h3>
         <p className="text-sm sm:text-base font-cinzel text-accent/80 mb-4">{era.period}</p>
         <div className="flex items-center justify-center gap-4 text-xs sm:text-sm text-text-secondary">
-          <span>
-            <span className="text-accent font-semibold">{era.celebCount}</span>명의 위인
-          </span>
+          <span>{t("figureCount", { count: era.celebCount })}</span>
           <span className="text-accent/30">·</span>
-          <span>
-            <span className="text-accent font-semibold">{era.contents.length}</span>개의 작품
-          </span>
+          <span>{t("worksCount", { count: era.contents.length })}</span>
         </div>
       </div>
 
@@ -242,7 +223,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
         {/* 대표 인물 */}
         {era.topCelebs.length > 0 && (
           <div className="md:col-span-4">
-            <RepresentativeCelebs celebs={era.topCelebs.slice(0, 3)} title="시대의 상징" type="classic" />
+            <RepresentativeCelebs celebs={era.topCelebs.slice(0, 3)} title={t("symbolOfEra")} type="classic" />
           </div>
         )}
 
@@ -266,6 +247,22 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("ALL");
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("scriptures.page.eraPage");
+  const tc = useTranslations("content.category");
+  const te = useTranslations("scriptures.page.empty");
+
+  const eraTabs: { value: TabValue; label: string }[] = ERA_TAB_VALUES.map((v) => ({
+    value: v,
+    label: t(`eraTabs.${v}`),
+  }));
+
+  const categoryTabs: { value: CategoryFilter; label: string }[] = [
+    { value: "ALL", label: tc("all") },
+    ...CATEGORIES.filter((c) => ["BOOK", "VIDEO", "GAME", "MUSIC"].includes(c.dbType)).map((c) => ({
+      value: c.dbType as CategoryFilter,
+      label: tc(c.id),
+    })),
+  ];
 
   const selectedEraData = initialEraData.find((era) => era.era === selectedTab);
 
@@ -311,7 +308,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
   if (initialEraData.length === 0 && initialChosenData.contents.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-        <p className="text-text-tertiary text-sm">데이터가 없습니다</p>
+        <p className="text-text-tertiary text-sm">{te("noData")}</p>
       </div>
     );
   }
@@ -319,28 +316,28 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
   return (
     <div>
       <SectionHeader
-        title="불후의 명작"
+        title={t("title")}
         label="TIMELESS WORKS"
         description={
           <>
-            전 시대의 대표작과 시대별 명저.
+            {t("description")}
             <br />
             <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
-              가장 많은 인물들의 선택을 받은 작품들을 만나보세요.
+              {t("descriptionSub")}
             </span>
           </>
         }
       />
 
         <div className="flex justify-center mb-4">
-          <DecorativeLabel label="시대 및 카테고리" />
+          <DecorativeLabel label={t("eraAndCategory")} />
         </div>
 
       {/* 시대 선택 탭 */}
       <div className="mb-6">
         <div className="flex justify-center overflow-x-auto scrollbar-hidden pb-2 mx-[-1rem] px-4 sm:mx-0 sm:px-0">
           <div className="inline-flex p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner gap-1 min-w-max">
-            {ERA_TABS.map((tab) => {
+            {eraTabs.map((tab) => {
               const isActive = selectedTab === tab.value;
               return (
                 <button
@@ -360,7 +357,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
       <div className="mb-12">
         <div className="flex justify-center overflow-x-auto scrollbar-hidden pb-2 mx-[-1rem] px-4 sm:mx-0 sm:px-0">
           <div className="inline-flex p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner gap-1 min-w-max">
-            {CATEGORY_TABS.map((tab) => {
+            {categoryTabs.map((tab) => {
               const isActive = categoryFilter === tab.value;
               return (
                 <button
@@ -408,7 +405,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
           </>
         ) : (
           <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-            <p className="text-text-tertiary text-sm">해당 시대의 데이터가 없습니다</p>
+            <p className="text-text-tertiary text-sm">{te("noEraSection")}</p>
           </div>
         )}
       </div>

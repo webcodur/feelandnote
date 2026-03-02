@@ -192,65 +192,55 @@ API 키 14개 로테이션 (KEY ~ KEY_13).
 | `constants/materials.ts` | ~100+ | 대량 UI 텍스트 |
 | `constants/review-presets.ts` | ~50+ | 리뷰 템플릿 |
 
-### Phase 2: 핵심 페이지 변환 — 다음 작업
+### Phase 2: 핵심 페이지 변환 ✅ — 2026-03-02
 
 **전략**: 상수 파일 자체의 `label` 제거가 아니라, 컴포넌트에서 `t()` 호출로 전환. 상수의 `key`/`id` 필드를 번역 키로 활용.
 
-#### 2.1 레이아웃 컴포넌트 (우선)
+#### 2.1 레이아웃 컴포넌트 ✅
 
-| 파일 | 한국어 텍스트 | 작업 |
-|------|-------------|------|
-| `components/layout/header/Header.tsx` | "감상 모드" (1건) | `t()` 전환 |
-| `components/layout/header/HeaderNotifications.tsx` | "알림 보관함", "N개의 새 소식", "로딩 중...", "모두 읽음" (4건) | `t()` 전환 |
-| `components/layout/header/HeaderProfileMenu.tsx` | "프로필", "사용자" (2건) | `t()` 전환 |
-| `components/layout/BottomNav.tsx` | navigation.tsx label 참조 | `t('nav.{key}')` 전환 |
-| `components/ui/Layout/Footer.tsx` | navigation.tsx label 참조 | `t('nav.{key}')` 전환 |
+- [x] Header.tsx: `useTranslations()`, nav 라벨 + "감상 모드"
+- [x] HeaderNotifications.tsx: `useTranslations('layout.notifications')` + date-fns locale 분기
+- [x] HeaderProfileMenu.tsx: `useTranslations('layout.profile')`
+- [x] BottomNav.tsx: `useTranslations('nav')`
+- [x] Footer.tsx: `getTranslations()` (서버 컴포넌트)
+- [x] navigation.tsx: `NavSubLink.key` 필드 추가
 
-#### 2.2 인증 페이지
+#### 2.2 인증 페이지 ✅
 
-| 파일 | 한국어 텍스트 | 작업 |
-|------|-------------|------|
-| `(auth)/login/page.tsx` | "또는" (1건) + 로그인 컴포넌트 내부 | `auth` 네임스페이스 추가, `t()` 전환 |
-| `(auth)/signup/page.tsx` | 회원가입 컴포넌트 참조 | 동일 |
-| `(auth)/reset-password/page.tsx` | "비밀번호가 변경되었습니다" 등 (6건) | 동일 |
+- [x] login/page.tsx, EmailLoginForm.tsx, login/layout.tsx
+- [x] signup/page.tsx, SignupForm.tsx
+- [x] reset-password/page.tsx, reset-password/layout.tsx
 
-#### 2.3 탐색 페이지 (explore)
+#### 2.3 탐색 페이지 ✅
 
-| 파일 | 한국어 텍스트 | 작업 |
-|------|-------------|------|
-| `explore/page.tsx` | metadata "탐색" (2건) | `generateMetadata` + `getTranslations` |
-| `explore/celebs/page.tsx` | metadata "셀럽 \| 탐색" (2건) | 동일 |
-| `explore/people/page.tsx` | "친구", "팔로잉", "팔로워", "취향 유사" (4건) | `t()` 전환 |
+- [x] explore/page.tsx, layout.tsx, celebs/page.tsx, people/page.tsx
 
-#### 2.4 메타데이터 전환
+#### 2.4 메타데이터 전환 ✅
 
-- `export const metadata` → `export async function generateMetadata()` + `getTranslations` 패턴
-- 대상: explore, scriptures, agora, content, about 등 모든 정적 metadata
+`export const metadata` → `generateMetadata()` + `getTranslations` 전환 완료:
 
-#### 2.5 번역 JSON 추가 키 (Phase 2용)
+- [x] `[locale]/layout.tsx` (루트 — site.title/description, OG locale 분기)
+- [x] `(main)/page.tsx` (홈)
+- [x] agora: page, celeb-feed, friend-feed, board/feedback(목록·작성·수정), board/notice(목록·작성·수정), board/free
+- [x] scriptures: page, figure, era, history, profession
+- [x] rest: page, dawn, labyrinth, hegemony, suikoden
+- [x] notifications/layout, search/layout
+- [x] policy: terms, privacy
+- [x] about/page
+- [x] [userId]: chamber, merits, collections, collection/[id], tiers
+- 스킵: (auth)/layout (robots only), reading/layout (robots only), lab/* (영어 전용)
 
-`messages/{locale}/common.json`에 추가 필요:
+#### 2.5 번역 JSON 추가 키 ✅
 
-```
-layout.readingMode, layout.notifications.title, layout.notifications.new,
-layout.notifications.loading, layout.notifications.readAll,
-layout.profile.alt, layout.profile.defaultName,
-auth.login.or, auth.resetPassword.changed, auth.resetPassword.redirecting,
-auth.resetPassword.title, auth.resetPassword.description,
-auth.resetPassword.newPassword, auth.resetPassword.placeholder,
-auth.resetPassword.confirm, auth.resetPassword.confirmPlaceholder,
-explore.meta.title, explore.meta.description,
-explore.celebs.meta.title, explore.celebs.meta.description,
-explore.people.friends, explore.people.following,
-explore.people.followers, explore.people.similar
-```
+총 ~90개 키 추가 (site, pages, agora, scriptures, rest, policy 네임스페이스)
 
-### Phase 3: 서고 코드 연동
+### Phase 3: 서고 코드 연동 ✅ — 2026-03-02
 
 - [x] scriptures JSON 영문 번역 (`constants/scriptures/en/`) ✅
-- [ ] `constants/scriptures/` → `ko/`, `en/` 하위 구조 재편 (코드 변경)
-- [ ] `scripturesHistory.ts` locale 기반 동적 import
-- [ ] `HISTORY_CATEGORIES` 메타데이터 다국어 처리
+- [x] `constants/scriptures/` → `ko/`, `en/` 하위 구조 재편 (git mv)
+- [x] `scripturesHistory.ts` → `getScripturesData(locale)` 함수 + `HISTORY_CATEGORY_IDS` 구조체
+- [x] `HISTORY_CATEGORIES` 메타데이터 → `messages/*/common.json` (`scriptures.history.category`, `scriptures.history.sub`)
+- [x] `ContentHistoryTimeline.tsx` → `useLocale()` + `useTranslations()` 적용
 
 ### Phase 4: 나머지 페이지 변환
 

@@ -4,10 +4,12 @@
   책임: Feel&Note 서비스 이용약관을 표시한다.
 */
 
-export const metadata = {
-  title: "이용약관",
-  robots: { index: false, follow: false },
-};
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("policy");
+  return { title: t("terms"), robots: { index: false, follow: false } };
+}
 
 export default function TermsPage() {
   return (

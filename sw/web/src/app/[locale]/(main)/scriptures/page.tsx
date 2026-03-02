@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "서가",
-  description: "시대별, 직군별, 인물별로 정리된 감상 아카이브. 역사 속 명작부터 현대 걸작까지 셀럽들의 감상 기록을 탐색하세요.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("scriptures.meta");
+  return { title: t("title"), description: t("description") };
+}
 
 export default function Page() {
   redirect("/scriptures/era");

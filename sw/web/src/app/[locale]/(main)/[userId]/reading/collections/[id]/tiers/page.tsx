@@ -4,9 +4,13 @@
   책임: 재생목록의 티어 설정 UI를 제공한다.
 */ // ------------------------------
 
+import { getTranslations } from "next-intl/server";
 import TierEditView from "@/components/features/user/detail/TierEditView";
 
-export const metadata = { title: "티어 편집" };
+export async function generateMetadata() {
+  const t = await getTranslations("pages");
+  return { title: t("tierEdit") };
+}
 
 interface PageProps {
   params: Promise<{ id: string }>;

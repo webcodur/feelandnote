@@ -1,10 +1,11 @@
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { getFeedbacks } from '@/actions/board/feedbacks'
 import FeedbackList from '@/components/features/board/feedbacks/FeedbackList'
 
-export const metadata = {
-  title: '피드백',
-  description: 'Feel&Note 서비스에 대한 피드백과 건의사항을 남겨주세요.',
+export async function generateMetadata() {
+  const t = await getTranslations('agora.feedback')
+  return { title: t('title'), description: t('description') }
 }
 
 const ITEMS_PER_PAGE = 10

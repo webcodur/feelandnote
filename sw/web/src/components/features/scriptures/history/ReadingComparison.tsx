@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, BookOpen } from "lucide-react";
 import { ReadingMethod } from "@/constants/scripturesHistory";
 import { FormattedText } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 function EssayContent({ markdown }: { markdown: string }) {
   const paragraphs = markdown.split("\n\n");
@@ -25,36 +26,38 @@ function EssayContent({ markdown }: { markdown: string }) {
   );
 }
 
-const SPEED_LABELS: Record<string, { label: string; color: string; width: string }> = {
-  slow: { label: "느림", color: "bg-blue-400/60", width: "w-1/4" },
-  medium: { label: "보통", color: "bg-emerald-400/60", width: "w-2/4" },
-  fast: { label: "빠름", color: "bg-amber-400/60", width: "w-3/4" },
-  variable: { label: "가변", color: "bg-purple-400/60", width: "w-2/4" },
+const SPEED_STYLES: Record<string, { color: string; width: string }> = {
+  slow: { color: "bg-blue-400/60", width: "w-1/4" },
+  medium: { color: "bg-emerald-400/60", width: "w-2/4" },
+  fast: { color: "bg-amber-400/60", width: "w-3/4" },
+  variable: { color: "bg-purple-400/60", width: "w-2/4" },
 };
 
 function SpeedBar({ speed }: { speed: string }) {
-  const s = SPEED_LABELS[speed] ?? SPEED_LABELS.medium;
+  const s = SPEED_STYLES[speed] ?? SPEED_STYLES.medium;
+  const t = useTranslations("scriptures.history.speedLevel");
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
         <div className={`h-full rounded-full ${s.color} ${s.width} transition-all`} />
       </div>
-      <span className="text-[10px] text-white/50 w-6">{s.label}</span>
+      <span className="text-[10px] text-white/50 w-6">{t(speed as "slow" | "medium" | "fast" | "variable")}</span>
     </div>
   );
 }
 
 /* ── 비교 테이블 (모바일 가로 스크롤) ── */
 function ComparisonTable({ data }: { data: ReadingMethod[] }) {
+  const t = useTranslations("scriptures.history");
   return (
     <div className="overflow-x-auto scrollbar-hidden -mx-4 px-4 sm:mx-0 sm:px-0 mb-8">
       <table className="w-full min-w-[600px] text-[11px] sm:text-xs border-collapse">
         <thead>
           <tr className="border-b border-white/10">
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">독서법</th>
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">속도</th>
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">기억 정착</th>
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">적합한 상황</th>
+            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("readingMethod")}</th>
+            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("speed")}</th>
+            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("memoryRetention")}</th>
+            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("suitableSituation")}</th>
           </tr>
         </thead>
         <tbody>
@@ -92,6 +95,7 @@ function ComparisonTable({ data }: { data: ReadingMethod[] }) {
 /* ── 개별 카드 ── */
 function ReadingCard({ item }: { item: ReadingMethod }) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("scriptures.history");
 
   return (
     <motion.div
@@ -124,7 +128,7 @@ function ReadingCard({ item }: { item: ReadingMethod }) {
 
         {/* 뇌 활성 영역 */}
         <div className="mb-2">
-          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">활성화 뇌 영역</h4>
+          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">{t("activatedBrainRegion")}</h4>
           <div className="flex flex-wrap gap-1">
             {item.brainRegions.map((r, i) => (
               <span key={i} className="text-[10px] px-2 py-0.5 rounded-full border border-[#d4af37]/20 bg-[#d4af37]/5 text-[#d4af37]/80">
@@ -137,18 +141,18 @@ function ReadingCard({ item }: { item: ReadingMethod }) {
         {/* 기억 + 이해도 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
           <div>
-            <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">기억 정착</h4>
+            <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">{t("memoryRetention")}</h4>
             <p className="text-[11px] text-white/60 leading-relaxed">{item.memoryEffect}</p>
           </div>
           <div>
-            <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">이해도 특성</h4>
+            <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">{t("comprehension")}</h4>
             <p className="text-[11px] text-white/60 leading-relaxed">{item.comprehension}</p>
           </div>
         </div>
 
         {/* 적합한 상황 */}
         <div>
-          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">적합한 상황</h4>
+          <h4 className="text-[10px] text-white/30 uppercase tracking-widest mb-1 font-semibold">{t("suitableSituation")}</h4>
           <div className="flex flex-wrap gap-1.5">
             {item.bestFor.map((b, i) => (
               <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.04] text-white/50 border border-white/[0.06]">
@@ -166,7 +170,7 @@ function ReadingCard({ item }: { item: ReadingMethod }) {
             onClick={() => setOpen(!open)}
             className="w-full flex items-center justify-center gap-1.5 py-2.5 border-t border-white/[0.06] text-white/40 hover:text-white/70 transition-colors text-[11px] font-medium"
           >
-            <span>{open ? "에세이 접기" : "에세이 펼치기"}</span>
+            <span>{open ? t("foldEssay") : t("unfoldEssay")}</span>
             <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
           </button>
           <AnimatePresence>

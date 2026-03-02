@@ -5,16 +5,21 @@
 */ // ------------------------------
 
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags, getCelebsByProfession } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
 
 export const dynamic = "force-dynamic";
-export const metadata = {
-  title: "셀럽 | 탐색",
-  description: "역사 속 위인부터 현대 문화 아이콘까지, 셀럽들의 감상 기록과 추천 작품을 탐색하세요.",
-};
+
+export async function generateMetadata() {
+  const t = await getTranslations("explore.celebs");
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+  };
+}
 
 const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 

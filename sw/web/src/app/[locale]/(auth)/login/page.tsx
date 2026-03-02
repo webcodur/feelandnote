@@ -9,6 +9,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Eye } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { loginWithGoogle, loginWithKakao } from '@/actions/auth'
 import Button from '@/components/ui/Button'
 import Logo from '@/components/ui/Logo'
@@ -16,16 +17,15 @@ import EmailLoginForm from './EmailLoginForm'
 
 export default function Page() {
   const [isEmailMode, setIsEmailMode] = useState(false)
+  const t = useTranslations('auth')
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950">
       <div className="w-full max-w-md space-y-8 p-8">
-        {/* 인앱 브라우저 경고 */}
-
         {/* 로고 */}
         <div className="text-center">
           <Logo size="lg" />
           <p className="mt-2 text-zinc-400">
-            문화생활을 기록하고 공유하세요
+            {t('login.tagline')}
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default function Page() {
                   className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800"
                 >
                   <GoogleIcon />
-                  <span>Google로 계속하기</span>
+                  <span>{t('login.google')}</span>
                 </Button>
               </form>
 
@@ -51,7 +51,7 @@ export default function Page() {
                   className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#FEE500] px-4 py-3 text-zinc-900 hover:bg-[#FDD800]"
                 >
                   <KakaoIcon />
-                  <span>카카오로 계속하기</span>
+                  <span>{t('login.kakao')}</span>
                 </Button>
               </form>
             </>
@@ -62,29 +62,29 @@ export default function Page() {
           {/* 둘러보기 */}
           <div className="relative flex items-center gap-4 py-2">
             <div className="flex-1 border-t border-zinc-700" />
-            <span className="text-xs text-zinc-500">또는</span>
+            <span className="text-xs text-zinc-500">{t('login.or')}</span>
             <div className="flex-1 border-t border-zinc-700" />
           </div>
 
           <Link href="/" className="cursor-pointer">
             <span className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300">
               <Eye size={18} />
-              로그인 없이 둘러보기 (홈화면)
+              {t('login.browse')}
             </span>
           </Link>
         </div>
 
         {/* 이용약관 */}
         <p className="text-center text-sm text-zinc-500">
-          로그인 시{' '}
+          {t('login.termsPrefix')}{' '}
           <a href="/terms" className="underline hover:text-zinc-400">
-            이용약관
+            {t('terms')}
           </a>
-          과{' '}
+          {t('login.termsAnd')}{' '}
           <a href="/privacy" className="underline hover:text-zinc-400">
-            개인정보처리방침
+            {t('privacy')}
           </a>
-          에 동의합니다
+          {t('login.termsSuffix')}
         </p>
       </div>
     </div>

@@ -4,11 +4,16 @@
   책임: 이메일 회원가입 UI를 제공한다.
 */
 
+import { getTranslations } from 'next-intl/server'
 import SignupForm from './SignupForm'
 
-export const metadata = { title: '회원가입' }
+export async function generateMetadata() {
+  const t = await getTranslations('auth.signup')
+  return { title: t('title') }
+}
 
-export default function Page() {
+export default async function Page() {
+  const t = await getTranslations('auth')
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950">
       <div className="w-full max-w-md space-y-8 p-8">
@@ -16,7 +21,7 @@ export default function Page() {
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white">Feel&Note</h1>
           <p className="mt-2 text-zinc-400">
-            새 계정을 만들어 시작하세요
+            {t('signup.tagline')}
           </p>
         </div>
 
@@ -25,15 +30,15 @@ export default function Page() {
 
         {/* 이용약관 */}
         <p className="text-center text-sm text-zinc-500">
-          회원가입 시{' '}
+          {t('signup.termsPrefix')}{' '}
           <a href="/terms" className="underline hover:text-zinc-400">
-            이용약관
+            {t('terms')}
           </a>
-          과{' '}
+          {t('signup.termsAnd')}{' '}
           <a href="/privacy" className="underline hover:text-zinc-400">
-            개인정보처리방침
+            {t('privacy')}
           </a>
-          에 동의합니다
+          {t('signup.termsSuffix')}
         </p>
       </div>
     </div>

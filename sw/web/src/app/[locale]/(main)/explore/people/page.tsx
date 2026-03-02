@@ -5,16 +5,20 @@
 */ // ------------------------------
 
 import { Users, UserCheck, UserPlus, Star } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import FriendsSection from "@/components/features/user/explore/sections/FriendsSection";
 import FollowingSection from "@/components/features/user/explore/sections/FollowingSection";
 import FollowersSection from "@/components/features/user/explore/sections/FollowersSection";
 import SimilarSection from "@/components/features/user/explore/sections/SimilarSection";
 import { getFriends, getMyFollowing, getFollowers, getSimilarUsers, getProfile } from "@/actions/user";
 
-export const metadata = {
-  title: "사람 | 탐색",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("explore.people");
+  return {
+    title: t("metaTitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 function SectionHeader({ icon: Icon, title, count }: { icon: React.ComponentType<{ className?: string }>; title: string; count: number }) {
   return (
@@ -27,6 +31,7 @@ function SectionHeader({ icon: Icon, title, count }: { icon: React.ComponentType
 }
 
 export default async function Page() {
+  const t = await getTranslations("explore.people");
   const profile = await getProfile();
 
   const [friendsResult, followingResult, followersResult, similarResult] = await Promise.all([
@@ -48,22 +53,22 @@ export default async function Page() {
   return (
     <div className="space-y-8">
       <section>
-        <SectionHeader icon={Users} title="친구" count={friends.length} />
+        <SectionHeader icon={Users} title={t("friends")} count={friends.length} />
         <FriendsSection friends={friends} />
       </section>
 
       <section>
-        <SectionHeader icon={UserCheck} title="팔로잉" count={following.length} />
+        <SectionHeader icon={UserCheck} title={t("following")} count={following.length} />
         <FollowingSection following={following} />
       </section>
 
       <section>
-        <SectionHeader icon={UserPlus} title="팔로워" count={followers.length} />
+        <SectionHeader icon={UserPlus} title={t("followers")} count={followers.length} />
         <FollowersSection followers={followers} />
       </section>
 
       <section>
-        <SectionHeader icon={Star} title="취향 유사" count={similarUsers.length} />
+        <SectionHeader icon={Star} title={t("similar")} count={similarUsers.length} />
         <SimilarSection similarUsers={similarUsers} algorithm={algorithm} />
       </section>
     </div>

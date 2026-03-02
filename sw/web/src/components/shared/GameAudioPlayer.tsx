@@ -7,6 +7,7 @@
 
 import { useRef, useCallback, useState, useEffect, type MutableRefObject } from "react";
 import { Play, Pause, Volume1, Volume2, VolumeX, SkipBack, SkipForward } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export interface GameAudioControls {
   isPlaying: boolean;
@@ -38,6 +39,7 @@ function formatTime(sec: number): string {
 }
 
 export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
+  const t = useTranslations("shared.game");
   const { isPlaying, volume, duration, togglePlay, setVolume, seek, bgmRef, trackLabel, trackIndex = 0, trackCount = 1, nextTrack, prevTrack } = controls;
   const hasPlaylist = trackCount > 1;
 
@@ -95,7 +97,7 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
         onClick={prevTrack}
         disabled={!hasPlaylist || trackIndex <= 0}
         className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
-        title="이전 곡"
+        title={t("prevTrack")}
       >
         <SkipBack size={12} />
       </button>
@@ -104,7 +106,7 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
       <button
         onClick={togglePlay}
         className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0"
-        title={isPlaying ? "일시정지" : "재생"}
+        title={isPlaying ? t("pause") : t("play")}
       >
         {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
       </button>
@@ -114,7 +116,7 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
         onClick={nextTrack}
         disabled={!hasPlaylist || trackIndex >= trackCount - 1}
         className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
-        title="다음 곡"
+        title={t("nextTrack")}
       >
         <SkipForward size={12} />
       </button>
@@ -153,7 +155,7 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
         <button
           onClick={() => setVolume(volume === 0 ? 0.35 : 0)}
           className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-text-secondary hover:text-accent transition-colors"
-          title={volume === 0 ? "음소거 해제" : "음소거"}
+          title={volume === 0 ? t("unmute") : t("mute")}
         >
           <VolumeIcon size={14} />
         </button>

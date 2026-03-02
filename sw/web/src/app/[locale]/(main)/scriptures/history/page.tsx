@@ -5,12 +5,13 @@
 */ // ------------------------------
 
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 import ContentHistoryTimeline from "@/components/features/scriptures/history/ContentHistoryTimeline";
 
-export const metadata = {
-  title: "콘텐츠 역사 | 지혜의 서고",
-  description: "인류 지식 매체와 콘텐츠 형태의 변천사를 살펴봅니다.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("scriptures.history");
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
 export default function HistoryPage() {
   return (

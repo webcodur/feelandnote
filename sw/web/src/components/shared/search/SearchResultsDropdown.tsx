@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import PersonNameplate from "@/components/features/user/explore/PersonNameplate";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -71,6 +72,7 @@ export default function SearchResultsDropdown({
   onOpenInNewTab,
   isMobile = false,
 }: SearchResultsDropdownProps) {
+  const t = useTranslations("shared.search");
   // 콘텐츠 검색 모드이고 archive 모드가 아닐 때만 유틸 버튼 표시
   const showContentUtils = searchMode === "content";
 
@@ -97,7 +99,7 @@ export default function SearchResultsDropdown({
             className="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
           >
             <Search size={16} />
-            전체 검색결과 보기
+            {t("viewAllResults")}
           </Button>
 
           {results.map((result, index) => {
@@ -190,7 +192,7 @@ export default function SearchResultsDropdown({
                           onOpenInNewTab(result);
                         }}
                         className="p-1.5 rounded-md bg-white/10 text-text-secondary hover:bg-white/20 hover:text-text-primary hidden group-hover:block"
-                        title="새 창으로 열기"
+                        title={t("openInNewTab")}
                       >
                         <ExternalLink size={14} />
                       </Button>
@@ -207,13 +209,13 @@ export default function SearchResultsDropdown({
       {!isLoading && !query && recentSearches.length > 0 && (
         <>
           <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-            <span className="text-xs text-text-secondary font-medium">최근 검색</span>
+            <span className="text-xs text-text-secondary font-medium">{t("recentSearches")}</span>
             <Button
               unstyled
               onClick={onClearRecentSearches}
               className="text-xs text-text-secondary hover:text-accent"
             >
-              지우기
+              {t("clear")}
             </Button>
           </div>
           {recentSearches.map((search, index) => (
@@ -235,18 +237,18 @@ export default function SearchResultsDropdown({
       {!isLoading && query.length >= 2 && results.length === 0 && (
         <div className="py-8 text-center">
           <Search size={32} className="mx-auto text-text-secondary mb-2" />
-          <p className="text-sm text-text-secondary">"{query}"에 대한 결과가 없습니다</p>
+          <p className="text-sm text-text-secondary">{t("noResults", { query })}</p>
         </div>
       )}
 
       {/* Initial state hint */}
       {!isLoading && !query && recentSearches.length === 0 && (
         <div className="py-6 px-4 text-center">
-          <p className="text-sm text-text-secondary mb-2">검색어를 입력하세요</p>
+          <p className="text-sm text-text-secondary mb-2">{t("enterQuery")}</p>
           <div className="flex items-center justify-center gap-4 text-xs text-text-secondary">
-            <span><kbd className="px-1 bg-white/5 rounded">@</kbd> 사용자</span>
-            <span><kbd className="px-1 bg-white/5 rounded">#</kbd> 태그</span>
-            <span><kbd className="px-1 bg-white/5 rounded">Tab</kbd> 모드 전환</span>
+            <span><kbd className="px-1 bg-white/5 rounded">@</kbd> {t("hintUser")}</span>
+            <span><kbd className="px-1 bg-white/5 rounded">#</kbd> {t("hintTag")}</span>
+            <span><kbd className="px-1 bg-white/5 rounded">Tab</kbd> {t("hintMode")}</span>
           </div>
         </div>
       )}

@@ -1,4 +1,9 @@
 {
+  "site": {
+    "title": "Feel&Note - Cultural Archive",
+    "description": "Explore the books, movies, and music enjoyed by notable figures. An archive platform to record your cultural experiences and discover inspiration.",
+    "twitterDescription": "Explore the books, movies, and music enjoyed by notable figures. A cultural archive platform."
+  },
   "notFound": {
     "title": "Page Not Found",
     "description": "The page you requested does not exist or has been moved.",
@@ -156,6 +161,77 @@
       "completed_50": { "name": "Archive Artisan", "description": "Master of records" }
     }
   },
+  "explore": {
+    "meta": {
+      "title": "Explore",
+      "description": "Discover notable figures across various fields and the content they enjoyed."
+    },
+    "celebs": {
+      "metaTitle": "Celebs | Explore",
+      "metaDescription": "From historical figures to modern cultural icons, explore their reviews and recommended works."
+    },
+    "people": {
+      "metaTitle": "People | Explore",
+      "friends": "Friends",
+      "following": "Following",
+      "followers": "Followers",
+      "similar": "Similar Taste"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "tagline": "Record and share your cultural experiences",
+      "google": "Continue with Google",
+      "kakao": "Continue with Kakao",
+      "email": "Continue with Email",
+      "or": "or",
+      "browse": "Browse without login (Home)",
+      "termsPrefix": "By logging in, you agree to the",
+      "termsAnd": "and",
+      "termsSuffix": "",
+      "otherMethods": "Other login methods",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "saveEmail": "Remember email",
+      "loggingIn": "Logging in...",
+      "submit": "Login",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Sign Up",
+      "tagline": "Create a new account to get started",
+      "nicknamePlaceholder": "Nickname",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password (min. 6 characters)",
+      "signingUp": "Signing up...",
+      "submit": "Sign Up",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Login",
+      "termsPrefix": "By signing up, you agree to the",
+      "termsAnd": "and",
+      "termsSuffix": ""
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "heading": "Set New Password",
+      "description": "Enter your new password",
+      "newPassword": "New Password",
+      "passwordPlaceholder": "Min. 6 characters",
+      "confirmPassword": "Confirm Password",
+      "confirmPlaceholder": "Re-enter password",
+      "changing": "Changing...",
+      "submit": "Change Password",
+      "success": "Password has been changed",
+      "redirecting": "Redirecting to main page...",
+      "minLength": "Password must be at least 6 characters",
+      "mismatch": "Passwords do not match"
+    },
+    "loginRequired": "Login required.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  },
   "layout": {
     "readingMode": "Reading Mode",
     "notifications": {
@@ -175,6 +251,301 @@
     },
     "footer": {
       "tagline": "Build your archives and curate your taste."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "description": "Explore the books, movies, and music enjoyed by notable figures. An archive platform to record your cultural experiences and discover inspiration."
+    },
+    "notifications": "Notifications",
+    "search": "Search",
+    "chamber": "Settings",
+    "merits": "Achievements",
+    "collections": "Flow",
+    "collectionDetail": "Flow Detail",
+    "tierEdit": "Tier Edit",
+    "about": {
+      "title": "About",
+      "description": "We consume too much and forget too fast. Records become wisdom that never fades."
+    },
+    "lab": "Lab"
+  },
+  "agora": {
+    "meta": {
+      "title": "Community",
+      "description": "Feel&Note community square — celeb feeds, free boards, and announcements. Share your thoughts and find inspiration."
+    },
+    "celebFeed": {
+      "metaTitle": "Celeb Feed | Community",
+      "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+    },
+    "friendFeed": {
+      "metaTitle": "Friend Feed | Community"
+    },
+    "freeBoard": "Free Board",
+    "feedback": {
+      "title": "Feedback",
+      "description": "Share your feedback and suggestions about the Feel&Note service.",
+      "write": "Write Feedback",
+      "edit": "Edit Feedback"
+    },
+    "notice": {
+      "title": "Announcements",
+      "description": "Official announcements from the Feel&Note service.",
+      "write": "Write Announcement",
+      "edit": "Edit Announcement"
+    }
+  },
+  "scriptures": {
+    "meta": {
+      "title": "Library",
+      "description": "A curated archive organized by era, profession, and figure. Explore the reading lists of notable figures, from timeless classics to modern masterpieces."
+    },
+    "figure": {
+      "metaTitle": "Today's Figure | Library",
+      "metaDescription": "Discover a new figure's reading shelf every day. See what today's figure read, watched, and listened to."
+    },
+    "era": {
+      "metaTitle": "Masterpieces | Library",
+      "metaDescription": "Explore iconic works and must-reads from every era."
+    },
+    "history": {
+      "metaTitle": "Content History | Library",
+      "metaDescription": "Trace the evolution of human knowledge media and content formats.",
+      "pageTitle": "Chronicle of Content",
+      "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
+      "keyContents": "Key Contents",
+      "present": "Present",
+      "representativeTypeface": "Representative Typefaces",
+      "usageContext": "Usage Context",
+      "foldEssay": "Fold essay",
+      "unfoldEssay": "Unfold essay",
+      "readingMethod": "Reading Method",
+      "speed": "Speed",
+      "memoryRetention": "Memory Retention",
+      "suitableSituation": "Suitable Situations",
+      "activatedBrainRegion": "Activated Brain Region",
+      "comprehension": "Comprehension",
+      "speedLevel": {
+        "slow": "Slow",
+        "medium": "Medium",
+        "fast": "Fast",
+        "variable": "Variable"
+      },
+      "category": {
+        "book": { "label": "Books", "description": "From clay tablets to e-books: a 5,000-year chronicle of recording media" },
+        "video": { "label": "Video", "description": "From magic lanterns to streaming: the history of moving light" },
+        "music": { "label": "Music", "description": "From oral melodies to digital audio: a chronicle of sound" },
+        "game": { "label": "Games", "description": "From dice to virtual reality: the evolution of play" }
+      },
+      "sub": {
+        "book": {
+          "media": { "label": "Media", "description": "From clay tablets to e-books: the evolution of recording media over 5,000 years" },
+          "writing_tool": { "label": "Writing Tools", "description": "From reed pens to digital pens: the evolution of writing instruments" },
+          "typography": { "label": "Typography", "description": "From pictographs to digital fonts: the evolution of typeface design" },
+          "reading": { "label": "Reading", "description": "From reading aloud to hypertext: the evolution of the act of reading" }
+        },
+        "video": {
+          "media": { "label": "Media", "description": "From magic lanterns to streaming: the evolution of projection media and formats" },
+          "technique": { "label": "Techniques", "description": "From optical illusions to CGI: the evolution of technology turning imagination into reality" },
+          "space": { "label": "Spaces", "description": "From single-screen theaters to living room displays: the evolution of viewing experiences" }
+        },
+        "music": {
+          "media": { "label": "Media", "description": "From oral melodies to digital audio: the history of sound storage and transmission" },
+          "instrument": { "label": "Instruments", "description": "From percussion to digital synthesizers: the evolution of sound-making tools" },
+          "experience": { "label": "Listening", "description": "From ritual halls to algorithms: the evolution of where and how we listen to music" }
+        },
+        "game": {
+          "platform": { "label": "Platforms", "description": "From board games to cloud: the evolution of gaming environments" },
+          "interface": { "label": "Interfaces", "description": "From dice to VR controllers: the evolution of how we interact with games" },
+          "graphics": { "label": "Graphics", "description": "From text to ray tracing: the evolution of how games render worlds" }
+        }
+      }
+    },
+    "profession": {
+      "metaTitle": "Crossroads | Library",
+      "metaDescription": "Discover the must-reads and recommended works chosen by leaders, scientists, artists, and more."
+    },
+    "page": {
+      "section": {
+        "sage": { "label": "Today's Figure", "description": "A new figure is featured every day at midnight" },
+        "chosen": { "label": "Common Shelf", "description": "Works appreciated by the most figures" },
+        "profession": { "label": "Crossroads", "description": "Must-reads by profession" },
+        "era": { "label": "Works of the Era", "description": "Curated picks from each era" }
+      },
+      "toc": "Table of Contents",
+      "openToc": "Open table of contents",
+      "close": "Close",
+      "viewFullLibrary": "View full library",
+      "moreCount": "+{count} more",
+      "reviewCount": "{count} records",
+      "newsMention": "Mentioned in {count} news",
+      "celebCount": "({count} figures)",
+      "empty": {
+        "noFigure": "No figure of the day",
+        "noRecords": "No records found",
+        "noCategory": "No works in this category",
+        "noProfession": "No works in this field",
+        "noProfessionData": "No data by profession",
+        "noEra": "No works from this era",
+        "noEraData": "No data by era",
+        "noData": "No data available",
+        "noWorks": "No works found",
+        "noEraSection": "No data for this era"
+      },
+      "defaultBio": "A figure of our time.",
+      "eraPage": {
+        "title": "Timeless Works",
+        "description": "Masterpieces and must-reads across all eras.",
+        "descriptionSub": "Discover the works chosen by the greatest figures in history.",
+        "allEras": "All Eras",
+        "eraAndCategory": "Era & Category",
+        "worksList": "Works",
+        "figureCount": "{count} figures",
+        "worksCount": "{count} works",
+        "crossEraDescription": "Works chosen by the most figures across all eras.\nWhen countless great minds chose the same book, it's no coincidence.",
+        "symbolOfEra": "Icons of the Era",
+        "eraTabs": {
+          "all": "All",
+          "contemporary": "Contemporary",
+          "modern": "Modern",
+          "medieval": "Medieval",
+          "ancient": "Ancient"
+        }
+      },
+      "professionPage": {
+        "title": "Crossroads",
+        "description": "Must-reads by profession.",
+        "descriptionSub": "What did the predecessors on your path read?",
+        "selectProfession": "Select Profession",
+        "representativePrefix": "Top ",
+        "recommendedWorks": "Recommended Works"
+      }
+    }
+  },
+  "rest": {
+    "meta": {
+      "title": "Lounge",
+      "description": "Feel&Note's game arena. Enjoy various mini-games including strategy simulations and labyrinth exploration."
+    },
+    "dawn": {
+      "metaTitle": "Dawn | Lounge",
+      "metaDescription": "A quiz game where you arrange historical figures by birth order. Test your knowledge of history."
+    },
+    "labyrinth": {
+      "metaTitle": "Labyrinth | Lounge",
+      "metaDescription": "Analyze clues from six suspects to track down a hidden figure. Find them before they escape."
+    },
+    "hegemony": {
+      "metaTitle": "Hegemony | Lounge",
+      "metaDescription": "A 1v1 strategy card game using celebrity influence cards. Battle with the stats of historical figures."
+    },
+    "suikoden": {
+      "metaTitle": "Cheondo | Lounge",
+      "metaDescription": "A strategy simulation game where you assemble your own legion from historical figures."
+    }
+  },
+  "policy": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  },
+  "shared": {
+    "search": {
+      "viewAllResults": "View all results",
+      "openInNewTab": "Open in new tab",
+      "recentSearches": "Recent searches",
+      "clear": "Clear",
+      "noResults": "No results for \"{query}\"",
+      "enterQuery": "Enter a search term",
+      "hintUser": "Users",
+      "hintTag": "Tags",
+      "hintMode": "Switch mode",
+      "mode": {
+        "content": "Content",
+        "user": "Users",
+        "records": "My Records",
+        "contentPlaceholder": "Title, author, director...",
+        "userPlaceholder": "Nickname, @username...",
+        "recordsPlaceholder": "Search my records..."
+      },
+      "sectionContent": "Content",
+      "sectionOther": "Other",
+      "follower": "Followers",
+      "posts": "{count} posts"
+    },
+    "content": {
+      "addToRecord": "Add to records",
+      "viewDetails": "View details",
+      "listenOnSpotify": "Listen on Spotify",
+      "publisher": "Publisher",
+      "publishDate": "Published",
+      "type": "Type",
+      "movie": "Movie",
+      "tvProgram": "TV Show",
+      "rating": "Rating",
+      "ratingScore": "{score}",
+      "genre": "Genre",
+      "developer": "Developer",
+      "gamePublisher": "Publisher",
+      "platform": "Platform",
+      "albumType": "Album type",
+      "tracks": "{count} tracks",
+      "artist": "Artists",
+      "qualificationType": "Qualification type",
+      "series": "Series",
+      "majorField": "Major field"
+    },
+    "celeb": {
+      "info": "Info",
+      "following": "Following",
+      "follow": "Follow"
+    },
+    "game": {
+      "exit": "Exit",
+      "exitEsc": "Exit (ESC)",
+      "prevTrack": "Previous track",
+      "nextTrack": "Next track",
+      "play": "Play",
+      "pause": "Pause",
+      "mute": "Mute",
+      "unmute": "Unmute"
+    },
+    "persona": {
+      "ability": "Ability",
+      "virtue": "Virtue",
+      "tendency": "Tendency",
+      "noData": "No data",
+      "stat": {
+        "command": "Command",
+        "martial": "Martial",
+        "intellect": "Intellect",
+        "charisma": "Charisma",
+        "temperance": "Temperance",
+        "diligence": "Diligence",
+        "reflection": "Reflection",
+        "courage": "Courage",
+        "loyalty": "Loyalty",
+        "benevolence": "Benevolence",
+        "fairness": "Fairness",
+        "humility": "Humility"
+      },
+      "tendency_label": {
+        "pessimism": "Pessimism",
+        "optimism": "Optimism",
+        "conservative": "Conservative",
+        "progressive": "Progressive",
+        "individual": "Individual",
+        "social": "Social",
+        "cautious": "Cautious",
+        "bold": "Bold"
+      }
+    },
+    "profile": {
+      "records": "Records",
+      "followers": "Followers",
+      "viewProfile": "View profile",
+      "loadError": "Failed to load profile"
     }
   },
   "review": {

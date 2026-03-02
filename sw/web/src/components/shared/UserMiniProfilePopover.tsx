@@ -13,6 +13,7 @@ import { Popover, TitleBadge } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getMiniProfile, toggleFollow, type MiniProfile } from "@/actions/user";
 import { BLUR_DATA_URL } from "@/constants/image";
+import { useTranslations } from "next-intl";
 
 interface UserMiniProfilePopoverProps {
   userId: string;
@@ -20,6 +21,8 @@ interface UserMiniProfilePopoverProps {
 }
 
 export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProfilePopoverProps) {
+  const t = useTranslations("shared.profile");
+  const tc = useTranslations("shared.celeb");
   const [profile, setProfile] = useState<MiniProfile | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
@@ -90,11 +93,11 @@ export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProf
           <div className="px-4 py-3 border-t border-white/5 flex justify-around text-center">
             <div>
               <p className="text-sm font-semibold">{profile.content_count}</p>
-              <p className="text-[10px] text-text-secondary">기록</p>
+              <p className="text-[10px] text-text-secondary">{t("records")}</p>
             </div>
             <div>
               <p className="text-sm font-semibold">{profile.follower_count}</p>
-              <p className="text-[10px] text-text-secondary">팔로워</p>
+              <p className="text-[10px] text-text-secondary">{t("followers")}</p>
             </div>
           </div>
 
@@ -111,9 +114,9 @@ export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProf
                 {isFollowLoading ? (
                   <Loader2 size={14} className="animate-spin" />
                 ) : profile.is_following ? (
-                  <><UserCheck size={14} /><span>팔로잉</span></>
+                  <><UserCheck size={14} /><span>{tc("following")}</span></>
                 ) : (
-                  <><UserPlus size={14} /><span>팔로우</span></>
+                  <><UserPlus size={14} /><span>{tc("follow")}</span></>
                 )}
               </Button>
             )}
@@ -123,14 +126,14 @@ export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProf
               className="flex-1"
             >
               <Button variant="secondary" size="sm" className="w-full">
-                프로필 보기
+                {t("viewProfile")}
               </Button>
             </Link>
           </div>
         </div>
       ) : (
         <div className="py-8 text-center text-text-secondary text-sm">
-          프로필을 불러올 수 없습니다
+          {t("loadError")}
         </div>
       )}
     </Popover>

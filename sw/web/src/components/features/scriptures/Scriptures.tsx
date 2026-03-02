@@ -14,8 +14,9 @@ import { Pagination } from "@/components/ui/Pagination";
 import Button from "@/components/ui/Button";
 import ContentGrid from "@/components/ui/ContentGrid";
 import { ContentCard } from "@/components/ui/cards";
-import { getCategoryByDbType } from "@/constants/categories";
+import { getCategoryByDbType, CATEGORIES } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
+import { useTranslations } from "next-intl";
 import {
   getChosenScriptures,
   getScripturesByProfession,
@@ -41,53 +42,17 @@ interface ScripturesProps {
 }
 
 type CategoryFilter = "ALL" | "BOOK" | "VIDEO" | "GAME" | "MUSIC";
-
-interface SectionConfig {
-  id: string;
-  label: string;
-  description: string;
-  icon: LucideIcon;
-  hasBg?: boolean;
-}
 // #endregion
 
 // #region Constants
-const SECTIONS: SectionConfig[] = [
-  { id: "sage-section", label: "오늘의 인물", description: "매일 자정, 한 명의 인물이 새롭게 선정됩니다", icon: User },
-  { id: "chosen-section", label: "공통 서가", description: "가장 많은 인물들이 감상한 작품", icon: Scroll, hasBg: true },
-  { id: "profession-section", label: "갈림길", description: "분야별 인물들의 필독서", icon: Route },
-  { id: "era-section", label: "시대의 작품", description: "시대별 인물들의 선택", icon: Clock, hasBg: true },
-];
-
-// 섹션 ID로 config 조회
-const getSectionConfig = (id: string) => SECTIONS.find((s) => s.id === id)!;
-
-const CATEGORY_TABS: { value: CategoryFilter; label: string }[] = [
-  { value: "ALL", label: "전체" },
-  { value: "BOOK", label: "도서" },
-  { value: "VIDEO", label: "영상" },
-  { value: "GAME", label: "게임" },
-  { value: "MUSIC", label: "음악" },
-];
+const SECTION_IDS = [
+  { id: "sage-section", key: "sage", icon: User },
+  { id: "chosen-section", key: "chosen", icon: Scroll, hasBg: true },
+  { id: "profession-section", key: "profession", icon: Route },
+  { id: "era-section", key: "era", icon: Clock, hasBg: true },
+] as const;
 
 const ITEMS_PER_PAGE = 12;
-
-const PROFESSION_LABELS: Record<string, string> = {
-  entrepreneur: "기업인",
-  humanities_scholar: "인문학자",
-  social_scientist: "사회과학자",
-  scientist: "과학자",
-  director: "감독",
-  musician: "음악인",
-  visual_artist: "미술인",
-  politician: "정치인",
-  author: "작가",
-  commander: "지휘관",
-  leader: "지도자",
-  investor: "투자자",
-  athlete: "운동선수",
-  actor: "배우",
-};
 // #endregion
 
 // #region useIntersectionObserver Hook
@@ -169,18 +134,17 @@ function SectionSkeleton({ rows = 1 }: { rows?: number }) {
 // #endregion
 
 // #region Section Header
-function ScriptureSectionHeader({ sectionId, extra }: { sectionId: string; extra?: React.ReactNode }) {
-  const config = getSectionConfig(sectionId);
-  const Icon = config.icon;
+function ScriptureSectionHeader({ sectionKey, icon: Icon, extra }: { sectionKey: string; icon: LucideIcon; extra?: React.ReactNode }) {
+  const t = useTranslations("scriptures.page.section");
 
   return (
     <>
       <div className="flex items-center gap-2 mb-4">
         <Icon size={20} className="text-accent" />
-        <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">{config.label}</h2>
+        <h2 className="text-lg md:text-xl font-serif font-bold text-text-primary">{t(`${sectionKey}.label`)}</h2>
         {extra}
       </div>
-      <p className="text-sm text-text-secondary mb-6">{config.description}</p>
+      <p className="text-sm text-text-secondary mb-6">{t(`${sectionKey}.description`)}</p>
     </>
   );
 }
@@ -189,6 +153,8 @@ function ScriptureSectionHeader({ sectionId, extra }: { sectionId: string; extra
 // #region Floating TOC - FAB + Popover
 function FloatingTOC({ activeSection }: { activeSection: string }) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("scriptures.page");
+  const ts = useTranslations("scriptures.page.section");
 
   const handleNavigate = (sectionId: string) => {
     setIsOpen(false);
@@ -202,7 +168,7 @@ function FloatingTOC({ activeSection }: { activeSection: string }) {
         unstyled
         onClick={() => setIsOpen(true)}
         className="fixed bottom-20 right-4 md:bottom-8 md:right-8 z-40 w-12 h-12 bg-accent text-white rounded-full shadow-lg flex items-center justify-center"
-        aria-label="목차 열기"
+        aria-label={t("openToc")}
       >
         <Menu size={20} />
       </Button>
@@ -219,13 +185,13 @@ function FloatingTOC({ activeSection }: { activeSection: string }) {
       {isOpen && (
         <div className="fixed bottom-0 left-0 right-0 md:bottom-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-80 md:rounded-2xl z-50 bg-bg-card rounded-t-2xl border-t md:border border-border/30 animate-bottomsheet-content">
           <div className="flex items-center justify-between p-4 border-b border-border/30">
-            <h3 className="text-base font-semibold text-text-primary">목차</h3>
-            <Button unstyled onClick={() => setIsOpen(false)} aria-label="닫기">
+            <h3 className="text-base font-semibold text-text-primary">{t("toc")}</h3>
+            <Button unstyled onClick={() => setIsOpen(false)} aria-label={t("close")}>
               <X size={20} className="text-text-secondary" />
             </Button>
           </div>
           <nav className="p-4 pb-8 space-y-1">
-            {SECTIONS.map((section) => {
+            {SECTION_IDS.map((section) => {
               const Icon = section.icon;
               const isActive = activeSection === section.id;
               return (
@@ -239,7 +205,7 @@ function FloatingTOC({ activeSection }: { activeSection: string }) {
                   }`}
                 >
                   <Icon size={18} />
-                  <span className="text-sm font-medium">{section.label}</span>
+                  <span className="text-sm font-medium">{ts(`${section.key}.label`)}</span>
                 </button>
               );
             })}
@@ -259,6 +225,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
   const [professionPage, setProfessionPage] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const te = useTranslations("scriptures.page.empty");
 
   const loadData = useCallback(async (profession: string, page: number) => {
     startTransition(async () => {
@@ -285,11 +252,9 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
 
   const totalPages = professionData ? Math.ceil(professionData.total / ITEMS_PER_PAGE) : 0;
 
-  const config = getSectionConfig("profession-section");
-
   return (
-    <section id={config.id} ref={ref} className={`py-12 md:py-16 ${config.hasBg ? "bg-bg-card/30" : ""}`}>
-      <ScriptureSectionHeader sectionId={config.id} />
+    <section id="profession-section" ref={ref} className="py-12 md:py-16">
+      <ScriptureSectionHeader sectionKey="profession" icon={Route} />
 
       {!isLoaded ? (
         <SectionSkeleton />
@@ -332,7 +297,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
               </ContentGrid>
             ) : (
               <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-                <p className="text-text-tertiary text-sm">해당 분야의 작품이 없습니다</p>
+                <p className="text-text-tertiary text-sm">{te("noProfession")}</p>
               </div>
             )}
           </div>
@@ -345,7 +310,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
         </>
       ) : (
         <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-          <p className="text-text-tertiary text-sm">분야별 데이터가 없습니다</p>
+          <p className="text-text-tertiary text-sm">{te("noProfessionData")}</p>
         </div>
       )}
     </section>
@@ -359,6 +324,8 @@ const SAGE_MAX_DISPLAY = 11;
 function TodaySageSection() {
   const [data, setData] = useState<TodayFigureResult | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const t = useTranslations("scriptures.page");
+  const tp = useTranslations("profession");
 
   const ref = useIntersectionObserver(async () => {
     const result = await getTodayFigure();
@@ -370,11 +337,10 @@ function TodaySageSection() {
   const allContents = data?.contents || [];
   const displayContents = allContents.slice(0, SAGE_MAX_DISPLAY);
   const remainingCount = allContents.length - SAGE_MAX_DISPLAY;
-  const config = getSectionConfig("sage-section");
 
   return (
-    <section id={config.id} ref={ref} className={`py-12 md:py-16 ${config.hasBg ? "bg-bg-card/30" : ""}`}>
-      <ScriptureSectionHeader sectionId={config.id} />
+    <section id="sage-section" ref={ref} className="py-12 md:py-16">
+      <ScriptureSectionHeader sectionKey="sage" icon={User} />
 
       {!isLoaded ? (
         <SectionSkeleton />
@@ -402,14 +368,14 @@ function TodaySageSection() {
               <h3 className="text-base font-semibold text-text-primary mb-1">{figure.nickname}</h3>
               {figure.profession && (
                 <p className="text-xs text-accent mb-2">
-                  {PROFESSION_LABELS[figure.profession] || figure.profession}
+                  {tp(figure.profession)}
                 </p>
               )}
               {figure.bio && <p className="text-sm text-text-secondary line-clamp-2">{figure.bio}</p>}
               <p className="text-xs text-text-tertiary mt-2">
-                감상 기록 {figure.contentCount}개
+                {t("reviewCount", { count: figure.contentCount })}
                 {data?.source?.type === 'news' && (
-                  <span className="ml-2 text-blue-400">· 뉴스 {data.source.newsCount}건 언급</span>
+                  <span className="ml-2 text-blue-400">· {t("newsMention", { count: data.source.newsCount })}</span>
                 )}
               </p>
             </div>
@@ -437,21 +403,21 @@ function TodaySageSection() {
                 <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-3 group-hover:bg-accent/20">
                   <span className="text-2xl text-accent">→</span>
                 </div>
-                <span className="text-sm font-medium text-text-primary mb-1">서재 전체 보기</span>
+                <span className="text-sm font-medium text-text-primary mb-1">{t("viewFullLibrary")}</span>
                 {remainingCount > 0 && (
-                  <span className="text-xs text-text-tertiary">+{remainingCount}개 더</span>
+                  <span className="text-xs text-text-tertiary">{t("moreCount", { count: remainingCount })}</span>
                 )}
               </Link>
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">감상 기록이 없습니다</p>
+              <p className="text-text-tertiary text-sm">{t("empty.noRecords")}</p>
             </div>
           )}
         </>
       ) : (
         <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-          <p className="text-text-tertiary text-sm">오늘의 인물이 없습니다</p>
+          <p className="text-text-tertiary text-sm">{t("empty.noFigure")}</p>
         </div>
       )}
     </section>
@@ -463,6 +429,7 @@ function TodaySageSection() {
 function EraSection() {
   const [data, setData] = useState<EraScriptures[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const t = useTranslations("scriptures.page");
 
   const ref = useIntersectionObserver(async () => {
     const result = await getScripturesByEra();
@@ -470,11 +437,9 @@ function EraSection() {
     setIsLoaded(true);
   });
 
-  const config = getSectionConfig("era-section");
-
   return (
-    <section id={config.id} ref={ref} className={`py-12 md:py-16 ${config.hasBg ? "bg-bg-card/30" : ""}`}>
-      <ScriptureSectionHeader sectionId={config.id} />
+    <section id="era-section" ref={ref} className="py-12 md:py-16 bg-bg-card/30">
+      <ScriptureSectionHeader sectionKey="era" icon={Clock} />
 
       {!isLoaded ? (
         <SectionSkeleton rows={4} />
@@ -485,7 +450,7 @@ function EraSection() {
               <div className="flex items-center gap-2 mb-4">
                 <h3 className="text-base font-semibold text-text-primary">{era.label}</h3>
                 <span className="text-xs text-accent/70">{era.period}</span>
-                <span className="text-xs text-text-tertiary">(인물 {era.celebCount}명)</span>
+                <span className="text-xs text-text-tertiary">{t("celebCount", { count: era.celebCount })}</span>
               </div>
 
               {era.contents.length > 0 ? (
@@ -505,7 +470,7 @@ function EraSection() {
                 </ContentGrid>
               ) : (
                 <div className="flex items-center justify-center h-24 bg-bg-card/50 rounded-xl border border-border/30">
-                  <p className="text-text-tertiary text-sm">해당 시대의 작품이 없습니다</p>
+                  <p className="text-text-tertiary text-sm">{t("empty.noEra")}</p>
                 </div>
               )}
             </div>
@@ -513,7 +478,7 @@ function EraSection() {
         </div>
       ) : (
         <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-          <p className="text-text-tertiary text-sm">시대별 데이터가 없습니다</p>
+          <p className="text-text-tertiary text-sm">{t("empty.noEraData")}</p>
         </div>
       )}
     </section>
@@ -527,8 +492,18 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("ALL");
   const [chosenPage, setChosenPage] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const tc = useTranslations("content.category");
+  const te = useTranslations("scriptures.page.empty");
 
-  const activeSection = useActiveSection(SECTIONS.map((s) => s.id));
+  const activeSection = useActiveSection(SECTION_IDS.map((s) => s.id));
+
+  const categoryTabs: { value: CategoryFilter; label: string }[] = [
+    { value: "ALL", label: tc("all") },
+    ...CATEGORIES.filter((c) => ["BOOK", "VIDEO", "GAME", "MUSIC"].includes(c.dbType)).map((c) => ({
+      value: c.dbType as CategoryFilter,
+      label: tc(c.id),
+    })),
+  ];
 
   const fetchChosenData = (category: CategoryFilter, targetPage: number) => {
     startTransition(async () => {
@@ -552,8 +527,6 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
     fetchChosenData(categoryFilter, targetPage);
   };
 
-  const chosenConfig = getSectionConfig("chosen-section");
-
   return (
     <div>
       {/* 플로팅 목차 FAB */}
@@ -563,15 +536,16 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
       <TodaySageSection />
 
       {/* 섹션 2: 공통 서가 (SSR) */}
-      <section id={chosenConfig.id} className={`py-12 md:py-16 ${chosenConfig.hasBg ? "bg-bg-card/30" : ""}`}>
+      <section id="chosen-section" className="py-12 md:py-16 bg-bg-card/30">
         <ScriptureSectionHeader
-          sectionId={chosenConfig.id}
+          sectionKey="chosen"
+          icon={Scroll}
           extra={<span className="text-sm text-text-tertiary">({chosenData.total})</span>}
         />
 
         <div className="mb-6 overflow-x-auto scrollbar-hidden flex justify-center">
           <Tabs className="border-b border-border/30">
-            {CATEGORY_TABS.map((tab) => (
+            {categoryTabs.map((tab) => (
               <Tab
                 key={tab.value}
                 active={categoryFilter === tab.value}
@@ -603,7 +577,7 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">해당 카테고리의 작품이 없습니다</p>
+              <p className="text-text-tertiary text-sm">{te("noCategory")}</p>
             </div>
           )}
         </div>

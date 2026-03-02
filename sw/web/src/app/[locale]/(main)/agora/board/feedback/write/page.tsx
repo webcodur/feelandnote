@@ -1,9 +1,11 @@
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import FeedbackForm from '@/components/features/board/feedbacks/FeedbackForm'
 
-export const metadata = {
-  title: '피드백 작성',
+export async function generateMetadata() {
+  const t = await getTranslations('agora.feedback')
+  return { title: t('write') }
 }
 
 export default async function FeedbackWritePage() {

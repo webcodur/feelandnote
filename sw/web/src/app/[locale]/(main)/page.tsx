@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
-
-export const metadata: Metadata = {
-  title: "홈",
-  description: "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
-};
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("pages.home");
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 import { getUserContents } from "@/actions/contents/getUserContents";
 import { getRecentContents } from "@/actions/contents/getRecentContents";
 import HomeRecordSection from "@/components/features/quickRecord/HomeRecordSection";

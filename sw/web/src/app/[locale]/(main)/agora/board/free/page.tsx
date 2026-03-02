@@ -5,8 +5,12 @@
 */ // ------------------------------
 
 import { MessageSquare } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = { title: "자유게시판" };
+export async function generateMetadata() {
+  const t = await getTranslations("agora");
+  return { title: t("freeBoard") };
+}
 
 export default function Page() {
   return (

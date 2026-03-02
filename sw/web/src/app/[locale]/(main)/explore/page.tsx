@@ -5,15 +5,19 @@
 */ // ------------------------------
 
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "탐색",
-  description: "다양한 분야의 셀럽들과 그들의 인생 콘텐츠를 탐색해보세요.",
-  openGraph: {
-    title: "탐색",
-    description: "다양한 분야의 셀럽들과 그들의 인생 콘텐츠를 탐색해보세요.",
-  },
-};
+export async function generateMetadata() {
+  const t = await getTranslations("explore.meta");
+  return {
+    title: t("title"),
+    description: t("description"),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+    },
+  };
+}
 
 export default function Page() {
   redirect("/explore/celebs");

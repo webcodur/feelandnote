@@ -5,26 +5,26 @@
 */ // ------------------------------
 
 import { ReactNode } from "react";
+import { getTranslations } from "next-intl/server";
 import PageContainer from "@/components/layout/PageContainer";
 import ExploreTabs from "@/components/features/user/explore/ExploreTabs";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
-import { PAGE_BANNER } from "@/constants/navigation";
 
 interface Props {
   children: ReactNode;
 }
 
-export default function ExploreLayout({ children }: Props) {
-  const { title, englishTitle } = PAGE_BANNER.explore;
+export default async function ExploreLayout({ children }: Props) {
+  const t = await getTranslations();
 
   return (
     <>
       <ConstellationBanner compact>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-          {title}
+          {t("nav.explore")}
         </h1>
         <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
-          {englishTitle}
+          {t("home.explore.englishTitle")}
         </p>
       </ConstellationBanner>
       <PageContainer>

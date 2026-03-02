@@ -1,4 +1,5 @@
 import { redirect, notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getNotice } from '@/actions/board/notices'
@@ -8,8 +9,9 @@ interface NoticeEditPageProps {
   params: Promise<{ id: string }>
 }
 
-export const metadata = {
-  title: '공지사항 수정',
+export async function generateMetadata() {
+  const t = await getTranslations('agora.notice')
+  return { title: t('edit') }
 }
 
 export default async function NoticeEditPage({ params }: NoticeEditPageProps) {

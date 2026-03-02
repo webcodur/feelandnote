@@ -9,13 +9,14 @@
 
 import { motion } from "framer-motion";
 import { Scroll, ChevronLeft, ChevronRight } from "lucide-react";
-import { CONTENT_HISTORY_TIMELINE, HISTORY_CATEGORIES, HISTORY_TIMELINES, TYPOGRAPHY_CLASSES, READING_METHODS, SUB_CATEGORY_VIEW_TYPE, HistoryEra, HistorySubCategory } from "@/constants/scripturesHistory";
+import { getScripturesData, HISTORY_CATEGORY_IDS, SUB_CATEGORY_VIEW_TYPE, type HistoryEra } from "@/constants/scripturesHistory";
 import TypographyCatalog from "./TypographyCatalog";
 import ReadingComparison from "./ReadingComparison";
 import { FormattedText } from "@/components/ui";
 import Image from "next/image";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import EraGanttChart from "./EraGanttChart";
+import { useLocale, useTranslations } from "next-intl";
 
 // #region 에세이 본문 렌더러 (FormattedText 활용)
 function EssayContent({ markdown }: { markdown: string }) {
@@ -34,10 +35,11 @@ function EssayContent({ markdown }: { markdown: string }) {
 
 // #region 콘텐츠 분류 탭 (EraSection 탭 스타일 통일)
 function CategoryTabs({ activeId, onChange }: { activeId: string; onChange: (id: string) => void }) {
+  const t = useTranslations("scriptures.history.category");
   return (
     <div className="flex justify-center overflow-x-auto scrollbar-hidden pb-2 mx-[-1rem] px-4 sm:mx-0 sm:px-0">
       <div className="inline-flex p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner gap-1 min-w-max">
-        {HISTORY_CATEGORIES.map((cat) => {
+        {HISTORY_CATEGORY_IDS.map((cat) => {
           const isActive = cat.id === activeId;
           return (
             <button
@@ -53,7 +55,7 @@ function CategoryTabs({ activeId, onChange }: { activeId: string; onChange: (id:
               `}
             >
               <span className={`flex items-center gap-1.5 ${isActive ? "font-serif text-black" : "font-sans"}`}>
-                {cat.label}
+                {t(`${cat.id}.label`)}
               </span>
             </button>
           );
@@ -65,11 +67,12 @@ function CategoryTabs({ activeId, onChange }: { activeId: string; onChange: (id:
 // #endregion
 
 // #region 서브 카테고리 탭 (매체/필기구 등)
-function SubCategoryTabs({ subCategories, activeId, onChange }: { subCategories: HistorySubCategory[]; activeId: string; onChange: (id: string) => void }) {
+function SubCategoryTabs({ categoryId, subIds, activeId, onChange }: { categoryId: string; subIds: readonly { id: string }[]; activeId: string; onChange: (id: string) => void }) {
+  const t = useTranslations(`scriptures.history.sub.${categoryId}`);
   return (
     <div className="flex justify-center mt-3 sm:mt-4">
       <div className="inline-flex p-0.5 bg-white/[0.04] rounded-lg border border-white/[0.06] gap-0.5">
-        {subCategories.map((sub) => {
+        {subIds.map((sub) => {
           const isActive = sub.id === activeId;
           return (
             <button
@@ -83,7 +86,7 @@ function SubCategoryTabs({ subCategories, activeId, onChange }: { subCategories:
                 }
               `}
             >
-              {sub.label}
+              {t(`${sub.id}.label`)}
             </button>
           );
         })}
@@ -273,7 +276,7 @@ function MobileNavigator({ activeId, eras }: { activeId: string; eras: HistoryEr
 // #endregion
 
 // #region 시대별 섹션
-function EraSection({ era, index, eras }: { era: HistoryEra; index: number; eras: HistoryEra[] }) {
+function EraSection({ era, index, eras, keyContentsLabel }: { era: HistoryEra; index: number; eras: HistoryEra[]; keyContentsLabel: string }) {
   const prevEra = index > 0 ? eras[index - 1] : null;
   const nextEra = index < eras.length - 1 ? eras[index + 1] : null;
 
@@ -440,7 +443,7 @@ function EraSection({ era, index, eras }: { era: HistoryEra; index: number; eras
           transition={{ duration: 0.5, delay: 0.3 }}
           className="pb-3"
         >
-          <h4 className="text-[10px] sm:text-xs text-white/30 uppercase tracking-widest mb-1.5 sm:mb-2 font-semibold">주요 콘텐츠</h4>
+          <h4 className="text-[10px] sm:text-xs text-white/30 uppercase tracking-widest mb-1.5 sm:mb-2 font-semibold">{keyContentsLabel}</h4>
           <div className="flex flex-wrap gap-1 sm:gap-1.5">
             {era.contents.map((content, idx) => (
               <span
@@ -471,28 +474,32 @@ export default function ContentHistoryTimeline({
   eras: erasProp,
   categoryId: categoryIdProp = "book",
 }: ContentHistoryTimelineProps) {
+  const locale = useLocale();
+  const t = useTranslations("scriptures.history");
+  const data = useMemo(() => getScripturesData(locale), [locale]);
+
   const [activeCategoryId, setActiveCategoryId] = useState(categoryIdProp);
-  const activeCategory = HISTORY_CATEGORIES.find((c) => c.id === activeCategoryId);
-  const subCategories = activeCategory?.subCategories;
-  const [activeSubId, setActiveSubId] = useState(subCategories?.[0]?.id ?? "");
+  const activeCategory = HISTORY_CATEGORY_IDS.find((c) => c.id === activeCategoryId);
+  const subIds = activeCategory?.subCategories;
+  const [activeSubId, setActiveSubId] = useState(subIds?.[0]?.id ?? "");
 
   // 카테고리 변경 시 서브 탭 리셋
   useEffect(() => {
-    const subs = HISTORY_CATEGORIES.find((c) => c.id === activeCategoryId)?.subCategories;
+    const subs = HISTORY_CATEGORY_IDS.find((c) => c.id === activeCategoryId)?.subCategories;
     setActiveSubId(subs?.[0]?.id ?? "");
   }, [activeCategoryId]);
 
   // 타임라인 키: 서브 카테고리가 있으면 "book/media" 형태, 없으면 "video" 형태
-  const timelineKey = subCategories ? `${activeCategoryId}/${activeSubId}` : activeCategoryId;
+  const timelineKey = subIds ? `${activeCategoryId}/${activeSubId}` : activeCategoryId;
   const viewType = SUB_CATEGORY_VIEW_TYPE[timelineKey] ?? 'timeline';
-  const eras = erasProp ?? HISTORY_TIMELINES[timelineKey] ?? CONTENT_HISTORY_TIMELINE;
+  const eras = erasProp ?? data.timelines[timelineKey] ?? data.defaultTimeline;
   const [activeEraId, setActiveEraId] = useState(eras[0]?.id ?? "");
   const contentTopRef = useRef<HTMLDivElement>(null);
 
   // 설명 텍스트: 서브 카테고리가 있으면 해당 서브의 description, 없으면 카테고리 description
-  const description = subCategories
-    ? subCategories.find((s) => s.id === activeSubId)?.description
-    : activeCategory?.description;
+  const description = subIds
+    ? t(`sub.${activeCategoryId}.${activeSubId}.description`)
+    : t(`category.${activeCategoryId}.description`);
 
   // eras가 변경되면 첫 번째 항목으로 리셋
   useEffect(() => {
@@ -546,10 +553,10 @@ export default function ContentHistoryTimeline({
             <span className="text-[10px] sm:text-xs text-white/80 font-medium tracking-widest uppercase">Chronicle of Knowledge</span>
           </div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
-            콘텐츠의 연대기
+            {t("pageTitle")}
           </h1>
           <p className="text-white/60 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8">
-            {description ?? "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다."}
+            {description ?? t("defaultDescription")}
           </p>
         </motion.div>
 
@@ -560,8 +567,8 @@ export default function ContentHistoryTimeline({
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <CategoryTabs activeId={activeCategoryId} onChange={setActiveCategoryId} />
-          {subCategories && subCategories.length > 1 && (
-            <SubCategoryTabs subCategories={subCategories} activeId={activeSubId} onChange={setActiveSubId} />
+          {subIds && subIds.length > 1 && (
+            <SubCategoryTabs categoryId={activeCategoryId} subIds={subIds} activeId={activeSubId} onChange={setActiveSubId} />
           )}
         </motion.div>
       </div>
@@ -574,13 +581,13 @@ export default function ContentHistoryTimeline({
           </div>
           <div ref={contentTopRef} className="flex flex-col">
             {eras.map((era, index) => (
-              <EraSection key={era.id} era={era} index={index} eras={eras} />
+              <EraSection key={era.id} era={era} index={index} eras={eras} keyContentsLabel={t("keyContents")} />
             ))}
           </div>
         </>
       )}
-      {viewType === 'catalog' && <TypographyCatalog data={TYPOGRAPHY_CLASSES} />}
-      {viewType === 'comparison' && <ReadingComparison data={READING_METHODS} />}
+      {viewType === 'catalog' && <TypographyCatalog data={data.typographyClasses} />}
+      {viewType === 'comparison' && <ReadingComparison data={data.readingMethods} />}
     </div>
   );
 }

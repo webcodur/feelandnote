@@ -5,11 +5,14 @@
 */ // ------------------------------
 
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import FriendFeedSection from "@/components/features/agora/FriendFeedSection";
-import { getAgoraPageTitle } from "@/constants/agora";
 
-export const metadata = { title: getAgoraPageTitle("friend-feed") };
+export async function generateMetadata() {
+  const t = await getTranslations("agora.friendFeed");
+  return { title: t("metaTitle") };
+}
 
 function FeedSkeleton() {
   return (

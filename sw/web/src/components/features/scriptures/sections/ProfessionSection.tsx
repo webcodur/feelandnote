@@ -21,6 +21,7 @@ import {
 } from "@/actions/scriptures";
 import { PROFESSION_ROWS } from "@/constants/scriptures";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { useTranslations } from "next-intl";
 
 // #region Types
 interface ProfessionCount {
@@ -43,6 +44,8 @@ export default function ProfessionSection({ professionCounts }: Props) {
   );
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("scriptures.page.professionPage");
+  const te = useTranslations("scriptures.page.empty");
 
   // 초기 로드
   useEffect(() => {
@@ -74,7 +77,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
   if (professionCounts.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-        <p className="text-text-tertiary text-sm">분야별 데이터가 없습니다</p>
+        <p className="text-text-tertiary text-sm">{te("noProfessionData")}</p>
       </div>
     );
   }
@@ -82,14 +85,14 @@ export default function ProfessionSection({ professionCounts }: Props) {
   return (
     <div>
       <SectionHeader
-        title="길의 갈래"
+        title={t("title")}
         label="MASTERS OF THE FIELD"
         description={
           <>
-            분야별 인물들의 필독서.
+            {t("description")}
             <br />
             <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
-              당신이 가고자 하는 길의 선배들은 무엇을 읽었을까요?
+              {t("descriptionSub")}
             </span>
           </>
         }
@@ -98,7 +101,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
       {/* 분야 선택 */}
       <div className="mb-6">
         <div className="flex justify-center mb-4">
-          <DecorativeLabel label="직군 선택" />
+          <DecorativeLabel label={t("selectProfession")} />
         </div>
         <div className="flex justify-center">
           <div className="inline-flex flex-col items-center gap-1.5 p-2.5 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
@@ -142,7 +145,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
           <div className="mb-10 sm:mb-14">
             <RepresentativeCelebs
               celebs={data.topCelebs}
-              title={`대표 ${getCelebProfessionLabel(activeProfession)}`}
+              title={`${t("representativePrefix")}${getCelebProfessionLabel(activeProfession)}`}
               centered
             />
           </div>
@@ -151,7 +154,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
         {/* 카드 그리드 */}
         <div>
           <div className="flex justify-center mb-6">
-            <DecorativeLabel label="추천 작품" />
+            <DecorativeLabel label={t("recommendedWorks")} />
           </div>
           
           {data && data.contents.length > 0 ? (
@@ -178,7 +181,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">해당 분야의 작품이 없습니다</p>
+              <p className="text-text-tertiary text-sm">{te("noProfession")}</p>
             </div>
           )}
         </div>

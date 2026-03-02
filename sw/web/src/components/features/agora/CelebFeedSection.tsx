@@ -10,11 +10,7 @@ import { useState } from "react";
 import { CATEGORIES, type ContentTypeFilterValue } from "@/constants/categories";
 import type { CelebReview } from "@/types/home";
 import CelebFeed from "@/components/features/home/CelebFeed";
-
-const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
-  { value: "all", label: "전체" },
-  ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
-];
+import { useTranslations } from "next-intl";
 
 interface Props {
   initialReviews?: CelebReview[];
@@ -24,13 +20,22 @@ interface Props {
 
 export default function CelebFeedSection({ initialReviews, initialCursor, initialHasMore }: Props) {
   const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
+  const t = useTranslations("content.category");
+
+  const tabs: { value: ContentTypeFilterValue; label: string }[] = [
+    { value: "all", label: t("all") },
+    ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({
+      value: c.dbType as ContentTypeFilterValue,
+      label: t(c.id),
+    })),
+  ];
 
   return (
     <div className="flex flex-col gap-4 md:gap-12">
       {/* 카테고리 탭 (석판 스타일) */}
       <div className="flex justify-center overflow-x-auto pb-4 scrollbar-hidden">
         <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
-          {CATEGORY_TABS.map((tab) => {
+          {tabs.map((tab) => {
             const isActive = contentType === tab.value;
             return (
               <button

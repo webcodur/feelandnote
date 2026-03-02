@@ -1,4 +1,9 @@
 {
+  "site": {
+    "title": "Feel&Note - 감상 아카이브",
+    "description": "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
+    "twitterDescription": "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 감상 아카이브 플랫폼."
+  },
   "notFound": {
     "title": "페이지를 찾을 수 없습니다",
     "description": "요청하신 페이지가 존재하지 않거나 이동되었습니다.",
@@ -156,6 +161,77 @@
       "completed_50": { "name": "아카이브 장인", "description": "기록의 달인" }
     }
   },
+  "explore": {
+    "meta": {
+      "title": "탐색",
+      "description": "다양한 분야의 셀럽들과 그들의 인생 콘텐츠를 탐색해보세요."
+    },
+    "celebs": {
+      "metaTitle": "셀럽 | 탐색",
+      "metaDescription": "역사 속 위인부터 현대 문화 아이콘까지, 셀럽들의 감상 기록과 추천 작품을 탐색하세요."
+    },
+    "people": {
+      "metaTitle": "사람 | 탐색",
+      "friends": "친구",
+      "following": "팔로잉",
+      "followers": "팔로워",
+      "similar": "취향 유사"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "로그인",
+      "tagline": "문화생활을 기록하고 공유하세요",
+      "google": "Google로 계속하기",
+      "kakao": "카카오로 계속하기",
+      "email": "이메일로 계속하기",
+      "or": "또는",
+      "browse": "로그인 없이 둘러보기 (홈화면)",
+      "termsPrefix": "로그인 시",
+      "termsAnd": "과",
+      "termsSuffix": "에 동의합니다",
+      "otherMethods": "다른 방법으로 로그인",
+      "emailPlaceholder": "이메일",
+      "passwordPlaceholder": "비밀번호",
+      "saveEmail": "이메일 저장",
+      "loggingIn": "로그인 중...",
+      "submit": "로그인",
+      "noAccount": "계정이 없으신가요?",
+      "signupLink": "회원가입"
+    },
+    "signup": {
+      "title": "회원가입",
+      "tagline": "새 계정을 만들어 시작하세요",
+      "nicknamePlaceholder": "닉네임",
+      "emailPlaceholder": "이메일",
+      "passwordPlaceholder": "비밀번호 (6자 이상)",
+      "signingUp": "가입 중...",
+      "submit": "회원가입",
+      "hasAccount": "이미 계정이 있으신가요?",
+      "loginLink": "로그인",
+      "termsPrefix": "회원가입 시",
+      "termsAnd": "과",
+      "termsSuffix": "에 동의합니다"
+    },
+    "resetPassword": {
+      "title": "비밀번호 재설정",
+      "heading": "새 비밀번호 설정",
+      "description": "새로운 비밀번호를 입력해주세요",
+      "newPassword": "새 비밀번호",
+      "passwordPlaceholder": "6자 이상 입력",
+      "confirmPassword": "비밀번호 확인",
+      "confirmPlaceholder": "비밀번호 재입력",
+      "changing": "변경 중...",
+      "submit": "비밀번호 변경",
+      "success": "비밀번호가 변경되었습니다",
+      "redirecting": "잠시 후 메인 페이지로 이동합니다...",
+      "minLength": "비밀번호는 6자 이상이어야 합니다",
+      "mismatch": "비밀번호가 일치하지 않습니다"
+    },
+    "loginRequired": "로그인이 필요합니다.",
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침"
+  },
   "layout": {
     "readingMode": "감상 모드",
     "notifications": {
@@ -175,6 +251,301 @@
     },
     "footer": {
       "tagline": "기록을 쌓고 취향의 아카이브를 만들어 보세요."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "홈",
+      "description": "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼."
+    },
+    "notifications": "소식",
+    "search": "검색",
+    "chamber": "관리",
+    "merits": "업적",
+    "collections": "플로우",
+    "collectionDetail": "플로우 상세",
+    "tierEdit": "티어 편집",
+    "about": {
+      "title": "About",
+      "description": "우리는 너무 많이 보고, 너무 빨리 잊습니다. 기록은 흐려지지 않는 지혜가 됩니다."
+    },
+    "lab": "Lab"
+  },
+  "agora": {
+    "meta": {
+      "title": "광장",
+      "description": "셀럽 피드, 자유 게시판, 공지사항 등 Feel&Note 커뮤니티 광장. 감상을 나누고 영감을 공유하세요."
+    },
+    "celebFeed": {
+      "metaTitle": "셀럽 피드 | 광장",
+      "metaDescription": "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+    },
+    "friendFeed": {
+      "metaTitle": "친구 피드 | 광장"
+    },
+    "freeBoard": "자유게시판",
+    "feedback": {
+      "title": "피드백",
+      "description": "Feel&Note 서비스에 대한 피드백과 건의사항을 남겨주세요.",
+      "write": "피드백 작성",
+      "edit": "피드백 수정"
+    },
+    "notice": {
+      "title": "공지사항",
+      "description": "Feel&Note 서비스 공지사항입니다.",
+      "write": "공지사항 작성",
+      "edit": "공지사항 수정"
+    }
+  },
+  "scriptures": {
+    "meta": {
+      "title": "서가",
+      "description": "시대별, 직군별, 인물별로 정리된 감상 아카이브. 역사 속 명작부터 현대 걸작까지 셀럽들의 감상 기록을 탐색하세요."
+    },
+    "figure": {
+      "metaTitle": "오늘의 인물 | 지혜의 서고",
+      "metaDescription": "매일 새로운 인물의 서재를 탐험하세요. 오늘의 인물이 읽고, 보고, 들은 작품을 소개합니다."
+    },
+    "era": {
+      "metaTitle": "불후의 명작 | 지혜의 서고",
+      "metaDescription": "전 시대의 대표작과 시대별 명저를 만나보세요."
+    },
+    "history": {
+      "metaTitle": "콘텐츠 역사 | 지혜의 서고",
+      "metaDescription": "인류 지식 매체와 콘텐츠 형태의 변천사를 살펴봅니다.",
+      "pageTitle": "콘텐츠의 연대기",
+      "defaultDescription": "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다.",
+      "keyContents": "주요 콘텐츠",
+      "present": "현재",
+      "representativeTypeface": "대표 서체",
+      "usageContext": "사용 맥락",
+      "foldEssay": "에세이 접기",
+      "unfoldEssay": "에세이 펼치기",
+      "readingMethod": "독서법",
+      "speed": "속도",
+      "memoryRetention": "기억 정착",
+      "suitableSituation": "적합한 상황",
+      "activatedBrainRegion": "활성화 뇌 영역",
+      "comprehension": "이해도 특성",
+      "speedLevel": {
+        "slow": "느림",
+        "medium": "보통",
+        "fast": "빠름",
+        "variable": "가변"
+      },
+      "category": {
+        "book": { "label": "책", "description": "점토판에서 전자책까지, 기록 매체 5천 년의 연대기" },
+        "video": { "label": "영상", "description": "환등기에서 스트리밍까지, 움직이는 빛의 역사" },
+        "music": { "label": "음악", "description": "구전 선율에서 디지털 음원까지, 소리의 기록사" },
+        "game": { "label": "게임", "description": "주사위에서 가상현실까지, 놀이의 진화사" }
+      },
+      "sub": {
+        "book": {
+          "media": { "label": "매체", "description": "점토판에서 전자책까지, 기록 매체 5천 년의 연대기" },
+          "writing_tool": { "label": "필기구", "description": "갈대 펜에서 디지털 펜까지, 글자를 새기는 도구의 변천사" },
+          "typography": { "label": "서체", "description": "그림 문자에서 디지털 폰트까지, 글꼴 디자인의 진화사" },
+          "reading": { "label": "독서", "description": "음독에서 묵독, 하이퍼텍스트까지, 읽기 행위의 변천사" }
+        },
+        "video": {
+          "media": { "label": "매체", "description": "환등기에서 스트리밍까지, 상영 매체와 포맷의 발전" },
+          "technique": { "label": "기법·효과", "description": "옵티컬 일루전에서 CGI까지, 상상을 현실로 만드는 기술의 진화" },
+          "space": { "label": "공간", "description": "단관 극장에서 거실의 스크린까지, 관람 경험의 변화" }
+        },
+        "music": {
+          "media": { "label": "매체", "description": "구전 선율에서 디지털 음원까지, 소리 저장과 전송의 역사" },
+          "instrument": { "label": "악기", "description": "타악기에서 디지털 신시사이저까지, 소리를 만들어내는 도구의 진화" },
+          "experience": { "label": "청취", "description": "제의장에서 알고리즘까지, 음악을 듣는 공간과 방식의 변천사" }
+        },
+        "game": {
+          "platform": { "label": "플랫폼", "description": "보드게임에서 클라우드까지, 게임이 구동되는 환경의 변천사" },
+          "interface": { "label": "인터페이스", "description": "주사위에서 VR 컨트롤러까지, 게임을 조작하는 방식의 진화" },
+          "graphics": { "label": "그래픽", "description": "텍스트에서 레이트레이싱까지, 게임이 세계를 그려내는 기술의 진화" }
+        }
+      }
+    },
+    "profession": {
+      "metaTitle": "갈림길 | 지혜의 서고",
+      "metaDescription": "지도자, 과학자, 예술가 등 분야별 인물들이 선택한 필독서와 추천 작품을 만나보세요."
+    },
+    "page": {
+      "section": {
+        "sage": { "label": "오늘의 인물", "description": "매일 자정, 한 명의 인물이 새롭게 선정됩니다" },
+        "chosen": { "label": "공통 서가", "description": "가장 많은 인물들이 감상한 작품" },
+        "profession": { "label": "갈림길", "description": "분야별 인물들의 필독서" },
+        "era": { "label": "시대의 작품", "description": "시대별 인물들의 선택" }
+      },
+      "toc": "목차",
+      "openToc": "목차 열기",
+      "close": "닫기",
+      "viewFullLibrary": "서재 전체 보기",
+      "moreCount": "+{count}개 더",
+      "reviewCount": "감상 기록 {count}개",
+      "newsMention": "뉴스 {count}건 언급",
+      "celebCount": "(인물 {count}명)",
+      "empty": {
+        "noFigure": "오늘의 인물이 없습니다",
+        "noRecords": "감상 기록이 없습니다",
+        "noCategory": "해당 카테고리의 작품이 없습니다",
+        "noProfession": "해당 분야의 작품이 없습니다",
+        "noProfessionData": "분야별 데이터가 없습니다",
+        "noEra": "해당 시대의 작품이 없습니다",
+        "noEraData": "시대별 데이터가 없습니다",
+        "noData": "데이터가 없습니다",
+        "noWorks": "작품이 없습니다",
+        "noEraSection": "해당 시대의 데이터가 없습니다"
+      },
+      "defaultBio": "이 시대를 살아가는 인물입니다.",
+      "eraPage": {
+        "title": "불후의 명작",
+        "description": "전 시대의 대표작과 시대별 명저.",
+        "descriptionSub": "가장 많은 인물들의 선택을 받은 작품들을 만나보세요.",
+        "allEras": "전체 시대",
+        "eraAndCategory": "시대 및 카테고리",
+        "worksList": "작품 목록",
+        "figureCount": "{count}명의 위인",
+        "worksCount": "{count}개의 작품",
+        "crossEraDescription": "시대를 초월해 가장 많은 인물들의 선택을 받은 작품들.\n수많은 위인이 같은 책을 선택했다면, 그건 우연이 아닙니다.",
+        "symbolOfEra": "시대의 상징",
+        "eraTabs": {
+          "all": "전체",
+          "contemporary": "현대",
+          "modern": "근대",
+          "medieval": "중세",
+          "ancient": "고대"
+        }
+      },
+      "professionPage": {
+        "title": "길의 갈래",
+        "description": "분야별 인물들의 필독서.",
+        "descriptionSub": "당신이 가고자 하는 길의 선배들은 무엇을 읽었을까요?",
+        "selectProfession": "직군 선택",
+        "representativePrefix": "대표 ",
+        "recommendedWorks": "추천 작품"
+      }
+    }
+  },
+  "rest": {
+    "meta": {
+      "title": "쉼터",
+      "description": "Feel&Note의 게임 아레나. 전략 시뮬레이션, 미궁 탐험 등 다양한 미니게임을 즐기세요."
+    },
+    "dawn": {
+      "metaTitle": "여명 | 쉼터",
+      "metaDescription": "역사 속 인물들의 탄생 순서를 맞추는 퀴즈 게임. 당신의 역사 지식을 시험하세요."
+    },
+    "labyrinth": {
+      "metaTitle": "미궁 | 쉼터",
+      "metaDescription": "용의자 6인의 단서를 분석해 숨어든 인물을 추적하는 미궁 게임. 도주하기 전에 찾아내세요."
+    },
+    "hegemony": {
+      "metaTitle": "패권 | 쉼터",
+      "metaDescription": "셀럽 영향력 카드로 겨루는 1:1 전략 대전. 역사 속 인물들의 능력치로 승부하세요."
+    },
+    "suikoden": {
+      "metaTitle": "천도 | 쉼터",
+      "metaDescription": "역사 속 인물들을 모아 나만의 군단을 편성하는 전략 시뮬레이션 게임."
+    }
+  },
+  "policy": {
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침"
+  },
+  "shared": {
+    "search": {
+      "viewAllResults": "전체 검색결과 보기",
+      "openInNewTab": "새 창으로 열기",
+      "recentSearches": "최근 검색",
+      "clear": "지우기",
+      "noResults": "\"{query}\"에 대한 결과가 없습니다",
+      "enterQuery": "검색어를 입력하세요",
+      "hintUser": "사용자",
+      "hintTag": "태그",
+      "hintMode": "모드 전환",
+      "mode": {
+        "content": "콘텐츠",
+        "user": "사용자",
+        "records": "내 기록",
+        "contentPlaceholder": "작품명, 저자, 감독...",
+        "userPlaceholder": "닉네임, @username...",
+        "recordsPlaceholder": "내 기록에서 검색..."
+      },
+      "sectionContent": "콘텐츠",
+      "sectionOther": "기타",
+      "follower": "팔로워",
+      "posts": "게시물 {count}개"
+    },
+    "content": {
+      "addToRecord": "기록하기",
+      "viewDetails": "상세정보 보기",
+      "listenOnSpotify": "Spotify에서 듣기",
+      "publisher": "출판사",
+      "publishDate": "출판일",
+      "type": "유형",
+      "movie": "영화",
+      "tvProgram": "TV 프로그램",
+      "rating": "평점",
+      "ratingScore": "{score}점",
+      "genre": "장르",
+      "developer": "개발사",
+      "gamePublisher": "퍼블리셔",
+      "platform": "플랫폼",
+      "albumType": "앨범 유형",
+      "tracks": "{count}곡",
+      "artist": "아티스트",
+      "qualificationType": "자격 유형",
+      "series": "계열",
+      "majorField": "직무분야"
+    },
+    "celeb": {
+      "info": "정보",
+      "following": "팔로잉",
+      "follow": "팔로우"
+    },
+    "game": {
+      "exit": "나가기",
+      "exitEsc": "나가기 (ESC)",
+      "prevTrack": "이전 곡",
+      "nextTrack": "다음 곡",
+      "play": "재생",
+      "pause": "일시정지",
+      "mute": "음소거",
+      "unmute": "음소거 해제"
+    },
+    "persona": {
+      "ability": "능력",
+      "virtue": "품성",
+      "tendency": "성향",
+      "noData": "데이터 없음",
+      "stat": {
+        "command": "통솔",
+        "martial": "무력",
+        "intellect": "지력",
+        "charisma": "매력",
+        "temperance": "절제",
+        "diligence": "근면",
+        "reflection": "성찰",
+        "courage": "용기",
+        "loyalty": "충의",
+        "benevolence": "인애",
+        "fairness": "공정",
+        "humility": "겸양"
+      },
+      "tendency_label": {
+        "pessimism": "비관",
+        "optimism": "낙관",
+        "conservative": "보수",
+        "progressive": "진취",
+        "individual": "개인",
+        "social": "사회",
+        "cautious": "신중",
+        "bold": "과감"
+      }
+    },
+    "profile": {
+      "records": "기록",
+      "followers": "팔로워",
+      "viewProfile": "프로필 보기",
+      "loadError": "프로필을 불러올 수 없습니다"
     }
   },
   "review": {

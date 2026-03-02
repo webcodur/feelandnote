@@ -9,11 +9,7 @@
 import { useState } from "react";
 import { CATEGORIES, type ContentTypeFilterValue } from "@/constants/categories";
 import FriendActivitySection from "@/components/features/home/FriendActivitySection";
-
-const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
-  { value: "all", label: "전체" },
-  ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
-];
+import { useTranslations } from "next-intl";
 
 interface Props {
   userId?: string;
@@ -21,6 +17,16 @@ interface Props {
 
 export default function FriendFeedSection({ userId }: Props) {
   const [contentType, setContentType] = useState<ContentTypeFilterValue>("all");
+  const tc = useTranslations("content.category");
+  const ta = useTranslations("auth");
+
+  const tabs: { value: ContentTypeFilterValue; label: string }[] = [
+    { value: "all", label: tc("all") },
+    ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({
+      value: c.dbType as ContentTypeFilterValue,
+      label: tc(c.id),
+    })),
+  ];
 
   const isLoggedIn = !!userId;
 
@@ -29,7 +35,7 @@ export default function FriendFeedSection({ userId }: Props) {
       {/* 카테고리 탭 (석판 스타일) */}
       <div className="flex justify-center overflow-x-auto pb-4 scrollbar-hidden">
         <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
-          {CATEGORY_TABS.map((tab) => {
+          {tabs.map((tab) => {
             const isActive = contentType === tab.value;
             return (
               <button
@@ -57,7 +63,7 @@ export default function FriendFeedSection({ userId }: Props) {
         {isLoggedIn ? (
           <FriendActivitySection userId={userId!} contentType={contentType} hideFilter />
         ) : (
-          <div className="py-10 text-center text-text-secondary font-serif">로그인이 필요합니다.</div>
+          <div className="py-10 text-center text-text-secondary font-serif">{ta("loginRequired")}</div>
         )}
       </div>
     </div>

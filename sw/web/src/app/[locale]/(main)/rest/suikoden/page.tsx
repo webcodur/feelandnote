@@ -4,15 +4,16 @@
   책임: 게임 데이터를 서버에서 로딩하고 클라이언트 게임 컴포넌트에 전달한다.
 */
 
+import { getTranslations } from "next-intl/server";
 import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
 import SuikodenGameWrapper from "@/components/features/game/suikoden/SuikodenGameWrapper";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { getArenaPageTitle, ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { ARENA_SECTION_HEADERS } from "@/constants/arena";
 
-export const metadata = {
-  title: getArenaPageTitle("suikoden"),
-  description: "역사 속 인물들을 모아 나만의 군단을 편성하는 전략 시뮬레이션 게임.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("rest.suikoden");
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
 const headerInfo = ARENA_SECTION_HEADERS["suikoden"];
 
