@@ -7,12 +7,13 @@
 
 import { useState, useEffect, useTransition, useCallback } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Users, UserCheck, UserPlus, Loader2 } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import { TitleBadge } from "@/components/ui";
 import { getFollowers, getFollowing, toggleFollow, type FollowerInfo, type FollowingInfo } from "@/actions/user";
+import { useTranslations } from "next-intl";
 
 type TabType = "followers" | "following";
 
@@ -33,6 +34,7 @@ export default function FollowListModal({
   followerCount,
   followingCount,
 }: FollowListModalProps) {
+  const t = useTranslations("userProfile");
   const [activeTab, setActiveTab] = useState<TabType>(initialTab);
   const [followers, setFollowers] = useState<FollowerInfo[]>([]);
   const [following, setFollowing] = useState<FollowingInfo[]>([]);
@@ -76,7 +78,7 @@ export default function FollowListModal({
               : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          팔로워 {followerCount}
+          {t("followers")} {followerCount}
         </Button>
         <Button
           unstyled
@@ -87,7 +89,7 @@ export default function FollowListModal({
               : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          팔로잉 {followingCount}
+          {t("following")} {followingCount}
         </Button>
       </div>
 
@@ -108,12 +110,13 @@ export default function FollowListModal({
 
 function FollowerList({ users, onClose }: { users: FollowerInfo[]; onClose: () => void }) {
   const router = useRouter();
+  const t = useTranslations("userProfile");
 
   if (users.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-text-secondary">
         <Users size={32} className="mb-2 opacity-50" />
-        <p className="text-sm">아직 팔로워가 없어요</p>
+        <p className="text-sm">{t("noFollowers")}</p>
       </div>
     );
   }
@@ -136,12 +139,13 @@ function FollowerList({ users, onClose }: { users: FollowerInfo[]; onClose: () =
 
 function FollowingList({ users, onClose }: { users: FollowingInfo[]; onClose: () => void }) {
   const router = useRouter();
+  const t = useTranslations("userProfile");
 
   if (users.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-text-secondary">
         <Users size={32} className="mb-2 opacity-50" />
-        <p className="text-sm">아직 팔로잉이 없어요</p>
+        <p className="text-sm">{t("noFollowing")}</p>
       </div>
     );
   }
@@ -169,6 +173,7 @@ function UserListItem({
   user: FollowerInfo | FollowingInfo;
   onNavigate: () => void;
 }) {
+  const t = useTranslations("userProfile");
   const [isFollowing, setIsFollowing] = useState(user.is_following);
   const [isPending, startTransition] = useTransition();
 
@@ -232,12 +237,12 @@ function UserListItem({
         {isFollowing ? (
           <>
             <UserCheck size={12} />
-            팔로잉
+            {t("following")}
           </>
         ) : (
           <>
             <UserPlus size={12} />
-            팔로우
+            {t("follow")}
           </>
         )}
       </Button>

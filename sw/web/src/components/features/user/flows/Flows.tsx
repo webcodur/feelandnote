@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Plus, Layers } from "lucide-react";
 import { getFlows } from "@/actions/flows";
 import type { FlowSummary } from "@/types/database";

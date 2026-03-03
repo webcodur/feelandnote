@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { X, ExternalLink, Loader2, Globe, BookOpen, LayoutTemplate } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import { fetchUrlContent } from "@/actions/search/fetchUrlContent";
+import { useTranslations } from "next-intl";
 
 interface LinkPreviewModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export default function LinkPreviewModal({
   url,
   title
 }: LinkPreviewModalProps) {
+  const t = useTranslations("quickRecord.linkPreview");
   const [mode, setMode] = useState<'READER' | 'ORIGINAL'>('READER');
   const [isLoading, setIsLoading] = useState(true);
   const [readerContent, setReaderContent] = useState<{title?: string, content?: string, error?: string} | null>(null);
@@ -79,7 +81,7 @@ export default function LinkPreviewModal({
                {mode === 'READER' ? <BookOpen size={16} className="text-accent" /> : <Globe size={16} className="text-text-secondary" />}
             </div>
             <div className="flex flex-col overflow-hidden">
-                <span className="text-sm font-bold text-text-primary truncate">{title || readerContent?.title || "웹 페이지"}</span>
+                <span className="text-sm font-bold text-text-primary truncate">{title || readerContent?.title || t("webPage")}</span>
                 <span className="text-[10px] text-text-tertiary truncate max-w-[300px]">{url}</span>
             </div>
           </div>
@@ -91,13 +93,13 @@ export default function LinkPreviewModal({
                     onClick={() => setMode('READER')}
                     className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'READER' ? 'bg-accent text-neutral-900 shadow-sm' : 'text-text-tertiary hover:text-text-primary'}`}
                 >
-                    읽기
+                    {t("reader")}
                 </button>
                 <button
                     onClick={() => setMode('ORIGINAL')}
                     className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'ORIGINAL' ? 'bg-white/20 text-text-primary shadow-sm' : 'text-text-tertiary hover:text-text-primary'}`}
                 >
-                     원본
+                     {t("original")}
                 </button>
             </div>
 
@@ -106,14 +108,14 @@ export default function LinkPreviewModal({
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
-                title="브라우저로 열기"
+                title={t("openInBrowser")}
             >
                 <ExternalLink size={16} />
             </a>
             <button 
                 onClick={onClose}
                 className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
-                title="닫기 (ESC)"
+                title={t("closeEsc")}
             >
                 <X size={20} />
             </button>
@@ -126,7 +128,7 @@ export default function LinkPreviewModal({
             {isLoading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-bg-primary z-20 space-y-3">
                     <Loader2 className="animate-spin text-accent" size={32} />
-                    <p className="text-text-secondary text-sm">페이지 내용을 불러오고 있습니다...</p>
+                    <p className="text-text-secondary text-sm">{t("loadingContent")}</p>
                 </div>
             )}
             
@@ -159,12 +161,12 @@ export default function LinkPreviewModal({
                  ) : !isLoading && (
                      <div className="flex flex-col items-center justify-center h-full text-text-tertiary space-y-4">
                          <BookOpen size={48} className="opacity-20" />
-                         <p>읽기 모드를 사용할 수 없는 페이지입니다.</p>
+                         <p>{t("readerUnavailable")}</p>
                          <button 
                             onClick={() => setMode('ORIGINAL')}
                             className="px-4 py-2 bg-white/5 hover:bg-white/10 text-text-secondary rounded-lg text-sm font-medium transition-colors border border-white/5"
                          >
-                             원본 보기로 전환
+                             {t("switchToOriginal")}
                          </button>
                      </div>
                  )}
@@ -177,17 +179,17 @@ export default function LinkPreviewModal({
                          <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-2">
                              <ExternalLink size={32} className="text-red-400" />
                          </div>
-                         <h3 className="text-lg font-bold text-text-primary">연결이 거부되었습니다.</h3>
+                         <h3 className="text-lg font-bold text-text-primary">{t("connectionRefused")}</h3>
                          <p className="text-text-secondary text-sm max-w-md break-keep">
-                             이 사이트({new URL(url).hostname})에서는 보안 정책(X-Frame-Options)으로 인해 미리보기를 허용하지 않습니다.
+                             {t("securityPolicy", { hostname: new URL(url).hostname })}
                          </p>
-                         <a 
-                            href={url} 
-                            target="_blank" 
+                         <a
+                            href={url}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="px-6 py-2.5 bg-accent text-neutral-900 rounded-lg font-bold hover:bg-accent/90 transition-colors shadow-lg shadow-accent/20"
                         >
-                            새 창에서 열기
+                            {t("openInNewWindow")}
                         </a>
                     </div>
                 ) : (
@@ -206,9 +208,9 @@ export default function LinkPreviewModal({
         
         {/* Footer */}
         <div className="h-8 bg-[#121212] border-t border-white/5 flex items-center justify-center text-[10px] text-text-tertiary shrink-0">
-            {mode === 'READER' 
-                ? <span>읽기 모드는 텍스트와 이미지 위주로 내용을 보여줍니다.</span>
-                : <span>화면이 보이지 않으면 '브라우저로 열기'를 눌러주세요.</span>
+            {mode === 'READER'
+                ? <span>{t("readerHint")}</span>
+                : <span>{t("originalHint")}</span>
             }
         </div>
       </div>

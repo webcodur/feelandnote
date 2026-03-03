@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ArrowLeft, Layers, Loader } from "lucide-react";
 import {
   DndContext,
@@ -15,7 +15,7 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useFlowDetail } from "./flowDetail/useFlowDetail";
 import FlowHeader from "./flowDetail/FlowHeader";

@@ -1,7 +1,8 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Plus, MessageSquare } from 'lucide-react'
 import { Button, Pagination } from '@/components/ui'
 import type { FeedbackWithAuthor } from '@/types/database'
@@ -24,6 +25,7 @@ export default function FeedbackList({
 }: FeedbackListProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useTranslations('board')
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -43,7 +45,7 @@ export default function FeedbackList({
           <Link href="/agora/board/feedback/write">
             <Button size="sm" className="gap-2">
               <Plus size={16} />
-              <span className="font-serif">피드백 작성</span>
+              <span className="font-serif">{t('feedback.write')}</span>
             </Button>
           </Link>
         </div>
@@ -54,9 +56,9 @@ export default function FeedbackList({
           <div className="inline-block p-6 rounded-full bg-bg-card/50 border border-accent-dim/20 mb-6">
             <MessageSquare size={48} strokeWidth={1} className="text-accent-dim" />
           </div>
-          <p className="font-serif text-text-secondary">아직 피드백이 없습니다</p>
+          <p className="font-serif text-text-secondary">{t('feedback.emptyTitle')}</p>
           {isLoggedIn && (
-            <p className="text-xs text-text-tertiary mt-2">첫 번째 피드백을 작성해보세요</p>
+            <p className="text-xs text-text-tertiary mt-2">{t('feedback.emptySubtitle')}</p>
           )}
         </div>
       ) : (

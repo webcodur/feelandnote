@@ -4,9 +4,7 @@ import { Bell, Shield, Database, Palette, Server, HardDrive, FolderOpen } from '
 export const metadata: Metadata = {
   title: '설정',
 }
-import { getApiKeys } from '@/actions/admin/settings'
 import { getSupabaseStats } from '@/actions/admin/supabase-stats'
-import ApiKeyForm from './ApiKeyForm'
 
 const settingSections = [
   {
@@ -36,10 +34,7 @@ const settingSections = [
 ]
 
 export default async function SettingsPage() {
-  const [apiKeys, supabaseStats] = await Promise.all([
-    getApiKeys(),
-    getSupabaseStats(),
-  ])
+  const supabaseStats = await getSupabaseStats()
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -48,9 +43,6 @@ export default async function SettingsPage() {
         <h1 className="text-xl md:text-2xl font-bold text-text-primary">설정</h1>
         <p className="text-sm text-text-secondary mt-1">관리자 설정을 관리합니다</p>
       </div>
-
-      {/* API Keys */}
-      <ApiKeyForm initialApiKey={apiKeys.geminiApiKey} />
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">

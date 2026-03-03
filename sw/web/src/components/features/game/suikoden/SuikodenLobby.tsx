@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Crown, BookOpen, BarChart3, LogOut,
   Map, Swords, Users, Scroll, Shield, Building,
@@ -25,6 +26,8 @@ interface SuikodenLobbyProps {
 type MenuId = "main" | "rules";
 
 export default function SuikodenLobby({ characterCount, onStart, onExit }: SuikodenLobbyProps) {
+  const t = useTranslations("shared.game");
+  const tArena = useTranslations("rest.arena.suikoden");
   const [menu, setMenu] = useState<MenuId>("main");
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -33,22 +36,22 @@ export default function SuikodenLobby({ characterCount, onStart, onExit }: Suiko
   return (
     <>
       <GameLobbyMain
-          title="천도"
+          title={tArena("label")}
           englishTitle="Cheondo"
-          catchphrase="뜻이 있는 자, 천하를 얻으리라"
+          catchphrase={tArena("headerDesc")}
           cta={{
             icon: <>
               <Crown size={22} className="text-accent sm:hidden" />
               <Crown size={26} className="text-accent hidden sm:block" />
             </>,
-            label: "게임 시작",
+            label: t("startGame"),
             sub: `${characterCount} Heroes Await`,
             onClick: () => setModalOpen(true),
           }}
           navItems={<>
-            <GameLobbyNavRow icon={<BookOpen size={16} />} label="규칙" sub="Rules" onClick={() => setMenu("rules")} />
-            <GameLobbyNavRow icon={<BarChart3 size={16} />} label="전적" sub="Records" disabled />
-            <GameLobbyNavRow icon={<LogOut size={16} />} label="나가기" sub="Exit" onClick={onExit} />
+            <GameLobbyNavRow icon={<BookOpen size={16} />} label={t("lobby.rules")} sub="Rules" onClick={() => setMenu("rules")} />
+            <GameLobbyNavRow icon={<BarChart3 size={16} />} label={t("lobby.records")} sub="Records" disabled />
+            <GameLobbyNavRow icon={<LogOut size={16} />} label={t("exit")} sub="Exit" onClick={onExit} />
           </>}
       />
       <GameStartModal
@@ -56,8 +59,8 @@ export default function SuikodenLobby({ characterCount, onStart, onExit }: Suiko
         onClose={() => setModalOpen(false)}
         onStart={() => onStart()}
         icon={<Crown size={28} className="text-accent/40" />}
-        title="게임 시작"
-        desc={`${characterCount}명의 영웅이 기다립니다`}
+        title={t("startGame")}
+        desc={t("heroesAwait", { count: characterCount })}
       />
     </>
   );
@@ -68,31 +71,32 @@ export default function SuikodenLobby({ characterCount, onStart, onExit }: Suiko
    ═══════════════════════════════════════════ */
 
 function LobbyRules({ onBack }: { onBack: () => void }) {
+  const tS = useTranslations("rest.arena.suikoden");
   return (
     <GameLobbySubmenu
       onBack={onBack}
       icon={<Crown size={28} className="text-accent/40" />}
-      title="게임 규칙"
-      desc="역사 속 인물들로 세력을 키우는 전략 시뮬레이션"
+      title={tS("rules.title")}
+      desc={tS("rules.desc")}
       longDesc
       showBackBottom
     >
       {/* 개요 */}
       <section className="text-center px-6 mb-12">
         <p className="text-sm text-text-secondary leading-[1.8]">
-          <span className="text-accent font-bold">천도</span>는 역사 속 인물들을 이끌고
-          세력을 키워 문명을 통일하는 전략 시뮬레이션입니다.
-          수호전 천도 108성에서 영감을 받은 전략 게임입니다.
+          {tS.rich("rules.overview", {
+            game: (chunks) => <span className="text-accent font-bold">{chunks}</span>,
+          })}
         </p>
       </section>
 
       {/* PART 1: 게임 흐름 */}
-      <GameRulesSection partLabel="Part 1" title="게임 흐름">
+      <GameRulesSection partLabel="Part 1" title={tS("rules.flowTitle")}>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { step: "01", icon: <Map size={18} />, title: "방랑", desc: "세계를 탐험하며 인재를 모집" },
-            { step: "02", icon: <Building size={18} />, title: "전략", desc: "거점을 관리하고 세력을 확장" },
-            { step: "03", icon: <Swords size={18} />, title: "전투", desc: "적 세력과 부대를 이끌고 격돌" },
+            { step: "01", icon: <Map size={18} />, title: tS("rules.flow1"), desc: tS("rules.flow1Desc") },
+            { step: "02", icon: <Building size={18} />, title: tS("rules.flow2"), desc: tS("rules.flow2Desc") },
+            { step: "03", icon: <Swords size={18} />, title: tS("rules.flow3"), desc: tS("rules.flow3Desc") },
           ].map((item) => (
             <div key={item.step} className="text-center px-3 py-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
               <span className="text-accent/30 font-cinzel text-[10px] tracking-wider">{item.step}</span>
@@ -105,19 +109,19 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
       </GameRulesSection>
 
       {/* PART 2: 핵심 시스템 */}
-      <GameRulesSection partLabel="Part 2" title="핵심 시스템">
+      <GameRulesSection partLabel="Part 2" title={tS("rules.coreTitle")}>
         <div className="space-y-2">
           {[
-            { icon: <Users size={14} />, title: "인재 영입", desc: "방랑 중 만난 인물을 설득하여 세력에 합류시킵니다", color: "text-accent border-accent/20 bg-accent/5" },
-            { icon: <Shield size={14} />, title: "부대 편성", desc: "영입한 인재들로 전투 부대를 구성합니다", color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
-            { icon: <Building size={14} />, title: "거점 건설", desc: "시설을 짓고 세력의 기반을 다집니다", color: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5" },
-            { icon: <Scroll size={14} />, title: "전술 운용", desc: "전투에서 전술을 선택하여 유리하게 싸웁니다", color: "text-purple-400 border-purple-500/20 bg-purple-500/5" },
+            { key: "core1", icon: <Users size={14} />, color: "text-accent border-accent/20 bg-accent/5" },
+            { key: "core2", icon: <Shield size={14} />, color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
+            { key: "core3", icon: <Building size={14} />, color: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5" },
+            { key: "core4", icon: <Scroll size={14} />, color: "text-purple-400 border-purple-500/20 bg-purple-500/5" },
           ].map((item) => (
-            <div key={item.title} className={`flex items-center gap-3 px-4 py-3 rounded-xl border ${item.color}`}>
+            <div key={item.key} className={`flex items-center gap-3 px-4 py-3 rounded-xl border ${item.color}`}>
               {item.icon}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold">{item.title}</p>
-                <p className="text-[10px] text-text-tertiary mt-0.5">{item.desc}</p>
+                <p className="text-sm font-bold">{tS(`rules.${item.key}`)}</p>
+                <p className="text-[10px] text-text-tertiary mt-0.5">{tS(`rules.${item.key}Desc`)}</p>
               </div>
             </div>
           ))}

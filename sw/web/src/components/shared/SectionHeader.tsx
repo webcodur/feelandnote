@@ -27,7 +27,7 @@ export default function SectionHeader({ title, label, description, className = "
       </div>
 
       {/* 영문 라벨 */}
-      {label && (
+      {label && label.toLowerCase() !== title.toLowerCase() && (
         <span className="block text-[10px] sm:text-xs font-cinzel font-bold text-accent tracking-[0.2em] uppercase mb-1">
           {label}
         </span>

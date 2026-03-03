@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { useTranslations } from 'next-intl'
 import { Music, MoreVertical, CheckCircle, Trash2, BookmarkCheck } from 'lucide-react'
 import { updateStatus } from '@/actions/contents/updateStatus'
 import { removeContent } from '@/actions/contents/removeContent'
@@ -10,15 +11,14 @@ import type { ContentStatus } from '@/types/database'
 import { Z_INDEX } from '@/constants/zIndex'
 
 // #region Constants
-const STATUS_LABEL: Record<string, { text: string; color: string }> = {
-  WANT: { text: '관심', color: '#d4af37' },
-  FINISHED: { text: '감상함', color: '#9e7aff' },
+const STATUS_COLOR: Record<string, string> = {
+  WANT: '#d4af37',
+  FINISHED: '#9e7aff',
 }
-const ENTITY_LABEL: Record<string, string> = { album: '앨범', track: '트랙' }
 
-const STATUS_OPTIONS: { status: ContentStatus; label: string; icon: React.ReactNode }[] = [
-  { status: 'WANT', label: '관심', icon: <BookmarkCheck size={12} /> },
-  { status: 'FINISHED', label: '감상함', icon: <CheckCircle size={12} /> },
+const STATUS_OPTIONS: { status: ContentStatus; key: string; icon: React.ReactNode }[] = [
+  { status: 'WANT', key: 'want', icon: <BookmarkCheck size={12} /> },
+  { status: 'FINISHED', key: 'finished', icon: <CheckCircle size={12} /> },
 ]
 // #endregion
 
@@ -33,6 +33,8 @@ interface Props {
 }
 
 export default function MusicTrackItem({ track, index, total, isActive, onSelect, onUpdate, onRemove }: Props) {
+  const t = useTranslations('musicPlayer')
+  const tStatus = useTranslations('status')
   const [menuOpen, setMenuOpen] = useState(false)
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 })
   const btnRef = useRef<HTMLButtonElement>(null)
@@ -74,7 +76,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
     onRemove(track.id)
   }
 
-  const status = STATUS_LABEL[track.status]
+  const statusColor = STATUS_COLOR[track.status]
 
   return (
     <div className={`relative flex items-center gap-1 px-2 py-1.5 hover:bg-white/5 ${isActive ? 'bg-accent/10' : ''}`}>
@@ -93,8 +95,8 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
           )}
         </div>
         <div className="flex flex-col items-end gap-0.5 shrink-0">
-          <span className="text-[9px] text-text-tertiary">{ENTITY_LABEL[track.spotifyEntity]}</span>
-          {status && <span className="text-[9px]" style={{ color: status.color }}>{status.text}</span>}
+          <span className="text-[9px] text-text-tertiary">{t(track.spotifyEntity as 'album' | 'track')}</span>
+          {statusColor && <span className="text-[9px]" style={{ color: statusColor }}>{tStatus(track.status.toLowerCase())}</span>}
         </div>
       </button>
 
@@ -123,7 +125,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
               }`}
             >
               {opt.icon}
-              {opt.label}
+              {tStatus(opt.key)}
             </button>
           ))}
           <div className="border-t border-border my-0.5" />
@@ -132,7 +134,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
             className="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-red-400 hover:bg-red-400/10"
           >
             <Trash2 size={12} />
-            삭제
+            {t('delete')}
           </button>
         </div>,
         document.body

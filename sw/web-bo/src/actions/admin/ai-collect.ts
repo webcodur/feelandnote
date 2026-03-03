@@ -1,7 +1,7 @@
 'use server'
 
 import { fetchUrlContent } from '@feelandnote/ai-services/url-fetcher'
-import { extractContentsFromText, type ExtractedContent } from '@feelandnote/ai-services/content-extractor'
+import { type ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import { searchExternal, type ExternalSearchResult, type SearchOptions } from '@feelandnote/content-search/unified-search'
 import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
@@ -112,75 +112,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // #endregion
 
-// #region extractOnlyFromUrl - 추출만 (1단계)
-export async function extractOnlyFromUrl(input: { url: string; celebName: string; selectedKeyId?: string }): Promise<ExtractOnlyResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: '인증이 필요합니다.' }
-  }
-
-  const { key: apiKeyRecord, error: keyError } = await getApiKey(input.selectedKeyId)
-  if (!apiKeyRecord) {
-    return { success: false, error: keyError || 'API 키를 가져올 수 없습니다.' }
-  }
-
-  // URL에서 텍스트 추출
-  const fetchResult = await fetchUrlContent(input.url)
-  if (!fetchResult.success || !fetchResult.text) {
-    return { success: false, error: fetchResult.error || '페이지 내용을 가져올 수 없습니다.' }
-  }
-
-  // AI로 콘텐츠 추출
-  const extractResult = await extractContentsFromText(apiKeyRecord.api_key, fetchResult.text, input.celebName)
-
-  // 사용 기록
-  const is429 = extractResult.error?.includes('429') || extractResult.error?.includes('quota')
-  await recordApiKeyUsage({
-    api_key_id: apiKeyRecord.id,
-    action_type: 'extract',
-    success: extractResult.success,
-    error_code: is429 ? '429' : extractResult.error ? 'ERROR' : undefined,
-  })
-
-  if (!extractResult.success || !extractResult.items) {
-    return { success: false, error: extractResult.error || '콘텐츠를 추출할 수 없습니다.' }
-  }
-
-  return { success: true, sourceUrl: input.url, extractedItems: extractResult.items }
-}
-
-export async function extractOnlyFromText(input: { text: string; celebName: string; selectedKeyId?: string }): Promise<ExtractOnlyResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: '인증이 필요합니다.' }
-  }
-
-  const { key: apiKeyRecord, error: keyError } = await getApiKey(input.selectedKeyId)
-  if (!apiKeyRecord) {
-    return { success: false, error: keyError || 'API 키를 가져올 수 없습니다.' }
-  }
-
-  // AI로 콘텐츠 추출
-  const extractResult = await extractContentsFromText(apiKeyRecord.api_key, input.text, input.celebName)
-
-  // 사용 기록
-  const is429 = extractResult.error?.includes('429') || extractResult.error?.includes('quota')
-  await recordApiKeyUsage({
-    api_key_id: apiKeyRecord.id,
-    action_type: 'extract',
-    success: extractResult.success,
-    error_code: is429 ? '429' : extractResult.error ? 'ERROR' : undefined,
-  })
-
-  if (!extractResult.success || !extractResult.items) {
-    return { success: false, error: extractResult.error || '콘텐츠를 추출할 수 없습니다.' }
-  }
-
-  return { success: true, extractedItems: extractResult.items }
-}
-// #endregion
+// #endregion (extractOnly 함수 제거됨 — Gemini 의존성 폐기)
 
 // #region processExtractedItems - 검색 (titleKo 우선, 실패 시 원본)
 export async function processExtractedItems(input: ProcessItemsInput): Promise<ProcessItemsResult> {

@@ -6,10 +6,11 @@
 
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Users } from "lucide-react";
 import PersonNameplate from "../PersonNameplate";
 import { EmptyState } from "../ExploreCards";
+import { useTranslations } from "next-intl";
 
 interface FriendInfo {
   id: string;
@@ -24,6 +25,7 @@ interface Props {
 
 export default function FriendsSection({ friends }: Props) {
   const router = useRouter();
+  const t = useTranslations("explore.ui");
   const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
   return (
@@ -41,8 +43,8 @@ export default function FriendsSection({ friends }: Props) {
       ) : (
         <EmptyState
           icon={<Users size={32} />}
-          title="아직 친구가 없어요"
-          description="서로 팔로우하면 친구가 됩니다"
+          title={t("empty.noFriends")}
+          description={t("empty.noFriendsDesc")}
         />
       )}
     </div>

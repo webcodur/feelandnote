@@ -12,6 +12,11 @@ export interface RecordsSearchResult {
   status: string
   rating?: number
   userCount?: number
+  title_ko?: string | null
+  title_en?: string | null
+  creator_en?: string | null
+  isbn_en?: string | null
+  thumbnail_en?: string | null
 }
 
 interface SearchRecordsParams {
@@ -35,6 +40,11 @@ interface ContentData {
   creator: string | null
   thumbnail_url: string | null
   user_count: number | null
+  title_ko: string | null
+  title_en: string | null
+  creator_en: string | null
+  isbn_en: string | null
+  thumbnail_en: string | null
 }
 
 interface UserContentRow {
@@ -75,7 +85,12 @@ export async function searchRecords({
         title,
         creator,
         thumbnail_url,
-        user_count
+        user_count,
+        title_ko,
+        title_en,
+        creator_en,
+        isbn_en,
+        thumbnail_en
       )
     `, { count: 'exact' })
     .eq('user_id', user.id)
@@ -115,6 +130,11 @@ export async function searchRecords({
         status: item.status,
         rating: item.rating || undefined,
         userCount: content.user_count || undefined,
+        title_ko: content.title_ko ?? null,
+        title_en: content.title_en ?? null,
+        creator_en: content.creator_en ?? null,
+        isbn_en: content.isbn_en ?? null,
+        thumbnail_en: content.thumbnail_en ?? null,
       }
     })
 

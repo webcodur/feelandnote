@@ -6,6 +6,7 @@ import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
+import { useTranslations } from "next-intl";
 
 interface HomeSearchAreaProps {
     selectedCategory: CategoryId;
@@ -31,9 +32,10 @@ export function HomeSearchArea({
     onResultClick,
     placeholder,
     showDropdown = true,
-    searchLabel = "컨텐츠 검색",
+    searchLabel,
     options
 }: HomeSearchAreaProps) {
+    const t = useTranslations("quickRecord.search");
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -76,7 +78,7 @@ export function HomeSearchArea({
             className="flex flex-col gap-1 mx-auto w-fit max-w-full z-20"
         >
             {/* 카테고리 선택 탭 */}
-            <DecorativeLabel label={searchLabel} className="mb-2" />
+            <DecorativeLabel label={searchLabel || t("contentSearch")} className="mb-2" />
             <CategoryTabFilter
                 options={categoryOptions}
                 value={selectedCategory}
@@ -92,7 +94,7 @@ export function HomeSearchArea({
                         type="text"
                         value={query}
                         onChange={(e) => onQueryChange(e.target.value)}
-                        placeholder={placeholder || "기록하고 싶은 작품을 검색해보세요..."}
+                        placeholder={placeholder || t("searchPlaceholder")}
                         className="bg-transparent border-none outline-none text-base text-text-primary placeholder:text-text-tertiary/40 w-full font-medium tracking-tight"
                     />
                     {isSearching && <Loader2 className="animate-spin text-accent ml-3 shrink-0" size={18} />}
@@ -104,7 +106,7 @@ export function HomeSearchArea({
                         {isSearching ? (
                             <div className="p-8 text-center text-text-tertiary">
                                 <Loader2 className="animate-spin mx-auto mb-2" />
-                                <span>검색 중...</span>
+                                <span>{t("searching")}</span>
                             </div>
                         ) : searchResults.length > 0 ? (
                             <div className="max-h-[300px] overflow-y-auto">
@@ -128,14 +130,14 @@ export function HomeSearchArea({
                                             <p className="text-sm text-text-secondary truncate">{result.subtitle}</p>
                                         </div>
                                         <div className="text-xs text-text-tertiary shrink-0 px-2 py-1 rounded bg-white/5">
-                                            기록하기
+                                            {t("addRecord")}
                                         </div>
                                     </button>
                                 ))}
                             </div>
                         ) : (
                             <div className="p-8 text-center text-text-tertiary">
-                                검색 결과가 없습니다.
+                                {t("noResults")}
                             </div>
                         )}
                     </div>

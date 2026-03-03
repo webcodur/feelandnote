@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Plus, Pencil, Trash2, Table } from "lucide-react";
 import type { ComparisonItem } from "../types";
 
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Props) {
+  const t = useTranslations("reading.comparison");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<ComparisonItem>>({});
   const [newCriterion, setNewCriterion] = useState("");
@@ -26,7 +28,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
   const handleAddItem = () => {
     const newItem: ComparisonItem = {
       id: `item-${Date.now()}`,
-      name: "새 항목",
+      name: t("newItem"),
       criteria: {},
     };
     onUpdate([...items, newItem], criteriaOrder);
@@ -41,7 +43,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
   };
 
   const handleDeleteCriterion = (criterion: string) => {
-    if (!confirm(`"${criterion}" 기준을 삭제하시겠습니까?`)) return;
+    if (!confirm(t("confirmDeleteCriterion", { name: criterion }))) return;
     const newItems = items.map((item) => {
       const newCriteria = { ...item.criteria };
       delete newCriteria[criterion];
@@ -80,7 +82,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm("이 항목을 삭제하시겠습니까?")) return;
+    if (!confirm(t("confirmDeleteItem"))) return;
     onUpdate(
       items.filter((item) => item.id !== id),
       criteriaOrder
@@ -108,7 +110,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
           value={newCriterion}
           onChange={(e) => setNewCriterion(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddCriterion()}
-          placeholder="새 비교 기준 추가 (예: 가격, 성능, 디자인)"
+          placeholder={t("addCriterionPlaceholder")}
           className="flex-1 rounded-lg border border-border bg-black/30 px-3 py-2 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
         />
         <button
@@ -116,7 +118,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
           disabled={!newCriterion.trim()}
           className="rounded-lg border border-accent/30 bg-accent/10 px-4 text-xs font-medium text-accent hover:bg-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          기준 추가
+          {t("addCriterion")}
         </button>
       </div>
 
@@ -125,13 +127,13 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
         {items.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
             <Table className="size-8 text-text-tertiary/30" />
-            <p className="text-xs text-text-secondary">비교할 항목이 없습니다</p>
+            <p className="text-xs text-text-secondary">{t("noItems")}</p>
             <button
               onClick={handleAddItem}
               className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-accent/30 bg-accent/5 px-4 py-2 text-xs font-medium text-accent hover:border-accent/50 hover:bg-accent/10"
             >
               <Plus className="size-3.5" />
-              항목 추가
+              {t("addItem")}
             </button>
           </div>
         ) : (
@@ -139,7 +141,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
             <thead>
               <tr>
                 <th className="sticky top-0 bg-[#1a1f27] border border-border p-2 text-left text-xs font-semibold text-text-secondary">
-                  항목
+                  {t("itemHeader")}
                 </th>
                 {criteriaOrder.map((criterion) => (
                   <th
@@ -206,13 +208,13 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
                             disabled={!editForm.name}
                             className="flex-1 rounded bg-accent px-2 py-1 text-[10px] font-medium text-white hover:bg-accent-hover disabled:opacity-50"
                           >
-                            저장
+                            {t("save")}
                           </button>
                           <button
                             onClick={handleCancel}
                             className="flex-1 rounded bg-white/10 px-2 py-1 text-[10px] font-medium text-text-primary hover:bg-white/20"
                           >
-                            취소
+                            {t("cancel")}
                           </button>
                         </div>
                       ) : (

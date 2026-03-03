@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { searchContents, searchUsers, searchTags, searchRecords, searchCelebs } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { SearchMode, ContentCategory, SEARCH_MODES, CONTENT_CATEGORIES } from "@/components/shared/search/SearchModeDropdown";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
@@ -17,6 +19,7 @@ const categoryToContentType = (category: string): ContentType => {
 };
 
 export function useHeaderSearch() {
+  const t = useTranslations("searchResult");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -116,14 +119,24 @@ export function useHeaderSearch() {
             searchResults.push({
               id: item.id, type: "user", title: item.nickname, subtitle: item.username,
               thumbnail: item.avatarUrl,
-              extra: `팔로워 ${item.followerCount >= 1000 ? `${(item.followerCount / 1000).toFixed(1)}K` : item.followerCount}`,
+              extra: t("followers", { count: item.followerCount >= 1000 ? `${(item.followerCount / 1000).toFixed(1)}K` : String(item.followerCount) }),
             });
           });
         } else if (mode === "tag") {
           const data = await searchTags({ query, limit: 5 });
           data.items.forEach((item) => {
             searchResults.push({
-              id: item.id, type: "tag", title: `#${item.name}`, extra: `게시물 ${item.postCount.toLocaleString()}개`,
+              id: item.id, type: "tag", title: `#${item.name}`, extra: t("posts", { count: item.postCount.toLocaleString() }),
+            });
+          });
+        } else if (mode === "celeb") {
+          const data = await searchCelebs({ query, limit: 5 });
+          data.items.forEach((item) => {
+            searchResults.push({
+              id: item.slug || item.id, type: "celeb", title: item.nickname,
+              subtitle: item.title || undefined,
+              thumbnail: item.avatar_url || undefined,
+              extra: item.profession || undefined,
             });
           });
         } else if (mode === "records") {
@@ -199,6 +212,13 @@ export function useHeaderSearch() {
       return;
     }
 
+    // 셀럽 검색: 탐색 페이지로 이동
+    if (mode === "celeb") {
+      router.push(`/explore/celebs?search=${encodeURIComponent(query.trim())}`);
+      setIsOpen(false);
+      return;
+    }
+
     const categoryParam = mode === "content" ? `&category=${contentCategory}` : "";
     router.push(`/search?mode=${mode}${categoryParam}&q=${encodeURIComponent(query.trim())}`);
     setIsOpen(false);
@@ -209,6 +229,8 @@ export function useHeaderSearch() {
     if (result.type === "content") {
       const category = result.category || "book";
       router.push(`/content/${result.id}?category=${category}`);
+    } else if (result.type === "celeb") {
+      router.push(`/celeb/${result.id}`);
     } else if (result.type === "user") {
       router.push(`/${result.id}`);
     } else if (result.type === "tag") {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Search, X, SlidersHorizontal } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
@@ -10,10 +10,10 @@ import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
-import ControlPanel from "@/components/shared/ControlPanel";
 import { useCelebFilters, PAGE_SIZE_OPTIONS } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
+import { useTranslations } from "next-intl";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -63,6 +63,7 @@ export default function CelebCarousel({
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+  const t = useTranslations("home.ui");
 
   // 캐러셀 모드
   if (mode === "carousel") {
@@ -88,76 +89,65 @@ export default function CelebCarousel({
   return (
     <div>
       {/* 셀럽 컨트롤 (PC) */}
-      <div className="hidden md:flex justify-center my-12">
-        <ControlPanel
-          title="탐색 제어"
-          icon={<SlidersHorizontal size={16} className="text-accent/70" />}
-          isExpanded={isControlsExpanded}
-          onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
-          className="w-full max-w-2xl"
-        >
-          <div className="bg-black/20">
-            {/* 1행: 정렬/필터 */}
-            <CelebFiltersDesktop
-              wrapperClassName="flex items-center justify-center gap-2 px-6 py-4 min-h-[4.5rem]"
-              profession={filters.profession}
-              nationality={filters.nationality}
-              contentType={filters.contentType}
-              gender={filters.gender}
-              sortBy={filters.sortBy}
-              search=""
-              professionCounts={professionCounts}
-              nationalityCounts={nationalityCounts}
-              contentTypeCounts={contentTypeCounts}
-              genderCounts={genderCounts}
-              isLoading={filters.isLoading}
-              activeLabels={filters.activeLabels}
-              onProfessionChange={withInteraction(filters.handleProfessionChange)}
-              onNationalityChange={withInteraction(filters.handleNationalityChange)}
-              onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
-              onGenderChange={withInteraction(filters.handleGenderChange)}
-              onSortChange={withInteraction(filters.handleSortChange)}
-              onSearchInput={() => {}}
-              onSearchSubmit={() => {}}
-              onSearchClear={() => {}}
-              hideSearch
+      <div className="hidden md:block mb-6">
+        {/* 1행: 검색 + 액션 버튼 */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="relative flex-1 max-w-sm min-w-0 group/search">
+            <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none z-20" />
+            <input
+              type="text"
+              value={filters.search}
+              onChange={(e) => filters.handleSearchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={t("searchPlaceholder")}
+              className="w-full min-w-0 h-9 ps-9 pe-9 bg-black/30 border border-white/10 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/40 focus:bg-black/50 transition-all font-sans"
             />
-
-            {/* 2행: 검색/액션 */}
-            <div className="flex items-center gap-2 px-6 py-3">
-              <div className="relative flex-1 min-w-0 group/search">
-                <div className="absolute inset-0 bg-accent/5 blur-sm opacity-0 group-focus-within/search:opacity-100 transition-opacity rounded-md pointer-events-none" />
-                <input
-                  type="text"
-                  value={filters.search}
-                  onChange={(e) => filters.handleSearchInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="인물 검색..."
-                  className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
-                />
-                {filters.search && (
-                  <button
-                    type="button"
-                    onClick={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
-                    className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
-                  >
-                    <X size={12} />
-                  </button>
-                )}
-              </div>
+            {filters.search && (
               <button
                 type="button"
-                onClick={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
-                disabled={filters.isLoading}
-                className="h-9 w-9 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
+                onClick={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
+                className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
               >
-                <Search size={16} />
+                <X size={12} />
               </button>
-              <div className="w-px h-5 bg-white/10 mx-1" />
-              {extraButtons}
-            </div>
+            )}
           </div>
-        </ControlPanel>
+          <button
+            type="button"
+            onClick={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
+            disabled={filters.isLoading}
+            className="h-9 px-3 bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent text-sm font-medium rounded-lg transition-all duration-300"
+          >
+            <Search size={16} />
+          </button>
+          {extraButtons}
+        </div>
+
+        {/* 2행: 필터 칩들 */}
+        <CelebFiltersDesktop
+          wrapperClassName="flex flex-wrap items-center gap-2"
+          profession={filters.profession}
+          nationality={filters.nationality}
+          contentType={filters.contentType}
+          gender={filters.gender}
+          sortBy={filters.sortBy}
+          search=""
+          professionCounts={professionCounts}
+          nationalityCounts={nationalityCounts}
+          contentTypeCounts={contentTypeCounts}
+          genderCounts={genderCounts}
+          isLoading={filters.isLoading}
+          activeLabels={filters.activeLabels}
+          onProfessionChange={withInteraction(filters.handleProfessionChange)}
+          onNationalityChange={withInteraction(filters.handleNationalityChange)}
+          onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+          onGenderChange={withInteraction(filters.handleGenderChange)}
+          onSortChange={withInteraction(filters.handleSortChange)}
+          onSearchInput={() => {}}
+          onSearchSubmit={() => {}}
+          onSearchClear={() => {}}
+          hideSearch
+        />
       </div>
 
       {/* 셀럽 컨트롤 (Mobile) */}
@@ -223,12 +213,13 @@ export default function CelebCarousel({
 
 // #region 하위 컴포넌트 (Helper Components)
 function EmptyState() {
+  const t = useTranslations("home.ui");
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
         <UserXIcon size={32} className="text-text-tertiary" />
       </div>
-      <p className="text-sm text-text-secondary text-center">해당 직군의 셀럽이 없습니다</p>
+      <p className="text-sm text-text-secondary text-center">{t("empty.noCelebs")}</p>
     </div>
   );
 }

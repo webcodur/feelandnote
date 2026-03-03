@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Plus, Pencil, Trash2, Calendar } from "lucide-react";
 import type { TimelineEvent } from "../types";
 
@@ -15,20 +16,22 @@ interface Props {
   onUpdate: (events: TimelineEvent[]) => void;
 }
 
-// 카테고리별 색상
+// 카테고리별 색상 (키는 내부 코드, 표시명은 t()로 번역)
 const CATEGORY_COLORS: Record<string, string> = {
-  정치: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  경제: "bg-green-500/20 text-green-400 border-green-500/30",
-  사회: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  문화: "bg-pink-500/20 text-pink-400 border-pink-500/30",
-  전쟁: "bg-red-500/20 text-red-400 border-red-500/30",
-  기타: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+  politics: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  economy: "bg-green-500/20 text-green-400 border-green-500/30",
+  society: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  culture: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+  war: "bg-red-500/20 text-red-400 border-red-500/30",
+  other: "bg-gray-500/20 text-gray-400 border-gray-500/30",
 };
 
 const getEventColor = (category?: string) =>
-  category ? CATEGORY_COLORS[category] || CATEGORY_COLORS.기타 : CATEGORY_COLORS.기타;
+  category ? CATEGORY_COLORS[category] || CATEGORY_COLORS.other : CATEGORY_COLORS.other;
 
 export default function TimelineContent({ events, onUpdate }: Props) {
+  const t = useTranslations("reading.timeline");
+  const tc = useTranslations("reading.timeline.categories");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<TimelineEvent>>({});
@@ -40,9 +43,9 @@ export default function TimelineContent({ events, onUpdate }: Props) {
     const newEvent: TimelineEvent = {
       id: `event-${Date.now()}`,
       date: "",
-      title: "새 이벤트",
+      title: t("newEvent"),
       description: "",
-      category: "기타",
+      category: "other",
     };
     onUpdate([...events, newEvent]);
     setSelectedId(newEvent.id);
@@ -77,7 +80,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm("이 이벤트를 삭제하시겠습니까?")) return;
+    if (!confirm(t("confirmDelete"))) return;
     onUpdate(events.filter((e) => e.id !== id));
     if (selectedId === id) setSelectedId(null);
     if (editingId === id) {
@@ -98,13 +101,13 @@ export default function TimelineContent({ events, onUpdate }: Props) {
           className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-accent/30 bg-accent/5 py-2 text-xs font-medium text-accent hover:border-accent/50 hover:bg-accent/10"
         >
           <Plus className="size-3.5" />
-          이벤트 추가
+          {t("addEvent")}
         </button>
 
         {sortedEvents.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
             <Calendar className="size-8 text-text-tertiary/30" />
-            <p className="text-xs text-text-secondary">이벤트가 없습니다</p>
+            <p className="text-xs text-text-secondary">{t("noEvents")}</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -137,7 +140,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                         <span
                           className={`rounded-full px-2 py-0.5 text-[10px] font-medium border ${colorClass}`}
                         >
-                          {event.category}
+                          {tc(event.category)}
                         </span>
                       )}
                     </div>
@@ -162,62 +165,60 @@ export default function TimelineContent({ events, onUpdate }: Props) {
         {!selectedEvent ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
             <Calendar className="size-8 text-text-tertiary/30" />
-            <p className="text-xs text-text-secondary">
-              이벤트를 선택하여
-              <br />
-              상세 정보를 확인하세요
+            <p className="text-xs text-text-secondary whitespace-pre-line">
+              {t("selectPrompt")}
             </p>
           </div>
         ) : editingId === selectedEvent.id ? (
           // 편집 모드
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold text-text-secondary">이벤트 편집</p>
+            <p className="text-xs font-semibold text-text-secondary">{t("editEvent")}</p>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">날짜/시점</label>
+              <label className="text-[11px] text-text-secondary">{t("dateLabel")}</label>
               <input
                 type="text"
                 value={editForm.date || ""}
                 onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-                placeholder="예: 1592년 4월"
+                placeholder={t("datePlaceholder")}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">제목</label>
+              <label className="text-[11px] text-text-secondary">{t("titleLabel")}</label>
               <input
                 type="text"
                 value={editForm.title || ""}
                 onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                placeholder="이벤트 제목"
+                placeholder={t("titlePlaceholder")}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">설명</label>
+              <label className="text-[11px] text-text-secondary">{t("descriptionLabel")}</label>
               <textarea
                 value={editForm.description || ""}
                 onChange={(e) =>
                   setEditForm({ ...editForm, description: e.target.value })
                 }
-                placeholder="상세 설명"
+                placeholder={t("descriptionPlaceholder")}
                 rows={4}
                 className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none custom-scrollbar"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">카테고리</label>
+              <label className="text-[11px] text-text-secondary">{t("categoryLabel")}</label>
               <select
-                value={editForm.category || "기타"}
+                value={editForm.category || "other"}
                 onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary focus:border-accent focus:outline-none"
               >
                 {Object.keys(CATEGORY_COLORS).map((cat) => (
                   <option key={cat} value={cat}>
-                    {cat}
+                    {tc(cat)}
                   </option>
                 ))}
               </select>
@@ -229,13 +230,13 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                 disabled={!editForm.date || !editForm.title}
                 className="flex-1 rounded-lg bg-accent py-2 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                저장
+                {t("save")}
               </button>
               <button
                 onClick={handleCancel}
                 className="flex-1 rounded-lg border border-border bg-white/5 py-2 text-xs font-medium text-text-primary hover:bg-white/10"
               >
-                취소
+                {t("cancel")}
               </button>
             </div>
           </div>
@@ -255,7 +256,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                     selectedEvent.category
                   )}`}
                 >
-                  {selectedEvent.category}
+                  {tc(selectedEvent.category)}
                 </span>
               )}
             </div>
@@ -274,14 +275,14 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-border bg-white/5 py-2 text-xs font-medium text-text-primary hover:bg-white/10"
               >
                 <Pencil className="size-3" />
-                편집
+                {t("edit")}
               </button>
               <button
                 onClick={() => handleDelete(selectedEvent.id)}
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-red-500/30 bg-red-500/10 py-2 text-xs font-medium text-red-400 hover:bg-red-500/20"
               >
                 <Trash2 className="size-3" />
-                삭제
+                {t("delete")}
               </button>
             </div>
           </div>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { getMember } from '@/actions/admin/members'
 import { getCelebDialogues } from '@/actions/admin/dialogues'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, CheckCircle, Ban } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Ban, Clock } from 'lucide-react'
 import Link from 'next/link'
 import CelebForm from '../../members/components/CelebForm'
 import ExtraSections from './ExtraSections'
@@ -40,6 +40,9 @@ export default async function CelebDetailPage({ params }: PageProps) {
           <h1 className="text-2xl font-bold text-text-primary">{celeb.nickname || '이름 없음'}</h1>
           <div className="flex items-center gap-2 mt-1">
             <StatusBadge status={celeb.status} />
+            {celeb.celeb_tier === 'light' && (
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-orange-500/10 text-orange-400">light</span>
+            )}
             <Link href={`/celebs/${celeb.id}/contents`} className="text-sm text-accent hover:underline">
               콘텐츠 관리 →
             </Link>
@@ -71,6 +74,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
     active: { label: '활성', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
+    inactive: { label: '미검수', className: 'bg-yellow-500/10 text-yellow-400', icon: Clock },
     suspended: { label: '정지', className: 'bg-red-500/10 text-red-400', icon: Ban },
     deleted: { label: '삭제됨', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
   }

@@ -1,3 +1,4 @@
+"use client";
 /*
   ContentCard 슬롯 컴포넌트
   - TypeLabel: 좌상단 카테고리 레이블
@@ -5,8 +6,9 @@
   - RecommendButton: 추천 버튼
   - StatsBadge: 인원 구성 뱃지
   - RatingBadge: 별점 뱃지
+  - EditionToggle: BOOK 에디션 전환 (국문/영문)
 */
-"use client";
+export { EditionToggle } from "./EditionToggle";
 
 import { Check, Gift, Crown, User, Star, Bookmark, Trash2 } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";

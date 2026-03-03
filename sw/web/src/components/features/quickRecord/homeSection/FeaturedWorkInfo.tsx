@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Info, BookOpen, MessageSquare, Award, Search, X, User, Calendar, Building2, Film, Users, ExternalLink, Loader2, Music, Disc, Gamepad2, Monitor, Briefcase, Code } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import InfoPanel from "../InfoPanel";
@@ -14,6 +14,7 @@ import type { SuggestionProps, ArchiveProps } from "./HomeEditorArea";
 import { List } from "lucide-react";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import { useTranslations } from "next-intl";
 
 type ModalType = 'DETAIL' | 'REVIEW_CELEB' | 'REVIEW_NORMAL' | 'EXTERNAL' | 'SELECT_CONTENT' | null;
 
@@ -24,6 +25,7 @@ interface FeaturedWorkInfoProps {
 }
 
 export default function FeaturedWorkInfo({ targetContent, suggestionProps, archiveProps }: FeaturedWorkInfoProps) {
+    const t = useTranslations("quickRecord.home");
     const [activeModal, setActiveModal] = useState<ModalType>(null);
     const [selectionTab, setSelectionTab] = useState<'SUGGESTION' | 'ARCHIVE'>('SUGGESTION');
     const searchRef = useRef<ExternalResourceSearchHandle>(null);
@@ -115,13 +117,13 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                         onClick={() => setSelectionTab('SUGGESTION')}
                                         className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'SUGGESTION' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-text-tertiary hover:text-text-primary'}`}
                                     >
-                                        셀럽들의 추천
+                                        {t("celebRecommendations")}
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => setSelectionTab('ARCHIVE')}
                                         className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'ARCHIVE' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-text-tertiary hover:text-text-primary'}`}
                                     >
-                                        보관함
+                                        {t("archiveTab")}
                                     </button>
                                 </div>
                                 
@@ -196,7 +198,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                             className="w-48 py-2 px-3 rounded-lg bg-white/10 hover:bg-white/15 border border-white/5 hover:border-accent/30 flex items-center justify-center gap-2 group transition-all"
                         >
                             <List size={16} className="text-text-tertiary group-hover:text-accent transition-colors" />
-                            <span className="text-xs font-bold text-text-secondary group-hover:text-text-primary">기록할 컨텐츠 선택</span>
+                            <span className="text-xs font-bold text-text-secondary group-hover:text-text-primary">{t("selectContent")}</span>
                         </button>
                     </div>
 
@@ -220,7 +222,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                             {isLoading ? (
                                 <div className="flex items-center gap-2 text-text-tertiary justify-center">
                                     <Loader2 size={14} className="animate-spin" />
-                                    <span>정보 로딩 중...</span>
+                                    <span>{t("loadingInfo")}</span>
                                 </div>
                             ) : (
                                 <div className="mx-auto w-fit">
@@ -392,31 +394,31 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
                                 <BookOpen size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
-                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">상세 정보</span>
+                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("detailInfo")}</span>
                             </button>
 
-                             <button 
+                             <button
                                 onClick={() => setActiveModal('REVIEW_CELEB')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
                                 <Award size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
-                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">셀럽 리뷰</span>
+                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("celebReview")}</span>
                             </button>
 
-                             <button 
+                             <button
                                 onClick={() => setActiveModal('REVIEW_NORMAL')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
                                 <MessageSquare size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
-                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">일반 리뷰</span>
+                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("normalReview")}</span>
                             </button>
 
-                             <button 
+                             <button
                                 onClick={() => setActiveModal('EXTERNAL')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
                                 <Search size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
-                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">외부 탐색</span>
+                                <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("externalSearchBtn")}</span>
                             </button>
                         </div>
                     </div>
@@ -429,11 +431,11 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                     type={activeModal} 
                     onClose={() => setActiveModal(null)}
                     title={
-                        activeModal === 'DETAIL' ? '작품 상세 정보' :
-                        activeModal === 'REVIEW_CELEB' ? '셀럽들의 시선' :
-                        activeModal === 'REVIEW_NORMAL' ? '독자들의 리뷰' :
-                        activeModal === 'SELECT_CONTENT' ? '기록할 컨텐츠 선택' :
-                        '외부 자료 탐색'
+                        activeModal === 'DETAIL' ? t("modalDetailTitle") :
+                        activeModal === 'REVIEW_CELEB' ? t("modalCelebTitle") :
+                        activeModal === 'REVIEW_NORMAL' ? t("modalNormalTitle") :
+                        activeModal === 'SELECT_CONTENT' ? t("modalSelectTitle") :
+                        t("modalExternalTitle")
                     }
                     icon={
                         activeModal === 'DETAIL' ? BookOpen :

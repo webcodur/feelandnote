@@ -9,7 +9,7 @@ color: amber
 
 ## 작업 시작 전
 
-**반드시 `.claude/rules/celeb-2-content-collector.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+**반드시 `docs/project/celeb/celeb-2-content-collector.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
 
 룰북에 수집 규칙, 검색 전략, API 호출 방법, 배치 DB 등록, body 작성 가이드, contents.id 형식이 모두 정의되어 있다.
 

@@ -1,30 +1,33 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
+import { getTranslations } from "next-intl/server";
 import ProfileContent from "./ProfileContent";
 
 interface PageProps {
-  params: Promise<{ userId: string }>;
+  params: Promise<{ userId: string; locale: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { userId } = await params;
+  const t = await getTranslations("profilePage");
   const result = await getUserProfile(userId);
-  
+
   if (!result.success || !result.data) {
-    return { title: "사용자를 찾을 수 없습니다" };
+    return { title: t("userNotFound") };
   }
 
   const profile = result.data;
   const nickname = profile.nickname;
   // 셀럽이면 bio, 아니면 기본 설명
-  const description = profile.profile_type === 'CELEB' && profile.bio 
-    ? profile.bio.slice(0, 160) 
-    : `${nickname}님의 문화 기록관입니다.`;
+  const description = profile.profile_type === 'CELEB' && profile.bio
+    ? profile.bio.slice(0, 160)
+    : t("metaDescription", { nickname });
 
   return {
     title: nickname,
@@ -45,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function OverviewPage({ params }: PageProps) {
-  const { userId } = await params;
+  const { userId, locale } = await params;
   const supabase = await createClient();
   const { data: { user: currentUser } } = await supabase.auth.getUser();
   const isOwner = currentUser?.id === userId;
@@ -58,7 +61,7 @@ export default async function OverviewPage({ params }: PageProps) {
 
   // 셀럽이면 slug 기반 URL로 redirect
   if (profile.profile_type === 'CELEB' && profile.slug) {
-    redirect(`/celeb/${profile.slug}`);
+    redirect({ href: `/celeb/${profile.slug}`, locale });
   }
 
   const guestbookResult = await getGuestbookEntries({ profileId: userId });

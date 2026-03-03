@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
 import {
@@ -27,12 +28,12 @@ interface Props {
 }
 
 /** 성향 값(-50~+50) → 라벨 */
-function getTendencyLabel(value: number, neg: string, pos: string): string {
+function getTendencyLabel(value: number, neg: string, pos: string, t: ReturnType<typeof useTranslations<"profilePage.persona">>): string {
   const abs = Math.abs(value);
-  if (abs <= 10) return "중립";
+  if (abs <= 10) return t("neutral");
   const direction = value < 0 ? neg : pos;
   if (abs <= 30) return direction;
-  return `강한 ${direction}`;
+  return t("strong", { direction });
 }
 
 /** 스탯 바 (0~100) */
@@ -55,6 +56,7 @@ function StatBar({ label, value }: { label: string; value: number }) {
 }
 
 export default function ProfilePersonaSection({ nickname, targetPersona, similarCelebs }: Props) {
+  const t = useTranslations("profilePage.persona");
   const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -69,17 +71,17 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
     <>
       <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
         <div className="flex justify-center mb-4 sm:mb-5">
-          <DecorativeLabel label="인물 분석" />
+          <DecorativeLabel label={t("label")} />
         </div>
 
         <p className="text-xs text-text-secondary text-center mb-6">
-          {nickname}의 덕목, 능력, 성향을 분석한 결과입니다.
+          {t("description", { nickname })}
         </p>
 
         <div className="max-w-lg mx-auto space-y-6 mb-8">
           {/* 내적 덕목 */}
           <div>
-            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">내적 덕목</p>
+            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">{t("innerVirtue")}</p>
             <div className="space-y-2">
               {INNER_VIRTUE_KEYS.map((key) => (
                 <StatBar key={key} label={STAT_LABELS[key]} value={targetPersona[key]} />
@@ -89,7 +91,7 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
 
           {/* 외적 덕목 */}
           <div>
-            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">외적 덕목</p>
+            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">{t("outerVirtue")}</p>
             <div className="space-y-2">
               {OUTER_VIRTUE_KEYS.map((key) => (
                 <StatBar key={key} label={STAT_LABELS[key]} value={targetPersona[key]} />
@@ -99,7 +101,7 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
 
           {/* 능력 */}
           <div>
-            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">능력</p>
+            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">{t("ability")}</p>
             <div className="space-y-2">
               {ABILITY_KEYS.map((key) => (
                 <StatBar key={key} label={STAT_LABELS[key]} value={targetPersona[key]} />
@@ -109,7 +111,7 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
 
           {/* 성향 (-50~+50) 바 */}
           <div>
-            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">성향</p>
+            <p className="text-[10px] text-accent/60 font-medium uppercase tracking-wider mb-2">{t("disposition")}</p>
             <div className="space-y-3">
               {TENDENCY_KEYS.map((key) => {
                 const [neg, pos] = TENDENCY_LABELS[key];
@@ -123,7 +125,7 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
                         {neg}
                       </span>
                       <span className="text-text-secondary font-mono text-[10px]">
-                        {getTendencyLabel(value, neg, pos)}
+                        {getTendencyLabel(value, neg, pos, t)}
                       </span>
                       <span className={`font-medium ${value > 10 ? "text-orange-400" : "text-text-secondary"}`}>
                         {pos}
@@ -161,10 +163,10 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
         {similarCelebs.length > 0 && (
           <>
             <div className="flex justify-center mb-4">
-              <DecorativeLabel label="유사 인물" />
+              <DecorativeLabel label={t("similarLabel")} />
             </div>
             <p className="text-xs text-text-secondary text-center mb-5">
-              위 분석과 가장 유사한 인물입니다.
+              {t("similarDesc")}
             </p>
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
               {similarCelebs.map((celeb) => (
@@ -195,7 +197,7 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
                       {PROFESSION_LABELS[celeb.profession ?? ""] ?? ""}
                     </p>
                     <span className="text-[10px] font-mono text-accent/70">
-                      {distanceToMatchPercent(celeb.distance)}% 일치
+                      {t("matchPercent", { percent: distanceToMatchPercent(celeb.distance) })}
                     </span>
                   </div>
                 </button>

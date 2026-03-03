@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import Image from "next/image";
 import { Search, Book, Link as LinkIcon, Loader2 } from "lucide-react";
 import { Modal, ModalBody, ModalFooter, Button } from "@/components/ui";
@@ -15,6 +15,7 @@ import { addCelebContent } from "@/actions/celebs";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import { CELEB_STATUS_OPTIONS } from "@/constants/statuses";
 import type { ContentType, ContentStatus } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 interface AddCelebContentModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ interface AddCelebContentModalProps {
 
 export default function AddCelebContentModal({ isOpen, celebId, celebName, onClose }: AddCelebContentModalProps) {
   const router = useRouter();
+  const t = useTranslations("userProfile.addContent");
   const [isPending, startTransition] = useTransition();
 
   const [category, setCategory] = useState<CategoryId>("book");
@@ -44,7 +46,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
       const response = await searchContents({ query, category });
       setResults(response.items);
     } catch {
-      setError("검색에 실패했습니다");
+      setError(t("searchFailed"));
     } finally {
       setIsSearching(false);
     }
@@ -63,7 +65,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
   const handleSubmit = () => {
     if (!selected) return;
     if (!sourceUrl.trim()) {
-      setError("출처 링크를 입력해주세요");
+      setError(t("sourceRequired"));
       return;
     }
 
@@ -87,13 +89,13 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
         router.refresh();
         onClose();
       } catch (err) {
-        setError(err instanceof Error ? err.message : "추가에 실패했습니다");
+        setError(err instanceof Error ? err.message : t("addFailed"));
       }
     });
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={`${celebName}의 기록 추가`} size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title={t("modalTitle", { celebName })} size="lg">
       <ModalBody className="space-y-4 max-h-[60vh] overflow-y-auto">
         {/* 카테고리 선택 */}
         <div className="flex gap-2 flex-wrap">
@@ -132,7 +134,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="콘텐츠 검색..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
@@ -142,7 +144,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                 disabled={isSearching}
                 className="px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 disabled:opacity-50 font-medium"
               >
-                {isSearching ? <Loader2 size={16} className="animate-spin" /> : "검색"}
+                {isSearching ? <Loader2 size={16} className="animate-spin" /> : t("search")}
               </Button>
             </div>
 
@@ -194,14 +196,14 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                 <p className="font-medium text-text-primary">{selected.title}</p>
                 <p className="text-sm text-text-secondary">{selected.creator?.replace(/\^/g, ', ')}</p>
                 <Button unstyled onClick={() => setSelected(null)} className="text-xs text-accent hover:underline mt-1">
-                  다른 콘텐츠 선택
+                  {t("selectOther")}
                 </Button>
               </div>
             </div>
 
             {/* 상태 선택 */}
             <div>
-              <label className="block text-sm font-medium text-text-secondary mb-1.5">상태</label>
+              <label className="block text-sm font-medium text-text-secondary mb-1.5">{t("status")}</label>
               <div className="flex gap-2">
                 {CELEB_STATUS_OPTIONS.map((opt) => (
                   <Button
@@ -220,7 +222,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
 
             {/* 출처 URL */}
             <div>
-              <label className="block text-sm font-medium text-text-secondary mb-1.5">출처 링크 *</label>
+              <label className="block text-sm font-medium text-text-secondary mb-1.5">{t("sourceLabel")}</label>
               <div className="relative">
                 <LinkIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
                 <input
@@ -231,7 +233,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
                   className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
-              <p className="text-xs text-text-tertiary mt-1">{celebName}님이 이 콘텐츠를 언급한 출처를 입력하세요</p>
+              <p className="text-xs text-text-tertiary mt-1">{t("sourceHint", { celebName })}</p>
             </div>
           </div>
         )}
@@ -241,7 +243,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
 
       <ModalFooter>
         <Button unstyled onClick={onClose} className="flex-1 px-4 py-2.5 bg-surface text-text-secondary rounded-lg hover:bg-surface-hover font-medium">
-          취소
+          {t("cancel")}
         </Button>
         <Button
           unstyled
@@ -249,7 +251,7 @@ export default function AddCelebContentModal({ isOpen, celebId, celebName, onClo
           disabled={!selected || !sourceUrl.trim() || isPending}
           className="flex-1 px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 font-medium disabled:opacity-50"
         >
-          {isPending ? "추가 중..." : "추가"}
+          {isPending ? t("adding") : t("add")}
         </Button>
       </ModalFooter>
     </Modal>

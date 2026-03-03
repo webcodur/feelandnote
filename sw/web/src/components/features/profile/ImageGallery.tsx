@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { ImageOff } from "lucide-react";
 import { searchCelebImages } from "@/actions/celebs";
 import type { ImageSearchResult } from "@feelandnote/content-search/naver-image";
@@ -18,6 +19,7 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ nickname }: ImageGalleryProps) {
+  const t = useTranslations("profileSection");
   const [items, setItems] = useState<ImageSearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -74,7 +76,7 @@ export default function ImageGallery({ nickname }: ImageGalleryProps) {
           onClick={() => setExpanded(true)}
           className="w-full mt-3 py-2.5 text-xs text-text-secondary hover:text-accent"
         >
-          더보기 ({validItems.length - INITIAL_COUNT}장)
+          {t("showMoreImages", { count: validItems.length - INITIAL_COUNT })}
         </button>
       )}
     </div>

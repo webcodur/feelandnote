@@ -13,6 +13,7 @@ import {
   TENDENCY_KEYS,
 } from "@/lib/persona/constants";
 import type { StatKey, TendencyKey } from "@/lib/persona/constants";
+import type { PersonaStats } from "@/lib/persona/types";
 import { useTranslations } from "next-intl";
 
 type TabType = "ability" | "virtue" | "tendency";
@@ -68,26 +69,6 @@ function TendencyRow({ labels, value }: { labels: [string, string]; value: numbe
       </div>
     </div>
   );
-}
-
-// region: 스탯 데이터 인터페이스
-export interface PersonaStats {
-  command: number;
-  martial: number;
-  intellect: number;
-  charisma: number;
-  temperance: number;
-  diligence: number;
-  reflection: number;
-  courage: number;
-  loyalty: number;
-  benevolence: number;
-  fairness: number;
-  humility: number;
-  pessimism_optimism: number;
-  conservative_progressive: number;
-  individual_social: number;
-  cautious_bold: number;
 }
 
 interface PersonaStatPanelProps {

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
@@ -9,15 +10,9 @@ import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 
 // #region 상수
-export const SORT_OPTIONS: { value: CelebSortBy; label: string }[] = [
-  { value: "daily_recommend", label: "오늘의 추천" },
-  { value: "composite", label: "종합 점수" },
-  { value: "follower", label: "팔로워" },
-  { value: "influence", label: "영향력" },
-  { value: "content_count", label: "보유 콘텐츠" },
-  { value: "name_asc", label: "이름" },
-  { value: "birth_date_desc", label: "최근 출생" },
-  { value: "birth_date_asc", label: "오래된 출생" },
+export const SORT_VALUES: CelebSortBy[] = [
+  "daily_recommend", "composite", "follower", "influence",
+  "content_count", "name_asc", "birth_date_desc", "birth_date_asc",
 ];
 
 export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort";
@@ -110,7 +105,7 @@ export function useCelebFilters({
     setIsInitialized(true);
   }, [syncToUrl, isInitialized]);
 
-  const contentUnit = contentType === "all" ? "개" : getContentUnit(contentType);
+  const contentUnit = contentType === "all" ? null : getContentUnit(contentType);
 
   // includeInactive 변경 시 데이터 리로드
   useEffect(() => {
@@ -226,7 +221,7 @@ export function useCelebFilters({
     nationality: nationalityCounts.find((n) => n.value === nationality),
     contentType: CONTENT_TYPE_FILTERS.find((c) => c.value === contentType),
     gender: genderCounts.find((g) => g.value === gender),
-    sort: SORT_OPTIONS.find((s) => s.value === sortBy),
+    sort: sortBy,
   }), [profession, nationality, contentType, gender, sortBy, nationalityCounts, genderCounts]);
 
   return {

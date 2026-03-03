@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { ArrowLeft, Trash2, Edit3 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
@@ -30,12 +30,13 @@ export default function FeedbackDetail({
   currentUserId
 }: FeedbackDetailProps) {
   const router = useRouter()
+  const t = useTranslations('board')
   const [isDeleting, setIsDeleting] = useState(false)
 
   const canEdit = isAuthor && feedback.status === 'PENDING'
 
   const handleDelete = async () => {
-    if (!confirm('정말 삭제하시겠습니까?')) return
+    if (!confirm(t('feedback.deleteConfirm'))) return
 
     setIsDeleting(true)
     const result = await deleteFeedback(feedback.id)
@@ -56,7 +57,7 @@ export default function FeedbackDetail({
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
-        목록으로
+        {t('backToList')}
       </Link>
 
       {/* 헤더 영역 */}
@@ -79,7 +80,7 @@ export default function FeedbackDetail({
               <Link href={`/agora/board/feedback/${feedback.id}/edit`}>
                 <Button variant="ghost" size="sm" className="font-serif">
                   <Edit3 size={14} />
-                  수정
+                  {t('edit')}
                 </Button>
               </Link>
               <Button
@@ -90,7 +91,7 @@ export default function FeedbackDetail({
                 className="text-red-400 hover:text-red-300 font-serif"
               >
                 <Trash2 size={14} />
-                삭제
+                {t('delete')}
               </Button>
             </div>
           )}

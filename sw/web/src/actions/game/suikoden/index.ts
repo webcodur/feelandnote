@@ -1,7 +1,10 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getLocale } from "next-intl/server";
 import type { GameCharacter } from '@/lib/game/suikoden/types'
+import type { PersonaJsonb } from '@/lib/persona/types'
+import { parsePersonaJsonb } from '@/lib/persona/types'
 import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
 
 const CUTOFF_YEARS = 120
@@ -21,13 +24,7 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
         political, strategic, tech, social, economic, cultural,
         transhistoricity, total_score
       ),
-      celeb_persona (
-        command, martial, intellect, charisma,
-        temperance, diligence, reflection, courage,
-        loyalty, benevolence, fairness, humility,
-        pessimism_optimism, conservative_progressive,
-        individual_social, cautious_bold
-      )
+      celeb_persona ( persona )
     `)
     .not('death_date', 'is', null)
     .not('death_date', 'eq', '')
@@ -47,36 +44,31 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     })
     .map((p: any) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
-      const persona = Array.isArray(p.celeb_persona) ? p.celeb_persona[0] : p.celeb_persona
-      return dbToCharacter(p, influence, persona ?? undefined)
+      const personaRow = Array.isArray(p.celeb_persona) ? p.celeb_persona[0] : p.celeb_persona
+      const persona = personaRow?.persona ? parsePersonaJsonb(personaRow.persona as PersonaJsonb) : undefined
+      return dbToCharacter(p, influence, persona)
     })
     .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
 }
 
 /** celeb_dialogues 로딩 — characterId → lines 매핑 */
-export async function loadSuikodenDialogues(
-  characterIds: string[],
-): Promise<Record<string, Record<string, string[]>>> {
-  if (characterIds.length === 0) return {}
-
-  const supabase = await createClient()
+export async function loadSuikodenDialogues(): Promise<Record<string, any>> {
+  const supabase = await createClient();
+  const locale = await getLocale();
 
   const { data, error } = await supabase
     .from('celeb_dialogues')
-    .select('celeb_id, lines')
-    .in('celeb_id', characterIds.slice(0, 200))
+    .select('celeb_id, lines, lines_en');
 
   if (error || !data) {
     console.error("[loadSuikodenDialogues] 대사 조회 실패:", error?.message)
     return {}
   }
 
-  const map: Record<string, Record<string, string[]>> = {}
-  for (const row of data as any[]) {
-    if (row.lines && typeof row.lines === 'object') {
-      map[row.celeb_id] = row.lines
-    }
-  }
-  return map
+  const result: Record<string, any> = {};
+  data.forEach(row => {
+    // locale에 따라 lines_en을 우선 적용하거나 fallback으로 lines 사용
+    result[row.celeb_id] = locale === 'en' && row.lines_en ? row.lines_en : row.lines;
+  });
+  return result;
 }
-

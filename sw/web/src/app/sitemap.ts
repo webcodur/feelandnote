@@ -1,32 +1,48 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://feelandnote.com'
+const BASE_URL = 'https://feelandnote.com'
 
-  // 정적 라우트
-  const staticRoutes = [
-    { path: '', priority: 1, changeFrequency: 'daily' as const },
-    { path: '/explore', priority: 0.8, changeFrequency: 'daily' as const },
-    { path: '/explore/celebs', priority: 0.8, changeFrequency: 'daily' as const },
-    { path: '/explore/people', priority: 0.6, changeFrequency: 'daily' as const },
-    { path: '/scriptures', priority: 0.8, changeFrequency: 'daily' as const },
-    { path: '/scriptures/era', priority: 0.8, changeFrequency: 'weekly' as const },
-    { path: '/scriptures/history', priority: 0.7, changeFrequency: 'monthly' as const },
-    { path: '/scriptures/figure', priority: 0.7, changeFrequency: 'daily' as const },
-    { path: '/scriptures/profession', priority: 0.7, changeFrequency: 'weekly' as const },
-    { path: '/agora', priority: 0.7, changeFrequency: 'daily' as const },
-    { path: '/agora/celeb-feed', priority: 0.7, changeFrequency: 'daily' as const },
-    { path: '/rest', priority: 0.5, changeFrequency: 'monthly' as const },
-    { path: '/about', priority: 0.5, changeFrequency: 'monthly' as const },
-    { path: '/terms', priority: 0.3, changeFrequency: 'yearly' as const },
-    { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },
-  ].map(({ path, priority, changeFrequency }) => ({
-    url: `${baseUrl}${path}`,
+/** 각 경로에 대해 ko(기본) + en alternates를 포함하는 sitemap 엔트리 생성 */
+function entry(
+  path: string,
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'],
+  priority: number,
+): MetadataRoute.Sitemap[number] {
+  const normalizedPath = path === '/' ? '' : path
+  return {
+    url: `${BASE_URL}${normalizedPath}`,
     lastModified: new Date(),
     changeFrequency,
     priority,
-  }))
+    alternates: {
+      languages: {
+        ko: `${BASE_URL}${normalizedPath}`,
+        en: `${BASE_URL}/en${normalizedPath}`,
+      },
+    },
+  }
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // 정적 라우트
+  const staticRoutes = [
+    entry('/', 'daily', 1),
+    entry('/explore', 'daily', 0.8),
+    entry('/explore/celebs', 'daily', 0.8),
+    entry('/explore/people', 'daily', 0.6),
+    entry('/scriptures', 'daily', 0.8),
+    entry('/scriptures/era', 'weekly', 0.8),
+    entry('/scriptures/history', 'monthly', 0.7),
+    entry('/scriptures/figure', 'daily', 0.7),
+    entry('/scriptures/profession', 'weekly', 0.7),
+    entry('/agora', 'daily', 0.7),
+    entry('/agora/celeb-feed', 'daily', 0.7),
+    entry('/rest', 'monthly', 0.5),
+    entry('/about', 'monthly', 0.5),
+    entry('/terms', 'yearly', 0.3),
+    entry('/privacy', 'yearly', 0.3),
+  ]
 
   // 셀럽 동적 라우트
   const supabase = await createClient()
@@ -37,12 +53,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .eq('status', 'active')
     .not('slug', 'is', null)
 
-  const celebRoutes = (celebs ?? []).map((celeb) => ({
-    url: `${baseUrl}/celeb/${celeb.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }))
+  const celebRoutes = (celebs ?? []).map((celeb) =>
+    entry(`/celeb/${celeb.slug}`, 'weekly', 0.7),
+  )
 
   return [...staticRoutes, ...celebRoutes]
 }

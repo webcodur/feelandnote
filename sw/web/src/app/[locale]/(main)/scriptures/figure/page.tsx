@@ -6,6 +6,7 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
 import { getTodayFigure } from "@/actions/scriptures";
 
@@ -68,7 +69,11 @@ function SectionSkeleton() {
 async function FigureContent() {
   const { figure, contents, source } = await getTodayFigure();
   if (!figure) return null;
-  return <TodayFigureSection figure={figure} contents={contents} source={source} />;
+  return (
+    <AsyncIntlProvider>
+      <TodayFigureSection figure={figure} contents={contents} source={source} />
+    </AsyncIntlProvider>
+  );
 }
 
 export default function Page() {

@@ -1,6 +1,7 @@
 // 천도 — 상수 정의
 
 import type { BuildingDef, Grade, UnitClass, Region, RegionId, Stats, TerritoryDef, TerritoryId, GameTime, TacticType, Era, ThreatType } from './types'
+import { ABILITY_KEYS as _ABILITY_KEYS, VIRTUE_KEYS as _VIRTUE_KEYS, TENDENCY_KEYS as _TENDENCY_KEYS } from '@/lib/persona/constants'
 
 // ── 턴제 엔진 상수 ──
 
@@ -153,7 +154,7 @@ export const BUILDING_CATEGORY_INFO: Record<BuildingCategory, { name: string; ic
 export const BUILDINGS: BuildingDef[] = [
   { id: 'farm',      name: '농장',   icon: '🌾', costGold: 100, costMaterial: 0,   buildTurns: 2, effect: { foodPerTurn: 20 } },
   { id: 'market',    name: '시장',   icon: '🪙', costGold: 150, costMaterial: 0,   buildTurns: 2, effect: { goldPerTurn: 15 } },
-  { id: 'trade',     name: '교역소', icon: '⚖️', costGold: 300, costMaterial: 0,   buildTurns: 3, requireStat: 'charisma', requireStatMin: 50, effect: { goldPerTurn: 30 } },
+  { id: 'trade',     name: '교역소', icon: '⚖️', costGold: 300, costMaterial: 0,   buildTurns: 3, requireStat: 'charm', requireStatMin: 50, effect: { goldPerTurn: 30 } },
   { id: 'lumber',    name: '벌목장', icon: '🪵', costGold: 80,  costMaterial: 0,   buildTurns: 2, effect: { materialPerTurn: 15 } },
   { id: 'mine',      name: '광산',   icon: '⛏️', costGold: 200, costMaterial: 0,   buildTurns: 3, requireStat: 'command', requireStatMin: 40, effect: { materialPerTurn: 25 } },
   { id: 'barracks',  name: '병영',   icon: '🏕️', costGold: 200, costMaterial: 0,   buildTurns: 2, effect: { troopsPerTurn: 50 } },
@@ -307,13 +308,13 @@ export const SKILL_DEFS: Record<string, SkillDef> = {
     id: 'inspire', name: '고무', icon: '📯',
     description: '아군 전원 사기 +10',
     targetType: 'all_ally', classes: ['artist'],
-    statReq: { stat: 'charisma', min: 40 },
+    statReq: { stat: 'charm', min: 40 },
   },
   culture_sway: {
     id: 'culture_sway', name: '문화 감화', icon: '🎭',
     description: '적 사기 -15',
     targetType: 'all_enemy', classes: ['artist'],
-    statReq: { stat: 'charisma', min: 50 }, isRanged: true,
+    statReq: { stat: 'charm', min: 50 }, isRanged: true,
   },
   // 장인
   trap: {
@@ -536,7 +537,7 @@ export const STAT_LABELS: Record<string, { name: string; icon: string; desc: str
   command:     { name: '통솔', icon: '👑', desc: '조직·군대·국가를 이끄는 능력' },
   martial:     { name: '무력', icon: '⚔️', desc: '전투 공격력. 돌격·일기토 주력' },
   intellect:   { name: '지력', icon: '🧠', desc: '계략·화공·외교. 학당 건설 조건' },
-  charisma:    { name: '매력', icon: '💎', desc: '등용·외교·민심 보정' },
+  charm:       { name: '매력', icon: '💎', desc: '등용·외교·민심 보정' },
   // 덕목
   temperance:  { name: '절제', icon: '⚖️', desc: '욕망/감정/권력을 자제' },
   diligence:   { name: '근면', icon: '🔨', desc: '건축 효율·생산량 보정' },
@@ -548,11 +549,11 @@ export const STAT_LABELS: Record<string, { name: string; icon: string; desc: str
   humility:    { name: '겸양', icon: '🙏', desc: '방어·수비 보정' },
 }
 
-// 능력 4종 키 (UI 표시 순서용)
-export const ABILITY_STAT_KEYS = ['command', 'martial', 'intellect', 'charisma'] as const
+// 능력 4종 키 (UI 표시 순서용) — persona 단일원천
+export const ABILITY_STAT_KEYS = _ABILITY_KEYS
 
-// 덕목 8종 키
-export const VIRTUE_STAT_KEYS = ['temperance', 'diligence', 'reflection', 'courage', 'loyalty', 'benevolence', 'fairness', 'humility'] as const
+// 덕목 8종 키 — persona 단일원천
+export const VIRTUE_STAT_KEYS = _VIRTUE_KEYS
 
 // 성향 4축 라벨
 export const DISPOSITION_LABELS: Record<string, { neg: string; pos: string; icon: string }> = {
@@ -562,7 +563,8 @@ export const DISPOSITION_LABELS: Record<string, { neg: string; pos: string; icon
   cautious_bold:             { neg: '신중', pos: '대담', icon: '⚡' },
 }
 
-export const DISPOSITION_KEYS = ['pessimism_optimism', 'conservative_progressive', 'individual_social', 'cautious_bold'] as const
+// 성향 4축 — persona 단일원천
+export const DISPOSITION_KEYS = _TENDENCY_KEYS
 
 // ── 방랑 이벤트 텍스트 ──
 

@@ -184,7 +184,7 @@ cd sw/web && npx tsc --noEmit
 - 문화 감화 버프: 사기 -10 → -15
 - CLASS_ATTACK_MULT: general 1.5→1.3, artisan 1.0→0.85, official 0.7→0.6, saint/strategist 0.5→0.4, artist 0.3→0.2
 - CLASS_SPEED_BONUS: ranger 3→4, strategist 1→2, official 0→-1, artist -1→-2, artisan -2→-3
-- inspire 요구: charisma 50→40
+- inspire 요구: charm 50→40
 - charge 복합 조건: martial≥50 OR command≥70
 - heal/barrier profession 체크 제거
 

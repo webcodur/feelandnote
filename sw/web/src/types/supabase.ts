@@ -309,7 +309,7 @@ export type Database = {
           command: number | null
           martial: number | null
           intellect: number | null
-          charisma: number | null
+          charm: number | null
           pessimism_optimism: number | null
           conservative_progressive: number | null
           individual_social: number | null
@@ -333,7 +333,7 @@ export type Database = {
           command?: number | null
           martial?: number | null
           intellect?: number | null
-          charisma?: number | null
+          charm?: number | null
           pessimism_optimism?: number | null
           conservative_progressive?: number | null
           individual_social?: number | null
@@ -357,7 +357,7 @@ export type Database = {
           command?: number | null
           martial?: number | null
           intellect?: number | null
-          charisma?: number | null
+          charm?: number | null
           pessimism_optimism?: number | null
           conservative_progressive?: number | null
           individual_social?: number | null
@@ -387,6 +387,7 @@ export type Database = {
           metadata: Json | null
           publisher: string | null
           release_date: string | null
+          thumbnail_en: string | null
           thumbnail_url: string | null
           title: string
           type: string
@@ -400,6 +401,7 @@ export type Database = {
           metadata?: Json | null
           publisher?: string | null
           release_date?: string | null
+          thumbnail_en?: string | null
           thumbnail_url?: string | null
           title: string
           type: string
@@ -413,6 +415,7 @@ export type Database = {
           metadata?: Json | null
           publisher?: string | null
           release_date?: string | null
+          thumbnail_en?: string | null
           thumbnail_url?: string | null
           title?: string
           type?: string
@@ -804,7 +807,7 @@ export type Database = {
           created_at: string
           death_date: string | null
           email: string | null
-          gemini_api_key: string | null
+
           gender: boolean | null
           id: string
           is_verified: boolean | null
@@ -831,7 +834,7 @@ export type Database = {
           created_at?: string
           death_date?: string | null
           email?: string | null
-          gemini_api_key?: string | null
+
           gender?: boolean | null
           id: string
           is_verified?: boolean | null
@@ -858,7 +861,7 @@ export type Database = {
           created_at?: string
           death_date?: string | null
           email?: string | null
-          gemini_api_key?: string | null
+
           gender?: boolean | null
           id?: string
           is_verified?: boolean | null

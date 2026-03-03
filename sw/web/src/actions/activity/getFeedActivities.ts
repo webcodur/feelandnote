@@ -17,6 +17,11 @@ export interface FeedActivity {
   content_title: string | null
   content_thumbnail: string | null
   content_type: ContentType | null
+  content_title_ko: string | null
+  content_title_en: string | null
+  content_creator_en: string | null
+  content_isbn_en: string | null
+  content_thumbnail_en: string | null
   review: string | null
   rating: number | null
   source_url: string | null
@@ -126,7 +131,7 @@ export async function getFeedActivities(
   // content_id 목록 추출해서 별도 조회
   const contentIds = [...new Set(sliced.map(item => item.content_id).filter(Boolean))] as string[]
 
-  let contentsMap: Record<string, { title: string; thumbnail_url: string | null; type: ContentType }> = {}
+  let contentsMap: Record<string, { title: string; thumbnail_url: string | null; type: ContentType; title_ko: string | null; title_en: string | null; creator_en: string | null; isbn_en: string | null; thumbnail_en: string | null }> = {}
   let userContentsMap: Record<string, { review: string | null; rating: number | null; source_url: string | null }> = {}
 
   if (contentIds.length > 0) {
@@ -134,7 +139,7 @@ export async function getFeedActivities(
     const [{ data: contents }, { data: userContents }] = await Promise.all([
       supabase
         .from('contents')
-        .select('id, title, thumbnail_url, type')
+        .select('id, title, thumbnail_url, type, title_ko, title_en, creator_en, isbn_en, thumbnail_en')
         .in('id', contentIds),
       supabase
         .from('user_contents')
@@ -144,7 +149,7 @@ export async function getFeedActivities(
 
     if (contents) {
       contentsMap = Object.fromEntries(
-        contents.map(c => [c.id, { title: c.title, thumbnail_url: c.thumbnail_url, type: c.type as ContentType }])
+        contents.map(c => [c.id, { title: c.title, thumbnail_url: c.thumbnail_url, type: c.type as ContentType, title_ko: c.title_ko ?? null, title_en: c.title_en ?? null, creator_en: c.creator_en ?? null, isbn_en: c.isbn_en ?? null, thumbnail_en: c.thumbnail_en ?? null }])
       )
     }
 
@@ -179,6 +184,11 @@ export async function getFeedActivities(
       content_title: contentInfo?.title || null,
       content_thumbnail: contentInfo?.thumbnail_url || null,
       content_type: contentInfo?.type || null,
+      content_title_ko: contentInfo?.title_ko || null,
+      content_title_en: contentInfo?.title_en || null,
+      content_creator_en: contentInfo?.creator_en || null,
+      content_isbn_en: contentInfo?.isbn_en || null,
+      content_thumbnail_en: contentInfo?.thumbnail_en || null,
       review: userContentInfo?.review || null,
       rating: userContentInfo?.rating || null,
       source_url: userContentInfo?.source_url || null,

@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import Image from "next/image";
 import {
   PillarIcon,
@@ -18,6 +17,7 @@ import { Plus } from "lucide-react";
 import { type PublicUserProfile } from "@/actions/user";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, TitleBadge } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 interface UserProfileSidebarProps {
   profile: PublicUserProfile;
@@ -35,22 +35,23 @@ const ITEM_GAP = 8;
 export default function UserProfileSidebar({ profile, isOwner, userId }: UserProfileSidebarProps) {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const t = useTranslations("userProfile.sidebar");
 
   const isCeleb = profile.profile_type === 'CELEB';
 
   // 공개 탭 (셀럽은 관심 탭 제외)
   const publicTabs = [
-    { label: "계보", href: `/${userId}`, icon: BustIcon, exact: true },
-    { label: "기록", href: `/${userId}/records`, icon: PillarIcon, exact: false },
-    ...(!isCeleb ? [{ label: "관심", href: `/${userId}/interests`, icon: AstrolabeIcon, exact: false }] : []),
-    { label: "컬렉션", href: `/${userId}/collections`, icon: ScrollIcon, exact: false },
+    { label: t("lineage"), href: `/${userId}`, icon: BustIcon, exact: true },
+    { label: t("records"), href: `/${userId}/records`, icon: PillarIcon, exact: false },
+    ...(!isCeleb ? [{ label: t("interests"), href: `/${userId}/interests`, icon: AstrolabeIcon, exact: false }] : []),
+    { label: t("collections"), href: `/${userId}/collections`, icon: ScrollIcon, exact: false },
   ];
 
   // 본인 전용 탭
   const ownerTabs = [
-    { label: "통계", href: `/${userId}/stats`, icon: ObeliskIcon, exact: false },
-    { label: "칭호", href: `/${userId}/achievements`, icon: LaurelIcon, exact: false },
-    { label: "설정", href: `/${userId}/settings`, icon: CogsIcon, exact: false },
+    { label: t("stats"), href: `/${userId}/stats`, icon: ObeliskIcon, exact: false },
+    { label: t("titles"), href: `/${userId}/achievements`, icon: LaurelIcon, exact: false },
+    { label: t("settings"), href: `/${userId}/settings`, icon: CogsIcon, exact: false },
   ];
 
   const tabs = isOwner ? [...publicTabs, ...ownerTabs] : publicTabs;
@@ -70,7 +71,7 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
         <ClassicalBox className="p-6 flex flex-col items-center">
           {/* 클릭 시 인물 정보 페이지로 이동 */}
           <Link href={`/${userId}`} className="group flex flex-col items-center cursor-pointer">
-            <DecorativeLabel label="프로필" className="mb-8" />
+            <DecorativeLabel label={t("profile")} className="mb-8" />
 
             <div className="relative mb-6 flex justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-accent/20 scale-125 group-hover:scale-130 transition-transform" />

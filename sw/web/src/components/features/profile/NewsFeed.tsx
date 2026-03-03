@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Newspaper } from "lucide-react";
 import { searchCelebNews } from "@/actions/celebs";
 import type { NewsSearchResult } from "@feelandnote/content-search/naver-news";
@@ -26,6 +27,7 @@ interface NewsFeedProps {
 }
 
 export default function NewsFeed({ nickname }: NewsFeedProps) {
+  const t = useTranslations("profileSection");
   const [items, setItems] = useState<NewsSearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -65,7 +67,7 @@ export default function NewsFeed({ nickname }: NewsFeedProps) {
           onClick={() => setExpanded(true)}
           className="w-full py-2.5 text-xs text-text-secondary hover:text-accent"
         >
-          더보기 ({items.length - INITIAL_COUNT}건)
+          {t("showMoreNews", { count: items.length - INITIAL_COUNT })}
         </button>
       )}
     </div>

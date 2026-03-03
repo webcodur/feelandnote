@@ -1,12 +1,14 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("pages.home");
   return {
     title: t("title"),
     description: t("description"),
+    alternates: getAlternates("/"),
   };
 }
 import { getUserContents } from "@/actions/contents/getUserContents";
@@ -46,6 +48,7 @@ function HomeSectionSkeleton() {
 
 export default async function MainPage() {
   const supabase = await createClient();
+  const t = await getTranslations("home.ui.tabs");
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -89,9 +92,11 @@ export default async function MainPage() {
 
   const FigureSectionContent = (
     <div className="flex flex-col gap-12">
-      <Suspense fallback={<div className="h-64 bg-white/5 rounded-xl animate-pulse" />}>
-        <TodayFigureSection figure={todayFigureResult.figure!} contents={todayFigureResult.contents} source={todayFigureResult.source} />
-      </Suspense>
+      {todayFigureResult.figure && (
+        <Suspense fallback={<div className="h-64 bg-white/5 rounded-xl animate-pulse" />}>
+          <TodayFigureSection figure={todayFigureResult.figure} contents={todayFigureResult.contents} source={todayFigureResult.source} />
+        </Suspense>
+      )}
 
       <HomeNavigationLinks />
     </div>
@@ -99,9 +104,15 @@ export default async function MainPage() {
 
   return (
     <div className="pb-20">
-      <HomeTabSection 
+      <HomeTabSection
         recordSection={RecordSection}
         figureSection={FigureSectionContent}
+        labels={{
+          intro: t("intro"),
+          introSub: t("introSub"),
+          todayFigure: t("todayFigure"),
+          quickRecord: t("quickRecord"),
+        }}
       />
     </div>
   );

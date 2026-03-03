@@ -5,13 +5,15 @@
 */
 "use client";
 
-import { Search, X, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { Search, X, SlidersHorizontal, ArrowUpDown, Briefcase, Globe, Layers, Users } from "lucide-react";
 import { FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import ControlPanel from "@/components/shared/ControlPanel";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
-import { SORT_OPTIONS, type FilterType } from "./useCelebFilters";
+import { SORT_VALUES, type FilterType } from "./useCelebFilters";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
+import { useTranslations } from "next-intl";
+import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 
 interface CelebFiltersMobileProps {
   profession: string;
@@ -31,7 +33,7 @@ interface CelebFiltersMobileProps {
     nationality?: { label: string };
     contentType?: { label: string };
     gender?: { label: string };
-    sort?: { label: string };
+    sort: CelebSortBy;
   };
   onFilterOpen: (filter: FilterType) => void;
   onFilterClose: () => void;
@@ -76,32 +78,37 @@ export default function CelebFiltersMobile({
   isExpanded = true,
   onToggleExpand,
 }: CelebFiltersMobileProps) {
+  const getProfLabel = useProfessionLabel();
+  const getCtLabel = useContentTypeLabel();
+  const getNatLabel = useNationalityLabel();
+  const getGenderLabel = useGenderLabel();
+  const t = useTranslations("home.ui");
+
   // 필터별 옵션 생성
-  const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value, label }) => ({
+  const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value }) => ({
     value,
-    label,
+    label: getProfLabel(value),
     count: professionCounts[value] ?? 0,
   }));
 
-  const nationalityOptions: FilterOption[] = nationalityCounts.map(({ value, label, count }) => ({
+  const nationalityOptions: FilterOption[] = nationalityCounts.map(({ value, count }) => ({
     value,
-    label,
+    label: getNatLabel(value),
     count,
   }));
 
-  const contentTypeOptions: FilterOption[] = CONTENT_TYPE_FILTERS.map(({ value, label }) => ({
+  const contentTypeOptions: FilterOption[] = CONTENT_TYPE_FILTERS.map(({ value }) => ({
     value,
-    label,
+    label: getCtLabel(value),
     count: contentTypeCounts[value] ?? 0,
   }));
 
-  const genderOptions: FilterOption[] = genderCounts.map(({ value, label, count }) => ({
+  const genderOptions: FilterOption[] = genderCounts.map(({ value, count }) => ({
     value,
-    label,
+    label: getGenderLabel(value),
     count,
   }));
-
-  const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
+  const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") onSearchSubmit();
@@ -112,7 +119,7 @@ export default function CelebFiltersMobile({
       {/* 셀럽 컨트롤 (Mobile) */}
       <div className="md:hidden mb-10">
         <ControlPanel
-          title="탐색 제어"
+          title={t("controlTitle")}
           icon={<SlidersHorizontal size={16} className="text-accent/70" />}
           isExpanded={isExpanded}
           onToggleExpand={onToggleExpand ?? (() => {})}
@@ -120,11 +127,11 @@ export default function CelebFiltersMobile({
         >
           {/* 1행: 필터 칩들 */}
           <div className="grid grid-cols-2 gap-2 p-3">
-            <FilterChip label="직군" value={activeLabels.profession?.label ?? "전체"} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" />
-            <FilterChip label="국적" value={activeLabels.nationality?.label ?? "전체"} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" />
-            <FilterChip label="콘텐츠" value={activeLabels.contentType?.label ?? "전체"} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" />
-            <FilterChip label="성별" value={activeLabels.gender?.label ?? "전체"} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" />
-            <FilterChip label="정렬" value={activeLabels.sort?.label ?? "보유 콘텐츠순"} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full col-span-2" icon={<ArrowUpDown size={12} />} />
+            <FilterChip label={t("filterProfession")} value={getProfLabel(profession)} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" icon={<Briefcase size={12} />} />
+            <FilterChip label={t("filterNationality")} value={getNatLabel(nationality)} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" icon={<Globe size={12} />} />
+            <FilterChip label={t("filterContent")} value={getCtLabel(contentType)} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" icon={<Layers size={12} />} />
+            <FilterChip label={t("filterGender")} value={getGenderLabel(gender)} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" icon={<Users size={12} />} />
+            <FilterChip label={t("filterSort")} value={t(`sort.${sortBy}`)} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full col-span-2" icon={<ArrowUpDown size={12} />} />
           </div>
           {/* 2행: 검색 */}
           <div className="flex gap-2 p-3">
@@ -135,7 +142,7 @@ export default function CelebFiltersMobile({
                 value={search}
                 onChange={(e) => onSearchInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="인물 검색..."
+                placeholder={t("searchPlaceholder")}
                 className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
               />
               {search && (
@@ -161,7 +168,7 @@ export default function CelebFiltersMobile({
           {extraButtons && (
             <>
               <div className="h-px bg-accent/10" />
-              <div className="flex gap-2 p-3">
+              <div className="flex flex-wrap gap-2 p-3">
                 {extraButtons}
               </div>
             </>
@@ -170,11 +177,11 @@ export default function CelebFiltersMobile({
       </div>
 
       {/* 모달들 */}
-      <FilterModal title="직군" isOpen={activeFilter === "profession"} current={profession} options={professionOptions} onClose={onFilterClose} onChange={onProfessionChange} />
-      <FilterModal title="국적" isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} />
-      <FilterModal title="콘텐츠" isOpen={activeFilter === "contentType"} current={contentType} options={contentTypeOptions} onClose={onFilterClose} onChange={onContentTypeChange} />
-      <FilterModal title="성별" isOpen={activeFilter === "gender"} current={gender} options={genderOptions} onClose={onFilterClose} onChange={onGenderChange} />
-      <FilterModal title="정렬" isOpen={activeFilter === "sort"} current={sortBy} options={sortOptions} onClose={onFilterClose} onChange={(v) => onSortChange(v as CelebSortBy)} />
+      <FilterModal title={t("filterProfession")} isOpen={activeFilter === "profession"} current={profession} options={professionOptions} onClose={onFilterClose} onChange={onProfessionChange} />
+      <FilterModal title={t("filterNationality")} isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} />
+      <FilterModal title={t("filterContent")} isOpen={activeFilter === "contentType"} current={contentType} options={contentTypeOptions} onClose={onFilterClose} onChange={onContentTypeChange} />
+      <FilterModal title={t("filterGender")} isOpen={activeFilter === "gender"} current={gender} options={genderOptions} onClose={onFilterClose} onChange={onGenderChange} />
+      <FilterModal title={t("filterSort")} isOpen={activeFilter === "sort"} current={sortBy} options={sortOptions} onClose={onFilterClose} onChange={(v) => onSortChange(v as CelebSortBy)} />
     </>
   );
 }

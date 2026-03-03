@@ -5,16 +5,20 @@ import { Landmark, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/Logo";
 import { NAV_ITEMS, HOME_SECTIONS } from "@/constants/navigation";
-
-// NAV_ITEMS 기반으로 섹션 네비게이션 생성
-const SECTION_NAV = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => ({
-  label: item.label,
-  sub: HOME_SECTIONS[item.key]?.englishTitle.toUpperCase() ?? item.key.toUpperCase(),
-  targetId: HOME_SECTIONS[item.key]?.id ?? `${item.key}-section`,
-  icon: item.icon,
-}));
+import { useTranslations } from "next-intl";
 
 export default function HomeBanner() {
+  const t = useTranslations("home.ui.banner");
+  const tNav = useTranslations("nav");
+  const tHome = useTranslations("home");
+
+  // NAV_ITEMS 기반으로 섹션 네비게이션 생성
+  const sectionNav = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => ({
+    label: tNav(item.key),
+    sub: tHome(`${item.key}.englishTitle`).toUpperCase(),
+    targetId: HOME_SECTIONS[item.key]?.id ?? `${item.key}-section`,
+    icon: item.icon,
+  }));
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -107,10 +111,11 @@ export default function HomeBanner() {
           )}
         >
           <span className="block font-medium text-text-primary/90 mb-1.5 md:mb-3 text-base md:text-xl">
-            느끼고, 기록하라
+            {t("headline")}
           </span>
-          책, 영화, 음악, 게임... 모든 경험을 남기고<br />
-          영감의 흔적을 쌓아가세요.
+          {t("description").split("\n").map((line, i) => (
+            <span key={i}>{line}{i === 0 && <br />}</span>
+          ))}
         </p>
 
         {/* Navigation Menu */}
@@ -121,7 +126,7 @@ export default function HomeBanner() {
           )}
         >
           <div className="flex flex-wrap justify-center gap-1 md:gap-4">
-            {SECTION_NAV.map((item) => (
+            {sectionNav.map((item) => (
               <button
                 key={item.targetId}
                 onClick={() => scrollToSection(item.targetId)}

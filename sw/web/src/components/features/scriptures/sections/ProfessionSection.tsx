@@ -20,7 +20,6 @@ import {
   type ScripturesByProfession as ProfessionData,
 } from "@/actions/scriptures";
 import { PROFESSION_ROWS } from "@/constants/scriptures";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { useTranslations } from "next-intl";
 
 // #region Types
@@ -45,6 +44,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("scriptures.page.professionPage");
+  const tp = useTranslations("profession");
   const te = useTranslations("scriptures.page.empty");
 
   // 초기 로드
@@ -128,7 +128,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
                           }
                         `}
                       >
-                        {item.label}
+                        {tp(item.profession as any)}
                       </button>
                     );
                   })}
@@ -145,7 +145,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
           <div className="mb-10 sm:mb-14">
             <RepresentativeCelebs
               celebs={data.topCelebs}
-              title={`${t("representativePrefix")}${getCelebProfessionLabel(activeProfession)}`}
+              title={`${t("representativePrefix")}${tp(activeProfession as any)}`}
               centered
             />
           </div>
@@ -170,6 +170,10 @@ export default function ProfessionSection({ professionCounts }: Props) {
                   rating={content.avg_rating ?? undefined}
                   href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
                   addable={true}
+                  titleKo={content.title_ko}
+                  titleEn={content.title_en}
+                  creatorEn={content.creator_en}
+                  thumbnailEn={content.thumbnail_en}
                 />
               ))}
             </ContentGrid>

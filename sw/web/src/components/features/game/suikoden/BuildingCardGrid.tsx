@@ -1,14 +1,10 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import type { GameState, Territory, BuildingCard as BuildingCardType, GameCharacter, ThreatCard as ThreatCardType } from '@/lib/game/suikoden/types'
 import { BUILDINGS, BUILDING_CATEGORY, BUILDING_CATEGORY_INFO, GRADE_COLORS } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
-
-const STAT_LABEL: Record<string, string> = {
-  power: '완력', skill: '기량', intellect: '지력', stamina: '체력',
-  loyalty: '충의', virtue: '인애', courage: '용기',
-}
 
 interface Props {
   state: GameState
@@ -35,6 +31,7 @@ export default function BuildingCardGrid({
   onBuild, onReassign, onUnassign, onDemolish, onAssignRecruiter, onCancelRecruiter, onDispatch, onRecall, onToast,
   readOnly, factionOverrideId,
 }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const [dragOverTarget, setDragOverTarget] = useState<string | null>(null)
   const [infoBuilding, setInfoBuilding] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState(false)
@@ -54,7 +51,7 @@ export default function BuildingCardGrid({
     const p = state.placements.find(pl => pl.characterId === m.id)
     if (!p) { idleChars.push(m); continue }
     if (p.task === 'idle' && !p.assignedBuildingId) idleChars.push(m)
-    else if (p.task === 'idle' && p.assignedBuildingId) { /* 건물에서 휴식 중 → 건물 슬롯에 표시 */ }
+    else if (p.task === 'idle' && p.assignedBuildingId) { /* 건물에서 휴식 중 -> 건물 슬롯에 표시 */ }
     else if (p.task === 'training') trainingChars.push(m)
     else if (p.task === 'building') buildingChars.push(m)
     else if (p.task === 'hunting') huntingChars.push(m)
@@ -66,7 +63,7 @@ export default function BuildingCardGrid({
     : null
   const canBuild = !readOnly && (selectedPlacement?.task === 'idle' || selectedPlacement?.task === 'working') && hasRoom
 
-  // ── DND ──
+  // region DND
   const handleDragStart = useCallback((e: React.DragEvent, charId: string) => {
     e.dataTransfer.setData('text/character-id', charId)
     e.dataTransfer.effectAllowed = 'move'
@@ -83,10 +80,8 @@ export default function BuildingCardGrid({
     setDragOverTarget(null)
     const charId = e.dataTransfer.getData('text/character-id')
     if (!charId) return
-    // 자기 자신이 배치된 건물에 드롭 → 무시
     const occupant = card.isConstructing ? card.constructionWorkerId : card.assigneeId
     if (occupant === charId) return
-    // 점유자 있으면 스왑, 빈자리면 배치 — 모두 onReassign이 처리
     onReassign(charId, card.instanceId)
   }, [onReassign])
 
@@ -107,6 +102,7 @@ export default function BuildingCardGrid({
     const charId = e.dataTransfer.getData('text/character-id')
     if (charId && canBuild) onBuild(defId)
   }, [canBuild, onBuild])
+  // endregion
 
   const categories = ['agriculture', 'commerce', 'military', 'culture'] as const
 
@@ -142,28 +138,29 @@ export default function BuildingCardGrid({
       )}
 
       <div className={`relative z-10 space-y-3 ${viewMode ? 'invisible' : ''}`}>
-      {/* ── 헤더 ── */}
+      {/* region 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold text-stone-200">{territory.name}</span>
-          <span className="text-[10px] text-stone-500">건물 {slotUsed}/{slotMax}</span>
+          <span className="text-[10px] text-stone-500">{tS('mgmt.buildingCount', { current: slotUsed, max: slotMax })}</span>
           <button
             onClick={() => setViewMode(true)}
             className="text-[10px] text-stone-500 hover:text-amber-300 transition-colors"
-            title="배경 감상"
+            title={tS('mgmt.viewBackground')}
           >
             🖼️
           </button>
         </div>
         <div className="flex items-center gap-2 text-[10px] text-stone-400">
-          <span>인구 {territory.population.toLocaleString()}</span>
+          <span>{tS('mgmt.population')} {territory.population.toLocaleString()}</span>
           <span className={territory.morale >= 50 ? 'text-green-400' : 'text-red-400'}>
-            민심 {Math.round(territory.morale)}
+            {tS('mgmt.publicOrder')} {Math.round(territory.morale)}
           </span>
         </div>
       </div>
+      {/* endregion */}
 
-      {/* ── 2열 레이아웃: 좌=건물, 우=인물풀 ── */}
+      {/* region 2열 레이아웃: 좌=건물, 우=인물풀 */}
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
         {/* 좌열: 건물 */}
         <div className="space-y-2 min-w-0">
@@ -176,7 +173,7 @@ export default function BuildingCardGrid({
             return (
               <div key={cat}>
                 <div className="text-[10px] font-bold mb-1" style={{ color: catInfo.color }}>
-                  {catInfo.name}
+                  {tS(`bldgCat.${cat}`)}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {defsInCat.map(bDef => {
@@ -204,7 +201,8 @@ export default function BuildingCardGrid({
                           return (
                             <BuildingSlot
                               key={card.instanceId}
-                              buildingName={bDef.name}
+                              tS={tS}
+                              buildingName={tS(`bldg.${bDef.id}`)}
                               buildingDefId={bDef.id}
                               index={cards.length > 1 ? idx + 1 : undefined}
                               isResting={isResting}
@@ -236,7 +234,7 @@ export default function BuildingCardGrid({
                               }
                               onClickAssignHint={readOnly ? undefined :
                                 !selectedCharId
-                                  ? () => onToast('배치할 인물을 먼저 선택하라.')
+                                  ? () => onToast(tS('mgmt.toastSelectCharFirst'))
                                   : undefined
                               }
                               onUnassign={readOnly ? undefined : (card.assigneeId || card.constructionWorkerId) ? () => onUnassign((card.assigneeId ?? card.constructionWorkerId)!) : undefined}
@@ -247,7 +245,7 @@ export default function BuildingCardGrid({
                           )
                         })}
 
-                        {/* 신규 건설 — readOnly 시 숨김 */}
+                        {/* 신규 건설 -- readOnly 시 숨김 */}
                         {hasRoom && !readOnly && (
                           <div
                             className={`inline-flex items-center gap-0.5 px-2 py-1 rounded border border-dashed text-[10px] transition-colors self-start ${
@@ -262,29 +260,34 @@ export default function BuildingCardGrid({
                             onDragOver={canAfford ? (e) => { handleDragOver(e); setDragOverTarget(`new-${bDef.id}`) } : undefined}
                             onDragLeave={canAfford ? () => setDragOverTarget(null) : undefined}
                             onDrop={canAfford ? (e) => handleDropOnBuildSlot(e, bDef.id) : undefined}
-                            title={`${bDef.name} (금${bDef.costGold}${bDef.costMaterial > 0 ? ` 자재${bDef.costMaterial}` : ''}${bDef.requireStat ? ` ${STAT_LABEL[bDef.requireStat]}${bDef.requireStatMin}↑` : ''}) ${bDef.buildTurns}턴`}
+                            title={`${tS(`bldg.${bDef.id}`)} (${tS('mgmt.goldCost', { amount: bDef.costGold })}${bDef.costMaterial > 0 ? ` ${tS('mgmt.materialCost', { amount: bDef.costMaterial })}` : ''}${bDef.requireStat ? ` ${tS('mgmt.statMinArrow', { stat: tS(`stat.${bDef.requireStat}`), min: bDef.requireStatMin ?? 0 })}` : ''}) ${tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}`}
                           >
                             <span
                               className="cursor-pointer hover:text-amber-300 transition-colors"
                               onClick={() => setInfoBuilding(bDef.id)}
                             >
-                              {bDef.name}
+                              {tS(`bldg.${bDef.id}`)}
                             </span>
-                            <span className={`ml-0.5 ${canAfford ? 'text-stone-600' : 'text-stone-700/50'}`}>{bDef.buildTurns}턴</span>
+                            <span className={`ml-0.5 ${canAfford ? 'text-stone-600' : 'text-stone-700/50'}`}>{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</span>
                             {canAfford && (
                               <span
                                 className="text-xs cursor-pointer hover:text-amber-300 transition-colors ml-0.5"
                                 onClick={() => {
                                   if (!selectedCharId) {
-                                    onToast('건설할 인물을 먼저 선택하라.')
+                                    onToast(tS('mgmt.toastSelectBuilderFirst'))
                                   } else if (selectedPlacement?.task === 'training') {
-                                    onToast('훈련 중인 인물은 건설할 수 없다.')
+                                    onToast(tS('mgmt.toastTrainingCannotBuild'))
                                   } else if (selectedPlacement?.task === 'building') {
-                                    onToast('이미 건설 중인 인물이다.')
+                                    onToast(tS('mgmt.toastAlreadyBuilding'))
                                   } else if (bDef.requireStat && bDef.requireStatMin) {
                                     const char = (playerFaction?.members ?? []).find(m => m.id === selectedCharId)
                                     if (char && char.stats[bDef.requireStat] < bDef.requireStatMin) {
-                                      onToast(`${bDef.name}: ${STAT_LABEL[bDef.requireStat] ?? bDef.requireStat} ${bDef.requireStatMin} 이상 필요 (현재 ${char.stats[bDef.requireStat]})`)
+                                      onToast(tS('mgmt.statRequirementCurrent', {
+                                        building: tS(`bldg.${bDef.id}`),
+                                        stat: tS(`stat.${bDef.requireStat}`),
+                                        min: bDef.requireStatMin,
+                                        current: char.stats[bDef.requireStat],
+                                      }))
                                       return
                                     }
                                     onBuild(bDef.id)
@@ -307,7 +310,7 @@ export default function BuildingCardGrid({
 
         {/* 우열: 대기 / 훈련 / 방문 */}
         <div className="sm:w-[200px] sm:border-l sm:border-stone-700 sm:pl-3 space-y-3">
-          {/* ── 대기 ── */}
+          {/* region 대기 */}
           <div
             className={`rounded p-2 transition-colors ${
               dragOverTarget === 'idle-pool'
@@ -319,8 +322,8 @@ export default function BuildingCardGrid({
             onDrop={readOnly ? undefined : handleDropOnIdle}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-bold text-stone-400">대기</span>
-              <span className="text-[10px] text-stone-600">{idleChars.length}명</span>
+              <span className="text-[10px] font-bold text-stone-400">{tS('mgmt.idle')}</span>
+              <span className="text-[10px] text-stone-600">{tS('mgmt.countSuffix', { count: idleChars.length })}</span>
             </div>
             {idleChars.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
@@ -336,15 +339,16 @@ export default function BuildingCardGrid({
                 ))}
               </div>
             ) : (
-              <p className="text-[10px] text-stone-600">대기 인물 없음</p>
+              <p className="text-[10px] text-stone-600">{tS('mgmt.noIdleChars')}</p>
             )}
           </div>
+          {/* endregion */}
 
-          {/* ── 훈련 ── */}
+          {/* region 훈련 */}
           <div>
             <div className="flex items-center gap-2 mb-1.5 px-2">
-              <span className="text-[10px] font-bold text-blue-400">훈련</span>
-              <span className="text-[10px] text-stone-600">{trainingChars.length}명</span>
+              <span className="text-[10px] font-bold text-blue-400">{tS('mgmt.training')}</span>
+              <span className="text-[10px] text-stone-600">{tS('mgmt.countSuffix', { count: trainingChars.length })}</span>
             </div>
             {trainingChars.length > 0 ? (
               <div className="flex flex-wrap gap-1.5 px-2">
@@ -353,7 +357,7 @@ export default function BuildingCardGrid({
                     key={char.id}
                     character={char}
                     isSelected={!readOnly && selectedCharId === char.id}
-                    status="훈련"
+                    status={tS('mgmt.training')}
                     onClick={readOnly ? () => {} : () => onSelectChar(char.id === selectedCharId ? null : char.id)}
                     onDragStart={readOnly ? () => {} : (e) => handleDragStart(e, char.id)}
                     readOnly={readOnly}
@@ -361,16 +365,17 @@ export default function BuildingCardGrid({
                 ))}
               </div>
             ) : (
-              <p className="text-[10px] text-stone-600 px-2">훈련 인물 없음</p>
+              <p className="text-[10px] text-stone-600 px-2">{tS('mgmt.noTrainingChars')}</p>
             )}
           </div>
+          {/* endregion */}
 
-          {/* ── 출몰 — readOnly 시 숨김 ── */}
+          {/* region 출몰 -- readOnly 시 숨김 */}
           {!readOnly && threats.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-1.5 px-2">
-                <span className="text-[10px] font-bold text-red-400">출몰</span>
-                <span className="text-[10px] text-stone-600">{threats.length}건</span>
+                <span className="text-[10px] font-bold text-red-400">{tS('mgmt.threats')}</span>
+                <span className="text-[10px] text-stone-600">{tS('mgmt.countCases', { count: threats.length })}</span>
               </div>
               <div className="space-y-1.5 px-2">
                 {threats.map(threat => {
@@ -385,21 +390,21 @@ export default function BuildingCardGrid({
                         <span className="text-sm">{threat.icon}</span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1">
-                            <span className="text-[10px] font-medium text-stone-200">{threat.name}</span>
-                            <span className="text-[9px] text-red-400">위력 {threat.power}</span>
+                            <span className="text-[10px] font-medium text-stone-200">{tS(`threat.${threat.type}`)}</span>
+                            <span className="text-[9px] text-red-400">{tS('mgmt.threatPower', { value: threat.power })}</span>
                           </div>
-                          <span className="text-[9px] text-stone-500">{turnsLeft}턴 후 피해 발생</span>
+                          <span className="text-[9px] text-stone-500">{tS('mgmt.threatDamageIn', { turns: turnsLeft })}</span>
                         </div>
                       </div>
                       {assignedChar ? (
                         <div className="flex items-center gap-2 mt-1.5">
                           <CharacterPortrait character={assignedChar} size={20} />
-                          <span className="text-[10px] text-amber-300 flex-1">{assignedChar.nickname} 토벌 중</span>
+                          <span className="text-[10px] text-amber-300 flex-1">{tS('mgmt.subjugating', { nickname: assignedChar.nickname })}</span>
                           <button
                             onClick={() => onRecall(assignedChar.id)}
                             className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-stone-400 hover:text-stone-200 transition-colors"
                           >
-                            해제
+                            {tS('mgmt.unassign')}
                           </button>
                         </div>
                       ) : selectedCharId && selectedPlacement?.task !== 'hunting' ? (
@@ -407,10 +412,10 @@ export default function BuildingCardGrid({
                           onClick={() => onDispatch(selectedCharId, threat.id)}
                           className="mt-1.5 w-full px-2 py-1 rounded bg-red-900/40 border border-red-700/50 text-[10px] text-red-300 hover:bg-red-800/50 transition-colors"
                         >
-                          토벌 배정
+                          {tS('mgmt.dispatchSubjugate')}
                         </button>
                       ) : (
-                        <p className="mt-1 text-[9px] text-stone-600">인물을 선택하여 배정</p>
+                        <p className="mt-1 text-[9px] text-stone-600">{tS('mgmt.selectToAssign')}</p>
                       )}
                     </div>
                   )
@@ -418,13 +423,14 @@ export default function BuildingCardGrid({
               </div>
             </div>
           )}
+          {/* endregion */}
 
-          {/* ── 방문 — readOnly 시 숨김 ── */}
+          {/* region 방문 -- readOnly 시 숨김 */}
           {!readOnly && (
             <div>
               <div className="flex items-center gap-2 mb-1.5 px-2">
-                <span className="text-[10px] font-bold text-emerald-400">방문</span>
-                <span className="text-[10px] text-stone-600">{visitors.length}명</span>
+                <span className="text-[10px] font-bold text-emerald-400">{tS('mgmt.visitors')}</span>
+                <span className="text-[10px] text-stone-600">{tS('mgmt.countSuffix', { count: visitors.length })}</span>
               </div>
               {hasTavern ? (
                 visitors.length > 0 ? (
@@ -443,18 +449,18 @@ export default function BuildingCardGrid({
                                 <span className="text-[10px] font-medium text-stone-200 truncate">{v.character.nickname}</span>
                                 <span className="text-[8px] font-bold" style={{ color: GRADE_COLORS[v.character.grade] }}>{v.character.grade}</span>
                               </div>
-                              <span className="text-[9px] text-stone-500">{turnsLeft}턴 후 떠남</span>
+                              <span className="text-[9px] text-stone-500">{tS('mgmt.visitorLeaveIn', { turns: turnsLeft })}</span>
                             </div>
                           </div>
                           {assignedRecruiter ? (
                             <div className="flex items-center gap-2 mt-1.5">
                               <CharacterPortrait character={assignedRecruiter} size={20} />
-                              <span className="text-[10px] text-emerald-300 flex-1">{assignedRecruiter.nickname} 등용 중</span>
+                              <span className="text-[10px] text-emerald-300 flex-1">{tS('mgmt.recruiting', { nickname: assignedRecruiter.nickname })}</span>
                               <button
                                 onClick={() => onCancelRecruiter(v.character.id)}
                                 className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-stone-400 hover:text-stone-200 transition-colors"
                               >
-                                해제
+                                {tS('mgmt.unassign')}
                               </button>
                             </div>
                           ) : selectedCharId ? (
@@ -462,28 +468,30 @@ export default function BuildingCardGrid({
                               onClick={() => onAssignRecruiter(v.character.id, selectedCharId)}
                               className="mt-1.5 w-full px-2 py-1 rounded bg-emerald-900/40 border border-emerald-700/50 text-[10px] text-emerald-300 hover:bg-emerald-800/50 transition-colors"
                             >
-                              할당
+                              {tS('mgmt.assign')}
                             </button>
                           ) : (
-                            <p className="mt-1 text-[9px] text-stone-600">인물을 선택하여 할당</p>
+                            <p className="mt-1 text-[9px] text-stone-600">{tS('mgmt.selectToRecruit')}</p>
                           )}
                           {assignedRecruiter && (
-                            <p className="text-[8px] text-stone-500 mt-1">다음 턴에 등용 시도</p>
+                            <p className="text-[8px] text-stone-500 mt-1">{tS('mgmt.recruitNextTurn')}</p>
                           )}
                         </div>
                       )
                     })}
                   </div>
                 ) : (
-                  <p className="text-[10px] text-stone-600 px-2">방문자 없음</p>
+                  <p className="text-[10px] text-stone-600 px-2">{tS('mgmt.noVisitors')}</p>
                 )
               ) : (
-                <p className="text-[10px] text-stone-600 px-2">선술집 건설 시 인재가 방문한다</p>
+                <p className="text-[10px] text-stone-600 px-2">{tS('mgmt.tavernHint')}</p>
               )}
             </div>
           )}
+          {/* endregion */}
         </div>
       </div>
+      {/* endregion */}
 
       {/* 건물 정보 모달 */}
       {infoBuilding && <BuildingInfoModal defId={infoBuilding} onClose={() => setInfoBuilding(null)} />}
@@ -492,46 +500,29 @@ export default function BuildingCardGrid({
   )
 }
 
-// ── 건물 정보 모달 ──
-
-const BUILDING_DESC: Record<string, string> = {
-  farm:     '식량을 생산한다. 세력 유지의 기본 건물.',
-  market:   '금을 생산한다. 경제의 기초.',
-  trade:    '대량의 금을 생산한다. 기량 6 이상 필요.',
-  lumber:   '건설에 필요한 자재를 생산한다.',
-  mine:     '대량의 자재를 생산한다. 기량 5 이상 필요.',
-  barracks: '매 턴 병사를 모집한다.',
-  training: '인물을 훈련시켜 완력/기량/체력 스탯을 올린다. 완력 6 이상 필요.',
-  walls:    '방어 보너스를 제공한다. 기량 5 이상 필요.',
-  armory:   '무기를 제작하여 전투력을 높인다.',
-  library:  '지식을 생산한다.',
-  academy:  '대량의 지식을 생산하고 기술을 연구한다. 지력 7 이상 필요.',
-  temple:   '민심을 올리고 특수 능력을 부여한다. 인애 7 이상 필요.',
-  theater:  '민심과 문화를 올린다.',
-  tavern:   '선술집에 떠돌이 인재가 방문한다. 등용 기회 제공.',
-  patrol:   '순찰병이 영토를 순찰하여 출몰을 자동 토벌하고 민심을 올린다.',
-}
+// region 건물 정보 모달
 
 function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => void }) {
+  const tS = useTranslations('rest.arena.suikoden')
   const bDef = BUILDINGS.find(b => b.id === defId)
   if (!bDef) return null
 
-  const desc = BUILDING_DESC[defId] ?? ''
+  const desc = tS(`bldgDesc.${defId}`)
   const e = bDef.effect
 
   const effects: string[] = []
-  if (e.goldPerTurn) effects.push(`금 +${e.goldPerTurn}/월`)
-  if (e.foodPerTurn) effects.push(`식량 +${e.foodPerTurn}/월`)
-  if (e.knowledgePerTurn) effects.push(`지식 +${e.knowledgePerTurn}/월`)
-  if (e.materialPerTurn) effects.push(`자재 +${e.materialPerTurn}/월`)
-  if (e.troopsPerTurn) effects.push(`병사 +${e.troopsPerTurn}/월`)
-  if (e.moralePerTurn) effects.push(`민심 +${e.moralePerTurn}/월`)
-  if (e.defenseBonus) effects.push(`방어 +${e.defenseBonus}`)
-  if (e.culturePerTurn) effects.push(`문화 +${e.culturePerTurn}/월`)
+  if (e.goldPerTurn) effects.push(`${tS('mgmt.goldLabel')} +${e.goldPerTurn}${tS('mgmt.perMonth')}`)
+  if (e.foodPerTurn) effects.push(`${tS('mgmt.foodLabel')} +${e.foodPerTurn}${tS('mgmt.perMonth')}`)
+  if (e.knowledgePerTurn) effects.push(`${tS('mgmt.knowledgeLabel')} +${e.knowledgePerTurn}${tS('mgmt.perMonth')}`)
+  if (e.materialPerTurn) effects.push(`${tS('mgmt.materialLabel')} +${e.materialPerTurn}${tS('mgmt.perMonth')}`)
+  if (e.troopsPerTurn) effects.push(`${tS('mgmt.troopsLabel')} +${e.troopsPerTurn}${tS('mgmt.perMonth')}`)
+  if (e.moralePerTurn) effects.push(`${tS('mgmt.moraleResLabel')} +${e.moralePerTurn}${tS('mgmt.perMonth')}`)
+  if (e.defenseBonus) effects.push(tS('mgmt.defenseBonus', { value: e.defenseBonus }))
+  if (e.culturePerTurn) effects.push(`${tS('mgmt.cultureLabel')} +${e.culturePerTurn}${tS('mgmt.perMonth')}`)
 
   const costs: string[] = []
-  if (bDef.costGold) costs.push(`금 ${bDef.costGold}`)
-  if (bDef.costMaterial) costs.push(`자재 ${bDef.costMaterial}`)
+  if (bDef.costGold) costs.push(`${tS('mgmt.goldLabel')} ${bDef.costGold}`)
+  if (bDef.costMaterial) costs.push(`${tS('mgmt.materialLabel')} ${bDef.costMaterial}`)
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -539,7 +530,7 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-lg">{bDef.icon}</span>
-            <span className="text-sm font-bold text-stone-100">{bDef.name}</span>
+            <span className="text-sm font-bold text-stone-100">{tS(`bldg.${bDef.id}`)}</span>
           </div>
           <button onClick={onClose} className="text-stone-500 hover:text-stone-300 text-xs">✕</button>
         </div>
@@ -549,7 +540,7 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
         <div className="space-y-1.5">
           {effects.length > 0 && (
             <div>
-              <div className="text-[10px] text-stone-500 mb-0.5">효과 (근무자 배치 시 1.5배)</div>
+              <div className="text-[10px] text-stone-500 mb-0.5">{tS('mgmt.effectWithBonus')}</div>
               <div className="flex flex-wrap gap-1.5">
                 {effects.map(eff => (
                   <span key={eff} className="text-[10px] px-1.5 py-0.5 bg-stone-700 rounded text-emerald-300">{eff}</span>
@@ -560,19 +551,19 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
 
           <div className="grid grid-cols-2 gap-2 text-[10px]">
             <div>
-              <div className="text-stone-500 mb-0.5">건설 비용</div>
-              <div className="text-stone-300">{costs.join(', ') || '없음'}</div>
+              <div className="text-stone-500 mb-0.5">{tS('mgmt.buildCost')}</div>
+              <div className="text-stone-300">{costs.join(', ') || tS('mgmt.costNone')}</div>
             </div>
             <div>
-              <div className="text-stone-500 mb-0.5">건설 기간</div>
-              <div className="text-stone-300">{bDef.buildTurns}턴</div>
+              <div className="text-stone-500 mb-0.5">{tS('mgmt.buildDuration')}</div>
+              <div className="text-stone-300">{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</div>
             </div>
           </div>
 
           {bDef.requireStat && bDef.requireStatMin && (
             <div className="text-[10px]">
-              <span className="text-stone-500">건설 조건: </span>
-              <span className="text-amber-300">{STAT_LABEL[bDef.requireStat] ?? bDef.requireStat} {bDef.requireStatMin} 이상</span>
+              <span className="text-stone-500">{tS('mgmt.buildRequirement')}: </span>
+              <span className="text-amber-300">{tS('mgmt.statRequirement', { stat: tS(`stat.${bDef.requireStat}`), min: bDef.requireStatMin })}</span>
             </div>
           )}
         </div>
@@ -581,15 +572,18 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
   )
 }
 
-// ── 건물 슬롯: 건물 프레임 + 인물 카드 분리 ──
+// endregion
+
+// region 건물 슬롯
 
 function BuildingSlot({
-  buildingName, buildingDefId, index, isConstructing, isResting, turnsLeft, buildTurnsTotal,
+  tS, buildingName, buildingDefId, index, isConstructing, isResting, turnsLeft, buildTurnsTotal,
   character, catColor, isDragOver, isSelected,
   onDragOver, onDragLeave, onDrop,
   onDragStartChar, onClickChar, onClickAssign, onClickAssignHint,
   onUnassign, onDemolish, onClickInfo, readOnly,
 }: {
+  tS: ReturnType<typeof useTranslations>
   buildingName: string
   buildingDefId: string
   index?: number
@@ -642,13 +636,13 @@ function BuildingSlot({
           {buildingName}{index != null ? index : ''}
         </span>
         {isConstructing ? (
-          <span className="text-[9px] text-amber-500/80">건설 {buildTurnsTotal - turnsLeft}/{buildTurnsTotal}</span>
+          <span className="text-[9px] text-amber-500/80">{tS('mgmt.buildProgress', { current: buildTurnsTotal - turnsLeft, total: buildTurnsTotal })}</span>
         ) : character && !isResting ? (
-          <span className="text-[9px] text-emerald-400">전력 가동</span>
+          <span className="text-[9px] text-emerald-400">{tS('mgmt.fullCapacity')}</span>
         ) : character && isResting ? (
-          <span className="text-[9px] text-stone-500">휴식중</span>
+          <span className="text-[9px] text-stone-500">{tS('mgmt.resting')}</span>
         ) : (
-          <span className="text-[9px] text-stone-500">가동중</span>
+          <span className="text-[9px] text-stone-500">{tS('mgmt.operating')}</span>
         )}
       </div>
 
@@ -688,29 +682,29 @@ function BuildingSlot({
                   : 'text-stone-700'
             }`}
           >
-            {onClickAssign ? '+ 배치' : '빈'}
+            {onClickAssign ? tS('mgmt.assignWorker') : tS('mgmt.emptySlot')}
           </div>
         ) : null}
       </div>
 
-      {/* 건물 컨텍스트 메뉴 — readOnly 시 숨김 */}
+      {/* 건물 컨텍스트 메뉴 -- readOnly 시 숨김 */}
       {showMenu && !readOnly && (
         <div className="absolute z-50 top-full right-0 mt-1 bg-stone-900 border border-stone-600 rounded shadow-xl text-[10px] min-w-[72px]">
           {character && onUnassign && (
             <button onClick={() => { onUnassign(); setShowMenu(false) }}
-              className="w-full text-left px-3 py-1.5 hover:bg-stone-700 text-stone-300">
-              해제
+              className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-stone-300">
+              {tS('mgmt.unassign')}
             </button>
           )}
           {!isConstructing && onDemolish && (
             <button onClick={() => { onDemolish(); setShowMenu(false) }}
-              className="w-full text-left px-3 py-1.5 hover:bg-stone-700 text-red-400">
-              철거
+              className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-red-400">
+              {tS('mgmt.demolish')}
             </button>
           )}
           <button onClick={() => setShowMenu(false)}
-            className="w-full text-left px-3 py-1.5 hover:bg-stone-700 text-stone-500">
-            닫기
+            className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-stone-500">
+            {tS('mgmt.close')}
           </button>
         </div>
       )}
@@ -718,7 +712,9 @@ function BuildingSlot({
   )
 }
 
-// ── 인물 칩 (대기/훈련 풀용) ──
+// endregion
+
+// region 인물 칩 (대기/훈련 풀용)
 
 function CharacterChip({
   character, isSelected, status, onClick, onDragStart, readOnly,
@@ -749,3 +745,5 @@ function CharacterChip({
     </div>
   )
 }
+
+// endregion

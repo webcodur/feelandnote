@@ -7,11 +7,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Star, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { SimilarUserCard, EmptyState, MobileUserListItem } from "../ExploreCards";
 import AlgorithmInfoModal from "../AlgorithmInfoModal";
+import { useTranslations } from "next-intl";
 
 interface SimilarUserInfo {
   id: string;
@@ -29,6 +30,7 @@ interface Props {
 
 export default function SimilarSection({ similarUsers, algorithm }: Props) {
   const router = useRouter();
+  const t = useTranslations("explore.ui");
   const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
   const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
@@ -40,11 +42,11 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
           onClick={() => setShowAlgorithmInfo(true)}
           className="text-xs text-text-tertiary hover:text-text-secondary flex items-center gap-1"
         >
-          <Info size={14} /> 추천 알고리즘
+          <Info size={14} /> {t("algorithm")}
         </Button>
         {algorithm === "content_overlap" && similarUsers.length > 0 && (
           <span className="text-[10px] text-text-tertiary bg-background px-2 py-0.5 rounded-full">
-            공통 콘텐츠 기반
+            {t("contentOverlapBased")}
           </span>
         )}
       </div>
@@ -64,7 +66,7 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
                 key={user.id}
                 user={user}
                 onClick={() => handleSelectUser(user.id)}
-                subtext={`${user.overlap_count} 결속 · ${(user.similarity * 100).toFixed(0)}% 일치`}
+                subtext={t("bondsMatch", { bonds: user.overlap_count, percent: (user.similarity * 100).toFixed(0) })}
               />
             ))}
           </div>
@@ -72,8 +74,8 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
       ) : (
         <EmptyState
           icon={<Star size={32} />}
-          title="아직 유사한 유저가 없어요"
-          description="콘텐츠를 기록하면 취향이 비슷한 유저를 추천해드릴게요"
+          title={t("empty.noSimilar")}
+          description={t("empty.noSimilarDesc")}
         />
       )}
 

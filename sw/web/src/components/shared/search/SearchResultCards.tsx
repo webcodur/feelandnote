@@ -55,6 +55,9 @@ export function ContentResults({
         // userCount: records 모드에서는 item에서, content 모드에서는 userCounts에서
         const userCount = "userCount" in item ? item.userCount : userCounts[item.id];
 
+        // records 모드 i18n 필드
+        const hasI18n = "title_ko" in item;
+
         return (
           <ContentCard
             key={item.id}
@@ -68,6 +71,10 @@ export function ContentResults({
             saved={isSaved && showAddButton}
             addable={showAddButton && !isSaved && !!onAddContent}
             onAdd={() => onAddContent?.(item)}
+            titleKo={hasI18n ? (item as any).title_ko : undefined}
+            titleEn={hasI18n ? (item as any).title_en : undefined}
+            creatorEn={hasI18n ? (item as any).creator_en : undefined}
+            thumbnailEn={hasI18n ? (item as any).thumbnail_en : undefined}
           />
         );
       })}

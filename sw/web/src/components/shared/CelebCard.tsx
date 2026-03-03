@@ -16,7 +16,7 @@ import { CelebImage } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 // #region Types
 type Variant = "card" | "circle" | "medallion";
@@ -64,6 +64,9 @@ export default function CelebCard({
   onSubtitle,
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
+  const locale = useLocale();
+  const displayNickname = (locale === "en" && celebProfile?.nickname_en) ? celebProfile.nickname_en : nickname;
+  const displayTitle = (locale === "en" && celebProfile?.title_en) ? celebProfile.title_en : title;
   const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,27 +93,47 @@ export default function CelebCard({
     setIsFollowing(celebProfile?.is_following ?? false);
   }, [celebProfile?.is_following]);
 
-  /** greeting 대사를 DialogueSubtitle로 발사 */
+  const lastGreetingIdx = useRef<number | null>(null);
+
+  /** greeting 대사를 DialogueSubtitle로 발사 (locale별 선택, 직전 중복 회피) */
   const fireGreeting = useCallback(() => {
     if (!onSubtitle) return;
-    const greetings = celebProfile?.greeting;
+    const greetings = (locale === "en" && celebProfile?.greeting_en) || celebProfile?.greeting;
     if (!greetings || greetings.length === 0) return;
-    const raw = greetings[Math.floor(Math.random() * greetings.length)];
+    let idx: number;
+    if (greetings.length <= 1) {
+      idx = 0;
+    } else {
+      do { idx = Math.floor(Math.random() * greetings.length); } while (idx === lastGreetingIdx.current);
+    }
+    lastGreetingIdx.current = idx;
+    const raw = greetings[idx];
     onSubtitle({
       key: ++keyCounter.current,
       tone: "composed",
       text: stripEmotionTag(raw),
-      nickname,
+      nickname: displayNickname,
       avatarUrl: avatar_url ?? null,
     });
-  }, [onSubtitle, celebProfile?.greeting, nickname, avatar_url]);
+  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, locale, displayNickname, avatar_url]);
 
-  // 카드 클릭 → 오버레이 토글 + greeting 대사 발사
-  const handleCardClick = useCallback(() => {
+  const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);
+  const rippleCounter = useRef(0);
+
+  // 카드 클릭 → 첫 클릭: 오버레이 열기 + greeting / 재클릭: ripple + greeting 재발사
+  const handleCardClick = useCallback((e: React.MouseEvent) => {
     if (isLoading) return;
-    const willBeActive = !isActive;
-    setIsActive(willBeActive);
-    if (willBeActive) fireGreeting();
+    if (!isActive) {
+      setIsActive(true);
+      fireGreeting();
+    } else {
+      // 클릭 좌표 → 카드 내 상대 좌표
+      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      setRipple({ x, y, key: ++rippleCounter.current });
+      fireGreeting();
+    }
   }, [isLoading, isActive, fireGreeting]);
 
   // 인포 버튼 → 모달 열기
@@ -153,12 +176,13 @@ export default function CelebCard({
     if (!result.success) {
       setIsFollowing(prev);
     } else if (!prev && celebProfile?.quotes && onSubtitle) {
-      // 팔로우 성공 시 quote를 대사 자막으로 표시
+      // 팔로우 성공 시 quote를 대사 자막으로 표시 (locale별 선택)
+      const displayQuote = (locale === "en" && celebProfile.quotes_en) || celebProfile.quotes;
       onSubtitle({
         key: ++keyCounter.current,
         tone: "composed",
-        text: celebProfile.quotes,
-        nickname,
+        text: displayQuote,
+        nickname: displayNickname,
         avatarUrl: avatar_url ?? null,
       });
     }
@@ -201,7 +225,7 @@ export default function CelebCard({
             role="button"
             tabIndex={0}
             onClick={handleCardClick}
-            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(); } }}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
             className={`group relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
               border border-white/10 hover:border-accent/60 transition-colors duration-300
               ${isActive ? "border-accent/60 ring-1 ring-accent/30" : ""}
@@ -234,21 +258,29 @@ export default function CelebCard({
               </div>
             )}
 
-            {/* 오버레이: 인포 + 팔로우 버튼 */}
+            {/* 오버레이: 인포 + 팔로우 버튼 (하단 가로 배치) */}
             {isActive && (
-              <div className={`absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm ${roundedClass} p-2 animate-fade-in`}>
-                <div className="flex flex-col gap-1.5 w-full">
+              <div className={`absolute inset-0 z-30 flex items-end bg-black/50 backdrop-blur-sm ${roundedClass} p-2 animate-fade-in`}>
+                {/* 클릭 지점 ripple */}
+                {ripple && (
+                  <span
+                    key={ripple.key}
+                    className="absolute rounded-full bg-accent/40 pointer-events-none animate-[ripple_400ms_ease-out_forwards]"
+                    style={{ left: `${ripple.x}%`, top: `${ripple.y}%`, translate: '-50% -50%' }}
+                    onAnimationEnd={() => setRipple(null)}
+                  />
+                )}
+                <div className="flex gap-1.5 w-full">
                   <button
                     onClick={handleInfoClick}
-                    className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white text-[10px] sm:text-xs font-medium transition-colors"
+                    className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white transition-colors"
                   >
-                    <Info size={12} />
-                    <span>{t("info")}</span>
+                    <Info size={16} />
                   </button>
                   <button
                     onClick={handleFollowClick}
                     disabled={followLoading}
-                    className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-md text-[10px] sm:text-xs font-medium transition-all
+                    className={`flex-1 flex items-center justify-center py-2 rounded-md transition-all
                       ${isFollowing
                         ? "bg-accent/20 border border-accent/40 text-accent"
                         : "bg-accent border border-accent text-black hover:bg-accent/90"
@@ -256,23 +288,19 @@ export default function CelebCard({
                       ${followLoading ? "opacity-50" : ""}
                     `}
                   >
-                    {isFollowing ? <Check size={12} strokeWidth={3} /> : <UserPlus size={12} />}
-                    <span>{isFollowing ? t("following") : t("follow")}</span>
+                    {isFollowing ? <Check size={16} strokeWidth={3} /> : <UserPlus size={16} />}
                   </button>
                 </div>
               </div>
             )}
           </div>
 
-          <div className="mt-1.5 text-center flex flex-col items-center w-full">
-            {title && (
-              <span className="block text-[10px] sm:text-xs font-cinzel font-bold text-amber-500 tracking-widest uppercase break-keep leading-tight">
-                {title}
-              </span>
+          {/* 이름 + 수식어 */}
+          <div className="mt-1.5 w-full text-center px-0.5">
+            <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight">{displayNickname}</p>
+            {displayTitle && (
+              <p className="text-[10px] md:text-xs text-amber-400/80 truncate leading-tight mt-0.5">{displayTitle}</p>
             )}
-            <span className="block text-[11px] sm:text-xs font-sans font-medium text-white/90 tracking-wide truncate w-full">
-              {nickname}
-            </span>
           </div>
         </div>
 
@@ -363,7 +391,7 @@ export default function CelebCard({
 
         {isCircle && (
           <span className="text-sm font-medium text-text-secondary group-hover/celeb:text-white text-center leading-tight line-clamp-2">
-            {nickname}
+            {displayNickname}
           </span>
         )}
       </button>

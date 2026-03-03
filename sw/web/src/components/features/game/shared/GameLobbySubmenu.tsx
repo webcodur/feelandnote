@@ -6,6 +6,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { useLobbyKeyboard } from "./useLobbyKeyboard";
 
@@ -20,6 +21,7 @@ interface GameLobbySubmenuProps {
 }
 
 export default function GameLobbySubmenu({ onBack, icon, title, desc, longDesc, showBackBottom, children }: GameLobbySubmenuProps) {
+  const t = useTranslations("shared.game.ui");
   const kbRef = useLobbyKeyboard(onBack);
 
   return (
@@ -33,7 +35,7 @@ export default function GameLobbySubmenu({ onBack, icon, title, desc, longDesc, 
             className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-xs transition-colors"
           >
             <ArrowLeft size={12} />
-            돌아가기
+            {t("back")}
           </button>
           <div className="mx-auto mb-1.5 flex justify-center">{icon}</div>
           <h2 className="text-xl font-serif font-black text-white tracking-wide">{title}</h2>
@@ -51,7 +53,7 @@ export default function GameLobbySubmenu({ onBack, icon, title, desc, longDesc, 
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-text-secondary text-xs transition-colors"
             >
               <ArrowLeft size={12} />
-              로비로 돌아가기
+              {t("backToLobby")}
             </button>
           </div>
         )}

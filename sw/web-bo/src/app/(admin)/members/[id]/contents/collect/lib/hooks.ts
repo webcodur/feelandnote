@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation'
 import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import type { ContentType } from '@feelandnote/content-search/types'
 import {
-  extractOnlyFromUrl,
-  extractOnlyFromText,
   processExtractedItems,
   saveCollectedContents,
 } from '@/actions/admin/ai-collect'
@@ -140,26 +138,8 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
         return
       }
 
-      // URL/텍스트 모드: AI 추출
-      const selectedKeyId = getSelectedKeyId()
-      const result =
-        inputMode === 'url'
-          ? await extractOnlyFromUrl({ url, celebName, selectedKeyId })
-          : await extractOnlyFromText({ text, celebName, selectedKeyId })
-
-      if (!result.success) throw new Error(result.error)
-
-      setSourceUrl(result.sourceUrl || null)
-      setExtractedItems(result.extractedItems || [])
-
-      // 전체 선택
-      if (result.extractedItems?.length) {
-        setSelectedIndices(new Set(result.extractedItems.map((_, i) => i)))
-      }
-
-      if (!result.extractedItems?.length) {
-        setError('콘텐츠를 찾지 못했습니다.')
-      }
+      // URL/텍스트 모드: AI 추출 제거됨 (Gemini 폐기)
+      throw new Error('AI 추출 기능이 비활성화되었습니다. JSON 모드를 사용하세요.')
     } catch (err) {
       setError(err instanceof Error ? err.message : '추출에 실패했습니다.')
     } finally {

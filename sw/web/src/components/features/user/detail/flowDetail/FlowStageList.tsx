@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Check, GripVertical, Layers, Pencil, Plus, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { useDroppable, useDndContext } from "@dnd-kit/core";
@@ -10,7 +11,7 @@ import {
   useSortable
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import { removeNode, updateNode } from "@/actions/flows/flowNodes";
@@ -105,6 +106,7 @@ interface TimelineNodeProps {
 function TimelineNode({
   node, globalIndex, isEditMode, isLast, onNodeClick, onRemoveNode, onUpdateDescription
 }: TimelineNodeProps) {
+  const t = useTranslations("flowDetail");
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [descValue, setDescValue] = useState(node.description || "");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -206,7 +208,7 @@ function TimelineNode({
                   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSaveDesc(); }
                   if (e.key === "Escape") { setDescValue(node.description || ""); setIsEditingDesc(false); }
                 }}
-                placeholder="이 콘텐츠를 여기에 둔 이유..."
+                placeholder={t("reasonPlaceholder")}
                 className="w-full mt-1.5 px-2 py-1 bg-white/[0.04] border border-white/10 rounded text-[11px] text-white/60 placeholder:text-white/20 focus:border-accent/40 focus:outline-none resize-none leading-relaxed"
                 rows={2}
                 autoFocus
@@ -223,7 +225,7 @@ function TimelineNode({
                     : "text-white/15 hover:text-white/30"
                 )}
               >
-                {node.description || "+ 설명 추가"}
+                {node.description || t("addDesc")}
               </button>
             )
           )}
@@ -267,6 +269,7 @@ interface TimelineStageHeaderProps {
 function TimelineStageHeader({
   stage, stageIndex, isFirst, isOwner, isEditMode, onDeleteStage, onRenameStage
 }: TimelineStageHeaderProps) {
+  const t = useTranslations("flowDetail");
   const [isRenaming, setIsRenaming] = useState(false);
   const [newName, setNewName] = useState(stage.name);
 
@@ -310,7 +313,7 @@ function TimelineStageHeader({
           </h3>
         )}
         <span className="text-[10px] text-white/20 shrink-0 tabular-nums">
-          {stage.nodes.length}개
+          {t("itemCount", { count: stage.nodes.length })}
         </span>
       </div>
 
@@ -337,6 +340,7 @@ function TimelineStageHeader({
 
 // #region EmptyStageDropZone — 빈 스테이지 드롭 영역
 function EmptyStageDropZone({ stageId }: { stageId: string }) {
+  const t = useTranslations("flowDetail");
   const { active } = useDndContext();
   const { setNodeRef, isOver } = useDroppable({
     id: `stage-drop-${stageId}`,
@@ -357,7 +361,7 @@ function EmptyStageDropZone({ stageId }: { stageId: string }) {
         )}
       >
         <span className="text-xs text-white/20">
-          {isOver && isDragging ? "여기에 배치" : "우측 패널에서 콘텐츠를 드래그하세요"}
+          {isOver && isDragging ? t("dropHere") : t("dragGuide")}
         </span>
       </div>
     </div>
@@ -369,6 +373,7 @@ function EmptyStageDropZone({ stageId }: { stageId: string }) {
 export default function FlowStageList({
   flowId, stages, isOwner, isEditMode = false, onNodeClick, setIsEditMode, onRefresh
 }: FlowStageListProps) {
+  const t = useTranslations("flowDetail");
   const router = useRouter();
   const [localStages, setLocalStages] = useState<FlowStageWithNodes[]>(stages);
 
@@ -442,11 +447,11 @@ export default function FlowStageList({
     return (
       <div className="text-center py-20 border-2 border-dashed border-white/[0.04] rounded-2xl">
         <Layers size={40} className="mx-auto mb-4 text-white/10" />
-        <p className="font-serif text-base text-white/60 mb-2">아직 단계가 없습니다</p>
-        <p className="text-sm text-white/25 mb-6">단계를 추가하고 콘텐츠를 연결해 보세요.</p>
+        <p className="font-serif text-base text-white/60 mb-2">{t("emptyFlow")}</p>
+        <p className="text-sm text-white/25 mb-6">{t("emptyFlowGuide")}</p>
         {isOwner && (
           <Button onClick={() => setIsEditMode(true)} className="px-5 py-2 bg-accent text-black font-bold hover:bg-accent-hover rounded-full text-sm">
-            편집 시작
+            {t("startEdit")}
           </Button>
         )}
       </div>
@@ -516,7 +521,7 @@ export default function FlowStageList({
               ) : (
                 <div className="relative ms-3 ps-6 md:ms-5 md:ps-8 py-2">
                   <div className="absolute start-3 md:start-5 top-0 h-full w-px bg-white/[0.06]" />
-                  <p className="text-xs text-white/15 py-4">아직 콘텐츠가 없습니다</p>
+                  <p className="text-xs text-white/15 py-4">{t("emptyStage")}</p>
                 </div>
               )}
             </div>
@@ -532,7 +537,7 @@ export default function FlowStageList({
             className="flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 text-accent text-sm font-bold rounded-lg hover:bg-accent/20 transition-colors"
           >
             <Plus size={14} />
-            단계 추가
+            {t("addStage")}
           </Button>
         </div>
       )}

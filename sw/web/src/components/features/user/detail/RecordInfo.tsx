@@ -6,7 +6,7 @@
 "use client";
 
 import { ExternalLink } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Button, Card } from "@/components/ui";
 import RecordInfoPanel from "./RecordInfoPanel";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";

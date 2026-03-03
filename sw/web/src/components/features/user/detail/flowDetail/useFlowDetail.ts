@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { getFlow } from "@/actions/flows/getFlow";
 import { deleteFlow } from "@/actions/flows/deleteFlow";
 import { updateFlow } from "@/actions/flows/updateFlow";

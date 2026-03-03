@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Loader2, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getReviewFeed, type ReviewFeedItem } from "@/actions/contents/getReviewFeed";
@@ -26,6 +27,7 @@ export default function AllReviewsSection({
   contentId,
   initialReviews,
 }: AllReviewsSectionProps) {
+  const t = useTranslations("contentDetail.review");
   const [reviews, setReviews] = useState<ReviewFeedItem[]>(initialReviews);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(initialReviews.length === PAGE_SIZE);
@@ -49,7 +51,7 @@ export default function AllReviewsSection({
     <div className="space-y-3">
       {isEmpty && (
         <div className="py-8 text-center text-text-secondary text-sm">
-          아직 작성된 리뷰가 없습니다
+          {t("noReviews")}
         </div>
       )}
 
@@ -59,7 +61,7 @@ export default function AllReviewsSection({
       {/* 더보기 */}
       {hasMore && (
         <Button unstyled onClick={loadMoreReviews} disabled={isLoadingMore} className="flex items-center gap-1 mx-auto px-4 py-2 text-xs text-accent hover:text-accent-hover">
-          {isLoadingMore ? <Loader2 size={14} className="animate-spin" /> : <><span>더보기</span><ArrowRight size={14} /></>}
+          {isLoadingMore ? <Loader2 size={14} className="animate-spin" /> : <><span>{t("loadMore")}</span><ArrowRight size={14} /></>}
         </Button>
       )}
     </div>

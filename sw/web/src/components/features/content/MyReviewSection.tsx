@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
@@ -24,6 +25,7 @@ export default function MyReviewSection({
   userRecord,
   onRecordChange,
 }: MyReviewSectionProps) {
+  const t = useTranslations("contentDetail.review");
   const [isPending, startTransition] = useTransition();
 
   const [rating, setRating] = useState<number | null>(userRecord?.rating ?? null);
@@ -93,7 +95,7 @@ export default function MyReviewSection({
     <div className="pt-4 space-y-3">
       {/* 별점 */}
       <div className="flex items-center justify-between">
-        <span className="text-xs text-text-secondary">별점</span>
+        <span className="text-xs text-text-secondary">{t("rating")}</span>
         <div className="flex items-center gap-2">
           <div className="flex gap-0.5">
             {[1, 2, 3, 4, 5].map((star) => (
@@ -114,7 +116,7 @@ export default function MyReviewSection({
       {/* 리뷰 텍스트 */}
       <textarea
         className="w-full h-32 bg-black/20 border border-border rounded-lg p-3 text-text-primary text-sm resize-y outline-none font-sans focus:border-accent placeholder:text-text-tertiary"
-        placeholder="이 작품에 대한 생각을 자유롭게 기록해보세요."
+        placeholder={t("placeholder")}
         value={review}
         onChange={(e) => setReview(e.target.value)}
       />
@@ -128,10 +130,10 @@ export default function MyReviewSection({
             checked={isSpoiler}
             onChange={(e) => handleSpoilerChange(e.target.checked)}
           />
-          스포일러 포함
+          {t("containsSpoiler")}
         </label>
         <Button variant="primary" size="sm" onClick={handleSave} disabled={isPending}>
-          {isPending ? <Loader2 size={14} className="animate-spin" /> : hasRecord ? "저장" : "등록"}
+          {isPending ? <Loader2 size={14} className="animate-spin" /> : hasRecord ? t("save") : t("register")}
         </Button>
       </div>
 

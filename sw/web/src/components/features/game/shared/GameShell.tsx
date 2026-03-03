@@ -8,6 +8,7 @@
 
 import { useCallback, useRef, useState, useMemo, useEffect, type ComponentType, type ReactNode } from "react";
 import { Volume2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
 
 interface GameShellConfig {
@@ -32,6 +33,7 @@ interface GameShellConfig {
 }
 
 export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig) {
+  const t = useTranslations("shared.game");
   const homeRef = useRef<(() => void) | null>(null);
   const startRef = useRef<((...args: any[]) => void) | null>(null);
   const enterFullScreenRef = useRef<(() => void) | null>(null);
@@ -91,6 +93,8 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
       onHome={handleHome}
       onExitFullScreen={handleExitFullScreen}
       background={<Background phase={phase} />}
+      exitLabel={t("exit")}
+      exitEscLabel={t("exitEsc")}
     >
       {({ enterFullScreen, exitFullScreen }) => {
         enterFullScreenRef.current = enterFullScreen;
@@ -110,9 +114,9 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
                 >
                   <Volume2 size={16} className="text-accent" />
-                  <span className="font-serif font-bold text-accent text-base">게임 입장</span>
+                  <span className="font-serif font-bold text-accent text-base">{t("enterGame")}</span>
                 </button>
-                <p className="text-[9px] text-white/50">사운드와 함께 진행됩니다</p>
+                <p className="text-[9px] text-white/50">{t("soundInfo")}</p>
               </div>
             </div>
           );

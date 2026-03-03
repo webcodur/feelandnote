@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import { SacredFlameIcon, MessageTabletIcon } from "@/components/ui/icons/neo-pantheon";
@@ -33,6 +34,7 @@ export default function RecordInteractions({
   initialCommentCount = 0,
   initialLiked = false,
 }: RecordInteractionsProps) {
+  const t = useTranslations("recordInteraction");
   const [liked, setLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const [commentCount, setCommentCount] = useState(initialCommentCount);
@@ -64,7 +66,7 @@ export default function RecordInteractions({
   const toggleLike = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-      alert("로그인이 필요합니다.");
+      alert(t("loginRequired"));
       return;
     }
 
@@ -111,7 +113,7 @@ export default function RecordInteractions({
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-        alert("로그인이 필요합니다.");
+        alert(t("loginRequired"));
         return;
     }
 
@@ -167,7 +169,7 @@ export default function RecordInteractions({
             {/* 댓글 목록 */}
             <div className="space-y-4 mb-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {isLoadingComments ? (
-                    <div className="text-center text-xs text-text-tertiary py-4">로딩 중...</div>
+                    <div className="text-center text-xs text-text-tertiary py-4">{t("loading")}</div>
                 ) : comments.length > 0 ? (
                     comments.map(comment => (
                         <div key={comment.id} className="flex gap-3 text-sm">
@@ -190,7 +192,7 @@ export default function RecordInteractions({
                         </div>
                     ))
                 ) : (
-                    <div className="text-center text-xs text-text-tertiary py-4">첫 번째 댓글을 남겨보세요.</div>
+                    <div className="text-center text-xs text-text-tertiary py-4">{t("firstComment")}</div>
                 )}
             </div>
 
@@ -201,11 +203,11 @@ export default function RecordInteractions({
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && submitComment()}
-                    placeholder="댓글을 입력하세요..."
+                    placeholder={t("commentPlaceholder")}
                     className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent/50 transition-colors"
                 />
                 <Button variant="secondary" size="sm" onClick={submitComment} disabled={!newComment.trim()}>
-                    등록
+                    {t("submit")}
                 </Button>
             </div>
         </div>

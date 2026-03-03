@@ -1,11 +1,13 @@
-import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
+import { getLocale, getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.meta");
-  return { title: t("title"), description: t("description") };
+  return { title: t("title"), description: t("description"), alternates: getAlternates("/scriptures") };
 }
 
-export default function Page() {
-  redirect("/scriptures/era");
+export default async function Page() {
+  const locale = await getLocale();
+  redirect({ href: "/scriptures/era", locale });
 }

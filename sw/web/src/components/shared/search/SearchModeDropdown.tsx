@@ -11,7 +11,7 @@ import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
 
-export type SearchMode = "content" | "user" | "tag" | "records";
+export type SearchMode = "content" | "user" | "tag" | "records" | "celeb";
 export type ContentCategory = CategoryId;
 
 export interface SearchModeConfig {
@@ -25,10 +25,11 @@ export const SEARCH_MODES: SearchModeConfig[] = [
   { id: "content", label: "콘텐츠", placeholder: "작품명, 저자, 감독..." },
   { id: "user", label: "사용자", placeholder: "닉네임, @username..." },
   // { id: "tag", label: "태그", placeholder: "태그명..." },
+  { id: "celeb", label: "셀럽", placeholder: "인물 이름..." },
   { id: "records", label: "내 기록", placeholder: "내 기록에서 검색..." },
 ];
 
-const SEARCH_MODE_IDS: SearchMode[] = ["content", "user", "records"];
+const SEARCH_MODE_IDS: SearchMode[] = ["content", "user", "celeb", "records"];
 
 // CATEGORIES를 그대로 사용
 export const CONTENT_CATEGORIES = CATEGORIES;
@@ -80,6 +81,9 @@ export default function SearchModeDropdown({
       </Button>
 
       {isOpen && (
+        <>
+        {/* 투명 백드롭: 외부 탭 시 드롭다운 닫기 */}
+        <div className="fixed inset-0" style={{ zIndex: Z_INDEX.dropdown - 1 }} onClick={onClose} />
         <div className="absolute top-full left-0 mt-2 bg-[#0a0a0a] border border-accent/20 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] py-1 min-w-[180px] backdrop-blur-xl" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 콘텐츠 카테고리 */}
           <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-b border-white/5">{t("sectionContent")}</div>
@@ -109,6 +113,7 @@ export default function SearchModeDropdown({
             </Button>
           ))}
         </div>
+        </>
       )}
     </div>
   );

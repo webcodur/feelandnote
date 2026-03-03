@@ -5,6 +5,7 @@ import { SEARCH_PRESETS, generateGoogleSearchUrl } from "@/constants/searchPrese
 import { ExternalLink, FileText } from "lucide-react";
 import { searchBlogAction } from "@/actions/search/searchInformation";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
+import { useTranslations } from "next-intl";
 
 interface SearchHelperProps {
   title: string;
@@ -14,6 +15,7 @@ interface SearchHelperProps {
 }
 
 export default function SearchHelper({ title, creator, type, onSearchResult }: SearchHelperProps) {
+  const t = useTranslations("quickRecord.search");
   const presets = SEARCH_PRESETS[type] || [];
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +37,7 @@ export default function SearchHelper({ title, creator, type, onSearchResult }: S
   if (presets.length === 0) {
     return (
       <div className="text-xs text-text-tertiary text-center p-4">
-        이 컨텐츠 타입에 대한 검색 프리셋이 없습니다.
+        {t("noPresets")}
       </div>
     );
   }
@@ -44,7 +46,7 @@ export default function SearchHelper({ title, creator, type, onSearchResult }: S
     <div className="flex flex-col gap-4">
       <div>
         <div className="text-xs text-text-secondary mb-3 flex items-center gap-2">
-          <span className="text-[13px] text-text-tertiary/60">각 항목 클릭 시 화면에 검색결과가 표시됩니다.</span>
+          <span className="text-[13px] text-text-tertiary/60">{t("clickHint")}</span>
         </div>
 
         <div className="grid grid-cols-2 gap-2">

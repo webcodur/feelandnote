@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from "@/i18n/navigation"
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import type { FeedbackWithAuthor } from '@/types/database'

@@ -6,16 +6,20 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Search, X, ArrowLeft } from "lucide-react";
-import SearchModeDropdown, { SEARCH_MODES, CONTENT_CATEGORIES } from "@/components/shared/search/SearchModeDropdown";
+import SearchModeDropdown from "@/components/shared/search/SearchModeDropdown";
 import SearchResultsDropdown from "@/components/shared/search/SearchResultsDropdown";
 import Button from "@/components/ui/Button";
 import { useHeaderSearch } from "./useHeaderSearch";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 export default function HeaderSearch() {
+  const t = useTranslations("shared.search.mode");
+  const tp = useTranslations("content.placeholder");
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const mobileInputRef = useRef<HTMLInputElement>(null);
   const {
     containerRef, inputRef,
     isOpen, setIsOpen, isModeOpen, setIsModeOpen,
@@ -26,16 +30,14 @@ export default function HeaderSearch() {
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   } = useHeaderSearch();
 
-  const currentMode = SEARCH_MODES.find((m) => m.id === mode)!;
-  const currentCategory = CONTENT_CATEGORIES.find((c) => c.id === contentCategory)!;
-  const displayPlaceholder = mode === "content" ? currentCategory.placeholder : currentMode.placeholder;
+  const displayPlaceholder = mode === "content" ? tp(contentCategory) : t(`${mode}Placeholder`);
 
   // 모바일 확장 시 input에 포커스
   useEffect(() => {
-    if (isMobileExpanded && inputRef.current) {
-      inputRef.current.focus();
+    if (isMobileExpanded && mobileInputRef.current) {
+      mobileInputRef.current.focus();
     }
-  }, [isMobileExpanded, inputRef]);
+  }, [isMobileExpanded]);
 
   // 모바일 확장 시 스크롤 방지
   useEffect(() => {
@@ -58,9 +60,9 @@ export default function HeaderSearch() {
     <Button
       unstyled
       onClick={() => setIsMobileExpanded(true)}
-      className="xl:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5"
+      className="xl:hidden w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5"
     >
-      <Search size={20} className="text-text-primary" />
+      <Search size={20} className="text-text-secondary hover:text-text-primary" />
     </Button>
   );
   // endregion
@@ -81,13 +83,15 @@ export default function HeaderSearch() {
       <div className="relative z-10 flex items-center gap-2 px-3 h-16 border-b border-accent-dim/20 bg-bg-card/80 backdrop-blur-md">
         <Button
           unstyled
+          type="button"
           onClick={closeMobileSearch}
-          className="w-10 h-10 flex items-center justify-center rounded-sm hover:bg-white/5 group"
+          onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
+          className="w-8 h-8 flex items-center justify-center rounded-sm hover:bg-white/5 group shrink-0"
         >
-          <ArrowLeft size={20} className="text-text-primary group-hover:text-accent transition-colors" />
+          <ArrowLeft size={18} className="text-text-primary group-hover:text-accent transition-colors" />
         </Button>
 
-        <div className="flex-1 flex items-center gap-2 bg-black/40 border-2 border-accent-dim/30 rounded-sm px-3 shadow-inner group focus-within:border-accent transition-all">
+        <div className="flex-1 min-w-0 flex items-center gap-2 bg-black/40 border-2 border-accent-dim/30 rounded-sm px-3 shadow-inner group focus-within:border-accent transition-all">
           <SearchModeDropdown
             isOpen={isModeOpen}
             onToggle={() => {
@@ -101,7 +105,7 @@ export default function HeaderSearch() {
             onClose={() => setIsModeOpen(false)}
           />
           <input
-            ref={inputRef}
+            ref={mobileInputRef}
             type="text"
             value={query}
             onChange={(e) => {
@@ -114,13 +118,13 @@ export default function HeaderSearch() {
             }}
             onKeyDown={handleInputKeyDown}
             placeholder={displayPlaceholder}
-            className="flex-1 bg-transparent border-none text-text-primary outline-none text-[15px] font-serif placeholder:text-text-tertiary placeholder:italic py-2"
+            className="flex-1 min-w-0 bg-transparent border-none text-text-primary outline-none text-sm sm:text-[15px] font-serif placeholder:text-text-tertiary placeholder:italic py-2"
           />
           <Button
             unstyled
             onClick={() => {
               setQuery("");
-              inputRef.current?.focus();
+              mobileInputRef.current?.focus();
             }}
             disabled={!query}
             className={`${query ? "text-text-tertiary hover:text-text-primary" : "text-text-tertiary/30 cursor-not-allowed"}`}
@@ -148,7 +152,7 @@ export default function HeaderSearch() {
             }}
             onRecentSearchClick={(search) => {
               setQuery(search);
-              inputRef.current?.focus();
+              mobileInputRef.current?.focus();
             }}
             onClearRecentSearches={clearRecentSearches}
             onViewAllResults={() => {

@@ -13,6 +13,8 @@ import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ViewMode } from "../contentLibraryTypes";
+import { getLocalizedContent } from "@/lib/utils/editions";
+import { useLocale } from "next-intl";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -50,6 +52,7 @@ export default function ContentItemRenderer({
   // 별점 로컬 상태 (서버 반영 후 즉시 UI 업데이트용)
   const [localRatings, setLocalRatings] = useState<Record<string, number | null>>({});
 
+  const locale = useLocale();
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
 
@@ -69,14 +72,15 @@ export default function ContentItemRenderer({
       <ContentGrid variant={viewMode === "list" ? "list" : "wide"}>
         {items.map((item) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
-          const reviewProp = viewMode === "list" ? item.review : undefined;
+          const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
+          const reviewProp = viewMode === "list" ? rawReview : undefined;
           return (
             <div key={item.id} className={`w-full ${viewMode === "list" ? "max-w-[300px] md:max-w-none" : ""}`}>
             <ContentCard
               contentId={item.content_id}
               contentType={item.content.type}
-              title={item.content.title}
-              creator={item.content.creator}
+              title={getLocalizedContent(item.content, locale).title}
+              creator={getLocalizedContent(item.content, locale).creator}
               thumbnail={item.content.thumbnail_url}
               rating={currentRating}
               review={reviewProp}
@@ -104,6 +108,10 @@ export default function ContentItemRenderer({
                 e?.stopPropagation();
                 deleteHandler(item.id);
               } : undefined}
+              titleKo={item.content.title_ko}
+              titleEn={item.content.title_en}
+              creatorEn={item.content.creator_en}
+              thumbnailEn={item.content.thumbnail_en}
             />
             </div>
           );

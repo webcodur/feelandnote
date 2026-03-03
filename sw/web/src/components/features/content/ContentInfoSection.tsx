@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Loader2, Trash2, ExternalLink, ShoppingCart } from "lucide-react";
 import { AFFILIATE_PLATFORMS, type AffiliatePlatformKey } from "@/constants/affiliatePlatforms";
@@ -32,14 +33,6 @@ const TYPE_ICONS: Record<ContentType, typeof Book> = {
   CERTIFICATE: Award,
 };
 
-const CATEGORY_LABELS: Record<CategoryId, string> = {
-  book: "도서",
-  video: "영상",
-  game: "게임",
-  music: "음악",
-  certificate: "자격증",
-  all: "전체",
-};
 // #endregion
 
 interface ContentInfoSectionProps {
@@ -55,11 +48,12 @@ export default function ContentInfoSection({
   isLoggedIn,
   onRecordChange,
 }: ContentInfoSectionProps) {
+  const t = useTranslations("contentDetail");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   const Icon = TYPE_ICONS[content.type];
-  const categoryLabel = CATEGORY_LABELS[content.category];
+  const categoryLabel = t(`category.${content.category}`);
 
   // #region 핸들러
   // 콘텐츠 기록 추가 (상태 파라미터 제거 - 리뷰 기반으로 전환)
@@ -90,14 +84,14 @@ export default function ContentInfoSection({
         });
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "추가 실패");
+        setError(err instanceof Error ? err.message : t("addFailed"));
       }
     });
   };
 
 
   const handleDelete = () => {
-    if (!userRecord || !confirm("이 콘텐츠를 기록관에서 삭제하시겠습니까?")) return;
+    if (!userRecord || !confirm(t("deleteConfirm"))) return;
     startTransition(async () => {
       try {
         await removeContent(userRecord.id);
@@ -187,7 +181,7 @@ export default function ContentInfoSection({
       {/* 소개 */}
       {content.description && (
         <div className="space-y-2">
-          <h3 className="text-xs font-medium text-text-secondary">소개</h3>
+          <h3 className="text-xs font-medium text-text-secondary">{t("introduction")}</h3>
           <div className="text-sm text-text-secondary leading-relaxed p-3 bg-white/5 rounded-lg border border-white/5 whitespace-pre-wrap">
             <FormattedText text={content.description} />
           </div>
@@ -197,7 +191,7 @@ export default function ContentInfoSection({
       {/* 3. 게임 전용: 스토리라인 */}
       {content.type === 'GAME' && metadata?.storyline && (
           <div className="space-y-2">
-              <h3 className="text-xs font-medium text-text-secondary">스토리라인</h3>
+              <h3 className="text-xs font-medium text-text-secondary">{t("storyline")}</h3>
               <div className="text-sm text-text-secondary leading-relaxed p-3 bg-white/5 rounded-lg border border-white/5 whitespace-pre-wrap">
                   <FormattedText text={metadata.storyline} />
               </div>
@@ -209,7 +203,7 @@ export default function ContentInfoSection({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {metadata.director && (
                   <div className="space-y-2">
-                      <h3 className="text-xs font-medium text-text-secondary">감독</h3>
+                      <h3 className="text-xs font-medium text-text-secondary">{t("director")}</h3>
                       <p className="text-sm text-text-primary pl-1">
                           {metadata.director}
                       </p>
@@ -217,15 +211,15 @@ export default function ContentInfoSection({
               )}
               {metadata.runtime && (
                   <div className="space-y-2">
-                      <h3 className="text-xs font-medium text-text-secondary">러닝타임</h3>
+                      <h3 className="text-xs font-medium text-text-secondary">{t("runtime")}</h3>
                       <p className="text-sm text-text-secondary pl-1">
-                          {metadata.runtime}분
+                          {t("runtimeMinutes", { minutes: metadata.runtime })}
                       </p>
                   </div>
               )}
               {metadata.cast?.length ? (
                   <div className="space-y-2 col-span-full">
-                      <h3 className="text-xs font-medium text-text-secondary">출연진</h3>
+                      <h3 className="text-xs font-medium text-text-secondary">{t("cast")}</h3>
                       <div className="flex flex-wrap gap-2">
                           {metadata.cast?.map((actor, i) => (
                               <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-full border border-white/10">
@@ -243,7 +237,7 @@ export default function ContentInfoSection({
           <div className="space-y-4">
               {metadata.tracks?.length ? (
                   <div className="space-y-2">
-                      <h3 className="text-xs font-medium text-text-secondary">트랙 목록</h3>
+                      <h3 className="text-xs font-medium text-text-secondary">{t("trackList")}</h3>
                       <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg">
                           {metadata.tracks?.map((track, i) => (
                               <div key={i} className="flex items-center justify-between text-xs px-3 py-2 bg-white/5 hover:bg-white/10 transition-colors border-b border-white/5 last:border-0">
@@ -261,7 +255,7 @@ export default function ContentInfoSection({
               ) : null}
               {metadata.label && (
                   <div className="space-y-1">
-                      <h3 className="text-xs font-medium text-text-secondary">레이블</h3>
+                      <h3 className="text-xs font-medium text-text-secondary">{t("label")}</h3>
                       <p className="text-sm text-text-secondary pl-1">
                           {metadata.label}
                       </p>
@@ -273,7 +267,7 @@ export default function ContentInfoSection({
       {/* 7. 게임 전용: 스크린샷 갤러리 */}
       {content.type === 'GAME' && metadata?.screenshots?.length ? (
           <div className="space-y-2">
-              <h3 className="text-xs font-medium text-text-secondary">스크린샷</h3>
+              <h3 className="text-xs font-medium text-text-secondary">{t("screenshots")}</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {metadata.screenshots?.map((url, i) => (
                       <div key={i} className="relative aspect-video rounded-lg overflow-hidden border border-white/10 group">
@@ -309,7 +303,7 @@ export default function ContentInfoSection({
                   style={{ backgroundColor: platform.color }}
                 >
                   <ShoppingCart size={14} />
-                  {platform.label}에서 구매하기
+                  {t("buyAt", { platform: platform.label })}
                   <ExternalLink size={14} />
                 </a>
               )
@@ -338,7 +332,7 @@ export default function ContentInfoSection({
         <div className="flex justify-end">
           <Button variant="secondary" size="sm" onClick={handleAdd} disabled={isPending}>
             {isPending ? <Loader2 size={14} className="animate-spin" /> : <Bookmark size={14} />}
-            기록하기
+            {t("addRecord")}
           </Button>
         </div>
       )}
@@ -348,7 +342,7 @@ export default function ContentInfoSection({
           <div className="flex items-center gap-2">
             <Check size={14} className="text-green-400" />
             <span className="text-xs font-medium text-text-secondary">
-              기록 완료
+              {t("recorded")}
             </span>
             <div className="flex items-center">
               <StarRatingInput 
@@ -365,7 +359,7 @@ export default function ContentInfoSection({
       )}
 
       {!isLoggedIn && (
-        <p className="text-center text-sm text-text-tertiary py-4">로그인하면 기록관에 추가할 수 있습니다</p>
+        <p className="text-center text-sm text-text-tertiary py-4">{t("loginPrompt")}</p>
       )}
     </div>
   );

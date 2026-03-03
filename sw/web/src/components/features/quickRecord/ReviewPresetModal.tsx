@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, Check } from "lucide-react";
 import Modal from "@/components/ui/Modal";
+import { useTranslations } from "next-intl";
 import type { CategoryId } from "@/constants/categories";
 import { 
   type ReviewPreset, 
@@ -26,6 +27,7 @@ export default function ReviewPresetModal({
   onSelectPreset,
   onDeselectPreset,
 }: ReviewPresetModalProps) {
+  const t = useTranslations("quickRecord.preset");
   // const [activeTab, setActiveTab] = useState<"common" | "category">("category");
 
   const commonPresets = getAllCommonPresets();
@@ -55,7 +57,7 @@ export default function ReviewPresetModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="리뷰 키워드 선택"
+      title={t("selectKeywords")}
       size="md"
     >
       <div className="flex flex-col h-[60vh] max-h-[500px]">
@@ -113,7 +115,7 @@ export default function ReviewPresetModal({
                 </div>
             ) : (
                 <div className="flex items-center justify-center h-40 text-text-tertiary text-sm">
-                    등록된 키워드가 없습니다.
+                    {t("noKeywords")}
                 </div>
             )}
         </div>
@@ -124,7 +126,7 @@ export default function ReviewPresetModal({
                 onClick={onClose}
                 className="px-6 py-2.5 bg-accent text-bg-main font-sans font-bold rounded-lg hover:bg-accent-hover transition-colors shadow-glow"
             >
-                선택 완료
+                {t("selectionComplete")}
             </button>
         </div>
       </div>

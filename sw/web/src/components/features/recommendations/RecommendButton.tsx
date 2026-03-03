@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Gift } from "lucide-react";
 import Button from "@/components/ui/Button";
 import RecommendationModal from "./RecommendationModal";
@@ -25,6 +26,7 @@ export default function RecommendButton({
   contentType,
   iconOnly = false,
 }: RecommendButtonProps) {
+  const t = useTranslations("recommendation");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -37,10 +39,10 @@ export default function RecommendButton({
             ? "flex items-center justify-center w-8 h-8 rounded-full bg-black/60 text-accent hover:bg-accent hover:text-white backdrop-blur-sm"
             : "flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 text-sm font-medium transition-colors"
         }
-        title="추천"
+        title={t("recommend")}
       >
         <Gift size={16} />
-        {!iconOnly && <span>추천</span>}
+        {!iconOnly && <span>{t("recommend")}</span>}
       </Button>
 
       <RecommendationModal

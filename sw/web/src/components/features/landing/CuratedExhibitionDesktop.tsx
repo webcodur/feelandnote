@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, lazy, Suspense, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import type { ExhibitionLocation } from "./FeaturedCollections";
@@ -19,6 +20,7 @@ interface CuratedExhibitionDesktopProps {
 }
 
 export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex, onTagChange, location = "main" }: CuratedExhibitionDesktopProps) {
+  const t = useTranslations("landing");
   const isExplore = location === "explore-pc";
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
@@ -266,7 +268,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
           <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-accent group-hover:text-accent">
             <ArrowRight size={14} />
           </div>
-          <span className="text-xs text-text-tertiary group-hover:text-accent font-sans">View All</span>
+          <span className="text-xs text-text-tertiary group-hover:text-accent font-sans">{t("viewAll")}</span>
         </Link>
       )}
     </div>
@@ -348,7 +350,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             {/* 넘버 뱃지 */}
             <div className="absolute top-4 right-4 z-30">
               <div className="w-12 h-12 rounded-full border border-white/10 bg-black/50 backdrop-blur-md flex items-center justify-center flex-col gap-0.5">
-                <span className="text-[8px] font-cinzel uppercase text-white/70">No.</span>
+                <span className="text-[8px] font-cinzel uppercase text-white/70">{t("number")}</span>
                 <span className="text-base font-serif font-bold text-white">{selectedIndex + 1}</span>
               </div>
             </div>
@@ -382,7 +384,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
             <div className="flex flex-col items-center justify-center pt-7 pb-5 px-5 text-center border-b border-white/5 relative z-10 shrink-0">
               <div className="flex items-center gap-3 mb-2 opacity-60">
                 <div className="h-[1px] w-6 bg-gradient-to-l from-white to-transparent" />
-                <span className="text-[10px] text-[#d4af37] font-cinzel font-bold uppercase tracking-[0.2em]">Exhibitions</span>
+                <span className="text-[10px] text-[#d4af37] font-cinzel font-bold uppercase tracking-[0.2em]">{t("exhibitions")}</span>
                 <div className="h-[1px] w-6 bg-gradient-to-r from-white to-transparent" />
               </div>
               
@@ -398,7 +400,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                   "text-[13px] text-text-secondary/80 leading-relaxed font-sans line-clamp-2 px-2 transition-opacity duration-300 delay-100",
                   isTransitioning ? "opacity-0" : "opacity-100"
                 )}>
-                {renderedTag.description || "역사 속 위인들의 콘텐츠 여정을 탐험해보세요."}
+                {renderedTag.description || t("defaultDescription")}
               </p>
             </div>
             </div>
@@ -445,7 +447,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
                     </span>
 
                     {/* Status Icon */}
-                    {isUpcoming && <span className="text-[10px] uppercase font-sans tracking-wide border border-white/20 px-1.5 py-[1px] rounded text-white/40">Open Soon</span>}
+                    {isUpcoming && <span className="text-[10px] uppercase font-sans tracking-wide border border-white/20 px-1.5 py-[1px] rounded text-white/40">{t("openSoon")}</span>}
                     
                     {/* Arrow for Active/Hover */}
                     {!isUpcoming && (
@@ -499,7 +501,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
       {/* Tag Description - 수식어 */}
       <div className="animate-fade-in pl-1 mt-1">
          <p className="text-sm md:text-[15px] text-text-secondary font-sans leading-relaxed break-keep opacity-90 max-w-4xl">
-           {renderedTag.description || "역사 속 위인들의 콘텐츠 여정을 탐험해보세요."}
+           {renderedTag.description || t("defaultDescription")}
          </p>
       </div>
 
@@ -578,7 +580,7 @@ export default function CuratedExhibitionDesktop({ activeTag, tags, activeIndex,
         {/* 넘버 뱃지 - 우상단 */}
         <div className="absolute top-3 right-3 z-30">
           <div className="w-11 h-11 md:w-14 md:h-14 rounded-full border border-white/10 bg-black/50 backdrop-blur-md flex items-center justify-center flex-col gap-0">
-             <span className="text-[7px] md:text-[9px] font-cinzel uppercase text-white/70">No.</span>
+             <span className="text-[7px] md:text-[9px] font-cinzel uppercase text-white/70">{t("number")}</span>
              <span className="text-sm md:text-lg font-serif font-bold text-white">{selectedIndex + 1}</span>
           </div>
         </div>

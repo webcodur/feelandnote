@@ -1,7 +1,9 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 
 export default function BackgroundsRedirectPage() {
-  redirect("/lab/backgrounds/deep-sea");
+  const locale = useLocale();
+  redirect({ href: "/lab/backgrounds/deep-sea", locale });
 }

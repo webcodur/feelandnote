@@ -15,6 +15,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
       id,
       rating,
       review,
+      review_en,
       is_spoiler,
       source_url,
       updated_at,
@@ -25,7 +26,12 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
         creator,
         thumbnail_url,
         type,
-        user_count
+        user_count,
+        title_ko,
+        title_en,
+        creator_en,
+        isbn_en,
+        thumbnail_en
       ),
       celeb:profiles!user_contents_user_id_fkey(
         id,
@@ -66,6 +72,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
         id: row.id,
         rating: row.rating,
         review: row.review as string,
+        review_en: (row as any).review_en ?? null,
         is_spoiler: row.is_spoiler ?? false,
         source_url: row.source_url ?? null,
         updated_at: row.updated_at,
@@ -77,6 +84,11 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
           type: content.type as ContentType,
           celeb_count: contentCounts[content.id]?.celebCount ?? 0,
           user_count: contentCounts[content.id]?.userCount ?? 0,
+          title_ko: content.title_ko ?? null,
+          title_en: content.title_en ?? null,
+          creator_en: content.creator_en ?? null,
+          isbn_en: content.isbn_en ?? null,
+          thumbnail_en: content.thumbnail_en ?? null,
         },
         celeb: {
           id: celeb.id,

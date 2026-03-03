@@ -6,9 +6,10 @@
 
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { UserPlus } from "lucide-react";
 import { UserCard, EmptyState, MobileUserListItem } from "../ExploreCards";
+import { useTranslations } from "next-intl";
 
 interface FollowerInfo {
   id: string;
@@ -24,6 +25,7 @@ interface Props {
 
 export default function FollowersSection({ followers }: Props) {
   const router = useRouter();
+  const t = useTranslations("explore.ui");
   const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
   return (
@@ -47,7 +49,7 @@ export default function FollowersSection({ followers }: Props) {
                 key={user.id}
                 user={{ ...user, content_count: 0 }}
                 onClick={() => handleSelectUser(user.id)}
-                subtext={user.bio || "새로운 팔로워"}
+                subtext={user.bio || t("newFollower")}
               />
             ))}
           </div>
@@ -55,8 +57,8 @@ export default function FollowersSection({ followers }: Props) {
       ) : (
         <EmptyState
           icon={<UserPlus size={32} />}
-          title="팔로워가 없어요"
-          description="활동하면 팔로워가 생길 거예요"
+          title={t("empty.noFollowers")}
+          description={t("empty.noFollowersDesc")}
         />
       )}
     </div>

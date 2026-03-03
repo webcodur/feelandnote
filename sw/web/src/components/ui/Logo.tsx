@@ -6,7 +6,7 @@
 
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 type LogoSize = "sm" | "md" | "lg" | "xl";
 type LogoVariant = "default" | "hero";

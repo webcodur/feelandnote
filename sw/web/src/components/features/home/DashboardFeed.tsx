@@ -5,19 +5,11 @@ import { CATEGORIES, type ContentTypeFilterValue } from "@/constants/categories"
 import type { CelebReview } from "@/types/home";
 import FriendActivitySection from "./FriendActivitySection";
 import CelebFeed from "./CelebFeed";
+import { useTranslations } from "next-intl";
 
 type TabType = "celeb" | "friend";
 
-const TABS: { key: TabType; label: string }[] = [
-  { key: "celeb", label: "셀럽 아카이브" },
-  { key: "friend", label: "친구 동향" },
-];
-
-// 카테고리 탭
-const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
-  { value: "all", label: "전체" },
-  ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: c.label })),
-];
+const TAB_KEYS: TabType[] = ["celeb", "friend"];
 
 interface DashboardFeedProps {
   userId?: string;
@@ -35,6 +27,18 @@ export default function DashboardFeed({
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
   const isLoggedIn = !!userId;
+  const t = useTranslations("home.ui");
+  const ct = useTranslations("content.category");
+
+  const TABS = TAB_KEYS.map((key) => ({
+    key,
+    label: key === "celeb" ? t("celebArchive") : t("friendActivity"),
+  }));
+
+  const CATEGORY_TABS: { value: ContentTypeFilterValue; label: string }[] = [
+    { value: "all", label: ct("all") },
+    ...CATEGORIES.map((c) => ({ value: c.dbType as ContentTypeFilterValue, label: ct(c.id) })),
+  ];
 
   // 탭 밑줄 위치 및 너비 계산 로직
   const updateUnderline = useCallback(() => {
@@ -139,7 +143,7 @@ export default function DashboardFeed({
           isLoggedIn ? (
             <FriendActivitySection userId={userId!} contentType={contentType} hideFilter />
           ) : (
-            <div className="py-10 text-center text-text-secondary font-serif">로그인이 필요합니다.</div>
+            <div className="py-10 text-center text-text-secondary font-serif">{t("loginRequired")}</div>
           )
         )}
       </div>

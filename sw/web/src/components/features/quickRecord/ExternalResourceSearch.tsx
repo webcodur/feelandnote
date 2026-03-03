@@ -5,6 +5,7 @@ import { Search, X, FileText, ExternalLink } from "lucide-react";
 import SearchHelper from "./SearchHelper";
 import LinkPreviewModal from "./LinkPreviewModal";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
+import { useTranslations } from "next-intl";
 
 export interface ExternalResourceSearchHandle {
     clearResults: () => void;
@@ -32,6 +33,7 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
     hideHeader = false,
     onResultsChange
 }, ref) => {
+    const t = useTranslations("quickRecord.external");
     const [blogSearchResult, setBlogSearchResult] = useState<BlogSearchResultData | null>(null);
     const [previewUrl, setPreviewUrl] = useState<{ url: string; title?: string } | null>(null);
 
@@ -52,14 +54,14 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                     <div className="flex-1" /> {/* Left spacer */}
                     <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
                         <Search size={16} className="text-accent" />
-                        <span className="text-sm font-bold uppercase tracking-wider">해당 작품의 외부 자료 탐색하기</span>
+                        <span className="text-sm font-bold uppercase tracking-wider">{t("headerTitle")}</span>
                     </div>
                     <div className="flex-1 flex justify-end">
                         {blogSearchResult && (
                             <button
                                 onClick={() => setBlogSearchResult(null)}
                                 className="p-1.5 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
-                                title="결과 초기화"
+                                title={t("resetResults")}
                             >
                                 <X size={14} />
                             </button>
@@ -82,7 +84,7 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                             <div className="flex items-center gap-2 mb-4">
                                 <FileText size={16} className="text-accent" />
                                 <h3 className="text-sm font-bold text-text-primary">
-                                    검색 결과: <span className="text-accent">"{blogSearchResult.query}"</span>
+                                    {t("searchResults")} <span className="text-accent">"{blogSearchResult.query}"</span>
                                 </h3>
                             </div>
 
@@ -111,7 +113,7 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                                     ))
                                 ) : (
                                     <div className="text-center text-text-tertiary py-12 bg-white/5 rounded-xl border border-white/5 border-dashed">
-                                        <p className="text-sm">검색 결과가 없습니다.</p>
+                                        <p className="text-sm">{t("noResults")}</p>
                                     </div>
                                 )}
                             </div>

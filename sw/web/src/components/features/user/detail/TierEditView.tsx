@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowLeft, Save, RotateCcw, Trophy, GripVertical } from "lucide-react";
 import Button from "@/components/ui/Button";

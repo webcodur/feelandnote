@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Scroll, Route, User, Clock, Menu, X } from "lucide-react";
 import { Tabs, Tab } from "@/components/ui/Tab";
 import { Pagination } from "@/components/ui/Pagination";
@@ -292,6 +292,11 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
                     thumbnail={content.thumbnail_url}
                     rating={content.avg_rating ?? undefined}
                     href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
+                    titleKo={content.title_ko}
+                    titleEn={content.title_en}
+                    creatorEn={content.creator_en}
+                    thumbnailEn={content.thumbnail_en}
+                    mobileLayout="review"
                   />
                 ))}
               </ContentGrid>
@@ -393,6 +398,11 @@ function TodaySageSection() {
                   thumbnail={content.thumbnail_url}
                   rating={content.avg_rating ?? undefined}
                   href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
+                  titleKo={content.title_ko}
+                  titleEn={content.title_en}
+                  creatorEn={content.creator_en}
+                  thumbnailEn={content.thumbnail_en}
+                  mobileLayout="review"
                 />
               ))}
               {/* 더보기 카드 */}
@@ -465,6 +475,11 @@ function EraSection() {
                       thumbnail={content.thumbnail_url}
                       rating={content.avg_rating ?? undefined}
                       href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
+                      titleKo={content.title_ko}
+                      titleEn={content.title_en}
+                      creatorEn={content.creator_en}
+                      thumbnailEn={content.thumbnail_en}
+                      mobileLayout="review"
                     />
                   ))}
                 </ContentGrid>
@@ -572,6 +587,11 @@ export default function Scriptures({ initialChosen, initialProfessionCounts }: S
                   userCount={content.user_count}
                   rating={content.avg_rating ?? undefined}
                   href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
+                  titleKo={content.title_ko}
+                  titleEn={content.title_en}
+                  creatorEn={content.creator_en}
+                  thumbnailEn={content.thumbnail_en}
+                  mobileLayout="review"
                 />
               ))}
             </ContentGrid>

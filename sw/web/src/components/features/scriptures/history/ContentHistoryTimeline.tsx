@@ -12,6 +12,7 @@ import { Scroll, ChevronLeft, ChevronRight } from "lucide-react";
 import { getScripturesData, HISTORY_CATEGORY_IDS, SUB_CATEGORY_VIEW_TYPE, type HistoryEra } from "@/constants/scripturesHistory";
 import TypographyCatalog from "./TypographyCatalog";
 import ReadingComparison from "./ReadingComparison";
+import HarmonyLesson from "./HarmonyLesson";
 import { FormattedText } from "@/components/ui";
 import Image from "next/image";
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
@@ -483,6 +484,11 @@ export default function ContentHistoryTimeline({
   const subIds = activeCategory?.subCategories;
   const [activeSubId, setActiveSubId] = useState(subIds?.[0]?.id ?? "");
 
+  // activeSubId가 현재 카테고리의 서브에 없으면 동기적으로 보정
+  const validSubId = subIds?.some((s) => s.id === activeSubId)
+    ? activeSubId
+    : subIds?.[0]?.id ?? "";
+
   // 카테고리 변경 시 서브 탭 리셋
   useEffect(() => {
     const subs = HISTORY_CATEGORY_IDS.find((c) => c.id === activeCategoryId)?.subCategories;
@@ -490,7 +496,7 @@ export default function ContentHistoryTimeline({
   }, [activeCategoryId]);
 
   // 타임라인 키: 서브 카테고리가 있으면 "book/media" 형태, 없으면 "video" 형태
-  const timelineKey = subIds ? `${activeCategoryId}/${activeSubId}` : activeCategoryId;
+  const timelineKey = subIds ? `${activeCategoryId}/${validSubId}` : activeCategoryId;
   const viewType = SUB_CATEGORY_VIEW_TYPE[timelineKey] ?? 'timeline';
   const eras = erasProp ?? data.timelines[timelineKey] ?? data.defaultTimeline;
   const [activeEraId, setActiveEraId] = useState(eras[0]?.id ?? "");
@@ -498,13 +504,13 @@ export default function ContentHistoryTimeline({
 
   // 설명 텍스트: 서브 카테고리가 있으면 해당 서브의 description, 없으면 카테고리 description
   const description = subIds
-    ? t(`sub.${activeCategoryId}.${activeSubId}.description`)
+    ? t(`sub.${activeCategoryId}.${validSubId}.description`)
     : t(`category.${activeCategoryId}.description`);
 
   // eras가 변경되면 첫 번째 항목으로 리셋
   useEffect(() => {
     setActiveEraId(eras[0]?.id ?? "");
-  }, [activeCategoryId, activeSubId]);
+  }, [activeCategoryId, validSubId]);
 
   // 스크롤 위치 기반으로 현재 보이는 시대 감지
   useEffect(() => {
@@ -568,7 +574,7 @@ export default function ContentHistoryTimeline({
         >
           <CategoryTabs activeId={activeCategoryId} onChange={setActiveCategoryId} />
           {subIds && subIds.length > 1 && (
-            <SubCategoryTabs categoryId={activeCategoryId} subIds={subIds} activeId={activeSubId} onChange={setActiveSubId} />
+            <SubCategoryTabs categoryId={activeCategoryId} subIds={subIds} activeId={validSubId} onChange={setActiveSubId} />
           )}
         </motion.div>
       </div>
@@ -588,6 +594,7 @@ export default function ContentHistoryTimeline({
       )}
       {viewType === 'catalog' && <TypographyCatalog data={data.typographyClasses} />}
       {viewType === 'comparison' && <ReadingComparison data={data.readingMethods} />}
+      {viewType === 'lesson' && <HarmonyLesson data={data.harmonyLessons} />}
     </div>
   );
 }

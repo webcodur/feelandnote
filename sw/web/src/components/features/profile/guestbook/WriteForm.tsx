@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { Lock, Send } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
@@ -13,6 +14,7 @@ import { createGuestbookEntry } from "@/actions/guestbook";
 import type { WriteFormProps } from "./types";
 
 export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
+  const t = useTranslations("profileSection.guestbook");
   const [content, setContent] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +38,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
       setIsPrivate(false);
     } catch (error) {
       console.error("Create guestbook entry error:", error);
-      alert(error instanceof Error ? error.message : "작성에 실패했습니다");
+      alert(error instanceof Error ? error.message : t("writeFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -51,7 +53,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="이 인물에 대한 생각을 남겨주세요."
+        placeholder={t("placeholder")}
         className="w-full bg-transparent border-none resize-none focus:ring-0 text-text-primary placeholder:text-text-tertiary/30 min-h-[72px] font-sans text-sm leading-relaxed px-4 pt-4 pb-2"
         rows={3}
         maxLength={500}
@@ -67,7 +69,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
           }`}
         >
           <Lock size={10} />
-          {isPrivate ? "비밀글" : "공개"}
+          {isPrivate ? t("private") : t("public")}
         </button>
 
         <div className="flex items-center gap-3">
@@ -82,7 +84,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
           >
             <span className="flex items-center gap-1.5">
               <Send size={10} />
-              {isSubmitting ? "게시 중..." : "게시"}
+              {isSubmitting ? t("submitting") : t("submit")}
             </span>
           </Button>
         </div>

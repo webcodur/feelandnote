@@ -36,7 +36,7 @@ function makeDummyCard(
     gender: side === "player",
     speechTone: side === "player" ? "bold" : "composed",
     influence: { political: 5, strategic: 5, tech: 5, social: 5, economic: 5, cultural: 5 },
-    ability: { ...overrides, charisma: 60 },
+    ability: { ...overrides, charm: 60 },
   };
 }
 

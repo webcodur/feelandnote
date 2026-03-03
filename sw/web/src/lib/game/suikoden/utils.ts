@@ -1,6 +1,7 @@
 // 천도 — 유틸리티 함수
 
-import type { GameCharacter, Stats, Grade, UnitClass, TerritoryId, RegionId, TacticType, BattleParticipant, BuildingCard, Faction, Territory, GameState, TerritoryDef, Region } from './types'
+import type { GameCharacter, Stats, Grade, UnitClass, TerritoryId, RegionId, TacticType, BattleParticipant, BuildingCard, Faction, GameState, TerritoryDef, Region } from './types'
+import type { PersonaStats } from '@/lib/persona/types'
 import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TACTIC_MATCHUP, CLASS_TACTIC_BONUS, BUILDINGS, TACTIC_INFO, TERRITORIES, REGIONS } from './constants'
 
 // ── DB → GameCharacter 변환 (16페르소나 매핑) ──
@@ -30,52 +31,13 @@ interface DbInfluence {
   total_score?: number | null
 }
 
-interface DbPersona {
-  // 능력 (0~100)
-  command?: number | null
-  martial?: number | null
-  intellect?: number | null
-  charisma?: number | null
-  // 덕목 (0~100)
-  temperance?: number | null
-  diligence?: number | null
-  reflection?: number | null
-  courage?: number | null
-  loyalty?: number | null
-  benevolence?: number | null
-  fairness?: number | null
-  humility?: number | null
-  // 성향 (-50~+50)
-  pessimism_optimism?: number | null
-  conservative_progressive?: number | null
-  individual_social?: number | null
-  cautious_bold?: number | null
-}
-
-export function dbToCharacter(profile: DbProfile, influence: DbInfluence, persona?: DbPersona): GameCharacter {
+export function dbToCharacter(profile: DbProfile, influence: DbInfluence, persona?: PersonaStats): GameCharacter {
   const totalScore = influence.total_score ?? 0
 
   // 페르소나 16값 → Stats 직접 매핑
   let stats: Stats
-  if (persona && persona.command != null) {
-    stats = {
-      command: persona.command ?? 0,
-      martial: persona.martial ?? 0,
-      intellect: persona.intellect ?? 0,
-      charisma: persona.charisma ?? 0,
-      temperance: persona.temperance ?? 50,
-      diligence: persona.diligence ?? 50,
-      reflection: persona.reflection ?? 50,
-      courage: persona.courage ?? 50,
-      loyalty: persona.loyalty ?? 50,
-      benevolence: persona.benevolence ?? 50,
-      fairness: persona.fairness ?? 50,
-      humility: persona.humility ?? 50,
-      pessimism_optimism: persona.pessimism_optimism ?? 0,
-      conservative_progressive: persona.conservative_progressive ?? 0,
-      individual_social: persona.individual_social ?? 0,
-      cautious_bold: persona.cautious_bold ?? 0,
-    }
+  if (persona) {
+    stats = { ...persona }
   } else {
     // influence 기반 폴백: 0~10 → 0~100 스케일
     const strategic = influence.strategic ?? 0
@@ -87,7 +49,7 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
       command: Math.min(100, Math.round(strategic * 10)),
       martial: Math.min(100, Math.round(tech * 8)),
       intellect: Math.min(100, Math.round(political * 10)),
-      charisma: Math.min(100, Math.round(cultural * 10)),
+      charm: Math.min(100, Math.round(cultural * 10)),
       temperance: 50, diligence: 50, reflection: 50, courage: 50,
       loyalty: Math.min(100, Math.round(social * 10)),
       benevolence: 50, fairness: 50, humility: 50,
@@ -96,7 +58,7 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
     }
   }
 
-  const gradeScore = calcPersonaGrade(stats.command, stats.martial, stats.intellect, stats.charisma)
+  const gradeScore = calcPersonaGrade(stats.command, stats.martial, stats.intellect, stats.charm)
   const grade = calcGrade(gradeScore)
 
   const effectiveGrade = grade
@@ -121,8 +83,8 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
     hp,
     maxHp: hp,
     grade,
-    personaGrade: persona?.command != null ? grade : undefined,
-    personaGradeScore: persona?.command != null ? gradeScore : undefined,
+    personaGrade: persona != null ? grade : undefined,
+    personaGradeScore: persona != null ? gradeScore : undefined,
     unitClass: (profile.profession ? PROFESSION_TO_CLASS[profile.profession] : undefined) ?? 'ranger',
     totalScore,
     troops: maxTroops,
@@ -135,8 +97,8 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
 
 // ── 페르소나 기반 등급 계산 ──
 
-export function calcPersonaGrade(command: number, martial: number, intellect: number, charisma: number): number {
-  const sorted = [command, martial, intellect, charisma].sort((a, b) => b - a)
+export function calcPersonaGrade(command: number, martial: number, intellect: number, charm: number): number {
+  const sorted = [command, martial, intellect, charm].sort((a, b) => b - a)
   return sorted[0] * 0.4 + sorted[1] * 0.3 + sorted[2] * 0.2 + sorted[3] * 0.1
 }
 
@@ -211,7 +173,7 @@ export function calcTacticDamage(
   } else if (atkTactic === 'stratagem' || atkTactic === 'fire') {
     basePower = atkChar.stats.intellect * 0.2 + atkChar.stats.reflection * 0.1
   } else if (atkTactic === 'morale') {
-    basePower = atkChar.stats.charisma * 0.2 + atkChar.stats.benevolence * 0.1
+    basePower = atkChar.stats.charm * 0.2 + atkChar.stats.benevolence * 0.1
   } else {
     // defend
     basePower = atkChar.stats.command * 0.15 + atkChar.stats.diligence * 0.1
@@ -246,10 +208,10 @@ export function calcTacticDamage(
   // 사기 변동 (0~100 스케일)
   let moraleDelta = 0
   if (atkTactic === 'morale') {
-    moraleDelta = 10 + Math.floor(atkChar.stats.charisma * 0.1)
+    moraleDelta = 10 + Math.floor(atkChar.stats.charm * 0.1)
   }
   if (defTactic === 'morale') {
-    moraleDelta = -(5 + Math.floor(defender.character.stats.charisma * 0.05))
+    moraleDelta = -(5 + Math.floor(defender.character.stats.charm * 0.05))
   }
 
   return { damage, troopLoss, moraleDelta }

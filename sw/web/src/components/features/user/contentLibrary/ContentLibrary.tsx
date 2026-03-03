@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { SlidersHorizontal } from "lucide-react";
 import { useContentLibrary } from "./useContentLibrary";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
@@ -36,6 +37,7 @@ export default function ContentLibrary({
   const initialSearchQuery = searchParams.get("q") || "";
   const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode });
   const isViewer = lib.isViewer;
+  const t = useTranslations("celebPage");
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
@@ -76,7 +78,7 @@ export default function ContentLibrary({
 
       {/* 컨트롤 패널 */}
       <ControlPanel
-        title="기록 제어"
+        title={t("recordControl")}
         icon={<SlidersHorizontal size={16} className="text-accent/70" />}
         isExpanded={isControlsExpanded}
         onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}

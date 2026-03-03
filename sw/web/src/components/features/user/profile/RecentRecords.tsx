@@ -8,6 +8,7 @@ import { addContent } from "@/actions/contents/addContent";
 import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { removeContent } from "@/actions/contents/removeContent";
+import { useTranslations } from "next-intl";
 
 const PAGE_LIMIT = 10;
 
@@ -20,6 +21,7 @@ interface RecentRecordsProps {
 }
 
 export default function RecentRecords({ items, initialTotalPages, userId, isOwner, savedContentIds }: RecentRecordsProps) {
+  const t = useTranslations("userProfile");
   const [currentItems, setCurrentItems] = useState(items);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
@@ -69,13 +71,13 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
 
   // 콘텐츠 삭제 핸들러 (소유자 모드)
   const handleDelete = useCallback(async (userContentId: string) => {
-    if (!confirm("정말 이 기록을 삭제하시겠습니까?")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     try {
       await removeContent(userContentId);
       setCurrentItems(prev => prev.filter(item => item.id !== userContentId));
     } catch (err) {
       console.error("삭제 실패:", err);
-      alert("삭제하지 못했습니다.");
+      alert(t("deleteFailed"));
     }
   }, []);
 
@@ -111,6 +113,10 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
             onAdd={() => handleAdd(item)}
             deletable={isOwner}
             onDelete={isOwner ? (e) => { e.stopPropagation(); handleDelete(item.id); } : undefined}
+            titleKo={item.content.title_ko}
+            titleEn={item.content.title_en}
+            creatorEn={item.content.creator_en}
+            thumbnailEn={item.content.thumbnail_en}
           />
         ))}
       </div>

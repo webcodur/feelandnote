@@ -5,9 +5,10 @@
 */ // ------------------------------
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import { getCategoryByDbType } from "@/constants/categories";
 import { BLUR_DATA_URL } from "@/constants/image";
@@ -27,13 +28,14 @@ interface RecentContentsSectionProps {
 }
 
 export default function RecentContentsSection({ items }: RecentContentsSectionProps) {
+  const t = useTranslations("contentDetail");
   const { scrollRef, isDragging, events } = useHorizontalScroll();
 
   if (items.length === 0) return null;
 
   return (
     <div className="mb-4">
-      <p className="text-[11px] text-text-tertiary mb-2">최근 본 콘텐츠</p>
+      <p className="text-[11px] text-text-tertiary mb-2">{t("recentContents")}</p>
       <div
         ref={scrollRef}
         className={`flex gap-2 overflow-x-auto scrollbar-hidden ${isDragging ? "cursor-grabbing" : ""}`}

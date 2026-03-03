@@ -6,7 +6,7 @@
 "use client";
 
 import Image from "next/image";
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink, Loader2 } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink, Loader2, User } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import PersonNameplate from "@/components/features/user/explore/PersonNameplate";
@@ -24,7 +24,7 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
 
 export interface SearchResult {
   id: string;
-  type: "content" | "user" | "tag";
+  type: "content" | "user" | "tag" | "celeb";
   title: string;
   subtitle?: string;
   category?: string;
@@ -120,6 +120,33 @@ export default function SearchResultsDropdown({
                     onClick={() => onResultClick(result)}
                   />
                 </div>
+              );
+            }
+
+            // 셀럽 결과
+            if (result.type === "celeb") {
+              return (
+                <Button
+                  unstyled
+                  key={result.id}
+                  onClick={() => onResultClick(result)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left
+                    ${selectedIndex === index ? "bg-accent/10" : "hover:bg-white/5"}`}
+                >
+                  <div className="relative w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                    {result.thumbnail ? (
+                      <Image src={result.thumbnail} alt={result.title} fill unoptimized className="object-cover" />
+                    ) : (
+                      <User size={16} className="text-text-secondary" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-text-primary truncate">{result.title}</div>
+                    {result.subtitle && (
+                      <div className="text-xs text-text-secondary truncate">{result.subtitle}</div>
+                    )}
+                  </div>
+                </Button>
               );
             }
 

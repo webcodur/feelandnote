@@ -5,6 +5,7 @@
 */
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Settings, Music, Volume2 } from "lucide-react";
 import GameLobbySubmenu from "./GameLobbySubmenu";
 
@@ -17,12 +18,14 @@ interface GameLobbySettingsProps {
 }
 
 export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: GameLobbySettingsProps) {
+  const t = useTranslations("shared.game.settings");
+
   return (
     <GameLobbySubmenu
       onBack={onBack}
       icon={<Settings size={28} className="text-accent/40" />}
-      title="설정"
-      desc="오디오 설정"
+      title={t("title")}
+      desc={t("desc")}
       showBackBottom
     >
       <div className="px-4 pb-6 space-y-2.5">
@@ -35,8 +38,8 @@ export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBg
             <Music size={16} className="text-accent/70" />
           </div>
           <div className="flex-1 text-left">
-            <p className="text-xs font-bold text-text-primary">게임 음악</p>
-            <p className="text-[9px] text-text-tertiary mt-0.5">배경 음악 (BGM)</p>
+            <p className="text-xs font-bold text-text-primary">{t("bgm")}</p>
+            <p className="text-[9px] text-text-tertiary mt-0.5">{t("bgmDesc")}</p>
           </div>
           <TogglePill active={!bgmMuted} />
         </button>
@@ -50,8 +53,8 @@ export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBg
             <Volume2 size={16} className="text-accent/70" />
           </div>
           <div className="flex-1 text-left">
-            <p className="text-xs font-bold text-text-primary">사운드 이펙트</p>
-            <p className="text-[9px] text-text-tertiary mt-0.5">효과음 (SFX)</p>
+            <p className="text-xs font-bold text-text-primary">{t("sfx")}</p>
+            <p className="text-[9px] text-text-tertiary mt-0.5">{t("sfxDesc")}</p>
           </div>
           <TogglePill active={!sfxMuted} />
         </button>

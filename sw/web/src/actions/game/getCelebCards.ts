@@ -6,6 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getLocale } from "next-intl/server";
 import type { BattleCard, Domain } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
 import { isPublicDomainCeleb } from "@/components/features/game/utils";
@@ -13,28 +14,55 @@ import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
-export async function getCelebCards(): Promise<BattleCard[]> {
+export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
   const supabase = await createClient();
+  const locale = await getLocale();
 
-  const { data, error } = await supabase
+  // 1. celeb_persona 조회 (stat_power 등 스탯 + basicSpeechTone)
+  let query = supabase
     .from("profiles")
     .select(`
       id, nickname, profession, title, nationality, avatar_url, quotes, death_date, gender, speech_tone,
       celeb_influence!inner(
         political, strategic, tech, social, economic, cultural, transhistoricity
       ),
-      celeb_persona!inner(command, martial, intellect, charisma),
-      celeb_dialogues(lines)
+      celeb_persona!inner(command, martial, intellect, charm)
     `)
     .eq("profile_type", "CELEB")
+    .eq("status", "active")
     .not("death_date", "is", null);
 
-  if (error || !data) {
-    console.error("[getCelebCards] 셀럽 카드 조회 실패:", error?.message);
+  if (celebIds && celebIds.length > 0) {
+    query = query.in("id", celebIds);
+  }
+
+  const { data: personaData, error: personaError } = await query;
+
+  if (personaError || !personaData) {
+    console.error("[getCelebCards] 셀럽 페르소나 조회 실패:", personaError?.message);
     return [];
   }
 
-  return data
+  // 2. celeb_dialogues 조회 (대사)
+  const personaIds = personaData.map((r) => r.id);
+  let dialogueQuery = supabase
+    .from("celeb_dialogues")
+    .select("celeb_id, lines, lines_en");
+
+  if (celebIds && celebIds.length > 0) {
+    dialogueQuery = dialogueQuery.in("celeb_id", celebIds);
+  } else {
+    dialogueQuery = dialogueQuery.in("celeb_id", personaIds);
+  }
+
+  const { data: dialogueData, error: dialogueError } = await dialogueQuery;
+
+  if (dialogueError) {
+    console.error("[getCelebCards] 셀럽 대사 조회 실패:", dialogueError?.message);
+    // 대사 데이터가 없어도 카드 조회는 계속 진행
+  }
+
+  return personaData
     .filter((row) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
     .map((row) => {
       const inf = Array.isArray(row.celeb_influence)
@@ -43,9 +71,6 @@ export async function getCelebCards(): Promise<BattleCard[]> {
       const per = Array.isArray(row.celeb_persona)
         ? row.celeb_persona[0]
         : row.celeb_persona;
-      const dlg = Array.isArray(row.celeb_dialogues)
-        ? row.celeb_dialogues[0]
-        : row.celeb_dialogues;
 
       const influence = {} as Record<Domain, number>;
       for (const key of DOMAIN_KEYS) {
@@ -56,9 +81,10 @@ export async function getCelebCards(): Promise<BattleCard[]> {
       const gender = row.gender ?? null;
       const speechTone = validateSpeechTone(row.speech_tone);
 
-      // 개인별 대사: lines JSONB가 비어있지 않으면 사용
-      const dialogueLines = dlg?.lines && Object.keys(dlg.lines).length > 0
-        ? (dlg.lines as DialogueLines)
+      // 대사 라인 맵핑 (locale 고려)
+      const dialogueRecord = dialogueData?.find((d) => d.celeb_id === row.id);
+      const dialogueLines = dialogueRecord
+        ? ((locale === 'en' && dialogueRecord.lines_en) ? dialogueRecord.lines_en : dialogueRecord.lines) as DialogueLines
         : undefined;
 
       return {
@@ -77,7 +103,7 @@ export async function getCelebCards(): Promise<BattleCard[]> {
           command: per.command ?? 0,
           martial: per.martial ?? 0,
           intellect: per.intellect ?? 0,
-          charisma: per.charisma ?? 0,
+          charm: per.charm ?? 0,
         },
         dialogueLines,
       };

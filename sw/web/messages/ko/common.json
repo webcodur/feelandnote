@@ -14,7 +14,7 @@
     "scriptures": "서가",
     "agora": "광장",
     "rest": "쉼터",
-    "archive": "내 기록관",
+    "archive": "내 기록",
     "sub": {
       "celebs": "셀럽",
       "people": "소셜",
@@ -26,7 +26,8 @@
       "feedback": "피드백",
       "dawn": "여명",
       "labyrinth": "미궁",
-      "hegemony": "패권"
+      "hegemony": "패권",
+      "suikoden": "천"
     },
     "footer": {
       "about": "서비스 소개",
@@ -59,7 +60,96 @@
     "archive": {
       "englishTitle": "My Archives",
       "description": "내가 본 콘텐츠를 기록하고 관리하세요.",
-      "link": "내 기록관 보러가기"
+      "link": "내 기록 보러가기"
+    },
+    "ui": {
+      "searchPlaceholder": "인물 검색...",
+      "searchButton": "검색",
+      "controlTitle": "탐색 제어",
+      "filterProfession": "직군",
+      "filterNationality": "국적",
+      "filterContent": "콘텐츠",
+      "filterGender": "성별",
+      "filterSort": "정렬",
+      "all": "전체",
+      "genderMale": "남성",
+      "genderFemale": "여성",
+      "nationalityNone": "국적정보 없음",
+      "defaultSort": "보유 콘텐츠순",
+      "genre": "장르",
+      "visitArchive": "기록관 방문",
+      "visitArchiveConfirm": "{name}님의 기록관으로 이동하시겠습니까?",
+      "cancel": "취소",
+      "go": "이동",
+      "activity": "활동",
+      "wisdomSeeker": "지혜의 탐구자",
+      "recorder": "기록자",
+      "followingLabel": "팔로잉",
+      "followLabel": "팔로우",
+      "prevSection": "이전 섹션으로",
+      "nextSection": "다음 섹션으로",
+      "toTop": "맨 위로",
+      "loginRequired": "로그인이 필요합니다.",
+      "celebArchive": "셀럽 아카이브",
+      "friendActivity": "친구 동향",
+      "contentUnit": "개",
+      "sort": {
+        "daily_recommend": "오늘의 추천",
+        "composite": "종합 점수",
+        "follower": "팔로워",
+        "influence": "영향력",
+        "content_count": "보유 콘텐츠",
+        "name_asc": "이름",
+        "birth_date_desc": "최근 출생",
+        "birth_date_asc": "오래된 출생"
+      },
+      "characterInfo": "인물 정보",
+      "viewingRecords": "감상 기록",
+      "loadingRecords": "기록을 불러오는 중...",
+      "viewProfile": "프로필 보기",
+      "reviewCount": "{name}의 {count}개의 감상 기록",
+      "keywords": "{name}의 키워드",
+      "followerUnit": "{count}명",
+      "loadMore": "더보기 ({count}개 남음)",
+      "empty": {
+        "noCelebs": "해당 직군의 셀럽이 없습니다",
+        "allLoaded": "모든 리뷰를 불러왔어요",
+        "noReviews": "아직 리뷰가 없어요",
+        "noReviewsDesc": "셀럽들의 콘텐츠 리뷰가 곧 업데이트됩니다.\n조금만 기다려 주세요!",
+        "noFriendActivity": "아직 친구들의 소식이 없어요",
+        "noFriendActivityDesc": "친구를 팔로우하면 여기에 활동이 표시돼요",
+        "noPublicReviews": "아직 공개된 감상이 없습니다",
+        "pleaseWait": "조금 더 기다려주세요",
+        "noRecords": "아직 기록된 영감이 없습니다.",
+        "createFirst": "첫 기록 남기기",
+        "createOwn": "나의 기록 만들기"
+      },
+      "influence": {
+        "analyzing": "영향력 분석 중...",
+        "loadError": "정보를 불러올 수 없습니다",
+        "close": "닫기",
+        "topInfluence": "주요 영향력",
+        "categoryDetail": "영역별 상세"
+      },
+      "tags": {
+        "noDescription": "상세 설명이 없습니다."
+      },
+      "banner": {
+        "headline": "느끼고, 기록하라",
+        "description": "책, 영화, 음악, 게임... 모든 경험을 남기고\n영감의 흔적을 쌓아가세요."
+      },
+      "navLinks": {
+        "moreCelebs": "더 많은 인물 보기",
+        "moreCelebsDesc": "시대와 분야를 아우르는 인물들을 만나보세요",
+        "moreResources": "더 많은 자료 보기",
+        "moreResourcesDesc": "인물들이 남긴 지혜의 기록을 탐색하세요"
+      },
+      "tabs": {
+        "todayFigure": "오늘의 인물",
+        "quickRecord": "빠른 기록",
+        "intro": "당신의 문화적 유산을 기록하고,\n시대를 초월한 지혜와 만나보세요.",
+        "introSub": "책, 영화, 음악, 그리고 위대한 인물들의 이야기.\n이곳은 당신의 영감이 머무르는 공간입니다."
+      }
     }
   },
   "banner": {
@@ -76,11 +166,11 @@
       "certificate": "자격증"
     },
     "placeholder": {
-      "book": "책 제목, 저자...",
-      "video": "영화, 드라마, 애니...",
-      "game": "게임 제목, 개발사...",
+      "book": "제목, 저자...",
+      "video": "영화, 드라마...",
+      "game": "게임명...",
       "music": "앨범, 아티스트...",
-      "certificate": "자격증명, 분야..."
+      "certificate": "자격증명..."
     },
     "unit": {
       "book": "권",
@@ -95,6 +185,23 @@
       "game": "개발사",
       "music": "아티스트",
       "certificate": "발급기관"
+    },
+    "edition": {
+      "ko": "국문",
+      "en": "영문",
+      "noKo": "국문본 없음",
+      "noEn": "영문본 없음",
+      "noKoDesc": "이 도서의 국문 번역본 정보가 없습니다.",
+      "noEnDesc": "이 도서의 영문 원서 정보가 없습니다."
+    },
+    "reviewModal": {
+      "review": "리뷰",
+      "ownerReview": "{name}의 리뷰",
+      "spoiler": "스포일러 포함 리뷰",
+      "noReview": "작성된 리뷰가 없습니다",
+      "source": "출처: {url}",
+      "noSource": "⚠️ 출처 URL 누락",
+      "detail": "상세 보기"
     }
   },
   "status": {
@@ -176,6 +283,106 @@
       "following": "팔로잉",
       "followers": "팔로워",
       "similar": "취향 유사"
+    },
+    "ui": {
+      "tabs": {
+        "celebs": "셀럽",
+        "social": "소셜",
+        "friends": "친구",
+        "following": "팔로잉",
+        "followers": "팔로워",
+        "similar": "취향 유사"
+      },
+      "empty": {
+        "noFriends": "아직 친구가 없어요",
+        "noFriendsDesc": "서로 팔로우하면 친구가 됩니다",
+        "noFollowing": "팔로잉이 없어요",
+        "noFollowingDesc": "관심 있는 사람을 팔로우해보세요",
+        "noFollowers": "팔로워가 없어요",
+        "noFollowersDesc": "활동하면 팔로워가 생길 거예요",
+        "noSimilar": "아직 유사한 유저가 없어요",
+        "noSimilarDesc": "콘텐츠를 기록하면 취향이 비슷한 유저를 추천해드릴게요",
+        "noNationality": "국적 데이터가 없습니다",
+        "noAuraCelebs": "해당 등급의 셀럽이 없습니다."
+      },
+      "newFollower": "새로운 팔로워",
+      "recordCount": "{count} 기록",
+      "bondsMatch": "{bonds} 결속 · {percent}% 일치",
+      "countUnit": "{count}명",
+      "scoreUnit": "{score}점",
+      "totalCount": "총 {count}명",
+      "record": "기록",
+      "algorithm": "추천 알고리즘",
+      "contentOverlapBased": "공통 콘텐츠 기반",
+      "influenceDistribution": "영향력 분포",
+      "influence": "영향력",
+      "stats": "통계",
+      "collection": "기획전",
+      "gradeDistribution": "등급별 분포",
+      "fullRanking": "전체 순위",
+      "scoreRange": "점수 구간",
+      "celebStats": "셀럽 통계",
+      "tabProfession": "직군",
+      "tabNationality": "국적",
+      "tabContent": "콘텐츠",
+      "tabGender": "성별",
+      "professionDist": "직군별 셀럽 분포",
+      "nationalityDist": "국적별 셀럽 분포 (상위 10개국)",
+      "contentTypeDist": "선호 콘텐츠 타입별 분포",
+      "genderDist": "성별 분포",
+      "totalContent": "총 콘텐츠",
+      "totalPeople": "총 인원",
+      "male": "남성",
+      "female": "여성",
+      "algorithmTitle": "추천 알고리즘 안내",
+      "contentMatchTitle": "공통 콘텐츠 기반 매칭",
+      "contentMatchDesc": "나와 같은 콘텐츠를 기록한 유저를 찾아 추천해요",
+      "howItWorks": "이렇게 계산해요",
+      "step1": "나와 상대방이 공통으로 기록한 콘텐츠 수를 파악",
+      "step2": "각자의 전체 콘텐츠 수로 정규화하여 공정하게 비교",
+      "step3": "유사도가 높은 순으로 추천",
+      "moreRecordsBetter": "콘텐츠를 많이 기록할수록 취향이 맞는 유저를 더 정확하게 찾아드릴 수 있어요",
+      "confirm": "확인",
+      "addCeleb": "셀럽 추가",
+      "nameLabel": "이름 *",
+      "namePlaceholder": "셀럽 이름",
+      "fieldLabel": "분야",
+      "fieldNone": "선택 안함",
+      "bioLabel": "소개",
+      "bioPlaceholder": "셀럽에 대한 간단한 소개",
+      "nameRequired": "이름을 입력해주세요",
+      "addFailed": "셀럽 추가에 실패했습니다",
+      "cancel": "취소",
+      "adding": "추가 중...",
+      "add": "추가",
+      "gridViewTitle": "그리드 뷰로 전환",
+      "carouselViewTitle": "캐러셀 뷰로 전환",
+      "grid": "그리드",
+      "carousel": "캐러셀",
+      "viewMore": "더보기",
+      "prev": "이전",
+      "next": "다음",
+      "loading": "로딩 중...",
+      "friend": "친구",
+      "personaNoData": "표시할 사람 데이터가 없습니다.",
+      "personaList": "사람 목록",
+      "professionUnknown": "직군 미상",
+      "personaLoading": "정보 불러오는 중...",
+      "personaTitle": "인간정보 분석 창",
+      "personaNoPersona": "인간정보 데이터 없음",
+      "personaNoSelection": "선택 가능한 사람이 없습니다.",
+      "personaFigure": "인물",
+      "scoreRanges": {
+        "9": "81점 +",
+        "8": "71 ~ 80점",
+        "7": "61 ~ 70점",
+        "6": "51 ~ 60점",
+        "5": "41 ~ 50점",
+        "4": "31 ~ 40점",
+        "3": "21 ~ 30점",
+        "2": "11 ~ 20점",
+        "1": "~ 10점"
+      }
     }
   },
   "auth": {
@@ -249,6 +456,10 @@
       "myPage": "내 페이지",
       "logout": "로그아웃"
     },
+    "locale": {
+      "switchTo": "English",
+      "label": "언어 변경"
+    },
     "footer": {
       "tagline": "기록을 쌓고 취향의 아카이브를 만들어 보세요."
     }
@@ -272,6 +483,13 @@
     "lab": "Lab"
   },
   "agora": {
+    "section": "광장",
+    "items": {
+      "celebFeed": { "label": "셀럽 피드", "description": "셀럽들의 아카이브를 확인하세요" },
+      "friendFeed": { "label": "친구 피드", "description": "친구들의 최신 소식을 확인하세요" },
+      "notice": { "label": "공지사항", "description": "서비스 공지사항을 확인하세요" },
+      "feedback": { "label": "피드백", "description": "의견과 피드백을 남겨주세요" }
+    },
     "meta": {
       "title": "광장",
       "description": "셀럽 피드, 자유 게시판, 공지사항 등 Feel&Note 커뮤니티 광장. 감상을 나누고 영감을 공유하세요."
@@ -298,6 +516,12 @@
     }
   },
   "scriptures": {
+    "section": "지혜의 서고",
+    "tabs": {
+      "era": { "label": "불후의 명작", "description": "전 시대의 대표작과 시대별 명저" },
+      "profession": { "label": "갈림길", "description": "직업별 추천 콘텐츠" },
+      "history": { "label": "콘텐츠 역사", "description": "인류 지식 매체와 콘텐츠의 연대기" }
+    },
     "meta": {
       "title": "서가",
       "description": "시대별, 직군별, 인물별로 정리된 감상 아카이브. 역사 속 명작부터 현대 걸작까지 셀럽들의 감상 기록을 탐색하세요."
@@ -333,6 +557,18 @@
         "fast": "빠름",
         "variable": "가변"
       },
+      "lesson": {
+        "objectives": "학습 목표",
+        "min": "분",
+        "foldContent": "본문 접기",
+        "unfoldContent": "본문 펼치기",
+        "sheetExamples": "악보 예시",
+        "difficulty": {
+          "beginner": "입문",
+          "intermediate": "중급",
+          "advanced": "심화"
+        }
+      },
       "category": {
         "book": { "label": "책", "description": "점토판에서 전자책까지, 기록 매체 5천 년의 연대기" },
         "video": { "label": "영상", "description": "환등기에서 스트리밍까지, 움직이는 빛의 역사" },
@@ -354,7 +590,8 @@
         "music": {
           "media": { "label": "매체", "description": "구전 선율에서 디지털 음원까지, 소리 저장과 전송의 역사" },
           "instrument": { "label": "악기", "description": "타악기에서 디지털 신시사이저까지, 소리를 만들어내는 도구의 진화" },
-          "experience": { "label": "청취", "description": "제의장에서 알고리즘까지, 음악을 듣는 공간과 방식의 변천사" }
+          "experience": { "label": "청취", "description": "제의장에서 알고리즘까지, 음악을 듣는 공간과 방식의 변천사" },
+          "harmony": { "label": "화성학", "description": "음표에서 화성 진행까지, 체계적인 음악 이론 교과서" }
         },
         "game": {
           "platform": { "label": "플랫폼", "description": "보드게임에서 클라우드까지, 게임이 구동되는 환경의 변천사" },
@@ -372,7 +609,8 @@
         "sage": { "label": "오늘의 인물", "description": "매일 자정, 한 명의 인물이 새롭게 선정됩니다" },
         "chosen": { "label": "공통 서가", "description": "가장 많은 인물들이 감상한 작품" },
         "profession": { "label": "갈림길", "description": "분야별 인물들의 필독서" },
-        "era": { "label": "시대의 작품", "description": "시대별 인물들의 선택" }
+        "era": { "label": "시대의 작품", "description": "시대별 인물들의 선택" },
+        "history": { "label": "콘텐츠 역사", "description": "인류 지식 매체와 콘텐츠의 연대기" }
       },
       "toc": "목차",
       "openToc": "목차 열기",
@@ -425,6 +663,396 @@
     }
   },
   "rest": {
+    "section": "쉼터",
+    "arena": {
+      "dawn": {
+        "label": "여명",
+        "description": "인물들의 탄생 순서를 맞춰보세요",
+        "headerDesc": "시간의 순서를 꿰뚫어라",
+        "headerSub": "인물들을 태어난 순서대로 정렬해보세요.",
+        "catchphrase": "역사의 서광",
+        "startGame": "게임 시작",
+        "diffEasyDesc": "탭하여 인물 정보 확인 가능",
+        "diffHardDesc": "연도 숨김. 기억력만으로 도전",
+        "selectDifficulty": "난이도 선택",
+        "selectDifficultyDesc": "난이도를 선택하세요",
+        "rulesDesc": "인물의 탄생 순서를 맞추는 연대기 게임",
+        "rulesIntro": "<game>여명</game>은 역사 속 인물이 주어지면 연대기 보드의 올바른 위치에 배치하는 게임입니다. 연속으로 맞출수록 기록이 갱신됩니다.",
+        "flowCheckFigure": "인물 확인",
+        "flowCheckFigureDesc": "상단에 표시된 인물의 정보를 확인합니다",
+        "flowSelectSlot": "위치 선택",
+        "flowSelectSlotDesc": "하단 연대기 보드에서 올바른 위치 슬롯을 탭합니다",
+        "flowLives": "체력 3칸",
+        "flowLivesDesc": "오답 시 1칸 감소, 0이 되면 게임 종료",
+        "flowTorches": "횃불 2개",
+        "flowTorchesDesc": "사용 시 랜덤 힌트 제공 (세기 공개 / 위치 힌트 / 슬롯 제거)",
+        "flowClear": "연속 성공",
+        "flowClearDesc": "모든 인물을 배치하면 클리어!",
+        "diffEasyTitle": "초급",
+        "diffEasyRuleDesc": "카드를 탭하면 인물 상세 정보를 확인할 수 있습니다.",
+        "diffHardTitle": "고급",
+        "diffHardRuleDesc": "보드 카드의 연도가 숨겨집니다. 기억력으로 도전하세요."
+      },
+      "labyrinth": {
+        "label": "미궁",
+        "description": "용의자 속 숨어든 인물을 추적하세요",
+        "headerDesc": "숨어든 자를 추적하라",
+        "headerSub": "용의자 6인의 단서를 분석하여 숨어든 인물을 찾아내세요.",
+        "catchphrase": "숨어든 용의자를 찾아내세요",
+        "startTracking": "추적 시작",
+        "startTrackingDesc": "용의자 6인 중 숨어든 인물을 추적합니다",
+        "rulesDesc": "용의자 6인의 단서를 분석해 숨어든 인물을 추적하는 게임",
+        "rulesIntro": "<game>미궁</game>은 용의자 6인 속에 숨어든 인물을 추적하는 게임입니다. 용의자의 혐의를 해제<x>(X)</x>하면 새로운 단서가 해금됩니다. 확신이 서면 추적 대상을 지목<o>(O)</o>하세요.",
+        "clueUnlockTitle": "단서 해금 순서",
+        "clue1": "단서 1",
+        "clue1Desc": "콘텐츠 감상평 1개 — 게임 시작 시 공개",
+        "clue2": "단서 2",
+        "clue2Desc": "콘텐츠 감상평 2개째 — 혐의 해제 1회로 해금",
+        "clue3": "단서 3",
+        "clue3Desc": "콘텐츠 감상평 3개째 — 혐의 해제 2회로 해금",
+        "clue4": "단서 4",
+        "clue4Desc": "콘텐츠 감상평 4개째 — 혐의 해제 3회로 해금",
+        "cluePhilosophy": "철학",
+        "cluePhilosophyDesc": "감상 철학 — 혐의 해제 4회로 해금",
+        "tip1": "용의자 카드를 클릭하면 <o>O</o>(지목)와 <x>X</x>(배제) 버튼이 나타납니다. 배제할 때마다 단서가 하나씩 해금되니, 단서를 모아 범위를 좁히세요.",
+        "tip2": "지목은 언제든 가능하지만, 적게 배제하고 빠르게 맞힐수록 좋습니다. 오답 시 숨은 인물이 도주합니다. 신중하게 판단하세요."
+      },
+      "hegemony": {
+        "label": "패권",
+        "description": "셀럽 카드로 전략 대전을 펼쳐보세요",
+        "headerDesc": "강한 자가 지배한다",
+        "headerSub": "카드를 전략적으로 배치하여 상대를 무찌르세요.",
+        "rulesDesc": "역사 속 인물들을 영입하여 매 라운드 상대와 동시에 격돌하는 전략 게임",
+        "rulesIntro": "<game>패권</game>은 역사 속 인물들을 인재로 영입하고, 매 라운드 카드 1장에 군령을 내려 상대와 동시에 격돌하는 전략 게임입니다. 주장을 임명하고, 천명을 읽고, 상성을 꿰뚫어 상대의 국력을 0으로 만드세요.",
+        "rules": {
+          "flowTitle": "게임 흐름",
+          "flow01": "드래프트",
+          "flow01Desc": "15명 중 5명을 교대 선택",
+          "flow02": "주장 선택",
+          "flow02Desc": "5명 중 지휘관 1명 임명",
+          "flow03": "배틀",
+          "flow03Desc": "매 라운드 동시 격돌",
+          "flow04": "결과",
+          "flow04Desc": "국력 비교로 승패 결정",
+          "draftNote": "드래프트는 3장씩 공개되며, 2장을 교대로 선택하고 1장은 폐기됩니다. 배치마다 선공이 바뀌어 공정한 픽이 보장됩니다. 마음에 들지 않으면 첫 픽 전에 <accent>다시 섞기</accent>가 가능합니다.",
+          "stateTitle": "국가 상태",
+          "powerLabel": "국력 30",
+          "powerDesc": "HP 역할. 0 이하가 되면 <red>즉시 패배</red>합니다. 내정 명령으로만 소량 회복할 수 있습니다.",
+          "moraleLabel": "민심 50",
+          "moraleDesc": "0 이하가 되면 <red>반란</red>이 발생합니다. 초과분은 국력 피해로 전환되며, 라운드가 진행될수록 반란 피해가 증가합니다.",
+          "ordersTitle": "3대 군령",
+          "ordersIntro": "매 라운드 손패에서 <white>카드 1장</white>을 선택하고 3가지 군령 중 하나를 지정합니다. 양측이 <accent>동시에</accent> 공개하여 상성을 판정합니다.",
+          "cmdBattle": "전투",
+          "cmdBattleDesc": "상대 국력 타격 (적성/2)",
+          "cmdBattleDetail": "민심 -3 항상 지불. 카드 소모.",
+          "cmdScheme": "책략",
+          "cmdSchemeDesc": "상대 민심 공격 (적성/2)",
+          "cmdSchemeDetail": "카드 소모.",
+          "cmdGovern": "내정",
+          "cmdGovernDesc": "국력 회복 (적성/3) + 민심 회복 (적성/2)",
+          "cmdGovernDetail": "카드 유지 + 버린패 1장 회수.",
+          "matchupTitle": "상성 (가위바위보)",
+          "matchupDesc": "상성 승리 시 효과 <accent>x1.5</accent>, 상대 효과 <red>무효</red>. 같은 명령끼리 접전 시 적성이 높은 쪽만 효과 발동.",
+          "captainTitle": "주장",
+          "captainIntro": "드래프트 후 5장 중 <accent>주장(지휘관)</accent> 1명을 임명합니다. 주장은 손패에서 아군을 지원하거나, 직접 출전하여 강력한 힘을 발휘합니다.",
+          "captainAura": "오라 효과",
+          "captainAuraDesc": "주장이 손패에 대기 중이면 출전하는 카드의 적성 <accent>+15%</accent>",
+          "captainDeploy": "직접 출전",
+          "captainDeployDesc": "주장이 직접 출전하면 본인 적성 <accent>x1.5</accent> (오라 소멸)",
+          "captainLost": "주장 소모",
+          "captainLostDesc": "주장이 버린패로 가면 오라 효과가 사라집니다",
+          "cardsTitle": "카드 운용",
+          "cardConsume": "카드 소모",
+          "cardConsumeDesc": "<red>전투</red>와 <purple>책략</purple>에 사용한 카드는 버린패로 이동합니다. <amber>내정</amber>은 카드가 소모되지 않고 손패에 남습니다.",
+          "cardRecovery": "버린패 회수",
+          "cardRecoveryDesc": "<amber>내정</amber> 명령 시 버린패에서 1장을 선택하여 손패로 회수합니다. 이 효과는 상성 패배와 무관하게 항상 발동됩니다.",
+          "cardExhaust": "손패 소진",
+          "cardExhaustDesc": "손패가 전부 소모되면 버린패에서 <accent>랜덤 1장</accent>이 자동 회수됩니다. 양측 모두 낼 카드가 없어지면 게임이 종료되고 국력으로 승패를 판정합니다.",
+          "fateTitle": "천명",
+          "fateIntro": "매 라운드 하나의 <amber>천명</amber>이 발동됩니다. 내 군령이 천명과 일치하면 적성이 <amber>x1.5</amber>로 증폭됩니다.",
+          "fateWind": "풍운의 천명",
+          "fateWindCmd": "전투 적성 x1.5",
+          "fateShadow": "암중의 천명",
+          "fateShadowCmd": "책략 적성 x1.5",
+          "fatePeace": "태평의 천명",
+          "fatePeaceCmd": "내정 적성 x1.5",
+          "fateNote": "천명 순서는 게임 시작 시 랜덤 결정되며, 같은 천명이 연속으로 나오지 않습니다.",
+          "tipBattleMorale": "전투와 민심",
+          "tipBattleMoraleDesc": "전투는 강력하지만 민심 -3 페널티가 항상 발생합니다. 연속 전투 시 민심이 급락하여 반란 위험이 커집니다. 내정으로 민심을 관리하며 공격 타이밍을 잡으세요.",
+          "tipGovernValue": "내정의 가치",
+          "tipGovernValueDesc": "내정은 카드가 소모되지 않고, 버린패 회수까지 해줍니다. 하지만 상대에게 자유턴을 주는 것이므로 남발은 금물. 천명과 맞추면 강력한 회복이 됩니다.",
+          "tipReadOpponent": "상대 읽기",
+          "tipReadOpponentDesc": "상대의 민심이 낮으면 내정이 예상됩니다 — 전투로 카운터하세요. 상대가 전투를 남발하면 책략으로 무효화할 수 있습니다. 천명 확인 후 상대의 선택을 예측하는 것이 핵심입니다.",
+          "tipAptitude": "적성 활용",
+          "tipAptitudeDesc": "각 카드는 군령별 적성이 다릅니다. 전투 적성이 높은 카드는 전투에, 지력이 높은 카드는 책략에 배정하세요. 카드 하단의 별점으로 적성을 확인할 수 있습니다."
+        }
+      },
+      "suikoden": {
+        "label": "천도",
+        "description": "역사 속 인물들로 문명을 통일하는 전략 시뮬레이션",
+        "headerDesc": "뜻이 있는 자, 천하를 얻으리라",
+        "headerSub": "역사 속 인물들을 이끌고 세력을 키워 문명을 통일하는 전략 시뮬레이션.",
+        "devNoticeTitle": "개발 중인 게임입니다",
+        "devNoticeDesc": "천도는 현재 개발 중입니다. 더 완성된 모습으로 곧 찾아뵙겠습니다.",
+        "rules": {
+          "title": "게임 규칙",
+          "desc": "역사 속 인물들로 세력을 키우는 전략 시뮬레이션",
+          "overview": "<game>천도</game>는 역사 속 인물들을 이끌고 세력을 키워 문명을 통일하는 전략 시뮬레이션입니다. 수호전 천도 108성에서 영감을 받은 전략 게임입니다.",
+          "flowTitle": "게임 흐름",
+          "flow1": "방랑", "flow1Desc": "세계를 탐험하며 인재를 모집",
+          "flow2": "전략", "flow2Desc": "거점을 관리하고 세력을 확장",
+          "flow3": "전투", "flow3Desc": "적 세력과 부대를 이끌고 격돌",
+          "coreTitle": "핵심 시스템",
+          "core1": "인재 영입", "core1Desc": "방랑 중 만난 인물을 설득하여 세력에 합류시킵니다",
+          "core2": "부대 편성", "core2Desc": "영입한 인재들로 전투 부대를 구성합니다",
+          "core3": "거점 건설", "core3Desc": "시설을 짓고 세력의 기반을 다집니다",
+          "core4": "전술 운용", "core4Desc": "전투에서 전술을 선택하여 유리하게 싸웁니다"
+        },
+        "class": {
+          "general": "장수", "saint": "성인", "strategist": "책사",
+          "official": "관료", "artist": "예인", "artisan": "장인", "ranger": "유격"
+        },
+        "bldgCat": {
+          "agriculture": "농업", "commerce": "상업", "military": "군사", "culture": "문화"
+        },
+        "bldg": {
+          "farm": "농장", "market": "시장", "trade": "교역소", "lumber": "벌목장", "mine": "광산",
+          "barracks": "병영", "training": "연병장", "walls": "성벽", "armory": "무기고",
+          "library": "도서관", "academy": "학당", "temple": "사원", "theater": "극장",
+          "tavern": "선술집", "patrol": "순찰소"
+        },
+        "bldgDesc": {
+          "farm": "식량을 생산하는 기본 농업 시설",
+          "market": "금을 벌어들이는 상업 시설",
+          "trade": "원거리 교역으로 높은 수익을 올리는 시설",
+          "lumber": "목재를 생산하는 벌목 시설",
+          "mine": "광물을 채굴하는 광업 시설",
+          "barracks": "병사를 모집하는 군사 시설",
+          "training": "병사를 훈련하는 연병 시설",
+          "walls": "거점 방어력을 높이는 성벽",
+          "armory": "무기를 제작하는 시설",
+          "library": "지식을 축적하는 교육 시설",
+          "academy": "고급 연구와 인재 발굴 시설",
+          "temple": "사기와 민심을 높이는 종교 시설",
+          "theater": "문화와 사기를 높이는 공연 시설",
+          "tavern": "인재가 방문하는 주막",
+          "patrol": "위협을 감시하는 순찰 시설"
+        },
+        "tactic": {
+          "charge": "돌격", "defend": "방어", "stratagem": "계략",
+          "fire": "화공", "morale": "고무", "feint": "유인"
+        },
+        "tacticDesc": {
+          "charge": "강력한 돌격. 피해↑ 손실↑", "defend": "피해 경감. 화공에 강함",
+          "stratagem": "지력 대결. 사기전에 강함", "fire": "광역 피해. 방어에 약함",
+          "morale": "사기 회복. 계략에 약함", "feint": "반격. 돌격에 강함"
+        },
+        "stat": {
+          "command": "통솔", "martial": "무력", "intellect": "지력", "charm": "매력",
+          "temperance": "절제", "diligence": "근면", "reflection": "성찰", "courage": "용기",
+          "loyalty": "충의", "benevolence": "인자", "fairness": "공정", "humility": "겸양"
+        },
+        "statDesc": {
+          "command": "조직·군대·국가를 이끄는 능력", "martial": "전투 공격력. 돌격·일기토 주력",
+          "intellect": "계략·화공·외교. 학당 건설 조건", "charm": "등용·외교·민심 보정",
+          "temperance": "욕망/감정/권력을 자제", "diligence": "건축 효율·생산량 보정",
+          "reflection": "계략 보조·연구 효율", "courage": "순찰 성공률·돌격 보조",
+          "loyalty": "신념·관계에 대한 헌신", "benevolence": "사원 건설·등용·치유",
+          "fairness": "외교·동맹 보정", "humility": "방어·수비 보정"
+        },
+        "disp": {
+          "pessimismOptimism": { "neg": "비관", "pos": "낙관" },
+          "conservativeProgressive": { "neg": "보수", "pos": "진보" },
+          "individualSocial": { "neg": "개인", "pos": "공동체" },
+          "cautiousBold": { "neg": "신중", "pos": "대담" }
+        },
+        "equip": { "weapons": "무기", "horses": "군마", "ships": "조선", "charms": "부적" },
+        "equipDesc": {
+          "weapons": "공격력 보정 (최대 +30%)", "horses": "돌격 보정 (최대 +20%)",
+          "ships": "수상전 보정", "charms": "계략 방어 보정 (최대 -30% 피해)"
+        },
+        "threat": { "bandit": "도적단", "beast": "야수", "plague": "역병", "spy": "첩자" },
+        "era": { "ancient": "고대", "medieval": "중세", "modern": "근대" },
+        "eraDesc": {
+          "ancient": "~500 CE. 알렉산더, 카이사르, 조조의 시대",
+          "medieval": "500~1500 CE. 징기스칸, 살라딘, 리처드의 시대",
+          "modern": "1500~ CE. 나폴레옹, 워싱턴, 비스마르크의 시대"
+        },
+        "skill": {
+          "charge": "돌격", "duel_provoke": "일기토 도발", "heal": "치유", "barrier": "결계",
+          "confuse": "혼란", "fire_attack": "화공", "iron_wall": "철벽", "diplomacy_threat": "외교 위협",
+          "inspire": "고무", "culture_sway": "문화 감화", "trap": "함정 설치", "siege_strike": "공성 강타",
+          "ambush": "기습", "detect_trap": "매복 탐지"
+        },
+        "skillDesc": {
+          "charge": "대미지 ×1.5, 자신도 피해", "duel_provoke": "인접 적 1:1 대결",
+          "heal": "아군 1명 HP 30% 회복", "barrier": "아군 1명 1턴 무적",
+          "confuse": "적 1턴 행동불가 (지력 판정)", "fire_attack": "적 행 범위 대미지",
+          "iron_wall": "인접 아군 방어력 ×2", "diplomacy_threat": "적 사기 -15",
+          "inspire": "아군 전원 사기 +10", "culture_sway": "적 사기 -15",
+          "trap": "전열에 함정 설치", "siege_strike": "성벽 대미지 ×3",
+          "ambush": "선제 대미지, 회피 불가", "detect_trap": "적 함정 무효화"
+        },
+        "region": {
+          "east_asia": "동아시아", "southeast_asia": "동남아시아", "south_asia": "남아시아",
+          "central_asia": "중앙아시아", "middle_east": "중동", "east_europe": "동유럽",
+          "west_europe": "서유럽", "africa": "아프리카", "americas": "아메리카", "oceania": "오세아니아"
+        },
+        "territory": {
+          "beijing": "베이징", "nanjing": "난징", "pyongyang": "평양",
+          "hanoi": "하노이", "angkor": "앙코르", "delhi": "델리", "kolkata": "콜카타",
+          "samarkand": "사마르칸트", "moscow": "모스크바", "baghdad": "바그다드", "cairo": "카이로",
+          "constantinople": "콘스탄티노플", "berlin": "베를린",
+          "rome": "로마", "paris": "파리", "london": "런던",
+          "carthage": "카르타고", "timbuktu": "팀북투", "nairobi": "나이로비",
+          "new_york": "뉴욕", "tenochtitlan": "테노치티틀란", "sydney": "시드니"
+        },
+        "scenery": {
+          "s1": "험준한 산길을 넘었다. 저 멀리 마을의 연기가 보인다.",
+          "s2": "넓은 평원을 가로질렀다. 바람이 거세다.",
+          "s3": "강을 건너 새로운 땅에 발을 디뎠다.",
+          "s4": "폐허가 된 옛 성터를 지나갔다. 전란의 흔적이 곳곳에 남아 있다.",
+          "s5": "숲길을 지나며 하룻밤을 야영했다.",
+          "s6": "작은 마을의 주막에서 하룻밤을 묵었다.",
+          "s7": "오래된 사원 앞을 지나갔다. 승려가 차를 내주었다.",
+          "s8": "언덕 위에서 사방을 둘러보았다. 세상이 넓다."
+        },
+        "rumor": {
+          "r1": "주막에서 들은 소문: 근처에 무장한 도적떼가 출몰한다고 한다.",
+          "r2": "지나가던 상인에게서 이 지역 정세에 대해 전해 들었다.",
+          "r3": "떠돌이 악사가 먼 나라의 이야기를 들려주었다.",
+          "r4": "어느 노인이 옛 전쟁 이야기를 늘어놓았다.",
+          "r5": "장터에서 세력 다툼에 대한 소문을 들었다."
+        },
+        "scenario": {
+          "three_kingdoms": {
+            "name": "삼국쟁패", "subtitle": "중원의 패권을 놓고 세 나라가 격돌한다",
+            "desc": "후한이 무너진 뒤, 조조·유비·손권 세 영웅이 천하를 다툰다. 서쪽에서는 진시황의 유산을 이은 세력이 호시탐탐 기회를 엿보고 있다. 인재를 모아 천하를 통일하라.",
+            "objective": "전 영토를 통일하라",
+            "cand1": "촉 땅에서 인의로 인재를 모으며, 한실 부흥의 뜻을 품었다.",
+            "cand2": "중원의 패자. 냉철한 용병술과 패기로 천하를 호령한다.",
+            "cand3": "강동의 호랑이. 부형이 남긴 기반 위에 제국을 세운다."
+          },
+          "crusades": {
+            "name": "십자군 전쟁", "subtitle": "성지를 둘러싼 동서 문명의 충돌",
+            "desc": "지중해를 사이에 두고 십자군과 이슬람 세력이 격돌한다. 성지 예루살렘의 주인은 누가 될 것인가. 콘스탄티노플에서는 오스만의 야망이 꿈틀거리고, 동유럽의 영주들도 가만히 있지 않는다.",
+            "objective": "성지(카이로)를 확보하고 적대 세력 3개 이상을 제거하라",
+            "cand1": "사자심왕 리처드. 성지 탈환을 위해 대군을 이끌고 원정에 나선다.",
+            "cand2": "이슬람의 수호자. 관용과 무용으로 성지를 지킨다."
+          },
+          "sengoku": {
+            "name": "전국시대", "subtitle": "천하통일을 이룰 영웅은 누구인가",
+            "desc": "일본 열도가 군웅할거의 전국시대에 접어들었다. 오다 노부나가, 도쿠가와 이에야스, 다케다 신겐 — 세 무장이 천하의 패권을 다투고, 동아시아 전역에서 영웅호걸들이 발흥한다.",
+            "objective": "전 영토를 통일하라",
+            "cand1": "제6천마왕. 혁신과 파괴로 구질서를 무너뜨린다.",
+            "cand2": "인내의 화신. 기다림 끝에 천하를 취한다.",
+            "cand3": "갑주의 호랑이. 풍림화산의 깃발 아래 적을 압도한다."
+          },
+          "napoleonic": {
+            "name": "나폴레옹 전쟁", "subtitle": "혁명의 불길이 유럽을 휩쓴다",
+            "desc": "프랑스 혁명의 불길 속에서 나폴레옹이 등극했다. 영국의 웰링턴이 대항하고, 프로이센의 비스마르크, 러시아의 거인들이 유럽 패권을 노린다. 구질서와 신질서의 대충돌이 시작된다.",
+            "objective": "유럽 5개 영토 이상을 확보하라",
+            "cand1": "혁명의 아들. 유럽 전역에 새로운 질서를 세우겠다는 야망을 품었다.",
+            "cand2": "철의 공작. 대영제국의 위신을 걸고 프랑스의 야망을 저지한다."
+          },
+          "mongol_empire": {
+            "name": "대몽골제국", "subtitle": "초원의 패자가 세계를 향해 말을 달린다",
+            "desc": "칭기즈 칸이 초원을 통일하고 세계 정복에 나선다. 당 태종 이세민의 유산을 이은 세력이 서역을 장악하고, 주원장이 남방에서 호시탐탐 북벌을 준비한다. 유라시아 대륙의 주인은 누구인가.",
+            "objective": "유라시아 7개 영토 이상을 확보하라",
+            "cand1": "대칸. 말 위에서 태어나 말 위에서 세계를 정복한다.",
+            "cand2": "천가한. 당의 영광을 서역까지 넓히겠다는 대업을 품었다."
+          }
+        },
+        "setup": {
+          "back": "← 뒤로", "selectScenario": "시나리오 선택",
+          "scenarioHint1": "역사 속 전란의 무대를 선택하라.",
+          "scenarioHint2": "각 시나리오에는 사전 구성된 세력과 방랑 인재가 배치된다.",
+          "diffEasy": "쉬움", "diffNormal": "보통", "diffHard": "어려움",
+          "selectLord": "주군 선택",
+          "existingFactions": "기존 세력", "wanderers": "방랑 인재", "lordCandidates": "주군 후보",
+          "statSummary": "통솔/무력/지력/매력",
+          "startAs": "{name}(으)로 시작",
+          "selectLordPrompt": "주군으로 삼을 인물을 선택하세요",
+          "undecided": "미정",
+          "lordCount": "주군 {count}명", "aiFactionCount": "AI 세력 {count}개", "wandererCount": "방랑자 {count}명",
+          "startGame": "게임 시작",
+          "memberCount": "{count}명"
+        },
+        "battle": {
+          "victory": "승리!", "defeat": "패배...", "defenseSuccess": "방어 성공!", "draw": "무승부",
+          "goBack": "돌아가기", "walls": "[성벽]", "turnCount": "턴 {current}/{max}",
+          "allyMorale": "아군 사기", "enemyMorale": "적군 사기", "ally": "아군", "enemy": "적군",
+          "actingUnit": "{name} 행동 중...",
+          "selectTactic": "전술 선택", "troopCost": "소모 {rate}%",
+          "leaderMark": "[주]", "defeated": "격파", "troops": "병력 {count}", "morale": "사기 {value}"
+        },
+        "wander": {
+          "title": "{name}의 방랑", "dayCount": "{day}일차", "gold": "금 {amount}",
+          "companions": "동료", "backToMain": "본화면으로",
+          "movePrompt": "이동하려면 지역을 선택하라", "moveTo": "이동: {from} → {to}",
+          "noCompanions": "아직 동료가 없다",
+          "tagVisit": "[방문]", "tagRepel": "[격퇴]", "tagRaid": "[습격]",
+          "tagSupport": "[지원]", "tagScenery": "[풍경]", "tagRumor": "[소문]",
+          "tryRecruit": "등용 시도", "passBy": "지나친다",
+          "recruitSuccess": "동료가 되었다.", "recruitFail": "등용에 실패했다.", "departed": "헤어졌다.",
+          "handleVisitorFirst": "객장 응답을 먼저 처리하라", "nextDay": "다음 날 →",
+          "raiseArmyDisabled": "거병 불가", "raiseArmy": "거병: {territory}",
+          "raiseArmyPrompt": "이 지역의 빈 영토에 거병할 수 있다.", "raiseHere": "이곳에서 거병",
+          "journalTitle": "여정 기록", "journalEmpty": "여정이 시작되지 않았다",
+          "travelingTo": "이동 중 — {region}", "regionMove": "지역 이동", "globe3d": "3D 지구", "textMap": "텍스트",
+          "moveConfirm": "{name}(으)로 이동한다", "depart": "출발", "cancel": "취소",
+          "lordBadge": "군주", "continueJourney": "다음 날로 진행하여 여정을 이어가라.",
+          "travelDays": "{current}/{total}일", "goldDelta": "금 {delta}"
+        },
+        "mgmt": {
+          "idle": "대기", "training": "훈련", "threats": "출몰", "visitors": "방문",
+          "noIdleChars": "대기 인물 없음", "noTrainingChars": "훈련 인물 없음", "noVisitors": "방문자 없음",
+          "dispatchSubjugate": "토벌 배정", "unassign": "해제", "assign": "할당",
+          "toastSelectCharFirst": "배치할 인물을 먼저 선택하라.",
+          "toastSelectBuilderFirst": "건설할 인물을 먼저 선택하라.",
+          "toastTrainingCannotBuild": "훈련 중인 인물은 건설할 수 없다.",
+          "toastAlreadyBuilding": "이미 건설 중인 인물이다.",
+          "effect": "효과", "buildCost": "건설 비용", "buildDuration": "건설 기간", "buildRequirement": "건설 조건",
+          "buildProgress": "건설 {current}/{total}",
+          "fullCapacity": "전력 가동", "resting": "휴식중", "operating": "가동중",
+          "assignWorker": "+ 배치", "emptySlot": "빈", "demolish": "철거", "close": "닫기",
+          "perMonth": "/월", "perTurn": "/턴", "defenseBonus": "방어 +{value}%",
+          "viewBackground": "배경 감상", "buildingCount": "건물 {current}/{max}",
+          "population": "인구", "publicOrder": "민심",
+          "tavernHint": "선술집 건설 시 인재가 방문한다",
+          "threatPower": "위력 {value}", "threatDamageIn": "{turns}턴 후 피해 발생",
+          "subjugating": "{nickname} 토벌 중",
+          "visitorLeaveIn": "{turns}턴 후 떠남", "recruiting": "{nickname} 등용 중",
+          "recruitNextTurn": "다음 턴에 등용 시도",
+          "statRequirement": "{stat} {min} 이상 필요",
+          "statRequirementCurrent": "{building}: {stat} {min} 이상 필요 (현재 {current})",
+          "goldLabel": "금", "foodLabel": "식량", "materialLabel": "자재",
+          "knowledgeLabel": "지식", "troopsLabel": "병사",
+          "moraleResLabel": "민심", "cultureLabel": "문화",
+          "effectWithBonus": "효과 (근무자 배치 시 1.5배)",
+          "buildTurnUnit": "{turns}턴",
+          "costNone": "없음",
+          "selectToAssign": "인물을 선택하여 배정",
+          "selectToRecruit": "인물을 선택하여 할당",
+          "armorLabel": "무장",
+          "countSuffix": "{count}명",
+          "countCases": "{count}건",
+          "goldCost": "금{amount}",
+          "materialCost": "자재{amount}",
+          "statMinArrow": "{stat}{min}↑"
+        },
+        "charInfo": {
+          "tabAbility": "능력", "tabStatus": "상태", "tabRelation": "관계",
+          "tabTroops": "병사", "tabItems": "소유물", "tabBio": "열전",
+          "sectionAbility": "능력", "sectionVirtue": "덕목", "sectionDisposition": "성향",
+          "taskIdle": "대기", "taskBuilding": "건설 중", "taskWorking": "근무 중", "taskTraining": "훈련 중",
+          "stopTask": "중지", "startTraining": "훈련", "reward": "포상 (금50)", "punish": "처벌",
+          "taskLabel": "작업", "moraleLabel": "사기", "loyaltyLabel": "충성", "troopsLabel": "병사",
+          "selectCharPrompt": "인물을 선택하라", "noBio": "기록 없음", "preparing": "준비 중",
+          "trainingHint": "※ 연병장 건설 시 훈련 가능"
+        }
+      }
+    },
     "meta": {
       "title": "쉼터",
       "description": "Feel&Note의 게임 아레나. 전략 시뮬레이션, 미궁 탐험 등 다양한 미니게임을 즐기세요."
@@ -464,10 +1092,12 @@
       "mode": {
         "content": "콘텐츠",
         "user": "사용자",
+        "celeb": "셀럽",
         "records": "내 기록",
-        "contentPlaceholder": "작품명, 저자, 감독...",
-        "userPlaceholder": "닉네임, @username...",
-        "recordsPlaceholder": "내 기록에서 검색..."
+        "contentPlaceholder": "작품명, 저자...",
+        "userPlaceholder": "닉네임...",
+        "celebPlaceholder": "인물명...",
+        "recordsPlaceholder": "기록 검색..."
       },
       "sectionContent": "콘텐츠",
       "sectionOther": "기타",
@@ -509,7 +1139,58 @@
       "play": "재생",
       "pause": "일시정지",
       "mute": "음소거",
-      "unmute": "음소거 해제"
+      "unmute": "음소거 해제",
+      "enterGame": "게임 입장",
+      "soundInfo": "사운드와 함께 진행됩니다",
+      "startGame": "게임 시작",
+      "heroesAwait": "{count}명의 영웅이 기다립니다",
+      "phase": {
+        "lobby": "로비",
+        "loading": "로딩",
+        "draft": "드래프트",
+        "captain": "주장",
+        "battle": "전투",
+        "result": "결과",
+        "playing": "게임",
+        "tracking": "추적",
+        "setup": "세력 설정",
+        "wandering": "방랑",
+        "strategy": "전략",
+        "disposition": "포로 처분"
+      },
+      "lobby": {
+        "rules": "규칙",
+        "multiplayer": "대인전",
+        "settings": "설정",
+        "records": "전적",
+        "aiMatch": "AI 대전",
+        "selectDifficulty": "난이도를 선택하세요",
+        "diffNormal": "보통",
+        "diffNormalDesc": "플레이어가 먼저 픽. 상대 카드 적성 공개.",
+        "diffHard": "어려움",
+        "diffHardDesc": "AI가 먼저 픽. 상대 카드 적성 비공개."
+      },
+      "ui": {
+        "back": "돌아가기",
+        "backToLobby": "로비로 돌아가기",
+        "start": "시작",
+        "cancel": "취소",
+        "gameRules": "게임 규칙",
+        "gameFlow": "게임 흐름",
+        "difficulty": "난이도",
+        "diffEasy": "초급",
+        "diffHard": "고급",
+        "gameTips": "게임 팁",
+        "strategyTips": "전략 팁"
+      },
+      "settings": {
+        "title": "설정",
+        "desc": "오디오 설정",
+        "bgm": "게임 음악",
+        "bgmDesc": "배경 음악 (BGM)",
+        "sfx": "사운드 이펙트",
+        "sfxDesc": "효과음 (SFX)"
+      }
     },
     "persona": {
       "ability": "능력",
@@ -622,5 +1303,891 @@
       "CERT_09": { "keyword": "1트 합격 가능", "description": "한 번에 붙을 수 있을 정도로 쉬운 난이도" },
       "CERT_10": { "keyword": "재도전 의지 생김", "description": "떨어졌지만 다시 도전하고 싶어질 만큼 가치 있음" }
     }
+  },
+  "quickRecord": {
+    "section": {
+      "addedToLibrary": "서재에 담겼습니다. 이 작품에 대한 기록을 남겨보세요.",
+      "reviewPlaceholder": "짧은 감상을 남겨주세요 (선택)",
+      "doLater": "나중에 하기",
+      "saving": "저장 중...",
+      "recordComplete": "기록 완료",
+      "saveError": "기록 저장 중 오류가 발생했습니다."
+    },
+    "editor": {
+      "write": "작성",
+      "preview": "미리보기",
+      "save": "저장",
+      "editorPlaceholder": "작품에서 어떤 영감을 받으셨나요?\n자유롭게 기록해보세요.",
+      "noContent": "작성된 내용이 없습니다.",
+      "workInfo": "작품 정보",
+      "externalSearch": "외부 자료 탐색",
+      "myReview": "내 리뷰",
+      "addKeyword": "키워드 추가",
+      "notRated": "평가 전",
+      "writeMode": "쓰기",
+      "readMode": "읽기",
+      "recommendPlaceholder": "셀럽들이 최고로 추천하는 《{title}》입니다.\n작품을 경험하셨다면 솔직한 리뷰를 남겨보세요.",
+      "defaultPlaceholder": "작품에서 발견한 영감을 자유롭게 기록하세요.\n\n 다음 부호로 텍스트를 꾸밀 수 있습니다.\n \n • 《작품명》 : 제목이나 큰 주제 강조 (Bold)\n • \"명언\" : 중요한 문장이나 인용구 (Accent)\n • '<'키워드'>' : 특정 단어나 소주제 강조 (Serif)"
+    },
+    "search": {
+      "noPresets": "이 컨텐츠 타입에 대한 검색 프리셋이 없습니다.",
+      "clickHint": "각 항목 클릭 시 화면에 검색결과가 표시됩니다.",
+      "contentSearch": "컨텐츠 검색",
+      "searchPlaceholder": "기록하고 싶은 작품을 검색해보세요...",
+      "searching": "검색 중...",
+      "addRecord": "기록하기",
+      "noResults": "검색 결과가 없습니다."
+    },
+    "external": {
+      "headerTitle": "해당 작품의 외부 자료 탐색하기",
+      "resetResults": "결과 초기화",
+      "searchResults": "검색 결과:",
+      "noResults": "검색 결과가 없습니다."
+    },
+    "preset": {
+      "selectKeywords": "리뷰 키워드 선택",
+      "noKeywords": "등록된 키워드가 없습니다.",
+      "selectionComplete": "선택 완료"
+    },
+    "linkPreview": {
+      "webPage": "웹 페이지",
+      "reader": "읽기",
+      "original": "원본",
+      "openInBrowser": "브라우저로 열기",
+      "closeEsc": "닫기 (ESC)",
+      "loadingContent": "페이지 내용을 불러오고 있습니다...",
+      "readerUnavailable": "읽기 모드를 사용할 수 없는 페이지입니다.",
+      "switchToOriginal": "원본 보기로 전환",
+      "connectionRefused": "연결이 거부되었습니다.",
+      "securityPolicy": "이 사이트({hostname})에서는 보안 정책(X-Frame-Options)으로 인해 미리보기를 허용하지 않습니다.",
+      "openInNewWindow": "새 창에서 열기",
+      "readerHint": "읽기 모드는 텍스트와 이미지 위주로 내용을 보여줍니다.",
+      "originalHint": "화면이 보이지 않으면 '브라우저로 열기'를 눌러주세요."
+    },
+    "info": {
+      "basic": "기본",
+      "detail": "상세",
+      "celebReview": "셀럽리뷰",
+      "normalReview": "일반리뷰",
+      "viewDetail": "상세 보기",
+      "introduction": "소개",
+      "storyline": "스토리라인",
+      "trailer": "트레일러",
+      "listen": "미리듣기",
+      "director": "감독",
+      "cast": "출연진",
+      "runtime": "러닝타임",
+      "runtimeMin": "{min}분",
+      "trackList": "트랙 목록",
+      "label": "레이블",
+      "screenshots": "스크린샷",
+      "releaseDate": "출시일"
+    },
+    "home": {
+      "pendingReviewConfirm": "'{title}'에 대한 작성 중인 리뷰가 있습니다.\n지금 등록하시겠습니까?",
+      "registeredSuccess": "성공적으로 등록되었습니다.",
+      "registrationError": "등록 중 오류가 발생했습니다.",
+      "deleteDraftConfirm": "작성 중인 기록을 삭제하시겠습니까?",
+      "deleteConfirm": "정말 이 기록을 삭제하시겠습니까?",
+      "deleteFailed": "삭제하지 못했습니다.",
+      "quickRecordLabel": "나만의 빠른 기록",
+      "quickRecordDesc": "영감을 빠르게 기록하고 관리해보세요",
+      "myLibrary": "나만의 서재",
+      "loginRequired": "로그인이 필요합니다",
+      "createLibrary": "나만의 서재를 만들어보세요",
+      "selectedContent": "선택된 컨텐츠",
+      "myRecord": "내 기록",
+      "review": "리뷰",
+      "note": "노트",
+      "saveAutoSave": "저장 (자동 저장됨)",
+      "savedLocally": "기기에 저장되었습니다. 로그인 후 등록할 수 있습니다.",
+      "saveFailed": "저장에 실패했습니다.",
+      "pendingWrite": "작성 대기",
+      "goToArchive": "상세 기록관\n페이지로 이동",
+      "noRecords": "아직 보관된 기록이 없습니다",
+      "searchToRecord": "상단 검색창을 통해 첫 번째 기록을 남겨보세요.",
+      "celebRecommendations": "셀럽들의 추천",
+      "archiveTab": "보관함",
+      "selectContent": "기록할 컨텐츠 선택",
+      "loadingInfo": "정보 로딩 중...",
+      "detailInfo": "상세 정보",
+      "celebReview": "셀럽 리뷰",
+      "normalReview": "일반 리뷰",
+      "externalSearchBtn": "외부 탐색",
+      "modalDetailTitle": "작품 상세 정보",
+      "modalCelebTitle": "셀럽들의 시선",
+      "modalNormalTitle": "독자들의 리뷰",
+      "modalSelectTitle": "기록할 컨텐츠 선택",
+      "modalExternalTitle": "외부 자료 탐색",
+      "popular": "인기",
+      "noPopular": "이 카테고리의 인기 기록이 없습니다."
+    }
+  },
+  "userProfile": {
+    "records": "기록",
+    "followers": "팔로워",
+    "following": "팔로잉",
+    "friends": "친구",
+    "guestbook": "방명록",
+    "follow": "팔로우",
+    "present": "현재",
+    "celeb": "셀럽",
+    "stats": "통계",
+    "noFollowers": "아직 팔로워가 없어요",
+    "noFollowing": "아직 팔로잉이 없어요",
+    "deleteConfirm": "정말 이 기록을 삭제하시겠습니까?",
+    "deleteFailed": "삭제하지 못했습니다.",
+    "me": "나",
+    "sidebar": {
+      "lineage": "계보",
+      "records": "기록",
+      "interests": "관심",
+      "collections": "컬렉션",
+      "stats": "통계",
+      "titles": "칭호",
+      "settings": "설정",
+      "profile": "프로필"
+    },
+    "addContent": {
+      "modalTitle": "{celebName}의 기록 추가",
+      "searchFailed": "검색에 실패했습니다",
+      "sourceRequired": "출처 링크를 입력해주세요",
+      "addFailed": "추가에 실패했습니다",
+      "searchPlaceholder": "콘텐츠 검색...",
+      "search": "검색",
+      "selectOther": "다른 콘텐츠 선택",
+      "status": "상태",
+      "sourceLabel": "출처 링크 *",
+      "sourceHint": "{celebName}님이 이 콘텐츠를 언급한 출처를 입력하세요",
+      "cancel": "취소",
+      "adding": "추가 중...",
+      "add": "추가"
+    }
+  },
+  "contentDetail": {
+    "back": "뒤로 가기",
+    "contentInfo": "콘텐츠 정보",
+    "myReview": "내 리뷰",
+    "myNote": "내 노트",
+    "private": "비공개",
+    "othersReviews": "다른 기록자들의 리뷰",
+    "category": {
+      "book": "도서",
+      "video": "영상",
+      "game": "게임",
+      "music": "음악",
+      "certificate": "자격증",
+      "all": "전체"
+    },
+    "addFailed": "추가 실패",
+    "deleteConfirm": "이 콘텐츠를 기록관에서 삭제하시겠습니까?",
+    "introduction": "소개",
+    "storyline": "스토리라인",
+    "director": "감독",
+    "runtime": "러닝타임",
+    "runtimeMinutes": "{minutes}분",
+    "cast": "출연진",
+    "trackList": "트랙 목록",
+    "label": "레이블",
+    "screenshots": "스크린샷",
+    "buyAt": "{platform}에서 구매하기",
+    "addRecord": "기록하기",
+    "recorded": "기록 완료",
+    "loginPrompt": "로그인하면 기록관에 추가할 수 있습니다",
+    "review": {
+      "anonymous": "익명",
+      "spoilerWarning": "스포일러가 포함된 리뷰입니다. 클릭하여 보기",
+      "hideSpoiler": "스포일러 다시 가리기",
+      "source": "출처:",
+      "noReviews": "아직 작성된 리뷰가 없습니다",
+      "loadMore": "더보기",
+      "rating": "별점",
+      "placeholder": "이 작품에 대한 생각을 자유롭게 기록해보세요.",
+      "containsSpoiler": "스포일러 포함",
+      "save": "저장",
+      "register": "등록"
+    },
+    "relativeTime": {
+      "justNow": "방금 전",
+      "minutesAgo": "{minutes}분 전",
+      "hoursAgo": "{hours}시간 전",
+      "daysAgo": "{days}일 전"
+    },
+    "spotify": {
+      "mobileNotice": "모바일 브라우저에서는 30초만 듣기가 가능합니다.",
+      "pcPrefix": "PC에서는 ",
+      "login": "Spotify 로그인",
+      "pcSuffix": " 후 돌아오시면 음악을 끝까지 감상할 수 있습니다. Spotify 성인 인증 시 모든 곡을 감상할 수 있습니다."
+    },
+    "externalLinks": "외부 링크",
+    "recentContents": "최근 본 콘텐츠"
+  },
+  "recommendation": {
+    "recommend": "추천",
+    "title": "콘텐츠 추천",
+    "accepted": "추천을 수락했습니다",
+    "rejected": "추천을 거절했습니다",
+    "addedToList": "원하는 목록에 추가되었습니다",
+    "fromUser": "{nickname}님의 추천",
+    "reject": "거절",
+    "accept": "수락",
+    "complete": "추천 완료",
+    "sentTo": "{nickname}님에게 전송되었습니다",
+    "searchFriends": "친구 검색...",
+    "loading": "불러오는 중",
+    "noResults": "검색 결과 없음",
+    "noFriends": "추천 가능한 친구 없음",
+    "loadError": "목록을 불러올 수 없습니다.",
+    "sendError": "추천 전송에 실패했습니다.",
+    "messagePlaceholder": "메시지를 남겨보세요 (선택)",
+    "cancel": "취소",
+    "sending": "전송 중",
+    "send": "추천 보내기",
+    "relation": {
+      "friend": "친구",
+      "follower": "팔로워"
+    }
+  },
+  "profileSection": {
+    "showMoreImages": "더보기 ({count}장)",
+    "showMoreNews": "더보기 ({count}건)",
+    "collapseRecent": "최근 방문 접기",
+    "expandRecent": "최근 방문 펼치기",
+    "guestbook": {
+      "deleteConfirm": "정말 삭제하시겠습니까?",
+      "deleteFailed": "삭제에 실패했습니다",
+      "updateFailed": "수정에 실패했습니다",
+      "empty": "아직 방명록이 비어있습니다.",
+      "writeFailed": "작성에 실패했습니다",
+      "placeholder": "이 인물에 대한 생각을 남겨주세요.",
+      "private": "비밀글",
+      "public": "공개",
+      "submitting": "게시 중...",
+      "submit": "게시",
+      "privateMessage": "비밀글입니다.",
+      "cancel": "취소",
+      "save": "저장",
+      "edit": "수정",
+      "delete": "삭제"
+    }
+  },
+  "musicPlayer": {
+    "title": "뮤직 플레이어",
+    "close": "닫기",
+    "album": "앨범",
+    "track": "트랙",
+    "delete": "삭제",
+    "playGuide": "재생 안내",
+    "confirm": "확인",
+    "loading": "불러오는 중...",
+    "empty": "표시할 음악이 없습니다",
+    "emptyHint": "관심·감상 중 상태의 음악이 여기에 표시됩니다",
+    "noticeWantStatus": "{want}·{finished} 상태의 음악이 여기에 표시됩니다.",
+    "noticeSpotify": "PC 브라우저에서 {login} 시 전곡을 자유롭게 재생할 수 있습니다.",
+    "noticeSpotifyLogin": "Spotify 로그인",
+    "noticeAge": "19세 제한 곡은 {action}하면 성인인증 화면이 나타납니다. 인증 완료 후 돌아오면 정상 재생됩니다.",
+    "noticeAgeAction": "Spotify 앱에서 해당 곡 재생을 시도"
+  },
+  "moreMenu": {
+    "shortcuts": "바로가기",
+    "home": "홈",
+    "playlists": "재생목록",
+    "explore": "탐색",
+    "scriptures": "지혜의 서고",
+    "board": "게시판",
+    "notice": "공지사항",
+    "feedback": "피드백"
+  },
+  "common": {
+    "loadMore": "더보기",
+    "loading": "불러오는 중...",
+    "viewAll": "전체보기"
+  },
+  "contextHeader": {
+    "recordOf": "{title}의 기록관",
+    "theRecordOf": "THE RECORD OF",
+    "officialRecord": "Official Sacred Record"
+  },
+  "searchResult": {
+    "followers": "팔로워 {count}",
+    "posts": "게시물 {count}개"
+  },
+  "board": {
+    "section": "게시판",
+    "items": {
+      "notice": { "label": "공지사항", "description": "Feelandnote의 새로운 소식과 업데이트" },
+      "feedback": { "label": "피드백", "description": "서비스 발전을 위한 여러분의 의견" }
+    },
+    "category": {
+      "CELEB_REQUEST": "셀럽 요청",
+      "CONTENT_REPORT": "콘텐츠 제보",
+      "FEATURE_SUGGESTION": "기능 건의"
+    },
+    "status": {
+      "PENDING": "대기",
+      "IN_PROGRESS": "처리 중",
+      "COMPLETED": "완료",
+      "REJECTED": "반려"
+    },
+    "backToList": "목록으로",
+    "backToDetail": "돌아가기",
+    "edit": "수정",
+    "delete": "삭제",
+    "cancel": "취소",
+    "saving": "저장 중...",
+    "create": "작성",
+    "update": "수정",
+    "title": "제목",
+    "titlePlaceholder": "제목을 입력하세요",
+    "content": "내용",
+    "contentPlaceholder": "내용을 입력하세요",
+    "tabs": {
+      "notice": "공지사항",
+      "feedback": "피드백"
+    },
+    "comment": {
+      "deleteConfirm": "댓글을 삭제하시겠습니까?",
+      "header": "댓글",
+      "empty": "첫 번째 댓글을 남겨보세요",
+      "placeholder": "댓글을 입력하세요",
+      "submit": "작성",
+      "loginRequired": "로그인 후 댓글을 작성할 수 있습니다"
+    },
+    "notice": {
+      "write": "공지 작성",
+      "emptyTitle": "아직 공지사항이 없습니다",
+      "emptySubtitle": "새로운 소식을 기다려주세요",
+      "createTitle": "공지사항 작성",
+      "editTitle": "공지사항 수정",
+      "pinLabel": "상단에 고정",
+      "deleteConfirm": "공지사항을 삭제하시겠습니까?"
+    },
+    "feedback": {
+      "write": "피드백 작성",
+      "emptyTitle": "아직 피드백이 없습니다",
+      "emptySubtitle": "첫 번째 피드백을 작성해보세요",
+      "createTitle": "피드백 작성",
+      "editTitle": "피드백 수정",
+      "categoryLabel": "카테고리",
+      "deleteConfirm": "정말 삭제하시겠습니까?",
+      "createSubmit": "작성하기",
+      "updateSubmit": "수정하기"
+    }
+  },
+  "landing": {
+    "exhibitions": "Exhibitions",
+    "viewAll": "View All",
+    "openSoon": "Open Soon",
+    "number": "No.",
+    "defaultDescription": "역사 속 위인들의 콘텐츠 여정을 탐험해보세요.",
+    "goToExplore": "탐색 페이지로 이동",
+    "noExhibitions": "진행 중인 기획전이 없습니다.",
+    "explore": {
+      "profession": "직업으로 탐색",
+      "nationality": "국가로 탐색",
+      "content": "콘텐츠로 탐색"
+    }
+  },
+  "todayFigure": {
+    "dateLabel": "{month}월 {day}일 오늘의 인물",
+    "subtitle": "매일 새로운 인물과 그가 즐긴 콘텐츠를 소개합니다",
+    "newsSelected": "최근 48시간 뉴스에서 {count}건 언급되어 선정되었습니다",
+    "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
+    "emptyCategory": "해당 카테고리의 기록이 존재하지 않습니다",
+    "viewAll": "전체 보기",
+    "libraryLabelEmpty": "{profession} {nickname}의 감상 기록",
+    "libraryLabelFull": "{profession} {nickname}{particle} 감상한 {items}",
+    "bookCount": "{count}권의 책",
+    "videoCount": "{count}편의 영화",
+    "musicCount": "{count}곡의 음악",
+    "gameCount": "{count}개의 게임"
+  },
+  "profilePage": {
+    "userNotFound": "사용자를 찾을 수 없습니다",
+    "metaDescription": "{nickname}님의 문화 기록관입니다.",
+    "consumptionPhilosophy": "감상 철학",
+    "imageSearch": "이미지 검색결과",
+    "guestbook": "방명록",
+    "bio": {
+      "label": "계보",
+      "editTitle": "소개글 수정",
+      "placeholder": "나를 표현하는 문구를 입력하세요...",
+      "cancel": "취소",
+      "save": "저장"
+    },
+    "persona": {
+      "label": "인물 분석",
+      "description": "{nickname}의 덕목, 능력, 성향을 분석한 결과입니다.",
+      "neutral": "중립",
+      "strong": "강한 {direction}",
+      "innerVirtue": "내적 덕목",
+      "outerVirtue": "외적 덕목",
+      "ability": "능력",
+      "disposition": "성향",
+      "similarLabel": "유사 인물",
+      "similarDesc": "위 분석과 가장 유사한 인물입니다.",
+      "matchPercent": "{percent}% 일치"
+    },
+    "stats": {
+      "finished": "감상 완료",
+      "want": "관심",
+      "review": "리뷰",
+      "notes": "노트·인용",
+      "categoryStatus": "카테고리별 현황",
+      "noData": "아직 데이터가 없다.",
+      "completedSuffix": "{count}완료",
+      "wantSuffix": "{count}관심",
+      "monthlyActivity": "월별 활동 추이",
+      "ratingDistribution": "평점 분포",
+      "ratingAverage": "평균 {average} / {count}건",
+      "noRating": "아직 평점이 없다."
+    },
+    "influence": {
+      "label": "영향력",
+      "categoryDetail": "영역별 상세"
+    },
+    "settings": {
+      "passwordChange": "비밀번호 변경",
+      "change": "변경",
+      "currentPassword": "현재 비밀번호",
+      "currentPasswordPlaceholder": "현재 비밀번호 입력",
+      "newPassword": "새 비밀번호",
+      "newPasswordPlaceholder": "새 비밀번호 입력 (6자 이상)",
+      "confirmPassword": "새 비밀번호 확인",
+      "confirmPasswordPlaceholder": "새 비밀번호 다시 입력",
+      "passwordMismatch": "새 비밀번호가 일치하지 않습니다",
+      "passwordNotMatch": "비밀번호가 일치하지 않습니다",
+      "dangerZone": "위험 영역",
+      "deleteAccount": "회원탈퇴",
+      "deleteAccountDesc": "모든 기록, 플레이리스트, 팔로우 정보가 영구 삭제됩니다.",
+      "deleteButton": "탈퇴하기",
+      "deleteConfirmTitle": "정말 탈퇴하시겠습니까?",
+      "deleteConfirmDesc": "이 작업은 되돌릴 수 없다. 모든 데이터가 즉시 삭제됩니다.",
+      "confirmWord": "탈퇴합니다",
+      "confirmInputGuide": "확인을 위해 {word}를 입력",
+      "cancel": "취소",
+      "permanentDelete": "영구 삭제"
+    }
+  },
+  "celebPage": {
+    "intro": "인물 소개",
+    "library": "기록 서고",
+    "libraryEmpty": "아직 공개된 기록의 서고가 비어있습니다.",
+    "analysis": "인물 분석",
+    "guestbook": "방명록",
+    "philosophy": "감상 철학",
+    "innerVirtue": "내적 미덕",
+    "outerVirtue": "외적 미덕",
+    "coreDisposition": "핵심 성향",
+    "similarFigures": "닮은꼴 인물",
+    "archiveSuffix": "의 기록관",
+    "archiveEnglish": "Official Sacred Record",
+    "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
+    "recordControl": "기록 제어"
+  },
+  "notifications": {
+    "title": "소식 보관함",
+    "description": "회원님의 활동에 대한 지난 기록들을 모아두었습니다.",
+    "markAllRead": "모두 읽음",
+    "deleteRead": "읽은 알림 삭제",
+    "tabAll": "전체 ({count})",
+    "tabUnread": "안 읽음 ({count})",
+    "deleteConfirm": "이 알림을 삭제하시겠습니까?",
+    "deleteReadConfirm": "읽은 알림을 모두 삭제하시겠습니까?",
+    "deleteTitle": "삭제",
+    "accepted": "수락함",
+    "rejected": "거절함",
+    "reject": "거절",
+    "accept": "수락",
+    "emptyAll": "도착한 소식이 없습니다.",
+    "emptyFiltered": "모든 소식을 확인하셨습니다."
+  },
+  "searchPage": {
+    "control": "검색 제어",
+    "category": "카테고리",
+    "sort": "정렬",
+    "poweredBy": "검색 제공:",
+    "followingOnly": "팔로잉만",
+    "resultCount": "검색 결과 {count}건",
+    "loading": "불러오는 중...",
+    "loadMore": "더보기",
+    "allLoaded": "모든 검색 결과를 불러왔습니다. (총 {count}건)",
+    "noResults": "'{query}'에 대한 검색 결과가 없습니다",
+    "noResultsHint": "다른 검색어를 입력해보세요",
+    "enterQuery": "검색어를 입력하세요",
+    "enterQueryDesc": "콘텐츠, 사용자, 태그를 검색할 수 있습니다",
+    "guide": {
+      "game": "검색 결과가 더 있을 수 있어요. 원하는 게임이 없다면 검색어나 언어를 바꿔보세요.",
+      "certificate": "주요 국가자격증 위주로 검색돼요."
+    },
+    "contentSort": {
+      "relevance": "관련도순",
+      "latest": "최신순",
+      "popular": "인기순"
+    },
+    "userSort": {
+      "relevance": "관련도순",
+      "followers": "팔로워순",
+      "latest": "최신순"
+    },
+    "contentCategory": {
+      "book": "도서",
+      "video": "영상",
+      "game": "게임",
+      "music": "음악",
+      "certificate": "자격증"
+    },
+    "apiSource": {
+      "book": "네이버 책 API",
+      "video": "TMDB",
+      "game": "IGDB",
+      "music": "Spotify",
+      "certificate": "Q-Net"
+    }
+  },
+  "reading": {
+    "stopwatch": {
+      "pause": "일시정지",
+      "resume": "재개",
+      "reset": "초기화"
+    },
+    "onboarding": {
+      "title": "독서 모드 안내",
+      "subtitle": "집중해서 독서하고 생각을 기록하세요",
+      "startButton": "시작하기",
+      "reopenHint": "우측 사이드바 하단의 버튼으로 다시 볼 수 있습니다",
+      "features": {
+        "bookSelect": "책 선택 (선택사항)",
+        "bookSelectDesc": "상단의 책 검색 버튼으로 현재 읽고 있는 책을 선택할 수 있습니다. 선택하지 않아도 됩니다.",
+        "autoTimer": "자동 시간 측정",
+        "autoTimerDesc": "페이지에 들어오면 자동으로 타이머가 시작됩니다. 일시정지, 초기화가 가능합니다.",
+        "mainNote": "메인 노트",
+        "mainNoteDesc": "포스트잇 외에 긴 글을 작성할 수 있는 메인 노트가 있습니다. 전체 화면으로 확장 가능합니다.",
+        "aiQuestion": "AI 질문",
+        "aiQuestionDesc": "AI에게 책 관련 질문을 할 수 있습니다. 창에 떠 있는 모든 메모가 함께 전달됩니다.",
+        "autoSave": "자동 저장",
+        "autoSaveDesc": "모든 메모는 브라우저 로컬 스토리지에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기로 접근 시 메모를 볼 수 없습니다."
+      }
+    },
+    "bookInfo": {
+      "restore": "복원",
+      "maximize": "최대화",
+      "close": "닫기",
+      "publisher": "출판사",
+      "publishDate": "출판일",
+      "description": "설명"
+    },
+    "bookSearch": {
+      "title": "책 검색",
+      "placeholder": "책 제목 또는 저자",
+      "searchButton": "검색",
+      "hint": "책 선택은 선택사항입니다. 선택하지 않아도 자유롭게 메모할 수 있습니다.",
+      "noResults": "검색 결과가 없습니다"
+    },
+    "mainNote": {
+      "title": "메인 노트",
+      "collapse": "축소",
+      "fullscreen": "전체 화면",
+      "placeholderExpanded": "여기에 긴 글을 작성하세요...\n\n독서하면서 떠오르는 생각, 요약, 감상 등을 자유롭게 기록할 수 있습니다.\n포스트잇 메모와 별개로, 정리된 형태의 글을 작성하기에 적합합니다.",
+      "placeholderCompact": "독서하면서 떠오르는 생각을 자유롭게 기록하세요...",
+      "charCount": "{count}자"
+    },
+    "sidebar": {
+      "sections": "섹션",
+      "addSection": "섹션 추가",
+      "noSections": "섹션이 없습니다",
+      "addHint": "+ 버튼으로 추가하세요",
+      "hide": "숨기기",
+      "show": "표시",
+      "delete": "삭제"
+    },
+    "sectionTypes": {
+      "basic": "메모",
+      "character": "조직",
+      "image": "이미지",
+      "timeline": "타임라인",
+      "conceptMap": "개념 맵",
+      "comparison": "비교표",
+      "glossary": "용어집"
+    },
+    "workspace": {
+      "desktopOnly": "데스크톱 전용 기능",
+      "desktopOnlyDesc": "독서 모드는 데스크톱에서만 이용 가능합니다.",
+      "leftSidebarToggle": "좌측 사이드바 토글",
+      "exit": "나가기",
+      "modeSwitch": "모드 전환",
+      "bookInfo": "책 정보 (클릭하여 상세 보기)",
+      "changeBook": "다른 책 선택",
+      "clearBook": "책 선택 해제",
+      "selectBook": "책 선택",
+      "rightSidebarToggle": "우측 사이드바 토글",
+      "readingBook": "을(를) 읽고 있습니다.",
+      "addSectionPrompt": "좌측에서 섹션을 추가하세요",
+      "addSectionHint": "메모, 조직, 이미지 섹션을 자유롭게 배치할 수 있습니다",
+      "storageNotice": "모든 메모는 브라우저 로컬 스토리지에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기 접근 시 메모를 볼 수 없습니다.",
+      "questionsTitle": "독서 시 던질 질문들",
+      "reasonsTitle": "독서를 해야 하는 이유",
+      "methodsTitle": "독서 방법론",
+      "reopenGuide": "사용 안내 다시 보기",
+      "tabs": {
+        "reading": "읽기",
+        "watching": "감상",
+        "playing": "플레이",
+        "listening": "듣기"
+      }
+    },
+    "character": {
+      "characterList": "인물 목록",
+      "personCount": "{count}명",
+      "addCharacter": "새 인물 추가",
+      "startPrompt": "인물을 추가하여 시작하세요",
+      "orgChart": "조직도",
+      "selectPrompt": "좌측에서 인물을 선택하여 상세 정보와 관계를 확인하세요",
+      "edit": "편집",
+      "connectMode": "관계 연결 모드",
+      "connectPrompt": "좌측에서 연결할 대상을 선택하세요",
+      "selectRelationType": "관계 유형 선택",
+      "relations": "관계",
+      "addRelation": "+ 관계 추가",
+      "noRelations": "아직 관계가 없습니다",
+      "relationsCount": "관계 {count}개",
+      "noName": "이름 없음",
+      "aliases": "별명",
+      "editCharacter": "인물 편집",
+      "done": "완료",
+      "orgInfo": "조직 정보",
+      "orgLabel": "소속 조직",
+      "orgPlaceholder": "예: 조선군, 왜군",
+      "subOrgLabel": "세부 조직",
+      "subOrgPlaceholder": "예: 이순신 휘하, 권율 휘하",
+      "rankLabel": "직급/계급",
+      "rankPlaceholder": "예: 장군, 병사, 수령",
+      "gender": "성별",
+      "genderMale": "남",
+      "genderFemale": "여",
+      "genderUnknown": "?",
+      "nameLabel": "이름 / 호칭",
+      "primaryName": "대표 이름",
+      "aliasName": "별명/호칭",
+      "addName": "+ 이름 추가",
+      "descriptionLabel": "설명",
+      "descriptionPlaceholder": "인물에 대한 설명을 입력하세요...",
+      "confirmDelete": "정말 이 인물을 삭제하시겠습니까?",
+      "deleteCharacter": "인물 삭제",
+      "uncategorized": "미분류",
+      "other": "기타"
+    },
+    "comparison": {
+      "addCriterionPlaceholder": "새 비교 기준 추가 (예: 가격, 성능, 디자인)",
+      "addCriterion": "기준 추가",
+      "noItems": "비교할 항목이 없습니다",
+      "addItem": "항목 추가",
+      "itemHeader": "항목",
+      "save": "저장",
+      "cancel": "취소",
+      "confirmDeleteCriterion": "\"{name}\" 기준을 삭제하시겠습니까?",
+      "confirmDeleteItem": "이 항목을 삭제하시겠습니까?",
+      "newItem": "새 항목"
+    },
+    "conceptMap": {
+      "addRootConcept": "최상위 개념 추가",
+      "noConcepts": "개념이 없습니다",
+      "selectPrompt": "개념을 선택하여\n상세 정보를 확인하세요",
+      "editConcept": "개념 편집",
+      "conceptName": "개념명",
+      "conceptNamePlaceholder": "개념 이름",
+      "descriptionLabel": "설명",
+      "descriptionPlaceholder": "상세 설명",
+      "save": "저장",
+      "cancel": "취소",
+      "addChild": "하위 추가",
+      "edit": "편집",
+      "delete": "삭제",
+      "cannotDeleteWithChildren": "하위 개념이 있는 경우 삭제할 수 없습니다.",
+      "confirmDelete": "이 개념을 삭제하시겠습니까?",
+      "newConcept": "새 개념"
+    },
+    "glossary": {
+      "searchPlaceholder": "용어 검색...",
+      "all": "전체",
+      "addTerm": "용어 추가",
+      "noTerms": "용어가 없습니다",
+      "noSearchResults": "검색 결과가 없습니다",
+      "selectPrompt": "용어를 선택하여\n상세 정보를 확인하세요",
+      "editTerm": "용어 편집",
+      "termLabel": "용어",
+      "termPlaceholder": "용어 입력",
+      "definitionLabel": "정의",
+      "definitionPlaceholder": "정의 입력",
+      "categoryLabel": "카테고리",
+      "categoryPlaceholder": "예: 역사, 철학, 경제",
+      "pageLabel": "페이지",
+      "pagePlaceholder": "예: 42, 127-130",
+      "page": "페이지",
+      "save": "저장",
+      "cancel": "취소",
+      "edit": "편집",
+      "delete": "삭제",
+      "confirmDelete": "이 용어를 삭제하시겠습니까?"
+    },
+    "quote": {
+      "prevQuote": "이전 명언",
+      "nextQuote": "다음 명언",
+      "manage": "명언 관리",
+      "manageTitle": "명언 관리",
+      "close": "닫기",
+      "quotePlaceholder": "명언 내용을 입력하세요...",
+      "authorPlaceholder": "작가 또는 출처",
+      "deleteQuote": "명언 삭제",
+      "addNew": "새로운 영감 추가하기",
+      "storageNotice": "나만의 독서 명언은 로컬 저장소에 안전하게 보관됩니다.",
+      "doneButton": "설정 완료",
+      "fallbackQuote": "명언을 추가해보세요."
+    },
+    "section": {
+      "restore": "복원",
+      "maximize": "최대화",
+      "close": "닫기",
+      "basicPlaceholder": "내용을 입력하세요...",
+      "imagePaste": "Ctrl+V로 이미지를 붙여넣으세요",
+      "imageHint": "드래그로 이동 / 스크롤로 확대",
+      "pastedImage": "붙여넣기된 이미지",
+      "imageError": "이미지 처리 중 오류가 발생했습니다."
+    },
+    "timeline": {
+      "addEvent": "이벤트 추가",
+      "noEvents": "이벤트가 없습니다",
+      "selectPrompt": "이벤트를 선택하여\n상세 정보를 확인하세요",
+      "editEvent": "이벤트 편집",
+      "dateLabel": "날짜/시점",
+      "datePlaceholder": "예: 1592년 4월",
+      "titleLabel": "제목",
+      "titlePlaceholder": "이벤트 제목",
+      "descriptionLabel": "설명",
+      "descriptionPlaceholder": "상세 설명",
+      "categoryLabel": "카테고리",
+      "save": "저장",
+      "cancel": "취소",
+      "edit": "편집",
+      "delete": "삭제",
+      "confirmDelete": "이 이벤트를 삭제하시겠습니까?",
+      "newEvent": "새 이벤트",
+      "categories": {
+        "politics": "정치",
+        "economy": "경제",
+        "society": "사회",
+        "culture": "문화",
+        "war": "전쟁",
+        "other": "기타"
+      }
+    }
+  },
+  "userBio": {
+    "label": "소개",
+    "bioPlaceholder": "자기소개를 입력하세요...",
+    "bioEmpty": "자기소개를 작성해보세요...",
+    "quotesPlaceholder": "나를 표현하는 한 줄",
+    "avatarUrlLabel": "프로필 이미지 URL",
+    "nationalityLabel": "국적/지역",
+    "birthdateLabel": "생년월일",
+    "loading": "로딩 중...",
+    "select": "선택",
+    "cancel": "취소",
+    "editProfile": "프로필 수정"
+  },
+  "note": {
+    "sectionTitlePlaceholder": "구획 제목 (예: 1장, E01)",
+    "sectionMemoPlaceholder": "이 구획에 대한 기록은 비공개로 안전하게 보관됩니다.",
+    "sectionItemPlaceholder": "본인만 볼 수 있도록 비공개로 안전하게 기록됩니다.",
+    "notePanelPlaceholder": "작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요."
+  },
+  "creation": {
+    "whatif": {
+      "scenarioLabel": "상상 시나리오 *",
+      "placeholder": "만약 ~했다면 어떤 이야기가 펼쳐질까요? 상상력을 마음껏 펼쳐보세요.",
+      "charCount": "{count} / 10,000자"
+    },
+    "ost": {
+      "sceneLabel": "장면별 OST",
+      "add": "추가",
+      "trackLabel": "트랙 {index}",
+      "scenePlaceholder": "장면/챕터 (예: 오프닝, 클라이맥스)",
+      "songPlaceholder": "곡 제목 - 아티스트",
+      "reasonPlaceholder": "선곡 이유",
+      "directionLabel": "전체 OST 방향성",
+      "directionPlaceholder": "전체적인 음악 방향성에 대한 의견을 작성해보세요."
+    },
+    "media": {
+      "mediaSelectLabel": "매체 선택 *",
+      "castingLabel": "캐스팅 제안",
+      "add": "추가",
+      "rolePlaceholder": "역할",
+      "actorPlaceholder": "배우/성우",
+      "directionLabel": "제작 방향성",
+      "directionPlaceholder": "어떤 방향으로 제작되면 좋을지 자유롭게 작성해보세요."
+    }
+  },
+  "customContent": {
+    "modalTitle": "커스텀 등록",
+    "searchGuide": "에서 원하는 콘텐츠를 찾지 못했을 때 활용하세요.",
+    "search": "검색",
+    "category": "카테고리",
+    "titleLabel": "제목",
+    "titlePlaceholder": "콘텐츠 제목을 입력하세요",
+    "creatorOptional": "{label} (선택)",
+    "status": "상태",
+    "titleRequired": "제목을 입력하세요.",
+    "addFailed": "콘텐츠 추가 중 오류가 발생했습니다.",
+    "cancel": "취소",
+    "add": "추가"
+  },
+  "recordInteraction": {
+    "loading": "로딩 중...",
+    "firstComment": "첫 번째 댓글을 남겨보세요.",
+    "commentPlaceholder": "댓글을 입력하세요...",
+    "submit": "등록",
+    "loginRequired": "로그인이 필요합니다."
+  },
+  "flowEditor": {
+    "title": "새 플로우 만들기",
+    "nameLabel": "플로우 제목 *",
+    "namePlaceholder": "예: 프론트엔드 입문 로드맵",
+    "descLabel": "설명",
+    "descPlaceholder": "플로우에 대한 간단한 설명",
+    "public": "공개",
+    "stageConfig": "스테이지 구성",
+    "addStage": "스테이지 추가",
+    "stageName": "스테이지 이름",
+    "stageDescPlaceholder": "이 단계의 목표나 설명 (선택)",
+    "contentAddGuide": "콘텐츠 추가는 플로우 생성 후 상세 페이지에서 할 수 있습니다",
+    "titleRequired": "플로우 제목을 입력해주세요.",
+    "createFailed": "플로우 생성에 실패했습니다.",
+    "cancel": "취소",
+    "creating": "생성 중...",
+    "create": "플로우 생성"
+  },
+  "flowDetail": {
+    "reasonPlaceholder": "이 콘텐츠를 여기에 둔 이유...",
+    "addDesc": "+ 설명 추가",
+    "searchPlaceholder": "검색...",
+    "myLibrary": "내 서재",
+    "allAdded": "모든 콘텐츠가 플로우에 추가되었습니다",
+    "emptyLibrary": "서재에 콘텐츠가 없습니다",
+    "dropHere": "여기에 배치",
+    "dragGuide": "우측 패널에서 콘텐츠를 드래그하세요",
+    "emptyStage": "아직 콘텐츠가 없습니다",
+    "emptyFlow": "아직 단계가 없습니다",
+    "emptyFlowGuide": "단계를 추가하고 콘텐츠를 연결해 보세요.",
+    "startEdit": "편집 시작",
+    "addStage": "단계 추가",
+    "itemCount": "{count}개"
+  },
+  "agoraGame": {
+    "answerLabel": "작품명을 입력하세요",
+    "answerPlaceholder": "정답을 입력하세요",
+    "submit": "제출"
+  },
+  "archiveSearch": {
+    "placeholder": "제목 또는 저자 검색 (2글자 이상)"
   }
 }

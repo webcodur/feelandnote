@@ -16,6 +16,7 @@ import type { UserProfile } from "@/actions/user/getProfile";
 import { removeContent } from "@/actions/contents/removeContent";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
 import type { ScriptureContent } from "@/actions/scriptures";
+import { useTranslations } from "next-intl";
 
 // 서브 컴포넌트 임포트
 import { HomeRecordHeader } from "./homeSection/HomeRecordHeader";
@@ -50,6 +51,7 @@ export default function HomeRecordSection({
   profile,
   initialSuggestions = [],
 }: HomeRecordSectionProps) {
+  const t = useTranslations("quickRecord.home");
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 300);
   
@@ -172,7 +174,7 @@ export default function HomeRecordSection({
                 const data = JSON.parse(pending);
                 // 약간의 지연 후 실행 (UI 렌더링 후)
                 setTimeout(() => {
-                    if (confirm(`'${data.title}'에 대한 작성 중인 리뷰가 있습니다.\n지금 등록하시겠습니까?`)) {
+                    if (confirm(t("pendingReviewConfirm", { title: data.title }))) {
                         (async () => {
                             try {
                                 const result = await addContent({
@@ -196,16 +198,16 @@ export default function HomeRecordSection({
                                         });
                                     }
                                     localStorage.removeItem('guest_content_pending');
-                                    alert("성공적으로 등록되었습니다.");
+                                    alert(t("registeredSuccess"));
                                     window.location.reload();
                                 }
                             } catch (e) {
                                 console.error(e);
-                                alert("등록 중 오류가 발생했습니다.");
+                                alert(t("registrationError"));
                             }
                         })();
                     } else {
-                        if (confirm("작성 중인 기록을 삭제하시겠습니까?")) {
+                        if (confirm(t("deleteDraftConfirm"))) {
                             localStorage.removeItem('guest_content_pending');
                         }
                     }
@@ -312,7 +314,7 @@ export default function HomeRecordSection({
   };
 
   const handleDelete = async (userContentId: string) => {
-      if (!confirm("정말 이 기록을 삭제하시겠습니까?")) return;
+      if (!confirm(t("deleteConfirm"))) return;
       try {
           await removeContent(userContentId);
           setLocalUnreviewedList(prev => prev.filter(item => item.id !== userContentId));
@@ -320,7 +322,7 @@ export default function HomeRecordSection({
           setLoadedReviewedItems(prev => prev.filter(item => item.id !== userContentId));
       } catch (e) {
           console.error("삭제 실패:", e);
-          alert("삭제하지 못했습니다.");
+          alert(t("deleteFailed"));
       }
   };
 

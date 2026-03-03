@@ -7,6 +7,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { X, Maximize2, Minimize2, Book } from "lucide-react";
 import type { SelectedBook } from "../types";
 
@@ -20,6 +21,7 @@ const DEFAULT_POSITION = { x: 40, y: 40 };
 const MIN_SIZE = { width: 200, height: 200 };
 
 export default function BookInfoWindow({ book, onClose }: Props) {
+  const t = useTranslations("reading.bookInfo");
   const [isMaximized, setIsMaximized] = useState(false);
   const [prevState, setPrevState] = useState({ size: DEFAULT_SIZE, position: DEFAULT_POSITION });
   const [size, setSize] = useState(DEFAULT_SIZE);
@@ -158,14 +160,14 @@ export default function BookInfoWindow({ book, onClose }: Props) {
             <button
               onClick={handleMaximize}
               className="flex size-6 items-center justify-center rounded hover:bg-white/10"
-              title={isMaximized ? "복원" : "최대화"}
+              title={isMaximized ? t("restore") : t("maximize")}
             >
               {isMaximized ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
             </button>
             <button
               onClick={onClose}
               className="flex size-6 items-center justify-center rounded hover:bg-white/10"
-              title="닫기"
+              title={t("close")}
             >
               <X className="size-3.5" />
             </button>
@@ -190,13 +192,13 @@ export default function BookInfoWindow({ book, onClose }: Props) {
           <div className="space-y-2 text-sm">
             {book.publisher && (
               <div className="flex justify-between">
-                <span className="text-text-secondary">출판사</span>
+                <span className="text-text-secondary">{t("publisher")}</span>
                 <span>{book.publisher}</span>
               </div>
             )}
             {book.publishDate && (
               <div className="flex justify-between">
-                <span className="text-text-secondary">출판일</span>
+                <span className="text-text-secondary">{t("publishDate")}</span>
                 <span>{book.publishDate}</span>
               </div>
             )}
@@ -204,7 +206,7 @@ export default function BookInfoWindow({ book, onClose }: Props) {
 
           {book.description && (
             <div className="mt-4">
-              <p className="mb-1 text-xs font-medium text-text-secondary">설명</p>
+              <p className="mb-1 text-xs font-medium text-text-secondary">{t("description")}</p>
               <p className="text-sm leading-relaxed text-text-primary">{book.description}</p>
             </div>
           )}

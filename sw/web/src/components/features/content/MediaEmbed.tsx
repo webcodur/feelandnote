@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { getMediaEmbed, type MediaEmbedResult, type SpotifyEntityType } from '@/actions/contents/getMediaEmbed'
 import type { ContentType } from '@/types/database'
 
@@ -11,6 +12,7 @@ interface MediaEmbedProps {
 
 // Spotify 임베드 (entity 타입에 따라 track/album URL 구분)
 function SpotifyEmbed({ spotifyId, entity }: { spotifyId: string; entity: SpotifyEntityType }) {
+  const t = useTranslations('contentDetail.spotify')
   return (
     <div className="space-y-1.5">
       <iframe
@@ -22,17 +24,17 @@ function SpotifyEmbed({ spotifyId, entity }: { spotifyId: string; entity: Spotif
         className="rounded-xl"
       />
       <p className="text-[11px] text-text-tertiary">
-        <span className="block mb-0.5">모바일 브라우저에서는 30초만 듣기가 가능합니다.</span>
-        PC에서는 {' '}
+        <span className="block mb-0.5">{t('mobileNotice')}</span>
+        {t('pcPrefix')}
         <a
           href="https://accounts.spotify.com/login"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#1DB954] hover:underline"
         >
-          Spotify 로그인
+          {t('login')}
         </a>
-        {' '}후 돌아오시면 음악을 끝까지 감상할 수 있습니다. Spotify 성인 인증 시 모든 곡을 감상할 수 있습니다.
+        {t('pcSuffix')}
       </p>
     </div>
   )

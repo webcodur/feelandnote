@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ICON_COLORS } from "@/components/ui/icons/neo-pantheon/types";
 
 function cn(...classes: (string | undefined | null | false)[]) {
@@ -179,6 +180,7 @@ interface ContextHeaderProps {
 }
 
 export default function ContextHeader({ title, subtitle = "Archive", userId, isOwner }: ContextHeaderProps) {
+  const t = useTranslations("contextHeader");
   return (
     <div className="border-b-[1px] border-accent-dim/30 bg-black pt-8 pb-6 sm:pt-12 sm:pb-10 relative overflow-hidden transition-all duration-500 shadow-2xl min-h-[300px] sm:min-h-[450px] flex items-center justify-center group/header">
         {/* Background Embellishment */}
@@ -227,17 +229,17 @@ export default function ContextHeader({ title, subtitle = "Archive", userId, isO
         <div className="inline-flex flex-col items-center">
           <div className="flex items-center gap-2 sm:gap-3 mb-3 md:mb-5">
             <div className="h-px w-8 sm:w-16 bg-accent shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
-            <span className="text-cinzel text-accent-dim text-[10px] sm:text-sm tracking-[0.4em] font-black drop-shadow-sm">THE RECORD OF</span>
+            <span className="text-cinzel text-accent-dim text-[10px] sm:text-sm tracking-[0.4em] font-black drop-shadow-sm">{t("theRecordOf")}</span>
             <div className="h-px w-8 sm:w-16 bg-accent shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
           </div>
           
           <h1 className="text-3xl sm:text-5xl md:text-8xl font-serif font-black text-text-primary tracking-tight drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] mb-4 md:mb-8">
-            {title}의 기록관
+            {t("recordOf", { title })}
           </h1>
 
           <div className="mt-2 flex items-center justify-center gap-3 md:gap-4 scale-110 md:scale-125">
              <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,1)]" />
-             <span className="text-serif text-accent text-[11px] sm:text-sm tracking-[0.2em] font-black uppercase">Official Sacred Record</span>
+             <span className="text-serif text-accent text-[11px] sm:text-sm tracking-[0.2em] font-black uppercase">{t("officialRecord")}</span>
              <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,1)]" />
           </div>
         </div>

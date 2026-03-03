@@ -8,41 +8,38 @@ import { getTranslations } from "next-intl/server";
 import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
 import SuikodenGameWrapper from "@/components/features/game/suikoden/SuikodenGameWrapper";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { ARENA_ENGLISH_LABELS } from "@/constants/arena";
+import DevGate from "./DevGate";
 
 export async function generateMetadata() {
   const t = await getTranslations("rest.suikoden");
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
-const headerInfo = ARENA_SECTION_HEADERS["suikoden"];
-
 export default async function Page() {
+  const t = await getTranslations("rest.arena.suikoden");
   const characters = await loadSuikodenCharacters();
-  const characterIds = characters.slice(0, 100).map((c) => c.id);
-  const dialogues = await loadSuikodenDialogues(characterIds);
+  const dialogues = await loadSuikodenDialogues();
 
   return (
     <>
       <SectionHeader
-        label={headerInfo.label}
-        title={headerInfo.title}
+        label={ARENA_ENGLISH_LABELS["suikoden"]}
+        title={t("label")}
         description={
           <>
-            {headerInfo.description}
-            {headerInfo.subDescription && (
-              <>
-                <br />
-                <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
-                  {headerInfo.subDescription}
-                </span>
-              </>
-            )}
+            {t("headerDesc")}
+            <br />
+            <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+              {t("headerSub")}
+            </span>
           </>
         }
       />
 
-      <SuikodenGameWrapper characters={characters} dialogues={dialogues} />
+      <DevGate>
+        <SuikodenGameWrapper characters={characters} dialogues={dialogues} />
+      </DevGate>
     </>
   );
 }

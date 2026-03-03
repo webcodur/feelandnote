@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Info, BookOpen, ExternalLink, Loader2, MessageSquare, User, Calendar, Award, Building2, Film, Users } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { Avatar, FormattedText } from "@/components/ui";
@@ -13,11 +13,7 @@ import ReviewCard from "@/components/features/content/ReviewCard";
 import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 
 import type { ContentMetadata } from "@/types/content";
-
-// ... existing imports
-
-// ... existing code
-
+import { useTranslations } from "next-intl";
 
 type InfoTab = 'BASIC' | 'DETAIL' | 'REVIEW_CELEB' | 'REVIEW_NORMAL';
 
@@ -39,6 +35,7 @@ export default function InfoPanel({
   initialTab = 'BASIC',
   hideTabs = false,
 }: InfoPanelProps) {
+  const t = useTranslations("quickRecord.info");
   const [activeTab, setActiveTab] = useState<InfoTab>(initialTab);
   const [detailData, setDetailData] = useState<ContentDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -97,24 +94,24 @@ export default function InfoPanel({
       {!hideTabs && (
       <div className="flex border-b border-white/10 bg-black/10 overflow-x-auto scrollbar-hide shrink-0">
         <button onClick={() => setActiveTab('BASIC')} className={getTabStyle('BASIC')}>
-            <Info size={14} /> 기본
+            <Info size={14} /> {t("basic")}
         </button>
         <button onClick={() => setActiveTab('DETAIL')} className={getTabStyle('DETAIL')}>
-            <BookOpen size={14} /> 상세
+            <BookOpen size={14} /> {t("detail")}
         </button>
-        <button 
-            onClick={() => { if (celebReviews.length > 0) setActiveTab('REVIEW_CELEB'); }} 
+        <button
+            onClick={() => { if (celebReviews.length > 0) setActiveTab('REVIEW_CELEB'); }}
             disabled={celebReviews.length === 0}
             className={`${getTabStyle('REVIEW_CELEB')} ${celebReviews.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-            <Award size={14} /> 셀럽리뷰
+            <Award size={14} /> {t("celebReview")}
         </button>
-        <button 
+        <button
             onClick={() => { if (normalReviews.length > 0) setActiveTab('REVIEW_NORMAL'); }}
             disabled={normalReviews.length === 0}
             className={`${getTabStyle('REVIEW_NORMAL')} ${normalReviews.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-            <MessageSquare size={14} /> 일반리뷰
+            <MessageSquare size={14} /> {t("normalReview")}
         </button>
       </div>
       )}
@@ -201,7 +198,7 @@ export default function InfoPanel({
                                         target="_blank"
                                         className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-text-tertiary hover:text-accent transition-all hover:translate-x-1 py-2 px-3 bg-white/5 rounded-lg border border-white/5 hover:border-accent/20"
                                     >
-                                        <span>상세 보기</span>
+                                        <span>{t("viewDetail")}</span>
                                     </Link>
                                 </div>
                             </div>
@@ -224,7 +221,7 @@ export default function InfoPanel({
                 {detailData.content.description && (
                     <div className="space-y-2">
                         <h4 className="text-xs font-bold text-text-secondary flex items-center gap-1.5">
-                            <Info size={12} /> 소개
+                            <Info size={12} /> {t("introduction")}
                         </h4>
                         <div className="text-sm text-text-secondary leading-relaxed p-3 bg-white/5 rounded-lg border border-white/5 whitespace-pre-wrap">
                             <FormattedText text={detailData.content.description} />
@@ -236,7 +233,7 @@ export default function InfoPanel({
                 {content.type === 'GAME' && metadata?.storyline && (
                     <div className="space-y-2">
                         <h4 className="text-xs font-bold text-text-secondary flex items-center gap-1.5">
-                            <BookOpen size={12} /> 스토리라인
+                            <BookOpen size={12} /> {t("storyline")}
                         </h4>
                         <div className="text-sm text-text-secondary leading-relaxed p-3 bg-white/5 rounded-lg border border-white/5 max-h-[200px] overflow-y-auto custom-scrollbar whitespace-pre-wrap">
                             <FormattedText text={metadata.storyline} />
@@ -248,7 +245,7 @@ export default function InfoPanel({
                 {(content.type === 'VIDEO' || content.type === 'MUSIC') && (
                      <div className="space-y-2">
                         <h4 className="text-xs font-bold text-text-secondary flex items-center gap-1.5">
-                            {content.type === 'VIDEO' ? '트레일러' : '미리듣기'}
+                            {content.type === 'VIDEO' ? t("trailer") : t("listen")}
                         </h4>
                         <MediaEmbed contentId={content.contentId} type={content.type as any} />
                      </div>
@@ -259,7 +256,7 @@ export default function InfoPanel({
                     <>
                         {metadata?.director && (
                             <div className="space-y-2">
-                                <h4 className="text-xs font-bold text-text-secondary">감독</h4>
+                                <h4 className="text-xs font-bold text-text-secondary">{t("director")}</h4>
                                 <p className="text-sm text-text-primary pl-1">
                                     {metadata.director}
                                 </p>
@@ -267,7 +264,7 @@ export default function InfoPanel({
                         )}
                         {metadata?.cast?.length ? (
                             <div className="space-y-2">
-                                <h4 className="text-xs font-bold text-text-secondary">출연진</h4>
+                                <h4 className="text-xs font-bold text-text-secondary">{t("cast")}</h4>
                                 <div className="flex flex-wrap gap-2">
                                     {metadata.cast.map((actor, i) => (
                                         <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-full border border-white/10">
@@ -279,9 +276,9 @@ export default function InfoPanel({
                         ) : null}
                         {metadata?.runtime && (
                             <div className="space-y-1">
-                                <h4 className="text-xs font-bold text-text-secondary">러닝타임</h4>
+                                <h4 className="text-xs font-bold text-text-secondary">{t("runtime")}</h4>
                                 <p className="text-sm text-text-secondary pl-1">
-                                    {metadata.runtime}분
+                                    {t("runtimeMin", { min: metadata.runtime })}
                                 </p>
                             </div>
                         )}
@@ -293,7 +290,7 @@ export default function InfoPanel({
                     <>
                         {metadata?.tracks?.length ? (
                             <div className="space-y-2">
-                                <h4 className="text-xs font-bold text-text-secondary">트랙 목록</h4>
+                                <h4 className="text-xs font-bold text-text-secondary">{t("trackList")}</h4>
                                 <div className="space-y-1 max-h-[200px] overflow-y-auto custom-scrollbar">
                                     {metadata.tracks.map((track, i) => (
                                         <div key={i} className="flex items-center justify-between text-xs px-2 py-1.5 bg-white/5 rounded border border-white/5">
@@ -311,7 +308,7 @@ export default function InfoPanel({
                         ) : null}
                         {metadata?.label && (
                             <div className="space-y-1">
-                                <h4 className="text-xs font-bold text-text-secondary">레이블</h4>
+                                <h4 className="text-xs font-bold text-text-secondary">{t("label")}</h4>
                                 <p className="text-sm text-text-secondary pl-1">
                                     {metadata.label}
                                 </p>
@@ -323,7 +320,7 @@ export default function InfoPanel({
                 {/* 7. 게임 전용: 스크린샷 갤러리 */}
                 {content.type === 'GAME' && metadata?.screenshots?.length ? (
                     <div className="space-y-2">
-                        <h4 className="text-xs font-bold text-text-secondary">스크린샷</h4>
+                        <h4 className="text-xs font-bold text-text-secondary">{t("screenshots")}</h4>
                         <div className="flex gap-2 overflow-x-auto custom-scrollbar pb-2">
                             {metadata.screenshots.map((url, i) => (
                                 <div key={i} className="flex-shrink-0 w-40 aspect-video rounded-lg overflow-hidden border border-white/10">
@@ -338,7 +335,7 @@ export default function InfoPanel({
                  {detailData.content.releaseDate && (
                     <div className="space-y-2">
                         <h4 className="text-xs font-bold text-text-secondary flex items-center gap-1.5">
-                            <Calendar size={12} /> 출시일
+                            <Calendar size={12} /> {t("releaseDate")}
                         </h4>
                          <p className="text-sm text-text-secondary pl-1">
                             {detailData.content.releaseDate}

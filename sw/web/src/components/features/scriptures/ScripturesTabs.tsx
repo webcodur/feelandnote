@@ -6,18 +6,29 @@
 
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useMemo } from "react";
+import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { SCRIPTURES_TABS } from "@/constants/scriptures";
 import PageTabs from "@/components/shared/PageTabs";
 
 export default function ScripturesTabs() {
   const pathname = usePathname();
+  const t = useTranslations("scriptures.tabs");
   const activeTab = SCRIPTURES_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "era";
 
+  const tabs = useMemo(
+    () => SCRIPTURES_TABS.map((tab) => ({
+      ...tab,
+      label: t(`${tab.value}.label` as any),
+    })),
+    [t]
+  );
+
   return (
-    <PageTabs 
-      tabs={SCRIPTURES_TABS} 
-      activeTabValue={activeTab} 
+    <PageTabs
+      tabs={tabs}
+      activeTabValue={activeTab}
     />
   );
 }

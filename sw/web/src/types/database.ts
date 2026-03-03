@@ -17,7 +17,6 @@ export interface Profile {
   email: string | null
   nickname: string | null
   avatar_url: string | null
-  gemini_api_key: string | null
   profile_type: ProfileType
   claimed_by: string | null
   is_verified: boolean
@@ -41,6 +40,13 @@ export interface Content {
   release_date: string | null
   metadata: Record<string, unknown> | null
   created_at: string
+  // i18n 에디션 필드
+  title_ko: string | null
+  title_en: string | null
+  creator_en: string | null
+  isbn_ko: string | null
+  isbn_en: string | null
+  thumbnail_en: string | null
 }
 
 export interface UserContent {
@@ -52,6 +58,7 @@ export interface UserContent {
   is_recommended: boolean | null
   rating: number | null
   review: string | null
+  review_en: string | null
   visibility: VisibilityType | null
   created_at: string
   updated_at: string

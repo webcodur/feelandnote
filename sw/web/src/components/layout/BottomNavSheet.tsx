@@ -6,8 +6,8 @@
 
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import {
   Home,
   ListMusic,
@@ -36,22 +36,23 @@ interface BottomNavSheetProps {
 
 export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps) {
   const pathname = usePathname();
+  const t = useTranslations("moreMenu");
 
   const navSections: NavSection[] = [
     {
-      title: "바로가기",
+      title: t("shortcuts"),
       items: [
-        { href: "/", label: "홈", icon: Home },
-        { href: userId ? `/${userId}/reading/collections` : "/login", label: "재생목록", icon: ListMusic },
-        { href: "/explore", label: "탐색", icon: Compass },
-        { href: "/scriptures", label: "지혜의 서고", icon: BookOpen },
+        { href: "/", label: t("home"), icon: Home },
+        { href: userId ? `/${userId}/reading/collections` : "/login", label: t("playlists"), icon: ListMusic },
+        { href: "/explore", label: t("explore"), icon: Compass },
+        { href: "/scriptures", label: t("scriptures"), icon: BookOpen },
       ],
     },
     {
-      title: "게시판",
+      title: t("board"),
       items: [
-        { href: "/agora/board/notice", label: "공지사항", icon: Megaphone },
-        { href: "/agora/board/feedback", label: "피드백", icon: MessageSquarePlus },
+        { href: "/agora/board/notice", label: t("notice"), icon: Megaphone },
+        { href: "/agora/board/feedback", label: t("feedback"), icon: MessageSquarePlus },
       ],
     },
   ];

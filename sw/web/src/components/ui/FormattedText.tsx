@@ -14,7 +14,7 @@ interface FormattedTextProps {
 export default function FormattedText({ text, className = "" }: FormattedTextProps) {
   if (!text) return null;
 
-  const parts = text.split(/(".*?"|'.*?'|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g);
+  const parts = text.split(/(".*?"|(?<!\w)'[^'\n]*'(?!\w)|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g);
 
   return (
     <span className={className}>

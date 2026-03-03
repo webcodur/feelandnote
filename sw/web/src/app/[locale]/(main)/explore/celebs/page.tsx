@@ -6,6 +6,7 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags, getCelebsByProfession } from "@/actions/home";
@@ -147,22 +148,28 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
   ]);
 
   return (
-    <CelebsSection
-      initialCelebs={celebsResult.celebs}
-      initialTotal={celebsResult.total}
-      initialTotalPages={celebsResult.totalPages}
-      professionCounts={professionCounts}
-      nationalityCounts={nationalityCounts}
-      contentTypeCounts={contentTypeCounts}
-      genderCounts={genderCounts}
-      featuredTags={featuredTags}
-    />
+    <AsyncIntlProvider>
+      <CelebsSection
+        initialCelebs={celebsResult.celebs}
+        initialTotal={celebsResult.total}
+        initialTotalPages={celebsResult.totalPages}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        genderCounts={genderCounts}
+        featuredTags={featuredTags}
+      />
+    </AsyncIntlProvider>
   );
 }
 
 async function CelebsCarouselContent() {
   const sections = await getCelebsByProfession();
-  return <CelebsByProfession sections={sections} />;
+  return (
+    <AsyncIntlProvider>
+      <CelebsByProfession sections={sections} />
+    </AsyncIntlProvider>
+  );
 }
 
 function CarouselSkeleton() {

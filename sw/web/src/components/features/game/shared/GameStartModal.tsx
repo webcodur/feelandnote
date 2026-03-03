@@ -7,6 +7,7 @@
 
 import { useEffect, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { useTranslations } from "next-intl";
 import { ChevronRight, Play } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { DifficultyOption } from "./GameLobbyDifficultySelect";
@@ -41,6 +42,7 @@ const COLOR_MAP = {
 } as const;
 
 export default function GameStartModal({ open, onClose, onStart, icon, title, desc, options }: GameStartModalProps) {
+  const t = useTranslations("shared.game.ui");
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") {
       e.stopImmediatePropagation();
@@ -104,7 +106,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
               className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent/10 border border-accent/20 text-accent font-bold text-sm hover:bg-accent/[0.15] active:scale-[0.97] transition-all"
             >
               <Play size={14} />
-              시작
+              {t("start")}
             </button>
           )}
         </div>
@@ -115,7 +117,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
             onClick={onClose}
             className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary transition-colors"
           >
-            취소
+            {t("cancel")}
           </button>
         </div>
       </div>

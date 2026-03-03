@@ -7,28 +7,32 @@
 
 import { useMemo } from "react";
 import { Crosshair } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import GameShell from "../shared/GameShell";
 import TrackerGame from "../TrackerGame";
 import LabyrinthBackground from "./LabyrinthBackground";
 import LabyrinthLobby from "./LabyrinthLobby";
 
-const PHASE_LABELS: Record<string, string> = {
-  idle: "로비",
-  loading: "로딩",
-  stage1: "추적",
-  stage2: "추적",
-  stage3: "추적",
-  stage4: "추적",
-  stage5: "추적",
-  result: "결과",
-};
-
 interface Props {
   bgImages?: GameBackgroundImages | null;
 }
 
 export default function LabyrinthGame({ bgImages }: Props) {
+  const t = useTranslations("shared.game");
+  const tArena = useTranslations("rest.arena.labyrinth");
+
+  const phaseLabels = useMemo(() => ({
+    idle: t("phase.lobby"),
+    loading: t("phase.loading"),
+    stage1: t("phase.tracking"),
+    stage2: t("phase.tracking"),
+    stage3: t("phase.tracking"),
+    stage4: t("phase.tracking"),
+    stage5: t("phase.tracking"),
+    result: t("phase.result"),
+  }), [t]);
+
   const Background = useMemo(
     () =>
       function Bg(props: { phase?: string }) {
@@ -39,10 +43,10 @@ export default function LabyrinthGame({ bgImages }: Props) {
 
   return (
     <GameShell
-      gameName="미궁"
+      gameName={tArena("label")}
       gateIcon={<Crosshair size={40} className="mx-auto text-accent/60" />}
-      gateSubtitle="용의자 추적 게임"
-      phaseLabels={PHASE_LABELS}
+      gateSubtitle={tArena("description")}
+      phaseLabels={phaseLabels}
       Background={Background}
       Lobby={LabyrinthLobby}
       Game={TrackerGame}

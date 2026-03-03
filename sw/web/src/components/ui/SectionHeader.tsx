@@ -4,7 +4,7 @@
   책임: 제목, 설명, 아이콘, 링크를 포함한 섹션 헤더를 표시한다.
 */ // ------------------------------
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface SectionHeaderProps {
   title: string;
@@ -33,7 +33,7 @@ export default function SectionHeader({
     return (
       <div className={`flex flex-col items-center text-center pb-6 md:pb-4 ${className}`}>
         <div className={`flex flex-col items-center gap-1 md:gap-2 ${linkHref ? "mb-4" : ""}`}>
-          {englishTitle && (
+          {englishTitle && title.toLowerCase() !== englishTitle.toLowerCase() && (
             <span className="font-cinzel text-[8px] md:text-[10px] text-accent tracking-[0.4em] md:tracking-[0.6em] uppercase">
               {englishTitle}
             </span>
@@ -50,7 +50,7 @@ export default function SectionHeader({
             href={linkHref}
             className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-lg text-xs md:text-sm font-medium font-sans group whitespace-nowrap"
           >
-            {linkText ?? "더보기"}
+            {linkText}
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         )}
@@ -62,7 +62,7 @@ export default function SectionHeader({
     return (
       <div className={`flex flex-col items-start justify-center text-left px-1 ${className}`}>
         <div className="flex items-center gap-3 mb-2 opacity-60">
-           {englishTitle && (
+           {englishTitle && title.toLowerCase() !== englishTitle.toLowerCase() && (
              <span className="font-cinzel text-[10px] md:text-xs text-accent tracking-[0.3em] uppercase">
                {englishTitle}
              </span>

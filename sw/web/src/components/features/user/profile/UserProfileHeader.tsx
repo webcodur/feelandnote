@@ -7,18 +7,17 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { UserPlus, UserCheck, Users, BookOpen, CheckCircle, Sparkles, MessageSquare, Quote, Calendar, Info } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { toggleFollow, type PublicUserProfile } from "@/actions/user";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import NationalityText from "@/components/ui/NationalityText";
 import CelebInfoModal from "./CelebInfoModal";
 import FollowListModal from "./FollowListModal";
+import { useTranslations } from "next-intl";
 
 // 생몰년 포맷팅 헬퍼
-function formatLifespan(birthDate: string | null, deathDate: string | null): string | null {
+function formatLifespan(birthDate: string | null, deathDate: string | null, presentLabel = 'Present'): string | null {
   if (!birthDate && !deathDate) return null
 
   const formatYear = (date: string): string => {
@@ -30,7 +29,7 @@ function formatLifespan(birthDate: string | null, deathDate: string | null): str
   }
 
   const birth = birthDate ? formatYear(birthDate) : '?'
-  const death = deathDate ? formatYear(deathDate) : (birthDate ? '현재' : '?')
+  const death = deathDate ? formatYear(deathDate) : (birthDate ? presentLabel : '?')
 
   return `${birth} ~ ${death}`
 }
@@ -49,6 +48,8 @@ export default function UserProfileHeader({
   onFollowChange,
 }: UserProfileHeaderProps) {
   const router = useRouter();
+  const t = useTranslations("userProfile");
+  const tProf = useTranslations("profession");
   const [isFollowing, setIsFollowing] = useState(profile.is_following);
   const [isPending, startTransition] = useTransition();
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
@@ -146,7 +147,7 @@ export default function UserProfileHeader({
                   <span className="text-text-tertiary/50">|</span>
                 )}
                 {profile.profession && (
-                  <span className="text-text-tertiary truncate">{getCelebProfessionLabel(profile.profession)}</span>
+                  <span className="text-text-tertiary truncate">{tProf.has(profile.profession) ? tProf(profile.profession) : profile.profession}</span>
                 )}
                 {profile.profession && profile.nationality && (
                   <span className="text-text-tertiary/50">·</span>
@@ -178,7 +179,7 @@ export default function UserProfileHeader({
               )}
               {isFriend && !isCeleb && (
                 <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs rounded-sm border border-accent/20">
-                  친구
+                  {t("friends")}
                 </span>
               )}
             </div>
@@ -191,7 +192,7 @@ export default function UserProfileHeader({
                   <span className="text-text-tertiary/50">|</span>
                 )}
                 {profile.profession && (
-                  <span className="text-text-tertiary">{getCelebProfessionLabel(profile.profession)}</span>
+                  <span className="text-text-tertiary">{tProf.has(profile.profession) ? tProf(profile.profession) : profile.profession}</span>
                 )}
                 {profile.profession && profile.nationality && (
                   <span className="text-text-tertiary/50">·</span>
@@ -202,7 +203,7 @@ export default function UserProfileHeader({
                 {(profile.birth_date || profile.death_date) && (
                   <span className="flex items-center gap-1 ml-2 border-l border-accent-dim/30 pl-2 text-text-tertiary">
                     <Calendar size={12} />
-                    {formatLifespan(profile.birth_date, profile.death_date)}
+                    {formatLifespan(profile.birth_date, profile.death_date, t("present"))}
                   </span>
                 )}
               </div>
@@ -233,9 +234,9 @@ export default function UserProfileHeader({
             >
               <BookOpen size={14} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors shrink-0" />
               <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-base sm:text-lg md:text-base">{profile.stats.content_count}</span>
-              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">기록</span>
+              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">{t("records")}</span>
             </Link>
-            
+
             <button
               onClick={() => {
                 setFollowModalTab("followers");
@@ -245,9 +246,9 @@ export default function UserProfileHeader({
             >
               <Users size={14} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors shrink-0" />
               <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-base sm:text-lg md:text-base">{profile.stats.follower_count}</span>
-              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">팔로워</span>
+              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">{t("followers")}</span>
             </button>
-            
+
             <button
               onClick={() => {
                 setFollowModalTab("following");
@@ -256,12 +257,12 @@ export default function UserProfileHeader({
               className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary hover:text-text-primary transition-colors group tracking-normal"
             >
               <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-base sm:text-lg md:text-base">{profile.stats.following_count}</span>
-              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">팔로잉</span>
+              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">{t("following")}</span>
             </button>
 
             <div className="flex flex-col items-center md:flex-row md:gap-2 text-text-secondary group cursor-default">
               <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-base sm:text-lg md:text-base">{profile.stats.friend_count}</span>
-              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">친구</span>
+              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">{t("friends")}</span>
             </div>
 
             <Link
@@ -270,7 +271,7 @@ export default function UserProfileHeader({
             >
               <MessageSquare size={14} className="mb-0.5 md:mb-0 group-hover:text-accent transition-colors shrink-0" />
               <span className="font-bold text-text-primary group-hover:text-accent transition-colors text-base sm:text-lg md:text-base">{profile.stats.guestbook_count}</span>
-              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">방명록</span>
+              <span className="text-[8px] sm:text-[10px] md:text-sm uppercase tracking-wider">{t("guestbook")}</span>
             </Link>
           </div>
         </div>
@@ -288,12 +289,12 @@ export default function UserProfileHeader({
               {isFollowing ? (
                 <>
                   <UserCheck size={14} />
-                  {isFriend ? "친구" : "팔로잉"}
+                  {isFriend ? t("friends") : t("following")}
                 </>
               ) : (
                 <>
                   <UserPlus size={14} />
-                  팔로우
+                  {t("follow")}
                 </>
               )}
             </Button>

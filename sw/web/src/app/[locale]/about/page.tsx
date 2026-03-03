@@ -1,9 +1,10 @@
 import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 import Logo from "@/components/ui/Logo";
 
 export async function generateMetadata() {
   const t = await getTranslations("pages.about");
-  return { title: t("title"), description: t("description") };
+  return { title: t("title"), description: t("description"), alternates: getAlternates("/about") };
 }
 
 export default function AboutPage() {

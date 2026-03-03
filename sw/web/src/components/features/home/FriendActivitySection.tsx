@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Inbox, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
@@ -10,12 +10,14 @@ import { getFeedActivities, type FeedActivity, type FriendActivityTypeCounts } f
 import { CONTENT_TYPE_FILTERS, getCategoryByDbType, type ContentTypeFilterValue } from "@/constants/categories";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { ACTION_CONFIG } from "@/lib/config/activity-actions";
+import { useTranslations } from "next-intl";
 
 // #region Inline Friend Feed Card
 function FriendFeedCard({ activity }: { activity: FeedActivity }) {
   const router = useRouter();
   const config = ACTION_CONFIG[activity.action_type];
   const [showUserModal, setShowUserModal] = useState(false);
+  const t = useTranslations("home.ui");
 
   const category = getCategoryByDbType(activity.content_type!);
 
@@ -45,7 +47,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
           <TitleBadge title={activity.user_title ?? null} size="sm" />
         </div>
         <p className="text-[9px] sm:text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
-          {config?.verb || "활동"} · {formatRelativeTime(activity.created_at)}
+          {config?.verb || t("activity")} · {formatRelativeTime(activity.created_at)}
         </p>
       </div>
     </div>
@@ -65,20 +67,24 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         href={`/content/${activity.content_id}?category=${category?.id || "book"}`}
         ownerNickname={activity.user_nickname}
         headerNode={headerNode}
+        mobileLayout="review"
         heightClass="h-[320px] md:h-[280px]"
         className="sm:max-w-4xl sm:mx-auto"
+        titleKo={activity.content_title_ko}
+        titleEn={activity.content_title_en}
+        creatorEn={activity.content_creator_en}
+        thumbnailEn={activity.content_thumbnail_en}
       />
 
-      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
+      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick>
         <ModalBody>
           <p className="text-text-secondary">
-            <span className="text-text-primary font-semibold">{activity.user_nickname}</span>
-            님의 기록관으로 이동하시겠습니까?
+            {t("visitArchiveConfirm", { name: activity.user_nickname })}
           </p>
         </ModalBody>
         <ModalFooter className="justify-end">
-          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
-          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>{t("cancel")}</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>{t("go")}</Button>
         </ModalFooter>
       </Modal>
     </>
@@ -87,13 +93,14 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
 // #endregion
 
 function EmptyActivity() {
+  const t = useTranslations("home.ui");
   return (
     <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl bg-bg-card border border-border/50">
       <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
         <Inbox size={24} className="text-text-tertiary" />
       </div>
-      <p className="text-sm text-text-secondary mb-1 text-center">아직 친구들의 소식이 없어요</p>
-      <p className="text-xs text-text-tertiary text-center">친구를 팔로우하면 여기에 활동이 표시돼요</p>
+      <p className="text-sm text-text-secondary mb-1 text-center">{t("empty.noFriendActivity")}</p>
+      <p className="text-xs text-text-tertiary text-center">{t("empty.noFriendActivityDesc")}</p>
     </div>
   );
 }
@@ -164,6 +171,7 @@ export default function FriendActivitySection({
   contentType: externalContentType,
   activityTypeCounts,
 }: FriendActivitySectionProps) {
+  const t = useTranslations("home.ui");
   const [activities, setActivities] = useState<FeedActivity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -230,7 +238,7 @@ export default function FriendActivitySection({
             counts={activityTypeCounts}
             onSelect={handleTypeChange}
             hideZeroCounts
-            title="장르"
+            title={t("genre")}
           />
         </div>
       )}
@@ -240,7 +248,7 @@ export default function FriendActivitySection({
       ) : filteredActivities.length === 0 ? (
         <EmptyActivity />
       ) : (
-        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4">
           {filteredActivities.map((activity) => (
             <FriendFeedCard key={activity.id} activity={activity} />
           ))}

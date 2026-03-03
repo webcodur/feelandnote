@@ -7,8 +7,10 @@ import { Avatar } from "@/components/ui";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
 import Button from "@/components/ui/Button";
+import { useTranslations } from "next-intl";
 
 export default function QuickRecordSection() {
+  const t = useTranslations("quickRecord.section");
   const { targetContent, isOpen, closeQuickRecord } = useQuickRecord();
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState("");
@@ -52,7 +54,7 @@ export default function QuickRecordSection() {
       closeQuickRecord();
     } catch (error) {
       console.error("기록 저장 실패:", error);
-      alert("기록 저장 중 오류가 발생했습니다.");
+      alert(t("saveError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -92,7 +94,7 @@ export default function QuickRecordSection() {
             </div>
             
             <p className="text-sm text-text-secondary mb-4">
-              서재에 담겼습니다. 이 작품에 대한 기록을 남겨보세요.
+              {t("addedToLibrary")}
             </p>
 
             <div className="flex flex-col gap-4">
@@ -123,7 +125,7 @@ export default function QuickRecordSection() {
               <textarea
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-                placeholder="짧은 감상을 남겨주세요 (선택)"
+                placeholder={t("reviewPlaceholder")}
                 className="w-full p-3 rounded-lg bg-bg-main border border-white/10 focus:border-accent/50 focus:ring-1 focus:ring-accent/50 text-sm text-text-primary resize-none placeholder:text-text-tertiary/50"
                 rows={2}
               />
@@ -136,7 +138,7 @@ export default function QuickRecordSection() {
                   onClick={closeQuickRecord}
                   disabled={isSubmitting}
                 >
-                  나중에 하기
+                  {t("doLater")}
                 </Button>
                 <Button 
                   variant="primary" 
@@ -145,7 +147,7 @@ export default function QuickRecordSection() {
                   disabled={isSubmitting}
                   className="gap-2"
                 >
-                  {isSubmitting ? "저장 중..." : "기록 완료"}
+                  {isSubmitting ? t("saving") : t("recordComplete")}
                   {!isSubmitting && <Check size={16} />}
                 </Button>
               </div>

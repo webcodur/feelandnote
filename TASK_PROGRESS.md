@@ -8,7 +8,7 @@
 
 ## 완료된 단계
 1. [x] `celeb_persona` 테이블에 `rationale` 컬럼 추가 (SQL 실행 완료)
-2. [x] `AGENTS.md` 및 `.claude/rules/celeb-5-persona.md`에 `rationale` 규칙 반영
+2. [x] `AGENTS.md` 및 `docs/project/celeb/celeb-5-persona.md`에 `rationale` 규칙 반영
 3. [x] 배치 워커 스크립트 작성 및 가동
 
 ## 남은 작업 (Next Actions)

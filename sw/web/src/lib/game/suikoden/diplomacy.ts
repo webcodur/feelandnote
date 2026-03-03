@@ -20,7 +20,7 @@ function calcDiplomacyRate(state: GameState, targetFactionId: string): number {
 
   const baseRate = 0.3
   const intellectBonus = leader.stats.intellect * 0.003
-  const virtueBonus = leader.stats.charisma * 0.002
+  const virtueBonus = leader.stats.charm * 0.002
 
   // 관계도 보정
   const relation = player.relations[targetFactionId] ?? 0

@@ -6,6 +6,7 @@
 "use client";
 
 import { Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 
 const MEDIA_TYPES = [
@@ -35,6 +36,7 @@ export default function MediaConversionForm({
   mediaType, castings, direction,
   onMediaTypeChange, onCastingsChange, onDirectionChange,
 }: MediaConversionFormProps) {
+  const t = useTranslations("creation.media");
   const addCasting = () => onCastingsChange([...castings, { role: "", actor: "" }]);
 
   const removeCasting = (index: number) => onCastingsChange(castings.filter((_, i) => i !== index));
@@ -70,9 +72,9 @@ export default function MediaConversionForm({
 
       <div>
         <div className="flex items-center justify-between mb-3">
-          <label className="block text-sm font-semibold">캐스팅 제안</label>
+          <label className="block text-sm font-semibold">{t("castingLabel")}</label>
           <Button unstyled onClick={addCasting} className="text-sm text-accent flex items-center gap-1 hover:underline">
-            <Plus size={14} /> 추가
+            <Plus size={14} /> {t("add")}
           </Button>
         </div>
         <div className="space-y-3">
@@ -80,14 +82,14 @@ export default function MediaConversionForm({
             <div key={index} className="flex gap-3">
               <input
                 type="text"
-                placeholder="역할"
+                placeholder={t("rolePlaceholder")}
                 value={casting.role}
                 onChange={(e) => updateCasting(index, "role", e.target.value)}
                 className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none focus:border-accent"
               />
               <input
                 type="text"
-                placeholder="배우/성우"
+                placeholder={t("actorPlaceholder")}
                 value={casting.actor}
                 onChange={(e) => updateCasting(index, "actor", e.target.value)}
                 className="flex-1 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none focus:border-accent"
@@ -107,11 +109,11 @@ export default function MediaConversionForm({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold mb-2">제작 방향성</label>
+        <label className="block text-sm font-semibold mb-2">{t("directionLabel")}</label>
         <textarea
           value={direction}
           onChange={(e) => onDirectionChange(e.target.value)}
-          placeholder="어떤 방향으로 제작되면 좋을지 자유롭게 작성해보세요."
+          placeholder={t("directionPlaceholder")}
           className="w-full h-32 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none focus:border-accent"
         />
       </div>

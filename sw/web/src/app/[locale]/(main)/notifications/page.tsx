@@ -5,7 +5,8 @@ import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/types/supabase";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import {
   TempleBellIcon,
   SacredFlameIcon,
@@ -22,6 +23,7 @@ import { respondRecommendation } from "@/actions/recommendations";
 type Notification = Database["public"]["Tables"]["notifications"]["Row"];
 
 export default function NotificationsPage() {
+  const t = useTranslations("notifications");
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "unread">("all");
@@ -89,7 +91,7 @@ export default function NotificationsPage() {
 
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
-    if (!confirm("이 알림을 삭제하시겠습니까?")) return;
+    if (!confirm(t("deleteConfirm"))) return;
 
     const { error } = await supabase
       .from("notifications")
@@ -102,7 +104,7 @@ export default function NotificationsPage() {
   };
 
   const handleDeleteAllRead = async () => {
-    if (!confirm("읽은 알림을 모두 삭제하시겠습니까?")) return;
+    if (!confirm(t("deleteReadConfirm"))) return;
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -180,10 +182,10 @@ export default function NotificationsPage() {
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-serif font-bold text-text-primary mb-1">
-            소식 보관함
+            {t("title")}
           </h1>
           <p className="text-sm text-text-secondary">
-            회원님의 활동에 대한 지난 기록들을 모아두었습니다.
+            {t("description")}
           </p>
         </div>
         
@@ -196,7 +198,7 @@ export default function NotificationsPage() {
             disabled={notifications.every(n => n.is_read)}
           >
             <CheckDoubleIcon size={14} className="mr-1.5" />
-            모두 읽음
+            {t("markAllRead")}
           </Button>
           <Button 
             size="sm" 
@@ -206,7 +208,7 @@ export default function NotificationsPage() {
             disabled={!notifications.some(n => n.is_read)}
           >
             <TrashIcon size={14} className="mr-1.5" />
-            읽은 알림 삭제
+            {t("deleteRead")}
           </Button>
         </div>
       </div>
@@ -221,7 +223,7 @@ export default function NotificationsPage() {
               : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          전체 ({notifications.length})
+          {t("tabAll", { count: notifications.length })}
           {filter === "all" && (
             <div className="absolute bottom-0 inset-x-0 h-0.5 bg-accent" />
           )}
@@ -234,7 +236,7 @@ export default function NotificationsPage() {
               : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          안 읽음 ({notifications.filter(n => !n.is_read).length})
+          {t("tabUnread", { count: notifications.filter(n => !n.is_read).length })}
           {filter === "unread" && (
             <div className="absolute bottom-0 inset-x-0 h-0.5 bg-accent" />
           )}
@@ -287,7 +289,7 @@ export default function NotificationsPage() {
                     <button
                       onClick={(e) => handleDelete(e, notif.id)}
                       className="text-text-tertiary hover:text-red-400 p-1 rounded transition-colors opacity-0 group-hover:opacity-100"
-                      title="삭제"
+                      title={t("deleteTitle")}
                     >
                       <TrashIcon size={14} />
                     </button>
@@ -308,12 +310,12 @@ export default function NotificationsPage() {
                           {meta.accepted ? (
                             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
                               <Check size={14} />
-                              수락함
+                              {t("accepted")}
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-text-tertiary border border-border">
                               <X size={14} />
-                              거절함
+                              {t("rejected")}
                             </span>
                           )}
                         </div>
@@ -333,7 +335,7 @@ export default function NotificationsPage() {
                           className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-text-secondary border border-border disabled:opacity-50"
                         >
                           <X size={14} />
-                          거절
+                          {t("reject")}
                         </Button>
                         <Button
                           unstyled
@@ -345,7 +347,7 @@ export default function NotificationsPage() {
                           className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium bg-accent hover:bg-accent-hover text-white disabled:opacity-50"
                         >
                           <Check size={14} />
-                          수락
+                          {t("accept")}
                         </Button>
                       </div>
                     );
@@ -363,7 +365,7 @@ export default function NotificationsPage() {
           <div className="py-24 text-center border border-dashed border-white/10 rounded-2xl bg-white/5">
             <TempleBellIcon size={48} className="mx-auto text-text-tertiary mb-4 opacity-50" />
             <p className="text-text-secondary">
-              {filter === "all" ? "도착한 소식이 없습니다." : "모든 소식을 확인하셨습니다."}
+              {filter === "all" ? t("emptyAll") : t("emptyFiltered")}
             </p>
           </div>
         )}

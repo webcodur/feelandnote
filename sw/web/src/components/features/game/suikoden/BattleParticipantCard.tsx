@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import type { BattleParticipant } from '@/lib/game/suikoden/types'
 import { CLASS_INFO } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function BattleParticipantCard({ participant, isPlayer }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const { character, troops, morale, isLeader, isDefeated } = participant
   const cls = CLASS_INFO[character.unitClass]
   const hpRatio = character.hp / character.maxHp
@@ -26,13 +28,13 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
     >
       {/* 리더 마크 */}
       {isLeader && (
-        <div className="absolute -top-1.5 -right-1.5 text-[9px] text-amber-400 font-bold">[주]</div>
+        <div className="absolute -top-1.5 -right-1.5 text-[9px] text-amber-400 font-bold">{tS('battle.leaderMark')}</div>
       )}
 
       {/* 격파 오버레이 */}
       {isDefeated && (
         <div className="absolute inset-0 flex items-center justify-center z-10">
-          <span className="text-red-500 font-bold text-xs">격파</span>
+          <span className="text-red-500 font-bold text-xs">{tS('battle.defeated')}</span>
         </div>
       )}
 
@@ -40,7 +42,7 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
         <CharacterPortrait character={character} size={28} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <span className="text-[10px] text-stone-500">{cls.name}</span>
+            <span className="text-[10px] text-stone-500">{tS(`class.${character.unitClass}`)}</span>
             <span className="text-[11px] font-bold text-stone-200 truncate">{character.nickname}</span>
           </div>
           <div className="text-[9px] text-stone-600">{character.grade}</div>
@@ -66,9 +68,9 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
 
       {/* 병력/사기 */}
       <div className="flex items-center gap-3 mt-1 text-[9px]">
-        <span className="text-stone-400">병력 {troops}</span>
+        <span className="text-stone-400">{tS('battle.troops', { count: troops })}</span>
         <span className={morale >= 50 ? 'text-green-400' : 'text-red-400'}>
-          사기 {morale}
+          {tS('battle.morale', { value: morale })}
         </span>
       </div>
     </div>

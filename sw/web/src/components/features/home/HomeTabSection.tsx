@@ -8,11 +8,18 @@ import { ChevronDown } from "lucide-react";
 interface HomeTabSectionProps {
   recordSection: React.ReactNode;
   figureSection: React.ReactNode;
+  labels: {
+    intro: string;
+    introSub: string;
+    todayFigure: string;
+    quickRecord: string;
+  };
 }
 
 export default function HomeTabSection({
   recordSection,
   figureSection,
+  labels,
 }: HomeTabSectionProps) {
   const [activeTab, setActiveTab] = useState<"record" | "figure">("figure");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -30,12 +37,14 @@ export default function HomeTabSection({
         {/* Service Intro */}
         <div className="mt-10 md:mt-14 text-center max-w-md px-6 space-y-6 animate-in fade-in delay-200 duration-700">
           <p className="text-lg md:text-xl font-serif text-text-primary/90 leading-relaxed break-keep">
-            당신의 문화적 유산을 기록하고,<br className="hidden md:block" />
-            시대를 초월한 지혜와 만나보세요.
+            {labels.intro.split("\n").map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br className="hidden md:block" />}</span>
+            ))}
           </p>
           <p className="text-sm md:text-base text-text-secondary/70 font-light leading-relaxed break-keep">
-            책, 영화, 음악, 그리고 위대한 인물들의 이야기.<br />
-            이곳은 당신의 영감이 머무르는 공간입니다.
+            {labels.introSub.split("\n").map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </p>
         </div>
 
@@ -58,13 +67,13 @@ export default function HomeTabSection({
       <div ref={scrollRef} className="w-full max-w-lg mx-auto px-4 mt-14 md:mt-20 mb-8 md:mb-12 scroll-mt-24">
         <Tabs className="w-full justify-center border-b border-white/10">
           <Tab
-            label={<span className="text-lg md:text-xl px-4 py-2">오늘의 인물</span>}
+            label={<span className="text-lg md:text-xl px-4 py-2">{labels.todayFigure}</span>}
             active={activeTab === "figure"}
             onClick={() => setActiveTab("figure")}
             className="flex-1 justify-center"
           />
           <Tab
-            label={<span className="text-lg md:text-xl px-4 py-2">빠른 기록</span>}
+            label={<span className="text-lg md:text-xl px-4 py-2">{labels.quickRecord}</span>}
             active={activeTab === "record"}
             onClick={() => setActiveTab("record")}
             className="flex-1 justify-center"

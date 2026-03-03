@@ -9,6 +9,7 @@ import { getTranslations } from "next-intl/server";
 import PageContainer from "@/components/layout/PageContainer";
 import ExploreTabs from "@/components/features/user/explore/ExploreTabs";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
+import PageBanner from "@/components/shared/PageBanner";
 
 interface Props {
   children: ReactNode;
@@ -16,17 +17,23 @@ interface Props {
 
 export default async function ExploreLayout({ children }: Props) {
   const t = await getTranslations();
+  const title = t("nav.explore");
+  const englishTitle = t("home.explore.englishTitle");
 
   return (
     <>
-      <ConstellationBanner compact>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-          {t("nav.explore")}
-        </h1>
-        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
-          {t("home.explore.englishTitle")}
-        </p>
-      </ConstellationBanner>
+      <PageBanner title={title} subtitle={englishTitle}>
+        <ConstellationBanner compact>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
+            {title}
+          </h1>
+          {title.toLowerCase() !== englishTitle.toLowerCase() && (
+            <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+              {englishTitle}
+            </p>
+          )}
+        </ConstellationBanner>
+      </PageBanner>
       <PageContainer>
         <ExploreTabs />
         {children}

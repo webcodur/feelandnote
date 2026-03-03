@@ -5,7 +5,9 @@ import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 import CelebCard from "@/components/shared/CelebCard";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { useProfessionLabel } from "@/hooks/useFilterLabels";
 
 interface ProfessionCarouselProps {
   profession: string;
@@ -22,6 +24,8 @@ export default function ProfessionCarousel({
   totalCount,
   onSubtitle,
 }: ProfessionCarouselProps) {
+  const t = useTranslations("explore.ui");
+  const getProfLabel = useProfessionLabel();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -48,7 +52,7 @@ export default function ProfessionCarousel({
       <div className="flex items-center justify-between mb-3 px-1">
         <div className="flex items-center gap-2">
           <h3 className="text-sm md:text-base font-bold text-white tracking-tight">
-            {label}
+            {getProfLabel(label)}
           </h3>
           <span className="text-xs text-white/40 font-medium">{totalCount}</span>
         </div>
@@ -56,7 +60,7 @@ export default function ProfessionCarousel({
           href={`/explore/celebs?profession=${profession}`}
           className="flex items-center gap-0.5 text-xs text-white/50 hover:text-accent transition-colors"
         >
-          더보기
+          {t("viewMore")}
           <ChevronRight size={14} />
         </Link>
       </div>
@@ -71,7 +75,7 @@ export default function ProfessionCarousel({
               ? "opacity-0 pointer-events-none"
               : "opacity-0 group-hover/slider:opacity-100"
           }`}
-          aria-label="이전"
+          aria-label={t("prev")}
         >
           <ArrowLeft size={16} />
         </button>
@@ -84,7 +88,7 @@ export default function ProfessionCarousel({
               ? "opacity-0 pointer-events-none"
               : "opacity-0 group-hover/slider:opacity-100"
           }`}
-          aria-label="다음"
+          aria-label={t("next")}
         >
           <ArrowRight size={16} />
         </button>
@@ -108,6 +112,7 @@ export default function ProfessionCarousel({
                 count={celeb.content_count}
                 celebProfile={celeb}
                 variant="card"
+                shape="square"
                 onSubtitle={onSubtitle}
               />
             </div>

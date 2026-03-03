@@ -4,41 +4,18 @@
   책임: 서고 탭 정보를 단일 원천으로 관리한다.
 */
 
-import { Scroll, Route, User, Clock, type LucideIcon } from "lucide-react";
-
-// 섹션명
-export const SCRIPTURES_SECTION_NAME = "지혜의 서고";
+import { Scroll, Route, Clock, type LucideIcon } from "lucide-react";
 
 export interface ScripturesTab {
   value: string;
-  label: string;
   icon: LucideIcon;
   href: string;
-  description: string;
 }
 
 export const SCRIPTURES_TABS: ScripturesTab[] = [
-  {
-    value: "era",
-    label: "불후의 명작",
-    icon: Clock,
-    href: "/scriptures/era",
-    description: "전 시대의 대표작과 시대별 명저",
-  },
-  {
-    value: "profession",
-    label: "갈림길",
-    icon: Route,
-    href: "/scriptures/profession",
-    description: "직업별 추천 콘텐츠",
-  },
-  {
-    value: "history",
-    label: "콘텐츠 역사",
-    icon: Scroll,
-    href: "/scriptures/history",
-    description: "인류 지식 매체와 콘텐츠의 연대기",
-  },
+  { value: "era", icon: Clock, href: "/scriptures/era" },
+  { value: "profession", icon: Route, href: "/scriptures/profession" },
+  { value: "history", icon: Scroll, href: "/scriptures/history" },
 ];
 
 // 4행 구조: 4x4x4x3 그리드 (갈림길 페이지용)
@@ -48,10 +25,3 @@ export const PROFESSION_ROWS = [
   ["musician", "visual_artist", "actor", "athlete"],
   ["influencer", "author", "social_scientist"],
 ] as const;
-
-// 헬퍼: 페이지 타이틀 생성
-export const getScripturesPageTitle = (tabValue?: string) => {
-  if (!tabValue) return SCRIPTURES_SECTION_NAME;
-  const tab = SCRIPTURES_TABS.find((t) => t.value === tabValue);
-  return tab ? `${tab.label} | ${SCRIPTURES_SECTION_NAME}` : SCRIPTURES_SECTION_NAME;
-};

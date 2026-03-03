@@ -1,43 +1,13 @@
 import {
   STAT_KEYS,
   TENDENCY_KEYS,
-  type StatKey,
-  type TendencyKey,
-  type VirtueKey,
-  type AbilityKey,
 } from './constants'
+import type { PersonaProfile } from './types'
 
-export interface PersonaVector {
-  celeb_id: string
-  nickname: string
-  profession: string | null
-  avatar_url: string | null
-  influence_score: number
-  birth_date: string | null
-  death_date: string | null
-  title: string | null
-  // 덕목 (0~100)
-  temperance: number
-  diligence: number
-  reflection: number
-  courage: number
-  loyalty: number
-  benevolence: number
-  fairness: number
-  humility: number
-  // 능력 (0~100)
-  command: number
-  martial: number
-  intellect: number
-  charisma: number
-  // 성향 (-50~+50)
-  pessimism_optimism: number
-  conservative_progressive: number
-  individual_social: number
-  cautious_bold: number
-}
+/** @deprecated PersonaProfile를 직접 사용하세요 */
+export type PersonaVector = PersonaProfile
 
-export interface SimilarCeleb extends PersonaVector {
+export interface SimilarCeleb extends PersonaProfile {
   distance: number
 }
 

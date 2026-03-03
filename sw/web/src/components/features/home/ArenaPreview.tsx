@@ -4,11 +4,16 @@
   책임: 전장 메뉴 구조와 각 항목의 설명을 안내한다.
 */ // ------------------------------
 
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { ARENA_ITEMS } from "@/constants/arena";
 
 export default function ArenaPreview() {
+  const t = useTranslations("rest.arena");
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -25,10 +30,10 @@ export default function ArenaPreview() {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-text-primary group-hover:text-accent text-sm md:text-base mb-1">
-                  {item.label}
+                  {t(`${item.value}.label` as any)}
                 </h4>
                 <p className="text-xs md:text-sm text-text-secondary line-clamp-1">
-                  {item.description}
+                  {t(`${item.value}.description` as any)}
                 </p>
               </div>
               <ArrowRight size={18} className="shrink-0 text-text-tertiary group-hover:text-accent" />

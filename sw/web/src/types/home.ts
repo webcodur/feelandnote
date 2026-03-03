@@ -26,15 +26,20 @@ export interface CelebProfile {
   id: string
   slug: string | null
   nickname: string
+  nickname_en: string | null
   avatar_url: string | null
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
+  title_en: string | null
   consumption_philosophy: string | null  // 감상 철학 (3~4 문단)
+  consumption_philosophy_en: string | null
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일
   death_date: string | null   // 사망연일
   bio: string | null
+  bio_en: string | null
   quotes: string | null  // 명언/대사
+  quotes_en: string | null
   is_verified: boolean
   is_platform_managed: boolean  // claimed_by가 null이면 true (플랫폼에서 관리)
   follower_count: number
@@ -44,12 +49,14 @@ export interface CelebProfile {
   influence: CelebInfluence | null  // 영향력 평가 (없을 수 있음)
   tags: CelebTagInfo[]  // 태그 목록
   greeting?: string[] | null  // 인사 대사 (3변형)
+  greeting_en?: string[] | null  // 인사 대사 영문 (3변형)
 }
 
 export interface CelebReview {
   id: string
   rating: number | null
   review: string
+  review_en: string | null
   is_spoiler: boolean
   source_url: string | null
   updated_at: string
@@ -61,6 +68,11 @@ export interface CelebReview {
     type: ContentType
     celeb_count: number
     user_count: number
+    title_ko: string | null
+    title_en: string | null
+    creator_en: string | null
+    isbn_en: string | null
+    thumbnail_en: string | null
   }
   celeb: {
     id: string

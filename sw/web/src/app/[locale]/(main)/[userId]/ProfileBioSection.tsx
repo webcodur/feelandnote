@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Quote, Pencil, Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, InnerBox, FormattedText } from "@/components/ui";
 
@@ -22,6 +22,7 @@ interface ProfileBioSectionProps {
 }
 
 export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectionProps) {
+  const t = useTranslations("profilePage.bio");
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [bioValue, setBioValue] = useState(profile.bio || "");
   const [isSaving, setIsSaving] = useState(false);
@@ -43,9 +44,9 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
     <ClassicalBox as="section" className="p-3 sm:p-5 md:p-10 md:pt-8 bg-bg-card/40 border-accent/20 shadow-2xl">
       {/* 헤더 */}
       <div className="flex justify-center mb-6 sm:mb-10">
-        <DecorativeLabel label="계보" />
+        <DecorativeLabel label={t("label")} />
         {isOwner && !isEditingBio && (
-          <button onClick={() => setIsEditingBio(true)} className="absolute right-4 md:right-8 top-6 md:top-8 p-1.5 sm:p-2 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm transition-colors" title="소개글 수정">
+          <button onClick={() => setIsEditingBio(true)} className="absolute right-4 md:right-8 top-6 md:top-8 p-1.5 sm:p-2 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm transition-colors" title={t("editTitle")}>
             <Pencil size={14} className="sm:size-4" />
           </button>
         )}
@@ -66,6 +67,7 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
 
 // #region 하위 컴포넌트
 function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
+  const tProf = useTranslations("profession");
   const isCeleb = profile.profile_type === "CELEB";
   // 일반 유저: title, profession, death_date 제외
   const hasMetadata = isCeleb
@@ -87,7 +89,7 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
             )}
             {profile.profession && (
               <p className={`text-xs text-stone-400 font-serif ${profile.title ? 'mt-0.5' : 'text-sm sm:text-base text-stone-200 font-black'}`}>
-                {getCelebProfessionLabel(profile.profession)}
+                {tProf.has(profile.profession) ? tProf(profile.profession) : profile.profession}
               </p>
             )}
           </div>
@@ -133,6 +135,8 @@ interface BioContentProps {
 }
 
 function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSaving, onSave, onCancel }: BioContentProps) {
+  const t = useTranslations("profilePage.bio");
+
   if (isEditing) {
     return (
       <div className="flex-1 flex flex-col justify-center">
@@ -140,13 +144,13 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
           <div className="mb-3">
             <span className="text-[10px] text-stone-500 uppercase tracking-[0.3em] font-cinzel block mb-1">INSCRIPTION</span>
           </div>
-          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder="나를 표현하는 문구를 입력하세요..." className="w-full bg-black/30 border border-stone-800/50 rounded-sm p-4 text-base text-stone-200 font-serif resize-none focus:outline-none focus:border-accent/30 placeholder:text-stone-700" rows={3} maxLength={200} />
+          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("placeholder")} className="w-full bg-black/30 border border-stone-800/50 rounded-sm p-4 text-base text-stone-200 font-serif resize-none focus:outline-none focus:border-accent/30 placeholder:text-stone-700" rows={3} maxLength={200} />
           <div className="flex items-center justify-between mt-3">
             <span className="text-xs text-stone-600 font-serif">{bioValue.length} / 200</span>
             <div className="flex items-center gap-3">
-              <button onClick={onCancel} className="text-sm text-stone-500 hover:text-stone-300 font-serif">취소</button>
+              <button onClick={onCancel} className="text-sm text-stone-500 hover:text-stone-300 font-serif">{t("cancel")}</button>
               <button onClick={onSave} disabled={isSaving} className="flex items-center gap-2 px-4 py-1.5 text-sm bg-stone-800 text-stone-200 font-black rounded-sm border border-stone-700 hover:bg-stone-700 disabled:opacity-50">
-                <Check size={14} className="text-accent" />저장
+                <Check size={14} className="text-accent" />{t("save")}
               </button>
             </div>
           </div>

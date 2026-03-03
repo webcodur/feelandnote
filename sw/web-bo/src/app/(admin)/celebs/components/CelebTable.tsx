@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap } from 'lucide-react'
+import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock } from 'lucide-react'
 import { type Member } from '@/actions/admin/members'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import StatusToggle from '../../members/components/StatusToggle'
@@ -34,10 +34,10 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
               <td className="px-3 md:px-4 py-3">
-                <div className="relative w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center overflow-hidden shrink-0 bg-yellow-500/20">
+                <div className="relative w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center overflow-hidden shrink-0 bg-bg-secondary">
                   {celeb.avatar_url
                     ? <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
-                    : <Star className="w-4 h-4 text-yellow-400" />
+                    : <span className="text-[10px] text-text-tertiary">N/A</span>
                   }
                 </div>
               </td>
@@ -55,6 +55,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                     {celeb.nickname || '이름 없음'}
                   </Link>
                   {celeb.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
+                  <TierBadge tier={celeb.celeb_tier} />
                 </div>
               </td>
               <td className="px-3 md:px-4 py-3">
@@ -103,6 +104,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
     active: { label: 'active', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
+    inactive: { label: 'inactive', className: 'bg-yellow-500/10 text-yellow-400', icon: Clock },
     suspended: { label: 'suspended', className: 'bg-red-500/10 text-red-400', icon: Ban },
     deleted: { label: 'deleted', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
   }
@@ -110,6 +112,15 @@ function StatusBadge({ status }: { status: string }) {
   return (
     <span className={`inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium whitespace-nowrap ${className}`}>
       <Icon className="w-3 h-3" />{label}
+    </span>
+  )
+}
+
+function TierBadge({ tier }: { tier?: string | null }) {
+  if (!tier || tier === 'full') return null
+  return (
+    <span className="px-1 py-0.5 rounded text-[9px] font-mono font-medium bg-orange-500/10 text-orange-400 shrink-0">
+      {tier}
     </span>
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
@@ -24,6 +25,7 @@ export default function CommentSection({
   currentUserId,
   isAdmin = false
 }: CommentSectionProps) {
+  const t = useTranslations('board.comment')
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -49,7 +51,7 @@ export default function CommentSection({
   }
 
   const handleDelete = async (commentId: string) => {
-    if (!confirm('댓글을 삭제하시겠습니까?')) return
+    if (!confirm(t('deleteConfirm'))) return
 
     const result = await deleteComment({ commentId, boardType, postId })
     if (result.success) {
@@ -68,7 +70,7 @@ export default function CommentSection({
       <div className="flex items-center gap-3 mb-6">
         <MessageTabletIcon size={18} color="#8a732a" strokeWidth={1.5} />
         <span className="font-serif text-sm text-text-primary">
-          댓글 <span className="text-accent">{comments.length}</span>
+          {t('header')} <span className="text-accent">{comments.length}</span>
         </span>
         <div className="flex-1 h-px bg-gradient-to-r from-accent-dim/20 to-transparent" />
       </div>
@@ -109,7 +111,7 @@ export default function CommentSection({
           <div className="text-center py-8">
             <MessageTabletIcon size={32} color="#8a732a" strokeWidth={1} className="mx-auto mb-3 opacity-50" />
             <p className="text-sm text-text-tertiary font-serif">
-              첫 번째 댓글을 남겨보세요
+              {t('empty')}
             </p>
           </div>
         )}
@@ -122,18 +124,18 @@ export default function CommentSection({
             type="text"
             value={newComment}
             onChange={e => setNewComment(e.target.value)}
-            placeholder="댓글을 입력하세요"
+            placeholder={t('placeholder')}
             maxLength={500}
             className="flex-1 px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 transition-colors"
           />
           <Button type="submit" size="sm" disabled={isSubmitting} className="font-serif px-5">
-            {isSubmitting ? '...' : '작성'}
+            {isSubmitting ? '...' : t('submit')}
           </Button>
         </form>
       ) : (
         <div className="text-center py-4 border border-dashed border-accent-dim/20 rounded-lg">
           <p className="text-sm text-text-tertiary font-serif">
-            로그인 후 댓글을 작성할 수 있습니다
+            {t('loginRequired')}
           </p>
         </div>
       )}

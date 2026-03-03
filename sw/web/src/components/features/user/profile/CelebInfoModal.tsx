@@ -9,11 +9,11 @@ import Image from "next/image";
 import { Sparkles, Quote, Calendar, MapPin } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import { type PublicUserProfile } from "@/actions/user";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import NationalityText from "@/components/ui/NationalityText";
+import { useTranslations } from "next-intl";
 
 // #region 헬퍼 함수
-function formatLifespan(birthDate: string | null, deathDate: string | null): string | null {
+function formatLifespan(birthDate: string | null, deathDate: string | null, presentLabel = 'Present'): string | null {
   if (!birthDate && !deathDate) return null;
 
   const formatYear = (date: string): string => {
@@ -24,7 +24,7 @@ function formatLifespan(birthDate: string | null, deathDate: string | null): str
   };
 
   const birth = birthDate ? formatYear(birthDate) : "?";
-  const death = deathDate ? formatYear(deathDate) : birthDate ? "현재" : "?";
+  const death = deathDate ? formatYear(deathDate) : birthDate ? presentLabel : "?";
 
   return `${birth} ~ ${death}`;
 }
@@ -37,7 +37,9 @@ interface CelebInfoModalProps {
 }
 
 export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoModalProps) {
-  const lifespan = formatLifespan(profile.birth_date, profile.death_date);
+  const t = useTranslations("userProfile");
+  const tProf = useTranslations("profession");
+  const lifespan = formatLifespan(profile.birth_date, profile.death_date, t("present"));
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" closeOnOverlayClick>
       <ModalBody className="p-0">
@@ -73,7 +75,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
               <h2 className="text-xl font-bold text-text-primary">{profile.nickname}</h2>
               <span className="px-2 py-0.5 bg-accent/10 text-accent border border-accent/20 text-xs rounded-full flex items-center gap-1">
                 <Sparkles size={10} />
-                셀럽
+                {t("celeb")}
               </span>
             </div>
 
@@ -88,7 +90,7 @@ export default function CelebInfoModal({ isOpen, onClose, profile }: CelebInfoMo
               {profile.profession && (
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <Sparkles size={14} className="text-text-tertiary" />
-                  <span>{getCelebProfessionLabel(profile.profession)}</span>
+                  <span>{tProf.has(profile.profession) ? tProf(profile.profession) : profile.profession}</span>
                 </div>
               )}
               {profile.nationality && (

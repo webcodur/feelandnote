@@ -7,6 +7,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { X, Maximize2, Minimize2, FileText, Users, Image, Calendar, Network, Table as TableIcon, BookText } from "lucide-react";
 import CharacterContent from "./CharacterContent";
 import TimelineContent from "./TimelineContent";
@@ -102,6 +103,7 @@ export default function SectionWindow({
   onUpdateCharacter,
   onDeleteCharacter,
 }: Props) {
+  const t = useTranslations("reading.section");
   const [isMaximized, setIsMaximized] = useState(false);
   const [prevState, setPrevState] = useState({
     size: section.size,
@@ -245,7 +247,7 @@ export default function SectionWindow({
               });
             }).catch((err) => {
               console.error("이미지 압축 실패:", err);
-              alert("이미지 처리 중 오류가 발생했습니다.");
+              alert(t("imageError"));
             });
           }
           break;
@@ -319,14 +321,14 @@ export default function SectionWindow({
             <button
               onClick={handleMaximize}
               className="flex size-5 items-center justify-center rounded hover:bg-white/10"
-              title={isMaximized ? "복원" : "최대화"}
+              title={isMaximized ? t("restore") : t("maximize")}
             >
               {isMaximized ? <Minimize2 className="size-3" /> : <Maximize2 className="size-3" />}
             </button>
             <button
               onClick={onClose}
               className="flex size-5 items-center justify-center rounded hover:bg-white/10"
-              title="닫기"
+              title={t("close")}
             >
               <X className="size-3" />
             </button>
@@ -413,11 +415,12 @@ function BasicContent({
   content: string;
   onChange: (content: string) => void;
 }) {
+  const t = useTranslations("reading.section");
   return (
     <textarea
       value={content}
       onChange={(e) => onChange(e.target.value)}
-      placeholder="내용을 입력하세요..."
+      placeholder={t("basicPlaceholder")}
       className="h-full w-full resize-none bg-transparent text-sm leading-relaxed placeholder:text-text-tertiary focus:outline-none"
     />
   );
@@ -426,6 +429,7 @@ function BasicContent({
 
 // #region 이미지 섹션 콘텐츠
 function ImageContent({ imageUrl }: { imageUrl: string | null }) {
+  const t = useTranslations("reading.section");
   const [scale, setScale] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
@@ -495,7 +499,7 @@ function ImageContent({ imageUrl }: { imageUrl: string | null }) {
       {imageUrl ? (
         <img
           src={imageUrl}
-          alt="붙여넣기된 이미지"
+          alt={t("pastedImage")}
           className="rounded-lg object-contain transition-transform duration-75"
           style={{ 
             transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`, 
@@ -506,8 +510,8 @@ function ImageContent({ imageUrl }: { imageUrl: string | null }) {
       ) : (
         <div className="text-center text-text-secondary">
           <Image className="mx-auto mb-2 size-8 opacity-50" />
-          <p className="text-xs">Ctrl+V로 이미지를 붙여넣으세요</p>
-          <p className="mt-1 text-[10px] text-text-tertiary">드래그로 이동 / 스크롤로 확대</p>
+          <p className="text-xs">{t("imagePaste")}</p>
+          <p className="mt-1 text-[10px] text-text-tertiary">{t("imageHint")}</p>
         </div>
       )}
     </div>

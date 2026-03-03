@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
 import { generatePlatformLinks } from "@/lib/utils/platformLinks";
 import type { ContentType } from "@/types/database";
@@ -15,12 +18,13 @@ export default function ExternalPlatformLinks({
   contentType,
   title,
 }: ExternalPlatformLinksProps) {
+  const t = useTranslations("contentDetail");
   const links = generatePlatformLinks(contentId, externalId, contentType, title);
   if (!links.length) return null;
 
   return (
     <div className="space-y-2">
-      <h3 className="text-xs font-medium text-text-secondary">외부 링크</h3>
+      <h3 className="text-xs font-medium text-text-secondary">{t("externalLinks")}</h3>
       <div className="flex flex-wrap gap-2">
         {links.map((link) => (
           <a

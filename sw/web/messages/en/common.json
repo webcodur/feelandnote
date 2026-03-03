@@ -26,7 +26,8 @@
       "feedback": "Feedback",
       "dawn": "Dawn",
       "labyrinth": "Labyrinth",
-      "hegemony": "Hegemony"
+      "hegemony": "Hegemony",
+      "suikoden": "Suikoden"
     },
     "footer": {
       "about": "About",
@@ -60,6 +61,95 @@
       "englishTitle": "My Archives",
       "description": "Record and manage the content you've enjoyed.",
       "link": "Go to My Archives"
+    },
+    "ui": {
+      "searchPlaceholder": "Search figures...",
+      "searchButton": "Search",
+      "controlTitle": "Search Controls",
+      "filterProfession": "Profession",
+      "filterNationality": "Nationality",
+      "filterContent": "Content",
+      "filterGender": "Gender",
+      "filterSort": "Sort",
+      "all": "All",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "nationalityNone": "Unknown",
+      "defaultSort": "By Content Count",
+      "genre": "Genre",
+      "visitArchive": "Visit Archives",
+      "visitArchiveConfirm": "Go to {name}'s archives?",
+      "cancel": "Cancel",
+      "go": "Go",
+      "activity": "Activity",
+      "wisdomSeeker": "Seeker of Wisdom",
+      "recorder": "Recorder",
+      "followingLabel": "Following",
+      "followLabel": "Follow",
+      "prevSection": "Previous section",
+      "nextSection": "Next section",
+      "toTop": "Back to top",
+      "loginRequired": "Login required.",
+      "celebArchive": "Celeb Archives",
+      "friendActivity": "Friend Activity",
+      "contentUnit": "items",
+      "sort": {
+        "daily_recommend": "Today's Picks",
+        "composite": "Composite Score",
+        "follower": "Followers",
+        "influence": "Influence",
+        "content_count": "Content Count",
+        "name_asc": "Name",
+        "birth_date_desc": "Recent Birth",
+        "birth_date_asc": "Oldest Birth"
+      },
+      "characterInfo": "Character Info",
+      "viewingRecords": "Viewing Records",
+      "loadingRecords": "Loading records...",
+      "viewProfile": "View Profile",
+      "reviewCount": "{name}'s {count} records",
+      "keywords": "{name}'s Keywords",
+      "followerUnit": "{count}",
+      "loadMore": "Load more ({count} remaining)",
+      "empty": {
+        "noCelebs": "No celebs in this profession",
+        "allLoaded": "All reviews loaded",
+        "noReviews": "No reviews yet",
+        "noReviewsDesc": "Celeb content reviews are coming soon.\nStay tuned!",
+        "noFriendActivity": "No friend activity yet",
+        "noFriendActivityDesc": "Follow friends to see their activity here",
+        "noPublicReviews": "No public reviews yet",
+        "pleaseWait": "Please check back later",
+        "noRecords": "No inspirations recorded yet.",
+        "createFirst": "Create your first record",
+        "createOwn": "Start my archive"
+      },
+      "influence": {
+        "analyzing": "Analyzing influence...",
+        "loadError": "Unable to load information",
+        "close": "Close",
+        "topInfluence": "Top Influence",
+        "categoryDetail": "Category Details"
+      },
+      "tags": {
+        "noDescription": "No detailed description available."
+      },
+      "banner": {
+        "headline": "Feel, and Record",
+        "description": "Books, movies, music, games... Record every experience\nand build your trail of inspiration."
+      },
+      "navLinks": {
+        "moreCelebs": "Explore More Figures",
+        "moreCelebsDesc": "Meet figures across eras and fields",
+        "moreResources": "Browse More Resources",
+        "moreResourcesDesc": "Explore the wisdom left by notable figures"
+      },
+      "tabs": {
+        "todayFigure": "Today's Figure",
+        "quickRecord": "Quick Record",
+        "intro": "Record your cultural legacy\nand meet timeless wisdom.",
+        "introSub": "Books, movies, music, and stories of great figures.\nThis is where your inspiration rests."
+      }
     }
   },
   "banner": {
@@ -76,11 +166,11 @@
       "certificate": "Certificates"
     },
     "placeholder": {
-      "book": "Book title, author...",
-      "video": "Movie, drama, anime...",
-      "game": "Game title, developer...",
+      "book": "Title, author...",
+      "video": "Movie, drama...",
+      "game": "Game title...",
       "music": "Album, artist...",
-      "certificate": "Certificate name, field..."
+      "certificate": "Certificate..."
     },
     "unit": {
       "book": "books",
@@ -95,6 +185,23 @@
       "game": "Developer",
       "music": "Artist",
       "certificate": "Issuer"
+    },
+    "edition": {
+      "ko": "Korean",
+      "en": "English",
+      "noKo": "No Korean edition",
+      "noEn": "No English edition",
+      "noKoDesc": "No Korean translation available for this book.",
+      "noEnDesc": "No English edition available for this book."
+    },
+    "reviewModal": {
+      "review": "Review",
+      "ownerReview": "{name}'s Review",
+      "spoiler": "Contains spoilers",
+      "noReview": "No review written",
+      "source": "Source: {url}",
+      "noSource": "⚠️ Source URL missing",
+      "detail": "View Details"
     }
   },
   "status": {
@@ -176,6 +283,106 @@
       "following": "Following",
       "followers": "Followers",
       "similar": "Similar Taste"
+    },
+    "ui": {
+      "tabs": {
+        "celebs": "Celebs",
+        "social": "Social",
+        "friends": "Friends",
+        "following": "Following",
+        "followers": "Followers",
+        "similar": "Similar Taste"
+      },
+      "empty": {
+        "noFriends": "No friends yet",
+        "noFriendsDesc": "Follow each other to become friends",
+        "noFollowing": "Not following anyone",
+        "noFollowingDesc": "Follow people you're interested in",
+        "noFollowers": "No followers yet",
+        "noFollowersDesc": "Be active and gain followers",
+        "noSimilar": "No similar users yet",
+        "noSimilarDesc": "Record more content to find users with similar taste",
+        "noNationality": "No nationality data available",
+        "noAuraCelebs": "No celebs at this tier."
+      },
+      "newFollower": "New follower",
+      "recordCount": "{count} records",
+      "bondsMatch": "{bonds} bonds · {percent}% match",
+      "countUnit": "{count}",
+      "scoreUnit": "{score}",
+      "totalCount": "Total {count}",
+      "record": "Records",
+      "algorithm": "Recommendation Algorithm",
+      "contentOverlapBased": "Content overlap based",
+      "influenceDistribution": "Influence Distribution",
+      "influence": "Influence",
+      "stats": "Stats",
+      "collection": "Featured",
+      "gradeDistribution": "Distribution by Tier",
+      "fullRanking": "Full Ranking",
+      "scoreRange": "Score Range",
+      "celebStats": "Celeb Statistics",
+      "tabProfession": "Profession",
+      "tabNationality": "Nationality",
+      "tabContent": "Content",
+      "tabGender": "Gender",
+      "professionDist": "Celeb distribution by profession",
+      "nationalityDist": "Celeb distribution by nationality (Top 10)",
+      "contentTypeDist": "Content type distribution",
+      "genderDist": "Gender distribution",
+      "totalContent": "Total Content",
+      "totalPeople": "Total",
+      "male": "Male",
+      "female": "Female",
+      "algorithmTitle": "Recommendation Algorithm",
+      "contentMatchTitle": "Content Overlap Matching",
+      "contentMatchDesc": "We find users who recorded the same content as you",
+      "howItWorks": "How it works",
+      "step1": "Count the shared content between you and others",
+      "step2": "Normalize by total content count for fair comparison",
+      "step3": "Recommend in order of highest similarity",
+      "moreRecordsBetter": "The more content you record, the better we can find users with similar taste",
+      "confirm": "OK",
+      "addCeleb": "Add Celeb",
+      "nameLabel": "Name *",
+      "namePlaceholder": "Celeb name",
+      "fieldLabel": "Field",
+      "fieldNone": "None",
+      "bioLabel": "Bio",
+      "bioPlaceholder": "Brief introduction about the celeb",
+      "nameRequired": "Please enter a name",
+      "addFailed": "Failed to add celeb",
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add",
+      "gridViewTitle": "Switch to grid view",
+      "carouselViewTitle": "Switch to carousel view",
+      "grid": "Grid",
+      "carousel": "Carousel",
+      "viewMore": "View more",
+      "prev": "Previous",
+      "next": "Next",
+      "loading": "Loading...",
+      "friend": "Friend",
+      "personaNoData": "No person data to display.",
+      "personaList": "People",
+      "professionUnknown": "Unknown",
+      "personaLoading": "Loading info...",
+      "personaTitle": "Persona Analysis",
+      "personaNoPersona": "No persona data",
+      "personaNoSelection": "No person available to select.",
+      "personaFigure": "Figure",
+      "scoreRanges": {
+        "9": "81+",
+        "8": "71–80",
+        "7": "61–70",
+        "6": "51–60",
+        "5": "41–50",
+        "4": "31–40",
+        "3": "21–30",
+        "2": "11–20",
+        "1": "≤ 10"
+      }
     }
   },
   "auth": {
@@ -249,6 +456,10 @@
       "myPage": "My Page",
       "logout": "Logout"
     },
+    "locale": {
+      "switchTo": "한국어",
+      "label": "Change language"
+    },
     "footer": {
       "tagline": "Build your archives and curate your taste."
     }
@@ -272,6 +483,13 @@
     "lab": "Lab"
   },
   "agora": {
+    "section": "Community",
+    "items": {
+      "celebFeed": { "label": "Celeb Feed", "description": "Explore celeb archives" },
+      "friendFeed": { "label": "Friend Feed", "description": "Check your friends' latest updates" },
+      "notice": { "label": "Announcements", "description": "View service announcements" },
+      "feedback": { "label": "Feedback", "description": "Share your opinions and feedback" }
+    },
     "meta": {
       "title": "Community",
       "description": "Feel&Note community square — celeb feeds, free boards, and announcements. Share your thoughts and find inspiration."
@@ -298,6 +516,12 @@
     }
   },
   "scriptures": {
+    "section": "Library of Wisdom",
+    "tabs": {
+      "era": { "label": "Masterpieces", "description": "Timeless masterpieces and era-defining works" },
+      "profession": { "label": "Crossroads", "description": "Recommended content by profession" },
+      "history": { "label": "Content History", "description": "A chronicle of human knowledge and media" }
+    },
     "meta": {
       "title": "Library",
       "description": "A curated archive organized by era, profession, and figure. Explore the reading lists of notable figures, from timeless classics to modern masterpieces."
@@ -333,6 +557,18 @@
         "fast": "Fast",
         "variable": "Variable"
       },
+      "lesson": {
+        "objectives": "Objectives",
+        "min": " min",
+        "foldContent": "Fold content",
+        "unfoldContent": "Unfold content",
+        "sheetExamples": "Sheet Examples",
+        "difficulty": {
+          "beginner": "Beginner",
+          "intermediate": "Intermediate",
+          "advanced": "Advanced"
+        }
+      },
       "category": {
         "book": { "label": "Books", "description": "From clay tablets to e-books: a 5,000-year chronicle of recording media" },
         "video": { "label": "Video", "description": "From magic lanterns to streaming: the history of moving light" },
@@ -354,7 +590,8 @@
         "music": {
           "media": { "label": "Media", "description": "From oral melodies to digital audio: the history of sound storage and transmission" },
           "instrument": { "label": "Instruments", "description": "From percussion to digital synthesizers: the evolution of sound-making tools" },
-          "experience": { "label": "Listening", "description": "From ritual halls to algorithms: the evolution of where and how we listen to music" }
+          "experience": { "label": "Listening", "description": "From ritual halls to algorithms: the evolution of where and how we listen to music" },
+          "harmony": { "label": "Harmony", "description": "From notes to chord progressions: a systematic music theory textbook" }
         },
         "game": {
           "platform": { "label": "Platforms", "description": "From board games to cloud: the evolution of gaming environments" },
@@ -372,7 +609,8 @@
         "sage": { "label": "Today's Figure", "description": "A new figure is featured every day at midnight" },
         "chosen": { "label": "Common Shelf", "description": "Works appreciated by the most figures" },
         "profession": { "label": "Crossroads", "description": "Must-reads by profession" },
-        "era": { "label": "Works of the Era", "description": "Curated picks from each era" }
+        "era": { "label": "Works of the Era", "description": "Curated picks from each era" },
+        "history": { "label": "Content History", "description": "A chronicle of human knowledge media and content" }
       },
       "toc": "Table of Contents",
       "openToc": "Open table of contents",
@@ -425,6 +663,396 @@
     }
   },
   "rest": {
+    "section": "Lounge",
+    "arena": {
+      "dawn": {
+        "label": "Dawn",
+        "description": "Guess the birth order of historical figures",
+        "headerDesc": "Pierce Through the Order of Time",
+        "headerSub": "Arrange the figures in order of their birth.",
+        "catchphrase": "Dawn of History",
+        "startGame": "Start Game",
+        "diffEasyDesc": "Tap to view figure details",
+        "diffHardDesc": "Years hidden. Challenge your memory",
+        "selectDifficulty": "Select Difficulty",
+        "selectDifficultyDesc": "Choose your difficulty",
+        "rulesDesc": "A chronology game of arranging birth order",
+        "rulesIntro": "<game>Dawn</game> is a game where you place a given historical figure in the correct position on the timeline board. The longer your streak, the higher your record.",
+        "flowCheckFigure": "Check Figure",
+        "flowCheckFigureDesc": "Review the figure shown at the top",
+        "flowSelectSlot": "Select Position",
+        "flowSelectSlotDesc": "Tap the correct slot on the timeline board below",
+        "flowLives": "3 Lives",
+        "flowLivesDesc": "Lose 1 on wrong answer, game over at 0",
+        "flowTorches": "2 Torches",
+        "flowTorchesDesc": "Use for random hints (reveal century / position hint / remove slot)",
+        "flowClear": "Streak",
+        "flowClearDesc": "Place all figures to clear!",
+        "diffEasyTitle": "Easy",
+        "diffEasyRuleDesc": "Tap cards to view detailed figure information.",
+        "diffHardTitle": "Hard",
+        "diffHardRuleDesc": "Years on board cards are hidden. Challenge with memory alone."
+      },
+      "labyrinth": {
+        "label": "Labyrinth",
+        "description": "Track the hidden figure among the suspects",
+        "headerDesc": "Track Down the Intruder",
+        "headerSub": "Analyze clues from six suspects to find the hidden figure.",
+        "catchphrase": "Find the hidden suspect",
+        "startTracking": "Start Tracking",
+        "startTrackingDesc": "Track the hidden figure among 6 suspects",
+        "rulesDesc": "A game of tracking the hidden figure by analyzing clues from 6 suspects",
+        "rulesIntro": "<game>Labyrinth</game> is a game where you track the hidden figure among 6 suspects. Clear suspects <x>(X)</x> to unlock new clues. When confident, identify the target <o>(O)</o>.",
+        "clueUnlockTitle": "Clue Unlock Order",
+        "clue1": "Clue 1",
+        "clue1Desc": "1 content review — revealed at game start",
+        "clue2": "Clue 2",
+        "clue2Desc": "2nd content review — unlocked after 1 elimination",
+        "clue3": "Clue 3",
+        "clue3Desc": "3rd content review — unlocked after 2 eliminations",
+        "clue4": "Clue 4",
+        "clue4Desc": "4th content review — unlocked after 3 eliminations",
+        "cluePhilosophy": "Philosophy",
+        "cluePhilosophyDesc": "Viewing philosophy — unlocked after 4 eliminations",
+        "tip1": "Click a suspect card to reveal <o>O</o> (identify) and <x>X</x> (eliminate) buttons. Each elimination unlocks a new clue, so gather clues to narrow down the suspects.",
+        "tip2": "You can identify at any time, but the fewer eliminations with a correct guess, the better. Wrong guesses cause the hidden figure to flee. Judge carefully."
+      },
+      "hegemony": {
+        "label": "Hegemony",
+        "description": "Engage in strategic battles with celeb cards",
+        "headerDesc": "The Strong Shall Rule",
+        "headerSub": "Strategically place cards to defeat your opponent.",
+        "rulesDesc": "A strategy game where you recruit historical figures and clash each round",
+        "rulesIntro": "<game>Hegemony</game> is a strategy game where you recruit historical figures and issue orders to clash simultaneously each round. Appoint a captain, read fate, master matchups, and reduce your opponent's power to 0.",
+        "rules": {
+          "flowTitle": "Game Flow",
+          "flow01": "Draft",
+          "flow01Desc": "Pick 5 from 15 alternately",
+          "flow02": "Captain",
+          "flow02Desc": "Appoint 1 commander from 5",
+          "flow03": "Battle",
+          "flow03Desc": "Simultaneous clash each round",
+          "flow04": "Result",
+          "flow04Desc": "Winner by power comparison",
+          "draftNote": "3 cards are revealed per batch, you alternately pick 2 and discard 1. First pick alternates each batch for fairness. You can <accent>reshuffle</accent> before your first pick.",
+          "stateTitle": "Nation State",
+          "powerLabel": "Power 30",
+          "powerDesc": "Acts as HP. Reaching 0 means <red>instant defeat</red>. Only recoverable through governance.",
+          "moraleLabel": "Morale 50",
+          "moraleDesc": "Reaching 0 triggers a <red>revolt</red>. Excess converts to power damage, increasing as rounds progress.",
+          "ordersTitle": "3 Orders",
+          "ordersIntro": "Each round, select <white>1 card</white> from your hand and assign one of 3 orders. Both sides reveal <accent>simultaneously</accent> for matchup resolution.",
+          "cmdBattle": "Battle",
+          "cmdBattleDesc": "Deal power damage (aptitude/2)",
+          "cmdBattleDetail": "Always costs morale -3. Card consumed.",
+          "cmdScheme": "Scheme",
+          "cmdSchemeDesc": "Deal morale damage (aptitude/2)",
+          "cmdSchemeDetail": "Card consumed.",
+          "cmdGovern": "Govern",
+          "cmdGovernDesc": "Recover power (apt/3) + morale (apt/2)",
+          "cmdGovernDetail": "Card kept + recover 1 from discard.",
+          "matchupTitle": "Matchups (Rock-Paper-Scissors)",
+          "matchupDesc": "Winning matchup: effect <accent>x1.5</accent>, opponent effect <red>nullified</red>. Same order clash: only higher aptitude takes effect.",
+          "captainTitle": "Captain",
+          "captainIntro": "After draft, appoint <accent>1 captain (commander)</accent> from your 5 cards. The captain supports allies from hand or deploys with devastating power.",
+          "captainAura": "Aura Effect",
+          "captainAuraDesc": "While captain is in hand, deployed card gets <accent>+15%</accent> aptitude",
+          "captainDeploy": "Deploy Captain",
+          "captainDeployDesc": "Captain's own aptitude <accent>x1.5</accent> when deployed (aura lost)",
+          "captainLost": "Captain Lost",
+          "captainLostDesc": "Aura disappears when captain goes to discard pile",
+          "cardsTitle": "Card Management",
+          "cardConsume": "Card Consumption",
+          "cardConsumeDesc": "Cards used for <red>Battle</red> and <purple>Scheme</purple> go to discard. <amber>Govern</amber> keeps the card in hand.",
+          "cardRecovery": "Discard Recovery",
+          "cardRecoveryDesc": "When using <amber>Govern</amber>, select 1 card from discard to return to hand. This always triggers regardless of matchup loss.",
+          "cardExhaust": "Hand Exhaustion",
+          "cardExhaustDesc": "When hand is empty, <accent>1 random card</accent> auto-recovers from discard. If neither side has cards, the game ends and winner is decided by power.",
+          "fateTitle": "Fate",
+          "fateIntro": "Each round, one <amber>Fate</amber> activates. If your order matches fate, aptitude is boosted to <amber>x1.5</amber>.",
+          "fateWind": "Fate of Storms",
+          "fateWindCmd": "Battle aptitude x1.5",
+          "fateShadow": "Fate of Shadows",
+          "fateShadowCmd": "Scheme aptitude x1.5",
+          "fatePeace": "Fate of Peace",
+          "fatePeaceCmd": "Govern aptitude x1.5",
+          "fateNote": "Fate order is randomized at game start, and the same fate never appears consecutively.",
+          "tipBattleMorale": "Battle & Morale",
+          "tipBattleMoraleDesc": "Battle is powerful but always costs morale -3. Consecutive battles cause morale to plummet, increasing revolt risk. Manage morale with governance and time your attacks.",
+          "tipGovernValue": "Value of Governance",
+          "tipGovernValueDesc": "Governance doesn't consume cards and recovers from discard. But it gives the opponent a free turn, so don't overuse it. Aligning with fate makes it a powerful recovery.",
+          "tipReadOpponent": "Reading the Opponent",
+          "tipReadOpponentDesc": "If opponent's morale is low, expect governance — counter with battle. If they spam battle, nullify with scheme. Predicting their choice after checking fate is key.",
+          "tipAptitude": "Using Aptitude",
+          "tipAptitudeDesc": "Each card has different aptitudes per order. Assign high battle aptitude cards to battle, high intellect cards to scheme. Check the star rating at the bottom of each card."
+        }
+      },
+      "suikoden": {
+        "label": "Cheondo",
+        "description": "A strategy simulation to unify civilizations with historical figures",
+        "headerDesc": "Those With Will Shall Conquer",
+        "headerSub": "Lead historical figures, grow your faction, and unify civilization.",
+        "devNoticeTitle": "This game is under development",
+        "devNoticeDesc": "Cheondo is currently being developed. We'll be back with a more complete experience soon.",
+        "rules": {
+          "title": "Game Rules",
+          "desc": "A strategy simulation where you grow your faction with historical figures",
+          "overview": "<game>Cheondo</game> is a strategy simulation where you lead historical figures, build your faction, and unify civilizations. Inspired by Koei's Suikoden: Tenmei no Chikai (1996).",
+          "flowTitle": "Game Flow",
+          "flow1": "Wander", "flow1Desc": "Explore the world and recruit talents",
+          "flow2": "Strategy", "flow2Desc": "Manage strongholds and expand your power",
+          "flow3": "Battle", "flow3Desc": "Lead your forces against rival factions",
+          "coreTitle": "Core Systems",
+          "core1": "Recruitment", "core1Desc": "Persuade people you meet to join your cause",
+          "core2": "Army Formation", "core2Desc": "Organize your recruits into battle units",
+          "core3": "Construction", "core3Desc": "Build facilities and strengthen your base",
+          "core4": "Tactics", "core4Desc": "Choose tactics in battle to gain the upper hand"
+        },
+        "class": {
+          "general": "General", "saint": "Saint", "strategist": "Strategist",
+          "official": "Official", "artist": "Artist", "artisan": "Artisan", "ranger": "Ranger"
+        },
+        "bldgCat": {
+          "agriculture": "Agriculture", "commerce": "Commerce", "military": "Military", "culture": "Culture"
+        },
+        "bldg": {
+          "farm": "Farm", "market": "Market", "trade": "Trading Post", "lumber": "Lumber Mill", "mine": "Mine",
+          "barracks": "Barracks", "training": "Training Ground", "walls": "Walls", "armory": "Armory",
+          "library": "Library", "academy": "Academy", "temple": "Temple", "theater": "Theater",
+          "tavern": "Tavern", "patrol": "Patrol Post"
+        },
+        "bldgDesc": {
+          "farm": "Basic agricultural facility that produces food",
+          "market": "Commercial facility that generates gold",
+          "trade": "Long-distance trading for high income",
+          "lumber": "Logging facility that produces materials",
+          "mine": "Mining facility that extracts minerals",
+          "barracks": "Military facility that recruits soldiers",
+          "training": "Drill facility that trains soldiers",
+          "walls": "Fortifications that boost defense",
+          "armory": "Facility that crafts weapons",
+          "library": "Educational facility that accumulates knowledge",
+          "academy": "Advanced research and talent discovery",
+          "temple": "Religious facility that boosts morale and order",
+          "theater": "Performance venue that raises culture and morale",
+          "tavern": "Inn where talents may visit",
+          "patrol": "Surveillance facility that monitors threats"
+        },
+        "tactic": {
+          "charge": "Charge", "defend": "Defend", "stratagem": "Stratagem",
+          "fire": "Fire", "morale": "Rally", "feint": "Feint"
+        },
+        "tacticDesc": {
+          "charge": "Powerful charge. High damage, high loss", "defend": "Reduce damage. Strong vs fire",
+          "stratagem": "Battle of wits. Strong in morale wars", "fire": "Area damage. Weak vs defense",
+          "morale": "Restore morale. Weak vs stratagem", "feint": "Counter. Strong vs charge"
+        },
+        "stat": {
+          "command": "Command", "martial": "Martial", "intellect": "Intellect", "charm": "Charm",
+          "temperance": "Temperance", "diligence": "Diligence", "reflection": "Reflection", "courage": "Courage",
+          "loyalty": "Loyalty", "benevolence": "Benevolence", "fairness": "Fairness", "humility": "Humility"
+        },
+        "statDesc": {
+          "command": "Ability to lead organizations and armies", "martial": "Combat power. Key for charges and duels",
+          "intellect": "Stratagems, fire, diplomacy. Academy requirement", "charm": "Recruitment, diplomacy, public order bonus",
+          "temperance": "Self-control over desires and emotions", "diligence": "Construction efficiency and production bonus",
+          "reflection": "Stratagem support and research efficiency", "courage": "Patrol success rate and charge support",
+          "loyalty": "Devotion to beliefs and relationships", "benevolence": "Temple construction, recruitment, healing",
+          "fairness": "Diplomacy and alliance bonus", "humility": "Defense and fortification bonus"
+        },
+        "disp": {
+          "pessimismOptimism": { "neg": "Pessimism", "pos": "Optimism" },
+          "conservativeProgressive": { "neg": "Conservative", "pos": "Progressive" },
+          "individualSocial": { "neg": "Individual", "pos": "Communal" },
+          "cautiousBold": { "neg": "Cautious", "pos": "Bold" }
+        },
+        "equip": { "weapons": "Weapons", "horses": "Horses", "ships": "Ships", "charms": "Charms" },
+        "equipDesc": {
+          "weapons": "Attack bonus (up to +30%)", "horses": "Charge bonus (up to +20%)",
+          "ships": "Naval combat bonus", "charms": "Stratagem defense (up to -30% damage)"
+        },
+        "threat": { "bandit": "Bandits", "beast": "Beasts", "plague": "Plague", "spy": "Spies" },
+        "era": { "ancient": "Ancient", "medieval": "Medieval", "modern": "Modern" },
+        "eraDesc": {
+          "ancient": "~500 CE. The age of Alexander, Caesar, and Cao Cao",
+          "medieval": "500–1500 CE. The age of Genghis Khan, Saladin, and Richard",
+          "modern": "1500~ CE. The age of Napoleon, Washington, and Bismarck"
+        },
+        "skill": {
+          "charge": "Charge", "duel_provoke": "Duel Provoke", "heal": "Heal", "barrier": "Barrier",
+          "confuse": "Confuse", "fire_attack": "Fire Attack", "iron_wall": "Iron Wall", "diplomacy_threat": "Diplomatic Threat",
+          "inspire": "Inspire", "culture_sway": "Cultural Sway", "trap": "Set Trap", "siege_strike": "Siege Strike",
+          "ambush": "Ambush", "detect_trap": "Detect Trap"
+        },
+        "skillDesc": {
+          "charge": "Damage ×1.5, also takes damage", "duel_provoke": "1v1 duel with adjacent enemy",
+          "heal": "Restore 30% HP to one ally", "barrier": "Grant one ally 1-turn invincibility",
+          "confuse": "Disable enemy for 1 turn (intellect check)", "fire_attack": "Damage to enemy row",
+          "iron_wall": "Double defense of adjacent ally", "diplomacy_threat": "Enemy morale -15",
+          "inspire": "All allies morale +10", "culture_sway": "Enemy morale -15",
+          "trap": "Place trap in front row", "siege_strike": "Wall damage ×3",
+          "ambush": "Preemptive damage, undodgeable", "detect_trap": "Nullify enemy traps"
+        },
+        "region": {
+          "east_asia": "East Asia", "southeast_asia": "Southeast Asia", "south_asia": "South Asia",
+          "central_asia": "Central Asia", "middle_east": "Middle East", "east_europe": "East Europe",
+          "west_europe": "West Europe", "africa": "Africa", "americas": "Americas", "oceania": "Oceania"
+        },
+        "territory": {
+          "beijing": "Beijing", "nanjing": "Nanjing", "pyongyang": "Pyongyang",
+          "hanoi": "Hanoi", "angkor": "Angkor", "delhi": "Delhi", "kolkata": "Kolkata",
+          "samarkand": "Samarkand", "moscow": "Moscow", "baghdad": "Baghdad", "cairo": "Cairo",
+          "constantinople": "Constantinople", "berlin": "Berlin",
+          "rome": "Rome", "paris": "Paris", "london": "London",
+          "carthage": "Carthage", "timbuktu": "Timbuktu", "nairobi": "Nairobi",
+          "new_york": "New York", "tenochtitlan": "Tenochtitlan", "sydney": "Sydney"
+        },
+        "scenery": {
+          "s1": "Crossed a steep mountain pass. Smoke from a village rises in the distance.",
+          "s2": "Traversed a vast plain. The wind blows fiercely.",
+          "s3": "Crossed a river and set foot on new land.",
+          "s4": "Passed the ruins of an old fortress. Signs of war remain everywhere.",
+          "s5": "Camped overnight along a forest trail.",
+          "s6": "Stayed the night at a small village inn.",
+          "s7": "Passed by an ancient temple. A monk offered tea.",
+          "s8": "Looked out from atop a hill. The world stretches wide."
+        },
+        "rumor": {
+          "r1": "Rumor from the inn: Armed bandits have been spotted nearby.",
+          "r2": "Heard about the local situation from a passing merchant.",
+          "r3": "A wandering minstrel shared tales from distant lands.",
+          "r4": "An old man recounted stories of past wars.",
+          "r5": "Heard rumors of power struggles at the marketplace."
+        },
+        "scenario": {
+          "three_kingdoms": {
+            "name": "Three Kingdoms", "subtitle": "Three nations clash for supremacy over the Central Plains",
+            "desc": "After the fall of the Later Han, three heroes — Cao Cao, Liu Bei, and Sun Quan — vie for dominance. To the west, forces inheriting Qin Shi Huang's legacy watch for opportunities. Gather talents and unify the realm.",
+            "objective": "Unify all territories",
+            "cand1": "Gathering talents with righteousness in Shu, harboring dreams of restoring the Han dynasty.",
+            "cand2": "The hegemon of the Central Plains. Commands the realm with cold strategy and bold ambition.",
+            "cand3": "The Tiger of Jiangdong. Builds an empire on the foundation left by his father and brother."
+          },
+          "crusades": {
+            "name": "Crusades", "subtitle": "A clash of East and West over the Holy Land",
+            "desc": "Across the Mediterranean, Crusader and Islamic forces collide. Who will control the Holy City of Jerusalem? Ottoman ambitions stir in Constantinople, and Eastern European lords refuse to stand idle.",
+            "objective": "Secure the Holy Land (Cairo) and eliminate 3+ rival factions",
+            "cand1": "Richard the Lionheart. Leads a great army on crusade to reclaim the Holy Land.",
+            "cand2": "Defender of Islam. Protects the Holy Land with mercy and martial prowess."
+          },
+          "sengoku": {
+            "name": "Sengoku", "subtitle": "Who shall unite the realm?",
+            "desc": "The Japanese archipelago enters the Warring States period. Oda Nobunaga, Tokugawa Ieyasu, Takeda Shingen — three warlords contest for supremacy while heroes rise across East Asia.",
+            "objective": "Unify all territories",
+            "cand1": "The Demon King. Topples the old order through innovation and destruction.",
+            "cand2": "The embodiment of patience. Seizes the realm after enduring wait.",
+            "cand3": "The Tiger of Kai. Overwhelms enemies under the banner of Wind, Forest, Fire, Mountain."
+          },
+          "napoleonic": {
+            "name": "Napoleonic Wars", "subtitle": "The flames of revolution sweep across Europe",
+            "desc": "Napoleon rises amidst the flames of the French Revolution. Wellington of Britain opposes him, while Bismarck of Prussia and Russian giants eye European hegemony. The great clash between old and new order begins.",
+            "objective": "Secure 5+ European territories",
+            "cand1": "Child of the revolution. Harbors the ambition to establish a new order across all of Europe.",
+            "cand2": "The Iron Duke. Stakes the prestige of the British Empire to halt France's ambitions."
+          },
+          "mongol_empire": {
+            "name": "Mongol Empire", "subtitle": "The steppe lord rides toward the world",
+            "desc": "Genghis Khan unifies the steppes and embarks on world conquest. Forces inheriting Tang Taizong's legacy control the western regions, while Zhu Yuanzhang prepares his northern campaign from the south. Who shall rule the Eurasian continent?",
+            "objective": "Secure 7+ Eurasian territories",
+            "cand1": "The Great Khan. Born on horseback, conquers the world on horseback.",
+            "cand2": "Heavenly Khan. Harbors the great ambition to extend Tang glory to the western regions."
+          }
+        },
+        "setup": {
+          "back": "← Back", "selectScenario": "Select Scenario",
+          "scenarioHint1": "Choose a theater of historical conflict.",
+          "scenarioHint2": "Each scenario has pre-configured factions and wandering talents.",
+          "diffEasy": "Easy", "diffNormal": "Normal", "diffHard": "Hard",
+          "selectLord": "Select Lord",
+          "existingFactions": "Existing Factions", "wanderers": "Wandering Talents", "lordCandidates": "Lord Candidates",
+          "statSummary": "CMD/MAR/INT/CHA",
+          "startAs": "Start as {name}",
+          "selectLordPrompt": "Select a character to be your lord",
+          "undecided": "Undecided",
+          "lordCount": "{count} Lords", "aiFactionCount": "{count} AI Factions", "wandererCount": "{count} Wanderers",
+          "startGame": "Start Game",
+          "memberCount": "{count} members"
+        },
+        "battle": {
+          "victory": "Victory!", "defeat": "Defeat...", "defenseSuccess": "Defense Successful!", "draw": "Draw",
+          "goBack": "Return", "walls": "[Walls]", "turnCount": "Turn {current}/{max}",
+          "allyMorale": "Ally Morale", "enemyMorale": "Enemy Morale", "ally": "Allies", "enemy": "Enemies",
+          "actingUnit": "{name} acting...",
+          "selectTactic": "Select Tactic", "troopCost": "Cost {rate}%",
+          "leaderMark": "[L]", "defeated": "Defeated", "troops": "Troops {count}", "morale": "Morale {value}"
+        },
+        "wander": {
+          "title": "{name}'s Wandering", "dayCount": "Day {day}", "gold": "Gold {amount}",
+          "companions": "Companions", "backToMain": "Main Screen",
+          "movePrompt": "Select a region to travel", "moveTo": "Travel: {from} → {to}",
+          "noCompanions": "No companions yet",
+          "tagVisit": "[Visit]", "tagRepel": "[Repel]", "tagRaid": "[Raid]",
+          "tagSupport": "[Support]", "tagScenery": "[Scenery]", "tagRumor": "[Rumor]",
+          "tryRecruit": "Recruit", "passBy": "Pass",
+          "recruitSuccess": "Joined your cause.", "recruitFail": "Recruitment failed.", "departed": "Departed.",
+          "handleVisitorFirst": "Handle the visitor's response first", "nextDay": "Next Day →",
+          "raiseArmyDisabled": "Cannot Raise Army", "raiseArmy": "Raise Army: {territory}",
+          "raiseArmyPrompt": "You can raise an army in an empty territory of this region.", "raiseHere": "Raise Army Here",
+          "journalTitle": "Journey Log", "journalEmpty": "The journey has not begun",
+          "travelingTo": "Traveling — {region}", "regionMove": "Region Travel", "globe3d": "3D Globe", "textMap": "Text",
+          "moveConfirm": "Travel to {name}", "depart": "Depart", "cancel": "Cancel",
+          "lordBadge": "Lord", "continueJourney": "Proceed to the next day and continue your journey.",
+          "travelDays": "{current}/{total} days", "goldDelta": "Gold {delta}"
+        },
+        "mgmt": {
+          "idle": "Idle", "training": "Training", "threats": "Threats", "visitors": "Visitors",
+          "noIdleChars": "No idle characters", "noTrainingChars": "No training characters", "noVisitors": "No visitors",
+          "dispatchSubjugate": "Dispatch", "unassign": "Remove", "assign": "Assign",
+          "toastSelectCharFirst": "Select a character to assign first.",
+          "toastSelectBuilderFirst": "Select a builder first.",
+          "toastTrainingCannotBuild": "Characters in training cannot build.",
+          "toastAlreadyBuilding": "This character is already building.",
+          "effect": "Effect", "buildCost": "Build Cost", "buildDuration": "Build Duration", "buildRequirement": "Requirement",
+          "buildProgress": "Building {current}/{total}",
+          "fullCapacity": "Full Capacity", "resting": "Resting", "operating": "Operating",
+          "assignWorker": "+ Assign", "emptySlot": "Empty", "demolish": "Demolish", "close": "Close",
+          "perMonth": "/mo", "perTurn": "/turn", "defenseBonus": "Defense +{value}%",
+          "viewBackground": "View Background", "buildingCount": "Buildings {current}/{max}",
+          "population": "Population", "publicOrder": "Public Order",
+          "tavernHint": "Build a tavern to attract talent visits",
+          "threatPower": "Power {value}", "threatDamageIn": "Damage in {turns} turns",
+          "subjugating": "{nickname} subjugating",
+          "visitorLeaveIn": "Leaves in {turns} turns", "recruiting": "{nickname} recruiting",
+          "recruitNextTurn": "Recruitment attempt next turn",
+          "statRequirement": "Requires {stat} {min}+",
+          "statRequirementCurrent": "{building}: Requires {stat} {min}+ (current {current})",
+          "goldLabel": "Gold", "foodLabel": "Food", "materialLabel": "Materials",
+          "knowledgeLabel": "Knowledge", "troopsLabel": "Troops",
+          "moraleResLabel": "Morale", "cultureLabel": "Culture",
+          "effectWithBonus": "Effect (1.5x with worker)",
+          "buildTurnUnit": "{turns} turns",
+          "costNone": "None",
+          "selectToAssign": "Select a character to assign",
+          "selectToRecruit": "Select a character to assign",
+          "armorLabel": "Armor",
+          "countSuffix": "{count}",
+          "countCases": "{count}",
+          "goldCost": "Gold {amount}",
+          "materialCost": "Materials {amount}",
+          "statMinArrow": "{stat} {min}+"
+        },
+        "charInfo": {
+          "tabAbility": "Ability", "tabStatus": "Status", "tabRelation": "Relations",
+          "tabTroops": "Troops", "tabItems": "Items", "tabBio": "Biography",
+          "sectionAbility": "Abilities", "sectionVirtue": "Virtues", "sectionDisposition": "Dispositions",
+          "taskIdle": "Idle", "taskBuilding": "Building", "taskWorking": "Working", "taskTraining": "Training",
+          "stopTask": "Stop", "startTraining": "Train", "reward": "Reward (50g)", "punish": "Punish",
+          "taskLabel": "Task", "moraleLabel": "Morale", "loyaltyLabel": "Loyalty", "troopsLabel": "Troops",
+          "selectCharPrompt": "Select a character", "noBio": "No records", "preparing": "Preparing",
+          "trainingHint": "※ Build a training ground to enable training"
+        }
+      }
+    },
     "meta": {
       "title": "Lounge",
       "description": "Feel&Note's game arena. Enjoy various mini-games including strategy simulations and labyrinth exploration."
@@ -464,10 +1092,12 @@
       "mode": {
         "content": "Content",
         "user": "Users",
+        "celeb": "Celebs",
         "records": "My Records",
-        "contentPlaceholder": "Title, author, director...",
-        "userPlaceholder": "Nickname, @username...",
-        "recordsPlaceholder": "Search my records..."
+        "contentPlaceholder": "Title, author...",
+        "userPlaceholder": "Nickname...",
+        "celebPlaceholder": "Figure name...",
+        "recordsPlaceholder": "Search records..."
       },
       "sectionContent": "Content",
       "sectionOther": "Other",
@@ -509,7 +1139,58 @@
       "play": "Play",
       "pause": "Pause",
       "mute": "Mute",
-      "unmute": "Unmute"
+      "unmute": "Unmute",
+      "enterGame": "Enter Game",
+      "soundInfo": "Includes sound effects",
+      "startGame": "Start Game",
+      "heroesAwait": "{count} heroes await",
+      "phase": {
+        "lobby": "Lobby",
+        "loading": "Loading",
+        "draft": "Draft",
+        "captain": "Captain",
+        "battle": "Battle",
+        "result": "Result",
+        "playing": "Playing",
+        "tracking": "Tracking",
+        "setup": "Setup",
+        "wandering": "Wandering",
+        "strategy": "Strategy",
+        "disposition": "Disposition"
+      },
+      "lobby": {
+        "rules": "Rules",
+        "multiplayer": "Multiplayer",
+        "settings": "Settings",
+        "records": "Records",
+        "aiMatch": "AI Match",
+        "selectDifficulty": "Select difficulty",
+        "diffNormal": "Normal",
+        "diffNormalDesc": "Player picks first. Opponent aptitudes visible.",
+        "diffHard": "Hard",
+        "diffHardDesc": "AI picks first. Opponent aptitudes hidden."
+      },
+      "ui": {
+        "back": "Back",
+        "backToLobby": "Back to Lobby",
+        "start": "Start",
+        "cancel": "Cancel",
+        "gameRules": "Game Rules",
+        "gameFlow": "Game Flow",
+        "difficulty": "Difficulty",
+        "diffEasy": "Easy",
+        "diffHard": "Hard",
+        "gameTips": "Tips",
+        "strategyTips": "Strategy Tips"
+      },
+      "settings": {
+        "title": "Settings",
+        "desc": "Audio Settings",
+        "bgm": "Game Music",
+        "bgmDesc": "Background Music (BGM)",
+        "sfx": "Sound Effects",
+        "sfxDesc": "Sound Effects (SFX)"
+      }
     },
     "persona": {
       "ability": "Ability",
@@ -622,5 +1303,891 @@
       "CERT_09": { "keyword": "First-Try Passable", "description": "Easy enough to pass on the first attempt" },
       "CERT_10": { "keyword": "Worth Retrying", "description": "Failed but motivated to try again" }
     }
+  },
+  "quickRecord": {
+    "section": {
+      "addedToLibrary": "Added to your library. Leave a record about this work.",
+      "reviewPlaceholder": "Leave a short review (optional)",
+      "doLater": "Later",
+      "saving": "Saving...",
+      "recordComplete": "Done",
+      "saveError": "An error occurred while saving your record."
+    },
+    "editor": {
+      "write": "Write",
+      "preview": "Preview",
+      "save": "Save",
+      "editorPlaceholder": "What inspiration did you find?\nFeel free to record your thoughts.",
+      "noContent": "No content written yet.",
+      "workInfo": "Work Info",
+      "externalSearch": "External Search",
+      "myReview": "My Review",
+      "addKeyword": "Add Keyword",
+      "notRated": "Not rated",
+      "writeMode": "Write",
+      "readMode": "Read",
+      "recommendPlaceholder": "Celebs highly recommend 《{title}》.\nIf you've experienced it, leave an honest review.",
+      "defaultPlaceholder": "Freely record the inspiration you found.\n\n Format your text with these symbols:\n \n • 《Title》 : Emphasize titles or big themes (Bold)\n • \"Quote\" : Highlight important sentences (Accent)\n • '<'Keyword'>' : Emphasize specific words (Serif)"
+    },
+    "search": {
+      "noPresets": "No search presets available for this content type.",
+      "clickHint": "Click each item to see search results on screen.",
+      "contentSearch": "Content Search",
+      "searchPlaceholder": "Search for a work to record...",
+      "searching": "Searching...",
+      "addRecord": "Record",
+      "noResults": "No results found."
+    },
+    "external": {
+      "headerTitle": "Explore External Resources",
+      "resetResults": "Clear Results",
+      "searchResults": "Search Results:",
+      "noResults": "No results found."
+    },
+    "preset": {
+      "selectKeywords": "Select Review Keywords",
+      "noKeywords": "No keywords registered.",
+      "selectionComplete": "Done"
+    },
+    "linkPreview": {
+      "webPage": "Web Page",
+      "reader": "Reader",
+      "original": "Original",
+      "openInBrowser": "Open in Browser",
+      "closeEsc": "Close (ESC)",
+      "loadingContent": "Loading page content...",
+      "readerUnavailable": "Reader mode is not available for this page.",
+      "switchToOriginal": "Switch to Original",
+      "connectionRefused": "Connection refused.",
+      "securityPolicy": "This site ({hostname}) does not allow preview due to its security policy (X-Frame-Options).",
+      "openInNewWindow": "Open in New Window",
+      "readerHint": "Reader mode shows text and images only.",
+      "originalHint": "If the page doesn't load, try 'Open in Browser'."
+    },
+    "info": {
+      "basic": "Basic",
+      "detail": "Detail",
+      "celebReview": "Celeb Reviews",
+      "normalReview": "User Reviews",
+      "viewDetail": "View Detail",
+      "introduction": "Introduction",
+      "storyline": "Storyline",
+      "trailer": "Trailer",
+      "listen": "Preview",
+      "director": "Director",
+      "cast": "Cast",
+      "runtime": "Runtime",
+      "runtimeMin": "{min} min",
+      "trackList": "Track List",
+      "label": "Label",
+      "screenshots": "Screenshots",
+      "releaseDate": "Release Date"
+    },
+    "home": {
+      "pendingReviewConfirm": "You have a draft review for '{title}'.\nWould you like to submit it now?",
+      "registeredSuccess": "Successfully registered.",
+      "registrationError": "An error occurred during registration.",
+      "deleteDraftConfirm": "Delete this draft record?",
+      "deleteConfirm": "Are you sure you want to delete this record?",
+      "deleteFailed": "Failed to delete.",
+      "quickRecordLabel": "Quick Record",
+      "quickRecordDesc": "Quickly record and manage your inspirations",
+      "myLibrary": "My Library",
+      "loginRequired": "Login required",
+      "createLibrary": "Create your own library",
+      "selectedContent": "Selected Content",
+      "myRecord": "My Record",
+      "review": "Review",
+      "note": "Note",
+      "saveAutoSave": "Save (auto-saved)",
+      "savedLocally": "Saved locally. You can register after logging in.",
+      "saveFailed": "Failed to save.",
+      "pendingWrite": "Pending",
+      "goToArchive": "Go to\nArchive Page",
+      "noRecords": "No records yet",
+      "searchToRecord": "Use the search bar above to create your first record.",
+      "celebRecommendations": "Celeb Picks",
+      "archiveTab": "Archive",
+      "selectContent": "Select Content",
+      "loadingInfo": "Loading info...",
+      "detailInfo": "Detail Info",
+      "celebReview": "Celeb Reviews",
+      "normalReview": "User Reviews",
+      "externalSearchBtn": "External",
+      "modalDetailTitle": "Work Details",
+      "modalCelebTitle": "Celeb Perspectives",
+      "modalNormalTitle": "Reader Reviews",
+      "modalSelectTitle": "Select Content to Record",
+      "modalExternalTitle": "External Resources",
+      "popular": "Popular",
+      "noPopular": "No popular records in this category."
+    }
+  },
+  "userProfile": {
+    "records": "Records",
+    "followers": "Followers",
+    "following": "Following",
+    "friends": "Friends",
+    "guestbook": "Guestbook",
+    "follow": "Follow",
+    "present": "Present",
+    "celeb": "Celeb",
+    "stats": "Stats",
+    "noFollowers": "No followers yet",
+    "noFollowing": "Not following anyone yet",
+    "deleteConfirm": "Are you sure you want to delete this record?",
+    "deleteFailed": "Failed to delete.",
+    "me": "Me",
+    "sidebar": {
+      "lineage": "Lineage",
+      "records": "Records",
+      "interests": "Interests",
+      "collections": "Collections",
+      "stats": "Stats",
+      "titles": "Titles",
+      "settings": "Settings",
+      "profile": "Profile"
+    },
+    "addContent": {
+      "modalTitle": "Add record for {celebName}",
+      "searchFailed": "Search failed",
+      "sourceRequired": "Please enter a source link",
+      "addFailed": "Failed to add",
+      "searchPlaceholder": "Search content...",
+      "search": "Search",
+      "selectOther": "Select different content",
+      "status": "Status",
+      "sourceLabel": "Source link *",
+      "sourceHint": "Enter the source where {celebName} mentioned this content",
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add"
+    }
+  },
+  "contentDetail": {
+    "back": "Go back",
+    "contentInfo": "Content Info",
+    "myReview": "My Review",
+    "myNote": "My Notes",
+    "private": "Private",
+    "othersReviews": "Reviews from Others",
+    "category": {
+      "book": "Book",
+      "video": "Video",
+      "game": "Game",
+      "music": "Music",
+      "certificate": "Certificate",
+      "all": "All"
+    },
+    "addFailed": "Failed to add",
+    "deleteConfirm": "Are you sure you want to remove this content from your archives?",
+    "introduction": "Introduction",
+    "storyline": "Storyline",
+    "director": "Director",
+    "runtime": "Runtime",
+    "runtimeMinutes": "{minutes} min",
+    "cast": "Cast",
+    "trackList": "Track List",
+    "label": "Label",
+    "screenshots": "Screenshots",
+    "buyAt": "Buy on {platform}",
+    "addRecord": "Add to Archives",
+    "recorded": "Recorded",
+    "loginPrompt": "Sign in to add this to your archives",
+    "review": {
+      "anonymous": "Anonymous",
+      "spoilerWarning": "This review contains spoilers. Click to reveal",
+      "hideSpoiler": "Hide spoiler",
+      "source": "Source:",
+      "noReviews": "No reviews yet",
+      "loadMore": "Load more",
+      "rating": "Rating",
+      "placeholder": "Share your thoughts on this work freely.",
+      "containsSpoiler": "Contains spoiler",
+      "save": "Save",
+      "register": "Submit"
+    },
+    "relativeTime": {
+      "justNow": "Just now",
+      "minutesAgo": "{minutes}m ago",
+      "hoursAgo": "{hours}h ago",
+      "daysAgo": "{days}d ago"
+    },
+    "spotify": {
+      "mobileNotice": "Only 30-second previews are available on mobile browsers.",
+      "pcPrefix": "On PC, ",
+      "login": "sign in to Spotify",
+      "pcSuffix": " and return to enjoy full tracks. Complete Spotify age verification to access all songs."
+    },
+    "externalLinks": "External Links",
+    "recentContents": "Recently Viewed"
+  },
+  "recommendation": {
+    "recommend": "Recommend",
+    "title": "Recommend Content",
+    "accepted": "Recommendation accepted",
+    "rejected": "Recommendation declined",
+    "addedToList": "Added to your list",
+    "fromUser": "Recommended by {nickname}",
+    "reject": "Decline",
+    "accept": "Accept",
+    "complete": "Sent!",
+    "sentTo": "Sent to {nickname}",
+    "searchFriends": "Search friends...",
+    "loading": "Loading",
+    "noResults": "No results found",
+    "noFriends": "No friends available",
+    "loadError": "Failed to load list.",
+    "sendError": "Failed to send recommendation.",
+    "messagePlaceholder": "Leave a message (optional)",
+    "cancel": "Cancel",
+    "sending": "Sending",
+    "send": "Send Recommendation",
+    "relation": {
+      "friend": "Friend",
+      "follower": "Follower"
+    }
+  },
+  "profileSection": {
+    "showMoreImages": "Show more ({count})",
+    "showMoreNews": "Show more ({count})",
+    "collapseRecent": "Collapse recent visits",
+    "expandRecent": "Expand recent visits",
+    "guestbook": {
+      "deleteConfirm": "Are you sure you want to delete this?",
+      "deleteFailed": "Failed to delete",
+      "updateFailed": "Failed to update",
+      "empty": "No guestbook entries yet.",
+      "writeFailed": "Failed to post",
+      "placeholder": "Share your thoughts about this person.",
+      "private": "Private",
+      "public": "Public",
+      "submitting": "Posting...",
+      "submit": "Post",
+      "privateMessage": "This is a private message.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "musicPlayer": {
+    "title": "Music Player",
+    "close": "Close",
+    "album": "Album",
+    "track": "Track",
+    "delete": "Remove",
+    "playGuide": "Playback Guide",
+    "confirm": "OK",
+    "loading": "Loading...",
+    "empty": "No music to display",
+    "emptyHint": "Music with interested or listened status will appear here",
+    "noticeWantStatus": "Music with {want} or {finished} status will appear here.",
+    "noticeSpotify": "Log in to {login} on PC browser to play full tracks freely.",
+    "noticeSpotifyLogin": "Spotify",
+    "noticeAge": "For age-restricted tracks, {action} to trigger age verification. Return after verification to play normally.",
+    "noticeAgeAction": "try playing the track in the Spotify app"
+  },
+  "moreMenu": {
+    "shortcuts": "Shortcuts",
+    "home": "Home",
+    "playlists": "Playlists",
+    "explore": "Explore",
+    "scriptures": "Hall of Wisdom",
+    "board": "Board",
+    "notice": "Announcements",
+    "feedback": "Feedback"
+  },
+  "common": {
+    "loadMore": "Load More",
+    "loading": "Loading...",
+    "viewAll": "View All"
+  },
+  "contextHeader": {
+    "recordOf": "Records of {title}",
+    "theRecordOf": "THE RECORD OF",
+    "officialRecord": "Official Sacred Record"
+  },
+  "searchResult": {
+    "followers": "{count} followers",
+    "posts": "{count} posts"
+  },
+  "board": {
+    "section": "Board",
+    "items": {
+      "notice": { "label": "Announcements", "description": "Latest news and updates from Feelandnote" },
+      "feedback": { "label": "Feedback", "description": "Your opinions for a better service" }
+    },
+    "category": {
+      "CELEB_REQUEST": "Celeb Request",
+      "CONTENT_REPORT": "Content Report",
+      "FEATURE_SUGGESTION": "Feature Suggestion"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "REJECTED": "Rejected"
+    },
+    "backToList": "Back to list",
+    "backToDetail": "Go back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "create": "Create",
+    "update": "Update",
+    "title": "Title",
+    "titlePlaceholder": "Enter a title",
+    "content": "Content",
+    "contentPlaceholder": "Enter content",
+    "tabs": {
+      "notice": "Announcements",
+      "feedback": "Feedback"
+    },
+    "comment": {
+      "deleteConfirm": "Are you sure you want to delete this comment?",
+      "header": "Comments",
+      "empty": "Be the first to leave a comment",
+      "placeholder": "Write a comment",
+      "submit": "Post",
+      "loginRequired": "Please log in to leave a comment"
+    },
+    "notice": {
+      "write": "Write Notice",
+      "emptyTitle": "No announcements yet",
+      "emptySubtitle": "Please stay tuned for updates",
+      "createTitle": "Write Announcement",
+      "editTitle": "Edit Announcement",
+      "pinLabel": "Pin to top",
+      "deleteConfirm": "Are you sure you want to delete this announcement?"
+    },
+    "feedback": {
+      "write": "Write Feedback",
+      "emptyTitle": "No feedback yet",
+      "emptySubtitle": "Be the first to share your feedback",
+      "createTitle": "Write Feedback",
+      "editTitle": "Edit Feedback",
+      "categoryLabel": "Category",
+      "deleteConfirm": "Are you sure you want to delete this?",
+      "createSubmit": "Submit",
+      "updateSubmit": "Update"
+    }
+  },
+  "landing": {
+    "exhibitions": "Exhibitions",
+    "viewAll": "View All",
+    "openSoon": "Open Soon",
+    "number": "No.",
+    "defaultDescription": "Explore the cultural journeys of history's greatest figures.",
+    "goToExplore": "Go to explore",
+    "noExhibitions": "No featured exhibitions at the moment.",
+    "explore": {
+      "profession": "By Profession",
+      "nationality": "By Nationality",
+      "content": "By Collection"
+    }
+  },
+  "todayFigure": {
+    "dateLabel": "Today's Figure · {month}/{day}",
+    "subtitle": "Discover a new figure and the content they enjoyed every day",
+    "newsSelected": "Selected for being mentioned in {count} news articles in the last 48 hours",
+    "guestbookCta": "Leave your thoughts in the guestbook.",
+    "emptyCategory": "No records in this category",
+    "viewAll": "View all",
+    "libraryLabelEmpty": "{profession} {nickname}'s collection",
+    "libraryLabelFull": "{profession} {nickname}'s collection: {items}",
+    "bookCount": "{count, plural, one {# book} other {# books}}",
+    "videoCount": "{count, plural, one {# movie} other {# movies}}",
+    "musicCount": "{count, plural, one {# track} other {# tracks}}",
+    "gameCount": "{count, plural, one {# game} other {# games}}"
+  },
+  "profilePage": {
+    "userNotFound": "User not found",
+    "metaDescription": "{nickname}'s cultural archives.",
+    "consumptionPhilosophy": "Philosophy",
+    "imageSearch": "Image Search Results",
+    "guestbook": "Guestbook",
+    "bio": {
+      "label": "Lineage",
+      "editTitle": "Edit bio",
+      "placeholder": "Write something that represents you...",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "persona": {
+      "label": "Persona Analysis",
+      "description": "Analysis of {nickname}'s virtues, abilities, and dispositions.",
+      "neutral": "Neutral",
+      "strong": "Strong {direction}",
+      "innerVirtue": "Inner Virtues",
+      "outerVirtue": "Outer Virtues",
+      "ability": "Abilities",
+      "disposition": "Disposition",
+      "similarLabel": "Similar Figures",
+      "similarDesc": "Figures with the most similar analysis.",
+      "matchPercent": "{percent}% match"
+    },
+    "stats": {
+      "finished": "Finished",
+      "want": "Interested",
+      "review": "Reviews",
+      "notes": "Notes & Quotes",
+      "categoryStatus": "Category Status",
+      "noData": "No data yet.",
+      "completedSuffix": "{count} finished",
+      "wantSuffix": "{count} interested",
+      "monthlyActivity": "Monthly Activity",
+      "ratingDistribution": "Rating Distribution",
+      "ratingAverage": "Average {average} / {count} items",
+      "noRating": "No ratings yet."
+    },
+    "influence": {
+      "label": "Influence",
+      "categoryDetail": "Category Details"
+    },
+    "settings": {
+      "passwordChange": "Change Password",
+      "change": "Change",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password (min. 6 chars)",
+      "confirmPassword": "Confirm New Password",
+      "confirmPasswordPlaceholder": "Re-enter new password",
+      "passwordMismatch": "New passwords do not match",
+      "passwordNotMatch": "Passwords do not match",
+      "dangerZone": "Danger Zone",
+      "deleteAccount": "Delete Account",
+      "deleteAccountDesc": "All records, playlists, and follow data will be permanently deleted.",
+      "deleteButton": "Delete Account",
+      "deleteConfirmTitle": "Are you sure?",
+      "deleteConfirmDesc": "This action cannot be undone. All data will be immediately deleted.",
+      "confirmWord": "delete my account",
+      "confirmInputGuide": "Type {word} to confirm",
+      "cancel": "Cancel",
+      "permanentDelete": "Permanently Delete"
+    }
+  },
+  "celebPage": {
+    "intro": "Introduction",
+    "library": "Library",
+    "libraryEmpty": "No public records in the library yet.",
+    "analysis": "Persona Analysis",
+    "guestbook": "Guestbook",
+    "philosophy": "Philosophy",
+    "innerVirtue": "Inner Virtues",
+    "outerVirtue": "Outer Virtues",
+    "coreDisposition": "Core Disposition",
+    "similarFigures": "Similar Figures",
+    "archiveSuffix": "'s Archives",
+    "archiveEnglish": "Official Sacred Record",
+    "guestbookCta": "Leave your thoughts in the guestbook.",
+    "recordControl": "Record Controls"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "A history of your recent activity and updates.",
+    "markAllRead": "Mark all read",
+    "deleteRead": "Delete read",
+    "tabAll": "All ({count})",
+    "tabUnread": "Unread ({count})",
+    "deleteConfirm": "Delete this notification?",
+    "deleteReadConfirm": "Delete all read notifications?",
+    "deleteTitle": "Delete",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "reject": "Reject",
+    "accept": "Accept",
+    "emptyAll": "No notifications yet.",
+    "emptyFiltered": "All caught up!"
+  },
+  "searchPage": {
+    "control": "Search Controls",
+    "category": "Category",
+    "sort": "Sort",
+    "poweredBy": "Powered by:",
+    "followingOnly": "Following only",
+    "resultCount": "{count} results",
+    "loading": "Loading...",
+    "loadMore": "Load more",
+    "allLoaded": "All results loaded. ({count} total)",
+    "noResults": "No results for '{query}'",
+    "noResultsHint": "Try a different search term",
+    "enterQuery": "Enter a search term",
+    "enterQueryDesc": "Search for content, users, and tags",
+    "guide": {
+      "game": "There may be more results. Try different keywords or languages if you can't find what you're looking for.",
+      "certificate": "Primarily searches major national certifications."
+    },
+    "contentSort": {
+      "relevance": "Relevance",
+      "latest": "Latest",
+      "popular": "Popular"
+    },
+    "userSort": {
+      "relevance": "Relevance",
+      "followers": "Followers",
+      "latest": "Latest"
+    },
+    "contentCategory": {
+      "book": "Books",
+      "video": "Video",
+      "game": "Games",
+      "music": "Music",
+      "certificate": "Certificates"
+    },
+    "apiSource": {
+      "book": "Naver Books API",
+      "video": "TMDB",
+      "game": "IGDB",
+      "music": "Spotify",
+      "certificate": "Q-Net"
+    }
+  },
+  "reading": {
+    "stopwatch": {
+      "pause": "Pause",
+      "resume": "Resume",
+      "reset": "Reset"
+    },
+    "onboarding": {
+      "title": "Reading Mode Guide",
+      "subtitle": "Focus on reading and record your thoughts",
+      "startButton": "Get Started",
+      "reopenHint": "You can reopen this guide from the button at the bottom of the right sidebar",
+      "features": {
+        "bookSelect": "Select a Book (Optional)",
+        "bookSelectDesc": "Use the book search button at the top to select the book you're reading. This is optional.",
+        "autoTimer": "Auto Timer",
+        "autoTimerDesc": "The timer starts automatically when you enter the page. You can pause or reset it.",
+        "mainNote": "Main Note",
+        "mainNoteDesc": "In addition to sticky notes, there's a main note for longer writing. It can be expanded to full screen.",
+        "aiQuestion": "AI Questions",
+        "aiQuestionDesc": "Ask AI questions about your book. All floating memos are included as context.",
+        "autoSave": "Auto Save",
+        "autoSaveDesc": "All memos are saved in your browser's local storage. They won't be available if you clear browser data or access from another device."
+      }
+    },
+    "bookInfo": {
+      "restore": "Restore",
+      "maximize": "Maximize",
+      "close": "Close",
+      "publisher": "Publisher",
+      "publishDate": "Published",
+      "description": "Description"
+    },
+    "bookSearch": {
+      "title": "Book Search",
+      "placeholder": "Book title or author",
+      "searchButton": "Search",
+      "hint": "Selecting a book is optional. You can freely take notes without selecting one.",
+      "noResults": "No results found"
+    },
+    "mainNote": {
+      "title": "Main Note",
+      "collapse": "Collapse",
+      "fullscreen": "Full Screen",
+      "placeholderExpanded": "Write your longer thoughts here...\n\nFreely record thoughts, summaries, and reflections that come up while reading.\nThis is ideal for organized writing, separate from sticky note memos.",
+      "placeholderCompact": "Freely record your thoughts while reading...",
+      "charCount": "{count} chars"
+    },
+    "sidebar": {
+      "sections": "Sections",
+      "addSection": "Add Section",
+      "noSections": "No sections",
+      "addHint": "Click + to add",
+      "hide": "Hide",
+      "show": "Show",
+      "delete": "Delete"
+    },
+    "sectionTypes": {
+      "basic": "Memo",
+      "character": "Organization",
+      "image": "Image",
+      "timeline": "Timeline",
+      "conceptMap": "Concept Map",
+      "comparison": "Comparison",
+      "glossary": "Glossary"
+    },
+    "workspace": {
+      "desktopOnly": "Desktop Only",
+      "desktopOnlyDesc": "Reading mode is only available on desktop.",
+      "leftSidebarToggle": "Toggle left sidebar",
+      "exit": "Exit",
+      "modeSwitch": "Switch mode",
+      "bookInfo": "Book info (click to view details)",
+      "changeBook": "Select another book",
+      "clearBook": "Clear book selection",
+      "selectBook": "Select Book",
+      "rightSidebarToggle": "Toggle right sidebar",
+      "readingBook": " — currently reading",
+      "addSectionPrompt": "Add a section from the left panel",
+      "addSectionHint": "You can freely arrange memo, organization, and image sections",
+      "storageNotice": "All memos are saved in your browser's local storage. They won't be available if you clear browser data or access from another device.",
+      "questionsTitle": "Questions to Ask While Reading",
+      "reasonsTitle": "Why You Should Read",
+      "methodsTitle": "Reading Methods",
+      "reopenGuide": "Reopen Guide",
+      "tabs": {
+        "reading": "Read",
+        "watching": "Watch",
+        "playing": "Play",
+        "listening": "Listen"
+      }
+    },
+    "character": {
+      "characterList": "Characters",
+      "personCount": "{count}",
+      "addCharacter": "Add Character",
+      "startPrompt": "Add a character to get started",
+      "orgChart": "Org Chart",
+      "selectPrompt": "Select a character from the left to view details and relationships",
+      "edit": "Edit",
+      "connectMode": "Connection Mode",
+      "connectPrompt": "Select a target from the left to connect",
+      "selectRelationType": "Select Relationship Type",
+      "relations": "Relations",
+      "addRelation": "+ Add Relation",
+      "noRelations": "No relations yet",
+      "relationsCount": "{count} relations",
+      "noName": "Unnamed",
+      "aliases": "Aliases",
+      "editCharacter": "Edit Character",
+      "done": "Done",
+      "orgInfo": "Organization Info",
+      "orgLabel": "Organization",
+      "orgPlaceholder": "e.g., Joseon Army, Japanese Army",
+      "subOrgLabel": "Sub-organization",
+      "subOrgPlaceholder": "e.g., Under Yi Sun-sin",
+      "rankLabel": "Rank/Position",
+      "rankPlaceholder": "e.g., General, Soldier, Governor",
+      "gender": "Gender",
+      "genderMale": "M",
+      "genderFemale": "F",
+      "genderUnknown": "?",
+      "nameLabel": "Name / Title",
+      "primaryName": "Primary name",
+      "aliasName": "Alias/Title",
+      "addName": "+ Add Name",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Enter a description of the character...",
+      "confirmDelete": "Are you sure you want to delete this character?",
+      "deleteCharacter": "Delete Character",
+      "uncategorized": "Uncategorized",
+      "other": "Other"
+    },
+    "comparison": {
+      "addCriterionPlaceholder": "Add comparison criterion (e.g., Price, Performance, Design)",
+      "addCriterion": "Add Criterion",
+      "noItems": "No items to compare",
+      "addItem": "Add Item",
+      "itemHeader": "Item",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirmDeleteCriterion": "Delete the \"{name}\" criterion?",
+      "confirmDeleteItem": "Delete this item?",
+      "newItem": "New Item"
+    },
+    "conceptMap": {
+      "addRootConcept": "Add Root Concept",
+      "noConcepts": "No concepts",
+      "selectPrompt": "Select a concept to\nview details",
+      "editConcept": "Edit Concept",
+      "conceptName": "Concept Name",
+      "conceptNamePlaceholder": "Concept name",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Detailed description",
+      "save": "Save",
+      "cancel": "Cancel",
+      "addChild": "Add Child",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cannotDeleteWithChildren": "Cannot delete a concept with children.",
+      "confirmDelete": "Delete this concept?",
+      "newConcept": "New Concept"
+    },
+    "glossary": {
+      "searchPlaceholder": "Search terms...",
+      "all": "All",
+      "addTerm": "Add Term",
+      "noTerms": "No terms",
+      "noSearchResults": "No search results",
+      "selectPrompt": "Select a term to\nview details",
+      "editTerm": "Edit Term",
+      "termLabel": "Term",
+      "termPlaceholder": "Enter term",
+      "definitionLabel": "Definition",
+      "definitionPlaceholder": "Enter definition",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "e.g., History, Philosophy, Economics",
+      "pageLabel": "Page",
+      "pagePlaceholder": "e.g., 42, 127-130",
+      "page": "Page",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Delete this term?"
+    },
+    "quote": {
+      "prevQuote": "Previous quote",
+      "nextQuote": "Next quote",
+      "manage": "Manage quotes",
+      "manageTitle": "Manage Quotes",
+      "close": "Close",
+      "quotePlaceholder": "Enter a quote...",
+      "authorPlaceholder": "Author or source",
+      "deleteQuote": "Delete quote",
+      "addNew": "Add new inspiration",
+      "storageNotice": "Your reading quotes are safely stored in local storage.",
+      "doneButton": "Done",
+      "fallbackQuote": "Add a quote to get started."
+    },
+    "section": {
+      "restore": "Restore",
+      "maximize": "Maximize",
+      "close": "Close",
+      "basicPlaceholder": "Enter content...",
+      "imagePaste": "Paste an image with Ctrl+V",
+      "imageHint": "Drag to move / Scroll to zoom",
+      "pastedImage": "Pasted image",
+      "imageError": "An error occurred while processing the image."
+    },
+    "timeline": {
+      "addEvent": "Add Event",
+      "noEvents": "No events",
+      "selectPrompt": "Select an event to\nview details",
+      "editEvent": "Edit Event",
+      "dateLabel": "Date/Period",
+      "datePlaceholder": "e.g., April 1592",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Event title",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Detailed description",
+      "categoryLabel": "Category",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Delete this event?",
+      "newEvent": "New Event",
+      "categories": {
+        "politics": "Politics",
+        "economy": "Economy",
+        "society": "Society",
+        "culture": "Culture",
+        "war": "War",
+        "other": "Other"
+      }
+    }
+  },
+  "userBio": {
+    "label": "About",
+    "bioPlaceholder": "Write your bio...",
+    "bioEmpty": "Write a short bio...",
+    "quotesPlaceholder": "A line that represents you",
+    "avatarUrlLabel": "Profile image URL",
+    "nationalityLabel": "Nationality",
+    "birthdateLabel": "Date of birth",
+    "loading": "Loading...",
+    "select": "Select",
+    "cancel": "Cancel",
+    "editProfile": "Edit profile"
+  },
+  "note": {
+    "sectionTitlePlaceholder": "Section title (e.g., Ch.1, E01)",
+    "sectionMemoPlaceholder": "Notes in this section are kept private and secure.",
+    "sectionItemPlaceholder": "Your notes are kept private and secure.",
+    "notePanelPlaceholder": "Notes are kept private. Organize your materials before writing a review."
+  },
+  "creation": {
+    "whatif": {
+      "scenarioLabel": "Scenario *",
+      "placeholder": "What if...? Let your imagination run free.",
+      "charCount": "{count} / 10,000 chars"
+    },
+    "ost": {
+      "sceneLabel": "Scene-by-scene OST",
+      "add": "Add",
+      "trackLabel": "Track {index}",
+      "scenePlaceholder": "Scene/Chapter (e.g., Opening, Climax)",
+      "songPlaceholder": "Song title - Artist",
+      "reasonPlaceholder": "Reason for selection",
+      "directionLabel": "Overall OST direction",
+      "directionPlaceholder": "Share your thoughts on the overall music direction."
+    },
+    "media": {
+      "mediaSelectLabel": "Select media *",
+      "castingLabel": "Casting suggestions",
+      "add": "Add",
+      "rolePlaceholder": "Role",
+      "actorPlaceholder": "Actor/Voice actor",
+      "directionLabel": "Production direction",
+      "directionPlaceholder": "Share your ideas on how this should be produced."
+    }
+  },
+  "customContent": {
+    "modalTitle": "Custom registration",
+    "searchGuide": " when you can't find the content you're looking for.",
+    "search": "Search",
+    "category": "Category",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Enter content title",
+    "creatorOptional": "{label} (optional)",
+    "status": "Status",
+    "titleRequired": "Please enter a title.",
+    "addFailed": "An error occurred while adding content.",
+    "cancel": "Cancel",
+    "add": "Add"
+  },
+  "recordInteraction": {
+    "loading": "Loading...",
+    "firstComment": "Be the first to leave a comment.",
+    "commentPlaceholder": "Write a comment...",
+    "submit": "Post",
+    "loginRequired": "Please sign in."
+  },
+  "flowEditor": {
+    "title": "Create New Flow",
+    "nameLabel": "Flow title *",
+    "namePlaceholder": "e.g., Frontend Beginner Roadmap",
+    "descLabel": "Description",
+    "descPlaceholder": "Brief description of the flow",
+    "public": "Public",
+    "stageConfig": "Stage Configuration",
+    "addStage": "Add stage",
+    "stageName": "Stage name",
+    "stageDescPlaceholder": "Goal or description for this stage (optional)",
+    "contentAddGuide": "You can add content from the detail page after creating the flow",
+    "titleRequired": "Please enter a flow title.",
+    "createFailed": "Failed to create flow.",
+    "cancel": "Cancel",
+    "creating": "Creating...",
+    "create": "Create Flow"
+  },
+  "flowDetail": {
+    "reasonPlaceholder": "Why did you place this content here...",
+    "addDesc": "+ Add description",
+    "searchPlaceholder": "Search...",
+    "myLibrary": "My Library",
+    "allAdded": "All content has been added to the flow",
+    "emptyLibrary": "No content in your library",
+    "dropHere": "Drop here",
+    "dragGuide": "Drag content from the right panel",
+    "emptyStage": "No content yet",
+    "emptyFlow": "No stages yet",
+    "emptyFlowGuide": "Add stages and connect your content.",
+    "startEdit": "Start editing",
+    "addStage": "Add stage",
+    "itemCount": "{count} items"
+  },
+  "agoraGame": {
+    "answerLabel": "Enter the work title",
+    "answerPlaceholder": "Enter your answer",
+    "submit": "Submit"
+  },
+  "archiveSearch": {
+    "placeholder": "Search by title or author (min. 2 chars)"
   }
 }

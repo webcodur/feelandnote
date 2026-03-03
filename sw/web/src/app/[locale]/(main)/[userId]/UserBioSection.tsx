@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Quote, Pencil, Check, X, MapPin, Calendar, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -16,6 +17,7 @@ interface UserBioSectionProps {
 }
 
 export default function UserBioSection({ profile, isOwner }: UserBioSectionProps) {
+  const t = useTranslations("userBio");
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState(profile.nickname);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
@@ -60,7 +62,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
   return (
     <ClassicalBox as="section" className="p-4 sm:p-6 bg-bg-card/40 border-accent/20 shadow-xl">
       <div className="flex justify-center mb-4 relative">
-        <DecorativeLabel label="소개" />
+        <DecorativeLabel label={t("label")} />
       </div>
 
       {/* 아바타 + 닉네임 + 액션 버튼 */}
@@ -102,7 +104,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
           <div className="shrink-0 flex items-center gap-1">
             {isEditing ? (
               <>
-                <button onClick={handleCancel} className="p-1.5 text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-sm" title="취소">
+                <button onClick={handleCancel} className="p-1.5 text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-sm" title={t("cancel")}>
                   <X size={14} />
                 </button>
                 <button onClick={handleSave} disabled={isSaving} className="p-1.5 text-accent hover:bg-accent/10 rounded-sm disabled:opacity-50" title="저장">
@@ -110,7 +112,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
                 </button>
               </>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="p-1.5 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm" title="프로필 수정">
+              <button onClick={() => setIsEditing(true)} className="p-1.5 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm" title={t("editProfile")}>
                 <Pencil size={14} />
               </button>
             )}
@@ -124,19 +126,19 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       {/* bio */}
       {isEditing ? (
         <div className="mb-3">
-          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder="자기소개를 입력하세요..." className="w-full bg-black/30 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-secondary/50" rows={3} maxLength={200} />
+          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("bioPlaceholder")} className="w-full bg-black/30 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-secondary/50" rows={3} maxLength={200} />
           <span className="text-xs text-text-secondary">{bioValue.length} / 200</span>
         </div>
       ) : profile.bio ? (
         <p className="text-sm text-text-primary leading-relaxed mb-3">{profile.bio}</p>
       ) : isOwner ? (
-        <p className="text-sm text-text-secondary/50 mb-3">자기소개를 작성해보세요...</p>
+        <p className="text-sm text-text-secondary/50 mb-3">{t("bioEmpty")}</p>
       ) : null}
 
       {/* 좌우명 */}
       {isEditing ? (
         <div className="mb-3">
-          <input type="text" value={quotes} onChange={(e) => setQuotes(e.target.value)} placeholder="나를 표현하는 한 줄" maxLength={100} className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+          <input type="text" value={quotes} onChange={(e) => setQuotes(e.target.value)} placeholder={t("quotesPlaceholder")} maxLength={100} className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
         </div>
       ) : profile.quotes ? (
         <div className="flex items-start gap-3 pt-3 border-t border-border/30">
@@ -148,7 +150,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       {/* 아바타 URL (편집 모드에서만) */}
       {isEditing && (
         <div>
-          <label className="text-xs text-text-secondary mb-1 block">프로필 이미지 URL</label>
+          <label className="text-xs text-text-secondary mb-1 block">{t("avatarUrlLabel")}</label>
           <input type="url" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} placeholder="https://..." className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
         </div>
       )}
@@ -165,22 +167,23 @@ interface MetaEditFieldsProps {
 }
 
 function MetaEditFields({ nationality, setNationality, birthDate, setBirthDate }: MetaEditFieldsProps) {
+  const t = useTranslations("userBio");
   const { countries, loading } = useCountries();
 
   return (
     <div className="grid grid-cols-2 gap-2 mb-3">
       <div>
-        <label className="text-xs text-text-secondary mb-1 block">국적/지역</label>
+        <label className="text-xs text-text-secondary mb-1 block">{t("nationalityLabel")}</label>
         <SearchableSelect
           options={countries.map((c) => ({ value: c.code, label: c.name }))}
           value={nationality}
           onChange={setNationality}
-          placeholder={loading ? "로딩 중..." : "선택"}
+          placeholder={loading ? t("loading") : t("select")}
           disabled={loading}
         />
       </div>
       <div>
-        <label className="text-xs text-text-secondary mb-1 block">생년월일</label>
+        <label className="text-xs text-text-secondary mb-1 block">{t("birthdateLabel")}</label>
         <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-2 text-sm text-text-primary outline-none focus:border-accent/50" />
       </div>
     </div>

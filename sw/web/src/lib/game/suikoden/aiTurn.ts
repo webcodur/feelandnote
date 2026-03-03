@@ -127,12 +127,12 @@ function assignIdleCharacters(state: GameState, faction: Faction): GameState {
     for (const visitor of unassignedVisitors) {
       const idleInTerritory = getIdlePlacements().filter(p => p.territoryId === territory.id && canWork(p.characterId))
       if (idleInTerritory.length === 0) break
-      // 매력(charisma) 높은 인물 우선
+      // 매력(charm) 높은 인물 우선
       const best = idleInTerritory
         .map(p => {
           const f = s.factions.find(ff => ff.id === faction.id)
           const m = f?.members.find(mm => mm.id === p.characterId)
-          return { placement: p, score: m ? m.stats.charisma : 0 }
+          return { placement: p, score: m ? m.stats.charm : 0 }
         })
         .sort((a, b) => b.score - a.score)[0]
       if (best) {

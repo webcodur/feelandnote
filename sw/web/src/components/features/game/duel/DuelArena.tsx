@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocale } from "next-intl";
 import type { BattleCard, Command } from "@/lib/game/types";
 import {
   type DuelAction, type DuelPhase, type DuelClashResult,
@@ -302,7 +303,7 @@ const ACTION_ICONS: Record<Command, Record<DuelAction, IconComponent>> = {
 
 // ─── 대사 선택 ───
 
-function pickDuelLine(card: BattleCard, action: DuelAction, command: Command): string {
+function pickDuelLine(card: BattleCard, action: DuelAction, command: Command, locale: 'ko' | 'en'): string {
   // strike → 개인 clash_attack 우선
   if (action === "strike" && card.dialogueLines?.clash_attack) {
     const lines = card.dialogueLines.clash_attack;
@@ -318,13 +319,13 @@ function pickDuelLine(card: BattleCard, action: DuelAction, command: Command): s
   };
 
   const tone = card.speechTone;
-  const lines = defaultLinesData[keyMap[action]]?.[tone];
+  const lines = defaultLinesData[locale][keyMap[action]]?.[tone];
   if (lines?.length) return lines[Math.floor(Math.random() * lines.length)];
   return "";
 }
 
 /** idle/클릭 시 대사: answer → greeting 순으로 개인 대사 탐색, 없으면 defaultLines 폴백 */
-function pickIdleLine(card: BattleCard): string {
+function pickIdleLine(card: BattleCard, locale: 'ko' | 'en'): string {
   for (const type of ["answer", "greeting"] as const) {
     const personal = card.dialogueLines?.[type];
     if (personal) {
@@ -332,7 +333,7 @@ function pickIdleLine(card: BattleCard): string {
       if (raw) return stripEmotionTag(raw);
     }
   }
-  const fallback = defaultLinesData["greeting"]?.[card.speechTone];
+  const fallback = defaultLinesData[locale]["greeting"]?.[card.speechTone];
   if (fallback?.length) return fallback[Math.floor(Math.random() * fallback.length)];
   return "";
 }
@@ -398,6 +399,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   const [playerBubble, setPlayerBubble] = useState("");
   const [aiBubble, setAiBubble] = useState("");
   const [playerLastAction, setPlayerLastAction] = useState<DuelAction | undefined>(undefined);
+  const locale = useLocale() as 'ko' | 'en';
 
   const maxPlayerHp = calcDuelHp(playerCard, command);
   const maxAiHp = calcDuelHp(aiCard, command);
@@ -433,7 +435,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
 
   const showIdleBubble = useCallback((side: "player" | "ai") => {
     const card = side === "player" ? playerCard : aiCard;
-    const line = pickIdleLine(card);
+    const line = pickIdleLine(card, locale);
     if (!line) return;
 
     if (side === "player") setPlayerBubble(line);
@@ -488,7 +490,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
 
     // t=0: 플레이어 행동 + 대사
     setPlayerPose(actionToPose(playerAction, false));
-    setPlayerBubble(pickDuelLine(playerCard, playerAction, command));
+    setPlayerBubble(pickDuelLine(playerCard, playerAction, command, locale));
 
     const doResolve = () => {
       // t=1400: 피격 + 데미지 적용
@@ -512,7 +514,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       // t=700: AI 행동 + 대사
       setTimeout(() => {
         setAiPose(actionToPose(aiAction, false));
-        setAiBubble(pickDuelLine(aiCard, aiAction, command));
+        setAiBubble(pickDuelLine(aiCard, aiAction, command, locale));
       }, 700),
       // t=1400: 충돌 결과
       setTimeout(doResolve, 1400),

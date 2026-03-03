@@ -12,8 +12,10 @@ import { getDetailedStats, type DetailedStats } from "@/actions/user";
 import ProfileStatsSection from "@/app/[locale]/(main)/[userId]/ProfileStatsSection";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 export default function StatsModal() {
+  const t = useTranslations("userProfile");
   const [isOpen, setIsOpen] = useState(false);
   const [stats, setStats] = useState<DetailedStats | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,7 @@ export default function StatsModal() {
         unstyled
         onClick={handleOpen}
         className="p-2 rounded-lg text-text-secondary hover:text-accent hover:bg-white/5"
-        title="통계"
+        title={t("stats")}
       >
         <BarChart3 size={20} />
       </Button>

@@ -9,6 +9,7 @@ import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
 import FormattedText from "@/components/ui/FormattedText";
 import SearchHelper from "./SearchHelper";
+import { useTranslations } from "next-intl";
 
 
 export interface QuickRecordEditorProps {
@@ -36,6 +37,8 @@ export default function QuickRecordEditor({
   onCancel,
   onBlogSearch,
 }: QuickRecordEditorProps) {
+  const t = useTranslations("quickRecord.editor");
+  const tSection = useTranslations("quickRecord.section");
   const [rating, setRating] = useState<number>(content.initialRating || 0);
   const [review, setReview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,7 +78,7 @@ export default function QuickRecordEditor({
       onComplete();
     } catch (error) {
       console.error("기록 저장 실패:", error);
-      alert("기록 저장 중 오류가 발생했습니다.");
+      alert(tSection("saveError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -99,7 +102,7 @@ export default function QuickRecordEditor({
                     }`}
                 >
                     <PenTool size={14} />
-                    <span>작성</span>
+                    <span>{t("write")}</span>
                 </button>
                 <button
                     onClick={() => setViewMode('PREVIEW')}
@@ -110,7 +113,7 @@ export default function QuickRecordEditor({
                     }`}
                 >
                     <Eye size={14} />
-                    <span>미리보기</span>
+                    <span>{t("preview")}</span>
                 </button>
              </div>
 
@@ -120,7 +123,7 @@ export default function QuickRecordEditor({
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent font-bold text-sm transition-all disabled:opacity-50"
              >
                 <Save size={16} />
-                <span>저장</span>
+                <span>{t("save")}</span>
              </button>
              
           </div>
@@ -132,7 +135,7 @@ export default function QuickRecordEditor({
                     <textarea
                         value={review}
                         onChange={(e) => setReview(e.target.value)}
-                        placeholder="작품에서 어떤 영감을 받으셨나요?&#13;&#10;자유롭게 기록해보세요."
+                        placeholder={t("editorPlaceholder").replace("\\n", "\r\n")}
                         className="w-full flex-1 p-6 bg-transparent border-none outline-none resize-none text-text-primary leading-relaxed text-base font-sans placeholder:text-text-tertiary/30 placeholder:font-light"
                     />
                 </div>
@@ -144,7 +147,7 @@ export default function QuickRecordEditor({
                         </div>
                     ) : (
                         <div className="h-full flex items-center justify-center text-text-tertiary/30 italic">
-                            작성된 내용이 없습니다.
+                            {t("noContent")}
                         </div>
                     )}
                 </div>
@@ -165,7 +168,7 @@ export default function QuickRecordEditor({
                     }`}
                 >
                     <Info className="w-3.5 h-3.5" />
-                    <span>작품 정보</span>
+                    <span>{t("workInfo")}</span>
                 </button>
                 <button
                     onClick={() => setRightTab('INSIGHT')}
@@ -176,7 +179,7 @@ export default function QuickRecordEditor({
                     }`}
                 >
                     <Search className="w-3.5 h-3.5" />
-                    <span>외부 자료 탐색</span>
+                    <span>{t("externalSearch")}</span>
                 </button>
             </div>
 

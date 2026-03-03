@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Check, UserPlus } from "lucide-react";
 import styles from "./styles.module.css";
 import { NeoCelebCardProps } from "./types";

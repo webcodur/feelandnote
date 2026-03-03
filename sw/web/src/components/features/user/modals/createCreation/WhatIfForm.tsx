@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 
 const WHATIF_TYPES = [
@@ -26,6 +27,7 @@ interface WhatIfFormProps {
 }
 
 export default function WhatIfForm({ whatifType, whatifContent, onTypeChange, onContentChange }: WhatIfFormProps) {
+  const t = useTranslations("creation.whatif");
   return (
     <div className="space-y-6">
       <div>
@@ -49,16 +51,16 @@ export default function WhatIfForm({ whatifType, whatifContent, onTypeChange, on
       </div>
 
       <div>
-        <label className="block text-sm font-semibold mb-2">상상 시나리오 *</label>
+        <label className="block text-sm font-semibold mb-2">{t("scenarioLabel")}</label>
         <textarea
           value={whatifContent}
           onChange={(e) => onContentChange(e.target.value)}
-          placeholder="만약 ~했다면 어떤 이야기가 펼쳐질까요? 상상력을 마음껏 펼쳐보세요."
+          placeholder={t("placeholder")}
           className="w-full h-64 px-4 py-3 bg-bg-main border border-border rounded-lg outline-none resize-none focus:border-accent"
           maxLength={10000}
         />
         <div className="text-xs text-text-secondary text-end mt-1">
-          {whatifContent.length} / 10,000자
+          {t("charCount", { count: whatifContent.length })}
         </div>
       </div>
     </div>

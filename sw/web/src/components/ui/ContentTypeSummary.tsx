@@ -7,21 +7,22 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { BookOpen, Film, Gamepad2, Music } from "lucide-react";
 
 type Size = "sm" | "md" | "lg";
 
-const SIZE_CONFIG: Record<Size, { icon: number; text: string; gap: string }> = {
-  sm: { icon: 16, text: "text-sm", gap: "gap-4" },
-  md: { icon: 18, text: "text-base", gap: "gap-5" },
-  lg: { icon: 20, text: "text-lg", gap: "gap-6" },
+const SIZE_CONFIG: Record<Size, { icon: string; text: string; gap: string }> = {
+  sm: { icon: "size-4 md:size-5", text: "text-xs", gap: "gap-2" },
+  md: { icon: "size-4 md:size-6", text: "text-xs md:text-sm", gap: "gap-2.5" },
+  lg: { icon: "size-5 md:size-7", text: "text-sm md:text-base", gap: "gap-3" },
 };
 
 const CONTENT_TYPE_META = [
-  { type: "BOOK", label: "도서", Icon: BookOpen },
-  { type: "VIDEO", label: "영상", Icon: Film },
-  { type: "GAME", label: "게임", Icon: Gamepad2 },
-  { type: "MUSIC", label: "음악", Icon: Music },
+  { type: "BOOK", key: "book" as const, Icon: BookOpen },
+  { type: "VIDEO", key: "video" as const, Icon: Film },
+  { type: "GAME", key: "game" as const, Icon: Gamepad2 },
+  { type: "MUSIC", key: "music" as const, Icon: Music },
 ];
 
 interface ContentTypeSummaryProps {
@@ -38,8 +39,9 @@ interface ContentTypeSummaryProps {
 
 export function ContentTypeSummary({ items, value, onChange, size = "sm", className = "" }: ContentTypeSummaryProps) {
   const cfg = SIZE_CONFIG[size];
+  const t = useTranslations("content.category");
   const typeCounts = CONTENT_TYPE_META
-    .map(m => ({ ...m, count: items.filter(item => item.type === m.type).length }))
+    .map(m => ({ ...m, label: t(m.key), count: items.filter(item => item.type === m.type).length }))
     .filter(m => m.count > 0)
     .sort((a, b) => b.count - a.count);
 
@@ -47,25 +49,21 @@ export function ContentTypeSummary({ items, value, onChange, size = "sm", classN
 
   return (
     <div className={`flex items-center justify-center ${cfg.gap} ${className}`}>
-      {typeCounts.map((item, i) => {
+      {typeCounts.map((item) => {
         const isActive = value === item.type;
         return (
-          <React.Fragment key={item.type}>
-            {i > 0 && <span className="text-text-tertiary/30 text-sm select-none">&gt;</span>}
-            <button
-              onClick={() => onChange(isActive ? null : item.type)}
-              className={`flex items-center gap-1.5 ${cfg.text} transition-colors ${
-                isActive
-                  ? "text-accent font-bold"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
-            >
-              <span className={isActive ? "text-accent" : "text-accent/70"}>
-                <item.Icon size={cfg.icon} />
-              </span>
-              <span>{item.label}({item.count})</span>
-            </button>
-          </React.Fragment>
+          <button
+            key={item.type}
+            onClick={() => onChange(isActive ? null : item.type)}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-all ${
+              isActive
+                ? "border-accent/60 bg-accent/15 text-accent"
+                : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10"
+            }`}
+          >
+            <item.Icon className={`${cfg.icon} ${isActive ? "text-accent" : "text-amber-400/70"}`} />
+            <span className={`${cfg.text} tabular-nums font-medium`}>({item.count})</span>
+          </button>
         );
       })}
     </div>

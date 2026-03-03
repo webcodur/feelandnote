@@ -7,11 +7,13 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui";
 import Portal from "@/components/ui/Portal";
 import { Lock, MoreVertical, Trash2, Edit3 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import type { EntryItemProps } from "./types";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -19,7 +21,11 @@ function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+const DATE_LOCALES = { ko, en: enUS } as const;
+
 export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpdate }: EntryItemProps) {
+  const t = useTranslations("profileSection.guestbook");
+  const locale = useLocale();
   const [showMenu, setShowMenu] = useState(false);
   const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
   const moreButtonRef = useRef<HTMLDivElement>(null);
@@ -72,7 +78,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
               {entry.author.nickname ?? "Anonymous"}
             </span>
             <span className="text-[10px] text-text-tertiary/30 font-mono">
-              {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true, locale: ko })}
+              {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko })}
             </span>
             {entry.is_private && (
               <Lock size={9} className="text-accent/40" />
@@ -96,27 +102,27 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                     onChange={(e) => setEditIsPrivate(e.target.checked)}
                     className="accent-accent"
                   />
-                  비밀글
+                  {t("private")}
                 </label>
                 <div className="flex gap-3">
                   <button
                     onClick={() => setIsEditing(false)}
                     className="text-[11px] text-text-tertiary hover:text-text-primary"
                   >
-                    취소
+                    {t("cancel")}
                   </button>
                   <button
                     onClick={handleSaveEdit}
                     className="text-[11px] text-accent hover:text-accent-hover font-medium"
                   >
-                    저장
+                    {t("save")}
                   </button>
                 </div>
               </div>
             </div>
           ) : (
             <p className={`whitespace-pre-wrap leading-relaxed text-[13px] font-sans ${isHiddenPrivate ? "text-text-tertiary/30" : "text-text-secondary/80"}`}>
-              {isHiddenPrivate ? "비밀글입니다." : entry.content}
+              {isHiddenPrivate ? t("privateMessage") : entry.content}
             </p>
           )}
         </div>
@@ -157,7 +163,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                       className="w-full px-4 py-2 text-start text-xs font-bold text-text-secondary hover:bg-white/5 hover:text-accent flex items-center gap-3 transition-colors"
                     >
                       <Edit3 size={12} className="opacity-60" />
-                      수정
+                      {t("edit")}
                     </Button>
                   )}
                   {canDelete && (
@@ -170,7 +176,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
                       className="w-full px-4 py-2 text-start text-xs font-bold text-red-500/70 hover:bg-red-500/5 hover:text-red-500 flex items-center gap-3 transition-colors"
                     >
                       <Trash2 size={12} className="opacity-60" />
-                      삭제
+                      {t("delete")}
                     </Button>
                   )}
                 </div>

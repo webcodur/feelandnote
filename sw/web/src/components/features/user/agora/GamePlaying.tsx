@@ -6,6 +6,7 @@
 "use client";
 
 import { HelpCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button, Badge } from "@/components/ui";
 
 interface Hint {
@@ -37,6 +38,7 @@ export default function GamePlaying({
   onAnswerChange,
   onSubmit,
 }: GamePlayingProps) {
+  const t = useTranslations("agoraGame");
   return (
     <>
       <div className="text-sm text-text-secondary mb-4 text-center">
@@ -79,17 +81,17 @@ export default function GamePlaying({
       </div>
 
       <div>
-        <label className="block text-base font-semibold mb-3">작품명을 입력하세요</label>
+        <label className="block text-base font-semibold mb-3">{t("answerLabel")}</label>
         <div className="flex gap-3">
           <input
             type="text"
             value={userAnswer}
             onChange={(e) => onAnswerChange(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && onSubmit()}
-            placeholder="정답을 입력하세요"
+            placeholder={t("answerPlaceholder")}
             className="flex-1 px-5 py-4 bg-bg-main border border-border rounded-xl text-text-primary placeholder:text-text-secondary outline-none focus:border-accent"
           />
-          <Button variant="primary" onClick={onSubmit} className="px-8">제출</Button>
+          <Button variant="primary" onClick={onSubmit} className="px-8">{t("submit")}</Button>
         </div>
       </div>
     </>

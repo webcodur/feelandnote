@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Plus,
   Eye,
@@ -24,7 +25,6 @@ import {
   BookText,
 } from "lucide-react";
 import type { Section, SectionType } from "../types";
-import { SECTION_TYPE_LABELS } from "../types";
 
 interface Props {
   sections: Section[];
@@ -35,14 +35,14 @@ interface Props {
   onReorder: (newSections: Section[]) => void;
 }
 
-const SECTION_TYPES: { type: SectionType; icon: typeof FileText; label: string }[] = [
-  { type: "basic", icon: FileText, label: "메모" },
-  { type: "character", icon: Users, label: "조직" },
-  { type: "timeline", icon: Calendar, label: "타임라인" },
-  { type: "conceptMap", icon: Network, label: "개념 맵" },
-  { type: "comparison", icon: TableIcon, label: "비교표" },
-  { type: "glossary", icon: BookText, label: "용어집" },
-  { type: "image", icon: Image, label: "이미지" },
+const SECTION_TYPES: { type: SectionType; icon: typeof FileText; key: string }[] = [
+  { type: "basic", icon: FileText, key: "basic" },
+  { type: "character", icon: Users, key: "character" },
+  { type: "timeline", icon: Calendar, key: "timeline" },
+  { type: "conceptMap", icon: Network, key: "conceptMap" },
+  { type: "comparison", icon: TableIcon, key: "comparison" },
+  { type: "glossary", icon: BookText, key: "glossary" },
+  { type: "image", icon: Image, key: "image" },
 ];
 
 export default function LeftSidebar({
@@ -53,6 +53,8 @@ export default function LeftSidebar({
   onUpdateTitle,
   onReorder,
 }: Props) {
+  const t = useTranslations("reading.sidebar");
+  const ts = useTranslations("reading.sectionTypes");
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -106,12 +108,12 @@ export default function LeftSidebar({
     <aside className="flex h-full w-full flex-col border-e border-border bg-secondary">
       {/* 헤더 */}
       <div className="flex items-center justify-between border-b border-border p-3">
-        <span className="text-sm font-medium">섹션</span>
+        <span className="text-sm font-medium">{t("sections")}</span>
         <div className="relative">
           <button
             onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
             className="flex size-7 items-center justify-center rounded-lg bg-accent text-white hover:bg-accent-hover"
-            title="섹션 추가"
+            title={t("addSection")}
           >
             <Plus className="size-4" />
           </button>
@@ -124,14 +126,14 @@ export default function LeftSidebar({
                 onClick={() => setIsAddMenuOpen(false)}
               />
               <div className="absolute end-0 top-full z-20 mt-1 w-32 rounded-lg border border-border bg-[#1a1f27] py-1 shadow-xl">
-                {SECTION_TYPES.map(({ type, icon: Icon, label }) => (
+                {SECTION_TYPES.map(({ type, icon: Icon, key }) => (
                   <button
                     key={type}
                     onClick={() => handleAddSection(type)}
                     className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-white/5"
                   >
                     <Icon className="size-4 text-text-secondary" />
-                    {label}
+                    {ts(key)}
                   </button>
                 ))}
               </div>
@@ -145,8 +147,8 @@ export default function LeftSidebar({
         {sections.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-text-secondary">
             <FileText className="mb-2 size-8 opacity-50" />
-            <p className="text-xs">섹션이 없습니다</p>
-            <p className="text-xs opacity-70">+ 버튼으로 추가하세요</p>
+            <p className="text-xs">{t("noSections")}</p>
+            <p className="text-xs opacity-70">{t("addHint")}</p>
           </div>
         ) : (
           <ul className="space-y-1">
@@ -224,7 +226,7 @@ export default function LeftSidebar({
                             ? "text-accent hover:bg-accent/10"
                             : "text-text-tertiary hover:bg-white/10 opacity-40 hover:opacity-100"
                         }`}
-                        title={section.isVisible ? "숨기기" : "표시"}
+                        title={section.isVisible ? t("hide") : t("show")}
                       >
                         {section.isVisible ? (
                           <Eye className="size-3" />
@@ -235,7 +237,7 @@ export default function LeftSidebar({
                       <button
                         onClick={() => onDeleteSection(section.id)}
                         className="rounded p-1 text-red-400 hover:bg-red-500/20"
-                        title="삭제"
+                        title={t("delete")}
                       >
                         <Trash2 className="size-3" />
                       </button>

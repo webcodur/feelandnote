@@ -79,7 +79,7 @@ sw/web/src/app/(main)/rest/suikoden/page.tsx
 ### 캐릭터 로딩 쿼리
 
 ```sql
-SELECT p.*, ci.*, cp.command, cp.martial, cp.intellect, cp.charisma
+SELECT p.*, ci.*, cp.command, cp.martial, cp.intellect, cp.charm
 FROM profiles p
 JOIN celeb_influence ci ON ci.celeb_id = p.id
 LEFT JOIN celeb_persona cp ON cp.celeb_id = p.id

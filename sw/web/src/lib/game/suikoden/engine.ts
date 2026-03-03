@@ -776,13 +776,13 @@ export function attemptRecruitGuest(state: GameState): GameState {
 
   if (w.companions.length >= WANDERING_MAX_COMPANIONS) return state
 
-  // 판정: 기본 20% + charisma 보정 + benevolence 보정 - 등급 패널티
+  // 판정: 기본 20% + charm 보정 + benevolence 보정 - 등급 패널티
   const leader = w.leader
-  const virtueBonus = leader.stats.charisma * 0.003
-  const charismaBonus = leader.stats.benevolence * 0.002
+  const virtueBonus = leader.stats.charm * 0.003
+  const charmBonus = leader.stats.benevolence * 0.002
   const gradePenalty: Record<string, number> = { SS: 0.25, S: 0.15, A: 0.10, B: 0.05, C: 0, D: 0, E: 0 }
   const penalty = gradePenalty[char.grade] ?? 0
-  const rate = Math.max(0.05, Math.min(0.80, 0.20 + virtueBonus + charismaBonus - penalty))
+  const rate = Math.max(0.05, Math.min(0.80, 0.20 + virtueBonus + charmBonus - penalty))
 
   if (Math.random() < rate) {
     // 성공
@@ -863,12 +863,12 @@ export function moveToRegion(state: GameState, regionId: RegionId): GameState {
 }
 
 function getAIPersonality(leader: GameCharacter): AIPersonality {
-  const { martial, intellect, command, charisma } = leader.stats
-  const max = Math.max(martial, intellect, command, charisma)
+  const { martial, intellect, command, charm } = leader.stats
+  const max = Math.max(martial, intellect, command, charm)
   if (max === martial) return 'conqueror'
   if (max === intellect) return 'schemer'
   if (max === command) return 'economist'
-  if (max === charisma) return 'virtuous'
+  if (max === charm) return 'virtuous'
   return 'culturist'
 }
 
@@ -1028,11 +1028,11 @@ export function collectDispositionTargets(
 export function calcRecruitRate(playerFaction: Faction, target: DispositionTarget): number {
   const leader = playerFaction.members.find(m => m.id === playerFaction.leaderId)
   const fame = playerFaction.fame
-  const charisma = leader?.stats.charisma ?? 50
+  const charm = leader?.stats.charm ?? 50
 
   let rate = 30
   rate += Math.min(20, fame * 0.0002 * 100)     // fame 보너스 (최대 +20%)
-  rate += Math.min(15, charisma * 0.15)           // 매력 보너스 (최대 +15%)
+  rate += Math.min(15, charm * 0.15)             // 매력 보너스 (최대 +15%)
   rate -= Math.min(25, target.character.loyaltyValue * 0.25) // 충성도 패널티 (최대 -25%)
   rate -= Math.min(20, target.character.stats.loyalty * 0.2) // 충의 패널티 (최대 -20%)
 

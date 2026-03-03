@@ -1,25 +1,12 @@
 // ── 덕목 (0~100) ──
 
-export type VirtueKey =
-  | 'temperance'
-  | 'diligence'
-  | 'reflection'
-  | 'courage'
-  | 'loyalty'
-  | 'benevolence'
-  | 'fairness'
-  | 'humility'
+export const INNER_VIRTUE_KEYS = ['temperance', 'diligence', 'reflection', 'courage'] as const
+export const OUTER_VIRTUE_KEYS = ['loyalty', 'benevolence', 'fairness', 'humility'] as const
+export const VIRTUE_KEYS = [...INNER_VIRTUE_KEYS, ...OUTER_VIRTUE_KEYS] as const
 
-export const VIRTUE_KEYS: VirtueKey[] = [
-  'temperance',
-  'diligence',
-  'reflection',
-  'courage',
-  'loyalty',
-  'benevolence',
-  'fairness',
-  'humility',
-]
+export type InnerVirtueKey = (typeof INNER_VIRTUE_KEYS)[number]
+export type OuterVirtueKey = (typeof OUTER_VIRTUE_KEYS)[number]
+export type VirtueKey = (typeof VIRTUE_KEYS)[number]
 
 export const VIRTUE_LABELS: Record<VirtueKey, string> = {
   temperance: '절제',
@@ -32,37 +19,27 @@ export const VIRTUE_LABELS: Record<VirtueKey, string> = {
   humility: '겸양',
 }
 
-/** 내적 덕목 vs 외적 덕목 구분 */
-export const INNER_VIRTUE_KEYS: VirtueKey[] = ['temperance', 'diligence', 'reflection', 'courage']
-export const OUTER_VIRTUE_KEYS: VirtueKey[] = ['loyalty', 'benevolence', 'fairness', 'humility']
-
 // ── 능력 (0~100) ──
 
-export type AbilityKey = 'command' | 'martial' | 'intellect' | 'charisma'
-
-export const ABILITY_KEYS: AbilityKey[] = ['command', 'martial', 'intellect', 'charisma']
+export const ABILITY_KEYS = ['command', 'martial', 'intellect', 'charm'] as const
+export type AbilityKey = (typeof ABILITY_KEYS)[number]
 
 export const ABILITY_LABELS: Record<AbilityKey, string> = {
   command: '통솔',
   martial: '무력',
   intellect: '지력',
-  charisma: '매력',
+  charm: '매력',
 }
 
 // ── 성향 (-50~+50) ──
 
-export type TendencyKey =
-  | 'pessimism_optimism'
-  | 'conservative_progressive'
-  | 'individual_social'
-  | 'cautious_bold'
-
-export const TENDENCY_KEYS: TendencyKey[] = [
+export const TENDENCY_KEYS = [
   'pessimism_optimism',
   'conservative_progressive',
   'individual_social',
   'cautious_bold',
-]
+] as const
+export type TendencyKey = (typeof TENDENCY_KEYS)[number]
 
 export const TENDENCY_LABELS: Record<TendencyKey, [string, string]> = {
   pessimism_optimism: ['비관', '낙관'],
@@ -76,7 +53,7 @@ export const TENDENCY_LABELS: Record<TendencyKey, [string, string]> = {
 export type StatKey = VirtueKey | AbilityKey
 
 /** 덕목 8 + 능력 4 = 12 스탯 */
-export const STAT_KEYS: StatKey[] = [...VIRTUE_KEYS, ...ABILITY_KEYS]
+export const STAT_KEYS = [...VIRTUE_KEYS, ...ABILITY_KEYS] as const
 
 export const STAT_LABELS: Record<StatKey, string> = {
   ...VIRTUE_LABELS,

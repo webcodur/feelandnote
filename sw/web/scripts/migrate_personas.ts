@@ -41,7 +41,7 @@ async function generatePersonaForCeleb(nickname: string, title?: string, bio?: s
 9. command (지휘/통솔)
 10. martial (무용/신체적 투쟁)
 11. intellect (지력)
-12. charisma (매력)
+12. charm (매력)
 13. pessimism_optimism (비관-낙관)
 14. conservative_progressive (보수-진보)
 15. individual_social (개인-사회)

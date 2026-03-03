@@ -46,48 +46,73 @@ function SpeedBar({ speed }: { speed: string }) {
   );
 }
 
-/* ── 비교 테이블 (모바일 가로 스크롤) ── */
+/* ── 비교 테이블: 모바일 카드 / 데스크톱 테이블 ── */
 function ComparisonTable({ data }: { data: ReadingMethod[] }) {
   const t = useTranslations("scriptures.history");
   return (
-    <div className="overflow-x-auto scrollbar-hidden -mx-4 px-4 sm:mx-0 sm:px-0 mb-8">
-      <table className="w-full min-w-[600px] text-[11px] sm:text-xs border-collapse">
-        <thead>
-          <tr className="border-b border-white/10">
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("readingMethod")}</th>
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("speed")}</th>
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("memoryRetention")}</th>
-            <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("suitableSituation")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((m) => (
-            <tr key={m.id} className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
-              <td className="py-2.5 px-3">
-                <div className="flex flex-col">
-                  <span className="text-white/90 font-semibold">{m.name}</span>
-                  <span className="text-[10px] text-[#d4af37]/50">{m.nameEn}</span>
-                </div>
-              </td>
-              <td className="py-2.5 px-3 w-28">
-                <SpeedBar speed={m.speed} />
-              </td>
-              <td className="py-2.5 px-3 text-white/60 max-w-[200px]">
-                {m.memoryEffect.split("로 ")[0]}
-              </td>
-              <td className="py-2.5 px-3">
-                <div className="flex flex-wrap gap-1">
-                  {m.bestFor.slice(0, 2).map((b, i) => (
-                    <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-white/50">
-                      {b}
-                    </span>
-                  ))}
-                </div>
-              </td>
+    <div className="mb-8">
+      {/* 모바일: 압축 카드 리스트 */}
+      <div className="sm:hidden flex flex-col gap-1.5">
+        {data.map((m) => (
+          <div key={m.id} className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="text-[11px] text-white/90 font-semibold leading-none">{m.name}</span>
+              <span className="text-[9px] text-[#d4af37]/50 flex-shrink-0">{m.nameEn}</span>
+            </div>
+            <div className="mb-1">
+              <SpeedBar speed={m.speed} />
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {m.bestFor.slice(0, 2).map((b, i) => (
+                <span key={i} className="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-white/50">
+                  {b}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 데스크톱: 기존 테이블 */}
+      <div className="hidden sm:block">
+        <table className="w-full text-xs border-collapse">
+          <thead>
+            <tr className="border-b border-white/10">
+              <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("readingMethod")}</th>
+              <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("speed")}</th>
+              <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("memoryRetention")}</th>
+              <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("suitableSituation")}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((m) => (
+              <tr key={m.id} className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                <td className="py-2.5 px-3">
+                  <div className="flex flex-col">
+                    <span className="text-white/90 font-semibold">{m.name}</span>
+                    <span className="text-[10px] text-[#d4af37]/50">{m.nameEn}</span>
+                  </div>
+                </td>
+                <td className="py-2.5 px-3 w-28">
+                  <SpeedBar speed={m.speed} />
+                </td>
+                <td className="py-2.5 px-3 text-white/60 max-w-[200px]">
+                  {m.memoryEffect.split("로 ")[0]}
+                </td>
+                <td className="py-2.5 px-3">
+                  <div className="flex flex-wrap gap-1">
+                    {m.bestFor.slice(0, 2).map((b, i) => (
+                      <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-white/50">
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -25,20 +25,12 @@ export interface NavItem {
   subLinks?: NavSubLink[];
 }
 
-export interface PageBannerConfig {
-  title: string;
-  englishTitle: string;
-}
-
 export interface HomeSectionConfig {
   id: string;
-  title: string;
-  englishTitle: string;
-  description: React.ReactNode;
+  key: string;
   svgSrc: string;
   className?: string;
   link?: string;
-  linkText?: string;
 }
 // #endregion
 
@@ -91,19 +83,20 @@ export const NAV_ITEMS: NavItem[] = [
     label: "쉼터",
     icon: Gamepad2,
     showInHeader: false,
-    showInBottomNav: false,
+    showInBottomNav: true,
     showInHomePage: false,
     subLinks: [
       { key: "dawn", href: "/rest/dawn", label: "여명" },
       { key: "labyrinth", href: "/rest/labyrinth", label: "미궁" },
       { key: "hegemony", href: "/rest/hegemony", label: "패권" },
+      { key: "suikoden", href: "/rest/suikoden", label: "천" },
     ],
   },
   {
     key: "archive",
     href: "/{userId}",
-    label: "내 기록관",
-    mobileLabel: "내 기록관",
+    label: "내 기록",
+    mobileLabel: "내 기록",
     icon: User,
     showInHeader: true,
     showInBottomNav: true,
@@ -128,61 +121,42 @@ export const FOOTER_BRAND_LINKS: NavSubLink[] = [
 ];
 // #endregion
 
-// #region 헬퍼 함수
-const getNavLabel = (key: string) => NAV_ITEMS.find((item) => item.key === key)?.label ?? "";
-// #endregion
-
 // #region 메인페이지 섹션 설정
 export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
   explore: {
     id: "explore-section",
-    title: getNavLabel("explore"),
-    englishTitle: "Explore",
-    description: "다양한 인물과 그들이 즐긴 콘텐츠를 만나보세요.",
+    key: "explore",
     svgSrc: "/images/decorations/owl.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/explore",
-    linkText: `${getNavLabel("explore")} 보러가기`,
   },
   scriptures: {
     id: "scriptures-section",
-    title: getNavLabel("scriptures"),
-    englishTitle: "Library",
-    description: "오늘의 인물, 공통 서가, 직업별 추천을 확인하세요.",
+    key: "scriptures",
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/scriptures",
-    linkText: `${getNavLabel("scriptures")} 보러가기`,
   },
   agora: {
     id: "agora-section",
-    title: getNavLabel("agora"),
-    englishTitle: "Community",
-    description: "다른 사용자들과 소통하고 피드를 확인하세요.",
+    key: "agora",
     svgSrc: "/images/decorations/lyre.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/agora",
-    linkText: `${getNavLabel("agora")} 보러가기`,
   },
   rest: {
     id: "rest-section",
-    title: "쉼터",
-    englishTitle: "Take a Rest",
-    description: "잠시 쉬어가며 가볍게 즐기는 미니게임.",
+    key: "rest",
     svgSrc: "/images/decorations/horn.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/rest",
-    linkText: `${getNavLabel("rest")} 가기`,
   },
   archive: {
     id: "archive-section",
-    title: getNavLabel("archive"),
-    englishTitle: "My Archives",
-    description: "내가 본 콘텐츠를 기록하고 관리하세요.",
+    key: "archive",
     svgSrc: "/images/decorations/vase.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/{userId}",
-    linkText: `${getNavLabel("archive")} 보러가기`,
   },
 };
 
@@ -197,27 +171,4 @@ export const SECTION_ORDER = [
 ] as const;
 // #endregion
 
-// #region 페이지 배너 설정 (각 페이지 레이아웃에서 사용)
-export const PAGE_BANNER = {
-  explore: {
-    title: HOME_SECTIONS.explore.title,
-    englishTitle: HOME_SECTIONS.explore.englishTitle,
-  },
-  scriptures: {
-    title: HOME_SECTIONS.scriptures.title,
-    englishTitle: HOME_SECTIONS.scriptures.englishTitle,
-  },
-  agora: {
-    title: HOME_SECTIONS.agora.title,
-    englishTitle: HOME_SECTIONS.agora.englishTitle,
-  },
-  rest: {
-    title: HOME_SECTIONS.rest.title,
-    englishTitle: HOME_SECTIONS.rest.englishTitle,
-  },
-  archive: {
-    titleSuffix: "의 기록관",
-    englishTitle: "Official Sacred Record",
-  },
-} as const;
 // #endregion

@@ -6,87 +6,24 @@
 
 import { Clock, Crosshair, Swords, Crown, type LucideIcon } from "lucide-react";
 
-// 섹션명
-export const ARENA_SECTION_NAME = "쉼터";
-
 export interface ArenaItem {
   value: string;
-  label: string;
   icon: LucideIcon;
   href: string;
-  description: string;
   hidden?: boolean; // true면 탭 UI에서 숨김 (URL 직접 접근은 가능)
 }
 
 export const ARENA_ITEMS: ArenaItem[] = [
-  {
-    value: "dawn",
-    label: "여명",
-    icon: Clock,
-    href: "/rest/dawn",
-    description: "인물들의 탄생 순서를 맞춰보세요",
-  },
-  {
-    value: "labyrinth",
-    label: "미궁",
-    icon: Crosshair,
-    href: "/rest/labyrinth",
-    description: "용의자 속 숨어든 인물을 추적하세요",
-  },
-  {
-    value: "hegemony",
-    label: "패권",
-    icon: Swords,
-    href: "/rest/hegemony",
-    description: "셀럽 카드로 전략 대전을 펼쳐보세요",
-  },
-  {
-    value: "suikoden",
-    label: "천도",
-    icon: Crown,
-    href: "/rest/suikoden",
-    description: "역사 속 인물들로 문명을 통일하는 전략 시뮬레이션",
-  },
+  { value: "dawn", icon: Clock, href: "/rest/dawn" },
+  { value: "labyrinth", icon: Crosshair, href: "/rest/labyrinth" },
+  { value: "hegemony", icon: Swords, href: "/rest/hegemony" },
+  { value: "suikoden", icon: Crown, href: "/rest/suikoden" },
 ];
 
-// 헬퍼: 페이지 타이틀 생성
-export const getArenaPageTitle = (itemValue?: string) => {
-  if (!itemValue) return ARENA_SECTION_NAME;
-  const item = ARENA_ITEMS.find((i) => i.value === itemValue);
-  return item ? `${item.label} | ${ARENA_SECTION_NAME}` : ARENA_SECTION_NAME;
-};
-
-// 섹션 헤더 정보
-export interface SectionHeaderInfo {
-  label: string;
-  title: string;
-  description: string;
-  subDescription?: string;
-}
-
-export const ARENA_SECTION_HEADERS: Record<string, SectionHeaderInfo> = {
-  dawn: {
-    label: "DAWN",
-    title: "여명",
-    description: "시간의 순서를 꿰뚫어라",
-    subDescription: "인물들을 태어난 순서대로 정렬해보세요.",
-  },
-  labyrinth: {
-    label: "LABYRINTH",
-    title: "미궁",
-    description: "숨어든 자를 추적하라",
-    subDescription: "용의자 6인의 단서를 분석하여 숨어든 인물을 찾아내세요.",
-  },
-  hegemony: {
-    label: "HEGEMONY",
-    title: "패권",
-    description: "강한 자가 지배한다",
-    subDescription: "카드를 전략적으로 배치하여 상대를 무찌르세요.",
-  },
-  suikoden: {
-    label: "CHEONDO",
-    title: "천도",
-    description: "뜻이 있는 자, 천하를 얻으리라",
-    subDescription: "역사 속 인물들을 이끌고 세력을 키워 문명을 통일하는 전략 시뮬레이션.",
-  },
+// 영문 라벨 (ARENA_SECTION_HEADERS.label 대체용 — i18n에서 관리하지 않는 고정 영문)
+export const ARENA_ENGLISH_LABELS: Record<string, string> = {
+  dawn: "DAWN",
+  labyrinth: "LABYRINTH",
+  hegemony: "HEGEMONY",
+  suikoden: "CHEONDO",
 };

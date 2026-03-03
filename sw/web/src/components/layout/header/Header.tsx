@@ -9,13 +9,13 @@
 import { useState, useEffect } from "react";
 import { NotebookPen } from "lucide-react";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import HeaderSearch from "./HeaderSearch";
 import HeaderNotifications from "./HeaderNotifications";
 import HeaderProfileMenu from "./HeaderProfileMenu";
 import Logo from "@/components/ui/Logo";
+import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { HEADER_NAV_ITEMS } from "@/constants/navigation";
@@ -75,8 +75,10 @@ export default function Header({ isMobile }: HeaderProps) {
     <header className="w-full h-16 bg-black/90 backdrop-blur-md border-b-[1px] border-b-white/5 flex items-center px-3 gap-2 md:px-6 md:gap-4 fixed top-0 start-0" style={{ zIndex: Z_INDEX.header }}>
       <div className="absolute bottom-0 start-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-      <div className="relative z-10 flex items-center w-full gap-2 md:gap-4">
-        <Logo size="md" />
+      <div className="relative z-10 flex items-center w-full gap-2 md:gap-4 min-w-0">
+        <div className="shrink-0">
+          <Logo size="md" />
+        </div>
 
         {/* 1차 네비게이션 (데스크톱) */}
         {!isMobile && (
@@ -107,15 +109,18 @@ export default function Header({ isMobile }: HeaderProps) {
         <HeaderSearch />
 
         {/* 우측 영역 */}
-        <div className="flex items-center gap-1 ms-auto">
-          {/* 감상 모드 */}
+        <div className="flex items-center gap-0.5 sm:gap-1 ms-auto shrink-0">
+          {/* 감상 모드 (데스크톱만) */}
           <Link
             href="/reading"
-            className={`${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
+            className={`hidden sm:flex ${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
             title={t("layout.readingMode")}
           >
             <NotebookPen size={ICON_SIZE} />
           </Link>
+
+          {/* 언어 전환 (데스크톱) */}
+          <LocaleSwitcher variant="icon" />
 
           {/* 알림 (로그인 시에만) */}
           {profile && <HeaderNotifications />}

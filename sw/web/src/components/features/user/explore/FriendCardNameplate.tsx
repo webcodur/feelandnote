@@ -14,6 +14,7 @@ import {
   type MaterialKey,
   type NormalLevel,
 } from "@/constants/materials";
+import { useTranslations } from "next-intl";
 
 // #region Types & Config
 interface FriendInfo {
@@ -35,6 +36,7 @@ const DEFAULT_MATERIAL = MATERIALS.wood;
 // #endregion
 
 export default function FriendCardNameplate({ friend, onClick, level, materialKey }: FriendCardNameplateProps) {
+  const t = useTranslations("explore.ui");
   // materialKey 우선, 없으면 level로 결정
   const mat = materialKey
     ? MATERIALS[materialKey]
@@ -144,7 +146,7 @@ export default function FriendCardNameplate({ friend, onClick, level, materialKe
             {friend.nickname}
           </h3>
           <p className="text-[10px] mt-0.5" style={{ color: mat.colors.text, opacity: 0.7 }}>
-            {level ? mat.normalLevel : "친구"}
+            {level ? mat.normalLevel : t("friend")}
           </p>
         </div>
 
@@ -163,7 +165,7 @@ export default function FriendCardNameplate({ friend, onClick, level, materialKe
             className="text-[8px] uppercase tracking-wider mt-1"
             style={{ color: mat.colors.text, opacity: 0.6 }}
           >
-            기록
+            {t("record")}
           </span>
         </div>
       </div>

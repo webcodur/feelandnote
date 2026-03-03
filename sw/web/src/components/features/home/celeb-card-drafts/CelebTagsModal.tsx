@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { createPortal } from "react-dom";
 import type { CelebTagInfo } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 interface CelebTagsModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface CelebTagsModalProps {
 }
 
 export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }: CelebTagsModalProps) {
+  const t = useTranslations("home.ui.tags");
   if (!isOpen || typeof document === "undefined") return null;
 
   const content = (
@@ -71,7 +73,7 @@ export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }:
                 </div>
               ) : (
                 <p className="text-sm text-text-tertiary italic pl-1">
-                  상세 설명이 없습니다.
+                  {t("noDescription")}
                 </p>
               )}
             </div>

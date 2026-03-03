@@ -6,6 +6,7 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import EraSection from "@/components/features/scriptures/sections/EraSection";
 import { getScripturesByEra, getChosenScriptures, getTopCelebsAcrossAllEras } from "@/actions/scriptures";
 
@@ -56,7 +57,11 @@ async function EraContent() {
     getTopCelebsAcrossAllEras(),
   ]);
 
-  return <EraSection initialEraData={eraData} initialChosenData={chosenData} topCelebsAcrossAllEras={topCelebs} />;
+  return (
+    <AsyncIntlProvider>
+      <EraSection initialEraData={eraData} initialChosenData={chosenData} topCelebsAcrossAllEras={topCelebs} />
+    </AsyncIntlProvider>
+  );
 }
 
 export default function Page() {

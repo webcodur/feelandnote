@@ -4,7 +4,7 @@ import { useActionState } from 'react'
 import { signupWithEmail } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 
 type State = { error?: string; success?: string } | undefined
 

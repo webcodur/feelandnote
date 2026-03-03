@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { GameCharacter, WorldPreview, ScenarioDef } from '@/lib/game/suikoden/types'
 import { GRADE_COLORS, CLASS_INFO, REGIONS, NATIONALITY_TO_REGION, ERA_CONFIG } from '@/lib/game/suikoden/constants'
 import { getEffectiveGrade } from '@/lib/game/suikoden/utils'
@@ -22,13 +23,14 @@ const ERA_ICONS: Record<string, string> = {
   modern: '🏭',
 }
 
-const DIFFICULTY_LABELS: Record<string, { text: string; color: string }> = {
-  easy: { text: '쉬움', color: 'text-green-400' },
-  normal: { text: '보통', color: 'text-amber-400' },
-  hard: { text: '어려움', color: 'text-red-400' },
+const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: 'text-green-400',
+  normal: 'text-amber-400',
+  hard: 'text-red-400',
 }
 
 export default function SetupScreen({ characters, worldPreview, onSelectScenario, onComplete, onBack }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null)
 
   const isStep2 = worldPreview !== null
@@ -40,19 +42,19 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">← 뒤로</button>
-          <h2 className="text-lg font-bold text-stone-200">시나리오 선택</h2>
+          <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">{tS('setup.back')}</button>
+          <h2 className="text-lg font-bold text-stone-200">{tS('setup.selectScenario')}</h2>
           <div />
         </div>
 
         <div className="text-center text-xs text-stone-600 space-y-1">
-          <p>역사 속 전란의 무대를 선택하라.</p>
-          <p>각 시나리오에는 사전 구성된 세력과 방랑 인재가 배치된다.</p>
+          <p>{tS('setup.scenarioHint1')}</p>
+          <p>{tS('setup.scenarioHint2')}</p>
         </div>
 
         <div className="space-y-3">
-          {SCENARIOS.map(scenario => {
-            const dl = DIFFICULTY_LABELS[scenario.difficulty]
+          {SCENARIOS.map((scenario, _i) => {
+            const dc = DIFFICULTY_COLORS[scenario.difficulty]
             return (
               <button
                 key={scenario.id}
@@ -64,17 +66,17 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-stone-200 font-bold group-hover:text-amber-300 transition-colors">
-                        {scenario.name}
+                        {tS(`scenario.${scenario.id}.name`)}
                       </span>
-                      <span className={`text-[10px] font-bold ${dl.color}`}>{dl.text}</span>
-                      <span className="text-[10px] text-stone-600">{ERA_CONFIG[scenario.era].name}</span>
+                      <span className={`text-[10px] font-bold ${dc}`}>{tS(`setup.diff${scenario.difficulty.charAt(0).toUpperCase()}${scenario.difficulty.slice(1)}` as 'setup.diffEasy')}</span>
+                      <span className="text-[10px] text-stone-600">{tS(`era.${scenario.era}`)}</span>
                     </div>
-                    <p className="text-xs text-stone-400 mt-0.5">{scenario.subtitle}</p>
-                    <p className="text-[11px] text-stone-600 mt-1.5 leading-relaxed">{scenario.description}</p>
+                    <p className="text-xs text-stone-400 mt-0.5">{tS(`scenario.${scenario.id}.subtitle`)}</p>
+                    <p className="text-[11px] text-stone-600 mt-1.5 leading-relaxed">{tS(`scenario.${scenario.id}.desc`)}</p>
                     <div className="flex items-center gap-3 mt-2 text-[10px] text-stone-500">
-                      <span>주군 {scenario.playerCandidates.length}명</span>
-                      <span>AI 세력 {scenario.aiFactions.length}개</span>
-                      <span>방랑자 {scenario.wandererIds.length}명</span>
+                      <span>{tS('setup.lordCount', { count: scenario.playerCandidates.length })}</span>
+                      <span>{tS('setup.aiFactionCount', { count: scenario.aiFactions.length })}</span>
+                      <span>{tS('setup.wandererCount', { count: scenario.wandererIds.length })}</span>
                     </div>
                   </div>
                 </div>
@@ -90,13 +92,13 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">← 뒤로</button>
-        <h2 className="text-lg font-bold text-stone-200">주군 선택</h2>
+        <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">{tS('setup.back')}</button>
+        <h2 className="text-lg font-bold text-stone-200">{tS('setup.selectLord')}</h2>
         <div className="text-xs text-stone-600">
-          {ERA_ICONS[worldPreview.era]} {ERA_CONFIG[worldPreview.era].name}
+          {ERA_ICONS[worldPreview.era]} {tS(`era.${worldPreview.era}`)}
           {' · '}
-          <span className={DIFFICULTY_LABELS[worldPreview.difficulty].color}>
-            {DIFFICULTY_LABELS[worldPreview.difficulty].text}
+          <span className={DIFFICULTY_COLORS[worldPreview.difficulty]}>
+            {tS(`setup.diff${worldPreview.difficulty.charAt(0).toUpperCase()}${worldPreview.difficulty.slice(1)}` as 'setup.diffEasy')}
           </span>
         </div>
       </div>
@@ -104,7 +106,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* 좌: AI 세력 미리보기 */}
         <div className="space-y-2">
-          <div className="text-xs text-stone-500 font-bold">기존 세력 ({worldPreview.aiFactions.length})</div>
+          <div className="text-xs text-stone-500 font-bold">{tS('setup.existingFactions')} ({worldPreview.aiFactions.length})</div>
           <div className="space-y-1.5 max-h-[60vh] overflow-y-auto pr-1">
             {worldPreview.aiFactions.map(f => {
               const leader = f.members.find(m => m.id === f.leaderId)
@@ -115,7 +117,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                   <div className="min-w-0 flex-1">
                     <div className="text-xs text-stone-200 truncate">{f.name}</div>
                     <div className="text-[10px] text-stone-500">
-                      {f.territories[0]?.name} · {f.members.length}명
+                      {f.territories[0]?.name} · {tS('setup.memberCount', { count: f.members.length })}
                     </div>
                   </div>
                   {leader && (
@@ -131,7 +133,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
           {/* 방랑자 목록 */}
           {worldPreview.wanderers.length > 0 && (
             <>
-              <div className="text-xs text-stone-500 font-bold mt-3">방랑 인재 ({worldPreview.wanderers.length})</div>
+              <div className="text-xs text-stone-500 font-bold mt-3">{tS('setup.wanderers')} ({worldPreview.wanderers.length})</div>
               <div className="space-y-1 max-h-[20vh] overflow-y-auto pr-1">
                 {worldPreview.wanderers.map(w => (
                   <div key={w.id} className="flex items-center gap-2 px-2 py-1 rounded bg-stone-800/30">
@@ -147,7 +149,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
 
         {/* 중: 주군 후보 카드 */}
         <div className="lg:col-span-2 space-y-2">
-          <div className="text-xs text-stone-500 font-bold">주군 후보</div>
+          <div className="text-xs text-stone-500 font-bold">{tS('setup.lordCandidates')}</div>
           <div className="space-y-3">
             {worldPreview.playerCandidates.map(pc => {
               const isSelected = selectedCandidateId === pc.profileId
@@ -175,16 +177,16 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                           {grade}
                         </span>
                         <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ color: classInfo.color, backgroundColor: `${classInfo.color}15` }}>
-                          {classInfo.icon} {classInfo.name}
+                          {classInfo.icon} {tS(`class.${pc.character.unitClass}`)}
                         </span>
                       </div>
                       <p className="text-xs text-stone-400 mt-0.5">{pc.character.title}</p>
-                      <p className="text-[11px] text-stone-500 mt-1.5 leading-relaxed">{pc.startDescription}</p>
+                      <p className="text-[11px] text-stone-500 mt-1.5 leading-relaxed">{tS(`scenario.${worldPreview.scenarioId}.cand${worldPreview.playerCandidates.indexOf(pc) + 1}`)}</p>
                       <div className="flex items-center gap-3 mt-2 text-[10px] text-stone-600">
-                        <span>통솔 {pc.character.stats.command}</span>
-                        <span>무력 {pc.character.stats.martial}</span>
-                        <span>지력 {pc.character.stats.intellect}</span>
-                        <span>매력 {pc.character.stats.charisma}</span>
+                        <span>{tS('stat.command')} {pc.character.stats.command}</span>
+                        <span>{tS('stat.martial')} {pc.character.stats.martial}</span>
+                        <span>{tS('stat.intellect')} {pc.character.stats.intellect}</span>
+                        <span>{tS('stat.charm')} {pc.character.stats.charm}</span>
                       </div>
                     </div>
                   </div>
@@ -199,7 +201,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
           {selectedCandidate ? (
             <CharacterInfoPanel
               character={selectedCandidate.character}
-              badge={REGIONS.find(r => r.id === NATIONALITY_TO_REGION[selectedCandidate.character.nationality])?.name ?? '미정'}
+              badge={REGIONS.find(r => r.id === NATIONALITY_TO_REGION[selectedCandidate.character.nationality])?.name ?? tS('setup.undecided')}
               portraitSize={56}
               footer={
                 <div className="px-3 pb-3">
@@ -207,14 +209,14 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                     onClick={() => onComplete(selectedCandidate.profileId)}
                     className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded transition-colors"
                   >
-                    {selectedCandidate.character.nickname}(으)로 시작
+                    {tS('setup.startAs', { name: selectedCandidate.character.nickname })}
                   </button>
                 </div>
               }
             />
           ) : (
             <div className="flex items-center justify-center h-full text-stone-500 text-sm p-4">
-              주군으로 삼을 인물을 선택하세요
+              {tS('setup.selectLordPrompt')}
             </div>
           )}
         </div>

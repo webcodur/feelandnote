@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Plus, Pencil, Trash2, ChevronRight, ChevronDown, Network } from "lucide-react";
 import type { ConceptInfo } from "../types";
 
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function ConceptMapContent({ concepts, onUpdate }: Props) {
+  const t = useTranslations("reading.conceptMap");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<ConceptInfo>>({});
@@ -34,7 +36,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
     const parent = parentId ? concepts.find((c) => c.id === parentId) : null;
     const newConcept: ConceptInfo = {
       id: `concept-${Date.now()}`,
-      name: "새 개념",
+      name: t("newConcept"),
       description: "",
       parentId,
       level: parent ? parent.level + 1 : 0,
@@ -74,10 +76,10 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
   const handleDelete = (id: string) => {
     const childrenExist = concepts.some((c) => c.parentId === id);
     if (childrenExist) {
-      alert("하위 개념이 있는 경우 삭제할 수 없습니다.");
+      alert(t("cannotDeleteWithChildren"));
       return;
     }
-    if (!confirm("이 개념을 삭제하시겠습니까?")) return;
+    if (!confirm(t("confirmDelete"))) return;
 
     onUpdate(concepts.filter((c) => c.id !== id));
     if (selectedId === id) setSelectedId(null);
@@ -154,13 +156,13 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
           className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-accent/30 bg-accent/5 py-2 text-xs font-medium text-accent hover:border-accent/50 hover:bg-accent/10"
         >
           <Plus className="size-3.5" />
-          최상위 개념 추가
+          {t("addRootConcept")}
         </button>
 
         {rootConcepts.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
             <Network className="size-8 text-text-tertiary/30" />
-            <p className="text-xs text-text-secondary">개념이 없습니다</p>
+            <p className="text-xs text-text-secondary">{t("noConcepts")}</p>
           </div>
         ) : (
           <div className="space-y-1">{renderTree()}</div>
@@ -172,36 +174,34 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
         {!selectedConcept ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
             <Network className="size-8 text-text-tertiary/30" />
-            <p className="text-xs text-text-secondary">
-              개념을 선택하여
-              <br />
-              상세 정보를 확인하세요
+            <p className="text-xs text-text-secondary whitespace-pre-line">
+              {t("selectPrompt")}
             </p>
           </div>
         ) : editingId === selectedConcept.id ? (
           // 편집 모드
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold text-text-secondary">개념 편집</p>
+            <p className="text-xs font-semibold text-text-secondary">{t("editConcept")}</p>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">개념명</label>
+              <label className="text-[11px] text-text-secondary">{t("conceptName")}</label>
               <input
                 type="text"
                 value={editForm.name || ""}
                 onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                placeholder="개념 이름"
+                placeholder={t("conceptNamePlaceholder")}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">설명</label>
+              <label className="text-[11px] text-text-secondary">{t("descriptionLabel")}</label>
               <textarea
                 value={editForm.description || ""}
                 onChange={(e) =>
                   setEditForm({ ...editForm, description: e.target.value })
                 }
-                placeholder="상세 설명"
+                placeholder={t("descriptionPlaceholder")}
                 rows={6}
                 className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none custom-scrollbar"
               />
@@ -213,13 +213,13 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
                 disabled={!editForm.name}
                 className="flex-1 rounded-lg bg-accent py-2 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                저장
+                {t("save")}
               </button>
               <button
                 onClick={handleCancel}
                 className="flex-1 rounded-lg border border-border bg-white/5 py-2 text-xs font-medium text-text-primary hover:bg-white/10"
               >
-                취소
+                {t("cancel")}
               </button>
             </div>
           </div>
@@ -251,7 +251,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-accent/30 bg-accent/10 py-2 text-xs font-medium text-accent hover:bg-accent/20"
               >
                 <Plus className="size-3" />
-                하위 추가
+                {t("addChild")}
               </button>
             </div>
 
@@ -261,14 +261,14 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-border bg-white/5 py-2 text-xs font-medium text-text-primary hover:bg-white/10"
               >
                 <Pencil className="size-3" />
-                편집
+                {t("edit")}
               </button>
               <button
                 onClick={() => handleDelete(selectedConcept.id)}
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-red-500/30 bg-red-500/10 py-2 text-xs font-medium text-red-400 hover:bg-red-500/20"
               >
                 <Trash2 className="size-3" />
-                삭제
+                {t("delete")}
               </button>
             </div>
           </div>

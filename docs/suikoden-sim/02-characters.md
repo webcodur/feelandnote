@@ -8,7 +8,7 @@
 ### 로딩 조건
 
 ```sql
-SELECT p.*, ci.*, cp.command, cp.martial, cp.intellect, cp.charisma
+SELECT p.*, ci.*, cp.command, cp.martial, cp.intellect, cp.charm
 FROM profiles p
 JOIN celeb_influence ci ON ci.celeb_id = p.id
 LEFT JOIN celeb_persona cp ON cp.celeb_id = p.id
@@ -48,7 +48,7 @@ Grade 산정 및 게임 시작 시 세력/방랑자 분류에 사용.
 | **통솔** | `command` | 0-100 | 조직/군대/국가 지휘력 |
 | **무력** | `martial` | 0-100 | 전투/군사 실행력 |
 | **지력** | `intellect` | 0-100 | 지적 능력/분석력 |
-| **매력** | `charisma` | 0-100 | 인간적 매력/존재감 |
+| **매력** | `charm` | 0-100 | 인간적 매력/존재감 |
 
 ---
 
@@ -59,7 +59,7 @@ Grade 산정 및 게임 시작 시 세력/방랑자 분류에 사용.
 `celeb_persona`가 있는 인물은 능력 4종의 가중평균으로 Grade를 산정한다.
 
 ```
-sorted = [command, martial, intellect, charisma] 내림차순
+sorted = [command, martial, intellect, charm] 내림차순
 Grade 점수 = sorted[0]×0.4 + sorted[1]×0.3 + sorted[2]×0.2 + sorted[3]×0.1
 ```
 
@@ -138,7 +138,7 @@ Grade 점수 = sorted[0]×0.4 + sorted[1]×0.3 + sorted[2]×0.2 + sorted[3]×0.1
 등용 확률(%) = BASE + RECRUITER_BONUS - TARGET_RESIST + MODIFIERS
 
 BASE = 30
-RECRUITER_BONUS = charisma×0.3 + benevolence×0.1 + fairness×0.1
+RECRUITER_BONUS = charm×0.3 + benevolence×0.1 + fairness×0.1
 TARGET_RESIST   = target.loyalty × 0.4
 
 MODIFIERS:

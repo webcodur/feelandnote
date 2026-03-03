@@ -7,6 +7,7 @@
 
 import { useCallback, useMemo } from "react";
 import { Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import GameShell from "../shared/GameShell";
@@ -15,18 +16,20 @@ import DawnBackground from "./DawnBackground";
 import DawnLobby from "./DawnLobby";
 import { useDawnAudio } from "./hooks/useDawnAudio";
 
-const PHASE_LABELS: Record<string, string> = {
-  idle: "로비",
-  playing: "게임",
-  gameover: "결과",
-};
-
 interface Props {
   bgImages?: GameBackgroundImages | null;
 }
 
 export default function DawnGameWrapper({ bgImages }: Props) {
+  const t = useTranslations("shared.game");
+  const tArena = useTranslations("rest.arena.dawn");
   const { setBgm, stopAll, audioControls } = useDawnAudio();
+
+  const phaseLabels = useMemo(() => ({
+    idle: t("phase.lobby"),
+    playing: t("phase.playing"),
+    gameover: t("phase.result"),
+  }), [t]);
 
   const Background = useMemo(
     () =>
@@ -43,10 +46,10 @@ export default function DawnGameWrapper({ bgImages }: Props) {
 
   return (
     <GameShell
-      gameName="여명"
+      gameName={tArena("label")}
       gateIcon={<Clock size={40} className="mx-auto text-accent/60" />}
-      gateSubtitle="시간 순서 정렬 게임"
-      phaseLabels={PHASE_LABELS}
+      gateSubtitle={tArena("description")}
+      phaseLabels={phaseLabels}
       Background={Background}
       Lobby={DawnLobby}
       Game={DawnGame}

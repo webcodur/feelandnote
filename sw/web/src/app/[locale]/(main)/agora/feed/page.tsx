@@ -4,8 +4,10 @@
   책임: 기존 /agora/feed URL을 /agora/celeb-feed로 리다이렉트한다.
 */ // ------------------------------
 
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
-export default function FeedRedirectPage() {
-  redirect("/agora/celeb-feed");
+export default async function FeedRedirectPage() {
+  const locale = await getLocale();
+  redirect({ href: "/agora/celeb-feed", locale });
 }

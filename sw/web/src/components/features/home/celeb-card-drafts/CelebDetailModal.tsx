@@ -7,9 +7,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather, ArrowLeft } from "lucide-react";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Z_INDEX } from "@/constants/zIndex";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
@@ -25,9 +24,13 @@ import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import Button from "@/components/ui/Button";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
+import { getLocalizedContent } from "@/lib/utils/editions";
 import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
-import { useRouter } from "next/navigation";
+import { ko, enUS } from "date-fns/locale";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
+
+const DATE_LOCALES = { ko, en: enUS } as const;
 
 // #region Constants (materials.ts 기반 오라별 그라데이션)
 const AURA_GRADIENTS: Record<Aura, string> = {
@@ -50,8 +53,13 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
   const [showUserModal, setShowUserModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [currentRating, setCurrentRating] = useState<number | null>(review.rating);
+  const t = useTranslations("home.ui");
+  const locale = useLocale();
+  const isEn = locale === "en";
+  const reviewDisplayName = (isEn && celeb.nickname_en) || celeb.nickname;
+  const reviewDisplayTitle = (isEn && celeb.title_en) || celeb.title;
 
-  const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
+  const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko });
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
@@ -65,7 +73,7 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
         className="flex-shrink-0 cursor-pointer"
         onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
       >
-        <Avatar url={celeb.avatar_url} name={celeb.nickname} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+        <Avatar url={celeb.avatar_url} name={reviewDisplayName} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
       </button>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
@@ -74,7 +82,7 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
             className="text-sm font-bold text-text-primary tracking-tight hover:text-accent cursor-pointer"
             onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
           >
-            {celeb.nickname}
+            {reviewDisplayName}
           </button>
           <TitleBadge title={null} size="sm" />
           {celeb.is_verified && (
@@ -84,7 +92,7 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
           )}
         </div>
         <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
-          {celeb.title || "기록자"} · {timeAgo}
+          {reviewDisplayTitle || t("recorder")} · {timeAgo}
         </p>
       </div>
     </div>
@@ -95,21 +103,25 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
       <ContentCard
         contentId={review.content.id}
         contentType={review.content.type}
-        title={review.content.title}
-        creator={review.content.creator}
+        title={getLocalizedContent(review.content, locale).title}
+        creator={getLocalizedContent(review.content, locale).creator}
         thumbnail={review.content.thumbnail_url}
         celebCount={review.content.celeb_count}
         userCount={review.content.user_count}
         rating={currentRating}
         onRatingClick={(e) => { e.stopPropagation(); setShowRatingModal(true); }}
-        review={review.review}
+        review={(locale === 'en' && review.review_en) ? review.review_en : review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}
         href=""
-        ownerNickname={celeb.nickname}
+        ownerNickname={reviewDisplayName}
         headerNode={headerNode}
         heightClass="h-[320px] md:h-[280px]"
         modalZIndex={modalZIndex}
+        titleKo={review.content.title_ko}
+        titleEn={review.content.title_en}
+        creatorEn={review.content.creator_en}
+        thumbnailEn={review.content.thumbnail_en}
       />
 
       <RatingEditModal
@@ -127,16 +139,15 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
         zIndex={modalZIndex}
       />
 
-      <UiModal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
+      <UiModal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
         <ModalBody>
           <p className="text-text-secondary">
-            <span className="text-text-primary font-semibold">{celeb.nickname}</span>
-            님의 기록관으로 이동하시겠습니까?
+            {t("visitArchiveConfirm", { name: reviewDisplayName })}
           </p>
         </ModalBody>
         <ModalFooter className="justify-end">
-          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
-          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>{t("cancel")}</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>{t("go")}</Button>
         </ModalFooter>
       </UiModal>
     </>
@@ -159,6 +170,18 @@ interface CelebDetailModalProps {
 }
 
 export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, hideQuotes = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
+  const t = useTranslations("home.ui");
+  const tProf = useTranslations("profession");
+  const locale = useLocale();
+  const isEn = locale === "en";
+
+  // locale별 텍스트 선택 (영문 fallback → 한국어)
+  const displayTitle = (isEn && celeb.title_en) || celeb.title;
+  const displayBio = (isEn && celeb.bio_en) || celeb.bio;
+  const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
+  const displayPhilosophy = (isEn && celeb.consumption_philosophy_en) || celeb.consumption_philosophy;
+  const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
+
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
@@ -254,9 +277,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       ) : (
         <UserPlus size={14} strokeWidth={3} />
       )}
-      <span>{isFollowing ? "팔로잉" : "팔로우"}</span>
+      <span>{isFollowing ? t("followingLabel") : t("followLabel")}</span>
       <span className="font-extrabold">
-        {celeb.follower_count || 0}명
+        {t("followerUnit", { count: celeb.follower_count || 0 })}
       </span>
     </button>
   );
@@ -277,7 +300,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       `}
     >
       <ExternalLink size={14} strokeWidth={2} />
-      <span>프로필 보기</span>
+      <span>{t("viewProfile")}</span>
     </Link>
   );
 
@@ -286,7 +309,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       {celeb.profession && (
         <span className="flex items-center gap-1">
           <Briefcase size={12} />
-          {getCelebProfessionLabel(celeb.profession)}
+          {tProf.has(celeb.profession) ? tProf(celeb.profession) : celeb.profession}
         </span>
       )}
       {celeb.nationality && (
@@ -355,18 +378,18 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     return (
       <div className="relative w-full h-full min-h-0 flex flex-col bg-bg-main animate-fade-in">
         {/* 헤더: 타이틀 + 프로필 진입 버튼 */}
-        <div className="flex items-center p-4 border-b border-border/50 shrink-0 relative">
-          <h2 className="flex-1 text-center text-lg font-serif font-bold text-accent truncate px-20">
-            {celeb.nickname}의 {celeb.content_count || 0}개의 감상 기록
+        <div className="flex items-center gap-2 p-4 border-b border-border/50 shrink-0">
+          <h2 className="flex-1 min-w-0 text-center text-lg font-serif font-bold text-accent truncate">
+            {t("reviewCount", { name: displayNickname, count: celeb.content_count || 0 })}
           </h2>
           <button
             onClick={(e) => {
               e.stopPropagation();
               setIsReviewMode(false);
             }}
-            className="absolute right-4 flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary transition-colors"
+            className="shrink-0 flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary transition-colors whitespace-nowrap"
           >
-            <span>인물 정보</span>
+            <span>{t("characterInfo")}</span>
             <ArrowLeft size={14} className="rotate-180" />
           </button>
         </div>
@@ -384,7 +407,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           {loadingReviews ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
               <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-              <p className="text-sm text-text-tertiary animate-pulse">기록을 불러오는 중...</p>
+              <p className="text-sm text-text-tertiary animate-pulse">{t("loadingRecords")}</p>
             </div>
           ) : filteredReviews.length > 0 ? (
             <div className="max-w-4xl mx-auto space-y-4">
@@ -398,15 +421,15 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   onClick={() => setDisplayCount((prev) => prev + 20)}
                   className="w-full py-3 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/5 active:scale-[0.98]"
                 >
-                  더보기 ({filteredReviews.length - displayCount}개 남음)
+                  {t("loadMore", { count: filteredReviews.length - displayCount })}
                 </button>
               )}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <Feather size={48} className="text-text-tertiary/20 mb-4" />
-              <p className="text-text-secondary font-medium mb-1">아직 공개된 감상이 없습니다</p>
-              <p className="text-xs text-text-tertiary">조금 더 기다려주세요</p>
+              <p className="text-text-secondary font-medium mb-1">{t("empty.noPublicReviews")}</p>
+              <p className="text-xs text-text-tertiary">{t("empty.pleaseWait")}</p>
             </div>
           )}
         </div>
@@ -423,7 +446,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           className="flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary transition-colors"
         >
           <ArrowLeft size={14} />
-          <span>감상 기록</span>
+          <span>{t("viewingRecords")}</span>
         </button>
       </div>
 
@@ -431,17 +454,17 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       <div className="flex flex-col items-center px-6 pb-4 shrink-0">
         <Avatar
           url={celeb.avatar_url}
-          name={celeb.nickname}
+          name={displayNickname}
           size="2xl"
           className="ring-2 ring-accent/30 rounded-full shadow-2xl mb-4"
         />
 
-        {celeb.title && (
-          <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{celeb.title}</p>
+        {displayTitle && (
+          <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
         )}
 
         <h2 className="text-2xl md:text-3xl font-black font-serif text-text-primary leading-tight text-center break-all mb-3">
-          {celeb.nickname}
+          {displayNickname}
         </h2>
 
         <MetaInfo />
@@ -454,33 +477,33 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       </div>
 
       {/* 인용구 */}
-      {!hideQuotes && celeb.quotes && (
+      {!hideQuotes && displayQuotes && (
         <blockquote className="text-xs md:text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
-          &ldquo;<FormattedText text={celeb.quotes} />&rdquo;
+          &ldquo;<FormattedText text={displayQuotes} />&rdquo;
         </blockquote>
       )}
 
       {/* 바이오 */}
-      {celeb.bio && (
+      {displayBio && (
         <div className="px-6 md:px-8 pt-4 pb-2">
           <p className="text-xs md:text-sm text-text-secondary leading-relaxed text-left break-all">
             <User size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
-            <FormattedText text={celeb.bio} />
+            <FormattedText text={displayBio} />
           </p>
         </div>
       )}
 
       {/* 구분선 */}
-      {(celeb.bio || celeb.quotes) && celeb.consumption_philosophy && (
+      {(displayBio || displayQuotes) && displayPhilosophy && (
         <div className="w-full h-px bg-accent/20 my-2 mx-auto max-w-[calc(100%-3rem)]" />
       )}
 
       {/* 감상 철학 */}
-      {celeb.consumption_philosophy && (
+      {displayPhilosophy && (
         <div className="px-6 md:px-8 pt-4 pb-2">
           <p className="text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">
             <Feather size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
-            <FormattedText text={celeb.consumption_philosophy} />
+            <FormattedText text={displayPhilosophy} />
           </p>
         </div>
       )}
@@ -540,7 +563,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         isOpen={isTagsModalOpen}
         onClose={() => setIsTagsModalOpen(false)}
         tags={celeb.tags || []}
-        title={`${celeb.nickname}의 키워드`}
+        title={t("keywords", { name: displayNickname })}
         zIndex={zIndex ? zIndex + 1 : undefined}
       />
     </div>

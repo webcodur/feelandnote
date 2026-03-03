@@ -4,11 +4,16 @@
   책임: 서고 탭 구조와 각 탭의 설명을 안내한다.
 */ // ------------------------------
 
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { SCRIPTURES_TABS } from "@/constants/scriptures";
 
 export default function ScripturesPreview() {
+  const t = useTranslations("scriptures.tabs");
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -25,10 +30,10 @@ export default function ScripturesPreview() {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-text-primary group-hover:text-accent text-sm md:text-base mb-1">
-                  {tab.label}
+                  {t(`${tab.value}.label` as any)}
                 </h4>
                 <p className="text-xs md:text-sm text-text-secondary line-clamp-1">
-                  {tab.description}
+                  {t(`${tab.value}.description` as any)}
                 </p>
               </div>
               <ArrowRight size={18} className="shrink-0 text-text-tertiary group-hover:text-accent" />

@@ -38,7 +38,7 @@ export interface MemberPersona {
   command: number
   martial: number
   intellect: number
-  charisma: number
+  charm: number
   pessimism_optimism: number
   conservative_progressive: number
   individual_social: number
@@ -74,6 +74,7 @@ export interface Member {
   quotes_en?: string | null
   consumption_philosophy?: string | null
   consumption_philosophy_en?: string | null
+  celeb_tier?: string | null
   claimed_by?: string | null
   speech_tone?: string | null
   influence?: MemberInfluence | null
@@ -210,6 +211,7 @@ function celebToMember(c: Celeb): Member {
     death_date: c.death_date,
     quotes: c.quotes,
     consumption_philosophy: c.consumption_philosophy,
+    celeb_tier: c.celeb_tier,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
     follower_count: c.follower_count,
@@ -279,7 +281,7 @@ export async function getMember(id: string): Promise<Member | null> {
       celeb_persona (
         temperance, diligence, reflection, courage,
         loyalty, benevolence, fairness, humility,
-        command, martial, intellect, charisma,
+        command, martial, intellect, charm,
         pessimism_optimism, conservative_progressive, individual_social, cautious_bold
       )
     `
@@ -313,7 +315,7 @@ export async function getMember(id: string): Promise<Member | null> {
     avatar_url: data.avatar_url,
     bio: data.bio,
     profile_type: profileType,
-    status: data.status || 'active',
+    status: data.status,
     is_verified: data.is_verified,
     created_at: data.created_at,
     role: data.role,
@@ -334,6 +336,7 @@ export async function getMember(id: string): Promise<Member | null> {
     consumption_philosophy: data.consumption_philosophy,
     consumption_philosophy_en: data.consumption_philosophy_en ?? null,
     speech_tone: data.speech_tone ?? null,
+    celeb_tier: data.celeb_tier ?? 'full',
     claimed_by: data.claimed_by,
     influence: influenceData || null,
     persona: personaData || null,

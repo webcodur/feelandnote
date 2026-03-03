@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Search, X, ArrowUpDown, LayoutGrid, List, ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { FilterChipDropdown, FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import type { SortOption, ReviewFilter, ViewMode } from "../contentLibraryTypes";
@@ -53,6 +54,7 @@ export default function ArchiveControlBar({
   onSearch,
   onClearSearch,
 }: ArchiveControlBarProps) {
+  const t = useTranslations("archiveSearch");
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
 
@@ -149,7 +151,7 @@ export default function ArchiveControlBar({
                 onSearch();
               }
             }}
-            placeholder="제목 또는 저자 검색 (2글자 이상)"
+            placeholder={t("placeholder")}
             className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
           />
           {searchQuery && (

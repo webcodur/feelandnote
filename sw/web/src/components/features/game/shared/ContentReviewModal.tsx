@@ -5,7 +5,7 @@
 */
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ExternalLink } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
@@ -13,6 +13,7 @@ import {
   getPresetByKeyword,
   getSentimentColorClasses,
 } from "@/constants/review-presets";
+import { useTranslations } from "next-intl";
 
 export interface ContentReviewModalProps {
   isOpen: boolean;
@@ -41,6 +42,8 @@ export default function ContentReviewModal({
   contentDetailUrl,
   zIndex,
 }: ContentReviewModalProps) {
+  const t = useTranslations("content.reviewModal");
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" zIndex={zIndex}>
       <ModalBody>
@@ -57,7 +60,9 @@ export default function ContentReviewModal({
 
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-xs font-medium text-text-secondary">
-            {ownerNickname ? `${ownerNickname}의 리뷰` : "리뷰"}
+            {ownerNickname
+              ? t("ownerReview", { name: ownerNickname })
+              : t("review")}
           </h4>
         </div>
 
@@ -72,7 +77,7 @@ export default function ContentReviewModal({
           </div>
         ) : review && isSpoiler ? (
           <p className="text-sm text-text-tertiary italic">
-            스포일러 포함 리뷰
+            {t("spoiler")}
           </p>
         ) : reviewPresets && reviewPresets.length > 0 ? (
           <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
@@ -80,7 +85,7 @@ export default function ContentReviewModal({
           </div>
         ) : (
           <p className="text-sm text-text-tertiary italic">
-            작성된 리뷰가 없습니다
+            {t("noReview")}
           </p>
         )}
 
@@ -94,11 +99,11 @@ export default function ContentReviewModal({
               onClick={(e) => e.stopPropagation()}
               className="text-accent/60 hover:text-accent underline underline-offset-2"
             >
-              출처: {sourceUrl}
+              {t("source", { url: sourceUrl })}
             </a>
           ) : (
             <span className="text-red-500 font-semibold">
-              ⚠️ 출처 URL 누락
+              {t("noSource")}
             </span>
           )}
         </div>
@@ -110,7 +115,7 @@ export default function ContentReviewModal({
             className="w-full flex items-center justify-center gap-2 py-2.5 px-5 text-sm font-medium rounded-lg bg-accent text-white hover:bg-accent-hover"
           >
             <ExternalLink size={14} />
-            상세 보기
+            {t("detail")}
           </Link>
         </ModalFooter>
       )}

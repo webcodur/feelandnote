@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowRight, ChevronUp, ChevronDown, ChevronsUp } from "lucide-react";
 import { SectionHeader } from "@/components/ui";
 import { HomeSectionConfig, SECTION_ORDER } from "@/constants/navigation";
+import { useTranslations } from "next-intl";
 
 interface SectionWrapperProps {
   config: HomeSectionConfig;
@@ -13,7 +14,14 @@ interface SectionWrapperProps {
 }
 
 export default function SectionWrapper({ config, children, linkOverride }: SectionWrapperProps) {
+  const tUi = useTranslations("home.ui");
+  const tNav = useTranslations("nav");
+  const tHome = useTranslations("home");
   const sectionLink = linkOverride ?? config.link;
+  const title = tNav(config.key);
+  const englishTitle = tHome(`${config.key}.englishTitle`);
+  const description = tHome(`${config.key}.description`);
+  const linkText = tHome(`${config.key}.link`);
   // 현재 섹션의 이전/다음 섹션 ID 계산
   const currentIndex = SECTION_ORDER.indexOf(config.id as typeof SECTION_ORDER[number]);
   const prevSectionId = currentIndex > 0 ? SECTION_ORDER[currentIndex - 1] : null;
@@ -44,9 +52,9 @@ export default function SectionWrapper({ config, children, linkOverride }: Secti
           {/* 1열: Section Header */}
           <div className="flex-1 min-w-0">
             <SectionHeader
-              title={config.title}
-              englishTitle={config.englishTitle}
-              description={config.description}
+              title={title}
+              englishTitle={englishTitle}
+              description={description}
               variant="classical"
               className="items-start text-start"
             />
@@ -77,18 +85,18 @@ export default function SectionWrapper({ config, children, linkOverride }: Secti
           <button
             onClick={() => scrollToSection(prevSectionId)}
             className="p-2 mt-1 text-text-tertiary/50 hover:text-accent transition-colors"
-            aria-label="이전 섹션으로"
+            aria-label={tUi("prevSection")}
           >
             <ChevronUp size={18} />
           </button>
         )}
 
-        {sectionLink && config.linkText && (
+        {sectionLink && linkText && (
           <Link
             href={sectionLink}
             className="group inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 hover:border-accent hover:bg-accent/5 text-xs font-medium text-text-secondary hover:text-accent transition-all whitespace-nowrap"
           >
-            <span>{config.linkText}</span>
+            <span>{linkText}</span>
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         )}
@@ -97,7 +105,7 @@ export default function SectionWrapper({ config, children, linkOverride }: Secti
           <button
             onClick={() => scrollToSection(nextSectionId)}
             className="p-2 -mt-1 text-text-tertiary/50 hover:text-accent transition-colors"
-            aria-label="다음 섹션으로"
+            aria-label={tUi("nextSection")}
           >
             <ChevronDown size={18} />
           </button>
@@ -105,7 +113,7 @@ export default function SectionWrapper({ config, children, linkOverride }: Secti
           <button
             onClick={scrollToTop}
             className="p-2 -mt-1 text-text-tertiary/50 hover:text-accent transition-colors"
-            aria-label="맨 위로"
+            aria-label={tUi("toTop")}
           >
             <ChevronsUp size={18} />
           </button>

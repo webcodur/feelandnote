@@ -6,9 +6,10 @@
 
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { UserCheck } from "lucide-react";
 import { UserCard, EmptyState, MobileUserListItem } from "../ExploreCards";
+import { useTranslations } from "next-intl";
 
 interface FollowingInfo {
   id: string;
@@ -24,6 +25,7 @@ interface Props {
 
 export default function FollowingSection({ following }: Props) {
   const router = useRouter();
+  const t = useTranslations("explore.ui");
   const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
   return (
@@ -43,7 +45,7 @@ export default function FollowingSection({ following }: Props) {
                 key={user.id}
                 user={user}
                 onClick={() => handleSelectUser(user.id)}
-                subtext={`${user.content_count || 0} 기록`}
+                subtext={t("recordCount", { count: user.content_count || 0 })}
               />
             ))}
           </div>
@@ -51,8 +53,8 @@ export default function FollowingSection({ following }: Props) {
       ) : (
         <EmptyState
           icon={<UserCheck size={32} />}
-          title="팔로잉이 없어요"
-          description="관심 있는 사람을 팔로우해보세요"
+          title={t("empty.noFollowing")}
+          description={t("empty.noFollowingDesc")}
         />
       )}
     </div>

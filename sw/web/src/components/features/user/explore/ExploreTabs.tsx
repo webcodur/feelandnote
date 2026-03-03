@@ -6,16 +6,18 @@
 
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import PageTabs from "@/components/shared/PageTabs";
-
-const EXPLORE_TABS = [
-  { value: "celebs", label: "셀럽", href: "/explore/celebs" },
-  { value: "people", label: "소셜", href: "/explore/people" },
-] as const;
+import { useTranslations } from "next-intl";
 
 export default function ExploreTabs() {
   const pathname = usePathname();
+  const t = useTranslations("explore.ui");
+
+  const EXPLORE_TABS = [
+    { value: "celebs" as const, label: t("tabs.celebs"), href: "/explore/celebs" },
+    { value: "people" as const, label: t("tabs.social"), href: "/explore/people" },
+  ];
   const activeTab = EXPLORE_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "celebs";
 
   return (

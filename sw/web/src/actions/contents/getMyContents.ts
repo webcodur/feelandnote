@@ -25,6 +25,7 @@ export interface UserContentWithContent {
   is_spoiler: boolean | null
   rating: number | null
   review: string | null
+  review_en: string | null
   visibility: VisibilityType | null
   created_at: string
   updated_at: string
@@ -43,6 +44,11 @@ export interface UserContentWithContent {
     release_date: string | null
     metadata: Record<string, unknown> | null
     user_count: number | null
+    title_ko: string | null
+    title_en: string | null
+    creator_en: string | null
+    isbn_en: string | null
+    thumbnail_en: string | null
   }
 }
 

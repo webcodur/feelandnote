@@ -15,9 +15,15 @@ export interface ScriptureContent {
   user_count: number
   avg_rating: number | null
   review?: string | null
+  review_en?: string | null
   is_spoiler?: boolean
   source_url?: string | null
   user_content_id?: string
+  title_ko?: string | null
+  title_en?: string | null
+  creator_en?: string | null
+  isbn_en?: string | null
+  thumbnail_en?: string | null
 }
 
 export interface ScripturesResult {
@@ -30,8 +36,10 @@ export interface ScripturesResult {
 interface TopCeleb {
   id: string
   nickname: string
+  nickname_en: string | null
   avatar_url: string | null
   title: string | null
+  title_en: string | null
   influence: number | null
   count: number
 }
@@ -60,7 +68,7 @@ function aggregateContents(
   data: Array<{
     content_id: string
     rating: number | null
-    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string } | null
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null } | null
   }>,
   options: {
     category?: CategoryId
@@ -95,7 +103,12 @@ function aggregateContents(
           type: content.type as CategoryId,
           celeb_count: 1,
           user_count: userCountMap?.get(content.id) ?? 0,
-          avg_rating: null
+          avg_rating: null,
+          title_ko: content.title_ko ?? null,
+          title_en: content.title_en ?? null,
+          creator_en: content.creator_en ?? null,
+          isbn_en: content.isbn_en ?? null,
+          thumbnail_en: content.thumbnail_en ?? null,
         },
         ratings: item.rating ? [Number(item.rating)] : []
       })
@@ -143,7 +156,7 @@ async function fetchAllUserContents(
     user_id: string
     content_id: string
     rating: number | null
-    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string }
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null }
   }> = []
 
   // 빈 배열이면 빈 결과 반환 (Supabase .in()은 빈 배열에서 에러 발생)
@@ -163,7 +176,7 @@ async function fetchAllUserContents(
           user_id,
           content_id,
           rating,
-          contents!inner(id, title, creator, thumbnail_url, type)
+          contents!inner(id, title, creator, thumbnail_url, type, title_ko, title_en, creator_en, isbn_en, thumbnail_en)
         `)
         .in('user_id', batchIds)
         .eq('status', 'FINISHED')
@@ -333,6 +346,11 @@ export async function getChosenScriptures(params?: {
     celeb_count: Number(row.celeb_count),
     user_count: Number(row.user_count),
     avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+    title_ko: (row.title_ko as string) ?? null,
+    title_en: (row.title_en as string) ?? null,
+    creator_en: (row.creator_en as string) ?? null,
+    isbn_en: (row.isbn_en as string) ?? null,
+    thumbnail_en: (row.thumbnail_en as string) ?? null,
   }))
 
   return {
@@ -384,7 +402,7 @@ export async function getScripturesByProfession(params?: {
     fetchAllUserContents(supabase, celebIds),
     supabase
       .from('profiles')
-      .select('id, nickname, avatar_url, title, celeb_influence(total_score)')
+      .select('id, nickname, nickname_en, avatar_url, title, title_en, celeb_influence(total_score)')
       .in('id', celebIds)
       .not('celeb_influence', 'is', null)
       .order('celeb_influence(total_score)', { ascending: false })
@@ -399,8 +417,10 @@ export async function getScripturesByProfession(params?: {
     return {
       id: c.id,
       nickname: c.nickname,
+      nickname_en: (c as any).nickname_en ?? null,
       avatar_url: c.avatar_url,
       title: c.title,
+      title_en: (c as any).title_en ?? null,
       influence: influence?.total_score ?? null,
       count: contentCount
     }
@@ -455,9 +475,11 @@ export async function getProfessionContentCounts(): Promise<Array<{ profession: 
 export interface TodayFigure {
   id: string
   nickname: string
+  nickname_en: string | null
   avatar_url: string | null
   profession: string | null
   bio: string | null
+  bio_en: string | null
   contentCount: number
 }
 
@@ -576,12 +598,12 @@ async function fetchFigureContents(
   const [{ data: profile }, { data: userContents }, userCountMap] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, nickname, avatar_url, profession, bio')
+      .select('id, nickname, nickname_en, avatar_url, profession, bio, bio_en')
       .eq('id', celebId)
       .single(),
     supabase
       .from('user_contents')
-      .select('id, content_id, rating, review, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type)')
+      .select('id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type, title_ko, title_en, creator_en, isbn_en, thumbnail_en)')
       .eq('user_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
@@ -604,9 +626,15 @@ async function fetchFigureContents(
       user_count: userCountMap.get(content?.id || '') ?? 0,
       avg_rating: item.rating ? Number(item.rating) : null,
       review: item.review,
+      review_en: (item as any).review_en ?? null,
       is_spoiler: item.is_spoiler,
       source_url: item.source_url,
-      user_content_id: item.id
+      user_content_id: item.id,
+      title_ko: (content as any)?.title_ko ?? null,
+      title_en: (content as any)?.title_en ?? null,
+      creator_en: (content as any)?.creator_en ?? null,
+      isbn_en: (content as any)?.isbn_en ?? null,
+      thumbnail_en: (content as any)?.thumbnail_en ?? null,
     }
   }).filter(c => c.id)
 
@@ -614,9 +642,11 @@ async function fetchFigureContents(
     figure: {
       id: profile.id,
       nickname: profile.nickname,
+      nickname_en: (profile as any).nickname_en ?? null,
       avatar_url: profile.avatar_url,
       profession: profile.profession,
       bio: profile.bio,
+      bio_en: (profile as any).bio_en ?? null,
       contentCount: contents.length
     },
     contents,
@@ -719,6 +749,11 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
       celeb_count: Number(row.celeb_count),
       user_count: Number(row.user_count),
       avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+      title_ko: (row.title_ko as string) ?? null,
+      title_en: (row.title_en as string) ?? null,
+      creator_en: (row.creator_en as string) ?? null,
+      isbn_en: (row.isbn_en as string) ?? null,
+      thumbnail_en: (row.thumbnail_en as string) ?? null,
     })
   }
 
@@ -776,6 +811,11 @@ export async function getEraContents(params: {
     celeb_count: Number(row.celeb_count),
     user_count: Number(row.user_count),
     avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+    title_ko: (row.title_ko as string) ?? null,
+    title_en: (row.title_en as string) ?? null,
+    creator_en: (row.creator_en as string) ?? null,
+    isbn_en: (row.isbn_en as string) ?? null,
+    thumbnail_en: (row.thumbnail_en as string) ?? null,
   }))
 
   return {
@@ -838,8 +878,10 @@ export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
   return (data as Record<string, unknown>[]).map(row => ({
     id: row.id as string,
     nickname: row.nickname as string,
+    nickname_en: (row.nickname_en as string) ?? null,
     avatar_url: (row.avatar_url as string) ?? null,
     title: (row.title as string) ?? null,
+    title_en: (row.title_en as string) ?? null,
     influence: row.influence ? Number(row.influence) : null,
     count: Number(row.content_count),
   }))

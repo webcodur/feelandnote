@@ -10,7 +10,7 @@ const AXES: { key: ReferenceAxis; label: string }[] = [
   { key: 'martial', label: '무력' },
   { key: 'intellect', label: '지력' },
   { key: 'command', label: '통솔' },
-  { key: 'charisma', label: '매력' },
+  { key: 'charm', label: '매력' },
 ]
 
 // DB 값이 이미 0~100(능력/덕목) 또는 -50~+50(성향) 스케일이므로 그대로 사용

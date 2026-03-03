@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 
@@ -13,6 +14,7 @@ interface CuratedExhibitionMobileProps {
 }
 
 export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: CuratedExhibitionMobileProps) {
+  const t = useTranslations("landing");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
@@ -209,7 +211,7 @@ export default function CuratedExhibitionMobile({ activeTag, onCelebClick }: Cur
              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-text-tertiary">
                <ArrowRight size={14} />
              </div>
-             <span className="text-[10px] text-text-tertiary">View All</span>
+             <span className="text-[10px] text-text-tertiary">{t("viewAll")}</span>
           </Link>
         </div>
       </div>

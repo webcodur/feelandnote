@@ -15,7 +15,6 @@ import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { ChevronRight } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useTranslations } from "next-intl";
 
 export interface BreadcrumbItem {
   label: string;
@@ -33,14 +32,17 @@ interface GameFullScreenProps {
   background?: React.ReactNode;
   /** 페이지 진입 시 바로 전체화면 */
   initialFullScreen?: boolean;
+  /** i18n: "나가기" */
+  exitLabel?: string;
+  /** i18n: "나가기 (ESC)" */
+  exitEscLabel?: string;
 }
 
 const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
-export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen }: GameFullScreenProps) {
-  const t = useTranslations("shared.game");
+export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen, exitLabel = "나가기", exitEscLabel = "나가기 (ESC)" }: GameFullScreenProps) {
   const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [isFullScreen, setIsFullScreen] = useState(initialFullScreen ?? false);
   const [visible, setVisible] = useState(false);
@@ -108,9 +110,9 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
                 if (initialFullScreen && onHome) onHome();
               }}
               className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-serif transition-colors shrink-0"
-              title={t("exitEsc")}
+              title={exitEscLabel}
             >
-              {t("exit")}
+              {exitLabel}
             </button>
             {onHome && breadcrumbs && breadcrumbs.length > 0 ? (
               breadcrumbs.map((item, i) => {

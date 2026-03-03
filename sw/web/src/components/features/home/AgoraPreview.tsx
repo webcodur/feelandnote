@@ -4,16 +4,25 @@
   책임: 광장 메뉴 구조와 각 항목의 설명을 안내한다.
 */ // ------------------------------
 
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { AGORA_ITEMS } from "@/constants/agora";
 
 export default function AgoraPreview() {
+  const t = useTranslations("agora.items");
+
+  // value에서 camelCase 키로 변환 (celeb-feed → celebFeed)
+  const toKey = (value: string) => value.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {AGORA_ITEMS.map((item) => {
           const Icon = item.icon;
+          const key = toKey(item.value);
           return (
             <Link
               key={item.value}
@@ -25,10 +34,10 @@ export default function AgoraPreview() {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-text-primary group-hover:text-accent text-sm md:text-base mb-1">
-                  {item.label}
+                  {t(`${key}.label` as any)}
                 </h4>
                 <p className="text-xs md:text-sm text-text-secondary line-clamp-1">
-                  {item.description}
+                  {t(`${key}.description` as any)}
                 </p>
               </div>
               <ArrowRight size={18} className="shrink-0 text-text-tertiary group-hover:text-accent" />

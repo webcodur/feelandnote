@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Gift, Search, Users, Heart, Check, Send } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
@@ -23,9 +24,9 @@ interface RecommendationModalProps {
   contentType: string;
 }
 
-const RELATION_LABELS = {
-  friend: { label: "친구", icon: Heart, color: "text-pink-400" },
-  follower: { label: "팔로워", icon: Users, color: "text-blue-400" },
+const RELATION_ICONS = {
+  friend: { icon: Heart, color: "text-pink-400" },
+  follower: { icon: Users, color: "text-blue-400" },
 };
 
 export default function RecommendationModal({
@@ -36,6 +37,7 @@ export default function RecommendationModal({
   contentThumbnail,
   contentType,
 }: RecommendationModalProps) {
+  const t = useTranslations("recommendation");
   const [friends, setFriends] = useState<RecommendableUser[]>([]);
   const [filteredFriends, setFilteredFriends] = useState<RecommendableUser[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,7 +60,7 @@ export default function RecommendationModal({
         setFriends(result.data);
         setFilteredFriends(result.data);
       } else {
-        setError(result.error ?? "목록을 불러올 수 없습니다.");
+        setError(result.error ?? t("loadError"));
       }
       setIsLoading(false);
     };
@@ -108,7 +110,7 @@ export default function RecommendationModal({
       setSuccess(true);
       setTimeout(handleClose, 1500);
     } else {
-      setError(result.message ?? "추천 전송에 실패했습니다.");
+      setError(result.message ?? t("sendError"));
     }
   };
 
@@ -116,7 +118,7 @@ export default function RecommendationModal({
   const selectedFriend = friends.find((f) => f.id === selectedUserId);
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="콘텐츠 추천" size="lg">
+    <Modal isOpen={isOpen} onClose={handleClose} title={t("title")} size="lg">
       <ModalBody className="!p-0">
         {/* 성공 메시지 */}
         {success && (
@@ -124,9 +126,9 @@ export default function RecommendationModal({
             <div className="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mb-5 shadow-glow animate-unlock-bounce">
               <Check size={36} className="text-accent" />
             </div>
-            <p className="text-text-primary font-serif text-lg font-bold">추천 완료</p>
+            <p className="text-text-primary font-serif text-lg font-bold">{t("complete")}</p>
             <p className="text-text-secondary text-sm mt-1">
-              {selectedFriend?.nickname}님에게 전송되었습니다
+              {t("sentTo", { nickname: selectedFriend?.nickname ?? "" })}
             </p>
           </div>
         )}
@@ -174,7 +176,7 @@ export default function RecommendationModal({
                   <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
                   <input
                     type="text"
-                    placeholder="친구 검색..."
+                    placeholder={t("searchFriends")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-9 pr-4 py-2 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/50 transition-colors"
@@ -188,7 +190,7 @@ export default function RecommendationModal({
                   <div className="h-full flex items-center justify-center py-10">
                     <div className="text-center">
                       <div className="inline-block w-5 h-5 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
-                      <p className="text-text-tertiary text-xs mt-2">불러오는 중</p>
+                      <p className="text-text-tertiary text-xs mt-2">{t("loading")}</p>
                     </div>
                   </div>
                 )}
@@ -198,7 +200,7 @@ export default function RecommendationModal({
                     <div className="text-center">
                       <Users size={28} className="text-text-tertiary/30 mx-auto mb-2" />
                       <p className="text-text-tertiary text-xs">
-                        {searchQuery ? "검색 결과 없음" : "추천 가능한 친구 없음"}
+                        {searchQuery ? t("noResults") : t("noFriends")}
                       </p>
                     </div>
                   </div>
@@ -207,7 +209,7 @@ export default function RecommendationModal({
                 {!isLoading && filteredFriends.length > 0 && (
                   <div className="p-2 space-y-1">
                     {filteredFriends.map((friend) => {
-                      const relationInfo = RELATION_LABELS[friend.relation];
+                      const relationInfo = RELATION_ICONS[friend.relation];
                       const RelationIcon = relationInfo.icon;
                       const isSelected = selectedUserId === friend.id;
 
@@ -254,7 +256,7 @@ export default function RecommendationModal({
                             </p>
                             <div className={`flex items-center gap-1 text-[11px] ${relationInfo.color}`}>
                               <RelationIcon size={10} />
-                              <span>{relationInfo.label}</span>
+                              <span>{t(`relation.${friend.relation}`)}</span>
                             </div>
                           </div>
 
@@ -277,7 +279,7 @@ export default function RecommendationModal({
                   <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value.slice(0, 200))}
-                    placeholder="메시지를 남겨보세요 (선택)"
+                    placeholder={t("messagePlaceholder")}
                     rows={2}
                     className="w-full px-3 py-2.5 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/50 transition-colors resize-none pr-14"
                   />
@@ -307,7 +309,7 @@ export default function RecommendationModal({
             onClick={handleClose}
             className="min-w-[100px] px-5 py-2.5 rounded-lg text-sm font-sans font-medium text-text-secondary hover:text-text-primary bg-stone-800/60 hover:bg-stone-700/60 border border-border/40 transition-colors text-center"
           >
-            취소
+            {t("cancel")}
           </Button>
           <Button
             unstyled
@@ -322,12 +324,12 @@ export default function RecommendationModal({
             {isSending ? (
               <>
                 <span className="w-3.5 h-3.5 border-2 border-stone-900/30 border-t-stone-900 rounded-full animate-spin" />
-                전송 중
+                {t("sending")}
               </>
             ) : (
               <>
                 <Send size={14} />
-                추천 보내기
+                {t("send")}
               </>
             )}
           </Button>

@@ -3,7 +3,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { Avatar } from "@/components/ui";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { ContentCard } from "@/components/ui/cards";
@@ -11,13 +13,16 @@ import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { CELEB_PROFESSIONS, getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Calendar, ArrowRight, BookOpen, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getLocalizedContent } from "@/lib/utils/editions";
 
 interface Figure {
     id: string;
     nickname: string;
+    nickname_en: string | null;
     avatar_url: string | null;
     profession: string | null;
     bio: string | null;
+    bio_en: string | null;
     contentCount?: number;
 }
 
@@ -29,9 +34,15 @@ interface Content {
     thumbnail_url: string | null;
     avg_rating?: number | null;
     review?: string | null;
+    review_en?: string | null;
     is_spoiler?: boolean;
     source_url?: string | null;
     user_content_id?: string;
+    title_ko?: string | null;
+    title_en?: string | null;
+    creator_en?: string | null;
+    isbn_en?: string | null;
+    thumbnail_en?: string | null;
 }
 
 interface TodayFigureSource {
@@ -45,50 +56,51 @@ interface TodayFigureSectionProps {
     source?: TodayFigureSource;
 }
 
-/** 마지막 글자의 받침 유무로 '이/가' 반환 */
+/** 마지막 글자의 받침 유무로 '이/가' 반환 (Korean only) */
 function subjectParticle(name: string): string {
   const last = name.charCodeAt(name.length - 1);
   if (last < 0xac00 || last > 0xd7a3) return "이";
   return (last - 0xac00) % 28 === 0 ? "가" : "이";
 }
 
-function buildLibraryLabel(
-  nickname: string,
-  profession: string | null,
-  contents: Content[],
-): string {
-  const professionLabel = getCelebProfessionLabel(profession);
-  const counts = { BOOK: 0, VIDEO: 0, MUSIC: 0, GAME: 0 };
-  for (const c of contents) {
-    if (c.type in counts) counts[c.type as keyof typeof counts]++;
-  }
-  const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK}권의 책`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO}편의 영화`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC}곡의 음악`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
-
-  if (parts.length === 0) {
-    return `${professionLabel} ${nickname}의 감상 기록`;
-  }
-  const particle = subjectParticle(nickname);
-  return `${professionLabel} ${nickname}${particle} 감상한 ${parts.join(", ")}`;
-}
-
 export default function TodayFigureSection({ figure, contents, source }: TodayFigureSectionProps) {
+    const t = useTranslations("todayFigure");
+    const tProfession = useTranslations("profession");
+    const locale = useLocale();
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
     if (!figure) return null;
 
-    const professionLabel = CELEB_PROFESSIONS.find(p => p.value === figure.profession)?.label || figure.profession;
+    const displayName = locale === "en" && figure.nickname_en ? figure.nickname_en : figure.nickname;
+    const displayBio = locale === "en" && figure.bio_en ? figure.bio_en : figure.bio;
+    const professionLabel = figure.profession ? tProfession(figure.profession as any) : "";
 
     const filteredContents = categoryFilter
         ? contents.filter(c => c.type === categoryFilter)
         : contents;
 
-    // 오늘 날짜 포맷
+    // 날짜 포맷
     const today = new Date();
-    const dateStr = `${today.getMonth() + 1}월 ${today.getDate()}일`;
+    const dateStr = t("dateLabel", { month: today.getMonth() + 1, day: today.getDate() });
+
+    // 라이브러리 라벨 빌드
+    const libraryLabel = useMemo(() => {
+        const counts = { BOOK: 0, VIDEO: 0, MUSIC: 0, GAME: 0 };
+        for (const c of contents) {
+            if (c.type in counts) counts[c.type as keyof typeof counts]++;
+        }
+        const parts: string[] = [];
+        if (counts.BOOK > 0) parts.push(t("bookCount", { count: counts.BOOK }));
+        if (counts.VIDEO > 0) parts.push(t("videoCount", { count: counts.VIDEO }));
+        if (counts.MUSIC > 0) parts.push(t("musicCount", { count: counts.MUSIC }));
+        if (counts.GAME > 0) parts.push(t("gameCount", { count: counts.GAME }));
+
+        if (parts.length === 0) {
+            return t("libraryLabelEmpty", { profession: professionLabel, nickname: displayName });
+        }
+        const particle = locale === "ko" ? subjectParticle(displayName) : "";
+        return t("libraryLabelFull", { profession: professionLabel, nickname: displayName, particle, items: parts.join(", ") });
+    }, [contents, displayName, professionLabel, locale, t]);
 
     return (
         <div className="w-full">
@@ -96,10 +108,10 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
             <div className="text-center mb-6 md:mb-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium mb-2">
                     <Calendar size={12} />
-                    <span>{dateStr} 오늘의 인물</span>
+                    <span>{dateStr}</span>
                 </div>
                 <p className="text-sm text-text-tertiary mb-4">
-                    매일 새로운 인물과 그가 즐긴 콘텐츠를 소개합니다
+                    {t("subtitle")}
                 </p>
 
                 {/* 인물 프로필 */}
@@ -110,7 +122,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     <div className="relative">
                         <Avatar
                             url={figure.avatar_url}
-                            name={figure.nickname}
+                            name={displayName}
                             size="2xl"
                             className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500"
                         />
@@ -125,7 +137,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
 
                     <div className="text-center space-y-2">
                         <h2 className="text-3xl md:text-4xl font-serif font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent transition-all duration-500">
-                            {figure.nickname}
+                            {displayName}
                         </h2>
                         <div className="flex items-center justify-center gap-3">
                             <span className="text-sm text-text-secondary font-medium px-2 py-0.5 rounded bg-white/5 border border-white/5">
@@ -141,16 +153,16 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                         <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
                             <Newspaper size={14} className="text-blue-400 shrink-0" />
                             <p className="text-xs text-blue-300/90">
-                                최근 48시간 뉴스에서 <strong className="text-blue-300">{source.newsCount}건</strong> 언급되어 선정되었습니다
+                                {t("newsSelected", { count: source.newsCount })}
                             </p>
                         </div>
                     </div>
                 )}
 
                 {/* 간단한 소개글 */}
-                {figure.bio && (
+                {displayBio && (
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
-                        &ldquo;{figure.bio}&rdquo;
+                        &ldquo;{displayBio}&rdquo;
                     </p>
                 )}
             </div>
@@ -158,9 +170,9 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
             {/* 콘텐츠 리스트 (Grid) */}
             <div className="space-y-4 min-h-[200px]">
                 <SectionHeader
-                    title={buildLibraryLabel(figure.nickname, figure.profession, contents)}
+                    title={libraryLabel}
                     label="LEGACY"
-                    description="방명록에 당신의 생각을 남겨보세요."
+                    description={t("guestbookCta")}
                 />
 
                 {/* 타입별 필터 (ContentTypeSummary) */}
@@ -182,19 +194,23 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                                 key={content.id}
                                 contentId={content.id}
                                 contentType={content.type as any}
-                                title={content.title}
-                                creator={content.creator ?? undefined}
+                                title={getLocalizedContent(content, locale).title}
+                                creator={getLocalizedContent(content, locale).creator ?? undefined}
                                 thumbnail={content.thumbnail_url}
                                 rating={content.avg_rating ?? undefined}
-                                review={content.review ?? ""}
+                                review={(locale === 'en' && content.review_en) ? content.review_en : (content.review ?? "")}
                                 isSpoiler={content.is_spoiler}
                                 sourceUrl={content.source_url ?? undefined}
-                                ownerNickname={figure.nickname}
+                                ownerNickname={displayName}
                                 heightClass="h-[280px]"
                                 mobileLayout="review"
                                 recommendable={true}
                                 userContentId={content.user_content_id}
                                 className="shadow-lg transition-all"
+                                titleKo={content.title_ko}
+                                titleEn={content.title_en}
+                                creatorEn={content.creator_en}
+                                thumbnailEn={content.thumbnail_en}
                             />
                         ))}
                     </div>
@@ -205,7 +221,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                         </div>
                         <div className="space-y-1">
                             <p className="text-text-secondary font-medium">
-                                해당 카테고리의 기록이 존재하지 않습니다
+                                {t("emptyCategory")}
                             </p>
                         </div>
                     </div>
@@ -218,7 +234,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                             href={`/${figure.id}`}
                             className="text-xs text-accent hover:underline flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity"
                         >
-                            전체 보기 <ArrowRight size={12} />
+                            {t("viewAll")} <ArrowRight size={12} />
                         </Link>
                     </div>
                 )}

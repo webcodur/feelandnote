@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { Link, useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui'
 import type { FeedbackCategory, FeedbackWithAuthor } from '@/types/database'
 import { createFeedback, updateFeedback } from '@/actions/board/feedbacks'
-import { FEEDBACK_CATEGORIES, FEEDBACK_CATEGORY_LABELS } from '@/constants/board'
+import { FEEDBACK_CATEGORIES } from '@/constants/board'
 
 interface FeedbackFormProps {
   mode: 'create' | 'edit'
@@ -16,6 +16,7 @@ interface FeedbackFormProps {
 
 export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
   const router = useRouter()
+  const t = useTranslations('board')
   const [category, setCategory] = useState<FeedbackCategory>(initialData?.category ?? 'FEATURE_SUGGESTION')
   const [title, setTitle] = useState(initialData?.title ?? '')
   const [content, setContent] = useState(initialData?.content ?? '')
@@ -47,18 +48,18 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-6"
       >
         <ArrowLeft size={16} />
-        목록으로
+        {t('backToList')}
       </Link>
 
       <h1 className="text-xl font-bold text-text-primary mb-6">
-        {mode === 'create' ? '피드백 작성' : '피드백 수정'}
+        {mode === 'create' ? t('feedback.createTitle') : t('feedback.editTitle')}
       </h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 카테고리 선택 (수정 모드에서는 비활성화) */}
         <div>
           <label className="block text-sm font-medium text-text-secondary mb-2">
-            카테고리
+            {t('feedback.categoryLabel')}
           </label>
           <div className="flex flex-wrap gap-2">
             {FEEDBACK_CATEGORIES.map((cat) => (
@@ -76,7 +77,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
                   ${mode === 'edit' ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
               >
-                {FEEDBACK_CATEGORY_LABELS[cat]}
+                {t(`category.${cat}` as any)}
               </button>
             ))}
           </div>
@@ -85,14 +86,14 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
         {/* 제목 */}
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-text-secondary mb-2">
-            제목
+            {t('title')}
           </label>
           <input
             id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="제목을 입력하세요"
+            placeholder={t('titlePlaceholder')}
             maxLength={100}
             className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
           />
@@ -102,13 +103,13 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
         {/* 내용 */}
         <div>
           <label htmlFor="content" className="block text-sm font-medium text-text-secondary mb-2">
-            내용
+            {t('content')}
           </label>
           <textarea
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="내용을 입력하세요"
+            placeholder={t('contentPlaceholder')}
             maxLength={2000}
             rows={10}
             className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent resize-none"
@@ -125,11 +126,11 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
         <div className="flex justify-end gap-3">
           <Link href="/agora/board/feedback">
             <Button type="button" variant="ghost">
-              취소
+              {t('cancel')}
             </Button>
           </Link>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? '저장 중...' : mode === 'create' ? '작성하기' : '수정하기'}
+            {isSubmitting ? t('saving') : mode === 'create' ? t('feedback.createSubmit') : t('feedback.updateSubmit')}
           </Button>
         </div>
       </form>

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
@@ -17,15 +18,10 @@ import ClassicalBox from "@/components/ui/ClassicalBox";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-
-
 import {
   INNER_VIRTUE_KEYS,
   OUTER_VIRTUE_KEYS,
-  VIRTUE_LABELS,
   TENDENCY_KEYS,
-  TENDENCY_LABELS,
 } from "@/lib/persona/constants";
 import { distanceToMatchPercent, type SimilarCeleb } from "@/lib/persona/utils";
 import { cn } from "@/lib/utils";
@@ -61,7 +57,9 @@ export default function CelebPageContent({
   guestbookCurrentUser,
   greeting,
 }: CelebPageContentProps) {
-  const professionLabel = getCelebProfessionLabel(profile.profession);
+  const t = useTranslations("celebPage");
+  const tp = useTranslations("profession");
+  const professionLabel = profile.profession ? tp(profile.profession) : null;
   const birthYear = formatYear(profile.birth_date);
   const deathYear = profile.death_date ? formatYear(profile.death_date) : null;
   const periodStr = birthYear
@@ -72,10 +70,18 @@ export default function CelebPageContent({
 
   const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
   const keyCounter = useRef(0);
+  const lastGreetingIdx = useRef<number | null>(null);
 
   const handleAvatarClick = useCallback(() => {
     if (!greeting || greeting.length === 0) return;
-    const raw = greeting[Math.floor(Math.random() * greeting.length)];
+    let idx: number;
+    if (greeting.length <= 1) {
+      idx = 0;
+    } else {
+      do { idx = Math.floor(Math.random() * greeting.length); } while (idx === lastGreetingIdx.current);
+    }
+    lastGreetingIdx.current = idx;
+    const raw = greeting[idx];
     setSubtitle({
       key: ++keyCounter.current,
       tone: "composed",
@@ -90,7 +96,7 @@ export default function CelebPageContent({
 
             {/* 인물 프로필 + 명언 */}
             <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-              <DecorativeLabel label="인물 소개" />
+              <DecorativeLabel label={t("intro")} />
               <ClassicalBox hover={false} className="px-5 py-5">
                 <div className="grid grid-cols-[auto_1fr] gap-6">
                   {/* 1열: 이미지 (클릭 시 greeting 대사) */}
@@ -146,12 +152,12 @@ export default function CelebPageContent({
 
             {/* 콘텐츠 라이브러리 (기록 서고) */}
             <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-              <DecorativeLabel label="기록 서고" />
+              <DecorativeLabel label={t("library")} />
               <ClassicalBox hover={false} className="p-6">
                 <ContentLibrary
                   mode="viewer"
                   targetUserId={userId}
-                  emptyMessage="아직 공개된 기록의 서고가 비어있습니다."
+                  emptyMessage={t("libraryEmpty")}
                   showPagination
                   ownerNickname={profile.nickname}
                   defaultViewMode="list"
@@ -162,7 +168,7 @@ export default function CelebPageContent({
             {/* 인물 분석 */}
             {personaData?.targetPersona && (
               <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-                <DecorativeLabel label="인물 분석" />
+                <DecorativeLabel label={t("analysis")} />
                 <ClassicalBox hover={false} className="p-6">
                   <PersonaBlock
                     persona={personaData.targetPersona}
@@ -174,7 +180,7 @@ export default function CelebPageContent({
 
             {/* 방명록 */}
             <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-              <DecorativeLabel label="방명록" />
+              <DecorativeLabel label={t("guestbook")} />
               <ClassicalBox hover={false} className="p-6">
                 <GuestbookContent
                   profileId={userId}
@@ -195,9 +201,10 @@ export default function CelebPageContent({
 
 // ─── 감상 철학 ────────────────────────────────────
 function PhilosophyBlock({ text }: { text: string }) {
+  const t = useTranslations("celebPage");
   return (
     <div className="space-y-3">
-      <DecorativeLabel label="감상 철학" />
+      <DecorativeLabel label={t("philosophy")} />
       <ClassicalBox hover={false} className="px-5 py-4">
         <div className="font-serif text-[14px] md:text-[15px] text-text-secondary leading-[1.9] break-keep opacity-90">
           <FormattedText text={text} />
@@ -218,12 +225,12 @@ function PersonaSectionHeader({ title }: { title: string }) {
   );
 }
 
-function getTendencyLabel(value: number, neg: string, pos: string): string {
+function getTendencyLabel(value: number, neg: string, pos: string, neutralLabel: string, strongTemplate: (dir: string) => string): string {
   const abs = Math.abs(value);
-  if (abs <= 10) return "중립";
+  if (abs <= 10) return neutralLabel;
   const direction = value < 0 ? neg : pos;
   if (abs <= 30) return direction;
-  return `강한 ${direction}`;
+  return strongTemplate(direction);
 }
 
 function VirtueBar({ label, value }: { label: string; value: number }) {
@@ -258,8 +265,19 @@ function PersonaBlock({
   persona: NonNullable<SimilarByCelebResult["targetPersona"]>;
   similarCelebs: SimilarCeleb[];
 }) {
+  const t = useTranslations("celebPage");
+  const ts = useTranslations("shared.persona.stat");
+  const tl = useTranslations("shared.persona.tendency_label");
   const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
+
+  // 성향 키 → 번역 라벨 매핑
+  const tendencyLabels: Record<string, [string, string]> = {
+    pessimism_optimism: [tl("pessimism"), tl("optimism")],
+    conservative_progressive: [tl("conservative"), tl("progressive")],
+    individual_social: [tl("individual"), tl("social")],
+    cautious_bold: [tl("cautious"), tl("bold")],
+  };
 
   const handleCelebClick = useCallback(async (celebId: string) => {
     setLoadingId(celebId);
@@ -274,25 +292,25 @@ function PersonaBlock({
       {/* Virtues Grid: 2 Column Split */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
         <div className="space-y-2">
-          <PersonaSectionHeader title="내적 미덕" />
+          <PersonaSectionHeader title={t("innerVirtue")} />
           {INNER_VIRTUE_KEYS.map((key) => (
-            <VirtueBar key={key} label={VIRTUE_LABELS[key]} value={persona[key]} />
+            <VirtueBar key={key} label={ts(key)} value={persona[key]} />
           ))}
         </div>
         <div className="space-y-2">
-          <PersonaSectionHeader title="외적 미덕" />
+          <PersonaSectionHeader title={t("outerVirtue")} />
           {OUTER_VIRTUE_KEYS.map((key) => (
-            <VirtueBar key={key} label={VIRTUE_LABELS[key]} value={persona[key]} />
+            <VirtueBar key={key} label={ts(key)} value={persona[key]} />
           ))}
         </div>
       </div>
 
       {/* 성향 스펙트럼 */}
       <div className="space-y-4 pt-6 border-t border-white/5">
-        <PersonaSectionHeader title="핵심 성향" />
+        <PersonaSectionHeader title={t("coreDisposition")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2">
           {TENDENCY_KEYS.map((key) => {
-            const [neg, pos] = TENDENCY_LABELS[key];
+            const [neg, pos] = tendencyLabels[key];
             const value = persona[key];
             const position = ((value + 50) / 100) * 100;
 
@@ -327,7 +345,7 @@ function PersonaBlock({
       {/* 유사한 인물 */}
       {similarCelebs.length > 0 && (
         <div className="space-y-4 pt-6 border-t border-white/5">
-          <PersonaSectionHeader title="닮은꼴 인물" />
+          <PersonaSectionHeader title={t("similarFigures")} />
           <div className="flex justify-center gap-5 md:gap-8 flex-wrap">
             {similarCelebs.map((celeb) => (
               <button

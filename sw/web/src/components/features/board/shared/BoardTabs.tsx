@@ -6,16 +6,18 @@
 
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import PageTabs from "@/components/shared/PageTabs";
-
-const BOARD_TABS = [
-  { value: "notice", label: "공지사항", href: "/agora/board/notice" },
-  { value: "feedback", label: "피드백", href: "/agora/board/feedback" },
-] as const;
 
 export default function BoardTabs() {
   const pathname = usePathname();
+  const t = useTranslations("board.tabs");
+
+  const BOARD_TABS = [
+    { value: "notice", label: t("notice"), href: "/agora/board/notice" },
+    { value: "feedback", label: t("feedback"), href: "/agora/board/feedback" },
+  ] as const;
   const activeTab = BOARD_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "notice";
 
   return (

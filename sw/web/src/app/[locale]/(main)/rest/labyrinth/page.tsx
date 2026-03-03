@@ -7,7 +7,7 @@
 import { getTranslations } from "next-intl/server";
 import LabyrinthGame from "@/components/features/game/labyrinth/LabyrinthGame";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { ARENA_SECTION_HEADERS } from "@/constants/arena";
+import { ARENA_ENGLISH_LABELS } from "@/constants/arena";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 
 export async function generateMetadata() {
@@ -15,26 +15,21 @@ export async function generateMetadata() {
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
-const headerInfo = ARENA_SECTION_HEADERS["labyrinth"];
-
-export default function Page() {
+export default async function Page() {
+  const t = await getTranslations("rest.arena.labyrinth");
   const bgImages = getGameBackgroundImages("labyrinth-1");
   return (
     <>
       <SectionHeader
-        label={headerInfo.label}
-        title={headerInfo.title}
+        label={ARENA_ENGLISH_LABELS["labyrinth"]}
+        title={t("label")}
         description={
           <>
-            {headerInfo.description}
-            {headerInfo.subDescription && (
-              <>
-                <br />
-                <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
-                  {headerInfo.subDescription}
-                </span>
-              </>
-            )}
+            {t("headerDesc")}
+            <br />
+            <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+              {t("headerSub")}
+            </span>
           </>
         }
       />

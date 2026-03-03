@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle2, Heart, FileText, MessageCircle, Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { InnerBox } from "@/components/ui";
 import type { DetailedStats } from "@/actions/user";
 
@@ -9,16 +10,17 @@ interface ProfileStatsSectionProps {
 }
 
 export default function ProfileStatsSection({ stats }: ProfileStatsSectionProps) {
+  const t = useTranslations("profilePage.stats");
   const { summary, categoryBreakdown, monthlyTrend, ratingStats } = stats;
 
   return (
     <section className="animate-fade-in space-y-6">
       {/* 요약 카드 */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard icon={CheckCircle2} value={summary.totalFinished} label="감상 완료" color="text-accent" />
-        <StatCard icon={Heart} value={summary.totalWant} label="관심" color="text-rose-400" />
-        <StatCard icon={FileText} value={summary.totalReviews} label="리뷰" color="text-green-400" />
-        <StatCard icon={MessageCircle} value={summary.totalRecords} label="노트·인용" color="text-blue-400" />
+        <StatCard icon={CheckCircle2} value={summary.totalFinished} label={t("finished")} color="text-accent" />
+        <StatCard icon={Heart} value={summary.totalWant} label={t("want")} color="text-rose-400" />
+        <StatCard icon={FileText} value={summary.totalReviews} label={t("review")} color="text-green-400" />
+        <StatCard icon={MessageCircle} value={summary.totalRecords} label={t("notes")} color="text-blue-400" />
       </div>
 
       {/* 카테고리별 현황 */}
@@ -54,11 +56,13 @@ function StatCard({ icon: Icon, value, label, color }: StatCardProps) {
 
 // #region 카테고리별 현황
 function CategoryBreakdown({ data }: { data: DetailedStats["categoryBreakdown"] }) {
+  const t = useTranslations("profilePage.stats");
+
   if (data.length === 0) {
     return (
       <InnerBox hover={false} className="p-6">
-        <h3 className="text-sm font-bold mb-2 font-serif">카테고리별 현황</h3>
-        <div className="text-center py-4 text-text-secondary text-xs">아직 데이터가 없다.</div>
+        <h3 className="text-sm font-bold mb-2 font-serif">{t("categoryStatus")}</h3>
+        <div className="text-center py-4 text-text-secondary text-xs">{t("noData")}</div>
       </InnerBox>
     );
   }
@@ -67,7 +71,7 @@ function CategoryBreakdown({ data }: { data: DetailedStats["categoryBreakdown"] 
 
   return (
     <InnerBox hover={false} className="p-6">
-      <h3 className="text-sm font-bold mb-4 font-serif">카테고리별 현황</h3>
+      <h3 className="text-sm font-bold mb-4 font-serif">{t("categoryStatus")}</h3>
       <div className="space-y-3">
         {data.map((cat) => {
           const total = cat.finished + cat.want;
@@ -76,8 +80,8 @@ function CategoryBreakdown({ data }: { data: DetailedStats["categoryBreakdown"] 
 
           // 상태 텍스트
           const parts: string[] = [];
-          if (cat.finished > 0) parts.push(`${cat.finished}완료`);
-          if (cat.want > 0) parts.push(`${cat.want}관심`);
+          if (cat.finished > 0) parts.push(t("completedSuffix", { count: cat.finished }));
+          if (cat.want > 0) parts.push(t("wantSuffix", { count: cat.want }));
 
           return (
             <div key={cat.type}>
@@ -114,11 +118,12 @@ function CategoryBreakdown({ data }: { data: DetailedStats["categoryBreakdown"] 
 
 // #region 월별 활동 추이
 function MonthlyTrend({ data }: { data: DetailedStats["monthlyTrend"] }) {
+  const t = useTranslations("profilePage.stats");
   const maxCount = Math.max(...data.map((d) => d.count), 1);
 
   return (
     <InnerBox hover={false} className="p-6">
-      <h3 className="text-sm font-bold mb-4 font-serif">월별 활동 추이</h3>
+      <h3 className="text-sm font-bold mb-4 font-serif">{t("monthlyActivity")}</h3>
       <div className="space-y-2">
         {data.map((item) => {
           const pct = (item.count / maxCount) * 100;
@@ -145,11 +150,12 @@ function MonthlyTrend({ data }: { data: DetailedStats["monthlyTrend"] }) {
 
 // #region 평점 분포
 function RatingDistribution({ stats }: { stats: DetailedStats["ratingStats"] }) {
+  const t = useTranslations("profilePage.stats");
   const maxDist = Math.max(...stats.distribution, 1);
 
   return (
     <InnerBox hover={false} className="p-6">
-      <h3 className="text-sm font-bold mb-4 font-serif">평점 분포</h3>
+      <h3 className="text-sm font-bold mb-4 font-serif">{t("ratingDistribution")}</h3>
       <div className="space-y-2">
         {[5, 4, 3, 2, 1].map((score) => {
           const count = stats.distribution[score - 1];
@@ -180,8 +186,8 @@ function RatingDistribution({ stats }: { stats: DetailedStats["ratingStats"] }) 
       </div>
       <div className="mt-3 text-center text-xs text-text-secondary">
         {stats.average != null
-          ? `평균 ${stats.average} / ${stats.count}건`
-          : "아직 평점이 없다."}
+          ? t("ratingAverage", { average: stats.average, count: stats.count })
+          : t("noRating")}
       </div>
     </InnerBox>
   );

@@ -1,19 +1,21 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Inbox, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import type { CelebReview } from "@/types/home";
 import type { ContentTypeCounts } from "@/actions/home";
 import { getCelebProfileUrl } from "@/lib/url";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedContent } from "@/lib/utils/editions";
 
 // #region Inline Celeb Feed Card
 interface CelebFeedCardProps {
@@ -24,6 +26,9 @@ interface CelebFeedCardProps {
 function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
   const router = useRouter();
   const [showUserModal, setShowUserModal] = useState(false);
+  const t = useTranslations("home.ui");
+  const tProf = useTranslations("profession");
+  const locale = useLocale();
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
@@ -56,7 +61,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
           )}
         </div>
         <p className="text-[9px] sm:text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
-          {getCelebProfessionLabel(review.celeb.profession) || "지혜의 탐구자"} · {formatRelativeTime(review.updated_at)}
+          {(review.celeb.profession && tProf.has(review.celeb.profession) ? tProf(review.celeb.profession) : review.celeb.profession) || t("wisdomSeeker")} · {formatRelativeTime(review.updated_at)}
         </p>
       </div>
     </div>
@@ -67,30 +72,34 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
       <ContentCard
         contentId={review.content.id}
         contentType={review.content.type}
-        title={review.content.title}
-        creator={review.content.creator}
+        title={getLocalizedContent(review.content, locale).title}
+        creator={getLocalizedContent(review.content, locale).creator}
         thumbnail={review.content.thumbnail_url}
-        review={review.review}
+        review={(locale === 'en' && review.review_en) ? review.review_en : review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}
         href=""
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
         saved={initialSaved}
+        mobileLayout="review"
         heightClass="h-[320px] md:h-[280px]"
         className="sm:max-w-4xl sm:mx-auto"
+        titleKo={review.content.title_ko}
+        titleEn={review.content.title_en}
+        creatorEn={review.content.creator_en}
+        thumbnailEn={review.content.thumbnail_en}
       />
 
-      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
+      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick>
         <ModalBody>
           <p className="text-text-secondary">
-            <span className="text-text-primary font-semibold">{review.celeb.nickname}</span>
-            님의 기록관으로 이동하시겠습니까?
+            {t("visitArchiveConfirm", { name: review.celeb.nickname })}
           </p>
         </ModalBody>
         <ModalFooter className="justify-end">
-          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
-          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>{t("cancel")}</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>{t("go")}</Button>
         </ModalFooter>
       </Modal>
     </>
@@ -144,16 +153,15 @@ function ReviewCardSkeleton() {
 
 // #region Empty State
 function EmptyFeed() {
+  const t = useTranslations("home.ui");
   return (
     <div className="flex flex-col items-center justify-center py-20 px-4">
       <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
         <Inbox size={40} className="text-text-tertiary" />
       </div>
-      <h3 className="text-lg font-semibold mb-2">아직 리뷰가 없어요</h3>
-      <p className="text-sm text-text-secondary text-center max-w-xs">
-        셀럽들의 콘텐츠 리뷰가 곧 업데이트됩니다.
-        <br />
-        조금만 기다려 주세요!
+      <h3 className="text-lg font-semibold mb-2">{t("empty.noReviews")}</h3>
+      <p className="text-sm text-text-secondary text-center max-w-xs whitespace-pre-line">
+        {t("empty.noReviewsDesc")}
       </p>
     </div>
   );
@@ -168,6 +176,7 @@ interface FeedHeaderProps {
 }
 
 function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeaderProps) {
+  const t = useTranslations("home.ui");
   return (
     <div className="mb-4">
       <FilterTabs
@@ -176,7 +185,7 @@ function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeader
         counts={contentTypeCounts}
         onSelect={onTypeChange}
         hideZeroCounts
-        title="장르"
+        title={t("genre")}
       />
     </div>
   );
@@ -202,6 +211,7 @@ export default function CelebFeed({
 }: CelebFeedProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("home.ui");
   const urlContentType = (searchParams.get("type") ?? "all") as ContentTypeFilterValue;
 
   // 외부에서 전달받은 contentType 우선, 없으면 URL 파라미터 사용
@@ -271,7 +281,7 @@ export default function CelebFeed({
     return (
       <section>
         {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
-        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4">
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
@@ -292,7 +302,7 @@ export default function CelebFeed({
   return (
     <section>
       {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
-      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4">
         {reviews.map((review) => (
           <CelebFeedCard key={review.id} review={review} initialSaved={savedContentIds?.has(review.content.id) ?? false} />
         ))}
@@ -317,7 +327,7 @@ export default function CelebFeed({
         {/* 더 이상 로드할 데이터 없음 */}
         {!hasMore && reviews.length > 0 && (
           <div className="col-span-full text-center py-6">
-            <p className="text-sm text-text-tertiary">모든 리뷰를 불러왔어요</p>
+            <p className="text-sm text-text-tertiary">{t("empty.allLoaded")}</p>
           </div>
         )}
       </div>

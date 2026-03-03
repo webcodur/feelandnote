@@ -10,6 +10,7 @@ import { INFLUENCE_CATEGORIES } from "@/constants/influence";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
 import { RadarChart, TranshistoricityGauge, CategoryDetail, TopInfluenceTags } from "@/components/features/influence";
+import { useTranslations } from "next-intl";
 
 // Aura 기반 모달 스타일 (9단계)
 const AURA_MODAL_STYLES: Record<Aura, { bg: string; text: string; border: string; glow: string }> = {
@@ -34,6 +35,7 @@ interface CelebInfluenceModalProps {
 }
 
 export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }: CelebInfluenceModalProps) {
+  const t = useTranslations("home.ui.influence");
   const [data, setData] = useState<CelebInfluenceDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -63,14 +65,14 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
   const LoadingSpinner = () => (
     <div className="flex flex-col items-center justify-center py-20 gap-3">
       <div className="w-10 h-10 border-3 border-accent/20 border-t-accent rounded-full animate-spin" />
-      <span className="text-sm text-text-secondary">영향력 분석 중...</span>
+      <span className="text-sm text-text-secondary">{t("analyzing")}</span>
     </div>
   );
 
   const ErrorState = () => (
     <div className="flex flex-col items-center justify-center py-20 gap-2">
-      <span className="text-text-tertiary">정보를 불러올 수 없습니다</span>
-      <button onClick={onClose} className="text-sm text-accent hover:underline">닫기</button>
+      <span className="text-text-tertiary">{t("loadError")}</span>
+      <button onClick={onClose} className="text-sm text-accent hover:underline">{t("close")}</button>
     </div>
   );
 
@@ -220,7 +222,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                       </p>
                     )}
                     <div className="pt-3 border-t border-white/5">
-                      <p className="text-xs text-text-tertiary mb-2 font-medium">주요 영향력</p>
+                      <p className="text-xs text-text-tertiary mb-2 font-medium">{t("topInfluence")}</p>
                       <TopInfluenceTags data={data} />
                     </div>
                   </div>
@@ -228,7 +230,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
 
                 {/* 영역별 상세 */}
                 <div className="space-y-3">
-                  <h3 className="text-sm font-bold text-text-primary px-1">영역별 상세</h3>
+                  <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {INFLUENCE_CATEGORIES.map((cat) => (
                       <CategoryDetail
@@ -290,7 +292,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
 
                 {/* 영역별 상세 */}
                 <div className="space-y-3 pt-2">
-                  <h3 className="text-sm font-bold text-text-primary px-1">영역별 상세</h3>
+                  <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
                   <div className="grid grid-cols-1 gap-2.5">
                     {INFLUENCE_CATEGORIES.map((cat) => (
                       <CategoryDetail

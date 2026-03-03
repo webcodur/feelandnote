@@ -6,19 +6,34 @@
 
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useMemo } from "react";
+import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { AGORA_ITEMS } from "@/constants/agora";
 import PageTabs from "@/components/shared/PageTabs";
 
 export default function AgoraTabs() {
   const pathname = usePathname();
+  const t = useTranslations("agora.items");
+
   const activeTab =
     AGORA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "celeb-feed";
 
+  // value에서 camelCase 키로 변환 (celeb-feed → celebFeed)
+  const toKey = (value: string) => value.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+
+  const tabs = useMemo(
+    () => AGORA_ITEMS.map((item) => ({
+      ...item,
+      label: t(`${toKey(item.value)}.label` as any),
+    })),
+    [t]
+  );
+
   return (
-    <PageTabs 
-      tabs={AGORA_ITEMS} 
-      activeTabValue={activeTab} 
+    <PageTabs
+      tabs={tabs}
+      activeTabValue={activeTab}
     />
   );
 }

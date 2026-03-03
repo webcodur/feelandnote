@@ -7,7 +7,7 @@
 "use client";
 
 import { ReactNode, createContext, useContext, useRef, useEffect, useState, useCallback, useMemo } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 // #region Context
 interface TabIndicator {

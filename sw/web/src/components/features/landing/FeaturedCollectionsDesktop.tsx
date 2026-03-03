@@ -2,6 +2,7 @@
 
 import type { FeaturedTag } from "@/actions/home";
 import type { ExhibitionLocation } from "./FeaturedCollections";
+import { useTranslations } from "next-intl";
 import { EXPLORE_PRESETS } from "./constants";
 import CuratedExhibitionDesktop from "./CuratedExhibitionDesktop";
 import ExploreStackedRowDesktop from "./ExploreStackedRowDesktop";
@@ -22,6 +23,7 @@ export default function FeaturedCollectionsDesktop({
   location = "main",
 }: FeaturedCollectionsDesktopProps) {
 
+  const t = useTranslations("landing");
   const activeTag = tags.length > 0 ? tags[activeTagIndex] : null;
   const isExplore = location === "explore-pc";
 
@@ -40,7 +42,7 @@ export default function FeaturedCollectionsDesktop({
              />
            ) : (
              <div className="w-full h-96 flex items-center justify-center border border-dashed border-border rounded-2xl bg-bg-card/30">
-               <span className="text-text-tertiary font-serif italic">진행 중인 기획전이 없습니다.</span>
+               <span className="text-text-tertiary font-serif italic">{t("noExhibitions")}</span>
              </div>
            )}
       </div>

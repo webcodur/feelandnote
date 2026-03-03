@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { INFLUENCE_CATEGORIES } from "@/constants/influence";
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -12,12 +13,13 @@ interface ProfileInfluenceSectionProps {
 }
 
 export default function ProfileInfluenceSection({ data }: ProfileInfluenceSectionProps) {
+  const t = useTranslations("profilePage.influence");
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
     <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
       <div className="flex justify-center mb-6 sm:mb-8">
-        <DecorativeLabel label="영향력" />
+        <DecorativeLabel label={t("label")} />
       </div>
 
       {/* 총점 + 레이더 차트 */}
@@ -41,7 +43,7 @@ export default function ProfileInfluenceSection({ data }: ProfileInfluenceSectio
 
       {/* 영역별 상세 */}
       <div className="space-y-3 max-w-2xl mx-auto">
-        <h3 className="text-sm font-bold text-text-primary px-1">영역별 상세</h3>
+        <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           {INFLUENCE_CATEGORIES.map((cat) => (
             <CategoryDetail

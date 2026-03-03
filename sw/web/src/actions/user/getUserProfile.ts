@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
+import { getLocale } from 'next-intl/server'
 
 export interface SelectedTitle {
   name: string
@@ -45,7 +46,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, avatar_url, bio, quotes, profession, title, consumption_philosophy, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, consumption_philosophy, consumption_philosophy_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
     .eq('id', userId)
     .single()
 
@@ -111,18 +112,23 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const selectedTitle = getTitleInfo(profile.selected_title)
 
+  const locale = await getLocale()
+  const isEn = locale === 'en'
+  const resolve = <T,>(en: T | null | undefined, ko: T): T =>
+    isEn && en ? en : ko
+
   return {
     success: true,
     data: {
       id: profile.id,
       slug: profile.slug ?? null,
-      nickname: profile.nickname || 'User',
+      nickname: resolve(profile.nickname_en, profile.nickname || 'User'),
       avatar_url: profile.avatar_url,
-      bio: profile.bio,
-      quotes: profile.quotes,
+      bio: resolve(profile.bio_en, profile.bio),
+      quotes: resolve(profile.quotes_en, profile.quotes),
       profession: profile.profession,
-      title: profile.title,
-      consumption_philosophy: profile.consumption_philosophy,
+      title: resolve(profile.title_en, profile.title),
+      consumption_philosophy: resolve(profile.consumption_philosophy_en, profile.consumption_philosophy),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,

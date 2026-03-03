@@ -6,9 +6,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { BookOpen } from "lucide-react";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 interface ProfileCardProps {
   id: string;
@@ -31,6 +32,7 @@ export default function ProfileCard({
   href,
   title,
 }: ProfileCardProps) {
+  const t = useTranslations("userProfile");
   const resolvedHref = href ?? `/${id}`;
 
   return (
@@ -66,7 +68,7 @@ export default function ProfileCard({
         )}
         {is_self && (
           <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-primary text-white text-[10px] font-bold rounded-full whitespace-nowrap z-10">
-            나
+            {t("me")}
           </span>
         )}
       </div>

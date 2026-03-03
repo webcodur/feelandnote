@@ -4,7 +4,6 @@
   책임: 독서 몰입 환경 + 보편적 독서 지원 콘텐츠 제공
 */ // ------------------------------
 
-import { redirect } from "next/navigation";
 import { getProfile } from "@/actions/user";
 import ReadingWorkspace from "./components/ReadingWorkspace";
 

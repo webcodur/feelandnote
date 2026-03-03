@@ -7,7 +7,7 @@
 
 import { useState, useCallback, type ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { UserPlus, UserCheck, Loader2 } from "lucide-react";
 import { Popover, TitleBadge } from "@/components/ui";
 import Button from "@/components/ui/Button";

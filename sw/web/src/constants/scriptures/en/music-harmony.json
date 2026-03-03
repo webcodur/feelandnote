@@ -1,0 +1,420 @@
+{
+  "MUSIC_HARMONY_LESSONS": [
+    {
+      "id": "sound_and_pitch",
+      "title": "Sound and Pitch",
+      "difficulty": "beginner",
+      "partLabel": "Part 1 — Foundation",
+      "description": "From vibration to musical pitch: how sound waves carry frequency, how our ears interpret pitch, and how the overtone series shapes the color of every instrument.",
+      "objectives": [
+        "Understand the physics of sound waves",
+        "Relate frequency to pitch",
+        "Discover the overtone series"
+      ],
+      "readTime": 8,
+      "contentMarkdown": "## The Nature of Sound\n\nAll sound begins with vibration. When a guitar string is plucked, it oscillates back and forth, pushing and pulling the surrounding air molecules. These compressions and rarefactions travel outward as a **sound wave**. The speed of sound in air is roughly 343 meters per second at room temperature.\n\nTwo properties define every sound wave:\n\n- **Frequency** — the number of complete cycles per second, measured in Hertz (Hz). A higher frequency produces a higher pitch. Concert A is standardized at 440 Hz.\n- **Amplitude** — the magnitude of displacement, which determines loudness.\n\n## From Frequency to Pitch\n\nThe human ear perceives frequencies between roughly 20 Hz and 20,000 Hz. Musical pitch occupies a narrower band: the lowest note on a piano (A0) vibrates at about 27.5 Hz, and the highest (C8) at about 4,186 Hz. Doubling the frequency raises the pitch by exactly one **octave** — this is the most fundamental interval in all music.\n\n## The Overtone Series\n\nWhen a string vibrates, it does not produce a single frequency. It vibrates simultaneously in halves, thirds, quarters, and so on, generating a stack of **overtones** (also called harmonics). The first overtone is an octave above the fundamental; the second is a perfect fifth above that; then comes another octave, a major third, and so on.\n\nThis natural phenomenon is the physical foundation of consonance and dissonance. The intervals we perceive as 'pleasant' — octaves, fifths, fourths — correspond to the simplest frequency ratios in the overtone series (2:1, 3:2, 4:3). The entire Western system of harmony is, at its root, an elaboration of the overtone series.",
+      "sheetExamples": [
+        {
+          "id": "overtone_series",
+          "label": "C2 Overtone Series",
+          "abc": "X:1\nT:C2 Overtone Series\nM:C\nL:1/2\nK:C\nC,2 C2 G2 c2 e2 g2 _b2 c'2|",
+          "caption": "Natural overtone series above C2 fundamental",
+          "playable": true
+        },
+        {
+          "id": "c_scale",
+          "label": "C Major Scale",
+          "abc": "X:1\nT:C Major Scale\nM:C\nL:1/4\nK:C\nC D E F|G A B c|",
+          "caption": "The C major scale — the simplest scale with no sharps or flats",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "reading_notation",
+      "title": "Reading Notation",
+      "difficulty": "beginner",
+      "partLabel": "Part 1 — Foundation",
+      "description": "The staff, clefs, note names, and octave designations — everything you need to read a musical score and locate any pitch on the page.",
+      "objectives": [
+        "Read notes on the treble and bass clefs",
+        "Name pitches using letter names and octave numbers",
+        "Understand ledger lines and the grand staff"
+      ],
+      "readTime": 9,
+      "contentMarkdown": "## The Staff\n\nWestern music notation is written on a **staff** — five horizontal lines with four spaces between them. Each line and space represents a specific pitch. Notes placed higher on the staff sound higher in pitch.\n\n## Clefs\n\nA **clef** is a symbol at the beginning of a staff that assigns specific pitches to the lines and spaces.\n\n- **Treble clef** (G clef): Fixes the second line from the bottom as G4. Used for higher-pitched instruments and the right hand of keyboard music. The mnemonic for the lines is **E-G-B-D-F** ('Every Good Boy Does Fine') and for the spaces **F-A-C-E**.\n- **Bass clef** (F clef): Fixes the fourth line from the bottom as F3. Used for lower-pitched instruments and the left hand of keyboard music. Lines: **G-B-D-F-A**; Spaces: **A-C-E-G**.\n\nThe treble and bass clefs combined form the **grand staff**, connected by a brace and joined at middle C (C4), which sits on a ledger line between them.\n\n## Note Names and Octaves\n\nWestern music uses seven letter names: **C-D-E-F-G-A-B**, repeating in each octave. Scientific pitch notation appends an octave number: C4 is 'middle C,' A4 is the tuning standard at 440 Hz. Each octave begins at C: thus B3 is immediately below C4.\n\n## Ledger Lines\n\nNotes that fall above or below the staff are written on short **ledger lines**. Middle C, for example, requires one ledger line below the treble staff or one above the bass staff. Too many ledger lines become hard to read, which is why we use different clefs.",
+      "sheetExamples": [
+        {
+          "id": "rhythm_patterns_44",
+          "label": "4/4 Time Basic Rhythm",
+          "abc": "X:1\nT:4/4 Time Basic Rhythm\nM:4/4\nL:1/4\nK:C\nC D E F|G A B c|c B A G|F E D C|",
+          "caption": "Ascending and descending C major scale in 4/4 time",
+          "playable": true
+        },
+        {
+          "id": "rhythm_patterns_34",
+          "label": "3/4 Time — Waltz Feel",
+          "abc": "X:1\nT:3/4 Time - Waltz Feel\nM:3/4\nL:1/4\nK:C\nC E G|c G E|F A c|B G D|",
+          "caption": "Simple waltz pattern in 3/4 time",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "rhythm_and_meter",
+      "title": "Rhythm and Meter",
+      "difficulty": "beginner",
+      "partLabel": "Part 1 — Foundation",
+      "description": "Note values, rests, time signatures, and the rhythmic grid that organizes music in time — from whole notes to sixteenth notes, from 4/4 to compound meter.",
+      "objectives": [
+        "Identify note and rest values from whole to sixteenth",
+        "Read and interpret time signatures (4/4, 3/4, 6/8)",
+        "Distinguish simple and compound meter"
+      ],
+      "readTime": 9,
+      "contentMarkdown": "## Note and Rest Values\n\nRhythm is the organization of music in time. Each note has a specific **duration**:\n\n| Note | Beats (in 4/4) | Rest Symbol |\n|------|----------------|-------------|\n| Whole note | 4 beats | Whole rest |\n| Half note | 2 beats | Half rest |\n| Quarter note | 1 beat | Quarter rest |\n| Eighth note | 1/2 beat | Eighth rest |\n| Sixteenth note | 1/4 beat | Sixteenth rest |\n\nA **dot** after a note adds half its value (a dotted half note = 3 beats). A **tie** connects two notes of the same pitch, combining their durations.\n\n## Time Signatures\n\nA **time signature** appears at the beginning of a piece and tells you how beats are grouped:\n\n- **4/4** (common time): Four quarter-note beats per measure. The most prevalent meter in Western music — pop, rock, classical, and jazz all default to 4/4.\n- **3/4** (waltz time): Three quarter-note beats per measure. Gives a characteristic ONE-two-three swing.\n- **6/8** (compound duple): Six eighth-note beats per measure, grouped in two sets of three. Creates a lilting, rolling feel distinct from 3/4.\n\n## Measures and Bar Lines\n\nMusic is divided into **measures** (bars) by vertical **bar lines**. Each measure contains exactly the number of beats specified by the time signature. A **double bar line** marks the end of a section; a **final bar line** (thin-thick) marks the end of a piece.\n\n## Simple vs. Compound Meter\n\nIn **simple meter** (2/4, 3/4, 4/4), each beat divides naturally into two. In **compound meter** (6/8, 9/8, 12/8), each beat divides into three, giving a triplet feel without writing triplets.",
+      "sheetExamples": [
+        {
+          "id": "rhythm_patterns_68",
+          "label": "6/8 Compound Meter",
+          "abc": "X:1\nT:6/8 Compound Meter\nM:6/8\nL:1/8\nK:C\nCDE FGA|Bcd cBA|GFE DCB,|C3 z3|",
+          "caption": "Ascending and descending passage in 6/8 compound meter",
+          "playable": true
+        },
+        {
+          "id": "rhythm_waltz",
+          "label": "Waltz Rhythm Pattern",
+          "abc": "X:1\nT:Waltz Rhythm Pattern\nM:3/4\nL:1/4\nK:C\nC2 E|G2 c|B2 A|G3|F2 A|c2 f|e2 d|c3|",
+          "caption": "Waltz pattern emphasizing the downbeat of each measure",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "intervals",
+      "title": "Intervals",
+      "difficulty": "beginner",
+      "partLabel": "Part 1 — Foundation",
+      "description": "The building blocks of melody and harmony: half steps, whole steps, and the classification of intervals from unisons to octaves, including their inversions.",
+      "objectives": [
+        "Define and identify half steps and whole steps",
+        "Classify intervals as major, minor, perfect, augmented, or diminished",
+        "Invert any interval"
+      ],
+      "readTime": 10,
+      "contentMarkdown": "## Half Steps and Whole Steps\n\nThe **half step** (semitone) is the smallest interval in standard Western music — the distance from one piano key to the very next, whether black or white. E to F is a half step; C to C# is a half step. A **whole step** (whole tone) equals two half steps: C to D, or E to F#.\n\n## Naming Intervals\n\nAn **interval** is the distance between two pitches. We name intervals by two components:\n\n1. **Number** — count the letter names inclusively. C to E spans three letter names (C-D-E), so it is a *third*.\n2. **Quality** — determined by the exact number of half steps.\n\n| Quality | Applies to | Example | Half steps |\n|---------|-----------|---------|------------|\n| Perfect | Unison, 4th, 5th, Octave | C→G (P5) | 7 |\n| Major | 2nd, 3rd, 6th, 7th | C→E (M3) | 4 |\n| Minor | 2nd, 3rd, 6th, 7th | C→Eb (m3) | 3 |\n| Augmented | Any (raised by 1) | C→G# (A5) | 8 |\n| Diminished | Any (lowered by 1) | C→Gb (d5) | 6 |\n\n## Perfect Intervals\n\nThe unison (P1), perfect fourth (P4), perfect fifth (P5), and octave (P8) are called 'perfect' because they correspond to the simplest ratios in the overtone series (1:1, 4:3, 3:2, 2:1). They sound the most stable and open.\n\n## Interval Inversion\n\nTo **invert** an interval, move the lower note up an octave (or the upper note down). The number-pair always sums to 9: a 3rd inverts to a 6th, a 2nd to a 7th. Quality flips: major becomes minor, augmented becomes diminished, but perfect stays perfect.\n\n## Consonance and Dissonance\n\nPerfect intervals and major/minor thirds and sixths are traditionally considered **consonant**. Seconds, sevenths, and tritones (augmented 4th / diminished 5th) are **dissonant** — they create tension that seeks resolution.",
+      "sheetExamples": [
+        {
+          "id": "intervals_perfect",
+          "label": "Perfect Intervals",
+          "abc": "X:1\nT:Perfect Intervals\nM:C\nL:1/2\nK:C\n[CC]2 [CF]2 [CG]2 [Cc]2|",
+          "caption": "P1 (unison), P4, P5, and P8 (octave) above C",
+          "playable": true
+        },
+        {
+          "id": "intervals_major",
+          "label": "Major Intervals",
+          "abc": "X:1\nT:Major Intervals\nM:C\nL:1/2\nK:C\n[CD]2 [CE]2 [CA]2 [CB]2|",
+          "caption": "M2, M3, M6, and M7 above C",
+          "playable": true
+        },
+        {
+          "id": "intervals_minor",
+          "label": "Minor Intervals",
+          "abc": "X:1\nT:Minor Intervals\nM:C\nL:1/2\nK:C\n[C_D]2 [C_E]2 [C_A]2 [C_B]2|",
+          "caption": "m2, m3, m6, and m7 above C",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "major_scale",
+      "title": "Major Scale",
+      "difficulty": "intermediate",
+      "partLabel": "Part 2 — Scales & Keys",
+      "description": "The W-W-H-W-W-W-H formula that generates all twelve major scales — the most essential framework in Western tonal music.",
+      "objectives": [
+        "Construct a major scale from any starting note",
+        "Understand the W-W-H-W-W-W-H interval pattern",
+        "Identify scale degrees and their names"
+      ],
+      "readTime": 10,
+      "contentMarkdown": "## The Major Scale Formula\n\nThe **major scale** is a seven-note scale defined by a specific pattern of whole steps (W) and half steps (H):\n\n**W - W - H - W - W - W - H**\n\nApplied from C: C → D (W) → E (W) → F (H) → G (W) → A (W) → B (W) → C (H). This produces the C major scale with no sharps or flats — the 'natural' scale of the white keys.\n\n## Scale Degrees\n\nEach note in the scale has a number and a name:\n\n| Degree | Name | Function |\n|--------|------|----------|\n| 1 | Tonic | Home base, center of gravity |\n| 2 | Supertonic | One step above tonic |\n| 3 | Mediant | Midpoint between tonic and dominant |\n| 4 | Subdominant | Fifth below tonic |\n| 5 | Dominant | Strongest pull toward tonic |\n| 6 | Submediant | Midpoint between tonic and subdominant |\n| 7 | Leading tone | Half step below tonic, strongest resolution |\n\n## Building All Twelve Major Scales\n\nApply the W-W-H-W-W-W-H pattern from every starting note and you get all twelve major scales. Some require sharps (G, D, A, E, B, F#), others require flats (F, Bb, Eb, Ab, Db, Gb). The number of accidentals follows the Circle of Fifths (covered in Lesson 7).\n\n## Why the Major Scale Matters\n\nVirtually all Western tonal music — from Bach fugues to Beatles songs — is built on major and minor scales. The major scale provides the foundation for chord construction, key signatures, and functional harmony. Understanding it deeply unlocks every topic that follows.",
+      "sheetExamples": [
+        {
+          "id": "c_major_scale",
+          "label": "C Major Scale",
+          "abc": "X:1\nT:C Major Scale\nM:C\nL:1/4\nK:C\nC D E F|G A B c|",
+          "caption": "C major scale (no sharps or flats): W-W-H-W-W-W-H",
+          "playable": true
+        },
+        {
+          "id": "g_major_scale",
+          "label": "G Major Scale",
+          "abc": "X:1\nT:G Major Scale\nM:C\nL:1/4\nK:G\nG A B c|d e ^f g|",
+          "caption": "G major scale (one sharp: F#)",
+          "playable": true
+        },
+        {
+          "id": "d_major_scale",
+          "label": "D Major Scale",
+          "abc": "X:1\nT:D Major Scale\nM:C\nL:1/4\nK:D\nD E ^F G|A B ^c d|",
+          "caption": "D major scale (two sharps: F#, C#)",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "minor_scale",
+      "title": "Minor Scale",
+      "difficulty": "intermediate",
+      "partLabel": "Part 2 — Scales & Keys",
+      "description": "Three forms of the minor scale — natural, harmonic, and melodic — and how relative and parallel keys connect the major and minor systems.",
+      "objectives": [
+        "Build natural, harmonic, and melodic minor scales",
+        "Understand relative and parallel key relationships",
+        "Identify the characteristic intervals of each minor form"
+      ],
+      "readTime": 10,
+      "contentMarkdown": "## Natural Minor Scale\n\nThe **natural minor** scale uses the pattern **W-H-W-W-H-W-W**. Starting from A: A-B-C-D-E-F-G-A — all white keys, making A minor the simplest minor scale. The natural minor has a characteristic dark, melancholy sound due to the minor third (3 half steps) between scale degrees 1 and 3.\n\n## Relative and Parallel Keys\n\nEvery major key has a **relative minor** that shares the same key signature. The relative minor starts on the 6th degree of the major scale: C major → A minor, G major → E minor, F major → D minor.\n\n**Parallel** keys share the same tonic but different modes: C major and C minor are parallel keys.\n\n## Harmonic Minor Scale\n\nThe natural minor's weakness for classical harmony is that scale degree 7 is a whole step below the tonic, creating a weak 'subtonic' instead of a strong 'leading tone.' The **harmonic minor** solves this by raising the 7th degree by a half step:\n\nA harmonic minor: A-B-C-D-E-F-**G#**-A\n\nThis creates a half-step pull from G# to A (the leading tone) and enables the construction of a dominant (V) chord. The trade-off is an exotic-sounding augmented second between the 6th and 7th degrees (F to G# = 3 half steps).\n\n## Melodic Minor Scale\n\nTo smooth out that augmented second, the **melodic minor** raises both the 6th and 7th degrees when ascending, and reverts to natural minor when descending:\n\nA melodic minor ascending: A-B-C-D-E-**F#**-**G#**-A\nA melodic minor descending: A-G-F-E-D-C-B-A\n\nIn jazz practice, the ascending form is used in both directions (the 'jazz melodic minor').",
+      "sheetExamples": [
+        {
+          "id": "a_natural_minor",
+          "label": "A Natural Minor Scale",
+          "abc": "X:1\nT:A Natural Minor\nM:C\nL:1/4\nK:Am\nA, B, C D|E F G A|",
+          "caption": "A natural minor (W-H-W-W-H-W-W) — relative minor of C major",
+          "playable": true
+        },
+        {
+          "id": "a_harmonic_minor",
+          "label": "A Harmonic Minor Scale",
+          "abc": "X:1\nT:A Harmonic Minor\nM:C\nL:1/4\nK:Am\nA, B, C D|E F ^G A|",
+          "caption": "A harmonic minor — raised 7th degree (G#) creates a leading tone",
+          "playable": true
+        },
+        {
+          "id": "a_melodic_minor",
+          "label": "A Melodic Minor Scale",
+          "abc": "X:1\nT:A Melodic Minor\nM:C\nL:1/4\nK:Am\nA, B, C D|E ^F ^G A|A G F E|D C B, A,|",
+          "caption": "A melodic minor — raised 6th and 7th ascending, natural form descending",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "key_signatures",
+      "title": "Key Signatures & Circle of Fifths",
+      "difficulty": "intermediate",
+      "partLabel": "Part 2 — Scales & Keys",
+      "description": "How sharps and flats accumulate in key signatures, and the Circle of Fifths — the master diagram that maps all major and minor keys.",
+      "objectives": [
+        "Read and write key signatures for all major and minor keys",
+        "Navigate the Circle of Fifths",
+        "Identify closely related keys"
+      ],
+      "readTime": 11,
+      "contentMarkdown": "## Key Signatures\n\nA **key signature** is a set of sharps or flats placed at the beginning of each staff line. It tells the performer which notes are consistently altered throughout the piece, eliminating the need to write accidentals on every occurrence.\n\n### Sharp Keys\n\nSharps accumulate in the order: **F-C-G-D-A-E-B**\n\n| Key | Sharps | Notes sharped |\n|-----|--------|---------------|\n| G major | 1 | F# |\n| D major | 2 | F#, C# |\n| A major | 3 | F#, C#, G# |\n| E major | 4 | F#, C#, G#, D# |\n| B major | 5 | F#, C#, G#, D#, A# |\n| F# major | 6 | F#, C#, G#, D#, A#, E# |\n\n### Flat Keys\n\nFlats accumulate in the reverse order: **B-E-A-D-G-C-F**\n\n| Key | Flats | Notes flatted |\n|-----|-------|---------------|\n| F major | 1 | Bb |\n| Bb major | 2 | Bb, Eb |\n| Eb major | 3 | Bb, Eb, Ab |\n| Ab major | 4 | Bb, Eb, Ab, Db |\n| Db major | 5 | Bb, Eb, Ab, Db, Gb |\n| Gb major | 6 | Bb, Eb, Ab, Db, Gb, Cb |\n\n## The Circle of Fifths\n\nThe **Circle of Fifths** is a circular diagram arranging all twelve keys by ascending perfect fifths (clockwise) or ascending perfect fourths (counter-clockwise). At 12 o'clock sits C major (no accidentals). Moving clockwise adds one sharp per step; moving counter-clockwise adds one flat.\n\nThe Circle reveals powerful relationships:\n- **Adjacent keys** (one step apart) differ by only one accidental — they are closely related and modulation between them sounds smooth.\n- **Opposite keys** (six steps apart, e.g., C and F#/Gb) are maximally distant — the tritone relationship.\n- **Relative minor** keys sit on the inner ring, three hours behind their relative major.\n\n## Identifying Keys\n\n**Sharp key shortcut**: The last sharp in the key signature is the leading tone (scale degree 7). Raise it by a half step to find the tonic. Example: last sharp is F# → key is G major.\n\n**Flat key shortcut**: The second-to-last flat names the key. Example: Bb and Eb in the signature → key is Bb major. (Exception: F major has only one flat, Bb.)",
+      "sheetExamples": [
+        {
+          "id": "circle_of_fifths_sharp",
+          "label": "Circle of Fifths — Sharp Keys",
+          "abc": "X:1\nT:Circle of Fifths - Sharp Keys\nM:C\nL:1/2\nK:C\nCE|[K:G]GB|[K:D]DF|[K:A]Ac|[K:E]EG|[K:B]BD|",
+          "caption": "Root and 3rd of each sharp key ascending the Circle: C-G-D-A-E-B",
+          "playable": true
+        },
+        {
+          "id": "circle_of_fifths_flat",
+          "label": "Circle of Fifths — Flat Keys",
+          "abc": "X:1\nT:Circle of Fifths - Flat Keys\nM:C\nL:1/2\nK:C\nCE|[K:F]FA|[K:Bb]Bd|[K:Eb]EG|[K:Ab]Ac|[K:Db]DF|",
+          "caption": "Root and 3rd of each flat key descending the Circle: C-F-Bb-Eb-Ab-Db",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "triads",
+      "title": "Triads",
+      "difficulty": "advanced",
+      "partLabel": "Part 3 — Chords & Harmony",
+      "description": "The four triad qualities — major, minor, augmented, and diminished — built by stacking thirds, and their inversions.",
+      "objectives": [
+        "Build major, minor, augmented, and diminished triads",
+        "Identify triads built on each scale degree",
+        "Voice triads in root position, first inversion, and second inversion"
+      ],
+      "readTime": 10,
+      "contentMarkdown": "## What Is a Triad?\n\nA **triad** is a three-note chord built by stacking two **thirds** above a root note. It is the fundamental unit of Western harmony. Every triad has three components:\n\n- **Root** — the note the chord is named after\n- **Third** — a major or minor third above the root\n- **Fifth** — a perfect, augmented, or diminished fifth above the root\n\n## Four Triad Qualities\n\n| Quality | Formula | Intervals | Example (on C) | Sound |\n|---------|---------|-----------|----------------|-------|\n| Major | 1-3-5 | M3 + m3 | C-E-G | Bright, stable |\n| Minor | 1-b3-5 | m3 + M3 | C-Eb-G | Dark, soft |\n| Augmented | 1-3-#5 | M3 + M3 | C-E-G# | Tense, expansive |\n| Diminished | 1-b3-b5 | m3 + m3 | C-Eb-Gb | Unstable, anxious |\n\n## Diatonic Triads in a Major Key\n\nBuilding triads on each degree of the C major scale using only notes from that scale produces:\n\n| Degree | Chord | Quality | Roman Numeral |\n|--------|-------|---------|---------------|\n| 1 | C-E-G | Major | I |\n| 2 | D-F-A | Minor | ii |\n| 3 | E-G-B | Minor | iii |\n| 4 | F-A-C | Major | IV |\n| 5 | G-B-D | Major | V |\n| 6 | A-C-E | Minor | vi |\n| 7 | B-D-F | Diminished | vii° |\n\nThis pattern — **I ii iii IV V vi vii°** — holds for every major key.\n\n## Triad Inversions\n\nA triad in **root position** has the root as the lowest note. **First inversion** places the third on the bottom; **second inversion** places the fifth on the bottom. Inversions change the voicing and bass line but not the chord's identity.\n\n| Position | Notes (C major) | Figured Bass |\n|----------|----------------|--------------|\n| Root position | C-E-G | 5/3 |\n| First inversion | E-G-C | 6/3 |\n| Second inversion | G-C-E | 6/4 |",
+      "sheetExamples": [
+        {
+          "id": "c_major_triads",
+          "label": "Diatonic Triads in C Major",
+          "abc": "X:1\nT:Diatonic Triads in C Major\nM:C\nL:1/2\nK:C\n[CEG]2 [DFA]2|[EGB]2 [FAc]2|[GBd]2 [Ace]2|[Bdf]2 [ceg]2|",
+          "caption": "I-ii-iii-IV-V-vi-vii°-I triads built on each degree of C major",
+          "playable": true
+        },
+        {
+          "id": "triad_types",
+          "label": "Four Triad Qualities on C",
+          "abc": "X:1\nT:Four Triad Qualities on C\nM:C\nL:1/2\nK:C\n[CEG]2 [C_EG]2|[CE^G]2 [C_E_G]2|",
+          "caption": "Major (C-E-G), Minor (C-Eb-G), Augmented (C-E-G#), Diminished (C-Eb-Gb)",
+          "playable": true
+        },
+        {
+          "id": "triad_inversions",
+          "label": "C Major Triad Inversions",
+          "abc": "X:1\nT:C Major Triad Inversions\nM:3/4\nL:1/2\nK:C\n[CEG]3/2|[EGc]3/2|[Gce]3/2|",
+          "caption": "Root position, 1st inversion, 2nd inversion of C major triad",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "seventh_chords",
+      "title": "Seventh Chords",
+      "difficulty": "advanced",
+      "partLabel": "Part 3 — Chords & Harmony",
+      "description": "Adding a fourth note — the seventh — to a triad creates richer, more colorful chords. Major 7th, dominant 7th, minor 7th, and half-diminished 7th, plus an introduction to chord tensions.",
+      "objectives": [
+        "Build the four main seventh chord types",
+        "Understand dominant function and tritone resolution",
+        "Introduce upper extensions (9th, 11th, 13th)"
+      ],
+      "readTime": 11,
+      "contentMarkdown": "## From Triads to Seventh Chords\n\nA **seventh chord** adds a third on top of a triad, creating a four-note chord. This fourth note — the **seventh** — introduces greater harmonic richness and, often, a sense of forward motion.\n\n## The Four Main Seventh Chord Types\n\n| Type | Symbol | Formula | Example (on C) | Character |\n|------|--------|---------|----------------|----------|\n| Major 7th | Cmaj7 | 1-3-5-7 | C-E-G-B | Warm, dreamy, sophisticated |\n| Dominant 7th | C7 | 1-3-5-b7 | C-E-G-Bb | Tense, wants to resolve |\n| Minor 7th | Cm7 | 1-b3-5-b7 | C-Eb-G-Bb | Mellow, jazzy |\n| Half-diminished 7th | Cm7b5 | 1-b3-b5-b7 | C-Eb-Gb-Bb | Bittersweet, yearning |\n\nA fifth type — the **diminished 7th** (1-b3-b5-bb7, e.g., C-Eb-Gb-Bbb) — is symmetrical: all intervals are minor thirds. It appears frequently in classical and film music for dramatic effect.\n\n## The Dominant 7th and Tritone Resolution\n\nThe **dominant 7th** chord is the engine of tonal harmony. In the key of C, the dominant is G7 (G-B-D-F). It contains a **tritone** between B and F (the 3rd and b7th of the chord). This tritone is inherently unstable and resolves by contrary motion: B moves up to C, F moves down to E — landing on the tonic chord.\n\nThis V7 → I resolution is the strongest harmonic motion in tonal music.\n\n## Upper Extensions (Tensions)\n\nContinuing to stack thirds above the seventh produces **tensions**:\n\n- **9th** = the 2nd scale degree an octave up\n- **11th** = the 4th scale degree an octave up\n- **13th** = the 6th scale degree an octave up\n\nThese extensions add color without changing the chord's fundamental function. A Cmaj9 (C-E-G-B-D) is still a tonic chord; a G13 (G-B-D-F-A-E) is still dominant. Jazz harmony makes extensive use of tensions to create lush, complex voicings.",
+      "sheetExamples": [
+        {
+          "id": "seventh_chord_types",
+          "label": "Four Seventh Chord Types on C",
+          "abc": "X:1\nT:Four Seventh Chord Types on C\nM:C\nL:1/2\nK:C\n[CEGB]2 [CEG_B]2|[C_EG_B]2 [C_E_G_B]2|",
+          "caption": "Cmaj7, C7, Cm7, Cm7b5 — the four fundamental seventh chords",
+          "playable": true
+        },
+        {
+          "id": "cmaj7_voicings",
+          "label": "Cmaj7 Voicings",
+          "abc": "X:1\nT:Cmaj7 Voicings\nM:C\nL:1/2\nK:C\n[CEGB]2 [EGBc]2|[GBce]2 [Bceg]2|",
+          "caption": "Cmaj7 in root position and three inversions",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "chord_progressions",
+      "title": "Chord Progressions",
+      "difficulty": "advanced",
+      "partLabel": "Part 3 — Chords & Harmony",
+      "description": "How chords move from one to another: the I-IV-V-I backbone, the jazz ii-V-I, and the cadences that punctuate musical phrases.",
+      "objectives": [
+        "Analyze common chord progressions using Roman numerals",
+        "Understand tonic, subdominant, and dominant function",
+        "Identify four cadence types: authentic, plagal, half, deceptive"
+      ],
+      "readTime": 12,
+      "contentMarkdown": "## Harmonic Function\n\nIn tonal music, every chord serves one of three basic **functions**:\n\n- **Tonic (T)** — chords of rest and resolution: I, iii, vi\n- **Subdominant (S)** — chords of moderate tension, departure: IV, ii\n- **Dominant (D)** — chords of maximum tension, demanding resolution: V, vii°\n\nThe fundamental motion of tonal harmony is **T → S → D → T**: stability → departure → tension → resolution.\n\n## The I-IV-V-I Progression\n\nThe simplest and most powerful progression in Western music. In the key of C: **C → F → G → C**. Countless folk songs, hymns, rock songs, and pop hits use only these three chords. The IV chord creates gentle departure; the V chord builds tension; the return to I provides resolution.\n\n## The ii-V-I Progression\n\nThe **ii-V-I** is the foundational progression of jazz harmony. In C major: **Dm7 → G7 → Cmaj7**. The ii chord (minor 7th) serves a subdominant function, the V chord (dominant 7th) provides the tritone tension, and the I chord (major 7th) resolves. Nearly every jazz standard contains multiple ii-V-I progressions, often in different keys.\n\n## Cadences\n\nA **cadence** is a harmonic formula that ends a phrase, like punctuation in language:\n\n| Cadence | Progression | Effect |\n|---------|------------|--------|\n| **Authentic** (perfect) | V → I | Complete, final — a period |\n| **Plagal** | IV → I | Gentle, hymn-like — 'Amen' |\n| **Half** | any → V | Incomplete, open — a comma |\n| **Deceptive** | V → vi | Surprising, elusive — a twist |\n\nThe **authentic cadence** (V → I, or V7 → I) is the strongest possible ending. When both chords are in root position and the melody ends on the tonic, it is called a **perfect authentic cadence** (PAC).\n\n## Voice Leading\n\nGood chord progressions are not just about which chords to play, but *how* individual voices move between them. The principle of **smooth voice leading** — moving each voice to the nearest available note in the next chord — creates elegant, connected lines rather than awkward leaps.",
+      "sheetExamples": [
+        {
+          "id": "progression_1451",
+          "label": "I-IV-V-I in C Major",
+          "abc": "X:1\nT:I-IV-V-I in C Major\nM:4/4\nL:1/2\nK:C\n[CEG]2 [FAc]2|[GBd]2 [CEG]2|",
+          "caption": "The most fundamental progression in tonal music: C-F-G-C",
+          "playable": true
+        },
+        {
+          "id": "progression_2517",
+          "label": "ii-V-I in C Major (Jazz)",
+          "abc": "X:1\nT:ii-V-I in C Major\nM:4/4\nL:1/2\nK:C\n[DFAc]2 [GBdF]2|[CEGBc]2 z2|",
+          "caption": "Dm7-G7-Cmaj7: the backbone of jazz harmony",
+          "playable": true
+        },
+        {
+          "id": "cadence_types",
+          "label": "Four Cadence Types",
+          "abc": "X:1\nT:Four Cadence Types\nM:4/4\nL:1/2\nK:C\n[GBd]2 [CEG]2|[FAc]2 [CEG]2|[CEG]2 [GBd]2|[GBd]2 [Ace]2|",
+          "caption": "Authentic (V-I), Plagal (IV-I), Half (?-V), Deceptive (V-vi)",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "non_chord_tones",
+      "title": "Non-Chord Tones",
+      "difficulty": "advanced",
+      "partLabel": "Part 3 — Chords & Harmony",
+      "description": "Notes that do not belong to the underlying chord but add melodic interest and expressiveness: passing tones, neighbor tones, suspensions, and appoggiaturas.",
+      "objectives": [
+        "Identify and label four types of non-chord tones",
+        "Understand how non-chord tones create melodic tension and release",
+        "Apply non-chord tones in simple harmonizations"
+      ],
+      "readTime": 8,
+      "contentMarkdown": "## What Are Non-Chord Tones?\n\nNot every note in a melody belongs to the chord sounding beneath it. Notes that fall outside the current harmony are called **non-chord tones** (NCTs). Far from being mistakes, they are essential ingredients that give melody its shape, expressiveness, and sense of motion. Without them, melodies would consist only of arpeggiated chords — correct but lifeless.\n\n## Passing Tone (PT)\n\nA **passing tone** fills the gap between two chord tones by stepwise motion. It is approached by step and left by step in the same direction.\n\nExample over a C chord: C → **D** → E. The D is not part of the C major triad but connects C to E smoothly.\n\nPassing tones can be **accented** (on a strong beat) or **unaccented** (on a weak beat). Unaccented passing tones are gentler; accented ones create a brief, pungent dissonance.\n\n## Neighbor Tone (NT)\n\nA **neighbor tone** decorates a chord tone by stepping away and returning. It is approached by step and left by step in the opposite direction.\n\nExample: E → **F** → E. The F steps up from E and returns — an upper neighbor. E → **D** → E would be a lower neighbor.\n\n## Suspension (SUS)\n\nA **suspension** occurs when a note from the previous chord is **held over** (sustained) into the next chord, creating a dissonance, and then **resolves downward by step**. Suspensions are described by intervals: a **4-3 suspension** holds the 4th over the chord and resolves down to the 3rd.\n\nSuspensions are always accented — the dissonance falls on a strong beat, and the resolution follows on a weaker beat. This creates a characteristic 'tension-then-release' that is deeply satisfying.\n\n## Appoggiatura (APP)\n\nAn **appoggiatura** is approached by **leap** and resolved by **step** in the opposite direction. It typically lands on a strong beat, creating an expressive dissonance. The word comes from Italian 'appoggiare' — to lean. An appoggiatura 'leans' into the chord tone with emotional weight.\n\nExample: Over a C chord, a melody leaps up to F and then steps down to E. The F is an appoggiatura — it is not part of the C chord, arrives by leap, and resolves by step.",
+      "sheetExamples": [
+        {
+          "id": "passing_tone",
+          "label": "Passing Tones",
+          "abc": "X:1\nT:Passing Tones\nM:4/4\nL:1/4\nK:C\n[CE]C D E|[FA]F G A|[GB]G A B|[ce]c2 z2|",
+          "caption": "Passing tones (D, G, A) fill stepwise gaps between chord tones",
+          "playable": true
+        },
+        {
+          "id": "neighbor_tone",
+          "label": "Neighbor Tones",
+          "abc": "X:1\nT:Neighbor Tones\nM:4/4\nL:1/4\nK:C\nE F E C|G A G E|c d c B|c4|",
+          "caption": "Upper neighbor tones (F, A, D) decorate chord tones by stepping away and returning",
+          "playable": true
+        },
+        {
+          "id": "suspension",
+          "label": "4-3 Suspension",
+          "abc": "X:1\nT:4-3 Suspension\nM:4/4\nL:1/2\nK:C\n[CF]2 [CE]2|[GB]2 [Gc]2|[cF]2 [cE]2|",
+          "caption": "The 4th (F) is held over a C chord and resolves down to E (the 3rd)",
+          "playable": true
+        },
+        {
+          "id": "appoggiatura",
+          "label": "Appoggiatura",
+          "abc": "X:1\nT:Appoggiatura\nM:4/4\nL:1/4\nK:C\nC F E G|c F E C|G d c E|c4|",
+          "caption": "Appoggiaturas (F, F, d) arrive by leap and resolve by step into chord tones",
+          "playable": true
+        }
+      ]
+    },
+    {
+      "id": "song_analysis",
+      "title": "Song Analysis",
+      "difficulty": "advanced",
+      "partLabel": "Part 4 — Synthesis",
+      "description": "Putting it all together: musical forms (binary, ternary, rondo), Roman numeral analysis of real chord progressions, and the basics of four-part writing.",
+      "objectives": [
+        "Identify binary, ternary, and rondo forms",
+        "Perform Roman numeral analysis on a chord progression",
+        "Understand the basics of four-part (SATB) voice leading"
+      ],
+      "readTime": 12,
+      "contentMarkdown": "## Musical Form\n\n**Form** is the large-scale structure of a piece — how sections are organized and related. Recognizing form is like understanding the chapter structure of a novel before analyzing individual sentences.\n\n### Binary Form (AB)\n\nTwo contrasting sections. Section A establishes a theme; section B provides contrast (often in a related key). Many Baroque dances (minuets, gavottes) use binary form. Each section is typically repeated: ||: A :||: B :||\n\n### Ternary Form (ABA)\n\nThree sections where the third is a return of the first: A establishes, B contrasts, A returns. The **da capo aria** in opera and the **minuet and trio** in symphonies are classic ternary forms. The return of A after B provides a satisfying sense of completion.\n\n### Rondo Form (ABACA...)\n\nA recurring main theme (A) alternates with contrasting episodes (B, C, etc.). The rondo was a favorite finale form for Classical-era composers — Mozart and Beethoven used it extensively. The refrain-like return of A creates unity while the episodes provide variety.\n\n## Roman Numeral Analysis\n\nRoman numeral analysis is the standard method for describing harmony relative to a key. Each chord is labeled with a Roman numeral indicating its scale degree, with uppercase for major and lowercase for minor:\n\nExample — Pachelbel's Canon in D:\n**I - V - vi - iii - IV - I - IV - V**\n(D - A - Bm - F#m - G - D - G - A)\n\nThis progression has been reused in hundreds of pop songs. Analyzing it with Roman numerals reveals the pattern independent of any specific key.\n\n## Four-Part Writing Basics\n\n**Four-part (SATB) writing** — soprano, alto, tenor, bass — is the traditional framework for learning voice leading. The core rules:\n\n1. **Avoid parallel fifths and octaves** — two voices moving in the same direction by a P5 or P8 weakens independence.\n2. **Resolve tendency tones** — the leading tone (scale degree 7) resolves up to 1; the chordal 7th resolves down by step.\n3. **Prefer smooth voice leading** — each voice moves to the nearest available note.\n4. **Keep voices in range** — soprano (C4-G5), alto (F3-C5), tenor (C3-G4), bass (E2-C4).\n5. **Avoid voice crossing** — the alto should not go below the tenor, etc.\n\nThese rules originated in the study of Renaissance polyphony and Bach chorales. While modern music frequently breaks them, understanding them provides a foundation for hearing *why* certain voicings sound smooth and others sound awkward.",
+      "sheetExamples": [
+        {
+          "id": "canon_in_d",
+          "label": "Pachelbel's Canon — Chord Progression",
+          "abc": "X:1\nT:Pachelbel's Canon Progression\nM:4/4\nL:1/2\nK:D\n[DAf]2 [Ace]2|[Bdf]2 [F Ac]2|[GBd]2 [DAf]2|[GBd]2 [Ace]2|",
+          "caption": "I-V-vi-iii-IV-I-IV-V in D major — one of the most famous progressions in music",
+          "playable": true
+        },
+        {
+          "id": "binary_form",
+          "label": "Binary Form Example (AB)",
+          "abc": "X:1\nT:Binary Form Example\nM:4/4\nL:1/4\nK:C\nC E G c|B A G F|E D C B,|C4|G A B c|d c B A|G F E D|C4|",
+          "caption": "Section A (mm.1-4) and Section B (mm.5-8) — a simple binary structure",
+          "playable": true
+        },
+        {
+          "id": "four_part_basics",
+          "label": "Four-Part SATB Voicing",
+          "abc": "X:1\nT:Four-Part SATB Voicing\nM:4/4\nL:1/2\nK:C\n[C,EGc]2 [F,FAc]2|[G,GBd]2 [C,EGc]2|",
+          "caption": "I-IV-V-I in four-part SATB voicing with smooth voice leading",
+          "playable": true
+        }
+      ]
+    }
+  ]
+}

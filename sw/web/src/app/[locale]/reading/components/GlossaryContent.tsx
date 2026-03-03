@@ -7,6 +7,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Plus, Pencil, Trash2, Search, BookText } from "lucide-react";
 import type { GlossaryTerm } from "../types";
 
@@ -16,11 +17,12 @@ interface Props {
 }
 
 export default function GlossaryContent({ terms, onUpdate }: Props) {
+  const t = useTranslations("reading.glossary");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<GlossaryTerm>>({});
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterCategory, setFilterCategory] = useState<string>("전체");
+  const [filterCategory, setFilterCategory] = useState<string>("__all__");
 
   const selectedTerm = terms.find((t) => t.id === selectedId);
   const editingTerm = terms.find((t) => t.id === editingId);
@@ -28,14 +30,14 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
   // 카테고리 목록 추출
   const categories = useMemo(() => {
     const cats = new Set(terms.map((t) => t.category).filter(Boolean) as string[]);
-    return ["전체", ...Array.from(cats).sort()];
+    return ["__all__", ...Array.from(cats).sort()];
   }, [terms]);
 
   // 필터링 및 검색
   const filteredTerms = useMemo(() => {
     let result = terms;
 
-    if (filterCategory !== "전체") {
+    if (filterCategory !== "__all__") {
       result = result.filter((t) => t.category === filterCategory);
     }
 
@@ -56,7 +58,8 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
       id: `term-${Date.now()}`,
       term: "",
       definition: "",
-      category: filterCategory !== "전체" ? filterCategory : undefined,
+      category: filterCategory !== "__all__" ? filterCategory : undefined,
+
     };
     onUpdate([...terms, newTerm]);
     setSelectedId(newTerm.id);
@@ -91,7 +94,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm("이 용어를 삭제하시겠습니까?")) return;
+    if (!confirm(t("confirmDelete"))) return;
     onUpdate(terms.filter((t) => t.id !== id));
     if (selectedId === id) setSelectedId(null);
     if (editingId === id) {
@@ -112,7 +115,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="용어 검색..."
+              placeholder={t("searchPlaceholder")}
               className="w-full rounded-lg border border-border bg-black/30 py-1.5 pl-8 pr-3 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
             />
           </div>
@@ -123,7 +126,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
-                {cat}
+                {cat === "__all__" ? t("all") : cat}
               </option>
             ))}
           </select>
@@ -134,7 +137,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
           className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-accent/30 bg-accent/5 py-2 text-xs font-medium text-accent hover:border-accent/50 hover:bg-accent/10"
         >
           <Plus className="size-3.5" />
-          용어 추가
+          {t("addTerm")}
         </button>
 
         {/* 용어 리스트 */}
@@ -143,9 +146,9 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
             <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
               <BookText className="size-8 text-text-tertiary/30" />
               <p className="text-xs text-text-secondary">
-                {searchQuery || filterCategory !== "전체"
-                  ? "검색 결과가 없습니다"
-                  : "용어가 없습니다"}
+                {searchQuery || filterCategory !== "__all__"
+                  ? t("noSearchResults")
+                  : t("noTerms")}
               </p>
             </div>
           ) : (
@@ -190,59 +193,57 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
         {!selectedTerm ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
             <BookText className="size-8 text-text-tertiary/30" />
-            <p className="text-xs text-text-secondary">
-              용어를 선택하여
-              <br />
-              상세 정보를 확인하세요
+            <p className="text-xs text-text-secondary whitespace-pre-line">
+              {t("selectPrompt")}
             </p>
           </div>
         ) : editingId === selectedTerm.id ? (
           // 편집 모드
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold text-text-secondary">용어 편집</p>
+            <p className="text-xs font-semibold text-text-secondary">{t("editTerm")}</p>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">용어</label>
+              <label className="text-[11px] text-text-secondary">{t("termLabel")}</label>
               <input
                 type="text"
                 value={editForm.term || ""}
                 onChange={(e) => setEditForm({ ...editForm, term: e.target.value })}
-                placeholder="용어 입력"
+                placeholder={t("termPlaceholder")}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">정의</label>
+              <label className="text-[11px] text-text-secondary">{t("definitionLabel")}</label>
               <textarea
                 value={editForm.definition || ""}
                 onChange={(e) =>
                   setEditForm({ ...editForm, definition: e.target.value })
                 }
-                placeholder="정의 입력"
+                placeholder={t("definitionPlaceholder")}
                 rows={5}
                 className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none custom-scrollbar"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">카테고리</label>
+              <label className="text-[11px] text-text-secondary">{t("categoryLabel")}</label>
               <input
                 type="text"
                 value={editForm.category || ""}
                 onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}
-                placeholder="예: 역사, 철학, 경제"
+                placeholder={t("categoryPlaceholder")}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[11px] text-text-secondary">페이지</label>
+              <label className="text-[11px] text-text-secondary">{t("pageLabel")}</label>
               <input
                 type="text"
                 value={editForm.page || ""}
                 onChange={(e) => setEditForm({ ...editForm, page: e.target.value })}
-                placeholder="예: 42, 127-130"
+                placeholder={t("pagePlaceholder")}
                 className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
               />
             </div>
@@ -253,13 +254,13 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 disabled={!editForm.term || !editForm.definition}
                 className="flex-1 rounded-lg bg-accent py-2 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                저장
+                {t("save")}
               </button>
               <button
                 onClick={handleCancel}
                 className="flex-1 rounded-lg border border-border bg-white/5 py-2 text-xs font-medium text-text-primary hover:bg-white/10"
               >
-                취소
+                {t("cancel")}
               </button>
             </div>
           </div>
@@ -276,7 +277,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 )}
               </div>
               {selectedTerm.page && (
-                <p className="text-[11px] text-text-tertiary">페이지: {selectedTerm.page}</p>
+                <p className="text-[11px] text-text-tertiary">{t("page")}: {selectedTerm.page}</p>
               )}
             </div>
 
@@ -292,14 +293,14 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-border bg-white/5 py-2 text-xs font-medium text-text-primary hover:bg-white/10"
               >
                 <Pencil className="size-3" />
-                편집
+                {t("edit")}
               </button>
               <button
                 onClick={() => handleDelete(selectedTerm.id)}
                 className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-red-500/30 bg-red-500/10 py-2 text-xs font-medium text-red-400 hover:bg-red-500/20"
               >
                 <Trash2 className="size-3" />
-                삭제
+                {t("delete")}
               </button>
             </div>
           </div>

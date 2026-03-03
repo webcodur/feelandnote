@@ -77,4 +77,10 @@ export interface ContentCardProps {
 
   /** 내부 모달 z-index (게임 전체화면 등 상위 모달 위에 표시할 때) */
   modalZIndex?: number;
+
+  /** BOOK i18n 필드 — BOOK 타입이면 내부에서 에디션 토글을 자동 생성 */
+  titleKo?: string | null;
+  titleEn?: string | null;
+  creatorEn?: string | null;
+  thumbnailEn?: string | null;
 }

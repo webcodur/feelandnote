@@ -10,6 +10,7 @@ import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getContentDetail } from "@/actions/contents/getContentDetail";
 import type { CategoryId } from "@/constants/categories";
 import type { Metadata } from "next";
+import { getAlternates } from "@/lib/seo";
 
 const getContentDetailCached = cache(getContentDetail);
 
@@ -34,7 +35,7 @@ export async function generateMetadata(
     return {
       title,
       description: desc,
-      alternates: { canonical: canonicalUrl },
+      alternates: getAlternates(`/content/${contentId}`),
       openGraph: {
         title,
         description: desc,

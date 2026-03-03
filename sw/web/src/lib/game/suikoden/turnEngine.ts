@@ -634,14 +634,14 @@ function updateMorale(state: GameState): GameState {
         if (bDef?.effect.moralePerTurn) delta += bDef.effect.moralePerTurn / 3
       }
 
-      // 캐릭터 benevolence+charisma 기반 민심 보정 (0~100 스케일)
+      // 캐릭터 benevolence+charm 기반 민심 보정 (0~100 스케일)
       const territoryPlacements = state.placements.filter(p => p.territoryId === t.id && p.factionId === f.id)
       if (territoryPlacements.length > 0) {
         const chars = territoryPlacements
           .map(p => f.members.find(m => m.id === p.characterId))
           .filter(Boolean)
         if (chars.length > 0) {
-          const avgVirtue = chars.reduce((s, c) => s + ((c!.stats.benevolence + c!.stats.charisma) / 2), 0) / chars.length
+          const avgVirtue = chars.reduce((s, c) => s + ((c!.stats.benevolence + c!.stats.charm) / 2), 0) / chars.length
           delta += avgVirtue * 0.05 // 100이면 +5/턴
         }
       }
@@ -781,9 +781,9 @@ function updateTavernVisitors(state: GameState): GameState {
     const leader = faction.members.find(m => m.id === faction.leaderId)
     const fameBonus = Math.min(0.20, faction.fame * 0.0002)
     const leaderBonus = leader
-      ? (leader.stats.charisma * 0.3 + leader.stats.benevolence * 0.1 + leader.stats.fairness * 0.1) / 100 * 0.15
+      ? (leader.stats.charm * 0.3 + leader.stats.benevolence * 0.1 + leader.stats.fairness * 0.1) / 100 * 0.15
       : 0
-    const charBonus = recruiter ? recruiter.stats.charisma * 0.003 : 0
+    const charBonus = recruiter ? recruiter.stats.charm * 0.003 : 0
     const rate = Math.min(0.95, 0.30 + fameBonus + leaderBonus + charBonus)
 
     const char = visitor.character

@@ -49,6 +49,11 @@ interface ScriptureContent {
   celeb_count: number;
   user_count: number;
   avg_rating: number | null;
+  title_ko?: string | null;
+  title_en?: string | null;
+  creator_en?: string | null;
+  isbn_en?: string | null;
+  thumbnail_en?: string | null;
 }
 // #endregion
 
@@ -117,6 +122,10 @@ function ContentSection({
                     userCount={content.user_count}
                     rating={content.avg_rating ?? undefined}
                     href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
+                    titleKo={content.title_ko}
+                    titleEn={content.title_en}
+                    creatorEn={content.creator_en}
+                    thumbnailEn={content.thumbnail_en}
                   />
                 </div>
               );

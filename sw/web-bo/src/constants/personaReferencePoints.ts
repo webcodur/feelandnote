@@ -67,7 +67,7 @@ const COMMAND_ANCHORS: PersonaReferenceAnchor[] = [
   { score100: 45, nickname: '순욱' },
 ]
 
-const CHARISMA_ANCHORS: PersonaReferenceAnchor[] = [
+const CHARM_ANCHORS: PersonaReferenceAnchor[] = [
   { score100: 98, nickname: '유비' },
   { score100: 96, nickname: '조조' },
   { score100: 93, nickname: '손권' },
@@ -84,5 +84,5 @@ export const PERSONA_MANUAL_REFERENCE_ANCHORS: Partial<Record<PersonaReferenceAx
   martial: MARTIAL_ANCHORS,
   intellect: INTELLECT_ANCHORS,
   command: COMMAND_ANCHORS,
-  charisma: CHARISMA_ANCHORS,
+  charm: CHARM_ANCHORS,
 }

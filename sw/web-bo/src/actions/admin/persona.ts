@@ -20,7 +20,7 @@ export interface PersonaData {
   command: number
   martial: number
   intellect: number
-  charisma: number
+  charm: number
   // 성향 (-50~+50)
   pessimism_optimism: number
   conservative_progressive: number
@@ -31,7 +31,7 @@ export interface PersonaData {
 export type StatKey =
   | 'temperance' | 'diligence' | 'reflection' | 'courage'
   | 'loyalty' | 'benevolence' | 'fairness' | 'humility'
-  | 'command' | 'martial' | 'intellect' | 'charisma'
+  | 'command' | 'martial' | 'intellect' | 'charm'
 
 export type TendencyKey =
   | 'pessimism_optimism' | 'conservative_progressive'
@@ -47,7 +47,7 @@ export async function getPersonaVectors(): Promise<PersonaData[]> {
       celeb_id,
       temperance, diligence, reflection, courage,
       loyalty, benevolence, fairness, humility,
-      command, martial, intellect, charisma,
+      command, martial, intellect, charm,
       pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
       profiles!celeb_persona_celeb_id_fkey (nickname, profession)
     `)
@@ -71,7 +71,7 @@ export async function getPersonaVectors(): Promise<PersonaData[]> {
     command: row.command,
     martial: row.martial,
     intellect: row.intellect,
-    charisma: row.charisma,
+    charm: row.charm,
     pessimism_optimism: row.pessimism_optimism,
     conservative_progressive: row.conservative_progressive,
     individual_social: row.individual_social,

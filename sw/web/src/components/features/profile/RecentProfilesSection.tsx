@@ -1,13 +1,15 @@
 ﻿"use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { GripVertical, User } from "lucide-react";
 import { useRecentProfiles } from "@/hooks/useRecentProfiles";
 import { BLUR_DATA_URL } from "@/constants/image";
 
 export default function RecentProfilesSection() {
+  const t = useTranslations("profileSection");
   const { recentItems } = useRecentProfiles();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -19,7 +21,7 @@ export default function RecentProfilesSection() {
       <button
         type="button"
         onClick={() => setIsExpanded((prev) => !prev)}
-        aria-label={isExpanded ? "최근 방문 접기" : "최근 방문 펼치기"}
+        aria-label={isExpanded ? t("collapseRecent") : t("expandRecent")}
         className="hidden lg:flex items-center justify-center fixed left-0 top-1/2 -translate-y-1/2 z-40 h-14 w-7 bg-bg-card/85 backdrop-blur-sm border border-white/10 border-l-0 rounded-r-lg shadow-lg hover:bg-bg-card"
       >
         <GripVertical size={14} className="text-text-secondary/80" />

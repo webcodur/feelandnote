@@ -5,8 +5,9 @@ import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSectionHeader";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
 import PrismBanner from "@/components/lab/PrismBanner";
+import PageBanner from "@/components/shared/PageBanner";
 import PageContainer from "@/components/layout/PageContainer";
-import { PAGE_BANNER } from "@/constants/navigation";
+import { getTranslations } from "next-intl/server";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,19 +33,23 @@ export default async function UserLayout({ children, params }: LayoutProps) {
   const isOwner = user?.id === userId;
   const isCeleb = profile.profile_type === "CELEB";
 
-  const { titleSuffix, englishTitle } = PAGE_BANNER.archive;
-  const pageTitle = `${profile.nickname || "User"}${titleSuffix}`;
+  const tCtx = await getTranslations("contextHeader");
+  const tHome = await getTranslations("home");
+  const pageTitle = tCtx("recordOf", { title: profile.nickname || "User" });
+  const englishTitle = tHome("archive.englishTitle");
 
   return (
     <>
-      <PrismBanner height={350} compact>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-          {pageTitle}
-        </h1>
-        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
-          {englishTitle}
-        </p>
-      </PrismBanner>
+      <PageBanner title={pageTitle} subtitle={englishTitle}>
+        <PrismBanner height={350} compact>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
+            {pageTitle}
+          </h1>
+          <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+            {englishTitle}
+          </p>
+        </PrismBanner>
+      </PageBanner>
       <RecentProfileTracker
         profile={{
           id: userId,

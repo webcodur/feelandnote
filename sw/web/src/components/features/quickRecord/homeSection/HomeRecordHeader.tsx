@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { BookOpen, Users } from "lucide-react";
 import { Avatar } from "@/components/ui";
 import type { UserProfile } from "@/actions/user/getProfile";
+import { useTranslations } from "next-intl";
 
 interface HomeRecordHeaderProps {
     profile?: UserProfile | null;
@@ -11,14 +12,15 @@ interface HomeRecordHeaderProps {
 }
 
 export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProps) {
+    const t = useTranslations("quickRecord.home");
     return (
         <div className="text-center mb-6 md:mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium mb-2">
                 <BookOpen size={12} />
-                <span>나만의 빠른 기록</span>
+                <span>{t("quickRecordLabel")}</span>
             </div>
             <p className="text-sm text-text-tertiary mb-4">
-                영감을 빠르게 기록하고 관리해보세요
+                {t("quickRecordDesc")}
             </p>
 
             {/* User Profile or Login Prompt */}
@@ -74,11 +76,11 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                         </div>
                         <div className="text-center space-y-2">
                             <h2 className="text-3xl md:text-4xl font-serif font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent transition-all duration-500">
-                                나만의 서재
+                                {t("myLibrary")}
                             </h2>
                             <div className="flex items-center justify-center gap-3">
                                 <span className="text-sm text-text-secondary font-medium px-2 py-0.5 rounded bg-white/5 border border-white/5">
-                                    로그인이 필요합니다
+                                    {t("loginRequired")}
                                 </span>
                             </div>
                         </div>
@@ -86,7 +88,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
 
                     {/* 간단한 소개글 */}
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
-                        &ldquo;나만의 서재를 만들어보세요&rdquo;
+                        &ldquo;{t("createLibrary")}&rdquo;
                     </p>
                 </>
             )}

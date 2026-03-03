@@ -33,15 +33,20 @@ interface CelebRow {
   id: string
   slug: string | null
   nickname: string | null
+  nickname_en: string | null
   avatar_url: string | null
   profession: string | null
   title: string | null
+  title_en: string | null
   consumption_philosophy: string | null
+  consumption_philosophy_en: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
   bio: string | null
+  bio_en: string | null
   quotes: string | null
+  quotes_en: string | null
   is_verified: boolean | null
   claimed_by: string | null
   follower_count: number
@@ -148,16 +153,21 @@ export async function getCelebs(
 
   // 셀럽별 greeting 대사 조회
   const greetingMap = new Map<string, string[]>()
+  const greetingEnMap = new Map<string, string[]>()
   if (celebIds.length > 0) {
     const { data: dialogueRows } = await supabase
       .from('celeb_dialogues')
-      .select('celeb_id, lines')
+      .select('celeb_id, lines, lines_en')
       .in('celeb_id', celebIds)
 
     ;(dialogueRows ?? []).forEach(row => {
       const lines = row.lines as Record<string, string[]> | null
+      const linesEn = row.lines_en as Record<string, string[]> | null
       if (lines?.greeting) {
         greetingMap.set(row.celeb_id, lines.greeting)
+      }
+      if (linesEn?.greeting) {
+        greetingEnMap.set(row.celeb_id, linesEn.greeting)
       }
     })
   }
@@ -190,15 +200,20 @@ export async function getCelebs(
       id: row.id,
       slug: row.slug ?? null,
       nickname: row.nickname || '',
+      nickname_en: row.nickname_en ?? null,
       avatar_url: row.avatar_url,
       profession: row.profession,
       title: row.title,
+      title_en: row.title_en ?? null,
       consumption_philosophy: row.consumption_philosophy,
+      consumption_philosophy_en: row.consumption_philosophy_en ?? null,
       nationality: row.nationality,
       birth_date: row.birth_date,
       death_date: row.death_date,
       bio: row.bio,
+      bio_en: row.bio_en ?? null,
       quotes: row.quotes,
+      quotes_en: row.quotes_en ?? null,
       is_verified: row.is_verified ?? false,
       is_platform_managed: row.claimed_by === null,
       follower_count: row.follower_count,
@@ -215,6 +230,7 @@ export async function getCelebs(
       } : null,
       tags: tagMap.get(row.id) ?? [],
       greeting: greetingMap.get(row.id) ?? null,
+      greeting_en: greetingEnMap.get(row.id) ?? null,
     }
   })
 

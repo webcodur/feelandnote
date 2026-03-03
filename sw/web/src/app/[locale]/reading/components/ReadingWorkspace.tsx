@@ -7,7 +7,8 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import {
   ArrowLeft,
   Search,
@@ -55,13 +56,15 @@ interface Props {
 
 // 감상 모드 탭 (추후 확장 가능)
 const WORKSPACE_TABS = [
-  { id: "reading", label: "읽기", icon: BookOpen, enabled: true },
-  { id: "watching", label: "감상", icon: Film, enabled: false },
-  { id: "playing", label: "플레이", icon: Gamepad2, enabled: false },
-  { id: "listening", label: "듣기", icon: Music, enabled: false },
+  { id: "reading", key: "reading", icon: BookOpen, enabled: true },
+  { id: "watching", key: "watching", icon: Film, enabled: false },
+  { id: "playing", key: "playing", icon: Gamepad2, enabled: false },
+  { id: "listening", key: "listening", icon: Music, enabled: false },
 ] as const;
 
 export default function ReadingWorkspace({ userId, initialBook, isBookLocked = false }: Props) {
+  const t = useTranslations("reading.workspace");
+  const tt = useTranslations("reading.workspace.tabs");
   const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isBookInfoOpen, setIsBookInfoOpen] = useState(false);
@@ -193,9 +196,9 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
       <div className="flex h-dvh flex-col items-center justify-center gap-4 p-6 text-center md:hidden">
         <Monitor className="size-12 text-text-secondary" />
         <div>
-          <p className="text-lg font-medium text-text-primary">데스크톱 전용 기능</p>
+          <p className="text-lg font-medium text-text-primary">{t("desktopOnly")}</p>
           <p className="mt-2 text-sm text-text-secondary">
-            독서 모드는 데스크톱에서만 이용 가능합니다.
+            {t("desktopOnlyDesc")}
           </p>
         </div>
       </div>
@@ -212,7 +215,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
             className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
               isLeftSidebarOpen ? "bg-accent/10 text-accent" : "hover:bg-white/5 text-text-secondary"
             }`}
-            title="좌측 사이드바 토글"
+            title={t("leftSidebarToggle")}
           >
             <Menu className="size-5" />
           </button>
@@ -221,7 +224,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
           <button
             onClick={() => router.back()}
             className="flex size-8 items-center justify-center rounded-lg hover:bg-white/5 text-text-secondary hover:text-text-primary"
-            title="나가기"
+            title={t("exit")}
           >
             <ArrowLeft className="size-5" />
           </button>
@@ -233,7 +236,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
             <button
               onClick={() => setIsModeDropdownOpen(!isModeDropdownOpen)}
               className="flex size-8 items-center justify-center rounded-lg bg-accent/20 text-accent hover:bg-accent/30"
-              title="모드 전환"
+              title={t("modeSwitch")}
             >
               <BookOpen className="size-5" />
             </button>
@@ -260,7 +263,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
                         }`}
                       >
                         <Icon className="size-4" />
-                        {tab.label}
+                        {tt(tab.key)}
                       </button>
                     );
                   })}
@@ -279,7 +282,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
                     ? "bg-accent/20 text-accent ring-1 ring-accent"
                     : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
                 }`}
-                title="책 정보 (클릭하여 상세 보기)"
+                title={t("bookInfo")}
               >
                 <BookMarked className="size-4 shrink-0" />
                 <span className="text-sm font-medium opacity-50 select-none">-</span>
@@ -293,14 +296,14 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
                   <button
                     onClick={() => setIsSearchOpen(true)}
                     className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
-                    title="다른 책 선택"
+                    title={t("changeBook")}
                   >
                     <Search className="size-4" />
                   </button>
                   <button
                     onClick={handleClearBook}
                     className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
-                    title="책 선택 해제"
+                    title={t("clearBook")}
                   >
                     <X className="size-4" />
                   </button>
@@ -314,7 +317,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
                 className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5 text-text-secondary hover:bg-white/10 hover:text-text-primary"
               >
                 <Search className="size-4" />
-                <span className="text-sm">책 선택</span>
+                <span className="text-sm">{t("selectBook")}</span>
               </button>
             )
           )}
@@ -338,7 +341,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
             className={`flex size-9 items-center justify-center rounded-lg transition-colors ${
               isRightSidebarOpen ? "bg-accent/10 text-accent" : "hover:bg-white/5 text-text-secondary"
             }`}
-            title="우측 사이드바 토글"
+            title={t("rightSidebarToggle")}
           >
             <Menu className="size-5" />
           </button>
@@ -376,13 +379,13 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
                 {selectedBook ? (
                   <p className="text-lg">
                     <span className="font-medium text-text-primary">{selectedBook.title}</span>
-                    <span className="text-text-tertiary">을(를)</span> 읽고 있습니다.
+                    <span className="text-text-tertiary">{t("readingBook")}</span>
                   </p>
                 ) : (
                   <>
-                    <p className="text-lg">좌측에서 섹션을 추가하세요</p>
+                    <p className="text-lg">{t("addSectionPrompt")}</p>
                     <p className="mt-2 text-sm opacity-70">
-                      메모, 조직, 이미지 섹션을 자유롭게 배치할 수 있습니다
+                      {t("addSectionHint")}
                     </p>
                   </>
                 )}
@@ -437,13 +440,13 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
             <div className="mb-4 flex items-start gap-2 rounded-lg bg-yellow-500/10 p-3 text-xs text-yellow-200/80">
               <Info className="mt-0.5 size-4 shrink-0" />
               <p>
-                모든 메모는 브라우저 로컬 스토리지에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기 접근 시 메모를 볼 수 없습니다.
+                {t("storageNotice")}
               </p>
             </div>
 
             {/* 독서 질문 */}
             <CollapsibleSection
-              title="독서 시 던질 질문들"
+              title={t("questionsTitle")}
               icon={<HelpCircle className="size-4" />}
               isExpanded={expandedSection === "questions"}
               onToggle={() => toggleSection("questions")}
@@ -464,7 +467,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
 
             {/* 독서의 이유 */}
             <CollapsibleSection
-              title="독서를 해야 하는 이유"
+              title={t("reasonsTitle")}
               icon={<Lightbulb className="size-4" />}
               isExpanded={expandedSection === "reasons"}
               onToggle={() => toggleSection("reasons")}
@@ -481,7 +484,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
 
             {/* 독서 방법론 */}
             <CollapsibleSection
-              title="독서 방법론"
+              title={t("methodsTitle")}
               icon={<BookMarked className="size-4" />}
               isExpanded={expandedSection === "methods"}
               onToggle={() => toggleSection("methods")}
@@ -504,7 +507,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
               onClick={openOnboarding}
               className="mt-4 w-full rounded-lg bg-white/5 py-2 text-sm text-text-secondary hover:bg-white/10"
             >
-              사용 안내 다시 보기
+              {t("reopenGuide")}
             </button>
             </aside>
           </div>

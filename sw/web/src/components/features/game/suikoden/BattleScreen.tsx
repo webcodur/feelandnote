@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import type { GameState, BattleUnit, BattleAction, BattleActionType, DialogEntry } from '@/lib/game/suikoden/types'
 import { SKILL_DEFS } from '@/lib/game/suikoden/constants'
 import {
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export default function BattleScreen({ state, onUpdateState, onDialog, dialogues }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const battle = state.battle!
   const playerFactionId = state.playerFactionId
   const isPlayerAttacker = battle.attackerFactionId === playerFactionId
@@ -243,12 +245,12 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
   // 결과 텍스트
   const resultLabel = () => {
     if (battle.result === 'attacker_wins') {
-      return isPlayerAttacker ? '승리!' : '패배...'
+      return isPlayerAttacker ? tS('battle.victory') : tS('battle.defeat')
     }
     if (battle.result === 'defender_wins') {
-      return !isPlayerAttacker ? '방어 성공!' : '패배...'
+      return !isPlayerAttacker ? tS('battle.defenseSuccess') : tS('battle.defeat')
     }
-    return '무승부'
+    return tS('battle.draw')
   }
 
   // ── 배치 화면 ──
@@ -275,8 +277,8 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
           </div>
         </div>
         <div className="flex items-center gap-3 text-stone-400">
-          {battle.defenderHasWalls && <span className="text-amber-400 text-[10px]">[성벽]</span>}
-          <span>턴 {battle.turnNumber}/{battle.maxTurns}</span>
+          {battle.defenderHasWalls && <span className="text-amber-400 text-[10px]">{tS('battle.walls')}</span>}
+          <span>{tS('battle.turnCount', { current: battle.turnNumber, max: battle.maxTurns })}</span>
         </div>
       </div>
 
@@ -284,7 +286,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
       <div className="flex gap-2 text-[10px]">
         <div className="flex-1">
           <div className="flex justify-between mb-0.5">
-            <span className="text-green-400">아군 사기</span>
+            <span className="text-green-400">{tS('battle.allyMorale')}</span>
             <span className="text-stone-400">{battle.allyMorale}</span>
           </div>
           <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
@@ -296,7 +298,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         </div>
         <div className="flex-1">
           <div className="flex justify-between mb-0.5">
-            <span className="text-red-400">적군 사기</span>
+            <span className="text-red-400">{tS('battle.enemyMorale')}</span>
             <span className="text-stone-400">{battle.enemyMorale}</span>
           </div>
           <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
@@ -319,7 +321,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
             onClick={handleBattleComplete}
             className="px-6 py-2 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500"
           >
-            돌아가기
+            {tS('battle.goBack')}
           </button>
         </div>
       )}
@@ -332,7 +334,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
             <div className="grid grid-cols-2 gap-2">
               {/* 아군 그리드 */}
               <div>
-                <p className="text-[9px] text-green-400 mb-1 font-bold">아군</p>
+                <p className="text-[9px] text-green-400 mb-1 font-bold">{tS('battle.ally')}</p>
                 <BattleGridView
                   units={battle.allies}
                   isAlly={true}
@@ -346,7 +348,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
 
               {/* 적군 그리드 */}
               <div>
-                <p className="text-[9px] text-red-400 mb-1 font-bold">적군</p>
+                <p className="text-[9px] text-red-400 mb-1 font-bold">{tS('battle.enemy')}</p>
                 <BattleGridView
                   units={battle.enemies}
                   isAlly={false}
@@ -379,7 +381,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
           {!isPlayerTurn && currentUnit && (
             <div className="text-center py-2">
               <span className="text-red-400 text-sm animate-pulse">
-                {currentUnit.character.nickname} 행동 중...
+                {tS('battle.actingUnit', { name: currentUnit.character.nickname })}
               </span>
             </div>
           )}

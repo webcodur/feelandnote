@@ -6,10 +6,10 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import ProfessionSection from "@/components/features/scriptures/sections/ProfessionSection";
 import { getProfessionContentCounts } from "@/actions/scriptures";
 import { PROFESSION_ROWS } from "@/constants/scriptures";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.profession");
@@ -47,7 +47,7 @@ function SectionSkeleton() {
                   key={key}
                   className="px-3 py-1.5 rounded-lg text-sm font-bold bg-bg-card text-transparent select-none"
                 >
-                  {getCelebProfessionLabel(key)}
+                  {key}
                 </div>
               ))}
             </div>
@@ -84,7 +84,11 @@ function SectionSkeleton() {
 
 async function ProfessionContent() {
   const professionCounts = await getProfessionContentCounts();
-  return <ProfessionSection professionCounts={professionCounts} />;
+  return (
+    <AsyncIntlProvider>
+      <ProfessionSection professionCounts={professionCounts} />
+    </AsyncIntlProvider>
+  );
 }
 
 export default function Page() {

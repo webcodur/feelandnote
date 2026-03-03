@@ -9,7 +9,7 @@ color: purple
 
 ## 작업 시작 전
 
-**반드시 `.claude/rules/celeb-4-influence.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+**반드시 `docs/project/celeb/celeb-4-influence.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
 
 룰북에 인과적 기여도 원칙, 6개 영역 점수 기준, 통시성 평가, 금지 사항, 출력 형식이 모두 정의되어 있다.
 

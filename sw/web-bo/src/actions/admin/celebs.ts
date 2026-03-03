@@ -3,8 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { generateCelebProfile as generateCelebProfileApi, generateCelebInfluence as generateCelebInfluenceApi, type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
-import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage } from './api-keys'
+import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
 
 // #region Types
 export interface Celeb {
@@ -22,6 +21,7 @@ export interface Celeb {
   consumption_philosophy: string | null
   is_verified: boolean | null
   status: string
+  celeb_tier: string | null
   claimed_by: string | null
   created_at: string
   content_count: number
@@ -38,7 +38,7 @@ interface GetCelebsParams {
   page?: number
   limit?: number
   search?: string
-  status?: 'active' | 'suspended' | 'all'
+  status?: 'active' | 'inactive' | 'suspended' | 'all'
   profession?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
@@ -57,7 +57,7 @@ interface CreateCelebInput {
   consumption_philosophy?: string
   avatar_url?: string
   is_verified?: boolean
-  status?: 'active' | 'suspended'
+  status?: 'active' | 'inactive' | 'suspended'
   influence?: GeneratedInfluence
 }
 
@@ -80,27 +80,10 @@ interface UpdateCelebInput {
   consumption_philosophy_en?: string
   avatar_url?: string
   is_verified?: boolean
-  status?: 'active' | 'suspended'
+  status?: 'active' | 'inactive' | 'suspended'
   influence?: GeneratedInfluence
 }
 
-interface GenerateProfileInput {
-  name: string
-  description: string
-  selectedKeyId?: string
-}
-
-interface GenerateProfileResult {
-  success: boolean
-  profile?: GeneratedCelebProfile
-  error?: string
-}
-
-interface GenerateInfluenceResult {
-  success: boolean
-  influence?: GeneratedInfluence
-  error?: string
-}
 // #endregion
 
 // #region getCelebs
@@ -123,8 +106,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   const rpcSortBy = sortByMap[sort] || `created_at_${sortOrder}`
 
-  // status 필터: 'all'이면 모두, 아니면 active만 (RPC는 active/inactive만 구분)
-  const includeInactive = !status || status === 'all'
+  // status 필터: inactive/suspended 보려면 includeInactive 필요
+  const includeInactive = !status || status === 'all' || status === 'inactive' || status === 'suspended'
 
   // 전체 개수 조회
   const { data: countData } = await supabase.rpc('count_celebs_filtered', {
@@ -180,13 +163,19 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     quotes: celeb.quotes,
     consumption_philosophy: celeb.consumption_philosophy,
     is_verified: celeb.is_verified,
-    status: celeb.status || 'active',
+    status: celeb.status,
+    celeb_tier: celeb.celeb_tier || 'full',
     claimed_by: celeb.claimed_by,
     created_at: celeb.created_at || '',
     content_count: celeb.content_count || 0,
     follower_count: celeb.follower_count || 0,
     influence_total: celeb.total_score || 0,
   }))
+
+  // 특정 status 필터링 (RPC는 active/inactive 이분법이므로 JS에서 후처리)
+  if (status && status !== 'all') {
+    celebs = celebs.filter((c) => c.status === status)
+  }
 
   // 숫자형 정렬은 RPC가 항상 DESC → asc 시 결과 뒤집기
   if (needsReverse) {
@@ -195,7 +184,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   return {
     celebs,
-    total,
+    total: status && status !== 'all' ? celebs.length : total,
   }
 }
 // #endregion
@@ -238,7 +227,8 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     quotes: data.quotes,
     consumption_philosophy: data.consumption_philosophy,
     is_verified: data.is_verified,
-    status: data.status || 'active',
+    status: data.status,
+    celeb_tier: data.celeb_tier || 'full',
     claimed_by: data.claimed_by,
     created_at: data.created_at,
     influence_total: data.celeb_influence?.total_score || 0,
@@ -419,104 +409,6 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   revalidatePath('/celebs')
   revalidatePath(`/celebs/${input.id}`)
   revalidatePath(`/members/${input.id}`)
-}
-// #endregion
-
-// #region generateCelebProfile
-export async function generateCelebProfile(input: GenerateProfileInput): Promise<GenerateProfileResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { success: false, error: '인증이 필요합니다.' }
-  }
-
-  // API 키 가져오기
-  let apiKeyRecord
-  if (input.selectedKeyId) {
-    const result = await getApiKeyById(input.selectedKeyId)
-    if (result.success && result.data) {
-      apiKeyRecord = result.data
-    }
-  }
-
-  if (!apiKeyRecord) {
-    const result = await getBestAvailableKey()
-    if (!result.success || !result.data) {
-      return { success: false, error: result.error || '사용 가능한 API 키가 없습니다.' }
-    }
-    apiKeyRecord = result.data
-  }
-
-  // Gemini 호출 - 기본 프로필만 생성
-  const result = await generateCelebProfileApi(apiKeyRecord.api_key, {
-    name: input.name,
-    description: input.description,
-  })
-
-  // 사용 기록
-  const is429 = result.error?.includes('429') || result.error?.includes('quota')
-  await recordApiKeyUsage({
-    api_key_id: apiKeyRecord.id,
-    action_type: 'celeb_profile',
-    success: result.success,
-    error_code: is429 ? '429' : result.error ? 'ERROR' : undefined,
-  })
-
-  if (!result.success || !result.profile) {
-    return { success: false, error: result.error || 'AI 프로필 생성에 실패했습니다.' }
-  }
-
-  return { success: true, profile: result.profile }
-}
-// #endregion
-
-// #region generateCelebInfluence
-export async function generateCelebInfluence(input: GenerateProfileInput): Promise<GenerateInfluenceResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { success: false, error: '인증이 필요합니다.' }
-  }
-
-  // API 키 가져오기
-  let apiKeyRecord
-  if (input.selectedKeyId) {
-    const result = await getApiKeyById(input.selectedKeyId)
-    if (result.success && result.data) {
-      apiKeyRecord = result.data
-    }
-  }
-
-  if (!apiKeyRecord) {
-    const result = await getBestAvailableKey()
-    if (!result.success || !result.data) {
-      return { success: false, error: result.error || '사용 가능한 API 키가 없습니다.' }
-    }
-    apiKeyRecord = result.data
-  }
-
-  // Gemini 호출 - 영향력만 생성
-  const result = await generateCelebInfluenceApi(apiKeyRecord.api_key, {
-    name: input.name,
-    description: input.description,
-  })
-
-  // 사용 기록
-  const is429 = result.error?.includes('429') || result.error?.includes('quota')
-  await recordApiKeyUsage({
-    api_key_id: apiKeyRecord.id,
-    action_type: 'celeb_influence',
-    success: result.success,
-    error_code: is429 ? '429' : result.error ? 'ERROR' : undefined,
-  })
-
-  if (!result.success || !result.influence) {
-    return { success: false, error: result.error || 'AI 영향력 생성에 실패했습니다.' }
-  }
-
-  return { success: true, influence: result.influence }
 }
 // #endregion
 

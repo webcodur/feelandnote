@@ -23,7 +23,7 @@ export async function getCelebsByProfession(): Promise<ProfessionSection[]> {
       })
       return {
         profession: p.value,
-        label: p.label,
+        label: p.value,
         celebs,
         totalCount: total,
       }

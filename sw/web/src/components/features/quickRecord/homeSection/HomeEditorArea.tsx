@@ -9,6 +9,7 @@ import MyNotePanel from "../../user/detail/note/MyNotePanel";
 import { Loader2 } from "lucide-react";
 import FeaturedWorkInfo from "./FeaturedWorkInfo";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
+import { useTranslations } from "next-intl";
 
 import type { ScriptureContent } from "@/actions/scriptures";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
@@ -52,6 +53,9 @@ export function HomeEditorArea({
     suggestionProps,
     archiveProps
 }: HomeEditorAreaProps) {
+    const t = useTranslations("quickRecord.home");
+    const tEditor = useTranslations("quickRecord.editor");
+    const tSection = useTranslations("quickRecord.section");
     const [rating, setRating] = useState<number>(targetContent?.initialRating || 0);
     const [review, setReview] = useState(targetContent?.initialReview || "");
     const [presets, setPresets] = useState<string[]>(targetContent?.initialPresets || []);
@@ -99,11 +103,11 @@ export function HomeEditorArea({
                     timestamp: new Date().toISOString()
                 };
                 localStorage.setItem('guest_content_pending', JSON.stringify(guestData));
-                alert("기기에 저장되었습니다. 로그인 후 등록할 수 있습니다.");
+                alert(t("savedLocally"));
                 onEditorComplete();
             } catch (e) {
                 console.error("로컬 저장 실패", e);
-                alert("저장에 실패했습니다.");
+                alert(t("saveFailed"));
             } finally {
                 setIsSubmitting(false);
             }
@@ -132,7 +136,7 @@ export function HomeEditorArea({
             onEditorComplete();
         } catch (error) {
             console.error("기록 저장 실패:", error);
-            alert("기록 저장 중 오류가 발생했습니다.");
+            alert(tSection("saveError"));
         } finally {
             setIsSubmitting(false);
         }
@@ -145,7 +149,7 @@ export function HomeEditorArea({
         <div ref={editorRef} className="w-full mt-6 scroll-mt-28 flex flex-col gap-8">
             {/* 1. Featured Work Info */}
             <div className="flex flex-col gap-4">
-                <DecorativeLabel label="선택된 컨텐츠" />
+                <DecorativeLabel label={t("selectedContent")} />
                 <FeaturedWorkInfo 
                     targetContent={targetContent} 
                     suggestionProps={suggestionProps}
@@ -155,7 +159,7 @@ export function HomeEditorArea({
 
             {/* 2. Unified Editor Area (Review & Note) */}
             <div className="flex flex-col gap-4">
-                <DecorativeLabel label="내 기록" />
+                <DecorativeLabel label={t("myRecord")} />
                 
                 {/* Unified Tab Header */}
                 <div className="flex items-center justify-between pb-1">
@@ -169,7 +173,7 @@ export function HomeEditorArea({
                                 : 'text-text-tertiary border-transparent hover:text-text-secondary'
                             }`}
                         >
-                            리뷰
+                            {t("review")}
                         </button>
                         <button
                             onClick={() => setActiveMainTab('NOTE')}
@@ -179,7 +183,7 @@ export function HomeEditorArea({
                                 : 'text-text-tertiary border-transparent hover:text-text-secondary'
                             }`}
                         >
-                            노트
+                            {t("note")}
                         </button>
                     </div>
 
@@ -196,7 +200,7 @@ export function HomeEditorArea({
                                             ? 'bg-accent/20 text-accent shadow-sm'
                                             : 'text-text-tertiary hover:text-text-secondary'
                                         }`}
-                                        title="쓰기"
+                                        title={tEditor("writeMode")}
                                     >
                                         <PenTool size={14} />
                                     </button>
@@ -207,7 +211,7 @@ export function HomeEditorArea({
                                             ? 'bg-accent/20 text-accent shadow-sm'
                                             : 'text-text-tertiary hover:text-text-secondary'
                                         }`}
-                                        title="읽기"
+                                        title={tEditor("readMode")}
                                     >
                                         <Eye size={14} />
                                     </button>
@@ -222,7 +226,7 @@ export function HomeEditorArea({
                                         ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
                                         : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
                                     }`}
-                                    title="저장"
+                                    title={tEditor("save")}
                                 >
                                     {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} />}
                                 </button>
@@ -230,14 +234,14 @@ export function HomeEditorArea({
                         ) : (
                             <>
                                 {/* Note Save Button (Indicator) */}
-                                <button 
+                                <button
                                     disabled={!isNoteDirty}
                                     className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all ${
-                                        isNoteDirty 
-                                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
+                                        isNoteDirty
+                                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]'
                                         : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
                                     }`}
-                                    title="저장 (자동 저장됨)"
+                                    title={t("saveAutoSave")}
                                 >
                                     <Save size={20} />
                                 </button>

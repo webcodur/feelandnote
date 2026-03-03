@@ -5,6 +5,7 @@ import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
 import type { ScriptureContent } from "@/actions/scriptures";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
+import { useTranslations } from "next-intl";
 
 interface HomeSuggestionsProps {
     suggestions: ScriptureContent[];
@@ -31,6 +32,7 @@ export function HomeSuggestions({
     events,
     isDragging
 }: HomeSuggestionsProps) {
+    const t = useTranslations("quickRecord.home");
     return (
         <section className="relative animate-in fade-in zoom-in-95 duration-500 px-2">
             {isSwitchingCategory && (
@@ -94,17 +96,21 @@ export function HomeSuggestions({
                                 }}
                                 className="hover:ring-2 hover:ring-accent/50 transition-all cursor-pointer shadow-lg"
                                 heightClass="h-[200px] md:h-[230px]"
+                                titleKo={item.title_ko}
+                                titleEn={item.title_en}
+                                creatorEn={item.creator_en}
+                                thumbnailEn={item.thumbnail_en}
                             />
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-black/80 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded-full text-[10px] text-accent flex items-center gap-1 shadow-lg whitespace-nowrap pointer-events-none">
                                 <Sparkles size={8} className="text-accent" />
-                                <span>인기</span>
+                                <span>{t("popular")}</span>
                             </div>
                         </div>
                     ))}
                 </div>
             ) : (
                 <div className="h-40 flex items-center justify-center text-text-tertiary">
-                    이 카테고리의 인기 기록이 없습니다.
+                    {t("noPopular")}
                 </div>
             )}
         </section>

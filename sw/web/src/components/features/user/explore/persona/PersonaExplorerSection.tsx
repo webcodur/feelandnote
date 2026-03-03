@@ -7,6 +7,7 @@ import type { PersonaPersonSummary } from "@/actions/persona/getPersonaPeople";
 import { PROFESSION_LABELS } from "@/lib/persona/constants";
 import type { PersonaVector } from "@/lib/persona/utils";
 import PersonaInfoPanel from "./PersonaInfoPanel";
+import { useTranslations } from "next-intl";
 
 interface Props {
   initialPeople: PersonaPersonSummary[];
@@ -19,6 +20,7 @@ export default function PersonaExplorerSection({
   initialSelectedId,
   initialPersona,
 }: Props) {
+  const t = useTranslations("explore.ui");
   const defaultSelectedId = initialSelectedId ?? initialPeople[0]?.id ?? null;
   const [selectedId, setSelectedId] = useState<string | null>(defaultSelectedId);
   const [selectedPersona, setSelectedPersona] = useState<PersonaVector | null>(initialPersona);
@@ -46,7 +48,7 @@ export default function PersonaExplorerSection({
   if (initialPeople.length === 0) {
     return (
       <div className="rounded-lg border border-white/10 bg-bg-card/40 p-8 text-center">
-        <p className="text-sm text-text-secondary">표시할 사람 데이터가 없습니다.</p>
+        <p className="text-sm text-text-secondary">{t("personaNoData")}</p>
       </div>
     );
   }
@@ -56,13 +58,13 @@ export default function PersonaExplorerSection({
       <aside className="rounded-lg border border-white/10 bg-bg-card/40 p-3">
         <div className="mb-2 flex items-center gap-2 px-1">
           <Users className="h-4 w-4 text-accent" />
-          <h2 className="text-sm font-semibold text-text-primary">사람 목록</h2>
+          <h2 className="text-sm font-semibold text-text-primary">{t("personaList")}</h2>
           <span className="text-xs text-text-tertiary">{initialPeople.length}</span>
         </div>
         <div className="max-h-[620px] space-y-1 overflow-y-auto pr-1">
           {initialPeople.map((person) => {
             const active = person.id === selectedId;
-            const professionLabel = person.profession ? PROFESSION_LABELS[person.profession] ?? person.profession : "직군 미상";
+            const professionLabel = person.profession ? PROFESSION_LABELS[person.profession] ?? person.profession : t("professionUnknown");
 
             return (
               <button

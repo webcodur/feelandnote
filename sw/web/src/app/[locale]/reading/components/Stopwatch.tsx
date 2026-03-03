@@ -7,6 +7,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Pause, Play, Timer, RotateCcw } from "lucide-react";
 
 interface Props {
@@ -24,6 +25,7 @@ export default function Stopwatch({
   onTimeUpdate,
   onReset,
 }: Props) {
+  const t = useTranslations("reading.stopwatch");
   const secondsRef = useRef(elapsedTime);
   const displayRef = useRef<HTMLSpanElement>(null);
 
@@ -62,14 +64,14 @@ export default function Stopwatch({
       <button
         onClick={onToggle}
         className="flex size-8 items-center justify-center rounded-lg bg-white/5 hover:bg-white/10"
-        title={isRunning ? "일시정지" : "재개"}
+        title={isRunning ? t("pause") : t("resume")}
       >
         {isRunning ? <Pause className="size-4" /> : <Play className="size-4" />}
       </button>
       <button
         onClick={onReset}
         className="flex size-8 items-center justify-center rounded-lg bg-white/5 hover:bg-white/10"
-        title="초기화"
+        title={t("reset")}
       >
         <RotateCcw className="size-4" />
       </button>

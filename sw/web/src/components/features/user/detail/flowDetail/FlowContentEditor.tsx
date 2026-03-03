@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { X, Search, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useDraggable } from "@dnd-kit/core";
@@ -80,6 +81,7 @@ export default function FlowContentEditor({
   onClose,
   onRefresh
 }: FlowContentEditorProps) {
+  const t = useTranslations("flowDetail");
   const [searchQuery, setSearchQuery] = useState("");
   const [contents, setContents] = useState<UserContentWithContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -139,7 +141,7 @@ export default function FlowContentEditor({
         {/* 헤더 */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06] shrink-0">
           <h3 className="text-sm font-serif font-bold text-white flex-1">
-            내 서재
+            {t("myLibrary")}
           </h3>
           <Button
             unstyled
@@ -158,7 +160,7 @@ export default function FlowContentEditor({
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="검색..."
+              placeholder={t("searchPlaceholder")}
               className="w-full pl-8 pr-3 py-1.5 bg-[#1a1a1a] border border-white/[0.06] rounded-lg text-xs text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors"
             />
           </div>
@@ -173,8 +175,8 @@ export default function FlowContentEditor({
           ) : availableContents.length === 0 ? (
             <div className="text-center py-12 text-text-secondary text-xs">
               {existingContentIds.size > 0
-                ? "모든 콘텐츠가 플로우에 추가되었습니다"
-                : "서재에 콘텐츠가 없습니다"
+                ? t("allAdded")
+                : t("emptyLibrary")
               }
             </div>
           ) : (

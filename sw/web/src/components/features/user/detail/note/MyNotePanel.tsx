@@ -1,5 +1,6 @@
 import { useState, useEffect, useTransition, useRef } from "react";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { getNoteByContentId, updateNoteMemo } from "@/actions/notes";
 import type { Note, Snapshot } from "@/actions/notes/types";
 
@@ -12,6 +13,7 @@ export default function MyNotePanel({
   contentId,
   onDirtyChange
 }: MyNotePanelProps) {
+  const t = useTranslations("note");
   const [note, setNote] = useState<Note | null>(null);
   const [memo, setMemo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -90,7 +92,7 @@ export default function MyNotePanel({
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
             rows={3}
-            placeholder="작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요."
+            placeholder={t("notePanelPlaceholder")}
             className="w-full min-h-[400px] bg-transparent text-text-primary border border-transparent outline-none resize-none leading-relaxed text-base font-sans mt-2 custom-scrollbar overflow-hidden transition-all focus:border-accent/30 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] focus:bg-accent/5"
           />
         </div>

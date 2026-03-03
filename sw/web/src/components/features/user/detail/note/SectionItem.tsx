@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { Trash2, GripVertical } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { NoteSection } from "@/actions/notes/types";
 import Button from "@/components/ui/Button";
 
@@ -17,6 +18,7 @@ interface SectionItemProps {
 }
 
 export default function SectionItem({ section, onUpdate, onDelete }: SectionItemProps) {
+  const t = useTranslations("note");
   const [memo, setMemo] = useState(section.memo || "");
 
   return (
@@ -39,7 +41,7 @@ export default function SectionItem({ section, onUpdate, onDelete }: SectionItem
 
       <textarea
         className="w-full bg-transparent text-text-primary text-[14px] leading-relaxed resize-y min-h-[40px] outline-none placeholder:text-text-tertiary/10"
-        placeholder="본인만 볼 수 있도록 비공개로 안전하게 기록됩니다."
+        placeholder={t("sectionItemPlaceholder")}
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
         onBlur={() => {

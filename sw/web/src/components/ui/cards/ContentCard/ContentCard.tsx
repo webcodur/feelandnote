@@ -11,7 +11,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { Star, Bookmark, Check, X, Trash2, ThumbsUp } from "lucide-react";
 import DropdownMenu, { DropdownMenuItem } from "@/components/ui/DropdownMenu";
@@ -24,6 +24,7 @@ import FormattedText from "@/components/ui/FormattedText";
 import { RecommendationModal } from "@/components/features/recommendations";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
+import { useLocale, useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { addContent } from "@/actions/contents/addContent";
@@ -31,8 +32,10 @@ import { removeContent } from "@/actions/contents/removeContent";
 
 import { getFieldTheme } from "../certificateThemes";
 import type { ContentCardProps } from "./types";
+import { getBookEditions } from "@/lib/utils/editions";
 import { TYPE_ICONS, ASPECT_STYLES } from "./constants";
 import { useContentCounts } from "./hooks/useCelebCount";
+import { useEditionThumbnail } from "./hooks/useEditionThumbnail";
 import {
   TypeLabel,
   SelectOverlay,
@@ -42,6 +45,7 @@ import {
   DeleteButton,
   SavedBadge,
   AddButton,
+  EditionToggle,
 } from "./slots";
 import TypeInfoModal from "./modals/TypeInfoModal";
 import ContentStatsModal from "./modals/ContentStatsModal";
@@ -107,9 +111,15 @@ export default function ContentCard({
   forcePoster = false,
   mobileLayout = "poster",
   modalZIndex,
+  titleKo,
+  titleEn,
+  creatorEn,
+  thumbnailEn,
 }: ContentCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
   const aspectClass = ASPECT_STYLES[aspectRatio];
+  const locale = useLocale();
+  const t = useTranslations("content");
 
   // 인증 상태 확인
   const [user, setUser] = useState<User | null>(null);
@@ -149,13 +159,7 @@ export default function ContentCard({
 
   // 이미지 로드 실패 또는 플레이스홀더 감지 시 폴백
   const [imageError, setImageError] = useState(false);
-  
-  // 썸네일 변경 시 에러 상태 초기화
-  useEffect(() => {
-    setImageError(false);
-  }, [thumbnail]);
 
-  const showImage = !!thumbnail && !imageError;
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     // 빈 이미지나 깨진 이미지 감지 로직 완화
     const { naturalWidth, naturalHeight } = e.currentTarget;
@@ -178,6 +182,34 @@ export default function ContentCard({
   const effectiveCelebCount = celebCount ?? fetched.celebCount;
   const effectiveUserCount = userCount ?? fetched.userCount ?? 0;
 
+  // 에디션 토글 (BOOK 전용 — 내부 자동 계산)
+  // thumbnailEn prop이 없으면 contentId로 DB 자동 조회
+  const resolvedThumbnailEn = useEditionThumbnail(contentId, contentType, thumbnailEn);
+  const editions = contentType === "BOOK"
+    ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn })
+    : undefined;
+  const showEditionToggle = !!editions;
+  const [activeEdition, setActiveEdition] = useState<"ko" | "en">(locale === "en" ? "en" : "ko");
+
+  const displayTitle = showEditionToggle && editions![activeEdition]
+    ? editions![activeEdition]!.title
+    : title;
+  const displayCreator = showEditionToggle && editions![activeEdition]
+    ? editions![activeEdition]!.creator ?? creator
+    : creator;
+  const displayThumbnail = showEditionToggle && editions![activeEdition]?.thumbnail
+    ? editions![activeEdition]!.thumbnail!
+    : thumbnail;
+
+  // 선택한 에디션이 존재하지 않을 때
+  const editionUnavailable = showEditionToggle && !editions![activeEdition];
+
+  // 썸네일 변경 시 에러 상태 초기화
+  useEffect(() => {
+    setImageError(false);
+  }, [thumbnail, activeEdition]);
+
+  const showImage = !!displayThumbnail && !imageError;
 
   // 리뷰 모드 여부: 리뷰 데이터가 있고, 강제 포스터 모드가 아닐 때
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
@@ -374,6 +406,20 @@ export default function ContentCard({
     }
     return null;
   };
+
+  // 중상단 슬롯: 에디션 토글 (포스터 위 오버레이)
+  const renderMidTop = () => {
+    if (!showEditionToggle) return null;
+    return (
+      <div
+        className="absolute left-1/2 -translate-x-1/2 top-1"
+        style={{ zIndex: Z_INDEX.cardBadge }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <EditionToggle editions={editions!} activeEdition={activeEdition} onToggle={setActiveEdition} />
+      </div>
+    );
+  };
   // #endregion
 
   // 선택 모드 스타일
@@ -388,8 +434,8 @@ export default function ContentCard({
     <ContentReviewModal
       isOpen={showModal}
       onClose={() => setShowModal(false)}
-      title={title}
-      creator={creator}
+      title={displayTitle}
+      creator={displayCreator}
       review={review}
       reviewPresets={reviewPresets}
       isSpoiler={isSpoiler}
@@ -532,9 +578,10 @@ export default function ContentCard({
           <div className={`relative ${isMobileReview ? "w-28 sm:w-40" : "w-40"} flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
             {renderTopLeft()}
             {renderTopRight()}
+            {renderMidTop()}
             {showImage ? (
               <Image
-                src={thumbnail}
+                src={displayThumbnail!}
                 alt={title}
                 fill
                 sizes="160px"
@@ -568,11 +615,11 @@ export default function ContentCard({
 
             <div className="mb-2">
               <h3 className="text-xs sm:text-sm font-bold text-text-primary line-clamp-2 leading-tight group-hover:text-accent">
-                {title}
+                {displayTitle}
               </h3>
-              {creator && (
+              {displayCreator && (
                 <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 mt-1">
-                  {creator.replace(/\^/g, ", ")}
+                  {displayCreator.replace(/\^/g, ", ")}
                 </p>
               )}
             </div>
@@ -587,6 +634,14 @@ export default function ContentCard({
             )}
 
             <div className="flex-1 flex flex-col min-h-0">
+              {editionUnavailable ? (
+                <div className="flex-1 flex items-center justify-center">
+                  <p className="text-sm text-text-tertiary/70 italic">
+                    {activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc")}
+                  </p>
+                </div>
+              ) : (
+              <>
               {/* 프리셋 먼저 표시 */}
               {reviewPresets && reviewPresets.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mb-2 px-0.5">
@@ -625,6 +680,8 @@ export default function ContentCard({
                 <div className="flex-1 flex items-center justify-center">
                   <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
                 </div>
+              )}
+              </>
               )}
 
               {/* 출처 링크 (필수) */}
@@ -670,7 +727,7 @@ export default function ContentCard({
             <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
               {showImage ? (
                 <Image
-                  src={thumbnail}
+                  src={displayThumbnail!}
                   alt={title}
                   fill
                   sizes="(max-width: 768px) 100vw, 300px"
@@ -689,18 +746,19 @@ export default function ContentCard({
                   <ContentIcon size={32} className="text-text-tertiary" />
                 </div>
               )}
+              {renderMidTop()}
               {renderBottomLeft()}
               {renderSelectOverlay()}
               {renderBottomRight()}
-      
+
             </div>
 
             <div className={`p-2 ${headerNode ? "bg-[#151515]" : ""}`}>
               <h3 className="text-[11px] font-bold text-text-primary line-clamp-2 leading-tight min-h-[28px]">
-                {title}
+                {displayTitle}
               </h3>
               <p className="text-[10px] text-text-secondary line-clamp-1 mt-1">
-                {creator ? creator.replace(/\^/g, ", ") : "\u00A0"}
+                {displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0"}
               </p>
             </div>
           </div>
@@ -718,7 +776,7 @@ export default function ContentCard({
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
         {showImage ? (
           <Image
-            src={thumbnail}
+            src={displayThumbnail!}
             alt={title}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
@@ -744,6 +802,7 @@ export default function ContentCard({
 
         {renderTopLeft()}
         {renderTopRight()}
+        {renderMidTop()}
         {renderBottomLeft()}
         {renderSelectOverlay()}
         {renderBottomRight()}
@@ -753,10 +812,10 @@ export default function ContentCard({
       {showInfo && (
         <div className="p-2 md:p-2.5 bg-black/20 border-t border-white/[0.04]">
           <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight min-h-[30px] md:min-h-[35px] ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
-            {title}
+            {displayTitle}
           </h3>
           <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 mt-0.5 md:mt-1">
-            {creator ? creator.replace(/\^/g, ", ") : "\u00A0"}
+            {displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0"}
           </p>
         </div>
       )}

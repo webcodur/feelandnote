@@ -7,8 +7,10 @@
 "use client";
 
 import { useState, useEffect, Suspense, useTransition, useCallback } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 import { Search, Loader2, ArrowUpDown, Info, SlidersHorizontal } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { FilterSelect, type FilterOption } from "@/components/ui";
 import { FilterChipDropdown } from "@/components/shared/filters";
 import Button from "@/components/ui/Button";
@@ -27,31 +29,31 @@ import { createClient } from "@/lib/supabase/client";
 type SearchMode = "content" | "user" | "tag" | "records";
 type ContentResult = ContentSearchResult | RecordsSearchResult;
 
-// 카테고리별 검색 안내 문구
-const CATEGORY_SEARCH_GUIDE: Partial<Record<CategoryId, string>> = {
-  game: "검색 결과가 더 있을 수 있어요. 원하는 게임이 없다면 검색어나 언어를 바꿔보세요.",
-  certificate: "주요 국가자격증 위주로 검색돼요.",
+// 카테고리별 검색 안내 문구 키
+const CATEGORY_SEARCH_GUIDE_KEYS: Partial<Record<CategoryId, string>> = {
+  game: "guide.game",
+  certificate: "guide.certificate",
 };
 
-// 카테고리별 API 출처 정보
-const API_SOURCE_INFO: Record<Exclude<CategoryId, "all">, { name: string; url: string }> = {
-  book: { name: "네이버 책 API", url: "https://developers.naver.com/docs/serviceapi/search/book/book.md" },
-  video: { name: "TMDB", url: "https://www.themoviedb.org" },
-  game: { name: "IGDB", url: "https://www.igdb.com" },
-  music: { name: "Spotify", url: "https://developer.spotify.com" },
-  certificate: { name: "Q-Net", url: "https://www.q-net.or.kr" },
+// 카테고리별 API 출처 URL
+const API_SOURCE_URL: Record<Exclude<CategoryId, "all">, string> = {
+  book: "https://developers.naver.com/docs/serviceapi/search/book/book.md",
+  video: "https://www.themoviedb.org",
+  game: "https://www.igdb.com",
+  music: "https://developer.spotify.com",
+  certificate: "https://www.q-net.or.kr",
 };
 
-const CONTENT_SORT_OPTIONS: FilterOption[] = [
-  { value: "relevance", label: "관련도순" },
-  { value: "latest", label: "최신순" },
-  { value: "popular", label: "인기순" },
+const CONTENT_SORT_OPTIONS = [
+  { key: "relevance", value: "relevance" },
+  { key: "latest", value: "latest" },
+  { key: "popular", value: "popular" },
 ];
 
-const USER_SORT_OPTIONS: FilterOption[] = [
-  { value: "relevance", label: "관련도순" },
-  { value: "followers", label: "팔로워순" },
-  { value: "latest", label: "최신순" },
+const USER_SORT_OPTIONS = [
+  { key: "relevance", value: "relevance" },
+  { key: "followers", value: "followers" },
+  { key: "latest", value: "latest" },
 ];
 
 const categoryToContentType = (category: string): ContentType => {
@@ -60,6 +62,7 @@ const categoryToContentType = (category: string): ContentType => {
 };
 
 function SearchContent() {
+  const t = useTranslations("searchPage");
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -283,7 +286,7 @@ function SearchContent() {
       {modeParam === "content" && (
         <div className="mb-6 flex justify-center">
           <ControlPanel
-            title="검색 제어"
+            title={t("control")}
             icon={<SlidersHorizontal size={16} className="text-accent/70" />}
             isExpanded={isControlsExpanded}
             onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
@@ -294,13 +297,13 @@ function SearchContent() {
               <div className="flex items-center justify-center gap-2 px-6 py-4">
                 {/* 카테고리 필터 */}
                 <FilterChipDropdown
-                  label="카테고리"
-                  value={CATEGORIES.find((c) => c.id === category)?.label || "책"}
+                  label={t("category")}
+                  value={t(`contentCategory.${category}`)}
                   isActive={category !== "book"}
                   isLoading={isLoading}
                   options={CATEGORIES.map((cat) => ({
                     value: cat.id,
-                    label: cat.label,
+                    label: t(`contentCategory.${cat.id}`),
                   }))}
                   currentValue={category}
                   onSelect={(value) => {
@@ -311,11 +314,11 @@ function SearchContent() {
 
                 {/* 정렬 필터 */}
                 <FilterChipDropdown
-                  label="정렬"
-                  value={CONTENT_SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label || "관련도순"}
+                  label={t("sort")}
+                  value={t(`contentSort.${CONTENT_SORT_OPTIONS.find((opt) => opt.value === sortBy)?.key ?? "relevance"}`)}
                   isActive={sortBy !== "relevance"}
                   isLoading={isLoading}
-                  options={CONTENT_SORT_OPTIONS}
+                  options={CONTENT_SORT_OPTIONS.map((opt) => ({ value: opt.value, label: t(`contentSort.${opt.key}`) }))}
                   currentValue={sortBy}
                   onSelect={setSortBy}
                   icon={<ArrowUpDown size={14} />}
@@ -327,19 +330,19 @@ function SearchContent() {
                 <div className="flex items-center gap-1.5">
                   <Info size={12} />
                   <span>
-                    검색 제공:{" "}
+                    {t("poweredBy")}{" "}
                     <a
-                      href={API_SOURCE_INFO[category as Exclude<CategoryId, "all">].url}
+                      href={API_SOURCE_URL[category as Exclude<CategoryId, "all">]}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-accent/60 hover:text-accent underline underline-offset-2 transition-colors"
                     >
-                      {API_SOURCE_INFO[category as Exclude<CategoryId, "all">].name}
+                      {t(`apiSource.${category}`)}
                     </a>
                   </span>
                 </div>
-                {CATEGORY_SEARCH_GUIDE[category] && (
-                  <span className="text-text-secondary">{CATEGORY_SEARCH_GUIDE[category]}</span>
+                {CATEGORY_SEARCH_GUIDE_KEYS[category] && (
+                  <span className="text-text-secondary">{t(CATEGORY_SEARCH_GUIDE_KEYS[category] as "guide.game" | "guide.certificate")}</span>
                 )}
               </div>
             </div>
@@ -349,13 +352,13 @@ function SearchContent() {
 
       {modeParam === "user" && (
         <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
-          <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer"><input type="checkbox" className="rounded" /> 팔로잉만</label>
-          <div className="ml-auto"><FilterSelect options={USER_SORT_OPTIONS} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
+          <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer"><input type="checkbox" className="rounded" /> {t("followingOnly")}</label>
+          <div className="ml-auto"><FilterSelect options={USER_SORT_OPTIONS.map((opt) => ({ value: opt.value, label: t(`userSort.${opt.key}`) }))} value={sortBy} onChange={setSortBy} icon={ArrowUpDown} /></div>
         </div>
       )}
 
       {queryParam && !isLoading && (
-        <div className="mb-6"><h1 className="text-xl font-bold">"{queryParam}" 검색 결과 <span className="text-accent">{totalCount}건</span></h1></div>
+        <div className="mb-6"><h1 className="text-xl font-bold">"{queryParam}" {t("resultCount", { count: totalCount })}</h1></div>
       )}
 
       {isLoading && (
@@ -420,10 +423,10 @@ function SearchContent() {
             {isLoadingMore ? (
               <span className="flex items-center gap-2">
                 <Loader2 size={16} className="animate-spin" />
-                불러오는 중...
+                {t("loading")}
               </span>
             ) : (
-              "더보기"
+              t("loadMore")
             )}
           </Button>
         </div>
@@ -432,23 +435,23 @@ function SearchContent() {
       {/* 모든 결과 로드 완료 */}
       {!isLoading && !hasMore && queryParam && totalCount > 0 && (
         <div className="mt-8 text-center text-sm text-text-secondary">
-          모든 검색 결과를 불러왔습니다. (총 {contentResults.length || userResults.length || tagResults.length}건)
+          {t("allLoaded", { count: contentResults.length || userResults.length || tagResults.length })}
         </div>
       )}
 
       {!isLoading && queryParam && totalCount === 0 && (
         <div className="py-20 text-center">
           <Search size={48} className="mx-auto text-text-secondary mb-4" />
-          <h2 className="text-lg font-semibold text-text-primary mb-2">"{queryParam}"에 대한 검색 결과가 없습니다</h2>
-          <p className="text-text-secondary">다른 검색어를 입력해보세요</p>
+          <h2 className="text-lg font-semibold text-text-primary mb-2">{t("noResults", { query: queryParam })}</h2>
+          <p className="text-text-secondary">{t("noResultsHint")}</p>
         </div>
       )}
 
       {!queryParam && (
         <div className="py-20 text-center">
           <Search size={48} className="mx-auto text-text-secondary mb-4" />
-          <h2 className="text-lg font-semibold text-text-primary mb-2">검색어를 입력하세요</h2>
-          <p className="text-text-secondary">콘텐츠, 사용자, 태그를 검색할 수 있습니다</p>
+          <h2 className="text-lg font-semibold text-text-primary mb-2">{t("enterQuery")}</h2>
+          <p className="text-text-secondary">{t("enterQueryDesc")}</p>
         </div>
       )}
     </>

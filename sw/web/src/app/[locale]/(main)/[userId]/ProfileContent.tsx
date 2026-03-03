@@ -4,6 +4,7 @@ import { type PublicUserProfile } from "@/actions/user";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
+import { useTranslations } from "next-intl";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel, FormattedText } from "@/components/ui";
@@ -34,6 +35,8 @@ export default function ProfileContent({
   influenceData,
   personaData,
 }: ProfileContentProps) {
+  const t = useTranslations("profilePage");
+
   return (
     <div className="space-y-8 sm:space-y-12">
       {/* 1. Bio & Profile Info */}
@@ -48,7 +51,7 @@ export default function ProfileContent({
         <section className="animate-fade-in" style={{ animationDelay: "0.05s" }}>
           <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
-              <DecorativeLabel label="감상 철학" />
+              <DecorativeLabel label={t("consumptionPhilosophy")} />
             </div>
             <div className="max-w-3xl mx-auto">
               <p className="text-sm md:text-base text-stone-300 font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
@@ -82,7 +85,7 @@ export default function ProfileContent({
         <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
-              <DecorativeLabel label="이미지 검색결과" />
+              <DecorativeLabel label={t("imageSearch")} />
             </div>
             <ImageGallery nickname={profile.nickname} />
           </ClassicalBox>
@@ -93,7 +96,7 @@ export default function ProfileContent({
       <section className="animate-fade-in" style={{ animationDelay: "0.125s" }}>
         <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
           <div className="flex justify-center mb-6 sm:mb-8">
-            <DecorativeLabel label="방명록" />
+            <DecorativeLabel label={t("guestbook")} />
           </div>
           <GuestbookContent
             profileId={userId}

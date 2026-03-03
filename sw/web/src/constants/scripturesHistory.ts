@@ -49,11 +49,35 @@ export interface ReadingMethod {
   essay?: HistoryEraEssay;
 }
 
-export type ViewType = 'timeline' | 'catalog' | 'comparison';
+// ─── 화성학 레슨 타입 ────────────────────────────────────
+
+export interface LessonSection {
+  id: string;
+  title: string;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  partLabel: string;
+  description: string;
+  objectives: string[];
+  readTime: number;
+  contentMarkdown: string;
+  sheetExamples: SheetExample[];
+  imageUrl?: string;
+}
+
+export interface SheetExample {
+  id: string;
+  label: string;
+  abc: string;
+  caption?: string;
+  playable: boolean;
+}
+
+export type ViewType = 'timeline' | 'catalog' | 'comparison' | 'lesson';
 
 export const SUB_CATEGORY_VIEW_TYPE: Record<string, ViewType> = {
   "book/typography": "catalog",
   "book/reading": "comparison",
+  "music/harmony": "lesson",
 };
 
 export interface HistoryEra {
@@ -75,22 +99,25 @@ import koBook from './scriptures/ko/book.json';
 import koVideo from './scriptures/ko/video.json';
 import koMusic from './scriptures/ko/music.json';
 import koGame from './scriptures/ko/game.json';
+import koMusicHarmony from './scriptures/ko/music-harmony.json';
 
 import enBook from './scriptures/en/book.json';
 import enVideo from './scriptures/en/video.json';
 import enMusic from './scriptures/en/music.json';
 import enGame from './scriptures/en/game.json';
+import enMusicHarmony from './scriptures/en/music-harmony.json';
 
 interface LocaleData {
   book: Record<string, unknown>;
   video: Record<string, unknown>;
   music: Record<string, unknown>;
   game: Record<string, unknown>;
+  musicHarmony: Record<string, unknown>;
 }
 
 const DATA: Record<string, LocaleData> = {
-  ko: { book: koBook, video: koVideo, music: koMusic, game: koGame },
-  en: { book: enBook, video: enVideo, music: enMusic, game: enGame },
+  ko: { book: koBook, video: koVideo, music: koMusic, game: koGame, musicHarmony: koMusicHarmony },
+  en: { book: enBook, video: enVideo, music: enMusic, game: enGame, musicHarmony: enMusicHarmony },
 };
 
 function buildTimelines(d: LocaleData) {
@@ -141,6 +168,7 @@ function buildTimelines(d: LocaleData) {
     defaultTimeline: contentTimeline,
     typographyClasses: book.TYPOGRAPHY_CLASSES as TypographyClass[],
     readingMethods: book.READING_METHODS as ReadingMethod[],
+    harmonyLessons: d.musicHarmony.MUSIC_HARMONY_LESSONS as LessonSection[],
   };
 }
 
@@ -181,6 +209,7 @@ export const HISTORY_CATEGORY_IDS = [
       { id: "media" },
       { id: "instrument" },
       { id: "experience" },
+      { id: "harmony" },
     ],
   },
   {
@@ -201,6 +230,7 @@ export const CONTENT_HISTORY_TIMELINE = _koData.defaultTimeline;
 export const HISTORY_TIMELINES = _koData.timelines;
 export const TYPOGRAPHY_CLASSES = _koData.typographyClasses;
 export const READING_METHODS = _koData.readingMethods;
+export const HARMONY_LESSONS = _koData.harmonyLessons;
 
 export const WRITING_TOOL_HISTORY_TIMELINE = koBook.WRITING_TOOL_HISTORY_TIMELINE as HistoryEra[];
 export const BOOK_TYPO_HISTORY_TIMELINE = koBook.BOOK_TYPO_HISTORY_TIMELINE as HistoryEra[];

@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { EXPLORE_PRESETS } from "./constants";
 
 export default function ExploreStackedRowDesktop({ section }: { section: typeof EXPLORE_PRESETS[0] }) {
+  const t = useTranslations("landing");
   const [activeIndex, setActiveIndex] = useState(0);
   const dragStartX = useRef<number | null>(null);
 
@@ -34,7 +36,7 @@ export default function ExploreStackedRowDesktop({ section }: { section: typeof 
       <div className="flex items-center justify-center gap-2 text-accent/80 opacity-70 group-hover/row:opacity-100 transition-opacity">
          <section.icon size={14} />
          <span className="font-serif font-bold text-base text-text-primary">
-           {section.label}
+           {t(`explore.${section.id}` as any)}
          </span>
       </div>
 
@@ -86,7 +88,7 @@ export default function ExploreStackedRowDesktop({ section }: { section: typeof 
                     href={`/explore?${item.query}=${encodeURIComponent(item.value)}`}
                     onClick={(e) => e.stopPropagation()}
                     className="absolute bottom-3 right-3 p-2 rounded-full bg-white/10 border border-white/20 text-white opacity-0 group-hover/row:opacity-100 hover:bg-accent hover:text-black hover:border-accent transition-all z-20"
-                    aria-label="탐색 페이지로 이동"
+                    aria-label={t("goToExplore")}
                  >
                    <ArrowRight size={14} />
                  </Link>

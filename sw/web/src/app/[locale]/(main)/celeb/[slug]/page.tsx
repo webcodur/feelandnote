@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { getAlternates } from "@/lib/seo";
 import CelebPageContent from "./CelebPageContent";
 
 interface PageProps {
@@ -39,6 +41,42 @@ function buildPageTitle(
   return `${professionLabel} ${nickname}${particle} 감상한 ${parts.join(", ")}`;
 }
 
+function buildPageTitleEn(
+  nickname: string,
+  profession: string | null,
+  counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
+): string {
+  const professionLabel = getCelebProfessionLabel(profession);
+  const parts: string[] = [];
+  if (counts.BOOK > 0) parts.push(`${counts.BOOK} books`);
+  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} movies`);
+  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
+  if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
+
+  if (parts.length === 0) {
+    return `${professionLabel} ${nickname}'s Reading Records`;
+  }
+  return `${parts.join(", ")} enjoyed by ${professionLabel} ${nickname}`;
+}
+
+function buildMetaDescriptionEn(
+  nickname: string,
+  profession: string | null,
+  counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
+): string {
+  const professionLabel = getCelebProfessionLabel(profession);
+  const parts: string[] = [];
+  if (counts.BOOK > 0) parts.push(`${counts.BOOK} books`);
+  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} movies`);
+  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
+  if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
+
+  if (parts.length === 0) {
+    return `Explore ${professionLabel} ${nickname}'s reading records and philosophy on Feel&Note. Discover the cultural tastes and sources of inspiration.`;
+  }
+  return `${parts.join(", ")} enjoyed by ${professionLabel} ${nickname}. Explore their philosophy and recommended works on Feel&Note.`;
+}
+
 /** 120~160자 분량의 SEO description 생성 */
 function buildMetaDescription(
   nickname: string,
@@ -62,22 +100,27 @@ function buildMetaDescription(
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const result = await getCelebBySlug(slug);
+  const locale = await getLocale();
+  const result = await getCelebBySlug(slug, locale);
 
   if (!result.success || !result.data) {
-    return { title: "셀럽을 찾을 수 없습니다" };
+    return { title: locale === 'en' ? "Celebrity not found" : "셀럽을 찾을 수 없습니다" };
   }
 
   const { nickname, profession, contentTypeCounts } = result.data;
-  const pageTitle = buildPageTitle(nickname, profession, contentTypeCounts);
-  const description = buildMetaDescription(nickname, profession, contentTypeCounts);
+  const pageTitle = locale === 'en'
+    ? buildPageTitleEn(nickname, profession, contentTypeCounts)
+    : buildPageTitle(nickname, profession, contentTypeCounts);
+  const description = locale === 'en'
+    ? buildMetaDescriptionEn(nickname, profession, contentTypeCounts)
+    : buildMetaDescription(nickname, profession, contentTypeCounts);
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
 
   // OG 이미지는 opengraph-image.tsx에서 자동 생성 (Next.js file convention)
   return {
     title: pageTitle,
     description,
-    alternates: { canonical: canonicalUrl },
+    alternates: getAlternates(`/celeb/${slug}`),
     openGraph: {
       title: pageTitle,
       description,
@@ -94,20 +137,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CelebPage({ params }: PageProps) {
   const { slug } = await params;
+  const locale = await getLocale();
   const supabase = await createClient();
   const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-  const result = await getCelebBySlug(slug);
+  const result = await getCelebBySlug(slug, locale);
   if (!result.success || !result.data) {
     notFound();
   }
   const profile = result.data;
   const userId = profile.id;
-  const pageTitle = buildPageTitle(profile.nickname, profile.profession, profile.contentTypeCounts);
+  const pageTitle = locale === 'en'
+    ? buildPageTitleEn(profile.nickname, profile.profession, profile.contentTypeCounts)
+    : buildPageTitle(profile.nickname, profile.profession, profile.contentTypeCounts);
 
   const [guestbookResult, personaData, contentListResult, dialogueResult] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
-    getSimilarByCelebId(userId, 3),
+    getSimilarByCelebId(userId, 3, locale),
     // JSON-LD ItemList용 콘텐츠 목록 (최대 50개)
     supabase
       .from('user_contents')
@@ -116,12 +162,15 @@ export default async function CelebPage({ params }: PageProps) {
       .limit(50),
     supabase
       .from('celeb_dialogues')
-      .select('lines')
+      .select('lines, lines_en')
       .eq('celeb_id', userId)
       .maybeSingle(),
   ]);
 
-  const greeting = (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null;
+  const dialogueData = dialogueResult.data as { lines: Record<string, string[]>; lines_en: Record<string, string[]> | null } | null;
+  const greeting = locale === 'en' && dialogueData?.lines_en?.greeting
+    ? dialogueData.lines_en.greeting
+    : dialogueData?.lines?.greeting ?? null;
 
   const guestbookCurrentUser = currentUser
     ? { id: currentUser.id, nickname: profile.nickname, avatar_url: profile.avatar_url }

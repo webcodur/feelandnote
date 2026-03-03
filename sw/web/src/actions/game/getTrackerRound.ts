@@ -34,7 +34,7 @@ export interface TrackerPersona {
   command: number;
   martial: number;
   intellect: number;
-  charisma: number;
+  charm: number;
   // 덕목 (0~100)
   temperance: number;
   diligence: number;
@@ -242,7 +242,7 @@ async function buildRound(
     supabase
       .from("celeb_persona")
       .select(
-        "command, martial, intellect, charisma, temperance, diligence, reflection, courage, loyalty, benevolence, fairness, humility, pessimism_optimism, conservative_progressive, individual_social, cautious_bold"
+        "command, martial, intellect, charm, temperance, diligence, reflection, courage, loyalty, benevolence, fairness, humility, pessimism_optimism, conservative_progressive, individual_social, cautious_bold"
       )
       .eq("celeb_id", celebId)
       .single(),

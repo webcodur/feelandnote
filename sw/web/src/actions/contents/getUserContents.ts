@@ -32,11 +32,17 @@ export interface UserContentPublic {
     thumbnail_url: string | null
     metadata: Record<string, unknown> | null
     user_count: number | null
+    title_ko: string | null
+    title_en: string | null
+    creator_en: string | null
+    isbn_en: string | null
+    thumbnail_en: string | null
   }
   // 공개된 기록 요약
   public_record?: {
     rating: number | null
     content_preview: string | null
+    content_preview_en: string | null
     review_presets: string[] | null
     is_spoiler?: boolean
   } | null
@@ -72,6 +78,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       is_recommended,
       rating,
       review,
+      review_en,
       review_presets,
       is_spoiler,
       visibility,
@@ -138,6 +145,11 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     thumbnail_url: string | null
     metadata: Record<string, unknown> | null
     user_count: number | null
+    title_ko: string | null
+    title_en: string | null
+    creator_en: string | null
+    isbn_en: string | null
+    thumbnail_en: string | null
   }
 
   const validContents = (userContents || []).filter(item => item.content !== null) as unknown as Array<{
@@ -147,6 +159,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     is_recommended: boolean
     rating: number | null
     review: string | null
+    review_en: string | null
     review_presets: string[] | null
     is_spoiler: boolean
     visibility: VisibilityType | null
@@ -171,12 +184,18 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       thumbnail_url: item.content.thumbnail_url,
       metadata: item.content.metadata || null,
       user_count: item.content.user_count ?? null,
+      title_ko: item.content.title_ko ?? null,
+      title_en: item.content.title_en ?? null,
+      creator_en: item.content.creator_en ?? null,
+      isbn_en: item.content.isbn_en ?? null,
+      thumbnail_en: item.content.thumbnail_en ?? null,
     },
     public_record: (item.rating || item.review || (item.review_presets && item.review_presets.length > 0)) ? {
       rating: item.rating,
       content_preview: item.review || null,
+      content_preview_en: item.review_en || null,
       review_presets: item.review_presets || null,
-      is_spoiler: item.is_spoiler, 
+      is_spoiler: item.is_spoiler,
     } : null,
   }))
 

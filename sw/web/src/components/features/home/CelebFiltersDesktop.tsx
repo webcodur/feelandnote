@@ -5,12 +5,14 @@
 */
 "use client";
 
-import { Search, X, ArrowUpDown } from "lucide-react";
+import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users } from "lucide-react";
 import { FilterChipDropdown, type FilterOption } from "@/components/shared/filters";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
-import { SORT_OPTIONS } from "./useCelebFilters";
+import { SORT_VALUES } from "./useCelebFilters";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
+import { useTranslations } from "next-intl";
+import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 
 interface CelebFiltersDesktopProps {
   profession: string;
@@ -29,7 +31,7 @@ interface CelebFiltersDesktopProps {
     nationality?: { label: string };
     contentType?: { label: string };
     gender?: { label: string };
-    sort?: { label: string };
+    sort: CelebSortBy;
   };
   onProfessionChange: (value: string) => void;
   onNationalityChange: (value: string) => void;
@@ -67,32 +69,37 @@ export default function CelebFiltersDesktop({
   hideSearch = false,
   wrapperClassName,
 }: CelebFiltersDesktopProps) {
+  const getProfLabel = useProfessionLabel();
+  const getCtLabel = useContentTypeLabel();
+  const getNatLabel = useNationalityLabel();
+  const getGenderLabel = useGenderLabel();
+  const t = useTranslations("home.ui");
+
   // 필터별 옵션 생성
-  const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value, label }) => ({
+  const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value }) => ({
     value,
-    label,
+    label: getProfLabel(value),
     count: professionCounts[value] ?? 0,
   }));
 
-  const nationalityOptions: FilterOption[] = nationalityCounts.map(({ value, label, count }) => ({
+  const nationalityOptions: FilterOption[] = nationalityCounts.map(({ value, count }) => ({
     value,
-    label,
+    label: getNatLabel(value),
     count,
   }));
 
-  const contentTypeOptions: FilterOption[] = CONTENT_TYPE_FILTERS.map(({ value, label }) => ({
+  const contentTypeOptions: FilterOption[] = CONTENT_TYPE_FILTERS.map(({ value }) => ({
     value,
-    label,
+    label: getCtLabel(value),
     count: contentTypeCounts[value] ?? 0,
   }));
 
-  const genderOptions: FilterOption[] = genderCounts.map(({ value, label, count }) => ({
+  const genderOptions: FilterOption[] = genderCounts.map(({ value, count }) => ({
     value,
-    label,
+    label: getGenderLabel(value),
     count,
   }));
-
-  const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
+  const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") onSearchSubmit();
@@ -110,7 +117,7 @@ export default function CelebFiltersDesktop({
               value={search}
               onChange={(e) => onSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="인물 검색..."
+              placeholder={t("searchPlaceholder")}
               className="w-full h-9 ps-9 pe-8 bg-bg-card border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
             />
             {search && (
@@ -129,50 +136,54 @@ export default function CelebFiltersDesktop({
             disabled={isLoading}
             className="h-9 px-3 bg-accent hover:bg-accent-hover disabled:opacity-50 text-white text-sm font-medium rounded-lg"
           >
-            검색
+            {t("searchButton")}
           </button>
         </div>
       )}
 
       <FilterChipDropdown
-        label="직군"
-        value={activeLabels.profession?.label ?? "전체"}
+        label={t("filterProfession")}
+        value={getProfLabel(profession)}
         isActive={profession !== "all"}
         isLoading={isLoading}
         options={professionOptions}
         currentValue={profession}
         onSelect={onProfessionChange}
+        icon={<Briefcase size={14} />}
       />
       <FilterChipDropdown
-        label="국적"
-        value={activeLabels.nationality?.label ?? "전체"}
+        label={t("filterNationality")}
+        value={getNatLabel(nationality)}
         isActive={nationality !== "all"}
         isLoading={isLoading}
         options={nationalityOptions}
         currentValue={nationality}
         onSelect={onNationalityChange}
+        icon={<Globe size={14} />}
       />
       <FilterChipDropdown
-        label="콘텐츠"
-        value={activeLabels.contentType?.label ?? "전체"}
+        label={t("filterContent")}
+        value={getCtLabel(contentType)}
         isActive={contentType !== "all"}
         isLoading={isLoading}
         options={contentTypeOptions}
         currentValue={contentType}
         onSelect={onContentTypeChange}
+        icon={<Layers size={14} />}
       />
       <FilterChipDropdown
-        label="성별"
-        value={activeLabels.gender?.label ?? "전체"}
+        label={t("filterGender")}
+        value={getGenderLabel(gender)}
         isActive={gender !== "all"}
         isLoading={isLoading}
         options={genderOptions}
         currentValue={gender}
         onSelect={onGenderChange}
+        icon={<Users size={14} />}
       />
       <FilterChipDropdown
-        label="정렬"
-        value={activeLabels.sort?.label ?? "보유 콘텐츠순"}
+        label={t("filterSort")}
+        value={t(`sort.${sortBy}`)}
         isActive={sortBy !== "content_count"}
         isLoading={isLoading}
         options={sortOptions}

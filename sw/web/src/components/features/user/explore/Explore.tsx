@@ -6,11 +6,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 import { Users, Sparkles, Star, UserCheck, UserPlus, Info, BarChart3 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Tab, Tabs } from "@/components/ui";
 import { UserCard, SimilarUserCard, EmptyState, MobileUserListItem } from "./ExploreCards";
+import { useTranslations } from "next-intl";
 
 import PersonNameplate from "./PersonNameplate";
 import AlgorithmInfoModal from "./AlgorithmInfoModal";
@@ -92,6 +94,7 @@ export default function Explore({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const t = useTranslations("explore.ui");
 
   // URL에서 탭 초기값 읽기
   const getInitialTab = (): TabType => {
@@ -137,11 +140,11 @@ export default function Explore({
   const nonMutualFollowers = followers.filter((f) => !f.is_following);
 
   const tabs = [
-    { key: "celebs" as const, label: "셀럽", icon: <Sparkles size={16} />, count: initialTotal },
-    { key: "friends" as const, label: "친구", icon: <Users size={16} />, count: friends.length },
-    { key: "following" as const, label: "팔로잉", icon: <UserCheck size={16} />, count: nonFriendFollowing.length },
-    { key: "followers" as const, label: "팔로워", icon: <UserPlus size={16} />, count: nonMutualFollowers.length },
-    { key: "similar" as const, label: "취향 유사", icon: <Star size={16} />, count: similarUsers.length },
+    { key: "celebs" as const, label: t("tabs.celebs"), icon: <Sparkles size={16} />, count: initialTotal },
+    { key: "friends" as const, label: t("tabs.friends"), icon: <Users size={16} />, count: friends.length },
+    { key: "following" as const, label: t("tabs.following"), icon: <UserCheck size={16} />, count: nonFriendFollowing.length },
+    { key: "followers" as const, label: t("tabs.followers"), icon: <UserPlus size={16} />, count: nonMutualFollowers.length },
+    { key: "similar" as const, label: t("tabs.similar"), icon: <Star size={16} />, count: similarUsers.length },
   ];
 
 
@@ -193,7 +196,7 @@ export default function Explore({
               className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border border-border/50 text-text-secondary hover:border-accent/50 hover:text-text-primary bg-bg-card/50"
             >
               <BarChart3 size={14} />
-              <span>영향력 분포</span>
+              <span>{t("influenceDistribution")}</span>
             </button>
           </div>
           <CelebCarousel
@@ -228,7 +231,7 @@ export default function Explore({
                 ))}
               </div>
             ) : (
-              <EmptyState icon={<Users size={32} />} title="아직 친구가 없어요" description="서로 팔로우하면 친구가 됩니다" />
+              <EmptyState icon={<Users size={32} />} title={t("empty.noFriends")} description={t("empty.noFriendsDesc")} />
             )}
           </>
         )}
@@ -251,13 +254,13 @@ export default function Explore({
                       key={user.id} 
                       user={user} 
                       onClick={() => handleSelectUser(user.id)}
-                      subtext={`${user.content_count || 0} 기록`}
+                      subtext={t("recordCount", { count: user.content_count || 0 })}
                     />
                   ))}
                 </div>
               </>
             ) : (
-              <EmptyState icon={<UserCheck size={32} />} title="팔로잉이 없어요" description="관심 있는 사람을 팔로우해보세요" />
+              <EmptyState icon={<UserCheck size={32} />} title={t("empty.noFollowing")} description={t("empty.noFollowingDesc")} />
             )}
           </>
         )}
@@ -280,13 +283,13 @@ export default function Explore({
                       key={user.id} 
                       user={{ ...user, content_count: 0 }} 
                       onClick={() => handleSelectUser(user.id)}
-                      subtext={user.bio || "새로운 팔로워"}
+                      subtext={user.bio || t("newFollower")}
                     />
                   ))}
                 </div>
               </>
             ) : (
-              <EmptyState icon={<UserPlus size={32} />} title="팔로워가 없어요" description="활동하면 팔로워가 생길 거예요" />
+              <EmptyState icon={<UserPlus size={32} />} title={t("empty.noFollowers")} description={t("empty.noFollowersDesc")} />
             )}
           </>
         )}
@@ -296,10 +299,10 @@ export default function Explore({
           <>
             <div className="flex justify-between items-center mb-4">
               <Button unstyled onClick={() => setShowAlgorithmInfo(true)} className="text-xs text-text-tertiary hover:text-text-secondary flex items-center gap-1">
-                <Info size={14} /> 추천 알고리즘
+                <Info size={14} /> {t("algorithm")}
               </Button>
               {similarUsersAlgorithm === "content_overlap" && similarUsers.length > 0 && (
-                <span className="text-[10px] text-text-tertiary bg-background px-2 py-0.5 rounded-full">공통 콘텐츠 기반</span>
+                <span className="text-[10px] text-text-tertiary bg-background px-2 py-0.5 rounded-full">{t("contentOverlapBased")}</span>
               )}
             </div>
             {similarUsers.length > 0 ? (
@@ -317,7 +320,7 @@ export default function Explore({
                       key={user.id} 
                       user={user} 
                       onClick={() => handleSelectUser(user.id)}
-                      subtext={`${user.overlap_count} 결속 · ${(user.similarity * 100).toFixed(0)}% 일치`}
+                      subtext={t("bondsMatch", { bonds: user.overlap_count, percent: (user.similarity * 100).toFixed(0) })}
                     />
                   ))}
                 </div>
@@ -325,8 +328,8 @@ export default function Explore({
             ) : (
               <EmptyState
                 icon={<Star size={32} />}
-                title="아직 유사한 유저가 없어요"
-                description="콘텐츠를 기록하면 취향이 비슷한 유저를 추천해드릴게요"
+                title={t("empty.noSimilar")}
+                description={t("empty.noSimilarDesc")}
               />
             )}
           </>

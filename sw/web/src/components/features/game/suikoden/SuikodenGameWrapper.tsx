@@ -7,6 +7,7 @@
 
 import { useMemo, useCallback } from "react";
 import { Crown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import GameShell from "../shared/GameShell";
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import SuikodenGame from "./SuikodenGame";
@@ -14,16 +15,6 @@ import SuikodenLobby from "./SuikodenLobby";
 import SuikodenBackground from "./SuikodenBackground";
 import { useSuikodenAudio } from "./hooks/useSuikodenAudio";
 import type { GameCharacter } from "@/lib/game/suikoden/types";
-
-const PHASE_LABELS: Record<string, string> = {
-  idle: "로비",
-  setup: "세력 설정",
-  wandering: "방랑",
-  strategy: "전략",
-  battle: "전투",
-  disposition: "포로 처분",
-  result: "결과",
-};
 
 /** characterId → celeb_dialogues.lines */
 export type DialoguesMap = Record<string, Record<string, string[]>>;
@@ -34,7 +25,19 @@ interface Props {
 }
 
 export default function SuikodenGameWrapper({ characters, dialogues }: Props) {
+  const t = useTranslations("shared.game");
+  const tArena = useTranslations("rest.arena.suikoden");
   const { setBgm, stopAll, audioControls } = useSuikodenAudio();
+
+  const phaseLabels = useMemo(() => ({
+    idle: t("phase.lobby"),
+    setup: t("phase.setup"),
+    wandering: t("phase.wandering"),
+    strategy: t("phase.strategy"),
+    battle: t("phase.battle"),
+    disposition: t("phase.disposition"),
+    result: t("phase.result"),
+  }), [t]);
 
   const handlePhaseChange = useCallback((phase: string) => {
     setBgm(phase);
@@ -67,10 +70,10 @@ export default function SuikodenGameWrapper({ characters, dialogues }: Props) {
 
   return (
     <GameShell
-      gameName="천도"
+      gameName={tArena("label")}
       gateIcon={<Crown size={40} className="mx-auto text-accent/60" />}
-      gateSubtitle="셀럽 전략 시뮬레이션"
-      phaseLabels={PHASE_LABELS}
+      gateSubtitle={tArena("description")}
+      phaseLabels={phaseLabels}
       Background={SuikodenBackground}
       Lobby={Lobby}
       Game={Game}

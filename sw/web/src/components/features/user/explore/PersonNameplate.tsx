@@ -6,6 +6,7 @@
 "use client";
 
 import { User, BookOpen, Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface PersonInfo {
   id: string;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export default function PersonNameplate({ person, onClick, rank }: Props) {
+  const t = useTranslations("explore.ui");
   return (
     <button
       onClick={onClick}
@@ -88,7 +90,7 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
             <div className="flex items-center gap-4 text-xs text-white/50">
               <div className="flex items-center gap-1.5 overflow-hidden">
                 <BookOpen size={12} className="shrink-0" />
-                <span className="truncate">기록 {person.content_count ?? 0}</span>
+                <span className="truncate">{t("record")} {person.content_count ?? 0}</span>
               </div>
               {/* 추가 정보 (예: 팔로워) */}
               {/* <div className="flex items-center gap-1.5">

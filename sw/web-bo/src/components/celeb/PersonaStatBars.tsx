@@ -6,7 +6,7 @@ import type { StatKey, TendencyKey } from '@/actions/admin/persona'
 // #region Constants
 const INNER_VIRTUE_KEYS: StatKey[] = ['temperance', 'diligence', 'reflection', 'courage']
 const OUTER_VIRTUE_KEYS: StatKey[] = ['loyalty', 'benevolence', 'fairness', 'humility']
-const ABILITY_KEYS: StatKey[] = ['command', 'martial', 'intellect', 'charisma']
+const ABILITY_KEYS: StatKey[] = ['command', 'martial', 'intellect', 'charm']
 
 const STAT_LABELS: Record<StatKey, string> = {
   temperance: '절제',
@@ -20,7 +20,7 @@ const STAT_LABELS: Record<StatKey, string> = {
   command: '통솔',
   martial: '무력',
   intellect: '지력',
-  charisma: '매력',
+  charm: '매력',
 }
 
 const TENDENCY_KEYS: TendencyKey[] = [

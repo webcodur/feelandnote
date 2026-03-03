@@ -7,7 +7,7 @@ import PersonaStatBars from '@/components/celeb/PersonaStatBars'
 const ALL_STAT_KEYS: StatKey[] = [
   'temperance', 'diligence', 'reflection', 'courage',
   'loyalty', 'benevolence', 'fairness', 'humility',
-  'command', 'martial', 'intellect', 'charisma',
+  'command', 'martial', 'intellect', 'charm',
 ]
 
 const TENDENCY_KEYS: TendencyKey[] = [

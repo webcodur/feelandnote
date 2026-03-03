@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Button from "./Button";
 
 interface LoadMoreButtonProps {
@@ -16,6 +17,8 @@ export default function LoadMoreButton({
   hasMore,
   className = "",
 }: LoadMoreButtonProps) {
+  const t = useTranslations("common");
+
   if (!hasMore) return null;
 
   return (
@@ -28,10 +31,10 @@ export default function LoadMoreButton({
       {isLoading ? (
         <>
           <Loader2 size={16} className="animate-spin" />
-          불러오는 중...
+          {t("loading")}
         </>
       ) : (
-        "더보기"
+        t("loadMore")
       )}
     </Button>
   );

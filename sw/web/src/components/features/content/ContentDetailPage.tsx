@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import Button from "@/components/ui/Button";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
@@ -18,6 +18,7 @@ import AllReviewsSection from "./AllReviewsSection";
 import RecentContentsSection from "./RecentContentsSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
+import { useTranslations } from "next-intl";
 
 interface ContentDetailPageProps {
   initialData: ContentDetailData;
@@ -25,6 +26,7 @@ interface ContentDetailPageProps {
 
 export default function ContentDetailPage({ initialData }: ContentDetailPageProps) {
   const router = useRouter();
+  const t = useTranslations("contentDetail");
   const [data, setData] = useState(initialData);
 
   const { content, userRecord, isLoggedIn, initialReviews } = data;
@@ -55,7 +57,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         onClick={() => router.back()}
       >
         <ArrowLeft size={16} />
-        <span>뒤로 가기</span>
+        <span>{t("back")}</span>
       </Button>
 
       {/* 최근 본 콘텐츠 */}
@@ -63,7 +65,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
 
       <div className="space-y-4">
         {/* 1. 콘텐츠 정보 */}
-        <AccordionSection title="콘텐츠 정보" defaultOpen>
+        <AccordionSection title={t("contentInfo")} defaultOpen>
           <ContentInfoSection
             content={content}
             userRecord={userRecord}
@@ -75,7 +77,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {/* 2. 내 리뷰 (로그인 시 표시) */}
         {isLoggedIn && (
           <AccordionSection
-            title="내 리뷰"
+            title={t("myReview")}
             badge={
               userRecord?.rating && (
                 <span className="text-xs text-yellow-400">{"★".repeat(userRecord.rating)}</span>
@@ -94,8 +96,8 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {/* 3. 내 노트 (기록이 있고 로그인 시) */}
         {userRecord && isLoggedIn && (
           <AccordionSection
-            title="내 노트"
-            badge={<span className="text-[10px] text-text-tertiary bg-white/5 px-1.5 py-0.5 rounded">비공개</span>}
+            title={t("myNote")}
+            badge={<span className="text-[10px] text-text-tertiary bg-white/5 px-1.5 py-0.5 rounded">{t("private")}</span>}
             defaultOpen={false}
           >
             <MyNoteSection contentId={content.id} />
@@ -105,7 +107,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {/* 4. 모든 리뷰 (항상 표시) */}
         <div className="bg-bg-card border border-border rounded-xl p-4">
           <div className="mb-4">
-            <DecorativeLabel label="다른 기록자들의 리뷰" />
+            <DecorativeLabel label={t("othersReviews")} />
           </div>
           <AllReviewsSection
             contentId={content.id}

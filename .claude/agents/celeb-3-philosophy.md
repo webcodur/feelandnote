@@ -9,7 +9,7 @@ color: green
 
 ## 작업 시작 전
 
-**반드시 `.claude/rules/celeb-3-philosophy.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+**반드시 `docs/project/celeb/celeb-3-philosophy.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
 
 룰북에 4문단 구조, 필수 포함 요소, 금지 사항, 분량 규칙, 자료 수집 전략, 모범 답안이 모두 정의되어 있다.
 

@@ -95,28 +95,10 @@ export type TerritoryId =
   | 'sydney'                                     // 오세아니아
 
 // ── 16 페르소나 스탯 시스템 ──
+// 단일원천: PersonaStats (lib/persona/types.ts)
 
-export interface Stats {
-  // 능력 (0~100)
-  command: number      // 통솔
-  martial: number      // 무력
-  intellect: number    // 지력
-  charisma: number     // 매력
-  // 덕목 (0~100)
-  temperance: number   // 절제
-  diligence: number    // 근면
-  reflection: number   // 성찰
-  courage: number      // 용기
-  loyalty: number      // 충의
-  benevolence: number  // 인자
-  fairness: number     // 공정
-  humility: number     // 겸양
-  // 성향 (-50~+50)
-  pessimism_optimism: number
-  conservative_progressive: number
-  individual_social: number
-  cautious_bold: number
-}
+import type { PersonaStats } from '@/lib/persona/types'
+export type Stats = PersonaStats
 
 // ── 병력 장비 (원작 4종 수량제) ──
 

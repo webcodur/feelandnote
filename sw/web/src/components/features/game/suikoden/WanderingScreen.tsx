@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import type { GameState, RegionId, TerritoryId, Territory, TaxRate, DialogEntry } from '@/lib/game/suikoden/types'
 import { REGIONS, TERRITORIES, GRADE_COLORS, CLASS_INFO, WANDERING_MAX_COMPANIONS } from '@/lib/game/suikoden/constants'
 import { getTerritoryDef } from '@/lib/game/suikoden/utils'
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export default function WanderingScreen({ state, onUpdateState, onDialog, onClearDialogs, dialogues }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const wandering = state.wandering
 
   // ── hooks (early return 전에 모두 선언) ──
@@ -105,7 +107,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
 
   // 이벤트 아이콘
   const eventIcon = event
-    ? { guest: '[방문]', bandit_win: '[격퇴]', bandit_lose: '[습격]', villager_aid: '[지원]', scenery: '[풍경]', rumor: '[소문]' }[event.type]
+    ? { guest: tS('wander.tagVisit'), bandit_win: tS('wander.tagRepel'), bandit_lose: tS('wander.tagRaid'), villager_aid: tS('wander.tagSupport'), scenery: tS('wander.tagScenery'), rumor: tS('wander.tagRumor') }[event.type]
     : null
 
   return (
@@ -118,17 +120,17 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
           </button>
           <div className="flex-1">
             <h2 className="text-lg font-bold text-stone-100">
-              {wandering.leader.nickname}의 방랑
+              {tS('wander.title', { name: wandering.leader.nickname })}
             </h2>
             <p className="text-xs text-stone-400">
               {isTraveling
-                ? `${currentRegion?.name} → ${travelTargetRegion?.name} 이동 중`
-                : currentRegion?.name ?? '미지'
-              } · {wandering.turnsWandered}일차 · 금 {wandering.gold}
+                ? tS('wander.moveTo', { from: currentRegion ? tS(`region.${currentRegion.id}`) : '', to: travelTargetRegion ? tS(`region.${travelTargetRegion.id}`) : '' })
+                : currentRegion ? tS(`region.${currentRegion.id}`) : ''
+              } · {tS('wander.dayCount', { day: wandering.turnsWandered })} · {tS('wander.gold', { amount: wandering.gold })}
             </p>
           </div>
           <div className="text-right">
-            <div className="text-xs text-stone-500">동료</div>
+            <div className="text-xs text-stone-500">{tS('wander.companions')}</div>
             <div className="text-sm font-bold text-amber-300">
               {wandering.companions.length}/{WANDERING_MAX_COMPANIONS}
             </div>
@@ -138,7 +140,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
               onClick={() => setInspectTerritoryId(null)}
               className="ml-2 px-3 py-1.5 bg-amber-700/50 hover:bg-amber-700 text-amber-200 text-xs font-bold rounded transition-colors"
             >
-              본화면으로
+              {tS('wander.backToMain')}
             </button>
           )}
         </div>
@@ -148,8 +150,8 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
           {isTraveling ? (
             <>
               <div className="flex items-center justify-between text-[10px] text-stone-400 mb-1">
-                <span>이동: {currentRegion?.name} → {travelTargetRegion?.name}</span>
-                <span>{wandering.travelProgress}/{wandering.travelDuration}일</span>
+                <span>{tS('wander.moveTo', { from: currentRegion ? tS(`region.${currentRegion.id}`) : '', to: travelTargetRegion ? tS(`region.${travelTargetRegion.id}`) : '' })}</span>
+                <span>{tS('wander.travelDays', { current: wandering.travelProgress, total: wandering.travelDuration })}</span>
               </div>
               <div className="w-full h-2 bg-stone-700 rounded-full overflow-hidden">
                 <div
@@ -161,7 +163,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
           ) : (
             <>
               <div className="w-full h-2 bg-stone-700 rounded-full overflow-hidden" />
-              <p className="text-[10px] text-stone-600 opacity-40 mt-1">이동하려면 지역을 선택하라</p>
+              <p className="text-[10px] text-stone-600 opacity-40 mt-1">{tS('wander.movePrompt')}</p>
             </>
           )}
         </div>
@@ -199,7 +201,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[10px] text-stone-600 text-center py-1">아직 동료가 없다</p>
+                  <p className="text-[10px] text-stone-600 text-center py-1">{tS('wander.noCompanions')}</p>
                 )}
               </div>
 
@@ -225,22 +227,22 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                                       disabled={wandering.companions.length >= WANDERING_MAX_COMPANIONS}
                                       className="flex-1 py-2 bg-amber-700 hover:bg-amber-600 disabled:bg-stone-700 disabled:text-stone-500 text-stone-100 text-sm font-bold rounded transition-colors"
                                     >
-                                      등용 시도
+                                      {tS('wander.tryRecruit')}
                                     </button>
                                     <button
                                       onClick={handleDismiss}
                                       className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-stone-300 text-sm rounded transition-colors"
                                     >
-                                      지나친다
+                                      {tS('wander.passBy')}
                                     </button>
                                   </div>
                                 ) : (
                                   <p className="text-xs text-stone-500 text-center">
                                     {wandering.companions.some(c => c.id === event.character?.id)
-                                      ? '동료가 되었다.'
+                                      ? tS('wander.recruitSuccess')
                                       : event.recruitAttempted
-                                        ? '등용에 실패했다.'
-                                        : '헤어졌다.'}
+                                        ? tS('wander.recruitFail')
+                                        : tS('wander.departed')}
                                   </p>
                                 )}
                               </div>
@@ -252,14 +254,14 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                       {/* 금화 변동 표시 */}
                       {event.goldDelta != null && event.goldDelta !== 0 && (
                         <p className={`text-xs font-bold ${event.goldDelta > 0 ? 'text-amber-400' : 'text-red-400'}`}>
-                          금 {event.goldDelta > 0 ? '+' : ''}{event.goldDelta}
+                          {tS('wander.goldDelta', { delta: `${event.goldDelta > 0 ? '+' : ''}${event.goldDelta}` })}
                         </p>
                       )}
                     </div>
                   </div>
                 ) : (
                   <div className="flex-1 flex items-center justify-center text-stone-600 text-sm">
-                    다음 날로 진행하여 여정을 이어가라.
+                    {tS('wander.continueJourney')}
                   </div>
                 )}
               </div>
@@ -272,21 +274,21 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                   className="w-full py-3 bg-stone-700 hover:bg-stone-600 disabled:opacity-40 disabled:cursor-not-allowed text-stone-200 font-bold rounded-lg transition-colors text-sm"
                 >
                   {hasPendingGuest
-                    ? '객장 응답을 먼저 처리하라'
-                    : isTraveling ? `다음 날 → (이동 ${wandering.travelProgress}/${wandering.travelDuration})` : '다음 날 →'}
+                    ? tS('wander.handleVisitorFirst')
+                    : isTraveling ? `${tS('wander.nextDay')} (${wandering.travelProgress}/${wandering.travelDuration})` : tS('wander.nextDay')}
                 </button>
 
                 {/* 거병 패널 — 항상 표시 */}
                 {(() => {
                   const disabled = isTraveling || emptyTerritories.length === 0 || hasPendingGuest
-                  const reason = isTraveling ? '이동 중' : emptyTerritories.length === 0 ? '빈 영토 없음' : hasPendingGuest ? '객장 응답 대기' : null
+                  const reason = isTraveling ? tS('wander.travelingTo', { region: '' }) : emptyTerritories.length === 0 ? '' : hasPendingGuest ? tS('wander.handleVisitorFirst') : null
                   return (
                     <div className={`border rounded-lg p-3 ${disabled ? 'border-stone-700 bg-stone-800/30 opacity-40' : 'border-red-900/50 bg-red-950/20'}`}>
                       {disabled ? (
-                        <p className="text-xs text-stone-600 text-center">{reason ? `거병 불가 — ${reason}` : '거병 불가'}</p>
+                        <p className="text-xs text-stone-600 text-center">{reason ? `${tS('wander.raiseArmyDisabled')} — ${reason}` : tS('wander.raiseArmyDisabled')}</p>
                       ) : (
                         <>
-                          <p className="text-xs text-stone-400 mb-2">이 지역의 빈 영토에 거병할 수 있다.</p>
+                          <p className="text-xs text-stone-400 mb-2">{tS('wander.raiseArmyPrompt')}</p>
                           <div className="flex flex-wrap gap-2">
                             {emptyTerritories.map(t => (
                               <button
@@ -294,7 +296,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                                 onClick={() => handleRaiseArmy(t.id)}
                                 className="px-4 py-2 bg-red-900/40 border border-red-800/60 rounded hover:bg-red-800/60 hover:border-red-600 transition-colors text-sm text-stone-200"
                               >
-                                거병: {t.name}
+                                {tS('wander.raiseArmy', { territory: tS(`territory.${t.id}`) })}
                               </button>
                             ))}
                           </div>
@@ -307,7 +309,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
 
               {/* 이벤트 로그 — 항상 표시 */}
               <div className="bg-stone-900/50 border border-stone-800 rounded-lg p-3">
-                <h3 className="text-xs font-bold text-stone-500 mb-2">여정 기록</h3>
+                <h3 className="text-xs font-bold text-stone-500 mb-2">{tS('wander.journalTitle')}</h3>
                 {wandering.eventLog.length > 0 ? (
                   <div className="space-y-0.5 max-h-28 overflow-y-auto text-[11px] text-stone-600">
                     {wandering.eventLog.slice().reverse().map((msg, i) => (
@@ -315,7 +317,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[10px] text-stone-700 text-center">여정이 시작되지 않았다</p>
+                  <p className="text-[10px] text-stone-700 text-center">{tS('wander.journalEmpty')}</p>
                 )}
               </div>
             </>
@@ -328,7 +330,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
             {/* 탭 헤더 */}
             <div className="flex items-center gap-2 mb-2">
               <span className="text-sm font-bold text-stone-300 mr-auto">
-                {isTraveling ? `이동 중 — ${travelTargetRegion?.name}` : '지역 이동'}
+                {isTraveling ? tS('wander.travelingTo', { region: travelTargetRegion ? tS(`region.${travelTargetRegion.id}`) : '' }) : tS('wander.regionMove')}
               </span>
               <div className="flex bg-stone-900/80 rounded p-0.5 gap-0.5">
                 <button
@@ -339,7 +341,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                       : 'text-stone-500 hover:text-stone-400'
                   }`}
                 >
-                  3D 지구
+                  {tS('wander.globe3d')}
                 </button>
                 <button
                   onClick={() => setMapMode('text')}
@@ -349,7 +351,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                       : 'text-stone-500 hover:text-stone-400'
                   }`}
                 >
-                  텍스트
+                  {tS('wander.textMap')}
                 </button>
               </div>
             </div>
@@ -393,20 +395,20 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
             {confirmTargetRegion && (
               <div className="mt-3 p-3 border border-amber-500/30 rounded-lg bg-amber-900/10 space-y-2">
                 <p className="text-xs text-stone-300">
-                  <span className="text-amber-300 font-bold">{confirmTargetRegion.name}</span>(으)로 이동한다. ({wandering.travelDuration || 20}일 소요)
+                  {tS('wander.moveConfirm', { name: tS(`region.${confirmTargetRegion.id}`) })} ({wandering.travelDuration || 20})
                 </p>
                 <div className="flex gap-2">
                   <button
                     onClick={handleConfirmMove}
                     className="flex-1 py-2 bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-bold rounded transition-colors"
                   >
-                    출발
+                    {tS('wander.depart')}
                   </button>
                   <button
                     onClick={() => setConfirmMoveTarget(null)}
                     className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-stone-300 text-sm rounded transition-colors"
                   >
-                    취소
+                    {tS('wander.cancel')}
                   </button>
                 </div>
               </div>
@@ -423,7 +425,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
               <div className="bg-stone-800 border border-stone-700 rounded-lg">
                 <CharacterInfoPanel
                   character={char}
-                  badge={isLeader ? '군주' : undefined}
+                  badge={isLeader ? tS('wander.lordBadge') : undefined}
                   onClose={() => setSelectedCharId(null)}
                 />
               </div>
@@ -447,6 +449,7 @@ function TerritoryInspectView({ state, territoryId, wanderingRegionId, canRaiseA
   canRaiseArmy: boolean
   onRaiseArmy: (tid: TerritoryId) => void
 }) {
+  const tS = useTranslations('rest.arena.suikoden')
   const tDef = getTerritoryDef(territoryId)!
   const owner = state.factions.find(f => f.territories.some(t => t.id === territoryId)) ?? null
   const territoryData = owner?.territories.find(t => t.id === territoryId) ?? null
@@ -490,7 +493,7 @@ function TerritoryInspectView({ state, territoryId, wanderingRegionId, canRaiseA
           onClick={() => onRaiseArmy(territoryId)}
           className="w-full py-3 bg-red-900/50 border border-red-700 rounded-lg hover:bg-red-800/60 hover:border-red-500 transition-colors text-sm text-stone-100 font-bold"
         >
-          이곳에서 거병
+          {tS('wander.raiseHere')}
         </button>
       )}
     </div>

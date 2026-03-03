@@ -4,7 +4,7 @@ import { useState, useEffect, useActionState } from 'react'
 import { loginWithEmail } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { ArrowLeft, Mail, Eye, EyeOff } from 'lucide-react'
 
 type State = { error?: string } | undefined

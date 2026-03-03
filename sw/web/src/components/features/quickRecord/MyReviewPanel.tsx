@@ -3,14 +3,15 @@ import { PenTool, Eye, Save, Loader2, Star, Plus, X } from "lucide-react";
 import FormattedText from "@/components/ui/FormattedText";
 import StarRatingInput from "@/components/ui/StarRatingInput";
 import ReviewPresetModal from "./ReviewPresetModal";
-import { 
-    type ReviewPreset, 
-    getAllCommonPresets, 
+import {
+    type ReviewPreset,
+    getAllCommonPresets,
     getPresetsByCategory,
     getPresetByKeyword,
     getSentimentColorClasses
 } from "@/constants/review-presets";
 import type { CategoryId } from "@/constants/categories";
+import { useTranslations } from "next-intl";
 
 interface MyReviewPanelProps {
   review: string;
@@ -53,6 +54,7 @@ export default function MyReviewPanel({
   hideHeader = false,
   contentType,
 }: MyReviewPanelProps) {
+  const t = useTranslations("quickRecord.editor");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
 
@@ -66,16 +68,9 @@ export default function MyReviewPanel({
   const isDirty = (review !== initialReview) || (rating !== initialRating) || !arePresetsEqual(presets, initialPresets);
 
   // 추천 모드일 때 안내 문구 표시 로직
-  const placeholderText = isRecommendation 
-    ? `셀럽들이 최고로 추천하는 《${contentTitle}》입니다.\n작품을 경험하셨다면 솔직한 리뷰를 남겨보세요.` 
-    : `작품에서 발견한 영감을 자유롭게 기록하세요.
-
- 다음 부호로 텍스트를 꾸밀 수 있습니다.
- 
- • 《작품명》 : 제목이나 큰 주제 강조 (Bold)
- • "명언" : 중요한 문장이나 인용구 (Accent)
- • <키워드> : 특정 단어나 소주제 강조 (Serif)
- `;
+  const placeholderText = isRecommendation
+    ? t("recommendPlaceholder", { title: contentTitle ?? "" })
+    : t("defaultPlaceholder");
 
   // 텍스트 삽입 헬퍼
   const insertText = (startChar: string, endChar: string) => {
@@ -155,7 +150,7 @@ export default function MyReviewPanel({
                             ? 'bg-accent/20 text-accent shadow-sm'
                             : 'text-text-tertiary hover:text-text-secondary'
                         }`}
-                        title="쓰기"
+                        title={t("writeMode")}
                     >
                         <PenTool size={14} />
                     </button>
@@ -166,7 +161,7 @@ export default function MyReviewPanel({
                             ? 'bg-accent/20 text-accent shadow-sm'
                             : 'text-text-tertiary hover:text-text-secondary'
                         }`}
-                        title="읽기"
+                        title={t("readMode")}
                     >
                         <Eye size={14} />
                     </button>
@@ -176,7 +171,7 @@ export default function MyReviewPanel({
             {/* 중앙: 타이틀 */}
             <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
                 <PenTool size={16} className="text-accent" />
-                <span className="text-sm font-bold uppercase tracking-wider">내 리뷰</span>
+                <span className="text-sm font-bold uppercase tracking-wider">{t("myReview")}</span>
             </div>
 
             {/* 우측: 저장 버튼 */}
@@ -189,7 +184,7 @@ export default function MyReviewPanel({
                         ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
                         : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
                     }`}
-                    title="저장"
+                    title={t("save")}
                   >
                     {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
                   </button>
@@ -232,7 +227,7 @@ export default function MyReviewPanel({
                         className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 text-text-tertiary text-xs font-sans border border-white/10 hover:bg-white/10 hover:text-text-secondary transition-all"
                     >
                         <Plus size={10} />
-                        <span>키워드 추가</span>
+                        <span>{t("addKeyword")}</span>
                     </button>
                 </div>
 
@@ -288,7 +283,7 @@ export default function MyReviewPanel({
                     </div>
                 ) : (
                     <div className="h-full flex items-center justify-center text-text-tertiary/30 italic">
-                        작성된 내용이 없습니다.
+                        {t("noContent")}
                     </div>
                 )}
             </div>
@@ -315,7 +310,7 @@ export default function MyReviewPanel({
                       </span>
                   </div>
               ) : (
-                  <span className="text-[10px] text-text-tertiary italic">평가 전</span>
+                  <span className="text-[10px] text-text-tertiary italic">{t("notRated")}</span>
               )}
           </div>
       </div>

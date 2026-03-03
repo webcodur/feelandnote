@@ -9,7 +9,7 @@ color: orange
 
 ## 작업 시작 전
 
-**반드시 `.claude/rules/suikoden-dev.md` 룰북을 먼저 읽고 모든 지시사항을 따른다.**
+**반드시 `docs/project/suikoden-dev.md` 룰북을 먼저 읽고 모든 지시사항을 따른다.**
 
 룰북에 게임 개요, 데이터 소스, 코드 경로, 작업 규칙이 정의되어 있다.
 

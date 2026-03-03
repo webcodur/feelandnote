@@ -8,12 +8,15 @@
 
 import CelebCard from "@/components/shared/CelebCard";
 import { DecorativeLabel } from "@/components/ui";
+import { useLocale } from "next-intl";
 
 interface Celeb {
   id: string;
   nickname: string;
+  nickname_en?: string | null;
   avatar_url?: string | null;
   title?: string | null;
+  title_en?: string | null;
   count?: number;
 }
 
@@ -35,6 +38,9 @@ const cardWidthStyles = "snap-start shrink-0 w-[120px] sm:w-auto";
 // #endregion
 
 export default function RepresentativeCelebs({ celebs, title, type = "modern", centered = false }: Props) {
+  const locale = useLocale();
+  const isEn = locale === "en";
+
   if (!celebs || celebs.length === 0) return null;
 
   const variant = type === "classic" ? "medallion" : centered ? "circle" : "card";
@@ -54,9 +60,9 @@ export default function RepresentativeCelebs({ celebs, title, type = "modern", c
             key={celeb.id}
             variant={variant}
             id={celeb.id}
-            nickname={celeb.nickname}
+            nickname={isEn ? (celeb.nickname_en || celeb.nickname) : celeb.nickname}
             avatar_url={celeb.avatar_url}
-            title={variant === "card" ? celeb.title : undefined}
+            title={variant === "card" ? (isEn ? (celeb.title_en || celeb.title) : celeb.title) : undefined}
             count={celeb.count}
             className={variant === "card" ? cardWidthStyles : ""}
           />

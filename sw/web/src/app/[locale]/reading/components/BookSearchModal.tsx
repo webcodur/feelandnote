@@ -7,6 +7,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Search, X, Book } from "lucide-react";
 import { searchBooks } from "@/actions/contents/searchBooks";
 import type { SelectedBook } from "../types";
@@ -28,6 +29,7 @@ interface SearchResult {
 }
 
 export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
+  const t = useTranslations("reading.bookSearch");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +89,7 @@ export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
       <div className="w-full max-w-lg rounded-2xl bg-[#1a1f27] shadow-2xl">
         {/* 헤더 */}
         <div className="flex items-center justify-between border-b border-border p-4">
-          <h2 className="text-lg font-semibold">책 검색</h2>
+          <h2 className="text-lg font-semibold">{t("title")}</h2>
           <button
             onClick={handleClose}
             className="rounded-lg p-1 hover:bg-white/5"
@@ -106,7 +108,7 @@ export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="책 제목 또는 저자"
+                placeholder={t("placeholder")}
                 className="w-full rounded-lg bg-white/5 py-2 pe-4 ps-10 text-sm placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-accent"
                 autoFocus
               />
@@ -116,13 +118,13 @@ export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
               disabled={isLoading}
               className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
             >
-              검색
+              {t("searchButton")}
             </button>
           </div>
 
           {/* 안내 문구 */}
           <p className="mt-2 text-xs text-text-secondary">
-            책 선택은 선택사항입니다. 선택하지 않아도 자유롭게 메모할 수 있습니다.
+            {t("hint")}
           </p>
         </div>
 
@@ -137,7 +139,7 @@ export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
           {!isLoading && results.length === 0 && query && (
             <div className="flex flex-col items-center justify-center py-8 text-text-secondary">
               <Book className="mb-2 size-8" />
-              <p className="text-sm">검색 결과가 없습니다</p>
+              <p className="text-sm">{t("noResults")}</p>
             </div>
           )}
 

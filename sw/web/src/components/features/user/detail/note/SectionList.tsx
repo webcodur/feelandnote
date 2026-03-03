@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { List, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import SectionItem from "./SectionItem";
@@ -21,6 +22,7 @@ interface SectionListProps {
 }
 
 export default function SectionList({ sections, isSaving, onAdd, onUpdate, onDelete }: SectionListProps) {
+  const t = useTranslations("note");
   const [newTitle, setNewTitle] = useState("");
   const [newMemo, setNewMemo] = useState("");
   const [isAdding, setIsAdding] = useState(sections.length === 0);
@@ -48,7 +50,7 @@ export default function SectionList({ sections, isSaving, onAdd, onUpdate, onDel
             type="text"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="구획 제목 (예: 1장, E01)"
+            placeholder={t("sectionTitlePlaceholder")}
             className="w-full bg-transparent px-4 py-3 text-sm font-bold outline-none text-accent/80 placeholder:text-text-tertiary/20"
             autoFocus
             onKeyDown={(e) => {
@@ -61,7 +63,7 @@ export default function SectionList({ sections, isSaving, onAdd, onUpdate, onDel
           <textarea
             value={newMemo}
             onChange={(e) => setNewMemo(e.target.value)}
-            placeholder="이 구획에 대한 기록은 비공개로 안전하게 보관됩니다."
+            placeholder={t("sectionMemoPlaceholder")}
             className="w-full bg-transparent px-4 py-3 text-[14px] outline-none text-text-primary min-h-[120px] resize-none placeholder:text-text-tertiary/10"
             onKeyDown={(e) => {
               if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleAdd();

@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { GameCharacter, GameState, Stats } from '@/lib/game/suikoden/types'
 import {
-  BUILDINGS, GRADE_COLORS, STAT_LABELS, CLASS_INFO,
+  BUILDINGS, GRADE_COLORS, CLASS_INFO,
   ABILITY_STAT_KEYS, VIRTUE_STAT_KEYS,
-  DISPOSITION_LABELS, DISPOSITION_KEYS,
+  DISPOSITION_KEYS,
 } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
 
@@ -48,20 +49,8 @@ export type CharacterInfoPanelProps = ReadonlyProps | FullProps
 
 type Tab = 'ability' | 'status' | 'relation' | 'troops' | 'items' | 'bio'
 
-const TABS_FULL: { key: Tab; label: string }[] = [
-  { key: 'ability', label: '능력' },
-  { key: 'status', label: '상태' },
-  { key: 'relation', label: '관계' },
-  { key: 'troops', label: '병사' },
-  { key: 'items', label: '소유물' },
-  { key: 'bio', label: '열전' },
-]
-
-const TABS_READONLY: { key: Tab; label: string }[] = [
-  { key: 'ability', label: '능력' },
-  { key: 'troops', label: '병사' },
-  { key: 'bio', label: '열전' },
-]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TranslationFn = (key: string, params?: Record<string, any>) => string
 
 // ── 서브 컴포넌트 ──
 
@@ -74,14 +63,17 @@ function StatRow({ label, value, color }: { label: string; value: number | strin
   )
 }
 
-/** 능력 — 라벨 + 바 + 수치 */
-function AbilityRow({ statKey, stats }: { statKey: string; stats: Stats }) {
-  const label = STAT_LABELS[statKey]
-  if (!label) return null
+/** snake_case → camelCase */
+function toCamelCase(s: string) {
+  return s.replace(/_([a-z])/g, (_, c) => c.toUpperCase())
+}
+
+/** 능력 -- 라벨 + 바 + 수치 */
+function AbilityRow({ statKey, stats, tS }: { statKey: string; stats: Stats; tS: TranslationFn }) {
   const val = stats[statKey as keyof Stats] as number
   return (
-    <div className="flex items-center gap-1.5" title={label.desc}>
-      <span className="text-[10px] text-stone-400 w-5 shrink-0">{label.name}</span>
+    <div className="flex items-center gap-1.5" title={tS(`statDesc.${statKey}`)}>
+      <span className="text-[10px] text-stone-400 w-5 shrink-0">{tS(`stat.${statKey}`)}</span>
       <div className="flex-1 h-1.5 bg-stone-700 rounded-full overflow-hidden">
         <div className="h-full rounded-full bg-blue-400" style={{ width: `${val}%` }} />
       </div>
@@ -90,13 +82,11 @@ function AbilityRow({ statKey, stats }: { statKey: string; stats: Stats }) {
   )
 }
 
-function VirtueRow({ statKey, stats }: { statKey: string; stats: Stats }) {
-  const label = STAT_LABELS[statKey]
-  if (!label) return null
+function VirtueRow({ statKey, stats, tS }: { statKey: string; stats: Stats; tS: TranslationFn }) {
   const val = stats[statKey as keyof Stats] as number
   return (
-    <div className="flex items-center gap-1" title={label.desc}>
-      <span className="text-[10px] text-stone-400 w-5 shrink-0">{label.name}</span>
+    <div className="flex items-center gap-1" title={tS(`statDesc.${statKey}`)}>
+      <span className="text-[10px] text-stone-400 w-5 shrink-0">{tS(`stat.${statKey}`)}</span>
       <div className="flex-1 h-1 bg-stone-700 rounded-full overflow-hidden">
         <div className="h-full rounded-full bg-blue-400" style={{ width: `${val}%` }} />
       </div>
@@ -105,14 +95,13 @@ function VirtueRow({ statKey, stats }: { statKey: string; stats: Stats }) {
   )
 }
 
-function DispositionRow({ statKey, stats }: { statKey: string; stats: Stats }) {
-  const label = DISPOSITION_LABELS[statKey]
-  if (!label) return null
+function DispositionRow({ statKey, stats, tS }: { statKey: string; stats: Stats; tS: TranslationFn }) {
+  const dispKey = toCamelCase(statKey)
   const val = stats[statKey as keyof Stats] as number
   const pct = ((val + 50) / 100) * 100
   return (
     <div className="flex items-center gap-1">
-      <span className="text-[9px] text-stone-500 w-6 text-right shrink-0">{label.neg}</span>
+      <span className="text-[9px] text-stone-500 w-6 text-right shrink-0">{tS(`disp.${dispKey}.neg`)}</span>
       <div className="flex-1 h-1.5 bg-stone-700 rounded-full overflow-hidden relative">
         <div className="absolute left-1/2 top-0 w-px h-full bg-stone-600" />
         <div
@@ -120,37 +109,37 @@ function DispositionRow({ statKey, stats }: { statKey: string; stats: Stats }) {
           style={{ left: `calc(${pct}% - 3px)` }}
         />
       </div>
-      <span className="text-[9px] text-stone-500 w-6 shrink-0">{label.pos}</span>
+      <span className="text-[9px] text-stone-500 w-6 shrink-0">{tS(`disp.${dispKey}.pos`)}</span>
     </div>
   )
 }
 
 // ── 능력 탭 (공통) ──
 
-function AbilityTab({ stats }: { stats: Stats }) {
+function AbilityTab({ stats, tS }: { stats: Stats; tS: TranslationFn }) {
   return (
     <div className="space-y-2">
       <div>
-        <div className="text-[9px] text-stone-500 font-medium mb-1">능력</div>
+        <div className="text-[9px] text-stone-500 font-medium mb-1">{tS('charInfo.sectionAbility')}</div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
           {ABILITY_STAT_KEYS.map(key => (
-            <AbilityRow key={key} statKey={key} stats={stats} />
+            <AbilityRow key={key} statKey={key} stats={stats} tS={tS} />
           ))}
         </div>
       </div>
       <div>
-        <div className="text-[9px] text-stone-500 font-medium mb-1">덕목</div>
+        <div className="text-[9px] text-stone-500 font-medium mb-1">{tS('charInfo.sectionVirtue')}</div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
           {VIRTUE_STAT_KEYS.map(key => (
-            <VirtueRow key={key} statKey={key} stats={stats} />
+            <VirtueRow key={key} statKey={key} stats={stats} tS={tS} />
           ))}
         </div>
       </div>
       <div>
-        <div className="text-[9px] text-stone-500 font-medium mb-1">성향</div>
+        <div className="text-[9px] text-stone-500 font-medium mb-1">{tS('charInfo.sectionDisposition')}</div>
         <div className="space-y-1">
           {DISPOSITION_KEYS.map(key => (
-            <DispositionRow key={key} statKey={key} stats={stats} />
+            <DispositionRow key={key} statKey={key} stats={stats} tS={tS} />
           ))}
         </div>
       </div>
@@ -160,13 +149,13 @@ function AbilityTab({ stats }: { stats: Stats }) {
 
 // ── 열전 탭 (공통) ──
 
-function BioTab({ char }: { char: GameCharacter }) {
+function BioTab({ char, tS }: { char: GameCharacter; tS: TranslationFn }) {
   return (
     <div className="space-y-2">
       {char.bio && <p className="text-[10px] text-stone-400 leading-relaxed">{char.bio}</p>}
       {char.quotes && <p className="text-[10px] italic text-stone-500">&ldquo;{char.quotes}&rdquo;</p>}
       {!char.bio && !char.quotes && (
-        <p className="text-[10px] text-stone-600 text-center py-4">기록 없음</p>
+        <p className="text-[10px] text-stone-600 text-center py-4">{tS('charInfo.noBio')}</p>
       )}
     </div>
   )
@@ -175,8 +164,24 @@ function BioTab({ char }: { char: GameCharacter }) {
 // ── 메인 컴포넌트 ──
 
 export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
+  const tS = useTranslations('rest.arena.suikoden')
   const isReadonly = !!props.character
   const [tab, setTab] = useState<Tab>('ability')
+
+  const TABS_FULL: { key: Tab; label: string }[] = [
+    { key: 'ability', label: tS('charInfo.tabAbility') },
+    { key: 'status', label: tS('charInfo.tabStatus') },
+    { key: 'relation', label: tS('charInfo.tabRelation') },
+    { key: 'troops', label: tS('charInfo.tabTroops') },
+    { key: 'items', label: tS('charInfo.tabItems') },
+    { key: 'bio', label: tS('charInfo.tabBio') },
+  ]
+
+  const TABS_READONLY: { key: Tab; label: string }[] = [
+    { key: 'ability', label: tS('charInfo.tabAbility') },
+    { key: 'troops', label: tS('charInfo.tabTroops') },
+    { key: 'bio', label: tS('charInfo.tabBio') },
+  ]
 
   // readonly 모드: character 직접 전달
   // full 모드: state에서 추출
@@ -190,7 +195,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
   if (!char) {
     return (
       <div className="p-4 opacity-40">
-        <p className="text-[10px] text-stone-600 text-center py-6">인물을 선택하라</p>
+        <p className="text-[10px] text-stone-600 text-center py-6">{tS('charInfo.selectCharPrompt')}</p>
       </div>
     )
   }
@@ -203,7 +208,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
   const isLeader = !isReadonly && props.selectedCharId === playerFaction?.leaderId
 
   const taskLabels: Record<string, string> = {
-    idle: '대기', building: '건설 중', working: '근무 중', training: '훈련 중',
+    idle: tS('charInfo.taskIdle'), building: tS('charInfo.taskBuilding'), working: tS('charInfo.taskWorking'), training: tS('charInfo.taskTraining'),
   }
   const taskText = placement ? (taskLabels[placement.task] ?? placement.task) : ''
   const assignedBuilding = placement?.assignedBuildingId
@@ -225,7 +230,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
           </div>
           <p className="text-[10px] text-stone-400">{char.title}</p>
           <p className="text-[10px] text-stone-500">
-            {CLASS_INFO[char.unitClass].icon} {CLASS_INFO[char.unitClass].name}
+            {CLASS_INFO[char.unitClass].icon} {tS(`class.${char.unitClass}`)}
             {props.badge && <span className="ml-1 text-amber-400">· {props.badge}</span>}
           </p>
         </div>
@@ -253,26 +258,26 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
 
       {/* 탭 콘텐츠 */}
       <div className="px-3 py-2">
-        {tab === 'ability' && <AbilityTab stats={char.stats} />}
+        {tab === 'ability' && <AbilityTab stats={char.stats} tS={tS} />}
 
         {tab === 'status' && !isReadonly && placement && (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] text-stone-400">작업</span>
+              <span className="text-[10px] text-stone-400">{tS('charInfo.taskLabel')}</span>
               <div className="flex items-center gap-1.5">
                 <span className="text-[10px] font-bold text-stone-200">{taskText}{bDef ? ` — ${bDef.name}` : ''}</span>
                 {placement.task !== 'idle' && (
                   <button onClick={props.onIdle} className="px-1.5 py-0.5 bg-stone-700 rounded text-stone-400 hover:bg-stone-600 text-[9px]">
-                    중지
+                    {tS('charInfo.stopTask')}
                   </button>
                 )}
               </div>
             </div>
             <StatRow label="HP" value={`${char.hp}/${char.maxHp}`} />
-            <StatRow label="사기" value={char.morale} />
+            <StatRow label={tS('charInfo.moraleLabel')} value={char.morale} />
             {!isLeader && (
               <StatRow
-                label="충성"
+                label={tS('charInfo.loyaltyLabel')}
                 value={char.loyaltyValue}
                 color={char.loyaltyValue >= 80 ? 'text-green-400' : char.loyaltyValue >= 50 ? 'text-amber-400' : 'text-red-400'}
               />
@@ -280,11 +285,11 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
             <div className="pt-1 space-y-1.5">
               {placement.task === 'idle' && hasTrainingGround && (
                 <button onClick={props.onTrain} className="w-full py-1.5 text-xs text-stone-300 bg-stone-700 rounded hover:bg-stone-600">
-                  훈련
+                  {tS('charInfo.startTraining')}
                 </button>
               )}
               {placement.task === 'idle' && !hasTrainingGround && (
-                <p className="text-[9px] text-stone-600 text-center">※ 연병장 건설 시 훈련 가능</p>
+                <p className="text-[9px] text-stone-600 text-center">{tS('charInfo.trainingHint')}</p>
               )}
               {!isLeader && (
                 <div className="flex gap-1">
@@ -293,13 +298,13 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
                     disabled={playerFaction!.resources.gold < 50}
                     className="flex-1 py-1.5 text-xs bg-stone-700 rounded text-amber-300 hover:bg-stone-600 disabled:opacity-30"
                   >
-                    포상 (금50)
+                    {tS('charInfo.reward')}
                   </button>
                   <button
                     onClick={props.onPunish}
                     className="flex-1 py-1.5 text-xs bg-stone-700 rounded text-red-300 hover:bg-stone-600"
                   >
-                    처벌
+                    {tS('charInfo.punish')}
                   </button>
                 </div>
               )}
@@ -309,18 +314,18 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
 
         {tab === 'relation' && (
           <div className="py-4">
-            <p className="text-[10px] text-stone-600 text-center">준비 중</p>
+            <p className="text-[10px] text-stone-600 text-center">{tS('charInfo.preparing')}</p>
           </div>
         )}
 
         {tab === 'troops' && (
           <div className="space-y-1">
             <StatRow label="HP" value={`${char.hp}/${char.maxHp}`} />
-            <StatRow label="병사" value={`${char.troops}/${char.maxTroops}`} />
-            <StatRow label="사기" value={char.morale} />
+            <StatRow label={tS('charInfo.troopsLabel')} value={`${char.troops}/${char.maxTroops}`} />
+            <StatRow label={tS('charInfo.moraleLabel')} value={char.morale} />
             {!isReadonly && !isLeader && (
               <StatRow
-                label="충성"
+                label={tS('charInfo.loyaltyLabel')}
                 value={char.loyaltyValue}
                 color={char.loyaltyValue >= 80 ? 'text-green-400' : char.loyaltyValue >= 50 ? 'text-amber-400' : 'text-red-400'}
               />
@@ -331,22 +336,18 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
         {tab === 'items' && (
           <div className="space-y-1.5">
             {(['weapons', 'horses', 'ships', 'charms'] as const).map(key => {
-              const labels: Record<string, { name: string; icon: string; max: number }> = {
-                weapons: { name: '무기', icon: '⚔️', max: 10000 },
-                horses: { name: '군마', icon: '🐎', max: 1000 },
-                ships: { name: '조선', icon: '⛵', max: 1000 },
-                charms: { name: '부적', icon: '📿', max: 1000 },
-              }
-              const info = labels[key]
+              const icons: Record<string, string> = { weapons: '⚔️', horses: '🐎', ships: '⛵', charms: '📿' }
+              const maxValues: Record<string, number> = { weapons: 10000, horses: 1000, ships: 1000, charms: 1000 }
               const val = char.equipment[key]
+              const max = maxValues[key]
               return (
                 <div key={key} className="space-y-0.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-stone-400">{info.icon} {info.name}</span>
-                    <span className="text-[10px] text-stone-200">{val.toLocaleString()}/{info.max.toLocaleString()}</span>
+                    <span className="text-[10px] text-stone-400">{icons[key]} {tS(`equip.${key}`)}</span>
+                    <span className="text-[10px] text-stone-200">{val.toLocaleString()}/{max.toLocaleString()}</span>
                   </div>
                   <div className="h-1 bg-stone-700 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500/70 rounded-full" style={{ width: `${Math.min(100, val / info.max * 100)}%` }} />
+                    <div className="h-full bg-amber-500/70 rounded-full" style={{ width: `${Math.min(100, val / max * 100)}%` }} />
                   </div>
                 </div>
               )
@@ -354,7 +355,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
           </div>
         )}
 
-        {tab === 'bio' && <BioTab char={char} />}
+        {tab === 'bio' && <BioTab char={char} tS={tS} />}
       </div>
 
       {/* 커스텀 푸터 */}

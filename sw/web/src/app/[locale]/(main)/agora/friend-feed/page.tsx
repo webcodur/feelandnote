@@ -6,6 +6,7 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { createClient } from "@/lib/supabase/server";
 import FriendFeedSection from "@/components/features/agora/FriendFeedSection";
 
@@ -75,7 +76,11 @@ async function FriendFeedServer() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  return <FriendFeedSection userId={user?.id} />;
+  return (
+    <AsyncIntlProvider>
+      <FriendFeedSection userId={user?.id} />
+    </AsyncIntlProvider>
+  );
 }
 
 export default function FriendFeedPage() {

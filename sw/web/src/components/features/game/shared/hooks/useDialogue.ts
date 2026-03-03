@@ -6,6 +6,7 @@
 "use client";
 
 import { useCallback, useRef } from "react";
+import { useLocale } from "next-intl";
 import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/types";
 import { VARIANTS_PER_LINE } from "@/lib/game/voice/types";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
@@ -40,12 +41,26 @@ interface UseDialogueOptions {
 
 export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseDialogueOptions) {
   const keyCounter = useRef(0);
+  const locale = useLocale() as 'ko' | 'en';
+  /** 직전 사용 인덱스 기록 (키: "celebId:type" 또는 "default:key:tone") */
+  const lastIndexRef = useRef<Map<string, number>>(new Map());
+
+  /** count 개 중 lastIdx를 제외하고 랜덤 선택 */
+  const pickAvoidLast = (count: number, mapKey: string): number => {
+    const last = lastIndexRef.current.get(mapKey);
+    if (count <= 1) { lastIndexRef.current.set(mapKey, 0); return 0; }
+    let idx: number;
+    do { idx = Math.floor(Math.random() * count); } while (idx === last);
+    lastIndexRef.current.set(mapKey, idx);
+    return idx;
+  };
 
   const showDialogue = useCallback((celebId: string, tone: SpeechTone, type: DialogueType, meta?: DialogueCharacterMeta) => {
     if (sfxMutedRef.current) return;
     if (!onSubtitle) return;
 
-    const index = Math.floor(Math.random() * VARIANTS_PER_LINE);
+    const mapKey = `${celebId}:${type}`;
+    const index = pickAvoidLast(VARIANTS_PER_LINE, mapKey);
 
     const personal = personalDialogues?.get(celebId);
     const raw = personal?.[type]?.[index];
@@ -62,26 +77,29 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseD
     }
 
     // 개인 대사 없으면 defaultLines 폴백
-    const fallback = defaultLinesData[type]?.[tone];
+    const fallback = defaultLinesData[locale][type]?.[tone];
     if (fallback?.length) {
+      const fbKey = `default:${type}:${tone}`;
+      const fbIdx = pickAvoidLast(fallback.length, fbKey);
       onSubtitle({
         key: ++keyCounter.current,
         tone,
-        text: fallback[Math.floor(Math.random() * fallback.length)],
+        text: fallback[fbIdx],
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
       });
     }
-  }, [sfxMutedRef, onSubtitle, personalDialogues]);
+  }, [sfxMutedRef, onSubtitle, personalDialogues, locale]);
 
   /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
   const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {
     if (sfxMutedRef.current) return;
 
-    const lines = defaultLinesData[key]?.[tone];
+    const lines = defaultLinesData[locale][key]?.[tone];
     if (!lines?.length || !onSubtitle) return;
 
-    const raw = lines[Math.floor(Math.random() * lines.length)];
+    const mapKey = `default:${key}:${tone}`;
+    const raw = lines[pickAvoidLast(lines.length, mapKey)];
     onSubtitle({
       key: Date.now(),
       tone,
@@ -89,7 +107,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseD
       nickname: meta?.nickname,
       avatarUrl: meta?.avatarUrl,
     });
-  }, [sfxMutedRef, onSubtitle]);
+  }, [sfxMutedRef, onSubtitle, locale]);
 
   return { showDialogue, showDefaultLine };
 }

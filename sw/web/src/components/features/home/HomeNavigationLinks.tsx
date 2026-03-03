@@ -1,9 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Users, BookOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function HomeNavigationLinks() {
+  const t = useTranslations("home.ui.navLinks");
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Link
@@ -14,10 +16,10 @@ export function HomeNavigationLinks() {
           <Users size={24} strokeWidth={1.5} />
         </div>
         <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent transition-colors">
-          더 많은 인물 보기
+          {t("moreCelebs")}
         </h3>
         <p className="text-sm text-text-tertiary">
-          시대와 분야를 아우르는 인물들을 만나보세요
+          {t("moreCelebsDesc")}
         </p>
       </Link>
 
@@ -29,10 +31,10 @@ export function HomeNavigationLinks() {
           <BookOpen size={24} strokeWidth={1.5} />
         </div>
         <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent transition-colors">
-          더 많은 자료 보기
+          {t("moreResources")}
         </h3>
         <p className="text-sm text-text-tertiary">
-          인물들이 남긴 지혜의 기록을 탐색하세요
+          {t("moreResourcesDesc")}
         </p>
       </Link>
     </div>

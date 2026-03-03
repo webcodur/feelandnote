@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { ArrowLeft, Eye, Edit3, Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
@@ -25,9 +25,10 @@ export default function NoticeDetail({
   currentUserId
 }: NoticeDetailProps) {
   const router = useRouter()
+  const t = useTranslations('board')
 
   const handleDelete = async () => {
-    if (!confirm('공지사항을 삭제하시겠습니까?')) return
+    if (!confirm(t('notice.deleteConfirm'))) return
     const result = await deleteNotice(notice.id)
     if (result.success) {
       router.push('/agora/board/notice')
@@ -44,7 +45,7 @@ export default function NoticeDetail({
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
-        목록으로
+        {t('backToList')}
       </Link>
 
       {/* 헤더 영역 */}
@@ -71,7 +72,7 @@ export default function NoticeDetail({
               <Link href={`/agora/board/notice/${notice.id}/edit`}>
                 <Button variant="ghost" size="sm" className="font-serif">
                   <Edit3 size={14} />
-                  수정
+                  {t('edit')}
                 </Button>
               </Link>
               <Button
@@ -81,7 +82,7 @@ export default function NoticeDetail({
                 className="text-red-400 hover:text-red-300 font-serif"
               >
                 <Trash2 size={14} />
-                삭제
+                {t('delete')}
               </Button>
             </div>
           )}

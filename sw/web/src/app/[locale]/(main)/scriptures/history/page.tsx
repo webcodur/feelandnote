@@ -6,11 +6,20 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import ContentHistoryTimeline from "@/components/features/scriptures/history/ContentHistoryTimeline";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.history");
   return { title: t("metaTitle"), description: t("metaDescription") };
+}
+
+async function HistoryContent() {
+  return (
+    <AsyncIntlProvider>
+      <ContentHistoryTimeline />
+    </AsyncIntlProvider>
+  );
 }
 
 export default function HistoryPage() {
@@ -21,7 +30,7 @@ export default function HistoryPage() {
            <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
         </div>
       }>
-        <ContentHistoryTimeline />
+        <HistoryContent />
       </Suspense>
     </div>
   );

@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { BarChart3, List, ChevronLeft, ChevronRight } from "lucide-react";
 import { Modal, ModalBody } from "@/components/ui";
 import { getInfluenceDistribution } from "@/actions/home";
@@ -18,6 +18,7 @@ import {
   getMaterialFromAura,
 } from "@/constants/materials";
 import { getCelebProfileUrl } from "@/lib/url";
+import { useTranslations } from "next-intl";
 
 interface InfluenceDistributionModalProps {
   isOpen: boolean;
@@ -26,21 +27,8 @@ interface InfluenceDistributionModalProps {
 
 type ViewMode = "chart" | "table";
 
-// #region Helpers
-const getScoreRangeLabel = (aura: Aura): string => {
-  switch (aura) {
-    case 9: return "81점 +";
-    case 8: return "71 ~ 80점";
-    case 7: return "61 ~ 70점";
-    case 6: return "51 ~ 60점";
-    case 5: return "41 ~ 50점";
-    case 4: return "31 ~ 40점";
-    case 3: return "21 ~ 30점";
-    case 2: return "11 ~ 20점";
-    case 1: return "~ 10점";
-    default: return "";
-  }
-};
+// #region Types
+type TranslationFn = (key: string, values?: Record<string, string | number | Date>) => string;
 // #endregion
 
 // #region Components
@@ -50,12 +38,14 @@ function AuraListItem({
   total,
   celebs,
   onClick,
+  t,
 }: {
   aura: Aura;
   count: number;
   total: number;
   celebs: { id: string; nickname: string; avatar_url: string | null }[];
   onClick: () => void;
+  t: TranslationFn;
 }) {
   const mat = getMaterialFromAura(aura);
   const percentage = total > 0 ? ((count / total) * 100).toFixed(1) : "0";
@@ -86,7 +76,7 @@ function AuraListItem({
       <div className="flex-1 min-w-0 flex flex-col justify-center">
          <div className="flex items-center gap-2 mb-1">
             <span className="font-bold text-text-primary text-sm">{mat.auraTitleKo}</span>
-            <span className="text-xs text-text-tertiary bg-bg-secondary px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">{getScoreRangeLabel(aura)}</span>
+            <span className="text-xs text-text-tertiary bg-bg-secondary px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">{t(`scoreRanges.${aura}`)}</span>
          </div>
          {/* Distribution Bar */}
          <div className="w-full h-1 bg-bg-secondary rounded-full overflow-hidden">
@@ -135,7 +125,7 @@ function AuraListItem({
 
       {/* Stats */}
       <div className="text-right shrink-0 min-w-[50px] flex flex-col items-end">
-         <div className="font-bold text-text-primary text-sm">{count}명</div>
+         <div className="font-bold text-text-primary text-sm">{t("countUnit", { count })}</div>
          <div className="text-[10px] text-text-tertiary">{percentage}%</div>
       </div>
 
@@ -144,9 +134,9 @@ function AuraListItem({
   );
 }
 
-function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCelebClick: (celeb: { id: string; slug: string | null }) => void }) {
+function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; onCelebClick: (celeb: { id: string; slug: string | null }) => void; t: TranslationFn }) {
   if (ranking.length === 0) {
-     return <div className="h-full flex items-center justify-center text-text-tertiary text-sm">해당 등급의 셀럽이 없습니다.</div>;
+     return <div className="h-full flex items-center justify-center text-text-tertiary text-sm">{t("empty.noAuraCelebs")}</div>;
   }
 
   return (
@@ -187,7 +177,7 @@ function RankingTable({ ranking, onCelebClick }: { ranking: RankedCeleb[]; onCel
                 </div>
                 
                 <div className="text-right">
-                  <div className="font-bold text-sm text-text-primary">{celeb.total_score}점</div>
+                  <div className="font-bold text-sm text-text-primary">{t("scoreUnit", { score: celeb.total_score })}</div>
                   <div className="flex items-center justify-end gap-1 mt-0.5">
                     <span 
                       className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold border border-black/5"
@@ -218,7 +208,7 @@ function LoadingSkeleton() {
   );
 }
 
-function ViewToggle({ mode, onChange }: { mode: ViewMode; onChange: (mode: ViewMode) => void }) {
+function ViewToggle({ mode, onChange, t }: { mode: ViewMode; onChange: (mode: ViewMode) => void; t: TranslationFn }) {
   return (
     <div className="flex justify-center gap-1 p-1 bg-bg-card border border-border rounded-lg mb-4 h-10 shrink-0">
       <button
@@ -228,7 +218,7 @@ function ViewToggle({ mode, onChange }: { mode: ViewMode; onChange: (mode: ViewM
         }`}
       >
         <BarChart3 size={14} />
-        <span>등급별 분포</span>
+        <span>{t("gradeDistribution")}</span>
       </button>
       <button
         onClick={() => onChange("table")}
@@ -237,7 +227,7 @@ function ViewToggle({ mode, onChange }: { mode: ViewMode; onChange: (mode: ViewM
         }`}
       >
         <List size={14} />
-        <span>전체 순위</span>
+        <span>{t("fullRanking")}</span>
       </button>
     </div>
   );
@@ -246,6 +236,7 @@ function ViewToggle({ mode, onChange }: { mode: ViewMode; onChange: (mode: ViewM
 
 export default function InfluenceDistributionModal({ isOpen, onClose }: InfluenceDistributionModalProps) {
   const router = useRouter();
+  const t = useTranslations("explore.ui");
   const [distribution, setDistribution] = useState<InfluenceDistribution | null>(null);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("chart");
@@ -292,7 +283,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
   if (!isOpen) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="영향력 분포" size="md">
+    <Modal isOpen={isOpen} onClose={onClose} title={t("influenceDistribution")} size="md">
       <ModalBody>
         <div className="h-[550px] flex flex-col">
             {/* 헤더 및 네비게이션 */}
@@ -322,7 +313,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
                             </h3>
                         </div>
                         <div className="text-xs text-text-tertiary mt-1">
-                            점수 구간: {getScoreRangeLabel(selectedAura)}
+                            {t("scoreRange")}: {t(`scoreRanges.${selectedAura}`)}
                         </div>
                     </div>
                 </div>
@@ -331,7 +322,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
             )}
 
             {/* 뷰 토글 (메인 화면에서만 노출) */}
-            {!selectedAura && <ViewToggle mode={viewMode} onChange={setViewMode} />}
+            {!selectedAura && <ViewToggle mode={viewMode} onChange={setViewMode} t={t} />}
 
             {/* 컨텐츠 영역 */}
             <div className="flex-1 overflow-hidden relative">
@@ -353,6 +344,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
                                             total={distribution.total}
                                             celebs={topCelebsForAura?.celebs ?? []}
                                             onClick={() => handleLevelClick(aura)}
+                                            t={t}
                                         />
                                     );
                                 })}
@@ -361,7 +353,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
 
                         {/* 테이블 뷰 (전체 랭킹) OR 상세 뷰 (특정 오라 랭킹) */}
                         {(viewMode === "table" || selectedAura) && (
-                            <RankingTable ranking={filteredRanking} onCelebClick={handleCelebClick} />
+                            <RankingTable ranking={filteredRanking} onCelebClick={handleCelebClick} t={t} />
                         )}
                     </div>
                 ) : null}

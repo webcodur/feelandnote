@@ -6,6 +6,7 @@
 
 "use client";
 
+import { useTranslations } from "next-intl";
 import { X, MousePointer2, BookOpen, Timer, Sparkles, StickyNote, FileText } from "lucide-react";
 
 interface Props {
@@ -14,34 +15,17 @@ interface Props {
 }
 
 const FEATURES = [
-  {
-    icon: BookOpen,
-    title: "책 선택 (선택사항)",
-    description: "상단의 책 검색 버튼으로 현재 읽고 있는 책을 선택할 수 있습니다. 선택하지 않아도 됩니다.",
-  },
-  {
-    icon: Timer,
-    title: "자동 시간 측정",
-    description: "페이지에 들어오면 자동으로 타이머가 시작됩니다. 일시정지, 초기화가 가능합니다.",
-  },
-  {
-    icon: FileText,
-    title: "메인 노트",
-    description: "포스트잇 외에 긴 글을 작성할 수 있는 메인 노트가 있습니다. 전체 화면으로 확장 가능합니다.",
-  },
-  {
-    icon: Sparkles,
-    title: "AI 질문",
-    description: "Gemini API 키를 설정하면 AI에게 책 관련 질문을 할 수 있습니다. 창에 떠 있는 모든 메모가 함께 전달됩니다.",
-  },
-  {
-    icon: StickyNote,
-    title: "자동 저장",
-    description: "모든 메모는 브라우저 로컬 스토리지에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기로 접근 시 메모를 볼 수 없습니다.",
-  },
-];
+  { icon: BookOpen, titleKey: "bookSelect", descKey: "bookSelectDesc" },
+  { icon: Timer, titleKey: "autoTimer", descKey: "autoTimerDesc" },
+  { icon: FileText, titleKey: "mainNote", descKey: "mainNoteDesc" },
+  { icon: Sparkles, titleKey: "aiQuestion", descKey: "aiQuestionDesc" },
+  { icon: StickyNote, titleKey: "autoSave", descKey: "autoSaveDesc" },
+] as const;
 
 export default function OnboardingModal({ isOpen, onClose }: Props) {
+  const t = useTranslations("reading.onboarding");
+  const tf = useTranslations("reading.onboarding.features");
+
   if (!isOpen) return null;
 
   return (
@@ -50,8 +34,8 @@ export default function OnboardingModal({ isOpen, onClose }: Props) {
         {/* 헤더 */}
         <div className="flex items-center justify-between border-b border-border p-4">
           <div>
-            <h2 className="text-lg font-semibold">📖 독서 모드 안내</h2>
-            <p className="text-sm text-text-secondary">집중해서 독서하고 생각을 기록하세요</p>
+            <h2 className="text-lg font-semibold">{t("title")}</h2>
+            <p className="text-sm text-text-secondary">{t("subtitle")}</p>
           </div>
           <button
             onClick={onClose}
@@ -70,8 +54,8 @@ export default function OnboardingModal({ isOpen, onClose }: Props) {
                   <feature.icon className="size-5 text-accent" />
                 </div>
                 <div>
-                  <p className="font-medium">{feature.title}</p>
-                  <p className="text-sm text-text-secondary">{feature.description}</p>
+                  <p className="font-medium">{tf(feature.titleKey)}</p>
+                  <p className="text-sm text-text-secondary">{tf(feature.descKey)}</p>
                 </div>
               </li>
             ))}
@@ -84,10 +68,10 @@ export default function OnboardingModal({ isOpen, onClose }: Props) {
             onClick={onClose}
             className="w-full rounded-lg bg-accent py-2.5 font-medium text-white hover:bg-accent-hover"
           >
-            시작하기
+            {t("startButton")}
           </button>
           <p className="mt-2 text-center text-xs text-text-secondary">
-            우측 사이드바 하단의 버튼으로 다시 볼 수 있습니다
+            {t("reopenHint")}
           </p>
         </div>
       </div>

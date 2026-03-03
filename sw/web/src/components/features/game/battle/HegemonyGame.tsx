@@ -6,6 +6,7 @@
 "use client";
 
 import { useCallback, useRef, useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
@@ -13,13 +14,13 @@ import { useBattleAudio } from "./hooks/useBattleAudio";
 import BattleGame from "./BattleGame";
 import GameBackground from "./GameBackground";
 
-const PHASE_LABEL: Record<string, string> = {
-  idle: "로비",
-  loading: "로딩",
-  draft: "드래프트",
-  captain: "주장 선택",
-  battle: "대전",
-  result: "결과",
+const PHASE_LABEL_KEYS: Record<string, string> = {
+  idle: "lobby",
+  loading: "loading",
+  draft: "draft",
+  captain: "captain",
+  battle: "battle",
+  result: "result",
 };
 
 interface Props {
@@ -27,6 +28,8 @@ interface Props {
 }
 
 export default function HegemonyGame({ bgImages }: Props) {
+  const t = useTranslations("shared.game");
+  const tArena = useTranslations("rest.arena.hegemony");
   const { setBgm, playSfx, stopAll, audioControls, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted } = useBattleAudio();
   const homeRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
@@ -39,13 +42,13 @@ export default function HegemonyGame({ bgImages }: Props) {
   }, [stopAll, setBgm]);
 
   const breadcrumbs = useMemo((): BreadcrumbItem[] => {
-    const items: BreadcrumbItem[] = [{ label: "패권", onClick: handleHome }];
-    const phaseLabel = PHASE_LABEL[phase];
-    if (phaseLabel && phase !== "idle") {
-      items.push({ label: phaseLabel });
+    const items: BreadcrumbItem[] = [{ label: tArena("label"), onClick: handleHome }];
+    const phaseKey = PHASE_LABEL_KEYS[phase];
+    if (phaseKey && phase !== "idle") {
+      items.push({ label: t(`phase.${phaseKey}`) });
     }
     return items;
-  }, [phase, handleHome]);
+  }, [phase, handleHome, tArena, t]);
 
   return (
     <GameFullScreen
@@ -54,6 +57,8 @@ export default function HegemonyGame({ bgImages }: Props) {
       onExitFullScreen={stopAll}
       onHome={handleHome}
       background={<GameBackground phase={phase} playerWins={playerWins} bgImages={bgImages} />}
+      exitLabel={t("exit")}
+      exitEscLabel={t("exitEsc")}
     >
       {({ enterFullScreen, exitFullScreen, isFullScreen }) => (
         <BattleGame

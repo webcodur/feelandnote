@@ -50,6 +50,7 @@ export default function CelebFilter({ defaultValues }: CelebFilterProps) {
           >
             <option value="all">모든 상태</option>
             <option value="active">활성</option>
+            <option value="inactive">미검수</option>
             <option value="suspended">정지</option>
           </select>
 

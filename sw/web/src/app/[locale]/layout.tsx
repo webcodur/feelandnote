@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale, getMessages, getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { getAlternates } from "@/lib/seo";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -27,12 +28,14 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | Feel&Note",
     },
     description: t("description"),
+    alternates: getAlternates("/"),
     openGraph: {
       title: t("title"),
       description: t("description"),
       url: "https://feelandnote.com",
       siteName: "Feel&Note",
       locale: ogLocale,
+      alternateLocale: locale === "ko" ? "en_US" : "ko_KR",
       type: "website",
       images: [
         {

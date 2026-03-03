@@ -32,6 +32,7 @@ export async function createCelebProfile(params: CreateCelebProfileParams) {
       profession: params.profession ?? null,
       avatar_url: params.avatarUrl ?? null,
       profile_type: 'CELEB',
+      status: 'inactive',
       is_verified: false,
       email: null
     })

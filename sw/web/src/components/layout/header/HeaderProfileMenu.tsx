@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { RomanGateIcon, BustIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
+import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
 import { Z_INDEX } from "@/constants/zIndex";
 import { createClient } from "@/lib/supabase/client";
@@ -65,6 +66,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
                 <RomanGateIcon size={16} className="text-text-secondary" />
                 {t("login")}
               </Link>
+              <LocaleSwitcher variant="menu" />
             </div>
           </div>
         )}
@@ -105,6 +107,11 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
               <BustIcon size={16} className="text-text-secondary" />
               {t("myPage")}
             </Link>
+          </div>
+
+          {/* 언어 전환 */}
+          <div className="border-t border-border py-1">
+            <LocaleSwitcher variant="menu" />
           </div>
 
           {/* 로그아웃 */}

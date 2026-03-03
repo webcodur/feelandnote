@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import type { BuildingCard as BuildingCardType, GameCharacter } from '@/lib/game/suikoden/types'
 import { BUILDINGS, BUILDING_CATEGORY, BUILDING_CATEGORY_INFO } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function BuildingCard({ card, character, onAssign, onUnassign, onDemolish }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const bDef = BUILDINGS.find(b => b.id === card.defId)
   if (!bDef) return null
 
@@ -21,15 +23,15 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
 
   const effectLines: string[] = []
   const e = bDef.effect
-  if (e.goldPerTurn) effectLines.push(`🪙 +${e.goldPerTurn}/턴`)
-  if (e.foodPerTurn) effectLines.push(`🌾 +${e.foodPerTurn}/턴`)
-  if (e.knowledgePerTurn) effectLines.push(`📚 +${e.knowledgePerTurn}/턴`)
-  if (e.materialPerTurn) effectLines.push(`🪵 +${e.materialPerTurn}/턴`)
-  if (e.troopsPerTurn) effectLines.push(`⚔️ +${e.troopsPerTurn}/턴`)
-  if (e.moralePerTurn) effectLines.push(`❤️ +${e.moralePerTurn}/턴`)
-  if (e.defenseBonus) effectLines.push(`🛡️ 방어 +${e.defenseBonus}%`)
-  if (e.special === 'training') effectLines.push('🎯 훈련')
-  if (e.special === 'weapons') effectLines.push('⚔️ 무장')
+  if (e.goldPerTurn) effectLines.push(`🪙 +${e.goldPerTurn}${tS('mgmt.perTurn')}`)
+  if (e.foodPerTurn) effectLines.push(`🌾 +${e.foodPerTurn}${tS('mgmt.perTurn')}`)
+  if (e.knowledgePerTurn) effectLines.push(`📚 +${e.knowledgePerTurn}${tS('mgmt.perTurn')}`)
+  if (e.materialPerTurn) effectLines.push(`🪵 +${e.materialPerTurn}${tS('mgmt.perTurn')}`)
+  if (e.troopsPerTurn) effectLines.push(`⚔️ +${e.troopsPerTurn}${tS('mgmt.perTurn')}`)
+  if (e.moralePerTurn) effectLines.push(`❤️ +${e.moralePerTurn}${tS('mgmt.perTurn')}`)
+  if (e.defenseBonus) effectLines.push(`🛡️ ${tS('mgmt.defenseBonus', { value: e.defenseBonus })}`)
+  if (e.special === 'training') effectLines.push(`🎯 ${tS('mgmt.training')}`)
+  if (e.special === 'weapons') effectLines.push(`⚔️ ${tS('mgmt.armorLabel')}`)
 
   return (
     <div
@@ -39,7 +41,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
       {/* 건설 중 오버레이 */}
       {card.isConstructing && (
         <div className="absolute inset-0 bg-stone-900/60 flex flex-col items-center justify-center rounded z-10">
-          <span className="text-[10px] text-amber-500/80 font-bold">건설 {bDef.buildTurns - card.constructionTurnsLeft}/{bDef.buildTurns}</span>
+          <span className="text-[10px] text-amber-500/80 font-bold">{tS('mgmt.buildProgress', { current: bDef.buildTurns - card.constructionTurnsLeft, total: bDef.buildTurns })}</span>
         </div>
       )}
 
@@ -47,7 +49,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
       <div className="flex items-center gap-1.5">
         <span className="text-base">{bDef.icon}</span>
         <div className="flex-1 min-w-0">
-          <div className="text-[11px] font-bold text-stone-200 truncate">{bDef.name}</div>
+          <div className="text-[11px] font-bold text-stone-200 truncate">{tS(`bldg.${bDef.id}`)}</div>
           <div className="text-[9px] text-stone-500">{effectLines.join(' · ')}</div>
         </div>
       </div>
@@ -63,7 +65,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
                 <button
                   onClick={onUnassign}
                   className="text-[9px] text-stone-500 hover:text-red-400 px-1"
-                  title="해제"
+                  title={tS('mgmt.unassign')}
                 >
                   ✕
                 </button>
@@ -75,7 +77,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
                 onClick={onAssign}
                 className="w-full text-[10px] text-stone-500 hover:text-amber-400 py-0.5 border border-dashed border-stone-600 rounded"
               >
-                + 배치
+                {tS('mgmt.assignWorker')}
               </button>
             )
           )}
@@ -87,7 +89,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
         <button
           onClick={onDemolish}
           className="absolute top-1 right-1 text-[9px] text-stone-600 hover:text-red-400"
-          title="철거"
+          title={tS('mgmt.demolish')}
         >
           🗑️
         </button>

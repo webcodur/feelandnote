@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Check, X, Star } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { respondRecommendation } from "@/actions/recommendations";
@@ -21,6 +22,8 @@ export default function RecommendationCard({
   recommendation,
   onRespond,
 }: RecommendationCardProps) {
+  const t = useTranslations("recommendation");
+  const tTime = useTranslations("contentDetail.relativeTime");
   const [isResponding, setIsResponding] = useState(false);
   const [responded, setResponded] = useState(false);
   const [accepted, setAccepted] = useState(false);
@@ -65,11 +68,11 @@ export default function RecommendationCard({
           </div>
           <div>
             <p className="text-sm text-text-primary font-medium">
-              {accepted ? "추천을 수락했습니다" : "추천을 거절했습니다"}
+              {accepted ? t("accepted") : t("rejected")}
             </p>
             {accepted && (
               <p className="text-xs text-text-tertiary">
-                원하는 목록에 추가되었습니다
+                {t("addedToList")}
               </p>
             )}
           </div>
@@ -79,7 +82,7 @@ export default function RecommendationCard({
   }
 
   // 시간 포맷팅
-  const timeAgo = getTimeAgo(new Date(created_at));
+  const timeAgo = getTimeAgo(new Date(created_at), tTime);
 
   return (
     <div className="p-4 bg-surface rounded-xl space-y-3">
@@ -100,7 +103,7 @@ export default function RecommendationCard({
         )}
         <div className="flex-1 min-w-0">
           <p className="text-sm text-text-primary font-medium">
-            {sender.nickname}님의 추천
+            {t("fromUser", { nickname: sender.nickname })}
           </p>
           <p className="text-xs text-text-tertiary">{timeAgo}</p>
         </div>
@@ -152,7 +155,7 @@ export default function RecommendationCard({
           className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium bg-white/5 hover:bg-white/10 text-text-secondary border border-border disabled:opacity-50"
         >
           <X size={16} />
-          거절
+          {t("reject")}
         </Button>
         <Button
           unstyled
@@ -161,7 +164,7 @@ export default function RecommendationCard({
           className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium bg-accent hover:bg-accent-hover text-white disabled:opacity-50"
         >
           <Check size={16} />
-          수락
+          {t("accept")}
         </Button>
       </div>
     </div>
@@ -169,7 +172,7 @@ export default function RecommendationCard({
 }
 
 // 시간 포맷팅 헬퍼
-function getTimeAgo(date: Date): string {
+function getTimeAgo(date: Date, t: (key: string, params?: Record<string, number>) => string): string {
   const now = new Date();
   const diff = now.getTime() - date.getTime();
 
@@ -177,13 +180,10 @@ function getTimeAgo(date: Date): string {
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-  if (minutes < 1) return "방금 전";
-  if (minutes < 60) return `${minutes}분 전`;
-  if (hours < 24) return `${hours}시간 전`;
-  if (days < 7) return `${days}일 전`;
+  if (minutes < 1) return t("justNow");
+  if (minutes < 60) return t("minutesAgo", { minutes });
+  if (hours < 24) return t("hoursAgo", { hours });
+  if (days < 7) return t("daysAgo", { days });
 
-  return date.toLocaleDateString("ko-KR", {
-    month: "short",
-    day: "numeric",
-  });
+  return date.toLocaleDateString();
 }

@@ -7,10 +7,11 @@ import { FormattedText } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
+import { useTranslations } from "next-intl";
 import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 
 // #region 유틸
-function formatRelativeTime(dateString: string): string {
+function formatRelativeTime(dateString: string, t: (key: string, params?: Record<string, number>) => string): string {
   const date = new Date(dateString);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -18,11 +19,11 @@ function formatRelativeTime(dateString: string): string {
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  if (diffMinutes < 1) return "방금 전";
-  if (diffMinutes < 60) return `${diffMinutes}분 전`;
-  if (diffHours < 24) return `${diffHours}시간 전`;
-  if (diffDays < 7) return `${diffDays}일 전`;
-  return date.toLocaleDateString("ko-KR");
+  if (diffMinutes < 1) return t("justNow");
+  if (diffMinutes < 60) return t("minutesAgo", { minutes: diffMinutes });
+  if (diffHours < 24) return t("hoursAgo", { hours: diffHours });
+  if (diffDays < 7) return t("daysAgo", { days: diffDays });
+  return date.toLocaleDateString();
 }
 // #endregion
 
@@ -34,8 +35,10 @@ interface ReviewCardProps {
 
 export default function ReviewCard({ item, className = "", isExpanded = false }: ReviewCardProps) {
   const [showSpoiler, setShowSpoiler] = useState(false);
-  const nickname = item.user.nickname || "익명";
-  const timeAgo = formatRelativeTime(item.updated_at);
+  const t = useTranslations("contentDetail.review");
+  const tTime = useTranslations("contentDetail.relativeTime");
+  const nickname = item.user.nickname || t("anonymous");
+  const timeAgo = formatRelativeTime(item.updated_at, tTime);
 
   return (
     <div className={`bg-bg-card border border-border rounded-xl ${className}`}>
@@ -73,13 +76,13 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
         {item.is_spoiler && !showSpoiler ? (
           <Button unstyled onClick={() => setShowSpoiler(true)} className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary py-4 w-full justify-center bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
             <EyeOff size={14} />
-            <span>스포일러가 포함된 리뷰입니다. 클릭하여 보기</span>
+            <span>{t("spoilerWarning")}</span>
           </Button>
         ) : (
           <div className={`${isExpanded ? '' : 'max-h-[200px] md:max-h-[300px] overflow-y-auto custom-scrollbar'}`}>
             <div className="text-sm leading-relaxed text-text-secondary whitespace-pre-wrap">
               {item.is_spoiler && (
-                <Button unstyled onClick={() => setShowSpoiler(false)} className="inline-flex items-center gap-1 mr-1.5 text-red-400 hover:text-red-300 transition-colors" title="스포일러 다시 가리기">
+                <Button unstyled onClick={() => setShowSpoiler(false)} className="inline-flex items-center gap-1 mr-1.5 text-red-400 hover:text-red-300 transition-colors" title={t("hideSpoiler")}>
                   <EyeOff size={12} />
                 </Button>
               )}
@@ -95,7 +98,7 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
               rel="noopener noreferrer"
               className="text-[11px] text-text-tertiary hover:text-accent transition-colors flex items-center gap-1"
             >
-              <span className="opacity-50">출처:</span> {item.source_url}
+              <span className="opacity-50">{t("source")}</span> {item.source_url}
             </a>
           </div>
         )}

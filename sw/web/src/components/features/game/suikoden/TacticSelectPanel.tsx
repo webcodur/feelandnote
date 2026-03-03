@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import type { TacticType } from '@/lib/game/suikoden/types'
 import { TACTIC_INFO, TACTIC_MATCHUP } from '@/lib/game/suikoden/constants'
 
@@ -13,11 +14,12 @@ interface Props {
 const ALL_TACTICS: TacticType[] = ['charge', 'defend', 'stratagem', 'fire', 'morale', 'feint']
 
 export default function TacticSelectPanel({ availableTactics, selectedTactic, onSelect, disabled }: Props) {
+  const tS = useTranslations('rest.arena.suikoden')
   const availableSet = new Set(availableTactics)
 
   return (
     <div className="space-y-2">
-      <div className="text-xs font-bold text-stone-300">전술 선택</div>
+      <div className="text-xs font-bold text-stone-300">{tS('battle.selectTactic')}</div>
       <div className="grid grid-cols-3 gap-2">
         {ALL_TACTICS.map(tactic => {
           const info = TACTIC_INFO[tactic]
@@ -43,21 +45,21 @@ export default function TacticSelectPanel({ availableTactics, selectedTactic, on
             >
               <div className="flex items-center gap-1.5">
                 <span className="text-base">{info.icon}</span>
-                <span className="text-[11px] font-bold text-stone-200">{info.name}</span>
+                <span className="text-[11px] font-bold text-stone-200">{tS(`tactic.${tactic}`)}</span>
               </div>
-              <p className="text-[9px] text-stone-400 mt-1 leading-relaxed">{info.description}</p>
+              <p className="text-[9px] text-stone-400 mt-1 leading-relaxed">{tS(`tacticDesc.${tactic}`)}</p>
 
               {/* 상성 표시 */}
               {isAvailable && (
                 <div className="mt-1.5 space-y-0.5">
                   {advantages.length > 0 && (
                     <div className="text-[8px] text-green-400">
-                      ▲ {advantages.map(t => TACTIC_INFO[t].name).join(', ')}
+                      ▲ {advantages.map(t => tS(`tactic.${t}`)).join(', ')}
                     </div>
                   )}
                   {disadvantages.length > 0 && (
                     <div className="text-[8px] text-red-400">
-                      ▼ {disadvantages.map(t => TACTIC_INFO[t].name).join(', ')}
+                      ▼ {disadvantages.map(t => tS(`tactic.${t}`)).join(', ')}
                     </div>
                   )}
                 </div>
@@ -66,7 +68,7 @@ export default function TacticSelectPanel({ availableTactics, selectedTactic, on
               {/* 병력 소모율 */}
               {isAvailable && info.troopCostRate > 0 && (
                 <div className="text-[8px] text-stone-500 mt-0.5">
-                  소모 {Math.round(info.troopCostRate * 100)}%
+                  {tS('battle.troopCost', { rate: Math.round(info.troopCostRate * 100) })}
                 </div>
               )}
             </button>

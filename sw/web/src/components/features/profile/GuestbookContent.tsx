@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Pagination } from "@/components/ui";
 import { MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
@@ -23,6 +24,7 @@ export default function GuestbookContent({
   initialEntries,
   initialTotal,
 }: GuestbookContentProps) {
+  const t = useTranslations("profileSection.guestbook");
   const [entries, setEntries] = useState(initialEntries.slice(0, PAGE_SIZE));
   const [total, setTotal] = useState(initialTotal);
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +55,7 @@ export default function GuestbookContent({
   }, []);
 
   const handleDeleteEntry = useCallback(async (id: string) => {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
+    if (!confirm(t("deleteConfirm"))) return;
 
     try {
       await deleteGuestbookEntry(id);
@@ -61,7 +63,7 @@ export default function GuestbookContent({
       setTotal((prev) => prev - 1);
     } catch (error) {
       console.error("Delete guestbook entry error:", error);
-      alert("삭제에 실패했습니다");
+      alert(t("deleteFailed"));
     }
   }, []);
 
@@ -74,7 +76,7 @@ export default function GuestbookContent({
         );
       } catch (error) {
         console.error("Update guestbook entry error:", error);
-        alert("수정에 실패했습니다");
+        alert(t("updateFailed"));
       }
     },
     []
@@ -114,7 +116,7 @@ export default function GuestbookContent({
       ) : (
         <div className="text-center py-10">
           <MessageSquare size={20} strokeWidth={1.5} className="mx-auto mb-2 text-text-tertiary/15" />
-          <p className="text-xs text-text-tertiary/40 font-sans">아직 방명록이 비어있습니다.</p>
+          <p className="text-xs text-text-tertiary/40 font-sans">{t("empty")}</p>
         </div>
       )}
     </>

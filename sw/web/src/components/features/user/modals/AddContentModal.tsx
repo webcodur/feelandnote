@@ -7,7 +7,8 @@
 
 import { useState, useTransition } from "react";
 import { Loader2, Info, Search, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import { Button } from "@/components/ui";
 import { addContent } from "@/actions/contents/addContent";
@@ -22,6 +23,7 @@ interface AddContentModalProps {
 }
 
 export default function AddContentModal({ isOpen, onClose, onSuccess }: AddContentModalProps) {
+  const t = useTranslations("customContent");
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
   const [title, setTitle] = useState("");
@@ -44,7 +46,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
 
   const handleSubmit = () => {
     if (!title.trim()) {
-      setError("제목을 입력하세요.");
+      setError(t("titleRequired"));
       return;
     }
 
@@ -66,7 +68,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         onSuccess?.();
         handleClose();
       } catch (err) {
-        setError(err instanceof Error ? err.message : "콘텐츠 추가 중 오류가 발생했습니다.");
+        setError(err instanceof Error ? err.message : t("addFailed"));
       }
     });
   };
@@ -88,7 +90,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="커스텀 등록"
+      title={t("modalTitle")}
       icon={Plus}
       size="lg"
       closeOnOverlayClick
@@ -106,9 +108,9 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
                 className="text-accent font-medium hover:underline inline-flex items-center gap-0.5"
               >
                 <Search size={11} />
-                검색
+                {t("search")}
               </Button>
-              에서 원하는 콘텐츠를 찾지 못했을 때 활용하세요.
+              {t("searchGuide")}
             </p>
           </div>
         </div>
@@ -123,7 +125,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         {/* 2열 레이아웃 폼 */}
         <div className="grid grid-cols-[80px_1fr] gap-x-4 gap-y-4 items-center">
           {/* 카테고리 */}
-          <label className="text-sm font-semibold text-text-secondary">카테고리</label>
+          <label className="text-sm font-semibold text-text-secondary">{t("category")}</label>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((category) => {
               const Icon = category.lucideIcon;
@@ -149,13 +151,13 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
 
           {/* 제목 */}
           <label className="text-sm font-semibold text-text-secondary">
-            제목 <span className="text-accent">*</span>
+            {t("titleLabel")} <span className="text-accent">*</span>
           </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="콘텐츠 제목을 입력하세요"
+            placeholder={t("titlePlaceholder")}
             className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
           />
 
@@ -167,12 +169,12 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
             type="text"
             value={creator}
             onChange={(e) => setCreator(e.target.value)}
-            placeholder={`${currentCategoryConfig.creatorLabel} (선택)`}
+            placeholder={t("creatorOptional", { label: currentCategoryConfig.creatorLabel })}
             className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
           />
 
           {/* 상태 */}
-          <label className="text-sm font-semibold text-text-secondary">상태</label>
+          <label className="text-sm font-semibold text-text-secondary">{t("status")}</label>
           <div className="flex gap-2">
             {STATUS_OPTIONS.map((option) => (
               <Button
@@ -195,7 +197,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
 
       <ModalFooter>
         <Button variant="secondary" onClick={handleClose} className="flex-1">
-          취소
+          {t("cancel")}
         </Button>
         <Button
           variant="primary"
@@ -203,7 +205,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           disabled={isAdding || !title.trim()}
           className="flex-1"
         >
-          {isAdding ? <Loader2 size={18} className="animate-spin" /> : "추가"}
+          {isAdding ? <Loader2 size={18} className="animate-spin" /> : t("add")}
         </Button>
       </ModalFooter>
     </Modal>

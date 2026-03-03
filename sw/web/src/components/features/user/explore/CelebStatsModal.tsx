@@ -8,8 +8,9 @@
 import { useState, useMemo } from "react";
 import { BarChart3, Users, Globe, BookOpen, User2 } from "lucide-react";
 import { Modal, ModalBody } from "@/components/ui";
-import { CELEB_PROFESSIONS, getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
+import { useTranslations } from "next-intl";
 
 // #region Types
 interface CelebStatsModalProps {
@@ -25,39 +26,39 @@ type TabId = "profession" | "nationality" | "content" | "gender";
 
 interface Tab {
   id: TabId;
-  label: string;
   icon: React.ElementType;
 }
 // #endregion
 
 // #region Constants
-const TABS: Tab[] = [
-  { id: "profession", label: "직군", icon: Users },
-  { id: "nationality", label: "국적", icon: Globe },
-  { id: "content", label: "콘텐츠", icon: BookOpen },
-  { id: "gender", label: "성별", icon: User2 },
+const TAB_KEYS: Tab[] = [
+  { id: "profession", icon: Users },
+  { id: "nationality", icon: Globe },
+  { id: "content", icon: BookOpen },
+  { id: "gender", icon: User2 },
 ];
 
-const CONTENT_TYPE_LABELS: Record<string, string> = {
-  BOOK: "도서",
-  VIDEO: "영상",
-  GAME: "게임",
-  MUSIC: "음악",
-  CERTIFICATE: "자격증",
+const TAB_LABEL_KEYS: Record<TabId, string> = {
+  profession: "tabProfession",
+  nationality: "tabNationality",
+  content: "tabContent",
+  gender: "tabGender",
 };
 // #endregion
 
 // #region Components
-function StatBar({ 
-  label, 
-  count, 
-  total, 
-  color = "var(--color-accent)" 
-}: { 
-  label: string; 
-  count: number; 
+function StatBar({
+  label,
+  count,
+  total,
+  color = "var(--color-accent)",
+  countLabel,
+}: {
+  label: string;
+  count: number;
   total: number;
   color?: string;
+  countLabel: string;
 }) {
   const percentage = total > 0 ? (count / total) * 100 : 0;
   const displayPercent = percentage.toFixed(1);
@@ -85,19 +86,21 @@ function StatBar({
         </span>
       </div>
       <div className="w-12 text-right text-xs text-text-tertiary shrink-0">
-        {count}명
+        {countLabel}
       </div>
     </div>
   );
 }
 
-function TabButton({ 
-  tab, 
-  isActive, 
-  onClick 
-}: { 
-  tab: Tab; 
-  isActive: boolean; 
+function TabButton({
+  tab,
+  label,
+  isActive,
+  onClick,
+}: {
+  tab: Tab;
+  label: string;
+  isActive: boolean;
   onClick: () => void;
 }) {
   const Icon = tab.icon;
@@ -112,24 +115,26 @@ function TabButton({
       }`}
     >
       <Icon size={15} />
-      <span>{tab.label}</span>
+      <span>{label}</span>
     </button>
   );
 }
 
-function ProfessionStats({ 
-  professionCounts 
-}: { 
+function ProfessionStats({
+  professionCounts,
+  t,
+  tp,
+}: {
   professionCounts: ProfessionCounts;
+  t: (key: string, values?: Record<string, string | number | Date>) => string;
+  tp: (key: string) => string;
 }) {
   const total = professionCounts.all || 0;
-  
-  // 직군별 카운트를 내림차순 정렬
+
   const sortedProfessions = useMemo(() => {
     return CELEB_PROFESSIONS
       .map(p => ({
         value: p.value,
-        label: p.label,
         count: professionCounts[p.value] || 0,
       }))
       .sort((a, b) => b.count - a.count);
@@ -140,21 +145,23 @@ function ProfessionStats({
       {sortedProfessions.map((p) => (
         <StatBar
           key={p.value}
-          label={p.label}
+          label={tp(p.value)}
           count={p.count}
           total={total}
+          countLabel={t("countUnit", { count: p.count })}
         />
       ))}
     </div>
   );
 }
 
-function NationalityStats({ 
-  nationalityCounts 
-}: { 
+function NationalityStats({
+  nationalityCounts,
+  t,
+}: {
   nationalityCounts: NationalityCounts;
+  t: (key: string, values?: Record<string, string | number | Date>) => string;
 }) {
-  // 'all'과 'none' 제외하고 상위 10개 국가만 표시
   const total = nationalityCounts.find(n => n.value === 'all')?.count || 0;
   const topNationalities = nationalityCounts
     .filter(n => n.value !== 'all' && n.value !== 'none')
@@ -169,25 +176,30 @@ function NationalityStats({
           count={n.count}
           total={total}
           color="#3b82f6"
+          countLabel={t("countUnit", { count: n.count })}
         />
       ))}
       {topNationalities.length === 0 && (
         <div className="text-center py-8 text-text-tertiary text-sm">
-          국적 데이터가 없습니다
+          {t("empty.noNationality")}
         </div>
       )}
     </div>
   );
 }
 
-function ContentTypeStats({ 
-  contentTypeCounts 
-}: { 
+function ContentTypeStats({
+  contentTypeCounts,
+  t,
+  tc,
+}: {
   contentTypeCounts: ContentTypeCounts;
+  t: (key: string, values?: Record<string, string | number | Date>) => string;
+  tc: (key: string) => string;
 }) {
   const total = contentTypeCounts.all || 0;
   const types = ["BOOK", "VIDEO", "GAME", "MUSIC", "CERTIFICATE"];
-  
+
   const CONTENT_COLORS: Record<string, string> = {
     BOOK: "#10b981",
     VIDEO: "#3b82f6",
@@ -201,7 +213,7 @@ function ContentTypeStats({
     return types
       .map(type => ({
         value: type,
-        label: CONTENT_TYPE_LABELS[type] || type,
+        label: tc(type.toLowerCase()),
         count: contentTypeCounts[type] || 0,
         color: CONTENT_COLORS[type] || "#666",
       }))
@@ -213,9 +225,9 @@ function ContentTypeStats({
     if (total === 0) return "transparent";
     let acc = 0;
     const segments: string[] = [];
-    sortedTypes.forEach((t) => {
-      const percent = (t.count / total) * 100;
-      segments.push(`${t.color} ${acc}% ${acc + percent}%`);
+    sortedTypes.forEach((item) => {
+      const percent = (item.count / total) * 100;
+      segments.push(`${item.color} ${acc}% ${acc + percent}%`);
       acc += percent;
     });
     return `conic-gradient(${segments.join(", ")})`;
@@ -233,27 +245,27 @@ function ContentTypeStats({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-surface flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
-            <span className="text-[10px] text-text-tertiary font-medium">총 콘텐츠</span>
+            <span className="text-[10px] text-text-tertiary font-medium">{t("totalContent")}</span>
           </div>
         </div>
       </div>
 
       {/* 범례 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">
-        {sortedTypes.map((t) => {
-          const percent = total > 0 ? ((t.count / total) * 100).toFixed(1) : "0";
+        {sortedTypes.map((item) => {
+          const percent = total > 0 ? ((item.count / total) * 100).toFixed(1) : "0";
           return (
             <div
-              key={t.value}
+              key={item.value}
               className="flex items-center gap-2 p-2 rounded-lg bg-bg-card/50 border border-border/20"
             >
               <div
                 className="w-3 h-3 rounded-full shrink-0"
-                style={{ background: t.color }}
+                style={{ background: item.color }}
               />
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-bold text-text-primary truncate">{t.label}</div>
-                <div className="text-[10px] text-text-tertiary">{t.count}명 ({percent}%)</div>
+                <div className="text-xs font-bold text-text-primary truncate">{item.label}</div>
+                <div className="text-[10px] text-text-tertiary">{t("countUnit", { count: item.count })} ({percent}%)</div>
               </div>
             </div>
           );
@@ -263,10 +275,12 @@ function ContentTypeStats({
   );
 }
 
-function GenderStats({ 
-  genderCounts 
-}: { 
+function GenderStats({
+  genderCounts,
+  t,
+}: {
   genderCounts: GenderCounts;
+  t: (key: string, values?: Record<string, string | number | Date>) => string;
 }) {
   const total = genderCounts.find(g => g.value === 'all')?.count || 0;
   const male = genderCounts.find(g => g.value === 'male');
@@ -297,7 +311,7 @@ function GenderStats({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-surface flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
-            <span className="text-[10px] text-text-tertiary font-medium">총 인원</span>
+            <span className="text-[10px] text-text-tertiary font-medium">{t("totalPeople")}</span>
           </div>
         </div>
       </div>
@@ -307,17 +321,17 @@ function GenderStats({
         <div className="p-4 rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-3 h-3 rounded-full bg-blue-500" />
-            <span className="text-sm font-bold text-text-primary">남성</span>
+            <span className="text-sm font-bold text-text-primary">{t("male")}</span>
           </div>
-          <div className="text-2xl font-black text-blue-400">{maleCount}<span className="text-sm font-normal text-text-tertiary ml-1">명</span></div>
+          <div className="text-2xl font-black text-blue-400">{maleCount}</div>
           <div className="text-xs text-text-tertiary mt-1">{malePercent}%</div>
         </div>
         <div className="p-4 rounded-xl bg-gradient-to-br from-pink-500/10 to-pink-600/5 border border-pink-500/20">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-3 h-3 rounded-full bg-pink-500" />
-            <span className="text-sm font-bold text-text-primary">여성</span>
+            <span className="text-sm font-bold text-text-primary">{t("female")}</span>
           </div>
-          <div className="text-2xl font-black text-pink-400">{femaleCount}<span className="text-sm font-normal text-text-tertiary ml-1">명</span></div>
+          <div className="text-2xl font-black text-pink-400">{femaleCount}</div>
           <div className="text-xs text-text-tertiary mt-1">{femalePercent}%</div>
         </div>
       </div>
@@ -336,19 +350,30 @@ export default function CelebStatsModal({
   genderCounts,
 }: CelebStatsModalProps) {
   const [activeTab, setActiveTab] = useState<TabId>("profession");
+  const t = useTranslations("explore.ui");
+  const tp = useTranslations("profession");
+  const tc = useTranslations("content.category");
 
   if (!isOpen) return null;
 
+  const TAB_DESC_KEYS: Record<TabId, string> = {
+    profession: "professionDist",
+    nationality: "nationalityDist",
+    content: "contentDist",
+    gender: "genderDist",
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="셀럽 통계" icon={BarChart3} size="md">
+    <Modal isOpen={isOpen} onClose={onClose} title={t("celebStats")} icon={BarChart3} size="md">
       <ModalBody>
         <div className="h-[500px] flex flex-col">
           {/* 탭 네비게이션 */}
           <div className="flex gap-1 p-1 bg-bg-card border border-border rounded-lg mb-4 shrink-0">
-            {TABS.map((tab) => (
+            {TAB_KEYS.map((tab) => (
               <TabButton
                 key={tab.id}
                 tab={tab}
+                label={t(TAB_LABEL_KEYS[tab.id])}
                 isActive={activeTab === tab.id}
                 onClick={() => setActiveTab(tab.id)}
               />
@@ -358,29 +383,26 @@ export default function CelebStatsModal({
           {/* 총계 표시 */}
           <div className="flex items-center justify-between px-1 mb-3 shrink-0">
             <span className="text-xs text-text-tertiary">
-              {activeTab === "profession" && "직군별 셀럽 분포"}
-              {activeTab === "nationality" && "국적별 셀럽 분포 (상위 10개국)"}
-              {activeTab === "content" && "선호 콘텐츠 타입별 분포"}
-              {activeTab === "gender" && "성별 분포"}
+              {t(TAB_DESC_KEYS[activeTab])}
             </span>
             <span className="text-xs font-bold text-accent">
-              총 {professionCounts.all || 0}명
+              {t("totalCount", { count: professionCounts.all || 0 })}
             </span>
           </div>
 
           {/* 컨텐츠 영역 */}
           <div className="flex-1 overflow-y-auto scrollbar-thin pr-1">
             {activeTab === "profession" && (
-              <ProfessionStats professionCounts={professionCounts} />
+              <ProfessionStats professionCounts={professionCounts} t={t} tp={tp} />
             )}
             {activeTab === "nationality" && (
-              <NationalityStats nationalityCounts={nationalityCounts} />
+              <NationalityStats nationalityCounts={nationalityCounts} t={t} />
             )}
             {activeTab === "content" && (
-              <ContentTypeStats contentTypeCounts={contentTypeCounts} />
+              <ContentTypeStats contentTypeCounts={contentTypeCounts} t={t} tc={tc} />
             )}
             {activeTab === "gender" && (
-              <GenderStats genderCounts={genderCounts} />
+              <GenderStats genderCounts={genderCounts} t={t} />
             )}
           </div>
         </div>

@@ -1,20 +1,24 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { ArrowLeft, ArrowRight, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import type { CelebReview as Review } from "@/types/home";
 import { getCelebProfileUrl } from "@/lib/url";
+import { getLocalizedContent } from "@/lib/utils/editions";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useTranslations, useLocale } from "next-intl";
 
 // #region Inline Slider Feed Card
 function SliderFeedCard({ review }: { review: Review }) {
   const router = useRouter();
   const [showUserModal, setShowUserModal] = useState(false);
+  const t = useTranslations("home.ui");
+  const locale = useLocale();
 
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
 
@@ -60,28 +64,31 @@ function SliderFeedCard({ review }: { review: Review }) {
       <ContentCard
         contentId={review.content.id}
         contentType={review.content.type}
-        title={review.content.title}
-        creator={review.content.creator}
+        title={getLocalizedContent(review.content, locale).title}
+        creator={getLocalizedContent(review.content, locale).creator}
         thumbnail={review.content.thumbnail_url}
-        review={review.review}
+        review={(locale === 'en' && review.review_en) ? review.review_en : review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}
         href={`/contents/${review.content.id}`}
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
         heightClass="h-[320px] md:h-[280px]"
+        titleKo={review.content.title_ko}
+        titleEn={review.content.title_en}
+        creatorEn={review.content.creator_en}
+        thumbnailEn={review.content.thumbnail_en}
       />
 
-      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title="기록관 방문" icon={User} size="sm" closeOnOverlayClick>
+      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick>
         <ModalBody>
           <p className="text-text-secondary">
-            <span className="text-text-primary font-semibold">{review.celeb.nickname}</span>
-            님의 기록관으로 이동하시겠습니까?
+            {t("visitArchiveConfirm", { name: review.celeb.nickname })}
           </p>
         </ModalBody>
         <ModalFooter className="justify-end">
-          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>취소</Button>
-          <Button variant="primary" size="md" onClick={handleNavigateToUser}>이동</Button>
+          <Button variant="ghost" size="md" onClick={() => setShowUserModal(false)}>{t("cancel")}</Button>
+          <Button variant="primary" size="md" onClick={handleNavigateToUser}>{t("go")}</Button>
         </ModalFooter>
       </Modal>
     </>

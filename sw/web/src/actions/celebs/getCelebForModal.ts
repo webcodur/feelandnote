@@ -31,7 +31,7 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
       .from('celeb_tag_assignments')
       .select('short_desc, long_desc, tag:celeb_tags(id, name, color)')
       .eq('celeb_id', celebId),
-    supabase.from('celeb_dialogues').select('lines').eq('celeb_id', celebId).maybeSingle(),
+    supabase.from('celeb_dialogues').select('lines, lines_en').eq('celeb_id', celebId).maybeSingle(),
   ])
 
   // 팔로워 여부 (상대방이 나를 팔로우하는지)
@@ -64,15 +64,20 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     id: profile.id,
     slug: profile.slug ?? null,
     nickname: profile.nickname || '익명',
+    nickname_en: profile.nickname_en ?? null,
     avatar_url: profile.avatar_url,
     profession: profile.profession,
     title: profile.title,
+    title_en: profile.title_en ?? null,
     consumption_philosophy: profile.consumption_philosophy,
+    consumption_philosophy_en: (profile as any).consumption_philosophy_en ?? null,
     nationality: profile.nationality,
     birth_date: profile.birth_date,
     death_date: profile.death_date,
     bio: profile.bio,
+    bio_en: (profile as any).bio_en ?? null,
     quotes: profile.quotes,
+    quotes_en: (profile as any).quotes_en ?? null,
     is_verified: profile.is_verified || false,
     is_platform_managed: profile.claimed_by === null,
     follower_count: followerResult.count || 0,
@@ -82,5 +87,6 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     influence,
     tags,
     greeting: (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null,
+    greeting_en: (dialogueResult.data?.lines_en as Record<string, string[]> | null)?.greeting ?? null,
   }
 }

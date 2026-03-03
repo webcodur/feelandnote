@@ -8,6 +8,7 @@
 import Image from "next/image";
 import { BookOpen, Users, Heart, UserPlus } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { useTranslations } from "next-intl";
 
 interface ProfileHeaderProps {
   id: string;
@@ -38,6 +39,7 @@ export default function ProfileHeader({
   onProfileClick,
   embedded = false,
 }: ProfileHeaderProps) {
+  const t = useTranslations("userProfile");
   const avatarContent = avatar_url ? (
     <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden ring-4 ring-accent/20">
       <Image
@@ -108,12 +110,12 @@ export default function ProfileHeader({
                 {is_following ? (
                   <>
                     <Heart size={14} className="fill-current" />
-                    팔로잉
+                    {t("following")}
                   </>
                 ) : (
                   <>
                     <UserPlus size={14} />
-                    팔로우
+                    {t("follow")}
                   </>
                 )}
               </Button>
@@ -134,21 +136,21 @@ export default function ProfileHeader({
                 <BookOpen size={16} className="text-accent" />
                 {content_count}
               </div>
-              <span className="text-xs text-text-tertiary">기록</span>
+              <span className="text-xs text-text-tertiary">{t("records")}</span>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-1.5 text-lg font-bold text-text-primary">
                 <Users size={16} className="text-green-500" />
                 {follower_count}
               </div>
-              <span className="text-xs text-text-tertiary">팔로워</span>
+              <span className="text-xs text-text-tertiary">{t("followers")}</span>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-1.5 text-lg font-bold text-text-primary">
                 <Heart size={16} className="text-pink-500" />
                 {following_count}
               </div>
-              <span className="text-xs text-text-tertiary">팔로잉</span>
+              <span className="text-xs text-text-tertiary">{t("following")}</span>
             </div>
           </div>
         </div>

@@ -1,29 +1,27 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { STAT_KEYS, TENDENCY_KEYS } from '@/lib/persona/constants'
-import { calcDistance, type PersonaVector, type SimilarCeleb } from '@/lib/persona/utils'
+import type { PersonaJsonb, PersonaProfile } from '@/lib/persona/types'
+import { parsePersonaJsonb } from '@/lib/persona/types'
+import { calcDistance, type SimilarCeleb } from '@/lib/persona/utils'
 
 export interface SimilarByCelebResult {
-  targetPersona: PersonaVector | null
+  targetPersona: PersonaProfile | null
   similarCelebs: SimilarCeleb[]
 }
 
 export async function getSimilarByCelebId(
   celebId: string,
-  limit: number = 5
+  limit: number = 5,
+  locale: string = 'ko'
 ): Promise<SimilarByCelebResult> {
   const supabase = await createClient()
 
   const { data: target, error: targetError } = await supabase
     .from('celeb_persona')
     .select(`
-      celeb_id,
-      temperance, diligence, reflection, courage,
-      loyalty, benevolence, fairness, humility,
-      command, martial, intellect, charisma,
-      pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
-      profiles!celeb_persona_celeb_id_fkey (nickname, profession, avatar_url, birth_date, death_date, title)
+      celeb_id, persona,
+      profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, birth_date, death_date, title)
     `)
     .eq('celeb_id', celebId)
     .single()
@@ -32,42 +30,30 @@ export async function getSimilarByCelebId(
     return { targetPersona: null, similarCelebs: [] }
   }
 
-  const targetPersona: PersonaVector = {
-    celeb_id: target.celeb_id,
-    nickname: (target as any).profiles?.nickname ?? '',
-    profession: (target as any).profiles?.profession ?? null,
-    avatar_url: (target as any).profiles?.avatar_url ?? null,
-    birth_date: (target as any).profiles?.birth_date ?? null,
-    death_date: (target as any).profiles?.death_date ?? null,
-    title: (target as any).profiles?.title ?? null,
-    influence_score: 0,
-    temperance: target.temperance,
-    diligence: target.diligence,
-    reflection: target.reflection,
-    courage: target.courage,
-    loyalty: target.loyalty,
-    benevolence: target.benevolence,
-    fairness: target.fairness,
-    humility: target.humility,
-    command: target.command,
-    martial: target.martial,
-    intellect: target.intellect,
-    charisma: target.charisma,
-    pessimism_optimism: target.pessimism_optimism,
-    conservative_progressive: target.conservative_progressive,
-    individual_social: target.individual_social,
-    cautious_bold: target.cautious_bold,
+  const isEn = locale === 'en'
+  const resolveNick = (en: string | null, ko: string) => isEn && en ? en : ko
+
+  const tRow = target as any
+  const tProfile = Array.isArray(tRow.profiles) ? tRow.profiles[0] : tRow.profiles
+  const tStats = parsePersonaJsonb(tRow.persona as PersonaJsonb)
+
+  const targetPersona: PersonaProfile = {
+    celeb_id: tRow.celeb_id,
+    nickname: resolveNick(tProfile?.nickname_en, tProfile?.nickname ?? ''),
+    nickname_en: tProfile?.nickname_en ?? null,
+    profession: tProfile?.profession ?? null,
+    avatar_url: tProfile?.avatar_url ?? null,
+    birth_date: tProfile?.birth_date ?? null,
+    death_date: tProfile?.death_date ?? null,
+    title: tProfile?.title ?? null,
+    ...tStats,
   }
 
   const { data: all, error: allError } = await supabase
     .from('celeb_persona')
     .select(`
-      celeb_id,
-      temperance, diligence, reflection, courage,
-      loyalty, benevolence, fairness, humility,
-      command, martial, intellect, charisma,
-      pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
-      profiles!celeb_persona_celeb_id_fkey (nickname, profession, avatar_url)
+      celeb_id, persona,
+      profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url)
     `)
     .neq('celeb_id', celebId)
 
@@ -75,37 +61,23 @@ export async function getSimilarByCelebId(
     return { targetPersona, similarCelebs: [] }
   }
 
-  const vectors: SimilarCeleb[] = all.map((row: any) => {
-    const vec: PersonaVector = {
-      celeb_id: row.celeb_id,
-      nickname: row.profiles?.nickname ?? '',
-      profession: row.profiles?.profession ?? null,
-      avatar_url: row.profiles?.avatar_url ?? null,
-      birth_date: null,
-      death_date: null,
-      title: null,
-      influence_score: 0,
-      temperance: row.temperance,
-      diligence: row.diligence,
-      reflection: row.reflection,
-      courage: row.courage,
-      loyalty: row.loyalty,
-      benevolence: row.benevolence,
-      fairness: row.fairness,
-      humility: row.humility,
-      command: row.command,
-      martial: row.martial,
-      intellect: row.intellect,
-      charisma: row.charisma,
-      pessimism_optimism: row.pessimism_optimism,
-      conservative_progressive: row.conservative_progressive,
-      individual_social: row.individual_social,
-      cautious_bold: row.cautious_bold,
-    }
-    return { ...vec, distance: calcDistance(targetPersona, vec) }
-  })
-
-  const similarCelebs = vectors
+  const similarCelebs: SimilarCeleb[] = (all as any[])
+    .map((row) => {
+      const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
+      const stats = parsePersonaJsonb(row.persona as PersonaJsonb)
+      const vec: PersonaProfile = {
+        celeb_id: row.celeb_id,
+        nickname: resolveNick(profile?.nickname_en, profile?.nickname ?? ''),
+        nickname_en: profile?.nickname_en ?? null,
+        profession: profile?.profession ?? null,
+        avatar_url: profile?.avatar_url ?? null,
+        birth_date: null,
+        death_date: null,
+        title: null,
+        ...stats,
+      }
+      return { ...vec, distance: calcDistance(targetPersona, vec) }
+    })
     .sort((a, b) => a.distance - b.distance)
     .slice(0, limit)
 

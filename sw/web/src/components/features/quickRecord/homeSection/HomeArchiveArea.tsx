@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Bookmark, Sparkles, Star, BookOpen, ChevronRight } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
+import { useTranslations } from "next-intl";
 
 interface HomeArchiveAreaProps {
     userId?: string;
@@ -26,6 +27,7 @@ export function HomeArchiveArea({
     events,
     isDragging
 }: HomeArchiveAreaProps) {
+    const t = useTranslations("quickRecord.home");
     const hasUnreviewed = unreviewedList.length > 0;
     const hasReviewed = allReviewedItems.length > 0;
 
@@ -50,10 +52,14 @@ export function HomeArchiveArea({
                             recommendable
                             userContentId={item.id}
                             saved={true}
+                            titleKo={item.content.title_ko}
+                            titleEn={item.content.title_en}
+                            creatorEn={item.content.creator_en}
+                            thumbnailEn={item.content.thumbnail_en}
                         />
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-black/80 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded-full text-[10px] text-accent flex items-center gap-1 shadow-lg whitespace-nowrap">
                             <Sparkles size={8} className="text-accent" />
-                            <span>작성 대기</span>
+                            <span>{t("pendingWrite")}</span>
                         </div>
                     </div>
                 ))}
@@ -78,6 +84,10 @@ export function HomeArchiveArea({
                             recommendable
                             userContentId={item.id}
                             saved={true}
+                            titleKo={item.content.title_ko}
+                            titleEn={item.content.title_en}
+                            creatorEn={item.content.creator_en}
+                            thumbnailEn={item.content.thumbnail_en}
                         />
                         {item.public_record?.rating && (
                             <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-accent flex items-center gap-0.5 pointer-events-none">
@@ -97,8 +107,8 @@ export function HomeArchiveArea({
                         <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover/more:bg-accent/20 group-hover/more:text-accent transition-colors">
                             <ChevronRight size={20} />
                         </div>
-                        <span className="text-sm text-text-secondary group-hover/more:text-text-primary font-medium leading-tight">
-                            상세 기록관<br />페이지로 이동
+                        <span className="text-sm text-text-secondary group-hover/more:text-text-primary font-medium leading-tight whitespace-pre-line">
+                            {t("goToArchive")}
                         </span>
                     </Link>
                 )}
@@ -110,8 +120,8 @@ export function HomeArchiveArea({
                             <BookOpen size={24} className="opacity-30" />
                         </div>
                         <div className="space-y-1">
-                            <p className="text-text-secondary font-medium">아직 보관된 기록이 없습니다</p>
-                            <p className="text-xs text-text-tertiary">상단 검색창을 통해 첫 번째 기록을 남겨보세요.</p>
+                            <p className="text-text-secondary font-medium">{t("noRecords")}</p>
+                            <p className="text-xs text-text-tertiary">{t("searchToRecord")}</p>
                         </div>
                     </div>
                 )}
