@@ -30,7 +30,7 @@ export const FILTER_CHIP_STYLES = {
 
 // 바텀시트/모달 필터 아이템 스타일
 export const FILTER_BOTTOMSHEET_STYLES = {
-  base: "w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-colors duration-100",
+  base: "w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-none",
   active: "bg-accent/10 text-accent border-accent/50",
   inactive: "bg-transparent text-text-primary border-transparent hover:bg-white/5",
   disabled: "disabled:opacity-30 disabled:cursor-not-allowed",
@@ -42,7 +42,7 @@ export const FILTER_DROPDOWN_STYLES = {
   container: "absolute top-full left-0 mt-1 min-w-[160px] max-h-[320px] overflow-y-auto bg-bg-card border border-accent/30 rounded-lg shadow-xl z-50",
   // 드롭다운 아이템
   item: {
-    base: "w-full flex items-center justify-between gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors duration-100",
+    base: "w-full flex items-center justify-between gap-3 px-4 py-2.5 text-sm cursor-pointer transition-none",
     active: "bg-accent/10 text-accent font-medium",
     inactive: "text-text-primary hover:bg-white/5",
     disabled: "opacity-30 cursor-not-allowed",

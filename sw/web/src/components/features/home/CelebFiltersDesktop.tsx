@@ -1,14 +1,18 @@
 /*
   파일명: /components/features/home/CelebFiltersDesktop.tsx
   기능: 셀럽 컨트롤 (PC) - 1행 정렬/필터 영역
-  책임: 직군, 국적, 콘텐츠, 정렬 필터 UI 제공
+  책임: 직군, 국적, 콘텐츠, 성별, 정렬 필터 UI 제공
 */
 "use client";
 
-import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users } from "lucide-react";
-import { FilterChipDropdown, type FilterOption } from "@/components/shared/filters";
+import { useMemo } from "react";
+import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
+import { FilterCombobox, type FilterOption } from "@/components/shared/filters";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
+import { CATEGORIES } from "@/constants/categories";
+import { PROFESSION_ICONS } from "@/constants/professionIcons";
+import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { SORT_VALUES } from "./useCelebFilters";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { useTranslations } from "next-intl";
@@ -45,6 +49,12 @@ interface CelebFiltersDesktopProps {
   wrapperClassName?: string;
 }
 
+// 성별 아이콘 매핑
+const GENDER_ICONS: Record<string, React.ReactNode> = {
+  male: <Mars size={14} />,
+  female: <Venus size={14} />,
+};
+
 export default function CelebFiltersDesktop({
   profession,
   nationality,
@@ -74,31 +84,48 @@ export default function CelebFiltersDesktop({
   const getNatLabel = useNationalityLabel();
   const getGenderLabel = useGenderLabel();
   const t = useTranslations("home.ui");
+  const tExplore = useTranslations("explore.ui");
 
-  // 필터별 옵션 생성
-  const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value }) => ({
-    value,
-    label: getProfLabel(value),
-    count: professionCounts[value] ?? 0,
-  }));
+  // 필터별 옵션 생성 (아이콘 포함)
+  const professionOptions: FilterOption[] = useMemo(() =>
+    CELEB_PROFESSION_FILTERS.map(({ value }) => {
+      const IconComp = PROFESSION_ICONS[value];
+      return {
+        value,
+        label: getProfLabel(value),
+        count: professionCounts[value] ?? 0,
+        icon: IconComp ? <IconComp size={14} /> : undefined,
+      };
+    }), [professionCounts, getProfLabel]);
 
-  const nationalityOptions: FilterOption[] = nationalityCounts.map(({ value, count }) => ({
-    value,
-    label: getNatLabel(value),
-    count,
-  }));
+  const nationalityOptions: FilterOption[] = useMemo(() =>
+    nationalityCounts.map(({ value, count }) => ({
+      value,
+      label: getNatLabel(value),
+      count,
+      icon: value !== "all" ? <span className="text-sm">{getCountryFlag(value)}</span> : undefined,
+    })), [nationalityCounts, getNatLabel]);
 
-  const contentTypeOptions: FilterOption[] = CONTENT_TYPE_FILTERS.map(({ value }) => ({
-    value,
-    label: getCtLabel(value),
-    count: contentTypeCounts[value] ?? 0,
-  }));
+  const contentTypeOptions: FilterOption[] = useMemo(() =>
+    CONTENT_TYPE_FILTERS.map(({ value }) => {
+      const cat = CATEGORIES.find((c) => c.dbType === value);
+      const LucideIcon = cat?.lucideIcon;
+      return {
+        value,
+        label: getCtLabel(value),
+        count: contentTypeCounts[value] ?? 0,
+        icon: LucideIcon ? <LucideIcon size={14} /> : undefined,
+      };
+    }), [contentTypeCounts, getCtLabel]);
 
-  const genderOptions: FilterOption[] = genderCounts.map(({ value, count }) => ({
-    value,
-    label: getGenderLabel(value),
-    count,
-  }));
+  const genderOptions: FilterOption[] = useMemo(() =>
+    genderCounts.map(({ value, count }) => ({
+      value,
+      label: getGenderLabel(value),
+      count,
+      icon: GENDER_ICONS[value] ?? undefined,
+    })), [genderCounts, getGenderLabel]);
+
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -141,7 +168,7 @@ export default function CelebFiltersDesktop({
         </div>
       )}
 
-      <FilterChipDropdown
+      <FilterCombobox
         label={t("filterProfession")}
         value={getProfLabel(profession)}
         isActive={profession !== "all"}
@@ -151,7 +178,7 @@ export default function CelebFiltersDesktop({
         onSelect={onProfessionChange}
         icon={<Briefcase size={14} />}
       />
-      <FilterChipDropdown
+      <FilterCombobox
         label={t("filterNationality")}
         value={getNatLabel(nationality)}
         isActive={nationality !== "all"}
@@ -160,8 +187,10 @@ export default function CelebFiltersDesktop({
         currentValue={nationality}
         onSelect={onNationalityChange}
         icon={<Globe size={14} />}
+        searchable
+        searchPlaceholder={tExplore("searchFilter")}
       />
-      <FilterChipDropdown
+      <FilterCombobox
         label={t("filterContent")}
         value={getCtLabel(contentType)}
         isActive={contentType !== "all"}
@@ -171,7 +200,7 @@ export default function CelebFiltersDesktop({
         onSelect={onContentTypeChange}
         icon={<Layers size={14} />}
       />
-      <FilterChipDropdown
+      <FilterCombobox
         label={t("filterGender")}
         value={getGenderLabel(gender)}
         isActive={gender !== "all"}
@@ -181,7 +210,7 @@ export default function CelebFiltersDesktop({
         onSelect={onGenderChange}
         icon={<Users size={14} />}
       />
-      <FilterChipDropdown
+      <FilterCombobox
         label={t("filterSort")}
         value={t(`sort.${sortBy}`)}
         isActive={sortBy !== "content_count"}

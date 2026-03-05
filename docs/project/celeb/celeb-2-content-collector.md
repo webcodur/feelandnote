@@ -225,6 +225,47 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 ---
 
+## i18n (다국어) 필수 작업
+
+콘텐츠 수집 단계에서 한국어·영문 데이터를 **동시에** 확보한다. 나중에 별도로 번역하지 않는다.
+
+### BOOK 타입 i18n 필드
+
+| 컬럼 | 설명 | 확보 방법 |
+|------|------|-----------|
+| `isbn_ko` | 한국어 판본 ISBN | Naver 도서 API |
+| `isbn_en` | 영어 판본 ISBN | Google Books API (`isbn:{isbn_ko}` 또는 영문 제목+저자) |
+| `title_ko` | 한국어 제목 | Naver 검색 결과 |
+| `title_en` | 영문 제목 | Google Books 결과 또는 원서 제목 |
+| `creator_en` | 영문 저자명 | Google Books 결과 |
+
+### Google Books API로 isbn_en 확보
+
+```bash
+export $(grep -E "^GOOGLE_BOOKS_API_KEY" ./sw/web/.env | head -1 | xargs) && \
+curl -s "https://www.googleapis.com/books/v1/volumes?q=intitle:{영문제목}+inauthor:{영문저자}&langRestrict=en&key=$GOOGLE_BOOKS_API_KEY" \
+| jq '[.items[:3][] | {title: .volumeInfo.title, authors: .volumeInfo.authors, isbn: [.volumeInfo.industryIdentifiers[]? | select(.type=="ISBN_13") | .identifier][0]}]'
+```
+
+- 한국어 판본이 있는 경우: `isbn:{isbn_ko}` 또는 영문 제목+저자로 역검색
+- 원서가 영어인 경우: 원서 ISBN을 `isbn_en`에 직접 사용
+- 한국 미출판 도서: `isbn_ko` = null, `isbn_en` = 원서 ISBN
+
+### VIDEO/GAME/MUSIC i18n
+
+- TMDB: `language=ko-KR`과 `language=en-US` 두 번 조회하여 한/영 제목 확보
+- IGDB/Spotify: 기본 영문. 한국어 제목은 웹 검색으로 보충
+
+### review_en (감상평 영문)
+
+`user_contents.review_en`에 영문 감상평을 **수집 시점에 함께 작성**한다.
+
+- review(한국어) 작성 후 즉시 영문 버전 작성
+- body 작성 가이드라인과 동일한 구조 유지 (첫 문장 셀럽 풀네임, 간결 서술체)
+- 한국어 직접 인용 → 영문 번역 시 동일한 뉘앙스 유지
+
+---
+
 ## 배치 DB 등록
 
 **개별 INSERT 금지. 반드시 배치로 한 번에 등록한다.**
@@ -232,10 +273,9 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 ### contents 배치 INSERT
 
 ```sql
-INSERT INTO contents (external_id, type, title, creator, thumbnail_url, external_source)
+INSERT INTO contents (external_id, type, title, creator, thumbnail_url, external_source, isbn_ko, isbn_en, title_ko, title_en, creator_en)
 VALUES
-  ('{외부ID1}', '{TYPE}', '{제목1}', '{창작자1}', '{이미지URL1}', '{source}'),
-  ('{외부ID2}', '{TYPE}', '{제목2}', '{창작자2}', '{이미지URL2}', '{source}'),
+  ('{외부ID1}', '{TYPE}', '{제목1}', '{창작자1}', '{이미지URL1}', '{source}', '{isbn_ko}', '{isbn_en}', '{title_ko}', '{title_en}', '{creator_en}'),
   ...
 ON CONFLICT (external_id) WHERE external_id IS NOT NULL DO NOTHING
 RETURNING id, external_id;
@@ -248,10 +288,9 @@ RETURNING id, external_id;
 contents INSERT의 RETURNING 결과에서 UUID `id`를 확보한 뒤 사용한다.
 
 ```sql
-INSERT INTO user_contents (id, user_id, content_id, status, review, source_url, visibility)
+INSERT INTO user_contents (id, user_id, content_id, status, review, review_en, source_url, visibility)
 VALUES
-  (gen_random_uuid(), '{셀럽ID}', '{contents.id UUID}', 'FINISHED', '{body1}', '{source1}', 'public'),
-  (gen_random_uuid(), '{셀럽ID}', '{contents.id UUID}', 'FINISHED', '{body2}', '{source2}', 'public'),
+  (gen_random_uuid(), '{셀럽ID}', '{contents.id UUID}', 'FINISHED', '{body_ko}', '{body_en}', '{source1}', 'public'),
   ...;
 ```
 

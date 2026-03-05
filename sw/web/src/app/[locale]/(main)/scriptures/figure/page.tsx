@@ -36,7 +36,7 @@ function SectionSkeleton() {
         <div className="h-4 w-20 bg-bg-card rounded" />
       </div>
 
-      {/* FigurePlaque 스켈레톤 (가로형 명판) */}
+      {/* 인물 명판 스켈레톤 */}
       <div className="mb-8 relative bg-neutral-900/80 rounded-2xl border border-white/10 p-6 md:p-10">
         <div className="flex flex-col sm:flex-row items-center gap-6">
           {/* 아바타 */}

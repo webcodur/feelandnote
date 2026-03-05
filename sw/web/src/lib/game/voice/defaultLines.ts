@@ -22,24 +22,24 @@ const defaultLines: Record<'ko' | 'en', Record<string, Record<SpeechTone, string
       free: ["왔어.", "부른 거지?", "뭐, 여기 있지."],
     },
 
-    /** 미궁: O/X 클릭 직후 — 지목·배제 대상이 된 즉각 반응 */
+    /** 미궁: O/X 클릭 직후 — 등용·확인 대상이 된 즉각 반응 */
     accused: {
-      loyal: ["저를 의심하십니까.", "심문이라면 받겠습니다.", "충신을 시험하시는 겁니까."],
+      loyal: ["저를 찾고 계셨습니까.", "면담이라면 응하겠습니다.", "어떤 분을 찾고 계신지요."],
       composed: ["근거가 있으시겠지요.", "흥미로운 판단이군요.", "어디 확인해 보시지요."],
-      bold: ["나를?", "대담한 선택이군.", "좋다, 밝혀봐라."],
-      humble: ["저인가요...", "겸허히 받아들이겠습니다.", "오해가 아니길 바랍니다."],
+      bold: ["나를 찾으시오?", "안목이 있으시군.", "좋소, 살펴보시오."],
+      humble: ["저인가요...", "겸허히 응하겠습니다.", "제가 맞기를 바랍니다."],
       gentle: ["저를요...?", "그렇게 보이셨나요.", "괜찮아요, 확인해 보세요."],
-      free: ["나라고?", "재미있는 감이군.", "한번 해봐."],
+      free: ["나를 찾으시오?", "흥미로운 안목이시군.", "한번 확인해 보시오."],
     },
 
-    /** 미궁: X → 배제 성공 — 혐의 해제, 용의선상에서 풀려남 */
+    /** 미궁: X → 확인 완료 — 이 분이 아님을 확인, 찾는 인물에 대한 조언 */
     cleared: {
-      loyal: ["혐의가 풀렸군요.", "의심은 거두어주십시오.", "충성스러운 자를 의심하다니."],
-      composed: ["예상한 결과입니다.", "처음부터 아니었습니다.", "논리적인 판단이군요."],
-      bold: ["알아보는 눈이 있군.", "나를 의심했다고?", "당연한 결과다."],
-      humble: ["오해가 풀려 다행입니다.", "괜찮습니다, 이해합니다.", "의심도 과정이지요."],
-      gentle: ["괜찮아요, 이해해요.", "오해가 풀렸네요.", "다행이에요."],
-      free: ["아니라니까.", "뭐, 그럴 줄 알았지.", "나 아닌 거 맞다고."],
+      loyal: ["찾으시는 분이 저 쪽에 계신 듯합니다.", "반드시 찾으실 수 있을 것입니다.", "미력하나마 도움이 되었기를."],
+      composed: ["조금만 더 살펴보시면 될 겁니다.", "범위가 좁혀지고 있군요.", "올바른 방향입니다."],
+      bold: ["가까이 오셨소. 감이 좋으시군.", "저 쪽을 한번 살펴보시오.", "눈이 좋으신데, 조금만 더."],
+      humble: ["조금만 더 찾아보시지요.", "제가 아니라 아쉽지만, 분명 계실 겁니다.", "찾는 길에 보탬이 되었으면 합니다."],
+      gentle: ["저는 아닌가 봐요. 하지만 가까이 계실 거예요.", "조금만 더 둘러보세요.", "분명 찾으실 거예요."],
+      free: ["나는 아니오. 다른 데 알아보시오.", "찾고 계신 분을 찾기를 바라겠소.", "뭐, 힌트는 드렸으니."],
     },
 
     /** 여명: 보드 카드 클릭 — 게임 안내 팁 */
@@ -132,20 +132,20 @@ const defaultLines: Record<'ko' | 'en', Record<string, Record<SpeechTone, string
       free: ["I'm here.", "You called, right?", "Well, here I am."],
     },
     accused: {
-      loyal: ["Do you doubt me?", "If it is an interrogation, I accept.", "Are you testing a loyal subject?"],
+      loyal: ["Were you looking for me?", "If it is an audience, I shall oblige.", "Who is it you seek?"],
       composed: ["You must have your reasons.", "An interesting judgment.", "Let us verify it then."],
-      bold: ["Me?", "A bold choice.", "Fine, uncover the truth."],
-      humble: ["Is it me...", "I accept this humbly.", "I hope this is a misunderstanding."],
+      bold: ["You seek me?", "You have good taste.", "Very well, take a closer look."],
+      humble: ["Is it me...", "I humbly oblige.", "I hope I am the one you seek."],
       gentle: ["Me...?", "Did it look that way to you?", "It's alright, go ahead and check."],
-      free: ["Me?", "Funny intuition.", "Give it a try."],
+      free: ["You seek me?", "An interesting eye you have.", "Go ahead and verify."],
     },
     cleared: {
-      loyal: ["My name is cleared.", "Please withdraw your suspicion.", "To doubt a loyal subject..."],
-      composed: ["An expected outcome.", "It was never me from the start.", "A logical decision."],
-      bold: ["You have a good eye.", "You doubted me?", "A natural result."],
-      humble: ["I am glad the misunderstanding is cleared.", "It is fine, I understand.", "Doubt is part of the process."],
-      gentle: ["It's fine, I understand.", "The misunderstanding is cleared.", "That's a relief."],
-      free: ["I told you no.", "Well, I knew it.", "I said it wasn't me."],
+      loyal: ["The one you seek seems to be over there.", "You will surely find them.", "I hope I was of some help."],
+      composed: ["Just a little more searching and you will find them.", "The scope is narrowing.", "You are on the right path."],
+      bold: ["You are close. Good instincts.", "Try looking over there.", "Sharp eyes, just a little more."],
+      humble: ["Please search a little further.", "It is not me, but they are surely here.", "I hope I have been of help on your journey."],
+      gentle: ["It seems it is not me. But they must be close.", "Look around a little more.", "You will surely find them."],
+      free: ["It is not I. Try elsewhere.", "I wish you well in finding the one you seek.", "Well, I have given you a hint."],
     },
     dawn_guide: {
       loyal: ["Use a hint if you do not know.", "The Eye of Time will show the answer.", "Use the torch if you have it."],

@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "안토니_판_레이우엔훅",
+  "profession": "scientist",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[delighted, meticulous] 렌즈 너머로 아름답게 움직이는 작은 동물들을 보았습니다.",
+      "[earnest, devoted] 이 관찰에 남들이 믿지 않을 만큼 많은 시간을 쏟았지만, 기쁨으로 했습니다.",
+      "[humble, pioneering] 현미경을 발명하지 않았습니다. 그 사용법을 완성했을 뿐입니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

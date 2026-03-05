@@ -26,6 +26,21 @@ export interface MemberInfluence {
   total_score: number
 }
 
+export interface PersonaFieldJsonb {
+  score: number
+  reason_ko?: string
+  reason_en?: string
+}
+
+export interface PersonaJsonb {
+  abilities?: Record<string, PersonaFieldJsonb>
+  inner_virtues?: Record<string, PersonaFieldJsonb>
+  outer_virtues?: Record<string, PersonaFieldJsonb>
+  dispositions?: Record<string, PersonaFieldJsonb>
+  rationale_ko?: string
+  rationale_en?: string
+}
+
 export interface MemberPersona {
   temperance: number
   diligence: number
@@ -43,10 +58,12 @@ export interface MemberPersona {
   conservative_progressive: number
   individual_social: number
   cautious_bold: number
+  persona?: PersonaJsonb | null
 }
 
 export interface Member {
   id: string
+  slug: string | null
   email: string | null
   nickname: string | null
   avatar_url: string | null
@@ -163,6 +180,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
 
   const members: Member[] = (data || []).map((p) => ({
     id: p.id,
+    slug: p.slug || null,
     email: p.email,
     nickname: p.nickname,
     avatar_url: p.avatar_url,
@@ -195,6 +213,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
 function celebToMember(c: Celeb): Member {
   return {
     id: c.id,
+    slug: c.slug,
     email: null,
     nickname: c.nickname,
     avatar_url: c.avatar_url,
@@ -222,6 +241,7 @@ function celebToMember(c: Celeb): Member {
 function userToMember(u: User): Member {
   return {
     id: u.id,
+    slug: null,
     email: u.email,
     nickname: u.nickname,
     avatar_url: u.avatar_url,
@@ -282,7 +302,8 @@ export async function getMember(id: string): Promise<Member | null> {
         temperance, diligence, reflection, courage,
         loyalty, benevolence, fairness, humility,
         command, martial, intellect, charm,
-        pessimism_optimism, conservative_progressive, individual_social, cautious_bold
+        pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
+        persona
       )
     `
     )
@@ -310,6 +331,7 @@ export async function getMember(id: string): Promise<Member | null> {
 
   return {
     id: data.id,
+    slug: data.slug || null,
     email: data.email,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
@@ -339,6 +361,97 @@ export async function getMember(id: string): Promise<Member | null> {
     celeb_tier: data.celeb_tier ?? 'full',
     claimed_by: data.claimed_by,
     influence: influenceData || null,
+    persona: personaData || null,
+    content_count: count || 0,
+    follower_count: data.user_social?.follower_count || 0,
+    following_count: data.user_social?.following_count || 0,
+    total_score: data.user_scores?.total_score || 0,
+  }
+}
+
+export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
+  const slug = decodeURIComponent(rawSlug)
+  const supabase = await createClient()
+
+  const selectQuery = `
+      *,
+      user_social (follower_count, following_count),
+      user_scores (total_score),
+      celeb_influence (
+        political, political_exp,
+        strategic, strategic_exp,
+        tech, tech_exp,
+        social, social_exp,
+        economic, economic_exp,
+        cultural, cultural_exp,
+        transhistoricity, transhistoricity_exp,
+        total_score
+      ),
+      celeb_persona (
+        temperance, diligence, reflection, courage,
+        loyalty, benevolence, fairness, humility,
+        command, martial, intellect, charm,
+        pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
+        persona
+      )
+    `
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select(selectQuery)
+    .eq('slug', slug)
+    .single()
+
+  if (error || !data) return null
+
+  const { count } = await supabase
+    .from('user_contents')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', data.id)
+
+  const profileType = (data.profile_type === 'CELEB' ? 'CELEB' : 'USER') as ProfileType
+
+  const influenceData = Array.isArray(data.celeb_influence)
+    ? data.celeb_influence[0]
+    : data.celeb_influence
+
+  const personaData = Array.isArray(data.celeb_persona)
+    ? data.celeb_persona[0]
+    : data.celeb_persona
+
+  return {
+    id: data.id,
+    slug: data.slug || null,
+    email: data.email,
+    nickname: data.nickname,
+    avatar_url: data.avatar_url,
+    bio: data.bio,
+    profile_type: profileType,
+    status: data.status,
+    is_verified: data.is_verified,
+    created_at: data.created_at,
+    role: data.role,
+    last_seen_at: data.last_seen_at,
+    suspended_at: data.suspended_at,
+    suspended_reason: data.suspended_reason,
+    profession: data.profession,
+    title: data.title,
+    nationality: data.nationality,
+    gender: data.gender,
+    birth_date: data.birth_date,
+    death_date: data.death_date,
+    quotes: data.quotes,
+    nickname_en: data.nickname_en ?? null,
+    title_en: data.title_en ?? null,
+    bio_en: data.bio_en ?? null,
+    quotes_en: data.quotes_en ?? null,
+    consumption_philosophy: data.consumption_philosophy,
+    consumption_philosophy_en: data.consumption_philosophy_en ?? null,
+    speech_tone: data.speech_tone ?? null,
+    celeb_tier: data.celeb_tier ?? 'full',
+    claimed_by: data.claimed_by,
+    influence: influenceData || null,
+    influence_total: influenceData?.total_score || 0,
     persona: personaData || null,
     content_count: count || 0,
     follower_count: data.user_social?.follower_count || 0,

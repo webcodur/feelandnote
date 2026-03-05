@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "채드윅_보스만",
+  "profession": "actor",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[regal, inspiring] 반갑습니다. 목적 없는 삶은 살아있는 게 아닙니다.",
+      "[warm, powerful] 당신이 겪는 고통에는 의미가 있어요. 포기하지 마세요.",
+      "[dignified, fierce] 세상이 당신을 정의하게 두지 마세요. 스스로 정의하세요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

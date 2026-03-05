@@ -318,7 +318,7 @@ export default function TagAccordionItem(props: Props) {
                 />
               </div>
             </FormRow>
-            <FormRow label="기획전">
+            <FormRow label="스포트라이트">
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"

@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { ChevronRight } from "lucide-react";
+import { CornerDownLeft } from "lucide-react";
 
 interface GameLobbyNavRowProps {
   icon: React.ReactNode;
@@ -33,7 +33,7 @@ export default function GameLobbyNavRow({ icon, label, sub, onClick, disabled }:
         <span className="text-xs sm:text-sm font-serif font-bold block leading-tight">{label}</span>
         <span className={`text-[9px] font-cinzel uppercase tracking-widest block mt-px ${disabled ? "text-white/[0.10]" : "text-white/25 group-hover:text-white/40"}`}>{sub}</span>
       </span>
-      {!disabled && <ChevronRight size={14} className="text-white/10 group-hover:text-white/30 group-hover:translate-x-0.5 transition-all duration-75 shrink-0" />}
+      {!disabled && <CornerDownLeft size={13} className="text-white/0 group-data-[focused=true]:text-white/40 transition-all duration-75 shrink-0" />}
     </button>
   );
 }

@@ -111,7 +111,7 @@ export default function RecommendationCard({
 
       {/* 메시지 */}
       {message && (
-        <p className="text-sm text-text-secondary italic">&ldquo;{message}&rdquo;</p>
+        <p className="text-sm text-text-secondary italic">{message}</p>
       )}
 
       {/* 콘텐츠 카드 */}

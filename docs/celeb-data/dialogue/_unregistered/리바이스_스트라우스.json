@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "리바이스_스트라우스",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[steady, humble] 튼튼한 것 하나가 화려한 열 개보다 낫습니다.",
+      "[practical, warm] 일하는 사람들의 삶을 좀 더 편하게 만드는 것, 그게 시작이었습니다.",
+      "[calm, proud] 좋은 물건은 스스로 말합니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

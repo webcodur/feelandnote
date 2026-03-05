@@ -115,6 +115,7 @@ export default function ContentCard({
   titleEn,
   creatorEn,
   thumbnailEn,
+  hasEnEdition,
 }: ContentCardProps) {
   const ContentIcon = TYPE_ICONS[contentType];
   const aspectClass = ASPECT_STYLES[aspectRatio];
@@ -186,9 +187,9 @@ export default function ContentCard({
   // thumbnailEn prop이 없으면 contentId로 DB 자동 조회
   const resolvedThumbnailEn = useEditionThumbnail(contentId, contentType, thumbnailEn);
   const editions = contentType === "BOOK"
-    ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn })
+    ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn, has_en_edition: hasEnEdition })
     : undefined;
-  const showEditionToggle = !!editions;
+  const showEditionToggle = !!editions && (!!editions.ko || !!editions.en || !!editions.confirmedNoEn);
   const [activeEdition, setActiveEdition] = useState<"ko" | "en">(locale === "en" ? "en" : "ko");
 
   const displayTitle = showEditionToggle && editions![activeEdition]
@@ -197,8 +198,9 @@ export default function ContentCard({
   const displayCreator = showEditionToggle && editions![activeEdition]
     ? editions![activeEdition]!.creator ?? creator
     : creator;
-  const displayThumbnail = showEditionToggle && editions![activeEdition]?.thumbnail
-    ? editions![activeEdition]!.thumbnail!
+  // en 에디션 선택 시: thumbnail_en이 없으면 한국 표지로 fallback하지 않고 null (빈 표지)
+  const displayThumbnail = showEditionToggle && editions![activeEdition]
+    ? editions![activeEdition]!.thumbnail ?? null
     : thumbnail;
 
   // 선택한 에디션이 존재하지 않을 때
@@ -725,7 +727,14 @@ export default function ContentCard({
             {renderTopRight()}
 
             <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
-              {showImage ? (
+              {editionUnavailable ? (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
+                  <ContentIcon size={24} className="text-text-tertiary mb-1.5" />
+                  <p className="text-[10px] text-text-tertiary leading-snug">
+                    {activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc")}
+                  </p>
+                </div>
+              ) : showImage ? (
                 <Image
                   src={displayThumbnail!}
                   alt={title}
@@ -755,10 +764,10 @@ export default function ContentCard({
 
             <div className={`p-2 ${headerNode ? "bg-[#151515]" : ""}`}>
               <h3 className="text-[11px] font-bold text-text-primary line-clamp-2 leading-tight min-h-[28px]">
-                {displayTitle}
+                {editionUnavailable ? title : displayTitle}
               </h3>
               <p className="text-[10px] text-text-secondary line-clamp-1 mt-1">
-                {displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0"}
+                {editionUnavailable ? (creator ? creator.replace(/\^/g, ", ") : "\u00A0") : (displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0")}
               </p>
             </div>
           </div>
@@ -774,7 +783,14 @@ export default function ContentCard({
   const cardContent = (
     <>
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
-        {showImage ? (
+        {editionUnavailable ? (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
+            <ContentIcon size={28} className="text-text-tertiary mb-2" />
+            <p className="text-[11px] text-text-tertiary leading-snug">
+              {activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc")}
+            </p>
+          </div>
+        ) : showImage ? (
           <Image
             src={displayThumbnail!}
             alt={title}
@@ -796,7 +812,7 @@ export default function ContentCard({
           </div>
         )}
 
-        {showGradient && !certTheme && (
+        {showGradient && !certTheme && !editionUnavailable && (
           <div className="absolute inset-x-0 bottom-0 h-16 md:h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
         )}
 
@@ -812,10 +828,10 @@ export default function ContentCard({
       {showInfo && (
         <div className="p-2 md:p-2.5 bg-black/20 border-t border-white/[0.04]">
           <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight min-h-[30px] md:min-h-[35px] ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
-            {displayTitle}
+            {editionUnavailable ? title : displayTitle}
           </h3>
           <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 mt-0.5 md:mt-1">
-            {displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0"}
+            {editionUnavailable ? (creator ? creator.replace(/\^/g, ", ") : "\u00A0") : (displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0")}
           </p>
         </div>
       )}

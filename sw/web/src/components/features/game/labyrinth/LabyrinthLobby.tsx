@@ -89,8 +89,8 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
         </p>
       </section>
 
-      {/* 단서 해금 순서 */}
-      <GameRulesSection partLabel="Clue Unlock" title={tLab("clueUnlockTitle")}>
+      {/* 행적 해금 순서 */}
+      <GameRulesSection partLabel="Trace Unlock" title={tLab("clueUnlockTitle")}>
         <div className="space-y-2">
           {[
             { icon: <BookOpen size={14} />, stage: tLab("clue1"), desc: tLab("clue1Desc"), color: "text-accent border-accent/20 bg-accent/5" },

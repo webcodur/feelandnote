@@ -42,7 +42,8 @@ export async function getCelebFeed(
         title_en,
         creator_en,
         isbn_en,
-        thumbnail_en
+        thumbnail_en,
+        has_en_edition
       ),
       celeb:profiles!user_contents_user_id_fkey!inner(
         id,
@@ -135,6 +136,7 @@ export async function getCelebFeed(
           creator_en: content.creator_en ?? null,
           isbn_en: content.isbn_en ?? null,
           thumbnail_en: content.thumbnail_en ?? null,
+          has_en_edition: content.has_en_edition ?? null,
         },
         celeb: {
           id: celeb.id,

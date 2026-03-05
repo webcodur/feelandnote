@@ -174,7 +174,7 @@ export default function ContentInfoSection({
       {/* 태그라인 (영상) */}
       {content.type === 'VIDEO' && metadata?.tagline && (
         <div className="text-center italic text-text-secondary/80 text-sm px-6 py-3 border-y border-white/5 bg-black/20">
-            "{metadata.tagline}"
+            {metadata.tagline}
         </div>
       )}
 

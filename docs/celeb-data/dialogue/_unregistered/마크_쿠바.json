@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "마크_쿠바",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[blunt, energetic] 땀을 흘리는 건 형평성의 지분이에요. 모두가 가진 유일한 것.",
+      "[bold, practical] 실패해도 됩니다. 성공은 단 한 번이면 충분하니까.",
+      "[sharp, direct] 팔 수 없으면 사업이 아닙니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

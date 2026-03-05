@@ -41,7 +41,7 @@ actions/admin/  |  components/  |  constants/  |  contexts/  |  hooks/  |  lib/s
 
 | 키 | 라벨 | 경로 | 설명 |
 |---|---|---|---|
-| explore | 탐색 | /explore | 셀럽/사용자 탐색, 기획전 |
+| explore | 탐색 | /explore | 셀럽/사용자 탐색, 스포트라이트 |
 | scriptures | 서고 | /scriptures | 셀럽 아카이브 (시대별, 직군별, 선택, 현인) |
 | agora | 광장 | /agora | 피드, 게시판 |
 | rest | 쉼터 | /rest | 미니게임 (여명, 미궁, 패권) |

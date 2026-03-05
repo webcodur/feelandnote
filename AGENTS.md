@@ -37,6 +37,7 @@ pnpm build:bo
 |------|------|----------|
 | `docs/project/db-core.md` | DB 스키마 — 사용자, 콘텐츠, 커뮤니티 | 일반 DB 작업, 쿼리 작성 |
 | `docs/project/db-celeb.md` | DB 스키마 — 셀럽 전용 테이블, 룰북 안내 | 셀럽 관련 작업 |
+| `docs/project/celeb/celeb-tag-system.md` | 태그 시스템 — DB 스키마, 생성 절차, 프론트 연동 | 태그 생성·수정, 스포트라이트 작업 |
 | `docs/project/architecture.md` | 디렉토리 구조, 네비게이션, 라우팅 | 파일 위치 파악, 라우트 작업 |
 | `docs/project/code-rules.md` | 코드 규칙, 디자인 시스템 | UI 개발, 코드 작성 |
 | `docs/project/external-services.md` | Supabase, R2, 크론잡 | 외부 서비스 연동 |
@@ -51,6 +52,5 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
 | 페르소나 일괄 생성 (1,071명) | `docs/todo/persona-batch.md` | 대기 | 소넷 배치, JSON → DB |
-| 204명 inactive 셀럽 활성화 | — | 대기 | 페르소나 완료 후 status='active' 전환 |
 
 * 매번 작업 종료 시 현 시간 작성: "(EX) 26.03.02 23:27

@@ -1,12 +1,12 @@
 /*
   파일명: components/features/game/TrackerGame.tsx
-  기능: 미궁(인물추적) 게임 메인 컴포넌트
-  책임: 5단계 배제형 힌트 해금 게임 플로우 관리 (6명 용의자)
-    - Stage 1 (단서 1): 콘텐츠 1개 — 시작 시 무료
-    - Stage 2 (단서 2): 콘텐츠 2개째 — 배제 1회로 해금
-    - Stage 3 (단서 3): 콘텐츠 3개째 — 배제 2회로 해금
-    - Stage 4 (단서 4): 콘텐츠 4개째 — 배제 3회로 해금
-    - Stage 5 (철학): 감상 철학 — 배제 4회로 해금
+  기능: 미궁(인물등용) 게임 메인 컴포넌트
+  책임: 5단계 확인형 행적 해금 게임 플로우 관리 (6명 현자)
+    - Stage 1 (행적 1): 콘텐츠 1개 — 시작 시 무료
+    - Stage 2 (행적 2): 콘텐츠 2개째 — 확인 1회로 해금
+    - Stage 3 (행적 3): 콘텐츠 3개째 — 확인 2회로 해금
+    - Stage 4 (행적 4): 콘텐츠 4개째 — 확인 3회로 해금
+    - Stage 5 (철학): 감상 철학 — 확인 4회로 해금
 */
 "use client";
 
@@ -28,10 +28,10 @@ import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
 type GameStage = "idle" | "loading" | "stage1" | "stage2" | "stage3" | "stage4" | "stage5" | "result";
 
 const HINT_STAGES = [
-  { key: "stage1", label: "단서 1", icon: Search },
-  { key: "stage2", label: "단서 2", icon: Search },
-  { key: "stage3", label: "단서 3", icon: BookOpen },
-  { key: "stage4", label: "단서 4", icon: BookOpen },
+  { key: "stage1", label: "행적 1", icon: Search },
+  { key: "stage2", label: "행적 2", icon: Search },
+  { key: "stage3", label: "행적 3", icon: BookOpen },
+  { key: "stage4", label: "행적 4", icon: BookOpen },
   { key: "stage5", label: "철학", icon: Brain },
 ] as const;
 
@@ -41,7 +41,7 @@ function StageContent({ viewStage, contents }: { viewStage: string; contents: Tr
   if (!content) {
     return (
       <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
-        {idx === 0 ? "단서가 없습니다" : "추가 단서가 없습니다"}
+        {idx === 0 ? "행적이 없습니다" : "추가 행적이 없습니다"}
       </div>
     );
   }
@@ -84,7 +84,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     personalDialogues,
   });
 
-  // 해금: stage1 무료, stage2=배제1회, ... stage5=배제4회
+  // 해금: stage1 무료, stage2=확인1회, ... stage5=확인4회
   const unlockedIndex = useMemo(() => {
     return Math.min(eliminatedIds.length, 4);
   }, [eliminatedIds]);
@@ -99,21 +99,26 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
   useEffect(() => { onPhaseChange?.(stage); }, [stage, onPhaseChange]);
 
   const startRound = useCallback(async (excludeIds: string[] = []) => {
-    setStage("loading");
-    setEliminatedIds([]);
-    setEliminateToast(null);
-    setSolved(false);
-    setCorrect(false);
-    const data = await getTrackerRound(excludeIds);
-    if (!data) { setStage("idle"); return; }
-    setRound(data);
-    setSubtitle(null);
-    setStage("stage1");
+    try {
+      setStage("loading");
+      setEliminatedIds([]);
+      setEliminateToast(null);
+      setSolved(false);
+      setCorrect(false);
+      const data = await getTrackerRound(excludeIds);
+      if (!data) { console.error("[TrackerGame] 라운드 데이터 없음"); setStage("idle"); return; }
+      setRound(data);
+      setSubtitle(null);
+      setStage("stage1");
+    } catch (err) {
+      console.error("[TrackerGame] startRound 실패:", err);
+      setStage("idle");
+    }
   }, []);
 
   const goToResult = useCallback(() => setStage("result"), []);
 
-  // 배제 핸들러 — 결과 대사만 표시
+  // 확인 핸들러 — 결과 대사만 표시
   const handleEliminate = useCallback(
     (id: string) => {
       if (!round || solved) return;
@@ -121,7 +126,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
       const tone = (target?.speechTone as SpeechTone) || "composed";
 
       if (id === round.celebId) {
-        // 정답 배제 → 숨은 인물 도주 성공
+        // 정답 확인 → 찾던 인물 종적 감춤 (battle_win = 현자가 도주 성공)
         setCorrect(false);
         setSolved(true);
         const correctOpt = round.options.find(o => o.id === round.celebId);
@@ -134,10 +139,10 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
         return;
       }
 
-      // 일반 배제 → 혐의 해제
+      // 일반 확인 → 이 분이 아님 확인
       const newEliminated = [...eliminatedIds, id];
       setEliminatedIds(newEliminated);
-      setEliminateToast(target?.nickname ?? "용의선상 인물");
+      setEliminateToast(target?.nickname ?? "현자");
       setTimeout(() => setEliminateToast(null), 1500);
       if (newEliminated.length === 1) setStage("stage2");
       else if (newEliminated.length === 2) setStage("stage3");
@@ -154,7 +159,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     [round, solved, eliminatedIds, showDialogue, showDefaultLine]
   );
 
-  // 지목 핸들러 — 결과 대사만 표시
+  // 등용 핸들러 — 결과 대사만 표시 (battle_lose = 등용 성공, battle_win = 종적 감춤)
   const handleChoiceSelect = useCallback(
     (selectedId: string) => {
       if (!round) return;
@@ -206,7 +211,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:150ms]" />
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:300ms]" />
           </div>
-          <p className="text-sm text-text-secondary font-serif">용의자 심문 준비 중...</p>
+          <p className="text-sm text-text-secondary font-serif">현자 탐문 준비 중...</p>
         </div>
       </div>
     );
@@ -217,13 +222,13 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
 
   return (
     <div className="w-full relative flex-1 flex flex-col">
-      {/* 혐의 해제 토스트 */}
+      {/* 확인 완료 토스트 */}
       {eliminateToast && (
         <div className="fixed top-1/3 left-1/2 -translate-x-1/2 pointer-events-none z-50 animate-score-float">
           <div className="flex items-center gap-2 rounded-xl bg-[#0f1a14] border border-green-500/40 px-5 py-3 shadow-lg shadow-green-500/10">
             <ShieldCheck size={20} className="text-green-400 shrink-0" />
             <span className="text-sm font-serif font-bold text-green-400">
-              {eliminateToast} 혐의 해제
+              {eliminateToast} 확인 완료
             </span>
           </div>
         </div>
@@ -241,7 +246,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
             <div className="flex flex-col w-full max-w-lg lg:w-1/2 flex-shrink-0 animate-slide-from-left">
               {/* ── 질문 ── */}
               <p className="text-center lg:text-left text-sm font-serif text-text-secondary mb-4 lg:pl-1">
-                5개의 단서를 활용해 용의자를 찾아내세요
+                5개의 행적을 살펴 찾는 인물을 알아내세요
               </p>
 
               {/* ── 단계 표시기 ── */}
@@ -286,7 +291,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
                       <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
                     ) : (
                       <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
-                        단서가 없습니다
+                        행적이 없습니다
                       </div>
                     )}
                   </div>
@@ -299,7 +304,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
               {!solved && (
                 <div className="pb-2">
                   <p className="text-center lg:text-left text-xs text-text-tertiary mb-6 tracking-widest font-serif lg:pl-2">
-                    무고한 인물의 혐의를 벗기거나 용의자를 지목하세요
+                    해당 없는 인물을 제외하거나 찾는 인물을 등용하세요
                   </p>
                   <div className="-ml-1 lg:ml-0">
                     <MultipleChoice
@@ -330,8 +335,8 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
                     correct ? "text-accent" : "text-red-400/80"
                   )}>
                     {correct
-                      ? <>{round.nickname}을(를) 검거했다.</>
-                      : <>아쉽게도 <span className="font-bold text-red-400">{round.nickname}</span>의 도주를 허용했다.</>
+                      ? <>{round.nickname}을(를) 등용했다.</>
+                      : <>아쉽게도 <span className="font-bold text-red-400">{round.nickname}</span>이(가) 종적을 감추었다.</>
                     }
                   </p>
                   <button

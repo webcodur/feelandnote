@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "마크_저커버그",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[bold, urgent] 가장 큰 위험은 아무 위험도 감수하지 않는 것입니다.",
+      "[driven, restless] 빠르게 움직이고 부숴버리세요. 뭔가 깨뜨리지 않고 있다면 충분히 빠르지 않은 거예요.",
+      "[thoughtful, purposeful] 아이디어는 완성된 채로 오지 않습니다. 시작해야 선명해집니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

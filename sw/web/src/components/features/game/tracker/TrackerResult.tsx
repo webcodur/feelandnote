@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/tracker/TrackerResult.tsx
   기능: 결과 화면
-  책임: 추적 대상 셀럽 공개, 콘텐츠 목록, 프로필 링크 표시
+  책임: 등용 대상 셀럽 공개, 콘텐츠 목록, 프로필 링크 표시
 */
 "use client";
 
@@ -87,18 +87,18 @@ export default function TrackerResult({
 
   return (
     <div className="w-full max-w-lg mx-auto space-y-8 animate-in fade-in duration-500 pb-8">
-      {/* 검거 성공/도주 허용 문구 */}
+      {/* 등용 성공/종적 감춤 문구 */}
       <p className={cn(
         "text-center text-sm font-serif leading-relaxed animate-slide-up",
         correct ? "text-accent/90" : "text-red-400/80"
       )}>
         {correct
-          ? <>{nickname}을(를) 검거했다.</>
-          : <>아쉽게도 <span className="font-bold text-red-400">{nickname}</span>의 도주를 허용했다.</>
+          ? <>{nickname}을(를) 등용했다.</>
+          : <>아쉽게도 <span className="font-bold text-red-400">{nickname}</span>이(가) 종적을 감추었다.</>
         }
       </p>
 
-      {/* 추적 대상 셀럽 (초상화 크기 확대 및 카드 스타일링 고급화) */}
+      {/* 등용 대상 셀럽 (초상화 크기 확대 및 카드 스타일링 고급화) */}
       <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/10 bg-[#12100e] p-8 shadow-2xl relative overflow-hidden animate-slide-up" style={{ animationDelay: "100ms" }}>
         {/* 장식용 빛 */}
         {correct && (
@@ -213,7 +213,7 @@ export default function TrackerResult({
           )}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent -translate-x-full group-hover:animate-shine" />
-          다음 추적
+          다음 탐문
         </button>
       </div>
 

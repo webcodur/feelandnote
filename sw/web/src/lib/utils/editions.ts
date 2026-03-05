@@ -1,6 +1,8 @@
 export interface BookEditions {
   ko?: { title: string; creator?: string | null; thumbnail?: string | null };
   en?: { title: string; creator?: string | null; thumbnail?: string | null };
+  /** 영문판 없음 확인됨 (DB has_en_edition=false) */
+  confirmedNoEn?: boolean;
 }
 
 /**
@@ -39,13 +41,16 @@ export function getBookEditions(content: {
   creator_en?: string | null;
   thumbnail_url?: string | null;
   thumbnail_en?: string | null;
+  has_en_edition?: boolean | null;
 }): BookEditions | undefined {
   if (content.type !== "BOOK") return undefined;
 
   const hasKo = !!content.title_ko;
   const hasEn = !!content.title_en;
+  const confirmedNoEn = content.has_en_edition === false;
 
-  if (!hasKo && !hasEn) return undefined;
+  // 에디션 데이터도 없고 확인된 없음도 아니면 토글 불필요
+  if (!hasKo && !hasEn && !confirmedNoEn) return undefined;
 
   const editions: BookEditions = {};
 
@@ -63,6 +68,10 @@ export function getBookEditions(content: {
       creator: content.creator_en ?? content.creator ?? null,
       thumbnail: content.thumbnail_en ?? null,
     };
+  }
+
+  if (confirmedNoEn) {
+    editions.confirmedNoEn = true;
   }
 
   return editions;

@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "마크_피커스",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[playful, strategic] 게임을 만들려면 먼저 플레이어를 이해해야 합니다.",
+      "[driven, frank] 데이터가 직감보다 낫습니다. 항상은 아니지만, 대부분.",
+      "[calm, focused] 한 가지를 제대로 하는 게 열 가지를 대충 하는 것보다 낫습니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

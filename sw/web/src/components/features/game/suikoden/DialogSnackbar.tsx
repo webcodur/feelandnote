@@ -67,7 +67,7 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
               </button>
             </div>
             <p className="text-sm text-stone-200 leading-relaxed">
-              &ldquo;{current.message}&rdquo;
+              {current.message}
             </p>
           </div>
         </div>

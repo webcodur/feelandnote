@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "에픽테토스",
+  "profession": "philosopher",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[calm, piercing] 중요한 건 일어난 일이 아니라 그에 대한 반응이에요.",
+      "[stoic, grounded] 부유함은 소유가 아니라 욕심이 없는 상태예요.",
+      "[sharp, composed] 말하기 전에, 그 말의 의미부터 아세요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

@@ -14,7 +14,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
     <table className="w-full min-w-[800px]">
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
-          <th className="w-12 px-3 md:px-4 py-3" />
+          <SortableTableHeader column="avatar_url" label="img" className="w-12" align="center" />
           <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">title</th>
           <SortableTableHeader column="nickname" label="nickname" />
           <SortableTableHeader column="profession" label="profession" />
@@ -49,7 +49,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
               <td className="px-3 md:px-4 py-3">
                 <div className="flex items-center gap-1.5">
                   <Link
-                    href={`/celebs/${celeb.id}`}
+                    href={`/celebs/${celeb.slug}`}
                     className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[120px] hover:text-accent hover:underline"
                   >
                     {celeb.nickname || '이름 없음'}
@@ -74,7 +74,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
                 <Link
-                  href={`/celebs/${celeb.id}/contents`}
+                  href={`/celebs/${celeb.slug}/contents`}
                   className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary hover:text-accent"
                 >
                   <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}

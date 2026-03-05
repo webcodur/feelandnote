@@ -75,6 +75,7 @@ export function ContentResults({
             titleEn={hasI18n ? (item as any).title_en : undefined}
             creatorEn={hasI18n ? (item as any).creator_en : undefined}
             thumbnailEn={hasI18n ? (item as any).thumbnail_en : undefined}
+            hasEnEdition={hasI18n ? (item as any).has_en_edition : undefined}
           />
         );
       })}

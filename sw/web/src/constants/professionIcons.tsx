@@ -1,0 +1,36 @@
+import {
+  Crown,
+  Landmark,
+  Shield,
+  Building2,
+  TrendingUp,
+  FlaskConical,
+  BookOpen,
+  Users,
+  Film,
+  Music,
+  Palette,
+  PenLine,
+  Drama,
+  Megaphone,
+  Dribbble,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+export const PROFESSION_ICONS: Record<string, LucideIcon> = {
+  leader: Crown,
+  politician: Landmark,
+  commander: Shield,
+  entrepreneur: Building2,
+  investor: TrendingUp,
+  scientist: FlaskConical,
+  humanities_scholar: BookOpen,
+  social_scientist: Users,
+  director: Film,
+  musician: Music,
+  visual_artist: Palette,
+  author: PenLine,
+  actor: Drama,
+  influencer: Megaphone,
+  athlete: Dribbble,
+};

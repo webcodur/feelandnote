@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "앤드루_응",
+  "profession": "scientist",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[warm, visionary] AI는 새로운 전기입니다.",
+      "[earnest, inviting] 기계를 지능적으로 만드는 것이야말로 가장 멋진 일이라고 생각했습니다.",
+      "[practical, hopeful] 당신의 일이 성공해도 세상에 도움이 안 된다면, 다른 길을 찾으세요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

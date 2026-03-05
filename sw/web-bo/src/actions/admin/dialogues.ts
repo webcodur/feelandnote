@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 export interface DialogueLines {
   greeting: [string, string, string]
-  answer: [string, string, string]
+  roll_call: [string, string, string]
   deploy: [string, string, string]
   battle_win: [string, string, string]
   battle_draw: [string, string, string]

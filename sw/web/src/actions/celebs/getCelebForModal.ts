@@ -29,7 +29,7 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     supabase.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
     supabase
       .from('celeb_tag_assignments')
-      .select('short_desc, long_desc, tag:celeb_tags(id, name, color)')
+      .select('short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, color)')
       .eq('celeb_id', celebId),
     supabase.from('celeb_dialogues').select('lines, lines_en').eq('celeb_id', celebId).maybeSingle(),
   ])
@@ -41,13 +41,16 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
 
   // 태그 정보 변환
   const tags: CelebTagInfo[] = (tagsResult.data || [])
-    .filter((t): t is typeof t & { tag: { id: string; name: string; color: string } } => t.tag !== null)
+    .filter((t): t is typeof t & { tag: { id: string; name: string; name_en: string | null; color: string } } => t.tag !== null)
     .map((t) => ({
       id: (t.tag as { id: string }).id,
       name: (t.tag as { name: string }).name,
+      name_en: (t.tag as { name_en: string | null }).name_en ?? null,
       color: (t.tag as { color: string }).color,
       short_desc: t.short_desc,
+      short_desc_en: t.short_desc_en,
       long_desc: t.long_desc,
+      long_desc_en: t.long_desc_en,
     }))
 
   // 영향력 정보 (total_score만 사용, level은 placeholder)

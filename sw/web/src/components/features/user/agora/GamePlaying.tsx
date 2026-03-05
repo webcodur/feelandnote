@@ -46,7 +46,7 @@ export default function GamePlaying({
       </div>
 
       <div className="bg-accent/5 rounded-2xl p-8 mb-8 border-l-4 border-accent">
-        <div className="text-lg leading-relaxed text-text-primary italic">&ldquo;{quote}&rdquo;</div>
+        <div className="text-lg leading-relaxed text-text-primary italic">{quote}</div>
         <div className="text-sm text-text-secondary mt-4 text-right">- 나의 기록</div>
       </div>
 

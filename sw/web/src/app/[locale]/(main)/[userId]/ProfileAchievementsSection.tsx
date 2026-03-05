@@ -178,7 +178,7 @@ function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpdating, onRemove 
                       <div className="w-8 sm:w-12 h-[1px] bg-current opacity-30 my-1 sm:my-3" />
 
                       <div className="hidden sm:block text-[11px] font-medium opacity-80 leading-relaxed px-1 break-keep line-clamp-3">
-                        &ldquo;{title.description}&rdquo;
+                        {title.description}
                       </div>
                     </div>
                     

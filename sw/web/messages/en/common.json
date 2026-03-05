@@ -27,7 +27,10 @@
       "dawn": "Dawn",
       "labyrinth": "Labyrinth",
       "hegemony": "Hegemony",
-      "suikoden": "Suikoden"
+      "suikoden": "Suikoden",
+      "spotlight": "Spotlight",
+      "social": "Social",
+      "socialFeed": "Social Feed"
     },
     "footer": {
       "about": "About",
@@ -38,17 +41,17 @@
   },
   "home": {
     "explore": {
-      "englishTitle": "Explore",
+      "englishTitle": "Notable Figures",
       "description": "Discover notable figures and the content they enjoyed.",
       "link": "Go to Explore"
     },
     "scriptures": {
-      "englishTitle": "Library",
+      "englishTitle": "Curated Reads",
       "description": "Check today's figure, shared shelves, and career-based picks.",
       "link": "Go to Library"
     },
     "agora": {
-      "englishTitle": "Community",
+      "englishTitle": "The Agora",
       "description": "Connect with other users and check feeds.",
       "link": "Go to Community"
     },
@@ -58,7 +61,7 @@
       "link": "Go to Lounge"
     },
     "archive": {
-      "englishTitle": "My Archives",
+      "englishTitle": "Personal Collection",
       "description": "Record and manage the content you've enjoyed.",
       "link": "Go to My Archives"
     },
@@ -249,23 +252,74 @@
       "depth": "Depth"
     },
     "titles": {
-      "content_1": { "name": "First Step", "description": "The journey begins" },
-      "content_10": { "name": "Ten Steps", "description": "Steadily walking" },
-      "content_50": { "name": "Library Owner", "description": "Surpassed 50 titles" },
-      "content_100": { "name": "Weight of a Hundred", "description": "A formidable collection" },
-      "record_1": { "name": "First Story", "description": "Recording begins" },
-      "record_10": { "name": "Storyteller", "description": "10 records" },
-      "record_50": { "name": "Master Recorder", "description": "50 records" },
-      "category_2": { "name": "Genre Traveler", "description": "Crossing boundaries" },
-      "category_3": { "name": "Genre Explorer", "description": "Into the unknown" },
-      "category_4": { "name": "Renaissance Soul", "description": "Connoisseur of all fields" },
-      "creator_10": { "name": "Creator Hunter", "description": "Diverse voices" },
-      "creator_30": { "name": "World Tour", "description": "No borders in taste" },
-      "avg_review_100": { "name": "Careful Reader", "description": "Meticulous records" },
-      "avg_review_300": { "name": "Perfectionist", "description": "Thorough records" },
-      "long_review_10": { "name": "Review Master", "description": "A prolific critic" },
-      "completed_10": { "name": "Completion Master", "description": "From start to finish" },
-      "completed_50": { "name": "Archive Artisan", "description": "Master of records" }
+      "content_1": {
+        "name": "First Step",
+        "description": "The journey begins"
+      },
+      "content_10": {
+        "name": "Ten Steps",
+        "description": "Steadily walking"
+      },
+      "content_50": {
+        "name": "Library Owner",
+        "description": "Surpassed 50 titles"
+      },
+      "content_100": {
+        "name": "Weight of a Hundred",
+        "description": "A formidable collection"
+      },
+      "record_1": {
+        "name": "First Story",
+        "description": "Recording begins"
+      },
+      "record_10": {
+        "name": "Storyteller",
+        "description": "10 records"
+      },
+      "record_50": {
+        "name": "Master Recorder",
+        "description": "50 records"
+      },
+      "category_2": {
+        "name": "Genre Traveler",
+        "description": "Crossing boundaries"
+      },
+      "category_3": {
+        "name": "Genre Explorer",
+        "description": "Into the unknown"
+      },
+      "category_4": {
+        "name": "Renaissance Soul",
+        "description": "Connoisseur of all fields"
+      },
+      "creator_10": {
+        "name": "Creator Hunter",
+        "description": "Diverse voices"
+      },
+      "creator_30": {
+        "name": "World Tour",
+        "description": "No borders in taste"
+      },
+      "avg_review_100": {
+        "name": "Careful Reader",
+        "description": "Meticulous records"
+      },
+      "avg_review_300": {
+        "name": "Perfectionist",
+        "description": "Thorough records"
+      },
+      "long_review_10": {
+        "name": "Review Master",
+        "description": "A prolific critic"
+      },
+      "completed_10": {
+        "name": "Completion Master",
+        "description": "From start to finish"
+      },
+      "completed_50": {
+        "name": "Archive Artisan",
+        "description": "Master of records"
+      }
     }
   },
   "explore": {
@@ -291,7 +345,9 @@
         "friends": "Friends",
         "following": "Following",
         "followers": "Followers",
-        "similar": "Similar Taste"
+        "similar": "Similar Taste",
+        "celebFeed": "Celeb Feed",
+        "spotlight": "Spotlight"
       },
       "empty": {
         "noFriends": "No friends yet",
@@ -318,6 +374,7 @@
       "influence": "Influence",
       "stats": "Stats",
       "collection": "Featured",
+      "searchFilter": "Search...",
       "gradeDistribution": "Distribution by Tier",
       "fullRanking": "Full Ranking",
       "scoreRange": "Score Range",
@@ -360,6 +417,7 @@
       "grid": "Grid",
       "carousel": "Carousel",
       "viewMore": "View more",
+      "viewAllCount": "+{count} View all",
       "prev": "Previous",
       "next": "Next",
       "loading": "Loading...",
@@ -373,15 +431,36 @@
       "personaNoSelection": "No person available to select.",
       "personaFigure": "Figure",
       "scoreRanges": {
-        "9": "81+",
-        "8": "71–80",
-        "7": "61–70",
-        "6": "51–60",
-        "5": "41–50",
-        "4": "31–40",
-        "3": "21–30",
+        "1": "≤ 10",
         "2": "11–20",
-        "1": "≤ 10"
+        "3": "21–30",
+        "4": "31–40",
+        "5": "41–50",
+        "6": "51–60",
+        "7": "61–70",
+        "8": "71–80",
+        "9": "81+"
+      }
+    },
+    "celebFeed": {
+      "metaTitle": "Celeb Feed | Explore",
+      "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+    },
+    "spotlight": {
+      "metaTitle": "Spotlight | Explore",
+      "tabs": {
+        "spotlight": "Spotlight",
+        "shared": "Shared Library",
+        "timeline": "Timeline"
+      },
+      "shared": {
+        "celebCount": "{count} shared",
+        "filterAll": "All",
+        "empty": "No shared content found"
+      },
+      "timeline": {
+        "title": "Content Chronicle",
+        "empty": "No content records"
       }
     }
   },
@@ -485,10 +564,30 @@
   "agora": {
     "section": "Community",
     "items": {
-      "celebFeed": { "label": "Celeb Feed", "description": "Explore celeb archives" },
-      "friendFeed": { "label": "Friend Feed", "description": "Check your friends' latest updates" },
-      "notice": { "label": "Announcements", "description": "View service announcements" },
-      "feedback": { "label": "Feedback", "description": "Share your opinions and feedback" }
+      "celebFeed": {
+        "label": "Celeb Feed",
+        "description": "Explore celeb archives"
+      },
+      "friendFeed": {
+        "label": "Friend Feed",
+        "description": "Check your friends' latest updates"
+      },
+      "notice": {
+        "label": "Announcements",
+        "description": "View service announcements"
+      },
+      "feedback": {
+        "label": "Feedback",
+        "description": "Share your opinions and feedback"
+      },
+      "social": {
+        "label": "Social",
+        "description": "Browse your friends and connections"
+      },
+      "socialFeed": {
+        "label": "Social Feed",
+        "description": "Check your friends latest updates"
+      }
     },
     "meta": {
       "title": "Community",
@@ -513,14 +612,33 @@
       "description": "Official announcements from the Feel&Note service.",
       "write": "Write Announcement",
       "edit": "Edit Announcement"
+    },
+    "social": {
+      "metaTitle": "Social | Community"
+    },
+    "socialFeed": {
+      "metaTitle": "Social Feed | Community"
     }
   },
   "scriptures": {
     "section": "Library of Wisdom",
     "tabs": {
-      "era": { "label": "Masterpieces", "description": "Timeless masterpieces and era-defining works" },
-      "profession": { "label": "Crossroads", "description": "Recommended content by profession" },
-      "history": { "label": "Content History", "description": "A chronicle of human knowledge and media" }
+      "era": {
+        "label": "Masterpieces",
+        "description": "Timeless masterpieces and era-defining works"
+      },
+      "profession": {
+        "label": "Crossroads",
+        "description": "Recommended content by profession"
+      },
+      "museum": {
+        "label": "Museum",
+        "description": "A chronicle of human knowledge and media"
+      },
+      "academy": {
+        "label": "Academy",
+        "description": "Reading methods comparison, harmony lessons, and more"
+      }
     },
     "meta": {
       "title": "Library",
@@ -534,8 +652,8 @@
       "metaTitle": "Masterpieces | Library",
       "metaDescription": "Explore iconic works and must-reads from every era."
     },
-    "history": {
-      "metaTitle": "Content History | Library",
+    "museum": {
+      "metaTitle": "Museum | Library",
       "metaDescription": "Trace the evolution of human knowledge media and content formats.",
       "pageTitle": "Chronicle of Content",
       "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
@@ -543,6 +661,90 @@
       "present": "Present",
       "representativeTypeface": "Representative Typefaces",
       "usageContext": "Usage Context",
+      "foldEssay": "Fold essay",
+      "unfoldEssay": "Unfold essay",
+      "category": {
+        "book": {
+          "label": "Books",
+          "description": "From clay tablets to e-books: a 5,000-year chronicle of recording media"
+        },
+        "video": {
+          "label": "Video",
+          "description": "From magic lanterns to streaming: the history of moving light"
+        },
+        "music": {
+          "label": "Music",
+          "description": "From oral melodies to digital audio: a chronicle of sound"
+        },
+        "game": {
+          "label": "Games",
+          "description": "From dice to virtual reality: the evolution of play"
+        }
+      },
+      "sub": {
+        "book": {
+          "media": {
+            "label": "Media",
+            "description": "From clay tablets to e-books: the evolution of recording media over 5,000 years"
+          },
+          "writing_tool": {
+            "label": "Writing Tools",
+            "description": "From reed pens to digital pens: the evolution of writing instruments"
+          },
+          "typography": {
+            "label": "Typography",
+            "description": "From pictographs to digital fonts: the evolution of typeface design"
+          }
+        },
+        "video": {
+          "media": {
+            "label": "Media",
+            "description": "From magic lanterns to streaming: the evolution of projection media and formats"
+          },
+          "technique": {
+            "label": "Techniques",
+            "description": "From optical illusions to CGI: the evolution of technology turning imagination into reality"
+          },
+          "space": {
+            "label": "Spaces",
+            "description": "From single-screen theaters to living room displays: the evolution of viewing experiences"
+          }
+        },
+        "music": {
+          "media": {
+            "label": "Media",
+            "description": "From oral melodies to digital audio: the history of sound storage and transmission"
+          },
+          "instrument": {
+            "label": "Instruments",
+            "description": "From percussion to digital synthesizers: the evolution of sound-making tools"
+          },
+          "experience": {
+            "label": "Listening",
+            "description": "From ritual halls to algorithms: the evolution of where and how we listen to music"
+          }
+        },
+        "game": {
+          "platform": {
+            "label": "Platforms",
+            "description": "From board games to cloud: the evolution of gaming environments"
+          },
+          "interface": {
+            "label": "Interfaces",
+            "description": "From dice to VR controllers: the evolution of how we interact with games"
+          },
+          "graphics": {
+            "label": "Graphics",
+            "description": "From text to ray tracing: the evolution of how games render worlds"
+          }
+        }
+      }
+    },
+    "academy": {
+      "metaTitle": "Academy | Library",
+      "metaDescription": "Reading methods comparison, harmony lessons, and systematic educational content.",
+      "pageTitle": "Academy of Wisdom",
+      "defaultDescription": "From reading methods analysis to harmony lessons, explore systematic educational content.",
       "foldEssay": "Fold essay",
       "unfoldEssay": "Unfold essay",
       "readingMethod": "Reading Method",
@@ -570,33 +772,27 @@
         }
       },
       "category": {
-        "book": { "label": "Books", "description": "From clay tablets to e-books: a 5,000-year chronicle of recording media" },
-        "video": { "label": "Video", "description": "From magic lanterns to streaming: the history of moving light" },
-        "music": { "label": "Music", "description": "From oral melodies to digital audio: a chronicle of sound" },
-        "game": { "label": "Games", "description": "From dice to virtual reality: the evolution of play" }
+        "book": {
+          "label": "Books",
+          "description": "Reading methods comparison"
+        },
+        "music": {
+          "label": "Music",
+          "description": "Harmony lessons"
+        }
       },
       "sub": {
         "book": {
-          "media": { "label": "Media", "description": "From clay tablets to e-books: the evolution of recording media over 5,000 years" },
-          "writing_tool": { "label": "Writing Tools", "description": "From reed pens to digital pens: the evolution of writing instruments" },
-          "typography": { "label": "Typography", "description": "From pictographs to digital fonts: the evolution of typeface design" },
-          "reading": { "label": "Reading", "description": "From reading aloud to hypertext: the evolution of the act of reading" }
-        },
-        "video": {
-          "media": { "label": "Media", "description": "From magic lanterns to streaming: the evolution of projection media and formats" },
-          "technique": { "label": "Techniques", "description": "From optical illusions to CGI: the evolution of technology turning imagination into reality" },
-          "space": { "label": "Spaces", "description": "From single-screen theaters to living room displays: the evolution of viewing experiences" }
+          "reading": {
+            "label": "Reading",
+            "description": "From reading aloud to hypertext: the evolution of the act of reading"
+          }
         },
         "music": {
-          "media": { "label": "Media", "description": "From oral melodies to digital audio: the history of sound storage and transmission" },
-          "instrument": { "label": "Instruments", "description": "From percussion to digital synthesizers: the evolution of sound-making tools" },
-          "experience": { "label": "Listening", "description": "From ritual halls to algorithms: the evolution of where and how we listen to music" },
-          "harmony": { "label": "Harmony", "description": "From notes to chord progressions: a systematic music theory textbook" }
-        },
-        "game": {
-          "platform": { "label": "Platforms", "description": "From board games to cloud: the evolution of gaming environments" },
-          "interface": { "label": "Interfaces", "description": "From dice to VR controllers: the evolution of how we interact with games" },
-          "graphics": { "label": "Graphics", "description": "From text to ray tracing: the evolution of how games render worlds" }
+          "harmony": {
+            "label": "Harmony",
+            "description": "From notes to chord progressions: a systematic music theory textbook"
+          }
         }
       }
     },
@@ -606,11 +802,30 @@
     },
     "page": {
       "section": {
-        "sage": { "label": "Today's Figure", "description": "A new figure is featured every day at midnight" },
-        "chosen": { "label": "Common Shelf", "description": "Works appreciated by the most figures" },
-        "profession": { "label": "Crossroads", "description": "Must-reads by profession" },
-        "era": { "label": "Works of the Era", "description": "Curated picks from each era" },
-        "history": { "label": "Content History", "description": "A chronicle of human knowledge media and content" }
+        "sage": {
+          "label": "Today's Figure",
+          "description": "A new figure is featured every day at midnight"
+        },
+        "chosen": {
+          "label": "Common Shelf",
+          "description": "Works appreciated by the most figures"
+        },
+        "profession": {
+          "label": "Crossroads",
+          "description": "Must-reads by profession"
+        },
+        "era": {
+          "label": "Works of the Era",
+          "description": "Curated picks from each era"
+        },
+        "museum": {
+          "label": "Museum",
+          "description": "A chronicle of human knowledge media and content"
+        },
+        "academy": {
+          "label": "Academy",
+          "description": "Reading methods, harmony lessons, and more"
+        }
       },
       "toc": "Table of Contents",
       "openToc": "Open table of contents",
@@ -695,27 +910,27 @@
       },
       "labyrinth": {
         "label": "Labyrinth",
-        "description": "Track the hidden figure among the suspects",
-        "headerDesc": "Track Down the Intruder",
-        "headerSub": "Analyze clues from six suspects to find the hidden figure.",
-        "catchphrase": "Find the hidden suspect",
-        "startTracking": "Start Tracking",
-        "startTrackingDesc": "Track the hidden figure among 6 suspects",
-        "rulesDesc": "A game of tracking the hidden figure by analyzing clues from 6 suspects",
-        "rulesIntro": "<game>Labyrinth</game> is a game where you track the hidden figure among 6 suspects. Clear suspects <x>(X)</x> to unlock new clues. When confident, identify the target <o>(O)</o>.",
-        "clueUnlockTitle": "Clue Unlock Order",
-        "clue1": "Clue 1",
+        "description": "Seek the reclusive sage and recruit them",
+        "headerDesc": "Find the Hidden Sage",
+        "headerSub": "Examine the traces of six sages to discover the one you seek.",
+        "catchphrase": "Find the reclusive sage",
+        "startTracking": "Begin Inquiry",
+        "startTrackingDesc": "Inquire among 6 sages to find the one you seek",
+        "rulesDesc": "A game of examining traces from 6 sages to discover the one you seek",
+        "rulesIntro": "<game>Labyrinth</game> is a game where you discover the one you seek among 6 sages. Confirm that someone is not the one <x>(X)</x> to unlock new traces. When confident, recruit the one you seek <o>(O)</o>.",
+        "clueUnlockTitle": "Trace Unlock Order",
+        "clue1": "Trace 1",
         "clue1Desc": "1 content review — revealed at game start",
-        "clue2": "Clue 2",
-        "clue2Desc": "2nd content review — unlocked after 1 elimination",
-        "clue3": "Clue 3",
-        "clue3Desc": "3rd content review — unlocked after 2 eliminations",
-        "clue4": "Clue 4",
-        "clue4Desc": "4th content review — unlocked after 3 eliminations",
+        "clue2": "Trace 2",
+        "clue2Desc": "2nd content review — unlocked after 1 confirmation",
+        "clue3": "Trace 3",
+        "clue3Desc": "3rd content review — unlocked after 2 confirmations",
+        "clue4": "Trace 4",
+        "clue4Desc": "4th content review — unlocked after 3 confirmations",
         "cluePhilosophy": "Philosophy",
-        "cluePhilosophyDesc": "Viewing philosophy — unlocked after 4 eliminations",
-        "tip1": "Click a suspect card to reveal <o>O</o> (identify) and <x>X</x> (eliminate) buttons. Each elimination unlocks a new clue, so gather clues to narrow down the suspects.",
-        "tip2": "You can identify at any time, but the fewer eliminations with a correct guess, the better. Wrong guesses cause the hidden figure to flee. Judge carefully."
+        "cluePhilosophyDesc": "Viewing philosophy — unlocked after 4 confirmations",
+        "tip1": "Click a sage card to reveal <o>O</o> (recruit) and <x>X</x> (confirm) buttons. Each confirmation unlocks a new trace, so gather traces to narrow down the sages.",
+        "tip2": "You can recruit at any time, but the fewer confirmations with a correct guess, the better. A wrong guess causes the sage to vanish. Judge carefully."
       },
       "hegemony": {
         "label": "Hegemony",
@@ -799,27 +1014,53 @@
           "desc": "A strategy simulation where you grow your faction with historical figures",
           "overview": "<game>Cheondo</game> is a strategy simulation where you lead historical figures, build your faction, and unify civilizations. Inspired by Koei's Suikoden: Tenmei no Chikai (1996).",
           "flowTitle": "Game Flow",
-          "flow1": "Wander", "flow1Desc": "Explore the world and recruit talents",
-          "flow2": "Strategy", "flow2Desc": "Manage strongholds and expand your power",
-          "flow3": "Battle", "flow3Desc": "Lead your forces against rival factions",
+          "flow1": "Wander",
+          "flow1Desc": "Explore the world and recruit talents",
+          "flow2": "Strategy",
+          "flow2Desc": "Manage strongholds and expand your power",
+          "flow3": "Battle",
+          "flow3Desc": "Lead your forces against rival factions",
           "coreTitle": "Core Systems",
-          "core1": "Recruitment", "core1Desc": "Persuade people you meet to join your cause",
-          "core2": "Army Formation", "core2Desc": "Organize your recruits into battle units",
-          "core3": "Construction", "core3Desc": "Build facilities and strengthen your base",
-          "core4": "Tactics", "core4Desc": "Choose tactics in battle to gain the upper hand"
+          "core1": "Recruitment",
+          "core1Desc": "Persuade people you meet to join your cause",
+          "core2": "Army Formation",
+          "core2Desc": "Organize your recruits into battle units",
+          "core3": "Construction",
+          "core3Desc": "Build facilities and strengthen your base",
+          "core4": "Tactics",
+          "core4Desc": "Choose tactics in battle to gain the upper hand"
         },
         "class": {
-          "general": "General", "saint": "Saint", "strategist": "Strategist",
-          "official": "Official", "artist": "Artist", "artisan": "Artisan", "ranger": "Ranger"
+          "general": "General",
+          "saint": "Saint",
+          "strategist": "Strategist",
+          "official": "Official",
+          "artist": "Artist",
+          "artisan": "Artisan",
+          "ranger": "Ranger"
         },
         "bldgCat": {
-          "agriculture": "Agriculture", "commerce": "Commerce", "military": "Military", "culture": "Culture"
+          "agriculture": "Agriculture",
+          "commerce": "Commerce",
+          "military": "Military",
+          "culture": "Culture"
         },
         "bldg": {
-          "farm": "Farm", "market": "Market", "trade": "Trading Post", "lumber": "Lumber Mill", "mine": "Mine",
-          "barracks": "Barracks", "training": "Training Ground", "walls": "Walls", "armory": "Armory",
-          "library": "Library", "academy": "Academy", "temple": "Temple", "theater": "Theater",
-          "tavern": "Tavern", "patrol": "Patrol Post"
+          "farm": "Farm",
+          "market": "Market",
+          "trade": "Trading Post",
+          "lumber": "Lumber Mill",
+          "mine": "Mine",
+          "barracks": "Barracks",
+          "training": "Training Ground",
+          "walls": "Walls",
+          "armory": "Armory",
+          "library": "Library",
+          "academy": "Academy",
+          "temple": "Temple",
+          "theater": "Theater",
+          "tavern": "Tavern",
+          "patrol": "Patrol Post"
         },
         "bldgDesc": {
           "farm": "Basic agricultural facility that produces food",
@@ -839,73 +1080,162 @@
           "patrol": "Surveillance facility that monitors threats"
         },
         "tactic": {
-          "charge": "Charge", "defend": "Defend", "stratagem": "Stratagem",
-          "fire": "Fire", "morale": "Rally", "feint": "Feint"
+          "charge": "Charge",
+          "defend": "Defend",
+          "stratagem": "Stratagem",
+          "fire": "Fire",
+          "morale": "Rally",
+          "feint": "Feint"
         },
         "tacticDesc": {
-          "charge": "Powerful charge. High damage, high loss", "defend": "Reduce damage. Strong vs fire",
-          "stratagem": "Battle of wits. Strong in morale wars", "fire": "Area damage. Weak vs defense",
-          "morale": "Restore morale. Weak vs stratagem", "feint": "Counter. Strong vs charge"
+          "charge": "Powerful charge. High damage, high loss",
+          "defend": "Reduce damage. Strong vs fire",
+          "stratagem": "Battle of wits. Strong in morale wars",
+          "fire": "Area damage. Weak vs defense",
+          "morale": "Restore morale. Weak vs stratagem",
+          "feint": "Counter. Strong vs charge"
         },
         "stat": {
-          "command": "Command", "martial": "Martial", "intellect": "Intellect", "charm": "Charm",
-          "temperance": "Temperance", "diligence": "Diligence", "reflection": "Reflection", "courage": "Courage",
-          "loyalty": "Loyalty", "benevolence": "Benevolence", "fairness": "Fairness", "humility": "Humility"
+          "command": "Command",
+          "martial": "Martial",
+          "intellect": "Intellect",
+          "charm": "Charm",
+          "temperance": "Temperance",
+          "diligence": "Diligence",
+          "reflection": "Reflection",
+          "courage": "Courage",
+          "loyalty": "Loyalty",
+          "benevolence": "Benevolence",
+          "fairness": "Fairness",
+          "humility": "Humility"
         },
         "statDesc": {
-          "command": "Ability to lead organizations and armies", "martial": "Combat power. Key for charges and duels",
-          "intellect": "Stratagems, fire, diplomacy. Academy requirement", "charm": "Recruitment, diplomacy, public order bonus",
-          "temperance": "Self-control over desires and emotions", "diligence": "Construction efficiency and production bonus",
-          "reflection": "Stratagem support and research efficiency", "courage": "Patrol success rate and charge support",
-          "loyalty": "Devotion to beliefs and relationships", "benevolence": "Temple construction, recruitment, healing",
-          "fairness": "Diplomacy and alliance bonus", "humility": "Defense and fortification bonus"
+          "command": "Ability to lead organizations and armies",
+          "martial": "Combat power. Key for charges and duels",
+          "intellect": "Stratagems, fire, diplomacy. Academy requirement",
+          "charm": "Recruitment, diplomacy, public order bonus",
+          "temperance": "Self-control over desires and emotions",
+          "diligence": "Construction efficiency and production bonus",
+          "reflection": "Stratagem support and research efficiency",
+          "courage": "Patrol success rate and charge support",
+          "loyalty": "Devotion to beliefs and relationships",
+          "benevolence": "Temple construction, recruitment, healing",
+          "fairness": "Diplomacy and alliance bonus",
+          "humility": "Defense and fortification bonus"
         },
         "disp": {
-          "pessimismOptimism": { "neg": "Pessimism", "pos": "Optimism" },
-          "conservativeProgressive": { "neg": "Conservative", "pos": "Progressive" },
-          "individualSocial": { "neg": "Individual", "pos": "Communal" },
-          "cautiousBold": { "neg": "Cautious", "pos": "Bold" }
+          "pessimismOptimism": {
+            "neg": "Pessimism",
+            "pos": "Optimism"
+          },
+          "conservativeProgressive": {
+            "neg": "Conservative",
+            "pos": "Progressive"
+          },
+          "individualSocial": {
+            "neg": "Individual",
+            "pos": "Communal"
+          },
+          "cautiousBold": {
+            "neg": "Cautious",
+            "pos": "Bold"
+          }
         },
-        "equip": { "weapons": "Weapons", "horses": "Horses", "ships": "Ships", "charms": "Charms" },
+        "equip": {
+          "weapons": "Weapons",
+          "horses": "Horses",
+          "ships": "Ships",
+          "charms": "Charms"
+        },
         "equipDesc": {
-          "weapons": "Attack bonus (up to +30%)", "horses": "Charge bonus (up to +20%)",
-          "ships": "Naval combat bonus", "charms": "Stratagem defense (up to -30% damage)"
+          "weapons": "Attack bonus (up to +30%)",
+          "horses": "Charge bonus (up to +20%)",
+          "ships": "Naval combat bonus",
+          "charms": "Stratagem defense (up to -30% damage)"
         },
-        "threat": { "bandit": "Bandits", "beast": "Beasts", "plague": "Plague", "spy": "Spies" },
-        "era": { "ancient": "Ancient", "medieval": "Medieval", "modern": "Modern" },
+        "threat": {
+          "bandit": "Bandits",
+          "beast": "Beasts",
+          "plague": "Plague",
+          "spy": "Spies"
+        },
+        "era": {
+          "ancient": "Ancient",
+          "medieval": "Medieval",
+          "modern": "Modern"
+        },
         "eraDesc": {
           "ancient": "~500 CE. The age of Alexander, Caesar, and Cao Cao",
           "medieval": "500–1500 CE. The age of Genghis Khan, Saladin, and Richard",
           "modern": "1500~ CE. The age of Napoleon, Washington, and Bismarck"
         },
         "skill": {
-          "charge": "Charge", "duel_provoke": "Duel Provoke", "heal": "Heal", "barrier": "Barrier",
-          "confuse": "Confuse", "fire_attack": "Fire Attack", "iron_wall": "Iron Wall", "diplomacy_threat": "Diplomatic Threat",
-          "inspire": "Inspire", "culture_sway": "Cultural Sway", "trap": "Set Trap", "siege_strike": "Siege Strike",
-          "ambush": "Ambush", "detect_trap": "Detect Trap"
+          "charge": "Charge",
+          "duel_provoke": "Duel Provoke",
+          "heal": "Heal",
+          "barrier": "Barrier",
+          "confuse": "Confuse",
+          "fire_attack": "Fire Attack",
+          "iron_wall": "Iron Wall",
+          "diplomacy_threat": "Diplomatic Threat",
+          "inspire": "Inspire",
+          "culture_sway": "Cultural Sway",
+          "trap": "Set Trap",
+          "siege_strike": "Siege Strike",
+          "ambush": "Ambush",
+          "detect_trap": "Detect Trap"
         },
         "skillDesc": {
-          "charge": "Damage ×1.5, also takes damage", "duel_provoke": "1v1 duel with adjacent enemy",
-          "heal": "Restore 30% HP to one ally", "barrier": "Grant one ally 1-turn invincibility",
-          "confuse": "Disable enemy for 1 turn (intellect check)", "fire_attack": "Damage to enemy row",
-          "iron_wall": "Double defense of adjacent ally", "diplomacy_threat": "Enemy morale -15",
-          "inspire": "All allies morale +10", "culture_sway": "Enemy morale -15",
-          "trap": "Place trap in front row", "siege_strike": "Wall damage ×3",
-          "ambush": "Preemptive damage, undodgeable", "detect_trap": "Nullify enemy traps"
+          "charge": "Damage ×1.5, also takes damage",
+          "duel_provoke": "1v1 duel with adjacent enemy",
+          "heal": "Restore 30% HP to one ally",
+          "barrier": "Grant one ally 1-turn invincibility",
+          "confuse": "Disable enemy for 1 turn (intellect check)",
+          "fire_attack": "Damage to enemy row",
+          "iron_wall": "Double defense of adjacent ally",
+          "diplomacy_threat": "Enemy morale -15",
+          "inspire": "All allies morale +10",
+          "culture_sway": "Enemy morale -15",
+          "trap": "Place trap in front row",
+          "siege_strike": "Wall damage ×3",
+          "ambush": "Preemptive damage, undodgeable",
+          "detect_trap": "Nullify enemy traps"
         },
         "region": {
-          "east_asia": "East Asia", "southeast_asia": "Southeast Asia", "south_asia": "South Asia",
-          "central_asia": "Central Asia", "middle_east": "Middle East", "east_europe": "East Europe",
-          "west_europe": "West Europe", "africa": "Africa", "americas": "Americas", "oceania": "Oceania"
+          "east_asia": "East Asia",
+          "southeast_asia": "Southeast Asia",
+          "south_asia": "South Asia",
+          "central_asia": "Central Asia",
+          "middle_east": "Middle East",
+          "east_europe": "East Europe",
+          "west_europe": "West Europe",
+          "africa": "Africa",
+          "americas": "Americas",
+          "oceania": "Oceania"
         },
         "territory": {
-          "beijing": "Beijing", "nanjing": "Nanjing", "pyongyang": "Pyongyang",
-          "hanoi": "Hanoi", "angkor": "Angkor", "delhi": "Delhi", "kolkata": "Kolkata",
-          "samarkand": "Samarkand", "moscow": "Moscow", "baghdad": "Baghdad", "cairo": "Cairo",
-          "constantinople": "Constantinople", "berlin": "Berlin",
-          "rome": "Rome", "paris": "Paris", "london": "London",
-          "carthage": "Carthage", "timbuktu": "Timbuktu", "nairobi": "Nairobi",
-          "new_york": "New York", "tenochtitlan": "Tenochtitlan", "sydney": "Sydney"
+          "beijing": "Beijing",
+          "nanjing": "Nanjing",
+          "pyongyang": "Pyongyang",
+          "hanoi": "Hanoi",
+          "angkor": "Angkor",
+          "delhi": "Delhi",
+          "kolkata": "Kolkata",
+          "samarkand": "Samarkand",
+          "moscow": "Moscow",
+          "baghdad": "Baghdad",
+          "cairo": "Cairo",
+          "constantinople": "Constantinople",
+          "berlin": "Berlin",
+          "rome": "Rome",
+          "paris": "Paris",
+          "london": "London",
+          "carthage": "Carthage",
+          "timbuktu": "Timbuktu",
+          "nairobi": "Nairobi",
+          "new_york": "New York",
+          "tenochtitlan": "Tenochtitlan",
+          "sydney": "Sydney"
         },
         "scenery": {
           "s1": "Crossed a steep mountain pass. Smoke from a village rises in the distance.",
@@ -926,7 +1256,8 @@
         },
         "scenario": {
           "three_kingdoms": {
-            "name": "Three Kingdoms", "subtitle": "Three nations clash for supremacy over the Central Plains",
+            "name": "Three Kingdoms",
+            "subtitle": "Three nations clash for supremacy over the Central Plains",
             "desc": "After the fall of the Later Han, three heroes — Cao Cao, Liu Bei, and Sun Quan — vie for dominance. To the west, forces inheriting Qin Shi Huang's legacy watch for opportunities. Gather talents and unify the realm.",
             "objective": "Unify all territories",
             "cand1": "Gathering talents with righteousness in Shu, harboring dreams of restoring the Han dynasty.",
@@ -934,14 +1265,16 @@
             "cand3": "The Tiger of Jiangdong. Builds an empire on the foundation left by his father and brother."
           },
           "crusades": {
-            "name": "Crusades", "subtitle": "A clash of East and West over the Holy Land",
+            "name": "Crusades",
+            "subtitle": "A clash of East and West over the Holy Land",
             "desc": "Across the Mediterranean, Crusader and Islamic forces collide. Who will control the Holy City of Jerusalem? Ottoman ambitions stir in Constantinople, and Eastern European lords refuse to stand idle.",
             "objective": "Secure the Holy Land (Cairo) and eliminate 3+ rival factions",
             "cand1": "Richard the Lionheart. Leads a great army on crusade to reclaim the Holy Land.",
             "cand2": "Defender of Islam. Protects the Holy Land with mercy and martial prowess."
           },
           "sengoku": {
-            "name": "Sengoku", "subtitle": "Who shall unite the realm?",
+            "name": "Sengoku",
+            "subtitle": "Who shall unite the realm?",
             "desc": "The Japanese archipelago enters the Warring States period. Oda Nobunaga, Tokugawa Ieyasu, Takeda Shingen — three warlords contest for supremacy while heroes rise across East Asia.",
             "objective": "Unify all territories",
             "cand1": "The Demon King. Topples the old order through innovation and destruction.",
@@ -949,14 +1282,16 @@
             "cand3": "The Tiger of Kai. Overwhelms enemies under the banner of Wind, Forest, Fire, Mountain."
           },
           "napoleonic": {
-            "name": "Napoleonic Wars", "subtitle": "The flames of revolution sweep across Europe",
+            "name": "Napoleonic Wars",
+            "subtitle": "The flames of revolution sweep across Europe",
             "desc": "Napoleon rises amidst the flames of the French Revolution. Wellington of Britain opposes him, while Bismarck of Prussia and Russian giants eye European hegemony. The great clash between old and new order begins.",
             "objective": "Secure 5+ European territories",
             "cand1": "Child of the revolution. Harbors the ambition to establish a new order across all of Europe.",
             "cand2": "The Iron Duke. Stakes the prestige of the British Empire to halt France's ambitions."
           },
           "mongol_empire": {
-            "name": "Mongol Empire", "subtitle": "The steppe lord rides toward the world",
+            "name": "Mongol Empire",
+            "subtitle": "The steppe lord rides toward the world",
             "desc": "Genghis Khan unifies the steppes and embarks on world conquest. Forces inheriting Tang Taizong's legacy control the western regions, while Zhu Yuanzhang prepares his northern campaign from the south. Who shall rule the Eurasian continent?",
             "objective": "Secure 7+ Eurasian territories",
             "cand1": "The Great Khan. Born on horseback, conquers the world on horseback.",
@@ -964,71 +1299,137 @@
           }
         },
         "setup": {
-          "back": "← Back", "selectScenario": "Select Scenario",
+          "back": "← Back",
+          "selectScenario": "Select Scenario",
           "scenarioHint1": "Choose a theater of historical conflict.",
           "scenarioHint2": "Each scenario has pre-configured factions and wandering talents.",
-          "diffEasy": "Easy", "diffNormal": "Normal", "diffHard": "Hard",
+          "diffEasy": "Easy",
+          "diffNormal": "Normal",
+          "diffHard": "Hard",
           "selectLord": "Select Lord",
-          "existingFactions": "Existing Factions", "wanderers": "Wandering Talents", "lordCandidates": "Lord Candidates",
+          "existingFactions": "Existing Factions",
+          "wanderers": "Wandering Talents",
+          "lordCandidates": "Lord Candidates",
           "statSummary": "CMD/MAR/INT/CHA",
           "startAs": "Start as {name}",
           "selectLordPrompt": "Select a character to be your lord",
           "undecided": "Undecided",
-          "lordCount": "{count} Lords", "aiFactionCount": "{count} AI Factions", "wandererCount": "{count} Wanderers",
+          "lordCount": "{count} Lords",
+          "aiFactionCount": "{count} AI Factions",
+          "wandererCount": "{count} Wanderers",
           "startGame": "Start Game",
           "memberCount": "{count} members"
         },
         "battle": {
-          "victory": "Victory!", "defeat": "Defeat...", "defenseSuccess": "Defense Successful!", "draw": "Draw",
-          "goBack": "Return", "walls": "[Walls]", "turnCount": "Turn {current}/{max}",
-          "allyMorale": "Ally Morale", "enemyMorale": "Enemy Morale", "ally": "Allies", "enemy": "Enemies",
+          "victory": "Victory!",
+          "defeat": "Defeat...",
+          "defenseSuccess": "Defense Successful!",
+          "draw": "Draw",
+          "goBack": "Return",
+          "walls": "[Walls]",
+          "turnCount": "Turn {current}/{max}",
+          "allyMorale": "Ally Morale",
+          "enemyMorale": "Enemy Morale",
+          "ally": "Allies",
+          "enemy": "Enemies",
           "actingUnit": "{name} acting...",
-          "selectTactic": "Select Tactic", "troopCost": "Cost {rate}%",
-          "leaderMark": "[L]", "defeated": "Defeated", "troops": "Troops {count}", "morale": "Morale {value}"
+          "selectTactic": "Select Tactic",
+          "troopCost": "Cost {rate}%",
+          "leaderMark": "[L]",
+          "defeated": "Defeated",
+          "troops": "Troops {count}",
+          "morale": "Morale {value}"
         },
         "wander": {
-          "title": "{name}'s Wandering", "dayCount": "Day {day}", "gold": "Gold {amount}",
-          "companions": "Companions", "backToMain": "Main Screen",
-          "movePrompt": "Select a region to travel", "moveTo": "Travel: {from} → {to}",
+          "title": "{name}'s Wandering",
+          "dayCount": "Day {day}",
+          "gold": "Gold {amount}",
+          "companions": "Companions",
+          "backToMain": "Main Screen",
+          "movePrompt": "Select a region to travel",
+          "moveTo": "Travel: {from} → {to}",
           "noCompanions": "No companions yet",
-          "tagVisit": "[Visit]", "tagRepel": "[Repel]", "tagRaid": "[Raid]",
-          "tagSupport": "[Support]", "tagScenery": "[Scenery]", "tagRumor": "[Rumor]",
-          "tryRecruit": "Recruit", "passBy": "Pass",
-          "recruitSuccess": "Joined your cause.", "recruitFail": "Recruitment failed.", "departed": "Departed.",
-          "handleVisitorFirst": "Handle the visitor's response first", "nextDay": "Next Day →",
-          "raiseArmyDisabled": "Cannot Raise Army", "raiseArmy": "Raise Army: {territory}",
-          "raiseArmyPrompt": "You can raise an army in an empty territory of this region.", "raiseHere": "Raise Army Here",
-          "journalTitle": "Journey Log", "journalEmpty": "The journey has not begun",
-          "travelingTo": "Traveling — {region}", "regionMove": "Region Travel", "globe3d": "3D Globe", "textMap": "Text",
-          "moveConfirm": "Travel to {name}", "depart": "Depart", "cancel": "Cancel",
-          "lordBadge": "Lord", "continueJourney": "Proceed to the next day and continue your journey.",
-          "travelDays": "{current}/{total} days", "goldDelta": "Gold {delta}"
+          "tagVisit": "[Visit]",
+          "tagRepel": "[Repel]",
+          "tagRaid": "[Raid]",
+          "tagSupport": "[Support]",
+          "tagScenery": "[Scenery]",
+          "tagRumor": "[Rumor]",
+          "tryRecruit": "Recruit",
+          "passBy": "Pass",
+          "recruitSuccess": "Joined your cause.",
+          "recruitFail": "Recruitment failed.",
+          "departed": "Departed.",
+          "handleVisitorFirst": "Handle the visitor's response first",
+          "nextDay": "Next Day →",
+          "raiseArmyDisabled": "Cannot Raise Army",
+          "raiseArmy": "Raise Army: {territory}",
+          "raiseArmyPrompt": "You can raise an army in an empty territory of this region.",
+          "raiseHere": "Raise Army Here",
+          "journalTitle": "Journey Log",
+          "journalEmpty": "The journey has not begun",
+          "travelingTo": "Traveling — {region}",
+          "regionMove": "Region Travel",
+          "globe3d": "3D Globe",
+          "textMap": "Text",
+          "moveConfirm": "Travel to {name}",
+          "depart": "Depart",
+          "cancel": "Cancel",
+          "lordBadge": "Lord",
+          "continueJourney": "Proceed to the next day and continue your journey.",
+          "travelDays": "{current}/{total} days",
+          "goldDelta": "Gold {delta}"
         },
         "mgmt": {
-          "idle": "Idle", "training": "Training", "threats": "Threats", "visitors": "Visitors",
-          "noIdleChars": "No idle characters", "noTrainingChars": "No training characters", "noVisitors": "No visitors",
-          "dispatchSubjugate": "Dispatch", "unassign": "Remove", "assign": "Assign",
+          "idle": "Idle",
+          "training": "Training",
+          "threats": "Threats",
+          "visitors": "Visitors",
+          "noIdleChars": "No idle characters",
+          "noTrainingChars": "No training characters",
+          "noVisitors": "No visitors",
+          "dispatchSubjugate": "Dispatch",
+          "unassign": "Remove",
+          "assign": "Assign",
           "toastSelectCharFirst": "Select a character to assign first.",
           "toastSelectBuilderFirst": "Select a builder first.",
           "toastTrainingCannotBuild": "Characters in training cannot build.",
           "toastAlreadyBuilding": "This character is already building.",
-          "effect": "Effect", "buildCost": "Build Cost", "buildDuration": "Build Duration", "buildRequirement": "Requirement",
+          "effect": "Effect",
+          "buildCost": "Build Cost",
+          "buildDuration": "Build Duration",
+          "buildRequirement": "Requirement",
           "buildProgress": "Building {current}/{total}",
-          "fullCapacity": "Full Capacity", "resting": "Resting", "operating": "Operating",
-          "assignWorker": "+ Assign", "emptySlot": "Empty", "demolish": "Demolish", "close": "Close",
-          "perMonth": "/mo", "perTurn": "/turn", "defenseBonus": "Defense +{value}%",
-          "viewBackground": "View Background", "buildingCount": "Buildings {current}/{max}",
-          "population": "Population", "publicOrder": "Public Order",
+          "fullCapacity": "Full Capacity",
+          "resting": "Resting",
+          "operating": "Operating",
+          "assignWorker": "+ Assign",
+          "emptySlot": "Empty",
+          "demolish": "Demolish",
+          "close": "Close",
+          "perMonth": "/mo",
+          "perTurn": "/turn",
+          "defenseBonus": "Defense +{value}%",
+          "viewBackground": "View Background",
+          "buildingCount": "Buildings {current}/{max}",
+          "population": "Population",
+          "publicOrder": "Public Order",
           "tavernHint": "Build a tavern to attract talent visits",
-          "threatPower": "Power {value}", "threatDamageIn": "Damage in {turns} turns",
+          "threatPower": "Power {value}",
+          "threatDamageIn": "Damage in {turns} turns",
           "subjugating": "{nickname} subjugating",
-          "visitorLeaveIn": "Leaves in {turns} turns", "recruiting": "{nickname} recruiting",
+          "visitorLeaveIn": "Leaves in {turns} turns",
+          "recruiting": "{nickname} recruiting",
           "recruitNextTurn": "Recruitment attempt next turn",
           "statRequirement": "Requires {stat} {min}+",
           "statRequirementCurrent": "{building}: Requires {stat} {min}+ (current {current})",
-          "goldLabel": "Gold", "foodLabel": "Food", "materialLabel": "Materials",
-          "knowledgeLabel": "Knowledge", "troopsLabel": "Troops",
-          "moraleResLabel": "Morale", "cultureLabel": "Culture",
+          "goldLabel": "Gold",
+          "foodLabel": "Food",
+          "materialLabel": "Materials",
+          "knowledgeLabel": "Knowledge",
+          "troopsLabel": "Troops",
+          "moraleResLabel": "Morale",
+          "cultureLabel": "Culture",
           "effectWithBonus": "Effect (1.5x with worker)",
           "buildTurnUnit": "{turns} turns",
           "costNone": "None",
@@ -1042,13 +1443,30 @@
           "statMinArrow": "{stat} {min}+"
         },
         "charInfo": {
-          "tabAbility": "Ability", "tabStatus": "Status", "tabRelation": "Relations",
-          "tabTroops": "Troops", "tabItems": "Items", "tabBio": "Biography",
-          "sectionAbility": "Abilities", "sectionVirtue": "Virtues", "sectionDisposition": "Dispositions",
-          "taskIdle": "Idle", "taskBuilding": "Building", "taskWorking": "Working", "taskTraining": "Training",
-          "stopTask": "Stop", "startTraining": "Train", "reward": "Reward (50g)", "punish": "Punish",
-          "taskLabel": "Task", "moraleLabel": "Morale", "loyaltyLabel": "Loyalty", "troopsLabel": "Troops",
-          "selectCharPrompt": "Select a character", "noBio": "No records", "preparing": "Preparing",
+          "tabAbility": "Ability",
+          "tabStatus": "Status",
+          "tabRelation": "Relations",
+          "tabTroops": "Troops",
+          "tabItems": "Items",
+          "tabBio": "Biography",
+          "sectionAbility": "Abilities",
+          "sectionVirtue": "Virtues",
+          "sectionDisposition": "Dispositions",
+          "taskIdle": "Idle",
+          "taskBuilding": "Building",
+          "taskWorking": "Working",
+          "taskTraining": "Training",
+          "stopTask": "Stop",
+          "startTraining": "Train",
+          "reward": "Reward (50g)",
+          "punish": "Punish",
+          "taskLabel": "Task",
+          "moraleLabel": "Morale",
+          "loyaltyLabel": "Loyalty",
+          "troopsLabel": "Troops",
+          "selectCharPrompt": "Select a character",
+          "noBio": "No records",
+          "preparing": "Preparing",
           "trainingHint": "※ Build a training ground to enable training"
         }
       }
@@ -1063,7 +1481,7 @@
     },
     "labyrinth": {
       "metaTitle": "Labyrinth | Lounge",
-      "metaDescription": "Analyze clues from six suspects to track down a hidden figure. Find them before they escape."
+      "metaDescription": "Examine the traces of six sages to find the reclusive figure. Recruit them before they vanish."
     },
     "hegemony": {
       "metaTitle": "Hegemony | Lounge",
@@ -1152,7 +1570,7 @@
         "battle": "Battle",
         "result": "Result",
         "playing": "Playing",
-        "tracking": "Tracking",
+        "tracking": "Inquiry",
         "setup": "Setup",
         "wandering": "Wandering",
         "strategy": "Strategy",
@@ -1201,7 +1619,7 @@
         "command": "Command",
         "martial": "Martial",
         "intellect": "Intellect",
-        "charisma": "Charisma",
+        "charm": "Charm",
         "temperance": "Temperance",
         "diligence": "Diligence",
         "reflection": "Reflection",
@@ -1264,44 +1682,134 @@
       "neutral": "Neutral & Other"
     },
     "book": {
-      "BOOK_01": { "keyword": "Page Turner", "description": "Couldn't put it down, finished in one sitting" },
-      "BOOK_02": { "keyword": "Knowledge Bomb", "description": "Packed with new insights and knowledge" },
-      "BOOK_03": { "keyword": "Beautiful Writing", "description": "Stunning or powerful prose" },
-      "BOOK_04": { "keyword": "Lingering Aftertaste", "description": "Kept thinking about it long after" },
-      "BOOK_05": { "keyword": "Hard Read", "description": "Too difficult or heavy to get through" }
+      "BOOK_01": {
+        "keyword": "Page Turner",
+        "description": "Couldn't put it down, finished in one sitting"
+      },
+      "BOOK_02": {
+        "keyword": "Knowledge Bomb",
+        "description": "Packed with new insights and knowledge"
+      },
+      "BOOK_03": {
+        "keyword": "Beautiful Writing",
+        "description": "Stunning or powerful prose"
+      },
+      "BOOK_04": {
+        "keyword": "Lingering Aftertaste",
+        "description": "Kept thinking about it long after"
+      },
+      "BOOK_05": {
+        "keyword": "Hard Read",
+        "description": "Too difficult or heavy to get through"
+      }
     },
     "music": {
-      "MUSIC_01": { "keyword": "Earworm", "description": "Melody sticks in your head, keeps you humming" },
-      "MUSIC_02": { "keyword": "Mood Booster", "description": "Instantly lifts your mood" },
-      "MUSIC_03": { "keyword": "Addictive", "description": "Can't stop hitting replay" },
-      "MUSIC_04": { "keyword": "Relatable Lyrics", "description": "Lyrics perfectly match my situation" },
-      "MUSIC_05": { "keyword": "Amazing Production", "description": "Top-tier audio quality and mixing" }
+      "MUSIC_01": {
+        "keyword": "Earworm",
+        "description": "Melody sticks in your head, keeps you humming"
+      },
+      "MUSIC_02": {
+        "keyword": "Mood Booster",
+        "description": "Instantly lifts your mood"
+      },
+      "MUSIC_03": {
+        "keyword": "Addictive",
+        "description": "Can't stop hitting replay"
+      },
+      "MUSIC_04": {
+        "keyword": "Relatable Lyrics",
+        "description": "Lyrics perfectly match my situation"
+      },
+      "MUSIC_05": {
+        "keyword": "Amazing Production",
+        "description": "Top-tier audio quality and mixing"
+      }
     },
     "video": {
-      "VIDEO_01": { "keyword": "Plot Twist", "description": "Mind-blowing twists and turns" },
-      "VIDEO_02": { "keyword": "Eye Candy", "description": "Gorgeous cinematography and visuals" },
-      "VIDEO_03": { "keyword": "Hilarious", "description": "Laughed until it hurt" },
-      "VIDEO_04": { "keyword": "Tearjerker", "description": "Emotional overload, couldn't hold back tears" },
-      "VIDEO_05": { "keyword": "Brilliant Editing", "description": "Masterful editing and direction" }
+      "VIDEO_01": {
+        "keyword": "Plot Twist",
+        "description": "Mind-blowing twists and turns"
+      },
+      "VIDEO_02": {
+        "keyword": "Eye Candy",
+        "description": "Gorgeous cinematography and visuals"
+      },
+      "VIDEO_03": {
+        "keyword": "Hilarious",
+        "description": "Laughed until it hurt"
+      },
+      "VIDEO_04": {
+        "keyword": "Tearjerker",
+        "description": "Emotional overload, couldn't hold back tears"
+      },
+      "VIDEO_05": {
+        "keyword": "Brilliant Editing",
+        "description": "Masterful editing and direction"
+      }
     },
     "game": {
-      "GAME_01": { "keyword": "Addictive", "description": "Lost track of time playing" },
-      "GAME_02": { "keyword": "Great Multiplayer", "description": "Really fun in online/co-op mode" },
-      "GAME_03": { "keyword": "Smooth Controls", "description": "Satisfying and responsive controls" },
-      "GAME_04": { "keyword": "Story Immersion", "description": "Completely drawn into the narrative" },
-      "GAME_05": { "keyword": "Broken Balance", "description": "Poor balance ruined the fun" }
+      "GAME_01": {
+        "keyword": "Addictive",
+        "description": "Lost track of time playing"
+      },
+      "GAME_02": {
+        "keyword": "Great Multiplayer",
+        "description": "Really fun in online/co-op mode"
+      },
+      "GAME_03": {
+        "keyword": "Smooth Controls",
+        "description": "Satisfying and responsive controls"
+      },
+      "GAME_04": {
+        "keyword": "Story Immersion",
+        "description": "Completely drawn into the narrative"
+      },
+      "GAME_05": {
+        "keyword": "Broken Balance",
+        "description": "Poor balance ruined the fun"
+      }
     },
     "certificate": {
-      "CERT_01": { "keyword": "Worth Getting", "description": "Actually helped with career and salary" },
-      "CERT_02": { "keyword": "Practical Skills", "description": "Directly applicable to real work" },
-      "CERT_03": { "keyword": "Reasonable Study Load", "description": "Reasonable prep time and amount" },
-      "CERT_04": { "keyword": "Fair Difficulty", "description": "Not as hard as expected" },
-      "CERT_05": { "keyword": "Good Fundamentals", "description": "Great for building basic understanding" },
-      "CERT_06": { "keyword": "Not Worth the Time", "description": "Poor return on investment" },
-      "CERT_07": { "keyword": "Tough Preparation", "description": "The preparation process was grueling" },
-      "CERT_08": { "keyword": "Dump-Dependent", "description": "Passable with practice tests and dumps" },
-      "CERT_09": { "keyword": "First-Try Passable", "description": "Easy enough to pass on the first attempt" },
-      "CERT_10": { "keyword": "Worth Retrying", "description": "Failed but motivated to try again" }
+      "CERT_01": {
+        "keyword": "Worth Getting",
+        "description": "Actually helped with career and salary"
+      },
+      "CERT_02": {
+        "keyword": "Practical Skills",
+        "description": "Directly applicable to real work"
+      },
+      "CERT_03": {
+        "keyword": "Reasonable Study Load",
+        "description": "Reasonable prep time and amount"
+      },
+      "CERT_04": {
+        "keyword": "Fair Difficulty",
+        "description": "Not as hard as expected"
+      },
+      "CERT_05": {
+        "keyword": "Good Fundamentals",
+        "description": "Great for building basic understanding"
+      },
+      "CERT_06": {
+        "keyword": "Not Worth the Time",
+        "description": "Poor return on investment"
+      },
+      "CERT_07": {
+        "keyword": "Tough Preparation",
+        "description": "The preparation process was grueling"
+      },
+      "CERT_08": {
+        "keyword": "Dump-Dependent",
+        "description": "Passable with practice tests and dumps"
+      },
+      "CERT_09": {
+        "keyword": "First-Try Passable",
+        "description": "Easy enough to pass on the first attempt"
+      },
+      "CERT_10": {
+        "keyword": "Worth Retrying",
+        "description": "Failed but motivated to try again"
+      }
     }
   },
   "quickRecord": {
@@ -1615,8 +2123,14 @@
   "board": {
     "section": "Board",
     "items": {
-      "notice": { "label": "Announcements", "description": "Latest news and updates from Feelandnote" },
-      "feedback": { "label": "Feedback", "description": "Your opinions for a better service" }
+      "notice": {
+        "label": "Announcements",
+        "description": "Latest news and updates from Feelandnote"
+      },
+      "feedback": {
+        "label": "Feedback",
+        "description": "Your opinions for a better service"
+      }
     },
     "category": {
       "CELEB_REQUEST": "Celeb Request",
@@ -1675,18 +2189,13 @@
     }
   },
   "landing": {
-    "exhibitions": "Exhibitions",
+    "spotlights": "Spotlights",
     "viewAll": "View All",
     "openSoon": "Open Soon",
     "number": "No.",
     "defaultDescription": "Explore the cultural journeys of history's greatest figures.",
     "goToExplore": "Go to explore",
-    "noExhibitions": "No featured exhibitions at the moment.",
-    "explore": {
-      "profession": "By Profession",
-      "nationality": "By Nationality",
-      "content": "By Collection"
-    }
+    "noSpotlights": "No featured spotlights at the moment."
   },
   "todayFigure": {
     "dateLabel": "Today's Figure · {month}/{day}",
@@ -1779,6 +2288,7 @@
     "innerVirtue": "Inner Virtues",
     "outerVirtue": "Outer Virtues",
     "coreDisposition": "Core Disposition",
+    "ability": "Core Abilities",
     "similarFigures": "Similar Figures",
     "archiveSuffix": "'s Archives",
     "archiveEnglish": "Official Sacred Record",

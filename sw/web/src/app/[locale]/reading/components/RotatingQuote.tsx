@@ -90,7 +90,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
       {/* 명언 표시 영역 */}
       <div className={`min-h-[70px] flex flex-col justify-center transition-all duration-500 ${isAnimating ? "translate-x-4 opacity-0" : "translate-x-0 opacity-100"}`}>
         <p className="text-sm italic leading-relaxed text-text-primary px-2">
-          "{currentQuote.quote}"
+          {currentQuote.quote}
         </p>
         {currentQuote.author && (
           <p className="mt-2 text-end text-[10px] font-medium text-text-tertiary px-2">— {currentQuote.author}</p>

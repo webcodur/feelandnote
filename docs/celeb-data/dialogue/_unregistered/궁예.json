@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "궁예",
+  "profession": "politician",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[fierce, ambitious] 새 세상을 열 자, 내가 아니면 누구란 말이냐.",
+      "[bold, visionary] 미륵의 세상이 오고 있다. 나를 따르라.",
+      "[cold, commanding] 썩은 왕조는 끝났다. 이제 내 시대다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

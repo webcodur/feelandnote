@@ -133,7 +133,7 @@ export default function DialogueSubtitle({ subtitle }: Props) {
                   </span>
                 )}
                 <p className="text-sm md:text-lg text-stone-100 leading-relaxed font-medium">
-                  &ldquo;{current.text}&rdquo;
+                  {current.text}
                 </p>
               </div>
             </div>

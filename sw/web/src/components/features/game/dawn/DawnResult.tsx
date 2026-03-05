@@ -6,8 +6,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import {
   getDawnCelebContents,
   type DawnContent,
@@ -16,7 +14,8 @@ import type { CelebProfile } from "@/types/home";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getCategoryByDbType } from "@/constants/categories";
-import GameContentItem from "../shared/GameContentItem";
+import CelebContentTimeline from "../shared/CelebContentTimeline";
+import type { TimelineContent } from "../shared/CelebContentTimeline";
 import ContentReviewModal from "../shared/ContentReviewModal";
 
 interface DawnCeleb extends CelebProfile {
@@ -31,11 +30,6 @@ interface DawnResultProps {
   isNewRecord: boolean;
   onReplay: () => void;
   onLobby: () => void;
-}
-
-function formatYear(year: number): string {
-  if (year < 0) return `BC ${Math.abs(year)}`;
-  return `AD ${year}`;
 }
 
 export default function DawnResult({
@@ -54,7 +48,7 @@ export default function DawnResult({
   const [isLoading, setIsLoading] = useState(true);
 
   // 리뷰 모달 호이스팅 (모달 1개로 통합)
-  const [reviewContent, setReviewContent] = useState<{ content: DawnContent; ownerNickname: string } | null>(null);
+  const [reviewContent, setReviewContent] = useState<{ content: TimelineContent; ownerNickname: string } | null>(null);
 
   // 모든 셀럽 = 배치판 + 마지막 카드 (시간순 정렬)
   const allCelebs = [...board, ...(currentCard ? [currentCard] : [])].sort(
@@ -122,104 +116,15 @@ export default function DawnResult({
           인물들의 감상 기록
         </h4>
 
-        <div className="relative pl-7">
-          {/* 수직선 */}
-          <div className="absolute left-[6px] top-2 bottom-2 w-[2px] bg-accent/30" />
-
-          {allCelebs.map((celeb) => {
-            const contents = contentsMap[celeb.id];
-            const isLastCard = currentCard?.id === celeb.id;
-
-            return (
-              <div key={celeb.id} className="relative pb-7 last:pb-0">
-                {/* 노드 */}
-                <div
-                  className={cn(
-                    "absolute left-[-24px] top-1.5 w-3.5 h-3.5 rounded-full",
-                    isLastCard ? "bg-red-400" : "bg-accent"
-                  )}
-                />
-
-                {/* 연도 */}
-                <p className="text-sm font-cinzel text-accent/80 mb-1.5">
-                  {formatYear(celeb.birthYear)}
-                </p>
-
-                {/* 셀럽 정보 */}
-                <div className="flex items-center gap-2.5 mb-2.5">
-                  <div className="relative w-11 h-11 rounded-full overflow-hidden border border-white/20 bg-bg-secondary shrink-0">
-                    {celeb.avatar_url ? (
-                      <Image
-                        src={celeb.avatar_url}
-                        alt={celeb.nickname}
-                        fill
-                        sizes="44px"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-sm font-serif text-text-secondary">
-                        {celeb.nickname.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="min-w-0">
-                    <p
-                      className={cn(
-                        "text-base font-bold truncate",
-                        isLastCard ? "text-red-400" : "text-white"
-                      )}
-                    >
-                      {celeb.nickname}
-                    </p>
-                    {celeb.profession && (
-                      <p className="text-xs text-text-tertiary">
-                        {getCelebProfessionLabel(celeb.profession)}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* 콘텐츠 목록 */}
-                {isLoading ? (
-                  <div className="space-y-2 ml-1">
-                    {[1, 2].map((i) => (
-                      <div
-                        key={i}
-                        className="h-9 rounded bg-white/5 animate-pulse"
-                      />
-                    ))}
-                  </div>
-                ) : contents && contents.length > 0 ? (
-                  <div className="space-y-1.5 ml-1">
-                    {contents.map((c) => (
-                      <GameContentItem
-                        key={c.contentId}
-                        contentId={c.contentId}
-                        title={c.title}
-                        creator={c.creator}
-                        thumbnailUrl={c.thumbnailUrl}
-                        type={c.type}
-                        review={c.review}
-                        sourceUrl={c.sourceUrl}
-                        ownerNickname={celeb.nickname}
-                        size="sm"
-                        onClickOverride={
-                          c.review
-                            ? () => setReviewContent({ content: c, ownerNickname: celeb.nickname })
-                            : undefined
-                        }
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-xs text-text-tertiary ml-1">
-                    등록된 감상 기록 없음
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        <CelebContentTimeline
+          celebs={allCelebs}
+          contentsMap={contentsMap}
+          isLoading={isLoading}
+          highlightCelebId={currentCard?.id}
+          onReviewClick={(c, ownerNickname) =>
+            setReviewContent({ content: c, ownerNickname })
+          }
+        />
       </div>
 
       {/* 하단 버튼 */}

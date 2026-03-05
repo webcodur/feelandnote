@@ -326,7 +326,7 @@ function pickDuelLine(card: BattleCard, action: DuelAction, command: Command, lo
 
 /** idle/클릭 시 대사: answer → greeting 순으로 개인 대사 탐색, 없으면 defaultLines 폴백 */
 function pickIdleLine(card: BattleCard, locale: 'ko' | 'en'): string {
-  for (const type of ["answer", "greeting"] as const) {
+  for (const type of ["roll_call", "greeting"] as const) {
     const personal = card.dialogueLines?.[type];
     if (personal) {
       const raw = personal[Math.floor(Math.random() * personal.length)];

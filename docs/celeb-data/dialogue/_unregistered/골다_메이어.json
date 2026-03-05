@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "고르다_메이어",
+  "profession": "politician",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[resolute, fierce] 존재할 수 없다는 나라를 우리는 세웠습니다.",
+      "[bold, defiant] 비관할 여유는 우리에게 없습니다.",
+      "[calm, steadfast] 평화를 원하되, 무릎 꿇지는 않겠습니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

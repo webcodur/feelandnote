@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "김종필",
+  "profession": "politician",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[calm, strategic] 정치란 생물이요, 시간이 답입니다.",
+      "[wry, confident] 삼김 중 내가 가장 오래 살아남았습니다.",
+      "[composed, reflective] 역사는 결국 기다리는 자의 것입니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

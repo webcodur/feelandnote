@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "파커_포시",
+  "profession": "actor",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[quirky, warm] 반갑습니다. 저는 주류가 아닌 곳에서 진짜를 찾는 사람이에요.",
+      "[sharp, playful] 독립영화의 매력은 자유로움에 있어요.",
+      "[calm, sincere] 진정성 있는 이야기만이 시간을 견딥니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

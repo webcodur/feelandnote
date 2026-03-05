@@ -7,6 +7,7 @@ import { calcDistance, type SimilarCeleb } from '@/lib/persona/utils'
 
 export interface SimilarByCelebResult {
   targetPersona: PersonaProfile | null
+  targetPersonaJsonb: PersonaJsonb | null
   similarCelebs: SimilarCeleb[]
 }
 
@@ -27,7 +28,7 @@ export async function getSimilarByCelebId(
     .single()
 
   if (targetError || !target) {
-    return { targetPersona: null, similarCelebs: [] }
+    return { targetPersona: null, targetPersonaJsonb: null, similarCelebs: [] }
   }
 
   const isEn = locale === 'en'
@@ -35,7 +36,8 @@ export async function getSimilarByCelebId(
 
   const tRow = target as any
   const tProfile = Array.isArray(tRow.profiles) ? tRow.profiles[0] : tRow.profiles
-  const tStats = parsePersonaJsonb(tRow.persona as PersonaJsonb)
+  const tJsonb = tRow.persona as PersonaJsonb
+  const tStats = parsePersonaJsonb(tJsonb)
 
   const targetPersona: PersonaProfile = {
     celeb_id: tRow.celeb_id,
@@ -58,7 +60,7 @@ export async function getSimilarByCelebId(
     .neq('celeb_id', celebId)
 
   if (allError || !all) {
-    return { targetPersona, similarCelebs: [] }
+    return { targetPersona, targetPersonaJsonb: tJsonb, similarCelebs: [] }
   }
 
   const similarCelebs: SimilarCeleb[] = (all as any[])
@@ -81,5 +83,5 @@ export async function getSimilarByCelebId(
     .sort((a, b) => a.distance - b.distance)
     .slice(0, limit)
 
-  return { targetPersona, similarCelebs }
+  return { targetPersona, targetPersonaJsonb: tJsonb, similarCelebs }
 }

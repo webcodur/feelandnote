@@ -153,7 +153,7 @@ function BioTab({ char, tS }: { char: GameCharacter; tS: TranslationFn }) {
   return (
     <div className="space-y-2">
       {char.bio && <p className="text-[10px] text-stone-400 leading-relaxed">{char.bio}</p>}
-      {char.quotes && <p className="text-[10px] italic text-stone-500">&ldquo;{char.quotes}&rdquo;</p>}
+      {char.quotes && <p className="text-[10px] italic text-stone-500">{char.quotes}</p>}
       {!char.bio && !char.quotes && (
         <p className="text-[10px] text-stone-600 text-center py-4">{tS('charInfo.noBio')}</p>
       )}

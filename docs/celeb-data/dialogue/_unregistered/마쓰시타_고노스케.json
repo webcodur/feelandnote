@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "마쓰시타_고노스케",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[humble, wise] 마쓰시타전기는 사람을 만드는 회사입니다.",
+      "[grateful, warm] 가난, 허약, 무학. 하늘이 주신 세 가지 축복이었습니다.",
+      "[steady, devoted] 포기하지 않으면 실패는 존재하지 않습니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

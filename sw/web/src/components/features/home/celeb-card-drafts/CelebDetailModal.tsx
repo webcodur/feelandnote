@@ -122,6 +122,7 @@ function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { revie
         titleEn={review.content.title_en}
         creatorEn={review.content.creator_en}
         thumbnailEn={review.content.thumbnail_en}
+        hasEnEdition={review.content.has_en_edition}
       />
 
       <RatingEditModal
@@ -352,7 +353,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               borderColor: `${tag.color}30`
             }}
           >
-            {tag.name}
+            {locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}
           </button>
         ))}
         {remainingCount > 0 && (
@@ -479,7 +480,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       {/* 인용구 */}
       {!hideQuotes && displayQuotes && (
         <blockquote className="text-xs md:text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
-          &ldquo;<FormattedText text={displayQuotes} />&rdquo;
+          <FormattedText text={displayQuotes} />
         </blockquote>
       )}
 

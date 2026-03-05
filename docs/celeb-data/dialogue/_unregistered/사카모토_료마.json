@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "사카모토_료마",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[bold, dreaming] 일본을 한번 빨래하고 싶습니다.",
+      "[calm, adventurous] 비가 오면 무리하지 말고 비를 피하며 다음 수를 생각하세요.",
+      "[free, passionate] 좋아하는 것, 몰입할 수 있는 것을 하세요. 그게 길입니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

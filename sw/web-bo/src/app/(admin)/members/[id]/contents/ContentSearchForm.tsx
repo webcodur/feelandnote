@@ -9,11 +9,13 @@ interface Props {
   currentSearch?: string
   currentType?: string
   basePath?: string
+  celebSlug?: string
 }
 
-export default function ContentSearchForm({ celebId, currentSearch, currentType, basePath = '/members' }: Props) {
+export default function ContentSearchForm({ celebId, currentSearch, currentType, basePath = '/members', celebSlug }: Props) {
   const router = useRouter()
   const [query, setQuery] = useState(currentSearch || '')
+  const routeId = celebSlug || celebId
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -21,7 +23,7 @@ export default function ContentSearchForm({ celebId, currentSearch, currentType,
     if (query.trim()) params.set('search', query.trim())
     if (currentType) params.set('type', currentType)
     const queryString = params.toString()
-    router.push(`${basePath}/${celebId}/contents${queryString ? `?${queryString}` : ''}`)
+    router.push(`${basePath}/${routeId}/contents${queryString ? `?${queryString}` : ''}`)
   }
 
   function handleClear() {
@@ -29,7 +31,7 @@ export default function ContentSearchForm({ celebId, currentSearch, currentType,
     const params = new URLSearchParams()
     if (currentType) params.set('type', currentType)
     const queryString = params.toString()
-    router.push(`${basePath}/${celebId}/contents${queryString ? `?${queryString}` : ''}`)
+    router.push(`${basePath}/${routeId}/contents${queryString ? `?${queryString}` : ''}`)
   }
 
   return (

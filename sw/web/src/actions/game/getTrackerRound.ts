@@ -1,7 +1,7 @@
 /*
   파일명: actions/game/getTrackerRound.ts
-  기능: 인물추적 게임 라운드 데이터 조회
-  책임: 랜덤 셀럽 1명(추적 대상) + 페르소나 + 콘텐츠 + 위장 용의자 3명 일괄 조회
+  기능: 미궁(인물등용) 게임 라운드 데이터 조회
+  책임: 랜덤 셀럽 1명(등용 대상) + 페르소나 + 콘텐츠 + 현자 5명 일괄 조회
 */
 "use server";
 
@@ -165,6 +165,7 @@ async function getTrackerRoundFallback(
     .from("profiles")
     .select("id, slug, nickname, profession, avatar_url, consumption_philosophy, death_date, nationality, birth_date, bio, quotes")
     .eq("profile_type", "CELEB")
+    .eq("status", "active")
     .not("consumption_philosophy", "is", null)
     .not("death_date", "is", null);
 
@@ -296,19 +297,29 @@ async function buildRound(
       });
   }
 
-  // 4. 유사 인물 오답 보기 3명 (직군·국적·생몰년 유사도)
-  const { data: pool } = await supabase
+  // 4. 유사 인물 오답 보기 5명 (직군·국적·생몰년 유사도, 퍼블릭 도메인만)
+  const { data: poolRaw } = await supabase
     .from("profiles")
     .select("id, nickname, avatar_url, profession, nationality, birth_date, death_date")
     .eq("profile_type", "CELEB")
+    .eq("status", "active")
     .neq("id", celebId)
     .not("death_date", "is", null)
-    .limit(100);
+    .limit(300);
+
+  // 퍼블릭 도메인 필터 (1920년 이전 사망)
+  const pool = (poolRaw ?? []).filter((d) => {
+    const dd = d.death_date;
+    if (!dd || dd === "") return false;
+    if (dd.startsWith("-")) return true;
+    const m = dd.match(/^(\d{1,4})/);
+    return m ? parseInt(m[1], 10) <= 1920 : false;
+  });
 
   const birthYear = parseYear(birthDate);
   const deathYear = parseYear(deathDate);
 
-  const scored = (pool ?? []).map((d) => {
+  const scored = pool.map((d) => {
     let similarity = 0;
     // 직군 일치 +3
     if (d.profession === profession) similarity += 3;
@@ -347,11 +358,11 @@ async function buildRound(
 
   const optionIds = rawOptions.map(o => o.id);
   const [{ data: tones }, { data: dialogues }] = await Promise.all([
-    supabase.from("celeb_persona").select("celeb_id, speech_tone").in("celeb_id", optionIds),
+    supabase.from("profiles").select("id, speech_tone").in("id", optionIds),
     supabase.from("celeb_dialogues").select("celeb_id, lines").in("celeb_id", optionIds)
   ]);
 
-  const toneMap = new Map<string, string>((tones ?? []).map(t => [t.celeb_id, (t as any).speech_tone as string]));
+  const toneMap = new Map<string, string>((tones ?? []).map(t => [t.id, t.speech_tone as string]));
   const dialogueMap = new Map<string, any>((dialogues ?? []).map(d => [d.celeb_id, d.lines]));
 
   const options: TrackerOption[] = rawOptions.map(o => ({

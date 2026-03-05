@@ -184,6 +184,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
             creator_en: item.content.creator_en ?? null,
             isbn_en: item.content.isbn_en ?? null,
             thumbnail_en: item.content.thumbnail_en ?? null,
+            has_en_edition: item.content.has_en_edition ?? null,
           },
         }));
         setContents(mapped);

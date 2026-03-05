@@ -17,9 +17,12 @@ export interface CelebInfluence {
 export interface CelebTagInfo {
   id: string
   name: string
+  name_en: string | null
   color: string
   short_desc: string | null  // 태그 부여 사유 (짧은 문구)
+  short_desc_en: string | null
   long_desc: string | null   // 태그 부여 상세 설명
+  long_desc_en: string | null
 }
 
 export interface CelebProfile {
@@ -50,6 +53,7 @@ export interface CelebProfile {
   tags: CelebTagInfo[]  // 태그 목록
   greeting?: string[] | null  // 인사 대사 (3변형)
   greeting_en?: string[] | null  // 인사 대사 영문 (3변형)
+  speech_tone?: string | null  // 말투 톤 (loyal, composed, bold, humble, gentle, free)
 }
 
 export interface CelebReview {
@@ -73,6 +77,7 @@ export interface CelebReview {
     creator_en: string | null
     isbn_en: string | null
     thumbnail_en: string | null
+    has_en_edition: boolean | null
   }
   celeb: {
     id: string

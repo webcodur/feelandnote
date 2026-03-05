@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "빅토르_부트",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[cold, pragmatic] 시장이 원하는 것을 공급했을 뿐입니다.",
+      "[sharp, calculating] 규칙은 힘 있는 자가 만들고, 나머지는 적응합니다.",
+      "[calm, unapologetic] 비즈니스에 도덕 따위 없습니다. 수요와 공급이 있을 뿐."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

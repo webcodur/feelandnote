@@ -1,6 +1,6 @@
 /*
   파일명: components/features/game/tracker/MultipleChoice.tsx
-  기능: 6지선다 — 카드 클릭 시 지목(O) / 배제(X) 선택 모달 표시 및 외부 영역 클릭 시 닫힘 기능 포함
+  기능: 6지선다 — 카드 클릭 시 등용(O) / 확인(X) 선택 모달 표시 및 외부 영역 클릭 시 닫힘 기능 포함
 */
 "use client";
 
@@ -61,7 +61,7 @@ export default function MultipleChoice({
       onEliminate(id);
       return;
     }
-    // 지목 확정
+    // 등용 확정
     setActioning({ id, type });
     setPendingId(null);
     setConfirmed(true);
@@ -99,14 +99,14 @@ export default function MultipleChoice({
               onClick={!confirmed ? (e) => handleCardClick(opt.id, e) : undefined}
             />
 
-            {/* 카드 위 O/X 선택 오버레이 */}
+            {/* 카드 위 등용(O)/확인(X) 선택 오버레이 */}
             {isPending && (
               <div 
                 className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-black/80 animate-in fade-in zoom-in-95 duration-150 z-40 cursor-pointer"
                 onClick={handleCancel}
               >
                 <div className="flex items-center gap-3">
-                  {/* 지목(O) 버튼 */}
+                  {/* 등용(O) 버튼 */}
                   <button
                     onClick={(e) => handleAction(opt.id, "select", e)}
                     className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-accent/40 bg-[#1a1710] text-accent hover:bg-[#231f15] active:scale-90 transition-all shadow-lg"
@@ -114,7 +114,7 @@ export default function MultipleChoice({
                     <Check size={20} strokeWidth={3} />
                   </button>
 
-                  {/* 배제(X) 버튼 */}
+                  {/* 확인(X) 버튼 */}
                   {canEliminate && (
                     <button
                       onClick={(e) => handleAction(opt.id, "eliminate", e)}
@@ -127,11 +127,11 @@ export default function MultipleChoice({
               </div>
             )}
             
-            {/* 지목 확정 중(actioning) 상태일 때 기존의 오버레이 유지 */}
+            {/* 등용 확정 중(actioning) 상태일 때 기존의 오버레이 유지 */}
             {actioning?.id === opt.id && !revealed && (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-xl bg-black/70 animate-in fade-in duration-150 z-40 pointer-events-none">
                 <p className="text-[11px] sm:text-xs font-serif text-white text-center px-2 leading-tight">
-                  용의자 대조 중...
+                  인물 확인 중...
                 </p>
                 <div className="flex items-center justify-center w-8 h-8 rounded-full border border-accent/40 bg-[#1a1710] text-accent">
                   <Check size={14} />

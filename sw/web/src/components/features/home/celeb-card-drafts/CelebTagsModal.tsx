@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { createPortal } from "react-dom";
 import type { CelebTagInfo } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface CelebTagsModalProps {
   isOpen: boolean;
@@ -17,6 +17,7 @@ interface CelebTagsModalProps {
 
 export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }: CelebTagsModalProps) {
   const t = useTranslations("home.ui.tags");
+  const locale = useLocale() as 'ko' | 'en';
   if (!isOpen || typeof document === "undefined") return null;
 
   const content = (
@@ -54,20 +55,20 @@ export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }:
                     borderColor: `${tag.color}30`
                   }}
                 >
-                  {tag.name}
+                  {locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}
                 </span>
               </div>
-              
-              {(tag.short_desc || tag.long_desc) ? (
+
+              {((locale === 'en' ? (tag.short_desc_en ?? tag.short_desc) : tag.short_desc) || (locale === 'en' ? (tag.long_desc_en ?? tag.long_desc) : tag.long_desc)) ? (
                 <div className="pl-1 space-y-1">
-                  {tag.short_desc && (
+                  {(locale === 'en' ? (tag.short_desc_en ?? tag.short_desc) : tag.short_desc) && (
                     <p className="text-sm text-accent font-medium">
-                      "{tag.short_desc}"
+                      {locale === 'en' ? (tag.short_desc_en ?? tag.short_desc) : tag.short_desc}
                     </p>
                   )}
-                  {tag.long_desc && (
+                  {(locale === 'en' ? (tag.long_desc_en ?? tag.long_desc) : tag.long_desc) && (
                     <p className="text-sm text-text-secondary leading-relaxed">
-                      {tag.long_desc}
+                      {locale === 'en' ? (tag.long_desc_en ?? tag.long_desc) : tag.long_desc}
                     </p>
                   )}
                 </div>

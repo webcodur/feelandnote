@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "세레나_윌리엄스",
+  "profession": "athlete",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[fierce, empowering] 코트는 제 왕국이에요.",
+      "[powerful, proud] 여성의 힘을 과소평가하지 마세요.",
+      "[determined, warm] 모든 승리 뒤에 수천 시간의 연습이 있어요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

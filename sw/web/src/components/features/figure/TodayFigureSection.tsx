@@ -43,6 +43,7 @@ interface Content {
     creator_en?: string | null;
     isbn_en?: string | null;
     thumbnail_en?: string | null;
+    has_en_edition?: boolean | null;
 }
 
 interface TodayFigureSource {
@@ -162,7 +163,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                 {/* 간단한 소개글 */}
                 {displayBio && (
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
-                        &ldquo;{displayBio}&rdquo;
+                        {displayBio}
                     </p>
                 )}
             </div>
@@ -211,6 +212,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                                 titleEn={content.title_en}
                                 creatorEn={content.creator_en}
                                 thumbnailEn={content.thumbnail_en}
+                                hasEnEdition={content.has_en_edition}
                             />
                         ))}
                     </div>

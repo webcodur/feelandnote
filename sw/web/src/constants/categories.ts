@@ -1,4 +1,4 @@
-import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
+import { BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
 import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, LaurelIcon } from "@/components/ui/icons/neo-pantheon";
 import type { ContentType } from "@/types/database";
 
@@ -26,7 +26,7 @@ export interface CategoryConfig {
 
 // 전체 카테고리 목록 (Single Source of Truth)
 export const CATEGORIES: CategoryConfig[] = [
-  { id: "book", label: "도서", shortLabel: "BOOK", icon: ScrollIcon, lucideIcon: Book, placeholder: "책 제목, 저자...", dbType: "BOOK", unit: "권", creatorLabel: "저자" },
+  { id: "book", label: "도서", shortLabel: "BOOK", icon: ScrollIcon, lucideIcon: BookOpen, placeholder: "책 제목, 저자...", dbType: "BOOK", unit: "권", creatorLabel: "저자" },
   { id: "video", label: "영상", shortLabel: "VIDEO", icon: TheaterMaskIcon, lucideIcon: Film, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO", unit: "편", creatorLabel: "감독" },
   { id: "game", label: "게임", shortLabel: "GAME", icon: MosaicCoinIcon, lucideIcon: Gamepad2, placeholder: "게임 제목, 개발사...", dbType: "GAME", unit: "개", creatorLabel: "개발사" },
   { id: "music", label: "음악", shortLabel: "MUSIC", icon: LyreIcon, lucideIcon: Music, placeholder: "앨범, 아티스트...", dbType: "MUSIC", unit: "곡", creatorLabel: "아티스트" },

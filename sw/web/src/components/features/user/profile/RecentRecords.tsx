@@ -117,6 +117,7 @@ export default function RecentRecords({ items, initialTotalPages, userId, isOwne
             titleEn={item.content.title_en}
             creatorEn={item.content.creator_en}
             thumbnailEn={item.content.thumbnail_en}
+            hasEnEdition={item.content.has_en_edition}
           />
         ))}
       </div>

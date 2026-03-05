@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "알렉산드로_볼타",
+  "profession": "scientist",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[empirical, steady] 가장 매력적인 이론도 실험이 틀렸다고 하면 버릴 준비가 되어 있어야 합니다.",
+      "[precise, curious] 실험의 언어는 어떤 추론보다 권위 있습니다.",
+      "[inventive, measured] 금속판 사이에 젖은 천을 끼우니, 전류가 흘렀습니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { getCelebLevelByRanking } from '@/constants/materials'
-import type { CelebProfile } from '@/types/home'
+import type { CelebProfile, CelebTagInfo } from '@/types/home'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
 
@@ -128,20 +128,20 @@ export async function getCelebs(
   }
 
   // 셀럽별 태그 정보 조회 (설명 포함)
-  type TagRow = { celeb_id: string; short_desc: string | null; long_desc: string | null; sort_order: number | null; tag: { id: string; name: string; color: string } | null }
-  const tagMap = new Map<string, { id: string; name: string; color: string; short_desc: string | null; long_desc: string | null }[]>()
+  type TagRow = { celeb_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null; sort_order: number | null; tag: { id: string; name: string; name_en: string | null; color: string } | null }
+  const tagMap = new Map<string, CelebTagInfo[]>()
   const tagSortOrderMap = new Map<string, number>() // 태그별 셀럽 순서 저장 (태그 필터 시 사용)
 
   if (celebIds.length > 0) {
     const { data: tagAssignments } = await supabase
       .from('celeb_tag_assignments')
-      .select('celeb_id, short_desc, long_desc, sort_order, tag:celeb_tags(id, name, color)')
+      .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIds) as { data: TagRow[] | null }
 
     ;(tagAssignments ?? []).forEach(item => {
       if (!item.tag) return
       const existing = tagMap.get(item.celeb_id) ?? []
-      existing.push({ ...item.tag, short_desc: item.short_desc, long_desc: item.long_desc })
+      existing.push({ ...item.tag, name_en: item.tag.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
       tagMap.set(item.celeb_id, existing)
 
       // 태그 필터 시 순서 정보 저장

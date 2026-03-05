@@ -17,6 +17,7 @@ export interface RecordsSearchResult {
   creator_en?: string | null
   isbn_en?: string | null
   thumbnail_en?: string | null
+  has_en_edition?: boolean | null
 }
 
 interface SearchRecordsParams {
@@ -45,6 +46,7 @@ interface ContentData {
   creator_en: string | null
   isbn_en: string | null
   thumbnail_en: string | null
+  has_en_edition: boolean | null
 }
 
 interface UserContentRow {
@@ -90,7 +92,8 @@ export async function searchRecords({
         title_en,
         creator_en,
         isbn_en,
-        thumbnail_en
+        thumbnail_en,
+        has_en_edition
       )
     `, { count: 'exact' })
     .eq('user_id', user.id)
@@ -135,6 +138,7 @@ export async function searchRecords({
         creator_en: content.creator_en ?? null,
         isbn_en: content.isbn_en ?? null,
         thumbnail_en: content.thumbnail_en ?? null,
+        has_en_edition: content.has_en_edition ?? null,
       }
     })
 

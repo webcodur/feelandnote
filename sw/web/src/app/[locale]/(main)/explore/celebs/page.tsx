@@ -9,7 +9,7 @@ import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
-import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getFeaturedTags, getCelebsByProfession } from "@/actions/home";
+import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getCelebsByProfession } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
 
 export const dynamic = "force-dynamic";
@@ -28,62 +28,31 @@ function SectionSkeleton() {
   return (
     <div className="animate-pulse">
       {/* PC 컨트롤 패널 스켈레톤 */}
-      <div className="hidden md:flex justify-center my-12">
-        <div className="w-full max-w-2xl border border-white/10 bg-black/40 rounded-lg overflow-hidden">
-          {/* 타이틀 바 */}
-          <div className="flex items-center justify-center gap-3 px-6 py-2 bg-white/5 border-b border-white/5">
-            <div className="h-[1px] w-12 bg-bg-card" />
-            <div className="h-5 w-20 bg-bg-card rounded" />
-            <div className="h-[1px] w-12 bg-bg-card" />
-          </div>
-          <div className="bg-black/20">
-            {/* 1행: 필터 (5개) */}
-            <div className="flex items-center justify-center gap-2 px-6 py-4">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-9 w-24 bg-bg-card rounded-md" />
-              ))}
-            </div>
-            {/* 2행: 검색 + 버튼 3개 */}
-            <div className="flex items-center gap-2 px-6 py-3">
-              <div className="flex-1 h-9 bg-bg-card rounded-md" />
-              <div className="h-9 w-9 bg-bg-card rounded-md" />
-              <div className="w-px h-5 bg-white/10 mx-1" />
-              <div className="h-9 w-[4.5rem] bg-bg-card rounded-md" />
-              <div className="h-9 w-[4.5rem] bg-bg-card rounded-md" />
-              <div className="h-9 w-[4.5rem] bg-bg-card rounded-md" />
-            </div>
-          </div>
+      <div className="hidden md:block mb-6">
+        {/* 1행: 검색 + 버튼 */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="flex-1 max-w-sm h-9 bg-bg-card rounded-lg" />
+          <div className="h-9 w-9 bg-bg-card rounded-lg" />
+        </div>
+        {/* 2행: 필터 칩들 */}
+        <div className="flex flex-wrap items-center gap-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-9 w-24 bg-bg-card rounded-md" />
+          ))}
         </div>
       </div>
 
       {/* 모바일 컨트롤 스켈레톤 */}
-      <div className="md:hidden mb-10">
-        <div className="border border-white/10 bg-black/40 rounded-lg overflow-hidden">
-          {/* 타이틀 바 */}
-          <div className="flex items-center justify-center gap-3 px-6 py-2 bg-white/5 border-b border-white/5">
-            <div className="h-[1px] w-8 bg-bg-card" />
-            <div className="h-5 w-20 bg-bg-card rounded" />
-            <div className="h-[1px] w-8 bg-bg-card" />
-          </div>
-          {/* 1행: 필터칩 2x2 + 정렬 풀폭 */}
-          <div className="grid grid-cols-2 gap-2 p-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-9 bg-bg-card rounded-lg" />
-            ))}
-            <div className="h-9 bg-bg-card rounded-lg col-span-2" />
-          </div>
-          {/* 2행: 검색 */}
-          <div className="flex gap-2 p-3">
-            <div className="flex-1 h-9 bg-bg-card rounded-md" />
-            <div className="h-9 w-9 bg-bg-card rounded-md" />
-          </div>
-          {/* 3행: 추가 버튼들 */}
-          <div className="h-px bg-accent/10" />
-          <div className="flex gap-2 p-3">
-            <div className="flex-1 h-9 bg-bg-card rounded-md" />
-            <div className="flex-1 h-9 bg-bg-card rounded-md" />
-            <div className="flex-1 h-9 bg-bg-card rounded-md" />
-          </div>
+      <div className="md:hidden mb-6">
+        <div className="flex gap-2 mb-2">
+          <div className="flex-1 h-9 bg-bg-card rounded-lg" />
+          <div className="h-9 w-9 bg-bg-card rounded-lg" />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-9 bg-bg-card rounded-lg" />
+          ))}
+          <div className="h-9 bg-bg-card rounded-lg col-span-2" />
         </div>
       </div>
 
@@ -103,10 +72,9 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
   return typeof v === "string" ? v : undefined;
 }
 
-// 그리드 뷰인지 판단: view=grid 이거나 필터 파라미터가 있으면 그리드
+// 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
 const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId"];
 function isGridView(params: Record<string, string | string[] | undefined>): boolean {
-  if (parseParam(params, "view") === "grid") return true;
   return FILTER_KEYS.some((key) => {
     const v = params[key];
     return typeof v === "string" && v.length > 0;
@@ -128,7 +96,7 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
 
   const notAll = (v?: string) => v && v !== "all" ? v : undefined;
 
-  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, featuredTags] = await Promise.all([
+  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts] = await Promise.all([
     getCelebs({
       page,
       limit: pageSize,
@@ -144,7 +112,6 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
     getNationalityCounts(),
     getContentTypeCounts(),
     getGenderCounts(),
-    getFeaturedTags(),
   ]);
 
   return (
@@ -157,17 +124,29 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
         genderCounts={genderCounts}
-        featuredTags={featuredTags}
       />
     </AsyncIntlProvider>
   );
 }
 
 async function CelebsCarouselContent() {
-  const sections = await getCelebsByProfession();
+  const [sections, professionCounts, nationalityCounts, contentTypeCounts, genderCounts] = await Promise.all([
+    getCelebsByProfession(),
+    getProfessionCounts(),
+    getNationalityCounts(),
+    getContentTypeCounts(),
+    getGenderCounts(),
+  ]);
+
   return (
     <AsyncIntlProvider>
-      <CelebsByProfession sections={sections} />
+      <CelebsByProfession
+        sections={sections}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        genderCounts={genderCounts}
+      />
     </AsyncIntlProvider>
   );
 }
@@ -184,8 +163,7 @@ function CarouselSkeleton() {
           <div className="flex gap-2 md:gap-3 overflow-hidden">
             {Array.from({ length: 8 }).map((_, j) => (
               <div key={j} className="flex-shrink-0 w-[28%] sm:w-[22%] md:w-[16%] lg:w-[13%] xl:w-[11%] 2xl:w-[9%]">
-                <div className="aspect-square bg-bg-card rounded-full" />
-                <div className="mt-1.5 h-3 w-3/4 bg-bg-card rounded mx-auto" />
+                <div className="aspect-[13/19] bg-bg-card rounded-xl" />
               </div>
             ))}
           </div>

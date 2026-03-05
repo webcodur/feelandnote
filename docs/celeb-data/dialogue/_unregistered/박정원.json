@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "박정원",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[steady, forward] 미래 산업의 기둥을 세우는 것이 우리의 일입니다.",
+      "[calm, resolute] 변화는 준비한 자의 것입니다.",
+      "[warm, determined] 기술과 문화, 둘 다 품어야 합니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

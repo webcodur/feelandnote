@@ -6,8 +6,11 @@
 
 "use client";
 
+import { useState, useCallback } from "react";
 import CelebCard from "@/components/shared/CelebCard";
 import { DecorativeLabel } from "@/components/ui";
+import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
+import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { useLocale } from "next-intl";
 
 interface Celeb {
@@ -40,6 +43,8 @@ const cardWidthStyles = "snap-start shrink-0 w-[120px] sm:w-auto";
 export default function RepresentativeCelebs({ celebs, title, type = "modern", centered = false }: Props) {
   const locale = useLocale();
   const isEn = locale === "en";
+  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => { setSubtitle(sub); }, []);
 
   if (!celebs || celebs.length === 0) return null;
 
@@ -65,9 +70,11 @@ export default function RepresentativeCelebs({ celebs, title, type = "modern", c
             title={variant === "card" ? (isEn ? (celeb.title_en || celeb.title) : celeb.title) : undefined}
             count={celeb.count}
             className={variant === "card" ? cardWidthStyles : ""}
+            onSubtitle={handleSubtitle}
           />
         ))}
       </div>
+      <DialogueSubtitle subtitle={subtitle} />
     </div>
   );
 }

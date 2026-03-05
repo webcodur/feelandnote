@@ -15,7 +15,7 @@ export type SpeechTone = "loyal" | "composed" | "bold" | "humble" | "gentle" | "
 /** 대사 상황 (서비스 범용) */
 export type DialogueType =
   | "greeting"      // 첫인사/프로필 조회
-  | "answer"        // 호명 응답/부름에 답함
+  | "roll_call"     // 호명 응답/부름에 답함
   | "deploy"        // 임무 투입/출전
   | "battle_win"    // 성공/승리
   | "battle_draw"   // 무승부/미결

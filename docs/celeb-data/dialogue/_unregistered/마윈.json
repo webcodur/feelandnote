@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "마윈",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[bold, resilient] 오늘은 어렵고, 내일은 더 어렵습니다. 하지만 모레는 햇살이 비칩니다.",
+      "[warm, witty] 불평이 있는 곳에 기회가 있습니다.",
+      "[passionate, humble] 꿈이 기술을 바꾸는 겁니다. 기술이 세상을 바꾸는 게 아니라."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

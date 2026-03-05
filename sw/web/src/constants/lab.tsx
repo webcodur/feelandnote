@@ -4,7 +4,7 @@
   책임: Lab 탭 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, Swords, ImageIcon, type LucideIcon } from "lucide-react";
+import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, Swords, ImageIcon, ShoppingCart, type LucideIcon } from "lucide-react";
 
 // 섹션명
 export const LAB_SECTION_NAME = "Component Lab";
@@ -98,5 +98,13 @@ export const LAB_ITEMS: LabItem[] = [
     href: "/lab/image-ui",
     title: "Image UI",
     subtitle: "이미지 기반 UI 요소 실험",
+  },
+  {
+    value: "coupang",
+    label: "쿠팡 파트너스",
+    icon: ShoppingCart,
+    href: "/lab/coupang",
+    title: "Coupang Partners",
+    subtitle: "쿠팡 파트너스 어필리에이트 링크 관리",
   },
 ];

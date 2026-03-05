@@ -37,6 +37,7 @@ export interface UserContentPublic {
     creator_en: string | null
     isbn_en: string | null
     thumbnail_en: string | null
+    has_en_edition: boolean | null
   }
   // 공개된 기록 요약
   public_record?: {
@@ -150,6 +151,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     creator_en: string | null
     isbn_en: string | null
     thumbnail_en: string | null
+    has_en_edition: boolean | null
   }
 
   const validContents = (userContents || []).filter(item => item.content !== null) as unknown as Array<{
@@ -189,6 +191,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       creator_en: item.content.creator_en ?? null,
       isbn_en: item.content.isbn_en ?? null,
       thumbnail_en: item.content.thumbnail_en ?? null,
+      has_en_edition: item.content.has_en_edition ?? null,
     },
     public_record: (item.rating || item.review || (item.review_presets && item.review_presets.length > 0)) ? {
       rating: item.rating,

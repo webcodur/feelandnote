@@ -7,9 +7,9 @@
 "use client";
 
 import { useCallback, useRef, useState, useMemo, useEffect, type ComponentType, type ReactNode } from "react";
-import { Volume2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
+import GameGate from "./GameGate";
 
 interface GameShellConfig {
   gameName: string;
@@ -102,23 +102,12 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
 
         if (!gateEntered) {
           return (
-            <div className="max-w-md mx-auto flex flex-col items-center text-center">
-              <div className="w-full max-w-xs flex flex-col items-center gap-4 py-6 bg-bg-main/95 backdrop-blur-md rounded-xl px-5 border border-white/[0.06]">
-                <div className="space-y-1.5">
-                  {gateIcon}
-                  <h2 className="text-xl font-serif font-black text-white">{gameName}</h2>
-                  <p className="text-xs text-text-secondary">{gateSubtitle}</p>
-                </div>
-                <button
-                  onClick={handleEnterGate}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
-                >
-                  <Volume2 size={16} className="text-accent" />
-                  <span className="font-serif font-bold text-accent text-base">{t("enterGame")}</span>
-                </button>
-                <p className="text-[9px] text-white/50">{t("soundInfo")}</p>
-              </div>
-            </div>
+            <GameGate
+              icon={gateIcon}
+              gameName={gameName}
+              subtitle={gateSubtitle}
+              onEnter={handleEnterGate}
+            />
           );
         }
 

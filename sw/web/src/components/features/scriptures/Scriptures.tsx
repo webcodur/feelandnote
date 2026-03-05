@@ -296,6 +296,7 @@ function ProfessionSection({ professionCounts }: { professionCounts: ProfessionC
                     titleEn={content.title_en}
                     creatorEn={content.creator_en}
                     thumbnailEn={content.thumbnail_en}
+                    hasEnEdition={content.has_en_edition}
                     mobileLayout="review"
                   />
                 ))}

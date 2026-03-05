@@ -46,7 +46,8 @@ export const NAV_ITEMS: NavItem[] = [
     showInHomePage: true,
     subLinks: [
       { key: "celebs", href: "/explore/celebs", label: "셀럽" },
-      { key: "people", href: "/explore/people", label: "소셜" },
+      { key: "celebFeed", href: "/explore/celeb-feed", label: "셀럽 피드" },
+      { key: "spotlight", href: "/explore/spotlight", label: "스포트라이트" },
     ],
   },
   {
@@ -71,8 +72,8 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { key: "celebFeed", href: "/agora/celeb-feed", label: "셀럽 피드" },
-      { key: "friendFeed", href: "/agora/friend-feed", label: "친구 피드" },
+      { key: "social", href: "/agora/social", label: "소셜" },
+      { key: "socialFeed", href: "/agora/social-feed", label: "소셜 피드" },
       { key: "notice", href: "/agora/board/notice", label: "공지사항" },
       { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
     ],
@@ -82,14 +83,14 @@ export const NAV_ITEMS: NavItem[] = [
     href: "/rest",
     label: "쉼터",
     icon: Gamepad2,
-    showInHeader: false,
+    showInHeader: true,
     showInBottomNav: true,
     showInHomePage: false,
     subLinks: [
       { key: "dawn", href: "/rest/dawn", label: "여명" },
       { key: "labyrinth", href: "/rest/labyrinth", label: "미궁" },
       { key: "hegemony", href: "/rest/hegemony", label: "패권" },
-      { key: "suikoden", href: "/rest/suikoden", label: "천" },
+      { key: "suikoden", href: "/rest/suikoden", label: "천도" },
     ],
   },
   {
@@ -98,7 +99,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: "내 기록",
     mobileLabel: "내 기록",
     icon: User,
-    showInHeader: true,
+    showInHeader: false,
     showInBottomNav: true,
     showInHomePage: true,
   },

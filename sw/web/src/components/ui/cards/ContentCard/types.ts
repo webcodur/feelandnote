@@ -83,4 +83,6 @@ export interface ContentCardProps {
   titleEn?: string | null;
   creatorEn?: string | null;
   thumbnailEn?: string | null;
+  /** 영문판 존재 여부 (false=확인됨 없음, true/undefined=있거나 미확인) */
+  hasEnEdition?: boolean | null;
 }

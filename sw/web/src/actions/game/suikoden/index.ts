@@ -26,6 +26,7 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
       ),
       celeb_persona ( persona )
     `)
+    .eq('status', 'active')
     .not('death_date', 'is', null)
     .not('death_date', 'eq', '')
     .not('profession', 'is', null)

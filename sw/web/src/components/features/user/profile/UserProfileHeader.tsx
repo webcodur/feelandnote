@@ -221,7 +221,7 @@ export default function UserProfileHeader({
             <div className="flex items-start gap-2 sm:gap-3 mb-4 p-2.5 sm:p-3 bg-bg-secondary/50 rounded-sm border-l-2 border-accent">
               <Quote size={14} className="text-accent flex-shrink-0 mt-0.5 fill-accent/20" />
               <p className="text-[11px] sm:text-sm text-text-secondary line-clamp-3 md:line-clamp-2 leading-relaxed font-serif">
-                "{profile.quotes}"
+                {profile.quotes}
               </p>
             </div>
           )}

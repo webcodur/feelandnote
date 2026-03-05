@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "조지_클루니",
+  "profession": "actor",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[charming, relaxed] 반갑습니다. 저는 유머 감각 없이는 하루도 못 버티는 사람이에요.",
+      "[warm, principled] 옳은 일을 하는 데 허락은 필요 없습니다.",
+      "[cool, steady] 실패해도 괜찮아요. 시도하지 않는 것보다 낫으니까요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

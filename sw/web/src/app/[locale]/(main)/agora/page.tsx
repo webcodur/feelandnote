@@ -19,5 +19,5 @@ export async function generateMetadata() {
 
 export default async function Page() {
   const locale = await getLocale();
-  redirect({ href: "/agora/celeb-feed", locale });
+  redirect({ href: "/agora/social", locale });
 }

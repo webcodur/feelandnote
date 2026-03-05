@@ -6,7 +6,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo, type MutableRefObject } from "react";
-import { Swords, Volume2 } from "lucide-react";
+import { Swords } from "lucide-react";
+import { useTranslations } from "next-intl";
+import GameGate from "@/components/features/game/shared/GameGate";
 import { useBattleGame } from "./hooks/useBattleGame";
 import DraftPhase from "./DraftPhase";
 import PlayPhase from "./PlayPhase";
@@ -38,6 +40,9 @@ interface BattleGameProps {
 }
 
 export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHomeRef, onPhaseChange, onPlayerWinsChange, initialAudioReady = false, setBgm, playSfx, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleGameProps) {
+  const t = useTranslations("shared.game");
+  const tArena = useTranslations("rest.arena.hegemony");
+
   // 대사 시스템 — sfxMuted 상태를 ref로 동기화
   const sfxMutedRef = useRef(sfxMuted);
   sfxMutedRef.current = sfxMuted;
@@ -192,23 +197,12 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
 
   if (!audioReady) {
     content = (
-      <div className="max-w-md mx-auto flex flex-col items-center text-center">
-        <div className="w-full max-w-sm flex flex-col items-center gap-6 py-8 bg-black/80 rounded-xl px-6">
-          <div className="space-y-2">
-            <Swords size={40} className="mx-auto text-accent/60" />
-            <h2 className="text-2xl font-serif font-black text-white">패권</h2>
-            <p className="text-sm text-text-secondary">동시 행동 전략 게임</p>
-          </div>
-          <button
-            onClick={handleEnterGame}
-            className="flex items-center gap-2 px-8 py-4 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
-          >
-            <Volume2 size={18} className="text-accent" />
-            <span className="font-serif font-bold text-accent text-lg">게임 입장</span>
-          </button>
-          <p className="text-[10px] text-white/50">사운드와 함께 진행됩니다</p>
-        </div>
-      </div>
+      <GameGate
+        icon={<Swords size={40} className="mx-auto text-accent/60" />}
+        gameName={tArena("label")}
+        subtitle={tArena("description")}
+        onEnter={handleEnterGame}
+      />
     );
   } else if (state.phase === "loading") {
     content = (

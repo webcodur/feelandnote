@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "리오넬_메시",
+  "profession": "athlete",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[humble, determined] 쉬운 건 없었어요, 포기도 없었고요.",
+      "[quiet, confident] 공이 제 발에 있으면, 제가 말해요.",
+      "[warm, simple] 축구를 즐기는 거예요, 여전히."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

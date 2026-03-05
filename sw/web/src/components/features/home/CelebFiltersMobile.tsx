@@ -5,15 +5,24 @@
 */
 "use client";
 
-import { Search, X, SlidersHorizontal, ArrowUpDown, Briefcase, Globe, Layers, Users } from "lucide-react";
+import { useMemo } from "react";
+import { Search, X, SlidersHorizontal, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
 import { FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import ControlPanel from "@/components/shared/ControlPanel";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
-import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
+import { CONTENT_TYPE_FILTERS, CATEGORIES } from "@/constants/categories";
+import { PROFESSION_ICONS } from "@/constants/professionIcons";
+import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { SORT_VALUES, type FilterType } from "./useCelebFilters";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { useTranslations } from "next-intl";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
+
+// 성별 아이콘 매핑
+const GENDER_ICONS: Record<string, React.ReactNode> = {
+  male: <Mars size={14} />,
+  female: <Venus size={14} />,
+};
 
 interface CelebFiltersMobileProps {
   profession: string;
@@ -45,7 +54,6 @@ interface CelebFiltersMobileProps {
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
   onSearchClear: () => void;
-  extraButtons?: React.ReactNode;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
 }
@@ -74,7 +82,6 @@ export default function CelebFiltersMobile({
   onSearchInput,
   onSearchSubmit,
   onSearchClear,
-  extraButtons,
   isExpanded = true,
   onToggleExpand,
 }: CelebFiltersMobileProps) {
@@ -83,31 +90,48 @@ export default function CelebFiltersMobile({
   const getNatLabel = useNationalityLabel();
   const getGenderLabel = useGenderLabel();
   const t = useTranslations("home.ui");
+  const tExplore = useTranslations("explore.ui");
 
-  // 필터별 옵션 생성
-  const professionOptions: FilterOption[] = CELEB_PROFESSION_FILTERS.map(({ value }) => ({
-    value,
-    label: getProfLabel(value),
-    count: professionCounts[value] ?? 0,
-  }));
+  // 필터별 옵션 생성 (아이콘 포함)
+  const professionOptions: FilterOption[] = useMemo(() =>
+    CELEB_PROFESSION_FILTERS.map(({ value }) => {
+      const IconComp = PROFESSION_ICONS[value];
+      return {
+        value,
+        label: getProfLabel(value),
+        count: professionCounts[value] ?? 0,
+        icon: IconComp ? <IconComp size={14} /> : undefined,
+      };
+    }), [professionCounts, getProfLabel]);
 
-  const nationalityOptions: FilterOption[] = nationalityCounts.map(({ value, count }) => ({
-    value,
-    label: getNatLabel(value),
-    count,
-  }));
+  const nationalityOptions: FilterOption[] = useMemo(() =>
+    nationalityCounts.map(({ value, count }) => ({
+      value,
+      label: getNatLabel(value),
+      count,
+      icon: value !== "all" ? <span className="text-sm">{getCountryFlag(value)}</span> : undefined,
+    })), [nationalityCounts, getNatLabel]);
 
-  const contentTypeOptions: FilterOption[] = CONTENT_TYPE_FILTERS.map(({ value }) => ({
-    value,
-    label: getCtLabel(value),
-    count: contentTypeCounts[value] ?? 0,
-  }));
+  const contentTypeOptions: FilterOption[] = useMemo(() =>
+    CONTENT_TYPE_FILTERS.map(({ value }) => {
+      const cat = CATEGORIES.find((c) => c.dbType === value);
+      const LucideIcon = cat?.lucideIcon;
+      return {
+        value,
+        label: getCtLabel(value),
+        count: contentTypeCounts[value] ?? 0,
+        icon: LucideIcon ? <LucideIcon size={14} /> : undefined,
+      };
+    }), [contentTypeCounts, getCtLabel]);
 
-  const genderOptions: FilterOption[] = genderCounts.map(({ value, count }) => ({
-    value,
-    label: getGenderLabel(value),
-    count,
-  }));
+  const genderOptions: FilterOption[] = useMemo(() =>
+    genderCounts.map(({ value, count }) => ({
+      value,
+      label: getGenderLabel(value),
+      count,
+      icon: GENDER_ICONS[value] ?? undefined,
+    })), [genderCounts, getGenderLabel]);
+
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -164,21 +188,12 @@ export default function CelebFiltersMobile({
               <Search size={16} />
             </button>
           </div>
-          {/* 3행: 추가 버튼들 */}
-          {extraButtons && (
-            <>
-              <div className="h-px bg-accent/10" />
-              <div className="flex flex-wrap gap-2 p-3">
-                {extraButtons}
-              </div>
-            </>
-          )}
         </ControlPanel>
       </div>
 
       {/* 모달들 */}
       <FilterModal title={t("filterProfession")} isOpen={activeFilter === "profession"} current={profession} options={professionOptions} onClose={onFilterClose} onChange={onProfessionChange} />
-      <FilterModal title={t("filterNationality")} isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} />
+      <FilterModal title={t("filterNationality")} isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} searchable searchPlaceholder={tExplore("searchFilter")} />
       <FilterModal title={t("filterContent")} isOpen={activeFilter === "contentType"} current={contentType} options={contentTypeOptions} onClose={onFilterClose} onChange={onContentTypeChange} />
       <FilterModal title={t("filterGender")} isOpen={activeFilter === "gender"} current={gender} options={genderOptions} onClose={onFilterClose} onChange={onGenderChange} />
       <FilterModal title={t("filterSort")} isOpen={activeFilter === "sort"} current={sortBy} options={sortOptions} onClose={onFilterClose} onChange={(v) => onSortChange(v as CelebSortBy)} />

@@ -21,7 +21,7 @@ export default function QuotesReveal({ quotes }: QuotesRevealProps) {
         <div className="flex items-start gap-2">
           <Quote size={14} className="shrink-0 text-accent mt-0.5" />
           <p className="text-sm text-text-primary leading-relaxed italic font-serif">
-            &ldquo;{quotes}&rdquo;
+            {quotes}
           </p>
         </div>
       </div>

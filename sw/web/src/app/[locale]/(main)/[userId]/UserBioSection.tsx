@@ -143,7 +143,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       ) : profile.quotes ? (
         <div className="flex items-start gap-3 pt-3 border-t border-border/30">
           <Quote size={16} className="text-accent/40 shrink-0 mt-0.5" />
-          <p className="text-sm text-text-secondary leading-relaxed font-serif">&ldquo;{profile.quotes}&rdquo;</p>
+          <p className="text-sm text-text-secondary leading-relaxed font-serif">{profile.quotes}</p>
         </div>
       ) : null}
 

@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
+import { CornerDownLeft } from "lucide-react";
 import { useLobbyKeyboard } from "./useLobbyKeyboard";
 
 interface GameLobbyMainProps {
@@ -18,7 +18,6 @@ interface GameLobbyMainProps {
     label: string;
     sub: string;
     onClick: () => void;
-    showChevron?: boolean;
   };
   navItems: ReactNode;
   /** 타이틀 영역 탭 콜백 (숨김 기능 진입점) */
@@ -98,12 +97,12 @@ export default function GameLobbyMain({
               <span className="text-xs sm:text-sm font-serif font-bold block leading-tight">{cta.label}</span>
               <span className="text-[9px] font-cinzel uppercase tracking-widest block mt-px text-accent/30 group-hover:text-accent/50">{cta.sub}</span>
             </span>
-            <ChevronRight size={14} className="text-accent/20 group-hover:text-accent/50 group-hover:translate-x-0.5 transition-all duration-75 shrink-0" />
+            <CornerDownLeft size={14} className="text-accent/0 group-data-[focused=true]:text-accent/50 transition-all duration-75 shrink-0" />
           </button>
         </div>
 
         {/* ═══ 하단 메뉴 ═══ */}
-        <div className={`w-full max-w-[260px] sm:max-w-[360px] flex flex-col gap-1.5 transition-all duration-700 ${
+        <div className={`w-full max-w-[260px] sm:max-w-[360px] grid grid-cols-2 sm:grid-cols-1 gap-1.5 transition-all duration-700 ${
           step >= 4 ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
         }`}>
           {navItems}

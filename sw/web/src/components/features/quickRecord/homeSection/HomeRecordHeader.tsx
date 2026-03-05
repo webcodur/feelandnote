@@ -59,7 +59,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                     {/* 간단한 소개글 */}
                     {profile.quotes && (
                         <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
-                            &ldquo;{profile.quotes}&rdquo;
+                            {profile.quotes}
                         </p>
                     )}
                 </>
@@ -88,7 +88,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
 
                     {/* 간단한 소개글 */}
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
-                        &ldquo;{t("createLibrary")}&rdquo;
+                        {t("createLibrary")}
                     </p>
                 </>
             )}

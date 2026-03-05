@@ -9,5 +9,5 @@ import { getLocale } from "next-intl/server";
 
 export default async function FeedRedirectPage() {
   const locale = await getLocale();
-  redirect({ href: "/agora/celeb-feed", locale });
+  redirect({ href: "/explore/celeb-feed", locale });
 }

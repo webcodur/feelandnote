@@ -47,6 +47,7 @@ export interface Content {
   isbn_ko: string | null
   isbn_en: string | null
   thumbnail_en: string | null
+  has_en_edition: boolean | null
 }
 
 export interface UserContent {

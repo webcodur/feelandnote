@@ -15,6 +15,7 @@ export interface FilterOption {
   value: string;
   label: string;
   count?: number;
+  icon?: ReactNode;
 }
 
 interface FilterChipDropdownProps {
@@ -104,7 +105,7 @@ export default function FilterChipDropdown({
         onClick={handleToggle}
         disabled={isLoading}
         className={`
-          flex items-center justify-center rounded-md border transition-all duration-300
+          flex items-center justify-center rounded-md border transition-none
           bg-white/5 whitespace-nowrap overflow-hidden
           ${isActive ? 'border-accent shadow-[0_0_10px_rgba(212,175,55,0.2)]' : 'border-accent/20 hover:border-accent/40'}
         `}
@@ -136,7 +137,7 @@ export default function FilterChipDropdown({
           className="fixed min-w-[160px] max-h-[320px] overflow-y-auto bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl"
           style={{ top: dropdownPos.top, left: dropdownPos.left, zIndex: Z_INDEX.dropdown }}
         >
-          {options.map(({ value: optValue, label: optLabel, count }) => {
+          {options.map(({ value: optValue, label: optLabel, count, icon: optIcon }) => {
             const isSelected = currentValue === optValue;
             const isDisabled = count !== undefined && count === 0;
 
@@ -149,7 +150,10 @@ export default function FilterChipDropdown({
                   isSelected ? "bg-accent/20 text-accent font-bold" : "text-text-secondary hover:bg-accent/5 hover:text-text-primary"
                 } ${isDisabled ? FILTER_DROPDOWN_STYLES.item.disabled : ""}`}
               >
-                <span className="font-sans">{optLabel}</span>
+                <span className="font-sans flex items-center gap-2">
+                  {optIcon && <span className="flex-shrink-0 w-4 text-center">{optIcon}</span>}
+                  {optLabel}
+                </span>
                 {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : 'text-text-tertiary'}`}>{count}</span>}
               </button>
             );

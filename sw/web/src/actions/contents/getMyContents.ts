@@ -49,6 +49,7 @@ export interface UserContentWithContent {
     creator_en: string | null
     isbn_en: string | null
     thumbnail_en: string | null
+    has_en_edition: boolean | null
   }
 }
 

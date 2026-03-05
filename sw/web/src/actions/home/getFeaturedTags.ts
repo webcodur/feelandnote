@@ -6,13 +6,17 @@ import { getCelebLevelByRanking } from '@/constants/materials'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
+  short_desc_en: string | null
   long_desc: string | null
+  long_desc_en: string | null
 }
 
 export interface FeaturedTag {
   id: string
   name: string
+  name_en: string | null
   description: string | null
+  description_en: string | null
   color: string
   celebs: FeaturedCeleb[]
   is_featured: boolean
@@ -25,7 +29,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   // 1. 모든 태그 조회 (활성 + 비활성)
   const { data: allTags } = await supabase
     .from('celeb_tags')
-    .select('id, name, description, color, is_featured')
+    .select('id, name, name_en, description, description_en, color, is_featured')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
 
@@ -76,13 +80,14 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     influencesResult,
     tagDataResult,
     contentCountsResult,
-    userResult
+    userResult,
+    dialoguesResult
   ] = await Promise.all([
     // 프로필
     supabase.from('profiles').select(`
       id, slug, nickname, avatar_url, title, profession,
       consumption_philosophy, nationality, birth_date, death_date,
-      bio, quotes, is_verified, claimed_by
+      bio, quotes, is_verified, claimed_by, speech_tone
     `).in('id', celebIdArray),
     // 팔로워 수
     supabase.from('follows').select('following_id').in('following_id', celebIdArray),
@@ -90,12 +95,14 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     supabase.from('celeb_influence').select('celeb_id, total_score').in('celeb_id', celebIdArray),
     // 태그 정보
     supabase.from('celeb_tag_assignments')
-      .select('celeb_id, short_desc, long_desc, tag:celeb_tags(id, name, color)')
+      .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIdArray),
     // 콘텐츠 수
     supabase.rpc('count_contents_by_users', { user_ids: celebIdArray }),
     // 현재 유저
-    supabase.auth.getUser()
+    supabase.auth.getUser(),
+    // 대사 (greeting)
+    supabase.from('celeb_dialogues').select('celeb_id, lines, lines_en').in('celeb_id', celebIdArray)
   ])
 
   // 맵 구성
@@ -116,7 +123,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   ;(tagDataResult.data ?? []).forEach((item: any) => {
     if (!item.tag) return
     const list = tagsMap.get(item.celeb_id) ?? []
-    list.push({ ...item.tag, short_desc: item.short_desc, long_desc: item.long_desc })
+    list.push({ ...item.tag, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
     tagsMap.set(item.celeb_id, list)
   })
 
@@ -124,6 +131,14 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   if (contentCountsResult.data) {
     (contentCountsResult.data as any[]).forEach(c => contentCountMap.set(c.user_id, c.count))
   }
+
+  const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null }>()
+  ;(dialoguesResult.data ?? []).forEach((d: any) => {
+    dialogueMap.set(d.celeb_id, {
+      greeting: d.lines?.greeting ?? null,
+      greeting_en: d.lines_en?.greeting ?? null,
+    })
+  })
 
   // 유저별 팔로우 여부
   const user = userResult.data?.user
@@ -183,8 +198,13 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
             percentile: undefined
           } : null,
           tags: celebTags,
+          speech_tone: c.speech_tone ?? null,
+          greeting: dialogueMap.get(c.id)?.greeting ?? null,
+          greeting_en: dialogueMap.get(c.id)?.greeting_en ?? null,
           short_desc: a.short_desc,
+          short_desc_en: a.short_desc_en,
           long_desc: a.long_desc,
+          long_desc_en: a.long_desc_en,
         }
       })
       .filter((c): c is FeaturedCeleb => c !== null)
@@ -193,7 +213,9 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
       result.push({
         id: tag.id,
         name: tag.name,
+        name_en: tag.name_en ?? null,
         description: tag.description,
+        description_en: tag.description_en ?? null,
         color: tag.color,
         celebs,
         is_featured: true,
@@ -206,7 +228,9 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     result.push({
       id: tag.id,
       name: tag.name,
+      name_en: tag.name_en ?? null,
       description: tag.description,
+      description_en: tag.description_en ?? null,
       color: tag.color,
       celebs: [],
       is_featured: false,

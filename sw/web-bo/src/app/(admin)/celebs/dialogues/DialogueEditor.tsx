@@ -23,10 +23,10 @@ const TONE_LABELS: Record<string, string> = {
   free: '호방',
 }
 
-const DIALOGUE_TYPES = ['greeting', 'answer', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
+const DIALOGUE_TYPES = ['greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
 const TYPE_LABELS: Record<string, string> = {
   greeting: '인사',
-  answer: '호명',
+  roll_call: '호명',
   deploy: '출전 시',
   battle_win: '승리',
   battle_draw: '무승부',
@@ -36,7 +36,7 @@ const TYPE_LABELS: Record<string, string> = {
 
 const EMPTY_LINES: DialogueLines = {
   greeting: ['', '', ''],
-  answer: ['', '', ''],
+  roll_call: ['', '', ''],
   deploy: ['', '', ''],
   battle_win: ['', '', ''],
   battle_draw: ['', '', ''],

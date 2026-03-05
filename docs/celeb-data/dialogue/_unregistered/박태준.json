@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "박태준",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[fierce, patriotic] 우향우! 한번 해보자.",
+      "[resolute, devoted] 제철보국. 철이 나라를 세웁니다.",
+      "[stern, proud] 불량을 용납하면 기업도 불량이 됩니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

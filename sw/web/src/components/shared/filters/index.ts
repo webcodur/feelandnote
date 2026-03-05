@@ -2,4 +2,5 @@
 export { default as FilterChipDropdown } from "./FilterChipDropdown";
 export { default as FilterChip } from "./FilterChip";
 export { default as FilterModal } from "./FilterModal";
+export { default as FilterCombobox } from "./FilterCombobox";
 export type { FilterOption } from "./FilterChipDropdown";

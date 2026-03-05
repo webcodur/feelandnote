@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "제레미_아이언스",
+  "profession": "actor",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[reflective, warm] 어떤 기계는 과거로, 어떤 기계는 미래로 데려다줍니다. 기억과 꿈이라는 이름으로요.",
+      "[calm, detached] 연기에 열정적이었던 적은 없어요. 그래서 더 오래 할 수 있었는지도 모릅니다.",
+      "[thoughtful, gentle] 다른 사람의 삶을 살아보는 것, 그게 배우라는 직업의 선물이에요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

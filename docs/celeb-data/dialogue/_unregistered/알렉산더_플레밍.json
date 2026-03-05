@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "알렉산더_플레밍",
+  "profession": "scientist",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[humble, wry] 페니실린을 발명한 것이 아닙니다. 자연이 만들었고, 저는 우연히 발견했을 뿐입니다.",
+      "[warm, wise] 이상한 현상을 발견하면 절대 무시하지 마십시오.",
+      "[gentle, candid] 혁명을 계획한 적 없습니다. 정확히 그 일을 했지만요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

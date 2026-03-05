@@ -4,7 +4,7 @@
   책임: 서고 탭 정보를 단일 원천으로 관리한다.
 */
 
-import { Scroll, Route, Clock, type LucideIcon } from "lucide-react";
+import { Scroll, Route, Clock, GraduationCap, type LucideIcon } from "lucide-react";
 
 export interface ScripturesTab {
   value: string;
@@ -15,7 +15,8 @@ export interface ScripturesTab {
 export const SCRIPTURES_TABS: ScripturesTab[] = [
   { value: "era", icon: Clock, href: "/scriptures/era" },
   { value: "profession", icon: Route, href: "/scriptures/profession" },
-  { value: "history", icon: Scroll, href: "/scriptures/history" },
+  { value: "museum", icon: Scroll, href: "/scriptures/museum" },
+  { value: "academy", icon: GraduationCap, href: "/scriptures/academy" },
 ];
 
 // 4행 구조: 4x4x4x3 그리드 (갈림길 페이지용)

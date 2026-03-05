@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "쿠니무라_준",
+  "profession": "actor",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[composed, sharp] 반갑습니다. 저는 역할의 무게를 존중하는 사람이에요.",
+      "[steady, intense] 카메라가 돌아가는 순간, 모든 것을 잊고 캐릭터가 됩니다.",
+      "[calm, professional] 좋은 배우란 감독의 비전에 헌신하는 사람이에요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

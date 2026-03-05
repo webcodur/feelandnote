@@ -213,7 +213,7 @@ export default function InfoPanel({
                 {/* 1. 영상 전용: 태그라인 */}
                 {content.type === 'VIDEO' && metadata?.tagline && (
                     <div className="text-center italic text-text-secondary/80 text-sm px-4 py-2 border-l-2 border-accent/50 bg-accent/5 rounded-r-lg">
-                        "{metadata.tagline}"
+                        {metadata.tagline}
                     </div>
                 )}
 

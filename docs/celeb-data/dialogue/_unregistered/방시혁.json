@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "방시혁",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[thoughtful, bold] 음악은 국경이 없습니다. 콘텐츠의 힘을 믿으세요.",
+      "[creative, calm] 시스템이 아티스트를 자유롭게 해야 합니다.",
+      "[visionary, warm] 팬과 아티스트의 관계가 산업의 미래를 결정합니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

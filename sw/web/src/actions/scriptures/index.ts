@@ -24,6 +24,7 @@ export interface ScriptureContent {
   creator_en?: string | null
   isbn_en?: string | null
   thumbnail_en?: string | null
+  has_en_edition?: boolean | null
 }
 
 export interface ScripturesResult {
@@ -68,7 +69,7 @@ function aggregateContents(
   data: Array<{
     content_id: string
     rating: number | null
-    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null } | null
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null } | null
   }>,
   options: {
     category?: CategoryId
@@ -109,6 +110,7 @@ function aggregateContents(
           creator_en: content.creator_en ?? null,
           isbn_en: content.isbn_en ?? null,
           thumbnail_en: content.thumbnail_en ?? null,
+          has_en_edition: content.has_en_edition ?? null,
         },
         ratings: item.rating ? [Number(item.rating)] : []
       })
@@ -156,7 +158,7 @@ async function fetchAllUserContents(
     user_id: string
     content_id: string
     rating: number | null
-    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null }
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null }
   }> = []
 
   // 빈 배열이면 빈 결과 반환 (Supabase .in()은 빈 배열에서 에러 발생)
@@ -351,6 +353,7 @@ export async function getChosenScriptures(params?: {
     creator_en: (row.creator_en as string) ?? null,
     isbn_en: (row.isbn_en as string) ?? null,
     thumbnail_en: (row.thumbnail_en as string) ?? null,
+    has_en_edition: (row.has_en_edition as boolean) ?? null,
   }))
 
   return {
@@ -635,6 +638,7 @@ async function fetchFigureContents(
       creator_en: (content as any)?.creator_en ?? null,
       isbn_en: (content as any)?.isbn_en ?? null,
       thumbnail_en: (content as any)?.thumbnail_en ?? null,
+      has_en_edition: (content as any)?.has_en_edition ?? null,
     }
   }).filter(c => c.id)
 
@@ -754,6 +758,7 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
       creator_en: (row.creator_en as string) ?? null,
       isbn_en: (row.isbn_en as string) ?? null,
       thumbnail_en: (row.thumbnail_en as string) ?? null,
+      has_en_edition: (row.has_en_edition as boolean) ?? null,
     })
   }
 
@@ -816,6 +821,7 @@ export async function getEraContents(params: {
     creator_en: (row.creator_en as string) ?? null,
     isbn_en: (row.isbn_en as string) ?? null,
     thumbnail_en: (row.thumbnail_en as string) ?? null,
+    has_en_edition: (row.has_en_edition as boolean) ?? null,
   }))
 
   return {

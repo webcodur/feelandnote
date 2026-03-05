@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
@@ -19,10 +19,12 @@ import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
 import {
+  ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
   OUTER_VIRTUE_KEYS,
   TENDENCY_KEYS,
 } from "@/lib/persona/constants";
+import type { PersonaJsonb, PersonaField } from "@/lib/persona/types";
 import { distanceToMatchPercent, type SimilarCeleb } from "@/lib/persona/utils";
 import { cn } from "@/lib/utils";
 
@@ -172,6 +174,7 @@ export default function CelebPageContent({
                 <ClassicalBox hover={false} className="p-6">
                   <PersonaBlock
                     persona={personaData.targetPersona}
+                    personaJsonb={personaData.targetPersonaJsonb}
                     similarCelebs={personaData.similarCelebs}
                   />
                 </ClassicalBox>
@@ -233,41 +236,135 @@ function getTendencyLabel(value: number, neg: string, pos: string, neutralLabel:
   return strongTemplate(direction);
 }
 
-function VirtueBar({ label, value }: { label: string; value: number }) {
+function VirtueBar({ label, value, reason }: { label: string; value: number; reason?: string }) {
   const pct = Math.min(100, Math.max(0, value));
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="group flex items-center gap-3 py-1">
-      <span className="w-10 text-xs text-text-secondary/60 group-hover:text-accent transition-colors font-medium tracking-tight shrink-0">
-        {label}
-      </span>
-
-      <div className="relative flex-1 h-1.5 bg-white/[0.03] rounded-full ring-1 ring-white/5 overflow-hidden">
-        <div
-          className="h-full bg-gradient-to-r from-accent/60 via-accent to-accent-dim transition-all duration-1000 ease-out relative shadow-[0_0_15px_rgba(212,175,55,0.15)]"
-          style={{ width: `${pct}%` }}
+    <div className="py-1">
+      <div className="group flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => reason && setOpen((v) => !v)}
+          className={cn(
+            "w-10 text-xs font-medium tracking-tight shrink-0 text-left transition-colors",
+            reason ? "cursor-pointer hover:text-accent" : "cursor-default",
+            open ? "text-accent" : "text-text-secondary/60 group-hover:text-accent",
+          )}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30" />
-        </div>
-      </div>
+          {label}
+        </button>
 
-      <span className="w-8 text-right text-xs text-accent font-serif tabular-nums font-bold shrink-0">
-        {value}
-      </span>
+        <div className="relative flex-1 h-1.5 bg-white/[0.03] rounded-full ring-1 ring-white/5 overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-accent/60 via-accent to-accent-dim transition-all duration-1000 ease-out relative shadow-[0_0_15px_rgba(212,175,55,0.15)]"
+            style={{ width: `${pct}%` }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30" />
+          </div>
+        </div>
+
+        <span className="w-8 text-right text-xs text-accent font-serif tabular-nums font-bold shrink-0">
+          {value}
+        </span>
+      </div>
+      {reason && open && (
+        <p className="ml-[52px] mr-10 mt-0.5 text-[11px] text-text-tertiary/60 leading-relaxed break-keep animate-fade-in">
+          {reason}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function getReasonFromJsonb(
+  jsonb: PersonaJsonb | null,
+  group: 'abilities' | 'inner_virtues' | 'outer_virtues' | 'dispositions',
+  key: string,
+  locale: string,
+): string | undefined {
+  if (!jsonb) return undefined;
+  const field = (jsonb[group] as Record<string, PersonaField>)?.[key];
+  if (!field) return undefined;
+  return locale === 'en' && field.reason_en ? field.reason_en : field.reason_ko;
+}
+
+function TendencyBar({ neg, pos, value, reason }: { neg: string; pos: string; value: number; reason?: string }) {
+  const position = ((value + 50) / 100) * 100;
+  const [open, setOpen] = useState(false);
+  const hasReason = !!reason;
+  const activeLabel = Math.abs(value) > 10 ? (value < 0 ? "neg" : "pos") : null;
+
+  return (
+    <div className="py-1">
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => hasReason && setOpen((v) => !v)}
+          className={cn(
+            "w-10 text-right text-xs tracking-tight shrink-0 transition-colors",
+            hasReason ? "cursor-pointer" : "cursor-default",
+            activeLabel === "neg" ? "text-blue-400 opacity-90 font-bold" : "opacity-40",
+            open && activeLabel === "neg" && "underline",
+            hasReason && "hover:opacity-100",
+          )}
+        >
+          {neg}
+        </button>
+        <div className="relative flex-1 h-1.5 bg-white/10 overflow-hidden rounded-full ring-1 ring-white/5">
+          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/20 z-20" />
+          <div
+            className={cn(
+              "absolute top-0 bottom-0 transition-all duration-1000 ease-out",
+              value < 0 ? "bg-blue-500/30" : "bg-orange-500/30"
+            )}
+            style={
+              value < 0
+                ? { left: `${position}%`, right: "50%" }
+                : { left: "50%", width: `${position - 50}%` }
+            }
+          />
+          <div
+            className="absolute top-1/2 w-2 h-2 -translate-y-1/2 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)] z-30 transition-all duration-1000 ease-out"
+            style={{ left: `${position}%` }}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => hasReason && setOpen((v) => !v)}
+          className={cn(
+            "w-10 text-left text-xs tracking-tight shrink-0 transition-colors",
+            hasReason ? "cursor-pointer" : "cursor-default",
+            activeLabel === "pos" ? "text-orange-400 opacity-90 font-bold" : "opacity-40",
+            open && activeLabel === "pos" && "underline",
+            hasReason && "hover:opacity-100",
+          )}
+        >
+          {pos}
+        </button>
+      </div>
+      {reason && open && (
+        <p className="ml-[52px] mr-[52px] mt-0.5 text-[11px] text-text-tertiary/60 leading-relaxed break-keep animate-fade-in">
+          {reason}
+        </p>
+      )}
     </div>
   );
 }
 
 function PersonaBlock({
   persona,
+  personaJsonb,
   similarCelebs,
 }: {
   persona: NonNullable<SimilarByCelebResult["targetPersona"]>;
+  personaJsonb: PersonaJsonb | null;
   similarCelebs: SimilarCeleb[];
 }) {
   const t = useTranslations("celebPage");
   const ts = useTranslations("shared.persona.stat");
   const tl = useTranslations("shared.persona.tendency_label");
+  const locale = useLocale();
   const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -289,18 +386,43 @@ function PersonaBlock({
   return (
     <div className="space-y-6" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
 
+      {/* 핵심 능력 */}
+      <div className="space-y-2">
+        <PersonaSectionHeader title={t("ability")} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+          {ABILITY_KEYS.map((key) => (
+            <VirtueBar
+              key={key}
+              label={ts(key)}
+              value={persona[key]}
+              reason={getReasonFromJsonb(personaJsonb, 'abilities', key, locale)}
+            />
+          ))}
+        </div>
+      </div>
+
       {/* Virtues Grid: 2 Column Split */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-6 border-t border-white/5">
         <div className="space-y-2">
           <PersonaSectionHeader title={t("innerVirtue")} />
           {INNER_VIRTUE_KEYS.map((key) => (
-            <VirtueBar key={key} label={ts(key)} value={persona[key]} />
+            <VirtueBar
+              key={key}
+              label={ts(key)}
+              value={persona[key]}
+              reason={getReasonFromJsonb(personaJsonb, 'inner_virtues', key, locale)}
+            />
           ))}
         </div>
         <div className="space-y-2">
           <PersonaSectionHeader title={t("outerVirtue")} />
           {OUTER_VIRTUE_KEYS.map((key) => (
-            <VirtueBar key={key} label={ts(key)} value={persona[key]} />
+            <VirtueBar
+              key={key}
+              label={ts(key)}
+              value={persona[key]}
+              reason={getReasonFromJsonb(personaJsonb, 'outer_virtues', key, locale)}
+            />
           ))}
         </div>
       </div>
@@ -309,36 +431,15 @@ function PersonaBlock({
       <div className="space-y-4 pt-6 border-t border-white/5">
         <PersonaSectionHeader title={t("coreDisposition")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2">
-          {TENDENCY_KEYS.map((key) => {
-            const [neg, pos] = tendencyLabels[key];
-            const value = persona[key];
-            const position = ((value + 50) / 100) * 100;
-
-            return (
-              <div key={key} className="flex items-center gap-3 py-1">
-                <span className={cn("w-10 text-right text-xs tracking-tight opacity-40 shrink-0", value < -10 && "text-blue-400 opacity-90 font-bold")}>{neg}</span>
-                <div className="relative flex-1 h-1.5 bg-white/10 overflow-hidden rounded-full ring-1 ring-white/5">
-                  <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/20 z-20" />
-                  <div
-                    className={cn(
-                      "absolute top-0 bottom-0 transition-all duration-1000 ease-out",
-                      value < 0 ? "bg-blue-500/30" : "bg-orange-500/30"
-                    )}
-                    style={
-                      value < 0
-                        ? { left: `${position}%`, right: "50%" }
-                        : { left: "50%", width: `${position - 50}%` }
-                    }
-                  />
-                  <div
-                    className="absolute top-1/2 w-2 h-2 -translate-y-1/2 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)] z-30 transition-all duration-1000 ease-out"
-                    style={{ left: `${position}%` }}
-                  />
-                </div>
-                <span className={cn("w-10 text-left text-xs tracking-tight opacity-40 shrink-0", value > 10 && "text-orange-400 opacity-90 font-bold")}>{pos}</span>
-              </div>
-            );
-          })}
+          {TENDENCY_KEYS.map((key) => (
+            <TendencyBar
+              key={key}
+              neg={tendencyLabels[key][0]}
+              pos={tendencyLabels[key][1]}
+              value={persona[key]}
+              reason={getReasonFromJsonb(personaJsonb, 'dispositions', key, locale)}
+            />
+          ))}
         </div>
       </div>
 

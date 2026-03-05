@@ -177,12 +177,12 @@ export default function TagFormModal({ tag, onClose }: Props) {
             </div>
           </div>
 
-          {/* 기획전 설정 */}
+          {/* 스포트라이트 설정 */}
           <div className="border border-border rounded-lg p-3 space-y-3 bg-bg-secondary/50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-accent" />
-                <span className="text-sm font-medium text-text-primary">메인 기획전 노출</span>
+                <span className="text-sm font-medium text-text-primary">메인 스포트라이트 노출</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -238,7 +238,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
               {name || '태그 이름'}
             </span>
             {isFeatured && (
-              <span className="ml-2 text-xs text-accent">⭐ 기획전 노출</span>
+              <span className="ml-2 text-xs text-accent">⭐ 스포트라이트 노출</span>
             )}
           </div>
 

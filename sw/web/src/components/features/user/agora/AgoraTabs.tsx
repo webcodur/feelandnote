@@ -17,7 +17,7 @@ export default function AgoraTabs() {
   const t = useTranslations("agora.items");
 
   const activeTab =
-    AGORA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "celeb-feed";
+    AGORA_ITEMS.find((item) => pathname.startsWith(item.href))?.value ?? "social";
 
   // value에서 camelCase 키로 변환 (celeb-feed → celebFeed)
   const toKey = (value: string) => value.replace(/-([a-z])/g, (_, c) => c.toUpperCase());

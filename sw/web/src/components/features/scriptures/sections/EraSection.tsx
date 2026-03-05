@@ -54,6 +54,7 @@ interface ScriptureContent {
   creator_en?: string | null;
   isbn_en?: string | null;
   thumbnail_en?: string | null;
+  has_en_edition?: boolean | null;
 }
 // #endregion
 
@@ -126,6 +127,7 @@ function ContentSection({
                     titleEn={content.title_en}
                     creatorEn={content.creator_en}
                     thumbnailEn={content.thumbnail_en}
+                    hasEnEdition={content.has_en_edition}
                   />
                 </div>
               );

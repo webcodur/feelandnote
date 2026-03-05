@@ -26,7 +26,6 @@ interface CelebCarouselProps {
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
-  extraButtons?: React.ReactNode;
   onFilterInteraction?: () => void;
   customContent?: React.ReactNode;
   includeInactive?: boolean;
@@ -43,7 +42,6 @@ export default function CelebCarousel({
   genderCounts,
   mode = "grid",
   syncToUrl = false,
-  extraButtons,
   onFilterInteraction,
   customContent,
   includeInactive = false,
@@ -120,7 +118,6 @@ export default function CelebCarousel({
           >
             <Search size={16} />
           </button>
-          {extraButtons}
         </div>
 
         {/* 2행: 필터 칩들 */}
@@ -175,7 +172,6 @@ export default function CelebCarousel({
         onSearchInput={(v) => { onFilterInteraction?.(); filters.handleSearchInput(v); }}
         onSearchSubmit={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
         onSearchClear={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
-        extraButtons={extraButtons}
         isExpanded={isControlsExpanded}
         onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
       />
@@ -290,6 +286,9 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
 }
 
 function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number }) {
+  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => { setSubtitle(sub); }, []);
+
   if (total === 0) return null;
 
   const pcCelebs = celebs.slice(0, 12);
@@ -308,6 +307,7 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
             title={celeb.title}
             count={celeb.content_count}
             celebProfile={celeb}
+            onSubtitle={handleSubtitle}
           />
         ))}
         <MoreLink />
@@ -324,9 +324,11 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
             title={celeb.title}
             count={celeb.content_count}
             celebProfile={celeb}
+            onSubtitle={handleSubtitle}
           />
         ))}
       </div>
+      <DialogueSubtitle subtitle={subtitle} />
     </div>
   );
 }

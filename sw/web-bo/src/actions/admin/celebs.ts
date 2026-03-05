@@ -8,6 +8,7 @@ import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnot
 // #region Types
 export interface Celeb {
   id: string
+  slug: string | null
   nickname: string | null
   avatar_url: string | null
   profession: string | null
@@ -92,6 +93,11 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
 
+  // avatar_url 정렬: RPC 미지원 → 직접 쿼리
+  if (sort === 'avatar_url') {
+    return getCelebsByAvatarSort({ page, limit, search, status, profession, sortOrder })
+  }
+
   // RPC 함수 사용 (프로덕션과 동일한 방식)
   const sortByMap: Record<string, string> = {
     content_count: 'content_count',
@@ -151,6 +157,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   let celebs: Celeb[] = (data || []).map((celeb: any) => ({
     id: celeb.id,
+    slug: celeb.slug || null,
     nickname: celeb.nickname,
     avatar_url: celeb.avatar_url,
     profession: celeb.profession,
@@ -189,6 +196,75 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 }
 // #endregion
 
+// #region getCelebsByAvatarSort
+async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Promise<CelebsResponse> {
+  const { page = 1, limit = 20, search, status, profession, sortOrder = 'desc' } = params
+  const supabase = createAdminClient()
+  const offset = (page - 1) * limit
+
+  let query = supabase
+    .from('profiles')
+    .select(
+      '*, user_social(follower_count), celeb_influence(total_score)',
+      { count: 'exact' }
+    )
+    .eq('profile_type', 'CELEB')
+
+  if (status && status !== 'all') {
+    query = query.eq('status', status)
+  } else {
+    query = query.in('status', ['active', 'inactive', 'suspended'])
+  }
+
+  if (profession && profession !== 'all') {
+    query = query.eq('profession', profession)
+  }
+
+  if (search) {
+    query = query.or(`nickname.ilike.%${search}%,title.ilike.%${search}%`)
+  }
+
+  // nullsFirst: true → null 먼저 (이미지 없는 것 먼저 = asc)
+  // nullsFirst: false → null 나중 (이미지 있는 것 먼저 = desc)
+  const { data, error, count } = await query
+    .order('avatar_url', { ascending: sortOrder === 'asc', nullsFirst: sortOrder === 'asc' })
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
+
+  if (error) throw error
+
+  const celebs: Celeb[] = (data || []).map((row: any) => {
+    const social = Array.isArray(row.user_social) ? row.user_social[0] : row.user_social
+    const influence = Array.isArray(row.celeb_influence) ? row.celeb_influence[0] : row.celeb_influence
+    return {
+      id: row.id,
+      slug: row.slug || null,
+      nickname: row.nickname,
+      avatar_url: row.avatar_url,
+      profession: row.profession,
+      title: row.title,
+      nationality: row.nationality,
+      gender: row.gender,
+      birth_date: row.birth_date,
+      death_date: row.death_date,
+      bio: row.bio,
+      quotes: row.quotes,
+      consumption_philosophy: row.consumption_philosophy,
+      is_verified: row.is_verified,
+      status: row.status,
+      celeb_tier: row.celeb_tier || 'full',
+      claimed_by: row.claimed_by,
+      created_at: row.created_at || '',
+      content_count: 0,
+      follower_count: social?.follower_count || 0,
+      influence_total: influence?.total_score || 0,
+    }
+  })
+
+  return { celebs, total: count || 0 }
+}
+// #endregion
+
 // #region getCeleb
 export async function getCeleb(celebId: string): Promise<Celeb | null> {
   const supabase = await createClient()
@@ -215,6 +291,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
 
   return {
     id: data.id,
+    slug: data.slug || null,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
     profession: data.profession,

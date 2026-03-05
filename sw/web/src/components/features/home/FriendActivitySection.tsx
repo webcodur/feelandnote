@@ -74,6 +74,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         titleEn={activity.content_title_en}
         creatorEn={activity.content_creator_en}
         thumbnailEn={activity.content_thumbnail_en}
+        hasEnEdition={activity.content_has_en_edition}
       />
 
       <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick>

@@ -15,7 +15,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`celeb_dialogues`**: 인물별 고유 대사(**dialogueLines**). celeb_id(PK, profiles FK), lines(JSONB: 7상황×3변형=21개 대사. greeting/select/deploy/battle_win/battle_draw/battle_lose/clash_attack)
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블). 인물별 고유 대사
   - **defaultLines**: 톤별 범용 대사 (코드 하드코딩). speech_tone 6종 기반. DB 개인화 불필요한 부수적 인터랙션에서 사용
-- **`celeb_tags`** / **`celeb_tag_assignments`**: 기획전 태그 (is_featured, 기간 설정)
+- **`celeb_tags`** / **`celeb_tag_assignments`**: 스포트라이트 태그 (is_featured, 기간 설정)
 - **퍼블릭 도메인 셀럽**: 1920년 이전 사망자. 게임 등에서 활용. `isPublicDomainCeleb()` 함수로 필터링 (`death_date` 존재 + 빈 문자열 아님 + 연도 ≤ 1920)
 
 ## 셀럽 작업 룰북

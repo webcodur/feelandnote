@@ -318,9 +318,10 @@ export default function CelebCard({
     ? { container: "w-24 h-24 rounded-full", sizes: "96px", fallbackSize: 32 }
     : { container: "w-14 h-14 sm:w-16 sm:h-16 rounded-full", sizes: "64px", fallbackSize: 20 };
 
-  // circle/medallion은 기존 동작 유지 (직접 모달 열기)
+  // circle/medallion 클릭 → 모달 열기 + greeting 발사
   const handleCircleClick = async () => {
     if (isLoading) return;
+    fireGreeting();
 
     if (celebProfile) {
       if (onOpenModal) { onOpenModal(celebProfile, index); return; }

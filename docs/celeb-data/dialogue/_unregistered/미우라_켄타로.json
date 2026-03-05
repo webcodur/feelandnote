@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "미우라_켄타로",
+  "profession": "entrepreneur",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[intense, dedicated] 한 컷에 혼을 담지 않으면 독자가 알아챕니다.",
+      "[dark, passionate] 고통 없이 걸작은 태어나지 않습니다.",
+      "[quiet, resolute] 그리는 것을 멈추면 이야기도 멈춥니다. 그래서 계속 그립니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

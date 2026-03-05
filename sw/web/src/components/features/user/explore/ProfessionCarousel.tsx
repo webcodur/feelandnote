@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
-import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import CelebCard from "@/components/shared/CelebCard";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
@@ -56,13 +56,6 @@ export default function ProfessionCarousel({
           </h3>
           <span className="text-xs text-white/40 font-medium">{totalCount}</span>
         </div>
-        <Link
-          href={`/explore/celebs?profession=${profession}`}
-          className="flex items-center gap-0.5 text-xs text-white/50 hover:text-accent transition-colors"
-        >
-          {t("viewMore")}
-          <ChevronRight size={14} />
-        </Link>
       </div>
 
       {/* Carousel */}
@@ -117,6 +110,18 @@ export default function ProfessionCarousel({
               />
             </div>
           ))}
+          {/* View All Card */}
+          {totalCount > celebs.length && (
+            <Link
+              href={`/explore/celebs?profession=${profession}`}
+              className="flex-shrink-0 w-[28%] sm:w-[22%] md:w-[16%] lg:w-[13%] xl:w-[11%] 2xl:w-[9%] snap-start"
+            >
+              <div className="aspect-[13/19] rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-accent/30 transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <span className="text-2xl md:text-3xl font-bold text-accent/80">+{totalCount - celebs.length}</span>
+                <span className="text-[10px] md:text-xs text-white/50 font-medium">{t("viewMore")}</span>
+              </div>
+            </Link>
+          )}
           {/* End Spacer */}
           <div className="w-2 flex-shrink-0" />
         </div>

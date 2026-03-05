@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "김구",
+  "profession": "politician",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[solemn, passionate] 나는 우리나라가 세계에서 가장 아름다운 나라가 되기를 원합니다.",
+      "[bold, visionary] 오직 한없이 가지고 싶은 것은 높은 문화의 힘입니다.",
+      "[resolute, humble] 내 소원은 대한의 완전한 자주독립입니다."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}

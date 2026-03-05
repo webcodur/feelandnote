@@ -100,6 +100,7 @@ export function HomeSuggestions({
                                 titleEn={item.title_en}
                                 creatorEn={item.creator_en}
                                 thumbnailEn={item.thumbnail_en}
+                                hasEnEdition={item.has_en_edition}
                             />
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-black/80 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded-full text-[10px] text-accent flex items-center gap-1 shadow-lg whitespace-nowrap pointer-events-none">
                                 <Sparkles size={8} className="text-accent" />

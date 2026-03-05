@@ -78,6 +78,7 @@ function SliderFeedCard({ review }: { review: Review }) {
         titleEn={review.content.title_en}
         creatorEn={review.content.creator_en}
         thumbnailEn={review.content.thumbnail_en}
+        hasEnEdition={review.content.has_en_edition}
       />
 
       <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick>

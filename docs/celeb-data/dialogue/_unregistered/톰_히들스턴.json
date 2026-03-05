@@ -1,0 +1,44 @@
+{
+  "celeb_id": "",
+  "nickname": "톰_히들스턴",
+  "profession": "actor",
+  "speech_tone": "",
+  "lines": {
+    "greeting": [
+      "[eloquent, passionate] 반갑습니다. 꿈을 계속 놀라게 하세요. 관객 말고 자기 자신을.",
+      "[warm, earnest] 저는 관심을 갖는 것에 스스로 허락을 내렸어요. 무관심보다 관심이 더 용기 있는 거니까요.",
+      "[gentle, humble] 겸손하세요. 모든 답을 알았다고 생각하는 순간, 운명이 그렇지 않다는 걸 보여줄 테니까요."
+    ],
+    "roll_call": [
+      "",
+      "",
+      ""
+    ],
+    "deploy": [
+      "",
+      "",
+      ""
+    ],
+    "battle_win": [
+      "",
+      "",
+      ""
+    ],
+    "battle_draw": [
+      "",
+      "",
+      ""
+    ],
+    "battle_lose": [
+      "",
+      "",
+      ""
+    ],
+    "clash_attack": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "dialogue_tier": "greeting_only"
+}
