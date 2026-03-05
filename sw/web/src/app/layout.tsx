@@ -68,15 +68,14 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} data-scroll-behavior="smooth" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
-      <head>
+      <head />
+      <body>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3751045783335791"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-      </head>
-      <body>
         {children}
       </body>
     </html>
