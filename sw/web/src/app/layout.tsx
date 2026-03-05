@@ -4,6 +4,7 @@
   책임: HTML 기본 구조와 폰트를 적용한다. locale/metadata는 [locale]/layout.tsx에서 처리.
 */ // ------------------------------
 
+import Script from "next/script";
 import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
 import localFont from "next/font/local";
 import { getLocale } from "next-intl/server";
@@ -67,7 +68,14 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} data-scroll-behavior="smooth" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
-      <head />
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3751045783335791"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body>
         {children}
       </body>

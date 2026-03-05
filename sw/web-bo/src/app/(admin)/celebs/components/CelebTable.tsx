@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock } from 'lucide-react'
+import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock, Copy, Check } from 'lucide-react'
 import { type Member } from '@/actions/admin/members'
+import { toggleCelebTier } from '@/actions/admin/celebs'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import StatusToggle from '../../members/components/StatusToggle'
 import NationalityBadge from '../../members/components/NationalityBadge'
@@ -17,6 +19,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           <SortableTableHeader column="avatar_url" label="img" className="w-12" align="center" />
           <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">title</th>
           <SortableTableHeader column="nickname" label="nickname" />
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-16">tier</th>
           <SortableTableHeader column="profession" label="profession" />
           <SortableTableHeader column="nationality" label="nationality" align="center" />
           <SortableTableHeader column="status" label="status" align="center" />
@@ -29,7 +32,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={11} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={12} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
@@ -55,8 +58,11 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                     {celeb.nickname || '이름 없음'}
                   </Link>
                   {celeb.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
-                  <TierBadge tier={celeb.celeb_tier} />
+                  <CopyButton text={celeb.nickname || ''} />
                 </div>
+              </td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <TierToggle celebId={celeb.id} tier={celeb.celeb_tier || 'full'} />
               </td>
               <td className="px-3 md:px-4 py-3">
                 {celeb.profession && (
@@ -116,12 +122,58 @@ function StatusBadge({ status }: { status: string }) {
   )
 }
 
-function TierBadge({ tier }: { tier?: string | null }) {
-  if (!tier || tier === 'full') return null
+function TierToggle({ celebId, tier }: { celebId: string; tier: string }) {
+  const [current, setCurrent] = useState(tier)
+  const [loading, setLoading] = useState(false)
+
+  const handleToggle = async () => {
+    setLoading(true)
+    try {
+      await toggleCelebTier(celebId, current)
+      setCurrent(current === 'light' ? 'full' : 'light')
+    } catch (e) {
+      console.error('tier 토글 실패:', e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const isLight = current === 'light'
   return (
-    <span className="px-1 py-0.5 rounded text-[9px] font-mono font-medium bg-orange-500/10 text-orange-400 shrink-0">
-      {tier}
-    </span>
+    <button
+      onClick={handleToggle}
+      disabled={loading}
+      className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-medium cursor-pointer transition-colors disabled:opacity-50 ${
+        isLight
+          ? 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20'
+          : 'bg-blue-500/10 text-blue-400 hover:bg-blue-500/20'
+      }`}
+    >
+      {current}
+    </button>
+  )
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="p-0.5 rounded hover:bg-bg-secondary text-text-tertiary hover:text-text-secondary transition-colors shrink-0"
+      title="이름 복사"
+    >
+      {copied
+        ? <Check className="w-3 h-3 text-green-400" />
+        : <Copy className="w-3 h-3" />
+      }
+    </button>
   )
 }
 

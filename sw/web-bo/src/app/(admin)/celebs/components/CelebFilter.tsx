@@ -10,12 +10,13 @@ interface CelebFilterProps {
     search: string
     status: string
     profession: string
+    tier: string
   }
 }
 
 export default function CelebFilter({ defaultValues }: CelebFilterProps) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { search, status, profession } = defaultValues
+  const { search, status, profession, tier } = defaultValues
 
   useEffect(() => {
     if (inputRef.current) {
@@ -42,7 +43,7 @@ export default function CelebFilter({ defaultValues }: CelebFilterProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:flex gap-2 md:gap-3">
+        <div className="grid grid-cols-3 sm:flex gap-2 md:gap-3">
           <select
             name="status"
             defaultValue={status}
@@ -65,6 +66,16 @@ export default function CelebFilter({ defaultValues }: CelebFilterProps) {
                 {prof.label}
               </option>
             ))}
+          </select>
+
+          <select
+            name="tier"
+            defaultValue={tier}
+            className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+          >
+            <option value="all">모든 티어</option>
+            <option value="full">full</option>
+            <option value="light">light</option>
           </select>
         </div>
 

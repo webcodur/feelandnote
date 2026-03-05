@@ -37,6 +37,7 @@ interface CelebFormData {
   avatar_url: string
   is_verified: boolean
   status: 'active' | 'suspended'
+  celeb_tier: 'full' | 'light'
   consumption_philosophy: string
   consumption_philosophy_en: string
 }
@@ -104,6 +105,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     avatar_url: celeb?.avatar_url || '',
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'suspended') || 'suspended',
+    celeb_tier: (celeb?.celeb_tier as 'full' | 'light') || 'full',
     consumption_philosophy: celeb?.consumption_philosophy || '',
     consumption_philosophy_en: celeb?.consumption_philosophy_en || '',
   }
@@ -437,6 +439,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
+          celeb_tier: formData.celeb_tier,
           consumption_philosophy: formData.consumption_philosophy || undefined,
           consumption_philosophy_en: formData.consumption_philosophy_en,
           influence: hasInfluence ? influence : undefined,
@@ -606,6 +609,16 @@ export default function CelebForm({ mode, celeb }: Props) {
                 <label className="flex items-center gap-1 cursor-pointer">
                   <input type="radio" name="status" value="suspended" checked={formData.status === 'suspended'} onChange={() => handleChange('status', 'suspended')} className="w-3 h-3" />
                   <span className="text-xs text-text-primary">비활성</span>
+                </label>
+              </div>
+              <div className="flex items-center gap-2 border-l border-border pl-4">
+                <label className="flex items-center gap-1 cursor-pointer">
+                  <input type="radio" name="celeb_tier" value="full" checked={formData.celeb_tier === 'full'} onChange={() => handleChange('celeb_tier', 'full')} className="w-3 h-3" />
+                  <span className="text-xs text-text-primary">full</span>
+                </label>
+                <label className="flex items-center gap-1 cursor-pointer">
+                  <input type="radio" name="celeb_tier" value="light" checked={formData.celeb_tier === 'light'} onChange={() => handleChange('celeb_tier', 'light')} className="w-3 h-3" />
+                  <span className="text-xs font-mono text-orange-400">light</span>
                 </label>
               </div>
             </div>

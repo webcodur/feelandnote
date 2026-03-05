@@ -17,6 +17,7 @@ interface PageProps {
     search?: string
     status?: string
     profession?: string
+    tier?: string
     sort?: string
     sortOrder?: 'asc' | 'desc'
   }>
@@ -28,6 +29,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
   const search = params.search || ''
   const status = params.status || 'all'
   const profession = params.profession || 'all'
+  const tier = params.tier || 'all'
   const sort = params.sort || 'created_at'
   const sortOrder = params.sortOrder || 'desc'
 
@@ -38,6 +40,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
     search,
     status,
     profession: profession !== 'all' ? profession : undefined,
+    tier: tier !== 'all' ? tier : undefined,
     sort,
     sortOrder,
   })
@@ -48,6 +51,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
     search: search || undefined,
     status: status !== 'all' ? status : undefined,
     profession: profession !== 'all' ? profession : undefined,
+    tier: tier !== 'all' ? tier : undefined,
     sort: sort !== 'created_at' ? sort : undefined,
     sortOrder: sortOrder !== 'desc' ? sortOrder : undefined,
   }
@@ -110,7 +114,7 @@ export default async function CelebsPage({ searchParams }: PageProps) {
       </div>
 
       {/* Filters */}
-      <CelebFilter defaultValues={{ search, status, profession }} />
+      <CelebFilter defaultValues={{ search, status, profession, tier }} />
 
       {/* Table */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">

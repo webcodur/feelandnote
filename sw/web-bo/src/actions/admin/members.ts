@@ -117,6 +117,7 @@ export interface GetMembersParams {
   status?: string
   role?: string
   profession?: string
+  tier?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -124,7 +125,7 @@ export interface GetMembersParams {
 
 // #region getMembers
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType, page = 1, limit = 20, search, status, role, profession, sort, sortOrder } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, sort, sortOrder } = params
 
   // 타입이 지정되면 기존 로직 사용
   if (profileType === 'CELEB') {
@@ -134,6 +135,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       search,
       status: status as 'active' | 'suspended' | 'all',
       profession,
+      tier: tier as 'full' | 'light' | 'all' | undefined,
       sort,
       sortOrder,
     })

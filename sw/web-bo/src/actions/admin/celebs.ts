@@ -41,6 +41,7 @@ interface GetCelebsParams {
   search?: string
   status?: 'active' | 'inactive' | 'suspended' | 'all'
   profession?: string
+  tier?: 'full' | 'light' | 'all'
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -82,6 +83,7 @@ interface UpdateCelebInput {
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive' | 'suspended'
+  celeb_tier?: 'full' | 'light'
   influence?: GeneratedInfluence
 }
 
@@ -89,13 +91,13 @@ interface UpdateCelebInput {
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
 
   // avatar_url 정렬: RPC 미지원 → 직접 쿼리
   if (sort === 'avatar_url') {
-    return getCelebsByAvatarSort({ page, limit, search, status, profession, sortOrder })
+    return getCelebsByAvatarSort({ page, limit, search, status, profession, tier, sortOrder })
   }
 
   // RPC 함수 사용 (프로덕션과 동일한 방식)
@@ -184,6 +186,11 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     celebs = celebs.filter((c) => c.status === status)
   }
 
+  // tier 필터링 (RPC 미지원 → JS 후처리)
+  if (tier && tier !== 'all') {
+    celebs = celebs.filter((c) => c.celeb_tier === tier)
+  }
+
   // 숫자형 정렬은 RPC가 항상 DESC → asc 시 결과 뒤집기
   if (needsReverse) {
     celebs.reverse()
@@ -191,14 +198,14 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   return {
     celebs,
-    total: status && status !== 'all' ? celebs.length : total,
+    total: (status && status !== 'all') || (tier && tier !== 'all') ? celebs.length : total,
   }
 }
 // #endregion
 
 // #region getCelebsByAvatarSort
 async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, sortOrder = 'desc' } = params
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
 
@@ -222,6 +229,10 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
 
   if (search) {
     query = query.or(`nickname.ilike.%${search}%,title.ilike.%${search}%`)
+  }
+
+  if (tier && tier !== 'all') {
+    query = query.eq('celeb_tier', tier)
   }
 
   // nullsFirst: true → null 먼저 (이미지 없는 것 먼저 = asc)
@@ -448,6 +459,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
+  if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier
 
   const { error } = await supabase
     .from('profiles')
@@ -486,6 +498,23 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   revalidatePath('/celebs')
   revalidatePath(`/celebs/${input.id}`)
   revalidatePath(`/members/${input.id}`)
+}
+// #endregion
+
+// #region toggleCelebTier
+export async function toggleCelebTier(celebId: string, currentTier: string): Promise<void> {
+  const supabase = await createClient()
+  const newTier = currentTier === 'light' ? 'full' : 'light'
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ celeb_tier: newTier })
+    .eq('id', celebId)
+    .eq('profile_type', 'CELEB')
+
+  if (error) throw error
+
+  revalidatePath('/celebs')
 }
 // #endregion
 
