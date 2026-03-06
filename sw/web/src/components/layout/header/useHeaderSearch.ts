@@ -110,7 +110,8 @@ export function useHeaderSearch() {
             searchResults.push({
               id: item.id, type: "content", title: item.title, subtitle: item.creator,
               category: item.category, subtype: item.subtype, thumbnail: item.thumbnail,
-              description: item.description, releaseDate: item.releaseDate, metadata: item.metadata,
+              description: item.description, releaseDate: item.releaseDate,
+              externalSource: item.externalSource, metadata: item.metadata,
             });
           });
         } else if (mode === "user") {
@@ -257,7 +258,7 @@ export function useHeaderSearch() {
           releaseDate: result.releaseDate,
           metadata: result.metadata,
           subtype: result.subtype,
-          // status 제거 (addContent 내부에서 처리 혹은 deprecated)
+          externalSource: result.externalSource,
         });
         
         if (addResult.success) {

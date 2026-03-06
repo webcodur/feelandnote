@@ -9,6 +9,7 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import type { SpeechTone } from "@/lib/game/voice/types";
+import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 interface CuratedSpotlightMobileProps {
   activeTag: FeaturedTag;
@@ -23,6 +24,7 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
   const [isSwiping, setIsSwiping] = useState(false);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
   const subtitleKeyRef = useRef(0);
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const heroCeleb = activeTag.celebs[selectedIndex];
   const celebsCount = activeTag.celebs.length;
 
@@ -41,8 +43,10 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
     if (!celeb || !onSubtitle) return;
     const greetings = locale === 'ko' ? celeb.greeting : (celeb.greeting_en ?? celeb.greeting);
     let text: string | undefined;
+    let greetingIdx = -1;
     if (greetings?.length) {
-      text = greetings[Math.floor(Math.random() * greetings.length)];
+      greetingIdx = Math.floor(Math.random() * greetings.length);
+      text = greetings[greetingIdx];
     } else if (celeb.speech_tone) {
       const fallback = defaultLinesData[locale].greeting?.[celeb.speech_tone as SpeechTone];
       if (fallback?.length) text = fallback[Math.floor(Math.random() * fallback.length)];
@@ -55,6 +59,13 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
         nickname: celeb.nickname,
         avatarUrl: celeb.avatar_url,
       });
+      if (celeb.has_voice && greetingIdx >= 0) {
+        voiceAudioRef.current?.pause();
+        const audio = new Audio(getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1));
+        audio.volume = 0.7;
+        audio.play().catch(() => {});
+        voiceAudioRef.current = audio;
+      }
     }
   }, [locale, onSubtitle]);
 

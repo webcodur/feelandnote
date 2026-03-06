@@ -72,7 +72,7 @@ function ComparisonTable({ data }: { data: ReadingMethod[] }) {
       </div>
 
       <div className="hidden sm:block">
-        <table className="w-full text-xs border-collapse">
+        <table aria-label={t("comparisonSectionTitle")} className="w-full text-xs border-collapse">
           <thead>
             <tr className="border-b border-white/10">
               <th className="text-left py-2.5 px-3 text-white/40 font-semibold uppercase tracking-wider">{t("readingMethod")}</th>
@@ -94,7 +94,7 @@ function ComparisonTable({ data }: { data: ReadingMethod[] }) {
                   <SpeedBar speed={m.speed} />
                 </td>
                 <td className="py-2.5 px-3 text-white/60 max-w-[200px]">
-                  {m.memoryEffect.split("로 ")[0]}
+                  {m.memoryEffect}
                 </td>
                 <td className="py-2.5 px-3">
                   <div className="flex flex-wrap gap-1">
@@ -117,6 +117,8 @@ function ComparisonTable({ data }: { data: ReadingMethod[] }) {
 function ReadingCard({ item }: { item: ReadingMethod }) {
   const [open, setOpen] = useState(false);
   const t = useTranslations("scriptures.academy");
+  const panelId = `academy-essay-${item.id}`;
+  const buttonId = `academy-essay-toggle-${item.id}`;
 
   return (
     <motion.div
@@ -182,7 +184,11 @@ function ReadingCard({ item }: { item: ReadingMethod }) {
       {item.essay && (
         <>
           <button
+            aria-controls={panelId}
+            aria-expanded={open}
+            id={buttonId}
             onClick={() => setOpen(!open)}
+            type="button"
             className="w-full flex items-center justify-center gap-1.5 py-2.5 border-t border-white/[0.06] text-white/40 hover:text-white/70 transition-colors text-[11px] font-medium"
           >
             <span>{open ? t("foldEssay") : t("unfoldEssay")}</span>
@@ -197,10 +203,18 @@ function ReadingCard({ item }: { item: ReadingMethod }) {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/[0.06]">
+                <div
+                  aria-labelledby={buttonId}
+                  className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/[0.06]"
+                  id={panelId}
+                  role="region"
+                >
                   <h4 className="text-sm sm:text-base font-serif font-bold text-white pt-4 mb-3">
                     {item.essay.title}
                   </h4>
+                  <p className="mb-3 text-[10px] uppercase tracking-[0.16em] text-white/35">
+                    {t("essayMeta", { author: item.essay.author, minutes: item.essay.readTime })}
+                  </p>
                   <EssayContent markdown={item.essay.contentMarkdown} />
                 </div>
               </motion.div>
@@ -213,12 +227,14 @@ function ReadingCard({ item }: { item: ReadingMethod }) {
 }
 
 export default function ReadingComparison({ data }: { data: ReadingMethod[] }) {
+  const t = useTranslations("scriptures.academy");
+
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6">
       <div className="flex items-center gap-2 mb-6">
         <BookOpen className="w-4 h-4 text-[#d4af37]/60" />
         <span className="text-xs text-[#d4af37]/60 uppercase tracking-[0.15em] font-semibold">
-          Reading Methods Comparison
+          {t("comparisonSectionTitle")}
         </span>
       </div>
 

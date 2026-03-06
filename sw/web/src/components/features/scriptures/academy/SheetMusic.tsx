@@ -8,24 +8,33 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Play, Square, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SheetMusicProps {
   abc: string;
   playable?: boolean;
 }
 
+type AbcjsModule = typeof import("abcjs");
+type AbcjsImport = AbcjsModule & { default?: AbcjsModule };
+type AbcSynth = InstanceType<AbcjsModule["synth"]["CreateSynth"]>;
+type AbcTimer = InstanceType<AbcjsModule["TimingCallbacks"]>;
+
 export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const synthRef = useRef<any>(null);
-  const timerRef = useRef<any>(null);
+  const synthRef = useRef<AbcSynth | null>(null);
+  const timerRef = useRef<AbcTimer | null>(null);
+  const playbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [abcjsMod, setAbcjsMod] = useState<any>(null);
+  const [abcjsMod, setAbcjsMod] = useState<AbcjsModule | null>(null);
+  const t = useTranslations("scriptures.academy.sheetPlayer");
 
   useEffect(() => {
     let cancelled = false;
     import("abcjs").then((mod) => {
-      if (!cancelled) setAbcjsMod(mod.default ?? mod);
+      const resolved = (mod as AbcjsImport).default ?? mod;
+      if (!cancelled) setAbcjsMod(resolved);
     });
     return () => { cancelled = true; };
   }, []);
@@ -79,6 +88,9 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
 
   useEffect(() => {
     return () => {
+      if (playbackTimeoutRef.current) {
+        clearTimeout(playbackTimeoutRef.current);
+      }
       synthRef.current?.stop();
       timerRef.current?.stop();
     };
@@ -88,15 +100,24 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
     if (!abcjsMod || !containerRef.current) return;
 
     if (playing) {
+      if (playbackTimeoutRef.current) {
+        clearTimeout(playbackTimeoutRef.current);
+        playbackTimeoutRef.current = null;
+      }
       synthRef.current?.stop();
       timerRef.current?.stop();
       setPlaying(false);
+      patchSvgColors(containerRef.current);
       return;
     }
 
     setLoading(true);
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const WebAudioContext =
+        window.AudioContext ??
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!WebAudioContext) return;
+      const audioContext = new WebAudioContext();
 
       const synth = new abcjsMod.synth.CreateSynth();
       synthRef.current = synth;
@@ -112,10 +133,37 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
         audioContext,
         visualObj: visualObj[0],
       });
-      await synth.prime();
+      const { duration } = await synth.prime();
 
+      let lastElements: Element[] = [];
       const timer = new abcjsMod.TimingCallbacks(visualObj[0], {
-        eventCallback: () => {},
+        eventCallback: (ev: any) => {
+          // 이전에 하이라이트된 노트 색상 원복
+          lastElements.forEach((el) => {
+            if (el && el.classList) {
+              el.classList.remove("abcjs-note_selected");
+              el.setAttribute("fill", isStaffOrBar(el) ? STAFF_COLOR : NOTE_COLOR);
+            }
+          });
+          lastElements = [];
+
+          // 현재 재생되는 노트 요소 및 하위 path 들 까지 모두 하이라이트 적용
+          if (ev && ev.elements) {
+            ev.elements.forEach((set: any) => {
+              set.forEach((el: Element) => {
+                const targets = el.querySelectorAll ? [el, ...Array.from(el.querySelectorAll("path"))] : [el];
+                targets.forEach(target => {
+                  if (target && target.classList) {
+                    target.classList.add("abcjs-note_selected");
+                    target.setAttribute("fill", "#d4af37"); 
+                    lastElements.push(target);
+                  }
+                });
+              });
+            });
+          }
+          return undefined;
+        },
       });
       timerRef.current = timer;
 
@@ -123,16 +171,21 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
       timer.start();
       setPlaying(true);
 
-      const duration = synth.totalDuration ?? synth.duration ?? 10;
-      setTimeout(() => {
+      if (playbackTimeoutRef.current) {
+        clearTimeout(playbackTimeoutRef.current);
+      }
+      playbackTimeoutRef.current = setTimeout(() => {
         setPlaying(false);
+        patchSvgColors(containerRef.current!);
+        playbackTimeoutRef.current = null;
       }, duration * 1000 + 500);
     } catch {
       // synth 지원 안 되는 환경 대비
+      setPlaying(false);
     } finally {
       setLoading(false);
     }
-  }, [abcjsMod, abc, playing]);
+  }, [abcjsMod, abc, playing, patchSvgColors]);
 
   return (
     <div className="relative">
@@ -143,8 +196,11 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
 
       {playable && abcjsMod && (
         <button
+          aria-label={playing ? t("stopLabel") : t("playLabel")}
+          aria-pressed={playing}
           onClick={handlePlay}
           disabled={loading}
+          type="button"
           className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium
             bg-[#d4af37]/10 border border-[#d4af37]/20 text-[#d4af37]/80
             hover:bg-[#d4af37]/15 hover:text-[#d4af37] transition-all duration-200
@@ -157,7 +213,7 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
           ) : (
             <Play className="w-3.5 h-3.5" />
           )}
-          {loading ? "Loading..." : playing ? "Stop" : "Play"}
+          {loading ? t("loading") : playing ? t("stop") : t("play")}
         </button>
       )}
     </div>

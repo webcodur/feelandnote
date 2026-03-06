@@ -33,6 +33,7 @@ export interface SearchResult {
   thumbnail?: string;
   description?: string;
   releaseDate?: string;
+  externalSource?: string;
   metadata?: Record<string, unknown>;
 }
 

@@ -27,6 +27,7 @@ import {
 import type { PersonaJsonb, PersonaField } from "@/lib/persona/types";
 import { distanceToMatchPercent, type SimilarCeleb } from "@/lib/persona/utils";
 import { cn } from "@/lib/utils";
+import { getQuoteVoiceUrl, getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 interface CelebPageContentProps {
   profile: PublicUserProfile;
@@ -70,9 +71,20 @@ export default function CelebPageContent({
       : `${birthYear} —`
     : "";
 
+  const locale = useLocale() as "ko" | "en";
   const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
   const keyCounter = useRef(0);
   const lastGreetingIdx = useRef<number | null>(null);
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
+  const hasVoice = profile.has_voice ?? false;
+
+  const playVoice = useCallback((url: string) => {
+    voiceAudioRef.current?.pause();
+    const audio = new Audio(url);
+    audio.volume = 0.7;
+    audio.play().catch(() => {});
+    voiceAudioRef.current = audio;
+  }, []);
 
   const handleAvatarClick = useCallback(() => {
     if (!greeting || greeting.length === 0) return;
@@ -91,7 +103,26 @@ export default function CelebPageContent({
       nickname: profile.nickname,
       avatarUrl: profile.avatar_url,
     });
-  }, [greeting, profile.nickname, profile.avatar_url]);
+    if (hasVoice) {
+      playVoice(getVoiceUrl(profile.id, locale, "greeting", idx + 1));
+    }
+  }, [greeting, profile.nickname, profile.avatar_url, profile.id, hasVoice, locale, playVoice]);
+
+  const [quotePlaying, setQuotePlaying] = useState(false);
+  const handleQuotePlay = useCallback(() => {
+    if (quotePlaying) {
+      voiceAudioRef.current?.pause();
+      setQuotePlaying(false);
+      return;
+    }
+    const audio = new Audio(getQuoteVoiceUrl(profile.id, locale));
+    audio.volume = 0.7;
+    audio.play().catch(() => {});
+    audio.addEventListener("ended", () => setQuotePlaying(false), { once: true });
+    voiceAudioRef.current?.pause();
+    voiceAudioRef.current = audio;
+    setQuotePlaying(true);
+  }, [profile.id, locale, quotePlaying]);
 
   return (
     <div className="space-y-16">
@@ -136,9 +167,39 @@ export default function CelebPageContent({
                       <p className="text-xs text-text-tertiary/80 leading-relaxed break-keep">{profile.bio}</p>
                     )}
                     {profile.quotes && (
-                      <p className="font-serif text-[13px] text-text-secondary/60 leading-relaxed break-keep pt-1">
-                        "<FormattedText text={profile.quotes} />"
-                      </p>
+                      <div className="flex items-start gap-1.5 pt-1">
+                        <p className="font-serif text-[13px] text-text-secondary/60 leading-relaxed break-keep">
+                          &ldquo;<FormattedText text={profile.quotes} />&rdquo;
+                        </p>
+                        {hasVoice && (
+                          <button
+                            type="button"
+                            onClick={handleQuotePlay}
+                            className={cn(
+                              "flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors",
+                              quotePlaying
+                                ? "text-accent animate-pulse"
+                                : "text-text-tertiary/40 hover:text-accent/70"
+                            )}
+                            aria-label="Play quote voice"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                              {quotePlaying ? (
+                                <>
+                                  <rect x="6" y="4" width="4" height="16" />
+                                  <rect x="14" y="4" width="4" height="16" />
+                                </>
+                              ) : (
+                                <>
+                                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                                </>
+                              )}
+                            </svg>
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

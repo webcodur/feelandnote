@@ -14,11 +14,15 @@ export interface PublicUserProfile {
   id: string
   slug: string | null
   nickname: string
+  nickname_en?: string | null
+  nickname_ko?: string | null
   avatar_url: string | null
   bio: string | null
   quotes: string | null
   profession: string | null
   title: string | null
+  title_en?: string | null
+  title_ko?: string | null
   consumption_philosophy: string | null
   nationality: string | null
   birth_date: string | null
@@ -37,6 +41,7 @@ export interface PublicUserProfile {
   is_following: boolean
   is_follower: boolean
   is_blocked: boolean
+  has_voice?: boolean
 }
 
 export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {
@@ -123,11 +128,15 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       id: profile.id,
       slug: profile.slug ?? null,
       nickname: resolve(profile.nickname_en, profile.nickname || 'User'),
+      nickname_en: profile.nickname_en,
+      nickname_ko: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
       quotes: resolve(profile.quotes_en, profile.quotes),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
+      title_en: profile.title_en,
+      title_ko: profile.title,
       consumption_philosophy: resolve(profile.consumption_philosophy_en, profile.consumption_philosophy),
       nationality: profile.nationality,
       birth_date: profile.birth_date,

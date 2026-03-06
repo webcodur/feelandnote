@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "explore": "Explore",
+    "scriptures": "Scriptures",
+    "agora": "Agora",
+    "rest": "Rest",
+    "archive": "My Archives",
+    "sub": {
+      "celebs": "Celebs",
+      "people": "Social",
+      "masterpieces": "Masterpieces",
+      "crossroads": "Crossroads",
+      "celebFeed": "Celeb Feed",
+      "friendFeed": "Friend Feed",
+      "notice": "Announcements",
+      "feedback": "Feedback",
+      "dawn": "Dawn",
+      "labyrinth": "Labyrinth",
+      "hegemony": "Hegemony",
+      "suikoden": "Suikoden",
+      "spotlight": "Spotlight",
+      "social": "Social",
+      "socialFeed": "Social Feed"
+    },
+    "footer": {
+      "about": "About",
+      "search": "Search",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "moreMenu": {
+    "shortcuts": "Shortcuts",
+    "home": "Home",
+    "playlists": "Playlists",
+    "explore": "Explore",
+    "scriptures": "Hall of Wisdom",
+    "board": "Board",
+    "notice": "Announcements",
+    "feedback": "Feedback"
+  },
+  "contextHeader": {
+    "recordOf": "Records of {title}",
+    "theRecordOf": "THE RECORD OF",
+    "officialRecord": "Official Sacred Record"
+  }
+}

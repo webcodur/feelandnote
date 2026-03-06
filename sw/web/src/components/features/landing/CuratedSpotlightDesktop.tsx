@@ -12,6 +12,7 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import type { SpeechTone } from "@/lib/game/voice/types";
+import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 const CelebDetailModal = lazy(() => import("@/components/features/home/celeb-card-drafts/CelebDetailModal"));
 
@@ -27,6 +28,7 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
   const isExplore = location === "explore-pc";
   const [selectedIndex, setSelectedIndex] = useState(0);
   const subtitleKeyRef = useRef(0);
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
   const [modalCelebIndex, setModalCelebIndex] = useState(-1);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
@@ -53,8 +55,10 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
     if (!celeb || !onSubtitle) return;
     const greetings = locale === 'ko' ? celeb.greeting : (celeb.greeting_en ?? celeb.greeting);
     let text: string | undefined;
+    let greetingIdx = -1;
     if (greetings?.length) {
-      text = greetings[Math.floor(Math.random() * greetings.length)];
+      greetingIdx = Math.floor(Math.random() * greetings.length);
+      text = greetings[greetingIdx];
     } else if (celeb.speech_tone) {
       const fallback = defaultLinesData[locale].greeting?.[celeb.speech_tone as SpeechTone];
       if (fallback?.length) text = fallback[Math.floor(Math.random() * fallback.length)];
@@ -67,6 +71,13 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
         nickname: celeb.nickname,
         avatarUrl: celeb.avatar_url,
       });
+      if (celeb.has_voice && greetingIdx >= 0) {
+        voiceAudioRef.current?.pause();
+        const audio = new Audio(getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1));
+        audio.volume = 0.7;
+        audio.play().catch(() => {});
+        voiceAudioRef.current = audio;
+      }
     }
   }, [locale, onSubtitle]);
 

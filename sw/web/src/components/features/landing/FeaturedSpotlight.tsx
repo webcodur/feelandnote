@@ -98,7 +98,7 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
       )}
 
       {viewMode === "timeline" && activeTag && (
-        <TimelineSection tagId={activeTag.id} t={t} />
+        <TimelineSection tagId={activeTag.id} t={t} locale={locale} />
       )}
     </div>
   );
@@ -231,9 +231,11 @@ function ViewModeTabs({
 function TimelineSection({
   tagId,
   t,
+  locale,
 }: {
   tagId: string;
   t: ReturnType<typeof useTranslations>;
+  locale: string;
 }) {
   const [celebs, setCelebs] = useState<TimelineCeleb[]>([]);
   const [contentsMap, setContentsMap] = useState<Record<string, TimelineContent[]>>({});
@@ -266,14 +268,27 @@ function TimelineSection({
           setReviewContent({ content: c, ownerNickname })
         }
         emptyLabel={t("timeline.empty")}
+        locale={locale}
       />
 
       <ContentReviewModal
         isOpen={!!reviewContent}
         onClose={() => setReviewContent(null)}
-        title={reviewContent?.content.title ?? ""}
-        creator={reviewContent?.content.creator}
-        review={reviewContent?.content.review}
+        title={
+          locale === 'en'
+            ? (reviewContent?.content.title_en ?? reviewContent?.content.title ?? "")
+            : (reviewContent?.content.title ?? "")
+        }
+        creator={
+          locale === 'en'
+            ? (reviewContent?.content.creator_en ?? reviewContent?.content.creator)
+            : reviewContent?.content.creator
+        }
+        review={
+          locale === 'en'
+            ? (reviewContent?.content.review_en ?? reviewContent?.content.review)
+            : reviewContent?.content.review
+        }
         sourceUrl={reviewContent?.content.sourceUrl}
         ownerNickname={reviewContent?.ownerNickname}
         contentDetailUrl={

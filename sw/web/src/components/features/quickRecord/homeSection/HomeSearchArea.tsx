@@ -69,7 +69,9 @@ export function HomeSearchArea({
         setIsOpen(false);
     };
 
-    const categoryOptions = options || CATEGORIES.map(c => ({ value: c.id, label: c.label }));
+    const tc = useTranslations("content.category");
+    const tp = useTranslations("content.placeholder");
+    const categoryOptions = options || CATEGORIES.map(c => ({ value: c.id, label: tc(c.id) }));
 
     return (
         <div 
@@ -94,7 +96,7 @@ export function HomeSearchArea({
                         type="text"
                         value={query}
                         onChange={(e) => onQueryChange(e.target.value)}
-                        placeholder={placeholder || t("searchPlaceholder")}
+                        placeholder={placeholder || (selectedCategory !== "all" ? tp(selectedCategory) : t("searchPlaceholder"))}
                         className="bg-transparent border-none outline-none text-base text-text-primary placeholder:text-text-tertiary/40 w-full font-medium tracking-tight"
                     />
                     {isSearching && <Loader2 className="animate-spin text-accent ml-3 shrink-0" size={18} />}

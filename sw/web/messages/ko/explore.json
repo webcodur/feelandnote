@@ -1,0 +1,205 @@
+{
+  "explore": {
+    "meta": {
+      "title": "탐색",
+      "description": "다양한 분야의 셀럽들과 그들의 인생 콘텐츠를 탐색해보세요."
+    },
+    "celebs": {
+      "metaTitle": "셀럽 | 탐색",
+      "metaDescription": "역사 속 위인부터 현대 문화 아이콘까지, 셀럽들의 감상 기록과 추천 작품을 탐색하세요."
+    },
+    "people": {
+      "metaTitle": "사람 | 탐색",
+      "friends": "친구",
+      "following": "팔로잉",
+      "followers": "팔로워",
+      "similar": "취향 유사"
+    },
+    "ui": {
+      "tabs": {
+        "celebs": "셀럽",
+        "social": "소셜",
+        "friends": "친구",
+        "following": "팔로잉",
+        "followers": "팔로워",
+        "similar": "취향 유사",
+        "celebFeed": "셀럽 피드",
+        "spotlight": "스포트라이트"
+      },
+      "empty": {
+        "noFriends": "아직 친구가 없어요",
+        "noFriendsDesc": "서로 팔로우하면 친구가 됩니다",
+        "noFollowing": "팔로잉이 없어요",
+        "noFollowingDesc": "관심 있는 사람을 팔로우해보세요",
+        "noFollowers": "팔로워가 없어요",
+        "noFollowersDesc": "활동하면 팔로워가 생길 거예요",
+        "noSimilar": "아직 유사한 유저가 없어요",
+        "noSimilarDesc": "콘텐츠를 기록하면 취향이 비슷한 유저를 추천해드릴게요",
+        "noNationality": "국적 데이터가 없습니다",
+        "noAuraCelebs": "해당 등급의 셀럽이 없습니다."
+      },
+      "newFollower": "새로운 팔로워",
+      "recordCount": "{count} 기록",
+      "bondsMatch": "{bonds} 결속 · {percent}% 일치",
+      "countUnit": "{count}명",
+      "scoreUnit": "{score}점",
+      "totalCount": "총 {count}명",
+      "record": "기록",
+      "algorithm": "추천 알고리즘",
+      "contentOverlapBased": "공통 콘텐츠 기반",
+      "influenceDistribution": "영향력 분포",
+      "influence": "영향력",
+      "stats": "통계",
+      "collection": "스포트라이트",
+      "searchFilter": "검색...",
+      "gradeDistribution": "등급별 분포",
+      "fullRanking": "전체 순위",
+      "scoreRange": "점수 구간",
+      "celebStats": "셀럽 통계",
+      "tabProfession": "직군",
+      "tabNationality": "국적",
+      "tabContent": "콘텐츠",
+      "tabGender": "성별",
+      "professionDist": "직군별 셀럽 분포",
+      "nationalityDist": "국적별 셀럽 분포 (상위 10개국)",
+      "contentTypeDist": "선호 콘텐츠 타입별 분포",
+      "genderDist": "성별 분포",
+      "totalContent": "총 콘텐츠",
+      "totalPeople": "총 인원",
+      "male": "남성",
+      "female": "여성",
+      "algorithmTitle": "추천 알고리즘 안내",
+      "contentMatchTitle": "공통 콘텐츠 기반 매칭",
+      "contentMatchDesc": "나와 같은 콘텐츠를 기록한 유저를 찾아 추천해요",
+      "howItWorks": "이렇게 계산해요",
+      "step1": "나와 상대방이 공통으로 기록한 콘텐츠 수를 파악",
+      "step2": "각자의 전체 콘텐츠 수로 정규화하여 공정하게 비교",
+      "step3": "유사도가 높은 순으로 추천",
+      "moreRecordsBetter": "콘텐츠를 많이 기록할수록 취향이 맞는 유저를 더 정확하게 찾아드릴 수 있어요",
+      "confirm": "확인",
+      "addCeleb": "셀럽 추가",
+      "nameLabel": "이름 *",
+      "namePlaceholder": "셀럽 이름",
+      "fieldLabel": "분야",
+      "fieldNone": "선택 안함",
+      "bioLabel": "소개",
+      "bioPlaceholder": "셀럽에 대한 간단한 소개",
+      "nameRequired": "이름을 입력해주세요",
+      "addFailed": "셀럽 추가에 실패했습니다",
+      "cancel": "취소",
+      "adding": "추가 중...",
+      "add": "추가",
+      "gridViewTitle": "그리드 뷰로 전환",
+      "carouselViewTitle": "캐러셀 뷰로 전환",
+      "grid": "그리드",
+      "carousel": "캐러셀",
+      "viewMore": "더보기",
+      "viewAllCount": "+{count}명 전체보기",
+      "prev": "이전",
+      "next": "다음",
+      "loading": "로딩 중...",
+      "friend": "친구",
+      "personaNoData": "표시할 사람 데이터가 없습니다.",
+      "personaList": "사람 목록",
+      "professionUnknown": "직군 미상",
+      "personaLoading": "정보 불러오는 중...",
+      "personaTitle": "인간정보 분석 창",
+      "personaNoPersona": "인간정보 데이터 없음",
+      "personaNoSelection": "선택 가능한 사람이 없습니다.",
+      "personaFigure": "인물",
+      "auraTitle": {
+        "1": "필멸자",
+        "2": "순례자",
+        "3": "수사",
+        "4": "전도사",
+        "5": "사제",
+        "6": "신관",
+        "7": "선지자",
+        "8": "사도",
+        "9": "불멸자"
+      },
+      "scoreRanges": {
+        "1": "~ 10점",
+        "2": "11 ~ 20점",
+        "3": "21 ~ 30점",
+        "4": "31 ~ 40점",
+        "5": "41 ~ 50점",
+        "6": "51 ~ 60점",
+        "7": "61 ~ 70점",
+        "8": "71 ~ 80점",
+        "9": "81점 +"
+      }
+    },
+    "celebFeed": {
+      "metaTitle": "셀럽 피드 | 인물",
+      "metaDescription": "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+    },
+    "spotlight": {
+      "metaTitle": "스포트라이트 | 인물",
+      "tabs": {
+        "spotlight": "스포트라이트",
+        "shared": "공유 서재",
+        "timeline": "연대기"
+      },
+      "shared": {
+        "celebCount": "{count}명이 감상",
+        "filterAll": "전체",
+        "empty": "공유 콘텐츠가 없습니다"
+      },
+      "timeline": {
+        "title": "인물들의 감상 기록",
+        "empty": "등록된 감상 기록 없음"
+      }
+    }
+  },
+  "searchResult": {
+    "followers": "팔로워 {count}",
+    "posts": "게시물 {count}개"
+  },
+  "searchPage": {
+    "control": "검색 제어",
+    "category": "카테고리",
+    "sort": "정렬",
+    "poweredBy": "검색 제공:",
+    "followingOnly": "팔로잉만",
+    "resultCount": "검색 결과 {count}건",
+    "loading": "불러오는 중...",
+    "loadMore": "더보기",
+    "allLoaded": "모든 검색 결과를 불러왔습니다. (총 {count}건)",
+    "noResults": "'{query}'에 대한 검색 결과가 없습니다",
+    "noResultsHint": "다른 검색어를 입력해보세요",
+    "enterQuery": "검색어를 입력하세요",
+    "enterQueryDesc": "콘텐츠, 사용자, 태그를 검색할 수 있습니다",
+    "guide": {
+      "game": "검색 결과가 더 있을 수 있어요. 원하는 게임이 없다면 검색어나 언어를 바꿔보세요.",
+      "certificate": "주요 국가자격증 위주로 검색돼요."
+    },
+    "contentSort": {
+      "relevance": "관련도순",
+      "latest": "최신순",
+      "popular": "인기순"
+    },
+    "userSort": {
+      "relevance": "관련도순",
+      "followers": "팔로워순",
+      "latest": "최신순"
+    },
+    "contentCategory": {
+      "book": "도서",
+      "video": "영상",
+      "game": "게임",
+      "music": "음악",
+      "certificate": "자격증"
+    },
+    "apiSource": {
+      "book": "네이버 책 API",
+      "video": "TMDB",
+      "game": "IGDB",
+      "music": "Spotify",
+      "certificate": "Q-Net"
+    }
+  },
+  "archiveSearch": {
+    "placeholder": "제목 또는 저자 검색 (2글자 이상)"
+  }
+}

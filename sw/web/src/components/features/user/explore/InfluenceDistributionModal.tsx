@@ -75,7 +75,7 @@ function AuraListItem({
       {/* Text Info + Bar */}
       <div className="flex-1 min-w-0 flex flex-col justify-center">
          <div className="flex items-center gap-2 mb-1">
-            <span className="font-bold text-text-primary text-sm">{mat.auraTitleKo}</span>
+            <span className="font-bold text-text-primary text-sm">{t(`auraTitle.${aura}`)}</span>
             <span className="text-xs text-text-tertiary bg-bg-secondary px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">{t(`scoreRanges.${aura}`)}</span>
          </div>
          {/* Distribution Bar */}
@@ -186,7 +186,7 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
                           color: badgeTextColor,
                       }}
                     >
-                      {mat.auraTitleKo}
+                      {t(`auraTitle.${celeb.aura}`)}
                     </span>
                   </div>
                 </div>
@@ -309,7 +309,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
                                 {selectedAuraMat?.romanNumeral}
                             </span>
                             <h3 className="text-base font-bold text-text-primary">
-                                {selectedAuraMat?.auraTitleKo}
+                                {selectedAura && t(`auraTitle.${selectedAura}`)}
                             </h3>
                         </div>
                         <div className="text-xs text-text-tertiary mt-1">

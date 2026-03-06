@@ -51,6 +51,12 @@ export interface ReadingMethod {
 
 // ─── 화성학 레슨 타입 ────────────────────────────────────
 
+export interface LessonStep {
+  title: string;
+  contentMarkdown: string;
+  exampleId: string | null;
+}
+
 export interface LessonSection {
   id: string;
   title: string;
@@ -58,8 +64,7 @@ export interface LessonSection {
   partLabel: string;
   description: string;
   objectives: string[];
-  readTime: number;
-  contentMarkdown: string;
+  steps: LessonStep[];
   sheetExamples: SheetExample[];
   imageUrl?: string;
 }
@@ -77,8 +82,39 @@ export type ViewType = 'timeline' | 'catalog' | 'comparison' | 'lesson';
 export const SUB_CATEGORY_VIEW_TYPE: Record<string, ViewType> = {
   "book/typography": "catalog",
   "book/reading": "comparison",
+  "book/foundations": "comparison",
+  "book/strategies": "comparison",
+  "book/digital": "comparison",
   "music/harmony": "lesson",
+  "music/fundamentals": "lesson",
+  "music/scales": "lesson",
+  "music/chords": "lesson",
+  "music/analysis": "lesson",
 };
+
+export const ACADEMY_CONTENT_FILTERS = {
+  "book/foundations": {
+    readingMethodIds: ["oral_reading", "silent_reading", "intensive"],
+  },
+  "book/strategies": {
+    readingMethodIds: ["speed_reading", "extensive", "transcription"],
+  },
+  "book/digital": {
+    readingMethodIds: ["digital"],
+  },
+  "music/fundamentals": {
+    lessonIds: ["sound_and_pitch", "reading_notation", "rhythm_and_meter", "intervals"],
+  },
+  "music/scales": {
+    lessonIds: ["major_scale", "minor_scale", "key_signatures"],
+  },
+  "music/chords": {
+    lessonIds: ["triads", "seventh_chords", "chord_progressions", "non_chord_tones"],
+  },
+  "music/analysis": {
+    lessonIds: ["song_analysis"],
+  },
+} as const;
 
 export interface HistoryEra {
   id: string;
@@ -226,13 +262,18 @@ export const ACADEMY_CATEGORY_IDS = [
   {
     id: "book", available: true,
     subCategories: [
-      { id: "reading" },
+      { id: "foundations" },
+      { id: "strategies" },
+      { id: "digital" },
     ],
   },
   {
     id: "music", available: true,
     subCategories: [
-      { id: "harmony" },
+      { id: "fundamentals" },
+      { id: "scales" },
+      { id: "chords" },
+      { id: "analysis" },
     ],
   },
 ] as const;

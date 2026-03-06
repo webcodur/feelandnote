@@ -17,6 +17,7 @@ export interface ContentSearchResult {
   description?: string
   releaseDate?: string
   externalId?: string
+  externalSource?: string // 외부 API 출처 (naver_book, tmdb, igdb 등)
   metadata?: Record<string, unknown> // 원본 metadata (콘텐츠 추가용)
 }
 
@@ -56,6 +57,7 @@ export async function searchContents({
             description: book.metadata.description,
             releaseDate: book.metadata.publishDate,
             externalId: book.externalId,
+            externalSource: book.externalSource,
             metadata: book.metadata,
           })),
           total: bookResults.total,
@@ -76,6 +78,7 @@ export async function searchContents({
             description: video.metadata.overview,
             releaseDate: video.metadata.releaseDate,
             externalId: video.externalId,
+            externalSource: video.externalSource,
             metadata: video.metadata,
           })),
           total: videoResults.total,
@@ -95,6 +98,7 @@ export async function searchContents({
             description: game.metadata.summary,
             releaseDate: game.metadata.releaseDate,
             externalId: game.externalId,
+            externalSource: game.externalSource,
             metadata: game.metadata,
           })),
           total: gameResults.total,
@@ -114,6 +118,7 @@ export async function searchContents({
             description: `${music.metadata.albumType} | ${music.metadata.totalTracks}곡`,
             releaseDate: music.metadata.releaseDate,
             externalId: music.externalId,
+            externalSource: music.externalSource,
             metadata: music.metadata,
           })),
           total: musicResults.total,
@@ -132,6 +137,7 @@ export async function searchContents({
             thumbnail: undefined,
             description: `${cert.metadata.qualificationType} | ${cert.metadata.series}`,
             externalId: cert.externalId,
+            externalSource: cert.externalSource,
             metadata: cert.metadata,
           })),
           total: certResults.total,

@@ -1,0 +1,377 @@
+{
+  "site": {
+    "title": "Feel&Note - Cultural Archive",
+    "description": "Explore the books, movies, and music enjoyed by notable figures. An archive platform to record your cultural experiences and discover inspiration.",
+    "twitterDescription": "Explore the books, movies, and music enjoyed by notable figures. A cultural archive platform."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you requested does not exist or has been moved.",
+    "backHome": "Back to Home"
+  },
+  "layout": {
+    "readingMode": "Reading Mode",
+    "notifications": {
+      "title": "Notifications",
+      "newCount": "{count} new",
+      "loading": "Loading...",
+      "markAllRead": "Mark all read",
+      "empty": "No new notifications",
+      "viewAll": "View all"
+    },
+    "profile": {
+      "avatar": "Profile",
+      "defaultName": "User",
+      "login": "Login",
+      "myPage": "My Page",
+      "logout": "Logout"
+    },
+    "locale": {
+      "switchTo": "한국어",
+      "label": "Change language"
+    },
+    "footer": {
+      "tagline": "Build your archives and curate your taste."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "description": "Explore the books, movies, and music enjoyed by notable figures. An archive platform to record your cultural experiences and discover inspiration."
+    },
+    "notifications": "Notifications",
+    "search": "Search",
+    "chamber": "Settings",
+    "merits": "Achievements",
+    "collections": "Flow",
+    "collectionDetail": "Flow Detail",
+    "tierEdit": "Tier Edit",
+    "about": {
+      "title": "About",
+      "description": "We consume too much and forget too fast. Records become wisdom that never fades."
+    },
+    "lab": "Lab"
+  },
+  "status": {
+    "want": "Interested",
+    "watching": "In Progress",
+    "dropped": "Dropped",
+    "finished": "Finished",
+    "recommended": "Recommended",
+    "notRecommended": "Not Recommended",
+    "export": {
+      "want": "Want to see",
+      "watching": "Watching",
+      "finished": "Finished"
+    }
+  },
+  "title": {
+    "grade": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic"
+    },
+    "category": {
+      "volume": "Volume",
+      "diversity": "Diversity",
+      "depth": "Depth"
+    },
+    "titles": {
+      "content_1": {
+        "name": "First Step",
+        "description": "The journey begins"
+      },
+      "content_10": {
+        "name": "Ten Steps",
+        "description": "Steadily walking"
+      },
+      "content_50": {
+        "name": "Library Owner",
+        "description": "Surpassed 50 titles"
+      },
+      "content_100": {
+        "name": "Weight of a Hundred",
+        "description": "A formidable collection"
+      },
+      "record_1": {
+        "name": "First Story",
+        "description": "Recording begins"
+      },
+      "record_10": {
+        "name": "Storyteller",
+        "description": "10 records"
+      },
+      "record_50": {
+        "name": "Master Recorder",
+        "description": "50 records"
+      },
+      "category_2": {
+        "name": "Genre Traveler",
+        "description": "Crossing boundaries"
+      },
+      "category_3": {
+        "name": "Genre Explorer",
+        "description": "Into the unknown"
+      },
+      "category_4": {
+        "name": "Renaissance Soul",
+        "description": "Connoisseur of all fields"
+      },
+      "creator_10": {
+        "name": "Creator Hunter",
+        "description": "Diverse voices"
+      },
+      "creator_30": {
+        "name": "World Tour",
+        "description": "No borders in taste"
+      },
+      "avg_review_100": {
+        "name": "Careful Reader",
+        "description": "Meticulous records"
+      },
+      "avg_review_300": {
+        "name": "Perfectionist",
+        "description": "Thorough records"
+      },
+      "long_review_10": {
+        "name": "Review Master",
+        "description": "A prolific critic"
+      },
+      "completed_10": {
+        "name": "Completion Master",
+        "description": "From start to finish"
+      },
+      "completed_50": {
+        "name": "Archive Artisan",
+        "description": "Master of records"
+      }
+    }
+  },
+  "profession": {
+    "all": "All",
+    "leader": "Leader",
+    "politician": "Politician",
+    "commander": "Commander",
+    "entrepreneur": "Entrepreneur",
+    "investor": "Investor",
+    "scientist": "Scientist",
+    "humanities_scholar": "Humanities Scholar",
+    "social_scientist": "Social Scientist",
+    "director": "Director",
+    "musician": "Musician",
+    "visual_artist": "Visual Artist",
+    "author": "Author",
+    "actor": "Actor",
+    "influencer": "Influencer",
+    "athlete": "Athlete",
+    "uncategorized": "Uncategorized"
+  },
+  "policy": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  },
+  "common": {
+    "loadMore": "Load More",
+    "loading": "Loading...",
+    "viewAll": "View All"
+  },
+  "shared": {
+    "search": {
+      "viewAllResults": "View all results",
+      "openInNewTab": "Open in new tab",
+      "recentSearches": "Recent searches",
+      "clear": "Clear",
+      "noResults": "No results for \"{query}\"",
+      "enterQuery": "Enter a search term",
+      "hintUser": "Users",
+      "hintTag": "Tags",
+      "hintMode": "Switch mode",
+      "mode": {
+        "content": "Content",
+        "user": "Users",
+        "celeb": "Celebs",
+        "records": "My Records",
+        "contentPlaceholder": "Title, author...",
+        "userPlaceholder": "Nickname...",
+        "celebPlaceholder": "Figure name...",
+        "recordsPlaceholder": "Search records..."
+      },
+      "sectionContent": "Content",
+      "sectionOther": "Other",
+      "follower": "Followers",
+      "posts": "{count} posts"
+    },
+    "content": {
+      "addToRecord": "Add to records",
+      "viewDetails": "View details",
+      "listenOnSpotify": "Listen on Spotify",
+      "publisher": "Publisher",
+      "publishDate": "Published",
+      "type": "Type",
+      "movie": "Movie",
+      "tvProgram": "TV Show",
+      "rating": "Rating",
+      "ratingScore": "{score}",
+      "genre": "Genre",
+      "developer": "Developer",
+      "gamePublisher": "Publisher",
+      "platform": "Platform",
+      "albumType": "Album type",
+      "tracks": "{count} tracks",
+      "artist": "Artists",
+      "qualificationType": "Qualification type",
+      "series": "Series",
+      "majorField": "Major field"
+    },
+    "celeb": {
+      "info": "Info",
+      "following": "Following",
+      "follow": "Follow"
+    },
+    "game": {
+      "exit": "Exit",
+      "exitEsc": "Exit (ESC)",
+      "prevTrack": "Previous track",
+      "nextTrack": "Next track",
+      "play": "Play",
+      "pause": "Pause",
+      "mute": "Mute",
+      "unmute": "Unmute",
+      "enterGame": "Enter Game",
+      "soundInfo": "Includes sound effects",
+      "startGame": "Start Game",
+      "heroesAwait": "{count} heroes await",
+      "phase": {
+        "lobby": "Lobby",
+        "loading": "Loading",
+        "draft": "Draft",
+        "captain": "Captain",
+        "battle": "Battle",
+        "result": "Result",
+        "playing": "Playing",
+        "tracking": "Inquiry",
+        "setup": "Setup",
+        "wandering": "Wandering",
+        "strategy": "Strategy",
+        "disposition": "Disposition"
+      },
+      "lobby": {
+        "rules": "Rules",
+        "multiplayer": "Multiplayer",
+        "settings": "Settings",
+        "records": "Records",
+        "aiMatch": "AI Match",
+        "selectDifficulty": "Select difficulty",
+        "diffNormal": "Normal",
+        "diffNormalDesc": "Player picks first. Opponent aptitudes visible.",
+        "diffHard": "Hard",
+        "diffHardDesc": "AI picks first. Opponent aptitudes hidden."
+      },
+      "ui": {
+        "back": "Back",
+        "backToLobby": "Back to Lobby",
+        "start": "Start",
+        "cancel": "Cancel",
+        "gameRules": "Game Rules",
+        "gameFlow": "Game Flow",
+        "difficulty": "Difficulty",
+        "diffEasy": "Easy",
+        "diffHard": "Hard",
+        "gameTips": "Tips",
+        "strategyTips": "Strategy Tips"
+      },
+      "settings": {
+        "title": "Settings",
+        "desc": "Audio Settings",
+        "bgm": "Game Music",
+        "bgmDesc": "Background Music (BGM)",
+        "sfx": "Sound Effects",
+        "sfxDesc": "Sound Effects (SFX)"
+      }
+    },
+    "persona": {
+      "ability": "Ability",
+      "virtue": "Virtue",
+      "tendency": "Tendency",
+      "noData": "No data",
+      "stat": {
+        "command": "Command",
+        "martial": "Martial",
+        "intellect": "Intellect",
+        "charm": "Charm",
+        "temperance": "Temperance",
+        "diligence": "Diligence",
+        "reflection": "Reflection",
+        "courage": "Courage",
+        "loyalty": "Loyalty",
+        "benevolence": "Benevolence",
+        "fairness": "Fairness",
+        "humility": "Humility"
+      },
+      "tendency_label": {
+        "pessimism": "Pessimism",
+        "optimism": "Optimism",
+        "conservative": "Conservative",
+        "progressive": "Progressive",
+        "individual": "Individual",
+        "social": "Social",
+        "cautious": "Cautious",
+        "bold": "Bold"
+      }
+    },
+    "profile": {
+      "records": "Records",
+      "followers": "Followers",
+      "viewProfile": "View profile",
+      "loadError": "Failed to load profile"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "A history of your recent activity and updates.",
+    "markAllRead": "Mark all read",
+    "deleteRead": "Delete read",
+    "tabAll": "All ({count})",
+    "tabUnread": "Unread ({count})",
+    "deleteConfirm": "Delete this notification?",
+    "deleteReadConfirm": "Delete all read notifications?",
+    "deleteTitle": "Delete",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "reject": "Reject",
+    "accept": "Accept",
+    "emptyAll": "No notifications yet.",
+    "emptyFiltered": "All caught up!"
+  },
+  "aboutPage": {
+    "heroTitle1": "Where do your impressions",
+    "heroTitle2": "scatter to?",
+    "p1Line1": "Every day, we encounter countless stories.",
+    "p1Line2": "Books, films, music, and games.",
+    "p1Line3": "But the thrill of those moments",
+    "p1Line4": "is too easily pushed aside by the next piece of content,",
+    "p1Line5": "vanishing beyond the reach of memory.",
+    "p1Highlight": "We consume too much and forget too fast.",
+    "feelTitle": "Feel",
+    "feelDesc1": "Sensation is intuitive.",
+    "feelDesc2": "The joy, sorrow, and shock we feel when we experience something",
+    "feelDesc3": "are the most honest reactions.",
+    "feelDesc4": "Don't turn away from those raw emotions.",
+    "noteTitle": "Note",
+    "noteDesc1": "Recording is rational.",
+    "noteDesc2": "It's the process of capturing fleeting emotions in words",
+    "noteDesc3": "and sculpting them into tangible form.",
+    "noteDesc4": "Only recorded emotions become wisdom.",
+    "promise1": "Feel&Note hopes",
+    "promise2": "your fleeting impressions remain as",
+    "promiseHighlight": "enduring wisdom",
+    "promise3": ".",
+    "epilogue1": "This is not just a notebook.",
+    "epilogue2": "It is a temple of wisdom",
+    "epilogue3": "where your taste becomes history",
+    "epilogue4": "and your reflections become legacy.",
+    "fromBuilders": "From the Builders of",
+    "teamName": "Feel&Note Team"
+  }
+}

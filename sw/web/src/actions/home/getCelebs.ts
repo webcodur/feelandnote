@@ -172,6 +172,17 @@ export async function getCelebs(
     })
   }
 
+  // 음성 보유 셀럽 조회
+  const voiceSet = new Set<string>()
+  if (celebIds.length > 0) {
+    const { data: voiceRows } = await supabase
+      .from('profiles')
+      .select('id')
+      .in('id', celebIds)
+      .eq('has_voice', true)
+    ;(voiceRows ?? []).forEach(row => voiceSet.add(row.id))
+  }
+
   // 전체 영향력 순위 조회 (점수 내림차순 정렬, 고정 순위)
   const { data: influenceRankings } = await supabase
     .from('celeb_influence')
@@ -231,6 +242,7 @@ export async function getCelebs(
       tags: tagMap.get(row.id) ?? [],
       greeting: greetingMap.get(row.id) ?? null,
       greeting_en: greetingEnMap.get(row.id) ?? null,
+      has_voice: voiceSet.has(row.id),
     }
   })
 

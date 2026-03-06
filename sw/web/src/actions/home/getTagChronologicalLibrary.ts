@@ -30,7 +30,7 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
   // 2. 프로필 조회 (birthYear 계산용)
   const { data: profiles } = await supabase
     .from("profiles")
-    .select("id, nickname, avatar_url, profession, birth_date")
+    .select("id, nickname, nickname_en, avatar_url, profession, birth_date")
     .in("id", celebIds);
 
   if (!profiles?.length) return { celebs: [], contentsMap: {} };
@@ -40,6 +40,7 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
     .map((p) => ({
       id: p.id,
       nickname: p.nickname,
+      nickname_en: p.nickname_en,
       avatar_url: p.avatar_url,
       profession: p.profession,
       birthYear: p.birth_date ? new Date(p.birth_date).getFullYear() : 0,
@@ -51,7 +52,7 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      "user_id, content_id, review, source_url, contents!inner(id, title, creator, thumbnail_url, type)"
+      "user_id, content_id, review, review_en, source_url, contents!inner(id, title, title_en, creator, creator_en, thumbnail_url, type)"
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");
@@ -64,7 +65,9 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
     const c = row.contents as unknown as {
       id: string;
       title: string | null;
+      title_en: string | null;
       creator: string | null;
+      creator_en: string | null;
       thumbnail_url: string | null;
       type: string | null;
     };
@@ -79,10 +82,13 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
     contentsMap[row.user_id].push({
       contentId: c.id,
       title: c.title ?? "",
+      title_en: c.title_en,
       creator: c.creator,
+      creator_en: c.creator_en,
       thumbnailUrl: c.thumbnail_url,
       type: c.type ?? "BOOK",
       review: (row as any).review ?? null,
+      review_en: (row as any).review_en ?? null,
       sourceUrl: (row as any).source_url ?? null,
     });
   }

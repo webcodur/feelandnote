@@ -1,0 +1,129 @@
+{
+  "agora": {
+    "section": "광장",
+    "items": {
+      "celebFeed": {
+        "label": "셀럽 피드",
+        "description": "셀럽들의 아카이브를 확인하세요"
+      },
+      "friendFeed": {
+        "label": "친구 피드",
+        "description": "친구들의 최신 소식을 확인하세요"
+      },
+      "notice": {
+        "label": "공지사항",
+        "description": "서비스 공지사항을 확인하세요"
+      },
+      "feedback": {
+        "label": "피드백",
+        "description": "의견과 피드백을 남겨주세요"
+      },
+      "social": {
+        "label": "소셜",
+        "description": "친구와 팔로잉 관계를 확인하세요"
+      },
+      "socialFeed": {
+        "label": "소셜 피드",
+        "description": "친구들의 최신 소식을 확인하세요"
+      }
+    },
+    "meta": {
+      "title": "광장",
+      "description": "셀럽 피드, 자유 게시판, 공지사항 등 Feel&Note 커뮤니티 광장. 감상을 나누고 영감을 공유하세요."
+    },
+    "celebFeed": {
+      "metaTitle": "셀럽 피드 | 광장",
+      "metaDescription": "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+    },
+    "friendFeed": {
+      "metaTitle": "친구 피드 | 광장"
+    },
+    "freeBoard": "자유게시판",
+    "feedback": {
+      "title": "피드백",
+      "description": "Feel&Note 서비스에 대한 피드백과 건의사항을 남겨주세요.",
+      "write": "피드백 작성",
+      "edit": "피드백 수정"
+    },
+    "notice": {
+      "title": "공지사항",
+      "description": "Feel&Note 서비스 공지사항입니다.",
+      "write": "공지사항 작성",
+      "edit": "공지사항 수정"
+    },
+    "social": {
+      "metaTitle": "소셜 | 광장"
+    },
+    "socialFeed": {
+      "metaTitle": "소셜 피드 | 광장"
+    }
+  },
+  "board": {
+    "section": "게시판",
+    "items": {
+      "notice": {
+        "label": "공지사항",
+        "description": "Feelandnote의 새로운 소식과 업데이트"
+      },
+      "feedback": {
+        "label": "피드백",
+        "description": "서비스 발전을 위한 여러분의 의견"
+      }
+    },
+    "category": {
+      "CELEB_REQUEST": "셀럽 요청",
+      "CONTENT_REPORT": "콘텐츠 제보",
+      "FEATURE_SUGGESTION": "기능 건의"
+    },
+    "status": {
+      "PENDING": "대기",
+      "IN_PROGRESS": "처리 중",
+      "COMPLETED": "완료",
+      "REJECTED": "반려"
+    },
+    "backToList": "목록으로",
+    "backToDetail": "돌아가기",
+    "edit": "수정",
+    "delete": "삭제",
+    "cancel": "취소",
+    "saving": "저장 중...",
+    "create": "작성",
+    "update": "수정",
+    "title": "제목",
+    "titlePlaceholder": "제목을 입력하세요",
+    "content": "내용",
+    "contentPlaceholder": "내용을 입력하세요",
+    "tabs": {
+      "notice": "공지사항",
+      "feedback": "피드백"
+    },
+    "comment": {
+      "deleteConfirm": "댓글을 삭제하시겠습니까?",
+      "header": "댓글",
+      "empty": "첫 번째 댓글을 남겨보세요",
+      "placeholder": "댓글을 입력하세요",
+      "submit": "작성",
+      "loginRequired": "로그인 후 댓글을 작성할 수 있습니다"
+    },
+    "notice": {
+      "write": "공지 작성",
+      "emptyTitle": "아직 공지사항이 없습니다",
+      "emptySubtitle": "새로운 소식을 기다려주세요",
+      "createTitle": "공지사항 작성",
+      "editTitle": "공지사항 수정",
+      "pinLabel": "상단에 고정",
+      "deleteConfirm": "공지사항을 삭제하시겠습니까?"
+    },
+    "feedback": {
+      "write": "피드백 작성",
+      "emptyTitle": "아직 피드백이 없습니다",
+      "emptySubtitle": "첫 번째 피드백을 작성해보세요",
+      "createTitle": "피드백 작성",
+      "editTitle": "피드백 수정",
+      "categoryLabel": "카테고리",
+      "deleteConfirm": "정말 삭제하시겠습니까?",
+      "createSubmit": "작성하기",
+      "updateSubmit": "수정하기"
+    }
+  }
+}

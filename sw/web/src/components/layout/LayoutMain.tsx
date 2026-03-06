@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import dynamic from "next/dynamic";
 import Header from "./header/Header";
 import BottomNav from "./BottomNav";
-
-const FloatingMusicPlayer = dynamic(() => import("./FloatingMusicPlayer"), { ssr: false });
-const RecentProfilesSection = dynamic(() => import("@/components/features/profile/RecentProfilesSection"), { ssr: false });
+import FloatingMusicPlayer from "./FloatingMusicPlayer";
+import RecentProfilesSection from "@/components/features/profile/RecentProfilesSection";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (

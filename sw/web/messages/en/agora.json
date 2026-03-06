@@ -1,0 +1,129 @@
+{
+  "agora": {
+    "section": "Agora",
+    "items": {
+      "celebFeed": {
+        "label": "Celeb Feed",
+        "description": "Explore celeb archives"
+      },
+      "friendFeed": {
+        "label": "Friend Feed",
+        "description": "Check your friends' latest updates"
+      },
+      "notice": {
+        "label": "Announcements",
+        "description": "View service announcements"
+      },
+      "feedback": {
+        "label": "Feedback",
+        "description": "Share your opinions and feedback"
+      },
+      "social": {
+        "label": "Social",
+        "description": "Browse your friends and connections"
+      },
+      "socialFeed": {
+        "label": "Social Feed",
+        "description": "Check your friends latest updates"
+      }
+    },
+    "meta": {
+      "title": "Agora",
+      "description": "Feel&Note community square — celeb feeds, free boards, and announcements. Share your thoughts and find inspiration."
+    },
+    "celebFeed": {
+      "metaTitle": "Celeb Feed | Agora",
+      "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+    },
+    "friendFeed": {
+      "metaTitle": "Friend Feed | Agora"
+    },
+    "freeBoard": "Free Board",
+    "feedback": {
+      "title": "Feedback",
+      "description": "Share your feedback and suggestions about the Feel&Note service.",
+      "write": "Write Feedback",
+      "edit": "Edit Feedback"
+    },
+    "notice": {
+      "title": "Announcements",
+      "description": "Official announcements from the Feel&Note service.",
+      "write": "Write Announcement",
+      "edit": "Edit Announcement"
+    },
+    "social": {
+      "metaTitle": "Social | Agora"
+    },
+    "socialFeed": {
+      "metaTitle": "Social Feed | Agora"
+    }
+  },
+  "board": {
+    "section": "Board",
+    "items": {
+      "notice": {
+        "label": "Announcements",
+        "description": "Latest news and updates from Feelandnote"
+      },
+      "feedback": {
+        "label": "Feedback",
+        "description": "Your opinions for a better service"
+      }
+    },
+    "category": {
+      "CELEB_REQUEST": "Celeb Request",
+      "CONTENT_REPORT": "Content Report",
+      "FEATURE_SUGGESTION": "Feature Suggestion"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "REJECTED": "Rejected"
+    },
+    "backToList": "Back to list",
+    "backToDetail": "Go back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "create": "Create",
+    "update": "Update",
+    "title": "Title",
+    "titlePlaceholder": "Enter a title",
+    "content": "Content",
+    "contentPlaceholder": "Enter content",
+    "tabs": {
+      "notice": "Announcements",
+      "feedback": "Feedback"
+    },
+    "comment": {
+      "deleteConfirm": "Are you sure you want to delete this comment?",
+      "header": "Comments",
+      "empty": "Be the first to leave a comment",
+      "placeholder": "Write a comment",
+      "submit": "Post",
+      "loginRequired": "Please log in to leave a comment"
+    },
+    "notice": {
+      "write": "Write Notice",
+      "emptyTitle": "No announcements yet",
+      "emptySubtitle": "Please stay tuned for updates",
+      "createTitle": "Write Announcement",
+      "editTitle": "Edit Announcement",
+      "pinLabel": "Pin to top",
+      "deleteConfirm": "Are you sure you want to delete this announcement?"
+    },
+    "feedback": {
+      "write": "Write Feedback",
+      "emptyTitle": "No feedback yet",
+      "emptySubtitle": "Be the first to share your feedback",
+      "createTitle": "Write Feedback",
+      "editTitle": "Edit Feedback",
+      "categoryLabel": "Category",
+      "deleteConfirm": "Are you sure you want to delete this?",
+      "createSubmit": "Submit",
+      "updateSubmit": "Update"
+    }
+  }
+}

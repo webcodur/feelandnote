@@ -1,0 +1,264 @@
+{
+  "home": {
+    "explore": {
+      "englishTitle": "Notable Figures",
+      "description": "다양한 인물과 그들이 즐긴 콘텐츠를 만나보세요.",
+      "link": "인물 보러가기"
+    },
+    "scriptures": {
+      "englishTitle": "Curated Reads",
+      "description": "오늘의 인물, 공통 서가, 직업별 추천을 확인하세요.",
+      "link": "서가 보러가기"
+    },
+    "agora": {
+      "englishTitle": "The Agora",
+      "description": "다른 사용자들과 소통하고 피드를 확인하세요.",
+      "link": "광장 보러가기"
+    },
+    "rest": {
+      "englishTitle": "Take a Rest",
+      "description": "잠시 쉬어가며 가볍게 즐기는 미니게임.",
+      "link": "쉼터 가기"
+    },
+    "archive": {
+      "englishTitle": "Personal Collection",
+      "description": "내가 본 콘텐츠를 기록하고 관리하세요.",
+      "link": "내 기록 보러가기"
+    },
+    "ui": {
+      "searchPlaceholder": "인물 검색...",
+      "searchButton": "검색",
+      "controlTitle": "탐색 제어",
+      "filterProfession": "직군",
+      "filterNationality": "국적",
+      "filterContent": "콘텐츠",
+      "filterGender": "성별",
+      "filterSort": "정렬",
+      "all": "전체",
+      "genderMale": "남성",
+      "genderFemale": "여성",
+      "nationalityNone": "국적정보 없음",
+      "defaultSort": "보유 콘텐츠순",
+      "genre": "장르",
+      "visitArchive": "기록관 방문",
+      "visitArchiveConfirm": "{name}님의 기록관으로 이동하시겠습니까?",
+      "cancel": "취소",
+      "go": "이동",
+      "activity": "활동",
+      "wisdomSeeker": "지혜의 탐구자",
+      "recorder": "기록자",
+      "followingLabel": "팔로잉",
+      "followLabel": "팔로우",
+      "prevSection": "이전 섹션으로",
+      "nextSection": "다음 섹션으로",
+      "toTop": "맨 위로",
+      "loginRequired": "로그인이 필요합니다.",
+      "celebArchive": "셀럽 아카이브",
+      "friendActivity": "친구 동향",
+      "contentUnit": "개",
+      "sort": {
+        "daily_recommend": "오늘의 추천",
+        "composite": "종합 점수",
+        "follower": "팔로워",
+        "influence": "영향력",
+        "content_count": "보유 콘텐츠",
+        "name_asc": "이름",
+        "birth_date_desc": "최근 출생",
+        "birth_date_asc": "오래된 출생"
+      },
+      "characterInfo": "인물 정보",
+      "viewingRecords": "감상 기록",
+      "loadingRecords": "기록을 불러오는 중...",
+      "viewProfile": "프로필 보기",
+      "reviewCount": "{name}의 {count}개의 감상 기록",
+      "keywords": "{name}의 키워드",
+      "followerUnit": "{count}명",
+      "loadMore": "더보기 ({count}개 남음)",
+      "empty": {
+        "noCelebs": "해당 직군의 셀럽이 없습니다",
+        "allLoaded": "모든 리뷰를 불러왔어요",
+        "noReviews": "아직 리뷰가 없어요",
+        "noReviewsDesc": "셀럽들의 콘텐츠 리뷰가 곧 업데이트됩니다.\n조금만 기다려 주세요!",
+        "noFriendActivity": "아직 친구들의 소식이 없어요",
+        "noFriendActivityDesc": "친구를 팔로우하면 여기에 활동이 표시돼요",
+        "noPublicReviews": "아직 공개된 감상이 없습니다",
+        "pleaseWait": "조금 더 기다려주세요",
+        "noRecords": "아직 기록된 영감이 없습니다.",
+        "createFirst": "첫 기록 남기기",
+        "createOwn": "나의 기록 만들기"
+      },
+      "influence": {
+        "analyzing": "영향력 분석 중...",
+        "loadError": "정보를 불러올 수 없습니다",
+        "close": "닫기",
+        "topInfluence": "주요 영향력",
+        "categoryDetail": "영역별 상세"
+      },
+      "tags": {
+        "noDescription": "상세 설명이 없습니다."
+      },
+      "banner": {
+        "headline": "느끼고, 기록하라",
+        "description": "책, 영화, 음악, 게임... 모든 경험을 남기고\n영감의 흔적을 쌓아가세요."
+      },
+      "navLinks": {
+        "moreCelebs": "더 많은 인물 보기",
+        "moreCelebsDesc": "시대와 분야를 아우르는 인물들을 만나보세요",
+        "moreResources": "더 많은 자료 보기",
+        "moreResourcesDesc": "인물들이 남긴 지혜의 기록을 탐색하세요"
+      },
+      "tabs": {
+        "todayFigure": "오늘의 인물",
+        "quickRecord": "빠른 기록",
+        "intro": "당신의 문화적 유산을 기록하고,\n시대를 초월한 지혜와 만나보세요.",
+        "introSub": "책, 영화, 음악, 그리고 위대한 인물들의 이야기.\n이곳은 당신의 영감이 머무르는 공간입니다."
+      }
+    }
+  },
+  "banner": {
+    "archiveSuffix": "의 기록관",
+    "archiveEnglish": "Official Sacred Record"
+  },
+  "todayFigure": {
+    "dateLabel": "{month}월 {day}일 오늘의 인물",
+    "subtitle": "매일 새로운 인물과 그가 즐긴 콘텐츠를 소개합니다",
+    "newsSelected": "최근 48시간 뉴스에서 {count}건 언급되어 선정되었습니다",
+    "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
+    "emptyCategory": "해당 카테고리의 기록이 존재하지 않습니다",
+    "viewAll": "전체 보기",
+    "libraryLabelEmpty": "{profession} {nickname}의 감상 기록",
+    "libraryLabelFull": "{profession} {nickname}{particle} 감상한 {items}",
+    "bookCount": "{count}권의 책",
+    "videoCount": "{count}편의 영화",
+    "musicCount": "{count}곡의 음악",
+    "gameCount": "{count}개의 게임"
+  },
+  "landing": {
+    "spotlights": "Spotlights",
+    "viewAll": "View All",
+    "openSoon": "Open Soon",
+    "number": "No.",
+    "defaultDescription": "역사 속 위인들의 콘텐츠 여정을 탐험해보세요.",
+    "goToExplore": "탐색 페이지로 이동",
+    "noSpotlights": "진행 중인 스포트라이트가 없습니다."
+  },
+  "quickRecord": {
+    "section": {
+      "addedToLibrary": "서재에 담겼습니다. 이 작품에 대한 기록을 남겨보세요.",
+      "reviewPlaceholder": "짧은 감상을 남겨주세요 (선택)",
+      "doLater": "나중에 하기",
+      "saving": "저장 중...",
+      "recordComplete": "기록 완료",
+      "saveError": "기록 저장 중 오류가 발생했습니다."
+    },
+    "editor": {
+      "write": "작성",
+      "preview": "미리보기",
+      "save": "저장",
+      "editorPlaceholder": "작품에서 어떤 영감을 받으셨나요?\n자유롭게 기록해보세요.",
+      "noContent": "작성된 내용이 없습니다.",
+      "workInfo": "작품 정보",
+      "externalSearch": "외부 자료 탐색",
+      "myReview": "내 리뷰",
+      "addKeyword": "키워드 추가",
+      "notRated": "평가 전",
+      "writeMode": "쓰기",
+      "readMode": "읽기",
+      "recommendPlaceholder": "셀럽들이 최고로 추천하는 《{title}》입니다.\n작품을 경험하셨다면 솔직한 리뷰를 남겨보세요.",
+      "defaultPlaceholder": "작품에서 발견한 영감을 자유롭게 기록하세요.\n\n 다음 부호로 텍스트를 꾸밀 수 있습니다.\n \n • 《작품명》 : 제목이나 큰 주제 강조 (Bold)\n • \"명언\" : 중요한 문장이나 인용구 (Accent)\n • '<'키워드'>' : 특정 단어나 소주제 강조 (Serif)"
+    },
+    "search": {
+      "noPresets": "이 컨텐츠 타입에 대한 검색 프리셋이 없습니다.",
+      "clickHint": "각 항목 클릭 시 화면에 검색결과가 표시됩니다.",
+      "contentSearch": "컨텐츠 검색",
+      "searchPlaceholder": "기록하고 싶은 작품을 검색해보세요...",
+      "searching": "검색 중...",
+      "addRecord": "기록하기",
+      "noResults": "검색 결과가 없습니다."
+    },
+    "external": {
+      "headerTitle": "해당 작품의 외부 자료 탐색하기",
+      "resetResults": "결과 초기화",
+      "searchResults": "검색 결과:",
+      "noResults": "검색 결과가 없습니다."
+    },
+    "preset": {
+      "selectKeywords": "리뷰 키워드 선택",
+      "noKeywords": "등록된 키워드가 없습니다.",
+      "selectionComplete": "선택 완료"
+    },
+    "linkPreview": {
+      "webPage": "웹 페이지",
+      "reader": "읽기",
+      "original": "원본",
+      "openInBrowser": "브라우저로 열기",
+      "closeEsc": "닫기 (ESC)",
+      "loadingContent": "페이지 내용을 불러오고 있습니다...",
+      "readerUnavailable": "읽기 모드를 사용할 수 없는 페이지입니다.",
+      "switchToOriginal": "원본 보기로 전환",
+      "connectionRefused": "연결이 거부되었습니다.",
+      "securityPolicy": "이 사이트({hostname})에서는 보안 정책(X-Frame-Options)으로 인해 미리보기를 허용하지 않습니다.",
+      "openInNewWindow": "새 창에서 열기",
+      "readerHint": "읽기 모드는 텍스트와 이미지 위주로 내용을 보여줍니다.",
+      "originalHint": "화면이 보이지 않으면 '브라우저로 열기'를 눌러주세요."
+    },
+    "info": {
+      "basic": "기본",
+      "detail": "상세",
+      "celebReview": "셀럽리뷰",
+      "normalReview": "일반리뷰",
+      "viewDetail": "상세 보기",
+      "introduction": "소개",
+      "storyline": "스토리라인",
+      "trailer": "트레일러",
+      "listen": "미리듣기",
+      "director": "감독",
+      "cast": "출연진",
+      "runtime": "러닝타임",
+      "runtimeMin": "{min}분",
+      "trackList": "트랙 목록",
+      "label": "레이블",
+      "screenshots": "스크린샷",
+      "releaseDate": "출시일"
+    },
+    "home": {
+      "pendingReviewConfirm": "'{title}'에 대한 작성 중인 리뷰가 있습니다.\n지금 등록하시겠습니까?",
+      "registeredSuccess": "성공적으로 등록되었습니다.",
+      "registrationError": "등록 중 오류가 발생했습니다.",
+      "deleteDraftConfirm": "작성 중인 기록을 삭제하시겠습니까?",
+      "deleteConfirm": "정말 이 기록을 삭제하시겠습니까?",
+      "deleteFailed": "삭제하지 못했습니다.",
+      "quickRecordLabel": "나만의 빠른 기록",
+      "quickRecordDesc": "영감을 빠르게 기록하고 관리해보세요",
+      "myLibrary": "나만의 서재",
+      "loginRequired": "로그인이 필요합니다",
+      "createLibrary": "나만의 서재를 만들어보세요",
+      "selectedContent": "선택된 컨텐츠",
+      "myRecord": "내 기록",
+      "review": "리뷰",
+      "note": "노트",
+      "saveAutoSave": "저장 (자동 저장됨)",
+      "savedLocally": "기기에 저장되었습니다. 로그인 후 등록할 수 있습니다.",
+      "saveFailed": "저장에 실패했습니다.",
+      "pendingWrite": "작성 대기",
+      "goToArchive": "상세 기록관\n페이지로 이동",
+      "noRecords": "아직 보관된 기록이 없습니다",
+      "searchToRecord": "상단 검색창을 통해 첫 번째 기록을 남겨보세요.",
+      "celebRecommendations": "셀럽들의 추천",
+      "archiveTab": "보관함",
+      "selectContent": "기록할 컨텐츠 선택",
+      "loadingInfo": "정보 로딩 중...",
+      "detailInfo": "상세 정보",
+      "celebReview": "셀럽 리뷰",
+      "normalReview": "일반 리뷰",
+      "externalSearchBtn": "외부 탐색",
+      "modalDetailTitle": "작품 상세 정보",
+      "modalCelebTitle": "셀럽들의 시선",
+      "modalNormalTitle": "독자들의 리뷰",
+      "modalSelectTitle": "기록할 컨텐츠 선택",
+      "modalExternalTitle": "외부 자료 탐색",
+      "popular": "인기",
+      "noPopular": "이 카테고리의 인기 기록이 없습니다."
+    }
+  }
+}

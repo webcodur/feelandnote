@@ -1,0 +1,101 @@
+{
+  "recommendation": {
+    "recommend": "추천",
+    "title": "콘텐츠 추천",
+    "accepted": "추천을 수락했습니다",
+    "rejected": "추천을 거절했습니다",
+    "addedToList": "원하는 목록에 추가되었습니다",
+    "fromUser": "{nickname}님의 추천",
+    "reject": "거절",
+    "accept": "수락",
+    "complete": "추천 완료",
+    "sentTo": "{nickname}님에게 전송되었습니다",
+    "searchFriends": "친구 검색...",
+    "loading": "불러오는 중",
+    "noResults": "검색 결과 없음",
+    "noFriends": "추천 가능한 친구 없음",
+    "loadError": "목록을 불러올 수 없습니다.",
+    "sendError": "추천 전송에 실패했습니다.",
+    "messagePlaceholder": "메시지를 남겨보세요 (선택)",
+    "cancel": "취소",
+    "sending": "전송 중",
+    "send": "추천 보내기",
+    "relation": {
+      "friend": "친구",
+      "follower": "팔로워"
+    }
+  },
+  "note": {
+    "sectionTitlePlaceholder": "구획 제목 (예: 1장, E01)",
+    "sectionMemoPlaceholder": "이 구획에 대한 기록은 비공개로 안전하게 보관됩니다.",
+    "sectionItemPlaceholder": "본인만 볼 수 있도록 비공개로 안전하게 기록됩니다.",
+    "notePanelPlaceholder": "작품 별 노트는 비공개로 안전히 보관합니다. 리뷰 작성 전 필요한 자료를 정리하세요."
+  },
+  "creation": {
+    "whatif": {
+      "scenarioLabel": "상상 시나리오 *",
+      "placeholder": "만약 ~했다면 어떤 이야기가 펼쳐질까요? 상상력을 마음껏 펼쳐보세요.",
+      "charCount": "{count} / 10,000자"
+    },
+    "ost": {
+      "sceneLabel": "장면별 OST",
+      "add": "추가",
+      "trackLabel": "트랙 {index}",
+      "scenePlaceholder": "장면/챕터 (예: 오프닝, 클라이맥스)",
+      "songPlaceholder": "곡 제목 - 아티스트",
+      "reasonPlaceholder": "선곡 이유",
+      "directionLabel": "전체 OST 방향성",
+      "directionPlaceholder": "전체적인 음악 방향성에 대한 의견을 작성해보세요."
+    },
+    "media": {
+      "mediaSelectLabel": "매체 선택 *",
+      "castingLabel": "캐스팅 제안",
+      "add": "추가",
+      "rolePlaceholder": "역할",
+      "actorPlaceholder": "배우/성우",
+      "directionLabel": "제작 방향성",
+      "directionPlaceholder": "어떤 방향으로 제작되면 좋을지 자유롭게 작성해보세요."
+    }
+  },
+  "recordInteraction": {
+    "loading": "로딩 중...",
+    "firstComment": "첫 번째 댓글을 남겨보세요.",
+    "commentPlaceholder": "댓글을 입력하세요...",
+    "submit": "등록",
+    "loginRequired": "로그인이 필요합니다."
+  },
+  "flowEditor": {
+    "title": "새 플로우 만들기",
+    "nameLabel": "플로우 제목 *",
+    "namePlaceholder": "예: 프론트엔드 입문 로드맵",
+    "descLabel": "설명",
+    "descPlaceholder": "플로우에 대한 간단한 설명",
+    "public": "공개",
+    "stageConfig": "스테이지 구성",
+    "addStage": "스테이지 추가",
+    "stageName": "스테이지 이름",
+    "stageDescPlaceholder": "이 단계의 목표나 설명 (선택)",
+    "contentAddGuide": "콘텐츠 추가는 플로우 생성 후 상세 페이지에서 할 수 있습니다",
+    "titleRequired": "플로우 제목을 입력해주세요.",
+    "createFailed": "플로우 생성에 실패했습니다.",
+    "cancel": "취소",
+    "creating": "생성 중...",
+    "create": "플로우 생성"
+  },
+  "flowDetail": {
+    "reasonPlaceholder": "이 콘텐츠를 여기에 둔 이유...",
+    "addDesc": "+ 설명 추가",
+    "searchPlaceholder": "검색...",
+    "myLibrary": "내 서재",
+    "allAdded": "모든 콘텐츠가 플로우에 추가되었습니다",
+    "emptyLibrary": "서재에 콘텐츠가 없습니다",
+    "dropHere": "여기에 배치",
+    "dragGuide": "우측 패널에서 콘텐츠를 드래그하세요",
+    "emptyStage": "아직 콘텐츠가 없습니다",
+    "emptyFlow": "아직 단계가 없습니다",
+    "emptyFlowGuide": "단계를 추가하고 콘텐츠를 연결해 보세요.",
+    "startEdit": "편집 시작",
+    "addStage": "단계 추가",
+    "itemCount": "{count}개"
+  }
+}

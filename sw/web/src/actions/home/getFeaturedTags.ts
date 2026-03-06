@@ -87,7 +87,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     supabase.from('profiles').select(`
       id, slug, nickname, avatar_url, title, profession,
       consumption_philosophy, nationality, birth_date, death_date,
-      bio, quotes, is_verified, claimed_by, speech_tone
+      bio, quotes, is_verified, claimed_by, speech_tone, has_voice
     `).in('id', celebIdArray),
     // 팔로워 수
     supabase.from('follows').select('following_id').in('following_id', celebIdArray),
@@ -201,6 +201,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
           speech_tone: c.speech_tone ?? null,
           greeting: dialogueMap.get(c.id)?.greeting ?? null,
           greeting_en: dialogueMap.get(c.id)?.greeting_en ?? null,
+          has_voice: c.has_voice ?? false,
           short_desc: a.short_desc,
           short_desc_en: a.short_desc_en,
           long_desc: a.long_desc,

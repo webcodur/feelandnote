@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getCategoryByDbType } from "@/constants/categories";
 import {
@@ -32,6 +32,8 @@ interface SharedLibraryViewProps {
 
 export default function SharedLibraryView({ tagId }: SharedLibraryViewProps) {
   const t = useTranslations("explore.spotlight");
+  const locale = useLocale();
+  const isEn = locale === 'en';
   const [items, setItems] = useState<SharedContent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<string>("ALL");
@@ -96,7 +98,7 @@ export default function SharedLibraryView({ tagId }: SharedLibraryViewProps) {
       ) : (
         <div className="space-y-2">
           {filtered.map((item) => (
-            <SharedContentRow key={item.contentId} item={item} t={t} />
+            <SharedContentRow key={item.contentId} item={item} t={t} isEn={isEn} />
           ))}
         </div>
       )}
@@ -107,12 +109,16 @@ export default function SharedLibraryView({ tagId }: SharedLibraryViewProps) {
 function SharedContentRow({
   item,
   t,
+  isEn,
 }: {
   item: SharedContent;
   t: ReturnType<typeof useTranslations>;
+  isEn: boolean;
 }) {
   const Icon = TYPE_ICONS[item.type] ?? Book;
   const contentDetailUrl = `/content/${item.contentId}?category=${getCategoryByDbType(item.type)?.id || "book"}`;
+  const displayTitle = isEn ? (item.title_en ?? item.title) : item.title;
+  const displayCreator = isEn ? (item.creator_en ?? item.creator) : item.creator;
 
   return (
     <Link
@@ -124,7 +130,7 @@ function SharedContentRow({
         {item.thumbnailUrl ? (
           <Image
             src={item.thumbnailUrl}
-            alt={item.title}
+            alt={displayTitle}
             fill
             sizes="36px"
             className="object-cover"
@@ -138,35 +144,38 @@ function SharedContentRow({
 
       {/* 정보 */}
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold text-white truncate">{item.title}</p>
-        {item.creator && (
+        <p className="text-sm font-bold text-white truncate">{displayTitle}</p>
+        {displayCreator && (
           <p className="text-xs text-text-secondary truncate">
-            {item.creator.replace(/\^/g, ", ")}
+            {displayCreator.replace(/\^/g, ", ")}
           </p>
         )}
         {/* 셀럽 배지 */}
         <div className="flex items-center gap-1.5 mt-1">
           <div className="flex -space-x-1.5">
-            {item.celebs.slice(0, 3).map((celeb) => (
-              <div
-                key={celeb.id}
-                className="relative w-5 h-5 rounded-full overflow-hidden border border-bg-primary bg-bg-secondary"
-              >
-                {celeb.avatar_url ? (
-                  <Image
-                    src={celeb.avatar_url}
-                    alt={celeb.nickname}
-                    fill
-                    sizes="20px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-[8px] text-text-secondary">
-                    {celeb.nickname.charAt(0)}
-                  </div>
-                )}
-              </div>
-            ))}
+            {item.celebs.slice(0, 3).map((celeb) => {
+              const celebName = isEn ? (celeb.nickname_en ?? celeb.nickname) : celeb.nickname;
+              return (
+                <div
+                  key={celeb.id}
+                  className="relative w-5 h-5 rounded-full overflow-hidden border border-bg-primary bg-bg-secondary"
+                >
+                  {celeb.avatar_url ? (
+                    <Image
+                      src={celeb.avatar_url}
+                      alt={celebName}
+                      fill
+                      sizes="20px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-[8px] text-text-secondary">
+                      {celebName.charAt(0)}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
             {item.celebs.length > 3 && (
               <div className="w-5 h-5 rounded-full bg-white/10 border border-bg-primary flex items-center justify-center text-[8px] text-text-secondary">
                 +{item.celebs.length - 3}

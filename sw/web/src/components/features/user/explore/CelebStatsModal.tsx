@@ -359,7 +359,7 @@ export default function CelebStatsModal({
   const TAB_DESC_KEYS: Record<TabId, string> = {
     profession: "professionDist",
     nationality: "nationalityDist",
-    content: "contentDist",
+    content: "contentTypeDist",
     gender: "genderDist",
   };
 

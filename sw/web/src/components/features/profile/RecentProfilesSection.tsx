@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { GripVertical, User } from "lucide-react";
@@ -10,6 +10,8 @@ import { BLUR_DATA_URL } from "@/constants/image";
 
 export default function RecentProfilesSection() {
   const t = useTranslations("profileSection");
+  const locale = useLocale();
+  const isEn = locale === "en";
   const { recentItems } = useRecentProfiles();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -60,8 +62,14 @@ export default function RecentProfilesSection() {
               </Link>
               {hoveredId === item.id && (
                 <div className="absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 bg-bg-elevated border border-border rounded-md px-2.5 py-1 whitespace-nowrap z-50 shadow-lg pointer-events-none">
-                  <p className="text-xs text-text-primary font-medium">{item.nickname}</p>
-                  {item.title && <p className="text-[10px] text-text-tertiary">{item.title}</p>}
+                  <p className="text-xs text-text-primary font-medium">
+                    {isEn && item.nickname_en ? item.nickname_en : item.nickname_ko || item.nickname}
+                  </p>
+                  {item.title && (
+                    <p className="text-[10px] text-text-tertiary">
+                      {isEn && item.title_en ? item.title_en : item.title_ko || item.title}
+                    </p>
+                  )}
                 </div>
               )}
             </div>

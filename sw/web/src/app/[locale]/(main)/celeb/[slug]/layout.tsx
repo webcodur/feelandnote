@@ -83,8 +83,12 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
         profile={{
           id: profile.id,
           nickname: profile.nickname,
+          nickname_en: profile.nickname_en,
+          nickname_ko: profile.nickname_ko,
           avatarUrl: profile.avatar_url ?? null,
           title: profile.title ?? null,
+          title_en: profile.title_en,
+          title_ko: profile.title_ko,
           profileType: "CELEB",
         }}
       />

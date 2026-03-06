@@ -22,7 +22,7 @@ export async function getCelebBySlug(
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, consumption_philosophy, consumption_philosophy_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, consumption_philosophy, consumption_philosophy_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title, has_voice')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -101,11 +101,15 @@ export async function getCelebBySlug(
       id: profile.id,
       slug: profile.slug ?? null,
       nickname: resolve(profile.nickname_en, profile.nickname || 'Unknown'),
+      nickname_en: profile.nickname_en,
+      nickname_ko: profile.nickname || 'Unknown',
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
       quotes: resolve(profile.quotes_en, profile.quotes),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
+      title_en: profile.title_en,
+      title_ko: profile.title,
       consumption_philosophy: resolve(profile.consumption_philosophy_en, profile.consumption_philosophy),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
@@ -124,6 +128,7 @@ export async function getCelebBySlug(
       is_following: isFollowing,
       is_follower: isFollower,
       is_blocked: isBlocked,
+      has_voice: profile.has_voice ?? false,
       contentTypeCounts,
     },
   }

@@ -47,7 +47,7 @@ export async function getPantheon(): Promise<PantheonItem[]> {
         subtitle: '', 
         userId: tier.user_id,
         metadata: {
-          author: 'Community' 
+          author: 'Agora' 
         }
       })
     })

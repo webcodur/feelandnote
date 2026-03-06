@@ -66,7 +66,8 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
         {/* 페르소나 / 고유대사 / 계정정보 — 동일 카드형 아코디언 */}
         <ExtraSections
-          persona={celeb.persona ? { id: celeb.id, nickname: celeb.nickname || '', ...celeb.persona } : null}
+          celebId={celeb.id}
+          personaRaw={celeb.persona || null}
           dialogueLines={dialogueLines}
           speechTone={celeb.speech_tone}
         />

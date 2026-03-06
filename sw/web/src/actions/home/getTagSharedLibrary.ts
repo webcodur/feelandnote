@@ -10,13 +10,16 @@ import { createClient } from "@/lib/supabase/server";
 export interface SharedContentCeleb {
   id: string;
   nickname: string;
+  nickname_en: string | null;
   avatar_url: string | null;
 }
 
 export interface SharedContent {
   contentId: string;
   title: string;
+  title_en: string | null;
   creator: string | null;
+  creator_en: string | null;
   thumbnailUrl: string | null;
   type: string;
   celebCount: number;
@@ -41,7 +44,7 @@ export async function getTagSharedLibrary(
   // 2. 셀럽 프로필 조회 (닉네임, 아바타)
   const { data: profiles } = await supabase
     .from("profiles")
-    .select("id, nickname, avatar_url")
+    .select("id, nickname, nickname_en, avatar_url")
     .in("id", celebIds);
 
   const profileMap = new Map<string, SharedContentCeleb>();
@@ -49,6 +52,7 @@ export async function getTagSharedLibrary(
     profileMap.set(p.id, {
       id: p.id,
       nickname: p.nickname,
+      nickname_en: p.nickname_en,
       avatar_url: p.avatar_url,
     })
   );
@@ -57,7 +61,7 @@ export async function getTagSharedLibrary(
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      "user_id, content_id, contents!inner(id, title, creator, thumbnail_url, type)"
+      "user_id, content_id, contents!inner(id, title, title_en, creator, creator_en, thumbnail_url, type)"
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");
@@ -69,7 +73,9 @@ export async function getTagSharedLibrary(
     string,
     {
       title: string;
+      title_en: string | null;
       creator: string | null;
+      creator_en: string | null;
       thumbnailUrl: string | null;
       type: string;
       celebIds: Set<string>;
@@ -80,7 +86,9 @@ export async function getTagSharedLibrary(
     const c = row.contents as unknown as {
       id: string;
       title: string | null;
+      title_en: string | null;
       creator: string | null;
+      creator_en: string | null;
       thumbnail_url: string | null;
       type: string | null;
     };
@@ -91,7 +99,9 @@ export async function getTagSharedLibrary(
     } else {
       contentMap.set(c.id, {
         title: c.title ?? "",
+        title_en: c.title_en,
         creator: c.creator,
+        creator_en: c.creator_en,
         thumbnailUrl: c.thumbnail_url,
         type: c.type ?? "BOOK",
         celebIds: new Set([row.user_id]),
@@ -114,7 +124,9 @@ export async function getTagSharedLibrary(
     result.push({
       contentId,
       title: info.title,
+      title_en: info.title_en,
       creator: info.creator,
+      creator_en: info.creator_en,
       thumbnailUrl: info.thumbnailUrl,
       type: info.type,
       celebCount: info.celebIds.size,

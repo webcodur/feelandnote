@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import AcademyHub from "@/components/features/scriptures/academy/AcademyHub";
+import { getAcademyLessonProgressState } from "@/actions/scriptures/academyProgress";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.academy");
@@ -15,9 +16,11 @@ export async function generateMetadata() {
 }
 
 async function AcademyContent() {
+  const { isSignedIn, progress } = await getAcademyLessonProgressState();
+
   return (
     <AsyncIntlProvider>
-      <AcademyHub />
+      <AcademyHub initialLessonProgress={progress} isSignedIn={isSignedIn} />
     </AsyncIntlProvider>
   );
 }

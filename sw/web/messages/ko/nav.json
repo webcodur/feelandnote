@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "explore": "인물",
+    "scriptures": "서가",
+    "agora": "광장",
+    "rest": "쉼터",
+    "archive": "내 기록",
+    "sub": {
+      "celebs": "셀럽",
+      "people": "소셜",
+      "masterpieces": "불후의 명작",
+      "crossroads": "갈림길",
+      "celebFeed": "셀럽 피드",
+      "friendFeed": "친구 피드",
+      "notice": "공지사항",
+      "feedback": "피드백",
+      "dawn": "여명",
+      "labyrinth": "미궁",
+      "hegemony": "패권",
+      "suikoden": "천도",
+      "spotlight": "스포트라이트",
+      "social": "소셜",
+      "socialFeed": "소셜 피드"
+    },
+    "footer": {
+      "about": "서비스 소개",
+      "search": "검색",
+      "terms": "이용약관",
+      "privacy": "개인정보처리방침"
+    }
+  },
+  "moreMenu": {
+    "shortcuts": "바로가기",
+    "home": "홈",
+    "playlists": "재생목록",
+    "explore": "탐색",
+    "scriptures": "지혜의 서고",
+    "board": "게시판",
+    "notice": "공지사항",
+    "feedback": "피드백"
+  },
+  "contextHeader": {
+    "recordOf": "{title}의 기록관",
+    "theRecordOf": "THE RECORD OF",
+    "officialRecord": "Official Sacred Record"
+  }
+}

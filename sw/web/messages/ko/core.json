@@ -1,0 +1,377 @@
+{
+  "site": {
+    "title": "Feel&Note - 감상 아카이브",
+    "description": "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼.",
+    "twitterDescription": "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 감상 아카이브 플랫폼."
+  },
+  "notFound": {
+    "title": "페이지를 찾을 수 없습니다",
+    "description": "요청하신 페이지가 존재하지 않거나 이동되었습니다.",
+    "backHome": "홈으로 돌아가기"
+  },
+  "layout": {
+    "readingMode": "감상 모드",
+    "notifications": {
+      "title": "알림 보관함",
+      "newCount": "{count}개의 새 소식",
+      "loading": "로딩 중...",
+      "markAllRead": "모두 읽음",
+      "empty": "새로운 알림이 없습니다",
+      "viewAll": "전체 기록 보기"
+    },
+    "profile": {
+      "avatar": "프로필",
+      "defaultName": "사용자",
+      "login": "로그인",
+      "myPage": "내 페이지",
+      "logout": "로그아웃"
+    },
+    "locale": {
+      "switchTo": "English",
+      "label": "언어 변경"
+    },
+    "footer": {
+      "tagline": "기록을 쌓고 취향의 아카이브를 만들어 보세요."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "홈",
+      "description": "셀럽들이 읽은 책, 본 영화, 들은 음악을 탐색하세요. 당신의 문화 기록을 남기고 영감을 발견하는 감상 아카이브 플랫폼."
+    },
+    "notifications": "소식",
+    "search": "검색",
+    "chamber": "관리",
+    "merits": "업적",
+    "collections": "플로우",
+    "collectionDetail": "플로우 상세",
+    "tierEdit": "티어 편집",
+    "about": {
+      "title": "About",
+      "description": "우리는 너무 많이 보고, 너무 빨리 잊습니다. 기록은 흐려지지 않는 지혜가 됩니다."
+    },
+    "lab": "Lab"
+  },
+  "status": {
+    "want": "관심",
+    "watching": "진행중",
+    "dropped": "중단",
+    "finished": "감상함",
+    "recommended": "추천",
+    "notRecommended": "비추",
+    "export": {
+      "want": "보고싶어요",
+      "watching": "보는 중",
+      "finished": "감상함"
+    }
+  },
+  "title": {
+    "grade": {
+      "common": "일반",
+      "uncommon": "고급",
+      "rare": "희귀",
+      "epic": "영웅"
+    },
+    "category": {
+      "volume": "축적",
+      "diversity": "섭렵",
+      "depth": "탐구"
+    },
+    "titles": {
+      "content_1": {
+        "name": "첫 발자국",
+        "description": "여정의 시작"
+      },
+      "content_10": {
+        "name": "열 걸음",
+        "description": "꾸준히 걷는 중"
+      },
+      "content_50": {
+        "name": "서재의 주인",
+        "description": "50권을 넘기다"
+      },
+      "content_100": {
+        "name": "백 권의 무게",
+        "description": "서재가 묵직해졌다"
+      },
+      "record_1": {
+        "name": "첫 번째 이야기",
+        "description": "기록의 시작"
+      },
+      "record_10": {
+        "name": "이야기꾼",
+        "description": "10개의 기록"
+      },
+      "record_50": {
+        "name": "기록의 달인",
+        "description": "50개의 기록"
+      },
+      "category_2": {
+        "name": "장르 여행자",
+        "description": "경계를 넘다"
+      },
+      "category_3": {
+        "name": "장르 탐험가",
+        "description": "미지의 영역으로"
+      },
+      "category_4": {
+        "name": "르네상스인",
+        "description": "모든 분야의 감상가"
+      },
+      "creator_10": {
+        "name": "작가 헌터",
+        "description": "다양한 목소리"
+      },
+      "creator_30": {
+        "name": "세계 일주",
+        "description": "국경 없는 감상"
+      },
+      "avg_review_100": {
+        "name": "꼼꼼한 독자",
+        "description": "세심한 기록"
+      },
+      "avg_review_300": {
+        "name": "완벽주의자",
+        "description": "빈틈없는 기록"
+      },
+      "long_review_10": {
+        "name": "리뷰 장인",
+        "description": "말이 많은 감상가"
+      },
+      "completed_10": {
+        "name": "구획 마스터",
+        "description": "처음부터 끝까지"
+      },
+      "completed_50": {
+        "name": "아카이브 장인",
+        "description": "기록의 달인"
+      }
+    }
+  },
+  "profession": {
+    "all": "전체",
+    "leader": "지도자",
+    "politician": "정치인",
+    "commander": "지휘관",
+    "entrepreneur": "기업가",
+    "investor": "투자자",
+    "scientist": "과학자",
+    "humanities_scholar": "인문학자",
+    "social_scientist": "사회과학자",
+    "director": "감독",
+    "musician": "음악인",
+    "visual_artist": "미술인",
+    "author": "작가",
+    "actor": "배우",
+    "influencer": "인플루엔서",
+    "athlete": "스포츠인",
+    "uncategorized": "미분류"
+  },
+  "policy": {
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침"
+  },
+  "common": {
+    "loadMore": "더보기",
+    "loading": "불러오는 중...",
+    "viewAll": "전체보기"
+  },
+  "shared": {
+    "search": {
+      "viewAllResults": "전체 검색결과 보기",
+      "openInNewTab": "새 창으로 열기",
+      "recentSearches": "최근 검색",
+      "clear": "지우기",
+      "noResults": "\"{query}\"에 대한 결과가 없습니다",
+      "enterQuery": "검색어를 입력하세요",
+      "hintUser": "사용자",
+      "hintTag": "태그",
+      "hintMode": "모드 전환",
+      "mode": {
+        "content": "콘텐츠",
+        "user": "사용자",
+        "celeb": "셀럽",
+        "records": "내 기록",
+        "contentPlaceholder": "작품명, 저자...",
+        "userPlaceholder": "닉네임...",
+        "celebPlaceholder": "인물명...",
+        "recordsPlaceholder": "기록 검색..."
+      },
+      "sectionContent": "콘텐츠",
+      "sectionOther": "기타",
+      "follower": "팔로워",
+      "posts": "게시물 {count}개"
+    },
+    "content": {
+      "addToRecord": "기록하기",
+      "viewDetails": "상세정보 보기",
+      "listenOnSpotify": "Spotify에서 듣기",
+      "publisher": "출판사",
+      "publishDate": "출판일",
+      "type": "유형",
+      "movie": "영화",
+      "tvProgram": "TV 프로그램",
+      "rating": "평점",
+      "ratingScore": "{score}점",
+      "genre": "장르",
+      "developer": "개발사",
+      "gamePublisher": "퍼블리셔",
+      "platform": "플랫폼",
+      "albumType": "앨범 유형",
+      "tracks": "{count}곡",
+      "artist": "아티스트",
+      "qualificationType": "자격 유형",
+      "series": "계열",
+      "majorField": "직무분야"
+    },
+    "celeb": {
+      "info": "정보",
+      "following": "팔로잉",
+      "follow": "팔로우"
+    },
+    "game": {
+      "exit": "나가기",
+      "exitEsc": "나가기 (ESC)",
+      "prevTrack": "이전 곡",
+      "nextTrack": "다음 곡",
+      "play": "재생",
+      "pause": "일시정지",
+      "mute": "음소거",
+      "unmute": "음소거 해제",
+      "enterGame": "게임 입장",
+      "soundInfo": "사운드와 함께 진행됩니다",
+      "startGame": "게임 시작",
+      "heroesAwait": "{count}명의 영웅이 기다립니다",
+      "phase": {
+        "lobby": "로비",
+        "loading": "로딩",
+        "draft": "드래프트",
+        "captain": "주장",
+        "battle": "전투",
+        "result": "결과",
+        "playing": "게임",
+        "tracking": "탐문",
+        "setup": "세력 설정",
+        "wandering": "방랑",
+        "strategy": "전략",
+        "disposition": "포로 처분"
+      },
+      "lobby": {
+        "rules": "규칙",
+        "multiplayer": "대인전",
+        "settings": "설정",
+        "records": "전적",
+        "aiMatch": "AI 대전",
+        "selectDifficulty": "난이도를 선택하세요",
+        "diffNormal": "보통",
+        "diffNormalDesc": "플레이어가 먼저 픽. 상대 카드 적성 공개.",
+        "diffHard": "어려움",
+        "diffHardDesc": "AI가 먼저 픽. 상대 카드 적성 비공개."
+      },
+      "ui": {
+        "back": "돌아가기",
+        "backToLobby": "로비로 돌아가기",
+        "start": "시작",
+        "cancel": "취소",
+        "gameRules": "게임 규칙",
+        "gameFlow": "게임 흐름",
+        "difficulty": "난이도",
+        "diffEasy": "초급",
+        "diffHard": "고급",
+        "gameTips": "게임 팁",
+        "strategyTips": "전략 팁"
+      },
+      "settings": {
+        "title": "설정",
+        "desc": "오디오 설정",
+        "bgm": "게임 음악",
+        "bgmDesc": "배경 음악 (BGM)",
+        "sfx": "사운드 이펙트",
+        "sfxDesc": "효과음 (SFX)"
+      }
+    },
+    "persona": {
+      "ability": "능력",
+      "virtue": "품성",
+      "tendency": "성향",
+      "noData": "데이터 없음",
+      "stat": {
+        "command": "통솔",
+        "martial": "무력",
+        "intellect": "지력",
+        "charm": "매력",
+        "temperance": "절제",
+        "diligence": "근면",
+        "reflection": "성찰",
+        "courage": "용기",
+        "loyalty": "충의",
+        "benevolence": "인애",
+        "fairness": "공정",
+        "humility": "겸양"
+      },
+      "tendency_label": {
+        "pessimism": "비관",
+        "optimism": "낙관",
+        "conservative": "보수",
+        "progressive": "진취",
+        "individual": "개인",
+        "social": "사회",
+        "cautious": "신중",
+        "bold": "과감"
+      }
+    },
+    "profile": {
+      "records": "기록",
+      "followers": "팔로워",
+      "viewProfile": "프로필 보기",
+      "loadError": "프로필을 불러올 수 없습니다"
+    }
+  },
+  "notifications": {
+    "title": "소식 보관함",
+    "description": "회원님의 활동에 대한 지난 기록들을 모아두었습니다.",
+    "markAllRead": "모두 읽음",
+    "deleteRead": "읽은 알림 삭제",
+    "tabAll": "전체 ({count})",
+    "tabUnread": "안 읽음 ({count})",
+    "deleteConfirm": "이 알림을 삭제하시겠습니까?",
+    "deleteReadConfirm": "읽은 알림을 모두 삭제하시겠습니까?",
+    "deleteTitle": "삭제",
+    "accepted": "수락함",
+    "rejected": "거절함",
+    "reject": "거절",
+    "accept": "수락",
+    "emptyAll": "도착한 소식이 없습니다.",
+    "emptyFiltered": "모든 소식을 확인하셨습니다."
+  },
+  "aboutPage": {
+    "heroTitle1": "당신의 감상은",
+    "heroTitle2": "어디로 흩어집니까?",
+    "p1Line1": "우리는 매일 수많은 이야기를 마주합니다.",
+    "p1Line2": "책, 영화, 음악, 그리고 게임까지.",
+    "p1Line3": "하지만 그 순간의 전율은",
+    "p1Line4": "다음 콘텐츠에 밀려 너무나 쉽게",
+    "p1Line5": "기억 저편으로 사라지고 맙니다.",
+    "p1Highlight": "우리는 너무 많이 보고, 너무 빨리 잊습니다.",
+    "feelTitle": "Feel",
+    "feelDesc1": "감각은 직관적입니다.",
+    "feelDesc2": "우리가 무언가를 보며 느끼는 기쁨, 슬픔, 충격은",
+    "feelDesc3": "가장 정직한 반응입니다.",
+    "feelDesc4": "그 날것의 감정을 외면하지 마세요.",
+    "noteTitle": "Note",
+    "noteDesc1": "기록은 이성적입니다.",
+    "noteDesc2": "흩어지는 감정을 단어로 붙잡아",
+    "noteDesc3": "구체적인 형태로 조각하는 과정입니다.",
+    "noteDesc4": "기록된 감정만이 사유가 됩니다.",
+    "promise1": "Feel&Note는",
+    "promise2": "당신의 스쳐가는 감상이",
+    "promiseHighlight": "견고한 지혜",
+    "promise3": "로 남기를 바랍니다.",
+    "epilogue1": "이곳은 단순한 메모장이 아닙니다.",
+    "epilogue2": "당신의 취향이 역사가 되고,",
+    "epilogue3": "당신의 사유가 유산이 되는",
+    "epilogue4": "지혜의 신전입니다.",
+    "fromBuilders": "From the Builders of",
+    "teamName": "Feel&Note Team"
+  }
+}

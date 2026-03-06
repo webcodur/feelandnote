@@ -37,6 +37,27 @@ export type TendencyKey =
   | 'pessimism_optimism' | 'conservative_progressive'
   | 'individual_social' | 'cautious_bold'
 
+export async function saveCelebPersona(
+  celebId: string,
+  stats: Omit<PersonaData, 'id' | 'celeb_id' | 'nickname' | 'profession'>,
+  personaJsonb?: Record<string, unknown>,
+): Promise<void> {
+  const supabase = await createClient()
+
+  const payload: Record<string, unknown> = {
+    celeb_id: celebId,
+    ...stats,
+    updated_at: new Date().toISOString(),
+  }
+  if (personaJsonb) payload.persona = personaJsonb
+
+  const { error } = await supabase
+    .from('celeb_persona')
+    .upsert(payload, { onConflict: 'celeb_id' })
+
+  if (error) throw error
+}
+
 export async function getPersonaVectors(): Promise<PersonaData[]> {
   const supabase = await createClient()
 

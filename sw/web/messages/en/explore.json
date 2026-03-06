@@ -1,0 +1,205 @@
+{
+  "explore": {
+    "meta": {
+      "title": "Explore",
+      "description": "Discover notable figures across various fields and the content they enjoyed."
+    },
+    "celebs": {
+      "metaTitle": "Celebs | Explore",
+      "metaDescription": "From historical figures to modern cultural icons, explore their reviews and recommended works."
+    },
+    "people": {
+      "metaTitle": "People | Explore",
+      "friends": "Friends",
+      "following": "Following",
+      "followers": "Followers",
+      "similar": "Similar Taste"
+    },
+    "ui": {
+      "tabs": {
+        "celebs": "Celebs",
+        "social": "Social",
+        "friends": "Friends",
+        "following": "Following",
+        "followers": "Followers",
+        "similar": "Similar Taste",
+        "celebFeed": "Celeb Feed",
+        "spotlight": "Spotlight"
+      },
+      "empty": {
+        "noFriends": "No friends yet",
+        "noFriendsDesc": "Follow each other to become friends",
+        "noFollowing": "Not following anyone",
+        "noFollowingDesc": "Follow people you're interested in",
+        "noFollowers": "No followers yet",
+        "noFollowersDesc": "Be active and gain followers",
+        "noSimilar": "No similar users yet",
+        "noSimilarDesc": "Record more content to find users with similar taste",
+        "noNationality": "No nationality data available",
+        "noAuraCelebs": "No celebs at this tier."
+      },
+      "newFollower": "New follower",
+      "recordCount": "{count} records",
+      "bondsMatch": "{bonds} bonds · {percent}% match",
+      "countUnit": "{count}",
+      "scoreUnit": "{score}",
+      "totalCount": "Total {count}",
+      "record": "Records",
+      "algorithm": "Recommendation Algorithm",
+      "contentOverlapBased": "Content overlap based",
+      "influenceDistribution": "Influence Distribution",
+      "influence": "Influence",
+      "stats": "Stats",
+      "collection": "Featured",
+      "searchFilter": "Search...",
+      "gradeDistribution": "Distribution by Tier",
+      "fullRanking": "Full Ranking",
+      "scoreRange": "Score Range",
+      "celebStats": "Celeb Statistics",
+      "tabProfession": "Profession",
+      "tabNationality": "Nationality",
+      "tabContent": "Content",
+      "tabGender": "Gender",
+      "professionDist": "Celeb distribution by profession",
+      "nationalityDist": "Celeb distribution by nationality (Top 10)",
+      "contentTypeDist": "Content type distribution",
+      "genderDist": "Gender distribution",
+      "totalContent": "Total Content",
+      "totalPeople": "Total",
+      "male": "Male",
+      "female": "Female",
+      "algorithmTitle": "Recommendation Algorithm",
+      "contentMatchTitle": "Content Overlap Matching",
+      "contentMatchDesc": "We find users who recorded the same content as you",
+      "howItWorks": "How it works",
+      "step1": "Count the shared content between you and others",
+      "step2": "Normalize by total content count for fair comparison",
+      "step3": "Recommend in order of highest similarity",
+      "moreRecordsBetter": "The more content you record, the better we can find users with similar taste",
+      "confirm": "OK",
+      "addCeleb": "Add Celeb",
+      "nameLabel": "Name *",
+      "namePlaceholder": "Celeb name",
+      "fieldLabel": "Field",
+      "fieldNone": "None",
+      "bioLabel": "Bio",
+      "bioPlaceholder": "Brief introduction about the celeb",
+      "nameRequired": "Please enter a name",
+      "addFailed": "Failed to add celeb",
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add",
+      "gridViewTitle": "Switch to grid view",
+      "carouselViewTitle": "Switch to carousel view",
+      "grid": "Grid",
+      "carousel": "Carousel",
+      "viewMore": "View more",
+      "viewAllCount": "+{count} View all",
+      "prev": "Previous",
+      "next": "Next",
+      "loading": "Loading...",
+      "friend": "Friend",
+      "personaNoData": "No person data to display.",
+      "personaList": "People",
+      "professionUnknown": "Unknown",
+      "personaLoading": "Loading info...",
+      "personaTitle": "Persona Analysis",
+      "personaNoPersona": "No persona data",
+      "personaNoSelection": "No person available to select.",
+      "personaFigure": "Figure",
+      "auraTitle": {
+        "1": "Mortal",
+        "2": "Pilgrim",
+        "3": "Monk",
+        "4": "Evangelist",
+        "5": "Priest",
+        "6": "Archon",
+        "7": "Prophet",
+        "8": "Apostle",
+        "9": "Immortal"
+      },
+      "scoreRanges": {
+        "1": "≤ 10",
+        "2": "11–20",
+        "3": "21–30",
+        "4": "31–40",
+        "5": "41–50",
+        "6": "51–60",
+        "7": "61–70",
+        "8": "71–80",
+        "9": "81+"
+      }
+    },
+    "celebFeed": {
+      "metaTitle": "Celeb Feed | Explore",
+      "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+    },
+    "spotlight": {
+      "metaTitle": "Spotlight | Explore",
+      "tabs": {
+        "spotlight": "Spotlight",
+        "shared": "Shared Library",
+        "timeline": "Timeline"
+      },
+      "shared": {
+        "celebCount": "{count} shared",
+        "filterAll": "All",
+        "empty": "No shared content found"
+      },
+      "timeline": {
+        "title": "Content Chronicle",
+        "empty": "No content records"
+      }
+    }
+  },
+  "searchResult": {
+    "followers": "{count} followers",
+    "posts": "{count} posts"
+  },
+  "searchPage": {
+    "control": "Search Controls",
+    "category": "Category",
+    "sort": "Sort",
+    "poweredBy": "Powered by:",
+    "followingOnly": "Following only",
+    "resultCount": "{count} results",
+    "loading": "Loading...",
+    "loadMore": "Load more",
+    "allLoaded": "All results loaded. ({count} total)",
+    "noResults": "No results for '{query}'",
+    "noResultsHint": "Try a different search term",
+    "enterQuery": "Enter a search term",
+    "enterQueryDesc": "Search for content, users, and tags",
+    "guide": {
+      "game": "There may be more results. Try different keywords or languages if you can't find what you're looking for.",
+      "certificate": "Primarily searches major national certifications."
+    },
+    "contentSort": {
+      "relevance": "Relevance",
+      "latest": "Latest",
+      "popular": "Popular"
+    },
+    "userSort": {
+      "relevance": "Relevance",
+      "followers": "Followers",
+      "latest": "Latest"
+    },
+    "contentCategory": {
+      "book": "Books",
+      "video": "Video",
+      "game": "Games",
+      "music": "Music",
+      "certificate": "Certificates"
+    },
+    "apiSource": {
+      "book": "Naver Books API",
+      "video": "TMDB",
+      "game": "IGDB",
+      "music": "Spotify",
+      "certificate": "Q-Net"
+    }
+  },
+  "archiveSearch": {
+    "placeholder": "Search by title or author (min. 2 chars)"
+  }
+}

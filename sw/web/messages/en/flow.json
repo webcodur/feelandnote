@@ -1,0 +1,101 @@
+{
+  "recommendation": {
+    "recommend": "Recommend",
+    "title": "Recommend Content",
+    "accepted": "Recommendation accepted",
+    "rejected": "Recommendation declined",
+    "addedToList": "Added to your list",
+    "fromUser": "Recommended by {nickname}",
+    "reject": "Decline",
+    "accept": "Accept",
+    "complete": "Sent!",
+    "sentTo": "Sent to {nickname}",
+    "searchFriends": "Search friends...",
+    "loading": "Loading",
+    "noResults": "No results found",
+    "noFriends": "No friends available",
+    "loadError": "Failed to load list.",
+    "sendError": "Failed to send recommendation.",
+    "messagePlaceholder": "Leave a message (optional)",
+    "cancel": "Cancel",
+    "sending": "Sending",
+    "send": "Send Recommendation",
+    "relation": {
+      "friend": "Friend",
+      "follower": "Follower"
+    }
+  },
+  "note": {
+    "sectionTitlePlaceholder": "Section title (e.g., Ch.1, E01)",
+    "sectionMemoPlaceholder": "Notes in this section are kept private and secure.",
+    "sectionItemPlaceholder": "Your notes are kept private and secure.",
+    "notePanelPlaceholder": "Notes are kept private. Organize your materials before writing a review."
+  },
+  "creation": {
+    "whatif": {
+      "scenarioLabel": "Scenario *",
+      "placeholder": "What if...? Let your imagination run free.",
+      "charCount": "{count} / 10,000 chars"
+    },
+    "ost": {
+      "sceneLabel": "Scene-by-scene OST",
+      "add": "Add",
+      "trackLabel": "Track {index}",
+      "scenePlaceholder": "Scene/Chapter (e.g., Opening, Climax)",
+      "songPlaceholder": "Song title - Artist",
+      "reasonPlaceholder": "Reason for selection",
+      "directionLabel": "Overall OST direction",
+      "directionPlaceholder": "Share your thoughts on the overall music direction."
+    },
+    "media": {
+      "mediaSelectLabel": "Select media *",
+      "castingLabel": "Casting suggestions",
+      "add": "Add",
+      "rolePlaceholder": "Role",
+      "actorPlaceholder": "Actor/Voice actor",
+      "directionLabel": "Production direction",
+      "directionPlaceholder": "Share your ideas on how this should be produced."
+    }
+  },
+  "recordInteraction": {
+    "loading": "Loading...",
+    "firstComment": "Be the first to leave a comment.",
+    "commentPlaceholder": "Write a comment...",
+    "submit": "Post",
+    "loginRequired": "Please sign in."
+  },
+  "flowEditor": {
+    "title": "Create New Flow",
+    "nameLabel": "Flow title *",
+    "namePlaceholder": "e.g., Frontend Beginner Roadmap",
+    "descLabel": "Description",
+    "descPlaceholder": "Brief description of the flow",
+    "public": "Public",
+    "stageConfig": "Stage Configuration",
+    "addStage": "Add stage",
+    "stageName": "Stage name",
+    "stageDescPlaceholder": "Goal or description for this stage (optional)",
+    "contentAddGuide": "You can add content from the detail page after creating the flow",
+    "titleRequired": "Please enter a flow title.",
+    "createFailed": "Failed to create flow.",
+    "cancel": "Cancel",
+    "creating": "Creating...",
+    "create": "Create Flow"
+  },
+  "flowDetail": {
+    "reasonPlaceholder": "Why did you place this content here...",
+    "addDesc": "+ Add description",
+    "searchPlaceholder": "Search...",
+    "myLibrary": "My Library",
+    "allAdded": "All content has been added to the flow",
+    "emptyLibrary": "No content in your library",
+    "dropHere": "Drop here",
+    "dragGuide": "Drag content from the right panel",
+    "emptyStage": "No content yet",
+    "emptyFlow": "No stages yet",
+    "emptyFlowGuide": "Add stages and connect your content.",
+    "startEdit": "Start editing",
+    "addStage": "Add stage",
+    "itemCount": "{count} items"
+  }
+}

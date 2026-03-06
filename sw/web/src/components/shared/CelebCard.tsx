@@ -8,15 +8,16 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Info, UserPlus, Check } from "lucide-react";
+import { Info, ExternalLink } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
-import { toggleFollow } from "@/actions/user";
 import { CelebImage } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { useTranslations, useLocale } from "next-intl";
+import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // #region Types
 type Variant = "card" | "circle" | "medallion";
@@ -71,10 +72,18 @@ export default function CelebCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(celebProfile?.is_following ?? false);
-  const [followLoading, setFollowLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const keyCounter = useRef(0);
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
+  const hasVoice = celebProfile?.has_voice ?? false;
+
+  const playVoice = useCallback((url: string) => {
+    voiceAudioRef.current?.pause();
+    const audio = new Audio(url);
+    audio.volume = 0.7;
+    audio.play().catch(() => {});
+    voiceAudioRef.current = audio;
+  }, []);
 
   // 외부 클릭 시 오버레이 닫기
   useEffect(() => {
@@ -88,10 +97,6 @@ export default function CelebCard({
     return () => document.removeEventListener("mousedown", handler);
   }, [isActive]);
 
-  // celebProfile 변경 시 팔로우 상태 동기화
-  useEffect(() => {
-    setIsFollowing(celebProfile?.is_following ?? false);
-  }, [celebProfile?.is_following]);
 
   const lastGreetingIdx = useRef<number | null>(null);
 
@@ -115,8 +120,13 @@ export default function CelebCard({
       nickname: displayNickname,
       avatarUrl: avatar_url ?? null,
     });
-  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, locale, displayNickname, avatar_url]);
+    if (hasVoice) {
+      playVoice(getVoiceUrl(id, locale as "ko" | "en", "greeting", idx + 1));
+      setVoicePulse(prev => prev + 1);
+    }
+  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, locale, displayNickname, avatar_url, hasVoice, id, playVoice]);
 
+  const [voicePulse, setVoicePulse] = useState(0);
   const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);
   const rippleCounter = useRef(0);
 
@@ -162,32 +172,6 @@ export default function CelebCard({
       setIsLoading(false);
     }
   }, [celebProfile, onOpenModal, index, id]);
-
-  // 팔로우 버튼 → 팔로우 토글 + quote를 DialogueSubtitle로 표시
-  const handleFollowClick = useCallback(async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (followLoading) return;
-
-    setFollowLoading(true);
-    const prev = isFollowing;
-    setIsFollowing(!isFollowing);
-
-    const result = await toggleFollow(id);
-    if (!result.success) {
-      setIsFollowing(prev);
-    } else if (!prev && celebProfile?.quotes && onSubtitle) {
-      // 팔로우 성공 시 quote를 대사 자막으로 표시 (locale별 선택)
-      const displayQuote = (locale === "en" && celebProfile.quotes_en) || celebProfile.quotes;
-      onSubtitle({
-        key: ++keyCounter.current,
-        tone: "composed",
-        text: displayQuote,
-        nickname: displayNickname,
-        avatarUrl: avatar_url ?? null,
-      });
-    }
-    setFollowLoading(false);
-  }, [followLoading, isFollowing, id, celebProfile?.quotes, onSubtitle, nickname, avatar_url]);
 
   // #region Shared Styles
   const spotlightBg = {
@@ -245,6 +229,25 @@ export default function CelebCard({
               className={`z-10 relative ${subjectShadow} transition-transform duration-500 group-hover:scale-105`}
             />
 
+            {/* 음성 지원 뱃지 */}
+            {hasVoice && (
+              <div className="absolute top-1 left-1 z-40">
+                <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] border border-emerald-400/80 animate-[voiceGlow_2s_ease-in-out_infinite]">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 text-white">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  </svg>
+                  {/* 음파 링 */}
+                  {voicePulse > 0 && (
+                    <span
+                      key={voicePulse}
+                      className="absolute w-6 h-6 rounded-full border-2 border-emerald-400 animate-[voiceRing_800ms_ease-out_forwards] pointer-events-none"
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* 콘텐츠 수 뱃지 (오버레이 비활성 시) */}
             {!isActive && count !== undefined && count > 0 && (
               <div className={`${badgeStyles.card} z-20 flex items-center justify-center`}>
@@ -271,24 +274,20 @@ export default function CelebCard({
                   />
                 )}
                 <div className="flex gap-1.5 w-full">
+                  {celebProfile?.slug && (
+                    <Link
+                      href={`/celeb/${celebProfile.slug}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white transition-colors"
+                    >
+                      <ExternalLink size={16} />
+                    </Link>
+                  )}
                   <button
                     onClick={handleInfoClick}
                     className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white transition-colors"
                   >
                     <Info size={16} />
-                  </button>
-                  <button
-                    onClick={handleFollowClick}
-                    disabled={followLoading}
-                    className={`flex-1 flex items-center justify-center py-2 rounded-md transition-all
-                      ${isFollowing
-                        ? "bg-accent/20 border border-accent/40 text-accent"
-                        : "bg-accent border border-accent text-black hover:bg-accent/90"
-                      }
-                      ${followLoading ? "opacity-50" : ""}
-                    `}
-                  >
-                    {isFollowing ? <Check size={16} strokeWidth={3} /> : <UserPlus size={16} />}
                   </button>
                 </div>
               </div>

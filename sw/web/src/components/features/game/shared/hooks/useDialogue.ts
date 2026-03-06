@@ -10,6 +10,7 @@ import { useLocale } from "next-intl";
 import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/types";
 import { VARIANTS_PER_LINE } from "@/lib/game/voice/types";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
+import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 /** [emotion, ...] 태그를 제거하고 순수 대사 텍스트만 반환 */
 export function stripEmotionTag(text: string): string {
@@ -37,13 +38,24 @@ interface UseDialogueOptions {
   onSubtitle?: (sub: DialogueSubtitleData) => void;
   /** 인물별 고유 대사 Map */
   personalDialogues?: Map<string, DialogueLines>;
+  /** 음성 보유 인물 ID Set */
+  voiceCelebIds?: Set<string>;
 }
 
-export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseDialogueOptions) {
+export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds }: UseDialogueOptions) {
   const keyCounter = useRef(0);
   const locale = useLocale() as 'ko' | 'en';
   /** 직전 사용 인덱스 기록 (키: "celebId:type" 또는 "default:key:tone") */
   const lastIndexRef = useRef<Map<string, number>>(new Map());
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playVoice = useCallback((url: string) => {
+    voiceAudioRef.current?.pause();
+    const audio = new Audio(url);
+    audio.volume = 0.6;
+    audio.play().catch(() => {});
+    voiceAudioRef.current = audio;
+  }, []);
 
   /** count 개 중 lastIdx를 제외하고 랜덤 선택 */
   const pickAvoidLast = (count: number, mapKey: string): number => {
@@ -73,6 +85,9 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseD
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
       });
+      if (voiceCelebIds?.has(celebId)) {
+        playVoice(getVoiceUrl(celebId, locale, type, index + 1));
+      }
       return;
     }
 
@@ -89,7 +104,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues }: UseD
         avatarUrl: meta?.avatarUrl,
       });
     }
-  }, [sfxMutedRef, onSubtitle, personalDialogues, locale]);
+  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, locale, playVoice]);
 
   /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
   const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {

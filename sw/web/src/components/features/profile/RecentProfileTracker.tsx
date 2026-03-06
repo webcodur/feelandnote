@@ -12,8 +12,12 @@ interface RecentProfileTrackerProps {
   profile: {
     id: string;
     nickname: string;
+    nickname_en?: string | null;
+    nickname_ko?: string | null;
     avatarUrl: string | null;
     title: string | null;
+    title_en?: string | null;
+    title_ko?: string | null;
     profileType: "USER" | "CELEB";
   };
 }

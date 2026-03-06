@@ -13,6 +13,7 @@ import GameContentItem from "./GameContentItem";
 export interface TimelineCeleb {
   id: string;
   nickname: string;
+  nickname_en?: string | null;
   avatar_url: string | null;
   profession?: string | null;
   birthYear: number;
@@ -21,10 +22,13 @@ export interface TimelineCeleb {
 export interface TimelineContent {
   contentId: string;
   title: string;
+  title_en?: string | null;
   creator: string | null;
+  creator_en?: string | null;
   thumbnailUrl: string | null;
   type: string;
   review: string | null;
+  review_en?: string | null;
   sourceUrl: string | null;
 }
 
@@ -35,6 +39,7 @@ interface CelebContentTimelineProps {
   highlightCelebId?: string | null;
   onReviewClick?: (content: TimelineContent, ownerNickname: string) => void;
   emptyLabel?: string;
+  locale?: string;
 }
 
 export function formatYear(year: number): string {
@@ -49,7 +54,10 @@ export default function CelebContentTimeline({
   highlightCelebId,
   onReviewClick,
   emptyLabel = "등록된 감상 기록 없음",
+  locale,
 }: CelebContentTimelineProps) {
+  const isEn = locale === 'en';
+
   return (
     <div className="relative pl-7">
       {/* 수직선 */}
@@ -58,6 +66,7 @@ export default function CelebContentTimeline({
       {celebs.map((celeb) => {
         const contents = contentsMap[celeb.id];
         const isHighlighted = highlightCelebId === celeb.id;
+        const displayNickname = isEn ? (celeb.nickname_en ?? celeb.nickname) : celeb.nickname;
 
         return (
           <div key={celeb.id} className="relative pb-7 last:pb-0">
@@ -80,14 +89,14 @@ export default function CelebContentTimeline({
                 {celeb.avatar_url ? (
                   <Image
                     src={celeb.avatar_url}
-                    alt={celeb.nickname}
+                    alt={displayNickname}
                     fill
                     sizes="44px"
                     className="object-cover"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sm font-serif text-text-secondary">
-                    {celeb.nickname.charAt(0)}
+                    {displayNickname.charAt(0)}
                   </div>
                 )}
               </div>
@@ -98,11 +107,11 @@ export default function CelebContentTimeline({
                     isHighlighted ? "text-red-400" : "text-white"
                   )}
                 >
-                  {celeb.nickname}
+                  {displayNickname}
                 </p>
                 {celeb.profession && (
                   <p className="text-xs text-text-tertiary">
-                    {getCelebProfessionLabel(celeb.profession)}
+                    {getCelebProfessionLabel(celeb.profession, locale)}
                   </p>
                 )}
               </div>
@@ -120,25 +129,29 @@ export default function CelebContentTimeline({
               </div>
             ) : contents && contents.length > 0 ? (
               <div className="space-y-1.5 ml-1">
-                {contents.map((c) => (
-                  <GameContentItem
-                    key={c.contentId}
-                    contentId={c.contentId}
-                    title={c.title}
-                    creator={c.creator}
-                    thumbnailUrl={c.thumbnailUrl}
-                    type={c.type}
-                    review={c.review}
-                    sourceUrl={c.sourceUrl}
-                    ownerNickname={celeb.nickname}
-                    size="sm"
-                    onClickOverride={
-                      c.review && onReviewClick
-                        ? () => onReviewClick(c, celeb.nickname)
-                        : undefined
-                    }
-                  />
-                ))}
+                {contents.map((c) => {
+                  const displayTitle = isEn ? (c.title_en ?? c.title) : c.title;
+                  const displayCreator = isEn ? (c.creator_en ?? c.creator) : c.creator;
+                  return (
+                    <GameContentItem
+                      key={c.contentId}
+                      contentId={c.contentId}
+                      title={displayTitle}
+                      creator={displayCreator}
+                      thumbnailUrl={c.thumbnailUrl}
+                      type={c.type}
+                      review={isEn ? (c.review_en ?? c.review) : c.review}
+                      sourceUrl={c.sourceUrl}
+                      ownerNickname={displayNickname}
+                      size="sm"
+                      onClickOverride={
+                        c.review && onReviewClick
+                          ? () => onReviewClick(c, displayNickname)
+                          : undefined
+                      }
+                    />
+                  );
+                })}
               </div>
             ) : (
               <p className="text-xs text-text-tertiary ml-1">

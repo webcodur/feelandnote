@@ -1,0 +1,19 @@
+{
+  "celebPage": {
+    "intro": "Introduction",
+    "library": "Library",
+    "libraryEmpty": "No public records in the library yet.",
+    "analysis": "Persona Analysis",
+    "guestbook": "Guestbook",
+    "philosophy": "Philosophy",
+    "innerVirtue": "Inner Virtues",
+    "outerVirtue": "Outer Virtues",
+    "coreDisposition": "Core Disposition",
+    "ability": "Core Abilities",
+    "similarFigures": "Similar Figures",
+    "archiveSuffix": "'s Archives",
+    "archiveEnglish": "Official Sacred Record",
+    "guestbookCta": "Leave your thoughts in the guestbook.",
+    "recordControl": "Record Controls"
+  }
+}

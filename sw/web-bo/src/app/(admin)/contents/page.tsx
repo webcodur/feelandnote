@@ -10,6 +10,7 @@ import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
+import CopyButton from '@/components/ui/CopyButton'
 
 interface PageProps {
   searchParams: Promise<{
@@ -158,80 +159,80 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                   return (
                     <tr key={content.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50 divide-x divide-border">
                       <td className="px-3 md:px-6 py-3 md:py-4">
-                        {content.type === 'BOOK' && editionMap[content.id] ? (() => {
+                        {content.type === 'BOOK' ? (() => {
                           const ko = editionMap[content.id]?.ko
                           const en = editionMap[content.id]?.en
-                          const editionFields = (edition: Edition | undefined, fallbackTitle?: string | null) => [
-                            { key: 'title', value: edition?.title || fallbackTitle || null },
-                            { key: 'creator', value: edition?.creator },
-                            { key: 'isbn', value: edition?.isbn, mono: true },
-                            { key: 'publisher', value: edition?.publisher },
-                            { key: 'thumb', value: edition?.thumbnail_url ? '✓ ' + new URL(edition.thumbnail_url).pathname.split('/').pop() : null, mono: true },
-                          ]
-                          return (
-                            <div className="space-y-2">
-                              <div className="flex gap-2">
-                                {/* KO 에디션 카드 */}
-                                <div className="flex-1 min-w-0 rounded-lg border border-blue-500/20 bg-blue-500/5 p-2">
-                                  <div className="flex gap-2.5">
-                                    <div className="relative w-14 h-20 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
-                                      {ko?.thumbnail_url ? (
-                                        <Image src={ko.thumbnail_url} alt="" fill unoptimized className="object-cover" />
-                                      ) : (
-                                        <span className="text-xs text-text-tertiary font-medium">KO</span>
-                                      )}
-                                    </div>
-                                    <div className="min-w-0 flex-1 space-y-0.5">
-                                      <span className="inline-block text-[9px] font-semibold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 mb-1">KO</span>
-                                      {editionFields(ko, content.title_ko).map(f => (
-                                        <div key={f.key} className="flex items-baseline gap-1.5 text-[10px] leading-tight">
-                                          <span className="text-text-tertiary font-mono shrink-0 w-[72px]">{f.key}</span>
-                                          <span className="text-text-tertiary shrink-0">—</span>
-                                          <span className={`text-text-secondary min-w-0 line-clamp-1 ${f.mono ? 'font-mono' : ''}`}>
-                                            {f.value || '—'}
-                                          </span>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
+                          const hasEditions = !!editionMap[content.id]
+
+                          const thumbSource = (url: string | null | undefined) => {
+                            if (!url) return null
+                            if (url.includes('books.google.com')) return 'google_books'
+                            if (url.includes('openlibrary')) return 'openlibrary'
+                            if (url.includes('pstatic')) return 'naver'
+                            return 'other'
+                          }
+
+                          const field = (key: string, value: string | null | undefined, opts?: { mono?: boolean; copy?: boolean }) => (
+                            <div key={key} className="flex items-center gap-1.5 text-[10px] leading-tight">
+                              <span className="text-text-tertiary font-mono shrink-0 w-[88px]">{key}</span>
+                              <span className={`min-w-0 line-clamp-1 ${value ? 'text-text-secondary' : 'text-text-tertiary/30'} ${opts?.mono ? 'font-mono' : ''}`} title={value || undefined}>
+                                {value || '—'}
+                              </span>
+                              {opts?.copy && value && <CopyButton value={value} />}
+                            </div>
+                          )
+
+                          const editionCard = (
+                            locale: 'ko' | 'en',
+                            edition: Edition | undefined,
+                            borderColor: string,
+                            bgColor: string,
+                            labelColor: string,
+                          ) => (
+                            <div className={`flex-1 min-w-0 rounded-lg border ${borderColor} ${bgColor} p-2`}>
+                              <div className="flex gap-2.5">
+                                <div className="relative w-14 h-20 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
+                                  {edition?.thumbnail_url ? (
+                                    <Image src={edition.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+                                  ) : (
+                                    <span className="text-[10px] text-text-tertiary/40 font-mono">{locale.toUpperCase()}</span>
+                                  )}
                                 </div>
-                                {/* EN 에디션 카드 */}
-                                <div className="flex-1 min-w-0 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-2">
-                                  <div className="flex gap-2.5">
-                                    <div className="relative w-14 h-20 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
-                                      {en?.thumbnail_url ? (
-                                        <Image src={en.thumbnail_url} alt="" fill unoptimized className="object-cover" />
-                                      ) : (
-                                        <span className="text-xs text-text-tertiary font-medium">EN</span>
-                                      )}
-                                    </div>
-                                    <div className="min-w-0 flex-1 space-y-0.5">
-                                      <span className="inline-block text-[9px] font-semibold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 mb-1">EN</span>
-                                      {editionFields(en, content.title_en).map(f => (
-                                        <div key={f.key} className="flex items-baseline gap-1.5 text-[10px] leading-tight">
-                                          <span className="text-text-tertiary font-mono shrink-0 w-[72px]">{f.key}</span>
-                                          <span className="text-text-tertiary shrink-0">—</span>
-                                          <span className={`text-text-secondary min-w-0 line-clamp-1 ${f.mono ? 'font-mono' : ''}`}>
-                                            {f.value || '—'}
-                                          </span>
-                                        </div>
-                                      ))}
-                                    </div>
+                                <div className="min-w-0 flex-1 space-y-0.5">
+                                  <div className="flex items-center gap-1.5 mb-1">
+                                    <span className={`inline-block text-[9px] font-semibold px-1.5 py-0.5 rounded font-mono ${labelColor}`}>
+                                      edition:{locale}
+                                    </span>
+                                    {edition && thumbSource(edition.thumbnail_url) && (
+                                      <span className="text-[9px] text-text-tertiary/50 font-mono">{thumbSource(edition.thumbnail_url)}</span>
+                                    )}
                                   </div>
+                                  {field(`title_${locale}`, edition?.title)}
+                                  {field(`creator_${locale}`, edition?.creator)}
+                                  {field(`isbn_${locale}`, edition?.isbn, { mono: true })}
+                                  {field(`publisher_${locale}`, edition?.publisher)}
+                                  {field(`thumb_${locale}`, edition?.thumbnail_url, { mono: true, copy: true })}
                                 </div>
                               </div>
-                              {/* 공통 메타 */}
-                              <div className="rounded border border-border/50 bg-bg-secondary/50 px-2 py-1.5 space-y-0.5">
-                                <div className="flex items-baseline gap-1.5 text-[10px] leading-tight">
-                                  <span className="text-text-tertiary font-mono shrink-0 w-[72px]">content_id</span>
-                                  <span className="text-text-tertiary shrink-0">—</span>
-                                  <span className="text-text-secondary font-mono">{content.id}</span>
+                            </div>
+                          )
+
+                          return (
+                            <div className="space-y-2">
+                              {hasEditions ? (
+                                <div className="flex gap-2">
+                                  {editionCard('ko', ko, 'border-blue-500/20', 'bg-blue-500/5', 'bg-blue-500/15 text-blue-400')}
+                                  {editionCard('en', en, 'border-emerald-500/20', 'bg-emerald-500/5', 'bg-emerald-500/15 text-emerald-400')}
                                 </div>
-                                <div className="flex items-baseline gap-1.5 text-[10px] leading-tight">
-                                  <span className="text-text-tertiary font-mono shrink-0 w-[72px]">source</span>
-                                  <span className="text-text-tertiary shrink-0">—</span>
-                                  <span className="text-text-secondary">{content.external_source || '—'}</span>
+                              ) : (
+                                <div className="flex gap-2">
+                                  {editionCard('ko', undefined, 'border-dashed border-border/30', 'bg-bg-secondary/10', 'bg-gray-500/10 text-text-tertiary/40')}
+                                  {editionCard('en', undefined, 'border-dashed border-border/30', 'bg-bg-secondary/10', 'bg-gray-500/10 text-text-tertiary/40')}
                                 </div>
+                              )}
+                              {/* content_id */}
+                              <div className="text-[10px] text-text-tertiary/50 font-mono truncate px-1">
+                                {content.id}
                               </div>
                             </div>
                           )

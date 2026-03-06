@@ -338,7 +338,7 @@ export default function HomeRecordSection({
 
         <section className="min-h-[500px] flex flex-col gap-8 relative animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* 2. Search Area: Category Tabs & Search Bar */}
-            <HomeSearchArea 
+            <HomeSearchArea
                 selectedCategory={selectedCategory}
                 onCategoryChange={setSelectedCategory}
                 query={query}
@@ -346,7 +346,6 @@ export default function HomeRecordSection({
                 isSearching={false}
                 searchResults={searchResults}
                 onResultClick={handleSearchResultClick}
-                placeholder={currentCategoryConfig?.placeholder}
             />
 
         {/* 3. Editor Area: RecordEditor & Search Helper */}

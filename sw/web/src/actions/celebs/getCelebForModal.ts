@@ -91,5 +91,6 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     tags,
     greeting: (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null,
     greeting_en: (dialogueResult.data?.lines_en as Record<string, string[]> | null)?.greeting ?? null,
+    has_voice: profile.has_voice ?? false,
   }
 }

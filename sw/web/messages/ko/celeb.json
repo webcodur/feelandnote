@@ -1,0 +1,19 @@
+{
+  "celebPage": {
+    "intro": "인물 소개",
+    "library": "기록 서고",
+    "libraryEmpty": "아직 공개된 기록의 서고가 비어있습니다.",
+    "analysis": "인물 분석",
+    "guestbook": "방명록",
+    "philosophy": "감상 철학",
+    "innerVirtue": "내적 미덕",
+    "outerVirtue": "외적 미덕",
+    "coreDisposition": "핵심 성향",
+    "ability": "핵심 능력",
+    "similarFigures": "닮은꼴 인물",
+    "archiveSuffix": "의 기록관",
+    "archiveEnglish": "Official Sacred Record",
+    "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
+    "recordControl": "기록 제어"
+  }
+}

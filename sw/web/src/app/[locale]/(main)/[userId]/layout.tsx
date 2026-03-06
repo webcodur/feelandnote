@@ -56,8 +56,12 @@ export default async function UserLayout({ children, params }: LayoutProps) {
         profile={{
           id: userId,
           nickname: profile.nickname,
+          nickname_en: profile.nickname_en,
+          nickname_ko: profile.nickname_ko,
           avatarUrl: profile.avatar_url ?? null,
           title: profile.title ?? null,
+          title_en: profile.title_en,
+          title_ko: profile.title_ko,
           profileType: profile.profile_type as "USER" | "CELEB",
         }}
       />

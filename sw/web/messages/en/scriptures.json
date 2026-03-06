@@ -1,0 +1,307 @@
+{
+  "scriptures": {
+    "section": "Scriptures",
+    "tabs": {
+      "era": {
+        "label": "Masterpieces",
+        "description": "Timeless masterpieces and era-defining works"
+      },
+      "profession": {
+        "label": "Crossroads",
+        "description": "Recommended content by profession"
+      },
+      "museum": {
+        "label": "Museum",
+        "description": "A chronicle of human knowledge and media"
+      },
+      "academy": {
+        "label": "Academy",
+        "description": "Reading methods comparison, harmony lessons, and more"
+      }
+    },
+    "meta": {
+      "title": "Scriptures",
+      "description": "A curated archive organized by era, profession, and figure. Explore the reading lists of notable figures, from timeless classics to modern masterpieces."
+    },
+    "figure": {
+      "metaTitle": "Today's Figure | Scriptures",
+      "metaDescription": "Discover a new figure's reading shelf every day. See what today's figure read, watched, and listened to."
+    },
+    "era": {
+      "metaTitle": "Masterpieces | Scriptures",
+      "metaDescription": "Explore iconic works and must-reads from every era."
+    },
+    "museum": {
+      "metaTitle": "Museum | Scriptures",
+      "metaDescription": "Trace the evolution of human knowledge media and content formats.",
+      "pageTitle": "Chronicle of Content",
+      "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
+      "keyContents": "Key Contents",
+      "present": "Present",
+      "representativeTypeface": "Representative Typefaces",
+      "usageContext": "Usage Context",
+      "foldEssay": "Fold essay",
+      "unfoldEssay": "Unfold essay",
+      "category": {
+        "book": {
+          "label": "Books",
+          "description": "From clay tablets to e-books: a 5,000-year chronicle of recording media"
+        },
+        "video": {
+          "label": "Video",
+          "description": "From magic lanterns to streaming: the history of moving light"
+        },
+        "music": {
+          "label": "Music",
+          "description": "From oral melodies to digital audio: a chronicle of sound"
+        },
+        "game": {
+          "label": "Games",
+          "description": "From dice to virtual reality: the evolution of play"
+        }
+      },
+      "sub": {
+        "book": {
+          "media": {
+            "label": "Media",
+            "description": "From clay tablets to e-books: the evolution of recording media over 5,000 years"
+          },
+          "writing_tool": {
+            "label": "Writing Tools",
+            "description": "From reed pens to digital pens: the evolution of writing instruments"
+          },
+          "typography": {
+            "label": "Typography",
+            "description": "From pictographs to digital fonts: the evolution of typeface design"
+          }
+        },
+        "video": {
+          "media": {
+            "label": "Media",
+            "description": "From magic lanterns to streaming: the evolution of projection media and formats"
+          },
+          "technique": {
+            "label": "Techniques",
+            "description": "From optical illusions to CGI: the evolution of technology turning imagination into reality"
+          },
+          "space": {
+            "label": "Spaces",
+            "description": "From single-screen theaters to living room displays: the evolution of viewing experiences"
+          }
+        },
+        "music": {
+          "media": {
+            "label": "Media",
+            "description": "From oral melodies to digital audio: the history of sound storage and transmission"
+          },
+          "instrument": {
+            "label": "Instruments",
+            "description": "From percussion to digital synthesizers: the evolution of sound-making tools"
+          },
+          "experience": {
+            "label": "Listening",
+            "description": "From ritual halls to algorithms: the evolution of where and how we listen to music"
+          }
+        },
+        "game": {
+          "platform": {
+            "label": "Platforms",
+            "description": "From board games to cloud: the evolution of gaming environments"
+          },
+          "interface": {
+            "label": "Interfaces",
+            "description": "From dice to VR controllers: the evolution of how we interact with games"
+          },
+          "graphics": {
+            "label": "Graphics",
+            "description": "From text to ray tracing: the evolution of how games render worlds"
+          }
+        }
+      }
+    },
+    "academy": {
+      "metaTitle": "Academy | Scriptures",
+      "metaDescription": "Reading methods comparison, harmony lessons, and systematic educational content.",
+      "pageTitle": "Academy of Wisdom",
+      "defaultDescription": "From reading methods analysis to harmony lessons, explore systematic educational content.",
+      "eyebrow": "Academy",
+      "categoryTabsLabel": "Select academy category",
+      "subCategoryTabsLabel": "Select academy topic",
+      "comparisonSectionTitle": "Reading Methods Comparison",
+      "lessonSectionTitle": "Harmony & Notation",
+      "lessonNavigationTitle": "Lessons",
+      "lessonNavigationLabel": "Harmony lesson table of contents",
+      "mobileLessonNavigationLabel": "Quick navigation for harmony lessons",
+      "progressTitle": "Study Progress",
+      "progressSummary": "{completed}/{total} completed",
+      "progressRecentLesson": "Recent lesson: {title}",
+      "progressEmpty": "Open a lesson to save where you left off.",
+      "progressGuest": "Sign in to save lesson progress.",
+      "continueLesson": "Resume",
+      "previousBtn": "Previous",
+      "nextBtn": "Next",
+      "remainingExamples": "More examples",
+      "essayMeta": "{author} · {minutes} min read",
+      "foldEssay": "Fold essay",
+      "unfoldEssay": "Unfold essay",
+      "readingMethod": "Reading Method",
+      "speed": "Speed",
+      "memoryRetention": "Memory Retention",
+      "suitableSituation": "Suitable Situations",
+      "activatedBrainRegion": "Activated Brain Region",
+      "comprehension": "Comprehension",
+      "speedLevel": {
+        "slow": "Slow",
+        "medium": "Medium",
+        "fast": "Fast",
+        "variable": "Variable"
+      },
+      "lesson": {
+        "objectives": "Objectives",
+        "foldContent": "Fold content",
+        "unfoldContent": "Unfold content",
+        "completionCheckbox": "Study check",
+        "completedBadge": "Completed",
+        "recentBadge": "Recent",
+        "guestHint": "Sign in to save",
+        "sheetExamples": "Sheet Examples",
+        "difficulty": {
+          "beginner": "Beginner",
+          "intermediate": "Intermediate",
+          "advanced": "Advanced"
+        }
+      },
+      "sheetPlayer": {
+        "play": "Play",
+        "stop": "Stop",
+        "loading": "Loading",
+        "playLabel": "Play sheet example",
+        "stopLabel": "Stop sheet example"
+      },
+      "category": {
+        "book": {
+          "label": "Books",
+          "description": "Reading methods comparison"
+        },
+        "music": {
+          "label": "Music",
+          "description": "Harmony lessons"
+        }
+      },
+      "sub": {
+        "book": {
+          "foundations": {
+            "label": "Reading Basics",
+            "description": "Core reading modes such as oral reading, silent reading, and intensive reading"
+          },
+          "strategies": {
+            "label": "Reading Strategies",
+            "description": "Practice-driven methods like speed reading, extensive reading, and transcription"
+          },
+          "digital": {
+            "label": "Digital Reading",
+            "description": "How screens, links, and multitasking reshape the way we read"
+          }
+        },
+        "music": {
+          "fundamentals": {
+            "label": "Fundamentals",
+            "description": "Learn the grammar of music through sound, notation, rhythm, and intervals"
+          },
+          "scales": {
+            "label": "Scales & Keys",
+            "description": "Understand how scales and key signatures shape tonal center and mood"
+          },
+          "chords": {
+            "label": "Chords & Motion",
+            "description": "Study triads, seventh chords, and progressions as the backbone of harmony"
+          },
+          "analysis": {
+            "label": "Song Analysis",
+            "description": "Tie the theory together by reading real music through harmonic analysis"
+          }
+        }
+      }
+    },
+    "profession": {
+      "metaTitle": "Crossroads | Scriptures",
+      "metaDescription": "Discover the must-reads and recommended works chosen by leaders, scientists, artists, and more."
+    },
+    "page": {
+      "section": {
+        "sage": {
+          "label": "Today's Figure",
+          "description": "A new figure is featured every day at midnight"
+        },
+        "chosen": {
+          "label": "Common Shelf",
+          "description": "Works appreciated by the most figures"
+        },
+        "profession": {
+          "label": "Crossroads",
+          "description": "Must-reads by profession"
+        },
+        "era": {
+          "label": "Works of the Era",
+          "description": "Curated picks from each era"
+        },
+        "museum": {
+          "label": "Museum",
+          "description": "A chronicle of human knowledge media and content"
+        },
+        "academy": {
+          "label": "Academy",
+          "description": "Reading methods, harmony lessons, and more"
+        }
+      },
+      "toc": "Table of Contents",
+      "openToc": "Open table of contents",
+      "close": "Close",
+      "viewFullLibrary": "View full library",
+      "moreCount": "+{count} more",
+      "reviewCount": "{count} records",
+      "newsMention": "Mentioned in {count} news",
+      "celebCount": "({count} figures)",
+      "empty": {
+        "noFigure": "No figure of the day",
+        "noRecords": "No records found",
+        "noCategory": "No works in this category",
+        "noProfession": "No works in this field",
+        "noProfessionData": "No data by profession",
+        "noEra": "No works from this era",
+        "noEraData": "No data by era",
+        "noData": "No data available",
+        "noWorks": "No works found",
+        "noEraSection": "No data for this era"
+      },
+      "defaultBio": "A figure of our time.",
+      "eraPage": {
+        "title": "Timeless Works",
+        "description": "Masterpieces and must-reads across all eras.",
+        "descriptionSub": "Discover the works chosen by the greatest figures in history.",
+        "allEras": "All Eras",
+        "eraAndCategory": "Era & Category",
+        "worksList": "Works",
+        "figureCount": "{count} figures",
+        "worksCount": "{count} works",
+        "crossEraDescription": "Works chosen by the most figures across all eras.\nWhen countless great minds chose the same book, it's no coincidence.",
+        "symbolOfEra": "Icons of the Era",
+        "eraTabs": {
+          "all": "All",
+          "contemporary": "Contemporary",
+          "modern": "Modern",
+          "medieval": "Medieval",
+          "ancient": "Ancient"
+        }
+      },
+      "professionPage": {
+        "title": "Crossroads",
+        "description": "Must-reads by profession.",
+        "descriptionSub": "What did the predecessors on your path read?",
+        "selectProfession": "Select Profession",
+        "representativePrefix": "Top ",
+        "recommendedWorks": "Recommended Works"
+      }
+    }
+  }
+}

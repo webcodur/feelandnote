@@ -1,0 +1,304 @@
+{
+  "content": {
+    "category": {
+      "all": "All",
+      "book": "Books",
+      "video": "Videos",
+      "game": "Games",
+      "music": "Music",
+      "certificate": "Certificates"
+    },
+    "placeholder": {
+      "book": "Title, author...",
+      "video": "Movie, drama...",
+      "game": "Game title...",
+      "music": "Album, artist...",
+      "certificate": "Certificate..."
+    },
+    "unit": {
+      "book": "books",
+      "video": "titles",
+      "game": "games",
+      "music": "tracks",
+      "certificate": "certs"
+    },
+    "creator": {
+      "book": "Author",
+      "video": "Director",
+      "game": "Developer",
+      "music": "Artist",
+      "certificate": "Issuer"
+    },
+    "edition": {
+      "ko": "Korean",
+      "en": "English",
+      "noKo": "No Korean edition",
+      "noEn": "No English edition",
+      "noKoDesc": "No Korean translation available for this book.",
+      "noEnDesc": "No English edition available for this book."
+    },
+    "reviewModal": {
+      "review": "Review",
+      "ownerReview": "{name}'s Review",
+      "spoiler": "Contains spoilers",
+      "noReview": "No review written",
+      "source": "Source: {url}",
+      "noSource": "⚠️ Source URL missing",
+      "detail": "View Details"
+    }
+  },
+  "contentDetail": {
+    "back": "Go back",
+    "contentInfo": "Content Info",
+    "myReview": "My Review",
+    "myNote": "My Notes",
+    "private": "Private",
+    "othersReviews": "Reviews from Others",
+    "category": {
+      "book": "Book",
+      "video": "Video",
+      "game": "Game",
+      "music": "Music",
+      "certificate": "Certificate",
+      "all": "All"
+    },
+    "addFailed": "Failed to add",
+    "deleteConfirm": "Are you sure you want to remove this content from your archives?",
+    "introduction": "Introduction",
+    "storyline": "Storyline",
+    "director": "Director",
+    "runtime": "Runtime",
+    "runtimeMinutes": "{minutes} min",
+    "cast": "Cast",
+    "trackList": "Track List",
+    "label": "Label",
+    "screenshots": "Screenshots",
+    "buyAt": "Buy on {platform}",
+    "addRecord": "Add to Archives",
+    "recorded": "Recorded",
+    "loginPrompt": "Sign in to add this to your archives",
+    "review": {
+      "anonymous": "Anonymous",
+      "spoilerWarning": "This review contains spoilers. Click to reveal",
+      "hideSpoiler": "Hide spoiler",
+      "source": "Source:",
+      "noReviews": "No reviews yet",
+      "loadMore": "Load more",
+      "rating": "Rating",
+      "placeholder": "Share your thoughts on this work freely.",
+      "containsSpoiler": "Contains spoiler",
+      "save": "Save",
+      "register": "Submit"
+    },
+    "relativeTime": {
+      "justNow": "Just now",
+      "minutesAgo": "{minutes}m ago",
+      "hoursAgo": "{hours}h ago",
+      "daysAgo": "{days}d ago"
+    },
+    "spotify": {
+      "mobileNotice": "Only 30-second previews are available on mobile browsers.",
+      "pcPrefix": "On PC, ",
+      "login": "sign in to Spotify",
+      "pcSuffix": " and return to enjoy full tracks. Complete Spotify age verification to access all songs."
+    },
+    "externalLinks": "External Links",
+    "recentContents": "Recently Viewed"
+  },
+  "review": {
+    "positive": {
+      "POS_01": "Highly Recommend",
+      "POS_02": "Fun",
+      "POS_03": "Informative",
+      "POS_04": "Moving",
+      "POS_05": "Well Made",
+      "POS_06": "Worth Revisiting",
+      "POS_07": "Deep Content",
+      "POS_08": "Time Flew By",
+      "POS_09": "My Taste Exactly",
+      "POS_10": "Immersive"
+    },
+    "negative": {
+      "NEG_01": "Difficult",
+      "NEG_02": "Boring",
+      "NEG_03": "Disappointing",
+      "NEG_04": "Not Recommended",
+      "NEG_05": "Below Expectations",
+      "NEG_06": "Hard to Focus",
+      "NEG_07": "Too Predictable"
+    },
+    "neutral": {
+      "NEU_01": "Average",
+      "NEU_02": "Thought-Provoking",
+      "NEU_03": "Decent",
+      "NEU_04": "Depends on Taste",
+      "NEU_05": "Good for Killing Time"
+    },
+    "groupLabel": {
+      "positive": "Positive",
+      "negative": "Negative",
+      "neutral": "Neutral & Other"
+    },
+    "book": {
+      "BOOK_01": {
+        "keyword": "Page Turner",
+        "description": "Couldn't put it down, finished in one sitting"
+      },
+      "BOOK_02": {
+        "keyword": "Knowledge Bomb",
+        "description": "Packed with new insights and knowledge"
+      },
+      "BOOK_03": {
+        "keyword": "Beautiful Writing",
+        "description": "Stunning or powerful prose"
+      },
+      "BOOK_04": {
+        "keyword": "Lingering Aftertaste",
+        "description": "Kept thinking about it long after"
+      },
+      "BOOK_05": {
+        "keyword": "Hard Read",
+        "description": "Too difficult or heavy to get through"
+      }
+    },
+    "music": {
+      "MUSIC_01": {
+        "keyword": "Earworm",
+        "description": "Melody sticks in your head, keeps you humming"
+      },
+      "MUSIC_02": {
+        "keyword": "Mood Booster",
+        "description": "Instantly lifts your mood"
+      },
+      "MUSIC_03": {
+        "keyword": "Addictive",
+        "description": "Can't stop hitting replay"
+      },
+      "MUSIC_04": {
+        "keyword": "Relatable Lyrics",
+        "description": "Lyrics perfectly match my situation"
+      },
+      "MUSIC_05": {
+        "keyword": "Amazing Production",
+        "description": "Top-tier audio quality and mixing"
+      }
+    },
+    "video": {
+      "VIDEO_01": {
+        "keyword": "Plot Twist",
+        "description": "Mind-blowing twists and turns"
+      },
+      "VIDEO_02": {
+        "keyword": "Eye Candy",
+        "description": "Gorgeous cinematography and visuals"
+      },
+      "VIDEO_03": {
+        "keyword": "Hilarious",
+        "description": "Laughed until it hurt"
+      },
+      "VIDEO_04": {
+        "keyword": "Tearjerker",
+        "description": "Emotional overload, couldn't hold back tears"
+      },
+      "VIDEO_05": {
+        "keyword": "Brilliant Editing",
+        "description": "Masterful editing and direction"
+      }
+    },
+    "game": {
+      "GAME_01": {
+        "keyword": "Addictive",
+        "description": "Lost track of time playing"
+      },
+      "GAME_02": {
+        "keyword": "Great Multiplayer",
+        "description": "Really fun in online/co-op mode"
+      },
+      "GAME_03": {
+        "keyword": "Smooth Controls",
+        "description": "Satisfying and responsive controls"
+      },
+      "GAME_04": {
+        "keyword": "Story Immersion",
+        "description": "Completely drawn into the narrative"
+      },
+      "GAME_05": {
+        "keyword": "Broken Balance",
+        "description": "Poor balance ruined the fun"
+      }
+    },
+    "certificate": {
+      "CERT_01": {
+        "keyword": "Worth Getting",
+        "description": "Actually helped with career and salary"
+      },
+      "CERT_02": {
+        "keyword": "Practical Skills",
+        "description": "Directly applicable to real work"
+      },
+      "CERT_03": {
+        "keyword": "Reasonable Study Load",
+        "description": "Reasonable prep time and amount"
+      },
+      "CERT_04": {
+        "keyword": "Fair Difficulty",
+        "description": "Not as hard as expected"
+      },
+      "CERT_05": {
+        "keyword": "Good Fundamentals",
+        "description": "Great for building basic understanding"
+      },
+      "CERT_06": {
+        "keyword": "Not Worth the Time",
+        "description": "Poor return on investment"
+      },
+      "CERT_07": {
+        "keyword": "Tough Preparation",
+        "description": "The preparation process was grueling"
+      },
+      "CERT_08": {
+        "keyword": "Dump-Dependent",
+        "description": "Passable with practice tests and dumps"
+      },
+      "CERT_09": {
+        "keyword": "First-Try Passable",
+        "description": "Easy enough to pass on the first attempt"
+      },
+      "CERT_10": {
+        "keyword": "Worth Retrying",
+        "description": "Failed but motivated to try again"
+      }
+    }
+  },
+  "musicPlayer": {
+    "title": "Music Player",
+    "close": "Close",
+    "album": "Album",
+    "track": "Track",
+    "delete": "Remove",
+    "playGuide": "Playback Guide",
+    "confirm": "OK",
+    "loading": "Loading...",
+    "empty": "No music to display",
+    "emptyHint": "Music with interested or listened status will appear here",
+    "noticeWantStatus": "Music with {want} or {finished} status will appear here.",
+    "noticeSpotify": "Log in to {login} on PC browser to play full tracks freely.",
+    "noticeSpotifyLogin": "Spotify",
+    "noticeAge": "For age-restricted tracks, {action} to trigger age verification. Return after verification to play normally.",
+    "noticeAgeAction": "try playing the track in the Spotify app"
+  },
+  "customContent": {
+    "modalTitle": "Custom registration",
+    "searchGuide": " when you can't find the content you're looking for.",
+    "search": "Search",
+    "category": "Category",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Enter content title",
+    "creatorOptional": "{label} (optional)",
+    "status": "Status",
+    "titleRequired": "Please enter a title.",
+    "addFailed": "An error occurred while adding content.",
+    "cancel": "Cancel",
+    "add": "Add"
+  }
+}

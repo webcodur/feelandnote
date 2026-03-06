@@ -254,6 +254,7 @@ function SearchContent() {
         const releaseDate = "releaseDate" in item ? item.releaseDate : undefined;
         const metadata = "metadata" in item ? (item.metadata as Record<string, unknown>) : undefined;
         const subtype = "subtype" in item ? (item.subtype as string) : undefined;
+        const externalSource = "externalSource" in item ? (item.externalSource as string) : undefined;
 
         await addContent({
           id: item.id,
@@ -265,7 +266,7 @@ function SearchContent() {
           releaseDate,
           metadata,
           subtype,
-          // status 제거
+          externalSource,
         });
         setAddedIds((prev) => new Set(prev).add(item.id));
         setSavedIds((prev) => new Set(prev).add(item.id));

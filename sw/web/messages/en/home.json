@@ -1,0 +1,264 @@
+{
+  "home": {
+    "explore": {
+      "englishTitle": "Notable Figures",
+      "description": "Discover notable figures and the content they enjoyed.",
+      "link": "Go to Explore"
+    },
+    "scriptures": {
+      "englishTitle": "Curated Reads",
+      "description": "Check today's figure, shared shelves, and career-based picks.",
+      "link": "Go to Scriptures"
+    },
+    "agora": {
+      "englishTitle": "The Agora",
+      "description": "Connect with other users and check feeds.",
+      "link": "Go to Agora"
+    },
+    "rest": {
+      "englishTitle": "Take a Rest",
+      "description": "Take a break with casual mini-games.",
+      "link": "Go to Rest"
+    },
+    "archive": {
+      "englishTitle": "Personal Collection",
+      "description": "Record and manage the content you've enjoyed.",
+      "link": "Go to My Archives"
+    },
+    "ui": {
+      "searchPlaceholder": "Search figures...",
+      "searchButton": "Search",
+      "controlTitle": "Search Controls",
+      "filterProfession": "Profession",
+      "filterNationality": "Nationality",
+      "filterContent": "Content",
+      "filterGender": "Gender",
+      "filterSort": "Sort",
+      "all": "All",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "nationalityNone": "Unknown",
+      "defaultSort": "By Content Count",
+      "genre": "Genre",
+      "visitArchive": "Visit Archives",
+      "visitArchiveConfirm": "Go to {name}'s archives?",
+      "cancel": "Cancel",
+      "go": "Go",
+      "activity": "Activity",
+      "wisdomSeeker": "Seeker of Wisdom",
+      "recorder": "Recorder",
+      "followingLabel": "Following",
+      "followLabel": "Follow",
+      "prevSection": "Previous section",
+      "nextSection": "Next section",
+      "toTop": "Back to top",
+      "loginRequired": "Login required.",
+      "celebArchive": "Celeb Archives",
+      "friendActivity": "Friend Activity",
+      "contentUnit": "items",
+      "sort": {
+        "daily_recommend": "Today's Picks",
+        "composite": "Composite Score",
+        "follower": "Followers",
+        "influence": "Influence",
+        "content_count": "Content Count",
+        "name_asc": "Name",
+        "birth_date_desc": "Recent Birth",
+        "birth_date_asc": "Oldest Birth"
+      },
+      "characterInfo": "Character Info",
+      "viewingRecords": "Viewing Records",
+      "loadingRecords": "Loading records...",
+      "viewProfile": "View Profile",
+      "reviewCount": "{name}'s {count} records",
+      "keywords": "{name}'s Keywords",
+      "followerUnit": "{count}",
+      "loadMore": "Load more ({count} remaining)",
+      "empty": {
+        "noCelebs": "No celebs in this profession",
+        "allLoaded": "All reviews loaded",
+        "noReviews": "No reviews yet",
+        "noReviewsDesc": "Celeb content reviews are coming soon.\nStay tuned!",
+        "noFriendActivity": "No friend activity yet",
+        "noFriendActivityDesc": "Follow friends to see their activity here",
+        "noPublicReviews": "No public reviews yet",
+        "pleaseWait": "Please check back later",
+        "noRecords": "No inspirations recorded yet.",
+        "createFirst": "Create your first record",
+        "createOwn": "Start my archive"
+      },
+      "influence": {
+        "analyzing": "Analyzing influence...",
+        "loadError": "Unable to load information",
+        "close": "Close",
+        "topInfluence": "Top Influence",
+        "categoryDetail": "Category Details"
+      },
+      "tags": {
+        "noDescription": "No detailed description available."
+      },
+      "banner": {
+        "headline": "Feel, and Record",
+        "description": "Books, movies, music, games... Record every experience\nand build your trail of inspiration."
+      },
+      "navLinks": {
+        "moreCelebs": "Explore More Figures",
+        "moreCelebsDesc": "Meet figures across eras and fields",
+        "moreResources": "Browse More Resources",
+        "moreResourcesDesc": "Explore the wisdom left by notable figures"
+      },
+      "tabs": {
+        "todayFigure": "Today's Figure",
+        "quickRecord": "Quick Record",
+        "intro": "Record your cultural legacy\nand meet timeless wisdom.",
+        "introSub": "Books, movies, music, and stories of great figures.\nThis is where your inspiration rests."
+      }
+    }
+  },
+  "banner": {
+    "archiveSuffix": "'s Archives",
+    "archiveEnglish": "Official Sacred Record"
+  },
+  "todayFigure": {
+    "dateLabel": "Today's Figure · {month}/{day}",
+    "subtitle": "Discover a new figure and the content they enjoyed every day",
+    "newsSelected": "Selected for being mentioned in {count} news articles in the last 48 hours",
+    "guestbookCta": "Leave your thoughts in the guestbook.",
+    "emptyCategory": "No records in this category",
+    "viewAll": "View all",
+    "libraryLabelEmpty": "{profession} {nickname}'s collection",
+    "libraryLabelFull": "{profession} {nickname}'s collection: {items}",
+    "bookCount": "{count, plural, one {# book} other {# books}}",
+    "videoCount": "{count, plural, one {# movie} other {# movies}}",
+    "musicCount": "{count, plural, one {# track} other {# tracks}}",
+    "gameCount": "{count, plural, one {# game} other {# games}}"
+  },
+  "landing": {
+    "spotlights": "Spotlights",
+    "viewAll": "View All",
+    "openSoon": "Open Soon",
+    "number": "No.",
+    "defaultDescription": "Explore the cultural journeys of history's greatest figures.",
+    "goToExplore": "Go to explore",
+    "noSpotlights": "No featured spotlights at the moment."
+  },
+  "quickRecord": {
+    "section": {
+      "addedToLibrary": "Added to your library. Leave a record about this work.",
+      "reviewPlaceholder": "Leave a short review (optional)",
+      "doLater": "Later",
+      "saving": "Saving...",
+      "recordComplete": "Done",
+      "saveError": "An error occurred while saving your record."
+    },
+    "editor": {
+      "write": "Write",
+      "preview": "Preview",
+      "save": "Save",
+      "editorPlaceholder": "What inspiration did you find?\nFeel free to record your thoughts.",
+      "noContent": "No content written yet.",
+      "workInfo": "Work Info",
+      "externalSearch": "External Search",
+      "myReview": "My Review",
+      "addKeyword": "Add Keyword",
+      "notRated": "Not rated",
+      "writeMode": "Write",
+      "readMode": "Read",
+      "recommendPlaceholder": "Celebs highly recommend 《{title}》.\nIf you've experienced it, leave an honest review.",
+      "defaultPlaceholder": "Freely record the inspiration you found.\n\n Format your text with these symbols:\n \n • 《Title》 : Emphasize titles or big themes (Bold)\n • \"Quote\" : Highlight important sentences (Accent)\n • '<'Keyword'>' : Emphasize specific words (Serif)"
+    },
+    "search": {
+      "noPresets": "No search presets available for this content type.",
+      "clickHint": "Click each item to see search results on screen.",
+      "contentSearch": "Content Search",
+      "searchPlaceholder": "Search for a work to record...",
+      "searching": "Searching...",
+      "addRecord": "Record",
+      "noResults": "No results found."
+    },
+    "external": {
+      "headerTitle": "Explore External Resources",
+      "resetResults": "Clear Results",
+      "searchResults": "Search Results:",
+      "noResults": "No results found."
+    },
+    "preset": {
+      "selectKeywords": "Select Review Keywords",
+      "noKeywords": "No keywords registered.",
+      "selectionComplete": "Done"
+    },
+    "linkPreview": {
+      "webPage": "Web Page",
+      "reader": "Reader",
+      "original": "Original",
+      "openInBrowser": "Open in Browser",
+      "closeEsc": "Close (ESC)",
+      "loadingContent": "Loading page content...",
+      "readerUnavailable": "Reader mode is not available for this page.",
+      "switchToOriginal": "Switch to Original",
+      "connectionRefused": "Connection refused.",
+      "securityPolicy": "This site ({hostname}) does not allow preview due to its security policy (X-Frame-Options).",
+      "openInNewWindow": "Open in New Window",
+      "readerHint": "Reader mode shows text and images only.",
+      "originalHint": "If the page doesn't load, try 'Open in Browser'."
+    },
+    "info": {
+      "basic": "Basic",
+      "detail": "Detail",
+      "celebReview": "Celeb Reviews",
+      "normalReview": "User Reviews",
+      "viewDetail": "View Detail",
+      "introduction": "Introduction",
+      "storyline": "Storyline",
+      "trailer": "Trailer",
+      "listen": "Preview",
+      "director": "Director",
+      "cast": "Cast",
+      "runtime": "Runtime",
+      "runtimeMin": "{min} min",
+      "trackList": "Track List",
+      "label": "Label",
+      "screenshots": "Screenshots",
+      "releaseDate": "Release Date"
+    },
+    "home": {
+      "pendingReviewConfirm": "You have a draft review for '{title}'.\nWould you like to submit it now?",
+      "registeredSuccess": "Successfully registered.",
+      "registrationError": "An error occurred during registration.",
+      "deleteDraftConfirm": "Delete this draft record?",
+      "deleteConfirm": "Are you sure you want to delete this record?",
+      "deleteFailed": "Failed to delete.",
+      "quickRecordLabel": "Quick Record",
+      "quickRecordDesc": "Quickly record and manage your inspirations",
+      "myLibrary": "My Library",
+      "loginRequired": "Login required",
+      "createLibrary": "Create your own library",
+      "selectedContent": "Selected Content",
+      "myRecord": "My Record",
+      "review": "Review",
+      "note": "Note",
+      "saveAutoSave": "Save (auto-saved)",
+      "savedLocally": "Saved locally. You can register after logging in.",
+      "saveFailed": "Failed to save.",
+      "pendingWrite": "Pending",
+      "goToArchive": "Go to\nArchive Page",
+      "noRecords": "No records yet",
+      "searchToRecord": "Use the search bar above to create your first record.",
+      "celebRecommendations": "Celeb Picks",
+      "archiveTab": "Archive",
+      "selectContent": "Select Content",
+      "loadingInfo": "Loading info...",
+      "detailInfo": "Detail Info",
+      "celebReview": "Celeb Reviews",
+      "normalReview": "User Reviews",
+      "externalSearchBtn": "External",
+      "modalDetailTitle": "Work Details",
+      "modalCelebTitle": "Celeb Perspectives",
+      "modalNormalTitle": "Reader Reviews",
+      "modalSelectTitle": "Select Content to Record",
+      "modalExternalTitle": "External Resources",
+      "popular": "Popular",
+      "noPopular": "No popular records in this category."
+    }
+  }
+}
