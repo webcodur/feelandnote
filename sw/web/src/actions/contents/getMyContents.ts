@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -74,7 +75,8 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
 
   // type이나 search 필터가 있으면 inner join
   const needsInnerJoin = type || search
-  const contentJoin = needsInnerJoin ? 'content:contents!inner(*)' : 'content:contents(*)'
+  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, title, creator, content_locales(${CL_SELECT})`
+  const contentJoin = needsInnerJoin ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
   let query = supabase
     .from('user_contents')
@@ -131,10 +133,35 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
-  // content가 null인 항목 필터링 + 타입 단언
+  // content가 null인 항목 필터링 + content_locales 플래튼
   const items = (data || []).filter((item) =>
     item.content !== null
-  ) as UserContentWithContent[]
+  ).map(item => {
+    const c = item.content as Record<string, unknown>
+    const locales = c.content_locales as ContentLocaleRow[] | null
+    const flat = flattenLocales(locales)
+    return {
+      ...item,
+      content: {
+        id: c.id as string,
+        type: c.type as ContentType,
+        title: flat.title || (c.title as string),
+        creator: flat.creator || (c.creator as string | null),
+        thumbnail_url: flat.thumbnail_url,
+        description: flat.description,
+        publisher: flat.publisher,
+        release_date: c.release_date as string | null,
+        metadata: c.metadata as Record<string, unknown> | null,
+        user_count: c.user_count as number | null,
+        title_ko: flat.title_ko,
+        title_en: flat.title_en,
+        creator_en: flat.creator_en,
+        isbn_en: flat.isbn_en,
+        thumbnail_en: flat.thumbnail_en,
+        has_en_edition: flat.has_en_edition,
+      },
+    }
+  }) as UserContentWithContent[]
 
   const total = count || 0
 
@@ -157,7 +184,8 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
   }
 
   // type 필터가 있으면 inner join으로 contents 테이블에서 직접 필터링
-  const contentJoin = params.type ? 'content:contents!inner(*)' : 'content:contents(*)'
+  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, title, creator, content_locales(${CL_SELECT})`
+  const contentJoin = params.type ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
   let query = supabase
     .from('user_contents')
@@ -192,7 +220,32 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
 
   const items = (data || []).filter((item) =>
     item.content !== null
-  ) as UserContentWithContent[]
+  ).map(item => {
+    const c = item.content as Record<string, unknown>
+    const locales = c.content_locales as ContentLocaleRow[] | null
+    const flat = flattenLocales(locales)
+    return {
+      ...item,
+      content: {
+        id: c.id as string,
+        type: c.type as ContentType,
+        title: flat.title || (c.title as string),
+        creator: flat.creator || (c.creator as string | null),
+        thumbnail_url: flat.thumbnail_url,
+        description: flat.description,
+        publisher: flat.publisher,
+        release_date: c.release_date as string | null,
+        metadata: c.metadata as Record<string, unknown> | null,
+        user_count: c.user_count as number | null,
+        title_ko: flat.title_ko,
+        title_en: flat.title_en,
+        creator_en: flat.creator_en,
+        isbn_en: flat.isbn_en,
+        thumbnail_en: flat.thumbnail_en,
+        has_en_edition: flat.has_en_edition,
+      },
+    }
+  }) as UserContentWithContent[]
 
   return items
 }

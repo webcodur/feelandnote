@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { CategoryId } from '@/constants/categories'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 // #region Types
 export interface ScriptureContent {
@@ -178,7 +179,7 @@ async function fetchAllUserContents(
           user_id,
           content_id,
           rating,
-          contents!inner(id, title, creator, thumbnail_url, type, title_ko, title_en, creator_en, isbn_en, thumbnail_en)
+          contents!inner(id, title, creator, thumbnail_url, type, content_locales(${CL_SELECT}))
         `)
         .in('user_id', batchIds)
         .eq('status', 'FINISHED')
@@ -606,7 +607,7 @@ async function fetchFigureContents(
       .single(),
     supabase
       .from('user_contents')
-      .select('id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type, title_ko, title_en, creator_en, isbn_en, thumbnail_en)')
+      .select(`id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type, content_locales(${CL_SELECT}))`)
       .eq('user_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
@@ -633,12 +634,7 @@ async function fetchFigureContents(
       is_spoiler: item.is_spoiler,
       source_url: item.source_url,
       user_content_id: item.id,
-      title_ko: (content as any)?.title_ko ?? null,
-      title_en: (content as any)?.title_en ?? null,
-      creator_en: (content as any)?.creator_en ?? null,
-      isbn_en: (content as any)?.isbn_en ?? null,
-      thumbnail_en: (content as any)?.thumbnail_en ?? null,
-      has_en_edition: (content as any)?.has_en_edition ?? null,
+      ...(() => { const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null); return { title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition } })(),
     }
   }).filter(c => c.id)
 

@@ -264,7 +264,7 @@ async function buildRound(
   if (contentIds.length > 0) {
     const { data: cData } = await supabase
       .from("contents")
-      .select("id, title, creator, thumbnail_url, type")
+      .select("id, title, creator, thumbnail_url, type, content_locales(locale, title, creator, thumbnail_url)")
       .in("id", contentIds);
 
     const reviewMap = new Map(

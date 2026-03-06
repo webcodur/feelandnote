@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 import FeaturedSpotlightDesktop from "./FeaturedSpotlightDesktop";
 import FeaturedSpotlightMobile from "./FeaturedSpotlightMobile";
 import SharedLibraryView from "./SharedLibraryView";
+import SpotlightTagDrawerDesktop from "./SpotlightTagDrawerDesktop";
+import SpotlightTagSheetMobile from "./SpotlightTagSheetMobile";
 import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
 import CelebContentTimeline from "@/components/features/game/shared/CelebContentTimeline";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
@@ -38,8 +40,8 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
     <div className="w-full relative">
       {/* ─── 태그 선택 (공통, 항상 표시) ─── */}
       {/* Mobile */}
-      <div className="block md:hidden">
-        <MobileTagSelector
+      <div className="block md:hidden relative z-50">
+        <SpotlightTagSheetMobile
           tags={tags}
           activeIndex={activeTagIndex}
           onChange={setActiveTagIndex}
@@ -47,8 +49,8 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
         />
       </div>
       {/* Desktop */}
-      <div className="hidden md:block">
-        <DesktopTagSelector
+      <div className="hidden md:block relative z-40 mb-2">
+        <SpotlightTagDrawerDesktop
           tags={tags}
           activeIndex={activeTagIndex}
           onChange={setActiveTagIndex}
@@ -61,6 +63,20 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
           locale={locale}
         />
       </div>
+
+      {/* ─── 태그 정보 (선택된 테마 제목 및 설명) ─── */}
+      {activeTag?.is_featured && (
+        <div className="max-w-3xl mx-auto flex flex-col items-center justify-center text-center px-6 pt-2 pb-4">
+          <h2 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">
+            {locale === 'en' ? (activeTag.name_en ?? activeTag.name) : activeTag.name}
+          </h2>
+          <p className="text-text-secondary text-sm md:text-base max-w-xl leading-relaxed">
+            {locale === 'en' 
+              ? (activeTag.description_en ?? activeTag.description ?? tLanding("defaultDescription"))
+              : (activeTag.description ?? tLanding("defaultDescription"))}
+          </p>
+        </div>
+      )}
 
       {/* ─── 뷰 모드 탭 ─── */}
       {activeTag?.is_featured && (
@@ -104,96 +120,6 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
   );
 }
 
-/* ─── Mobile 태그 선택 (가로 스크롤 pill) ─── */
-function MobileTagSelector({
-  tags,
-  activeIndex,
-  onChange,
-  locale,
-}: {
-  tags: FeaturedTag[];
-  activeIndex: number;
-  onChange: (idx: number) => void;
-  locale: 'ko' | 'en';
-}) {
-  return (
-    <div className="flex overflow-x-auto scrollbar-hidden px-2 mb-4 border-b border-white/5 pb-2">
-      <div className="flex gap-1">
-        {tags.map((tag, idx) => {
-          const isActive = activeIndex === idx;
-          const isUpcoming = !tag.is_featured;
-          return (
-            <button
-              key={tag.id}
-              onClick={() => !isUpcoming && onChange(idx)}
-              disabled={isUpcoming}
-              className={cn(
-                "whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full transition-all",
-                isActive
-                  ? "bg-accent text-bg-main font-bold shadow-lg shadow-accent/20"
-                  : isUpcoming
-                    ? "bg-white/5 text-text-tertiary/40 border border-white/5 opacity-50 cursor-not-allowed"
-                    : "bg-white/5 text-text-tertiary border border-white/10"
-              )}
-            >
-              {locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}
-              {isUpcoming && <span className="ml-1 text-[10px]">Soon</span>}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Desktop 태그 선택 ─── */
-function DesktopTagSelector({
-  tags,
-  activeIndex,
-  onChange,
-  isExplore,
-  activeDescription,
-  locale,
-}: {
-  tags: FeaturedTag[];
-  activeIndex: number;
-  onChange: (idx: number) => void;
-  isExplore: boolean;
-  activeDescription: string;
-  locale: 'ko' | 'en';
-}) {
-  return (
-    <div className={cn("max-w-5xl mx-auto", isExplore ? "px-0 pt-4" : "px-0")}>
-      <div className="flex flex-wrap gap-1 pb-2 border-b border-white/5">
-        {tags.map((tag, idx) => {
-          const isActive = activeIndex === idx;
-          return (
-            <button
-              key={tag.id}
-              onClick={() => onChange(idx)}
-              className={cn(
-                "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300",
-                isActive
-                  ? "text-accent font-bold"
-                  : "text-text-tertiary hover:text-text-primary hover:bg-white/5"
-              )}
-            >
-              {isActive && (
-                <span className="absolute inset-0 bg-accent/5 rounded-t-lg border-b-2 border-accent" />
-              )}
-              <span className="relative z-10 font-sans tracking-wide">{locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}</span>
-            </button>
-          );
-        })}
-      </div>
-      <div className="animate-fade-in pl-1 mt-3 mb-4">
-        <p className="text-sm md:text-[15px] text-text-secondary font-sans leading-relaxed break-keep opacity-90 max-w-4xl">
-          {activeDescription}
-        </p>
-      </div>
-    </div>
-  );
-}
 
 /* ─── 뷰 모드 탭 ─── */
 function ViewModeTabs({

@@ -8,6 +8,7 @@ import { getProfile } from '@/actions/user'
 import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -69,15 +70,23 @@ export async function getContentDetail(
       .from('user_contents')
       .select(`
         id, status, rating, review, is_spoiler, created_at, updated_at,
-        content:contents(id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url)
+        content:contents(id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url, content_locales(${CL_SELECT}))
       `)
       .eq('user_id', profile.id)
       .eq('content_id', contentId)
       .single()
 
     if (data) {
-      const content = Array.isArray(data.content) ? data.content[0] : data.content
-      savedContent = content
+      const rawContent = Array.isArray(data.content) ? data.content[0] : data.content
+      const locales = (rawContent as Record<string, unknown>)?.content_locales as ContentLocaleRow[] | null
+      const flat = flattenLocales(locales)
+      savedContent = {
+        ...rawContent,
+        title: flat.title || rawContent.title,
+        creator: flat.creator || rawContent.creator,
+        thumbnail_url: flat.thumbnail_url || rawContent.thumbnail_url,
+        affiliate_url: (flat.affiliate_url as AffiliateLink[] | null) || rawContent.affiliate_url,
+      } as typeof rawContent
       userRecord = {
         id: data.id,
         status: data.status as ContentStatus,
@@ -118,22 +127,30 @@ export async function getContentDetail(
     // UUID 또는 external_id로 검색
     let dbContent: { id: string; external_id: string | null; type: string; title: string; creator: string | null; thumbnail_url: string | null; description: string | null; release_date: string | null; affiliate_url: unknown } | null = null
 
+    const contentSelect = `id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url, content_locales(${CL_SELECT})`
+
     const { data: byId } = await supabase
       .from('contents')
-      .select('id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url')
+      .select(contentSelect)
       .eq('id', contentId)
       .maybeSingle()
 
     if (byId) {
-      dbContent = byId
+      const locales = (byId as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
+      const flat = flattenLocales(locales)
+      dbContent = { ...byId, title: flat.title || byId.title, creator: flat.creator || byId.creator, thumbnail_url: flat.thumbnail_url || byId.thumbnail_url, affiliate_url: (flat.affiliate_url as typeof byId.affiliate_url) || byId.affiliate_url }
     } else {
       // UUID가 아닌 경우 external_id로 재검색
       const { data: byExternalId } = await supabase
         .from('contents')
-        .select('id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url')
+        .select(contentSelect)
         .eq('external_id', contentId)
         .maybeSingle()
-      dbContent = byExternalId
+      if (byExternalId) {
+        const locales = (byExternalId as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
+        const flat = flattenLocales(locales)
+        dbContent = { ...byExternalId, title: flat.title || byExternalId.title, creator: flat.creator || byExternalId.creator, thumbnail_url: flat.thumbnail_url || byExternalId.thumbnail_url, affiliate_url: (flat.affiliate_url as typeof byExternalId.affiliate_url) || byExternalId.affiliate_url }
+      }
     }
 
     if (dbContent) {

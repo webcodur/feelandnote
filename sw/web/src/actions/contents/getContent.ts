@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { Content } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface UserContentWithDetails {
   id: string
@@ -37,7 +38,7 @@ export async function getContent(contentId: string): Promise<UserContentWithDeta
     .select(
       `
       *,
-      content:contents(*)
+      content:contents(*, content_locales(${CL_SELECT}))
     `
     )
     .eq('user_id', user.id)
@@ -48,7 +49,13 @@ export async function getContent(contentId: string): Promise<UserContentWithDeta
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
-  return data as unknown as UserContentWithDetails
+  const c = data.content as Record<string, unknown>
+  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null)
+  const result = {
+    ...data,
+    content: { ...c, ...flat, content_locales: undefined },
+  }
+  return result as unknown as UserContentWithDetails
 }
 
 // 타인의 공개 콘텐츠 조회
@@ -59,7 +66,7 @@ export async function getPublicContent(contentId: string, userId: string): Promi
     .from('user_contents')
     .select(`
       *,
-      content:contents(*),
+      content:contents(*, content_locales(${CL_SELECT})),
       user:profiles!user_contents_user_id_fkey(nickname, avatar_url)
     `)
     .eq('user_id', userId)
@@ -71,10 +78,12 @@ export async function getPublicContent(contentId: string, userId: string): Promi
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
-  // user가 배열로 올 수 있으므로 첫 번째 요소 추출
+  const c = data.content as Record<string, unknown>
+  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null)
   const result = {
     ...data,
-    user: Array.isArray(data.user) ? data.user[0] : data.user
+    content: { ...c, ...flat, content_locales: undefined },
+    user: Array.isArray(data.user) ? data.user[0] : data.user,
   }
 
   return result as unknown as UserContentWithDetails

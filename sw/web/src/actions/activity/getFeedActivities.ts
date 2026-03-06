@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface FeedActivity {
   id: string
@@ -140,7 +141,7 @@ export async function getFeedActivities(
     const [{ data: contents }, { data: userContents }] = await Promise.all([
       supabase
         .from('contents')
-        .select('id, title, thumbnail_url, type, title_ko, title_en, creator_en, isbn_en, thumbnail_en, has_en_edition')
+        .select(`id, title, thumbnail_url, type, content_locales(${CL_SELECT})`)
         .in('id', contentIds),
       supabase
         .from('user_contents')
@@ -150,7 +151,10 @@ export async function getFeedActivities(
 
     if (contents) {
       contentsMap = Object.fromEntries(
-        contents.map(c => [c.id, { title: c.title, thumbnail_url: c.thumbnail_url, type: c.type as ContentType, title_ko: c.title_ko ?? null, title_en: c.title_en ?? null, creator_en: c.creator_en ?? null, isbn_en: c.isbn_en ?? null, thumbnail_en: c.thumbnail_en ?? null, has_en_edition: c.has_en_edition ?? null }])
+        contents.map(c => {
+          const flat = flattenLocales((c as any).content_locales as ContentLocaleRow[] | null)
+          return [c.id, { title: flat.title || c.title, thumbnail_url: flat.thumbnail_url || c.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition }]
+        })
       )
     }
 

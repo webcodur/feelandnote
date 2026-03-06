@@ -1,0 +1,53 @@
+// content_locales 테이블 헬퍼 (Phase 2: 전환기)
+
+/** content_locales SELECT 필드 */
+export const CL_SELECT = 'locale, title, creator, thumbnail_url, description, isbn, publisher, affiliate_url'
+
+export interface ContentLocaleRow {
+  locale: string
+  title: string | null
+  creator: string | null
+  thumbnail_url: string | null
+  description: string | null
+  isbn: string | null
+  publisher: string | null
+  affiliate_url: unknown
+}
+
+/**
+ * content_locales 배열 → 기존 Content 플랫 shape 변환.
+ * Phase 2 호환: 프론트엔드 타입 변경 없이 content_locales 데이터 사용.
+ */
+export function flattenLocales(locales: ContentLocaleRow[] | null | undefined) {
+  const ko = locales?.find(l => l.locale === 'ko')
+  const en = locales?.find(l => l.locale === 'en')
+  return {
+    title: ko?.title || en?.title || '',
+    creator: ko?.creator || en?.creator || null,
+    thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+    description: ko?.description || en?.description || null,
+    publisher: ko?.publisher || en?.publisher || null,
+    title_ko: ko?.title || null,
+    title_en: en?.title || null,
+    creator_en: en?.creator || null,
+    isbn_ko: ko?.isbn || null,
+    isbn_en: en?.isbn || null,
+    thumbnail_en: en?.thumbnail_url || null,
+    has_en_edition: en?.title != null,
+    affiliate_url: ko?.affiliate_url || en?.affiliate_url || null,
+  }
+}
+
+/** external_source → 기본 locale */
+export function sourceToLocale(source: string | null | undefined): string {
+  switch (source) {
+    case 'naver_book': case 'qnet': case 'tmdb': return 'ko'
+    case 'google_books': case 'igdb': case 'spotify': return 'en'
+    default: return 'ko'
+  }
+}
+
+/** external_source → sources JSONB */
+export function sourceToJsonb(source: string | null | undefined): Record<string, string> {
+  return { primary: source || 'unknown' }
+}

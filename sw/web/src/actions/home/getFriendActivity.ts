@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { FriendActivity, FriendActivityResponse } from '@/types/home'
 import type { ContentType } from '@/types/database'
+import { type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetFriendActivityParams {
   limit?: number
@@ -72,15 +73,19 @@ export async function getFriendActivity(
   if (contentIds.length > 0) {
     const { data: contents } = await supabase
       .from('contents')
-      .select('id, title, thumbnail_url, type')
+      .select(`id, title, thumbnail_url, type, content_locales(locale, title, thumbnail_url)`)
       .in('id', contentIds)
 
     if (contents) {
       contentsMap = Object.fromEntries(
-        contents.map(c => [
-          c.id,
-          { title: c.title, thumbnail_url: c.thumbnail_url, type: c.type as ContentType }
-        ])
+        contents.map(c => {
+          const locales = (c as any).content_locales as ContentLocaleRow[] | null
+          const ko = locales?.find(l => l.locale === 'ko')
+          return [
+            c.id,
+            { title: ko?.title || c.title, thumbnail_url: ko?.thumbnail_url || c.thumbnail_url, type: c.type as ContentType }
+          ]
+        })
       )
     }
   }

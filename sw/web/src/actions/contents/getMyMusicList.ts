@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { batchGetSpotifyEntityTypes } from '@feelandnote/content-search/spotify'
 import type { ContentStatus } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export type SpotifyEntity = 'track' | 'album'
 
@@ -26,7 +27,7 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
 
   const { data, error } = await supabase
     .from('user_contents')
-    .select('id, status, content:contents!inner(id, external_id, title, creator, thumbnail_url)')
+    .select(`id, status, content:contents!inner(id, external_id, title, creator, thumbnail_url, content_locales(${CL_SELECT}))`)
     .eq('user_id', user.id)
     .eq('content.type', 'MUSIC')
     .order('created_at', { ascending: false })
@@ -47,15 +48,16 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
 
   return items.map((item, idx) => {
     const c = item.content as unknown as {
-      id: string; external_id: string; title: string; creator: string | null; thumbnail_url: string | null
+      id: string; external_id: string; title: string; creator: string | null; thumbnail_url: string | null; content_locales: ContentLocaleRow[] | null
     }
+    const flat = flattenLocales(c.content_locales)
     return {
       id: c.id,
       externalId: c.external_id || '',
       userContentId: item.id as string,
-      title: c.title,
-      creator: c.creator,
-      thumbnailUrl: c.thumbnail_url,
+      title: flat.title || c.title,
+      creator: flat.creator || c.creator,
+      thumbnailUrl: flat.thumbnail_url || c.thumbnail_url,
       status: item.status as ContentStatus,
       spotifyEntity: entityMap.get(spotifyIds[idx]) ?? 'album',
     }

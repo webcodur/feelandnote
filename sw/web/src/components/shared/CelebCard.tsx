@@ -74,16 +74,7 @@ export default function CelebCard({
   const [isActive, setIsActive] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const keyCounter = useRef(0);
-  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const hasVoice = celebProfile?.has_voice ?? false;
-
-  const playVoice = useCallback((url: string) => {
-    voiceAudioRef.current?.pause();
-    const audio = new Audio(url);
-    audio.volume = 0.7;
-    audio.play().catch(() => {});
-    voiceAudioRef.current = audio;
-  }, []);
 
   // 외부 클릭 시 오버레이 닫기
   useEffect(() => {
@@ -119,12 +110,12 @@ export default function CelebCard({
       text: stripEmotionTag(raw),
       nickname: displayNickname,
       avatarUrl: avatar_url ?? null,
+      audioUrl: hasVoice ? getVoiceUrl(id, locale as "ko" | "en", "greeting", idx + 1) : null,
     });
     if (hasVoice) {
-      playVoice(getVoiceUrl(id, locale as "ko" | "en", "greeting", idx + 1));
       setVoicePulse(prev => prev + 1);
     }
-  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, locale, displayNickname, avatar_url, hasVoice, id, playVoice]);
+  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, locale, displayNickname, avatar_url, hasVoice, id]);
 
   const [voicePulse, setVoicePulse] = useState(0);
   const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);

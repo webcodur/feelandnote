@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { EXPORT_STATUS_LABELS } from '@/constants/statuses'
 import type { ContentType, ContentStatus } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface ExportParams {
   type?: ContentType
@@ -39,7 +40,7 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
     throw new Error('로그인이 필요합니다')
   }
 
-  const contentJoin = type ? 'content:contents!inner(*)' : 'content:contents(*)'
+  const contentJoin = type ? `content:contents!inner(*, content_locales(${CL_SELECT}))` : `content:contents(*, content_locales(${CL_SELECT}))`
 
   let query = supabase
     .from('user_contents')
@@ -69,9 +70,12 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
   // 내보내기용 형식으로 변환
   const rows: ExportContentRow[] = (data || [])
     .filter(item => item.content !== null)
-    .map(item => ({
-      title: item.content.title,
-      creator: item.content.creator || '',
+    .map(item => {
+      const locales = (item.content as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
+      const flat = flattenLocales(locales)
+      return {
+      title: flat.title || item.content.title,
+      creator: flat.creator || item.content.creator || '',
       type: TYPE_LABELS[item.content.type] || item.content.type,
       status: EXPORT_STATUS_LABELS[item.status] || item.status,
       category: item.content.subtype || null,
@@ -80,7 +84,7 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
       created_at: new Date(item.created_at).toLocaleDateString('ko-KR'),
       updated_at: new Date(item.updated_at).toLocaleDateString('ko-KR'),
       completed_at: item.completed_at ? new Date(item.completed_at).toLocaleDateString('ko-KR') : null,
-    }))
+    }})
 
   return rows
 }

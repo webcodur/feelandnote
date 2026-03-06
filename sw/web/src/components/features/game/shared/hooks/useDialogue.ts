@@ -23,6 +23,8 @@ export interface DialogueSubtitleData {
   text: string;
   nickname?: string;
   avatarUrl?: string | null;
+  /** 음성 URL — 있으면 DialogueSubtitle에서 재생하고 끝날 때까지 UI를 유지한다 */
+  audioUrl?: string | null;
 }
 
 /** showDialogue 호출 시 자막에 표시할 캐릭터 정보 */
@@ -47,15 +49,6 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
   const locale = useLocale() as 'ko' | 'en';
   /** 직전 사용 인덱스 기록 (키: "celebId:type" 또는 "default:key:tone") */
   const lastIndexRef = useRef<Map<string, number>>(new Map());
-  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  const playVoice = useCallback((url: string) => {
-    voiceAudioRef.current?.pause();
-    const audio = new Audio(url);
-    audio.volume = 0.6;
-    audio.play().catch(() => {});
-    voiceAudioRef.current = audio;
-  }, []);
 
   /** count 개 중 lastIdx를 제외하고 랜덤 선택 */
   const pickAvoidLast = (count: number, mapKey: string): number => {
@@ -78,16 +71,15 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
     const raw = personal?.[type]?.[index];
 
     if (raw) {
+      const hasVoice = voiceCelebIds?.has(celebId);
       onSubtitle({
         key: ++keyCounter.current,
         tone,
         text: stripEmotionTag(raw),
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
+        audioUrl: hasVoice ? getVoiceUrl(celebId, locale, type, index + 1) : null,
       });
-      if (voiceCelebIds?.has(celebId)) {
-        playVoice(getVoiceUrl(celebId, locale, type, index + 1));
-      }
       return;
     }
 
@@ -104,7 +96,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         avatarUrl: meta?.avatarUrl,
       });
     }
-  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, locale, playVoice]);
+  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, locale]);
 
   /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
   const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {

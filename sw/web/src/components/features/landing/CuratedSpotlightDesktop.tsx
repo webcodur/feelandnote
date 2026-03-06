@@ -28,7 +28,6 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
   const isExplore = location === "explore-pc";
   const [selectedIndex, setSelectedIndex] = useState(0);
   const subtitleKeyRef = useRef(0);
-  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
   const [modalCelebIndex, setModalCelebIndex] = useState(-1);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
@@ -70,14 +69,8 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
         text: stripEmotionTag(text),
         nickname: celeb.nickname,
         avatarUrl: celeb.avatar_url,
+        audioUrl: celeb.has_voice && greetingIdx >= 0 ? getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1) : null,
       });
-      if (celeb.has_voice && greetingIdx >= 0) {
-        voiceAudioRef.current?.pause();
-        const audio = new Audio(getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1));
-        audio.volume = 0.7;
-        audio.play().catch(() => {});
-        voiceAudioRef.current = audio;
-      }
     }
   }, [locale, onSubtitle]);
 

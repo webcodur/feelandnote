@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -29,13 +29,71 @@ export default function DialogueSubtitle({ subtitle }: Props) {
   const [current, setCurrent] = useState<DialogueSubtitleData | null>(null);
   const [visible, setVisible] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
+  /** 닫히기 직전 페이드아웃 중 */
+  const [fading, setFading] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevTextRef = useRef<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  /** 오디오 재생 진행률 0~1 (음성 있을 때만 사용) */
+  const [audioProgress, setAudioProgress] = useState(0);
+  const rafRef = useRef<number | null>(null);
+
+  const FADE_DURATION = 2500;
+
+  const stopProgressLoop = useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }, []);
+
+  const startProgressLoop = useCallback(() => {
+    stopProgressLoop();
+    let fadingStarted = false;
+    const tick = () => {
+      const a = audioRef.current;
+      if (a && a.duration && !a.paused) {
+        setAudioProgress(a.currentTime / a.duration);
+        // 남은 시간 1초 이내 → 페이드아웃 시작
+        if (!fadingStarted && a.duration - a.currentTime <= 2.5) {
+          fadingStarted = true;
+          setFading(true);
+        }
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  }, [stopProgressLoop]);
+
+  const stopAudio = useCallback(() => {
+    stopProgressLoop();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setAudioPlaying(false);
+    setAudioProgress(0);
+    setFading(false);
+  }, [stopProgressLoop]);
+
+  const clearFadeTimer = () => {
+    if (fadeTimerRef.current) { clearTimeout(fadeTimerRef.current); fadeTimerRef.current = null; }
+  };
 
   const startTimer = (duration: number) => {
     if (timerRef.current) clearTimeout(timerRef.current);
+    clearFadeTimer();
+    setFading(false);
+    // 닫히기 1초 전 페이드 시작
+    if (duration > FADE_DURATION) {
+      fadeTimerRef.current = setTimeout(() => setFading(true), duration - FADE_DURATION);
+    }
     timerRef.current = setTimeout(() => {
+      if (audioRef.current && !audioRef.current.paused) return;
       setVisible(false);
+      setFading(false);
       timerRef.current = null;
     }, duration);
   };
@@ -43,25 +101,59 @@ export default function DialogueSubtitle({ subtitle }: Props) {
   useEffect(() => {
     if (!subtitle) return;
 
+    // 새 대사 → 이전 음성 즉시 중단
+    stopAudio();
+
     setIsRepeat(subtitle.text === prevTextRef.current);
     prevTextRef.current = subtitle.text;
 
     setCurrent(subtitle);
     setVisible(true);
+    setFading(false);
+    clearFadeTimer();
 
-    const duration = calcDuration(subtitle.text);
-    startTimer(duration);
+    // 음성 재생
+    if (subtitle.audioUrl) {
+      const audio = new Audio(subtitle.audioUrl);
+      audio.volume = 0.7;
+      audio.addEventListener("ended", () => {
+        stopProgressLoop();
+        setAudioProgress(1);
+        setAudioPlaying(false);
+        audioRef.current = null;
+        setVisible(false);
+      }, { once: true });
+      audio.addEventListener("error", () => {
+        stopProgressLoop();
+        setAudioPlaying(false);
+        audioRef.current = null;
+      }, { once: true });
+      audio.play().catch(() => {});
+      audioRef.current = audio;
+      setAudioPlaying(true);
+      startProgressLoop();
+    } else {
+      // 음성 없으면 텍스트 기반 타이머
+      const duration = calcDuration(subtitle.text);
+      startTimer(duration);
+    }
 
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
+      if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
+      clearFadeTimer();
     };
   }, [subtitle]);
 
+  // 컴포넌트 언마운트 시 오디오 정리
+  useEffect(() => {
+    return () => { stopAudio(); };
+  }, [stopAudio]);
+
   const handleClose = () => {
+    stopAudio();
+    clearFadeTimer();
     setVisible(false);
+    setFading(false);
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
@@ -69,6 +161,8 @@ export default function DialogueSubtitle({ subtitle }: Props) {
   };
 
   const handleMouseEnter = () => {
+    // 음성 재생 중엔 hover로 타이머 제어 불필요 (음성 끝에 닫힘)
+    if (audioPlaying) return;
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
@@ -76,12 +170,13 @@ export default function DialogueSubtitle({ subtitle }: Props) {
   };
 
   const handleMouseLeave = () => {
-    if (visible && current) {
+    if (visible && current && !audioPlaying) {
       startTimer(calcDuration(current.text));
     }
   };
 
   const duration = current ? calcDuration(current.text) : BASE_DURATION;
+  const hasAudio = !!(current?.audioUrl);
 
   const content = (
     <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-[10100] w-[90%] md:w-[600px] max-w-2xl pointer-events-none">
@@ -90,9 +185,12 @@ export default function DialogueSubtitle({ subtitle }: Props) {
           <motion.div
             layout
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: fading ? 0 : 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20, transition: { duration: 0.2 } }}
-            transition={{ layout: { type: "spring", stiffness: 400, damping: 30 } }}
+            transition={{
+              layout: { type: "spring", stiffness: 400, damping: 30 },
+              opacity: { duration: fading ? FADE_DURATION / 1000 : 0.3 },
+            }}
             drag="x"
             dragConstraints={{ left: -100, right: 100 }}
             dragElastic={0.7}
@@ -147,16 +245,23 @@ export default function DialogueSubtitle({ subtitle }: Props) {
               <X size={16} className="md:w-4 md:h-4 w-3.5 h-3.5" />
             </button>
 
-            {/* 우측 모서리 세로 타이머 */}
+            {/* 우측 모서리 세로 타이머 — 음성 있으면 재생 진행률, 없으면 CSS 애니메이션 */}
             <div className="absolute top-0 right-0 w-1 md:w-1.5 h-full bg-stone-700/50">
-              <div
-                key={current.key + (visible ? '-visible' : '')} // 재시작을 위해 키 갱신
-                className="w-full bg-amber-500/50 rounded-full origin-top"
-                style={{
-                  animation: timerRef.current ? `dialogTimerVertical ${duration}ms linear forwards` : 'none',
-                  height: timerRef.current ? "100%" : "0%"
-                }}
-              />
+              {hasAudio ? (
+                <div
+                  className="w-full bg-emerald-400/70 rounded-full origin-top transition-[height] duration-100 ease-linear"
+                  style={{ height: `${audioProgress * 100}%` }}
+                />
+              ) : (
+                <div
+                  key={current.key + (visible ? '-visible' : '')}
+                  className="w-full bg-amber-500/50 rounded-full origin-top"
+                  style={{
+                    animation: timerRef.current ? `dialogTimerVertical ${duration}ms linear forwards` : 'none',
+                    height: timerRef.current ? "100%" : "0%"
+                  }}
+                />
+              )}
             </div>
           </motion.div>
         )}

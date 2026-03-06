@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
@@ -21,18 +22,8 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
       updated_at,
       content_id,
       content:contents!user_contents_content_id_fkey(
-        id,
-        title,
-        creator,
-        thumbnail_url,
-        type,
-        user_count,
-        title_ko,
-        title_en,
-        creator_en,
-        isbn_en,
-        thumbnail_en,
-        has_en_edition
+        id, title, creator, thumbnail_url, type, user_count,
+        content_locales(${CL_SELECT})
       ),
       celeb:profiles!user_contents_user_id_fkey(
         id,
@@ -69,6 +60,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
       const content = Array.isArray(row.content) ? row.content[0] : row.content
       const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
+      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null)
       return {
         id: row.id,
         rating: row.rating,
@@ -79,18 +71,18 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
         updated_at: row.updated_at,
         content: {
           id: content.id,
-          title: content.title,
-          creator: content.creator,
-          thumbnail_url: content.thumbnail_url,
+          title: flat.title || content.title,
+          creator: flat.creator || content.creator,
+          thumbnail_url: flat.thumbnail_url || content.thumbnail_url,
           type: content.type as ContentType,
           celeb_count: contentCounts[content.id]?.celebCount ?? 0,
           user_count: contentCounts[content.id]?.userCount ?? 0,
-          title_ko: content.title_ko ?? null,
-          title_en: content.title_en ?? null,
-          creator_en: content.creator_en ?? null,
-          isbn_en: content.isbn_en ?? null,
-          thumbnail_en: content.thumbnail_en ?? null,
-          has_en_edition: content.has_en_edition ?? null,
+          title_ko: flat.title_ko,
+          title_en: flat.title_en,
+          creator_en: flat.creator_en,
+          isbn_en: flat.isbn_en,
+          thumbnail_en: flat.thumbnail_en,
+          has_en_edition: flat.has_en_edition,
         },
         celeb: {
           id: celeb.id,

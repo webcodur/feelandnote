@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { sourceToJsonb } from '@/lib/utils/content-locale'
 
 interface AddCelebContentParams {
   celebId: string
@@ -71,6 +72,19 @@ export async function addCelebContent(params: AddCelebContentParams): Promise<Ac
   if (contentError) {
     return handleSupabaseError(contentError, { context: 'content', logPrefix: '[셀럽 콘텐츠 생성]' })
   }
+
+  // content_locales 듀얼 라이트 (upsert - 이미 있으면 무시)
+  await supabase.from('content_locales').upsert({
+    content_id: params.contentId,
+    locale: 'ko',
+    title: params.title,
+    creator: params.creator ?? null,
+    thumbnail_url: params.thumbnailUrl ?? null,
+    description: params.description ?? null,
+    publisher: params.publisher ?? null,
+    sources: sourceToJsonb(null),
+    verified: true,
+  }, { onConflict: 'content_id,locale', ignoreDuplicates: true })
 
   // 2. user_contents 생성 (셀럽 프로필에 연결, contributor로 현재 사용자 기록)
   const { data: userContent, error: userContentError } = await supabase

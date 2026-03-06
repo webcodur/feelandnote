@@ -6,6 +6,7 @@ import type { ContentType, ContentStatus } from '@/types/database'
 import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
 
 interface AddContentParams {
   id: string                    // 외부 API ID (ISBN, TMDB ID 등)
@@ -73,6 +74,20 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       return handleSupabaseError(contentError!, { context: 'content', logPrefix: '[콘텐츠 생성]' })
     }
     contentId = newContent.id
+
+    // content_locales 듀얼 라이트
+    const locale = sourceToLocale(params.externalSource)
+    await supabase.from('content_locales').insert({
+      content_id: contentId,
+      locale,
+      title: params.title,
+      creator: params.creator || null,
+      thumbnail_url: params.thumbnailUrl || null,
+      description: params.description || null,
+      publisher: params.publisher || null,
+      sources: sourceToJsonb(params.externalSource),
+      verified: true,
+    })
   }
 
   // 2. user_contents 생성 (status 기본값: WANT)

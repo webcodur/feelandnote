@@ -87,6 +87,18 @@ export async function createContentFromExternal(
       return { success: false, error: error?.message ?? 'Insert failed' }
     }
 
+    // content_locales 듀얼 라이트
+    const locale = (['naver_book', 'qnet', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
+    await supabase.from('content_locales').insert({
+      content_id: newContent.id,
+      locale,
+      title: input.title,
+      creator: input.creator || null,
+      thumbnail_url: input.coverImageUrl || null,
+      sources: { primary: input.externalSource || 'unknown' },
+      verified: true,
+    })
+
     return { success: true, contentId: newContent.id }
   } catch (err) {
     console.error('[createContentFromExternal] Exception:', err)

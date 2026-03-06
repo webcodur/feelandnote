@@ -161,6 +161,27 @@ export async function updateContent(
 
   if (error) throw error
 
+  // content_locales 동기화
+  if (data.title || data.creator || data.description || data.publisher) {
+    await supabase.from('content_locales').upsert({
+      content_id: contentId,
+      locale: 'ko',
+      ...(data.title && { title: data.title }),
+      ...(data.creator && { creator: data.creator }),
+      ...(data.description && { description: data.description }),
+      ...(data.publisher && { publisher: data.publisher }),
+    }, { onConflict: 'content_id,locale' })
+  }
+  if (data.title_en || data.creator_en || data.isbn_en) {
+    await supabase.from('content_locales').upsert({
+      content_id: contentId,
+      locale: 'en',
+      ...(data.title_en && { title: data.title_en }),
+      ...(data.creator_en && { creator: data.creator_en }),
+      ...(data.isbn_en && { isbn: data.isbn_en }),
+    }, { onConflict: 'content_id,locale' })
+  }
+
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
 }
@@ -177,6 +198,13 @@ export async function updateAffiliateLinks(
     .from('contents')
     .update({ affiliate_url: value })
     .eq('id', contentId)
+
+  // content_locales 동기화
+  await supabase.from('content_locales').upsert({
+    content_id: contentId,
+    locale: 'ko',
+    affiliate_url: value,
+  }, { onConflict: 'content_id,locale' })
 
   if (error) throw error
 

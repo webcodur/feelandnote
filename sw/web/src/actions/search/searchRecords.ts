@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface RecordsSearchResult {
   id: string
@@ -41,12 +42,7 @@ interface ContentData {
   creator: string | null
   thumbnail_url: string | null
   user_count: number | null
-  title_ko: string | null
-  title_en: string | null
-  creator_en: string | null
-  isbn_en: string | null
-  thumbnail_en: string | null
-  has_en_edition: boolean | null
+  content_locales?: ContentLocaleRow[] | null
 }
 
 interface UserContentRow {
@@ -82,18 +78,8 @@ export async function searchRecords({
       status,
       rating,
       content:contents!inner(
-        id,
-        type,
-        title,
-        creator,
-        thumbnail_url,
-        user_count,
-        title_ko,
-        title_en,
-        creator_en,
-        isbn_en,
-        thumbnail_en,
-        has_en_edition
+        id, type, title, creator, thumbnail_url, user_count,
+        content_locales(${CL_SELECT})
       )
     `, { count: 'exact' })
     .eq('user_id', user.id)
@@ -123,22 +109,23 @@ export async function searchRecords({
     })
     .map((item) => {
       const content = Array.isArray(item.content) ? item.content[0] : item.content
+      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null)
       return {
         id: item.id,
         contentId: item.content_id,
-        title: content.title,
-        creator: content.creator || '',
+        title: flat.title || content.title,
+        creator: flat.creator || content.creator || '',
         category: content.type?.toLowerCase() || 'book',
-        thumbnail: content.thumbnail_url || undefined,
+        thumbnail: flat.thumbnail_url || content.thumbnail_url || undefined,
         status: item.status,
         rating: item.rating || undefined,
         userCount: content.user_count || undefined,
-        title_ko: content.title_ko ?? null,
-        title_en: content.title_en ?? null,
-        creator_en: content.creator_en ?? null,
-        isbn_en: content.isbn_en ?? null,
-        thumbnail_en: content.thumbnail_en ?? null,
-        has_en_edition: content.has_en_edition ?? null,
+        title_ko: flat.title_ko,
+        title_en: flat.title_en,
+        creator_en: flat.creator_en,
+        isbn_en: flat.isbn_en,
+        thumbnail_en: flat.thumbnail_en,
+        has_en_edition: flat.has_en_edition,
       }
     })
 

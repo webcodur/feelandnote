@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -68,7 +69,8 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
 
   // type이나 search 필터가 있으면 inner join
   const needsInnerJoin = type || search
-  const contentJoin = needsInnerJoin ? 'content:contents!inner(*)' : 'content:contents(*)'
+  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, title, creator, content_locales(${CL_SELECT})`
+  const contentJoin = needsInnerJoin ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
   let query = supabase
     .from('user_contents')
@@ -137,70 +139,47 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
-  // content가 null인 항목 필터링 및 타입 정의
-  interface ContentData {
-    id: string
-    type: string
-    title: string
-    creator: string | null
-    thumbnail_url: string | null
-    metadata: Record<string, unknown> | null
-    user_count: number | null
-    title_ko: string | null
-    title_en: string | null
-    creator_en: string | null
-    isbn_en: string | null
-    thumbnail_en: string | null
-    has_en_edition: boolean | null
-  }
+  // content가 null인 항목 필터링 + content_locales 플래튼
+  const validContents = (userContents || []).filter(item => item.content !== null)
 
-  const validContents = (userContents || []).filter(item => item.content !== null) as unknown as Array<{
-    id: string
-    content_id: string
-    status: string
-    is_recommended: boolean
-    rating: number | null
-    review: string | null
-    review_en: string | null
-    review_presets: string[] | null
-    is_spoiler: boolean
-    visibility: VisibilityType | null
-    created_at: string
-    source_url: string | null
-    content: ContentData
-  }>
-
-  const items: UserContentPublic[] = validContents.map(item => ({
-    id: item.id,
-    content_id: item.content_id,
-    status: item.status as ContentStatus,
-    is_recommended: item.is_recommended ?? false,
-    visibility: item.visibility,
-    created_at: item.created_at,
-    source_url: item.source_url,
-    content: {
-      id: item.content.id,
-      type: item.content.type as ContentType,
-      title: item.content.title,
-      creator: item.content.creator,
-      thumbnail_url: item.content.thumbnail_url,
-      metadata: item.content.metadata || null,
-      user_count: item.content.user_count ?? null,
-      title_ko: item.content.title_ko ?? null,
-      title_en: item.content.title_en ?? null,
-      creator_en: item.content.creator_en ?? null,
-      isbn_en: item.content.isbn_en ?? null,
-      thumbnail_en: item.content.thumbnail_en ?? null,
-      has_en_edition: item.content.has_en_edition ?? null,
-    },
-    public_record: (item.rating || item.review || (item.review_presets && item.review_presets.length > 0)) ? {
-      rating: item.rating,
-      content_preview: item.review || null,
-      content_preview_en: item.review_en || null,
-      review_presets: item.review_presets || null,
-      is_spoiler: item.is_spoiler,
-    } : null,
-  }))
+  const items: UserContentPublic[] = validContents.map(item => {
+    const rawContent = Array.isArray(item.content) ? item.content[0] : item.content
+    const c = rawContent as unknown as Record<string, unknown>
+    const locales = c.content_locales as ContentLocaleRow[] | null
+    const flat = flattenLocales(locales)
+    const raw = item as unknown as Record<string, unknown>
+    return {
+      id: item.id as string,
+      content_id: raw.content_id as string,
+      status: item.status as ContentStatus,
+      is_recommended: (raw.is_recommended as boolean) ?? false,
+      visibility: raw.visibility as VisibilityType | null,
+      created_at: raw.created_at as string,
+      source_url: raw.source_url as string | null,
+      content: {
+        id: c.id as string,
+        type: c.type as ContentType,
+        title: flat.title || (c.title as string),
+        creator: flat.creator || (c.creator as string | null),
+        thumbnail_url: flat.thumbnail_url,
+        metadata: c.metadata as Record<string, unknown> | null,
+        user_count: c.user_count as number | null,
+        title_ko: flat.title_ko,
+        title_en: flat.title_en,
+        creator_en: flat.creator_en,
+        isbn_en: flat.isbn_en,
+        thumbnail_en: flat.thumbnail_en,
+        has_en_edition: flat.has_en_edition,
+      },
+      public_record: (raw.rating || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {
+        rating: raw.rating as number | null,
+        content_preview: (raw.review as string) || null,
+        content_preview_en: (raw.review_en as string) || null,
+        review_presets: (raw.review_presets as string[]) || null,
+        is_spoiler: raw.is_spoiler as boolean,
+      } : null,
+    }
+  })
 
   const total = count || 0
 

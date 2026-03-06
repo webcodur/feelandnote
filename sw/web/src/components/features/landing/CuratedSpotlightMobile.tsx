@@ -24,7 +24,6 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
   const [isSwiping, setIsSwiping] = useState(false);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
   const subtitleKeyRef = useRef(0);
-  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const heroCeleb = activeTag.celebs[selectedIndex];
   const celebsCount = activeTag.celebs.length;
 
@@ -58,14 +57,8 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
         text: stripEmotionTag(text),
         nickname: celeb.nickname,
         avatarUrl: celeb.avatar_url,
+        audioUrl: celeb.has_voice && greetingIdx >= 0 ? getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1) : null,
       });
-      if (celeb.has_voice && greetingIdx >= 0) {
-        voiceAudioRef.current?.pause();
-        const audio = new Audio(getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1));
-        audio.volume = 0.7;
-        audio.play().catch(() => {});
-        voiceAudioRef.current = audio;
-      }
     }
   }, [locale, onSubtitle]);
 
