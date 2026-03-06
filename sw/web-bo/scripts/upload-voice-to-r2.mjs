@@ -55,6 +55,11 @@ const CELEBS = [
     nickname: '이순신',
     folders: { ko: '이순신-한', en: '이순신-영' },
   },
+  {
+    id: 'e94f8fc2-9010-4f39-9d32-2dad78a83cd2',
+    nickname: '칭기즈 칸',
+    folders: { ko: '칭기즈 칸-한', en: '칭기즈 칸-영' },
+  },
 ]
 
 const LINES_DIR = 'C:/Users/webco/바탕 화면/lines'

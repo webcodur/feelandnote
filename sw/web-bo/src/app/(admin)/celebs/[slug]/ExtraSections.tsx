@@ -10,6 +10,7 @@ import {
 import { saveCelebPersona, type StatKey, type TendencyKey } from '@/actions/admin/persona'
 import type { MemberPersona, PersonaJsonb } from '@/actions/admin/members'
 import { useToast } from '@/contexts/ToastContext'
+import VoiceSection from './VoiceSection'
 
 // #region Constants
 const SPEECH_TONES = ['loyal', 'composed', 'bold', 'humble', 'gentle', 'free'] as const
@@ -138,10 +139,11 @@ interface ExtraSectionsProps {
   personaRaw: MemberPersona | null
   dialogueLines: { lines: DialogueLines | null; lines_en: DialogueLines | null }
   speechTone?: string | null
+  hasVoice?: boolean
 }
 // #endregion
 
-export default function ExtraSections({ celebId, personaRaw, dialogueLines, speechTone }: ExtraSectionsProps) {
+export default function ExtraSections({ celebId, personaRaw, dialogueLines, speechTone, hasVoice = false }: ExtraSectionsProps) {
   const { showToast } = useToast()
 
   // --- Dialogue state ---
@@ -388,6 +390,14 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
             </div>
           )}
         </div>
+      </CardAccordion>
+
+      {/* Voice Files */}
+      <CardAccordion
+        title="음성 파일"
+        summary={hasVoice ? <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">ON</span> : undefined}
+      >
+        <VoiceSection celebId={celebId} initialHasVoice={hasVoice} />
       </CardAccordion>
     </>
   )

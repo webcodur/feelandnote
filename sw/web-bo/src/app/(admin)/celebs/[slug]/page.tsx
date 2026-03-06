@@ -70,6 +70,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
           personaRaw={celeb.persona || null}
           dialogueLines={dialogueLines}
           speechTone={celeb.speech_tone}
+          hasVoice={celeb.has_voice ?? false}
         />
       </LangModeProvider>
 

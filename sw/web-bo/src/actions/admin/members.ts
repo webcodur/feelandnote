@@ -94,6 +94,7 @@ export interface Member {
   celeb_tier?: string | null
   claimed_by?: string | null
   speech_tone?: string | null
+  has_voice?: boolean
   influence?: MemberInfluence | null
   influence_total?: number
   persona?: MemberPersona | null
@@ -360,6 +361,7 @@ export async function getMember(id: string): Promise<Member | null> {
     consumption_philosophy: data.consumption_philosophy,
     consumption_philosophy_en: data.consumption_philosophy_en ?? null,
     speech_tone: data.speech_tone ?? null,
+    has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
     claimed_by: data.claimed_by,
     influence: influenceData || null,
@@ -450,6 +452,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     consumption_philosophy: data.consumption_philosophy,
     consumption_philosophy_en: data.consumption_philosophy_en ?? null,
     speech_tone: data.speech_tone ?? null,
+    has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
     claimed_by: data.claimed_by,
     influence: influenceData || null,
