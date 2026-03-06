@@ -71,10 +71,7 @@ export async function createContentFromExternal(
     const { data: newContent, error } = await supabase
       .from('contents')
       .insert({
-        title: input.title,
-        creator: input.creator || null,
         type: contentType,
-        thumbnail_url: input.coverImageUrl,
         external_source: input.externalSource,
         external_id: input.externalId,
         metadata: input.metadata || {},
@@ -87,7 +84,7 @@ export async function createContentFromExternal(
       return { success: false, error: error?.message ?? 'Insert failed' }
     }
 
-    // content_locales 듀얼 라이트
+    // content_locales에 로케일 데이터 저장
     const locale = (['naver_book', 'qnet', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
     await supabase.from('content_locales').insert({
       content_id: newContent.id,
@@ -126,10 +123,23 @@ export async function searchDbContent(
 }> {
   const supabase = await createClient()
 
+  // content_locales에서 검색하여 content_id 목록 추출
+  const searchTerm = `%${query}%`
+  const { data: matchIds } = await supabase
+    .from('content_locales')
+    .select('content_id')
+    .ilike('title', searchTerm)
+
+  if (!matchIds?.length) {
+    return { success: true, items: [] }
+  }
+
+  const ids = [...new Set(matchIds.map(m => m.content_id))]
+
   let dbQuery = supabase
     .from('contents')
-    .select('id, title, type, creator, thumbnail_url')
-    .ilike('title', `%${query}%`)
+    .select('id, type, content_locales(locale, title, creator, thumbnail_url)')
+    .in('id', ids)
     .limit(20)
 
   if (contentType) {
@@ -142,5 +152,17 @@ export async function searchDbContent(
     return { success: false, error: error.message }
   }
 
-  return { success: true, items: data || [] }
+  const items = (data || []).map((c: any) => {
+    const ko = c.content_locales?.find((l: any) => l.locale === 'ko')
+    const en = c.content_locales?.find((l: any) => l.locale === 'en')
+    return {
+      id: c.id,
+      title: ko?.title || en?.title || '',
+      type: c.type,
+      creator: ko?.creator || en?.creator || null,
+      thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+    }
+  })
+
+  return { success: true, items }
 }

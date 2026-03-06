@@ -20,7 +20,7 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
       flow_nodes(count),
       stages:flow_stages(
         nodes:flow_nodes(
-          content:contents(thumbnail_url)
+          content:contents(id, content_locales(locale, thumbnail_url))
         )
       )
     `)
@@ -43,6 +43,20 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
     ...flow,
     stage_count: flow.flow_stages?.[0]?.count || 0,
     node_count: flow.flow_nodes?.[0]?.count || 0,
-    stages: flow.stages || []
+    stages: (flow.stages || []).map((stage: any) => ({
+      ...stage,
+      nodes: (stage.nodes || []).map((node: any) => {
+        const locales = node.content?.content_locales || []
+        const ko = locales.find((l: any) => l.locale === 'ko')
+        const en = locales.find((l: any) => l.locale === 'en')
+        return {
+          ...node,
+          content: node.content ? {
+            ...node.content,
+            thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+          } : null,
+        }
+      }),
+    })),
   }))
 }

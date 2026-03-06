@@ -229,17 +229,17 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 콘텐츠 수집 단계에서 한국어·영문 데이터를 **동시에** 확보한다. 나중에 별도로 번역하지 않는다.
 
-### BOOK 타입 i18n 필드
+### BOOK 타입 i18n 필드 (content_locales 테이블)
 
-| 컬럼 | 설명 | 확보 방법 |
-|------|------|-----------|
-| `isbn_ko` | 한국어 판본 ISBN | Naver 도서 API |
-| `isbn_en` | 영어 판본 ISBN | Google Books API (`isbn:{isbn_ko}` 또는 영문 제목+저자) |
-| `title_ko` | 한국어 제목 | Naver 검색 결과 |
-| `title_en` | 영문 제목 | Google Books 결과 또는 원서 제목 |
-| `creator_en` | 영문 저자명 | Google Books 결과 |
+| 테이블.컬럼 | locale | 설명 | 확보 방법 |
+|-------------|--------|------|-----------|
+| `content_locales.isbn` | ko | 한국어 판본 ISBN | Naver 도서 API |
+| `content_locales.isbn` | en | 영어 판본 ISBN | Google Books API |
+| `content_locales.title` | ko | 한국어 제목 | Naver 검색 결과 |
+| `content_locales.title` | en | 영문 제목 | Google Books 결과 |
+| `content_locales.creator` | en | 영문 저자명 | Google Books 결과 |
 
-### Google Books API로 isbn_en 확보
+### Google Books API로 isbn(en) 확보
 
 ```bash
 export $(grep -E "^GOOGLE_BOOKS_API_KEY" ./sw/web/.env | head -1 | xargs) && \
@@ -273,15 +273,30 @@ curl -s "https://www.googleapis.com/books/v1/volumes?q=intitle:{영문제목}+in
 ### contents 배치 INSERT
 
 ```sql
-INSERT INTO contents (external_id, type, title, creator, thumbnail_url, external_source, isbn_ko, isbn_en, title_ko, title_en, creator_en)
+-- 1) contents 메인 테이블 (로케일 데이터 없음 — type, external_id 등만)
+INSERT INTO contents (external_id, type, external_source)
 VALUES
-  ('{외부ID1}', '{TYPE}', '{제목1}', '{창작자1}', '{이미지URL1}', '{source}', '{isbn_ko}', '{isbn_en}', '{title_ko}', '{title_en}', '{creator_en}'),
+  ('{외부ID1}', '{TYPE}', '{source}'),
   ...
 ON CONFLICT (external_id) WHERE external_id IS NOT NULL DO NOTHING
 RETURNING id, external_id;
+
+-- 2) content_locales (한국어) — 로케일 데이터의 유일한 저장소
+INSERT INTO content_locales (content_id, locale, title, creator, thumbnail_url, isbn, sources, verified)
+VALUES
+  ('{uuid}', 'ko', '{한국어제목}', '{한국어저자}', '{썸네일}', '{isbn_ko}', '{"primary":"naver_book"}', true),
+  ...
+ON CONFLICT (content_id, locale) DO NOTHING;
+
+-- 3) content_locales (영문)
+INSERT INTO content_locales (content_id, locale, title, creator, thumbnail_url, isbn, sources, verified)
+VALUES
+  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"google_books"}', true),
+  ...
+ON CONFLICT (content_id, locale) DO NOTHING;
 ```
 
-**주의**: `contents.id`는 UUID 자동 생성. 외부 API 식별자는 `external_id` 컬럼에 저장한다.
+**주의**: `contents` 테이블에는 title, creator, thumbnail_url 등 로케일 컬럼이 없다. 모든 로케일 데이터는 `content_locales`에만 저장한다. `contents.id`는 UUID 자동 생성, 외부 API 식별자는 `external_id`에 저장.
 
 ### user_contents 배치 INSERT
 

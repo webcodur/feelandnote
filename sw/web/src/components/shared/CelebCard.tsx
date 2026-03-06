@@ -12,12 +12,12 @@ import { Info, ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
-import { CelebImage } from "@/components/ui";
+import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
-import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
+import type { DialogueSubtitleData, DialogueLabel } from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { useTranslations, useLocale } from "next-intl";
-import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // #region Types
 type Variant = "card" | "circle" | "medallion";
@@ -89,53 +89,74 @@ export default function CelebCard({
   }, [isActive]);
 
 
-  const lastGreetingIdx = useRef<number | null>(null);
+  const lastDialogueIdx = useRef<number | null>(null);
 
-  /** greeting 대사를 DialogueSubtitle로 발사 (locale별 선택, 직전 중복 회피) */
-  const fireGreeting = useCallback(() => {
+  /** greeting + roll_call + deploy + quote 슬롯에서 균등 확률로 발사 */
+  const fireDialogue = useCallback(() => {
     if (!onSubtitle) return;
-    const greetings = (locale === "en" && celebProfile?.greeting_en) || celebProfile?.greeting;
-    if (!greetings || greetings.length === 0) return;
-    let idx: number;
-    if (greetings.length <= 1) {
-      idx = 0;
+
+    const pickLocale = <T,>(ko: T | undefined | null, en: T | undefined | null): T | null =>
+      (locale === "en" ? (en ?? ko) : ko) ?? null;
+
+    const greetings = pickLocale(celebProfile?.greeting, celebProfile?.greeting_en) as string[] | null;
+    const rollCalls = pickLocale(celebProfile?.roll_call, celebProfile?.roll_call_en) as string[] | null;
+    const deploys = pickLocale(celebProfile?.deploy, celebProfile?.deploy_en) as string[] | null;
+    const displayQuote = pickLocale(celebProfile?.quotes, celebProfile?.quotes_en) as string | null;
+
+    // 슬롯 배열 구축: [label, lines배열내index, voiceType]
+    type Slot = { label: DialogueLabel; text: string; voiceType?: string; voiceIdx?: number };
+    const slots: Slot[] = [];
+    greetings?.forEach((t, i) => slots.push({ label: "greeting", text: stripEmotionTag(t), voiceType: "greeting", voiceIdx: i + 1 }));
+    rollCalls?.forEach((t, i) => slots.push({ label: "roll_call", text: stripEmotionTag(t), voiceType: "roll_call", voiceIdx: i + 1 }));
+    deploys?.forEach((t, i) => slots.push({ label: "deploy", text: stripEmotionTag(t), voiceType: "deploy", voiceIdx: i + 1 }));
+    if (displayQuote) slots.push({ label: "quotes", text: displayQuote });
+
+    if (slots.length === 0) return;
+
+    let slot: number;
+    if (slots.length <= 1) {
+      slot = 0;
     } else {
-      do { idx = Math.floor(Math.random() * greetings.length); } while (idx === lastGreetingIdx.current);
+      do { slot = Math.floor(Math.random() * slots.length); } while (slot === lastDialogueIdx.current);
     }
-    lastGreetingIdx.current = idx;
-    const raw = greetings[idx];
+    lastDialogueIdx.current = slot;
+
+    const picked = slots[slot];
+    const audioUrl = picked.label === "quotes"
+      ? (hasVoice ? getQuoteVoiceUrl(id, locale as "ko" | "en") : null)
+      : (hasVoice && picked.voiceType ? getVoiceUrl(id, locale as "ko" | "en", picked.voiceType as any, picked.voiceIdx!) : null);
+
     onSubtitle({
       key: ++keyCounter.current,
       tone: "composed",
-      text: stripEmotionTag(raw),
+      text: picked.text,
       nickname: displayNickname,
       avatarUrl: avatar_url ?? null,
-      audioUrl: hasVoice ? getVoiceUrl(id, locale as "ko" | "en", "greeting", idx + 1) : null,
+      audioUrl,
+      label: picked.label,
     });
-    if (hasVoice) {
-      setVoicePulse(prev => prev + 1);
-    }
-  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, locale, displayNickname, avatar_url, hasVoice, id]);
+    if (hasVoice) setVoicePulse(prev => prev + 1);
+  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, celebProfile?.roll_call, celebProfile?.roll_call_en, celebProfile?.deploy, celebProfile?.deploy_en, celebProfile?.quotes, celebProfile?.quotes_en, locale, displayNickname, avatar_url, hasVoice, id]);
 
   const [voicePulse, setVoicePulse] = useState(0);
   const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);
   const rippleCounter = useRef(0);
 
-  // 카드 클릭 → 첫 클릭: 오버레이 열기 + greeting / 재클릭: ripple + greeting 재발사
+  // 카드 클릭 → 첫 클릭: 오버레이 열기 + 대사 / 재클릭: ripple + 대사 재발사
   const handleCardClick = useCallback((e: React.MouseEvent) => {
     if (isLoading) return;
     if (!isActive) {
       setIsActive(true);
-      fireGreeting();
+      fireDialogue();
     } else {
       // 클릭 좌표 → 카드 내 상대 좌표
       const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
       setRipple({ x, y, key: ++rippleCounter.current });
-      fireGreeting();
+      fireDialogue();
     }
-  }, [isLoading, isActive, fireGreeting]);
+  }, [isLoading, isActive, fireDialogue]);
 
   // 인포 버튼 → 모달 열기
   const handleInfoClick = useCallback(async (e: React.MouseEvent) => {
@@ -202,7 +223,7 @@ export default function CelebCard({
             onClick={handleCardClick}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
             className={`group relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
-              border border-white/10 hover:border-accent/60 transition-colors duration-300
+              border border-white/10 hover:border-accent/60
               ${isActive ? "border-accent/60 ring-1 ring-accent/30" : ""}
               ${isLoading ? "animate-pulse border-accent/50 pointer-events-none opacity-70" : ""}
               ring-1 ring-inset ring-white/5 shadow-inner
@@ -223,19 +244,7 @@ export default function CelebCard({
             {/* 음성 지원 뱃지 */}
             {hasVoice && (
               <div className="absolute top-1 left-1 z-40">
-                <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] border border-emerald-400/80 animate-[voiceGlow_2s_ease-in-out_infinite]">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 text-white">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  </svg>
-                  {/* 음파 링 */}
-                  {voicePulse > 0 && (
-                    <span
-                      key={voicePulse}
-                      className="absolute w-6 h-6 rounded-full border-2 border-emerald-400 animate-[voiceRing_800ms_ease-out_forwards] pointer-events-none"
-                    />
-                  )}
-                </div>
+                <VoiceBadge pulse={voicePulse} />
               </div>
             )}
 
@@ -308,10 +317,10 @@ export default function CelebCard({
     ? { container: "w-24 h-24 rounded-full", sizes: "96px", fallbackSize: 32 }
     : { container: "w-14 h-14 sm:w-16 sm:h-16 rounded-full", sizes: "64px", fallbackSize: 20 };
 
-  // circle/medallion 클릭 → 모달 열기 + greeting 발사
+  // circle/medallion 클릭 → 모달 열기 + greeting/quote 발사
   const handleCircleClick = async () => {
     if (isLoading) return;
-    fireGreeting();
+    fireDialogue();
 
     if (celebProfile) {
       if (onOpenModal) { onOpenModal(celebProfile, index); return; }
@@ -344,7 +353,7 @@ export default function CelebCard({
       >
         <div className={`
           relative shrink-0 ${config.container} p-0.5
-          border border-white/10 shadow-lg transition-all duration-300
+          border border-white/10 shadow-lg transition-[transform,box-shadow] duration-300
           group-hover/celeb:border-accent/60
           ${variant === "medallion" ? "group-hover/celeb:scale-105 shadow-xl" : ""}
           ${isLoading ? "animate-pulse border-accent/50" : ""}

@@ -67,9 +67,21 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   const { data: { user: currentUser } } = await supabase.auth.getUser()
   const isOwnProfile = currentUser?.id === userId
 
-  // type이나 search 필터가 있으면 inner join
-  const needsInnerJoin = type || search
-  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, title, creator, content_locales(${CL_SELECT})`
+  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, content_locales(${CL_SELECT})`
+
+  // 검색 필터 - content_locales에서 2-step 검색
+  let searchContentIds: string[] | null = null
+  if (search && search.trim().length >= 2) {
+    const searchTerm = `%${search.trim()}%`
+    const { data: matchIds } = await supabase
+      .from('content_locales')
+      .select('content_id')
+      .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
+    if (!matchIds?.length) return { items: [], total: 0, page, totalPages: 0, hasMore: false }
+    searchContentIds = [...new Set(matchIds.map(m => m.content_id))]
+  }
+
+  const needsInnerJoin = !!type
   const contentJoin = needsInnerJoin ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
   let query = supabase
@@ -114,10 +126,9 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   //   query = query.eq('status', status)
   // }
 
-  // 검색 필터 - 제목 또는 저자
-  if (search && search.trim().length >= 2) {
-    const searchTerm = `%${search.trim()}%`
-    query = query.or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`, { referencedTable: 'content' })
+  // 검색 결과 content_id 필터
+  if (searchContentIds) {
+    query = query.in('content_id', searchContentIds)
   }
 
   // 리뷰 필터 (강화됨)
@@ -159,8 +170,8 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
       content: {
         id: c.id as string,
         type: c.type as ContentType,
-        title: flat.title || (c.title as string),
-        creator: flat.creator || (c.creator as string | null),
+        title: flat.title,
+        creator: flat.creator,
         thumbnail_url: flat.thumbnail_url,
         metadata: c.metadata as Record<string, unknown> | null,
         user_count: c.user_count as number | null,

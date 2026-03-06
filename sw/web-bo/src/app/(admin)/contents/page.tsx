@@ -35,7 +35,25 @@ export default async function ContentsPage({ searchParams }: PageProps) {
     .select('*', { count: 'exact' })
 
   if (search) {
-    query = query.or(`title.ilike.%${search}%,title_ko.ilike.%${search}%,title_en.ilike.%${search}%,creator.ilike.%${search}%`)
+    const searchTerm = `%${search}%`
+    const { data: matchIds } = await supabase
+      .from('content_locales')
+      .select('content_id')
+      .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
+
+    if (matchIds?.length) {
+      const ids = [...new Set(matchIds.map((m: { content_id: string }) => m.content_id))]
+      query = query.in('id', ids)
+    } else {
+      return (
+        <div className="space-y-4 md:space-y-6">
+          <div>
+            <h1 className="text-xl md:text-2xl font-bold text-text-primary">콘텐츠 관리</h1>
+            <p className="text-sm text-text-secondary mt-1">검색 결과 없음</p>
+          </div>
+        </div>
+      )
+    }
   }
 
   if (type !== 'all') {
@@ -61,13 +79,12 @@ export default async function ContentsPage({ searchParams }: PageProps) {
     return acc
   }, {} as Record<string, number>)
 
-  // BOOK 에디션 조회
-  const bookIds = (contents || []).filter(c => c.type === 'BOOK').map(c => c.id)
-  const { data: editions } = bookIds.length > 0
+  // 로케일 조회 (전 타입)
+  const { data: editions } = contentIds.length > 0
     ? await supabase
-        .from('content_editions')
+        .from('content_locales')
         .select('content_id, locale, title, creator, isbn, thumbnail_url, publisher')
-        .in('content_id', bookIds)
+        .in('content_id', contentIds)
     : { data: [] }
 
   interface Edition {
@@ -236,26 +253,33 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                               </div>
                             </div>
                           )
-                        })() : (
+                        })() : (() => {
+                          const koL = editionMap[content.id]?.ko
+                          const enL = editionMap[content.id]?.en
+                          const displayThumb = koL?.thumbnail_url || enL?.thumbnail_url
+                          const displayTitle = koL?.title || enL?.title || '제목 없음'
+                          const displayCreator = koL?.creator || enL?.creator
+
+                          return (
                           <div className="flex items-center gap-2 md:gap-3">
                             <div className="relative w-10 h-14 md:w-12 md:h-16 rounded bg-bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
-                              {content.thumbnail_url ? (
-                                <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+                              {displayThumb ? (
+                                <Image src={displayThumb} alt="" fill unoptimized className="object-cover" />
                               ) : (
                                 <TypeIcon className="w-4 h-4 md:w-5 md:h-5 text-text-secondary" />
                               )}
                             </div>
                             <div className="min-w-0">
                               <p className="text-xs md:text-sm font-medium text-text-primary line-clamp-1">
-                                {content.title_ko || content.title}
+                                {displayTitle}
                               </p>
-                              {content.title_en && content.title_en !== content.title_ko && (
+                              {enL?.title && enL.title !== koL?.title && (
                                 <p className="text-[10px] md:text-xs text-text-tertiary line-clamp-1">
-                                  {content.title_en}
+                                  {enL.title}
                                 </p>
                               )}
                               <p className="text-xs text-text-secondary line-clamp-1">
-                                {content.creator || '-'}
+                                {displayCreator || '-'}
                               </p>
                               <div className="flex items-center gap-2 mt-0.5">
                                 <span className="inline-flex items-center gap-0.5 text-[10px] text-text-secondary/70 font-mono" title={content.id}>
@@ -271,7 +295,8 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                               </div>
                             </div>
                           </div>
-                        )}
+                          )
+                        })()}
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4 text-center">
                         <span className={`inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium whitespace-nowrap ${typeConfig?.bgColor || 'bg-gray-500/10'} ${typeConfig?.color || 'text-gray-400'}`}>
@@ -280,14 +305,17 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                         </span>
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4">
-                        {content.publisher ? (
+                        {(() => {
+                          const pubLocale = editionMap[content.id]?.ko?.publisher || editionMap[content.id]?.en?.publisher
+                          return pubLocale ? (
                           <div className="flex items-center gap-1 text-xs md:text-sm text-text-secondary">
                             <Building2 className="w-3 h-3 md:w-3.5 md:h-3.5 shrink-0" />
-                            <span className="line-clamp-1">{content.publisher}</span>
+                            <span className="line-clamp-1">{pubLocale}</span>
                           </div>
                         ) : (
                           <span className="text-text-secondary/50 text-xs md:text-sm">-</span>
-                        )}
+                        )
+                        })()}
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4">
                         {content.release_date ? (

@@ -26,3 +26,4 @@ export { default as Popover } from "./Popover";
 export { default as MeanderDivider } from "./MeanderDivider";
 export { default as PageHeroSection } from "./PageHeroSection";
 export { default as CelebImage } from "./CelebImage";
+export { default as VoiceBadge } from "./VoiceBadge";

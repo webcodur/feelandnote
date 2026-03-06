@@ -7,6 +7,7 @@ import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import CelebPageContent from "./CelebPageContent";
 
 interface PageProps {
@@ -157,7 +158,7 @@ export default async function CelebPage({ params }: PageProps) {
     // JSON-LD ItemList용 콘텐츠 목록 (최대 50개)
     supabase
       .from('user_contents')
-      .select('contents!inner(id, type, title, creator)')
+      .select(`contents!inner(id, type, content_locales(${CL_SELECT}))`)
       .eq('user_id', userId)
       .limit(50),
     supabase
@@ -179,19 +180,20 @@ export default async function CelebPage({ params }: PageProps) {
   // JSON-LD 구조화 데이터: Person + ItemList
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
   const contentItems = (contentListResult.data ?? []).map((row, idx) => {
-    const c = row.contents as unknown as { id: string; type: string; title: string; creator: string | null };
-    const schemaType = c.type === 'BOOK' ? 'Book'
-      : c.type === 'VIDEO' ? 'Movie'
-      : c.type === 'MUSIC' ? 'MusicRecording'
-      : c.type === 'GAME' ? 'VideoGame'
+    const rawContent = row.contents as unknown as { id: string; type: string; content_locales: ContentLocaleRow[] | null };
+    const flat = flattenLocales(rawContent.content_locales);
+    const schemaType = rawContent.type === 'BOOK' ? 'Book'
+      : rawContent.type === 'VIDEO' ? 'Movie'
+      : rawContent.type === 'MUSIC' ? 'MusicRecording'
+      : rawContent.type === 'GAME' ? 'VideoGame'
       : 'CreativeWork';
     return {
       "@type": "ListItem",
       position: idx + 1,
       item: {
         "@type": schemaType,
-        name: c.title,
-        ...(c.creator && { author: { "@type": "Person", name: c.creator } }),
+        name: flat.title,
+        ...(flat.creator && { author: { "@type": "Person", name: flat.creator } }),
       },
     };
   });

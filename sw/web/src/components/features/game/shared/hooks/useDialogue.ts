@@ -17,6 +17,9 @@ export function stripEmotionTag(text: string): string {
   return text.replace(/^\[.*?\]\s*/, "");
 }
 
+/** 대사 종류 라벨 */
+export type DialogueLabel = "greeting" | "roll_call" | "deploy" | "quotes";
+
 export interface DialogueSubtitleData {
   key: number;
   tone: SpeechTone;
@@ -25,6 +28,8 @@ export interface DialogueSubtitleData {
   avatarUrl?: string | null;
   /** 음성 URL — 있으면 DialogueSubtitle에서 재생하고 끝날 때까지 UI를 유지한다 */
   audioUrl?: string | null;
+  /** 대사 종류 (UI 라벨 표시용) */
+  label?: DialogueLabel;
 }
 
 /** showDialogue 호출 시 자막에 표시할 캐릭터 정보 */
@@ -79,6 +84,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
         audioUrl: hasVoice ? getVoiceUrl(celebId, locale, type, index + 1) : null,
+        label: type as DialogueLabel,
       });
       return;
     }
@@ -94,6 +100,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         text: fallback[fbIdx],
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
+        label: type as DialogueLabel,
       });
     }
   }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, locale]);

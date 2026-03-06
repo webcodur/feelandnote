@@ -18,7 +18,7 @@ export async function getRecentContents(limit: number = 10): Promise<RecentConte
 
   const { data, error } = await supabase
     .from('contents')
-    .select(`id, type, title, creator, thumbnail_url, created_at, content_locales(${CL_SELECT})`)
+    .select(`id, type, created_at, content_locales(${CL_SELECT})`)
     .order('created_at', { ascending: false })
     .limit(limit)
 
@@ -33,9 +33,9 @@ export async function getRecentContents(limit: number = 10): Promise<RecentConte
     return {
       id: item.id,
       type: item.type as ContentType,
-      title: flat.title || item.title,
-      creator: flat.creator || item.creator,
-      thumbnail_url: flat.thumbnail_url || item.thumbnail_url,
+      title: flat.title,
+      creator: flat.creator,
+      thumbnail_url: flat.thumbnail_url,
       created_at: item.created_at,
     }
   })

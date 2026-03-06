@@ -141,7 +141,7 @@ export async function getFeedActivities(
     const [{ data: contents }, { data: userContents }] = await Promise.all([
       supabase
         .from('contents')
-        .select(`id, title, thumbnail_url, type, content_locales(${CL_SELECT})`)
+        .select(`id, type, content_locales(${CL_SELECT})`)
         .in('id', contentIds),
       supabase
         .from('user_contents')
@@ -153,7 +153,7 @@ export async function getFeedActivities(
       contentsMap = Object.fromEntries(
         contents.map(c => {
           const flat = flattenLocales((c as any).content_locales as ContentLocaleRow[] | null)
-          return [c.id, { title: flat.title || c.title, thumbnail_url: flat.thumbnail_url || c.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition }]
+          return [c.id, { title: flat.title, thumbnail_url: flat.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition }]
         })
       )
     }

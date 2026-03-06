@@ -66,11 +66,21 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
 
       {/* ─── 태그 정보 (선택된 테마 제목 및 설명) ─── */}
       {activeTag?.is_featured && (
-        <div className="max-w-3xl mx-auto flex flex-col items-center justify-center text-center px-6 pt-2 pb-4">
-          <h2 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">
+        <div className="max-w-3xl mx-auto flex flex-col items-center justify-center text-center px-4 md:px-6 pt-12 pb-10 relative">
+          {/* Subtle background glow effect behind the title */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[100px] bg-accent/10 rounded-[100%] blur-[60px] pointer-events-none" />
+          
+          <div className="flex items-center gap-3 mb-4 opacity-80">
+            <span className="w-6 md:w-10 h-[1px] bg-gradient-to-r from-transparent to-accent/50" />
+            <span className="text-[11px] md:text-xs font-cinzel text-accent tracking-[0.2em] uppercase font-bold">Theme</span>
+            <span className="w-6 md:w-10 h-[1px] bg-gradient-to-l from-transparent to-accent/50" />
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4 tracking-wide relative z-10 drop-shadow-md">
             {locale === 'en' ? (activeTag.name_en ?? activeTag.name) : activeTag.name}
           </h2>
-          <p className="text-text-secondary text-sm md:text-base max-w-xl leading-relaxed">
+          
+          <p className="text-text-secondary text-sm md:text-[15px] max-w-xl leading-[1.8] opacity-90 text-pretty relative z-10">
             {locale === 'en' 
               ? (activeTag.description_en ?? activeTag.description ?? tLanding("defaultDescription"))
               : (activeTag.description ?? tLanding("defaultDescription"))}
@@ -134,21 +144,23 @@ function ViewModeTabs({
   const modes: ViewMode[] = ["spotlight", "shared", "timeline"];
 
   return (
-    <div className="flex justify-center gap-1 py-2 mb-3 px-4">
-      {modes.map((mode) => (
-        <button
-          key={mode}
-          onClick={() => onChange(mode)}
-          className={cn(
-            "px-4 py-1.5 text-xs font-medium rounded-full transition-colors",
-            viewMode === mode
-              ? "bg-accent/20 text-accent border border-accent/30"
-              : "text-text-tertiary hover:text-text-secondary hover:bg-white/5 border border-transparent"
-          )}
-        >
-          {t(`tabs.${mode}`)}
-        </button>
-      ))}
+    <div className="flex justify-center mb-8 px-4 relative z-10 w-full">
+      <div className="inline-flex p-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-md shadow-lg w-full max-w-fit overflow-x-auto hide-scrollbar">
+        {modes.map((mode) => (
+          <button
+            key={mode}
+            onClick={() => onChange(mode)}
+            className={cn(
+              "whitespace-nowrap px-5 md:px-7 py-2 text-[13px] md:text-[14px] font-semibold rounded-full transition-all duration-300",
+              viewMode === mode
+                ? "bg-accent/20 text-accent shadow-[0_0_15px_rgba(255,184,0,0.15)] ring-1 ring-accent/30"
+                : "text-white/60 hover:text-white/90 hover:bg-white/10"
+            )}
+          >
+            {t(`tabs.${mode}`)}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

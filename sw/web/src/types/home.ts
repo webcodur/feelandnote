@@ -53,6 +53,10 @@ export interface CelebProfile {
   tags: CelebTagInfo[]  // 태그 목록
   greeting?: string[] | null  // 인사 대사 (3변형)
   greeting_en?: string[] | null  // 인사 대사 영문 (3변형)
+  roll_call?: string[] | null  // 호명 대사 (3변형)
+  roll_call_en?: string[] | null
+  deploy?: string[] | null  // 출전 대사 (3변형)
+  deploy_en?: string[] | null
   speech_tone?: string | null  // 말투 톤 (loyal, composed, bold, humble, gentle, free)
   has_voice?: boolean  // R2 음성 파일 보유 여부
 }

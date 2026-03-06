@@ -22,7 +22,7 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
       updated_at,
       content_id,
       content:contents!user_contents_content_id_fkey(
-        id, title, creator, thumbnail_url, type, user_count,
+        id, type, user_count,
         content_locales(${CL_SELECT})
       ),
       celeb:profiles!user_contents_user_id_fkey(
@@ -71,9 +71,9 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
         updated_at: row.updated_at,
         content: {
           id: content.id,
-          title: flat.title || content.title,
-          creator: flat.creator || content.creator,
-          thumbnail_url: flat.thumbnail_url || content.thumbnail_url,
+          title: flat.title,
+          creator: flat.creator,
+          thumbnail_url: flat.thumbnail_url,
           type: content.type as ContentType,
           celeb_count: contentCounts[content.id]?.celebCount ?? 0,
           user_count: contentCounts[content.id]?.userCount ?? 0,

@@ -264,7 +264,7 @@ async function buildRound(
   if (contentIds.length > 0) {
     const { data: cData } = await supabase
       .from("contents")
-      .select("id, title, creator, thumbnail_url, type, content_locales(locale, title, creator, thumbnail_url)")
+      .select("id, type, content_locales(locale, title, creator, thumbnail_url)")
       .in("id", contentIds);
 
     const reviewMap = new Map(
@@ -276,14 +276,20 @@ async function buildRound(
 
     contents = (cData ?? [])
       .map((c) => {
+        const locales = (c as any).content_locales as { locale: string; title: string | null; creator: string | null; thumbnail_url: string | null }[] | null;
+        const ko = locales?.find(l => l.locale === 'ko');
+        const en = locales?.find(l => l.locale === 'en');
+        const title = ko?.title || en?.title || "";
+        const creator = ko?.creator || en?.creator || null;
+        const thumbnailUrl = ko?.thumbnail_url || en?.thumbnail_url || null;
         const raw = reviewMap.get(c.id) ?? "";
         return {
           id: c.id,
-          title: c.title ?? "",
-          creator: c.creator,
-          thumbnailUrl: c.thumbnail_url,
-          type: c.type ?? "BOOK",
-          review: censorName(raw, nickname, [c.title ?? "", c.creator ?? ""]),
+          title,
+          creator,
+          thumbnailUrl,
+          type: (c as any).type ?? "BOOK",
+          review: censorName(raw, nickname, [title, creator ?? ""]),
           rawReview: raw,
           sourceUrl: sourceUrlMap.get(c.id) ?? null,
         };

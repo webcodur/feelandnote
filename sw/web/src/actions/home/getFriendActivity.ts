@@ -73,7 +73,7 @@ export async function getFriendActivity(
   if (contentIds.length > 0) {
     const { data: contents } = await supabase
       .from('contents')
-      .select(`id, title, thumbnail_url, type, content_locales(locale, title, thumbnail_url)`)
+      .select(`id, type, content_locales(locale, title, thumbnail_url)`)
       .in('id', contentIds)
 
     if (contents) {
@@ -81,9 +81,10 @@ export async function getFriendActivity(
         contents.map(c => {
           const locales = (c as any).content_locales as ContentLocaleRow[] | null
           const ko = locales?.find(l => l.locale === 'ko')
+          const en = locales?.find(l => l.locale === 'en')
           return [
             c.id,
-            { title: ko?.title || c.title, thumbnail_url: ko?.thumbnail_url || c.thumbnail_url, type: c.type as ContentType }
+            { title: ko?.title || en?.title || '', thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null, type: c.type as ContentType }
           ]
         })
       )

@@ -27,7 +27,7 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
 
   const { data, error } = await supabase
     .from('user_contents')
-    .select(`id, status, content:contents!inner(id, external_id, title, creator, thumbnail_url, content_locales(${CL_SELECT}))`)
+    .select(`id, status, content:contents!inner(id, external_id, content_locales(${CL_SELECT}))`)
     .eq('user_id', user.id)
     .eq('content.type', 'MUSIC')
     .order('created_at', { ascending: false })
@@ -48,16 +48,16 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
 
   return items.map((item, idx) => {
     const c = item.content as unknown as {
-      id: string; external_id: string; title: string; creator: string | null; thumbnail_url: string | null; content_locales: ContentLocaleRow[] | null
+      id: string; external_id: string; content_locales: ContentLocaleRow[] | null
     }
     const flat = flattenLocales(c.content_locales)
     return {
       id: c.id,
       externalId: c.external_id || '',
       userContentId: item.id as string,
-      title: flat.title || c.title,
-      creator: flat.creator || c.creator,
-      thumbnailUrl: flat.thumbnail_url || c.thumbnail_url,
+      title: flat.title,
+      creator: flat.creator,
+      thumbnailUrl: flat.thumbnail_url,
       status: item.status as ContentStatus,
       spotifyEntity: entityMap.get(spotifyIds[idx]) ?? 'album',
     }

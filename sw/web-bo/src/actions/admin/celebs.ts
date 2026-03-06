@@ -569,11 +569,24 @@ export async function getCelebContents(
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
-  // 검색어 또는 타입 필터가 있으면 !inner join 사용
-  const needInnerJoin = contentType || search
+  // 검색어가 있으면 content_locales에서 먼저 content_id를 찾는 2-step 검색
+  let searchContentIds: string[] | null = null
+  if (search) {
+    const searchTerm = `%${search}%`
+    const { data: matchIds } = await supabase
+      .from('content_locales')
+      .select('content_id')
+      .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
+    searchContentIds = matchIds ? [...new Set(matchIds.map((m) => m.content_id))] : []
+    if (searchContentIds.length === 0) {
+      return { contents: [], total: 0 }
+    }
+  }
+
+  const needInnerJoin = !!contentType
   const selectQuery = needInnerJoin
-    ? `*, content:contents!inner (id, title, type, creator, thumbnail_url, external_source)`
-    : `*, content:contents (id, title, type, creator, thumbnail_url, external_source)`
+    ? `*, content:contents!inner (id, type, external_source, content_locales(locale, title, creator, thumbnail_url))`
+    : `*, content:contents (id, type, external_source, content_locales(locale, title, creator, thumbnail_url))`
 
   let query = supabase
     .from('user_contents')
@@ -584,8 +597,8 @@ export async function getCelebContents(
     query = query.eq('content.type', contentType)
   }
 
-  if (search) {
-    query = query.or(`title.ilike.%${search}%,creator.ilike.%${search}%`, { referencedTable: 'contents' })
+  if (searchContentIds) {
+    query = query.in('content_id', searchContentIds)
   }
 
   const { data, error, count } = await query
@@ -597,19 +610,32 @@ export async function getCelebContents(
     throw error
   }
 
-  const contents: CelebContent[] = (data || []).map((item) => ({
-    id: item.id,
-    content_id: item.content_id,
-    status: item.status,
-    rating: item.rating,
-    review: item.review,
-    is_spoiler: item.is_spoiler || false,
-    visibility: item.visibility || 'public',
-    source_url: item.source_url || null,
-    created_at: item.created_at,
-    updated_at: item.updated_at,
-    content: item.content,
-  }))
+  const contents: CelebContent[] = (data || []).map((item) => {
+    const rawContent = item.content as any
+    const locales = rawContent?.content_locales || []
+    const ko = locales.find((l: any) => l.locale === 'ko')
+    const en = locales.find((l: any) => l.locale === 'en')
+    return {
+      id: item.id,
+      content_id: item.content_id,
+      status: item.status,
+      rating: item.rating,
+      review: item.review,
+      is_spoiler: item.is_spoiler || false,
+      visibility: item.visibility || 'public',
+      source_url: item.source_url || null,
+      created_at: item.created_at,
+      updated_at: item.updated_at,
+      content: {
+        id: rawContent?.id || '',
+        title: ko?.title || en?.title || '',
+        type: rawContent?.type || '',
+        creator: ko?.creator || en?.creator || null,
+        thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+        external_source: rawContent?.external_source || null,
+      },
+    }
+  })
 
   return {
     contents,
@@ -716,18 +742,23 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
 
   if (error) throw error
 
-  // contents 테이블 업데이트 (type, title, creator) - 교체가 아닌 경우에만
-  if (!input.new_content_id && input.content_id && (input.content_type !== undefined || input.content_title !== undefined || input.content_creator !== undefined)) {
-    const contentUpdateData: Record<string, unknown> = {}
-
-    if (input.content_type !== undefined) contentUpdateData.type = input.content_type
-    if (input.content_title !== undefined) contentUpdateData.title = input.content_title
-    if (input.content_creator !== undefined) contentUpdateData.creator = input.content_creator
-
-    if (Object.keys(contentUpdateData).length > 0) {
-      const { error: contentError } = await adminClient.from('contents').update(contentUpdateData).eq('id', input.content_id)
-
+  // contents 테이블 업데이트 (type만) - 교체가 아닌 경우에만
+  if (!input.new_content_id && input.content_id) {
+    if (input.content_type !== undefined) {
+      const { error: contentError } = await adminClient.from('contents').update({ type: input.content_type }).eq('id', input.content_id)
       if (contentError) throw contentError
+    }
+
+    // content_locales 업데이트 (title, creator)
+    if (input.content_title !== undefined || input.content_creator !== undefined) {
+      const localeUpdate: Record<string, unknown> = {}
+      if (input.content_title !== undefined) localeUpdate.title = input.content_title
+      if (input.content_creator !== undefined) localeUpdate.creator = input.content_creator
+      await adminClient.from('content_locales').upsert({
+        content_id: input.content_id,
+        locale: 'ko',
+        ...localeUpdate,
+      }, { onConflict: 'content_id,locale' })
     }
   }
 
@@ -1036,9 +1067,8 @@ export async function exportCelebContents(
       review,
       source_url,
       content:contents (
-        title,
         type,
-        creator
+        content_locales(locale, title, creator)
       )
     `)
     .eq('user_id', celebId)
@@ -1058,10 +1088,13 @@ export async function exportCelebContents(
   const filteredData = (data || []).filter((item) => item.content !== null)
 
   const items: ExportedContent[] = filteredData.map((item) => {
-    // Supabase 조인 결과는 배열 또는 단일 객체일 수 있음
     const contentData = Array.isArray(item.content) ? item.content[0] : item.content
-    const content = contentData as { title: string; type: string; creator: string | null }
-    const title = content.creator ? `${content.title}(${content.creator})` : content.title
+    const raw = contentData as { type: string; content_locales: { locale: string; title: string; creator: string | null }[] }
+    const ko = raw.content_locales?.find((l) => l.locale === 'ko')
+    const en = raw.content_locales?.find((l) => l.locale === 'en')
+    const contentTitle = ko?.title || en?.title || ''
+    const creator = ko?.creator || en?.creator || null
+    const title = creator ? `${contentTitle}(${creator})` : contentTitle
 
     return {
       title,

@@ -1,5 +1,13 @@
 # content_locales 상세 설계서
 
+> ✅ **마이그레이션 완료 (2026-03-06)** — Phase 1(DDL+이관), Phase 2(앱코드 전환), Phase 3(레거시 DROP) 모두 완료.
+> 아래는 설계 당시 문서. 현재 구조는 `content_locales` 테이블이 유일한 로케일 데이터 소스.
+> `content_editions` 테이블 DROP 완료. `contents`에서 13개 로케일 컬럼 전부 DROP 완료 (Phase 3a: title_ko, title_en, creator_en, isbn_ko, isbn_en, thumbnail_en, has_en_edition / Phase 3b: title, creator, thumbnail_url, description, publisher, affiliate_url).
+
+---
+
+*아래 원문은 마이그레이션 이전 상태를 기술한 설계 문서.*
+
 > contents 테이블에서 로케일 의존 데이터를 완전 분리하여, 전 콘텐츠 타입(BOOK/VIDEO/GAME/MUSIC/CERTIFICATE)에 통합 적용한다.
 
 ## 1. 현황 분석

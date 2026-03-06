@@ -1,15 +1,12 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
-import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
-import defaultLinesData from "@/lib/game/voice/defaultLines";
-import type { SpeechTone } from "@/lib/game/voice/types";
-import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 
 interface CuratedSpotlightMobileProps {
   activeTag: FeaturedTag;
@@ -23,7 +20,7 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
   const [dragOffset, setDragOffset] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
-  const subtitleKeyRef = useRef(0);
+  const { fireGreeting, ripple, triggerRipple, clearRipple } = useCelebGreeting({ onSubtitle, locale });
   const heroCeleb = activeTag.celebs[selectedIndex];
   const celebsCount = activeTag.celebs.length;
 
@@ -37,34 +34,10 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
   const canGoNext = selectedIndex < celebsCount - 1;
   const canGoPrev = selectedIndex > 0;
 
-  // greeting 대사 표시
-  const showGreeting = useCallback((celeb: FeaturedCeleb | undefined) => {
-    if (!celeb || !onSubtitle) return;
-    const greetings = locale === 'ko' ? celeb.greeting : (celeb.greeting_en ?? celeb.greeting);
-    let text: string | undefined;
-    let greetingIdx = -1;
-    if (greetings?.length) {
-      greetingIdx = Math.floor(Math.random() * greetings.length);
-      text = greetings[greetingIdx];
-    } else if (celeb.speech_tone) {
-      const fallback = defaultLinesData[locale].greeting?.[celeb.speech_tone as SpeechTone];
-      if (fallback?.length) text = fallback[Math.floor(Math.random() * fallback.length)];
-    }
-    if (text) {
-      onSubtitle({
-        key: ++subtitleKeyRef.current,
-        tone: (celeb.speech_tone as SpeechTone) ?? 'composed',
-        text: stripEmotionTag(text),
-        nickname: celeb.nickname,
-        avatarUrl: celeb.avatar_url,
-        audioUrl: celeb.has_voice && greetingIdx >= 0 ? getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1) : null,
-      });
-    }
-  }, [locale, onSubtitle]);
-
   useEffect(() => {
     if (!hasInteracted.current) return;
-    showGreeting(activeTag.celebs[selectedIndex]);
+    const celeb = activeTag.celebs[selectedIndex];
+    if (celeb) fireGreeting(celeb);
   }, [selectedIndex, activeTag.id]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -202,9 +175,18 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
           return (
             <button
               key={celeb.id}
-              onClick={() => { hasInteracted.current = true; setSelectedIndex(idx); showGreeting(celeb); }}
+              onClick={(e) => {
+                hasInteracted.current = true;
+                if (isSelected) {
+                  triggerRipple(celeb.id, e);
+                  fireGreeting(celeb);
+                } else {
+                  setSelectedIndex(idx);
+                  fireGreeting(celeb);
+                }
+              }}
               className={cn(
-                "w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200 border",
+                "w-full relative overflow-hidden flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200 border",
                 isSelected
                   ? "bg-accent/10 border-accent/30 shadow-sm"
                   : "bg-white/[0.02] border-white/5 active:bg-white/[0.06]"
@@ -265,6 +247,16 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
               )}>
                 {(idx + 1).toString().padStart(2, '0')}
               </span>
+
+              {/* 클릭 ripple */}
+              {ripple && ripple.id === celeb.id && (
+                <span
+                  key={ripple.key}
+                  className="absolute rounded-full bg-accent/40 pointer-events-none animate-[ripple_400ms_ease-out_forwards]"
+                  style={{ left: `${ripple.x}%`, top: `${ripple.y}%`, translate: "-50% -50%" }}
+                  onAnimationEnd={clearRipple}
+                />
+              )}
             </button>
           );
         })}

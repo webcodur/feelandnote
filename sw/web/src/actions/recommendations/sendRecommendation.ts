@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createNotification } from "@/actions/notifications";
 import type { SendRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface SendRecommendationData {
   recommendationId: string;
@@ -42,7 +43,7 @@ export async function sendRecommendation(
       id,
       user_id,
       status,
-      content:contents(id, title, type, thumbnail_url)
+      content:contents(id, type, content_locales(${CL_SELECT}))
     `
     )
     .eq("id", params.userContentId)
@@ -100,17 +101,13 @@ export async function sendRecommendation(
   const senderName = senderProfile?.nickname ?? "사용자";
 
   // 6. 알림 생성
-  type ContentData = {
-    id: string;
-    title: string;
-    type: string;
-    thumbnail_url: string | null;
-  };
-  const content = (
+  const rawContent = (
     Array.isArray(userContent.content)
       ? userContent.content[0]
       : userContent.content
-  ) as ContentData;
+  ) as { id: string; type: string; content_locales: ContentLocaleRow[] | null } | null;
+  const flat = flattenLocales(rawContent?.content_locales);
+  const content = rawContent ? { id: rawContent.id, type: rawContent.type, title: flat.title, thumbnail_url: flat.thumbnail_url } : null;
 
   await createNotification({
     userId: params.receiverId,

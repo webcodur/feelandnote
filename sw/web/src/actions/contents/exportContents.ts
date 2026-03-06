@@ -74,8 +74,8 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
       const locales = (item.content as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
       const flat = flattenLocales(locales)
       return {
-      title: flat.title || item.content.title,
-      creator: flat.creator || item.content.creator || '',
+      title: flat.title,
+      creator: flat.creator || '',
       type: TYPE_LABELS[item.content.type] || item.content.type,
       status: EXPORT_STATUS_LABELS[item.status] || item.status,
       category: item.content.subtype || null,

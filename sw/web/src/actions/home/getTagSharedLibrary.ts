@@ -6,6 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { CL_SELECT, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 export interface SharedContentCeleb {
   id: string;
@@ -61,7 +62,7 @@ export async function getTagSharedLibrary(
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      "user_id, content_id, contents!inner(id, title, title_en, creator, creator_en, thumbnail_url, type)"
+      `user_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT}))`
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");
@@ -84,25 +85,22 @@ export async function getTagSharedLibrary(
 
   for (const row of data) {
     const c = row.contents as unknown as {
-      id: string;
-      title: string | null;
-      title_en: string | null;
-      creator: string | null;
-      creator_en: string | null;
-      thumbnail_url: string | null;
-      type: string | null;
+      id: string; type: string | null;
+      content_locales: ContentLocaleRow[] | null;
     };
+    const ko = c.content_locales?.find(l => l.locale === 'ko');
+    const en = c.content_locales?.find(l => l.locale === 'en');
 
     const existing = contentMap.get(c.id);
     if (existing) {
       existing.celebIds.add(row.user_id);
     } else {
       contentMap.set(c.id, {
-        title: c.title ?? "",
-        title_en: c.title_en,
-        creator: c.creator,
-        creator_en: c.creator_en,
-        thumbnailUrl: c.thumbnail_url,
+        title: ko?.title || en?.title || "",
+        title_en: en?.title ?? null,
+        creator: ko?.creator || en?.creator || null,
+        creator_en: en?.creator ?? null,
+        thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
         type: c.type ?? "BOOK",
         celebIds: new Set([row.user_id]),
       });

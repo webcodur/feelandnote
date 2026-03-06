@@ -33,7 +33,7 @@ export async function getCelebFeed(
       source_url,
       updated_at,
       content:contents!user_contents_content_id_fkey!inner(
-        id, title, creator, thumbnail_url, type, user_count,
+        id, type, user_count,
         content_locales(${CL_SELECT})
       ),
       celeb:profiles!user_contents_user_id_fkey!inner(
@@ -117,9 +117,9 @@ export async function getCelebFeed(
         updated_at: row.updated_at,
         content: {
           id: content.id,
-          title: flat.title || content.title,
-          creator: flat.creator || content.creator,
-          thumbnail_url: flat.thumbnail_url || content.thumbnail_url,
+          title: flat.title,
+          creator: flat.creator,
+          thumbnail_url: flat.thumbnail_url,
           type: content.type as ContentType,
           celeb_count: celebCountMap.get(content.id) ?? 0,
           user_count: content.user_count ?? 0,

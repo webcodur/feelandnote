@@ -57,11 +57,6 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       .insert({
         type: params.type,
         subtype: params.subtype || null,
-        title: params.title,
-        creator: params.creator || null,
-        thumbnail_url: params.thumbnailUrl || null,
-        description: params.description || null,
-        publisher: params.publisher || null,
         release_date: params.releaseDate || null,
         metadata: params.metadata || null,
         external_id: params.id,
@@ -75,7 +70,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     }
     contentId = newContent.id
 
-    // content_locales 듀얼 라이트
+    // content_locales에 로케일 데이터 저장
     const locale = sourceToLocale(params.externalSource)
     await supabase.from('content_locales').insert({
       content_id: contentId,

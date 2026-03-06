@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { RecordType } from './createRecord'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetRecordsParams {
   userId?: string  // 특정 사용자/셀럽의 기록 조회
@@ -39,7 +40,7 @@ export async function getRecords(params: GetRecordsParams = {}) {
     .from('records')
     .select(`
       *,
-      contentData:contents(id, title, type, thumbnail_url, creator),
+      contentData:contents(id, type, content_locales(${CL_SELECT})),
       contributor:profiles!records_contributor_id_fkey(id, nickname, avatar_url)
     `)
     .eq('user_id', targetUserId)
@@ -68,7 +69,15 @@ export async function getRecords(params: GetRecordsParams = {}) {
     throw new Error('기록 조회에 실패했습니다')
   }
 
-  return data
+  // contentData의 content_locales → flat 변환
+  return (data || []).map(item => {
+    const raw = Array.isArray(item.contentData) ? item.contentData[0] : item.contentData
+    const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null)
+    return {
+      ...item,
+      contentData: raw ? { id: (raw as any).id, type: (raw as any).type, title: flat.title, creator: flat.creator, thumbnail_url: flat.thumbnail_url } : null,
+    }
+  })
 }
 
 export async function getRecord(recordId: string, userId?: string) {
@@ -98,7 +107,7 @@ export async function getRecord(recordId: string, userId?: string) {
     .from('records')
     .select(`
       *,
-      contentData:contents(id, title, type, thumbnail_url, creator),
+      contentData:contents(id, type, content_locales(${CL_SELECT})),
       contributor:profiles!records_contributor_id_fkey(id, nickname, avatar_url)
     `)
     .eq('id', recordId)
@@ -113,5 +122,11 @@ export async function getRecord(recordId: string, userId?: string) {
     throw new Error('기록 조회에 실패했습니다')
   }
 
-  return data
+  // contentData의 content_locales → flat 변환
+  const raw = Array.isArray(data.contentData) ? data.contentData[0] : data.contentData
+  const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null)
+  return {
+    ...data,
+    contentData: raw ? { id: (raw as any).id, type: (raw as any).type, title: flat.title, creator: flat.creator, thumbnail_url: flat.thumbnail_url } : null,
+  }
 }

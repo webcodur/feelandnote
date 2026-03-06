@@ -69,7 +69,15 @@ export async function searchRecords({
 
   const offset = (page - 1) * limit
 
-  // 내 내 기록에서 검색 (rating 포함)
+  // 2-step 검색: content_locales에서 먼저 content_id 검색
+  const { data: matchIds } = await supabase
+    .from('content_locales')
+    .select('content_id')
+    .ilike('title', `%${query}%`)
+  if (!matchIds?.length) return { items: [], total: 0, hasMore: false }
+  const searchContentIds = [...new Set(matchIds.map(m => m.content_id))]
+
+  // 내 기록에서 검색 (rating 포함)
   let searchQuery = supabase
     .from('user_contents')
     .select(`
@@ -78,12 +86,12 @@ export async function searchRecords({
       status,
       rating,
       content:contents!inner(
-        id, type, title, creator, thumbnail_url, user_count,
+        id, type, user_count,
         content_locales(${CL_SELECT})
       )
     `, { count: 'exact' })
     .eq('user_id', user.id)
-    .ilike('content.title', `%${query}%`)
+    .in('content_id', searchContentIds)
     .range(offset, offset + limit - 1)
     .order('updated_at', { ascending: false })
 
@@ -113,10 +121,10 @@ export async function searchRecords({
       return {
         id: item.id,
         contentId: item.content_id,
-        title: flat.title || content.title,
-        creator: flat.creator || content.creator || '',
+        title: flat.title,
+        creator: flat.creator || '',
         category: content.type?.toLowerCase() || 'book',
-        thumbnail: flat.thumbnail_url || content.thumbnail_url || undefined,
+        thumbnail: flat.thumbnail_url || undefined,
         status: item.status,
         rating: item.rating || undefined,
         userCount: content.user_count || undefined,

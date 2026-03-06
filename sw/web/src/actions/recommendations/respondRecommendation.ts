@@ -5,6 +5,7 @@ import { createNotification } from "@/actions/notifications";
 import { revalidatePath } from "next/cache";
 import type { RespondRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface RespondRecommendationData {
   accepted: boolean;
@@ -34,7 +35,7 @@ export async function respondRecommendation(
       status,
       user_content:user_contents!content_recommendations_user_content_id_fkey(
         content_id,
-        content:contents(id, type, title, creator, thumbnail_url, description, metadata)
+        content:contents(id, type, metadata, content_locales(${CL_SELECT}))
       )
     `
     )
@@ -73,27 +74,15 @@ export async function respondRecommendation(
 
   // 3. 수락 시: 수신자의 user_contents에 콘텐츠 추가
   if (params.accept) {
+    type RawContent = {
+      id: string;
+      type: string;
+      metadata: Record<string, unknown> | null;
+      content_locales: ContentLocaleRow[] | null;
+    };
     type UserContentData = {
       content_id: string;
-      content:
-        | {
-            id: string;
-            type: string;
-            title: string;
-            creator: string | null;
-            thumbnail_url: string | null;
-            description: string | null;
-            metadata: Record<string, unknown> | null;
-          }
-        | Array<{
-            id: string;
-            type: string;
-            title: string;
-            creator: string | null;
-            thumbnail_url: string | null;
-            description: string | null;
-            metadata: Record<string, unknown> | null;
-          }>;
+      content: RawContent | RawContent[];
     };
 
     const userContent = (
@@ -101,9 +90,10 @@ export async function respondRecommendation(
         ? recommendation.user_content[0]
         : recommendation.user_content
     ) as UserContentData;
-    const content = Array.isArray(userContent?.content)
+    const rawContent = Array.isArray(userContent?.content)
       ? userContent.content[0]
       : userContent?.content;
+    const content = rawContent ? { id: rawContent.id, type: rawContent.type, metadata: rawContent.metadata } : null;
 
     if (content) {
       // 이미 추가된 콘텐츠인지 확인

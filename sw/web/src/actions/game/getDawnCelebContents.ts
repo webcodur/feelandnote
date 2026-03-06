@@ -6,6 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 export interface DawnContent {
   contentId: string;
@@ -28,7 +29,7 @@ export async function getDawnCelebContents(
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      "user_id, content_id, review, source_url, contents!inner(id, title, creator, thumbnail_url, type)"
+      `user_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT}))`
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");
@@ -38,13 +39,12 @@ export async function getDawnCelebContents(
   const result: Record<string, DawnContent[]> = {};
 
   for (const row of data) {
-    const c = row.contents as unknown as {
+    const rawContent = row.contents as unknown as {
       id: string;
-      title: string | null;
-      creator: string | null;
-      thumbnail_url: string | null;
       type: string | null;
+      content_locales: ContentLocaleRow[] | null;
     };
+    const flat = flattenLocales(rawContent.content_locales);
 
     if (!result[row.user_id]) {
       result[row.user_id] = [];
@@ -54,11 +54,11 @@ export async function getDawnCelebContents(
     if (result[row.user_id].length >= 4) continue;
 
     result[row.user_id].push({
-      contentId: c.id,
-      title: c.title ?? "",
-      creator: c.creator,
-      thumbnailUrl: c.thumbnail_url,
-      type: c.type ?? "BOOK",
+      contentId: rawContent.id,
+      title: flat.title,
+      creator: flat.creator,
+      thumbnailUrl: flat.thumbnail_url,
+      type: rawContent.type ?? "BOOK",
       review: (row as any).review ?? null,
       sourceUrl: (row as any).source_url ?? null,
     });

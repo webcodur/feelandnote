@@ -1,6 +1,6 @@
 /**
- * title_en + creator_en → Google Books API → thumbnail_en 수집
- * isbn_en 검색에서 표지를 못 가져온 잔여분 대상
+ * content_locales(en).title + creator → Google Books API → thumbnail_url 수집
+ * isbn 검색에서 표지를 못 가져온 잔여분 대상
  *
  * 사용법: node scripts/fetch-thumbnail-en-by-title.mjs
  * 환경변수: sw/web/.env 에서 SUPABASE / GOOGLE_BOOKS_API_KEY 읽음
@@ -143,14 +143,14 @@ function extractVerifiedThumbnail(data, ourTitle, ourCreator) {
 
 // ── 메인 ──
 async function main() {
-  // thumbnail_en 없고, title_en 있는 BOOK 조회
+  // thumbnail_url 없고, title 있는 EN 에디션 조회
   const { data: rows, error } = await supabase
-    .from("contents")
-    .select("id, title_en, creator_en")
-    .eq("type", "BOOK")
-    .not("title_en", "is", null)
-    .is("thumbnail_en", null)
-    .order("id")
+    .from("content_locales")
+    .select("content_id, title, creator, thumbnail_url")
+    .eq("locale", "en")
+    .not("title", "is", null)
+    .is("thumbnail_url", null)
+    .order("content_id")
     .limit(2000);
 
   if (error) {
@@ -158,7 +158,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`대상: ${rows.length}건 (title_en 보유, thumbnail_en 미설정)`);
+  console.log(`대상: ${rows.length}건 (title 보유, thumbnail_url 미설정)`);
 
   let success = 0;
   let skipped = 0;
@@ -170,22 +170,23 @@ async function main() {
     const batch = rows.slice(i, i + BATCH_SIZE);
     const results = await Promise.all(
       batch.map(async (row) => {
-        const data = await searchByTitle(row.title_en, row.creator_en);
-        const thumb = extractVerifiedThumbnail(data, row.title_en, row.creator_en);
-        return { id: row.id, title_en: row.title_en, creator_en: row.creator_en, thumbnail_en: thumb };
+        const data = await searchByTitle(row.title, row.creator);
+        const thumb = extractVerifiedThumbnail(data, row.title, row.creator);
+        return { content_id: row.content_id, title: row.title, creator: row.creator, newThumb: thumb };
       })
     );
 
     for (const r of results) {
-      if (!r.thumbnail_en) {
+      if (!r.newThumb) {
         noMatch++;
-        skippedList.push(`${r.title_en} | ${r.creator_en || "(no author)"}`);
+        skippedList.push(`${r.title} | ${r.creator || "(no author)"}`);
         continue;
       }
       const { error: updateErr } = await supabase
-        .from("contents")
-        .update({ thumbnail_en: r.thumbnail_en })
-        .eq("id", r.id);
+        .from("content_locales")
+        .update({ thumbnail_url: r.newThumb })
+        .eq("content_id", r.content_id)
+        .eq("locale", "en");
 
       if (updateErr) {
         console.error(`  [UPDATE ERR] ${r.id}:`, updateErr.message);

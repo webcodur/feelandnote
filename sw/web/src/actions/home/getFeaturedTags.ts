@@ -87,7 +87,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     supabase.from('profiles').select(`
       id, slug, nickname, avatar_url, title, profession,
       consumption_philosophy, nationality, birth_date, death_date,
-      bio, quotes, is_verified, claimed_by, speech_tone, has_voice
+      bio, quotes, quotes_en, is_verified, claimed_by, speech_tone, has_voice
     `).in('id', celebIdArray),
     // 팔로워 수
     supabase.from('follows').select('following_id').in('following_id', celebIdArray),
@@ -132,11 +132,15 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     (contentCountsResult.data as any[]).forEach(c => contentCountMap.set(c.user_id, c.count))
   }
 
-  const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null }>()
+  const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null; roll_call?: string[] | null; roll_call_en?: string[] | null; deploy?: string[] | null; deploy_en?: string[] | null }>()
   ;(dialoguesResult.data ?? []).forEach((d: any) => {
     dialogueMap.set(d.celeb_id, {
       greeting: d.lines?.greeting ?? null,
       greeting_en: d.lines_en?.greeting ?? null,
+      roll_call: d.lines?.roll_call ?? null,
+      roll_call_en: d.lines_en?.roll_call ?? null,
+      deploy: d.lines?.deploy ?? null,
+      deploy_en: d.lines_en?.deploy ?? null,
     })
   })
 
@@ -201,6 +205,10 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
           speech_tone: c.speech_tone ?? null,
           greeting: dialogueMap.get(c.id)?.greeting ?? null,
           greeting_en: dialogueMap.get(c.id)?.greeting_en ?? null,
+          roll_call: dialogueMap.get(c.id)?.roll_call ?? null,
+          roll_call_en: dialogueMap.get(c.id)?.roll_call_en ?? null,
+          deploy: dialogueMap.get(c.id)?.deploy ?? null,
+          deploy_en: dialogueMap.get(c.id)?.deploy_en ?? null,
           has_voice: c.has_voice ?? false,
           short_desc: a.short_desc,
           short_desc_en: a.short_desc_en,

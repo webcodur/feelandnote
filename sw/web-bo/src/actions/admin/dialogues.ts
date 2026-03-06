@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export interface DialogueLines {
@@ -77,7 +78,7 @@ export async function updateSpeechTone(
   celebId: string,
   tone: string,
 ): Promise<void> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { error } = await supabase
     .from('profiles')
@@ -128,7 +129,7 @@ export async function saveCelebDialogues(
   lines: DialogueLines | null,
   lines_en: DialogueLines | null,
 ): Promise<void> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const payload: Record<string, unknown> = {
     celeb_id: celebId,

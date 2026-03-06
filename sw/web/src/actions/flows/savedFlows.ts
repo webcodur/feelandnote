@@ -79,7 +79,7 @@ export async function getSavedFlows(): Promise<SavedFlowWithDetails[]> {
         owner:profiles!playlists_user_id_fkey(id, nickname, avatar_url),
         stages:flow_stages(
           nodes:flow_nodes(
-            content:contents(thumbnail_url)
+            content:contents(id, content_locales(locale, thumbnail_url))
           )
         )
       )
@@ -104,7 +104,21 @@ export async function getSavedFlows(): Promise<SavedFlowWithDetails[]> {
         node_count: item.flow.flow_nodes?.[0]?.count || 0,
         stage_count: item.flow.flow_stages?.[0]?.count || 0,
         owner: item.flow.owner,
-        stages: item.flow.stages?.slice(0, 1) || []
+        stages: (item.flow.stages?.slice(0, 1) || []).map((stage: any) => ({
+          ...stage,
+          nodes: (stage.nodes || []).map((node: any) => {
+            const locales = node.content?.content_locales || []
+            const ko = locales.find((l: any) => l.locale === 'ko')
+            const en = locales.find((l: any) => l.locale === 'en')
+            return {
+              ...node,
+              content: node.content ? {
+                ...node.content,
+                thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+              } : null,
+            }
+          }),
+        }))
       }
     }))
 }

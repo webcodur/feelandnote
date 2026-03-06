@@ -46,7 +46,7 @@ export default async function RecordsPage({ searchParams }: PageProps) {
     .select(`
       *,
       profiles:user_id (nickname, email, avatar_url),
-      contents:content_id (title, type, thumbnail_url)
+      contents:content_id (type, content_locales(locale, title, thumbnail_url))
     `, { count: 'exact' })
 
   if (type !== 'all') {
@@ -145,7 +145,10 @@ export default async function RecordsPage({ searchParams }: PageProps) {
               ) : (
                 records.map((record) => {
                   const profile = record.profiles as { nickname: string; email: string; avatar_url: string | null } | null
-                  const content = record.contents as { title: string; type: string; thumbnail_url: string | null } | null
+                  const rawContent = record.contents as { type: string; content_locales: { locale: string; title: string; thumbnail_url: string | null }[] } | null
+                  const ko = rawContent?.content_locales?.find((l) => l.locale === 'ko')
+                  const en = rawContent?.content_locales?.find((l) => l.locale === 'en')
+                  const content = rawContent ? { title: ko?.title || en?.title || '', type: rawContent.type, thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null } : null
                   const typeConfig = TYPE_CONFIG[record.type as keyof typeof TYPE_CONFIG]
                   const visibilityConfig = VISIBILITY_CONFIG[record.visibility as keyof typeof VISIBILITY_CONFIG]
                   const TypeIcon = typeConfig?.icon || FileText

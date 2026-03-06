@@ -13,20 +13,10 @@ export interface Content {
   id: string
   external_id: string | null
   type: string
-  title: string
-  title_ko: string | null
-  title_en: string | null
-  creator: string | null
-  creator_en: string | null
-  isbn_en: string | null
-  thumbnail_url: string | null
-  description: string | null
-  publisher: string | null
   release_date: string | null
   subtype: string | null
   external_source: string | null
   metadata: Record<string, unknown>
-  affiliate_url: AffiliateLink[] | null
   created_at: string
   user_count: number
 }
@@ -38,6 +28,7 @@ export interface ContentEdition {
   isbn: string | null
   thumbnail_url: string | null
   publisher: string | null
+  description: string | null
   affiliate_url: AffiliateLink[] | null
 }
 
@@ -70,10 +61,10 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
 
   if (error || !content) return null
 
-  // 에디션 정보 (BOOK)
+  // 에디션 정보
   const { data: editions } = await supabase
-    .from('content_editions')
-    .select('locale, title, creator, isbn, thumbnail_url, publisher, affiliate_url')
+    .from('content_locales')
+    .select('locale, title, creator, isbn, thumbnail_url, publisher, description, affiliate_url')
     .eq('content_id', contentId)
     .order('locale')
 
@@ -142,7 +133,6 @@ export async function updateContent(
   contentId: string,
   data: {
     title?: string
-    title_ko?: string | null
     title_en?: string | null
     creator?: string
     creator_en?: string | null
@@ -154,14 +144,16 @@ export async function updateContent(
 ): Promise<void> {
   const supabase = await createClient()
 
-  const { error } = await supabase
-    .from('contents')
-    .update(data)
-    .eq('id', contentId)
+  // contents 테이블에는 release_date만 전송 (로케일 데이터는 content_locales에만)
+  if (data.release_date !== undefined) {
+    const { error } = await supabase
+      .from('contents')
+      .update({ release_date: data.release_date })
+      .eq('id', contentId)
+    if (error) throw error
+  }
 
-  if (error) throw error
-
-  // content_locales 동기화
+  // content_locales 업데이트 (ko)
   if (data.title || data.creator || data.description || data.publisher) {
     await supabase.from('content_locales').upsert({
       content_id: contentId,
@@ -172,6 +164,8 @@ export async function updateContent(
       ...(data.publisher && { publisher: data.publisher }),
     }, { onConflict: 'content_id,locale' })
   }
+
+  // content_locales 업데이트 (en)
   if (data.title_en || data.creator_en || data.isbn_en) {
     await supabase.from('content_locales').upsert({
       content_id: contentId,
@@ -194,13 +188,8 @@ export async function updateAffiliateLinks(
 
   const value = links && links.length > 0 ? links : null
 
-  const { error } = await supabase
-    .from('contents')
-    .update({ affiliate_url: value })
-    .eq('id', contentId)
-
-  // content_locales 동기화
-  await supabase.from('content_locales').upsert({
+  // content_locales에만 저장
+  const { error } = await supabase.from('content_locales').upsert({
     content_id: contentId,
     locale: 'ko',
     affiliate_url: value,
@@ -220,11 +209,12 @@ export async function upsertAffiliatePlatform(
 ): Promise<void> {
   const supabase = await createClient()
 
-  // 현재 값 조회
+  // 현재 값 조회 (content_locales에서 읽기)
   const { data } = await supabase
-    .from('contents')
+    .from('content_locales')
     .select('affiliate_url')
-    .eq('id', contentId)
+    .eq('content_id', contentId)
+    .eq('locale', 'ko')
     .single()
 
   const current: AffiliateLink[] = (data?.affiliate_url as AffiliateLink[]) || []
@@ -241,12 +231,14 @@ export async function upsertAffiliatePlatform(
     next = current.filter(l => l.platform !== platform)
   }
 
-  const { error } = await supabase
-    .from('contents')
-    .update({ affiliate_url: next.length > 0 ? next : null })
-    .eq('id', contentId)
+  const value = next.length > 0 ? next : null
 
-  if (error) throw error
+  // content_locales에만 저장
+  const { error } = await supabase.from('content_locales').upsert({
+    content_id: contentId,
+    locale: 'ko',
+    affiliate_url: value,
+  }, { onConflict: 'content_id,locale' })
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)

@@ -8,6 +8,7 @@ import CelebForm from '../../members/components/CelebForm'
 import ExtraSections from './ExtraSections'
 import { LangModeProvider } from '@/contexts/LangModeContext'
 import CopyButton from './CopyButton'
+import CelebFilter from '../components/CelebFilter'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -31,6 +32,9 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
   return (
     <div className="space-y-4">
+      {/* Search */}
+      <CelebFilter defaultValues={{ search: '', status: 'all', profession: 'all', tier: 'all' }} />
+
       {/* Navigation */}
       <div className="flex items-center gap-4">
         <Link href="/celebs" className="p-2 hover:bg-bg-secondary rounded-lg">

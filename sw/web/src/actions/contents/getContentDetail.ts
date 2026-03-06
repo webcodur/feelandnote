@@ -63,30 +63,33 @@ export async function getContentDetail(
 
   // 1. 로그인 사용자의 기록 확인
   let userRecord: ContentDetailData['userRecord'] = null
-  let savedContent: { id: string; external_id: string | null; type: ContentType; title: string; creator?: string; thumbnail_url?: string; description?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
+  let savedContent: { id: string; external_id: string | null; type: ContentType; title: string; creator?: string; thumbnail_url?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
 
   if (profile) {
     const { data } = await supabase
       .from('user_contents')
       .select(`
         id, status, rating, review, is_spoiler, created_at, updated_at,
-        content:contents(id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url, content_locales(${CL_SELECT}))
+        content:contents(id, external_id, type, release_date, content_locales(${CL_SELECT}))
       `)
       .eq('user_id', profile.id)
       .eq('content_id', contentId)
       .single()
 
     if (data) {
-      const rawContent = Array.isArray(data.content) ? data.content[0] : data.content
-      const locales = (rawContent as Record<string, unknown>)?.content_locales as ContentLocaleRow[] | null
+      const rawContent = (Array.isArray(data.content) ? data.content[0] : data.content) as Record<string, unknown>
+      const locales = rawContent?.content_locales as ContentLocaleRow[] | null
       const flat = flattenLocales(locales)
       savedContent = {
-        ...rawContent,
-        title: flat.title || rawContent.title,
-        creator: flat.creator || rawContent.creator,
-        thumbnail_url: flat.thumbnail_url || rawContent.thumbnail_url,
-        affiliate_url: (flat.affiliate_url as AffiliateLink[] | null) || rawContent.affiliate_url,
-      } as typeof rawContent
+        id: rawContent.id as string,
+        external_id: rawContent.external_id as string | null,
+        type: rawContent.type as ContentType,
+        title: flat.title,
+        creator: flat.creator ?? undefined,
+        thumbnail_url: flat.thumbnail_url ?? undefined,
+        release_date: rawContent.release_date as string | undefined,
+        affiliate_url: flat.affiliate_url as AffiliateLink[] | null,
+      }
       userRecord = {
         id: data.id,
         status: data.status as ContentStatus,
@@ -125,9 +128,24 @@ export async function getContentDetail(
   } else {
     // contents 테이블에서 직접 조회 (셀럽 콘텐츠 등 본인 기록이 아닌 경우)
     // UUID 또는 external_id로 검색
-    let dbContent: { id: string; external_id: string | null; type: string; title: string; creator: string | null; thumbnail_url: string | null; description: string | null; release_date: string | null; affiliate_url: unknown } | null = null
+    let dbContent: { id: string; external_id: string | null; type: string; title: string; creator: string | null; thumbnail_url: string | null; release_date: string | null; affiliate_url: unknown } | null = null
 
-    const contentSelect = `id, external_id, type, title, creator, thumbnail_url, description, release_date, affiliate_url, content_locales(${CL_SELECT})`
+    const contentSelect = `id, external_id, type, release_date, content_locales(${CL_SELECT})`
+
+    function buildDbContent(raw: Record<string, unknown>) {
+      const locales = raw.content_locales as ContentLocaleRow[] | null
+      const flat = flattenLocales(locales)
+      return {
+        id: raw.id as string,
+        external_id: raw.external_id as string | null,
+        type: raw.type as string,
+        title: flat.title,
+        creator: flat.creator,
+        thumbnail_url: flat.thumbnail_url,
+        release_date: raw.release_date as string | null,
+        affiliate_url: flat.affiliate_url,
+      }
+    }
 
     const { data: byId } = await supabase
       .from('contents')
@@ -136,9 +154,7 @@ export async function getContentDetail(
       .maybeSingle()
 
     if (byId) {
-      const locales = (byId as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
-      const flat = flattenLocales(locales)
-      dbContent = { ...byId, title: flat.title || byId.title, creator: flat.creator || byId.creator, thumbnail_url: flat.thumbnail_url || byId.thumbnail_url, affiliate_url: (flat.affiliate_url as typeof byId.affiliate_url) || byId.affiliate_url }
+      dbContent = buildDbContent(byId as Record<string, unknown>)
     } else {
       // UUID가 아닌 경우 external_id로 재검색
       const { data: byExternalId } = await supabase
@@ -147,9 +163,7 @@ export async function getContentDetail(
         .eq('external_id', contentId)
         .maybeSingle()
       if (byExternalId) {
-        const locales = (byExternalId as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
-        const flat = flattenLocales(locales)
-        dbContent = { ...byExternalId, title: flat.title || byExternalId.title, creator: flat.creator || byExternalId.creator, thumbnail_url: flat.thumbnail_url || byExternalId.thumbnail_url, affiliate_url: (flat.affiliate_url as typeof byExternalId.affiliate_url) || byExternalId.affiliate_url }
+        dbContent = buildDbContent(byExternalId as Record<string, unknown>)
       }
     }
 

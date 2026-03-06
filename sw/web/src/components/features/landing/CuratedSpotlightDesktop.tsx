@@ -9,10 +9,7 @@ import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import type { SpotlightLocation } from "./FeaturedSpotlight";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
-import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
-import defaultLinesData from "@/lib/game/voice/defaultLines";
-import type { SpeechTone } from "@/lib/game/voice/types";
-import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 
 const CelebDetailModal = lazy(() => import("@/components/features/home/celeb-card-drafts/CelebDetailModal"));
 
@@ -27,7 +24,7 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
   const locale = useLocale() as 'ko' | 'en';
   const isExplore = location === "explore-pc";
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const subtitleKeyRef = useRef(0);
+  const { fireGreeting, ripple, triggerRipple, clearRipple } = useCelebGreeting({ onSubtitle, locale });
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
   const [modalCelebIndex, setModalCelebIndex] = useState(-1);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
@@ -49,34 +46,10 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
     }
   }, [activeTag, renderedTag]);
 
-  // greeting 대사 표시
-  const showGreeting = useCallback((celeb: FeaturedCeleb | undefined) => {
-    if (!celeb || !onSubtitle) return;
-    const greetings = locale === 'ko' ? celeb.greeting : (celeb.greeting_en ?? celeb.greeting);
-    let text: string | undefined;
-    let greetingIdx = -1;
-    if (greetings?.length) {
-      greetingIdx = Math.floor(Math.random() * greetings.length);
-      text = greetings[greetingIdx];
-    } else if (celeb.speech_tone) {
-      const fallback = defaultLinesData[locale].greeting?.[celeb.speech_tone as SpeechTone];
-      if (fallback?.length) text = fallback[Math.floor(Math.random() * fallback.length)];
-    }
-    if (text) {
-      onSubtitle({
-        key: ++subtitleKeyRef.current,
-        tone: (celeb.speech_tone as SpeechTone) ?? 'composed',
-        text: stripEmotionTag(text),
-        nickname: celeb.nickname,
-        avatarUrl: celeb.avatar_url,
-        audioUrl: celeb.has_voice && greetingIdx >= 0 ? getVoiceUrl(celeb.id, locale, "greeting", greetingIdx + 1) : null,
-      });
-    }
-  }, [locale, onSubtitle]);
-
   useEffect(() => {
     if (!hasInteracted.current) return;
-    showGreeting(celebs[selectedIndex]);
+    const celeb = celebs[selectedIndex];
+    if (celeb) fireGreeting(celeb);
   }, [selectedIndex, renderedTag.id]);
 
   // Refs & Drags (하단 리스트용)
@@ -195,8 +168,14 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
         return (
           <div
             key={celeb.id}
-            onClick={() => {
-              if (!dragRef.current.hasMoved) selectHero(idx);
+            onClick={(e) => {
+              if (dragRef.current.hasMoved) { dragRef.current.hasMoved = false; return; }
+              if (isSelected) {
+                triggerRipple(celeb.id, e);
+                fireGreeting(celeb);
+              } else {
+                selectHero(idx);
+              }
               dragRef.current.hasMoved = false;
             }}
             className={cn(
@@ -207,7 +186,7 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
             )}
           >
             <div className={cn(
-              "relative aspect-square rounded-lg overflow-hidden transition-all",
+              "relative aspect-square rounded-lg overflow-hidden transition-[box-shadow] border border-transparent hover:border-accent/60",
               isSelected ? "ring-2 ring-accent ring-offset-2 ring-offset-bg-main shadow-lg" : ""
             )}>
               {celeb.avatar_url ? (
@@ -216,6 +195,15 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
                 <div className="w-full h-full bg-bg-card flex items-center justify-center text-text-tertiary">
                   <span className="font-serif text-xl">{celeb.nickname[0]}</span>
                 </div>
+              )}
+              {/* 클릭 ripple */}
+              {ripple && ripple.id === celeb.id && (
+                <span
+                  key={ripple.key}
+                  className="absolute rounded-full bg-accent/40 pointer-events-none animate-[ripple_400ms_ease-out_forwards]"
+                  style={{ left: `${ripple.x}%`, top: `${ripple.y}%`, translate: "-50% -50%" }}
+                  onAnimationEnd={clearRipple}
+                />
               )}
             </div>
             <div className="flex flex-col items-center">

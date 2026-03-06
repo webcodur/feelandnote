@@ -5,6 +5,7 @@ import { ChevronDown, Lock, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag } from "@/actions/home";
 import { useTranslations } from "next-intl";
+import { PROFESSION_ICONS } from "@/constants/professionIcons";
 
 interface SpotlightTagSheetMobileProps {
   tags: FeaturedTag[];
@@ -49,11 +50,8 @@ export default function SpotlightTagSheetMobile({
         onClick={() => setIsOpen(true)}
         className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10 active:bg-white/10 transition-colors"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] text-accent font-cinzel uppercase tracking-widest mt-0.5">
-            Theme
-          </span>
-          <span className="text-[15px] font-sans font-bold text-white">
+        <div className="flex items-center">
+                          <span className="text-[15px] font-sans font-bold text-white">
             {activeTagName}
           </span>
         </div>
@@ -96,6 +94,9 @@ export default function SpotlightTagSheetMobile({
             const isActive = activeIndex === idx;
             const isUpcoming = !tag.is_featured;
             const tagName = locale === 'en' ? (tag.name_en ?? tag.name) : tag.name;
+            const professions = !isUpcoming
+              ? [...new Set(tag.celebs?.map(c => c.profession).filter((p): p is string => Boolean(p)) ?? [])]
+              : [];
 
             return (
               <button
@@ -108,23 +109,38 @@ export default function SpotlightTagSheetMobile({
                     ? "bg-accent/10 border border-accent/30 shadow-inner"
                     : isUpcoming
                       ? "bg-black/20 opacity-40 cursor-not-allowed border border-transparent"
-                      : "bg-white/5 border border-white/5 active:bg-white/10"
+                      : "border border-white/5 active:bg-white/10"
                 )}
+                style={{
+                  backgroundColor: isActive
+                    ? undefined
+                    : isUpcoming
+                      ? undefined
+                      : `${tag.color}10`,
+                }}
               >
-                <div className="flex items-center gap-3">
-                  {isActive && <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />}
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                   <span
                     className={cn(
-                      "font-sans font-semibold text-[15px] tracking-wide",
+                      "font-sans font-semibold text-[15px] tracking-wide truncate",
                       isActive ? "text-accent" : "text-white/90"
                     )}
                   >
                     {tagName}
                   </span>
                 </div>
-                
+                {professions.length > 0 && (
+                  <div className="flex items-center gap-1 ml-auto pl-2 flex-shrink-0">
+                    {professions.slice(0, 4).map((p) => {
+                      const Icon = PROFESSION_ICONS[p as keyof typeof PROFESSION_ICONS];
+                      if (!Icon) return null;
+                      return <Icon key={p} size={13} className="text-text-tertiary/60" />;
+                    })}
+                  </div>
+                )}
+
                 {isUpcoming && (
-                  <div className="flex items-center gap-1.5 text-text-tertiary">
+                  <div className="flex items-center gap-1.5 text-text-tertiary flex-shrink-0">
                     <span className="text-[10px] uppercase font-sans tracking-wider font-semibold">Soon</span>
                     <Lock size={12} />
                   </div>

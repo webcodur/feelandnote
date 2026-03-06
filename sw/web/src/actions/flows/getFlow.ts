@@ -41,7 +41,7 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
     .from('flow_nodes')
     .select(`
       *,
-      content:contents(*)
+      content:contents(id, type, external_id, subtype, release_date, metadata, created_at, content_locales(locale, title, creator, thumbnail_url, description))
     `)
     .eq('flow_id', flowId)
     .order('sort_order', { ascending: true })
@@ -51,7 +51,24 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
     throw new Error('노드를 불러오는데 실패했습니다')
   }
 
-  const typedNodes = (nodes || []) as FlowNodeWithContent[]
+  // content_locales를 flat하게 resolve
+  const typedNodes = (nodes || []).map((node: any) => {
+    if (!node.content) return node
+    const locales = node.content.content_locales || []
+    const ko = locales.find((l: any) => l.locale === 'ko')
+    const en = locales.find((l: any) => l.locale === 'en')
+    return {
+      ...node,
+      content: {
+        ...node.content,
+        title: ko?.title || en?.title || '',
+        creator: ko?.creator || en?.creator || null,
+        thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+        description: ko?.description || en?.description || null,
+        publisher: null,
+      },
+    }
+  }) as FlowNodeWithContent[]
 
   // 스테이지별로 노드 그룹핑
   const stagesWithNodes: FlowStageWithNodes[] = (stages || []).map(stage => ({

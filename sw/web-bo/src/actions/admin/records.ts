@@ -39,7 +39,7 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     .select(`
       *,
       profiles:user_id (id, nickname, email, avatar_url),
-      contents:content_id (id, title, type, thumbnail_url)
+      contents:content_id (id, type, content_locales(locale, title, thumbnail_url))
     `)
     .eq('id', recordId)
     .single()
@@ -58,6 +58,17 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     .select('*', { count: 'exact', head: true })
     .eq('record_id', recordId)
 
+  // content_locales에서 ko/en fallback
+  const rawContent = record.contents as { id: string; type: string; content_locales: { locale: string; title: string; thumbnail_url: string | null }[] } | null
+  const koLocale = rawContent?.content_locales?.find((l) => l.locale === 'ko')
+  const enLocale = rawContent?.content_locales?.find((l) => l.locale === 'en')
+  const contentInfo = rawContent ? {
+    id: rawContent.id,
+    title: koLocale?.title || enLocale?.title || '',
+    type: rawContent.type,
+    thumbnail_url: koLocale?.thumbnail_url || enLocale?.thumbnail_url || null,
+  } : null
+
   return {
     id: record.id,
     user_id: record.user_id,
@@ -70,7 +81,7 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     created_at: record.created_at,
     updated_at: record.updated_at,
     user: record.profiles as Record['user'],
-    content_info: record.contents as Record['content_info'],
+    content_info: contentInfo,
     like_count: likeCount || 0,
     comment_count: commentCount || 0,
   }

@@ -4,8 +4,11 @@ import { getContent } from '@/actions/admin/contents'
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const content = await getContent(id)
+  const metaTitle = content
+    ? (content.editions.find(e => e.locale === 'ko')?.title || content.editions.find(e => e.locale === 'en')?.title || '콘텐츠 상세')
+    : '콘텐츠 상세'
   return {
-    title: content ? `${content.title}` : '콘텐츠 상세',
+    title: metaTitle,
   }
 }
 import { notFound } from 'next/navigation'
@@ -31,6 +34,16 @@ export default async function ContentDetailPage({ params }: PageProps) {
   const typeConfig = CONTENT_TYPE_CONFIG[content.type as keyof typeof CONTENT_TYPE_CONFIG]
   const TypeIcon = typeConfig?.icon || Library
 
+  // content_locales에서 로케일별 데이터 추출
+  const koEdition = content.editions.find(e => e.locale === 'ko')
+  const enEdition = content.editions.find(e => e.locale === 'en')
+  const displayTitle = koEdition?.title || enEdition?.title || '제목 없음'
+  const displayCreator = koEdition?.creator || enEdition?.creator
+  const displayThumb = koEdition?.thumbnail_url || enEdition?.thumbnail_url
+  const displayDescription = koEdition?.description || enEdition?.description
+  const displayPublisher = koEdition?.publisher || enEdition?.publisher
+  const displayAffiliate = koEdition?.affiliate_url ?? enEdition?.affiliate_url ?? null
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -43,17 +56,17 @@ export default async function ContentDetailPage({ params }: PageProps) {
         </Link>
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-14 rounded bg-bg-secondary flex items-center justify-center overflow-hidden shrink-0">
-            {content.thumbnail_url ? (
-              <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+            {displayThumb ? (
+              <Image src={displayThumb} alt="" fill unoptimized className="object-cover" />
             ) : (
               <TypeIcon className="w-5 h-5 text-text-secondary" />
             )}
           </div>
           <div>
-            <h1 className="text-xl font-bold text-text-primary leading-tight">{content.title}</h1>
+            <h1 className="text-xl font-bold text-text-primary leading-tight">{displayTitle}</h1>
             <div className="flex items-center gap-2 mt-0.5">
-              {content.creator && (
-                <span className="text-sm text-text-secondary">{content.creator}</span>
+              {displayCreator && (
+                <span className="text-sm text-text-secondary">{displayCreator}</span>
               )}
               <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${typeConfig?.bgColor} ${typeConfig?.color}`}>
                 <TypeIcon className="w-2.5 h-2.5" />
@@ -75,21 +88,21 @@ export default async function ContentDetailPage({ params }: PageProps) {
           {content.external_source && (
             <Field label="external_source" value={content.external_source} />
           )}
-          {content.publisher && (
-            <Field label="publisher" value={content.publisher} />
+          {displayPublisher && (
+            <Field label="publisher" value={displayPublisher} />
           )}
           {content.release_date && (
             <Field label="release_date" value={content.release_date} />
           )}
           <Field label="created_at" value={new Date(content.created_at).toLocaleDateString('ko-KR')} />
-          {content.thumbnail_url && (
+          {displayThumb && (
             <div className="col-span-2">
-              <Field label="thumbnail_url" value={content.thumbnail_url} mono />
+              <Field label="thumbnail_url" value={displayThumb} mono />
             </div>
           )}
         </div>
 
-        {/* 에디션 (BOOK) */}
+        {/* 로케일 데이터 (content_locales) */}
         {content.editions.length > 0 && (
           <div className="mt-4 pt-4 border-t border-border">
             <span className="text-xs font-medium text-text-secondary font-mono">editions</span>
@@ -120,30 +133,21 @@ export default async function ContentDetailPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* i18n 필드 (에디션 없는 콘텐츠) */}
-        {content.editions.length === 0 && (content.title_ko || content.title_en) && (
-          <div className="mt-4 pt-4 border-t border-border">
-            <span className="text-xs font-medium text-text-secondary">다국어 제목</span>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-2">
-              <Field label="🇰🇷 제목" value={content.title_ko || '—'} />
-              <Field label="🇺🇸 제목" value={content.title_en || '—'} />
-            </div>
-          </div>
-        )}
+        {/* i18n: editions 섹션에서 통합 표시 (content_locales) */}
 
-        {content.description && (
+        {displayDescription && (
           <div className="mt-4 pt-4 border-t border-border">
             <span className="text-xs text-text-secondary">설명</span>
-            <p className="text-sm text-text-primary mt-1">{content.description}</p>
+            <p className="text-sm text-text-primary mt-1">{displayDescription}</p>
           </div>
         )}
 
         {/* 제휴 링크 */}
-        {content.affiliate_url && content.affiliate_url.length > 0 && (
+        {displayAffiliate && displayAffiliate.length > 0 && (
           <div className="mt-4 pt-4 border-t border-border">
             <span className="text-xs text-text-secondary">제휴 링크</span>
             <div className="flex flex-wrap gap-2 mt-1">
-              {content.affiliate_url.map((link, i) => (
+              {displayAffiliate.map((link, i) => (
                 <a
                   key={i}
                   href={link.url}
@@ -166,7 +170,7 @@ export default async function ContentDetailPage({ params }: PageProps) {
         {/* 관리 액션 */}
         <div className="bg-bg-card border border-border rounded-xl p-5">
           <h3 className="text-sm font-semibold text-text-primary mb-3">관리 액션</h3>
-          <ContentActions content={content} />
+          <ContentActions content={{ id: content.id, title: displayTitle, affiliate_url: displayAffiliate }} />
         </div>
 
         {/* 등록한 사용자 */}

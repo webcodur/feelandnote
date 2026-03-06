@@ -96,7 +96,7 @@ export async function getUserStats(
       .eq('user_id', userId),
     supabase
       .from('user_contents')
-      .select('content_id, contents!inner(creator)')
+      .select('content_id, contents!inner(content_locales(locale, creator))')
       .eq('user_id', userId),
     supabase
       .from('user_contents')
@@ -119,7 +119,12 @@ export async function getUserStats(
   // 창작자 수
   const creators = new Set(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (creatorResult.data || []).map((item: any) => item.contents?.creator).filter(Boolean)
+    (creatorResult.data || []).map((item: any) => {
+      const locales = item.contents?.content_locales || []
+      const ko = locales.find((l: any) => l.locale === 'ko')
+      const en = locales.find((l: any) => l.locale === 'en')
+      return ko?.creator || en?.creator
+    }).filter(Boolean)
   )
 
   // 리뷰 통계

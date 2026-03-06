@@ -179,7 +179,7 @@ async function fetchAllUserContents(
           user_id,
           content_id,
           rating,
-          contents!inner(id, title, creator, thumbnail_url, type, content_locales(${CL_SELECT}))
+          contents!inner(id, type, content_locales(${CL_SELECT}))
         `)
         .in('user_id', batchIds)
         .eq('status', 'FINISHED')
@@ -196,12 +196,28 @@ async function fetchAllUserContents(
         break
       }
 
-      const typedData = (data || []).map(item => ({
-        user_id: item.user_id,
-        content_id: item.content_id,
-        rating: item.rating,
-        contents: Array.isArray(item.contents) ? item.contents[0] : item.contents
-      }))
+      const typedData = (data || []).map(item => {
+        const raw = Array.isArray(item.contents) ? item.contents[0] : item.contents
+        const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null)
+        return {
+          user_id: item.user_id,
+          content_id: item.content_id,
+          rating: item.rating,
+          contents: {
+            id: (raw as any)?.id as string,
+            title: flat.title,
+            creator: flat.creator,
+            thumbnail_url: flat.thumbnail_url,
+            type: (raw as any)?.type as string,
+            title_ko: flat.title_ko,
+            title_en: flat.title_en,
+            creator_en: flat.creator_en,
+            isbn_en: flat.isbn_en,
+            thumbnail_en: flat.thumbnail_en,
+            has_en_edition: flat.has_en_edition,
+          },
+        }
+      })
 
       allData.push(...typedData)
 
@@ -607,7 +623,7 @@ async function fetchFigureContents(
       .single(),
     supabase
       .from('user_contents')
-      .select(`id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, title, creator, thumbnail_url, type, content_locales(${CL_SELECT}))`)
+      .select(`id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT}))`)
       .eq('user_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
@@ -620,12 +636,13 @@ async function fetchFigureContents(
 
   const contents: ScriptureContent[] = (userContents || []).map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
+    const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null)
     return {
       id: content?.id || '',
-      title: content?.title || '',
-      creator: content?.creator || null,
-      thumbnail_url: content?.thumbnail_url || null,
-      type: (content?.type as CategoryId) || 'BOOK',
+      title: flat.title,
+      creator: flat.creator,
+      thumbnail_url: flat.thumbnail_url,
+      type: ((content as any)?.type as CategoryId) || 'BOOK',
       celeb_count: 1,
       user_count: userCountMap.get(content?.id || '') ?? 0,
       avg_rating: item.rating ? Number(item.rating) : null,
@@ -634,7 +651,12 @@ async function fetchFigureContents(
       is_spoiler: item.is_spoiler,
       source_url: item.source_url,
       user_content_id: item.id,
-      ...(() => { const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null); return { title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition } })(),
+      title_ko: flat.title_ko,
+      title_en: flat.title_en,
+      creator_en: flat.creator_en,
+      isbn_en: flat.isbn_en,
+      thumbnail_en: flat.thumbnail_en,
+      has_en_edition: flat.has_en_edition,
     }
   }).filter(c => c.id)
 

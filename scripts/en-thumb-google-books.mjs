@@ -73,7 +73,7 @@ async function getTargets() {
 
   while (true) {
     const { data, error } = await supabase
-      .from('content_editions')
+      .from('content_locales')
       .select('content_id, isbn, thumbnail_url')
       .eq('locale', 'en')
       .not('isbn', 'is', null)
@@ -118,7 +118,7 @@ async function main() {
     for (const r of results) {
       if (r.newThumb) {
         const { error } = await supabase
-          .from('content_editions')
+          .from('content_locales')
           .update({ thumbnail_url: r.newThumb })
           .eq('content_id', r.content_id)
           .eq('locale', 'en')

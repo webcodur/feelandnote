@@ -35,14 +35,15 @@ function requestThumbnailEn(contentId: string): Promise<string | null> {
 
         try {
           const supabase = createClient();
-          const { data } = await supabase
-            .from("contents")
-            .select("id, thumbnail_en")
-            .in("id", ids);
+          const { data } = await (supabase as any)
+            .from("content_locales")
+            .select("content_id, thumbnail_url")
+            .in("content_id", ids)
+            .eq("locale", "en") as { data: { content_id: string; thumbnail_url: string | null }[] | null };
 
           const map = new Map<string, string | null>();
           for (const row of data ?? []) {
-            map.set(row.id, row.thumbnail_en ?? null);
+            map.set(row.content_id, row.thumbnail_url ?? null);
           }
 
           for (const [id, resolverList] of resolvers) {

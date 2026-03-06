@@ -1,5 +1,7 @@
 # content_locales 마이그레이션 — 파일별 변경 목록
 
+> ✅ **전체 완료 (2026-03-06)** — Phase 1~3 모두 적용됨. contents 테이블에서 로케일 컬럼 13개 전부 DROP. 아래는 마이그레이션 당시 참조 가이드.
+
 > `docs/project/content-locales-design.md`의 Phase 2 실행용 상세 가이드.
 > 각 파일이 `contents` 테이블의 로케일 컬럼을 어떻게 참조하는지, 어떻게 전환하는지 기술한다.
 

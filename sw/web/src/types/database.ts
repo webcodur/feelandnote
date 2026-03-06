@@ -32,22 +32,15 @@ export interface Content {
   type: ContentType
   subtype: string | null
   genre: string | null
+  release_date: string | null
+  metadata: Record<string, unknown> | null
+  created_at: string
+  // content_locales에서 resolve된 필드 (DB contents 테이블에는 없음)
   title: string
   creator: string | null
   thumbnail_url: string | null
   description: string | null
   publisher: string | null
-  release_date: string | null
-  metadata: Record<string, unknown> | null
-  created_at: string
-  // i18n 에디션 필드
-  title_ko: string | null
-  title_en: string | null
-  creator_en: string | null
-  isbn_ko: string | null
-  isbn_en: string | null
-  thumbnail_en: string | null
-  has_en_edition: boolean | null
 }
 
 export interface UserContent {

@@ -9,7 +9,9 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import type { DialogueSubtitleData } from "./hooks/useDialogue";
+import { VoiceBadge } from "@/components/ui";
+import { useLocale } from "next-intl";
+import type { DialogueSubtitleData, DialogueLabel } from "./hooks/useDialogue";
 
 const BASE_DURATION = 3000;
 const PER_CHAR_MS = 80;
@@ -26,6 +28,7 @@ interface Props {
 }
 
 export default function DialogueSubtitle({ subtitle }: Props) {
+  const locale = useLocale();
   const [current, setCurrent] = useState<DialogueSubtitleData | null>(null);
   const [visible, setVisible] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
@@ -40,7 +43,7 @@ export default function DialogueSubtitle({ subtitle }: Props) {
   const [audioProgress, setAudioProgress] = useState(0);
   const rafRef = useRef<number | null>(null);
 
-  const FADE_DURATION = 2500;
+  const FADE_DURATION = 1000;
 
   const stopProgressLoop = useCallback(() => {
     if (rafRef.current) {
@@ -57,7 +60,7 @@ export default function DialogueSubtitle({ subtitle }: Props) {
       if (a && a.duration && !a.paused) {
         setAudioProgress(a.currentTime / a.duration);
         // 남은 시간 1초 이내 → 페이드아웃 시작
-        if (!fadingStarted && a.duration - a.currentTime <= 2.5) {
+        if (!fadingStarted && a.duration - a.currentTime <= 1) {
           fadingStarted = true;
           setFading(true);
         }
@@ -160,23 +163,18 @@ export default function DialogueSubtitle({ subtitle }: Props) {
     }
   };
 
-  const handleMouseEnter = () => {
-    // 음성 재생 중엔 hover로 타이머 제어 불필요 (음성 끝에 닫힘)
-    if (audioPlaying) return;
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (visible && current && !audioPlaying) {
-      startTimer(calcDuration(current.text));
-    }
-  };
+  const handleMouseEnter = () => {};
+  const handleMouseLeave = () => {};
 
   const duration = current ? calcDuration(current.text) : BASE_DURATION;
   const hasAudio = !!(current?.audioUrl);
+
+  const LABEL_MAP: Record<DialogueLabel, { ko: string; en: string; color: string }> = {
+    greeting: { ko: "인사", en: "Greeting", color: "text-amber-400/80" },
+    roll_call: { ko: "호명", en: "Roll Call", color: "text-sky-400/80" },
+    deploy: { ko: "출전", en: "Deploy", color: "text-emerald-400/80" },
+    quotes: { ko: "명언", en: "Quotes", color: "text-purple-400/80" },
+  };
 
   const content = (
     <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-[10100] w-[90%] md:w-[600px] max-w-2xl pointer-events-none">
@@ -208,17 +206,24 @@ export default function DialogueSubtitle({ subtitle }: Props) {
           >
             <div className="flex items-start md:items-center gap-3 md:gap-5 pr-6">
               {/* 아바타 */}
-              <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-stone-700 shrink-0 border border-stone-600 shadow-inner">
-                {current.avatarUrl ? (
-                  <img
-                    src={current.avatarUrl}
-                    alt={current.nickname ?? ""}
-                    className="w-full h-full object-cover pointer-events-none"
-                    draggable={false}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs md:text-sm">
-                    {current.nickname?.[0] ?? "?"}
+              <div className="relative shrink-0">
+                <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-stone-700 border border-stone-600 shadow-inner">
+                  {current.avatarUrl ? (
+                    <img
+                      src={current.avatarUrl}
+                      alt={current.nickname ?? ""}
+                      className="w-full h-full object-cover pointer-events-none"
+                      draggable={false}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs md:text-sm">
+                      {current.nickname?.[0] ?? "?"}
+                    </div>
+                  )}
+                </div>
+                {hasAudio && audioPlaying && (
+                  <div className="absolute -bottom-1 -right-1">
+                    <VoiceBadge size="sm" pulse={current.key} />
                   </div>
                 )}
               </div>
@@ -226,8 +231,15 @@ export default function DialogueSubtitle({ subtitle }: Props) {
               {/* 이름 + 대사 */}
               <div className="flex-1 min-w-0 flex flex-col justify-center">
                 {current.nickname && (
-                  <span className="text-[11px] md:text-sm font-bold text-amber-300 block mb-0.5 md:mb-1 truncate opacity-90">
-                    {current.nickname}
+                  <span className="flex items-center gap-1.5 mb-0.5 md:mb-1">
+                    <span className="text-[11px] md:text-sm font-bold text-amber-300 truncate opacity-90">
+                      {current.nickname}
+                    </span>
+                    {current.label && LABEL_MAP[current.label] && (
+                      <span className={`text-[9px] md:text-[11px] font-medium ${LABEL_MAP[current.label].color} shrink-0`}>
+                        {locale === "en" ? LABEL_MAP[current.label].en : LABEL_MAP[current.label].ko}
+                      </span>
+                    )}
                   </span>
                 )}
                 <p className="text-sm md:text-lg text-stone-100 leading-relaxed font-medium">

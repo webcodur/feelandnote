@@ -1,4 +1,4 @@
-// content_locales 테이블 헬퍼 (Phase 2: 전환기)
+// content_locales 테이블 헬퍼
 
 /** content_locales SELECT 필드 */
 export const CL_SELECT = 'locale, title, creator, thumbnail_url, description, isbn, publisher, affiliate_url'
@@ -14,10 +14,7 @@ export interface ContentLocaleRow {
   affiliate_url: unknown
 }
 
-/**
- * content_locales 배열 → 기존 Content 플랫 shape 변환.
- * Phase 2 호환: 프론트엔드 타입 변경 없이 content_locales 데이터 사용.
- */
+/** content_locales 배열 → 플랫 shape 변환 */
 export function flattenLocales(locales: ContentLocaleRow[] | null | undefined) {
   const ko = locales?.find(l => l.locale === 'ko')
   const en = locales?.find(l => l.locale === 'en')

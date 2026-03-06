@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { Note, NoteWithContent } from './types'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export async function getNote(noteId: string): Promise<ActionResult<Note | null>> {
   const supabase = await createClient()
@@ -76,7 +77,7 @@ export async function getMyNotes(): Promise<ActionResult<NoteWithContent[]>> {
     .from('notes')
     .select(`
       *,
-      content:contents(id, title, type, thumbnail_url, creator),
+      content:contents(id, type, content_locales(${CL_SELECT})),
       sections:note_sections(count)
     `)
     .eq('user_id', user.id)
@@ -86,5 +87,21 @@ export async function getMyNotes(): Promise<ActionResult<NoteWithContent[]>> {
     return handleSupabaseError(error, { context: 'note', logPrefix: '[노트 목록 조회]' })
   }
 
-  return success(data as unknown as NoteWithContent[])
+  // content_locales → flat 변환
+  const mapped = (data || []).map(item => {
+    const rawContent = Array.isArray(item.content) ? item.content[0] : item.content
+    const flat = flattenLocales((rawContent as any)?.content_locales as ContentLocaleRow[] | null)
+    return {
+      ...item,
+      content: rawContent ? {
+        id: (rawContent as any).id,
+        type: (rawContent as any).type,
+        title: flat.title,
+        creator: flat.creator,
+        thumbnail_url: flat.thumbnail_url,
+      } : null,
+    }
+  })
+
+  return success(mapped as unknown as NoteWithContent[])
 }

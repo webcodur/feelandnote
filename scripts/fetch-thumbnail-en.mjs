@@ -1,5 +1,5 @@
 /**
- * isbn_en → Google Books API → thumbnail_en 일괄 수집
+ * content_locales(en).isbn → Google Books API → thumbnail_url 일괄 수집
  *
  * 사용법: node scripts/fetch-thumbnail-en.mjs
  * 환경변수: sw/web/.env 에서 SUPABASE / GOOGLE_BOOKS_API_KEY 읽음
@@ -79,21 +79,21 @@ function extractThumbnail(data) {
 
 // ── 메인 ──
 async function main() {
-  // thumbnail_en이 아직 없는 isbn_en 보유 BOOK 조회
+  // thumbnail_url이 아직 없는 isbn 보유 EN 에디션 조회
   const { data: rows, error } = await supabase
-    .from("contents")
-    .select("id, isbn_en")
-    .eq("type", "BOOK")
-    .not("isbn_en", "is", null)
-    .is("thumbnail_en", null)
-    .order("id");
+    .from("content_locales")
+    .select("content_id, isbn, thumbnail_url")
+    .eq("locale", "en")
+    .not("isbn", "is", null)
+    .is("thumbnail_url", null)
+    .order("content_id");
 
   if (error) {
     console.error("DB 조회 실패:", error.message);
     process.exit(1);
   }
 
-  console.log(`대상: ${rows.length}건 (isbn_en 보유, thumbnail_en 미설정)`);
+  console.log(`대상: ${rows.length}건 (isbn 보유, thumbnail_url 미설정)`);
 
   let success = 0;
   let skipped = 0;
@@ -103,21 +103,22 @@ async function main() {
     const batch = rows.slice(i, i + BATCH_SIZE);
     const results = await Promise.all(
       batch.map(async (row) => {
-        const thumb = await fetchThumbnail(row.isbn_en);
-        return { id: row.id, isbn_en: row.isbn_en, thumbnail_en: thumb };
+        const thumb = await fetchThumbnail(row.isbn);
+        return { content_id: row.content_id, isbn: row.isbn, newThumb: thumb };
       })
     );
 
     // DB 업데이트
     for (const r of results) {
-      if (!r.thumbnail_en) {
+      if (!r.newThumb) {
         skipped++;
         continue;
       }
       const { error: updateErr } = await supabase
-        .from("contents")
-        .update({ thumbnail_en: r.thumbnail_en })
-        .eq("id", r.id);
+        .from("content_locales")
+        .update({ thumbnail_url: r.newThumb })
+        .eq("content_id", r.content_id)
+        .eq("locale", "en");
 
       if (updateErr) {
         console.error(`  [UPDATE ERR] ${r.id}:`, updateErr.message);
