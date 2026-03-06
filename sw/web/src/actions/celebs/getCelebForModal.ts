@@ -91,10 +91,6 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     tags,
     greeting: (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null,
     greeting_en: (dialogueResult.data?.lines_en as Record<string, string[]> | null)?.greeting ?? null,
-    roll_call: (dialogueResult.data?.lines as Record<string, string[]> | null)?.roll_call ?? null,
-    roll_call_en: (dialogueResult.data?.lines_en as Record<string, string[]> | null)?.roll_call ?? null,
-    deploy: (dialogueResult.data?.lines as Record<string, string[]> | null)?.deploy ?? null,
-    deploy_en: (dialogueResult.data?.lines_en as Record<string, string[]> | null)?.deploy ?? null,
     has_voice: profile.has_voice ?? false,
   }
 }

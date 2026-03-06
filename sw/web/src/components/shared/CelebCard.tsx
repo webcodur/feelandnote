@@ -14,7 +14,7 @@ import CelebDetailModal from "@/components/features/home/celeb-card-drafts/Celeb
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
-import type { DialogueSubtitleData, DialogueLabel } from "@/components/features/game/shared/hooks/useDialogue";
+import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { useTranslations, useLocale } from "next-intl";
 import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
@@ -91,52 +91,46 @@ export default function CelebCard({
 
   const lastDialogueIdx = useRef<number | null>(null);
 
-  /** greeting + roll_call + deploy + quote 슬롯에서 균등 확률로 발사 */
+  /** greeting + quote 슬롯에서 균등 확률로 발사 */
   const fireDialogue = useCallback(() => {
     if (!onSubtitle) return;
+    const greetings = (locale === "en" && celebProfile?.greeting_en) || celebProfile?.greeting;
+    if (!greetings || greetings.length === 0) return;
 
-    const pickLocale = <T,>(ko: T | undefined | null, en: T | undefined | null): T | null =>
-      (locale === "en" ? (en ?? ko) : ko) ?? null;
-
-    const greetings = pickLocale(celebProfile?.greeting, celebProfile?.greeting_en) as string[] | null;
-    const rollCalls = pickLocale(celebProfile?.roll_call, celebProfile?.roll_call_en) as string[] | null;
-    const deploys = pickLocale(celebProfile?.deploy, celebProfile?.deploy_en) as string[] | null;
-    const displayQuote = pickLocale(celebProfile?.quotes, celebProfile?.quotes_en) as string | null;
-
-    // 슬롯 배열 구축: [label, lines배열내index, voiceType]
-    type Slot = { label: DialogueLabel; text: string; voiceType?: string; voiceIdx?: number };
-    const slots: Slot[] = [];
-    greetings?.forEach((t, i) => slots.push({ label: "greeting", text: stripEmotionTag(t), voiceType: "greeting", voiceIdx: i + 1 }));
-    rollCalls?.forEach((t, i) => slots.push({ label: "roll_call", text: stripEmotionTag(t), voiceType: "roll_call", voiceIdx: i + 1 }));
-    deploys?.forEach((t, i) => slots.push({ label: "deploy", text: stripEmotionTag(t), voiceType: "deploy", voiceIdx: i + 1 }));
-    if (displayQuote) slots.push({ label: "quotes", text: displayQuote });
-
-    if (slots.length === 0) return;
+    const displayQuote = (locale === "en" && celebProfile?.quotes_en) || celebProfile?.quotes;
+    const slotCount = greetings.length + (displayQuote ? 1 : 0);
 
     let slot: number;
-    if (slots.length <= 1) {
+    if (slotCount <= 1) {
       slot = 0;
     } else {
-      do { slot = Math.floor(Math.random() * slots.length); } while (slot === lastDialogueIdx.current);
+      do { slot = Math.floor(Math.random() * slotCount); } while (slot === lastDialogueIdx.current);
     }
     lastDialogueIdx.current = slot;
 
-    const picked = slots[slot];
-    const audioUrl = picked.label === "quotes"
-      ? (hasVoice ? getQuoteVoiceUrl(id, locale as "ko" | "en") : null)
-      : (hasVoice && picked.voiceType ? getVoiceUrl(id, locale as "ko" | "en", picked.voiceType as any, picked.voiceIdx!) : null);
-
-    onSubtitle({
-      key: ++keyCounter.current,
-      tone: "composed",
-      text: picked.text,
-      nickname: displayNickname,
-      avatarUrl: avatar_url ?? null,
-      audioUrl,
-      label: picked.label,
-    });
+    if (displayQuote && slot === greetings.length) {
+      onSubtitle({
+        key: ++keyCounter.current,
+        tone: "composed",
+        text: displayQuote,
+        nickname: displayNickname,
+        avatarUrl: avatar_url ?? null,
+        audioUrl: hasVoice ? getQuoteVoiceUrl(id, locale as "ko" | "en") : null,
+        label: "quotes",
+      });
+    } else {
+      onSubtitle({
+        key: ++keyCounter.current,
+        tone: "composed",
+        text: stripEmotionTag(greetings[slot]),
+        nickname: displayNickname,
+        avatarUrl: avatar_url ?? null,
+        audioUrl: hasVoice ? getVoiceUrl(id, locale as "ko" | "en", "greeting", slot + 1) : null,
+        label: "greeting",
+      });
+    }
     if (hasVoice) setVoicePulse(prev => prev + 1);
-  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, celebProfile?.roll_call, celebProfile?.roll_call_en, celebProfile?.deploy, celebProfile?.deploy_en, celebProfile?.quotes, celebProfile?.quotes_en, locale, displayNickname, avatar_url, hasVoice, id]);
+  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, celebProfile?.quotes, celebProfile?.quotes_en, locale, displayNickname, avatar_url, hasVoice, id]);
 
   const [voicePulse, setVoicePulse] = useState(0);
   const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);

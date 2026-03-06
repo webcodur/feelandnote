@@ -151,13 +151,9 @@ export async function getCelebs(
     })
   }
 
-  // 셀럽별 대사 조회 (greeting, roll_call, deploy)
+  // 셀럽별 greeting 대사 조회
   const greetingMap = new Map<string, string[]>()
   const greetingEnMap = new Map<string, string[]>()
-  const rollCallMap = new Map<string, string[]>()
-  const rollCallEnMap = new Map<string, string[]>()
-  const deployMap = new Map<string, string[]>()
-  const deployEnMap = new Map<string, string[]>()
   if (celebIds.length > 0) {
     const { data: dialogueRows } = await supabase
       .from('celeb_dialogues')
@@ -169,10 +165,6 @@ export async function getCelebs(
       const linesEn = row.lines_en as Record<string, string[]> | null
       if (lines?.greeting) greetingMap.set(row.celeb_id, lines.greeting)
       if (linesEn?.greeting) greetingEnMap.set(row.celeb_id, linesEn.greeting)
-      if (lines?.roll_call) rollCallMap.set(row.celeb_id, lines.roll_call)
-      if (linesEn?.roll_call) rollCallEnMap.set(row.celeb_id, linesEn.roll_call)
-      if (lines?.deploy) deployMap.set(row.celeb_id, lines.deploy)
-      if (linesEn?.deploy) deployEnMap.set(row.celeb_id, linesEn.deploy)
     })
   }
 
@@ -246,10 +238,6 @@ export async function getCelebs(
       tags: tagMap.get(row.id) ?? [],
       greeting: greetingMap.get(row.id) ?? null,
       greeting_en: greetingEnMap.get(row.id) ?? null,
-      roll_call: rollCallMap.get(row.id) ?? null,
-      roll_call_en: rollCallEnMap.get(row.id) ?? null,
-      deploy: deployMap.get(row.id) ?? null,
-      deploy_en: deployEnMap.get(row.id) ?? null,
       has_voice: voiceSet.has(row.id),
     }
   })
