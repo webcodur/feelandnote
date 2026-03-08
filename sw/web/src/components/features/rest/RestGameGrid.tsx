@@ -3,17 +3,24 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Clock, Crosshair, Swords, Crown } from "lucide-react";
-import { useTranslations } from "next-intl";
 import HubCard from "@/components/shared/HubCard";
-import DevGate from "@/app/[locale]/(main)/rest/suikoden/DevGate";
+import { Z_INDEX } from "@/constants/zIndex";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import type { GameCharacter } from "@/lib/game/suikoden/types";
 import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenGameWrapper";
 
-const DawnGameWrapper = dynamic(() => import("@/components/features/game/dawn/DawnGameWrapper"));
-const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth/LabyrinthGame"));
-const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"));
-const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/suikoden/SuikodenGameWrapper"));
+function GameLoadingScreen() {
+  return (
+    <div className="fixed inset-0 bg-bg-main flex items-center justify-center" style={{ zIndex: Z_INDEX.top }}>
+      <div className="animate-pulse text-text-secondary font-serif text-lg">Loading…</div>
+    </div>
+  );
+}
+
+const DawnGameWrapper = dynamic(() => import("@/components/features/game/dawn/DawnGameWrapper"), { loading: GameLoadingScreen });
+const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth/LabyrinthGame"), { loading: GameLoadingScreen });
+const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"), { loading: GameLoadingScreen });
+const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/suikoden/SuikodenGameWrapper"), { loading: GameLoadingScreen });
 
 type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden";
 
@@ -24,12 +31,18 @@ const GAME_SECTIONS = [
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown },
 ] as const;
 
+interface GameLabel {
+  title: string;
+  description: string;
+}
+
 interface Props {
   bgImagesDawn: GameBackgroundImages | null;
   bgImagesLabyrinth: GameBackgroundImages | null;
   bgImagesHegemony: GameBackgroundImages | null;
   suikodenCharacters: GameCharacter[];
   suikodenDialogues: DialoguesMap;
+  gameLabels: Record<GameId, GameLabel>;
 }
 
 export default function RestGameGrid({
@@ -38,9 +51,8 @@ export default function RestGameGrid({
   bgImagesHegemony,
   suikodenCharacters,
   suikodenDialogues,
+  gameLabels,
 }: Props) {
-  const tArena = useTranslations("rest.arena");
-  const tHub = useTranslations("rest.hub");
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
 
   const handleExit = () => {
@@ -56,8 +68,8 @@ export default function RestGameGrid({
             <HubCard
               key={game.valueKey}
               onClick={() => setActiveGame(game.valueKey)}
-              title={tArena(`${game.valueKey}.label` as any)}
-              description={tHub(game.valueKey)}
+              title={gameLabels[game.valueKey].title}
+              description={gameLabels[game.valueKey].description}
               label={game.label}
               icon={<Icon className="h-5 w-5" />}
             />
@@ -78,14 +90,12 @@ export default function RestGameGrid({
       )}
 
       {activeGame === "suikoden" && (
-        <DevGate>
-          <SuikodenGameWrapper
-            characters={suikodenCharacters}
-            dialogues={suikodenDialogues}
-            initialFullScreen={true}
-            onExitFullScreenExternal={handleExit}
-          />
-        </DevGate>
+        <SuikodenGameWrapper
+          characters={suikodenCharacters}
+          dialogues={suikodenDialogues}
+          initialFullScreen={true}
+          onExitFullScreenExternal={handleExit}
+        />
       )}
     </>
   );

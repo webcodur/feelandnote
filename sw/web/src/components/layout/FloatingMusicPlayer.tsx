@@ -7,6 +7,8 @@ import { Z_INDEX } from '@/constants/zIndex'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import type { ContentStatus } from '@/types/database'
 import MusicTrackItem from './MusicTrackItem'
+import GameAudioPlayer from '@/components/shared/GameAudioPlayer'
+import { useGameAudioContext } from '@/contexts/GameAudioContext'
 
 // #region Constants
 const DEFAULT_W = 320
@@ -58,6 +60,7 @@ const loadSavedSize = () => {
 
 export default function FloatingMusicPlayer() {
   const t = useTranslations('musicPlayer')
+  const { controls: gameAudio } = useGameAudioContext()
   const [isOpen, setIsOpen] = useState(false)
   const [tracks, setTracks] = useState<MusicTrack[]>([])
   const [currentIdx, setCurrentIdx] = useState(0)
@@ -164,6 +167,32 @@ export default function FloatingMusicPlayer() {
   const listH = Math.max(0, bodyH - clamped - SPLIT_H)
   const zStyle = { zIndex: Z_INDEX.floatingPlayer }
 
+  // ── 게임 모드: 게임 오디오 컨트롤로 전환 ──
+  if (gameAudio) {
+    const gameZStyle = { zIndex: Z_INDEX.floatingPlayerGame }
+    return (
+      <>
+        {!isOpen && (
+          <button onClick={handleOpen} className="fixed bottom-4 end-4 w-12 h-12 rounded-full flex items-center justify-center shadow-lg border bg-bg-card/90 backdrop-blur-sm border-accent/30 text-accent hover:bg-bg-card hover:border-accent/50 transition-colors" style={gameZStyle} title="Game BGM">
+            <Music size={20} />
+          </button>
+        )}
+        <div className={`fixed bottom-4 end-4 bg-bg-card/95 backdrop-blur-sm border border-accent/20 rounded-xl shadow-2xl [&_*]:!font-sans transition-all ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...gameZStyle, width: Math.max(panelW, 420) }}>
+          <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/5">
+            <span className="text-[11px] font-medium text-accent/70 ps-1">Game BGM</span>
+            <button onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-text-tertiary" title={t('close')}>
+              <X size={13} />
+            </button>
+          </div>
+          <div className="px-3 py-2.5">
+            <GameAudioPlayer controls={gameAudio} />
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  // ── 기본 모드: Spotify 뮤직 플레이어 ──
   return (
     <>
       {!isOpen && (

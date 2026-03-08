@@ -91,70 +91,73 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
   const VolumeIcon = volume === 0 ? VolumeX : volume < 0.5 ? Volume1 : Volume2;
 
   return (
-    <div className="flex items-center gap-3 w-full max-w-xl">
-      {/* 이전 트랙 */}
-      <button
-        onClick={prevTrack}
-        disabled={!hasPlaylist || trackIndex <= 0}
-        className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
-        title={t("prevTrack")}
-      >
-        <SkipBack size={12} />
-      </button>
+    <div className="flex flex-col gap-2 w-full max-w-xl">
+      {/* 1행: 트랙 컨트롤 + 프로그레스 */}
+      <div className="flex items-center gap-3">
+        {/* 이전 트랙 */}
+        <button
+          onClick={prevTrack}
+          disabled={!hasPlaylist || trackIndex <= 0}
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
+          title={t("prevTrack")}
+        >
+          <SkipBack size={12} />
+        </button>
 
-      {/* 재생/일시정지 */}
-      <button
-        onClick={togglePlay}
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0"
-        title={isPlaying ? t("pause") : t("play")}
-      >
-        {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
-      </button>
+        {/* 재생/일시정지 */}
+        <button
+          onClick={togglePlay}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0"
+          title={isPlaying ? t("pause") : t("play")}
+        >
+          {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+        </button>
 
-      {/* 다음 트랙 */}
-      <button
-        onClick={nextTrack}
-        disabled={!hasPlaylist || trackIndex >= trackCount - 1}
-        className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
-        title={t("nextTrack")}
-      >
-        <SkipForward size={12} />
-      </button>
+        {/* 다음 트랙 */}
+        <button
+          onClick={nextTrack}
+          disabled={!hasPlaylist || trackIndex >= trackCount - 1}
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent/30 text-text-secondary hover:text-accent active:scale-95 transition-all shrink-0 disabled:opacity-30 disabled:pointer-events-none"
+          title={t("nextTrack")}
+        >
+          <SkipForward size={12} />
+        </button>
 
-      {/* 트랙 정보 */}
-      {trackLabel && (
-        <span className="text-[10px] text-text-tertiary shrink-0 max-w-28 truncate" title={hasPlaylist ? `${trackIndex + 1}/${trackCount} ${trackLabel}` : trackLabel}>
-          {hasPlaylist && <span className="text-accent/60 mr-1">{trackIndex + 1}/{trackCount}</span>}
-          {trackLabel}
+        {/* 트랙 정보 */}
+        {trackLabel && (
+          <span className="text-[10px] text-text-tertiary shrink-0 max-w-28 truncate" title={hasPlaylist ? `${trackIndex + 1}/${trackCount} ${trackLabel}` : trackLabel}>
+            {hasPlaylist && <span className="text-accent/60 mr-1">{trackIndex + 1}/{trackCount}</span>}
+            {trackLabel}
+          </span>
+        )}
+
+        {/* 시간 + 프로그레스 바 */}
+        <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8 text-right">
+          {formatTime(displayTime)}
         </span>
-      )}
-
-      {/* 시간 + 프로그레스 바 */}
-      <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8 text-right">
-        {formatTime(displayTime)}
-      </span>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-      <div
-        ref={trackRef}
-        className="flex-1 relative h-5 flex items-center cursor-pointer group"
-        onClick={handleTrackClick}
-      >
-        <div className="absolute inset-x-0 h-1 rounded-full bg-white/10 group-hover:h-1.5 transition-all">
-          <div
-            className="h-full rounded-full bg-accent/60"
-            style={{ width: `${progress}%` }}
-          />
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+        <div
+          ref={trackRef}
+          className="flex-1 relative h-5 flex items-center cursor-pointer group"
+          onClick={handleTrackClick}
+        >
+          <div className="absolute inset-x-0 h-1 rounded-full bg-white/10 group-hover:h-1.5 transition-all">
+            <div
+              className="h-full rounded-full bg-accent/60"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
+        <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8">
+          {formatTime(duration)}
+        </span>
       </div>
-      <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8">
-        {formatTime(duration)}
-      </span>
 
-      {/* 볼륨 */}
-      <div className="flex items-center gap-1.5 shrink-0">
+      {/* 2행: 볼륨 */}
+      <div className="flex items-center gap-2">
         <button
           onClick={() => setVolume(volume === 0 ? 0.35 : 0)}
-          className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-text-secondary hover:text-accent transition-colors"
+          className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-text-secondary hover:text-accent transition-colors shrink-0"
           title={volume === 0 ? t("unmute") : t("mute")}
         >
           <VolumeIcon size={14} />
@@ -166,12 +169,15 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
           step={0.05}
           value={volume}
           onChange={handleVolumeChange}
-          className="w-16 sm:w-20 h-1 accent-[var(--color-accent)] bg-white/10 rounded-full appearance-none cursor-pointer
+          className="flex-1 h-1 accent-[var(--color-accent)] bg-white/10 rounded-full appearance-none cursor-pointer
             [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
             [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent
             [&::-webkit-slider-thumb]:shadow-[0_0_6px_rgba(212,175,55,0.4)]
             [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform"
         />
+        <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8">
+          {Math.round(volume * 100)}%
+        </span>
       </div>
     </div>
   );

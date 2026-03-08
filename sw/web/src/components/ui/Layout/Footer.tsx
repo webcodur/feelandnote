@@ -52,7 +52,7 @@ export default async function Footer() {
           </div>
 
           {/* Navigation */}
-          <div className="grid grid-cols-5 gap-x-6 text-center">
+          <div className="grid grid-cols-4 gap-x-6 text-center">
             {/* Brand Links Column */}
             <div>
               <p className={sectionTitleClassName}>About</p>

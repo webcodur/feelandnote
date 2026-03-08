@@ -7,7 +7,6 @@
 import { getTranslations } from "next-intl/server";
 import { Clock, Crosshair, Swords, Crown } from "lucide-react";
 import HubNav from "@/components/shared/HubNav";
-import type { HubNavItem } from "@/components/shared/HubNav";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
@@ -64,24 +63,35 @@ export default async function RestPage() {
     loadSuikodenDialogues(),
   ]);
 
-  const navItems: HubNavItem[] = GAME_SECTIONS.map((game) => ({
+  const hubItems = GAME_SECTIONS.map((game) => ({
     label: t(`${game.valueKey}.label` as any),
     href: game.href,
     icon: game.icon,
   }));
 
+  const gameLabels = Object.fromEntries(
+    GAME_SECTIONS.map((game) => [
+      game.valueKey,
+      {
+        title: t(`${game.valueKey}.label` as any),
+        description: tHub(game.valueKey),
+      },
+    ])
+  ) as Record<"dawn" | "labyrinth" | "hegemony" | "suikoden", { title: string; description: string }>;
+
   return (
     <div className="space-y-8">
       {/* 서브페이지 네비게이터 */}
-      <HubNav items={navItems} placeholder={tHub("quickNav")} />
+      <HubNav hubItems={hubItems} />
 
       {/* 카드 그리드 및 게임 렌더링 */}
-      <RestGameGrid 
+      <RestGameGrid
         bgImagesDawn={bgImagesDawn}
         bgImagesLabyrinth={bgImagesLabyrinth}
         bgImagesHegemony={bgImagesHegemony}
         suikodenCharacters={suikodenCharacters}
         suikodenDialogues={suikodenDialogues}
+        gameLabels={gameLabels}
       />
     </div>
   );

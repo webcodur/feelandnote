@@ -1,14 +1,14 @@
 /*
   파일명: /components/shared/HubNav.tsx
   기능: 허브 페이지 서브페이지 네비게이터
-  책임: 드롭다운으로 서브페이지 목록을 보여주고 선택 시 이동한다.
+  책임: 가로 스크롤 칩으로 허브 섹션 항목과 독립 페이지를 구분 표기한다.
 */ // ------------------------------
 
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "@/i18n/navigation";
-import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
+import { Link } from "@/i18n/navigation";
+import { hubSectionId } from "@/components/shared/HubSection";
 
 export interface HubNavItem {
   label: string;
@@ -17,58 +17,66 @@ export interface HubNavItem {
 }
 
 interface HubNavProps {
-  items: HubNavItem[];
-  placeholder?: string;
+  /** 허브 섹션 항목 (페이지 내 실제 섹션 순서대로) */
+  hubItems: HubNavItem[];
+  /** 독립 페이지 (Nav에서만 접근 가능) */
+  standaloneItems?: HubNavItem[];
+  /** 허브 섹션 스크롤 네비게이션용 그룹 ID */
+  groupId?: string;
 }
 
-export default function HubNav({ items, placeholder = "바로가기" }: HubNavProps) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
+  const handleHubClick = (index: number) => {
+    if (!groupId) return;
+    const el = document.getElementById(hubSectionId(index, groupId));
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <div ref={ref} className="relative inline-block">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-accent/20 bg-accent/5 text-sm font-medium text-accent hover:bg-accent/10 transition-colors"
-      >
-        {placeholder}
-        <ChevronDown
-          size={14}
-          className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
+    <div
+      ref={scrollRef}
+      className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1"
+    >
+      {/* 허브 섹션 항목 */}
+      {hubItems.map((item, i) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          onClick={(e) => {
+            if (groupId) {
+              e.preventDefault();
+              handleHubClick(i);
+            }
+          }}
+          className="group shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors border border-[#d4af37]/25 bg-[#d4af37]/5 text-[#d4af37]/80 hover:bg-[#d4af37]/15 hover:text-[#d4af37] hover:border-[#d4af37]/40"
+        >
+          <span className="text-[10px] font-mono text-[#d4af37]/40 group-hover:text-[#d4af37]/60 tabular-nums">
+            {i + 1}/{hubItems.length}
+          </span>
+          <span className="whitespace-nowrap">{item.label}</span>
+        </Link>
+      ))}
 
-      {open && (
-        <div className="absolute top-full left-0 mt-1 min-w-[200px] py-1 rounded-lg border border-accent/20 bg-bg-main shadow-lg z-50">
-          {items.map((item) => (
-            <button
-              key={item.href}
-              onClick={() => {
-                router.push(item.href);
-                setOpen(false);
-              }}
-              className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-accent/5 transition-colors text-left"
-            >
-              {item.icon && (
-                <span className="text-accent/60 shrink-0">{item.icon}</span>
-              )}
-              {item.label}
-            </button>
-          ))}
-        </div>
+      {/* 구분선 */}
+      {standaloneItems && standaloneItems.length > 0 && (
+        <div className="shrink-0 w-px h-5 bg-white/10 mx-1" />
       )}
+
+      {/* 독립 페이지 */}
+      {standaloneItems?.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors border border-white/10 text-white/40 hover:bg-white/5 hover:text-white/70 hover:border-white/20"
+        >
+          {item.icon && (
+            <span className="text-white/30 shrink-0">{item.icon}</span>
+          )}
+          <span className="whitespace-nowrap">{item.label}</span>
+        </Link>
+      ))}
     </div>
   );
 }

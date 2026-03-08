@@ -58,6 +58,10 @@ export interface BattleCard {
   ability: Record<AbilityKey, number>;
   /** 인물별 고유 대사 (없으면 공통 대사 폴백) */
   dialogueLines?: DialogueLines;
+  /** R2 음성 파일 보유 여부 */
+  hasVoice?: boolean;
+  /** 음성 버전 (CDN 캐시 키) */
+  voiceV?: number;
 }
 
 // ─── 명령 체계 (3명령 RPS) ───

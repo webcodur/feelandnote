@@ -11,7 +11,7 @@ import { INITIAL_POWER, INITIAL_MORALE, MANDATE_POOL, COMMANDS } from "@/lib/gam
 import { executeRound, calcAptitudeWithCaptain, applyCounter, getCounterResult } from "@/lib/game/gameEngine";
 import { aiSelectRound, aiSelectCaptain } from "@/lib/game/aiPlayer";
 import { buildDraftPool, aiDraftPick } from "@/lib/game/deckBuilder";
-import { getCelebCards } from "@/actions/game/getCelebCards";
+import { getCelebCards, loadCardDialogues } from "@/actions/game/getCelebCards";
 
 const DRAFT_ROUNDS = 10; // 5장씩 = 10 픽 (5장 폐기)
 const DRAFT_REVEAL = 3;  // 드래프트에서 한 번에 공개되는 카드 수
@@ -108,12 +108,20 @@ export function useBattleGame() {
 
     const pool = buildDraftPool(cards);
 
+    // 드래프트 풀(15장)의 대사만 경량 조회
+    const poolIds = pool.map((c) => c.id);
+    const dialogueMap = await loadCardDialogues(poolIds);
+    const poolWithDialogues = pool.map((c) => {
+      const dl = dialogueMap.get(c.id);
+      return dl ? { ...c, dialogueLines: dl } : c;
+    });
+
     setState({
       ...initialState,
       phase: "draft",
       difficulty,
       draft: {
-        pool,
+        pool: poolWithDialogues,
         playerPicks: [],
         aiPicks: [],
         currentPicker: getPickerForRound(1, difficulty),

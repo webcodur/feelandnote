@@ -17,12 +17,11 @@ import BattleLobby from "./BattleLobby";
 import CaptainSelect from "./CaptainSelect";
 import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
 import CardInfoModal from "./CardInfoModal";
-import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
-import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { BattleCard, Difficulty } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
 import { useDialogue } from "@/components/features/game/shared/hooks/useDialogue";
+import { useGlobalDialogue } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { getBattleText } from "./i18n";
 
 interface BattleGameProps {
@@ -49,11 +48,8 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
   const sfxMutedRef = useRef(sfxMuted);
   sfxMutedRef.current = sfxMuted;
 
-  // 자막 상태 — 매번 새 객체 참조로 동일 대사도 재표시
-  const [dialogueSub, setDialogueSub] = useState<DialogueSubtitleData | null>(null);
-  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => {
-    setDialogueSub({ ...sub });
-  }, []);
+  // 글로벌 대사 시스템 사용 (위치 드래그, 음성 뮤트 등 전역 기능 공유)
+  const { handleSubtitle } = useGlobalDialogue();
 
   const {
     state,
@@ -111,7 +107,24 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
     return map;
   }, [allCards]);
 
-  const { showDialogue } = useDialogue({ sfxMutedRef, onSubtitle: handleSubtitle, personalDialogues });
+  // 음성 보유 인물 Set + 버전 Map
+  const voiceCelebIds = useMemo(() => {
+    const set = new Set<string>();
+    for (const card of allCards) {
+      if (card.hasVoice) set.add(card.id);
+    }
+    return set;
+  }, [allCards]);
+
+  const voiceVersions = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const card of allCards) {
+      if (card.hasVoice && card.voiceV) map.set(card.id, card.voiceV);
+    }
+    return map;
+  }, [allCards]);
+
+  const { showDialogue } = useDialogue({ sfxMutedRef, onSubtitle: handleSubtitle, personalDialogues, voiceCelebIds, voiceVersions });
 
   const modalCard = useMemo(
     () => modalCardId ? allCards.find((c) => c.id === modalCardId) ?? null : null,
@@ -306,7 +319,6 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
     <>
       {content}
       <PhaseAnnounce data={announce} onDone={() => setAnnounce(null)} />
-      <DialogueSubtitle subtitle={dialogueSub} />
       {modalCard && (
         <CardInfoModal
           card={modalCard}

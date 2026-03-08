@@ -6,11 +6,14 @@
 */
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { Info } from "lucide-react";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
+const TAP_THRESHOLD = 10; // px — 이 이내면 탭으로 판정
 
 interface DawnBoardCardProps {
   imageUrl?: string | null;
@@ -19,6 +22,9 @@ interface DawnBoardCardProps {
   profession?: string | null;
   isHighlighted?: boolean;
   isNewlyPlaced?: boolean;
+  /** 카드 본체 클릭 — 대사 표시용 */
+  onCardClick?: () => void;
+  /** info 버튼 클릭 — 상세 모달용 */
   onInfoClick?: () => void;
   className?: string;
 }
@@ -30,14 +36,39 @@ export default function DawnBoardCard({
   profession,
   isHighlighted,
   isNewlyPlaced,
+  onCardClick,
   onInfoClick,
   className,
 }: DawnBoardCardProps) {
   const locale = useLocale();
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    pointerStart.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleClick = () => {
+    // pointerUp에서 드래그 감지 시 null 처리됨 → 탭만 통과
+    if (!onCardClick || !pointerStart.current) return;
+    onCardClick();
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!pointerStart.current || !onCardClick) return;
+    const dx = Math.abs(e.clientX - pointerStart.current.x);
+    const dy = Math.abs(e.clientY - pointerStart.current.y);
+    if (dx > TAP_THRESHOLD || dy > TAP_THRESHOLD) {
+      // 드래그/스와이프 — onClick 억제
+      pointerStart.current = null;
+    }
+  };
 
   return (
     <div
       data-board-card
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onClick={handleClick}
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-xl border-2 shadow-lg shadow-black/40 transition-all duration-500",
         isNewlyPlaced
@@ -45,6 +76,7 @@ export default function DawnBoardCard({
           : isHighlighted
             ? "border-accent shadow-[0_0_16px_rgba(212,175,55,0.4)]"
             : "border-accent/40",
+        onCardClick && "cursor-pointer active:scale-[0.97]",
         className
       )}
     >

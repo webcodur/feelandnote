@@ -14,15 +14,16 @@ import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
+/** 카드 풀 조회 (대사 미포함 — 경량) */
 export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
   const supabase = await createClient();
   const locale = await getLocale();
+  const isEn = locale === "en";
 
-  // 1. celeb_persona 조회 (stat_power 등 스탯 + basicSpeechTone)
   let query = supabase
     .from("profiles")
     .select(`
-      id, nickname, profession, title, nationality, avatar_url, quotes, death_date, gender, speech_tone,
+      id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, quotes, quotes_en, death_date, gender, speech_tone, has_voice, voice_v,
       celeb_influence!inner(
         political, strategic, tech, social, economic, cultural, transhistoricity
       ),
@@ -39,27 +40,8 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
   const { data: personaData, error: personaError } = await query;
 
   if (personaError || !personaData) {
-    console.error("[getCelebCards] 셀럽 페르소나 조회 실패:", personaError?.message);
+    console.error("[getCelebCards] 셀럽 카드 조회 실패:", personaError?.message);
     return [];
-  }
-
-  // 2. celeb_dialogues 조회 (대사)
-  const personaIds = personaData.map((r) => r.id);
-  let dialogueQuery = supabase
-    .from("celeb_dialogues")
-    .select("celeb_id, lines, lines_en");
-
-  if (celebIds && celebIds.length > 0) {
-    dialogueQuery = dialogueQuery.in("celeb_id", celebIds);
-  } else {
-    dialogueQuery = dialogueQuery.in("celeb_id", personaIds);
-  }
-
-  const { data: dialogueData, error: dialogueError } = await dialogueQuery;
-
-  if (dialogueError) {
-    console.error("[getCelebCards] 셀럽 대사 조회 실패:", dialogueError?.message);
-    // 대사 데이터가 없어도 카드 조회는 계속 진행
   }
 
   return personaData
@@ -77,27 +59,17 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
         influence[key] = inf[key] ?? 0;
       }
 
-      const profession = row.profession ?? "other";
-      const gender = row.gender ?? null;
-      const speechTone = validateSpeechTone(row.speech_tone);
-
-      // 대사 라인 맵핑 (locale 고려)
-      const dialogueRecord = dialogueData?.find((d) => d.celeb_id === row.id);
-      const dialogueLines = dialogueRecord
-        ? ((locale === 'en' && dialogueRecord.lines_en) ? dialogueRecord.lines_en : dialogueRecord.lines) as DialogueLines
-        : undefined;
-
       return {
         id: row.id,
-        nickname: row.nickname ?? "",
-        profession,
-        title: row.title ?? "",
+        nickname: (isEn && (row as any).nickname_en) || (row.nickname ?? ""),
+        profession: row.profession ?? "other",
+        title: (isEn && (row as any).title_en) || (row.title ?? ""),
         nationality: row.nationality ?? "",
         avatarUrl: row.avatar_url,
         portraitUrl: null,
-        quotes: row.quotes ?? "",
-        gender,
-        speechTone,
+        quotes: (isEn && (row as any).quotes_en) || (row.quotes ?? ""),
+        gender: row.gender ?? null,
+        speechTone: validateSpeechTone(row.speech_tone),
         influence,
         ability: {
           command: per.command ?? 0,
@@ -105,7 +77,33 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
           intellect: per.intellect ?? 0,
           charm: per.charm ?? 0,
         },
-        dialogueLines,
+        hasVoice: (row as any).has_voice ?? false,
+        voiceV: (row as any).voice_v ?? 0,
       };
     });
+}
+
+/** 드래프트 풀 확정 후, 선택된 카드의 대사만 조회하여 병합 */
+export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, DialogueLines>> {
+  if (cardIds.length === 0) return new Map();
+
+  const supabase = await createClient();
+  const locale = await getLocale();
+
+  const { data, error } = await supabase
+    .from("celeb_dialogues")
+    .select("celeb_id, lines, lines_en")
+    .in("celeb_id", cardIds);
+
+  if (error) {
+    console.error("[loadCardDialogues] 대사 조회 실패:", error.message);
+    return new Map();
+  }
+
+  const map = new Map<string, DialogueLines>();
+  for (const d of data ?? []) {
+    const lines = (locale === 'en' && d.lines_en) ? d.lines_en : d.lines;
+    if (lines) map.set(d.celeb_id, lines as DialogueLines);
+  }
+  return map;
 }

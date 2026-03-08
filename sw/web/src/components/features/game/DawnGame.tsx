@@ -22,7 +22,7 @@ import type { SpeechTone, DialogueLines } from "@/lib/game/voice/types";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
-import MobileBottomSpacer from "./shared/MobileBottomSpacer";
+
 
 type GameState = "idle" | "playing" | "gameover";
 type Difficulty = "easy" | "hard";
@@ -162,6 +162,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   const [wrongPosition, setWrongPosition] = useState<number | null>(null);
   const [correctPosition, setCorrectPosition] = useState<number | null>(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const pendingDifficultyRef = useRef<Difficulty | null>(null);
   const [selectedCeleb, setSelectedCeleb] = useState<DawnCeleb | null>(null);
   const [pendingBoard, setPendingBoard] = useState<DawnCeleb[] | null>(null);
   const [pendingPlaceIndex, setPendingPlaceIndex] = useState<number | null>(null);
@@ -183,6 +184,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   const [lostLifeAnim, setLostLifeAnim] = useState(false);
   const [hintAnnounce, setHintAnnounce] = useState<{ type: HintType; label: string; icon: string; desc: string } | null>(null);
   const [eyeOfTimeOpen, setEyeOfTimeOpen] = useState(false);
+  const [milestoneText, setMilestoneText] = useState<string | null>(null);
 
   // 대사 시스템
   const [dialogueDataMap, setDialogueDataMap] = useState<Record<string, DawnDialogueData>>({});
@@ -198,10 +200,29 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
     return map;
   }, [dialogueDataMap]);
 
+  // 음성 보유 인물 Set + 버전 Map (CelebProfile 기반)
+  const voiceCelebIds = useMemo(() => {
+    const set = new Set<string>();
+    for (const c of allCelebs) {
+      if (c.has_voice) set.add(c.id);
+    }
+    return set;
+  }, [allCelebs]);
+
+  const voiceVersions = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const c of allCelebs) {
+      if (c.has_voice && c.voice_v) map.set(c.id, c.voice_v);
+    }
+    return map;
+  }, [allCelebs]);
+
   const { showDialogue, showDefaultLine } = useDialogue({
     sfxMutedRef,
     onSubtitle: setSubtitle,
     personalDialogues,
+    voiceCelebIds,
+    voiceVersions,
   });
 
   /** 셀럽의 speech_tone을 조회하는 헬퍼 */
@@ -259,7 +280,9 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
         .filter((c) => isPublicDomainCeleb(c.death_date ?? null))
         .map((c) => {
           const birthYear = parseBirthYear(c.birth_date);
-          return birthYear !== null ? { ...c, birthYear } : null;
+          if (birthYear === null) return null;
+          const nickname = (locale === "en" && c.nickname_en) ? c.nickname_en : c.nickname;
+          return { ...c, nickname, birthYear };
         })
         .filter((c): c is DawnCeleb => c !== null);
 
@@ -292,7 +315,10 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   // region: 게임 시작
   const startGame = useCallback(
     (selectedDifficulty: Difficulty) => {
-      if (allCelebs.length < 5) return;
+      if (allCelebs.length < 5) {
+        pendingDifficultyRef.current = selectedDifficulty;
+        return;
+      }
 
       setDifficulty(selectedDifficulty);
 
@@ -327,6 +353,15 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   useEffect(() => {
     if (onStartRef) onStartRef.current = startGame;
   }, [onStartRef, startGame]);
+
+  // 데이터 로드 완료 시 pending 난이도가 있으면 자동 시작
+  useEffect(() => {
+    if (isDataLoaded && pendingDifficultyRef.current) {
+      const d = pendingDifficultyRef.current;
+      pendingDifficultyRef.current = null;
+      startGame(d);
+    }
+  }, [isDataLoaded, startGame]);
   // endregion
 
   // region: 배치 헬퍼
@@ -369,6 +404,11 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
       if (next > highScore) {
         setHighScore(next);
         localStorage.setItem("dawn-highscore", next.toString());
+      }
+      // 마일스톤 연출 (5단위)
+      if (next > 0 && next % 5 === 0) {
+        setMilestoneText(locale === "en" ? `${next} Streak!` : `${next}명 돌파!`);
+        setTimeout(() => setMilestoneText(null), 2000);
       }
       return next;
     });
@@ -611,9 +651,19 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
 
   return (
     <div className={cn(
-      "w-full md:max-w-6xl mx-auto flex flex-col h-full overflow-hidden transition-colors duration-300",
+      "w-full md:max-w-6xl mx-auto flex flex-col h-full overflow-hidden transition-colors duration-300 relative",
       showCorrectEffect && "bg-green-900/20"
     )}>
+      {/* 마일스톤 연출 */}
+      {milestoneText && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="animate-in fade-in zoom-in-50 duration-300 text-center">
+            <p className="text-4xl md:text-6xl font-black font-serif text-transparent bg-clip-text bg-gradient-to-b from-amber-300 to-amber-600 drop-shadow-[0_0_30px_rgba(212,175,55,0.6)] tracking-tight">
+              {milestoneText}
+            </p>
+          </div>
+        </div>
+      )}
       {/* ===== 모바일: 2열 레이아웃 / 데스크탑: 기존 세로 레이아웃 ===== */}
 
       {/* 데스크탑 전용: 좌측 플로팅 체력 */}
@@ -741,19 +791,19 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                   imageUrl={currentCard.avatar_url}
                   name={currentCard.nickname}
                   year={
-                    (isRevealing || isGameOver)
+                    ((isRevealing && wrongPosition === null) || isGameOver)
                       ? formatYear(currentCard.birthYear)
                       : centuryText || tDawnGame("unknownYear")
                   }
                   profession={currentCard.profession}
                   className="w-full md:w-44"
-                  onInfoClick={() => {
+                  onCardClick={() => {
                     showDialogue(currentCard.id, getTone(currentCard.id), "greeting", {
                       nickname: currentCard.nickname,
                       avatarUrl: currentCard.avatar_url,
                     });
-                    setSelectedCeleb(currentCard);
                   }}
+                  onInfoClick={() => setSelectedCeleb(currentCard)}
                 />
               )}
             </div>
@@ -897,13 +947,13 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                       isHighlighted={highlightedIndices.includes(index)}
                       isNewlyPlaced={index === newlyPlacedIndex}
                       className="w-full md:w-40 shrink-0"
-                      onInfoClick={() => {
-                        setSelectedCeleb(celeb);
+                      onCardClick={() => {
                         showDefaultLine(getTone(celeb.id), "dawn_guide", {
                           nickname: celeb.nickname,
                           avatarUrl: celeb.avatar_url,
                         });
                       }}
+                      onInfoClick={() => setSelectedCeleb(celeb)}
                     />
 
                     {/* 데스크탑: 카드→슬롯 연결선 */}
@@ -1026,8 +1076,6 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
           onLobby={() => setGameState("idle")}
         />
       )}
-
-      <MobileBottomSpacer />
 
       {/* 셀럽 상세 모달 */}
       {selectedCeleb && (

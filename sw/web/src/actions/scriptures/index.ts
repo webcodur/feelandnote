@@ -911,3 +911,116 @@ export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
   }))
 }
 // #endregion
+
+// #region 허브 콘텐츠 샘플 - 셀럽별/직업별 대표 콘텐츠 (미리보기용)
+export interface HubContentSample {
+  id: string
+  title: string
+  thumbnail_url: string | null
+  type: string
+  creator: string | null
+}
+
+/** 셀럽 ID 목록 → 셀럽별 대표 콘텐츠 반환 (썸네일 있는 것만) */
+export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 2): Promise<Record<string, HubContentSample[]>> {
+  if (!celebIds.length) return {}
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('user_contents')
+    .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT}))`)
+    .in('user_id', celebIds)
+    .eq('visibility', 'public')
+    .eq('status', 'FINISHED')
+
+  if (error || !data?.length) return {}
+
+  const result: Record<string, HubContentSample[]> = {}
+  const seen: Record<string, Set<string>> = {}
+
+  for (const row of data as any[]) {
+    const celebId = row.user_id as string
+    const content = row.contents as any
+    const flat = flattenLocales(content.content_locales as ContentLocaleRow[])
+    if (!flat.thumbnail_url) continue
+
+    if (!seen[celebId]) seen[celebId] = new Set()
+    if (seen[celebId].has(content.id)) continue
+    seen[celebId].add(content.id)
+
+    if (!result[celebId]) result[celebId] = []
+    if (result[celebId].length >= perCeleb) continue
+
+    result[celebId].push({
+      id: content.id,
+      title: flat.title,
+      thumbnail_url: flat.thumbnail_url,
+      type: content.type,
+      creator: flat.creator,
+    })
+  }
+
+  return result
+}
+
+/** 직업별 대표 콘텐츠 반환 (여러 셀럽이 공통 기록한 콘텐츠 우선) */
+export async function getContentSamplesByProfession(professions: string[], perProfession = 2): Promise<Record<string, HubContentSample[]>> {
+  if (!professions.length) return {}
+  const supabase = await createClient()
+
+  const { data: celebs, error: celebErr } = await supabase
+    .from('profiles')
+    .select('id, profession')
+    .eq('profile_type', 'CELEB')
+    .eq('status', 'active')
+    .in('profession', professions)
+
+  if (celebErr || !celebs?.length) return {}
+
+  const celebToProfession: Record<string, string> = {}
+  for (const c of celebs) {
+    if (c.profession) celebToProfession[c.id] = c.profession
+  }
+
+  const { data, error } = await supabase
+    .from('user_contents')
+    .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT}))`)
+    .in('user_id', celebs.map(c => c.id))
+    .eq('visibility', 'public')
+    .eq('status', 'FINISHED')
+    .limit(500)
+
+  if (error || !data?.length) return {}
+
+  // 콘텐츠별 직업 매핑 + 기록 수 집계
+  const contentIndex = new Map<string, { sample: HubContentSample; professionCounts: Record<string, number> }>()
+
+  for (const row of data as any[]) {
+    const content = row.contents as any
+    const profession = celebToProfession[row.user_id as string]
+    if (!profession) continue
+
+    if (!contentIndex.has(content.id)) {
+      const flat = flattenLocales(content.content_locales as ContentLocaleRow[])
+      if (!flat.thumbnail_url) continue
+      contentIndex.set(content.id, {
+        sample: { id: content.id, title: flat.title, thumbnail_url: flat.thumbnail_url, type: content.type, creator: flat.creator },
+        professionCounts: {},
+      })
+    }
+    const entry = contentIndex.get(content.id)!
+    entry.professionCounts[profession] = (entry.professionCounts[profession] ?? 0) + 1
+  }
+
+  const result: Record<string, HubContentSample[]> = {}
+  for (const profession of professions) {
+    const candidates = [...contentIndex.values()]
+      .filter(e => e.professionCounts[profession])
+      .sort((a, b) => (b.professionCounts[profession] ?? 0) - (a.professionCounts[profession] ?? 0))
+      .slice(0, perProfession)
+      .map(e => e.sample)
+    if (candidates.length) result[profession] = candidates
+  }
+  return result
+}
+// #endregion

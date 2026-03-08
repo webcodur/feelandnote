@@ -15,8 +15,6 @@ const DAWN_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string): BgmTrack[] => {
     switch (state) {
       case "idle":
-      case "playing":
-      case "gameover":
         return [{ src: `${BASE}/bgm-main.mp3`, label: "여명" }];
       default:
         return [];

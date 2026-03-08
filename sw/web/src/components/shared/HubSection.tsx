@@ -1,11 +1,19 @@
 /*
   파일명: /components/shared/HubSection.tsx
   기능: 탐색 및 서가 허브 섹션 공통 래퍼
-  책임: 제목 + 선택적 더보기 링크 + children
+  책임: 제목 + 넘버링 + 섹션 간 네비게이션 + 선택적 더보기 링크 + children
 */ // ------------------------------
 
-import { ArrowRight } from "lucide-react";
+"use client";
+
+import { useCallback } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+
+/** 섹션 ID 생성 헬퍼. 부모에서 groupId를 넘기면 그룹별 독립 넘버링 가능 */
+export function hubSectionId(index: number, groupId?: string) {
+  return groupId ? `hub-${groupId}-${index}` : `hub-section-${index}`;
+}
 
 interface HubSectionProps {
   title: string;
@@ -14,6 +22,12 @@ interface HubSectionProps {
   moreLabel?: string;
   children: React.ReactNode;
   hideDivider?: boolean;
+  /** 0-based 인덱스 (넘버링 · 네비게이션용) */
+  index?: number;
+  /** 전체 섹션 수 */
+  total?: number;
+  /** 그룹 ID — 한 페이지에 독립 넘버링 그룹이 여러 개일 때 사용 */
+  groupId?: string;
 }
 
 export default function HubSection({
@@ -23,41 +37,92 @@ export default function HubSection({
   moreLabel = "더보기",
   children,
   hideDivider = false,
+  index,
+  total,
+  groupId,
 }: HubSectionProps) {
+  const hasNav = index !== undefined && total !== undefined && total > 1;
+  const sectionId = index !== undefined ? hubSectionId(index, groupId) : undefined;
+
+  const scrollTo = useCallback(
+    (targetIndex: number) => {
+      const el = document.getElementById(hubSectionId(targetIndex, groupId));
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    },
+    [groupId],
+  );
+
   return (
-    <section className="w-full flex flex-col pt-6 md:pt-8">
+    <section id={sectionId} className="w-full flex flex-col pt-6 md:pt-8 scroll-mt-20">
       {/* 장식적 상단 구분선 */}
       {!hideDivider && (
         <div className="w-full h-px bg-gradient-to-r from-white/10 via-white/5 to-transparent mb-8 md:mb-12" />
       )}
-      
-      {/* 헤더 부분 */}
-      <div className="flex flex-row items-end justify-between mb-5 md:mb-8 px-1">
-        <div className="flex flex-col gap-1.5 md:gap-2">
-          {/* 타이틀과 엑센트 바 */}
-          <div className="flex items-center gap-3">
-            <div className="w-1.5 h-6 md:h-7 bg-[#d4af37] rounded-sm shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
-            <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
-              {title}
-            </h2>
-          </div>
-          {/* 서브타이틀 인덴테이션 및 좌측 라인 */}
-          {subtitle && (
-            <p className="text-sm md:text-base text-white/50 max-w-[80%] break-keep pl-4 border-l-2 border-white/10 ml-[2px] mt-1 font-medium">
-              {subtitle}
-            </p>
+
+      {/* 헤더 — 중앙 정렬 */}
+      <div className="flex flex-col items-center text-center mb-6 md:mb-10 px-1 gap-2 md:gap-3">
+        {/* 엑센트 바 */}
+        <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
+
+        {/* 넘버링 + 제목 + 좌우 화살표 (같은 행) */}
+        <div className="flex items-center gap-3">
+          {hasNav && (
+            index === 0 ? (
+              <button
+                type="button"
+                onClick={() => scrollTo(total! - 1)}
+                className="p-1.5 rounded-full text-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
+                aria-label="마지막 섹션으로"
+              >
+                <ChevronsLeft size={16} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => scrollTo(index! - 1)}
+                className="p-1.5 rounded-full text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="이전 섹션"
+              >
+                <ChevronLeft size={16} />
+              </button>
+            )
+          )}
+          {hasNav && (
+            <span className="text-[11px] font-mono text-[#d4af37]/60 tabular-nums select-none">
+              {index! + 1}/{total}
+            </span>
+          )}
+          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+            {title}
+          </h2>
+          {hasNav && (
+            index === total! - 1 ? (
+              <button
+                type="button"
+                onClick={() => scrollTo(0)}
+                className="p-1.5 rounded-full text-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
+                aria-label="첫 섹션으로"
+              >
+                <ChevronsRight size={16} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => scrollTo(index! + 1)}
+                className="p-1.5 rounded-full text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="다음 섹션"
+              >
+                <ChevronRight size={16} />
+              </button>
+            )
           )}
         </div>
 
-        {/* 더보기 버튼 알약 형태(Pill) 디자인 */}
-        {moreHref && (
-          <Link
-            href={moreHref}
-            className="flex items-center gap-1.5 text-xs md:text-sm text-white/60 hover:text-[#d4af37] font-medium shrink-0 transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/5 hover:border-white/10"
-          >
-            {moreLabel}
-            <ArrowRight size={16} className="text-[#d4af37]" />
-          </Link>
+        {/* 서브타이틀 */}
+        {subtitle && (
+          <p className="text-sm md:text-base text-white/45 max-w-md break-keep font-medium leading-relaxed">
+            {subtitle}
+          </p>
         )}
       </div>
 
@@ -65,6 +130,19 @@ export default function HubSection({
       <div className="w-full relative">
         {children}
       </div>
+
+      {/* 더보기 — 콘텐츠 하단, 섹션 끝 직전 */}
+      {moreHref && (
+        <div className="flex justify-center mt-5 md:mt-8">
+          <Link
+            href={moreHref}
+            className="flex items-center gap-1.5 text-xs text-white/50 hover:text-[#d4af37] font-medium transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/5 hover:border-white/10"
+          >
+            {moreLabel}
+            <ArrowRight size={14} className="text-[#d4af37]/70" />
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

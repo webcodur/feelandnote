@@ -9,9 +9,9 @@ import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import { Clock, Route, Scroll, GraduationCap, User } from "lucide-react";
 import HubNav from "@/components/shared/HubNav";
-import type { HubNavItem } from "@/components/shared/HubNav";
 
-import { getTodayFigure, getTopCelebsAcrossAllEras, getProfessionContentCounts } from "@/actions/scriptures";
+import { getTodayFigure, getTopCelebsAcrossAllEras, getProfessionContentCounts, getContentSamplesForCelebs, getContentSamplesByProfession } from "@/actions/scriptures";
+import type { HubContentSample } from "@/actions/scriptures";
 import { getAcademyLessonProgressState } from "@/actions/scriptures/academyProgress";
 
 import HubSection from "@/components/shared/HubSection";
@@ -26,57 +26,20 @@ export async function generateMetadata() {
   return { title: t("title"), description: t("description"), alternates: getAlternates("/scriptures") };
 }
 
-// #region 서브페이지 정의
-const SCRIPTURE_SECTIONS = [
-  {
-    href: "/scriptures/era",
-    titleKey: "era",
-    descKey: "era" as const,
-    label: "MASTERPIECES",
-    icon: <Clock className="h-5 w-5" />,
-  },
-  {
-    href: "/scriptures/profession",
-    titleKey: "profession",
-    descKey: "profession" as const,
-    label: "CROSSROADS",
-    icon: <Route className="h-5 w-5" />,
-  },
-  {
-    href: "/scriptures/figure",
-    titleKey: "figure",
-    descKey: "figure" as const,
-    label: "FIGURE",
-    icon: <User className="h-5 w-5" />,
-  },
-  {
-    href: "/scriptures/museum",
-    titleKey: "museum",
-    descKey: "museum" as const,
-    label: "MUSEUM",
-    icon: <Scroll className="h-5 w-5" />,
-  },
-  {
-    href: "/scriptures/academy",
-    titleKey: "academy",
-    descKey: "academy" as const,
-    label: "ACADEMY",
-    icon: <GraduationCap className="h-5 w-5" />,
-  },
+// #region 허브 섹션 Nav 항목 — 실제 페이지 내 섹션 순서와 동일
+const SCRIPTURE_HUB_ITEMS = [
+  { titleKey: "figure", icon: <User className="h-4 w-4" /> },       // 01: 오늘의 인물
+  { titleKey: "era", icon: <Clock className="h-4 w-4" /> },         // 02: 시대의 명작
+  { titleKey: "profession", icon: <Route className="h-4 w-4" /> },  // 03: 길의 갈래
+  { titleKey: "museum", icon: <Scroll className="h-4 w-4" /> },     // 04: 박물관
+  { titleKey: "academy", icon: <GraduationCap className="h-4 w-4" /> }, // 05: 학당
 ] as const;
 // #endregion
-
-const TAB_LABEL_KEYS: Record<string, string> = {
-  era: "era",
-  profession: "profession",
-  museum: "museum",
-  academy: "academy",
-};
 
 async function ScripturesHubContent() {
   const tHub = await getTranslations("scriptures.hub");
 
-  // 병렬 데이터 페칭
+  // 1차 병렬 데이터 페칭
   const [
     todayFigureRes,
     topCelebs,
@@ -91,6 +54,13 @@ async function ScripturesHubContent() {
 
   const { figure, contents } = todayFigureRes;
 
+  // 2차: 콘텐츠 샘플 (1차 결과에 의존)
+  const topProfessions = [...professionCounts].sort((a, b) => b.count - a.count).slice(0, 6).map(p => p.profession);
+  const [celebContentSamples, professionContentSamples] = await Promise.all([
+    getContentSamplesForCelebs(topCelebs.map(c => c.id), 2),
+    getContentSamplesByProfession(topProfessions, 2),
+  ]);
+
   return (
     <div className="space-y-12 md:space-y-16 mt-4">
       {/* 1. 오늘의 인물 (가장 주목도 높게) */}
@@ -100,6 +70,7 @@ async function ScripturesHubContent() {
           subtitle={tHub("figure")}
           moreHref="/scriptures/figure"
           moreLabel={tHub("moreDetail")}
+          index={0} total={5} groupId="scriptures"
         >
           <FigurePreview figure={figure as any} contents={contents} />
         </HubSection>
@@ -112,8 +83,9 @@ async function ScripturesHubContent() {
           subtitle={tHub("era")}
           moreHref="/scriptures/era"
           moreLabel={tHub("moreDetail")}
+          index={1} total={5} groupId="scriptures"
         >
-          <EraPreview celebs={topCelebs} />
+          <EraPreview celebs={topCelebs} contentSamples={celebContentSamples} />
         </HubSection>
       )}
 
@@ -124,8 +96,9 @@ async function ScripturesHubContent() {
           subtitle={tHub("profession")}
           moreHref="/scriptures/profession"
           moreLabel={tHub("moreDetail")}
+          index={2} total={5} groupId="scriptures"
         >
-          <ProfessionPreview professionCounts={professionCounts} />
+          <ProfessionPreview professionCounts={professionCounts} contentSamples={professionContentSamples} />
         </HubSection>
       )}
 
@@ -135,6 +108,7 @@ async function ScripturesHubContent() {
         subtitle={tHub("museum")}
         moreHref="/scriptures/museum"
         moreLabel={tHub("exploreMuseum")}
+        index={3} total={5} groupId="scriptures"
       >
         <MuseumPreview />
       </HubSection>
@@ -145,6 +119,7 @@ async function ScripturesHubContent() {
         subtitle={tHub("academy")}
         moreHref="/scriptures/academy"
         moreLabel={tHub("enterAcademy")}
+        index={4} total={5} groupId="scriptures"
       >
         <AcademyPreview isSignedIn={academyState.isSignedIn} />
       </HubSection>
@@ -153,22 +128,18 @@ async function ScripturesHubContent() {
 }
 
 export default async function ScripturesPage() {
-  const tTabs = await getTranslations("scriptures.tabs");
   const tHub = await getTranslations("scriptures.hub");
 
-  const navItems: HubNavItem[] = SCRIPTURE_SECTIONS.map((section) => {
-    const tabKey = TAB_LABEL_KEYS[section.titleKey];
-    return {
-      label: tabKey ? tTabs(`${tabKey}.label` as any) : tHub("figureLabel"),
-      href: section.href,
-      icon: section.icon,
-    };
-  });
+  const hubItems = SCRIPTURE_HUB_ITEMS.map((item) => ({
+    label: tHub(`${item.titleKey}Label` as any),
+    href: `/scriptures/${item.titleKey}`,
+    icon: item.icon,
+  }));
 
   return (
     <div className="space-y-8 pb-20">
-      {/* 서브페이지 네비게이터 (상단 고정) */}
-      <HubNav items={navItems} placeholder={tHub("quickNav")} />
+      {/* 서브페이지 네비게이터 */}
+      <HubNav hubItems={hubItems} groupId="scriptures" />
 
       {/* 허브 콘텐츠 */}
       <Suspense fallback={

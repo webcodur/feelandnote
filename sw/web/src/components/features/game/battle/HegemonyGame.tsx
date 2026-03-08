@@ -9,6 +9,7 @@ import { useCallback, useRef, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
+import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { useBattleAudio } from "./hooks/useBattleAudio";
 import BattleGame from "./BattleGame";
@@ -33,6 +34,7 @@ export default function HegemonyGame({ bgImages, initialFullScreen, onExitFullSc
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.hegemony");
   const { setBgm, playSfx, stopAll, audioControls, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted } = useBattleAudio();
+  useRegisterGameAudio(audioControls);
   const homeRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
   const [playerWins, setPlayerWins] = useState(false);
@@ -55,7 +57,7 @@ export default function HegemonyGame({ bgImages, initialFullScreen, onExitFullSc
   return (
     <GameFullScreen
       breadcrumbs={breadcrumbs}
-      footerExtra={<GameAudioPlayer controls={audioControls} />}
+      footerExtra={<div className="md:hidden"><GameAudioPlayer controls={audioControls} /></div>}
       initialFullScreen={initialFullScreen}
       onExitFullScreen={(() => {
         stopAll();

@@ -109,7 +109,7 @@ export const NAV_ITEMS: NavItem[] = [
 export const HEADER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInHeader);
 export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInBottomNav);
 export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => item.key);
-export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length);
+export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length && item.key !== "rest");
 // #endregion
 
 // #region 풋터 브랜드 링크
@@ -121,6 +121,7 @@ export const FOOTER_BRAND_LINKS: NavSubLink[] = [
 ];
 
 export const FOOTER_MISC_LINKS: NavSubLink[] = [
+  { key: "game", href: "/rest", label: "게임" },
   { key: "social", href: "/agora/social", label: "소셜" },
   { key: "notice", href: "/agora/board/notice", label: "공지사항" },
   { key: "feedback", href: "/agora/board/feedback", label: "피드백" },

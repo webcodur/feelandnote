@@ -439,35 +439,35 @@ Late 50s Russian male author. Deep, heavy bass-baritone. Speaks slowly — each 
 ### ElevenLabs Voice Prompt (EN)
 
 ```
-Mid 50s Chinese male military strategist. Cold, restrained mid-low voice. Reveals almost no emotion — says only what is necessary. Flows like water yet conceals iron resolve within. Even a whisper carries enough weight to tense an entire battlefield. Zero wasted words. Ancient, timeless authority.
+Mid 50s male military strategist. Cold, restrained mid-low voice. Reveals almost no emotion — says only what is necessary. Flows like water yet conceals iron resolve within. Even a whisper carries enough weight to tense an entire battlefield. Zero wasted words. Ancient, timeless authority.
 ```
 
 ### 대사 목록
 
 | 유형 | # | 대사 |
 |------|---|------|
-| greeting | 1 | 싸우지 않고 이기는 것이 최선이다. |
-| greeting | 2 | 나를 알고 적을 알면 백 번을 싸워도 위태롭지 않다. |
-| greeting | 3 | 강할 때 약한 척, 약할 때 강한 척하라. |
-| roll_call | 1 | 군령이 분명하지 않으면 장수의 잘못이다. 정렬하라. |
-| roll_call | 2 | 적의 허실을 파악했다. 출전 준비하라. |
-| roll_call | 3 | 승산이 있다. 따르라. |
-| deploy | 1 | 물처럼 흘러라. 적의 빈틈을 채워라! |
-| deploy | 2 | 바람처럼 빠르게, 숲처럼 고요히 움직여라! |
-| deploy | 3 | 적의 허를 찔러라. 진격하라! |
-| battle_win | 1 | 묘산에서 이미 승리를 계산해 두었다. |
-| battle_win | 2 | 백 번 싸워 백 번 이기는 것은 최선이 아니다. 그래도 이겼으니 됐다. |
-| battle_win | 3 | 적은 스스로 무너진 것이다. |
-| battle_draw | 1 | 이길 수 없으면 지키고, 이길 수 있으면 나선다. 아직은 지킬 때다. |
-| battle_draw | 2 | 적의 변화를 살펴라. 빈틈은 반드시 온다. |
-| battle_draw | 3 | 무리한 공격보다 기다림이 낫다. |
-| battle_lose | 1 | 적을 알았으나 나를 몰랐다. 내 허물이다. |
-| battle_lose | 2 | 전쟁에서 오래 끄는 것은 이로울 게 없다. 물러나라. |
-| battle_lose | 3 | 패배도 계산의 일부다. 다음 판을 준비하라. |
-| clash_attack | 1 | 번개처럼 쳐라! |
-| clash_attack | 2 | 기세를 몰아 단숨에 꺾어라! |
-| clash_attack | 3 | 선봉, 적의 중심을 관통하라! |
-| **quote** | - | 적을 알고 나를 알면 백 번 싸워도 위태롭지 않다. |
+| greeting | 1 | [authoritative, teaching] 불전이굴인지병! 싸우지 않고 적을 굴복시키는 것이 최선이다. |
+| greeting | 2 | [calm, assured] 선승구전! 이겨놓고 싸우는 것이 참된 병법이다. |
+| greeting | 3 | [cunning, measured] 병자궤도야! 전쟁은 속임수다. 강할지라도 약한 척하라. |
+| roll_call | 1 | [calm, steadfast] 승리의 계산은 이미 끝났습니다. |
+| roll_call | 2 | [confident, ready] 바른 길로 맞서고, 기이한 수로 승리를 가져오겠습니다. |
+| roll_call | 3 | [observant, tactical] 때를 기다리며 진형을 가다듬고 있었습니다. |
+| deploy | 1 | [commanding, fluid] 물처럼 흘러 적의 빈틈을 벌려라! |
+| deploy | 2 | [fierce, commanding] 바람처럼 빠르게, 숲처럼 고요하게! |
+| deploy | 3 | [sharp, tactical] 적이 대비하지 않은 곳으로 나아가 허를 찔러라! |
+| battle_win | 1 | [analytical, cold] 한 번 쓴 승리의 전술은 반복하지 않는다. |
+| battle_win | 2 | [solemn, wise] 이겨놓고 싸웠으니 승리는 당연한 이치다. |
+| battle_win | 3 | [cold, dismissive] 적은 스스로 무너진 것이다. |
+| battle_draw | 1 | [patient, steadfast] 이길 수 없을 땐 지키고, 이길 수 있을 때 공격한다. |
+| battle_draw | 2 | [calm, calculating] 우리의 태세를 굳건히 하고 적의 빈틈을 기다려라. |
+| battle_draw | 3 | [patient, restrained] 형세가 팽팽하니, 섣부른 공격보다 인내가 낫다. |
+| battle_lose | 1 | [solemn, heavy] 나 자신을 알지 못한 결과다. |
+| battle_lose | 2 | [pragmatic, retreating] 오래 끄는 것은 이로울 게 없다. 물러나라. |
+| battle_lose | 3 | [cold, tactical] 질서 정연하게 퇴각하여 다음을 도모하라. |
+| clash_attack | 1 | [fierce, charging] 번개처럼 쳐라! |
+| clash_attack | 2 | [fast, striking] 기세를 몰아 단숨에 꺾어라! |
+| clash_attack | 3 | [bold, aggressive] 거센 불길처럼 휩쓸어라! |
+| **quote** | - | 지피지기 백전불태라. 적을 알고 나를 알면 백 번 싸워도 위태롭지 않다. |
 
 ---
 

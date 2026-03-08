@@ -10,7 +10,7 @@ import { BadgeCheck } from "lucide-react";
 interface AvatarProps {
   url?: string | null;
   name?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   gradient?: string;
   verified?: boolean;
   className?: string;
@@ -24,6 +24,7 @@ const sizeStyles = {
   xl: { container: "w-16 h-16", pixels: 64, text: "text-2xl", badge: "w-5 h-5" },
   "2xl": { container: "w-[100px] h-[100px]", pixels: 100, text: "text-3xl", badge: "w-5 h-5" },
   "3xl": { container: "w-[100px] h-[100px]", pixels: 100, text: "text-4xl", badge: "w-6 h-6" },
+  "4xl": { container: "w-[160px] h-[160px]", pixels: 160, text: "text-5xl", badge: "w-7 h-7" },
 };
 
 const sizeMap = {
@@ -33,6 +34,7 @@ const sizeMap = {
   xl: { px: "64px" },
   "2xl": { px: "100px" },
   "3xl": { px: "100px" },
+  "4xl": { px: "160px" },
 };
 
 const defaultGradient = "linear-gradient(135deg, #8b5cf6, #ec4899)";

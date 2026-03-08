@@ -5,8 +5,8 @@
 */
 "use server";
 
-import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
 
 export interface TrackerContent {
@@ -27,6 +27,8 @@ export interface TrackerOption {
   avatarUrl: string | null;
   speechTone?: string | null;
   dialogueLines?: any | null;
+  hasVoice?: boolean;
+  voiceV?: number;
 }
 
 export interface TrackerPersona {
@@ -117,15 +119,13 @@ function censorName(text: string, nickname: string, safeWords: string[] = []): s
   return result;
 }
 
-/** Accept-Language 헤더 기반 한국어 우선 여부 판별 */
+/** next-intl 로케일 기반 한국어 우선 여부 판별 */
 async function isKoreanLocale(): Promise<boolean> {
   try {
-    const h = await headers();
-    const lang = h.get("accept-language") ?? "";
-    // ko가 첫 번째 언어이거나 높은 우선순위인 경우
-    return /^ko\b/i.test(lang) || /ko-KR/i.test(lang);
+    const locale = await getLocale();
+    return locale === "ko";
   } catch {
-    return true; // 기본값: 한국어 우선
+    return true;
   }
 }
 
@@ -152,7 +152,16 @@ export async function getTrackerRound(
   // 랜덤 선택
   const chosen = candidates[Math.floor(Math.random() * candidates.length)];
   const preferKo = await isKoreanLocale();
-  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession, chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes, preferKo);
+  const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
+    preferKo ? (ko || en || null) : (en || ko || null);
+  return buildRound(supabase, chosen.id, chosen.slug ?? null,
+    (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
+    chosen.profession, chosen.avatar_url,
+    resolve(chosen.consumption_philosophy_en, chosen.consumption_philosophy),
+    chosen.nationality, chosen.birth_date, chosen.death_date,
+    resolve(chosen.bio_en, chosen.bio),
+    resolve(chosen.quotes_en, chosen.quotes),
+    preferKo);
 }
 
 async function getTrackerRoundFallback(
@@ -163,7 +172,7 @@ async function getTrackerRoundFallback(
   // 자격 있는 셀럽 목록: persona 존재 + philosophy 존재 + 리뷰 있는 콘텐츠 존재
   const { data: allCelebs } = await supabase
     .from("profiles")
-    .select("id, slug, nickname, profession, avatar_url, consumption_philosophy, death_date, nationality, birth_date, bio, quotes")
+    .select("id, slug, nickname, nickname_en, profession, avatar_url, consumption_philosophy, consumption_philosophy_en, death_date, nationality, birth_date, bio, bio_en, quotes, quotes_en")
     .eq("profile_type", "CELEB")
     .eq("status", "active")
     .not("consumption_philosophy", "is", null)
@@ -220,7 +229,16 @@ async function getTrackerRoundFallback(
 
   const chosen = eligible[Math.floor(Math.random() * eligible.length)];
   const preferKo = await isKoreanLocale();
-  return buildRound(supabase, chosen.id, chosen.slug ?? null, chosen.nickname, chosen.profession ?? "other", chosen.avatar_url, chosen.consumption_philosophy, chosen.nationality, chosen.birth_date, chosen.death_date, chosen.bio, chosen.quotes, preferKo);
+  const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
+    preferKo ? (ko || en || null) : (en || ko || null);
+  return buildRound(supabase, chosen.id, chosen.slug ?? null,
+    (resolve((chosen as any).nickname_en, chosen.nickname) ?? chosen.nickname) as string,
+    chosen.profession ?? "other", chosen.avatar_url,
+    resolve((chosen as any).consumption_philosophy_en, chosen.consumption_philosophy),
+    chosen.nationality, chosen.birth_date, chosen.death_date,
+    resolve((chosen as any).bio_en, chosen.bio),
+    resolve((chosen as any).quotes_en, chosen.quotes),
+    preferKo);
 }
 
 async function buildRound(
@@ -249,7 +267,7 @@ async function buildRound(
       .single(),
     supabase
       .from("user_contents")
-      .select("content_id, review, source_url")
+      .select("content_id, review, review_en, source_url")
       .eq("user_id", celebId)
       .not("review", "is", null)
       .neq("review", "")
@@ -268,7 +286,7 @@ async function buildRound(
       .in("id", contentIds);
 
     const reviewMap = new Map(
-      (ucData ?? []).map((uc) => [uc.content_id, uc.review as string])
+      (ucData ?? []).map((uc) => [uc.content_id, { review: uc.review as string, review_en: (uc as any).review_en as string | null }])
     );
     const sourceUrlMap = new Map(
       (ucData ?? []).map((uc) => [uc.content_id, (uc as any).source_url as string | null])
@@ -279,10 +297,13 @@ async function buildRound(
         const locales = (c as any).content_locales as { locale: string; title: string | null; creator: string | null; thumbnail_url: string | null }[] | null;
         const ko = locales?.find(l => l.locale === 'ko');
         const en = locales?.find(l => l.locale === 'en');
-        const title = ko?.title || en?.title || "";
-        const creator = ko?.creator || en?.creator || null;
-        const thumbnailUrl = ko?.thumbnail_url || en?.thumbnail_url || null;
-        const raw = reviewMap.get(c.id) ?? "";
+        const prim = preferKo ? ko : en;
+        const fall = preferKo ? en : ko;
+        const title = prim?.title || fall?.title || "";
+        const creator = prim?.creator || fall?.creator || null;
+        const thumbnailUrl = prim?.thumbnail_url || fall?.thumbnail_url || null;
+        const reviews = reviewMap.get(c.id);
+        const raw = (preferKo ? (reviews?.review || reviews?.review_en) : (reviews?.review_en || reviews?.review)) ?? "";
         return {
           id: c.id,
           title,
@@ -306,7 +327,7 @@ async function buildRound(
   // 4. 유사 인물 오답 보기 5명 (직군·국적·생몰년 유사도, 퍼블릭 도메인만)
   const { data: poolRaw } = await supabase
     .from("profiles")
-    .select("id, nickname, avatar_url, profession, nationality, birth_date, death_date")
+    .select("id, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date")
     .eq("profile_type", "CELEB")
     .eq("status", "active")
     .neq("id", celebId)
@@ -353,29 +374,40 @@ async function buildRound(
   scored.sort((a, b) => b.similarity - a.similarity || Math.random() - 0.5);
   const distractors = scored.slice(0, 5);
 
+  const resolveNick = (en: string | null | undefined, ko: string) =>
+    preferKo ? (ko || en || ko) : (en || ko);
+
   const rawOptions: TrackerOption[] = [
     { id: celebId, nickname, avatarUrl },
     ...distractors.map((d) => ({
       id: d.id,
-      nickname: d.nickname,
+      nickname: resolveNick((d as any).nickname_en, d.nickname),
       avatarUrl: d.avatar_url,
     })),
   ].sort(() => Math.random() - 0.5);
 
   const optionIds = rawOptions.map(o => o.id);
   const [{ data: tones }, { data: dialogues }] = await Promise.all([
-    supabase.from("profiles").select("id, speech_tone").in("id", optionIds),
-    supabase.from("celeb_dialogues").select("celeb_id, lines").in("celeb_id", optionIds)
+    supabase.from("profiles").select("id, speech_tone, has_voice, voice_v").in("id", optionIds),
+    supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
   ]);
 
   const toneMap = new Map<string, string>((tones ?? []).map(t => [t.id, t.speech_tone as string]));
-  const dialogueMap = new Map<string, any>((dialogues ?? []).map(d => [d.celeb_id, d.lines]));
+  const dialogueMap = new Map<string, any>((dialogues ?? []).map(d => [d.celeb_id,
+    (!preferKo && (d as any).lines_en) ? (d as any).lines_en : d.lines
+  ]));
+  const voiceMap = new Map<string, { hasVoice: boolean; voiceV: number }>((tones ?? []).map(t => [t.id, { hasVoice: (t as any).has_voice ?? false, voiceV: (t as any).voice_v ?? 0 }]));
 
-  const options: TrackerOption[] = rawOptions.map(o => ({
-    ...o,
-    speechTone: toneMap.get(o.id) ?? "composed",
-    dialogueLines: dialogueMap.get(o.id) ?? null
-  }));
+  const options: TrackerOption[] = rawOptions.map(o => {
+    const voice = voiceMap.get(o.id);
+    return {
+      ...o,
+      speechTone: toneMap.get(o.id) ?? "composed",
+      dialogueLines: dialogueMap.get(o.id) ?? null,
+      hasVoice: voice?.hasVoice ?? false,
+      voiceV: voice?.voiceV ?? 0,
+    };
+  });
 
   const nationalityLabel = nationality ? await getCountryNameAsync(nationality) : null;
   const safeWords = Array.from(new Set(contents.flatMap(c => [c.title, c.creator]).filter(Boolean))) as string[];

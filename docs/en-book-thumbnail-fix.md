@@ -83,10 +83,46 @@ ISBN 기반으로 BookCover API(Goodreads) 표지를 수집했으나, en_isbn �
 - **Naver URL 715건**: en locale에 한국 Naver Shopping 썸네일이 저장된 상태. 데이터 정합성 차원에서 별도 정리 검토 필요.
 - **en_isbn/en_creator 오매칭**: 동명이본 매칭으로 잘못된 ISBN/저자가 content_locales en에 남아있는 건 별도 정비 필요.
 
+## Open Library URL 신뢰성 문제 (2026-03-08 추가 검증)
+
+### 발단
+
+`/en/scriptures/era` All/All 페이지에서 일리아스·손자병법·국가론 3권의 영문 표지가 미표시됨.
+
+### 검증 결과
+
+OL URL 786건을 HTTP 요청으로 일괄 검증 (`scripts/ol-thumb-validator.mjs`):
+
+| 결과 | 건수 | 비율 |
+|------|------|------|
+| 유효 (200 OK, >1KB) | 709 | 90.2% |
+| timeout / fetch 실패 | 77 | 9.8% |
+| 1x1px 플레이스홀더 | 0 | 0% |
+
+- OL URL은 `covers.openlibrary.org` → `archive.org` 302 리다이렉트 구조. 리다이렉트 자체는 브라우저 `<img>`에서 정상 동작.
+- timeout 77건은 OL 서버 부하에 따라 매번 달라지며, 유효/무효 판별이 불가능. 동시 요청 수·시간대에 따라 결과가 변한다.
+- curl로 개별 확인 시 대부분 정상 응답 (4KB~48KB 유효 이미지).
+
+### 인사이트
+
+1. **OL은 외부 서비스이므로 신뢰성을 보장할 수 없다.** 지금 유효해도 내일 깨질 수 있고, 검증 결과도 네트워크 상태에 따라 달라진다.
+2. **"1x1px 플레이스홀더" 문제는 이번 검증에서 0건이었다.** OL이 표지 없을 때 반환하는 1x1px 이미지 문제는 현재 데이터에서는 발생하지 않음.
+3. **근본 해결책은 클라이언트 fallback이다.** 영문 표지 로드 실패 시 한국어 표지로 자동 전환하면, 어떤 소스가 깨져도 사용자에게 빈 카드가 노출되지 않는다.
+4. **일리아스는 `thumbnail_en = NULL`이 원인이었다.** DB에 영문 표지 데이터 자체가 없었음. Google Books URL로 수동 등록하여 해결.
+
+### 수동 수정 건 (2026-03-08)
+
+| 책 | content_id | 조치 |
+|---|---|---|
+| 일리아스 (Iliad) | `f44760c9` | NULL → Google Books 등록 |
+| 손자병법 (The Art of War) | `0925e1cc` | OL URL → Google Books 교체 |
+| 국가론 (Republic) | `46765640` | OL URL → Google Books 교체 |
+
 ## 스크립트 참조
 
 | 파일 | 용도 | 상태 |
 |------|------|------|
+| `scripts/ol-thumb-validator.mjs` | OL URL 일괄 유효성 검증 (HEAD/GET, 크기 판별) | 검증용 |
 | `scripts/en-thumb-bookcover-v2.mjs` | OL 저자 검증 + BookCover API + OL fallback | **최종 사용** |
 | `scripts/en-thumb-bookcover.mjs` | ISBN 기반 수집 (v1) | 폐기 |
 | `scripts/en-thumb-replace-google.mjs` | Google Books → Goodreads 교체 (v1) | 폐기 |

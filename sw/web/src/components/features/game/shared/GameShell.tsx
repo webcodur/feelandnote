@@ -42,12 +42,14 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
   const exitFullScreenRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
   const [gateEntered, setGateEntered] = useState(initialFullScreen ?? false);
+  const [loading, setLoading] = useState(false);
 
   const handleHome = useCallback(() => {
     homeRef.current?.();
   }, []);
 
   const handleStart = useCallback((...args: any[]) => {
+    setLoading(true);
     enterFullScreenRef.current?.();
     startRef.current?.(...args);
   }, []);
@@ -70,6 +72,7 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
   // phase 변화 시 외부 콜백 (게이트 진입 후에만)
   useEffect(() => {
     if (gateEntered) onPhaseChangeExternal?.(phase);
+    if (phase !== "idle") setLoading(false);
   }, [phase, gateEntered, onPhaseChangeExternal]);
 
   const handleExitFullScreen = useCallback(() => {
@@ -77,6 +80,7 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
     homeRef.current?.();
     setGateEntered(false);
     setPhase("idle");
+    setLoading(false);
   }, [onExitFullScreenExternal]);
 
   const breadcrumbs = useMemo((): BreadcrumbItem[] => {
@@ -117,7 +121,13 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
         return (
           <>
             {phase === "idle" && (
-              <Lobby onStart={handleStart} onExit={() => exitFullScreenRef.current?.()} />
+              loading ? (
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="animate-pulse text-text-secondary font-serif text-lg">Loading…</div>
+                </div>
+              ) : (
+                <Lobby onStart={handleStart} onExit={() => exitFullScreenRef.current?.()} />
+              )
             )}
             <div className={`flex-1 flex flex-col w-full ${phase === "idle" ? "hidden" : ""}`}>
               <Game

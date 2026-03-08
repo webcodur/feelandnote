@@ -142,8 +142,8 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
           </nav>
         </div>
 
-        {/* 콘텐츠 */}
-        <div className="flex-1 overflow-y-auto px-3 py-2 sm:px-4 md:px-6 lg:px-8 flex flex-col min-h-0">
+        {/* 콘텐츠 — 하단 여백은 대사 자막(DialogueSubtitle) 영역 확보용 */}
+        <div className="flex-1 overflow-y-auto px-3 py-2 pb-28 sm:px-4 md:px-6 lg:px-8 flex flex-col min-h-0">
           {rendered}
         </div>
 

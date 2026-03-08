@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import GameShell from "../shared/GameShell";
+import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import DawnGame from "../DawnGame";
 import DawnBackground from "./DawnBackground";
 import DawnLobby from "./DawnLobby";
@@ -26,6 +27,7 @@ export default function DawnGameWrapper({ bgImages, initialFullScreen, onExitFul
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.dawn");
   const { setBgm, stopAll, audioControls } = useDawnAudio();
+  useRegisterGameAudio(audioControls);
 
   const phaseLabels = useMemo(() => ({
     idle: t("phase.lobby"),
@@ -55,7 +57,7 @@ export default function DawnGameWrapper({ bgImages, initialFullScreen, onExitFul
       Background={Background}
       Lobby={DawnLobby}
       Game={DawnGame}
-      footerExtra={<GameAudioPlayer controls={audioControls} />}
+      footerExtra={<div className="md:hidden"><GameAudioPlayer controls={audioControls} /></div>}
       initialFullScreen={initialFullScreen}
       onPhaseChangeExternal={handlePhaseChange}
       onExitFullScreenExternal={() => {

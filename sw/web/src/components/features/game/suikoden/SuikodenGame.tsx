@@ -6,7 +6,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, type MutableRefObject } from 'react'
-import { useLocale, useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 import type { GameState, GameCharacter, Era, DialogEntry, WorldPreview, ScenarioDef } from '@/lib/game/suikoden/types'
 import { initGame, previewWorld, previewScenario, finalizeGame } from '@/lib/game/suikoden/engine'
 import { preloadAssets } from '@/lib/game/suikoden/assetManager'
@@ -35,14 +35,12 @@ type InternalPhase = 'idle' | 'setup' | 'ingame'
 
 export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhaseChange, onStartRef }: SuikodenGameProps) {
   const locale = useLocale()
-  const tS = useTranslations('rest.arena.suikoden')
   const text = getSuikodenText(locale)
   const [internalPhase, setInternalPhase] = useState<InternalPhase>('idle')
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [worldPreview, setWorldPreview] = useState<WorldPreview | null>(null)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [dialogQueue, setDialogQueue] = useState<DialogEntry[]>([])
-  const [devBlocked, setDevBlocked] = useState(false)
 
   const pushDialog = useCallback((entry: DialogEntry) => {
     setDialogQueue(prev => [...prev, entry])
@@ -86,10 +84,6 @@ export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhase
 
   // 시작 (로비에서 호출)
   const handleStart = useCallback(() => {
-    if (process.env.NODE_ENV !== 'development') {
-      setDevBlocked(true)
-      return
-    }
     setWorldPreview(null)
     setInternalPhase('setup')
   }, [])
@@ -128,24 +122,7 @@ export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhase
   }, [])
 
   // ── idle: 아무것도 렌더하지 않음 (로비는 GameShell이 관리) ──
-  if (internalPhase === 'idle') {
-    return (
-      <>
-        {devBlocked && (
-          <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center" onClick={() => setDevBlocked(false)}>
-            <div className="bg-bg-main border border-white/10 rounded-xl px-8 py-6 text-center max-w-xs mx-4" onClick={e => e.stopPropagation()}>
-              <div className="text-3xl mb-3">🔨</div>
-              <p className="text-white font-serif font-bold mb-2">{tS('devNoticeTitle')}</p>
-              <p className="text-text-secondary text-sm leading-relaxed">{tS('devNoticeDesc')}</p>
-              <button onClick={() => setDevBlocked(false)} className="mt-4 px-6 py-2 bg-white/5 border border-white/10 rounded-xl text-text-secondary text-sm hover:bg-white/10 transition-colors">
-                {text.common.confirm}
-              </button>
-            </div>
-          </div>
-        )}
-      </>
-    )
-  }
+  if (internalPhase === 'idle') return null
 
   // ── setup ──
   if (internalPhase === 'setup') {

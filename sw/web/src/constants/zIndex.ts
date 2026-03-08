@@ -51,6 +51,9 @@ export const Z_INDEX = {
 
   // 일기토 (게임 모달 위)
   gameDuel: 10001,
+
+  // 게임 화면 위 플로팅 플레이어
+  floatingPlayerGame: 10002,
 } as const;
 
 export type ZIndexKey = keyof typeof Z_INDEX;

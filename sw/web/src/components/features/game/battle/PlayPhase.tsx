@@ -19,7 +19,7 @@ import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
 import ClashArena from "../duel/ClashArena";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
-import MobileBottomSpacer from "../shared/MobileBottomSpacer";
+
 import {
   getBattleCommandLabel,
   getBattleCounterExplain,
@@ -1866,7 +1866,6 @@ export default function PlayPhase({
               </div>
             </div>
           </div>
-          <MobileBottomSpacer />
         </div>{/* /본문 */}
 
       {/* ━━━━━ 모달 ━━━━━ */}

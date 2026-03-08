@@ -20,7 +20,7 @@ import ContentReveal from "./tracker/ContentReveal";
 import PhilosophyReveal from "./tracker/PhilosophyReveal";
 import MultipleChoice from "./tracker/MultipleChoice";
 import TrackerResult from "./tracker/TrackerResult";
-import MobileBottomSpacer from "./shared/MobileBottomSpacer";
+
 import { useDialogue, useDialogueSubtitle, type DialogueSubtitleData, type DialogueCharacterMeta } from "./shared/hooks/useDialogue";
 import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
 
@@ -81,10 +81,31 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     return map;
   }, [round]);
 
+  // 음성 보유 인물 Set + 버전 Map
+  const voiceCelebIds = useMemo(() => {
+    if (!round) return new Set<string>();
+    const set = new Set<string>();
+    round.options.forEach((opt) => {
+      if (opt.hasVoice) set.add(opt.id);
+    });
+    return set;
+  }, [round]);
+
+  const voiceVersions = useMemo(() => {
+    if (!round) return new Map<string, number>();
+    const map = new Map<string, number>();
+    round.options.forEach((opt) => {
+      if (opt.hasVoice && opt.voiceV) map.set(opt.id, opt.voiceV);
+    });
+    return map;
+  }, [round]);
+
   const { showDialogue, showDefaultLine } = useDialogue({
     sfxMutedRef,
     onSubtitle: setSubtitle,
     personalDialogues,
+    voiceCelebIds,
+    voiceVersions,
   });
 
   const hintStages = useMemo(() => ([
@@ -384,7 +405,6 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
         )}
       </div>
 
-      <MobileBottomSpacer />
     </div>
   );
 }
