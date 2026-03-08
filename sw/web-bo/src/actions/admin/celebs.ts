@@ -87,11 +87,246 @@ interface UpdateCelebInput {
   influence?: GeneratedInfluence
 }
 
+type CelebListRow = {
+  id: string
+  slug: string | null
+  nickname: string | null
+  avatar_url: string | null
+  profession: string | null
+  title: string | null
+  nationality: string | null
+  gender: boolean | null
+  birth_date: string | null
+  death_date: string | null
+  bio: string | null
+  quotes: string | null
+  consumption_philosophy: string | null
+  is_verified: boolean | null
+  status: string
+  celeb_tier: string | null
+  claimed_by: string | null
+  created_at: string | null
+  user_social?: { follower_count?: number | null }[] | { follower_count?: number | null } | null
+  celeb_influence?: { total_score?: number | null }[] | { total_score?: number | null } | null
+}
+
+function getSingleRelation<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
+  const social = getSingleRelation(row.user_social)
+  const influence = getSingleRelation(row.celeb_influence)
+
+  return {
+    id: row.id,
+    slug: row.slug || null,
+    nickname: row.nickname,
+    avatar_url: row.avatar_url,
+    profession: row.profession,
+    title: row.title,
+    nationality: row.nationality,
+    gender: row.gender,
+    birth_date: row.birth_date,
+    death_date: row.death_date,
+    bio: row.bio,
+    quotes: row.quotes,
+    consumption_philosophy: row.consumption_philosophy,
+    is_verified: row.is_verified,
+    status: row.status,
+    celeb_tier: row.celeb_tier || 'full',
+    claimed_by: row.claimed_by,
+    created_at: row.created_at || '',
+    content_count: contentCount,
+    follower_count: social?.follower_count || 0,
+    influence_total: influence?.total_score || 0,
+  }
+}
+
+async function getCelebContentCounts(supabase: ReturnType<typeof createAdminClient>, celebIds: string[]) {
+  if (celebIds.length === 0) return new Map<string, number>()
+
+  const { data } = await supabase
+    .from('user_contents')
+    .select('user_id')
+    .in('user_id', celebIds)
+
+  const counts = new Map<string, number>()
+  data?.forEach((row) => {
+    counts.set(row.user_id, (counts.get(row.user_id) || 0) + 1)
+  })
+  return counts
+}
+
+function compareText(a: string | null | undefined, b: string | null | undefined, ascending: boolean) {
+  const left = a ?? ''
+  const right = b ?? ''
+  const result = left.localeCompare(right, 'ko', { numeric: true, sensitivity: 'base' })
+  return ascending ? result : -result
+}
+
+function compareNumber(a: number, b: number, ascending: boolean) {
+  return ascending ? a - b : b - a
+}
+
+function compareDate(a: string, b: string, ascending: boolean) {
+  return compareNumber(new Date(a).getTime() || 0, new Date(b).getTime() || 0, ascending)
+}
+
+function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
+  const ascending = sortOrder === 'asc'
+  const statusRank: Record<string, number> = {
+    active: 0,
+    inactive: 1,
+    suspended: 2,
+    deleted: 3,
+  }
+
+  celebs.sort((a, b) => {
+    let result = 0
+
+    switch (sort) {
+      case 'avatar_url': {
+        const left = a.avatar_url ? 1 : 0
+        const right = b.avatar_url ? 1 : 0
+        result = ascending ? left - right : right - left
+        break
+      }
+      case 'nickname':
+        result = compareText(a.nickname, b.nickname, ascending)
+        break
+      case 'profession':
+        result = compareText(a.profession, b.profession, ascending)
+        break
+      case 'nationality':
+        result = compareText(a.nationality, b.nationality, ascending)
+        break
+      case 'status':
+        result = compareNumber(statusRank[a.status] ?? 99, statusRank[b.status] ?? 99, ascending)
+        break
+      case 'influence_total':
+        result = compareNumber(a.influence_total, b.influence_total, ascending)
+        break
+      case 'content_count':
+        result = compareNumber(a.content_count, b.content_count, ascending)
+        break
+      case 'follower_count':
+        result = compareNumber(a.follower_count, b.follower_count, ascending)
+        break
+      case 'created_at':
+      default:
+        result = compareDate(a.created_at, b.created_at, ascending)
+        break
+    }
+
+    if (result !== 0) return result
+
+    const createdAtTieBreak = compareDate(a.created_at, b.created_at, false)
+    if (createdAtTieBreak !== 0) return createdAtTieBreak
+
+    return compareText(a.nickname, b.nickname, true)
+  })
+}
+
+function buildCelebListQuery(
+  supabase: ReturnType<typeof createAdminClient>,
+  params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier'>,
+  select: string,
+  options?: { count?: 'exact'; head?: boolean }
+) {
+  const { search, status, profession, tier } = params
+
+  let query = supabase
+    .from('profiles')
+    .select(select, options)
+    .eq('profile_type', 'CELEB')
+
+  if (status && status !== 'all') {
+    query = query.eq('status', status)
+  } else {
+    query = query.in('status', ['active', 'inactive', 'suspended'])
+  }
+
+  if (profession && profession !== 'all') {
+    query = query.eq('profession', profession)
+  }
+
+  if (search) {
+    query = query.or(
+      `nickname.ilike.%${search}%,nickname_en.ilike.%${search}%,title.ilike.%${search}%,title_en.ilike.%${search}%`
+    )
+  }
+
+  if (tier && tier !== 'all') {
+    query = query.eq('celeb_tier', tier)
+  }
+
+  return query
+}
+
+async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
+  const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
+  const supabase = createAdminClient()
+  const offset = (page - 1) * limit
+  const filters = { search, status, profession, tier }
+  const selectFields = `
+    id, slug, nickname, avatar_url, profession, title, nationality, gender,
+    birth_date, death_date, bio, quotes, consumption_philosophy,
+    is_verified, status, celeb_tier, claimed_by, created_at,
+    user_social (follower_count),
+    celeb_influence (total_score)
+  `
+
+  const { count, error: countError } = await buildCelebListQuery(supabase, filters, 'id', { count: 'exact', head: true })
+
+  if (countError) {
+    console.error('[getCelebsByDirectQuery] count 조회 실패:', countError)
+    throw countError
+  }
+
+  if (!count) {
+    return { celebs: [], total: 0 }
+  }
+
+  const rows: CelebListRow[] = []
+  const batchSize = 1000
+
+  for (let batchOffset = 0; batchOffset < count; batchOffset += batchSize) {
+    const batchEnd = Math.min(batchOffset + batchSize - 1, count - 1)
+    const { data: batch, error: batchError } = await buildCelebListQuery(supabase, filters, selectFields)
+      .range(batchOffset, batchEnd)
+
+    if (batchError) {
+      console.error('[getCelebsByDirectQuery] 배치 조회 실패:', batchError)
+      throw batchError
+    }
+
+    rows.push(...((batch || []) as unknown as CelebListRow[]))
+  }
+
+  const contentCounts = await getCelebContentCounts(supabase, rows.map((row) => row.id))
+  const celebs = rows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0))
+
+  sortCelebs(celebs, sort, sortOrder)
+
+  return {
+    celebs: celebs.slice(offset, offset + limit),
+    total: count || 0,
+  }
+}
+
 // #endregion
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
+  const needsExactFiltering = sort === 'avatar_url' || status === 'inactive' || status === 'suspended' || (tier && tier !== 'all')
+
+  if (needsExactFiltering) {
+    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, sort, sortOrder })
+  }
+
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
 
@@ -115,7 +350,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   const rpcSortBy = sortByMap[sort] || `created_at_${sortOrder}`
 
   // status 필터: inactive/suspended 보려면 includeInactive 필요
-  const includeInactive = !status || status === 'all' || status === 'inactive' || status === 'suspended'
+  const includeInactive = status !== 'active'
 
   // 전체 개수 조회
   const { data: countData } = await supabase.rpc('count_celebs_filtered', {

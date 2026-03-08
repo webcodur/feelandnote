@@ -7,6 +7,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo, type MutableRefObject } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getDawnDialogues, type DawnDialogueData } from "@/actions/game/getDawnDialogues";
 import type { CelebProfile } from "@/types/home";
@@ -16,8 +17,7 @@ import { isPublicDomainCeleb, getCentury } from "./utils";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
 import DawnBoardCard from "./dawn/DawnBoardCard";
 import DawnResult from "./dawn/DawnResult";
-import DialogueSubtitle from "./shared/DialogueSubtitle";
-import { useDialogue, type DialogueSubtitleData } from "./shared/hooks/useDialogue";
+import { useDialogue, useDialogueSubtitle, type DialogueSubtitleData } from "./shared/hooks/useDialogue";
 import type { SpeechTone, DialogueLines } from "@/lib/game/voice/types";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 import { cn } from "@/lib/utils";
@@ -148,6 +148,8 @@ interface DawnGameProps {
 }
 
 export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onStartRef }: DawnGameProps = {}) {
+  const locale = useLocale();
+  const tDawnGame = useTranslations("rest.arena.dawn.game");
   const [allCelebs, setAllCelebs] = useState<DawnCeleb[]>([]);
   const [board, setBoard] = useState<DawnCeleb[]>([]);
   const [currentCard, setCurrentCard] = useState<DawnCeleb | null>(null);
@@ -184,7 +186,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
 
   // 대사 시스템
   const [dialogueDataMap, setDialogueDataMap] = useState<Record<string, DawnDialogueData>>({});
-  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
   const sfxMutedRef = useRef(false);
   const subtitleKeyRef = useRef(0);
 
@@ -430,11 +432,26 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   // endregion
 
   // region: 힌트 사용
-  const HINT_META: Record<Exclude<HintType, null>, { label: string; icon: string; desc: string }> = {
-    century: { label: "세기 공개", icon: "📜", desc: "이 인물이 태어난 세기를 공개합니다" },
-    highlight: { label: "위치 힌트", icon: "✨", desc: "정답 근처의 카드를 강조합니다" },
-    eliminate: { label: "슬롯 제거", icon: "🚫", desc: "오답 슬롯 2개를 제거합니다" },
-  };
+  const hintMeta = useMemo<Record<Exclude<HintType, null>, { label: string; icon: string; desc: string }>>(
+    () => ({
+      century: {
+        label: tDawnGame("hints.century.label"),
+        icon: "📜",
+        desc: tDawnGame("hints.century.desc"),
+      },
+      highlight: {
+        label: tDawnGame("hints.highlight.label"),
+        icon: "✨",
+        desc: tDawnGame("hints.highlight.desc"),
+      },
+      eliminate: {
+        label: tDawnGame("hints.eliminate.label"),
+        icon: "🚫",
+        desc: tDawnGame("hints.eliminate.desc"),
+      },
+    }),
+    [tDawnGame]
+  );
 
   const useHint = useCallback(() => {
     if (!currentCard || torches <= 0 || isRevealing || gameState !== "playing" || hintAnnounce) return;
@@ -454,7 +471,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
     setTorches((t) => t - 1);
 
     // 1단계: 안내 오버레이 표시
-    setHintAnnounce({ type: chosen, ...HINT_META[chosen] });
+    setHintAnnounce({ type: chosen, ...hintMeta[chosen] });
 
     // 2단계: 1.2초 후 안내 닫고 힌트 적용 + 스크롤
     setTimeout(() => {
@@ -462,7 +479,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
       setActiveHint(chosen);
 
       if (chosen === "century") {
-        setCenturyText(getCentury(currentCard.birthYear));
+        setCenturyText(getCentury(currentCard.birthYear, locale));
       } else if (chosen === "highlight") {
         const indices: number[] = [];
         if (actualCorrectIndex > 0) indices.push(actualCorrectIndex - 1);
@@ -492,7 +509,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
         }
       }
     }, 1200);
-  }, [currentCard, torches, isRevealing, gameState, board, hintAnnounce, centuryText]);
+  }, [currentCard, torches, isRevealing, gameState, board, hintAnnounce, centuryText, hintMeta, locale]);
   // endregion
 
   // 슬롯 확장 시 좌측에 추가되는 너비만큼 scrollLeft를 보정하여 카드가 제자리에 머무르도록 함
@@ -579,7 +596,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   if (!isDataLoaded) {
      return (
         <div className="flex items-center justify-center min-h-[500px]">
-           <div className="animate-pulse text-text-secondary font-serif">역사 로딩 중...</div>
+           <div className="animate-pulse text-text-secondary font-serif">{tDawnGame("loading")}</div>
         </div>
      );
   }
@@ -621,7 +638,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
       {/* 데스크탑 전용: 우측 플로팅 점수+남은 */}
       <div className="hidden md:flex absolute right-6 top-18 z-30 flex-col items-center gap-2 bg-black/50 backdrop-blur-sm rounded-xl px-2.5 py-2.5 border border-white/10">
         <div className="flex flex-col items-center">
-          <span className="text-[9px] text-text-tertiary font-cinzel tracking-wider uppercase">점수</span>
+          <span className="text-[9px] text-text-tertiary font-cinzel tracking-wider uppercase">{tDawnGame("score")}</span>
           <div className="flex items-baseline gap-0.5">
             <span className="text-base font-serif font-black text-white leading-none">{streak}</span>
             <span className="text-[10px] text-text-secondary">/</span>
@@ -630,7 +647,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
         </div>
         <div className="w-6 h-px bg-white/10" />
         <div className="flex flex-col items-center">
-          <span className="text-[9px] text-text-tertiary font-cinzel tracking-wider uppercase">남은</span>
+          <span className="text-[9px] text-text-tertiary font-cinzel tracking-wider uppercase">{tDawnGame("remaining")}</span>
           <span className="text-base font-serif font-black text-white leading-none">{remainingCelebs.length}</span>
         </div>
       </div>
@@ -664,7 +681,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
           </div>
           {/* 남은 */}
           <div className="flex items-center gap-1">
-            <span className="text-[9px] text-text-tertiary">남은</span>
+            <span className="text-[9px] text-text-tertiary">{tDawnGame("remaining")}</span>
             <span className="text-sm font-serif font-black text-white leading-none">{remainingCelebs.length}</span>
           </div>
         </div>
@@ -715,7 +732,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                   {/* 텍스트 영역 — DawnBoardCard와 동일 구조·패딩 */}
                   <div className="bg-white/[0.05] px-1.5 py-1 md:px-2 md:py-1.5 flex flex-col items-center text-center">
                     <span className="text-[8px] md:text-[10px] text-white/0 font-bold tracking-wider">&nbsp;</span>
-                    <span className="text-[11px] md:text-base font-serif font-bold text-white/30 leading-tight">터치하여 공개</span>
+                    <span className="text-[11px] md:text-base font-serif font-bold text-white/30 leading-tight">{tDawnGame("tapToReveal")}</span>
                     <span className="font-cinzel font-bold text-xs md:text-lg text-white/0 leading-none mt-0.5">&nbsp;</span>
                   </div>
                 </button>
@@ -726,7 +743,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                   year={
                     (isRevealing || isGameOver)
                       ? formatYear(currentCard.birthYear)
-                      : centuryText || "????"
+                      : centuryText || tDawnGame("unknownYear")
                   }
                   profession={currentCard.profession}
                   className="w-full md:w-44"
@@ -753,7 +770,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
               )}
             >
               <Eye size={20} className={!isRevealing && !isGameOver ? "drop-shadow-[0_0_4px_rgba(168,85,247,0.5)]" : ""} />
-              <span className="text-[10px] font-bold font-serif">눈</span>
+              <span className="text-[10px] font-bold font-serif">{tDawnGame("eyeShort")}</span>
             </button>
 
             {/* 모바일 하단: 횃불 + 시간의 눈 */}
@@ -782,7 +799,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                 )}
               >
                 <Eye size={14} />
-                <span className="text-[10px] font-bold font-serif">눈</span>
+                <span className="text-[10px] font-bold font-serif">{tDawnGame("eyeShort")}</span>
               </button>
             </div>
           </div>
@@ -797,7 +814,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
 
           {/* 좌우 이동 버튼 + 시대 라벨 (데스크탑) */}
           <div className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-1">
-            <span className="text-[9px] text-accent/50 font-cinzel tracking-wider">고대</span>
+            <span className="text-[9px] text-accent/50 font-cinzel tracking-wider">{tDawnGame("ancient")}</span>
             <button
               onClick={() => scrollBoard("left")}
               className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 border border-white/20 hover:bg-white/10 hover:border-accent text-white transition-all"
@@ -806,7 +823,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
             </button>
           </div>
           <div className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-1">
-            <span className="text-[9px] text-accent/50 font-cinzel tracking-wider">현대</span>
+            <span className="text-[9px] text-accent/50 font-cinzel tracking-wider">{tDawnGame("modern")}</span>
             <button
               onClick={() => scrollBoard("right")}
               className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 border border-white/20 hover:bg-white/10 hover:border-accent text-white transition-all"
@@ -817,7 +834,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
 
           {/* 시대 방향 라벨 — 상단(고대) */}
           <div className="shrink-0 flex md:hidden items-center justify-center gap-1 py-0.5 text-[9px] text-accent/50 font-cinzel tracking-widest">
-            <span>▲</span><span>고대</span>
+            <span>▲</span><span>{tDawnGame("ancient")}</span>
           </div>
 
           {/* 스크롤 영역 — 모바일: 세로 / 데스크탑: 가로 */}
@@ -938,13 +955,12 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
 
           {/* 시대 방향 라벨 — 하단(현대) */}
           <div className="shrink-0 flex md:hidden items-center justify-center gap-1 py-0.5 text-[9px] text-accent/50 font-cinzel tracking-widest">
-            <span>현대</span><span>▼</span>
+            <span>{tDawnGame("modern")}</span><span>▼</span>
           </div>
         </div>
       </div>{/* 메인 영역 끝 */}
 
-      {/* 대사 자막 */}
-      <DialogueSubtitle subtitle={subtitle} />
+    {/* 메인 영역 끝 */}
 
       {/* 힌트 안내 오버레이 */}
       {hintAnnounce && (

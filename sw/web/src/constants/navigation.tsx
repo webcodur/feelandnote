@@ -4,7 +4,7 @@
   책임: PC 헤더, MB 바텀탭, 메인페이지 섹션의 네비게이션 아이템을 단일 원천으로 관리한다.
 */
 
-import { Compass, BookOpen, Armchair, Gamepad2, User, type LucideIcon } from "lucide-react";
+import { Home, Compass, BookOpen, Gamepad2, User, type LucideIcon } from "lucide-react";
 
 // #region 타입 정의
 export interface NavSubLink {
@@ -37,6 +37,15 @@ export interface HomeSectionConfig {
 // #region 네비게이션 아이템 정의
 export const NAV_ITEMS: NavItem[] = [
   {
+    key: "home",
+    href: "/",
+    label: "홈",
+    icon: Home,
+    showInHeader: false,
+    showInBottomNav: true,
+    showInHomePage: false,
+  },
+  {
     key: "explore",
     href: "/explore",
     label: "인물",
@@ -46,8 +55,10 @@ export const NAV_ITEMS: NavItem[] = [
     showInHomePage: true,
     subLinks: [
       { key: "celebs", href: "/explore/celebs", label: "셀럽" },
-      { key: "celebFeed", href: "/explore/celeb-feed", label: "셀럽 피드" },
+      { key: "topByType", href: "/explore/top-by-type", label: "분야별 기록가" },
+      { key: "persona", href: "/explore/persona", label: "비범한 기록가" },
       { key: "spotlight", href: "/explore/spotlight", label: "스포트라이트" },
+      { key: "celebFeed", href: "/explore/celeb-feed", label: "셀럽 피드" },
     ],
   },
   {
@@ -59,23 +70,11 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { key: "masterpieces", href: "/scriptures/era", label: "불후의 명작" },
-      { key: "crossroads", href: "/scriptures/profession", label: "갈림길" },
-    ],
-  },
-  {
-    key: "agora",
-    href: "/agora",
-    label: "광장",
-    icon: Armchair,
-    showInHeader: true,
-    showInBottomNav: true,
-    showInHomePage: true,
-    subLinks: [
-      { key: "social", href: "/agora/social", label: "소셜" },
-      { key: "socialFeed", href: "/agora/social-feed", label: "소셜 피드" },
-      { key: "notice", href: "/agora/board/notice", label: "공지사항" },
-      { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
+      { key: "era", href: "/scriptures/era", label: "불후의 명작" },
+      { key: "profession", href: "/scriptures/profession", label: "갈림길" },
+      { key: "figure", href: "/scriptures/figure", label: "오늘의 인물" },
+      { key: "museum", href: "/scriptures/museum", label: "박물관" },
+      { key: "academy", href: "/scriptures/academy", label: "학당" },
     ],
   },
   {
@@ -120,6 +119,12 @@ export const FOOTER_BRAND_LINKS: NavSubLink[] = [
   { key: "terms", href: "/terms", label: "이용약관" },
   { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
 ];
+
+export const FOOTER_MISC_LINKS: NavSubLink[] = [
+  { key: "social", href: "/agora/social", label: "소셜" },
+  { key: "notice", href: "/agora/board/notice", label: "공지사항" },
+  { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
+];
 // #endregion
 
 // #region 메인페이지 섹션 설정
@@ -137,13 +142,6 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/scriptures",
-  },
-  agora: {
-    id: "agora-section",
-    key: "agora",
-    svgSrc: "/images/decorations/lyre.svg",
-    className: "bg-bg-main border-t border-white/10",
-    link: "/agora",
   },
   rest: {
     id: "rest-section",
@@ -166,10 +164,7 @@ export const SECTION_ORDER = [
   "home-banner",
   "explore-section",
   "scriptures-section",
-  "agora-section",
   "rest-section",
   "archive-section",
 ] as const;
-// #endregion
-
 // #endregion

@@ -15,11 +15,14 @@ export default function ExploreTabs() {
   const t = useTranslations("explore.ui");
 
   const EXPLORE_TABS = [
+    { value: "hub" as const, label: t("tabs.hub"), href: "/explore" },
     { value: "celebs" as const, label: t("tabs.celebs"), href: "/explore/celebs" },
     { value: "celeb-feed" as const, label: t("tabs.celebFeed"), href: "/explore/celeb-feed" },
     { value: "spotlight" as const, label: t("tabs.spotlight"), href: "/explore/spotlight" },
   ];
-  const activeTab = EXPLORE_TABS.find((tab) => pathname.startsWith(tab.href))?.value ?? "celebs";
+  // 서브 경로 먼저 매칭 후, 정확히 /explore만 남으면 hub
+  const subTab = EXPLORE_TABS.slice(1).find((tab) => pathname.startsWith(tab.href));
+  const activeTab = subTab?.value ?? "hub";
 
   return (
     <PageTabs

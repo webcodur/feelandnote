@@ -145,5 +145,6 @@ export async function saveCelebDialogues(
   if (error) throw error
 
   revalidatePath('/celebs/dialogues')
+  revalidatePath('/celebs/voice-gen')
 }
 // #endregion

@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo, type MutableRefObject } from "react";
 import { Swords } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import GameGate from "@/components/features/game/shared/GameGate";
 import { useBattleGame } from "./hooks/useBattleGame";
 import DraftPhase from "./DraftPhase";
@@ -23,6 +23,7 @@ import { Z_INDEX } from "@/constants/zIndex";
 import type { BattleCard, Difficulty } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
 import { useDialogue } from "@/components/features/game/shared/hooks/useDialogue";
+import { getBattleText } from "./i18n";
 
 interface BattleGameProps {
   onEnterFullScreen?: () => void;
@@ -40,8 +41,9 @@ interface BattleGameProps {
 }
 
 export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHomeRef, onPhaseChange, onPlayerWinsChange, initialAudioReady = false, setBgm, playSfx, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted }: BattleGameProps) {
-  const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.hegemony");
+  const locale = useLocale();
+  const localeText = getBattleText(locale);
 
   // 대사 시스템 — sfxMuted 상태를 ref로 동기화
   const sfxMutedRef = useRef(sfxMuted);
@@ -159,8 +161,8 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
       setAnnounce({
         key: "draft",
         label: "PHASE",
-        title: "드래프트",
-        subtitle: "15장에서 5장씩 선택합니다",
+        title: localeText.phase.draftTitle,
+        subtitle: localeText.phase.draftSubtitle,
       });
       return;
     }
@@ -170,8 +172,8 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
       setAnnounce({
         key: "captain",
         label: "CAPTAIN",
-        title: "주장 선택",
-        subtitle: "아군의 지휘관을 임명합니다",
+        title: localeText.phase.captainTitle,
+        subtitle: localeText.phase.captainSubtitle,
       });
       return;
     }
@@ -181,8 +183,8 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
       setAnnounce({
         key: "battle",
         label: "BATTLE",
-        title: "대전",
-        subtitle: "동시에 카드와 명령을 선택합니다",
+        title: localeText.phase.battleTitle,
+        subtitle: localeText.phase.battleSubtitle,
       });
       return;
     }
@@ -190,7 +192,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
     if (state.phase === "result" && prevPhase !== "result") {
       return;
     }
-  }, [state.phase, playSfx]);
+  }, [state.phase, playSfx, localeText.phase.battleSubtitle, localeText.phase.battleTitle, localeText.phase.captainSubtitle, localeText.phase.captainTitle, localeText.phase.draftSubtitle, localeText.phase.draftTitle]);
 
   // 페이즈별 콘텐츠
   let content: React.ReactNode = null;
@@ -213,7 +215,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:150ms]" />
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:300ms]" />
           </div>
-          <p className="text-sm text-text-secondary font-serif">카드 데이터 로딩 중...</p>
+          <p className="text-sm text-text-secondary font-serif">{localeText.loading}</p>
         </div>
       </div>
     );

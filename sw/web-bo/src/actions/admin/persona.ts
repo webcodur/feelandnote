@@ -1,12 +1,14 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import type { PersonaJsonb } from './members'
 
 export interface PersonaData {
   id: string
   celeb_id: string
   nickname: string
   profession: string | null
+  persona?: PersonaJsonb | null
   // 덕목 (0~100)
   temperance: number
   diligence: number
@@ -39,7 +41,7 @@ export type TendencyKey =
 
 export async function saveCelebPersona(
   celebId: string,
-  stats: Omit<PersonaData, 'id' | 'celeb_id' | 'nickname' | 'profession'>,
+  stats: Omit<PersonaData, 'id' | 'celeb_id' | 'nickname' | 'profession' | 'persona'>,
   personaJsonb?: Record<string, unknown>,
 ): Promise<void> {
   const supabase = await createClient()
@@ -66,6 +68,7 @@ export async function getPersonaVectors(): Promise<PersonaData[]> {
     .select(`
       id,
       celeb_id,
+      persona,
       temperance, diligence, reflection, courage,
       loyalty, benevolence, fairness, humility,
       command, martial, intellect, charm,
@@ -81,6 +84,7 @@ export async function getPersonaVectors(): Promise<PersonaData[]> {
     celeb_id: row.celeb_id,
     nickname: row.profiles?.nickname ?? '',
     profession: row.profiles?.profession ?? null,
+    persona: row.persona ?? null,
     temperance: row.temperance,
     diligence: row.diligence,
     reflection: row.reflection,

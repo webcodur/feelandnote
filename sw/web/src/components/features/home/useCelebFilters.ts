@@ -82,6 +82,11 @@ export function useCelebFilters({
     const ps = parseInt(searchParams.get("pageSize") || String(DEFAULT_PAGE_SIZE), 10);
     return PAGE_SIZE_OPTIONS.includes(ps) ? ps : DEFAULT_PAGE_SIZE;
   });
+  const [tier] = useState<'full' | 'light' | undefined>(() => {
+    if (!syncToUrl) return undefined;
+    const t = searchParams.get("tier");
+    return (t === 'full' || t === 'light') ? t : undefined;
+  });
   const [isInitialized, setIsInitialized] = useState(false);
 
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
@@ -136,14 +141,15 @@ export function useCelebFilters({
       gender: gend,
       sortBy: sort,
       search: searchTerm || undefined,
-      minContentCount: isInactive ? 0 : 1,
+      minContentCount: 0,
       includeInactive: isInactive,
+      tier,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, [includeInactive, pageSize]);
+  }, [includeInactive, pageSize, tier]);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);

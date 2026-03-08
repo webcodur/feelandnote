@@ -7,6 +7,7 @@
 
 import Image from "next/image";
 import { HelpCircle } from "lucide-react";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
@@ -31,6 +32,8 @@ export default function DawnQuizCard({
   onInfoClick,
   className,
 }: DawnQuizCardProps) {
+  const locale = useLocale();
+
   return (
     <div
       onClick={onClick}
@@ -74,7 +77,7 @@ export default function DawnQuizCard({
       <div className="mt-1.5 md:mt-2 flex flex-col items-center text-center w-full">
         {title && (
           <span className="text-[10px] md:text-xs text-accent font-bold tracking-wider mb-0.5">
-            {getCelebProfessionLabel(title)}
+            {getCelebProfessionLabel(title, locale)}
           </span>
         )}
 

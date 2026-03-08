@@ -25,9 +25,11 @@ const PHASE_LABEL_KEYS: Record<string, string> = {
 
 interface Props {
   bgImages?: GameBackgroundImages | null;
+  initialFullScreen?: boolean;
+  onExitFullScreenExternal?: () => void;
 }
 
-export default function HegemonyGame({ bgImages }: Props) {
+export default function HegemonyGame({ bgImages, initialFullScreen, onExitFullScreenExternal }: Props) {
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.hegemony");
   const { setBgm, playSfx, stopAll, audioControls, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted } = useBattleAudio();
@@ -54,7 +56,11 @@ export default function HegemonyGame({ bgImages }: Props) {
     <GameFullScreen
       breadcrumbs={breadcrumbs}
       footerExtra={<GameAudioPlayer controls={audioControls} />}
-      onExitFullScreen={stopAll}
+      initialFullScreen={initialFullScreen}
+      onExitFullScreen={(() => {
+        stopAll();
+        onExitFullScreenExternal?.();
+      })}
       onHome={handleHome}
       background={<GameBackground phase={phase} playerWins={playerWins} bgImages={bgImages} />}
       exitLabel={t("exit")}

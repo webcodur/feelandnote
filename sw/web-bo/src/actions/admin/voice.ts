@@ -2,20 +2,12 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
+import {
+  DIALOGUE_TYPES, TYPE_PREFIX, VARIANTS, LOCALES,
+  voiceR2Key,
+} from '@/lib/voice-path'
 
-const DIALOGUE_TYPES = ['greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
-const TYPE_PREFIX: Record<string, string> = {
-  greeting: 'g', roll_call: 'a', deploy: 'd',
-  battle_win: 'bw', battle_draw: 'bd', battle_lose: 'bl', clash_attack: 'c',
-}
-const VARIANTS = [1, 2, 3]
-const LOCALES = ['ko', 'en'] as const
-
-function voiceKey(celebId: string, locale: string, file: string) {
-  return `celebs/${celebId}/voice/${locale}/${file}`
-}
-
-/** 음성 파일 업로드 (단일) */
+/** 음성 파일 업로드 (단일, VoiceSection 수동 업로드용) */
 export async function uploadVoiceFile(
   celebId: string,
   locale: 'ko' | 'en',
@@ -26,7 +18,7 @@ export async function uploadVoiceFile(
   if (!file) return { success: false, error: '파일이 없다.' }
 
   const buffer = Buffer.from(await file.arrayBuffer())
-  const key = voiceKey(celebId, locale, fileName)
+  const key = voiceR2Key(celebId, locale, fileName)
   await uploadToR2(key, buffer, 'audio/mpeg')
   return { success: true }
 }
@@ -45,44 +37,51 @@ export async function toggleHasVoice(
   return { success: true }
 }
 
-/** 인물의 음성 파일 목록 확인 (R2 URL ping) */
+/** 인물의 음성 파일 목록 확인 (R2 URL HEAD)
+ *  files 키 형식: "{locale}/{type}-{variant}" (e.g. "ko/greeting-1", "en/quote")
+ */
 export async function getVoiceStatus(celebId: string): Promise<{
   hasVoice: boolean
+  voiceV: number
   files: Record<string, boolean>
 }> {
   const supabase = await createClient()
   const { data } = await supabase
     .from('profiles')
-    .select('has_voice')
+    .select('has_voice, voice_v')
     .eq('id', celebId)
     .single()
 
-  const files: Record<string, boolean> = {}
+  const voiceV = (data as Record<string, unknown>)?.voice_v as number ?? 0
+  const checks: Promise<[string, boolean]>[] = []
 
   for (const locale of LOCALES) {
     for (const type of DIALOGUE_TYPES) {
       const prefix = TYPE_PREFIX[type]
       for (const v of VARIANTS) {
-        const url = `${R2_PUBLIC_URL}/${voiceKey(celebId, locale, `${prefix}${v}.mp3`)}`
-        try {
-          const res = await fetch(url, { method: 'HEAD' })
-          files[`${locale}/${prefix}${v}`] = res.ok
-        } catch {
-          files[`${locale}/${prefix}${v}`] = false
-        }
+        const key = `${locale}/${type}-${v}`
+        const url = `${R2_PUBLIC_URL}/${voiceR2Key(celebId, locale, `${prefix}${v}.mp3`)}`
+        checks.push(
+          fetch(url, { method: 'HEAD' })
+            .then((res) => [key, res.ok] as [string, boolean])
+            .catch(() => [key, false] as [string, boolean]),
+        )
       }
     }
-    // quote
-    const quoteUrl = `${R2_PUBLIC_URL}/${voiceKey(celebId, locale, 'quote.mp3')}`
-    try {
-      const res = await fetch(quoteUrl, { method: 'HEAD' })
-      files[`${locale}/quote`] = res.ok
-    } catch {
-      files[`${locale}/quote`] = false
-    }
+    const qKey = `${locale}/quote`
+    const qUrl = `${R2_PUBLIC_URL}/${voiceR2Key(celebId, locale, 'quote.mp3')}`
+    checks.push(
+      fetch(qUrl, { method: 'HEAD' })
+        .then((res) => [qKey, res.ok] as [string, boolean])
+        .catch(() => [qKey, false] as [string, boolean]),
+    )
   }
 
-  return { hasVoice: data?.has_voice ?? false, files }
+  const results = await Promise.all(checks)
+  const files: Record<string, boolean> = {}
+  for (const [k, v] of results) files[k] = v
+
+  return { hasVoice: data?.has_voice ?? false, voiceV, files }
 }
 
 /** 전체 음성 삭제 */
@@ -92,16 +91,16 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
     for (const type of DIALOGUE_TYPES) {
       const prefix = TYPE_PREFIX[type]
       for (const v of VARIANTS) {
-        keys.push(voiceKey(celebId, locale, `${prefix}${v}.mp3`))
+        keys.push(voiceR2Key(celebId, locale, `${prefix}${v}.mp3`))
       }
     }
-    keys.push(voiceKey(celebId, locale, 'quote.mp3'))
+    keys.push(voiceR2Key(celebId, locale, 'quote.mp3'))
   }
 
   await Promise.allSettled(keys.map((k) => deleteFromR2(k)))
 
   const supabase = await createClient()
-  await supabase.from('profiles').update({ has_voice: false }).eq('id', celebId)
+  await supabase.from('profiles').update({ has_voice: false, voice_v: 0 }).eq('id', celebId)
 
   return { success: true }
 }

@@ -154,6 +154,11 @@ CREATE POLICY "content_locales_update" ON content_locales
 - MUSIC: `spotify`
 - CERTIFICATE: `qnet`
 
+thumbnail 전용 값:
+- `goodreads`: BookCover API 경유 Goodreads 표지
+- `openlibrary`: Open Library 커버
+- `confirmed_unavailable`: 3곳(Google Books, Goodreads, Open Library) 전부 미보유 확정. 재수집 스킵 대상.
+
 ### 2.4 verified 상태 정의
 
 | 값 | 의미 | 예시 |
@@ -450,9 +455,79 @@ Spotify는 로케일별 커버아트를 제공하지 않음. 앨범 커버는 �
 IGDB는 로케일별 커버를 제공하지 않음.
 → **ko/en 동일 URL 사용**
 
-### 6.4 BOOK (기존 Google Books 스크립트 유지)
+### 6.4 BOOK 영문 썸네일 (2026-03-08 완료)
 
-이미 `content_editions`에 en 2,598행 존재. `content_locales`로 이관하면 끝.
+#### sources JSONB 구조
+
+`content_locales.sources` JSONB로 각 필드의 데이터 출처를 추적한다.
+
+```json
+{"primary": "google_books", "thumbnail": "goodreads"}
+```
+
+- `primary`: 레코드 최초 생성 시 사용한 API. title, creator, isbn 등 기본 필드의 출처.
+- `thumbnail`: 썸네일만 별도 출처로 교체된 경우. 없으면 primary와 동일.
+- 향후 개별 필드를 별도 출처에서 교정하면 해당 필드명을 키로 추가한다.
+
+| primary 값 | 대상 | 비고 |
+|-------------|------|------|
+| `naver_book` | ko 도서 | 네이버 책 API |
+| `google_books` | en 도서 | Google Books API |
+| `tmdb` | ko 영상 | TMDB API |
+| `igdb` | en 게임 | IGDB API |
+| `spotify` | en 음악 | Spotify API |
+| `qnet` | ko 자격증 | Q-Net |
+
+| thumbnail 값 | 비고 |
+|---------------|------|
+| `goodreads` | BookCover API 경유, Goodreads 표지 |
+| `openlibrary` | Open Library 커버 |
+
+#### Google Books 썸네일 품질 판별
+
+Google Books `zoom=2` URL이 커버 없는 도서에 "image not available" 텍스트 이미지를 반환한다.
+
+- **`AACAAJ` 접미사**: 볼륨 ID에 포함 시 no-preview 도서. 거의 확실하게 플레이스홀더.
+- **`edge=curl` 파라미터**: URL에 포함되면 실제 커버 보유. 없으면 플레이스홀더 가능성 높음.
+- 플레이스홀더 이미지는 128×192px 이상이라 클라이언트의 `naturalWidth < 5` 체크를 통과한다.
+
+#### 영문 도서 썸네일 수집 규칙
+
+**ISBN 기반 표지 수집 금지.** en locale의 `isbn` 필드는 제목만으로 자동매칭되어 동명이본 오매칭이 존재한다 (예: Republic → Star Wars 소설, Metaphysics → Heidegger).
+
+올바른 수집 파이프라인:
+1. **Open Library 검색 API** (`openlibrary.org/search.json?title=`) → 올바른 영문 저자 확보
+2. **BookCover API** (`bookcover.longitood.com/bookcover?book_title=&author_name=`) → Goodreads 고품질 표지
+3. **Open Library 커버 fallback** (`covers.openlibrary.org/b/id/{cover_i}-L.jpg`)
+
+BookCover API 제약:
+- `author_name` 파라미터 필수. 제목만 검색 시 400 에러.
+- 레이트리밋 있음 (fair-use). 스크립트에서 요청 간 500ms+ 간격 권장.
+- 저자가 틀리면 다른 책 표지가 반환된다. Open Library 저자 검증이 필수인 이유.
+
+스크립트: `scripts/en-thumb-bookcover-v2.mjs`
+
+#### ContentCard 영문 로케일 동작
+
+`/en` 접속 시 ContentCard의 `activeEdition`이 자동으로 `"en"` 설정된다 (`ContentCard.tsx:193`). en 에디션에 `thumbnail_en`이 없으면 **빈 카드 표시** (ko 표지로 fallback하지 않음, `ContentCard.tsx:201-203`). 이 설계 때문에 en 썸네일 누락이 사용자에게 직접 노출된다.
+
+#### 현황 (2026-03-08)
+
+| 소스 | en BOOK 건수 | 비고 |
+|------|-------------|------|
+| Naver | 715 | 한국 표지 (en locale에 저장, 정비 필요) |
+| OpenLibrary | 657 | 기존 440 + fallback 217 |
+| Goodreads | 650 | BookCover API v2 수집 |
+| Google Books (curl) | 377 | 실제 커버 보유 |
+| NULL | 176 | 미발견 (고대 경전, 동양 고전) |
+| 기타 | 31 | |
+
+상세 작업 보고: `docs/en-book-thumbnail-fix.md`
+
+#### 잔여 작업
+
+- **en_isbn/en_creator 오매칭 정비**: 동명이본 매칭으로 잘못된 ISBN/저자가 남아있는 건 별도 교정 필요
+- **Naver URL 715건**: en locale에 한국 Naver Shopping 썸네일 저장 상태. 데이터 정합성 정비 필요
 
 ---
 

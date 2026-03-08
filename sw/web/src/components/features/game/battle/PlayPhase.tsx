@@ -8,17 +8,28 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Swords, ScrollText, Landmark, AlertTriangle, ScrollTextIcon } from "lucide-react";
+import { useLocale } from "next-intl";
 import type { BattleCard as BattleCardType, Command, NationState, RoundRecord, Mandate, BattleSubPhase, RoundAction, Difficulty } from "@/lib/game/types";
-import { COMMANDS, COMMAND_LABELS, MANDATE_BONUS, MAX_POWER, MAX_MORALE } from "@/lib/game/types";
+import { COMMANDS, MANDATE_BONUS, MAX_POWER, MAX_MORALE } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars, getEscalation } from "@/lib/game/gameEngine";
 import BattleCard from "./BattleCard";
-import CommandInfoModal, { CMD_DETAILS } from "./CommandInfoModal";
+import CommandInfoModal from "./CommandInfoModal";
 import CaptainInfoModal from "./CaptainInfoModal";
 import PhaseAnnounce, { type AnnounceData } from "./PhaseAnnounce";
 import ClashArena from "../duel/ClashArena";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
 import MobileBottomSpacer from "../shared/MobileBottomSpacer";
+import {
+  getBattleCommandLabel,
+  getBattleCounterExplain,
+  getBattleCounterLabel,
+  getBattleMandateLabel,
+  getBattlePlaqueLabel,
+  getBattleSealLabel,
+  getBattleText,
+  translateBattleNarrative,
+} from "./i18n";
 
 interface Props {
   playerHand: BattleCardType[];
@@ -100,11 +111,11 @@ const CLASH_KEYFRAMES = `
 `;
 
 /** 상성 결과 배지 (인라인 태그) */
-function CounterBadge({ result }: { result: "win" | "lose" | "draw" }) {
+function CounterBadge({ result, locale }: { result: "win" | "lose" | "draw"; locale: string }) {
   const config = {
-    win: { text: "카운터!", cls: "text-amber-200 bg-amber-500/15 border-amber-400/30" },
-    lose: { text: "역습!", cls: "text-red-300 bg-red-500/15 border-red-400/30" },
-    draw: { text: "접전", cls: "text-yellow-200 bg-yellow-500/15 border-yellow-400/30" },
+    win: { text: getBattleCounterLabel("win", locale, true), cls: "text-amber-200 bg-amber-500/15 border-amber-400/30" },
+    lose: { text: getBattleCounterLabel("lose", locale, true), cls: "text-red-300 bg-red-500/15 border-red-400/30" },
+    draw: { text: getBattleCounterLabel("draw", locale), cls: "text-yellow-200 bg-yellow-500/15 border-yellow-400/30" },
   };
   const c = config[result];
   return (
@@ -125,7 +136,7 @@ interface ParsedNarrative {
   text: string;
 }
 
-function parseNarratives(result: string): ParsedNarrative[] {
+function parseNarratives(result: string, locale: string): ParsedNarrative[] {
   return result.split(" / ").map((raw) => {
     const trimmed = raw.trim();
     if (!trimmed) return null;
@@ -149,18 +160,8 @@ function parseNarratives(result: string): ParsedNarrative[] {
     if (/반란/.test(text)) type = "rebellion";
     else if (/\[천명/.test(text)) type = "mandate";
 
-    return { side, type, text };
+    return { side, type, text: translateBattleNarrative(text, locale) };
   }).filter(Boolean) as ParsedNarrative[];
-}
-
-const COUNTER_EXPLAIN: Record<string, string> = {
-  "assault-govern": "전투가 내정을 압도",
-  "govern-stratagem": "내정이 책략을 무력화",
-  "stratagem-assault": "책략이 전투를 제압",
-};
-
-function getCounterExplain(pCmd: Command, aCmd: Command): string | null {
-  return COUNTER_EXPLAIN[`${pCmd}-${aCmd}`] ?? COUNTER_EXPLAIN[`${aCmd}-${pCmd}`] ?? null;
 }
 
 const NARRATIVE_STYLE: Record<NarrativeType, { icon: React.ReactNode | null; cls: string; mobileCls: string }> = {
@@ -185,14 +186,16 @@ function EtchedDivider({ className = "" }: { className?: string }) {
 }
 
 /** 충돌 결과 통합 패널 (모바일/데스크톱 공용) */
-function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
+function RoundResultPanel({ record, compact, playSfx, onAdvance, locale, text }: {
   record: RoundRecord;
   compact?: boolean;
   playSfx: (name: string) => void;
   onAdvance: () => void;
+  locale: string;
+  text: ReturnType<typeof getBattleText>;
 }) {
-  const narratives = parseNarratives(record.result);
-  const counterExplain = getCounterExplain(record.player.command, record.ai.command);
+  const narratives = parseNarratives(record.result, locale);
+  const counterExplain = getBattleCounterExplain(record.player.command, record.ai.command, locale);
   const playerNarrs = narratives.filter(n => n.side === "player");
   const aiNarrs = narratives.filter(n => n.side === "ai");
   const systemNarrs = narratives.filter(n => n.side === "system");
@@ -211,10 +214,10 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
             <span className="text-accent font-bold text-sm truncate">{record.player.card.nickname}</span>
             <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[record.player.command].text}`}>
               {CMD_ICON[record.player.command]}
-              {COMMAND_LABELS[record.player.command]}
+              {getBattleCommandLabel(record.player.command, locale)}
             </span>
             <span className={`text-[10px] tabular-nums ${record.player.effectiveAptitude > 0 ? "text-accent/70" : "text-accent/30"}`}>
-              적성 {record.player.aptitude.toFixed(1)}{record.player.mandateBonus && " ★"}{record.player.effectiveAptitude === 0 && " (무효)"}
+              {text.play.aptitude} {record.player.aptitude.toFixed(1)}{record.player.mandateBonus && " ★"}{record.player.effectiveAptitude === 0 && ` (${text.play.invalid})`}
             </span>
           </div>
           {/* VS */}
@@ -223,11 +226,11 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           <div className="flex-1 flex flex-col items-start gap-0.5 min-w-0">
             <span className="text-red-400 font-bold text-sm truncate">{record.ai.card.nickname}</span>
             <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[record.ai.command].text}`}>
-              {COMMAND_LABELS[record.ai.command]}
+              {getBattleCommandLabel(record.ai.command, locale)}
               {CMD_ICON[record.ai.command]}
             </span>
             <span className={`text-[10px] tabular-nums ${record.ai.effectiveAptitude > 0 ? "text-red-400/70" : "text-red-400/30"}`}>
-              적성 {record.ai.aptitude.toFixed(1)}{record.ai.mandateBonus && " ★"}{record.ai.effectiveAptitude === 0 && " (무효)"}
+              {text.play.aptitude} {record.ai.aptitude.toFixed(1)}{record.ai.mandateBonus && " ★"}{record.ai.effectiveAptitude === 0 && ` (${text.play.invalid})`}
             </span>
           </div>
         </div>
@@ -238,20 +241,20 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
             <div className="flex items-center gap-2">
               {record.duelWinner ? (
                 <span className={`text-[11px] font-bold ${record.duelWinner === "player" ? "text-accent" : record.duelWinner === "ai" ? "text-red-400" : "text-yellow-300"}`}>
-                  ⚔ 일기토 {record.duelWinner === "player" ? "승" : record.duelWinner === "ai" ? "패" : "무"}
+                  ⚔ {text.play.duel} {record.duelWinner === "player" ? text.play.duelOutcome.player : record.duelWinner === "ai" ? text.play.duelOutcome.ai : text.play.duelOutcome.draw}
                 </span>
               ) : (
                 <>
-                  <CounterBadge result={record.counterResult} />
+                  <CounterBadge result={record.counterResult} locale={locale} />
                   {counterExplain && <span className="text-[11px] text-white/50">{counterExplain}</span>}
                   {record.counterResult === "draw" && (
                     <span className="text-[11px] text-white/50">
-                      적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)} → {
+                      {text.play.aptitude} {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)} → {
                         record.player.aptitude > record.ai.aptitude
-                          ? `${record.player.card.nickname} 우세`
+                          ? `${record.player.card.nickname} ${text.play.edge}`
                           : record.ai.aptitude > record.player.aptitude
-                            ? `${record.ai.card.nickname} 우세`
-                            : "동률"
+                            ? `${record.ai.card.nickname} ${text.play.edge}`
+                            : text.play.tie
                       }
                     </span>
                   )}
@@ -267,7 +270,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
                 }`}>
                   {style.icon}
                   <span className="text-white/50 shrink-0 w-5">
-                    {n.side === "player" ? "아" : n.side === "ai" ? "적" : ""}
+                    {n.side === "player" ? text.play.ally[0] : n.side === "ai" ? text.play.enemy[0] : ""}
                   </span>
                   <span className="leading-relaxed">{n.text}</span>
                 </div>
@@ -283,7 +286,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
             onClick={() => { playSfx("sfx-round-draw.mp3"); onAdvance(); }}
             className="px-4 py-1.5 rounded-md bg-accent/15 border border-accent/25 text-accent text-xs font-bold hover:bg-accent/25 transition-colors shrink-0"
           >
-            다음
+            {text.play.next}
           </button>
         </div>
       </div>
@@ -298,9 +301,9 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
       <div className="flex items-start justify-center gap-6" style={stagger(0)}>
         {/* 플레이어 카드 */}
         <div className="flex flex-col items-center gap-2 min-w-0 flex-1">
-          <FeaturedCard card={record.player.card} accent="player" command={record.player.command} />
+          <FeaturedCard card={record.player.card} accent="player" command={record.player.command} locale={locale} />
           <span className={`text-[10px] tabular-nums ${record.player.effectiveAptitude > 0 ? "text-accent/70" : "text-accent/40"}`}>
-            적성 {record.player.aptitude.toFixed(1)}{record.player.mandateBonus && " ★"}{record.player.effectiveAptitude === 0 && " (무효)"}
+            {text.play.aptitude} {record.player.aptitude.toFixed(1)}{record.player.mandateBonus && " ★"}{record.player.effectiveAptitude === 0 && ` (${text.play.invalid})`}
           </span>
         </div>
         {/* VS + 상성 중앙 */}
@@ -313,11 +316,11 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           </span>
           {record.duelWinner ? (
             <span className={`text-sm font-bold ${record.duelWinner === "player" ? "text-accent" : record.duelWinner === "ai" ? "text-red-400" : "text-yellow-300"}`}>
-              ⚔ 일기토 {record.duelWinner === "player" ? "승" : record.duelWinner === "ai" ? "패" : "무"}
+              ⚔ {text.play.duel} {record.duelWinner === "player" ? text.play.duelOutcome.player : record.duelWinner === "ai" ? text.play.duelOutcome.ai : text.play.duelOutcome.draw}
             </span>
           ) : (
             <>
-              <CounterBadge result={record.counterResult} />
+              <CounterBadge result={record.counterResult} locale={locale} />
               {counterExplain && (
                 <span className="text-[11px] text-white/50 text-center leading-snug">
                   {counterExplain}
@@ -325,12 +328,12 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
               )}
               {record.counterResult === "draw" && (
                 <span className="text-[11px] text-white/50 text-center leading-snug">
-                  적성 {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)}<br />{
+                  {text.play.aptitude} {record.player.aptitude.toFixed(1)} vs {record.ai.aptitude.toFixed(1)}<br />{
                     record.player.aptitude > record.ai.aptitude
-                      ? `${record.player.card.nickname} 우세`
+                      ? `${record.player.card.nickname} ${text.play.edge}`
                       : record.ai.aptitude > record.player.aptitude
-                        ? `${record.ai.card.nickname} 우세`
-                        : "동률"
+                        ? `${record.ai.card.nickname} ${text.play.edge}`
+                        : text.play.tie
                   }
                 </span>
               )}
@@ -339,9 +342,9 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
         </div>
         {/* AI 카드 */}
         <div className="flex flex-col items-center gap-2 min-w-0 flex-1">
-          <FeaturedCard card={record.ai.card} accent="ai" command={record.ai.command} />
+          <FeaturedCard card={record.ai.card} accent="ai" command={record.ai.command} locale={locale} />
           <span className={`text-[10px] tabular-nums ${record.ai.effectiveAptitude > 0 ? "text-red-400/70" : "text-red-400/40"}`}>
-            적성 {record.ai.aptitude.toFixed(1)}{record.ai.mandateBonus && " ★"}{record.ai.effectiveAptitude === 0 && " (무효)"}
+            {text.play.aptitude} {record.ai.aptitude.toFixed(1)}{record.ai.mandateBonus && " ★"}{record.ai.effectiveAptitude === 0 && ` (${text.play.invalid})`}
           </span>
         </div>
       </div>
@@ -355,7 +358,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           <div className="rounded-lg border border-accent/20 bg-accent/5 px-4 py-2.5">
             <div className="flex items-center gap-1.5 mb-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-accent/60" />
-              <span className="text-[10px] font-bold text-accent/60 uppercase tracking-wider">아군</span>
+              <span className="text-[10px] font-bold text-accent/60 uppercase tracking-wider">{text.play.ally}</span>
             </div>
             <div className="space-y-1">
               {playerNarrs.map((n, i) => {
@@ -377,7 +380,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           <div className="rounded-lg border border-red-400/20 bg-red-500/5 px-4 py-2.5">
             <div className="flex items-center gap-1.5 mb-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
-              <span className="text-[10px] font-bold text-red-400/60 uppercase tracking-wider">적군</span>
+              <span className="text-[10px] font-bold text-red-400/60 uppercase tracking-wider">{text.play.enemy}</span>
             </div>
             <div className="space-y-1">
               {aiNarrs.map((n, i) => {
@@ -413,7 +416,7 @@ function RoundResultPanel({ record, compact, playSfx, onAdvance }: {
           onClick={() => { playSfx("sfx-round-draw.mp3"); onAdvance(); }}
           className="group relative px-10 py-3 rounded-lg bg-accent/15 border border-accent/30 text-accent font-bold text-sm hover:bg-accent/25 transition-all shadow-[0_0_24px_rgba(212,175,55,0.15)] hover:shadow-[0_0_32px_rgba(212,175,55,0.25)]"
         >
-          다음 라운드
+          {text.play.nextRound}
         </button>
       </div>
     </div>
@@ -425,6 +428,8 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
   power: number; maxPower: number; morale: number; accent: "player" | "ai";
   powerDelta?: number; moraleDelta?: number;
 }) {
+  const locale = useLocale();
+  const text = getBattleText(locale);
   const isPlayer = accent === "player";
   const powerBar = isPlayer ? "bg-accent" : "bg-red-500";
   const moraleBar = isPlayer ? "bg-accent/60" : "bg-red-500/60";
@@ -438,7 +443,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
   return (
     <div className="space-y-1">
       <div className="flex items-center gap-1.5">
-        <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>국력</span>
+        <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>{text.result.power}</span>
         <div className="flex-1 h-[6px] lg:h-2 rounded-full bg-black/50 lg:bg-white/15 overflow-hidden relative">
           {pd < 0 && (
             <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevPower / maxPower) * 100}%` }} />
@@ -458,7 +463,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
         </div>
       </div>
       <div className="flex items-center gap-1.5">
-        <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>민심</span>
+        <span className={`text-[10px] font-bold shrink-0 ${labelColor}`}>{text.result.morale}</span>
         <div className="flex-1 h-[6px] lg:h-1.5 rounded-full bg-black/50 lg:bg-white/15 overflow-hidden relative">
           {md < 0 && (
             <div className="absolute inset-y-0 left-0 rounded-full bg-red-500/40" style={{ width: `${(prevMorale / MAX_MORALE) * 100}%` }} />
@@ -483,7 +488,7 @@ function NationStats({ power, maxPower, morale, accent, powerDelta, moraleDelta 
 
 
 /** 좌우 패널용 충돌 카드 */
-function FeaturedCard({ card, accent, command }: { card: BattleCardType; accent: "player" | "ai"; command?: Command }) {
+function FeaturedCard({ card, accent, command, locale }: { card: BattleCardType; accent: "player" | "ai"; command?: Command; locale: string }) {
   const border = accent === "player" ? "border-accent/40" : "border-red-500/40";
   const bg = accent === "player" ? "bg-black/90" : "bg-black/90";
   const nameColor = accent === "player" ? "text-accent" : "text-red-400";
@@ -507,7 +512,7 @@ function FeaturedCard({ card, accent, command }: { card: BattleCardType; accent:
         {command && (
           <div className={`flex items-center gap-1.5 text-xs ${CMD_STYLE[command].text}`}>
             {CMD_ICON[command]}
-            <span className="font-bold">{COMMAND_LABELS[command]}</span>
+            <span className="font-bold">{getBattleCommandLabel(command, locale)}</span>
           </div>
         )}
       </div>
@@ -516,10 +521,12 @@ function FeaturedCard({ card, accent, command }: { card: BattleCardType; accent:
 }
 
 /** 전황 로그 모달 */
-function BattleLogModal({ records, mandate, onClose }: {
+function BattleLogModal({ records, mandate, onClose, locale, text }: {
   records: RoundRecord[];
   mandate: Mandate | null;
   onClose: () => void;
+  locale: string;
+  text: ReturnType<typeof getBattleText>;
 }) {
   const reversed = useMemo(() => [...records].reverse(), [records]);
 
@@ -530,8 +537,8 @@ function BattleLogModal({ records, mandate, onClose }: {
         <div className="flex items-center justify-between px-5 py-3 border-b border-white/15">
           <div className="flex items-center gap-2">
             <ScrollTextIcon size={16} className="text-white/60" />
-            <span className="text-sm font-bold text-white/80">전황 기록</span>
-            {mandate && <span className="text-[10px] text-amber-400/70 font-bold">{mandate.label}</span>}
+            <span className="text-sm font-bold text-white/80">{text.play.recordTitle}</span>
+            {mandate && <span className="text-[10px] text-amber-400/70 font-bold">{getBattleMandateLabel(mandate.command, locale)}</span>}
           </div>
           <button type="button" onClick={onClose} className="text-white/50 hover:text-white/80 transition-colors p-1">
             <span className="text-lg leading-none">&times;</span>
@@ -539,13 +546,13 @@ function BattleLogModal({ records, mandate, onClose }: {
         </div>
         <div className="max-h-[60vh] overflow-y-auto px-4 py-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
           {reversed.length === 0 && (
-            <div className="text-center text-white/40 text-xs py-8">전황 기록 없음</div>
+            <div className="text-center text-white/40 text-xs py-8">{text.play.noRecord}</div>
           )}
           {reversed.map((rec) => {
             const pDelta = rec.powerDelta.player;
             const counterLabel = rec.duelWinner
-              ? `⚔ 일기토 ${rec.duelWinner === "player" ? "승" : rec.duelWinner === "ai" ? "패" : "무"}`
-              : rec.counterResult === "win" ? "카운터" : rec.counterResult === "lose" ? "역습" : "접전";
+              ? `⚔ ${text.play.duel} ${rec.duelWinner === "player" ? text.play.duelOutcome.player : rec.duelWinner === "ai" ? text.play.duelOutcome.ai : text.play.duelOutcome.draw}`
+              : getBattleCounterLabel(rec.counterResult, locale);
             const counterColor = rec.duelWinner
               ? (rec.duelWinner === "player" ? "text-accent" : rec.duelWinner === "ai" ? "text-red-400" : "text-yellow-300")
               : rec.counterResult === "win" ? "text-amber-300" : rec.counterResult === "lose" ? "text-red-400" : "text-yellow-300";
@@ -577,6 +584,12 @@ export default function PlayPhase({
   difficulty = "normal",
   onSubmit, onSubmitRest, onAdvanceBattle, onAdvance, onAdvanceRest, onCompleteDuel, playSfx, showDialogue, onCardInfo,
 }: Props) {
+  const locale = useLocale();
+  const text = getBattleText(locale);
+  const formatHandCount = useCallback(
+    (count: number) => (locale.startsWith("en") ? `${count} cards` : `${count}장`),
+    [locale],
+  );
   const hardMode = difficulty === "hard";
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [selectedCommand, setSelectedCommand] = useState<Command | null>(null);
@@ -599,12 +612,12 @@ export default function PlayPhase({
       setEscalationAnnounce({
         key: `esc-${currentRound}`,
         label: `ROUND ${currentRound}`,
-        title: `전세 격화`,
-        subtitle: `공격 피해 +${pct}%`,
+        title: text.play.escalateTitle,
+        subtitle: `${text.play.escalateSubtitlePrefix}${pct}%`,
         tone: "red",
       });
     }
-  }, [currentRound, battleSubPhase]);
+  }, [currentRound, battleSubPhase, text.play.escalateSubtitlePrefix, text.play.escalateTitle]);
 
   const isSelecting = battleSubPhase === "selecting";
   const isClashing = battleSubPhase === "clashing";
@@ -684,14 +697,14 @@ export default function PlayPhase({
   const aiSelectedCardId = pendingRound?.aiAction.cardId ?? null;
 
   const guideText = !isSelecting
-    ? isClashing ? "충돌!" : "결과 처리 중..."
+    ? isClashing ? text.play.clash : text.play.resolving
     : playerExhausted
-    ? "손패가 소진되었습니다"
+    ? text.play.exhausted
     : !selectedCardId
-    ? "카드를 선택하세요"
+    ? text.play.chooseCard
     : !selectedCommand
-    ? "군령패를 선택하세요"
-    : "출전 준비 완료";
+    ? text.play.chooseCommand
+    : text.play.ready;
 
   // clashing에서 클릭 → clash_attack 보이스 → resolving + 결과 SFX 직접 재생
   const handleBattleClick = useCallback(() => {
@@ -745,15 +758,15 @@ export default function PlayPhase({
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="text-2xl">🔄</span>
             <div>
-              <p className="text-sm font-bold text-white/80">패 재편성</p>
-              <p className="text-xs text-white/50 mt-1">손패가 소진되어 1턴 휴식합니다</p>
+              <p className="text-sm font-bold text-white/80">{text.play.restTitle}</p>
+              <p className="text-xs text-white/50 mt-1">{text.play.restDescription}</p>
             </div>
             <button
               type="button"
               onClick={onAdvanceRest}
               className="px-5 py-2 rounded-lg bg-accent/15 border border-accent/25 text-accent text-xs font-bold hover:bg-accent/25 transition-colors"
             >
-              재편성 완료
+              {text.play.restComplete}
             </button>
           </div>
         </div>
@@ -773,10 +786,10 @@ export default function PlayPhase({
           <span className="text-[9px] sm:text-[10px] font-cinzel text-white/50 tracking-[0.2em] uppercase">RND</span>
           <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">{currentRound}</span>
           {mandate && (
-            <span className="text-[8px] lg:text-[9px] text-amber-400/80 font-bold mt-0.5 truncate max-w-full px-1">{mandate.label}</span>
+            <span className="text-[8px] lg:text-[9px] text-amber-400/80 font-bold mt-0.5 truncate max-w-full px-1">{getBattleMandateLabel(mandate.command, locale)}</span>
           )}
-          {isClashing && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">충돌!</span>}
-          {isResolving && lastRecord && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">결과</span>}
+          {isClashing && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">{text.play.clash}</span>}
+          {isResolving && lastRecord && <span className="absolute -bottom-2 text-[9px] text-white/60 font-bold">{text.play.result}</span>}
         </div>
 
         {/* 우측 (Enemy) */}
@@ -787,7 +800,7 @@ export default function PlayPhase({
               type="button"
               onClick={() => setShowLog(true)}
               className="shrink-0 w-5 h-5 rounded border border-white/15 bg-black/40 flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-colors"
-              title="전황 기록"
+              title={text.play.battleLog}
             >
               <ScrollTextIcon size={10} />
             </button>
@@ -822,7 +835,7 @@ export default function PlayPhase({
                   <span className="text-accent font-bold text-sm">{pendingRound.playerAction.card.nickname}</span>
                   <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[pendingRound.playerAction.command].text}`}>
                     {CMD_ICON[pendingRound.playerAction.command]}
-                    {COMMAND_LABELS[pendingRound.playerAction.command]}
+                    {getBattleCommandLabel(pendingRound.playerAction.command, locale)}
                   </span>
                 </div>
               </div>
@@ -848,13 +861,13 @@ export default function PlayPhase({
                 <div className="flex flex-col items-center gap-0.5">
                   <span className="text-red-400 font-bold text-sm">{pendingRound.aiAction.card.nickname}</span>
                   <span className={`flex items-center gap-1 text-xs ${CMD_STYLE[pendingRound.aiAction.command].text}`}>
-                    {COMMAND_LABELS[pendingRound.aiAction.command]}
+                    {getBattleCommandLabel(pendingRound.aiAction.command, locale)}
                     {CMD_ICON[pendingRound.aiAction.command]}
                   </span>
                 </div>
               </div>
             </div>
-            <span className="absolute bottom-12 text-xs text-white/40 animate-pulse">탭하여 계속</span>
+            <span className="absolute bottom-12 text-xs text-white/40 animate-pulse">{text.play.tapContinue}</span>
           </div>
         )}
 
@@ -865,7 +878,7 @@ export default function PlayPhase({
             style={{ zIndex: Z_INDEX.gameModal - 1 }}
           >
             <div className="w-full max-w-sm">
-              <RoundResultPanel record={lastRecord} compact playSfx={playSfx} onAdvance={onAdvance} />
+              <RoundResultPanel record={lastRecord} compact playSfx={playSfx} onAdvance={onAdvance} locale={locale} text={text} />
             </div>
           </div>
         )}
@@ -880,7 +893,7 @@ export default function PlayPhase({
                 onClick={handleBattleClick}
               >
                 <span className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/50 animate-pulse">
-                  클릭하여 계속
+                  {text.play.clickContinue}
                 </span>
               </div>
             )}
@@ -889,7 +902,7 @@ export default function PlayPhase({
               {isClashing && (
                 <div className="flex items-center gap-6">
                   <div style={{ animation: "clash-left 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }} className="w-[160px] xl:w-[200px]">
-                    <FeaturedCard card={pendingRound.playerAction.card} accent="player" command={pendingRound.playerAction.command} />
+                    <FeaturedCard card={pendingRound.playerAction.card} accent="player" command={pendingRound.playerAction.command} locale={locale} />
                   </div>
                   <div className="bg-black/80 rounded-xl px-5 py-4 flex items-center justify-center" style={{ animation: "clash-flash 0.5s ease-out forwards" }}>
                     <span className="text-5xl font-cinzel font-bold text-white/80 tracking-widest drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
@@ -897,14 +910,14 @@ export default function PlayPhase({
                     </span>
                   </div>
                   <div style={{ animation: "clash-right 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }} className="w-[160px] xl:w-[200px]">
-                    <FeaturedCard card={pendingRound.aiAction.card} accent="ai" command={pendingRound.aiAction.command} />
+                    <FeaturedCard card={pendingRound.aiAction.card} accent="ai" command={pendingRound.aiAction.command} locale={locale} />
                   </div>
                 </div>
               )}
 
               {/* 결과 */}
               {isResolving && lastRecord && (
-                <RoundResultPanel record={lastRecord} playSfx={playSfx} onAdvance={onAdvance} />
+                <RoundResultPanel record={lastRecord} playSfx={playSfx} onAdvance={onAdvance} locale={locale} text={text} />
               )}
             </div>
           </>
@@ -916,9 +929,9 @@ export default function PlayPhase({
             {/* ─ 좌측: 내 패 ─ */}
             <div className="flex flex-col gap-2 bg-black/80 rounded-xl p-3">
               <div className="flex items-center gap-2 px-1">
-                <h3 className="text-xs font-bold text-accent/70 tracking-wide uppercase">내 패</h3>
-                <span className="text-xs text-accent/50">{playerHand.length}장</span>
-                {playerDiscard.length > 0 && <span className="text-xs text-accent/40">사용 {playerDiscard.length}</span>}
+                <h3 className="text-xs font-bold text-accent/70 tracking-wide uppercase">{text.play.handMine}</h3>
+                <span className="text-xs text-accent/50">{formatHandCount(playerHand.length)}</span>
+                {playerDiscard.length > 0 && <span className="text-xs text-accent/40">{text.play.used} {playerDiscard.length}</span>}
               </div>
               <div className="flex items-start gap-3">
                 {/* 일반 카드 2×2 */}
@@ -950,7 +963,7 @@ export default function PlayPhase({
                               <BattleCard card={card} disabled={!isRecoverable} selected={isRecoverSelected} isCaptain={false} />
                               {!isRecoverable && (
                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                  <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                                  <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">{text.play.used}</span>
                                 </div>
                               )}
                             </div>
@@ -997,7 +1010,7 @@ export default function PlayPhase({
                           <BattleCard card={playerCaptain} disabled={!isRecoverable} selected={isRecoverSelected} isCaptain onCaptainInfo={() => setShowCaptainInfo(true)} />
                           {!isRecoverable && (
                             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                              <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                              <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">{text.play.used}</span>
                             </div>
                           )}
                         </div>
@@ -1035,7 +1048,7 @@ export default function PlayPhase({
                   const apt = isMandateCmd ? rawApt * MANDATE_BONUS : rawApt;
                   const stars = selectedCard ? aptitudeToStars(apt) : 0;
                   const isDisabled = !isSelecting;
-                  const label = COMMAND_LABELS[cmd];
+                  const label = getBattlePlaqueLabel(cmd, locale);
 
                   return (
                     <div key={cmd}
@@ -1097,7 +1110,7 @@ export default function PlayPhase({
                               color: "rgba(200,160,100,0.6)",
                               textShadow: "0 -1px 1px rgba(0,0,0,0.8)",
                             }}>
-                              {cmd === "assault" ? "武" : cmd === "stratagem" ? "智" : "政"}
+                              {getBattleSealLabel(cmd, locale)}
                             </span>
                           </div>
                           <div className="w-7 xl:w-9 h-px bg-gradient-to-r from-transparent via-[#a07850]/40 to-transparent" />
@@ -1172,10 +1185,10 @@ export default function PlayPhase({
                           fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
                           textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(100,180,255,0.3)",
                         }}>
-                          한 턴 쉬기
+                          {text.play.restButton}
                         </span>
                         <span className="text-[9px] xl:text-[10px] text-blue-300/50 mt-1">
-                          버린패에서 랜덤 징집
+                          {text.play.randomRecover}
                         </span>
                       </div>
                     </div>
@@ -1250,14 +1263,14 @@ export default function PlayPhase({
                             WebkitTextFillColor: "transparent",
                           } : {}),
                         }}>
-                          出戰
+                          {text.play.advance}
                         </span>
                       </div>
                       {isReady && isSelecting && (
                         <span className="text-[9px] xl:text-[10px] tracking-[0.4em] ml-[0.4em] font-bold text-[#d4a843]/60 leading-tight mt-1" style={{
                           filter: "drop-shadow(0 -1px 1px rgba(0,0,0,0.8)) drop-shadow(0 1px 1px rgba(255,255,255,0.15))"
                         }}>
-                          진군
+                          {text.play.advance}
                         </span>
                       )}
                     </div>
@@ -1288,9 +1301,9 @@ export default function PlayPhase({
             {/* ─ 우측: 상대 패 ─ */}
             <div className="flex flex-col gap-2 bg-black/80 rounded-xl p-3">
               <div className="flex items-center gap-2 px-1">
-                <h3 className="text-xs font-bold text-red-400/70 tracking-wide uppercase">상대 패</h3>
-                <span className="text-xs text-red-400/50">{aiHand.length}장</span>
-                {aiDiscard.length > 0 && <span className="text-xs text-red-400/40">사용 {aiDiscard.length}</span>}
+                <h3 className="text-xs font-bold text-red-400/70 tracking-wide uppercase">{text.play.handEnemy}</h3>
+                <span className="text-xs text-red-400/50">{formatHandCount(aiHand.length)}</span>
+                {aiDiscard.length > 0 && <span className="text-xs text-red-400/40">{text.play.used} {aiDiscard.length}</span>}
               </div>
               <div className="flex items-start gap-3">
                 {/* 주장 (좌측 — 군령패에 가까운 쪽) */}
@@ -1302,7 +1315,7 @@ export default function PlayPhase({
                         <div className="@container w-[120px] xl:w-[160px] relative opacity-30 grayscale pointer-events-none">
                           <BattleCard card={aiCaptain} disabled isCaptain onCaptainInfo={() => setShowCaptainInfo(true)} />
                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                            <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">{text.play.used}</span>
                           </div>
                         </div>
                       </div>
@@ -1338,7 +1351,7 @@ export default function PlayPhase({
                             <div key={card.id} className="@container relative opacity-30 grayscale pointer-events-none">
                               <BattleCard card={card} disabled isCaptain={false} />
                               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">사용</span>
+                                <span className="text-[10px] font-bold text-white/50 bg-black/60 border border-white/10 px-2 py-0.5 rounded">{text.play.used}</span>
                               </div>
                             </div>
                           );
@@ -1412,11 +1425,11 @@ export default function PlayPhase({
 
                               <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-0.5">
                                 {isCaptain && <span className="text-amber-400 text-[12px] shrink-0 drop-shadow-[0_0_4px_rgba(217,169,78,0.5)]">&#9813;</span>}
-                                <span className={`text-[13px] font-['Noto_Serif_KR',_serif] font-bold truncate ${
+                                <span className={`text-[13px] font-serif font-bold truncate ${
                                   isRecoverSelected ? "text-[#ffeeb5] drop-shadow-[0_0_6px_rgba(217,169,78,0.5)]" : isRecoverable ? "text-[#a09070]" : "text-[#706050] line-through"
                                 }`}>{card.nickname}</span>
                               </div>
-                              <span className="text-[10px] font-['Noto_Serif_KR',_serif] font-bold text-[#d9a94e]/40 mt-0.5 z-10">{isRecoverable ? "회수" : "사용됨"}</span>
+                              <span className="text-[10px] font-serif font-bold text-[#d9a94e]/40 mt-0.5 z-10">{isRecoverable ? text.play.recovered : text.play.usedDone}</span>
                             </button>
                           );
                         }
@@ -1457,7 +1470,7 @@ export default function PlayPhase({
 
                             <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-1">
                               {isCaptain && <span className="text-amber-400 text-[12px] shrink-0 drop-shadow-[0_0_4px_rgba(217,169,78,0.6)]">&#9813;</span>}
-                              <span className={`text-[14px] leading-tight truncate font-['Noto_Serif_KR',_serif] font-bold ${
+                              <span className={`text-[14px] leading-tight truncate font-serif font-bold ${
                                 isSelected ? "text-[#ffeeb5] drop-shadow-[0_0_8px_rgba(217,169,78,0.6)]" : isSelecting ? "text-[#e8d4a2] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" : "text-[#a09070]"
                               }`}>
                                 {card.nickname}
@@ -1468,7 +1481,7 @@ export default function PlayPhase({
 
                             <div className="flex items-center justify-center gap-2.5 z-10 mb-1">
                               {stars.map((s, i) => (
-                                <span key={i} className={`flex items-center gap-[2px] text-[11px] font-['Noto_Serif_KR',_serif] font-black tabular-nums ${
+                                <span key={i} className={`flex items-center gap-[2px] text-[11px] font-serif font-black tabular-nums ${
                                   selectedCommand === COMMANDS[i]
                                     ? CMD_STYLE[COMMANDS[i]].text
                                     : s >= 4 ? "text-[#e8c050]" : "text-[#a09070]/70"
@@ -1517,9 +1530,9 @@ export default function PlayPhase({
 
                             <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-0.5">
                               {isCaptain && <span className="text-amber-400/40 text-[12px] shrink-0">&#9813;</span>}
-                              <span className="text-[13px] font-['Noto_Serif_KR',_serif] font-bold truncate text-[#806060] line-through">{card.nickname}</span>
+                              <span className="text-[13px] font-serif font-bold truncate text-[#806060] line-through">{card.nickname}</span>
                             </div>
-                            <span className="text-[10px] font-['Noto_Serif_KR',_serif] font-bold text-[#806060]/50 mt-0.5 z-10">사용됨</span>
+                            <span className="text-[10px] font-serif font-bold text-[#806060]/50 mt-0.5 z-10">{text.play.usedDone}</span>
                           </div>
                         );
                       }
@@ -1556,7 +1569,7 @@ export default function PlayPhase({
 
                           <div className="flex items-center justify-center gap-1.5 w-full min-w-0 z-10 px-1 mt-1">
                             {isCaptain && <span className="text-amber-400 text-[12px] shrink-0 drop-shadow-[0_0_4px_rgba(217,169,78,0.5)]">&#9813;</span>}
-                            <span className={`text-[14px] leading-tight truncate font-['Noto_Serif_KR',_serif] font-bold ${
+                            <span className={`text-[14px] leading-tight truncate font-serif font-bold ${
                               showFace ? "text-[#ffcccc] drop-shadow-[0_0_8px_rgba(248,113,113,0.6)]" : "text-[#b08080] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
                             }`}>
                               {hardMode && !isCaptain ? "???" : card.nickname}
@@ -1568,7 +1581,7 @@ export default function PlayPhase({
                           {!hardMode || isCaptain ? (
                             <div className="flex items-center justify-center gap-2.5 z-10 mb-1">
                               {stars.map((s, i) => (
-                                <span key={i} className={`flex items-center gap-[2px] text-[11px] font-['Noto_Serif_KR',_serif] font-black tabular-nums ${
+                                <span key={i} className={`flex items-center gap-[2px] text-[11px] font-serif font-black tabular-nums ${
                                   selectedCommand === COMMANDS[i]
                                     ? CMD_STYLE[COMMANDS[i]].text
                                     : s >= 4 ? "text-[#e8c050]" : "text-[#b08080]/70"
@@ -1581,7 +1594,7 @@ export default function PlayPhase({
                               ))}
                             </div>
                           ) : (
-                            <div className="flex items-center justify-center gap-2.5 z-10 mb-1 text-[11px] font-['Noto_Serif_KR',_serif] font-bold text-[#b08080]/50" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                            <div className="flex items-center justify-center gap-2.5 z-10 mb-1 text-[11px] font-serif font-bold text-[#b08080]/50" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
                               {COMMANDS.map((cmd, i) => (
                                 <span key={i} className="flex items-center gap-[2px]">
                                   <span className="[&>svg]:w-[11px] [&>svg]:h-[11px]">{CMD_ICON[cmd]}</span>?
@@ -1630,7 +1643,7 @@ export default function PlayPhase({
                     {/* 초상화 내부 그라데이션 및 이름 표기 */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                     <div className="absolute bottom-1 left-0 right-0 text-center">
-                      <span className="text-[11px] font-bold text-[#e8d4a2] drop-shadow-[0_1px_3px_rgba(0,0,0,1)] font-['Noto_Serif_KR',_serif] tracking-wider truncate px-1 block">
+                      <span className="text-[11px] font-bold text-[#e8d4a2] drop-shadow-[0_1px_3px_rgba(0,0,0,1)] font-serif tracking-wider truncate px-1 block">
                         {selectedCard.nickname}
                       </span>
                     </div>
@@ -1638,7 +1651,7 @@ export default function PlayPhase({
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-1 opacity-40">
                     <span className="text-[24px] text-[#a07850] opacity-50 font-serif">?</span>
-                    <span className="text-[8px] font-bold text-[#a07850] tracking-widest">출전 대기</span>
+                    <span className="text-[8px] font-bold text-[#a07850] tracking-widest">{text.play.waiting}</span>
                   </div>
                 )}
                 
@@ -1665,7 +1678,7 @@ export default function PlayPhase({
                     const apt = isMandateCmd ? rawApt * MANDATE_BONUS : rawApt;
                     const stars = selectedCard ? aptitudeToStars(apt) : 0;
                     const isDisabled = !isSelecting;
-                    const label = COMMAND_LABELS[cmd];
+                    const label = getBattlePlaqueLabel(cmd, locale);
 
                     return (
                       <div key={cmd} className={`relative transition-all duration-300 ease-out ${
@@ -1716,8 +1729,8 @@ export default function PlayPhase({
                                 background: "radial-gradient(circle at 40% 35%, #6a4830 0%, #3a2818 60%, #2a1a10 100%)",
                                 boxShadow: "inset 0 1px 1px rgba(140,100,60,0.3), inset 0 -1px 1px rgba(0,0,0,0.5)",
                               }} />
-                              <span className="relative text-[7px] font-bold select-none text-[#c8a064]/60 font-['Noto_Serif_KR',_serif]">
-                                {cmd === "assault" ? "武" : cmd === "stratagem" ? "智" : "政"}
+                              <span className="relative text-[7px] font-bold select-none text-[#c8a064]/60 font-serif">
+                                {getBattleSealLabel(cmd, locale)}
                               </span>
                             </div>
                           </div>
@@ -1777,10 +1790,10 @@ export default function PlayPhase({
                         boxShadow: "inset 0 1px 3px rgba(0,0,0,0.7), inset 0 -1px 2px rgba(100,180,255,0.1)",
                       }} />
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span className="text-[14px] font-bold tracking-[0.1em] ml-[0.1em] select-none text-blue-200/90 font-['Noto_Serif_KR',_serif]" style={{
+                        <span className="text-[14px] font-bold tracking-[0.1em] ml-[0.1em] select-none text-blue-200/90 font-serif" style={{
                           textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 6px rgba(100,180,255,0.3)",
                         }}>
-                          한 턴 쉬기
+                          {text.play.restButton}
                         </span>
                       </div>
                     </button>
@@ -1830,12 +1843,12 @@ export default function PlayPhase({
                       >◆</span>
 
                       <div className="flex flex-col items-center justify-center">
-                         <span className={`text-[18px] font-bold tracking-[0.2em] ml-[0.2em] leading-none select-none font-['Noto_Serif_KR',_serif] transition-colors duration-300 ${
+                         <span className={`text-[18px] font-bold tracking-[0.2em] ml-[0.2em] leading-none select-none font-serif transition-colors duration-300 ${
                           isReady && isSelecting ? "text-[#fcf6ea]" : "text-white/40"
                         }`} style={isReady && isSelecting ? {
                           textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(212,168,67,0.5)",
                         } : {}}>
-                          出戰
+                          {text.play.advance}
                         </span>
                       </div>
 
@@ -1861,7 +1874,7 @@ export default function PlayPhase({
         <CommandInfoModal command={infoCmd} onClose={() => setInfoCmd(null)} zIndex={Z_INDEX.gameModal} />
       )}
       {showLog && (
-        <BattleLogModal records={roundRecords} mandate={mandate} onClose={() => setShowLog(false)} />
+        <BattleLogModal records={roundRecords} mandate={mandate} onClose={() => setShowLog(false)} locale={locale} text={text} />
       )}
       {showCaptainInfo && (
         <CaptainInfoModal onClose={() => setShowCaptainInfo(false)} zIndex={Z_INDEX.gameModal} />

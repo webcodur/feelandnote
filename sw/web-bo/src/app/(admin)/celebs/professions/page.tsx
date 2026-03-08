@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getCelebsForTitleEdit } from '@/actions/admin/celebs'
+import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import CelebProfessionEditor from '../../members/professions/CelebProfessionEditor'
 
 export const metadata: Metadata = {
@@ -14,6 +15,11 @@ export default async function CelebProfessionsPage() {
 
   return (
     <div className="space-y-4 md:space-y-6">
+      <CelebSearchBar
+        className="max-w-xl"
+        detailPathTemplate="/celebs/professions/[slug]"
+      />
+
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link

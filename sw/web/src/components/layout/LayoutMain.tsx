@@ -7,13 +7,11 @@ import FloatingMusicPlayer from "./FloatingMusicPlayer";
 import RecentProfilesSection from "@/components/features/profile/RecentProfilesSection";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth < 768;
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

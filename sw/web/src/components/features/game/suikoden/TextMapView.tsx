@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import type { GameState, RegionId, TerritoryId } from '@/lib/game/suikoden/types'
 import { REGIONS, TERRITORIES } from '@/lib/game/suikoden/constants'
+import { getSuikodenText, stripSuikodenFactionSuffix } from './i18n'
 
 interface Props {
   state: GameState
@@ -18,6 +20,9 @@ export default function TextMapView({
   state, viewingTerritoryId, selectedTerritoryId,
   currentRegionId, onSelectTerritory, onSelectRegion, phase,
 }: Props) {
+  const locale = useLocale()
+  const tS = useTranslations('rest.arena.suikoden')
+  const text = getSuikodenText(locale)
   const [focusedRegion, setFocusedRegion] = useState<RegionId | null>(null)
 
   const viewingRegionId = phase === 'wandering'
@@ -98,7 +103,7 @@ export default function TextMapView({
               }`}
               style={{ fontFamily: 'var(--font-sans)' }}
             >
-              {region.name}
+              {tS(`region.${region.id}`)}
             </div>
 
             {/* 3열: 거점 */}
@@ -115,7 +120,7 @@ export default function TextMapView({
                       e.stopPropagation()
                       onSelectTerritory(tDef.id)
                     }}
-                    title={`${tDef.name}${owner ? ` (${owner.name})` : ' (무주지)'}`}
+                    title={`${tS(`territory.${tDef.id}`)}${owner ? ` (${stripSuikodenFactionSuffix(owner.name)})` : ` (${text.map.unclaimed})`}`}
                     style={{ fontFamily: 'var(--font-sans)', fontWeight: isViewing ? 700 : 400 }}
                     className={`text-[10px] px-1.5 py-0.5 rounded border transition-all duration-150 ${
                       isViewing
@@ -128,7 +133,7 @@ export default function TextMapView({
                     }`}
                   >
                     {isPlayer && <span className="text-red-400 mr-0.5">★</span>}
-                    {tDef.name}
+                    {tS(`territory.${tDef.id}`)}
                     {owner && (
                       <span
                         className="inline-block w-1.5 h-1.5 rounded-full ml-1 align-middle"
@@ -149,7 +154,7 @@ export default function TextMapView({
                   style={{ fontFamily: 'var(--font-sans)', fontWeight: 600 }}
                   className="text-[9px] px-2 py-0.5 rounded bg-amber-700/50 hover:bg-amber-600/60 text-amber-200 transition-colors ml-auto border border-amber-600/30"
                 >
-                  이동 →
+                  {text.map.move}
                 </button>
               )}
             </div>

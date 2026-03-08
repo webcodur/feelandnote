@@ -6,22 +6,23 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import type { TrackerContent } from "@/actions/game/getTrackerRound";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
-
-const TYPE_CONFIG: Record<string, { icon: typeof Book; label: string; color: string }> = {
-  BOOK: { icon: Book, label: "도서", color: "text-blue-400" },
-  VIDEO: { icon: Film, label: "영상", color: "text-purple-400" },
-  GAME: { icon: Gamepad2, label: "게임", color: "text-green-400" },
-  MUSIC: { icon: Music, label: "음악", color: "text-orange-400" },
-};
 
 interface ContentRevealProps {
   content: TrackerContent;
 }
 
 export default function ContentReveal({ content }: ContentRevealProps) {
-  const config = TYPE_CONFIG[content.type] ?? TYPE_CONFIG.BOOK;
+  const tGame = useTranslations("rest.arena.labyrinth.game");
+  const typeConfig: Record<string, { icon: typeof Book; label: string; color: string }> = {
+    BOOK: { icon: Book, label: tGame("contentTypes.BOOK"), color: "text-blue-400" },
+    VIDEO: { icon: Film, label: tGame("contentTypes.VIDEO"), color: "text-purple-400" },
+    GAME: { icon: Gamepad2, label: tGame("contentTypes.GAME"), color: "text-green-400" },
+    MUSIC: { icon: Music, label: tGame("contentTypes.MUSIC"), color: "text-orange-400" },
+  };
+  const config = typeConfig[content.type] ?? typeConfig.BOOK;
   const Icon = config.icon;
 
   return (

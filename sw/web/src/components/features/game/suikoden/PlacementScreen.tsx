@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useLocale } from 'next-intl'
 import type { BattleState, BattleUnit, GridPosition } from '@/lib/game/suikoden/types'
 import { BATTLE_GRID_ROWS, BATTLE_GRID_COLS, CLASS_INFO, CLASS_DEFAULT_ROW } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
+import { getSuikodenText } from './i18n'
 
 interface Props {
   state: BattleState
@@ -11,6 +13,8 @@ interface Props {
 }
 
 export default function PlacementScreen({ state, onConfirm }: Props) {
+  const locale = useLocale()
+  const text = getSuikodenText(locale)
   const [allies, setAllies] = useState<BattleUnit[]>(state.allies)
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
@@ -48,13 +52,13 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
     }
   }
 
-  const ROW_LABELS = ['전열', '중열', '후열']
+  const rowLabels = [text.battle.row.front, text.battle.row.middle, text.battle.row.rear]
 
   return (
     <div className="space-y-4">
       <div className="text-center">
-        <h3 className="text-sm font-bold text-stone-200">부대 배치</h3>
-        <p className="text-[10px] text-stone-500 mt-1">유닛을 클릭하여 위치를 변경하세요</p>
+        <h3 className="text-sm font-bold text-stone-200">{text.placement.title}</h3>
+        <p className="text-[10px] text-stone-500 mt-1">{text.placement.subtitle}</p>
       </div>
 
       {/* 그리드 */}
@@ -62,7 +66,7 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
         {grid.map((row, rowIdx) => (
           <div key={rowIdx} className="flex items-center gap-1">
             <span className="text-[9px] text-stone-600 w-6 text-right shrink-0">
-              {ROW_LABELS[rowIdx]}
+              {rowLabels[rowIdx]}
             </span>
             <div className="flex gap-1">
               {row.map((unit, colIdx) => {
@@ -113,7 +117,7 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
 
       {/* 적군 배치 미리보기 */}
       <div className="border-t border-stone-700 pt-3">
-        <p className="text-[9px] text-stone-500 mb-1.5">적군 배치</p>
+        <p className="text-[9px] text-stone-500 mb-1.5">{text.placement.enemyPreview}</p>
         <div className="flex flex-wrap gap-1">
           {state.enemies.map(u => (
             <div key={u.id} className="flex items-center gap-1 px-1.5 py-0.5 bg-stone-800 rounded border border-red-800/30">
@@ -130,7 +134,7 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
         onClick={() => onConfirm(allies)}
         className="w-full py-2.5 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500 transition-colors"
       >
-        전투 개시
+        {text.placement.confirm}
       </button>
     </div>
   )

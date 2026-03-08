@@ -55,6 +55,8 @@ export interface CelebProfile {
   greeting_en?: string[] | null  // 인사 대사 영문 (3변형)
   speech_tone?: string | null  // 말투 톤 (loyal, composed, bold, humble, gentle, free)
   has_voice?: boolean  // R2 음성 파일 보유 여부
+  voice_v?: number  // 음성 버전 (CDN 캐시 키)
+  celeb_tier?: 'full' | 'light'  // full: 감상 기록 보유, light: 감상 철학만
 }
 
 export interface CelebReview {

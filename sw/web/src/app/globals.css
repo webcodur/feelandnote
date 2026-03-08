@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 @import "tailwindcss";
+
+/* Pretendard: CJK(한글/한자/가나) + 특수문자만 담당, Latin은 Inter에게 위임 */
+@font-face {
+  font-family: "Pretendard CJK";
+  src: local("Pretendard Variable"), local("Pretendard");
+  unicode-range: U+AC00-D7AF, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF, /* 한글 */
+                 U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, /* CJK 한자 */
+                 U+3040-309F, U+30A0-30FF, U+31F0-31FF, /* 히라가나/카타카나 */
+                 U+2E80-2EFF, U+3000-303F, U+FF00-FFEF; /* CJK 기호, 전각 */
+  font-weight: 100 900;
+  font-display: swap;
+}
 @plugin "@tailwindcss/typography";
 
 @theme {
@@ -31,12 +44,11 @@
   --color-status-paused: #db4d4d;
   --color-status-wish: #d4af37;
 
-  /* Fonts */
+  /* Fonts — Latin: Inter, CJK: Pretendard (unicode-range fallback) */
   --font-cinzel: var(--font-cinzel), serif;
   --font-cormorant: var(--font-cormorant), serif;
-  --font-serif: var(--font-noto-serif), "Noto Serif KR", serif;
-  /* "General" font for less rigid contexts (Inputs, dense UI) - Strictly opt-in */
-  --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; 
+  --font-serif: var(--font-inter), "Pretendard CJK", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
+  --font-sans: var(--font-inter), "Pretendard CJK", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
   
   /* Typography Settings */
   --tracking-cinzel: 0.1em; /* Wide tracking for authority */

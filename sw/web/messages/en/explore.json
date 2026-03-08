@@ -17,6 +17,7 @@
     },
     "ui": {
       "tabs": {
+        "hub": "Hub",
         "celebs": "Celebs",
         "social": "Social",
         "friends": "Friends",
@@ -130,9 +131,49 @@
         "9": "81+"
       }
     },
+    "hub": {
+      "groupDocumented": "Chroniclers",
+      "groupDocumentedDesc": "Figures whose reading, viewing, and listening histories are documented. Their choices light the way to your next discovery.",
+      "groupThinkers": "Thinkers of Unknown Records",
+      "groupThinkersDesc": "No consumption records survive, yet the ideas they left behind are works of art in themselves.",
+      "deepReaders": "Prolific Chroniclers",
+      "deepReadersSub": "Figures with 30+ documented records. A rich archive reveals one person's worldview.",
+      "topByType": "Top by Category",
+      "topByTypeSub": "The most prolific chroniclers in Books, Film, Games, and Music.",
+      "lightCelebs": "All Thinkers",
+      "lightCelebsSub": "Philosophy beyond the record. Their thinking adds a new lens to your own appreciation.",
+      "spotlight": "Spotlight",
+      "spotlightSub": "Curated collections of figures united by a single theme, transcending eras and fields.",
+      "allCelebs": "All Chroniclers",
+      "allCelebsSub": "Freely explore the shelves of every chronicler.",
+      "personaExtremes": "Extraordinary Chroniclers",
+      "personaExtremesSub": "Figures with distinct virtues, exceptional abilities, and profound traits. See how their unique characteristics shape their records.",
+      "viewMore": "View more",
+      "viewAll": "View all",
+      "quickNav": "Quick Navigation",
+      "navCelebs": "All Figures",
+      "navTopByType": "Top by Category",
+      "navPersona": "Extraordinary",
+      "navFeed": "Celeb Feed",
+      "navSpotlight": "Spotlight"
+    },
     "celebFeed": {
       "metaTitle": "Celeb Feed | Explore",
       "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+    },
+    "topByType": {
+      "metaTitle": "Top by Category | Explore",
+      "rank": "#{rank}",
+      "count": "{count} items",
+      "infoMax": "Top",
+      "infoAvg": "Avg",
+      "infoTotal": "Total",
+      "sharedTitle": "Shared Across Top Chroniclers",
+      "sharedDesc": "Works enjoyed by 2 or more of the Top {count}.",
+      "sharedBy": "Appreciated by"
+    },
+    "persona": {
+      "metaTitle": "Extraordinary Chroniclers | Explore"
     },
     "spotlight": {
       "metaTitle": "Spotlight | Explore",
@@ -149,6 +190,11 @@
       "timeline": {
         "title": "Content Chronicle",
         "empty": "No content records"
+      },
+      "intro": {
+        "title": "Trajectories of Appreciation Across Eras",
+        "description": "Explore the libraries of figures united by a single theme, transcending eras and fields.\nTheir brightly shining records guide your new discoveries.",
+        "select": "Select Theme"
       }
     }
   },

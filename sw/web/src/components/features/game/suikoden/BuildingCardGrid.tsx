@@ -126,7 +126,7 @@ export default function BuildingCardGrid({
       {viewMode && (
         <div className="absolute inset-0 z-20 flex items-end justify-end p-4">
           <div className="flex items-center gap-3">
-            <span className="text-sm text-white/80 font-serif">{territory.name}</span>
+            <span className="text-sm text-white/80 font-serif">{tS(`territory.${territory.id}`)}</span>
             <button
               onClick={() => setViewMode(false)}
               className="w-7 h-7 rounded-full bg-black/40 text-white/70 hover:text-white hover:bg-black/60 transition-colors text-xs flex items-center justify-center"
@@ -141,7 +141,7 @@ export default function BuildingCardGrid({
       {/* region 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-stone-200">{territory.name}</span>
+          <span className="text-xs font-bold text-stone-200">{tS(`territory.${territory.id}`)}</span>
           <span className="text-[10px] text-stone-500">{tS('mgmt.buildingCount', { current: slotUsed, max: slotMax })}</span>
           <button
             onClick={() => setViewMode(true)}

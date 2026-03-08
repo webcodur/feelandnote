@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getPersonaVectors } from '@/actions/admin/persona'
+import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import PersonaReferencePanel from './components/PersonaReferencePanel'
 import VectorDashboard from './components/VectorChart'
 
@@ -14,6 +15,11 @@ export default async function PersonaVectorPage() {
 
   return (
     <div className="space-y-6">
+      <CelebSearchBar
+        className="max-w-xl"
+        detailPathTemplate="/celebs/vectors/[slug]"
+      />
+
       <div className="flex items-center gap-4">
         <Link
           href="/celebs"

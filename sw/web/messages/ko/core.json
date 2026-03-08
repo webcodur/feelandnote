@@ -24,7 +24,12 @@
       "defaultName": "사용자",
       "login": "로그인",
       "myPage": "내 페이지",
-      "logout": "로그아웃"
+      "logout": "로그아웃",
+      "community": "커뮤니티",
+      "social": "소셜",
+      "feed": "피드",
+      "notice": "공지사항",
+      "feedback": "피드백"
     },
     "locale": {
       "switchTo": "English",
@@ -116,7 +121,7 @@
       },
       "category_4": {
         "name": "르네상스인",
-        "description": "모든 분야의 감상가"
+        "description": "모든 분야의 기록가"
       },
       "creator_10": {
         "name": "작가 헌터",
@@ -136,7 +141,7 @@
       },
       "long_review_10": {
         "name": "리뷰 장인",
-        "description": "말이 많은 감상가"
+        "description": "말이 많은 기록가"
       },
       "completed_10": {
         "name": "구획 마스터",
@@ -292,7 +297,8 @@
     },
     "persona": {
       "ability": "능력",
-      "virtue": "품성",
+      "inner_virtue": "내면 품성",
+      "outer_virtue": "외면 품성",
       "tendency": "성향",
       "noData": "데이터 없음",
       "stat": {

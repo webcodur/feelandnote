@@ -1,9 +1,10 @@
 {
   "nav": {
+    "home": "홈",
     "explore": "인물",
     "scriptures": "서가",
-    "agora": "광장",
     "rest": "쉼터",
+    "agora": "광장",
     "archive": "내 기록",
     "sub": {
       "celebs": "셀럽",
@@ -20,13 +21,24 @@
       "suikoden": "천도",
       "spotlight": "스포트라이트",
       "social": "소셜",
-      "socialFeed": "소셜 피드"
+      "socialFeed": "소셜 피드",
+      "era": "불후의 명작",
+      "profession": "갈림길",
+      "figure": "오늘의 인물",
+      "museum": "박물관",
+      "academy": "학당",
+      "topByType": "분야별 기록가",
+      "persona": "비범한 기록가"
     },
     "footer": {
       "about": "서비스 소개",
       "search": "검색",
       "terms": "이용약관",
-      "privacy": "개인정보처리방침"
+      "privacy": "개인정보처리방침",
+      "misc": "기타",
+      "social": "소셜",
+      "notice": "공지사항",
+      "feedback": "피드백"
     }
   },
   "moreMenu": {

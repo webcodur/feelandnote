@@ -8,6 +8,7 @@
 
 import Image from "next/image";
 import { Info } from "lucide-react";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
@@ -32,6 +33,8 @@ export default function DawnBoardCard({
   onInfoClick,
   className,
 }: DawnBoardCardProps) {
+  const locale = useLocale();
+
   return (
     <div
       data-board-card
@@ -79,7 +82,7 @@ export default function DawnBoardCard({
       <div className="bg-white/[0.08] px-1.5 py-1 md:px-2 md:py-1.5 flex flex-col items-center text-center">
         {profession && (
           <span className="text-[8px] md:text-[10px] text-accent font-bold tracking-wider">
-            {getCelebProfessionLabel(profession)}
+            {getCelebProfessionLabel(profession, locale)}
           </span>
         )}
 

@@ -6,7 +6,7 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import ScripturesTabs from "@/components/features/scriptures/ScripturesTabs";
+import HubBackLink from "@/components/shared/HubBackLink";
 import TreeBanner from "@/components/lab/TreeBanner";
 import PageBanner from "@/components/shared/PageBanner";
 import { getTranslations } from "next-intl/server";
@@ -36,7 +36,7 @@ export default async function ScripturesLayout({ children }: Props) {
         </TreeBanner>
       </PageBanner>
       <PageContainer>
-        <ScripturesTabs />
+        <HubBackLink hubPath="/scriptures" label={title} />
         {children}
       </PageContainer>
     </>

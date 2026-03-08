@@ -34,20 +34,23 @@ function SpotlightSkeleton() {
   );
 }
 
-async function SpotlightServer() {
+async function SpotlightServer({ initialTagId }: { initialTagId?: string }) {
   const featuredTags = await getFeaturedTags();
 
   return (
     <AsyncIntlProvider>
-      <FeaturedSpotlight tags={featuredTags} location="explore-pc" />
+      <FeaturedSpotlight tags={featuredTags} location="explore-pc" initialTagId={initialTagId} />
     </AsyncIntlProvider>
   );
 }
 
-export default function SpotlightPage() {
+export default async function SpotlightPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams;
+  const tag = typeof params.tag === "string" ? params.tag : undefined;
+
   return (
     <Suspense fallback={<SpotlightSkeleton />}>
-      <SpotlightServer />
+      <SpotlightServer initialTagId={tag} />
     </Suspense>
   );
 }

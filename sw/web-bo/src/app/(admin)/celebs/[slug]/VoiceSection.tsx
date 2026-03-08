@@ -1,40 +1,35 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
-import { Upload, Play, Pause, Trash2, Check, Loader2, Volume2, VolumeX } from 'lucide-react'
-import { uploadVoiceFile, toggleHasVoice, deleteAllVoiceFiles } from '@/actions/admin/voice'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { Upload, Play, Pause, Trash2, Loader2, FolderUp } from 'lucide-react'
+import { uploadVoiceFile, toggleHasVoice, deleteAllVoiceFiles, getVoiceStatus } from '@/actions/admin/voice'
+import { bumpVoiceVersion } from '@/actions/admin/voice-gen'
 import { useToast } from '@/contexts/ToastContext'
+import { LOCALES, allVoiceSlots, voicePublicUrl } from '@/lib/voice-path'
 
-const R2_PUBLIC_URL = 'https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev'
-
-const DIALOGUE_TYPES = ['greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
-const TYPE_PREFIX: Record<string, string> = {
-  greeting: 'g', roll_call: 'a', deploy: 'd',
-  battle_win: 'bw', battle_draw: 'bd', battle_lose: 'bl', clash_attack: 'c',
-}
-const TYPE_LABELS: Record<string, string> = {
-  greeting: '인사', roll_call: '호명', deploy: '출전',
-  battle_win: '승리', battle_draw: '무승부', battle_lose: '패배', clash_attack: '공격',
-}
-const LOCALES = ['ko', 'en'] as const
+const SLOTS = allVoiceSlots()
+const VALID_FILES = new Set(SLOTS.map((s) => s.fileName))
 
 interface VoiceSectionProps {
   celebId: string
   initialHasVoice: boolean
 }
 
-function voiceUrl(celebId: string, locale: string, file: string) {
-  return `${R2_PUBLIC_URL}/celebs/${celebId}/voice/${locale}/${file}`
-}
-
 export default function VoiceSection({ celebId, initialHasVoice }: VoiceSectionProps) {
   const { showToast } = useToast()
   const [hasVoice, setHasVoice] = useState(initialHasVoice)
+  const [voiceV, setVoiceV] = useState(0)
   const [activeLang, setActiveLang] = useState<'ko' | 'en'>('ko')
   const [uploading, setUploading] = useState<string | null>(null)
   const [playing, setPlaying] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [batchProgress, setBatchProgress] = useState<{ done: number; total: number; current: string } | null>(null)
+  const [batchResults, setBatchResults] = useState<{ matched: string[]; skipped: string[] } | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    getVoiceStatus(celebId).then(({ voiceV: v }) => setVoiceV(v)).catch(() => {})
+  }, [celebId])
 
   const handleToggle = useCallback(async () => {
     const next = !hasVoice
@@ -52,6 +47,8 @@ export default function VoiceSection({ celebId, initialHasVoice }: VoiceSectionP
     fd.append('file', file)
     const result = await uploadVoiceFile(celebId, activeLang, fileName, fd)
     if (result.success) {
+      const newV = await bumpVoiceVersion(celebId)
+      setVoiceV(newV)
       showToast('success', `${fileName} 업로드 완료`)
     } else {
       showToast('error', result.error || '업로드 실패')
@@ -67,7 +64,7 @@ export default function VoiceSection({ celebId, initialHasVoice }: VoiceSectionP
       return
     }
     audioRef.current?.pause()
-    const audio = new Audio(voiceUrl(celebId, activeLang, fileName))
+    const audio = new Audio(voicePublicUrl(celebId, activeLang, fileName, voiceV))
     audio.addEventListener('ended', () => setPlaying(null), { once: true })
     audio.addEventListener('error', () => {
       showToast('error', '파일이 없거나 재생 불가')
@@ -76,25 +73,61 @@ export default function VoiceSection({ celebId, initialHasVoice }: VoiceSectionP
     audio.play().catch(() => setPlaying(null))
     audioRef.current = audio
     setPlaying(key)
-  }, [celebId, activeLang, playing, showToast])
+  }, [celebId, activeLang, voiceV, playing, showToast])
 
   const handleDeleteAll = useCallback(async () => {
     if (!confirm('모든 음성 파일을 삭제하시겠습니까?')) return
     setDeleting(true)
     await deleteAllVoiceFiles(celebId)
     setHasVoice(false)
+    setVoiceV(0)
     showToast('success', '전체 음성 삭제 완료')
     setDeleting(false)
   }, [celebId, showToast])
 
-  const slots: { label: string; fileName: string }[] = []
-  for (const type of DIALOGUE_TYPES) {
-    const prefix = TYPE_PREFIX[type]
-    for (const v of [1, 2, 3]) {
-      slots.push({ label: `${TYPE_LABELS[type]} ${v}`, fileName: `${prefix}${v}.mp3` })
+  const handleBatchUpload = useCallback(async (files: FileList) => {
+    const matched: { file: File; fileName: string }[] = []
+    const skipped: string[] = []
+
+    for (const file of Array.from(files)) {
+      const name = file.name.toLowerCase()
+      if (VALID_FILES.has(name)) {
+        matched.push({ file, fileName: name })
+      } else {
+        skipped.push(file.name)
+      }
     }
-  }
-  slots.push({ label: '명언', fileName: 'quote.mp3' })
+
+    setBatchResults({ matched: matched.map(m => m.fileName), skipped })
+
+    if (matched.length === 0) {
+      showToast('error', '매칭되는 파일이 없다. (g1~3, r1~3, d1~3, bw1~3, bd1~3, bl1~3, c1~3, quote)')
+      return
+    }
+
+    setBatchProgress({ done: 0, total: matched.length, current: matched[0].fileName })
+
+    let success = 0
+    let fail = 0
+    for (let i = 0; i < matched.length; i++) {
+      const { file, fileName } = matched[i]
+      setBatchProgress({ done: i, total: matched.length, current: fileName })
+      const fd = new FormData()
+      fd.append('file', file)
+      const result = await uploadVoiceFile(celebId, activeLang, fileName, fd)
+      if (result.success) success++
+      else fail++
+    }
+
+    // 배치 완료 후 1회 bump
+    if (success > 0) {
+      const newV = await bumpVoiceVersion(celebId)
+      setVoiceV(newV)
+    }
+
+    setBatchProgress(null)
+    showToast('success', `배치 업로드 완료: ${success}개 성공${fail > 0 ? `, ${fail}개 실패` : ''}`)
+  }, [celebId, activeLang, showToast])
 
   return (
     <div className="space-y-4">
@@ -126,32 +159,61 @@ export default function VoiceSection({ celebId, initialHasVoice }: VoiceSectionP
         </button>
       </div>
 
-      {/* 언어 토글 */}
-      <div className="inline-flex rounded-lg border border-border overflow-hidden">
-        {LOCALES.map((l) => (
-          <button
-            key={l}
-            type="button"
-            onClick={() => { audioRef.current?.pause(); setPlaying(null); setActiveLang(l) }}
-            className={`px-4 py-1.5 text-sm font-medium transition-colors ${activeLang === l ? 'bg-accent/20 text-accent' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-          >
-            {l === 'ko' ? '한국어' : 'English'}
-          </button>
-        ))}
+      {/* 언어 토글 + 배치 업로드 */}
+      <div className="flex items-center gap-3">
+        <div className="inline-flex rounded-lg border border-border overflow-hidden">
+          {LOCALES.map((l) => (
+            <button
+              key={l}
+              type="button"
+              onClick={() => { audioRef.current?.pause(); setPlaying(null); setActiveLang(l) }}
+              className={`px-4 py-1.5 text-sm font-medium transition-colors ${activeLang === l ? 'bg-accent/20 text-accent' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
+            >
+              {l === 'ko' ? '한국어' : 'English'}
+            </button>
+          ))}
+        </div>
+
+        <label className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium cursor-pointer transition-colors ${batchProgress ? 'pointer-events-none opacity-50 bg-accent/10 text-accent' : 'bg-accent/10 text-accent hover:bg-accent/20'}`}>
+          <FolderUp className="w-4 h-4" />
+          {batchProgress
+            ? `${batchProgress.done}/${batchProgress.total} ${batchProgress.current}`
+            : '배치 업로드'}
+          <input
+            type="file"
+            accept=".mp3,audio/mpeg"
+            multiple
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files?.length) handleBatchUpload(e.target.files)
+              e.target.value = ''
+            }}
+          />
+        </label>
       </div>
+
+      {/* 배치 결과 */}
+      {batchResults && (
+        <div className="text-xs space-y-1">
+          {batchResults.matched.length > 0 && (
+            <p className="text-emerald-400">매칭: {batchResults.matched.join(', ')}</p>
+          )}
+          {batchResults.skipped.length > 0 && (
+            <p className="text-amber-400">스킵: {batchResults.skipped.join(', ')}</p>
+          )}
+        </div>
+      )}
 
       {/* 파일 그리드 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {slots.map(({ label, fileName }) => {
+        {SLOTS.map(({ label, fileName }) => {
           const key = `${activeLang}/${fileName}`
           const isPlaying = playing === key
           const isUploading = uploading === fileName
           return (
             <div key={fileName} className="flex items-center gap-2 px-3 py-2 bg-bg-secondary rounded-lg border border-border">
-              {/* 라벨 */}
               <span className="text-xs text-text-secondary w-16 shrink-0 truncate">{label}</span>
 
-              {/* 미리듣기 */}
               <button
                 type="button"
                 onClick={() => handlePlay(fileName)}
@@ -160,7 +222,6 @@ export default function VoiceSection({ celebId, initialHasVoice }: VoiceSectionP
                 {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
               </button>
 
-              {/* 업로드 */}
               <label className={`p-1 rounded cursor-pointer hover:bg-white/10 text-text-tertiary transition-colors ${isUploading ? 'pointer-events-none opacity-50' : ''}`}>
                 {isUploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
                 <input

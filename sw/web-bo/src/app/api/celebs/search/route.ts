@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
     .from('profiles')
     .select('id, slug, nickname, nickname_en, avatar_url, profession')
     .eq('profile_type', 'CELEB')
+    .in('status', ['active', 'inactive', 'suspended'])
     .or(`nickname.ilike.${searchTerm},nickname_en.ilike.${searchTerm}`)
     .order('nickname')
     .limit(10)

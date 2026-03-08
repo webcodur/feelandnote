@@ -93,14 +93,14 @@ export const TITLES: TitleDefinition[] = [
   // 섭렵 - 카테고리 수
   { code: 'category_2', name: '장르 여행자', description: '경계를 넘다', category: 'diversity', grade: 'common', condition: { type: 'category_count', value: 2 }, icon: 'Compass' },
   { code: 'category_3', name: '장르 탐험가', description: '미지의 영역으로', category: 'diversity', grade: 'uncommon', condition: { type: 'category_count', value: 3 }, icon: 'Map' },
-  { code: 'category_4', name: '르네상스인', description: '모든 분야의 감상가', category: 'diversity', grade: 'rare', condition: { type: 'category_count', value: 4 }, icon: 'Globe' },
+  { code: 'category_4', name: '르네상스인', description: '모든 분야의 기록가', category: 'diversity', grade: 'rare', condition: { type: 'category_count', value: 4 }, icon: 'Globe' },
   // 섭렵 - 창작자 수
   { code: 'creator_10', name: '작가 헌터', description: '다양한 목소리', category: 'diversity', grade: 'uncommon', condition: { type: 'creator_count', value: 10 }, icon: 'UserPlus' },
   { code: 'creator_30', name: '세계 일주', description: '국경 없는 감상', category: 'diversity', grade: 'rare', condition: { type: 'creator_count', value: 30 }, icon: 'Fingerprint' },
   // 탐구 - 리뷰 품질
   { code: 'avg_review_100', name: '꼼꼼한 독자', description: '세심한 기록', category: 'depth', grade: 'common', condition: { type: 'avg_review_length', value: 100 }, icon: 'Search' },
   { code: 'avg_review_300', name: '완벽주의자', description: '빈틈없는 기록', category: 'depth', grade: 'uncommon', condition: { type: 'avg_review_length', value: 300 }, icon: 'Microscope' },
-  { code: 'long_review_10', name: '리뷰 장인', description: '말이 많은 감상가', category: 'depth', grade: 'rare', condition: { type: 'long_review_count', value: 10 }, icon: 'ScrollText' },
+  { code: 'long_review_10', name: '리뷰 장인', description: '말이 많은 기록가', category: 'depth', grade: 'rare', condition: { type: 'long_review_count', value: 10 }, icon: 'ScrollText' },
   // 탐구 - 완료 수
   { code: 'completed_10', name: '구획 마스터', description: '처음부터 끝까지', category: 'depth', grade: 'uncommon', condition: { type: 'completed_count', value: 10 }, icon: 'Flag' },
   { code: 'completed_50', name: '아카이브 장인', description: '기록의 달인', category: 'depth', grade: 'epic', condition: { type: 'completed_count', value: 50 }, icon: 'Medal' },

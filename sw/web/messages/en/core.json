@@ -24,7 +24,12 @@
       "defaultName": "User",
       "login": "Login",
       "myPage": "My Page",
-      "logout": "Logout"
+      "logout": "Logout",
+      "community": "Community",
+      "social": "Social",
+      "feed": "Feed",
+      "notice": "Announcements",
+      "feedback": "Feedback"
     },
     "locale": {
       "switchTo": "한국어",
@@ -292,7 +297,8 @@
     },
     "persona": {
       "ability": "Ability",
-      "virtue": "Virtue",
+      "inner_virtue": "Inner Virtue",
+      "outer_virtue": "Outer Virtue",
       "tendency": "Tendency",
       "noData": "No data",
       "stat": {

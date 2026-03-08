@@ -58,9 +58,11 @@ export default function VectorDashboard({ vectors }: Props) {
     vectors.length > 0 ? [vectors[0].celeb_id] : []
   )
 
-  const selectedVectors = vectors.filter((v) => selected.includes(v.celeb_id))
+  const selectedVectors = selected
+    .map((celebId) => vectors.find((v) => v.celeb_id === celebId))
+    .filter((vector): vector is PersonaData => Boolean(vector))
 
-  const primaryTarget = vectors.find((v) => v.celeb_id === selected[0])
+  const primaryTarget = selectedVectors[0]
   const similarities = primaryTarget
     ? vectors
         .filter((v) => v.celeb_id !== primaryTarget.celeb_id)
@@ -80,6 +82,7 @@ export default function VectorDashboard({ vectors }: Props) {
     ...v,
     id: v.celeb_id,
     nickname: v.nickname,
+    persona: v.persona,
   }))
 
   return (

@@ -7,9 +7,11 @@
 
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Shuffle, Zap, X, Check } from "lucide-react";
+import { useLocale } from "next-intl";
 import type { DraftState } from "@/lib/game/types";
 import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
 import BattleCard from "./BattleCard";
+import { getBattleText } from "./i18n";
 
 interface Props {
   draft: DraftState;
@@ -29,6 +31,8 @@ const TOTAL_BATCHES = 5;
 const BATCH_SIZE = 3;
 
 export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle, onAutoDraft, onConfirmDraft, onCardInfo, playSfx, showDialogue }: Props) {
+  const locale = useLocale();
+  const text = getBattleText(locale);
   const { pool, playerPicks, aiPicks, currentPicker, round } = draft;
 
   const batchIndex = Math.floor((round - 1) / 2);
@@ -204,7 +208,7 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
               ? "bg-accent/10 text-accent border border-accent/30"
               : "bg-red-500/10 text-red-400 border border-red-500/30 animate-pulse"
         }`}>
-          {isDraftDone ? "드래프트 완료" : visualStep === "ai-thinking" ? "AI 선택 중" : visualStep === "ai-picked" ? "AI 선택 완료" : visualStep === "discarding" ? "카드 폐기" : visualStep === "revealing" ? "다음 개봉" : isPlayerTurn ? "내 차례" : "AI 선택 중"}
+          {isDraftDone ? text.draft.done : visualStep === "ai-thinking" ? text.draft.aiThinking : visualStep === "ai-picked" ? text.draft.aiPicked : visualStep === "discarding" ? text.draft.discarding : visualStep === "revealing" ? text.draft.revealing : isPlayerTurn ? text.draft.playerTurn : text.draft.aiThinking}
         </div>
         <div className="flex items-center gap-2 text-xs">
           <span className="text-accent/80">P {playerPicks.length}</span>
@@ -217,7 +221,7 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
             className="flex items-center gap-1 text-xs text-white/60 hover:text-accent/90 px-2 py-0.5 rounded border border-white/15 hover:border-accent/50 transition-all active:scale-95"
           >
             <Shuffle size={12} />
-            <span>다시 섞기</span>
+            <span>{text.draft.reshuffle}</span>
           </button>
         )}
         {onAutoDraft && (
@@ -226,7 +230,7 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
             className="flex items-center gap-1 text-xs text-accent/70 hover:text-accent px-2.5 py-0.5 rounded border border-accent/30 hover:border-accent/50 bg-accent/[0.06] hover:bg-accent/10 transition-all active:scale-95"
           >
             <Zap size={12} />
-            <span>자동 선택</span>
+            <span>{text.draft.autoPick}</span>
           </button>
         )}
       </div>
@@ -282,7 +286,7 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
                     className="flex items-center justify-center gap-1.5 w-full bg-accent hover:bg-accent/80 text-black text-xs font-bold py-1.5 transition-all active:scale-95"
                   >
                     <Check size={14} />
-                    확정
+                    {text.draft.confirm}
                   </button>
                 ) : undefined}
               />

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import type { GameState, BattleUnit, BattleAction, BattleActionType, DialogEntry } from '@/lib/game/suikoden/types'
 import { SKILL_DEFS } from '@/lib/game/suikoden/constants'
 import {
@@ -15,6 +15,7 @@ import BattleGridView from './BattleGridView'
 import ActionPanel from './ActionPanel'
 import PlacementScreen from './PlacementScreen'
 import BattleSVGOverlay from './BattleSVGOverlay'
+import { stripSuikodenFactionSuffix, translateSuikodenBattleLog } from './i18n'
 
 /** characterId → celeb_dialogues.lines */
 type DialoguesMap = Record<string, Record<string, string[]>>
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export default function BattleScreen({ state, onUpdateState, onDialog, dialogues }: Props) {
+  const locale = useLocale()
   const tS = useTranslations('rest.arena.suikoden')
   const battle = state.battle!
   const playerFactionId = state.playerFactionId
@@ -266,13 +268,13 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: attackerFaction?.color }} />
-            <span className="text-stone-200">{attackerFaction?.name.replace('의 세력', '')}</span>
+            <span className="text-stone-200">{attackerFaction ? stripSuikodenFactionSuffix(attackerFaction.name) : ''}</span>
             <span className="text-stone-500 text-[10px]">({isPlayerAttacker ? allyAlive : enemyAlive})</span>
           </div>
           <span className="text-stone-500">vs</span>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
-            <span className="text-stone-200">{defenderFaction?.name.replace('의 세력', '')}</span>
+            <span className="text-stone-200">{defenderFaction ? stripSuikodenFactionSuffix(defenderFaction.name) : ''}</span>
             <span className="text-stone-500 text-[10px]">({isPlayerAttacker ? enemyAlive : allyAlive})</span>
           </div>
         </div>
@@ -400,7 +402,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
             entry.type === 'system' ? 'text-amber-300 font-bold' :
             'text-stone-500'
           }>
-            [{entry.turn}] {entry.message}
+            [{entry.turn}] {translateSuikodenBattleLog(entry.message, locale)}
           </p>
         ))}
       </div>

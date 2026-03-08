@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useCallback } from 'react'
+import { useLocale } from 'next-intl'
 import type { DialogEntry, GameSettings } from '@/lib/game/suikoden/types'
+import { getSuikodenText } from './i18n'
 
 interface Props {
   queue: DialogEntry[]
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
+  const locale = useLocale()
+  const text = getSuikodenText(locale)
   const current = queue[0]
 
   // auto 모드: 3초 후 자동 소멸
@@ -77,13 +81,13 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
           <div className="flex items-center gap-1">
             {queue.length > 1 && (
               <span className="text-[9px] text-stone-500">
-                +{queue.length - 1}개 대기
+                {text.dialog.queueCount(queue.length - 1)}
               </span>
             )}
           </div>
           {settings.dialogMode === 'manual' && (
             <span className="text-[9px] text-stone-600">
-              Space / Enter / ✕
+              {text.dialog.manualHint}
             </span>
           )}
           {settings.dialogMode === 'auto' && (

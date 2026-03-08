@@ -28,7 +28,62 @@
         "diffEasyTitle": "초급",
         "diffEasyRuleDesc": "카드를 탭하면 인물 상세 정보를 확인할 수 있습니다.",
         "diffHardTitle": "고급",
-        "diffHardRuleDesc": "보드 카드의 연도가 숨겨집니다. 기억력으로 도전하세요."
+        "diffHardRuleDesc": "보드 카드의 연도가 숨겨집니다. 기억력으로 도전하세요.",
+        "game": {
+          "loading": "역사 로딩 중...",
+          "score": "점수",
+          "remaining": "남은",
+          "tapToReveal": "터치하여 공개",
+          "eyeShort": "눈",
+          "ancient": "고대",
+          "modern": "현대",
+          "unknownYear": "????",
+          "hints": {
+            "century": {
+              "label": "세기 공개",
+              "desc": "이 인물이 태어난 세기를 공개합니다"
+            },
+            "highlight": {
+              "label": "위치 힌트",
+              "desc": "정답 근처의 카드를 강조합니다"
+            },
+            "eliminate": {
+              "label": "슬롯 제거",
+              "desc": "오답 슬롯 2개를 제거합니다"
+            }
+          },
+          "result": {
+            "replay": "다시 하기",
+            "lobby": "로비로",
+            "clear": "전체 클리어!",
+            "exhausted": "체력 소진",
+            "streak": "연속 정답",
+            "newRecord": "신기록 달성!",
+            "timelineTitle": "인물들의 감상 기록"
+          },
+          "eyeOfTime": {
+            "title": "시간의 눈",
+            "subtitle": "{name}의 출생 연도를 꿰뚫어 보세요.",
+            "difficulty": "난이도",
+            "rangeWidth": "({count}년)",
+            "rangeTip": "범위를 좁히면 균형 게임이 쉬워진다",
+            "confirmRange": "범위 확정",
+            "balanceMode": "균형 유지 — {difficulty}",
+            "difficultyLevels": {
+              "easy": "쉬움",
+              "normal": "보통",
+              "hard": "어려움",
+              "extreme": "극한"
+            },
+            "perfect": "PERFECT!",
+            "good": "GOOD",
+            "miss": "MISS",
+            "answer": "{name}은(는) {year} 사람이다.",
+            "torchReward": "횃불 +1",
+            "continue": "계속",
+            "close": "닫기"
+          }
+        }
       },
       "labyrinth": {
         "label": "미궁",
@@ -52,7 +107,37 @@
         "cluePhilosophy": "철학",
         "cluePhilosophyDesc": "감상 철학 — 확인 4회로 해금",
         "tip1": "현자 카드를 클릭하면 <o>O</o>(등용)와 <x>X</x>(확인) 버튼이 나타납니다. 확인할 때마다 행적이 하나씩 해금되니, 행적을 모아 범위를 좁히세요.",
-        "tip2": "등용은 언제든 가능하지만, 적게 확인하고 빠르게 맞힐수록 좋습니다. 오답 시 현자가 종적을 감춥니다. 신중하게 판단하세요."
+        "tip2": "등용은 언제든 가능하지만, 적게 확인하고 빠르게 맞힐수록 좋습니다. 오답 시 현자가 종적을 감춥니다. 신중하게 판단하세요.",
+        "game": {
+          "stages": {
+            "stage1": "행적 1",
+            "stage2": "행적 2",
+            "stage3": "행적 3",
+            "stage4": "행적 4",
+            "stage5": "철학"
+          },
+          "emptyFirstTrace": "행적이 없습니다",
+          "emptyAdditionalTrace": "추가 행적이 없습니다",
+          "fallbackSage": "현자",
+          "loading": "현자 탐문 준비 중...",
+          "confirmedToast": "{name} 확인 완료",
+          "prompt": "5개의 행적을 살펴 찾는 인물을 알아내세요",
+          "selectionHint": "해당 없는 인물을 제외하거나 찾는 인물을 등용하세요",
+          "recruited": "{name}을(를) 등용했다.",
+          "escaped": "아쉽게도 {name}이(가) 종적을 감추었다.",
+          "viewResult": "결과 보기",
+          "contentListTitle": "이 인물이 감상한 작품",
+          "quit": "그만하기",
+          "next": "다음 탐문",
+          "actioning": "인물 확인 중...",
+          "contentTypes": {
+            "BOOK": "도서",
+            "VIDEO": "영상",
+            "GAME": "게임",
+            "MUSIC": "음악"
+          },
+          "philosophyTitle": "Stage 5 — 철학"
+        }
       },
       "hegemony": {
         "label": "패권",
@@ -592,6 +677,13 @@
           "trainingHint": "※ 연병장 건설 시 훈련 가능"
         }
       }
+    },
+    "hub": {
+      "quickNav": "바로가기",
+      "dawn": "인물들의 탄생 순서를 맞추는 연대기 게임",
+      "labyrinth": "현자 6인의 행적을 살펴 은둔한 인물을 찾아내는 탐문 게임",
+      "hegemony": "셀럽 카드로 군령을 내려 상대와 격돌하는 전략 대전",
+      "suikoden": "역사 속 인물들을 이끌고 세력을 키워 문명을 통일하는 전략 시뮬레이션"
     },
     "meta": {
       "title": "쉼터",

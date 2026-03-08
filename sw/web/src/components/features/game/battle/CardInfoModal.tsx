@@ -7,10 +7,13 @@
 
 import Image from "next/image";
 import { X, Swords, ScrollText, Landmark } from "lucide-react";
+import { useLocale } from "next-intl";
 import type { BattleCard, Command, Domain } from "@/lib/game/types";
-import { COMMANDS, COMMAND_LABELS, DOMAINS, DOMAIN_LABELS } from "@/lib/game/types";
+import { COMMANDS, DOMAINS, DOMAIN_LABELS, DOMAIN_LABELS_EN } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
 import { ABILITY_KEYS, ABILITY_LABELS as ABILITY_LABEL_MAP } from "@/lib/persona/constants";
+import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { getBattleCardEffect, getBattleCommandLabel, getBattleText } from "./i18n";
 
 const CMD_ICON: Record<Command, React.ReactNode> = {
   assault: <Swords size={12} />,
@@ -24,21 +27,14 @@ const CMD_COLOR: Record<Command, string> = {
   govern: "text-amber-400",
 };
 
-const ABILITY_ENTRIES = ABILITY_KEYS.map((key) => ({ key, label: ABILITY_LABEL_MAP[key] }));
+const ABILITY_LABELS_EN: Record<(typeof ABILITY_KEYS)[number], string> = {
+  command: "CMD",
+  martial: "MAR",
+  intellect: "INT",
+  charm: "CHA",
+};
 
-function cmdEffect(cmd: Command, apt: number): string {
-  const baseDmg = Math.round(apt / 2);
-  switch (cmd) {
-    case "assault":
-      return `국력 -${baseDmg}. 민심 -3 (항상)`;
-    case "stratagem":
-      return `민심 -${baseDmg}`;
-    case "govern": {
-      const pRec = Math.round(apt / 3);
-      return `국력 +${pRec}, 민심 +${baseDmg}. 카드 유지 + 1장 회수`;
-    }
-  }
-}
+const ABILITY_ENTRIES = ABILITY_KEYS.map((key) => ({ key, label: ABILITY_LABEL_MAP[key] }));
 
 interface Props {
   card: BattleCard;
@@ -47,6 +43,11 @@ interface Props {
 }
 
 export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
+  const locale = useLocale();
+  const text = getBattleText(locale);
+  const isEnglish = locale.startsWith("en");
+  const professionLabel = getCelebProfessionLabel(card.profession, locale);
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center p-4"
@@ -97,7 +98,7 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold text-white leading-tight">{card.nickname}</h2>
               </div>
-              <p className="text-[11px] text-white/40 mt-0.5">{card.title} · {card.profession}</p>
+              <p className="text-[11px] text-white/40 mt-0.5">{card.title} · {professionLabel}</p>
             </div>
           </div>
         </div>
@@ -114,18 +115,18 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
 
           {/* ── 명령별 적성 + 예상 효과 ── */}
           <div>
-            <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">명령 적성</h3>
+            <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">{text.cardInfo.commandAptitude}</h3>
             <div className="space-y-1.5">
               {COMMANDS.map((cmd) => {
                 const apt = calcAptitude(card, cmd);
                 const stars = aptitudeToStars(apt);
-                const effect = cmdEffect(cmd, apt);
+                const effect = getBattleCardEffect(cmd, apt, locale);
 
                 return (
                   <div key={cmd} className="rounded-md border border-white/[0.04] bg-white/[0.01] px-3 py-2">
                     <div className="flex items-center gap-2">
                       <span className={CMD_COLOR[cmd]}>{CMD_ICON[cmd]}</span>
-                      <span className={`text-xs font-bold ${CMD_COLOR[cmd]}`}>{COMMAND_LABELS[cmd]}</span>
+                      <span className={`text-xs font-bold ${CMD_COLOR[cmd]}`}>{getBattleCommandLabel(cmd, locale)}</span>
                       <span className="text-xs tracking-tight ml-auto">
                         <span className="text-accent">{"★".repeat(stars)}</span>
                         <span className="text-white/[0.08]">{"★".repeat(5 - stars)}</span>
@@ -143,11 +144,11 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
           <div className="grid grid-cols-2 gap-3">
             {/* 영향력 */}
             <div>
-              <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">영향력</h3>
+              <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">{text.cardInfo.influence}</h3>
               <div className="space-y-1">
                 {DOMAINS.map((d: Domain) => (
                   <div key={d} className="flex items-center gap-1.5">
-                    <span className="text-[10px] text-white/30 w-8">{DOMAIN_LABELS[d]}</span>
+                    <span className="text-[10px] text-white/30 w-8">{isEnglish ? DOMAIN_LABELS_EN[d] : DOMAIN_LABELS[d]}</span>
                     <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
                       <div
                         className="h-full rounded-full bg-accent/50 transition-all"
@@ -162,11 +163,11 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
 
             {/* 능력치 */}
             <div>
-              <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">능력</h3>
+              <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">{text.cardInfo.abilities}</h3>
               <div className="space-y-1">
                 {ABILITY_ENTRIES.map(({ key, label }) => (
                   <div key={key} className="flex items-center gap-1.5">
-                    <span className="text-[10px] text-white/30 w-8">{label}</span>
+                    <span className="text-[10px] text-white/30 w-8">{isEnglish ? ABILITY_LABELS_EN[key] : label}</span>
                     <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
                       <div
                         className="h-full rounded-full bg-blue-400/40 transition-all"

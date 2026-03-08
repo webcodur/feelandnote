@@ -7,8 +7,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { NotebookPen } from "lucide-react";
-
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import HeaderSearch from "./HeaderSearch";
@@ -110,15 +108,6 @@ export default function Header({ isMobile }: HeaderProps) {
 
         {/* 우측 영역 */}
         <div className="flex items-center gap-0.5 sm:gap-1 ms-auto shrink-0">
-          {/* 감상 모드 (데스크톱만) */}
-          <Link
-            href="/reading"
-            className={`hidden sm:flex ${ICON_BUTTON_CLASS} ${pathname.startsWith("/reading") ? "text-accent bg-accent/10" : "text-text-secondary hover:text-text-primary"}`}
-            title={t("layout.readingMode")}
-          >
-            <NotebookPen size={ICON_SIZE} />
-          </Link>
-
           {/* 언어 전환 (데스크톱) */}
           <LocaleSwitcher variant="icon" />
 

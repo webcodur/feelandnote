@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import type { GameState, TerritoryId, DialogEntry } from '@/lib/game/suikoden/types'
 import { getTerritoryDef } from '@/lib/game/suikoden/utils'
 import { initBattle, abandonFortress } from '@/lib/game/suikoden/engine'
@@ -14,6 +15,7 @@ import BuildingCardGrid from './BuildingCardGrid'
 import WorldMapView from './WorldMapView'
 import TextMapView from './TextMapView'
 import CharacterInfoPanel from './CharacterInfoPanel'
+import { getSuikodenText, stripSuikodenFactionSuffix, translateSuikodenMessage } from './i18n'
 
 /** characterId → celeb_dialogues.lines */
 type DialoguesMap = Record<string, Record<string, string[]>>
@@ -26,6 +28,9 @@ interface Props {
 }
 
 export default function StrategyScreen({ state, onUpdateState, onDialog, dialogues }: Props) {
+  const locale = useLocale()
+  const tS = useTranslations('rest.arena.suikoden')
+  const text = getSuikodenText(locale)
   const [selectedCharId, setSelectedCharId] = useState<string | null>(null)
   const [mapMode, setMapMode] = useState<'globe' | 'text'>('globe')
   const [toast, setToast] = useState<string | null>(null)
@@ -38,9 +43,12 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
   const focusKeyRef = useRef(0)
 
   const showToast = useCallback((msg: string) => {
-    setToast(msg)
+    setToast(translateSuikodenMessage(msg, locale, {
+      translateTerritory: (id) => tS(`territory.${id}`),
+      translateRegion: (id) => tS(`region.${id}`),
+    }))
     setTimeout(() => setToast(null), 2500)
-  }, [])
+  }, [locale, tS])
 
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
   // 모든 세력의 영토에서 조회 (적/무주지 포함)
@@ -110,7 +118,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
     if (tId !== state.viewingTerritoryId) {
       const tDef = getTerritoryDef(tId)
       if (tDef) {
-        setSplash({ name: tDef.name, id: tId })
+        setSplash({ name: tS(`territory.${tId}`), id: tId })
         // 다음 프레임에서 opacity를 1로 전환 → fade-in
         requestAnimationFrame(() => setSplashVisible(true))
         setTimeout(() => {
@@ -222,8 +230,8 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
   // ── 선술집 등용 할당 ──
   const handleAssignRecruiter = useCallback((visitorCharId: string, recruiterCharId: string) => {
     onUpdateState(s => commandAssignRecruiter(s, visitorCharId, recruiterCharId))
-    showToast('등용 인물을 할당했다. 다음 턴에 판정.')
-  }, [onUpdateState, showToast])
+    showToast(text.strategy.assignRecruiter)
+  }, [onUpdateState, showToast, text.strategy.assignRecruiter])
 
   // ── 선술집 등용 할당 해제 ──
   const handleCancelRecruiter = useCallback((visitorCharId: string) => {
@@ -308,15 +316,15 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
       {splash && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none transition-opacity duration-500"
-          style={{ opacity: splashVisible ? 1 : 0 }}
-        >
+              style={{ opacity: splashVisible ? 1 : 0 }}
+            >
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(/images/game/suikoden/territories/${splash.id}.png)` }}
           />
-          <div className="absolute inset-0 bg-black/50" />
-          <span className="relative text-2xl font-serif text-white/90 tracking-widest drop-shadow-lg">
-            【{splash.name}】
+            <div className="absolute inset-0 bg-black/50" />
+            <span className="relative text-2xl font-serif text-white/90 tracking-widest drop-shadow-lg">
+              【{splash.name}】
           </span>
         </div>
       )}
@@ -335,43 +343,43 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowHelp(false)}>
           <div className="bg-stone-800 border border-amber-500/30 rounded-lg shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-5 space-y-3 animate-modal-content" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-amber-300">천도 — 턴제 전략</h3>
+              <h3 className="text-sm font-bold text-amber-300">{text.strategy.helpTitle}</h3>
               <button onClick={() => setShowHelp(false)} className="text-stone-500 hover:text-stone-300 text-xs">✕</button>
             </div>
             <div className="text-xs text-stone-300 space-y-2 leading-relaxed">
-              <p><b className="text-amber-400">턴제</b>: '다음 턴' 버튼으로 10일씩 진행. 건설·자원·AI가 매 턴 처리된다.</p>
+              <p><b className="text-amber-400">{text.strategy.helpTurnLabel}</b>: {text.strategy.helpTurnDesc}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">건설</p>
-                  <p>인물 선택 → 건물 그리드에서 + 버튼 → 건물 선택. 건설 완료 시 자동 근무.</p>
+                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpBuildTitle}</p>
+                  <p>{text.strategy.helpBuildDesc}</p>
                 </div>
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">배치</p>
-                  <p>인물 선택 → 빈 건물 카드의 '배치' 클릭. 근무자가 있으면 생산 1.5배.</p>
+                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpAssignTitle}</p>
+                  <p>{text.strategy.helpAssignDesc}</p>
                 </div>
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">전투</p>
-                  <p>군사 탭에서 인접 적 영토에 침공. 전투는 전술 카드 대결.</p>
+                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpBattleTitle}</p>
+                  <p>{text.strategy.helpBattleDesc}</p>
                 </div>
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">외교</p>
-                  <p>외교 탭에서 동맹/정전/조공/항복 등 외교 행동.</p>
+                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpDiplomacyTitle}</p>
+                  <p>{text.strategy.helpDiplomacyDesc}</p>
                 </div>
               </div>
 
               {/* 스탯 가이드 */}
               <div className="border-t border-stone-700 pt-2 mt-1">
-                <p className="font-bold text-amber-400 mb-1.5">인물 스탯 (0~10)</p>
+                <p className="font-bold text-amber-400 mb-1.5">{text.strategy.helpStatsTitle}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-0.5 text-[11px]">
-                  <p><b className="text-stone-200">완력</b> — 돌격·허공 전술 주력. 연병장 건설 조건</p>
-                  <p><b className="text-stone-200">기량</b> — 교역소·광산·성벽 건설 조건. 계략 보조</p>
-                  <p><b className="text-stone-200">지력</b> — 계략·화공 전술 주력. 학당 건설·외교 보정</p>
-                  <p><b className="text-stone-200">체력</b> — 방어 전술 주력. HP 결정</p>
-                  <p><b className="text-stone-200">충의</b> — 충성도 초기값 결정</p>
-                  <p><b className="text-stone-200">인애</b> — 고무 전술 주력. 사원 건설·민심·외교 보정</p>
-                  <p><b className="text-stone-200">용기</b> — 돌격·고무 보조. 완력·지력 중 높은 값</p>
+                  <p>{text.strategy.helpStat1}</p>
+                  <p>{text.strategy.helpStat2}</p>
+                  <p>{text.strategy.helpStat3}</p>
+                  <p>{text.strategy.helpStat4}</p>
+                  <p>{text.strategy.helpStat5}</p>
+                  <p>{text.strategy.helpStat6}</p>
+                  <p>{text.strategy.helpStat7}</p>
                 </div>
-                <p className="text-[10px] text-stone-500 mt-1.5">훈련 가능: 완력, 기량, 체력. 인물 상세에서 각 스탯 설명 확인 가능.</p>
+                <p className="text-[10px] text-stone-500 mt-1.5">{text.strategy.helpFooter}</p>
               </div>
             </div>
           </div>
@@ -379,11 +387,11 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
       )}
 
       {/* HUD — 상태 표시줄 (읽기 전용) */}
-      <PanelLabel name="자원 현황" />
+      <PanelLabel name={text.strategy.panelResources} />
       <GameHUD state={state} territory={viewingTerritory} />
 
       {/* 도구바 — 내 영토: 풀 도구바, 적 영토: 복귀 버튼 */}
-      <PanelLabel name="명령 도구바" />
+      <PanelLabel name={text.strategy.panelToolbar} />
       {viewingTerritory && isViewingOwn ? (
         <GameToolbar
           state={state}
@@ -404,12 +412,12 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
             onClick={handleGoHome}
             className="px-3 py-1.5 bg-amber-700/50 hover:bg-amber-700 text-amber-200 text-xs font-bold rounded transition-colors"
           >
-            본화면으로
+            {text.strategy.goMain}
           </button>
           <span className="text-[11px] text-stone-500">
             {state.factions.some(f => f.territories.some(t => t.id === viewingTerritory.id))
-              ? '다른 세력의 영토를 살펴보고 있다'
-              : `${viewingTerritory.name} — 무주지`}
+              ? text.toolbar.viewingForeignTerritory
+              : text.toolbar.unclaimedTerritory(tS(`territory.${viewingTerritory.id}`))}
           </span>
         </div>
       ) : null}
@@ -418,7 +426,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* 좌측: 건물 칩 리스트 (2/3) */}
         <div className="lg:col-span-2 space-y-3">
-          <PanelLabel name="건물 배치" />
+          <PanelLabel name={text.strategy.panelBuildings} />
           {viewingTerritory && isViewingOwn && (
             <BuildingCardGrid
               state={state}
@@ -444,12 +452,12 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
             if (!owner) {
               return (
                 <div className="border border-stone-700 rounded-lg p-6 bg-stone-800/60 text-center space-y-3">
-                  <p className="text-stone-400">아무도 점령하지 않은 땅이다.</p>
+                  <p className="text-stone-400">{text.strategy.noOneOccupies}</p>
                   <button
                     onClick={() => handleClaim(viewingTerritory.id)}
                     className="px-6 py-3 bg-green-900/50 border border-green-700 rounded-lg hover:bg-green-800/60 hover:border-green-500 transition-colors text-sm text-stone-100 font-bold"
                   >
-                    점령
+                    {text.strategy.claim}
                   </button>
                 </div>
               )
@@ -477,10 +485,13 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
           })()}
 
           {/* 이벤트 로그 */}
-          <PanelLabel name="이벤트 로그" />
+          <PanelLabel name={text.strategy.panelLogs} />
           <div className="border border-stone-700 rounded-lg p-2 bg-stone-800/50 max-h-24 overflow-y-auto">
             {state.log.slice(-8).reverse().map((l, i) => (
-              <p key={i} className="text-[9px] text-stone-500 leading-relaxed">{l}</p>
+              <p key={i} className="text-[9px] text-stone-500 leading-relaxed">{translateSuikodenMessage(l, locale, {
+                translateTerritory: (id) => tS(`territory.${id}`),
+                translateRegion: (id) => tS(`region.${id}`),
+              })}</p>
             ))}
           </div>
         </div>
@@ -498,7 +509,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
               }}
             >
               <span className="text-[8px] text-stone-600">{mapOpen ? '\u25BC' : '\u25B6'}</span>
-              <span className="text-xs font-bold text-stone-400 mr-auto">세계 지도</span>
+              <span className="text-xs font-bold text-stone-400 mr-auto">{text.strategy.mapWorld}</span>
               {mapOpen && (
                 <div className="flex bg-stone-900/80 rounded p-0.5 gap-0.5">
                   <button
@@ -509,7 +520,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
                         : 'text-stone-500 hover:text-stone-400'
                     }`}
                   >
-                    3D 지구
+                    {text.strategy.mapGlobe}
                   </button>
                   <button
                     onClick={() => setMapMode('text')}
@@ -519,7 +530,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
                         : 'text-stone-500 hover:text-stone-400'
                     }`}
                   >
-                    텍스트
+                    {text.strategy.mapText}
                   </button>
                 </div>
               )}
@@ -557,7 +568,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
               onClick={() => setCharPanelOpen(v => !v)}
             >
               <span className="text-[8px] text-stone-600">{charPanelOpen ? '\u25BC' : '\u25B6'}</span>
-              <span className="text-xs font-bold text-stone-400">인물 상세</span>
+              <span className="text-xs font-bold text-stone-400">{text.strategy.characterInfo}</span>
               {selectedCharId && !charPanelOpen && (() => {
                 const c = playerFaction.members.find(m => m.id === selectedCharId)
                 return c ? <span className="ml-auto text-[10px] text-stone-500 truncate">{c.nickname}</span> : null
@@ -577,23 +588,23 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
 
           {/* 세력 현황 */}
           <details className="border border-stone-700 rounded bg-stone-800/50" open>
-            <summary className="p-2 text-xs font-bold text-stone-300 cursor-pointer hover:text-stone-100">세력 현황</summary>
+            <summary className="p-2 text-xs font-bold text-stone-300 cursor-pointer hover:text-stone-100">{text.strategy.factionStatus}</summary>
             <div className="px-2 pb-2 space-y-1">
               {state.factions.map(f => (
                 <div key={f.id} className="flex items-center gap-1.5 text-[10px]">
                   <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: f.color }} />
                   <span className={`flex-1 truncate ${f.id === state.playerFactionId ? 'text-amber-300 font-bold' : 'text-stone-400'}`}>
-                    {f.name.replace('의 세력', '')}
+                    {stripSuikodenFactionSuffix(f.name)}
                   </span>
-                  <span className="text-stone-500">{f.members.length}명</span>
-                  <span className="text-stone-500">{f.territories.length}</span>
+                  <span className="text-stone-500">{text.strategy.memberCount(f.members.length)}</span>
+                  <span className="text-stone-500">{text.strategy.territoryCount(f.territories.length)}</span>
                 </div>
               ))}
             </div>
           </details>
 
           {/* 도움말 토글 */}
-          <button onClick={() => setShowHelp(!showHelp)} className="w-full text-[10px] text-stone-600 hover:text-amber-400">도움말</button>
+          <button onClick={() => setShowHelp(!showHelp)} className="w-full text-[10px] text-stone-600 hover:text-amber-400">{text.strategy.help}</button>
         </div>
       </div>
     </div>

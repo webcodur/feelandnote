@@ -73,7 +73,7 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
 }
 
 // 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
-const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId"];
+const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier"];
 function isGridView(params: Record<string, string | string[] | undefined>): boolean {
   return FILTER_KEYS.some((key) => {
     const v = params[key];
@@ -93,6 +93,8 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
   const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
   const pageSizeRaw = parseInt(parseParam(searchParams, "pageSize") || "24", 10);
   const pageSize = [12, 24, 48, 96].includes(pageSizeRaw) ? pageSizeRaw : 24;
+  const tierRaw = parseParam(searchParams, "tier");
+  const tier = (tierRaw === "full" || tierRaw === "light") ? tierRaw : undefined;
 
   const notAll = (v?: string) => v && v !== "all" ? v : undefined;
 
@@ -100,13 +102,14 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
     getCelebs({
       page,
       limit: pageSize,
-      minContentCount: 1,
+      minContentCount: 0,
       sortBy,
       profession: notAll(profession),
       nationality: notAll(nationality),
       contentType: notAll(contentType),
       gender: notAll(gender),
       search: search || undefined,
+      tier,
     }),
     getProfessionCounts(),
     getNationalityCounts(),

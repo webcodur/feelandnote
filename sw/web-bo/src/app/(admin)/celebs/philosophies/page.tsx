@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getCelebsForPhilosophyEdit } from '@/actions/admin/celebs'
+import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import CelebPhilosophyEditor from '../../members/philosophies/CelebPhilosophyEditor'
 
 export const metadata: Metadata = {
@@ -23,6 +24,11 @@ export default async function CelebPhilosophiesPage({ searchParams }: PageProps)
 
   return (
     <div className="space-y-4 md:space-y-6">
+      <CelebSearchBar
+        className="max-w-xl"
+        detailPathTemplate="/celebs/philosophies/[slug]"
+      />
+
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link

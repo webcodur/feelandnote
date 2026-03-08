@@ -6,8 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
-import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
-import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
+import { stripEmotionTag, useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import type { CelebProfile } from "@/types/home";
 import { type PublicUserProfile } from "@/actions/user";
@@ -72,10 +71,11 @@ export default function CelebPageContent({
     : "";
 
   const locale = useLocale() as "ko" | "en";
-  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
   const keyCounter = useRef(0);
   const lastGreetingIdx = useRef<number | null>(null);
   const hasVoice = profile.has_voice ?? false;
+  const voiceV = profile.voice_v ?? 0;
 
   const handleAvatarClick = useCallback(() => {
     if (!greeting || greeting.length === 0) return;
@@ -93,7 +93,7 @@ export default function CelebPageContent({
       text: stripEmotionTag(raw),
       nickname: profile.nickname,
       avatarUrl: profile.avatar_url,
-      audioUrl: hasVoice ? getVoiceUrl(profile.id, locale, "greeting", idx + 1) : null,
+      audioUrl: hasVoice ? getVoiceUrl(profile.id, locale, "greeting", idx + 1, voiceV) : null,
     });
   }, [greeting, profile.nickname, profile.avatar_url, profile.id, hasVoice, locale]);
 
@@ -104,7 +104,7 @@ export default function CelebPageContent({
       text: profile.quotes ?? "",
       nickname: profile.nickname,
       avatarUrl: profile.avatar_url,
-      audioUrl: getQuoteVoiceUrl(profile.id, locale),
+      audioUrl: getQuoteVoiceUrl(profile.id, locale, voiceV),
     });
   }, [profile.id, profile.nickname, profile.avatar_url, profile.quotes, locale]);
 
@@ -120,14 +120,14 @@ export default function CelebPageContent({
                   <button
                     type="button"
                     onClick={handleAvatarClick}
-                    className="w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary self-start transition-all duration-300 cursor-pointer active:scale-95"
+                    className="w-32 h-32 md:w-44 md:h-44 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary self-start transition-all duration-300 cursor-pointer active:scale-95"
                   >
                     {profile.avatar_url ? (
                       <Image
                         src={profile.avatar_url}
                         alt={profile.nickname}
-                        width={112}
-                        height={112}
+                        width={176}
+                        height={176}
                         className="w-full h-full object-cover"
                         unoptimized
                       />
@@ -226,7 +226,6 @@ export default function CelebPageContent({
               </ClassicalBox>
             </section>
 
-      <DialogueSubtitle subtitle={subtitle} />
     </div>
   );
 }

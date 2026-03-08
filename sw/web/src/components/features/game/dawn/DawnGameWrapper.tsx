@@ -18,9 +18,11 @@ import { useDawnAudio } from "./hooks/useDawnAudio";
 
 interface Props {
   bgImages?: GameBackgroundImages | null;
+  initialFullScreen?: boolean;
+  onExitFullScreenExternal?: () => void;
 }
 
-export default function DawnGameWrapper({ bgImages }: Props) {
+export default function DawnGameWrapper({ bgImages, initialFullScreen, onExitFullScreenExternal }: Props) {
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.dawn");
   const { setBgm, stopAll, audioControls } = useDawnAudio();
@@ -54,8 +56,12 @@ export default function DawnGameWrapper({ bgImages }: Props) {
       Lobby={DawnLobby}
       Game={DawnGame}
       footerExtra={<GameAudioPlayer controls={audioControls} />}
+      initialFullScreen={initialFullScreen}
       onPhaseChangeExternal={handlePhaseChange}
-      onExitFullScreenExternal={stopAll}
+      onExitFullScreenExternal={() => {
+        stopAll();
+        onExitFullScreenExternal?.();
+      }}
     />
   );
 }

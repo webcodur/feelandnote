@@ -7,6 +7,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Eye, X, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 type Phase = "range" | "balance";
@@ -31,27 +32,27 @@ function getDifficultyParams(rangeWidth: number) {
       drift: -3.8, holdBase: 3.2, holdRamp: 8.0,
       duration: 6, safeStart: 0.46, safeEnd: 0.54,
       windInterval: 60, windRange: [-3.0, 1.5] as [number, number],
-      label: "극한",
+      labelKey: "extreme",
     };
   if (rangeWidth >= 800)
     return {
       drift: -2.8, holdBase: 2.4, holdRamp: 6.0,
       duration: 5, safeStart: 0.44, safeEnd: 0.56,
       windInterval: 90, windRange: [-2.2, 1.2] as [number, number],
-      label: "어려움",
+      labelKey: "hard",
     };
   if (rangeWidth >= 300)
     return {
       drift: -2.0, holdBase: 1.7, holdRamp: 4.5,
       duration: 4.5, safeStart: 0.42, safeEnd: 0.58,
       windInterval: 130, windRange: [-1.6, 0.8] as [number, number],
-      label: "보통",
+      labelKey: "normal",
     };
   return {
     drift: -1.5, holdBase: 1.3, holdRamp: 3.2,
     duration: 4, safeStart: 0.40, safeEnd: 0.60,
     windInterval: 170, windRange: [-1.2, 0.6] as [number, number],
-    label: "쉬움",
+    labelKey: "easy",
   };
 }
 
@@ -82,6 +83,7 @@ export default function EyeOfTime({
   onMiss,
   onCancel,
 }: EyeOfTimeProps) {
+  const t = useTranslations("rest.arena.dawn.game.eyeOfTime");
   const [phase, setPhase] = useState<Phase>("range");
   const [result, setResult] = useState<Result>(null);
 
@@ -362,11 +364,12 @@ export default function EyeOfTime({
             className="text-purple-400 drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
           />
           <h2 className="text-xl md:text-2xl font-serif font-black text-purple-300">
-            시간의 눈
+            {t("title")}
           </h2>
           {phase === "range" && (
             <button
               onClick={onCancel}
+              aria-label={t("close")}
               className="absolute right-0 top-0 p-2 text-white/40 hover:text-white/70 transition-colors"
             >
               <X size={20} />
@@ -375,7 +378,7 @@ export default function EyeOfTime({
         </div>
 
         <p className="text-sm text-white/60 font-serif text-center">
-          {celebName}의 출생 연도를 꿰뚫어 보세요.
+          {t("subtitle", { name: celebName })}
         </p>
 
         {/* ════ Phase 1: 범위 선택 ════ */}
@@ -392,7 +395,7 @@ export default function EyeOfTime({
 
             {/* 난이도 별 */}
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-white/40 mr-1">난이도</span>
+              <span className="text-xs text-white/40 mr-1">{t("difficulty")}</span>
               {Array.from({ length: 5 }).map((_, i) => (
                 <span
                   key={i}
@@ -405,7 +408,7 @@ export default function EyeOfTime({
                 </span>
               ))}
               <span className="text-xs text-white/30 ml-1">
-                ({rangeWidth}년)
+                {t("rangeWidth", { count: rangeWidth })}
               </span>
             </div>
 
@@ -449,13 +452,13 @@ export default function EyeOfTime({
 
             {/* 안내 + 확정 버튼 */}
             <p className="text-[11px] text-white/35 text-center leading-relaxed">
-              범위를 좁히면 균형 게임이 쉬워진다
+              {t("rangeTip")}
             </p>
             <button
               onClick={confirmRange}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-purple-600/80 hover:bg-purple-500/80 border border-purple-400/30 text-white font-serif font-bold text-base transition-all active:scale-95"
             >
-              범위 확정
+              {t("confirmRange")}
               <ChevronRight size={18} />
             </button>
           </div>
@@ -469,7 +472,9 @@ export default function EyeOfTime({
             {/* 난이도 라벨 */}
             <div className="h-10 flex items-center justify-center">
               <span className="text-sm text-white/60 font-serif">
-                균형 유지 — {getDifficultyParams(rangeWidth).label}
+                {t("balanceMode", {
+                  difficulty: t(`difficultyLevels.${getDifficultyParams(rangeWidth).labelKey}`),
+                })}
               </span>
             </div>
 
@@ -519,30 +524,30 @@ export default function EyeOfTime({
             {/* 결과 라벨 */}
             {result === "perfect" && (
               <span className="text-4xl font-serif font-black text-yellow-300 drop-shadow-[0_0_20px_rgba(250,204,21,0.6)]">
-                PERFECT!
+                {t("perfect")}
               </span>
             )}
             {result === "good" && (
               <span className="text-4xl font-serif font-black text-green-300 drop-shadow-[0_0_16px_rgba(74,222,128,0.4)]">
-                GOOD
+                {t("good")}
               </span>
             )}
             {result === "miss" && (
               <span className="text-4xl font-serif font-black text-red-300 drop-shadow-[0_0_16px_rgba(248,113,113,0.4)]">
-                MISS
+                {t("miss")}
               </span>
             )}
 
             {/* 정답 안내 */}
             <p className="text-sm text-white/70 text-center leading-relaxed mt-1">
-              <span className="font-bold text-white/90">{celebName}</span>
-              은(는){" "}
-              <span className="font-bold text-accent">{formatYear(correctYear)}</span>
-              {" "}사람이다.
+              {t("answer", {
+                name: celebName,
+                year: formatYear(correctYear),
+              })}
             </p>
 
             {result === "perfect" && (
-              <span className="text-xs text-yellow-200/50">횃불 +1</span>
+              <span className="text-xs text-yellow-200/50">{t("torchReward")}</span>
             )}
 
             <button
@@ -556,7 +561,7 @@ export default function EyeOfTime({
                     : "bg-red-600/30 hover:bg-red-500/40 border-red-400/30 text-red-200"
               )}
             >
-              계속
+              {t("continue")}
             </button>
           </div>
         )}

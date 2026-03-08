@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { Check, ShieldOff } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { TrackerOption } from "@/actions/game/getTrackerRound";
 import TrackerCard from "./TrackerCard";
 
@@ -28,6 +29,7 @@ export default function MultipleChoice({
   onEliminate,
   onCardClick,
 }: MultipleChoiceProps) {
+  const tGame = useTranslations("rest.arena.labyrinth.game");
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [actioning, setActioning] = useState<{ id: string; type: "select" | "eliminate" } | null>(null);
   const [confirmed, setConfirmed] = useState(false);
@@ -131,7 +133,7 @@ export default function MultipleChoice({
             {actioning?.id === opt.id && !revealed && (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-xl bg-black/70 animate-in fade-in duration-150 z-40 pointer-events-none">
                 <p className="text-[11px] sm:text-xs font-serif text-white text-center px-2 leading-tight">
-                  인물 확인 중...
+                  {tGame("actioning")}
                 </p>
                 <div className="flex items-center justify-center w-8 h-8 rounded-full border border-accent/40 bg-[#1a1710] text-accent">
                   <Check size={14} />

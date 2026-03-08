@@ -1,8 +1,10 @@
 'use client'
 
+import { useLocale } from 'next-intl'
 import type { BattleUnit, BattleAnimation } from '@/lib/game/suikoden/types'
 import { BATTLE_GRID_ROWS, BATTLE_GRID_COLS, CLASS_INFO } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
+import { getSuikodenText } from './i18n'
 
 interface Props {
   units: BattleUnit[]
@@ -14,11 +16,12 @@ interface Props {
   onSelectTarget?: (unitId: string) => void
 }
 
-const ROW_LABELS = ['전열', '중열', '후열']
-
 export default function BattleGridView({
   units, isAlly, currentUnitId, selectedTargetId, validTargetIds, animation, onSelectTarget,
 }: Props) {
+  const locale = useLocale()
+  const text = getSuikodenText(locale)
+  const rowLabels = [text.battle.row.front, text.battle.row.middle, text.battle.row.rear]
   // 3행×5열 그리드 생성
   const grid: (BattleUnit | null)[][] = Array.from({ length: BATTLE_GRID_ROWS }, () =>
     Array.from({ length: BATTLE_GRID_COLS }, () => null)
@@ -40,7 +43,7 @@ export default function BattleGridView({
       {rows.map((row, rowIdx) => (
         <div key={rowIdx} className="flex items-center gap-0.5">
           <span className="text-[8px] text-stone-600 w-5 shrink-0 text-right">
-            {ROW_LABELS[rowIdx]}
+            {rowLabels[rowIdx]}
           </span>
           <div className="flex gap-0.5">
             {row.map((unit, colIdx) => {
@@ -106,7 +109,7 @@ export default function BattleGridView({
                   {/* 격파 오버레이 */}
                   {unit.isDefeated && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded">
-                      <span className="text-red-500 font-bold text-[8px]">격파</span>
+                      <span className="text-red-500 font-bold text-[8px]">{text.battle.defeated}</span>
                     </div>
                   )}
 

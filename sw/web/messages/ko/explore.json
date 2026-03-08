@@ -17,6 +17,7 @@
     },
     "ui": {
       "tabs": {
+        "hub": "허브",
         "celebs": "셀럽",
         "social": "소셜",
         "friends": "친구",
@@ -130,9 +131,49 @@
         "9": "81점 +"
       }
     },
+    "hub": {
+      "groupDocumented": "기록가들",
+      "groupDocumentedDesc": "읽고, 보고, 들은 기록이 남은 인물들. 그들의 선택이 당신의 다음 감상을 안내합니다.",
+      "groupThinkers": "사색가들",
+      "groupThinkersDesc": "감상 기록은 전해지지 않으나, 남긴 사유 자체가 하나의 작품인 인물들.",
+      "deepReaders": "왕성한 기록가들",
+      "deepReadersSub": "30건 이상의 기록이 확인된 인물들. 풍부한 아카이브 속에서 한 사람의 세계관이 드러납니다.",
+      "topByType": "분야별 최다 기록가",
+      "topByTypeSub": "책·영화·게임·음악, 각 분야에서 가장 왕성한 감상을 남긴 인물들.",
+      "lightCelebs": "전체 사색가",
+      "lightCelebsSub": "기록 너머의 철학. 그들의 사유가 당신의 감상에 새로운 시선을 더합니다.",
+      "spotlight": "스포트라이트",
+      "spotlightSub": "시대와 분야를 넘어 하나의 주제로 엮인 인물 기획전.",
+      "allCelebs": "전체 기록가",
+      "allCelebsSub": "전체 기록가의 서재를 자유롭게 탐색합니다.",
+      "personaExtremes": "비범한 기록가",
+      "personaExtremesSub": "선명한 덕목과 탁월한 능력, 뚜렷한 성향을 지닌 인물들. 이들의 고유한 특징이 감상의 결을 어떻게 바꾸는지 살펴보세요.",
+      "viewMore": "더보기",
+      "viewAll": "전체보기",
+      "quickNav": "바로가기",
+      "navCelebs": "전체 인물",
+      "navTopByType": "분야별 기록가",
+      "navPersona": "비범한 기록가",
+      "navFeed": "셀럽 피드",
+      "navSpotlight": "스포트라이트"
+    },
     "celebFeed": {
       "metaTitle": "셀럽 피드 | 인물",
       "metaDescription": "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+    },
+    "topByType": {
+      "metaTitle": "분야별 최다 기록가 | 인물",
+      "rank": "{rank}위",
+      "count": "{count}개 감상",
+      "infoMax": "최다",
+      "infoAvg": "평균",
+      "infoTotal": "합계",
+      "sharedTitle": "이들이 공통으로 감상한 콘텐츠",
+      "sharedDesc": "Top {count}명 중 2명 이상이 함께 감상한 작품입니다.",
+      "sharedBy": "감상한 인물"
+    },
+    "persona": {
+      "metaTitle": "비범한 기록가 | 인물"
     },
     "spotlight": {
       "metaTitle": "스포트라이트 | 인물",
@@ -149,6 +190,11 @@
       "timeline": {
         "title": "인물들의 감상 기록",
         "empty": "등록된 감상 기록 없음"
+      },
+      "intro": {
+        "title": "시대를 거쳐온 감상의 궤적",
+        "description": "시대와 분야를 넘어 하나의 주제로 엮인 인물들의 서재를 탐색해보세요.\n선명하게 빛나는 그들의 기록이 당신의 새로운 감상을 안내합니다.",
+        "select": "테마 선택"
       }
     }
   },

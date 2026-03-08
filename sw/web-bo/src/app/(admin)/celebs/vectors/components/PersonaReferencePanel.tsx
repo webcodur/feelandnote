@@ -20,14 +20,18 @@ interface Props {
   vectors: PersonaData[]
 }
 
+function normalizeNickname(value: string): string {
+  return value.trim().replace(/\s+/g, ' ').toLowerCase()
+}
+
 export default function PersonaReferencePanel({ vectors }: Props) {
   const rowsByAxis = useMemo(() => {
-    const byNickname = new Map(vectors.map((v) => [v.nickname, v]))
+    const byNickname = new Map(vectors.map((v) => [normalizeNickname(v.nickname), v]))
 
     return AXES.map(({ key, label }) => {
       const anchors = PERSONA_MANUAL_REFERENCE_ANCHORS[key] ?? []
       const rows = anchors.map((anchor) => {
-        const person = byNickname.get(anchor.nickname)
+        const person = byNickname.get(normalizeNickname(anchor.nickname))
         const currentScore = person ? Math.round(toScore100(key, person[key])) : null
         const delta = currentScore != null ? currentScore - anchor.score100 : null
         return { ...anchor, currentScore, delta }

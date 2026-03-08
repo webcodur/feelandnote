@@ -265,7 +265,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-stone-400">{tS('charInfo.taskLabel')}</span>
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold text-stone-200">{taskText}{bDef ? ` — ${bDef.name}` : ''}</span>
+                <span className="text-[10px] font-bold text-stone-200">{taskText}{bDef ? ` — ${tS(`bldg.${bDef.id}`)}` : ''}</span>
                 {placement.task !== 'idle' && (
                   <button onClick={props.onIdle} className="px-1.5 py-0.5 bg-stone-700 rounded text-stone-400 hover:bg-stone-600 text-[9px]">
                     {tS('charInfo.stopTask')}

@@ -1,6 +1,8 @@
 'use client'
 
+import { useLocale } from 'next-intl'
 import type { GameState } from '@/lib/game/suikoden/types'
+import { formatSuikodenElapsed, getSuikodenText } from './i18n'
 
 interface Props {
   state: GameState
@@ -8,42 +10,45 @@ interface Props {
 }
 
 export default function ResultScreen({ state, onRestart }: Props) {
+  const locale = useLocale()
+  const text = getSuikodenText(locale)
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)
   const isVictory = state.winner === state.playerFactionId
+  const leaderName = playerFaction?.members.find(m => m.id === playerFaction.leaderId)?.nickname ?? ''
 
   return (
     <div className="flex flex-col items-center justify-center text-center space-y-6 p-8">
       <div className="text-4xl font-black text-stone-300">
-        {isVictory ? '[통일]' : state.winner ? '[패망]' : '[시간초과]'}
+        {isVictory ? text.result.badgeVictory : state.winner ? text.result.badgeDefeat : text.result.badgeTimeout}
       </div>
 
       <div>
         <h2 className="text-3xl font-black text-stone-100 mb-2">
-          {isVictory ? '통일 달성!' : state.winner ? '패배...' : '시간 초과'}
+          {isVictory ? text.result.titleVictory : state.winner ? text.result.titleDefeat : text.result.titleTimeout}
         </h2>
         <p className="text-stone-400">
           {isVictory
-            ? `${playerFaction?.members.find(m => m.id === playerFaction.leaderId)?.nickname}이(가) 천하를 통일했다.`
+            ? text.result.descriptionVictory(leaderName)
             : state.winner
-            ? '세력이 무너졌다.'
-            : '제한 턴 내에 통일하지 못했다. 역사의 뒤안길로...'}
+            ? text.result.descriptionDefeat
+            : text.result.descriptionTimeout}
         </p>
       </div>
 
       {/* 결산 */}
       <div className="bg-stone-800 border border-stone-700 rounded p-4 text-sm text-left space-y-2 min-w-[280px]">
         <div className="flex justify-between text-stone-300">
-          <span>경과</span><span className="text-amber-400">{state.gameTime.year - 1002}년 {state.gameTime.month}월</span>
+          <span>{text.result.elapsed}</span><span className="text-amber-400">{formatSuikodenElapsed(state.gameTime.year, state.gameTime.month, locale)}</span>
         </div>
         <div className="flex justify-between text-stone-300">
-          <span>인재 수</span><span>{playerFaction?.members.length ?? 0}명</span>
+          <span>{text.result.people}</span><span>{playerFaction?.members.length ?? 0}</span>
         </div>
         <div className="flex justify-between text-stone-300">
-          <span>영토 수</span><span>{playerFaction?.territories.length ?? 0}개</span>
+          <span>{text.result.territories}</span><span>{playerFaction?.territories.length ?? 0}</span>
         </div>
         <div className="flex justify-between text-stone-300">
-          <span>난이도</span>
-          <span>{{ easy: '쉬움', normal: '보통', hard: '어려움' }[state.difficulty]}</span>
+          <span>{text.result.difficulty}</span>
+          <span>{text.result.difficultyLabel[state.difficulty]}</span>
         </div>
       </div>
 
@@ -51,7 +56,7 @@ export default function ResultScreen({ state, onRestart }: Props) {
         onClick={onRestart}
         className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded transition-colors"
       >
-        다시 시작
+        {text.result.restart}
       </button>
     </div>
   )

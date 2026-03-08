@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { Search, X } from "lucide-react";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
 import CelebDetailModal from "./celeb-card-drafts/CelebDetailModal";
-import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
-import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
+import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
 import { useCelebFilters, PAGE_SIZE_OPTIONS } from "./useCelebFilters";
@@ -234,7 +233,7 @@ function GridSkeleton() {
 function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: boolean }) {
   const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
   const [modalIndex, setModalIndex] = useState(-1);
-  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const { handleSubtitle } = useDialogueSubtitle();
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
   const handleOpenModal = (celeb: CelebProfile, index: number) => {
@@ -246,10 +245,6 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
     const idx = direction === "prev" ? modalIndex - 1 : modalIndex + 1;
     if (idx >= 0 && idx < celebs.length) { setModalIndex(idx); setModalCeleb(celebs[idx]); }
   };
-
-  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => {
-    setSubtitle(sub);
-  }, []);
 
   return (
     <>
@@ -280,14 +275,12 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
           hasNext={modalIndex < celebs.length - 1}
         />
       )}
-      <DialogueSubtitle subtitle={subtitle} />
     </>
   );
 }
 
 function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number }) {
-  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
-  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => { setSubtitle(sub); }, []);
+  const { handleSubtitle } = useDialogueSubtitle();
 
   if (total === 0) return null;
 
@@ -328,7 +321,6 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
           />
         ))}
       </div>
-      <DialogueSubtitle subtitle={subtitle} />
     </div>
   );
 }

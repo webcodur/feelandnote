@@ -35,7 +35,9 @@
       "noKo": "국문본 없음",
       "noEn": "영문본 없음",
       "noKoDesc": "이 도서의 국문 번역본 정보가 없습니다.",
-      "noEnDesc": "이 도서의 영문 원서 정보가 없습니다."
+      "noEnDesc": "이 도서의 영문 원서 정보가 없습니다.",
+      "noCoverKo": "국문 표지 없음",
+      "noCoverEn": "영문 표지 없음"
     },
     "reviewModal": {
       "review": "리뷰",

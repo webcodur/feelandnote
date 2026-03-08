@@ -28,7 +28,62 @@
         "diffEasyTitle": "Easy",
         "diffEasyRuleDesc": "Tap cards to view detailed figure information.",
         "diffHardTitle": "Hard",
-        "diffHardRuleDesc": "Years on board cards are hidden. Challenge with memory alone."
+        "diffHardRuleDesc": "Years on board cards are hidden. Challenge with memory alone.",
+        "game": {
+          "loading": "Loading history...",
+          "score": "Score",
+          "remaining": "Remaining",
+          "tapToReveal": "Tap to reveal",
+          "eyeShort": "Eye",
+          "ancient": "Ancient",
+          "modern": "Modern",
+          "unknownYear": "????",
+          "hints": {
+            "century": {
+              "label": "Reveal Century",
+              "desc": "Reveal the century this figure was born in"
+            },
+            "highlight": {
+              "label": "Position Hint",
+              "desc": "Highlight the cards near the correct slot"
+            },
+            "eliminate": {
+              "label": "Remove Slots",
+              "desc": "Remove two incorrect slots"
+            }
+          },
+          "result": {
+            "replay": "Play Again",
+            "lobby": "Back to Lobby",
+            "clear": "All Cleared!",
+            "exhausted": "Out of Lives",
+            "streak": "Streak",
+            "newRecord": "New Record!",
+            "timelineTitle": "Their Viewing Timeline"
+          },
+          "eyeOfTime": {
+            "title": "Eye of Time",
+            "subtitle": "Pierce through {name}'s birth year.",
+            "difficulty": "Difficulty",
+            "rangeWidth": "({count} years)",
+            "rangeTip": "The narrower the range, the easier the balance game.",
+            "confirmRange": "Confirm Range",
+            "balanceMode": "Hold the balance — {difficulty}",
+            "difficultyLevels": {
+              "easy": "Easy",
+              "normal": "Normal",
+              "hard": "Hard",
+              "extreme": "Extreme"
+            },
+            "perfect": "PERFECT!",
+            "good": "GOOD",
+            "miss": "MISS",
+            "answer": "{name} was born in {year}.",
+            "torchReward": "Torch +1",
+            "continue": "Continue",
+            "close": "Close"
+          }
+        }
       },
       "labyrinth": {
         "label": "Labyrinth",
@@ -52,7 +107,37 @@
         "cluePhilosophy": "Philosophy",
         "cluePhilosophyDesc": "Viewing philosophy — unlocked after 4 confirmations",
         "tip1": "Click a sage card to reveal <o>O</o> (recruit) and <x>X</x> (confirm) buttons. Each confirmation unlocks a new trace, so gather traces to narrow down the sages.",
-        "tip2": "You can recruit at any time, but the fewer confirmations with a correct guess, the better. A wrong guess causes the sage to vanish. Judge carefully."
+        "tip2": "You can recruit at any time, but the fewer confirmations with a correct guess, the better. A wrong guess causes the sage to vanish. Judge carefully.",
+        "game": {
+          "stages": {
+            "stage1": "Trace 1",
+            "stage2": "Trace 2",
+            "stage3": "Trace 3",
+            "stage4": "Trace 4",
+            "stage5": "Philosophy"
+          },
+          "emptyFirstTrace": "No trace available",
+          "emptyAdditionalTrace": "No additional traces",
+          "fallbackSage": "Sage",
+          "loading": "Preparing the inquiry...",
+          "confirmedToast": "{name} ruled out",
+          "prompt": "Study five traces and identify the figure you seek.",
+          "selectionHint": "Rule out the wrong figures or recruit the one you seek.",
+          "recruited": "{name} has joined your ranks.",
+          "escaped": "Unfortunately, {name} vanished without a trace.",
+          "viewResult": "View Result",
+          "contentListTitle": "Works this figure appreciated",
+          "quit": "Quit",
+          "next": "Next Inquiry",
+          "actioning": "Checking figure...",
+          "contentTypes": {
+            "BOOK": "Book",
+            "VIDEO": "Video",
+            "GAME": "Game",
+            "MUSIC": "Music"
+          },
+          "philosophyTitle": "Stage 5 — Philosophy"
+        }
       },
       "hegemony": {
         "label": "Hegemony",
@@ -592,6 +677,13 @@
           "trainingHint": "※ Build a training ground to enable training"
         }
       }
+    },
+    "hub": {
+      "quickNav": "Quick Navigation",
+      "dawn": "A chronological game of ordering historical figures by birth",
+      "labyrinth": "Track the deeds of six sages to find the hidden figure",
+      "hegemony": "A strategic battle using celeb cards to issue commands",
+      "suikoden": "Lead historical figures, build power, and unite civilizations"
     },
     "meta": {
       "title": "Rest",

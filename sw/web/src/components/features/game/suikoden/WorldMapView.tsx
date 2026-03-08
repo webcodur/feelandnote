@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState, useCallback } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import * as d3 from 'd3'
 import * as topojson from 'topojson-client'
 import type { GameState, Faction, TerritoryId, RegionId } from '@/lib/game/suikoden/types'
@@ -8,6 +9,7 @@ import type { GameState, Faction, TerritoryId, RegionId } from '@/lib/game/suiko
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TopoData = any
 import { TERRITORIES, REGIONS } from '@/lib/game/suikoden/constants'
+import { getSuikodenText, stripSuikodenFactionSuffix } from './i18n'
 
 interface Props {
   state: GameState
@@ -158,6 +160,9 @@ export default function WorldMapView({
   state, viewingTerritoryId, selectedTerritoryId,
   onSelectTerritory, onSelectRegion, phase, focusTerritoryId, focusKey,
 }: Props) {
+  const locale = useLocale()
+  const tS = useTranslations('rest.arena.suikoden')
+  const text = getSuikodenText(locale)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [topoData, setTopoData] = useState<TopoData | null>(null)
@@ -176,6 +181,13 @@ export default function WorldMapView({
 
   const playerFactionId = state.playerFactionId
   const playerFaction = state.factions.find(f => f.id === playerFactionId) ?? null
+  const territoryLabel = useCallback((territoryId: TerritoryId) => tS(`territory.${territoryId}`), [tS])
+  const regionLabel = useCallback((regionId: RegionId) => tS(`region.${regionId}`), [tS])
+  const ownerLabelText = useCallback((owner: Faction | null, isPlayer: boolean) => {
+    if (!owner) return text.map.unclaimed
+    if (isPlayer) return text.map.ally
+    return stripSuikodenFactionSuffix(owner.name)
+  }, [text.map.ally, text.map.unclaimed])
 
   // ── 현재 region (방랑용) ──
   const currentRegionId = state.wandering?.currentRegionId ?? null
@@ -416,7 +428,7 @@ export default function WorldMapView({
 
       // 이름 레이블 (hover 시만 — 거점 위 툴팁)
       if (isHover) {
-        const label = territory.name
+        const label = territoryLabel(territory.id)
         ctx.font = 'bold 11px sans-serif'
         const metrics = ctx.measureText(label)
         const tw = metrics.width + 8
@@ -440,11 +452,11 @@ export default function WorldMapView({
         // strategy: 소유자 + 건물수 표시
         if (phase === 'strategy') {
           const ownerLabel = owner
-            ? isPlayer ? '★ 아군' : owner.name.replace('의 세력', '')
-            : '무주지'
+            ? isPlayer ? `★ ${text.map.ally}` : stripSuikodenFactionSuffix(owner.name)
+            : text.map.unclaimed
           const tData = owner?.territories.find(t => t.id === territory.id)
           const buildCount = tData ? tData.buildingCards.length : 0
-          const subLabel = owner ? `${ownerLabel} · 건물 ${buildCount}` : ownerLabel
+          const subLabel = owner ? `${ownerLabel} · ${text.map.buildings(buildCount)}` : ownerLabel
 
           ctx.font = '9px sans-serif'
           const sm = ctx.measureText(subLabel)
@@ -471,9 +483,9 @@ export default function WorldMapView({
     let hudLocationLabel = ''
 
     if (phase === 'wandering' && currentRegionId) {
-      hudLocationLabel = REGIONS.find(r => r.id === currentRegionId)?.name ?? ''
+      hudLocationLabel = currentRegionId ? regionLabel(currentRegionId) : ''
     } else if (phase === 'strategy' && viewingTerritoryId) {
-      hudLocationLabel = TERRITORIES.find(tt => tt.id === viewingTerritoryId)?.name ?? ''
+      hudLocationLabel = viewingTerritoryId ? territoryLabel(viewingTerritoryId) : ''
     }
 
     for (const tId of playerTerritoryIds) {
@@ -524,7 +536,7 @@ export default function WorldMapView({
 
       // 현재 위치
       if (hudLocationLabel) {
-        hudLines.push({ label: '현재', value: hudLocationLabel, color: '#38bdf8' })
+        hudLines.push({ label: text.map.current, value: hudLocationLabel, color: '#38bdf8' })
       }
 
       // 호버 거점 정보
@@ -532,14 +544,12 @@ export default function WorldMapView({
         const ht = TERRITORIES.find(t => t.id === hoverTerritory)
         if (ht) {
           const hOwner = getOwner(ht.id)
-          const ownerText = hOwner
-            ? hOwner.id === playerFactionId ? '아군' : hOwner.name.replace('의 세력', '')
-            : '무주지'
-          hudLines.push({ label: '거점', value: `${ht.name} · ${ownerText}`, color: '#a8a29e' })
+          const ownerText = ownerLabelText(hOwner, hOwner?.id === playerFactionId)
+          hudLines.push({ label: text.map.territory, value: `${territoryLabel(ht.id)} · ${ownerText}`, color: '#a8a29e' })
         }
       } else if (hoverRegion) {
         const hr = REGIONS.find(r => r.id === hoverRegion)
-        if (hr) hudLines.push({ label: '대륙', value: hr.name, color: '#a8a29e' })
+        if (hr) hudLines.push({ label: text.map.continent, value: regionLabel(hr.id), color: '#a8a29e' })
       }
 
       if (hudLines.length > 0) {
@@ -681,7 +691,7 @@ export default function WorldMapView({
       const hr = REGIONS.find(r => r.id === hoverRegion)
       if (hr) {
         ctx.font = 'bold 11px sans-serif'
-        const label = hr.name
+        const label = regionLabel(hr.id)
         const metrics = ctx.measureText(label)
         const tw = metrics.width + 16
         const th = 20
@@ -717,7 +727,7 @@ export default function WorldMapView({
     ctx.fillStyle = '#78716c'
     ctx.textAlign = 'left'
     ctx.textBaseline = 'top'
-    ctx.fillText('범례', lx + 6, ly + 4)
+    ctx.fillText(text.map.legend, lx + 6, ly + 4)
 
     // 내 영토
     ctx.beginPath()
@@ -726,7 +736,7 @@ export default function WorldMapView({
     ctx.fill()
     ctx.font = '9px sans-serif'
     ctx.fillStyle = '#d6d3d1'
-    ctx.fillText('내 영토', lx + 22, ly + 16)
+    ctx.fillText(text.map.myTerritory, lx + 22, ly + 16)
 
     // 무주지/타
     ctx.beginPath()
@@ -734,9 +744,9 @@ export default function WorldMapView({
     ctx.fillStyle = DOT_NEUTRAL
     ctx.fill()
     ctx.fillStyle = '#78716c'
-    ctx.fillText('타 세력 / 미점령', lx + 22, ly + 30)
+    ctx.fillText(text.map.otherTerritory, lx + 22, ly + 30)
 
-  }, [topoData, state, playerFaction, playerFactionId, viewingTerritoryId, selectedTerritoryId, hoverTerritory, hoverRegion, getOwner, phase, currentRegionId])
+  }, [topoData, state, playerFaction, playerFactionId, viewingTerritoryId, selectedTerritoryId, hoverTerritory, hoverRegion, getOwner, phase, currentRegionId, territoryLabel, regionLabel, ownerLabelText, text])
 
   // ── 리사이즈 ──
   useEffect(() => {
@@ -998,7 +1008,7 @@ export default function WorldMapView({
             rafRef.current = requestAnimationFrame(renderFrame)
           }}
           className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-stone-300 hover:bg-stone-700 hover:text-white text-sm font-bold flex items-center justify-center"
-          title="확대"
+          title={text.map.zoomIn}
         >+</button>
         <button
           onClick={() => {
@@ -1007,17 +1017,17 @@ export default function WorldMapView({
             rafRef.current = requestAnimationFrame(renderFrame)
           }}
           className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-stone-300 hover:bg-stone-700 hover:text-white text-sm font-bold flex items-center justify-center"
-          title="축소"
+          title={text.map.zoomOut}
         >−</button>
         <button
           onClick={handleReset}
           className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-stone-400 hover:bg-stone-700 hover:text-white text-[9px] font-bold flex items-center justify-center"
-          title="초기화"
+          title={text.map.reset}
         >↺</button>
       </div>
 
       <div className="absolute top-2 left-2 z-10 text-[9px] text-stone-600 pointer-events-none">
-        드래그: 회전 · 휠: 줌
+        {text.map.controls}
       </div>
 
       <canvas

@@ -4,20 +4,43 @@
     "tabs": {
       "era": {
         "label": "Masterpieces",
-        "description": "Timeless masterpieces and era-defining works"
+        "description": "When countless great minds chose the same work, it's no coincidence."
       },
       "profession": {
         "label": "Crossroads",
-        "description": "Recommended content by profession"
+        "description": "What did the predecessors on your path read?"
       },
       "museum": {
         "label": "Museum",
-        "description": "A chronicle of human knowledge and media"
+        "description": "From clay tablets to streaming — the evolution of how humanity told its stories."
       },
       "academy": {
         "label": "Academy",
-        "description": "Reading methods comparison, harmony lessons, and more"
+        "description": "A space to internalize the masters' methods and make them your own."
       }
+    },
+    "hub": {
+      "quickNav": "Quick Navigation",
+      "figure": "Start your day by encountering a new great mind.",
+      "era": "Trace the timeless footprints left by humanity across the flow of time.",
+      "profession": "Explore the diverse trajectories of those who reached the pinnacle in their respective fields.",
+      "museum": "See how countless ideas and creations intertwine within a grand chronicle.",
+      "academy": "Beyond simple reading, a space to internalize the masters' methods and make them your own.",
+      "figureLabel": "Encounter: Today's Figure",
+      "eraLabel": "Flow: Masterpieces",
+      "professionLabel": "Paths: Crossroads",
+      "museumLabel": "Archive: Museum",
+      "academyLabel": "Practice: Academy",
+      "museumTitle": "Chronicle of Content",
+      "academyTitle": "Academy of Wisdom",
+      "academyReading": "Reading Methods",
+      "academyMusic": "Harmony Lessons",
+      "enterMuseum": "Enter Museum",
+      "exploreAcademy": "Explore Academy",
+      "continueLearning": "Resume Learning",
+      "moreDetail": "View More",
+      "exploreMuseum": "Explore",
+      "enterAcademy": "Enter Academy"
     },
     "meta": {
       "title": "Scriptures",

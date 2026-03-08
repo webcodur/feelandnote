@@ -29,8 +29,23 @@ export function isPublicDomainCeleb(deathDate: string | null): boolean {
 export const PUBLIC_DOMAIN_NOTICE =
   "이 게임에는 저작권·초상권 보호를 위해 1920년 이전에 사망한 역사적 인물만 등장합니다.";
 
+function getOrdinal(n: number): string {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${n}st`;
+  if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
+  if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}
+
 // 연도 → 세기 변환
-export function getCentury(year: number): string {
-  if (year < 0) return `기원전 ${Math.ceil(Math.abs(year) / 100)}세기`;
-  return `${Math.ceil(year / 100)}세기`;
+export function getCentury(year: number, locale = "ko"): string {
+  const century = Math.ceil(Math.abs(year) / 100);
+
+  if (locale === "en") {
+    return year < 0 ? `${getOrdinal(century)} century BC` : `${getOrdinal(century)} century`;
+  }
+
+  if (year < 0) return `기원전 ${century}세기`;
+  return `${century}세기`;
 }

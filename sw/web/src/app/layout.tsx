@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import Script from "next/script";
-import { Cinzel, Noto_Serif_KR, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
+import { Cinzel, Inter, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
 import localFont from "next/font/local";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
@@ -25,15 +25,14 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-// Noto Serif KR (Korean Headings/Body - 명조체)
-const notoSerifKr = Noto_Serif_KR({
+// Inter (Latin - 화면 가독성 최적화)
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
-  variable: "--font-noto-serif",
+  variable: "--font-inter",
   display: "swap",
 });
 
-// Noto Sans KR (Korean Body - 고딕체)
+// Noto Sans KR (Korean fallback)
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -67,7 +66,7 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth" className={`${cinzel.variable} ${cormorant.variable} ${notoSerifKr.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${inter.variable} ${cinzel.variable} ${cormorant.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
       <head />
       <body>
         <Script

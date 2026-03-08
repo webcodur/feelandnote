@@ -6,6 +6,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, type MutableRefObject } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import type { GameState, GameCharacter, Era, DialogEntry, WorldPreview, ScenarioDef } from '@/lib/game/suikoden/types'
 import { initGame, previewWorld, previewScenario, finalizeGame } from '@/lib/game/suikoden/engine'
 import { preloadAssets } from '@/lib/game/suikoden/assetManager'
@@ -16,6 +17,7 @@ import BattleScreen from './BattleScreen'
 import DispositionScreen from './DispositionScreen'
 import ResultScreen from './ResultScreen'
 import DialogSnackbar from './DialogSnackbar'
+import { getSuikodenText } from './i18n'
 
 /** characterId → celeb_dialogues.lines */
 type DialoguesMap = Record<string, Record<string, string[]>>
@@ -32,6 +34,9 @@ interface SuikodenGameProps {
 type InternalPhase = 'idle' | 'setup' | 'ingame'
 
 export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhaseChange, onStartRef }: SuikodenGameProps) {
+  const locale = useLocale()
+  const tS = useTranslations('rest.arena.suikoden')
+  const text = getSuikodenText(locale)
   const [internalPhase, setInternalPhase] = useState<InternalPhase>('idle')
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [worldPreview, setWorldPreview] = useState<WorldPreview | null>(null)
@@ -130,10 +135,10 @@ export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhase
           <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center" onClick={() => setDevBlocked(false)}>
             <div className="bg-bg-main border border-white/10 rounded-xl px-8 py-6 text-center max-w-xs mx-4" onClick={e => e.stopPropagation()}>
               <div className="text-3xl mb-3">🔨</div>
-              <p className="text-white font-serif font-bold mb-2">개발 중</p>
-              <p className="text-text-secondary text-sm leading-relaxed">천도는 현재 개발 중입니다.<br />조금만 기다려주세요.</p>
+              <p className="text-white font-serif font-bold mb-2">{tS('devNoticeTitle')}</p>
+              <p className="text-text-secondary text-sm leading-relaxed">{tS('devNoticeDesc')}</p>
               <button onClick={() => setDevBlocked(false)} className="mt-4 px-6 py-2 bg-white/5 border border-white/10 rounded-xl text-text-secondary text-sm hover:bg-white/10 transition-colors">
-                확인
+                {text.common.confirm}
               </button>
             </div>
           </div>
@@ -148,8 +153,8 @@ export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhase
       return (
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <div className="animate-pulse text-text-secondary font-serif">데이터 로딩 중...</div>
-            <p className="text-xs text-text-tertiary mt-2">{characters.length}명의 인물</p>
+            <div className="animate-pulse text-text-secondary font-serif">{text.game.loading}</div>
+            <p className="text-xs text-text-tertiary mt-2">{text.game.characterCount(characters.length)}</p>
           </div>
         </div>
       )

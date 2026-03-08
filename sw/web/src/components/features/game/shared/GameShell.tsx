@@ -26,20 +26,22 @@ interface GameShellConfig {
   }>;
   /** GameFullScreen 하단 푸터 (오디오 플레이어 등) */
   footerExtra?: ReactNode;
+  /** 초기 전체화면 모드 여부 */
+  initialFullScreen?: boolean;
   /** 외부에서 phase 변화를 감지하기 위한 콜백 */
   onPhaseChangeExternal?: (phase: string) => void;
   /** 전체화면 해제 시 외부 콜백 (오디오 정리 등) */
   onExitFullScreenExternal?: () => void;
 }
 
-export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig) {
+export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, initialFullScreen, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig) {
   const t = useTranslations("shared.game");
   const homeRef = useRef<(() => void) | null>(null);
   const startRef = useRef<((...args: any[]) => void) | null>(null);
   const enterFullScreenRef = useRef<(() => void) | null>(null);
   const exitFullScreenRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
-  const [gateEntered, setGateEntered] = useState(false);
+  const [gateEntered, setGateEntered] = useState(initialFullScreen ?? false);
 
   const handleHome = useCallback(() => {
     homeRef.current?.();
@@ -93,6 +95,7 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
       onHome={handleHome}
       onExitFullScreen={handleExitFullScreen}
       background={<Background phase={phase} />}
+      initialFullScreen={initialFullScreen}
       exitLabel={t("exit")}
       exitEscLabel={t("exitEsc")}
     >

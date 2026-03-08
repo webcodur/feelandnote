@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useLocale } from "next-intl";
 import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/types";
 import { VARIANTS_PER_LINE } from "@/lib/game/voice/types";
@@ -47,9 +47,18 @@ interface UseDialogueOptions {
   personalDialogues?: Map<string, DialogueLines>;
   /** 음성 보유 인물 ID Set */
   voiceCelebIds?: Set<string>;
+  /** 인물별 voice_v Map (CDN 캐시 버스터) */
+  voiceVersions?: Map<string, number>;
 }
 
-export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds }: UseDialogueOptions) {
+import { useGlobalDialogue } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
+
+/** 대사 자막 상태 + 콜백을 묶은 간편 훅. CelebCard → DialogueSubtitle 연결용. */
+export function useDialogueSubtitle() {
+  return useGlobalDialogue();
+}
+
+export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions }: UseDialogueOptions) {
   const keyCounter = useRef(0);
   const locale = useLocale() as 'ko' | 'en';
   /** 직전 사용 인덱스 기록 (키: "celebId:type" 또는 "default:key:tone") */
@@ -83,7 +92,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         text: stripEmotionTag(raw),
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
-        audioUrl: hasVoice ? getVoiceUrl(celebId, locale, type, index + 1) : null,
+        audioUrl: hasVoice ? getVoiceUrl(celebId, locale, type, index + 1, voiceVersions?.get(celebId)) : null,
         label: type as DialogueLabel,
       });
       return;
@@ -103,7 +112,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         label: type as DialogueLabel,
       });
     }
-  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, locale]);
+  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions, locale]);
 
   /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
   const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {

@@ -2,20 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { FeaturedTag } from "@/actions/home";
 import { getTagChronologicalLibrary } from "@/actions/home/getTagChronologicalLibrary";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
+import { ArrowLeft } from "lucide-react";
 import FeaturedSpotlightDesktop from "./FeaturedSpotlightDesktop";
 import FeaturedSpotlightMobile from "./FeaturedSpotlightMobile";
 import SharedLibraryView from "./SharedLibraryView";
 import SpotlightTagDrawerDesktop from "./SpotlightTagDrawerDesktop";
 import SpotlightTagSheetMobile from "./SpotlightTagSheetMobile";
-import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
+import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebContentTimeline from "@/components/features/game/shared/CelebContentTimeline";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
 import type { TimelineCeleb, TimelineContent } from "@/components/features/game/shared/CelebContentTimeline";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
+
+import SpotlightIntroView from "./SpotlightIntroView";
 
 export type SpotlightLocation = "main" | "explore-pc" | "explore-mb";
 type ViewMode = "spotlight" | "shared" | "timeline";
@@ -23,46 +28,104 @@ type ViewMode = "spotlight" | "shared" | "timeline";
 interface FeaturedSpotlightProps {
   tags: FeaturedTag[];
   location?: SpotlightLocation;
+  initialTagId?: string;
 }
 
-export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedSpotlightProps) {
+export default function FeaturedSpotlight({ tags, location = "main", initialTagId }: FeaturedSpotlightProps) {
   const t = useTranslations("explore.spotlight");
   const tLanding = useTranslations("landing");
+  const tNav = useTranslations("nav");
   const locale = useLocale() as 'ko' | 'en';
-  const [activeTagIndex, setActiveTagIndex] = useState(0);
-  const [subtitleData, setSubtitleData] = useState<DialogueSubtitleData | null>(null);
+
+  const isExplore = location === "explore-pc" || location === "explore-mb";
+  
+  const initialIndex = initialTagId
+    ? Math.max(0, tags.findIndex(t => t.id === initialTagId))
+    : 0;
+
+  const startIdx = isExplore && !initialTagId ? -1 : initialIndex;
+  const [activeTagIndex, setActiveTagIndex] = useState(startIdx);
+  const { handleSubtitle: setSubtitleData } = useDialogueSubtitle();
   const [viewMode, setViewMode] = useState<ViewMode>("spotlight");
 
-  const activeTag = tags.length > 0 ? tags[activeTagIndex] : null;
-  const isExplore = location === "explore-pc" || location === "explore-mb";
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const tagParam = searchParams.get('tag');
+
+  useEffect(() => {
+    if (tagParam) {
+      const idx = tags.findIndex((t) => t.id === tagParam);
+      if (idx !== -1) setActiveTagIndex(idx);
+    } else if (isExplore) {
+      setActiveTagIndex(-1);
+    }
+  }, [tagParam, isExplore, tags]);
+
+  const handleTagChange = (idx: number) => {
+    setActiveTagIndex(idx);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const activeTag = activeTagIndex >= 0 && tags.length > 0 ? tags[activeTagIndex] : null;
 
   return (
     <div className="w-full relative">
+      {/* Custom Back Navigation for Explore Spotlight */}
+      {isExplore && (
+        <div className="mb-4 relative z-50">
+          {activeTagIndex === -1 ? (
+            <Link
+              href="/explore"
+              className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors"
+            >
+              <ArrowLeft size={14} />
+              {tNav("explore") || "탐색"}
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                setActiveTagIndex(-1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={14} />
+              {locale === 'en' ? 'Spotlight Collection' : '스포트라이트 컬렉션'}
+            </button>
+          )}
+        </div>
+      )}
+
       {/* ─── 태그 선택 (공통, 항상 표시) ─── */}
       {/* Mobile */}
-      <div className="block md:hidden relative z-50">
-        <SpotlightTagSheetMobile
-          tags={tags}
-          activeIndex={activeTagIndex}
-          onChange={setActiveTagIndex}
-          locale={locale}
-        />
-      </div>
+      {activeTagIndex !== -1 && (
+        <div className="block md:hidden relative z-50">
+          <SpotlightTagSheetMobile
+            tags={tags}
+            activeIndex={activeTagIndex}
+            onChange={handleTagChange}
+            locale={locale}
+          />
+        </div>
+      )}
       {/* Desktop */}
-      <div className="hidden md:block relative z-40 mb-2">
-        <SpotlightTagDrawerDesktop
-          tags={tags}
-          activeIndex={activeTagIndex}
-          onChange={setActiveTagIndex}
-          isExplore={isExplore}
-          activeDescription={
-            locale === 'en'
-              ? (activeTag?.description_en ?? activeTag?.description ?? tLanding("defaultDescription"))
-              : (activeTag?.description ?? tLanding("defaultDescription"))
-          }
-          locale={locale}
-        />
-      </div>
+      {activeTagIndex !== -1 && (
+        <div className="hidden md:block relative z-40 mb-2">
+          <SpotlightTagDrawerDesktop
+            tags={tags}
+            activeIndex={activeTagIndex}
+            onChange={handleTagChange}
+            isExplore={isExplore}
+            activeDescription={
+              locale === 'en'
+                ? (activeTag?.description_en ?? activeTag?.description ?? tLanding("defaultDescription"))
+                : (activeTag?.description ?? tLanding("defaultDescription"))
+            }
+            locale={locale}
+          />
+        </div>
+      )}
 
       {/* ─── 태그 정보 (선택된 테마 제목 및 설명) ─── */}
       {activeTag?.is_featured && (
@@ -89,42 +152,51 @@ export default function FeaturedSpotlight({ tags, location = "main" }: FeaturedS
       )}
 
       {/* ─── 뷰 모드 탭 ─── */}
-      {activeTag?.is_featured && (
+      {activeTag?.is_featured && activeTagIndex >= 0 && (
         <ViewModeTabs viewMode={viewMode} onChange={setViewMode} t={t} />
       )}
 
       {/* ─── 콘텐츠 영역 ─── */}
-      {viewMode === "spotlight" && (
+      {activeTagIndex === -1 ? (
+        <SpotlightIntroView
+          tags={tags}
+          onSelect={handleTagChange}
+          locale={locale}
+        />
+      ) : (
         <>
-          {/* Mobile (< 768px) */}
-          <div className="block md:hidden relative z-10">
-            <FeaturedSpotlightMobile
-              activeTag={activeTag}
-              onSubtitle={setSubtitleData}
-            />
-          </div>
+          {viewMode === "spotlight" && (
+            <>
+              {/* Mobile (< 768px) */}
+              <div className="block md:hidden relative z-10">
+                <FeaturedSpotlightMobile
+                  activeTag={activeTag}
+                  onSubtitle={setSubtitleData}
+                />
+              </div>
 
-          {/* Desktop (>= 768px) */}
-          <div className="hidden md:block relative z-10">
-            <FeaturedSpotlightDesktop
-              activeTag={activeTag}
-              location={location === "explore-mb" ? "main" : location}
-              onSubtitle={setSubtitleData}
-            />
-          </div>
+              {/* Desktop (>= 768px) */}
+              <div className="hidden md:block relative z-10">
+                <FeaturedSpotlightDesktop
+                  activeTag={activeTag}
+                  location={location === "explore-mb" ? "main" : location}
+                  onSubtitle={setSubtitleData}
+                />
+              </div>
 
-          <DialogueSubtitle subtitle={subtitleData} />
+            </>
+          )}
+
+          {viewMode === "shared" && activeTag && (
+            <div className="max-w-3xl mx-auto px-4 py-6">
+              <SharedLibraryView tagId={activeTag.id} />
+            </div>
+          )}
+
+          {viewMode === "timeline" && activeTag && (
+            <TimelineSection tagId={activeTag.id} t={t} locale={locale} />
+          )}
         </>
-      )}
-
-      {viewMode === "shared" && activeTag && (
-        <div className="max-w-3xl mx-auto px-4 py-6">
-          <SharedLibraryView tagId={activeTag.id} />
-        </div>
-      )}
-
-      {viewMode === "timeline" && activeTag && (
-        <TimelineSection tagId={activeTag.id} t={t} locale={locale} />
       )}
     </div>
   );

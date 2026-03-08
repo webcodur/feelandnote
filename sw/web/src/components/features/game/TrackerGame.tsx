@@ -12,6 +12,7 @@
 
 import { useState, useCallback, useEffect, useMemo, type MutableRefObject } from "react";
 import { BookOpen, Brain, Lock, ShieldCheck, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { getTrackerRound, type TrackerRound } from "@/actions/game/getTrackerRound";
 import { cn } from "@/lib/utils";
@@ -20,28 +21,29 @@ import PhilosophyReveal from "./tracker/PhilosophyReveal";
 import MultipleChoice from "./tracker/MultipleChoice";
 import TrackerResult from "./tracker/TrackerResult";
 import MobileBottomSpacer from "./shared/MobileBottomSpacer";
-import { useDialogue, type DialogueSubtitleData, type DialogueCharacterMeta } from "./shared/hooks/useDialogue";
-import DialogueSubtitle from "./shared/DialogueSubtitle";
+import { useDialogue, useDialogueSubtitle, type DialogueSubtitleData, type DialogueCharacterMeta } from "./shared/hooks/useDialogue";
 import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
 
 
 type GameStage = "idle" | "loading" | "stage1" | "stage2" | "stage3" | "stage4" | "stage5" | "result";
 
-const HINT_STAGES = [
-  { key: "stage1", label: "행적 1", icon: Search },
-  { key: "stage2", label: "행적 2", icon: Search },
-  { key: "stage3", label: "행적 3", icon: BookOpen },
-  { key: "stage4", label: "행적 4", icon: BookOpen },
-  { key: "stage5", label: "철학", icon: Brain },
-] as const;
-
-function StageContent({ viewStage, contents }: { viewStage: string; contents: TrackerRound["contents"] }) {
+function StageContent({
+  viewStage,
+  contents,
+  emptyFirstLabel,
+  emptyAdditionalLabel,
+}: {
+  viewStage: string;
+  contents: TrackerRound["contents"];
+  emptyFirstLabel: string;
+  emptyAdditionalLabel: string;
+}) {
   const idx = parseInt(viewStage.replace("stage", "")) - 1;
   const content = contents[idx];
   if (!content) {
     return (
       <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
-        {idx === 0 ? "행적이 없습니다" : "추가 행적이 없습니다"}
+        {idx === 0 ? emptyFirstLabel : emptyAdditionalLabel}
       </div>
     );
   }
@@ -56,6 +58,7 @@ interface TrackerGameProps {
 }
 
 export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onStartRef }: TrackerGameProps = {}) {
+  const tGame = useTranslations("rest.arena.labyrinth.game");
   const [stage, setStage] = useState<GameStage>("idle");
   const [round, setRound] = useState<TrackerRound | null>(null);
   const [eliminatedIds, setEliminatedIds] = useState<string[]>([]);
@@ -64,7 +67,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
   const [usedIds, setUsedIds] = useState<string[]>([]);
   const [viewStage, setViewStage] = useState<GameStage>("stage1");
   const [eliminateToast, setEliminateToast] = useState<string | null>(null);
-  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
   const sfxMutedRef = useRef(false);
 
   const personalDialogues = useMemo(() => {
@@ -83,6 +86,14 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     onSubtitle: setSubtitle,
     personalDialogues,
   });
+
+  const hintStages = useMemo(() => ([
+    { key: "stage1", label: tGame("stages.stage1"), icon: Search },
+    { key: "stage2", label: tGame("stages.stage2"), icon: Search },
+    { key: "stage3", label: tGame("stages.stage3"), icon: BookOpen },
+    { key: "stage4", label: tGame("stages.stage4"), icon: BookOpen },
+    { key: "stage5", label: tGame("stages.stage5"), icon: Brain },
+  ] as const), [tGame]);
 
   // 해금: stage1 무료, stage2=확인1회, ... stage5=확인4회
   const unlockedIndex = useMemo(() => {
@@ -142,7 +153,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
       // 일반 확인 → 이 분이 아님 확인
       const newEliminated = [...eliminatedIds, id];
       setEliminatedIds(newEliminated);
-      setEliminateToast(target?.nickname ?? "현자");
+      setEliminateToast(target?.nickname ?? tGame("fallbackSage"));
       setTimeout(() => setEliminateToast(null), 1500);
       if (newEliminated.length === 1) setStage("stage2");
       else if (newEliminated.length === 2) setStage("stage3");
@@ -156,7 +167,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
         });
       }
     },
-    [round, solved, eliminatedIds, showDialogue, showDefaultLine]
+    [round, solved, eliminatedIds, showDialogue, showDefaultLine, tGame]
   );
 
   // 등용 핸들러 — 결과 대사만 표시 (battle_lose = 등용 성공, battle_win = 종적 감춤)
@@ -211,7 +222,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:150ms]" />
             <div className="w-2 h-2 rounded-full bg-accent animate-bounce [animation-delay:300ms]" />
           </div>
-          <p className="text-sm text-text-secondary font-serif">현자 탐문 준비 중...</p>
+          <p className="text-sm text-text-secondary font-serif">{tGame("loading")}</p>
         </div>
       </div>
     );
@@ -228,14 +239,12 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
           <div className="flex items-center gap-2 rounded-xl bg-[#0f1a14] border border-green-500/40 px-5 py-3 shadow-lg shadow-green-500/10">
             <ShieldCheck size={20} className="text-green-400 shrink-0" />
             <span className="text-sm font-serif font-bold text-green-400">
-              {eliminateToast} 확인 완료
+              {tGame("confirmedToast", { name: eliminateToast })}
             </span>
           </div>
         </div>
       )}
 
-      {/* 대사 자막 */}
-      <DialogueSubtitle subtitle={subtitle} />
 
       {/* 중앙 콘텐츠 */}
       <div className="flex-1 flex items-center justify-center p-4">
@@ -246,12 +255,12 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
             <div className="flex flex-col w-full max-w-lg lg:w-1/2 flex-shrink-0 animate-slide-from-left">
               {/* ── 질문 ── */}
               <p className="text-center lg:text-left text-sm font-serif text-text-secondary mb-4 lg:pl-1">
-                5개의 행적을 살펴 찾는 인물을 알아내세요
+                {tGame("prompt")}
               </p>
 
               {/* ── 단계 표시기 ── */}
               <div className="flex items-center justify-center lg:justify-start gap-2 md:gap-3 mb-6 px-1">
-                {HINT_STAGES.map((hs, i) => {
+                {hintStages.map((hs, i) => {
                   const isUnlocked = i <= unlockedIndex;
                   const isViewing = viewStage === hs.key;
                   const isCurrent = i === unlockedIndex;
@@ -282,7 +291,12 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
               <div className="px-1 w-full">
                 {/* Stage 1~4: 콘텐츠 단서 (각 탭이 1개씩 표시) */}
                 {(viewStage === "stage1" || viewStage === "stage2" || viewStage === "stage3" || viewStage === "stage4") && (
-                  <StageContent viewStage={viewStage} contents={round.contents} />
+                  <StageContent
+                    viewStage={viewStage}
+                    contents={round.contents}
+                    emptyFirstLabel={tGame("emptyFirstTrace")}
+                    emptyAdditionalLabel={tGame("emptyAdditionalTrace")}
+                  />
                 )}
                 {/* Stage 5: 감상 철학 */}
                 {viewStage === "stage5" && (
@@ -291,7 +305,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
                       <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
                     ) : (
                       <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
-                        행적이 없습니다
+                        {tGame("emptyFirstTrace")}
                       </div>
                     )}
                   </div>
@@ -304,7 +318,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
               {!solved && (
                 <div className="pb-2">
                   <p className="text-center lg:text-left text-xs text-text-tertiary mb-6 tracking-widest font-serif lg:pl-2">
-                    해당 없는 인물을 제외하거나 찾는 인물을 등용하세요
+                    {tGame("selectionHint")}
                   </p>
                   <div className="-ml-1 lg:ml-0">
                     <MultipleChoice
@@ -335,15 +349,15 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
                     correct ? "text-accent" : "text-red-400/80"
                   )}>
                     {correct
-                      ? <>{round.nickname}을(를) 등용했다.</>
-                      : <>아쉽게도 <span className="font-bold text-red-400">{round.nickname}</span>이(가) 종적을 감추었다.</>
+                      ? tGame("recruited", { name: round.nickname })
+                      : tGame("escaped", { name: round.nickname })
                     }
                   </p>
                   <button
                     onClick={goToResult}
                     className="w-full h-12 rounded-xl text-[15px] tracking-widest font-bold font-serif bg-[#1a1710] text-accent hover:bg-[#231f15] border border-accent/30 active:scale-95 transition-all"
                   >
-                    결과 보기
+                    {tGame("viewResult")}
                   </button>
                 </div>
               )}

@@ -6,6 +6,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   getDawnCelebContents,
   type DawnContent,
@@ -41,6 +42,7 @@ export default function DawnResult({
   onReplay,
   onLobby,
 }: DawnResultProps) {
+  const t = useTranslations("rest.arena.dawn.game.result");
   const isCleared = lives > 0;
   const [contentsMap, setContentsMap] = useState<
     Record<string, DawnContent[]>
@@ -74,7 +76,7 @@ export default function DawnResult({
           "shadow-[0_0_20px_rgba(212,175,55,0.2)]"
         )}
       >
-        다시 하기
+        {t("replay")}
       </button>
       <button
         onClick={onLobby}
@@ -83,7 +85,7 @@ export default function DawnResult({
           "bg-white/10 text-white/80 hover:bg-white/15 border border-white/20 active:scale-95"
         )}
       >
-        로비로
+        {t("lobby")}
       </button>
     </div>
   );
@@ -97,12 +99,12 @@ export default function DawnResult({
           "text-4xl font-black font-serif",
           isCleared ? "text-accent" : "text-red-400"
         )}>
-          {isCleared ? "전체 클리어!" : "체력 소진"}
+          {isCleared ? t("clear") : t("exhausted")}
         </p>
-        <p className="text-xl font-bold text-white">{streak} <span className="text-base font-normal text-text-secondary">연속 정답</span></p>
+        <p className="text-xl font-bold text-white">{streak} <span className="text-base font-normal text-text-secondary">{t("streak")}</span></p>
         {isNewRecord && (
           <p className="text-base font-bold text-accent animate-in zoom-in-95">
-            신기록 달성!
+            {t("newRecord")}
           </p>
         )}
         <div className="pt-3">
@@ -113,7 +115,7 @@ export default function DawnResult({
       {/* 수직 연대기 */}
       <div className="space-y-1">
         <h4 className="text-sm text-text-tertiary font-cinzel uppercase tracking-wider text-center mb-5">
-          인물들의 감상 기록
+          {t("timelineTitle")}
         </h4>
 
         <CelebContentTimeline

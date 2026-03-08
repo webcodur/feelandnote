@@ -22,9 +22,11 @@ export type DialoguesMap = Record<string, Record<string, string[]>>;
 interface Props {
   characters: GameCharacter[];
   dialogues: DialoguesMap;
+  initialFullScreen?: boolean;
+  onExitFullScreenExternal?: () => void;
 }
 
-export default function SuikodenGameWrapper({ characters, dialogues }: Props) {
+export default function SuikodenGameWrapper({ characters, dialogues, initialFullScreen, onExitFullScreenExternal }: Props) {
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.suikoden");
   const { setBgm, stopAll, audioControls } = useSuikodenAudio();
@@ -78,8 +80,12 @@ export default function SuikodenGameWrapper({ characters, dialogues }: Props) {
       Lobby={Lobby}
       Game={Game}
       footerExtra={<GameAudioPlayer controls={audioControls} />}
+      initialFullScreen={initialFullScreen}
       onPhaseChangeExternal={handlePhaseChange}
-      onExitFullScreenExternal={handleExitFullScreen}
+      onExitFullScreenExternal={() => {
+        handleExitFullScreen();
+        onExitFullScreenExternal?.();
+      }}
     />
   );
 }

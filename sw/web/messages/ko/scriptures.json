@@ -4,20 +4,43 @@
     "tabs": {
       "era": {
         "label": "불후의 명작",
-        "description": "전 시대의 대표작과 시대별 명저"
+        "description": "수많은 위인이 같은 작품을 선택했다면, 그건 우연이 아닙니다."
       },
       "profession": {
         "label": "갈림길",
-        "description": "직업별 추천 콘텐츠"
+        "description": "당신이 걷는 길의 선배들은 무엇을 읽었을까요?"
       },
       "museum": {
         "label": "박물관",
-        "description": "인류 지식 매체와 콘텐츠의 연대기"
+        "description": "점토판에서 스트리밍까지, 인류가 이야기를 담아온 매체의 변천사."
       },
       "academy": {
         "label": "학당",
-        "description": "독서법 비교, 화성학 레슨 등 체계적인 교육 콘텐츠"
+        "description": "거장들의 방식을 체화하고 나의 것으로 만드는 수련의 공간."
       }
+    },
+    "hub": {
+      "quickNav": "바로가기",
+      "figure": "매일 새로운 위대한 정신과의 만남으로 하루를 시작합니다.",
+      "era": "시간의 흐름을 따라 인류가 남긴 불후의 발자취를 돌아봅니다.",
+      "profession": "철학, 문화, 과학… 각자의 자리에서 정점을 찍은 이들의 궤적을 탐구합니다.",
+      "museum": "수많은 사상과 창작물들이 어떻게 얽혀있는지 거대한 연대기 속에서 확인하세요.",
+      "academy": "단순한 열람을 넘어, 거장들의 방식을 직접 체화하고 나의 것으로 만드는 수련의 공간입니다.",
+      "figureLabel": "만남: 오늘의 인물",
+      "eraLabel": "흐름: 불후의 명작",
+      "professionLabel": "갈래: 길의 갈래",
+      "museumLabel": "보관소: 박물관",
+      "academyLabel": "수련: 지혜의 학당",
+      "museumTitle": "콘텐츠의 연대기",
+      "academyTitle": "지혜의 학당",
+      "academyReading": "독서법 비교",
+      "academyMusic": "화성학 레슨",
+      "enterMuseum": "박물관 입장하기",
+      "exploreAcademy": "학당 둘러보기",
+      "continueLearning": "내 학습 기록 이어보기",
+      "moreDetail": "더보기",
+      "exploreMuseum": "관람하기",
+      "enterAcademy": "학당 입장"
     },
     "meta": {
       "title": "서가",

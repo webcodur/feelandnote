@@ -14,59 +14,85 @@ import {
 } from "@/lib/persona/constants";
 import type { StatKey, TendencyKey } from "@/lib/persona/constants";
 import type { PersonaStats } from "@/lib/persona/types";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
-type TabType = "ability" | "virtue" | "tendency";
+type TabType = "ability" | "inner_virtue" | "outer_virtue" | "tendency";
 
-const TAB_KEYS: TabType[] = ["ability", "virtue", "tendency"];
+const TAB_KEYS: TabType[] = ["ability", "inner_virtue", "outer_virtue", "tendency"];
 
 const clamp0100 = (v: number) => Math.max(0, Math.min(100, v));
 
 // region: 스탯 바
-function StatRow({ label, value }: { label: string; value: number }) {
+function StatRow({ label, value, rationale }: { label: string; value: number; rationale?: string }) {
   const score = clamp0100(value);
+
   return (
-    <div className="grid grid-cols-[58px_1fr_56px] items-center gap-2">
-      <span className="text-xs text-text-secondary">{label}</span>
-      <div className="grid grid-cols-10 gap-0.5 rounded-sm bg-black/30 p-1 border border-white/10">
-        {Array.from({ length: 10 }, (_, i) => {
-          const segStart = i * 10;
-          const fill = Math.max(0, Math.min(10, score - segStart)) / 10;
-          return (
-            <span key={i} className="h-2 rounded-[1px] bg-white/10 overflow-hidden">
-              <span
-                className="block h-full rounded-[1px] bg-[#5caeff]"
-                style={{ width: `${fill * 100}%` }}
-              />
-            </span>
-          );
-        })}
+    <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-[80px_1fr_40px] items-center gap-2">
+        <div className="flex items-center gap-1 min-w-0">
+          <span className="text-xs text-text-secondary truncate" title={label}>{label}</span>
+        </div>
+        <div className="grid grid-cols-10 gap-0.5 rounded-sm bg-black/30 p-1 border border-white/10">
+          {Array.from({ length: 10 }, (_, i) => {
+            const segStart = i * 10;
+            const fill = Math.max(0, Math.min(10, score - segStart)) / 10;
+            return (
+              <span key={i} className="h-2 rounded-[1px] bg-white/10 overflow-hidden">
+                <span
+                  className="block h-full rounded-[1px] bg-[#5caeff]"
+                  style={{ width: `${fill * 100}%` }}
+                />
+              </span>
+            );
+          })}
+        </div>
+        <span className="text-xs font-mono text-right text-text-primary tabular-nums">
+          {Math.round(score)}
+        </span>
       </div>
-      <span className="text-xs font-mono text-right text-text-primary tabular-nums">
-        {Math.round(score)}
-      </span>
+      {rationale && (
+        <div className="text-sm leading-relaxed text-white/90 bg-white/[0.03] border border-white/5 rounded-md p-3 ml-[88px] mr-10 relative mt-1">
+          <div className="absolute top-0 left-2 -translate-y-1/2 bg-black px-1.5 text-[10px] font-bold tracking-wider text-white/40 uppercase">
+             Reason
+          </div>
+          {rationale}
+        </div>
+      )}
     </div>
   );
 }
 
 // region: 성향 바
-function TendencyRow({ labels, value }: { labels: [string, string]; value: number }) {
+function TendencyRow({ labels, value, rationale }: { labels: [string, string]; value: number; rationale?: string }) {
   const clamped = Math.max(-50, Math.min(50, value));
   const point = ((clamped + 50) / 100) * 100;
+
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between text-[11px] text-text-secondary">
-        <span>{labels[0]}</span>
-        <span className="font-mono tabular-nums text-text-primary">{clamped.toFixed(1)}</span>
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center justify-between text-[11px] text-text-secondary relative">
+        <span className="flex items-center gap-1">
+          {labels[0]}
+        </span>
+        <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+          <span className="font-mono tabular-nums text-text-primary">{clamped.toFixed(1)}</span>
+        </div>
         <span>{labels[1]}</span>
       </div>
-      <div className="relative h-2 rounded-sm border border-white/10 bg-black/30">
+      <div className="relative h-2 rounded-sm border border-white/10 bg-black/30 mt-1.5">
         <span className="absolute left-1/2 top-0 bottom-0 w-px bg-white/20" />
         <span
           className="absolute top-1/2 h-3 w-3 rounded-full border border-white/40 bg-[#5caeff]"
           style={{ left: `${point}%`, transform: "translate(-50%, -50%)" }}
         />
       </div>
+      {rationale && (
+        <div className="text-sm leading-relaxed text-white/90 bg-white/[0.03] border border-white/5 rounded-md p-3 mt-3 relative">
+          <div className="absolute top-0 left-2 -translate-y-1/2 bg-black px-1.5 text-[10px] font-bold tracking-wider text-white/40 uppercase">
+             Reason
+          </div>
+          {rationale}
+        </div>
+      )}
     </div>
   );
 }
@@ -84,6 +110,7 @@ const TENDENCY_MAP: Record<TendencyKey, [string, string]> = {
 
 export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
   const t = useTranslations("shared.persona");
+  const locale = useLocale();
   const [tab, setTab] = useState<TabType>("ability");
 
   const statLabel = (key: StatKey) => t(`stat.${key}`);
@@ -92,40 +119,55 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
     return [t(`tendency_label.${a}`), t(`tendency_label.${b}`)];
   };
 
+  const getVal = (key: string) => {
+    if (!stats) return 0;
+    const v = (stats as any)[key];
+    return typeof v === 'number' ? v : (v?.score || 0);
+  };
+
+  const getRationale = (key: string) => {
+    if (!stats) return undefined;
+    const v = (stats as any)[key];
+    if (typeof v === 'object' && v !== null) {
+      return locale === "en" ? v.reason_en : v.reason_ko;
+    }
+    return undefined;
+  };
+
   const content = useMemo(() => {
     if (!stats) return null;
     return {
       ability: (
         <div className="space-y-3">
           {ABILITY_KEYS.map((key) => (
-            <StatRow key={key} label={statLabel(key)} value={stats[key]} />
+            <StatRow key={key} label={statLabel(key)} value={getVal(key)} rationale={getRationale(key)} />
           ))}
         </div>
       ),
-      virtue: (
-        <div className="grid gap-3 md:grid-cols-2">
-          <div className="space-y-3">
-            {INNER_VIRTUE_KEYS.map((key) => (
-              <StatRow key={key} label={statLabel(key)} value={stats[key]} />
-            ))}
-          </div>
-          <div className="space-y-3">
-            {OUTER_VIRTUE_KEYS.map((key) => (
-              <StatRow key={key} label={statLabel(key)} value={stats[key]} />
-            ))}
-          </div>
+      inner_virtue: (
+        <div className="space-y-3">
+          {INNER_VIRTUE_KEYS.map((key) => (
+            <StatRow key={key} label={statLabel(key)} value={getVal(key)} rationale={getRationale(key)} />
+          ))}
+        </div>
+      ),
+      outer_virtue: (
+        <div className="space-y-3">
+          {OUTER_VIRTUE_KEYS.map((key) => (
+            <StatRow key={key} label={statLabel(key)} value={getVal(key)} rationale={getRationale(key)} />
+          ))}
         </div>
       ),
       tendency: (
         <div className="space-y-4">
           {TENDENCY_KEYS.map((key) => (
-            <TendencyRow key={key} labels={tendencyLabels(key)} value={stats[key]} />
+            <TendencyRow key={key} labels={tendencyLabels(key)} value={getVal(key)} rationale={getRationale(key)} />
           ))}
         </div>
       ),
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stats, t]);
+  }, [stats, t, locale]);
 
   return (
     <>

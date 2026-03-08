@@ -16,9 +16,11 @@ import LabyrinthLobby from "./LabyrinthLobby";
 
 interface Props {
   bgImages?: GameBackgroundImages | null;
+  initialFullScreen?: boolean;
+  onExitFullScreenExternal?: () => void;
 }
 
-export default function LabyrinthGame({ bgImages }: Props) {
+export default function LabyrinthGame({ bgImages, initialFullScreen, onExitFullScreenExternal }: Props) {
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.labyrinth");
 
@@ -50,6 +52,8 @@ export default function LabyrinthGame({ bgImages }: Props) {
       Background={Background}
       Lobby={LabyrinthLobby}
       Game={TrackerGame}
+      initialFullScreen={initialFullScreen}
+      onExitFullScreenExternal={onExitFullScreenExternal}
     />
   );
 }

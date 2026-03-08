@@ -205,6 +205,8 @@ export default function ContentCard({
 
   // 선택한 에디션이 존재하지 않을 때
   const editionUnavailable = showEditionToggle && !editions![activeEdition];
+  // 에디션은 있지만 표지가 없을 때
+  const editionNoCover = showEditionToggle && !!editions![activeEdition] && !editions![activeEdition]!.thumbnail;
 
   // 썸네일 변경 시 에러 상태 초기화
   useEffect(() => {
@@ -597,6 +599,13 @@ export default function ContentCard({
               />
             ) : certTheme ? (
               renderCertificateFallback(32)
+            ) : editionNoCover ? (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
+                <ContentIcon size={24} className="text-text-tertiary mb-1.5" />
+                <p className="text-[10px] text-text-tertiary leading-snug">
+                  {activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn")}
+                </p>
+              </div>
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-white/5">
                 <ContentIcon size={48} className="text-text-tertiary" />
@@ -636,14 +645,6 @@ export default function ContentCard({
             )}
 
             <div className="flex-1 flex flex-col min-h-0">
-              {editionUnavailable ? (
-                <div className="flex-1 flex items-center justify-center">
-                  <p className="text-sm text-text-tertiary/70 italic">
-                    {activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc")}
-                  </p>
-                </div>
-              ) : (
-              <>
               {/* 프리셋 먼저 표시 */}
               {reviewPresets && reviewPresets.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mb-2 px-0.5">
@@ -683,9 +684,6 @@ export default function ContentCard({
                   <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
                 </div>
               )}
-              </>
-              )}
-
               {/* 출처 링크 (필수) */}
               <div className="mt-2 text-xs truncate">
                 {sourceUrl ? (
@@ -750,6 +748,13 @@ export default function ContentCard({
                 />
               ) : certTheme ? (
                 renderCertificateFallback(32)
+              ) : editionNoCover ? (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
+                  <ContentIcon size={24} className="text-text-tertiary mb-1.5" />
+                  <p className="text-[10px] text-text-tertiary leading-snug">
+                    {activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn")}
+                  </p>
+                </div>
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-white/5">
                   <ContentIcon size={32} className="text-text-tertiary" />
@@ -806,6 +811,13 @@ export default function ContentCard({
           />
         ) : certTheme ? (
           renderCertificateFallback(32)
+        ) : editionNoCover ? (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
+            <ContentIcon size={28} className="text-text-tertiary mb-2" />
+            <p className="text-[11px] text-text-tertiary leading-snug">
+              {activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn")}
+            </p>
+          </div>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-white/5">
             <ContentIcon size={32} className="text-text-tertiary" />

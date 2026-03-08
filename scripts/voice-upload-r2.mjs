@@ -16,12 +16,12 @@ const ENDPOINT = `${ACCOUNT_ID}.r2.cloudflarestorage.com`;
 const REGION = "auto";
 const SERVICE = "s3";
 
-// 다빈치
-const CELEB_ID = "65f9e925-7f8c-4e18-b056-a45d96c6e7b6";
+// 베토벤
+const CELEB_ID = "86a2b3f1-784a-4b6d-8ef3-f31f8be7dcf6";
 
 const uploads = [
-  { locale: "ko", dir: "c:/Users/webco/Downloads/다빈치-ko" },
-  { locale: "en", dir: "c:/Users/webco/바탕 화면/윤시준/PRJ/feelandnote/scripts/voice-output/da-vinci/en" },
+  { locale: "ko", dir: "c:/Users/webco/Downloads/베토벤-한" },
+  { locale: "en", dir: "c:/Users/webco/바탕 화면/윤시준/PRJ/feelandnote/scripts/voice-output/beethoven/en" },
 ];
 
 // --- AWS Sig V4 helpers ---

@@ -1,8 +1,10 @@
 'use client'
 
+import { useLocale, useTranslations } from 'next-intl'
 import type { BattleUnit } from '@/lib/game/suikoden/types'
-import { SKILL_DEFS, CLASS_INFO } from '@/lib/game/suikoden/constants'
+import { CLASS_INFO } from '@/lib/game/suikoden/constants'
 import { getAvailableSkills } from '@/lib/game/suikoden/skills'
+import { getSuikodenText } from './i18n'
 
 interface Props {
   unit: BattleUnit
@@ -12,6 +14,9 @@ interface Props {
 }
 
 export default function ActionPanel({ unit, selectedAction, onSelectAction, disabled }: Props) {
+  const locale = useLocale()
+  const tS = useTranslations('rest.arena.suikoden')
+  const text = getSuikodenText(locale)
   const skills = getAvailableSkills(unit)
   const cls = CLASS_INFO[unit.character.unitClass]
 
@@ -20,8 +25,8 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
       {/* 유닛 정보 */}
       <div className="flex items-center gap-2 text-xs">
         <span className="text-amber-400 font-bold">{unit.character.nickname}</span>
-        <span className="text-stone-500">{cls.icon} {cls.name}</span>
-        <span className="text-stone-500">HP {unit.hp}/{unit.maxHp}</span>
+        <span className="text-stone-500">{cls.icon} {tS(`class.${unit.character.unitClass}`)}</span>
+        <span className="text-stone-500">{text.action.hp} {unit.hp}/{unit.maxHp}</span>
       </div>
 
       {/* 행동 버튼 */}
@@ -29,9 +34,9 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
         {/* 공격 */}
         <ActionButton
           id="attack"
-          label="공격"
+          label={text.action.attack}
           icon="⚔️"
-          desc="물리 대미지"
+          desc={text.action.attackDesc}
           selected={selectedAction === 'attack'}
           onSelect={() => onSelectAction('attack')}
           disabled={disabled}
@@ -42,9 +47,9 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
           <ActionButton
             key={skill.id}
             id={`skill:${skill.id}`}
-            label={skill.name}
+            label={tS(`skill.${skill.id}`)}
             icon={skill.icon}
-            desc={skill.description}
+            desc={tS(`skillDesc.${skill.id}`)}
             selected={selectedAction === `skill:${skill.id}`}
             onSelect={() => onSelectAction(`skill:${skill.id}`)}
             disabled={disabled}
@@ -54,9 +59,9 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
         {/* 방어 */}
         <ActionButton
           id="defend"
-          label="방어"
+          label={text.action.defend}
           icon="🛡️"
-          desc="피해 50% 감소"
+          desc={text.action.defendDesc}
           selected={selectedAction === 'defend'}
           onSelect={() => onSelectAction('defend')}
           disabled={disabled}
@@ -65,9 +70,9 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
         {/* 후퇴 */}
         <ActionButton
           id="retreat"
-          label="후퇴"
+          label={text.action.retreat}
           icon="🏃"
-          desc="전장 이탈"
+          desc={text.action.retreatDesc}
           selected={selectedAction === 'retreat'}
           onSelect={() => onSelectAction('retreat')}
           disabled={disabled}

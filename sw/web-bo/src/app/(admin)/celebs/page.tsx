@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getMembers } from '@/actions/admin/members'
-import { Plus, FileEdit, Briefcase, BookOpen, Tag, BarChart3, Compass, MessageSquare, Quote } from 'lucide-react'
+import { Plus, FileEdit, Briefcase, BookOpen, Tag, BarChart3, Compass, Volume2 } from 'lucide-react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
@@ -80,11 +80,6 @@ export default async function CelebsPage({ searchParams }: PageProps) {
               <Briefcase className="w-4 h-4" />직군 편집
             </Button>
           </Link>
-          <Link href="/celebs/quotes">
-            <Button size="sm" variant="secondary" className="w-full sm:w-auto">
-              <Quote className="w-4 h-4" />명언 편집
-            </Button>
-          </Link>
           <Link href="/celebs/philosophies">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
               <BookOpen className="w-4 h-4" />감상 철학 편집
@@ -95,9 +90,9 @@ export default async function CelebsPage({ searchParams }: PageProps) {
               <Compass className="w-4 h-4" />철학 벡터
             </Button>
           </Link>
-          <Link href="/celebs/dialogues">
+          <Link href="/celebs/voice-gen">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
-              <MessageSquare className="w-4 h-4" />대사 관리
+              <Volume2 className="w-4 h-4" />대사/음성
             </Button>
           </Link>
           <Link href="/celebs/tags">

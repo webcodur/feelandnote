@@ -93,7 +93,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
         }}
       />
       <PageContainer>
-        <main className="max-w-4xl mx-auto animate-fade-in">
+        <main className="max-w-6xl mx-auto animate-fade-in">
           <SectionHeader
             title={seoDesc}
             label="LEGACY"

@@ -11,6 +11,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Info, ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import LightCelebModal from "@/components/features/home/celeb-card-drafts/LightCelebModal";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
@@ -44,7 +45,7 @@ interface CelebCardProps {
 
 // #region Variant Styles
 const badgeStyles = {
-  card: "absolute top-1.5 right-1.5 min-w-[22px] px-1.5 py-0.5 bg-accent/90 rounded-full text-[10px] font-semibold shadow-md shadow-accent/30",
+  card: "absolute top-1.5 right-1.5 min-w-[24px] h-[24px] px-1.5 bg-black/50 backdrop-blur-md rounded-full border border-accent/50 text-accent text-[10px] shadow-sm",
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 bg-accent text-black rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent text-black rounded-full border border-black/20 shadow-lg text-[10px]",
 };
@@ -66,6 +67,7 @@ export default function CelebCard({
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
   const locale = useLocale();
+  const isLight = celebProfile?.celeb_tier === 'light';
   const displayNickname = (locale === "en" && celebProfile?.nickname_en) ? celebProfile.nickname_en : nickname;
   const displayTitle = (locale === "en" && celebProfile?.title_en) ? celebProfile.title_en : title;
   const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
@@ -75,6 +77,7 @@ export default function CelebCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const keyCounter = useRef(0);
   const hasVoice = celebProfile?.has_voice ?? false;
+  const voiceV = celebProfile?.voice_v ?? 0;
 
   // 외부 클릭 시 오버레이 닫기
   useEffect(() => {
@@ -115,7 +118,7 @@ export default function CelebCard({
         text: displayQuote,
         nickname: displayNickname,
         avatarUrl: avatar_url ?? null,
-        audioUrl: hasVoice ? getQuoteVoiceUrl(id, locale as "ko" | "en") : null,
+        audioUrl: hasVoice ? getQuoteVoiceUrl(id, locale as "ko" | "en", voiceV) : null,
         label: "quotes",
       });
     } else {
@@ -125,7 +128,7 @@ export default function CelebCard({
         text: stripEmotionTag(greetings[slot]),
         nickname: displayNickname,
         avatarUrl: avatar_url ?? null,
-        audioUrl: hasVoice ? getVoiceUrl(id, locale as "ko" | "en", "greeting", slot + 1) : null,
+        audioUrl: hasVoice ? getVoiceUrl(id, locale as "ko" | "en", "greeting", slot + 1, voiceV) : null,
         label: "greeting",
       });
     }
@@ -217,10 +220,10 @@ export default function CelebCard({
             onClick={handleCardClick}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
             className={`group relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
-              border border-white/10 hover:border-accent/60
-              ${isActive ? "border-accent/60 ring-1 ring-accent/30" : ""}
-              ${isLoading ? "animate-pulse border-accent/50 pointer-events-none opacity-70" : ""}
-              ring-1 ring-inset ring-white/5 shadow-inner
+              border border-white/5 hover:border-white/20 transition-[border-color,box-shadow,transform] duration-200
+              ${isActive ? "border-accent/40 ring-1 ring-accent/30" : ""}
+              ${isLoading ? "animate-pulse border-accent/30 pointer-events-none opacity-70" : ""}
+              ring-1 ring-inset ring-white/5 shadow-inner hover:shadow-[0_0_15px_rgba(var(--color-accent-rgb),0.3)] hover:duration-500
             `}
             style={spotlightBg}
           >
@@ -231,21 +234,22 @@ export default function CelebCard({
               alt={nickname}
               shape={isCircleShape ? "circle" : "square"}
               sizes="(max-width: 640px) 120px, (max-width: 1024px) 180px, 200px"
+              maxPx={300}
               fallbackSize={32}
               className={`z-10 relative ${subjectShadow} transition-transform duration-500 group-hover:scale-105`}
             />
 
             {/* 음성 지원 뱃지 */}
             {hasVoice && (
-              <div className="absolute top-1 left-1 z-40">
+              <div className="absolute top-1.5 left-1.5 z-40">
                 <VoiceBadge pulse={voicePulse} />
               </div>
             )}
 
-            {/* 콘텐츠 수 뱃지 (오버레이 비활성 시) */}
-            {!isActive && count !== undefined && count > 0 && (
+            {/* 콘텐츠 수 뱃지 (오버레이 비활성 시, full 전용) */}
+            {!isLight && !isActive && count !== undefined && count > 0 && (
               <div className={`${badgeStyles.card} z-20 flex items-center justify-center`}>
-                <span className="font-bold text-black leading-none">{count}</span>
+                <span className="font-bold leading-none">{count}</span>
               </div>
             )}
 
@@ -291,14 +295,18 @@ export default function CelebCard({
           {/* 이름 + 수식어 */}
           <div className="mt-1.5 w-full text-center px-0.5">
             <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight">{displayNickname}</p>
-            {displayTitle && (
+            {displayTitle ? (
               <p className="text-[10px] md:text-xs text-amber-400/80 truncate leading-tight mt-0.5">{displayTitle}</p>
-            )}
+            ) : null}
           </div>
         </div>
 
         {!onOpenModal && selectedCeleb && (
-          <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          isLight ? (
+            <LightCelebModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          ) : (
+            <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          )
         )}
       </>
     );
@@ -370,7 +378,7 @@ export default function CelebCard({
             />
           </div>
 
-          {count !== undefined && count > 0 && (
+          {!isLight && count !== undefined && count > 0 && (
             <div className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold`}>
               {count}
             </div>
@@ -391,7 +399,11 @@ export default function CelebCard({
       </button>
 
       {!onOpenModal && selectedCeleb && (
-        <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        isLight ? (
+          <LightCelebModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        ) : (
+          <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        )
       )}
     </>
   );

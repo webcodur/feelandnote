@@ -18,6 +18,7 @@ interface GetCelebsParams {
   tagId?: string  // 태그 필터
   minContentCount?: number // 최소 컨텐츠 개수
   includeInactive?: boolean // 비활성화된 셀럽 포함 여부
+  tier?: 'full' | 'light' // celeb_tier 필터
 }
 
 interface GetCelebsResult {
@@ -52,12 +53,13 @@ interface CelebRow {
   follower_count: number
   total_score: number
   content_count: number
+  celeb_tier: string | null
 }
 
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false, tier } = params
   const offset = (page - 1) * limit
 
   const supabase = await createClient()
@@ -75,6 +77,7 @@ export async function getCelebs(
     p_min_content_count: minContentCount,
     p_gender: gender ?? null,
     p_include_inactive: includeInactive,
+    p_celeb_tier: tier ?? null,
   })
   const total = countData ?? 0
 
@@ -93,6 +96,7 @@ export async function getCelebs(
     p_min_content_count: minContentCount,
     p_gender: gender ?? null,
     p_include_inactive: includeInactive,
+    p_celeb_tier: tier ?? null,
   })
 
   if (error) {
@@ -168,15 +172,19 @@ export async function getCelebs(
     })
   }
 
-  // 음성 보유 셀럽 조회
+  // 음성 보유 셀럽 조회 (voice_v 포함)
   const voiceSet = new Set<string>()
+  const voiceVMap = new Map<string, number>()
   if (celebIds.length > 0) {
     const { data: voiceRows } = await supabase
       .from('profiles')
-      .select('id')
+      .select('id, voice_v')
       .in('id', celebIds)
       .eq('has_voice', true)
-    ;(voiceRows ?? []).forEach(row => voiceSet.add(row.id))
+    ;(voiceRows ?? []).forEach(row => {
+      voiceSet.add(row.id)
+      voiceVMap.set(row.id, (row as Record<string, unknown>).voice_v as number ?? 0)
+    })
   }
 
   // 전체 영향력 순위 조회 (점수 내림차순 정렬, 고정 순위)
@@ -239,6 +247,8 @@ export async function getCelebs(
       greeting: greetingMap.get(row.id) ?? null,
       greeting_en: greetingEnMap.get(row.id) ?? null,
       has_voice: voiceSet.has(row.id),
+      voice_v: voiceVMap.get(row.id) ?? 0,
+      celeb_tier: (row.celeb_tier as 'full' | 'light') ?? 'full',
     }
   })
 

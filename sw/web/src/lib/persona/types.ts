@@ -57,6 +57,21 @@ export function parsePersonaJsonb(jsonb: PersonaJsonb): PersonaStats {
   } as unknown as PersonaStats
 }
 
+export type PersonaStatWithReason = { score: number; reason_ko: string; reason_en: string };
+export type PersonaStatsWithReasons = Record<string, PersonaStatWithReason>;
+
+/** jsonb → PersonaStatsWithReasons 파서 */
+export function parsePersonaJsonbWithReasons(jsonb: PersonaJsonb): PersonaStatsWithReasons {
+  const extract = (group: Record<string, PersonaField>) =>
+    Object.fromEntries(Object.entries(group).map(([k, v]) => [k, { score: v.score, reason_ko: v.reason_ko, reason_en: v.reason_en }]))
+  return {
+    ...extract(jsonb.abilities),
+    ...extract(jsonb.inner_virtues),
+    ...extract(jsonb.outer_virtues),
+    ...extract(jsonb.dispositions),
+  } as unknown as PersonaStatsWithReasons
+}
+
 /** UI용: 스탯 + 프로필 메타 */
 export interface PersonaProfile extends PersonaStats {
   celeb_id: string

@@ -35,7 +35,9 @@
       "noKo": "No Korean edition",
       "noEn": "No English edition",
       "noKoDesc": "No Korean translation available for this book.",
-      "noEnDesc": "No English edition available for this book."
+      "noEnDesc": "No English edition available for this book.",
+      "noCoverKo": "No Korean Cover",
+      "noCoverEn": "No English Cover"
     },
     "reviewModal": {
       "review": "Review",

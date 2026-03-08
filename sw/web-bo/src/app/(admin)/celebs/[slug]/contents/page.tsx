@@ -13,6 +13,7 @@ import ContentCollector from '../../../members/[id]/contents/components/ContentC
 import CollapsibleSection from '@/components/ui/CollapsibleSection'
 import ContentSearchForm from '../../../members/[id]/contents/ContentSearchForm'
 import Pagination from '@/components/ui/Pagination'
+import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -41,6 +42,11 @@ export default async function CelebContentsPage({ params, searchParams }: PagePr
 
   return (
     <div className="space-y-8">
+      <CelebSearchBar
+        className="max-w-xl"
+        detailPathTemplate="/celebs/[slug]/contents"
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">

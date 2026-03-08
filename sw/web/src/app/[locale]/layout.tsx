@@ -11,6 +11,7 @@ import { routing } from "@/i18n/routing";
 import { getAlternates } from "@/lib/seo";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -83,9 +84,11 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      {children}
-      <Footer />
-      <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
+      <GlobalDialogueProvider>
+        {children}
+        <Footer />
+        <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
+      </GlobalDialogueProvider>
     </NextIntlClientProvider>
   );
 }

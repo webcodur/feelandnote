@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { BarChart3, PieChart } from "lucide-react";
 import ProfessionCarousel from "../ProfessionCarousel";
 import InfluenceDistributionModal from "../InfluenceDistributionModal";
 import CelebStatsModal from "../CelebStatsModal";
-import DialogueSubtitle from "@/components/features/game/shared/DialogueSubtitle";
-import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
+import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import type { ProfessionSection, ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
 import { useTranslations } from "next-intl";
 
@@ -25,14 +24,10 @@ export default function CelebsByProfession({
   contentTypeCounts,
   genderCounts,
 }: CelebsByProfessionProps) {
-  const [subtitle, setSubtitle] = useState<DialogueSubtitleData | null>(null);
+  const { handleSubtitle } = useDialogueSubtitle();
   const [showInfluenceDistribution, setShowInfluenceDistribution] = useState(false);
   const [showCelebStats, setShowCelebStats] = useState(false);
   const t = useTranslations("explore.ui");
-
-  const handleSubtitle = useCallback((sub: DialogueSubtitleData) => {
-    setSubtitle(sub);
-  }, []);
 
   const btnClass = "h-9 flex items-center justify-center gap-2 px-3 rounded-md text-xs font-sans font-bold tracking-wider border border-accent/20 bg-accent/5 text-accent/80 hover:bg-accent/10 hover:border-accent/40 hover:text-accent transition-all duration-300 flex-1 md:flex-none md:shrink-0";
 
@@ -62,7 +57,6 @@ export default function CelebsByProfession({
         />
       ))}
 
-      <DialogueSubtitle subtitle={subtitle} />
 
       {/* 모달들 */}
       <InfluenceDistributionModal

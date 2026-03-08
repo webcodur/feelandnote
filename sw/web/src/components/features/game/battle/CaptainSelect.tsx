@@ -7,9 +7,11 @@
 
 import { useState } from "react";
 import { Crown } from "lucide-react";
+import { useLocale } from "next-intl";
 import BattleCard from "./BattleCard";
 import type { BattleCard as BattleCardType } from "@/lib/game/types";
 import type { SpeechTone, DialogueType } from "@/lib/game/voice/types";
+import { getBattleText } from "./i18n";
 
 interface Props {
   playerHand: BattleCardType[];
@@ -20,6 +22,8 @@ interface Props {
 }
 
 export default function CaptainSelect({ playerHand, onSelect, onCardInfo, playSfx, showDialogue }: Props) {
+  const locale = useLocale();
+  const text = getBattleText(locale);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const handleConfirm = () => {
@@ -35,12 +39,12 @@ export default function CaptainSelect({ playerHand, onSelect, onCardInfo, playSf
       {/* 헤더 */}
       <div className="text-center space-y-2 bg-black/80 rounded-lg px-6 py-4">
         <Crown className="w-8 h-8 mx-auto text-amber-400" />
-        <h2 className="text-xl font-serif font-black text-white">주장 선택</h2>
+        <h2 className="text-xl font-serif font-black text-white">{text.captain.title}</h2>
         <p className="text-sm text-white/70 max-w-xs">
-          주장이 손패에 있으면 아군 전원 적성 +15%.
+          {text.captain.aura}
         </p>
         <p className="text-sm text-white/70 max-w-xs">
-          주장이 직접 출전하면 본인 적성 ×1.5.
+          {text.captain.deploy}
         </p>
       </div>
 
@@ -86,7 +90,7 @@ export default function CaptainSelect({ playerHand, onSelect, onCardInfo, playSf
           <Crown className="w-6 h-6 text-amber-300 drop-shadow-[0_0_6px_rgba(212,175,55,0.6)]" />
           <div className="w-10 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
           <span className="text-lg font-serif font-black text-amber-200 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] tracking-widest">
-            임명
+            {text.captain.appoint}
           </span>
         </div>
       </button>

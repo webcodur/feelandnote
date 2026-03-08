@@ -23,6 +23,7 @@ export interface GreetingCeleb {
   quotes_en?: string | null;
   speech_tone?: string | null;
   has_voice?: boolean;
+  voice_v?: number;
 }
 
 interface UseCelebGreetingOptions {
@@ -92,7 +93,7 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
           text: displayQuote,
           nickname: celeb.nickname,
           avatarUrl: celeb.avatar_url ?? null,
-          audioUrl: celeb.has_voice ? getQuoteVoiceUrl(celeb.id, locale) : null,
+          audioUrl: celeb.has_voice ? getQuoteVoiceUrl(celeb.id, locale, celeb.voice_v) : null,
           label: "quotes",
         });
       } else {
@@ -104,7 +105,7 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
           avatarUrl: celeb.avatar_url ?? null,
           audioUrl:
             celeb.has_voice
-              ? getVoiceUrl(celeb.id, locale, "greeting", slot + 1)
+              ? getVoiceUrl(celeb.id, locale, "greeting", slot + 1, celeb.voice_v)
               : null,
           label: "greeting",
         });

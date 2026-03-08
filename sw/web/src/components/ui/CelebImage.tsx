@@ -12,6 +12,8 @@ interface CelebImageProps {
   alt: string;
   shape?: "square" | "circle";
   sizes?: string;
+  /** 원본 이미지 최대 크기(px). 이 값 이상으로 렌더링되지 않도록 제한한다. */
+  maxPx?: number;
   fallbackSize?: number;
   className?: string;
 }
@@ -21,21 +23,27 @@ export default function CelebImage({
   alt,
   shape = "square",
   sizes = "120px",
+  maxPx,
   fallbackSize = 32,
   className = "",
 }: CelebImageProps) {
   const shapeClass = shape === "circle" ? "rounded-full" : "rounded-lg";
+  const maxStyle = maxPx
+    ? { maxWidth: `${maxPx}px`, maxHeight: `${maxPx}px` }
+    : undefined;
 
   return src ? (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      className={`object-cover ${shapeClass} ${className}`}
-      sizes={sizes}
-      unoptimized
-      loading="lazy"
-    />
+    <div className="relative w-full h-full" style={maxStyle}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className={`object-cover ${shapeClass} ${className}`}
+        sizes={sizes}
+        unoptimized
+        loading="lazy"
+      />
+    </div>
   ) : (
     <div className={`w-full h-full flex items-center justify-center bg-bg-secondary ${shapeClass}`}>
       <User size={fallbackSize} className="text-text-tertiary" />

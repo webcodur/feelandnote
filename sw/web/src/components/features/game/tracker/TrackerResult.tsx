@@ -5,9 +5,10 @@
 */
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import type { TrackerContent, TrackerOption } from "@/actions/game/getTrackerRound";
 import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
@@ -52,6 +53,8 @@ export default function TrackerResult({
   onQuit,
   showDialogue,
 }: TrackerResultProps) {
+  const locale = useLocale();
+  const tGame = useTranslations("rest.arena.labyrinth.game");
   const [showCelebModal, setShowCelebModal] = useState(false);
   const [reviewContent, setReviewContent] = useState<TrackerContent | null>(null);
 
@@ -93,8 +96,8 @@ export default function TrackerResult({
         correct ? "text-accent/90" : "text-red-400/80"
       )}>
         {correct
-          ? <>{nickname}을(를) 등용했다.</>
-          : <>아쉽게도 <span className="font-bold text-red-400">{nickname}</span>이(가) 종적을 감추었다.</>
+          ? tGame("recruited", { name: nickname })
+          : tGame("escaped", { name: nickname })
         }
       </p>
 
@@ -135,7 +138,7 @@ export default function TrackerResult({
         </button>
         <div className="text-center relative z-10 space-y-1 mt-2">
           <span className="text-[13px] text-accent font-bold tracking-[0.2em] font-cinzel">
-            {getCelebProfessionLabel(profession)}
+            {getCelebProfessionLabel(profession, locale)}
           </span>
           <h3 className="text-2xl sm:text-3xl font-serif font-black text-white drop-shadow-md tracking-wide">{nickname}</h3>
         </div>
@@ -145,7 +148,7 @@ export default function TrackerResult({
       {contents.length > 0 && (
         <div className="space-y-4 pt-2">
           <h4 className="text-sm text-text-tertiary font-cinzel text-center font-bold tracking-[0.3em] mb-4 opacity-80">
-            이 인물이 감상한 작품
+            {tGame("contentListTitle")}
           </h4>
           <div className="space-y-2.5">
             {contents.map((c, idx) => {
@@ -203,7 +206,7 @@ export default function TrackerResult({
             "bg-[#151515] text-text-secondary hover:text-white hover:bg-[#1f1f1f] border border-white/10 active:scale-95 transition-all shadow-md"
           )}
         >
-          그만하기
+          {tGame("quit")}
         </button>
         <button
           onClick={onNext}
@@ -213,7 +216,7 @@ export default function TrackerResult({
           )}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent -translate-x-full group-hover:animate-shine" />
-          다음 탐문
+          {tGame("next")}
         </button>
       </div>
 

@@ -42,6 +42,7 @@ export interface PublicUserProfile {
   is_follower: boolean
   is_blocked: boolean
   has_voice?: boolean
+  voice_v?: number
 }
 
 export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {

@@ -6,7 +6,7 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import ArenaTabs from "@/components/features/game/ArenaTabs";
+import HubBackLink from "@/components/shared/HubBackLink";
 import HexagonBanner from "@/components/lab/HexagonBanner";
 import PageBanner from "@/components/shared/PageBanner";
 import { getTranslations } from "next-intl/server";
@@ -36,7 +36,7 @@ export default async function RestLayout({ children }: Props) {
         </HexagonBanner>
       </PageBanner>
       <PageContainer>
-        <ArenaTabs />
+        <HubBackLink hubPath="/rest" label={title} />
         {children}
       </PageContainer>
     </>

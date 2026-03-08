@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { FOOTER_NAV_ITEMS, FOOTER_BRAND_LINKS } from "@/constants/navigation";
+import { FOOTER_NAV_ITEMS, FOOTER_BRAND_LINKS, FOOTER_MISC_LINKS } from "@/constants/navigation";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
@@ -68,9 +68,11 @@ export default async function Footer() {
             {/* Main Nav Columns */}
             {FOOTER_NAV_ITEMS.map((item) => (
               <div key={item.key}>
-                <p className={sectionTitleClassName}>
-                  {t(`home.${item.key}.englishTitle`)}
-                </p>
+                <Link href={item.href} className="block">
+                  <p className={sectionTitleClassName}>
+                    {t(`home.${item.key}.englishTitle`)}
+                  </p>
+                </Link>
                 <nav className="flex flex-col gap-2">
                   {item.subLinks!.map((link) => (
                     <Link key={link.href} href={link.href} className={linkClassName}>
@@ -80,6 +82,18 @@ export default async function Footer() {
                 </nav>
               </div>
             ))}
+
+            {/* Misc Links Column */}
+            <div>
+              <p className={sectionTitleClassName}>{t("nav.footer.misc")}</p>
+              <nav className="flex flex-col gap-2">
+                {FOOTER_MISC_LINKS.map((link) => (
+                  <Link key={link.href} href={link.href} className={linkClassName}>
+                    {t(`nav.footer.${link.key}`)}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
 
           {/* Bottom: Pediment */}
@@ -127,9 +141,11 @@ export default async function Footer() {
             {/* Main Nav Columns */}
             {FOOTER_NAV_ITEMS.map((item) => (
               <div key={item.key}>
-                <p className={sectionTitleClassName}>
-                  {t(`home.${item.key}.englishTitle`)}
-                </p>
+                <Link href={item.href} className="block">
+                  <p className={sectionTitleClassName}>
+                    {t(`home.${item.key}.englishTitle`)}
+                  </p>
+                </Link>
                 <nav className="flex flex-col gap-2">
                   {item.subLinks!.map((link) => (
                     <Link key={link.href} href={link.href} className={linkClassName}>
@@ -139,6 +155,18 @@ export default async function Footer() {
                 </nav>
               </div>
             ))}
+
+            {/* Misc Links */}
+            <div>
+              <p className={sectionTitleClassName}>{t("nav.footer.misc")}</p>
+              <nav className="flex flex-col gap-2">
+                {FOOTER_MISC_LINKS.map((link) => (
+                  <Link key={link.href} href={link.href} className={linkClassName}>
+                    {t(`nav.footer.${link.key}`)}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
 
           {/* 언어 전환 + Copyright */}
