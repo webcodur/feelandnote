@@ -34,7 +34,7 @@ export default function ViewToggle({ current }: ViewToggleProps) {
       params.delete("tagId");
     }
     const qs = params.toString();
-    router.push(`/explore/celebs${qs ? `?${qs}` : ""}`);
+    router.push(`/explore/figures${qs ? `?${qs}` : ""}`);
   };
 
   return (

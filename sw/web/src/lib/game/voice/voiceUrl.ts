@@ -7,6 +7,8 @@
  * 경로 규칙 SSoT: web-bo는 sw/web-bo/src/lib/voice-path.ts
  */
 
+import type { Locale } from "@/types/locale";
+
 const R2_PUBLIC_URL = "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev";
 
 /** DialogueType → 파일 접두사 매핑 */
@@ -23,7 +25,7 @@ const TYPE_PREFIX: Record<string, string> = {
 /** 대사 음성 URL (variant: 1|2|3) */
 export function getVoiceUrl(
   celebId: string,
-  locale: "ko" | "en",
+  locale: Locale,
   type: string,
   variant: number,
   voiceV = 0
@@ -36,7 +38,7 @@ export function getVoiceUrl(
 /** 명언 음성 URL */
 export function getQuoteVoiceUrl(
   celebId: string,
-  locale: "ko" | "en",
+  locale: Locale,
   voiceV = 0
 ): string {
   const base = `${R2_PUBLIC_URL}/celebs/${celebId}/voice/${locale}/quote.mp3`;

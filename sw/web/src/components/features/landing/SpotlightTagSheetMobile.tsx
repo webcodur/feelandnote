@@ -5,13 +5,14 @@ import { ChevronDown, Lock, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag } from "@/actions/home";
 import { useTranslations } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
 
 interface SpotlightTagSheetMobileProps {
   tags: FeaturedTag[];
   activeIndex: number;
   onChange: (idx: number) => void;
-  locale: 'ko' | 'en';
+  locale: Locale;
 }
 
 export default function SpotlightTagSheetMobile({

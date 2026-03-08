@@ -16,8 +16,8 @@ export default function ExploreTabs() {
 
   const EXPLORE_TABS = [
     { value: "hub" as const, label: t("tabs.hub"), href: "/explore" },
-    { value: "celebs" as const, label: t("tabs.celebs"), href: "/explore/celebs" },
-    { value: "celeb-feed" as const, label: t("tabs.celebFeed"), href: "/explore/celeb-feed" },
+    { value: "figures" as const, label: t("tabs.celebs"), href: "/explore/figures" },
+    { value: "feed" as const, label: t("tabs.celebFeed"), href: "/explore/feed" },
     { value: "spotlight" as const, label: t("tabs.spotlight"), href: "/explore/spotlight" },
   ];
   // 서브 경로 먼저 매칭 후, 정확히 /explore만 남으면 hub

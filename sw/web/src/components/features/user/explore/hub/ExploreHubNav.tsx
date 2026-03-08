@@ -13,15 +13,15 @@ export default async function ExploreHubNav() {
 
   // 허브 섹션 항목 — 실제 페이지 내 섹션 순서와 동일
   const hubItems = [
-    { label: t("navCelebs"), href: "/explore/celebs", icon: <Users size={14} /> },           // 01: 왕성한 기록가들
-    { label: t("navTopByType"), href: "/explore/top-by-type", icon: <BarChart3 size={14} /> }, // 02: 분야별 최다 기록가
+    { label: t("navCelebs"), href: "/explore/figures", icon: <Users size={14} /> },           // 01: 인물 목록
+    { label: t("navTopByType"), href: "/explore/ranking", icon: <BarChart3 size={14} /> }, // 02: 분야별 랭킹
     { label: t("navPersona"), href: "/explore/persona", icon: <Fingerprint size={14} /> },     // 03: 비범한 기록가
     { label: t("navSpotlight"), href: "/explore/spotlight", icon: <Sparkles size={14} /> },    // 04: 스포트라이트
   ];
 
   // 독립 페이지 — Nav에서만 접근 가능
   const standaloneItems = [
-    { label: t("navFeed"), href: "/explore/celeb-feed", icon: <Rss size={14} /> },
+    { label: t("navFeed"), href: "/explore/feed", icon: <Rss size={14} /> },
   ];
 
   return <HubNav hubItems={hubItems} standaloneItems={standaloneItems} groupId="explore" />;

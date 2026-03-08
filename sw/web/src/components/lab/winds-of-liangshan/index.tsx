@@ -35,14 +35,16 @@ export default function WindsOfLiangshanBackground({
     let particles: Particle[] = [];
     let reeds: Reed[] = [];
 
+    const isMobile = (canvas.parentElement?.clientWidth || window.innerWidth) < 768;
+
     const init = () => {
       W = canvas.parentElement?.clientWidth || window.innerWidth;
       H = canvas.parentElement?.clientHeight || window.innerHeight;
       canvas.width = W;
       canvas.height = H;
 
-      particles = generateParticles(W, H);
-      reeds = generateReeds(W, H);
+      particles = generateParticles(W, H, isMobile);
+      reeds = generateReeds(W, H, isMobile);
     };
 
     window.addEventListener("resize", init);
@@ -70,7 +72,7 @@ export default function WindsOfLiangshanBackground({
       drawHazeMid(ctx, s, time);                  // 6: 수면 아지랑이
       drawObjects(ctx, s, time);                  // 7: 정자, 배, 어부
       drawWaterMist(ctx, s, time);                // 8: 물안개
-      drawReeds(ctx, time, reeds, s);             // 9: 풍성한 갈대
+      drawReeds(ctx, time, reeds, s, isMobile);    // 9: 풍성한 갈대
       drawParticles(ctx, time, dt, particles, s); // 10: 먼지/꽃가루
 
       animId = requestAnimationFrame(draw);

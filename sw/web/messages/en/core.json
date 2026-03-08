@@ -51,6 +51,8 @@
     "collections": "Flow",
     "collectionDetail": "Flow Detail",
     "tierEdit": "Tier Edit",
+    "userRecords": "{nickname}'s Records",
+    "userFallback": "User",
     "about": {
       "title": "About",
       "description": "We consume too much and forget too fast. Records become wisdom that never fades."
@@ -174,7 +176,62 @@
   },
   "policy": {
     "terms": "Terms of Service",
-    "privacy": "Privacy Policy"
+    "termsTitle": "Terms of Service",
+    "termsDescription": "These terms govern the rights, obligations, and responsibilities between Feel&Note and its members.",
+    "privacy": "Privacy Policy",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "Feel&Note values your personal information and complies with applicable privacy laws.",
+    "koreanOnly": "This document is currently available in Korean only.",
+    "terms1Title": "Article 1 (Purpose)",
+    "terms1Body": "These Terms govern the conditions and procedures for using the cultural life recording and sharing platform service (\"Service\") provided by Feel&Note (\"Company\"), and the rights, duties, and responsibilities of the Company and its members.",
+    "terms2Title": "Article 2 (Definitions)",
+    "terms2Item1": "\"Service\" refers to Feel&Note and all related services accessible by members regardless of device (PC, mobile, etc.).",
+    "terms2Item2": "\"Member\" refers to a customer who has agreed to these Terms and entered into a service agreement with the Company.",
+    "terms2Item3": "\"Content\" refers to text, photos, videos, files, links, and other information in the form of signs, characters, audio, video, etc. posted by members on the Service.",
+    "terms3Title": "Article 3 (Account Creation)",
+    "terms3Body": "1. Users may apply for membership by filling in the registration form or through social login (Google, Kakao, etc.).\n2. The Company shall, in principle, accept the user's application. However, the Company may reject or later terminate the agreement if the applicant used a false identity or another person's information.",
+    "terms4Title": "Article 4 (Member Obligations)",
+    "terms4Intro": "Members shall not engage in any of the following acts:",
+    "terms4Item1": "Registering false information during application or modification",
+    "terms4Item2": "Misappropriating another person's information",
+    "terms4Item3": "Altering information posted by the Company",
+    "terms4Item4": "Infringing on the copyrights or other intellectual property rights of the Company or third parties",
+    "terms4Item5": "Damaging the reputation of or interfering with the business of the Company or third parties",
+    "terms4Item6": "Publicly posting obscene or violent messages, images, audio, or other information contrary to public morals",
+    "terms5Title": "Article 5 (Copyright Ownership and Usage Restrictions)",
+    "terms5Body": "1. The copyright of posts made by members within the Service belongs to the author of each post.\n2. Members shall not reproduce, transmit, publish, distribute, broadcast, or otherwise use information obtained through the Service for commercial purposes without the Company's prior consent.\n3. The Company may use content posted by members for the purpose of operating, promoting, and improving the Service.",
+    "terms6Title": "Article 6 (Limitation of Liability)",
+    "terms6Body": "The Company is exempt from responsibility for service provision in cases of force majeure such as natural disasters. The Company is not liable for any expected profits lost by members through use of the Service, nor for damages arising from materials obtained through the Service.",
+    "termsAddendum": "Addendum",
+    "termsEffectiveDate": "These Terms are effective from January 11, 2026.",
+    "privacy1Title": "1. Purpose of Processing Personal Information",
+    "privacy1Body": "The Company processes personal information for the following purposes. Personal information being processed will not be used for purposes other than the following, and necessary measures such as obtaining separate consent will be taken if the purpose changes.",
+    "privacy1Item1": "<b>Membership registration and management</b>: Providing membership services, personal identification, confirming intent to register, screening and usage restrictions, etc.",
+    "privacy1Item2": "<b>Service provision and improvement</b>: Storing cultural life records, personalized content recommendations, service feature improvements, etc.",
+    "privacy1Item3": "<b>Customer inquiry handling</b>: Verifying identity, confirming inquiries, contacting for fact-finding, notifying of results, etc.",
+    "privacy2Title": "2. Personal Information Collected",
+    "privacy2Body": "The Company may collect the following personal information during registration and use of the Service.",
+    "privacy2Item1": "<b>Required</b>: Email address, nickname, profile image (information provided through social login)",
+    "privacy2Item2": "<b>Optional</b>: User's cultural content records (movies, books, performances, etc.), self-introduction, etc.",
+    "privacy2Item3": "<b>Automatically collected</b>: IP address, cookies, access logs, service usage records, device information",
+    "privacy3Title": "3. Retention and Use Period of Personal Information",
+    "privacy3Body": "The Company processes and retains personal information within the retention and use period prescribed by law or agreed upon at the time of collection.",
+    "privacy3Item1": "<b>Upon membership withdrawal</b>: Destroyed without delay (except where prohibited by relevant laws)",
+    "privacy3Item2": "<b>Retention under relevant laws</b>: Where retention is required by provisions of relevant laws such as the Act on Consumer Protection in Electronic Commerce",
+    "privacy4Title": "4. Destruction of Personal Information",
+    "privacy4Body": "The Company destroys personal information without delay when it becomes unnecessary due to expiration of the retention period or achievement of the processing purpose. Electronic files are deleted using technical methods to prevent recovery.",
+    "privacy5Title": "5. Member Rights and How to Exercise Them",
+    "privacy5Body": "Members may exercise their rights to access, correct, delete, or suspend processing of their personal information at any time. Such rights may be exercised through written notice, email, etc. to the Company, and the Company will act without delay.",
+    "privacyAnnouncementDate": "Announcement date: January 11, 2026",
+    "privacyEffectiveDate": "Effective date: January 11, 2026",
+    "contact": "Contact Us",
+    "contactTitle": "Contact Us",
+    "contactDescription": "Get in touch with Feel&Note for inquiries and feedback.",
+    "contactEmail": "Email",
+    "contactEmailDesc": "If you have any questions, please reach out to us via email.",
+    "contactFeedback": "Feedback Board",
+    "contactFeedbackDesc": "For feature suggestions, bug reports, or other feedback, please use our feedback board.",
+    "contactFeedbackLink": "Go to Feedback Board"
   },
   "common": {
     "loadMore": "Load More",
@@ -195,7 +252,7 @@
       "mode": {
         "content": "Content",
         "user": "Users",
-        "celeb": "Celebs",
+        "celeb": "Figures",
         "records": "My Records",
         "contentPlaceholder": "Title, author...",
         "userPlaceholder": "Nickname...",
@@ -232,7 +289,8 @@
     "celeb": {
       "info": "Info",
       "following": "Following",
-      "follow": "Follow"
+      "follow": "Follow",
+      "contentCount": "{count} contents collected"
     },
     "game": {
       "exit": "Exit",
@@ -297,8 +355,8 @@
     },
     "persona": {
       "ability": "Ability",
-      "inner_virtue": "Inner Virtue",
-      "outer_virtue": "Outer Virtue",
+      "inner_virtue": "Inner Virtues",
+      "outer_virtue": "Outer Virtues",
       "tendency": "Tendency",
       "noData": "No data",
       "stat": {
@@ -349,6 +407,10 @@
     "accept": "Accept",
     "emptyAll": "No notifications yet.",
     "emptyFiltered": "All caught up!"
+  },
+  "popularBooks": {
+    "title": "Most Read Books",
+    "buyOnCoupang": "View on Coupang"
   },
   "aboutPage": {
     "heroTitle1": "Where do your impressions",

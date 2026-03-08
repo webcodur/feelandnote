@@ -18,6 +18,7 @@ import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { useTranslations, useLocale } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // #region Types
@@ -118,7 +119,7 @@ export default function CelebCard({
         text: displayQuote,
         nickname: displayNickname,
         avatarUrl: avatar_url ?? null,
-        audioUrl: hasVoice ? getQuoteVoiceUrl(id, locale as "ko" | "en", voiceV) : null,
+        audioUrl: hasVoice ? getQuoteVoiceUrl(id, locale as Locale, voiceV) : null,
         label: "quotes",
       });
     } else {
@@ -128,7 +129,7 @@ export default function CelebCard({
         text: stripEmotionTag(greetings[slot]),
         nickname: displayNickname,
         avatarUrl: avatar_url ?? null,
-        audioUrl: hasVoice ? getVoiceUrl(id, locale as "ko" | "en", "greeting", slot + 1, voiceV) : null,
+        audioUrl: hasVoice ? getVoiceUrl(id, locale as Locale, "greeting", slot + 1, voiceV) : null,
         label: "greeting",
       });
     }
@@ -248,7 +249,7 @@ export default function CelebCard({
 
             {/* 콘텐츠 수 뱃지 (오버레이 비활성 시, full 전용) */}
             {!isLight && !isActive && count !== undefined && count > 0 && (
-              <div className={`${badgeStyles.card} z-20 flex items-center justify-center`}>
+              <div className={`${badgeStyles.card} z-20 flex items-center justify-center`} title={t("contentCount", { count })}>
                 <span className="font-bold leading-none">{count}</span>
               </div>
             )}
@@ -379,7 +380,7 @@ export default function CelebCard({
           </div>
 
           {!isLight && count !== undefined && count > 0 && (
-            <div className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold`}>
+            <div className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold`} title={t("contentCount", { count })}>
               {count}
             </div>
           )}

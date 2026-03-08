@@ -12,15 +12,16 @@ export async function generateMetadata() {
   return { title: t("freeBoard") };
 }
 
-export default function Page() {
+export default async function Page() {
+  const t = await getTranslations("agora");
   return (
     <>
       <div className="bg-surface rounded-2xl p-12 text-center">
         <div className="text-text-tertiary mb-2 flex justify-center">
           <MessageSquare size={48} />
         </div>
-        <p className="text-lg font-medium text-text-secondary">준비 중입니다</p>
-        <p className="text-sm text-text-tertiary mt-1">곧 자유게시판 기능이 추가될 예정이에요</p>
+        <p className="text-lg font-medium text-text-secondary">{t("freeBoardComingSoon")}</p>
+        <p className="text-sm text-text-tertiary mt-1">{t("freeBoardComingSoonDesc")}</p>
       </div>
     </>
   );

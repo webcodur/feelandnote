@@ -80,7 +80,8 @@
     "createFailed": "Failed to create flow.",
     "cancel": "Cancel",
     "creating": "Creating...",
-    "create": "Create Flow"
+    "create": "Create Flow",
+    "stageDefault": "Stage {n}"
   },
   "flowDetail": {
     "reasonPlaceholder": "Why did you place this content here...",
@@ -96,6 +97,7 @@
     "emptyFlowGuide": "Add stages and connect your content.",
     "startEdit": "Start editing",
     "addStage": "Add stage",
-    "itemCount": "{count} items"
+    "itemCount": "{count} items",
+    "loadError": "Failed to load flow"
   }
 }

@@ -10,6 +10,7 @@ import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getContentDetail } from "@/actions/contents/getContentDetail";
 import type { CategoryId } from "@/constants/categories";
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 
 const getContentDetailCached = cache(getContentDetail);
@@ -27,8 +28,9 @@ export async function generateMetadata(
 
   try {
     const data = await getContentDetailCached(contentId, category as CategoryId | undefined);
+    const t = await getTranslations("contentDetail");
     const { title, description, thumbnail } = data.content;
-    const desc = description || `${title}에 대한 기록과 리뷰를 확인해보세요.`;
+    const desc = description || t("metaFallback", { title });
 
     const canonicalUrl = `https://feelandnote.com/content/${contentId}`;
 
@@ -50,9 +52,10 @@ export async function generateMetadata(
       },
     };
   } catch {
+    const t = await getTranslations("contentDetail");
     return {
-      title: "콘텐츠 정보 없음",
-      description: "콘텐츠 정보를 불러올 수 없습니다.",
+      title: t("notFoundTitle"),
+      description: t("notFoundDescription"),
     };
   }
 }

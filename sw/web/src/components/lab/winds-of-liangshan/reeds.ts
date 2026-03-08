@@ -32,13 +32,14 @@ export function generateReedClusters(W: number): ReedCluster[] {
 
 // ─── 갈대 인스턴스 생성 ───
 
-export function generateReeds(W: number, H: number): Reed[] {
+export function generateReeds(W: number, H: number, isMobile = false): Reed[] {
   const reeds: Reed[] = [];
   const clusters = generateReedClusters(W);
   const lightX = W * LIGHT_X_RATIO;
 
   for (const cluster of clusters) {
-    const count = Math.floor(cluster.density * cluster.width / 2.5);
+    const divisor = isMobile ? 5 : 2.5;
+    const count = Math.floor(cluster.density * cluster.width / divisor);
 
     // 덩어리 (하단 벽)
     for (let i = 0; i < count; i++) {
@@ -102,6 +103,7 @@ export function drawReeds(
   t: number,
   reeds: Reed[],
   s: SceneContext,
+  isMobile = false,
 ) {
   const baseWind = -0.1;
   c.lineCap = "round";
@@ -185,11 +187,15 @@ export function drawReeds(
   // PASS 1: 중·후경 갈대 (선명)
   midReeds.forEach(strokeReed);
 
-  // PASS 2: 전경 오버사이즈 갈대 (블러 — 카메라 DoF)
-  c.save();
-  c.filter = "blur(1.5px)";
-  fgReeds.forEach(strokeReed);
-  c.restore();
+  // PASS 2: 전경 오버사이즈 갈대 (블러 — 카메라 DoF, 모바일에서 비활성)
+  if (!isMobile) {
+    c.save();
+    c.filter = "blur(1.5px)";
+    fgReeds.forEach(strokeReed);
+    c.restore();
+  } else {
+    fgReeds.forEach(strokeReed);
+  }
 
   // 하이라이트 갈대 태양 림라이트
   c.save();

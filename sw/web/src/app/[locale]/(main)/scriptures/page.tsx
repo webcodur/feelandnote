@@ -7,14 +7,14 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
-import { Clock, Route, Scroll, GraduationCap, User } from "lucide-react";
+import { Clock, Route, Scroll, GraduationCap } from "lucide-react";
 import HubNav from "@/components/shared/HubNav";
 
-import { getTodayFigure, getTopCelebsAcrossAllEras, getProfessionContentCounts, getContentSamplesForCelebs, getContentSamplesByProfession } from "@/actions/scriptures";
-import type { HubContentSample } from "@/actions/scriptures";
+import { getTodayFigure, getScripturesByEra, getProfessionContentCounts, getContentSamplesByProfession } from "@/actions/scriptures";
 import { getAcademyLessonProgressState } from "@/actions/scriptures/academyProgress";
 
 import HubSection from "@/components/shared/HubSection";
+import PopularBooks from "@/components/features/home/PopularBooks";
 import FigurePreview from "@/components/features/scriptures/hub/FigurePreview";
 import EraPreview from "@/components/features/scriptures/hub/EraPreview";
 import ProfessionPreview from "@/components/features/scriptures/hub/ProfessionPreview";
@@ -28,11 +28,10 @@ export async function generateMetadata() {
 
 // #region 허브 섹션 Nav 항목 — 실제 페이지 내 섹션 순서와 동일
 const SCRIPTURE_HUB_ITEMS = [
-  { titleKey: "figure", icon: <User className="h-4 w-4" /> },       // 01: 오늘의 인물
-  { titleKey: "era", icon: <Clock className="h-4 w-4" /> },         // 02: 시대의 명작
-  { titleKey: "profession", icon: <Route className="h-4 w-4" /> },  // 03: 길의 갈래
-  { titleKey: "museum", icon: <Scroll className="h-4 w-4" /> },     // 04: 박물관
-  { titleKey: "academy", icon: <GraduationCap className="h-4 w-4" /> }, // 05: 학당
+  { titleKey: "era", icon: <Clock className="h-4 w-4" /> },         // 01: 시대의 명작
+  { titleKey: "profession", icon: <Route className="h-4 w-4" /> },  // 02: 길의 갈래
+  { titleKey: "museum", icon: <Scroll className="h-4 w-4" /> },     // 03: 박물관
+  { titleKey: "academy", icon: <GraduationCap className="h-4 w-4" /> }, // 04: 학당
 ] as const;
 // #endregion
 
@@ -42,12 +41,12 @@ async function ScripturesHubContent() {
   // 1차 병렬 데이터 페칭
   const [
     todayFigureRes,
-    topCelebs,
+    eraData,
     professionCounts,
     academyState
   ] = await Promise.all([
     getTodayFigure(),
-    getTopCelebsAcrossAllEras(),
+    getScripturesByEra(),
     getProfessionContentCounts(),
     getAcademyLessonProgressState()
   ]);
@@ -56,19 +55,16 @@ async function ScripturesHubContent() {
 
   // 2차: 콘텐츠 샘플 (1차 결과에 의존)
   const topProfessions = [...professionCounts].sort((a, b) => b.count - a.count).slice(0, 6).map(p => p.profession);
-  const [celebContentSamples, professionContentSamples] = await Promise.all([
-    getContentSamplesForCelebs(topCelebs.map(c => c.id), 2),
-    getContentSamplesByProfession(topProfessions, 2),
-  ]);
+  const professionContentSamples = await getContentSamplesByProfession(topProfessions, 2);
 
   return (
     <div className="space-y-12 md:space-y-16 mt-4">
-      {/* 1. 오늘의 인물 (가장 주목도 높게) */}
+      {/* 1. 오늘의 인물 (크로스 링크 — explore로 이동됨) */}
       {figure && contents && (
         <HubSection
           title={tHub("figureLabel")}
           subtitle={tHub("figure")}
-          moreHref="/scriptures/figure"
+          moreHref="/explore/today"
           moreLabel={tHub("moreDetail")}
           index={0} total={5} groupId="scriptures"
         >
@@ -77,7 +73,7 @@ async function ScripturesHubContent() {
       )}
 
       {/* 2. 시대의 명작 */}
-      {topCelebs && topCelebs.length > 0 && (
+      {eraData && eraData.length > 0 && (
         <HubSection
           title={tHub("eraLabel")}
           subtitle={tHub("era")}
@@ -85,7 +81,15 @@ async function ScripturesHubContent() {
           moreLabel={tHub("moreDetail")}
           index={1} total={5} groupId="scriptures"
         >
-          <EraPreview celebs={topCelebs} contentSamples={celebContentSamples} />
+          <EraPreview eras={eraData.map(e => ({
+            era: e.era,
+            label: e.label,
+            period: e.period,
+            description: e.description,
+            celebCount: e.celebCount,
+            contentCount: e.contentCount,
+            topCelebs: e.topCelebs,
+          }))} />
         </HubSection>
       )}
 
@@ -102,7 +106,7 @@ async function ScripturesHubContent() {
         </HubSection>
       )}
 
-      {/* 4. 박물관 (학당 전으로 이동) */}
+      {/* 4. 박물관 */}
       <HubSection
         title={tHub("museumLabel")}
         subtitle={tHub("museum")}
@@ -113,7 +117,7 @@ async function ScripturesHubContent() {
         <MuseumPreview />
       </HubSection>
 
-      {/* 5. 학당 (마지막 수련의 단계) */}
+      {/* 5. 학당 */}
       <HubSection
         title={tHub("academyLabel")}
         subtitle={tHub("academy")}
@@ -149,6 +153,8 @@ export default async function ScripturesPage() {
       }>
         <ScripturesHubContent />
       </Suspense>
+
+      <PopularBooks />
     </div>
   );
 }

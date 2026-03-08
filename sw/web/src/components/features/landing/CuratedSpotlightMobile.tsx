@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useLocale } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
@@ -15,7 +16,7 @@ interface CuratedSpotlightMobileProps {
 }
 
 export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubtitle }: CuratedSpotlightMobileProps) {
-  const locale = useLocale() as 'ko' | 'en';
+  const locale = useLocale() as Locale;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);

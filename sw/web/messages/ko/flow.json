@@ -80,7 +80,8 @@
     "createFailed": "플로우 생성에 실패했습니다.",
     "cancel": "취소",
     "creating": "생성 중...",
-    "create": "플로우 생성"
+    "create": "플로우 생성",
+    "stageDefault": "{n}단계"
   },
   "flowDetail": {
     "reasonPlaceholder": "이 콘텐츠를 여기에 둔 이유...",
@@ -96,6 +97,7 @@
     "emptyFlowGuide": "단계를 추가하고 콘텐츠를 연결해 보세요.",
     "startEdit": "편집 시작",
     "addStage": "단계 추가",
-    "itemCount": "{count}개"
+    "itemCount": "{count}개",
+    "loadError": "플로우를 불러오는데 실패했습니다"
   }
 }

@@ -2,11 +2,11 @@
   "explore": {
     "meta": {
       "title": "탐색",
-      "description": "다양한 분야의 셀럽들과 그들의 인생 콘텐츠를 탐색해보세요."
+      "description": "다양한 분야의 인물들과 그들의 인생 콘텐츠를 탐색해보세요."
     },
     "celebs": {
-      "metaTitle": "셀럽 | 탐색",
-      "metaDescription": "역사 속 위인부터 현대 문화 아이콘까지, 셀럽들의 감상 기록과 추천 작품을 탐색하세요."
+      "metaTitle": "인물 목록 | 인물",
+      "metaDescription": "역사 속 위인부터 현대 문화 아이콘까지, 인물들의 감상 기록과 추천 작품을 탐색하세요."
     },
     "people": {
       "metaTitle": "사람 | 탐색",
@@ -18,13 +18,13 @@
     "ui": {
       "tabs": {
         "hub": "허브",
-        "celebs": "셀럽",
+        "celebs": "인물 목록",
         "social": "소셜",
         "friends": "친구",
         "following": "팔로잉",
         "followers": "팔로워",
         "similar": "취향 유사",
-        "celebFeed": "셀럽 피드",
+        "celebFeed": "인물 피드",
         "spotlight": "스포트라이트"
       },
       "empty": {
@@ -37,7 +37,7 @@
         "noSimilar": "아직 유사한 유저가 없어요",
         "noSimilarDesc": "콘텐츠를 기록하면 취향이 비슷한 유저를 추천해드릴게요",
         "noNationality": "국적 데이터가 없습니다",
-        "noAuraCelebs": "해당 등급의 셀럽이 없습니다."
+        "noAuraCelebs": "해당 등급의 인물이 없습니다."
       },
       "newFollower": "새로운 팔로워",
       "recordCount": "{count} 기록",
@@ -56,13 +56,13 @@
       "gradeDistribution": "등급별 분포",
       "fullRanking": "전체 순위",
       "scoreRange": "점수 구간",
-      "celebStats": "셀럽 통계",
+      "celebStats": "인물 통계",
       "tabProfession": "직군",
       "tabNationality": "국적",
       "tabContent": "콘텐츠",
       "tabGender": "성별",
-      "professionDist": "직군별 셀럽 분포",
-      "nationalityDist": "국적별 셀럽 분포 (상위 10개국)",
+      "professionDist": "직군별 인물 분포",
+      "nationalityDist": "국적별 인물 분포 (상위 10개국)",
       "contentTypeDist": "선호 콘텐츠 타입별 분포",
       "genderDist": "성별 분포",
       "totalContent": "총 콘텐츠",
@@ -78,15 +78,15 @@
       "step3": "유사도가 높은 순으로 추천",
       "moreRecordsBetter": "콘텐츠를 많이 기록할수록 취향이 맞는 유저를 더 정확하게 찾아드릴 수 있어요",
       "confirm": "확인",
-      "addCeleb": "셀럽 추가",
+      "addCeleb": "인물 추가",
       "nameLabel": "이름 *",
-      "namePlaceholder": "셀럽 이름",
+      "namePlaceholder": "인물 이름",
       "fieldLabel": "분야",
       "fieldNone": "선택 안함",
       "bioLabel": "소개",
-      "bioPlaceholder": "셀럽에 대한 간단한 소개",
+      "bioPlaceholder": "인물에 대한 간단한 소개",
       "nameRequired": "이름을 입력해주세요",
-      "addFailed": "셀럽 추가에 실패했습니다",
+      "addFailed": "인물 추가에 실패했습니다",
       "cancel": "취소",
       "adding": "추가 중...",
       "add": "추가",
@@ -132,37 +132,37 @@
       }
     },
     "hub": {
-      "groupDocumented": "기록가들",
+      "groupDocumented": "탐구자",
       "groupDocumentedDesc": "읽고, 보고, 들은 기록이 남은 인물들. 그들의 선택이 당신의 다음 감상을 안내합니다.",
-      "groupThinkers": "사색가들",
+      "groupThinkers": "사색가",
       "groupThinkersDesc": "감상 기록은 전해지지 않으나, 남긴 사유 자체가 하나의 작품인 인물들.",
-      "deepReaders": "왕성한 기록가들",
+      "deepReaders": "왕성한 탐구자",
       "deepReadersSub": "30건 이상의 기록이 확인된 인물들. 풍부한 아카이브 속에서 한 사람의 세계관이 드러납니다.",
-      "topByType": "분야별 최다 기록가",
+      "topByType": "분야별 랭킹",
       "topByTypeSub": "책·영화·게임·음악, 각 분야에서 가장 왕성한 감상을 남긴 인물들.",
-      "lightCelebs": "전체 사색가",
+      "lightCelebs": "사색가",
       "lightCelebsSub": "기록 너머의 철학. 그들의 사유가 당신의 감상에 새로운 시선을 더합니다.",
       "spotlight": "스포트라이트",
       "spotlightSub": "시대와 분야를 넘어 하나의 주제로 엮인 인물 기획전.",
-      "allCelebs": "전체 기록가",
-      "allCelebsSub": "전체 기록가의 서재를 자유롭게 탐색합니다.",
-      "personaExtremes": "비범한 기록가",
+      "allCelebs": "전체 탐구자",
+      "allCelebsSub": "전체 탐구자의 서재를 자유롭게 탐색합니다.",
+      "personaExtremes": "비범한 인물",
       "personaExtremesSub": "선명한 덕목과 탁월한 능력, 뚜렷한 성향을 지닌 인물들. 이들의 고유한 특징이 감상의 결을 어떻게 바꾸는지 살펴보세요.",
       "viewMore": "더보기",
       "viewAll": "전체보기",
       "quickNav": "바로가기",
-      "navCelebs": "전체 인물",
-      "navTopByType": "분야별 기록가",
-      "navPersona": "비범한 기록가",
-      "navFeed": "셀럽 피드",
+      "navCelebs": "인물 목록",
+      "navTopByType": "분야별 랭킹",
+      "navPersona": "인물 분석",
+      "navFeed": "인물 피드",
       "navSpotlight": "스포트라이트"
     },
     "celebFeed": {
-      "metaTitle": "셀럽 피드 | 인물",
-      "metaDescription": "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+      "metaTitle": "인물 피드 | 인물",
+      "metaDescription": "인물들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
     },
     "topByType": {
-      "metaTitle": "분야별 최다 기록가 | 인물",
+      "metaTitle": "분야별 랭킹 | 인물",
       "rank": "{rank}위",
       "count": "{count}개 감상",
       "infoMax": "최다",
@@ -173,10 +173,11 @@
       "sharedBy": "감상한 인물"
     },
     "persona": {
-      "metaTitle": "비범한 기록가 | 인물"
+      "metaTitle": "비범한 인물 | 인물"
     },
     "spotlight": {
       "metaTitle": "스포트라이트 | 인물",
+      "collection": "스포트라이트 컬렉션",
       "tabs": {
         "spotlight": "스포트라이트",
         "shared": "공유 서재",

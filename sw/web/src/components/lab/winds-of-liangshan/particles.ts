@@ -2,9 +2,10 @@ import { type Particle, type SceneContext, PARTICLE_COUNT } from "./types";
 
 // ─── 파티클 생성 ───
 
-export function generateParticles(W: number, H: number): Particle[] {
+export function generateParticles(W: number, H: number, isMobile = false): Particle[] {
   const particles: Particle[] = [];
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
+  const count = isMobile ? Math.floor(PARTICLE_COUNT * 0.5) : PARTICLE_COUNT;
+  for (let i = 0; i < count; i++) {
     particles.push({
       x: Math.random() * W,
       y: H * 0.2 + Math.random() * H * 0.6,

@@ -60,7 +60,7 @@ function formatYear(year: number): string {
 // endregion
 
 // region: 배치 슬롯 컴포넌트
-// 모바일: 가로 납작 (h-6, 세로 보드 사이) / 데스크탑: 세로 (w-20 h-32, 가로 보드 사이)
+// 가로 보드 사이 세로 슬롯
 function PlacementSlot({
   onClick,
   disabled,
@@ -92,9 +92,9 @@ function PlacementSlot({
       disabled={disabled || isEliminated}
       className={cn(
         "group relative flex-shrink-0 flex items-center justify-center",
-        "touch-pan-y md:touch-pan-x",
+        "touch-pan-x",
         "transition-[width,height,opacity] duration-300 ease-out",
-        !isExpanding && !isCollapsed && "w-full h-14 md:w-20 md:h-32",
+        !isExpanding && !isCollapsed && "w-14 h-24 md:w-20 md:h-32",
         isEliminated
           ? "cursor-not-allowed opacity-30"
           : disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
@@ -112,7 +112,7 @@ function PlacementSlot({
         isExpanding
           ? "inset-2 border-2 border-dashed border-accent/50 bg-accent/5 rounded-xl shadow-[0_0_12px_rgba(212,175,55,0.15)]"
           : cn(
-              "inset-y-1.5 inset-x-3 md:inset-x-2 md:inset-y-0 md:top-4 md:bottom-4",
+              "inset-x-2 top-4 bottom-4",
               isCorrectReveal
                 ? "border-2 border-green-400/80 bg-green-400/20 shadow-[0_0_12px_rgba(74,222,128,0.3)]"
                 : isActive
@@ -702,8 +702,8 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
         </div>
       </div>
 
-      {/* 메인 영역: 모바일 flex-row 2열 / 데스크탑 세로 중앙 */}
-      <div className="flex flex-row md:flex-col md:items-center md:justify-center w-full flex-1 min-h-0 h-0 md:h-auto gap-2 md:gap-0 pt-12 pb-2 md:pt-0 md:pb-0 px-2 md:px-0">
+      {/* 메인 영역: 세로 스택 (퀴즈카드 상단 + 보드 하단) */}
+      <div className="flex flex-col items-center justify-center w-full flex-1 min-h-0 h-0 md:h-auto gap-0 pt-12 pb-2 md:pt-0 md:pb-0 px-0">
 
         {/* ── 모바일 통합 상단 헤더 바 ── */}
         <div className={cn(
@@ -739,21 +739,22 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
         {/* ── 퀴즈 카드 + 힌트/시간의눈 ── */}
         {/* PC: [횃불] [카드] [시간의눈] 가로 배치 / MB: 카드 아래에 횃불+시간의눈 */}
         {currentCard && (
-          <div className="fixed left-[2%] w-[46%] top-1/2 -translate-y-1/2 md:static md:w-auto md:top-auto md:translate-y-0 md:left-auto z-20 md:mb-6 flex flex-col md:flex-row md:items-center md:justify-center gap-2 md:gap-4">
+          <div className="z-20 mb-3 md:mb-6 flex flex-row items-center justify-center gap-2 md:gap-4 px-2">
 
-            {/* PC 좌측: 횃불 (힌트) */}
+            {/* 좌측: 횃불 (힌트) */}
             <button
               onClick={useHint}
               disabled={torches <= 0 || isRevealing || gameState !== "playing" || !!hintAnnounce}
               className={cn(
-                "hidden md:flex flex-col items-center gap-1 px-2.5 py-3 rounded-xl bg-black/40 backdrop-blur-sm border border-white/10 transition-all",
+                "flex flex-col items-center gap-0.5 md:gap-1 px-2 py-2 md:px-2.5 md:py-3 rounded-xl bg-black/40 backdrop-blur-sm border border-white/10 transition-all",
                 torches > 0 && !isRevealing && !hintAnnounce
                   ? "text-orange-400 hover:bg-orange-500/20 cursor-pointer active:scale-95"
                   : "text-white/20 cursor-not-allowed"
               )}
             >
-              <Flame size={20} className={torches > 0 ? "drop-shadow-[0_0_4px_rgba(251,146,60,0.5)]" : ""} />
-              <span className="text-[10px] font-bold">{torches}</span>
+              <Flame size={16} className={cn("md:hidden", torches > 0 && "drop-shadow-[0_0_4px_rgba(251,146,60,0.5)]")} />
+              <Flame size={20} className={cn("hidden md:block", torches > 0 && "drop-shadow-[0_0_4px_rgba(251,146,60,0.5)]")} />
+              <span className="text-[9px] md:text-[10px] font-bold">{torches}</span>
             </button>
 
             {/* 퀴즈 카드 */}
@@ -771,7 +772,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                       avatarUrl: currentCard.avatar_url,
                     });
                   }}
-                  className="w-full md:w-44 flex flex-col overflow-hidden rounded-xl border-2 border-white/20 shadow-lg shadow-black/40 cursor-pointer hover:border-accent/50 active:scale-95 transition-all"
+                  className="w-32 md:w-44 flex flex-col overflow-hidden rounded-xl border-2 border-white/20 shadow-lg shadow-black/40 cursor-pointer hover:border-accent/50 active:scale-95 transition-all"
                 >
                   {/* 이미지 영역 — DawnBoardCard와 동일 aspect */}
                   <div className="relative aspect-square md:aspect-[3/4] w-full overflow-hidden bg-stone-900">
@@ -796,7 +797,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                       : centuryText || tDawnGame("unknownYear")
                   }
                   profession={currentCard.profession}
-                  className="w-full md:w-44"
+                  className="w-32 md:w-44"
                   onCardClick={() => {
                     showDialogue(currentCard.id, getTone(currentCard.id), "greeting", {
                       nickname: currentCard.nickname,
@@ -808,92 +809,62 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
               )}
             </div>
 
-            {/* PC 우측: 시간의 눈 */}
+            {/* 우측: 시간의 눈 */}
             <button
               onClick={() => { if (!isRevealing && !isGameOver) setEyeOfTimeOpen(true); }}
               disabled={isRevealing || isGameOver}
               className={cn(
-                "hidden md:flex flex-col items-center gap-1 px-2.5 py-3 rounded-xl bg-black/40 backdrop-blur-sm border border-white/10 transition-all",
+                "flex flex-col items-center gap-0.5 md:gap-1 px-2 py-2 md:px-2.5 md:py-3 rounded-xl bg-black/40 backdrop-blur-sm border border-white/10 transition-all",
                 !isRevealing && !isGameOver
                   ? "text-purple-400 hover:bg-purple-500/20 cursor-pointer active:scale-95"
                   : "text-white/20 cursor-not-allowed"
               )}
             >
-              <Eye size={20} className={!isRevealing && !isGameOver ? "drop-shadow-[0_0_4px_rgba(168,85,247,0.5)]" : ""} />
-              <span className="text-[10px] font-bold font-serif">{tDawnGame("eyeShort")}</span>
+              <Eye size={16} className={cn("md:hidden", !isRevealing && !isGameOver && "drop-shadow-[0_0_4px_rgba(168,85,247,0.5)]")} />
+              <Eye size={20} className={cn("hidden md:block", !isRevealing && !isGameOver && "drop-shadow-[0_0_4px_rgba(168,85,247,0.5)]")} />
+              <span className="text-[9px] md:text-[10px] font-bold font-serif">{tDawnGame("eyeShort")}</span>
             </button>
-
-            {/* 모바일 하단: 횃불 + 시간의 눈 */}
-            <div className="flex md:hidden gap-2">
-              <button
-                onClick={useHint}
-                disabled={torches <= 0 || isRevealing || gameState !== "playing" || !!hintAnnounce}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 transition-all",
-                  torches > 0 && !isRevealing && !hintAnnounce
-                    ? "text-orange-400 active:scale-95"
-                    : "text-white/20 cursor-not-allowed"
-                )}
-              >
-                <Flame size={14} className={torches > 0 ? "drop-shadow-[0_0_4px_rgba(251,146,60,0.5)]" : ""} />
-                <span className="text-[10px] font-bold">{torches}</span>
-              </button>
-              <button
-                onClick={() => { if (!isRevealing && !isGameOver) setEyeOfTimeOpen(true); }}
-                disabled={isRevealing || isGameOver}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 transition-all",
-                  !isRevealing && !isGameOver
-                    ? "text-purple-400 active:scale-95"
-                    : "text-white/20 cursor-not-allowed"
-                )}
-              >
-                <Eye size={14} />
-                <span className="text-[10px] font-bold font-serif">{tDawnGame("eyeShort")}</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ── 우측 2열: 보드 (모바일 fixed 세로 중앙) / 하단 (데스크탑) ── */}
-        <div className="fixed right-[2%] top-1/2 -translate-y-1/2 w-[46%] max-h-[70vh] md:static md:w-full md:top-auto md:translate-y-0 md:right-auto md:max-h-none z-20 overflow-hidden md:overflow-visible bg-black/70 border border-white/10 backdrop-blur-md rounded-xl md:rounded-2xl flex flex-col">
+        {/* ── 보드: 가로 스크롤 ── */}
+        <div className="w-full z-20 overflow-hidden bg-black/70 border border-white/10 backdrop-blur-md rounded-xl md:rounded-2xl flex flex-col">
 
           {/* 장식용 레일 */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
-          {/* 좌우 이동 버튼 + 시대 라벨 (데스크탑) */}
-          <div className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-1">
-            <span className="text-[9px] text-accent/50 font-cinzel tracking-wider">{tDawnGame("ancient")}</span>
+          {/* 좌우 이동 버튼 + 시대 라벨 */}
+          <div className="flex absolute left-1 md:left-2 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-0.5 md:gap-1">
+            <span className="text-[7px] md:text-[9px] text-accent/50 font-cinzel tracking-wider">{tDawnGame("ancient")}</span>
             <button
               onClick={() => scrollBoard("left")}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 border border-white/20 hover:bg-white/10 hover:border-accent text-white transition-all"
+              className="w-7 h-7 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/50 border border-white/20 hover:bg-white/10 hover:border-accent text-white transition-all"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={16} className="md:hidden" />
+              <ChevronLeft size={20} className="hidden md:block" />
             </button>
           </div>
-          <div className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-1">
-            <span className="text-[9px] text-accent/50 font-cinzel tracking-wider">{tDawnGame("modern")}</span>
+          <div className="flex absolute right-1 md:right-2 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-0.5 md:gap-1">
+            <span className="text-[7px] md:text-[9px] text-accent/50 font-cinzel tracking-wider">{tDawnGame("modern")}</span>
             <button
               onClick={() => scrollBoard("right")}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 border border-white/20 hover:bg-white/10 hover:border-accent text-white transition-all"
+              className="w-7 h-7 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black/50 border border-white/20 hover:bg-white/10 hover:border-accent text-white transition-all"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={16} className="md:hidden" />
+              <ChevronRight size={20} className="hidden md:block" />
             </button>
           </div>
 
-          {/* 시대 방향 라벨 — 상단(고대) */}
-          <div className="shrink-0 flex md:hidden items-center justify-center gap-1 py-0.5 text-[9px] text-accent/50 font-cinzel tracking-widest">
-            <span>▲</span><span>{tDawnGame("ancient")}</span>
-          </div>
+          {/* 시대 방향 라벨 — 좌우 버튼에 통합, 별도 없음 */}
 
           {/* 스크롤 영역 — 모바일: 세로 / 데스크탑: 가로 */}
           <div
             ref={boardRef}
             onMouseDown={handleBoardMouseDown}
-            className="overflow-y-auto overflow-x-hidden md:overflow-y-hidden md:overflow-x-auto p-2 md:py-8 md:text-center scrollbar-hidden touch-pan-y md:touch-pan-x cursor-grab flex-1 min-h-0 md:flex-none md:h-auto"
+            className="overflow-y-hidden overflow-x-auto px-8 py-4 md:py-8 text-center scrollbar-hidden touch-pan-x cursor-grab flex-none h-auto"
           >
-            <div className="flex flex-col md:inline-flex md:flex-row items-center gap-0 md:gap-0 md:px-8">
+            <div className="inline-flex flex-row items-center gap-0">
               {/* Start Slot */}
               <PlacementSlot
                 slotIndex={0}
@@ -908,11 +879,11 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                 expandingSize={expandingSize}
               />
 
-              {/* 모바일: 슬롯→카드 연결선 (세로) — StartSlot collapsed면 숨김 */}
+              {/* StartSlot → 카드 연결선 (가로) */}
               <div
                 className={cn(
-                  "w-px bg-white/20 md:hidden transition-[width,height,opacity] duration-300 ease-out",
-                  collapsedSlots.includes(0) ? "h-0 opacity-0" : "h-2"
+                  "h-px bg-white/20 shrink-0 transition-[width,height,opacity] duration-300 ease-out",
+                  collapsedSlots.includes(0) ? "w-0 opacity-0" : "w-2 md:w-3"
                 )}
                 style={collapsedSlots.includes(0) ? { transition: "none" } : undefined}
               />
@@ -925,15 +896,15 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                   <div
                     key={celeb.id}
                     className={cn(
-                      "flex flex-col md:flex-row items-center gap-0 snap-center w-full md:w-auto",
+                      "flex flex-row items-center gap-0 snap-center w-auto",
                       index === newlyPlacedIndex && "animate-in fade-in duration-300"
                     )}
                   >
-                    {/* 데스크탑: 좌측 연결선 (좌측 슬롯이 collapsed면 즉시 숨김) */}
+                    {/* 좌측 연결선 */}
                     <div
                       className={cn(
-                        "hidden md:block h-px bg-white/20 shrink-0 transition-[width,height,opacity] duration-300 ease-out",
-                        isLeftSlotCollapsed ? "w-0 opacity-0" : "w-3"
+                        "h-px bg-white/20 shrink-0 transition-[width,height,opacity] duration-300 ease-out",
+                        isLeftSlotCollapsed ? "w-0 opacity-0" : "w-2 md:w-3"
                       )}
                       style={isLeftSlotCollapsed ? { transition: "none" } : undefined}
                     />
@@ -946,7 +917,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                       profession={celeb.profession}
                       isHighlighted={highlightedIndices.includes(index)}
                       isNewlyPlaced={index === newlyPlacedIndex}
-                      className="w-full md:w-40 shrink-0"
+                      className="w-28 md:w-40 shrink-0"
                       onCardClick={() => {
                         showDefaultLine(getTone(celeb.id), "dawn_guide", {
                           nickname: celeb.nickname,
@@ -956,19 +927,11 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                       onInfoClick={() => setSelectedCeleb(celeb)}
                     />
 
-                    {/* 데스크탑: 카드→슬롯 연결선 */}
+                    {/* 카드→슬롯 연결선 */}
                     <div
                       className={cn(
-                        "hidden md:block h-px bg-white/20 shrink-0 transition-[width,height,opacity] duration-300 ease-out",
-                        isRightSlotCollapsed ? "w-0 opacity-0" : "w-3"
-                      )}
-                      style={isRightSlotCollapsed ? { transition: "none" } : undefined}
-                    />
-                    {/* 모바일: 카드→슬롯 연결선 */}
-                    <div
-                      className={cn(
-                        "w-px bg-white/20 md:hidden transition-[width,height,opacity] duration-300 ease-out",
-                        isRightSlotCollapsed ? "h-0 opacity-0" : "h-2"
+                        "h-px bg-white/20 shrink-0 transition-[width,height,opacity] duration-300 ease-out",
+                        isRightSlotCollapsed ? "w-0 opacity-0" : "w-2 md:w-3"
                       )}
                       style={isRightSlotCollapsed ? { transition: "none" } : undefined}
                     />
@@ -987,12 +950,12 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
                       expandingSize={expandingSize}
                     />
 
-                    {/* 모바일: 슬롯→다음카드 연결선 (마지막 제외) */}
+                    {/* 슬롯→다음카드 연결선 (마지막 제외) */}
                     {index < board.length - 1 && (
                       <div
                         className={cn(
-                          "w-px bg-white/20 md:hidden transition-[width,height,opacity] duration-300 ease-out",
-                          isRightSlotCollapsed ? "h-0 opacity-0" : "h-2"
+                          "h-px bg-white/20 shrink-0 transition-[width,height,opacity] duration-300 ease-out",
+                          isRightSlotCollapsed ? "w-0 opacity-0" : "w-2 md:w-3"
                         )}
                         style={isRightSlotCollapsed ? { transition: "none" } : undefined}
                       />
@@ -1003,10 +966,7 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
             </div>
           </div>
 
-          {/* 시대 방향 라벨 — 하단(현대) */}
-          <div className="shrink-0 flex md:hidden items-center justify-center gap-1 py-0.5 text-[9px] text-accent/50 font-cinzel tracking-widest">
-            <span>{tDawnGame("modern")}</span><span>▼</span>
-          </div>
+          {/* 시대 방향 라벨 — 좌우 버튼에 통합 */}
         </div>
       </div>{/* 메인 영역 끝 */}
 

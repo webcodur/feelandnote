@@ -27,8 +27,28 @@ export async function getNotices(params: GetNoticesParams = {}) {
     throw new Error('공지사항을 불러오는데 실패했습니다')
   }
 
+  const notices = data as NoticeWithAuthor[]
+
+  // 댓글 수 조회
+  if (notices.length > 0) {
+    const ids = notices.map(n => n.id)
+    const { data: counts } = await supabase
+      .from('board_comments')
+      .select('post_id')
+      .eq('board_type', 'NOTICE')
+      .in('post_id', ids)
+
+    if (counts) {
+      const countMap = counts.reduce<Record<string, number>>((acc, c) => {
+        acc[c.post_id] = (acc[c.post_id] || 0) + 1
+        return acc
+      }, {})
+      notices.forEach(n => { (n as any).comment_count = countMap[n.id] || 0 })
+    }
+  }
+
   return {
-    notices: data as NoticeWithAuthor[],
+    notices,
     total: count ?? 0,
     hasMore: (count ?? 0) > offset + limit
   }

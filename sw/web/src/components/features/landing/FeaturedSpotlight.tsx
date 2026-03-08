@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import type { Locale } from "@/types/locale";
+import { useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "@/i18n/navigation";
 import type { FeaturedTag } from "@/actions/home";
 import { getTagChronologicalLibrary } from "@/actions/home/getTagChronologicalLibrary";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -35,7 +37,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
   const t = useTranslations("explore.spotlight");
   const tLanding = useTranslations("landing");
   const tNav = useTranslations("nav");
-  const locale = useLocale() as 'ko' | 'en';
+  const locale = useLocale() as Locale;
 
   const isExplore = location === "explore-pc" || location === "explore-mb";
   
@@ -80,7 +82,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
               className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors"
             >
               <ArrowLeft size={14} />
-              {tNav("explore") || "탐색"}
+              {tNav("explore")}
             </Link>
           ) : (
             <button
@@ -91,7 +93,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
               className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors cursor-pointer"
             >
               <ArrowLeft size={14} />
-              {locale === 'en' ? 'Spotlight Collection' : '스포트라이트 컬렉션'}
+              {t("collection")}
             </button>
           )}
         </div>

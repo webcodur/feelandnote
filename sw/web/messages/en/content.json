@@ -302,5 +302,10 @@
     "addFailed": "An error occurred while adding content.",
     "cancel": "Cancel",
     "add": "Add"
+  },
+  "contentDetail": {
+    "metaFallback": "Explore records and reviews about {title}.",
+    "notFoundTitle": "Content Not Found",
+    "notFoundDescription": "Unable to load content information."
   }
 }

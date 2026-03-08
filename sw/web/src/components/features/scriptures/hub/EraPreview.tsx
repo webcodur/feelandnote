@@ -3,105 +3,177 @@
 import { Link } from "@/i18n/navigation";
 import { Avatar } from "@/components/ui";
 import { useLocale, useTranslations } from "next-intl";
-import { Crown, Library, ArrowRight } from "lucide-react";
+import { Landmark, Swords, Telescope, Zap, BookOpen, Users, ArrowUpRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-interface TopCeleb {
+interface EraCeleb {
   id: string;
   nickname: string;
-  nickname_en: string | null;
   avatar_url: string | null;
   title: string | null;
-  title_en: string | null;
-  influence: number | null;
-  count: number;
 }
 
-interface ContentSample {
-  id: string;
-  title: string;
-  thumbnail_url: string | null;
-  type: string;
-  creator: string | null;
+interface EraData {
+  era: string;
+  label: string;
+  period: string;
+  description: string;
+  celebCount: number;
+  contentCount: number;
+  topCelebs: EraCeleb[];
 }
 
 interface EraPreviewProps {
-  celebs: TopCeleb[];
-  contentSamples?: Record<string, ContentSample[]>;
+  eras: EraData[];
 }
 
-export default function EraPreview({ celebs, contentSamples }: EraPreviewProps) {
+// #region 시대별 테마 설정
+interface EraTheme {
+  icon: LucideIcon;
+  accent: string;       // 악센트 텍스트 색
+  accentBg: string;     // 아이콘 배경
+  accentBorder: string; // hover 보더
+  glowFrom: string;     // 배경 glow 시작색
+  topBar: string;       // 상단 그라디언트 바
+  iconHoverBg: string;  // hover 시 아이콘 배경
+}
+
+const ERA_THEME: Record<string, EraTheme> = {
+  ancient: {
+    icon: Landmark,
+    accent: "text-amber-400",
+    accentBg: "bg-amber-500/10",
+    accentBorder: "hover:border-amber-400/40",
+    glowFrom: "from-amber-500/[0.06]",
+    topBar: "from-amber-600/80 via-amber-400/60 to-amber-600/80",
+    iconHoverBg: "group-hover:bg-amber-500/20",
+  },
+  medieval: {
+    icon: Swords,
+    accent: "text-purple-400",
+    accentBg: "bg-purple-500/10",
+    accentBorder: "hover:border-purple-400/40",
+    glowFrom: "from-purple-500/[0.06]",
+    topBar: "from-purple-600/80 via-purple-400/60 to-purple-600/80",
+    iconHoverBg: "group-hover:bg-purple-500/20",
+  },
+  modern: {
+    icon: Telescope,
+    accent: "text-teal-400",
+    accentBg: "bg-teal-500/10",
+    accentBorder: "hover:border-teal-400/40",
+    glowFrom: "from-teal-500/[0.06]",
+    topBar: "from-teal-600/80 via-teal-400/60 to-teal-600/80",
+    iconHoverBg: "group-hover:bg-teal-500/20",
+  },
+  contemporary: {
+    icon: Zap,
+    accent: "text-sky-400",
+    accentBg: "bg-sky-500/10",
+    accentBorder: "hover:border-sky-400/40",
+    glowFrom: "from-sky-500/[0.06]",
+    topBar: "from-sky-600/80 via-sky-400/60 to-sky-600/80",
+    iconHoverBg: "group-hover:bg-sky-500/20",
+  },
+};
+
+const defaultTheme: EraTheme = {
+  icon: BookOpen,
+  accent: "text-white/60",
+  accentBg: "bg-white/5",
+  accentBorder: "hover:border-white/20",
+  glowFrom: "from-white/[0.03]",
+  topBar: "from-white/20 via-white/10 to-white/20",
+  iconHoverBg: "group-hover:bg-white/10",
+};
+// #endregion
+
+export default function EraPreview({ eras }: EraPreviewProps) {
   const locale = useLocale();
   const t = useTranslations("scriptures.hub");
 
-  if (!celebs || celebs.length === 0) return null;
-
-  const top3 = celebs.slice(0, 3);
+  if (!eras || eras.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {top3.map((celeb, i) => {
-        const name = locale === "en" && celeb.nickname_en ? celeb.nickname_en : celeb.nickname;
-        const title = locale === "en" && celeb.title_en ? celeb.title_en : celeb.title;
-        const rank = i + 1;
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+      {eras.map((era) => {
+        const theme = ERA_THEME[era.era] ?? defaultTheme;
+        const Icon = theme.icon;
+        const celebCount = Number(era.celebCount) || 0;
+        const contentCount = Number(era.contentCount) || 0;
 
         return (
           <Link
-            key={celeb.id}
-            href={`/${celeb.id}`}
-            className="group relative overflow-hidden rounded-2xl bg-[#161616]/80 backdrop-blur-xl border border-white/5 hover:border-accent/40 transition-all duration-500 p-6 flex flex-col items-center text-center gap-4"
+            key={era.era}
+            href={`/scriptures/era?tab=${era.era}`}
+            className={`group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.accentBorder} transition-all duration-500 flex flex-col`}
           >
-            {/* 배경 장식 */}
-            <div className="absolute inset-0 bg-gradient-to-b from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            {/* ── 상단 악센트 바 ── */}
+            <div className={`h-[2px] w-full bg-gradient-to-r ${theme.topBar} opacity-70 group-hover:opacity-100 transition-opacity duration-700`} />
 
-            {/* 순위 뱃지 */}
-            <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20">
-              {rank === 1 && <Crown size={12} className="text-accent" />}
-              <span className="text-[11px] font-bold text-accent/80 tabular-nums">#{rank}</span>
-            </div>
+            {/* ── 배경 글로우 ── */}
+            <div className={`absolute inset-0 bg-gradient-to-b ${theme.glowFrom} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
 
-            {/* 아바타 */}
-            <div className="relative mt-2">
-              <Avatar
-                url={celeb.avatar_url}
-                name={name}
-                size="xl"
-                className="ring-2 ring-white/10 group-hover:ring-accent/30 transition-all duration-500"
-              />
-            </div>
+            {/* ── 콘텐츠 영역 ── */}
+            <div className="relative z-10 p-5 md:p-6 flex flex-col gap-3 flex-1">
+              {/* 아이콘 + 라벨 */}
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-xl ${theme.accentBg} ${theme.iconHoverBg} flex items-center justify-center transition-colors duration-500`}>
+                  <Icon size={20} className={theme.accent} strokeWidth={1.8} />
+                </div>
+                <h4 className="text-lg md:text-xl font-bold text-white tracking-tight">
+                  {era.label}
+                </h4>
+              </div>
 
-            {/* 이름 + 칭호 */}
-            <div className="space-y-1.5 min-h-[56px]">
-              <h4 className="text-base font-bold text-white tracking-tight group-hover:text-accent transition-colors duration-300">
-                {name}
-              </h4>
-              {title && (
-                <p className="text-xs text-text-tertiary leading-snug line-clamp-2 break-keep">
-                  {title}
-                </p>
+              {/* 연대 */}
+              <span className="text-xs font-mono text-white/60 tracking-wide font-medium">
+                {era.period}
+              </span>
+
+              {/* 설명 */}
+              <p className="text-sm text-white/70 leading-relaxed line-clamp-2 break-keep min-h-[40px]">
+                {era.description}
+              </p>
+
+              {/* 하단 통계 + 화살표 */}
+              <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/[0.08]">
+                <div className="flex items-center gap-3 text-xs font-medium text-white/55">
+                  <span className="flex items-center gap-1">
+                    <Users size={13} className={theme.accent} style={{ opacity: 0.7 }} />
+                    {celebCount}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <BookOpen size={13} className={theme.accent} style={{ opacity: 0.7 }} />
+                    {contentCount}
+                  </span>
+                </div>
+                <ArrowUpRight
+                  size={16}
+                  className="text-white/20 group-hover:text-white/60 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </div>
+
+              {/* 대표 인물 아바타 */}
+              {era.topCelebs && era.topCelebs.length > 0 && (
+                <div className="flex -space-x-2 mt-1">
+                  {era.topCelebs.slice(0, 4).map((celeb) => (
+                    <Avatar
+                      key={celeb.id}
+                      url={celeb.avatar_url}
+                      name={celeb.nickname}
+                      size="sm"
+                      className="ring-1 ring-[#111113] opacity-80 group-hover:opacity-100 transition-opacity"
+                    />
+                  ))}
+                  {celebCount > 4 && (
+                    <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                      <span className="text-[9px] text-white/40">+{celebCount - 4}</span>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
-
-            {/* 대표 콘텐츠 썸네일 */}
-            {contentSamples?.[celeb.id]?.length ? (
-              <div className="flex items-center gap-1.5">
-                {contentSamples[celeb.id].map((c) => (
-                  <div key={c.id} className="w-9 h-12 rounded-md overflow-hidden bg-white/5 border border-white/10 shadow-sm flex-shrink-0">
-                    {c.thumbnail_url && <img src={c.thumbnail_url} alt={c.title} className="w-full h-full object-cover" />}
-                  </div>
-                ))}
-                <span className="text-[10px] text-text-tertiary font-medium ml-0.5">+{celeb.count}</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5">
-                <Library size={13} className="text-text-tertiary" />
-                <span className="text-xs font-semibold text-text-secondary tabular-nums">{celeb.count}</span>
-                <span className="text-xs text-text-tertiary">works</span>
-              </div>
-            )}
-
-            {/* 화살표 */}
-            <ArrowRight size={14} className="absolute bottom-4 right-4 text-text-tertiary/50 group-hover:text-accent group-hover:-rotate-45 transition-all duration-300" />
           </Link>
         );
       })}

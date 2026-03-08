@@ -43,6 +43,25 @@ const KEY_MAP: Record<string, number> = {
   KeyA: 3, KeyS: 4, KeyD: 5,
 };
 
+// ─── 음계 (도레미파솔라) ───
+const NOTE_FREQS = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00]; // C5~A5
+
+function playNote(cellIdx: number) {
+  try {
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = NOTE_FREQS[cellIdx] ?? 523.25;
+    gain.gain.setValueAtTime(0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.35);
+    setTimeout(() => ctx.close(), 500);
+  } catch { /* AudioContext 미지원 환경 무시 */ }
+}
+
 // ─── 컴포넌트 ───
 
 export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
@@ -89,10 +108,10 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
     setWrongIdx(-1);
     setPhase("showing");
 
-    // 순차 점등
+    // 순차 점등 + 음계 재생
     const timers: ReturnType<typeof setTimeout>[] = [];
     p.forEach((cell, i) => {
-      timers.push(setTimeout(() => setHighlightIdx(cell), i * SHOW_INTERVAL));
+      timers.push(setTimeout(() => { setHighlightIdx(cell); playNote(cell); }, i * SHOW_INTERVAL));
       timers.push(setTimeout(() => setHighlightIdx(-1), i * SHOW_INTERVAL + SHOW_DURATION));
     });
 
@@ -129,8 +148,9 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
     const next = [...playerInput, cellIdx];
     setPlayerInput(next);
 
-    // 일시 하이라이트
+    // 일시 하이라이트 + 음계
     setHighlightIdx(cellIdx);
+    playNote(cellIdx);
     setTimeout(() => setHighlightIdx(-1), 200);
 
     if (!isInputCorrectSoFar(next, pattern)) {
@@ -254,9 +274,10 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
       {/* ═══ 메인 영역 ═══ */}
       <div className="flex-1 relative flex items-center justify-center overflow-hidden">
 
-            {/* 그리드 — 카운트다운/showing/input/wrongFlash/aiDecide 모두에서 표시 */}
-            {(phase === "countdown" || phase === "showing" || phase === "input" || phase === "wrongFlash" || phase === "aiDecide") && (
-              <div className="flex flex-col items-center gap-5 relative">
+            {/* 그리드 — 항상 마운트, roundResult/result/intro 시 숨김 */}
+              <div className={`flex flex-col items-center gap-5 relative transition-opacity duration-200 ${
+                phase === "roundResult" || phase === "result" || phase === "intro" ? "opacity-0 pointer-events-none" : ""
+              }`}>
                 {/* 상태 텍스트 */}
                 <p className="text-stone-500 text-xs font-serif">
                   {phase === "countdown" && "준비"}
@@ -275,15 +296,16 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
                     const isWrong = wrongIdx === i;
 
                     return (
-                      <motion.button
+                      <button
                         key={i}
-                        className="relative w-[68px] h-[68px] md:w-20 md:h-20 rounded-lg"
+                        type="button"
+                        className="relative w-[68px] h-[68px] md:w-20 md:h-20 rounded-lg active:scale-[0.92]"
                         style={{
                           background: isWrong
                             ? "linear-gradient(to bottom, rgba(160,48,48,0.9), rgba(120,30,30,0.95))"
                             : isHighlight
                               ? `linear-gradient(to bottom, ${CELL_COLORS[i]}, ${CELL_COLORS[i]}cc)`
-                              : `linear-gradient(to bottom, rgba(30,30,30,0.5), rgba(15,15,15,0.7))`,
+                              : "linear-gradient(to bottom, rgba(30,30,30,0.5), rgba(15,15,15,0.7))",
                           border: `2px solid ${
                             isWrong ? "#ea580c"
                               : isHighlight ? "#fcd34d"
@@ -294,9 +316,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
                             : isWrong
                               ? "0 0 24px rgba(220,38,38,0.6), inset 0 2px 4px rgba(255,255,255,0.3)"
                               : "inset 0 2px 6px rgba(0,0,0,0.6), 0 2px 4px rgba(0,0,0,0.2)",
-                          transition: "background 0.1s, border-color 0.1s, box-shadow 0.1s, transform 0.1s",
                         }}
-                        whileTap={phase === "input" ? { scale: 0.92 } : undefined}
                         onClick={(e) => { e.stopPropagation(); handleCellClick(i); }}
                         disabled={phase !== "input"}
                       >
@@ -305,7 +325,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
                             {["Q","W","E","A","S","D"][i]}
                           </span>
                         )}
-                      </motion.button>
+                      </button>
                     );
                   })}
                 </div>
@@ -328,14 +348,20 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
                     </AnimatePresence>
                   </div>
                 )}
-              </div>
-            )}
 
-            {/* 라운드 결과 */}
+                {/* 패턴 재생 안내 */}
+                {phase === "showing" && (
+                  <p className="text-amber-400/70 text-xs font-serif animate-pulse mt-1">
+                    순서를 기억하세요
+                  </p>
+                )}
+              </div>
+
+            {/* 라운드 결과 — 그리드 위 중앙 오버레이 */}
             <AnimatePresence>
               {phase === "roundResult" && (
                 <motion.p
-                  className="text-stone-300 text-lg font-serif"
+                  className="absolute inset-0 flex items-center justify-center text-stone-300 text-lg font-serif z-10"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}

@@ -20,6 +20,7 @@ import { HomeNavigationLinks } from "@/components/features/home/HomeNavigationLi
 
 import { getProfile } from "@/actions/user/getProfile";
 import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/scriptures";
+import PopularBooks from "@/components/features/home/PopularBooks";
 
 // #region 스켈레톤
 function HomeSectionSkeleton() {
@@ -114,6 +115,7 @@ export default async function MainPage() {
           quickRecord: t("quickRecord"),
         }}
       />
+      <PopularBooks />
     </div>
   );
 }

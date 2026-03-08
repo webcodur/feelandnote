@@ -7,6 +7,7 @@
 
 import { type ReactNode } from "react";
 import { Info, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 
@@ -49,6 +50,7 @@ export default function ActionModal({
   actions = [],
   size = "sm",
 }: ActionModalProps) {
+  const t = useTranslations("actionModal");
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} icon={Icon} size={size} closeOnOverlayClick>
       <ModalBody>
@@ -77,7 +79,7 @@ export default function ActionModal({
                 action.disabled ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {action.loading ? "처리 중..." : action.label}
+              {action.loading ? t("processing") : action.label}
             </Button>
           ))}
         </ModalFooter>

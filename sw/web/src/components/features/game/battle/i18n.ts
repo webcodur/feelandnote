@@ -1,6 +1,5 @@
 import type { Command, CounterResult } from "@/lib/game/types";
-
-type LocaleKey = "ko" | "en";
+import { type Locale, resolveLocale } from "@/types/locale";
 
 interface BattleSection {
   label: string;
@@ -114,7 +113,7 @@ interface BattleText {
   };
 }
 
-const TEXT: Record<LocaleKey, BattleText> = {
+const TEXT: Record<Locale, BattleText> = {
   ko: {
     loading: "카드 데이터 로딩 중...",
     phase: {
@@ -299,7 +298,7 @@ const TEXT: Record<LocaleKey, BattleText> = {
   },
 };
 
-const COMMAND_LABELS_BY_LOCALE: Record<LocaleKey, Record<Command, string>> = {
+const COMMAND_LABELS_BY_LOCALE: Record<Locale, Record<Command, string>> = {
   ko: {
     assault: "전투",
     stratagem: "책략",
@@ -312,7 +311,7 @@ const COMMAND_LABELS_BY_LOCALE: Record<LocaleKey, Record<Command, string>> = {
   },
 };
 
-const COMMAND_PLAQUE_LABELS: Record<LocaleKey, Record<Command, string>> = {
+const COMMAND_PLAQUE_LABELS: Record<Locale, Record<Command, string>> = {
   ko: {
     assault: "전투",
     stratagem: "책략",
@@ -325,7 +324,7 @@ const COMMAND_PLAQUE_LABELS: Record<LocaleKey, Record<Command, string>> = {
   },
 };
 
-const COMMAND_SEAL_LABELS: Record<LocaleKey, Record<Command, string>> = {
+const COMMAND_SEAL_LABELS: Record<Locale, Record<Command, string>> = {
   ko: {
     assault: "戰",
     stratagem: "策",
@@ -338,12 +337,12 @@ const COMMAND_SEAL_LABELS: Record<LocaleKey, Record<Command, string>> = {
   },
 };
 
-const COUNTER_LABELS: Record<LocaleKey, Record<CounterResult, string>> = {
+const COUNTER_LABELS: Record<Locale, Record<CounterResult, string>> = {
   ko: { win: "카운터", lose: "역습", draw: "접전" },
   en: { win: "Counter", lose: "Riposte", draw: "Standoff" },
 };
 
-const COUNTER_EXPLAINS: Record<LocaleKey, Record<string, string>> = {
+const COUNTER_EXPLAINS: Record<Locale, Record<string, string>> = {
   ko: {
     "assault-govern": "전투가 내정을 압도",
     "govern-stratagem": "내정이 책략을 무력화",
@@ -356,7 +355,7 @@ const COUNTER_EXPLAINS: Record<LocaleKey, Record<string, string>> = {
   },
 };
 
-const COMMAND_DETAILS: Record<LocaleKey, Record<Command, BattleCommandInfo>> = {
+const COMMAND_DETAILS: Record<Locale, Record<Command, BattleCommandInfo>> = {
   ko: {
     assault: {
       summary: "군사력으로 상대 국력을 직접 타격한다.",
@@ -433,7 +432,7 @@ const COMMAND_DETAILS: Record<LocaleKey, Record<Command, BattleCommandInfo>> = {
   },
 };
 
-const CAPTAIN_INFO: Record<LocaleKey, BattleCaptainInfo> = {
+const CAPTAIN_INFO: Record<Locale, BattleCaptainInfo> = {
   ko: {
     title: "주장",
     subtitle: "아군의 지휘관을 임명하여 전력을 강화한다.",
@@ -458,38 +457,34 @@ const CAPTAIN_INFO: Record<LocaleKey, BattleCaptainInfo> = {
   },
 };
 
-function localeKey(locale: string): LocaleKey {
-  return locale.startsWith("en") ? "en" : "ko";
-}
-
 export function getBattleText(locale: string): BattleText {
-  return TEXT[localeKey(locale)];
+  return TEXT[resolveLocale(locale)];
 }
 
 export function getBattleCommandLabel(command: Command, locale: string): string {
-  return COMMAND_LABELS_BY_LOCALE[localeKey(locale)][command];
+  return COMMAND_LABELS_BY_LOCALE[resolveLocale(locale)][command];
 }
 
 export function getBattlePlaqueLabel(command: Command, locale: string): string {
-  return COMMAND_PLAQUE_LABELS[localeKey(locale)][command];
+  return COMMAND_PLAQUE_LABELS[resolveLocale(locale)][command];
 }
 
 export function getBattleSealLabel(command: Command, locale: string): string {
-  return COMMAND_SEAL_LABELS[localeKey(locale)][command];
+  return COMMAND_SEAL_LABELS[resolveLocale(locale)][command];
 }
 
 export function getBattleCounterLabel(result: CounterResult, locale: string, emphatic = false): string {
-  const label = COUNTER_LABELS[localeKey(locale)][result];
+  const label = COUNTER_LABELS[resolveLocale(locale)][result];
   return emphatic && result !== "draw" ? `${label}!` : label;
 }
 
 export function getBattleCounterExplain(playerCommand: Command, aiCommand: Command, locale: string): string | null {
-  const map = COUNTER_EXPLAINS[localeKey(locale)];
+  const map = COUNTER_EXPLAINS[resolveLocale(locale)];
   return map[`${playerCommand}-${aiCommand}`] ?? map[`${aiCommand}-${playerCommand}`] ?? null;
 }
 
 export function getBattleMandateLabel(command: Command, locale: string): string {
-  if (localeKey(locale) === "en") {
+  if (resolveLocale(locale) === "en") {
     switch (command) {
       case "assault":
         return "Fate of Storms";
@@ -511,15 +506,15 @@ export function getBattleMandateLabel(command: Command, locale: string): string 
 }
 
 export function getBattleCommandInfo(command: Command, locale: string): BattleCommandInfo {
-  return COMMAND_DETAILS[localeKey(locale)][command];
+  return COMMAND_DETAILS[resolveLocale(locale)][command];
 }
 
 export function getBattleCaptainInfo(locale: string): BattleCaptainInfo {
-  return CAPTAIN_INFO[localeKey(locale)];
+  return CAPTAIN_INFO[resolveLocale(locale)];
 }
 
 export function getBattleCardEffect(command: Command, apt: number, locale: string): string {
-  const l = localeKey(locale);
+  const l = resolveLocale(locale);
   const baseDamage = Math.round(apt / 2);
   if (l === "ko") {
     switch (command) {
@@ -544,11 +539,11 @@ export function getBattleCardEffect(command: Command, apt: number, locale: strin
 
 export function getBattleRoundsLabel(count: number, locale: string): string {
   const text = getBattleText(locale);
-  return localeKey(locale) === "en" ? `${count}${text.result.roundsSuffix}` : `${count}${text.result.roundsSuffix}`;
+  return resolveLocale(locale) === "en" ? `${count}${text.result.roundsSuffix}` : `${count}${text.result.roundsSuffix}`;
 }
 
 export function translateBattleNarrative(text: string, locale: string): string {
-  if (localeKey(locale) !== "en") return text;
+  if (resolveLocale(locale) !== "en") return text;
 
   const applyFateTag = (value: string, hasFate: boolean) => hasFate ? `${value} [Fate]` : value;
   const base = text.replace(/\s*\[천명\]$/, "");

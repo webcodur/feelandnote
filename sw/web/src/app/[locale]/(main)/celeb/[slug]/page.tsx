@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
@@ -105,7 +105,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const result = await getCelebBySlug(slug, locale);
 
   if (!result.success || !result.data) {
-    return { title: locale === 'en' ? "Celebrity not found" : "셀럽을 찾을 수 없습니다" };
+    const t = await getTranslations("celebPage");
+    return { title: t("notFound") };
   }
 
   const { nickname, profession, contentTypeCounts } = result.data;

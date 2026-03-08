@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import type { SpotlightLocation } from "./FeaturedSpotlight";
@@ -21,7 +22,7 @@ interface CuratedSpotlightDesktopProps {
 
 export default function CuratedSpotlightDesktop({ activeTag, location = "main", onSubtitle }: CuratedSpotlightDesktopProps) {
   const t = useTranslations("landing");
-  const locale = useLocale() as 'ko' | 'en';
+  const locale = useLocale() as Locale;
   const isExplore = location === "explore-pc";
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { fireGreeting, ripple, triggerRipple, clearRipple } = useCelebGreeting({ onSubtitle, locale });

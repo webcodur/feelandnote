@@ -11,6 +11,7 @@ import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDial
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import type { SpeechTone } from "@/lib/game/voice/types";
 import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import type { Locale } from "@/types/locale";
 
 /** fireGreeting에 전달할 셀럽 최소 인터페이스 */
 export interface GreetingCeleb {
@@ -28,7 +29,7 @@ export interface GreetingCeleb {
 
 interface UseCelebGreetingOptions {
   onSubtitle?: (data: DialogueSubtitleData) => void;
-  locale: "ko" | "en";
+  locale: Locale;
 }
 
 export interface RippleData {

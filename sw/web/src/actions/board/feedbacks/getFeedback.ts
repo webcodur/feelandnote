@@ -6,6 +6,9 @@ import type { FeedbackWithDetails } from '@/types/database'
 export async function getFeedback(id: string) {
   const supabase = await createClient()
 
+  // 조회수 증가
+  await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
+
   const { data, error } = await supabase
     .from('feedbacks')
     .select(`

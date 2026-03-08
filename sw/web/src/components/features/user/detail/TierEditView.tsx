@@ -15,6 +15,7 @@ import { updateFlow } from "@/actions/flows/updateFlow";
 import type { FlowWithStages, FlowNodeWithContent, ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 interface TierEditViewProps {
   flowId: string;
@@ -32,6 +33,7 @@ const TIER_CONFIG: Record<string, { label: string; color: string; border: string
 type TierLabel = (typeof TIER_LABELS)[number];
 
 export default function TierEditView({ flowId }: TierEditViewProps) {
+  const t = useTranslations("flowDetail");
   const router = useRouter();
   const [flow, setFlow] = useState<FlowWithStages | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,7 +77,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
         setUnranked(allContentIds);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "재생목록을 불러오는데 실패했습니다");
+      setError(err instanceof Error ? err.message : t("loadError"));
     } finally {
       setIsLoading(false);
     }

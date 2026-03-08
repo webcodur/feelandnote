@@ -14,6 +14,9 @@ import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
+/** 게임 풀 최소 통시성 — 대중 인지도 확보 기준 */
+const MIN_TRANSHISTORICITY = 15;
+
 /** 카드 풀 조회 (대사 미포함 — 경량) */
 export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
   const supabase = await createClient();
@@ -31,7 +34,8 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
     `)
     .eq("profile_type", "CELEB")
     .eq("status", "active")
-    .not("death_date", "is", null);
+    .not("death_date", "is", null)
+    .gte("celeb_influence.transhistoricity", MIN_TRANSHISTORICITY);
 
   if (celebIds && celebIds.length > 0) {
     query = query.in("id", celebIds);

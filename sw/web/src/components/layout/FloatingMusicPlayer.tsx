@@ -9,6 +9,7 @@ import type { ContentStatus } from '@/types/database'
 import MusicTrackItem from './MusicTrackItem'
 import GameAudioPlayer from '@/components/shared/GameAudioPlayer'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
+import { createClient } from '@/lib/supabase/client'
 
 // #region Constants
 const DEFAULT_W = 320
@@ -62,6 +63,7 @@ export default function FloatingMusicPlayer() {
   const t = useTranslations('musicPlayer')
   const { controls: gameAudio } = useGameAudioContext()
   const [isOpen, setIsOpen] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const [tracks, setTracks] = useState<MusicTrack[]>([])
   const [currentIdx, setCurrentIdx] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -75,6 +77,14 @@ export default function FloatingMusicPlayer() {
   const dragRef = useRef<{ x: number; y: number; w: number; h: number } | null>(null)
   const sizeRef = useRef({ w: DEFAULT_W, h: DEFAULT_H })
   const embedHRef = useRef(EMBED_DEFAULT)
+
+  // 비로그인 시 뮤직 플레이어 FAB 숨김
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setIsAuthenticated(!!user)
+    })
+  }, [])
 
   useEffect(() => {
     if (!isOpen || loadedRef.current) return
@@ -166,6 +176,9 @@ export default function FloatingMusicPlayer() {
   const clamped = Math.min(Math.max(EMBED_SIZES[0], embedH), maxEmbed)
   const listH = Math.max(0, bodyH - clamped - SPLIT_H)
   const zStyle = { zIndex: Z_INDEX.floatingPlayer }
+
+  // 비로그인 시 뮤직 플레이어 렌더링 안 함 (게임 모드는 예외)
+  if (!gameAudio && isAuthenticated === false) return null
 
   // ── 게임 모드: 게임 오디오 컨트롤로 전환 ──
   if (gameAudio) {

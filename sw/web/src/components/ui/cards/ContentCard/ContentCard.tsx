@@ -25,6 +25,7 @@ import { RecommendationModal } from "@/components/features/recommendations";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
 import { useLocale, useTranslations } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { addContent } from "@/actions/contents/addContent";
@@ -190,7 +191,7 @@ export default function ContentCard({
     ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn, has_en_edition: hasEnEdition })
     : undefined;
   const showEditionToggle = !!editions && (!!editions.ko || !!editions.en || !!editions.confirmedNoEn);
-  const [activeEdition, setActiveEdition] = useState<"ko" | "en">(locale === "en" ? "en" : "ko");
+  const [activeEdition, setActiveEdition] = useState<Locale>(locale === "en" ? "en" : "ko");
 
   const displayTitle = showEditionToggle && editions![activeEdition]
     ? editions![activeEdition]!.title

@@ -1,7 +1,6 @@
 import { REGIONS, TERRITORIES } from '@/lib/game/suikoden/constants'
 import type { DispositionAction, RegionId, TerritoryId } from '@/lib/game/suikoden/types'
-
-type LocaleKey = 'ko' | 'en'
+import { type Locale, resolveLocale } from '@/types/locale'
 
 interface SuikodenText {
   common: {
@@ -174,7 +173,7 @@ interface SuikodenText {
   }
 }
 
-const TEXT: Record<LocaleKey, SuikodenText> = {
+const TEXT: Record<Locale, SuikodenText> = {
   ko: {
     common: {
       confirm: '확인',
@@ -572,10 +571,6 @@ const TERRITORY_ID_BY_NAME = new Map<string, TerritoryId>(
 const REGION_ID_BY_NAME = new Map<string, RegionId>(
   REGIONS.map((region) => [region.name, region.id]),
 )
-
-function resolveLocale(locale: string): LocaleKey {
-  return locale.startsWith('en') ? 'en' : 'ko'
-}
 
 function localizeTerritoryName(name: string, translateTerritory?: (id: TerritoryId) => string): string {
   const territoryId = TERRITORY_ID_BY_NAME.get(name)

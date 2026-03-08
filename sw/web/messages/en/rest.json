@@ -141,7 +141,7 @@
       },
       "hegemony": {
         "label": "Hegemony",
-        "description": "Engage in strategic battles with celeb cards",
+        "description": "Engage in strategic battles with figure cards",
         "headerDesc": "The Strong Shall Rule",
         "headerSub": "Strategically place cards to defeat your opponent.",
         "rulesDesc": "A strategy game where you recruit historical figures and clash each round",
@@ -682,7 +682,7 @@
       "quickNav": "Quick Navigation",
       "dawn": "A chronological game of ordering historical figures by birth",
       "labyrinth": "Track the deeds of six sages to find the hidden figure",
-      "hegemony": "A strategic battle using celeb cards to issue commands",
+      "hegemony": "A strategic battle using figure cards to issue commands",
       "suikoden": "Lead historical figures, build power, and unite civilizations"
     },
     "meta": {
@@ -699,7 +699,7 @@
     },
     "hegemony": {
       "metaTitle": "Hegemony | Rest",
-      "metaDescription": "A 1v1 strategy card game using celebrity influence cards. Battle with the stats of historical figures."
+      "metaDescription": "A 1v1 strategy card game using figure influence cards. Battle with the stats of historical figures."
     },
     "suikoden": {
       "metaTitle": "Cheondo | Rest",

@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { FolderOpen, Check, Eye, Globe, Users, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import { STATUS_STYLES } from "@/constants/statuses";
 import type { VisibilityType } from "@/types/database";
@@ -16,10 +17,10 @@ export { STATUS_STYLES };
 
 // #region 상수
 
-const VISIBILITY_OPTIONS: { value: VisibilityType; label: string; icon: typeof Globe; class: string }[] = [
-  { value: "public", label: "전체", icon: Globe, class: "text-green-400" },
-  { value: "followers", label: "팔로워", icon: Users, class: "text-blue-400" },
-  { value: "private", label: "비공개", icon: Lock, class: "text-gray-400" },
+const VISIBILITY_OPTIONS: { value: VisibilityType; labelKey: string; icon: typeof Globe; class: string }[] = [
+  { value: "public", labelKey: "visibilityPublic", icon: Globe, class: "text-green-400" },
+  { value: "followers", labelKey: "visibilityFollowers", icon: Users, class: "text-blue-400" },
+  { value: "private", labelKey: "visibilityPrivate", icon: Lock, class: "text-gray-400" },
 ];
 
 export function formatDate(dateStr: string) {
@@ -66,6 +67,7 @@ export default function RecordInfoPanel({
   onVisibilityChange,
   canToggleStatus = false,
 }: RecordInfoPanelProps) {
+  const tr = useTranslations("recordInfo");
   const [isVisibilityOpen, setIsVisibilityOpen] = useState(false);
   const [showSpoiler, setShowSpoiler] = useState(false);
 
@@ -138,7 +140,7 @@ export default function RecordInfoPanel({
                     onClick={(e) => { e.stopPropagation(); setIsVisibilityOpen(!isVisibilityOpen); }}
                   >
                     <Icon size={12} />
-                    {currentVisibility.label}
+                    {tr(currentVisibility.labelKey)}
                   </Button>
                   {isVisibilityOpen && (
                     <div
@@ -156,7 +158,7 @@ export default function RecordInfoPanel({
                           >
                             <span className={`flex items-center gap-1 ${opt.class}`}>
                               <OptIcon size={12} />
-                              {opt.label}
+                              {tr(opt.labelKey)}
                             </span>
                             {data.visibility === opt.value && <Check size={12} className="text-accent" />}
                           </Button>
@@ -168,7 +170,7 @@ export default function RecordInfoPanel({
               ) : (
                 <span className={`${currentVisibility.class} text-[10px] flex items-center gap-1 truncate ml-2 font-bold font-serif`}>
                   <Icon size={12} />
-                  {currentVisibility.label}
+                  {tr(currentVisibility.labelKey)}
                 </span>
               );
             })()}
@@ -202,12 +204,12 @@ export default function RecordInfoPanel({
                   className="absolute inset-0 flex items-center justify-center text-text-tertiary hover:text-accent text-[10px] font-medium gap-1"
                   onClick={(e) => { e.stopPropagation(); setShowSpoiler(true); }}
                 >
-                  <Eye size={10} /> 스포일러 보기
+                  <Eye size={10} /> {tr("showSpoiler")}
                 </Button>
               )}
             </div>
           ) : (
-            <p className="text-text-tertiary italic">리뷰 없음</p>
+            <p className="text-text-tertiary italic">{tr("noReview")}</p>
           )}
         </div>
       )}

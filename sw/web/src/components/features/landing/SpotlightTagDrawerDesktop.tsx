@@ -5,6 +5,7 @@ import { ChevronDown, Lock, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag } from "@/actions/home";
 import { useTranslations } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
 
 interface SpotlightTagDrawerDesktopProps {
@@ -13,7 +14,7 @@ interface SpotlightTagDrawerDesktopProps {
   onChange: (idx: number) => void;
   isExplore: boolean;
   activeDescription: string;
-  locale: 'ko' | 'en';
+  locale: Locale;
 }
 
 export default function SpotlightTagDrawerDesktop({

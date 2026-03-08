@@ -26,8 +26,13 @@ export function getGameBackgroundImages(prefix: string): GameBackgroundImages | 
     return null;
   }
 
-  const pc = files.find((f) => f.startsWith(`${prefix}-pc`));
-  const mb = files.find((f) => f.startsWith(`${prefix}-mb`));
+  // WebP 우선 탐색 (용량이 훨씬 작음)
+  const findBest = (role: string) =>
+    files.find((f) => f.startsWith(`${prefix}-${role}`) && f.endsWith(".webp"))
+    ?? files.find((f) => f.startsWith(`${prefix}-${role}`));
+
+  const pc = findBest("pc");
+  const mb = findBest("mb");
 
   if (!pc || !mb) return null;
 

@@ -8,6 +8,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import ImageBackground from "@/components/lab/ImageBackground";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
+import { usePreloadImages } from "@/hooks/usePreloadImages";
 
 // lazy load — 캔버스 배경은 무거우므로 필요할 때만 로드
 const OlympusOrbit = lazy(() => import("@/components/lab/OlympusOrbitBackground"));
@@ -57,6 +58,9 @@ interface Props {
 }
 
 export default function GameBackground({ phase, playerWins, bgImages }: Props) {
+  // 로비(idle) 단계에서 게임 배경 이미지를 프리로드
+  usePreloadImages(bgImages ? [bgImages.pc, bgImages.mb] : []);
+
   const currentKey = bgKeyFromPhase(phase, playerWins);
   const [layers, setLayers] = useState<{ key: BgKey; opacity: number; id: number }[]>([
     { key: currentKey, opacity: 1, id: 0 },

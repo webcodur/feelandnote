@@ -48,6 +48,7 @@ pnpm build:bo
 | `docs/project/code-rules.md` | 코드 규칙, 디자인 시스템 | UI 개발, 코드 작성 |
 | `docs/project/external-services.md` | Supabase, R2, 크론잡 | 외부 서비스 연동 |
 | `docs/project/i18n.md` | 다국어화 계획, 진행 현황, 기술 참조 | i18n 작업 |
+| `docs/project/monetization.md` | 수익화 방안 탐색 (AdSense 등) | 수익화 전략 수립 |
 | `docs/en-book-thumbnail-fix.md` | 영문 도서 썸네일 수집 작업 보고 | 썸네일 데이터 이력 |
 | `docs/suikoden-sim/` | 천도 게임 기획서 (10개 문서) | 게임 개발 |
 

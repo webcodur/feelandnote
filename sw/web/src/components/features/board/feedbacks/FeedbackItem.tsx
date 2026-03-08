@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation"
+import { Eye, MessageSquare } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import type { FeedbackWithAuthor } from '@/types/database'
@@ -42,6 +43,20 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
             <span>
               {formatDistanceToNow(new Date(feedback.created_at), { addSuffix: true, locale: ko })}
             </span>
+            <span className="text-accent-dim/50">·</span>
+            <span className="flex items-center gap-1">
+              <Eye size={12} className="text-accent-dim" />
+              {feedback.view_count}
+            </span>
+            {(feedback.comment_count ?? 0) > 0 && (
+              <>
+                <span className="text-accent-dim/50">·</span>
+                <span className="flex items-center gap-1">
+                  <MessageSquare size={12} className="text-accent-dim" />
+                  {feedback.comment_count}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>

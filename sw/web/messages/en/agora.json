@@ -3,8 +3,8 @@
     "section": "Agora",
     "items": {
       "celebFeed": {
-        "label": "Celeb Feed",
-        "description": "Explore celeb archives"
+        "label": "Figure Feed",
+        "description": "Explore figure archives"
       },
       "friendFeed": {
         "label": "Friend Feed",
@@ -29,16 +29,18 @@
     },
     "meta": {
       "title": "Agora",
-      "description": "Feel&Note community square — celeb feeds, free boards, and announcements. Share your thoughts and find inspiration."
+      "description": "Feel&Note community square — figure feeds, free boards, and announcements. Share your thoughts and find inspiration."
     },
     "celebFeed": {
-      "metaTitle": "Celeb Feed | Agora",
+      "metaTitle": "Figure Feed | Agora",
       "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
     },
     "friendFeed": {
       "metaTitle": "Friend Feed | Agora"
     },
     "freeBoard": "Free Board",
+    "freeBoardComingSoon": "Coming Soon",
+    "freeBoardComingSoonDesc": "The free board feature will be available soon",
     "feedback": {
       "title": "Feedback",
       "description": "Share your feedback and suggestions about the Feel&Note service.",
@@ -71,7 +73,7 @@
       }
     },
     "category": {
-      "CELEB_REQUEST": "Celeb Request",
+      "CELEB_REQUEST": "Figure Request",
       "CONTENT_REPORT": "Content Report",
       "FEATURE_SUGGESTION": "Feature Suggestion"
     },
@@ -116,6 +118,7 @@
     },
     "feedback": {
       "write": "Write Feedback",
+      "allCategory": "All",
       "emptyTitle": "No feedback yet",
       "emptySubtitle": "Be the first to share your feedback",
       "createTitle": "Write Feedback",

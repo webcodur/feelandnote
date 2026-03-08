@@ -727,6 +727,7 @@ export interface EraScriptures {
   description: string
   contents: ScriptureContent[]
   celebCount: number
+  contentCount: number
   topCelebs: EraCeleb[]
 }
 
@@ -759,6 +760,7 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
         description: row.era_description as string,
         contents: [],
         celebCount: Number(row.celeb_count_in_era),
+        contentCount: Number(row.total_count ?? 0),
         topCelebs: [],
       })
     }
@@ -789,6 +791,7 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
     description: ERA_CONFIG[era].description,
     contents: [],
     celebCount: 0,
+    contentCount: 0,
     topCelebs: [],
   })
 }

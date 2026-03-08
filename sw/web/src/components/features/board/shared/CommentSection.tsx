@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import { Link } from '@/i18n/navigation'
 import { Button, FormattedText } from '@/components/ui'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import { createComment, deleteComment } from '@/actions/board/comments'
@@ -133,11 +134,11 @@ export default function CommentSection({
           </Button>
         </form>
       ) : (
-        <div className="text-center py-4 border border-dashed border-accent-dim/20 rounded-lg">
-          <p className="text-sm text-text-tertiary font-serif">
+        <Link href="/login" className="block text-center py-4 border border-dashed border-accent-dim/20 rounded-lg hover:border-accent/40 transition-colors">
+          <p className="text-sm text-text-tertiary hover:text-accent font-serif transition-colors">
             {t('loginRequired')}
           </p>
-        </div>
+        </Link>
       )}
     </div>
   )

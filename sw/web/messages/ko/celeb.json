@@ -6,14 +6,15 @@
     "analysis": "인물 분석",
     "guestbook": "방명록",
     "philosophy": "감상 철학",
-    "innerVirtue": "내적 미덕",
-    "outerVirtue": "외적 미덕",
+    "innerVirtue": "내적 덕목",
+    "outerVirtue": "외적 덕목",
     "coreDisposition": "핵심 성향",
     "ability": "핵심 능력",
     "similarFigures": "닮은꼴 인물",
     "archiveSuffix": "의 기록관",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
-    "recordControl": "기록 제어"
+    "recordControl": "기록 제어",
+    "notFound": "셀럽을 찾을 수 없습니다"
   }
 }

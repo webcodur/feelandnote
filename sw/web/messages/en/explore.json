@@ -5,7 +5,7 @@
       "description": "Discover notable figures across various fields and the content they enjoyed."
     },
     "celebs": {
-      "metaTitle": "Celebs | Explore",
+      "metaTitle": "Figures | Explore",
       "metaDescription": "From historical figures to modern cultural icons, explore their reviews and recommended works."
     },
     "people": {
@@ -18,13 +18,13 @@
     "ui": {
       "tabs": {
         "hub": "Hub",
-        "celebs": "Celebs",
+        "celebs": "Figures",
         "social": "Social",
         "friends": "Friends",
         "following": "Following",
         "followers": "Followers",
         "similar": "Similar Taste",
-        "celebFeed": "Celeb Feed",
+        "celebFeed": "Feed",
         "spotlight": "Spotlight"
       },
       "empty": {
@@ -37,7 +37,7 @@
         "noSimilar": "No similar users yet",
         "noSimilarDesc": "Record more content to find users with similar taste",
         "noNationality": "No nationality data available",
-        "noAuraCelebs": "No celebs at this tier."
+        "noAuraCelebs": "No figures at this tier."
       },
       "newFollower": "New follower",
       "recordCount": "{count} records",
@@ -56,13 +56,13 @@
       "gradeDistribution": "Distribution by Tier",
       "fullRanking": "Full Ranking",
       "scoreRange": "Score Range",
-      "celebStats": "Celeb Statistics",
+      "celebStats": "Figure Statistics",
       "tabProfession": "Profession",
       "tabNationality": "Nationality",
       "tabContent": "Content",
       "tabGender": "Gender",
-      "professionDist": "Celeb distribution by profession",
-      "nationalityDist": "Celeb distribution by nationality (Top 10)",
+      "professionDist": "Figure distribution by profession",
+      "nationalityDist": "Figure distribution by nationality (Top 10)",
       "contentTypeDist": "Content type distribution",
       "genderDist": "Gender distribution",
       "totalContent": "Total Content",
@@ -78,15 +78,15 @@
       "step3": "Recommend in order of highest similarity",
       "moreRecordsBetter": "The more content you record, the better we can find users with similar taste",
       "confirm": "OK",
-      "addCeleb": "Add Celeb",
+      "addCeleb": "Add Figure",
       "nameLabel": "Name *",
-      "namePlaceholder": "Celeb name",
+      "namePlaceholder": "Figure name",
       "fieldLabel": "Field",
       "fieldNone": "None",
       "bioLabel": "Bio",
-      "bioPlaceholder": "Brief introduction about the celeb",
+      "bioPlaceholder": "Brief introduction about the figure",
       "nameRequired": "Please enter a name",
-      "addFailed": "Failed to add celeb",
+      "addFailed": "Failed to add figure",
       "cancel": "Cancel",
       "adding": "Adding...",
       "add": "Add",
@@ -132,33 +132,33 @@
       }
     },
     "hub": {
-      "groupDocumented": "Chroniclers",
+      "groupDocumented": "Seekers",
       "groupDocumentedDesc": "Figures whose reading, viewing, and listening histories are documented. Their choices light the way to your next discovery.",
-      "groupThinkers": "Thinkers of Unknown Records",
+      "groupThinkers": "Thinkers",
       "groupThinkersDesc": "No consumption records survive, yet the ideas they left behind are works of art in themselves.",
-      "deepReaders": "Prolific Chroniclers",
+      "deepReaders": "Prolific Seekers",
       "deepReadersSub": "Figures with 30+ documented records. A rich archive reveals one person's worldview.",
       "topByType": "Top by Category",
-      "topByTypeSub": "The most prolific chroniclers in Books, Film, Games, and Music.",
-      "lightCelebs": "All Thinkers",
+      "topByTypeSub": "The most prolific seekers in Books, Film, Games, and Music.",
+      "lightCelebs": "Thinkers",
       "lightCelebsSub": "Philosophy beyond the record. Their thinking adds a new lens to your own appreciation.",
       "spotlight": "Spotlight",
       "spotlightSub": "Curated collections of figures united by a single theme, transcending eras and fields.",
-      "allCelebs": "All Chroniclers",
-      "allCelebsSub": "Freely explore the shelves of every chronicler.",
-      "personaExtremes": "Extraordinary Chroniclers",
+      "allCelebs": "All Seekers",
+      "allCelebsSub": "Freely explore the shelves of every seeker.",
+      "personaExtremes": "Extraordinary Figures",
       "personaExtremesSub": "Figures with distinct virtues, exceptional abilities, and profound traits. See how their unique characteristics shape their records.",
       "viewMore": "View more",
       "viewAll": "View all",
       "quickNav": "Quick Navigation",
-      "navCelebs": "All Figures",
-      "navTopByType": "Top by Category",
-      "navPersona": "Extraordinary",
-      "navFeed": "Celeb Feed",
+      "navCelebs": "Figures",
+      "navTopByType": "Ranking",
+      "navPersona": "Persona",
+      "navFeed": "Feed",
       "navSpotlight": "Spotlight"
     },
     "celebFeed": {
-      "metaTitle": "Celeb Feed | Explore",
+      "metaTitle": "Feed | Explore",
       "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
     },
     "topByType": {
@@ -168,15 +168,16 @@
       "infoMax": "Top",
       "infoAvg": "Avg",
       "infoTotal": "Total",
-      "sharedTitle": "Shared Across Top Chroniclers",
+      "sharedTitle": "Shared Across Top Seekers",
       "sharedDesc": "Works enjoyed by 2 or more of the Top {count}.",
       "sharedBy": "Appreciated by"
     },
     "persona": {
-      "metaTitle": "Extraordinary Chroniclers | Explore"
+      "metaTitle": "Extraordinary Figures | Explore"
     },
     "spotlight": {
       "metaTitle": "Spotlight | Explore",
+      "collection": "Spotlight Collection",
       "tabs": {
         "spotlight": "Spotlight",
         "shared": "Shared Library",

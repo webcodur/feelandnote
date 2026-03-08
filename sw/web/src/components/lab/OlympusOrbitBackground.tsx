@@ -256,6 +256,8 @@ export default function OlympusOrbitBackground({ fullScreen }: { fullScreen?: bo
 
         let animationFrameId: number;
         let angle = 0;
+        let frameCount = 0;
+        let cachedRenderOrder: number[] | null = null; // 정렬 캐싱
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -356,12 +358,18 @@ export default function OlympusOrbitBackground({ fullScreen }: { fullScreen?: bo
            }
       });
 
-      // 4. Sort by Z (Painter's Algorithm)
-      // Farther Z is larger value in our system (rz + VIEW_DISTANCE)
-      renderList.sort((a, b) => b.z - a.z);
+      // 4. Sort by Z — 매 5프레임만 재정렬 (회전 0.003rad/frame이므로 시각 차이 없음)
+      if (!cachedRenderOrder || frameCount % 5 === 0) {
+        cachedRenderOrder = renderList.map((_, i) => i);
+        cachedRenderOrder.sort((a, b) => renderList[b].z - renderList[a].z);
+      }
 
-      // 4. Draw
-      renderList.forEach(item => {
+      // 5. Draw (산맥은 shadowBlur/stroke 생략, 신전 금색만 축소 글로우 유지)
+      ctx.shadowBlur = 0;
+      for (let idx = 0; idx < cachedRenderOrder.length; idx++) {
+          const item = renderList[cachedRenderOrder[idx]];
+          if (!item) continue;
+
           if (item.type === 'face') {
               ctx.beginPath();
               item.path.forEach((p, i) => {
@@ -369,51 +377,48 @@ export default function OlympusOrbitBackground({ fullScreen }: { fullScreen?: bo
                   else ctx.lineTo(p.x, p.y);
               });
               ctx.closePath();
-              
-              // Glow effect for Gold/Bright elements (Temple uses hex colors starting with #F or #D)
-              if (item.color.startsWith('#F') || item.color.startsWith('#D')) {
-                  ctx.shadowBlur = 20;
+
+              // 신전 금색(#F/#D)에만 축소 글로우 + 스트로크 유지
+              const isGold = item.color.startsWith('#F') || item.color.startsWith('#D');
+              if (isGold) {
+                  ctx.shadowBlur = 8;
                   ctx.shadowColor = item.color;
-              } else {
-                  ctx.shadowBlur = 0;
               }
 
               ctx.fillStyle = item.color;
               ctx.fill();
-              // Stroke for definition
-               ctx.strokeStyle = "rgba(0,0,0,0.1)";
-               ctx.lineWidth = 0.5;
-               ctx.stroke();
+
+              if (isGold) {
+                  ctx.shadowBlur = 0;
+                  ctx.strokeStyle = "rgba(0,0,0,0.1)";
+                  ctx.lineWidth = 0.5;
+                  ctx.stroke();
+              }
           } else if (item.type === 'star') {
-              const bgStar = item as any;
               ctx.beginPath();
-              // Scale star size by depth
-              const scale = 800 / item.z; 
-              ctx.arc(bgStar.x, bgStar.y, bgStar.s.size * scale, 0, Math.PI * 2);
-              ctx.fillStyle = `rgba(255, 255, 255, ${bgStar.s.opacity})`;
+              const scale = 800 / item.z;
+              ctx.arc(item.x, item.y, item.s.size * scale, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(255,255,255,${item.s.opacity})`;
               ctx.fill();
           } else if (item.type === 'cloud') {
               const c = item.s;
               const scale = 800 / item.z;
               ctx.beginPath();
               ctx.arc(item.x, item.y, c.size * scale, 0, Math.PI * 2);
-              const g = ctx.createRadialGradient(item.x, item.y, 0, item.x, item.y, c.size * scale);
-              g.addColorStop(0, `rgba(255, 255, 255, ${c.opacity})`);
-              g.addColorStop(1, "rgba(255, 255, 255, 0)");
-              ctx.fillStyle = g;
-              ctx.shadowBlur = 0;
+              ctx.fillStyle = `rgba(255,255,255,${c.opacity * 0.5})`;
               ctx.fill();
           }
-      });
-      
-      // Post-processing Glow
-        const bloom = ctx.createRadialGradient(CX, CY - 150, 0, CX, CY - 150, 400);
-        bloom.addColorStop(0, "rgba(255, 215, 0, 0.1)");
-        bloom.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = bloom;
-        ctx.fillRect(0,0,W,H);
+      }
+
+      // Post-processing Glow (축소된 radialGradient 복원)
+      const bloom = ctx.createRadialGradient(CX, CY - 150, 0, CX, CY - 150, 350);
+      bloom.addColorStop(0, "rgba(255, 215, 0, 0.07)");
+      bloom.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = bloom;
+      ctx.fillRect(0, 0, W, H);
 
       angle += 0.003;
+      frameCount++;
       animationFrameId = requestAnimationFrame(draw);
     };
 

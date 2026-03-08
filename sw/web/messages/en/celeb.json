@@ -14,6 +14,7 @@
     "archiveSuffix": "'s Archives",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "Leave your thoughts in the guestbook.",
-    "recordControl": "Record Controls"
+    "recordControl": "Record Controls",
+    "notFound": "Celebrity not found"
   }
 }

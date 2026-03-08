@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation"
-import { Eye } from 'lucide-react'
+import { Eye, MessageSquare } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { formatKST } from '@/lib/utils/date'
@@ -9,6 +9,9 @@ import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
 interface NoticeItemProps {
   notice: NoticeWithAuthor
 }
+
+const isNew = (dateStr: string) =>
+  Date.now() - new Date(dateStr).getTime() < 24 * 60 * 60 * 1000
 
 export default function NoticeItem({ notice }: NoticeItemProps) {
   return (
@@ -38,6 +41,11 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent transition-colors">
             {notice.title}
+            {isNew(notice.created_at) && (
+              <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">
+                N
+              </span>
+            )}
           </h3>
           <div className="flex items-center gap-3 mt-2 text-xs text-text-tertiary">
             <span className="font-serif">{notice.author.nickname}</span>
@@ -54,6 +62,15 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
               <Eye size={12} className="text-accent-dim" />
               {notice.view_count}
             </span>
+            {(notice.comment_count ?? 0) > 0 && (
+              <>
+                <span className="text-accent-dim/50">·</span>
+                <span className="flex items-center gap-1">
+                  <MessageSquare size={12} className="text-accent-dim" />
+                  {notice.comment_count}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>

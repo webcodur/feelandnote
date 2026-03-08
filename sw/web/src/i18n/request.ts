@@ -2,6 +2,19 @@ import { getRequestConfig } from 'next-intl/server';
 import { hasLocale } from 'next-intl';
 import { routing } from './routing';
 
+/** 메시지 네임스페이스 — 추가 시 여기만 수정 */
+const NAMESPACES = [
+  'core', 'nav', 'home', 'auth', 'explore', 'agora',
+  'scriptures', 'content', 'profile', 'celeb', 'rest', 'flow', 'reading',
+] as const;
+
+async function loadMessages(locale: string) {
+  const bundles = await Promise.all(
+    NAMESPACES.map(ns => import(`../../messages/${locale}/${ns}.json`).then(m => m.default))
+  );
+  return Object.assign({}, ...bundles);
+}
+
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
   const locale = hasLocale(routing.locales, requested)
@@ -10,20 +23,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: {
-      ...(await import(`../../messages/${locale}/core.json`)).default,
-      ...(await import(`../../messages/${locale}/nav.json`)).default,
-      ...(await import(`../../messages/${locale}/home.json`)).default,
-      ...(await import(`../../messages/${locale}/auth.json`)).default,
-      ...(await import(`../../messages/${locale}/explore.json`)).default,
-      ...(await import(`../../messages/${locale}/agora.json`)).default,
-      ...(await import(`../../messages/${locale}/scriptures.json`)).default,
-      ...(await import(`../../messages/${locale}/content.json`)).default,
-      ...(await import(`../../messages/${locale}/profile.json`)).default,
-      ...(await import(`../../messages/${locale}/celeb.json`)).default,
-      ...(await import(`../../messages/${locale}/rest.json`)).default,
-      ...(await import(`../../messages/${locale}/flow.json`)).default,
-      ...(await import(`../../messages/${locale}/reading.json`)).default,
-    }
+    messages: await loadMessages(locale),
   };
 });

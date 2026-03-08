@@ -7,7 +7,7 @@
     "guestbook": "Guestbook",
     "follow": "Follow",
     "present": "Present",
-    "celeb": "Celeb",
+    "celeb": "Figure",
     "stats": "Stats",
     "noFollowers": "No followers yet",
     "noFollowing": "Not following anyone yet",
@@ -142,5 +142,30 @@
       "cancel": "Cancel",
       "permanentDelete": "Permanently Delete"
     }
+  },
+  "recordInfo": {
+    "visibilityPublic": "Public",
+    "visibilityFollowers": "Followers",
+    "visibilityPrivate": "Private",
+    "showSpoiler": "Show Spoiler",
+    "noReview": "No review"
+  },
+  "export": {
+    "title": "Export",
+    "description": "Download your library contents as a file. Use it for backup or migrating to another service.",
+    "csvDescription": "Compatible with Excel, Google Sheets",
+    "noContent": "No content to export.",
+    "failed": "Export failed.",
+    "allCategories": "All categories",
+    "category": "category",
+    "statusWant": "Want",
+    "statusFinished": "Finished",
+    "status": "status",
+    "cancel": "Cancel",
+    "export": "Export",
+    "columns": "[Title, Author, Type, Progress, Rating, Review, Added, Modified, Completed]"
+  },
+  "actionModal": {
+    "processing": "Processing..."
   }
 }

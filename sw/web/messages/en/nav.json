@@ -7,11 +7,14 @@
     "agora": "Agora",
     "archive": "My Archives",
     "sub": {
-      "celebs": "Celebs",
+      "figures": "Figures",
+      "ranking": "Ranking",
+      "today": "Today",
+      "feed": "Feed",
+      "persona": "Persona",
       "people": "Social",
       "masterpieces": "Masterpieces",
       "crossroads": "Crossroads",
-      "celebFeed": "Celeb Feed",
       "friendFeed": "Friend Feed",
       "notice": "Announcements",
       "feedback": "Feedback",
@@ -24,11 +27,8 @@
       "socialFeed": "Social Feed",
       "era": "Masterpieces",
       "profession": "Crossroads",
-      "figure": "Figure of the Day",
       "museum": "Museum",
-      "academy": "Academy",
-      "topByType": "Top by Category",
-      "persona": "Extraordinary"
+      "academy": "Academy"
     },
     "footer": {
       "about": "About",
@@ -36,10 +36,11 @@
       "terms": "Terms of Service",
       "privacy": "Privacy Policy",
       "misc": "More",
-      "game": "Game",
+      "game": "Rest",
       "social": "Social",
       "notice": "Announcements",
-      "feedback": "Feedback"
+      "feedback": "Feedback",
+      "contact": "Contact"
     }
   },
   "moreMenu": {

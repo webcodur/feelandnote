@@ -215,7 +215,7 @@ export function useHeaderSearch() {
 
     // 셀럽 검색: 탐색 페이지로 이동
     if (mode === "celeb") {
-      router.push(`/explore/celebs?search=${encodeURIComponent(query.trim())}`);
+      router.push(`/explore/figures?search=${encodeURIComponent(query.trim())}`);
       setIsOpen(false);
       return;
     }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
@@ -10,9 +11,10 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { userId } = await params;
+  const t = await getTranslations("pages");
   const result = await getUserProfile(userId);
-  const nickname = result.success ? result.data?.nickname : "사용자";
-  return { title: `${nickname}의 기록` };
+  const nickname = result.success ? result.data?.nickname : t("userFallback");
+  return { title: t("userRecords", { nickname }) };
 }
 
 export default async function RecordsPage({ params }: PageProps) {

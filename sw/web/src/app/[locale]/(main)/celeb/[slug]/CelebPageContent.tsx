@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import type { Locale } from "@/types/locale";
 
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
@@ -70,7 +71,7 @@ export default function CelebPageContent({
       : `${birthYear} —`
     : "";
 
-  const locale = useLocale() as "ko" | "en";
+  const locale = useLocale() as Locale;
   const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
   const keyCounter = useRef(0);
   const lastGreetingIdx = useRef<number | null>(null);

@@ -31,7 +31,8 @@ export default function BurningEmbersBackground({ fullScreen }: { fullScreen?: b
 
     let animationFrameId: number;
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 150;
+    const isMobile = canvas.offsetWidth < 768;
+    const PARTICLE_COUNT = isMobile ? 60 : 150;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -92,25 +93,26 @@ export default function BurningEmbersBackground({ fullScreen }: { fullScreen?: b
            if (p.opacity < 0.4) p.opacity = 0.4;
         }
 
-        // Reset if out of view
+        // Reset if out of view (객체 재활용, GC 방지)
         if (p.y < -10) {
-          particles[index] = createParticle();
+          const isEmber = Math.random() > 0.6;
+          p.x = Math.random() * canvas.width;
+          p.y = canvas.height + 10;
+          p.size = isEmber ? Math.random() * 2 + 1 : Math.random() * 3 + 1;
+          p.speedY = Math.random() * 1 + 0.5;
+          p.speedX = Math.random() * 1 - 0.5;
+          p.opacity = isEmber ? Math.random() * 0.5 + 0.5 : Math.random() * 0.3 + 0.1;
+          p.color = isEmber
+            ? `rgba(255, ${Math.floor(Math.random() * 100 + 50)}, 0,`
+            : `rgba(100, 100, 100,`;
+          p.isEmber = isEmber;
         }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        
-        if (p.isEmber) {
-          // Glow effect for embers
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = "rgba(255, 100, 0, 0.8)";
-        } else {
-          ctx.shadowBlur = 0;
-        }
-
+        // shadowBlur 제거 (모바일 GPU 병목)
         ctx.fillStyle = `${p.color} ${p.opacity})`;
         ctx.fill();
-        ctx.shadowBlur = 0; // Reset shadow
       });
 
       animationFrameId = requestAnimationFrame(draw);

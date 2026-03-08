@@ -8,6 +8,7 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocale } from "next-intl";
+import type { Locale } from "@/types/locale";
 import type { BattleCard, Command } from "@/lib/game/types";
 import {
   type DuelAction, type DuelPhase, type DuelClashResult,
@@ -303,7 +304,7 @@ const ACTION_ICONS: Record<Command, Record<DuelAction, IconComponent>> = {
 
 // ─── 대사 선택 ───
 
-function pickDuelLine(card: BattleCard, action: DuelAction, command: Command, locale: 'ko' | 'en'): string {
+function pickDuelLine(card: BattleCard, action: DuelAction, command: Command, locale: Locale): string {
   // strike → 개인 clash_attack 우선
   if (action === "strike" && card.dialogueLines?.clash_attack) {
     const lines = card.dialogueLines.clash_attack;
@@ -325,7 +326,7 @@ function pickDuelLine(card: BattleCard, action: DuelAction, command: Command, lo
 }
 
 /** idle/클릭 시 대사: answer → greeting 순으로 개인 대사 탐색, 없으면 defaultLines 폴백 */
-function pickIdleLine(card: BattleCard, locale: 'ko' | 'en'): string {
+function pickIdleLine(card: BattleCard, locale: Locale): string {
   for (const type of ["roll_call", "greeting"] as const) {
     const personal = card.dialogueLines?.[type];
     if (personal) {
@@ -399,7 +400,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   const [playerBubble, setPlayerBubble] = useState("");
   const [aiBubble, setAiBubble] = useState("");
   const [playerLastAction, setPlayerLastAction] = useState<DuelAction | undefined>(undefined);
-  const locale = useLocale() as 'ko' | 'en';
+  const locale = useLocale() as Locale;
 
   const maxPlayerHp = calcDuelHp(playerCard, command);
   const maxAiHp = calcDuelHp(aiCard, command);

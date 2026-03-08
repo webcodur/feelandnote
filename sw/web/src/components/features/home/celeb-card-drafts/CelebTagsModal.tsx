@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import type { CelebTagInfo } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations, useLocale } from "next-intl";
+import type { Locale } from "@/types/locale";
 
 interface CelebTagsModalProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ interface CelebTagsModalProps {
 
 export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }: CelebTagsModalProps) {
   const t = useTranslations("home.ui.tags");
-  const locale = useLocale() as 'ko' | 'en';
+  const locale = useLocale() as Locale;
   if (!isOpen || typeof document === "undefined") return null;
 
   const content = (

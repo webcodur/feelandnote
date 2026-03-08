@@ -33,7 +33,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
   const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [stages, setStages] = useState<StageData[]>([
-    { id: `stage-${++stageCounter}`, name: "1단계", description: "", contentIds: [], isExpanded: true },
+    { id: `stage-${++stageCounter}`, name: t("stageDefault", { n: 1 }), description: "", contentIds: [], isExpanded: true },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +44,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
       ...stages,
       {
         id: `stage-${++stageCounter}`,
-        name: `${stages.length + 1}단계`,
+        name: t("stageDefault", { n: stages.length + 1 }),
         description: "",
         contentIds: [],
         isExpanded: true,

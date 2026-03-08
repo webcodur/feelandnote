@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import type { Locale } from "@/types/locale";
 import { Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag } from "@/actions/home";
@@ -10,7 +11,7 @@ import Avatar from "@/components/ui/Avatar";
 interface SpotlightIntroViewProps {
   tags: FeaturedTag[];
   onSelect: (idx: number) => void;
-  locale: "ko" | "en";
+  locale: Locale;
 }
 
 export default function SpotlightIntroView({

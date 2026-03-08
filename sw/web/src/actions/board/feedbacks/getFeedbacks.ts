@@ -38,8 +38,28 @@ export async function getFeedbacks(params: GetFeedbacksParams = {}) {
     throw new Error('피드백을 불러오는데 실패했습니다')
   }
 
+  const feedbacks = data as FeedbackWithAuthor[]
+
+  // 댓글 수 조회
+  if (feedbacks.length > 0) {
+    const ids = feedbacks.map(f => f.id)
+    const { data: counts } = await supabase
+      .from('board_comments')
+      .select('post_id')
+      .eq('board_type', 'FEEDBACK')
+      .in('post_id', ids)
+
+    if (counts) {
+      const countMap = counts.reduce<Record<string, number>>((acc, c) => {
+        acc[c.post_id] = (acc[c.post_id] || 0) + 1
+        return acc
+      }, {})
+      feedbacks.forEach(f => { (f as any).comment_count = countMap[f.id] || 0 })
+    }
+  }
+
   return {
-    feedbacks: data as FeedbackWithAuthor[],
+    feedbacks,
     total: count ?? 0,
     hasMore: (count ?? 0) > offset + limit
   }

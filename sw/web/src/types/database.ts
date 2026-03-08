@@ -375,6 +375,7 @@ export interface Notice {
 
 export interface NoticeWithAuthor extends Notice {
   author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+  comment_count?: number
 }
 
 // ===== Board: Feedbacks =====
@@ -391,12 +392,14 @@ export interface Feedback {
   admin_comment: string | null
   resolved_by: string | null
   resolved_at: string | null
+  view_count: number
   created_at: string
   updated_at: string
 }
 
 export interface FeedbackWithAuthor extends Feedback {
   author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+  comment_count?: number
 }
 
 export interface FeedbackWithDetails extends FeedbackWithAuthor {

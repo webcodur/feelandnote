@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { Download, FileSpreadsheet } from "lucide-react";
+import { useTranslations } from "next-intl";
 import ActionModal from "./ActionModal";
 import { getContentsForExport } from "@/actions/contents/exportContents";
 import { convertToCSV, downloadCSV, generateExportFilename } from "@/lib/utils/export";
@@ -23,26 +24,14 @@ interface ExportModalProps {
 type ExportFormat = "csv";
 // #endregion
 
-// #region 상수
-const FORMAT_OPTIONS: { value: ExportFormat; label: string; description: string }[] = [
-  { value: "csv", label: "CSV", description: "엑셀, 구글 스프레드시트 호환" },
-];
-
-const TYPE_LABELS: Record<string, string> = {
-  BOOK: "도서",
-  VIDEO: "영상",
-  GAME: "게임",
-  MUSIC: "음악",
-  CERTIFICATE: "자격증",
-};
-// #endregion
-
 export default function ExportModal({
   isOpen,
   onClose,
   activeType,
   progressFilter,
 }: ExportModalProps) {
+  const t = useTranslations("export");
+  const tc = useTranslations("content.category");
   const [isExporting, setIsExporting] = useState(false);
   const [selectedFormat] = useState<ExportFormat>("csv");
 
@@ -64,7 +53,7 @@ export default function ExportModal({
       });
 
       if (rows.length === 0) {
-        alert("내보낼 콘텐츠가 없습니다.");
+        alert(t("noContent"));
         setIsExporting(false);
         return;
       }
@@ -75,8 +64,8 @@ export default function ExportModal({
 
       onClose();
     } catch (error) {
-      console.error("내보내기 실패:", error);
-      alert("내보내기에 실패했습니다.");
+      console.error("Export failed:", error);
+      alert(t("failed"));
     } finally {
       setIsExporting(false);
     }
@@ -87,18 +76,23 @@ export default function ExportModal({
   const getScopeText = () => {
     const parts: string[] = [];
 
-    if (activeType) {
-      parts.push(`${TYPE_LABELS[activeType] || activeType} 카테고리`);
+    const typeKeyMap: Record<string, string> = {
+      BOOK: "book", VIDEO: "video", GAME: "game", MUSIC: "music", CERTIFICATE: "certificate",
+    };
+
+    if (activeType && typeKeyMap[activeType]) {
+      parts.push(`${tc(typeKeyMap[activeType])} ${t("category")}`);
     } else {
-      parts.push("전체 카테고리");
+      parts.push(t("allCategories"));
     }
 
     if (progressFilter && progressFilter !== "all") {
-      const statusLabels: Record<string, string> = {
-        WANT: "관심",
-        FINISHED: "감상",
+      const statusKeyMap: Record<string, string> = {
+        WANT: "statusWant",
+        FINISHED: "statusFinished",
       };
-      parts.push(`${statusLabels[progressFilter]} 상태`);
+      const key = statusKeyMap[progressFilter];
+      if (key) parts.push(`${t(key)} ${t("status")}`);
     }
 
     return parts.join(", ");
@@ -110,16 +104,16 @@ export default function ExportModal({
       isOpen={isOpen}
       onClose={onClose}
       icon={Download}
-      title="내보내기"
-      description="현재 라이브러리의 콘텐츠 목록을 파일로 다운로드합니다. 백업이나 다른 서비스로 이전할 때 활용하세요."
+      title={t("title")}
+      description={t("description")}
       actions={[
         {
-          label: "취소",
+          label: t("cancel"),
           onClick: onClose,
           variant: "secondary",
         },
         {
-          label: "내보내기",
+          label: t("export"),
           onClick: handleExport,
           variant: "primary",
           loading: isExporting,
@@ -128,7 +122,7 @@ export default function ExportModal({
     >
       {/* 내보내기 정보 */}
       <div className="text-[13px] text-text-tertiary leading-relaxed border-t border-border/50 pt-2">
-        [제목, 저자, 타입, 상태, 진행도, 평점, 리뷰, 추가일, 수정일, 완료일]
+        {t("columns")}
       </div>
     </ActionModal>
   );

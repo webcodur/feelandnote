@@ -3,8 +3,8 @@
     "section": "광장",
     "items": {
       "celebFeed": {
-        "label": "셀럽 피드",
-        "description": "셀럽들의 아카이브를 확인하세요"
+        "label": "인물 피드",
+        "description": "인물들의 아카이브를 확인하세요"
       },
       "friendFeed": {
         "label": "친구 피드",
@@ -29,16 +29,18 @@
     },
     "meta": {
       "title": "광장",
-      "description": "셀럽 피드, 자유 게시판, 공지사항 등 Feel&Note 커뮤니티 광장. 감상을 나누고 영감을 공유하세요."
+      "description": "인물 피드, 자유 게시판, 공지사항 등 Feel&Note 커뮤니티 광장. 감상을 나누고 영감을 공유하세요."
     },
     "celebFeed": {
-      "metaTitle": "셀럽 피드 | 광장",
-      "metaDescription": "셀럽들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+      "metaTitle": "인물 피드 | 광장",
+      "metaDescription": "인물들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
     },
     "friendFeed": {
       "metaTitle": "친구 피드 | 광장"
     },
     "freeBoard": "자유게시판",
+    "freeBoardComingSoon": "준비 중입니다",
+    "freeBoardComingSoonDesc": "곧 자유게시판 기능이 추가될 예정이에요",
     "feedback": {
       "title": "피드백",
       "description": "Feel&Note 서비스에 대한 피드백과 건의사항을 남겨주세요.",
@@ -71,7 +73,7 @@
       }
     },
     "category": {
-      "CELEB_REQUEST": "셀럽 요청",
+      "CELEB_REQUEST": "인물 요청",
       "CONTENT_REPORT": "콘텐츠 제보",
       "FEATURE_SUGGESTION": "기능 건의"
     },
@@ -116,6 +118,7 @@
     },
     "feedback": {
       "write": "피드백 작성",
+      "allCategory": "전체",
       "emptyTitle": "아직 피드백이 없습니다",
       "emptySubtitle": "첫 번째 피드백을 작성해보세요",
       "createTitle": "피드백 작성",

@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import { useLocale } from "next-intl";
+import type { Locale } from "@/types/locale";
 import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/types";
 import { VARIANTS_PER_LINE } from "@/lib/game/voice/types";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
@@ -60,7 +61,7 @@ export function useDialogueSubtitle() {
 
 export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions }: UseDialogueOptions) {
   const keyCounter = useRef(0);
-  const locale = useLocale() as 'ko' | 'en';
+  const locale = useLocale() as Locale;
   /** 직전 사용 인덱스 기록 (키: "celebId:type" 또는 "default:key:tone") */
   const lastIndexRef = useRef<Map<string, number>>(new Map());
 

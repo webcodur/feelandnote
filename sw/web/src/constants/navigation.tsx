@@ -48,17 +48,18 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "explore",
     href: "/explore",
-    label: "인물",
+    label: "탐색",
     icon: Compass,
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { key: "celebs", href: "/explore/celebs", label: "셀럽" },
-      { key: "topByType", href: "/explore/top-by-type", label: "분야별 기록가" },
-      { key: "persona", href: "/explore/persona", label: "비범한 기록가" },
+      { key: "figures", href: "/explore/figures", label: "인물 목록" },
+      { key: "ranking", href: "/explore/ranking", label: "분야별 랭킹" },
+      { key: "persona", href: "/explore/persona", label: "인물 분석" },
+      { key: "today", href: "/explore/today", label: "오늘의 인물" },
       { key: "spotlight", href: "/explore/spotlight", label: "스포트라이트" },
-      { key: "celebFeed", href: "/explore/celeb-feed", label: "셀럽 피드" },
+      { key: "feed", href: "/explore/feed", label: "인물 피드" },
     ],
   },
   {
@@ -72,7 +73,6 @@ export const NAV_ITEMS: NavItem[] = [
     subLinks: [
       { key: "era", href: "/scriptures/era", label: "불후의 명작" },
       { key: "profession", href: "/scriptures/profession", label: "갈림길" },
-      { key: "figure", href: "/scriptures/figure", label: "오늘의 인물" },
       { key: "museum", href: "/scriptures/museum", label: "박물관" },
       { key: "academy", href: "/scriptures/academy", label: "학당" },
     ],
@@ -118,10 +118,11 @@ export const FOOTER_BRAND_LINKS: NavSubLink[] = [
   { key: "search", href: "/search", label: "검색" },
   { key: "terms", href: "/terms", label: "이용약관" },
   { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
+  { key: "contact", href: "/contact", label: "문의하기" },
 ];
 
 export const FOOTER_MISC_LINKS: NavSubLink[] = [
-  { key: "game", href: "/rest", label: "게임" },
+  { key: "game", href: "/rest", label: "쉼터" },
   { key: "social", href: "/agora/social", label: "소셜" },
   { key: "notice", href: "/agora/board/notice", label: "공지사항" },
   { key: "feedback", href: "/agora/board/feedback", label: "피드백" },

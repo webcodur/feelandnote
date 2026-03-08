@@ -113,7 +113,7 @@ export default function ProfessionCarousel({
           {/* View All Card */}
           {totalCount > celebs.length && (
             <Link
-              href={`/explore/celebs?profession=${profession}`}
+              href={`/explore/figures?profession=${profession}`}
               className="flex-shrink-0 w-[28%] sm:w-[22%] md:w-[16%] lg:w-[13%] xl:w-[11%] 2xl:w-[9%] snap-start"
             >
               <div className="aspect-[13/19] rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-accent/30 transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer">

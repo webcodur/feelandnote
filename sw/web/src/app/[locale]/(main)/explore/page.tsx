@@ -17,6 +17,7 @@ import TopByTypeGrid from "@/components/features/user/explore/hub/TopByTypeGrid"
 import PersonaExtremeGrid from "@/components/features/user/explore/hub/PersonaExtremeGrid";
 import SpotlightCard from "@/components/features/user/explore/hub/SpotlightCard";
 import HubSkeleton from "@/components/features/user/explore/hub/HubSkeleton";
+import PopularBooks from "@/components/features/home/PopularBooks";
 import ExploreHubNav from "@/components/features/user/explore/hub/ExploreHubNav";
 
 export async function generateMetadata() {
@@ -77,7 +78,7 @@ async function HubContent() {
         <HubSection
           title={t("deepReaders")}
           subtitle={t("deepReadersSub")}
-          moreHref="/explore/celebs?sortBy=content_count"
+          moreHref="/explore/figures?sortBy=content_count"
           moreLabel={t("viewMore")}
           hideDivider
           index={0} total={6} groupId="explore"
@@ -88,7 +89,7 @@ async function HubContent() {
 
       {/* 섹션 2: 분야별 최다 기록가 */}
       {topByType.length > 0 && (
-        <HubSection title={t("topByType")} subtitle={t("topByTypeSub")} moreHref="/explore/top-by-type" moreLabel={t("viewAll")} index={1} total={6} groupId="explore">
+        <HubSection title={t("topByType")} subtitle={t("topByTypeSub")} moreHref="/explore/ranking" moreLabel={t("viewAll")} index={1} total={6} groupId="explore">
           <TopByTypeGrid entries={topByType} />
         </HubSection>
       )}
@@ -122,7 +123,7 @@ async function HubContent() {
         <HubSection
           title={t("allCelebs")}
           subtitle={t("allCelebsSub")}
-          moreHref="/explore/celebs?tier=full"
+          moreHref="/explore/figures?tier=full"
           moreLabel={t("viewAll")}
           index={4} total={6} groupId="explore"
         >
@@ -135,7 +136,7 @@ async function HubContent() {
         <HubSection
           title={t("lightCelebs")}
           subtitle={t("lightCelebsSub")}
-          moreHref="/explore/celebs?tier=light"
+          moreHref="/explore/figures?tier=light"
           moreLabel={t("viewAll")}
           index={5} total={6} groupId="explore"
         >
@@ -148,8 +149,11 @@ async function HubContent() {
 
 export default function ExplorePage() {
   return (
-    <Suspense fallback={<HubSkeleton />}>
-      <HubContent />
-    </Suspense>
+    <>
+      <Suspense fallback={<HubSkeleton />}>
+        <HubContent />
+      </Suspense>
+      <PopularBooks />
+    </>
   );
 }

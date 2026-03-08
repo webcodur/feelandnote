@@ -89,7 +89,6 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
   const [currentNote, setCurrentNote] = useState(0);
   const [judgments, setJudgments] = useState<RhythmJudgment[]>([]);
   const [lastHit, setLastHit] = useState<{ lane: Lane; type: RhythmJudgment; key: number } | null>(null);
-  const [notePositions, setNotePositions] = useState<number[]>(() => notes.map(() => -(NOTE_R * 2)));
   const [playerScore, setPlayerScore] = useState(0);
   const [aiScore, setAiScore] = useState(0);
   const [winner, setWinner] = useState<"player" | "ai" | "draw">("draw");
@@ -102,6 +101,18 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
   const judgeKeyRef = useRef(0);
   const areaRef = useRef<HTMLDivElement>(null);
   const [judgeY, setJudgeY] = useState(300);
+
+  // 노트 DOM refs (rAF에서 직접 조작)
+  const noteElsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const notePositionsRef = useRef<number[]>([]);
+  // 타겟·버튼 DOM refs (조건부 스타일 직접 조작)
+  const targetOuterRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const targetMidRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const targetCenterRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const btnLabelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  // 이전 프레임의 활성 상태 캐싱 (불필요한 DOM 조작 방지)
+  const prevActiveRef = useRef<{ lane: number; near: boolean; hot: boolean }>({ lane: -1, near: false, hot: false });
 
   // 플레이 영역 높이 측정 → judgeY 계산
   useLayoutEffect(() => {
@@ -116,20 +127,117 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
 
   useEffect(() => { currentNoteRef.current = currentNote; }, [currentNote]);
 
-  // ─── rAF 루프 ───
+  // ─── rAF 루프 (DOM 직접 조작, setState 없음) ───
   const judgeYRef = useRef(judgeY);
   judgeYRef.current = judgeY;
 
   const tick = useCallback(() => {
     const elapsed = Date.now() - startTimeRef.current;
     const jy = judgeYRef.current;
-    setNotePositions(notes.map((note) => {
+    const cur = currentNoteRef.current;
+
+    // 노트 위치 계산 + DOM 직접 업데이트
+    for (let i = 0; i < notes.length; i++) {
+      const note = notes[i];
       const progress = (elapsed - (note.targetTime - NOTE_FALL_DURATION)) / NOTE_FALL_DURATION;
-      if (progress < 0) return -(NOTE_R * 2);
-      return progress * jy;
-    }));
+      const y = progress < 0 ? -(NOTE_R * 2) : progress * jy;
+      notePositionsRef.current[i] = y;
+
+      const el = noteElsRef.current[i];
+      if (!el) continue;
+      if (i < cur || y < -(NOTE_R * 2)) {
+        el.style.display = "none";
+        continue;
+      }
+      el.style.display = "";
+      el.style.top = y + "px";
+
+      // 조건부 스타일 직접 반영
+      const dist = jy - y;
+      const isHot = dist < 30 && dist > -10;
+      const isNear = dist < 60 && dist > -20;
+      if (isHot) {
+        el.style.background = "radial-gradient(circle, #fcd34d 30%, #d4af37 70%, #c08030)";
+        el.style.border = "2px solid rgba(252,211,77,0.8)";
+        el.style.boxShadow = "0 0 18px rgba(212,175,55,0.6), 0 0 6px rgba(255,200,100,0.4)";
+      } else if (isNear) {
+        el.style.background = "radial-gradient(circle, #e0a050 30%, #c08030 70%, #8a5a3a)";
+        el.style.border = "1.5px solid rgba(224,160,80,0.6)";
+        el.style.boxShadow = "0 0 8px rgba(192,128,90,0.3)";
+      } else {
+        el.style.background = "radial-gradient(circle, #e0a050 30%, #c08030 70%, #8a5a3a)";
+        el.style.border = "1.5px solid rgba(224,160,80,0.35)";
+        el.style.boxShadow = "none";
+      }
+    }
+
+    // 타겟·버튼 활성 상태 (현재 노트 기준)
+    const activeLane = cur < notes.length ? notes[cur].lane : -1;
+    const curY = cur < notes.length ? (notePositionsRef.current[cur] ?? 0) : 0;
+    const near = activeLane >= 0 && curY > jy - 80;
+    const hot = near && curY > jy - 35;
+    const prev = prevActiveRef.current;
+
+    if (prev.lane !== activeLane || prev.near !== near || prev.hot !== hot) {
+      // 이전 레인 초기화
+      if (prev.lane >= 0 && prev.lane !== activeLane) {
+        applyTargetStyle(prev.lane, false, false);
+        applyBtnStyle(prev.lane, false, false);
+      }
+      // 현재 레인 적용
+      if (activeLane >= 0) {
+        applyTargetStyle(activeLane, near, hot);
+        applyBtnStyle(activeLane, near, hot);
+      }
+      // 이전 레인이 같지만 상태만 변경
+      if (prev.lane === activeLane && activeLane >= 0) {
+        applyTargetStyle(activeLane, near, hot);
+        applyBtnStyle(activeLane, near, hot);
+      }
+      prevActiveRef.current = { lane: activeLane, near, hot };
+    }
+
     rafRef.current = requestAnimationFrame(tick);
   }, [notes]);
+
+  // 타겟 동심원 스타일 직접 적용
+  function applyTargetStyle(lane: number, near: boolean, hot: boolean) {
+    const outer = targetOuterRefs.current[lane];
+    const mid = targetMidRefs.current[lane];
+    const center = targetCenterRefs.current[lane];
+    if (outer) {
+      outer.style.border = hot ? "2.5px solid rgba(212,175,55,0.8)"
+        : near ? "2px solid rgba(212,175,55,0.45)" : "2px solid rgba(212,175,55,0.15)";
+      outer.style.boxShadow = hot
+        ? "0 0 24px rgba(212,175,55,0.4), inset 0 0 10px rgba(212,175,55,0.1)" : "none";
+    }
+    if (mid) {
+      mid.style.border = hot ? "1.5px solid rgba(212,175,55,0.4)" : "1px solid rgba(212,175,55,0.08)";
+    }
+    if (center) {
+      center.style.background = hot ? "rgba(212,175,55,0.3)" : "rgba(212,175,55,0.06)";
+    }
+  }
+
+  // 버튼 스타일 직접 적용
+  function applyBtnStyle(lane: number, near: boolean, hot: boolean) {
+    const btn = btnRefs.current[lane];
+    const label = btnLabelRefs.current[lane];
+    if (btn) {
+      btn.style.background = hot
+        ? "linear-gradient(to bottom, rgba(212,175,55,0.18), rgba(192,128,90,0.12))"
+        : near ? "linear-gradient(to bottom, rgba(212,175,55,0.08), rgba(30,28,24,0.8))"
+          : "linear-gradient(to bottom, rgba(30,28,24,0.6), rgba(20,18,14,0.8))";
+      btn.style.border = hot ? "2px solid rgba(212,175,55,0.7)"
+        : near ? "1px solid rgba(212,175,55,0.3)" : "1px solid rgba(255,255,255,0.06)";
+      btn.style.boxShadow = hot
+        ? "0 0 20px rgba(212,175,55,0.25), inset 0 1px 0 rgba(255,255,255,0.06)"
+        : "inset 0 1px 3px rgba(0,0,0,0.4)";
+    }
+    if (label) {
+      label.style.color = hot ? "#d4af37" : near ? "rgba(212,175,55,0.5)" : "rgba(255,255,255,0.2)";
+    }
+  }
 
   // ─── Intro → countdown ───
   const dismissIntro = useCallback(() => {
@@ -250,12 +358,6 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
     if (phase === "result") onCompleteRef.current(winner);
   }, [phase, winner]);
 
-  // 현재 노트 레인 (버튼 강조용)
-  const activeNoteLane = phase === "playing" && currentNote < notes.length
-    ? notes[currentNote].lane : -1;
-  const noteNearTarget = activeNoteLane >= 0 && notePositions[currentNote] > judgeY - 80;
-  const noteVeryClose = noteNearTarget && notePositions[currentNote] > judgeY - 35;
-
   // ─── 렌더 ───
   return (
     <ArenaLayout themeColor="rgba(192,128,90)">
@@ -299,95 +401,53 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
               />
             ))}
 
-            {/* ═══ 타겟 동심원 (하단 고정, 비주얼 전용) ═══ */}
-            {Array.from({ length: LANE_COUNT }, (_, i) => {
-              const isActive = activeNoteLane === i && noteNearTarget;
-              const isHot = isActive && noteVeryClose;
-
-              return (
-                <div key={`target-${i}`}
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: `calc(50% + ${laneX(i)}px)`,
-                    top: judgeY,
-                    transform: "translate(-50%, -50%)",
-                    width: TARGET_R * 2,
-                    height: TARGET_R * 2,
-                  }}
-                >
-                  {/* 외곽 링 */}
-                  <div className="absolute inset-0 rounded-full transition-all duration-100"
-                    style={{
-                      border: isHot
-                        ? "2.5px solid rgba(212,175,55,0.8)"
-                        : isActive
-                          ? "2px solid rgba(212,175,55,0.45)"
-                          : "2px solid rgba(212,175,55,0.15)",
-                      boxShadow: isHot
-                        ? "0 0 24px rgba(212,175,55,0.4), inset 0 0 10px rgba(212,175,55,0.1)"
-                        : "none",
-                    }}
-                  />
-                  {/* 중간 링 */}
-                  <div className="absolute rounded-full transition-all duration-100"
-                    style={{
-                      inset: 7,
-                      border: isHot
-                        ? "1.5px solid rgba(212,175,55,0.4)"
-                        : "1px solid rgba(212,175,55,0.08)",
-                    }}
-                  />
-                  {/* 중심 점 */}
-                  <div className="absolute rounded-full transition-all duration-100"
-                    style={{
-                      inset: 16,
-                      background: isHot
-                        ? "rgba(212,175,55,0.3)"
-                        : "rgba(212,175,55,0.06)",
-                    }}
-                  />
-                </div>
-              );
-            })}
-
-            {/* ═══ 낙하 노트 (단순 원) ═══ */}
-            {phase === "playing" && notes.map((note, i) => {
-              if (i < currentNote) return null;
-              const y = notePositions[i];
-              if (y < -(NOTE_R * 2)) return null;
-
-              const dist = judgeY - y;
-              const isNear = dist < 60 && dist > -20;
-              const isHot = dist < 30 && dist > -10;
-
-              return (
-                <div
-                  key={note.id}
-                  className="absolute rounded-full pointer-events-none"
-                  style={{
-                    left: `calc(50% + ${laneX(note.lane)}px)`,
-                    top: y,
-                    transform: "translate(-50%, -50%)",
-                    width: NOTE_R * 2,
-                    height: NOTE_R * 2,
-                    background: isHot
-                      ? "radial-gradient(circle, #fcd34d 30%, #d4af37 70%, #c08030)"
-                      : "radial-gradient(circle, #e0a050 30%, #c08030 70%, #8a5a3a)",
-                    border: isHot
-                      ? "2px solid rgba(252,211,77,0.8)"
-                      : isNear
-                        ? "1.5px solid rgba(224,160,80,0.6)"
-                        : "1.5px solid rgba(224,160,80,0.35)",
-                    boxShadow: isHot
-                      ? "0 0 18px rgba(212,175,55,0.6), 0 0 6px rgba(255,200,100,0.4)"
-                      : isNear
-                        ? "0 0 8px rgba(192,128,90,0.3)"
-                        : "none",
-                    transition: "border 0.08s, box-shadow 0.08s",
-                  }}
+            {/* ═══ 타겟 동심원 (하단 고정, rAF에서 직접 스타일 조작) ═══ */}
+            {Array.from({ length: LANE_COUNT }, (_, i) => (
+              <div key={`target-${i}`}
+                className="absolute pointer-events-none"
+                style={{
+                  left: `calc(50% + ${laneX(i)}px)`,
+                  top: judgeY,
+                  transform: "translate(-50%, -50%)",
+                  width: TARGET_R * 2,
+                  height: TARGET_R * 2,
+                }}
+              >
+                <div ref={el => { targetOuterRefs.current[i] = el; }}
+                  className="absolute inset-0 rounded-full"
+                  style={{ border: "2px solid rgba(212,175,55,0.15)", boxShadow: "none" }}
                 />
-              );
-            })}
+                <div ref={el => { targetMidRefs.current[i] = el; }}
+                  className="absolute rounded-full"
+                  style={{ inset: 7, border: "1px solid rgba(212,175,55,0.08)" }}
+                />
+                <div ref={el => { targetCenterRefs.current[i] = el; }}
+                  className="absolute rounded-full"
+                  style={{ inset: 16, background: "rgba(212,175,55,0.06)" }}
+                />
+              </div>
+            ))}
+
+            {/* ═══ 낙하 노트 (rAF에서 직접 위치·스타일 조작) ═══ */}
+            {notes.map((note, i) => (
+              <div
+                key={note.id}
+                ref={el => { noteElsRef.current[i] = el; }}
+                className="absolute rounded-full pointer-events-none"
+                style={{
+                  left: `calc(50% + ${laneX(note.lane)}px)`,
+                  top: -(NOTE_R * 2),
+                  transform: "translate(-50%, -50%)",
+                  width: NOTE_R * 2,
+                  height: NOTE_R * 2,
+                  display: "none",
+                  background: "radial-gradient(circle, #e0a050 30%, #c08030 70%, #8a5a3a)",
+                  border: "1.5px solid rgba(224,160,80,0.35)",
+                  boxShadow: "none",
+                  willChange: "top",
+                }}
+              />
+            ))}
 
             {/* 판정 텍스트 (동심원 위에 표시) */}
             <AnimatePresence>
@@ -454,46 +514,34 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
           }}
         >
           <div className="flex gap-3 px-4 py-4 md:px-6 md:py-5">
-            {Array.from({ length: LANE_COUNT }, (_, i) => {
-              const isActive = activeNoteLane === i && noteNearTarget;
-              const isHot = isActive && noteVeryClose;
-
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  className={`flex-1 flex items-center justify-center rounded-lg transition-all duration-100 active:scale-95 ${
-                    phase === "countdown" ? "opacity-40" : ""
-                  }`}
-                  style={{
-                    height: 72,
-                    background: isHot
-                      ? "linear-gradient(to bottom, rgba(212,175,55,0.18), rgba(192,128,90,0.12))"
-                      : isActive
-                        ? "linear-gradient(to bottom, rgba(212,175,55,0.08), rgba(30,28,24,0.8))"
-                        : "linear-gradient(to bottom, rgba(30,28,24,0.6), rgba(20,18,14,0.8))",
-                    border: isHot
-                      ? "2px solid rgba(212,175,55,0.7)"
-                      : isActive
-                        ? "1px solid rgba(212,175,55,0.3)"
-                        : "1px solid rgba(255,255,255,0.06)",
-                    boxShadow: isHot
-                      ? "0 0 20px rgba(212,175,55,0.25), inset 0 1px 0 rgba(255,255,255,0.06)"
-                      : "inset 0 1px 3px rgba(0,0,0,0.4)",
-                  }}
-                  onPointerDown={(e) => {
-                    e.stopPropagation();
-                    handleInput(i as Lane);
-                  }}
+            {Array.from({ length: LANE_COUNT }, (_, i) => (
+              <button
+                key={i}
+                ref={el => { btnRefs.current[i] = el; }}
+                type="button"
+                className={`flex-1 flex items-center justify-center rounded-lg active:scale-95 ${
+                  phase === "countdown" ? "opacity-40" : ""
+                }`}
+                style={{
+                  height: 72,
+                  background: "linear-gradient(to bottom, rgba(30,28,24,0.6), rgba(20,18,14,0.8))",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.4)",
+                }}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  handleInput(i as Lane);
+                }}
+              >
+                <span
+                  ref={el => { btnLabelRefs.current[i] = el; }}
+                  className="text-lg font-mono font-bold select-none"
+                  style={{ color: "rgba(255,255,255,0.2)" }}
                 >
-                  <span className={`text-lg font-mono font-bold select-none transition-colors duration-100 ${
-                    isHot ? "text-[#d4af37]" : isActive ? "text-[#d4af37]/50" : "text-white/20"
-                  }`}>
-                    {LANE_KEYS[i]}
-                  </span>
-                </button>
-              );
-            })}
+                  {LANE_KEYS[i]}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
       )}

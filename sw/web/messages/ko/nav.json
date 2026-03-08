@@ -1,17 +1,20 @@
 {
   "nav": {
     "home": "홈",
-    "explore": "인물",
+    "explore": "탐색",
     "scriptures": "서가",
     "rest": "쉼터",
     "agora": "광장",
     "archive": "내 기록",
     "sub": {
-      "celebs": "셀럽",
+      "figures": "인물 목록",
+      "ranking": "분야별 랭킹",
+      "today": "오늘의 인물",
+      "feed": "인물 피드",
+      "persona": "인물 분석",
       "people": "소셜",
       "masterpieces": "불후의 명작",
       "crossroads": "갈림길",
-      "celebFeed": "셀럽 피드",
       "friendFeed": "친구 피드",
       "notice": "공지사항",
       "feedback": "피드백",
@@ -24,11 +27,8 @@
       "socialFeed": "소셜 피드",
       "era": "불후의 명작",
       "profession": "갈림길",
-      "figure": "오늘의 인물",
       "museum": "박물관",
-      "academy": "학당",
-      "topByType": "분야별 기록가",
-      "persona": "비범한 기록가"
+      "academy": "학당"
     },
     "footer": {
       "about": "서비스 소개",
@@ -36,10 +36,11 @@
       "terms": "이용약관",
       "privacy": "개인정보처리방침",
       "misc": "기타",
-      "game": "게임",
+      "game": "쉼터",
       "social": "소셜",
       "notice": "공지사항",
-      "feedback": "피드백"
+      "feedback": "피드백",
+      "contact": "문의하기"
     }
   },
   "moreMenu": {
