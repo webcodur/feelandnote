@@ -61,7 +61,7 @@ export default function SignupForm() {
         {isPending ? t('signingUp') : t('submit')}
       </Button>
 
-      <p className="text-center text-sm text-zinc-500">
+      <p className="text-center text-sm text-text-secondary">
         {t('hasAccount')}{' '}
         <Link href="/login" className="text-accent hover:underline">
           {t('loginLink')}

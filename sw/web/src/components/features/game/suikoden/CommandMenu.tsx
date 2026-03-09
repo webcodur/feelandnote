@@ -62,7 +62,7 @@ export default function CommandMenu({
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`flex-1 py-2 text-xs text-center transition-colors ${
-              tab === t.id ? 'text-amber-300 bg-stone-700 font-bold' : 'text-stone-500 hover:text-stone-300'
+              tab === t.id ? 'text-amber-300 bg-stone-700 font-bold' : 'text-text-secondary hover:text-text-primary'
             }`}
           >
             {t.label}
@@ -77,19 +77,19 @@ export default function CommandMenu({
             <>
               <CharacterPortrait character={selectedChar} size={28} />
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-bold text-stone-200 truncate">{selectedChar.nickname}</div>
-                <div className="text-[10px] text-stone-500">
+                <div className="text-xs font-bold text-text-primary truncate">{selectedChar.nickname}</div>
+                <div className="text-[10px] text-text-secondary">
                   {taskLabel(selectedPlacement.task)}
                 </div>
               </div>
               {selectedPlacement.task !== 'idle' && (
-                <button onClick={onIdle} className="px-2 py-1 text-[10px] bg-stone-700 rounded text-stone-400 hover:bg-stone-600">
+                <button onClick={onIdle} className="px-2 py-1 text-[10px] bg-stone-700 rounded text-text-secondary hover:bg-stone-600">
                   중지
                 </button>
               )}
             </>
           ) : (
-            <p className="text-[10px] text-stone-600 w-full text-center">인물을 선택하라</p>
+            <p className="text-[10px] text-text-secondary w-full text-center">인물을 선택하라</p>
           )}
         </div>
 
@@ -99,7 +99,7 @@ export default function CommandMenu({
             {/* 세율 조정 */}
             {territory && (
               <div className="flex items-center gap-1">
-                <span className="text-[10px] text-stone-500 shrink-0">세율:</span>
+                <span className="text-[10px] text-text-secondary shrink-0">세율:</span>
                 {(['low', 'normal', 'high'] as const).map(rate => (
                   <button
                     key={rate}
@@ -109,7 +109,7 @@ export default function CommandMenu({
                         ? rate === 'high' ? 'bg-red-900/50 text-red-300 font-bold'
                           : rate === 'low' ? 'bg-green-900/50 text-green-300 font-bold'
                           : 'bg-amber-900/50 text-amber-300 font-bold'
-                        : 'bg-stone-700 text-stone-500 hover:bg-stone-600'
+                        : 'bg-stone-700 text-text-secondary hover:bg-stone-600'
                     }`}
                   >
                     {rate === 'low' ? '낮음' : rate === 'high' ? '높음' : '보통'}
@@ -118,7 +118,7 @@ export default function CommandMenu({
               </div>
             )}
 
-            <p className="text-[10px] text-stone-500">
+            <p className="text-[10px] text-text-secondary">
               건물 그리드에서 + 버튼으로 건설한다. 인물을 선택한 뒤 건물 카드에서 배치/해제한다.
             </p>
 
@@ -131,8 +131,8 @@ export default function CommandMenu({
                   return (
                     <div key={catId} className="flex items-center gap-2 text-[10px]">
                       <span style={{ color: catInfo.color }}>{catInfo.icon} {catInfo.name}</span>
-                      <span className="text-stone-500">{catCards.length}동</span>
-                      <span className="text-stone-600">
+                      <span className="text-text-secondary">{catCards.length}동</span>
+                      <span className="text-text-secondary">
                         ({catCards.filter(c => c.isConstructing).length} 건설 중)
                       </span>
                     </div>
@@ -151,30 +151,30 @@ export default function CommandMenu({
               className={`w-full py-2 rounded text-xs font-bold transition-colors ${
                 autoAssign
                   ? 'bg-amber-700/50 text-amber-200 hover:bg-amber-700/70'
-                  : 'bg-stone-700 text-stone-400 hover:bg-stone-600'
+                  : 'bg-stone-700 text-text-secondary hover:bg-stone-600'
               }`}
             >
               {autoAssign ? '자동 내정 ON' : '자동 내정 OFF'}
             </button>
             <button
               onClick={onRecruit}
-              className="w-full py-2 bg-stone-700 rounded text-xs text-stone-300 hover:bg-stone-600"
+              className="w-full py-2 bg-stone-700 rounded text-xs text-text-primary hover:bg-stone-600"
             >
               인재 탐색
             </button>
             {selectedChar && selectedPlacement?.task === 'idle' && (
               <div className="space-y-1">
                 {hasTrainingGround && (
-                  <button onClick={onTrain} className="w-full py-1.5 text-xs text-stone-400 bg-stone-700 rounded hover:bg-stone-600">
+                  <button onClick={onTrain} className="w-full py-1.5 text-xs text-text-secondary bg-stone-700 rounded hover:bg-stone-600">
                     훈련
                   </button>
                 )}
-                <p className="text-[10px] text-stone-600">건물 그리드에서 직접 배치 가능</p>
+                <p className="text-[10px] text-text-secondary">건물 그리드에서 직접 배치 가능</p>
               </div>
             )}
             {selectedChar && (
               <div className="space-y-1 border-t border-stone-700 pt-2">
-                <div className="flex items-center gap-1 text-[10px] text-stone-500 mb-1">
+                <div className="flex items-center gap-1 text-[10px] text-text-secondary mb-1">
                   <span>충성: {selectedChar.loyaltyValue}</span>
                   <span>·</span>
                   <span>사기: {selectedChar.morale}</span>
@@ -204,7 +204,7 @@ export default function CommandMenu({
           <div className="space-y-1 min-h-[240px]">
             {neighbors.map(n => (
               <div key={n.id} className="flex items-center justify-between py-1 text-xs">
-                <span className="text-stone-300">{n.name}</span>
+                <span className="text-text-primary">{n.name}</span>
                 {n.owner ? (
                   n.owner.id !== state.playerFactionId ? (
                     <button
@@ -214,7 +214,7 @@ export default function CommandMenu({
                       침공
                     </button>
                   ) : (
-                    <span className="text-stone-600 text-[10px]">아군</span>
+                    <span className="text-text-secondary text-[10px]">아군</span>
                   )
                 ) : (
                   <button
@@ -227,7 +227,7 @@ export default function CommandMenu({
               </div>
             ))}
             {neighbors.length === 0 && (
-              <p className="text-[10px] text-stone-500">인접 영토 없음</p>
+              <p className="text-[10px] text-text-secondary">인접 영토 없음</p>
             )}
           </div>
         )}
@@ -246,16 +246,16 @@ export default function CommandMenu({
                 <div key={f.id} className="p-2 bg-stone-900 rounded space-y-1.5">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: f.color }} />
-                    <span className="flex-1 text-xs text-stone-200 truncate font-bold">{f.name.replace('의 세력', '')}</span>
+                    <span className="flex-1 text-xs text-text-primary truncate font-bold">{f.name.replace('의 세력', '')}</span>
                     <span className={`text-[9px] px-1.5 py-0.5 rounded ${
                       allied ? 'bg-green-900/50 text-green-300' :
                       relation > 0 ? 'text-blue-400' :
-                      relation < -30 ? 'text-red-400' : 'text-stone-500'
+                      relation < -30 ? 'text-red-400' : 'text-text-secondary'
                     }`}>
                       {allied ? '동맹' : relation > 0 ? `우호 ${relation}` : relation < 0 ? `적대 ${relation}` : '중립'}
                     </span>
                   </div>
-                  <div className="text-[9px] text-stone-500 flex gap-2">
+                  <div className="text-[9px] text-text-secondary flex gap-2">
                     <span>{f.members.length}명</span>
                     <span>{f.territories.length}영토</span>
                   </div>
@@ -272,7 +272,7 @@ export default function CommandMenu({
                     <button
                       onClick={() => onDiplomacy('ceasefire', f.id)}
                       disabled={playerFaction.resources.gold < 100}
-                      className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-stone-300 hover:bg-stone-600 disabled:opacity-30"
+                      className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-text-primary hover:bg-stone-600 disabled:opacity-30"
                     >
                       정전 (금100)
                     </button>
@@ -296,7 +296,7 @@ export default function CommandMenu({
               )
             })}
             {state.factions.filter(f => f.id !== state.playerFactionId && f.territories.length > 0).length === 0 && (
-              <p className="text-[10px] text-stone-500">다른 세력 없음</p>
+              <p className="text-[10px] text-text-secondary">다른 세력 없음</p>
             )}
           </div>
         )}
@@ -305,7 +305,7 @@ export default function CommandMenu({
         {tab === 'etc' && (
           <div className="space-y-3 min-h-[240px]">
             <div className="border border-red-900/40 rounded p-3 bg-red-950/10">
-              <p className="text-[10px] text-stone-400 mb-2">
+              <p className="text-[10px] text-text-secondary mb-2">
                 세력을 해산하고 다시 방랑길에 오른다. 동료 최대 {WANDERING_MAX_COMPANIONS}명, 금 최대 200만 가져갈 수 있다.
               </p>
               {!confirmAbandon ? (
@@ -327,7 +327,7 @@ export default function CommandMenu({
                     </button>
                     <button
                       onClick={() => setConfirmAbandon(false)}
-                      className="flex-1 py-2 bg-stone-700 rounded text-xs text-stone-400 hover:bg-stone-600 transition-colors"
+                      className="flex-1 py-2 bg-stone-700 rounded text-xs text-text-secondary hover:bg-stone-600 transition-colors"
                     >
                       취소
                     </button>

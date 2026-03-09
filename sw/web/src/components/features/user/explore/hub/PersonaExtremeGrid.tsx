@@ -9,7 +9,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
 import { cn } from "@/lib/utils";
 import PersonaQuickViewModal from "./PersonaQuickViewModal";
@@ -21,12 +20,12 @@ interface PersonaExtremeGridProps {
 const GROUPS = [
   {
     keys: ["temperance", "diligence", "reflection", "courage"],
-    ko: "내면 덕목",
+    ko: "내적 덕목",
     en: "Inner Virtues",
   },
   {
     keys: ["loyalty", "benevolence", "fairness", "humility"],
-    ko: "외면 덕목",
+    ko: "외적 덕목",
     en: "Outer Virtues",
   },
   {
@@ -98,7 +97,7 @@ function DispositionsOpposingCard({ entry, locale, color, onCardClick }: { entry
 
   return (
     <div
-      className="group/card relative flex flex-col bg-[#0a0a0b] border border-white/5 rounded-2xl overflow-hidden shadow-2xl col-span-1 min-h-[160px] sm:min-h-[180px]"
+      className="group/card relative flex flex-col bg-[#0a0a0b] border border-white/5 rounded-2xl overflow-hidden shadow-2xl col-span-1 min-h-[160px] sm:min-h-[180px] max-w-[520px] mx-auto"
       style={{ ["--axis-color" as string]: color }}
     >
       {/* 1. 상단 포인트 바 및 띄워진 테마(축 제목) */}
@@ -124,7 +123,7 @@ function DispositionsOpposingCard({ entry, locale, color, onCardClick }: { entry
           
           {/* 아바타 (좌측) */}
           <div className="relative z-10 shrink-0 mr-4 sm:mr-6">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(var(--axis-color-rgb),0.3)]">
+            <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(var(--axis-color-rgb),0.3)]">
                 <div className="absolute inset-0 rounded-full border border-white/10 group-hover:border-white/50 transition-colors z-20" />
                 <div className="absolute inset-[2px] rounded-full overflow-hidden z-10 bg-[#161616]">
                   {entry.celeb.avatar_url ? (
@@ -179,7 +178,7 @@ function DispositionsOpposingCard({ entry, locale, color, onCardClick }: { entry
           
           {/* 아바타 (우측) */}
           <div className="relative z-10 shrink-0 ml-4 sm:ml-6">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(var(--axis-color-rgb),0.3)]">
+            <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(var(--axis-color-rgb),0.3)]">
                 <div className="absolute inset-0 rounded-full border border-white/10 group-hover:border-white/50 transition-colors z-20" />
                 <div className="absolute inset-[2px] rounded-full overflow-hidden z-10 bg-[#161616]">
                   {entry.opposing.celeb.avatar_url ? (
@@ -237,7 +236,7 @@ export default function PersonaExtremeGrid({
   return (
     <div className="space-y-6">
       {/* 탭 */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {GROUPS.map((group, i) => {
           const label = locale === "en" ? group.en : group.ko;
           const isActive = i === activeTab;
@@ -259,7 +258,7 @@ export default function PersonaExtremeGrid({
       </div>
 
       {/* 2x2 그리드 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-[1080px] mx-auto">
         {currentEntries.map((entry) => {
           const color = AXIS_COLORS[entry.axis] ?? "#d4af37";
 
@@ -284,31 +283,30 @@ export default function PersonaExtremeGrid({
             <button
               key={entry.axis}
               onClick={() => setSelectedCard({ entry, isOpposing: false, color })}
-              className="group relative flex flex-row bg-bg-card/40 hover:bg-bg-card/80 border border-white/5 hover:border-white/20 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left min-h-[140px] sm:min-h-[160px]"
+              className="group relative flex flex-row items-center bg-bg-card/40 hover:bg-bg-card/80 border border-white/5 hover:border-white/20 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[520px] mx-auto"
               style={{
                 // hover 시 축 컬러 테두리 변수 활용 (rgba로 변환 필요할 수 있으나 shadow는 커스텀 구현 확인)
                 // Tailwind에서 rgb 변수 처리용 스네이크케이스 rgba(var(...)) 지원
                 ["--axis-color" as string]: color,
               }}
             >
-              {/* 좌측: 인물 이미지 (Fixed slim width on mobile) */}
-              <div className="relative w-[110px] sm:w-[150px] md:w-[160px] xl:w-[180px] shrink-0 bg-black border-r border-white/5 overflow-hidden">
-                {entry.celeb.avatar_url ? (
-                  <Image
-                    src={entry.celeb.avatar_url}
-                    alt={name}
-                    fill
-                    sizes="(max-width: 640px) 110px, 180px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-5xl font-serif text-text-tertiary bg-white/5">
-                    {name.charAt(0)}
-                  </div>
-                )}
-
-                {/* 모바일 가독성 보호 (horizontal 시에는 하단 그라디언트 덜 필요할 수 있지만 유지) */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 sm:hidden bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 pointer-events-none" />
+              {/* 좌측: 인물 이미지 (정사각 고정 — 300x300 원본 선명도 유지) */}
+              <div className="shrink-0 p-3 sm:p-4">
+                <div className="relative w-[96px] h-[96px] sm:w-[128px] sm:h-[128px] rounded-xl overflow-hidden bg-black border border-white/5 shadow-lg">
+                  {entry.celeb.avatar_url ? (
+                    <Image
+                      src={entry.celeb.avatar_url}
+                      alt={name}
+                      fill
+                      sizes="110px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-3xl font-serif text-text-tertiary bg-white/5">
+                      {name.charAt(0)}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* 우측: 컨텐츠 */}
@@ -388,10 +386,8 @@ export default function PersonaExtremeGrid({
                             ? r.nickname_en
                             : r.nickname;
                         return (
-                          <Link 
-                            key={i} 
-                            href={`/celeb/${r.slug || r.id}`}
-                            onClick={(e) => e.stopPropagation()}
+                          <div
+                            key={i}
                             className="flex items-center gap-2 sm:gap-2.5 group/runner hover:bg-white/5 p-1 -m-1 rounded-lg transition-colors outline-none"
                           >
                             <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 shadow-sm group-hover/runner:ring-white/20 transition-all">
@@ -416,7 +412,7 @@ export default function PersonaExtremeGrid({
                             >
                               {r.score}
                             </span>
-                          </Link>
+                          </div>
                         );
                       })}
                     </div>

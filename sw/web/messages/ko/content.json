@@ -105,7 +105,10 @@
       "pcSuffix": " 후 돌아오시면 음악을 끝까지 감상할 수 있습니다. Spotify 성인 인증 시 모든 곡을 감상할 수 있습니다."
     },
     "externalLinks": "외부 링크",
-    "recentContents": "최근 본 콘텐츠"
+    "recentContents": "최근 본 콘텐츠",
+    "metaFallback": "{title}에 대한 기록과 리뷰를 확인해보세요.",
+    "notFoundTitle": "콘텐츠 정보 없음",
+    "notFoundDescription": "콘텐츠 정보를 불러올 수 없습니다."
   },
   "review": {
     "positive": {
@@ -302,10 +305,5 @@
     "addFailed": "콘텐츠 추가 중 오류가 발생했습니다.",
     "cancel": "취소",
     "add": "추가"
-  },
-  "contentDetail": {
-    "metaFallback": "{title}에 대한 기록과 리뷰를 확인해보세요.",
-    "notFoundTitle": "콘텐츠 정보 없음",
-    "notFoundDescription": "콘텐츠 정보를 불러올 수 없습니다."
   }
 }

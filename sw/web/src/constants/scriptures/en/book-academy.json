@@ -1,0 +1,672 @@
+{
+  "BOOK_ACADEMY_LESSONS": [
+    {
+      "id": "classification_system",
+      "title": "The Address of a Book -- Classification Systems",
+      "difficulty": "beginner",
+      "description": "The secret behind library shelf numbers. KDC and DDC -- books have addresses too.",
+      "objectives": [
+        "Understand the basic structure of library classification systems (KDC/DDC)",
+        "Identify a book's subject area just by looking at the shelf number",
+        "Use classification numbers to find the books you want"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Why Books Need Addresses",
+          "contentMarkdown": "Visit a bookstore and a library, and you'll notice completely different approaches to arranging books. Bookstores arrange by **marketing logic** -- new releases section, bestseller displays, staff picks. They need to sell, so the most marketable books go in the most visible spots.\n\nLibraries are different. Libraries arrange by **the structure of knowledge**. Philosophy with philosophy, science with science, literature with literature. When hundreds of thousands of volumes fill a space, you need a unique address for each book to find the one you want within three minutes.\n\nThat address is the **classification number**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Ten Drawers -- KDC/DDC",
+          "contentMarkdown": "In 1876, a twenty-one-year-old American librarian named **Melvil Dewey** invented a system that divides all knowledge into ten categories. This is the Dewey Decimal Classification (DDC). Over 150 years later, libraries around the world still use it.\n\nSouth Korea uses the **Korean Decimal Classification (KDC)**, a modified version of DDC adapted to Korean needs. The basic structure is the same, but the specific assignments differ slightly.\n\n| Number | KDC | DDC |\n|---|---|---|\n| 000 | General Works | General Works |\n| 100 | Philosophy | Philosophy & Psychology |\n| 200 | Religion | Religion |\n| 300 | Social Sciences | Social Sciences |\n| 400 | Natural Sciences | Language |\n| 500 | Technology | Natural Sciences & Math |\n| 600 | Arts | Technology |\n| 700 | Language | Arts & Recreation |\n| 800 | Literature | Literature |\n| 900 | History | History & Geography |\n\nHere's an interesting difference: Language is in the 400s in DDC but in the 700s in KDC. Go to the 400s in a Korean library and you'll find physics and chemistry. Go to the 400s in an American library and you'll find grammar textbooks. Same numbers, different books -- depending on which country you're in.",
+          "exampleId": null,
+          "imageUrl": "TODO: KDC 10-division chart (000 General Works through 900 History)"
+        },
+        {
+          "title": "The World Beyond the Decimal Point",
+          "contentMarkdown": "The real power of classification numbers lies **after the decimal point**. The longer the number, the more specific the subject.\n\nLet's dissect **813.54** in DDC:\n\n- **8** = Literature\n- **81** = American literature\n- **813** = American fiction\n- **813.5** = 20th-century American fiction\n- **813.54** = American fiction after 1945\n\nWith just three digits, you know it's \"American fiction.\" Go past the decimal point, and you can pinpoint the era. Once you understand this logic, you can stand at any shelf and immediately recognize: \"Ah, this section is post-war American fiction.\"\n\nMemorize the classification number for your area of interest, and you'll have a **regular haunt** in any library. Someone who knows the 813s can find the American fiction section in any library on Earth.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Reading Call Numbers in Practice",
+          "contentMarkdown": "That small label on the spine of a library book -- that's the **call number**. A call number typically consists of three parts:\n\n**Classification number + Author notation + Volume notation**\n\nFor example, if a call number reads `813.54 / H286 / v.2`:\n\n- **813.54** = American fiction after 1945 (classification number)\n- **H286** = Author's last name initial (H) and unique number (286) (author notation)\n- **v.2** = Volume 2 (volume notation)\n\nCombine these three, and you get an address unique in the world. Check the call number in the library's search system, then head straight to that shelf, that row, that spot.",
+          "exampleId": null,
+          "imageUrl": "TODO: Close-up photo of a call number label on a library book spine"
+        },
+        {
+          "title": "Shelf Neighbors",
+          "contentMarkdown": "The most elegant aspect of classification systems is the **neighbor effect**. Books with similar classification numbers are books with similar subjects.\n\nOnce you find the book you want, scan the books to its left and right. You'll find a lineup of books on the same topic by different authors from different angles. This is the moment of unintended discovery -- **serendipitous reading**.\n\nThis is fundamentally different from an online bookstore's \"customers who bought this also bought\" algorithm. Algorithms follow purchasing patterns (taste), while shelf arrangements follow the structure of knowledge. To encounter books outside your taste, you need to stand before a physical shelf.\n\nFor someone who knows classification numbers, the library transforms from a mere book warehouse into a **map of knowledge**.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "In KDC, what field does the '800' range represent?",
+          "choices": [
+            "History",
+            "Social Sciences",
+            "Literature",
+            "Arts"
+          ],
+          "answerIndex": 2,
+          "explanation": "In KDC, the 800s represent Literature. Novels, poetry, drama, essays, and other literary works are classified under this range.",
+          "stepIndex": 1
+        },
+        {
+          "question": "In DDC classification number '813.54', what does '.54' indicate?",
+          "choices": [
+            "Publisher code",
+            "Specific genre and period subdivision",
+            "Author number",
+            "Page count"
+          ],
+          "answerIndex": 1,
+          "explanation": "Digits after the decimal point represent more specific subdivisions. In 813.54, .5 indicates the 20th century, and .54 specifies post-1945.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which of the following is NOT included in a call number?",
+          "choices": [
+            "Classification number",
+            "Author notation",
+            "ISBN",
+            "Volume notation"
+          ],
+          "answerIndex": 2,
+          "explanation": "A call number consists of classification number + author notation + volume notation. The ISBN is a separate identification system for books, unrelated to call numbers.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "isbn",
+      "title": "A Book's ID Number -- ISBN",
+      "difficulty": "beginner",
+      "description": "A unique number assigned to every book in the world -- ISBN. Reading the information hidden in barcodes.",
+      "objectives": [
+        "Understand the structure of ISBN (prefix-country-publisher-title-check)",
+        "Know why the same book can have different ISBNs",
+        "Track exact editions using ISBN"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Every Book Has an ID Number",
+          "contentMarkdown": "Just as every person has an identification number, every book has a unique identifier. **ISBN (International Standard Book Number)** -- the international standard for book identification.\n\nEstablished as an international standard in 1970, it is now assigned to all commercially published works worldwide. Like a national ID, it is a unique identifier that is never duplicated.\n\nWhen a cashier scans a barcode at a bookstore, the number encoded in that barcode is the ISBN. With this single thirteen-digit number, you can precisely identify any book on Earth.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Dissecting 13 Digits",
+          "contentMarkdown": "An ISBN consists of five parts. Let's dissect a real example:\n\n**978-0-14-028329-7**\n\n| Segment | Digits | Meaning |\n|---|---|---|\n| Prefix | 978 | EAN international product code (978 or 979) |\n| Country/Language | 0 | English-speaking countries |\n| Publisher | 14 | Publisher's unique code |\n| Title identifier | 028329 | Individual title within that publisher |\n| Check digit | 7 | Error-verification digit |\n\nThe country/language codes are fascinating. **0 and 1 are English-speaking countries** (US, UK, Australia, etc.), **2 is French-speaking**, **3 is German-speaking**, **89 is South Korea**, and **4 is Japan**. Just by glancing at the first digits after the prefix on a book's back cover, you can immediately tell which country published it.",
+          "exampleId": null,
+          "imageUrl": "TODO: ISBN barcode and 13-digit structure diagram"
+        },
+        {
+          "title": "Same Book, Different ISBN",
+          "contentMarkdown": "This is where many people get confused. \"Why does the same book have different ISBNs?\"\n\nBecause ISBN is assigned to the **edition**, not to the **work** itself.\n\n- Hardcover and paperback → **different ISBNs**\n- Print and e-book → **different ISBNs**\n- First edition and revised edition → **different ISBNs**\n- Original and translation → **of course, different ISBNs**\n\nHaruki Murakami's *Norwegian Wood* has different ISBNs for the Japanese original, the English translation, and every other language edition. Even within English, the hardcover, paperback, and Kindle edition each have their own ISBN. A single work can have dozens of ISBNs.\n\nSo ISBN doesn't point to \"this work\" -- it points to \"this work, in this edition, in this format.\" It's a precision address.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Things Without ISBNs",
+          "contentMarkdown": "Not every printed material gets an ISBN.\n\n- **Magazines and periodicals** → Use ISSN (International Standard Serial Number) instead of ISBN\n- **Non-commercial publications** → Corporate newsletters, government reports, etc. may be published without ISBNs\n- **Some self-published works** → In the past, many were published without ISBNs\n\nConversely, having an ISBN means **someone formally registered the publication**. Amazon's self-publishing platform (KDP) allows ISBN assignment, and organizations like Bowker in the US or Nielsen in the UK handle ISBN distribution for their respective regions.\n\nISBN isn't just a number -- it's closer to a **passport** in the world of publishing.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Practical Uses of ISBN",
+          "contentMarkdown": "Knowing the ISBN is surprisingly useful in everyday life.\n\n**Finding exact editions** — When you search by title on a used bookstore or online retailer, multiple editions get mixed together. Search by ISBN, and you'll find only the exact edition you want.\n\n**Checking library holdings** — Enter an ISBN into a library search system, and you can immediately see which libraries hold that edition.\n\n**Distinguishing international editions** — Even the same original work can have different ISBNs for the US and UK editions. Cover designs and prices may differ, so ISBN helps you distinguish them.\n\n**Barcode scanning** — Point your smartphone camera at the barcode on a book's back cover, and the ISBN is instantly recognized. When you discover an interesting book at a bookstore or library, one scan is all you need to find it online.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "How many digits does an ISBN have?",
+          "choices": [
+            "10 digits",
+            "12 digits",
+            "13 digits",
+            "16 digits"
+          ],
+          "answerIndex": 2,
+          "explanation": "The current ISBN is 13 digits. Before 2007 it was 10 digits, but it was expanded to 13 to integrate with the international product code system (EAN).",
+          "stepIndex": 1
+        },
+        {
+          "question": "In ISBN, what does '89' represent?",
+          "choices": [
+            "Japan",
+            "South Korea",
+            "China",
+            "Publisher code"
+          ],
+          "answerIndex": 1,
+          "explanation": "In the ISBN country/language code, 89 represents South Korea. For reference, Japan is 4 and China is 7.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Which of the following does NOT receive an ISBN?",
+          "choices": [
+            "E-book",
+            "Hardcover",
+            "Monthly magazine",
+            "Paperback"
+          ],
+          "answerIndex": 2,
+          "explanation": "Magazines and periodicals receive ISSN (International Standard Serial Number) instead of ISBN.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "editions",
+      "title": "The World of Editions",
+      "difficulty": "beginner",
+      "description": "First edition, revised edition, definitive edition, paperback -- the same book becomes a different book when the 'edition' changes.",
+      "objectives": [
+        "Distinguish between edition and printing/impression",
+        "Understand the meaning of first edition, revised edition, definitive edition, and more",
+        "Establish criteria for choosing the right edition for you"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Edition vs. Printing -- The Most Common Confusion",
+          "contentMarkdown": "Even seasoned book lovers confuse **edition** and **printing (impression)**.\n\nAn **edition** changes when the content changes. If the text is revised or chapters are added beyond simple typo corrections, it becomes a 'revised edition.'\n\nA **printing** (or impression) changes when the same content is reprinted. \"First edition, third printing\" means the content is unchanged from the first edition -- it's simply the third time it's been printed.\n\nWhy does this matter? This is precisely why first edition collectors obsessively seek **first edition, first printing**. A first edition, first printing is the exact text and the exact print run that the author first offered to the world. A first edition, first printing of *Harry Potter and the Philosopher's Stone* sells for tens of thousands of dollars at auction.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Types of Editions",
+          "contentMarkdown": "The publishing world has many kinds of 'editions.'\n\n- **First Edition** — The original publication. Highest collectible value.\n- **Revised Edition** — A version with corrected or updated content. Common in textbooks and technical books.\n- **Expanded Edition** — A version with new chapters or materials added to the original content.\n- **Definitive Edition** — The authoritative version that the author or scholarly community has confirmed as \"the final text.\" The definitive edition of Kafka's collected works came after decades of manuscript restoration.\n- **Special Edition** — A version with added illustrations, author signatures, appendices, etc.\n- **Limited Edition** — A version with a restricted print run. Sometimes individually numbered.\n\nEach edition isn't just a different name -- it represents a different character of text and a different reading experience.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Types of Physical Formats",
+          "contentMarkdown": "Even with the same content, the physical format dramatically changes the reading experience.\n\n- **Hardcover** — Rigid cover. Durable and high collectible value. Also pricier.\n- **Trade Paperback** — Flexible cover at a size similar to hardcover. A compromise between price and portability.\n- **Mass Market Paperback** — Small, light, and affordable. Optimized for reading on the go.\n- **Large Print** — Printed with enlarged text. Designed for readers with low vision.\n- **Board Book** — Made with thick cardboard pages for infants and toddlers.\n\nJapan has a unique paperback culture. Historic paperback labels like Iwanami Bunko and Shincho Bunko carry deep prestige, and many readers first read the paperback before buying the hardcover if they love it. In the English-speaking world, Penguin popularized the affordable paperback revolution in the 1930s, making quality literature accessible to mass audiences for the first time.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "E-books and Audiobooks",
+          "contentMarkdown": "The digital age has expanded the meaning of 'edition.'\n\n**E-books** come in various formats: ePub, PDF, Kindle (AZW/MOBI), and more. They receive a separate ISBN from the print version, and their search and highlighting features are powerful. Adjustable font sizes eliminate the need for a separate large-print edition.\n\n**Audiobooks** are a unique medium where the narrator fundamentally shapes the work's impression. The same novel feels entirely different depending on who reads it -- character personalities shift with each narrator. The audiobook market in the English-speaking world has grown to rival the print market.\n\nThe fascinating point is that each of these formats receives its own ISBN. Yuval Noah Harari's *Sapiens* alone has dozens of ISBNs: English hardcover, English paperback, English Kindle, English audiobook, and then the same set for every other language edition.",
+          "exampleId": null,
+          "imageUrl": "TODO: Comparison image showing the same book in hardcover, paperback, e-book, and audiobook side by side"
+        },
+        {
+          "title": "Which Edition Should You Buy?",
+          "contentMarkdown": "Choosing an edition ultimately comes down to **purpose**.\n\n- **For your shelf** → Hardcover first edition. Pick one with cover art you love.\n- **For portability** → Paperback or e-book. A book for commuting needs to be light.\n- **For studying** → E-book. Take full advantage of search, highlighting, and note-taking features.\n- **For translations** → The latest revised edition is usually better. Translation errors get corrected, and phrasing becomes more natural.\n\nAnd one more thing. **If there's any risk of it going out of print, buy it now.** Once a publisher decides not to reprint, that edition vanishes from the market forever. \"I'll buy it next time\" -- and then regretting it -- is the most common mistake a book lover makes.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What does 'first edition, third printing' mean?",
+          "choices": [
+            "Revised three times",
+            "Third printing of the unchanged first edition content",
+            "Published by the third publisher",
+            "A three-volume series"
+          ],
+          "answerIndex": 1,
+          "explanation": "'Printing' (or 'impression') refers to how many times the same content has been reprinted. First edition, third printing means the first edition's content was printed a third time without changes.",
+          "stepIndex": 0
+        },
+        {
+          "question": "What does a 'definitive edition' mean?",
+          "choices": [
+            "The first edition ever published",
+            "The cheapest edition available",
+            "The authoritative version finalized by the author or scholars",
+            "An e-book-only edition"
+          ],
+          "answerIndex": 2,
+          "explanation": "A definitive edition is the version that the author or scholarly community has confirmed as the final, authoritative text, typically after manuscript restoration and error correction.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the main difference between a hardcover and a mass market paperback?",
+          "choices": [
+            "Content",
+            "Author",
+            "Format (size) and binding method",
+            "ISBN country code"
+          ],
+          "answerIndex": 2,
+          "explanation": "Hardcovers and mass market paperbacks share the same content but differ in format (size), cover material, and binding method. Hardcovers are larger and sturdier; paperbacks are smaller and lighter.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which edition is generally recommended when purchasing a translated work?",
+          "choices": [
+            "Always the first edition",
+            "The latest revised edition",
+            "The thickest edition",
+            "The special edition"
+          ],
+          "answerIndex": 1,
+          "explanation": "The latest revised edition of a translation is usually better. Errors from the original translation are corrected, phrasing is refined, and new translator's notes may be added.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "book_anatomy",
+      "title": "The Anatomy of a Book",
+      "difficulty": "intermediate",
+      "description": "Copyright page, preface, commentary, afterword -- knowing the names and roles of the parts that make up a book.",
+      "objectives": [
+        "Identify front and back matter components (preface, table of contents, body, index, etc.)",
+        "Read key information from the copyright page (colophon)",
+        "Understand the differences and uses of preface, foreword, commentary, and translator's note"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "A Book's Body, Front to Back",
+          "contentMarkdown": "A single book is made up of a surprisingly large number of parts. From opening the front cover to closing the back, each section has a name and a role.\n\nIn order, they are:\n\n- **Cover** — The first impression. Title, author, and publisher are printed here.\n- **Endpaper** — Decorative paper affixed to the inside of the cover. Found in hardcovers.\n- **Half Title Page** — A page with just the title, briefly stated. A preview of the title page.\n- **Title Page** — The page with the full title, subtitle, author, translator, and publisher.\n- **Copyright Page** — Copyright, ISBN, printing history -- the book's resume.\n- **Dedication** — A short note from the author dedicating the book to someone.\n- **Preface/Foreword** — Background on the writing process or a recommendation.\n- **Table of Contents** — The map of the book.\n- **Body** — The actual content.\n- **Appendix** — Supplementary materials.\n- **Notes** — Footnotes or endnotes.\n- **Bibliography** — List of cited sources.\n- **Index** — Page references for key terms.\n- **Afterword/Postscript** — Concluding remarks.",
+          "exampleId": null,
+          "imageUrl": "TODO: Diagram showing the structure of a book (from front cover through endpaper, half title, body, index, to back cover)"
+        },
+        {
+          "title": "The Copyright Page -- A Book's Resume",
+          "contentMarkdown": "The copyright page (also called the colophon) is a page most readers skip past. But this thin single page contains the book's entire history.\n\nInformation you can find on the copyright page:\n\n- **Copyright notice** — (C) 2024 Author Name. The legal basis for prohibiting unauthorized reproduction.\n- **Printing history** — \"First edition, first printing, March 2020,\" \"Revised edition, first printing, January 2024,\" etc.\n- **Publisher information** — Publisher name, address, contact details.\n- **ISBN** — The unique identifier for this edition.\n- **CIP (Cataloging in Publication)** — Bibliographic information pre-classified by a national library.\n- **Original work information** — For translations: original title, original author, original publisher.\n\nHere's an interesting difference: In Anglo-American publishing, the copyright page appears **right after the title page** (in the front), while in some other publishing traditions it may appear **at the very back** of the book.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Preface, Foreword, Endorsement -- What's the Difference?",
+          "contentMarkdown": "Several types of introductory text appear before the body, and their similar names make them easy to confuse.\n\n**Preface** — Written by the author. It explains \"why I wrote this book,\" \"who it's for,\" and \"what was difficult during the writing process.\" It's the most direct clue to understanding the author's intent.\n\n**Foreword** — Written by someone other than the author. Typically, a prominent figure in the field explains \"why this book matters.\" The name of the foreword's author serves as a seal of the book's authority.\n\n**Endorsement/Blurb** — Shorter than a foreword. Brief recommendation quotes, often from multiple people, printed on the back cover or inside the front pages.\n\nWhen a revised edition comes out, something interesting happens. The original preface stays, and a **new preface for the revised edition** is added before it. So the older a classic is, the more prefaces it accumulates. Reading these prefaces in chronological order reveals how the book has evolved over time.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Critical Introduction, Translator's Note, Afterword",
+          "contentMarkdown": "The texts placed at the back of a book each serve a different role.\n\n**Critical Introduction / Scholarly Commentary** — An academic analysis of the work's background, context, and significance. Typically attached to classics or scholarly works. The author of such commentary is usually a specialist researcher. Reading it before the main text helps you grasp the historical context and key issues in advance, dramatically accelerating comprehension.\n\n**Translator's Note** — A text in which the translator records the challenges and decisions faced during translation. \"Why I translated this word this way,\" \"what nuance in the original was difficult to carry over.\" It's also an important clue for judging translation quality.\n\n**Afterword (Postscript)** — A closing piece written by the author or editor. If the preface is a \"departure greeting,\" the afterword is an \"arrival greeting.\"\n\nMany readers skip these sections, but they contain **information as valuable as the main text itself**. The critical introduction and translator's note, in particular, are essential to review when choosing a translation.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Index and Appendix -- Hidden Treasures",
+          "contentMarkdown": "The index is nonfiction's **most powerful tool**. Key terms and their corresponding page numbers are organized in alphabetical order.\n\nWhy is the index a treasure? Because you can **instantly** find where a specific concept is discussed in the book. To locate every mention of 'the Industrial Revolution' in a 500-page history book, you'd have to re-read the entire thing without an index.\n\nA well-crafted index is itself **a map of the book's structure**. Seeing which terms span the most pages reveals the book's core themes. You can grasp the outline of a book just by reading the index.\n\nThe **appendix** houses material that's too long for the body text but too valuable to omit: raw data, timelines, glossaries, statistical tables, maps. In academic works, the appendix sometimes becomes the most frequently referenced section.\n\nThe front of a book (preface, table of contents) tells you \"where you're going.\" The back (index, appendix, bibliography) tells you \"where else you can go.\"",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What information CANNOT be found on the copyright page (colophon)?",
+          "choices": [
+            "ISBN",
+            "Printing date",
+            "Copyright holder",
+            "Reader reviews"
+          ],
+          "answerIndex": 3,
+          "explanation": "The copyright page contains ISBN, printing date, copyright holder, publisher information, and more. Reader reviews are not included on the copyright page.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the difference between a preface and a foreword?",
+          "choices": [
+            "The preface is longer",
+            "The preface is written by the author; the foreword is written by a third party",
+            "They mean the same thing",
+            "The foreword always comes first"
+          ],
+          "answerIndex": 1,
+          "explanation": "A preface is written by the author to explain the writing process and intent. A foreword is written by a third party (usually a prominent figure in the field) as a recommendation.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What is the role of an 'index' in nonfiction?",
+          "choices": [
+            "A summary of the book",
+            "Author biography",
+            "A tool for locating where specific concepts are discussed in the text",
+            "A bibliography"
+          ],
+          "answerIndex": 2,
+          "explanation": "An index is an organized list of key terms and their page numbers, allowing readers to instantly find where specific concepts are discussed in the text.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "translation",
+      "title": "The Pitfalls of Translation",
+      "difficulty": "intermediate",
+      "description": "Discrepancies between original and translated titles, relay translation issues, comparing translators. Building an eye for choosing translations.",
+      "objectives": [
+        "Understand why original and translated titles differ and the impact this has",
+        "Recognize the difference between relay translation and direct translation",
+        "Establish criteria for comparing multiple translations of the same work"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "The Magic and Traps of Translated Titles",
+          "contentMarkdown": "Camus's novel **L'Etranger**. In English, it was long known as *The Stranger*, and more recently also translated as *The Outsider*. The French original roughly means 'the strange one' or 'the foreign one,' but each English title carries a subtly different connotation -- *The Stranger* emphasizes anonymity, while *The Outsider* emphasizes alienation.\n\nDostoevsky's **Prestuplenie i nakazanie**. Universally known in English as *Crime and Punishment* -- a title so iconic that most readers never consider whether it fully captures the Russian original's nuances of 'transgression' and 'suffering.'\n\nTranslated titles are not simple translations. They are **marketing decisions and interpretations that determine a work's first impression**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "The Trap of Relay Translation",
+          "contentMarkdown": "**Relay translation** (also called indirect translation) means translating through an intermediary language rather than directly from the source. For example, translating a Russian novel from a French version rather than from the original Russian.\n\nHistorically, relay translation was common in many countries. In the early 20th century, Russian and Eastern European literature was frequently translated into English from French or German intermediaries rather than directly from the source languages. The problem is that with each translation step, the nuances of the original are lost. Like a game of telephone, the message distorts with each relay.\n\nToday, direct translation is the standard. Russian to English directly, Japanese to English directly. When a classic reappears in a new direct translation, readers often react: \"Is this what the work originally felt like?\"\n\nHow to check for relay translation: look at the **copyright page's source information**. If the original is Russian but the translator's note says \"translated from the French edition,\" it's a relay translation.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Different Translator, Different Book",
+          "contentMarkdown": "When a work's copyright expires, anyone can translate it. That's why authors like Shakespeare, Dostoevsky, Homer, and Kafka have multiple translations published by different houses with different translators.\n\nEven from the same source text, the reading experience **completely** changes depending on the translator.\n\nTake Homer's *Odyssey* -- Robert Fagles, Emily Wilson, and Richmond Lattimore each produced dramatically different English versions. Some translators preserve the long, flowing sentences of the original to convey its unique rhythm, while others break them into shorter, more readable English. Annotation styles differ too: some translators keep footnotes minimal, while others provide rich cultural and historical context.\n\nTranslation is not mechanical conversion -- it's **interpretation**. Different translator, different interpretation. Different interpretation, different book.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Criteria for Choosing a Good Translation",
+          "contentMarkdown": "If multiple translations of the same work exist, what criteria should you use?\n\n**1. Translator's expertise** — Verify whether they specialize in the source language and field. A Dostoevsky translated by a Russian literature scholar versus one translated from a French intermediary by a French specialist are fundamentally different starting points.\n\n**2. Presence of a translator's note** — A translator's note signals that the translator reflected on and is confident enough to share their translation process. A note explaining why certain words were rendered a certain way and which parts were challenging is an indicator of conscientious work.\n\n**3. Quality of annotations** — Are there appropriate notes where needed? Too many or too few are both problems.\n\n**4. Publication date** — More recent translations tend to use language that feels more natural to contemporary readers. However, older translations can include celebrated renditions, so this isn't an absolute criterion.\n\n**5. Check reviews** — Look for reader reviews that mention \"the translation is excellent/smooth\" or \"the translation is awkward/hard to read.\"",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why Checking the Original Title Matters",
+          "contentMarkdown": "Building a habit of checking the original title when reading a translation makes a bigger difference than you'd expect.\n\nFirst, **different books by the same author can be published with similar translated titles**. Without knowing the original title, you may confuse them.\n\nSecond, **you can access international reviews and research**. Searching by a translated title yields limited results, but searching by the original title opens up reviews, analyses, and reader discussions from around the world.\n\nThird, **searching the original title on Wikipedia often reveals the work's background, writing process, and critical history** in far greater depth than what's available in smaller-language Wikipedia editions.\n\nFourth, **comparing how different countries translate the same title** is fascinating in its own right. Seeing the same original work introduced under entirely different titles across countries drives home the essence of translation -- cultural reinterpretation.\n\nThe original title is usually found on the copyright page or back cover. Checking takes five seconds.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is relay translation (indirect translation)?",
+          "choices": [
+            "The second translation published",
+            "A translation made from another translation rather than the original language",
+            "A translation done by two people",
+            "A republished translation"
+          ],
+          "answerIndex": 1,
+          "explanation": "Relay translation means translating not from the original language but through an intermediary language version. Nuances from the original can be lost with each translation step.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the main reason multiple translations of the same classic can exist?",
+          "choices": [
+            "Publishers compete for market share",
+            "The copyright has expired, allowing anyone to translate and publish",
+            "There are multiple versions of the original",
+            "The translation quality was poor"
+          ],
+          "answerIndex": 1,
+          "explanation": "When a work's copyright expires, anyone can freely translate and publish it. This is why classics by Shakespeare, Dostoevsky, and others are published by multiple houses with different translators.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What is the most useful indicator for judging the quality of a translation?",
+          "choices": [
+            "Thickness of the book",
+            "Cover design",
+            "Translator's note and quality of annotations",
+            "Publication year"
+          ],
+          "answerIndex": 2,
+          "explanation": "A translator's note reveals the thought and judgment behind the translation process, and the quality of annotations reflects the translator's expertise and diligence. These two are the most direct indicators of translation quality.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "references",
+      "title": "Following the References",
+      "difficulty": "intermediate",
+      "description": "Footnotes, endnotes, bibliography, index -- the art of expanding from one book to ten.",
+      "objectives": [
+        "Understand the structure and differences of footnotes, endnotes, and bibliographies",
+        "Learn how to follow citation networks",
+        "Use bibliographies to expand your reading"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Why Bibliographies Matter",
+          "contentMarkdown": "Nonfiction authors don't discover everything on their own. Every book is built upon previous books. A **bibliography** is the author's confession: \"I could write this book thanks to these people.\"\n\nMost readers skip the bibliography. It's like not watching the end credits of a movie -- except the loss is far greater. Ignoring the bibliography means **stopping at one book**. Reading the bibliography means **moving from one book to ten**.\n\nA good nonfiction bibliography is itself a **curated reading list**. The key texts that the author filtered through years of research are gathered in one place. Where else would you find a more trustworthy recommendation list?",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Footnotes vs. Endnotes vs. Bibliography",
+          "contentMarkdown": "There are three main ways to cite sources.\n\n**Footnotes** — Placed at the bottom of the relevant page. Convenient because you can glance down immediately while reading. Commonly used in academic and historical works. The downside: pages packed with footnotes can disrupt the flow of the main text.\n\n**Endnotes** — Collected at the end of a chapter or the back of the book. They don't interrupt the reading flow, but checking them requires flipping back and forth. Preferred in popular nonfiction.\n\n**Bibliography** — A complete list of all sources cited or referenced in the book. Usually organized alphabetically at the very end.\n\nCitation styles also vary by discipline.\n\n| Style | Primary Field | Feature |\n|---|---|---|\n| APA | Psychology, Social Sciences | Author-date format |\n| MLA | Humanities, Literature | Author-page format |\n| Chicago | History, Publishing | Footnotes/endnotes + bibliography |\n\nRegardless of format, the core purpose is the same: **making it possible to trace who said what, when, and where**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Following Citations in Practice",
+          "contentMarkdown": "The most powerful way to use bibliographies is **tracking repeated citations**.\n\nScan through a book's bibliography, and you'll notice that certain authors or titles appear with unusual frequency. That book is likely a **foundational text** in the field.\n\nTake it one step further. Check the bibliography of that foundational text. You'll find repeatedly cited sources there too. Follow this chain for just two or three levels, and you'll have assembled the **essential bookshelf** of an entire field.\n\nThe concrete method:\n\n- Pick a nonfiction book that interests you and open its bibliography\n- Mark the 3-5 most frequently cited authors/books\n- Add the most intriguing one to your next reading list\n- Repeat the same process with that book's bibliography\n\nThis is **reading by following citation networks**. It's a fundamentally different approach from algorithm-based recommendations -- it traces the genealogy of knowledge itself.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Academic vs. Popular Works",
+          "contentMarkdown": "Academic and popular works handle sources quite differently.\n\n**Academic works** follow strict citation formats. Every claim must cite its source, and citation omission is considered academic misconduct. Bibliographies spanning dozens of pages are common.\n\n**Popular works** are more flexible. Instead of formal footnotes, many use a **'Further Reading'** or **'Notes'** section. The format is looser, but the content can be pure gold.\n\nPay special attention to the 'Notes' section in popular nonfiction. You'll find sentences like: \"The XX study mentioned in Chapter 3 is based on OO's 2019 paper. For more on this topic, I recommend AA's *BB*.\" This is where authors stash recommendations they **desperately wanted to share** but couldn't fit into the main text.\n\nWhether academic or popular, a reader who skips the last 50 pages is throwing away 30% of the book's value.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "References in the Digital Age",
+          "contentMarkdown": "Digital tools make citation tracking vastly more powerful.\n\n**Google Scholar** — Search for a paper or book, then click the 'Cited by' link to see a list of later papers and books that cited it. This is **reverse-direction tracking**. While a bibliography shows \"past works this book referenced,\" Cited by shows \"later works that referenced this book.\"\n\n**Wikipedia footnotes** — Following the footnotes in a Wikipedia article can lead you to original papers, articles, and reports. Wikipedia itself can't be used as a source, but Wikipedia's sources are often highly reliable.\n\n**DOI (Digital Object Identifier)** — A unique identifier assigned to academic papers. A URL in the format `doi.org/10.xxxx/xxxxx` provides direct access to the paper's full text.\n\nStarting from a single physical book, you can expand through digital tools into a worldwide network of knowledge. A book is not an endpoint -- it's a **starting point**.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the difference between footnotes and endnotes?",
+          "choices": [
+            "Footnotes are more academic",
+            "Footnotes appear at the bottom of the page; endnotes are collected at the end of a chapter or book",
+            "Endnotes are shorter",
+            "There is no difference"
+          ],
+          "answerIndex": 1,
+          "explanation": "Footnotes are placed at the bottom of the relevant page for immediate reference, while endnotes are collected at the end of a chapter or the book to avoid disrupting the reading flow.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What does it mean when a source is repeatedly cited across multiple books' bibliographies?",
+          "choices": [
+            "It's been plagiarized",
+            "It's likely a foundational text in the field",
+            "It's an old book",
+            "It's from a famous publisher"
+          ],
+          "answerIndex": 1,
+          "explanation": "A work that multiple authors commonly cite is likely a foundational text that made an important contribution to the field.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What does Google Scholar's 'Cited by' feature show?",
+          "choices": [
+            "Other papers by the same author",
+            "Later works that cited the paper or book",
+            "Papers from the same publisher",
+            "Papers with similar titles"
+          ],
+          "answerIndex": 1,
+          "explanation": "Cited by shows later papers and books that cited the work. If a bibliography points to the past, Cited by is a reverse-tracking tool that points to the future.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "publishing_ecosystem",
+      "title": "The Publishing Ecosystem",
+      "difficulty": "intermediate",
+      "description": "How publishers differ. Imprints, editors, series -- understanding the publishing ecosystem makes choosing books easier.",
+      "objectives": [
+        "Distinguish the character and strengths of different publishers",
+        "Understand the concept of an imprint",
+        "Grasp the role of editors and the significance of series/labels"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Publishers Have Personalities",
+          "contentMarkdown": "When choosing a book at a bookstore, most people check the author and title but skip right past the publisher. Yet knowing the publisher makes choosing books **significantly** easier.\n\nEach publisher has its own strengths in particular fields and its own editorial style.\n\n- **Penguin Random House** — The world's largest trade publisher. Its dozens of imprints cover everything from literary fiction to commercial nonfiction.\n- **Knopf** — Known for high literary quality in both fiction and nonfiction, with iconic cover designs.\n- **Farrar, Straus and Giroux (FSG)** — A powerhouse in literary fiction and serious nonfiction. Home to numerous Nobel and Pulitzer Prize winners.\n- **W. W. Norton** — Strong in academic and nonfiction titles. Known for rigorous editing and the Norton Anthology series.\n- **University presses (Oxford, Cambridge, Harvard, etc.)** — Scholarly publishing with rigorous peer review. Trusted for academic and reference works.\n\nWhen you reach the point of \"I trust this publisher,\" your odds of disappointment drop sharply -- even with unfamiliar books.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Imprints -- Publishers Within Publishers",
+          "contentMarkdown": "Inside major publishing groups, multiple **imprints** exist. An imprint is a label with its own independent editorial direction and target readership. It's a structure of multiple brands under one umbrella.\n\nThe concept is most visible in the English-speaking world. Under **Penguin Random House**, there are dozens of imprints:\n\n- **Knopf** — Highly literary fiction and nonfiction. Famous for elegant cover design.\n- **Vintage** — Knopf's paperback line. More affordable and accessible.\n- **Crown** — Popular nonfiction and self-help.\n- **Penguin Classics** — Specializing in classic literature.\n\nThey all belong to the same group, but place books from each imprint side by side and **the atmosphere is entirely different**. Other major groups like Hachette, HarperCollins, and Simon & Schuster follow the same model.\n\nKnowing imprints lets you predict: \"A book from this label will probably have this character.\"",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "The Figure Behind the Scenes: The Editor",
+          "contentMarkdown": "Books aren't made by authors alone. The author's name is printed large on the cover, but behind it stands an **editor**.\n\nEditors refine manuscripts, restructure content, and sometimes suggest entirely new directions. A great editor understands what the author wants to say more clearly than the author does, and shapes it into a form that reaches readers.\n\nThe most famous editor in publishing history is **Maxwell Perkins** of Scribner's. He worked with F. Scott Fitzgerald, Ernest Hemingway, and Thomas Wolfe. His feat of sculpting Thomas Wolfe's sprawling manuscript into publishable form remains a legend of the editing craft.\n\nIn modern publishing, editors like Robert Gottlieb (who edited *Catch-22* and *Toni Morrison's work*) and Nan Talese have shaped the literary landscape. Trace the list of books a particular editor has championed, and you'll see how one person's taste can define a publisher's identity.\n\nThe reason books from a publisher with great editors read so well is that someone **on the reader's side** polished the manuscript in ways that remain invisible.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Series and Labels",
+          "contentMarkdown": "A publishing series **guarantees a certain standard** to readers.\n\n- **Penguin Classics** — Launched in 1946. The iconic black-spine covers. Includes expert introductions and annotations, optimized for approaching the classics.\n- **Oxford World's Classics** — Scholarly introductions, detailed notes, and appendices. A trusted gateway to classic literature.\n- **Everyman's Library** — Beautifully designed hardcovers with ribbon bookmarks. Combines collectibility with affordability.\n- **Norton Critical Editions** — The gold standard for classroom use. Includes the authoritative text plus critical essays and contextual materials.\n\nInclusion in a series is itself a form of **curation**. It means an editorial committee judged: \"This work deserves a place in our series.\"\n\nFrom a reader's perspective, following a series enables systematic reading. Browse the catalog of Penguin Classics and pick the titles that interest you -- that alone provides a structured tour through the world's essential literature.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Independent and Self-Publishing",
+          "contentMarkdown": "Books are also born outside the traditional publishing ecosystem.\n\n**Independent publishers (indie presses)** — Small teams, sometimes just one person, handling everything from planning to publication. They often cover niche subjects that major publishers won't touch. Indie presses like Graywolf, Melville House, and Coffee House Press have become vital voices in the literary landscape.\n\n**Independent publishing (indie bookstores)** — Books distributed outside conventional channels, sold through independent bookstores or direct online sales. These offer high freedom in design and content. Indie bookstores and small press fairs are where you'll find them.\n\n**Self-publishing** — The author bears the cost and publishes directly. Amazon KDP (Kindle Direct Publishing) is the leading platform. It bypasses the traditional publishing ecosystem's filters (planning, editing, vetting).\n\nThe advantage is **diversity**. Books on subjects that traditional publishers would pass over for commercial reasons can find their way into the world. The downside is **quality variance**. Without professional editing and proofreading, some titles slip through unpolished, so readers need sharper judgment.\n\nCrowdfunding platforms (Kickstarter, etc.) have also emerged as a way to secure publishing costs in advance -- a new model where readers become patrons of the publishing process.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is an imprint?",
+          "choices": [
+            "A stamp pressed into a book",
+            "A label within a publishing group with its own independent editorial direction",
+            "An e-book-only brand",
+            "An author's pen name"
+          ],
+          "answerIndex": 1,
+          "explanation": "An imprint is a label within a major publishing group that has its own independent editorial direction and target readership. Though they belong to the same group, each publishes books of a different character.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the core role of an editor in publishing?",
+          "choices": [
+            "Designing the cover",
+            "Refining the manuscript and restructuring content to raise its quality",
+            "Distributing books to bookstores",
+            "Writing reviews"
+          ],
+          "answerIndex": 1,
+          "explanation": "An editor refines manuscripts, restructures content, and suggests direction to raise the book's overall quality.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What is the advantage of a publishing series (e.g., Penguin Classics)?",
+          "choices": [
+            "Always cheaper",
+            "You can expect a consistent standard of editing quality and curation",
+            "All books are by the same author",
+            "They never go out of print"
+          ],
+          "answerIndex": 1,
+          "explanation": "A publishing series undergoes selection by an editorial committee, so readers can expect a consistent standard of editing quality and curation.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "out_of_print",
+      "title": "Out of Print, Out of Stock, Reissued",
+      "difficulty": "advanced",
+      "description": "What if the book you want is out of print? The reasons behind it, how to find it, and the mechanics of copyright and reissue.",
+      "objectives": [
+        "Distinguish between out of print and out of stock",
+        "Know practical methods for finding out-of-print books",
+        "Understand the relationship between copyright and reissue"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Out of Print vs. Out of Stock -- A Difference of Hope",
+          "contentMarkdown": "When you encounter \"This book is currently unavailable\" at a bookstore, the situation is entirely different depending on whether it's **out of stock** or **out of print**.\n\n**Out of Stock** — Inventory has been depleted. It means the publisher's warehouse is empty, not that they've decided to stop printing. If demand exists, they can reprint. There's a possibility it'll come back if you wait.\n\n**Out of Print** — The publisher has decided to stop printing. Once existing copies in the market are gone, that's it. Waiting probably won't help.\n\nOut of stock is a **patience problem**. Out of print is an **action problem**. With an out-of-print book, you need to actively hunt it down.\n\nOne tip: If you contact the publisher directly, they may tell you whether a reprint is planned. From the publisher's perspective, confirming reader demand is welcome news.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why Books Go Out of Print",
+          "contentMarkdown": "Even good books go out of print. This is the cold reality of publishing.\n\nThe most common reason is **poor sales**. Publishers are businesses. Reprinting costs money: printing, paper, warehouse storage. If the reprint isn't expected to sell, the decision is made not to print.\n\nOther reasons:\n\n- **Rights expiration** — When the publishing rights contract between publisher and author (or foreign publisher) expires, the book can't be reprinted unless renewed.\n- **Author's request** — Rare, but authors sometimes request their past works be taken out of print. This may happen when the content no longer reflects their current views or has become controversial.\n- **Publisher closure** — When a publisher goes out of business, all its titles automatically become out of print.\n- **Legal issues** — Copyright disputes, defamation lawsuits, and other legal matters can halt publication.\n\nOut of print **doesn't mean the book is bad**. It means \"reprinting won't be commercially viable (for now).\" Commercial success and a work's value are separate matters.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Finding Out-of-Print Books -- Practical Routes",
+          "contentMarkdown": "Once you've confirmed that the book you want is out of print, try the following routes in order.\n\n**1. Used bookstores (secondhand)**\n- Online: AbeBooks, ThriftBooks, Amazon Marketplace, eBay. You can compare prices and conditions.\n- Offline: Local used bookstores, charity shops, library book sales. Books that can't be found online sometimes surface in person.\n\n**2. Libraries**\n- Search library holdings and visit for on-site reading or borrowing.\n- Use **interlibrary loan (ILL)**: Even if your local library doesn't have it, they can borrow it from another library. Most public and academic libraries offer this service.\n\n**3. E-books**\n- An out-of-print physical book may still be available as an e-book. E-books have no printing costs, so they often remain available regardless of the print edition's status.\n\n**4. International purchasing**\n- AbeBooks, Amazon Marketplace, and Biblio connect you with sellers worldwide.\n- If you're open to a different language edition, your options expand considerably.\n\n**5. Digital archives**\n- Internet Archive's Open Library, HathiTrust, and Project Gutenberg may have digitized copies, especially for older works in the public domain.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Copyright and Reissue",
+          "contentMarkdown": "Behind out-of-print status and reissue lies **copyright**.\n\nIn the United States and most of Europe, copyright protection lasts for the **author's life plus 70 years**. After this period, the copyright expires and anyone can publish the work. This is why works by Shakespeare, Tolstoy, and Herman Hesse are competitively published by multiple houses.\n\nSeparate from copyright, there are **publishing rights contracts**. Publishers typically sign rights agreements with the author (or literary agent) for 5-10 year terms. When a contract expires, two paths open:\n\n- The same publisher **renews the contract** and continues publishing.\n- The contract ends, and **a different publisher signs a new agreement** to reissue the work. This may come with a new translation, new cover, and new introduction.\n\nFor works whose copyright has fully expired, **Project Gutenberg** and the **Internet Archive** offer free access to full texts. Over 70,000 classics are freely available.",
+          "exampleId": null,
+          "imageUrl": "TODO: Simple diagram showing the cycle of publishing rights contract, expiration, and reissue"
+        },
+        {
+          "title": "The Joy of Reissue",
+          "contentMarkdown": "When an out-of-print book returns to the world, it's a small celebration for book lovers.\n\nReissues happen for various reasons:\n\n- **Reader demand** — When voices on social media asking \"Why is this book out of print?\" reach critical mass, publishers consider a reprint or reissue.\n- **Film/TV adaptation** — When a screen adaptation is announced, demand for the source material explodes. Out-of-print originals are often rushed back into print.\n- **Renewed interest in the author** — Nobel Prize, passing of the author, a documentary -- when attention returns to an author, their out-of-print works come back too.\n- **A new publisher's initiative** — Another publisher recognizes the work's value and plans a reissue with a new translation, new introduction, and fresh design.\n\nReissues are often more than simple reprints. They may feature new translations, new scholarly introductions, and updated annotations. They allow the same work to be read anew through a contemporary lens.\n\nThat's why book collectors live by this maxim: **\"If you find an out-of-print book, buy it immediately.\"** \"Next time\" may never come.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the difference between out of print and out of stock?",
+          "choices": [
+            "They mean the same thing",
+            "Out of stock is more serious",
+            "Out of stock means inventory is depleted; out of print means the publisher has decided to stop printing",
+            "Out of print applies only to e-books"
+          ],
+          "answerIndex": 2,
+          "explanation": "Out of stock means inventory has been depleted with a possibility of reprinting, while out of print means the publisher has decided to stop printing altogether.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Which of the following is NOT an appropriate way to find an out-of-print book?",
+          "choices": [
+            "Searching used bookstores",
+            "Interlibrary loan",
+            "Checking e-book availability",
+            "Demanding the publisher reprint it"
+          ],
+          "answerIndex": 3,
+          "explanation": "Searching used bookstores, interlibrary loan, and checking e-book availability are all valid methods. Politely contacting a publisher is fine, but demanding a reprint is not an appropriate approach.",
+          "stepIndex": 2
+        },
+        {
+          "question": "How long does copyright protection last in the US?",
+          "choices": [
+            "50 years after publication",
+            "50 years after the author's death",
+            "70 years after the author's death",
+            "Permanent protection"
+          ],
+          "answerIndex": 2,
+          "explanation": "In the US, copyright protection lasts for the author's life plus 70 years. After this period, the copyright expires and anyone can freely publish the work.",
+          "stepIndex": 3
+        }
+      ]
+    }
+  ]
+}

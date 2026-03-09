@@ -34,7 +34,7 @@ export default function CelebsByProfession({
   return (
     <div className="space-y-8 md:space-y-10">
       {/* 유틸리티 버튼 바 */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         <button type="button" onClick={() => setShowInfluenceDistribution(true)} className={btnClass}>
           <BarChart3 size={14} className="opacity-70" />
           <span>{t("influence")}</span>

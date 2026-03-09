@@ -10,10 +10,7 @@ import { useCallback } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
-/** 섹션 ID 생성 헬퍼. 부모에서 groupId를 넘기면 그룹별 독립 넘버링 가능 */
-export function hubSectionId(index: number, groupId?: string) {
-  return groupId ? `hub-${groupId}-${index}` : `hub-section-${index}`;
-}
+import { hubSectionId } from "./hubSectionUtils";
 
 interface HubSectionProps {
   title: string;
@@ -64,7 +61,14 @@ export default function HubSection({
         {/* 엑센트 바 */}
         <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
 
-        {/* 넘버링 + 제목 + 좌우 화살표 (같은 행) */}
+        {/* 넘버링 (윗줄) */}
+        {hasNav && (
+          <span className="text-[11px] font-mono text-[#d4af37]/60 tabular-nums select-none">
+            {index! + 1}/{total}
+          </span>
+        )}
+
+        {/* 좌우 화살표 + 제목 (아랫줄) */}
         <div className="flex items-center gap-3">
           {hasNav && (
             index === 0 ? (
@@ -86,11 +90,6 @@ export default function HubSection({
                 <ChevronLeft size={16} />
               </button>
             )
-          )}
-          {hasNav && (
-            <span className="text-[11px] font-mono text-[#d4af37]/60 tabular-nums select-none">
-              {index! + 1}/{total}
-            </span>
           )}
           <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
             {title}

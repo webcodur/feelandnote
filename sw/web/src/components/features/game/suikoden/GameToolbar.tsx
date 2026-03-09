@@ -115,7 +115,7 @@ export default function GameToolbar({
               <div className="absolute top-full left-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[200px] p-2 space-y-2">
                 {/* 세율 조정 */}
                 <div>
-                  <div className="text-[10px] text-stone-500 mb-1">{text.toolbar.tax}</div>
+                  <div className="text-[10px] text-text-secondary mb-1">{text.toolbar.tax}</div>
                   <div className="flex gap-1">
                     {(['low', 'normal', 'high'] as const).map(rate => (
                       <button
@@ -126,7 +126,7 @@ export default function GameToolbar({
                             ? rate === 'high' ? 'bg-red-900/50 text-red-300 font-bold'
                               : rate === 'low' ? 'bg-green-900/50 text-green-300 font-bold'
                               : 'bg-amber-900/50 text-amber-300 font-bold'
-                            : 'bg-stone-700 text-stone-500 hover:bg-stone-600'
+                            : 'bg-stone-700 text-text-secondary hover:bg-stone-600'
                           }`}
                       >
                         {rate === 'low' ? text.toolbar.taxLow : rate === 'high' ? text.toolbar.taxHigh : text.toolbar.taxNormal}
@@ -136,22 +136,22 @@ export default function GameToolbar({
                 </div>
                 {/* 건물 현황 요약 */}
                 <div className="border-t border-stone-700 pt-1.5 space-y-0.5">
-                  <div className="text-[10px] text-stone-500 mb-1">{text.toolbar.buildingStatus}</div>
+                  <div className="text-[10px] text-text-secondary mb-1">{text.toolbar.buildingStatus}</div>
                   {Object.entries(BUILDING_CATEGORY_INFO).map(([catId, catInfo]) => {
                     const catCards = territory.buildingCards.filter(c => BUILDING_CATEGORY[c.defId] === catId)
                     if (catCards.length === 0) return null
                     return (
                       <div key={catId} className="flex items-center gap-2 text-[10px]">
                         <span style={{ color: catInfo.color }}>{catInfo.icon} {tS(`bldgCat.${catId}`)}</span>
-                        <span className="text-stone-500">{text.toolbar.buildingCount(catCards.length)}</span>
-                        <span className="text-stone-600">
+                        <span className="text-text-secondary">{text.toolbar.buildingCount(catCards.length)}</span>
+                        <span className="text-text-secondary">
                           {text.toolbar.buildingConstructing(catCards.filter(c => c.isConstructing).length)}
                         </span>
                       </div>
                     )
                   })}
                   {territory.buildingCards.length === 0 && (
-                    <p className="text-[10px] text-stone-600">{text.toolbar.noBuildings}</p>
+                    <p className="text-[10px] text-text-secondary">{text.toolbar.noBuildings}</p>
                   )}
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function GameToolbar({
               <div className="absolute top-full left-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[180px] p-2 space-y-1">
                 {neighbors.map(n => (
                   <div key={n.id} className="flex items-center justify-between py-1 text-xs">
-                    <span className="text-stone-300">{tS(`territory.${n.id}`)}</span>
+                    <span className="text-text-primary">{tS(`territory.${n.id}`)}</span>
                     {n.owner ? (
                       n.owner.id !== state.playerFactionId ? (
                         <button
@@ -175,7 +175,7 @@ export default function GameToolbar({
                           {text.toolbar.invade}
                         </button>
                       ) : (
-                        <span className="text-stone-600 text-[10px]">{text.toolbar.ally}</span>
+                        <span className="text-text-secondary text-[10px]">{text.toolbar.ally}</span>
                       )
                     ) : (
                       <button
@@ -188,7 +188,7 @@ export default function GameToolbar({
                   </div>
                 ))}
                 {neighbors.length === 0 && (
-                  <p className="text-[10px] text-stone-500">{text.toolbar.noAdjacentTerritories}</p>
+                  <p className="text-[10px] text-text-secondary">{text.toolbar.noAdjacentTerritories}</p>
                 )}
               </div>
             )}
@@ -210,11 +210,11 @@ export default function GameToolbar({
                     <div key={f.id} className="p-2 bg-stone-800 rounded space-y-1.5">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: f.color }} />
-                        <span className="flex-1 text-xs text-stone-200 truncate font-bold">{stripSuikodenFactionSuffix(f.name)}</span>
+                        <span className="flex-1 text-xs text-text-primary truncate font-bold">{stripSuikodenFactionSuffix(f.name)}</span>
                         <span className={`text-[9px] px-1.5 py-0.5 rounded ${
                           allied ? 'bg-green-900/50 text-green-300' :
                           relation > 0 ? 'text-blue-400' :
-                          relation < -30 ? 'text-red-400' : 'text-stone-500'
+                          relation < -30 ? 'text-red-400' : 'text-text-secondary'
                         }`}>
                           {relationLabel(relation, allied)}
                         </span>
@@ -232,7 +232,7 @@ export default function GameToolbar({
                         <button
                           onClick={() => { onDiplomacy('ceasefire', f.id); setOpenDropdown(null) }}
                           disabled={playerFaction.resources.gold < 100}
-                          className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-stone-300 hover:bg-stone-600 disabled:opacity-30"
+                          className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-text-primary hover:bg-stone-600 disabled:opacity-30"
                         >
                           {text.toolbar.ceasefire}
                         </button>
@@ -256,7 +256,7 @@ export default function GameToolbar({
                   )
                 })}
                 {state.factions.filter(f => f.id !== state.playerFactionId && f.territories.length > 0).length === 0 && (
-                  <p className="text-[10px] text-stone-500">{text.toolbar.noOtherFactions}</p>
+                  <p className="text-[10px] text-text-secondary">{text.toolbar.noOtherFactions}</p>
                 )}
               </div>
             )}
@@ -267,7 +267,7 @@ export default function GameToolbar({
             <DropdownButton label={text.toolbar.misc} isOpen={openDropdown === 'etc'} onClick={() => toggleDropdown('etc')} />
             {openDropdown === 'etc' && (
               <div className="absolute top-full right-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[200px] p-2">
-                <p className="text-[10px] text-stone-400 mb-2">
+                <p className="text-[10px] text-text-secondary mb-2">
                   {text.toolbar.abandonHint(WANDERING_MAX_COMPANIONS)}
                 </p>
                 {!confirmAbandon ? (
@@ -289,7 +289,7 @@ export default function GameToolbar({
                       </button>
                       <button
                         onClick={() => setConfirmAbandon(false)}
-                        className="flex-1 py-1.5 bg-stone-700 rounded text-xs text-stone-400 hover:bg-stone-600"
+                        className="flex-1 py-1.5 bg-stone-700 rounded text-xs text-text-secondary hover:bg-stone-600"
                       >
                         {text.common.cancel}
                       </button>
@@ -302,7 +302,7 @@ export default function GameToolbar({
         </div>
 
         {/* 현재 영토명 */}
-        <span className="ml-auto text-[10px] text-stone-500">{tS(`territory.${territory.id}`)}</span>
+        <span className="ml-auto text-[10px] text-text-secondary">{tS(`territory.${territory.id}`)}</span>
       </div>
     </div>
   )
@@ -319,8 +319,8 @@ function ToolButton({ label, disabled, active, onClick }: {
         active
           ? 'bg-amber-700/50 text-amber-200'
           : disabled
-            ? 'text-stone-600 cursor-not-allowed'
-            : 'text-stone-400 hover:bg-stone-700 hover:text-stone-200'
+            ? 'text-text-secondary cursor-not-allowed'
+            : 'text-text-secondary hover:bg-stone-700 hover:text-text-primary'
       }`}
     >
       {label}
@@ -337,7 +337,7 @@ function DropdownButton({ label, isOpen, onClick }: {
       className={`px-2 py-1 rounded transition-colors text-[11px] flex items-center gap-0.5 ${
         isOpen
           ? 'bg-stone-700 text-amber-300'
-          : 'text-stone-400 hover:bg-stone-700 hover:text-stone-200'
+          : 'text-text-secondary hover:bg-stone-700 hover:text-text-primary'
       }`}
     >
       {label}

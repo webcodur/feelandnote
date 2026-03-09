@@ -4,7 +4,7 @@
   책임: 허브 섹션 항목(실제 페이지 순서)과 독립 페이지를 구분 표기한다.
 */ // ------------------------------
 
-import { Users, Rss, Sparkles, BarChart3, Fingerprint } from "lucide-react";
+import { Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import HubNav from "@/components/shared/HubNav";
 
@@ -22,6 +22,7 @@ export default async function ExploreHubNav() {
   // 독립 페이지 — Nav에서만 접근 가능
   const standaloneItems = [
     { label: t("navFeed"), href: "/explore/feed", icon: <Rss size={14} /> },
+    { label: t("navDirectory"), href: "/explore/directory", icon: <BookOpenText size={14} /> },
   ];
 
   return <HubNav hubItems={hubItems} standaloneItems={standaloneItems} groupId="explore" />;

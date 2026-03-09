@@ -23,7 +23,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   society: "bg-purple-500/20 text-purple-400 border-purple-500/30",
   culture: "bg-pink-500/20 text-pink-400 border-pink-500/30",
   war: "bg-red-500/20 text-red-400 border-red-500/30",
-  other: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+  other: "bg-gray-500/20 text-text-secondary border-gray-500/30",
 };
 
 const getEventColor = (category?: string) =>

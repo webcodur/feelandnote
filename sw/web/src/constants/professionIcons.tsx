@@ -34,3 +34,22 @@ export const PROFESSION_ICONS: Record<string, LucideIcon> = {
   influencer: Megaphone,
   athlete: Dribbble,
 };
+
+/** 직군별 아이콘 색상 */
+export const PROFESSION_COLORS: Record<string, string> = {
+  leader: "text-yellow-400",
+  politician: "text-blue-400",
+  commander: "text-red-400",
+  entrepreneur: "text-emerald-400",
+  investor: "text-green-400",
+  scientist: "text-cyan-400",
+  humanities_scholar: "text-amber-300",
+  social_scientist: "text-indigo-400",
+  director: "text-purple-400",
+  musician: "text-pink-400",
+  visual_artist: "text-orange-400",
+  author: "text-stone-400",
+  actor: "text-rose-400",
+  influencer: "text-fuchsia-400",
+  athlete: "text-sky-400",
+};

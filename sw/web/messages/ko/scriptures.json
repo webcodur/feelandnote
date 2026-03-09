@@ -1,6 +1,6 @@
 {
   "scriptures": {
-    "section": "지혜의 서고",
+    "section": "지혜의 서가",
     "tabs": {
       "era": {
         "label": "불후의 명작",
@@ -25,7 +25,7 @@
       "era": "시간의 흐름을 따라 인류가 남긴 불후의 발자취를 돌아봅니다.",
       "profession": "철학, 문화, 과학… 각자의 자리에서 정점을 찍은 이들의 궤적을 탐구합니다.",
       "museum": "수많은 사상과 창작물들이 어떻게 얽혀있는지 거대한 연대기 속에서 확인하세요.",
-      "academy": "단순한 열람을 넘어, 거장들의 방식을 직접 체화하고 나의 것으로 만드는 수련의 공간입니다.",
+      "academy": "영상 제작, 음악 이론 등 체계적인 교육 콘텐츠를 체화하는 수련의 공간입니다.",
       "figureLabel": "오늘의 인물",
       "eraLabel": "불후의 명작",
       "professionLabel": "길의 갈래",
@@ -34,6 +34,7 @@
       "museumTitle": "콘텐츠의 연대기",
       "academyTitle": "지혜의 학당",
       "academyReading": "독서법 비교",
+      "academyVideo": "영상 제작",
       "academyMusic": "화성학 레슨",
       "enterMuseum": "박물관 입장하기",
       "exploreAcademy": "학당 둘러보기",
@@ -47,15 +48,15 @@
       "description": "시대별, 직군별, 인물별로 정리된 감상 아카이브. 역사 속 명작부터 현대 걸작까지 인물들의 감상 기록을 탐색하세요."
     },
     "figure": {
-      "metaTitle": "오늘의 인물 | 지혜의 서고",
+      "metaTitle": "오늘의 인물 | 지혜의 서가",
       "metaDescription": "매일 새로운 인물의 서재를 탐험하세요. 오늘의 인물이 읽고, 보고, 들은 작품을 소개합니다."
     },
     "era": {
-      "metaTitle": "불후의 명작 | 지혜의 서고",
+      "metaTitle": "불후의 명작 | 지혜의 서가",
       "metaDescription": "전 시대의 대표작과 시대별 명저를 만나보세요."
     },
     "museum": {
-      "metaTitle": "박물관 | 지혜의 서고",
+      "metaTitle": "박물관 | 지혜의 서가",
       "metaDescription": "인류 지식 매체와 콘텐츠 형태의 변천사를 살펴봅니다.",
       "pageTitle": "콘텐츠의 연대기",
       "defaultDescription": "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다.",
@@ -143,22 +144,20 @@
       }
     },
     "academy": {
-      "metaTitle": "학당 | 지혜의 서고",
-      "metaDescription": "독서법 비교, 화성학 레슨 등 체계적인 교육 콘텐츠를 제공합니다.",
+      "metaTitle": "학당 | 지혜의 서가",
+      "metaDescription": "영상 제작, 화성학 레슨 등 체계적인 교육 콘텐츠를 제공합니다.",
       "pageTitle": "지혜의 학당",
-      "defaultDescription": "독서법 비교 분석부터 화성학 레슨까지, 체계적인 교육 콘텐츠를 만나보세요.",
+      "defaultDescription": "영상 제작부터 화성학까지, 체계적인 교육 콘텐츠를 만나보세요.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "학당 카테고리 선택",
-      "subCategoryTabsLabel": "학당 세부 주제 선택",
-      "comparisonSectionTitle": "독서법 비교",
-      "lessonSectionTitle": "화성과 기보",
-      "lessonNavigationTitle": "레슨 목차",
-      "lessonNavigationLabel": "화성학 레슨 목차",
-      "mobileLessonNavigationLabel": "화성학 레슨 빠른 이동",
+      "courseTabsLabel": "코스 선택",
+      "courseLabel": "Course",
+      "lessonLabel": "Lesson {n}/{total}",
+      "stepLabel": "Step {n}",
       "progressTitle": "학습 기록",
       "progressSummary": "{completed}/{total} 완료",
       "progressRecentLesson": "최근 학습: {title}",
-      "progressEmpty": "레슨을 펼치면 최근 학습 위치가 저장됩니다.",
+      "progressEmpty": "과를 이동하면 최근 학습 위치가 저장됩니다.",
       "progressGuest": "로그인하면 레슨별 학습 기록이 저장됩니다.",
       "continueLesson": "이어보기",
       "previousBtn": "이전",
@@ -181,10 +180,8 @@
       },
       "lesson": {
         "objectives": "학습 목표",
-        "foldContent": "본문 접기",
-        "unfoldContent": "본문 펼치기",
-        "completionCheckbox": "학습 체크",
-        "completedBadge": "완료",
+        "completionCheckbox": "이해도 확인",
+        "completedBadge": "학습 완료",
         "recentBadge": "최근",
         "guestHint": "로그인 시 기록 저장",
         "sheetExamples": "악보 예시",
@@ -201,53 +198,63 @@
         "playLabel": "악보 예시 재생",
         "stopLabel": "악보 예시 정지"
       },
+      "quiz": {
+        "title": "확인 문제",
+        "checkAnswer": "정답 확인",
+        "correct": "정답",
+        "incorrect": "오답",
+        "score": "{correct}/{total} 정답",
+        "allCorrect": "모든 문제를 맞혔습니다! 학습 완료 처리되었습니다."
+      },
       "category": {
         "book": {
-          "label": "책",
-          "description": "독서법 비교 분석"
+          "label": "도서",
+          "description": "책의 체계 레슨"
+        },
+        "video": {
+          "label": "영상",
+          "description": "영상 제작 레슨"
         },
         "music": {
           "label": "음악",
           "description": "화성학 레슨"
         }
       },
-      "sub": {
+      "course": {
         "book": {
-          "foundations": {
-            "label": "기초 읽기",
-            "description": "음독, 묵독, 정독처럼 읽기의 기본 자세를 다지는 방법들"
+          "system": {
+            "label": "책의 문법",
+            "description": "분류 체계, ISBN, 판본, 출판 생태계. 책이라는 시스템을 이해하는 지식"
+          }
+        },
+        "video": {
+          "light_and_camera": {
+            "label": "빛과 카메라",
+            "description": "빛의 성질, 3점 조명, 카메라 구조, 노출과 렌즈의 언어를 배운다"
           },
-          "strategies": {
-            "label": "확장 전략",
-            "description": "속독, 다독, 필사처럼 목적에 따라 읽기를 확장하는 훈련법"
+          "composition": {
+            "label": "구도와 프레이밍",
+            "description": "쇼트 사이즈, 카메라 앵글, 무브먼트, 시선 유도 등 화면을 설계하는 문법을 익힌다"
           },
-          "digital": {
-            "label": "디지털 환경",
-            "description": "스크린, 링크, 멀티태스킹 속에서 읽기 습관이 어떻게 달라지는지 살펴본다"
+          "editing": {
+            "label": "편집",
+            "description": "컷의 종류, 연속 편집, 몽타주, 사운드 편집, 색보정까지 편집의 원리를 배운다"
+          },
+          "narrative": {
+            "label": "시나리오 구조",
+            "description": "3막 구조, 캐릭터 아크, 갈등 설계, 시각적 스토리텔링의 기본기를 다진다"
           }
         },
         "music": {
-          "fundamentals": {
-            "label": "음의 기초",
-            "description": "소리, 악보, 리듬, 음정까지 음악 언어의 기본 문법을 익힌다"
-          },
-          "scales": {
-            "label": "음계와 조성",
-            "description": "장단음계와 조표를 통해 곡의 중심과 분위기가 만들어지는 원리를 배운다"
-          },
-          "chords": {
-            "label": "화음과 진행",
-            "description": "3화음, 7화음, 화성 진행을 묶어 음악의 뼈대를 이해한다"
-          },
-          "analysis": {
-            "label": "종합 분석",
-            "description": "배운 개념을 실제 곡 분석으로 연결해 화성학 감각을 정리한다"
+          "harmony": {
+            "label": "화성학",
+            "description": "소리의 기초부터 음계, 화음, 진행, 곡 분석까지 화성학의 전 과정을 배운다"
           }
         }
       }
     },
     "profession": {
-      "metaTitle": "갈림길 | 지혜의 서고",
+      "metaTitle": "갈림길 | 지혜의 서가",
       "metaDescription": "지도자, 과학자, 예술가 등 분야별 인물들이 선택한 필독서와 추천 작품을 만나보세요."
     },
     "page": {
@@ -274,7 +281,7 @@
         },
         "academy": {
           "label": "학당",
-          "description": "독서법 비교, 화성학 레슨 등 교육 콘텐츠"
+          "description": "영상 제작, 화성학 레슨 등 교육 콘텐츠"
         }
       },
       "toc": "목차",

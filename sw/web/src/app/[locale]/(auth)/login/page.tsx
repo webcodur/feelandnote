@@ -24,7 +24,7 @@ export default function Page() {
         {/* 로고 */}
         <div className="text-center">
           <Logo size="lg" />
-          <p className="mt-2 text-zinc-400">
+          <p className="mt-2 text-text-secondary">
             {t('login.tagline')}
           </p>
         </div>
@@ -62,12 +62,12 @@ export default function Page() {
           {/* 둘러보기 */}
           <div className="relative flex items-center gap-4 py-2">
             <div className="flex-1 border-t border-zinc-700" />
-            <span className="text-xs text-zinc-500">{t('login.or')}</span>
+            <span className="text-xs text-text-secondary">{t('login.or')}</span>
             <div className="flex-1 border-t border-zinc-700" />
           </div>
 
           <Link href="/" className="cursor-pointer">
-            <span className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300">
+            <span className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-text-secondary hover:bg-zinc-800 hover:text-text-primary">
               <Eye size={18} />
               {t('login.browse')}
             </span>
@@ -75,13 +75,13 @@ export default function Page() {
         </div>
 
         {/* 이용약관 */}
-        <p className="text-center text-sm text-zinc-500">
+        <p className="text-center text-sm text-text-secondary">
           {t('login.termsPrefix')}{' '}
-          <a href="/terms" className="underline hover:text-zinc-400">
+          <a href="/terms" className="underline hover:text-text-secondary">
             {t('terms')}
           </a>
           {t('login.termsAnd')}{' '}
-          <a href="/privacy" className="underline hover:text-zinc-400">
+          <a href="/privacy" className="underline hover:text-text-secondary">
             {t('privacy')}
           </a>
           {t('login.termsSuffix')}

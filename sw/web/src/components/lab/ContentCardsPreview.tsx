@@ -89,7 +89,7 @@ const PAGE_CARD_MAP: PageCardInfo[] = [
   },
   {
     url: "/scriptures",
-    pageName: "작품 (지혜의 서고)",
+    pageName: "작품 (지혜의 서가)",
     sections: [
       {
         name: "공통 서가",

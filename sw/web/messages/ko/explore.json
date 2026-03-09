@@ -155,7 +155,13 @@
       "navTopByType": "분야별 랭킹",
       "navPersona": "인물 분석",
       "navFeed": "인물 피드",
-      "navSpotlight": "스포트라이트"
+      "navSpotlight": "스포트라이트",
+      "navDirectory": "디렉토리"
+    },
+    "directory": {
+      "metaTitle": "전체 인물 디렉토리 | 탐색",
+      "metaDescription": "역사 속 위인부터 현대 문화 아이콘까지, 전체 인물 목록을 초성순으로 탐색하세요.",
+      "totalCount": "총 {count}명의 인물"
     },
     "celebFeed": {
       "metaTitle": "인물 피드 | 인물",

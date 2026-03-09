@@ -301,17 +301,32 @@ export default function MyReviewPanel({
                   className="gap-1.5"
               />
           </div>
-          <div className="flex items-center gap-2 min-w-[60px] justify-end">
-              {rating > 0 ? (
-                  <div className="flex items-center gap-2 animate-in zoom-in-50 duration-300">
-                      <Star size={16} className="text-accent fill-accent shadow-glow" />
-                      <span className="text-2xl font-serif font-black text-accent drop-shadow-glow">
-                          {rating.toFixed(1)}
-                      </span>
-                  </div>
-              ) : (
-                  <span className="text-[10px] text-text-tertiary italic">{t("notRated")}</span>
-              )}
+          <div className="flex items-center gap-3 justify-end">
+              <div className="flex items-center gap-2 min-w-[60px] justify-end">
+                  {rating > 0 ? (
+                      <div className="flex items-center gap-2 animate-in zoom-in-50 duration-300">
+                          <Star size={16} className="text-accent fill-accent shadow-glow" />
+                          <span className="text-2xl font-serif font-black text-accent drop-shadow-glow">
+                              {rating.toFixed(1)}
+                          </span>
+                      </div>
+                  ) : (
+                      <span className="text-[10px] text-text-tertiary italic">{t("notRated")}</span>
+                  )}
+              </div>
+              <button
+                  onClick={onSave}
+                  disabled={!isDirty || isSubmitting}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                      isDirty
+                      ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]'
+                      : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
+                  }`}
+                  title={t("save")}
+              >
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                  <span className="text-sm font-bold">{t("save")}</span>
+              </button>
           </div>
       </div>
 

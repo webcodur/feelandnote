@@ -184,7 +184,7 @@ export default function CelebPageContent({
               </section>
             )}
 
-            {/* 콘텐츠 라이브러리 (기록 서고) */}
+            {/* 콘텐츠 라이브러리 (기록 서가) */}
             <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
               <DecorativeLabel label={t("library")} />
               <ClassicalBox hover={false} className="p-6">

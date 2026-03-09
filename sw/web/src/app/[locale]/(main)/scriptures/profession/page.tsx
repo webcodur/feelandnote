@@ -82,19 +82,20 @@ function SectionSkeleton() {
   );
 }
 
-async function ProfessionContent() {
+async function ProfessionContent({ initialProfession }: { initialProfession?: string }) {
   const professionCounts = await getProfessionContentCounts();
   return (
     <AsyncIntlProvider>
-      <ProfessionSection professionCounts={professionCounts} />
+      <ProfessionSection professionCounts={professionCounts} initialProfession={initialProfession} />
     </AsyncIntlProvider>
   );
 }
 
-export default function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ p?: string }> }) {
+  const { p } = await searchParams;
   return (
     <Suspense fallback={<SectionSkeleton />}>
-      <ProfessionContent />
+      <ProfessionContent initialProfession={p} />
     </Suspense>
   );
 }

@@ -20,7 +20,7 @@ export default async function Page() {
         {/* 로고 */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white">Feel&Note</h1>
-          <p className="mt-2 text-zinc-400">
+          <p className="mt-2 text-text-secondary">
             {t('signup.tagline')}
           </p>
         </div>
@@ -29,13 +29,13 @@ export default async function Page() {
         <SignupForm />
 
         {/* 이용약관 */}
-        <p className="text-center text-sm text-zinc-500">
+        <p className="text-center text-sm text-text-secondary">
           {t('signup.termsPrefix')}{' '}
-          <a href="/terms" className="underline hover:text-zinc-400">
+          <a href="/terms" className="underline hover:text-text-secondary">
             {t('terms')}
           </a>
           {t('signup.termsAnd')}{' '}
-          <a href="/privacy" className="underline hover:text-zinc-400">
+          <a href="/privacy" className="underline hover:text-text-secondary">
             {t('privacy')}
           </a>
           {t('signup.termsSuffix')}

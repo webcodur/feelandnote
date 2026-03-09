@@ -2,7 +2,7 @@ export interface AcademyLessonProgress {
   id: string;
   userId: string;
   categoryId: string;
-  subCategoryId: string;
+  courseId: string;
   lessonId: string;
   isCompleted: boolean;
   completedAt: string | null;

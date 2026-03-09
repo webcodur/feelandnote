@@ -1,12 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock, Copy, Check } from 'lucide-react'
+import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock, Copy, Check, Loader2 } from 'lucide-react'
 import { type Member } from '@/actions/admin/members'
-import { toggleCelebTier } from '@/actions/admin/celebs'
+import { toggleCelebTier, updateCeleb } from '@/actions/admin/celebs'
+import { uploadCelebImage } from '@/actions/admin/storage'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
+import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
+import ImageCropModal from '@/components/ui/ImageCropModal'
 import StatusToggle from '../../members/components/StatusToggle'
 import NationalityBadge from '../../members/components/NationalityBadge'
 import SortableTableHeader from '@/components/ui/SortableTableHeader'
@@ -37,12 +41,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
               <td className="px-3 md:px-4 py-3">
-                <div className="relative w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center overflow-hidden shrink-0 bg-bg-secondary">
-                  {celeb.avatar_url
-                    ? <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
-                    : <span className="text-[10px] text-text-tertiary">N/A</span>
-                  }
-                </div>
+                <AvatarCell celebId={celeb.id} avatarUrl={celeb.avatar_url} />
               </td>
               <td className="px-3 md:px-4 py-3">
                 {celeb.title && (
@@ -174,6 +173,103 @@ function CopyButton({ text }: { text: string }) {
         : <Copy className="w-3 h-3" />
       }
     </button>
+  )
+}
+
+function AvatarCell({ celebId, avatarUrl }: { celebId: string; avatarUrl: string | null }) {
+  const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [dragging, setDragging] = useState(false)
+  const [cropModalOpen, setCropModalOpen] = useState(false)
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [currentUrl, setCurrentUrl] = useState(avatarUrl)
+
+  async function openCropModal(file: File) {
+    if (!file.type.startsWith('image/')) return
+    const preview = await createPreviewUrl(file)
+    setCropImageSrc(preview)
+    setCropModalOpen(true)
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragging(true)
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragging(false)
+  }
+
+  async function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragging(false)
+    const file = e.dataTransfer.files?.[0]
+    if (file) openCropModal(file)
+  }
+
+  async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (file) openCropModal(file)
+    e.target.value = ''
+  }
+
+  async function handleCropComplete(croppedDataUrl: string) {
+    setCropModalOpen(false)
+    setUploading(true)
+
+    try {
+      const response = await fetch(croppedDataUrl)
+      const blob = await response.blob()
+      const file = new File([blob], 'avatar.webp', { type: 'image/webp' })
+      const resized = await resizeSingleImage(file, 'avatar')
+      const uploadResult = await uploadCelebImage({ celebId, image: resized, type: 'avatar' })
+
+      if (!uploadResult.success) throw new Error(uploadResult.error)
+
+      await updateCeleb({ id: celebId, avatar_url: uploadResult.url })
+      setCurrentUrl(uploadResult.url!)
+      router.refresh()
+    } catch (err) {
+      console.error('아바타 업로드 실패:', err)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  return (
+    <>
+      <div
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={() => inputRef.current?.click()}
+        className={`relative w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center overflow-hidden shrink-0 cursor-pointer transition-colors ${
+          dragging ? 'ring-2 ring-accent bg-accent/10' : 'bg-bg-secondary hover:ring-1 hover:ring-accent/50'
+        }`}
+      >
+        <input ref={inputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
+        {uploading ? (
+          <Loader2 className="w-4 h-4 text-accent animate-spin" />
+        ) : currentUrl ? (
+          <Image src={currentUrl} alt="" fill unoptimized className="object-cover" />
+        ) : (
+          <span className="text-[10px] text-text-tertiary">N/A</span>
+        )}
+      </div>
+      {cropModalOpen && cropImageSrc && (
+        <ImageCropModal
+          imageSrc={cropImageSrc}
+          aspectRatio={1}
+          onComplete={handleCropComplete}
+          onCancel={() => setCropModalOpen(false)}
+        />
+      )}
+    </>
   )
 }
 

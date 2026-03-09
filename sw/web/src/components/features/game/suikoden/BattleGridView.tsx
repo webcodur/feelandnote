@@ -42,7 +42,7 @@ export default function BattleGridView({
     <div className="space-y-0.5">
       {rows.map((row, rowIdx) => (
         <div key={rowIdx} className="flex items-center gap-0.5">
-          <span className="text-[8px] text-stone-600 w-5 shrink-0 text-right">
+          <span className="text-[8px] text-text-secondary w-5 shrink-0 text-right">
             {rowLabels[rowIdx]}
           </span>
           <div className="flex gap-0.5">
@@ -102,7 +102,7 @@ export default function BattleGridView({
                   </div>
 
                   {/* 이름 */}
-                  <div className="text-[7px] text-center text-stone-400 truncate px-0.5 leading-tight">
+                  <div className="text-[7px] text-center text-text-secondary truncate px-0.5 leading-tight">
                     {unit.character.nickname.slice(0, 3)}
                   </div>
 

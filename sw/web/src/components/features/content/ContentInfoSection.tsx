@@ -135,7 +135,7 @@ export default function ContentInfoSection({
             <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-              <Icon size={32} className="text-gray-500" />
+              <Icon size={32} className="text-text-secondary" />
             </div>
           )}
         </div>

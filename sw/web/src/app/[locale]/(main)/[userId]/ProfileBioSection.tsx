@@ -81,14 +81,14 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
       <div className="relative grid grid-cols-2 sm:grid-cols-3 gap-x-2 sm:gap-x-6 gap-y-4 text-center">
         {isCeleb && (profile.title || profile.profession) && (
           <div className="space-y-1">
-            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">
+            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-cinzel block opacity-70">
               {profile.title ? "Title" : "Profession"}
             </span>
             {profile.title && (
               <p className="text-sm sm:text-base text-accent font-serif font-black">{profile.title}</p>
             )}
             {profile.profession && (
-              <p className={`text-xs text-stone-400 font-serif ${profile.title ? 'mt-0.5' : 'text-sm sm:text-base text-stone-200 font-black'}`}>
+              <p className={`text-xs text-text-secondary font-serif ${profile.title ? 'mt-0.5' : 'text-sm sm:text-base text-text-primary font-black'}`}>
                 {tProf.has(profile.profession) ? tProf(profile.profession) : profile.profession}
               </p>
             )}
@@ -97,8 +97,8 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
         {profile.nationality && (
           <div className="space-y-1 relative">
             <div className="hidden sm:block absolute start-[-12px] top-1/2 -translate-y-1/2 w-px h-6 bg-stone-700/40" />
-            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">{isCeleb ? "Nationality" : "Region"}</span>
-            <p className="text-sm sm:text-base text-stone-200 font-serif font-black flex items-center justify-center gap-1.5">
+            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-cinzel block opacity-70">{isCeleb ? "Nationality" : "Region"}</span>
+            <p className="text-sm sm:text-base text-text-primary font-serif font-black flex items-center justify-center gap-1.5">
               <NationalityText code={profile.nationality} />
             </p>
             <div className="hidden sm:block absolute end-[-12px] top-1/2 -translate-y-1/2 w-px h-6 bg-stone-700/40" />
@@ -106,16 +106,16 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
         )}
         {isCeleb && (profile.birth_date || profile.death_date) && (
           <div className="space-y-1 col-span-2 sm:col-span-1 border-t border-stone-800/60 pt-4 sm:border-0 sm:pt-0">
-            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Period of Existence</span>
-            <p className="text-xs sm:text-base text-stone-200 font-serif font-black tracking-tight">
+            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-cinzel block opacity-70">Period of Existence</span>
+            <p className="text-xs sm:text-base text-text-primary font-serif font-black tracking-tight">
               {profile.birth_date ? formatYear(profile.birth_date) : "?"} — {profile.death_date ? formatYear(profile.death_date) : "Present"}
             </p>
           </div>
         )}
         {!isCeleb && profile.birth_date && (
           <div className="space-y-1 col-span-2 sm:col-span-1 border-t border-stone-800/60 pt-4 sm:border-0 sm:pt-0">
-            <span className="text-[9px] text-stone-500 uppercase tracking-widest font-cinzel block opacity-70">Birthday</span>
-            <p className="text-xs sm:text-base text-stone-200 font-serif font-black tracking-tight">{profile.birth_date}</p>
+            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-cinzel block opacity-70">Birthday</span>
+            <p className="text-xs sm:text-base text-text-primary font-serif font-black tracking-tight">{profile.birth_date}</p>
           </div>
         )}
       </div>
@@ -142,14 +142,14 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
       <div className="flex-1 flex flex-col justify-center">
         <InnerBox variant="subtle" className="w-full p-5">
           <div className="mb-3">
-            <span className="text-[10px] text-stone-500 uppercase tracking-[0.3em] font-cinzel block mb-1">INSCRIPTION</span>
+            <span className="text-[10px] text-text-secondary uppercase tracking-[0.3em] font-cinzel block mb-1">INSCRIPTION</span>
           </div>
-          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("placeholder")} className="w-full bg-black/30 border border-stone-800/50 rounded-sm p-4 text-base text-stone-200 font-serif resize-none focus:outline-none focus:border-accent/30 placeholder:text-stone-700" rows={3} maxLength={200} />
+          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("placeholder")} className="w-full bg-black/30 border border-stone-800/50 rounded-sm p-4 text-base text-text-primary font-serif resize-none focus:outline-none focus:border-accent/30 placeholder:text-stone-700" rows={3} maxLength={200} />
           <div className="flex items-center justify-between mt-3">
-            <span className="text-xs text-stone-600 font-serif">{bioValue.length} / 200</span>
+            <span className="text-xs text-text-secondary font-serif">{bioValue.length} / 200</span>
             <div className="flex items-center gap-3">
-              <button onClick={onCancel} className="text-sm text-stone-500 hover:text-stone-300 font-serif">{t("cancel")}</button>
-              <button onClick={onSave} disabled={isSaving} className="flex items-center gap-2 px-4 py-1.5 text-sm bg-stone-800 text-stone-200 font-black rounded-sm border border-stone-700 hover:bg-stone-700 disabled:opacity-50">
+              <button onClick={onCancel} className="text-sm text-text-secondary hover:text-text-primary font-serif">{t("cancel")}</button>
+              <button onClick={onSave} disabled={isSaving} className="flex items-center gap-2 px-4 py-1.5 text-sm bg-stone-800 text-text-primary font-black rounded-sm border border-stone-700 hover:bg-stone-700 disabled:opacity-50">
                 <Check size={14} className="text-accent" />{t("save")}
               </button>
             </div>
@@ -165,10 +165,10 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
     <div className="flex-1 flex flex-col justify-center">
       <InnerBox variant="subtle" className="p-6 group/bio">
         <div className="mb-3 text-center">
-          <span className="text-[10px] text-stone-500 uppercase tracking-[0.3em] font-cinzel block">INSCRIPTION</span>
+          <span className="text-[10px] text-text-secondary uppercase tracking-[0.3em] font-cinzel block">INSCRIPTION</span>
         </div>
         <div className="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-transparent via-stone-700/20 to-transparent" />
-        <p className="relative text-sm md:text-lg text-stone-300 font-serif leading-relaxed text-center group-hover/bio:text-stone-200">
+        <p className="relative text-sm md:text-lg text-text-primary font-serif leading-relaxed text-center group-hover/bio:text-text-primary">
           {profile.bio?.trim() ? <FormattedText text={profile.bio} /> : <span className="text-stone-700 tracking-widest uppercase text-xs font-cinzel">No Bio Inscribed...</span>}
         </p>
       </InnerBox>
@@ -180,7 +180,7 @@ function QuoteBlock({ quote, isCeleb }: { quote: string; isCeleb: boolean }) {
   return (
     <div className="relative p-5 bg-black/40 border-l-4 border-accent rounded-sm shadow-2xl group/quote hover:bg-black/60">
       <div className="mb-2 text-center">
-        <span className="text-[10px] text-stone-500/60 uppercase tracking-[0.3em] font-cinzel block">{isCeleb ? "WISDOM" : "MOTTO"}</span>
+        <span className="text-[10px] text-text-secondary/60 uppercase tracking-[0.3em] font-cinzel block">{isCeleb ? "WISDOM" : "MOTTO"}</span>
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-accent/[0.03] to-transparent pointer-events-none" />
       <div className="flex items-center gap-4 text-center justify-center">

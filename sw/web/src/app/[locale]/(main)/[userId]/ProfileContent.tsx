@@ -54,7 +54,7 @@ export default function ProfileContent({
               <DecorativeLabel label={t("consumptionPhilosophy")} />
             </div>
             <div className="max-w-3xl mx-auto">
-              <p className="text-sm md:text-base text-stone-300 font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
+              <p className="text-sm md:text-base text-text-primary font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
                 <FormattedText text={profile.consumption_philosophy} />
               </p>
             </div>

@@ -99,7 +99,7 @@ export default function TextMapView({
                     ? 'text-sky-400/70'
                     : isCurrent
                       ? 'text-amber-300'
-                      : 'text-stone-300'
+                      : 'text-text-primary'
               }`}
               style={{ fontFamily: 'var(--font-sans)' }}
             >
@@ -128,8 +128,8 @@ export default function TextMapView({
                         : isPlayer
                           ? 'border-red-500/40 bg-red-950/20 text-red-300 hover:border-red-400/60 hover:bg-red-900/25'
                           : owner
-                            ? 'border-stone-600/40 text-stone-300 hover:text-stone-100 hover:border-stone-500/60 hover:bg-stone-800/40'
-                            : 'border-stone-700/30 text-stone-400 hover:text-stone-200 hover:border-stone-600/50 hover:bg-stone-800/30'
+                            ? 'border-stone-600/40 text-text-primary hover:text-stone-100 hover:border-stone-500/60 hover:bg-stone-800/40'
+                            : 'border-stone-700/30 text-text-secondary hover:text-text-primary hover:border-stone-600/50 hover:bg-stone-800/30'
                     }`}
                   >
                     {isPlayer && <span className="text-red-400 mr-0.5">★</span>}

@@ -59,7 +59,7 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
               <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-                <Icon size={64} className="text-gray-500" />
+                <Icon size={64} className="text-text-secondary" />
               </div>
             )}
           </div>
@@ -121,7 +121,7 @@ export default function ContentInfoHeader({ content, variant, children }: Conten
           <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-            <Icon size={24} className="text-gray-500" />
+            <Icon size={24} className="text-text-secondary" />
           </div>
         )}
       </div>

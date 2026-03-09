@@ -98,7 +98,7 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
                   font-serif text-sm sm:text-base tracking-wide transition-colors duration-200
                   ${isActive
                     ? "text-accent font-bold drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"
-                    : "text-stone-500 font-medium hover:text-stone-300"
+                    : "text-text-secondary font-medium hover:text-text-primary"
                   }
                 `}>
                   {tab.label}

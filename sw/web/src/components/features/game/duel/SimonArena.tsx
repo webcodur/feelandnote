@@ -46,9 +46,23 @@ const KEY_MAP: Record<string, number> = {
 // ─── 음계 (도레미파솔라) ───
 const NOTE_FREQS = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00]; // C5~A5
 
-function playNote(cellIdx: number) {
+// AudioContext 싱글턴 재사용 (매 호출 생성/소멸 방지)
+let _audioCtx: AudioContext | null = null;
+function getAudioCtx(): AudioContext | null {
   try {
-    const ctx = new AudioContext();
+    if (!_audioCtx || _audioCtx.state === "closed") {
+      _audioCtx = new AudioContext();
+    }
+    return _audioCtx;
+  } catch { return null; }
+}
+
+function playNote(cellIdx: number) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  try {
+    // suspended 상태면 resume (모바일 자동재생 정책)
+    if (ctx.state === "suspended") ctx.resume();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = "sine";
@@ -58,8 +72,7 @@ function playNote(cellIdx: number) {
     osc.connect(gain).connect(ctx.destination);
     osc.start();
     osc.stop(ctx.currentTime + 0.35);
-    setTimeout(() => ctx.close(), 500);
-  } catch { /* AudioContext 미지원 환경 무시 */ }
+  } catch { /* 미지원 환경 무시 */ }
 }
 
 // ─── 컴포넌트 ───
@@ -279,7 +292,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
                 phase === "roundResult" || phase === "result" || phase === "intro" ? "opacity-0 pointer-events-none" : ""
               }`}>
                 {/* 상태 텍스트 */}
-                <p className="text-stone-500 text-xs font-serif">
+                <p className="text-text-secondary text-xs font-serif">
                   {phase === "countdown" && "준비"}
                   {phase === "showing" && "관찰"}
                   {phase === "input" && `입력 ${playerInput.length}/${pattern.length}`}
@@ -361,7 +374,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
             <AnimatePresence>
               {phase === "roundResult" && (
                 <motion.p
-                  className="absolute inset-0 flex items-center justify-center text-stone-300 text-lg font-serif z-10"
+                  className="absolute inset-0 flex items-center justify-center text-text-primary text-lg font-serif z-10"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}

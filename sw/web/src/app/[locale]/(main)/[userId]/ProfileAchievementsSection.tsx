@@ -13,7 +13,7 @@ const TIER_STYLES: Record<string, { bg: string; border: string; text: string; sh
   common: {
     bg: "bg-[#2a2a2a]",
     border: "border-stone-600/30",
-    text: "text-stone-400",
+    text: "text-text-secondary",
     shadow: "shadow-inner",
     iconBg: "bg-stone-500/10",
   },
@@ -336,8 +336,8 @@ function CatalogSection({ achievements, showcaseCodes, isOwner, isUpdating, onAd
                     {log.type === "title" ? <Trophy size={14} /> : <FileText size={14} />}
                   </div>
                   <div>
-                    <div className="font-bold text-sm text-stone-200">{log.action}</div>
-                    <div className="text-[11px] text-stone-500 font-mono mt-0.5">{formatDate(log.created_at)}</div>
+                    <div className="font-bold text-sm text-text-primary">{log.action}</div>
+                    <div className="text-[11px] text-text-secondary font-mono mt-0.5">{formatDate(log.created_at)}</div>
                   </div>
                 </div>
                 <div className={`text-sm font-black mono ${log.amount >= 0 ? "text-[#d4af37]" : "text-red-400"}`}>{log.amount >= 0 ? "+" : ""}{log.amount}</div>
@@ -363,9 +363,9 @@ function CatalogSection({ achievements, showcaseCodes, isOwner, isUpdating, onAd
                   <div className="relative flex justify-between items-center z-10">
                     <div className="flex items-center gap-2">
                       <span className="text-[#d4af37]"><CategoryIcon size={16} /></span>
-                      <span className="font-bold text-xs uppercase tracking-wider text-stone-300">{config.label}</span>
+                      <span className="font-bold text-xs uppercase tracking-wider text-text-primary">{config.label}</span>
                     </div>
-                    <div className="text-[10px] font-mono text-stone-500">{Math.round(progress)}%</div>
+                    <div className="text-[10px] font-mono text-text-secondary">{Math.round(progress)}%</div>
                   </div>
                   <div className="mt-2 h-1 bg-[#222] rounded-full overflow-hidden">
                     <div className="h-full bg-[#d4af37] rounded-full shadow-[0_0_10px_rgba(212,175,55,0.5)]" style={{ width: `${progress}%` }} />
@@ -385,7 +385,7 @@ function CatalogSection({ achievements, showcaseCodes, isOwner, isUpdating, onAd
               <div key={category} className="mb-10 last:mb-0">
                 <div className="flex items-center gap-3 mb-4 pl-1">
                   <span className="text-[#d4af37] p-1.5 bg-[#d4af37]/10 rounded-md"><CategoryIcon size={18} /></span>
-                  <h3 className="text-lg font-serif font-bold text-stone-200">{config.label}</h3>
+                  <h3 className="text-lg font-serif font-bold text-text-primary">{config.label}</h3>
                   <div className="h-[1px] flex-1 bg-gradient-to-r from-[#333] to-transparent ml-2" />
                 </div>
                 

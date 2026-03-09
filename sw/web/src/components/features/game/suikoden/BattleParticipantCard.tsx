@@ -42,18 +42,18 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
         <CharacterPortrait character={character} size={28} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <span className="text-[10px] text-stone-500">{tS(`class.${character.unitClass}`)}</span>
-            <span className="text-[11px] font-bold text-stone-200 truncate">{character.nickname}</span>
+            <span className="text-[10px] text-text-secondary">{tS(`class.${character.unitClass}`)}</span>
+            <span className="text-[11px] font-bold text-text-primary truncate">{character.nickname}</span>
           </div>
-          <div className="text-[9px] text-stone-600">{character.grade}</div>
+          <div className="text-[9px] text-text-secondary">{character.grade}</div>
         </div>
       </div>
 
       {/* HP 바 */}
       <div className="mt-1.5">
         <div className="flex items-center justify-between text-[9px] mb-0.5">
-          <span className="text-stone-400">HP</span>
-          <span className="text-stone-500">{character.hp}/{character.maxHp}</span>
+          <span className="text-text-secondary">HP</span>
+          <span className="text-text-secondary">{character.hp}/{character.maxHp}</span>
         </div>
         <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
           <div
@@ -68,7 +68,7 @@ export default function BattleParticipantCard({ participant, isPlayer }: Props) 
 
       {/* 병력/사기 */}
       <div className="flex items-center gap-3 mt-1 text-[9px]">
-        <span className="text-stone-400">{tS('battle.troops', { count: troops })}</span>
+        <span className="text-text-secondary">{tS('battle.troops', { count: troops })}</span>
         <span className={morale >= 50 ? 'text-green-400' : 'text-red-400'}>
           {tS('battle.morale', { value: morale })}
         </span>

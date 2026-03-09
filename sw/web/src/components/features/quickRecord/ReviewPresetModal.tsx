@@ -90,8 +90,8 @@ export default function ReviewPresetModal({
                             case "etc":
                             default:
                                 sentimentStyle = isSelected
-                                    ? "bg-zinc-500/20 border-zinc-500/50 text-zinc-400 shadow-[0_0_15px_rgba(113,113,122,0.2)]"
-                                    : "bg-zinc-500/5 border-zinc-500/10 text-zinc-500/60 hover:bg-zinc-500/10 hover:border-zinc-500/30 hover:text-zinc-400/90";
+                                    ? "bg-zinc-500/20 border-zinc-500/50 text-text-secondary shadow-[0_0_15px_rgba(113,113,122,0.2)]"
+                                    : "bg-zinc-500/5 border-zinc-500/10 text-text-secondary/60 hover:bg-zinc-500/10 hover:border-zinc-500/30 hover:text-text-secondary/90";
                                 break;
                         }
                         

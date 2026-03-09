@@ -41,18 +41,18 @@ export default function GameHUD({ state, territory }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 p-3 bg-stone-800 border border-stone-700 rounded text-xs">
       {/* 시간 */}
-      <div className="flex items-center gap-2 text-stone-300">
+      <div className="flex items-center gap-2 text-text-primary">
         <span className="text-amber-400 font-bold text-sm">
           {formatSuikodenDate(gameTime.year, gameTime.month, gameTime.day, locale)}
         </span>
         <span>{text.hud.season[season] ?? season}</span>
-        <span className="text-stone-500">{text.hud.turn(state.turnCount)}</span>
+        <span className="text-text-secondary">{text.hud.turn(state.turnCount)}</span>
       </div>
 
       <div className="w-px h-4 bg-stone-600 hidden sm:block" />
 
       {/* 세력 */}
-      <div className="flex items-center gap-3 text-stone-300">
+      <div className="flex items-center gap-3 text-text-primary">
         <span>{text.hud.people(playerFaction.members.length)}</span>
         <span>{text.hud.territories(playerFaction.territories.length)}</span>
         <span>{text.hud.fame(playerFaction.fame)}</span>

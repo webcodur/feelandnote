@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, PenTool, FileText, Eye } from "lucide-react";
+import { PenTool, FileText, Eye } from "lucide-react";
 import MyReviewPanel from "../MyReviewPanel";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
 import MyNotePanel from "../../user/detail/note/MyNotePanel";
-import { Loader2 } from "lucide-react";
 import FeaturedWorkInfo from "./FeaturedWorkInfo";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
 import { useTranslations } from "next-intl";
@@ -189,63 +188,31 @@ export function HomeEditorArea({
 
                     {/* Dynamic Controls based on Active Tab */}
                     <div className="flex items-center gap-4">
-                        {activeMainTab === 'REVIEW' ? (
-                            <>
-                                {/* Review Tabs */}
-                                <div className="flex bg-black/20 p-1 rounded-lg">
-                                    <button
-                                        onClick={() => setActiveTab('EDIT')}
-                                        className={`flex items-center justify-center p-2 rounded-md transition-all ${
-                                            activeTab === 'EDIT'
-                                            ? 'bg-accent/20 text-accent shadow-sm'
-                                            : 'text-text-tertiary hover:text-text-secondary'
-                                        }`}
-                                        title={tEditor("writeMode")}
-                                    >
-                                        <PenTool size={14} />
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveTab('PREVIEW')}
-                                        className={`flex items-center justify-center p-2 rounded-md transition-all ${
-                                            activeTab === 'PREVIEW'
-                                            ? 'bg-accent/20 text-accent shadow-sm'
-                                            : 'text-text-tertiary hover:text-text-secondary'
-                                        }`}
-                                        title={tEditor("readMode")}
-                                    >
-                                        <Eye size={14} />
-                                    </button>
-                                </div>
-                                
-                                {/* Review Save Button */}
-                                <button 
-                                    onClick={handleSubmit}
-                                    disabled={!isDirty || isSubmitting}
-                                    className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all ${
-                                        isDirty 
-                                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
-                                        : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
-                                    }`}
-                                    title={tEditor("save")}
-                                >
-                                    {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} />}
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                {/* Note Save Button (Indicator) */}
+                        {activeMainTab === 'REVIEW' && (
+                            <div className="flex bg-black/20 p-1 rounded-lg">
                                 <button
-                                    disabled={!isNoteDirty}
-                                    className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all ${
-                                        isNoteDirty
-                                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]'
-                                        : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
+                                    onClick={() => setActiveTab('EDIT')}
+                                    className={`flex items-center justify-center p-2 rounded-md transition-all ${
+                                        activeTab === 'EDIT'
+                                        ? 'bg-accent/20 text-accent shadow-sm'
+                                        : 'text-text-tertiary hover:text-text-secondary'
                                     }`}
-                                    title={t("saveAutoSave")}
+                                    title={tEditor("writeMode")}
                                 >
-                                    <Save size={20} />
+                                    <PenTool size={14} />
                                 </button>
-                            </>
+                                <button
+                                    onClick={() => setActiveTab('PREVIEW')}
+                                    className={`flex items-center justify-center p-2 rounded-md transition-all ${
+                                        activeTab === 'PREVIEW'
+                                        ? 'bg-accent/20 text-accent shadow-sm'
+                                        : 'text-text-tertiary hover:text-text-secondary'
+                                    }`}
+                                    title={tEditor("readMode")}
+                                >
+                                    <Eye size={14} />
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>

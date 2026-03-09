@@ -19,8 +19,8 @@ import {
   getScripturesByProfession,
   type ScripturesByProfession as ProfessionData,
 } from "@/actions/scriptures";
-import { PROFESSION_ROWS } from "@/constants/scriptures";
-import { useTranslations } from "next-intl";
+import { PROFESSION_ROWS, PROFESSION_ROWS_EN } from "@/constants/scriptures";
+import { useTranslations, useLocale } from "next-intl";
 
 // #region Types
 interface ProfessionCount {
@@ -31,21 +31,25 @@ interface ProfessionCount {
 
 interface Props {
   professionCounts: ProfessionCount[];
+  initialProfession?: string;
 }
 // #endregion
 
 const ITEMS_PER_PAGE = 12;
 
-export default function ProfessionSection({ professionCounts }: Props) {
+export default function ProfessionSection({ professionCounts, initialProfession }: Props) {
   const [data, setData] = useState<ProfessionData | null>(null);
-  const [activeProfession, setActiveProfession] = useState(
-    professionCounts.find(p => p.profession === 'entrepreneur')?.profession || professionCounts[0]?.profession || ""
-  );
+  const resolved = initialProfession && professionCounts.some(p => p.profession === initialProfession)
+    ? initialProfession
+    : professionCounts.find(p => p.profession === 'entrepreneur')?.profession || professionCounts[0]?.profession || "";
+  const [activeProfession, setActiveProfession] = useState(resolved);
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
   const t = useTranslations("scriptures.page.professionPage");
   const tp = useTranslations("profession");
   const te = useTranslations("scriptures.page.empty");
+  const rows = locale === "en" ? PROFESSION_ROWS_EN : PROFESSION_ROWS;
 
   // 초기 로드
   useEffect(() => {
@@ -91,7 +95,7 @@ export default function ProfessionSection({ professionCounts }: Props) {
           <>
             {t("description")}
             <br />
-            <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+            <span className="text-text-tertiary text-sm mt-1 block">
               {t("descriptionSub")}
             </span>
           </>
@@ -104,37 +108,40 @@ export default function ProfessionSection({ professionCounts }: Props) {
           <DecorativeLabel label={t("selectProfession")} />
         </div>
         <div className="flex justify-center">
-          <div className="inline-flex flex-col items-center gap-1.5 p-2.5 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
-            {PROFESSION_ROWS.map((rowKeys, rowIndex) => {
-              const rowItems = rowKeys
-                .map(key => professionCounts.find(p => p.profession === key))
-                .filter((item): item is ProfessionCount => !!item);
+          <div className="inline-flex flex-col items-center gap-1.5 p-3 max-w-2xl bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
+            {rows.map((row, ri) => (
+              <div key={ri} className="flex justify-center gap-1.5">
+                {row.map((key) => {
+                  const item = professionCounts.find(p => p.profession === key);
+                  if (!item) return null;
 
-              if (rowItems.length === 0) return null;
-
-              return (
-                <div key={rowIndex} className="inline-flex gap-1">
-                  {rowItems.map((item) => {
-                    const isActive = activeProfession === item.profession;
-                    return (
-                      <button
-                        key={item.profession}
-                        onClick={() => handleProfessionChange(item.profession)}
+                  const isActive = activeProfession === item.profession;
+                  return (
+                    <button
+                      key={item.profession}
+                      onClick={() => handleProfessionChange(item.profession)}
+                      className={`
+                        inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all
+                        ${isActive
+                          ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+                          : "text-text-secondary hover:text-white hover:bg-white/8"
+                        }
+                      `}
+                    >
+                      <span>{tp(item.profession as any)}</span>
+                      <span
                         className={`
-                          px-3 py-1.5 rounded-lg text-sm font-bold
-                          ${isActive
-                            ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
-                            : "text-text-secondary hover:text-white hover:bg-white/5"
-                          }
+                          text-xs font-normal tabular-nums ml-0.5
+                          ${isActive ? "text-neutral-900/60" : "text-text-tertiary"}
                         `}
                       >
-                        {tp(item.profession as any)}
-                      </button>
-                    );
-                  })}
-                </div>
-              );
-            })}
+                        {item.count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </div>
       </div>

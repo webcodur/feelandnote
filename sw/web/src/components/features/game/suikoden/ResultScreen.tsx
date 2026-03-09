@@ -18,7 +18,7 @@ export default function ResultScreen({ state, onRestart }: Props) {
 
   return (
     <div className="flex flex-col items-center justify-center text-center space-y-6 p-8">
-      <div className="text-4xl font-black text-stone-300">
+      <div className="text-4xl font-black text-text-primary">
         {isVictory ? text.result.badgeVictory : state.winner ? text.result.badgeDefeat : text.result.badgeTimeout}
       </div>
 
@@ -26,7 +26,7 @@ export default function ResultScreen({ state, onRestart }: Props) {
         <h2 className="text-3xl font-black text-stone-100 mb-2">
           {isVictory ? text.result.titleVictory : state.winner ? text.result.titleDefeat : text.result.titleTimeout}
         </h2>
-        <p className="text-stone-400">
+        <p className="text-text-secondary">
           {isVictory
             ? text.result.descriptionVictory(leaderName)
             : state.winner
@@ -37,16 +37,16 @@ export default function ResultScreen({ state, onRestart }: Props) {
 
       {/* 결산 */}
       <div className="bg-stone-800 border border-stone-700 rounded p-4 text-sm text-left space-y-2 min-w-[280px]">
-        <div className="flex justify-between text-stone-300">
+        <div className="flex justify-between text-text-primary">
           <span>{text.result.elapsed}</span><span className="text-amber-400">{formatSuikodenElapsed(state.gameTime.year, state.gameTime.month, locale)}</span>
         </div>
-        <div className="flex justify-between text-stone-300">
+        <div className="flex justify-between text-text-primary">
           <span>{text.result.people}</span><span>{playerFaction?.members.length ?? 0}</span>
         </div>
-        <div className="flex justify-between text-stone-300">
+        <div className="flex justify-between text-text-primary">
           <span>{text.result.territories}</span><span>{playerFaction?.territories.length ?? 0}</span>
         </div>
-        <div className="flex justify-between text-stone-300">
+        <div className="flex justify-between text-text-primary">
           <span>{text.result.difficulty}</span>
           <span>{text.result.difficultyLabel[state.difficulty]}</span>
         </div>

@@ -1,6 +1,6 @@
 /*
   파일명: /components/features/scriptures/Scriptures.tsx
-  기능: 지혜의 서고 페이지 메인 뷰
+  기능: 지혜의 서가 페이지 메인 뷰
   책임: 공통 서가(SSR), 길의 갈래/오늘의 인물/시대의 작품(lazy load) 렌더링
 */ // ------------------------------
 "use client";

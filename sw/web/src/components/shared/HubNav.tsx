@@ -8,7 +8,7 @@
 
 import { useRef } from "react";
 import { Link } from "@/i18n/navigation";
-import { hubSectionId } from "@/components/shared/HubSection";
+import { hubSectionId } from "@/components/shared/hubSectionUtils";
 
 export interface HubNavItem {
   label: string;
@@ -37,7 +37,7 @@ export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavPro
   return (
     <div
       ref={scrollRef}
-      className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1"
+      className="flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1"
     >
       {/* 허브 섹션 항목 */}
       {hubItems.map((item, i) => (

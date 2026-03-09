@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
         <div className="w-full max-w-md space-y-8 p-8 text-center">
           <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
           <h1 className="text-xl font-semibold text-white">{t('success')}</h1>
-          <p className="text-zinc-400">{t('redirecting')}</p>
+          <p className="text-text-secondary">{t('redirecting')}</p>
         </div>
       </div>
     )
@@ -68,12 +68,12 @@ export default function ResetPasswordPage() {
         <div className="text-center">
           <Logo size="lg" />
           <h1 className="mt-4 text-xl font-semibold text-white">{t('heading')}</h1>
-          <p className="mt-2 text-zinc-400">{t('description')}</p>
+          <p className="mt-2 text-text-secondary">{t('description')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-zinc-400 mb-2">{t('newPassword')}</label>
+            <label className="block text-sm text-text-secondary mb-2">{t('newPassword')}</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -87,7 +87,7 @@ export default function ResetPasswordPage() {
                 unstyled
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </Button>
@@ -95,7 +95,7 @@ export default function ResetPasswordPage() {
           </div>
 
           <div>
-            <label className="block text-sm text-zinc-400 mb-2">{t('confirmPassword')}</label>
+            <label className="block text-sm text-text-secondary mb-2">{t('confirmPassword')}</label>
             <input
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getAlternates } from "@/lib/seo";
 
@@ -49,6 +49,7 @@ function HomeSectionSkeleton() {
 
 export default async function MainPage() {
   const supabase = await createClient();
+  const locale = await getLocale();
   const t = await getTranslations("home.ui.tabs");
   const {
     data: { user },
@@ -115,7 +116,7 @@ export default async function MainPage() {
           quickRecord: t("quickRecord"),
         }}
       />
-      <PopularBooks />
+      {locale === 'ko' && <PopularBooks />}
     </div>
   );
 }

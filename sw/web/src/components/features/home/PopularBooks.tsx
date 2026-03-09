@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { AFFILIATE_PLATFORMS } from '@/constants/affiliatePlatforms'
 import { ExternalLink } from 'lucide-react'
+import Logo from '@/components/ui/Logo'
 
 const COUPANG_BOOKS = [
   {
@@ -24,11 +25,11 @@ export default async function PopularBooks() {
   const t = await getTranslations('popularBooks')
 
   return (
-    <section className="w-full py-8 md:py-12">
+    <section className="w-full mt-16 md:mt-24 pt-8 md:pt-12 pb-8 md:pb-12 border-t border-white/5">
       <div className="flex flex-col items-center text-center mb-6 md:mb-8 gap-2">
         <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
-        <h2 className="text-lg md:text-xl font-bold text-white tracking-tight flex items-center gap-2">
-          {t('title')}
+        <h2 className="text-lg md:text-xl font-bold text-text-primary tracking-tight flex items-center gap-1.5">
+          <Logo size="sm" asLink={false} /> {t('title')}
         </h2>
       </div>
 

@@ -105,7 +105,10 @@
       "pcSuffix": " and return to enjoy full tracks. Complete Spotify age verification to access all songs."
     },
     "externalLinks": "External Links",
-    "recentContents": "Recently Viewed"
+    "recentContents": "Recently Viewed",
+    "metaFallback": "Explore records and reviews about {title}.",
+    "notFoundTitle": "Content Not Found",
+    "notFoundDescription": "Unable to load content information."
   },
   "review": {
     "positive": {
@@ -302,10 +305,5 @@
     "addFailed": "An error occurred while adding content.",
     "cancel": "Cancel",
     "add": "Add"
-  },
-  "contentDetail": {
-    "metaFallback": "Explore records and reviews about {title}.",
-    "notFoundTitle": "Content Not Found",
-    "notFoundDescription": "Unable to load content information."
   }
 }

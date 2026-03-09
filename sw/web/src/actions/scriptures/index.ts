@@ -966,63 +966,24 @@ export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 
   return result
 }
 
-/** 직업별 대표 콘텐츠 반환 (여러 셀럽이 공통 기록한 콘텐츠 우선) */
-export async function getContentSamplesByProfession(professions: string[], perProfession = 2): Promise<Record<string, HubContentSample[]>> {
-  if (!professions.length) return {}
+/** 직업별 대표 콘텐츠 반환 (DB 함수 get_profession_content_samples 사용) */
+export async function getContentSamplesByProfession(_professions: string[], perProfession = 3): Promise<Record<string, HubContentSample[]>> {
   const supabase = await createClient()
 
-  const { data: celebs, error: celebErr } = await supabase
-    .from('profiles')
-    .select('id, profession')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .in('profession', professions)
-
-  if (celebErr || !celebs?.length) return {}
-
-  const celebToProfession: Record<string, string> = {}
-  for (const c of celebs) {
-    if (c.profession) celebToProfession[c.id] = c.profession
-  }
-
-  const { data, error } = await supabase
-    .from('user_contents')
-    .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT}))`)
-    .in('user_id', celebs.map(c => c.id))
-    .eq('visibility', 'public')
-    .eq('status', 'FINISHED')
-    .limit(500)
-
+  const { data, error } = await supabase.rpc('get_profession_content_samples', { per_profession: perProfession })
   if (error || !data?.length) return {}
 
-  // 콘텐츠별 직업 매핑 + 기록 수 집계
-  const contentIndex = new Map<string, { sample: HubContentSample; professionCounts: Record<string, number> }>()
-
-  for (const row of data as any[]) {
-    const content = row.contents as any
-    const profession = celebToProfession[row.user_id as string]
-    if (!profession) continue
-
-    if (!contentIndex.has(content.id)) {
-      const flat = flattenLocales(content.content_locales as ContentLocaleRow[])
-      if (!flat.thumbnail_url) continue
-      contentIndex.set(content.id, {
-        sample: { id: content.id, title: flat.title, thumbnail_url: flat.thumbnail_url, type: content.type, creator: flat.creator },
-        professionCounts: {},
-      })
-    }
-    const entry = contentIndex.get(content.id)!
-    entry.professionCounts[profession] = (entry.professionCounts[profession] ?? 0) + 1
-  }
-
   const result: Record<string, HubContentSample[]> = {}
-  for (const profession of professions) {
-    const candidates = [...contentIndex.values()]
-      .filter(e => e.professionCounts[profession])
-      .sort((a, b) => (b.professionCounts[profession] ?? 0) - (a.professionCounts[profession] ?? 0))
-      .slice(0, perProfession)
-      .map(e => e.sample)
-    if (candidates.length) result[profession] = candidates
+  for (const row of data as any[]) {
+    const profession = row.profession as string
+    if (!result[profession]) result[profession] = []
+    result[profession].push({
+      id: row.content_id,
+      title: row.title,
+      thumbnail_url: row.thumbnail_url,
+      type: row.content_type,
+      creator: row.creator,
+    })
   }
   return result
 }

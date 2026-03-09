@@ -19,7 +19,7 @@ export default function TacticSelectPanel({ availableTactics, selectedTactic, on
 
   return (
     <div className="space-y-2">
-      <div className="text-xs font-bold text-stone-300">{tS('battle.selectTactic')}</div>
+      <div className="text-xs font-bold text-text-primary">{tS('battle.selectTactic')}</div>
       <div className="grid grid-cols-3 gap-2">
         {ALL_TACTICS.map(tactic => {
           const info = TACTIC_INFO[tactic]
@@ -45,9 +45,9 @@ export default function TacticSelectPanel({ availableTactics, selectedTactic, on
             >
               <div className="flex items-center gap-1.5">
                 <span className="text-base">{info.icon}</span>
-                <span className="text-[11px] font-bold text-stone-200">{tS(`tactic.${tactic}`)}</span>
+                <span className="text-[11px] font-bold text-text-primary">{tS(`tactic.${tactic}`)}</span>
               </div>
-              <p className="text-[9px] text-stone-400 mt-1 leading-relaxed">{tS(`tacticDesc.${tactic}`)}</p>
+              <p className="text-[9px] text-text-secondary mt-1 leading-relaxed">{tS(`tacticDesc.${tactic}`)}</p>
 
               {/* 상성 표시 */}
               {isAvailable && (
@@ -67,7 +67,7 @@ export default function TacticSelectPanel({ availableTactics, selectedTactic, on
 
               {/* 병력 소모율 */}
               {isAvailable && info.troopCostRate > 0 && (
-                <div className="text-[8px] text-stone-500 mt-0.5">
+                <div className="text-[8px] text-text-secondary mt-0.5">
                   {tS('battle.troopCost', { rate: Math.round(info.troopCostRate * 100) })}
                 </div>
               )}

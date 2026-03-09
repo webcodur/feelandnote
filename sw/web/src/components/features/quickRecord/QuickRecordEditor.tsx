@@ -116,16 +116,6 @@ export default function QuickRecordEditor({
                     <span>{t("preview")}</span>
                 </button>
              </div>
-
-             <button 
-                onClick={handleSubmit} 
-                disabled={isSubmitting}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent font-bold text-sm transition-all disabled:opacity-50"
-             >
-                <Save size={16} />
-                <span>{t("save")}</span>
-             </button>
-             
           </div>
 
           {/* Editor Content Area */}
@@ -225,8 +215,8 @@ export default function QuickRecordEditor({
                                         <Star
                                             size={24}
                                             className={`${
-                                                rating >= star 
-                                                ? "text-accent fill-accent shadow-[0_0_12px_rgba(212,175,55,0.4)]" 
+                                                rating >= star
+                                                ? "text-accent fill-accent shadow-[0_0_12px_rgba(212,175,55,0.4)]"
                                                 : "text-text-tertiary/20"
                                             } transition-colors duration-200`}
                                             strokeWidth={1.5}
@@ -234,8 +224,18 @@ export default function QuickRecordEditor({
                                     </button>
                                 ))}
                              </div>
-                             <div className="h-4 text-center">
-                                {rating > 0 && <span className="text-accent font-bold text-lg">{rating.toFixed(1)}</span>}
+                             <div className="flex items-center gap-3">
+                                <div className="h-4">
+                                    {rating > 0 && <span className="text-accent font-bold text-lg">{rating.toFixed(1)}</span>}
+                                </div>
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitting}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent font-bold text-sm transition-all disabled:opacity-50"
+                                >
+                                    <Save size={16} />
+                                    <span>{t("save")}</span>
+                                </button>
                              </div>
                         </div>
                     </div>

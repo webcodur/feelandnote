@@ -9,6 +9,7 @@ import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import ImageBackground from "@/components/lab/ImageBackground";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { usePreloadImages } from "@/hooks/usePreloadImages";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // lazy load — 캔버스 배경은 무거우므로 필요할 때만 로드
 const OlympusOrbit = lazy(() => import("@/components/lab/OlympusOrbitBackground"));
@@ -33,18 +34,22 @@ function bgKeyFromPhase(phase: string, playerWins?: boolean): BgKey {
   }
 }
 
-function BgComponent({ bgKey, bgImages }: { bgKey: BgKey; bgImages?: GameBackgroundImages | null }) {
+function BgComponent({ bgKey, bgImages, isMobile }: { bgKey: BgKey; bgImages?: GameBackgroundImages | null; isMobile?: boolean }) {
   switch (bgKey) {
     case "intro":
+      if (isMobile) return null;
       return <OlympusOrbit fullScreen />;
     case "game":
       if (bgImages) {
         return <ImageBackground src={bgImages.pc} srcMobile={bgImages.mb} fullScreen />;
       }
+      if (isMobile) return null;
       return <OlympusOrbit fullScreen />;
     case "victory":
+      if (isMobile) return null;
       return <GoldenAscension fullScreen />;
     case "defeat":
+      if (isMobile) return null;
       return <BurningEmbers fullScreen />;
   }
 }
@@ -58,6 +63,7 @@ interface Props {
 }
 
 export default function GameBackground({ phase, playerWins, bgImages }: Props) {
+  const isMobile = useIsMobile();
   // 로비(idle) 단계에서 게임 배경 이미지를 프리로드
   usePreloadImages(bgImages ? [bgImages.pc, bgImages.mb] : []);
 
@@ -104,7 +110,7 @@ export default function GameBackground({ phase, playerWins, bgImages }: Props) {
           }}
         >
           <Suspense fallback={null}>
-            <BgComponent bgKey={layer.key} bgImages={bgImages} />
+            <BgComponent bgKey={layer.key} bgImages={bgImages} isMobile={isMobile} />
           </Suspense>
         </div>
       ))}

@@ -36,6 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/scriptures/museum', 'monthly', 0.7),
     entry('/scriptures/academy', 'monthly', 0.7),
     entry('/explore/today', 'daily', 0.7),
+    entry('/explore/directory', 'weekly', 0.8),
     entry('/scriptures/profession', 'weekly', 0.7),
     entry('/agora', 'daily', 0.7),
     entry('/explore/feed', 'daily', 0.7),

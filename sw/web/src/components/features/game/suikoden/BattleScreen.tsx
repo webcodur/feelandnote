@@ -268,17 +268,17 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: attackerFaction?.color }} />
-            <span className="text-stone-200">{attackerFaction ? stripSuikodenFactionSuffix(attackerFaction.name) : ''}</span>
-            <span className="text-stone-500 text-[10px]">({isPlayerAttacker ? allyAlive : enemyAlive})</span>
+            <span className="text-text-primary">{attackerFaction ? stripSuikodenFactionSuffix(attackerFaction.name) : ''}</span>
+            <span className="text-text-secondary text-[10px]">({isPlayerAttacker ? allyAlive : enemyAlive})</span>
           </div>
-          <span className="text-stone-500">vs</span>
+          <span className="text-text-secondary">vs</span>
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
-            <span className="text-stone-200">{defenderFaction ? stripSuikodenFactionSuffix(defenderFaction.name) : ''}</span>
-            <span className="text-stone-500 text-[10px]">({isPlayerAttacker ? enemyAlive : allyAlive})</span>
+            <span className="text-text-primary">{defenderFaction ? stripSuikodenFactionSuffix(defenderFaction.name) : ''}</span>
+            <span className="text-text-secondary text-[10px]">({isPlayerAttacker ? enemyAlive : allyAlive})</span>
           </div>
         </div>
-        <div className="flex items-center gap-3 text-stone-400">
+        <div className="flex items-center gap-3 text-text-secondary">
           {battle.defenderHasWalls && <span className="text-amber-400 text-[10px]">{tS('battle.walls')}</span>}
           <span>{tS('battle.turnCount', { current: battle.turnNumber, max: battle.maxTurns })}</span>
         </div>
@@ -289,7 +289,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         <div className="flex-1">
           <div className="flex justify-between mb-0.5">
             <span className="text-green-400">{tS('battle.allyMorale')}</span>
-            <span className="text-stone-400">{battle.allyMorale}</span>
+            <span className="text-text-secondary">{battle.allyMorale}</span>
           </div>
           <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
             <div
@@ -301,7 +301,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         <div className="flex-1">
           <div className="flex justify-between mb-0.5">
             <span className="text-red-400">{tS('battle.enemyMorale')}</span>
-            <span className="text-stone-400">{battle.enemyMorale}</span>
+            <span className="text-text-secondary">{battle.enemyMorale}</span>
           </div>
           <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
             <div
@@ -318,7 +318,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
       {/* 전투 결과 */}
       {battle.result !== 'pending' && (
         <div className="p-4 bg-stone-800 border border-amber-500/30 rounded text-center space-y-3">
-          <p className="text-xl font-bold text-stone-200">{resultLabel()}</p>
+          <p className="text-xl font-bold text-text-primary">{resultLabel()}</p>
           <button
             onClick={handleBattleComplete}
             className="px-6 py-2 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500"
@@ -391,16 +391,16 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
       )}
 
       {/* 전투 로그 */}
-      <div className="max-h-24 overflow-y-auto p-2 bg-stone-800 border border-stone-700 rounded text-[10px] text-stone-400 space-y-0.5">
+      <div className="max-h-24 overflow-y-auto p-2 bg-stone-800 border border-stone-700 rounded text-[10px] text-text-secondary space-y-0.5">
         {battle.log.slice(-12).reverse().map((entry, i) => (
           <p key={i} className={
             entry.type === 'death' ? 'text-red-400' :
-            entry.type === 'attack' ? 'text-stone-300' :
+            entry.type === 'attack' ? 'text-text-primary' :
             entry.type === 'skill' ? 'text-purple-400' :
             entry.type === 'morale' ? 'text-green-400' :
             entry.type === 'heal' ? 'text-emerald-400' :
             entry.type === 'system' ? 'text-amber-300 font-bold' :
-            'text-stone-500'
+            'text-text-secondary'
           }>
             [{entry.turn}] {translateSuikodenBattleLog(entry.message, locale)}
           </p>

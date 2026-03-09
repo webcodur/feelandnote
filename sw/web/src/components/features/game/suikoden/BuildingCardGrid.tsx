@@ -141,17 +141,17 @@ export default function BuildingCardGrid({
       {/* region 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-stone-200">{tS(`territory.${territory.id}`)}</span>
-          <span className="text-[10px] text-stone-500">{tS('mgmt.buildingCount', { current: slotUsed, max: slotMax })}</span>
+          <span className="text-xs font-bold text-text-primary">{tS(`territory.${territory.id}`)}</span>
+          <span className="text-[10px] text-text-secondary">{tS('mgmt.buildingCount', { current: slotUsed, max: slotMax })}</span>
           <button
             onClick={() => setViewMode(true)}
-            className="text-[10px] text-stone-500 hover:text-amber-300 transition-colors"
+            className="text-[10px] text-text-secondary hover:text-amber-300 transition-colors"
             title={tS('mgmt.viewBackground')}
           >
             🖼️
           </button>
         </div>
-        <div className="flex items-center gap-2 text-[10px] text-stone-400">
+        <div className="flex items-center gap-2 text-[10px] text-text-secondary">
           <span>{tS('mgmt.population')} {territory.population.toLocaleString()}</span>
           <span className={territory.morale >= 50 ? 'text-green-400' : 'text-red-400'}>
             {tS('mgmt.publicOrder')} {Math.round(territory.morale)}
@@ -254,8 +254,8 @@ export default function BuildingCardGrid({
                                 : dragOverTarget === `new-${bDef.id}`
                                   ? 'border-amber-400 bg-amber-500/10 text-amber-300'
                                   : canBuild
-                                    ? 'border-stone-500 text-stone-400'
-                                    : 'border-stone-700 text-stone-600'
+                                    ? 'border-stone-500 text-text-secondary'
+                                    : 'border-stone-700 text-text-secondary'
                             }`}
                             onDragOver={canAfford ? (e) => { handleDragOver(e); setDragOverTarget(`new-${bDef.id}`) } : undefined}
                             onDragLeave={canAfford ? () => setDragOverTarget(null) : undefined}
@@ -268,7 +268,7 @@ export default function BuildingCardGrid({
                             >
                               {tS(`bldg.${bDef.id}`)}
                             </span>
-                            <span className={`ml-0.5 ${canAfford ? 'text-stone-600' : 'text-stone-700/50'}`}>{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</span>
+                            <span className={`ml-0.5 ${canAfford ? 'text-text-secondary' : 'text-stone-700/50'}`}>{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</span>
                             {canAfford && (
                               <span
                                 className="text-xs cursor-pointer hover:text-amber-300 transition-colors ml-0.5"
@@ -322,8 +322,8 @@ export default function BuildingCardGrid({
             onDrop={readOnly ? undefined : handleDropOnIdle}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-bold text-stone-400">{tS('mgmt.idle')}</span>
-              <span className="text-[10px] text-stone-600">{tS('mgmt.countSuffix', { count: idleChars.length })}</span>
+              <span className="text-[10px] font-bold text-text-secondary">{tS('mgmt.idle')}</span>
+              <span className="text-[10px] text-text-secondary">{tS('mgmt.countSuffix', { count: idleChars.length })}</span>
             </div>
             {idleChars.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
@@ -339,7 +339,7 @@ export default function BuildingCardGrid({
                 ))}
               </div>
             ) : (
-              <p className="text-[10px] text-stone-600">{tS('mgmt.noIdleChars')}</p>
+              <p className="text-[10px] text-text-secondary">{tS('mgmt.noIdleChars')}</p>
             )}
           </div>
           {/* endregion */}
@@ -348,7 +348,7 @@ export default function BuildingCardGrid({
           <div>
             <div className="flex items-center gap-2 mb-1.5 px-2">
               <span className="text-[10px] font-bold text-blue-400">{tS('mgmt.training')}</span>
-              <span className="text-[10px] text-stone-600">{tS('mgmt.countSuffix', { count: trainingChars.length })}</span>
+              <span className="text-[10px] text-text-secondary">{tS('mgmt.countSuffix', { count: trainingChars.length })}</span>
             </div>
             {trainingChars.length > 0 ? (
               <div className="flex flex-wrap gap-1.5 px-2">
@@ -365,7 +365,7 @@ export default function BuildingCardGrid({
                 ))}
               </div>
             ) : (
-              <p className="text-[10px] text-stone-600 px-2">{tS('mgmt.noTrainingChars')}</p>
+              <p className="text-[10px] text-text-secondary px-2">{tS('mgmt.noTrainingChars')}</p>
             )}
           </div>
           {/* endregion */}
@@ -375,7 +375,7 @@ export default function BuildingCardGrid({
             <div>
               <div className="flex items-center gap-2 mb-1.5 px-2">
                 <span className="text-[10px] font-bold text-red-400">{tS('mgmt.threats')}</span>
-                <span className="text-[10px] text-stone-600">{tS('mgmt.countCases', { count: threats.length })}</span>
+                <span className="text-[10px] text-text-secondary">{tS('mgmt.countCases', { count: threats.length })}</span>
               </div>
               <div className="space-y-1.5 px-2">
                 {threats.map(threat => {
@@ -390,10 +390,10 @@ export default function BuildingCardGrid({
                         <span className="text-sm">{threat.icon}</span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1">
-                            <span className="text-[10px] font-medium text-stone-200">{tS(`threat.${threat.type}`)}</span>
+                            <span className="text-[10px] font-medium text-text-primary">{tS(`threat.${threat.type}`)}</span>
                             <span className="text-[9px] text-red-400">{tS('mgmt.threatPower', { value: threat.power })}</span>
                           </div>
-                          <span className="text-[9px] text-stone-500">{tS('mgmt.threatDamageIn', { turns: turnsLeft })}</span>
+                          <span className="text-[9px] text-text-secondary">{tS('mgmt.threatDamageIn', { turns: turnsLeft })}</span>
                         </div>
                       </div>
                       {assignedChar ? (
@@ -402,7 +402,7 @@ export default function BuildingCardGrid({
                           <span className="text-[10px] text-amber-300 flex-1">{tS('mgmt.subjugating', { nickname: assignedChar.nickname })}</span>
                           <button
                             onClick={() => onRecall(assignedChar.id)}
-                            className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-stone-400 hover:text-stone-200 transition-colors"
+                            className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-text-secondary hover:text-text-primary transition-colors"
                           >
                             {tS('mgmt.unassign')}
                           </button>
@@ -415,7 +415,7 @@ export default function BuildingCardGrid({
                           {tS('mgmt.dispatchSubjugate')}
                         </button>
                       ) : (
-                        <p className="mt-1 text-[9px] text-stone-600">{tS('mgmt.selectToAssign')}</p>
+                        <p className="mt-1 text-[9px] text-text-secondary">{tS('mgmt.selectToAssign')}</p>
                       )}
                     </div>
                   )
@@ -430,7 +430,7 @@ export default function BuildingCardGrid({
             <div>
               <div className="flex items-center gap-2 mb-1.5 px-2">
                 <span className="text-[10px] font-bold text-emerald-400">{tS('mgmt.visitors')}</span>
-                <span className="text-[10px] text-stone-600">{tS('mgmt.countSuffix', { count: visitors.length })}</span>
+                <span className="text-[10px] text-text-secondary">{tS('mgmt.countSuffix', { count: visitors.length })}</span>
               </div>
               {hasTavern ? (
                 visitors.length > 0 ? (
@@ -446,10 +446,10 @@ export default function BuildingCardGrid({
                             <CharacterPortrait character={v.character} size={24} />
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1">
-                                <span className="text-[10px] font-medium text-stone-200 truncate">{v.character.nickname}</span>
+                                <span className="text-[10px] font-medium text-text-primary truncate">{v.character.nickname}</span>
                                 <span className="text-[8px] font-bold" style={{ color: GRADE_COLORS[v.character.grade] }}>{v.character.grade}</span>
                               </div>
-                              <span className="text-[9px] text-stone-500">{tS('mgmt.visitorLeaveIn', { turns: turnsLeft })}</span>
+                              <span className="text-[9px] text-text-secondary">{tS('mgmt.visitorLeaveIn', { turns: turnsLeft })}</span>
                             </div>
                           </div>
                           {assignedRecruiter ? (
@@ -458,7 +458,7 @@ export default function BuildingCardGrid({
                               <span className="text-[10px] text-emerald-300 flex-1">{tS('mgmt.recruiting', { nickname: assignedRecruiter.nickname })}</span>
                               <button
                                 onClick={() => onCancelRecruiter(v.character.id)}
-                                className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-stone-400 hover:text-stone-200 transition-colors"
+                                className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-text-secondary hover:text-text-primary transition-colors"
                               >
                                 {tS('mgmt.unassign')}
                               </button>
@@ -471,20 +471,20 @@ export default function BuildingCardGrid({
                               {tS('mgmt.assign')}
                             </button>
                           ) : (
-                            <p className="mt-1 text-[9px] text-stone-600">{tS('mgmt.selectToRecruit')}</p>
+                            <p className="mt-1 text-[9px] text-text-secondary">{tS('mgmt.selectToRecruit')}</p>
                           )}
                           {assignedRecruiter && (
-                            <p className="text-[8px] text-stone-500 mt-1">{tS('mgmt.recruitNextTurn')}</p>
+                            <p className="text-[8px] text-text-secondary mt-1">{tS('mgmt.recruitNextTurn')}</p>
                           )}
                         </div>
                       )
                     })}
                   </div>
                 ) : (
-                  <p className="text-[10px] text-stone-600 px-2">{tS('mgmt.noVisitors')}</p>
+                  <p className="text-[10px] text-text-secondary px-2">{tS('mgmt.noVisitors')}</p>
                 )
               ) : (
-                <p className="text-[10px] text-stone-600 px-2">{tS('mgmt.tavernHint')}</p>
+                <p className="text-[10px] text-text-secondary px-2">{tS('mgmt.tavernHint')}</p>
               )}
             </div>
           )}
@@ -532,15 +532,15 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
             <span className="text-lg">{bDef.icon}</span>
             <span className="text-sm font-bold text-stone-100">{tS(`bldg.${bDef.id}`)}</span>
           </div>
-          <button onClick={onClose} className="text-stone-500 hover:text-stone-300 text-xs">✕</button>
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary text-xs">✕</button>
         </div>
 
-        <p className="text-xs text-stone-300 leading-relaxed">{desc}</p>
+        <p className="text-xs text-text-primary leading-relaxed">{desc}</p>
 
         <div className="space-y-1.5">
           {effects.length > 0 && (
             <div>
-              <div className="text-[10px] text-stone-500 mb-0.5">{tS('mgmt.effectWithBonus')}</div>
+              <div className="text-[10px] text-text-secondary mb-0.5">{tS('mgmt.effectWithBonus')}</div>
               <div className="flex flex-wrap gap-1.5">
                 {effects.map(eff => (
                   <span key={eff} className="text-[10px] px-1.5 py-0.5 bg-stone-700 rounded text-emerald-300">{eff}</span>
@@ -551,18 +551,18 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
 
           <div className="grid grid-cols-2 gap-2 text-[10px]">
             <div>
-              <div className="text-stone-500 mb-0.5">{tS('mgmt.buildCost')}</div>
-              <div className="text-stone-300">{costs.join(', ') || tS('mgmt.costNone')}</div>
+              <div className="text-text-secondary mb-0.5">{tS('mgmt.buildCost')}</div>
+              <div className="text-text-primary">{costs.join(', ') || tS('mgmt.costNone')}</div>
             </div>
             <div>
-              <div className="text-stone-500 mb-0.5">{tS('mgmt.buildDuration')}</div>
-              <div className="text-stone-300">{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</div>
+              <div className="text-text-secondary mb-0.5">{tS('mgmt.buildDuration')}</div>
+              <div className="text-text-primary">{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</div>
             </div>
           </div>
 
           {bDef.requireStat && bDef.requireStatMin && (
             <div className="text-[10px]">
-              <span className="text-stone-500">{tS('mgmt.buildRequirement')}: </span>
+              <span className="text-text-secondary">{tS('mgmt.buildRequirement')}: </span>
               <span className="text-amber-300">{tS('mgmt.statRequirement', { stat: tS(`stat.${bDef.requireStat}`), min: bDef.requireStatMin })}</span>
             </div>
           )}
@@ -630,7 +630,7 @@ function BuildingSlot({
         onClick={readOnly ? undefined : (e) => { e.stopPropagation(); setShowMenu(!showMenu) }}
       >
         <span
-          className="text-[10px] font-bold text-stone-400 hover:text-amber-300 transition-colors"
+          className="text-[10px] font-bold text-text-secondary hover:text-amber-300 transition-colors"
           onClick={(e) => { e.stopPropagation(); onClickInfo?.() }}
         >
           {buildingName}{index != null ? index : ''}
@@ -640,9 +640,9 @@ function BuildingSlot({
         ) : character && !isResting ? (
           <span className="text-[9px] text-emerald-400">{tS('mgmt.fullCapacity')}</span>
         ) : character && isResting ? (
-          <span className="text-[9px] text-stone-500">{tS('mgmt.resting')}</span>
+          <span className="text-[9px] text-text-secondary">{tS('mgmt.resting')}</span>
         ) : (
-          <span className="text-[9px] text-stone-500">{tS('mgmt.operating')}</span>
+          <span className="text-[9px] text-text-secondary">{tS('mgmt.operating')}</span>
         )}
       </div>
 
@@ -663,7 +663,7 @@ function BuildingSlot({
           >
             <CharacterPortrait character={character} size={24} />
             <div className="min-w-0">
-              <div className="text-[10px] font-medium text-stone-200 truncate max-w-[56px]">{character.nickname}</div>
+              <div className="text-[10px] font-medium text-text-primary truncate max-w-[56px]">{character.nickname}</div>
               <div className="text-[8px] font-bold" style={{ color: GRADE_COLORS[character.grade] }}>{character.grade}</div>
             </div>
           </div>
@@ -678,7 +678,7 @@ function BuildingSlot({
               onClickAssign
                 ? 'text-amber-400/60 cursor-pointer hover:bg-amber-500/5 hover:text-amber-300'
                 : onClickAssignHint
-                  ? 'text-stone-600 cursor-pointer hover:text-stone-400'
+                  ? 'text-text-secondary cursor-pointer hover:text-text-secondary'
                   : 'text-stone-700'
             }`}
           >
@@ -692,7 +692,7 @@ function BuildingSlot({
         <div className="absolute z-50 top-full right-0 mt-1 bg-stone-900 border border-stone-600 rounded shadow-xl text-[10px] min-w-[72px]">
           {character && onUnassign && (
             <button onClick={() => { onUnassign(); setShowMenu(false) }}
-              className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-stone-300">
+              className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-text-primary">
               {tS('mgmt.unassign')}
             </button>
           )}
@@ -703,7 +703,7 @@ function BuildingSlot({
             </button>
           )}
           <button onClick={() => setShowMenu(false)}
-            className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-stone-500">
+            className="w-full text-start px-3 py-1.5 hover:bg-stone-700 text-text-secondary">
             {tS('mgmt.close')}
           </button>
         </div>
@@ -733,10 +733,10 @@ function CharacterChip({
       onClick={readOnly ? undefined : onClick}
       className={`inline-flex items-center gap-1.5 pl-1 pr-2 py-1 rounded border text-[11px] select-none transition-all ${
         readOnly
-          ? 'border-stone-600 bg-stone-700/50 text-stone-300'
+          ? 'border-stone-600 bg-stone-700/50 text-text-primary'
           : isSelected
             ? 'border-amber-400 bg-amber-500/15 text-amber-200 cursor-grab active:cursor-grabbing'
-            : 'border-stone-600 bg-stone-700/50 text-stone-300 hover:border-stone-500 cursor-grab active:cursor-grabbing'
+            : 'border-stone-600 bg-stone-700/50 text-text-primary hover:border-stone-500 cursor-grab active:cursor-grabbing'
       }`}
     >
       <CharacterPortrait character={character} size={20} />

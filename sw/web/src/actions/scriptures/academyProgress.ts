@@ -18,7 +18,7 @@ interface AcademyLessonProgressRow {
 
 interface AcademyLessonProgressParams {
   categoryId: string
-  subCategoryId: string
+  courseId: string
   lessonId: string
 }
 
@@ -38,7 +38,7 @@ function mapAcademyLessonProgress(row: AcademyLessonProgressRow): AcademyLessonP
     id: row.id,
     userId: row.user_id,
     categoryId: row.category_id,
-    subCategoryId: row.sub_category_id,
+    courseId: row.sub_category_id,
     lessonId: row.lesson_id,
     isCompleted: row.is_completed,
     completedAt: row.completed_at,
@@ -75,7 +75,7 @@ async function upsertAcademyLessonProgress(
   const payload = {
     user_id: user.id,
     category_id: params.categoryId,
-    sub_category_id: params.subCategoryId,
+    sub_category_id: params.courseId,
     lesson_id: params.lessonId,
     updated_at: timestamp,
     ...updates,

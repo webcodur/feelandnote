@@ -344,25 +344,25 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
           <div className="bg-stone-800 border border-amber-500/30 rounded-lg shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-5 space-y-3 animate-modal-content" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-amber-300">{text.strategy.helpTitle}</h3>
-              <button onClick={() => setShowHelp(false)} className="text-stone-500 hover:text-stone-300 text-xs">✕</button>
+              <button onClick={() => setShowHelp(false)} className="text-text-secondary hover:text-text-primary text-xs">✕</button>
             </div>
-            <div className="text-xs text-stone-300 space-y-2 leading-relaxed">
+            <div className="text-xs text-text-primary space-y-2 leading-relaxed">
               <p><b className="text-amber-400">{text.strategy.helpTurnLabel}</b>: {text.strategy.helpTurnDesc}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpBuildTitle}</p>
+                  <p className="font-bold text-text-primary mb-1">{text.strategy.helpBuildTitle}</p>
                   <p>{text.strategy.helpBuildDesc}</p>
                 </div>
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpAssignTitle}</p>
+                  <p className="font-bold text-text-primary mb-1">{text.strategy.helpAssignTitle}</p>
                   <p>{text.strategy.helpAssignDesc}</p>
                 </div>
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpBattleTitle}</p>
+                  <p className="font-bold text-text-primary mb-1">{text.strategy.helpBattleTitle}</p>
                   <p>{text.strategy.helpBattleDesc}</p>
                 </div>
                 <div className="p-2 bg-stone-900 rounded">
-                  <p className="font-bold text-stone-200 mb-1">{text.strategy.helpDiplomacyTitle}</p>
+                  <p className="font-bold text-text-primary mb-1">{text.strategy.helpDiplomacyTitle}</p>
                   <p>{text.strategy.helpDiplomacyDesc}</p>
                 </div>
               </div>
@@ -379,7 +379,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
                   <p>{text.strategy.helpStat6}</p>
                   <p>{text.strategy.helpStat7}</p>
                 </div>
-                <p className="text-[10px] text-stone-500 mt-1.5">{text.strategy.helpFooter}</p>
+                <p className="text-[10px] text-text-secondary mt-1.5">{text.strategy.helpFooter}</p>
               </div>
             </div>
           </div>
@@ -414,7 +414,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
           >
             {text.strategy.goMain}
           </button>
-          <span className="text-[11px] text-stone-500">
+          <span className="text-[11px] text-text-secondary">
             {state.factions.some(f => f.territories.some(t => t.id === viewingTerritory.id))
               ? text.toolbar.viewingForeignTerritory
               : text.toolbar.unclaimedTerritory(tS(`territory.${viewingTerritory.id}`))}
@@ -452,7 +452,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
             if (!owner) {
               return (
                 <div className="border border-stone-700 rounded-lg p-6 bg-stone-800/60 text-center space-y-3">
-                  <p className="text-stone-400">{text.strategy.noOneOccupies}</p>
+                  <p className="text-text-secondary">{text.strategy.noOneOccupies}</p>
                   <button
                     onClick={() => handleClaim(viewingTerritory.id)}
                     className="px-6 py-3 bg-green-900/50 border border-green-700 rounded-lg hover:bg-green-800/60 hover:border-green-500 transition-colors text-sm text-stone-100 font-bold"
@@ -488,7 +488,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
           <PanelLabel name={text.strategy.panelLogs} />
           <div className="border border-stone-700 rounded-lg p-2 bg-stone-800/50 max-h-24 overflow-y-auto">
             {state.log.slice(-8).reverse().map((l, i) => (
-              <p key={i} className="text-[9px] text-stone-500 leading-relaxed">{translateSuikodenMessage(l, locale, {
+              <p key={i} className="text-[9px] text-text-secondary leading-relaxed">{translateSuikodenMessage(l, locale, {
                 translateTerritory: (id) => tS(`territory.${id}`),
                 translateRegion: (id) => tS(`region.${id}`),
               })}</p>
@@ -508,16 +508,16 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
                 setMapOpen(v => !v)
               }}
             >
-              <span className="text-[8px] text-stone-600">{mapOpen ? '\u25BC' : '\u25B6'}</span>
-              <span className="text-xs font-bold text-stone-400 mr-auto">{text.strategy.mapWorld}</span>
+              <span className="text-[8px] text-text-secondary">{mapOpen ? '\u25BC' : '\u25B6'}</span>
+              <span className="text-xs font-bold text-text-secondary mr-auto">{text.strategy.mapWorld}</span>
               {mapOpen && (
                 <div className="flex bg-stone-900/80 rounded p-0.5 gap-0.5">
                   <button
                     onClick={() => setMapMode('globe')}
                     className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
                       mapMode === 'globe'
-                        ? 'bg-stone-700 text-stone-200 font-bold'
-                        : 'text-stone-500 hover:text-stone-400'
+                        ? 'bg-stone-700 text-text-primary font-bold'
+                        : 'text-text-secondary hover:text-text-secondary'
                     }`}
                   >
                     {text.strategy.mapGlobe}
@@ -526,8 +526,8 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
                     onClick={() => setMapMode('text')}
                     className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
                       mapMode === 'text'
-                        ? 'bg-stone-700 text-stone-200 font-bold'
-                        : 'text-stone-500 hover:text-stone-400'
+                        ? 'bg-stone-700 text-text-primary font-bold'
+                        : 'text-text-secondary hover:text-text-secondary'
                     }`}
                   >
                     {text.strategy.mapText}
@@ -567,11 +567,11 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
               className="flex items-center gap-2 p-2 cursor-pointer select-none"
               onClick={() => setCharPanelOpen(v => !v)}
             >
-              <span className="text-[8px] text-stone-600">{charPanelOpen ? '\u25BC' : '\u25B6'}</span>
-              <span className="text-xs font-bold text-stone-400">{text.strategy.characterInfo}</span>
+              <span className="text-[8px] text-text-secondary">{charPanelOpen ? '\u25BC' : '\u25B6'}</span>
+              <span className="text-xs font-bold text-text-secondary">{text.strategy.characterInfo}</span>
               {selectedCharId && !charPanelOpen && (() => {
                 const c = playerFaction.members.find(m => m.id === selectedCharId)
-                return c ? <span className="ml-auto text-[10px] text-stone-500 truncate">{c.nickname}</span> : null
+                return c ? <span className="ml-auto text-[10px] text-text-secondary truncate">{c.nickname}</span> : null
               })()}
             </div>
             {charPanelOpen && (
@@ -588,23 +588,23 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
 
           {/* 세력 현황 */}
           <details className="border border-stone-700 rounded bg-stone-800/50" open>
-            <summary className="p-2 text-xs font-bold text-stone-300 cursor-pointer hover:text-stone-100">{text.strategy.factionStatus}</summary>
+            <summary className="p-2 text-xs font-bold text-text-primary cursor-pointer hover:text-stone-100">{text.strategy.factionStatus}</summary>
             <div className="px-2 pb-2 space-y-1">
               {state.factions.map(f => (
                 <div key={f.id} className="flex items-center gap-1.5 text-[10px]">
                   <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: f.color }} />
-                  <span className={`flex-1 truncate ${f.id === state.playerFactionId ? 'text-amber-300 font-bold' : 'text-stone-400'}`}>
+                  <span className={`flex-1 truncate ${f.id === state.playerFactionId ? 'text-amber-300 font-bold' : 'text-text-secondary'}`}>
                     {stripSuikodenFactionSuffix(f.name)}
                   </span>
-                  <span className="text-stone-500">{text.strategy.memberCount(f.members.length)}</span>
-                  <span className="text-stone-500">{text.strategy.territoryCount(f.territories.length)}</span>
+                  <span className="text-text-secondary">{text.strategy.memberCount(f.members.length)}</span>
+                  <span className="text-text-secondary">{text.strategy.territoryCount(f.territories.length)}</span>
                 </div>
               ))}
             </div>
           </details>
 
           {/* 도움말 토글 */}
-          <button onClick={() => setShowHelp(!showHelp)} className="w-full text-[10px] text-stone-600 hover:text-amber-400">{text.strategy.help}</button>
+          <button onClick={() => setShowHelp(!showHelp)} className="w-full text-[10px] text-text-secondary hover:text-amber-400">{text.strategy.help}</button>
         </div>
       </div>
     </div>
@@ -613,6 +613,6 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
 
 function PanelLabel({ name }: { name: string }) {
   return (
-    <div className="text-[9px] text-stone-600 uppercase tracking-wider mb-0.5">{name}</div>
+    <div className="text-[9px] text-text-secondary uppercase tracking-wider mb-0.5">{name}</div>
   )
 }

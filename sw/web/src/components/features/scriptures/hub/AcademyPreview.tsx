@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { GraduationCap, BookOpen, Music, ChevronRight } from "lucide-react";
+import { GraduationCap, Film, Music, ChevronRight } from "lucide-react";
 
 interface AcademyPreviewProps {
   isSignedIn?: boolean;
@@ -39,8 +39,8 @@ export default function AcademyPreview({ isSignedIn }: AcademyPreviewProps) {
           {/* 커리큘럼 태그 */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 group-hover:border-blue-500/20 group-hover:bg-blue-500/5 transition-all duration-500">
-              <BookOpen size={16} className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-              <span className="text-sm font-bold text-white/90">{t("academyReading")}</span>
+              <Film size={16} className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+              <span className="text-sm font-bold text-white/90">{t("academyVideo")}</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 group-hover:border-amber-500/20 group-hover:bg-amber-500/5 transition-all duration-500">
               <Music size={16} className="text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" />

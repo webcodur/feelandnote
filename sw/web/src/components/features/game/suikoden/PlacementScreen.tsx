@@ -57,15 +57,15 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
   return (
     <div className="space-y-4">
       <div className="text-center">
-        <h3 className="text-sm font-bold text-stone-200">{text.placement.title}</h3>
-        <p className="text-[10px] text-stone-500 mt-1">{text.placement.subtitle}</p>
+        <h3 className="text-sm font-bold text-text-primary">{text.placement.title}</h3>
+        <p className="text-[10px] text-text-secondary mt-1">{text.placement.subtitle}</p>
       </div>
 
       {/* 그리드 */}
       <div className="space-y-1">
         {grid.map((row, rowIdx) => (
           <div key={rowIdx} className="flex items-center gap-1">
-            <span className="text-[9px] text-stone-600 w-6 text-right shrink-0">
+            <span className="text-[9px] text-text-secondary w-6 text-right shrink-0">
               {rowLabels[rowIdx]}
             </span>
             <div className="flex gap-1">
@@ -95,10 +95,10 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
                     {unit ? (
                       <div className="flex flex-col items-center gap-0.5 p-0.5">
                         <CharacterPortrait character={unit.character} size={28} />
-                        <span className="text-[7px] text-stone-400 truncate w-full text-center">
+                        <span className="text-[7px] text-text-secondary truncate w-full text-center">
                           {unit.character.nickname.slice(0, 4)}
                         </span>
-                        <span className="text-[7px] text-stone-600">
+                        <span className="text-[7px] text-text-secondary">
                           {CLASS_INFO[unit.character.unitClass].icon}
                         </span>
                       </div>
@@ -117,13 +117,13 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
 
       {/* 적군 배치 미리보기 */}
       <div className="border-t border-stone-700 pt-3">
-        <p className="text-[9px] text-stone-500 mb-1.5">{text.placement.enemyPreview}</p>
+        <p className="text-[9px] text-text-secondary mb-1.5">{text.placement.enemyPreview}</p>
         <div className="flex flex-wrap gap-1">
           {state.enemies.map(u => (
             <div key={u.id} className="flex items-center gap-1 px-1.5 py-0.5 bg-stone-800 rounded border border-red-800/30">
               <CharacterPortrait character={u.character} size={20} />
-              <span className="text-[8px] text-stone-400">{u.character.nickname.slice(0, 4)}</span>
-              <span className="text-[7px] text-stone-600">{CLASS_INFO[u.character.unitClass].icon}</span>
+              <span className="text-[8px] text-text-secondary">{u.character.nickname.slice(0, 4)}</span>
+              <span className="text-[7px] text-text-secondary">{CLASS_INFO[u.character.unitClass].icon}</span>
             </div>
           ))}
         </div>

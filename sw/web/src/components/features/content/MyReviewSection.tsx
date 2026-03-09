@@ -103,7 +103,7 @@ export default function MyReviewSection({
                 unstyled
                 key={star}
                 onClick={() => handleRatingChange(star)}
-                className={`text-lg ${(rating ?? 0) >= star ? "text-yellow-400" : "text-gray-600 hover:text-yellow-400/50"}`}
+                className={`text-lg ${(rating ?? 0) >= star ? "text-yellow-400" : "text-text-secondary hover:text-yellow-400/50"}`}
               >
                 ★
               </Button>

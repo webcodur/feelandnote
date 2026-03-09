@@ -4,7 +4,6 @@
       "id": "sound_and_pitch",
       "title": "Sound and Pitch",
       "difficulty": "beginner",
-      "partLabel": "Part 1 — Foundation",
       "description": "From vibration to musical pitch: how sound waves carry frequency, how our ears interpret pitch, and how the overtone series shapes the color of every instrument.",
       "objectives": [
         "Understand the physics of sound waves",
@@ -43,13 +42,50 @@
           "contentMarkdown": "When a string vibrates, it does not produce a single frequency. It vibrates simultaneously in halves, thirds, quarters, and so on, generating a stack of **overtones** (also called harmonics). The first overtone is an octave above the fundamental; the second is a perfect fifth above that; then comes another octave, a major third, and so on.\n\nThis natural phenomenon is the physical foundation of consonance and dissonance. The intervals we perceive as 'pleasant' — octaves, fifths, fourths — correspond to the simplest frequency ratios in the overtone series (2:1, 3:2, 4:3). The entire Western system of harmony is, at its root, an elaboration of the overtone series.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "What is the correct process of sound production?",
+          "choices": [
+            "Air vibrates → light spreads → reaches the ear",
+            "Something vibrates → air is disturbed → reaches the ear",
+            "The ear reacts first → air is disturbed → perceived as sound",
+            "Sound occurs → air stops → transmitted to the ear"
+          ],
+          "answerIndex": 1,
+          "explanation": "Sound is produced when an object vibrates, creating compressions in the air that travel as waves to our ears.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What happens when you exactly double the frequency of a vibration?",
+          "choices": [
+            "It becomes a perfect fifth",
+            "It becomes a major third",
+            "It becomes an octave",
+            "It becomes a half step"
+          ],
+          "answerIndex": 2,
+          "explanation": "Doubling the frequency raises the pitch by exactly one octave — the most fundamental interval in music.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why does the same pitch sound different on a piano versus a violin?",
+          "choices": [
+            "The actual pitch is different",
+            "The ratio of overtones differs between instruments",
+            "It depends on the performer's skill",
+            "It is because of the instrument's size"
+          ],
+          "answerIndex": 1,
+          "explanation": "Each instrument produces overtones in different proportions, giving each one its unique timbre (tone color) even when playing the same pitch.",
+          "stepIndex": 4
+        }
       ]
     },
     {
       "id": "reading_notation",
       "title": "Reading Notation",
       "difficulty": "beginner",
-      "partLabel": "Part 1 — Foundation",
       "description": "The staff, clefs, note names, and octave designations — everything you need to read a musical score and locate any pitch on the page.",
       "objectives": [
         "Read notes on the treble and bass clefs",
@@ -93,13 +129,50 @@
           "contentMarkdown": "Notes that fall above or below the staff are written on short **ledger lines**. Middle C, for example, requires one ledger line below the treble staff or one above the bass staff. Too many ledger lines become hard to read, which is why we use different clefs.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "What happens as notes are placed higher on the staff?",
+          "choices": [
+            "They get louder",
+            "They get higher in pitch",
+            "They get longer",
+            "They get faster"
+          ],
+          "answerIndex": 1,
+          "explanation": "On the staff, notes placed higher represent higher pitches. The staff visually maps pitch vertically.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the difference between letter names and solfege names?",
+          "choices": [
+            "Letter names change with the key; solfege names are fixed",
+            "Letter names are fixed to keys; solfege names change with the key",
+            "They mean the same thing",
+            "Letter names are in English; solfege names are in Korean"
+          ],
+          "answerIndex": 1,
+          "explanation": "Letter names (C, D, E, etc.) are fixed to specific piano keys, while solfege names (Do, Re, Mi) can shift depending on the key — they represent relative function, not absolute pitch.",
+          "stepIndex": 3
+        },
+        {
+          "question": "What is a ledger line used for?",
+          "choices": [
+            "To mark the end of a piece",
+            "To write notes that fall above or below the five-line staff",
+            "To indicate a key change",
+            "To separate measures"
+          ],
+          "answerIndex": 1,
+          "explanation": "Ledger lines are short lines added above or below the staff to extend its range for notes that do not fit on the five main lines.",
+          "stepIndex": 5
+        }
       ]
     },
     {
       "id": "rhythm_and_meter",
       "title": "Rhythm and Meter",
       "difficulty": "beginner",
-      "partLabel": "Part 1 — Foundation",
       "description": "Note values, rests, time signatures, and the rhythmic grid that organizes music in time — from whole notes to sixteenth notes, from 4/4 to compound meter.",
       "objectives": [
         "Identify note and rest values from whole to sixteenth",
@@ -143,13 +216,50 @@
           "contentMarkdown": "In **simple meter** (2/4, 3/4, 4/4), each beat divides naturally into two. In **compound meter** (6/8, 9/8, 12/8), each beat divides into three, giving a triplet feel without writing triplets.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "What note value is half the duration of a quarter note?",
+          "choices": [
+            "Whole note",
+            "Half note",
+            "Eighth note",
+            "Dotted quarter note"
+          ],
+          "answerIndex": 2,
+          "explanation": "Each successive note value halves the duration. A quarter note equals 1 beat, so an eighth note equals 1/2 beat.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which description best fits 3/4 time?",
+          "choices": [
+            "Four quarter-note beats per measure",
+            "Three quarter-note beats per measure with a waltz feel",
+            "Six eighth-note beats per measure",
+            "Two quarter-note beats per measure"
+          ],
+          "answerIndex": 1,
+          "explanation": "3/4 time has three quarter-note beats per measure, producing the characteristic ONE-two-three waltz swing.",
+          "stepIndex": 3
+        },
+        {
+          "question": "What distinguishes compound meter from simple meter?",
+          "choices": [
+            "Compound meter uses only whole notes",
+            "In compound meter, each beat divides naturally into three",
+            "Compound meter has no time signature",
+            "Simple meter is faster than compound meter"
+          ],
+          "answerIndex": 1,
+          "explanation": "In simple meter (e.g., 4/4), each beat divides into two. In compound meter (e.g., 6/8), each beat divides into three, giving a triplet feel.",
+          "stepIndex": 5
+        }
       ]
     },
     {
       "id": "intervals",
       "title": "Intervals",
       "difficulty": "beginner",
-      "partLabel": "Part 1 — Foundation",
       "description": "The building blocks of melody and harmony: half steps, whole steps, and the classification of intervals from unisons to octaves, including their inversions.",
       "objectives": [
         "Define and identify half steps and whole steps",
@@ -241,13 +351,50 @@
           "contentMarkdown": "Perfect intervals and major/minor thirds and sixths are traditionally considered **consonant**. Seconds, sevenths, and tritones (augmented 4th / diminished 5th) are **dissonant** — they create tension that seeks resolution.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "How do you determine the number of an interval?",
+          "choices": [
+            "Count the half steps between the two notes",
+            "Count the letter names from the starting note to the ending note",
+            "Measure the physical distance on the keyboard",
+            "Count only the black keys between the two notes"
+          ],
+          "answerIndex": 1,
+          "explanation": "The interval number is determined by counting the letter names inclusively. C to E spans C-D-E = a third.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the difference between a major 3rd and a minor 3rd?",
+          "choices": [
+            "A major 3rd is one half step wider and sounds bright",
+            "A minor 3rd is one half step wider and sounds bright",
+            "They are the same interval",
+            "A major 3rd is in a high register; a minor 3rd is in a low register"
+          ],
+          "answerIndex": 0,
+          "explanation": "A major 3rd spans 4 half steps (bright), while a minor 3rd spans 3 half steps (dark). One half step completely changes the mood.",
+          "stepIndex": 6
+        },
+        {
+          "question": "What happens when you invert a major interval?",
+          "choices": [
+            "It stays major",
+            "It becomes minor",
+            "It becomes perfect",
+            "It becomes augmented"
+          ],
+          "answerIndex": 1,
+          "explanation": "When an interval is inverted, the quality flips: major becomes minor, minor becomes major, augmented becomes diminished, but perfect stays perfect.",
+          "stepIndex": 2
+        }
       ]
     },
     {
       "id": "major_scale",
       "title": "Major Scale",
       "difficulty": "intermediate",
-      "partLabel": "Part 2 — Scales & Keys",
       "description": "The W-W-H-W-W-W-H formula that generates all twelve major scales — the most essential framework in Western tonal music.",
       "objectives": [
         "Construct a major scale from any starting note",
@@ -298,13 +445,50 @@
           "contentMarkdown": "Virtually all Western tonal music — from Bach fugues to Beatles songs — is built on major and minor scales. The major scale provides the foundation for chord construction, key signatures, and functional harmony. Understanding it deeply unlocks every topic that follows.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "What is the interval pattern of the major scale?",
+          "choices": [
+            "W-H-W-W-H-W-W",
+            "W-W-H-W-W-W-H",
+            "H-W-W-H-W-W-W",
+            "W-W-W-H-W-W-H"
+          ],
+          "answerIndex": 1,
+          "explanation": "The major scale follows the pattern W-W-H-W-W-W-H (Whole-Whole-Half-Whole-Whole-Whole-Half).",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why does the G major scale require an F#?",
+          "choices": [
+            "It is a tradition of the G major scale",
+            "To maintain the W-W-H-W-W-W-H pattern",
+            "It is only needed in the bass clef",
+            "To make it easier to play"
+          ],
+          "answerIndex": 1,
+          "explanation": "Starting from G, the W-W-H-W-W-W-H pattern requires F to be raised to F# to produce the correct whole step between the 6th and 7th degrees.",
+          "stepIndex": 4
+        },
+        {
+          "question": "What is the function of the leading tone in a major scale?",
+          "choices": [
+            "It is the most stable note",
+            "It creates a strong pull toward the tonic",
+            "It is the fifth scale degree",
+            "It is the starting note of the scale"
+          ],
+          "answerIndex": 1,
+          "explanation": "The leading tone (7th degree) sits a half step below the tonic and creates the strongest resolution tendency in the scale.",
+          "stepIndex": 3
+        }
       ]
     },
     {
       "id": "minor_scale",
       "title": "Minor Scale",
       "difficulty": "intermediate",
-      "partLabel": "Part 2 — Scales & Keys",
       "description": "Three forms of the minor scale — natural, harmonic, and melodic — and how relative and parallel keys connect the major and minor systems.",
       "objectives": [
         "Build natural, harmonic, and melodic minor scales",
@@ -355,13 +539,50 @@
           "contentMarkdown": "To smooth out that augmented second, the **melodic minor** raises both the 6th and 7th degrees when ascending, and reverts to natural minor when descending:\n\nA melodic minor ascending: A-B-C-D-E-**F#**-**G#**-A\nA melodic minor descending: A-G-F-E-D-C-B-A\n\nIn jazz practice, the ascending form is used in both directions (the 'jazz melodic minor').",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "Which scale degree most determines whether a scale sounds major or minor?",
+          "choices": [
+            "The 1st degree",
+            "The 3rd degree",
+            "The 5th degree",
+            "The 7th degree"
+          ],
+          "answerIndex": 1,
+          "explanation": "The 3rd degree is the defining difference: a major 3rd (4 half steps above tonic) creates a major sound, while a minor 3rd (3 half steps) creates a minor sound.",
+          "stepIndex": 3
+        },
+        {
+          "question": "What does the harmonic minor scale change compared to the natural minor?",
+          "choices": [
+            "It lowers the 6th degree",
+            "It raises the 7th degree by a half step",
+            "It raises both the 6th and 7th degrees",
+            "It lowers the 3rd degree"
+          ],
+          "answerIndex": 1,
+          "explanation": "The harmonic minor raises the 7th degree to create a leading tone (half step below tonic), enabling a strong dominant chord.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What is the relative minor of C major?",
+          "choices": [
+            "C minor",
+            "D minor",
+            "E minor",
+            "A minor"
+          ],
+          "answerIndex": 3,
+          "explanation": "A minor is the relative minor of C major — they share the same key signature (no sharps or flats) but start on different notes.",
+          "stepIndex": 4
+        }
       ]
     },
     {
       "id": "key_signatures",
       "title": "Key Signatures & Circle of Fifths",
       "difficulty": "intermediate",
-      "partLabel": "Part 2 — Scales & Keys",
       "description": "How sharps and flats accumulate in key signatures, and the Circle of Fifths — the master diagram that maps all major and minor keys.",
       "objectives": [
         "Read and write key signatures for all major and minor keys",
@@ -410,13 +631,50 @@
           "contentMarkdown": "**Sharp key shortcut**: The last sharp in the key signature is the leading tone (scale degree 7). Raise it by a half step to find the tonic. Example: last sharp is F# → key is G major.\n\n**Flat key shortcut**: The second-to-last flat names the key. Example: Bb and Eb in the signature → key is Bb major. (Exception: F major has only one flat, Bb.)",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "In what order are sharps added to key signatures?",
+          "choices": [
+            "B-E-A-D-G-C-F",
+            "C-G-D-A-E-B-F",
+            "F-C-G-D-A-E-B",
+            "G-D-A-E-B-F-C"
+          ],
+          "answerIndex": 2,
+          "explanation": "Sharps are always added in the order F-C-G-D-A-E-B. The first sharp is always F#.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why do adjacent keys on the Circle of Fifths sound well together?",
+          "choices": [
+            "They are played on the same instrument",
+            "They differ by only one accidental, sharing most notes in common",
+            "They were composed by the same person",
+            "They were composed in the same era"
+          ],
+          "answerIndex": 1,
+          "explanation": "Adjacent keys on the Circle of Fifths differ by only one sharp or flat, meaning they share six out of seven notes and transition smoothly.",
+          "stepIndex": 4
+        },
+        {
+          "question": "Which major key has exactly one flat (Bb)?",
+          "choices": [
+            "G major",
+            "D major",
+            "Bb major",
+            "F major"
+          ],
+          "answerIndex": 3,
+          "explanation": "F major has exactly one flat (Bb). Bb major has two flats (Bb and Eb).",
+          "stepIndex": 3
+        }
       ]
     },
     {
       "id": "triads",
       "title": "Triads",
       "difficulty": "advanced",
-      "partLabel": "Part 3 — Chords & Harmony",
       "description": "The four triad qualities — major, minor, augmented, and diminished — built by stacking thirds, and their inversions.",
       "objectives": [
         "Build major, minor, augmented, and diminished triads",
@@ -467,13 +725,50 @@
           "contentMarkdown": "A triad in **root position** has the root as the lowest note. **First inversion** places the third on the bottom; **second inversion** places the fifth on the bottom. Inversions change the voicing and bass line but not the chord's identity.\n\n| Position | Notes (C major) | Figured Bass |\n|----------|----------------|--------------|\n| Root position | C-E-G | 5/3 |\n| First inversion | E-G-C | 6/3 |\n| Second inversion | G-C-E | 6/4 |",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "How is a triad constructed?",
+          "choices": [
+            "Any three notes played together",
+            "By stacking two thirds above a root note",
+            "By stacking three half steps",
+            "By playing the same note three times"
+          ],
+          "answerIndex": 1,
+          "explanation": "A triad is built by stacking two thirds above a root note — for example, C-E-G (a major third plus a minor third).",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the difference in character between major and minor triads?",
+          "choices": [
+            "Major is dark; minor is bright",
+            "Major is bright; minor is dark and soft",
+            "Both sound bright",
+            "Both sound tense"
+          ],
+          "answerIndex": 1,
+          "explanation": "A major triad (e.g., C-E-G) sounds bright and stable, while a minor triad (e.g., C-Eb-G) sounds dark, soft, and melancholic.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What is a triad inversion?",
+          "choices": [
+            "Changing all the notes of the chord",
+            "Rearranging which note is on the bottom while keeping the same three notes",
+            "Transposing the chord up by a half step",
+            "Changing a major triad to minor"
+          ],
+          "answerIndex": 1,
+          "explanation": "An inversion rearranges which note is the lowest (bass) while using the same three notes. This creates smoother voice leading between chords.",
+          "stepIndex": 4
+        }
       ]
     },
     {
       "id": "seventh_chords",
       "title": "Seventh Chords",
       "difficulty": "advanced",
-      "partLabel": "Part 3 — Chords & Harmony",
       "description": "Adding a fourth note — the seventh — to a triad creates richer, more colorful chords. Major 7th, dominant 7th, minor 7th, and half-diminished 7th, plus an introduction to chord tensions.",
       "objectives": [
         "Build the four main seventh chord types",
@@ -517,13 +812,50 @@
           "contentMarkdown": "Continuing to stack thirds above the seventh produces **tensions**:\n\n- **9th** = the 2nd scale degree an octave up\n- **11th** = the 4th scale degree an octave up\n- **13th** = the 6th scale degree an octave up\n\nThese extensions add color without changing the chord's fundamental function. A Cmaj9 (C-E-G-B-D) is still a tonic chord; a G13 (G-B-D-F-A-E) is still dominant. Jazz harmony makes extensive use of tensions to create lush, complex voicings.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "How does a seventh chord differ from a triad?",
+          "choices": [
+            "It has one fewer note",
+            "It adds a fourth note (the seventh) on top of a triad",
+            "It has a different rhythm",
+            "It is in a different octave"
+          ],
+          "answerIndex": 1,
+          "explanation": "A seventh chord adds a third on top of a triad, creating a four-note chord with greater harmonic richness.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Why does the dominant 7th chord create tension?",
+          "choices": [
+            "Because it has four notes",
+            "Because it contains a tritone between the 3rd and b7th",
+            "Because all notes are half steps apart",
+            "Because it is only played in low registers"
+          ],
+          "answerIndex": 1,
+          "explanation": "The dominant 7th contains a tritone (augmented 4th) between the 3rd and b7th, which is inherently unstable and seeks resolution to the tonic chord.",
+          "stepIndex": 3
+        },
+        {
+          "question": "Which best describes the character of a major 7th chord?",
+          "choices": [
+            "Strong tension",
+            "Warm, dreamy, sophisticated",
+            "Frightening atmosphere",
+            "March-like power"
+          ],
+          "answerIndex": 1,
+          "explanation": "The major 7th chord has a warm, dreamy, sophisticated quality — commonly heard in jazz ballads and cafe-style music.",
+          "stepIndex": 2
+        }
       ]
     },
     {
       "id": "chord_progressions",
       "title": "Chord Progressions",
       "difficulty": "advanced",
-      "partLabel": "Part 3 — Chords & Harmony",
       "description": "How chords move from one to another: the I-IV-V-I backbone, the jazz ii-V-I, and the cadences that punctuate musical phrases.",
       "objectives": [
         "Analyze common chord progressions using Roman numerals",
@@ -579,13 +911,50 @@
           "contentMarkdown": "Good chord progressions are not just about which chords to play, but *how* individual voices move between them. The principle of **smooth voice leading** — moving each voice to the nearest available note in the next chord — creates elegant, connected lines rather than awkward leaps.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "Which harmonic function represents maximum tension demanding resolution?",
+          "choices": [
+            "Tonic (rest)",
+            "Subdominant (moderate tension)",
+            "Dominant (maximum tension)",
+            "Half cadence"
+          ],
+          "answerIndex": 2,
+          "explanation": "The dominant function (V chord) creates maximum tension and demands resolution back to the tonic (I).",
+          "stepIndex": 2
+        },
+        {
+          "question": "An authentic cadence (V to I) is analogous to which punctuation mark?",
+          "choices": [
+            "A comma",
+            "A question mark",
+            "A period",
+            "An exclamation mark"
+          ],
+          "answerIndex": 2,
+          "explanation": "The authentic cadence (V to I) provides the strongest, most conclusive ending — like a period at the end of a sentence.",
+          "stepIndex": 7
+        },
+        {
+          "question": "What is special about the I-V-vi-IV chord progression?",
+          "choices": [
+            "It is used only in classical music",
+            "It is the shared pattern behind countless pop hit songs",
+            "It is exclusive to jazz",
+            "It requires six different chords"
+          ],
+          "answerIndex": 1,
+          "explanation": "The I-V-vi-IV progression is one of the most common patterns in popular music, used in hits from 'Let It Be' to 'Someone Like You.'",
+          "stepIndex": 5
+        }
       ]
     },
     {
       "id": "non_chord_tones",
       "title": "Non-Chord Tones",
       "difficulty": "advanced",
-      "partLabel": "Part 3 — Chords & Harmony",
       "description": "Notes that do not belong to the underlying chord but add melodic interest and expressiveness: passing tones, neighbor tones, suspensions, and appoggiaturas.",
       "objectives": [
         "Identify and label four types of non-chord tones",
@@ -648,13 +1017,50 @@
           "contentMarkdown": "An **appoggiatura** is approached by **leap** and resolved by **step** in the opposite direction. It typically lands on a strong beat, creating an expressive dissonance. The word comes from Italian 'appoggiare' — to lean. An appoggiatura 'leans' into the chord tone with emotional weight.\n\nExample: Over a C chord, a melody leaps up to F and then steps down to E. The F is an appoggiatura — it is not part of the C chord, arrives by leap, and resolves by step.",
           "exampleId": null
         }
+      ],
+      "quiz": [
+        {
+          "question": "What is the role of a passing tone?",
+          "choices": [
+            "To change the chord",
+            "To smoothly connect two chord tones by stepwise motion",
+            "To change the meter",
+            "To raise a note by an octave"
+          ],
+          "answerIndex": 1,
+          "explanation": "A passing tone fills the gap between two chord tones by stepwise motion, creating a smooth melodic connection.",
+          "stepIndex": 2
+        },
+        {
+          "question": "How does a neighbor tone move?",
+          "choices": [
+            "It leaps far away and returns",
+            "It steps away from a chord tone and immediately returns",
+            "It passes through in one direction between two chord tones",
+            "It changes the root of the chord"
+          ],
+          "answerIndex": 1,
+          "explanation": "A neighbor tone steps away from a chord tone (up or down by a step) and immediately returns to the original note.",
+          "stepIndex": 3
+        },
+        {
+          "question": "How does a suspension create its characteristic effect?",
+          "choices": [
+            "By leaping to a dissonant note",
+            "By holding a note from the previous chord into the next chord, then resolving downward",
+            "By repeating the same note rapidly",
+            "By playing two notes simultaneously"
+          ],
+          "answerIndex": 1,
+          "explanation": "A suspension holds (sustains) a note from the previous chord over into the new chord, creating dissonance on a strong beat that resolves downward by step.",
+          "stepIndex": 1
+        }
       ]
     },
     {
       "id": "song_analysis",
       "title": "Song Analysis",
       "difficulty": "advanced",
-      "partLabel": "Part 4 — Synthesis",
       "description": "Putting it all together: musical forms (binary, ternary, rondo), Roman numeral analysis of real chord progressions, and the basics of four-part writing.",
       "objectives": [
         "Identify binary, ternary, and rondo forms",
@@ -714,6 +1120,44 @@
           "title": "Four-Part Writing Basics",
           "contentMarkdown": "**Four-part (SATB) writing** — soprano, alto, tenor, bass — is the traditional framework for learning voice leading. The core rules:\n\n1. **Avoid parallel fifths and octaves** — two voices moving in the same direction by a P5 or P8 weakens independence.\n2. **Resolve tendency tones** — the leading tone (scale degree 7) resolves up to 1; the chordal 7th resolves down by step.\n3. **Prefer smooth voice leading** — each voice moves to the nearest available note.\n4. **Keep voices in range** — soprano (C4-G5), alto (F3-C5), tenor (C3-G4), bass (E2-C4).\n5. **Avoid voice crossing** — the alto should not go below the tenor, etc.\n\nThese rules originated in the study of Renaissance polyphony and Bach chorales. While modern music frequently breaks them, understanding them provides a foundation for hearing *why* certain voicings sound smooth and others sound awkward.",
           "exampleId": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the role of the chorus in a popular song?",
+          "choices": [
+            "To tell the story",
+            "To repeat the core message and be the most memorable section",
+            "To provide a change of mood",
+            "To introduce the song"
+          ],
+          "answerIndex": 1,
+          "explanation": "The chorus repeats the central hook and message of the song, making it the most memorable and singable section.",
+          "stepIndex": 2
+        },
+        {
+          "question": "In ABA (ternary) form, what effect does the return of A create?",
+          "choices": [
+            "It increases tension",
+            "It introduces a new theme",
+            "It provides a satisfying sense of completion by returning home",
+            "It makes the piece longer"
+          ],
+          "answerIndex": 2,
+          "explanation": "The return of A after the contrasting B section creates a satisfying sense of resolution and completion — like coming home after a journey.",
+          "stepIndex": 5
+        },
+        {
+          "question": "What does 'V to I' represent in Roman numeral analysis?",
+          "choices": [
+            "A melody moving from the 5th to the 1st note",
+            "A progression from the dominant chord to the tonic chord (authentic cadence)",
+            "A change from 5/4 time to common time",
+            "Playing 5 repetitions then 1"
+          ],
+          "answerIndex": 1,
+          "explanation": "In Roman numeral analysis, V to I denotes a chord progression from the dominant (5th degree) to the tonic (1st degree) — the strongest cadential motion in tonal music.",
+          "stepIndex": 6
         }
       ]
     }

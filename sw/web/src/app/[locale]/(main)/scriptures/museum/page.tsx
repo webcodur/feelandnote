@@ -1,6 +1,6 @@
 /*
   파일명: /app/(main)/scriptures/museum/page.tsx
-  기능: 지혜의 서고 - 전시관 페이지
+  기능: 지혜의 서가 - 전시관 페이지
   책임: 타임라인 컴포넌트를 호출하여 매체 역사 정보를 표시한다.
 */ // ------------------------------
 
@@ -14,15 +14,17 @@ export async function generateMetadata() {
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
-async function MuseumContent() {
+async function MuseumContent({ cat, sub }: { cat?: string; sub?: string }) {
   return (
     <AsyncIntlProvider>
-      <MuseumTimeline />
+      <MuseumTimeline categoryId={cat} subCategoryId={sub} />
     </AsyncIntlProvider>
   );
 }
 
-export default function MuseumPage() {
+export default async function MuseumPage({ searchParams }: { searchParams: Promise<{ cat?: string; sub?: string }> }) {
+  const { cat, sub } = await searchParams;
+
   return (
     <div className="w-full pb-20">
       <Suspense fallback={
@@ -30,7 +32,7 @@ export default function MuseumPage() {
            <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
         </div>
       }>
-        <MuseumContent />
+        <MuseumContent cat={cat} sub={sub} />
       </Suspense>
     </div>
   );

@@ -25,8 +25,8 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
       {/* 유닛 정보 */}
       <div className="flex items-center gap-2 text-xs">
         <span className="text-amber-400 font-bold">{unit.character.nickname}</span>
-        <span className="text-stone-500">{cls.icon} {tS(`class.${unit.character.unitClass}`)}</span>
-        <span className="text-stone-500">{text.action.hp} {unit.hp}/{unit.maxHp}</span>
+        <span className="text-text-secondary">{cls.icon} {tS(`class.${unit.character.unitClass}`)}</span>
+        <span className="text-text-secondary">{text.action.hp} {unit.hp}/{unit.maxHp}</span>
       </div>
 
       {/* 행동 버튼 */}
@@ -104,9 +104,9 @@ function ActionButton({
     >
       <div className="flex items-center gap-1">
         <span className="text-sm">{icon}</span>
-        <span className="text-[10px] font-bold text-stone-200">{label}</span>
+        <span className="text-[10px] font-bold text-text-primary">{label}</span>
       </div>
-      <p className="text-[8px] text-stone-500 mt-0.5">{desc}</p>
+      <p className="text-[8px] text-text-secondary mt-0.5">{desc}</p>
     </button>
   )
 }

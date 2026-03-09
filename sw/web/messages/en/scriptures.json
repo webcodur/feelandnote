@@ -25,7 +25,7 @@
       "era": "Trace the timeless footprints left by humanity across the flow of time.",
       "profession": "Explore the diverse trajectories of those who reached the pinnacle in their respective fields.",
       "museum": "See how countless ideas and creations intertwine within a grand chronicle.",
-      "academy": "Beyond simple reading, a space to internalize the masters' methods and make them your own.",
+      "academy": "A space to internalize filmmaking and music theory through structured lessons.",
       "figureLabel": "Today's Figure",
       "eraLabel": "Masterpieces",
       "professionLabel": "Crossroads",
@@ -34,6 +34,7 @@
       "museumTitle": "Chronicle of Content",
       "academyTitle": "Academy of Wisdom",
       "academyReading": "Reading Methods",
+      "academyVideo": "Filmmaking",
       "academyMusic": "Harmony Lessons",
       "enterMuseum": "Enter Museum",
       "exploreAcademy": "Explore Academy",
@@ -144,21 +145,19 @@
     },
     "academy": {
       "metaTitle": "Academy | Scriptures",
-      "metaDescription": "Reading methods comparison, harmony lessons, and systematic educational content.",
+      "metaDescription": "Filmmaking, harmony lessons, and systematic educational content.",
       "pageTitle": "Academy of Wisdom",
-      "defaultDescription": "From reading methods analysis to harmony lessons, explore systematic educational content.",
+      "defaultDescription": "From filmmaking to harmony lessons, explore systematic educational content.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "Select academy category",
-      "subCategoryTabsLabel": "Select academy topic",
-      "comparisonSectionTitle": "Reading Methods Comparison",
-      "lessonSectionTitle": "Harmony & Notation",
-      "lessonNavigationTitle": "Lessons",
-      "lessonNavigationLabel": "Harmony lesson table of contents",
-      "mobileLessonNavigationLabel": "Quick navigation for harmony lessons",
+      "courseTabsLabel": "Select course",
+      "courseLabel": "Course",
+      "lessonLabel": "Lesson {n}/{total}",
+      "stepLabel": "Step {n}",
       "progressTitle": "Study Progress",
       "progressSummary": "{completed}/{total} completed",
       "progressRecentLesson": "Recent lesson: {title}",
-      "progressEmpty": "Open a lesson to save where you left off.",
+      "progressEmpty": "Navigate lessons to save where you left off.",
       "progressGuest": "Sign in to save lesson progress.",
       "continueLesson": "Resume",
       "previousBtn": "Previous",
@@ -181,10 +180,8 @@
       },
       "lesson": {
         "objectives": "Objectives",
-        "foldContent": "Fold content",
-        "unfoldContent": "Unfold content",
-        "completionCheckbox": "Study check",
-        "completedBadge": "Completed",
+        "completionCheckbox": "Mark as understood",
+        "completedBadge": "Lesson complete",
         "recentBadge": "Recent",
         "guestHint": "Sign in to save",
         "sheetExamples": "Sheet Examples",
@@ -201,47 +198,57 @@
         "playLabel": "Play sheet example",
         "stopLabel": "Stop sheet example"
       },
+      "quiz": {
+        "title": "Quiz",
+        "checkAnswer": "Check Answer",
+        "correct": "Correct",
+        "incorrect": "Incorrect",
+        "score": "{correct}/{total} correct",
+        "allCorrect": "All correct! Lesson marked as complete."
+      },
       "category": {
         "book": {
           "label": "Books",
-          "description": "Reading methods comparison"
+          "description": "Book system lessons"
+        },
+        "video": {
+          "label": "Video",
+          "description": "Filmmaking lessons"
         },
         "music": {
           "label": "Music",
           "description": "Harmony lessons"
         }
       },
-      "sub": {
+      "course": {
         "book": {
-          "foundations": {
-            "label": "Reading Basics",
-            "description": "Core reading modes such as oral reading, silent reading, and intensive reading"
+          "system": {
+            "label": "Book Literacy",
+            "description": "Classification systems, ISBN, editions, publishing — understand how books work as a system"
+          }
+        },
+        "video": {
+          "light_and_camera": {
+            "label": "Light & Camera",
+            "description": "Learn the nature of light, three-point lighting, camera anatomy, exposure, and the language of lenses"
           },
-          "strategies": {
-            "label": "Reading Strategies",
-            "description": "Practice-driven methods like speed reading, extensive reading, and transcription"
+          "composition": {
+            "label": "Composition",
+            "description": "Master shot sizes, camera angles, movement, leading lines, and the grammar of visual framing"
           },
-          "digital": {
-            "label": "Digital Reading",
-            "description": "How screens, links, and multitasking reshape the way we read"
+          "editing": {
+            "label": "Editing",
+            "description": "Explore cuts, continuity editing, montage theory, sound editing, and color grading"
+          },
+          "narrative": {
+            "label": "Narrative",
+            "description": "Build the foundations of three-act structure, character arcs, conflict design, and visual storytelling"
           }
         },
         "music": {
-          "fundamentals": {
-            "label": "Fundamentals",
-            "description": "Learn the grammar of music through sound, notation, rhythm, and intervals"
-          },
-          "scales": {
-            "label": "Scales & Keys",
-            "description": "Understand how scales and key signatures shape tonal center and mood"
-          },
-          "chords": {
-            "label": "Chords & Motion",
-            "description": "Study triads, seventh chords, and progressions as the backbone of harmony"
-          },
-          "analysis": {
-            "label": "Song Analysis",
-            "description": "Tie the theory together by reading real music through harmonic analysis"
+          "harmony": {
+            "label": "Harmony",
+            "description": "From the basics of sound to scales, chords, progressions, and song analysis — the complete course in harmony"
           }
         }
       }
@@ -274,7 +281,7 @@
         },
         "academy": {
           "label": "Academy",
-          "description": "Reading methods, harmony lessons, and more"
+          "description": "Filmmaking, harmony lessons, and more"
         }
       },
       "toc": "Table of Contents",

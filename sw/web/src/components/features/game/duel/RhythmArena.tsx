@@ -150,7 +150,7 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
         continue;
       }
       el.style.display = "";
-      el.style.top = y + "px";
+      el.style.transform = `translate(-50%, ${y}px)`;
 
       // 조건부 스타일 직접 반영
       const dist = jy - y;
@@ -436,15 +436,15 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
                 className="absolute rounded-full pointer-events-none"
                 style={{
                   left: `calc(50% + ${laneX(note.lane)}px)`,
-                  top: -(NOTE_R * 2),
-                  transform: "translate(-50%, -50%)",
+                  top: 0,
+                  transform: `translate(-50%, ${-(NOTE_R * 2)}px)`,
                   width: NOTE_R * 2,
                   height: NOTE_R * 2,
                   display: "none",
                   background: "radial-gradient(circle, #e0a050 30%, #c08030 70%, #8a5a3a)",
                   border: "1.5px solid rgba(224,160,80,0.35)",
                   boxShadow: "none",
-                  willChange: "top",
+                  willChange: "transform",
                 }}
               />
             ))}
@@ -483,7 +483,7 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: Props) {
         {phase === "aiTurn" && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <p className="text-stone-500 text-xs font-serif mb-3 tracking-widest">상대 차례</p>
+              <p className="text-text-secondary text-xs font-serif mb-3 tracking-widest">상대 차례</p>
               <motion.div
                 className="w-10 h-10 rounded-full mx-auto"
                 style={{

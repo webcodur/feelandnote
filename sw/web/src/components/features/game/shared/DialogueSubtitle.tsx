@@ -258,7 +258,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                   style={{ touchAction: "none" }}
                   className={`flex items-center justify-center px-1.5 cursor-grab active:cursor-grabbing select-none border-r transition-colors shrink-0 ${dragging ? "bg-amber-500/10 border-amber-500/30" : "bg-stone-800/40 border-transparent hover:bg-stone-700/40"}`}
                 >
-                  <GripVertical size={14} className="text-stone-500" />
+                  <GripVertical size={14} className="text-text-secondary" />
                 </div>
               )}
 
@@ -275,7 +275,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                         draggable={false}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs md:text-sm">
+                      <div className="w-full h-full flex items-center justify-center text-text-secondary text-xs md:text-sm">
                         {current.nickname?.[0] ?? "?"}
                       </div>
                     )}
@@ -320,7 +320,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                       containerRef.current.style.left = `${DEFAULT_DIALOGUE_COORDS.left}%`;
                     }
                   }}
-                  className="p-1 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
                   aria-label="기본 위치로 복귀"
                 >
                   <RotateCcw size={14} className="md:w-3.5 md:h-3.5 w-3 h-3" />
@@ -329,7 +329,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
               {onToggleMute && (
                 <button
                   onClick={onToggleMute}
-                  className="p-1 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
                   aria-label={voiceMuted ? "음성 켜기" : "음성 끄기"}
                 >
                   {voiceMuted
@@ -340,7 +340,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
               )}
               <button
                 onClick={handleClose}
-                className="p-1 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
                 aria-label="닫기"
               >
                 <X size={16} className="md:w-4 md:h-4 w-3.5 h-3.5" />

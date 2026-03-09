@@ -180,7 +180,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
             {t("allEras")}
           </h3>
           <p className="text-sm sm:text-base font-cinzel text-accent/80 mb-4">All Eras</p>
-          <div className="flex items-center justify-center gap-4 text-xs sm:text-sm text-text-secondary">
+          <div className="flex items-center justify-center gap-4 text-sm text-text-secondary">
             <span>{t("figureCount", { count: totalCelebCount })}</span>
             <span className="text-accent/30">·</span>
             <span>{t("worksCount", { count: totalContentCount })}</span>
@@ -197,7 +197,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
 
           <div className={topCelebsAcrossAllEras.length > 0 ? "md:col-span-8 flex items-center" : "md:col-span-12"}>
             <div className="w-full">
-              <p className="text-sm sm:text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10 whitespace-pre-line">
+              <p className="text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] whitespace-pre-line">
                 {t("crossEraDescription")}
               </p>
             </div>
@@ -222,7 +222,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
           {era.label}
         </h3>
         <p className="text-sm sm:text-base font-cinzel text-accent/80 mb-4">{era.period}</p>
-        <div className="flex items-center justify-center gap-4 text-xs sm:text-sm text-text-secondary">
+        <div className="flex items-center justify-center gap-4 text-sm text-text-secondary">
           <span>{t("figureCount", { count: era.celebCount })}</span>
           <span className="text-accent/30">·</span>
           <span>{t("worksCount", { count: era.contents.length })}</span>
@@ -241,7 +241,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
         {/* 시대 설명 */}
         <div className={era.topCelebs.length > 0 ? "md:col-span-8 flex items-center" : "md:col-span-12"}>
           <div className="w-full">
-            <p className="text-sm sm:text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10">
+            <p className="text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
               {era.description}
             </p>
           </div>
@@ -333,7 +333,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
           <>
             {t("description")}
             <br />
-            <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+            <span className="text-text-tertiary text-sm mt-1 block">
               {t("descriptionSub")}
             </span>
           </>

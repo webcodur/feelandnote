@@ -22,13 +22,13 @@ interface Props {
 const GENDER_OPTIONS: { value: CharacterGender; key: string; color: string }[] = [
   { value: "male", key: "genderMale", color: "bg-blue-500/20 text-blue-400 border-blue-400" },
   { value: "female", key: "genderFemale", color: "bg-pink-500/20 text-pink-400 border-pink-400" },
-  { value: "unknown", key: "genderUnknown", color: "bg-gray-500/20 text-gray-400 border-gray-400" },
+  { value: "unknown", key: "genderUnknown", color: "bg-gray-500/20 text-text-secondary border-gray-400" },
 ];
 
 const GENDER_COLORS = {
   male: "bg-blue-500/10 text-blue-400 border-blue-500/30",
   female: "bg-pink-500/10 text-pink-400 border-pink-500/30",
-  unknown: "bg-gray-500/10 text-gray-400 border-gray-500/30",
+  unknown: "bg-gray-500/10 text-text-secondary border-gray-500/30",
 };
 
 export default function CharacterContent({

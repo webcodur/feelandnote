@@ -30,7 +30,7 @@ export default function TopByTypeGrid({ entries }: TopByTypeGridProps) {
   if (entries.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 max-w-3xl">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 max-w-3xl mx-auto">
       {entries.map((entry) => {
         const config = TYPE_CONFIG[entry.type];
         const Icon = config.icon;

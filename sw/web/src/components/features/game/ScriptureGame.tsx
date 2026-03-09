@@ -53,7 +53,7 @@ export default function ScriptureGame({
         {/* Side ID */}
         {id && (
             <div className="absolute bottom-2 right-2 z-10 hidden sm:block">
-                <span className="text-[6px] font-mono text-gray-500 font-bold tracking-tighter">{id}</span>
+                <span className="text-[6px] font-mono text-text-secondary font-bold tracking-tighter">{id}</span>
             </div>
         )}
 

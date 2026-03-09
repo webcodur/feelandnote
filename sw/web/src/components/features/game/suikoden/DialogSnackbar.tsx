@@ -51,7 +51,7 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-stone-400 text-sm">
+              <div className="w-full h-full flex items-center justify-center text-text-secondary text-sm">
                 {current.characterName[0]}
               </div>
             )}
@@ -65,12 +65,12 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
               </span>
               <button
                 onClick={onDismiss}
-                className="text-stone-500 hover:text-stone-300 text-xs ml-2 shrink-0"
+                className="text-text-secondary hover:text-text-primary text-xs ml-2 shrink-0"
               >
                 ✕
               </button>
             </div>
-            <p className="text-sm text-stone-200 leading-relaxed">
+            <p className="text-sm text-text-primary leading-relaxed">
               {current.message}
             </p>
           </div>
@@ -80,13 +80,13 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-1">
             {queue.length > 1 && (
-              <span className="text-[9px] text-stone-500">
+              <span className="text-[9px] text-text-secondary">
                 {text.dialog.queueCount(queue.length - 1)}
               </span>
             )}
           </div>
           {settings.dialogMode === 'manual' && (
-            <span className="text-[9px] text-stone-600">
+            <span className="text-[9px] text-text-secondary">
               {text.dialog.manualHint}
             </span>
           )}

@@ -60,6 +60,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "today", href: "/explore/today", label: "오늘의 인물" },
       { key: "spotlight", href: "/explore/spotlight", label: "스포트라이트" },
       { key: "feed", href: "/explore/feed", label: "인물 피드" },
+      { key: "directory", href: "/explore/directory", label: "디렉토리" },
     ],
   },
   {

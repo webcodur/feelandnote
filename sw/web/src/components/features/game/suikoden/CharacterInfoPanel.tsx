@@ -57,8 +57,8 @@ type TranslationFn = (key: string, params?: Record<string, any>) => string
 function StatRow({ label, value, color }: { label: string; value: number | string; color?: string }) {
   return (
     <div className="flex items-center justify-between py-0.5">
-      <span className="text-[10px] text-stone-400">{label}</span>
-      <span className={`text-[10px] font-bold tabular-nums ${color ?? 'text-stone-200'}`}>{value}</span>
+      <span className="text-[10px] text-text-secondary">{label}</span>
+      <span className={`text-[10px] font-bold tabular-nums ${color ?? 'text-text-primary'}`}>{value}</span>
     </div>
   )
 }
@@ -73,11 +73,11 @@ function AbilityRow({ statKey, stats, tS }: { statKey: string; stats: Stats; tS:
   const val = stats[statKey as keyof Stats] as number
   return (
     <div className="flex items-center gap-1.5" title={tS(`statDesc.${statKey}`)}>
-      <span className="text-[10px] text-stone-400 w-5 shrink-0">{tS(`stat.${statKey}`)}</span>
+      <span className="text-[10px] text-text-secondary w-5 shrink-0">{tS(`stat.${statKey}`)}</span>
       <div className="flex-1 h-1.5 bg-stone-700 rounded-full overflow-hidden">
         <div className="h-full rounded-full bg-blue-400" style={{ width: `${val}%` }} />
       </div>
-      <span className="text-[10px] font-bold text-stone-200 w-5 text-right tabular-nums">{val}</span>
+      <span className="text-[10px] font-bold text-text-primary w-5 text-right tabular-nums">{val}</span>
     </div>
   )
 }
@@ -86,11 +86,11 @@ function VirtueRow({ statKey, stats, tS }: { statKey: string; stats: Stats; tS: 
   const val = stats[statKey as keyof Stats] as number
   return (
     <div className="flex items-center gap-1" title={tS(`statDesc.${statKey}`)}>
-      <span className="text-[10px] text-stone-400 w-5 shrink-0">{tS(`stat.${statKey}`)}</span>
+      <span className="text-[10px] text-text-secondary w-5 shrink-0">{tS(`stat.${statKey}`)}</span>
       <div className="flex-1 h-1 bg-stone-700 rounded-full overflow-hidden">
         <div className="h-full rounded-full bg-blue-400" style={{ width: `${val}%` }} />
       </div>
-      <span className="text-[10px] text-stone-500 w-4 text-right tabular-nums">{val}</span>
+      <span className="text-[10px] text-text-secondary w-4 text-right tabular-nums">{val}</span>
     </div>
   )
 }
@@ -101,7 +101,7 @@ function DispositionRow({ statKey, stats, tS }: { statKey: string; stats: Stats;
   const pct = ((val + 50) / 100) * 100
   return (
     <div className="flex items-center gap-1">
-      <span className="text-[9px] text-stone-500 w-6 text-right shrink-0">{tS(`disp.${dispKey}.neg`)}</span>
+      <span className="text-[9px] text-text-secondary w-6 text-right shrink-0">{tS(`disp.${dispKey}.neg`)}</span>
       <div className="flex-1 h-1.5 bg-stone-700 rounded-full overflow-hidden relative">
         <div className="absolute left-1/2 top-0 w-px h-full bg-stone-600" />
         <div
@@ -109,7 +109,7 @@ function DispositionRow({ statKey, stats, tS }: { statKey: string; stats: Stats;
           style={{ left: `calc(${pct}% - 3px)` }}
         />
       </div>
-      <span className="text-[9px] text-stone-500 w-6 shrink-0">{tS(`disp.${dispKey}.pos`)}</span>
+      <span className="text-[9px] text-text-secondary w-6 shrink-0">{tS(`disp.${dispKey}.pos`)}</span>
     </div>
   )
 }
@@ -120,7 +120,7 @@ function AbilityTab({ stats, tS }: { stats: Stats; tS: TranslationFn }) {
   return (
     <div className="space-y-2">
       <div>
-        <div className="text-[9px] text-stone-500 font-medium mb-1">{tS('charInfo.sectionAbility')}</div>
+        <div className="text-[9px] text-text-secondary font-medium mb-1">{tS('charInfo.sectionAbility')}</div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
           {ABILITY_STAT_KEYS.map(key => (
             <AbilityRow key={key} statKey={key} stats={stats} tS={tS} />
@@ -128,7 +128,7 @@ function AbilityTab({ stats, tS }: { stats: Stats; tS: TranslationFn }) {
         </div>
       </div>
       <div>
-        <div className="text-[9px] text-stone-500 font-medium mb-1">{tS('charInfo.sectionVirtue')}</div>
+        <div className="text-[9px] text-text-secondary font-medium mb-1">{tS('charInfo.sectionVirtue')}</div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
           {VIRTUE_STAT_KEYS.map(key => (
             <VirtueRow key={key} statKey={key} stats={stats} tS={tS} />
@@ -136,7 +136,7 @@ function AbilityTab({ stats, tS }: { stats: Stats; tS: TranslationFn }) {
         </div>
       </div>
       <div>
-        <div className="text-[9px] text-stone-500 font-medium mb-1">{tS('charInfo.sectionDisposition')}</div>
+        <div className="text-[9px] text-text-secondary font-medium mb-1">{tS('charInfo.sectionDisposition')}</div>
         <div className="space-y-1">
           {DISPOSITION_KEYS.map(key => (
             <DispositionRow key={key} statKey={key} stats={stats} tS={tS} />
@@ -152,10 +152,10 @@ function AbilityTab({ stats, tS }: { stats: Stats; tS: TranslationFn }) {
 function BioTab({ char, tS }: { char: GameCharacter; tS: TranslationFn }) {
   return (
     <div className="space-y-2">
-      {char.bio && <p className="text-[10px] text-stone-400 leading-relaxed">{char.bio}</p>}
-      {char.quotes && <p className="text-[10px] italic text-stone-500">{char.quotes}</p>}
+      {char.bio && <p className="text-[10px] text-text-secondary leading-relaxed">{char.bio}</p>}
+      {char.quotes && <p className="text-[10px] italic text-text-secondary">{char.quotes}</p>}
       {!char.bio && !char.quotes && (
-        <p className="text-[10px] text-stone-600 text-center py-4">{tS('charInfo.noBio')}</p>
+        <p className="text-[10px] text-text-secondary text-center py-4">{tS('charInfo.noBio')}</p>
       )}
     </div>
   )
@@ -195,7 +195,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
   if (!char) {
     return (
       <div className="p-4 opacity-40">
-        <p className="text-[10px] text-stone-600 text-center py-6">{tS('charInfo.selectCharPrompt')}</p>
+        <p className="text-[10px] text-text-secondary text-center py-6">{tS('charInfo.selectCharPrompt')}</p>
       </div>
     )
   }
@@ -228,14 +228,14 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
             <span className="text-sm font-bold text-stone-100 truncate">{char.nickname}</span>
             <span className="text-[10px] font-bold" style={{ color: GRADE_COLORS[char.grade] }}>{char.grade}</span>
           </div>
-          <p className="text-[10px] text-stone-400">{char.title}</p>
-          <p className="text-[10px] text-stone-500">
+          <p className="text-[10px] text-text-secondary">{char.title}</p>
+          <p className="text-[10px] text-text-secondary">
             {CLASS_INFO[char.unitClass].icon} {tS(`class.${char.unitClass}`)}
             {props.badge && <span className="ml-1 text-amber-400">· {props.badge}</span>}
           </p>
         </div>
         {props.onClose && (
-          <button onClick={props.onClose} className="text-stone-600 hover:text-stone-400 text-sm shrink-0">✕</button>
+          <button onClick={props.onClose} className="text-text-secondary hover:text-text-secondary text-sm shrink-0">✕</button>
         )}
       </div>
 
@@ -248,7 +248,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
             className={`shrink-0 px-2 py-1.5 text-[10px] font-medium transition-colors ${
               tab === t.key
                 ? 'text-amber-400 border-b border-amber-400'
-                : 'text-stone-500 hover:text-stone-300'
+                : 'text-text-secondary hover:text-text-primary'
             }`}
           >
             {t.label}
@@ -263,11 +263,11 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
         {tab === 'status' && !isReadonly && placement && (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] text-stone-400">{tS('charInfo.taskLabel')}</span>
+              <span className="text-[10px] text-text-secondary">{tS('charInfo.taskLabel')}</span>
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold text-stone-200">{taskText}{bDef ? ` — ${tS(`bldg.${bDef.id}`)}` : ''}</span>
+                <span className="text-[10px] font-bold text-text-primary">{taskText}{bDef ? ` — ${tS(`bldg.${bDef.id}`)}` : ''}</span>
                 {placement.task !== 'idle' && (
-                  <button onClick={props.onIdle} className="px-1.5 py-0.5 bg-stone-700 rounded text-stone-400 hover:bg-stone-600 text-[9px]">
+                  <button onClick={props.onIdle} className="px-1.5 py-0.5 bg-stone-700 rounded text-text-secondary hover:bg-stone-600 text-[9px]">
                     {tS('charInfo.stopTask')}
                   </button>
                 )}
@@ -284,12 +284,12 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
             )}
             <div className="pt-1 space-y-1.5">
               {placement.task === 'idle' && hasTrainingGround && (
-                <button onClick={props.onTrain} className="w-full py-1.5 text-xs text-stone-300 bg-stone-700 rounded hover:bg-stone-600">
+                <button onClick={props.onTrain} className="w-full py-1.5 text-xs text-text-primary bg-stone-700 rounded hover:bg-stone-600">
                   {tS('charInfo.startTraining')}
                 </button>
               )}
               {placement.task === 'idle' && !hasTrainingGround && (
-                <p className="text-[9px] text-stone-600 text-center">{tS('charInfo.trainingHint')}</p>
+                <p className="text-[9px] text-text-secondary text-center">{tS('charInfo.trainingHint')}</p>
               )}
               {!isLeader && (
                 <div className="flex gap-1">
@@ -314,7 +314,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
 
         {tab === 'relation' && (
           <div className="py-4">
-            <p className="text-[10px] text-stone-600 text-center">{tS('charInfo.preparing')}</p>
+            <p className="text-[10px] text-text-secondary text-center">{tS('charInfo.preparing')}</p>
           </div>
         )}
 
@@ -343,8 +343,8 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
               return (
                 <div key={key} className="space-y-0.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-stone-400">{icons[key]} {tS(`equip.${key}`)}</span>
-                    <span className="text-[10px] text-stone-200">{val.toLocaleString()}/{max.toLocaleString()}</span>
+                    <span className="text-[10px] text-text-secondary">{icons[key]} {tS(`equip.${key}`)}</span>
+                    <span className="text-[10px] text-text-primary">{val.toLocaleString()}/{max.toLocaleString()}</span>
                   </div>
                   <div className="h-1 bg-stone-700 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-500/70 rounded-full" style={{ width: `${Math.min(100, val / max * 100)}%` }} />

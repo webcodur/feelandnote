@@ -77,7 +77,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         unstyled
         type="button"
         onClick={handleCollapse}
-        className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white"
+        className="flex items-center gap-2 text-sm text-text-secondary hover:text-white"
       >
         <ArrowLeft className="h-4 w-4" />
         <span>{t('otherMethods')}</span>
@@ -106,7 +106,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
             unstyled
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute top-1/2 right-3 -translate-y-1/2 text-zinc-400 hover:text-white"
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary hover:text-white"
           >
             {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
           </Button>
@@ -121,7 +121,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
           onChange={(e) => setSaveEmail(e.target.checked)}
           className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-accent focus:ring-accent focus:ring-offset-0"
         />
-        <span className="text-sm text-zinc-400">{t('saveEmail')}</span>
+        <span className="text-sm text-text-secondary">{t('saveEmail')}</span>
       </label>
 
       {state?.error && (
@@ -136,7 +136,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         {isPending ? t('loggingIn') : t('submit')}
       </Button>
 
-      <p className="text-center text-sm text-zinc-500">
+      <p className="text-center text-sm text-text-secondary">
         {t('noAccount')}{' '}
         <Link href="/signup" className="text-accent hover:underline">
           {t('signupLink')}

@@ -75,15 +75,15 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
       const results = disp.results
       return (
         <div className="space-y-4">
-          <h2 className="text-center text-lg font-bold text-stone-200">{text.disposition.summaryTitle}</h2>
+          <h2 className="text-center text-lg font-bold text-text-primary">{text.disposition.summaryTitle}</h2>
           <div className="space-y-1.5">
             {results.map((r, i) => (
             <div key={i} className="flex items-center justify-between p-2 bg-stone-800 border border-stone-700 rounded text-xs">
-              <span className="text-stone-200">{r.characterName}</span>
+              <span className="text-text-primary">{r.characterName}</span>
               <span className={
                 r.action === 'recruit' && r.success ? 'text-blue-400' :
-                r.action === 'recruit' && !r.success ? 'text-stone-500' :
-                r.action === 'imprison' ? 'text-stone-400' :
+                r.action === 'recruit' && !r.success ? 'text-text-secondary' :
+                r.action === 'imprison' ? 'text-text-secondary' :
                 r.action === 'execute' ? 'text-red-400' :
                 'text-green-400'
               }>
@@ -112,8 +112,8 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
   return (
     <div className="space-y-4">
       {/* 진행 표시 */}
-      <div className="flex items-center justify-between text-xs text-stone-400">
-        <span className="font-bold text-stone-200">{text.disposition.title}</span>
+      <div className="flex items-center justify-between text-xs text-text-secondary">
+        <span className="font-bold text-text-primary">{text.disposition.title}</span>
         <span>{disp.currentIndex + 1} / {disp.targets.length}</span>
       </div>
 
@@ -132,17 +132,17 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
               <CharacterPortrait character={char} size={48} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-stone-200">{char.nickname}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 bg-stone-700 rounded text-stone-400">{char.grade}</span>
+                  <span className="text-sm font-bold text-text-primary">{char.nickname}</span>
+                  <span className="text-[10px] px-1.5 py-0.5 bg-stone-700 rounded text-text-secondary">{char.grade}</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] text-stone-500 mt-0.5">
+                <div className="flex items-center gap-2 text-[10px] text-text-secondary mt-0.5">
                   <span>{tS(`class.${char.unitClass}`)}</span>
                   <span>{char.title}</span>
                 </div>
                 {originFaction && (
                   <div className="flex items-center gap-1.5 mt-1 text-[10px]">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: originFaction.color }} />
-                    <span className="text-stone-500">{stripSuikodenFactionSuffix(originFaction.name)}</span>
+                    <span className="text-text-secondary">{stripSuikodenFactionSuffix(originFaction.name)}</span>
                   </div>
                 )}
               </div>
@@ -152,21 +152,21 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
             <div className="grid grid-cols-4 gap-2 text-[10px]">
               {(['command', 'martial', 'intellect', 'charm'] as const).map(stat => (
                 <div key={stat} className="text-center">
-                  <div className="text-stone-500">{tS(`stat.${stat}`)}</div>
-                  <div className="text-stone-300 font-bold">{char.stats[stat]}</div>
+                  <div className="text-text-secondary">{tS(`stat.${stat}`)}</div>
+                  <div className="text-text-primary font-bold">{char.stats[stat]}</div>
                 </div>
               ))}
             </div>
 
             {/* 충성도/충의 */}
             <div className="flex items-center gap-4 text-[10px]">
-              <span className="text-stone-500">{text.disposition.loyaltyValue} <span className="text-stone-300">{char.loyaltyValue}</span></span>
-              <span className="text-stone-500">{text.disposition.loyaltyVirtue} <span className="text-stone-300">{char.stats.loyalty}</span></span>
+              <span className="text-text-secondary">{text.disposition.loyaltyValue} <span className="text-text-primary">{char.loyaltyValue}</span></span>
+              <span className="text-text-secondary">{text.disposition.loyaltyVirtue} <span className="text-text-primary">{char.stats.loyalty}</span></span>
             </div>
 
             {/* 등용 성공률 */}
             <div className="flex items-center gap-2">
-              <span className="text-[10px] text-stone-500">{text.disposition.recruitRate}</span>
+              <span className="text-[10px] text-text-secondary">{text.disposition.recruitRate}</span>
               <div className="flex-1 h-2 bg-stone-700 rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full bg-blue-500"
@@ -189,7 +189,7 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
                   className={`py-2.5 rounded text-sm text-stone-100 font-bold transition-colors disabled:opacity-40 ${info.color}`}
                 >
                   <div>{info.label}</div>
-                  <div className="text-[9px] font-normal text-stone-300/70 mt-0.5">{info.desc}</div>
+                  <div className="text-[9px] font-normal text-text-primary/70 mt-0.5">{info.desc}</div>
                 </button>
               )
             })}

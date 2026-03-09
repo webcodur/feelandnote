@@ -1,8 +1,8 @@
 {
   "celebPage": {
     "intro": "인물 소개",
-    "library": "기록 서고",
-    "libraryEmpty": "아직 공개된 기록의 서고가 비어있습니다.",
+    "library": "기록 서가",
+    "libraryEmpty": "아직 공개된 기록의 서가가 비어있습니다.",
     "analysis": "인물 분석",
     "guestbook": "방명록",
     "philosophy": "감상 철학",

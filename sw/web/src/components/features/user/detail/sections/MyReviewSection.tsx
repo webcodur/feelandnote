@@ -53,7 +53,7 @@ export default function MyReviewSection({
                   key={star}
                   onClick={() => handleRatingChange(star)}
                   className={`text-lg ${
-                    (reviewRating ?? 0) >= star ? "text-yellow-400" : "text-gray-600 hover:text-yellow-400/50"
+                    (reviewRating ?? 0) >= star ? "text-yellow-400" : "text-text-secondary hover:text-yellow-400/50"
                   }`}
                 >
                   ★
@@ -65,7 +65,7 @@ export default function MyReviewSection({
         </div>
         <div className="p-3">
           <textarea
-            className="w-full h-40 bg-black/20 border border-border rounded-lg p-2.5 text-text-primary text-sm resize-y outline-none mb-3 font-sans focus:border-accent placeholder:text-text-secondary"
+            className="w-full h-40 bg-black/20 border border-border rounded-lg p-2.5 text-text-primary text-sm resize-y outline-none mb-3 font-sans focus:border-accent placeholder:text-zinc-500"
             placeholder={t("placeholder")}
             value={reviewText}
             onChange={(e) => onReviewTextChange(e.target.value)}

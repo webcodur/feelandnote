@@ -133,6 +133,10 @@ const BORDER_COLOR = 'rgba(120,113,108,0.3)'
 const DOT_NEUTRAL = '#57534e'
 const GLOW_COLOR = '#fbbf24'
 
+// 거점/대륙 룩업 맵 (한 번만 계산)
+const TERRITORY_MAP = new Map(TERRITORIES.map(t => [t.id, t]))
+const REGION_MAP = new Map(REGIONS.map(r => [r.id, r]))
+
 // 인접 엣지 집합 (한 번만 계산)
 const EDGES: [TerritoryId, TerritoryId][] = []
 const _seen = new Set<string>()
@@ -176,6 +180,7 @@ export default function WorldMapView({
   const dragStartRef = useRef({ x: 0, y: 0, r0: 0, r1: 0 })
   const rafRef = useRef<number>(0)
   const sizeRef = useRef({ w: 500, h: 400 })
+  const canvasSizedRef = useRef({ w: 0, h: 0 })
   const pulseRef = useRef(0)
   const animatingRef = useRef(false)
 
@@ -197,12 +202,20 @@ export default function WorldMapView({
     state.factions.find(f => f.territories.some(t => t.id === tId)) ?? null
   , [state.factions])
 
-  // ── TopoJSON 로드 ──
+  // ── TopoJSON 로드 + 파생 데이터 캐싱 ──
+  const countriesRef = useRef<GeoJSON.FeatureCollection | null>(null)
+  const meshRef = useRef<GeoJSON.MultiLineString | null>(null)
   const initialFocusDone = useRef(false)
   useEffect(() => {
     fetch('/data/world-110m.json')
       .then(r => r.json())
-      .then((data: TopoData) => setTopoData(data))
+      .then((data: TopoData) => {
+        countriesRef.current = topojson.feature(
+          data, data.objects.countries
+        ) as unknown as GeoJSON.FeatureCollection
+        meshRef.current = topojson.mesh(data, data.objects.countries) as unknown as GeoJSON.MultiLineString
+        setTopoData(data)
+      })
       .catch(() => {})
   }, [])
 
@@ -212,13 +225,13 @@ export default function WorldMapView({
     initialFocusDone.current = true
 
     if (phase === 'wandering' && currentRegionId) {
-      const region = REGIONS.find(r => r.id === currentRegionId)
+      const region = REGION_MAP.get( currentRegionId)
       if (region) {
         const [lat, lng] = region.latlng
         rotationRef.current = [-lng, -lat]
       }
     } else if (phase === 'strategy' && viewingTerritoryId) {
-      const t = TERRITORIES.find(tt => tt.id === viewingTerritoryId)
+      const t = TERRITORY_MAP.get( viewingTerritoryId)
       if (t) {
         const [lat, lng] = t.latlng
         rotationRef.current = [-lng, -lat]
@@ -229,7 +242,7 @@ export default function WorldMapView({
   // ── focusTerritoryId 변경 시 지구본 회전 ──
   useEffect(() => {
     if (!focusTerritoryId) return
-    const t = TERRITORIES.find(tt => tt.id === focusTerritoryId)
+    const t = TERRITORY_MAP.get( focusTerritoryId)
     if (!t) return
     const [lat, lng] = t.latlng
     rotationRef.current = [-lng, -lat]
@@ -247,10 +260,14 @@ export default function WorldMapView({
 
     const { w, h } = sizeRef.current
     const dpr = window.devicePixelRatio || 1
-    canvas.width = w * dpr
-    canvas.height = h * dpr
-    canvas.style.width = `${w}px`
-    canvas.style.height = `${h}px`
+    // canvas 크기는 변경 시에만 재설정 (매 프레임 재설정 방지)
+    if (canvasSizedRef.current.w !== w || canvasSizedRef.current.h !== h) {
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      canvasSizedRef.current = { w, h }
+    }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
     const rotation = rotationRef.current
@@ -277,11 +294,9 @@ export default function WorldMapView({
     ctx.lineWidth = 1
     ctx.stroke()
 
-    // 대륙 — country 단위 fill
-    const countries = topojson.feature(
-      topoData,
-      topoData.objects.countries
-    ) as unknown as GeoJSON.FeatureCollection
+    // 대륙 — country 단위 fill (캐싱된 FeatureCollection 사용)
+    const countries = countriesRef.current
+    if (!countries) return
 
     const activeRSet = state.activeRegionIds.length > 0 ? new Set(state.activeRegionIds) : null
     for (const feat of countries.features) {
@@ -320,11 +335,10 @@ export default function WorldMapView({
       ctx.stroke()
     }
 
-    // 대륙 외곽선
-    {
-      const merged = topojson.mesh(topoData, topoData.objects.countries)
+    // 대륙 외곽선 (캐싱된 mesh 사용)
+    if (meshRef.current) {
       ctx.beginPath()
-      path(merged)
+      path(meshRef.current)
       ctx.strokeStyle = 'rgba(168,162,158,0.2)'
       ctx.lineWidth = 0.3
       ctx.stroke()
@@ -335,8 +349,8 @@ export default function WorldMapView({
     const playerTerritoryIds = new Set(playerFaction?.territories.map(t => t.id) ?? [])
     for (const [from, to] of EDGES) {
       if (activeTSet && (!activeTSet.has(from) || !activeTSet.has(to))) continue
-      const tFrom = TERRITORIES.find(t => t.id === from)!
-      const tTo = TERRITORIES.find(t => t.id === to)!
+      const tFrom = TERRITORY_MAP.get( from)!
+      const tTo = TERRITORY_MAP.get( to)!
 
       if (!isPointVisible(tFrom.latlng, rotation) && !isPointVisible(tTo.latlng, rotation)) continue
 
@@ -489,7 +503,7 @@ export default function WorldMapView({
     }
 
     for (const tId of playerTerritoryIds) {
-      const tDef = TERRITORIES.find(t => t.id === tId)
+      const tDef = TERRITORY_MAP.get( tId)
       if (!tDef || !isPointVisible(tDef.latlng, rotation)) continue
       const pos = projection([tDef.latlng[1], tDef.latlng[0]])
       if (!pos) continue
@@ -506,7 +520,7 @@ export default function WorldMapView({
     // ── 깃발: 현재 살펴보는 거점 ──
     const flagTerritoryId = selectedTerritoryId ?? viewingTerritoryId
     if (flagTerritoryId) {
-      const ft = TERRITORIES.find(t => t.id === flagTerritoryId)
+      const ft = TERRITORY_MAP.get( flagTerritoryId)
       if (ft && isPointVisible(ft.latlng, rotation)) {
         const fpos = projection([ft.latlng[1], ft.latlng[0]])
         if (fpos) {
@@ -541,14 +555,14 @@ export default function WorldMapView({
 
       // 호버 거점 정보
       if (hoverTerritory) {
-        const ht = TERRITORIES.find(t => t.id === hoverTerritory)
+        const ht = TERRITORY_MAP.get( hoverTerritory)
         if (ht) {
           const hOwner = getOwner(ht.id)
           const ownerText = ownerLabelText(hOwner, hOwner?.id === playerFactionId)
           hudLines.push({ label: text.map.territory, value: `${territoryLabel(ht.id)} · ${ownerText}`, color: '#a8a29e' })
         }
       } else if (hoverRegion) {
-        const hr = REGIONS.find(r => r.id === hoverRegion)
+        const hr = REGION_MAP.get( hoverRegion)
         if (hr) hudLines.push({ label: text.map.continent, value: regionLabel(hr.id), color: '#a8a29e' })
       }
 
@@ -612,7 +626,7 @@ export default function WorldMapView({
       if (isHovered) {
         for (const neighborId of region.neighbors) {
           if (state.activeRegionIds.length > 0 && !state.activeRegionIds.includes(neighborId)) continue
-          const neighbor = REGIONS.find(r => r.id === neighborId)
+          const neighbor = REGION_MAP.get( neighborId)
           if (!neighbor) continue
           if (!isPointVisible(neighbor.latlng, rotation)) continue
           const nPos = projection(neighbor.latlng.slice().reverse() as [number, number])
@@ -688,7 +702,7 @@ export default function WorldMapView({
 
     // ── 대륙 이름: 지도 상단 중앙 ──
     if (hoverRegion) {
-      const hr = REGIONS.find(r => r.id === hoverRegion)
+      const hr = REGION_MAP.get( hoverRegion)
       if (hr) {
         ctx.font = 'bold 11px sans-serif'
         const label = regionLabel(hr.id)
@@ -776,7 +790,7 @@ export default function WorldMapView({
     let lastTime = 0
     const tick = (time: number) => {
       if (!animatingRef.current) return
-      if (time - lastTime > 33) {
+      if (time - lastTime > 50) {
         pulseRef.current = (time % 2000) / 2000
         renderFrame()
         lastTime = time
@@ -893,10 +907,9 @@ export default function WorldMapView({
     const coords = projection.invert?.([mx, my])
     if (!coords) return null
 
-    const countryFeatures = topojson.feature(
-      topoData, topoData.objects.countries
-    ) as unknown as GeoJSON.FeatureCollection
-    for (const feat of countryFeatures.features) {
+    const cf = countriesRef.current
+    if (!cf) return null
+    for (const feat of cf.features) {
       if (d3.geoContains(feat, coords)) {
         return COUNTRY_TO_REGION[String(feat.id ?? '')] ?? null
       }
@@ -916,7 +929,7 @@ export default function WorldMapView({
       setHoverRegion(regionHit)
     } else {
       // 거점 hover 중엔 해당 거점의 대륙
-      const t = TERRITORIES.find(tt => tt.id === hit)
+      const t = TERRITORY_MAP.get( hit)
       setHoverRegion(t?.regionId ?? null)
     }
   }, [getHitTerritory, getHitRegion])
@@ -958,11 +971,9 @@ export default function WorldMapView({
         const coords = projection.invert?.([mx, my])
         if (!coords || !topoData) return
 
-        const countryFeatures = topojson.feature(
-          topoData,
-          topoData.objects.countries
-        ) as unknown as GeoJSON.FeatureCollection
-        for (const feat of countryFeatures.features) {
+        const cf = countriesRef.current
+        if (!cf) return
+        for (const feat of cf.features) {
           if (d3.geoContains(feat, coords)) {
             const regionId = COUNTRY_TO_REGION[String(feat.id ?? '')]
             if (regionId) onSelectRegion(regionId)
@@ -977,13 +988,13 @@ export default function WorldMapView({
   const handleReset = useCallback(() => {
     // 내 현재 위치로 복귀
     if (phase === 'wandering' && currentRegionId) {
-      const region = REGIONS.find(r => r.id === currentRegionId)
+      const region = REGION_MAP.get( currentRegionId)
       if (region) {
         const [lat, lng] = region.latlng
         rotationRef.current = [-lng, -lat]
       }
     } else if (phase === 'strategy' && viewingTerritoryId) {
-      const t = TERRITORIES.find(tt => tt.id === viewingTerritoryId)
+      const t = TERRITORY_MAP.get( viewingTerritoryId)
       if (t) {
         const [lat, lng] = t.latlng
         rotationRef.current = [-lng, -lat]
@@ -1007,7 +1018,7 @@ export default function WorldMapView({
             cancelAnimationFrame(rafRef.current)
             rafRef.current = requestAnimationFrame(renderFrame)
           }}
-          className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-stone-300 hover:bg-stone-700 hover:text-white text-sm font-bold flex items-center justify-center"
+          className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-text-primary hover:bg-stone-700 hover:text-white text-sm font-bold flex items-center justify-center"
           title={text.map.zoomIn}
         >+</button>
         <button
@@ -1016,17 +1027,17 @@ export default function WorldMapView({
             cancelAnimationFrame(rafRef.current)
             rafRef.current = requestAnimationFrame(renderFrame)
           }}
-          className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-stone-300 hover:bg-stone-700 hover:text-white text-sm font-bold flex items-center justify-center"
+          className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-text-primary hover:bg-stone-700 hover:text-white text-sm font-bold flex items-center justify-center"
           title={text.map.zoomOut}
         >−</button>
         <button
           onClick={handleReset}
-          className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-stone-400 hover:bg-stone-700 hover:text-white text-[9px] font-bold flex items-center justify-center"
+          className="w-6 h-6 bg-stone-800/90 border border-stone-600 rounded text-text-secondary hover:bg-stone-700 hover:text-white text-[9px] font-bold flex items-center justify-center"
           title={text.map.reset}
         >↺</button>
       </div>
 
-      <div className="absolute top-2 left-2 z-10 text-[9px] text-stone-600 pointer-events-none">
+      <div className="absolute top-2 left-2 z-10 text-[9px] text-text-secondary pointer-events-none">
         {text.map.controls}
       </div>
 

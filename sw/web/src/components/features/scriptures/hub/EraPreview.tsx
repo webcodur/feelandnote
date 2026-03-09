@@ -13,6 +13,13 @@ interface EraCeleb {
   title: string | null;
 }
 
+interface EraContent {
+  id: string;
+  title: string;
+  thumbnail_url: string | null;
+  type: string;
+}
+
 interface EraData {
   era: string;
   label: string;
@@ -21,6 +28,7 @@ interface EraData {
   celebCount: number;
   contentCount: number;
   topCelebs: EraCeleb[];
+  topContents?: EraContent[];
 }
 
 interface EraPreviewProps {
@@ -135,6 +143,23 @@ export default function EraPreview({ eras }: EraPreviewProps) {
               <p className="text-sm text-white/70 leading-relaxed line-clamp-2 break-keep min-h-[40px]">
                 {era.description}
               </p>
+
+              {/* 대표 콘텐츠 */}
+              {era.topContents && era.topContents.length > 0 && (
+                <div className="flex gap-1.5 w-full">
+                  {era.topContents.slice(0, 3).map((c) => (
+                    <div key={c.id} className="flex-1 aspect-[2/3] rounded-lg overflow-hidden bg-white/5 border border-white/[0.08]">
+                      {c.thumbnail_url ? (
+                        <img src={c.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <BookOpen size={14} className="text-white/20" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* 하단 통계 + 화살표 */}
               <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/[0.08]">

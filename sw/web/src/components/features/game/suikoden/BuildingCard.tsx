@@ -49,8 +49,8 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
       <div className="flex items-center gap-1.5">
         <span className="text-base">{bDef.icon}</span>
         <div className="flex-1 min-w-0">
-          <div className="text-[11px] font-bold text-stone-200 truncate">{tS(`bldg.${bDef.id}`)}</div>
-          <div className="text-[9px] text-stone-500">{effectLines.join(' · ')}</div>
+          <div className="text-[11px] font-bold text-text-primary truncate">{tS(`bldg.${bDef.id}`)}</div>
+          <div className="text-[9px] text-text-secondary">{effectLines.join(' · ')}</div>
         </div>
       </div>
 
@@ -60,11 +60,11 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
           {character ? (
             <>
               <CharacterPortrait character={character} size={18} />
-              <span className="text-[10px] text-stone-300 truncate flex-1">{character.nickname}</span>
+              <span className="text-[10px] text-text-primary truncate flex-1">{character.nickname}</span>
               {onUnassign && (
                 <button
                   onClick={onUnassign}
-                  className="text-[9px] text-stone-500 hover:text-red-400 px-1"
+                  className="text-[9px] text-text-secondary hover:text-red-400 px-1"
                   title={tS('mgmt.unassign')}
                 >
                   ✕
@@ -75,7 +75,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
             onAssign && (
               <button
                 onClick={onAssign}
-                className="w-full text-[10px] text-stone-500 hover:text-amber-400 py-0.5 border border-dashed border-stone-600 rounded"
+                className="w-full text-[10px] text-text-secondary hover:text-amber-400 py-0.5 border border-dashed border-stone-600 rounded"
               >
                 {tS('mgmt.assignWorker')}
               </button>
@@ -88,7 +88,7 @@ export default function BuildingCard({ card, character, onAssign, onUnassign, on
       {!card.isConstructing && onDemolish && (
         <button
           onClick={onDemolish}
-          className="absolute top-1 right-1 text-[9px] text-stone-600 hover:text-red-400"
+          className="absolute top-1 right-1 text-[9px] text-text-secondary hover:text-red-400"
           title={tS('mgmt.demolish')}
         >
           🗑️

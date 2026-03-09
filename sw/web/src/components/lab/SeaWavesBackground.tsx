@@ -296,10 +296,10 @@ export default function SeaWavesBackground() {
     <div className="relative w-full h-[600px] overflow-hidden rounded-xl border border-slate-800 shadow-2xl bg-[#020617]">
       {/* 텍스트 오버레이 */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none select-none mix-blend-overlay">
-        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-slate-200 tracking-[0.2em] drop-shadow-[0_0_15px_rgba(100,200,255,0.5)]">
+        <h2 className="text-4xl md:text-6xl font-cinzel font-bold text-text-primary tracking-[0.2em] drop-shadow-[0_0_15px_rgba(100,200,255,0.5)]">
           ABYSS
         </h2>
-        <p className="mt-4 text-sm md:text-base text-slate-400 tracking-[0.5em] uppercase opacity-80">
+        <p className="mt-4 text-sm md:text-base text-text-secondary tracking-[0.5em] uppercase opacity-80">
           The Silent Depths
         </p>
       </div>

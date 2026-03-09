@@ -155,7 +155,13 @@
       "navTopByType": "Ranking",
       "navPersona": "Persona",
       "navFeed": "Feed",
-      "navSpotlight": "Spotlight"
+      "navSpotlight": "Spotlight",
+      "navDirectory": "Directory"
+    },
+    "directory": {
+      "metaTitle": "Full Figure Directory | Explore",
+      "metaDescription": "Browse the complete directory of historical and contemporary figures, organized alphabetically.",
+      "totalCount": "{count} figures in total"
     },
     "celebFeed": {
       "metaTitle": "Feed | Explore",

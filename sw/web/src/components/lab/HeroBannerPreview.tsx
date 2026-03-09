@@ -22,7 +22,7 @@ import HegemonyMapBanner from "./HegemonyMapBanner";
 const demoOverlay = (
   <>
     <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight text-center">
-      지혜의 서고
+      지혜의 서가
     </h2>
     <p className="text-[#d4af37] tracking-[0.2em] sm:tracking-[0.4em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
       Scripture of Wisdom

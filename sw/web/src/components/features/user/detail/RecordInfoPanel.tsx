@@ -20,7 +20,7 @@ export { STATUS_STYLES };
 const VISIBILITY_OPTIONS: { value: VisibilityType; labelKey: string; icon: typeof Globe; class: string }[] = [
   { value: "public", labelKey: "visibilityPublic", icon: Globe, class: "text-green-400" },
   { value: "followers", labelKey: "visibilityFollowers", icon: Users, class: "text-blue-400" },
-  { value: "private", labelKey: "visibilityPrivate", icon: Lock, class: "text-gray-400" },
+  { value: "private", labelKey: "visibilityPrivate", icon: Lock, class: "text-text-secondary" },
 ];
 
 export function formatDate(dateStr: string) {

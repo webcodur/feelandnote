@@ -70,7 +70,7 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-zinc-800 text-zinc-400">
+                    <div className="w-full h-full flex items-center justify-center bg-zinc-800 text-text-secondary">
                       <User size={20} />
                     </div>
                   )}

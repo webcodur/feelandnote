@@ -42,12 +42,12 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">{tS('setup.back')}</button>
-          <h2 className="text-lg font-bold text-stone-200">{tS('setup.selectScenario')}</h2>
+          <button onClick={onBack} className="text-text-secondary hover:text-text-primary text-sm">{tS('setup.back')}</button>
+          <h2 className="text-lg font-bold text-text-primary">{tS('setup.selectScenario')}</h2>
           <div />
         </div>
 
-        <div className="text-center text-xs text-stone-600 space-y-1">
+        <div className="text-center text-xs text-text-secondary space-y-1">
           <p>{tS('setup.scenarioHint1')}</p>
           <p>{tS('setup.scenarioHint2')}</p>
         </div>
@@ -65,15 +65,15 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                   <div className="text-2xl flex-shrink-0 mt-0.5">{ERA_ICONS[scenario.era]}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-stone-200 font-bold group-hover:text-amber-300 transition-colors">
+                      <span className="text-text-primary font-bold group-hover:text-amber-300 transition-colors">
                         {tS(`scenario.${scenario.id}.name`)}
                       </span>
                       <span className={`text-[10px] font-bold ${dc}`}>{tS(`setup.diff${scenario.difficulty.charAt(0).toUpperCase()}${scenario.difficulty.slice(1)}` as 'setup.diffEasy')}</span>
-                      <span className="text-[10px] text-stone-600">{tS(`era.${scenario.era}`)}</span>
+                      <span className="text-[10px] text-text-secondary">{tS(`era.${scenario.era}`)}</span>
                     </div>
-                    <p className="text-xs text-stone-400 mt-0.5">{tS(`scenario.${scenario.id}.subtitle`)}</p>
-                    <p className="text-[11px] text-stone-600 mt-1.5 leading-relaxed">{tS(`scenario.${scenario.id}.desc`)}</p>
-                    <div className="flex items-center gap-3 mt-2 text-[10px] text-stone-500">
+                    <p className="text-xs text-text-secondary mt-0.5">{tS(`scenario.${scenario.id}.subtitle`)}</p>
+                    <p className="text-[11px] text-text-secondary mt-1.5 leading-relaxed">{tS(`scenario.${scenario.id}.desc`)}</p>
+                    <div className="flex items-center gap-3 mt-2 text-[10px] text-text-secondary">
                       <span>{tS('setup.lordCount', { count: scenario.playerCandidates.length })}</span>
                       <span>{tS('setup.aiFactionCount', { count: scenario.aiFactions.length })}</span>
                       <span>{tS('setup.wandererCount', { count: scenario.wandererIds.length })}</span>
@@ -92,9 +92,9 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <button onClick={onBack} className="text-stone-500 hover:text-stone-300 text-sm">{tS('setup.back')}</button>
-        <h2 className="text-lg font-bold text-stone-200">{tS('setup.selectLord')}</h2>
-        <div className="text-xs text-stone-600">
+        <button onClick={onBack} className="text-text-secondary hover:text-text-primary text-sm">{tS('setup.back')}</button>
+        <h2 className="text-lg font-bold text-text-primary">{tS('setup.selectLord')}</h2>
+        <div className="text-xs text-text-secondary">
           {ERA_ICONS[worldPreview.era]} {tS(`era.${worldPreview.era}`)}
           {' · '}
           <span className={DIFFICULTY_COLORS[worldPreview.difficulty]}>
@@ -106,7 +106,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* 좌: AI 세력 미리보기 */}
         <div className="space-y-2">
-          <div className="text-xs text-stone-500 font-bold">{tS('setup.existingFactions')} ({worldPreview.aiFactions.length})</div>
+          <div className="text-xs text-text-secondary font-bold">{tS('setup.existingFactions')} ({worldPreview.aiFactions.length})</div>
           <div className="space-y-1.5 max-h-[60vh] overflow-y-auto pr-1">
             {worldPreview.aiFactions.map(f => {
               const leader = f.members.find(m => m.id === f.leaderId)
@@ -115,8 +115,8 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: f.color }} />
                   {leader && <CharacterPortrait character={leader} size={28} />}
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs text-stone-200 truncate">{f.name}</div>
-                    <div className="text-[10px] text-stone-500">
+                    <div className="text-xs text-text-primary truncate">{f.name}</div>
+                    <div className="text-[10px] text-text-secondary">
                       {f.territories[0]?.name} · {tS('setup.memberCount', { count: f.members.length })}
                     </div>
                   </div>
@@ -133,13 +133,13 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
           {/* 방랑자 목록 */}
           {worldPreview.wanderers.length > 0 && (
             <>
-              <div className="text-xs text-stone-500 font-bold mt-3">{tS('setup.wanderers')} ({worldPreview.wanderers.length})</div>
+              <div className="text-xs text-text-secondary font-bold mt-3">{tS('setup.wanderers')} ({worldPreview.wanderers.length})</div>
               <div className="space-y-1 max-h-[20vh] overflow-y-auto pr-1">
                 {worldPreview.wanderers.map(w => (
                   <div key={w.id} className="flex items-center gap-2 px-2 py-1 rounded bg-stone-800/30">
                     <CharacterPortrait character={w} size={20} />
-                    <span className="text-[11px] text-stone-400 truncate">{w.nickname}</span>
-                    <span className="text-[10px] text-stone-600 flex-shrink-0">{w.title}</span>
+                    <span className="text-[11px] text-text-secondary truncate">{w.nickname}</span>
+                    <span className="text-[10px] text-text-secondary flex-shrink-0">{w.title}</span>
                   </div>
                 ))}
               </div>
@@ -149,7 +149,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
 
         {/* 중: 주군 후보 카드 */}
         <div className="lg:col-span-2 space-y-2">
-          <div className="text-xs text-stone-500 font-bold">{tS('setup.lordCandidates')}</div>
+          <div className="text-xs text-text-secondary font-bold">{tS('setup.lordCandidates')}</div>
           <div className="space-y-3">
             {worldPreview.playerCandidates.map(pc => {
               const isSelected = selectedCandidateId === pc.profileId
@@ -169,7 +169,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                     <CharacterPortrait character={pc.character} size={56} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-stone-200 font-bold">{pc.character.nickname}</span>
+                        <span className="text-text-primary font-bold">{pc.character.nickname}</span>
                         <span
                           className="text-xs font-bold"
                           style={{ color: GRADE_COLORS[grade] }}
@@ -180,9 +180,9 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                           {classInfo.icon} {tS(`class.${pc.character.unitClass}`)}
                         </span>
                       </div>
-                      <p className="text-xs text-stone-400 mt-0.5">{pc.character.title}</p>
-                      <p className="text-[11px] text-stone-500 mt-1.5 leading-relaxed">{tS(`scenario.${worldPreview.scenarioId}.cand${worldPreview.playerCandidates.indexOf(pc) + 1}`)}</p>
-                      <div className="flex items-center gap-3 mt-2 text-[10px] text-stone-600">
+                      <p className="text-xs text-text-secondary mt-0.5">{pc.character.title}</p>
+                      <p className="text-[11px] text-text-secondary mt-1.5 leading-relaxed">{tS(`scenario.${worldPreview.scenarioId}.cand${worldPreview.playerCandidates.indexOf(pc) + 1}`)}</p>
+                      <div className="flex items-center gap-3 mt-2 text-[10px] text-text-secondary">
                         <span>{tS('stat.command')} {pc.character.stats.command}</span>
                         <span>{tS('stat.martial')} {pc.character.stats.martial}</span>
                         <span>{tS('stat.intellect')} {pc.character.stats.intellect}</span>
@@ -215,7 +215,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
               }
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-stone-500 text-sm p-4">
+            <div className="flex items-center justify-center h-full text-text-secondary text-sm p-4">
               {tS('setup.selectLordPrompt')}
             </div>
           )}

@@ -7,18 +7,35 @@
 import { Suspense } from "react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
+import { Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText } from "lucide-react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
 import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
 import { getFeaturedTags } from "@/actions/home/getFeaturedTags";
 import HubSection from "@/components/shared/HubSection";
+import { hubSectionNav } from "@/components/shared/hubSectionUtils";
+import HubNav from "@/components/shared/HubNav";
 import HubCelebGrid from "@/components/features/user/explore/hub/HubCelebGrid";
 import TopByTypeGrid from "@/components/features/user/explore/hub/TopByTypeGrid";
 import PersonaExtremeGrid from "@/components/features/user/explore/hub/PersonaExtremeGrid";
 import SpotlightCard from "@/components/features/user/explore/hub/SpotlightCard";
 import HubSkeleton from "@/components/features/user/explore/hub/HubSkeleton";
 import PopularBooks from "@/components/features/home/PopularBooks";
-import ExploreHubNav from "@/components/features/user/explore/hub/ExploreHubNav";
+
+// #region SSoT: 허브 네비게이션 + 섹션 넘버링 공유 config
+const GROUP_ID = "explore";
+const SECTIONS = [
+  { key: "deepReaders",     navKey: "navCelebs",     href: "/explore/figures",    icon: <Users size={14} /> },
+  { key: "topByType",       navKey: "navTopByType",  href: "/explore/ranking",    icon: <BarChart3 size={14} /> },
+  { key: "personaExtremes", navKey: "navPersona",    href: "/explore/persona",    icon: <Fingerprint size={14} /> },
+  { key: "spotlight",       navKey: "navSpotlight",  href: "/explore/spotlight",  icon: <Sparkles size={14} /> },
+] as const;
+const STANDALONE = [
+  { navKey: "navFeed",      href: "/explore/feed",      icon: <Rss size={14} /> },
+  { navKey: "navDirectory", href: "/explore/directory",  icon: <BookOpenText size={14} /> },
+] as const;
+const nav = (key: string) => hubSectionNav(SECTIONS, GROUP_ID, key);
+// #endregion
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");
@@ -71,9 +88,13 @@ async function HubContent() {
   return (
     <div className="space-y-12 md:space-y-16">
       {/* 서브페이지 네비게이터 */}
-      <ExploreHubNav />
+      <HubNav
+        hubItems={SECTIONS.map((s) => ({ label: t(s.navKey), href: s.href, icon: s.icon }))}
+        standaloneItems={STANDALONE.map((s) => ({ label: t(s.navKey), href: s.href, icon: s.icon }))}
+        groupId={GROUP_ID}
+      />
 
-      {/* 섹션 1: 왕성한 기록가들 */}
+      {/* 왕성한 기록가들 */}
       {deepReaders.length > 0 && (
         <HubSection
           title={t("deepReaders")}
@@ -81,64 +102,62 @@ async function HubContent() {
           moreHref="/explore/figures?sortBy=content_count"
           moreLabel={t("viewMore")}
           hideDivider
-          index={0} total={6} groupId="explore"
+          {...nav("deepReaders")}
         >
           <HubCelebGrid celebs={deepReaders} />
         </HubSection>
       )}
 
-      {/* 섹션 2: 분야별 최다 기록가 */}
+      {/* 분야별 최다 기록가 */}
       {topByType.length > 0 && (
-        <HubSection title={t("topByType")} subtitle={t("topByTypeSub")} moreHref="/explore/ranking" moreLabel={t("viewAll")} index={1} total={6} groupId="explore">
+        <HubSection title={t("topByType")} subtitle={t("topByTypeSub")} moreHref="/explore/ranking" moreLabel={t("viewAll")} {...nav("topByType")}>
           <TopByTypeGrid entries={topByType} />
         </HubSection>
       )}
 
-      {/* 섹션 3: 비범한 기록가 */}
+      {/* 비범한 기록가 */}
       {personaExtremes.length > 0 && (
         <HubSection
           title={t("personaExtremes")}
           subtitle={t("personaExtremesSub")}
           moreHref="/explore/persona"
           moreLabel={t("viewAll")}
-          index={2} total={6} groupId="explore"
+          {...nav("personaExtremes")}
         >
           <PersonaExtremeGrid entries={personaExtremes} />
         </HubSection>
       )}
 
-      {/* 섹션 4: 스포트라이트 */}
+      {/* 스포트라이트 */}
       <HubSection
         title={t("spotlight")}
         subtitle={t("spotlightSub")}
         moreHref="/explore/spotlight"
         moreLabel={t("viewAll")}
-        index={3} total={6} groupId="explore"
+        {...nav("spotlight")}
       >
         <SpotlightCard locale={locale} tags={spotlightTagNames} />
       </HubSection>
 
-      {/* 섹션 5: 전체 인물 */}
+      {/* 전체 인물 (Nav 대상 아님) */}
       {allCelebs.length > 0 && (
         <HubSection
           title={t("allCelebs")}
           subtitle={t("allCelebsSub")}
           moreHref="/explore/figures?tier=full"
           moreLabel={t("viewAll")}
-          index={4} total={6} groupId="explore"
         >
           <HubCelebGrid celebs={allCelebs} />
         </HubSection>
       )}
 
-      {/* 섹션 6: 사색가들 */}
+      {/* 사색가들 (Nav 대상 아님) */}
       {lightCelebs.length > 0 && (
         <HubSection
           title={t("lightCelebs")}
           subtitle={t("lightCelebsSub")}
           moreHref="/explore/figures?tier=light"
           moreLabel={t("viewAll")}
-          index={5} total={6} groupId="explore"
         >
           <HubCelebGrid celebs={lightCelebs} />
         </HubSection>
