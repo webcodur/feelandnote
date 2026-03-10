@@ -3,16 +3,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SlidersHorizontal } from "lucide-react";
-import { getCelebWorks, type CelebWorkItem } from "@/actions/celebs/getCelebWorks";
-import { getCelebWorkCounts, type WorkTypeCounts } from "@/actions/celebs/getCelebWorkCounts";
-import { ContentCard } from "@/components/ui/cards";
+import { useWikiSummaries } from "./useWikiSummaries";
 import ContentGrid from "@/components/ui/ContentGrid";
 import { Pagination } from "@/components/ui";
 import ControlPanel from "@/components/shared/ControlPanel";
 import type { Locale } from "@/types/locale";
-import { getCategoryByDbType } from "@/constants/categories";
-
-const ROLE_KEYS = ["author", "director", "composer", "artist", "editor", "screenwriter", "developer", "performer"] as const;
 
 const ROLE_I18N_MAP: Record<string, string> = {
   author: "roleAuthor",
@@ -23,6 +18,8 @@ const ROLE_I18N_MAP: Record<string, string> = {
   screenwriter: "roleScreenwriter",
   developer: "roleDeveloper",
   performer: "rolePerformer",
+  notable: "roleNotable",
+  creator: "roleCreator",
 };
 
 const WORK_TYPE_TABS = [
@@ -34,28 +31,69 @@ const WORK_TYPE_TABS = [
   { value: "ART", i18nKey: "worksTypeArt" },
 ];
 
+interface LiveWorkItem {
+  id: string;
+  title_en: string;
+  title_ko: string;
+  work_type: string | null;
+  role: string;
+  release_year: number | null;
+  props: string[];
+}
+
 interface CreativeLibraryProps {
   celebId: string;
   celebNickname: string;
+  wikidataQid?: string | null;
+  hideControlWrapper?: boolean;
 }
 
-export default function CreativeLibrary({ celebId, celebNickname }: CreativeLibraryProps) {
+const PAGE_SIZE = 20;
+
+export default function CreativeLibrary({
+  celebId,
+  celebNickname,
+  wikidataQid,
+  hideControlWrapper = false,
+}: CreativeLibraryProps) {
   const locale = useLocale() as Locale;
   const t = useTranslations("celebPage");
 
   const [activeType, setActiveType] = useState("all");
-  const [items, setItems] = useState<CelebWorkItem[]>([]);
+  const [allItems, setAllItems] = useState<LiveWorkItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
-  const [typeCounts, setTypeCounts] = useState<WorkTypeCounts>({});
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);
 
-  const totalCount = useMemo(
-    () => Object.values(typeCounts).reduce((sum, c) => sum + c, 0),
-    [typeCounts]
-  );
+  // 실시간 Wikidata 조회
+  const loadLive = useCallback(async () => {
+    if (!wikidataQid) { setIsLoading(false); return; }
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/api/celeb-works?qid=${wikidataQid}`);
+      const data = await res.json();
+      setAllItems(data.works || []);
+    } catch {
+      setAllItems([]);
+    }
+    setIsLoading(false);
+  }, [wikidataQid]);
+
+  useEffect(() => { loadLive(); }, [loadLive]);
+
+  useEffect(() => { setCurrentPage(1); }, [activeType]);
+
+  // 타입별 카운트
+  const typeCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const item of allItems) {
+      const t = item.work_type || "OTHER";
+      counts[t] = (counts[t] || 0) + 1;
+    }
+    return counts;
+  }, [allItems]);
+
+  const totalCount = allItems.length;
 
   const visibleTabs = useMemo(() => {
     return WORK_TYPE_TABS.filter(
@@ -63,35 +101,29 @@ export default function CreativeLibrary({ celebId, celebNickname }: CreativeLibr
     );
   }, [typeCounts]);
 
-  const loadCounts = useCallback(async () => {
-    const counts = await getCelebWorkCounts(celebId);
-    setTypeCounts(counts);
-  }, [celebId]);
+  // 필터링 + 페이징
+  const filtered = useMemo(() => {
+    if (activeType === "all") return allItems;
+    return allItems.filter((item) => item.work_type === activeType);
+  }, [allItems, activeType]);
 
-  const loadItems = useCallback(async () => {
-    setIsLoading(true);
-    const result = await getCelebWorks({
-      celebId,
-      workType: activeType === "all" ? undefined : activeType,
-      page: currentPage,
-      limit: pageSize,
-    });
-    setItems(result.items);
-    setTotalPages(result.totalPages);
-    setIsLoading(false);
-  }, [celebId, activeType, currentPage, pageSize]);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
-  useEffect(() => {
-    loadCounts();
-  }, [loadCounts]);
+  // Wikipedia summary fallback
+  const wikiSummaryItems = useMemo(
+    () => pageItems.map((item) => ({ id: item.id, title_en: item.title_en, description: null as string | null })),
+    [pageItems]
+  );
+  const wikiSummaries = useWikiSummaries(wikiSummaryItems);
 
-  useEffect(() => {
-    loadItems();
-  }, [loadItems]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activeType]);
+  if (!wikidataQid) {
+    return (
+      <div className="py-12 text-center text-text-secondary">
+        {t("worksEmpty")}
+      </div>
+    );
+  }
 
   if (!isLoading && totalCount === 0) {
     return (
@@ -106,70 +138,67 @@ export default function CreativeLibrary({ celebId, celebNickname }: CreativeLibr
     return key ? t(key) : role;
   };
 
-  const getSearchUrl = (item: CelebWorkItem) => {
-    const keyword = item.search_keyword || item.title;
+  const getSearchUrl = (item: LiveWorkItem) => {
+    const keyword = `${item.title_en} ${celebNickname}`;
     return `https://search.naver.com/search.naver?query=${encodeURIComponent(keyword)}`;
   };
 
+  const renderTabs = (className: string) => (
+    <div className={className}>
+      {visibleTabs.map((tab) => {
+        const count = tab.value === "all" ? totalCount : (typeCounts[tab.value] ?? 0);
+        const isActive = activeType === tab.value;
+        return (
+          <button
+            key={tab.value}
+            type="button"
+            onClick={() => setActiveType(tab.value)}
+            className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+              isActive
+                ? "bg-accent/10 border-accent/20 text-accent"
+                : "bg-surface/50 border-border/40 text-text-tertiary hover:bg-surface-hover hover:text-text-primary"
+            }`}
+          >
+            {t(tab.i18nKey)}
+            <span className="ml-1 opacity-60">{count}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+
   return (
     <div>
-      <ControlPanel
-        title={t("worksControl")}
-        icon={<SlidersHorizontal size={16} className="text-accent/70" />}
-        isExpanded={isControlsExpanded}
-        onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
-        className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
-      >
-        <div className="flex flex-wrap gap-1.5">
-          {visibleTabs.map((tab) => {
-            const count = tab.value === "all" ? totalCount : (typeCounts[tab.value] ?? 0);
-            const isActive = activeType === tab.value;
-            return (
-              <button
-                key={tab.value}
-                type="button"
-                onClick={() => setActiveType(tab.value)}
-                className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
-                  isActive
-                    ? "bg-accent/10 border-accent/20 text-accent"
-                    : "bg-surface/50 border-border/40 text-text-tertiary hover:bg-surface-hover hover:text-text-primary"
-                }`}
-              >
-                {t(tab.i18nKey)}
-                <span className="ml-1 opacity-60">{count}</span>
-              </button>
-            );
-          })}
-        </div>
-      </ControlPanel>
+      {hideControlWrapper ? (
+        renderTabs("flex flex-wrap items-center justify-center gap-2 py-2 px-2")
+      ) : (
+        <ControlPanel
+          title={t("worksControl")}
+          icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+          isExpanded={isControlsExpanded}
+          onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+          className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
+        >
+          {renderTabs("flex flex-wrap gap-1.5")}
+        </ControlPanel>
+      )}
 
       <div className="py-8">
         {isLoading ? (
           <div className="py-12 text-center text-text-tertiary animate-pulse">
             {t("worksLoading")}
           </div>
-        ) : items.length === 0 ? (
+        ) : pageItems.length === 0 ? (
           <div className="py-12 text-center text-text-secondary">
             {t("worksEmpty")}
           </div>
         ) : (
           <ContentGrid variant="list">
-            {items.map((item) => {
-              const hasContent = !!item.content;
-              // celeb_works.title_en을 content_locales en보다 우선
-              const title = locale === "en" && item.title_en
+            {pageItems.map((item) => {
+              const title = locale === "en"
                 ? item.title_en
-                : (hasContent ? item.content!.title : item.title);
-              const thumbnail = hasContent ? item.content!.thumbnail_url : null;
-              const creator = hasContent ? item.content!.creator : null;
-              const description = locale === "en" && item.description_en
-                ? item.description_en
-                : item.description;
-              const contentId = hasContent ? item.content!.id : item.id;
-              const href = hasContent
-                ? `/content/${item.content!.id}?category=${getCategoryByDbType(item.content!.type)?.id || "book"}`
-                : undefined;
-
+                : (item.title_ko || item.title_en);
+              const description = wikiSummaries[item.id] || null;
               const roleLabel = getRoleLabel(item.role);
               const yearStr = item.release_year
                 ? item.release_year < 0
@@ -177,37 +206,39 @@ export default function CreativeLibrary({ celebId, celebNickname }: CreativeLibr
                   : `${item.release_year}`
                 : null;
 
-              const headerContent = (
-                <div className="flex items-center gap-2 text-[10px]">
-                  <span className="px-1.5 py-0.5 rounded bg-accent/10 text-accent font-medium">
-                    {roleLabel}
-                  </span>
-                  {yearStr && (
-                    <span className="text-text-tertiary font-mono">{yearStr}</span>
-                  )}
-                </div>
-              );
-
               return (
-                <div key={item.id} className="w-full max-w-[300px] md:max-w-none">
-                  <ContentCard
-                    contentId={contentId}
-                    contentType={hasContent ? (item.content!.type as any) : "BOOK"}
-                    title={title}
-                    creator={creator}
-                    thumbnail={thumbnail}
-                    review={description}
-                    reviewEn={item.description_en}
-                    headerNode={headerContent}
-                    href={href}
-                    onClick={!hasContent ? () => window.open(getSearchUrl(item), "_blank") : undefined}
-                    mobileLayout="review"
-                    titleKo={hasContent ? item.content!.title_ko : null}
-                    titleEn={hasContent ? item.content!.title_en : item.title_en}
-                    creatorEn={hasContent ? item.content!.creator_en : null}
-                    thumbnailEn={hasContent ? item.content!.thumbnail_en : null}
-                    hasEnEdition={hasContent ? item.content!.has_en_edition : null}
-                  />
+                <div
+                  key={item.id}
+                  className="w-full max-w-[300px] md:max-w-none cursor-pointer"
+                  onClick={() => window.open(getSearchUrl(item), "_blank")}
+                >
+                  <div className="p-4 rounded-xl border border-border/30 bg-surface/30 hover:bg-surface-hover/50 transition-colors">
+                    <div className="flex items-center gap-2 mb-2 text-[11px]">
+                      {item.work_type && (
+                        <span className="px-1.5 py-0.5 rounded bg-surface-hover text-text-secondary font-medium">
+                          {item.work_type}
+                        </span>
+                      )}
+                      <span className="px-1.5 py-0.5 rounded bg-accent/10 text-accent font-medium">
+                        {roleLabel}
+                      </span>
+                      {yearStr && (
+                        <span className="text-text-tertiary font-mono">{yearStr}</span>
+                      )}
+                    </div>
+                    <h3 className="text-sm font-medium text-text-primary leading-snug">
+                      {title}
+                    </h3>
+                    {locale === "en" && item.title_ko && (
+                      <p className="text-sm text-text-secondary mt-0.5">{item.title_ko}</p>
+                    )}
+                    {locale !== "en" && item.title_en && item.title_ko && (
+                      <p className="text-sm text-text-secondary mt-0.5">{item.title_en}</p>
+                    )}
+                    {description && (
+                      <p className="text-sm text-text-secondary mt-2 line-clamp-2">{description}</p>
+                    )}
+                  </div>
                 </div>
               );
             })}
@@ -222,9 +253,6 @@ export default function CreativeLibrary({ celebId, celebNickname }: CreativeLibr
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
-                pageSize={pageSize}
-                onPageSizeChange={setPageSize}
-                showPageSizeSelector
               />
             </div>
           </>

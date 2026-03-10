@@ -14,6 +14,7 @@ import type { ContentTypeCounts } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
 import { TAB_OPTIONS, SORT_OPTIONS, REVIEW_FILTER_OPTIONS } from "./constants";
 import CategoryGuideModal from "./CategoryGuideModal";
+import { cn } from "@/lib/utils";
 
 export interface ArchiveControlBarProps {
   activeTab: CategoryId;
@@ -32,6 +33,8 @@ export interface ArchiveControlBarProps {
   onSearchChange: (query: string) => void;
   onSearch: () => void;
   onClearSearch: () => void;
+  /** 축소 모드 — 패딩·높이 축소, 래퍼 없이 직접 노출될 때 사용 */
+  compact?: boolean;
 }
 
 type FilterType = "category" | "sort" | "review";
@@ -53,6 +56,7 @@ export default function ArchiveControlBar({
   onSearchChange,
   onSearch,
   onClearSearch,
+  compact = false,
 }: ArchiveControlBarProps) {
   const t = useTranslations("archiveSearch");
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
@@ -84,7 +88,10 @@ export default function ArchiveControlBar({
   return (
     <div className="w-full">
       {/* 1행: 필터 칩 */}
-      <div className="flex items-center justify-center gap-2 px-6 py-4 min-h-[4.5rem]">
+      <div className={cn(
+        "flex items-center justify-center gap-2",
+        compact ? "px-2 py-2" : "px-6 py-4 min-h-[4.5rem]"
+      )}>
         {/* 데스크톱: 드롭다운 */}
         <div className="hidden md:flex items-center gap-2">
           <FilterChipDropdown
@@ -139,8 +146,14 @@ export default function ArchiveControlBar({
       </div>
 
       {/* 2행: 검색 + 액션 버튼 */}
-      <div className="flex items-center gap-2 px-6 py-3">
-        <div className="relative flex-1 min-w-0 group/search">
+      <div className={cn(
+        "flex items-center gap-2",
+        compact ? "px-2 py-2 justify-center" : "px-6 py-3"
+      )}>
+        <div className={cn(
+          "relative min-w-0 group/search",
+          compact ? "w-[220px] shrink" : "flex-1"
+        )}>
           <div className="absolute inset-0 bg-accent/5 blur-sm opacity-0 group-focus-within/search:opacity-100 transition-opacity rounded-md pointer-events-none" />
           <input
             type="text"
@@ -152,7 +165,7 @@ export default function ArchiveControlBar({
               }
             }}
             placeholder={t("placeholder")}
-            className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
+            className="w-full min-w-0 min-h-[2.5rem] ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
           />
           {searchQuery && (
             <button
@@ -168,19 +181,19 @@ export default function ArchiveControlBar({
           type="button"
           onClick={onSearch}
           disabled={searchQuery.trim().length < 2}
-          className="h-9 w-9 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
+          className="min-h-[2.5rem] w-[2.5rem] flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
         >
           <Search size={16} />
         </button>
 
         {/* 구분선 */}
-        <div className="w-px h-5 bg-white/10 mx-1" />
+        <div className="w-px h-5 bg-white/10 mx-0.5" />
 
-        {/* 뷰 모드 토글 (PC 전용, 모바일은 2열 포스터 고정) */}
+        {/* 뷰 모드 토글 (PC 전용) */}
         <button
           type="button"
           onClick={toggleViewMode}
-          className="hidden md:flex h-9 w-9 items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary rounded-lg transition-colors"
+          className="hidden md:flex min-h-[2.5rem] w-[2.5rem] items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary rounded-lg transition-colors"
           title={viewMode === "grid" ? "리스트 보기" : "그리드 보기"}
         >
           {viewMode === "grid" ? <LayoutGrid size={16} /> : <List size={16} />}
@@ -191,7 +204,7 @@ export default function ArchiveControlBar({
           type="button"
           onClick={toggleCollapse}
           disabled={sortOption !== "recent"}
-          className="h-9 w-9 flex items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-accent/25 disabled:hover:text-text-tertiary rounded-lg transition-colors"
+          className="min-h-[2.5rem] w-[2.5rem] flex items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-accent/25 disabled:hover:text-text-tertiary rounded-lg transition-colors"
           title={isAllCollapsed ? "전체 펼치기" : "전체 접기"}
         >
           {isAllCollapsed ? <ChevronsUpDown size={16} /> : <ChevronsDownUp size={16} />}

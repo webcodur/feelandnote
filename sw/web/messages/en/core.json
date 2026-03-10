@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Feel&Note - Cultural Archive",
-    "description": "Explore the books, movies, and music enjoyed by notable figures. An archive platform to record your cultural experiences and discover inspiration.",
-    "twitterDescription": "Explore the books, movies, and music enjoyed by notable figures. A cultural archive platform."
+    "title": "Feel&Note - Celebrity Book & Movie Recommendations",
+    "description": "Discover books, movies, music, and games recommended by celebrities. Explore reading lists and cultural tastes of 1,000+ historical and modern figures.",
+    "twitterDescription": "Celebrity-recommended books, movies, and music. Explore reading lists of 1,000+ notable figures."
   },
   "notFound": {
     "title": "Page Not Found",
@@ -42,7 +42,7 @@
   "pages": {
     "home": {
       "title": "Home",
-      "description": "Explore the books, movies, and music enjoyed by notable figures. An archive platform to record your cultural experiences and discover inspiration."
+      "description": "Discover books, movies, music, and games recommended by celebrities. Explore reading lists and cultural tastes of 1,000+ historical and modern figures."
     },
     "notifications": "Notifications",
     "search": "Search",
@@ -54,8 +54,8 @@
     "userRecords": "{nickname}'s Records",
     "userFallback": "User",
     "about": {
-      "title": "About",
-      "description": "We consume too much and forget too fast. Records become wisdom that never fades."
+      "title": "About Feel&Note",
+      "description": "A cultural archive platform for discovering books, movies, and music recommended by 1,000+ celebrities. Record your own cultural journey."
     },
     "lab": "Lab"
   },

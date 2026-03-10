@@ -44,16 +44,16 @@
       "enterAcademy": "Enter Academy"
     },
     "meta": {
-      "title": "Scriptures",
-      "description": "A curated archive organized by era, profession, and figure. Explore the reading lists of notable figures, from timeless classics to modern masterpieces."
+      "title": "Scriptures - Celebrity Reading Lists & Movie Picks",
+      "description": "Curated archive of celebrity book recommendations and movie picks, organized by era and profession. Explore must-reads chosen by history's greatest minds."
     },
     "figure": {
-      "metaTitle": "Today's Figure | Scriptures",
-      "metaDescription": "Discover a new figure's reading shelf every day. See what today's figure read, watched, and listened to."
+      "metaTitle": "Today's Celebrity Recommendations | Scriptures",
+      "metaDescription": "Discover a new celebrity's recommended books, movies, and music every day. See what today's featured figure reads and watches."
     },
     "era": {
-      "metaTitle": "Masterpieces | Scriptures",
-      "metaDescription": "Explore iconic works and must-reads from every era."
+      "metaTitle": "Must-Read Books & Classic Movies by Era | Scriptures",
+      "metaDescription": "Explore must-read books and iconic movies from every era, recommended by notable figures throughout history."
     },
     "museum": {
       "metaTitle": "Museum | Scriptures",
@@ -144,8 +144,8 @@
       }
     },
     "academy": {
-      "metaTitle": "Academy | Scriptures",
-      "metaDescription": "Filmmaking, harmony lessons, and systematic educational content.",
+      "metaTitle": "Academy - Filmmaking & Music Theory Courses | Scriptures",
+      "metaDescription": "Free filmmaking tutorials, music theory lessons, and curated educational content recommended by industry professionals.",
       "pageTitle": "Academy of Wisdom",
       "defaultDescription": "From filmmaking to harmony lessons, explore systematic educational content.",
       "eyebrow": "Academy",
@@ -254,8 +254,8 @@
       }
     },
     "profession": {
-      "metaTitle": "Crossroads | Scriptures",
-      "metaDescription": "Discover the must-reads and recommended works chosen by leaders, scientists, artists, and more."
+      "metaTitle": "Books by Profession - What Leaders & Scientists Read | Scriptures",
+      "metaDescription": "Discover must-read books and movie recommendations by profession. See what leaders, scientists, artists, and entrepreneurs read and watch."
     },
     "page": {
       "section": {

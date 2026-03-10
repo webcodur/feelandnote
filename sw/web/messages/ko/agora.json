@@ -28,12 +28,12 @@
       }
     },
     "meta": {
-      "title": "광장",
-      "description": "인물 피드, 자유 게시판, 공지사항 등 Feel&Note 커뮤니티 광장. 감상을 나누고 영감을 공유하세요."
+      "title": "커뮤니티 | Feel&Note",
+      "description": "셀럽 추천 책·영화 리뷰, 감상 공유 커뮤니티. 인물 피드, 자유 게시판에서 영감을 나누세요."
     },
     "celebFeed": {
-      "metaTitle": "인물 피드 | 광장",
-      "metaDescription": "인물들의 최신 감상 기록과 리뷰를 실시간으로 확인하세요."
+      "metaTitle": "셀럽 추천 피드 | 커뮤니티",
+      "metaDescription": "셀럽들의 최신 추천 책, 영화 리뷰와 감상 기록을 실시간으로 확인하세요."
     },
     "friendFeed": {
       "metaTitle": "친구 피드 | 광장"

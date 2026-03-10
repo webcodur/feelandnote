@@ -1,0 +1,426 @@
+[
+  {
+    "id": "b176cb81-ef3c-485c-87ac-0db54709dd5f",
+    "nickname": "김시습",
+    "nickname_en": "Kim Si-seup",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q496550"
+  },
+  {
+    "id": "bf3d3261-e6ca-4b0d-a3b8-b0734ed8116d",
+    "nickname": "노라 로버츠",
+    "nickname_en": "Nora Roberts",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q231356"
+  },
+  {
+    "id": "87795b7f-d007-4ca5-bbbc-590c92322f76",
+    "nickname": "다니엘 스틸",
+    "nickname_en": "Danielle Steel",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q72653"
+  },
+  {
+    "id": "9d8446f2-b1e8-4e95-a352-83cd93c99285",
+    "nickname": "도연명",
+    "nickname_en": "Tao Yuanming",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q314210"
+  },
+  {
+    "id": "c078a244-288e-463e-8e92-60c8d77b029e",
+    "nickname": "두보",
+    "nickname_en": "Du Fu",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q33772"
+  },
+  {
+    "id": "29171504-0c4e-4089-9529-2abced9d0bb4",
+    "nickname": "법정 스님",
+    "nickname_en": "Venerable Beopjeong",
+    "profession": "author",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "a17ef655-e744-4ebe-a904-f7b8757c2248",
+    "nickname": "빌헬름 9세",
+    "nickname_en": "Wilhelm IX",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q506216"
+  },
+  {
+    "id": "fd084c8a-f2b2-45f6-94d0-6440996127d4",
+    "nickname": "사령운",
+    "nickname_en": "Xie Lingyun",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q627442"
+  },
+  {
+    "id": "e84f807f-a260-4030-a1bc-ab09d1411734",
+    "nickname": "상관완아",
+    "nickname_en": "Shangguan Wan-er",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q1285764"
+  },
+  {
+    "id": "860af2ca-2813-465f-9e5a-f755c0cc0ab2",
+    "nickname": "세스 고딘",
+    "nickname_en": "Seth Godin",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q439396"
+  },
+  {
+    "id": "5b7ea359-bc08-4738-8eff-38065bc400fb",
+    "nickname": "소동파",
+    "nickname_en": "Su Shi",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q36020"
+  },
+  {
+    "id": "9b5505dd-2a44-4664-8a63-f0ddfcf117b8",
+    "nickname": "스테판 말라르메",
+    "nickname_en": "Stephane Mallarme",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q767"
+  },
+  {
+    "id": "d70a863a-c228-4803-98fc-50fbbb7dc8e4",
+    "nickname": "시드니 쉘던",
+    "nickname_en": "Sidney Sheldon",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q105118"
+  },
+  {
+    "id": "d13f5777-ce95-42b2-b39c-755e448c7aa9",
+    "nickname": "에밀리 디킨슨",
+    "nickname_en": "Emily Dickinson",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q4441"
+  },
+  {
+    "id": "f25e7b6b-154c-4737-8cd6-f965cd7b4195",
+    "nickname": "이규보",
+    "nickname_en": "Yi Gyu-bo",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q2913717"
+  },
+  {
+    "id": "26a54b13-4a86-40b2-bb02-1f97ab2ae9eb",
+    "nickname": "이즈미 시키부",
+    "nickname_en": "Izumi Shikibu",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q239898"
+  },
+  {
+    "id": "74bfe761-1926-42c4-9747-d4bbc5790e45",
+    "nickname": "제아미",
+    "nickname_en": "Zeami",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q169352"
+  },
+  {
+    "id": "47ad0a6a-95ce-4ab3-9c49-150a2e6c1e9a",
+    "nickname": "조비",
+    "nickname_en": "Cao Pi",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q313333"
+  },
+  {
+    "id": "7298f693-88ad-442d-b3d1-6c49f8a0bcdb",
+    "nickname": "조식",
+    "nickname_en": "Cao Zhi",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q698890"
+  },
+  {
+    "id": "76ea42d9-d685-4b53-a99e-408280733d08",
+    "nickname": "채염",
+    "nickname_en": "Cai Wenji",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q298052"
+  },
+  {
+    "id": "d70f4100-c0e3-4eb8-99a6-173644f76f5e",
+    "nickname": "크리스티 브라운",
+    "nickname_en": "Christy Brown",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q529336"
+  },
+  {
+    "id": "8efc134b-f5be-47b1-a619-930603cad841",
+    "nickname": "탁문군",
+    "nickname_en": "Zhuo Wenjun",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q3358500"
+  },
+  {
+    "id": "b11e1c94-e400-4de6-971f-12408cf7e3e5",
+    "nickname": "해롤드 로빈스",
+    "nickname_en": "Harold Robbins",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q531563"
+  },
+  {
+    "id": "4a1c6fbe-9f30-4713-993f-3056b7fcdf17",
+    "nickname": "허난설헌",
+    "nickname_en": "Heo Nanseolheon",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q464558"
+  },
+  {
+    "id": "3b7ce906-bf9a-444f-b29b-411a91007630",
+    "nickname": "황진이",
+    "nickname_en": "Hwang Jini",
+    "profession": "author",
+    "reason": "P800 없음",
+    "qid": "Q464510"
+  },
+  {
+    "id": "f2776faa-2ca0-419c-b0ba-e413cacfa810",
+    "nickname": "가의",
+    "nickname_en": "Jia Yi",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "eb0aa2b6-89e2-484c-8648-4e7c71141ea0",
+    "nickname": "디오게네스",
+    "nickname_en": "Diogenes",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q59180"
+  },
+  {
+    "id": "e89be8fd-c011-4ab8-b35f-ce21cf07b7c8",
+    "nickname": "러셀 커크",
+    "nickname_en": "Russell Kirk",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q158997"
+  },
+  {
+    "id": "e8799925-0d06-4e86-9ce2-6aec1eb4803a",
+    "nickname": "마사 누스바움",
+    "nickname_en": "Martha Nussbaum",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q235470"
+  },
+  {
+    "id": "07f3646d-58f8-4803-be83-81b7648a08a5",
+    "nickname": "맹자",
+    "nickname_en": "Mencius",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q188903"
+  },
+  {
+    "id": "a41e3ced-313e-4e67-9cdd-90cc7c3c50c8",
+    "nickname": "묵자",
+    "nickname_en": "Mozi",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "209ae40c-371e-4f1b-b408-42ad4a4af095",
+    "nickname": "박제가",
+    "nickname_en": "Park Je-ga",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q562695"
+  },
+  {
+    "id": "5eba5fed-90ad-4e24-8e4d-4cc61fcc9125",
+    "nickname": "박지원",
+    "nickname_en": "Park Ji-won",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q495720"
+  },
+  {
+    "id": "c3387004-321d-49be-9e5f-e1f23db5c142",
+    "nickname": "보나벤투라",
+    "nickname_en": "Bonaventure",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "7db33f5b-b133-428d-9ae0-9b8e565b47b9",
+    "nickname": "소크라테스",
+    "nickname_en": "Socrates",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q913"
+  },
+  {
+    "id": "7e869f82-f74d-4f2e-9ecd-912f8857f599",
+    "nickname": "슬라보예 지젝",
+    "nickname_en": "Slavoj Zizek",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q184750"
+  },
+  {
+    "id": "6037e5d9-12a6-4b7d-962d-48f64a12fabe",
+    "nickname": "안티스테네스",
+    "nickname_en": "Antisthenes",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q179149"
+  },
+  {
+    "id": "caebd611-0404-43d9-8044-89fea2cd9e00",
+    "nickname": "알 파라비",
+    "nickname_en": "Al-Farabi",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q123884574"
+  },
+  {
+    "id": "57b1cb45-79bb-4171-ad58-e714a89c6b2f",
+    "nickname": "에피쿠로스",
+    "nickname_en": "Epicurus",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q43216"
+  },
+  {
+    "id": "62e506a9-af78-4f82-ba62-3ff6f05857f3",
+    "nickname": "오리게네스",
+    "nickname_en": "Origen",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q170472"
+  },
+  {
+    "id": "538b4e14-193a-4030-bf87-72e52d287cab",
+    "nickname": "유길준",
+    "nickname_en": "Yu Gil-jun",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q486303"
+  },
+  {
+    "id": "1a0892ae-db6b-4392-8f0a-23b1edb883da",
+    "nickname": "유성룡",
+    "nickname_en": "Ryu Seong-ryong",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "a23f06b4-588a-49f6-a8c3-9b217b0eb6ff",
+    "nickname": "유종원",
+    "nickname_en": "Liu Zongyuan",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q337773"
+  },
+  {
+    "id": "7aed913a-4772-4493-9fa9-8366eec31fb4",
+    "nickname": "이덕무",
+    "nickname_en": "Lee Deok-mu",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q12611188"
+  },
+  {
+    "id": "5d0110a6-df69-45d0-8a52-a6cf1d798d1e",
+    "nickname": "이어령",
+    "nickname_en": "Lee O-young",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "a0000001-0001-4000-8000-000000000001",
+    "nickname": "이탁오",
+    "nickname_en": "Li Zhi",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q102410358"
+  },
+  {
+    "id": "bfb68b20-0969-4677-a14b-4a0efd6964a1",
+    "nickname": "이황",
+    "nickname_en": "Yi Hwang",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q486291"
+  },
+  {
+    "id": "46776e23-3b83-4f74-a1bc-56cd955bf849",
+    "nickname": "장 폴 사르트르",
+    "nickname_en": "Jean-Paul Sartre",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q9364"
+  },
+  {
+    "id": "63777569-1e0a-442d-bec5-fcd39397ad17",
+    "nickname": "정약용",
+    "nickname_en": "Jeong Yak-yong",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q256246"
+  },
+  {
+    "id": "1d1bf63f-1895-48d9-86a0-e19a3e5caecc",
+    "nickname": "토마스 아 켐피스",
+    "nickname_en": "Thomas a Kempis",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "97e8fbff-5022-4aa7-a36f-6b89393b113b",
+    "nickname": "한용운",
+    "nickname_en": "Han Yong-un",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q129703166"
+  },
+  {
+    "id": "d52c3a26-f21a-4c5b-9145-2f4ac6942283",
+    "nickname": "한유",
+    "nickname_en": "Han Yu",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q318998"
+  },
+  {
+    "id": "a0000001-0003-4000-8000-000000000003",
+    "nickname": "황종희",
+    "nickname_en": "Huang Zongxi",
+    "profession": "humanities_scholar",
+    "reason": "P800 없음",
+    "qid": "Q31754"
+  },
+  {
+    "id": "ebae757b-f8cc-4dac-b7c3-13d7d6e04739",
+    "nickname": "히에로니무스",
+    "nickname_en": "Hieronymus",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  }
+]

@@ -35,6 +35,8 @@
     "roleScreenwriter": "Screenwriter",
     "roleDeveloper": "Developer",
     "rolePerformer": "Performer",
+    "roleNotable": "Notable",
+    "roleCreator": "Creator",
     "notFound": "Celebrity not found"
   }
 }

@@ -30,16 +30,15 @@ function buildPageTitle(
 ): string {
   const professionLabel = getCelebProfessionLabel(profession);
   const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK}권의 책`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO}편의 영화`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC}곡의 음악`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
+  if (counts.BOOK > 0) parts.push(`추천 책 ${counts.BOOK}권`);
+  if (counts.VIDEO > 0) parts.push(`추천 영화 ${counts.VIDEO}편`);
+  if (counts.MUSIC > 0) parts.push(`추천 음악 ${counts.MUSIC}곡`);
+  if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname}의 감상 기록`;
+    return `${professionLabel} ${nickname} 추천 책·영화·음악`;
   }
-  const particle = subjectParticle(nickname);
-  return `${professionLabel} ${nickname}${particle} 감상한 ${parts.join(", ")}`;
+  return `${professionLabel} ${nickname} ${parts.join(", ")}`;
 }
 
 function buildPageTitleEn(
@@ -49,15 +48,15 @@ function buildPageTitleEn(
 ): string {
   const professionLabel = getCelebProfessionLabel(profession);
   const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK} books`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} movies`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
+  if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
+  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
+  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} favorite songs`);
+  if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname}'s Reading Records`;
+    return `${professionLabel} ${nickname}'s Recommended Books & Movies`;
   }
-  return `${parts.join(", ")} enjoyed by ${professionLabel} ${nickname}`;
+  return `${professionLabel} ${nickname}: ${parts.join(", ")}`;
 }
 
 function buildMetaDescriptionEn(
@@ -67,15 +66,15 @@ function buildMetaDescriptionEn(
 ): string {
   const professionLabel = getCelebProfessionLabel(profession);
   const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK} books`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} movies`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
+  if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
+  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
+  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} favorite songs`);
+  if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
 
   if (parts.length === 0) {
-    return `Explore ${professionLabel} ${nickname}'s reading records and philosophy on Feel&Note. Discover the cultural tastes and sources of inspiration.`;
+    return `Discover ${professionLabel} ${nickname}'s book recommendations, favorite movies, music, and cultural philosophy on Feel&Note.`;
   }
-  return `${parts.join(", ")} enjoyed by ${professionLabel} ${nickname}. Explore their philosophy and recommended works on Feel&Note.`;
+  return `${professionLabel} ${nickname}'s ${parts.join(", ")}. Explore their cultural taste, reading philosophy, and personal recommendations.`;
 }
 
 /** 120~160자 분량의 SEO description 생성 */
@@ -86,17 +85,16 @@ function buildMetaDescription(
 ): string {
   const professionLabel = getCelebProfessionLabel(profession);
   const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK}권의 책`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO}편의 영화`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC}곡의 음악`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
+  if (counts.BOOK > 0) parts.push(`추천 책 ${counts.BOOK}권`);
+  if (counts.VIDEO > 0) parts.push(`추천 영화 ${counts.VIDEO}편`);
+  if (counts.MUSIC > 0) parts.push(`추천 음악 ${counts.MUSIC}곡`);
+  if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname}의 감상 기록과 감상 철학을 확인하세요. Feel&Note에서 ${nickname}의 문화적 취향과 영감의 원천을 탐색할 수 있습니다.`;
+    return `${professionLabel} ${nickname}이 추천한 책, 영화, 음악, 게임 목록과 감상 철학. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`;
   }
 
-  const particle = subjectParticle(nickname);
-  return `${professionLabel} ${nickname}${particle} 감상한 ${parts.join(", ")} 목록과 감상 기록. ${nickname}의 감상 철학과 추천 작품을 확인하세요.`;
+  return `${professionLabel} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}이 직접 추천하거나 즐겨본 작품과 감상 철학을 확인하세요.`;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

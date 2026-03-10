@@ -13,8 +13,8 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   return {
-    title: "국가별 연대기 · Feelandnote",
-    description: "국가별 인물들의 연대기를 한눈에 살펴보세요.",
+    title: "국가별 셀럽 연대기 - 추천 책·영화 타임라인",
+    description: "국가별 셀럽 연대기. 각 인물이 추천한 책, 영화, 음악을 시대순으로 탐색하세요.",
   };
 }
 

@@ -1,0 +1,623 @@
+[
+  {
+    "id": "a3c03434-02f4-4a8f-b5fd-c22217d95f92",
+    "nickname": "앤드류 후버만",
+    "nickname_en": "Andrew Huberman",
+    "profession": "scientist",
+    "reason": "작품 없음",
+    "qid": "Q26250970"
+  },
+  {
+    "id": "913644e1-dfe8-4ae3-b352-fd3a3f7de384",
+    "nickname": "양자경",
+    "nickname_en": "Michelle Yeoh",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q214289"
+  },
+  {
+    "id": "df0aee04-cd67-4758-af4e-3d656842033e",
+    "nickname": "양조위",
+    "nickname_en": "Tony Leung",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q319001"
+  },
+  {
+    "id": "1b3394eb-18cf-47a7-ab56-3212584d4e73",
+    "nickname": "에밀리 블런트",
+    "nickname_en": "Emily Blunt",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q193517"
+  },
+  {
+    "id": "14fe8c09-f87d-4feb-b335-6cd9efbc7740",
+    "nickname": "에바 그린",
+    "nickname_en": "Eva Green",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q191644"
+  },
+  {
+    "id": "2a4a2db3-daf3-4b72-90a5-c2d0a521a862",
+    "nickname": "에반 슈피겔",
+    "nickname_en": "Evan Spiegel",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q15439301"
+  },
+  {
+    "id": "4bf72536-3807-4417-b240-5e9079922883",
+    "nickname": "에이드리언 브로디",
+    "nickname_en": "Adrien Brody",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q104514"
+  },
+  {
+    "id": "197a5a22-49a6-4b96-a2a9-f5736f101c79",
+    "nickname": "에이미 아담스",
+    "nickname_en": "Amy Adams",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q481832"
+  },
+  {
+    "id": "1f02850f-113b-400c-a49d-745d7df9e98a",
+    "nickname": "엘 시드",
+    "nickname_en": "El Cid",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q43958"
+  },
+  {
+    "id": "9ca52951-66f7-464d-8c83-7214f654542e",
+    "nickname": "엘레오노르 다키텐",
+    "nickname_en": "Eleanor of Aquitaine",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q178525"
+  },
+  {
+    "id": "b5497069-dc6d-4c08-877e-ab15b0a5842f",
+    "nickname": "엘리자베스 테일러",
+    "nickname_en": "Elizabeth Taylor",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q34851"
+  },
+  {
+    "id": "7b403dba-acef-455a-9574-490847aa02b7",
+    "nickname": "엠마 스톤",
+    "nickname_en": "Emma Stone",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q147077"
+  },
+  {
+    "id": "c42e3822-dfdc-4950-884e-6ca0d472541c",
+    "nickname": "여몽",
+    "nickname_en": "Lü Meng",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q470080"
+  },
+  {
+    "id": "5d9279ba-ddc7-4c0b-8c6c-b2a1ad1f0326",
+    "nickname": "엽문",
+    "nickname_en": "Ip Man",
+    "profession": "athlete",
+    "reason": "작품 없음",
+    "qid": "Q163830"
+  },
+  {
+    "id": "880e54a4-b3ef-41bf-825c-e105bafb74b9",
+    "nickname": "예수",
+    "nickname_en": "Jesus",
+    "profession": "leader",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "5f8fd431-e150-43c9-85bf-08f360da48cb",
+    "nickname": "오다 노부나가",
+    "nickname_en": "Oda Nobunaga",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q171411"
+  },
+  {
+    "id": "c76b4c2b-c0ba-4b8a-97a2-2a9ddfe21caf",
+    "nickname": "오스카 아이작",
+    "nickname_en": "Oscar Isaac",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q336788"
+  },
+  {
+    "id": "42b96ec9-97a8-4bed-a8b2-63441312a3a2",
+    "nickname": "올가 쿠릴렌코",
+    "nickname_en": "Olga Kurylenko",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q164730"
+  },
+  {
+    "id": "74b04113-a406-424c-923c-9600fcddf1b3",
+    "nickname": "올랜도 블룸",
+    "nickname_en": "Orlando Bloom",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q44467"
+  },
+  {
+    "id": "96d47a5d-23ab-4118-94ef-202dc805e3b4",
+    "nickname": "올리버 크롬웰",
+    "nickname_en": "Oliver Cromwell",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q44279"
+  },
+  {
+    "id": "336571d6-be4e-4837-94ae-966128787ae5",
+    "nickname": "왕안석",
+    "nickname_en": "Wang Anshi",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q319618"
+  },
+  {
+    "id": "3e049605-4c31-439e-8d84-fc4aa45d1b5a",
+    "nickname": "요한 구텐베르크",
+    "nickname_en": "Johannes Gutenberg",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q8958"
+  },
+  {
+    "id": "581cb61e-ffba-45f3-a7d6-436f58d3d7f3",
+    "nickname": "우마 서먼",
+    "nickname_en": "Uma Thurman",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q125017"
+  },
+  {
+    "id": "cf8a46c2-b148-4413-866a-46d6543ab00e",
+    "nickname": "웨슬리 스나입스",
+    "nickname_en": "Wesley Snipes",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q189694"
+  },
+  {
+    "id": "79a08c45-404b-4109-85f3-6ac40452c05b",
+    "nickname": "윌렘 대포",
+    "nickname_en": "Willem Dafoe",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q188772"
+  },
+  {
+    "id": "b2622bea-8e55-49ec-80de-ec54c320b50f",
+    "nickname": "윌리엄 마셜",
+    "nickname_en": "William Marshal",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q348911"
+  },
+  {
+    "id": "538b4e14-193a-4030-bf87-72e52d287cab",
+    "nickname": "유길준",
+    "nickname_en": "Yu Gil-jun",
+    "profession": "humanities_scholar",
+    "reason": "작품 없음",
+    "qid": "Q486303"
+  },
+  {
+    "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+    "nickname": "유비",
+    "nickname_en": "Liu Bei",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q102441078"
+  },
+  {
+    "id": "1a0892ae-db6b-4392-8f0a-23b1edb883da",
+    "nickname": "유성룡",
+    "nickname_en": "Ryu Seong-ryong",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "49e96880-e656-4133-82ec-2fc43d480d3b",
+    "nickname": "유일한",
+    "nickname_en": "Yuhan Yang",
+    "profession": "entrepreneur",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "a23f06b4-588a-49f6-a8c3-9b217b0eb6ff",
+    "nickname": "유종원",
+    "nickname_en": "Liu Zongyuan",
+    "profession": "humanities_scholar",
+    "reason": "작품 없음",
+    "qid": "Q337773"
+  },
+  {
+    "id": "597d8634-4b7e-40d5-82d5-ca8a5a2aa65a",
+    "nickname": "율리우스 카이사르",
+    "nickname_en": "Julius Caesar",
+    "profession": "politician",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "b4e5ff19-1001-42c0-ae4e-c943cee2e65f",
+    "nickname": "을지문덕",
+    "nickname_en": "Eulji Mundeok",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q702878"
+  },
+  {
+    "id": "bc9a9b35-b7b8-4676-914d-ac36dbecd144",
+    "nickname": "이건희",
+    "nickname_en": "Lee Kun-hee",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q109535454"
+  },
+  {
+    "id": "5c9f42c5-6189-47e1-b89c-d04fe24a62d8",
+    "nickname": "이명박",
+    "nickname_en": "Lee Myung-bak",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q14342"
+  },
+  {
+    "id": "500d404b-5718-47f0-a08d-6cd2455a8738",
+    "nickname": "이병철",
+    "nickname_en": "Lee Byung-chul",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q445643"
+  },
+  {
+    "id": "89c0e7a8-1eae-43ec-beb4-c8ff1eff5728",
+    "nickname": "이븐 할둔",
+    "nickname_en": "Ibn Khaldun",
+    "profession": "social_scientist",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "423d3a24-5a11-4b7d-9388-c8ccbdc3cb2e",
+    "nickname": "이사도라 덩컨",
+    "nickname_en": "Isadora Duncan",
+    "profession": "influencer",
+    "reason": "작품 없음",
+    "qid": "Q483512"
+  },
+  {
+    "id": "ce90d7d6-ec49-48bd-8cfd-ff0efedf787b",
+    "nickname": "이사이 모랄레스",
+    "nickname_en": "Esai Morales",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q974064"
+  },
+  {
+    "id": "3e495120-cb95-4d2a-ac5c-aa48d178261f",
+    "nickname": "이성계",
+    "nickname_en": "Yi Seong-gye",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "affab1d8-cd58-4600-8f05-e4c4fa92a22c",
+    "nickname": "이세민",
+    "nickname_en": "Li Shimin",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q9701"
+  },
+  {
+    "id": "73d5da05-cccf-47ba-bc52-5b1a39725b9b",
+    "nickname": "이순신",
+    "nickname_en": "Yi Sun-sin",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q50184"
+  },
+  {
+    "id": "5d0110a6-df69-45d0-8a52-a6cf1d798d1e",
+    "nickname": "이어령",
+    "nickname_en": "Lee O-young",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "a1888d28-6904-4e77-82ab-16dc67e41150",
+    "nickname": "이연걸",
+    "nickname_en": "Jet Li",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q159577"
+  },
+  {
+    "id": "ba9eb339-0921-4760-a5d3-affb60ee0a0d",
+    "nickname": "이재용",
+    "nickname_en": "Lee Jae-yong",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q624109"
+  },
+  {
+    "id": "70121e83-86ab-4fcc-b11d-3878b674c368",
+    "nickname": "이정",
+    "nickname_en": "Li Jing",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q485556"
+  },
+  {
+    "id": "a0000001-0001-4000-8000-000000000001",
+    "nickname": "이탁오",
+    "nickname_en": "Li Zhi",
+    "profession": "humanities_scholar",
+    "reason": "작품 없음",
+    "qid": "Q102410358"
+  },
+  {
+    "id": "4ee3ea7f-fd81-4bbf-ab4b-3e33283e9bd4",
+    "nickname": "인드라 누이",
+    "nickname_en": "Indra Nooyi",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q264913"
+  },
+  {
+    "id": "b75782cc-553f-4211-bae4-9a2f05fef385",
+    "nickname": "일라이저 우드",
+    "nickname_en": "Elijah Wood",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q483771"
+  },
+  {
+    "id": "da788028-9fff-47b9-825c-f75b72e11013",
+    "nickname": "임달화",
+    "nickname_en": "Simon Yam",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q667260"
+  },
+  {
+    "id": "028057ac-07a9-41ad-88d4-f915d5f30f66",
+    "nickname": "장량",
+    "nickname_en": "Zhang Liang",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q703666"
+  },
+  {
+    "id": "800f6e89-294b-47ad-9839-f2702fd07c9a",
+    "nickname": "장클로드 반담",
+    "nickname_en": "Jean-Claude Van Damme",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q308840"
+  },
+  {
+    "id": "0f0269bc-06d9-45e7-acdf-7a1c304604c4",
+    "nickname": "재커리 퀸토",
+    "nickname_en": "Zachary Quinto",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q139642"
+  },
+  {
+    "id": "a28f25c6-f69b-49a7-a532-7eeaa16bee23",
+    "nickname": "잭 니콜슨",
+    "nickname_en": "Jack Nicholson",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q39792"
+  },
+  {
+    "id": "594b1248-371d-4968-90b6-e73f8a46d0c8",
+    "nickname": "잭 도시",
+    "nickname_en": "Jack Dorsey",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q335552"
+  },
+  {
+    "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+    "nickname": "전두환",
+    "nickname_en": "Chun Doo-hwan",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q14362"
+  },
+  {
+    "id": "0be8a183-a400-4cd9-b2a9-27487129e0bf",
+    "nickname": "전봉준",
+    "nickname_en": "Jeon Bong-jun",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q489758"
+  },
+  {
+    "id": "0249dab2-b1a3-4200-bd14-72326faab76e",
+    "nickname": "정주영",
+    "nickname_en": "Chung Ju-yung",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q468467"
+  },
+  {
+    "id": "2258e068-6779-428c-a3f3-4afd0f80e3a7",
+    "nickname": "제라드 버틀러",
+    "nickname_en": "Gerard Butler",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q169982"
+  },
+  {
+    "id": "30e58483-7b1c-42c0-b34e-b8e976822d45",
+    "nickname": "제레미 레너",
+    "nickname_en": "Jeremy Renner",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q23365"
+  },
+  {
+    "id": "5a8591a5-9bcd-47c3-9c99-66caf4374fce",
+    "nickname": "제마 아터턴",
+    "nickname_en": "Gemma Arterton",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q255323"
+  },
+  {
+    "id": "eccf1500-9000-4e0e-8f28-66409d387058",
+    "nickname": "제이미 다이먼",
+    "nickname_en": "Jamie Dimon",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q922169"
+  },
+  {
+    "id": "8a974bbb-e5fd-4844-81e9-6a0f2e6352fe",
+    "nickname": "제이슨 스타뎀",
+    "nickname_en": "Jason Statham",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q169963"
+  },
+  {
+    "id": "31e5a07b-f0a3-49d1-878a-030cf48df3d3",
+    "nickname": "제이크 질렌할",
+    "nickname_en": "Jake Gyllenhaal",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q133313"
+  },
+  {
+    "id": "bf85dc12-d573-40e1-b830-ba66b398727f",
+    "nickname": "제인 프레이저",
+    "nickname_en": "Jane Fraser",
+    "profession": "entrepreneur",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "7b7c2e66-7914-47df-b434-5ed3d0af25d4",
+    "nickname": "제임스 매티스",
+    "nickname_en": "James Mattis",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "1f9a8e40-3e54-4548-93dc-d7c3f6b54497",
+    "nickname": "제임스 와트",
+    "nickname_en": "James Watt",
+    "profession": "scientist",
+    "reason": "작품 없음",
+    "qid": "Q124607008"
+  },
+  {
+    "id": "fe5972c2-4009-4718-9df3-05940a6305ed",
+    "nickname": "제프 브리지스",
+    "nickname_en": "Jeff Bridges",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q174843"
+  },
+  {
+    "id": "a09a4bd9-7113-4435-9abf-8bd2a4623080",
+    "nickname": "제프리 라이트",
+    "nickname_en": "Jeffrey Wright",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q343059"
+  },
+  {
+    "id": "02f4a72a-02d0-4bc7-aef4-47d8e3e868e7",
+    "nickname": "제프리 러쉬",
+    "nickname_en": "Geoffrey Rush",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q166272"
+  },
+  {
+    "id": "00df3bed-b2fc-4950-b6dc-0681a4929c9f",
+    "nickname": "젠슨 황",
+    "nickname_en": "Jensen Huang",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q305177"
+  },
+  {
+    "id": "472608d3-9f40-41d5-9a7c-75cb5944548f",
+    "nickname": "조 셀디나",
+    "nickname_en": "Joe Tsai",
+    "profession": "actor",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "57eae553-8086-4693-bd66-ba32f066c634",
+    "nickname": "조너선 프라이스",
+    "nickname_en": "Jonathan Pryce",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q312702"
+  },
+  {
+    "id": "fab95183-992a-4771-b7ee-8c9d4c37bee1",
+    "nickname": "조니 뎁",
+    "nickname_en": "Johnny Depp",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q37175"
+  },
+  {
+    "id": "7fee6290-722b-42a9-a600-1dfcddcc78f2",
+    "nickname": "조디 포스터",
+    "nickname_en": "Jodie Foster",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q41351"
+  },
+  {
+    "id": "47ad0a6a-95ce-4ab3-9c49-150a2e6c1e9a",
+    "nickname": "조비",
+    "nickname_en": "Cao Pi",
+    "profession": "author",
+    "reason": "작품 없음",
+    "qid": "Q313333"
+  },
+  {
+    "id": "90882628-5a83-4926-8e6c-5513619a0d5e",
+    "nickname": "조엘 에저튼",
+    "nickname_en": "Joel Edgerton",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q381768"
+  },
+  {
+    "id": "5f7c474c-b27d-4a84-84cc-e3e56e5bac6d",
+    "nickname": "조조",
+    "nickname_en": "Cao Cao",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q204077"
+  },
+  {
+    "id": "2a51e61a-604c-4d9c-be9b-4d15d018ee26",
+    "nickname": "조코 윌링크",
+    "nickname_en": "Jocko Willink",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  }
+]

@@ -12,4 +12,5 @@ export interface ContentLibraryProps {
   targetUserId?: string; // viewer 모드에서 필수
   ownerNickname?: string; // 기록 소유자 닉네임
   defaultViewMode?: ViewMode; // 초기 뷰 모드 (기본: grid)
+  hideControlWrapper?: boolean; // ControlPanel 아코디언 래퍼 숨기고 필터만 직접 노출
 }

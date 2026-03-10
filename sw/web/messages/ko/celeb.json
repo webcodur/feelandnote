@@ -17,8 +17,8 @@
     "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
     "recordControl": "기록 제어",
     "worksControl": "창작물 제어",
-    "tabConsume": "감상 서가",
-    "tabCreate": "창작 서가",
+    "tabConsume": "감상했거나 추천하는 작품",
+    "tabCreate": "이 인물이 남긴 작품",
     "worksEmpty": "아직 등록된 창작물이 없습니다.",
     "worksLoading": "불러오는 중...",
     "worksTypeAll": "전체",
@@ -34,7 +34,9 @@
     "roleEditor": "편저",
     "roleScreenwriter": "각본",
     "roleDeveloper": "개발",
-    "rolePerformer": "연주",
+    "rolePerformer": "출연",
+    "roleNotable": "대표작",
+    "roleCreator": "창작",
     "notFound": "셀럽을 찾을 수 없습니다"
   }
 }

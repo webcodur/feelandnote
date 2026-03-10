@@ -193,6 +193,7 @@ export default function CelebPageContent({
                   userId={userId}
                   nickname={profile.nickname}
                   emptyMessage={t("libraryEmpty")}
+                  wikidataQid={(profile as any).wikidata_qid || null}
                 />
               </ClassicalBox>
             </section>
@@ -232,18 +233,18 @@ export default function CelebPageContent({
 
 
 // ─── 서가 탭 (감상 / 창작) ─────────────────────────
-function LibraryTabs({ userId, nickname, emptyMessage }: { userId: string; nickname: string; emptyMessage: string }) {
+function LibraryTabs({ userId, nickname, emptyMessage, wikidataQid }: { userId: string; nickname: string; emptyMessage: string; wikidataQid?: string | null }) {
   const [tab, setTab] = useState<"consume" | "create">("consume");
   const t = useTranslations("celebPage");
 
   return (
     <div>
-      <div className="flex border-b border-white/10 mb-4">
+      <div className="flex gap-1 border-b border-white/10 mb-3">
         <button
           type="button"
           onClick={() => setTab("consume")}
           className={cn(
-            "px-4 py-2 text-sm font-medium transition-colors",
+            "px-3 py-2 text-[13px] font-medium transition-colors whitespace-nowrap",
             tab === "consume"
               ? "text-accent border-b-2 border-accent"
               : "text-text-tertiary hover:text-text-primary"
@@ -255,7 +256,7 @@ function LibraryTabs({ userId, nickname, emptyMessage }: { userId: string; nickn
           type="button"
           onClick={() => setTab("create")}
           className={cn(
-            "px-4 py-2 text-sm font-medium transition-colors",
+            "px-3 py-2 text-[13px] font-medium transition-colors whitespace-nowrap",
             tab === "create"
               ? "text-accent border-b-2 border-accent"
               : "text-text-tertiary hover:text-text-primary"
@@ -272,11 +273,14 @@ function LibraryTabs({ userId, nickname, emptyMessage }: { userId: string; nickn
           showPagination
           ownerNickname={nickname}
           defaultViewMode="list"
+          hideControlWrapper
         />
       ) : (
         <CreativeLibrary
           celebId={userId}
           celebNickname={nickname}
+          wikidataQid={wikidataQid}
+          hideControlWrapper
         />
       )}
     </div>

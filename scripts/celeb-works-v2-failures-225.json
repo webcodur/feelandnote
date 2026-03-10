@@ -1,0 +1,673 @@
+[
+  {
+    "id": "6837a3ea-92b3-470a-a042-8b943238da7b",
+    "nickname": "머리사 마이어",
+    "nickname_en": "Marissa Mayer",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q14086"
+  },
+  {
+    "id": "8628dbee-ade1-4537-b486-e92483187f02",
+    "nickname": "메릴 스트립",
+    "nickname_en": "Meryl Streep",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q873"
+  },
+  {
+    "id": "6d555bf0-0859-4975-826e-62f49f90c45b",
+    "nickname": "메흐메트 2세",
+    "nickname_en": "Mehmed II",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q34503"
+  },
+  {
+    "id": "16ab6e0f-0a74-487b-9f54-2d833303d23a",
+    "nickname": "멜 깁슨",
+    "nickname_en": "Mel Gibson",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q42229"
+  },
+  {
+    "id": "3c529444-94ff-473e-b0ca-d0cddcd3d022",
+    "nickname": "멜러니 퍼킨스",
+    "nickname_en": "Melanie Perkins",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q65584849"
+  },
+  {
+    "id": "22db047e-ae1e-4509-8304-629bb410cd09",
+    "nickname": "멧 데이먼",
+    "nickname_en": "Matt Damon",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q175535"
+  },
+  {
+    "id": "bfd405b3-17c2-49fe-b507-f8f9a35938ea",
+    "nickname": "명성황후",
+    "nickname_en": "Empress Myeongseong",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q464503"
+  },
+  {
+    "id": "588e0a43-6982-4667-b821-11d9cdf55cd8",
+    "nickname": "모건 프리먼",
+    "nickname_en": "Morgan Freeman",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q48337"
+  },
+  {
+    "id": "dcadf86d-bcb3-4b8c-8b0a-ce667361c469",
+    "nickname": "모니카 벨루치",
+    "nickname_en": "Monica Bellucci",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q81819"
+  },
+  {
+    "id": "33429622-1c90-43b4-8789-c6765d4e1fe4",
+    "nickname": "모리스 창",
+    "nickname_en": "Morris Chang",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q4745214"
+  },
+  {
+    "id": "a41e3ced-313e-4e67-9cdd-90cc7c3c50c8",
+    "nickname": "묵자",
+    "nickname_en": "Mozi",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "4104f88e-68b5-4516-a432-9d4066020a45",
+    "nickname": "문재인",
+    "nickname_en": "Moon Jae-in",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q21001"
+  },
+  {
+    "id": "111aa1bf-ca72-4da2-b8dc-f1a3946a0b0a",
+    "nickname": "미나모토노 요리토모",
+    "nickname_en": "Minamoto no Yoritomo",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q242800"
+  },
+  {
+    "id": "7544d5c8-afec-4420-a914-f97f53c3b55c",
+    "nickname": "미셸 윌리엄스",
+    "nickname_en": "Michelle Williams",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q156796"
+  },
+  {
+    "id": "6b263ca0-0a65-4d8e-9789-6fc3839557f0",
+    "nickname": "미하일 8세",
+    "nickname_en": "Michael VIII Palaiologos",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q200033"
+  },
+  {
+    "id": "43ab15c8-1079-4d6e-bd0b-f584da7c0e5b",
+    "nickname": "밀라 요보비치",
+    "nickname_en": "Milla Jovovich",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q170576"
+  },
+  {
+    "id": "3cbf3ebc-3f80-49de-b2dc-131446621cfc",
+    "nickname": "바스코 다 가마",
+    "nickname_en": "Vasco da Gama",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q7328"
+  },
+  {
+    "id": "0e556bc9-1f1d-4c38-a5cc-72d4fa077e45",
+    "nickname": "박규수",
+    "nickname_en": "Park Gyu-su",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q842646"
+  },
+  {
+    "id": "01b90776-f0c1-4bf4-943c-c972d566b87b",
+    "nickname": "박근혜",
+    "nickname_en": "Park Geun-hye",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q138048"
+  },
+  {
+    "id": "29171504-0c4e-4089-9529-2abced9d0bb4",
+    "nickname": "법정 스님",
+    "nickname_en": "Venerable Beopjeong",
+    "profession": "author",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "8eca68d2-1427-4334-b465-e198eae3aaaa",
+    "nickname": "베네딕트 컴버배치",
+    "nickname_en": "Benedict Cumberbatch",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q244674"
+  },
+  {
+    "id": "106f3a7f-17c9-4630-a027-e882295a0ca1",
+    "nickname": "베라 파마가",
+    "nickname_en": "Vera Farmiga",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q264840"
+  },
+  {
+    "id": "ae535e8c-69c2-413a-909f-b641e8a45c62",
+    "nickname": "벤 에플렉",
+    "nickname_en": "Ben Affleck",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q483118"
+  },
+  {
+    "id": "4e91e6bc-d76a-47ba-bcfa-35b6a05785c8",
+    "nickname": "벤 호로위츠",
+    "nickname_en": "Ben Horowitz",
+    "profession": "investor",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "c3387004-321d-49be-9e5f-e1f23db5c142",
+    "nickname": "보나벤투라",
+    "nickname_en": "Bonaventure",
+    "profession": "humanities_scholar",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "5dbd5614-72dd-4fea-8c16-4308c7b98f61",
+    "nickname": "브라이언 체스키",
+    "nickname_en": "Brian Chesky",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q4963341"
+  },
+  {
+    "id": "1af74ca7-04a4-4dd8-9632-5ed7c187dfd0",
+    "nickname": "브래드 피트",
+    "nickname_en": "Brad Pitt",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q35332"
+  },
+  {
+    "id": "2b8cf3b8-cc6a-4c4f-8705-76148a4537ed",
+    "nickname": "블라드 3세",
+    "nickname_en": "Vlad III",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "765fab15-3e81-4448-a867-2491d40aeaf1",
+    "nickname": "비노드 코슬라",
+    "nickname_en": "Vinod Khosla",
+    "profession": "investor",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "c77b0b29-793a-4e6b-84d6-452052795956",
+    "nickname": "비비안 리",
+    "nickname_en": "Vivien Leigh",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q129429"
+  },
+  {
+    "id": "d56c5c86-a9fa-481f-8e6b-1dd99d75c73c",
+    "nickname": "빈 디젤",
+    "nickname_en": "Vin Diesel",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q178166"
+  },
+  {
+    "id": "049a521c-7803-4c70-8ff5-ea231bab0170",
+    "nickname": "빌 애크먼",
+    "nickname_en": "Bill Ackman",
+    "profession": "investor",
+    "reason": "작품 없음",
+    "qid": "Q1586871"
+  },
+  {
+    "id": "a17ef655-e744-4ebe-a904-f7b8757c2248",
+    "nickname": "빌헬름 9세",
+    "nickname_en": "Wilhelm IX",
+    "profession": "author",
+    "reason": "작품 없음",
+    "qid": "Q506216"
+  },
+  {
+    "id": "5af9d768-8cf7-44e5-8c80-7c1f89e2ad77",
+    "nickname": "빙 레임스",
+    "nickname_en": "Ving Rhames",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q310315"
+  },
+  {
+    "id": "0273e153-6bc2-44cd-a366-414206808e97",
+    "nickname": "사도 바울",
+    "nickname_en": "Paul the Apostle",
+    "profession": "leader",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "bdfad568-cd4a-401c-bb67-9b5ddae0a035",
+    "nickname": "사도 요한",
+    "nickname_en": "John the Apostle",
+    "profession": "leader",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "fd084c8a-f2b2-45f6-94d0-6440996127d4",
+    "nickname": "사령운",
+    "nickname_en": "Xie Lingyun",
+    "profession": "author",
+    "reason": "작품 없음",
+    "qid": "Q627442"
+  },
+  {
+    "id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+    "nickname": "사마의",
+    "nickname_en": "Sima Yi",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q353698"
+  },
+  {
+    "id": "911858fc-d88c-4260-b9f1-293d5b2376ff",
+    "nickname": "사이먼 페그",
+    "nickname_en": "Simon Pegg",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q238464"
+  },
+  {
+    "id": "e8b01b85-b1fa-4bbf-ab67-a91f16051a20",
+    "nickname": "사이초",
+    "nickname_en": "Saicho",
+    "profession": "leader",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "db04c76b-8c2f-43f0-b7c3-fd0d87d521e0",
+    "nickname": "사토시 나카모토",
+    "nickname_en": "Satoshi Nakamoto",
+    "profession": "entrepreneur",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "6a9185a4-20f5-4998-aad0-4306e0c021cb",
+    "nickname": "산드라 블록",
+    "nickname_en": "Sandra Bullock",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q40791"
+  },
+  {
+    "id": "8f42e8c6-d3ce-4ecc-8e5e-62001198a229",
+    "nickname": "살라딘",
+    "nickname_en": "Saladin",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "e84f807f-a260-4030-a1bc-ab09d1411734",
+    "nickname": "상관완아",
+    "nickname_en": "Shangguan Wan-er",
+    "profession": "author",
+    "reason": "작품 없음",
+    "qid": "Q1285764"
+  },
+  {
+    "id": "63b33ea6-648f-4ada-ad3e-b9abc7c3d338",
+    "nickname": "샘 엘리엇",
+    "nickname_en": "Sam Elliott",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q311314"
+  },
+  {
+    "id": "617005a2-9292-4d77-af6f-30b0862203d9",
+    "nickname": "샤 루흐",
+    "nickname_en": "Shah Rukh",
+    "profession": "politician",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "eaaeaff8-15a0-4bc3-b7f3-26ac038839e5",
+    "nickname": "샤를리즈 테론",
+    "nickname_en": "Charlize Theron",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q80046"
+  },
+  {
+    "id": "eb9e18a8-88e8-454e-9454-a5abda6f411a",
+    "nickname": "샤킬 오닐",
+    "nickname_en": "Shaquille O'Neal",
+    "profession": "athlete",
+    "reason": "작품 없음",
+    "qid": "Q169452"
+  },
+  {
+    "id": "1b713ee6-6a37-4357-8264-e5ce7f70ad71",
+    "nickname": "선다 피차이",
+    "nickname_en": "Sundar Pichai",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q3503829"
+  },
+  {
+    "id": "b5a4bd00-664d-468e-a2fc-23c53d0422aa",
+    "nickname": "선덕여왕",
+    "nickname_en": "Queen Seondeok",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q485131"
+  },
+  {
+    "id": "67d81340-4e3b-4e29-a90e-b79dca9e0e44",
+    "nickname": "성덕왕",
+    "nickname_en": "King Seongdeok",
+    "profession": "politician",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "293613d1-0d23-4346-b4e3-cbf999561e18",
+    "nickname": "세리나 윌리엄스",
+    "nickname_en": "Serena Williams",
+    "profession": "athlete",
+    "reason": "작품 없음",
+    "qid": "Q11459"
+  },
+  {
+    "id": "40dbf411-4773-4e83-a14b-49bfb12aaa02",
+    "nickname": "세바스찬 스탠",
+    "nickname_en": "Sebastian Stan",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q455898"
+  },
+  {
+    "id": "f7cf7b7f-e22f-4f20-bd97-6aaf191ce75e",
+    "nickname": "셀마 헤이엑",
+    "nickname_en": "Salma Hayek",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q125106"
+  },
+  {
+    "id": "287e6bcb-979b-403a-a79e-cff6ca6cd691",
+    "nickname": "셰어",
+    "nickname_en": "Cher",
+    "profession": "musician",
+    "reason": "작품 없음",
+    "qid": "Q12003"
+  },
+  {
+    "id": "5b7ea359-bc08-4738-8eff-38065bc400fb",
+    "nickname": "소동파",
+    "nickname_en": "Su Shi",
+    "profession": "author",
+    "reason": "작품 없음",
+    "qid": "Q36020"
+  },
+  {
+    "id": "44ef31a9-dd7b-4d33-bb7c-70652c72c981",
+    "nickname": "소피아 베르가라",
+    "nickname_en": "Sofia Vergara",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q231911"
+  },
+  {
+    "id": "8ac6cc0e-ae8d-4b88-9f9d-7c946a2201ca",
+    "nickname": "소하",
+    "nickname_en": "Xiao He",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q1368034"
+  },
+  {
+    "id": "8d3f7fc5-4aaf-42cd-9db4-cb7189205f84",
+    "nickname": "손권",
+    "nickname_en": "Sun Quan",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "a0ce993e-ff45-4c2a-b40c-686b2f1d32fa",
+    "nickname": "손정의",
+    "nickname_en": "Masayoshi Son",
+    "profession": "investor",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "57f56912-0e4c-4ac1-8141-5ea1130d11c5",
+    "nickname": "솔론",
+    "nickname_en": "Solon",
+    "profession": "politician",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "e3bfa509-afcb-44cb-9662-3c9d0f2e3a83",
+    "nickname": "숀 애스틴",
+    "nickname_en": "Sean Astin",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q189351"
+  },
+  {
+    "id": "abb07197-5d02-42bb-998e-0dcd428b62a1",
+    "nickname": "스칼렛 요한슨",
+    "nickname_en": "Scarlett Johansson",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q34436"
+  },
+  {
+    "id": "bfb853f0-e5d5-46bb-86b4-f87825d617df",
+    "nickname": "스콧 애킨스",
+    "nickname_en": "Scott Adkins",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q28310"
+  },
+  {
+    "id": "8a71767c-b2cc-4b35-9018-a0c92ada84bd",
+    "nickname": "스티브 부세미",
+    "nickname_en": "Steve Buscemi",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q104061"
+  },
+  {
+    "id": "5e9f0b2e-a08a-497b-b6c2-77807cdc74d7",
+    "nickname": "시고니 위버",
+    "nickname_en": "Sigourney Weaver",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q102124"
+  },
+  {
+    "id": "080db9b7-56ee-454a-b9a5-eee2a30da069",
+    "nickname": "시드니 스위니",
+    "nickname_en": "Sydney Sweeney",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q49561909"
+  },
+  {
+    "id": "4882c088-e18d-4b34-827d-35e4d142dab2",
+    "nickname": "시몬 페레스",
+    "nickname_en": "Shimon Peres",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q57410"
+  },
+  {
+    "id": "9a177cae-5ee0-48c3-93f0-c97a09e8fa9b",
+    "nickname": "시시 황후",
+    "nickname_en": "Empress Elisabeth",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q150782"
+  },
+  {
+    "id": "7e07fa43-43ab-404c-bb5b-20cc35cc6149",
+    "nickname": "시얼샤 로넌",
+    "nickname_en": "Saoirse Ronan",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q228603"
+  },
+  {
+    "id": "0fd5917f-f6a2-4f3a-aa7e-3fb2f951728f",
+    "nickname": "신격호",
+    "nickname_en": "Shin Kyuk-ho",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q168567"
+  },
+  {
+    "id": "a8f5d863-a5e3-422b-b11e-e50875c6dc9f",
+    "nickname": "신사임당",
+    "nickname_en": "Shin Saimdang",
+    "profession": "visual_artist",
+    "reason": "작품 없음",
+    "qid": "Q464485"
+  },
+  {
+    "id": "029b6195-94ad-4443-814c-fd35949315ec",
+    "nickname": "신윤복",
+    "nickname_en": "Shin Yun-bok",
+    "profession": "visual_artist",
+    "reason": "작품 없음",
+    "qid": "Q484262"
+  },
+  {
+    "id": "ec8ece13-75e7-4348-99af-e50aee0a324b",
+    "nickname": "아나 데 아르마스",
+    "nickname_en": "Ana de Armas",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q698173"
+  },
+  {
+    "id": "6c7b9f2a-7c31-441c-bc02-bf7fd68f26e0",
+    "nickname": "아니타 로딕",
+    "nickname_en": "Anita Roddick",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q237211"
+  },
+  {
+    "id": "d6d09841-1258-4e26-8a83-055801749e5b",
+    "nickname": "아데나 프리드먼",
+    "nickname_en": "Adena Friedman",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q17003309"
+  },
+  {
+    "id": "a3e7c45f-5b6a-47f3-bac2-86a8fea99d33",
+    "nickname": "아소카 왕",
+    "nickname_en": "Ashoka the Great",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q8589"
+  },
+  {
+    "id": "2303caab-e55b-455c-b0f4-e5a0e829b804",
+    "nickname": "아키오 토요다",
+    "nickname_en": "Akio Toyoda",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q418622"
+  },
+  {
+    "id": "4258c664-7faa-480e-bc90-d61278a3b313",
+    "nickname": "아틸라",
+    "nickname_en": "Attila",
+    "profession": "commander",
+    "reason": "QID 미매칭"
+  },
+  {
+    "id": "2f2c9a3a-2c3b-4021-a191-251a66d3957c",
+    "nickname": "악바르 대제",
+    "nickname_en": "Akbar the Great",
+    "profession": "commander",
+    "reason": "작품 없음",
+    "qid": "Q8597"
+  },
+  {
+    "id": "46cf03ab-2dca-40a6-9e83-2d3e75da448b",
+    "nickname": "안쏘니 홉킨스",
+    "nickname_en": "Anthony Hopkins",
+    "profession": "actor",
+    "reason": "작품 없음",
+    "qid": "Q65932"
+  },
+  {
+    "id": "6037e5d9-12a6-4b7d-962d-48f64a12fabe",
+    "nickname": "안티스테네스",
+    "nickname_en": "Antisthenes",
+    "profession": "humanities_scholar",
+    "reason": "작품 없음",
+    "qid": "Q179149"
+  },
+  {
+    "id": "ae1e05d9-ac9b-4614-8c78-b77cf4ed42ae",
+    "nickname": "알 마문",
+    "nickname_en": "Al-Mamun",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q61056"
+  },
+  {
+    "id": "dbdcf637-9702-4f7b-ba3b-a12b497bf389",
+    "nickname": "알 카밀",
+    "nickname_en": "Al-Kamil",
+    "profession": "politician",
+    "reason": "작품 없음",
+    "qid": "Q293464"
+  },
+  {
+    "id": "caebd611-0404-43d9-8044-89fea2cd9e00",
+    "nickname": "알 파라비",
+    "nickname_en": "Al-Farabi",
+    "profession": "humanities_scholar",
+    "reason": "작품 없음",
+    "qid": "Q123884574"
+  },
+  {
+    "id": "aa4dee1d-3a8d-4bbc-92ab-07ebe17f2f71",
+    "nickname": "알렉스 카프",
+    "nickname_en": "Alex Karp",
+    "profession": "entrepreneur",
+    "reason": "작품 없음",
+    "qid": "Q19560940"
+  }
+]

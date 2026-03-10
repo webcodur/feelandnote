@@ -1,0 +1,84 @@
+  Feelandnote 셀럽 감상철학 재작성 작업을 수행하라.                                                                                                                                                           
+                                                                                                                                                                                                              
+  중요:                                                                                                                                                                                                       
+  - 이 작업은 여러 에이전트가 동시에 수행 중이다.                                                                                                                                                             
+  - 절대 수동으로 셀럽을 고르지 말고, 반드시 DB 큐에서 1건씩 선점해서 처리하라.                                                                                                                               
+  - 직접 `profiles`를 update 하지 말고, 완료 함수로 저장하라.                                                                                                                                                 
+  - service_role/admin 권한으로 SQL 실행이 가능할 때만 작업하라.                                                                                                                                              
+  - 권한이 없으면 바로 중단하고 “queue 함수 실행 권한 없음”만 보고하라.                                                                                                                                       
+                                                                                                                                                                                                              
+  반드시 먼저 읽을 것:                                                                                                                                                                                        
+  - `docs/project/celeb/celeb-3-philosophy.md`                                                                                                                                                                
+  - `docs/project/celeb/celeb-6-queue.md`                                                                                                                                                                     
+                                                                                                                                                                                                              
+  작업 원칙:                                                                                                                                                                                                  
+  - 최신 감상철학 룰북 기준으로 다시 쓴다.                                                                                                                                                                    
+  - 한국어 3문단, 짧고 밀도 높은 서사형으로 쓴다.                                                                                                                                                             
+  - 장면으로 보여주고, 인생과 감상을 분리하지 말고, 해설투를 피한다.                                                                                                                                          
+  - KO 작성 후 EN도 같은 의미와 밀도로 직접 쓴다.                                                                                                                                                             
+  - 기존 장문 에세이를 짧은 신버전으로 재작성하는 작업이다.                                                                                                                                                   
+                                                                                                                                                                                                              
+  너의 worker 이름:                                                                                                                                                                                           
+  - 반드시 고유한 이름 1개를 사용한다.                                                                                                                                                                        
+  - 예: `claude-01` 또는 `gemini-02`
+  - 이 이름을 모든 SQL 호출에 동일하게 넣는다.                                                                                                                                                                
+                                                                                                                                                                                                              
+  작업 절차:                                                                                                                                                                                                  
+                                                                                                                                                                                                              
+  1. 다음 작업 1건 선점                                                                                                                                                                                       
+  ```sql                                                                                                                                                                                                      
+  select *                                                                                                                                                                                                    
+  from public.claim_next_celeb_philosophy_rewrite('YOUR_WORKER_NAME', 60);                                                                                                                                    
+                                                                                                                                                                                                              
+  2. 결과가 0행이면 작업 종료                                                                                                                                                                                 
+  3. 반환된 셀럽에 대해 근거 수집                                                                                                                                                                             
+                                                                                                                                                                                                              
+  - 우선 DB의 기존 consumption_philosophy, consumption_philosophy_en                                                                                                                                          
+  - 필요시 해당 셀럽의 user_contents / content_locales 기반 감상 기록 확인                                                                                                                                    
+  - 같은 저장소 문서 규칙을 따른다                                                                                                                                                                            
+                                                                                                                                                                                                              
+  4. 한국어/영어 감상철학 작성                                                                                                                                                                                
+  5. 완료 저장                                                                                                                                                                                                
+                                                                                                                                                                                                              
+  select public.complete_celeb_philosophy_rewrite(                                                                                                                                                            
+    'CELEB_ID',                                                                                                                                                                                               
+    'YOUR_WORKER_NAME',                                                                                                                                                                                       
+    'KOREAN_TEXT',                                                                                                                                                                                            
+    'ENGLISH_TEXT'                                                                                                                                                                                            
+  );                                                                                                                                                                                                          
+                                                                                                                                                                                                              
+  6. 실패 시 반납                                                                                                                                                                                             
+                                                                                                                                                                                                              
+  select public.fail_celeb_philosophy_rewrite(                                                                                                                                                                
+    'CELEB_ID',                                                                                                                                                                                               
+    'YOUR_WORKER_NAME',                                                                                                                                                                                       
+    '짧은 실패 사유',                                                                                                                                                                                         
+    true                                                                                                                                                                                                      
+  );                                                                                                                                                                                                          
+                                                                                                                                                                                                              
+  7. 오래 걸리면 lease 연장                                                                                                                                                                                   
+                                                                                                                                                                                                              
+  select public.renew_celeb_philosophy_rewrite_lease(                                                                                                                                                         
+    'CELEB_ID',                                                                                                                                                                                               
+    'YOUR_WORKER_NAME',                                                                                                                                                                                       
+    60                                                                                                                                                                                                        
+  );                                                                                                                                                                                                          
+                                                                                                                                                                                                              
+  절대 금지:                                                                                                                                                                                                  
+                                                                                                                                                                                                              
+  - 큐 선점 없이 임의 셀럽 수정                                                                                                                                                                               
+  - 직접 update profiles set consumption_philosophy ...                                                                                                                                                       
+  - 다른 worker 이름 사용 중인 작업 건 덮어쓰기                                                                                                                                                               
+  - 기존 룰북 무시하고 장문 분석문으로 회귀                                                                                                                                                                   
+  - 1건 선점 후 여러 건 동시 보유                                                                                                                                                                             
+                                                                                                                                                                                                              
+  보고 형식:                                                                                                                                                                                                  
+                                                                                                                                                                                                              
+  - 처리한 slug                                                                                                                                                                                               
+  - 저장 성공 여부                                                                                                                                                                                            
+  - 실패 시 짧은 원인                                                                                                                                                                                         
+                                                                                                                                                                                                              
+  반복:                                                                                                                                                                                                       
+                                                                                                                                                                                                              
+  - 위 절차를 1건씩 반복하라.                                                                                                                                                                                 
+  - claim 결과가 없을 때까지 계속하라.              

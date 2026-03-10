@@ -32,6 +32,7 @@ export default function ContentLibrary({
   targetUserId,
   ownerNickname,
   defaultViewMode,
+  hideControlWrapper = false,
 }: ContentLibraryProps) {
   const searchParams = useSearchParams();
   const initialSearchQuery = searchParams.get("q") || "";
@@ -77,32 +78,56 @@ export default function ContentLibrary({
       <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />
 
       {/* 컨트롤 패널 */}
-      <ControlPanel
-        title={t("recordControl")}
-        icon={<SlidersHorizontal size={16} className="text-accent/70" />}
-        isExpanded={isControlsExpanded}
-        onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
-        className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
-      >
-        <ArchiveControlBar
-          activeTab={lib.activeTab}
-          onTabChange={lib.setActiveTab}
-          typeCounts={lib.typeCounts}
-          sortOption={lib.sortOption}
-          onSortOptionChange={lib.setSortOption}
-          reviewFilter={lib.reviewFilter}
-          onReviewFilterChange={lib.setReviewFilter}
-          viewMode={lib.viewMode}
-          onViewModeChange={lib.setViewMode}
-          isAllCollapsed={lib.isAllCollapsed}
-          onExpandAll={lib.expandAll}
-          onCollapseAll={lib.collapseAll}
-          searchQuery={lib.searchQuery}
-          onSearchChange={lib.setSearchQuery}
-          onSearch={lib.executeSearch}
-          onClearSearch={lib.clearSearch}
-        />
-      </ControlPanel>
+      {hideControlWrapper ? (
+        <div className="mb-2">
+          <ArchiveControlBar
+            activeTab={lib.activeTab}
+            onTabChange={lib.setActiveTab}
+            typeCounts={lib.typeCounts}
+            sortOption={lib.sortOption}
+            onSortOptionChange={lib.setSortOption}
+            reviewFilter={lib.reviewFilter}
+            onReviewFilterChange={lib.setReviewFilter}
+            viewMode={lib.viewMode}
+            onViewModeChange={lib.setViewMode}
+            isAllCollapsed={lib.isAllCollapsed}
+            onExpandAll={lib.expandAll}
+            onCollapseAll={lib.collapseAll}
+            searchQuery={lib.searchQuery}
+            onSearchChange={lib.setSearchQuery}
+            onSearch={lib.executeSearch}
+            onClearSearch={lib.clearSearch}
+            compact
+          />
+        </div>
+      ) : (
+        <ControlPanel
+          title={t("recordControl")}
+          icon={<SlidersHorizontal size={16} className="text-accent/70" />}
+          isExpanded={isControlsExpanded}
+          onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
+          className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
+        >
+          <ArchiveControlBar
+            activeTab={lib.activeTab}
+            onTabChange={lib.setActiveTab}
+            typeCounts={lib.typeCounts}
+            sortOption={lib.sortOption}
+            onSortOptionChange={lib.setSortOption}
+            reviewFilter={lib.reviewFilter}
+            onReviewFilterChange={lib.setReviewFilter}
+            viewMode={lib.viewMode}
+            onViewModeChange={lib.setViewMode}
+            isAllCollapsed={lib.isAllCollapsed}
+            onExpandAll={lib.expandAll}
+            onCollapseAll={lib.collapseAll}
+            searchQuery={lib.searchQuery}
+            onSearchChange={lib.setSearchQuery}
+            onSearch={lib.executeSearch}
+            onClearSearch={lib.clearSearch}
+          />
+        </ControlPanel>
+      )}
 
       {/* 콘텐츠 목록 */}
       <div>

@@ -1,12 +1,12 @@
 {
   "explore": {
     "meta": {
-      "title": "Explore",
-      "description": "Discover notable figures across various fields and the content they enjoyed."
+      "title": "Explore - Celebrity Book & Movie Recommendations",
+      "description": "Discover books, movies, and music recommended by 1,000+ celebrities. From historical figures to modern icons — explore their reading lists and cultural tastes."
     },
     "celebs": {
-      "metaTitle": "Figures | Explore",
-      "metaDescription": "From historical figures to modern cultural icons, explore their reviews and recommended works."
+      "metaTitle": "Celebrity Recommendations | Books, Movies & Music",
+      "metaDescription": "Browse 1,000+ celebrities and their recommended books, favorite movies, and music. Find what your favorite figure reads, watches, and listens to."
     },
     "people": {
       "metaTitle": "People | Explore",
@@ -161,13 +161,13 @@
       "navToday": "Today's Figure"
     },
     "directory": {
-      "metaTitle": "Full Figure Directory | Explore",
-      "metaDescription": "Browse the complete directory of historical and contemporary figures, organized alphabetically.",
+      "metaTitle": "Celebrity Directory - 1,000+ Figures | Explore",
+      "metaDescription": "Browse the complete directory of 1,000+ celebrities with their book recommendations, movie picks, and reading lists.",
       "totalCount": "{count} figures in total"
     },
     "celebFeed": {
-      "metaTitle": "Feed | Explore",
-      "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+      "metaTitle": "Celebrity Feed - Latest Recommendations | Explore",
+      "metaDescription": "Real-time feed of celebrity book recommendations, movie reviews, and music picks. See what notable figures are reading now."
     },
     "topByType": {
       "metaTitle": "Top by Category | Explore",

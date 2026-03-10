@@ -43,6 +43,7 @@ export interface PublicUserProfile {
   is_blocked: boolean
   has_voice?: boolean
   voice_v?: number
+  wikidata_qid?: string | null
 }
 
 export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {

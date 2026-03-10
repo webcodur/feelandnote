@@ -28,12 +28,12 @@
       }
     },
     "meta": {
-      "title": "Agora",
-      "description": "Feel&Note community square — figure feeds, free boards, and announcements. Share your thoughts and find inspiration."
+      "title": "Community | Feel&Note",
+      "description": "Community for sharing celebrity book reviews, movie recommendations, and cultural insights. Join the conversation and find inspiration."
     },
     "celebFeed": {
-      "metaTitle": "Figure Feed | Agora",
-      "metaDescription": "Check the latest reviews and archive updates from notable figures in real time."
+      "metaTitle": "Celebrity Recommendation Feed | Community",
+      "metaDescription": "Real-time feed of celebrity book recommendations, movie reviews, and reading updates from notable figures."
     },
     "friendFeed": {
       "metaTitle": "Friend Feed | Agora"
