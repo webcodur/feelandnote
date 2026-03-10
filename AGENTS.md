@@ -71,6 +71,36 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | 대기 | content_locales 포함, 현재 `as any` 캐스팅 |
-| 셀럽 창작 서가 데이터 수집 | `docs/todo/celeb-works.md` | 대기 | BOOK en 재검증 완료. 착수 가능 |
+| 셀럽 창작 서가 | — | **완료** | 실시간 Wikidata SPARQL 조회 방식. celeb_works 테이블 DROP 완료 |
 
-* 마지막 작업 시각: 26.03.10
+* 마지막 작업 시각: 26.03.11
+
+## Wikidata QID 관리 프로세스
+
+셀럽의 창작 서가는 `profiles.wikidata_qid`를 기반으로 실시간 Wikidata SPARQL 조회한다.
+
+### QID 배정 규칙
+
+1. **자동 배정 스크립트**: `sw/web/scripts/bulk-qid.mjs` — `wbsearchentities` API로 영문명 매칭
+2. **1차 검증 (필수)**: `sw/web/scripts/verify-qid.mjs` — P31=Q5(인간) 확인. 분화구, 소행성, 건물 등 동명 항목 걸러냄
+3. **2차 검증 (필수)**: `sw/web/scripts/verify-qid-birth.mjs` — DB birth_date와 Wikidata P569 생년 대조 (±3년 허용). 동명이인 감지
+4. **수동 확인**: 2차 검증 미해결 건은 수동 QID 조회 후 배정. 특히 아래 유형 주의:
+   - **BC 인물**: Wikidata 연도 절삭(-384 → -38)으로 거짓 양성 다수. QID 자체는 정상
+   - **듀오/그룹**: Coen Brothers, Daft Punk 등 P31≠Q5. 검색 결과 description 확인 필요
+   - **동명이인**: Francis Bacon(철학자 vs 화가), Homer(시인 vs 화가) 등. 생년 대조 필수
+   - **Wikidata 미등재**: 법정 스님 등 일부 인물은 Wikidata 항목 자체가 없음
+
+### 신규 셀럽 등록 시 QID 배정 절차
+
+`celeb-creation-rulebook` 또는 `celeb-basic-profile` 에이전트에서 셀럽 등록 후:
+1. 영문명으로 Wikidata 검색 (`wbsearchentities`)
+2. 후보 중 description에 인물 설명이 있는 항목 선택 (crater, asteroid 등 제외)
+3. 생년 대조 확인 (DB birth_date vs Wikidata P569)
+4. `profiles.wikidata_qid`에 저장
+
+### 실시간 조회 아키텍처
+
+- API: `/api/celeb-works?qid=Qxxx` — 2단계 SPARQL (목록→상세)
+- 캐시: 24시간 인메모리 캐시
+- UI: `CreativeLibrary.tsx` — 클라이언트 필터링/페이징
+- 이미지 커버리지: 미술 85%, 클래식 24%, 영화 13%, 대중음악 4%

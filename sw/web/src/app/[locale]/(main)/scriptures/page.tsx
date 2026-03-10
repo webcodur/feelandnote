@@ -7,15 +7,13 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
-import { Clock, Route, Scroll, GraduationCap } from "lucide-react";
 import HubNav from "@/components/shared/HubNav";
+import HubSection from "@/components/shared/HubSection";
+import { SCRIPTURES_GROUP_ID, SCRIPTURES_SECTIONS, scripturesSection } from "@/components/shared/hubSectionUtils";
+import PopularBooks from "@/components/features/home/PopularBooks";
 
 import { getTodayFigure, getScripturesByEra, getProfessionContentCounts, getContentSamplesByProfession } from "@/actions/scriptures";
 import { getAcademyLessonProgressState } from "@/actions/scriptures/academyProgress";
-
-import HubSection from "@/components/shared/HubSection";
-import { hubSectionNav } from "@/components/shared/hubSectionUtils";
-import PopularBooks from "@/components/features/home/PopularBooks";
 import FigurePreview from "@/components/features/scriptures/hub/FigurePreview";
 import EraPreview from "@/components/features/scriptures/hub/EraPreview";
 import ProfessionPreview from "@/components/features/scriptures/hub/ProfessionPreview";
@@ -27,62 +25,33 @@ export async function generateMetadata() {
   return { title: t("title"), description: t("description"), alternates: getAlternates("/scriptures") };
 }
 
-// #region SSoT: 허브 네비게이션 + 섹션 넘버링 공유 config
-const GROUP_ID = "scriptures";
-const SECTIONS = [
-  { key: "era",        titleKey: "era",        icon: <Clock className="h-4 w-4" /> },
-  { key: "profession", titleKey: "profession",  icon: <Route className="h-4 w-4" /> },
-  { key: "museum",     titleKey: "museum",      icon: <Scroll className="h-4 w-4" /> },
-  { key: "academy",    titleKey: "academy",     icon: <GraduationCap className="h-4 w-4" /> },
-] as const;
-const nav = (key: string) => hubSectionNav(SECTIONS, GROUP_ID, key);
-// #endregion
-
 async function ScripturesHubContent() {
   const tHub = await getTranslations("scriptures.hub");
 
-  // 1차 병렬 데이터 페칭
-  const [
-    todayFigureRes,
-    eraData,
-    professionCounts,
-    academyState
-  ] = await Promise.all([
+  const [todayFigureRes, eraData, professionCounts, academyState] = await Promise.all([
     getTodayFigure(),
     getScripturesByEra(),
     getProfessionContentCounts(),
-    getAcademyLessonProgressState()
+    getAcademyLessonProgressState(),
   ]);
 
   const { figure, contents } = todayFigureRes;
 
-  // 2차: 콘텐츠 샘플 (1차 결과에 의존) — 전 직군 샘플 수집
   const allProfessions = professionCounts.map(p => p.profession);
   const professionContentSamples = await getContentSamplesByProfession(allProfessions, 3);
 
   return (
     <div className="space-y-12 md:space-y-16 mt-4">
-      {/* 오늘의 인물 (크로스 링크 — HubNav 대상 아님) */}
+      {/* 1/5 오늘의 인물 */}
       {figure && contents && (
-        <HubSection
-          title={tHub("figureLabel")}
-          subtitle={tHub("figure")}
-          moreHref="/explore/today"
-          moreLabel={tHub("moreDetail")}
-        >
+        <HubSection {...scripturesSection("figure", tHub)}>
           <FigurePreview figure={figure as any} contents={contents} />
         </HubSection>
       )}
 
-      {/* 시대의 명작 */}
+      {/* 2/5 불후의 명작 */}
       {eraData && eraData.length > 0 && (
-        <HubSection
-          title={tHub("eraLabel")}
-          subtitle={tHub("era")}
-          moreHref="/scriptures/era"
-          moreLabel={tHub("moreDetail")}
-          {...nav("era")}
-        >
+        <HubSection {...scripturesSection("era", tHub)}>
           <EraPreview eras={eraData.map(e => ({
             era: e.era,
             label: e.label,
@@ -96,38 +65,20 @@ async function ScripturesHubContent() {
         </HubSection>
       )}
 
-      {/* 길의 갈래 */}
+      {/* 3/5 길의 갈래 */}
       {professionCounts && professionCounts.length > 0 && (
-        <HubSection
-          title={tHub("professionLabel")}
-          subtitle={tHub("profession")}
-          moreHref="/scriptures/profession"
-          moreLabel={tHub("moreDetail")}
-          {...nav("profession")}
-        >
+        <HubSection {...scripturesSection("profession", tHub)}>
           <ProfessionPreview professionCounts={professionCounts} contentSamples={professionContentSamples} />
         </HubSection>
       )}
 
-      {/* 박물관 */}
-      <HubSection
-        title={tHub("museumLabel")}
-        subtitle={tHub("museum")}
-        moreHref="/scriptures/museum"
-        moreLabel={tHub("exploreMuseum")}
-        {...nav("museum")}
-      >
+      {/* 4/5 박물관 */}
+      <HubSection {...scripturesSection("museum", tHub)}>
         <MuseumPreview />
       </HubSection>
 
-      {/* 학당 */}
-      <HubSection
-        title={tHub("academyLabel")}
-        subtitle={tHub("academy")}
-        moreHref="/scriptures/academy"
-        moreLabel={tHub("enterAcademy")}
-        {...nav("academy")}
-      >
+      {/* 5/5 학당 */}
+      <HubSection {...scripturesSection("academy", tHub)}>
         <AcademyPreview isSignedIn={academyState.isSignedIn} />
       </HubSection>
     </div>
@@ -137,21 +88,21 @@ async function ScripturesHubContent() {
 export default async function ScripturesPage() {
   const tHub = await getTranslations("scriptures.hub");
 
-  const hubItems = SECTIONS.map((s) => ({
-    label: tHub(`${s.titleKey}Label` as any),
-    href: `/scriptures/${s.key}`,
-    icon: s.icon,
-  }));
-
   return (
     <div className="space-y-8 pb-20">
-      {/* 서브페이지 네비게이터 */}
-      <HubNav hubItems={hubItems} groupId={GROUP_ID} />
+      {/* 서브페이지 네비게이터 — SSoT config에서 라벨·순서·넘버링 동기화 */}
+      <HubNav
+        hubItems={SCRIPTURES_SECTIONS.map((s) => ({
+          label: tHub(s.titleKey),
+          href: s.moreHref,
+          icon: s.icon,
+        }))}
+        groupId={SCRIPTURES_GROUP_ID}
+      />
 
-      {/* 허브 콘텐츠 */}
       <Suspense fallback={
         <div className="w-full flex items-center justify-center py-32">
-           <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
+          <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
         </div>
       }>
         <ScripturesHubContent />

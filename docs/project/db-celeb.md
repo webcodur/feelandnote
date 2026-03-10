@@ -16,6 +16,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블). 인물별 고유 대사
   - **defaultLines**: 톤별 범용 대사 (코드 하드코딩). speech_tone 6종 기반. DB 개인화 불필요한 부수적 인터랙션에서 사용
 - **`celeb_tags`** / **`celeb_tag_assignments`**: 스포트라이트 태그 (is_featured, 기간 설정)
+- **`profiles.wikidata_qid`** (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용. QID 배정 프로세스는 `AGENTS.md` > "Wikidata QID 관리 프로세스" 참조
+- **`celeb_works`**: ~~삭제됨 (2026-03-11)~~. 실시간 Wikidata 조회로 대체. API: `/api/celeb-works?qid=Qxxx`
 - **퍼블릭 도메인 셀럽**: 1920년 이전 사망자. 게임 등에서 활용. `isPublicDomainCeleb()` 함수로 필터링 (`death_date` 존재 + 빈 문자열 아님 + 연도 ≤ 1920)
 
 ## 셀럽 작업 룰북
