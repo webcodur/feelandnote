@@ -156,7 +156,9 @@
       "navPersona": "Persona",
       "navFeed": "Feed",
       "navSpotlight": "Spotlight",
-      "navDirectory": "Directory"
+      "navDirectory": "Directory",
+      "navTimeline": "Timeline by Country",
+      "navToday": "Today's Figure"
     },
     "directory": {
       "metaTitle": "Full Figure Directory | Explore",

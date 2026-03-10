@@ -7,7 +7,7 @@
 import { Suspense } from "react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
-import { Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText } from "lucide-react";
+import { Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText, Clock } from "lucide-react";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
 import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
@@ -32,6 +32,7 @@ const SECTIONS = [
 ] as const;
 const STANDALONE = [
   { navKey: "navFeed",      href: "/explore/feed",      icon: <Rss size={14} /> },
+  { navKey: "navTimeline",  href: "/explore/timeline",   icon: <Clock size={14} /> },
   { navKey: "navDirectory", href: "/explore/directory",  icon: <BookOpenText size={14} /> },
 ] as const;
 const nav = (key: string) => hubSectionNav(SECTIONS, GROUP_ID, key);

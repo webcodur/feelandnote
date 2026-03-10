@@ -55,8 +55,8 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
         has_voice: row.has_voice ?? false,
         voice_id_ko: (row as Record<string, unknown>).voice_id_ko as string | null,
         voice_id_en: (row as Record<string, unknown>).voice_id_en as string | null,
-        quotes: row.quotes as string | null,
-        quotes_en: (row as Record<string, unknown>).quotes_en as string | null,
+        quotes: (lines as any)?.quote ?? row.quotes ?? null,
+        quotes_en: (linesEn as any)?.quote ?? (row as Record<string, unknown>).quotes_en ?? null,
         dialogue_lines: lines && Object.keys(lines).length > 0 ? lines : null,
         dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
         voice_v: (row as Record<string, unknown>).voice_v as number ?? 0,
@@ -172,19 +172,33 @@ export async function fetchVoiceFile(params: {
   }
 }
 
-/** 명언 저장 */
+/** 명언 저장 (celeb_dialogues.lines.quote + profiles.quotes 동기) */
 export async function saveQuote(
   celebId: string,
   locale: 'ko' | 'en',
   quote: string,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
-  const col = locale === 'ko' ? 'quotes' : 'quotes_en'
+
+  // celeb_dialogues 업데이트
+  const linesCol = locale === 'ko' ? 'lines' : 'lines_en'
+  const { data: existing } = await supabase
+    .from('celeb_dialogues')
+    .select(`${linesCol}`)
+    .eq('celeb_id', celebId)
+    .maybeSingle()
+
+  const currentLines = (existing as any)?.[linesCol] as Record<string, any> ?? {}
+  const updatedLines = { ...currentLines, quote: quote || '' }
   const { error } = await supabase
-    .from('profiles')
-    .update({ [col]: quote || null })
-    .eq('id', celebId)
+    .from('celeb_dialogues')
+    .upsert({ celeb_id: celebId, [linesCol]: updatedLines }, { onConflict: 'celeb_id' })
   if (error) return { success: false, error: error.message }
+
+  // profiles 동기 (하위호환)
+  const profileCol = locale === 'ko' ? 'quotes' : 'quotes_en'
+  await supabase.from('profiles').update({ [profileCol]: quote || null }).eq('id', celebId)
+
   return { success: true }
 }
 

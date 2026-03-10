@@ -40,6 +40,7 @@ export function getBookEditions(content: {
   creator?: string | null;
   creator_en?: string | null;
   thumbnail_url?: string | null;
+  thumbnail_ko?: string | null;
   thumbnail_en?: string | null;
   has_en_edition?: boolean | null;
 }): BookEditions | undefined {
@@ -55,10 +56,14 @@ export function getBookEditions(content: {
   const editions: BookEditions = {};
 
   if (hasKo) {
+    // thumbnail_url이 thumbnail_en과 동일하면 ko 고유 표지 없음 (fallback된 값)
+    const koThumb = content.thumbnail_ko
+      ?? (content.thumbnail_url === content.thumbnail_en ? null : content.thumbnail_url)
+      ?? null;
     editions.ko = {
       title: content.title_ko!,
       creator: content.creator ?? null,
-      thumbnail: content.thumbnail_url ?? null,
+      thumbnail: koThumb,
     };
   }
 

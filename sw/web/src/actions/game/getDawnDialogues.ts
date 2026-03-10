@@ -22,23 +22,24 @@ export async function getDawnDialogues(
   const supabase = await createClient();
   const locale = await getLocale();
 
-  const [tonesResult, dialoguesResult, profilesResult] = await Promise.all([
-    supabase.from("celeb_persona").select("celeb_id, speech_tone").in("celeb_id", celebIds),
+  const [tonesResult, dialoguesResult] = await Promise.all([
+    supabase.from("profiles").select("id, speech_tone").in("id", celebIds),
     supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", celebIds),
-    supabase.from("profiles").select("id, quotes, quotes_en").in("id", celebIds),
   ]);
 
   if (tonesResult.error) console.error("[getDawnDialogues] tone 조회 실패:", tonesResult.error.message);
   if (dialoguesResult.error) console.error("[getDawnDialogues] dialogue 조회 실패:", dialoguesResult.error.message);
-  if (profilesResult.error) console.error("[getDawnDialogues] profile 조회 실패:", profilesResult.error.message);
 
-  const tones = tonesResult.data;
-  const dialogues = dialoguesResult.data;
-  const profiles = profilesResult.data;
+  const toneMap = new Map<string, string>((tonesResult.data ?? []).map((t) => [t.id, t.speech_tone as string]));
 
-  const toneMap = new Map<string, string>((tones ?? []).map((t) => [t.celeb_id, (t as any).speech_tone as string]));
-  const dialogueMap = new Map<string, any>((dialogues ?? []).map((d) => [d.celeb_id, (locale === 'en' && d.lines_en) ? d.lines_en : d.lines]));
-  const quoteMap = new Map<string, string>((profiles ?? []).map((p) => [p.id, (locale === 'en' && (p as any).quotes_en) ? (p as any).quotes_en : p.quotes ?? ""]));
+  const dialogueMap = new Map<string, any>();
+  const quoteMap = new Map<string, string>();
+  for (const d of dialoguesResult.data ?? []) {
+    const lines = (locale === 'en' && d.lines_en) ? d.lines_en : d.lines;
+    dialogueMap.set(d.celeb_id, lines);
+    const quote = (lines as any)?.quote ?? "";
+    quoteMap.set(d.celeb_id, quote);
+  }
 
   const result: Record<string, DawnDialogueData> = {};
   for (const id of celebIds) {

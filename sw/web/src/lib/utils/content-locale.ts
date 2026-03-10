@@ -29,6 +29,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined) {
     creator_en: en?.creator || null,
     isbn_ko: ko?.isbn || null,
     isbn_en: en?.isbn || null,
+    thumbnail_ko: ko?.thumbnail_url || null,
     thumbnail_en: en?.thumbnail_url || null,
     has_en_edition: en?.title != null,
     affiliate_url: ko?.affiliate_url || en?.affiliate_url || null,

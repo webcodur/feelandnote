@@ -67,7 +67,7 @@
   "celeb_id": "UUID",
   "nickname": "인물명",
   "profession": "직군",
-  "speech_tone": "(비워둘 것 — 별도 부여 예정, 변경 금지)",
+  "speech_tone": "(profiles.speech_tone에서 조회. Speech 트랙 Phase 1에서 배정)",
   "dialogue_tier": "full 또는 greeting_only",
   "lines": {
     "greeting":     ["[emotion, emotion] 대사", × 3],

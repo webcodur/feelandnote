@@ -48,6 +48,20 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
     return [];
   }
 
+  // quote를 celeb_dialogues에서 조회
+  const cardIds = personaData.map(r => r.id);
+  const quoteMap = new Map<string, string>();
+  if (cardIds.length > 0) {
+    const { data: dRows } = await supabase
+      .from("celeb_dialogues")
+      .select("celeb_id, lines, lines_en")
+      .in("celeb_id", cardIds);
+    for (const d of dRows ?? []) {
+      const lines = (isEn && (d as any).lines_en) ? (d as any).lines_en : d.lines;
+      quoteMap.set(d.celeb_id, (lines as any)?.quote ?? "");
+    }
+  }
+
   return personaData
     .filter((row) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
     .map((row) => {
@@ -71,7 +85,7 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
         nationality: row.nationality ?? "",
         avatarUrl: row.avatar_url,
         portraitUrl: null,
-        quotes: (isEn && (row as any).quotes_en) || (row.quotes ?? ""),
+        quotes: quoteMap.get(row.id) ?? ((isEn && (row as any).quotes_en) || (row.quotes ?? "")),
         gender: row.gender ?? null,
         speechTone: validateSpeechTone(row.speech_tone),
         influence,

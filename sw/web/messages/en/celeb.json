@@ -20,6 +20,21 @@
     "tabConsume": "Library",
     "tabCreate": "Works",
     "worksEmpty": "No works registered yet.",
+    "worksLoading": "Loading...",
+    "worksTypeAll": "All",
+    "worksTypeBook": "Books",
+    "worksTypeVideo": "Videos",
+    "worksTypeMusic": "Music",
+    "worksTypeGame": "Games",
+    "worksTypeArt": "Art",
+    "roleAuthor": "Author",
+    "roleDirector": "Director",
+    "roleComposer": "Composer",
+    "roleArtist": "Artist",
+    "roleEditor": "Editor",
+    "roleScreenwriter": "Screenwriter",
+    "roleDeveloper": "Developer",
+    "rolePerformer": "Performer",
     "notFound": "Celebrity not found"
   }
 }

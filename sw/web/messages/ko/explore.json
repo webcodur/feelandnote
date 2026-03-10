@@ -156,7 +156,9 @@
       "navPersona": "인물 분석",
       "navFeed": "인물 피드",
       "navSpotlight": "스포트라이트",
-      "navDirectory": "디렉토리"
+      "navDirectory": "디렉토리",
+      "navTimeline": "국가별 연대기",
+      "navToday": "오늘의 인물"
     },
     "directory": {
       "metaTitle": "전체 인물 디렉토리 | 탐색",

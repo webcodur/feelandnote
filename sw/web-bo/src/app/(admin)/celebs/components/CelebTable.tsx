@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock, Copy, Check, Loader2 } from 'lucide-react'
 import { type Member } from '@/actions/admin/members'
-import { toggleCelebTier, updateCeleb } from '@/actions/admin/celebs'
+import { toggleCelebTier, toggleCelebStatus, updateCeleb } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
@@ -26,6 +26,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-16">tier</th>
           <SortableTableHeader column="profession" label="profession" />
           <SortableTableHeader column="nationality" label="nationality" align="center" />
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-12">gender</th>
           <SortableTableHeader column="status" label="status" align="center" />
           <SortableTableHeader column="influence_total" label="influence_total" align="center" />
           <SortableTableHeader column="content_count" label="content_count" align="center" />
@@ -36,7 +37,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={12} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={13} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
@@ -71,7 +72,12 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
               <td className="px-3 md:px-4 py-3 text-center">
                 {celeb.nationality && <NationalityBadge code={celeb.nationality} />}
               </td>
-              <td className="px-3 md:px-4 py-3 text-center"><StatusBadge status={celeb.status} /></td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <GenderBadge gender={celeb.gender} />
+              </td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <StatusToggleIcon celebId={celeb.id} status={celeb.status} />
+              </td>
               <td className="px-3 md:px-4 py-3 text-center">
                 <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
                   <Zap className="w-3.5 h-3.5" />{celeb.influence_total || 0}
@@ -106,17 +112,48 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
   )
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
-    active: { label: 'active', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
-    inactive: { label: 'inactive', className: 'bg-yellow-500/10 text-yellow-400', icon: Clock },
-    suspended: { label: 'suspended', className: 'bg-red-500/10 text-red-400', icon: Ban },
-    deleted: { label: 'deleted', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
+function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string; status: string }) {
+  const [status, setStatus] = useState(initialStatus)
+  const [loading, setLoading] = useState(false)
+
+  const config: Record<string, { className: string; hoverClass: string; icon: React.ElementType; title: string }> = {
+    active: { className: 'text-green-400', hoverClass: 'hover:bg-yellow-500/10', icon: CheckCircle, title: 'active → inactive' },
+    inactive: { className: 'text-yellow-400', hoverClass: 'hover:bg-green-500/10', icon: Clock, title: 'inactive → active' },
+    suspended: { className: 'text-red-400', hoverClass: 'hover:bg-green-500/10', icon: Ban, title: 'suspended → active' },
+    deleted: { className: 'text-gray-400', hoverClass: '', icon: Ban, title: 'deleted' },
   }
-  const { label, className, icon: Icon } = config[status] || config.active
+  const { className, hoverClass, icon: Icon, title } = config[status] || config.active
+
+  const handleClick = async () => {
+    if (status === 'deleted' || loading) return
+    setLoading(true)
+    try {
+      const newStatus = await toggleCelebStatus(celebId, status)
+      setStatus(newStatus)
+    } catch (e) {
+      console.error('status 전환 실패:', e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <span className={`inline-flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-medium whitespace-nowrap ${className}`}>
-      <Icon className="w-3 h-3" />{label}
+    <button
+      onClick={handleClick}
+      disabled={loading || status === 'deleted'}
+      className={`p-1 rounded cursor-pointer transition-colors disabled:cursor-default ${className} ${hoverClass}`}
+      title={title}
+    >
+      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Icon className="w-4 h-4" />}
+    </button>
+  )
+}
+
+function GenderBadge({ gender }: { gender?: boolean | null }) {
+  if (gender === null || gender === undefined) return <span className="text-[10px] text-text-tertiary">-</span>
+  return (
+    <span className={`text-xs font-medium ${gender ? 'text-blue-400' : 'text-pink-400'}`}>
+      {gender ? '♂' : '♀'}
     </span>
   )
 }

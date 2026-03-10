@@ -36,18 +36,39 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     return [];
   }
 
-  return data
+  // celeb_dialogues에서 quote 조회
+  const filteredIds = data
     .filter((p: any) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
       if (!influence) return false
       const year = getDeathYear(p.death_date)
       return year <= maxDeathYear
     })
+    .map((p: any) => p.id)
+
+  const locale = await getLocale()
+  const quoteMap = new Map<string, string>()
+  if (filteredIds.length > 0) {
+    const { data: dRows } = await supabase
+      .from('celeb_dialogues')
+      .select('celeb_id, lines, lines_en')
+      .in('celeb_id', filteredIds)
+    for (const d of dRows ?? []) {
+      const lines = (locale === 'en' && (d as any).lines_en) ? (d as any).lines_en : d.lines
+      quoteMap.set(d.celeb_id, (lines as any)?.quote ?? '')
+    }
+  }
+
+  return data
+    .filter((p: any) => filteredIds.includes(p.id))
     .map((p: any) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
       const personaRow = Array.isArray(p.celeb_persona) ? p.celeb_persona[0] : p.celeb_persona
       const persona = personaRow?.persona ? parsePersonaJsonb(personaRow.persona as PersonaJsonb) : undefined
-      return dbToCharacter(p, influence, persona)
+      const char = dbToCharacter(p, influence, persona)
+      const dlgQuote = quoteMap.get(p.id)
+      if (dlgQuote) char.quotes = dlgQuote
+      return char
     })
     .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
 }

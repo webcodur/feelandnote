@@ -40,6 +40,7 @@ export async function getCelebBySlug(
     typeCountsResult,
     followerResult,
     guestbookResult,
+    dialogueResult,
   ] = await Promise.all([
     supabase
       .from('user_contents')
@@ -57,6 +58,11 @@ export async function getCelebBySlug(
       .from('guestbook_entries')
       .select('*', { count: 'exact', head: true })
       .eq('profile_id', userId),
+    supabase
+      .from('celeb_dialogues')
+      .select('lines, lines_en')
+      .eq('celeb_id', userId)
+      .maybeSingle(),
   ])
 
   // 타입별 카운트 집계
@@ -105,7 +111,10 @@ export async function getCelebBySlug(
       nickname_ko: profile.nickname || 'Unknown',
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
-      quotes: resolve(profile.quotes_en, profile.quotes),
+      quotes: resolve(
+        (dialogueResult.data?.lines_en as Record<string, any> | null)?.quote ?? profile.quotes_en,
+        (dialogueResult.data?.lines as Record<string, any> | null)?.quote ?? profile.quotes
+      ),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,

@@ -20,11 +20,13 @@ const SUBPAGE_KEY: Record<string, string> = {
   persona: "navPersona",
   spotlight: "navSpotlight",
   feed: "navFeed",
+  timeline: "navTimeline",
+  directory: "navDirectory",
+  today: "navToday",
   // 레거시 경로 (리다이렉트 전 직접 접근 대비)
   celebs: "navCelebs",
   "top-by-type": "navTopByType",
   "celeb-feed": "navFeed",
-  directory: "navDirectory",
 };
 
 export default function ExploreBanner() {

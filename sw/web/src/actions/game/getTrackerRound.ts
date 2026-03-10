@@ -154,13 +154,25 @@ export async function getTrackerRound(
   const preferKo = await isKoreanLocale();
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
+
+  // quote를 celeb_dialogues에서 조회
+  const { data: chosenDialogue } = await supabase
+    .from("celeb_dialogues")
+    .select("lines, lines_en")
+    .eq("celeb_id", chosen.id)
+    .maybeSingle();
+  const chosenQuote = resolve(
+    (chosenDialogue?.lines_en as any)?.quote,
+    (chosenDialogue?.lines as any)?.quote
+  ) ?? resolve(chosen.quotes_en, chosen.quotes);
+
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession, chosen.avatar_url,
     resolve(chosen.consumption_philosophy_en, chosen.consumption_philosophy),
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve(chosen.bio_en, chosen.bio),
-    resolve(chosen.quotes_en, chosen.quotes),
+    chosenQuote,
     preferKo);
 }
 
@@ -231,13 +243,25 @@ async function getTrackerRoundFallback(
   const preferKo = await isKoreanLocale();
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
+
+  // quote를 celeb_dialogues에서 조회
+  const { data: chosenDialogue } = await supabase
+    .from("celeb_dialogues")
+    .select("lines, lines_en")
+    .eq("celeb_id", chosen.id)
+    .maybeSingle();
+  const chosenQuote = resolve(
+    (chosenDialogue?.lines_en as any)?.quote,
+    (chosenDialogue?.lines as any)?.quote
+  ) ?? resolve((chosen as any).quotes_en, chosen.quotes);
+
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve((chosen as any).nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession ?? "other", chosen.avatar_url,
     resolve((chosen as any).consumption_philosophy_en, chosen.consumption_philosophy),
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve((chosen as any).bio_en, chosen.bio),
-    resolve((chosen as any).quotes_en, chosen.quotes),
+    chosenQuote,
     preferKo);
 }
 

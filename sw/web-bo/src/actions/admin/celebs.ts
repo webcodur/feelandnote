@@ -704,6 +704,26 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
 
   if (error) throw error
 
+  // quotes 변경 시 celeb_dialogues.lines.quote 동기화
+  if (input.quotes !== undefined || input.quotes_en !== undefined) {
+    const { data: existing } = await supabase
+      .from('celeb_dialogues')
+      .select('lines, lines_en')
+      .eq('celeb_id', input.id)
+      .maybeSingle()
+
+    if (existing) {
+      const updates: Record<string, any> = { celeb_id: input.id }
+      if (input.quotes !== undefined) {
+        updates.lines = { ...(existing.lines as Record<string, any> ?? {}), quote: input.quotes ?? '' }
+      }
+      if (input.quotes_en !== undefined) {
+        updates.lines_en = { ...(existing.lines_en as Record<string, any> ?? {}), quote: input.quotes_en ?? '' }
+      }
+      await supabase.from('celeb_dialogues').upsert(updates, { onConflict: 'celeb_id' })
+    }
+  }
+
   // 영향력 저장
   if (input.influence) {
     const adminClient = createAdminClient()
@@ -1101,28 +1121,54 @@ export interface CelebQuotesItem {
 export async function getCelebsForQuotesEdit(): Promise<CelebQuotesItem[]> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url, profession, quotes, quotes_en')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .order('nickname', { ascending: true })
+  const [profilesResult, dialoguesResult] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('id, nickname, avatar_url, profession')
+      .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
+      .order('nickname', { ascending: true }),
+    supabase
+      .from('celeb_dialogues')
+      .select('celeb_id, lines, lines_en'),
+  ])
 
-  if (error) throw error
+  if (profilesResult.error) throw profilesResult.error
 
-  return data || []
+  const quoteMap = new Map<string, { quotes: string | null; quotes_en: string | null }>()
+  for (const d of dialoguesResult.data ?? []) {
+    quoteMap.set(d.celeb_id, {
+      quotes: (d.lines as any)?.quote ?? null,
+      quotes_en: (d.lines_en as any)?.quote ?? null,
+    })
+  }
+
+  return (profilesResult.data || []).map(p => ({
+    ...p,
+    quotes: quoteMap.get(p.id)?.quotes ?? null,
+    quotes_en: quoteMap.get(p.id)?.quotes_en ?? null,
+  }))
 }
 
 export async function updateCelebQuotes(celebId: string, quotes: string | null): Promise<void> {
   const supabase = await createClient()
 
+  // celeb_dialogues.lines.quote 업데이트
+  const { data: existing } = await supabase
+    .from('celeb_dialogues')
+    .select('lines')
+    .eq('celeb_id', celebId)
+    .maybeSingle()
+
+  const updatedLines = { ...(existing?.lines as Record<string, any> ?? {}), quote: quotes ?? '' }
   const { error } = await supabase
-    .from('profiles')
-    .update({ quotes })
-    .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
+    .from('celeb_dialogues')
+    .upsert({ celeb_id: celebId, lines: updatedLines }, { onConflict: 'celeb_id' })
 
   if (error) throw error
+
+  // profiles.quotes도 동기 (하위호환)
+  await supabase.from('profiles').update({ quotes }).eq('id', celebId)
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/quotes')

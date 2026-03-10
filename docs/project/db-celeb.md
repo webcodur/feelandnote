@@ -8,10 +8,10 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - **덕목 8개** (VirtueKey, 0~100): temperance 절제, diligence 근면, reflection 성찰, courage 용기, loyalty 충의, benevolence 인애, fairness 공정, humility 겸양
   - **능력 4개** (AbilityKey, 0~100): command 통솔, martial 무력, intellect 지력, charm 매력
   - **성향 4개** (TendencyKey, -50~+50): pessimism_optimism, conservative_progressive, individual_social, cautious_bold
-  - **speech_tone** (text): 말투 6종 (loyal/composed/bold/humble/gentle/free). 패권 게임 대사 톤 결정
   - **rationale** (text): 페르소나 수치에 대한 역사적/비평적 근거 (해설지). 사용자의 납득을 위한 필수 데이터
   - **i18n**: persona jsonb 내 `reason`/`reason_en`, `rationale`/`rationale_en` 이중 구조
   - ⚠️ 덕목(품성)과 능력(역량)은 별개. 덕목을 능력으로 취급하거나 혼용 금지
+- **`profiles.speech_tone`** (text): 말투 6종 (loyal/composed/bold/humble/gentle/free). 패권 게임 대사 톤 결정. **profiles 테이블에 직접 존재** (celeb_persona 아님). Speech 트랙 룰북: `celeb-7-speech.md`
 - **`celeb_dialogues`**: 인물별 고유 대사(**dialogueLines**). celeb_id(PK, profiles FK), lines(JSONB: 7상황×3변형=21개 대사. greeting/select/deploy/battle_win/battle_draw/battle_lose/clash_attack)
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블). 인물별 고유 대사
   - **defaultLines**: 톤별 범용 대사 (코드 하드코딩). speech_tone 6종 기반. DB 개인화 불필요한 부수적 인터랙션에서 사용
@@ -30,5 +30,6 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 | 4 | 영향력 평가 | `docs/project/celeb/celeb-4-influence.md` |
 | 5 | 페르소나 | `docs/project/celeb/celeb-5-persona.md` |
 | 6 | 큐 관리 | `docs/project/celeb/celeb-6-queue.md` |
-| 7 | 고유 대사 | `docs/project/celeb/celeb-8-dialogue.md` |
-| 8 | 명언 검수 | `docs/project/celeb/celeb-9-quotes.md` |
+| 7 | Speech 트랙 | `docs/project/celeb/celeb-7-speech.md` |
+| 8 | 고유 대사 | `docs/project/celeb/celeb-8-dialogue.md` |
+| 9 | 명언 검수 | `docs/project/celeb/celeb-9-quotes.md` |

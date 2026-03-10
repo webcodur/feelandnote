@@ -1,4 +1,0 @@
-Actor,Entrepreneur,Leader,Musician
-Commander,Author,Social Scientist,Investor
-Politician,Visual Artist,Athlete,Scientist
-Humanities Scholar,Director,Influencer

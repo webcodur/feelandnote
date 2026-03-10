@@ -49,7 +49,7 @@ pnpm build:bo
 | `docs/project/external-services.md` | Supabase, R2, 크론잡 | 외부 서비스 연동 |
 | `docs/project/i18n.md` | 다국어화 계획, 진행 현황, 기술 참조 | i18n 작업 |
 | `docs/project/monetization.md` | 수익화 방안 탐색 (AdSense 등) | 수익화 전략 수립 |
-| `docs/en-book-thumbnail-fix.md` | 영문 도서 썸네일 수집 작업 보고 | 썸네일 데이터 이력 |
+| `docs/en-book-data-quality.md` | BOOK en 데이터 진단·수정 프로세스·API 사양·이력 | en 데이터 재검증 작업 |
 | `docs/suikoden-sim/` | 천도 게임 기획서 (10개 문서) | 게임 개발 |
 
 ## TODO
@@ -59,8 +59,9 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
-| en_isbn/en_creator 오매칭 정비 | — | 대기 | 제목만으로 자동매칭된 ISBN이 동명이본으로 잘못 연결된 건 교정 필요 |
+| BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | — | 대기 | TMDB `/images` API |
 | Supabase 타입 재생성 | — | 대기 | content_locales 포함, 현재 `as any` 캐스팅 |
+| 셀럽 창작 서가 데이터 수집 | `docs/todo/celeb-works.md` | 대기 | BOOK en 재검증 완료. 착수 가능 |
 
-* 마지막 작업 시각: 26.03.08 01:30
+* 마지막 작업 시각: 26.03.10

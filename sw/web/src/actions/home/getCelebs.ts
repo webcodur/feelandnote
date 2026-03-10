@@ -155,9 +155,11 @@ export async function getCelebs(
     })
   }
 
-  // 셀럽별 greeting 대사 조회
+  // 셀럽별 대사 조회 (greeting + quote)
   const greetingMap = new Map<string, string[]>()
   const greetingEnMap = new Map<string, string[]>()
+  const quoteMap = new Map<string, string>()
+  const quoteEnMap = new Map<string, string>()
   if (celebIds.length > 0) {
     const { data: dialogueRows } = await supabase
       .from('celeb_dialogues')
@@ -165,10 +167,12 @@ export async function getCelebs(
       .in('celeb_id', celebIds)
 
     ;(dialogueRows ?? []).forEach(row => {
-      const lines = row.lines as Record<string, string[]> | null
-      const linesEn = row.lines_en as Record<string, string[]> | null
+      const lines = row.lines as Record<string, any> | null
+      const linesEn = row.lines_en as Record<string, any> | null
       if (lines?.greeting) greetingMap.set(row.celeb_id, lines.greeting)
       if (linesEn?.greeting) greetingEnMap.set(row.celeb_id, linesEn.greeting)
+      if (lines?.quote) quoteMap.set(row.celeb_id, lines.quote)
+      if (linesEn?.quote) quoteEnMap.set(row.celeb_id, linesEn.quote)
     })
   }
 
@@ -227,8 +231,8 @@ export async function getCelebs(
       death_date: row.death_date,
       bio: row.bio,
       bio_en: row.bio_en ?? null,
-      quotes: row.quotes,
-      quotes_en: row.quotes_en ?? null,
+      quotes: quoteMap.get(row.id) ?? row.quotes ?? null,
+      quotes_en: quoteEnMap.get(row.id) ?? row.quotes_en ?? null,
       is_verified: row.is_verified ?? false,
       is_platform_managed: row.claimed_by === null,
       follower_count: row.follower_count,

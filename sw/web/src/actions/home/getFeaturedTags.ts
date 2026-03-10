@@ -132,11 +132,13 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     (contentCountsResult.data as any[]).forEach(c => contentCountMap.set(c.user_id, c.count))
   }
 
-  const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null }>()
+  const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null; quote?: string | null; quote_en?: string | null }>()
   ;(dialoguesResult.data ?? []).forEach((d: any) => {
     dialogueMap.set(d.celeb_id, {
       greeting: d.lines?.greeting ?? null,
       greeting_en: d.lines_en?.greeting ?? null,
+      quote: d.lines?.quote ?? null,
+      quote_en: d.lines_en?.quote ?? null,
     })
   })
 
@@ -183,8 +185,8 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
           death_date: c.death_date,
           bio: c.bio,
           bio_en: (c as any).bio_en ?? null,
-          quotes: c.quotes,
-          quotes_en: (c as any).quotes_en ?? null,
+          quotes: dialogueMap.get(c.id)?.quote ?? c.quotes ?? null,
+          quotes_en: dialogueMap.get(c.id)?.quote_en ?? (c as any).quotes_en ?? null,
           is_verified: c.is_verified ?? false,
           is_platform_managed: c.claimed_by === null,
           follower_count: followerCountMap.get(c.id) ?? 0,

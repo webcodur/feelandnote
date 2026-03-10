@@ -1,0 +1,2149 @@
+[
+  {
+    "content_id": "3acbb0bf-e221-48e4-bd33-437c3b73a67c",
+    "en_title": "My American Journey Paperback",
+    "en_creator": "Powell, Colin L./ Persico, Joseph E.",
+    "en_isbn": "9780679432968",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "f40a6f87-bd4c-4064-922d-4db4c0297181",
+    "en_title": "Myeongshimbogam",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "명심보감",
+    "ko_creator": "범립본",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "1f02d8f9-008e-49b4-9afc-5e229f9321e6",
+    "en_title": "Near Future Forward",
+    "en_creator": null,
+    "en_isbn": "9781948890267",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "0fe906c6-50fd-400b-bbfe-f849a01a0f9e",
+    "en_title": "No Death, No Fear",
+    "en_creator": "Thich Nhat Hanh",
+    "en_isbn": "9781573222211",
+    "en_thumb": "https://covers.openlibrary.org/b/id/450312-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "두려움 없이 죽음을 말하다",
+    "ko_creator": "틱낫한",
+    "reason": "저자 불일치: \"Thich Nhat Hanh\" vs OL \"Thích Nhất Hạnh\"",
+    "ol": {
+      "title": "No death, no fear",
+      "author": "Thích Nhất Hạnh",
+      "allAuthors": [
+        "Thích Nhất Hạnh"
+      ],
+      "isbn": "9781573222211",
+      "coverId": 450312,
+      "year": 2002
+    }
+  },
+  {
+    "content_id": "1ce14c35-1ae8-4d3d-b8d8-0cfc597e0807",
+    "en_title": "Norwegian Wood",
+    "en_creator": "村上春樹",
+    "en_isbn": "9780099584353",
+    "en_thumb": "https://covers.openlibrary.org/b/id/2237620-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "노르웨이의 숲",
+    "ko_creator": "무라카미 하루키",
+    "reason": "en_creator 비라틴 + OL 저자도 비라틴: \"村上春樹\"",
+    "ol": {
+      "title": "Norwegian Wood",
+      "author": "村上春樹",
+      "allAuthors": [
+        "村上春樹"
+      ],
+      "isbn": "9781860468001",
+      "coverId": 2237620,
+      "year": 1987
+    }
+  },
+  {
+    "content_id": "8728f9f4-f975-45fe-83ce-18a2b1d7a3c8",
+    "en_title": "On the Babylonian Captivity of the Church",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "교회의 바빌론 유수",
+    "ko_creator": "마르틴 루터",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "48aeddbc-b4b5-4d4c-930e-c6321be5d2d6",
+    "en_title": "On the Shortness of Life",
+    "en_creator": "Rickles, Dean",
+    "en_isbn": null,
+    "en_thumb": "https://covers.openlibrary.org/b/id/111250-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "인생의 짧음에 관하여",
+    "ko_creator": "Rickles, Dean",
+    "reason": "저자 불일치: \"Rickles, Dean\" vs OL \"Seneca the Younger\"",
+    "ol": {
+      "title": "On the shortness of life",
+      "author": "Seneca the Younger",
+      "allAuthors": [
+        "Seneca the Younger"
+      ],
+      "isbn": "9780143036326",
+      "coverId": 111250,
+      "year": 2005
+    }
+  },
+  {
+    "content_id": "3e765158-5f15-4eb5-a649-46ff381662c3",
+    "en_title": "One Nation 양장본 Hardcover",
+    "en_creator": "Carson, Ben, Carson, Candy",
+    "en_isbn": "9781595231123",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "76d1d5e9-7c2c-4924-a871-2486c225b4e3",
+    "en_title": "Perfume",
+    "en_creator": "Patrick Süskind",
+    "en_isbn": "9780140120837",
+    "en_thumb": "https://covers.openlibrary.org/b/id/10910286-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "향수",
+    "ko_creator": "파트리크 쥐스킨트",
+    "reason": "저자 불일치: \"Patrick Süskind\" vs OL \"Patrick Süskind\"",
+    "ol": {
+      "title": "Perfume",
+      "author": "Patrick Süskind",
+      "allAuthors": [
+        "Patrick Süskind"
+      ],
+      "isbn": "9788432216886",
+      "coverId": 10910286,
+      "year": 1985
+    }
+  },
+  {
+    "content_id": "bdd714a8-1eb0-4a1c-913e-08131b371789",
+    "en_title": "Personal Recollections of Joan of Arc (Historically Annotated Edition)",
+    "en_creator": "Mark Twain",
+    "en_isbn": "9783988687227",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1749750411i/236302928.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "d537e163-66d2-4193-9b12-f254dd014bbc",
+    "en_title": "Philosophical Inquiries into the Essence of Human Freedom",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "인간 자유의 본질에 관한 철학적 탐구",
+    "ko_creator": "프리드리히 W. J. 셸링",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "c0f3ba3c-7d4e-4f25-8278-a1f8937d0828",
+    "en_title": "Philostratus: The Life of Apollonius of Tyana",
+    "en_creator": "Flavius Philostratus",
+    "en_isbn": "9780674996137",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "아폴로니오스 전기",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Flavius Philostratus\" vs OL \"F. C. Conybeare\"",
+    "ol": {
+      "title": "Philostratus, the Life of Apollonius of Tyana, Vol. 2 Of 2",
+      "author": "F. C. Conybeare",
+      "allAuthors": [
+        "F. C. Conybeare"
+      ],
+      "isbn": "9780364041635",
+      "coverId": null,
+      "year": 2018
+    }
+  },
+  {
+    "content_id": "da311100-0cda-4e77-9953-a2a7b42db633",
+    "en_title": "Pictures at a Revolution Paperback",
+    "en_creator": "Harris, Mark",
+    "en_isbn": "9781594201523",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "af106097-c645-4d2c-a668-368b8b48c894",
+    "en_title": "Queen of Fashion 없음",
+    "en_creator": "Weber, Caroline",
+    "en_isbn": "9780805079494",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+    "en_title": "Ramayana",
+    "en_creator": "Vālmīki",
+    "en_isbn": "9780460014038",
+    "en_thumb": "https://covers.openlibrary.org/b/id/4974006-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "라마야나",
+    "ko_creator": "발미키",
+    "reason": "저자 불일치: \"Vālmīki\" vs OL \"Vālmīki\"",
+    "ol": {
+      "title": "Ramayana",
+      "author": "Vālmīki",
+      "allAuthors": [
+        "Vālmīki",
+        "Robert P. Goldman",
+        "Krishna Dharma"
+      ],
+      "isbn": "9789386458667",
+      "coverId": 4974006,
+      "year": 1829
+    }
+  },
+  {
+    "content_id": "ae4994a2-26a9-4244-9ba8-71f35d7eb973",
+    "en_title": "Reamde Paperback",
+    "en_creator": "Stephenson, Neal",
+    "en_isbn": "9780062106421",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "Reamde Paperback",
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "a50e1bc7-216b-4609-9e2a-f1caf45e9033",
+    "en_title": "Resurrection from the Underground",
+    "en_creator": "르네 지라르",
+    "en_isbn": "9798347503070",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "지하로부터의 부활",
+    "ko_creator": "르네 지라르",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "6f5b9981-00f8-46ea-a353-fc2067136264",
+    "en_title": "Secrets and Other Stories",
+    "en_creator": "Bernard MacLaverty",
+    "en_isbn": "9780140081022",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Bernard MacLaverty\" vs OL \"Joan Wyatt\"",
+    "ol": {
+      "title": "Secrets and Other Stories",
+      "author": "Joan Wyatt",
+      "allAuthors": [
+        "Joan Wyatt"
+      ],
+      "isbn": "9780140312058",
+      "coverId": null,
+      "year": 1980
+    }
+  },
+  {
+    "content_id": "773bd540-fc76-4112-bd0e-974d5c8773f1",
+    "en_title": "Seeing Is Forgetting the Name of the Thing One Sees: Over Thirty Years of Conversations with Robert Irwin",
+    "en_creator": "Weschler, Lawrence",
+    "en_isbn": "9780520256095",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Weschler, Lawrence\" vs OL \"Lawrence Weschler\"",
+    "ol": {
+      "title": "Seeing is forgetting the name of the thing one sees",
+      "author": "Lawrence Weschler",
+      "allAuthors": [
+        "Lawrence Weschler"
+      ],
+      "isbn": "9780520256088",
+      "coverId": 9351581,
+      "year": 1982
+    }
+  },
+  {
+    "content_id": "eb21ed28-4c05-4036-8dda-b73af6fb9190",
+    "en_title": "Selected Poems of Lamartine",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "라마르틴 시선",
+    "ko_creator": "알퐁스 드 라마르틴",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "f6f4b51e-cdba-43db-9c30-f3f7c19b6f53",
+    "en_title": "Selected Poems of Li Bai",
+    "en_creator": "Li Bai",
+    "en_isbn": null,
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1498431443i/35516072.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "이태백 명시문 선집",
+    "ko_creator": "이백",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "3b36ab21-2917-41f2-a199-d96f88ac5071",
+    "en_title": "Shah of Shahs",
+    "en_creator": "Ryszard Kapuscinski",
+    "en_isbn": "9780679738015",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1506615949i/36222611.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "샤인샤",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Ryszard Kapuscinski\" vs OL \"Roshani Chokshi\"",
+    "ol": {
+      "title": "Aru Shah And The End Of Time",
+      "author": "Roshani Chokshi",
+      "allAuthors": [
+        "Roshani Chokshi"
+      ],
+      "isbn": "9780525587521",
+      "coverId": 8184341,
+      "year": 2018
+    }
+  },
+  {
+    "content_id": "44ffb356-001e-4dfd-9115-52efaa965703",
+    "en_title": "Six Secret Teachings and Three Strategies",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "육도·삼략",
+    "ko_creator": "태공망, 황석공",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "4f840b98-7d87-436f-b151-ecfd3a08e49d",
+    "en_title": "Stella Adler: The Art of Acting",
+    "en_creator": "Stella Adler",
+    "en_isbn": "9781557833730",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "스텔라 아들러의 연기 예술",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Stella Adler\" vs OL \"Howard Kissel\"",
+    "ol": {
+      "title": "Stella Adler - the Art of Acting",
+      "author": "Howard Kissel",
+      "allAuthors": [
+        "Howard Kissel",
+        "Stella Adler"
+      ],
+      "isbn": "9781617746192",
+      "coverId": null,
+      "year": 2000
+    }
+  },
+  {
+    "content_id": "a4875153-8604-484f-aa8d-ffa1814a4a5c",
+    "en_title": "Storm of Steel",
+    "en_creator": "Ernst Jünger",
+    "en_isbn": "9780141186917",
+    "en_thumb": "https://covers.openlibrary.org/b/id/108090-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "강철 폭풍 속에서",
+    "ko_creator": "에른스트 융어",
+    "reason": "저자 불일치: \"Ernst Jünger\" vs OL \"Ernst Jünger\"",
+    "ol": {
+      "title": "Storm of Steel",
+      "author": "Ernst Jünger",
+      "allAuthors": [
+        "Ernst Jünger"
+      ],
+      "isbn": "9780141186917",
+      "coverId": 108090,
+      "year": 2004
+    }
+  },
+  {
+    "content_id": "08298723-8f2b-4aa7-87e5-4d851acb1bca",
+    "en_title": "Sylvia Plath Poems Chosen by Carol Ann Duffy",
+    "en_creator": "Sylvia Plath",
+    "en_isbn": "9780571348510",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1393035214i/20883467.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "a07aa515-9b91-4323-91d8-55f5b6223381",
+    "en_title": "Taiping Guangji",
+    "en_creator": "Li Fang",
+    "en_isbn": null,
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1581875412i/51331658.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "태평광기",
+    "ko_creator": "이방",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "ce8d84e3-1144-429a-a54d-7889ee67544a",
+    "en_title": "Tales of Hulan River",
+    "en_creator": "Xiao, Hong",
+    "en_isbn": "9780887273926",
+    "en_thumb": "https://books.google.com/books/content?id=V3KhI1UutJIC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "생사의 장",
+    "ko_creator": "샤오훙",
+    "reason": "저자 불일치: \"Xiao, Hong\" vs OL \"Hong Xiao\"",
+    "ol": {
+      "title": "Tales of Hulan River",
+      "author": "Hong Xiao",
+      "allAuthors": [
+        "Hong Xiao"
+      ],
+      "isbn": "9789620406225",
+      "coverId": 7986151,
+      "year": 1988
+    }
+  },
+  {
+    "content_id": "e3ee89b1-595c-4946-97a6-fbcc4d7d744e",
+    "en_title": "Tao Te Ching",
+    "en_creator": "老子",
+    "en_isbn": "9781536875232",
+    "en_thumb": "https://covers.openlibrary.org/b/id/662232-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "도덕경",
+    "ko_creator": "노자",
+    "reason": "en_creator 비라틴 + OL 저자도 비라틴: \"老子\"",
+    "ol": {
+      "title": "Tao te Ching",
+      "author": "老子",
+      "allAuthors": [
+        "老子"
+      ],
+      "isbn": "9780060171544",
+      "coverId": 662232,
+      "year": 1842
+    }
+  },
+  {
+    "content_id": "f10d2e24-a2c4-4a20-968b-f2c51acf3cc8",
+    "en_title": "Tap Dancing to Work",
+    "en_creator": "Carol Loomis, Warren Buffett",
+    "en_isbn": "9781591845737",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1440628508i/14461754.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "탭댄싱 투 워크",
+    "ko_creator": "캐럴 루미스",
+    "reason": "저자 불일치: \"Carol Loomis, Warren Buffett\" vs OL \"Carol J. Loomis\"",
+    "ol": {
+      "title": "Tap Dancing to Work",
+      "author": "Carol J. Loomis",
+      "allAuthors": [
+        "Carol J. Loomis"
+      ],
+      "isbn": "9781721320646",
+      "coverId": 13812497,
+      "year": 2012
+    }
+  },
+  {
+    "content_id": "e87e80e5-5d01-4740-b596-f5e63e385b8d",
+    "en_title": "The 5 Types of Wealth",
+    "en_creator": "사힐 블룸",
+    "en_isbn": "9780008623210",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1718997233i/212806718.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 제목 불일치: \"The 5 Types of Wealth\" vs OL \"5 Tipos de Riqueza / the 5 Types of Wealth\"",
+    "ol": {
+      "title": "5 Tipos de Riqueza / the 5 Types of Wealth",
+      "author": "Sahil Bloom",
+      "allAuthors": [
+        "Sahil Bloom"
+      ],
+      "isbn": "9786075840567",
+      "coverId": null,
+      "year": 2025
+    }
+  },
+  {
+    "content_id": "6c1ba1c4-2264-47e3-a030-96ad32bbf516",
+    "en_title": "The Aeneid",
+    "en_creator": "Virgil",
+    "en_isbn": "9781023496544",
+    "en_thumb": "https://covers.openlibrary.org/b/id/6715695-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "아이네이스 3",
+    "ko_creator": "베르길리우스",
+    "reason": "저자 불일치: \"Virgil\" vs OL \"Publius Vergilius Maro\"",
+    "ol": {
+      "title": "The Aeneid",
+      "author": "Publius Vergilius Maro",
+      "allAuthors": [
+        "Publius Vergilius Maro"
+      ],
+      "isbn": "9780679729525",
+      "coverId": 6715695,
+      "year": 1990
+    }
+  },
+  {
+    "content_id": "3932c3d8-45c7-4d81-831e-e9904dbe8731",
+    "en_title": "The Alchemist 25th Anniversary Edition",
+    "en_creator": "파울로 코엘료",
+    "en_isbn": "9780062315007",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "연금술사",
+    "ko_creator": "파울로 코엘료",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "8cbf0068-3ad9-4d86-975d-756397e58ffa",
+    "en_title": "The Apple Is Everything",
+    "en_creator": "Barnaby Barford",
+    "en_isbn": "9781788841641",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1649037128i/59389377.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "f1a852a6-d3da-4aab-92fe-f2b4f0ae70bc",
+    "en_title": "The Arithmetica of Diophantus",
+    "en_creator": "Jean Christianidis, Jeffrey Oaks",
+    "en_isbn": "9781138046351",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1677792531i/1686796.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Jean Christianidis, Jeffrey Oaks\" vs OL \"Jacques Sesiano\"",
+    "ol": {
+      "title": "Books IV to VII of Diophantus' Arithmetica in the Arabic translation attributed to Qusṭā ibn Lūqā",
+      "author": "Jacques Sesiano",
+      "allAuthors": [
+        "Jacques Sesiano"
+      ],
+      "isbn": "9780387906904",
+      "coverId": null,
+      "year": 1982
+    }
+  },
+  {
+    "content_id": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+    "en_title": "The Art of War",
+    "en_creator": "孙武",
+    "en_isbn": "9781979851688",
+    "en_thumb": "https://books.google.com/books/content?id=Wsm2FRlKSwQC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "손자병법",
+    "ko_creator": "손무",
+    "reason": "en_creator 비라틴 + OL 저자도 비라틴: \"孙武\"",
+    "ol": {
+      "title": "The Art of War",
+      "author": "孙武",
+      "allAuthors": [
+        "孙武",
+        "Sun Tzu "
+      ],
+      "isbn": "9781441411914",
+      "coverId": 4849549,
+      "year": 1900
+    }
+  },
+  {
+    "content_id": "5923f1c2-8960-4d42-85ee-f784f783a85a",
+    "en_title": "The Baburnama",
+    "en_creator": "W.M. Thackston, Jr.",
+    "en_isbn": "9780375761379",
+    "en_thumb": "https://covers.openlibrary.org/b/id/122927-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "바부르나마",
+    "ko_creator": "바부르",
+    "reason": "저자 불일치: \"W.M. Thackston, Jr.\" vs OL \"W.M. Jr Thackston\"",
+    "ol": {
+      "title": "The Baburnama",
+      "author": "W.M. Jr Thackston",
+      "allAuthors": [
+        "W.M. Jr Thackston"
+      ],
+      "isbn": "9780375761379",
+      "coverId": 230702,
+      "year": 2002
+    }
+  },
+  {
+    "content_id": "4af73fcf-620a-4711-9e7f-2c9e20b115df",
+    "en_title": "The Bee Sting",
+    "en_creator": "Paul Murray",
+    "en_isbn": "9781250338259",
+    "en_thumb": "https://covers.openlibrary.org/b/id/9110780-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "벌침",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Paul Murray\" vs OL \"Raymond L. Robinson\"",
+    "ol": {
+      "title": "The Bee Sting",
+      "author": "Raymond L. Robinson",
+      "allAuthors": [
+        "Raymond L. Robinson"
+      ],
+      "isbn": "9781608444601",
+      "coverId": 9110780,
+      "year": 2010
+    }
+  },
+  {
+    "content_id": "ee5ac8ad-5069-41f2-96be-7056b5ae412c",
+    "en_title": "The Book of Job",
+    "en_creator": "Stephen J. Vicchio",
+    "en_isbn": "9781725257276",
+    "en_thumb": "https://books.google.com/books/content?id=Piv4DwAAQBAJ&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "욥기",
+    "ko_creator": "장석환",
+    "reason": "저자 불일치: \"Stephen J. Vicchio\" vs OL \"John E. Hartley\"",
+    "ol": {
+      "title": "The book of Job",
+      "author": "John E. Hartley",
+      "allAuthors": [
+        "John E. Hartley"
+      ],
+      "isbn": "9781467422994",
+      "coverId": 9249827,
+      "year": 1988
+    }
+  },
+  {
+    "content_id": "b424eece-59e5-4258-bdab-ca66272cf0fa",
+    "en_title": "The Brothers Lionheart",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "사자왕 형제의 모험",
+    "ko_creator": "아스트리드 린드그렌",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "cf1a786f-71bd-42f4-b9d3-98469efb9807",
+    "en_title": "The Bustan of Saadi",
+    "en_creator": "Saadi",
+    "en_isbn": "9781604440348",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1347324007i/7866385.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "부스탄",
+    "ko_creator": "사디",
+    "reason": "저자 불일치: \"Saadi\" vs OL \"Saʻdī.\"",
+    "ol": {
+      "title": "Idq-e Manzum - A Selection From the Bustan of Shaykh Saadi of Shiraz",
+      "author": "Saʻdī.",
+      "allAuthors": [
+        "Saʻdī."
+      ],
+      "isbn": null,
+      "coverId": null,
+      "year": 1880
+    }
+  },
+  {
+    "content_id": "7d594ffd-a76f-42aa-91af-85ade2d65619",
+    "en_title": "The Case for Nationalism: How It Made Us Powerful, United, and Free",
+    "en_creator": "Lowry, Rich",
+    "en_isbn": "9780062839640",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Lowry, Rich\" vs OL \"Rich Lowry\"",
+    "ol": {
+      "title": "The Case for Nationalism",
+      "author": "Rich Lowry",
+      "allAuthors": [
+        "Rich Lowry"
+      ],
+      "isbn": "9780062839664",
+      "coverId": 10056297,
+      "year": 2019
+    }
+  },
+  {
+    "content_id": "eab4b069-cbbb-463a-b7fa-4b69feb19bd5",
+    "en_title": "The City of God",
+    "en_creator": "Saint Augustine",
+    "en_isbn": "9781535078979",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1179297638i/900967.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "신국론",
+    "ko_creator": "성 아우구스티누스",
+    "reason": "저자 불일치: \"Saint Augustine\" vs OL \"Augustine of Hippo\"",
+    "ol": {
+      "title": "The city of God",
+      "author": "Augustine of Hippo",
+      "allAuthors": [
+        "Augustine of Hippo"
+      ],
+      "isbn": null,
+      "coverId": null,
+      "year": 1871
+    }
+  },
+  {
+    "content_id": "93d9e66d-1bcb-41c5-93f0-380615f8b989",
+    "en_title": "The Collected Poems of Lord Byron",
+    "en_creator": "Lord Byron",
+    "en_isbn": "9781853264061",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1677818474i/29823365.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "바이런 시 전집",
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "8ab97d6a-15c6-46ca-a686-1e51c3353cb6",
+    "en_title": "The Control of Nature",
+    "en_creator": "McPhee, John",
+    "en_isbn": "9780374522599",
+    "en_thumb": "https://covers.openlibrary.org/b/id/14413064-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "자연의 통제",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"McPhee, John\" vs OL \"John A. McPhee\"",
+    "ol": {
+      "title": "The control of nature",
+      "author": "John A. McPhee",
+      "allAuthors": [
+        "John A. McPhee",
+        "John McPhee",
+        "John McPhee"
+      ],
+      "isbn": "9780374522599",
+      "coverId": 14413064,
+      "year": 1989
+    }
+  },
+  {
+    "content_id": "a016f705-8db6-48ef-90c3-1dbfc9c8baad",
+    "en_title": "The Dancing Girl",
+    "en_creator": "Mori Ogai",
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "무희",
+    "ko_creator": "모리 오가이",
+    "reason": "저자 불일치: \"Mori Ogai\" vs OL \"Ogai Mori\"",
+    "ol": {
+      "title": "The Dancing Girl",
+      "author": "Ogai Mori",
+      "allAuthors": [
+        "Ogai Mori"
+      ],
+      "isbn": "9787559438867",
+      "coverId": 14852434,
+      "year": 2020
+    }
+  },
+  {
+    "content_id": "1329716d-34ad-4f96-8091-55de8178d58e",
+    "en_title": "The Day Lasts More Than a Hundred Years",
+    "en_creator": "Chingiz Aĭtmatov",
+    "en_isbn": "9780253115959",
+    "en_thumb": "https://covers.openlibrary.org/b/id/4233272-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "백년보다 긴 하루",
+    "ko_creator": "친기즈 아이뜨마또프",
+    "reason": "저자 불일치: \"Chingiz Aĭtmatov\" vs OL \"Chingiz Aitmatov\"",
+    "ol": {
+      "title": "The day lasts more than a hundred years",
+      "author": "Chingiz Aitmatov",
+      "allAuthors": [
+        "Chingiz Aitmatov",
+        "Chingiz Aĭtmatov"
+      ],
+      "isbn": "9780708825426",
+      "coverId": 4233273,
+      "year": 1983
+    }
+  },
+  {
+    "content_id": "3597378a-d4a7-44a2-a865-9f8fcf6c2b4a",
+    "en_title": "THE DESIGN OF THE UNIX OPERATING SYSTEM\" Paperback",
+    "en_creator": "Bach, Marice J.",
+    "en_isbn": "9780132017992",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "유닉스 운영체제 설계",
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "a3331eff-5f83-4e67-be5b-aa5d8c098547",
+    "en_title": "The Diary of a Young Girl",
+    "en_creator": "Anne Frank",
+    "en_isbn": "9780141007212",
+    "en_thumb": "https://books.google.com/books/content?id=nWX7i69Cx3MC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "안네의 일기",
+    "ko_creator": "안네 프랑크",
+    "reason": "저자 불일치: \"Anne Frank\" vs OL \"Cherry Gilchrist\"",
+    "ol": {
+      "title": "The diary of a young girl",
+      "author": "Cherry Gilchrist",
+      "allAuthors": [
+        "Cherry Gilchrist",
+        "Anne Frank"
+      ],
+      "isbn": "9780582402324",
+      "coverId": 13521319,
+      "year": 1998
+    }
+  },
+  {
+    "content_id": "01a6de47-f4dc-4173-9acc-efd829198ca7",
+    "en_title": "The Essays of Warren Buffett",
+    "en_creator": "Lawrence A. Cunningham",
+    "en_isbn": "9780966446142",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1355128131i/6139551.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "워런 버핏의 주주 서한",
+    "ko_creator": "워렌 버핏",
+    "reason": "저자 불일치: \"Lawrence A. Cunningham\" vs OL \"Warren Buffett\"",
+    "ol": {
+      "title": "The essays of Warren Buffett",
+      "author": "Warren Buffett",
+      "allAuthors": [
+        "Warren Buffett",
+        "Lawrence A. Cunningham"
+      ],
+      "isbn": "9780966446128",
+      "coverId": 6497216,
+      "year": 1997
+    }
+  },
+  {
+    "content_id": "b3e51b19-cb51-443c-9240-fb72732867ea",
+    "en_title": "The Fabric of Reality: The Science of Parallel Universes--And Its Implications",
+    "en_creator": "Deutsch, David",
+    "en_isbn": "9780140275414",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "실재의 구조",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Deutsch, David\" vs OL \"David Deutsch\"",
+    "ol": {
+      "title": "The fabric of reality",
+      "author": "David Deutsch",
+      "allAuthors": [
+        "David Deutsch"
+      ],
+      "isbn": "9780140146905",
+      "coverId": 452204,
+      "year": 1997
+    }
+  },
+  {
+    "content_id": "f8d62ee0-c4c9-4bb2-aacf-169cacb6e839",
+    "en_title": "THE FEDERALIST PAPERS, VOL. 1",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "96b5f4af-ca8d-4bd4-802b-d345dfa88f17",
+    "en_title": "The Fifteen Decisive Battles of the World",
+    "en_creator": "Edward Shepherd Creasy",
+    "en_isbn": "9781022921627",
+    "en_thumb": "https://covers.openlibrary.org/b/id/5774738-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "세계사 15대 결전",
+    "ko_creator": "에드워드 셰퍼드 크리시",
+    "reason": "저자 불일치: \"Edward Shepherd Creasy\" vs OL \"Creasy, Edward Shepherd Sir\"",
+    "ol": {
+      "title": "The fifteen decisive battles of the world",
+      "author": "Creasy, Edward Shepherd Sir",
+      "allAuthors": [
+        "Creasy, Edward Shepherd Sir"
+      ],
+      "isbn": "9780880291484",
+      "coverId": 5774738,
+      "year": 1851
+    }
+  },
+  {
+    "content_id": "5699c9d2-09dd-4a56-95cc-5a57ec459059",
+    "en_title": "The Gene (An Intimate History)",
+    "en_creator": "Siddhartha Mukherjee",
+    "en_isbn": "9780099584575",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1481886200i/33397079.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "유전자의 내밀한 역사",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Siddhartha Mukherjee\" vs OL \"Worth Books\"",
+    "ol": {
+      "title": "Summary and Analysis of The Gene : An Intimate History",
+      "author": "Worth Books",
+      "allAuthors": [
+        "Worth Books"
+      ],
+      "isbn": "9781504046695",
+      "coverId": null,
+      "year": 2017
+    }
+  },
+  {
+    "content_id": "b31fddc9-c4a0-453e-9555-c2f9c2dc26ac",
+    "en_title": "The Goal(더 골) 2",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "더 골 2",
+    "ko_creator": "엘리 골드렛",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "b3639bb5-eaa8-4de9-a2bf-dd06abcb3f84",
+    "en_title": "The Gospel in Brief",
+    "en_creator": "Leo Tolstoy",
+    "en_isbn": "9781420950502",
+    "en_thumb": "https://covers.openlibrary.org/b/id/11221894-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "톨스토이 요약복음서",
+    "ko_creator": "톨스토이",
+    "reason": "저자 불일치: \"Leo Tolstoy\" vs OL \"Tolstoy, Leo, graf, 1828-1910\"",
+    "ol": {
+      "title": "The Gospel in Brief",
+      "author": "Tolstoy, Leo, graf, 1828-1910",
+      "allAuthors": [
+        "Tolstoy, Leo, graf, 1828-1910"
+      ],
+      "isbn": "9781420970746",
+      "coverId": 11221894,
+      "year": 2018
+    }
+  },
+  {
+    "content_id": "e7ca5182-4b9e-4d12-93bd-35b7c096d02b",
+    "en_title": "The Gospel in Brief",
+    "en_creator": "Leo Tolstoy",
+    "en_isbn": "9780062064165",
+    "en_thumb": "https://books.google.com/books/content?id=sBjTIqguys8C&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "톨스토이 복음서",
+    "ko_creator": "톨스토이",
+    "reason": "저자 불일치: \"Leo Tolstoy\" vs OL \"Tolstoy, Leo, graf, 1828-1910\"",
+    "ol": {
+      "title": "The Gospel in Brief",
+      "author": "Tolstoy, Leo, graf, 1828-1910",
+      "allAuthors": [
+        "Tolstoy, Leo, graf, 1828-1910"
+      ],
+      "isbn": "9781420970746",
+      "coverId": 11221894,
+      "year": 2018
+    }
+  },
+  {
+    "content_id": "f9dcf342-6d13-40b0-984a-7b2e5a7e74de",
+    "en_title": "The Heaven Sword and Dragon Saber",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "의천도룡기 세트",
+    "ko_creator": "김용",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "417c6463-bb8c-4738-a56f-d0ca60d7013c",
+    "en_title": "The History of the Life of M. Tullius Cicero. By Conyers Middleton, ... A new Edition. of 4; Volume 3",
+    "en_creator": null,
+    "en_isbn": "9781379570295",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "6402068d-1ce0-4aee-9b7f-ef01cb222b32",
+    "en_title": "The Imitation of Christ",
+    "en_creator": "Thomas à Kempis",
+    "en_isbn": "9781602061026",
+    "en_thumb": "https://books.google.com/books/content?id=fi9M-ybOxEIC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "준주성범",
+    "ko_creator": "토마스 아 켐피스",
+    "reason": "저자 불일치: \"Thomas à Kempis\" vs OL \"Augustine of Hippo\"",
+    "ol": {
+      "title": "The Confessions of St. Augustine / The Imitation of Christ",
+      "author": "Augustine of Hippo",
+      "allAuthors": [
+        "Augustine of Hippo",
+        "Thomas à Kempis"
+      ],
+      "isbn": "9781015786493",
+      "coverId": 10613584,
+      "year": 1909
+    }
+  },
+  {
+    "content_id": "00893157-88fb-433e-95f2-4f35608778b9",
+    "en_title": "The Iron King (the Accursed Kings, Book 1) Paperback",
+    "en_creator": "모리스 드뤼옹",
+    "en_isbn": "9780007491261",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "저주받은 왕들",
+    "ko_creator": "모리스 드뤼옹",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "8a6c2cd8-ac55-4128-bc1b-fead25c853d9",
+    "en_title": "The Just Assassins",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "디 에센셜 키워드: 정의의 사람들",
+    "ko_creator": "알베르 카뮈",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "f57fcf64-9463-4821-ad33-5c9bf62419b1",
+    "en_title": "The Knowledge of a Man’s Self the Surest Guide to the True Worship of God, and Good Government of the Mind and Body. ... Or, the Second Part of the way to Long Life, Health and Happiness. By Thomas Tr",
+    "en_creator": null,
+    "en_isbn": "9781379390107",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "3c989874-60bc-4c58-b1e6-4a6107cb07f0",
+    "en_title": "The Lankavatara Sutra",
+    "en_creator": "Nan Huai-Chin",
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "능가경 강의",
+    "ko_creator": "남회근",
+    "reason": "저자 불일치: \"Nan Huai-Chin\" vs OL \"Laṅkāvatāra-sūtra\"",
+    "ol": {
+      "title": "The Lankavatara Sutra",
+      "author": "Laṅkāvatāra-sūtra",
+      "allAuthors": [
+        "Laṅkāvatāra-sūtra"
+      ],
+      "isbn": null,
+      "coverId": null,
+      "year": 1956
+    }
+  },
+  {
+    "content_id": "72a89b33-322a-4e8b-bbe6-50ef3009b8ef",
+    "en_title": "The Last Lion: Winston Spencer Churchill: Alone, 1932-1940",
+    "en_creator": "Manchester, William",
+    "en_isbn": "9780385313315",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1438984423i/25343222.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "마지막 사자: 윈스턴 스펜서 처칠",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Manchester, William\" vs OL \"William Manchester\"",
+    "ol": {
+      "title": "The Last Lion, Winston Spencer Churchill Alone 1932-1940",
+      "author": "William Manchester",
+      "allAuthors": [
+        "William Manchester"
+      ],
+      "isbn": null,
+      "coverId": null,
+      "year": 1988
+    }
+  },
+  {
+    "content_id": "8677789f-fc5c-45e6-8ee6-1284777137e6",
+    "en_title": "The Law of Nations",
+    "en_creator": "Emmerich de Vattel",
+    "en_isbn": "9781616196424",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "국제법",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Emmerich de Vattel\" vs OL \"James Edmund Sandford Fawcett\"",
+    "ol": {
+      "title": "The law of nations",
+      "author": "James Edmund Sandford Fawcett",
+      "allAuthors": [
+        "James Edmund Sandford Fawcett"
+      ],
+      "isbn": "9780140802870",
+      "coverId": null,
+      "year": 1968
+    }
+  },
+  {
+    "content_id": "633eefb2-8d19-452a-9c2a-72b206a78a2e",
+    "en_title": "The Muqaddimah",
+    "en_creator": "Ibn Khaldūn",
+    "en_isbn": "9780614211627",
+    "en_thumb": "https://covers.openlibrary.org/b/id/440215-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "무깟디마 The Muqaddimah",
+    "ko_creator": "이븐 칼둔",
+    "reason": "저자 불일치: \"Ibn Khaldūn\" vs OL \"'Abd al-Rahmân ibn Muhammad Ibn Khaldûn\"",
+    "ol": {
+      "title": "The Muqaddimah",
+      "author": "'Abd al-Rahmân ibn Muhammad Ibn Khaldûn",
+      "allAuthors": [
+        "'Abd al-Rahmân ibn Muhammad Ibn Khaldûn"
+      ],
+      "isbn": null,
+      "coverId": null,
+      "year": 1958
+    }
+  },
+  {
+    "content_id": "a4b4aa1f-5fff-4694-a3f8-a0e0bd75d9d0",
+    "en_title": "The New American Bible",
+    "en_creator": "Harper Bibles",
+    "en_isbn": "9780062084736",
+    "en_thumb": "https://covers.openlibrary.org/b/id/2472105-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "가톨릭 해설성경 (브라운)(대)(21세기 해설판)(무지퍼)",
+    "ko_creator": "링카드 편집부",
+    "reason": "저자 불일치: \"Harper Bibles\" vs OL \"Nancy Munger\"",
+    "ol": {
+      "title": "The New American Bible",
+      "author": "Nancy Munger",
+      "allAuthors": [
+        "Nancy Munger"
+      ],
+      "isbn": "9780529109958",
+      "coverId": 2472105,
+      "year": 2000
+    }
+  },
+  {
+    "content_id": "2d84c106-f540-4adb-bc4a-d431763d6a09",
+    "en_title": "The Nose / The Government Inspector",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "코·감찰관",
+    "ko_creator": "니콜라이 고골",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "5a7f0a22-b818-42a9-8d48-1e82b2a91b3f",
+    "en_title": "The Once and Future Worker",
+    "en_creator": "Oren Cass",
+    "en_isbn": "9781641771047",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1564044582i/40068724.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "25da9766-6bde-410d-a9c6-51c9b3da7f91",
+    "en_title": "The Organization of Behavior Paperback",
+    "en_creator": "Hebb, D.o.",
+    "en_isbn": "9780415654531",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "378b397d-5edd-437b-9d68-6d561bb8d3fa",
+    "en_title": "The Power of Fun",
+    "en_creator": "Catherine Price",
+    "en_isbn": "9781787635937",
+    "en_thumb": "https://covers.openlibrary.org/b/id/15154849-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "재미의 힘",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Catherine Price\" vs OL \"Nat Measley,Dave Raymond\"",
+    "ol": {
+      "title": "The Power of Fun",
+      "author": "Nat Measley,Dave Raymond",
+      "allAuthors": [
+        "Nat Measley,Dave Raymond"
+      ],
+      "isbn": "9780578494845",
+      "coverId": 15154849,
+      "year": 2019
+    }
+  },
+  {
+    "content_id": "95d7b4b5-e2e1-4afc-9089-338fd747ad86",
+    "en_title": "The Premonition",
+    "en_creator": "Michael Lewis",
+    "en_isbn": "9780141996578",
+    "en_thumb": "https://covers.openlibrary.org/b/id/10706277-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "프리모니션",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Michael Lewis\" vs OL \"Lewis, Michael\"",
+    "ol": {
+      "title": "The Premonition",
+      "author": "Lewis, Michael",
+      "allAuthors": [
+        "Lewis, Michael"
+      ],
+      "isbn": "9781713631897",
+      "coverId": 10706277,
+      "year": 2021
+    }
+  },
+  {
+    "content_id": "ad07a1c9-2249-46c2-bcec-7d27b0eaa6ef",
+    "en_title": "The Price of Peace",
+    "en_creator": "Zachary D. Carter",
+    "en_isbn": "9780525509059",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "평화의 대가",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Zachary D. Carter\" vs OL \"Beveridge, William Henry Beveridge Baron\"",
+    "ol": {
+      "title": "The price of peace",
+      "author": "Beveridge, William Henry Beveridge Baron",
+      "allAuthors": [
+        "Beveridge, William Henry Beveridge Baron"
+      ],
+      "isbn": null,
+      "coverId": null,
+      "year": 1945
+    }
+  },
+  {
+    "content_id": "17566956-fb67-4fe9-af7f-cdf00ee4bcd5",
+    "en_title": "The Reader",
+    "en_creator": "Bernhard Schlink",
+    "en_isbn": "9780375708855",
+    "en_thumb": "https://covers.openlibrary.org/b/id/6560835-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "책 읽어주는 남자",
+    "ko_creator": "베른하르트 슐링크",
+    "reason": "저자 불일치: \"Bernhard Schlink\" vs OL \"Virginia Woolf\"",
+    "ol": {
+      "title": "The Second Common Reader",
+      "author": "Virginia Woolf",
+      "allAuthors": [
+        "Virginia Woolf"
+      ],
+      "isbn": "9780156198066",
+      "coverId": 6560835,
+      "year": 1925
+    }
+  },
+  {
+    "content_id": "8c7d70f1-8fd8-4f76-b232-3972aed67b03",
+    "en_title": "The Rise and Fall of American Growth",
+    "en_creator": "Robert J. Gordon",
+    "en_isbn": "9781536618259",
+    "en_thumb": "https://covers.openlibrary.org/b/id/10300133-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "미국의 성장은 끝났는가",
+    "ko_creator": "로버트 J. 고든",
+    "reason": "저자 불일치: \"Robert J. Gordon\" vs OL \"Gordon, Robert J.\"",
+    "ol": {
+      "title": "The Rise and Fall of American Growth",
+      "author": "Gordon, Robert J.",
+      "allAuthors": [
+        "Gordon, Robert J."
+      ],
+      "isbn": "9780691147727",
+      "coverId": 7422488,
+      "year": 2016
+    }
+  },
+  {
+    "content_id": "98659578-977f-4221-a355-ae7e855210f0",
+    "en_title": "The Rumi Collection",
+    "en_creator": "Jalal al-Din Rumi, Kabir Helminski",
+    "en_isbn": "9781570627170",
+    "en_thumb": "https://covers.openlibrary.org/b/id/859621-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Jalal al-Din Rumi, Kabir Helminski\" vs OL \"Rumi (Jalāl ad-Dīn Muḥammad Balkhī)\"",
+    "ol": {
+      "title": "The Rumi Collection",
+      "author": "Rumi (Jalāl ad-Dīn Muḥammad Balkhī)",
+      "allAuthors": [
+        "Rumi (Jalāl ad-Dīn Muḥammad Balkhī)"
+      ],
+      "isbn": "9781590302514",
+      "coverId": 859621,
+      "year": 2005
+    }
+  },
+  {
+    "content_id": "b8d42505-1778-4354-94b4-bc70563c8733",
+    "en_title": "The Sunshine Mind",
+    "en_creator": "Tanya Rad",
+    "en_isbn": "9780310366188",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1441803535i/26256574.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Tanya Rad\" vs OL \"Suzanne Zacharia\"",
+    "ol": {
+      "title": "Positive Thinking for the Sunshine Mind",
+      "author": "Suzanne Zacharia",
+      "allAuthors": [
+        "Suzanne Zacharia"
+      ],
+      "isbn": "9781478172260",
+      "coverId": null,
+      "year": 2012
+    }
+  },
+  {
+    "content_id": "4c4c31e6-7fc4-4ab9-a783-4d9e0dd4fb2d",
+    "en_title": "The Tales of Ise",
+    "en_creator": "Ariwara no Narihira",
+    "en_isbn": "9780141392585",
+    "en_thumb": "https://books.google.com/books/content?id=8ZioCwAAQBAJ&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "이세 이야기",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Ariwara no Narihira\" vs OL \"H. Jay Harris\"",
+    "ol": {
+      "title": "The tales of Ise",
+      "author": "H. Jay Harris",
+      "allAuthors": [
+        "H. Jay Harris"
+      ],
+      "isbn": "9781462903320",
+      "coverId": null,
+      "year": 1972
+    }
+  },
+  {
+    "content_id": "ce1cbcaa-e765-4078-869e-9a24b29ee3b7",
+    "en_title": "The Tibetan Book Of Living And Dying (25th Anniversary Edition)",
+    "en_creator": "RIGPA Fellowship",
+    "en_isbn": "9781846045387",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "티벳 사자의 서",
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "a4998986-195c-4c9c-8251-051b4c9e466d",
+    "en_title": "The Trickster of Seville",
+    "en_creator": "Gwynne Edwards",
+    "en_isbn": "9780856683015",
+    "en_thumb": "https://books.google.com/books/content?id=yisDEAAAQBAJ&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "세비야의 난봉꾼과 석상의 초대",
+    "ko_creator": "티르소 데 몰리나",
+    "reason": "저자 불일치: \"Gwynne Edwards\" vs OL \"Tirso de Molina\"",
+    "ol": {
+      "title": "The trickster of Seville and the stone guest =",
+      "author": "Tirso de Molina",
+      "allAuthors": [
+        "Tirso de Molina",
+        "Gwynne Edwards"
+      ],
+      "isbn": "9780856683008",
+      "coverId": 13249944,
+      "year": 1986
+    }
+  },
+  {
+    "content_id": "747276dd-94f4-4cf9-8056-b2b4549832ee",
+    "en_title": "The Truce",
+    "en_creator": "Mario Benedetti",
+    "en_isbn": "9780141396859",
+    "en_thumb": "https://covers.openlibrary.org/b/id/2343890-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "휴전",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Mario Benedetti\" vs OL \"Sara Craven\"",
+    "ol": {
+      "title": "The Marriage Truce",
+      "author": "Sara Craven",
+      "allAuthors": [
+        "Sara Craven"
+      ],
+      "isbn": "9780263179088",
+      "coverId": 2343890,
+      "year": 2003
+    }
+  },
+  {
+    "content_id": "32cc29f6-2f9c-4fb9-ab82-9a11a3de4617",
+    "en_title": "The Truly Disadvantaged",
+    "en_creator": "William Julius Wilson",
+    "en_isbn": "9780226901268",
+    "en_thumb": "https://covers.openlibrary.org/b/id/143570-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "진정한 약자",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"William Julius Wilson\" vs OL \"Wilson, William J.\"",
+    "ol": {
+      "title": "The truly disadvantaged",
+      "author": "Wilson, William J.",
+      "allAuthors": [
+        "Wilson, William J."
+      ],
+      "isbn": "9780226901312",
+      "coverId": 6571405,
+      "year": 1990
+    }
+  },
+  {
+    "content_id": "65419563-885f-4c27-ae72-8b710f2f36d3",
+    "en_title": "The Watchman’s Rattle 양장본 Hardcover",
+    "en_creator": "Costa, Rebecca D./Wilson, E. O.",
+    "en_isbn": "9781593156053",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "6c7ad3fe-6e54-4835-a5c1-cfb496fcb307",
+    "en_title": "To Be Young, Gifted and Black",
+    "en_creator": "Lorraine Hansberry",
+    "en_isbn": "9780679764151",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1349033014i/853163.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Lorraine Hansberry\" vs OL \"Robert Nemiroff\"",
+    "ol": {
+      "title": "To be young, gifted, and black",
+      "author": "Robert Nemiroff",
+      "allAuthors": [
+        "Robert Nemiroff",
+        "Lorraine Hansberry"
+      ],
+      "isbn": "9780139230035",
+      "coverId": 421285,
+      "year": 1969
+    }
+  },
+  {
+    "content_id": "cf7d4e2c-1324-41c0-90c3-722f0a60de8d",
+    "en_title": "Tristes Tropiques",
+    "en_creator": "Claude Lévi-Strauss",
+    "en_isbn": "9780548440490",
+    "en_thumb": "https://covers.openlibrary.org/b/id/7105674-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "슬픈 열대",
+    "ko_creator": "클로드 레비스트로스",
+    "reason": "저자 불일치: \"Claude Lévi-Strauss\" vs OL \"Claude Lévi-Strauss\"",
+    "ol": {
+      "title": "Tristes Tropiques",
+      "author": "Claude Lévi-Strauss",
+      "allAuthors": [
+        "Claude Lévi-Strauss",
+        "Wang zhi ming"
+      ],
+      "isbn": "9780330306454",
+      "coverId": 7105674,
+      "year": 1955
+    }
+  },
+  {
+    "content_id": "548bd6ec-f52f-447b-9970-516c92c5795a",
+    "en_title": "Unshakeable: Your Financial Freedom Playbook",
+    "en_creator": "Tony Robbins",
+    "en_isbn": "9781501164583",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "흔들리지 않는 돈의 법칙",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Tony Robbins\" vs OL \"BookQuickie\"",
+    "ol": {
+      "title": "Summary of Unshakeable - Your Financial Freedom Playbook by Tony Robbins",
+      "author": "BookQuickie",
+      "allAuthors": [
+        "BookQuickie"
+      ],
+      "isbn": "9781520943138",
+      "coverId": null,
+      "year": 2017
+    }
+  },
+  {
+    "content_id": "898b50e8-a640-40ea-8e6d-7fb2e7681923",
+    "en_title": "Vajrasekhara Sutra",
+    "en_creator": "Amoghavajra",
+    "en_isbn": null,
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1757666935i/241534929.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "금강정경",
+    "ko_creator": "김영덕",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "298063ae-b51c-42e0-8fc6-4de8c5ac22a4",
+    "en_title": "Voyage du jeune Anacharsis en GrA¨ce, dans le milieu du quatriA¨me siA¨cle avant l’A¨re chretienne. AbrAⓒgAⓒ de l’ouvrage original de l’abbAⓒ BarthAⓒlemy, A? l’usage de la jeunesse, avec la vi",
+    "en_creator": null,
+    "en_isbn": "9781025170893",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "4b291074-1d8a-482a-8128-1efe1d449ba2",
+    "en_title": "Waiting for Lefty and Other Plays",
+    "en_creator": "Clifford Odets",
+    "en_isbn": "9780802132208",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1347690861i/92831.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "레프티를 기다리며",
+    "ko_creator": null,
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "7112ed58-5c09-47dd-af0d-d4855c93261c",
+    "en_title": "War Diary of Admiral Yi Sun-sin",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "난중일기",
+    "ko_creator": "이순신",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "e9495a60-0424-42de-b52c-a55c36ad51a9",
+    "en_title": "What is Life?",
+    "en_creator": "Erwin Schrodinger",
+    "en_isbn": "9780521427081",
+    "en_thumb": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1605906932i/53404245.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "goodreads"
+    },
+    "ko_title": "슈뢰딩거의 생명이란 무엇인가",
+    "ko_creator": "오철우",
+    "reason": "저자 불일치: \"Erwin Schrodinger\" vs OL \"Erwin Schrödinger\"",
+    "ol": {
+      "title": "What Is Life?",
+      "author": "Erwin Schrödinger",
+      "allAuthors": [
+        "Erwin Schrödinger"
+      ],
+      "isbn": "9781139638142",
+      "coverId": null,
+      "year": 1951
+    }
+  },
+  {
+    "content_id": "eaa5a638-ed1f-4387-8ac1-e0cd5fe0232f",
+    "en_title": "Who Knew?",
+    "en_creator": "Marianne Clyde",
+    "en_isbn": "9781963701944",
+    "en_thumb": "https://covers.openlibrary.org/b/id/12897858-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "후 뉴?",
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Marianne Clyde\" vs OL \"Gilbert Keith Chesterton\"",
+    "ol": {
+      "title": "The Man Who Knew Too Much",
+      "author": "Gilbert Keith Chesterton",
+      "allAuthors": [
+        "Gilbert Keith Chesterton"
+      ],
+      "isbn": "9789355220899",
+      "coverId": 12897858,
+      "year": 1922
+    }
+  },
+  {
+    "content_id": "d25c467c-3bbc-438e-a74b-d2bf714a8ad1",
+    "en_title": "Why the World's Half Starves",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "왜 세계의 절반은 굶주리는가?",
+    "ko_creator": "장 지글러",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "9309d018-3084-43aa-a945-46ba57c54381",
+    "en_title": "Why Things Bite Back : Technology and the Revenge of Unintended Consequences, RE/E Paperback",
+    "en_creator": "Tenner, Edward",
+    "en_isbn": "9780679747567",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Tenner, Edward\" vs OL \"Edward Tenner\"",
+    "ol": {
+      "title": "Why things bite back",
+      "author": "Edward Tenner",
+      "allAuthors": [
+        "Edward Tenner"
+      ],
+      "isbn": "9781857025941",
+      "coverId": 420719,
+      "year": 1996
+    }
+  },
+  {
+    "content_id": "cb49a4d1-e2e4-4668-8ab6-da536e31ac9f",
+    "en_title": "Win the Day: Courage, Positive Thinking and the Warrior Spirit",
+    "en_creator": "Jose Semedo",
+    "en_isbn": "9780955876080",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": null,
+    "ko_creator": null,
+    "reason": "저자 불일치: \"Jose Semedo\" vs OL \"SEMEDO, JOSE. KOTADIA, SAM\"",
+    "ol": {
+      "title": "WIN THE DAY",
+      "author": "SEMEDO, JOSE. KOTADIA, SAM",
+      "allAuthors": [
+        "SEMEDO, JOSE. KOTADIA, SAM"
+      ],
+      "isbn": "9780955876080",
+      "coverId": 12796754,
+      "year": 2015
+    }
+  },
+  {
+    "content_id": "555325c0-cc9d-46f3-95f8-1c57da8d4562",
+    "en_title": "Women Who Run with the Wolves",
+    "en_creator": "Clarissa Pinkola Estés",
+    "en_isbn": "9780345393029",
+    "en_thumb": "https://covers.openlibrary.org/b/id/207915-L.jpg",
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "openlibrary"
+    },
+    "ko_title": "늑대와 함께 달리는 여인들",
+    "ko_creator": "클라리사 에스테스",
+    "reason": "저자 불일치: \"Clarissa Pinkola Estés\" vs OL \"Clarissa Pinkola Estés\"",
+    "ol": {
+      "title": "Women who run with the wolves",
+      "author": "Clarissa Pinkola Estés",
+      "allAuthors": [
+        "Clarissa Pinkola Estés",
+        "Clarissa Pinkola Estes",
+        "Clarissa Pinkola Estés",
+        "ANTONIA MENINI PAGES",
+        "María Antonia Menini Pagès",
+        "Maria Antonia Menini"
+      ],
+      "isbn": "9788466667852",
+      "coverId": 207915,
+      "year": 1982
+    }
+  },
+  {
+    "content_id": "bc8e71cb-448f-4966-be5c-1bf6ae3f2407",
+    "en_title": "Zhenguan Zhengyao",
+    "en_creator": null,
+    "en_isbn": null,
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "정관정요",
+    "ko_creator": "오긍",
+    "reason": "OL 검색 실패"
+  },
+  {
+    "content_id": "2b8e0931-d321-4d95-b8a2-7211e84715e5",
+    "en_title": "Zhuangzi: Inner Chapters",
+    "en_creator": "Zhuangzi",
+    "en_isbn": "9781603841207",
+    "en_thumb": "https://books.google.com/books/content?id=_cpgDwAAQBAJ&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+    "sources": {
+      "primary": "google_books"
+    },
+    "ko_title": "장자 내편",
+    "ko_creator": "장자",
+    "reason": "저자 불일치: \"Zhuangzi\" vs OL \"Christoph Harbsmeier\"",
+    "ol": {
+      "title": "Inner Chapters of The 'Zhuangzi'",
+      "author": "Christoph Harbsmeier",
+      "allAuthors": [
+        "Christoph Harbsmeier",
+        "John R. Williams"
+      ],
+      "isbn": "9783447120579",
+      "coverId": 15131778,
+      "year": 2023
+    }
+  },
+  {
+    "content_id": "aa215a0e-5620-4517-b3e1-0b0eb7a0fa05",
+    "en_title": "Zuo Zhuan",
+    "en_creator": "Zuo Qiuming",
+    "en_isbn": "9781909669390",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "춘추좌전",
+    "ko_creator": "좌구명",
+    "reason": "저자 불일치: \"Zuo Qiuming\" vs OL \"Qiuming Zuo\"",
+    "ol": {
+      "title": "Zuo zhuan gu shi",
+      "author": "Qiuming Zuo",
+      "allAuthors": [
+        "Qiuming Zuo"
+      ],
+      "isbn": "9789861278087",
+      "coverId": null,
+      "year": null
+    }
+  },
+  {
+    "content_id": "265ddfc5-eaad-42ec-a1db-5a1a7490d795",
+    "en_title": "고요함의 힘",
+    "en_creator": "밥 로스",
+    "en_isbn": "9787453972795",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "고요함의 힘",
+    "ko_creator": "밥 로스",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "01dc9ea0-e3c5-4d25-8169-ff13e1ec8c05",
+    "en_title": "네버랜드 클래식 앨리스 시리즈 2권 세트",
+    "en_creator": null,
+    "en_isbn": "8952757807",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "네버랜드 클래식 앨리스 시리즈 2권 세트",
+    "ko_creator": null,
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "a77a02df-bba7-482a-bcf0-41b56cc16977",
+    "en_title": "바리바리 전설",
+    "en_creator": "시게노 슈이치",
+    "en_isbn": "6000080757",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "바리바리 전설",
+    "ko_creator": "시게노 슈이치",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "e544ef40-44e4-47a1-aeaa-ae50c39d1819",
+    "en_title": "시빌라의 신탁",
+    "en_creator": "미상",
+    "en_isbn": "9789353955786",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "시빌라의 신탁",
+    "ko_creator": "미상",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "2c8d5ca8-db40-496a-a51b-421b3797d6f8",
+    "en_title": "유클리드가 들려주는 기하학 원론 이야기",
+    "en_creator": "유대현",
+    "en_isbn": "9780244523398_euclid",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "유클리드가 들려주는 기하학 원론 이야기",
+    "ko_creator": "유대현",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "c3ee9f8c-5615-4d69-aacc-7acc2b8137dd",
+    "en_title": "읽으면 초능력 2 : 플라톤의 국가",
+    "en_creator": "이병안",
+    "en_isbn": "9798211865778",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "읽으면 초능력 2 : 플라톤의 국가",
+    "ko_creator": "이병안",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "575cfc4c-695f-471e-a4a6-0c54ed526981",
+    "en_title": "한 권의 책으로 세상을 바꾸었어요",
+    "en_creator": "베서니 헤게더스",
+    "en_isbn": "9780060888701",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "한 권의 책으로 세상을 바꾸었어요",
+    "ko_creator": "베서니 헤게더스",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "835b2b1c-3e2e-45a8-b8f8-f0568922cd22",
+    "en_title": "海賊とよばれた男",
+    "en_creator": "햐쿠타 나오키",
+    "en_isbn": "9784062778299",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "海賊とよばれた男",
+    "ko_creator": "햐쿠타 나오키",
+    "reason": "en_title 비라틴 문자"
+  },
+  {
+    "content_id": "a8b7e9e8-7055-4b07-a65c-81214f794e7c",
+    "en_title": "皮囊",
+    "en_creator": "蔡崇达",
+    "en_isbn": "9787201088945",
+    "en_thumb": null,
+    "sources": {
+      "primary": "google_books",
+      "thumbnail": "confirmed_unavailable"
+    },
+    "ko_title": "皮囊",
+    "ko_creator": null,
+    "reason": "en_title 비라틴 문자"
+  }
+]

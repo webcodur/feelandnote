@@ -6,6 +6,7 @@ import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
 import CelebDetailModal from "./celeb-card-drafts/CelebDetailModal";
+import LightCelebModal from "./celeb-card-drafts/LightCelebModal";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -266,14 +267,22 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
         ))}
       </div>
       {modalCeleb && (
-        <CelebDetailModal
-          celeb={modalCeleb}
-          isOpen={!!modalCeleb}
-          onClose={() => { setModalCeleb(null); setModalIndex(-1); }}
-          onNavigate={handleNavigate}
-          hasPrev={modalIndex > 0}
-          hasNext={modalIndex < celebs.length - 1}
-        />
+        modalCeleb.celeb_tier === 'light' ? (
+          <LightCelebModal
+            celeb={modalCeleb}
+            isOpen={!!modalCeleb}
+            onClose={() => { setModalCeleb(null); setModalIndex(-1); }}
+          />
+        ) : (
+          <CelebDetailModal
+            celeb={modalCeleb}
+            isOpen={!!modalCeleb}
+            onClose={() => { setModalCeleb(null); setModalIndex(-1); }}
+            onNavigate={handleNavigate}
+            hasPrev={modalIndex > 0}
+            hasNext={modalIndex < celebs.length - 1}
+          />
+        )
       )}
     </>
   );

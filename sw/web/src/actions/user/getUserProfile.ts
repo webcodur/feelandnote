@@ -118,6 +118,19 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const selectedTitle = getTitleInfo(profile.selected_title)
 
+  // 셀럽인 경우 celeb_dialogues에서 quote 조회
+  let dialogueQuote: string | null = null
+  let dialogueQuoteEn: string | null = null
+  if (profile.profile_type === 'CELEB') {
+    const { data: dlg } = await supabase
+      .from('celeb_dialogues')
+      .select('lines, lines_en')
+      .eq('celeb_id', userId)
+      .maybeSingle()
+    dialogueQuote = (dlg?.lines as Record<string, any> | null)?.quote ?? null
+    dialogueQuoteEn = (dlg?.lines_en as Record<string, any> | null)?.quote ?? null
+  }
+
   const locale = await getLocale()
   const isEn = locale === 'en'
   const resolve = <T,>(en: T | null | undefined, ko: T): T =>
@@ -133,7 +146,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       nickname_ko: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
-      quotes: resolve(profile.quotes_en, profile.quotes),
+      quotes: resolve(dialogueQuoteEn ?? profile.quotes_en, dialogueQuote ?? profile.quotes),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,

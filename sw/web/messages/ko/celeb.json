@@ -20,6 +20,21 @@
     "tabConsume": "감상 서가",
     "tabCreate": "창작 서가",
     "worksEmpty": "아직 등록된 창작물이 없습니다.",
+    "worksLoading": "불러오는 중...",
+    "worksTypeAll": "전체",
+    "worksTypeBook": "도서",
+    "worksTypeVideo": "영상",
+    "worksTypeMusic": "음악",
+    "worksTypeGame": "게임",
+    "worksTypeArt": "미술",
+    "roleAuthor": "저자",
+    "roleDirector": "감독",
+    "roleComposer": "작곡",
+    "roleArtist": "작가",
+    "roleEditor": "편저",
+    "roleScreenwriter": "각본",
+    "roleDeveloper": "개발",
+    "rolePerformer": "연주",
     "notFound": "셀럽을 찾을 수 없습니다"
   }
 }

@@ -2,11 +2,11 @@
   통합 콘텐츠 카드
 
   슬롯 레이아웃:
-    좌상단 - [카테고리 레이블] (항상 표시)
-    좌하단 - [인물 구성 숫자 뱃지]
-    우상단 - [삭제] OR [선물] OR [북마크]
-    우하단 - [별점]
-    중앙   - [선택 체크 오버레이]
+    헤더 바 - [좌: 카테고리] [중: 에디션 토글] [우: 액션 버튼]
+    포스터 위:
+      좌하단 - [인물 구성 숫자 뱃지]
+      우하단 - [별점]
+      중앙   - [선택 체크 오버레이]
 */
 "use client";
 
@@ -102,6 +102,7 @@ export default function ContentCard({
   showGradient = true,
   contentId,
   review,
+  reviewEn,
   reviewPresets,
   isSpoiler = false,
   sourceUrl,
@@ -204,6 +205,11 @@ export default function ContentCard({
     ? editions![activeEdition]!.thumbnail ?? null
     : thumbnail;
 
+  // 에디션 토글 시 리뷰(설명)도 전환
+  const displayReview = showEditionToggle && activeEdition === "en" && reviewEn
+    ? reviewEn
+    : review;
+
   // 선택한 에디션이 존재하지 않을 때
   const editionUnavailable = showEditionToggle && !editions![activeEdition];
   // 에디션은 있지만 표지가 없을 때
@@ -252,7 +258,7 @@ export default function ContentCard({
       return;
     }
     // 강제 포스터 모드에서도 리뷰가 있으면 모달 오픈
-    if (forcePoster && review && !selectable) {
+    if (forcePoster && displayReview && !selectable) {
         e.preventDefault();
         setShowModal(true);
         return;
@@ -292,93 +298,91 @@ export default function ContentCard({
   // #endregion
 
   // #region 슬롯 렌더링
-  const renderTopLeft = () => (
-    <TypeLabel type={contentType} onOpen={() => setIsTypeInfoOpen(true)} />
-  );
 
   const renderSelectOverlay = () => {
     if (!selectable) return null;
     return <SelectOverlay isSelected={isSelected} />;
   };
 
-  const renderTopRight = () => {
+  // 헤더 바: 좌(카테고리) + 중(에디션 토글) + 우(액션 버튼)
+  const renderCardHeader = () => {
+    // 우측 액션 버튼
+    let actionNode: React.ReactNode = null;
     if (topRightNode) {
-      return (
-        <div
-          className="absolute top-1 right-1"
-          style={{ zIndex: Z_INDEX.cardBadge }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {topRightNode}
-        </div>
+      actionNode = topRightNode;
+    } else if (!isCheckingAuth && user) {
+      const menuItems: DropdownMenuItem[] = [];
+      if (internalSaved) {
+        if (recommendable !== false) {
+          menuItems.push({
+            label: "추천",
+            icon: <ThumbsUp size={14} />,
+            onClick: () => setIsRecommendModalOpen(true),
+          });
+        }
+        if (deletable !== false) {
+          menuItems.push({
+            label: "삭제",
+            icon: <Trash2 size={14} />,
+            onClick: async () => {
+              if (onDelete) {
+                onDelete({ stopPropagation: () => {}, preventDefault: () => {} } as any);
+              } else if (internalUserContentId) {
+                await removeContent(internalUserContentId);
+                setInternalSaved(false);
+                setInternalUserContentId(undefined);
+              }
+            },
+            variant: "danger",
+          });
+        }
+      } else {
+        menuItems.push({
+          label: "서재에 담기",
+          icon: <Bookmark size={14} />,
+          onClick: () => {
+            if (onAdd) {
+              onAdd({ stopPropagation: () => {}, preventDefault: () => {} } as any);
+            } else {
+              setShowAddConfirm(true);
+            }
+          },
+        });
+      }
+      actionNode = (
+        <DropdownMenu
+          items={menuItems}
+          buttonClassName="w-6 h-6 flex items-center justify-center rounded hover:bg-white/[0.06] transition-colors text-text-secondary hover:text-text-primary"
+          iconSize={14}
+        />
       );
     }
 
-    // 인증 확인 중이거나 비로그인: 액션 버튼 숨김
-    if (isCheckingAuth || !user) {
-      return null;
-    }
-
-    // 로그인 상태: 액션 메뉴 아이템 구성
-    const menuItems: DropdownMenuItem[] = [];
-
-    // 서재에 있음: 추천 | 삭제
-    if (internalSaved) {
-      // 추천 (recommendable이 false가 아니면 기본 표시)
-      if (recommendable !== false) {
-        menuItems.push({
-          label: "추천",
-          icon: <ThumbsUp size={14} />,
-          onClick: () => setIsRecommendModalOpen(true),
-        });
-      }
-
-      // 삭제 (deletable이 false가 아니면 기본 표시)
-      if (deletable !== false) {
-        menuItems.push({
-          label: "삭제",
-          icon: <Trash2 size={14} />,
-          onClick: async () => {
-            if (onDelete) {
-              onDelete({ stopPropagation: () => {}, preventDefault: () => {} } as any);
-            } else if (internalUserContentId) {
-              // 내부에서 직접 삭제
-              await removeContent(internalUserContentId);
-              setInternalSaved(false);
-              setInternalUserContentId(undefined);
-            }
-          },
-          variant: "danger",
-        });
-      }
-    }
-    // 서재에 없음: 담기 (기본 표시)
-    else {
-      menuItems.push({
-        label: "서재에 담기",
-        icon: <Bookmark size={14} />,
-        onClick: () => {
-          if (onAdd) {
-            onAdd({ stopPropagation: () => {}, preventDefault: () => {} } as any);
-          } else {
-            setShowAddConfirm(true);
-          }
-        },
-      });
-    }
-
-    // 로그인 상태면 항상 메뉴 표시
     return (
       <div
-        className="absolute top-1 right-1"
-        style={{ zIndex: Z_INDEX.cardBadge }}
+        className="flex items-center justify-between px-1.5 py-1 bg-[#141414] border-b border-white/[0.04]"
         onClick={(e) => e.stopPropagation()}
       >
-        <DropdownMenu
-          items={menuItems}
-          buttonClassName="w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-md border border-white/10 shadow-lg hover:bg-black/80 hover:border-white/30 text-white/90"
-          iconSize={14}
-        />
+        {/* 좌: 카테고리 */}
+        <button
+          type="button"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsTypeInfoOpen(true); }}
+          className="flex items-center justify-center w-6 h-6 rounded hover:bg-white/[0.06] transition-colors"
+        >
+          <ContentIcon size={13} className="text-accent/80" strokeWidth={1.8} />
+        </button>
+
+        {/* 중: 에디션 토글 */}
+        <div className="flex-1 flex justify-center">
+          {showEditionToggle && (
+            <EditionToggle editions={editions!} activeEdition={activeEdition} onToggle={setActiveEdition} />
+          )}
+        </div>
+
+        {/* 우: 액션 버튼 */}
+        <div className="flex items-center">
+          {actionNode}
+        </div>
       </div>
     );
   };
@@ -412,19 +416,6 @@ export default function ContentCard({
     return null;
   };
 
-  // 중상단 슬롯: 에디션 토글 (포스터 위 오버레이)
-  const renderMidTop = () => {
-    if (!showEditionToggle) return null;
-    return (
-      <div
-        className="absolute left-1/2 -translate-x-1/2 top-1"
-        style={{ zIndex: Z_INDEX.cardBadge }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <EditionToggle editions={editions!} activeEdition={activeEdition} onToggle={setActiveEdition} />
-      </div>
-    );
-  };
   // #endregion
 
   // 선택 모드 스타일
@@ -441,7 +432,7 @@ export default function ContentCard({
       onClose={() => setShowModal(false)}
       title={displayTitle}
       creator={displayCreator}
-      review={review}
+      review={displayReview}
       reviewPresets={reviewPresets}
       isSpoiler={isSpoiler}
       sourceUrl={sourceUrl}
@@ -573,17 +564,15 @@ export default function ContentCard({
     return (
       <>
         {/* 가로 레이아웃 (PC 기본, 모바일 옵션) - 썸네일/리뷰 나란히 배치 */}
-        <div className={`relative group/card ${horizontalVisibility} ${className || ""}`}>
+        <div className={`relative group/card ${horizontalVisibility} flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden ${className || ""}`}>
           <CornerAccents radius="lg" />
+          {renderCardHeader()}
           <div
             onClick={handleClick}
-            className="flex items-stretch gap-3 cursor-pointer w-full"
+            className="flex items-stretch gap-3 cursor-pointer w-full p-2"
           >
           {/* 썸네일 영역 */}
           <div className={`relative ${isMobileReview ? "w-28 sm:w-40" : "w-40"} flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
-            {renderTopLeft()}
-            {renderTopRight()}
-            {renderMidTop()}
             {showImage ? (
               <Image
                 src={displayThumbnail!}
@@ -665,44 +654,46 @@ export default function ContentCard({
                 </div>
               )}
 
-              {(review && !isSpoiler) && (
+              {(displayReview && !isSpoiler) && (
                 <div className="flex-1 relative min-h-0 overflow-hidden">
                   <p className="text-[11px] sm:text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans line-clamp-[8]">
-                    <FormattedText text={review} />
+                    <FormattedText text={displayReview} />
                   </p>
                   <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none" />
                 </div>
               )}
 
-              {review && isSpoiler && (
+              {displayReview && isSpoiler && (
                 <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
                   <p className="text-sm text-text-tertiary">스포일러 포함</p>
                 </div>
               )}
 
-              {!review && (!reviewPresets || reviewPresets.length === 0) && (
+              {!displayReview && (!reviewPresets || reviewPresets.length === 0) && (
                 <div className="flex-1 flex items-center justify-center">
                   <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
                 </div>
               )}
-              {/* 출처 링크 (필수) */}
-              <div className="mt-2 text-xs truncate">
-                {sourceUrl ? (
-                  <a
-                    href={sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-accent/60 hover:text-accent underline underline-offset-2"
-                  >
-                    출처: {sourceUrl}
-                  </a>
-                ) : (
-                  <span className="text-red-500 font-semibold">
-                    ⚠️ 출처 URL 누락
-                  </span>
-                )}
-              </div>
+              {/* 출처 링크 (headerNode 모드에서는 비표시) */}
+              {!headerNode && (
+                <div className="mt-2 text-xs truncate">
+                  {sourceUrl ? (
+                    <a
+                      href={sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-accent/60 hover:text-accent underline underline-offset-2"
+                    >
+                      출처: {sourceUrl}
+                    </a>
+                  ) : (
+                    <span className="text-red-500 font-semibold">
+                      ⚠️ 출처 URL 누락
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           </div>
@@ -710,8 +701,9 @@ export default function ContentCard({
 
         {/* 모바일: 포스터 카드 (mobileLayout='review'일 때 숨김) */}
         <div
-          className={`${verticalVisibility} flex-col ${headerNode ? "bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden shadow-md" : "space-y-2"} ${className || ""}`}
+          className={`${verticalVisibility} flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden shadow-md ${className || ""}`}
         >
+          {renderCardHeader()}
           {headerNode && (
             <div className="px-2.5 py-2 flex justify-between items-start bg-black/20 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
               <div className="flex-1">{headerNode}</div>
@@ -720,11 +712,8 @@ export default function ContentCard({
 
           <div
             onClick={handleClick}
-            className={`cursor-pointer relative ${headerNode ? "overflow-hidden bg-bg-secondary" : "bg-[#212121] border border-border/60 rounded-lg overflow-hidden active:border-accent/50"}`}
+            className="cursor-pointer relative overflow-hidden bg-bg-secondary"
           >
-            {renderTopLeft()}
-            {renderTopRight()}
-
             <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
               {editionUnavailable ? (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
@@ -761,7 +750,6 @@ export default function ContentCard({
                   <ContentIcon size={32} className="text-text-tertiary" />
                 </div>
               )}
-              {renderMidTop()}
               {renderBottomLeft()}
               {renderSelectOverlay()}
               {renderBottomRight()}
@@ -788,6 +776,7 @@ export default function ContentCard({
   // #region 기본 카드 렌더링
   const cardContent = (
     <>
+      {renderCardHeader()}
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
         {editionUnavailable ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
@@ -829,9 +818,6 @@ export default function ContentCard({
           <div className="absolute inset-x-0 bottom-0 h-16 md:h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
         )}
 
-        {renderTopLeft()}
-        {renderTopRight()}
-        {renderMidTop()}
         {renderBottomLeft()}
         {renderSelectOverlay()}
         {renderBottomRight()}
