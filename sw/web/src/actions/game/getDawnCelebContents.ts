@@ -6,6 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getLocale } from "next-intl/server";
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 export interface DawnContent {
@@ -36,6 +37,7 @@ export async function getDawnCelebContents(
 
   if (error || !data) return {};
 
+  const locale = await getLocale();
   const result: Record<string, DawnContent[]> = {};
 
   for (const row of data) {
@@ -44,7 +46,7 @@ export async function getDawnCelebContents(
       type: string | null;
       content_locales: ContentLocaleRow[] | null;
     };
-    const flat = flattenLocales(rawContent.content_locales);
+    const flat = flattenLocales(rawContent.content_locales, locale);
 
     if (!result[row.user_id]) {
       result[row.user_id] = [];

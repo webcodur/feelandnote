@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { CategoryId } from '@/constants/categories'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 // #region Types
@@ -196,9 +197,10 @@ async function fetchAllUserContents(
         break
       }
 
+      const locale = await getLocale()
       const typedData = (data || []).map(item => {
         const raw = Array.isArray(item.contents) ? item.contents[0] : item.contents
-        const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null)
+        const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null, locale)
         return {
           user_id: item.user_id,
           content_id: item.content_id,
@@ -355,23 +357,32 @@ export async function getChosenScriptures(params?: {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
+  const locale = await getLocale()
   const total = Number((data as Record<string, unknown>[])[0]?.total_count ?? 0)
-  const contents: ScriptureContent[] = (data as Record<string, unknown>[]).map(row => ({
-    id: row.content_id as string,
-    title: row.title as string,
-    creator: (row.creator as string) ?? null,
-    thumbnail_url: (row.thumbnail_url as string) ?? null,
-    type: row.content_type as string,
-    celeb_count: Number(row.celeb_count),
-    user_count: Number(row.user_count),
-    avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
-    title_ko: (row.title_ko as string) ?? null,
-    title_en: (row.title_en as string) ?? null,
-    creator_en: (row.creator_en as string) ?? null,
-    isbn_en: (row.isbn_en as string) ?? null,
-    thumbnail_en: (row.thumbnail_en as string) ?? null,
-    has_en_edition: (row.has_en_edition as boolean) ?? null,
-  }))
+  const contents: ScriptureContent[] = (data as Record<string, unknown>[]).map(row => {
+    const titleKo = (row.title_ko as string) ?? null
+    const titleEn = (row.title_en as string) ?? null
+    const creatorKo = (row.creator as string) ?? null
+    const creatorEn = (row.creator_en as string) ?? null
+    const thumbKo = (row.thumbnail_url as string) ?? null
+    const thumbEn = (row.thumbnail_en as string) ?? null
+    return {
+      id: row.content_id as string,
+      title: (locale === 'en' ? titleEn || titleKo : titleKo || titleEn) || '',
+      creator: (locale === 'en' ? creatorEn || creatorKo : creatorKo || creatorEn) ?? null,
+      thumbnail_url: (locale === 'en' ? thumbEn || thumbKo : thumbKo || thumbEn) ?? null,
+      type: row.content_type as string,
+      celeb_count: Number(row.celeb_count),
+      user_count: Number(row.user_count),
+      avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+      title_ko: titleKo,
+      title_en: titleEn,
+      creator_en: creatorEn,
+      isbn_en: (row.isbn_en as string) ?? null,
+      thumbnail_en: thumbEn,
+      has_en_edition: (row.has_en_edition as boolean) ?? null,
+    }
+  })
 
   return {
     contents,
@@ -429,18 +440,19 @@ export async function getScripturesByProfession(params?: {
       .limit(5),
   ])
 
+  const locale = await getLocale()
   const topCelebs: TopCeleb[] = (topCelebsData || []).map(c => {
     const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
-    // user_contents 카운트 계산
     const contentCount = typedData.filter(item => item.user_id === c.id).length
-    
+    const nicknameEn = (c as any).nickname_en ?? null
+    const titleEn = (c as any).title_en ?? null
     return {
       id: c.id,
-      nickname: c.nickname,
-      nickname_en: (c as any).nickname_en ?? null,
+      nickname: (locale === 'en' ? nicknameEn || c.nickname : c.nickname) || '',
+      nickname_en: nicknameEn,
       avatar_url: c.avatar_url,
-      title: c.title,
-      title_en: (c as any).title_en ?? null,
+      title: (locale === 'en' ? titleEn || c.title : c.title) ?? null,
+      title_en: titleEn,
       influence: influence?.total_score ?? null,
       count: contentCount
     }
@@ -634,9 +646,10 @@ async function fetchFigureContents(
     return { figure: null, contents: [], source: defaultSource }
   }
 
+  const locale = await getLocale()
   const contents: ScriptureContent[] = (userContents || []).map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
-    const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null)
+    const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null, locale)
     return {
       id: content?.id || '',
       title: flat.title,
@@ -660,15 +673,17 @@ async function fetchFigureContents(
     }
   }).filter(c => c.id)
 
+  const nicknameEn = (profile as any).nickname_en ?? null
+  const bioEn = (profile as any).bio_en ?? null
   return {
     figure: {
       id: profile.id,
-      nickname: profile.nickname,
-      nickname_en: (profile as any).nickname_en ?? null,
+      nickname: (locale === 'en' ? nicknameEn || profile.nickname : profile.nickname) || '',
+      nickname_en: nicknameEn,
       avatar_url: profile.avatar_url,
       profession: profile.profession,
-      bio: profile.bio,
-      bio_en: (profile as any).bio_en ?? null,
+      bio: (locale === 'en' ? bioEn || profile.bio : profile.bio) ?? null,
+      bio_en: bioEn,
       contentCount: contents.length
     },
     contents,
@@ -733,6 +748,7 @@ export interface EraScriptures {
 
 export async function getScripturesByEra(): Promise<EraScriptures[]> {
   const supabase = await createClient()
+  const locale = await getLocale()
 
   const { data, error } = await supabase.rpc('get_scriptures_by_era', {
     p_era: null,
@@ -764,11 +780,17 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
         topCelebs: [],
       })
     }
+    const titleKo = (row.title_ko as string) ?? null
+    const titleEn = (row.title_en as string) ?? null
+    const creatorKo = (row.creator as string) ?? null
+    const creatorEn = (row.creator_en as string) ?? null
+    const thumbKo = (row.thumbnail_url as string) ?? null
+    const thumbEn = (row.thumbnail_en as string) ?? null
     eraMap.get(era)!.contents.push({
       id: row.content_id as string,
-      title: row.title as string,
-      creator: (row.creator as string) ?? null,
-      thumbnail_url: (row.thumbnail_url as string) ?? null,
+      title: (locale === 'en' ? titleEn || titleKo : titleKo || titleEn) || '',
+      creator: (locale === 'en' ? creatorEn || creatorKo : creatorKo || creatorEn) ?? null,
+      thumbnail_url: (locale === 'en' ? thumbEn || thumbKo : thumbKo || thumbEn) ?? null,
       type: row.content_type as string,
       celeb_count: Number(row.celeb_count),
       user_count: Number(row.user_count),
@@ -826,24 +848,33 @@ export async function getEraContents(params: {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
+  const locale = await getLocale()
   const rows = data as Record<string, unknown>[]
   const total = Number(rows[0]?.total_count ?? 0)
-  const contents: ScriptureContent[] = rows.map(row => ({
-    id: row.content_id as string,
-    title: row.title as string,
-    creator: (row.creator as string) ?? null,
-    thumbnail_url: (row.thumbnail_url as string) ?? null,
-    type: row.content_type as string,
-    celeb_count: Number(row.celeb_count),
-    user_count: Number(row.user_count),
-    avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
-    title_ko: (row.title_ko as string) ?? null,
-    title_en: (row.title_en as string) ?? null,
-    creator_en: (row.creator_en as string) ?? null,
-    isbn_en: (row.isbn_en as string) ?? null,
-    thumbnail_en: (row.thumbnail_en as string) ?? null,
-    has_en_edition: (row.has_en_edition as boolean) ?? null,
-  }))
+  const contents: ScriptureContent[] = rows.map(row => {
+    const titleKo = (row.title_ko as string) ?? null
+    const titleEn = (row.title_en as string) ?? null
+    const creatorKo = (row.creator as string) ?? null
+    const creatorEn = (row.creator_en as string) ?? null
+    const thumbKo = (row.thumbnail_url as string) ?? null
+    const thumbEn = (row.thumbnail_en as string) ?? null
+    return {
+      id: row.content_id as string,
+      title: (locale === 'en' ? titleEn || titleKo : titleKo || titleEn) || '',
+      creator: (locale === 'en' ? creatorEn || creatorKo : creatorKo || creatorEn) ?? null,
+      thumbnail_url: (locale === 'en' ? thumbEn || thumbKo : thumbKo || thumbEn) ?? null,
+      type: row.content_type as string,
+      celeb_count: Number(row.celeb_count),
+      user_count: Number(row.user_count),
+      avg_rating: row.avg_rating ? Number(row.avg_rating) : null,
+      title_ko: titleKo,
+      title_en: titleEn,
+      creator_en: creatorEn,
+      isbn_en: (row.isbn_en as string) ?? null,
+      thumbnail_en: thumbEn,
+      has_en_edition: (row.has_en_edition as boolean) ?? null,
+    }
+  })
 
   return {
     contents,
@@ -902,16 +933,23 @@ export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
     return []
   }
 
-  return (data as Record<string, unknown>[]).map(row => ({
-    id: row.id as string,
-    nickname: row.nickname as string,
-    nickname_en: (row.nickname_en as string) ?? null,
-    avatar_url: (row.avatar_url as string) ?? null,
-    title: (row.title as string) ?? null,
-    title_en: (row.title_en as string) ?? null,
-    influence: row.influence ? Number(row.influence) : null,
-    count: Number(row.content_count),
-  }))
+  const locale = await getLocale()
+  return (data as Record<string, unknown>[]).map(row => {
+    const nicknameKo = row.nickname as string
+    const nicknameEn = (row.nickname_en as string) ?? null
+    const titleKo = (row.title as string) ?? null
+    const titleEn = (row.title_en as string) ?? null
+    return {
+      id: row.id as string,
+      nickname: (locale === 'en' ? nicknameEn || nicknameKo : nicknameKo) || '',
+      nickname_en: nicknameEn,
+      avatar_url: (row.avatar_url as string) ?? null,
+      title: (locale === 'en' ? titleEn || titleKo : titleKo) ?? null,
+      title_en: titleEn,
+      influence: row.influence ? Number(row.influence) : null,
+      count: Number(row.content_count),
+    }
+  })
 }
 // #endregion
 
@@ -941,10 +979,11 @@ export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 
   const result: Record<string, HubContentSample[]> = {}
   const seen: Record<string, Set<string>> = {}
 
+  const locale = await getLocale()
   for (const row of data as any[]) {
     const celebId = row.user_id as string
     const content = row.contents as any
-    const flat = flattenLocales(content.content_locales as ContentLocaleRow[])
+    const flat = flattenLocales(content.content_locales as ContentLocaleRow[], locale)
     if (!flat.thumbnail_url) continue
 
     if (!seen[celebId]) seen[celebId] = new Set()
@@ -973,16 +1012,23 @@ export async function getContentSamplesByProfession(_professions: string[], perP
   const { data, error } = await supabase.rpc('get_profession_content_samples', { per_profession: perProfession })
   if (error || !data?.length) return {}
 
+  const locale = await getLocale()
   const result: Record<string, HubContentSample[]> = {}
   for (const row of data as any[]) {
     const profession = row.profession as string
     if (!result[profession]) result[profession] = []
+    const titleKo = (row.title_ko as string) ?? (row.title as string) ?? null
+    const titleEn = (row.title_en as string) ?? null
+    const creatorKo = (row.creator as string) ?? null
+    const creatorEn = (row.creator_en as string) ?? null
+    const thumbKo = (row.thumbnail_url as string) ?? null
+    const thumbEn = (row.thumbnail_en as string) ?? null
     result[profession].push({
       id: row.content_id,
-      title: row.title,
-      thumbnail_url: row.thumbnail_url,
+      title: (locale === 'en' ? titleEn || titleKo : titleKo || titleEn) || '',
+      thumbnail_url: (locale === 'en' ? thumbEn || thumbKo : thumbKo || thumbEn) ?? null,
       type: row.content_type,
-      creator: row.creator,
+      creator: (locale === 'en' ? creatorEn || creatorKo : creatorKo || creatorEn) ?? null,
     })
   }
   return result

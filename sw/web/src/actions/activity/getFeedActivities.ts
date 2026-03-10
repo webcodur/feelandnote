@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface FeedActivity {
@@ -149,10 +150,11 @@ export async function getFeedActivities(
         .in('content_id', contentIds),
     ])
 
+    const locale = await getLocale()
     if (contents) {
       contentsMap = Object.fromEntries(
         contents.map(c => {
-          const flat = flattenLocales((c as any).content_locales as ContentLocaleRow[] | null)
+          const flat = flattenLocales((c as any).content_locales as ContentLocaleRow[] | null, locale)
           return [c.id, { title: flat.title, thumbnail_url: flat.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition }]
         })
       )

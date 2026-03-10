@@ -72,6 +72,28 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const siteJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Feel&Note",
+    url: "https://feelandnote.com",
+    logo: "https://feelandnote.com/opengraph-image",
+    description: "Celebrity cultural archives — books, movies, music, and games enjoyed by history's greatest minds.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Feel&Note",
+    url: "https://feelandnote.com",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://feelandnote.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  },
+];
+
 export default async function LocaleLayout({
   children,
   params,
@@ -87,9 +109,15 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <GameAudioProvider>
         <GlobalDialogueProvider>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+          />
           {children}
           <Footer />
-          <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
+          {process.env.NODE_ENV === "production" && (
+            <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
+          )}
         </GlobalDialogueProvider>
       </GameAudioProvider>
     </NextIntlClientProvider>

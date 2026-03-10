@@ -7,6 +7,7 @@ import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
+import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
 
 interface AddContentParams {
   id: string                    // 외부 API ID (ISBN, TMDB ID 등)
@@ -83,6 +84,26 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       sources: sourceToJsonb(params.externalSource),
       verified: true,
     })
+
+    // VIDEO: en 행 자동 생성 (TMDB en-US + /images API)
+    if (params.type === 'VIDEO' && locale === 'ko' && params.id) {
+      getVideoEnLocale(params.id).then(async (en) => {
+        if (!en) return
+        await supabase.from('content_locales').insert({
+          content_id: contentId,
+          locale: 'en',
+          title: en.title,
+          creator: en.creator,
+          thumbnail_url: en.thumbnailUrl,
+          sources: en.thumbnailUrl
+            ? { primary: 'tmdb', thumbnail: 'tmdb_en' }
+            : { primary: 'tmdb', thumbnail: 'confirmed_unavailable' },
+          verified: true,
+        }).then(({ error: enErr }) => {
+          if (enErr) console.error('[VIDEO en locale]', enErr.message)
+        })
+      }).catch(() => {})  // 실패해도 ko 등록에 영향 없음
+    }
   }
 
   // 2. user_contents 생성 (status 기본값: WANT)

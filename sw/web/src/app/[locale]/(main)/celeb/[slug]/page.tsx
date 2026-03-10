@@ -182,7 +182,7 @@ export default async function CelebPage({ params }: PageProps) {
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
   const contentItems = (contentListResult.data ?? []).map((row, idx) => {
     const rawContent = row.contents as unknown as { id: string; type: string; content_locales: ContentLocaleRow[] | null };
-    const flat = flattenLocales(rawContent.content_locales);
+    const flat = flattenLocales(rawContent.content_locales, locale);
     const schemaType = rawContent.type === 'BOOK' ? 'Book'
       : rawContent.type === 'VIDEO' ? 'Movie'
       : rawContent.type === 'MUSIC' ? 'MusicRecording'

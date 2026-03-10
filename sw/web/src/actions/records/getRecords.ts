@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { RecordType } from './createRecord'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetRecordsParams {
@@ -70,9 +71,10 @@ export async function getRecords(params: GetRecordsParams = {}) {
   }
 
   // contentData의 content_locales → flat 변환
+  const locale = await getLocale()
   return (data || []).map(item => {
     const raw = Array.isArray(item.contentData) ? item.contentData[0] : item.contentData
-    const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null)
+    const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null, locale)
     return {
       ...item,
       contentData: raw ? { id: (raw as any).id, type: (raw as any).type, title: flat.title, creator: flat.creator, thumbnail_url: flat.thumbnail_url } : null,
@@ -123,8 +125,9 @@ export async function getRecord(recordId: string, userId?: string) {
   }
 
   // contentData의 content_locales → flat 변환
+  const locale = await getLocale()
   const raw = Array.isArray(data.contentData) ? data.contentData[0] : data.contentData
-  const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null)
+  const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null, locale)
   return {
     ...data,
     contentData: raw ? { id: (raw as any).id, type: (raw as any).type, title: flat.title, creator: flat.creator, thumbnail_url: flat.thumbnail_url } : null,

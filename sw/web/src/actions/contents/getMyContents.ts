@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
@@ -145,12 +146,13 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   }
 
   // content가 null인 항목 필터링 + content_locales 플래튼
+  const locale = await getLocale()
   const items = (data || []).filter((item) =>
     item.content !== null
   ).map(item => {
     const c = item.content as Record<string, unknown>
     const locales = c.content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales)
+    const flat = flattenLocales(locales, locale)
     return {
       ...item,
       content: {
@@ -229,12 +231,13 @@ export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' 
     throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
   }
 
+  const locale = await getLocale()
   const items = (data || []).filter((item) =>
     item.content !== null
   ).map(item => {
     const c = item.content as Record<string, unknown>
     const locales = c.content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales)
+    const flat = flattenLocales(locales, locale)
     return {
       ...item,
       content: {

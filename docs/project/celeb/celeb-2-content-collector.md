@@ -254,7 +254,12 @@ curl -s "https://www.googleapis.com/books/v1/volumes?q=intitle:{영문제목}+in
 ### VIDEO/GAME/MUSIC i18n
 
 - TMDB: `language=ko-KR`과 `language=en-US` 두 번 조회하여 한/영 제목 확보
-- IGDB/Spotify: 기본 영문. 한국어 제목은 웹 검색으로 보충
+- **VIDEO en 썸네일 필수**: TMDB `/images` API로 영문 포스터를 반드시 수집하여 `content_locales` en 행의 `thumbnail_url`에 저장한다
+  - API: `GET /{movie|tv}/{id}/images?api_key={key}&include_image_languages=en,null`
+  - `posters[]`에서 `iso_639_1 = "en"` 우선 (vote_average 최고), 없으면 `null`(텍스트 없는 포스터)
+  - URL: `https://image.tmdb.org/t/p/w500{file_path}`
+  - en 포스터 없으면 sources에 `{"thumbnail": "confirmed_unavailable"}` 마킹
+- IGDB/Spotify: 기본 영문. 한국어 제목은 웹 검색으로 보충. 썸네일은 로케일 무관(동일 URL)
 
 ### review_en (감상평 영문)
 

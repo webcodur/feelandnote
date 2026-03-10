@@ -1,6 +1,10 @@
 # Windows reserved names
 nul
 
+# Google Analytics credentials
+ga-credentials.json
+**/credentials/
+
 # Logs
 logs
 *.log

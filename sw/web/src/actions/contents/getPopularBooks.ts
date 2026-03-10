@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 
@@ -39,10 +40,11 @@ export async function getPopularBooks(limit: number = 5): Promise<PopularBook[]>
     return []
   }
 
+  const locale = await getLocale()
   return (data || [])
     .map(item => {
       const locales = (item as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
-      const flat = flattenLocales(locales)
+      const flat = flattenLocales(locales, locale)
       const affiliateLinks = (flat.affiliate_url as AffiliateLink[] | null) ?? []
       return {
         id: item.id,

@@ -14,16 +14,21 @@ export interface ContentLocaleRow {
   affiliate_url: unknown
 }
 
-/** content_locales 배열 → 플랫 shape 변환 */
-export function flattenLocales(locales: ContentLocaleRow[] | null | undefined) {
+/**
+ * content_locales 배열 → 플랫 shape 변환
+ * locale을 전달하면 해당 locale 우선, 미전달 시 ko 우선 (하위호환)
+ */
+export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, locale?: string) {
   const ko = locales?.find(l => l.locale === 'ko')
   const en = locales?.find(l => l.locale === 'en')
+  const primary = locale === 'en' ? en : ko
+  const fallback = locale === 'en' ? ko : en
   return {
-    title: ko?.title || en?.title || '',
-    creator: ko?.creator || en?.creator || null,
-    thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
-    description: ko?.description || en?.description || null,
-    publisher: ko?.publisher || en?.publisher || null,
+    title: primary?.title || fallback?.title || '',
+    creator: primary?.creator || fallback?.creator || null,
+    thumbnail_url: primary?.thumbnail_url || fallback?.thumbnail_url || null,
+    description: primary?.description || fallback?.description || null,
+    publisher: primary?.publisher || fallback?.publisher || null,
     title_ko: ko?.title || null,
     title_en: en?.title || null,
     creator_en: en?.creator || null,

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createNotification } from "@/actions/notifications";
 import type { SendRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
+import { getLocale } from "next-intl/server";
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface SendRecommendationData {
@@ -106,7 +107,8 @@ export async function sendRecommendation(
       ? userContent.content[0]
       : userContent.content
   ) as { id: string; type: string; content_locales: ContentLocaleRow[] | null } | null;
-  const flat = flattenLocales(rawContent?.content_locales);
+  const locale = await getLocale();
+  const flat = flattenLocales(rawContent?.content_locales, locale);
   const content = rawContent ? { id: rawContent.id, type: rawContent.type, title: flat.title, thumbnail_url: flat.thumbnail_url } : null;
 
   await createNotification({

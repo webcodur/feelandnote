@@ -380,6 +380,69 @@ export async function getVideoTrailer(externalId: string): Promise<string | null
   }
 }
 
+/** VIDEO en 로케일 데이터 (제목, 감독, 포스터) */
+export interface VideoEnLocale {
+  title: string
+  creator: string | null
+  thumbnailUrl: string | null
+}
+
+/**
+ * TMDB en-US 상세 + /images API로 영문 데이터 수집.
+ * addContent에서 VIDEO 신규 등록 시 en content_locales 행 생성에 사용.
+ */
+export async function getVideoEnLocale(externalId: string): Promise<VideoEnLocale | null> {
+  if (!TMDB_API_KEY) return null
+
+  const match = externalId.match(/^tmdb-(movie|tv)-(\d+)$/)
+  if (!match) return null
+
+  const [, mediaType, id] = match
+  const isMovie = mediaType === 'movie'
+
+  try {
+    // en-US 상세 + /images 병렬
+    const [detailRes, imagesRes] = await Promise.all([
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=en-US`),
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}/images?api_key=${TMDB_API_KEY}&include_image_languages=en,null`),
+    ])
+
+    if (!detailRes.ok) return null
+    const data = await detailRes.json()
+
+    // en 포스터: vote_average 최고 우선
+    let enPoster: string | null = null
+    if (imagesRes.ok) {
+      const imgData = await imagesRes.json()
+      const posters: { iso_639_1: string | null; file_path: string; vote_average: number }[] = imgData.posters || []
+      const en = posters.filter(p => p.iso_639_1 === 'en').sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0))
+      const nil = posters.filter(p => p.iso_639_1 === null).sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0))
+      const best = en[0] || nil[0]
+      if (best) enPoster = `${TMDB_IMAGE_BASE}${best.file_path}`
+    }
+
+    // en 감독
+    let director = ''
+    if (isMovie) {
+      const creditsRes = await fetch(`${TMDB_BASE_URL}/movie/${id}/credits?api_key=${TMDB_API_KEY}&language=en-US`)
+      if (creditsRes.ok) {
+        const credits: TMDBCredits = await creditsRes.json()
+        director = credits.crew.find(c => c.job === 'Director')?.name || ''
+      }
+    } else if (data.created_by?.length > 0) {
+      director = data.created_by.map((c: { name: string }) => c.name).join(', ')
+    }
+
+    return {
+      title: isMovie ? data.title : data.name,
+      creator: director || null,
+      thumbnailUrl: enPoster,
+    }
+  } catch {
+    return null
+  }
+}
+
 // ID로 영상 정보 조회 (metadata 포함 - 상세 정보 강화)
 export async function getVideoById(externalId: string): Promise<VideoSearchResult | null> {
   if (!TMDB_API_KEY) return null

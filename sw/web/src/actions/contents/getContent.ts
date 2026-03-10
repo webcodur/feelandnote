@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { Content } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface UserContentWithDetails {
@@ -49,8 +50,9 @@ export async function getContent(contentId: string): Promise<UserContentWithDeta
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
+  const locale = await getLocale()
   const c = data.content as Record<string, unknown>
-  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null)
+  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null, locale)
   const result = {
     ...data,
     content: { ...c, ...flat, content_locales: undefined },
@@ -78,8 +80,9 @@ export async function getPublicContent(contentId: string, userId: string): Promi
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
+  const locale = await getLocale()
   const c = data.content as Record<string, unknown>
-  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null)
+  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null, locale)
   const result = {
     ...data,
     content: { ...c, ...flat, content_locales: undefined },

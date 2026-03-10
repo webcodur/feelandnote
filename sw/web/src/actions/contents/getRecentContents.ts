@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface RecentContent {
@@ -27,9 +28,10 @@ export async function getRecentContents(limit: number = 10): Promise<RecentConte
     return []
   }
 
+  const locale = await getLocale()
   return (data || []).map(item => {
     const locales = (item as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales)
+    const flat = flattenLocales(locales, locale)
     return {
       id: item.id,
       type: item.type as ContentType,

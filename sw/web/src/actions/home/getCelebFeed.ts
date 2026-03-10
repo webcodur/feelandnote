@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { CelebFeedResponse, CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetCelebFeedParams {
@@ -102,11 +103,12 @@ export async function getCelebFeed(
     }
   }
 
+  const locale = await getLocale()
   const reviews: CelebReview[] = filtered.map(row => {
       const content = Array.isArray(row.content) ? row.content[0] : row.content
       const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
-      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null)
+      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
       return {
         id: row.id,
         rating: row.rating,

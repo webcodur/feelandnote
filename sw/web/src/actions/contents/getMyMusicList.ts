@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { batchGetSpotifyEntityTypes } from '@feelandnote/content-search/spotify'
 import type { ContentStatus } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export type SpotifyEntity = 'track' | 'album'
@@ -46,11 +47,12 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
   })
   const entityMap = await batchGetSpotifyEntityTypes(spotifyIds)
 
+  const locale = await getLocale()
   return items.map((item, idx) => {
     const c = item.content as unknown as {
       id: string; external_id: string; content_locales: ContentLocaleRow[] | null
     }
-    const flat = flattenLocales(c.content_locales)
+    const flat = flattenLocales(c.content_locales, locale)
     return {
       id: c.id,
       externalId: c.external_id || '',

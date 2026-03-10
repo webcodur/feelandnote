@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import dynamic from "next/dynamic";
 import Header from "./header/Header";
 import BottomNav from "./BottomNav";
-import FloatingMusicPlayer from "./FloatingMusicPlayer";
 import RecentProfilesSection from "@/components/features/profile/RecentProfilesSection";
+
+const FloatingMusicPlayer = dynamic(() => import("./FloatingMusicPlayer"), { ssr: false });
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);

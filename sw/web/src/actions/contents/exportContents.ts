@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { EXPORT_STATUS_LABELS } from '@/constants/statuses'
 import type { ContentType, ContentStatus } from '@/types/database'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface ExportParams {
@@ -68,11 +69,12 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
   }
 
   // 내보내기용 형식으로 변환
+  const locale = await getLocale()
   const rows: ExportContentRow[] = (data || [])
     .filter(item => item.content !== null)
     .map(item => {
       const locales = (item.content as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
-      const flat = flattenLocales(locales)
+      const flat = flattenLocales(locales, locale)
       return {
       title: flat.title,
       creator: flat.creator || '',

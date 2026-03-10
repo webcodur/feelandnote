@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface RecordsSearchResult {
@@ -108,6 +109,7 @@ export async function searchRecords({
   }
 
   // 카테고리 필터 (content.type 기준)
+  const locale = await getLocale()
   let items: RecordsSearchResult[] = ((data || []) as UserContentRow[])
     .filter((item): item is UserContentRow & { content: ContentData } => {
       if (!item.content) return false
@@ -117,7 +119,7 @@ export async function searchRecords({
     })
     .map((item) => {
       const content = Array.isArray(item.content) ? item.content[0] : item.content
-      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null)
+      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
       return {
         id: item.id,
         contentId: item.content_id,

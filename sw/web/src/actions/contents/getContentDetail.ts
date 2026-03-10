@@ -8,6 +8,7 @@ import { getProfile } from '@/actions/user'
 import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 // #region 타입 정의
@@ -57,6 +58,7 @@ export async function getContentDetail(
   category?: CategoryId
 ): Promise<ContentDetailData> {
   const supabase = await createClient()
+  const locale = await getLocale()
   // 리뷰 피드는 contentId만 필요하므로 콘텐츠 조회와 병렬 시작
   const reviewsPromise = getReviewFeed({ contentId, limit: 10 })
   const profile = await getProfile()
@@ -79,7 +81,7 @@ export async function getContentDetail(
     if (data) {
       const rawContent = (Array.isArray(data.content) ? data.content[0] : data.content) as Record<string, unknown>
       const locales = rawContent?.content_locales as ContentLocaleRow[] | null
-      const flat = flattenLocales(locales)
+      const flat = flattenLocales(locales, locale)
       savedContent = {
         id: rawContent.id as string,
         external_id: rawContent.external_id as string | null,
@@ -134,7 +136,7 @@ export async function getContentDetail(
 
     function buildDbContent(raw: Record<string, unknown>) {
       const locales = raw.content_locales as ContentLocaleRow[] | null
-      const flat = flattenLocales(locales)
+      const flat = flattenLocales(locales, locale)
       return {
         id: raw.id as string,
         external_id: raw.external_id as string | null,

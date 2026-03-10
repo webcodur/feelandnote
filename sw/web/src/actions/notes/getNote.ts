@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { Note, NoteWithContent } from './types'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export async function getNote(noteId: string): Promise<ActionResult<Note | null>> {
@@ -88,9 +89,10 @@ export async function getMyNotes(): Promise<ActionResult<NoteWithContent[]>> {
   }
 
   // content_locales → flat 변환
+  const locale = await getLocale()
   const mapped = (data || []).map(item => {
     const rawContent = Array.isArray(item.content) ? item.content[0] : item.content
-    const flat = flattenLocales((rawContent as any)?.content_locales as ContentLocaleRow[] | null)
+    const flat = flattenLocales((rawContent as any)?.content_locales as ContentLocaleRow[] | null, locale)
     return {
       ...item,
       content: rawContent ? {

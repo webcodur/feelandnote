@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getLocale } from "next-intl/server";
 import { CL_SELECT, flattenLocales } from "@/lib/utils/content-locale";
 import type { CelebWork, CelebWorkWithContent, Content } from "@/types/database";
 
@@ -74,12 +75,13 @@ export async function getCelebWorks({
     return { items: [], total: 0, totalPages: 0 };
   }
 
+  const locale = await getLocale();
   const items: CelebWorkItem[] = (data ?? []).map((row: any) => {
     let content: CelebWorkItem["content"] = null;
 
     if (row.content) {
       const locales = row.content.content_locales ?? [];
-      const flat = flattenLocales(locales);
+      const flat = flattenLocales(locales, locale);
       content = {
         id: row.content.id,
         type: row.content.type,

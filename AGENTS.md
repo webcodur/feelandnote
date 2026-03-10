@@ -35,6 +35,15 @@ pnpm build:bo
 
 상세 구조, sources 스키마, 썸네일 수집 규칙, 헬퍼 함수 등은 `docs/project/content-locales-design.md` 참조.
 
+## Google Analytics
+
+- GA4 Measurement ID: `G-LMVY8KTJ7T` (layout.tsx에 설정)
+- GA4 Property ID: `526353156`
+- Service Account: `claude-analytics@feelandnote.iam.gserviceaccount.com`
+- 크리덴셜 파일: `sw/web/credentials/ga-service-account.json` (.gitignore 등록)
+- env: `sw/web/.env` → `GA_PROPERTY_ID`, `GA_CREDENTIALS_PATH`
+- 활성화된 API: Google Analytics Data API. Admin API는 미활성화.
+
 ## 상세 레퍼런스
 
 작업에 해당하는 문서만 참조한다.
@@ -60,7 +69,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
 | BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
-| VIDEO 영문 썸네일 수집 (1,340건) | — | 대기 | TMDB `/images` API |
+| VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | 대기 | content_locales 포함, 현재 `as any` 캐스팅 |
 | 셀럽 창작 서가 데이터 수집 | `docs/todo/celeb-works.md` | 대기 | BOOK en 재검증 완료. 착수 가능 |
 
