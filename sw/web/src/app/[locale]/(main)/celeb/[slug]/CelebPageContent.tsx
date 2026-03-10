@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
@@ -18,6 +18,7 @@ import ClassicalBox from "@/components/ui/ClassicalBox";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
+import CreativeLibrary from "@/components/features/celeb/creativeLibrary/CreativeLibrary";
 import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
@@ -141,7 +142,7 @@ export default function CelebPageContent({
                   {/* 2열: 정보 */}
                   <div className="space-y-2 min-w-0">
                     <p className="font-serif text-xl md:text-2xl text-text-primary tracking-tight">{profile.nickname}</p>
-                    <div className="flex items-center gap-2 text-xs text-text-tertiary flex-wrap">
+                    <div className="flex items-center gap-2 text-sm text-text-tertiary flex-wrap">
                       {professionLabel && <span className="text-accent font-medium">{professionLabel}</span>}
                       {profile.nationality && (
                         <span className="grayscale opacity-70"><NationalityText code={profile.nationality} /></span>
@@ -149,11 +150,11 @@ export default function CelebPageContent({
                       {periodStr && <span className="font-mono">{periodStr}</span>}
                     </div>
                     {profile.bio && (
-                      <p className="text-xs text-text-tertiary/80 leading-relaxed break-keep">{profile.bio}</p>
+                      <p className="text-sm text-text-tertiary/80 leading-relaxed break-keep">{profile.bio}</p>
                     )}
                     {profile.quotes && (
                       <div className="flex items-start gap-1.5 pt-1">
-                        <p className="font-serif text-[13px] text-text-secondary/60 leading-relaxed break-keep">
+                        <p className="font-serif text-[15px] text-accent/80 leading-relaxed break-keep italic">
                           &ldquo;<FormattedText text={profile.quotes} />&rdquo;
                         </p>
                         {hasVoice && (
@@ -184,17 +185,14 @@ export default function CelebPageContent({
               </section>
             )}
 
-            {/* 콘텐츠 라이브러리 (기록 서가) */}
+            {/* 서가 (감상 / 창작 탭) */}
             <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
               <DecorativeLabel label={t("library")} />
               <ClassicalBox hover={false} className="p-6">
-                <ContentLibrary
-                  mode="viewer"
-                  targetUserId={userId}
+                <LibraryTabs
+                  userId={userId}
+                  nickname={profile.nickname}
                   emptyMessage={t("libraryEmpty")}
-                  showPagination
-                  ownerNickname={profile.nickname}
-                  defaultViewMode="list"
                 />
               </ClassicalBox>
             </section>
@@ -233,6 +231,58 @@ export default function CelebPageContent({
 
 
 
+// ─── 서가 탭 (감상 / 창작) ─────────────────────────
+function LibraryTabs({ userId, nickname, emptyMessage }: { userId: string; nickname: string; emptyMessage: string }) {
+  const [tab, setTab] = useState<"consume" | "create">("consume");
+  const t = useTranslations("celebPage");
+
+  return (
+    <div>
+      <div className="flex border-b border-white/10 mb-4">
+        <button
+          type="button"
+          onClick={() => setTab("consume")}
+          className={cn(
+            "px-4 py-2 text-sm font-medium transition-colors",
+            tab === "consume"
+              ? "text-accent border-b-2 border-accent"
+              : "text-text-tertiary hover:text-text-primary"
+          )}
+        >
+          {t("tabConsume")}
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab("create")}
+          className={cn(
+            "px-4 py-2 text-sm font-medium transition-colors",
+            tab === "create"
+              ? "text-accent border-b-2 border-accent"
+              : "text-text-tertiary hover:text-text-primary"
+          )}
+        >
+          {t("tabCreate")}
+        </button>
+      </div>
+      {tab === "consume" ? (
+        <ContentLibrary
+          mode="viewer"
+          targetUserId={userId}
+          emptyMessage={emptyMessage}
+          showPagination
+          ownerNickname={nickname}
+          defaultViewMode="list"
+        />
+      ) : (
+        <CreativeLibrary
+          celebId={userId}
+          celebNickname={nickname}
+        />
+      )}
+    </div>
+  );
+}
+
 // ─── 감상 철학 ────────────────────────────────────
 function PhilosophyBlock({ text }: { text: string }) {
   const t = useTranslations("celebPage");
@@ -255,6 +305,48 @@ function PersonaSectionHeader({ title }: { title: string }) {
       <p className="text-xs md:text-sm text-accent font-cinzel tracking-[0.3em] uppercase font-bold opacity-70">
         {title}
       </p>
+    </div>
+  );
+}
+
+function SimilarFiguresHeader() {
+  const t = useTranslations("celebPage");
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  return (
+    <div className="flex justify-center text-center w-full mb-4">
+      <div ref={ref} className="relative inline-flex items-center gap-1.5">
+        <p className="text-xs md:text-sm text-accent font-cinzel tracking-[0.3em] uppercase font-bold opacity-70">
+          {t("similarFigures")}
+        </p>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="text-text-tertiary/40 hover:text-accent/70 transition-colors"
+          aria-label="Show similarity formula"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+            <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
+          </svg>
+        </button>
+        {open && (
+          <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-50 w-72 px-4 py-3 rounded-lg bg-bg-secondary border border-white/10 shadow-xl animate-fade-in">
+            <p className="text-xs text-text-primary leading-relaxed break-keep text-left">
+              {t("similarFormula")}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -477,7 +569,7 @@ function PersonaBlock({
       {/* 유사한 인물 */}
       {similarCelebs.length > 0 && (
         <div className="space-y-4 pt-6 border-t border-white/5">
-          <PersonaSectionHeader title={t("similarFigures")} />
+          <SimilarFiguresHeader />
           <div className="flex justify-center gap-5 md:gap-8 flex-wrap">
             {similarCelebs.map((celeb) => (
               <button

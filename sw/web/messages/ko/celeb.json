@@ -11,10 +11,15 @@
     "coreDisposition": "핵심 성향",
     "ability": "핵심 능력",
     "similarFigures": "닮은꼴 인물",
+    "similarFormula": "16차원 페르소나 벡터(능력 4 + 덕목 8 + 성향 4)의 유클리드 거리를 기반으로 산출한 일치도입니다.",
     "archiveSuffix": "의 기록관",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "방명록에 당신의 생각을 남겨보세요.",
     "recordControl": "기록 제어",
+    "worksControl": "창작물 제어",
+    "tabConsume": "감상 서가",
+    "tabCreate": "창작 서가",
+    "worksEmpty": "아직 등록된 창작물이 없습니다.",
     "notFound": "셀럽을 찾을 수 없습니다"
   }
 }

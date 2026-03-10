@@ -56,6 +56,9 @@ export default async function CelebDetailPage({ params }: PageProps) {
             <Link href={`/celebs/${slug}/contents`} className="text-sm text-accent hover:underline">
               콘텐츠 관리 →
             </Link>
+            <Link href={`/celebs/${slug}/works`} className="text-sm text-accent hover:underline">
+              창작물 관리 →
+            </Link>
           </div>
           <div className="flex items-center gap-1.5 mt-1">
             <span className="text-[10px] font-mono text-text-tertiary select-all">{celeb.id}</span>

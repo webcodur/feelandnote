@@ -444,3 +444,25 @@ export interface CelebTagAssignment {
 export interface CelebTagWithCount extends CelebTag {
   celeb_count: number
 }
+
+// ===== Celeb Works (창작 서가) =====
+export type WorkRole = 'author' | 'director' | 'composer' | 'artist' | 'editor' | 'screenwriter' | 'developer' | 'performer'
+
+export interface CelebWork {
+  id: string
+  celeb_id: string
+  content_id: string | null
+  title: string
+  title_en: string | null
+  role: WorkRole
+  description: string | null
+  description_en: string | null
+  work_type: string // 'BOOK' | 'VIDEO' | 'MUSIC' | 'GAME' | 'ART' 등
+  release_year: number | null
+  search_keyword: string | null
+  created_at: string
+}
+
+export interface CelebWorkWithContent extends CelebWork {
+  content: Content | null
+}
