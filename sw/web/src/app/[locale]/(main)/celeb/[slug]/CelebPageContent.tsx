@@ -185,19 +185,7 @@ export default function CelebPageContent({
         </ClassicalBox>
       </section>
 
-      {/* 감상 철학 */}
-      {profile.consumption_philosophy && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-3">
-          <DecorativeLabel label={t("philosophy")} />
-          <ClassicalBox hover={false} className="px-5 py-4">
-            <div className="font-serif text-sm md:text-[15px] text-text-secondary leading-[1.9] break-keep">
-              <FormattedText text={profile.consumption_philosophy} />
-            </div>
-          </ClassicalBox>
-        </section>
-      )}
-
-      {/* 서가 (감상 / 창작 탭) */}
+      {/* 기록 서가 (감상 기록 / 감상 철학 / 창작물) */}
       <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
         <DecorativeLabel label={t("library")} />
         <ClassicalBox hover={false} className="p-6">
@@ -206,6 +194,8 @@ export default function CelebPageContent({
             nickname={nickname}
             emptyMessage={t("libraryEmpty")}
             wikidataQid={wikidataQid}
+            consumptionPhilosophy={profile.consumption_philosophy}
+            celebTier={profile.celeb_tier ?? 'full'}
           />
         </ClassicalBox>
       </section>

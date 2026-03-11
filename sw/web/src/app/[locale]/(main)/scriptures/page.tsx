@@ -45,7 +45,7 @@ async function ScripturesHubContent() {
       {/* 1/5 오늘의 인물 */}
       {figure && contents && (
         <HubSection {...scripturesSection("figure", tHub)}>
-          <FigurePreview figure={figure as any} contents={contents} />
+          <FigurePreview figure={figure} contents={contents} />
         </HubSection>
       )}
 

@@ -13,7 +13,7 @@ import {
   TENDENCY_KEYS,
 } from "@/lib/persona/constants";
 import type { StatKey, TendencyKey } from "@/lib/persona/constants";
-import type { PersonaStats } from "@/lib/persona/types";
+import type { PersonaStats, PersonaStatsWithReasons } from "@/lib/persona/types";
 import { useTranslations, useLocale } from "next-intl";
 
 type TabType = "ability" | "inner_virtue" | "outer_virtue" | "tendency";
@@ -27,11 +27,9 @@ function StatRow({ label, value, rationale }: { label: string; value: number; ra
   const score = clamp0100(value);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <div className="grid grid-cols-[80px_1fr_40px] items-center gap-2">
-        <div className="flex items-center gap-1 min-w-0">
-          <span className="text-xs text-text-secondary truncate" title={label}>{label}</span>
-        </div>
+        <span className="text-xs font-medium text-accent truncate" title={label}>{label}</span>
         <div className="grid grid-cols-10 gap-0.5 rounded-sm bg-black/30 p-1 border border-white/10">
           {Array.from({ length: 10 }, (_, i) => {
             const segStart = i * 10;
@@ -51,12 +49,9 @@ function StatRow({ label, value, rationale }: { label: string; value: number; ra
         </span>
       </div>
       {rationale && (
-        <div className="text-sm leading-relaxed text-white/90 bg-white/[0.03] border border-white/5 rounded-md p-3 ml-[88px] mr-10 relative mt-1">
-          <div className="absolute top-0 left-2 -translate-y-1/2 bg-black px-1.5 text-[10px] font-bold tracking-wider text-white/40 uppercase">
-             Reason
-          </div>
+        <p className="text-xs leading-relaxed text-text-tertiary mt-1 break-keep">
           {rationale}
-        </div>
+        </p>
       )}
     </div>
   );
@@ -67,18 +62,16 @@ function TendencyRow({ labels, value, rationale }: { labels: [string, string]; v
   const clamped = Math.max(-50, Math.min(50, value));
   const point = ((clamped + 50) / 100) * 100;
 
+  const displayValue = Math.round(clamped);
+
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between text-[11px] text-text-secondary relative">
-        <span className="flex items-center gap-1">
-          {labels[0]}
-        </span>
-        <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
-          <span className="font-mono tabular-nums text-text-primary">{clamped.toFixed(1)}</span>
-        </div>
-        <span>{labels[1]}</span>
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-medium text-accent">{labels[0]}</span>
+        <span className="text-xs font-mono text-text-primary tabular-nums">{displayValue}</span>
+        <span className="text-xs font-medium text-accent">{labels[1]}</span>
       </div>
-      <div className="relative h-2 rounded-sm border border-white/10 bg-black/30 mt-1.5">
+      <div className="relative h-2 rounded-sm border border-white/10 bg-black/30">
         <span className="absolute left-1/2 top-0 bottom-0 w-px bg-white/20" />
         <span
           className="absolute top-1/2 h-3 w-3 rounded-full border border-white/40 bg-[#5caeff]"
@@ -86,19 +79,16 @@ function TendencyRow({ labels, value, rationale }: { labels: [string, string]; v
         />
       </div>
       {rationale && (
-        <div className="text-sm leading-relaxed text-white/90 bg-white/[0.03] border border-white/5 rounded-md p-3 mt-3 relative">
-          <div className="absolute top-0 left-2 -translate-y-1/2 bg-black px-1.5 text-[10px] font-bold tracking-wider text-white/40 uppercase">
-             Reason
-          </div>
+        <p className="text-xs leading-relaxed text-text-tertiary mt-0.5 break-keep">
           {rationale}
-        </div>
+        </p>
       )}
     </div>
   );
 }
 
 interface PersonaStatPanelProps {
-  stats: PersonaStats | null;
+  stats: PersonaStats | PersonaStatsWithReasons | null;
 }
 
 const TENDENCY_MAP: Record<TendencyKey, [string, string]> = {
@@ -138,21 +128,21 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
     if (!stats) return null;
     return {
       ability: (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {ABILITY_KEYS.map((key) => (
             <StatRow key={key} label={statLabel(key)} value={getVal(key)} rationale={getRationale(key)} />
           ))}
         </div>
       ),
       inner_virtue: (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {INNER_VIRTUE_KEYS.map((key) => (
             <StatRow key={key} label={statLabel(key)} value={getVal(key)} rationale={getRationale(key)} />
           ))}
         </div>
       ),
       outer_virtue: (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {OUTER_VIRTUE_KEYS.map((key) => (
             <StatRow key={key} label={statLabel(key)} value={getVal(key)} rationale={getRationale(key)} />
           ))}

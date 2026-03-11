@@ -342,10 +342,6 @@ export default function PersonaExtremeGrid({
                         <span className="text-[8px] font-bold uppercase opacity-70">pts</span>
                       </div>
                     </div>
-                    {/* 모바일: 백분위 */}
-                    <span className="sm:hidden text-[9px] font-bold uppercase tracking-wider opacity-80 mb-1" style={{ color: `${color}cc` }}>
-                      {locale === "en" ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
-                    </span>
                   </div>
                   
                   {/* 점수 & 백분위 우측 상단 고정 (sm 이상에서만) */}
@@ -358,9 +354,6 @@ export default function PersonaExtremeGrid({
                         pts
                       </span>
                     </div>
-                    <span className="text-[10px] font-bold mt-1 uppercase tracking-wider opacity-80" style={{ color: `${color}cc` }}>
-                      {locale === "en" ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
-                    </span>
                   </div>
                 </div>
 

@@ -72,25 +72,15 @@ export default function Modal({
 
   const modalContent = (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-modal-overlay"
+      className="fixed inset-0 flex items-center justify-center px-4 py-8 bg-black/60 backdrop-blur-md animate-modal-overlay"
       style={{ zIndex: zIndex ?? Z_INDEX.modal }}
       onClick={handleOverlayClick}
     >
       <ClassicalBox
-        className={`w-full ${SIZE_CLASSES[size]} rounded-lg overflow-hidden animate-modal-content`}
+        className={`w-full ${SIZE_CLASSES[size]} max-h-[calc(100dvh-4rem)] rounded-lg animate-modal-content`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 헤더 - title이 있을 때만 렌더링 */}
-        {title && (
-          <div className="relative flex items-center justify-center px-6 py-3 sm:py-5 border-b border-border">
-            <div className="flex items-center gap-1.5">
-              {Icon && <Icon size={16} className="text-accent" />}
-              <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
-            </div>
-          </div>
-        )}
-
-        {/* 우상단 플로팅 닫기 버튼 (항상 제공) */}
+        {/* 우상단 플로팅 닫기 버튼 — 스크롤 영역 밖 */}
         {showCloseButton && (
           <button
             onClick={onClose}
@@ -100,8 +90,21 @@ export default function Modal({
           </button>
         )}
 
-        {/* 본문 */}
-        <AnimatedHeight>{children}</AnimatedHeight>
+        {/* 스크롤 영역 */}
+        <div className="overflow-y-auto max-h-[inherit] rounded-lg">
+          {/* 헤더 - title이 있을 때만 렌더링 */}
+          {title && (
+            <div className="relative flex items-center justify-center px-3 py-3 border-b border-border">
+              <div className="flex items-center gap-1.5">
+                {Icon && <Icon size={16} className="text-accent" />}
+                <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
+              </div>
+            </div>
+          )}
+
+          {/* 본문 */}
+          <AnimatedHeight>{children}</AnimatedHeight>
+        </div>
       </ClassicalBox>
     </div>
   );
@@ -113,12 +116,12 @@ export default function Modal({
 
 // 모달 내부 섹션 컴포넌트
 export function ModalBody({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`p-6 ${className}`}>{children}</div>;
+  return <div className={`p-3 ${className}`}>{children}</div>;
 }
 
 export function ModalFooter({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`flex gap-3 p-6 border-t border-border ${className}`}>
+    <div className={`flex gap-3 p-3 border-t border-border ${className}`}>
       {children}
     </div>
   );

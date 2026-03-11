@@ -131,7 +131,10 @@
     "bookCount": "{count}권의 책",
     "videoCount": "{count}편의 영화",
     "musicCount": "{count}곡의 음악",
-    "gameCount": "{count}개의 게임"
+    "gameCount": "{count}개의 게임",
+    "greet": "인사 건네기",
+    "browseLibrary": "서재 둘러보기",
+    "viewContent": "콘텐츠 상세"
   },
   "landing": {
     "spotlights": "Spotlights",

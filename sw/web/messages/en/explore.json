@@ -255,6 +255,6 @@
     }
   },
   "archiveSearch": {
-    "placeholder": "Search by title or author (min. 2 chars)"
+    "placeholder": "Title | Author (2+)"
   }
 }

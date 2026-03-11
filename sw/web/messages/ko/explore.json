@@ -255,6 +255,6 @@
     }
   },
   "archiveSearch": {
-    "placeholder": "제목 또는 저자 검색 (2글자 이상)"
+    "placeholder": "제목 | 저자 (2+)"
   }
 }

@@ -48,6 +48,7 @@ interface GetCelebsParams {
 
 interface CreateCelebInput {
   nickname: string
+  nickname_en?: string
   profession?: string
   title?: string
   nationality?: string
@@ -600,6 +601,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     .from('profiles')
     .update({
       nickname: input.nickname,
+      nickname_en: input.nickname_en || null,
       profession: input.profession || null,
       title: input.title || null,
       nationality: input.nationality || null,

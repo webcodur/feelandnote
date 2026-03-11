@@ -37,7 +37,7 @@ export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavPro
   return (
     <div
       ref={scrollRef}
-      className="flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1"
+      className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1"
     >
       {/* 허브 섹션 항목 */}
       {hubItems.map((item, i) => (

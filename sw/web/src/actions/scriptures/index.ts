@@ -513,6 +513,14 @@ export interface TodayFigure {
   bio: string | null
   bio_en: string | null
   contentCount: number
+  /** greeting 대사 3개 (celeb_dialogues.lines.greeting) */
+  greetingLines: string[]
+  /** 명언 (celeb_dialogues.lines.quote) */
+  quote: string | null
+  /** 말투 (profiles.speech_tone) */
+  speechTone: string
+  /** 음성 버전 (캐시 버스터) */
+  voiceV: number
 }
 
 export interface TodayFigureSource {
@@ -626,11 +634,11 @@ async function fetchFigureContents(
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  // 프로필 + 콘텐츠 + 유저 카운트 병렬 조회
-  const [{ data: profile }, { data: userContents }, userCountMap] = await Promise.all([
+  // 프로필 + 콘텐츠 + 대사 + 유저 카운트 병렬 조회
+  const [{ data: profile }, { data: userContents }, { data: dialogue }, userCountMap] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, nickname, nickname_en, avatar_url, profession, bio, bio_en')
+      .select('id, nickname, nickname_en, avatar_url, profession, bio, bio_en, speech_tone, voice_v')
       .eq('id', celebId)
       .single(),
     supabase
@@ -639,6 +647,11 @@ async function fetchFigureContents(
       .eq('user_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
+    supabase
+      .from('celeb_dialogues')
+      .select('lines, lines_en')
+      .eq('celeb_id', celebId)
+      .single(),
     fetchUserContentCounts(supabase),
   ])
 
@@ -675,6 +688,12 @@ async function fetchFigureContents(
 
   const nicknameEn = (profile as any).nickname_en ?? null
   const bioEn = (profile as any).bio_en ?? null
+
+  // 대사 데이터 추출
+  const lines = (locale === 'en' && dialogue?.lines_en) ? dialogue.lines_en : dialogue?.lines
+  const greetingLines: string[] = (lines as any)?.greeting ?? []
+  const quote: string | null = (lines as any)?.quote ?? null
+
   return {
     figure: {
       id: profile.id,
@@ -684,7 +703,11 @@ async function fetchFigureContents(
       profession: profile.profession,
       bio: (locale === 'en' ? bioEn || profile.bio : profile.bio) ?? null,
       bio_en: bioEn,
-      contentCount: contents.length
+      contentCount: contents.length,
+      greetingLines,
+      quote,
+      speechTone: (profile as any).speech_tone ?? 'composed',
+      voiceV: (profile as any).voice_v ?? 0,
     },
     contents,
     source: defaultSource

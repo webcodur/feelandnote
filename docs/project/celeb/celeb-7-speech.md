@@ -86,7 +86,7 @@ quotes 완료 후 실행. 자동 생성 조건:
 | 조건 | dialogue 생성 |
 |------|--------------|
 | `death_date` ≤ 1920 | **자동 실행** — greeting_only (3개) |
-| `death_date` > 1920 또는 생존 | **실행하지 않음** (별도 요청 시 full) |
+| `death_date` > 1920 또는 생존 | **자동 실행** — greeting_only (3개). full은 별도 요청 시 |
 
 ### dialogue_tier
 

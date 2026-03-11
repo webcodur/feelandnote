@@ -69,8 +69,8 @@ Speech 트랙은 `docs/project/celeb/celeb-7-speech.md`에서 상세 관리한�
 
 | 조건 | dialogue 생성 |
 |------|--------------|
-| `death_date` ≤ 1920 | **자동 실행** (greeting_only) |
-| `death_date` > 1920 또는 생존 | **실행하지 않음** (별도 요청 시만) |
+| `death_date` ≤ 1920 | **자동 실행** — greeting_only (3개) |
+| `death_date` > 1920 또는 생존 | **자동 실행** — greeting_only (3개). full은 별도 요청 시 |
 
 - 퍼블릭 도메인 판정 함수: `isPublicDomainCeleb()` (AGENTS.md 참조)
 
@@ -78,16 +78,20 @@ Speech 트랙은 `docs/project/celeb/celeb-7-speech.md`에서 상세 관리한�
 
 ## 판단 기준
 
-- **이름만 제공**: 티어 판단 → light 또는 full 파이프라인 실행
-- **"컨텐츠 수집까지" 또는 "전체" 언급**: full 파이프라인 (콘텐츠 수집 포함)
-- **"라이트"/"light" 명시**: light 파이프라인
-- **모호한 요청**: 티어 확인 요청
+- **"라이트"/"light" 명시**: light 파이프라인 (콘텐츠 수집 생략)
+- **"컨텐츠 수집까지" 또는 "전체" 언급**: full 파이프라인 확정
+- **티어 미지정 (이름만 제공 등)**: **content-collector를 먼저 실행**하여 수집 결과로 티어 결정
 
-### 티어 자동 판단 기준
+### 티어 미지정 시 흐름
 
-- 현대인(인터뷰·SNS 등 감상 기록 풍부) → **full**
-- 고대~근대 인물 중 감상 기록이 문헌으로 확인됨 → **full**
-- 고대~근대 인물 중 감상 기록이 빈약하거나 없음 → **light**
+1. basic 생성
+2. **content-collector 실행** (celeb-2-content-collector.md)
+3. 수집 결과로 티어 판정 및 **즉시 DB 반영**:
+   - **1건 이상 수집** → `UPDATE profiles SET celeb_tier = 'full'` (수집 결과를 philosophy에 활용)
+   - **0건** → **light** 유지 (웹 리서치 기반 philosophy)
+4. 이후 병렬 트랙 진행
+
+> **주의**: 최초 light로 생성 후 콘텐츠 수집에 성공하면 반드시 `celeb_tier = 'full'`로 UPDATE해야 한다. 누락 시 콘텐츠 탭이 숨겨진다.
 
 고유 대사는 퍼블릭 도메인 셀럽일 때만 자동 포함.
 영문 번역은 모든 트랙이 완료된 셀럽에 대해 실행.
@@ -122,3 +126,4 @@ Speech 트랙은 `docs/project/celeb/celeb-7-speech.md`에서 상세 관리한�
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
 - **파일 경로**: 상대 경로만 사용
 - **`is_verified`**: 셀럽 계정 생성 시 **항상 false**
+- **`nickname_en`**: basic 단계에서 **필수 설정**. slug가 generated column으로 `nickname_en`에서 자동 생성됨. 미설정 시 slug=NULL → web-bo 404 발생

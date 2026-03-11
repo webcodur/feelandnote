@@ -131,7 +131,10 @@
     "bookCount": "{count, plural, one {# book} other {# books}}",
     "videoCount": "{count, plural, one {# movie} other {# movies}}",
     "musicCount": "{count, plural, one {# track} other {# tracks}}",
-    "gameCount": "{count, plural, one {# game} other {# games}}"
+    "gameCount": "{count, plural, one {# game} other {# games}}",
+    "greet": "Say Hello",
+    "browseLibrary": "Browse Library",
+    "viewContent": "View Details"
   },
   "landing": {
     "spotlights": "Spotlights",

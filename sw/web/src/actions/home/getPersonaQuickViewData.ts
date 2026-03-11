@@ -1,10 +1,12 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { parsePersonaJsonb, type PersonaStats, type PersonaJsonb } from '@/lib/persona/types';
+import { parsePersonaJsonb, parsePersonaJsonbWithReasons, type PersonaStats, type PersonaStatsWithReasons, type PersonaJsonb } from '@/lib/persona/types';
 
 export interface PersonaQuickViewData {
   stats: PersonaStats | null;
+  statsWithReasons: PersonaStatsWithReasons | null;
+  rationale: { ko: string; en: string } | null;
   greeting: { ko: string; en: string | null } | null;
 }
 
@@ -25,8 +27,15 @@ export async function getPersonaQuickViewData(celebId: string): Promise<PersonaQ
   ]);
 
   let stats: PersonaStats | null = null;
+  let statsWithReasons: PersonaStatsWithReasons | null = null;
+  let rationale: { ko: string; en: string } | null = null;
   if (personaResult.data?.persona) {
-    stats = parsePersonaJsonb(personaResult.data.persona as unknown as PersonaJsonb);
+    const jsonb = personaResult.data.persona as unknown as PersonaJsonb;
+    stats = parsePersonaJsonb(jsonb);
+    statsWithReasons = parsePersonaJsonbWithReasons(jsonb);
+    if (jsonb.rationale_ko) {
+      rationale = { ko: jsonb.rationale_ko, en: jsonb.rationale_en };
+    }
   }
 
   let greeting: { ko: string; en: string | null } | null = null;
@@ -41,6 +50,8 @@ export async function getPersonaQuickViewData(celebId: string): Promise<PersonaQ
 
   return {
     stats,
+    statsWithReasons,
+    rationale,
     greeting
   };
 }

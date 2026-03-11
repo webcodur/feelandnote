@@ -51,12 +51,18 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
               </td>
               <td className="px-3 md:px-4 py-3">
                 <div className="flex items-center gap-1.5">
-                  <Link
-                    href={`/celebs/${celeb.slug}`}
-                    className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[120px] hover:text-accent hover:underline"
-                  >
-                    {celeb.nickname || '이름 없음'}
-                  </Link>
+                  {celeb.slug ? (
+                    <Link
+                      href={`/celebs/${celeb.slug}`}
+                      className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[120px] hover:text-accent hover:underline"
+                    >
+                      {celeb.nickname || '이름 없음'}
+                    </Link>
+                  ) : (
+                    <span className="text-xs md:text-sm font-medium text-red-400 truncate max-w-[120px]" title="nickname_en 미설정">
+                      {celeb.nickname || '이름 없음'}
+                    </span>
+                  )}
                   {celeb.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
                   <CopyButton text={celeb.nickname || ''} />
                 </div>
@@ -84,12 +90,18 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                 </span>
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
-                <Link
-                  href={`/celebs/${celeb.slug}/contents`}
-                  className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary hover:text-accent"
-                >
-                  <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
-                </Link>
+                {celeb.slug ? (
+                  <Link
+                    href={`/celebs/${celeb.slug}/contents`}
+                    className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary hover:text-accent"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
+                  </Link>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-tertiary">
+                    <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
+                  </span>
+                )}
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
                 <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
