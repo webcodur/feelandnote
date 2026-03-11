@@ -23,12 +23,12 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           <SortableTableHeader column="avatar_url" label="img" className="w-12" align="center" />
           <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">title</th>
           <SortableTableHeader column="nickname" label="nickname" />
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-16">tier</th>
           <SortableTableHeader column="profession" label="profession" />
           <SortableTableHeader column="nationality" label="nationality" align="center" />
           <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-12">gender</th>
           <SortableTableHeader column="status" label="status" align="center" />
           <SortableTableHeader column="influence_total" label="influence_total" align="center" />
+          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-16">tier</th>
           <SortableTableHeader column="content_count" label="content_count" align="center" />
           <SortableTableHeader column="follower_count" label="follower_count" align="center" />
           <SortableTableHeader column="created_at" label="created_at" align="center" />
@@ -67,9 +67,6 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                   <CopyButton text={celeb.nickname || ''} />
                 </div>
               </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <TierToggle celebId={celeb.id} tier={celeb.celeb_tier || 'full'} />
-              </td>
               <td className="px-3 md:px-4 py-3">
                 {celeb.profession && (
                   <p className="text-xs text-text-tertiary truncate max-w-[100px]">{getCelebProfessionLabel(celeb.profession)}</p>
@@ -88,6 +85,9 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                 <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
                   <Zap className="w-3.5 h-3.5" />{celeb.influence_total || 0}
                 </span>
+              </td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <TierToggle celebId={celeb.id} tier={celeb.celeb_tier || 'full'} />
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
                 {celeb.slug ? (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import {
   Clock,
@@ -51,6 +51,10 @@ export default function WorkDetailModal({
 }: WorkDetailModalProps) {
   const t = useTranslations("celebPage");
   const [imageOpen, setImageOpen] = useState(false);
+
+  useEffect(() => {
+    setImageOpen(false);
+  }, [item]);
 
   if (!item) return null;
 

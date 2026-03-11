@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(*)",
@@ -10,7 +13,11 @@
       "WebSearch(*)",
       "WebFetch(*)",
       "Task(*)",
-      "mcp__supabase__*"
+      "mcp__supabase__*",
+      "mcp__google-search-console__list_sites",
+      "mcp__google-search-console__list_sitemaps",
+      "mcp__google-search-console__search_analytics",
+      "mcp__google-search-console__index_inspect"
     ],
     "deny": [],
     "ask": []
@@ -18,10 +25,8 @@
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "supabase",
-    "google-analytics"
+    "google-analytics",
+    "google-search-console"
   ],
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
   "teammateMode": "tmux"
 }

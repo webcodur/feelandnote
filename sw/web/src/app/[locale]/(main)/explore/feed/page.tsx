@@ -6,6 +6,7 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getCelebFeed } from "@/actions/home";
 import CelebFeedSection from "@/components/features/agora/CelebFeedSection";
@@ -15,6 +16,7 @@ export async function generateMetadata() {
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
+    alternates: getAlternates("/explore/feed"),
   };
 }
 

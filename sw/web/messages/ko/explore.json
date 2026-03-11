@@ -171,6 +171,7 @@
     },
     "topByType": {
       "metaTitle": "분야별 랭킹 | 인물",
+      "metaDescription": "책·영화·게임·음악 분야별 가장 왕성한 감상을 남긴 인물 Top 10 랭킹.",
       "rank": "{rank}위",
       "count": "{count}개 감상",
       "infoMax": "최다",
@@ -181,7 +182,12 @@
       "sharedBy": "감상한 인물"
     },
     "persona": {
-      "metaTitle": "비범한 인물 | 인물"
+      "metaTitle": "비범한 인물 | 인물",
+      "metaDescription": "독서량, 다양성, 몰입도 등 16개 축에서 극단적 성향을 보이는 인물들을 만나보세요."
+    },
+    "timelinePage": {
+      "metaTitle": "국가별 셀럽 연대기 | 인물",
+      "metaDescription": "국가별 셀럽 연대기. 각 인물이 추천한 책, 영화, 음악을 시대순으로 탐색하세요."
     },
     "spotlight": {
       "metaTitle": "스포트라이트 | 인물",

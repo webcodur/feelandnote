@@ -7,6 +7,7 @@ import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 import ProfileContent from "./ProfileContent";
 
 interface PageProps {
@@ -44,6 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       images: profile.avatar_url ? [profile.avatar_url] : [],
     },
+    alternates: getAlternates(`/${userId}`),
   };
 }
 

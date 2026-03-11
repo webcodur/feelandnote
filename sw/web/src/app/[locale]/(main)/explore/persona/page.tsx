@@ -6,6 +6,7 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
 import PersonaFullSection from "@/components/features/user/explore/sections/PersonaFullSection";
@@ -16,6 +17,8 @@ export async function generateMetadata() {
   const t = await getTranslations("explore.persona");
   return {
     title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: getAlternates("/explore/persona"),
   };
 }
 

@@ -5,6 +5,8 @@
 */ // ------------------------------
 
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 import { getCelebTimeline } from "@/actions/home";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TimelineSection from "@/components/features/user/explore/sections/TimelineSection";
@@ -12,9 +14,11 @@ import TimelineSection from "@/components/features/user/explore/sections/Timelin
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
+  const t = await getTranslations("explore.timelinePage");
   return {
-    title: "국가별 셀럽 연대기 - 추천 책·영화 타임라인",
-    description: "국가별 셀럽 연대기. 각 인물이 추천한 책, 영화, 음악을 시대순으로 탐색하세요.",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: getAlternates("/explore/timeline"),
   };
 }
 

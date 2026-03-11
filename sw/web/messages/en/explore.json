@@ -171,6 +171,7 @@
     },
     "topByType": {
       "metaTitle": "Top by Category | Explore",
+      "metaDescription": "Top 10 rankings by books, movies, games, and music — discover who engages the most in each category.",
       "rank": "#{rank}",
       "count": "{count} items",
       "infoMax": "Top",
@@ -181,7 +182,12 @@
       "sharedBy": "Appreciated by"
     },
     "persona": {
-      "metaTitle": "Extraordinary Figures | Explore"
+      "metaTitle": "Extraordinary Figures | Explore",
+      "metaDescription": "Meet figures with extreme tendencies across 16 axes — reading volume, diversity, depth, and more."
+    },
+    "timelinePage": {
+      "metaTitle": "Celebrity Timeline by Country | Explore",
+      "metaDescription": "Explore celebrities by country and era. Discover their recommended books, movies, and music in chronological order."
     },
     "spotlight": {
       "metaTitle": "Spotlight | Explore",

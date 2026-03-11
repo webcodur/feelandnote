@@ -6,13 +6,14 @@
 
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
 import { getTodayFigure } from "@/actions/scriptures";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.figure");
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return { title: t("metaTitle"), description: t("metaDescription"), alternates: getAlternates("/explore/today") };
 }
 
 function SectionSkeleton() {

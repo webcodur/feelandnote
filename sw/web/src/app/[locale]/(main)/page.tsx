@@ -4,9 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
-  const t = await getTranslations("pages.home");
+  const t = await getTranslations("site");
   return {
-    title: t("title"),
+    title: { absolute: t("title") },
     description: t("description"),
     alternates: getAlternates("/"),
   };

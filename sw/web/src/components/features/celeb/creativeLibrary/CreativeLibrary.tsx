@@ -176,9 +176,7 @@ export default function CreativeLibrary({
   const getSearchUrl = (item: LiveWorkItem) => {
     const title = locale === "en" ? item.title_en : (item.title_ko || item.title_en);
     const keyword = `${title} ${celebNickname}`;
-    return locale === "en"
-      ? `https://www.google.com/search?q=${encodeURIComponent(keyword)}`
-      : `https://search.naver.com/search.naver?query=${encodeURIComponent(keyword)}`;
+    return `https://www.google.com/search?q=${encodeURIComponent(keyword)}`;
   };
 
   const resolveItem = (item: LiveWorkItem): {
