@@ -1,7 +1,15 @@
 import type { MetadataRoute } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 
 const BASE_URL = 'https://feelandnote.com'
+
+/** 빌드 타임용 Supabase 클라이언트 (cookies 불필요) */
+function createBuildClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  )
+}
 
 /** 셀럽 사이트맵 1개당 최대 URL 수 */
 const CELEBS_PER_SITEMAP = 200
@@ -34,7 +42,7 @@ function entry(
  * - id=1~N: 셀럽 라우트 (200개씩 분할)
  */
 export async function generateSitemaps() {
-  const supabase = await createClient()
+  const supabase = createBuildClient()
   const { count } = await supabase
     .from('profiles')
     .select('id', { count: 'exact', head: true })
@@ -76,7 +84,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
   // id=1~N: 셀럽 라우트 (페이지네이션)
   const celebIndex = id - 1
-  const supabase = await createClient()
+  const supabase = createBuildClient()
   const { data: celebs } = await supabase
     .from('profiles')
     .select('slug, updated_at')
