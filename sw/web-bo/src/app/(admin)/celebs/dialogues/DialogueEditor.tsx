@@ -100,12 +100,14 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
   const activeLines = activeLang === 'ko' ? editLinesKo : editLinesEn
   const setActiveLines = activeLang === 'ko' ? setEditLinesKo : setEditLinesEn
 
+  type DialogueType = Exclude<keyof DialogueLines, 'quote'>
+
   function updateLine(type: string, index: number, value: string) {
     setActiveLines((prev) => {
       const next = { ...prev }
-      const arr = [...next[type as keyof DialogueLines]] as [string, string, string]
+      const arr = [...next[type as DialogueType]] as [string, string, string]
       arr[index] = value
-      next[type as keyof DialogueLines] = arr
+      next[type as DialogueType] = arr
       return next
     })
   }

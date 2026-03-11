@@ -151,6 +151,8 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
   const [linesKo, setLinesKo] = useState<DialogueLines>(() => dialogueLines.lines ? structuredClone(dialogueLines.lines) : structuredClone(EMPTY_LINES))
   const [linesEn, setLinesEn] = useState<DialogueLines>(() => dialogueLines.lines_en ? structuredClone(dialogueLines.lines_en) : structuredClone(EMPTY_LINES))
   const [tone, setTone] = useState(speechTone || 'free')
+  const [quoteKo, setQuoteKo] = useState(() => dialogueLines.lines?.quote || '')
+  const [quoteEn, setQuoteEn] = useState(() => dialogueLines.lines_en?.quote || '')
   const [savingDialogue, setSavingDialogue] = useState(false)
 
   // --- Persona state ---
@@ -160,14 +162,16 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
   const [savingPersona, setSavingPersona] = useState(false)
 
   // dirty tracking
-  const initialDialogue = useRef({ lines: dialogueLines.lines, lines_en: dialogueLines.lines_en, tone: speechTone || 'free' })
+  const initialDialogue = useRef({ lines: dialogueLines.lines, lines_en: dialogueLines.lines_en, tone: speechTone || 'free', quoteKo: dialogueLines.lines?.quote || '', quoteEn: dialogueLines.lines_en?.quote || '' })
   const initialPersona = useRef({ stats: initPersonaStats(personaRaw), reasons: initReasons(personaRaw?.persona), rationale: personaRaw?.persona?.rationale_ko || '' })
 
   const isDialogueDirty = useCallback(() => {
     return tone !== initialDialogue.current.tone
+      || quoteKo !== initialDialogue.current.quoteKo
+      || quoteEn !== initialDialogue.current.quoteEn
       || JSON.stringify(linesKo) !== JSON.stringify(initialDialogue.current.lines ?? EMPTY_LINES)
       || JSON.stringify(linesEn) !== JSON.stringify(initialDialogue.current.lines_en ?? EMPTY_LINES)
-  }, [tone, linesKo, linesEn])
+  }, [tone, linesKo, linesEn, quoteKo, quoteEn])
 
   const isPersonaDirty = useCallback(() => {
     return JSON.stringify(personaStats) !== JSON.stringify(initialPersona.current.stats)
@@ -187,12 +191,14 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
   const activeLines = activeLang === 'ko' ? linesKo : linesEn
   const setActiveLines = activeLang === 'ko' ? setLinesKo : setLinesEn
 
+  type DialogueType = Exclude<keyof DialogueLines, 'quote'>
+
   function updateLine(type: string, index: number, value: string) {
     setActiveLines((prev) => {
       const next = { ...prev }
-      const arr = [...next[type as keyof DialogueLines]] as [string, string, string]
+      const arr = [...next[type as DialogueType]] as [string, string, string]
       arr[index] = value
-      next[type as keyof DialogueLines] = arr
+      next[type as DialogueType] = arr
       return next
     })
   }
@@ -201,8 +207,10 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
     setSavingDialogue(true)
     try {
       if (tone !== initialDialogue.current.tone) await updateSpeechTone(celebId, tone)
-      await saveCelebDialogues(celebId, linesKo, linesEn)
-      initialDialogue.current = { lines: structuredClone(linesKo), lines_en: structuredClone(linesEn), tone }
+      const koWithQuote = { ...linesKo, quote: quoteKo || undefined }
+      const enWithQuote = { ...linesEn, quote: quoteEn || undefined }
+      await saveCelebDialogues(celebId, koWithQuote, enWithQuote)
+      initialDialogue.current = { lines: structuredClone(koWithQuote), lines_en: structuredClone(enWithQuote), tone, quoteKo, quoteEn }
       showToast('success', '대사가 저장되었습니다.')
     } catch {
       showToast('error', '대사 저장에 실패했습니다.')
@@ -343,6 +351,25 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
                 <option key={t} value={t}>{TONE_LABELS[t]} ({t})</option>
               ))}
             </select>
+          </div>
+
+          {/* Quote (명언) */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-text-secondary">명언 (quote)</label>
+            <input
+              type="text"
+              value={quoteKo}
+              onChange={(e) => setQuoteKo(e.target.value)}
+              placeholder="한국어 명언"
+              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"
+            />
+            <input
+              type="text"
+              value={quoteEn}
+              onChange={(e) => setQuoteEn(e.target.value)}
+              placeholder="English quote"
+              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"
+            />
           </div>
 
           {/* Language toggle */}

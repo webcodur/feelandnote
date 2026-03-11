@@ -9,11 +9,13 @@ import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getFeaturedTags } from "@/actions/home";
 import FeaturedSpotlight from "@/components/features/landing/FeaturedSpotlight";
+import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.spotlight");
   return {
     title: t("metaTitle"),
+    alternates: getAlternates("/explore/spotlight"),
   };
 }
 

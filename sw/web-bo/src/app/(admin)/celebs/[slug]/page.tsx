@@ -63,6 +63,13 @@ export default async function CelebDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-1.5 mt-1">
             <span className="text-[10px] font-mono text-text-tertiary select-all">{celeb.id}</span>
             <CopyButton text={celeb.id} />
+            {celeb.slug && (
+              <>
+                <span className="text-[10px] text-text-tertiary">·</span>
+                <span className="text-[10px] font-mono text-text-tertiary select-all">/{celeb.slug}</span>
+                <CopyButton text={celeb.slug} />
+              </>
+            )}
           </div>
         </div>
       </div>

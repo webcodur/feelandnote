@@ -401,7 +401,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     profession: celeb.profession,
     title: celeb.title,
     nationality: celeb.nationality,
-    gender: null, // RPC 함수에 gender 필드 없음
+    gender: celeb.gender ?? null,
     birth_date: celeb.birth_date,
     death_date: celeb.death_date,
     bio: celeb.bio,

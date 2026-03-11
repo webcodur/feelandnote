@@ -12,6 +12,7 @@ export interface DialogueLines {
   battle_draw: [string, string, string]
   battle_lose: [string, string, string]
   clash_attack: [string, string, string]
+  quote?: string
 }
 
 export interface CelebDialogueItem {
