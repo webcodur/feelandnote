@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { Info } from "lucide-react";
+import { Info, ChevronDown, ChevronUp } from "lucide-react";
 
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
@@ -31,6 +31,16 @@ function getReasonFromJsonb(
   const field = (jsonb[group] as Record<string, PersonaField>)?.[key];
   if (!field) return undefined;
   return locale === "en" && field.reason_en ? field.reason_en : field.reason_ko;
+}
+
+function getRationale(
+  jsonb: PersonaJsonb | null,
+  locale: string,
+): string | undefined {
+  if (!jsonb) return undefined;
+  return locale === "en" && jsonb.rationale_en
+    ? jsonb.rationale_en
+    : jsonb.rationale_ko;
 }
 
 // ─── 섹션 헤더 ──────────────────────────────────────
@@ -92,30 +102,28 @@ function VirtueBar({
   label,
   value,
   reason,
+  isEn,
+  showReason,
 }: {
   label: string;
   value: number;
   reason?: string;
+  isEn?: boolean;
+  showReason?: boolean;
 }) {
   const pct = Math.min(100, Math.max(0, value));
-  const [open, setOpen] = useState(false);
 
   return (
-    <div className="py-1">
-      <div className="group flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => reason && setOpen((v) => !v)}
+    <div className="py-1.5">
+      <div className="flex items-center gap-3">
+        <span
           className={cn(
-            "w-10 text-xs font-medium tracking-tight shrink-0 text-left transition-colors",
-            reason ? "cursor-pointer hover:text-accent" : "cursor-default",
-            open
-              ? "text-accent"
-              : "text-text-secondary group-hover:text-accent",
+            "text-sm font-bold tracking-tight shrink-0 text-left text-text-primary",
+            isEn ? "w-[5.5rem]" : "w-10",
           )}
         >
           {label}
-        </button>
+        </span>
 
         <div className="relative flex-1 h-1.5 bg-white/[0.03] rounded-full ring-1 ring-white/5 overflow-hidden">
           <div
@@ -130,8 +138,8 @@ function VirtueBar({
           {value}
         </span>
       </div>
-      {reason && open && (
-        <p className="ml-[52px] mr-10 mt-0.5 text-xs text-text-tertiary leading-relaxed break-keep animate-fade-in">
+      {showReason && reason && (
+        <p className="mt-1 text-sm text-text-secondary leading-relaxed break-keep animate-fade-in">
           {reason}
         </p>
       )}
@@ -146,36 +154,36 @@ function TendencyBar({
   pos,
   value,
   reason,
+  isEn,
+  showReason,
 }: {
   neg: string;
   pos: string;
   value: number;
   reason?: string;
+  isEn?: boolean;
+  showReason?: boolean;
 }) {
   const position = ((value + 50) / 100) * 100;
-  const [open, setOpen] = useState(false);
-  const hasReason = !!reason;
   const activeLabel =
     Math.abs(value) > 10 ? (value < 0 ? "neg" : "pos") : null;
 
+  const labelW = isEn ? "w-[5.5rem]" : "w-10";
+
   return (
-    <div className="py-1">
+    <div className="py-1.5">
       <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => hasReason && setOpen((v) => !v)}
+        <span
           className={cn(
-            "w-10 text-right text-xs tracking-tight shrink-0 transition-colors",
-            hasReason ? "cursor-pointer" : "cursor-default",
+            "text-center text-xs tracking-tight shrink-0",
+            labelW,
             activeLabel === "neg"
               ? "text-blue-400 font-bold"
               : "text-text-tertiary",
-            open && activeLabel === "neg" && "underline",
-            hasReason && "hover:text-text-primary",
           )}
         >
           {neg}
-        </button>
+        </span>
         <div className="relative flex-1 h-1.5 bg-white/10 overflow-hidden rounded-full ring-1 ring-white/5">
           <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/20 z-20" />
           <div
@@ -194,24 +202,20 @@ function TendencyBar({
             style={{ left: `${position}%` }}
           />
         </div>
-        <button
-          type="button"
-          onClick={() => hasReason && setOpen((v) => !v)}
+        <span
           className={cn(
-            "w-10 text-left text-xs tracking-tight shrink-0 transition-colors",
-            hasReason ? "cursor-pointer" : "cursor-default",
+            "text-center text-xs tracking-tight shrink-0",
+            labelW,
             activeLabel === "pos"
               ? "text-orange-400 font-bold"
               : "text-text-tertiary",
-            open && activeLabel === "pos" && "underline",
-            hasReason && "hover:text-text-primary",
           )}
         >
           {pos}
-        </button>
+        </span>
       </div>
-      {reason && open && (
-        <p className="ml-[52px] mr-[52px] mt-0.5 text-xs text-text-tertiary leading-relaxed break-keep animate-fade-in">
+      {showReason && reason && (
+        <p className="mt-1 text-sm text-text-secondary leading-relaxed break-keep animate-fade-in">
           {reason}
         </p>
       )}
@@ -238,6 +242,7 @@ export default function PersonaSection({
   const locale = useLocale();
   const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [showDetail, setShowDetail] = useState(false);
 
   const tendencyLabels: Record<string, [string, string]> = {
     pessimism_optimism: [tl("pessimism"), tl("optimism")],
@@ -253,8 +258,33 @@ export default function PersonaSection({
     if (data) setModalCeleb(data);
   }, []);
 
+  const isEn = locale === "en";
+  const rationale = getRationale(personaJsonb, locale);
+
   return (
     <div className="space-y-6">
+      {/* 종합 해설 (rationale) */}
+      {rationale && (
+        <div className="space-y-3">
+          <SectionHeader title={t("rationale")} />
+          <p className="text-sm text-text-secondary leading-relaxed break-keep text-center px-4">
+            {rationale}
+          </p>
+        </div>
+      )}
+
+      {/* 상세 분석 토글 */}
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={() => setShowDetail((v) => !v)}
+          className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
+        >
+          {showDetail ? t("hideDetail") : t("showDetail")}
+          {showDetail ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        </button>
+      </div>
+
       {/* 핵심 능력 */}
       <div className="space-y-2">
         <SectionHeader title={t("ability")} />
@@ -265,6 +295,8 @@ export default function PersonaSection({
               label={ts(key)}
               value={persona[key]}
               reason={getReasonFromJsonb(personaJsonb, "abilities", key, locale)}
+              isEn={isEn}
+              showReason={showDetail}
             />
           ))}
         </div>
@@ -285,6 +317,8 @@ export default function PersonaSection({
                 key,
                 locale,
               )}
+              isEn={isEn}
+              showReason={showDetail}
             />
           ))}
         </div>
@@ -301,6 +335,8 @@ export default function PersonaSection({
                 key,
                 locale,
               )}
+              isEn={isEn}
+              showReason={showDetail}
             />
           ))}
         </div>
@@ -322,6 +358,8 @@ export default function PersonaSection({
                 key,
                 locale,
               )}
+              isEn={isEn}
+              showReason={showDetail}
             />
           ))}
         </div>
@@ -331,7 +369,7 @@ export default function PersonaSection({
       {similarCelebs.length > 0 && (
         <div className="space-y-4 pt-6 border-t border-white/5">
           <SimilarFiguresHeader />
-          <div className="flex justify-center gap-5 md:gap-8 flex-wrap">
+          <div className="flex justify-center gap-3 md:gap-8 flex-wrap">
             {similarCelebs.map((celeb) => (
               <button
                 key={celeb.celeb_id}

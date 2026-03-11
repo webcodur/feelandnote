@@ -29,5 +29,6 @@ export type CelebProfession =
 // 국가 정보 타입
 export interface Country {
   name: string
+  name_en: string
   code: string
 }

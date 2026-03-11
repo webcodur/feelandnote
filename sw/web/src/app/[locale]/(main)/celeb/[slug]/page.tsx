@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
+import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
@@ -151,7 +152,7 @@ export default async function CelebPage({ params }: PageProps) {
     ? buildPageTitleEn(profile.nickname, profile.profession, profile.contentTypeCounts)
     : buildPageTitle(profile.nickname, profile.profession, profile.contentTypeCounts);
 
-  const [guestbookResult, personaData, contentListResult, dialogueResult] = await Promise.all([
+  const [guestbookResult, personaData, contentListResult, dialogueResult, contemporaries] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getSimilarByCelebId(userId, 3, locale),
     // JSON-LD ItemList용 콘텐츠 목록 (최대 50개)
@@ -165,6 +166,9 @@ export default async function CelebPage({ params }: PageProps) {
       .select('lines, lines_en')
       .eq('celeb_id', userId)
       .maybeSingle(),
+    profile.birth_date
+      ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
+      : Promise.resolve([]),
   ]);
 
   const dialogueData = dialogueResult.data as { lines: Record<string, string[]>; lines_en: Record<string, string[]> | null } | null;
@@ -232,6 +236,7 @@ export default async function CelebPage({ params }: PageProps) {
         guestbookTotal={guestbookResult.total}
         guestbookCurrentUser={guestbookCurrentUser}
         greeting={greeting}
+        contemporaries={contemporaries}
       />
     </>
   );

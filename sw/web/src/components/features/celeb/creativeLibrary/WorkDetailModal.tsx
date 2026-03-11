@@ -34,6 +34,9 @@ interface WorkDetailItem {
   imdb_id: string | null;
   description: string | null;
   searchUrl: string;
+  wikidataQid: string;
+  titleEn: string;
+  titleKo: string | null;
 }
 
 interface WorkDetailModalProps {
@@ -156,17 +159,29 @@ export default function WorkDetailModal({
               </div>
             )}
 
-            {/* 액션 버튼 */}
-            <div className="flex items-center gap-2 pt-2">
+            {/* 관련 링크 */}
+            <div className="flex flex-wrap items-center gap-2 pt-2">
+              {/* Wikipedia */}
               <a
-                href={item.searchUrl}
+                href={`https://${locale === "ko" && item.titleKo ? "ko" : "en"}.wikipedia.org/wiki/${encodeURIComponent((locale === "ko" && item.titleKo ? item.titleKo : item.titleEn).replace(/ /g, "_"))}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-hover text-text-primary text-sm font-medium hover:bg-surface-hover/80 transition-colors"
               >
-                <Search size={14} />
-                {locale === "en" ? "Search" : "검색"}
+                <ExternalLink size={14} />
+                Wikipedia
               </a>
+              {/* Wikidata */}
+              <a
+                href={`https://www.wikidata.org/wiki/${item.wikidataQid}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-hover text-text-secondary text-sm font-medium hover:bg-surface-hover/80 transition-colors"
+              >
+                <ExternalLink size={14} />
+                Wikidata
+              </a>
+              {/* IMDb */}
               {item.imdb_id && (
                 <a
                   href={`https://www.imdb.com/title/${item.imdb_id}`}
@@ -178,6 +193,16 @@ export default function WorkDetailModal({
                   IMDb
                 </a>
               )}
+              {/* Google 검색 */}
+              <a
+                href={item.searchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors"
+              >
+                <Search size={14} />
+                {locale === "en" ? "Search" : "검색"}
+              </a>
             </div>
           </div>
         </ModalBody>

@@ -9,7 +9,8 @@ color: violet
 
 ## 작업 시작 전
 
-**반드시 `docs/project/celeb/celeb-8-dialogue.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+1. **반드시 `docs/project/celeb/celeb-8-dialogue.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+2. **반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 업데이트 가드를 따른다.**
 
 룰북에 웹 리서치, 고유 소재 도출, 대사 작성 규칙, 분량 제한, 출력 형식이 모두 정의되어 있다.
 

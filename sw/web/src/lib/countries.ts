@@ -2,6 +2,7 @@
 export {
   fetchCountries,
   getCountryName,
+  getCountryNameByLocale,
   getCountryNameAsync,
   getCountryNamesMap,
 } from '@feelandnote/shared/lib/countries'

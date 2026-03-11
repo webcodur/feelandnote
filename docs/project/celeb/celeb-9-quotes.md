@@ -208,6 +208,14 @@ B~C급 배우, 현대 기업인, 인플루엔서 등 대표 명언이 불명확�
 
 ---
 
+## 업데이트 가드 (필수)
+
+**반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 따른다.**
+
+핵심: 기존 데이터 참조 없이 백지 재작성. UPDATE 직전 비교하여 동일하면 SKIPPED. 배치 완료 시 카운트 보고 필수.
+
+---
+
 ## 기술 요구사항
 
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`

@@ -9,7 +9,8 @@ color: cyan
 
 ## 작업 시작 전
 
-**반드시 `docs/project/celeb/celeb-7-speech.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+1. **반드시 `docs/project/celeb/celeb-7-speech.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+2. **반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 업데이트 가드를 따른다.**
 
 룰북에 speech_tone 배정 기준, quotes 작성 규칙, dialogue 생성 조건이 정의되어 있다.
 

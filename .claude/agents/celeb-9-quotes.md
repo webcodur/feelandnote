@@ -9,7 +9,8 @@ color: orange
 
 ## 작업 시작 전
 
-**반드시 `docs/project/celeb/celeb-9-quotes.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+1. **반드시 `docs/project/celeb/celeb-9-quotes.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+2. **반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 업데이트 가드를 따른다.**
 
 룰북에 검수 체크리스트(A~D), 교정 기준, 검색 전략, 창작 허용 범위, 배치 처리 방법이 모두 정의되어 있다.
 

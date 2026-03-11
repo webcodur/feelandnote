@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { type ReactNode, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
@@ -12,6 +12,7 @@ import {
 } from "@/components/features/game/shared/hooks/useDialogue";
 import { type PublicUserProfile } from "@/actions/user";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
+import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -21,6 +22,7 @@ import { getQuoteVoiceUrl, getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 import LibraryTabs from "./LibraryTabs";
 import PersonaSection from "./PersonaSection";
+import ContemporariesSection from "./ContemporariesSection";
 
 interface CelebPageContentProps {
   profile: PublicUserProfile;
@@ -34,6 +36,7 @@ interface CelebPageContentProps {
     avatar_url: string | null;
   } | null;
   greeting?: string[] | null;
+  contemporaries: ContemporaryCeleb[];
 }
 
 const formatYear = (year: string | null | undefined) => {
@@ -51,6 +54,7 @@ export default function CelebPageContent({
   guestbookTotal,
   guestbookCurrentUser,
   greeting,
+  contemporaries,
 }: CelebPageContentProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -107,18 +111,104 @@ export default function CelebPageContent({
     });
   }, [profile.id, profile.nickname, profile.avatar_url, profile.quotes, locale, voiceV, setSubtitle]);
 
+  /* ── 공통 래퍼: 모바일 HR / PC ClassicalBox ── */
+  const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+    <>
+      {/* 모바일: HR + 여백 최소화 */}
+      <div className={`md:hidden ${className}`}>
+        <hr className="border-accent-dim/30 mb-5" />
+        {children}
+      </div>
+      {/* PC: 기존 ClassicalBox */}
+      <div className="hidden md:block">
+        <ClassicalBox hover={false} className={`p-6 ${className}`}>
+          {children}
+        </ClassicalBox>
+      </div>
+    </>
+  );
+
   return (
-    <div className="space-y-16">
+    <div className="space-y-10 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
       <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
         <DecorativeLabel label={t("intro")} />
-        <ClassicalBox hover={false} className="px-5 py-5">
-          <div className="grid grid-cols-[auto_1fr] gap-6">
-            {/* 아바타 (클릭 시 greeting 대사) */}
+
+        {/* 모바일: 세로 스택 */}
+        <div className="md:hidden">
+          <hr className="border-accent-dim/30 mb-5" />
+          <div className="flex flex-col items-center gap-4">
             <button
               type="button"
               onClick={handleAvatarClick}
-              className="w-32 h-32 md:w-44 md:h-44 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary self-start transition-all duration-300 cursor-pointer active:scale-95"
+              className="w-28 h-28 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary transition-all duration-300 cursor-pointer active:scale-95"
+            >
+              {profile.avatar_url ? (
+                <Image
+                  src={profile.avatar_url}
+                  alt={nickname}
+                  width={112}
+                  height={112}
+                  className="w-full h-full object-cover"
+                  unoptimized
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-2xl font-serif text-accent/30">
+                  {nickname.charAt(0)}
+                </div>
+              )}
+            </button>
+
+            <div className="space-y-2 w-full text-center">
+              <p className="font-serif text-xl text-text-primary tracking-tight">
+                {nickname}
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm text-text-tertiary flex-wrap">
+                {professionLabel && (
+                  <span className="text-accent font-medium">{professionLabel}</span>
+                )}
+                {profile.nationality && (
+                  <span className="grayscale">
+                    <NationalityText code={profile.nationality} />
+                  </span>
+                )}
+                {periodStr && <span className="font-mono">{periodStr}</span>}
+              </div>
+              {profile.bio && (
+                <p className="text-sm text-text-secondary leading-relaxed break-keep text-left">
+                  {profile.bio}
+                </p>
+              )}
+              {profile.quotes && (
+                <div className="flex items-start justify-center gap-1.5 pt-1">
+                  <p className="font-serif text-[15px] text-accent/80 leading-relaxed break-keep italic text-left">
+                    &ldquo;
+                    <FormattedText text={profile.quotes} />
+                    &rdquo;
+                  </p>
+                  {hasVoice && (
+                    <button
+                      type="button"
+                      onClick={handleQuotePlay}
+                      className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors text-text-tertiary hover:text-accent"
+                      aria-label="Play quote voice"
+                    >
+                      <Volume2 size={14} />
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* PC: 기존 2열 레이아웃 */}
+        <ClassicalBox hover={false} className="px-5 py-5 hidden md:block">
+          <div className="grid grid-cols-[auto_1fr] gap-6">
+            <button
+              type="button"
+              onClick={handleAvatarClick}
+              className="w-44 h-44 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary self-start transition-all duration-300 cursor-pointer active:scale-95"
             >
               {profile.avatar_url ? (
                 <Image
@@ -136,25 +226,20 @@ export default function CelebPageContent({
               )}
             </button>
 
-            {/* 정보 */}
             <div className="space-y-2 min-w-0">
-              <p className="font-serif text-xl md:text-2xl text-text-primary tracking-tight">
+              <p className="font-serif text-2xl text-text-primary tracking-tight">
                 {nickname}
               </p>
               <div className="flex items-center gap-2 text-sm text-text-tertiary flex-wrap">
                 {professionLabel && (
-                  <span className="text-accent font-medium">
-                    {professionLabel}
-                  </span>
+                  <span className="text-accent font-medium">{professionLabel}</span>
                 )}
                 {profile.nationality && (
                   <span className="grayscale">
                     <NationalityText code={profile.nationality} />
                   </span>
                 )}
-                {periodStr && (
-                  <span className="font-mono">{periodStr}</span>
-                )}
+                {periodStr && <span className="font-mono">{periodStr}</span>}
               </div>
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep">
@@ -185,10 +270,20 @@ export default function CelebPageContent({
         </ClassicalBox>
       </section>
 
+      {/* 동시대 인물 */}
+      {contemporaries.length > 0 && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("contemporaries")} />
+          <SectionWrap>
+            <ContemporariesSection contemporaries={contemporaries} />
+          </SectionWrap>
+        </section>
+      )}
+
       {/* 기록 서가 (감상 기록 / 감상 철학 / 창작물) */}
       <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
         <DecorativeLabel label={t("library")} />
-        <ClassicalBox hover={false} className="p-6">
+        <SectionWrap>
           <LibraryTabs
             userId={userId}
             nickname={nickname}
@@ -197,27 +292,27 @@ export default function CelebPageContent({
             consumptionPhilosophy={profile.consumption_philosophy}
             celebTier={profile.celeb_tier ?? 'full'}
           />
-        </ClassicalBox>
+        </SectionWrap>
       </section>
 
       {/* 인물 분석 */}
       {personaData?.targetPersona && (
         <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
           <DecorativeLabel label={t("analysis")} />
-          <ClassicalBox hover={false} className="p-6">
+          <SectionWrap>
             <PersonaSection
               persona={personaData.targetPersona}
               personaJsonb={personaData.targetPersonaJsonb}
               similarCelebs={personaData.similarCelebs}
             />
-          </ClassicalBox>
+          </SectionWrap>
         </section>
       )}
 
       {/* 방명록 */}
       <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
         <DecorativeLabel label={t("guestbook")} />
-        <ClassicalBox hover={false} className="p-6">
+        <SectionWrap>
           <GuestbookContent
             profileId={userId}
             currentUser={guestbookCurrentUser}
@@ -225,7 +320,7 @@ export default function CelebPageContent({
             initialEntries={guestbookEntries}
             initialTotal={guestbookTotal}
           />
-        </ClassicalBox>
+        </SectionWrap>
       </section>
     </div>
   );

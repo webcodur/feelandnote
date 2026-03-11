@@ -28,6 +28,7 @@ export async function fetchCountries(): Promise<Country[]> {
       const formatted = data
         .map((c) => ({
           name: c.translations?.kor?.common || c.name.common,
+          name_en: c.name.common,
           code: c.cca2,
         }))
         .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
@@ -50,6 +51,15 @@ export function getCountryName(code: string): string {
   if (!countriesCache) return code
   const country = countriesCache.find((c) => c.code === code)
   return country?.name || code
+}
+
+// 국가 코드 → 로케일 기반 국가명 (동기, 캐시 필요)
+export function getCountryNameByLocale(code: string, locale: string): string {
+  if (!code) return ''
+  if (!countriesCache) return code
+  const country = countriesCache.find((c) => c.code === code)
+  if (!country) return code
+  return locale === 'en' ? country.name_en : country.name
 }
 
 // 국가 코드 → 한글명 변환 (비동기, 캐시 없어도 작동)

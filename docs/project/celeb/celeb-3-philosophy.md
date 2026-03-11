@@ -146,6 +146,18 @@ DB 콘텐츠가 없으므로 **웹 리서치가 유일한 소스**다.
 
 ---
 
+## 업데이트 가드 (필수)
+
+**반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 따른다.**
+
+핵심 요약:
+- 기존 감상철학을 읽지 않는다. 매번 백지에서 새로 리서치하고 새로 쓴다.
+- UPDATE 직전에 기존 텍스트를 SELECT하여 비교한다.
+- 완전히 동일하면 SKIPPED 처리, 한 글자라도 다르면 UPDATE 실행.
+- 배치 완료 시 [UPDATED/SKIPPED/FAILED] 카운트 보고 필수.
+
+---
+
 ## 기술 요구사항
 
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`

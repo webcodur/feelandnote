@@ -229,6 +229,9 @@ export default function CreativeLibrary({
       imdb_id: item.imdb_id,
       description: wikiSummaries[item.id] || null,
       searchUrl: getSearchUrl(item),
+      wikidataQid: item.id,
+      titleEn: item.title_en,
+      titleKo: item.title_ko || null,
     });
   };
 
