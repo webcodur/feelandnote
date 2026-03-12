@@ -46,8 +46,6 @@ interface CelebRow {
   death_date: string | null
   bio: string | null
   bio_en: string | null
-  quotes: string | null
-  quotes_en: string | null
   is_verified: boolean | null
   claimed_by: string | null
   follower_count: number
@@ -231,8 +229,8 @@ export async function getCelebs(
       death_date: row.death_date,
       bio: row.bio,
       bio_en: row.bio_en ?? null,
-      quotes: quoteMap.get(row.id) ?? row.quotes ?? null,
-      quotes_en: quoteEnMap.get(row.id) ?? row.quotes_en ?? null,
+      quotes: quoteMap.get(row.id) ?? null,
+      quotes_en: quoteEnMap.get(row.id) ?? null,
       is_verified: row.is_verified ?? false,
       is_platform_managed: row.claimed_by === null,
       follower_count: row.follower_count,

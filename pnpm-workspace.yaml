@@ -1,4 +1,10 @@
 packages:
   - 'sw/web'
   - 'sw/web-bo'
+  - 'sw/lab'
+  - 'sw/remotion'
   - 'packages/*'
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - esbuild

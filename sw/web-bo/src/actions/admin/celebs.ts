@@ -18,7 +18,6 @@ export interface Celeb {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  quotes: string | null
   consumption_philosophy: string | null
   is_verified: boolean | null
   status: string
@@ -56,7 +55,6 @@ interface CreateCelebInput {
   birth_date?: string
   death_date?: string
   bio?: string
-  quotes?: string
   consumption_philosophy?: string
   avatar_url?: string
   is_verified?: boolean
@@ -100,7 +98,6 @@ type CelebListRow = {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  quotes: string | null
   consumption_philosophy: string | null
   is_verified: boolean | null
   status: string
@@ -132,7 +129,6 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     birth_date: row.birth_date,
     death_date: row.death_date,
     bio: row.bio,
-    quotes: row.quotes,
     consumption_philosophy: row.consumption_philosophy,
     is_verified: row.is_verified,
     status: row.status,
@@ -194,8 +190,20 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
         result = ascending ? left - right : right - left
         break
       }
+      case 'title':
+        result = compareText(a.title, b.title, ascending)
+        break
       case 'nickname':
         result = compareText(a.nickname, b.nickname, ascending)
+        break
+      case 'gender': {
+        const gA = a.gender === null ? -1 : a.gender ? 1 : 0
+        const gB = b.gender === null ? -1 : b.gender ? 1 : 0
+        result = compareNumber(gA, gB, ascending)
+        break
+      }
+      case 'celeb_tier':
+        result = compareText(a.celeb_tier, b.celeb_tier, ascending)
         break
       case 'profession':
         result = compareText(a.profession, b.profession, ascending)
@@ -273,7 +281,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const filters = { search, status, profession, tier }
   const selectFields = `
     id, slug, nickname, avatar_url, profession, title, nationality, gender,
-    birth_date, death_date, bio, quotes, consumption_philosophy,
+    birth_date, death_date, bio, consumption_philosophy,
     is_verified, status, celeb_tier, claimed_by, created_at,
     user_social (follower_count),
     celeb_influence (total_score)
@@ -322,7 +330,8 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
-  const needsExactFiltering = sort === 'avatar_url' || status === 'inactive' || status === 'suspended' || (tier && tier !== 'all')
+  const rpcUnsupportedSorts = ['avatar_url', 'title', 'gender', 'celeb_tier']
+  const needsExactFiltering = rpcUnsupportedSorts.includes(sort) || status === 'inactive' || status === 'suspended' || (tier && tier !== 'all')
 
   if (needsExactFiltering) {
     return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, sort, sortOrder })
@@ -405,7 +414,6 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     birth_date: celeb.birth_date,
     death_date: celeb.death_date,
     bio: celeb.bio,
-    quotes: celeb.quotes,
     consumption_philosophy: celeb.consumption_philosophy,
     is_verified: celeb.is_verified,
     status: celeb.status,
@@ -495,7 +503,6 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
       birth_date: row.birth_date,
       death_date: row.death_date,
       bio: row.bio,
-      quotes: row.quotes,
       consumption_philosophy: row.consumption_philosophy,
       is_verified: row.is_verified,
       status: row.status,
@@ -548,7 +555,6 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     birth_date: data.birth_date,
     death_date: data.death_date,
     bio: data.bio,
-    quotes: data.quotes,
     consumption_philosophy: data.consumption_philosophy,
     is_verified: data.is_verified,
     status: data.status,
@@ -609,7 +615,6 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       birth_date: input.birth_date || null,
       death_date: input.death_date || null,
       bio: input.bio || null,
-      quotes: input.quotes || null,
       consumption_philosophy: input.consumption_philosophy || null,
       avatar_url: input.avatar_url || null,
       is_verified: input.is_verified || false,
@@ -689,8 +694,6 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.bio_en !== undefined) updateData.bio_en = input.bio_en || null
-  if (input.quotes !== undefined) updateData.quotes = input.quotes
-  if (input.quotes_en !== undefined) updateData.quotes_en = input.quotes_en || null
   if (input.consumption_philosophy !== undefined) updateData.consumption_philosophy = input.consumption_philosophy
   if (input.consumption_philosophy_en !== undefined) updateData.consumption_philosophy_en = input.consumption_philosophy_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
@@ -706,7 +709,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
 
   if (error) throw error
 
-  // quotes 변경 시 celeb_dialogues.lines.quote 동기화
+  // quotes → celeb_dialogues.lines.quote 저장 (SSoT)
   if (input.quotes !== undefined || input.quotes_en !== undefined) {
     const { data: existing } = await supabase
       .from('celeb_dialogues')
@@ -714,16 +717,14 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
       .eq('celeb_id', input.id)
       .maybeSingle()
 
-    if (existing) {
-      const updates: Record<string, any> = { celeb_id: input.id }
-      if (input.quotes !== undefined) {
-        updates.lines = { ...(existing.lines as Record<string, any> ?? {}), quote: input.quotes ?? '' }
-      }
-      if (input.quotes_en !== undefined) {
-        updates.lines_en = { ...(existing.lines_en as Record<string, any> ?? {}), quote: input.quotes_en ?? '' }
-      }
-      await supabase.from('celeb_dialogues').upsert(updates, { onConflict: 'celeb_id' })
+    const updates: Record<string, any> = { celeb_id: input.id }
+    if (input.quotes !== undefined) {
+      updates.lines = { ...((existing?.lines as Record<string, any>) ?? {}), quote: input.quotes ?? '' }
     }
+    if (input.quotes_en !== undefined) {
+      updates.lines_en = { ...((existing?.lines_en as Record<string, any>) ?? {}), quote: input.quotes_en ?? '' }
+    }
+    await supabase.from('celeb_dialogues').upsert(updates, { onConflict: 'celeb_id' })
   }
 
   // 영향력 저장
@@ -1168,9 +1169,6 @@ export async function updateCelebQuotes(celebId: string, quotes: string | null):
     .upsert({ celeb_id: celebId, lines: updatedLines }, { onConflict: 'celeb_id' })
 
   if (error) throw error
-
-  // profiles.quotes도 동기 (하위호환)
-  await supabase.from('profiles').update({ quotes }).eq('id', celebId)
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/quotes')

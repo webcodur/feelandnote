@@ -22,7 +22,7 @@ export async function getCelebBySlug(
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, consumption_philosophy, consumption_philosophy_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title, has_voice, voice_v, wikidata_qid, celeb_tier')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, consumption_philosophy, consumption_philosophy_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title, has_voice, voice_v, wikidata_qid, celeb_tier')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -112,8 +112,8 @@ export async function getCelebBySlug(
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
       quotes: resolve(
-        (dialogueResult.data?.lines_en as Record<string, any> | null)?.quote ?? profile.quotes_en,
-        (dialogueResult.data?.lines as Record<string, any> | null)?.quote ?? profile.quotes
+        (dialogueResult.data?.lines_en as Record<string, any> | null)?.quote ?? null,
+        (dialogueResult.data?.lines as Record<string, any> | null)?.quote ?? null
       ),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),

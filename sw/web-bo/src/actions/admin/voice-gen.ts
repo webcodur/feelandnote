@@ -15,8 +15,6 @@ export interface VoiceGenCeleb {
   has_voice: boolean
   voice_id_ko: string | null
   voice_id_en: string | null
-  quotes: string | null
-  quotes_en: string | null
   dialogue_lines: Record<string, string[]> | null
   dialogue_lines_en: Record<string, string[]> | null
   voice_v: number
@@ -30,7 +28,7 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
     .from('profiles')
     .select(`
       id, nickname, avatar_url, slug, speech_tone, has_voice,
-      voice_id_ko, voice_id_en, quotes, quotes_en, voice_v,
+      voice_id_ko, voice_id_en, voice_v,
       celeb_dialogues(lines, lines_en)
     `)
     .eq('profile_type', 'CELEB')
@@ -55,8 +53,6 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
         has_voice: row.has_voice ?? false,
         voice_id_ko: (row as Record<string, unknown>).voice_id_ko as string | null,
         voice_id_en: (row as Record<string, unknown>).voice_id_en as string | null,
-        quotes: (lines as any)?.quote ?? row.quotes ?? null,
-        quotes_en: (linesEn as any)?.quote ?? (row as Record<string, unknown>).quotes_en ?? null,
         dialogue_lines: lines && Object.keys(lines).length > 0 ? lines : null,
         dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
         voice_v: (row as Record<string, unknown>).voice_v as number ?? 0,
@@ -172,7 +168,7 @@ export async function fetchVoiceFile(params: {
   }
 }
 
-/** 명언 저장 (celeb_dialogues.lines.quote + profiles.quotes 동기) */
+/** 명언 저장 (celeb_dialogues.lines.quote) */
 export async function saveQuote(
   celebId: string,
   locale: 'ko' | 'en',
@@ -180,7 +176,6 @@ export async function saveQuote(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  // celeb_dialogues 업데이트
   const linesCol = locale === 'ko' ? 'lines' : 'lines_en'
   const { data: existing } = await supabase
     .from('celeb_dialogues')
@@ -194,10 +189,6 @@ export async function saveQuote(
     .from('celeb_dialogues')
     .upsert({ celeb_id: celebId, [linesCol]: updatedLines }, { onConflict: 'celeb_id' })
   if (error) return { success: false, error: error.message }
-
-  // profiles 동기 (하위호환)
-  const profileCol = locale === 'ko' ? 'quotes' : 'quotes_en'
-  await supabase.from('profiles').update({ [profileCol]: quote || null }).eq('id', celebId)
 
   return { success: true }
 }

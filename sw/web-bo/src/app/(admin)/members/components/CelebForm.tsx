@@ -32,8 +32,6 @@ interface CelebFormData {
   death_date: string
   bio: string
   bio_en: string
-  quotes: string
-  quotes_en: string
   avatar_url: string
   is_verified: boolean
   status: 'active' | 'suspended'
@@ -100,8 +98,6 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     death_date: celeb?.death_date || '',
     bio: celeb?.bio || '',
     bio_en: celeb?.bio_en || '',
-    quotes: celeb?.quotes || '',
-    quotes_en: celeb?.quotes_en || '',
     avatar_url: celeb?.avatar_url || '',
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'suspended') || 'suspended',
@@ -388,7 +384,6 @@ export default function CelebForm({ mode, celeb }: Props) {
           birth_date: formData.birth_date || undefined,
           death_date: formData.death_date || undefined,
           bio: formData.bio || undefined,
-          quotes: formData.quotes || undefined,
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
@@ -434,8 +429,6 @@ export default function CelebForm({ mode, celeb }: Props) {
           death_date: formData.death_date || undefined,
           bio: formData.bio || undefined,
           bio_en: formData.bio_en,
-          quotes: formData.quotes || undefined,
-          quotes_en: formData.quotes_en,
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
@@ -547,13 +540,6 @@ export default function CelebForm({ mode, celeb }: Props) {
               mode={langMode}
               ko={<textarea id="bio" rows={2} value={formData.bio} onChange={(e) => handleChange('bio', e.target.value)} placeholder="셀럽 소개글" className={TEXTAREA_CLS} />}
               en={<textarea rows={2} value={formData.bio_en} onChange={(e) => handleChange('bio_en', e.target.value)} placeholder="EN: English bio" className={TEXTAREA_EN_CLS} />}
-            />
-
-            <label htmlFor="quotes" className="text-xs font-medium text-text-secondary self-start pt-1">명언</label>
-            <BilingualInput
-              mode={langMode}
-              ko={<textarea id="quotes" rows={2} value={formData.quotes} onChange={(e) => handleChange('quotes', e.target.value)} placeholder="대표 명언 또는 발언" className={TEXTAREA_CLS} />}
-              en={<textarea rows={2} value={formData.quotes_en} onChange={(e) => handleChange('quotes_en', e.target.value)} placeholder="EN: English quote" className={`${TEXTAREA_EN_CLS} italic`} />}
             />
 
             <label className="text-xs font-medium text-text-secondary self-start pt-1">썸네일</label>

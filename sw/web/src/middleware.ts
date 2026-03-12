@@ -67,6 +67,6 @@ export const config = {
      * - auth/callback (OAuth 콜백)
      * - api/ (API 라우트)
      */
-    '/((?!_next/static|_next/image|favicon.ico|auth/callback|api/|assets/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3|mp4|ogg|wav|woff2?|ttf|eot|ico|json|xml|txt|webmanifest)$).*)'
+    '/((?!_next/static|_next/image|favicon.ico|auth/callback|api/|assets/|sitemap|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3|mp4|ogg|wav|woff2?|ttf|eot|ico|json|xml|txt|webmanifest)$).*)'
   ]
 };

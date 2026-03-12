@@ -42,7 +42,7 @@ export async function getCelebTimeline(): Promise<TimelineData> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, celeb_tier, quotes, quotes_en, has_voice, voice_v')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, celeb_tier, has_voice, voice_v')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .not('nationality', 'is', null)
@@ -88,8 +88,8 @@ export async function getCelebTimeline(): Promise<TimelineData> {
 
   const celebs: TimelineCeleb[] = rows.map(row => ({
     ...row,
-    quotes: quoteMap.get(row.id) ?? row.quotes ?? null,
-    quotes_en: quoteEnMap.get(row.id) ?? row.quotes_en ?? null,
+    quotes: quoteMap.get(row.id) ?? null,
+    quotes_en: quoteEnMap.get(row.id) ?? null,
     has_voice: (row as Record<string, unknown>).has_voice as boolean ?? false,
     voice_v: (row as Record<string, unknown>).voice_v as number ?? 0,
     greeting: greetingMap.get(row.id) ?? null,

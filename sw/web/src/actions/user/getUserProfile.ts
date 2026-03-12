@@ -148,7 +148,9 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       nickname_ko: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
-      quotes: resolve(dialogueQuoteEn ?? profile.quotes_en, dialogueQuote ?? profile.quotes),
+      quotes: profile.profile_type === 'CELEB'
+        ? resolve(dialogueQuoteEn, dialogueQuote)
+        : resolve(profile.quotes_en, profile.quotes),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,

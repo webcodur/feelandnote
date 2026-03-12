@@ -5,7 +5,9 @@
     "dev:web": "pnpm --filter @feelandnote/web dev",
     "dev:bo": "pnpm --filter @feelandnote/web-bo dev",
     "build:web": "pnpm --filter @feelandnote/web build",
-    "build:bo": "pnpm --filter @feelandnote/web-bo build"
+    "build:bo": "pnpm --filter @feelandnote/web-bo build",
+    "dev:lab": "pnpm --filter @feelandnote/lab dev",
+    "dev:remotion": "pnpm --filter @feelandnote/remotion studio"
   },
   "devDependencies": {
     "puppeteer": "^24.2.1"

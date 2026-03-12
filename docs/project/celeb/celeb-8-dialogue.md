@@ -9,7 +9,7 @@
 ```json
 {
   "greeting": [
-    "[bold, ambitious] 한산섬 달 밝은 밤에 수루에 홀로 앉아.",
+    "[bold, ambitious] 한산섬 달 밝은 밤에 칼을 어루만지는데, 어디선가 피리 한 가락 불어와 애를 끓이는구나.",
     "[fierce, confident] 살고자 하면 죽을 것이요, 죽고자 하면 살 것이다.",
     "[bold, passionate] 신에게는 아직 열두 척의 배가 있습니다."
   ],

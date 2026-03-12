@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = 'force-dynamic'
+
 const BASE_URL = 'https://feelandnote.com'
 
 /** 빌드 타임용 Supabase 클라이언트 (cookies 불필요) */

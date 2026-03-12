@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 import CelebTable from './components/CelebTable'
 import CelebFilter from './components/CelebFilter'
+import ActiveSortChips from './components/ActiveSortChips'
 
 export const metadata: Metadata = {
   title: '셀럽 관리',
@@ -110,6 +111,9 @@ export default async function CelebsPage({ searchParams }: PageProps) {
 
       {/* Filters */}
       <CelebFilter defaultValues={{ search, status, profession, tier }} />
+
+      {/* Active Sort Chips */}
+      <ActiveSortChips />
 
       {/* Table */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">

@@ -363,12 +363,17 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
           if (!(key in dialogues)) dialogues[key] = ''
         }
       }
-      const quote = loc === 'ko' ? celeb.quotes : celeb.quotes_en
+      const quote = loc === 'ko'
+        ? (celeb.dialogue_lines as any)?.quote ?? ''
+        : (celeb.dialogue_lines_en as any)?.quote ?? ''
       if (quote?.trim()) texts[`${loc}/quote`] = quote
     }
     setTtsTexts(texts)
     setEditDialogues(dialogues)
-    setEditQuotes({ ko: celeb.quotes || '', en: celeb.quotes_en || '' })
+    setEditQuotes({
+      ko: (celeb.dialogue_lines as any)?.quote ?? '',
+      en: (celeb.dialogue_lines_en as any)?.quote ?? '',
+    })
     setSpeechTone(celeb.speech_tone || 'free')
   }
 
@@ -422,8 +427,10 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
       }
       const koQuote = editQuotes['ko'] ?? ''
       const enQuote = editQuotes['en'] ?? ''
-      if (koQuote !== (selected.quotes || '')) await saveQuote(selected.id, 'ko', koQuote)
-      if (enQuote !== (selected.quotes_en || '')) await saveQuote(selected.id, 'en', enQuote)
+      const origKo = (selected.dialogue_lines as any)?.quote ?? ''
+      const origEn = (selected.dialogue_lines_en as any)?.quote ?? ''
+      if (koQuote !== origKo) await saveQuote(selected.id, 'ko', koQuote)
+      if (enQuote !== origEn) await saveQuote(selected.id, 'en', enQuote)
       showToast('success', SAVE_DONE_LABEL)
     } catch (err) {
       showToast('error', `${SAVE_FAIL_LABEL}: ${String(err)}`)

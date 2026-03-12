@@ -21,14 +21,14 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
           <SortableTableHeader column="avatar_url" label="img" className="w-12" align="center" />
-          <th className="text-start px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono">title</th>
+          <SortableTableHeader column="title" label="title" />
           <SortableTableHeader column="nickname" label="nickname" />
           <SortableTableHeader column="profession" label="profession" />
           <SortableTableHeader column="nationality" label="nationality" align="center" />
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-12">gender</th>
+          <SortableTableHeader column="gender" label="gender" className="w-12" align="center" />
           <SortableTableHeader column="status" label="status" align="center" />
           <SortableTableHeader column="influence_total" label="influence_total" align="center" />
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary font-mono w-16">tier</th>
+          <SortableTableHeader column="celeb_tier" label="tier" className="w-16" align="center" />
           <SortableTableHeader column="content_count" label="content_count" align="center" />
           <SortableTableHeader column="follower_count" label="follower_count" align="center" />
           <SortableTableHeader column="created_at" label="created_at" align="center" />

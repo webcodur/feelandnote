@@ -7,6 +7,8 @@
 Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. Neo-Pantheon(고전 신전) 테마의 다크 UI. 모노레포 구조:
 - `sw/web` - 사용자용 웹 (포트 3000)
 - `sw/web-bo` - 관리자 백오피스 (포트 3001)
+- `sw/lab` - 실험 공간 (포트 3002) — 3D/2D 모델, 게임, 영상 테스트
+- `sw/remotion` - Remotion 영상 제작 스튜디오
 - `packages/content-search` - 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify, Google Books, Q-Net)
 - `packages/ai-services` - AI 서비스 (셀럽 프로필 타입, 영향력 분석)
 - `packages/influence-constants` - 영향력 평가 상수
@@ -19,6 +21,8 @@ pnpm dev:web    # 사용자 웹 (포트 3000)
 pnpm dev:bo     # 관리자 백오피스 (포트 3001)
 pnpm build:web
 pnpm build:bo
+pnpm dev:lab    # 실험 공간 (포트 3002)
+pnpm dev:remotion # Remotion 스튜디오
 ```
 
 ## 기술 스택

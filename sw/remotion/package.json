@@ -1,0 +1,26 @@
+{
+  "name": "@feelandnote/remotion",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^6.4.0",
+    "@remotion/cli": "4.0.434",
+    "@remotion/player": "4.0.434",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "remotion": "4.0.434"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "mp3-duration": "^1.1.0",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.3"
+  }
+}

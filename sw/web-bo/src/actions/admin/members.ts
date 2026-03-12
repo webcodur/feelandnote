@@ -84,11 +84,9 @@ export interface Member {
   gender?: boolean | null
   birth_date?: string | null
   death_date?: string | null
-  quotes?: string | null
   nickname_en?: string | null
   title_en?: string | null
   bio_en?: string | null
-  quotes_en?: string | null
   consumption_philosophy?: string | null
   consumption_philosophy_en?: string | null
   celeb_tier?: string | null
@@ -202,7 +200,6 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
     gender: p.gender,
     birth_date: p.birth_date,
     death_date: p.death_date,
-    quotes: p.quotes,
     claimed_by: p.claimed_by,
     content_count: contentCounts.get(p.id) || 0,
     follower_count: p.user_social?.follower_count || 0,
@@ -231,7 +228,6 @@ function celebToMember(c: Celeb): Member {
     gender: c.gender,
     birth_date: c.birth_date,
     death_date: c.death_date,
-    quotes: c.quotes,
     consumption_philosophy: c.consumption_philosophy,
     celeb_tier: c.celeb_tier,
     claimed_by: c.claimed_by,
@@ -353,11 +349,9 @@ export async function getMember(id: string): Promise<Member | null> {
     gender: data.gender,
     birth_date: data.birth_date,
     death_date: data.death_date,
-    quotes: data.quotes,
     nickname_en: data.nickname_en ?? null,
     title_en: data.title_en ?? null,
     bio_en: data.bio_en ?? null,
-    quotes_en: data.quotes_en ?? null,
     consumption_philosophy: data.consumption_philosophy,
     consumption_philosophy_en: data.consumption_philosophy_en ?? null,
     speech_tone: data.speech_tone ?? null,
@@ -444,11 +438,9 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     gender: data.gender,
     birth_date: data.birth_date,
     death_date: data.death_date,
-    quotes: data.quotes,
     nickname_en: data.nickname_en ?? null,
     title_en: data.title_en ?? null,
     bio_en: data.bio_en ?? null,
-    quotes_en: data.quotes_en ?? null,
     consumption_philosophy: data.consumption_philosophy,
     consumption_philosophy_en: data.consumption_philosophy_en ?? null,
     speech_tone: data.speech_tone ?? null,

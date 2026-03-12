@@ -164,7 +164,7 @@ export async function getTrackerRound(
   const chosenQuote = resolve(
     (chosenDialogue?.lines_en as any)?.quote,
     (chosenDialogue?.lines as any)?.quote
-  ) ?? resolve(chosen.quotes_en, chosen.quotes);
+  );
 
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
@@ -184,7 +184,7 @@ async function getTrackerRoundFallback(
   // 자격 있는 셀럽 목록: persona 존재 + philosophy 존재 + 리뷰 있는 콘텐츠 존재
   const { data: allCelebs } = await supabase
     .from("profiles")
-    .select("id, slug, nickname, nickname_en, profession, avatar_url, consumption_philosophy, consumption_philosophy_en, death_date, nationality, birth_date, bio, bio_en, quotes, quotes_en")
+    .select("id, slug, nickname, nickname_en, profession, avatar_url, consumption_philosophy, consumption_philosophy_en, death_date, nationality, birth_date, bio, bio_en")
     .eq("profile_type", "CELEB")
     .eq("status", "active")
     .not("consumption_philosophy", "is", null)
@@ -253,7 +253,7 @@ async function getTrackerRoundFallback(
   const chosenQuote = resolve(
     (chosenDialogue?.lines_en as any)?.quote,
     (chosenDialogue?.lines as any)?.quote
-  ) ?? resolve((chosen as any).quotes_en, chosen.quotes);
+  );
 
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve((chosen as any).nickname_en, chosen.nickname) ?? chosen.nickname) as string,
