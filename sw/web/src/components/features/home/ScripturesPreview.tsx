@@ -16,14 +16,14 @@ export default function ScripturesPreview() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-4 divide-y divide-white/10 md:divide-y-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {SCRIPTURES_TABS.map((tab) => {
           const Icon = tab.icon;
           return (
             <Link
               key={tab.value}
               href={tab.href}
-              className="group flex items-center gap-4 py-3 md:p-5 md:rounded-xl bg-transparent md:bg-white/5 border-0 md:border md:border-white/10 md:hover:border-accent/40 md:hover:bg-white/10"
+              className="group flex items-center gap-4 p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 hover:border-accent/40 hover:bg-white/10"
             >
               <div className="shrink-0 p-3 rounded-lg bg-accent/10 text-accent group-hover:bg-accent/20">
                 <Icon size={24} />

@@ -69,10 +69,10 @@ export default function ProfessionPreview({ professionCounts, contentSamples }: 
           <Link
             key={p.profession}
             href={`/scriptures/profession?p=${p.profession}`}
-            className={`group relative overflow-hidden md:rounded-2xl bg-transparent md:bg-[#111113]/90 md:backdrop-blur-xl border-0 md:border md:border-white/[0.06] ${theme.hoverBorder} transition-all duration-500 flex flex-col`}
+            className={`group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.hoverBorder} transition-all duration-500 flex flex-col`}
           >
             {/* 상단 악센트 바 */}
-            <div className={`hidden md:block h-[2px] w-full bg-gradient-to-r ${theme.topBar} opacity-60 group-hover:opacity-100 transition-opacity duration-700`} />
+            <div className={`h-[2px] w-full bg-gradient-to-r ${theme.topBar} opacity-60 group-hover:opacity-100 transition-opacity duration-700`} />
 
             {/* 배경 글로우 */}
             <div className={`absolute inset-0 bg-gradient-to-b ${theme.glow} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />

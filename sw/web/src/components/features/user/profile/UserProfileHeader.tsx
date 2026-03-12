@@ -79,10 +79,10 @@ export default function UserProfileHeader({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-6 sm:py-8 md:p-10 mb-4 md:mb-12 border-0 md:border md:border-accent-dim/20 bg-transparent md:bg-gradient-to-br md:from-bg-card/80 md:via-bg-card/60 md:to-bg-card/40 md:backdrop-blur-md md:rounded-xl md:shadow-2xl relative overflow-hidden">
+    <div className="w-full max-w-5xl mx-auto p-6 sm:p-8 md:p-10 mb-8 md:mb-12 border border-accent-dim/20 bg-gradient-to-br from-bg-card/80 via-bg-card/60 to-bg-card/40 backdrop-blur-md rounded-xl shadow-2xl relative overflow-hidden">
       {/* Background Decor */}
-      <div className="hidden md:block absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
-      <div className="hidden md:block absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")` }} />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
       
       {/* 모바일: 세로 배치, 데스크톱: 가로 배치 */}
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-4">

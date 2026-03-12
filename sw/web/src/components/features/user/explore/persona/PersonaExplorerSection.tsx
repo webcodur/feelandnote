@@ -47,7 +47,7 @@ export default function PersonaExplorerSection({
 
   if (initialPeople.length === 0) {
     return (
-      <div className="md:rounded-lg border-0 md:border md:border-white/10 bg-transparent md:bg-bg-card/40 py-8 md:p-8 text-center">
+      <div className="rounded-lg border border-white/10 bg-bg-card/40 p-8 text-center">
         <p className="text-sm text-text-secondary">{t("personaNoData")}</p>
       </div>
     );
@@ -55,7 +55,7 @@ export default function PersonaExplorerSection({
 
   return (
     <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
-      <aside className="md:rounded-lg border-0 md:border md:border-white/10 bg-transparent md:bg-bg-card/40 py-3 md:p-3">
+      <aside className="rounded-lg border border-white/10 bg-bg-card/40 p-3">
         <div className="mb-2 flex items-center gap-2 px-1">
           <Users className="h-4 w-4 text-accent" />
           <h2 className="text-sm font-semibold text-text-primary">{t("personaList")}</h2>

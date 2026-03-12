@@ -7,10 +7,10 @@ import { useTranslations } from "next-intl";
 export function HomeNavigationLinks() {
   const t = useTranslations("home.ui.navLinks");
   return (
-    <div className="grid grid-cols-2 gap-3 md:gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Link
         href="/explore"
-        className="group flex flex-col items-center justify-center py-4 md:p-6 md:rounded-xl bg-transparent md:bg-card border-0 md:border md:border-white/5 md:hover:border-accent/30 md:hover:bg-accent/5 transition-all duration-300"
+        className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all duration-300"
       >
         <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent group-hover:scale-110 transition-all duration-300">
           <Users size={24} strokeWidth={1.5} />
@@ -25,7 +25,7 @@ export function HomeNavigationLinks() {
 
       <Link
         href="/scriptures"
-        className="group flex flex-col items-center justify-center py-4 md:p-6 md:rounded-xl bg-transparent md:bg-card border-0 md:border md:border-white/5 md:hover:border-accent/30 md:hover:bg-accent/5 transition-all duration-300"
+        className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all duration-300"
       >
         <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent group-hover:scale-110 transition-all duration-300">
           <BookOpen size={24} strokeWidth={1.5} />

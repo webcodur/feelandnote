@@ -97,7 +97,7 @@ function DispositionsOpposingCard({ entry, locale, color, onCardClick }: { entry
 
   return (
     <div
-      className="group/card relative flex flex-col bg-transparent md:bg-[#0a0a0b] border-0 md:border md:border-white/5 md:rounded-2xl overflow-hidden md:shadow-2xl col-span-1 min-h-[160px] sm:min-h-[180px] max-w-[520px] mx-auto"
+      className="group/card relative flex flex-col bg-[#0a0a0b] border border-white/5 rounded-2xl overflow-hidden shadow-2xl col-span-1 min-h-[160px] sm:min-h-[180px] max-w-[520px] mx-auto"
       style={{ ["--axis-color" as string]: color }}
     >
       {/* 1. 상단 포인트 바 및 띄워진 테마(축 제목) */}
@@ -258,7 +258,7 @@ export default function PersonaExtremeGrid({
       </div>
 
       {/* 2x2 그리드 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 divide-y divide-white/10 md:divide-y-0 gap-0 md:gap-5 max-w-[1080px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-[1080px] mx-auto">
         {currentEntries.map((entry) => {
           const color = AXIS_COLORS[entry.axis] ?? "#d4af37";
 
@@ -283,7 +283,7 @@ export default function PersonaExtremeGrid({
             <button
               key={entry.axis}
               onClick={() => setSelectedCard({ entry, isOpposing: false, color })}
-              className="group relative flex flex-row items-center bg-transparent md:bg-bg-card/40 hover:bg-bg-card/80 border-0 md:border md:border-white/5 hover:border-white/20 md:rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[520px] mx-auto"
+              className="group relative flex flex-row items-center bg-bg-card/40 hover:bg-bg-card/80 border border-white/5 hover:border-white/20 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[520px] mx-auto"
               style={{
                 // hover 시 축 컬러 테두리 변수 활용 (rgba로 변환 필요할 수 있으나 shadow는 커스텀 구현 확인)
                 // Tailwind에서 rgb 변수 처리용 스네이크케이스 rgba(var(...)) 지원
@@ -342,6 +342,10 @@ export default function PersonaExtremeGrid({
                         <span className="text-[8px] font-bold uppercase opacity-70">pts</span>
                       </div>
                     </div>
+                    {/* 모바일: 백분위 */}
+                    <span className="sm:hidden text-[9px] font-bold uppercase tracking-wider opacity-80 mb-1" style={{ color: `${color}cc` }}>
+                      {locale === "en" ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
+                    </span>
                   </div>
                   
                   {/* 점수 & 백분위 우측 상단 고정 (sm 이상에서만) */}
@@ -354,6 +358,9 @@ export default function PersonaExtremeGrid({
                         pts
                       </span>
                     </div>
+                    <span className="text-[10px] font-bold mt-1 uppercase tracking-wider opacity-80" style={{ color: `${color}cc` }}>
+                      {locale === "en" ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
+                    </span>
                   </div>
                 </div>
 

@@ -108,7 +108,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
           <DecorativeLabel label={t("selectProfession")} />
         </div>
         <div className="flex justify-center">
-          <div className="inline-flex flex-col items-center gap-1.5 py-3 md:p-3 max-w-2xl bg-transparent md:bg-neutral-900/80 md:backdrop-blur-md md:rounded-xl border-0 md:border md:border-white/10 md:shadow-inner">
+          <div className="inline-flex flex-col items-center gap-1.5 p-3 max-w-2xl bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
             {rows.map((row, ri) => (
               <div key={ri} className="flex justify-center gap-1.5">
                 {row.map((key) => {
@@ -192,7 +192,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
               ))}
             </ContentGrid>
           ) : (
-            <div className="flex items-center justify-center h-40 bg-transparent md:bg-bg-card md:rounded-xl border-0 md:border md:border-border/30">
+            <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
               <p className="text-text-tertiary text-sm">{te("noProfession")}</p>
             </div>
           )}

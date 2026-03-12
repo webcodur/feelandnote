@@ -45,7 +45,7 @@ export default function SectionList({ sections, isSaving, onAdd, onUpdate, onDel
       </div>
 
       {isAdding ? (
-        <div className="bg-transparent md:bg-white/[0.03] md:rounded-xl border-0 md:border md:border-white/5 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 mt-2">
+        <div className="bg-white/[0.03] rounded-xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 mt-2">
           <input
             type="text"
             value={newTitle}

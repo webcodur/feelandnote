@@ -40,7 +40,7 @@ export default async function PopularBooks() {
             href={book.link}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="group flex flex-col w-[160px] md:w-[240px] md:rounded-xl bg-transparent md:bg-white/[0.03] border-0 md:border md:border-white/5 md:hover:border-[#d4af37]/30 py-3 md:p-5 gap-2.5 md:gap-3 transition-all md:hover:bg-white/[0.06]"
+            className="group flex flex-col w-[160px] md:w-[240px] rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#d4af37]/30 p-3 md:p-5 gap-2.5 md:gap-3 transition-all hover:bg-white/[0.06]"
           >
             <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden bg-white/[0.04]">
               <Image

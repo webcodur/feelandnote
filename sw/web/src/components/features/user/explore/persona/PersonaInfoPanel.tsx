@@ -17,14 +17,14 @@ export default function PersonaInfoPanel({ person, persona, loading }: Props) {
 
   if (!person) {
     return (
-      <div className="md:rounded-lg border-0 md:border md:border-white/10 bg-transparent md:bg-bg-card/40 py-6 md:p-6 text-sm text-text-secondary">
+      <div className="rounded-lg border border-white/10 bg-bg-card/40 p-6 text-sm text-text-secondary">
         {t("personaNoSelection")}
       </div>
     );
   }
 
   return (
-    <div className="md:rounded-lg border-0 md:border md:border-white/20 bg-transparent md:bg-[#d9d9d9]/5 py-3 sm:py-4 md:p-3 md:sm:p-4">
+    <div className="rounded-lg border border-white/20 bg-[#d9d9d9]/5 p-3 sm:p-4">
       <div className="rounded border border-white/20 bg-black/25">
         <div className="flex items-center gap-3 border-b border-white/10 bg-black/30 p-3">
           <div className="h-14 w-14 overflow-hidden rounded-sm border border-white/20 bg-bg-secondary">

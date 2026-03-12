@@ -215,7 +215,7 @@ export default function Explore({
       )}
 
       {/* 다른 탭들 - 기존 컨테이너 스타일 적용 */}
-      <div className={`bg-transparent md:bg-surface md:rounded-2xl py-4 md:p-8 min-h-[400px] border-0 md:border md:border-accent-dim/10 md:shadow-inner md:shadow-black/20 ${activeTab === "celebs" ? "hidden" : ""}`}>
+      <div className={`bg-surface rounded-2xl p-4 md:p-8 min-h-[400px] border border-accent-dim/10 shadow-inner shadow-black/20 ${activeTab === "celebs" ? "hidden" : ""}`}>
 
         {/* 친구 탭 - 명판 카드 스타일 */}
         {activeTab === "friends" && (
