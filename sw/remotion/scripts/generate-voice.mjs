@@ -24,7 +24,7 @@ const FEMALE_AUDIO = { audioEncoding: 'MP3', sampleRateHertz: 44100, speakingRat
 
 // --- Section 1: 나레이터 — bio 읊기 (여성) ---
 const narratorCelebIntro =
-  '남아프리카 출신의 기업가이자 투자자. 테슬라, 스페이스X 등으로 전기차와 우주 탐사의 패러다임을 전환하고 있다.'
+  '일론 머스크. 남아프리카 출신의 기업가이자 투자자. 테슬라, 스페이스X 등으로 전기차와 우주 탐사의 패러다임을 전환하고 있다.'
 
 // --- Section 2: 셀럽 감상철학 — 인사 + 철학 (남성) ---
 const philosophy =

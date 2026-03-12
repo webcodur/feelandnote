@@ -5,18 +5,18 @@ export const revalidate = 3600
 const BASE_URL = 'https://feelandnote.com'
 
 /** Supabase REST API로 직접 fetch (supabase-js 의존 제거) */
-async function fetchCelebs(): Promise<{ slug: string; updated_at: string | null }[]> {
+async function fetchCelebs(): Promise<{ slug: string; created_at: string | null }[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) return []
 
-  const allCelebs: { slug: string; updated_at: string | null }[] = []
+  const allCelebs: { slug: string; created_at: string | null }[] = []
   const PAGE_SIZE = 1000
   let offset = 0
 
   while (true) {
     const params = new URLSearchParams({
-      select: 'slug,updated_at',
+      select: 'slug,created_at',
       profile_type: 'eq.CELEB',
       status: 'eq.active',
       slug: 'not.is.null',
@@ -112,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const celebs = await fetchCelebs()
 
   const celebEntries = celebs.map((celeb) =>
-    entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.updated_at ? new Date(celeb.updated_at) : undefined),
+    entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.created_at ? new Date(celeb.created_at) : undefined),
   )
 
   return [...staticEntries, ...celebEntries]

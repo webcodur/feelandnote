@@ -5,8 +5,8 @@ export const elonMusk: BookRecommendScript = {
     serviceIntro: '',
     serviceIntroDuration: 0,
     celebIntro:
-      '남아프리카 출신의 기업가이자 투자자. 테슬라, 스페이스X 등으로 전기차와 우주 탐사의 패러다임을 전환하고 있다.',
-    celebIntroDuration: 9.20,
+      '일론 머스크. 남아프리카 출신의 기업가이자 투자자. 테슬라, 스페이스X 등으로 전기차와 우주 탐사의 패러다임을 전환하고 있다.',
+    celebIntroDuration: 10.55,
     bridge: '이제 그의 서재를 열어보겠습니다.',
     bridgeDuration: 2.43,
     outro:
