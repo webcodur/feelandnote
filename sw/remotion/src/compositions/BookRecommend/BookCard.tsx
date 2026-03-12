@@ -23,7 +23,7 @@ export const BookCard: React.FC<Props> = ({ book, host, index, totalFrames, narr
   const celebFrames = totalFrames - narratorFrames
 
   // --- 공통 ---
-  const fadeOut = interpolate(frame, [totalFrames - 15, totalFrames], [1, 0], {
+  const fadeOut = interpolate(frame, [totalFrames - 30, totalFrames], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   })

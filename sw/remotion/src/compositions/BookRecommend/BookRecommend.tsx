@@ -1,3 +1,4 @@
+import React from 'react'
 import { AbsoluteFill, Audio, interpolate, Sequence, useCurrentFrame } from 'remotion'
 import type { BookRecommendScript } from './types'
 import { BrandIntro } from './BrandIntro'
@@ -25,6 +26,8 @@ const CELEB_VISUAL_DELAY = 75
 
 /** 제목+저자 → 설명 사이 무음 갭 */
 const TITLE_DESC_GAP = 20
+/** 책 사이 전환 프레임 */
+const BOOK_GAP = 60
 
 const narratorPhaseFrames = (b: { titleDuration: number; narratorDuration: number }) =>
   toFrames(b.titleDuration) + TITLE_DESC_GAP + toFrames(b.narratorDuration)
@@ -38,8 +41,9 @@ export const calcTotalFrames = (script: BookRecommendScript) => {
   const philosophy = toFrames(host.voiceDuration)
   const bridge = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 105
   const booksTotal = books.reduce((sum, b) => sum + bookTotalFrames(b), 0)
+  const bookGaps = Math.max(0, books.length - 1) * BOOK_GAP
   const outro = narrator.outroDuration > 0 ? toFrames(narrator.outroDuration) : 120
-  return BRAND_FRAMES + celebIntro + philosophy + bridge + booksTotal + outro
+  return BRAND_FRAMES + celebIntro + philosophy + bridge + booksTotal + bookGaps + outro
 }
 
 export const BookRecommend: React.FC<Props> = ({ script }) => {
@@ -69,9 +73,10 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
   }))
 
   const bookStarts: number[] = []
-  for (const bt of bookTimings) {
+  for (let bi = 0; bi < bookTimings.length; bi++) {
+    if (bi > 0) cursor += BOOK_GAP
     bookStarts.push(cursor)
-    cursor += bt.total
+    cursor += bookTimings[bi].total
   }
 
   const outroStart = cursor
@@ -207,31 +212,73 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
       {/* Sections 3-5: 도서 소개 */}
       {books.map((book, i) => {
         const bt = bookTimings[i]
+        const gapStart = i > 0 ? bookStarts[i] - BOOK_GAP : -1
         return (
-          <Sequence key={i} from={bookStarts[i]} durationInFrames={bt.total}>
-            <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />
-            {/* 나레이터: 제목+저자 */}
-            <Sequence from={0} durationInFrames={bt.titleFrames}>
-              <Audio src={sf(`voice/book-${i}-title.mp3`)} />
+          <React.Fragment key={i}>
+            {/* 책 사이 전환 (2번째부터) */}
+            {i > 0 && (
+              <Sequence from={gapStart} durationInFrames={BOOK_GAP}>
+                <Audio src={sf('sfx/page-turn.wav')} volume={0.4} />
+                {(() => {
+                  const gapLocal = frame - gapStart
+                  const gapOpacity =
+                    gapLocal >= 0 && gapLocal < BOOK_GAP
+                      ? interpolate(gapLocal, [0, 20, BOOK_GAP - 10, BOOK_GAP], [0, 0.6, 0.6, 0], {
+                          extrapolateLeft: 'clamp',
+                          extrapolateRight: 'clamp',
+                        })
+                      : 0
+                  return gapOpacity > 0 ? (
+                    <AbsoluteFill
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        opacity: gapOpacity,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: interpolate(gapLocal, [5, 30], [0, 300], {
+                            extrapolateLeft: 'clamp',
+                            extrapolateRight: 'clamp',
+                          }),
+                          height: 1,
+                          backgroundColor: '#c8a46e',
+                          opacity: 0.4,
+                        }}
+                      />
+                    </AbsoluteFill>
+                  ) : null
+                })()}
+              </Sequence>
+            )}
+            {/* 도서 본편 */}
+            <Sequence from={bookStarts[i]} durationInFrames={bt.total}>
+              {i === 0 && <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />}
+              {/* 나레이터: 제목+저자 */}
+              <Sequence from={0} durationInFrames={bt.titleFrames}>
+                <Audio src={sf(`voice/book-${i}-title.mp3`)} />
+              </Sequence>
+              {/* 나레이터: 설명 (갭 후) */}
+              <Sequence from={bt.titleFrames + TITLE_DESC_GAP} durationInFrames={bt.descFrames}>
+                <Audio src={sf(`voice/book-${i}-desc.mp3`)} />
+              </Sequence>
+              {/* 셀럽 감상 응답 */}
+              <Sequence from={bt.narratorFrames} durationInFrames={bt.narrationFrames}>
+                <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
+                <Audio src={sf(`voice/book-${i}-narr.mp3`)} />
+              </Sequence>
+              <BookCard
+                book={book}
+                host={host}
+                index={i}
+                totalFrames={bt.total}
+                narratorFrames={bt.narratorFrames}
+                totalBooks={books.length}
+              />
             </Sequence>
-            {/* 나레이터: 설명 (갭 후) */}
-            <Sequence from={bt.titleFrames + TITLE_DESC_GAP} durationInFrames={bt.descFrames}>
-              <Audio src={sf(`voice/book-${i}-desc.mp3`)} />
-            </Sequence>
-            {/* 셀럽 감상 응답 */}
-            <Sequence from={bt.narratorFrames} durationInFrames={bt.narrationFrames}>
-              <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
-              <Audio src={sf(`voice/book-${i}-narr.mp3`)} />
-            </Sequence>
-            <BookCard
-              book={book}
-              host={host}
-              index={i}
-              totalFrames={bt.total}
-              narratorFrames={bt.narratorFrames}
-              totalBooks={books.length}
-            />
-          </Sequence>
+          </React.Fragment>
         )
       })}
 

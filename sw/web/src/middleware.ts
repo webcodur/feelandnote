@@ -11,7 +11,15 @@ const protectedPaths: string[] = [];
 // 인증된 사용자가 접근하면 안 되는 경로
 const authPaths = ['/login', '/signup'];
 
+// 미들웨어를 건너뛸 SEO/메타데이터 경로
+const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml']
+
 export async function middleware(request: NextRequest) {
+  // 0) SEO 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
+  if (SEO_PATHS.includes(request.nextUrl.pathname)) {
+    return NextResponse.next()
+  }
+
   // 1) next-intl locale 처리
   const intlResponse = intlMiddleware(request);
 
@@ -67,6 +75,6 @@ export const config = {
      * - auth/callback (OAuth 콜백)
      * - api/ (API 라우트)
      */
-    '/((?!_next/static|_next/image|favicon.ico|auth/callback|api/|assets/|sitemap|robots\\.txt|feed\\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3|mp4|ogg|wav|woff2?|ttf|eot|ico|json|xml|txt|webmanifest)$).*)'
+    '/((?!_next/static|_next/image|favicon.ico|auth/callback|api/|assets/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3|mp4|ogg|wav|woff2?|ttf|eot|ico|json|xml|txt|webmanifest)$).*)'
   ]
 };
