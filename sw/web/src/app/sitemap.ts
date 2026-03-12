@@ -1,8 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 3600 // 1시간 캐시
+export const revalidate = 3600 // 1시간 ISR 캐시
 
 const BASE_URL = 'https://feelandnote.com'
 
