@@ -74,18 +74,43 @@ const staticEntries: MetadataRoute.Sitemap = [
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createRuntimeClient()
-  const { data: celebs } = await supabase
-    .from('profiles')
-    .select('slug, updated_at')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .not('slug', 'is', null)
-    .order('created_at', { ascending: true })
+  let celebEntries: MetadataRoute.Sitemap = []
 
-  const celebEntries = (celebs ?? []).map((celeb) =>
-    entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.updated_at ? new Date(celeb.updated_at) : undefined),
-  )
+  try {
+    const supabase = createRuntimeClient()
+
+    // Supabase JS 기본 제한 1000행 → 전체 조회를 위해 페이지네이션
+    const PAGE_SIZE = 1000
+    const allCelebs: { slug: string; updated_at: string | null }[] = []
+    let offset = 0
+    let hasMore = true
+
+    while (hasMore) {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('slug, updated_at')
+        .eq('profile_type', 'CELEB')
+        .eq('status', 'active')
+        .not('slug', 'is', null)
+        .order('created_at', { ascending: true })
+        .range(offset, offset + PAGE_SIZE - 1)
+
+      if (error) {
+        console.error('[sitemap] Supabase query failed:', error.message)
+        break
+      }
+
+      allCelebs.push(...(data ?? []))
+      hasMore = (data?.length ?? 0) === PAGE_SIZE
+      offset += PAGE_SIZE
+    }
+
+    celebEntries = allCelebs.map((celeb) =>
+      entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.updated_at ? new Date(celeb.updated_at) : undefined),
+    )
+  } catch (e) {
+    console.error('[sitemap] Failed to fetch celebs:', e)
+  }
 
   return [...staticEntries, ...celebEntries]
 }
