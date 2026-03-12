@@ -1,6 +1,7 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { CelebHost } from './types'
 import { KoreanTypewriter } from './KoreanTypewriter'
+import { FONT } from './fonts'
 
 type Props = {
   host: CelebHost
@@ -65,7 +66,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
         }}
       >
         {/* "오늘의 인물" 라벨 — 타이핑 */}
-        <div style={{ opacity: labelOpacity }}>
+        <div style={{ opacity: labelOpacity, fontFamily: FONT.sans }}>
           <KoreanTypewriter
             text="오늘의 인물"
             startFrame={5}
@@ -103,6 +104,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             opacity: nameOpacity,
             transform: `translateY(${nameY}px)`,
             textAlign: 'center',
+            fontFamily: FONT.sans,
           }}
         >
           <KoreanTypewriter
@@ -113,14 +115,14 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             fontSize={56}
             style={{ fontWeight: 700 }}
           />
-          <div style={{ color: '#777', fontSize: 20, fontFamily: 'system-ui', marginTop: 4 }}>
+          <div style={{ color: '#777', fontSize: 20, fontFamily: FONT.cormorant, marginTop: 4 }}>
             {host.nickname_en}
           </div>
           <div
             style={{
               color: '#c8a46e',
               fontSize: 16,
-              fontFamily: 'system-ui',
+              fontFamily: FONT.sans,
               letterSpacing: 3,
               marginTop: 8,
               opacity: 0.8,
@@ -150,14 +152,14 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                 color: '#c8a46e',
                 fontSize: 14,
                 fontWeight: 600,
-                fontFamily: 'system-ui',
+                fontFamily: FONT.cinzel,
                 letterSpacing: 4,
                 marginBottom: 14,
               }}
             >
               VIEWING PHILOSOPHY
             </div>
-            <div style={{ borderLeft: '3px solid rgba(200,164,110,0.4)', paddingLeft: 24, textAlign: 'left' }}>
+            <div style={{ borderLeft: '3px solid rgba(200,164,110,0.4)', paddingLeft: 24, textAlign: 'left', fontFamily: FONT.serif }}>
               <KoreanTypewriter
                 text={host.philosophy}
                 startFrame={celebIntroFrames + 20}
@@ -189,7 +191,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             style={{
               color: '#e8e0d0',
               fontSize: 26,
-              fontFamily: 'system-ui',
+              fontFamily: FONT.sans,
               lineHeight: 1.7,
             }}
           >

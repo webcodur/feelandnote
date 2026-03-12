@@ -60,7 +60,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
   const displayNickname = isEditing ? nickname : profile.nickname;
 
   return (
-    <ClassicalBox as="section" className="p-4 sm:p-6 bg-bg-card/40 border-accent/20 shadow-xl">
+    <ClassicalBox as="section" className="p-0 md:p-6 bg-bg-card/40 border-accent/20 shadow-xl">
       <div className="flex justify-center mb-4 relative">
         <DecorativeLabel label={t("label")} />
       </div>

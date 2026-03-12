@@ -264,7 +264,7 @@ export default function CelebFeed({
     return (
       <section>
         {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
-        <div className="grid grid-cols-1 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 gap-0 divide-y divide-white/10 md:divide-y-0 md:gap-4">
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
           <ReviewCardSkeleton />
@@ -285,7 +285,7 @@ export default function CelebFeed({
   return (
     <section>
       {!hideFilter && <FeedHeader currentType={contentType} onTypeChange={handleTypeChange} contentTypeCounts={contentTypeCounts} />}
-      <div className="grid grid-cols-1 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 gap-0 divide-y divide-white/10 md:divide-y-0 md:gap-4">
         {reviews.map((review) => (
           <CelebFeedCard key={review.id} review={review} initialSaved={savedContentIds?.has(review.content.id) ?? false} />
         ))}

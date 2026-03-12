@@ -282,7 +282,7 @@ function CatalogSection({ achievements, showcaseCodes, isOwner, isUpdating, onAd
 
       {/* 점수 요약 & 탭 */}
       <div className="flex flex-col gap-4">
-        <InnerBox className="p-5 flex flex-col sm:flex-row justify-between items-center gap-4 bg-[#1a1a1a] border-[#333]">
+        <InnerBox className="p-0 md:p-5 flex flex-col sm:flex-row justify-between items-center gap-4 md:bg-[#1a1a1a] md:border-[#333]">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-[#d4af37]/10 rounded-full text-[#d4af37]">
               <Trophy size={24} />

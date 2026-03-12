@@ -58,7 +58,7 @@ function PasswordChangeCard() {
   };
 
   return (
-    <ClassicalBox className="p-6 md:p-8">
+    <ClassicalBox className="p-0 md:p-8">
       <div className="flex justify-center mb-6">
         <DecorativeLabel label={t("passwordChange")} />
       </div>
@@ -128,7 +128,7 @@ function DangerZoneCard() {
   };
 
   return (
-    <ClassicalBox variant="danger" className="p-6 md:p-8">
+    <ClassicalBox variant="danger" className="p-0 md:p-8">
       <div className="flex justify-center mb-6">
         <DecorativeLabel label={t("dangerZone")} className="[&_span]:text-red-400 [&_div]:to-red-400" />
       </div>

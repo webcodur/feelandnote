@@ -81,7 +81,7 @@ export default function MyNotePanel({
   }
 
   return (
-    <div className="flex flex-col w-full bg-transparent p-6">
+    <div className="flex flex-col w-full bg-transparent py-6 md:p-6">
       <div className="w-full">
         <div
           className="animate-in fade-in slide-in-from-bottom-2 duration-300 relative flex flex-col min-h-[400px] cursor-text"

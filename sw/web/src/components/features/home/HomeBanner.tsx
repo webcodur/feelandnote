@@ -68,7 +68,7 @@ export default function HomeBanner() {
       </div>
 
       {/* --- Main Content --- */}
-      <div className="relative z-20 flex flex-col items-center text-center px-3 md:px-4 w-full max-w-4xl mx-auto">
+      <div className="relative z-20 flex flex-col items-center text-center px-1 md:px-4 w-full max-w-4xl mx-auto">
 
         {/* Tagline */}
         <span

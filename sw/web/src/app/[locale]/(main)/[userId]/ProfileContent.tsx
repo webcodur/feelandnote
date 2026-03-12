@@ -49,7 +49,7 @@ export default function ProfileContent({
       {/* 2. Consumption Philosophy (셀럽 전용) */}
       {profile.profile_type === "CELEB" && profile.consumption_philosophy && (
         <section className="animate-fade-in" style={{ animationDelay: "0.05s" }}>
-          <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+          <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
               <DecorativeLabel label={t("consumptionPhilosophy")} />
             </div>
@@ -83,7 +83,7 @@ export default function ProfileContent({
       {/* 5. Image Gallery (셀럽 전용) */}
       {profile.profile_type === "CELEB" && (
         <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
-          <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+          <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
               <DecorativeLabel label={t("imageSearch")} />
             </div>
@@ -94,7 +94,7 @@ export default function ProfileContent({
 
       {/* 5. Guestbook */}
       <section className="animate-fade-in" style={{ animationDelay: "0.125s" }}>
-        <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+        <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
           <div className="flex justify-center mb-6 sm:mb-8">
             <DecorativeLabel label={t("guestbook")} />
           </div>

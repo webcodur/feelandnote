@@ -114,16 +114,16 @@ export default function EraPreview({ eras }: EraPreviewProps) {
           <Link
             key={era.era}
             href={`/scriptures/era?tab=${era.era}`}
-            className={`group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.accentBorder} transition-all duration-500 flex flex-col`}
+            className={`group relative overflow-hidden md:rounded-2xl bg-transparent md:bg-[#111113]/90 md:backdrop-blur-xl border-0 md:border md:border-white/[0.06] ${theme.accentBorder} transition-all duration-500 flex flex-col`}
           >
             {/* ── 상단 악센트 바 ── */}
-            <div className={`h-[2px] w-full bg-gradient-to-r ${theme.topBar} opacity-70 group-hover:opacity-100 transition-opacity duration-700`} />
+            <div className={`hidden md:block h-[2px] w-full bg-gradient-to-r ${theme.topBar} opacity-70 group-hover:opacity-100 transition-opacity duration-700`} />
 
             {/* ── 배경 글로우 ── */}
             <div className={`absolute inset-0 bg-gradient-to-b ${theme.glowFrom} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
 
             {/* ── 콘텐츠 영역 ── */}
-            <div className="relative z-10 p-5 md:p-6 flex flex-col gap-3 flex-1">
+            <div className="relative z-10 py-5 md:p-6 flex flex-col gap-3 flex-1">
               {/* 아이콘 + 라벨 */}
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl ${theme.accentBg} ${theme.iconHoverBg} flex items-center justify-center transition-colors duration-500`}>

@@ -48,7 +48,7 @@ export default function AllReviewsSection({
   const isEmpty = reviews.length === 0;
 
   return (
-    <div className="space-y-3">
+    <div className="divide-y divide-white/10 md:divide-y-0 md:space-y-3">
       {isEmpty && (
         <div className="py-8 text-center text-text-secondary text-sm">
           {t("noReviews")}

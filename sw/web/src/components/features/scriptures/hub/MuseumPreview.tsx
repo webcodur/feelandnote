@@ -54,13 +54,13 @@ export default function MuseumPreview() {
   return (
     <div className="space-y-6">
       {/* 2x2 카테고리 그리드 */}
-      <div className="flex flex-col items-center gap-3 sm:gap-4">
+      <div className="flex flex-col items-center divide-y divide-white/10 md:divide-y-0 gap-0 md:gap-4">
         {categories.map(({ key, subs }) => {
           const Icon = MEDIA_ICONS[key];
           return (
             <div
               key={key}
-              className="w-full max-w-[840px] rounded-2xl border border-white/[0.06] bg-[#161616]/80 overflow-hidden"
+              className="w-full max-w-[840px] md:rounded-2xl border-0 md:border md:border-white/[0.06] bg-transparent md:bg-[#161616]/80 overflow-hidden"
             >
               {/* 카테고리 헤더 */}
               <div className="flex items-center gap-2.5 px-4 pt-4 pb-2">

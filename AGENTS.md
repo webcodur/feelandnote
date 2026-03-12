@@ -62,6 +62,7 @@ pnpm dev:remotion # Remotion 스튜디오
 | `docs/project/external-services.md` | Supabase, R2, 크론잡 | 외부 서비스 연동 |
 | `docs/project/i18n.md` | 다국어화 계획, 진행 현황, 기술 참조 | i18n 작업 |
 | `docs/project/monetization.md` | 수익화 방안 탐색 (AdSense 등) | 수익화 전략 수립 |
+| `docs/project/seo.md` | SEO 설정 — 사이트맵, robots, 검색엔진 등록, MCP | SEO·사이트맵·검색콘솔 작업 |
 | `docs/en-book-data-quality.md` | BOOK en 데이터 진단·수정 프로세스·API 사양·이력 | en 데이터 재검증 작업 |
 | `docs/suikoden-sim/` | 천도 게임 기획서 (10개 문서) | 게임 개발 |
 

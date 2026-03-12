@@ -129,23 +129,28 @@ export default function SpotlightIntroView({
 
                 <div className="flex flex-col items-start w-full relative z-10 gap-2 mb-4 md:mb-6">
                   <div className="flex justify-between items-start w-full gap-4">
-                    <span 
+                    <span
                       className={cn(
                         "font-sans font-bold tracking-wide text-lg md:text-xl line-clamp-2 drop-shadow-sm transition-colors duration-300",
                         isUpcoming ? "text-white/70" : "text-[color:var(--text-base)] group-hover:text-[color:var(--text-hover)]"
                       )}
                     >
                       {tagName}
+                      {/* 모바일: 제목에 인원수 병기 */}
+                      {!isUpcoming && celebCount > 0 && (
+                        <span className="md:hidden text-white/40 font-normal text-base">({celebCount})</span>
+                      )}
                     </span>
                     {isUpcoming ? (
                       <Lock size={16} className="text-text-tertiary/60 flex-shrink-0 mt-1" />
                     ) : (
-                      <div className="flex -space-x-3 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1">
+                      /* 데스크탑만 우측 상단 아바타 */
+                      <div className="hidden md:flex -space-x-3 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1">
                         {displayCelebs.map((celeb, i) => (
-                          <div 
-                            key={celeb.id} 
+                          <div
+                            key={celeb.id}
                             className="relative z-10 transition-transform duration-500"
-                            style={{ 
+                            style={{
                                 zIndex: 10 - i,
                                 transform: `translateY(${i * 2}px)`
                             }}
@@ -161,6 +166,27 @@ export default function SpotlightIntroView({
                       </div>
                     )}
                   </div>
+
+                  {/* 모바일: 설명 대신 아바타 나열 */}
+                  {!isUpcoming && displayCelebs.length > 0 && (
+                    <div className="flex -space-x-2 md:hidden mt-1">
+                      {(tag.celebs ?? []).slice(0, 7).map((celeb, i) => (
+                        <div
+                          key={celeb.id}
+                          className="relative"
+                          style={{ zIndex: 10 - i }}
+                        >
+                          <Avatar
+                            url={celeb.avatar_url}
+                            name={celeb.nickname}
+                            size="sm"
+                            className="bg-[#0a0a0a] ring-2 ring-black/80 shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   {!isUpcoming && tagDesc && (
                     <p className="text-[13px] md:text-sm line-clamp-2 mt-1 transition-colors duration-300 font-medium text-white/50 group-hover:text-[color:var(--text-base)]">
                       {tagDesc}
@@ -182,7 +208,8 @@ export default function SpotlightIntroView({
                       Soon
                     </span>
                   ) : (
-                    <span className="text-xs md:text-sm font-semibold text-white/40 group-hover:text-[color:var(--tag-color)] transition-colors duration-300">
+                    /* 데스크탑만 Figures 표시 */
+                    <span className="hidden md:inline text-sm font-semibold text-white/40 group-hover:text-[color:var(--tag-color)] transition-colors duration-300">
                       {celebCount} Figures
                     </span>
                   )}

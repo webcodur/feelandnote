@@ -52,7 +52,7 @@ export default function ExploreBanner() {
   return (
     <>
       {/* 모바일 배너 */}
-      <div className="md:hidden relative py-6 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-6">
+      <div className="md:hidden relative py-4 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
         <div className="flex items-center gap-3 opacity-40 mb-3">
           <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#d4af37]" />
           <div className="w-1.5 h-1.5 rotate-45 bg-[#d4af37]" />

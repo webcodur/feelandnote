@@ -3,6 +3,7 @@ import type { BookRecommendScript } from './types'
 import { BrandIntro } from './BrandIntro'
 import { HostIntro } from './HostIntro'
 import { BookCard } from './BookCard'
+import { FONT } from './fonts'
 
 type Props = {
   script: BookRecommendScript
@@ -22,14 +23,20 @@ const BRAND_FRAMES = 120
 /** "오늘의 인물 + 이름" 타이핑 완료 후 나레이터 음성 시작까지 딜레이 */
 const CELEB_VISUAL_DELAY = 75
 
-const bookTotalFrames = (b: { narratorDuration: number; narrationDuration: number }) =>
-  toFrames(b.narratorDuration) + toFrames(b.narrationDuration)
+/** 제목+저자 → 설명 사이 무음 갭 */
+const TITLE_DESC_GAP = 20
+
+const narratorPhaseFrames = (b: { titleDuration: number; narratorDuration: number }) =>
+  toFrames(b.titleDuration) + TITLE_DESC_GAP + toFrames(b.narratorDuration)
+
+const bookTotalFrames = (b: { titleDuration: number; narratorDuration: number; narrationDuration: number }) =>
+  narratorPhaseFrames(b) + toFrames(b.narrationDuration)
 
 export const calcTotalFrames = (script: BookRecommendScript) => {
   const { narrator, host, books } = script
   const celebIntro = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : 150)
   const philosophy = toFrames(host.voiceDuration)
-  const bridge = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 75
+  const bridge = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 105
   const booksTotal = books.reduce((sum, b) => sum + bookTotalFrames(b), 0)
   const outro = narrator.outroDuration > 0 ? toFrames(narrator.outroDuration) : 120
   return BRAND_FRAMES + celebIntro + philosophy + bridge + booksTotal + outro
@@ -43,7 +50,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
   const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : 150)
   const philosophyFrames = toFrames(host.voiceDuration)
   const hostIntroFrames = celebIntroFrames + philosophyFrames
-  const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 75
+  const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 105
 
   let cursor = 0
   const brandStart = cursor
@@ -54,7 +61,9 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
   cursor += bridgeFrames
 
   const bookTimings = books.map((b) => ({
-    narratorFrames: toFrames(b.narratorDuration),
+    titleFrames: toFrames(b.titleDuration),
+    descFrames: toFrames(b.narratorDuration),
+    narratorFrames: narratorPhaseFrames(b),
     narrationFrames: toFrames(b.narrationDuration),
     total: bookTotalFrames(b),
   }))
@@ -137,12 +146,12 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
         />
       </Sequence>
 
-      {/* 브릿지: 나레이터 서재 이동 안내 */}
+      {/* 브릿지: SFX + 시각 전환 */}
       <Sequence from={bridgeStart} durationInFrames={bridgeFrames}>
-        <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />
-        {narrator.bridgeDuration > 0 && (
-          <Audio src={sf('voice/narrator-bridge.mp3')} />
-        )}
+        <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />
+        <Sequence from={15} durationInFrames={bridgeFrames - 15}>
+          <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
+        </Sequence>
       </Sequence>
       {bridgeOpacity > 0 && (
         <AbsoluteFill
@@ -152,12 +161,12 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
             alignItems: 'center',
             justifyContent: 'center',
             opacity: bridgeOpacity,
-            gap: 16,
+            gap: 20,
           }}
         >
           <div
             style={{
-              width: interpolate(bridgeLocal, [5, 25], [0, 400], {
+              width: interpolate(bridgeLocal, [5, 40], [0, 600], {
                 extrapolateLeft: 'clamp',
                 extrapolateRight: 'clamp',
               }),
@@ -168,18 +177,30 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
           />
           <div
             style={{
-              color: '#e8e0d0',
-              fontSize: 24,
-              fontFamily: 'system-ui',
-              letterSpacing: 2,
-              opacity: interpolate(bridgeLocal, [10, 25], [0, 1], {
+              color: '#c8a46e',
+              fontSize: 18,
+              fontFamily: FONT.cinzel,
+              letterSpacing: 6,
+              fontWeight: 600,
+              opacity: interpolate(bridgeLocal, [15, 35, bridgeFrames - 25, bridgeFrames - 10], [0, 0.8, 0.8, 0], {
                 extrapolateLeft: 'clamp',
                 extrapolateRight: 'clamp',
               }),
             }}
           >
-            {narrator.bridge}
+            BOOK SHELF
           </div>
+          <div
+            style={{
+              width: interpolate(bridgeLocal, [5, 40], [0, 600], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              }),
+              height: 1,
+              backgroundColor: '#c8a46e',
+              opacity: 0.5,
+            }}
+          />
         </AbsoluteFill>
       )}
 
@@ -189,8 +210,12 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
         return (
           <Sequence key={i} from={bookStarts[i]} durationInFrames={bt.total}>
             <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />
-            {/* 나레이터 도서 소개 */}
-            <Sequence from={0} durationInFrames={bt.narratorFrames}>
+            {/* 나레이터: 제목+저자 */}
+            <Sequence from={0} durationInFrames={bt.titleFrames}>
+              <Audio src={sf(`voice/book-${i}-title.mp3`)} />
+            </Sequence>
+            {/* 나레이터: 설명 (갭 후) */}
+            <Sequence from={bt.titleFrames + TITLE_DESC_GAP} durationInFrames={bt.descFrames}>
               <Audio src={sf(`voice/book-${i}-desc.mp3`)} />
             </Sequence>
             {/* 셀럽 감상 응답 */}
@@ -204,6 +229,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
               index={i}
               totalFrames={bt.total}
               narratorFrames={bt.narratorFrames}
+              totalBooks={books.length}
             />
           </Sequence>
         )
@@ -232,7 +258,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
               style={{
                 color: '#ccc',
                 fontSize: 26,
-                fontFamily: 'system-ui',
+                fontFamily: FONT.sans,
                 textAlign: 'center',
                 maxWidth: 900,
                 lineHeight: 1.7,
@@ -246,7 +272,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
                 color: '#c8a46e',
                 fontSize: 42,
                 fontWeight: 700,
-                fontFamily: 'system-ui',
+                fontFamily: FONT.brand,
                 letterSpacing: 6,
               }}
             >
@@ -261,7 +287,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
                 margin: '4px 0',
               }}
             />
-            <div style={{ color: '#666', fontSize: 20, fontFamily: 'system-ui', letterSpacing: 4 }}>
+            <div style={{ color: '#666', fontSize: 20, fontFamily: FONT.cinzel, letterSpacing: 4 }}>
               feelandnote.com
             </div>
           </AbsoluteFill>

@@ -302,7 +302,7 @@ export default function PersonaSection({
         </div>
       </div>
 
-      {/* 내면·외면 덕목 */}
+      {/* 내면·외적 덕목 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 pt-6 border-t border-white/5">
         <div className="space-y-2">
           <SectionHeader title={t("innerVirtue")} />

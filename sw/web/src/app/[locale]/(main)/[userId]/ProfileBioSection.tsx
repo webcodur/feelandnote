@@ -41,7 +41,7 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
   };
 
   return (
-    <ClassicalBox as="section" className="p-3 sm:p-5 md:p-10 md:pt-8 bg-bg-card/40 border-accent/20 shadow-2xl">
+    <ClassicalBox as="section" className="p-0 md:p-10 md:pt-8 bg-bg-card/40 border-accent/20 shadow-2xl">
       {/* 헤더 */}
       <div className="flex justify-center mb-6 sm:mb-10">
         <DecorativeLabel label={t("label")} />

@@ -1,4 +1,5 @@
 import { Composition } from "remotion";
+import "./style.css";
 import { TextReveal } from "./compositions/TextReveal";
 import { ImageSlideshow } from "./compositions/ImageSlideshow";
 import {

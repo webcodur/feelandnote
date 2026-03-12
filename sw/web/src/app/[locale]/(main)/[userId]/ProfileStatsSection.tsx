@@ -45,7 +45,7 @@ interface StatCardProps {
 
 function StatCard({ icon: Icon, value, label, color }: StatCardProps) {
   return (
-    <InnerBox hover={false} className="p-4 text-center">
+    <InnerBox hover={false} className="p-0 md:p-4 text-center">
       <Icon size={20} className={`mx-auto mb-2 ${color}`} />
       <div className="text-2xl font-bold font-serif">{value}</div>
       <div className="text-xs text-text-secondary">{label}</div>
@@ -60,7 +60,7 @@ function CategoryBreakdown({ data }: { data: DetailedStats["categoryBreakdown"] 
 
   if (data.length === 0) {
     return (
-      <InnerBox hover={false} className="p-6">
+      <InnerBox hover={false} className="p-0 md:p-6">
         <h3 className="text-sm font-bold mb-2 font-serif">{t("categoryStatus")}</h3>
         <div className="text-center py-4 text-text-secondary text-xs">{t("noData")}</div>
       </InnerBox>
@@ -70,7 +70,7 @@ function CategoryBreakdown({ data }: { data: DetailedStats["categoryBreakdown"] 
   const maxTotal = Math.max(...data.map((c) => c.finished + c.want));
 
   return (
-    <InnerBox hover={false} className="p-6">
+    <InnerBox hover={false} className="p-0 md:p-6">
       <h3 className="text-sm font-bold mb-4 font-serif">{t("categoryStatus")}</h3>
       <div className="space-y-3">
         {data.map((cat) => {
@@ -122,7 +122,7 @@ function MonthlyTrend({ data }: { data: DetailedStats["monthlyTrend"] }) {
   const maxCount = Math.max(...data.map((d) => d.count), 1);
 
   return (
-    <InnerBox hover={false} className="p-6">
+    <InnerBox hover={false} className="p-0 md:p-6">
       <h3 className="text-sm font-bold mb-4 font-serif">{t("monthlyActivity")}</h3>
       <div className="space-y-2">
         {data.map((item) => {
@@ -154,7 +154,7 @@ function RatingDistribution({ stats }: { stats: DetailedStats["ratingStats"] }) 
   const maxDist = Math.max(...stats.distribution, 1);
 
   return (
-    <InnerBox hover={false} className="p-6">
+    <InnerBox hover={false} className="p-0 md:p-6">
       <h3 className="text-sm font-bold mb-4 font-serif">{t("ratingDistribution")}</h3>
       <div className="space-y-2">
         {[5, 4, 3, 2, 1].map((score) => {

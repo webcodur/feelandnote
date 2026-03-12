@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getLocale } from 'next-intl/server'
 
 export interface CelebSearchResult {
   id: string
@@ -32,17 +33,19 @@ export async function searchCelebs({
     return { items: [], total: 0, hasMore: false }
   }
 
+  const locale = await getLocale()
+  const isEn = locale === 'en'
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
   const { data, count, error } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, avatar_url, profession, title', { count: 'exact' })
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
-    .ilike('nickname', `%${query}%`)
+    .or(`nickname.ilike.%${query}%,nickname_en.ilike.%${query}%`)
     .range(offset, offset + limit - 1)
-    .order('nickname', { ascending: true })
+    .order(isEn ? 'nickname_en' : 'nickname', { ascending: true, nullsFirst: false })
 
   if (error) {
     console.error('셀럽 검색 에러:', error)
@@ -55,10 +58,10 @@ export async function searchCelebs({
     items: (data || []).map(row => ({
       id: row.id,
       slug: row.slug,
-      nickname: row.nickname || '',
+      nickname: isEn ? (row.nickname_en || row.nickname || '') : (row.nickname || ''),
       avatar_url: row.avatar_url,
       profession: row.profession,
-      title: row.title,
+      title: isEn ? (row.title_en || row.title) : row.title,
     })),
     total,
     hasMore: offset + limit < total,

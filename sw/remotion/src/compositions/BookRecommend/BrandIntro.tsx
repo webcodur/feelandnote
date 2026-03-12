@@ -1,4 +1,5 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
+import { FONT } from './fonts'
 
 type Props = {
   durationFrames: number
@@ -42,7 +43,7 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
           color: '#c8a46e',
           fontSize: 52,
           fontWeight: 700,
-          fontFamily: 'system-ui',
+          fontFamily: FONT.brand,
           letterSpacing: 8,
         }}
       >
@@ -55,7 +56,7 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
           transform: `translateY(${tagY}px)`,
           color: '#888',
           fontSize: 20,
-          fontFamily: 'system-ui',
+          fontFamily: FONT.serif,
           letterSpacing: 6,
         }}
       >

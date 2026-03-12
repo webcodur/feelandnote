@@ -13,14 +13,14 @@ export default function AcademyPreview({ isSignedIn }: AcademyPreviewProps) {
 
   return (
     <Link href="/scriptures/academy" className="block w-full group">
-      <div className="relative overflow-hidden rounded-3xl bg-neutral-900 border border-white/10 hover:border-blue-500/40 transition-all duration-700 shadow-2xl">
+      <div className="relative overflow-hidden md:rounded-3xl bg-transparent md:bg-neutral-900 border-0 md:border md:border-white/10 hover:border-blue-500/40 transition-all duration-700 md:shadow-2xl">
         {/* 배경 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/80 via-neutral-900 to-[#0a1128] z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/80 via-neutral-900 to-[#0a1128] z-0 pointer-events-none hidden md:block" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_60%)] opacity-50 group-hover:opacity-100 transition-opacity duration-1000 z-0 pointer-events-none" />
         <div className="absolute left-0 top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10" />
         <div className="absolute inset-0 opacity-[0.03] bg-[url('/noise.png')] mix-blend-overlay z-0 pointer-events-none" />
 
-        <div className="relative z-10 p-8 sm:p-12 flex flex-col items-center text-center space-y-6">
+        <div className="relative z-10 py-8 md:p-8 sm:p-12 flex flex-col items-center text-center space-y-6">
           {/* 아이콘 */}
           <div className="p-5 rounded-2xl bg-blue-500/10 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-700 shadow-[0_0_40px_rgba(59,130,246,0.2)] group-hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] backdrop-blur-sm border border-blue-500/20">
             <GraduationCap size={36} strokeWidth={1.5} />

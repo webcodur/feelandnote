@@ -3,117 +3,118 @@
   background-origin: border-box;
   background-repeat: no-repeat;
   transition: all 0.3s ease;
-  
-  /* Background Gradients for Borders */
-  background-image: 
-    /* Top Left */
-    linear-gradient(to right, var(--color-accent), var(--color-accent)),
-    linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
-    /* Top Right */
-    linear-gradient(to left, var(--color-accent), var(--color-accent)),
-    linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
-    /* Bottom Right */
-    linear-gradient(to left, var(--color-accent), var(--color-accent)),
-    linear-gradient(to top, var(--color-accent), var(--color-accent)),
-    /* Bottom Left */
-    linear-gradient(to right, var(--color-accent), var(--color-accent)),
-    linear-gradient(to top, var(--color-accent), var(--color-accent)),
-    /* Vignette (Optional, kept subtle) */
-    radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
-    
-  background-position:  
-    0 0, 0 0,           /* TL */
-    100% 0, 100% 0,     /* TR */
-    100% 100%, 100% 100%, /* BR */
-    0 100%, 0 100%,     /* BL */
-    center;             /* Vignette */
-    
-  background-size: 
-    16px 4px, 4px 16px, /* TL dimensions */
-    16px 4px, 4px 16px, /* TR dimensions */
-    16px 4px, 4px 16px, /* BR dimensions */
-    16px 4px, 4px 16px, /* BL dimensions */
-    100% 100%;          /* Vignette dimensions */
+}
+
+@media (min-width: 768px) {
+  .classicalBox {
+    background-image:
+      /* Top Left */
+      linear-gradient(to right, var(--color-accent), var(--color-accent)),
+      linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
+      /* Top Right */
+      linear-gradient(to left, var(--color-accent), var(--color-accent)),
+      linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
+      /* Bottom Right */
+      linear-gradient(to left, var(--color-accent), var(--color-accent)),
+      linear-gradient(to top, var(--color-accent), var(--color-accent)),
+      /* Bottom Left */
+      linear-gradient(to right, var(--color-accent), var(--color-accent)),
+      linear-gradient(to top, var(--color-accent), var(--color-accent)),
+      /* Vignette */
+      radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+
+    background-position:
+      0 0, 0 0,
+      100% 0, 100% 0,
+      100% 100%, 100% 100%,
+      0 100%, 0 100%,
+      center;
+
+    background-size:
+      16px 4px, 4px 16px,
+      16px 4px, 4px 16px,
+      16px 4px, 4px 16px,
+      16px 4px, 4px 16px,
+      100% 100%;
+  }
 }
 
 /* Corner Brackets & Border Animation Layer */
-.classicalBox::before, 
+.classicalBox::before,
 .classicalBox::after {
   content: "";
   position: absolute;
   pointer-events: none;
-  
-  /* Initial State: Corner Brackets */
-  width: 20px;
-  height: 20px;
-  
-  /* Match the base border style (double, 4px) */
-  border: 4px double var(--color-accent);
-  
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth outflow */
-  opacity: 1; /* Visible brackets by default */
-  z-index: 10;
+  display: none;
 }
 
-.classicalBox::before {
-  top: -4px; 
-  left: -4px;
-  border-right: none; 
-  border-bottom: none;
-}
+@media (min-width: 768px) {
+  .classicalBox::before,
+  .classicalBox::after {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 4px double var(--color-accent);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 1;
+    z-index: 10;
+  }
 
-.classicalBox::after {
-  bottom: -4px; 
-  right: -4px;
-  border-left: none; 
-  border-top: none;
-}
+  .classicalBox::before {
+    top: -4px;
+    left: -4px;
+    border-right: none;
+    border-bottom: none;
+  }
 
-/* Hover Effects */
-/* Hover Effects */
-/* Hover Effects */
-.hoverable:hover::before, 
-.hoverable:hover::after {
-  /* Expand to full box size + border width compensation */
-  width: calc(100% + 8px);
-  height: calc(100% + 8px);
-  opacity: 1;
-  /* Only change color, preserve border-style/width and side-specific visibility */
-  border-color: var(--color-accent); 
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); 
-}
+  .classicalBox::after {
+    bottom: -4px;
+    right: -4px;
+    border-left: none;
+    border-top: none;
+  }
 
-.hoverable:hover {
-  /* Keep base border visible to prevent jumping, just add glow */
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-}
+  /* Hover Effects */
+  .hoverable:hover::before,
+  .hoverable:hover::after {
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    opacity: 1;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  }
 
-/* Danger variant - red borders & glow */
-.danger {
-  --cb-color: #ef4444;
-  background-image:
-    linear-gradient(to right, var(--cb-color), var(--cb-color)),
-    linear-gradient(to bottom, var(--cb-color), var(--cb-color)),
-    linear-gradient(to left, var(--cb-color), var(--cb-color)),
-    linear-gradient(to bottom, var(--cb-color), var(--cb-color)),
-    linear-gradient(to left, var(--cb-color), var(--cb-color)),
-    linear-gradient(to top, var(--cb-color), var(--cb-color)),
-    linear-gradient(to right, var(--cb-color), var(--cb-color)),
-    linear-gradient(to top, var(--cb-color), var(--cb-color)),
-    radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
-}
+  .hoverable:hover {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  }
 
-.danger::before,
-.danger::after {
-  border-color: var(--cb-color);
-}
+  /* Danger variant - red borders & glow */
+  .danger {
+    --cb-color: #ef4444;
+    background-image:
+      linear-gradient(to right, var(--cb-color), var(--cb-color)),
+      linear-gradient(to bottom, var(--cb-color), var(--cb-color)),
+      linear-gradient(to left, var(--cb-color), var(--cb-color)),
+      linear-gradient(to bottom, var(--cb-color), var(--cb-color)),
+      linear-gradient(to left, var(--cb-color), var(--cb-color)),
+      linear-gradient(to top, var(--cb-color), var(--cb-color)),
+      linear-gradient(to right, var(--cb-color), var(--cb-color)),
+      linear-gradient(to top, var(--cb-color), var(--cb-color)),
+      radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+  }
 
-.danger.hoverable:hover::before,
-.danger.hoverable:hover::after {
-  border-color: var(--cb-color);
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
-}
+  .danger::before,
+  .danger::after {
+    border-color: var(--cb-color);
+  }
 
-.danger.hoverable:hover {
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+  .danger.hoverable:hover::before,
+  .danger.hoverable:hover::after {
+    border-color: var(--cb-color);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+
+  .danger.hoverable:hover {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+  }
 }

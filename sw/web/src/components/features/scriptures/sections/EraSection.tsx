@@ -134,7 +134,7 @@ function ContentSection({
             })}
           </ContentGrid>
         ) : (
-          <div className="flex flex-col items-center justify-center h-60 bg-bg-card/30 rounded-xl border border-border/30 backdrop-blur-sm">
+          <div className="flex flex-col items-center justify-center h-60 bg-transparent md:bg-bg-card/30 md:rounded-xl border-0 md:border md:border-border/30 md:backdrop-blur-sm">
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
               <Scroll size={24} className="text-text-tertiary opacity-50" />
             </div>
@@ -197,7 +197,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
 
           <div className={topCelebsAcrossAllEras.length > 0 ? "md:col-span-8 flex items-center" : "md:col-span-12"}>
             <div className="w-full">
-              <p className="text-base text-text-primary/90 font-serif leading-relaxed px-4 py-4 bg-bg-card/30 rounded-xl border border-accent/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] whitespace-pre-line">
+              <p className="text-base text-text-primary/90 font-serif leading-relaxed py-4 md:px-4 bg-transparent md:bg-bg-card/30 md:rounded-xl border-0 md:border md:border-accent/10 md:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] whitespace-pre-line">
                 {t("crossEraDescription")}
               </p>
             </div>
@@ -415,7 +415,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
             />
           </>
         ) : (
-          <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
+          <div className="flex items-center justify-center h-40 bg-transparent md:bg-bg-card md:rounded-xl border-0 md:border md:border-border/30">
             <p className="text-text-tertiary text-sm">{te("noEraSection")}</p>
           </div>
         )}

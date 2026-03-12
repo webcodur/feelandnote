@@ -30,7 +30,12 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | Feel&Note",
     },
     description: t("description"),
-    alternates: getAlternates("/"),
+    alternates: {
+      ...getAlternates("/"),
+      types: {
+        'application/rss+xml': 'https://feelandnote.com/feed.xml',
+      },
+    },
     openGraph: {
       title: t("title"),
       description: t("description"),

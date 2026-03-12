@@ -61,7 +61,7 @@ export default function NoticeList({
         </div>
       ) : (
         <>
-          <div className="space-y-3">
+          <div className="divide-y divide-white/10 md:divide-y-0 md:space-y-3">
             {notices.map((notice) => (
               <NoticeItem key={notice.id} notice={notice} />
             ))}

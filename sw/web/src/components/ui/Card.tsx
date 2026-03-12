@@ -36,7 +36,7 @@ export default function Card({
 
   return (
     <div
-      className={`card-sarcophagus p-4 md:p-6
+      className={`card-sarcophagus py-3 md:p-6
         ${hover ? "hover:border-accent hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] cursor-pointer" : ""}
         ${onClick ? "cursor-pointer" : ""}
         ${className}`}

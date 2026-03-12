@@ -16,8 +16,8 @@ import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 
 // #region 상수
 const GROUPS = [
-  { keys: ["temperance", "diligence", "reflection", "courage"], ko: "내면 덕목", en: "Inner Virtues" },
-  { keys: ["loyalty", "benevolence", "fairness", "humility"], ko: "외면 덕목", en: "Outer Virtues" },
+  { keys: ["temperance", "diligence", "reflection", "courage"], ko: "내적 덕목", en: "Inner Virtues" },
+  { keys: ["loyalty", "benevolence", "fairness", "humility"], ko: "외적 덕목", en: "Outer Virtues" },
   { keys: ["command", "martial", "intellect", "charm"], ko: "능력", en: "Abilities" },
   { keys: ["pessimism_optimism", "conservative_progressive", "individual_social", "cautious_bold"], ko: "성향", en: "Dispositions" },
 ] as const;

@@ -18,7 +18,7 @@ interface HubCardProps {
 
 export default function HubCard({ href, onClick, title, description, icon, label }: HubCardProps) {
   const isButton = !!onClick;
-  const className = "group relative flex flex-col gap-3 rounded-xl w-full text-left border border-white/10 bg-white/[0.02] p-5 md:p-6 transition-colors hover:border-accent/40 hover:bg-white/[0.04]";
+  const className = "group relative flex flex-col gap-3 md:rounded-xl w-full text-left border-0 md:border md:border-white/10 bg-transparent md:bg-white/[0.02] p-0 py-4 md:p-6 transition-colors md:hover:border-accent/40 md:hover:bg-white/[0.04]";
 
   const content = (
     <>

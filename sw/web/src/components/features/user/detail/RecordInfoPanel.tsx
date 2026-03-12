@@ -80,7 +80,7 @@ export default function RecordInfoPanel({
   return (
     <div className={`@container flex flex-col gap-1.5 text-xs ${fillHeight ? "h-full" : ""}`}>
       {/* 3 Rows x 2 Columns Grid Layout */}
-      <div className="flex flex-col border border-accent-dim/30 rounded-sm divide-y divide-accent-dim/30 text-xs bg-bg-main/50 font-serif">
+      <div className="flex flex-col border-0 md:border md:border-accent-dim/30 md:rounded-sm divide-y divide-accent-dim/30 text-xs bg-transparent md:bg-bg-main/50 font-serif">
         {/* Row 1: 시작 | 종료 */}
         <div className="flex-1 flex divide-x divide-accent-dim/30 overflow-hidden">
           <div className="flex-1 flex items-center justify-between px-3 py-1.5 min-w-0">

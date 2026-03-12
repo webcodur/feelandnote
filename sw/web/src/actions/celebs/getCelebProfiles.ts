@@ -27,7 +27,7 @@ export async function getCelebProfiles(params: GetCelebProfilesParams = {}) {
   }
 
   if (search) {
-    query = query.ilike('nickname', `%${search}%`)
+    query = query.or(`nickname.ilike.%${search}%,nickname_en.ilike.%${search}%`)
   }
 
   const { data, error, count } = await query

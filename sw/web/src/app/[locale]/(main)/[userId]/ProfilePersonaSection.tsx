@@ -69,7 +69,7 @@ export default function ProfilePersonaSection({ nickname, targetPersona, similar
 
   return (
     <>
-      <ClassicalBox className="p-4 sm:p-6 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
+      <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
         <div className="flex justify-center mb-4 sm:mb-5">
           <DecorativeLabel label={t("label")} />
         </div>

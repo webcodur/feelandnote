@@ -79,7 +79,7 @@ export const KoreanTypewriter: React.FC<Props> = ({
       style={{
         color,
         fontSize,
-        fontFamily: 'system-ui',
+        fontFamily: 'inherit',
         lineHeight: 1.7,
         whiteSpace: 'pre-wrap',
         ...style,

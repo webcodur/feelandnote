@@ -78,12 +78,12 @@ export default function FigurePreview({ figure, contents }: FigurePreviewProps) 
   const thumbnailContents = contents.filter(c => c.thumbnail_url).slice(0, 3);
 
   return (
-    <div className="relative group overflow-hidden rounded-3xl bg-neutral-900 border border-white/5 hover:border-accent/40 transition-all duration-700 shadow-2xl">
+    <div className="relative group overflow-hidden md:rounded-3xl bg-transparent md:bg-neutral-900 border-0 md:border md:border-white/5 hover:border-accent/40 transition-all duration-700 md:shadow-2xl">
       {/* 배경 장식 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/80 via-neutral-900/95 to-black z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/80 via-neutral-900/95 to-black z-0 pointer-events-none hidden md:block" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.08),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-0 pointer-events-none" />
 
-      <div className="relative z-10 p-8 sm:p-10 flex flex-col items-center text-center gap-5">
+      <div className="relative z-10 py-8 md:p-8 sm:p-10 flex flex-col items-center text-center gap-5">
         {/* 날짜 뱃지 */}
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent/90 text-[11px] font-semibold tracking-wider border border-accent/20">
           <Calendar size={12} className="opacity-80" />

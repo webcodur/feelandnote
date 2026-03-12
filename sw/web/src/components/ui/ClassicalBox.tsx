@@ -24,13 +24,13 @@ export default function ClassicalBox({
         ${styles.classicalBox}
         ${hover ? styles.hoverable : ""}
         ${isDanger ? styles.danger : ""}
-        bg-bg-card border-double border-4 shadow-lg
-        ${isDanger ? "border-red-500/40" : "border-accent-dim/40"}
+        bg-transparent md:bg-bg-card border-0 md:border-double md:border-4 md:shadow-lg
+        ${isDanger ? "md:border-red-500/40" : "md:border-accent-dim/40"}
         ${className}
       `}
       {...rest}
     >
-      {hover && <div className={styles.fillOverlay} />}
+      {hover && <div className={`${styles.fillOverlay} hidden md:block`} />}
       {children}
     </Component>
   );

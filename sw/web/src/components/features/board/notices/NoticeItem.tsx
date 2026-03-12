@@ -18,19 +18,19 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
     <Link
       href={`/agora/board/notice/${notice.id}`}
       className={`
-        group block relative p-4 rounded-lg
-        bg-bg-card/60 backdrop-blur-sm
-        border border-accent-dim/20
-        hover:border-accent/40 hover:bg-bg-card/80
+        group block relative py-3 md:p-4 md:rounded-lg
+        bg-transparent md:bg-bg-card/60 md:backdrop-blur-sm
+        border-0 md:border md:border-accent-dim/20
+        md:hover:border-accent/40 md:hover:bg-bg-card/80
         transition-all duration-200
-        ${notice.is_pinned ? 'border-l-2 border-l-accent' : ''}
+        ${notice.is_pinned ? 'md:border-l-2 md:border-l-accent pl-3 md:pl-4 border-l-2 border-l-accent' : ''}
       `}
     >
-      {/* 호버 시 코너 장식 */}
-      <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-tl" />
-      <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-tr" />
-      <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-bl" />
-      <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-br" />
+      {/* 호버 시 코너 장식 — 데스크탑 전용 */}
+      <div className="hidden md:block absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-tl" />
+      <div className="hidden md:block absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-tr" />
+      <div className="hidden md:block absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-bl" />
+      <div className="hidden md:block absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-br" />
 
       <div className="flex items-start gap-3">
         {notice.is_pinned && (

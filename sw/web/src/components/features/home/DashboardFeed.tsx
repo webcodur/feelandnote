@@ -110,7 +110,7 @@ export default function DashboardFeed({
 
       {/* 카테고리 탭 (석판 스타일) */}
       <div className="flex justify-center overflow-x-auto pb-4 scrollbar-hidden">
-        <div className="inline-flex min-w-max p-1 bg-neutral-900/80 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
+        <div className="inline-flex min-w-max p-1 bg-transparent md:bg-neutral-900/80 md:backdrop-blur-md md:rounded-xl border-0 md:border md:border-white/10 md:shadow-inner">
           {CATEGORY_TABS.map((tab) => {
             const isActive = contentType === tab.value;
             return (

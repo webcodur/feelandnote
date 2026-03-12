@@ -22,11 +22,124 @@ const TYPE_CONFIG: Record<string, { color: string; icon: typeof Book }> = {
   MUSIC: { color: "#a855f7", icon: Music },
 };
 
-const RANK_COLORS: Record<number, string> = {
-  1: "#d4af37",
-  2: "#c0c0c0",
-  3: "#cd7f32",
+// #region 순위 뱃지 스타일
+const RANK_META: Record<number, {
+  gradient: string;        // 배경 그라디언트
+  border: string;          // 테두리 색
+  text: string;            // 숫자 색
+  glow: string;            // 외부 glow
+  shine: boolean;          // 광택 애니메이션
+}> = {
+  1: {
+    gradient: "linear-gradient(160deg, #f5d560 0%, #d4af37 45%, #a07818 100%)",
+    border: "rgba(255, 225, 100, 0.6)",
+    text: "#3d2800",
+    glow: "0 0 12px rgba(212,175,55,0.5), 0 2px 6px rgba(0,0,0,0.6)",
+    shine: true,
+  },
+  2: {
+    gradient: "linear-gradient(160deg, #dcdcdc 0%, #b0b0b0 45%, #808080 100%)",
+    border: "rgba(220, 220, 220, 0.4)",
+    text: "#2a2a2a",
+    glow: "0 0 8px rgba(180,180,180,0.3), 0 2px 6px rgba(0,0,0,0.6)",
+    shine: false,
+  },
+  3: {
+    gradient: "linear-gradient(160deg, #dda060 0%, #b8763a 45%, #8a5520 100%)",
+    border: "rgba(210, 160, 90, 0.4)",
+    text: "#2e1800",
+    glow: "0 0 8px rgba(184,118,58,0.3), 0 2px 6px rgba(0,0,0,0.6)",
+    shine: false,
+  },
 };
+
+function RankBadge({ rank }: { rank: number }) {
+  const meta = RANK_META[rank];
+
+  // Top 3: 쉴드 형태 메달
+  if (meta) {
+    return (
+      <div
+        className="absolute z-20 flex items-center justify-center"
+        style={{
+          top: -6,
+          left: -6,
+          width: 32,
+          height: 36,
+          // 쉴드 실루엣
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)",
+          background: meta.gradient,
+          boxShadow: meta.glow,
+          filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.7))",
+        }}
+      >
+        {/* 쉴드 내부 보더 (동일 clip-path로 inset) */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            inset: 1,
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)",
+            border: `1px solid ${meta.border}`,
+          }}
+        />
+        {/* 상단 광택 */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)",
+            background: "linear-gradient(170deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.08) 35%, transparent 50%)",
+          }}
+        />
+        {/* 순위 숫자 */}
+        <span
+          className="relative font-cinzel font-black text-sm leading-none"
+          style={{
+            color: meta.text,
+            marginTop: -3,
+            textShadow: "0 1px 0 rgba(255,255,255,0.3)",
+          }}
+        >
+          {rank}
+        </span>
+        {/* 1위 미세 shimmer */}
+        {meta.shine && (
+          <div
+            className="absolute inset-0 pointer-events-none overflow-hidden"
+            style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)" }}
+          >
+            <div
+              className="absolute h-full w-[60%] animate-shine opacity-40"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)",
+                top: 0,
+                left: 0,
+              }}
+            />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // 4~10위: 미니멀 석판 넘버
+  return (
+    <div
+      className="absolute z-20 flex items-center justify-center font-cinzel font-bold text-[11px] text-text-secondary"
+      style={{
+        top: -4,
+        left: -4,
+        width: 22,
+        height: 22,
+        borderRadius: 4,
+        background: "linear-gradient(145deg, #1e1e1e, #161616)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)",
+      }}
+    >
+      {rank}
+    </div>
+  );
+}
 // #endregion
 
 // #region 기록가 막대 인포그래픽
@@ -74,7 +187,7 @@ function SectionInfoGraphic({
             <div key={idx} className="flex items-center gap-2 text-[11px]">
               <span
                 className="w-4 text-right font-bold shrink-0"
-                style={{ color: RANK_COLORS[rank] ?? "var(--text-tertiary)" }}
+                style={{ color: rank === 1 ? "#d4af37" : rank === 2 ? "#b0b0b0" : rank === 3 ? "#b8763a" : "var(--text-tertiary)" }}
               >
                 {rank}
               </span>
@@ -251,32 +364,14 @@ export default function TopByTypeSection({ entries, sharedByType }: TopByTypeSec
               <span className="text-sm text-text-tertiary">Top {entry.celebs.length}</span>
             </div>
 
-            {/* 기록가 막대 인포그래픽 */}
-            <SectionInfoGraphic celebs={entry.celebs} color={config.color} />
-
-            {/* 공통 콘텐츠 인사이트 */}
-            <SharedContentInsight
-              items={shared}
-              color={config.color}
-              totalCelebs={entry.celebs.length}
-            />
-
             {/* 그리드 */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
               {entry.celebs.map((celeb, idx) => {
                 const rank = idx + 1;
-                const rankBg = RANK_COLORS[rank] ?? "rgba(0,0,0,0.6)";
 
                 return (
                   <div key={celeb.id} className="relative">
-                    {/* 순위 뱃지 */}
-                    <div
-                      className="absolute top-1 left-1 z-20 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md"
-                      style={{ backgroundColor: rankBg }}
-                    >
-                      {rank}
-                    </div>
-
+                    <RankBadge rank={rank} />
                     <CelebCard
                       id={celeb.id}
                       nickname={celeb.nickname}
@@ -291,6 +386,16 @@ export default function TopByTypeSection({ entries, sharedByType }: TopByTypeSec
                 );
               })}
             </div>
+
+            {/* 기록가 막대 인포그래픽 */}
+            <SectionInfoGraphic celebs={entry.celebs} color={config.color} />
+
+            {/* 공통 콘텐츠 인사이트 */}
+            <SharedContentInsight
+              items={shared}
+              color={config.color}
+              totalCelebs={entry.celebs.length}
+            />
           </section>
         );
       })}

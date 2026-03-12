@@ -83,7 +83,7 @@ export default function HomeTabSection({
 
       {/* 3. Content */}
       <div className="w-full animate-in fade-in duration-500">
-        <div className="w-full max-w-5xl mx-auto px-4 py-8">
+        <div className="w-full max-w-5xl mx-auto px-0 py-4 md:px-4 md:py-8">
             {activeTab === "figure" ? figureSection : recordSection}
         </div>
       </div>

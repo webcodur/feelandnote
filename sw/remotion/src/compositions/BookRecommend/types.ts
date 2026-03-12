@@ -24,7 +24,9 @@ export interface BookEntry {
   /** 출처 */
   source?: string
   rating?: number
-  /** 나레이터 음성 길이 (초) */
+  /** 제목+저자 음성 길이 (초) */
+  titleDuration: number
+  /** 나레이터 설명 음성 길이 (초) */
   narratorDuration: number
   /** 셀럽 응답 음성 길이 (초) */
   narrationDuration: number

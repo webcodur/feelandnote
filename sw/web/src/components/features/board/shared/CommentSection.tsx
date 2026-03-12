@@ -77,11 +77,11 @@ export default function CommentSection({
       </div>
 
       {/* 댓글 목록 */}
-      <div className="space-y-4 mb-6">
+      <div className="divide-y divide-white/10 md:divide-y-0 md:space-y-4 mb-6">
         {comments.map(comment => (
           <div
             key={comment.id}
-            className="group relative p-4 rounded-lg bg-bg-card/40 border border-accent-dim/10 hover:border-accent-dim/20 transition-colors"
+            className="group relative py-4 md:p-4 md:rounded-lg bg-transparent md:bg-bg-card/40 border-0 md:border md:border-accent-dim/10 md:hover:border-accent-dim/20 transition-colors"
           >
             <div className="flex gap-3">
               <div className="flex-1">

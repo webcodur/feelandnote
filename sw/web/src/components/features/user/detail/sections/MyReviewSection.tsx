@@ -43,7 +43,7 @@ export default function MyReviewSection({
   return (
     <div className="animate-fade-in">
       <Card className="p-0 mb-4">
-        <div className="p-3 border-b border-white/5 flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
+        <div className="py-3 md:px-3 border-b border-white/5 flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
           <h3 className="font-semibold text-sm">내 리뷰</h3>
           <div className="flex items-center gap-2">
             <div className="flex gap-0.5">
@@ -63,7 +63,7 @@ export default function MyReviewSection({
             {reviewRating && <span className="text-xs font-medium text-yellow-400">{reviewRating}.0</span>}
           </div>
         </div>
-        <div className="p-3">
+        <div className="py-3 md:px-3">
           <textarea
             className="w-full h-40 bg-black/20 border border-border rounded-lg p-2.5 text-text-primary text-sm resize-y outline-none mb-3 font-sans focus:border-accent placeholder:text-zinc-500"
             placeholder={t("placeholder")}

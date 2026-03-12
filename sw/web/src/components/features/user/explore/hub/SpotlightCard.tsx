@@ -27,7 +27,7 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
   if (tags.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-0 sm:gap-4 divide-y divide-white/10 sm:divide-y-0">
       {tags.map((tag) => {
         const title = locale === "en" ? (tag.name_en ?? tag.name) : tag.name;
         const desc = locale === "en" ? (tag.description_en ?? tag.description) : tag.description;
@@ -36,7 +36,7 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
           <Link
             key={tag.id}
             href={`/explore/spotlight?tag=${tag.id}`}
-            className="group relative flex flex-col gap-3 rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:brightness-110 overflow-hidden ring-1 ring-inset ring-white/5 shadow-lg"
+            className="group relative flex flex-col gap-3 rounded-none md:rounded-2xl border-0 md:border py-4 md:p-5 transition-all duration-300 md:hover:-translate-y-1 md:hover:brightness-110 overflow-hidden md:ring-1 md:ring-inset md:ring-white/5 md:shadow-lg"
             style={{
               borderColor: `${tag.color}40`,
               backgroundColor: `${tag.color}08`,
@@ -49,13 +49,13 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
             />
 
             <div className="relative z-10 flex flex-col h-full">
-              <h3 
+              <h3
                 className="text-lg font-bold mb-2 line-clamp-1 drop-shadow-md"
                 style={{ color: tag.color }}
               >
                 {title}
               </h3>
-              
+
               <p className="text-sm text-white/90 line-clamp-2 mb-6 flex-grow leading-relaxed">
                 {desc}
               </p>
@@ -64,8 +64,8 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
                   <div className="flex -space-x-3">
                     {tag.celebs.map((celeb, idx) => (
-                      <div 
-                        key={celeb.id} 
+                      <div
+                        key={celeb.id}
                         className="w-8 h-8 rounded-full border-2 border-[#0f0e0d] bg-[#0a0a0b] relative shadow-sm"
                         style={{ zIndex: tag.celebs!.length - idx }}
                       >

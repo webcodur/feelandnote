@@ -70,9 +70,10 @@ export default async function RootLayout({
       <head />
       <body>
         <Script
+          id="adsbygoogle-init"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3751045783335791"
           crossOrigin="anonymous"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
         {children}
       </body>

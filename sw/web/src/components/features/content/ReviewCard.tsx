@@ -41,8 +41,8 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
   const timeAgo = formatRelativeTime(item.updated_at, tTime);
 
   return (
-    <div className={`bg-bg-card border border-border rounded-xl ${className}`}>
-      <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
+    <div className={`bg-transparent md:bg-bg-card border-0 md:border md:border-border md:rounded-xl ${className}`}>
+      <div className="py-2 md:p-2.5 flex items-center gap-2 border-b border-white/5">
         <UserAvatarWithPopover
           userId={item.user.id}
           profileType={item.user.profile_type}
@@ -72,7 +72,7 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
             </div>
         )}
       </div>
-      <div className="p-3">
+      <div className="py-2 md:p-3">
         {item.is_spoiler && !showSpoiler ? (
           <Button unstyled onClick={() => setShowSpoiler(true)} className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary py-4 w-full justify-center bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
             <EyeOff size={14} />
