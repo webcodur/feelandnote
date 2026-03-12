@@ -6,7 +6,7 @@ export const elonMusk: BookRecommendScript = {
     serviceIntroDuration: 0,
     celebIntro:
       '일론 머스크. 남아프리카 출신의 기업가이자 투자자. 테슬라, 스페이스X 등으로 전기차와 우주 탐사의 패러다임을 전환하고 있다.',
-    celebIntroDuration: 12.10,
+    celebIntroDuration: 10.01,
     bridge: '이제 그의 서재를 열어보겠습니다.',
     bridgeDuration: 0,
     outro:
@@ -23,7 +23,7 @@ export const elonMusk: BookRecommendScript = {
     title: '테슬라 창업자',
     philosophy:
       '안녕하세요, 일론 머스크입니다. 공상과학 소설은 제 예언서였습니다. 파운데이션을 읽고 SpaceX를 세웠고, 히치하이커를 읽고 질문하는 법을 배웠습니다. 테슬라, 뉴럴링크, 스타링크, 모두 책에서 시작된 프로젝트입니다. 책은 제게 가장 위대한 멘토입니다.',
-    voiceDuration: 23.09,
+    voiceDuration: 19.09,
   },
   books: [
     {
@@ -35,9 +35,9 @@ export const elonMusk: BookRecommendScript = {
       narration:
         '이 책을 읽으면서 저는 계속 고개를 끄덕였습니다. 존 카맥이 차고에서 게임 엔진을 바닥부터 만들어낸 그 집착, 그 근본적인 문제 해결 방식. 저도 똑같았거든요. 스페이스X를 시작했을 때, 기존 로켓이 너무 비싸니까 직접 만들기로 했습니다. 아무것도 없는 곳에서 시작하는 것, 그게 진짜 혁신입니다. 그들이 엔진을 짠 것처럼, 저도 로켓을 바닥부터 만들었으니까요.',
       source: '트위터에서 추천',
-      titleDuration: 3.76,
-      narratorDuration: 24.50,
-      narrationDuration: 30.88,
+      titleDuration: 3.65,
+      narratorDuration: 22.65,
+      narrationDuration: 26.49,
     },
     {
       title: '로마제국 쇠망사',
@@ -48,9 +48,9 @@ export const elonMusk: BookRecommendScript = {
       narration:
         '이 책은 단순한 역사서가 아닙니다. 문명이 왜 무너지는가에 대한 가장 체계적인 분석이죠. 기번은 내부의 쇠퇴가 외부의 침략보다 더 치명적이었다고 말합니다. 저도 같은 관점입니다. 인류 문명이 하나의 행성에만 의존하고 있다는 것, 그 자체가 리스크입니다. 로마가 멸망한 것처럼 지구 문명도 영원하지 않습니다. 그래서 인류가 다행성 종이 되어야 합니다. 이 책을 읽으면 그 절박함을 이해하게 됩니다.',
       source: 'Esquire 인터뷰',
-      titleDuration: 3.84,
-      narratorDuration: 27.04,
-      narrationDuration: 33.91,
+      titleDuration: 3.93,
+      narratorDuration: 24.77,
+      narrationDuration: 28.73,
     },
     {
       title: '나쁜 과학 대처법',
@@ -61,8 +61,8 @@ export const elonMusk: BookRecommendScript = {
       narration:
         '제가 항상 강조하는 것이 제1원칙 사고입니다. 기존의 가정을 모두 걷어내고 가장 근본적인 진실에서부터 추론해 나가는 것. 이 책은 바로 그 사고의 기반을 다져줍니다. 우리가 얼마나 많은 편향에 빠져 있는지, 얼마나 쉽게 잘못된 결론에 도달하는지를 보여줍니다. 편향 없이 생각하는 법을 배우고 싶다면 이 책부터 읽으세요. 로켓을 만들든, 회사를 경영하든, 올바른 판단의 출발점은 결국 올바른 사고법입니다.',
       source: 'Shortform 추천 목록',
-      titleDuration: 4.18,
-      narratorDuration: 25.13,
+      titleDuration: 4.33,
+      narratorDuration: 21.61,
       narrationDuration: 34.14,
     },
   ],

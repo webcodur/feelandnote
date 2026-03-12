@@ -6,29 +6,55 @@
 <style>
   body { background: #121212; color: #e8e0d0; font-family: system-ui; padding: 40px 60px; }
   h1 { color: #c8a46e; font-size: 28px; margin-bottom: 8px; }
+  h2 { color: #c8a46e; font-size: 20px; margin-top: 40px; border-bottom: 1px solid #333; padding-bottom: 8px; }
   .subtitle { color: #888; font-size: 14px; margin-bottom: 32px; }
   .sample { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid #1e1e1e; }
   .sample:hover { background: #1a1a1a; }
-  .label { min-width: 240px; font-size: 15px; }
-  .tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: #6ea4c833; color: #6ea4c8; }
+  .label { min-width: 280px; font-size: 15px; }
+  .tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+  .neural { background: #6ea4c833; color: #6ea4c8; }
+  .gemini { background: #c86e6e33; color: #c86e6e; }
   audio { height: 36px; }
   .script { color: #888; font-size: 13px; margin-top: 4px; font-style: italic; max-width: 700px; }
+  .vs { color: #c8a46e; font-size: 14px; margin: 24px 0 8px; font-weight: 600; }
 </style>
 </head>
 <body>
-  <h1>Neural2-B Female — 나레이터 후보</h1>
-  <div class="subtitle">SSML 호흡 제어 적용 (문장 간 500ms break, 92% speed)</div>
+  <h1>TTS Voice Comparison — Neural2 vs Gemini</h1>
+  <div class="subtitle">같은 문장으로 비교. Google Cloud Neural2 vs Gemini 2.5 Flash TTS</div>
 
-  <div class="script" style="margin-bottom: 24px;">짧은 샘플: "1990년대 게임 산업의 혁명을 이끈 두 천재, 존 카맥과 존 로메로의 실화를 담은 논픽션이다."</div>
+  <h2>Male (셀럽 역할)</h2>
+  <div class="script">"안녕하세요, 일론 머스크입니다. 공상과학 소설은 제 예언서였습니다. 파운데이션을 읽고 SpaceX를 세웠고, 히치하이커를 읽고 질문하는 법을 배웠습니다. 테슬라, 뉴럴링크, 스타링크, 모두 책에서 시작된 프로젝트입니다. 책은 제게 가장 위대한 멘토입니다."</div>
+
+  <div class="vs">현재 (Neural2)</div>
   <div class="sample">
-    <span class="label">Neural2-B (짧은) <span class="tag">Neural2</span></span>
-    <audio controls src="neural2-B-female.mp3"></audio>
+    <span class="label">Neural2-C Male <span class="tag neural">Neural2</span></span>
+    <audio controls src="../voice/philosophy.mp3"></audio>
   </div>
 
-  <div class="script" style="margin-top: 32px; margin-bottom: 24px;">긴 샘플: 셀럽 소개 + 도서 설명 + 아웃트로 합본 (54초)</div>
+  <div class="vs">Gemini TTS</div>
   <div class="sample">
-    <span class="label">Neural2-B (긴) <span class="tag">Neural2</span></span>
+    <span class="label">Gemini Puck Male <span class="tag gemini">Gemini</span></span>
+    <audio controls src="gemini-Puck-male.wav"></audio>
+  </div>
+
+  <h2>Female (나레이터 역할)</h2>
+  <div class="script">"1990년대 게임 산업의 혁명을 이끈 두 천재, 존 카맥과 존 로메로의 실화를 담은 논픽션이다. id 소프트웨어에서 울펜슈타인 3D와 둠, 퀘이크를 만들어낸 과정을 추적하며..."</div>
+
+  <div class="vs">현재 (Neural2)</div>
+  <div class="sample">
+    <span class="label">Neural2-B Female <span class="tag neural">Neural2</span></span>
+    <audio controls src="neural2-B-female.mp3"></audio>
+  </div>
+  <div class="sample">
+    <span class="label">Neural2-B Female (긴 54초) <span class="tag neural">Neural2</span></span>
     <audio controls src="neural2-B-female-long.mp3"></audio>
+  </div>
+
+  <div class="vs">Gemini TTS</div>
+  <div class="sample">
+    <span class="label">Gemini Kore Female <span class="tag gemini">Gemini</span></span>
+    <audio controls src="gemini-Kore-female.wav"></audio>
   </div>
 </body>
 </html>

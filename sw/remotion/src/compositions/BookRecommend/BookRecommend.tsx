@@ -135,13 +135,13 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
           <Audio src={sf('sfx/type-reveal.wav')} volume={0.7} />
           {narrator.celebIntroDuration > 0 && (
             <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={celebIntroFrames - CELEB_VISUAL_DELAY}>
-              <Audio src={sf('voice/narrator-celeb-intro.mp3')} />
+              <Audio src={sf('voice/narrator-celeb-intro.wav')} />
             </Sequence>
           )}
         </Sequence>
         {/* Section 2 오디오: 셀럽 감상철학 */}
         <Sequence from={celebIntroFrames} durationInFrames={philosophyFrames}>
-          <Audio src={sf('voice/philosophy.mp3')} />
+          <Audio src={sf('voice/philosophy.wav')} />
         </Sequence>
         <HostIntro
           host={host}
@@ -258,16 +258,16 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
               {i === 0 && <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />}
               {/* 나레이터: 제목+저자 */}
               <Sequence from={0} durationInFrames={bt.titleFrames}>
-                <Audio src={sf(`voice/book-${i}-title.mp3`)} />
+                <Audio src={sf(`voice/book-${i}-title.wav`)} />
               </Sequence>
               {/* 나레이터: 설명 (갭 후) */}
               <Sequence from={bt.titleFrames + TITLE_DESC_GAP} durationInFrames={bt.descFrames}>
-                <Audio src={sf(`voice/book-${i}-desc.mp3`)} />
+                <Audio src={sf(`voice/book-${i}-desc.wav`)} />
               </Sequence>
               {/* 셀럽 감상 응답 */}
               <Sequence from={bt.narratorFrames} durationInFrames={bt.narrationFrames}>
                 <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
-                <Audio src={sf(`voice/book-${i}-narr.mp3`)} />
+                <Audio src={sf(`voice/book-${i}-narr.wav`)} />
               </Sequence>
               <BookCard
                 book={book}
@@ -288,7 +288,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
           <Sequence from={outroStart} durationInFrames={outroFrames}>
             <Audio src={sf('sfx/chime.wav')} volume={0.5} />
             {narrator.outroDuration > 0 && (
-              <Audio src={sf('voice/narrator-outro.mp3')} />
+              <Audio src={sf('voice/narrator-outro.wav')} />
             )}
           </Sequence>
           <AbsoluteFill
