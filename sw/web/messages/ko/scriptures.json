@@ -203,6 +203,7 @@
         "checkAnswer": "정답 확인",
         "correct": "정답",
         "incorrect": "오답",
+        "retry": "다시 풀기",
         "score": "{correct}/{total} 정답",
         "allCorrect": "모든 문제를 맞혔습니다! 학습 완료 처리되었습니다."
       },

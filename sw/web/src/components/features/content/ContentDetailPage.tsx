@@ -63,7 +63,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
       {/* 최근 본 콘텐츠 */}
       <RecentContentsSection items={recentItems} />
 
-      <div className="space-y-2 md:space-y-4 divide-y divide-white/10 md:divide-y-0">
+      <div className="space-y-4">
         {/* 1. 콘텐츠 정보 */}
         <AccordionSection title={t("contentInfo")} defaultOpen>
           <ContentInfoSection
@@ -105,7 +105,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         )}
 
         {/* 4. 모든 리뷰 (항상 표시) */}
-        <div className="bg-transparent md:bg-bg-card border-0 md:border md:border-border md:rounded-xl pt-3 md:p-4">
+        <div className="bg-bg-card border border-border rounded-xl p-4">
           <div className="mb-4">
             <DecorativeLabel label={t("othersReviews")} />
           </div>

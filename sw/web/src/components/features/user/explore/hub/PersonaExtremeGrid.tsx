@@ -42,12 +42,12 @@ const GROUPS = [
 
 /** 축별 고유 컬러 */
 const AXIS_COLORS: Record<string, string> = {
-  // 내적 덕목
+  // 내면 덕목
   temperance: "#7eb8da",
   diligence: "#e8a838",
   reflection: "#a78bfa",
   courage: "#ef5350",
-  // 외적 덕목
+  // 외면 덕목
   loyalty: "#f06292",
   benevolence: "#66bb6a",
   fairness: "#4fc3f7",
@@ -66,12 +66,12 @@ const AXIS_COLORS: Record<string, string> = {
 
 /** 축별 단축 라벨 (Paragon 등 수식어 생략) */
 const AXIS_SHORT_LABELS: Record<string, { ko: string; en: string }> = {
-  // 내적 덕목
+  // 내면 덕목
   temperance: { ko: "절제", en: "Temperance" },
   diligence: { ko: "근면", en: "Diligence" },
   reflection: { ko: "성찰", en: "Reflection" },
   courage: { ko: "용기", en: "Courage" },
-  // 외적 덕목
+  // 외면 덕목
   loyalty: { ko: "충의", en: "Loyalty" },
   benevolence: { ko: "자비", en: "Benevolence" },
   fairness: { ko: "공정", en: "Fairness" },
@@ -97,7 +97,7 @@ function DispositionsOpposingCard({ entry, locale, color, onCardClick }: { entry
 
   return (
     <div
-      className="group/card relative flex flex-col bg-[#0a0a0b] border border-white/5 rounded-2xl overflow-hidden shadow-2xl col-span-1 min-h-[160px] sm:min-h-[180px] max-w-[520px] mx-auto"
+      className="group/card relative flex flex-col bg-transparent md:bg-[#0a0a0b] border-0 md:border md:border-white/5 md:rounded-2xl overflow-hidden md:shadow-2xl col-span-1 min-h-[160px] sm:min-h-[180px] max-w-[520px] mx-auto"
       style={{ ["--axis-color" as string]: color }}
     >
       {/* 1. 상단 포인트 바 및 띄워진 테마(축 제목) */}
@@ -258,7 +258,7 @@ export default function PersonaExtremeGrid({
       </div>
 
       {/* 2x2 그리드 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5 max-w-[1080px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 divide-y divide-white/10 md:divide-y-0 gap-0 md:gap-5 max-w-[1080px] mx-auto">
         {currentEntries.map((entry) => {
           const color = AXIS_COLORS[entry.axis] ?? "#d4af37";
 
@@ -283,7 +283,7 @@ export default function PersonaExtremeGrid({
             <button
               key={entry.axis}
               onClick={() => setSelectedCard({ entry, isOpposing: false, color })}
-              className="group relative flex flex-row items-center bg-bg-card/40 hover:bg-bg-card/80 border border-white/5 hover:border-white/20 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[520px] mx-auto"
+              className="group relative flex flex-row items-center bg-transparent md:bg-bg-card/40 hover:bg-bg-card/80 border-0 md:border md:border-white/5 hover:border-white/20 md:rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[520px] mx-auto"
               style={{
                 // hover 시 축 컬러 테두리 변수 활용 (rgba로 변환 필요할 수 있으나 shadow는 커스텀 구현 확인)
                 // Tailwind에서 rgb 변수 처리용 스네이크케이스 rgba(var(...)) 지원

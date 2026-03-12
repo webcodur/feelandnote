@@ -203,6 +203,7 @@
         "checkAnswer": "Check Answer",
         "correct": "Correct",
         "incorrect": "Incorrect",
+        "retry": "Try Again",
         "score": "{correct}/{total} correct",
         "allCorrect": "All correct! Lesson marked as complete."
       },

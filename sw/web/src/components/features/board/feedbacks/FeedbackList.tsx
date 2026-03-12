@@ -98,7 +98,7 @@ export default function FeedbackList({
         </div>
       ) : (
         <>
-          <div className="divide-y divide-white/10 md:divide-y-0 md:space-y-3">
+          <div className="space-y-3">
             {feedbacks.map((feedback) => (
               <FeedbackItem key={feedback.id} feedback={feedback} />
             ))}

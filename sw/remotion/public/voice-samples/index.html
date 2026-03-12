@@ -6,89 +6,29 @@
 <style>
   body { background: #121212; color: #e8e0d0; font-family: system-ui; padding: 40px 60px; }
   h1 { color: #c8a46e; font-size: 28px; margin-bottom: 8px; }
-  h2 { color: #c8a46e; font-size: 20px; margin-top: 40px; border-bottom: 1px solid #333; padding-bottom: 8px; }
   .subtitle { color: #888; font-size: 14px; margin-bottom: 32px; }
   .sample { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid #1e1e1e; }
   .sample:hover { background: #1a1a1a; }
   .label { min-width: 240px; font-size: 15px; }
-  .tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
-  .current { background: #c8a46e33; color: #c8a46e; }
-  .neural { background: #6ea4c833; color: #6ea4c8; }
-  .chirp { background: #a46ec833; color: #a46ec8; }
+  .tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: #6ea4c833; color: #6ea4c8; }
   audio { height: 36px; }
   .script { color: #888; font-size: 13px; margin-top: 4px; font-style: italic; max-width: 700px; }
 </style>
 </head>
 <body>
-  <h1>TTS Voice Comparison</h1>
-  <div class="subtitle">같은 문장으로 모델별 비교. 마음에 드는 조합을 골라주세요.</div>
+  <h1>Neural2-B Female — 나레이터 후보</h1>
+  <div class="subtitle">SSML 호흡 제어 적용 (문장 간 500ms break, 92% speed)</div>
 
-  <h2>Male (셀럽 역할)</h2>
-  <div class="script">"안녕하세요, 일론 머스크입니다. 공상과학 소설은 제 예언서였습니다. 파운데이션을 읽고 SpaceX를 세웠고, 히치하이커를 읽고 질문하는 법을 배웠습니다."</div>
-
+  <div class="script" style="margin-bottom: 24px;">짧은 샘플: "1990년대 게임 산업의 혁명을 이끈 두 천재, 존 카맥과 존 로메로의 실화를 담은 논픽션이다."</div>
   <div class="sample">
-    <span class="label">WaveNet-C <span class="tag current">현재</span></span>
-    <audio controls src="wavenet-C-male.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Neural2-C <span class="tag neural">Neural2</span></span>
-    <audio controls src="neural2-C-male.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Charon <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Charon-male.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Fenrir <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Fenrir-male.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Puck <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Puck-male.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Achird <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Achird-male.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Orus <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Orus-male.mp3"></audio>
-  </div>
-
-  <h2>Female (나레이터 역할)</h2>
-  <div class="script">"1990년대 게임 산업의 혁명을 이끈 두 천재, 존 카맥과 존 로메로의 실화를 담은 논픽션이다."</div>
-
-  <div class="sample">
-    <span class="label">WaveNet-A <span class="tag current">현재</span></span>
-    <audio controls src="wavenet-A-female.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Neural2-A <span class="tag neural">Neural2</span></span>
-    <audio controls src="neural2-A-female.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Neural2-B <span class="tag neural">Neural2</span></span>
+    <span class="label">Neural2-B (짧은) <span class="tag">Neural2</span></span>
     <audio controls src="neural2-B-female.mp3"></audio>
   </div>
+
+  <div class="script" style="margin-top: 32px; margin-bottom: 24px;">긴 샘플: 셀럽 소개 + 도서 설명 + 아웃트로 합본 (54초)</div>
   <div class="sample">
-    <span class="label">Chirp3-HD Aoede <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Aoede-female.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Kore <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Kore-female.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Leda <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Leda-female.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Achernar <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Achernar-female.mp3"></audio>
-  </div>
-  <div class="sample">
-    <span class="label">Chirp3-HD Gacrux <span class="tag chirp">Chirp3</span></span>
-    <audio controls src="chirp3-Gacrux-female.mp3"></audio>
+    <span class="label">Neural2-B (긴) <span class="tag">Neural2</span></span>
+    <audio controls src="neural2-B-female-long.mp3"></audio>
   </div>
 </body>
 </html>

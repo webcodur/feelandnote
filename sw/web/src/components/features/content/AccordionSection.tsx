@@ -38,13 +38,13 @@ export default function AccordionSection({
   };
 
   return (
-    <div className={`bg-transparent md:bg-bg-card border-0 md:border md:border-border md:rounded-xl overflow-hidden ${className}`}>
+    <div className={`bg-bg-card border border-border rounded-xl overflow-hidden ${className}`}>
       {/* 헤더 */}
       <button
         type="button"
         onClick={handleToggle}
         disabled={disabled}
-        className={`relative w-full flex items-center justify-center py-3 md:p-4 text-start hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50 ${headerClassName}`}
+        className={`relative w-full flex items-center justify-center p-4 text-start hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50 ${headerClassName}`}
       >
         <DecorativeLabel label={title} />
         <div className="absolute right-4 flex items-center gap-3">
@@ -59,7 +59,7 @@ export default function AccordionSection({
       {/* 콘텐츠 */}
       <AnimatedHeight duration={200}>
         {isOpen && (
-          <div className="pb-4 md:px-4 border-t border-border/50">
+          <div className="px-4 pb-4 border-t border-border/50">
             {children}
           </div>
         )}

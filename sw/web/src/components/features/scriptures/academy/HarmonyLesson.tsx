@@ -128,6 +128,7 @@ function StepQuizQuestion({
   revealed,
   onSelect,
   onReveal,
+  onRetry,
 }: {
   question: QuizQuestion;
   questionIndex: number;
@@ -135,6 +136,7 @@ function StepQuizQuestion({
   revealed: boolean;
   onSelect: (choiceIndex: number) => void;
   onReveal: () => void;
+  onRetry: () => void;
 }) {
   const t = useTranslations("scriptures.academy.quiz");
   const isCorrect = selected === question.answerIndex;
@@ -216,6 +218,15 @@ function StepQuizQuestion({
             <span className="font-medium">{isCorrect ? t("correct") : t("incorrect")}</span>
             {" — "}
             {question.explanation}
+            {!isCorrect && (
+              <button
+                type="button"
+                onClick={onRetry}
+                className="mt-2 block rounded-full border border-rose-400/20 bg-rose-500/10 px-3 py-1.5 text-[11px] font-medium text-rose-300/90 transition-colors hover:bg-rose-500/20 hover:text-rose-200"
+              >
+                {t("retry")}
+              </button>
+            )}
           </motion.div>
         )}
       </div>
@@ -461,6 +472,19 @@ export default function HarmonyLesson({
     setQuizSelected((prev) => ({ ...prev, [globalIndex]: choiceIndex }));
   }, [quizRevealed]);
 
+  const handleQuizRetry = useCallback((globalIndex: number) => {
+    setQuizRevealed((prev) => {
+      const next = { ...prev };
+      delete next[globalIndex];
+      return next;
+    });
+    setQuizSelected((prev) => {
+      const next = { ...prev };
+      delete next[globalIndex];
+      return next;
+    });
+  }, []);
+
   const handleQuizReveal = useCallback((globalIndex: number) => {
     setQuizRevealed((prev) => {
       const next = { ...prev, [globalIndex]: true };
@@ -635,6 +659,7 @@ export default function HarmonyLesson({
                       revealed={quizRevealed[globalIndex] ?? false}
                       onSelect={(choiceIndex) => handleQuizSelect(globalIndex, choiceIndex)}
                       onReveal={() => handleQuizReveal(globalIndex)}
+                      onRetry={() => handleQuizRetry(globalIndex)}
                     />
                   ))
                 ) : (
