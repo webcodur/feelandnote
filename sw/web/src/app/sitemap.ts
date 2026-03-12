@@ -1,15 +1,51 @@
 import type { MetadataRoute } from 'next'
-import { createClient } from '@supabase/supabase-js'
 
-export const revalidate = 3600 // 1시간 ISR 캐시
+export const revalidate = 3600
 
 const BASE_URL = 'https://feelandnote.com'
 
-function createRuntimeClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+/** Supabase REST API로 직접 fetch (supabase-js 의존 제거) */
+async function fetchCelebs(): Promise<{ slug: string; updated_at: string | null }[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return []
+
+  const allCelebs: { slug: string; updated_at: string | null }[] = []
+  const PAGE_SIZE = 1000
+  let offset = 0
+
+  while (true) {
+    const params = new URLSearchParams({
+      select: 'slug,updated_at',
+      profile_type: 'eq.CELEB',
+      status: 'eq.active',
+      slug: 'not.is.null',
+      order: 'created_at.asc',
+      offset: String(offset),
+      limit: String(PAGE_SIZE),
+    })
+
+    const res = await fetch(`${url}/rest/v1/profiles?${params}`, {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+      },
+      next: { revalidate: 3600 },
+    })
+
+    if (!res.ok) {
+      console.error(`[sitemap] Supabase REST failed: ${res.status} ${res.statusText}`)
+      break
+    }
+
+    const data = await res.json()
+    allCelebs.push(...data)
+
+    if (data.length < PAGE_SIZE) break
+    offset += PAGE_SIZE
+  }
+
+  return allCelebs
 }
 
 function entry(
@@ -73,43 +109,11 @@ const staticEntries: MetadataRoute.Sitemap = [
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  let celebEntries: MetadataRoute.Sitemap = []
+  const celebs = await fetchCelebs()
 
-  try {
-    const supabase = createRuntimeClient()
-
-    // Supabase JS 기본 제한 1000행 → 전체 조회를 위해 페이지네이션
-    const PAGE_SIZE = 1000
-    const allCelebs: { slug: string; updated_at: string | null }[] = []
-    let offset = 0
-    let hasMore = true
-
-    while (hasMore) {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('slug, updated_at')
-        .eq('profile_type', 'CELEB')
-        .eq('status', 'active')
-        .not('slug', 'is', null)
-        .order('created_at', { ascending: true })
-        .range(offset, offset + PAGE_SIZE - 1)
-
-      if (error) {
-        console.error('[sitemap] Supabase query failed:', error.message)
-        break
-      }
-
-      allCelebs.push(...(data ?? []))
-      hasMore = (data?.length ?? 0) === PAGE_SIZE
-      offset += PAGE_SIZE
-    }
-
-    celebEntries = allCelebs.map((celeb) =>
-      entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.updated_at ? new Date(celeb.updated_at) : undefined),
-    )
-  } catch (e) {
-    console.error('[sitemap] Failed to fetch celebs:', e)
-  }
+  const celebEntries = celebs.map((celeb) =>
+    entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.updated_at ? new Date(celeb.updated_at) : undefined),
+  )
 
   return [...staticEntries, ...celebEntries]
 }
