@@ -5,18 +5,15 @@ export const dynamic = 'force-dynamic'
 
 const BASE_URL = 'https://feelandnote.com'
 
-/** 빌드 타임용 Supabase 클라이언트 (cookies 불필요) */
-function createBuildClient() {
+/** 런타임 Supabase 클라이언트 (cookies 불필요) */
+function createRuntimeClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   )
 }
 
-/** 셀럽 사이트맵 1개당 최대 URL 수 */
-const CELEBS_PER_SITEMAP = 200
-
-/** 각 경로에 대해 ko(기본) + en alternates를 포함하는 sitemap 엔트리 생성 */
+/** 각 경로에 대해 ko(기본) + en alternates + x-default를 포함하는 sitemap 엔트리 생성 */
 function entry(
   path: string,
   changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'],
@@ -33,6 +30,7 @@ function entry(
       languages: {
         ko: `${BASE_URL}${normalizedPath}`,
         en: `${BASE_URL}/en${normalizedPath}`,
+        'x-default': `${BASE_URL}${normalizedPath}`,
       },
     },
   }
@@ -44,7 +42,7 @@ function entry(
  * - id=1~N: 셀럽 라우트 (200개씩 분할)
  */
 export async function generateSitemaps() {
-  const supabase = createBuildClient()
+  const supabase = createRuntimeClient()
   const { count } = await supabase
     .from('profiles')
     .select('id', { count: 'exact', head: true })
@@ -59,23 +57,44 @@ export async function generateSitemaps() {
   return Array.from({ length: 1 + celebSitemapCount }, (_, i) => ({ id: i }))
 }
 
+/** 셀럽 사이트맵 1개당 최대 URL 수 */
+const CELEBS_PER_SITEMAP = 200
+
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
   // id=0: 정적 라우트
   if (id === 0) {
     return [
+      // 메인
       entry('/', 'daily', 1),
+
+      // 탐색 (explore)
       entry('/explore', 'daily', 0.8),
       entry('/explore/figures', 'daily', 0.8),
+      entry('/explore/celebs', 'daily', 0.8),
       entry('/explore/people', 'daily', 0.6),
+      entry('/explore/ranking', 'daily', 0.7),
+      entry('/explore/timeline', 'weekly', 0.7),
+      entry('/explore/spotlight', 'daily', 0.7),
+      entry('/explore/persona', 'weekly', 0.6),
+      entry('/explore/figure', 'weekly', 0.6),
+      entry('/explore/celeb-feed', 'daily', 0.7),
+      entry('/explore/top-by-type', 'weekly', 0.6),
+      entry('/explore/today', 'daily', 0.7),
+      entry('/explore/directory', 'weekly', 0.8),
+      entry('/explore/feed', 'daily', 0.7),
+
+      // 경전 (scriptures)
       entry('/scriptures', 'daily', 0.8),
       entry('/scriptures/era', 'weekly', 0.8),
       entry('/scriptures/museum', 'monthly', 0.7),
       entry('/scriptures/academy', 'monthly', 0.7),
-      entry('/explore/today', 'daily', 0.7),
-      entry('/explore/directory', 'weekly', 0.8),
       entry('/scriptures/profession', 'weekly', 0.7),
+      entry('/scriptures/figure', 'weekly', 0.6),
+
+      // 아고라
       entry('/agora', 'daily', 0.7),
-      entry('/explore/feed', 'daily', 0.7),
+
+      // 기타
       entry('/rest', 'monthly', 0.5),
       entry('/about', 'monthly', 0.5),
       entry('/terms', 'yearly', 0.3),
@@ -86,7 +105,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
   // id=1~N: 셀럽 라우트 (페이지네이션)
   const celebIndex = id - 1
-  const supabase = createBuildClient()
+  const supabase = createRuntimeClient()
   const { data: celebs } = await supabase
     .from('profiles')
     .select('slug, updated_at')

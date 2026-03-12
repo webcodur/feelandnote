@@ -5,7 +5,21 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/', '/admin/', '/api/', '/notifications', '/login', '/signup', '/reset-password', '/search', '/lab', '/reading'],
+      disallow: [
+        '/private/',
+        '/admin/',
+        '/api/',
+        '/notifications',
+        '/login',
+        '/signup',
+        '/reset-password',
+        '/search',
+        '/lab',
+        '/reading',
+        '/*/reading',
+        '/*/chamber',
+        '/*/merits',
+      ],
     },
     sitemap: 'https://feelandnote.com/sitemap.xml',
   }
