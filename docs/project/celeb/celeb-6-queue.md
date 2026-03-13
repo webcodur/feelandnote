@@ -8,8 +8,8 @@
 ## 현재 큐
 
 - **테이블**: `public.celeb_task_queue`
-- **현재 작업 타입**: `philosophy_rewrite_v2`
-- **목적**: 감상 편력 재작성 작업의 충돌 방지
+- **현재 작업 타입**: `cultural_journey_rewrite_v2`
+- **목적**: 감상 여정 재작성 작업의 충돌 방지
 
 `profiles.claimed_by`는 셀럽 계정 인수 상태를 뜻한다. 작업 락 용도로 재사용하지 않는다.
 
@@ -42,7 +42,7 @@
 활성 셀럽을 큐에 다시 반영할 때:
 
 ```sql
-select public.enqueue_missing_celeb_philosophy_rewrite_jobs();
+select public.enqueue_missing_celeb_cultural_journey_rewrite_jobs();
 ```
 
 - `pending` / `failed` 항목의 우선순위와 payload를 갱신한다.
@@ -56,7 +56,7 @@ select public.enqueue_missing_celeb_philosophy_rewrite_jobs();
 
 ```sql
 select *
-from public.claim_next_celeb_philosophy_rewrite('agent-01', 60);
+from public.claim_next_celeb_cultural_journey_rewrite('agent-01', 60);
 ```
 
 - 두 번째 인자 `60`은 lease 분 단위다.
@@ -66,7 +66,7 @@ from public.claim_next_celeb_philosophy_rewrite('agent-01', 60);
 ### 2. 오래 걸리면 lease 연장
 
 ```sql
-select public.renew_celeb_philosophy_rewrite_lease(
+select public.renew_celeb_cultural_journey_rewrite_lease(
   'celeb-id',
   'agent-01',
   60
@@ -78,11 +78,11 @@ select public.renew_celeb_philosophy_rewrite_lease(
 ### 3. 저장 완료
 
 ```sql
-select public.complete_celeb_philosophy_rewrite(
+select public.complete_celeb_cultural_journey_rewrite(
   'celeb-id',
   'agent-01',
-  '한국어 감상 편력',
-  'English philosophy'
+  '한국어 감상 여정',
+  'English cultural journey'
 );
 ```
 
@@ -93,7 +93,7 @@ select public.complete_celeb_philosophy_rewrite(
 ### 4. 실패 / 반납
 
 ```sql
-select public.fail_celeb_philosophy_rewrite(
+select public.fail_celeb_cultural_journey_rewrite(
   'celeb-id',
   'agent-01',
   'source check failed',
@@ -113,7 +113,7 @@ select public.fail_celeb_philosophy_rewrite(
 ```sql
 select status, count(*) as total
 from public.celeb_task_queue
-where task_type = 'philosophy_rewrite_v2'
+where task_type = 'cultural_journey_rewrite_v2'
 group by status
 order by status;
 ```
@@ -124,7 +124,7 @@ order by status;
 select q.status, q.claimed_by, q.claimed_at, q.lease_expires_at, p.slug, p.nickname
 from public.celeb_task_queue q
 join public.profiles p on p.id = q.celeb_id
-where q.task_type = 'philosophy_rewrite_v2'
+where q.task_type = 'cultural_journey_rewrite_v2'
   and q.status = 'in_progress'
 order by q.claimed_at asc;
 ```
@@ -135,7 +135,7 @@ order by q.claimed_at asc;
 select q.claimed_by, q.lease_expires_at, p.slug, p.nickname
 from public.celeb_task_queue q
 join public.profiles p on p.id = q.celeb_id
-where q.task_type = 'philosophy_rewrite_v2'
+where q.task_type = 'cultural_journey_rewrite_v2'
   and q.status = 'in_progress'
   and q.lease_expires_at < now()
 order by q.lease_expires_at asc;

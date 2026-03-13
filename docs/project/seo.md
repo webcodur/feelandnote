@@ -50,7 +50,7 @@ verification: {
 - **대상 엔진**: 네이버, Bing, Yandex 등 IndexNow 지원 엔진
 - production 환경에서만 동작 (dev 환경 skip)
 - 셀럽 등록/수정 등 콘텐츠 변경 시 호출하면 즉시 색인 요청됨
-- **미연동 상태**: 유틸만 구현됨. 셀럽 등록 플로우에 호출 코드 추가 필요.
+- **연동 완료** (2026-03-13): `web-bo` celebs.ts의 `toggleCelebStatus`(active 전환 시) + `updateCeleb`(active 셀럽 정보 변경 시) 호출
 
 ## Robots
 
@@ -112,3 +112,10 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 - **원인 2**: `@supabase/supabase-js` 클라이언트가 Next.js 메타데이터 라우트에서 동작하지 않음
 - **해결**: Supabase REST API 직접 fetch로 전환 + `created_at`으로 변경
 - **교훈**: 배포 전 로컬 curl로 REST 쿼리 검증 필수
+
+### 네이버 색인 1건 (2026-03-13)
+- **원인**: `loading.tsx`가 Suspense boundary를 생성하여, 초기 HTML에 스켈레톤만 포함. 실제 콘텐츠는 `<div hidden>` 블록으로 스트리밍됨. 네이버 Yeti 봇은 JS 미실행 → 빈 콘텐츠로 판단
+- **해결**: SEO 대상 페이지의 `loading.tsx` 삭제 → 서버가 모든 데이터를 resolve한 후 완성된 HTML을 전송
+- **삭제 대상**: `(main)/loading.tsx`, `celeb/[slug]/loading.tsx`, `content/[contentId]/loading.tsx`, `agora/board/notice/loading.tsx`, `agora/board/feedback/loading.tsx`, `agora/social/loading.tsx`
+- **유지**: 비공개 페이지(`[userId]/*`, `rest/*`) — robots.txt에서 이미 Disallow
+- **트레이드오프**: SEO 페이지에서 스켈레톤 대신 브라우저 기본 로딩 표시. TTFB가 약간 느려질 수 있으나, 서버 컴포넌트 `await`로 데이터를 가져오므로 체감 차이 미미

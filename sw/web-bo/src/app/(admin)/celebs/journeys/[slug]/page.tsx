@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import type { CelebTitleItem } from '@/actions/admin/celebs'
 import { getMemberBySlug } from '@/actions/admin/members'
 import CelebSearchBar from '@/components/celeb/CelebSearchBar'
-import CelebPhilosophyEditor from '../../../members/philosophies/CelebPhilosophyEditor'
+import CelebJourneyEditor from '../../../members/journeys/CelebJourneyEditor'
 
 function toCelebEditItem(member: Awaited<ReturnType<typeof getMemberBySlug>>): CelebTitleItem {
   return {
@@ -37,7 +37,7 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-export default async function CelebPhilosophyDetailPage({ params }: PageProps) {
+export default async function CelebJourneyDetailPage({ params }: PageProps) {
   const { slug } = await params
   const member = await getMemberBySlug(slug)
 
@@ -51,12 +51,12 @@ export default async function CelebPhilosophyDetailPage({ params }: PageProps) {
     <div className="space-y-4 md:space-y-6">
       <CelebSearchBar
         className="max-w-xl"
-        detailPathTemplate="/celebs/philosophies/[slug]"
+        detailPathTemplate="/celebs/journeys/[slug]"
       />
 
       <div className="flex items-center gap-4">
         <Link
-          href="/celebs/philosophies"
+          href="/celebs/journeys"
           className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -71,7 +71,7 @@ export default async function CelebPhilosophyDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <CelebPhilosophyEditor celebs={[celeb]} page={1} total={1} limit={50} />
+      <CelebJourneyEditor celebs={[celeb]} page={1} total={1} limit={50} />
     </div>
   )
 }

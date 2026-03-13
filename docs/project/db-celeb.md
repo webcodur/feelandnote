@@ -28,7 +28,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 |---|------|----------|
 | 1 | 기본 정보 | `docs/project/celeb/celeb-1-basic-profile.md` |
 | 2 | 콘텐츠 수집 | `docs/project/celeb/celeb-2-content-collector.md` |
-| 3 | 감상 편력 | `docs/project/celeb/celeb-3-philosophy.md` |
+| 3 | 감상 여정 | `docs/project/celeb/celeb-3-cultural-journey.md` |
 | 4 | 영향력 평가 | `docs/project/celeb/celeb-4-influence.md` |
 | 5 | 페르소나 | `docs/project/celeb/celeb-5-persona.md` |
 | 6 | 큐 관리 | `docs/project/celeb/celeb-6-queue.md` |

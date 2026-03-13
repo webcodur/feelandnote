@@ -11,7 +11,7 @@ profiles, celeb_influence, celeb_dialogues의 한국어 데이터를 영문으�
 | 1 | `profiles` | `title` | `title_en` | 수식어 (2~8자 → 영문 동등 표현) |
 | 2 | `profiles` | `bio` | `bio_en` | 소개글 (2줄 분량) |
 | 3 | `profiles` | `quotes` | `quotes_en` | 명언 (원문이 외국어면 원어 복원) |
-| 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 편력 (700~900자 에세이) |
+| 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 여정 (700~900자 에세이) |
 | 5 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
 | 6 | `celeb_dialogues` | `lines` (21개 대사) | 별도 locale 구조 | 고유 대사 (i18n.md 참조) |
 
@@ -79,7 +79,7 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 - **한국어 원문 명언**: 영어로 번역 (한국 인물의 경우)
 - 웹 검색으로 공인된 영문 번역을 확인한 후 사용
 
-### cultural_journey (감상 편력)
+### cultural_journey (감상 여정)
 
 - 700~900자 한국어 에세이를 동등 분량의 영문으로 번역
 - 단정적 문체("~다.") → 영문에서도 declarative 문체 유지
@@ -125,8 +125,8 @@ UPDATE profiles SET
     WHEN '{id2}' THEN '{quotes_en_2}'
   END,
   cultural_journey_en = CASE id
-    WHEN '{id1}' THEN '{philosophy_en_1}'
-    WHEN '{id2}' THEN '{philosophy_en_2}'
+    WHEN '{id1}' THEN '{cultural_journey_en_1}'
+    WHEN '{id2}' THEN '{cultural_journey_en_2}'
   END
 WHERE id IN ('{id1}', '{id2}');
 

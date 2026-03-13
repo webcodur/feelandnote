@@ -2,11 +2,12 @@ import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remot
 import type { BookEntry, CelebHost } from './types'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from './fonts'
+import {
+  TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
+  PRE_LABEL_GAP, LABEL_FRAMES, POST_LABEL_GAP,
+} from './timing'
 
-const TITLE_SUMMARY_GAP = 25
-const SUMMARY_CONTEXT_GAP = 25
-const CONTEXT_QUOTE_GAP = 20
-const QUOTE_CONTEXTAFTER_GAP = 20
+const CLAMP = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
 type Props = {
   book: BookEntry
@@ -41,44 +42,48 @@ export const BookCard: React.FC<Props> = ({
   const quoteStart = hasQuote ? contextEnd + CONTEXT_QUOTE_GAP : totalFrames
   const contextAfterStart = hasContextAfter ? quoteStart + quoteFrames + QUOTE_CONTEXTAFTER_GAP : totalFrames
 
-  type Phase = 'summary' | 'context' | 'quote' | 'contextAfter'
-  const phase: Phase = (() => {
-    if (frame < contextStart) return 'summary'
-    if (frame < quoteStart) return 'context'
-    if (hasContextAfter && frame >= contextAfterStart) return 'contextAfter'
-    if (hasQuote) return 'quote'
-    return 'context'
-  })()
-
   // --- 공통 ---
-  const fadeOut = interpolate(frame, [totalFrames - 30, totalFrames], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const fadeOut = interpolate(frame, [totalFrames - 30, totalFrames], [1, 0], CLAMP)
 
   // --- 등장 ---
   const coverEnter = spring({ frame: Math.max(0, frame - 5), fps, config: { damping: 14, stiffness: 160 } })
   const coverY = interpolate(frame, [0, 15], [30, 0], { extrapolateRight: 'clamp' })
   const infoOpacity = interpolate(frame, [15, 30], [0, 1], { extrapolateRight: 'clamp' })
 
-  // --- 크로스페이드 ---
-  const summaryOpacity = (() => {
-    if (phase === 'summary') return interpolate(frame, [summaryStart + 10, summaryStart + 40], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    if (phase === 'context') return interpolate(frame, [contextStart, contextStart + 25], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    return 0
-  })()
+  // ===== 레이블 → 본문 타이밍 =====
+  // 흐름: 이전 끝 → PRE_LABEL_GAP → 라벨(시각+음성) → POST_LABEL_GAP → 본문(시각+음성)
 
-  const contextOpacity = (() => {
-    if (phase === 'summary') return 0
-    if (phase === 'context') return interpolate(frame, [contextStart + 10, contextStart + 40], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    return interpolate(frame, [quoteStart, quoteStart + 25], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  })()
+  // -- 요약 구간 --
+  const summaryLabelIn = titleFrames + PRE_LABEL_GAP          // 라벨 등장 = 제목 끝 + 무음
+  const summaryFadeOut = summaryEnd + PRE_LABEL_GAP            // 요약 전체 페이드아웃 (경위 라벨과 동시)
 
-  const quoteOpacity = (() => {
-    if (phase === 'quote') return interpolate(frame, [quoteStart + 10, quoteStart + 35], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    if (phase === 'contextAfter') return interpolate(frame, [contextAfterStart, contextAfterStart + 25], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    return 0
-  })()
+  const summaryLabelOpacity = interpolate(frame,
+    [summaryLabelIn, summaryLabelIn + 15, summaryFadeOut, summaryFadeOut + 15],
+    [0, 1, 1, 0], CLAMP)
 
-  const contextAfterOpacity = phase === 'contextAfter'
-    ? interpolate(frame, [contextAfterStart + 10, contextAfterStart + 40], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const summaryBodyOpacity = interpolate(frame,
+    [summaryStart, summaryStart + 20, summaryFadeOut, summaryFadeOut + 15],
+    [0, 1, 1, 0], CLAMP)
+
+  // -- 경위 구간 --
+  const contextLabelIn = summaryEnd + PRE_LABEL_GAP            // 라벨 등장 = 요약 끝 + 무음
+
+  const contextLabelOpacity = interpolate(frame,
+    [contextLabelIn, contextLabelIn + 15],
+    [0, 1], CLAMP)
+
+  const contextBodyOpacity = interpolate(frame,
+    [contextStart, contextStart + 20],
+    [0, 1], CLAMP)
+
+  // 인용문
+  const quoteOpacity = hasQuote
+    ? interpolate(frame, [quoteStart + 5, quoteStart + 30], [0, 1], CLAMP)
+    : 0
+
+  // 후속 맥락
+  const contextAfterOpacity = hasContextAfter
+    ? interpolate(frame, [contextAfterStart + 5, contextAfterStart + 30], [0, 1], CLAMP)
     : 0
 
   return (
@@ -90,7 +95,7 @@ export const BookCard: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* 메인 레이아웃 */}
+      {/* 메인 레이아웃 — 중앙 정렬, 고정 높이로 안정 */}
       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 120px 0', gap: 80 }}>
         {/* 좌측: 표지 */}
         <div style={{ flexShrink: 0, position: 'relative', opacity: coverEnter, transform: `translateY(${coverY}px) scale(${coverEnter})` }}>
@@ -99,7 +104,7 @@ export const BookCard: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* 우측: 정보 + 화자 */}
+        {/* 우측: 정보 + 본문 */}
         <div style={{ flex: 1, maxWidth: 850, display: 'flex', flexDirection: 'column' }}>
           {/* 책 메타 */}
           <div style={{ opacity: infoOpacity }}>
@@ -113,86 +118,51 @@ export const BookCard: React.FC<Props> = ({
                 <><div style={{ color: '#444', fontSize: 14 }}>·</div><div style={{ color: '#666', fontSize: 14, fontFamily: FONT.sans }}>{book.stats.publisher}</div></>
               )}
               {book.stats.publishYear && (
-                <><div style={{ color: '#444', fontSize: 14 }}>·</div><div style={{ color: '#666', fontSize: 14, fontFamily: FONT.sans }}>{book.stats.publishYear}</div></>
+                <><div style={{ color: '#444', fontSize: 14 }}>·</div><div style={{ color: '#666', fontSize: 14, fontFamily: FONT.sans }}>{book.stats.publishYear}년 집필</div></>
               )}
             </div>
-
-            {book.stats.celebCount > 1 && (
-              <div style={{ opacity: interpolate(frame, [30, 50], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), marginBottom: 16 }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, backgroundColor: 'rgba(200,164,110,0.1)', border: '1px solid rgba(200,164,110,0.2)', borderRadius: 6, padding: '6px 14px' }}>
-                  <div style={{ color: '#c8a46e', fontSize: 14, fontFamily: FONT.sans, fontWeight: 600 }}>{book.stats.celebCount}명의 거장이 읽었다</div>
-                </div>
-                {book.stats.celebNames.length > 0 && (
-                  <div style={{ color: '#777', fontSize: 13, fontFamily: FONT.sans, marginTop: 6, lineHeight: 1.6 }}>
-                    {book.stats.celebNames.slice(0, 6).join(', ')}
-                    {book.stats.celebNames.length > 6 && ` 외 ${book.stats.celebNames.length - 6}명`}
-                  </div>
-                )}
-              </div>
-            )}
 
             <div style={{ width: interpolate(frame, [25, 45], [0, 400], { extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.3, marginBottom: 24 }} />
           </div>
 
-          {/* 화자 영역 — 요약 / 맥락 / 인용 */}
-          <div style={{ position: 'relative', minHeight: 200 }}>
-            {/* Phase 1: 요약맨 */}
-            {summaryOpacity > 0 && (
-              <div style={{ opacity: summaryOpacity }}>
-                <div style={{ color: '#8bb8a8', fontSize: 13, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 12 }}>
-                  핵심 요약
-                </div>
-                <div style={{ borderLeft: '3px solid rgba(139,184,168,0.4)', paddingLeft: 20, fontFamily: FONT.sans }}>
-                  <KoreanTypewriter text={book.summary} startFrame={summaryStart + 15} spreadFrames={summaryFrames - 30} color="#d0d0d0" fontSize={22} style={{ lineHeight: 1.8 }} />
-                </div>
+          {/* 본문 영역 — 고정 높이, 두 블록 겹침 (opacity로 전환) */}
+          <div style={{ position: 'relative', height: 420 }}>
+            {/* 요약 블록 — 항상 렌더링 */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+              <div style={{ opacity: summaryLabelOpacity, color: '#8bb8a8', fontSize: 15, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 14 }}>
+                핵심 요약
               </div>
-            )}
-
-            {/* Phase 2: 나레이터 맥락 */}
-            {contextOpacity > 0 && (
-              <div style={{ position: phase === 'summary' ? 'absolute' : 'relative', top: 0, left: 0, right: 0, opacity: contextOpacity }}>
-                <div style={{ color: '#999', fontSize: 13, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 12 }}>
-                  추천 경위
-                </div>
-                <div style={{ borderLeft: '3px solid rgba(153,153,153,0.3)', paddingLeft: 20, fontFamily: FONT.sans }}>
-                  <KoreanTypewriter text={book.context} startFrame={contextStart + 15} spreadFrames={contextFrames - 30} color="#bbb" fontSize={22} style={{ lineHeight: 1.8 }} />
-                </div>
+              <div style={{ opacity: summaryBodyOpacity, borderLeft: '3px solid rgba(139,184,168,0.4)', paddingLeft: 20, fontFamily: FONT.sans }}>
+                <KoreanTypewriter text={book.summary} startFrame={summaryStart} spreadFrames={summaryFrames - 15} color="#d0d0d0" fontSize={22} style={{ lineHeight: 1.8 }} />
               </div>
-            )}
+            </div>
 
-            {/* Phase 3: 셀럽 직접 인용 (있을 때만) */}
-            {hasQuote && quoteOpacity > 0 && book.directQuote && (
-              <div style={{ position: (phase !== 'quote' && phase !== 'contextAfter') ? 'absolute' : 'relative', top: 0, left: 0, right: 0, opacity: quoteOpacity }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', border: '2px solid #c8a46e', boxShadow: '0 0 20px rgba(200,164,110,0.2)', flexShrink: 0 }}>
-                    <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
-                  <div>
-                    <div style={{ color: '#e8e0d0', fontSize: 22, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
-                    <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.cormorant }}>{host.nickname_en}</div>
-                  </div>
-                </div>
-                <div style={{ borderLeft: '3px solid rgba(200,164,110,0.5)', paddingLeft: 24 }}>
-                  <div style={{ color: '#e8e0d0', fontSize: 32, fontWeight: 700, fontFamily: FONT.serif, fontStyle: 'italic', lineHeight: 1.6 }}>
+            {/* 경위 블록 — 항상 렌더링 */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+              <div style={{ opacity: contextLabelOpacity, color: '#999', fontSize: 15, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 14 }}>
+                추천 경위
+              </div>
+              <div style={{ opacity: contextBodyOpacity, borderLeft: '3px solid rgba(153,153,153,0.3)', paddingLeft: 20, fontFamily: FONT.sans, marginBottom: hasQuote ? 20 : 0 }}>
+                <KoreanTypewriter text={book.context} startFrame={contextStart} spreadFrames={contextFrames - 15} color="#bbb" fontSize={22} style={{ lineHeight: 1.8 }} />
+              </div>
+
+              {hasQuote && book.directQuote && (
+                <div style={{ opacity: quoteOpacity, borderLeft: '3px solid rgba(200,164,110,0.5)', paddingLeft: 20, marginBottom: hasContextAfter ? 20 : 0 }}>
+                  <div style={{ color: '#c8a46e', fontSize: 24, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.6 }}>
                     "{book.directQuote}"
                   </div>
-                  {book.directQuoteSource && (
-                    <div style={{ color: '#888', fontSize: 14, fontFamily: FONT.sans, marginTop: 12 }}>
-                      — {book.directQuoteSource}
-                    </div>
-                  )}
+                  <div style={{ color: '#888', fontSize: 13, fontFamily: FONT.sans, marginTop: 6 }}>
+                    — {host.nickname}{book.directQuoteSource ? `, ${book.directQuoteSource}` : ''}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Phase 4: 후속 맥락 (있을 때만) */}
-            {hasContextAfter && contextAfterOpacity > 0 && contextAfterText && (
-              <div style={{ position: phase !== 'contextAfter' ? 'absolute' : 'relative', top: 0, left: 0, right: 0, opacity: contextAfterOpacity }}>
-                <div style={{ borderLeft: '3px solid rgba(153,153,153,0.3)', paddingLeft: 20, fontFamily: FONT.sans }}>
-                  <KoreanTypewriter text={contextAfterText} startFrame={contextAfterStart + 15} spreadFrames={contextAfterFrames - 30} color="#bbb" fontSize={22} style={{ lineHeight: 1.8 }} />
+              {hasContextAfter && contextAfterText && (
+                <div style={{ opacity: contextAfterOpacity, borderLeft: '3px solid rgba(153,153,153,0.3)', paddingLeft: 20, fontFamily: FONT.sans }}>
+                  <KoreanTypewriter text={contextAfterText} startFrame={contextAfterStart} spreadFrames={contextAfterFrames - 15} color="#bbb" fontSize={22} style={{ lineHeight: 1.8 }} />
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

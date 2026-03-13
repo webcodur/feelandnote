@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Star, Check, X, Loader2, Trash2 } from 'lucide-react'
-import { updateCelebPhilosophy, deleteCeleb, type CelebTitleItem } from '@/actions/admin/celebs'
+import { updateCelebJourney, deleteCeleb, type CelebTitleItem } from '@/actions/admin/celebs'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { useToast } from '@/contexts/ToastContext'
 import Pagination from '@/components/ui/Pagination'
@@ -16,19 +16,19 @@ interface Props {
   limit: number
 }
 
-export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Props) {
+export default function CelebJourneyEditor({ celebs, page, total, limit }: Props) {
   const { showToast } = useToast()
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editValue, setEditValue] = useState('')
   const [saving, setSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set())
-  
+
   // celebs가 바뀌면 state도 업데이트 되어야 함 (페이지 이동 시)
-  const [philosophies, setPhilosophies] = useState<Record<string, string | null>>({})
-  
+  const [journeys, setJourneys] = useState<Record<string, string | null>>({})
+
   useEffect(() => {
-    setPhilosophies(
+    setJourneys(
         celebs.reduce((acc, c) => ({ ...acc, [c.id]: c.cultural_journey }), {})
     )
   }, [celebs])
@@ -51,20 +51,20 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
     setEditValue('')
   }
 
-  async function savePhilosophy(celebId: string) {
-    const newPhilosophy = editValue.trim() || null
-    const oldPhilosophy = philosophies[celebId]
+  async function saveJourney(celebId: string) {
+    const newJourney = editValue.trim() || null
+    const oldJourney = journeys[celebId]
 
-    if (newPhilosophy === oldPhilosophy) {
+    if (newJourney === oldJourney) {
       cancelEdit()
       return
     }
 
     setSaving(true)
     try {
-      await updateCelebPhilosophy(celebId, newPhilosophy)
-      setPhilosophies((prev) => ({ ...prev, [celebId]: newPhilosophy }))
-      showToast('success', '감상 편력이 저장되었습니다.')
+      await updateCelebJourney(celebId, newJourney)
+      setJourneys((prev) => ({ ...prev, [celebId]: newJourney }))
+      showToast('success', '감상 여정이 저장되었습니다.')
       cancelEdit()
     } catch {
       showToast('error', '저장에 실패했습니다.')
@@ -80,7 +80,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
     // Ctrl/Cmd + Enter로 저장
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault()
-      savePhilosophy(celebId)
+      saveJourney(celebId)
       return
     }
   }
@@ -109,14 +109,14 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
           <thead className="bg-bg-secondary border-b border-border">
             <tr>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[200px]">셀럽</th>
-              <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary">감상 편력</th>
+              <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary">감상 여정</th>
               <th className="text-center px-4 py-3 text-sm font-medium text-text-secondary w-16">삭제</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {celebs.filter((c) => !deletedIds.has(c.id)).map((celeb) => {
               const isEditing = editingId === celeb.id
-              const currentPhilosophy = philosophies[celeb.id]
+              const currentJourney = journeys[celeb.id]
               const isDeleting = deletingId === celeb.id
 
               return (
@@ -160,7 +160,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
                               <>
                                 <button
                                   type="button"
-                                  onClick={() => savePhilosophy(celeb.id)}
+                                  onClick={() => saveJourney(celeb.id)}
                                   className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-green-400 hover:bg-green-400/10"
                                 >
                                   <Check className="w-4 h-4" />저장
@@ -183,8 +183,8 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
                         onClick={() => startEdit(celeb)}
                         className="w-full text-start px-3 py-2 rounded-lg text-sm hover:bg-white/5 group"
                       >
-                        {currentPhilosophy ? (
-                          <span className="text-text-primary whitespace-pre-wrap block">{currentPhilosophy}</span>
+                        {currentJourney ? (
+                          <span className="text-text-primary whitespace-pre-wrap block">{currentJourney}</span>
                         ) : (
                           <span className="text-text-secondary group-hover:text-text-primary">클릭하여 입력...</span>
                         )}
@@ -209,7 +209,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
       </div>
 
       {/* Pagination */}
-      <Pagination page={page} totalPages={totalPages} baseHref="/members/philosophies" />
+      <Pagination page={page} totalPages={totalPages} baseHref="/members/journeys" />
     </div>
   )
 }

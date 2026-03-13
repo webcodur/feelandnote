@@ -1,30 +1,34 @@
+import { useMemo } from 'react'
 import { useCurrentFrame } from 'remotion'
 import { FONT } from './fonts'
 import type { BookRecommendScript } from './types'
-
-const FPS = 30
-const toFrames = (sec: number) => Math.ceil(sec * FPS) + 15
-const BRAND_FRAMES = 120
-const CELEB_VISUAL_DELAY = 75
-const TITLE_SUMMARY_GAP = 25
-const SUMMARY_CONTEXT_GAP = 25
-const CONTEXT_QUOTE_GAP = 20
-const QUOTE_CONTEXTAFTER_GAP = 20
-const BOOK_GAP = 60
-const RECAP_FRAMES = 150
+import {
+  toFrames, toAudioFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
+  TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
+  BOOK_GAP, RECAP_FRAMES,
+  summaryPhaseEnd as calcSummaryEnd, contextPhaseEnd as calcContextEnd,
+  quotePhaseEnd as calcQuoteEnd, bookTotalFrames,
+} from './timing'
 
 type Sub = { start: number; end: number; speaker: string; text: string }
+
+/** 문장 간 호흡 프레임 — TTS가 문장 사이에 쉬는 시간 보정 */
+const SENTENCE_BREATH = 8
 
 function splitIntoSentences(start: number, end: number, speaker: string, fullText: string): Sub[] {
   const sentences = fullText.split(/(?<=[.?!])\s+/).filter(Boolean)
   if (sentences.length <= 1) return [{ start, end, speaker, text: fullText }]
   const totalFrames = end - start
+  // 문장 사이 호흡 간격을 빼고 남은 프레임을 글자 수 비례 배분
+  const breathTotal = (sentences.length - 1) * SENTENCE_BREATH
+  const distributableFrames = Math.max(totalFrames - breathTotal, totalFrames * 0.7)
   const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
   const subs: Sub[] = []
   let cursor = start
-  for (const sentence of sentences) {
-    const frames = Math.round((sentence.length / totalChars) * totalFrames)
-    subs.push({ start: cursor, end: cursor + frames, speaker, text: sentence })
+  for (let i = 0; i < sentences.length; i++) {
+    if (i > 0) cursor += SENTENCE_BREATH  // 호흡 간격
+    const frames = Math.round((sentences[i].length / totalChars) * distributableFrames)
+    subs.push({ start: cursor, end: cursor + frames, speaker, text: sentences[i] })
     cursor += frames
   }
   return subs
@@ -44,78 +48,61 @@ function buildSubs(script: BookRecommendScript): Sub[] {
   cursor += hostIntroFrames
   cursor += bridgeFrames
 
-  // 나레이터 셀럽 소개
+  // 나레이터 셀럽 소개 (순수 오디오 길이로 자막 분배)
   const celebVoiceStart = hostIntroStart + CELEB_VISUAL_DELAY
-  const celebVoiceEnd = celebVoiceStart + toFrames(narrator.celebIntroDuration)
+  const celebVoiceEnd = celebVoiceStart + toAudioFrames(narrator.celebIntroDuration)
   subs.push(...splitIntoSentences(celebVoiceStart, celebVoiceEnd, '나레이터', narrator.celebIntro))
 
-  // 셀럽 감상철학
+  // 셀럽 감상철학 (순수 오디오 길이로 자막 분배)
   const philoStart = hostIntroStart + celebIntroFrames
-  const philoEnd = philoStart + philosophyFrames
+  const philoEnd = philoStart + toAudioFrames(host.voiceDuration)
   subs.push(...splitIntoSentences(philoStart, philoEnd, host.nickname, host.philosophy))
 
   // 도서
-  const summaryPhaseEnd = (b: (typeof books)[0]) =>
-    toFrames(b.titleDuration) + TITLE_SUMMARY_GAP + toFrames(b.summaryDuration)
-  const contextPhaseEnd = (b: (typeof books)[0]) =>
-    summaryPhaseEnd(b) + SUMMARY_CONTEXT_GAP + toFrames(b.contextDuration)
-  const quotePhaseEnd = (b: (typeof books)[0]) =>
-    b.quoteDuration
-      ? contextPhaseEnd(b) + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration)
-      : contextPhaseEnd(b)
-  const bookTotal = (b: (typeof books)[0]) => {
-    if (!b.quoteDuration) return contextPhaseEnd(b)
-    const qEnd = quotePhaseEnd(b)
-    if (!b.contextAfterDuration) return qEnd
-    return qEnd + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration)
-  }
 
   for (let i = 0; i < books.length; i++) {
     if (i > 0) cursor += BOOK_GAP
     const bs = cursor
     const b = books[i]
     const titleFrames = toFrames(b.titleDuration)
-    const summaryFrames = toFrames(b.summaryDuration)
-    const contextFrames = toFrames(b.contextDuration)
-    const sEnd = summaryPhaseEnd(b)
-    const cEnd = contextPhaseEnd(b)
+    const sEnd = calcSummaryEnd(b)
+    const cEnd = calcContextEnd(b)
 
-    // 제목+저자
-    subs.push({ start: bs, end: bs + titleFrames, speaker: '나레이터', text: `${b.title}, ${b.creator}` })
+    // 제목+저자 (순수 오디오)
+    subs.push({ start: bs, end: bs + toAudioFrames(b.titleDuration), speaker: '나레이터', text: `${b.title}, ${b.creator}` })
 
-    // 요약맨
+    // 요약맨 (순수 오디오)
     const summaryStart = bs + titleFrames + TITLE_SUMMARY_GAP
-    subs.push(...splitIntoSentences(summaryStart, summaryStart + summaryFrames, '요약', b.summary))
+    subs.push(...splitIntoSentences(summaryStart, summaryStart + toAudioFrames(b.summaryDuration), '요약', b.summary))
 
-    // 나레이터 맥락
+    // 나레이터 맥락 (순수 오디오)
     const contextStart = bs + sEnd + SUMMARY_CONTEXT_GAP
-    subs.push(...splitIntoSentences(contextStart, contextStart + contextFrames, '나레이터', b.context))
+    subs.push(...splitIntoSentences(contextStart, contextStart + toAudioFrames(b.contextDuration), '나레이터', b.context))
 
-    // 셀럽 인용 (있을 때만)
+    // 셀럽 인용 (있을 때만, 순수 오디오)
     if (b.directQuote && b.quoteDuration) {
       const quoteStart = bs + cEnd + CONTEXT_QUOTE_GAP
-      const quoteFrames = toFrames(b.quoteDuration)
-      subs.push({ start: quoteStart, end: quoteStart + quoteFrames, speaker: host.nickname, text: `"${b.directQuote}"` })
+      const quoteAudioFrames = toAudioFrames(b.quoteDuration)
+      subs.push({ start: quoteStart, end: quoteStart + quoteAudioFrames, speaker: host.nickname, text: `"${b.directQuote}"` })
 
-      // 후속 맥락 (있을 때만)
+      // 후속 맥락 (있을 때만, 순수 오디오)
       if (b.contextAfter && b.contextAfterDuration) {
+        const quoteFrames = toFrames(b.quoteDuration)
         const qEnd = cEnd + CONTEXT_QUOTE_GAP + quoteFrames
         const caStart = bs + qEnd + QUOTE_CONTEXTAFTER_GAP
-        const caFrames = toFrames(b.contextAfterDuration)
-        subs.push(...splitIntoSentences(caStart, caStart + caFrames, '나레이터', b.contextAfter))
+        subs.push(...splitIntoSentences(caStart, caStart + toAudioFrames(b.contextAfterDuration), '나레이터', b.contextAfter))
       }
     }
 
-    cursor += bookTotal(b)
+    cursor += bookTotalFrames(b)
   }
 
   // 리캡
   cursor += RECAP_FRAMES
 
-  // 아웃트로
+  // 아웃트로 (순수 오디오)
   if (narrator.outroDuration > 0) {
-    const outroFrames = toFrames(narrator.outroDuration)
-    subs.push(...splitIntoSentences(cursor, cursor + outroFrames, '나레이터', narrator.outro))
+    subs.push(...splitIntoSentences(cursor, cursor + toAudioFrames(narrator.outroDuration), '나레이터', narrator.outro))
   }
 
   return subs
@@ -125,7 +112,7 @@ type Props = { script: BookRecommendScript }
 
 export const Subtitles: React.FC<Props> = ({ script }) => {
   const frame = useCurrentFrame()
-  const subs = buildSubs(script)
+  const subs = useMemo(() => buildSubs(script), [script])
 
   const current = subs.find((s) => frame >= s.start && frame < s.end)
   if (!current) return null

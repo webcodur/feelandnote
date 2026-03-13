@@ -2,6 +2,7 @@ import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remot
 import type { CelebHost } from './types'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from './fonts'
+import { toAudioFrames, CELEB_VISUAL_DELAY } from './timing'
 
 type Props = {
   host: CelebHost
@@ -10,6 +11,10 @@ type Props = {
   celebIntroFrames: number
   /** Section 1 + 2 합산 프레임 */
   totalFrames: number
+  /** 나레이터 소개 오디오 초 */
+  narratorDuration: number
+  /** 감상철학 오디오 초 */
+  philosophyDuration: number
 }
 
 /**
@@ -18,7 +23,7 @@ type Props = {
  * 우측 Phase 1: "오늘의 인물" + 이름 + biography (나레이터)
  * 우측 Phase 2: 감상철학 (셀럽 본인)
  */
-export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames }) => {
+export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
@@ -146,8 +151,8 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
               <div style={{ opacity: phase1TextOpacity, fontFamily: FONT.sans }}>
                 <KoreanTypewriter
                   text={narratorText}
-                  startFrame={45}
-                  spreadFrames={celebIntroFrames - 70}
+                  startFrame={CELEB_VISUAL_DELAY}
+                  spreadFrames={toAudioFrames(narratorDuration)}
                   color="#ccc"
                   fontSize={22}
                   style={{ lineHeight: 1.8 }}
@@ -169,11 +174,11 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                 <div style={{ borderLeft: '3px solid rgba(200,164,110,0.4)', paddingLeft: 20, fontFamily: FONT.serif }}>
                   <KoreanTypewriter
                     text={host.philosophy}
-                    startFrame={celebIntroFrames + 20}
-                    spreadFrames={phase2Frames - 60}
+                    startFrame={celebIntroFrames + 5}
+                    spreadFrames={toAudioFrames(philosophyDuration)}
                     color="#e8e0d0"
                     fontSize={24}
-                    style={{ fontStyle: 'italic', lineHeight: 1.8 }}
+                    style={{ lineHeight: 1.8 }}
                   />
                 </div>
               </div>

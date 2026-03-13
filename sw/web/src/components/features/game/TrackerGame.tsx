@@ -6,7 +6,7 @@
     - Stage 2 (행적 2): 콘텐츠 2개째 — 확인 1회로 해금
     - Stage 3 (행적 3): 콘텐츠 3개째 — 확인 2회로 해금
     - Stage 4 (행적 4): 콘텐츠 4개째 — 확인 3회로 해금
-    - Stage 5 (철학): 감상 편력 — 확인 4회로 해금
+    - Stage 5 (감상 여정): 감상 여정 — 확인 4회로 해금
 */
 "use client";
 
@@ -17,7 +17,7 @@ import { useRef } from "react";
 import { getTrackerRound, type TrackerRound } from "@/actions/game/getTrackerRound";
 import { cn } from "@/lib/utils";
 import ContentReveal from "./tracker/ContentReveal";
-import PhilosophyReveal from "./tracker/PhilosophyReveal";
+import CulturalJourneyReveal from "./tracker/CulturalJourneyReveal";
 import MultipleChoice from "./tracker/MultipleChoice";
 import TrackerResult from "./tracker/TrackerResult";
 
@@ -345,11 +345,11 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
                         emptyAdditionalLabel={tGame("emptyAdditionalTrace")}
                       />
                     )}
-                    {/* Stage 5: 감상 편력 */}
+                    {/* Stage 5: 감상 여정 */}
                     {viewStage === "stage5" && (
                       <div className="w-full">
-                        {round.consumptionPhilosophy ? (
-                          <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
+                        {round.culturalJourney ? (
+                          <CulturalJourneyReveal culturalJourney={round.culturalJourney} />
                         ) : (
                           <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
                             {tGame("emptyFirstTrace")}

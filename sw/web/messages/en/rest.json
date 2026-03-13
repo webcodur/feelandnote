@@ -104,8 +104,8 @@
         "clue3Desc": "3rd content review — unlocked after 2 confirmations",
         "clue4": "Trace 4",
         "clue4Desc": "4th content review — unlocked after 3 confirmations",
-        "cluePhilosophy": "Philosophy",
-        "cluePhilosophyDesc": "Viewing philosophy — unlocked after 4 confirmations",
+        "clueCulturalJourney": "Cultural Journey",
+        "clueCulturalJourneyDesc": "Cultural journey — unlocked after 4 confirmations",
         "tip1": "Click a sage card to reveal <o>O</o> (recruit) and <x>X</x> (confirm) buttons. Each confirmation unlocks a new trace, so gather traces to narrow down the sages.",
         "tip2": "You can recruit at any time, but the fewer confirmations with a correct guess, the better. A wrong guess causes the sage to vanish. Judge carefully.",
         "game": {
@@ -114,7 +114,7 @@
             "stage2": "Trace 2",
             "stage3": "Trace 3",
             "stage4": "Trace 4",
-            "stage5": "Philosophy"
+            "stage5": "Cultural Journey"
           },
           "emptyFirstTrace": "No trace available",
           "emptyAdditionalTrace": "No additional traces",
@@ -138,7 +138,7 @@
             "GAME": "Game",
             "MUSIC": "Music"
           },
-          "philosophyTitle": "Stage 5 — Philosophy"
+          "culturalJourneyTitle": "Stage 5 — Cultural Journey"
         }
       },
       "hegemony": {

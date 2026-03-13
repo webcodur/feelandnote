@@ -70,29 +70,56 @@ bookTotalFrames  = quoteDuration
 | 셀럽 | `Puck` | 남성 | `#c8a46e` (골드) |
 
 ### 텍스트 작성 규칙
-- 제목+저자+년도: `'히치하이커 안내서, 더글러스 애덤스, 1979'` — 쉼표 구분, 마침표 없음
+- 제목+저자+년도: `'히치하이커 안내서, 더글러스 애덤스, 천구백칠십구 년 집필'` — 쉼표 구분, 마침표 없음. **연도는 한글 + "년 집필"** 형태로 TTS 전달.
+- 화면 표시(script.ts): `publishYear: '1979'` → BookCard가 자동으로 `1979년 집필` 표시.
 - 요약/경위: 마침표로 문장 구분. 자연스러운 호흡을 위해 한 문장이 너무 길지 않게.
 - 직접 인용문: 원문 그대로. 짧은 문장.
+- 숫자: TTS용(generate-voice.mjs)은 한글숫자, 자막용(script.ts)은 아라비아 숫자.
 - SSML 미지원. 순수 텍스트만 전달.
 
 ### API 키 로테이션
 - 무료 티어: 키당 10회/일. `.env`에 `GOOGLE_GENAI_API_KEY1` ~ `GOOGLE_GENAI_API_KEY19` 등록.
-- `generate-voice.mjs`가 429 에러 시 자동으로 다음 키로 전환.
+- `generate-voice.ts`가 429/403 에러 시 자동으로 다음 키로 전환.
 
-## 데이터 흐름
+## 단일원천 (SSoT) 구조
 
 ```
-generate-voice.mjs (TTS 텍스트 + 음성 생성)
-    ↓ duration 출력
-script.ts (duration 값 + 자막용 텍스트)
+episodes/<name>.json (단일원천: 자막 텍스트 + TTS 오버라이드 + duration)
     ↓
-BookRecommend.tsx (오디오 재생 타이밍)
-BookCard.tsx      (3단계 화자 전환 시각)
-Subtitles.tsx     (자막 표시 타이밍)
-Overlay.tsx       (진행도 바 타이밍)
+script.ts (에피소드 로더 — JSON import + 타입 캐스팅)
+    ↓
+generate-voice.ts  →  tts 오버라이드 우선, 없으면 기본 텍스트 사용
+    ↓
+timing.ts (타이밍 상수 + 계산 함수 — 단일원천)
+    ↓
+BookRecommend.tsx, BookCard.tsx, Subtitles.tsx, Overlay.tsx (모두 timing.ts import)
 ```
 
-- `script.ts`의 텍스트와 `generate-voice.mjs`의 텍스트가 **반드시 일치**해야 한다. 한쪽만 수정하면 자막 불일치.
+### 에피소드 구조
+- **`episodes/<name>.json`**: 순수 데이터. 자막 텍스트 + TTS 오버라이드 + duration.
+- **`script.ts`**: JSON import → `currentEpisode` export. 에피소드 전환은 `EPISODE_NAME` 변경.
+- **`timing.ts`**: 타이밍 상수 + 계산 함수. `toFrames`(섹션 배치용, +15 버퍼) / `toAudioFrames`(자막 분배용, 버퍼 없음).
+- **`generate-voice.ts`**: `pnpm voice` / `pnpm voice -- --episode steve-jobs` / `pnpm voice -- --only book-0-summary`
+
+### 음성 파일 구조
+```
+public/voice/<episode-name>/
+  label-summary.wav, label-context.wav   ← 공용 라벨 (에피소드별 생성)
+  narrator-celeb-intro.wav, philosophy.wav, narrator-outro.wav
+  book-0-title.wav, book-0-summary.wav, ...
+```
+
+### 새 에피소드 제작 워크플로
+1. `episodes/<name>.json` 작성 (기존 JSON 복사 후 수정)
+2. `script.ts`에 JSON import + episodes 맵 등록 + `EPISODE_NAME` 변경
+3. `pnpm voice -- --episode <name>` 실행
+4. duration 결과를 JSON에 반영
+5. `pnpm reboot`으로 프리뷰
+
+### 텍스트 수정 워크플로
+1. `episodes/<name>.json` 수정 (자막 텍스트 + 필요시 tts 오버라이드)
+2. `pnpm voice -- --episode <name> --only <파일명>` 실행
+3. duration 결과를 `script.ts`에 반영
 
 ## 자막 (Subtitles.tsx)
 

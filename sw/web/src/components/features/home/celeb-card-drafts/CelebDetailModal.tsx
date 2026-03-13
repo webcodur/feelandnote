@@ -180,7 +180,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const displayTitle = (isEn && celeb.title_en) || celeb.title;
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
-  const displayPhilosophy = (isEn && celeb.cultural_journey_en) || celeb.cultural_journey;
+  const displayJourney = (isEn && celeb.cultural_journey_en) || celeb.cultural_journey;
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
 
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
@@ -495,16 +495,16 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       )}
 
       {/* 구분선 */}
-      {(displayBio || displayQuotes) && displayPhilosophy && (
+      {(displayBio || displayQuotes) && displayJourney && (
         <div className="w-full h-px bg-accent/20 my-2 mx-auto max-w-[calc(100%-3rem)]" />
       )}
 
-      {/* 감상 편력 */}
-      {displayPhilosophy && (
+      {/* 감상 여정 */}
+      {displayJourney && (
         <div className="px-6 md:px-8 pt-4 pb-2">
           <p className="text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">
             <Feather size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
-            <FormattedText text={displayPhilosophy} />
+            <FormattedText text={displayJourney} />
           </p>
         </div>
       )}

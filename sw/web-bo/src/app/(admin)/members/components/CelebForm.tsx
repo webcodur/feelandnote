@@ -160,8 +160,8 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
 
-  // 감상 편력 textarea ref (자동 높이 조절용)
-  const philosophyTextareaRef = useRef<HTMLTextAreaElement>(null)
+  // 감상 여정 textarea ref (자동 높이 조절용)
+  const journeyTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   // DND 상태
   const [avatarDragging, setAvatarDragging] = useState(false)
@@ -170,7 +170,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [openSections, setOpenSections] = useState({
     basicInfo: true,
     influence: false,
-    philosophy: false,
+    journey: false,
     tags: false,
   })
 
@@ -226,9 +226,9 @@ export default function CelebForm({ mode, celeb }: Props) {
     }
   }, [mode, celeb])
 
-  // 감상 편력 textarea 자동 높이 조절
-  const adjustPhilosophyHeight = useCallback(() => {
-    const textarea = philosophyTextareaRef.current
+  // 감상 여정 textarea 자동 높이 조절
+  const adjustJourneyHeight = useCallback(() => {
+    const textarea = journeyTextareaRef.current
     if (textarea) {
       textarea.style.height = 'auto'
       textarea.style.height = `${textarea.scrollHeight}px`
@@ -236,14 +236,14 @@ export default function CelebForm({ mode, celeb }: Props) {
   }, [])
 
   useEffect(() => {
-    adjustPhilosophyHeight()
-  }, [formData.cultural_journey, adjustPhilosophyHeight])
+    adjustJourneyHeight()
+  }, [formData.cultural_journey, adjustJourneyHeight])
 
   // 화면 리사이즈 시 높이 재조정
   useEffect(() => {
-    window.addEventListener('resize', adjustPhilosophyHeight)
-    return () => window.removeEventListener('resize', adjustPhilosophyHeight)
-  }, [adjustPhilosophyHeight])
+    window.addEventListener('resize', adjustJourneyHeight)
+    return () => window.removeEventListener('resize', adjustJourneyHeight)
+  }, [adjustJourneyHeight])
 
   function toggleAutoName() {
     setAutoNameFromFile(prev => {
@@ -656,22 +656,22 @@ export default function CelebForm({ mode, celeb }: Props) {
 
       {/* Cultural Journey */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
-        <button type="button" onClick={() => toggleSection('philosophy')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
-          <h2 className="text-base font-semibold text-text-primary">감상 편력</h2>
+        <button type="button" onClick={() => toggleSection('journey')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+          <h2 className="text-base font-semibold text-text-primary">감상 여정</h2>
           <div className="flex items-center gap-3">
-            {!openSections.philosophy && formData.cultural_journey && (
+            {!openSections.journey && formData.cultural_journey && (
               <span className="text-xs text-text-secondary">{formData.cultural_journey.length}자</span>
             )}
-            {openSections.philosophy ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
+            {openSections.journey ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
           </div>
         </button>
-        {openSections.philosophy && (
+        {openSections.journey && (
         <div className="px-4 pb-4 space-y-3">
           {langMode === 'both' ? (
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <p className="text-xs text-text-secondary">국문</p>
-                <textarea ref={philosophyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 편력 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
+                <textarea ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
                 {formData.cultural_journey && (
                   <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
                     {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
@@ -680,7 +680,7 @@ export default function CelebForm({ mode, celeb }: Props) {
               </div>
               <div className="space-y-2">
                 <p className="text-xs text-blue-400/70">EN</p>
-                <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English philosophy (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
+                <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
                 {formData.cultural_journey_en && (
                   <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
                     {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
@@ -692,7 +692,7 @@ export default function CelebForm({ mode, celeb }: Props) {
             <div className="space-y-2">
               {langMode === 'ko' ? (
                 <>
-                  <textarea ref={philosophyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 편력 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
+                  <textarea ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
                   {formData.cultural_journey && (
                     <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
                       {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
@@ -701,7 +701,7 @@ export default function CelebForm({ mode, celeb }: Props) {
                 </>
               ) : (
                 <>
-                  <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English philosophy (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
+                  <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
                   {formData.cultural_journey_en && (
                     <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
                       {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}

@@ -81,9 +81,9 @@ export default async function CelebsPage({ searchParams }: PageProps) {
               <Briefcase className="w-4 h-4" />직군 편집
             </Button>
           </Link>
-          <Link href="/celebs/philosophies">
+          <Link href="/celebs/journeys">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
-              <BookOpen className="w-4 h-4" />감상 편력 편집
+              <BookOpen className="w-4 h-4" />감상 여정 편집
             </Button>
           </Link>
           <Link href="/celebs/vectors">

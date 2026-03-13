@@ -137,7 +137,6 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames }) => {
                     color: '#c8a46e',
                     fontSize: 15,
                     fontFamily: FONT.serif,
-                    fontStyle: 'italic',
                     lineHeight: 1.6,
                     borderTop: '1px solid rgba(200, 164, 110, 0.2)',
                     paddingTop: 12,

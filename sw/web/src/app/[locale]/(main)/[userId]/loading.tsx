@@ -16,7 +16,7 @@ export default function Loading() {
         </div>
       </div>
 
-      {/* 감상 편력 섹션 스켈레톤 */}
+      {/* 감상 여정 섹션 스켈레톤 */}
       <div className="rounded-xl border border-white/5 bg-bg-card/40 p-4 sm:p-6 md:p-8">
         <div className="flex justify-center mb-6 sm:mb-8">
           <div className="h-4 w-20 bg-white/5 rounded" />

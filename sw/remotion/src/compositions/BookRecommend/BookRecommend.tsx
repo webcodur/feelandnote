@@ -8,6 +8,13 @@ import { BookRecap } from './BookRecap'
 import { FONT } from './fonts'
 import { Subtitles } from './Subtitles'
 import { Overlay } from './Overlay'
+import {
+  toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
+  TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
+  BOOK_GAP, RECAP_FRAMES, PRE_LABEL_GAP, LABEL_FRAMES,
+  summaryPhaseEnd, contextPhaseEnd, quotePhaseEnd, bookTotalFrames,
+} from './timing'
+import { EPISODE_NAME } from './script'
 
 type Props = {
   script: BookRecommendScript
@@ -16,54 +23,8 @@ type Props = {
 const STATIC = 'http://localhost:3005'
 const CACHE_BUST = Date.now()
 const sf = (path: string) => `${STATIC}/${path}?v=${CACHE_BUST}`
-
-const FPS = 30
-const toFrames = (sec: number) => Math.ceil(sec * FPS) + 15
-const BRAND_FRAMES = 120
-const CELEB_VISUAL_DELAY = 75
-
-/** 제목+저자 → 요약맨 사이 갭 */
-const TITLE_SUMMARY_GAP = 25
-/** 요약 → 나레이터 맥락 사이 갭 */
-const SUMMARY_CONTEXT_GAP = 25
-/** 맥락 → 셀럽 인용 사이 갭 (인용 있을 때만) */
-const CONTEXT_QUOTE_GAP = 20
-/** 인용 → 후속 맥락 사이 갭 */
-const QUOTE_CONTEXTAFTER_GAP = 20
-/** 책 사이 전환 프레임 */
-const BOOK_GAP = 60
-/** 리캡 섹션 프레임 */
-const RECAP_FRAMES = 150
-
-type BookDurations = {
-  titleDuration: number
-  summaryDuration: number
-  contextDuration: number
-  quoteDuration?: number
-  contextAfterDuration?: number
-}
-
-/** title + gap + summary 까지 */
-const summaryPhaseEnd = (b: BookDurations) =>
-  toFrames(b.titleDuration) + TITLE_SUMMARY_GAP + toFrames(b.summaryDuration)
-
-/** summary + gap + context 까지 */
-const contextPhaseEnd = (b: BookDurations) =>
-  summaryPhaseEnd(b) + SUMMARY_CONTEXT_GAP + toFrames(b.contextDuration)
-
-/** 인용문 끝 */
-const quotePhaseEnd = (b: BookDurations) =>
-  b.quoteDuration
-    ? contextPhaseEnd(b) + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration)
-    : contextPhaseEnd(b)
-
-/** 전체 (인용문 + 후속 맥락 포함 시) */
-const bookTotalFrames = (b: BookDurations) => {
-  if (!b.quoteDuration) return contextPhaseEnd(b)
-  const qEnd = quotePhaseEnd(b)
-  if (!b.contextAfterDuration) return qEnd
-  return qEnd + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration)
-}
+/** 에피소드별 음성 경로 */
+const vf = (file: string) => sf(`voice/${EPISODE_NAME}/${file}`)
 
 export const calcTotalFrames = (script: BookRecommendScript) => {
   const { narrator, host, books } = script
@@ -168,14 +129,14 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
           <Audio src={sf('sfx/type-reveal.wav')} volume={0.7} />
           {narrator.celebIntroDuration > 0 && (
             <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={celebIntroFrames - CELEB_VISUAL_DELAY}>
-              <Audio src={sf('voice/narrator-celeb-intro.wav')} />
+              <Audio src={vf('narrator-celeb-intro.wav')} />
             </Sequence>
           )}
         </Sequence>
         <Sequence from={celebIntroFrames} durationInFrames={philosophyFrames}>
-          <Audio src={sf('voice/philosophy.wav')} />
+          <Audio src={vf('philosophy.wav')} />
         </Sequence>
-        <HostIntro host={host} narratorText={narrator.celebIntro} celebIntroFrames={celebIntroFrames} totalFrames={hostIntroFrames} />
+        <HostIntro host={host} narratorText={narrator.celebIntro} celebIntroFrames={celebIntroFrames} totalFrames={hostIntroFrames} narratorDuration={narrator.celebIntroDuration} philosophyDuration={host.voiceDuration} />
       </Sequence>
 
       {/* 브릿지 */}
@@ -225,29 +186,37 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
               {i === 0 && <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />}
               {/* 나레이터: 제목+저자 */}
               <Sequence from={0} durationInFrames={bt.titleFrames}>
-                <Audio src={sf(`voice/book-${i}-title.wav`)} />
+                <Audio src={vf(`book-${i}-title.wav`)} />
+              </Sequence>
+              {/* 라벨: "핵심 요약" — 갭 내부: 제목 끝 + PRE_LABEL_GAP 후 */}
+              <Sequence from={bt.titleFrames + PRE_LABEL_GAP} durationInFrames={LABEL_FRAMES}>
+                <Audio src={vf('label-summary.wav')} />
               </Sequence>
               {/* 요약맨: 책 소개 + 핵심 */}
               <Sequence from={summaryAudioStart} durationInFrames={bt.summaryFrames}>
                 <Audio src={sf('sfx/whoosh.wav')} volume={0.25} />
-                <Audio src={sf(`voice/book-${i}-summary.wav`)} />
+                <Audio src={vf(`book-${i}-summary.wav`)} />
+              </Sequence>
+              {/* 라벨: "추천 경위" — 갭 내부: 요약 끝 + PRE_LABEL_GAP 후 */}
+              <Sequence from={bt.summaryEnd + PRE_LABEL_GAP} durationInFrames={LABEL_FRAMES}>
+                <Audio src={vf('label-context.wav')} />
               </Sequence>
               {/* 나레이터: 추천 경위 + 맥락 */}
               <Sequence from={contextAudioStart} durationInFrames={bt.contextFrames}>
                 <Audio src={sf('sfx/whoosh.wav')} volume={0.2} />
-                <Audio src={sf(`voice/book-${i}-context.wav`)} />
+                <Audio src={vf(`book-${i}-context.wav`)} />
               </Sequence>
               {/* 셀럽: 직접 인용문 (있을 때만) */}
               {bt.hasQuote && (
                 <Sequence from={quoteAudioStart} durationInFrames={bt.quoteFrames}>
                   <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
-                  <Audio src={sf(`voice/book-${i}-quote.wav`)} />
+                  <Audio src={vf(`book-${i}-quote.wav`)} />
                 </Sequence>
               )}
               {/* 나레이터: 후속 맥락 (있을 때만) */}
               {bt.hasContextAfter && (
                 <Sequence from={bt.quoteEnd + QUOTE_CONTEXTAFTER_GAP} durationInFrames={bt.contextAfterFrames}>
-                  <Audio src={sf(`voice/book-${i}-context-after.wav`)} />
+                  <Audio src={vf(`book-${i}-context-after.wav`)} />
                 </Sequence>
               )}
               <BookCard
@@ -283,7 +252,7 @@ export const BookRecommend: React.FC<Props> = ({ script }) => {
         <>
           <Sequence from={outroStart} durationInFrames={outroFrames}>
             <Audio src={sf('sfx/chime.wav')} volume={0.5} />
-            {narrator.outroDuration > 0 && <Audio src={sf('voice/narrator-outro.wav')} />}
+            {narrator.outroDuration > 0 && <Audio src={vf('narrator-outro.wav')} />}
           </Sequence>
           <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: outroOpacity, gap: 24 }}>
             <div style={{ color: '#ccc', fontSize: 26, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 900, lineHeight: 1.7, marginBottom: 40 }}>

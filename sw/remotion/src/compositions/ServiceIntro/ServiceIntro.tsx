@@ -14,7 +14,7 @@ import { OrnamentFrame } from './visuals/OrnamentFrame'
 const sceneBg: Record<string, string> = {
   hook: 'radial-gradient(ellipse at 50% 55%, #1a1510 0%, #08060a 70%)',
   quote: 'radial-gradient(ellipse at 40% 45%, #14100c 0%, #060608 70%)',
-  philosophy: 'radial-gradient(ellipse at 60% 50%, #120e0a 0%, #06060a 70%)',
+  culturalJourney: 'radial-gradient(ellipse at 60% 50%, #120e0a 0%, #06060a 70%)',
   bridge: 'radial-gradient(ellipse at 50% 50%, #0e0e10 0%, #060606 80%)',
   scale: 'radial-gradient(ellipse at 50% 45%, #0f0d08 0%, #040404 70%)',
   connect: 'radial-gradient(ellipse at 50% 55%, #18140e 0%, #08060a 70%)',
@@ -24,7 +24,7 @@ const sceneBg: Record<string, string> = {
 const particleColor: Record<string, string> = {
   hook: '200, 164, 110',
   quote: '180, 160, 120',
-  philosophy: '160, 140, 110',
+  culturalJourney: '160, 140, 110',
   bridge: '120, 120, 130',
   scale: '200, 164, 110',
   connect: '200, 170, 120',
@@ -35,7 +35,7 @@ const particleColor: Record<string, string> = {
 const sceneVisuals: Record<string, React.FC> = {
   hook: SwordAndScroll,
   quote: TombScene,
-  philosophy: LetterScene,
+  culturalJourney: LetterScene,
   bridge: UIPreview,
   connect: BookShelf,
   cta: LogoReveal,

@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "reboot": "node scripts/dev.mjs --restart",
+    "voice": "tsx scripts/generate-voice.ts",
     "studio": "remotion studio",
     "render": "remotion render",
     "upgrade": "remotion upgrade"
@@ -23,6 +26,7 @@
     "@types/react-dom": "^19.2.3",
     "mp3-duration": "^1.1.0",
     "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3"
   }
 }

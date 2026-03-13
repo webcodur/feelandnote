@@ -14,7 +14,7 @@ import {
 import {
   BookRecommend,
   calcTotalFrames as calcBookFrames,
-  elonMusk,
+  currentEpisode,
 } from "./compositions/BookRecommend";
 
 export const RemotionRoot: React.FC = () => {
@@ -24,12 +24,12 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="BookRecommend"
         component={BookRecommend}
-        durationInFrames={calcBookFrames(elonMusk)}
+        durationInFrames={calcBookFrames(currentEpisode)}
         fps={30}
         width={1920}
         height={1080}
         defaultProps={{
-          script: elonMusk,
+          script: currentEpisode,
         }}
       />
       {/* 서비스 소개 영상 — 60초 트레일러 */}

@@ -21,7 +21,7 @@ export const scenes: SceneData[] = [
     transition: 'dissolve',
   },
   {
-    id: 'philosophy',
+    id: 'culturalJourney',
     durationFrames: 140,
     texts: ['원정 중 책이 부족해지자', '비극 전집을 보내달라 편지를 썼다.'],
     transition: 'dissolve',

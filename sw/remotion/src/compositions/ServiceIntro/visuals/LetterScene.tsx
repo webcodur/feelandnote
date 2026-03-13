@@ -1,6 +1,6 @@
 import { interpolate, useCurrentFrame, spring, useVideoConfig } from 'remotion'
 
-/** PHILOSOPHY 장면: 편지지가 펼쳐지며 글줄이 나타남 */
+/** CULTURAL JOURNEY 장면: 편지지가 펼쳐지며 글줄이 나타남 */
 export const LetterScene: React.FC = () => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()

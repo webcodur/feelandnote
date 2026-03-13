@@ -97,7 +97,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
             { icon: <BookOpen size={14} />, stage: tLab("clue2"), desc: tLab("clue2Desc"), color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
             { icon: <BookOpen size={14} />, stage: tLab("clue3"), desc: tLab("clue3Desc"), color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
             { icon: <BookOpen size={14} />, stage: tLab("clue4"), desc: tLab("clue4Desc"), color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
-            { icon: <Brain size={14} />, stage: tLab("cluePhilosophy"), desc: tLab("cluePhilosophyDesc"), color: "text-purple-400 border-purple-500/20 bg-purple-500/5" },
+            { icon: <Brain size={14} />, stage: tLab("clueCulturalJourney"), desc: tLab("clueCulturalJourneyDesc"), color: "text-purple-400 border-purple-500/20 bg-purple-500/5" },
           ].map((item) => (
             <div key={item.stage} className={`flex items-center gap-3 px-4 py-3 rounded-xl border ${item.color}`}>
               {item.icon}

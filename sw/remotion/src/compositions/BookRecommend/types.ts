@@ -73,8 +73,32 @@ export interface NarratorLines {
   outroDuration: number
 }
 
+/**
+ * TTS 텍스트 오버라이드 (한글 숫자, 발음 조정 등)
+ * 자막용(기본 텍스트)과 다를 때만 지정. 미지정 시 기본 텍스트 사용.
+ */
+export interface TtsOverrides {
+  narrator?: {
+    celebIntro?: string
+    outro?: string
+  }
+  host?: {
+    philosophy?: string
+  }
+  books?: Array<{
+    /** TTS용 제목+저자+연도 (예: "..., 천구백칠십구 년 집필") */
+    title?: string
+    summary?: string
+    context?: string
+    contextAfter?: string
+    directQuote?: string
+  }>
+}
+
 export interface BookRecommendScript {
   host: CelebHost
   books: BookEntry[]
   narrator: NarratorLines
+  /** TTS 텍스트 오버라이드 — 한글 숫자 등 발음 차이가 있는 필드만 지정 */
+  tts?: TtsOverrides
 }

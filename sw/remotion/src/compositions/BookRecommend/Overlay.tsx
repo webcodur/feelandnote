@@ -1,17 +1,12 @@
+import { useMemo } from 'react'
 import { interpolate, useCurrentFrame } from 'remotion'
 import { FONT } from './fonts'
 import type { BookRecommendScript } from './types'
-
-const FPS = 30
-const toFrames = (sec: number) => Math.ceil(sec * FPS) + 15
-const BRAND_FRAMES = 120
-const CELEB_VISUAL_DELAY = 75
-const TITLE_SUMMARY_GAP = 25
-const SUMMARY_CONTEXT_GAP = 25
-const CONTEXT_QUOTE_GAP = 20
-const QUOTE_CONTEXTAFTER_GAP = 20
-const BOOK_GAP = 60
-const RECAP_FRAMES = 150
+import {
+  toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
+  TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
+  BOOK_GAP, RECAP_FRAMES, bookTotalFrames,
+} from './timing'
 
 type Section = { start: number; end: number; label: string }
 
@@ -31,24 +26,9 @@ function buildSections(script: BookRecommendScript): Section[] {
   sections.push({ start: cursor, end: cursor + hostIntroFrames, label: host.nickname })
   cursor += hostIntroFrames + bridgeFrames
 
-  const summaryPhaseEnd = (b: (typeof books)[0]) =>
-    toFrames(b.titleDuration) + TITLE_SUMMARY_GAP + toFrames(b.summaryDuration)
-  const contextPhaseEnd = (b: (typeof books)[0]) =>
-    summaryPhaseEnd(b) + SUMMARY_CONTEXT_GAP + toFrames(b.contextDuration)
-  const quotePhaseEnd = (b: (typeof books)[0]) =>
-    b.quoteDuration
-      ? contextPhaseEnd(b) + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration)
-      : contextPhaseEnd(b)
-  const bookTotal = (b: (typeof books)[0]) => {
-    if (!b.quoteDuration) return contextPhaseEnd(b)
-    const qEnd = quotePhaseEnd(b)
-    if (!b.contextAfterDuration) return qEnd
-    return qEnd + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration)
-  }
-
   for (let i = 0; i < books.length; i++) {
     if (i > 0) cursor += BOOK_GAP
-    const total = bookTotal(books[i])
+    const total = bookTotalFrames(books[i])
     sections.push({ start: cursor, end: cursor + total, label: `${i + 1}/${books.length}` })
     cursor += total
   }
@@ -97,7 +77,7 @@ type Props = { script: BookRecommendScript }
 
 export const Overlay: React.FC<Props> = ({ script }) => {
   const frame = useCurrentFrame()
-  const sections = buildSections(script)
+  const sections = useMemo(() => buildSections(script), [script])
   const totalFrames = sections[sections.length - 1].end
   const globalProgress = Math.min(1, Math.max(0, frame / totalFrames))
   const current = sections.find((s) => frame >= s.start && frame < s.end) ?? sections[sections.length - 1]

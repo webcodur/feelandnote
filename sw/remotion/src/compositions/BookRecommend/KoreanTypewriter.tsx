@@ -3,56 +3,14 @@ import { interpolate, useCurrentFrame } from 'remotion'
 type Props = {
   text: string
   startFrame: number
-  /** 전체 타이핑이 완료되기까지의 프레임 */
   spreadFrames: number
   color: string
   fontSize: number
   style?: React.CSSProperties
 }
 
-// 초성 → 호환 자모 매핑
-const CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'.split('')
-
-/** 한글 음절(가~힣)인지 */
-const isSyllable = (ch: string) => {
-  const c = ch.charCodeAt(0)
-  return c >= 0xac00 && c <= 0xd7a3
-}
-
-/**
- * 텍스트를 타이핑 스텝 배열로 분해한다.
- * "한글" → ["ㅎ", "하", "한", "한ㄱ", "한그", "한글"]
- * 비한글 문자는 그대로 한 스텝.
- */
-function buildSteps(text: string): string[] {
-  const steps: string[] = []
-  let built = ''
-
-  for (const ch of text) {
-    if (isSyllable(ch)) {
-      const code = ch.charCodeAt(0) - 0xac00
-      const cho = Math.floor(code / (21 * 28))
-      const jung = Math.floor((code / 28) % 21)
-      const jong = code % 28
-
-      // 스텝 1: 초성만
-      steps.push(built + CHO[cho])
-      // 스텝 2: 초성 + 중성
-      const noJong = String.fromCharCode(0xac00 + cho * 21 * 28 + jung * 28)
-      steps.push(built + noJong)
-      // 스텝 3: 종성 있으면 완성형
-      if (jong > 0) {
-        steps.push(built + ch)
-      }
-    } else {
-      // 공백, 구두점 등
-      steps.push(built + ch)
-    }
-    built += ch
-  }
-
-  return steps
-}
+/** 문장 간 호흡 프레임 — TTS가 문장 사이에 쉬는 시간 보정 (Subtitles.tsx와 동일) */
+const SENTENCE_BREATH = 8
 
 export const KoreanTypewriter: React.FC<Props> = ({
   text,
@@ -63,21 +21,29 @@ export const KoreanTypewriter: React.FC<Props> = ({
   style,
 }) => {
   const frame = useCurrentFrame()
-  const steps = buildSteps(text)
-  const totalSteps = steps.length
+  const elapsed = frame - startFrame
 
-  const progress = interpolate(frame - startFrame, [0, spreadFrames], [0, totalSteps], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
+  // 문장 분할 + 호흡 간격 포함 프레임 배분
+  const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean)
+  const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
+  const breathTotal = (sentences.length - 1) * SENTENCE_BREATH
+  const distributableFrames = Math.max(spreadFrames - breathTotal, spreadFrames * 0.7)
+
+  let cursor = 0
+  const ranges = sentences.map((s, i) => {
+    if (i > 0) cursor += SENTENCE_BREATH
+    const frames = Math.round((s.length / totalChars) * distributableFrames)
+    const start = cursor
+    cursor += frames
+    return { start, end: start + frames }
   })
 
-  const stepIndex = Math.min(Math.floor(progress), totalSteps - 1)
-  const display = stepIndex < 0 ? '' : steps[stepIndex]
+  const currentIndex = ranges.findIndex((r) => elapsed >= r.start && elapsed < r.end)
+  const activeIndex = currentIndex >= 0 ? currentIndex : elapsed >= spreadFrames ? sentences.length : -1
 
   return (
     <div
       style={{
-        color,
         fontSize,
         fontFamily: 'inherit',
         lineHeight: 1.7,
@@ -85,19 +51,24 @@ export const KoreanTypewriter: React.FC<Props> = ({
         ...style,
       }}
     >
-      {display}
-      {/* 커서 깜빡임 */}
-      {stepIndex >= 0 && stepIndex < totalSteps - 1 && (
-        <span
-          style={{
-            opacity: Math.sin(frame * 0.3) > 0 ? 1 : 0,
-            color: '#c8a46e',
-            fontWeight: 300,
-          }}
-        >
-          |
-        </span>
-      )}
+      {sentences.map((sentence, i) => {
+        const isPast = i < activeIndex
+        const isCurrent = i === activeIndex
+
+        return (
+          <span key={i}>
+            <span
+              style={{
+                color: isCurrent ? '#fff' : color,
+                opacity: isCurrent ? 1 : isPast ? 0.6 : 0.25,
+              }}
+            >
+              {sentence}
+            </span>
+            {i < sentences.length - 1 ? ' ' : ''}
+          </span>
+        )
+      })}
     </div>
   )
 }

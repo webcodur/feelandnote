@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
+import { notifyIndexNow } from '@/lib/indexnow'
 
 // #region Types
 export interface Celeb {
@@ -756,6 +757,16 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   revalidatePath('/celebs')
   revalidatePath(`/celebs/${input.id}`)
   revalidatePath(`/members/${input.id}`)
+
+  // active 셀럽 정보 변경 시 IndexNow 색인 요청
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('slug, status')
+    .eq('id', input.id)
+    .single()
+  if (profile?.status === 'active' && profile?.slug) {
+    notifyIndexNow([`/celeb/${profile.slug}`])
+  }
 }
 // #endregion
 
@@ -793,6 +804,18 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
     .eq('profile_type', 'CELEB')
 
   if (error) throw error
+
+  // active 전환 시 IndexNow 색인 요청
+  if (newStatus === 'active') {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('slug')
+      .eq('id', celebId)
+      .single()
+    if (profile?.slug) {
+      notifyIndexNow([`/celeb/${profile.slug}`])
+    }
+  }
 
   revalidatePath('/celebs')
   return newStatus
@@ -1090,7 +1113,7 @@ export interface CelebsWithPaginationResponse {
   total: number
 }
 
-export async function getCelebsForPhilosophyEdit(page: number = 1, limit: number = 50): Promise<CelebsWithPaginationResponse> {
+export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 50): Promise<CelebsWithPaginationResponse> {
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
@@ -1212,20 +1235,20 @@ export async function updateCelebProfession(celebId: string, profession: string 
 }
 // #endregion
 
-// #region updateCelebPhilosophy - 감상 편력만 업데이트
-export async function updateCelebPhilosophy(celebId: string, philosophy: string | null): Promise<void> {
+// #region updateCelebJourney - 감상 여정만 업데이트
+export async function updateCelebJourney(celebId: string, journey: string | null): Promise<void> {
   const supabase = await createClient()
 
   const { error } = await supabase
     .from('profiles')
-    .update({ cultural_journey: philosophy })
+    .update({ cultural_journey: journey })
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
   revalidatePath('/members')
-  revalidatePath('/members/philosophies')
+  revalidatePath('/members/journeys')
   revalidatePath(`/members/${celebId}`)
 }
 // #endregion

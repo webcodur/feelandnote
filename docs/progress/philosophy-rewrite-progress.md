@@ -3,7 +3,7 @@
 - **시작**: 2026-03-13
 - **총 대상**: 1,073명 (full 941 + light 132)
 - **배치 크기**: 5명/배치 (병렬 에이전트)
-- **룰북**: `docs/project/celeb/celeb-3-philosophy.md`
+- **룰북**: `docs/project/celeb/celeb-3-cultural-journey.md`
 
 ---
 

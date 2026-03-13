@@ -8,14 +8,14 @@ import CreativeLibrary from "@/components/features/celeb/creativeLibrary/Creativ
 import { FormattedText } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-type Tab = "consume" | "philosophy" | "create";
+type Tab = "consume" | "journey" | "create";
 
 interface LibraryTabsProps {
   userId: string;
   nickname: string;
   emptyMessage: string;
   wikidataQid?: string | null;
-  consumptionPhilosophy?: string | null;
+  culturalJourney?: string | null;
   celebTier?: 'full' | 'light';
 }
 
@@ -24,16 +24,16 @@ export default function LibraryTabs({
   nickname,
   emptyMessage,
   wikidataQid,
-  consumptionPhilosophy,
+  culturalJourney,
   celebTier = 'full',
 }: LibraryTabsProps) {
   const isLight = celebTier === 'light';
-  const defaultTab: Tab = isLight ? "philosophy" : "consume";
+  const defaultTab: Tab = isLight ? "journey" : "consume";
   const [tab, setTab] = useState<Tab>(defaultTab);
   const t = useTranslations("celebPage");
 
   const tabs: { key: Tab; label: string; show: boolean }[] = [
-    { key: "philosophy", label: t("tabPhilosophy"), show: !!consumptionPhilosophy },
+    { key: "journey", label: t("tabCulturalJourney"), show: !!culturalJourney },
     { key: "consume", label: t("tabConsume"), show: true },
     { key: "create", label: t("tabCreate"), show: true },
   ];
@@ -73,9 +73,9 @@ export default function LibraryTabs({
           hideControlWrapper
         />
       )}
-      {tab === "philosophy" && consumptionPhilosophy && (
+      {tab === "journey" && culturalJourney && (
         <div className="font-serif text-sm md:text-[15px] text-text-secondary leading-[1.9] break-keep">
-          <FormattedText text={consumptionPhilosophy} />
+          <FormattedText text={culturalJourney} />
         </div>
       )}
       {tab === "create" && (
