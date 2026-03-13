@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
         follow: true,
       },
     },
-    keywords: ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 철학", "필앤노트", "feelandnote", "book", "movie", "music", "game", "celebrity"],
+    keywords: ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 편력", "필앤노트", "feelandnote", "book", "movie", "music", "game", "celebrity"],
   };
 }
 

@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/tracker/PhilosophyReveal.tsx
   기능: Stage 3 - 감상철학 공개
-  책임: consumption_philosophy 전문 표시
+  책임: cultural_journey 전문 표시
 */
 "use client";
 

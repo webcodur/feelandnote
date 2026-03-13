@@ -280,7 +280,7 @@ export default function CelebPageContent({
         </section>
       )}
 
-      {/* 기록 서가 (감상 기록 / 감상 철학 / 창작물) */}
+      {/* 기록 서가 (감상 기록 / 감상 편력 / 창작물) */}
       <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
         <DecorativeLabel label={t("library")} />
         <SectionWrap>
@@ -289,7 +289,7 @@ export default function CelebPageContent({
             nickname={nickname}
             emptyMessage={t("libraryEmpty")}
             wikidataQid={wikidataQid}
-            consumptionPhilosophy={profile.consumption_philosophy}
+            consumptionPhilosophy={profile.cultural_journey}
             celebTier={profile.celeb_tier ?? 'full'}
           />
         </SectionWrap>

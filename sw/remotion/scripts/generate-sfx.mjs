@@ -91,6 +91,57 @@ function generateChime(duration = 1.0, sampleRate = 44100) {
   return samples
 }
 
+/** 문 열리는 소리 — 래치 클릭 + 끊어지는 경첩 삐걱 + 공기 */
+function generateDoorOpen(duration = 1.2, sampleRate = 44100) {
+  const samples = new Float64Array(Math.floor(duration * sampleRate))
+
+  // 시드 기반 의사난수 (매번 같은 결과)
+  let seed = 42
+  const rand = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647 * 2 - 1 }
+
+  // 1) 래치 클릭 (0~30ms): 둔탁한 금속 충격
+  for (let i = 0; i < Math.floor(0.03 * sampleRate); i++) {
+    const t = i / sampleRate
+    const env = Math.exp(-t * 200) * 0.35
+    samples[i] = (Math.sin(2 * Math.PI * 1800 * t) * 0.3 + rand() * 0.7) * env
+  }
+
+  // 2) 경첩 삐걱 — 불규칙한 짧은 버스트 4회
+  const creaks = [
+    { start: 0.08, len: 0.12, freq: 380 },
+    { start: 0.28, len: 0.15, freq: 420 },
+    { start: 0.52, len: 0.10, freq: 460 },
+    { start: 0.70, len: 0.08, freq: 350 },
+  ]
+  for (const c of creaks) {
+    const s0 = Math.floor(c.start * sampleRate)
+    const sLen = Math.floor(c.len * sampleRate)
+    for (let j = 0; j < sLen; j++) {
+      const t = j / sampleRate
+      const p = j / sLen
+      // 양끝이 0인 엔벨로프 (팝 방지)
+      const env = Math.sin(p * Math.PI) * 0.18
+      // 거친 사각파 느낌: sign(sin) + 노이즈
+      const sq = Math.sign(Math.sin(2 * Math.PI * c.freq * t)) * 0.4
+      const noise = rand() * 0.6
+      // 3배 배음 (나무 울림)
+      const h3 = Math.sin(2 * Math.PI * c.freq * 3.03 * t) * 0.15
+      if (s0 + j < samples.length) {
+        samples[s0 + j] += (sq + noise + h3) * env
+      }
+    }
+  }
+
+  // 3) 저역 공기 이동 (0.4~1.2s)
+  for (let i = Math.floor(0.4 * sampleRate); i < samples.length; i++) {
+    const t = (i / sampleRate - 0.4) / 0.8
+    const env = Math.sin(t * Math.PI) * 0.04
+    samples[i] += rand() * env
+  }
+
+  return samples
+}
+
 /** 타이핑 효과음 — 짧은 클릭 연속 */
 function generateTypeReveal(duration = 1.2, sampleRate = 44100) {
   const samples = new Float64Array(Math.floor(duration * sampleRate))
@@ -118,6 +169,7 @@ async function main() {
     { name: 'page-turn', fn: generatePageTurn },
     { name: 'chime', fn: generateChime },
     { name: 'type-reveal', fn: generateTypeReveal },
+    { name: 'door-open', fn: generateDoorOpen },
   ]
 
   for (const { name, fn } of sfx) {

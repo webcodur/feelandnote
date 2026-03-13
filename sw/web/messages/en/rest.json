@@ -130,6 +130,8 @@
           "quit": "Quit",
           "next": "Next Inquiry",
           "actioning": "Checking figure...",
+          "clueUnlocked": "A new trace has been unlocked",
+          "revealClue": "Reveal Trace",
           "contentTypes": {
             "BOOK": "Book",
             "VIDEO": "Video",

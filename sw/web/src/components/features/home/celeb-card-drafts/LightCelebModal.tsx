@@ -1,6 +1,6 @@
 /*
   Light 셀럽 상세 모달
-  - 감상 기록 없이 감상 철학·명언·프로필 중심
+  - 감상 기록 없이 감상 편력·명언·프로필 중심
   - PC: 중앙 모달, 모바일: Bottom Sheet
 */
 "use client";
@@ -47,7 +47,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
   const displayTitle = (isEn && celeb.title_en) || celeb.title;
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
-  const displayPhilosophy = (isEn && celeb.consumption_philosophy_en) || celeb.consumption_philosophy;
+  const displayPhilosophy = (isEn && celeb.cultural_journey_en) || celeb.cultural_journey;
 
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
@@ -134,7 +134,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
         </blockquote>
       )}
 
-      {/* 감상 철학 */}
+      {/* 감상 편력 */}
       {displayPhilosophy && (
         <div className="px-6 md:px-8 pt-4 pb-2">
           <p className="text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">

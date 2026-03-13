@@ -257,8 +257,13 @@ export default function PersonaExtremeGrid({
         })}
       </div>
 
-      {/* 2x2 그리드 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-[1080px] mx-auto">
+      {/* 그리드 — 성향 탭은 2열, 나머지는 4열 */}
+      <div className={cn(
+        "grid gap-4 mx-auto",
+        activeTab === 3
+          ? "grid-cols-1 lg:grid-cols-2 max-w-[1080px]"
+          : "grid-cols-2 lg:grid-cols-4 max-w-[1200px]"
+      )}>
         {currentEntries.map((entry) => {
           const color = AXIS_COLORS[entry.axis] ?? "#d4af37";
 
@@ -283,142 +288,132 @@ export default function PersonaExtremeGrid({
             <button
               key={entry.axis}
               onClick={() => setSelectedCard({ entry, isOpposing: false, color })}
-              className="group relative flex flex-row items-center bg-bg-card/40 hover:bg-bg-card/80 border border-white/5 hover:border-white/20 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[520px] mx-auto"
+              className="group relative flex flex-col items-center bg-bg-card/40 hover:bg-bg-card/80 border border-white/5 hover:border-white/20 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 hover:duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(var(--axis-color-rgb),0.25)] text-left max-w-[280px] sm:max-w-[300px] mx-auto w-full p-4 sm:p-5"
               style={{
-                // hover 시 축 컬러 테두리 변수 활용 (rgba로 변환 필요할 수 있으나 shadow는 커스텀 구현 확인)
-                // Tailwind에서 rgb 변수 처리용 스네이크케이스 rgba(var(...)) 지원
                 ["--axis-color" as string]: color,
               }}
             >
-              {/* 좌측: 인물 이미지 (정사각 고정 — 300x300 원본 선명도 유지) */}
-              <div className="shrink-0 p-3 sm:p-4">
-                <div className="relative w-[96px] h-[96px] sm:w-[128px] sm:h-[128px] rounded-xl overflow-hidden bg-black border border-white/5 shadow-lg">
-                  {entry.celeb.avatar_url ? (
-                    <Image
-                      src={entry.celeb.avatar_url}
-                      alt={name}
-                      fill
-                      sizes="110px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-3xl font-serif text-text-tertiary bg-white/5">
-                      {name.charAt(0)}
-                    </div>
-                  )}
-                </div>
+              {/* 배경 글로우 — 축 컬러 */}
+              <div
+                className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none"
+                style={{ backgroundColor: color }}
+              />
+
+              {/* 수치 명칭 (카드 상단) */}
+              <span
+                className="relative z-10 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-black tracking-widest border shadow-md mb-3"
+                style={{
+                  backgroundColor: `${color}20`,
+                  borderColor: `${color}40`,
+                  color,
+                  textShadow: `0 0 12px ${color}60`,
+                }}
+              >
+                {label}
+              </span>
+
+              {/* 인물 이미지 */}
+              <div className="relative z-10 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-xl overflow-hidden bg-black border border-white/5 shadow-lg mb-3">
+                {entry.celeb.avatar_url ? (
+                  <Image
+                    src={entry.celeb.avatar_url}
+                    alt={name}
+                    fill
+                    sizes="120px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-3xl font-serif text-text-tertiary bg-white/5">
+                    {name.charAt(0)}
+                  </div>
+                )}
               </div>
 
-              {/* 우측: 컨텐츠 */}
-              <div className="relative flex flex-col flex-1 p-3 sm:p-5 md:p-6 min-w-0">
-                {/* 배경 글로우 — 축 컬러 */}
-                <div
-                  className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none"
-                  style={{ backgroundColor: color }}
-                />
+              {/* 인물 이름 */}
+              <h3 className="relative z-10 text-sm sm:text-base font-black text-text-primary truncate max-w-full mb-1">
+                {name}
+              </h3>
 
-                {/* 헤더: 라벨, 이름 & 점수 패널 */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-4 mb-2 sm:mb-3 relative z-10 w-full">
-                  <div className="flex flex-col min-w-0 flex-1 pt-0.5 sm:pt-1">
-                    <div className="flex items-center mb-1 sm:mb-1.5">
-                       <span
-                         className="px-1.5 sm:px-2 py-0.5 rounded-sm text-[9px] sm:text-[11px] font-black uppercase tracking-wider border shadow-sm"
-                         style={{
-                           backgroundColor: `${color}15`,
-                           borderColor: `${color}30`,
-                           color,
-                         }}
-                       >
-                         {label}
-                       </span>
-                    </div>
-                    <div className="flex items-baseline gap-2 mb-0.5 sm:mb-1">
-                      <h3 className="text-[15px] leading-snug sm:text-xl md:text-2xl font-black text-text-primary truncate">
-                        {name}
-                      </h3>
-                      {/* 모바일: 점수 인라인 */}
-                      <div className="flex sm:hidden items-baseline gap-0.5 shrink-0" style={{ color }}>
-                        <span className="text-base font-black tabular-nums leading-none tracking-tighter">{entry.score}</span>
-                        <span className="text-[8px] font-bold uppercase opacity-70">pts</span>
+              {/* 점수 (인물 아래) */}
+              <div className="relative z-10 flex items-baseline gap-1 mb-2" style={{ color }}>
+                <span className="text-xl sm:text-2xl font-black tabular-nums leading-none tracking-tighter">{entry.score}</span>
+                <span className="text-[9px] sm:text-[10px] font-bold uppercase opacity-70">pts</span>
+              </div>
+
+
+              {/* 채점 사유 */}
+              {reason && (
+                <p className="relative z-10 text-[12px] sm:text-[13px] text-text-secondary leading-snug text-center line-clamp-2 mb-3">
+                  {reason}
+                </p>
+              )}
+
+              {/* 차순위 */}
+              {entry.runnersUp.length > 0 && (
+                <div className="relative z-10 w-full pt-2 border-t border-white/5 flex flex-col gap-1.5">
+                  {entry.runnersUp.slice(0, 1).map((r, i) => {
+                    const rName =
+                      locale === "en" && r.nickname_en
+                        ? r.nickname_en
+                        : r.nickname;
+                    return (
+                      <div
+                        key={i}
+                        role="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedCard({
+                            entry: {
+                              ...entry,
+                              score: r.score,
+                              reason: r.reason,
+                              celeb: {
+                                id: r.id,
+                                slug: r.slug,
+                                nickname: r.nickname,
+                                nickname_en: r.nickname_en,
+                                avatar_url: r.avatar_url,
+                                profession: null,
+                                title: null,
+                                title_en: null,
+                                has_voice: false,
+                                stats: r.stats,
+                              },
+                              runnersUp: [],
+                            },
+                            isOpposing: false,
+                            color,
+                          });
+                        }}
+                        className="flex items-center gap-2 group/runner hover:bg-white/5 p-1 -m-1 rounded-lg transition-colors outline-none cursor-pointer"
+                      >
+                        <div className="relative w-6 h-6 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 shadow-sm group-hover/runner:ring-white/20 transition-all">
+                          {r.avatar_url ? (
+                            <Image
+                              src={r.avatar_url}
+                              alt=""
+                              fill
+                              sizes="24px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-white/10" />
+                          )}
+                        </div>
+                        <span className="text-xs font-medium text-text-secondary group-hover/runner:text-text-primary transition-colors truncate flex-1">
+                          {rName}
+                        </span>
+                        <span
+                          className="text-xs font-bold tabular-nums shrink-0"
+                          style={{ color: `${color}99` }}
+                        >
+                          {r.score}
+                        </span>
                       </div>
-                    </div>
-                    {/* 모바일: 백분위 */}
-                    <span className="sm:hidden text-[9px] font-bold uppercase tracking-wider opacity-80 mb-1" style={{ color: `${color}cc` }}>
-                      {locale === "en" ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
-                    </span>
-                  </div>
-                  
-                  {/* 점수 & 백분위 우측 상단 고정 (sm 이상에서만) */}
-                  <div className="hidden sm:flex flex-col items-end shrink-0 bg-black/20 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-white/5 shadow-inner backdrop-blur-sm">
-                    <div className="flex items-baseline gap-0.5" style={{ color }}>
-                      <span className="text-2xl md:text-3xl font-black tabular-nums leading-none tracking-tighter">
-                        {entry.score}
-                      </span>
-                      <span className="text-xs font-bold uppercase opacity-70 ml-0.5">
-                        pts
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-bold mt-1 uppercase tracking-wider opacity-80" style={{ color: `${color}cc` }}>
-                      {locale === "en" ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
-                    </span>
-                  </div>
+                    );
+                  })}
                 </div>
-
-                {/* 채점 사유 */}
-                {reason && (
-                  <p className="relative z-10 text-[13px] sm:text-[15px] md:text-[16px] text-white/80 sm:text-white/90 leading-snug sm:leading-relaxed overflow-hidden text-ellipsis mb-2 sm:mb-4 pr-1 sm:pr-2 line-clamp-2 md:line-clamp-3">
-                    {reason}
-                  </p>
-                )}
-
-                <div className="flex-1" />
-
-                {/* 차순위 — 확대 */}
-                {entry.runnersUp.length > 0 && (
-                  <div className="relative z-10 pt-2 sm:pt-3 md:pt-4 border-t border-white/5 flex flex-col gap-1.5 sm:gap-2.5">
-                    <span className="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-text-tertiary/60">
-                      {locale === "en" ? "Runners-up" : "차순위"}
-                    </span>
-                    <div className="flex flex-col gap-1 sm:gap-2">
-                      {entry.runnersUp.slice(0, 1).map((r, i) => { // 모바일 공간 제약으로 1위 차순위만 표시될 수도 있으나 유지
-                        const rName =
-                          locale === "en" && r.nickname_en
-                            ? r.nickname_en
-                            : r.nickname;
-                        return (
-                          <div
-                            key={i}
-                            className="flex items-center gap-2 sm:gap-2.5 group/runner hover:bg-white/5 p-1 -m-1 rounded-lg transition-colors outline-none"
-                          >
-                            <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 shadow-sm group-hover/runner:ring-white/20 transition-all">
-                              {r.avatar_url ? (
-                                <Image
-                                  src={r.avatar_url}
-                                  alt=""
-                                  fill
-                                  sizes="32px"
-                                  className="object-cover"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-white/10" />
-                              )}
-                            </div>
-                            <span className="text-xs sm:text-sm font-medium text-text-secondary group-hover/runner:text-text-primary transition-colors truncate flex-1">
-                              {rName}
-                            </span>
-                            <span
-                              className="text-xs sm:text-sm font-bold tabular-nums shrink-0 group-hover/runner:scale-105 transition-transform"
-                              style={{ color: `${color}99` }}
-                            >
-                              {r.score}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
+              )}
             </button>
           );
         })}

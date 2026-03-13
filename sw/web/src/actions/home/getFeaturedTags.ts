@@ -86,7 +86,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     // 프로필
     supabase.from('profiles').select(`
       id, slug, nickname, avatar_url, title, profession,
-      consumption_philosophy, nationality, birth_date, death_date,
+      cultural_journey, nationality, birth_date, death_date,
       bio, is_verified, claimed_by, speech_tone, has_voice
     `).in('id', celebIdArray),
     // 팔로워 수
@@ -178,8 +178,8 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
           title: c.title,
           title_en: c.title_en ?? null,
           profession: c.profession,
-          consumption_philosophy: c.consumption_philosophy,
-          consumption_philosophy_en: (c as any).consumption_philosophy_en ?? null,
+          cultural_journey: c.cultural_journey,
+          cultural_journey_en: (c as any).cultural_journey_en ?? null,
           nationality: c.nationality,
           birth_date: c.birth_date,
           death_date: c.death_date,

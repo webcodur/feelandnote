@@ -173,7 +173,7 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
                   {isEn ? `Visit ${shortName}'s Library` : `${shortName}의 서재 방문하기`}
                 </span>
                 <span className="text-xs text-text-secondary">
-                  {isEn ? "Explore Philosophy & Tastes" : "감상 철학과 취향 탐색"}
+                  {isEn ? "Explore Philosophy & Tastes" : "감상 편력과 취향 탐색"}
                 </span>
               </div>
               <div

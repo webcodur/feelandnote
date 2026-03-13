@@ -18,7 +18,7 @@ export interface Celeb {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  consumption_philosophy: string | null
+  cultural_journey: string | null
   is_verified: boolean | null
   status: string
   celeb_tier: string | null
@@ -55,7 +55,7 @@ interface CreateCelebInput {
   birth_date?: string
   death_date?: string
   bio?: string
-  consumption_philosophy?: string
+  cultural_journey?: string
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive' | 'suspended'
@@ -77,8 +77,8 @@ interface UpdateCelebInput {
   bio_en?: string
   quotes?: string
   quotes_en?: string
-  consumption_philosophy?: string
-  consumption_philosophy_en?: string
+  cultural_journey?: string
+  cultural_journey_en?: string
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive' | 'suspended'
@@ -98,7 +98,7 @@ type CelebListRow = {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  consumption_philosophy: string | null
+  cultural_journey: string | null
   is_verified: boolean | null
   status: string
   celeb_tier: string | null
@@ -129,7 +129,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     birth_date: row.birth_date,
     death_date: row.death_date,
     bio: row.bio,
-    consumption_philosophy: row.consumption_philosophy,
+    cultural_journey: row.cultural_journey,
     is_verified: row.is_verified,
     status: row.status,
     celeb_tier: row.celeb_tier || 'full',
@@ -281,7 +281,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const filters = { search, status, profession, tier }
   const selectFields = `
     id, slug, nickname, avatar_url, profession, title, nationality, gender,
-    birth_date, death_date, bio, consumption_philosophy,
+    birth_date, death_date, bio, cultural_journey,
     is_verified, status, celeb_tier, claimed_by, created_at,
     user_social (follower_count),
     celeb_influence (total_score)
@@ -414,7 +414,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     birth_date: celeb.birth_date,
     death_date: celeb.death_date,
     bio: celeb.bio,
-    consumption_philosophy: celeb.consumption_philosophy,
+    cultural_journey: celeb.cultural_journey,
     is_verified: celeb.is_verified,
     status: celeb.status,
     celeb_tier: celeb.celeb_tier || 'full',
@@ -503,7 +503,7 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
       birth_date: row.birth_date,
       death_date: row.death_date,
       bio: row.bio,
-      consumption_philosophy: row.consumption_philosophy,
+      cultural_journey: row.cultural_journey,
       is_verified: row.is_verified,
       status: row.status,
       celeb_tier: row.celeb_tier || 'full',
@@ -555,7 +555,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     birth_date: data.birth_date,
     death_date: data.death_date,
     bio: data.bio,
-    consumption_philosophy: data.consumption_philosophy,
+    cultural_journey: data.cultural_journey,
     is_verified: data.is_verified,
     status: data.status,
     celeb_tier: data.celeb_tier || 'full',
@@ -615,7 +615,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       birth_date: input.birth_date || null,
       death_date: input.death_date || null,
       bio: input.bio || null,
-      consumption_philosophy: input.consumption_philosophy || null,
+      cultural_journey: input.cultural_journey || null,
       avatar_url: input.avatar_url || null,
       is_verified: input.is_verified || false,
       profile_type: 'CELEB',
@@ -694,8 +694,8 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.bio_en !== undefined) updateData.bio_en = input.bio_en || null
-  if (input.consumption_philosophy !== undefined) updateData.consumption_philosophy = input.consumption_philosophy
-  if (input.consumption_philosophy_en !== undefined) updateData.consumption_philosophy_en = input.consumption_philosophy_en || null
+  if (input.cultural_journey !== undefined) updateData.cultural_journey = input.cultural_journey
+  if (input.cultural_journey_en !== undefined) updateData.cultural_journey_en = input.cultural_journey_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
@@ -1067,7 +1067,7 @@ export interface CelebTitleItem {
   avatar_url: string | null
   profession: string | null
   title: string | null
-  consumption_philosophy: string | null
+  cultural_journey: string | null
 }
 
 export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
@@ -1075,7 +1075,7 @@ export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, profession, title, consumption_philosophy')
+    .select('id, nickname, avatar_url, profession, title, cultural_journey')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .order('nickname', { ascending: true })
@@ -1096,7 +1096,7 @@ export async function getCelebsForPhilosophyEdit(page: number = 1, limit: number
 
   const { data, error, count } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, profession, title, consumption_philosophy', { count: 'exact' })
+    .select('id, nickname, avatar_url, profession, title, cultural_journey', { count: 'exact' })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .order('nickname', { ascending: true })
@@ -1212,13 +1212,13 @@ export async function updateCelebProfession(celebId: string, profession: string 
 }
 // #endregion
 
-// #region updateCelebPhilosophy - 감상 철학만 업데이트
+// #region updateCelebPhilosophy - 감상 편력만 업데이트
 export async function updateCelebPhilosophy(celebId: string, philosophy: string | null): Promise<void> {
   const supabase = await createClient()
 
   const { error } = await supabase
     .from('profiles')
-    .update({ consumption_philosophy: philosophy })
+    .update({ cultural_journey: philosophy })
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
 

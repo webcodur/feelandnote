@@ -6,7 +6,7 @@
     - Stage 2 (행적 2): 콘텐츠 2개째 — 확인 1회로 해금
     - Stage 3 (행적 3): 콘텐츠 3개째 — 확인 2회로 해금
     - Stage 4 (행적 4): 콘텐츠 4개째 — 확인 3회로 해금
-    - Stage 5 (철학): 감상 철학 — 확인 4회로 해금
+    - Stage 5 (철학): 감상 편력 — 확인 4회로 해금
 */
 "use client";
 
@@ -67,6 +67,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
   const [usedIds, setUsedIds] = useState<string[]>([]);
   const [viewStage, setViewStage] = useState<GameStage>("stage1");
   const [eliminateToast, setEliminateToast] = useState<string | null>(null);
+  const [pendingClue, setPendingClue] = useState(false);
   const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
   const sfxMutedRef = useRef(false);
 
@@ -121,12 +122,12 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     return Math.min(eliminatedIds.length, 4);
   }, [eliminatedIds]);
 
-  // stage 진행 시 viewStage 동기화
+  // stage 진행 시 viewStage 동기화 (pendingClue 중에는 보류)
   useEffect(() => {
-    if (stage === "stage1" || stage === "stage2" || stage === "stage3" || stage === "stage4" || stage === "stage5") {
+    if (!pendingClue && (stage === "stage1" || stage === "stage2" || stage === "stage3" || stage === "stage4" || stage === "stage5")) {
       setViewStage(stage);
     }
-  }, [stage]);
+  }, [stage, pendingClue]);
 
   useEffect(() => { onPhaseChange?.(stage); }, [stage, onPhaseChange]);
 
@@ -135,6 +136,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
       setStage("loading");
       setEliminatedIds([]);
       setEliminateToast(null);
+      setPendingClue(false);
       setSolved(false);
       setCorrect(false);
       const data = await getTrackerRound(excludeIds);
@@ -176,6 +178,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
       setEliminatedIds(newEliminated);
       setEliminateToast(target?.nickname ?? tGame("fallbackSage"));
       setTimeout(() => setEliminateToast(null), 1500);
+      if (newEliminated.length <= 4) setPendingClue(true);
       if (newEliminated.length === 1) setStage("stage2");
       else if (newEliminated.length === 2) setStage("stage3");
       else if (newEliminated.length === 3) setStage("stage4");
@@ -191,7 +194,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     [round, solved, eliminatedIds, showDialogue, showDefaultLine, tGame]
   );
 
-  // 등용 핸들러 — 결과 대사만 표시 (battle_lose = 등용 성공, battle_win = 종적 감춤)
+  // 등용 핸들러 — 등용 성공: recruited(범용), 등용 실패: battle_win(개인 대사)
   const handleChoiceSelect = useCallback(
     (selectedId: string) => {
       if (!round) return;
@@ -201,14 +204,16 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
 
       const correctOption = round.options.find(o => o.id === round.celebId);
       if (correctOption) {
-        const voiceType = isCorrect ? "battle_lose" : "battle_win";
-        showDialogue(correctOption.id, (correctOption.speechTone as SpeechTone) || "composed", voiceType, {
-          nickname: correctOption.nickname,
-          avatarUrl: correctOption.avatarUrl,
-        });
+        const tone = (correctOption.speechTone as SpeechTone) || "composed";
+        const meta = { nickname: correctOption.nickname, avatarUrl: correctOption.avatarUrl };
+        if (isCorrect) {
+          showDefaultLine(tone, "recruited", meta);
+        } else {
+          showDialogue(correctOption.id, tone, "battle_win", meta);
+        }
       }
     },
-    [round, showDialogue]
+    [round, showDialogue, showDefaultLine]
   );
 
   const handleNext = useCallback(() => {
@@ -231,7 +236,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     if (onStartRef) onStartRef.current = startRound;
   }, [onStartRef, startRound]);
 
-  const canEliminate = eliminatedIds.length < 4 && !solved;
+  const canEliminate = !solved;
 
   // region: 로딩
   if (stage === "loading") {
@@ -289,8 +294,8 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
                   return (
                     <button
                       key={hs.key}
-                      onClick={() => isUnlocked && setViewStage(hs.key as GameStage)}
-                      disabled={!isUnlocked}
+                      onClick={() => isUnlocked && !pendingClue && setViewStage(hs.key as GameStage)}
+                      disabled={!isUnlocked || pendingClue}
                       className={cn(
                         "relative flex flex-col items-center justify-center gap-1.5 w-16 md:w-20 py-2.5 rounded-lg text-xs md:text-sm font-semibold transition-all duration-200",
                         isViewing
@@ -310,26 +315,49 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
 
               {/* ── 힌트 콘텐츠 ── */}
               <div className="px-1 w-full">
-                {/* Stage 1~4: 콘텐츠 단서 (각 탭이 1개씩 표시) */}
-                {(viewStage === "stage1" || viewStage === "stage2" || viewStage === "stage3" || viewStage === "stage4") && (
-                  <StageContent
-                    viewStage={viewStage}
-                    contents={round.contents}
-                    emptyFirstLabel={tGame("emptyFirstTrace")}
-                    emptyAdditionalLabel={tGame("emptyAdditionalTrace")}
-                  />
-                )}
-                {/* Stage 5: 감상 철학 */}
-                {viewStage === "stage5" && (
-                  <div className="w-full">
-                    {round.consumptionPhilosophy ? (
-                      <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
-                    ) : (
-                      <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
-                        {tGame("emptyFirstTrace")}
+                {pendingClue ? (
+                  /* 배제 성공 → 유저 클릭 유도 인터스티셜 */
+                  <div className="flex flex-col items-center justify-center gap-5 py-14 rounded-xl border border-accent/20 bg-[#12100e] animate-in fade-in duration-300">
+                    <div className="flex items-center gap-2 text-accent">
+                      <ShieldCheck size={22} className="drop-shadow-[0_0_8px_rgba(234,179,8,0.4)]" />
+                      <span className="text-sm font-serif font-semibold tracking-wide">
+                        {tGame("clueUnlocked")}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setPendingClue(false);
+                        setViewStage(stage);
+                      }}
+                      className="px-8 py-3 rounded-xl text-sm tracking-widest font-bold font-serif bg-accent/10 text-accent hover:bg-accent/20 border border-accent/30 active:scale-95 transition-all"
+                    >
+                      {tGame("revealClue")}
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {/* Stage 1~4: 콘텐츠 단서 (각 탭이 1개씩 표시) */}
+                    {(viewStage === "stage1" || viewStage === "stage2" || viewStage === "stage3" || viewStage === "stage4") && (
+                      <StageContent
+                        viewStage={viewStage}
+                        contents={round.contents}
+                        emptyFirstLabel={tGame("emptyFirstTrace")}
+                        emptyAdditionalLabel={tGame("emptyAdditionalTrace")}
+                      />
+                    )}
+                    {/* Stage 5: 감상 편력 */}
+                    {viewStage === "stage5" && (
+                      <div className="w-full">
+                        {round.consumptionPhilosophy ? (
+                          <PhilosophyReveal philosophy={round.consumptionPhilosophy} />
+                        ) : (
+                          <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
+                            {tGame("emptyFirstTrace")}
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
               </div>
             </div>

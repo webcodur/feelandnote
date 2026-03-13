@@ -13,7 +13,7 @@ Feelandnote 플랫폼의 셀럽 프로필 전체 생성 가이드. Claude Code a
 | **full** | 감상 콘텐츠 보유 셀럽 (기본값) | O | 콘텐츠 탭 표시 |
 | **light** | 감상 콘텐츠 없는 셀럽 | X | 콘텐츠 탭 숨김 |
 
-- 두 티어 모두 **감상 철학(consumption_philosophy)은 필수**
+- 두 티어 모두 **감상 편력(cultural_journey)은 필수**
 - light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'full'`
 
 ---
@@ -38,7 +38,7 @@ basic ─┬─ content ── philosophy   (full 전용: content → philosophy
 |------|------|------|------|
 | - | 기본 정보 | `celeb-1-basic-profile.md` | 없음 (최초) |
 | A | 콘텐츠 수집 | `celeb-2-content-collector.md` | basic |
-| A | 감상 철학 | `celeb-3-philosophy.md` | content |
+| A | 감상 편력 | `celeb-3-philosophy.md` | content |
 | B | 영향력 평가 | `celeb-4-influence.md` | basic |
 | C | 페르소나 | `celeb-5-persona.md` | basic |
 | D | Speech 트랙 | `celeb-7-speech.md` | basic |
@@ -49,7 +49,7 @@ basic ─┬─ content ── philosophy   (full 전용: content → philosophy
 | 트랙 | 단계 | 룰북 | 의존 |
 |------|------|------|------|
 | - | 기본 정보 | `celeb-1-basic-profile.md` | 없음 (최초) |
-| A | 감상 철학 | `celeb-3-philosophy.md` | basic (웹 리서치 기반) |
+| A | 감상 편력 | `celeb-3-philosophy.md` | basic (웹 리서치 기반) |
 | B | 영향력 평가 | `celeb-4-influence.md` | basic |
 | C | 페르소나 | `celeb-5-persona.md` | basic |
 | D | Speech 트랙 | `celeb-7-speech.md` | basic |
@@ -109,7 +109,7 @@ Speech 트랙은 `docs/project/celeb/celeb-7-speech.md`에서 상세 관리한�
 | 수식어 | `profiles.title` | `title_en` |
 | 소개글 | `profiles.bio` | `bio_en` |
 | 명언 | `profiles.quotes` | `quotes_en` |
-| 감상 철학 | `profiles.consumption_philosophy` | `consumption_philosophy_en` |
+| 감상 편력 | `profiles.cultural_journey` | `cultural_journey_en` |
 | 영향력 설명 | `celeb_influence.*_exp` (7개) | `*_exp_en` |
 | 고유 대사 | `celeb_dialogues.lines` (21개) | locale별 구조 (`docs/i18n-plan.md` 6.6절 참조) |
 

@@ -34,8 +34,8 @@ export interface CelebProfile {
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
   title_en: string | null
-  consumption_philosophy: string | null  // 감상 철학 (3~4 문단)
-  consumption_philosophy_en: string | null
+  cultural_journey: string | null  // 감상 편력 (3~4 문단)
+  cultural_journey_en: string | null
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일
   death_date: string | null   // 사망연일
@@ -56,7 +56,7 @@ export interface CelebProfile {
   speech_tone?: string | null  // 말투 톤 (loyal, composed, bold, humble, gentle, free)
   has_voice?: boolean  // R2 음성 파일 보유 여부
   voice_v?: number  // 음성 버전 (CDN 캐시 키)
-  celeb_tier?: 'full' | 'light'  // full: 감상 기록 보유, light: 감상 철학만
+  celeb_tier?: 'full' | 'light'  // full: 감상 기록 보유, light: 감상 편력만
 }
 
 export interface CelebReview {

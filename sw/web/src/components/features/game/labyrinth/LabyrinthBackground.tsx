@@ -8,19 +8,14 @@
 import InfiniteCorridorBackground from "@/components/lab/InfiniteCorridorBackground";
 import ImageBackground from "@/components/lab/ImageBackground";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
-import { useIsMobile } from "@/hooks/useIsMobile";
-
 interface Props {
   phase?: string;
   bgImages?: GameBackgroundImages | null;
 }
 
 export default function LabyrinthBackground({ phase, bgImages }: Props) {
-  const isMobile = useIsMobile();
-
   if (phase && phase !== "idle" && bgImages) {
     return <ImageBackground src={bgImages.pc} srcMobile={bgImages.mb} fullScreen />;
   }
-  if (isMobile) return null;
   return <InfiniteCorridorBackground />;
 }

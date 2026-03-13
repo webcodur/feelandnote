@@ -55,7 +55,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs/titles', label: '수식어', icon: Sparkles },
       { href: '/celebs/professions', label: '직군', icon: Target },
       { href: '/celebs/tags', label: '태그', icon: Layers },
-      { href: '/celebs/philosophies', label: '감상 철학', icon: Brain },
+      { href: '/celebs/philosophies', label: '감상 편력', icon: Brain },
       { href: '/celebs/vectors', label: '페르소나', icon: Radar },
       { href: '/celebs/influence', label: '영향력', icon: Flame },
       { href: '/celebs/voice-gen', label: '대사/음성', icon: Volume2 },

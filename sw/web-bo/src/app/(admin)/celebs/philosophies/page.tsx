@@ -6,7 +6,7 @@ import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import CelebPhilosophyEditor from '../../members/philosophies/CelebPhilosophyEditor'
 
 export const metadata: Metadata = {
-  title: '감상 철학 편집',
+  title: '감상 편력 편집',
 }
 
 interface PageProps {
@@ -38,7 +38,7 @@ export default async function CelebPhilosophiesPage({ searchParams }: PageProps)
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-xl md:text-2xl font-bold text-text-primary">셀럽 감상 철학 편집</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-text-primary">셀럽 감상 편력 편집</h1>
           <p className="text-sm text-text-secondary mt-1">총 {total}명의 셀럽</p>
         </div>
       </div>

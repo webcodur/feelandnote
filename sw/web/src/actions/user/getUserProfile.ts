@@ -23,7 +23,7 @@ export interface PublicUserProfile {
   title: string | null
   title_en?: string | null
   title_ko?: string | null
-  consumption_philosophy: string | null
+  cultural_journey: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -54,7 +54,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, consumption_philosophy, consumption_philosophy_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
     .eq('id', userId)
     .single()
 
@@ -155,7 +155,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,
       title_ko: profile.title,
-      consumption_philosophy: resolve(profile.consumption_philosophy_en, profile.consumption_philosophy),
+      cultural_journey: resolve(profile.cultural_journey_en, profile.cultural_journey),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,

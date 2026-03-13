@@ -9,7 +9,7 @@
 
 - **테이블**: `public.celeb_task_queue`
 - **현재 작업 타입**: `philosophy_rewrite_v2`
-- **목적**: 감상 철학 재작성 작업의 충돌 방지
+- **목적**: 감상 편력 재작성 작업의 충돌 방지
 
 `profiles.claimed_by`는 셀럽 계정 인수 상태를 뜻한다. 작업 락 용도로 재사용하지 않는다.
 
@@ -81,12 +81,12 @@ select public.renew_celeb_philosophy_rewrite_lease(
 select public.complete_celeb_philosophy_rewrite(
   'celeb-id',
   'agent-01',
-  '한국어 감상 철학',
+  '한국어 감상 편력',
   'English philosophy'
 );
 ```
 
-- 이 함수가 `profiles.consumption_philosophy`, `consumption_philosophy_en`를 함께 저장한다.
+- 이 함수가 `profiles.cultural_journey`, `cultural_journey_en`를 함께 저장한다.
 - 동시에 큐 상태를 `completed`로 바꾼다.
 - **직접 `update profiles ...` 하지 않는다.** 그러면 소유권 검증이 빠진다.
 

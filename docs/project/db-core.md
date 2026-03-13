@@ -1,30 +1,30 @@
-# DB ?¤í‚¤ë§?- Core
+# DB ?ï¿½í‚¤ï¿½?- Core
 
-Supabase ?„ë¡œ?íŠ¸ ID: `wouqtpvfctednlffross`
+Supabase ?ï¿½ë¡œ?ï¿½íŠ¸ ID: `wouqtpvfctednlffross`
 
-## ?¬ìš©???€??
-- **`profiles`**: ?¬ìš©?Â·ì????µí•© ?Œì´ë¸? `profile_type`('USER'|'CELEB')ë¡?êµ¬ë¶„. ?€???„ìš©: profession, title, bio, quotes, consumption_philosophy, nationality, birth/death_date, gender(bool), is_verified
-- **`follows`**: ?”ë¡œ??ê´€ê³?(follower_id ??following_id)
-- **`user_social`**: ?Œì…œ ì¹´ìš´??ìºì‹œ (follower/following/friend/content_count)
+## ?ï¿½ìš©???ï¿½??
+- **`profiles`**: ?ï¿½ìš©?ï¿½Â·ï¿½????ï¿½í•© ?ï¿½ì´ï¿½? `profile_type`('USER'|'CELEB')ï¿½?êµ¬ë¶„. ?ï¿½???ï¿½ìš©: profession, title, bio, quotes, cultural_journey, nationality, birth/death_date, gender(bool), is_verified
+- **`follows`**: ?ï¿½ë¡œ??ê´€ï¿½?(follower_id ??following_id)
+- **`user_social`**: ?ï¿½ì…œ ì¹´ìš´??ìºì‹œ (follower/following/friend/content_count)
 
-## ì½˜í…ì¸?
-- **`contents`**: ì½˜í…ì¸?ë§ˆìŠ¤?? **id??text** (web: ?¸ë?API ID ì§ì ‘ ?¬ìš©, web-bo: UUID). type('BOOK'|'VIDEO'|'GAME'|'MUSIC'|'CERTIFICATE'), external_source
-- **`user_contents`**: ?¬ìš©?â†”ì½˜í…ì¸?ê´€ê³? status('WANT'|'FINISHED'), rating(0~5), review, visibility('public'|'followers'|'private'), is_pinned, is_recommended
+## ì½˜í…ï¿½?
+- **`contents`**: ì½˜í…ï¿½?ë§ˆìŠ¤?? **id??text** (web: ?ï¿½ï¿½?API ID ì§ì ‘ ?ï¿½ìš©, web-bo: UUID). type('BOOK'|'VIDEO'|'GAME'|'MUSIC'|'CERTIFICATE'), external_source
+- **`user_contents`**: ?ï¿½ìš©?ï¿½â†”ì½˜í…ï¿½?ê´€ï¿½? status('WANT'|'FINISHED'), rating(0~5), review, visibility('public'|'followers'|'private'), is_pinned, is_recommended
 - **`records`**: ê¸°ë¡. type('NOTE'|'QUOTE'), content, location
-- **`notes`** / **`note_sections`**: êµ¬ì¡°?”ëœ ê°ìƒ ?¸íŠ¸ (?œí”Œë¦? ?¹ì…˜ë³?ê´€ë¦?
-- **`academy_lesson_progress`**: ÇĞ´ç ·¹½¼ ÇĞ½À ±â·Ï (ÃÖ±Ù ÇĞ½À, ¿Ï·á ¿©ºÎ, ¿Ï·á ½Ã°¢)
-- **`playlists`** / **`playlist_items`**: ?¬ìš©??ì»¬ë ‰??
+- **`notes`** / **`note_sections`**: êµ¬ì¡°?ï¿½ëœ ê°ìƒ ?ï¿½íŠ¸ (?ï¿½í”Œï¿½? ?ï¿½ì…˜ï¿½?ê´€ï¿½?
+- **`academy_lesson_progress`**: ï¿½Ğ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ½ï¿½ ï¿½ï¿½ï¿½ (ï¿½Ö±ï¿½ ï¿½Ğ½ï¿½, ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ï·ï¿½ ï¿½Ã°ï¿½)
+- **`playlists`** / **`playlist_items`**: ?ï¿½ìš©??ì»¬ë ‰??
 
 ### contents ID ì²´ê³„ (ì£¼ì˜)
 | êµ¬ë¶„ | contents.id | external_id |
 |------|-------------|-------------|
-| web | ?¸ë? API ID ì§ì ‘ ?¬ìš© (ISBN ?? | null |
-| web-bo | UUID ?ì„± | ?¸ë? API ID |
+| web | ?ï¿½ï¿½? API ID ì§ì ‘ ?ï¿½ìš© (ISBN ?? | null |
+| web-bo | UUID ?ï¿½ì„± | ?ï¿½ï¿½? API ID |
 
-## ì»¤ë??ˆí‹°/?œìŠ¤??
+## ì»¤ï¿½??ï¿½í‹°/?ï¿½ìŠ¤??
 - **`notifications`**, **`guestbook_entries`**, **`notices`**, **`feedbacks`**, **`board_comments`**
-- **`reports`**: ? ê³  (target_type: user|record|content|comment|guestbook)
-- **`user_scores`** / **`score_logs`**: ?œë™ ?ìˆ˜ ?œìŠ¤??
-- **`tier_lists`**, **`blind_game_scores`**: ?„ì¥(Arena) ê²Œì„
-- **`activity_logs`**: ?œë™ ë¡œê·¸ (90??ë³´ê?)
-- **`content_recommendations`**: ì½˜í…ì¸?ì¶”ì²œ (sender?’receiver)
+- **`reports`**: ?ï¿½ê³  (target_type: user|record|content|comment|guestbook)
+- **`user_scores`** / **`score_logs`**: ?ï¿½ë™ ?ï¿½ìˆ˜ ?ï¿½ìŠ¤??
+- **`tier_lists`**, **`blind_game_scores`**: ?ï¿½ì¥(Arena) ê²Œì„
+- **`activity_logs`**: ?ï¿½ë™ ë¡œê·¸ (90??ë³´ï¿½?)
+- **`content_recommendations`**: ì½˜í…ï¿½?ì¶”ì²œ (sender?ï¿½receiver)

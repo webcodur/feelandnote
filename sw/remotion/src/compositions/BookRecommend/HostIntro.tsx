@@ -13,9 +13,10 @@ type Props = {
 }
 
 /**
- * Sections 1+2 통합 컴포넌트
- * Phase 1: 나레이터 — "오늘의 인물" + 아바타 + 이름 + 자막
- * Phase 2: 셀럽 — 감상철학 타이핑
+ * Sections 1+2 통합 — BookCard 스타일 좌우 레이아웃
+ * 좌측: 아바타 (항상 유지)
+ * 우측 Phase 1: "오늘의 인물" + 이름 + biography (나레이터)
+ * 우측 Phase 2: 감상철학 (셀럽 본인)
  */
 export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames }) => {
   const frame = useCurrentFrame()
@@ -25,180 +26,161 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
   const phase2Local = frame - celebIntroFrames
   const phase2Frames = totalFrames - celebIntroFrames
 
-  // --- Phase 1: 순차 등장 (라벨 → 아바타 → 이름 → 자막) ---
-  const labelOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: 'clamp' })
+  // --- 등장 애니메이션 ---
+  const avatarEnter = spring({ frame: Math.max(0, frame - 5), fps, config: { damping: 14, stiffness: 160 } })
+  const avatarY = interpolate(frame, [0, 15], [30, 0], { extrapolateRight: 'clamp' })
+  const infoOpacity = interpolate(frame, [15, 30], [0, 1], { extrapolateRight: 'clamp' })
+  const bioTextOpacity = interpolate(frame, [40, 55], [0, 1], { extrapolateRight: 'clamp' })
 
-  const avatarScale = spring({ frame: Math.max(0, frame - 15), fps, config: { damping: 12, stiffness: 150 } })
-  const avatarOpacity = interpolate(frame, [15, 30], [0, 1], { extrapolateRight: 'clamp' })
-
-  const nameOpacity = interpolate(frame, [35, 50], [0, 1], { extrapolateRight: 'clamp' })
-  const nameY = interpolate(frame, [35, 50], [25, 0], { extrapolateRight: 'clamp' })
-
-  // 자막: 라벨+아바타+이름 충분히 노출된 후 (약 2.5초 후)
-  const subtitleOpacity = interpolate(frame, [75, 90], [0, 1], { extrapolateRight: 'clamp' })
-
-  // --- Phase 전환 ---
-  const phase1FadeOut = !inPhase1
-    ? interpolate(phase2Local, [0, 15], [1, 0], { extrapolateRight: 'clamp' })
-    : 1
+  // --- Phase 전환: bio fadeOut → 감상철학 fadeIn ---
+  const phase1TextOpacity = inPhase1
+    ? bioTextOpacity
+    : interpolate(phase2Local, [0, 25], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   const phase2FadeIn = !inPhase1
-    ? interpolate(phase2Local, [10, 25], [0, 1], { extrapolateRight: 'clamp' })
+    ? interpolate(phase2Local, [15, 45], [0, 1], { extrapolateRight: 'clamp' })
     : 0
 
   // --- 전체 페이드아웃 ---
-  const fadeOut = interpolate(frame, [totalFrames - 15, totalFrames], [1, 0], {
+  const fadeOut = interpolate(frame, [totalFrames - 30, totalFrames], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   })
 
   return (
     <div style={{ position: 'absolute', inset: 0, opacity: fadeOut }}>
-      {/* 메인 컨텐츠 */}
+      {/* 상단 라벨 */}
       <div
         style={{
           position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 24,
+          top: 0,
+          left: 0,
+          right: 0,
+          padding: '40px 120px 0',
+          opacity: interpolate(frame, [5, 20], [0, 1], { extrapolateRight: 'clamp' }),
         }}
       >
-        {/* "오늘의 인물" 라벨 — 타이핑 */}
-        <div style={{ opacity: labelOpacity, fontFamily: FONT.sans }}>
+        <div style={{ fontFamily: FONT.sans }}>
           <KoreanTypewriter
             text="오늘의 인물"
             startFrame={5}
             spreadFrames={25}
             color="#c8a46e"
-            fontSize={20}
+            fontSize={16}
             style={{ fontWeight: 600, letterSpacing: 6 }}
           />
         </div>
+      </div>
 
-        {/* 아바타 */}
+      {/* 메인 레이아웃: 좌측 아바타 + 우측 정보 */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '60px 120px 0',
+          gap: 80,
+        }}
+      >
+        {/* ===== 좌측: 아바타 (항상 유지) ===== */}
         <div
           style={{
-            opacity: avatarOpacity,
-            transform: `scale(${avatarScale})`,
+            flexShrink: 0,
+            position: 'relative',
+            opacity: avatarEnter,
+            transform: `translateY(${avatarY}px) scale(${avatarEnter})`,
           }}
         >
           <div
             style={{
-              width: 260,
-              height: 260,
+              width: 280,
+              height: 280,
               borderRadius: '50%',
               overflow: 'hidden',
               border: '3px solid #c8a46e',
-              boxShadow: '0 0 60px rgba(200,164,110,0.25)',
+              boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(200,164,110,0.15)',
             }}
           >
             <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
 
-        {/* 이름 — 타이핑 */}
-        <div
-          style={{
-            opacity: nameOpacity,
-            transform: `translateY(${nameY}px)`,
-            textAlign: 'center',
-            fontFamily: FONT.sans,
-          }}
-        >
-          <KoreanTypewriter
-            text={host.nickname}
-            startFrame={38}
-            spreadFrames={30}
-            color="#e8e0d0"
-            fontSize={56}
-            style={{ fontWeight: 700 }}
-          />
-          <div style={{ color: '#777', fontSize: 20, fontFamily: FONT.cormorant, marginTop: 4 }}>
-            {host.nickname_en}
-          </div>
-          <div
-            style={{
-              color: '#c8a46e',
-              fontSize: 16,
-              fontFamily: FONT.sans,
-              letterSpacing: 3,
-              marginTop: 8,
-              opacity: 0.8,
-            }}
-          >
-            {host.title}
-          </div>
-        </div>
-
-        {/* 감상철학 (Phase 2) */}
-        {phase2FadeIn > 0 && (
-          <div style={{ opacity: phase2FadeIn, maxWidth: 900, textAlign: 'center', marginTop: 16 }}>
+        {/* ===== 우측: 인물 정보(유지) + 화자 영역(전환) ===== */}
+        <div style={{ flex: 1, maxWidth: 850, display: 'flex', flexDirection: 'column' }}>
+          {/* 인물 메타 정보 — 항상 표시 */}
+          <div style={{ opacity: infoOpacity }}>
+            <div style={{ color: '#c8a46e', fontSize: 18, fontFamily: FONT.sans, marginBottom: 6 }}>
+              {host.title}
+            </div>
             <div
               style={{
-                width: interpolate(phase2Local, [5, 25], [0, 500], {
-                  extrapolateLeft: 'clamp',
-                  extrapolateRight: 'clamp',
-                }),
-                height: 1,
-                backgroundColor: '#c8a46e',
-                opacity: 0.4,
-                margin: '0 auto 24px',
-              }}
-            />
-            <div
-              style={{
-                color: '#c8a46e',
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: FONT.cinzel,
-                letterSpacing: 4,
-                marginBottom: 14,
+                color: '#e8e0d0',
+                fontSize: 48,
+                fontWeight: 700,
+                fontFamily: FONT.sans,
+                lineHeight: 1.3,
+                marginBottom: 4,
               }}
             >
-              VIEWING PHILOSOPHY
+              {host.nickname}
             </div>
-            <div style={{ borderLeft: '3px solid rgba(200,164,110,0.4)', paddingLeft: 24, textAlign: 'left', fontFamily: FONT.serif }}>
-              <KoreanTypewriter
-                text={host.philosophy}
-                startFrame={celebIntroFrames + 20}
-                spreadFrames={phase2Frames - 60}
-                color="#e8e0d0"
-                fontSize={26}
-                style={{ fontStyle: 'italic', lineHeight: 1.8 }}
-              />
+            <div style={{ color: '#777', fontSize: 20, fontFamily: FONT.cormorant, marginBottom: 20 }}>
+              {host.nickname_en}
             </div>
+            <div
+              style={{
+                width: interpolate(frame, [25, 45], [0, 400], { extrapolateRight: 'clamp' }),
+                height: 1,
+                backgroundColor: '#c8a46e',
+                opacity: 0.3,
+                marginBottom: 24,
+              }}
+            />
           </div>
-        )}
-      </div>
 
-      {/* 하단 자막 바 (Phase 1: 나레이터 스크립트) */}
-      {inPhase1 && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: '50px 160px',
-            background: 'linear-gradient(transparent, rgba(0,0,0,0.85) 40%)',
-            opacity: subtitleOpacity * phase1FadeOut,
-            textAlign: 'center',
-          }}
-        >
-          <div
-            style={{
-              color: '#e8e0d0',
-              fontSize: 26,
-              fontFamily: FONT.sans,
-              lineHeight: 1.7,
-            }}
-          >
-            {narratorText}
+          {/* 화자 영역 — 나레이터 bio / 셀럽 감상철학 크로스페이드 */}
+          <div style={{ position: 'relative', minHeight: 200 }}>
+            {/* Phase 1: 나레이터 biography */}
+            {phase1TextOpacity > 0 && (
+              <div style={{ opacity: phase1TextOpacity, fontFamily: FONT.sans }}>
+                <KoreanTypewriter
+                  text={narratorText}
+                  startFrame={45}
+                  spreadFrames={celebIntroFrames - 70}
+                  color="#ccc"
+                  fontSize={22}
+                  style={{ lineHeight: 1.8 }}
+                />
+              </div>
+            )}
+
+            {/* Phase 2: 셀럽 감상철학 */}
+            {phase2FadeIn > 0 && (
+              <div
+                style={{
+                  position: inPhase1 ? 'absolute' : 'relative',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  opacity: phase2FadeIn,
+                }}
+              >
+                <div style={{ borderLeft: '3px solid rgba(200,164,110,0.4)', paddingLeft: 20, fontFamily: FONT.serif }}>
+                  <KoreanTypewriter
+                    text={host.philosophy}
+                    startFrame={celebIntroFrames + 20}
+                    spreadFrames={phase2Frames - 60}
+                    color="#e8e0d0"
+                    fontSize={24}
+                    style={{ fontStyle: 'italic', lineHeight: 1.8 }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

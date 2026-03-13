@@ -11,7 +11,7 @@ profiles, celeb_influence, celeb_dialogues의 한국어 데이터를 영문으�
 | 1 | `profiles` | `title` | `title_en` | 수식어 (2~8자 → 영문 동등 표현) |
 | 2 | `profiles` | `bio` | `bio_en` | 소개글 (2줄 분량) |
 | 3 | `profiles` | `quotes` | `quotes_en` | 명언 (원문이 외국어면 원어 복원) |
-| 4 | `profiles` | `consumption_philosophy` | `consumption_philosophy_en` | 감상 철학 (700~900자 에세이) |
+| 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 편력 (700~900자 에세이) |
 | 5 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
 | 6 | `celeb_dialogues` | `lines` (21개 대사) | 별도 locale 구조 | 고유 대사 (i18n.md 참조) |
 
@@ -23,7 +23,7 @@ profiles, celeb_influence, celeb_dialogues의 한국어 데이터를 영문으�
 
 ```sql
 SELECT p.id, p.nickname, p.nickname_en, p.title, p.bio, p.quotes,
-       p.consumption_philosophy, p.death_date, p.profession
+       p.cultural_journey, p.death_date, p.profession
 FROM profiles p
 WHERE p.id = '{celebId}'
   AND p.profile_type = 'CELEB';
@@ -79,7 +79,7 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 - **한국어 원문 명언**: 영어로 번역 (한국 인물의 경우)
 - 웹 검색으로 공인된 영문 번역을 확인한 후 사용
 
-### consumption_philosophy (감상 철학)
+### cultural_journey (감상 편력)
 
 - 700~900자 한국어 에세이를 동등 분량의 영문으로 번역
 - 단정적 문체("~다.") → 영문에서도 declarative 문체 유지
@@ -124,7 +124,7 @@ UPDATE profiles SET
     WHEN '{id1}' THEN '{quotes_en_1}'
     WHEN '{id2}' THEN '{quotes_en_2}'
   END,
-  consumption_philosophy_en = CASE id
+  cultural_journey_en = CASE id
     WHEN '{id1}' THEN '{philosophy_en_1}'
     WHEN '{id2}' THEN '{philosophy_en_2}'
   END

@@ -92,10 +92,10 @@ function buildMetaDescription(
   if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname}이 추천한 책, 영화, 음악, 게임 목록과 감상 철학. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`;
+    return `${professionLabel} ${nickname}이 추천한 책, 영화, 음악, 게임 목록과 감상 편력. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`;
   }
 
-  return `${professionLabel} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}이 직접 추천하거나 즐겨본 작품과 감상 철학을 확인하세요.`;
+  return `${professionLabel} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}이 직접 추천하거나 즐겨본 작품과 감상 편력을 확인하세요.`;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

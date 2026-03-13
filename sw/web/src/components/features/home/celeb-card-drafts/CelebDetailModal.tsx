@@ -180,7 +180,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const displayTitle = (isEn && celeb.title_en) || celeb.title;
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
-  const displayPhilosophy = (isEn && celeb.consumption_philosophy_en) || celeb.consumption_philosophy;
+  const displayPhilosophy = (isEn && celeb.cultural_journey_en) || celeb.cultural_journey;
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
 
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
@@ -499,7 +499,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         <div className="w-full h-px bg-accent/20 my-2 mx-auto max-w-[calc(100%-3rem)]" />
       )}
 
-      {/* 감상 철학 */}
+      {/* 감상 편력 */}
       {displayPhilosophy && (
         <div className="px-6 md:px-8 pt-4 pb-2">
           <p className="text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">

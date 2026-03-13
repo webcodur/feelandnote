@@ -169,7 +169,7 @@ export async function getTrackerRound(
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession, chosen.avatar_url,
-    resolve(chosen.consumption_philosophy_en, chosen.consumption_philosophy),
+    resolve(chosen.cultural_journey_en, chosen.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve(chosen.bio_en, chosen.bio),
     chosenQuote,
@@ -184,10 +184,10 @@ async function getTrackerRoundFallback(
   // 자격 있는 셀럽 목록: persona 존재 + philosophy 존재 + 리뷰 있는 콘텐츠 존재
   const { data: allCelebs } = await supabase
     .from("profiles")
-    .select("id, slug, nickname, nickname_en, profession, avatar_url, consumption_philosophy, consumption_philosophy_en, death_date, nationality, birth_date, bio, bio_en")
+    .select("id, slug, nickname, nickname_en, profession, avatar_url, cultural_journey, cultural_journey_en, death_date, nationality, birth_date, bio, bio_en")
     .eq("profile_type", "CELEB")
     .eq("status", "active")
-    .not("consumption_philosophy", "is", null)
+    .not("cultural_journey", "is", null)
     .not("death_date", "is", null);
 
   if (!allCelebs || allCelebs.length === 0) return null;
@@ -233,8 +233,8 @@ async function getTrackerRoundFallback(
       personaSet.has(c.id) &&
       reviewSet.has(c.id) &&
       !excludeSet.has(c.id) &&
-      c.consumption_philosophy &&
-      c.consumption_philosophy.trim() !== ""
+      c.cultural_journey &&
+      c.cultural_journey.trim() !== ""
   );
 
   if (eligible.length === 0) return null;
@@ -258,7 +258,7 @@ async function getTrackerRoundFallback(
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve((chosen as any).nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession ?? "other", chosen.avatar_url,
-    resolve((chosen as any).consumption_philosophy_en, chosen.consumption_philosophy),
+    resolve((chosen as any).cultural_journey_en, chosen.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve((chosen as any).bio_en, chosen.bio),
     chosenQuote,

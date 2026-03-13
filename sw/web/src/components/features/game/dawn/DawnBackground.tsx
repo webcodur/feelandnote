@@ -8,19 +8,14 @@
 import GoldenDawnBackground from "@/components/lab/GoldenDawnBackground";
 import ImageBackground from "@/components/lab/ImageBackground";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
-import { useIsMobile } from "@/hooks/useIsMobile";
-
 interface Props {
   phase?: string;
   bgImages?: GameBackgroundImages | null;
 }
 
 export default function DawnBackground({ phase, bgImages }: Props) {
-  const isMobile = useIsMobile();
-
   if (phase && phase !== "idle" && bgImages) {
     return <ImageBackground src={bgImages.pc} srcMobile={bgImages.mb} fullScreen />;
   }
-  if (isMobile) return null;
   return <GoldenDawnBackground fullScreen />;
 }

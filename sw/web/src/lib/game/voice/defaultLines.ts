@@ -112,6 +112,16 @@ const defaultLines: Record<'ko' | 'en', Record<string, Record<SpeechTone, string
       free: ["그건 반론이 아니라 네 감정이지.", "내가 틀린 게 아니라 네가 이해를 못 한 거야.", "논점을 바꾼 적 없어. 네가 따라오지 못한 거지."],
     },
 
+    /** 미궁: 등용 성공 — 찾던 현자를 발견하여 등용했을 때 */
+    recruited: {
+      loyal: ["찾아주셨군요. 충성을 다하겠습니다.", "부름에 응하겠습니다.", "기꺼이 따르겠습니다."],
+      composed: ["결국 찾아내셨군요. 예상보다 빠르셨습니다.", "좋은 안목이십니다.", "숨어 있을 곳이 없었군요."],
+      bold: ["나를 찾아내다니, 대단하군.", "좋소, 인정하겠소.", "이 정도면 따를 만하오."],
+      humble: ["저를 찾아주셔서 감사합니다.", "부족하지만 힘을 보태겠습니다.", "이렇게 만나게 되다니 영광입니다."],
+      gentle: ["찾아주셨네요. 기다리고 있었어요.", "반가워요, 함께하게 되어 기쁘네요.", "좋은 인연이 되었으면 해요."],
+      free: ["결국 찾았군. 대단한데.", "뭐, 잡혔으니 따르지.", "숨는 것도 이제 질렸어."],
+    },
+
     /** 여명: 오답 배치 — 잘못된 자리에 놓였을 때 */
     dawn_wrong: {
       loyal: ["아직 때가 아닙니다.", "제 자리가 아닌 듯합니다.", "다시 살펴주시오."],
@@ -202,6 +212,14 @@ const defaultLines: Record<'ko' | 'en', Record<string, Record<SpeechTone, string
       humble: ["It is not that I am wrong, but my words are not yet understood.", "Other interpretations are possible. It does not have to be just one right answer.", "Rather than being wrong... we are speaking of the same thing in different languages."],
       gentle: ["You could see it that way, but conversely, I am right.", "It is a difference in perspective, not an error. Both can be right.", "I wasn't attacked, I stepped aside."],
       free: ["That's your emotion, not a counterargument.", "I'm not wrong, you just didn't understand.", "I never changed the subject. You just failed to keep up."],
+    },
+    recruited: {
+      loyal: ["You have found me. I shall serve faithfully.", "I answer the call.", "I will gladly follow."],
+      composed: ["You found me at last. Quicker than I expected.", "You have a keen eye.", "There was nowhere left to hide."],
+      bold: ["You found me. Impressive.", "Very well, I concede.", "You have earned my respect."],
+      humble: ["Thank you for finding me.", "I am humble, but I will lend my strength.", "It is an honor to be found."],
+      gentle: ["You found me. I was waiting.", "How nice, I am glad to join you.", "I hope this is a wonderful connection."],
+      free: ["You found me. Not bad.", "Well, I've been caught, so I'll follow.", "I was tired of hiding anyway."],
     },
     dawn_wrong: {
       loyal: ["It is not yet the time.", "It seems this is not my place.", "Please look again."],

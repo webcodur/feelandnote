@@ -29,7 +29,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
   
   useEffect(() => {
     setPhilosophies(
-        celebs.reduce((acc, c) => ({ ...acc, [c.id]: c.consumption_philosophy }), {})
+        celebs.reduce((acc, c) => ({ ...acc, [c.id]: c.cultural_journey }), {})
     )
   }, [celebs])
 
@@ -43,7 +43,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
 
   function startEdit(celeb: CelebTitleItem) {
     setEditingId(celeb.id)
-    setEditValue(celeb.consumption_philosophy || '')
+    setEditValue(celeb.cultural_journey || '')
   }
 
   function cancelEdit() {
@@ -64,7 +64,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
     try {
       await updateCelebPhilosophy(celebId, newPhilosophy)
       setPhilosophies((prev) => ({ ...prev, [celebId]: newPhilosophy }))
-      showToast('success', '감상 철학이 저장되었습니다.')
+      showToast('success', '감상 편력이 저장되었습니다.')
       cancelEdit()
     } catch {
       showToast('error', '저장에 실패했습니다.')
@@ -109,7 +109,7 @@ export default function CelebPhilosophyEditor({ celebs, page, total, limit }: Pr
           <thead className="bg-bg-secondary border-b border-border">
             <tr>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[200px]">셀럽</th>
-              <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary">감상 철학</th>
+              <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary">감상 편력</th>
               <th className="text-center px-4 py-3 text-sm font-medium text-text-secondary w-16">삭제</th>
             </tr>
           </thead>

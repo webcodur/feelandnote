@@ -87,8 +87,8 @@ export interface Member {
   nickname_en?: string | null
   title_en?: string | null
   bio_en?: string | null
-  consumption_philosophy?: string | null
-  consumption_philosophy_en?: string | null
+  cultural_journey?: string | null
+  cultural_journey_en?: string | null
   celeb_tier?: string | null
   claimed_by?: string | null
   speech_tone?: string | null
@@ -228,7 +228,7 @@ function celebToMember(c: Celeb): Member {
     gender: c.gender,
     birth_date: c.birth_date,
     death_date: c.death_date,
-    consumption_philosophy: c.consumption_philosophy,
+    cultural_journey: c.cultural_journey,
     celeb_tier: c.celeb_tier,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
@@ -352,8 +352,8 @@ export async function getMember(id: string): Promise<Member | null> {
     nickname_en: data.nickname_en ?? null,
     title_en: data.title_en ?? null,
     bio_en: data.bio_en ?? null,
-    consumption_philosophy: data.consumption_philosophy,
-    consumption_philosophy_en: data.consumption_philosophy_en ?? null,
+    cultural_journey: data.cultural_journey,
+    cultural_journey_en: data.cultural_journey_en ?? null,
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
@@ -441,8 +441,8 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     nickname_en: data.nickname_en ?? null,
     title_en: data.title_en ?? null,
     bio_en: data.bio_en ?? null,
-    consumption_philosophy: data.consumption_philosophy,
-    consumption_philosophy_en: data.consumption_philosophy_en ?? null,
+    cultural_journey: data.cultural_journey,
+    cultural_journey_en: data.cultural_journey_en ?? null,
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',

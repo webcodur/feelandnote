@@ -36,8 +36,8 @@ interface CelebFormData {
   is_verified: boolean
   status: 'active' | 'suspended'
   celeb_tier: 'full' | 'light'
-  consumption_philosophy: string
-  consumption_philosophy_en: string
+  cultural_journey: string
+  cultural_journey_en: string
 }
 
 interface Props {
@@ -102,8 +102,8 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'suspended') || 'suspended',
     celeb_tier: (celeb?.celeb_tier as 'full' | 'light') || 'full',
-    consumption_philosophy: celeb?.consumption_philosophy || '',
-    consumption_philosophy_en: celeb?.consumption_philosophy_en || '',
+    cultural_journey: celeb?.cultural_journey || '',
+    cultural_journey_en: celeb?.cultural_journey_en || '',
   }
 }
 
@@ -160,7 +160,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
 
-  // 감상 철학 textarea ref (자동 높이 조절용)
+  // 감상 편력 textarea ref (자동 높이 조절용)
   const philosophyTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   // DND 상태
@@ -226,7 +226,7 @@ export default function CelebForm({ mode, celeb }: Props) {
     }
   }, [mode, celeb])
 
-  // 감상 철학 textarea 자동 높이 조절
+  // 감상 편력 textarea 자동 높이 조절
   const adjustPhilosophyHeight = useCallback(() => {
     const textarea = philosophyTextareaRef.current
     if (textarea) {
@@ -237,7 +237,7 @@ export default function CelebForm({ mode, celeb }: Props) {
 
   useEffect(() => {
     adjustPhilosophyHeight()
-  }, [formData.consumption_philosophy, adjustPhilosophyHeight])
+  }, [formData.cultural_journey, adjustPhilosophyHeight])
 
   // 화면 리사이즈 시 높이 재조정
   useEffect(() => {
@@ -387,7 +387,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
-          consumption_philosophy: formData.consumption_philosophy || undefined,
+          cultural_journey: formData.cultural_journey || undefined,
           influence: hasInfluence ? influence : undefined,
         })
 
@@ -433,8 +433,8 @@ export default function CelebForm({ mode, celeb }: Props) {
           is_verified: formData.is_verified,
           status: formData.status,
           celeb_tier: formData.celeb_tier,
-          consumption_philosophy: formData.consumption_philosophy || undefined,
-          consumption_philosophy_en: formData.consumption_philosophy_en,
+          cultural_journey: formData.cultural_journey || undefined,
+          cultural_journey_en: formData.cultural_journey_en,
           influence: hasInfluence ? influence : undefined,
         })
 
@@ -654,13 +654,13 @@ export default function CelebForm({ mode, celeb }: Props) {
         )}
       </div>
 
-      {/* Consumption Philosophy */}
+      {/* Cultural Journey */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
         <button type="button" onClick={() => toggleSection('philosophy')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
-          <h2 className="text-base font-semibold text-text-primary">감상 철학</h2>
+          <h2 className="text-base font-semibold text-text-primary">감상 편력</h2>
           <div className="flex items-center gap-3">
-            {!openSections.philosophy && formData.consumption_philosophy && (
-              <span className="text-xs text-text-secondary">{formData.consumption_philosophy.length}자</span>
+            {!openSections.philosophy && formData.cultural_journey && (
+              <span className="text-xs text-text-secondary">{formData.cultural_journey.length}자</span>
             )}
             {openSections.philosophy ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
           </div>
@@ -671,19 +671,19 @@ export default function CelebForm({ mode, celeb }: Props) {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <p className="text-xs text-text-secondary">국문</p>
-                <textarea ref={philosophyTextareaRef} value={formData.consumption_philosophy} onChange={(e) => handleChange('consumption_philosophy', e.target.value)} placeholder="감상 철학 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
-                {formData.consumption_philosophy && (
+                <textarea ref={philosophyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 편력 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
+                {formData.cultural_journey && (
                   <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
-                    {formData.consumption_philosophy.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
+                    {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
                   </div>
                 )}
               </div>
               <div className="space-y-2">
                 <p className="text-xs text-blue-400/70">EN</p>
-                <textarea value={formData.consumption_philosophy_en} onChange={(e) => handleChange('consumption_philosophy_en', e.target.value)} placeholder="EN: English philosophy (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
-                {formData.consumption_philosophy_en && (
+                <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English philosophy (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
+                {formData.cultural_journey_en && (
                   <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
-                    {formData.consumption_philosophy_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
+                    {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
                   </div>
                 )}
               </div>
@@ -692,19 +692,19 @@ export default function CelebForm({ mode, celeb }: Props) {
             <div className="space-y-2">
               {langMode === 'ko' ? (
                 <>
-                  <textarea ref={philosophyTextareaRef} value={formData.consumption_philosophy} onChange={(e) => handleChange('consumption_philosophy', e.target.value)} placeholder="감상 철학 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
-                  {formData.consumption_philosophy && (
+                  <textarea ref={philosophyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 편력 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
+                  {formData.cultural_journey && (
                     <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
-                      {formData.consumption_philosophy.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
+                      {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
                     </div>
                   )}
                 </>
               ) : (
                 <>
-                  <textarea value={formData.consumption_philosophy_en} onChange={(e) => handleChange('consumption_philosophy_en', e.target.value)} placeholder="EN: English philosophy (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
-                  {formData.consumption_philosophy_en && (
+                  <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English philosophy (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
+                  {formData.cultural_journey_en && (
                     <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
-                      {formData.consumption_philosophy_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
+                      {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
                     </div>
                   )}
                 </>

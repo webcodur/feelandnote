@@ -803,7 +803,7 @@ export type Database = {
           bio: string | null
           birth_date: string | null
           claimed_by: string | null
-          consumption_philosophy: string | null
+          cultural_journey: string | null
           created_at: string
           death_date: string | null
           email: string | null
@@ -830,7 +830,7 @@ export type Database = {
           bio?: string | null
           birth_date?: string | null
           claimed_by?: string | null
-          consumption_philosophy?: string | null
+          cultural_journey?: string | null
           created_at?: string
           death_date?: string | null
           email?: string | null
@@ -857,7 +857,7 @@ export type Database = {
           bio?: string | null
           birth_date?: string | null
           claimed_by?: string | null
-          consumption_philosophy?: string | null
+          cultural_journey?: string | null
           created_at?: string
           death_date?: string | null
           email?: string | null

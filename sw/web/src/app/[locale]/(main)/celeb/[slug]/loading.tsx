@@ -31,7 +31,7 @@ export default function Loading() {
         </div>
       </section>
 
-      {/* 2. 감상 철학 */}
+      {/* 2. 감상 편력 */}
       <section className="max-w-3xl mx-auto space-y-3">
         {/* DecorativeLabel */}
         <div className="flex items-center justify-center gap-3">

@@ -32,7 +32,7 @@ UPDATE SQL 실행 **직전에** 반드시 기존 데이터를 SELECT하여 비�
 
 ```sql
 -- 1단계: 기존 데이터 조회
-SELECT id, nickname, consumption_philosophy
+SELECT id, nickname, cultural_journey
 FROM profiles
 WHERE id IN ('id1', 'id2', ...);
 

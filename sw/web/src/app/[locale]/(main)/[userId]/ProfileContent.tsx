@@ -46,8 +46,8 @@ export default function ProfileContent({
         <UserBioSection profile={profile} isOwner={isOwner} />
       )}
 
-      {/* 2. Consumption Philosophy (셀럽 전용) */}
-      {profile.profile_type === "CELEB" && profile.consumption_philosophy && (
+      {/* 2. Cultural Journey (셀럽 전용) */}
+      {profile.profile_type === "CELEB" && profile.cultural_journey && (
         <section className="animate-fade-in" style={{ animationDelay: "0.05s" }}>
           <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
             <div className="flex justify-center mb-6 sm:mb-8">
@@ -55,7 +55,7 @@ export default function ProfileContent({
             </div>
             <div className="max-w-3xl mx-auto">
               <p className="text-sm md:text-base text-text-primary font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
-                <FormattedText text={profile.consumption_philosophy} />
+                <FormattedText text={profile.cultural_journey} />
               </p>
             </div>
           </ClassicalBox>
