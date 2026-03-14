@@ -16,6 +16,7 @@
     "@feelandnote/content-search": "workspace:*",
     "@feelandnote/influence-constants": "workspace:*",
     "@feelandnote/shared": "workspace:*",
+    "@google/genai": "^1.44.0",
     "@next/third-parties": "^16.1.6",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@supabase/ssr": "^0.8.0",

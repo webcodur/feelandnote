@@ -295,6 +295,7 @@
     "game": {
       "exit": "나가기",
       "exitEsc": "나가기 (ESC)",
+      "forfeit": "기권",
       "prevTrack": "이전 곡",
       "nextTrack": "다음 곡",
       "play": "재생",

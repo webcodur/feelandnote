@@ -20,7 +20,7 @@ type Props = {
 /**
  * Sections 1+2 통합 — BookCard 스타일 좌우 레이아웃
  * 좌측: 아바타 (항상 유지)
- * 우측 Phase 1: "오늘의 인물" + 이름 + biography (나레이터)
+ * 우측 Phase 1: "서재 탐방" + 이름 + biography (나레이터)
  * 우측 Phase 2: 감상철학 (셀럽 본인)
  */
 export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration }) => {
@@ -66,7 +66,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
       >
         <div style={{ fontFamily: FONT.sans }}>
           <KoreanTypewriter
-            text="오늘의 인물"
+            text="서재 탐방"
             startFrame={5}
             spreadFrames={25}
             color="#c8a46e"
@@ -164,7 +164,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             {phase2FadeIn > 0 && (
               <div
                 style={{
-                  position: inPhase1 ? 'absolute' : 'relative',
+                  position: 'absolute',
                   top: 0,
                   left: 0,
                   right: 0,

@@ -53,10 +53,10 @@ export const SwordAndScroll: React.FC = () => {
 
       {/* 이름 */}
       <div style={{ textAlign: 'center', opacity: nameOpacity }}>
-        <div style={{ color: '#c8a46e', fontSize: 20, fontWeight: 600, fontFamily: 'system-ui', letterSpacing: 3 }}>
+        <div style={{ color: '#c8a46e', fontSize: 20, fontWeight: 600, fontFamily: "'MaruBuri', serif", letterSpacing: 3 }}>
           {alexander.nickname}
         </div>
-        <div style={{ color: '#666', fontSize: 13, fontFamily: 'system-ui', marginTop: 4, letterSpacing: 1 }}>
+        <div style={{ color: '#666', fontSize: 13, fontFamily: "'Cormorant Garamond', serif", marginTop: 4, letterSpacing: 1 }}>
           {alexander.nickname_en}
         </div>
       </div>
@@ -68,7 +68,7 @@ export const SwordAndScroll: React.FC = () => {
           <rect x="48" y="1" width="3" height="12" rx="0.5" fill="rgba(200,164,110,0.4)" />
           <rect x="52" y="3" width="8" height="8" rx="1" fill="rgba(140,120,90,0.3)" />
         </svg>
-        <div style={{ color: '#555', fontSize: 9, fontFamily: 'system-ui', letterSpacing: 2 }}>DAGGER</div>
+        <div style={{ color: '#555', fontSize: 9, fontFamily: "'Cinzel', serif", letterSpacing: 2 }}>DAGGER</div>
       </div>
 
       <div style={{ position: 'absolute', top: 80, right: -120, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, opacity: iconOpacity, transform: `translateX(${iconRightX}px)` }}>
@@ -80,7 +80,7 @@ export const SwordAndScroll: React.FC = () => {
           <line x1="18" y1="12" x2="40" y2="12" stroke="rgba(200,164,110,0.15)" strokeWidth="0.5" />
           <line x1="18" y1="15" x2="38" y2="15" stroke="rgba(200,164,110,0.15)" strokeWidth="0.5" />
         </svg>
-        <div style={{ color: '#555', fontSize: 9, fontFamily: 'system-ui', letterSpacing: 2 }}>ILIAD</div>
+        <div style={{ color: '#555', fontSize: 9, fontFamily: "'Cinzel', serif", letterSpacing: 2 }}>ILIAD</div>
       </div>
     </div>
   )

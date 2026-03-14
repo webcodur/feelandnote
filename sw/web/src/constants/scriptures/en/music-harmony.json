@@ -608,12 +608,12 @@
       "steps": [
         {
           "title": "Key Signatures",
-          "contentMarkdown": "A **key signature** is a set of sharps or flats placed at the beginning of each staff line. It tells the performer which notes are consistently altered throughout the piece, eliminating the need to write accidentals on every occurrence.\n\n#",
+          "contentMarkdown": "A **key signature** is a set of sharps or flats placed at the beginning of each staff line. It tells the performer which notes are consistently altered throughout the piece, eliminating the need to write accidentals on every occurrence.",
           "exampleId": null
         },
         {
           "title": "Sharp Keys",
-          "contentMarkdown": "Sharps accumulate in the order: **F-C-G-D-A-E-B**\n\n| Key | Sharps | Notes sharped |\n|-----|--------|---------------|\n| G major | 1 | F# |\n| D major | 2 | F#, C# |\n| A major | 3 | F#, C#, G# |\n| E major | 4 | F#, C#, G#, D# |\n| B major | 5 | F#, C#, G#, D#, A# |\n| F# major | 6 | F#, C#, G#, D#, A#, E# |\n\n#",
+          "contentMarkdown": "Sharps accumulate in the order: **F-C-G-D-A-E-B**\n\n| Key | Sharps | Notes sharped |\n|-----|--------|---------------|\n| G major | 1 | F# |\n| D major | 2 | F#, C# |\n| A major | 3 | F#, C#, G# |\n| E major | 4 | F#, C#, G#, D# |\n| B major | 5 | F#, C#, G#, D#, A# |\n| F# major | 6 | F#, C#, G#, D#, A#, E# |",
           "exampleId": null
         },
         {
@@ -1093,17 +1093,17 @@
       "steps": [
         {
           "title": "Musical Form",
-          "contentMarkdown": "**Form** is the large-scale structure of a piece — how sections are organized and related. Recognizing form is like understanding the chapter structure of a novel before analyzing individual sentences.\n\n#",
+          "contentMarkdown": "**Form** is the large-scale structure of a piece — how sections are organized and related. Recognizing form is like understanding the chapter structure of a novel before analyzing individual sentences.",
           "exampleId": null
         },
         {
           "title": "Binary Form (AB)",
-          "contentMarkdown": "Two contrasting sections. Section A establishes a theme; section B provides contrast (often in a related key). Many Baroque dances (minuets, gavottes) use binary form. Each section is typically repeated: ||: A :||: B :||\n\n#",
+          "contentMarkdown": "Two contrasting sections. Section A establishes a theme; section B provides contrast (often in a related key). Many Baroque dances (minuets, gavottes) use binary form. Each section is typically repeated: ||: A :||: B :||",
           "exampleId": null
         },
         {
           "title": "Ternary Form (ABA)",
-          "contentMarkdown": "Three sections where the third is a return of the first: A establishes, B contrasts, A returns. The **da capo aria** in opera and the **minuet and trio** in symphonies are classic ternary forms. The return of A after B provides a satisfying sense of completion.\n\n#",
+          "contentMarkdown": "Three sections where the third is a return of the first: A establishes, B contrasts, A returns. The **da capo aria** in opera and the **minuet and trio** in symphonies are classic ternary forms. The return of A after B provides a satisfying sense of completion.",
           "exampleId": null
         },
         {

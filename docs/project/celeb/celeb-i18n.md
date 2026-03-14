@@ -1,8 +1,4 @@
-# 셀럽 데이터 영문 번역 룰북
-
-profiles, celeb_influence, celeb_dialogues의 한국어 데이터를 영문으로 번역하여 DB에 등록하는 가이드.
-
----
+# 7. 영문 번역
 
 ## 번역 대상
 
@@ -144,15 +140,4 @@ WHERE celeb_id IN ('{id1}', '{id2}');
 
 ---
 
-## 업데이트 가드 (필수)
-
-**반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 따른다.**
-
-핵심: 기존 데이터 참조 없이 백지 재작성. UPDATE 직전 비교하여 동일하면 SKIPPED. 배치 완료 시 카운트 보고 필수.
-
----
-
-## 기술 요구사항
-
-- **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
-- **파일 경로**: 상대 경로만 사용
+변경 작업 시 `celeb-pipeline.md` §0 업데이트 가드를 따른다.

@@ -1,10 +1,6 @@
-# 셀럽 감상 여정 생성 룰북
+# 3. 감상 여정
 
----
-
-## 이게 뭔가
-
-이 사람이 뭘 보고 읽고 들었는지, 왜 좋아했는지, 그것이 인생에 어떤 영향을 줬는지 이야기로 풀어쓴 글이다. DB 컬럼: `profiles.cultural_journey`. 한 사람의 취향이 어떻게 만들어졌는지를 보여주는 짧은 이야기다.
+뭘 보고 읽고 들었는지, 왜 좋아했는지, 그것이 인생에 어떤 영향을 줬는지 이야기로 풀어쓴 글. DB 컬럼: `profiles.cultural_journey`. 500자 이내.
 
 ---
 
@@ -66,12 +62,4 @@ review 필드가 핵심 소스. DB 기록이 있으면 웹 검색은 불필요�
 
 ---
 
-## 업데이트 가드
-
-`docs/project/celeb/celeb-common-update-guard.md` 참조.
-
----
-
-## 기술 요구사항
-
-- **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
+변경 작업 시 `celeb-pipeline.md` §0 업데이트 가드를 따른다.

@@ -65,4 +65,4 @@ WHERE id = '{셀럽ID}';
 ## 기술 요구사항
 
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
-- `docs/project/celeb/celeb-common-update-guard.md` 참조
+- `docs/project/celeb/celeb-pipeline.md` §0 업데이트 가드 참조

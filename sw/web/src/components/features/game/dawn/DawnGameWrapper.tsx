@@ -32,6 +32,7 @@ export default function DawnGameWrapper({ bgImages, initialFullScreen, onExitFul
   const phaseLabels = useMemo(() => ({
     idle: t("phase.lobby"),
     playing: t("phase.playing"),
+    "playing-streak": t("phase.playing"),
     gameover: t("phase.result"),
   }), [t]);
 

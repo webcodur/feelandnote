@@ -9,8 +9,12 @@ type Props = {
   style?: React.CSSProperties
 }
 
-/** 문장 간 호흡 프레임 — TTS가 문장 사이에 쉬는 시간 보정 (Subtitles.tsx와 동일) */
+/** 문장 간 호흡 프레임 */
 const SENTENCE_BREATH = 8
+/** 상태 전환 보간 프레임 */
+const FADE = 8
+
+const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
 export const KoreanTypewriter: React.FC<Props> = ({
   text,
@@ -23,7 +27,6 @@ export const KoreanTypewriter: React.FC<Props> = ({
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
 
-  // 문장 분할 + 호흡 간격 포함 프레임 배분
   const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean)
   const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
   const breathTotal = (sentences.length - 1) * SENTENCE_BREATH
@@ -32,14 +35,11 @@ export const KoreanTypewriter: React.FC<Props> = ({
   let cursor = 0
   const ranges = sentences.map((s, i) => {
     if (i > 0) cursor += SENTENCE_BREATH
-    const frames = Math.round((s.length / totalChars) * distributableFrames)
+    const frames = Math.max(1, Math.round((s.length / totalChars) * distributableFrames))
     const start = cursor
     cursor += frames
     return { start, end: start + frames }
   })
-
-  const currentIndex = ranges.findIndex((r) => elapsed >= r.start && elapsed < r.end)
-  const activeIndex = currentIndex >= 0 ? currentIndex : elapsed >= spreadFrames ? sentences.length : -1
 
   return (
     <div
@@ -52,17 +52,19 @@ export const KoreanTypewriter: React.FC<Props> = ({
       }}
     >
       {sentences.map((sentence, i) => {
-        const isPast = i < activeIndex
-        const isCurrent = i === activeIndex
+        const r = ranges[i]
+        // 단일 연속 커브: 미래(0.2) → 현재(1.0) → 과거(0.55)
+        const opacity = interpolate(elapsed,
+          [r.start - FADE, r.start, r.end, r.end + FADE],
+          [0.2, 1, 1, 0.55], CL)
+        // 하이라이트: 현재 구간에서만 1, 나머지 0 — 부드럽게 전환
+        const highlight = interpolate(elapsed,
+          [r.start - FADE, r.start, r.end, r.end + FADE],
+          [0, 1, 1, 0], CL)
 
         return (
           <span key={i}>
-            <span
-              style={{
-                color: isCurrent ? '#fff' : color,
-                opacity: isCurrent ? 1 : isPast ? 0.6 : 0.25,
-              }}
-            >
+            <span style={{ opacity, color: highlight > 0.5 ? '#fff' : color }}>
               {sentence}
             </span>
             {i < sentences.length - 1 ? ' ' : ''}

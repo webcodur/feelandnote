@@ -301,8 +301,14 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
   }, []);
   // endregion
 
-  // 래퍼 연동: gameState 변경 알림
-  useEffect(() => { onPhaseChange?.(gameState); }, [gameState, onPhaseChange]);
+  // 래퍼 연동: gameState + streak 기반 phase 알림
+  useEffect(() => {
+    if (gameState === "playing" && streak >= 10) {
+      onPhaseChange?.("playing-streak");
+    } else {
+      onPhaseChange?.(gameState);
+    }
+  }, [gameState, streak, onPhaseChange]);
 
   // 래퍼 연동: 홈 → idle 복귀
   useEffect(() => {

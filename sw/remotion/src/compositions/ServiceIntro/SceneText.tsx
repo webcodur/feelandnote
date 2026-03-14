@@ -1,6 +1,11 @@
 import { interpolate, useCurrentFrame, spring, useVideoConfig } from 'remotion'
 import type { SceneData } from './types'
 
+/** 한글 세리프 / 영문 클래식 폰트 매핑 */
+const FONT_KR = "'MaruBuri', 'Pretendard Variable', serif"
+const FONT_EN_CLASSIC = "'Cinzel', 'Cormorant Garamond', serif"
+const FONT_EN_BODY = "'Cormorant Garamond', Georgia, serif"
+
 export const SceneText: React.FC<{ scene: SceneData }> = ({ scene }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
@@ -61,8 +66,8 @@ export const SceneText: React.FC<{ scene: SceneData }> = ({ scene }) => {
                     ? '#999'
                     : '#e8e0d0',
               fontSize: isCta ? 72 : isNumber ? 60 : isBridge ? 38 : 44,
-              fontWeight: isCta ? 800 : isNumber ? 800 : isBridge ? 400 : 500,
-              fontFamily: 'system-ui, sans-serif',
+              fontWeight: isCta ? 700 : isNumber ? 700 : isBridge ? 400 : 500,
+              fontFamily: isCta ? FONT_EN_CLASSIC : FONT_KR,
               textAlign: 'center',
               lineHeight: 1.5,
               letterSpacing: isCta ? 10 : isNumber ? 6 : isBridge ? 2 : 1,
@@ -85,7 +90,7 @@ export const SceneText: React.FC<{ scene: SceneData }> = ({ scene }) => {
             color: isQuote ? '#c8a46e' : isCta ? '#888' : '#999',
             fontSize: isQuote ? 32 : isCta ? 22 : 24,
             fontWeight: isQuote ? 500 : 400,
-            fontFamily: isQuote ? 'Georgia, serif' : 'system-ui, sans-serif',
+            fontFamily: isQuote ? FONT_EN_BODY : isCta ? FONT_KR : FONT_KR,
             fontStyle: isQuote ? 'italic' : 'normal',
             textAlign: 'center',
             letterSpacing: isCta ? 6 : isQuote ? 1 : 2,
@@ -112,7 +117,7 @@ export const SceneText: React.FC<{ scene: SceneData }> = ({ scene }) => {
           style={{
             color: '#555',
             fontSize: 18,
-            fontFamily: 'system-ui, sans-serif',
+            fontFamily: FONT_EN_CLASSIC,
             letterSpacing: 3,
             marginTop: 28,
             opacity: interpolate(frame, [50, 70], [0, 1], {

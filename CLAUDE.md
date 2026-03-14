@@ -1,10 +1,6 @@
 # CLAUDE.md
 
-프로젝트 가이드, 아키텍처, 코드 규칙, 디자인 시스템 등 모든 상세 내용은 `AGENTS.md` 참조.
+**첫 응답 전 필수 실행:** `AGENTS.md`를 Read tool로 읽는다. 작업 대상 영역의 참조 문서(docs/ 하위)도 함께 읽는다. 이 단계를 건너뛰고 코드를 직접 읽거나 답변하지 않는다.
 
-## 텍스트 색상·가독성 규칙 (필수)
-
-`docs/project/code-rules.md` > "텍스트 색상 규칙" 섹션이 단일원천. 핵심만 요약:
-- 본문: `text-text-primary`. 보조: `text-text-secondary`. 강조: `text-accent`.
-- Tailwind gray 계열·임의 hex/rgb 금지. @theme 토큰만 사용.
-- opacity 남용 금지. 읽어야 할 텍스트에 `text-xs` 이하 금지.
+- `AGENTS.md`가 이 프로젝트의 단일원천(SSoT)이다.
+- 이 파일에는 위 지시 외 다른 내용을 싣지 않는다. 모든 프로젝트 정보는 AGENTS.md와 하위 문서(docs/)에 기록한다.

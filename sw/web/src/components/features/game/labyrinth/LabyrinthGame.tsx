@@ -38,6 +38,8 @@ export default function LabyrinthGame({ bgImages, initialFullScreen, onExitFullS
     stage4: t("phase.tracking"),
     stage5: t("phase.tracking"),
     result: t("phase.result"),
+    "result-win": t("phase.result"),
+    "result-lose": t("phase.result"),
   }), [t]);
 
   const Background = useMemo(

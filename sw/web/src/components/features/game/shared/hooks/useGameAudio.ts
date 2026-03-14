@@ -13,6 +13,8 @@ export interface BgmTrack { src: string; label: string }
 
 export interface GameAudioConfig {
   basePath: string;
+  /** SFX 파일 경로 기준. 미지정 시 basePath 사용 */
+  sfxBasePath?: string;
   sfxFiles: string[];
   getBgmTracks: (state: string, context?: Record<string, unknown>) => BgmTrack[];
   bgmVolume?: number;
@@ -38,15 +40,17 @@ function preloadSfx(basePath: string, sfxFiles: string[]) {
 export function useGameAudio(config: GameAudioConfig) {
   const {
     basePath,
+    sfxBasePath: _sfxBase,
     sfxFiles,
     getBgmTracks,
     bgmVolume = 0.35,
     sfxVolume = 0.6,
     fadeMs = 800,
   } = config;
+  const sfxBase = _sfxBase ?? basePath;
 
   // 마운트 시 SFX 프리로드
-  useEffect(() => { preloadSfx(basePath, sfxFiles); }, [basePath, sfxFiles]);
+  useEffect(() => { preloadSfx(sfxBase, sfxFiles); }, [sfxBase, sfxFiles]);
 
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const currentSrcRef = useRef<string | null>(null);
@@ -184,18 +188,18 @@ export function useGameAudio(config: GameAudioConfig) {
   // SFX 재생 (프리로드 캐시에서 cloneNode로 즉시 재생)
   const playSfx = useCallback((name: string) => {
     if (sfxMutedRef.current) return;
-    const cache = sfxCacheByBase.get(basePath);
+    const cache = sfxCacheByBase.get(sfxBase);
     const cached = cache?.get(name);
     if (cached) {
       const clone = cached.cloneNode(true) as HTMLAudioElement;
       clone.volume = sfxVolume;
       clone.play().catch(() => {});
     } else {
-      const audio = new Audio(`${basePath}/${name}`);
+      const audio = new Audio(`${sfxBase}/${name}`);
       audio.volume = sfxVolume;
       audio.play().catch(() => {});
     }
-  }, [basePath, sfxVolume]);
+  }, [sfxBase, sfxVolume]);
 
   // 플레이어: 재생/일시정지 토글
   const togglePlay = useCallback(() => {

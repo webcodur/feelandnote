@@ -22,7 +22,7 @@
           "title": "Ten Drawers -- KDC/DDC",
           "contentMarkdown": "In 1876, a twenty-one-year-old American librarian named **Melvil Dewey** invented a system that divides all knowledge into ten categories. This is the Dewey Decimal Classification (DDC). Over 150 years later, libraries around the world still use it.\n\nSouth Korea uses the **Korean Decimal Classification (KDC)**, a modified version of DDC adapted to Korean needs. The basic structure is the same, but the specific assignments differ slightly.\n\n| Number | KDC | DDC |\n|---|---|---|\n| 000 | General Works | General Works |\n| 100 | Philosophy | Philosophy & Psychology |\n| 200 | Religion | Religion |\n| 300 | Social Sciences | Social Sciences |\n| 400 | Natural Sciences | Language |\n| 500 | Technology | Natural Sciences & Math |\n| 600 | Arts | Technology |\n| 700 | Language | Arts & Recreation |\n| 800 | Literature | Literature |\n| 900 | History | History & Geography |\n\nHere's an interesting difference: Language is in the 400s in DDC but in the 700s in KDC. Go to the 400s in a Korean library and you'll find physics and chemistry. Go to the 400s in an American library and you'll find grammar textbooks. Same numbers, different books -- depending on which country you're in.",
           "exampleId": null,
-          "imageUrl": "TODO: KDC 10-division chart (000 General Works through 900 History)"
+          "imageUrl": "/images/scriptures/book/book-academy/kdc-table.webp"
         },
         {
           "title": "The World Beyond the Decimal Point",
@@ -34,7 +34,7 @@
           "title": "Reading Call Numbers in Practice",
           "contentMarkdown": "That small label on the spine of a library book -- that's the **call number**. A call number typically consists of three parts:\n\n**Classification number + Author notation + Volume notation**\n\nFor example, if a call number reads `813.54 / H286 / v.2`:\n\n- **813.54** = American fiction after 1945 (classification number)\n- **H286** = Author's last name initial (H) and unique number (286) (author notation)\n- **v.2** = Volume 2 (volume notation)\n\nCombine these three, and you get an address unique in the world. Check the call number in the library's search system, then head straight to that shelf, that row, that spot.",
           "exampleId": null,
-          "imageUrl": "TODO: Close-up photo of a call number label on a library book spine"
+          "imageUrl": "/images/scriptures/book/book-academy/call-number.webp"
         },
         {
           "title": "Shelf Neighbors",
@@ -104,7 +104,7 @@
           "title": "Dissecting 13 Digits",
           "contentMarkdown": "An ISBN consists of five parts. Let's dissect a real example:\n\n**978-0-14-028329-7**\n\n| Segment | Digits | Meaning |\n|---|---|---|\n| Prefix | 978 | EAN international product code (978 or 979) |\n| Country/Language | 0 | English-speaking countries |\n| Publisher | 14 | Publisher's unique code |\n| Title identifier | 028329 | Individual title within that publisher |\n| Check digit | 7 | Error-verification digit |\n\nThe country/language codes are fascinating. **0 and 1 are English-speaking countries** (US, UK, Australia, etc.), **2 is French-speaking**, **3 is German-speaking**, **89 is South Korea**, and **4 is Japan**. Just by glancing at the first digits after the prefix on a book's back cover, you can immediately tell which country published it.",
           "exampleId": null,
-          "imageUrl": "TODO: ISBN barcode and 13-digit structure diagram"
+          "imageUrl": "/images/scriptures/book/book-academy/isbn-barcode.webp"
         },
         {
           "title": "Same Book, Different ISBN",
@@ -198,7 +198,7 @@
           "title": "E-books and Audiobooks",
           "contentMarkdown": "The digital age has expanded the meaning of 'edition.'\n\n**E-books** come in various formats: ePub, PDF, Kindle (AZW/MOBI), and more. They receive a separate ISBN from the print version, and their search and highlighting features are powerful. Adjustable font sizes eliminate the need for a separate large-print edition.\n\n**Audiobooks** are a unique medium where the narrator fundamentally shapes the work's impression. The same novel feels entirely different depending on who reads it -- character personalities shift with each narrator. The audiobook market in the English-speaking world has grown to rival the print market.\n\nThe fascinating point is that each of these formats receives its own ISBN. Yuval Noah Harari's *Sapiens* alone has dozens of ISBNs: English hardcover, English paperback, English Kindle, English audiobook, and then the same set for every other language edition.",
           "exampleId": null,
-          "imageUrl": "TODO: Comparison image showing the same book in hardcover, paperback, e-book, and audiobook side by side"
+          "imageUrl": "/images/scriptures/book/book-academy/book-editions.webp"
         },
         {
           "title": "Which Edition Should You Buy?",
@@ -274,7 +274,7 @@
           "title": "A Book's Body, Front to Back",
           "contentMarkdown": "A single book is made up of a surprisingly large number of parts. From opening the front cover to closing the back, each section has a name and a role.\n\nIn order, they are:\n\n- **Cover** — The first impression. Title, author, and publisher are printed here.\n- **Endpaper** — Decorative paper affixed to the inside of the cover. Found in hardcovers.\n- **Half Title Page** — A page with just the title, briefly stated. A preview of the title page.\n- **Title Page** — The page with the full title, subtitle, author, translator, and publisher.\n- **Copyright Page** — Copyright, ISBN, printing history -- the book's resume.\n- **Dedication** — A short note from the author dedicating the book to someone.\n- **Preface/Foreword** — Background on the writing process or a recommendation.\n- **Table of Contents** — The map of the book.\n- **Body** — The actual content.\n- **Appendix** — Supplementary materials.\n- **Notes** — Footnotes or endnotes.\n- **Bibliography** — List of cited sources.\n- **Index** — Page references for key terms.\n- **Afterword/Postscript** — Concluding remarks.",
           "exampleId": null,
-          "imageUrl": "TODO: Diagram showing the structure of a book (from front cover through endpaper, half title, body, index, to back cover)"
+          "imageUrl": "/images/scriptures/book/book-academy/book-anatomy.webp"
         },
         {
           "title": "The Copyright Page -- A Book's Resume",
@@ -620,7 +620,7 @@
           "title": "Copyright and Reissue",
           "contentMarkdown": "Behind out-of-print status and reissue lies **copyright**.\n\nIn the United States and most of Europe, copyright protection lasts for the **author's life plus 70 years**. After this period, the copyright expires and anyone can publish the work. This is why works by Shakespeare, Tolstoy, and Herman Hesse are competitively published by multiple houses.\n\nSeparate from copyright, there are **publishing rights contracts**. Publishers typically sign rights agreements with the author (or literary agent) for 5-10 year terms. When a contract expires, two paths open:\n\n- The same publisher **renews the contract** and continues publishing.\n- The contract ends, and **a different publisher signs a new agreement** to reissue the work. This may come with a new translation, new cover, and new introduction.\n\nFor works whose copyright has fully expired, **Project Gutenberg** and the **Internet Archive** offer free access to full texts. Over 70,000 classics are freely available.",
           "exampleId": null,
-          "imageUrl": "TODO: Simple diagram showing the cycle of publishing rights contract, expiration, and reissue"
+          "imageUrl": "/images/scriptures/book/book-academy/publishing-cycle.webp"
         },
         {
           "title": "The Joy of Reissue",

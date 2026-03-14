@@ -7,10 +7,11 @@
 
 import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
-const BASE = "/assets/suikoden/audio/battle";
+const BASE = "/assets/hegemony";
 
 const BATTLE_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
+  sfxBasePath: "/assets/common",
   sfxFiles: [
     "sfx-card-deselect.mp3", "sfx-card-select.mp3", "sfx-card-pick.mp3",
     "sfx-clash-slash.mp3", "sfx-clash-clang.mp3",
@@ -23,15 +24,15 @@ const BATTLE_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string, context?: Record<string, unknown>): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/bgm-intro.mp3`, label: "Intro" }];
+        return [{ src: `${BASE}/hegemony-main--in-the-name-of-olympus.mp3`, label: "올림포스의 이름으로" }];
       case "draft":
-        return [{ src: `${BASE}/bgm-draft.mp3`, label: "Draft" }];
+        return [{ src: `${BASE}/hegemony-draft.mp3`, label: "Draft" }];
       case "battle":
-        return [{ src: `${BASE}/bgm-battle.mp3`, label: "Battle" }];
+        return [{ src: `${BASE}/hegemony-battle.mp3`, label: "Battle" }];
       case "result":
         return context?.playerWins
-          ? [{ src: `${BASE}/bgm-result-win.mp3`, label: "Victory" }]
-          : [{ src: `${BASE}/bgm-result-lose.mp3`, label: "Defeat" }];
+          ? [{ src: "/assets/common/bgm-result-win.mp3", label: "Victory" }]
+          : [{ src: "/assets/common/bgm-result-lose.mp3", label: "Defeat" }];
       default:
         return [];
     }

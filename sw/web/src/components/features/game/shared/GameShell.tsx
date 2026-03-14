@@ -136,6 +136,15 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
                 onPhaseChange={setPhase}
                 onStartRef={startRef}
               />
+              {phase !== "idle" && phase !== "result" && (
+                <button
+                  onClick={handleHome}
+                  className="fixed bottom-4 end-4 text-[11px] text-white/30 hover:text-white/50 transition-colors px-2 py-1 rounded"
+                  style={{ border: "1px solid rgba(255,255,255,0.08)", zIndex: 10 }}
+                >
+                  {t("forfeit")}
+                </button>
+              )}
             </div>
           </>
         );

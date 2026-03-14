@@ -1,12 +1,6 @@
+import React from "react";
 import { Composition } from "remotion";
 import "./style.css";
-import { TextReveal } from "./compositions/TextReveal";
-import { ImageSlideshow } from "./compositions/ImageSlideshow";
-import {
-  OneNightLibrary,
-  calcTotalFrames as calcOneNightFrames,
-  davinciTesla,
-} from "./compositions/OneNightLibrary";
 import {
   ServiceIntro,
   totalFrames as serviceIntroFrames,
@@ -14,24 +8,56 @@ import {
 import {
   BookRecommend,
   calcTotalFrames as calcBookFrames,
-  currentEpisode,
+  BookRecommendShort,
+  calcShortTotalFrames,
+  episodes,
 } from "./compositions/BookRecommend";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      {/* 셀럽 책 추천 — 감상철학 + 5권 소개 */}
-      <Composition
-        id="BookRecommend"
-        component={BookRecommend}
-        durationInFrames={calcBookFrames(currentEpisode)}
-        fps={30}
-        width={1920}
-        height={1080}
-        defaultProps={{
-          script: currentEpisode,
-        }}
-      />
+      {/* === 에피소드별 composition 자동 등록 === */}
+      {Object.entries(episodes).map(([name, script]) => {
+        // kebab-case → PascalCase (elon-musk → ElonMusk)
+        const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+        return (
+          <React.Fragment key={name}>
+            {/* 롱폼 텍스트 */}
+            <Composition
+              id={`${label}`}
+              component={BookRecommend}
+              durationInFrames={calcBookFrames(script)}
+              fps={30}
+              width={1920}
+              height={1080}
+              defaultProps={{ script, episodeName: name }}
+            />
+            {/* 롱폼 비주얼 */}
+            <Composition
+              id={`${label}Visual`}
+              component={BookRecommend}
+              durationInFrames={calcBookFrames(script)}
+              fps={30}
+              width={1920}
+              height={1080}
+              defaultProps={{ script, visual: true, episodeName: name }}
+            />
+            {/* 쇼츠 */}
+            {script.shorts && (
+              <Composition
+                id={`${label}Short`}
+                component={BookRecommendShort}
+                durationInFrames={calcShortTotalFrames(script)}
+                fps={30}
+                width={1080}
+                height={1920}
+                defaultProps={{ script, episodeName: name }}
+              />
+            )}
+          </React.Fragment>
+        )
+      })}
+
       {/* 서비스 소개 영상 — 60초 트레일러 */}
       <Composition
         id="ServiceIntro"
@@ -41,10 +67,6 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
       />
-      {/* 하룻밤의 서재 — 셀럽 가상 대담 */}
-
-      {/* 텍스트 등장 애니메이션 — 자막/타이틀용 */}
-      {/* 이미지 슬라이드쇼 — AI 이미지 영상화 */}
     </>
   );
 };

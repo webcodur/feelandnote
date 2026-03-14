@@ -17,7 +17,8 @@
       "mcp__google-search-console__list_sites",
       "mcp__google-search-console__list_sitemaps",
       "mcp__google-search-console__search_analytics",
-      "mcp__google-search-console__index_inspect"
+      "mcp__google-search-console__index_inspect",
+      "mcp__google-analytics__get_ga4_data"
     ],
     "deny": [],
     "ask": []

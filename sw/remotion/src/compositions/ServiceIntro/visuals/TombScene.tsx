@@ -53,10 +53,10 @@ export const TombScene: React.FC = () => {
           <Img src={alexander.avatar} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <div>
-          <div style={{ color: '#c8a46e', fontSize: 16, fontWeight: 600, fontFamily: 'system-ui', letterSpacing: 2 }}>
+          <div style={{ color: '#c8a46e', fontSize: 16, fontWeight: 600, fontFamily: "'MaruBuri', serif", letterSpacing: 2 }}>
             {alexander.nickname}
           </div>
-          <div style={{ color: '#555', fontSize: 11, fontFamily: 'system-ui', marginTop: 3 }}>
+          <div style={{ color: '#555', fontSize: 11, fontFamily: "'Cormorant Garamond', serif", marginTop: 3 }}>
             356 – 323 BC
           </div>
         </div>
@@ -116,7 +116,7 @@ export const TombScene: React.FC = () => {
             borderRadius: '4px 4px 0 0',
           }}
         />
-        <div style={{ color: '#444', fontSize: 9, fontFamily: 'system-ui', letterSpacing: 2 }}>
+        <div style={{ color: '#444', fontSize: 9, fontFamily: "'Cinzel', serif", letterSpacing: 2 }}>
           ACHILLES
         </div>
       </div>

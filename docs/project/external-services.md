@@ -14,6 +14,22 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 
+## Google Analytics
+
+- GA4 Measurement ID: `G-LMVY8KTJ7T` (layout.tsx에 설정)
+- GA4 Property ID: `526353156`
+- Service Account: `claude-analytics@feelandnote.iam.gserviceaccount.com`
+- 크리덴셜 파일: `sw/web/credentials/ga-service-account.json` (.gitignore 등록)
+- env: `sw/web/.env` → `GA_PROPERTY_ID`, `GA_CREDENTIALS_PATH`
+- 활성화된 API: Google Analytics Data API. Admin API는 미활성화.
+
+## 음성 R2 경로 규칙
+
+- R2 키: `celebs/{id}/voice/{locale}/{prefix}{variant}.mp3` (고정 경로, 덮어쓰기)
+- URL 캐시 버스터: `?v={voice_v}` (경로가 아닌 쿼리 파라미터)
+- SSoT: `sw/web-bo/src/lib/voice-path.ts` (상수 + 유틸)
+- web 클라이언트: `sw/web/src/lib/game/voice/voiceUrl.ts` (동일 패턴)
+
 # 크론잡
 
 ## Vercel Cron (sw/web/vercel.json)

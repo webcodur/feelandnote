@@ -7,10 +7,16 @@ export interface CelebHost {
   bio: string
   /** 직함 */
   title: string
+  /** 대표 명언 */
+  featuredQuote?: string
+  /** 명언 음성 길이 (초) */
+  featuredQuoteDuration?: number
   /** 감상철학 요약 */
   philosophy: string
   /** 감상철학 음성 길이 (초) */
   voiceDuration: number
+  /** ElevenLabs 보이스 ID (셀럽 음성용, 없으면 Gemini/Cloud 사용) */
+  elevenlabsVoiceId?: string
 }
 
 export interface BookStats {
@@ -68,6 +74,13 @@ export interface NarratorLines {
   /** 서재 이동 브릿지 */
   bridge: string
   bridgeDuration: number
+  /** "핵심 요약" 라벨 오디오 길이 (초) */
+  labelSummaryDuration?: number
+  /** "추천 및 감상경위" 라벨 오디오 길이 (초) */
+  labelContextDuration?: number
+  /** 중간안내 텍스트 (10개 초과 시) */
+  interlude?: string
+  interludeDuration?: number
   /** Section 6/7: 아웃트로 */
   outro: string
   outroDuration: number
@@ -95,10 +108,43 @@ export interface TtsOverrides {
   }>
 }
 
+/** 슬롯별 TTS 엔진 선택 (voice-select.json) */
+export interface VoiceSelect {
+  default: string
+  slots?: Record<string, string>
+}
+
+/** 쇼츠 세그먼트 — 나레이션 한 구간 */
+export interface ShortSegment {
+  /** 고유 ID (음성 파일명: short-{id}.wav) */
+  id: string
+  /** 화자: narrator 또는 celeb */
+  role: 'narrator' | 'celeb'
+  /** 자막/TTS 텍스트 */
+  text: string
+  /** 비주얼 유형: hook, intro, book, cta */
+  visual: 'hook' | 'intro' | 'book' | 'cta'
+  /** TTS 생성 후 자동 반영 (초) */
+  duration?: number
+}
+
+/**
+ * 쇼츠(9:16) 설정
+ * 세그먼트 배열로 자유롭게 구성. 나레이션이 흐르고 비주얼이 따라간다.
+ */
+export interface ShortsConfig {
+  /** 소개할 책 인덱스 (기본 0) */
+  featuredBookIndex?: number
+  /** 세그먼트 배열 — 순서대로 재생 */
+  segments: ShortSegment[]
+}
+
 export interface BookRecommendScript {
   host: CelebHost
   books: BookEntry[]
   narrator: NarratorLines
   /** TTS 텍스트 오버라이드 — 한글 숫자 등 발음 차이가 있는 필드만 지정 */
   tts?: TtsOverrides
+  /** 쇼츠 설정 */
+  shorts?: ShortsConfig
 }

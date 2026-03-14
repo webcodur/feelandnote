@@ -323,7 +323,7 @@
         {
           "title": "What Is Color Temperature?",
           "contentMarkdown": "Every light source has a color. Candlelight glows orange, the midday sun shines white, and an overcast sky casts blue. **Color temperature** puts a number on that color. The unit is **Kelvin (K)**.\n\nThe name includes 'temperature' for a reason. In theory, if you heat a perfect black object (a **black body**), its emitted light changes color with rising temperature — red at low heat, blue at extreme heat. This physical phenomenon provides the scale.\n\nMemorize these common values and you can make instant decisions on set.\n\n- **1800 K** — Candle flame, match\n- **2700 K** — Incandescent bulb, warm interior lighting\n- **3200 K** — Tungsten lamp (indoor film standard)\n- **4000 K** — Fluorescent tube\n- **5600 K** — Midday sun (outdoor film standard)\n- **6500 K** — Overcast sky\n- **8000 K+** — Deep shade, open blue sky shadows",
-          "imageUrl": "TODO: Kelvin scale diagram — gradient chart showing light colors from 1800 K to 8000 K",
+          "imageUrl": "/images/scriptures/video/video-academy/color-temperature-scale.webp",
           "imageAlt": "Kelvin scale color temperature chart",
           "exampleId": null
         },
@@ -335,7 +335,7 @@
         {
           "title": "The Mixed-Lighting Problem",
           "contentMarkdown": "On real sets, lights with different color temperatures almost always coexist. This is called **mixed lighting**.\n\nImagine shooting in a café. The ceiling fluorescent (4000 K), the daylight through the window (5600 K), and the candle on the table (1800 K) are all present. No single white-balance setting can neutralize every source.\n\nThree solutions:\n\n- **Match the dominant source** — Set white balance to the strongest light hitting the subject. Let the others shift naturally. The most practical and most common approach.\n- **Gel the lights** — Attach **CTB (Color Temperature Blue)** or **CTO (Color Temperature Orange)** gel filters to bring all sources to the same Kelvin. The textbook professional method.\n- **Fix it in post** — Shoot RAW or Log, which preserves enough data to adjust white balance freely in color grading.",
-          "imageUrl": "TODO: Mixed-lighting comparison — same interior white-balanced to fluorescent, daylight, and tungsten, shown in a 3-panel split",
+          "imageUrl": "/images/scriptures/video/video-academy/mixed-lighting.webp",
           "imageAlt": "White balance comparison under mixed lighting",
           "exampleId": null
         },
@@ -347,7 +347,7 @@
         {
           "title": "On-Set Best Practices",
           "contentMarkdown": "Practical rules for handling color temperature and white balance in the field.\n\n**First, always use manual white balance.** Auto white balance shifts whenever the camera angle or framing changes. If shot A and shot B of the same scene have different color casts, the edit will not cut together cleanly.\n\n**Second, make the gray card a habit.** Shoot an 18% gray card at the start of every setup. In post-production, this frame becomes an exact reference point for correction.\n\n**Third, keep white balance consistent within a scene.** If the color shifts between a close-up and a master shot, the audience feels subconscious unease — even if they cannot articulate why.\n\n**Fourth, shooting Log makes your on-set choice even more critical.** Log preserves wide latitude for grading, but if the starting point is far off, noise and banding creep in. Get it close on set.",
-          "imageUrl": "TODO: Photo of a gray card held in front of a camera on set",
+          "imageUrl": "/images/scriptures/video/video-academy/gray-card.webp",
           "imageAlt": "Setting white balance with a gray card",
           "exampleId": null
         }
@@ -406,14 +406,14 @@
         {
           "title": "How Focal Length Reshapes the World",
           "contentMarkdown": "Focal length does far more than determine how 'close' something appears. It **reshapes space itself**. This is the most powerful expressive quality of any lens.\n\n**Wide-angle lenses (24 mm or less)** make near objects larger and far objects smaller. Perspective is exaggerated — spaces look wider and deeper than they really are. Move close to a face and the nose grows while the ears shrink.\n\n**Telephoto lenses (85 mm+)** do the opposite. Distant objects stack on top of one another, and space **compresses**. In a baseball broadcast, the pitcher and batter appear to stand side by side — that is telephoto compression. For portraits, facial proportions flatten naturally and backgrounds pull forward.\n\n**Normal lenses (35–50 mm)** approximate human vision. Distortion and compression are minimal, making the image feel most natural to the audience. Documentaries and realist cinema favor them for this reason.",
-          "imageUrl": "TODO: Comparison of the same subject shot at 24 mm, 50 mm, and 85 mm — showing facial proportion and background compression differences in a 3-panel image",
+          "imageUrl": "/images/scriptures/video/video-academy/focal-length-compare.webp",
           "imageAlt": "Focal length comparison: 24 mm, 50 mm, 85 mm portrait",
           "exampleId": null
         },
         {
           "title": "Field of View and Distortion",
           "contentMarkdown": "**Field of view (angle of view)** is the extent of the scene a lens can capture, expressed in degrees. Shorter focal lengths yield wider fields of view; longer focal lengths yield narrower ones. On full frame, 50 mm covers about 47°, 24 mm about 84°, and 200 mm about 12°.\n\nAs the field of view widens, **distortion** increases. The two main types:\n\n- **Barrel distortion** — Edges bulge outward. Common in wide-angle lenses. Straight lines curve, and buildings appear to lean.\n- **Pincushion distortion** — Edges pinch inward. Subtly present in some telephoto lenses.\n\nFilmmakers often exploit distortion **on purpose**. Wide-angle distortion breeds unease and surrealism. Terry Gilliam's *12 Monkeys* and Stanley Kubrick's *A Clockwork Orange* use wide-angle close-ups to portray madness — the warped face amplifies psychological discomfort.\n\nConversely, standard-to-short-telephoto lenses with minimal distortion communicate stability and objectivity. Choose them when you want the audience to simply observe.",
-          "imageUrl": "TODO: Diagram comparing barrel and pincushion distortion on a grid pattern",
+          "imageUrl": "/images/scriptures/video/video-academy/lens-distortion.webp",
           "imageAlt": "Barrel distortion vs. pincushion distortion diagram",
           "exampleId": null
         },
@@ -425,7 +425,7 @@
         {
           "title": "Anamorphic Lenses",
           "contentMarkdown": "Much of the distinctive 'cinematic' feeling you get in a movie theater comes from **anamorphic lenses**.\n\nAn anamorphic lens **compresses the image horizontally** onto the sensor. During projection or playback, the image is stretched back out to produce an ultra-wide aspect ratio (2.39:1, for example). The technology was originally invented to fit wide images efficiently onto standard film.\n\nThis process creates signature visual artifacts:\n\n- **Horizontal lens flares** — Bright sources produce long, horizontal streaks of blue light. J.J. Abrams's *Star Trek* made this iconic.\n- **Oval bokeh** — Instead of circular blur, anamorphic lenses produce **rugby-ball-shaped** ovals. This single trait screams 'cinema.'\n- **Unique depth-of-field fall-off** — The transition from sharp to blurred renders differently from spherical lenses, often described as more organic.\n\nRecently, manufacturers like Atlas and Sirui have released reasonably priced anamorphic lenses, bringing the look within reach of independent filmmakers and solo creators.",
-          "imageUrl": "TODO: Anamorphic lens example — night cityscape showing horizontal lens flares and oval bokeh",
+          "imageUrl": "/images/scriptures/video/video-academy/anamorphic-lens.webp",
           "imageAlt": "Anamorphic horizontal flares and oval bokeh",
           "exampleId": null
         },
@@ -494,7 +494,7 @@
         {
           "title": "Three Factors That Control Depth of Field",
           "contentMarkdown": "Exactly three variables govern depth of field.\n\n**1. Aperture** — The most direct factor. Open wide (f/1.4) and DoF becomes shallow; stop down (f/11) and it deepens. In most shooting situations, aperture is the primary DoF control.\n\n**2. Focal length** — Longer lenses yield shallower DoF. A 200 mm f/2.8 obliterates the background, while a 24 mm f/2.8 leaves it substantially sharp. Same aperture, vastly different perceived depth.\n\n**3. Subject distance** — Move closer to the subject and DoF shrinks. In macro photography, only a single petal is sharp because the camera-to-subject distance is extremely small.\n\nCombine these three to sculpt exactly the depth you need. Want to isolate a person in a wide space? Telephoto + open aperture + moderate distance. Need everything sharp in a small room? Wide-angle + stopped-down aperture + shoot from farther back.",
-          "imageUrl": "TODO: Depth of field infographic — diagram showing how aperture, focal length, and subject distance each affect DoF",
+          "imageUrl": "/images/scriptures/video/video-academy/dof-infographic.webp",
           "imageAlt": "Three factors controlling depth of field diagram",
           "exampleId": null
         },
@@ -506,14 +506,14 @@
         {
           "title": "Shallow Focus",
           "contentMarkdown": "**Shallow focus** renders only the subject sharp while everything else falls into blur. It forces the viewer's eye to a single point.\n\nThis is the most widely used depth technique in modern film and television. An extreme close-up where the eyes are sharp but even the ears go soft pushes the audience into the character's emotional state.\n\nWong Kar-wai's *In the Mood for Love* is a masterclass. Everything around the two leads dissolves, creating a private space where only they exist. Background crowds, narrow corridors, and street-vendor lights become abstract patches of color that wrap the subjects in atmosphere.\n\nShallow focus is technically simple to achieve: open the aperture (f/1.4–2.0) and use a longer lens if possible. Full-frame sensors intensify the effect. The trade-off: when DoF is razor-thin, **maintaining focus becomes extremely difficult**. The slightest subject movement throws focus off, making the role of a dedicated focus puller critical.",
-          "imageUrl": "TODO: Shallow-focus portrait — eyes sharp, background fully blurred in a close-up",
+          "imageUrl": "/images/scriptures/video/video-academy/shallow-focus.webp",
           "imageAlt": "Shallow-focus close-up portrait",
           "exampleId": null
         },
         {
           "title": "Rack Focus",
           "contentMarkdown": "**Rack focus (pull focus)** shifts the focal plane from one subject to another within a single shot. It guides the viewer's attention without a cut — essentially **editing within the frame**.\n\nFor example, focus begins on a character in the foreground and then glides to a figure in the background. The audience's gaze naturally follows. This is not just technique — it connects two narrative beats in one unbroken shot.\n\nNotable uses:\n\n- In Spike Lee's *Do the Right Thing*, rack focus between two conflicting characters ratchets up tension.\n- In dialogue scenes, pulling focus from the speaker to the listener's reaction replaces a reverse shot while preserving spatial continuity.\n\nShallow DoF is a prerequisite for effective rack focus. If everything is sharp, shifting the focal plane produces no visible change. Open the aperture and use a medium-telephoto lens.\n\nThe speed of the rack is itself a directorial choice. A fast pull expresses surprise or discovery; a slow pull conveys dawning realization or emotional transition.",
-          "imageUrl": "TODO: Rack-focus sequence — two-panel image showing focus shifting from foreground subject to background subject",
+          "imageUrl": "/images/scriptures/video/video-academy/rack-focus.webp",
           "imageAlt": "Rack focus before and after",
           "exampleId": null
         }
@@ -577,14 +577,14 @@
         {
           "title": "Bounce — Redirecting Light",
           "contentMarkdown": "**Bouncing** is the technique of reflecting light off a surface to create indirect fill. It is one of the simplest yet most effective lighting methods.\n\nThe principle is straightforward. Aim a direct source — sunlight or a lamp — at a white or silver reflector. The light spreads out, becoming a **soft secondary source**. Use this fill to open up shadows and brighten the subject naturally.\n\n**How reflector color affects the result:**\n\n- **White** — Softest, most natural fill. The default for interviews and portrait work.\n- **Silver** — Stronger and higher-contrast than white. Effective at greater distances.\n- **Gold** — Adds warm tone. Useful for simulating golden-hour warmth artificially.\n- **Black** — Absorbs light instead of reflecting it. Called 'negative fill,' it intentionally deepens shadows on one side.\n\nFor a natural-light portrait, a single reflector can fully replace a fill light. Even on Hollywood sets, large bounce boards are considered essential equipment.",
-          "imageUrl": "TODO: Overhead diagram of an outdoor portrait setup — sun as key light, white reflector as fill, with labeled positions",
+          "imageUrl": "/images/scriptures/video/video-academy/video-reflector-bounce.png",
           "imageAlt": "Bounce reflector setup diagram for outdoor portrait",
           "exampleId": null
         },
         {
           "title": "Diffusion — Softening Light",
           "contentMarkdown": "**Diffusion** passes light through a translucent material to **convert hard light into soft light**. While bouncing reflects light, diffusion transmits it, scattering the rays.\n\nHere is the principle: when light passes through a diffusion material, the material itself becomes a new, larger light source. A small, intense point source transforms into a broad, gentle area source. Because the apparent size of the source grows, shadows soften.\n\n**Common diffusion tools on set:**\n\n- **Diffusion frame (scrim)** — A large cloth stretched over a frame, placed between the source and the subject. Outdoors, it instantly softens harsh midday sun.\n- **Softbox** — A fabric box fitted over an artificial light. Light bounces inside, then exits through a diffusion face. The studio staple.\n- **China ball (lantern)** — A spherical paper lantern. Produces 360° soft light. A go-to tool for interior scenes in independent films.\n\nSize is everything in diffusion. The larger the diffusion surface, the softer the light. This is why professional film sets use enormous overhead frames.",
-          "imageUrl": "TODO: Photo of a diffusion frame on location — large frame filtering sunlight outdoors",
+          "imageUrl": "/images/scriptures/video/video-academy/video-diffusion-frame.png",
           "imageAlt": "Outdoor diffusion frame in use",
           "exampleId": null
         },
@@ -596,7 +596,7 @@
         {
           "title": "Budget Lighting Strategies",
           "contentMarkdown": "Limited gear does not mean limited light. Understand the principles and you can produce professional results with minimal equipment.\n\n**Three budget essentials:**\n\n1. **5-in-1 reflector** — White, silver, gold, black, and diffusion surfaces in one collapsible disc. Available for under $15 and indispensable for natural-light work.\n2. **One bi-color LED panel** — A single panel with adjustable color temperature serves as a capable key light. Covers everything from YouTube videos to indie features.\n3. **China ball** — A $3 paper lantern with a bulb inside produces remarkably soft light. The secret weapon for interiors.\n\n**Zero-cost lighting tricks:**\n\n- **Windows** — The best free softbox. Control mood by adjusting window size, curtain thickness, and subject distance.\n- **White walls** — Bounce a light off a wall and it becomes a massive fill source.\n- **Shower curtain** — Its translucent material works as instant diffusion.\n- **Aluminum foil** — Crumpled and flattened, it becomes a silver reflector. Useful when you need a harder specular highlight.\n\nRoger Deakins (cinematographer, *1917*, *Blade Runner 2049*) put it simply: \"Good light does not come from expensive gear. It comes from an eye that understands light.\" Know the principles, and you can shape light anywhere.",
-          "imageUrl": "TODO: Three budget lighting essentials side by side (5-in-1 reflector, LED panel, china ball)",
+          "imageUrl": "/images/scriptures/video/video-academy/video-budget-lighting.png",
           "imageAlt": "Three budget lighting essentials",
           "exampleId": null
         }
@@ -822,7 +822,7 @@
         {
           "title": "ELS to FS — Environment and Context",
           "contentMarkdown": "The **extreme long shot (ELS)** shows such a wide view that the human figure appears as a tiny speck. It reveals vast landscapes, city skylines, or the scale of a battlefield. The sweeping vistas of Middle-earth in *The Lord of the Rings* are classic examples. The environment, not the character, is the star.\n\nThe **long shot (LS)** shows the full body of the character along with the surrounding environment. It establishes where the character is and what they are doing. Often used as the first shot of a scene (the establishing shot).\n\nThe **full shot (FS)** fills the frame with the entire body of the character. It conveys visual information — clothing, posture, physique — while focusing attention on the individual. The classic Western standoff frames both duelists in full shots.",
-          "imageUrl": "TODO: ELS, LS, and FS shot size comparison diagram (same subject)",
+          "imageUrl": "/images/scriptures/video/video-academy/video-shot-sizes-wide.png",
           "imageAlt": "Diagram comparing extreme long shot, long shot, and full shot",
           "exampleId": null
         },
@@ -834,7 +834,7 @@
         {
           "title": "CU and ECU — The Realm of Emotion",
           "contentMarkdown": "The **close-up (CU)** fills the frame with the face. It pulls the audience directly into the character's emotional state. Subtle shifts in expression, the flicker of an eye, the quiver of a lip — everything is exposed.\n\nOne of cinema's most famous close-ups is Marlon Brando's face in *The Godfather*. A face barely visible in dim light communicates Don Corleone's authority and menace simultaneously.\n\nThe **extreme close-up (ECU)** fills the frame with a single detail — an eye, a mouth, a fingertip. It creates extreme tension, emphasis, or psychological pressure. The eye close-ups during the final duel in Sergio Leone's *The Good, the Bad and the Ugly* are legendary.\n\nClose-ups are powerful, but overuse dilutes their impact. They shine brightest when contrasted with wider shots.",
-          "imageUrl": "TODO: CU and ECU shot size comparison (full face vs. eye only)",
+          "imageUrl": "/images/scriptures/video/video-academy/video-shot-sizes-close.png",
           "imageAlt": "Comparison of close-up and extreme close-up framing",
           "exampleId": null
         },
@@ -903,14 +903,14 @@
         {
           "title": "Eye Level and High Angle",
           "contentMarkdown": "**Eye level** places the camera at the subject's eye height. It is the most neutral angle, giving the audience a sense of equal standing with the character. It is the default for dialogue, interviews, and news.\n\nEye level is not \"no intention\" — it is the intention of **objectivity and equality**. Most film scenes use eye level as the baseline, shifting to other angles when emotion demands it.\n\nThe **high angle** places the camera above the subject, looking down. The subject appears smaller and conveys **vulnerability, helplessness, or submission**.\n\nIn *Harry Potter*, Dumbledore looking down on Harry from a high angle communicates a guardian's gaze, while Voldemort looking down from a high angle communicates domination. Same angle — different meaning depending on context.",
-          "imageUrl": "TODO: Eye level vs. high angle comparison diagram",
+          "imageUrl": "/images/scriptures/video/video-academy/video-high-angle.png",
           "imageAlt": "Same subject shot at eye level and from a high angle",
           "exampleId": null
         },
         {
           "title": "Low Angle and Bird's Eye View",
           "contentMarkdown": "The **low angle** places the camera below the subject, looking up. The subject appears larger, conveying **authority, power, menace, or heroism**.\n\nMarvel films never miss a low-angle hero entrance for this reason. Thanos shot from below is a terrifying villain; Iron Man shot from below is a heroic figure.\n\nThe **bird's eye view** looks straight down from directly above. Because this perspective never occurs in daily life, it feels **supernatural, godlike, or clinically observational**.\n\nThe corridor fight scene in *Oldboy* was shot from a complete top-down view, placing the audience outside the action and creating the detached feeling of observing an experiment.",
-          "imageUrl": "TODO: Low angle and bird's eye view comparison diagram",
+          "imageUrl": "/images/scriptures/video/video-academy/video-low-angle.png",
           "imageAlt": "Same scene shot from a low angle and a bird's eye view",
           "exampleId": null
         },
@@ -989,7 +989,7 @@
         {
           "title": "Dolly and Tracking — Moving the Camera Itself",
           "contentMarkdown": "A **dolly** places the camera on rails and moves it forward or backward. A **dolly in** builds tension and intimacy; a **dolly out** creates a sense of release or isolation.\n\nA famous variant is the **dolly zoom (vertigo effect)**. Dolly in while zooming out (or vice versa): the subject stays the same size, but the background expands or contracts in an uncanny way. Hitchcock first used this in *Vertigo*, hence the name. The beach scene in *Jaws* also employs it.\n\nA **tracking shot** moves the camera horizontally alongside the subject. Following a walking character from the side or chasing a speeding car are classic examples. It places the audience inside the action.\n\nIn *Parasite*, the tracking shot of the Kim family descending stairs back to their semi-basement home is a masterful visual metaphor for social descent.",
-          "imageUrl": "TODO: Diagram of dolly in/out and the dolly zoom (vertigo effect) principle",
+          "imageUrl": "/images/scriptures/video/video-academy/video-dolly-zoom.png",
           "imageAlt": "Diagram explaining dolly in, dolly out, and the dolly zoom effect",
           "exampleId": null
         },
@@ -1001,7 +1001,7 @@
         {
           "title": "Steadicam, Gimbal, and Handheld — The Texture of Motion",
           "contentMarkdown": "When carrying the camera on the move, **the equipment you use** completely changes the texture of the footage.\n\n**Steadicam** is a mechanical stabilization rig. No matter how the operator walks or runs, the camera floats smoothly. Danny riding his tricycle through the Overlook corridors in *The Shining* and the Copacabana long take in *Goodfellas* are legendary Steadicam moments.\n\n**Gimbal** is an electronic stabilizer. Lighter and more compact than a Steadicam, it is ideal for tight spaces. Widely used in independent films and YouTube production.\n\n**Handheld** means holding the camera with no stabilization at all. The deliberate shakiness creates **immediacy, urgency, and documentary-like realism**. The action scenes of the *Bourne* series and the battle sequences of *Saving Private Ryan* are iconic handheld examples.\n\nSmooth movement expresses a controlled world; unstable movement expresses a chaotic one.",
-          "imageUrl": "TODO: Comparison of Steadicam, gimbal, and handheld footage results",
+          "imageUrl": "/images/scriptures/video/video-academy/video-camera-movement.png",
           "imageAlt": "Steadicam (smooth glide), gimbal (stable motion), handheld (shaky motion) comparison",
           "exampleId": null
         },
@@ -1070,14 +1070,14 @@
         {
           "title": "Leading Lines — Lines That Guide the Eye",
           "contentMarkdown": "**Leading lines** are visual lines within the frame that guide the viewer's gaze in a specific direction. Roads, railways, rivers, building edges, corridors, staircases — lines that already exist in the environment.\n\nEffects of leading lines:\n- **Converging lines** — Draw the eye deep into the frame. Railroad tracks meeting at the horizon are the classic example. They create depth and a sense of journey.\n- **Horizontal lines** — Convey stability and breadth. Horizons, water surfaces.\n- **Vertical lines** — Convey strength, authority, solemnity. Pillars, skyscrapers.\n- **Diagonal lines** — Convey dynamism, instability, energy. Tilted compositions, staircases.\n\nIn *Blade Runner 2049*, Roger Deakins relentlessly uses the straight lines of architecture as leading lines to guide the viewer's eye toward the protagonist.",
-          "imageUrl": "TODO: Composition example with converging leading lines guiding the eye to the subject",
+          "imageUrl": "/images/scriptures/video/video-academy/video-leading-lines.png",
           "imageAlt": "Lines of a road or corridor converging toward a subject deep in the frame",
           "exampleId": null
         },
         {
           "title": "Gaze Direction and Look Space",
           "contentMarkdown": "Where a character is looking directly steers the audience's eye. Viewers instinctively follow the **direction of the character's gaze**. If a character looks right, the audience's eye moves to the right side of the frame.\n\n**Look space (or nose space)** is the empty area left in the direction the character is facing. If a character looks right, there should be sufficient room on the right side of the frame for the composition to feel natural.\n\nWithout look space — when a character faces the edge of the frame and there is no room in that direction — the audience feels claustrophobia, confinement, unease. This discomfort can be used intentionally. Eliminate look space for a prisoner, and the feeling of entrapment is communicated visually.\n\nIn a shot-reverse shot dialogue, each character's look space should face the opposite direction. This creates the sense that their gazes are crossing.",
-          "imageUrl": "TODO: Comparison of composition with adequate look space vs. no look space",
+          "imageUrl": "/images/scriptures/video/video-academy/video-look-space.png",
           "imageAlt": "Compositions with and without look space in the character's gaze direction",
           "exampleId": null
         },
@@ -1151,7 +1151,7 @@
         {
           "title": "Foreground, Midground, Background Layering",
           "contentMarkdown": "Divide the frame into three depth layers: **foreground**, **midground**, and **background**.\n\n- **Foreground** — The layer closest to the camera. Place leaves, window frames, or a character's shoulder here, and the audience feels immersed in the space.\n- **Midground** — Where the main subject sits. Usually the character.\n- **Background** — The farthest layer. It provides environment, atmosphere, and context.\n\nWhen all three layers are present, depth is maximized. In *Parasite*, Bong Joon-ho systematically layered the semi-basement scenes — foreground (objects below the window), midground (characters), background (alley outside the window) — to create depth even in a cramped space.\n\nIntentionally rendering the foreground **out of focus** strengthens the depth cue further. A blurred foreground, sharp midground, and blurred background — this three-layer structure produces the most cinematic sense of depth.",
-          "imageUrl": "TODO: Three-layer depth example: foreground (blurred), midground (sharp), background (blurred)",
+          "imageUrl": "/images/scriptures/video/video-academy/video-depth-layering.png",
           "imageAlt": "Three-layer depth composition with foreground, midground, and background",
           "exampleId": null
         },
@@ -1163,7 +1163,7 @@
         {
           "title": "Frame within a Frame",
           "contentMarkdown": "**Frame within a frame** creates a secondary boundary inside the main frame, enclosing the subject in a double layer. Doorways, windows, mirrors, tunnels, arches, and gaps between branches can all serve as the inner frame.\n\nEffects of this technique:\n- **Focus** — The double frame emphasizes the subject. The viewer's eye is naturally drawn into the inner frame.\n- **Enhanced depth** — The outer frame (foreground) and inner frame (midground/background) create additional depth layers.\n- **Confinement, isolation** — Wrapping a character in a cage-like frame visually communicates entrapment.\n\nThe final shot of John Ford's *The Searchers* — John Wayne's silhouette seen from inside a doorway looking out at the wilderness — is one of cinema's most iconic frame-within-a-frame compositions.\n\nIn *Parasite*, viewing the outside world through the semi-basement window is another application. The window as a frame visually represents the family's limited world.",
-          "imageUrl": "TODO: Frame-within-a-frame example using a doorway or window",
+          "imageUrl": "/images/scriptures/video/video-academy/video-frame-within-frame.png",
           "imageAlt": "A doorway used as a frame within a frame to emphasize a character",
           "exampleId": null
         },

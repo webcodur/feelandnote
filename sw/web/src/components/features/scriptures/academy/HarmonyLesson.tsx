@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Music, CheckCircle2, Loader2, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { Music, CheckCircle2, Loader2, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Volume2, Pause, Square } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { LessonSection, SheetExample, QuizQuestion } from "@/constants/scripturesMuseum";
 import type { AcademyLessonProgress } from "@/types/academy";
 import { setAcademyLessonCompletion, touchAcademyLessonProgress } from "@/actions/scriptures/academyProgress";
+import { useTextToSpeech, type TtsState } from "@/hooks/useTextToSpeech";
 import SheetMusic from "./SheetMusic";
 
 function InlineMarkdown({ text }: { text: string }) {
@@ -41,7 +42,23 @@ function InlineMarkdown({ text }: { text: string }) {
 }
 
 // #region 마크다운 렌더러
-function renderMarkdown(markdown: string) {
+
+/** 문장이 현재 하이라이트 대상인지 판별 (순수 텍스트 매칭) */
+function isSentenceHighlighted(
+  text: string,
+  activeSentence: string | null,
+): boolean {
+  if (!activeSentence) return false;
+  // 마크다운 제거 후 비교
+  const plain = text
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/^- /gm, "");
+  // 활성 문장이 이 텍스트 블록에 포함되어 있으면 하이라이트
+  return plain.includes(activeSentence) || activeSentence.includes(plain.slice(0, 20));
+}
+
+function renderMarkdown(markdown: string, activeSentence?: string | null) {
   const paragraphs = markdown.split("\n\n");
   return paragraphs.map((paragraph, paragraphIndex) => {
     if (paragraph.startsWith("- ")) {
@@ -51,7 +68,11 @@ function renderMarkdown(markdown: string) {
           {items.map((item, itemIndex) => (
             <li
               key={itemIndex}
-              className="flex items-start gap-2 text-[15px] leading-[1.8] text-white/85 sm:text-base"
+              className={`flex items-start gap-2 text-[15px] leading-[1.8] sm:text-base transition-colors duration-300 ${
+                isSentenceHighlighted(item.replace("- ", ""), activeSentence ?? null)
+                  ? "text-[#d4af37]"
+                  : "text-white/85"
+              }`}
             >
               <span className="mt-[6px] flex-shrink-0 text-[#d4af37]/40">*</span>
               <InlineMarkdown text={item.replace("- ", "")} />
@@ -95,15 +116,91 @@ function renderMarkdown(markdown: string) {
       );
     }
 
+    const highlighted = isSentenceHighlighted(paragraph, activeSentence ?? null);
+
     return (
       <p
         key={paragraphIndex}
-        className="text-[16px] leading-[1.85] text-white/90 sm:text-[17px] mb-4 last:mb-0"
+        className={`text-[16px] leading-[1.85] sm:text-[17px] mb-4 last:mb-0 transition-colors duration-300 ${
+          highlighted ? "text-[#d4af37]" : "text-white/90"
+        }`}
       >
         <InlineMarkdown text={paragraph} />
       </p>
     );
   });
+}
+// #endregion
+
+// #region TTS 스피커 버튼
+function TtsButton({ state, onPlay, onPause, onStop }: {
+  state: TtsState;
+  onPlay: () => void;
+  onPause: () => void;
+  onStop: () => void;
+}) {
+  if (state === "loading") {
+    return (
+      <button
+        type="button"
+        disabled
+        className="flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12px] text-white/40"
+      >
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+      </button>
+    );
+  }
+
+  if (state === "playing" || state === "paused") {
+    return (
+      <div className="flex items-center gap-1">
+        <button
+          type="button"
+          onClick={state === "playing" ? onPause : onPlay}
+          className="flex items-center justify-center rounded-full border border-[#d4af37]/25 bg-[#d4af37]/10 p-1.5 text-[#d4af37]/80 transition-colors hover:bg-[#d4af37]/20 hover:text-[#d4af37]"
+          aria-label={state === "playing" ? "일시정지" : "재생"}
+        >
+          {state === "playing" ? <Pause className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+        </button>
+        <button
+          type="button"
+          onClick={onStop}
+          className="flex items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] p-1.5 text-white/50 transition-colors hover:bg-white/[0.08] hover:text-white/70"
+          aria-label="정지"
+        >
+          <Square className="h-3 w-3" />
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onPlay}
+      className="flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12px] text-white/50 transition-colors hover:border-[#d4af37]/25 hover:bg-[#d4af37]/10 hover:text-[#d4af37]/80"
+      aria-label="읽어주기"
+    >
+      <Volume2 className="h-3.5 w-3.5" />
+    </button>
+  );
+}
+// #endregion
+
+// #region 본문 + TTS 통합 컴포넌트
+function StepContent({ contentMarkdown }: { contentMarkdown: string }) {
+  const { state, activeSentenceIndex, sentences, play, pause, stop } = useTextToSpeech(contentMarkdown);
+
+  const activeSentence = activeSentenceIndex >= 0 ? sentences[activeSentenceIndex] : null;
+
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-end">
+        <TtsButton state={state} onPlay={play} onPause={pause} onStop={stop} />
+      </div>
+      {renderMarkdown(contentMarkdown, activeSentence)}
+    </div>
+  );
 }
 // #endregion
 
@@ -614,10 +711,8 @@ export default function HarmonyLesson({
                   )
                 )}
 
-                {/* 본문 마크다운 */}
-                <div>
-                  {renderMarkdown(currentStep.contentMarkdown)}
-                </div>
+                {/* 본문 마크다운 + TTS */}
+                <StepContent contentMarkdown={currentStep.contentMarkdown} />
 
                 {/* 프로그레스 바 */}
                 {steps.length > 1 && (

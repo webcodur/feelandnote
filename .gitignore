@@ -1,6 +1,11 @@
 # Windows reserved names
 nul
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Google Analytics credentials
 ga-credentials.json
 **/credentials/

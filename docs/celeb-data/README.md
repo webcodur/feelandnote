@@ -58,7 +58,7 @@ docs/celeb-data/
 }
 ```
 
-- 룰북: `docs/project/celeb/celeb-8-dialogue.md`
+- 룰북: `docs/project/celeb/celeb-speech.md` §6.3
 - 7상황 × 3변형 = 21개 대사
 
 ---

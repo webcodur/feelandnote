@@ -129,7 +129,13 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     }
   }, [stage, pendingClue]);
 
-  useEffect(() => { onPhaseChange?.(stage); }, [stage, onPhaseChange]);
+  useEffect(() => {
+    if (stage === "result") {
+      onPhaseChange?.(correct ? "result-win" : "result-lose");
+    } else {
+      onPhaseChange?.(stage);
+    }
+  }, [stage, correct, onPhaseChange]);
 
   const startRound = useCallback(async (excludeIds: string[] = []) => {
     try {

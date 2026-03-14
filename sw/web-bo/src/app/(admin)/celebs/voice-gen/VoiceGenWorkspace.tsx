@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import {
   Star, Play, Pause, Loader2, Check, Volume2, Upload, Scissors,
-  ChevronDown, ChevronRight, Save, Zap, X,
+  ChevronDown, ChevronRight, Save, Zap, X, Download,
 } from 'lucide-react'
 import {
   generateVoicePreview,
@@ -50,6 +50,8 @@ const DIALOGUE_INPUT_PLACEHOLDER = '\uB300\uC0AC \uC785\uB825...'
 const EXISTING_VOICE_PLAY_LABEL = '\uAE30\uC874 \uC74C\uC131 \uC7AC\uC0DD'
 const NO_SAVED_VOICE_LABEL = '\uC800\uC7A5\uB41C \uC74C\uC131 \uC5C6\uC74C'
 const GENERATE_PREVIEW_LABEL = 'TTS \uC0DD\uC131 (\uD504\uB9AC\uBDF0)'
+const DOWNLOAD_LABEL = '다운로드'
+const DOWNLOAD_FAIL_LABEL = '다운로드 실패'
 const QUOTE_LABEL = '\uBA85\uC5B8'
 const QUOTE_INPUT_PLACEHOLDER = '\uBA85\uC5B8 \uC785\uB825...'
 const SELECT_CELEB_FIRST_LABEL =
@@ -668,6 +670,31 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
     setUploading(null)
   }, [selected, locale, previews, showToast])
 
+  // R2 기존 파일 다운로드
+  const [downloading, setDownloading] = useState<string | null>(null)
+  const handleDownload = useCallback(async (type: string, variant: number | undefined) => {
+    if (!selected) return
+    const key = type === 'quote' ? 'quote' : `${type}-${variant}`
+    setDownloading(key)
+    try {
+      const result = await fetchVoiceFile({ celebId: selected.id, locale, dialogueType: type, variant })
+      if (!result.success || !result.base64) throw new Error(result.error || '파일 없음')
+      const bytes = Uint8Array.from(atob(result.base64), (c) => c.charCodeAt(0))
+      const blob = new Blob([bytes], { type: 'audio/mpeg' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${selected.slug || selected.id}_${locale}_${key}.mp3`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      showToast('error', `${DOWNLOAD_FAIL_LABEL}: ${String(err)}`)
+    }
+    setDownloading(null)
+  }, [selected, locale, showToast])
+
   // 기존 R2 파일을 프리뷰로 로드 (트림 편집용, 서버 경유 CORS 우회)
   const [loadingExisting, setLoadingExisting] = useState<string | null>(null)
   const handleLoadExisting = useCallback(async (type: string, variant: number | undefined) => {
@@ -822,6 +849,14 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
             {isUp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
             Upload
           </button>
+          <a
+            href={preview.blobUrl}
+            download={`preview_${fullKey.replace('/', '_')}.${preview.boostDb && preview.boostDb > 0 ? 'wav' : 'mp3'}`}
+            className="p-1 rounded text-text-tertiary hover:text-blue-400 shrink-0"
+            title={DOWNLOAD_LABEL}
+          >
+            <Download className="w-3.5 h-3.5" />
+          </a>
           <button
             type="button"
             onClick={() => clearPreview(fullKey)}
@@ -1046,6 +1081,16 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
                                   title={hasFile ? EXISTING_VOICE_PLAY_LABEL : NO_SAVED_VOICE_LABEL}>
                                   {isPlay ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                                 </button>
+                                {/* 기존 파일 다운로드 */}
+                                {hasFile && (
+                                  <button type="button"
+                                    onClick={() => handleDownload(type, i + 1)}
+                                    disabled={downloading === key}
+                                    className="p-1 rounded hover:bg-blue-500/10 text-text-tertiary hover:text-blue-400 disabled:opacity-30 transition-colors shrink-0"
+                                    title={DOWNLOAD_LABEL}>
+                                    {downloading === key ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                                  </button>
+                                )}
                                 {/* 기존 파일 트림 편집 */}
                                 {hasFile && !hasPreview && (
                                   <button type="button"
@@ -1117,6 +1162,15 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
                           title={hasFile ? EXISTING_VOICE_PLAY_LABEL : NO_SAVED_VOICE_LABEL}>
                           {isPlay ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                         </button>
+                        {hasFile && (
+                          <button type="button"
+                            onClick={() => handleDownload('quote', undefined)}
+                            disabled={downloading === 'quote'}
+                            className="p-1 rounded hover:bg-blue-500/10 text-text-tertiary hover:text-blue-400 disabled:opacity-30 transition-colors shrink-0"
+                            title={DOWNLOAD_LABEL}>
+                            {downloading === 'quote' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                          </button>
+                        )}
                         {hasFile && !hasPreview && (
                           <button type="button"
                             onClick={() => handleLoadExisting('quote', undefined)}

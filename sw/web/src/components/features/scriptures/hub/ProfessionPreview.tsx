@@ -56,9 +56,19 @@ export default function ProfessionPreview({ professionCounts, contentSamples }: 
   const sorted = [...professionCounts].sort((a, b) => b.count - a.count);
   if (sorted.length === 0) return null;
 
+  // 모바일 2×2=4개, md 이상 3×3=9개
+  const mobileLimit = 4;
+  const desktopLimit = 9;
+
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 md:gap-3">
-      {sorted.map((p) => {
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+      {sorted.map((p, idx) => {
+        // 모바일: 4개 초과 숨김, 데스크탑: 9개 초과 숨김
+        const visibilityClass = idx >= desktopLimit
+          ? "hidden"
+          : idx >= mobileLimit
+            ? "hidden md:block"
+            : "";
         const Icon = PROFESSION_ICONS[p.profession];
         const colorClass = PROFESSION_COLORS[p.profession] ?? "text-white/50";
         const theme = getTheme(p.profession);
@@ -69,7 +79,7 @@ export default function ProfessionPreview({ professionCounts, contentSamples }: 
           <Link
             key={p.profession}
             href={`/scriptures/profession?p=${p.profession}`}
-            className={`group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.hoverBorder} transition-all duration-500 flex flex-col`}
+            className={`${visibilityClass} group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.hoverBorder} transition-all duration-500 flex flex-col`}
           >
             {/* 상단 악센트 바 */}
             <div className={`h-[2px] w-full bg-gradient-to-r ${theme.topBar} opacity-60 group-hover:opacity-100 transition-opacity duration-700`} />

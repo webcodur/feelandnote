@@ -7,7 +7,7 @@
 
 import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
-const BASE = "/assets/dawn/audio";
+const BASE = "/assets/dawn";
 
 const DAWN_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
@@ -15,7 +15,13 @@ const DAWN_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/bgm-main.mp3`, label: "여명" }];
+        return [{ src: `${BASE}/dawn-main.mp3`, label: "여명" }];
+      case "playing":
+        return [{ src: `${BASE}/dawn-ingame--awaited-dawn.mp3`, label: "Awaited Dawn" }];
+      case "playing-streak":
+        return [{ src: `${BASE}/dawn-streak--judgment-of-the-golden-thrones.mp3`, label: "Judgment of the Golden Thrones" }];
+      case "gameover":
+        return [{ src: "/assets/common/bgm-result-win.mp3", label: "Victory" }];
       default:
         return [];
     }

@@ -3,7 +3,7 @@ export interface SceneData {
   durationFrames: number
   texts: string[]
   subText?: string
-  transition: 'fade' | 'cut' | 'dissolve'
+  transition: 'fade' | 'cut' | 'dissolve' | 'scaleUp' | 'slideUp'
 }
 
 export const scenes: SceneData[] = [
@@ -27,16 +27,16 @@ export const scenes: SceneData[] = [
     transition: 'dissolve',
   },
   {
-    id: 'bridge',
-    durationFrames: 100,
-    texts: ['이 모든 기록이', '한 곳에 있다면.'],
-    transition: 'dissolve',
+    id: 'scale',
+    durationFrames: 150,
+    texts: ['이런 인물이', '1,000명 이상.'],
+    transition: 'scaleUp',
   },
   {
-    id: 'scale',
-    durationFrames: 200,
-    texts: ['이런 인물이', '1,000명 이상.'],
-    transition: 'cut',
+    id: 'bridge',
+    durationFrames: 150,
+    texts: ['이 모든 기록이', '한 곳에 있다면.'],
+    transition: 'slideUp',
   },
   {
     id: 'connect',

@@ -295,6 +295,7 @@
     "game": {
       "exit": "Exit",
       "exitEsc": "Exit (ESC)",
+      "forfeit": "Forfeit",
       "prevTrack": "Previous track",
       "nextTrack": "Next track",
       "play": "Play",

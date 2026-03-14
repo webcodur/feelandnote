@@ -1,5 +1,6 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import { FONT } from './fonts'
+import { BrandLogo } from './utils'
 
 type Props = {
   durationFrames: number
@@ -36,18 +37,8 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
         opacity: fadeOut,
       }}
     >
-      <div
-        style={{
-          opacity: logoOpacity,
-          transform: `scale(${logoScale})`,
-          color: '#c8a46e',
-          fontSize: 52,
-          fontWeight: 700,
-          fontFamily: FONT.brand,
-          letterSpacing: 8,
-        }}
-      >
-        FEEL AND NOTE
+      <div style={{ opacity: logoOpacity, transform: `scale(${logoScale})` }}>
+        <BrandLogo variant="brand" />
       </div>
       <div style={{ width: lineWidth, height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
       <div
@@ -60,7 +51,7 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
           letterSpacing: 6,
         }}
       >
-        기록은 감각이 된다
+        취향이 역사가 되는 곳
       </div>
     </div>
   )

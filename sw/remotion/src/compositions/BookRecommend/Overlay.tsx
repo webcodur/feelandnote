@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
 import { interpolate, useCurrentFrame } from 'remotion'
 import { FONT } from './fonts'
+import { BrandLogo } from './utils'
 import type { BookRecommendScript } from './types'
 import {
   toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
-  TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
-  BOOK_GAP, RECAP_FRAMES, bookTotalFrames,
+  BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, bookTotalFrames,
+  CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, OUTRO_FALLBACK,
 } from './timing'
 
 type Section = { start: number; end: number; label: string }
@@ -14,20 +15,46 @@ function buildSections(script: BookRecommendScript): Section[] {
   const { narrator, host, books } = script
   const sections: Section[] = []
 
-  const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : 150)
+  const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : CELEB_INTRO_FALLBACK)
   const philosophyFrames = toFrames(host.voiceDuration)
   const hostIntroFrames = celebIntroFrames + philosophyFrames
-  const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 105
+  const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK
+
+  const svcIntroFrames = narrator.serviceIntroDuration > 0 ? toFrames(narrator.serviceIntroDuration) : 0
+  const fQuoteFrames = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
 
   let cursor = 0
   sections.push({ start: cursor, end: cursor + BRAND_FRAMES, label: '' })
   cursor += BRAND_FRAMES
 
+  if (svcIntroFrames > 0) {
+    sections.push({ start: cursor, end: cursor + svcIntroFrames, label: '' })
+    cursor += svcIntroFrames
+  }
+
+  if (fQuoteFrames > 0) {
+    sections.push({ start: cursor, end: cursor + fQuoteFrames, label: '' })
+    cursor += fQuoteFrames
+  }
+
   sections.push({ start: cursor, end: cursor + hostIntroFrames, label: host.nickname })
   cursor += hostIntroFrames + bridgeFrames
 
+  const hasInterlude = books.length > 10
+  const interludeIndex = hasInterlude ? Math.ceil(books.length / 2) : -1
+  const interludeFrames = hasInterlude
+    ? (narrator.interludeDuration && narrator.interludeDuration > 0 ? toFrames(narrator.interludeDuration) : INTERLUDE_FRAMES)
+    : 0
+
   for (let i = 0; i < books.length; i++) {
     if (i > 0) cursor += BOOK_GAP
+    if (i === interludeIndex) {
+      // 중간 리캡 → 인터루드
+      sections.push({ start: cursor, end: cursor + RECAP_FRAMES, label: 'PART I' })
+      cursor += RECAP_FRAMES
+      sections.push({ start: cursor, end: cursor + interludeFrames, label: 'PART II' })
+      cursor += interludeFrames
+    }
     const total = bookTotalFrames(books[i])
     sections.push({ start: cursor, end: cursor + total, label: `${i + 1}/${books.length}` })
     cursor += total
@@ -36,7 +63,7 @@ function buildSections(script: BookRecommendScript): Section[] {
   sections.push({ start: cursor, end: cursor + RECAP_FRAMES, label: 'RECAP' })
   cursor += RECAP_FRAMES
 
-  const outroFrames = narrator.outroDuration > 0 ? toFrames(narrator.outroDuration) : 120
+  const outroFrames = narrator.outroDuration > 0 ? toFrames(narrator.outroDuration) : OUTRO_FALLBACK
   sections.push({ start: cursor, end: cursor + outroFrames, label: '' })
 
   return sections
@@ -111,8 +138,8 @@ export const Overlay: React.FC<Props> = ({ script }) => {
         </div>
       )}
       {opacity > 0 && (
-        <div style={{ position: 'absolute', bottom: MARGIN + 8, left: MARGIN + 16, opacity: opacity * 0.3, zIndex: 60, color: ACCENT, fontSize: 10, fontFamily: FONT.cinzel, letterSpacing: 3 }}>
-          FEEL AND NOTE
+        <div style={{ position: 'absolute', bottom: MARGIN + 8, left: MARGIN + 16, opacity: opacity * 0.3, zIndex: 60 }}>
+          <BrandLogo variant="watermark" />
         </div>
       )}
     </>

@@ -7,7 +7,7 @@
 
 import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
-const BASE = "/assets/labyrinth/audio";
+const BASE = "/assets/labyrinth";
 
 const LABYRINTH_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
@@ -15,15 +15,18 @@ const LABYRINTH_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/bgm-lobby.mp3`, label: "미궁 — Lobby" }];
+        return [{ src: `${BASE}/labyrinth-main--deliberation-of-stone.mp3`, label: "Deliberation of Stone" }];
       case "loading":
       case "stage1":
       case "stage2":
       case "stage3":
       case "stage4":
       case "stage5":
-      case "result":
-        return [{ src: `${BASE}/bgm-gameplay.mp3`, label: "미궁 — Gameplay" }];
+        return [{ src: `${BASE}/labyrinth-gameplay.mp3`, label: "미궁 — Gameplay" }];
+      case "result-win":
+        return [{ src: "/assets/common/bgm-result-win.mp3", label: "Victory" }];
+      case "result-lose":
+        return [{ src: "/assets/common/bgm-result-lose.mp3", label: "Defeat" }];
       default:
         return [];
     }

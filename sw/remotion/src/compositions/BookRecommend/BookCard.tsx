@@ -1,5 +1,6 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { BookEntry, CelebHost } from './types'
+import { safeImg } from './utils'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from './fonts'
 import {
@@ -96,11 +97,11 @@ export const BookCard: React.FC<Props> = ({
       </div>
 
       {/* 메인 레이아웃 — 중앙 정렬, 고정 높이로 안정 */}
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 120px 0', gap: 80 }}>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 120px 60px', gap: 80 }}>
         {/* 좌측: 표지 */}
         <div style={{ flexShrink: 0, position: 'relative', opacity: coverEnter, transform: `translateY(${coverY}px) scale(${coverEnter})` }}>
           <div style={{ width: 280, height: 420, borderRadius: 10, overflow: 'hidden', boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(200,164,110,0.08)' }}>
-            <Img src={book.thumbnail_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
 
@@ -118,7 +119,7 @@ export const BookCard: React.FC<Props> = ({
                 <><div style={{ color: '#444', fontSize: 14 }}>·</div><div style={{ color: '#666', fontSize: 14, fontFamily: FONT.sans }}>{book.stats.publisher}</div></>
               )}
               {book.stats.publishYear && (
-                <><div style={{ color: '#444', fontSize: 14 }}>·</div><div style={{ color: '#666', fontSize: 14, fontFamily: FONT.sans }}>{book.stats.publishYear}년 집필</div></>
+                <><div style={{ color: '#444', fontSize: 14 }}>·</div><div style={{ color: '#666', fontSize: 14, fontFamily: FONT.sans }}>{book.stats.publishYear?.startsWith('기원전') ? book.stats.publishYear : `${book.stats.publishYear}년 집필`}</div></>
               )}
             </div>
 
@@ -140,7 +141,7 @@ export const BookCard: React.FC<Props> = ({
             {/* 경위 블록 — 항상 렌더링 */}
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
               <div style={{ opacity: contextLabelOpacity, color: '#999', fontSize: 15, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 14 }}>
-                추천 경위
+                추천 및 감상경위
               </div>
               <div style={{ opacity: contextBodyOpacity, borderLeft: '3px solid rgba(153,153,153,0.3)', paddingLeft: 20, fontFamily: FONT.sans, marginBottom: hasQuote ? 20 : 0 }}>
                 <KoreanTypewriter text={book.context} startFrame={contextStart} spreadFrames={contextFrames - 15} color="#bbb" fontSize={22} style={{ lineHeight: 1.8 }} />

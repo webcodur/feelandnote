@@ -15,8 +15,8 @@ const sceneBg: Record<string, string> = {
   hook: 'radial-gradient(ellipse at 50% 55%, #1a1510 0%, #08060a 70%)',
   quote: 'radial-gradient(ellipse at 40% 45%, #14100c 0%, #060608 70%)',
   culturalJourney: 'radial-gradient(ellipse at 60% 50%, #120e0a 0%, #06060a 70%)',
-  bridge: 'radial-gradient(ellipse at 50% 50%, #0e0e10 0%, #060606 80%)',
   scale: 'radial-gradient(ellipse at 50% 45%, #0f0d08 0%, #040404 70%)',
+  bridge: 'radial-gradient(ellipse at 50% 50%, #0e0e10 0%, #060606 80%)',
   connect: 'radial-gradient(ellipse at 50% 55%, #18140e 0%, #08060a 70%)',
   cta: '#0a0a0a',
 }
@@ -47,16 +47,24 @@ const SceneRenderer: React.FC<{ sceneIndex: number }> = ({ sceneIndex }) => {
 
   // 전환 효과
   let transitionIn = 1
+  let scaleIn = 1
+  let translateY = 0
   if (scene.transition === 'fade') {
     transitionIn = interpolate(frame, [0, 40], [0, 1], { extrapolateRight: 'clamp' })
   } else if (scene.transition === 'dissolve') {
     transitionIn = interpolate(frame, [0, 25], [0, 1], { extrapolateRight: 'clamp' })
+  } else if (scene.transition === 'scaleUp') {
+    transitionIn = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: 'clamp' })
+    scaleIn = interpolate(frame, [0, 30], [0.92, 1], { extrapolateRight: 'clamp' })
+  } else if (scene.transition === 'slideUp') {
+    transitionIn = interpolate(frame, [0, 25], [0, 1], { extrapolateRight: 'clamp' })
+    translateY = interpolate(frame, [0, 30], [40, 0], { extrapolateRight: 'clamp' })
   }
 
   const Visual = sceneVisuals[scene.id]
 
   return (
-    <AbsoluteFill style={{ opacity: transitionIn }}>
+    <AbsoluteFill style={{ opacity: transitionIn, transform: `scale(${scaleIn}) translateY(${translateY}px)` }}>
       {/* 배경 */}
       <AbsoluteFill style={{ background: sceneBg[scene.id] || '#0a0a0a' }} />
 

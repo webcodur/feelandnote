@@ -10,7 +10,7 @@ color: green
 ## 작업 시작 전
 
 1. **반드시 `docs/project/celeb/celeb-i18n.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
-2. **반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 업데이트 가드를 따른다.**
+2. **반드시 `docs/project/celeb/celeb-pipeline.md` §0 업데이트 가드를 읽고 따른다.**
 
 룰북에 번역 대상, 번역 규칙, 배치 처리 방법이 모두 정의되어 있다.
 

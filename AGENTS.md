@@ -33,38 +33,68 @@ pnpm dev:remotion # Remotion 스튜디오
 - Supabase (PostgreSQL, 인증, SSR)
 - TypeScript 5, pnpm
 
-## content_locales 테이블
-
-콘텐츠의 로케일별 데이터를 저장한다. PK: `(content_id, locale)`. `contents` 테이블에는 언어 무관 필드만 남고, 언어별 필드(title, creator, thumbnail_url, description, isbn, publisher 등)는 전부 이 테이블에 있다. `sources` JSONB로 필드별 데이터 출처를 추적한다.
-
-상세 구조, sources 스키마, 썸네일 수집 규칙, 헬퍼 함수 등은 `docs/project/content-locales-design.md` 참조.
-
-## Google Analytics
-
-- GA4 Measurement ID: `G-LMVY8KTJ7T` (layout.tsx에 설정)
-- GA4 Property ID: `526353156`
-- Service Account: `claude-analytics@feelandnote.iam.gserviceaccount.com`
-- 크리덴셜 파일: `sw/web/credentials/ga-service-account.json` (.gitignore 등록)
-- env: `sw/web/.env` → `GA_PROPERTY_ID`, `GA_CREDENTIALS_PATH`
-- 활성화된 API: Google Analytics Data API. Admin API는 미활성화.
-
-## 상세 레퍼런스
+## 레퍼런스
 
 작업에 해당하는 문서만 참조한다.
 
-| 문서 | 내용 | 참조 시점 |
-|------|------|----------|
-| `docs/project/db-core.md` | DB 스키마 — 사용자, 콘텐츠, 커뮤니티 | 일반 DB 작업, 쿼리 작성 |
-| `docs/project/db-celeb.md` | DB 스키마 — 셀럽 전용 테이블, 룰북 안내 | 셀럽 관련 작업 |
-| `docs/project/content-locales-design.md` | content_locales 마이그레이션 설계 | 로케일 데이터 구조 변경 |
-| `docs/project/architecture.md` | 디렉토리 구조, 네비게이션, 라우팅 | 파일 위치 파악, 라우트 작업 |
-| `docs/project/code-rules.md` | 코드 규칙, 디자인 시스템 | UI 개발, 코드 작성 |
-| `docs/project/external-services.md` | Supabase, R2, 크론잡 | 외부 서비스 연동 |
-| `docs/project/i18n.md` | 다국어화 계획, 진행 현황, 기술 참조 | i18n 작업 |
-| `docs/project/monetization.md` | 수익화 방안 탐색 (AdSense 등) | 수익화 전략 수립 |
-| `docs/project/seo.md` | SEO 설정 — 사이트맵, robots, 검색엔진 등록, MCP | SEO·사이트맵·검색콘솔 작업 |
-| `docs/en-book-data-quality.md` | BOOK en 데이터 진단·수정 프로세스·API 사양·이력 | en 데이터 재검증 작업 |
-| `docs/suikoden-sim/` | 천도 게임 기획서 (10개 문서) | 게임 개발 |
+### 아키텍처 · 코드
+
+| 문서 | 내용 |
+|------|------|
+| `docs/project/architecture.md` | 디렉토리 구조, 네비게이션, 라우팅 |
+| `docs/project/code-rules.md` | 코드 규칙, 디자인 시스템 |
+| `docs/project/i18n.md` | 다국어화 계획, 진행 현황, 기술 참조 |
+
+### DB · 데이터
+
+| 문서 | 내용 |
+|------|------|
+| `docs/project/db-core.md` | DB 스키마 — 사용자, 콘텐츠, 커뮤니티, UUID 체계 |
+| `docs/project/db-celeb.md` | DB 스키마 — 셀럽 테이블, 이미지 규격, slug, Wikidata QID |
+| `docs/project/content-locales-design.md` | content_locales 설계 |
+| `docs/project/content-locales-migration-files.md` | content_locales 마이그레이션 파일 목록 (완료) |
+| `docs/en-book-data-quality.md` | BOOK en 데이터 진단·수정 이력 |
+
+### 셀럽 (`docs/project/celeb/`)
+
+| §  | 문서 | 내용 |
+|----|------|------|
+| 0 | `celeb-pipeline.md` | 파이프라인, 티어, 업데이트 가드, 작업 큐 |
+| 1 | `celeb-1-basic-profile.md` | 기본 정보 |
+| 2 | `celeb-2-content-collector.md` | 콘텐츠 수집 |
+| 3 | `celeb-3-cultural-journey.md` | 감상 여정 |
+| 4 | `celeb-4-influence.md` | 영향력 평가 |
+| 5 | `celeb-5-persona.md` | 페르소나 |
+| 6 | `celeb-speech.md` | Speech 트랙 (tone → quotes → dialogue) |
+| 7 | `celeb-i18n.md` | 영문 번역 |
+| A | `celeb-tag-system.md` | 부록: 스포트라이트 태그 |
+| B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 |
+
+### 인프라 · 운영
+
+| 문서 | 내용 |
+|------|------|
+| `docs/project/external-services.md` | Supabase, R2, GA, 음성 경로, 크론잡 |
+| `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
+| `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
+
+### 영상 — 서재 탐방 (`docs/project/remotion/`)
+
+| 장 | 문서 | 내용 |
+|----|------|------|
+| 1 | `README.md` | 개요, 코드 구조, SSoT 데이터 흐름, 윤리 원칙 |
+| 2 | `longform.md` | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
+| 3 | `shorts.md` | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
+| 4 | `tts.md` | 음성 생성 — 엔진, 보이스, 커맨드, web-bo 통합 |
+| 5 | `lineup.md` | 편성 — 인물 선정, 라이벌 묶음, 정치 균형 |
+| 6 | `rules.md` | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항, 체크리스트 |
+
+### 게임 (천도)
+
+| 문서 | 내용 |
+|------|------|
+| `docs/project/suikoden-dev.md` | 천도 게임 개발 룰북 |
+| `docs/suikoden-sim/` | 천도 게임 기획서 (10개 문서) |
 
 ## TODO
 
@@ -80,32 +110,6 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 * 마지막 작업 시각: 26.03.11
 
-## Wikidata QID 관리 프로세스
+## 아이디어 응답 방식
 
-셀럽의 창작 서가는 `profiles.wikidata_qid`를 기반으로 실시간 Wikidata SPARQL 조회한다.
-
-### QID 배정 규칙
-
-1. **자동 배정 스크립트**: `sw/web/scripts/bulk-qid.mjs` — `wbsearchentities` API로 영문명 매칭
-2. **1차 검증 (필수)**: `sw/web/scripts/verify-qid.mjs` — P31=Q5(인간) 확인. 분화구, 소행성, 건물 등 동명 항목 걸러냄
-3. **2차 검증 (필수)**: `sw/web/scripts/verify-qid-birth.mjs` — DB birth_date와 Wikidata P569 생년 대조 (±3년 허용). 동명이인 감지
-4. **수동 확인**: 2차 검증 미해결 건은 수동 QID 조회 후 배정. 특히 아래 유형 주의:
-   - **BC 인물**: Wikidata 연도 절삭(-384 → -38)으로 거짓 양성 다수. QID 자체는 정상
-   - **듀오/그룹**: Coen Brothers, Daft Punk 등 P31≠Q5. 검색 결과 description 확인 필요
-   - **동명이인**: Francis Bacon(철학자 vs 화가), Homer(시인 vs 화가) 등. 생년 대조 필수
-   - **Wikidata 미등재**: 법정 스님 등 일부 인물은 Wikidata 항목 자체가 없음
-
-### 신규 셀럽 등록 시 QID 배정 절차
-
-`celeb-creation-rulebook` 또는 `celeb-basic-profile` 에이전트에서 셀럽 등록 후:
-1. 영문명으로 Wikidata 검색 (`wbsearchentities`)
-2. 후보 중 description에 인물 설명이 있는 항목 선택 (crater, asteroid 등 제외)
-3. 생년 대조 확인 (DB birth_date vs Wikidata P569)
-4. `profiles.wikidata_qid`에 저장
-
-### 실시간 조회 아키텍처
-
-- API: `/api/celeb-works?qid=Qxxx` — 2단계 SPARQL (목록→상세)
-- 캐시: 24시간 인메모리 캐시
-- UI: `CreativeLibrary.tsx` — 클라이언트 필터링/페이징
-- 이미지 커버리지: 미술 85%, 클래식 24%, 영화 13%, 대중음악 4%
+네이밍 작명, 문학적 아이디어 등 창작 아이디어 요청 시: 개행·설명·번호 없이, 아이디어만 다수 나열한다.

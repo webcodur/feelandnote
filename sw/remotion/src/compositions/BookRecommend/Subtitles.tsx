@@ -5,15 +5,13 @@ import type { BookRecommendScript } from './types'
 import {
   toFrames, toAudioFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
   TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
-  BOOK_GAP, RECAP_FRAMES,
+  BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, SENTENCE_BREATH,
+  CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, OUTRO_FALLBACK,
   summaryPhaseEnd as calcSummaryEnd, contextPhaseEnd as calcContextEnd,
   quotePhaseEnd as calcQuoteEnd, bookTotalFrames,
 } from './timing'
 
 type Sub = { start: number; end: number; speaker: string; text: string }
-
-/** 문장 간 호흡 프레임 — TTS가 문장 사이에 쉬는 시간 보정 */
-const SENTENCE_BREATH = 8
 
 function splitIntoSentences(start: number, end: number, speaker: string, fullText: string): Sub[] {
   const sentences = fullText.split(/(?<=[.?!])\s+/).filter(Boolean)
@@ -38,15 +36,32 @@ function buildSubs(script: BookRecommendScript): Sub[] {
   const { narrator, host, books } = script
   const subs: Sub[] = []
 
-  const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : 150)
+  const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : CELEB_INTRO_FALLBACK)
   const philosophyFrames = toFrames(host.voiceDuration)
   const hostIntroFrames = celebIntroFrames + philosophyFrames
-  const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : 105
+  const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK
 
-  let cursor = BRAND_FRAMES
+  const svcIntroFrames = narrator.serviceIntroDuration > 0 ? toFrames(narrator.serviceIntroDuration) : 0
+  const fQuoteFrames = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+
+  let cursor = BRAND_FRAMES + svcIntroFrames + fQuoteFrames
   const hostIntroStart = cursor
   cursor += hostIntroFrames
   cursor += bridgeFrames
+
+  // 서비스 인트로 자막
+  if (svcIntroFrames > 0 && narrator.serviceIntro) {
+    const svcStart = BRAND_FRAMES
+    const svcEnd = svcStart + toAudioFrames(narrator.serviceIntroDuration)
+    subs.push(...splitIntoSentences(svcStart, svcEnd, '나레이터', narrator.serviceIntro))
+  }
+
+  // 명언 자막
+  if (fQuoteFrames > 0 && host.featuredQuote) {
+    const fqStart = BRAND_FRAMES + svcIntroFrames
+    const fqEnd = fqStart + toAudioFrames(host.featuredQuoteDuration!)
+    subs.push(...splitIntoSentences(fqStart, fqEnd, host.nickname, host.featuredQuote))
+  }
 
   // 나레이터 셀럽 소개 (순수 오디오 길이로 자막 분배)
   const celebVoiceStart = hostIntroStart + CELEB_VISUAL_DELAY
@@ -59,9 +74,23 @@ function buildSubs(script: BookRecommendScript): Sub[] {
   subs.push(...splitIntoSentences(philoStart, philoEnd, host.nickname, host.philosophy))
 
   // 도서
+  const hasInterlude = books.length > 10
+  const interludeIndex = hasInterlude ? Math.ceil(books.length / 2) : -1
+  const interludeFrames = hasInterlude
+    ? (narrator.interludeDuration && narrator.interludeDuration > 0 ? toFrames(narrator.interludeDuration) : INTERLUDE_FRAMES)
+    : 0
 
   for (let i = 0; i < books.length; i++) {
     if (i > 0) cursor += BOOK_GAP
+    // 중간 리캡 + 인터루드 삽입
+    if (i === interludeIndex) {
+      cursor += RECAP_FRAMES // 중간 리캡 (자막 없음)
+      if (narrator.interlude && narrator.interludeDuration && narrator.interludeDuration > 0) {
+        const intAudioStart = cursor + 20 // 오디오는 20프레임 후 시작 (BookRecommend.tsx와 동기)
+        subs.push(...splitIntoSentences(intAudioStart, intAudioStart + toAudioFrames(narrator.interludeDuration), '나레이터', narrator.interlude))
+      }
+      cursor += interludeFrames
+    }
     const bs = cursor
     const b = books[i]
     const titleFrames = toFrames(b.titleDuration)

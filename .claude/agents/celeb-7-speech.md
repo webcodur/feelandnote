@@ -9,16 +9,16 @@ color: cyan
 
 ## 작업 시작 전
 
-1. **반드시 `docs/project/celeb/celeb-7-speech.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
-2. **반드시 `docs/project/celeb/celeb-common-update-guard.md`를 읽고 업데이트 가드를 따른다.**
+1. **반드시 `docs/project/celeb/celeb-speech.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+2. **반드시 `docs/project/celeb/celeb-pipeline.md` §0 업데이트 가드를 읽고 따른다.**
 
 룰북에 speech_tone 배정 기준, quotes 작성 규칙, dialogue 생성 조건이 정의되어 있다.
 
 ## 실행 순서
 
 1. **Phase 1: speech_tone 배정** — `profiles.speech_tone` 설정
-2. **Phase 2: quotes 작성/검수** — `celeb-9-quotes.md` 룰북 참조
-3. **Phase 3: dialogue 생성** — `celeb-8-dialogue.md` 룰북 참조, 퍼블릭 도메인만 자동
+2. **Phase 2: quotes 작성/검수** — `celeb-speech.md` §6.2 참조
+3. **Phase 3: dialogue 생성** — `celeb-speech.md` §6.3 참조, 퍼블릭 도메인만 자동
 
 ## 핵심 원칙
 

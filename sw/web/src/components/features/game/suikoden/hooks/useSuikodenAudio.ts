@@ -7,7 +7,7 @@
 
 import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
-const BASE = "/assets/suikoden/audio/suikoden";
+const BASE = "/assets/suikoden";
 
 const SUIKODEN_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
@@ -16,8 +16,8 @@ const SUIKODEN_AUDIO_CONFIG: GameAudioConfig = {
     switch (state) {
       case "idle":
         return [
-          { src: `${BASE}/bgm-lobby.mp3`, label: "강호의 이름으로" },
-          { src: `${BASE}/bgm-ingame.mp3`, label: "바람이 전한 말" },
+          { src: `${BASE}/suikoden-main--name-of-gangho.mp3`, label: "강호의 이름으로" },
+          { src: `${BASE}/suikoden-ingame--words-of-wind.mp3`, label: "바람이 전한 말" },
         ];
       case "setup":
       case "wandering":
@@ -25,13 +25,13 @@ const SUIKODEN_AUDIO_CONFIG: GameAudioConfig = {
       case "battle":
       case "disposition":
         return [
-          { src: `${BASE}/bgm-ingame.mp3`, label: "바람이 전한 말" },
-          { src: `${BASE}/bgm-lobby.mp3`, label: "강호의 이름으로" },
+          { src: `${BASE}/suikoden-ingame--words-of-wind.mp3`, label: "바람이 전한 말" },
+          { src: `${BASE}/suikoden-main--name-of-gangho.mp3`, label: "강호의 이름으로" },
         ];
       case "result":
         return [
-          { src: `${BASE}/bgm-lobby.mp3`, label: "강호의 이름으로" },
-          { src: `${BASE}/bgm-ingame.mp3`, label: "바람이 전한 말" },
+          { src: `${BASE}/suikoden-main--name-of-gangho.mp3`, label: "강호의 이름으로" },
+          { src: `${BASE}/suikoden-ingame--words-of-wind.mp3`, label: "바람이 전한 말" },
         ];
       default:
         return [];

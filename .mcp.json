@@ -8,8 +8,8 @@
       "command": "python",
       "args": ["-m", "ga4_mcp"],
       "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "C:/Users/webco/Downloads/feelandnote-24dc8903d889.json",
-        "GA4_PROPERTY_ID": "317423725"
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:/Users/webco/.claude/ga-credentials.json",
+        "GA4_PROPERTY_ID": "526353156"
       }
     },
     "google-search-console": {

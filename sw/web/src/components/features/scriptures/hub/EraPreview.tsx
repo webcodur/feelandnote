@@ -103,7 +103,7 @@ export default function EraPreview({ eras }: EraPreviewProps) {
   if (!eras || eras.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+    <div className="grid grid-cols-2 gap-3 md:gap-4">
       {eras.map((era) => {
         const theme = ERA_THEME[era.era] ?? defaultTheme;
         const Icon = theme.icon;
