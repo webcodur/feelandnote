@@ -119,17 +119,19 @@ const CLOUD_TTS_KEY = process.env.GOOGLE_CLOUD_TTS_KEY
 const CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
 
 // Gemini Voice → Cloud TTS Voice 매핑 (한국어 Neural2)
-const CLOUD_VOICE_MAP: Record<Voice, string> = {
+// 커스텀 셀럽 보이스(Orus 등)는 Cloud에 없으므로 Neural2-B 폴백
+const CLOUD_VOICE_MAP: Record<string, string> = {
   Kore: 'ko-KR-Neural2-A',    // 여성 (나레이터)
   Charon: 'ko-KR-Neural2-C',  // 남성 (요약맨)
-  Puck: 'ko-KR-Neural2-B',    // 남성 (셀럽)
+  Puck: 'ko-KR-Neural2-B',    // 남성 (셀럽 기본)
 }
+const CLOUD_FALLBACK_MALE = 'ko-KR-Neural2-B'
 
 async function synthesizeCloud(text: string, voiceName: Voice, outputFile: string): Promise<number> {
   if (!CLOUD_TTS_KEY) throw new Error('GOOGLE_CLOUD_TTS_KEY 없음. .env에 추가하세요.')
   const body = {
     input: { text },
-    voice: { languageCode: 'ko-KR', name: CLOUD_VOICE_MAP[voiceName] },
+    voice: { languageCode: 'ko-KR', name: CLOUD_VOICE_MAP[voiceName] || CLOUD_FALLBACK_MALE },
     audioConfig: { audioEncoding: 'LINEAR16', sampleRateHertz: 24000 },
   }
   const res = await fetch(`${CLOUD_TTS_URL}?key=${CLOUD_TTS_KEY}`, {

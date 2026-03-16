@@ -6,9 +6,13 @@ import { f } from './timing'
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
 export const sf = (path: string) => staticFile(path)
 
+/** 공통 음성 — 에피소드마다 동일하므로 common/ 에서 재사용 */
+const COMMON_FILES = new Set(['service-greeting.wav', 'label-summary.wav', 'label-context.wav'])
+
 /** 에피소드별 음성 경로 팩토리 */
 export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null) => {
   return (file: string) => {
+    if (COMMON_FILES.has(file)) return sf(`voice/common/${file}`)
     if (voiceSelect) {
       const engine = voiceSelect.slots?.[file] ?? voiceSelect.default
       return sf(`voice/${epName}/${engine}/${file}`)
