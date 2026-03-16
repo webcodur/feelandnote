@@ -1,6 +1,7 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import { FONT } from './fonts'
 import { BrandLogo } from './utils'
+import { f } from './timing'
 
 type Props = {
   durationFrames: number
@@ -11,15 +12,15 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
-  const logoScale = spring({ frame: Math.max(0, frame - 5), fps, config: { damping: 14, stiffness: 120 } })
-  const logoOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: 'clamp' })
+  const logoScale = spring({ frame: Math.max(0, frame - f(0.17)), fps, config: { damping: 14, stiffness: 120 } })
+  const logoOpacity = interpolate(frame, [0, f(0.67)], [0, 1], { extrapolateRight: 'clamp' })
 
-  const lineWidth = interpolate(frame, [15, 40], [0, 200], { extrapolateRight: 'clamp' })
+  const lineWidth = interpolate(frame, [f(0.5), f(1.33)], [0, 200], { extrapolateRight: 'clamp' })
 
-  const tagOpacity = interpolate(frame, [25, 40], [0, 1], { extrapolateRight: 'clamp' })
-  const tagY = interpolate(frame, [25, 40], [15, 0], { extrapolateRight: 'clamp' })
+  const tagOpacity = interpolate(frame, [f(0.83), f(1.33)], [0, 1], { extrapolateRight: 'clamp' })
+  const tagY = interpolate(frame, [f(0.83), f(1.33)], [15, 0], { extrapolateRight: 'clamp' })
 
-  const fadeOut = interpolate(frame, [durationFrames - 15, durationFrames], [1, 0], {
+  const fadeOut = interpolate(frame, [durationFrames - f(0.5), durationFrames], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   })
@@ -38,7 +39,7 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
       }}
     >
       <div style={{ opacity: logoOpacity, transform: `scale(${logoScale})` }}>
-        <BrandLogo variant="brand" />
+        <BrandLogo variant="full" />
       </div>
       <div style={{ width: lineWidth, height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
       <div
@@ -51,7 +52,7 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
           letterSpacing: 6,
         }}
       >
-        취향이 역사가 되는 곳
+        한 줄의 기록, 천 년의 울림
       </div>
     </div>
   )

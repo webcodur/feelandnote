@@ -107,7 +107,7 @@ function DateTimeCell({ date }: { date: string }) {
   const ymd = `${d.getFullYear()}. ${pad(d.getMonth() + 1)}. ${pad(d.getDate())}.`
   const hms = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
   return (
-    <div className="text-xs text-text-secondary leading-tight">
+    <div className="text-xs text-text-secondary leading-tight" suppressHydrationWarning>
       <div>{ymd}</div>
       <div className="text-text-tertiary">{hms}</div>
     </div>

@@ -217,12 +217,21 @@ export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, 
     return map;
   }, [allCelebs]);
 
+  const voiceSpeeds = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const c of allCelebs) {
+      if (c.voice_speed && c.voice_speed !== 1.0) map.set(c.id, c.voice_speed);
+    }
+    return map;
+  }, [allCelebs]);
+
   const { showDialogue, showDefaultLine } = useDialogue({
     sfxMutedRef,
     onSubtitle: setSubtitle,
     personalDialogues,
     voiceCelebIds,
     voiceVersions,
+    voiceSpeeds,
   });
 
   /** 셀럽의 speech_tone을 조회하는 헬퍼 */

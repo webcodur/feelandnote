@@ -21,6 +21,7 @@ export interface CelebDialogueItem {
   avatar_url: string | null
   profession: string | null
   speech_tone: string | null
+  voice_speed: number
   dialogue_lines: DialogueLines | null
   dialogue_lines_en: DialogueLines | null
 }
@@ -36,7 +37,7 @@ export async function getCelebsForDialogueEdit(
   const { data, error, count } = await supabase
     .from('profiles')
     .select(
-      `id, nickname, avatar_url, profession, speech_tone,
+      `id, nickname, avatar_url, profession, speech_tone, voice_speed,
        celeb_dialogues(lines, lines_en)`,
       { count: 'exact' },
     )
@@ -59,6 +60,7 @@ export async function getCelebsForDialogueEdit(
       avatar_url: row.avatar_url,
       profession: row.profession,
       speech_tone: row.speech_tone ?? null,
+      voice_speed: (row as Record<string, unknown>).voice_speed as number ?? 1.0,
       dialogue_lines:
         dlg?.lines && Object.keys(dlg.lines).length > 0
           ? (dlg.lines as DialogueLines)
@@ -84,6 +86,24 @@ export async function updateSpeechTone(
   const { error } = await supabase
     .from('profiles')
     .update({ speech_tone: tone })
+    .eq('id', celebId)
+
+  if (error) throw error
+
+  revalidatePath('/celebs/dialogues')
+}
+// #endregion
+
+// #region updateVoiceSpeed
+export async function updateVoiceSpeed(
+  celebId: string,
+  speed: number,
+): Promise<void> {
+  const supabase = createAdminClient()
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ voice_speed: speed } as Record<string, unknown>)
     .eq('id', celebId)
 
   if (error) throw error

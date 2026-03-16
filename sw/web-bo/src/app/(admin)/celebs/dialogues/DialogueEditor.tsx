@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Star, Check, X, Loader2, MessageSquare } from 'lucide-react'
 import {
   updateSpeechTone,
+  updateVoiceSpeed,
   saveCelebDialogues,
   type CelebDialogueItem,
   type DialogueLines,
@@ -58,6 +59,10 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
   const [tones, setTones] = useState<Record<string, string>>(() =>
     celebs.reduce((acc, c) => ({ ...acc, [c.id]: c.speech_tone || 'free' }), {}),
   )
+  const [speeds, setSpeeds] = useState<Record<string, number>>(() =>
+    celebs.reduce((acc, c) => ({ ...acc, [c.id]: c.voice_speed ?? 1.0 }), {}),
+  )
+  const [savingSpeed, setSavingSpeed] = useState<string | null>(null)
   const [savingTone, setSavingTone] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [activeLang, setActiveLang] = useState<Lang>('ko')
@@ -76,6 +81,20 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
       showToast('error', '말투 변경에 실패했습니다.')
     } finally {
       setSavingTone(null)
+    }
+  }
+
+  // voice_speed 변경
+  async function handleSpeedChange(celebId: string, speed: number) {
+    setSavingSpeed(celebId)
+    try {
+      await updateVoiceSpeed(celebId, speed)
+      setSpeeds((prev) => ({ ...prev, [celebId]: speed }))
+      showToast('success', `배속이 ${speed}x로 변경되었습니다.`)
+    } catch {
+      showToast('error', '배속 변경에 실패했습니다.')
+    } finally {
+      setSavingSpeed(null)
     }
   }
 
@@ -143,6 +162,7 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
             <tr>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[180px]">셀럽</th>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[140px]">말투</th>
+              <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[100px]">배속</th>
               <th className="text-start px-4 py-3 text-sm font-medium text-text-secondary w-[160px]">대사 상태</th>
               <th className="text-center px-4 py-3 text-sm font-medium text-text-secondary w-[80px]">편집</th>
             </tr>
@@ -180,6 +200,21 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
                       ))}
                     </select>
                     {savingTone === celeb.id && <Loader2 className="inline w-3 h-3 ml-1 animate-spin text-accent" />}
+                  </td>
+                  <td className="px-4 py-3">
+                    <select
+                      value={speeds[celeb.id] ?? 1.0}
+                      onChange={(e) => handleSpeedChange(celeb.id, parseFloat(e.target.value))}
+                      disabled={savingSpeed === celeb.id}
+                      className={`bg-bg-secondary border border-border rounded-lg px-2 py-1 text-sm disabled:opacity-50 ${
+                        (speeds[celeb.id] ?? 1.0) !== 1.0 ? 'text-amber-400 border-amber-500/30' : 'text-text-primary'
+                      }`}
+                    >
+                      {Array.from({ length: 31 }, (_, i) => +(0.5 + i * 0.05).toFixed(2)).map((v) => (
+                        <option key={v} value={v}>{v}x</option>
+                      ))}
+                    </select>
+                    {savingSpeed === celeb.id && <Loader2 className="inline w-3 h-3 ml-1 animate-spin text-accent" />}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-1">

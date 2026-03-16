@@ -124,7 +124,15 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
     return map;
   }, [allCards]);
 
-  const { showDialogue } = useDialogue({ sfxMutedRef, onSubtitle: handleSubtitle, personalDialogues, voiceCelebIds, voiceVersions });
+  const voiceSpeeds = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const card of allCards) {
+      if (card.voiceSpeed && card.voiceSpeed !== 1.0) map.set(card.id, card.voiceSpeed);
+    }
+    return map;
+  }, [allCards]);
+
+  const { showDialogue } = useDialogue({ sfxMutedRef, onSubtitle: handleSubtitle, personalDialogues, voiceCelebIds, voiceVersions, voiceSpeeds });
 
   const modalCard = useMemo(
     () => modalCardId ? allCards.find((c) => c.id === modalCardId) ?? null : null,

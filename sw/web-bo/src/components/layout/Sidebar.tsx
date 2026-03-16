@@ -33,7 +33,6 @@ import {
   Target,
   Flame,
   Volume2,
-  Film,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -76,7 +75,6 @@ const menuGroups: MenuGroup[] = [
       { href: '/records', label: '기록', icon: FileText },
       { href: '/notes', label: '노트', icon: StickyNote },
       { href: '/playlists', label: '플레이리스트', icon: ListMusic },
-      { href: '/episodes', label: '영상 대본', icon: Film },
     ],
   },
   {

@@ -18,6 +18,7 @@ export interface VoiceGenCeleb {
   dialogue_lines: Record<string, string[]> | null
   dialogue_lines_en: Record<string, string[]> | null
   voice_v: number
+  voice_speed: number
 }
 
 /** 음성 생성 대상 셀럽 목록 (대사 보유자만) */
@@ -28,7 +29,7 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
     .from('profiles')
     .select(`
       id, nickname, avatar_url, slug, speech_tone, has_voice,
-      voice_id_ko, voice_id_en, voice_v,
+      voice_id_ko, voice_id_en, voice_v, voice_speed,
       celeb_dialogues(lines, lines_en)
     `)
     .eq('profile_type', 'CELEB')
@@ -56,6 +57,7 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
         dialogue_lines: lines && Object.keys(lines).length > 0 ? lines : null,
         dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
         voice_v: (row as Record<string, unknown>).voice_v as number ?? 0,
+        voice_speed: (row as Record<string, unknown>).voice_speed as number ?? 1.0,
       }
     })
 }

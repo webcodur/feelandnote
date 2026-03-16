@@ -92,6 +92,8 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     greeting: (dialogueResult.data?.lines as Record<string, string[]> | null)?.greeting ?? null,
     greeting_en: (dialogueResult.data?.lines_en as Record<string, string[]> | null)?.greeting ?? null,
     has_voice: profile.has_voice ?? false,
+    voice_v: (profile as any).voice_v ?? 0,
+    voice_speed: (profile as any).voice_speed ?? 1.0,
     celeb_tier: (profile.celeb_tier as 'full' | 'light') ?? 'full',
   }
 }

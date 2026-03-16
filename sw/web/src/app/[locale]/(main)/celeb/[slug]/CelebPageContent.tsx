@@ -7,9 +7,9 @@ import { Volume2 } from "lucide-react";
 import type { Locale } from "@/types/locale";
 
 import {
-  stripEmotionTag,
   useDialogueSubtitle,
 } from "@/components/features/game/shared/hooks/useDialogue";
+import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { type PublicUserProfile } from "@/actions/user";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
@@ -18,11 +18,11 @@ import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
-import { getQuoteVoiceUrl, getVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 import LibraryTabs from "./LibraryTabs";
 import PersonaSection from "./PersonaSection";
 import ContemporariesSection from "./ContemporariesSection";
+import DialogueSection from "./DialogueSection";
 
 interface CelebPageContentProps {
   profile: PublicUserProfile;
@@ -36,6 +36,7 @@ interface CelebPageContentProps {
     avatar_url: string | null;
   } | null;
   greeting?: string[] | null;
+  dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
 }
 
@@ -54,14 +55,14 @@ export default function CelebPageContent({
   guestbookTotal,
   guestbookCurrentUser,
   greeting,
+  dialogueLines,
   contemporaries,
 }: CelebPageContentProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
   const locale = useLocale() as Locale;
   const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
-  const keyCounter = useRef(0);
-  const lastGreetingIdx = useRef<number | null>(null);
+  const { fireGreeting, fireQuote } = useCelebGreeting({ onSubtitle: setSubtitle, locale });
 
   const professionLabel = profile.profession ? tp(profile.profession) : null;
   const birthYear = formatYear(profile.birth_date);
@@ -72,44 +73,18 @@ export default function CelebPageContent({
       : `${birthYear} —`
     : "";
   const hasVoice = profile.has_voice ?? false;
-  const voiceV = profile.voice_v ?? 0;
   const nickname = profile.nickname;
   const wikidataQid = profile.wikidata_qid ?? null;
 
+  const celebForGreeting = { ...profile, greeting, nickname };
+
   const handleAvatarClick = useCallback(() => {
-    if (!greeting || greeting.length === 0) return;
-    let idx: number;
-    if (greeting.length <= 1) {
-      idx = 0;
-    } else {
-      do {
-        idx = Math.floor(Math.random() * greeting.length);
-      } while (idx === lastGreetingIdx.current);
-    }
-    lastGreetingIdx.current = idx;
-    const raw = greeting[idx];
-    setSubtitle({
-      key: ++keyCounter.current,
-      tone: "composed",
-      text: stripEmotionTag(raw),
-      nickname: profile.nickname,
-      avatarUrl: profile.avatar_url,
-      audioUrl: hasVoice
-        ? getVoiceUrl(profile.id, locale, "greeting", idx + 1, voiceV)
-        : null,
-    });
-  }, [greeting, profile.nickname, profile.avatar_url, profile.id, hasVoice, locale, voiceV, setSubtitle]);
+    fireGreeting(celebForGreeting);
+  }, [fireGreeting, celebForGreeting]);
 
   const handleQuotePlay = useCallback(() => {
-    setSubtitle({
-      key: ++keyCounter.current,
-      tone: "composed",
-      text: profile.quotes ?? "",
-      nickname: profile.nickname,
-      avatarUrl: profile.avatar_url,
-      audioUrl: getQuoteVoiceUrl(profile.id, locale, voiceV),
-    });
-  }, [profile.id, profile.nickname, profile.avatar_url, profile.quotes, locale, voiceV, setSubtitle]);
+    fireQuote(celebForGreeting);
+  }, [fireQuote, celebForGreeting]);
 
   /* ── 공통 래퍼: 모바일 HR / PC ClassicalBox ── */
   const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
@@ -294,6 +269,24 @@ export default function CelebPageContent({
           />
         </SectionWrap>
       </section>
+
+      {/* 고유 대사 */}
+      {dialogueLines && Object.keys(dialogueLines).length > 0 && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("dialogues")} />
+          <SectionWrap>
+            <DialogueSection
+              lines={dialogueLines}
+              nickname={nickname}
+              avatarUrl={profile.avatar_url}
+              hasVoice={hasVoice}
+              celebId={userId}
+              voiceV={profile.voice_v}
+              voiceSpeed={profile.voice_speed}
+            />
+          </SectionWrap>
+        </section>
+      )}
 
       {/* 인물 분석 */}
       {personaData?.targetPersona && (

@@ -1,7 +1,6 @@
 import { useState, useCallback, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, useGLTF, Grid, Center } from '@react-three/drei'
-import { Link } from 'react-router-dom'
 
 function Model({ url }: { url: string }) {
   const { scene } = useGLTF(url)
@@ -40,48 +39,60 @@ export function ModelViewer() {
   }, [modelUrl])
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#111', position: 'relative' }}>
-      <Link to="/" style={{ position: 'fixed', top: 12, left: 16, color: '#999', zIndex: 10, textDecoration: 'none', fontSize: 14 }}>
-        ← Back
-      </Link>
+    <div className="lab-page">
+      <div className="lab-header">
+        <h2>GLB 모델 뷰어</h2>
+        <p>AI 생성 GLB/GLTF 파일을 드래그&드롭으로 미리보기. Replicate, Meshy, Tripo 결과물 확인용.</p>
+      </div>
+
+      <div className="lab-info">
+        <strong>사용법</strong><br />
+        • GLB/GLTF 파일을 아래 영역에 드래그하거나 파일 선택 버튼 클릭<br />
+        • <strong>외부 API 워크플로</strong>: Replicate/Meshy/Tripo에서 GLB 다운로드 → 여기서 확인<br />
+        • 마우스 드래그 = 회전, 스크롤 = 줌, 우클릭 드래그 = 패닝
+      </div>
 
       {!modelUrl ? (
         <div
+          className="lab-canvas"
           onDrop={handleDrop}
           onDragOver={e => e.preventDefault()}
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            width: '100%', height: '100%', color: '#666',
+            height: 400, cursor: 'pointer',
           }}
+          onClick={() => document.getElementById('glb-file-input')?.click()}
         >
-          <p style={{ fontSize: 20, marginBottom: 16 }}>GLB / GLTF 파일을 드래그하거나 클릭하여 업로드</p>
-          <p style={{ fontSize: 14, color: '#555', marginBottom: 24 }}>AI로 생성한 3D 모델을 여기서 확인하세요</p>
-          <label style={{ padding: '10px 24px', background: '#222', border: '1px solid #444', borderRadius: 6, cursor: 'pointer', color: '#ccc' }}>
+          <p style={{ fontSize: 18, color: 'var(--text-dim)', marginBottom: 12 }}>GLB / GLTF 파일을 드래그하거나 클릭</p>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>AI 생성 3D 모델을 여기서 확인</p>
+          <label className="lab-btn" style={{ cursor: 'pointer' }}>
             파일 선택
-            <input type="file" accept=".glb,.gltf" onChange={handleFileInput} style={{ display: 'none' }} />
+            <input id="glb-file-input" type="file" accept=".glb,.gltf" onChange={handleFileInput} style={{ display: 'none' }} />
           </label>
         </div>
       ) : (
         <>
-          <div style={{ position: 'fixed', top: 12, right: 16, zIndex: 10, display: 'flex', gap: 12, alignItems: 'center' }}>
-            <span style={{ color: '#999', fontSize: 13 }}>{fileName}</span>
+          <div className="lab-controls">
+            <span style={{ fontSize: 13, color: 'var(--text-dim)' }}>{fileName}</span>
             <button
-              onClick={() => { if (modelUrl) URL.revokeObjectURL(modelUrl); setModelUrl(null); setFileName('') }}
-              style={{ padding: '4px 12px', background: '#333', border: '1px solid #555', borderRadius: 4, color: '#ccc', cursor: 'pointer' }}
+              className="lab-btn-outline"
+              onClick={() => { URL.revokeObjectURL(modelUrl); setModelUrl(null); setFileName('') }}
             >
               교체
             </button>
           </div>
-          <Canvas camera={{ position: [3, 2, 3], fov: 50 }}>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <Suspense fallback={null}>
-              <Model url={modelUrl} />
-            </Suspense>
-            <Grid infiniteGrid fadeDistance={20} cellColor="#333" sectionColor="#555" />
-            <OrbitControls />
-            <Environment preset="city" />
-          </Canvas>
+          <div className="lab-canvas lab-canvas-full">
+            <Canvas camera={{ position: [3, 2, 3], fov: 50 }}>
+              <ambientLight intensity={0.5} />
+              <directionalLight position={[5, 5, 5]} intensity={1} />
+              <Suspense fallback={null}>
+                <Model url={modelUrl} />
+              </Suspense>
+              <Grid infiniteGrid fadeDistance={20} cellColor="#333" sectionColor="#555" />
+              <OrbitControls />
+              <Environment preset="city" />
+            </Canvas>
+          </div>
         </>
       )}
     </div>

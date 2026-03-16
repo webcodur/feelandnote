@@ -18,11 +18,12 @@ import { createHash } from 'crypto'
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { execFile } from 'child_process'
 import type { BookRecommendScript } from '../src/compositions/BookRecommend/types'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
-const EPISODES_DIR = path.join(ROOT, 'episodes')
+const EPISODES_DIR = path.join(ROOT, 'episodes', 'book-recommend')
 
 // CLI에서 --episode <name> 또는 기본값
 const args = process.argv.slice(2)
@@ -35,6 +36,10 @@ const ENGINE = engineIdx >= 0 ? args[engineIdx + 1] : 'gemini'
 
 const BASE_DIR = path.join(ROOT, 'public', 'voice', EPISODE_NAME)
 const OUT_DIR = path.join(BASE_DIR, ENGINE)
+const COMMON_DIR = path.join(ROOT, 'public', 'voice', 'common')
+
+/** 공통 음성 — 에피소드마다 동일하므로 common/ 에서 재사용 */
+const COMMON_FILES = new Set(['service-greeting.wav', 'label-summary.wav', 'label-context.wav'])
 
 // 역할 필터: --role narrator,summary,celeb
 const roleIdx = args.indexOf('--role')
@@ -51,13 +56,13 @@ let keyIndex = 0
 let ai = new GoogleGenAI({ apiKey: API_KEYS[0] })
 
 const MODEL = 'gemini-2.5-flash-preview-tts'
-type Voice = 'Kore' | 'Charon' | 'Puck'
+type Voice = string
 
 // --- 보이스 역할 ---
 const VOICE = {
   narrator: 'Kore' as Voice,
   summary: 'Charon' as Voice,
-  celeb: 'Puck' as Voice,
+  celeb: 'Puck' as Voice,  // 기본값 — 에피소드 JSON의 geminiVoice로 오버라이드 가능
 }
 
 // --- WAV 저장 ---
@@ -208,9 +213,12 @@ function ttsText(field: string, bookIndex?: number): string {
   }
 
   switch (field) {
-    case 'serviceIntro': return tts?.narrator?.serviceIntro ?? episode.narrator.serviceIntro
-    case 'celebIntro': return tts?.narrator?.celebIntro ?? episode.narrator.celebIntro
-    case 'philosophy': return tts?.host?.philosophy ?? episode.host.philosophy
+    case 'serviceGreeting': return tts?.narrator?.serviceGreeting ?? episode.narrator.serviceGreeting ?? ''
+    case 'serviceIntro': return tts?.narrator?.serviceIntro ?? episode.narrator.serviceIntro ?? ''
+    case 'celebIntro': return tts?.narrator?.celebIntro ?? episode.narrator.celebIntro ?? ''
+    case 'philosophy': return tts?.host?.philosophy ?? episode.host.philosophy ?? ''
+    case 'returnIntro': return tts?.narrator?.returnIntro ?? episode.narrator.returnIntro ?? ''
+    case 'prevRecap': return tts?.narrator?.prevRecap ?? episode.narrator.prevRecap ?? ''
     case 'outro': return tts?.narrator?.outro ?? episode.narrator.outro
     default: throw new Error(`Unknown field: ${field}`)
   }
@@ -223,21 +231,46 @@ type Job = { file: string; voice: Voice; text: string; role: Role }
 function buildJobs(): Job[] {
   const jobs: Job[] = []
 
-  // 섹션 라벨 (1회 생성, 모든 책에서 재활용)
-  jobs.push({ file: 'label-summary.wav', voice: VOICE.narrator, text: '핵심 요약', role: 'narrator' })
-  jobs.push({ file: 'label-context.wav', voice: VOICE.narrator, text: '추천 및 감상경위', role: 'narrator' })
+  // 섹션 라벨 — common/ 에 있으면 건너뜀
+  if (!COMMON_FILES.has('label-summary.wav')) {
+    jobs.push({ file: 'label-summary.wav', voice: VOICE.narrator, text: '핵심 요약', role: 'narrator' })
+  }
+  if (!COMMON_FILES.has('label-context.wav')) {
+    jobs.push({ file: 'label-context.wav', voice: VOICE.narrator, text: '추천 및 감상경위', role: 'narrator' })
+  }
 
-  // 서비스 인트로 (템플릿 자동 생성)
-  const serviceIntroText = `안녕하세요, 필앤노트입니다. 서재 탐방 코너에서는 한 인물의 서재를 열어, 그들이 사랑한 것들과 그 이유를 소개합니다. 오늘 함께할 인물은 ${episode.host.nickname}입니다.`
-  jobs.push({ file: 'service-intro.wav', voice: VOICE.narrator, text: serviceIntroText, role: 'narrator' })
-  // 대표 명언 (셀럽 목소리)
+  const cont = (episode.series?.part ?? 1) > 1
+
+  if (cont) {
+    // continuation: returnIntro + prevRecap
+    if (episode.narrator.returnIntro) {
+      jobs.push({ file: 'return-intro.wav', voice: VOICE.narrator, text: ttsText('returnIntro'), role: 'narrator' })
+    }
+    if (episode.narrator.prevRecap) {
+      jobs.push({ file: 'prev-recap.wav', voice: VOICE.narrator, text: ttsText('prevRecap'), role: 'narrator' })
+    }
+  } else {
+    // Part 1: 서비스 인트로 — parts 분할 또는 단일 (common/ 재사용)
+    const greetParts = episode.narrator.serviceGreetingParts
+    if (greetParts && greetParts.length > 0) {
+      for (let gi = 0; gi < greetParts.length; gi++) {
+        jobs.push({ file: `service-greeting-${gi + 1}.wav`, voice: VOICE.narrator, text: greetParts[gi].text, role: 'narrator' })
+      }
+    } else if (!COMMON_FILES.has('service-greeting.wav')) {
+      jobs.push({ file: 'service-greeting.wav', voice: VOICE.narrator, text: ttsText('serviceGreeting'), role: 'narrator' })
+    }
+    jobs.push({ file: 'service-intro.wav', voice: VOICE.narrator, text: ttsText('serviceIntro'), role: 'narrator' })
+    // 나레이터 셀럽 소개
+    jobs.push({ file: 'narrator-celeb-intro.wav', voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator' })
+    // 셀럽 감상철학
+    if (episode.host.philosophy) {
+      jobs.push({ file: 'philosophy.wav', voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb' })
+    }
+  }
+  // 대표 명언 (셀럽 목소리, 공통)
   if (episode.host.featuredQuote) {
     jobs.push({ file: 'featured-quote.wav', voice: VOICE.celeb, text: episode.host.featuredQuote, role: 'celeb' })
   }
-  // 나레이터 셀럽 소개
-  jobs.push({ file: 'narrator-celeb-intro.wav', voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator' })
-  // 셀럽 감상철학
-  jobs.push({ file: 'philosophy.wav', voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb' })
 
   // 도서별
   for (let i = 0; i < episode.books.length; i++) {
@@ -299,7 +332,12 @@ function manifestDir(_job: Job): string {
 async function main() {
   // 에피소드 로드
   episode = await loadEpisode(EPISODE_NAME)
+  // 셀럽 보이스 오버라이드 (geminiVoice → voice-actors.md 참조)
+  if (episode.host.geminiVoice) {
+    VOICE.celeb = episode.host.geminiVoice
+  }
   console.log(`에피소드: ${EPISODE_NAME}`)
+  if (VOICE.celeb !== 'Puck') console.log(`셀럽 보이스: ${VOICE.celeb}`)
 
   await mkdir(OUT_DIR, { recursive: true })
 
@@ -406,6 +444,17 @@ async function main() {
     for (const [file, dur] of Object.entries(results)) {
       const rounded = Math.round(dur * 100) / 100
 
+      if (file === 'service-greeting.wav') { json.narrator.serviceGreetingDuration = rounded; continue }
+      const greetPartMatch = file.match(/^service-greeting-(\d+)\.wav$/)
+      if (greetPartMatch && json.narrator.serviceGreetingParts) {
+        const gi = parseInt(greetPartMatch[1]) - 1
+        if (json.narrator.serviceGreetingParts[gi]) {
+          json.narrator.serviceGreetingParts[gi].duration = rounded
+          // 총 duration 갱신
+          json.narrator.serviceGreetingDuration = json.narrator.serviceGreetingParts.reduce((s: number, p: { duration: number }) => s + p.duration, 0)
+        }
+        continue
+      }
       if (file === 'service-intro.wav') { json.narrator.serviceIntroDuration = rounded; continue }
       if (file === 'narrator-celeb-intro.wav') { json.narrator.celebIntroDuration = rounded; continue }
       if (file === 'philosophy.wav') { json.host.voiceDuration = rounded; continue }
@@ -413,6 +462,8 @@ async function main() {
       if (file === 'featured-quote.wav') { json.host.featuredQuoteDuration = rounded; continue }
       if (file === 'label-summary.wav') { json.narrator.labelSummaryDuration = rounded; continue }
       if (file === 'label-context.wav') { json.narrator.labelContextDuration = rounded; continue }
+      if (file === 'return-intro.wav') { json.narrator.returnIntroDuration = rounded; continue }
+      if (file === 'prev-recap.wav') { json.narrator.prevRecapDuration = rounded; continue }
       if (file === 'interlude.wav' && json.narrator.interludeDuration !== undefined) { json.narrator.interludeDuration = rounded; continue }
       // 쇼츠 세그먼트: short-{id}.wav → segments[].duration
       const shortMatch = file.match(/^short-(.+)\.wav$/)
@@ -439,6 +490,19 @@ async function main() {
 
     await writeFile(jsonPath, JSON.stringify(json, null, 2) + '\n', 'utf-8')
     console.log(`\n✓ ${EPISODE_NAME}.json duration 자동 반영 완료`)
+  }
+
+  // --upload: 생성 후 R2 자동 업로드
+  if (args.includes('--upload')) {
+    console.log(`\nR2 업로드 시작...`)
+    const pnpmCmd = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
+    await new Promise<void>((resolve, reject) => {
+      execFile(pnpmCmd, ['voice:upload', '--', '--episode', EPISODE_NAME], { cwd: ROOT }, (err, stdout, stderr) => {
+        if (stdout) console.log(stdout)
+        if (stderr) console.error(stderr)
+        if (err) reject(err); else resolve()
+      })
+    })
   }
 }
 

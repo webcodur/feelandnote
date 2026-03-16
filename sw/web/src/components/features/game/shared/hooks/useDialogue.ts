@@ -31,6 +31,8 @@ export interface DialogueSubtitleData {
   audioUrl?: string | null;
   /** 대사 종류 (UI 라벨 표시용) */
   label?: DialogueLabel;
+  /** 음성 재생 속도 (기본 1.0) */
+  voiceSpeed?: number;
 }
 
 /** showDialogue 호출 시 자막에 표시할 캐릭터 정보 */
@@ -50,6 +52,8 @@ interface UseDialogueOptions {
   voiceCelebIds?: Set<string>;
   /** 인물별 voice_v Map (CDN 캐시 버스터) */
   voiceVersions?: Map<string, number>;
+  /** 인물별 음성 재생 속도 Map */
+  voiceSpeeds?: Map<string, number>;
 }
 
 import { useGlobalDialogue } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
@@ -59,7 +63,7 @@ export function useDialogueSubtitle() {
   return useGlobalDialogue();
 }
 
-export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions }: UseDialogueOptions) {
+export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions, voiceSpeeds }: UseDialogueOptions) {
   const keyCounter = useRef(0);
   const locale = useLocale() as Locale;
   /** 직전 사용 인덱스 기록 (키: "celebId:type" 또는 "default:key:tone") */
@@ -96,6 +100,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         avatarUrl: meta?.avatarUrl,
         audioUrl: hasVoice ? getVoiceUrl(celebId, locale, type, index + 1, voiceVersions?.get(celebId)) : null,
         label: type as DialogueLabel,
+        voiceSpeed: voiceSpeeds?.get(celebId),
       });
       return;
     }
@@ -114,7 +119,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
         label: type as DialogueLabel,
       });
     }
-  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions, locale]);
+  }, [sfxMutedRef, onSubtitle, personalDialogues, voiceCelebIds, voiceVersions, voiceSpeeds, locale]);
 
   /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
   const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {

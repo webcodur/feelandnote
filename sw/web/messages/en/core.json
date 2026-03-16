@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Feel&Note - Celebrity Book & Movie Recommendations",
-    "description": "Discover books, movies, music, and games recommended by celebrities. Explore reading lists and cultural tastes of 1,000+ historical and modern figures.",
-    "twitterDescription": "Celebrity-recommended books, movies, and music. Explore reading lists of 1,000+ notable figures."
+    "title": "Feel&Note - One Line Recorded, A Thousand Years Echoed",
+    "description": "Discover what great minds read, watched, and listened to. Explore the records and echoes of 1,000+ notable figures.",
+    "twitterDescription": "One line recorded, a thousand years echoed. A cultural archive of 1,000+ great minds."
   },
   "notFound": {
     "title": "Page Not Found",
@@ -36,7 +36,7 @@
       "label": "Change language"
     },
     "footer": {
-      "tagline": "Build your archives and curate your taste."
+      "tagline": "One line recorded, a thousand years echoed."
     }
   },
   "pages": {
@@ -426,19 +426,19 @@
     "feelDesc1": "Sensation is intuitive.",
     "feelDesc2": "The joy, sorrow, and shock we feel when we experience something",
     "feelDesc3": "are the most honest reactions.",
-    "feelDesc4": "Don't turn away from those raw emotions.",
+    "feelDesc4": "Don't let that echo fade away.",
     "noteTitle": "Note",
     "noteDesc1": "Recording is rational.",
     "noteDesc2": "It's the process of capturing fleeting emotions in words",
     "noteDesc3": "and sculpting them into tangible form.",
-    "noteDesc4": "Only recorded emotions become wisdom.",
+    "noteDesc4": "A single recorded line echoes for a thousand years.",
     "promise1": "Feel&Note hopes",
-    "promise2": "your fleeting impressions remain as",
-    "promiseHighlight": "enduring wisdom",
+    "promise2": "your single line becomes",
+    "promiseHighlight": "an echo across the ages",
     "promise3": ".",
-    "epilogue1": "This is not just a notebook.",
+    "epilogue1": "This is not just a journal.",
     "epilogue2": "It is a temple of wisdom",
-    "epilogue3": "where your taste becomes history",
+    "epilogue3": "where your single line becomes history",
     "epilogue4": "and your reflections become legacy.",
     "fromBuilders": "From the Builders of",
     "teamName": "Feel&Note Team"

@@ -3,6 +3,7 @@ packages:
   - 'sw/web-bo'
   - 'sw/lab'
   - 'sw/remotion'
+  - 'sw/remotion-bo'
   - 'packages/*'
 onlyBuiltDependencies:
   - '@parcel/watcher'

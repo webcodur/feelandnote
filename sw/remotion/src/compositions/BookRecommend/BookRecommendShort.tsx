@@ -11,20 +11,30 @@
  * @see docs/project/shorts-design.md
  */
 import React, { useEffect } from 'react'
-import { AbsoluteFill, Audio, Img, interpolate, prefetch, Sequence, spring, useCurrentFrame, useVideoConfig } from 'remotion'
+import { AbsoluteFill, Audio, getRemotionEnvironment, Img, prefetch, Sequence, Series, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { BookRecommendScript, ShortSegment } from './types'
-import { safeImg, fadeInOut, BrandLogo, sf, makeVf } from './utils'
+import { safeImg, fadeInOut, BrandLogo, BRAND_LOGO_SIZE, sf, makeVf } from './utils'
 import { FONT } from './fonts'
-import { toFrames, SHORT_GAP, SHORT_FALLBACK, SHORT_BRAND_FRAMES, SHORT_LOGO_FRAMES, shortTotalFrames } from './timing'
-import { EPISODE_NAME, loadVoiceSelect } from './script'
+import { toFrames, SHORT_GAP, SHORT_FALLBACK, SHORT_BRAND_FRAMES, SHORT_LOGO_FRAMES, shortTotalFrames, FPS, f } from './timing'
+import { KoreanTypewriter } from './KoreanTypewriter'
+import { EPISODE_NAME, loadVoiceSelect, isVoiceReady } from './script'
 
-
-const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
 /** 상단 20% = 384px, 하단 40% = 768px — 플랫폼 메타데이터 회피 */
 const SAFE_TOP = 384
 const SAFE_BOTTOM = 768
 const SAFE_PAD = `${SAFE_TOP}px 80px ${SAFE_BOTTOM}px`
+
+/** 쇼츠 아바타 크기 */
+const AVATAR = 200
+/** 아바타 공통 스타일 */
+const avatarStyle = {
+  width: AVATAR, height: AVATAR, borderRadius: '50%', overflow: 'hidden' as const,
+  border: '3px solid rgba(200,164,110,0.35)',
+  boxShadow: '0 16px 50px rgba(0,0,0,0.5)',
+}
+/** 쇼츠 책 표지 크기 */
+const COVER = { w: 240, h: 360 } as const
 
 /** 쇼츠 텍스트 크기 (1080×1920, 콘텐츠 영역 768px 기준) */
 const SHORTS = {
@@ -37,13 +47,11 @@ const SHORTS = {
   /** 셀럽 독백·인용 (골드) */
   quote: 40,
   /** 나레이터 본문 */
-  body: 32,
+  body: 38,
   /** 책 설명 (표지 아래) */
   caption: 30,
   /** CTA 나레이터 */
   cta: 36,
-  /** 로고 */
-  logo: 42,
 } as const
 
 type Props = { script: BookRecommendScript; episodeName?: string }
@@ -59,6 +67,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
   const epName = episodeName ?? EPISODE_NAME
   const vf = makeVf(epName, loadVoiceSelect(epName))
   const { host, books } = script
+  const hasVoice = isVoiceReady(script)
   const bi = script.shorts?.featuredBookIndex ?? 0
   const book = books[bi]
   const segments = script.shorts?.segments ?? []
@@ -86,6 +95,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
 
   // --- 프리페치 ---
   useEffect(() => {
+    if (!hasVoice) return
     const urls = [
       sf('sfx/whoosh.wav'), sf('sfx/chime.wav'),
       sf(`images/${epName}/book-${bi}-summary.png`),
@@ -96,7 +106,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
       return free
     })
     return () => cleanups.forEach(fn => fn())
-  }, [segments.length])
+  }, [segments.length, hasVoice])
 
   // --- 세그먼트 opacity ---
   const segOp = (i: number) => fadeInOut(frame, segStarts[i], segTimings[i])
@@ -106,7 +116,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
   const bookSegIdx = segments.findIndex(s => s.visual === 'book')
   const bookStart = bookSegIdx >= 0 ? segStarts[bookSegIdx] : 0
   const coverScale = spring({
-    frame: Math.max(0, frame - bookStart - 3), fps,
+    frame: Math.max(0, frame - bookStart - f(0.1)), fps,
     config: { damping: 14, stiffness: 140 },
   })
 
@@ -127,11 +137,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
             alignItems: 'center', justifyContent: 'center',
             gap: 32, padding: SAFE_PAD,
           }}>
-            <div style={{
-              width: 140, height: 140, borderRadius: '50%', overflow: 'hidden',
-              border: '3px solid rgba(200,164,110,0.35)',
-              boxShadow: '0 16px 50px rgba(0,0,0,0.5)',
-            }}>
+            <div style={avatarStyle}>
               <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div style={{
@@ -151,11 +157,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
             alignItems: 'center', justifyContent: 'center',
             gap: 20, padding: SAFE_PAD,
           }}>
-            <div style={{
-              width: 160, height: 160, borderRadius: '50%', overflow: 'hidden',
-              border: '3px solid rgba(200,164,110,0.35)',
-              boxShadow: '0 16px 50px rgba(0,0,0,0.5)',
-            }}>
+            <div style={avatarStyle}>
               <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             {/* 이름 — narrator 세그먼트일 때만 */}
@@ -164,19 +166,28 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
                 <div style={{ color: '#e8e0d0', fontSize: SHORTS.name, fontWeight: 700, fontFamily: FONT.sans }}>
                   {host.nickname}
                 </div>
-                <div style={{ color: '#666', fontSize: SHORTS.meta, fontFamily: FONT.cormorant, letterSpacing: 3 }}>
+                <div style={{ color: '#c8a46e', fontSize: 28, fontWeight: 700, fontFamily: FONT.cormorant, letterSpacing: 5 }}>
                   {host.nickname_en}
                 </div>
               </div>
             )}
             <div style={{
-              color: textColor, fontSize: isCeleb ? SHORTS.quote : SHORTS.body,
-              fontWeight: isCeleb ? 700 : 400,
-              fontFamily: isCeleb ? FONT.serif : FONT.sans,
-              textAlign: 'center', lineHeight: 1.7, maxWidth: 860,
-              ...(isCeleb ? { borderLeft: '4px solid rgba(200,164,110,0.4)', paddingLeft: 24, textAlign: 'left' as const } : {}),
+              maxWidth: 860,
+              ...(isCeleb ? { borderLeft: '4px solid rgba(200,164,110,0.4)', paddingLeft: 24 } : {}),
             }}>
-              {seg.text}
+              <KoreanTypewriter
+                text={seg.text}
+                startFrame={segStarts[i]}
+                spreadFrames={seg.duration ? Math.ceil(seg.duration * FPS) : SHORT_FALLBACK}
+                color={textColor}
+                fontSize={isCeleb ? SHORTS.quote : SHORTS.body}
+                style={{
+                  fontFamily: isCeleb ? FONT.serif : FONT.sans,
+                  fontWeight: isCeleb ? 700 : 400,
+                  textAlign: isCeleb ? 'left' : 'center',
+                  lineHeight: 1.7,
+                }}
+              />
             </div>
           </AbsoluteFill>
         )
@@ -191,18 +202,21 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
           }}>
             <div style={{ transform: `scale(${coverScale})`, marginBottom: 24 }}>
               <div style={{
-                width: 240, height: 360, borderRadius: 12, overflow: 'hidden',
+                width: COVER.w, height: COVER.h, borderRadius: 12, overflow: 'hidden',
                 boxShadow: '0 24px 60px rgba(0,0,0,0.7), 0 0 50px rgba(200,164,110,0.1)',
               }}>
                 <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </div>
-            <div style={{
-              color: '#e8e0d0', fontSize: SHORTS.caption,
-              fontFamily: FONT.sans, textAlign: 'center',
-              lineHeight: 1.8, maxWidth: 880,
-            }}>
-              {seg.text}
+            <div style={{ maxWidth: 880, textAlign: 'center' }}>
+              <KoreanTypewriter
+                text={seg.text}
+                startFrame={segStarts[i]}
+                spreadFrames={seg.duration ? Math.ceil(seg.duration * FPS) : SHORT_FALLBACK}
+                color="#e8e0d0"
+                fontSize={SHORTS.caption}
+                style={{ fontFamily: FONT.sans, lineHeight: 1.8 }}
+              />
             </div>
           </AbsoluteFill>
         )
@@ -216,22 +230,24 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
             gap: 24, padding: SAFE_PAD,
           }}>
             {isCeleb && (
-              <div style={{
-                width: 100, height: 100, borderRadius: '50%', overflow: 'hidden',
-                border: '2px solid rgba(200,164,110,0.3)',
-                boxShadow: '0 10px 36px rgba(0,0,0,0.5)',
-              }}>
+              <div style={avatarStyle}>
                 <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
-            <div style={{
-              color: isCeleb ? '#c8a46e' : '#ccc',
-              fontSize: isCeleb ? SHORTS.quote : SHORTS.cta,
-              fontWeight: isCeleb ? 700 : 400,
-              fontFamily: isCeleb ? FONT.serif : FONT.sans,
-              textAlign: 'center', lineHeight: 1.65, maxWidth: 860,
-            }}>
-              {seg.text}
+            <div style={{ maxWidth: 860 }}>
+              <KoreanTypewriter
+                text={seg.text}
+                startFrame={segStarts[i]}
+                spreadFrames={seg.duration ? Math.ceil(seg.duration * FPS) : SHORT_FALLBACK}
+                color={isCeleb ? '#c8a46e' : '#ccc'}
+                fontSize={isCeleb ? SHORTS.quote : SHORTS.cta}
+                style={{
+                  fontFamily: isCeleb ? FONT.serif : FONT.sans,
+                  fontWeight: isCeleb ? 700 : 400,
+                  textAlign: 'center',
+                  lineHeight: 1.65,
+                }}
+              />
             </div>
           </AbsoluteFill>
         )
@@ -241,63 +257,147 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
     }
   }
 
-  // --- 자막 ---
+  // --- 자막 (문장 단위) ---
+  const BREATH = f(0.27)
   const currentSeg = segments.findIndex((_, i) =>
     frame >= segStarts[i] && frame < segStarts[i] + segTimings[i]
   )
-  const subText = currentSeg >= 0 ? segments[currentSeg].text : ''
+  const subText = (() => {
+    if (currentSeg < 0) return ''
+    const seg = segments[currentSeg]
+    const localFrame = frame - segStarts[currentSeg]
+    const audioDur = seg.duration ? Math.ceil(seg.duration * FPS) : SHORT_FALLBACK
+    const sentences = seg.text.split(/(?<=[.?!。,])\s+/).filter(Boolean)
+    if (sentences.length <= 1) return seg.text
+    const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
+    const breathTotal = (sentences.length - 1) * BREATH
+    const distributable = Math.max(audioDur - breathTotal, audioDur * 0.7)
+    let cursor = 0
+    for (const s of sentences) {
+      const frames = Math.round((s.length / totalChars) * distributable)
+      if (localFrame >= cursor && localFrame < cursor + frames + BREATH) return s
+      cursor += frames + BREATH
+    }
+    return sentences[sentences.length - 1]
+  })()
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#0a0a0a' }}>
       {/* 배경 이미지 — 롱폼 summary 이미지 재활용 */}
       <Img src={sf(`images/${epName}/book-${bi}-summary.png`)} style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
-        objectFit: 'cover', filter: 'brightness(0.15) saturate(0.4)',
+        objectFit: 'cover', filter: 'brightness(0.4) saturate(0.6)',
       }} />
-      <AbsoluteFill style={{ background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.6) 0%, rgba(10,10,10,0.9) 70%)' }} />
+      <AbsoluteFill style={{ background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.3) 0%, rgba(10,10,10,0.6) 70%)' }} />
 
-      {/* 오디오 */}
-      {segments.map((seg, i) => (
-        <Sequence key={seg.id} from={segStarts[i]} durationInFrames={segTimings[i]}>
-          {i === 0 && <Audio src={sf('sfx/whoosh.wav')} volume={0.1} />}
-          <Audio src={vf(`short-${seg.id}.wav`)} />
-        </Sequence>
-      ))}
-      {/* 채널 안내 — hook 직후 */}
-      <Sequence from={brandStart} durationInFrames={SHORT_BRAND_FRAMES}>
-        <Audio src={sf('sfx/chime.wav')} volume={0.5} />
-      </Sequence>
+      {/* 오디오 — Series로 순차 배치 — 음성 미준비 시 통째로 스킵 */}
+      {hasVoice && (
+        <Series>
+          {segments.map((seg, i) => (
+            <React.Fragment key={seg.id}>
+              <Series.Sequence durationInFrames={segTimings[i]} offset={i > 0 ? SHORT_GAP : 0}>
+                {i === 0 && <Audio src={sf('sfx/whoosh.wav')} volume={0.1} />}
+                <Audio src={vf(`short-${seg.id}.wav`)} />
+              </Series.Sequence>
+              {i === 0 && (
+                <Series.Sequence durationInFrames={SHORT_BRAND_FRAMES} offset={SHORT_GAP}>
+                  <Audio src={sf('sfx/chime.wav')} volume={0.5} />
+                </Series.Sequence>
+              )}
+            </React.Fragment>
+          ))}
+          <Series.Sequence durationInFrames={SHORT_LOGO_FRAMES} offset={SHORT_GAP}>
+            <Audio src={sf('sfx/chime.wav')} volume={0.5} />
+          </Series.Sequence>
+        </Series>
+      )}
       {fadeInOut(frame, brandStart, SHORT_BRAND_FRAMES) > 0 && (
         <AbsoluteFill style={{
           opacity: fadeInOut(frame, brandStart, SHORT_BRAND_FRAMES),
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: SAFE_PAD,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'flex-end',
+          padding: `${SAFE_TOP}px 80px ${SAFE_BOTTOM + 120}px`,
         }}>
-          <BrandLogo fontSize={SHORTS.logo} />
+          {/* 제목 — 상단 강조 */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, marginBottom: 48 }}>
+            <div style={{ color: '#c8a46e', fontSize: SHORTS.headline, fontWeight: 800, fontFamily: FONT.serif, textAlign: 'center', lineHeight: 1.4 }}>
+              {host.nickname}의 서재를 함께한
+            </div>
+            <div style={{ color: '#e8e0d0', fontSize: SHORTS.headline + 8, fontWeight: 800, fontFamily: FONT.serif }}>
+              {books.length}권의 책
+            </div>
+          </div>
+          {/* 로고 — 하단 */}
+          <BrandLogo fontSize={BRAND_LOGO_SIZE} />
         </AbsoluteFill>
       )}
-      <Sequence from={logoStart} durationInFrames={SHORT_LOGO_FRAMES}>
-        <Audio src={sf('sfx/chime.wav')} volume={0.5} />
-      </Sequence>
-
       {/* 비주얼 */}
       {segments.map((seg, i) => renderVisual(seg, i))}
 
-      {/* 로고 */}
+      {/* 로고 + 안내 문구 */}
       {logoOp > 0 && (
         <AbsoluteFill style={{
           opacity: logoOp,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: SAFE_PAD,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          gap: 32, padding: SAFE_PAD,
         }}>
-          <BrandLogo fontSize={SHORTS.logo} />
+          <BrandLogo fontSize={BRAND_LOGO_SIZE} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+            <div style={{ color: '#e8e0d0', fontSize: 26, fontFamily: FONT.sans, fontWeight: 600 }}>
+              한 줄의 기록, 천 년의 울림
+            </div>
+            <div style={{ color: '#999', fontSize: 20, fontFamily: FONT.sans }}>
+              더 많은 서재 탐방은 프로필에서
+            </div>
+          </div>
         </AbsoluteFill>
       )}
 
-      {/* 하단 자막 — 비활성화 */}
-      {/* {subText && (
+      {/* 스튜디오 전용 디버그 라벨 — 렌더 시 미포함 */}
+      {!getRemotionEnvironment().isRendering && (() => {
+        const brandActive = frame >= brandStart && frame < brandStart + SHORT_BRAND_FRAMES
+        const logoActive = frame >= logoStart && frame < logoStart + SHORT_LOGO_FRAMES
+        // 세그먼트 번호 (brand/logo 제외, 1부터)
+        const segNum = currentSeg >= 0 ? currentSeg + 1 : 0
+        const totalSegs = segments.length
+        let label = '—'
+        let sub = ''
+        if (brandActive) {
+          label = 'BRAND'
+          sub = 'hook → intro 사이'
+        } else if (logoActive) {
+          label = 'LOGO'
+          sub = '엔딩'
+        } else if (currentSeg >= 0) {
+          const seg = segments[currentSeg]
+          const names: Record<string, string> = {
+            hook: 'HOOK',
+            intro: seg.role === 'celeb' ? '독백' : 'INTRO',
+            book: 'BOOK',
+            cta: 'CTA',
+          }
+          label = `${segNum}/${totalSegs}  ${names[seg.visual] ?? seg.visual}`
+          sub = seg.role === 'celeb' ? '셀럽' : '나레이터'
+        }
+        return (
+          <div style={{
+            position: 'absolute', top: 24, right: 24, zIndex: 999,
+            backgroundColor: 'rgba(0,0,0,0.85)', borderRadius: 10,
+            padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 6,
+          }}>
+            <div style={{ color: '#c8a46e', fontSize: 36, fontFamily: 'monospace', fontWeight: 700 }}>
+              {label}
+            </div>
+            {sub && <div style={{ color: '#aaa', fontSize: 24, fontFamily: 'monospace' }}>{sub}</div>}
+          </div>
+        )
+      })()}
+
+      {/* 하단 자막 */}
+      {subText && (
         <div style={{
-          position: 'absolute', bottom: SAFE_BOTTOM + 12, left: 60, right: 60,
+          position: 'absolute', bottom: SAFE_BOTTOM - 80, left: 60, right: 60,
           display: 'flex', justifyContent: 'center', zIndex: 50,
         }}>
           <div style={{
@@ -313,7 +413,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </AbsoluteFill>
   )
 }

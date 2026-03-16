@@ -1,4 +1,7 @@
 import { interpolate, useCurrentFrame } from 'remotion'
+import { f, FPS } from './timing'
+
+type Segment = { start: number; end: number }
 
 type Props = {
   text: string
@@ -7,13 +10,11 @@ type Props = {
   color: string
   fontSize: number
   style?: React.CSSProperties
+  /** 파형 분석 기반 타이밍 (voiceTimings에서 전달) */
+  timings?: Segment[]
 }
 
-/** 문장 간 호흡 프레임 */
-const SENTENCE_BREATH = 8
-/** 상태 전환 보간 프레임 */
-const FADE = 8
-
+const FADE = f(0.27)
 const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
 export const KoreanTypewriter: React.FC<Props> = ({
@@ -23,23 +24,22 @@ export const KoreanTypewriter: React.FC<Props> = ({
   color,
   fontSize,
   style,
+  timings,
 }) => {
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
 
-  const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean)
-  const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
-  const breathTotal = (sentences.length - 1) * SENTENCE_BREATH
-  const distributableFrames = Math.max(spreadFrames - breathTotal, spreadFrames * 0.7)
+  const sentences = text.split(/(?<=[.?!,])\s+/).filter(Boolean)
 
-  let cursor = 0
-  const ranges = sentences.map((s, i) => {
-    if (i > 0) cursor += SENTENCE_BREATH
-    const frames = Math.max(1, Math.round((s.length / totalChars) * distributableFrames))
-    const start = cursor
-    cursor += frames
-    return { start, end: start + frames }
-  })
+  // timings가 있고 문장 수와 일치하면 파형 타이밍 사용
+  const hasTimings = timings && timings.length === sentences.length
+
+  const ranges = hasTimings
+    ? timings!.map(t => ({
+        start: Math.round(t.start * FPS),
+        end: Math.round(t.end * FPS),
+      }))
+    : buildFromChars(sentences, spreadFrames)
 
   return (
     <div
@@ -52,15 +52,14 @@ export const KoreanTypewriter: React.FC<Props> = ({
       }}
     >
       {sentences.map((sentence, i) => {
-        const r = ranges[i]
-        // 단일 연속 커브: 미래(0.2) → 현재(1.0) → 과거(0.55)
-        const opacity = interpolate(elapsed,
-          [r.start - FADE, r.start, r.end, r.end + FADE],
-          [0.2, 1, 1, 0.55], CL)
-        // 하이라이트: 현재 구간에서만 1, 나머지 0 — 부드럽게 전환
-        const highlight = interpolate(elapsed,
-          [r.start - FADE, r.start, r.end, r.end + FADE],
-          [0, 1, 1, 0], CL)
+        const r = ranges[Math.min(i, ranges.length - 1)]
+        // 단조 증가 보장: duration 짧을 때 r.end가 r.start+1 이하가 될 수 있음
+        const s0 = r.start
+        const s1 = s0 + 1
+        const s2 = Math.max(r.end, s1 + 1)
+        const s3 = s2 + FADE
+        const opacity = interpolate(elapsed, [s0, s1, s2, s3], [0.35, 1, 1, 0.55], CL)
+        const highlight = interpolate(elapsed, [s0, s1, s2, s3], [0, 1, 1, 0], CL)
 
         return (
           <span key={i}>
@@ -73,4 +72,21 @@ export const KoreanTypewriter: React.FC<Props> = ({
       })}
     </div>
   )
+}
+
+/** 글자 수 비례 폴백 */
+function buildFromChars(sentences: string[], spreadFrames: number): { start: number; end: number }[] {
+  const BREATH = f(0.27)
+  const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
+  const breathTotal = (sentences.length - 1) * BREATH
+  const distributable = Math.max(spreadFrames - breathTotal, spreadFrames * 0.7)
+
+  let cursor = 0
+  return sentences.map((s, i) => {
+    if (i > 0) cursor += BREATH
+    const frames = Math.max(1, Math.round((s.length / totalChars) * distributable))
+    const start = cursor
+    cursor += frames
+    return { start, end: start + frames }
+  })
 }

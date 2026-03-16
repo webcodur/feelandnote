@@ -2,7 +2,7 @@ import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remot
 import type { CelebHost } from './types'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from './fonts'
-import { toAudioFrames, CELEB_VISUAL_DELAY } from './timing'
+import { toAudioFrames, CELEB_VISUAL_DELAY, f } from './timing'
 
 type Props = {
   host: CelebHost
@@ -18,7 +18,7 @@ type Props = {
 }
 
 /**
- * Sections 1+2 통합 — BookCard 스타일 좌우 레이아웃
+ * Sections 1+2 통합 — 좌우 레이아웃
  * 좌측: 아바타 (항상 유지)
  * 우측 Phase 1: "서재 탐방" + 이름 + biography (나레이터)
  * 우측 Phase 2: 감상철학 (셀럽 본인)
@@ -32,21 +32,21 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
   const phase2Frames = totalFrames - celebIntroFrames
 
   // --- 등장 애니메이션 ---
-  const avatarEnter = spring({ frame: Math.max(0, frame - 5), fps, config: { damping: 14, stiffness: 160 } })
-  const avatarY = interpolate(frame, [0, 15], [30, 0], { extrapolateRight: 'clamp' })
-  const infoOpacity = interpolate(frame, [15, 30], [0, 1], { extrapolateRight: 'clamp' })
-  const bioTextOpacity = interpolate(frame, [40, 55], [0, 1], { extrapolateRight: 'clamp' })
+  const avatarEnter = spring({ frame: Math.max(0, frame - f(0.17)), fps, config: { damping: 14, stiffness: 160 } })
+  const avatarY = interpolate(frame, [0, f(0.5)], [30, 0], { extrapolateRight: 'clamp' })
+  const infoOpacity = interpolate(frame, [f(0.5), f(1)], [0, 1], { extrapolateRight: 'clamp' })
+  const bioTextOpacity = interpolate(frame, [f(1.33), f(1.83)], [0, 1], { extrapolateRight: 'clamp' })
 
   // --- Phase 전환: bio fadeOut → 감상철학 fadeIn ---
   const phase1TextOpacity = inPhase1
     ? bioTextOpacity
-    : interpolate(phase2Local, [0, 25], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+    : interpolate(phase2Local, [0, f(0.83)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   const phase2FadeIn = !inPhase1
-    ? interpolate(phase2Local, [15, 45], [0, 1], { extrapolateRight: 'clamp' })
+    ? interpolate(phase2Local, [f(1), f(1.5)], [0, 1], { extrapolateRight: 'clamp' })
     : 0
 
   // --- 전체 페이드아웃 ---
-  const fadeOut = interpolate(frame, [totalFrames - 30, totalFrames], [1, 0], {
+  const fadeOut = interpolate(frame, [totalFrames - f(1), totalFrames], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   })
@@ -61,14 +61,14 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
           left: 0,
           right: 0,
           padding: '40px 120px 0',
-          opacity: interpolate(frame, [5, 20], [0, 1], { extrapolateRight: 'clamp' }),
+          opacity: interpolate(frame, [f(0.17), f(0.67)], [0, 1], { extrapolateRight: 'clamp' }),
         }}
       >
         <div style={{ fontFamily: FONT.sans }}>
           <KoreanTypewriter
             text="서재 탐방"
-            startFrame={5}
-            spreadFrames={25}
+            startFrame={f(0.17)}
+            spreadFrames={f(0.83)}
             color="#c8a46e"
             fontSize={16}
             style={{ fontWeight: 600, letterSpacing: 6 }}
@@ -135,7 +135,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             </div>
             <div
               style={{
-                width: interpolate(frame, [25, 45], [0, 400], { extrapolateRight: 'clamp' }),
+                width: interpolate(frame, [f(0.83), f(1.5)], [0, 400], { extrapolateRight: 'clamp' }),
                 height: 1,
                 backgroundColor: '#c8a46e',
                 opacity: 0.3,
@@ -173,8 +173,8 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
               >
                 <div style={{ borderLeft: '3px solid rgba(200,164,110,0.4)', paddingLeft: 20, fontFamily: FONT.serif }}>
                   <KoreanTypewriter
-                    text={host.philosophy}
-                    startFrame={celebIntroFrames + 5}
+                    text={host.philosophy ?? ''}
+                    startFrame={celebIntroFrames + f(1)}
                     spreadFrames={toAudioFrames(philosophyDuration)}
                     color="#e8e0d0"
                     fontSize={24}

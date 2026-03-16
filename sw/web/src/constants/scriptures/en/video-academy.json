@@ -660,7 +660,7 @@
         {
           "title": "Aspect Ratio — The Shape of the Frame",
           "contentMarkdown": "**Aspect ratio** is the proportional relationship between the frame's width and height. This ratio fundamentally alters the mood of an image.\n\n- **16:9** — The current standard for TV, YouTube, and streaming. Width is roughly 1.78 times the height. Universal and familiar.\n- **2.39:1 (CinemaScope)** — The wide ratio of theatrical cinema. Its horizontal stretch emphasizes vast landscapes and epic scale. *Mad Max: Fury Road* and *Blade Runner 2049* use this ratio.\n- **4:3 (1.33:1)** — The classic TV and early cinema ratio. Nearly square, with more vertical space that gives characters a stronger presence. *The Grand Budapest Hotel* switches aspect ratios across eras as a deliberate storytelling device.\n\nAspect ratio is not a technical decision — it is an **aesthetic one**. The same landscape shot in 2.39:1 feels grand; shot in 4:3, it feels intimate.",
-          "imageUrl": "TODO: Comparison of the same scene in 16:9, 2.39:1, and 4:3 aspect ratios",
+          "imageUrl": "/images/scriptures/video/video-academy/video-aspect-ratio-comparison.png",
           "imageAlt": "The same scene compared across three aspect ratios",
           "exampleId": null
         },
@@ -672,7 +672,7 @@
         {
           "title": "Negative Space",
           "contentMarkdown": "**Negative space** is the empty area in the frame that the subject does not occupy. Empty does not mean useless. Intentional emptiness creates powerful meaning.\n\nEffects of negative space:\n- **Isolation and loneliness** — A small figure surrounded by vast emptiness amplifies solitude.\n- **Tension** — Empty space suggests that something is about to fill it.\n- **Focus** — When the surroundings are bare, the eye is naturally drawn to the subject.\n\nIn *No Country for Old Men*, the Coen Brothers used the vast Texas desert as negative space to maximize the characters' sense of isolation. Letting the empty space tell the story is the power of negative space.",
-          "imageUrl": "TODO: Composition example using negative space (small figure in vast empty space)",
+          "imageUrl": "/images/scriptures/video/video-academy/video-negative-space.png",
           "imageAlt": "Negative space used to emphasize a character's isolation",
           "exampleId": null
         },
@@ -736,7 +736,7 @@
         {
           "title": "Rule of Thirds — The Most Basic Composition Law",
           "contentMarkdown": "The **rule of thirds** divides the frame with two horizontal and two vertical lines, creating nine equal sections. Placing the subject on one of the **intersections** or along one of the **lines** produces a composition that is both stable and dynamic.\n\nWhy not dead center? A centered subject feels stable but static. Placing it on a thirds intersection lets the eye move naturally and creates visual tension.\n\nIn portrait shooting, align the eyes with the upper horizontal line. In landscape shooting, place the horizon on the upper or lower line. To emphasize the sky, put the horizon on the lower line; to emphasize the ground, put it on the upper line.",
-          "imageUrl": "TODO: Video frame overlaid with a rule-of-thirds grid, subject's eyes at an intersection",
+          "imageUrl": "/images/scriptures/video/video-academy/video-rule-of-thirds.png",
           "imageAlt": "Rule of thirds grid with a subject's eyes placed at an intersection point",
           "exampleId": null
         },
@@ -748,7 +748,7 @@
         {
           "title": "Symmetrical Composition — Order and Authority",
           "contentMarkdown": "**Symmetrical composition** mirrors the left and right (or top and bottom) of the frame around its central axis.\n\nSymmetry conveys **order, authority, stability, and control**. Wes Anderson is the master of symmetrical composition. Nearly every shot in *The Grand Budapest Hotel* is perfectly balanced left to right, creating his signature storybook aesthetic.\n\nStanley Kubrick also favored symmetry. The perfectly symmetrical corridors in *The Shining* create an eerie sense of unnatural order — a perfection that feels threatening.\n\nA word of caution: **perfect symmetry demands clear intent.** Accidental, half-hearted symmetry looks sloppy. Commit fully to symmetry, or break away from it decisively.",
-          "imageUrl": "TODO: Wes Anderson-style perfect left-right symmetrical composition example",
+          "imageUrl": "/images/scriptures/video/video-academy/video-symmetrical-composition.png",
           "imageAlt": "A perfectly symmetrical cinematic composition",
           "exampleId": null
         },
@@ -1232,14 +1232,14 @@
         {
           "title": "The Color Wheel and Color Relationships",
           "contentMarkdown": "The **color wheel** arranges hues — red, orange, yellow, green, blue, violet — in a circle. The positional relationship of colors on the wheel determines their visual effect.\n\n**Complementary colors** sit directly opposite each other on the wheel: blue and orange, red and green, yellow and violet. Placed side by side, they intensify each other, creating **vivid contrast and visual collision**.\n\nThe most common complementary pairing in Hollywood color grading is **orange and teal**. Skin tones (warm orange) are contrasted against backgrounds (cool teal) to make characters pop. *Mad Max: Fury Road* and the *Transformers* series are textbook examples.\n\n**Analogous colors** sit next to each other on the wheel: blue-teal-green, red-orange-yellow. Analogous palettes create a **harmonious, unified mood** — calm, immersive, tension-free.",
-          "imageUrl": "TODO: Color wheel diagram showing complementary and analogous color relationships",
+          "imageUrl": "/images/scriptures/video/video-academy/video-color-wheel-diagram.png",
           "imageAlt": "Color wheel with arrows indicating complementary and analogous color pairs",
           "exampleId": null
         },
         {
           "title": "Color Temperature and Mood",
           "contentMarkdown": "**Color temperature** describes how warm or cool a light source appears, measured in Kelvin (K) as covered in the earlier lesson on the nature of light.\n\nColor temperature is not just a technical value — it is an **emotional tool**.\n\n- **Warm tones** — Orange, yellow, red hues. They convey intimacy, nostalgia, warmth, safety. Commonly used in flashbacks, romance, and domestic scenes.\n- **Cool tones** — Blue, teal, violet hues. They convey isolation, alienation, danger, and the supernatural. Common in thrillers, science fiction, and horror.\n\n*The Matrix* distinguishes the real world with cold teal tones and the simulated world with a green filter. Audiences intuitively tell the two worlds apart through color temperature alone.\n\nIn *Parasite*, the Park family mansion is flooded with warm natural light, while the semi-basement is dominated by cold, murky illumination. Wealth and poverty are contrasted through color temperature.",
-          "imageUrl": "TODO: Same scene processed with warm and cool color grades side by side",
+          "imageUrl": "/images/scriptures/video/video-academy/video-warm-cool-color-grade.png",
           "imageAlt": "Same scene graded warm vs. cool to show how color temperature changes mood",
           "exampleId": null
         },
@@ -1314,7 +1314,7 @@
           "title": "The Kuleshov Effect",
           "contentMarkdown": "In the 1920s, Soviet filmmaker **Lev Kuleshov** conducted a landmark experiment. He intercut the same expressionless face of an actor with three different images — a bowl of soup, a body in a coffin, and a woman on a couch.\n\nAudiences perceived hunger, grief, and desire respectively. Yet the face was **exactly the same shot** every time.\n\nThis is the **Kuleshov Effect**. It proves that editing does not merely connect scenes — the connection itself **creates new meaning**. In editing, 1 + 1 does not equal 2; it equals 3.",
           "exampleId": null,
-          "imageUrl": "TODO: Kuleshov Effect diagram — same face paired with different images",
+          "imageUrl": "/images/scriptures/video/video-academy/video-kuleshov-effect.png",
           "imageAlt": "Kuleshov Effect: the same face combined with different images produces different perceived emotions"
         },
         {
@@ -1331,7 +1331,7 @@
           "title": "Editing in the Digital Age",
           "contentMarkdown": "In the film era, editing was a physical act. Strips of celluloid were cut with razor blades, joined with a splicer, and reviewed on a **Steenbeck** flatbed. Once cut, reversing a decision was difficult.\n\nThe arrival of **non-linear editing (NLE)** systems in the 1990s changed everything. Avid Media Composer led the way, followed by Final Cut Pro, Adobe Premiere Pro, and DaVinci Resolve. Any cut can now be moved, undone, and experimented with freely.\n\nThe tools have changed, but the essence remains the same. **What to show, what to hide, and in what order to arrange it.** Answering that question is editing.",
           "exampleId": null,
-          "imageUrl": "TODO: Non-linear editing timeline interface screenshot",
+          "imageUrl": "/images/scriptures/video/video-academy/video-nle-timeline.png",
           "imageAlt": "Timeline interface of a non-linear editing application"
         }
       ],
@@ -1395,14 +1395,14 @@
           "title": "Jump Cut",
           "contentMarkdown": "A **jump cut** edits the same subject at a similar angle but skips forward in time. The image appears to 'jump.'\n\nTraditional continuity editing treated this as a mistake. Then **Jean-Luc Godard** used jump cuts deliberately throughout *Breathless* (1960), turning the technique into a legitimate style.\n\nJump cuts effectively convey **the passage of time, anxiety, restlessness, or raw energy.** The YouTube convention of trimming pauses from a talking-head video is a form of jump cutting. Overuse, however, fatigues the viewer.",
           "exampleId": null,
-          "imageUrl": "TODO: Jump cut before/after — two frames from the same angle with a time skip",
+          "imageUrl": "/images/scriptures/video/video-academy/video-jump-cut.png",
           "imageAlt": "Jump cut example: two consecutive frames from the same angle with a visible time skip"
         },
         {
           "title": "Match Cut",
           "contentMarkdown": "A **match cut** connects two shots that share a visual similarity — in shape, movement, or color — bridging entirely different locations, times, or subjects.\n\nThe most famous match cut in cinema history belongs to **Stanley Kubrick's** *2001: A Space Odyssey.* A bone hurled skyward by an ape cuts to a space station. Millions of years collapse into a single edit.\n\nThe match cut is the most elegant editing tool for creating **metaphor and association.** Visual similarity plants a subconscious link between two scenes in the viewer's mind.",
           "exampleId": null,
-          "imageUrl": "TODO: Match cut diagram — two shots with similar shapes connected",
+          "imageUrl": "/images/scriptures/video/video-academy/video-match-cut.png",
           "imageAlt": "Match cut: two shots with visually similar shapes joined together"
         },
         {
@@ -1476,7 +1476,7 @@
           "title": "The 180-Degree Rule",
           "contentMarkdown": "Imagine two characters in conversation. An invisible line — the **action line** — connects them. The camera must stay on **one side** of this line. This is the **180-degree rule.**\n\nWhen obeyed, character A always looks screen-left and character B always looks screen-right. The audience intuitively understands their spatial relationship.\n\nCrossing the line — **jumping the line** — suddenly reverses the eyeline directions, disorienting the viewer. However, the camera may cross the line if it visibly moves across during the shot.",
           "exampleId": null,
-          "imageUrl": "TODO: 180-degree rule diagram — the action line between two characters and the camera placement zone",
+          "imageUrl": "/images/scriptures/video/video-academy/video-180-degree-rule.png",
           "imageAlt": "180-degree rule: the imaginary action line between two characters and the 180-degree zone for camera placement"
         },
         {
@@ -1493,7 +1493,7 @@
           "title": "Consistent Screen Direction",
           "contentMarkdown": "If a character walks toward screen-right, the next shot must show them continuing toward **screen-right.** A sudden switch to screen-left makes the audience lose spatial orientation. This is the principle of **screen direction.**\n\nChase scenes illustrate this clearly. When pursuer and pursued run in the same screen direction, the chase reads correctly. If they run in opposite directions, they appear to be heading toward each other.\n\nThis principle extends from the 180-degree rule. Maintain spatial logic and the audience focuses solely on the story. Breaking the rule is valid only when you intentionally want to express confusion or collision.",
           "exampleId": null,
-          "imageUrl": "TODO: Screen direction diagram — consistent direction vs. reversed direction comparison",
+          "imageUrl": "/images/scriptures/video/video-academy/video-screen-direction.png",
           "imageAlt": "Screen direction: correct consistent movement versus incorrect reversed movement"
         }
       ],
@@ -1567,7 +1567,7 @@
           "title": "Intellectual Montage",
           "contentMarkdown": "**Intellectual montage** is the pinnacle of Eisenstein's theory. It collides unrelated images to communicate **abstract concepts or ideas.**\n\nIn *October* (1928), Eisenstein intercut shots of Kerensky with a Napoleon statue and a mechanical peacock. Without a word of explanation, he conveyed the ideas of **ambition and vanity.**\n\nIntellectual montage demands thought from the viewer. Because it targets **intellectual response** rather than emotion, it is rarely used in commercial cinema. In documentaries, experimental film, and music videos, however, it remains a formidable tool.",
           "exampleId": null,
-          "imageUrl": "TODO: Chart of Eisenstein's five montage types",
+          "imageUrl": "/images/scriptures/video/video-academy/video-eisenstein-montage.png",
           "imageAlt": "Eisenstein's five montage types: Metric, Rhythmic, Tonal, Overtonal, Intellectual"
         },
         {
@@ -1646,7 +1646,7 @@
           "title": "The Energy of Rapid Cutting",
           "contentMarkdown": "Conversely, **rapid cutting** generates energy and shock. **Edgar Wright's** films — *Shaun of the Dead*, *Hot Fuzz* — infuse even mundane actions (making coffee, jumping a fence) with kinetic energy through fast editing.\n\n**Michael Bay's** action sequences average under two seconds per shot. The sensory overload is intentional. It divides opinion, but it is a style unto itself.\n\nThe editor of *Mad Max: Fury Road*, **Margaret Sixel**, kept every shot's focal point **centered on screen** so that audiences could maintain spatial awareness even at breakneck speed. Fast editing still requires design.",
           "exampleId": null,
-          "imageUrl": "TODO: Rapid editing timeline — tightly packed short shots",
+          "imageUrl": "/images/scriptures/video/video-academy/video-fast-editing-timeline.png",
           "imageAlt": "Rapid editing timeline: densely packed 1–2 second shots on an editing timeline"
         },
         {
@@ -1720,7 +1720,7 @@
           "title": "Fades and Wipes",
           "contentMarkdown": "A **fade in** gradually reveals an image from a black screen. It signals the beginning of a film or a new chapter.\n\nA **fade out** gradually darkens the image to black. It declares that a narrative unit has ended. The combination of fade out + fade in expresses the strongest possible time gap.\n\nA **wipe** sweeps a new image across the screen, pushing the old image aside. **George Lucas's** *Star Wars* saga uses the wipe as a signature transition. In modern cinema, wipes are used for a retro or deliberately exaggerated feel.",
           "exampleId": null,
-          "imageUrl": "TODO: Transition comparison — visual difference between dissolve, fade in/out, wipe",
+          "imageUrl": "/images/scriptures/video/video-academy/video-transition-types.png",
           "imageAlt": "Transition comparison: visual differences among dissolve, fade in, fade out, and wipe"
         },
         {
@@ -1732,7 +1732,7 @@
           "title": "Invisible Cut",
           "contentMarkdown": "An **invisible cut** deliberately hides the edit point so the footage appears to be a single continuous shot. The cut is concealed behind a dark surface, a character's back, or a fast camera pan.\n\n**Alfred Hitchcock's** *Rope* (1948) is an early example. Limited by 10-minute film reels, Hitchcock hid cuts behind characters' backs as the camera passed.\n\n**Alejandro Iñárritu's** *Birdman* (2014) and **Sam Mendes's** *1917* (2019) used invisible cuts to make entire films look like single takes. Advances in VFX now allow near-perfect concealment. The invisible cut is the extreme end of 'editing that hides editing.'",
           "exampleId": null,
-          "imageUrl": "TODO: Invisible cut principle — diagram showing a cut hidden behind a dark subject",
+          "imageUrl": "/images/scriptures/video/video-academy/video-invisible-cut.png",
           "imageAlt": "Invisible cut: the edit point hidden as the camera passes behind a dark object"
         }
       ],
@@ -1796,7 +1796,7 @@
           "title": "J-Cut and L-Cut",
           "contentMarkdown": "An **L-cut** is an edit where the picture changes to the next shot but **the audio from the previous shot continues.** On a timeline, the audio extends in an L shape.\n\nA **J-cut** is the reverse: the picture still shows the current shot, but **the audio from the next shot enters early.** On a timeline, it forms a J shape.\n\nBoth techniques are **essential tools for smoothing transitions.** In dialogue, cutting to the next speaker's face just before they begin talking (J-cut) guides the viewer's eye naturally. Nearly every dialogue edit uses L-cuts and J-cuts.",
           "exampleId": null,
-          "imageUrl": "TODO: J-cut and L-cut timeline diagram — offset between video and audio tracks",
+          "imageUrl": "/images/scriptures/video/video-academy/video-j-l-cut.png",
           "imageAlt": "J-cut and L-cut: how video and audio tracks are offset on a timeline"
         },
         {
@@ -1875,7 +1875,7 @@
           "title": "Highlights, Midtones, and Shadows",
           "contentMarkdown": "The basic tool of color work divides the image's brightness into three zones.\n\n- **Shadows** — The darkest areas of the frame. Pushing blue into shadows creates a cold, lonely feel; pushing purple creates a dreamlike feel.\n- **Midtones** — The middle brightness range. Skin tones live here, so midtone adjustments directly affect how a character appears.\n- **Highlights** — The brightest areas. Warm highlights feel like sunlight; cool highlights feel like fluorescent lighting.\n\nAdjusting the hue and saturation of these three zones independently via **color wheels** is the most fundamental grading workflow.",
           "exampleId": null,
-          "imageUrl": "TODO: Color wheels interface (shadow / midtone / highlight)",
+          "imageUrl": "/images/scriptures/video/video-academy/video-color-wheels-interface.png",
           "imageAlt": "Color grading tool: three color wheels for independent shadow, midtone, and highlight adjustment"
         },
         {
@@ -1887,7 +1887,7 @@
           "title": "Secondary Color Correction",
           "contentMarkdown": "**Secondary color correction** selectively adjusts **specific regions or specific colors** rather than the entire image.\n\n- **Power Window** — A mask selects a specific area of the frame, allowing you to change brightness or color within that area only. Used to brighten a face or deepen the blue of a sky.\n- **HSL Qualifier** — Selects a specific color range for adjustment. For example, isolate skin tones to make them look healthier, or select green grass to boost its vibrancy.\n\n**DaVinci Resolve** is the industry standard for secondary correction. Its node-based workflow lets you visually arrange a pipeline of primary correction, LUT, and secondary correction in sequence.",
           "exampleId": null,
-          "imageUrl": "TODO: DaVinci Resolve node editor screenshot",
+          "imageUrl": "/images/scriptures/video/video-academy/video-node-editor.png",
           "imageAlt": "DaVinci Resolve node-based color grading workflow"
         },
         {
@@ -1961,7 +1961,7 @@
           "title": "Act 2 — Confrontation",
           "contentMarkdown": "Act 2 is the longest stretch, occupying roughly **50%** of the runtime. The protagonist pursues their goal but collides with **increasingly powerful obstacles**.\n\nMany screenplays sag in Act 2 because the conflict never escalates. Obstacles must not merely repeat — they must push the protagonist into **higher and higher stakes** each time.\n\nSyd Field emphasized the existence of the **Midpoint** — an event at the story's exact center that flips the game. In *The Empire Strikes Back*, Luke's first confrontation with Darth Vader is the midpoint. In *Oldboy*, Oh Dae-su discovering the reason for his imprisonment is the midpoint.\n\nA hallmark of strong screenwriting: the protagonist's stance shifts from **passive to active** (or vice versa) at the midpoint.",
           "exampleId": null,
-          "imageUrl": "TODO: Three-act structure diagram — Act 1 (Setup), Plot Point 1, Act 2 first half, Midpoint, Act 2 second half, Plot Point 2, Act 3 (Resolution) visualized as a tension curve",
+          "imageUrl": "/images/scriptures/video/video-academy/video-three-act-structure.png",
           "imageAlt": "Three-act structure diagram showing setup, confrontation, resolution, and turning points"
         },
         {
@@ -2430,7 +2430,7 @@
           "title": "Mise-en-Scene — Everything in the Frame",
           "contentMarkdown": "**Mise-en-scene** is French for \"placing on stage.\" It refers to the intentional arrangement of every visible element within the frame — character positions, set design, costumes, lighting, color.\n\nCore elements of mise-en-scene:\n- **Blocking** — The distance between two characters speaks to their relationship. Close means intimacy; far means estrangement. One character positioned higher signals a power advantage.\n- **Frame composition** — Placing a character at the center creates stability; at the edge, unease.\n- **Depth** — Placing different elements in foreground, midground, and background allows a single frame to contain multiple layers of story.\n\nStanley Kubrick's **symmetrical compositions**, Wes Anderson's **center framing**, Bong Joon-ho's **vertical spatial design** — their mise-en-scene speaks the theme without a single word of dialogue.",
           "exampleId": null,
-          "imageUrl": "TODO: Mise-en-scene component diagram — character blocking, foreground/midground/background, lighting direction, color palette within a frame",
+          "imageUrl": "/images/scriptures/video/video-academy/video-mise-en-scene.png",
           "imageAlt": "Core components of mise-en-scene: blocking, depth, and frame composition"
         },
         {
@@ -2509,7 +2509,7 @@
           "title": "Goal — Obstacle — Outcome",
           "contentMarkdown": "Every scene can be broken into three elements.\n\n1. **Goal** — What the protagonist (or point-of-view character) wants in this scene. Every character in every scene must have a goal. A character without a goal produces a scene without direction.\n\n2. **Obstacle** — The force blocking that goal. The other person's refusal, a physical constraint, an inner fear. No obstacle means no conflict; no conflict means no drama.\n\n3. **Outcome** — Was the goal achieved, failed, or deflected in an unexpected direction? The outcome becomes the starting point of the next scene.\n\nA scene with clear goal-obstacle-outcome is **a mini-story in itself**. The audience engages with every scene by asking: \"What does this character want? What stands in the way? Will they succeed?\"\n\nIn McKee's phrase, a scene is a \"**microscopic three-act structure.**\"",
           "exampleId": null,
-          "imageUrl": "TODO: Scene structure diagram — Goal → Obstacle → Outcome cycle, with the outcome feeding into the next scene's goal",
+          "imageUrl": "/images/scriptures/video/video-academy/video-scene-structure-flow.png",
           "imageAlt": "Scene goal-obstacle-outcome cycle diagram"
         },
         {

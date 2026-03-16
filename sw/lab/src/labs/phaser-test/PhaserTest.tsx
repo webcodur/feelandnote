@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import Phaser from 'phaser'
-import { Link } from 'react-router-dom'
 
 class DemoScene extends Phaser.Scene {
   private player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
@@ -109,11 +108,21 @@ export function PhaserTest() {
   }, [])
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#111', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Link to="/" style={{ position: 'fixed', top: 12, left: 16, color: '#999', zIndex: 10, textDecoration: 'none', fontSize: 14 }}>
-        ← Back
-      </Link>
-      <div ref={containerRef} style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #333' }} />
+    <div className="lab-page">
+      <div className="lab-header">
+        <h2>Phaser 2D Game</h2>
+        <p>2D 게임 엔진. Arcade 물리, 플랫폼, 수집 시스템. 방향키 이동, 위쪽 점프.</p>
+      </div>
+      <div className="lab-info">
+        <strong>구성</strong><br />
+        • <code>Phaser.Physics.Arcade</code> — 간단한 충돌/물리<br />
+        • 사각형 플레이어 + 별 수집 + 플랫폼<br />
+        • 스프라이트 에셋 없이 도형만으로 구성<br />
+        • <strong>확장</strong> — 여기에 캐릭터 스프라이트시트를 입히면 게임 조형 완성
+      </div>
+      <div className="lab-canvas" style={{ display: 'inline-block', padding: 0 }}>
+        <div ref={containerRef} />
+      </div>
     </div>
   )
 }

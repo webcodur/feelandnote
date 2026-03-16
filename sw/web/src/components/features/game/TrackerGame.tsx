@@ -101,12 +101,22 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
     return map;
   }, [round]);
 
+  const voiceSpeeds = useMemo(() => {
+    if (!round) return new Map<string, number>();
+    const map = new Map<string, number>();
+    round.options.forEach((opt) => {
+      if (opt.voiceSpeed && opt.voiceSpeed !== 1.0) map.set(opt.id, opt.voiceSpeed);
+    });
+    return map;
+  }, [round]);
+
   const { showDialogue, showDefaultLine } = useDialogue({
     sfxMutedRef,
     onSubtitle: setSubtitle,
     personalDialogues,
     voiceCelebIds,
     voiceVersions,
+    voiceSpeeds,
   });
 
   const hintStages = useMemo(() => ([

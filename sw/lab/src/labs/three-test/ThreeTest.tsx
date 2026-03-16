@@ -1,6 +1,5 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Grid, Environment } from '@react-three/drei'
-import { Link } from 'react-router-dom'
 
 function Scene() {
   return (
@@ -28,13 +27,23 @@ function Scene() {
 
 export function ThreeTest() {
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#111' }}>
-      <Link to="/" style={{ position: 'fixed', top: 12, left: 16, color: '#999', zIndex: 10, textDecoration: 'none', fontSize: 14 }}>
-        ← Back
-      </Link>
-      <Canvas camera={{ position: [4, 3, 4], fov: 50 }}>
-        <Scene />
-      </Canvas>
+    <div className="lab-page">
+      <div className="lab-header">
+        <h2>Three.js / R3F 기본</h2>
+        <p>기본 도형 + 라이팅 + 환경맵 + OrbitControls. R3F 기본기 확인용.</p>
+      </div>
+      <div className="lab-info">
+        <strong>구성</strong><br />
+        • <code>BoxGeometry</code>, <code>SphereGeometry</code>, <code>CylinderGeometry</code> — 기본 도형 3종<br />
+        • <code>meshStandardMaterial</code> — PBR 재질 (metalness, roughness)<br />
+        • <code>Environment preset="city"</code> — HDRI 환경맵 반사<br />
+        • 마우스 드래그로 시점 회전, 스크롤로 줌
+      </div>
+      <div className="lab-canvas lab-canvas-full">
+        <Canvas camera={{ position: [4, 3, 4], fov: 50 }}>
+          <Scene />
+        </Canvas>
+      </div>
     </div>
   )
 }

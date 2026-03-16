@@ -12,8 +12,8 @@ import { Link } from "@/i18n/navigation";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { useLocale } from "next-intl";
-import { useDialogueSubtitle, stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
-import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
+import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import type { Locale } from "@/types/locale";
 import type { TimelineCeleb, CountryGroup } from "@/actions/home";
 
@@ -76,60 +76,12 @@ export default function TimelineSection({ celebs, countries }: Props) {
   const [showContemporaries, setShowContemporaries] = useState<Set<string>>(new Set());
   const headerRef = useRef<HTMLDivElement>(null);
 
-  // 직전 대사 인덱스 기억 (중복 방지)
-  const lastIdxMap = useRef(new Map<string, number>());
-  const keyCounter = useRef(0);
+  const { fireGreeting } = useCelebGreeting({ onSubtitle: handleSubtitle, locale: locale as Locale });
 
   const fireDialogue = useCallback((celeb: TimelineCeleb) => {
-    const greetings = (locale === "en" && celeb.greeting_en?.length) ? celeb.greeting_en : celeb.greeting;
-    const displayQuote = (locale === "en" && celeb.quotes_en) ? celeb.quotes_en : celeb.quotes;
     const displayName = (locale === "en" && celeb.nickname_en) ? celeb.nickname_en : celeb.nickname;
-
-    const slots: Array<{ type: "greeting"; idx: number } | { type: "quotes" }> = [];
-    if (greetings?.length) {
-      greetings.forEach((_, i) => slots.push({ type: "greeting", idx: i }));
-    }
-    if (displayQuote) {
-      slots.push({ type: "quotes" });
-    }
-    if (slots.length === 0) return;
-
-    const mapKey = celeb.id;
-    const lastIdx = lastIdxMap.current.get(mapKey);
-    let pick: number;
-    if (slots.length <= 1) {
-      pick = 0;
-    } else {
-      do { pick = Math.floor(Math.random() * slots.length); } while (pick === lastIdx);
-    }
-    lastIdxMap.current.set(mapKey, pick);
-
-    const chosen = slots[pick];
-    const hasVoice = celeb.has_voice;
-    const voiceV = celeb.voice_v;
-
-    if (chosen.type === "quotes") {
-      handleSubtitle({
-        key: ++keyCounter.current,
-        tone: "composed",
-        text: displayQuote!,
-        nickname: displayName,
-        avatarUrl: celeb.avatar_url,
-        audioUrl: hasVoice ? getQuoteVoiceUrl(celeb.id, locale, voiceV) : null,
-        label: "quotes",
-      });
-    } else {
-      handleSubtitle({
-        key: ++keyCounter.current,
-        tone: "composed",
-        text: stripEmotionTag(greetings![chosen.idx]),
-        nickname: displayName,
-        avatarUrl: celeb.avatar_url,
-        audioUrl: hasVoice ? getVoiceUrl(celeb.id, locale, "greeting", chosen.idx + 1, voiceV) : null,
-        label: "greeting",
-      });
-    }
-  }, [locale, handleSubtitle]);
+    fireGreeting({ ...celeb, nickname: displayName });
+  }, [locale, fireGreeting]);
 
   // 선택된 국가의 셀럽만 필터 + 연도순 정렬 (DB 텍스트 정렬 오류 보정)
   const filtered = useMemo(() => {

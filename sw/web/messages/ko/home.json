@@ -2,27 +2,27 @@
   "home": {
     "explore": {
       "englishTitle": "Notable Figures",
-      "description": "다양한 인물과 그들이 즐긴 콘텐츠를 만나보세요.",
+      "description": "위인들이 남긴 감상의 궤적을 따라가 보세요.",
       "link": "인물 보러가기"
     },
     "scriptures": {
       "englishTitle": "Curated Reads",
-      "description": "오늘의 인물, 공통 서가, 직업별 추천을 확인하세요.",
+      "description": "천 년을 울린 작품들, 서가에서 만나보세요.",
       "link": "서가 보러가기"
     },
     "agora": {
       "englishTitle": "The Agora",
-      "description": "다른 사용자들과 소통하고 피드를 확인하세요.",
+      "description": "기록하는 사람들의 광장에서 울림을 나누세요.",
       "link": "광장 보러가기"
     },
     "rest": {
       "englishTitle": "Take a Rest",
-      "description": "잠시 쉬어가며 가볍게 즐기는 미니게임.",
+      "description": "기록 사이, 잠시 쉬어가는 놀이의 공간.",
       "link": "쉼터 가기"
     },
     "archive": {
       "englishTitle": "Personal Collection",
-      "description": "내가 본 콘텐츠를 기록하고 관리하세요.",
+      "description": "나만의 한 줄을 쌓아 나의 서재를 만드세요.",
       "link": "내 기록 보러가기"
     },
     "ui": {
@@ -83,8 +83,8 @@
         "noFriendActivityDesc": "친구를 팔로우하면 여기에 활동이 표시돼요",
         "noPublicReviews": "아직 공개된 감상이 없습니다",
         "pleaseWait": "조금 더 기다려주세요",
-        "noRecords": "아직 기록된 영감이 없습니다.",
-        "createFirst": "첫 기록 남기기",
+        "noRecords": "아직 남겨진 울림이 없습니다.",
+        "createFirst": "첫 울림 남기기",
         "createOwn": "나의 기록 만들기"
       },
       "influence": {
@@ -98,20 +98,20 @@
         "noDescription": "상세 설명이 없습니다."
       },
       "banner": {
-        "headline": "느끼고, 기록하라",
-        "description": "책, 영화, 음악, 게임... 모든 경험을 남기고\n영감의 흔적을 쌓아가세요."
+        "headline": "한 줄의 기록, 천 년의 울림",
+        "description": "당신이 남긴 한 줄이\n천 년 뒤 누군가의 영감이 됩니다."
       },
       "navLinks": {
         "moreCelebs": "더 많은 인물 보기",
         "moreCelebsDesc": "시대와 분야를 아우르는 인물들을 만나보세요",
         "moreResources": "더 많은 자료 보기",
-        "moreResourcesDesc": "인물들이 남긴 지혜의 기록을 탐색하세요"
+        "moreResourcesDesc": "인물들이 남긴 한 줄의 울림을 탐색하세요"
       },
       "tabs": {
         "todayFigure": "오늘의 인물",
         "quickRecord": "빠른 기록",
-        "intro": "당신의 문화적 유산을 기록하고,\n시대를 초월한 지혜와 만나보세요.",
-        "introSub": "책, 영화, 음악, 그리고 위대한 인물들의 이야기.\n이곳은 당신의 영감이 머무르는 공간입니다."
+        "intro": "짧은 기록이 깊은 울림이 되는 곳,\n시대를 초월한 감상의 신전입니다.",
+        "introSub": "책, 영화, 음악, 그리고 위대한 인물들의 흔적.\n한 줄의 기록이 역사가 되는 공간입니다."
       }
     }
   },
@@ -151,7 +151,7 @@
   },
   "quickRecord": {
     "section": {
-      "addedToLibrary": "서재에 담겼습니다. 이 작품에 대한 기록을 남겨보세요.",
+      "addedToLibrary": "서재에 담겼습니다. 이 작품의 울림을 남겨보세요.",
       "reviewPlaceholder": "짧은 감상을 남겨주세요 (선택)",
       "doLater": "나중에 하기",
       "saving": "저장 중...",
@@ -162,7 +162,7 @@
       "write": "작성",
       "preview": "미리보기",
       "save": "저장",
-      "editorPlaceholder": "작품에서 어떤 영감을 받으셨나요?\n자유롭게 기록해보세요.",
+      "editorPlaceholder": "작품에서 어떤 울림을 받으셨나요?\n한 줄이라도 남겨보세요.",
       "noContent": "작성된 내용이 없습니다.",
       "workInfo": "작품 정보",
       "externalSearch": "외부 자료 탐색",
@@ -236,10 +236,10 @@
       "deleteConfirm": "정말 이 기록을 삭제하시겠습니까?",
       "deleteFailed": "삭제하지 못했습니다.",
       "quickRecordLabel": "나만의 빠른 기록",
-      "quickRecordDesc": "영감을 빠르게 기록하고 관리해보세요",
+      "quickRecordDesc": "한 줄의 울림을 빠르게 남기세요",
       "myLibrary": "나만의 서재",
       "loginRequired": "로그인이 필요합니다",
-      "createLibrary": "나만의 서재를 만들어보세요",
+      "createLibrary": "나만의 울림을 쌓아보세요",
       "selectedContent": "선택된 컨텐츠",
       "myRecord": "내 기록",
       "review": "리뷰",
@@ -249,8 +249,8 @@
       "saveFailed": "저장에 실패했습니다.",
       "pendingWrite": "작성 대기",
       "goToArchive": "상세 기록관\n페이지로 이동",
-      "noRecords": "아직 보관된 기록이 없습니다",
-      "searchToRecord": "상단 검색창을 통해 첫 번째 기록을 남겨보세요.",
+      "noRecords": "아직 남겨진 울림이 없습니다",
+      "searchToRecord": "상단 검색창을 통해 첫 번째 울림을 남겨보세요.",
       "celebRecommendations": "인물들의 추천",
       "archiveTab": "보관함",
       "selectContent": "기록할 컨텐츠 선택",

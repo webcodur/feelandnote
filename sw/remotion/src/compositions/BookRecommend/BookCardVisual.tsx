@@ -10,12 +10,11 @@
  * 경위 페이즈: 좌 표지 | 우 context 이미지 배경 + 경위 텍스트
  */
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import type { BookEntry, CelebHost } from './types'
+import type { BookEntry, CelebHost, VoiceTimingSegment } from './types'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from './fonts'
 import {
-  CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
-  PRE_LABEL_GAP,
+  CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f,
 } from './timing'
 import { safeImg, sf } from './utils'
 
@@ -43,12 +42,13 @@ type Props = {
   titleSummaryGapF: number
   summaryContextGapF: number
   episodeName: string
+  timings?: Record<string, VoiceTimingSegment[]>
 }
 
 export const BookCardVisual: React.FC<Props> = ({
   book, host, index, totalFrames, titleFrames, summaryFrames, summaryEnd,
   contextFrames, contextEnd, hasQuote, quoteFrames, hasContextAfter, contextAfterFrames, contextAfterText, totalBooks,
-  labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName,
+  labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName, timings,
 }) => {
   const imf = (file: string) => sf(`images/${episodeName}/${file}`)
   const frame = useCurrentFrame()
@@ -56,58 +56,60 @@ export const BookCardVisual: React.FC<Props> = ({
 
   if (frame < 0 || frame > totalFrames) return null
 
-  // --- 페이즈 경계 ---
-  const summaryStart = titleFrames + titleSummaryGapF
-  const contextStart = summaryEnd + summaryContextGapF
-  const quoteStart = hasQuote ? contextEnd + CONTEXT_QUOTE_GAP : totalFrames
-  const contextAfterStart = hasContextAfter ? quoteStart + quoteFrames + QUOTE_CONTEXTAFTER_GAP : totalFrames
+  // --- 페이즈 경계 (Series 오디오 배치와 완전 일치) ---
+  // Series visual 레이아웃:
+  //   title(titleFrames) → offset TSG → labelSummary(LSF) → offset 0 → summary(summaryFrames)
+  //   → offset SCG → labelContext(LCF) → offset 0 → context(contextFrames)
+  //   → offset CQG → quote(quoteFrames) → offset QCAG → contextAfter(caFrames)
+  const sLabelSummary = titleFrames + titleSummaryGapF
+  const sSummary = sLabelSummary + labelSummaryF
+  const sSummaryEnd = sSummary + summaryFrames
+  const sLabelContext = sSummaryEnd + summaryContextGapF
+  const sContext = sLabelContext + labelContextF
+  const sContextEnd = sContext + contextFrames
+  const sQuote = hasQuote ? sContextEnd + CONTEXT_QUOTE_GAP : totalFrames
+  const sContextAfter = hasContextAfter ? sQuote + quoteFrames + QUOTE_CONTEXTAFTER_GAP : totalFrames
 
   // --- 공통 ---
-  const fadeOut = interpolate(frame, [totalFrames - 30, totalFrames], [1, 0], CLAMP)
+  const fadeOut = interpolate(frame, [totalFrames - f(1), totalFrames], [1, 0], CLAMP)
 
   // --- 제목 페이즈 ---
   const titlePhaseOp = interpolate(frame,
-    [0, 10, summaryStart - 20, summaryStart],
+    [0, f(0.33), sLabelSummary - f(0.67), sLabelSummary],
     [0, 1, 1, 0], CLAMP)
 
   // --- 2열 레이아웃 등장 ---
   const twoColOp = interpolate(frame,
-    [summaryStart - 20, summaryStart],
+    [sLabelSummary - f(0.67), sLabelSummary],
     [0, 1], CLAMP)
 
   // 표지 등장 spring (제목 페이즈)
-  const coverScale = spring({ frame: Math.max(0, frame - 5), fps, config: { damping: 14, stiffness: 140 } })
-  const coverY = interpolate(frame, [0, 20], [40, 0], CLAMP)
+  const coverScale = spring({ frame: Math.max(0, frame - f(0.17)), fps, config: { damping: 14, stiffness: 140 } })
+  const coverY = interpolate(frame, [0, f(0.67)], [40, 0], CLAMP)
 
   // 좌측 포스터 등장 (2열 페이즈)
-  const posterOp = interpolate(frame, [summaryStart - 10, summaryStart + 15], [0, 1], CLAMP)
-  const posterY = interpolate(frame, [summaryStart - 10, summaryStart + 15], [20, 0], CLAMP)
+  const posterOp = interpolate(frame, [sLabelSummary - f(0.33), sLabelSummary + f(0.5)], [0, 1], CLAMP)
+  const posterY = interpolate(frame, [sLabelSummary - f(0.33), sLabelSummary + f(0.5)], [20, 0], CLAMP)
 
   // 메타 정보
-  const infoOp = interpolate(frame, [summaryStart, summaryStart + 20], [0, 1], CLAMP)
+  const infoOp = interpolate(frame, [sLabelSummary, sLabelSummary + f(0.67)], [0, 1], CLAMP)
 
-  // 레이블·본문 opacity — 라벨은 2열 레이아웃 등장 후 표시
-  // visual 모드: 라벨 지연(labelSummaryF)만큼 fadeOut도 밀어줌
-  const summaryFadeOut = summaryEnd + labelSummaryF + PRE_LABEL_GAP
-  const summaryLabelIn = summaryStart
-  const summaryBodyIn = summaryStart + labelSummaryF
+  // 레이블·본문 opacity — Series 기준 위치로 직접 계산
   const summaryLabelOp = interpolate(frame,
-    [summaryLabelIn, summaryLabelIn + 15, summaryFadeOut, summaryFadeOut + 15],
+    [sLabelSummary, sLabelSummary + f(0.5), sLabelContext, sLabelContext + f(0.5)],
     [0, 1, 1, 0], CLAMP)
   const summaryBodyOp = interpolate(frame,
-    [summaryBodyIn, summaryBodyIn + 20, summaryFadeOut, summaryFadeOut + 15],
+    [sSummary, sSummary + f(0.67), sLabelContext, sLabelContext + f(0.5)],
     [0, 1, 1, 0], CLAMP)
 
-  const contextLabelIn = contextStart
-  const contextBodyIn = contextStart + labelContextF
-  const contextLabelOp = interpolate(frame, [contextLabelIn, contextLabelIn + 15], [0, 1], CLAMP)
-  const contextBodyOp = interpolate(frame, [contextBodyIn, contextBodyIn + 20], [0, 1], CLAMP)
+  const contextLabelOp = interpolate(frame, [sLabelContext, sLabelContext + f(0.5)], [0, 1], CLAMP)
+  const contextBodyOp = interpolate(frame, [sContext, sContext + f(0.67)], [0, 1], CLAMP)
 
   const quoteOp = hasQuote
-    ? interpolate(frame, [quoteStart + 5, quoteStart + 30], [0, 1], CLAMP)
+    ? interpolate(frame, [sQuote, sQuote + f(0.5)], [0, 1], CLAMP)
     : 0
   const contextAfterOp = hasContextAfter
-    ? interpolate(frame, [contextAfterStart + 5, contextAfterStart + 30], [0, 1], CLAMP)
+    ? interpolate(frame, [sContextAfter, sContextAfter + f(0.5)], [0, 1], CLAMP)
     : 0
 
   // 생성 이미지
@@ -116,10 +118,10 @@ export const BookCardVisual: React.FC<Props> = ({
 
   // 배경 이미지 전환: 요약 이미지 → 경위 이미지
   const summaryBgOp = interpolate(frame,
-    [summaryStart, summaryStart + 20, summaryFadeOut, summaryFadeOut + 20],
+    [sLabelSummary, sLabelSummary + f(0.67), sLabelContext, sLabelContext + f(0.67)],
     [0, 1, 1, 0], CLAMP)
   const contextBgOp = interpolate(frame,
-    [contextStart - 20, contextStart],
+    [sLabelContext - f(0.67), sLabelContext],
     [0, 1], CLAMP)
 
   return (
@@ -128,17 +130,34 @@ export const BookCardVisual: React.FC<Props> = ({
       {/* 배경 */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 40%, #1a1510 0%, #0a0a0a 70%)' }} />
 
-      {/* 상단 번호 바 */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, padding: '36px 80px 0', zIndex: 20,
-        opacity: interpolate(frame, [5, 20], [0, 1], CLAMP),
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ color: '#c8a46e', fontSize: 15, fontFamily: FONT.cinzel, letterSpacing: 3, fontWeight: 600 }}>
-            {index + 1}/{totalBooks}
+      {/* 상단 번호 바 — 카운트업 애니메이션 */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '36px 80px 0', zIndex: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, overflow: 'hidden', height: 24 }}>
+          <div style={{ position: 'relative', width: 50, height: 24 }}>
+            {index > 0 && (
+              <div style={{
+                position: 'absolute', width: '100%',
+                color: '#c8a46e', fontSize: 15, fontFamily: FONT.cinzel, letterSpacing: 3, fontWeight: 600,
+                transform: `translateY(${interpolate(frame, [0, f(0.6)], [0, -24], CLAMP)}px)`,
+                opacity: interpolate(frame, [0, f(0.4)], [0.6, 0], CLAMP),
+              }}>
+                {index}/{totalBooks}
+              </div>
+            )}
+            <div style={{
+              position: 'absolute', width: '100%',
+              color: '#c8a46e', fontSize: 15, fontFamily: FONT.cinzel, letterSpacing: 3, fontWeight: 600,
+              transform: `translateY(${interpolate(frame, [0, f(0.6)], [index > 0 ? 24 : 8, 0], CLAMP)}px)`,
+              opacity: interpolate(frame, [f(0.1), f(0.67)], [0, 1], CLAMP),
+            }}>
+              {index + 1}/{totalBooks}
+            </div>
           </div>
-          <div style={{ width: 1, height: 16, backgroundColor: '#c8a46e', opacity: 0.3 }} />
-          <div style={{ color: '#e8e0d0', fontSize: 16, fontFamily: FONT.serif, fontWeight: 600, opacity: 0.7 }}>
+          <div style={{ width: 1, height: 16, backgroundColor: '#c8a46e', opacity: interpolate(frame, [f(0.33), f(0.73)], [0, 0.3], CLAMP) }} />
+          <div style={{
+            color: '#e8e0d0', fontSize: 16, fontFamily: FONT.serif, fontWeight: 600,
+            opacity: interpolate(frame, [f(0.33), f(0.83)], [0, 0.7], CLAMP),
+          }}>
             {book.title}
           </div>
         </div>
@@ -156,7 +175,7 @@ export const BookCardVisual: React.FC<Props> = ({
             </div>
           </div>
           <div style={{
-            opacity: interpolate(frame, [15, 35], [0, 1], CLAMP),
+            opacity: interpolate(frame, [f(0.5), f(1.17)], [0, 1], CLAMP),
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
           }}>
             <div style={{ color: '#e8e0d0', fontSize: 47, fontWeight: 700, fontFamily: FONT.serif, textAlign: 'center' }}>
@@ -250,7 +269,7 @@ export const BookCardVisual: React.FC<Props> = ({
                   )}
                 </div>
                 <div style={{
-                  width: interpolate(frame, [summaryStart, summaryStart + 25], [0, 400], CLAMP),
+                  width: interpolate(frame, [sLabelSummary, sLabelSummary + f(0.83)], [0, 400], CLAMP),
                   height: 1, backgroundColor: '#c8a46e', opacity: 0.3,
                 }} />
               </div>
@@ -263,7 +282,7 @@ export const BookCardVisual: React.FC<Props> = ({
                     핵심 요약
                   </div>
                   <div style={{ opacity: summaryBodyOp, borderLeft: '4px solid rgba(139,184,168,0.4)', paddingLeft: 24, fontFamily: FONT.sans }}>
-                    <KoreanTypewriter text={book.summary} startFrame={summaryBodyIn} spreadFrames={summaryFrames - 15} color="#d0d0d0" fontSize={27} style={{ lineHeight: 1.8 }} />
+                    <KoreanTypewriter text={book.summary} startFrame={sSummary} spreadFrames={summaryFrames - f(0.5)} color="#d0d0d0" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[`book-${index}-summary`]} />
                   </div>
                 </div>
 
@@ -273,7 +292,7 @@ export const BookCardVisual: React.FC<Props> = ({
                       추천 및 감상경위
                     </div>
                     <div style={{ opacity: contextBodyOp, borderLeft: '4px solid rgba(153,153,153,0.3)', paddingLeft: 24, fontFamily: FONT.sans, marginBottom: hasQuote ? 24 : 0 }}>
-                      <KoreanTypewriter text={book.context} startFrame={contextBodyIn} spreadFrames={contextFrames - 15} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} />
+                      <KoreanTypewriter text={book.context} startFrame={sContext} spreadFrames={contextFrames - f(0.5)} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[`book-${index}-context`]} />
                     </div>
 
                     {/* 인용문 */}
@@ -291,7 +310,7 @@ export const BookCardVisual: React.FC<Props> = ({
                     {/* 후속 맥락 */}
                     {hasContextAfter && contextAfterText && (
                       <div style={{ opacity: contextAfterOp, borderLeft: '4px solid rgba(153,153,153,0.3)', paddingLeft: 24, fontFamily: FONT.sans }}>
-                        <KoreanTypewriter text={contextAfterText} startFrame={contextAfterStart} spreadFrames={contextAfterFrames - 15} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} />
+                        <KoreanTypewriter text={contextAfterText} startFrame={sContextAfter} spreadFrames={contextAfterFrames - f(0.5)} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[`book-${index}-context-after`]} />
                       </div>
                     )}
                   </div>

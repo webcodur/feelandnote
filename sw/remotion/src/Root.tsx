@@ -12,6 +12,7 @@ import {
   calcShortTotalFrames,
   episodes,
 } from "./compositions/BookRecommend";
+import { FPS } from "./compositions/BookRecommend/timing";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -20,27 +21,20 @@ export const RemotionRoot: React.FC = () => {
       {Object.entries(episodes).map(([name, script]) => {
         // kebab-case → PascalCase (elon-musk → ElonMusk)
         const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+        const dur = calcBookFrames(script)
+        // duration이 NaN이면 미완성 에피소드 — 스킵
+        if (!Number.isFinite(dur) || dur <= 0) return null
         return (
           <React.Fragment key={name}>
-            {/* 롱폼 텍스트 */}
+            {/* 롱폼 */}
             <Composition
               id={`${label}`}
               component={BookRecommend}
-              durationInFrames={calcBookFrames(script)}
-              fps={30}
+              durationInFrames={dur}
+              fps={FPS}
               width={1920}
               height={1080}
               defaultProps={{ script, episodeName: name }}
-            />
-            {/* 롱폼 비주얼 */}
-            <Composition
-              id={`${label}Visual`}
-              component={BookRecommend}
-              durationInFrames={calcBookFrames(script)}
-              fps={30}
-              width={1920}
-              height={1080}
-              defaultProps={{ script, visual: true, episodeName: name }}
             />
             {/* 쇼츠 */}
             {script.shorts && (
@@ -48,7 +42,7 @@ export const RemotionRoot: React.FC = () => {
                 id={`${label}Short`}
                 component={BookRecommendShort}
                 durationInFrames={calcShortTotalFrames(script)}
-                fps={30}
+                fps={FPS}
                 width={1080}
                 height={1920}
                 defaultProps={{ script, episodeName: name }}
@@ -63,7 +57,7 @@ export const RemotionRoot: React.FC = () => {
         id="ServiceIntro"
         component={ServiceIntro}
         durationInFrames={serviceIntroFrames}
-        fps={30}
+        fps={FPS}
         width={1920}
         height={1080}
       />

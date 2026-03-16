@@ -2,6 +2,7 @@ import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remot
 import type { BookEntry, CelebHost } from './types'
 import { safeImg } from './utils'
 import { FONT } from './fonts'
+import { f } from './timing'
 
 type Props = {
   books: BookEntry[]
@@ -44,24 +45,24 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
   const showOneLiner = !isGrid // 2행일 때는 한줄 요약 생략
 
   // 전체 페이드
-  const fadeIn = interpolate(frame, [0, 25], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  const fadeOut = interpolate(frame, [totalFrames - 25, totalFrames], [1, 0], {
+  const fadeIn = interpolate(frame, [0, f(0.83)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const fadeOut = interpolate(frame, [totalFrames - f(0.83), totalFrames], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   })
   const opacity = fadeIn * fadeOut
 
   // 상단 라벨
-  const labelOpacity = interpolate(frame, [5, 20], [0, 1], { extrapolateRight: 'clamp' })
-  const lineWidth = interpolate(frame, [10, 40], [0, 200], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const labelOpacity = interpolate(frame, [f(0.17), f(0.67)], [0, 1], { extrapolateRight: 'clamp' })
+  const lineWidth = interpolate(frame, [f(0.33), f(1.33)], [0, 200], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
 
   const headerText = label ?? `${host.nickname_en.toUpperCase()}'S BOOKSHELF`
 
   const renderCard = (book: BookEntry, globalIndex: number) => {
-    const delay = globalIndex * 8
-    const enter = spring({ frame: Math.max(0, frame - 15 - delay), fps, config: { damping: 14, stiffness: 140 } })
-    const y = interpolate(frame, [15 + delay, 30 + delay], [20, 0], { extrapolateRight: 'clamp' })
-    const quoteOpacity = interpolate(frame, [40 + delay, 60 + delay], [0, 1], {
+    const delay = globalIndex * f(0.27)
+    const enter = spring({ frame: Math.max(0, frame - f(0.5) - delay), fps, config: { damping: 14, stiffness: 140 } })
+    const y = interpolate(frame, [f(0.5) + delay, f(1) + delay], [20, 0], { extrapolateRight: 'clamp' })
+    const quoteOpacity = interpolate(frame, [f(1.33) + delay, f(2) + delay], [0, 1], {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     })

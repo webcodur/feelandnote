@@ -39,10 +39,10 @@
 Remotion `staticFile()`이 한글 경로에서 동작하지 않는다. 별도 정적 서버로 우회:
 
 ```bash
-npx serve public -p 3005 --cors
+pnpm serve   # dev.mjs가 자동 실행. 포트는 REMOTION_SERVE_PORT 환경변수 (기본 8005)
 ```
 
-`sf()` 헬퍼 (`utils.ts`)가 `http://localhost:3005/{path}` 반환. `STATIC_SERVER` 상수도 여기에.
+`sf()` 헬퍼 (`utils.ts`)가 `STATIC_SERVER` 상수로 정적 서버 URL을 제공한다. 포트는 `REMOTION_SERVE_PORT` 환경변수 (기본 8001). **`style.css`의 `@font-face` URL만 하드코딩** — CSS에서 환경변수 사용 불가. 포트 변경 시 함께 수정할 것.
 
 **캐시 버스터(`?v=Date.now()`) 사용 금지.** HMR마다 모듈이 재평가되어 모든 오디오 URL이 변경되면 브라우저 캐시가 무효화되고 오디오 스터터링이 발생한다. 대신 Remotion `prefetch()` API로 오디오를 blob-url 방식으로 미리 로드한다. 파일 변경 시에는 브라우저 하드 리프레시(Ctrl+Shift+R).
 

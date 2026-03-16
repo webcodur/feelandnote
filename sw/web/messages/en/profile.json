@@ -67,7 +67,7 @@
     "label": "About",
     "bioPlaceholder": "Write your bio...",
     "bioEmpty": "Write a short bio...",
-    "quotesPlaceholder": "A line that represents you",
+    "quotesPlaceholder": "A line that carries your echo",
     "avatarUrlLabel": "Profile image URL",
     "nationalityLabel": "Nationality",
     "birthdateLabel": "Date of birth",
@@ -78,7 +78,7 @@
   },
   "profilePage": {
     "userNotFound": "User not found",
-    "metaDescription": "{nickname}'s cultural archives.",
+    "metaDescription": "An archive of {nickname}'s echoes.",
     "culturalJourney": "Cultural Journey",
     "imageSearch": "Image Search Results",
     "guestbook": "Guestbook",

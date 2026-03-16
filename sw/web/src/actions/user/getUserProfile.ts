@@ -43,6 +43,7 @@ export interface PublicUserProfile {
   is_blocked: boolean
   has_voice?: boolean
   voice_v?: number
+  voice_speed?: number
   wikidata_qid?: string | null
   celeb_tier?: 'full' | 'light' | null
 }

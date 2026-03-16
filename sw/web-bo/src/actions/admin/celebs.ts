@@ -680,7 +680,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 
 // #region updateCeleb
 export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
-  const supabase = await createClient()
+  const adminClient = createAdminClient()
 
   const updateData: Record<string, unknown> = {}
 
@@ -702,7 +702,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.status !== undefined) updateData.status = input.status
   if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier
 
-  const { error } = await supabase
+  const { error } = await adminClient
     .from('profiles')
     .update(updateData)
     .eq('id', input.id)
@@ -712,7 +712,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
 
   // quotes → celeb_dialogues.lines.quote 저장 (SSoT)
   if (input.quotes !== undefined || input.quotes_en !== undefined) {
-    const { data: existing } = await supabase
+    const { data: existing } = await adminClient
       .from('celeb_dialogues')
       .select('lines, lines_en')
       .eq('celeb_id', input.id)
@@ -725,14 +725,14 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
     if (input.quotes_en !== undefined) {
       updates.lines_en = { ...((existing?.lines_en as Record<string, any>) ?? {}), quote: input.quotes_en ?? '' }
     }
-    await supabase.from('celeb_dialogues').upsert(updates, { onConflict: 'celeb_id' })
+    await adminClient.from('celeb_dialogues').upsert(updates, { onConflict: 'celeb_id' })
   }
 
   // 영향력 저장
   if (input.influence) {
-    const adminClient = createAdminClient()
     const inf = input.influence
-    const { error: influenceError } = await adminClient.from('celeb_influence').upsert({
+    const { error: influenceError } = await adminClient
+      .from('celeb_influence').upsert({
       celeb_id: input.id,
       political: inf.political.score,
       political_exp: inf.political.exp,
@@ -759,7 +759,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   revalidatePath(`/members/${input.id}`)
 
   // active 셀럽 정보 변경 시 IndexNow 색인 요청
-  const { data: profile } = await supabase
+  const { data: profile } = await adminClient
     .from('profiles')
     .select('slug, status')
     .eq('id', input.id)

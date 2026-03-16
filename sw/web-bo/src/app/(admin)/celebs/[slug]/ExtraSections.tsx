@@ -11,6 +11,7 @@ import { saveCelebPersona, type StatKey, type TendencyKey } from '@/actions/admi
 import type { MemberPersona, PersonaJsonb } from '@/actions/admin/members'
 import { useToast } from '@/contexts/ToastContext'
 import VoiceSection from './VoiceSection'
+import DeepProfileSection from './DeepProfileSection'
 
 // #region Constants
 const SPEECH_TONES = ['loyal', 'composed', 'bold', 'humble', 'gentle', 'free'] as const
@@ -136,6 +137,7 @@ function buildPersonaJsonb(
 // #region Types
 interface ExtraSectionsProps {
   celebId: string
+  celebSlug: string
   personaRaw: MemberPersona | null
   dialogueLines: { lines: DialogueLines | null; lines_en: DialogueLines | null }
   speechTone?: string | null
@@ -143,7 +145,7 @@ interface ExtraSectionsProps {
 }
 // #endregion
 
-export default function ExtraSections({ celebId, personaRaw, dialogueLines, speechTone, hasVoice = false }: ExtraSectionsProps) {
+export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogueLines, speechTone, hasVoice = false }: ExtraSectionsProps) {
   const { showToast } = useToast()
 
   // --- Dialogue state ---
@@ -425,6 +427,11 @@ export default function ExtraSections({ celebId, personaRaw, dialogueLines, spee
         summary={hasVoice ? <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">ON</span> : undefined}
       >
         <VoiceSection celebId={celebId} initialHasVoice={hasVoice} />
+      </CardAccordion>
+
+      {/* Deep Profile */}
+      <CardAccordion title="심화 열전">
+        <DeepProfileSection celebId={celebId} slug={celebSlug} />
       </CardAccordion>
     </>
   )

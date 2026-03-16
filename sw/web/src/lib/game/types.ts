@@ -62,6 +62,8 @@ export interface BattleCard {
   hasVoice?: boolean;
   /** 음성 버전 (CDN 캐시 키) */
   voiceV?: number;
+  /** 음성 재생 속도 (기본 1.0) */
+  voiceSpeed?: number;
 }
 
 // ─── 명령 체계 (3명령 RPS) ───

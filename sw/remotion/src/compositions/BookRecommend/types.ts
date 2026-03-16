@@ -11,19 +11,17 @@ export interface CelebHost {
   featuredQuote?: string
   /** 명언 음성 길이 (초) */
   featuredQuoteDuration?: number
-  /** 감상철학 요약 */
-  philosophy: string
-  /** 감상철학 음성 길이 (초) */
-  voiceDuration: number
+  /** 감상철학 요약 (continuation에서는 없음) */
+  philosophy?: string
+  /** 감상철학 음성 길이 (초, continuation에서는 없음) */
+  voiceDuration?: number
   /** ElevenLabs 보이스 ID (셀럽 음성용, 없으면 Gemini/Cloud 사용) */
   elevenlabsVoiceId?: string
+  /** Gemini TTS 셀럽 보이스 (없으면 기본 Puck) — voice-actors.md 참조 */
+  geminiVoice?: string
 }
 
 export interface BookStats {
-  /** 추천한 셀럽 수 */
-  celebCount: number
-  /** 추천한 셀럽 이름 목록 (본인 제외) */
-  celebNames: string[]
   /** 출판사 */
   publisher?: string
   /** 원서 제목 */
@@ -65,12 +63,23 @@ export interface BookEntry {
 }
 
 export interface NarratorLines {
-  /** Section 0: 서비스 인트로 (미사용) */
-  serviceIntro: string
-  serviceIntroDuration: number
-  /** Section 1: 인물 소개 (bio 읊기) */
-  celebIntro: string
-  celebIntroDuration: number
+  /** Section 0: 서비스 인트로 — 공용 (인사~소개합니다). alexander만 분리, 나머지는 serviceIntro에 통합 */
+  serviceGreeting?: string
+  /** 분할 오디오 파트 (service-greeting-1~N.wav) */
+  serviceGreetingParts?: { text: string; duration: number }[]
+  serviceGreetingDuration?: number
+  /** Section 0: 서비스 인트로 — 본문 (예: "서재 탐방 코너에서는..."). continuation에서는 없음 */
+  serviceIntro?: string
+  serviceIntroDuration?: number
+  /** Section 1: 인물 소개 (bio 읊기). continuation에서는 없음 */
+  celebIntro?: string
+  celebIntroDuration?: number
+  /** continuation: 복귀 인사 (예: "서재 탐방, 두 번째 이야기입니다") */
+  returnIntro?: string
+  returnIntroDuration?: number
+  /** continuation: 이전 파트 요약 (예: "지난 1부에서는 ...") */
+  prevRecap?: string
+  prevRecapDuration?: number
   /** 서재 이동 브릿지 */
   bridge: string
   bridgeDuration: number
@@ -92,7 +101,11 @@ export interface NarratorLines {
  */
 export interface TtsOverrides {
   narrator?: {
+    serviceGreeting?: string
+    serviceIntro?: string
     celebIntro?: string
+    returnIntro?: string
+    prevRecap?: string
     outro?: string
   }
   host?: {
@@ -139,7 +152,21 @@ export interface ShortsConfig {
   segments: ShortSegment[]
 }
 
+/** 파형 분석 기반 음성 타이밍 */
+export type VoiceTimingSegment = { start: number; end: number }
+export type VoiceTimings = Record<string, VoiceTimingSegment[]>
+
+/** 시리즈 정보 — 2부 이상 에피소드에만 존재 */
+export interface SeriesInfo {
+  part: number
+  totalParts: number
+  totalBooks: number
+  prevEpisode: string
+}
+
 export interface BookRecommendScript {
+  /** 시리즈 continuation 정보 (2부 이상일 때만 존재) */
+  series?: SeriesInfo
   host: CelebHost
   books: BookEntry[]
   narrator: NarratorLines
@@ -147,4 +174,6 @@ export interface BookRecommendScript {
   tts?: TtsOverrides
   /** 쇼츠 설정 */
   shorts?: ShortsConfig
+  /** 파형 분석 기반 음성 타이밍 (analyze-voice.ts로 생성) */
+  voiceTimings?: VoiceTimings
 }

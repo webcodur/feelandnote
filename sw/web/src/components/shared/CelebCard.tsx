@@ -16,10 +16,9 @@ import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
-import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
+import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
-import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // #region Types
 type Variant = "card" | "circle" | "medallion";
@@ -76,9 +75,8 @@ export default function CelebCard({
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const keyCounter = useRef(0);
   const hasVoice = celebProfile?.has_voice ?? false;
-  const voiceV = celebProfile?.voice_v ?? 0;
+  const { fireGreeting } = useCelebGreeting({ onSubtitle, locale: locale as Locale });
 
   // 외부 클릭 시 오버레이 닫기
   useEffect(() => {
@@ -93,48 +91,12 @@ export default function CelebCard({
   }, [isActive]);
 
 
-  const lastDialogueIdx = useRef<number | null>(null);
-
-  /** greeting + quote 슬롯에서 균등 확률로 발사 */
+  /** greeting + quote 슬롯에서 균등 확률로 발사 (단일원천: useCelebGreeting) */
   const fireDialogue = useCallback(() => {
-    if (!onSubtitle) return;
-    const greetings = (locale === "en" && celebProfile?.greeting_en) || celebProfile?.greeting;
-    if (!greetings || greetings.length === 0) return;
-
-    const displayQuote = (locale === "en" && celebProfile?.quotes_en) || celebProfile?.quotes;
-    const slotCount = greetings.length + (displayQuote ? 1 : 0);
-
-    let slot: number;
-    if (slotCount <= 1) {
-      slot = 0;
-    } else {
-      do { slot = Math.floor(Math.random() * slotCount); } while (slot === lastDialogueIdx.current);
-    }
-    lastDialogueIdx.current = slot;
-
-    if (displayQuote && slot === greetings.length) {
-      onSubtitle({
-        key: ++keyCounter.current,
-        tone: "composed",
-        text: displayQuote,
-        nickname: displayNickname,
-        avatarUrl: avatar_url ?? null,
-        audioUrl: hasVoice ? getQuoteVoiceUrl(id, locale as Locale, voiceV) : null,
-        label: "quotes",
-      });
-    } else {
-      onSubtitle({
-        key: ++keyCounter.current,
-        tone: "composed",
-        text: stripEmotionTag(greetings[slot]),
-        nickname: displayNickname,
-        avatarUrl: avatar_url ?? null,
-        audioUrl: hasVoice ? getVoiceUrl(id, locale as Locale, "greeting", slot + 1, voiceV) : null,
-        label: "greeting",
-      });
-    }
+    if (!celebProfile) return;
+    fireGreeting({ ...celebProfile, nickname: displayNickname });
     if (hasVoice) setVoicePulse(prev => prev + 1);
-  }, [onSubtitle, celebProfile?.greeting, celebProfile?.greeting_en, celebProfile?.quotes, celebProfile?.quotes_en, locale, displayNickname, avatar_url, hasVoice, id]);
+  }, [celebProfile, displayNickname, hasVoice, fireGreeting]);
 
   const [voicePulse, setVoicePulse] = useState(0);
   const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);

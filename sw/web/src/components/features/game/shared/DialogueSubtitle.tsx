@@ -124,6 +124,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     if (subtitle.audioUrl && !voiceMuted) {
       const audio = new Audio(subtitle.audioUrl);
       audio.volume = 0.7;
+      if (subtitle.voiceSpeed && subtitle.voiceSpeed !== 1.0) {
+        audio.playbackRate = subtitle.voiceSpeed;
+      }
       audio.addEventListener("ended", () => {
         stopProgressLoop();
         setAudioProgress(1);

@@ -1,11 +1,10 @@
 import React from 'react'
-import { interpolate } from 'remotion'
+import { interpolate, staticFile } from 'remotion'
 import { FONT } from './fonts'
+import { f } from './timing'
 
-/** 정적 파일 서버 (한글 경로 우회) */
-export const STATIC_SERVER = 'http://localhost:3005'
-/** 정적 파일 경로 헬퍼 */
-export const sf = (path: string) => `${STATIC_SERVER}/${path}`
+/** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
+export const sf = (path: string) => staticFile(path)
 
 /** 에피소드별 음성 경로 팩토리 */
 export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null) => {
@@ -35,8 +34,8 @@ export const fadeInOut = (
   frame: number,
   start: number,
   dur: number,
-  fadeIn = 8,
-  fadeOut = 10,
+  fadeIn = f(0.27),
+  fadeOut = f(0.33),
 ): number => {
   if (dur <= 0) return 0
   // dur의 1/3로 제한하되 최소 1프레임
@@ -44,6 +43,9 @@ export const fadeInOut = (
   const fo = Math.max(1, Math.min(fadeOut, Math.floor(dur / 3)))
   return interpolate(frame, [start, start + fi, start + dur - fo, start + dur], [0, 1, 1, 0], CL)
 }
+
+/** 로고 기본 크기 — 롱폼/쇼츠 공용 */
+export const BRAND_LOGO_SIZE = 52
 
 /**
  * Feel & Note 로고 — 공통 컴포넌트
@@ -72,7 +74,7 @@ export const BrandLogo: React.FC<LogoProps> = ({ variant = 'full', fontSize, sty
   }
 
   // full
-  const sz = fontSize ?? 42
+  const sz = fontSize ?? BRAND_LOGO_SIZE
   return React.createElement('div', {
     style: { display: 'flex', flexDirection: 'column' as const, alignItems: 'center', gap: Math.round(sz * 0.3), ...style },
   },
@@ -87,7 +89,7 @@ export const BrandLogo: React.FC<LogoProps> = ({ variant = 'full', fontSize, sty
       style: { width: Math.round(sz * 2.8), height: 1, backgroundColor: '#d4a828', opacity: 0.5 },
     }),
     React.createElement('div', {
-      style: { color: '#666', fontSize: Math.round(sz * 0.48), fontFamily: FONT.cormorant, letterSpacing: Math.round(sz * 0.1) },
+      style: { color: '#999', fontSize: Math.round(sz * 0.55), fontFamily: FONT.cormorant, letterSpacing: Math.round(sz * 0.1) },
     }, 'feelandnote.com'),
   )
 }

@@ -25,6 +25,7 @@ export interface GreetingCeleb {
   speech_tone?: string | null;
   has_voice?: boolean;
   voice_v?: number;
+  voice_speed?: number;
 }
 
 interface UseCelebGreetingOptions {
@@ -96,6 +97,7 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
           avatarUrl: celeb.avatar_url ?? null,
           audioUrl: celeb.has_voice ? getQuoteVoiceUrl(celeb.id, locale, celeb.voice_v) : null,
           label: "quotes",
+          voiceSpeed: celeb.voice_speed,
         });
       } else {
         onSubtitle({
@@ -109,8 +111,29 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
               ? getVoiceUrl(celeb.id, locale, "greeting", slot + 1, celeb.voice_v)
               : null,
           label: "greeting",
+          voiceSpeed: celeb.voice_speed,
         });
       }
+    },
+    [onSubtitle, locale],
+  );
+
+  /** quote만 단독 재생 */
+  const fireQuote = useCallback(
+    (celeb: GreetingCeleb) => {
+      if (!onSubtitle) return;
+      const displayQuote = locale === "ko" ? celeb.quotes : (celeb.quotes_en ?? celeb.quotes);
+      if (!displayQuote) return;
+      onSubtitle({
+        key: ++keyRef.current,
+        tone: ((celeb.speech_tone as SpeechTone) ?? "composed"),
+        text: displayQuote,
+        nickname: celeb.nickname,
+        avatarUrl: celeb.avatar_url ?? null,
+        audioUrl: celeb.has_voice ? getQuoteVoiceUrl(celeb.id, locale, celeb.voice_v) : null,
+        label: "quotes",
+        voiceSpeed: celeb.voice_speed,
+      });
     },
     [onSubtitle, locale],
   );
@@ -128,5 +151,5 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
 
   const clearRipple = useCallback(() => setRipple(null), []);
 
-  return { fireGreeting, ripple, triggerRipple, clearRipple };
+  return { fireGreeting, fireQuote, ripple, triggerRipple, clearRipple };
 }

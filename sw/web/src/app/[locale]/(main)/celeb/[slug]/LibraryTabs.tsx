@@ -32,10 +32,10 @@ export default function LibraryTabs({
   const [tab, setTab] = useState<Tab>(defaultTab);
   const t = useTranslations("celebPage");
 
-  const tabs: { key: Tab; label: string; show: boolean }[] = [
-    { key: "journey", label: t("tabCulturalJourney"), show: !!culturalJourney },
-    { key: "consume", label: t("tabConsume"), show: true },
-    { key: "create", label: t("tabCreate"), show: true },
+  const tabs: { key: Tab; label: string; desc: string; show: boolean }[] = [
+    { key: "journey", label: t("tabCulturalJourney"), desc: t("tabCulturalJourneyDesc"), show: !!culturalJourney },
+    { key: "consume", label: t("tabConsume"), desc: t("tabConsumeDesc"), show: true },
+    { key: "create", label: t("tabCreate"), desc: t("tabCreateDesc"), show: true },
   ];
 
   const visibleTabs = tabs.filter((t) => t.show);
@@ -62,6 +62,22 @@ export default function LibraryTabs({
           </button>
         ))}
       </div>
+
+      {/* 선택된 탭 제목 + 부제 */}
+      {(() => {
+        const active = visibleTabs.find((item) => item.key === tab);
+        return (
+          <div className="text-center py-6 space-y-1">
+            <h3 className="font-serif text-[15px] text-accent/90 tracking-widest">
+              {active?.label}
+            </h3>
+            <p className="text-sm text-text-tertiary">
+              {active?.desc}
+            </p>
+          </div>
+        );
+      })()}
+
       {tab === "consume" && (
         <ContentLibrary
           mode="viewer"

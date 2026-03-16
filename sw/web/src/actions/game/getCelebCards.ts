@@ -26,7 +26,7 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
   let query = supabase
     .from("profiles")
     .select(`
-      id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, death_date, gender, speech_tone, has_voice, voice_v,
+      id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, death_date, gender, speech_tone, has_voice, voice_v, voice_speed,
       celeb_influence!inner(
         political, strategic, tech, social, economic, cultural, transhistoricity
       ),
@@ -97,6 +97,7 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
         },
         hasVoice: (row as any).has_voice ?? false,
         voiceV: (row as any).voice_v ?? 0,
+        voiceSpeed: (row as any).voice_speed ?? 1.0,
       };
     });
 }

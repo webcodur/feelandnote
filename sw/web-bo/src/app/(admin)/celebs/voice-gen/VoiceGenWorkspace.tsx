@@ -17,7 +17,7 @@ import {
   saveQuote,
   type VoiceGenCeleb,
 } from '@/actions/admin/voice-gen'
-import { saveCelebDialogues, updateSpeechTone, type DialogueLines } from '@/actions/admin/dialogues'
+import { saveCelebDialogues, updateSpeechTone, updateVoiceSpeed, type DialogueLines } from '@/actions/admin/dialogues'
 import { getVoiceStatus } from '@/actions/admin/voice'
 import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import { useToast } from '@/contexts/ToastContext'
@@ -340,6 +340,7 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
   const [editDialogues, setEditDialogues] = useState<Record<string, string>>({})
   const [editQuotes, setEditQuotes] = useState<Record<string, string>>({})
   const [speechTone, setSpeechTone] = useState('')
+  const [voiceSpeed, setVoiceSpeed] = useState(1.0)
   const [dialogueSaving, setDialogueSaving] = useState(false)
 
   /** 셀럽 데이터로 모든 편집 상태 초기화 */
@@ -377,6 +378,7 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
       en: (celeb.dialogue_lines_en as any)?.quote ?? '',
     })
     setSpeechTone(celeb.speech_tone || 'free')
+    setVoiceSpeed(celeb.voice_speed ?? 1.0)
   }
 
   function setTtsText(key: string, value: string) {
@@ -498,6 +500,13 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
   const audioCtxRef = useRef<AudioContext | null>(null)
   const sourceRef = useRef<AudioBufferSourceNode | null>(null)
 
+  // 배속 변경 시 재생 중인 HTMLAudioElement에 즉시 반영 (피치 보존)
+  useEffect(() => {
+    if (audioRef.current && !audioRef.current.paused) {
+      audioRef.current.playbackRate = voiceSpeed
+    }
+  }, [voiceSpeed])
+
   // 재생 핸들러
   // blobUrl: 로컬 프리뷰 재생 (trim 지원)
   // dialogueType + variant: R2 파일 재생 (서버 경유 CORS 우회)
@@ -515,7 +524,8 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
 
     const trim = 'blobUrl' in source ? source.trim : undefined
 
-    const playFromArrayBuffer = (buf: ArrayBuffer) => {
+    // trim 구간 재생은 AudioBufferSourceNode (배속 미적용)
+    const playTrimmed = (buf: ArrayBuffer) => {
       if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
         audioCtxRef.current = new AudioContext()
       }
@@ -525,19 +535,31 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
         src.buffer = audioBuf
         src.connect(ctx.destination)
         src.onended = () => { sourceRef.current = null; setPlaying(null) }
-        if (trim) {
-          src.start(0, trim.start, trim.end - trim.start)
-        } else {
-          src.start(0)
-        }
+        src.start(0, trim!.start, trim!.end - trim!.start)
         sourceRef.current = src
         setPlaying(key)
       }).catch(() => { showToast('error', PLAY_FAIL_LABEL); setPlaying(null) })
     }
 
+    // 전체 재생은 HTMLAudioElement (preservesPitch로 피치 보존 배속)
+    const playWithHtmlAudio = (url: string) => {
+      const audio = new Audio(url)
+      audio.preservesPitch = true
+      audio.playbackRate = voiceSpeed
+      audio.onended = () => { audioRef.current = null; setPlaying(null) }
+      audio.onerror = () => { audioRef.current = null; showToast('error', PLAY_FAIL_LABEL); setPlaying(null) }
+      audio.play().catch(() => { showToast('error', PLAY_FAIL_LABEL); setPlaying(null) })
+      audioRef.current = audio
+      setPlaying(key)
+    }
+
     if ('blobUrl' in source) {
-      fetch(source.blobUrl).then((r) => r.arrayBuffer()).then(playFromArrayBuffer)
-        .catch(() => { showToast('error', PLAY_FAIL_LABEL); setPlaying(null) })
+      if (trim && (trim.start > 0 || trim.end < Infinity)) {
+        fetch(source.blobUrl).then((r) => r.arrayBuffer()).then(playTrimmed)
+          .catch(() => { showToast('error', PLAY_FAIL_LABEL); setPlaying(null) })
+      } else {
+        playWithHtmlAudio(source.blobUrl)
+      }
     } else {
       if (!selected) return
       setPlaying(key)
@@ -548,12 +570,12 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
             setPlaying(null)
             return
           }
-          const bytes = Uint8Array.from(atob(res.base64), (c) => c.charCodeAt(0))
-          playFromArrayBuffer(bytes.buffer as ArrayBuffer)
+          const blob = new Blob([Uint8Array.from(atob(res.base64), (c) => c.charCodeAt(0))], { type: 'audio/mpeg' })
+          playWithHtmlAudio(URL.createObjectURL(blob))
         })
         .catch(() => { showToast('error', PLAY_FAIL_LABEL); setPlaying(null) })
     }
-  }, [playing, selected, locale, showToast])
+  }, [playing, selected, locale, voiceSpeed, showToast])
 
   // 단일 생성 (프리뷰)
   const handleGenerate = useCallback(async (type: string, variant: number | undefined) => {
@@ -1020,11 +1042,26 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
                 <h3 className="text-sm font-semibold text-text-primary">{DIALOGUE_EDITOR_LABEL}</h3>
                 {voiceFilesLoading && <Loader2 className="w-3.5 h-3.5 animate-spin text-text-tertiary" />}
               </div>
+              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] text-text-tertiary">재생 배속</span>
+                <select value={voiceSpeed} onChange={(e) => {
+                    const v = parseFloat(e.target.value)
+                    setVoiceSpeed(v)
+                    if (selected) updateVoiceSpeed(selected.id, v).then(() => showToast('success', `배속 ${v}x 저장`)).catch(() => showToast('error', '배속 저장 실패'))
+                  }}
+                  className={`bg-bg-secondary border rounded-lg px-1.5 py-1 text-xs focus:outline-none focus:border-accent ${voiceSpeed !== 1.0 ? 'text-amber-400 border-amber-500/30' : 'text-text-primary border-border'}`}>
+                  {Array.from({ length: 31 }, (_, i) => +(0.5 + i * 0.05).toFixed(2)).map((v) => (
+                    <option key={v} value={v}>{v}x</option>
+                  ))}
+                </select>
+              </div>
               <button type="button" onClick={handleSaveDialogues} disabled={dialogueSaving}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50">
                 {dialogueSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
                 {SAVE_BUTTON_LABEL}
               </button>
+              </div>
             </div>
 
             {DIALOGUE_TYPES.map((type) => {

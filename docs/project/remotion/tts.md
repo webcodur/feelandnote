@@ -66,6 +66,41 @@ web-bo 에피소드 에디터에서도 "Duration JSON 자동 반영" 체크박�
 - 무료 티어: 키당 10회/일. `.env`에 `GOOGLE_GENAI_API_KEY1` ~ `GOOGLE_GENAI_API_KEY50` 등록.
 - `generate-voice.ts`가 429/403 에러 시 자동으로 다음 키로 전환.
 
+## 음성 파일 R2 관리
+
+WAV 파일은 git에서 제외하고 Cloudflare R2로 관리한다. 로컬 `public/voice/`는 캐시 역할.
+
+### R2 경로
+
+```
+remotion/voice/{episode-name}/{파일명}.wav
+remotion/voice/{episode-name}/{engine}/{파일명}.wav
+```
+
+### 커맨드
+
+```bash
+pnpm voice:upload -- --episode <name>       # R2 업로드 (변경분만)
+pnpm voice:upload -- --episode <name> --force  # 전체 재업로드
+pnpm voice:pull -- --episode <name>          # R2에서 다운로드 (누락분만)
+pnpm voice:pull -- --all                     # 전 에피소드 다운로드
+pnpm voice:r2 -- --status                    # 동기화 현황
+pnpm voice -- --episode <name> --upload      # TTS 생성 후 자동 업로드
+```
+
+### 동기화 흐름
+
+1. `generate-voice.ts`로 WAV 생성 → 로컬 `public/voice/{episode}/`에 저장
+2. `--upload` 플래그 또는 `voice:upload`으로 R2 업로드
+3. 다른 PC에서 `voice:pull`로 다운로드
+4. `r2-manifest.json`(에피소드별)이 동기화 상태 추적 → git 추적 대상
+
+### 환경변수
+
+`.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME` 필요. web-bo와 동일한 값 사용.
+
+---
+
 ## web-bo TTS 통합
 
 `sw/web-bo/src/actions/admin/episodes.ts`에 서버 액션:

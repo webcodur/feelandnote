@@ -175,6 +175,17 @@ export default async function CelebPage({ params }: PageProps) {
   const greeting = locale === 'en' && dialogueData?.lines_en?.greeting
     ? dialogueData.lines_en.greeting
     : dialogueData?.lines?.greeting ?? null;
+  const rawLines = locale === 'en' && dialogueData?.lines_en
+    ? dialogueData.lines_en
+    : dialogueData?.lines ?? null;
+  // quote(string)를 배열로 정규화하여 대사 데이터에 통합
+  const dialogueLines = rawLines
+    ? Object.fromEntries(
+        Object.entries(rawLines).map(([k, v]) =>
+          [k, typeof v === "string" ? [v] : v]
+        ).filter(([, v]) => Array.isArray(v))
+      ) as Record<string, string[]>
+    : null;
 
   const guestbookCurrentUser = currentUser
     ? { id: currentUser.id, nickname: profile.nickname, avatar_url: profile.avatar_url }
@@ -236,6 +247,7 @@ export default async function CelebPage({ params }: PageProps) {
         guestbookTotal={guestbookResult.total}
         guestbookCurrentUser={guestbookCurrentUser}
         greeting={greeting}
+        dialogueLines={dialogueLines}
         contemporaries={contemporaries}
       />
     </>

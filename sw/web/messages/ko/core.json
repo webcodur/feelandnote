@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Feel&Note - 셀럽 추천 책·영화·음악 아카이브",
-    "description": "셀럽이 추천한 책, 영화, 음악, 게임 목록을 한눈에. 역사 위인부터 현대 셀럽까지 1,000명 이상의 추천 작품과 감상 여정을 탐색하세요.",
-    "twitterDescription": "셀럽이 추천한 책, 영화, 음악 목록. 1,000명 이상의 추천 작품을 탐색하는 감상 아카이브."
+    "title": "Feel&Note - 한 줄의 기록, 천 년의 울림",
+    "description": "위인들이 읽고, 보고, 들은 작품을 한눈에. 1,000명 이상의 감상 기록과 그 울림을 탐색하세요.",
+    "twitterDescription": "한 줄의 기록이 천 년을 울린다. 1,000명 이상의 위인이 남긴 감상 아카이브."
   },
   "notFound": {
     "title": "페이지를 찾을 수 없습니다",
@@ -36,7 +36,7 @@
       "label": "언어 변경"
     },
     "footer": {
-      "tagline": "기록을 쌓고 취향의 아카이브를 만들어 보세요."
+      "tagline": "한 줄의 기록이 천 년을 울립니다."
     }
   },
   "pages": {
@@ -426,19 +426,19 @@
     "feelDesc1": "감각은 직관적입니다.",
     "feelDesc2": "우리가 무언가를 보며 느끼는 기쁨, 슬픔, 충격은",
     "feelDesc3": "가장 정직한 반응입니다.",
-    "feelDesc4": "그 날것의 감정을 외면하지 마세요.",
+    "feelDesc4": "당신의 울림을 흘려보내지 마세요.",
     "noteTitle": "Note",
     "noteDesc1": "기록은 이성적입니다.",
     "noteDesc2": "흩어지는 감정을 단어로 붙잡아",
     "noteDesc3": "구체적인 형태로 조각하는 과정입니다.",
-    "noteDesc4": "기록된 감정만이 사유가 됩니다.",
+    "noteDesc4": "기록된 한 줄이 천 년을 울립니다.",
     "promise1": "Feel&Note는",
-    "promise2": "당신의 스쳐가는 감상이",
-    "promiseHighlight": "견고한 지혜",
+    "promise2": "당신의 한 줄이",
+    "promiseHighlight": "천 년의 울림",
     "promise3": "로 남기를 바랍니다.",
-    "epilogue1": "이곳은 단순한 메모장이 아닙니다.",
-    "epilogue2": "당신의 취향이 역사가 되고,",
-    "epilogue3": "당신의 사유가 유산이 되는",
+    "epilogue1": "이곳은 단순한 기록장이 아닙니다.",
+    "epilogue2": "당신의 한 줄이 역사가 되고,",
+    "epilogue3": "당신의 울림이 유산이 되는",
     "epilogue4": "지혜의 신전입니다.",
     "fromBuilders": "From the Builders of",
     "teamName": "Feel&Note Team"

@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "reboot": "node scripts/dev.mjs --restart",
-    "serve": "npx serve public -p 3005 --cors",
     "studio": "remotion studio",
     "voice": "tsx scripts/generate-voice.ts",
     "voice:list": "tsx scripts/generate-voice.ts --list",
+    "voice:upload": "tsx scripts/voice-r2.ts upload",
+    "voice:pull": "tsx scripts/voice-r2.ts pull",
+    "voice:r2": "tsx scripts/voice-r2.ts",
+    "analyze": "tsx scripts/analyze-voice.ts",
     "render": "remotion render",
     "render:short": "remotion render BookRecommendShort",
     "render:all": "tsx scripts/render-all.ts",
@@ -26,8 +29,11 @@
     "wav": "^1.0.2"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.997.0",
+    "@hono/node-server": "^1.19.11",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "hono": "^4.12.8",
     "mp3-duration": "^1.1.0",
     "prettier": "^3.8.1",
     "tsx": "^4.21.0",

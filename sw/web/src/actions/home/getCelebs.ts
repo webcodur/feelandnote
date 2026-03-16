@@ -177,15 +177,18 @@ export async function getCelebs(
   // 음성 보유 셀럽 조회 (voice_v 포함)
   const voiceSet = new Set<string>()
   const voiceVMap = new Map<string, number>()
+  const voiceSpeedMap = new Map<string, number>()
   if (celebIds.length > 0) {
     const { data: voiceRows } = await supabase
       .from('profiles')
-      .select('id, voice_v')
+      .select('id, voice_v, voice_speed')
       .in('id', celebIds)
       .eq('has_voice', true)
     ;(voiceRows ?? []).forEach(row => {
       voiceSet.add(row.id)
       voiceVMap.set(row.id, (row as Record<string, unknown>).voice_v as number ?? 0)
+      const speed = (row as Record<string, unknown>).voice_speed as number ?? 1.0
+      if (speed !== 1.0) voiceSpeedMap.set(row.id, speed)
     })
   }
 
@@ -250,6 +253,7 @@ export async function getCelebs(
       greeting_en: greetingEnMap.get(row.id) ?? null,
       has_voice: voiceSet.has(row.id),
       voice_v: voiceVMap.get(row.id) ?? 0,
+      voice_speed: voiceSpeedMap.get(row.id) ?? 1.0,
       celeb_tier: (row.celeb_tier as 'full' | 'light') ?? 'full',
     }
   })

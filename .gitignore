@@ -24,6 +24,12 @@ dist
 out/
 dist-ssr
 *.local
+.next
+
+# Remotion voice assets (managed via R2)
+sw/remotion/public/voice/**/*.wav
+!sw/remotion/public/voice/**/r2-manifest.json
+!sw/remotion/public/voice/**/manifest.json
 
 # Editor directories and files
 .vscode/*

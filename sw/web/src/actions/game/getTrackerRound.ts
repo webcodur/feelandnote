@@ -29,6 +29,7 @@ export interface TrackerOption {
   dialogueLines?: any | null;
   hasVoice?: boolean;
   voiceV?: number;
+  voiceSpeed?: number;
 }
 
 export interface TrackerPersona {
@@ -412,7 +413,7 @@ async function buildRound(
 
   const optionIds = rawOptions.map(o => o.id);
   const [{ data: tones }, { data: dialogues }] = await Promise.all([
-    supabase.from("profiles").select("id, speech_tone, has_voice, voice_v").in("id", optionIds),
+    supabase.from("profiles").select("id, speech_tone, has_voice, voice_v, voice_speed").in("id", optionIds),
     supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
   ]);
 
@@ -420,7 +421,7 @@ async function buildRound(
   const dialogueMap = new Map<string, any>((dialogues ?? []).map(d => [d.celeb_id,
     (!preferKo && (d as any).lines_en) ? (d as any).lines_en : d.lines
   ]));
-  const voiceMap = new Map<string, { hasVoice: boolean; voiceV: number }>((tones ?? []).map(t => [t.id, { hasVoice: (t as any).has_voice ?? false, voiceV: (t as any).voice_v ?? 0 }]));
+  const voiceMap = new Map<string, { hasVoice: boolean; voiceV: number; voiceSpeed: number }>((tones ?? []).map(t => [t.id, { hasVoice: (t as any).has_voice ?? false, voiceV: (t as any).voice_v ?? 0, voiceSpeed: (t as any).voice_speed ?? 1.0 }]));
 
   const options: TrackerOption[] = rawOptions.map(o => {
     const voice = voiceMap.get(o.id);
@@ -430,6 +431,7 @@ async function buildRound(
       dialogueLines: dialogueMap.get(o.id) ?? null,
       hasVoice: voice?.hasVoice ?? false,
       voiceV: voice?.voiceV ?? 0,
+      voiceSpeed: voice?.voiceSpeed ?? 1.0,
     };
   });
 

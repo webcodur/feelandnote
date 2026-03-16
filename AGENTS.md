@@ -5,24 +5,63 @@
 ## 프로젝트 개요
 
 Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. Neo-Pantheon(고전 신전) 테마의 다크 UI. 모노레포 구조:
-- `sw/web` - 사용자용 웹 (포트 3000)
-- `sw/web-bo` - 관리자 백오피스 (포트 3001)
-- `sw/lab` - 실험 공간 (포트 3002) — 3D/2D 모델, 게임, 영상 테스트
-- `sw/remotion` - Remotion 영상 제작 스튜디오
-- `packages/content-search` - 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify, Google Books, Q-Net)
-- `packages/ai-services` - AI 서비스 (셀럽 프로필 타입, 영향력 분석)
-- `packages/influence-constants` - 영향력 평가 상수
-- `packages/shared` - 공유 상수, 타입, 훅
+
+| # | 앱 | 경로 | 포트 | 설명 |
+|---|-----|------|------|------|
+| 1 | web | `sw/web` | 3000 | 사용자용 웹 (Next.js) |
+| 2 | web-bo | `sw/web-bo` | 3001 | 관리자 백오피스 (Next.js) |
+| 3 | remotion | `sw/remotion` | 3002 + 8001 | 영상 제작 (Studio + serve) |
+| 4 | remotion-bo | `sw/remotion-bo` | 3003 | 영상 관리 대시보드 (Next.js) |
+| 5 | lab | `sw/lab` | 3004 | 실험 공간 — 2D/3D, 게임 (Vite) |
+
+**공유 패키지** (`packages/`):
+- `content-search` — 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify, Google Books, Q-Net)
+- `ai-services` — AI 서비스 (셀럽 프로필 타입, 영향력 분석)
+- `influence-constants` — 영향력 평가 상수
+- `shared` — 공유 상수, 타입, 훅
 
 ## 주요 명령어
 
+### 개발 서버
+
 ```bash
-pnpm dev:web    # 사용자 웹 (포트 3000)
-pnpm dev:bo     # 관리자 백오피스 (포트 3001)
+pnpm dev:web          # 1. 사용자 웹 (:3000)
+pnpm dev:bo           # 2. 관리자 백오피스 (:3001)
+pnpm dev:remotion     # 3. Remotion Studio (:3002) + serve (:8001)
+pnpm dev:remotion-bo  # 4. Remotion 관리 대시보드 (:3003)
+pnpm dev:lab          # 5. 실험 공간 (:3004)
+```
+
+### 빌드
+
+```bash
 pnpm build:web
 pnpm build:bo
-pnpm dev:lab    # 실험 공간 (포트 3002)
-pnpm dev:remotion # Remotion 스튜디오
+```
+
+### Remotion 음성/렌더
+
+```bash
+pnpm voice -- --episode <name> --update-json          # TTS 생성
+pnpm voice -- --episode <name> --upload                # TTS 생성 + R2 업로드
+pnpm voice:list -- --episode <name>                    # TTS 대상 목록
+```
+
+### 음성 R2 관리 (sw/remotion 내)
+
+```bash
+pnpm voice:upload -- --episode <name>     # R2 업로드
+pnpm voice:pull -- --episode <name>       # R2 다운로드
+pnpm voice:pull -- --all                  # 전체 다운로드
+pnpm voice:r2 -- --status                 # 동기화 현황
+```
+
+### bash 별칭 (bashrc)
+
+```
+1/2/3/4/5     → dev 서버 실행 (web/bo/remotion/remotion-bo/lab)
+rv/rvl        → voice/voice:list
+rvu/rvp/rvs   → R2 upload/pull/status
 ```
 
 ## 기술 스택
@@ -88,6 +127,13 @@ pnpm dev:remotion # Remotion 스튜디오
 | 4 | `tts.md` | 음성 생성 — 엔진, 보이스, 커맨드, web-bo 통합 |
 | 5 | `lineup.md` | 편성 — 인물 선정, 라이벌 묶음, 정치 균형 |
 | 6 | `rules.md` | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항, 체크리스트 |
+| 7 | `voice-actors.md` | 보이스 배정 — Gemini TTS 전체 목록, 셀럽별 매핑 |
+
+### 영상 관리 대시보드
+
+| 문서 | 내용 |
+|------|------|
+| `docs/project/remotion-bo-plan.md` | remotion-bo 기획서 — IA, 라우팅, API, 구현 우선순위 |
 
 ### 게임 (천도)
 
@@ -107,8 +153,11 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | 대기 | content_locales 포함, 현재 `as any` 캐스팅 |
 | 셀럽 창작 서가 | — | **완료** | 실시간 Wikidata SPARQL 조회 방식. celeb_works 테이블 DROP 완료 |
+| 음성 R2 관리 시스템 | — | **완료** | WAV git 제외, R2 업로드/다운로드/동기화. voice-r2.ts |
+| remotion-bo 프로젝트 | `docs/project/remotion-bo-plan.md` | **Phase 2 완료** | Next.js. 시리즈 레지스트리, 2단 사이드바, Supabase 셀럽 검색, 스캐폴딩. AI 초안은 LLM 연동 시 별도 |
+| 포트 정비 | — | **완료** | remotion 3003, lab 3002, remotion-bo 3010+3011. bashrc 동기화 |
 
-* 마지막 작업 시각: 26.03.11
+* 마지막 작업 시각: 26.03.16
 
 ## 아이디어 응답 방식
 

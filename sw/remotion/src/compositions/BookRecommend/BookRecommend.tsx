@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { AbsoluteFill, Audio, Img, interpolate, prefetch, Sequence, useCurrentFrame } from 'remotion'
+import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, prefetch, Sequence, Series, useCurrentFrame } from 'remotion'
 import type { BookRecommendScript } from './types'
-import { safeImg, fadeInOut, BrandLogo, sf, makeVf } from './utils'
+import { safeImg, fadeInOut, BrandLogo, BRAND_LOGO_SIZE, sf, makeVf } from './utils'
 import { BrandIntro } from './BrandIntro'
 import { HostIntro } from './HostIntro'
-import { BookCard } from './BookCard'
 import { BookCardVisual } from './BookCardVisual'
 import { BookRecap } from './BookRecap'
 import { FONT } from './fonts'
@@ -12,17 +11,17 @@ import { Overlay } from './Overlay'
 import {
   toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
-  BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, LOGO_FRAMES, PRE_LABEL_GAP,
+  BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, LOGO_FRAMES,
   CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, OUTRO_FALLBACK,
   titleSummaryGap, summaryContextGap, labelSummaryFrames, labelContextFrames,
   summaryPhaseEnd, contextPhaseEnd, quotePhaseEnd, bookTotalFrames,
-  type LabelDurations,
+  type LabelDurations, f, FPS,
 } from './timing'
-import { EPISODE_NAME, loadVoiceSelect } from './script'
+import { EPISODE_NAME, loadVoiceSelect, isVoiceReady, isContinuation } from './script'
+import { RETURN_INTRO_FALLBACK, PREV_RECAP_FALLBACK } from './timing'
 
 type Props = {
   script: BookRecommendScript
-  visual?: boolean
   /** 에피소드 이름 (음성 경로용) */
   episodeName?: string
 }
@@ -30,37 +29,53 @@ type Props = {
 
 export const calcTotalFrames = (script: BookRecommendScript) => {
   const { narrator, host, books } = script
+  const cont = isContinuation(script)
   const ld: LabelDurations = { labelSummaryDuration: narrator.labelSummaryDuration, labelContextDuration: narrator.labelContextDuration }
-  const svcIntro = narrator.serviceIntroDuration > 0 ? toFrames(narrator.serviceIntroDuration) : 0
-  const fQuote = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
-  const celebIntro = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : CELEB_INTRO_FALLBACK)
-  const philosophy = toFrames(host.voiceDuration)
+
+  // --- Part 1 전용 섹션 ---
+  const sgd = narrator.serviceGreetingDuration ?? 0
+  const svcGreeting = cont ? 0 : (sgd > 0 ? toFrames(sgd) : 0)
+  const svcIntro = cont ? 0 : ((narrator.serviceIntroDuration ?? 0) > 0 ? toFrames(narrator.serviceIntroDuration!) : 0)
+  const celebIntro = cont ? 0 : (CELEB_VISUAL_DELAY + ((narrator.celebIntroDuration ?? 0) > 0 ? toFrames(narrator.celebIntroDuration!) : CELEB_INTRO_FALLBACK))
+  const philosophy = cont ? 0 : toFrames(host.voiceDuration ?? 0)
+  const hostIntroTotal = cont ? 0 : celebIntro + f(1) + philosophy
+
+  // --- Continuation 전용 섹션 ---
+  const returnIntro = cont ? ((narrator.returnIntroDuration ?? 0) > 0 ? toFrames(narrator.returnIntroDuration!) : RETURN_INTRO_FALLBACK) : 0
+  const prevRecap = cont ? ((narrator.prevRecapDuration ?? 0) > 0 ? toFrames(narrator.prevRecapDuration!) : PREV_RECAP_FALLBACK) : 0
+
+  // --- 공통 섹션 ---
+  const fQuoteRaw = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+  const fQuote = fQuoteRaw > 0 ? fQuoteRaw + f(1.5) : 0
   const bridge = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK
+  const LSF = labelSummaryFrames(narrator.labelSummaryDuration)
+  const LCF = labelContextFrames(narrator.labelContextDuration)
+  const visualExtra = (LSF + LCF) * books.length
   const booksTotal = books.reduce((sum, b) => sum + bookTotalFrames(b, ld), 0)
   const bookGaps = Math.max(0, books.length - 1) * BOOK_GAP
   const interlude = books.length > 10 ? INTERLUDE_FRAMES : 0
   const midRecap = books.length > 10 ? RECAP_FRAMES : 0
   const outro = narrator.outroDuration > 0 ? toFrames(narrator.outroDuration) : OUTRO_FALLBACK
-  return BRAND_FRAMES + svcIntro + fQuote + celebIntro + philosophy + bridge + booksTotal + bookGaps + midRecap + interlude + RECAP_FRAMES + outro + LOGO_FRAMES
+  return BRAND_FRAMES + svcGreeting + svcIntro + fQuote + returnIntro + prevRecap + hostIntroTotal + bridge + booksTotal + visualExtra + bookGaps + midRecap + interlude + RECAP_FRAMES + outro + LOGO_FRAMES
 }
 
-export const BookRecommend: React.FC<Props> = ({ script, visual = false, episodeName }) => {
+export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
   const frame = useCurrentFrame()
   const epName = episodeName ?? EPISODE_NAME
   const vf = makeVf(epName, loadVoiceSelect(epName))
   const { narrator, host, books } = script
+  const cont = isContinuation(script)
 
-  // 모든 오디오 프리페치 — Sequence 진입 전에 미리 로드
+  /** 음성 준비 완료 여부 — false면 Audio/프리페치 전부 스킵 */
+  const hasVoice = isVoiceReady(script)
+
+  // 오디오 프리페치 — 음성 준비된 에피소드만
   useEffect(() => {
+    if (!hasVoice) return
     const urls: string[] = [
       sf('sfx/chime.wav'),
-      sf('sfx/type-reveal.wav'),
       sf('sfx/page-turn.wav'),
       sf('sfx/whoosh.wav'),
-      ...(narrator.serviceIntroDuration > 0 ? [vf('service-intro.wav')] : []),
-      ...(host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? [vf('featured-quote.wav')] : []),
-      vf('narrator-celeb-intro.wav'),
-      vf('philosophy.wav'),
       vf('label-summary.wav'),
       vf('label-context.wav'),
       ...(narrator.outroDuration > 0 ? [vf('narrator-outro.wav')] : []),
@@ -73,28 +88,61 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
         ...(books[i].contextAfter ? [vf(`book-${i}-context-after.wav`)] : []),
       ]),
     ]
+    if (cont) {
+      // continuation 전용
+      if ((narrator.returnIntroDuration ?? 0) > 0) urls.push(vf('return-intro.wav'))
+      if ((narrator.prevRecapDuration ?? 0) > 0) urls.push(vf('prev-recap.wav'))
+    } else {
+      // Part 1 전용
+      urls.push(sf('sfx/type-reveal.wav'))
+      if ((narrator.serviceGreetingDuration ?? 0) > 0) {
+        urls.push(vf('service-greeting.wav'))
+      }
+      if ((narrator.serviceIntroDuration ?? 0) > 0) urls.push(vf('service-intro.wav'))
+      urls.push(vf('narrator-celeb-intro.wav'))
+      urls.push(vf('philosophy.wav'))
+    }
+    if (host.featuredQuoteDuration && host.featuredQuoteDuration > 0) urls.push(vf('featured-quote.wav'))
     const cleanups = urls.map((url) => {
       const { free } = prefetch(url, { method: 'blob-url', contentType: 'audio/wav' })
       return free
     })
     return () => cleanups.forEach((fn) => fn())
-  }, [books])
+  }, [books, hasVoice])
 
-  const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : CELEB_INTRO_FALLBACK)
-  const philosophyFrames = toFrames(host.voiceDuration)
-  const hostIntroFrames = celebIntroFrames + philosophyFrames
+  // --- Part 1 전용 프레임 ---
+  const celebIntroFrames = cont ? 0 : (CELEB_VISUAL_DELAY + ((narrator.celebIntroDuration ?? 0) > 0 ? toFrames(narrator.celebIntroDuration!) : CELEB_INTRO_FALLBACK))
+  const philosophyFrames = cont ? 0 : toFrames(host.voiceDuration ?? 0)
+  const hostIntroFrames = cont ? 0 : (celebIntroFrames + f(1) + philosophyFrames) // 1초 여유 후 감상철학
+
+  const sgdR = narrator.serviceGreetingDuration ?? 0
+  const svcGreetingFrames = cont ? 0 : (sgdR > 0 ? toFrames(sgdR) : 0)
+  const svcIntroFrames = cont ? 0 : ((narrator.serviceIntroDuration ?? 0) > 0 ? toFrames(narrator.serviceIntroDuration!) : 0)
+
+  // --- Continuation 전용 프레임 ---
+  const returnIntroFrames = cont ? ((narrator.returnIntroDuration ?? 0) > 0 ? toFrames(narrator.returnIntroDuration!) : RETURN_INTRO_FALLBACK) : 0
+  const prevRecapFrames = cont ? ((narrator.prevRecapDuration ?? 0) > 0 ? toFrames(narrator.prevRecapDuration!) : PREV_RECAP_FALLBACK) : 0
+
+  // --- 공통 ---
   const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK
-
-  const svcIntroFrames = narrator.serviceIntroDuration > 0 ? toFrames(narrator.serviceIntroDuration) : 0
-  const fQuoteFrames = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+  const fQuoteFramesRaw = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+  const fQuoteFrames = fQuoteFramesRaw > 0 ? fQuoteFramesRaw + f(1.5) : 0 // reveal 대기 + 엔딩 여유
 
   let cursor = 0
   const brandStart = cursor
   cursor += BRAND_FRAMES
+  // continuation: ReturnIntro → FeaturedQuote → PrevRecap → Bridge → Books
+  // Part 1: SvcGreeting → SvcIntro → FeaturedQuote → HostIntro → Bridge → Books
+  const returnIntroStart = cursor
+  cursor += returnIntroFrames
+  const svcGreetingStart = cursor
+  cursor += svcGreetingFrames
   const svcIntroStart = cursor
   cursor += svcIntroFrames
   const fQuoteStart = cursor
   cursor += fQuoteFrames
+  const prevRecapStart = cursor
+  cursor += prevRecapFrames
   const hostIntroStart = cursor
   cursor += hostIntroFrames
   const bridgeStart = cursor
@@ -115,7 +163,7 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
     summaryEnd: summaryPhaseEnd(b, ld),
     contextEnd: contextPhaseEnd(b, ld),
     quoteEnd: quotePhaseEnd(b, ld),
-    total: bookTotalFrames(b, ld),
+    total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F,
     hasQuote: !!b.quoteDuration,
     hasContextAfter: !!b.contextAfterDuration,
   }))
@@ -153,13 +201,95 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
   const outroFrames = narrator.outroDuration > 0 ? toFrames(narrator.outroDuration) : OUTRO_FALLBACK
 
   // 배경
-  const vignetteOpacity = interpolate(frame, [0, 30], [1, 0.6], { extrapolateRight: 'clamp' })
+  const vignetteOpacity = interpolate(frame, [0, f(1)], [1, 0.6], { extrapolateRight: 'clamp' })
 
   // 브릿지
   const bridgeLocal = frame - bridgeStart
   const bridgeOpacity = bridgeLocal >= 0 && bridgeLocal < bridgeFrames
-    ? fadeInOut(bridgeLocal, 0, bridgeFrames, 15, 15)
+    ? fadeInOut(bridgeLocal, 0, bridgeFrames, f(0.5), f(0.5))
     : 0
+
+  // --- 캐러셀 전환 헬퍼 ---
+  const renderBookCarousel = (localFrame: number, duration: number, fromIdx: number, toIdx: number, opacity: number) => {
+    if (opacity <= 0) return null
+    const CARD_W = 100, CARD_H = 150, CARD_GAP = 24
+    const CARD_STEP = CARD_W + CARD_GAP
+    const VIEWPORT_W = CARD_STEP * 5
+    const POINTER_W = 120
+
+    // 타이밍: 정지(15%) → 스크롤(35%) → 정지(50%)
+    const holdEnd = Math.round(duration * 0.15)
+    const scrollEnd = Math.round(duration * 0.5)
+    const scrollProgress = interpolate(localFrame, [holdEnd, scrollEnd], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+    const centerPos = interpolate(scrollProgress, [0, 1], [fromIdx, toIdx])
+    const scrollX = centerPos * CARD_STEP
+
+    const numStyle = { color: '#c8a46e', fontSize: 24, fontFamily: FONT.cinzel, fontWeight: 600 } as const
+    const numFrom = fromIdx + 1
+    const numTo = toIdx + 1
+    const numProgress = scrollProgress
+    const maxNum = Math.max(numFrom, numTo)
+    const slotW = maxNum >= 10 ? 32 : 18
+    const slotH = 28
+
+    // "BOOK SHELF" 라벨 opacity
+    const labelOp = fadeInOut(localFrame, f(0.17), duration - f(0.33), f(0.5), f(0.5))
+
+    return (
+      <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity, gap: 0 }}>
+        {/* BOOK SHELF 라벨 */}
+        <div style={{ color: '#c8a46e', fontSize: 14, fontFamily: FONT.cinzel, letterSpacing: 8, fontWeight: 600, opacity: labelOp, marginBottom: 16 }}>
+          BOOK SHELF
+        </div>
+
+        {/* 넘버링 — fade in/out */}
+        <div style={{ marginBottom: 20 }}>
+          <span style={{
+            ...numStyle,
+            opacity: fromIdx === toIdx ? 1 : interpolate(numProgress, [0, 0.4, 0.6, 1], [1, 0, 0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }),
+          }}>
+            {fromIdx === toIdx || numProgress < 0.5 ? numFrom : numTo}/{books.length}
+          </span>
+        </div>
+
+        {/* 상단 포인터 */}
+        <div style={{ width: POINTER_W, height: 2, backgroundColor: '#c8a46e', opacity: 0.5, marginBottom: 16 }} />
+
+        {/* 캐러셀 */}
+        <div style={{
+          width: VIEWPORT_W, overflow: 'hidden', position: 'relative',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+        }}>
+          <div style={{ display: 'flex', gap: CARD_GAP, alignItems: 'center', transform: `translateX(${-scrollX + VIEWPORT_W / 2 - CARD_W / 2}px)` }}>
+            {books.map((b, bi) => {
+              const dist = Math.abs(bi - centerPos)
+              if (dist > 4) return <div key={bi} style={{ width: CARD_W, flexShrink: 0 }} />
+              const isCurrent = Math.round(centerPos) === bi
+              const scale = interpolate(dist, [0, 1, 2], [1.05, 0.9, 0.75], { extrapolateRight: 'clamp' })
+              return (
+                <div key={bi} style={{ flexShrink: 0, width: CARD_W, transform: `scale(${scale})` }}>
+                  <div style={{
+                    width: CARD_W, height: CARD_H, borderRadius: 6, overflow: 'hidden',
+                    boxShadow: isCurrent ? '0 8px 30px rgba(200,164,110,0.25)' : '0 4px 12px rgba(0,0,0,0.4)',
+                    border: isCurrent ? '2px solid rgba(200,164,110,0.6)' : '1px solid rgba(200,164,110,0.08)',
+                  }}>
+                    <Img src={safeImg(b.thumbnail_url)} style={{
+                      width: '100%', height: '100%', objectFit: 'cover',
+                      filter: isCurrent ? 'brightness(1)' : 'brightness(0.4)',
+                    }} />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* 하단 포인터 */}
+        <div style={{ width: POINTER_W, height: 2, backgroundColor: '#c8a46e', opacity: 0.5, marginTop: 16 }} />
+      </AbsoluteFill>
+    )
+  }
 
 
   return (
@@ -179,64 +309,144 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
 
       {/* 브랜드 */}
       <Sequence from={brandStart} durationInFrames={BRAND_FRAMES}>
-        <Audio src={sf('sfx/chime.wav')} volume={0.6} />
+        {hasVoice && <Audio src={sf('sfx/chime.wav')} volume={0.6} />}
         <BrandIntro durationFrames={BRAND_FRAMES} />
       </Sequence>
 
-      {/* 서비스 인트로 + 명언 — 3단 시퀀스 */}
-      {/* 오디오 */}
-      {svcIntroFrames > 0 && (
+      {/* ===== Continuation: ReturnIntro + PrevRecap ===== */}
+      {cont && returnIntroFrames > 0 && (
+        <Sequence from={returnIntroStart} durationInFrames={returnIntroFrames}>
+          {hasVoice && (narrator.returnIntroDuration ?? 0) > 0 && <Audio src={vf('return-intro.wav')} />}
+          {(() => {
+            const local = frame - returnIntroStart
+            const op = local >= 0 && local < returnIntroFrames
+              ? fadeInOut(local, 0, returnIntroFrames, f(0.67), f(0.5))
+              : 0
+            if (op <= 0) return null
+            return (
+              <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: op, gap: 20 }}>
+                <Img src={host.avatar_url} style={{ width: 160, height: 160, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(200,164,110,0.3)' }} />
+                <div style={{ color: '#e8e0d0', fontSize: 26, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 800, lineHeight: 1.7 }}>
+                  {narrator.returnIntro}
+                </div>
+                {script.series && (
+                  <div style={{ color: '#c8a46e', fontSize: 16, fontFamily: FONT.cinzel, letterSpacing: 4 }}>
+                    PART {script.series.part} / {script.series.totalParts}
+                  </div>
+                )}
+              </AbsoluteFill>
+            )
+          })()}
+        </Sequence>
+      )}
+      {cont && prevRecapFrames > 0 && (
+        <Sequence from={prevRecapStart} durationInFrames={prevRecapFrames}>
+          {hasVoice && (narrator.prevRecapDuration ?? 0) > 0 && <Audio src={vf('prev-recap.wav')} />}
+          {(() => {
+            const local = frame - prevRecapStart
+            const op = local >= 0 && local < prevRecapFrames
+              ? fadeInOut(local, 0, prevRecapFrames, f(0.67), f(0.5))
+              : 0
+            if (op <= 0) return null
+            return (
+              <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: op, gap: 16 }}>
+                <div style={{ color: '#c8a46e', fontSize: 14, fontFamily: FONT.cinzel, letterSpacing: 6 }}>PREVIOUSLY</div>
+                <div style={{ width: 400, height: 1, backgroundColor: '#c8a46e', opacity: 0.3 }} />
+                <div style={{ color: '#ccc', fontSize: 22, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 900, lineHeight: 1.8, marginTop: 8 }}>
+                  {narrator.prevRecap}
+                </div>
+              </AbsoluteFill>
+            )
+          })()}
+        </Sequence>
+      )}
+
+      {/* 서비스 인사 — 단일 오디오 */}
+      {!cont && hasVoice && svcGreetingFrames > 0 && (
+        <Sequence from={svcGreetingStart} durationInFrames={svcGreetingFrames}>
+          <Audio src={vf('service-greeting.wav')} />
+        </Sequence>
+      )}
+      {!cont && hasVoice && svcIntroFrames > 0 && (
         <Sequence from={svcIntroStart} durationInFrames={svcIntroFrames}>
           <Audio src={vf('service-intro.wav')} />
         </Sequence>
       )}
-      {fQuoteFrames > 0 && (
+      {hasVoice && fQuoteFrames > 0 && (
         <Sequence from={fQuoteStart} durationInFrames={fQuoteFrames}>
-          <Audio src={vf('featured-quote.wav')} />
+          <Sequence from={f(1)} durationInFrames={fQuoteFrames}>
+            <Audio src={vf('featured-quote.wav')} />
+          </Sequence>
         </Sequence>
       )}
 
-      {/* ===== 통합 프리인트로: ServiceIntro + FeaturedQuote =====
-           아바타를 고정 앵커로 유지, 하단 텍스트만 크로스페이드.
-           레이아웃 변경(수평↔수직) 없이 세로 단일 축 유지. */}
-      {(() => {
-        const totalPreIntro = svcIntroFrames + fQuoteFrames
+      {/* ===== 통합 프리인트로: ServiceIntro + FeaturedQuote (Part 1 only) =====
+           나레이션 문장에 동기화된 비주얼 시퀀스:
+           1. "필앤노트 서재 탐방 코너에서는" → 라벨 + 책 등장(어둡게)
+           2. "한 인물의 서재를 열어" → 책 밝아짐
+           3. "그들이 사랑한 것들과" → 책 점프
+           4. "오늘 함께할 인물은 알렉산더 대왕입니다" → 아바타 등장 → reveal */}
+      {!cont && (() => {
+        const totalPreIntro = svcGreetingFrames + svcIntroFrames + fQuoteFrames
         if (totalPreIntro <= 0) return null
-        const local = frame - svcIntroStart
+        const local = frame - svcGreetingStart
         if (local < -5 || local > totalPreIntro + 5) return null
 
         const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
-        // ── 아바타: 전체 구간 고정 위치 ──
-        const avatarIn = interpolate(local, [8, 30], [0, 1], CL)
-        const avatarOut = interpolate(local, [totalPreIntro - 25, totalPreIntro], [1, 0], CL)
-        const avatarOp = Math.min(avatarIn, avatarOut)
+        // ── parts 기반 정확한 타이밍 ──
+        // 비율 기반 타이밍 (단일 오디오)
+        const gf = svcGreetingFrames
+        const CORNER = 0                              // "feelandnote 서재 탐방 코너에서는,"
+        const LIBRARY = Math.round(gf * 0.35)         // "한 인물의 서재를 열어,"
+        const INTRODUCE = Math.round(gf * 0.55)       // "그들이 사랑한 것들과 그 이유를 소개합니다."
 
-        // 실루엣 → reveal (svcIntro 70% 시점)
-        const revealAt = Math.round(svcIntroFrames * 0.7)
-        const revealProgress = interpolate(local, [revealAt, revealAt + 25], [0, 1], CL)
+        // 책 등장 — 첫 파트부터 바로
+        const shelfAppear = f(0.17)
+        // 책 밝게 — "그들이 사랑한 것들과"
+        const shelfBright = INTRODUCE
+        // 아바타 등장 — serviceIntro "오늘 함께할 인물은"
+        const svcTotalEnd = svcGreetingFrames + svcIntroFrames
+        const avatarAppear = svcGreetingFrames
+        // reveal — "알렉산더 대왕입니다" 발화 중간에 reveal
+        const revealAt = svcGreetingFrames + Math.round(svcIntroFrames * 0.5)
+
+        // ── "서재 탐방" 라벨 ──
+        const labelOp = fadeInOut(local, CORNER, svcTotalEnd - CORNER, f(0.67), f(0.67))
+
+        // ── 책 표지: shelfAppear에서 등장, shelfBright에서 밝아짐 ──
+        const shelfOp = interpolate(local,
+          [shelfAppear, shelfAppear + f(0.67), svcTotalEnd - f(0.5), svcTotalEnd],
+          [0, 1, 1, 0], CL)
+        const baseBrightness = interpolate(local, [shelfAppear, LIBRARY, LIBRARY + f(0.67)], [0.35, 0.35, 0.85], CL)
+        const shelfBrightness = Math.max(0.3, baseBrightness)
+
+        // ── 책 순차 점프: "그들이 사랑한...소개합니다" 구간 ──
+        const jumpStart = shelfBright
+        const jumpEnd = svcGreetingFrames
+        const jumpDuration = jumpEnd - jumpStart
+        const bookCount = Math.min(books.length, 7)
+
+        // ── 아바타: avatarAppear에서 등장, revealAt에서 밝아짐 ──
+        const avatarIn = interpolate(local, [avatarAppear, avatarAppear + f(0.67)], [0, 1], CL)
+        const avatarOut = interpolate(local, [totalPreIntro - f(0.83), totalPreIntro], [1, 0], CL)
+        const avatarOp = Math.min(avatarIn, avatarOut)
+        const revealProgress = interpolate(local, [revealAt, revealAt + f(0.83)], [0, 1], CL)
         const imgBrightness = interpolate(revealProgress, [0, 1], [0.08, 1])
         const borderAlpha = interpolate(revealProgress, [0, 1], [0.15, 0.35])
         const questionOp = interpolate(revealProgress, [0, 0.5], [1, 0], CL)
 
-        // ── 이름: reveal 후 등장, 끝까지 유지 ──
+        // ── 이름: reveal 후 등장 ──
         const nameOp = interpolate(local,
-          [revealAt + 10, revealAt + 30, totalPreIntro - 25, totalPreIntro],
+          [revealAt + f(0.33), revealAt + f(1), totalPreIntro - f(0.83), totalPreIntro],
           [0, 1, 1, 0], CL)
 
-        // ── "서재 탐방" 라벨 (svcIntro 구간) ──
-        const labelOp = fadeInOut(local, 5, svcIntroFrames - 5, 20, 20)
-
-        // ── 책 표지 미리보기 (svcIntro 구간, 순차 등장) ──
-        const shelfOp = fadeInOut(local, 15, svcIntroFrames - 15, 25, 15)
-        // reveal 시 표지 밝기도 약간 상승
-        const shelfBrightness = interpolate(revealProgress, [0, 1], [0.15, 0.35])
-
-        // ── 명언 텍스트 (fQuote 구간, 부드러운 크로스페이드) ──
+        // ── 명언 (fQuote 구간) — reveal 완료 후 등장, 끝나고 45프레임 여유 ──
         const hasFQ = fQuoteFrames > 0 && !!host.featuredQuote
+        const quoteVisualStart = svcTotalEnd + f(0.5) // serviceIntro 오디오 종료 + 여유 후 페이드인
         const quoteOp = hasFQ
           ? interpolate(local,
-              [svcIntroFrames + 5, svcIntroFrames + 30, totalPreIntro - 25, totalPreIntro],
+              [quoteVisualStart, quoteVisualStart + f(0.83), totalPreIntro - f(1.5), totalPreIntro - f(0.5)],
               [0, 1, 1, 0], CL)
           : 0
 
@@ -244,59 +454,66 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
 
         return (
           <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            {/* 아바타 블록 — 위치 고정, 크기 고정 */}
-            <div style={{ opacity: avatarOp, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 12 }}>
-              <div style={{ position: 'relative' }}>
-                <div style={{
-                  width: 180, height: 180, borderRadius: '50%', overflow: 'hidden',
-                  border: `2px solid rgba(200,164,110,${borderAlpha})`,
-                  boxShadow: revealProgress > 0.5
-                    ? '0 16px 50px rgba(0,0,0,0.5)'
-                    : '0 8px 30px rgba(0,0,0,0.3)',
-                }}>
-                  <Img src={host.avatar_url} style={{
-                    width: '100%', height: '100%', objectFit: 'cover',
-                    filter: `brightness(${imgBrightness})`,
-                  }} />
+            {/* 아바타 블록 — 하단 요소가 먼저 내려간 뒤 페이드인 */}
+            {(() => {
+              // 아바타 공간 확보: avatarAppear 15프레임 전부터 높이 확장
+              const spaceStart = avatarAppear - f(0.5)
+              const avatarHeight = 180 + 14 + 48 + 12 // 아바타 + gap + 이름 + margin
+              const spaceH = interpolate(local, [spaceStart, avatarAppear], [0, avatarHeight], CL)
+              // 아바타 자체는 공간 확보 후 페이드인
+              const avatarDelay = f(0.33)
+              const avatarFadeIn = interpolate(local, [avatarAppear + avatarDelay, avatarAppear + avatarDelay + f(0.5)], [0, 1], CL)
+              const showSpace = local >= spaceStart && (avatarOp > 0 || spaceH > 0)
+              if (!showSpace) return null
+              return <div style={{ height: spaceH, minHeight: 0, overflow: 'visible', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+                {avatarOp > 0 && <div style={{ opacity: Math.min(avatarFadeIn, avatarOp), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+                <div style={{ position: 'relative' }}>
+                  <div style={{
+                    width: 180, height: 180, borderRadius: '50%', overflow: 'hidden',
+                    border: `2px solid rgba(200,164,110,${borderAlpha})`,
+                    boxShadow: revealProgress > 0.5
+                      ? '0 16px 50px rgba(0,0,0,0.5)'
+                      : '0 8px 30px rgba(0,0,0,0.3)',
+                  }}>
+                    <Img src={host.avatar_url} style={{
+                      width: '100%', height: '100%', objectFit: 'cover',
+                      filter: `brightness(${imgBrightness})`,
+                    }} />
+                  </div>
+                  {/* "?" 오버레이 */}
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: questionOp,
+                  }}>
+                    <div style={{ color: '#c8a46e', fontSize: 48, fontWeight: 700, fontFamily: FONT.serif }}>?</div>
+                  </div>
                 </div>
-                {/* "?" 오버레이 */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  opacity: questionOp,
-                }}>
-                  <div style={{ color: '#c8a46e', fontSize: 48, fontWeight: 700, fontFamily: FONT.serif }}>?</div>
+                {/* 이름 슬롯 */}
+                <div style={{ minHeight: 48, minWidth: 300, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ position: 'absolute', opacity: questionOp, color: '#c8a46e', fontSize: 24, fontWeight: 700, fontFamily: FONT.serif, letterSpacing: 6, whiteSpace: 'nowrap' }}>
+                    ???
+                  </div>
+                  <div style={{ position: 'absolute', opacity: nameOp, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
+                    <div style={{ color: '#e8e0d0', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
+                    <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.cormorant, letterSpacing: 2 }}>{host.nickname_en}</div>
+                  </div>
                 </div>
+              </div>}
               </div>
-              {/* 이름 슬롯 — 고정 크기, ??? ↔ 실명 크로스페이드 */}
-              <div style={{ minHeight: 48, minWidth: 300, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* ??? 플레이스홀더 — reveal 전 */}
-                <div style={{ position: 'absolute', opacity: questionOp, color: '#c8a46e', fontSize: 24, fontWeight: 700, fontFamily: FONT.serif, letterSpacing: 6, whiteSpace: 'nowrap' }}>
-                  ???
-                </div>
-                {/* 실명 — reveal 후 */}
-                <div style={{ position: 'absolute', opacity: nameOp, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
-                  <div style={{ color: '#e8e0d0', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
-                  <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.cormorant, letterSpacing: 2 }}>{host.nickname_en}</div>
-                </div>
-              </div>
-            </div>
+            })()}
 
-            {/* 하단 슬롯 — 서재탐방→명언 전환 시 높이 부드럽게 축소 */}
+            {/* 하단 슬롯 */}
             <div style={{
               position: 'relative', width: '100%',
-              minHeight: interpolate(
-                local,
-                [svcIntroFrames - 10, svcIntroFrames + 20],
-                [200, 80], CL),
+              minHeight: interpolate(local, [svcTotalEnd - f(0.33), svcTotalEnd + f(0.67)], [300, 80], CL),
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              {/* 서재 탐방 라벨 + 책 표지 미리보기 */}
+              {/* 서재 탐방 라벨 + 책 표지 */}
               <div style={{
                 position: 'absolute', opacity: Math.max(labelOp, shelfOp),
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20,
               }}>
-                {/* 라벨 */}
                 <div style={{ opacity: labelOp, display: 'flex', alignItems: 'center', gap: 16 }}>
                   <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
                   <div style={{ color: '#c8a46e', fontSize: 18, fontWeight: 600, fontFamily: FONT.cinzel, letterSpacing: 6 }}>
@@ -304,99 +521,104 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
                   </div>
                   <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
                 </div>
-                {/* 책 표지 — 어둡고 미스터리하게, 순차 등장 */}
-                <div style={{
-                  opacity: shelfOp, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-                  gap: 10, perspective: 800,
-                }}>
-                  {books.slice(0, Math.min(books.length, 7)).map((b, i) => {
-                    // 순차 등장: 중앙부터 바깥으로
-                    const mid = Math.min(books.length, 7) / 2
-                    const dist = Math.abs(i - mid)
-                    const delay = 20 + dist * 6
-                    const bookOp = interpolate(local, [delay, delay + 20], [0, 1], CL)
-                    // 중앙 책이 약간 더 크고 밝게
-                    const scaleFactor = interpolate(dist, [0, 3], [1.05, 0.9], CL)
-                    const brightness = shelfBrightness * interpolate(dist, [0, 3], [1.3, 0.8], CL)
-                    return (
-                      <div key={i} style={{
-                        opacity: bookOp,
-                        transform: `scale(${scaleFactor})`,
-                        transformOrigin: 'bottom center',
-                      }}>
-                        <div style={{
-                          width: 64, height: 96, borderRadius: 4, overflow: 'hidden',
-                          boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
-                          border: '1px solid rgba(200,164,110,0.1)',
+                {/* 책 표지 — 나레이션 동기화: 어둡게 등장 → 밝게 전환 */}
+                {shelfOp > 0 && (
+                  <div style={{
+                    opacity: shelfOp, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+                    gap: 10, perspective: 800,
+                  }}>
+                    {books.slice(0, bookCount).map((b, bi) => {
+                      const mid = bookCount / 2
+                      const dist = Math.abs(bi - mid)
+                      const delay = shelfAppear + dist * f(0.2)
+                      const bookOp = interpolate(local, [delay, delay + f(0.67)], [0, 1], CL)
+                      const scaleFactor = interpolate(dist, [0, 3], [1.05, 0.9], CL)
+                      const brightness = shelfBrightness * interpolate(dist, [0, 3], [1.3, 0.8], CL)
+                      // 순차 점프: 1번부터 n번까지 가볍게 올라갔다 내려옴
+                      const jumpDelay = jumpStart + Math.round((bi / bookCount) * jumpDuration * 0.8)
+                      const jumpLocal = local - jumpDelay
+                      const jumpY = jumpLocal >= 0 && jumpLocal < f(0.67)
+                        ? -Math.sin((jumpLocal / f(0.67)) * Math.PI) * 10
+                        : 0
+                      return (
+                        <div key={bi} style={{
+                          opacity: bookOp,
+                          transform: `scale(${scaleFactor}) translateY(${jumpY}px)`,
+                          transformOrigin: 'bottom center',
                         }}>
-                          <Img src={safeImg(b.thumbnail_url)} style={{
-                            width: '100%', height: '100%', objectFit: 'cover',
-                            filter: `brightness(${brightness}) saturate(0.5)`,
-                          }} />
+                          <div style={{
+                            width: 120, height: 180, borderRadius: 6, overflow: 'hidden',
+                            boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
+                            border: '1px solid rgba(200,164,110,0.1)',
+                          }}>
+                            <Img src={safeImg(b.thumbnail_url)} style={{
+                              width: '100%', height: '100%', objectFit: 'cover',
+                              filter: `brightness(${brightness}) saturate(0.75)`,
+                            }} />
+                          </div>
                         </div>
-                      </div>
-                    )
-                  })}
-                </div>
-                {/* 권수 표시 */}
+                      )
+                    })}
+                  </div>
+                )}
                 <div style={{ opacity: shelfOp, color: '#666', fontSize: 14, fontFamily: FONT.sans, letterSpacing: 2 }}>
                   {books.length} BOOKS
                 </div>
               </div>
               {/* 명언 */}
-              <div style={{
-                position: 'absolute', opacity: quoteOp,
-                maxWidth: 800, textAlign: 'center', padding: '0 40px',
-              }}>
-                <div style={{ color: '#c8a46e', fontSize: 30, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7 }}>
-                  "{host.featuredQuote}"
+              {quoteOp > 0 && (
+                <div style={{
+                  position: 'absolute', opacity: quoteOp,
+                  maxWidth: 800, textAlign: 'center', padding: '0 40px',
+                }}>
+                  <div style={{ color: '#c8a46e', fontSize: 30, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7 }}>
+                    "{host.featuredQuote}"
+                  </div>
+                  <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.sans, marginTop: 14 }}>
+                    — {host.nickname}
+                  </div>
                 </div>
-                <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.sans, marginTop: 14 }}>
-                  — {host.nickname}
-                </div>
-              </div>
+              )}
             </div>
           </AbsoluteFill>
         )
       })()}
 
-      {/* 인물 소개 + 감상철학 */}
-      <Sequence from={hostIntroStart} durationInFrames={hostIntroFrames}>
-        <Sequence from={0} durationInFrames={celebIntroFrames}>
-          <Audio src={sf('sfx/type-reveal.wav')} volume={0.7} />
-          {narrator.celebIntroDuration > 0 && (
-            <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={celebIntroFrames - CELEB_VISUAL_DELAY}>
-              <Audio src={vf('narrator-celeb-intro.wav')} />
+      {/* 인물 소개 + 감상철학 (Part 1 only) */}
+      {!cont && hostIntroFrames > 0 && (
+        <Sequence from={hostIntroStart} durationInFrames={hostIntroFrames}>
+          <Sequence from={0} durationInFrames={celebIntroFrames}>
+            {hasVoice && <Audio src={sf('sfx/type-reveal.wav')} volume={0.7} />}
+            {hasVoice && (narrator.celebIntroDuration ?? 0) > 0 && (
+              <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={celebIntroFrames - CELEB_VISUAL_DELAY}>
+                <Audio src={vf('narrator-celeb-intro.wav')} />
+              </Sequence>
+            )}
+          </Sequence>
+          {hasVoice && (
+            <Sequence from={celebIntroFrames + f(1)} durationInFrames={philosophyFrames}>
+              <Audio src={vf('philosophy.wav')} />
             </Sequence>
           )}
+          <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={celebIntroFrames} totalFrames={hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={host.voiceDuration ?? 0} />
         </Sequence>
-        <Sequence from={celebIntroFrames} durationInFrames={philosophyFrames}>
-          <Audio src={vf('philosophy.wav')} />
-        </Sequence>
-        <HostIntro host={host} narratorText={narrator.celebIntro} celebIntroFrames={celebIntroFrames} totalFrames={hostIntroFrames} narratorDuration={narrator.celebIntroDuration} philosophyDuration={host.voiceDuration} />
-      </Sequence>
+      )}
 
       {/* 브릿지 */}
       <Sequence from={bridgeStart} durationInFrames={bridgeFrames}>
-        <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />
-        <Sequence from={15} durationInFrames={bridgeFrames - 15}>
-          <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
-        </Sequence>
+        {hasVoice && <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />}
+        {hasVoice && (
+          <Sequence from={f(0.5)} durationInFrames={bridgeFrames - f(0.5)}>
+            <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
+          </Sequence>
+        )}
       </Sequence>
-      {bridgeOpacity > 0 && (
-        <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: bridgeOpacity, gap: 20 }}>
-          <div style={{ width: interpolate(bridgeLocal, [5, 40], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
-          <div style={{ color: '#c8a46e', fontSize: 18, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, opacity: fadeInOut(bridgeLocal, 15, bridgeFrames - 25, 20, 15) }}>
-            BOOK SHELF
-          </div>
-          <div style={{ width: interpolate(bridgeLocal, [5, 40], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
-        </AbsoluteFill>
-      )}
+      {renderBookCarousel(bridgeLocal, bridgeFrames, 0, 0, bridgeOpacity)}
 
       {/* 중간 리캡 (10개 초과 시 — 전반부 정리) */}
       {hasInterlude && (
         <Sequence from={midRecapStart} durationInFrames={RECAP_FRAMES}>
-          <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
+          {hasVoice && <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />}
           <BookRecap books={firstHalfBooks} host={host} totalFrames={RECAP_FRAMES} label="PART I" />
         </Sequence>
       )}
@@ -405,28 +627,30 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
       {hasInterlude && (() => {
         const intLocal = frame - interludeStart
         const intOpacity = intLocal >= 0 && intLocal < interludeFrames
-          ? fadeInOut(intLocal, 0, interludeFrames, 15, 15)
+          ? fadeInOut(intLocal, 0, interludeFrames, f(0.5), f(0.5))
           : 0
         return (
           <>
             <Sequence from={interludeStart} durationInFrames={interludeFrames}>
-              <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />
-              <Sequence from={15} durationInFrames={interludeFrames - 15}>
-                <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
-              </Sequence>
-              {narrator.interludeDuration && narrator.interludeDuration > 0 && (
-                <Sequence from={20} durationInFrames={interludeFrames - 20}>
+              {hasVoice && <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />}
+              {hasVoice && (
+                <Sequence from={f(0.5)} durationInFrames={interludeFrames - f(0.5)}>
+                  <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
+                </Sequence>
+              )}
+              {hasVoice && narrator.interludeDuration && narrator.interludeDuration > 0 && (
+                <Sequence from={f(0.67)} durationInFrames={interludeFrames - f(0.67)}>
                   <Audio src={vf('interlude.wav')} />
                 </Sequence>
               )}
             </Sequence>
             {intOpacity > 0 && (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: intOpacity, gap: 20 }}>
-                <div style={{ width: interpolate(intLocal, [5, 40], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
-                <div style={{ color: '#c8a46e', fontSize: 18, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, opacity: fadeInOut(intLocal, 15, interludeFrames - 25, 20, 15) }}>
+                <div style={{ width: interpolate(intLocal, [f(0.17), f(1.33)], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
+                <div style={{ color: '#c8a46e', fontSize: 18, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, opacity: fadeInOut(intLocal, f(0.5), interludeFrames - f(0.83), f(0.67), f(0.5)) }}>
                   PART II
                 </div>
-                <div style={{ width: interpolate(intLocal, [5, 40], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
+                <div style={{ width: interpolate(intLocal, [f(0.17), f(1.33)], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
               </AbsoluteFill>
             )}
           </>
@@ -437,134 +661,98 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
       {books.map((book, i) => {
         const bt = bookTimings[i]
         const gapStart = i > 0 ? bookStarts[i] - BOOK_GAP : -1
-        // visual 모드: 라벨 → 본문 순차. 라벨은 2열 전환 완료 후 재생, 본문은 라벨 뒤.
-        const labelSummaryFrom = visual
-          ? bt.titleFrames + TITLE_SUMMARY_GAP_F
-          : bt.titleFrames + PRE_LABEL_GAP
-        const summaryAudioStart = visual
-          ? labelSummaryFrom + LABEL_SUMMARY_F
-          : bt.titleFrames + TITLE_SUMMARY_GAP_F
-        // visual 모드: context도 라벨 → 본문 순차
-        const labelContextFrom = visual
-          ? bt.summaryEnd + SUMMARY_CONTEXT_GAP_F
-          : bt.summaryEnd + PRE_LABEL_GAP
-        const contextAudioStart = visual
-          ? labelContextFrom + LABEL_CONTEXT_F
-          : bt.summaryEnd + SUMMARY_CONTEXT_GAP_F
-        const quoteAudioStart = bt.hasQuote ? bt.contextEnd + CONTEXT_QUOTE_GAP : 0
 
         return (
           <React.Fragment key={i}>
+            {/* 책 사이 전환 — 캐러셀 + SFX */}
             {i > 0 && (
               <Sequence from={gapStart} durationInFrames={BOOK_GAP}>
-                <Audio src={sf('sfx/page-turn.wav')} volume={0.4} />
+                {hasVoice && <Audio src={sf('sfx/page-turn.wav')} volume={0.4} />}
                 {(() => {
                   const gapLocal = frame - gapStart
-                  const gapOpacity = gapLocal >= 0 && gapLocal < BOOK_GAP
-                    ? interpolate(gapLocal, [0, 15, BOOK_GAP - 12, BOOK_GAP], [0, 1, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+                  const op = gapLocal >= 0 && gapLocal < BOOK_GAP
+                    ? interpolate(gapLocal, [0, f(0.4), BOOK_GAP - f(0.33), BOOK_GAP], [0, 1, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
                     : 0
-                  const lineW = interpolate(gapLocal, [5, 25], [0, 400], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-                  const textOp = interpolate(gapLocal, [10, 25, BOOK_GAP - 15, BOOK_GAP], [0, 0.8, 0.8, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-                  const coverOp = interpolate(gapLocal, [5, 20, BOOK_GAP - 15, BOOK_GAP], [0, 1, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-                  const coverY = interpolate(gapLocal, [5, 25], [15, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-                  return gapOpacity > 0 ? (
-                    <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: gapOpacity }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-                        <div style={{ width: lineW, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-                        <div style={{ opacity: textOp, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                          <div style={{ color: '#c8a46e', fontSize: 15, fontFamily: FONT.cinzel, letterSpacing: 3, fontWeight: 600 }}>
-                            {i + 1}/{books.length}
-                          </div>
-                          <div style={{ color: '#e8e0d0', fontSize: 22, fontFamily: FONT.serif, fontWeight: 600, textAlign: 'center' }}>
-                            {book.title}
-                          </div>
-                        </div>
-                        <div style={{ width: lineW, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-                      </div>
-                    </AbsoluteFill>
-                  ) : null
+                  return renderBookCarousel(gapLocal, BOOK_GAP, i - 1, i, op)
                 })()}
               </Sequence>
             )}
             <Sequence from={bookStarts[i]} durationInFrames={bt.total}>
-              {i === 0 && <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />}
-              {/* 나레이터: 제목+저자 */}
-              <Sequence from={0} durationInFrames={bt.titleFrames}>
-                <Audio src={vf(`book-${i}-title.wav`)} />
-              </Sequence>
-              {/* 라벨: "핵심 요약" — visual 모드: 화면 전환 후 재생 */}
-              <Sequence from={labelSummaryFrom} durationInFrames={LABEL_SUMMARY_F}>
-                <Audio src={vf('label-summary.wav')} />
-              </Sequence>
-              {/* 요약맨: 책 소개 + 핵심 */}
-              <Sequence from={summaryAudioStart} durationInFrames={bt.summaryFrames}>
-                <Audio src={sf('sfx/whoosh.wav')} volume={0.25} />
-                <Audio src={vf(`book-${i}-summary.wav`)} />
-              </Sequence>
-              {/* 라벨: "추천 경위" — visual 모드: 크로스페이드 후 재생 */}
-              <Sequence from={labelContextFrom} durationInFrames={LABEL_CONTEXT_F}>
-                <Audio src={vf('label-context.wav')} />
-              </Sequence>
-              {/* 나레이터: 추천 경위 + 맥락 */}
-              <Sequence from={contextAudioStart} durationInFrames={bt.contextFrames}>
-                <Audio src={sf('sfx/whoosh.wav')} volume={0.2} />
-                <Audio src={vf(`book-${i}-context.wav`)} />
-              </Sequence>
-              {/* 셀럽: 직접 인용문 (있을 때만) */}
-              {bt.hasQuote && (
-                <Sequence from={quoteAudioStart} durationInFrames={bt.quoteFrames}>
-                  <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
-                  <Audio src={vf(`book-${i}-quote.wav`)} />
-                </Sequence>
+              {hasVoice && i === 0 && <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />}
+              {/* 오디오 배치: Series로 순차 재생 — 음성 미준비 시 통째로 스킵 */}
+              {hasVoice && (
+                <Series>
+                  <Series.Sequence durationInFrames={bt.titleFrames}>
+                    <Audio src={vf(`book-${i}-title.wav`)} />
+                  </Series.Sequence>
+                  <Series.Sequence
+                    offset={TITLE_SUMMARY_GAP_F}
+                    durationInFrames={LABEL_SUMMARY_F}
+                  >
+                    <Audio src={vf('label-summary.wav')} />
+                  </Series.Sequence>
+                  <Series.Sequence
+                    offset={0}
+                    durationInFrames={bt.summaryFrames}
+                  >
+                    <Audio src={sf('sfx/whoosh.wav')} volume={0.25} />
+                    <Audio src={vf(`book-${i}-summary.wav`)} />
+                  </Series.Sequence>
+                  <Series.Sequence
+                    offset={SUMMARY_CONTEXT_GAP_F}
+                    durationInFrames={LABEL_CONTEXT_F}
+                  >
+                    <Audio src={vf('label-context.wav')} />
+                  </Series.Sequence>
+                  <Series.Sequence
+                    offset={0}
+                    durationInFrames={bt.contextFrames}
+                  >
+                    <Audio src={sf('sfx/whoosh.wav')} volume={0.2} />
+                    <Audio src={vf(`book-${i}-context.wav`)} />
+                  </Series.Sequence>
+                  {bt.hasQuote && (
+                    <Series.Sequence
+                      offset={CONTEXT_QUOTE_GAP}
+                      durationInFrames={bt.quoteFrames}
+                    >
+                      <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
+                      <Audio src={vf(`book-${i}-quote.wav`)} />
+                    </Series.Sequence>
+                  )}
+                  {bt.hasContextAfter && (
+                    <Series.Sequence
+                      offset={QUOTE_CONTEXTAFTER_GAP}
+                      durationInFrames={bt.contextAfterFrames}
+                    >
+                      <Audio src={vf(`book-${i}-context-after.wav`)} />
+                    </Series.Sequence>
+                  )}
+                </Series>
               )}
-              {/* 나레이터: 후속 맥락 (있을 때만) */}
-              {bt.hasContextAfter && (
-                <Sequence from={bt.quoteEnd + QUOTE_CONTEXTAFTER_GAP} durationInFrames={bt.contextAfterFrames}>
-                  <Audio src={vf(`book-${i}-context-after.wav`)} />
-                </Sequence>
-              )}
-              {visual ? (
-                <BookCardVisual
-                  book={book}
-                  host={host}
-                  index={i}
-                  totalFrames={bt.total}
-                  titleFrames={bt.titleFrames}
-                  summaryFrames={bt.summaryFrames}
-                  summaryEnd={bt.summaryEnd}
-                  contextFrames={bt.contextFrames}
-                  contextEnd={bt.contextEnd}
-                  hasQuote={bt.hasQuote}
-                  quoteFrames={bt.quoteFrames}
-                  hasContextAfter={bt.hasContextAfter}
-                  contextAfterFrames={bt.contextAfterFrames}
-                  contextAfterText={book.contextAfter}
-                  totalBooks={books.length}
-                  labelSummaryF={LABEL_SUMMARY_F}
-                  labelContextF={LABEL_CONTEXT_F}
-                  titleSummaryGapF={TITLE_SUMMARY_GAP_F}
-                  summaryContextGapF={SUMMARY_CONTEXT_GAP_F}
-                  episodeName={epName}
-                />
-              ) : (
-                <BookCard
-                  book={book}
-                  host={host}
-                  index={i}
-                  totalFrames={bt.total}
-                  titleFrames={bt.titleFrames}
-                  summaryFrames={bt.summaryFrames}
-                  summaryEnd={bt.summaryEnd}
-                  contextFrames={bt.contextFrames}
-                  contextEnd={bt.contextEnd}
-                  hasQuote={bt.hasQuote}
-                  quoteFrames={bt.quoteFrames}
-                  hasContextAfter={bt.hasContextAfter}
-                  contextAfterFrames={bt.contextAfterFrames}
-                  contextAfterText={book.contextAfter}
-                  totalBooks={books.length}
-                />
-              )}
+              <BookCardVisual
+                book={book}
+                host={host}
+                index={i}
+                totalFrames={bt.total}
+                titleFrames={bt.titleFrames}
+                summaryFrames={bt.summaryFrames}
+                summaryEnd={bt.summaryEnd}
+                contextFrames={bt.contextFrames}
+                contextEnd={bt.contextEnd}
+                hasQuote={bt.hasQuote}
+                quoteFrames={bt.quoteFrames}
+                hasContextAfter={bt.hasContextAfter}
+                contextAfterFrames={bt.contextAfterFrames}
+                contextAfterText={book.contextAfter}
+                totalBooks={books.length}
+                labelSummaryF={LABEL_SUMMARY_F}
+                labelContextF={LABEL_CONTEXT_F}
+                titleSummaryGapF={TITLE_SUMMARY_GAP_F}
+                summaryContextGapF={SUMMARY_CONTEXT_GAP_F}
+                episodeName={epName}
+                timings={script.voiceTimings}
+              />
             </Sequence>
           </React.Fragment>
         )
@@ -572,7 +760,7 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
 
       {/* 리캡 */}
       <Sequence from={recapStart} durationInFrames={RECAP_FRAMES}>
-        <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
+        {hasVoice && <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />}
         <BookRecap books={secondHalfBooks} host={host} totalFrames={RECAP_FRAMES} />
       </Sequence>
 
@@ -581,18 +769,18 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
         const narrationEnd = outroStart + outroFrames
         const logoStart = narrationEnd
         // 안내문
-        const narOp = fadeInOut(frame, outroStart, outroFrames, 20, 25)
+        const narOp = fadeInOut(frame, outroStart, outroFrames, f(0.67), f(0.83))
         // 로고
         const logoOp = interpolate(frame,
-          [logoStart, logoStart + 25, logoStart + LOGO_FRAMES - 20, logoStart + LOGO_FRAMES],
+          [logoStart, logoStart + f(0.83), logoStart + LOGO_FRAMES - f(0.67), logoStart + LOGO_FRAMES],
           [0, 1, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
         return (
           <>
             <Sequence from={outroStart} durationInFrames={outroFrames}>
-              {narrator.outroDuration > 0 && <Audio src={vf('narrator-outro.wav')} />}
+              {hasVoice && narrator.outroDuration > 0 && <Audio src={vf('narrator-outro.wav')} />}
             </Sequence>
             <Sequence from={logoStart} durationInFrames={LOGO_FRAMES}>
-              <Audio src={sf('sfx/chime.wav')} volume={0.5} />
+              {hasVoice && <Audio src={sf('sfx/chime.wav')} volume={0.5} />}
             </Sequence>
             {narOp > 0 && (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: narOp }}>
@@ -603,7 +791,7 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
             )}
             {logoOp > 0 && (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: logoOp }}>
-                <BrandLogo fontSize={42} />
+                <BrandLogo fontSize={BRAND_LOGO_SIZE} />
               </AbsoluteFill>
             )}
           </>
@@ -611,6 +799,79 @@ export const BookRecommend: React.FC<Props> = ({ script, visual = false, episode
       })()}
 
       <Overlay script={script} />
+
+      {/* 스튜디오 전용 DEV UI — 렌더 시 미포함 */}
+      {!getRemotionEnvironment().isRendering && (() => {
+        const outroEnd = outroStart + outroFrames
+
+        // 섹션 정의: [끝 프레임, 라벨, 보조] — 순서대로 매칭
+        const sections: [number, string, string][] = [
+          [brandStart + BRAND_FRAMES, 'BRAND', '로고 + 태그라인'],
+          ...(cont ? [
+            [returnIntroStart + returnIntroFrames, 'RETURN INTRO', '복귀 인사'] as [number, string, string],
+          ] : [
+            [svcGreetingStart + svcGreetingFrames, 'GREETING', '인사 + 촛불'] as [number, string, string],
+            [svcIntroStart + svcIntroFrames, 'SVC INTRO', '서재탐방 본문'] as [number, string, string],
+          ]),
+          [fQuoteStart + fQuoteFrames, 'FEATURED QUOTE', '대표 명언'],
+          ...(cont ? [
+            [prevRecapStart + prevRecapFrames, 'PREV RECAP', '이전 파트 요약'] as [number, string, string],
+          ] : [
+            [hostIntroStart + celebIntroFrames, 'CELEB INTRO', '나레이터 인물소개'] as [number, string, string],
+            [hostIntroStart + hostIntroFrames, 'PHILOSOPHY', '셀럽 감상철학'] as [number, string, string],
+          ]),
+          [bridgeStart + bridgeFrames, 'BRIDGE', '서재 이동'],
+          [recapStart, 'BOOKS', '도서 구간'],
+          [recapStart + RECAP_FRAMES, 'RECAP', '리캡'],
+          [outroEnd, 'OUTRO', '아웃트로'],
+          [Infinity, 'LOGO', '엔딩'],
+        ]
+
+        const match = sections.find(([end]) => frame < end)
+        let label = match?.[1] ?? '—'
+        let sub = match?.[2] ?? ''
+
+        // GREETING
+        if (label === 'GREETING') {
+          sub = '서재 탐방 소개'
+        }
+
+        // SVC INTRO 단순화
+        if (label === 'SVC INTRO') {
+          label = 'SVC INTRO'
+          sub = '인물 소개'
+        }
+
+        // BOOKS 세부 분할
+        if (label === 'BOOKS') {
+          const bi2 = bookStarts.findIndex((s, i) => frame >= s && frame < s + bookTimings[i].total)
+          if (bi2 >= 0) {
+            const bLocal = frame - bookStarts[bi2]
+            const bt2 = bookTimings[bi2]
+            const phase = bLocal >= bt2.contextEnd && bt2.hasQuote ? 'QUOTE'
+              : bLocal >= bt2.summaryEnd ? 'CONTEXT'
+              : bLocal >= bt2.titleFrames ? 'SUMMARY' : 'TITLE'
+            label = `BOOK ${bi2 + 1}/${books.length}`
+            sub = `${books[bi2].title} · ${phase}`
+          } else {
+            label = 'BOOK GAP'
+            sub = '전환'
+          }
+        }
+
+        return (
+          <div style={{
+            position: 'absolute', top: 16, right: 16, zIndex: 999,
+            backgroundColor: 'rgba(0,0,0,0.85)', borderRadius: 10,
+            padding: '12px 18px', display: 'flex', flexDirection: 'column', gap: 4,
+          }}>
+            <div style={{ color: '#c8a46e', fontSize: 18, fontFamily: 'monospace', fontWeight: 700 }}>
+              {label}
+            </div>
+            {sub && <div style={{ color: '#aaa', fontSize: 13, fontFamily: 'monospace' }}>{sub}</div>}
+          </div>
+        )
+      })()}
     </AbsoluteFill>
   )
 }

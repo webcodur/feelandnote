@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // --- 에피소드 로드 ---
-import { episodes } from '../src/compositions/BookRecommend/script'
+import { episodes, isContinuation } from '../src/compositions/BookRecommend/script'
 import { calcTotalFrames } from '../src/compositions/BookRecommend/BookRecommend'
 import { calcShortTotalFrames } from '../src/compositions/BookRecommend/BookRecommendShort'
 import {
@@ -24,7 +24,7 @@ import {
   BRAND_FRAMES, CELEB_VISUAL_DELAY,
   TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
   BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, SENTENCE_BREATH,
-  CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK,
+  CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, RETURN_INTRO_FALLBACK, PREV_RECAP_FALLBACK,
   SHORT_GAP, SHORT_FALLBACK, SHORT_BRAND_FRAMES, SHORT_LOGO_FRAMES,
   summaryPhaseEnd, contextPhaseEnd, bookTotalFrames,
 } from '../src/compositions/BookRecommend/timing'
@@ -79,35 +79,55 @@ function splitSentences(start: number, end: number, speaker: string, text: strin
 // --- 롱폼 SRT ---
 function buildLongformSubs(script: BookRecommendScript): Sub[] {
   const { narrator, host, books } = script
+  const cont = isContinuation(script)
   const subs: Sub[] = []
 
-  const celebIntroFrames = CELEB_VISUAL_DELAY + (narrator.celebIntroDuration > 0 ? toFrames(narrator.celebIntroDuration) : CELEB_INTRO_FALLBACK)
-  const philosophyFrames = toFrames(host.voiceDuration)
-  const hostIntroFrames = celebIntroFrames + philosophyFrames
+  const celebIntroFrames = cont ? 0 : (CELEB_VISUAL_DELAY + ((narrator.celebIntroDuration ?? 0) > 0 ? toFrames(narrator.celebIntroDuration!) : CELEB_INTRO_FALLBACK))
+  const philosophyFrames = cont ? 0 : toFrames(host.voiceDuration ?? 0)
+  const hostIntroFrames = cont ? 0 : (celebIntroFrames + philosophyFrames)
   const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK
 
-  const svcIntroFrames = narrator.serviceIntroDuration > 0 ? toFrames(narrator.serviceIntroDuration) : 0
+  const svcIntroFrames = cont ? 0 : ((narrator.serviceIntroDuration ?? 0) > 0 ? toFrames(narrator.serviceIntroDuration!) : 0)
   const fQuoteFrames = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+  const returnIntroFrames = cont ? ((narrator.returnIntroDuration ?? 0) > 0 ? toFrames(narrator.returnIntroDuration!) : RETURN_INTRO_FALLBACK) : 0
+  const prevRecapFrames = cont ? ((narrator.prevRecapDuration ?? 0) > 0 ? toFrames(narrator.prevRecapDuration!) : PREV_RECAP_FALLBACK) : 0
 
-  let cursor = BRAND_FRAMES + svcIntroFrames + fQuoteFrames
+  let cursor = BRAND_FRAMES + returnIntroFrames + svcIntroFrames + fQuoteFrames + prevRecapFrames
   const hostIntroStart = cursor
   cursor += hostIntroFrames
   cursor += bridgeFrames
 
-  if (svcIntroFrames > 0 && narrator.serviceIntro) {
+  // continuation: returnIntro
+  if (cont && returnIntroFrames > 0 && narrator.returnIntro) {
     const s = BRAND_FRAMES
-    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceIntroDuration), '나레이터', narrator.serviceIntro))
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.returnIntroDuration ?? 0), '나레이터', narrator.returnIntro))
+  }
+
+  if (!cont && svcIntroFrames > 0 && narrator.serviceIntro) {
+    const s = BRAND_FRAMES
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceIntroDuration!), '나레이터', narrator.serviceIntro))
   }
   if (fQuoteFrames > 0 && host.featuredQuote) {
-    const s = BRAND_FRAMES + svcIntroFrames
+    const s = BRAND_FRAMES + returnIntroFrames + svcIntroFrames
     subs.push(...splitSentences(s, s + toAudioFrames(host.featuredQuoteDuration!), host.nickname, host.featuredQuote))
   }
 
-  const celebVoiceStart = hostIntroStart + CELEB_VISUAL_DELAY
-  subs.push(...splitSentences(celebVoiceStart, celebVoiceStart + toAudioFrames(narrator.celebIntroDuration), '나레이터', narrator.celebIntro))
+  // continuation: prevRecap
+  if (cont && prevRecapFrames > 0 && narrator.prevRecap) {
+    const s = BRAND_FRAMES + returnIntroFrames + fQuoteFrames
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.prevRecapDuration ?? 0), '나레이터', narrator.prevRecap))
+  }
 
-  const philoStart = hostIntroStart + celebIntroFrames
-  subs.push(...splitSentences(philoStart, philoStart + toAudioFrames(host.voiceDuration), host.nickname, host.philosophy))
+  // Part 1: 셀럽 소개 + 감상철학
+  if (!cont && narrator.celebIntro) {
+    const celebVoiceStart = hostIntroStart + CELEB_VISUAL_DELAY
+    subs.push(...splitSentences(celebVoiceStart, celebVoiceStart + toAudioFrames(narrator.celebIntroDuration ?? 0), '나레이터', narrator.celebIntro))
+  }
+
+  if (!cont && host.philosophy) {
+    const philoStart = hostIntroStart + celebIntroFrames
+    subs.push(...splitSentences(philoStart, philoStart + toAudioFrames(host.voiceDuration ?? 0), host.nickname, host.philosophy))
+  }
 
   const hasInterlude = books.length > 10
   const interludeIndex = hasInterlude ? Math.ceil(books.length / 2) : -1
@@ -191,8 +211,8 @@ for (const [name, script] of Object.entries(targetEpisodes)) {
   // 롱폼
   if (!only || only === 'longform') {
     console.log(`\n▶ 롱폼 렌더: ${label}`)
-    const mp4 = join(OUT_DIR, `${name}.mp4`)
-    execSync(`npx remotion render ${label} "${mp4}" --codec h264`, { stdio: 'inherit', cwd: join(__dirname, '..') })
+    const mp4 = join(OUT_DIR, `${name}.mov`)
+    execSync(`pnpm.cmd render ${label} "${mp4}" --codec prores --prores-profile 4444 --image-format=png --gl=angle --concurrency=75%`, { stdio: 'inherit', cwd: join(__dirname, '..') })
 
     const srt = subsToSrt(buildLongformSubs(script))
     const srtPath = join(OUT_DIR, `${name}.srt`)
@@ -203,8 +223,8 @@ for (const [name, script] of Object.entries(targetEpisodes)) {
   // 쇼츠
   if ((!only || only === 'shorts') && script.shorts) {
     console.log(`\n▶ 쇼츠 렌더: ${label}Short`)
-    const mp4 = join(OUT_DIR, `${name}-short.mp4`)
-    execSync(`npx remotion render ${label}Short "${mp4}" --codec h264`, { stdio: 'inherit', cwd: join(__dirname, '..') })
+    const mp4 = join(OUT_DIR, `${name}-short.mov`)
+    execSync(`pnpm.cmd render ${label}Short "${mp4}" --codec prores --prores-profile 4444 --image-format=png --gl=angle --concurrency=75%`, { stdio: 'inherit', cwd: join(__dirname, '..') })
 
     const srt = subsToSrt(buildShortsSubs(script))
     const srtPath = join(OUT_DIR, `${name}-short.srt`)

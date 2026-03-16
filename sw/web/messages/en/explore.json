@@ -133,15 +133,15 @@
     },
     "hub": {
       "groupDocumented": "Seekers",
-      "groupDocumentedDesc": "Figures whose reading, viewing, and listening histories are documented. Their choices light the way to your next discovery.",
+      "groupDocumentedDesc": "Figures who left their lines recorded. Their echoes light the way to your next discovery.",
       "groupThinkers": "Thinkers",
       "groupThinkersDesc": "No consumption records survive, yet the ideas they left behind are works of art in themselves.",
       "deepReaders": "Prolific Seekers",
-      "deepReadersSub": "Figures with 30+ documented records. A rich archive reveals one person's worldview.",
+      "deepReadersSub": "Figures with 30+ documented records. A wealth of echoes reveals one person's worldview.",
       "topByType": "Top by Category",
       "topByTypeSub": "The most prolific seekers in Books, Film, Games, and Music.",
       "lightCelebs": "Thinkers",
-      "lightCelebsSub": "Journey beyond the record. Their thinking adds a new lens to your own appreciation.",
+      "lightCelebsSub": "Echoes beyond the record. Their thinking adds new depth to your own appreciation.",
       "spotlight": "Spotlight",
       "spotlightSub": "Curated collections of figures united by a single theme, transcending eras and fields.",
       "allCelebs": "All Seekers",
@@ -208,7 +208,7 @@
       },
       "intro": {
         "title": "Trajectories of Appreciation Across Eras",
-        "description": "Explore the libraries of figures united by a single theme, transcending eras and fields.\nTheir brightly shining records guide your new discoveries.",
+        "description": "Explore the libraries of figures united by a single theme, transcending eras and fields.\nTheir recorded lines draw out new echoes within you.",
         "select": "Select Theme"
       }
     }

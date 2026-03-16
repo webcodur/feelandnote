@@ -25,6 +25,9 @@
 | 6 | 반 고흐 | 근현대 | visual_artist | 14 | 예술가 연속 |
 | 7 | 이순신 | 근세 | commander | 5 | 한국 무장 |
 | 8 | 나폴레옹 | 근세 | commander | 13 | 정복자 마무리 |
+| 9 | 젠슨 황 | 현대 | entrepreneur | 7 | AI 시대 아이콘, GTC 시의성 |
+| 10 | 다리오 아모데이 | 현대 | entrepreneur | 5 | Anthropic CEO, AI 안전 |
+| 11 | 마크 주커버그 | 현대 | entrepreneur | 9 | 메타 CEO, 북클럽 운영 |
 
 ---
 
