@@ -41,7 +41,7 @@ export function Sidebar() {
   // 시리즈 선택 시 에피소드 목록 로드
   useEffect(() => {
     if (!activeSeries) { setEpisodes([]); return }
-    fetch(`/api/${activeSeries}/episodes`).then(r => r.json()).then(setEpisodes)
+    fetch(`/api/${activeSeries}/episodes`).then(r => r.json()).then(setEpisodes).catch(() => setEpisodes([]))
   }, [activeSeries])
 
   const filtered = episodes.filter(ep =>
@@ -51,30 +51,29 @@ export function Sidebar() {
   return (
     <div className="flex h-full shrink-0">
       {/* 1단: 시리즈 + 인프라 */}
-      <aside className="w-14 border-r border-border flex flex-col items-center py-4 gap-1">
+      <aside className="w-36 border-r border-border flex flex-col py-4 gap-1 px-2">
         {SERIES.map(s => (
           <button
             key={s.id}
             onClick={() => setActiveSeries(activeSeries === s.id ? null : s.id)}
-            title={s.label}
-            className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg transition-colors ${
+            className={`px-3 py-2 rounded-lg text-xs font-medium text-left transition-colors ${
               activeSeries === s.id
-                ? 'bg-bg-card border border-border-active'
-                : 'hover:bg-bg-hover'
+                ? 'bg-bg-card border border-border-active text-accent'
+                : 'hover:bg-bg-hover text-text-secondary'
             }`}
           >
-            {s.icon}
+            {s.icon} {s.label}
           </button>
         ))}
 
         <div className="flex-1" />
-        <div className="border-t border-border w-8 mb-2" />
+        <div className="border-t border-border mx-1 mb-2" />
 
-        <Link href="/infra/r2" title="R2 현황"
-          className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm transition-colors ${
-            pathname.startsWith('/infra') ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'
+        <Link href="/infra/r2"
+          className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+            pathname.startsWith('/infra') ? 'bg-bg-card border border-border-active text-accent' : 'hover:bg-bg-hover text-text-secondary'
           }`}>
-          💾
+          💾 R2 현황
         </Link>
       </aside>
 

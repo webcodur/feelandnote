@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { SERIES } from '@/lib/series-registry'
 
 type CelebResult = {
@@ -26,6 +27,7 @@ const PROFESSIONS = [
 ]
 
 export default function SearchPage() {
+  const router = useRouter()
   const [query, setQuery] = useState('')
   const [profession, setProfession] = useState('')
   const [hasVoice, setHasVoice] = useState(false)
@@ -35,31 +37,39 @@ export default function SearchPage() {
 
   const search = useCallback(async () => {
     setLoading(true)
-    const params = new URLSearchParams()
-    if (query) params.set('q', query)
-    if (profession) params.set('profession', profession)
-    if (hasVoice) params.set('hasVoice', 'true')
-    params.set('limit', '50')
+    try {
+      const params = new URLSearchParams()
+      if (query) params.set('q', query)
+      if (profession) params.set('profession', profession)
+      if (hasVoice) params.set('hasVoice', 'true')
+      params.set('limit', '50')
 
-    const res = await fetch(`/api/celebs/search?${params}`)
-    const data = await res.json()
-    setResults(Array.isArray(data) ? data : [])
-    setLoading(false)
+      const res = await fetch(`/api/celebs/search?${params}`)
+      const data = await res.json()
+      setResults(Array.isArray(data) ? data : [])
+    } catch {
+      setResults([])
+    } finally {
+      setLoading(false)
+    }
   }, [query, profession, hasVoice])
 
   const scaffold = async (slug: string) => {
     if (!confirm(`${slug} 에피소드를 ${scaffoldSeries}에 생성하시겠습니까?`)) return
-    const res = await fetch(`/api/${scaffoldSeries}/episodes`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug }),
-    })
-    if (res.ok) {
-      alert('생성 완료')
-      window.location.href = `/${scaffoldSeries}/${slug}`
-    } else {
-      const err = await res.json()
-      alert('실패: ' + (err.error ?? '알 수 없는 오류'))
+    try {
+      const res = await fetch(`/api/${scaffoldSeries}/episodes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      })
+      if (res.ok) {
+        router.push(`/${scaffoldSeries}/${slug}`)
+      } else {
+        const err = await res.json()
+        alert('실패: ' + (err.error ?? '알 수 없는 오류'))
+      }
+    } catch {
+      alert('네트워크 오류')
     }
   }
 

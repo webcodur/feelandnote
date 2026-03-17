@@ -41,7 +41,7 @@ export default function ScenarioPage({ params }: { params: Promise<{ series: str
   const [view, setView] = useState<'longform' | 'shorts'>('longform')
 
   useEffect(() => {
-    fetch(`/api/${series}/episodes/${name}`).then(r => r.json()).then(setEpisode)
+    fetch(`/api/${series}/episodes/${name}`).then(r => r.json()).then(setEpisode).catch(() => {})
   }, [series, name])
 
   if (!episode) return <div className="text-text-dim p-8">로딩...</div>
