@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import { getCelebLevelByRanking } from '@/constants/materials'
 
@@ -22,11 +24,12 @@ export interface FeaturedTag {
   is_featured: boolean
 }
 
-export async function getFeaturedTags(): Promise<FeaturedTag[]> {
-  const supabase = await createClient()
-  const today = new Date().toISOString().split('T')[0]
+// --- 공개 데이터 캐싱 (1시간) ---
 
-  // 1. 모든 태그 조회 (활성 + 비활성)
+async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
+  const supabase = createStaticClient()
+
+  // 1. 모든 태그 조회
   const { data: allTags } = await supabase
     .from('celeb_tags')
     .select('id, name, name_en, description, description_en, color, is_featured')
@@ -35,20 +38,12 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
 
   if (!allTags?.length) return []
 
-  // 활성 태그 필터링 (날짜 조건 적용)
-  const activeTags = allTags.filter(t => {
-    if (!t.is_featured) return false
-    return true // 날짜 조건은 DB에서 이미 처리됨
-  })
-
-  // 비활성 태그 (예고편)
+  const activeTags = allTags.filter(t => t.is_featured)
   const upcomingTags = allTags.filter(t => !t.is_featured)
 
-  const tags = activeTags
+  if (!activeTags.length) return []
 
-  if (!tags?.length) return []
-
-  const tagIds = tags.map(t => t.id)
+  const tagIds = activeTags.map(t => t.id)
 
   // 2. 모든 태그의 assignments 한 번에 조회
   const { data: allAssignments } = await supabase
@@ -60,7 +55,7 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   const assignmentsByTag: Record<string, typeof allAssignments> = {}
   const allCelebIds = new Set<string>()
 
-  tags.forEach(tag => {
+  activeTags.forEach(tag => {
     const tagAssignments = (allAssignments ?? [])
       .filter(a => a.tag_id === tag.id)
       .slice(0, 8)
@@ -70,39 +65,23 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
 
   const celebIdArray = Array.from(allCelebIds)
   if (celebIdArray.length === 0) {
-    return tags.map(tag => ({ ...tag, celebs: [] }))
+    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, celebs: [], is_featured: true }))
   }
 
-  // 3. 모든 셀럽 데이터 병렬 조회 (N+1 쿼리 방지)
-  const [
-    profilesResult,
-    followsResult,
-    influencesResult,
-    tagDataResult,
-    contentCountsResult,
-    userResult,
-    dialoguesResult
-  ] = await Promise.all([
-    // 프로필
+  // 3. 모든 셀럽 데이터 병렬 조회
+  const [profilesResult, followsResult, influencesResult, tagDataResult, contentCountsResult, dialoguesResult] = await Promise.all([
     supabase.from('profiles').select(`
-      id, slug, nickname, avatar_url, title, profession,
-      cultural_journey, nationality, birth_date, death_date,
-      bio, is_verified, claimed_by, speech_tone, has_voice, voice_v, voice_speed
+      id, slug, nickname, nickname_en, avatar_url, title, title_en, profession,
+      cultural_journey, cultural_journey_en, nationality, birth_date, death_date,
+      bio, bio_en, is_verified, claimed_by, speech_tone, has_voice, voice_v, voice_speed
     `).in('id', celebIdArray),
-    // 팔로워 수
     supabase.from('follows').select('following_id').in('following_id', celebIdArray),
-    // 영향력
     supabase.from('celeb_influence').select('celeb_id, total_score').in('celeb_id', celebIdArray),
-    // 태그 정보
     supabase.from('celeb_tag_assignments')
       .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIdArray),
-    // 콘텐츠 수
     supabase.rpc('count_contents_by_users', { user_ids: celebIdArray }),
-    // 현재 유저
-    supabase.auth.getUser(),
-    // 대사 (greeting)
-    supabase.from('celeb_dialogues').select('celeb_id, lines, lines_en').in('celeb_id', celebIdArray)
+    supabase.from('celeb_dialogues').select('celeb_id, lines, lines_en').in('celeb_id', celebIdArray),
   ])
 
   // 맵 구성
@@ -110,12 +89,12 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   ;(profilesResult.data ?? []).forEach(p => profileMap.set(p.id, p))
 
   const followerCountMap = new Map<string, number>()
-  ;(followsResult.data ?? []).forEach(f => {
+  ;(followsResult.data ?? []).forEach((f: any) => {
     followerCountMap.set(f.following_id, (followerCountMap.get(f.following_id) ?? 0) + 1)
   })
 
   const influenceMap = new Map<string, number>()
-  ;(influencesResult.data ?? []).forEach(inf => {
+  ;(influencesResult.data ?? []).forEach((inf: any) => {
     influenceMap.set(inf.celeb_id, inf.total_score ?? 0)
   })
 
@@ -142,32 +121,19 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
     })
   })
 
-  // 유저별 팔로우 여부
-  const user = userResult.data?.user
-  const myFollowings = new Set<string>()
-  if (user) {
-    const { data: follows } = await supabase
-      .from('follows')
-      .select('following_id')
-      .eq('follower_id', user.id)
-      .in('following_id', celebIdArray)
-    follows?.forEach(f => myFollowings.add(f.following_id))
-  }
-
   // 결과 조합
   const result: FeaturedTag[] = []
 
-  for (const tag of tags) {
+  for (const tag of activeTags) {
     const assignments = assignmentsByTag[tag.id] ?? []
     if (!assignments.length) continue
 
-    const celebs: FeaturedCeleb[] = assignments
-      .map((a: any): FeaturedCeleb | null => {
+    const celebs: FeaturedCeleb[] = (assignments as any[])
+      .map((a): FeaturedCeleb | null => {
         const c = profileMap.get(a.celeb_id)
         if (!c) return null
 
         const score = influenceMap.get(c.id) ?? 0
-        const celebTags = tagsMap.get(c.id) ?? []
 
         return {
           id: c.id,
@@ -179,19 +145,19 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
           title_en: c.title_en ?? null,
           profession: c.profession,
           cultural_journey: c.cultural_journey,
-          cultural_journey_en: (c as any).cultural_journey_en ?? null,
+          cultural_journey_en: c.cultural_journey_en ?? null,
           nationality: c.nationality,
           birth_date: c.birth_date,
           death_date: c.death_date,
           bio: c.bio,
-          bio_en: (c as any).bio_en ?? null,
+          bio_en: c.bio_en ?? null,
           quotes: dialogueMap.get(c.id)?.quote ?? null,
           quotes_en: dialogueMap.get(c.id)?.quote_en ?? null,
           is_verified: c.is_verified ?? false,
           is_platform_managed: c.claimed_by === null,
           follower_count: followerCountMap.get(c.id) ?? 0,
           content_count: contentCountMap.get(c.id) ?? 0,
-          is_following: myFollowings.has(c.id),
+          is_following: false, // 캐싱 데이터 — 유저별 상태 제외
           is_follower: false,
           influence: score > 0 ? {
             total_score: score,
@@ -199,13 +165,13 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
             ranking: undefined,
             percentile: undefined
           } : null,
-          tags: celebTags,
+          tags: tagsMap.get(c.id) ?? [],
           speech_tone: c.speech_tone ?? null,
           greeting: dialogueMap.get(c.id)?.greeting ?? null,
           greeting_en: dialogueMap.get(c.id)?.greeting_en ?? null,
           has_voice: c.has_voice ?? false,
-          voice_v: (c as any).voice_v ?? 0,
-          voice_speed: (c as any).voice_speed ?? 1.0,
+          voice_v: c.voice_v ?? 0,
+          voice_speed: c.voice_speed ?? 1.0,
           short_desc: a.short_desc,
           short_desc_en: a.short_desc_en,
           long_desc: a.long_desc,
@@ -216,31 +182,57 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
 
     if (celebs.length > 0) {
       result.push({
-        id: tag.id,
-        name: tag.name,
-        name_en: tag.name_en ?? null,
-        description: tag.description,
-        description_en: tag.description_en ?? null,
-        color: tag.color,
-        celebs,
-        is_featured: true,
+        id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
+        description: tag.description, description_en: tag.description_en ?? null,
+        color: tag.color, celebs, is_featured: true,
       })
     }
   }
 
-  // 비활성 태그 추가 (예고편 - 이름만)
+  // 비활성 태그 추가
   for (const tag of upcomingTags) {
     result.push({
-      id: tag.id,
-      name: tag.name,
-      name_en: tag.name_en ?? null,
-      description: tag.description,
-      description_en: tag.description_en ?? null,
-      color: tag.color,
-      celebs: [],
-      is_featured: false,
+      id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
+      description: tag.description, description_en: tag.description_en ?? null,
+      color: tag.color, celebs: [], is_featured: false,
     })
   }
 
   return result
+}
+
+const getCachedFeaturedTags = unstable_cache(
+  fetchFeaturedTagsPublic,
+  ['featured-tags'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getFeaturedTags(): Promise<FeaturedTag[]> {
+  const cachedTags = await getCachedFeaturedTags()
+
+  // 유저별 팔로우 상태 추가
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return cachedTags
+
+    const allCelebIds = cachedTags.flatMap(t => t.celebs.map(c => c.id))
+    if (allCelebIds.length === 0) return cachedTags
+
+    const { data: follows } = await supabase
+      .from('follows')
+      .select('following_id')
+      .eq('follower_id', user.id)
+      .in('following_id', allCelebIds)
+
+    if (!follows?.length) return cachedTags
+
+    const myFollowings = new Set(follows.map(f => f.following_id))
+    return cachedTags.map(tag => ({
+      ...tag,
+      celebs: tag.celebs.map(c => ({ ...c, is_following: myFollowings.has(c.id) })),
+    }))
+  } catch {
+    return cachedTags
+  }
 }

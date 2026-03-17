@@ -129,8 +129,8 @@ function analyzeWithText(
     }
 
     if (bestIdx >= 0 && bestDist < duration * 0.15) {
-      // 추정 시각의 ±15% 이내에 무음이 있으면 채택
-      boundaries.push(silences[bestIdx].start)
+      // 추정 시각의 ±15% 이내에 무음이 있으면 채택 (무음 끝 = 발화 시작)
+      boundaries.push(silences[bestIdx].end)
       usedSilences.add(bestIdx)
     } else {
       // 무음이 없으면 추정 시각 그대로 사용
@@ -174,6 +174,7 @@ function getTextForTarget(episode: any, textField: string, bookIndex?: number): 
     case 'celebIntro': return ttsNarrator?.celebIntro ?? episode.narrator.celebIntro
     case 'philosophy': return ttsHost?.philosophy ?? episode.host.philosophy
     case 'outro': return ttsNarrator?.outro ?? episode.narrator.outro
+    case 'serviceGreeting': return ttsNarrator?.serviceGreeting ?? episode.narrator.serviceGreeting
     case 'serviceIntro': return ttsNarrator?.serviceIntro ?? episode.narrator.serviceIntro
     default:
       // shorts segments
@@ -205,17 +206,15 @@ if (!epName) {
 }
 
 const voiceDir = join(__dirname, '..', 'public', 'voice', epName)
-const epPath = join(__dirname, '..', 'episodes', `${epName}.json`)
+const epPath = join(__dirname, '..', 'episodes', 'book-recommend', `${epName}.json`)
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
 
 // 분석 대상
 type Target = { file: string; textField: string; bookIndex?: number }
 const targets: Target[] = []
 
-if (episode.narrator.serviceGreetingParts) {
-  for (let i = 0; i < episode.narrator.serviceGreetingParts.length; i++) {
-    targets.push({ file: `service-greeting-${i + 1}.wav`, textField: `serviceGreeting-${i}` })
-  }
+if (episode.narrator.serviceGreeting) {
+  targets.push({ file: 'service-greeting.wav', textField: 'serviceGreeting' })
 }
 targets.push({ file: 'service-intro.wav', textField: 'serviceIntro' })
 targets.push({ file: 'narrator-celeb-intro.wav', textField: 'celebIntro' })
@@ -249,7 +248,10 @@ console.log(`${filtered.length}개 파일 분석 (텍스트+파형 결합)\n`)
 const results: Record<string, SentenceTiming[]> = {}
 
 for (const target of filtered) {
-  const wavPath = join(voiceDir, target.file)
+  const COMMON_FILES = new Set(['service-greeting.wav', 'label-summary.wav', 'label-context.wav'])
+  const wavPath = COMMON_FILES.has(target.file)
+    ? join(__dirname, '..', 'public', 'voice', 'common', target.file)
+    : join(voiceDir, target.file)
   const text = getTextForTarget(episode, target.textField, target.bookIndex)
 
   if (!text) {
@@ -276,10 +278,48 @@ for (const target of filtered) {
 if (updateJson) {
   if (!episode.voiceTimings) episode.voiceTimings = {}
   for (const [file, timings] of Object.entries(results)) {
-    episode.voiceTimings[file.replace('.wav', '')] = timings
+    const key = file.replace('.wav', '')
+    episode.voiceTimings[key] = timings
+
+    // duration 자동 동기화 — voiceTimings의 마지막 end를 duration으로 반영
+    const lastEnd = timings[timings.length - 1]?.end
+    if (lastEnd == null) continue
+    const rounded = Math.round(lastEnd * 100) / 100
+
+    if (file === 'service-greeting.wav') { episode.narrator.serviceGreetingDuration = rounded; continue }
+    if (file === 'service-intro.wav' && episode.narrator.serviceIntroDuration != null) { episode.narrator.serviceIntroDuration = rounded; continue }
+    if (file === 'narrator-celeb-intro.wav') { episode.narrator.celebIntroDuration = rounded; continue }
+    if (file === 'philosophy.wav') { episode.host.voiceDuration = rounded; continue }
+    if (file === 'narrator-outro.wav') { episode.narrator.outroDuration = rounded; continue }
+    if (file === 'featured-quote.wav') { episode.host.featuredQuoteDuration = rounded; continue }
+    if (file === 'label-summary.wav' && episode.narrator.labelSummaryDuration != null) { episode.narrator.labelSummaryDuration = rounded; continue }
+    if (file === 'label-context.wav' && episode.narrator.labelContextDuration != null) { episode.narrator.labelContextDuration = rounded; continue }
+    if (file === 'return-intro.wav' && episode.narrator.returnIntroDuration != null) { episode.narrator.returnIntroDuration = rounded; continue }
+    if (file === 'interlude.wav' && episode.narrator.interludeDuration != null) { episode.narrator.interludeDuration = rounded; continue }
+
+    const bookMatch = file.match(/^book-(\d+)-(title|summary|context|quote|context-after)\.wav$/)
+    if (bookMatch) {
+      const idx = parseInt(bookMatch[1])
+      if (!episode.books[idx]) continue
+      switch (bookMatch[2]) {
+        case 'title': episode.books[idx].titleDuration = rounded; break
+        case 'summary': episode.books[idx].summaryDuration = rounded; break
+        case 'context': episode.books[idx].contextDuration = rounded; break
+        case 'quote': episode.books[idx].quoteDuration = rounded; break
+        case 'context-after': episode.books[idx].contextAfterDuration = rounded; break
+      }
+    }
+
+    // 쇼츠 세그먼트
+    const shortMatch = file.match(/^short-(.+)\.wav$/)
+    if (shortMatch && episode.shorts?.segments) {
+      const seg = episode.shorts.segments.find((s: any) => s.id === shortMatch[1])
+      if (seg) seg.duration = rounded
+    }
   }
+
   writeFileSync(epPath, JSON.stringify(episode, null, 2) + '\n', 'utf-8')
-  console.log(`\n✓ ${epName}.json voiceTimings 반영 완료`)
+  console.log(`\n✓ ${epName}.json voiceTimings + duration 동기화 완료`)
 }
 
 console.log('\n완료.')

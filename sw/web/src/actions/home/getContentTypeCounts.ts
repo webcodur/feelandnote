@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export type ContentTypeCounts = Record<string, number>
 
@@ -13,10 +14,10 @@ const DEFAULT_COUNTS: ContentTypeCounts = {
   CERTIFICATE: 0,
 }
 
-export async function getContentTypeCounts(): Promise<ContentTypeCounts> {
-  const supabase = await createClient()
+async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {
+  const supabase = createStaticClient()
 
-  // DB 함수로 한 번에 카운트 조회 (12회 쿼리 → 1회)
+  // DB 함수로 한 번에 카운트 조회
   const { data, error } = await supabase.rpc('get_celeb_feed_type_counts')
 
   if (error || !data) {
@@ -26,3 +27,9 @@ export async function getContentTypeCounts(): Promise<ContentTypeCounts> {
 
   return data as ContentTypeCounts
 }
+
+export const getContentTypeCounts = unstable_cache(
+  fetchContentTypeCounts,
+  ['content-type-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)

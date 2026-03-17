@@ -21,7 +21,7 @@
         "role": "celeb",
         "text": "일리아스를 펼치면 아킬레우스가 곁에 있는 것 같았다. 전장의 밤, 나를 지킨 것은 갑옷이 아니라 이야기였다.",
         "visual": "intro",
-        "duration": 10.01
+        "duration": 9.33
       },
       {
         "id": "book-context",
@@ -35,7 +35,7 @@
         "role": "celeb",
         "text": "영웅의 길은 전장에서 시작되지만, 그 서사는 책에서 완성된다. 더 많은 이야기가 궁금하다면, 나의 서재를 열어보라.",
         "visual": "cta",
-        "duration": 9.85
+        "duration": 9.35
       }
     ]
   },
@@ -60,8 +60,8 @@
     "avatar_url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/deb5a570-a009-410d-9436-77180a85a058/avatar.webp?v=1771993325509",
     "bio": "고대 마케도니아의 왕. 그리스에서 인도에 이르는 광대한 제국을 건설한 정복자입니다. 그의 뛰어난 군사적 능력과 헬레니즘 문화 확산은 인류사에 지대한 영향을 미쳤습니다.",
     "title": "마케도니아 왕",
-    "featuredQuote": "두려움에서 벗어난 매 순간 인간은 불멸에 가까워진다.",
-    "featuredQuoteDuration": 4.12,
+    "featuredQuote": "두려움을 정복한 자, 이 세상까지도 정복하리라.",
+    "featuredQuoteDuration": 4.08,
     "philosophy": "나는 알렉산더, 마케도니아의 왕이다. 『일리아스』 로 영웅의 투지를 깨우고, 역사의 지혜를 빌려 제국의 심장을 꿰뚫었다. 핏빛 전장에선 비극을 읊었고, 시인 앞에선 칼날을 거뒀다. 기나긴 원정의 피로 속에서도, 내게 문학은 영혼을 위한 보급품이었다.",
     "voiceDuration": 21.08,
     "elevenlabsVoiceId": "fwqtAs9QU9ofCr73fEXE"
@@ -79,7 +79,7 @@
       "contextAfterDuration": 13.73,
       "directQuote": "아킬레우스는 살아서는 충실한 벗을 두었고, 죽어서는 그의 업적을 노래할 위대한 시인을 얻었으니 참으로 행복한 자이다.",
       "directQuoteSource": "플루타르코스, 알렉산드로스 전기",
-      "quoteDuration": 7.7,
+      "quoteDuration": 7.71,
       "source": "플루타르코스, 알렉산드로스 전기",
       "oneLiner": "전쟁의 교본이자 영웅의 서사",
       "stats": {
@@ -284,178 +284,178 @@
     "narrator-celeb-intro": [
       {
         "start": 0,
-        "end": 2.5
+        "end": 2.9
       },
       {
-        "start": 2.5,
-        "end": 9.68
+        "start": 2.9,
+        "end": 10.62
       },
       {
-        "start": 9.68,
-        "end": 15.7
+        "start": 10.62,
+        "end": 16.26
       },
       {
-        "start": 15.7,
+        "start": 16.26,
         "end": 20.251
       }
     ],
     "philosophy": [
       {
         "start": 0,
-        "end": 1.2
+        "end": 1.6
       },
       {
-        "start": 1.2,
-        "end": 2.9
+        "start": 1.6,
+        "end": 3.94
       },
       {
-        "start": 2.9,
-        "end": 6.06
+        "start": 3.94,
+        "end": 6.68
       },
       {
-        "start": 6.06,
-        "end": 9.52
+        "start": 6.68,
+        "end": 10.74
       },
       {
-        "start": 9.52,
-        "end": 12.62
+        "start": 10.74,
+        "end": 13.24
       },
       {
-        "start": 12.62,
-        "end": 14.96
+        "start": 13.24,
+        "end": 16.22
       },
       {
-        "start": 14.96,
-        "end": 17.88
+        "start": 16.22,
+        "end": 18.44
       },
       {
-        "start": 17.88,
+        "start": 18.44,
         "end": 21.081
       }
     ],
     "narrator-outro": [
       {
         "start": 0,
-        "end": 5.08
+        "end": 5.88
       },
       {
-        "start": 5.08,
-        "end": 7.14
+        "start": 5.88,
+        "end": 7.36
       },
       {
-        "start": 7.14,
-        "end": 12.06
+        "start": 7.36,
+        "end": 12.66
       },
       {
-        "start": 12.06,
+        "start": 12.66,
         "end": 15.931
       }
     ],
     "book-0-summary": [
       {
         "start": 0,
-        "end": 3
+        "end": 4.02
       },
       {
-        "start": 3,
-        "end": 6.84
+        "start": 4.02,
+        "end": 7.22
       },
       {
-        "start": 6.84,
-        "end": 9.24
+        "start": 7.22,
+        "end": 10.3
       },
       {
-        "start": 9.24,
-        "end": 15.46
+        "start": 10.3,
+        "end": 16.18
       },
       {
-        "start": 15.46,
-        "end": 21.48
+        "start": 16.18,
+        "end": 22.68
       },
       {
-        "start": 21.48,
-        "end": 24.26
+        "start": 22.68,
+        "end": 24.84
       },
       {
-        "start": 24.26,
+        "start": 24.84,
         "end": 28.771
       }
     ],
     "book-0-context": [
       {
         "start": 0,
-        "end": 9.34
+        "end": 10.54
       },
       {
-        "start": 9.34,
-        "end": 15.18
+        "start": 10.54,
+        "end": 15.86
       },
       {
-        "start": 15.18,
+        "start": 15.86,
         "end": 22.251
       }
     ],
     "book-0-quote": [
       {
         "start": 0,
-        "end": 2.66
+        "end": 3.22
       },
       {
-        "start": 2.66,
+        "start": 3.22,
         "end": 7.706
       }
     ],
     "book-0-context-after": [
       {
         "start": 0,
-        "end": 8.32
+        "end": 8.72
       },
       {
-        "start": 8.32,
+        "start": 8.72,
         "end": 13.731
       }
     ],
     "book-1-summary": [
       {
         "start": 0,
-        "end": 1.58
+        "end": 2.34
       },
       {
-        "start": 1.58,
-        "end": 3.54
+        "start": 2.34,
+        "end": 3.84
       },
       {
-        "start": 3.54,
-        "end": 9.94
+        "start": 3.84,
+        "end": 11
       },
       {
-        "start": 9.94,
-        "end": 12.02
+        "start": 11,
+        "end": 12.28
       },
       {
-        "start": 12.02,
-        "end": 13.04
+        "start": 12.28,
+        "end": 13.42
       },
       {
-        "start": 13.04,
-        "end": 17.94
+        "start": 13.42,
+        "end": 18.3
       },
       {
-        "start": 17.94,
+        "start": 18.3,
         "end": 20.251
       }
     ],
     "book-1-context": [
       {
         "start": 0,
-        "end": 3.46
+        "end": 4
       },
       {
-        "start": 3.46,
-        "end": 11.62
+        "start": 4,
+        "end": 12.54
       },
       {
-        "start": 11.62,
+        "start": 12.54,
         "end": 19.051
       }
     ],
@@ -468,303 +468,313 @@
     "book-2-summary": [
       {
         "start": 0,
-        "end": 5.26
+        "end": 6.04
       },
       {
-        "start": 5.26,
-        "end": 12.36
+        "start": 6.04,
+        "end": 13.3
       },
       {
-        "start": 12.36,
-        "end": 15.62
+        "start": 13.3,
+        "end": 16.08
       },
       {
-        "start": 15.62,
+        "start": 16.08,
         "end": 20.131
       }
     ],
     "book-2-context": [
       {
         "start": 0,
-        "end": 5.6
+        "end": 6.64
       },
       {
-        "start": 5.6,
-        "end": 10.84
+        "start": 6.64,
+        "end": 12.04
       },
       {
-        "start": 10.84,
-        "end": 15.46
+        "start": 12.04,
+        "end": 15.98
       },
       {
-        "start": 15.46,
+        "start": 15.98,
         "end": 22.331
       }
     ],
     "book-3-summary": [
       {
         "start": 0,
-        "end": 1.48
+        "end": 1.88
       },
       {
-        "start": 1.48,
-        "end": 5.64
+        "start": 1.88,
+        "end": 6.42
       },
       {
-        "start": 5.64,
-        "end": 10.22
+        "start": 6.42,
+        "end": 10.66
       },
       {
-        "start": 10.22,
-        "end": 16
+        "start": 10.66,
+        "end": 16.86
       },
       {
-        "start": 16,
+        "start": 16.86,
         "end": 17.358
       },
       {
         "start": 17.358,
-        "end": 17.96
+        "end": 18.2
       },
       {
-        "start": 17.96,
+        "start": 18.2,
         "end": 20.251
       }
     ],
     "book-3-context": [
       {
         "start": 0,
-        "end": 5.42
+        "end": 6.26
       },
       {
-        "start": 5.42,
-        "end": 9.6
+        "start": 6.26,
+        "end": 10
       },
       {
-        "start": 9.6,
-        "end": 12.94
+        "start": 10,
+        "end": 14.04
       },
       {
-        "start": 12.94,
-        "end": 17.94
+        "start": 14.04,
+        "end": 18.42
       },
       {
-        "start": 17.94,
+        "start": 18.42,
         "end": 22.091
       }
     ],
     "book-4-summary": [
       {
         "start": 0,
-        "end": 3.02
+        "end": 3.72
       },
       {
-        "start": 3.02,
-        "end": 5.1
+        "start": 3.72,
+        "end": 5.56
       },
       {
-        "start": 5.1,
-        "end": 6.74
+        "start": 5.56,
+        "end": 7.26
       },
       {
-        "start": 6.74,
-        "end": 9.7
+        "start": 7.26,
+        "end": 10.7
       },
       {
-        "start": 9.7,
-        "end": 15.7
+        "start": 10.7,
+        "end": 16.2
       },
       {
-        "start": 15.7,
+        "start": 16.2,
         "end": 20.051
       }
     ],
     "book-4-context": [
       {
         "start": 0,
-        "end": 1.9
+        "end": 2.42
       },
       {
-        "start": 1.9,
-        "end": 6.16
+        "start": 2.42,
+        "end": 6.78
       },
       {
-        "start": 6.16,
-        "end": 8.34
+        "start": 6.78,
+        "end": 8.8
       },
       {
-        "start": 8.34,
-        "end": 11.16
+        "start": 8.8,
+        "end": 12.06
       },
       {
-        "start": 11.16,
-        "end": 15.62
+        "start": 12.06,
+        "end": 16.52
       },
       {
-        "start": 15.62,
+        "start": 16.52,
         "end": 20.771
       }
     ],
     "book-5-summary": [
       {
         "start": 0,
-        "end": 3.36
+        "end": 4.12
       },
       {
-        "start": 3.36,
+        "start": 4.12,
         "end": 12.891
       }
     ],
     "book-5-context": [
       {
         "start": 0,
-        "end": 7.02
+        "end": 8.04
       },
       {
-        "start": 7.02,
-        "end": 10.98
+        "start": 8.04,
+        "end": 11.36
       },
       {
-        "start": 10.98,
+        "start": 11.36,
         "end": 15.851
       }
     ],
     "book-6-summary": [
       {
         "start": 0,
-        "end": 4.46
+        "end": 5.28
       },
       {
-        "start": 4.46,
-        "end": 6.3
+        "start": 5.28,
+        "end": 6.6
       },
       {
-        "start": 6.3,
-        "end": 7.2
+        "start": 6.6,
+        "end": 7.54
       },
       {
-        "start": 7.2,
-        "end": 12.74
+        "start": 7.54,
+        "end": 13.46
       },
       {
-        "start": 12.74,
+        "start": 13.46,
         "end": 15.531
       }
     ],
     "book-6-context": [
       {
         "start": 0,
-        "end": 7.02
+        "end": 7.78
       },
       {
-        "start": 7.02,
-        "end": 11.86
+        "start": 7.78,
+        "end": 12.18
       },
       {
-        "start": 11.86,
+        "start": 12.18,
         "end": 14.651
       }
     ],
     "book-7-summary": [
       {
         "start": 0,
-        "end": 4.78
+        "end": 5.36
       },
       {
-        "start": 4.78,
-        "end": 5.98
+        "start": 5.36,
+        "end": 6.24
       },
       {
-        "start": 5.98,
-        "end": 11.06
+        "start": 6.24,
+        "end": 11.9
       },
       {
-        "start": 11.06,
+        "start": 11.9,
         "end": 15.091
       }
     ],
     "book-7-context": [
       {
         "start": 0,
-        "end": 3.6
+        "end": 4.36
       },
       {
-        "start": 3.6,
-        "end": 7.84
+        "start": 4.36,
+        "end": 8.26
       },
       {
-        "start": 7.84,
+        "start": 8.26,
         "end": 15.731
       }
     ],
     "short-hook": [
       {
         "start": 0,
-        "end": 4.5
+        "end": 5.06
       },
       {
-        "start": 4.5,
+        "start": 5.06,
         "end": 6.251
       }
     ],
     "short-intro": [
       {
         "start": 0,
-        "end": 6.54
+        "end": 7.68
       },
       {
-        "start": 6.54,
+        "start": 7.68,
         "end": 12.171
       }
     ],
     "short-celeb-mid": [
       {
         "start": 0,
-        "end": 4.02
+        "end": 5.12
       },
       {
-        "start": 4.02,
-        "end": 6.04
+        "start": 5.12,
+        "end": 6.52
       },
       {
-        "start": 6.04,
+        "start": 6.52,
         "end": 10.011
       }
     ],
     "short-book-context": [
       {
         "start": 0,
-        "end": 3.28
+        "end": 4.18
       },
       {
-        "start": 3.28,
-        "end": 10.86
+        "start": 4.18,
+        "end": 11.78
       },
       {
-        "start": 10.86,
-        "end": 16.1
+        "start": 11.78,
+        "end": 16.6
       },
       {
-        "start": 16.1,
+        "start": 16.6,
         "end": 23.171
       }
     ],
     "short-celeb-end": [
       {
         "start": 0,
-        "end": 2.6
+        "end": 3.04
       },
       {
-        "start": 2.6,
-        "end": 5.24
+        "start": 3.04,
+        "end": 6.08
       },
       {
-        "start": 5.24,
-        "end": 7.96
+        "start": 6.08,
+        "end": 8.32
       },
       {
-        "start": 7.96,
+        "start": 8.32,
         "end": 9.851
+      }
+    ],
+    "service-greeting": [
+      {
+        "start": 0,
+        "end": 4.56
+      },
+      {
+        "start": 4.56,
+        "end": 7.411
       }
     ]
   }

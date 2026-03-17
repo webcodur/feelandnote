@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaField } from '@/lib/persona/types'
 import { parsePersonaJsonb, parsePersonaJsonbWithReasons, type PersonaStats } from '@/lib/persona/types'
 
@@ -19,7 +20,6 @@ const AXIS_LABELS: Record<string, { ko: string; en: string }> = {
   martial: { ko: '최강의 무장', en: 'Supreme Warrior' },
   intellect: { ko: '최강의 지략가', en: 'Supreme Intellect' },
   charm: { ko: '최고의 매력가', en: 'Supreme Charmer' },
-  // 성향은 양극단 대조용 라벨
   pessimism_optimism: { ko: '낙관 vs 비관', en: 'Optimism vs Pessimism' },
   conservative_progressive: { ko: '혁신 vs 보수', en: 'Progressive vs Conservative' },
   individual_social: { ko: '공동체 vs 개인', en: 'Social vs Individual' },
@@ -63,7 +63,7 @@ export interface PersonaExtremeEntry {
   label: { ko: string; en: string }
   score: number
   percentile: number
-  reason: { ko: string; en: string }  // 최고점자 해당 축 채점 사유
+  reason: { ko: string; en: string }
   celeb: {
     id: string
     slug: string | null
@@ -86,7 +86,6 @@ export interface PersonaExtremeEntry {
     reason: { ko: string; en: string }
     stats: Record<string, any>
   }[]
-  // Dispositions 탭용 최저점자 (Opposing Celeb) - optional
   opposing?: {
     score: number
     percentile: number
@@ -141,12 +140,8 @@ interface Candidate {
   persona: PersonaJsonb
 }
 
-/**
- * persona 16축 각각의 최고값 셀럽 + 통계·사유 반환
- */
-export async function getPersonaExtremes(options?: { runnersUpLimit?: number }): Promise<PersonaExtremeEntry[]> {
-  const runnersUpLimit = options?.runnersUpLimit ?? 2
-  const supabase = await createClient()
+async function fetchPersonaExtremes(runnersUpLimit: number): Promise<PersonaExtremeEntry[]> {
+  const supabase = createStaticClient()
 
   const { data: personaRows, error } = await supabase
     .from('celeb_persona')
@@ -214,14 +209,9 @@ export async function getPersonaExtremes(options?: { runnersUpLimit?: number }):
     // Dispositions 그룹인 경우 최저점자(Opposing) 추출
     let opposing: PersonaExtremeEntry['opposing'] = undefined;
     if (AXIS_GROUP[axis] === 'dispositions') {
-      // candidates는 이미 내림차순 정렬됨
       const loser = candidates[candidates.length - 1]
-      const loserBelowCount = candidates.filter(c => c.score < loser.score).length
-      // 로저는 하위 퍼센타일이므로, 100 - (위쪽 계산식)을 하거나
-      // 하위 퍼센타일 자체를 표시 (ex. 하위 1%) -> 직관성을 위해 percentile은 그대로 상위 기준이거나 별도 표기
-      // 여기서는 winner와 대칭 구조를 위해 하위 백분위를 계산 (0에 가까움)
       const loserAboveCount = candidates.filter(c => c.score > loser.score).length
-      const loserPercentile = Math.round((loserAboveCount / total) * 100 * 10) / 10 // top N% from bottom
+      const loserPercentile = Math.round((loserAboveCount / total) * 100 * 10) / 10
 
       const loserReason = getAxisReason(loser.persona, axis)
 
@@ -268,4 +258,15 @@ export async function getPersonaExtremes(options?: { runnersUpLimit?: number }):
   }
 
   return entries
+}
+
+// 외부 호출용 — 캐싱 적용
+const getCachedPersonaExtremes = unstable_cache(
+  fetchPersonaExtremes,
+  ['persona-extremes'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getPersonaExtremes(options?: { runnersUpLimit?: number }): Promise<PersonaExtremeEntry[]> {
+  return getCachedPersonaExtremes(options?.runnersUpLimit ?? 2)
 }

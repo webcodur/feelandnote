@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
 
@@ -54,167 +56,170 @@ interface CelebRow {
   celeb_tier: string | null
 }
 
+// --- 공개 데이터 캐싱 (1시간) ---
+
+interface PublicCelebData {
+  rows: CelebRow[]
+  total: number
+  totalPages: number
+  tagMap: Record<string, CelebTagInfo[]>
+  tagSortOrderMap: Record<string, number>
+  greetingMap: Record<string, string[]>
+  greetingEnMap: Record<string, string[]>
+  quoteMap: Record<string, string>
+  quoteEnMap: Record<string, string>
+  voiceMap: Record<string, { voice_v: number; voice_speed: number }>
+  rankingMap: Record<string, number>
+  influenceTotal: number
+}
+
+async function fetchCelebsPublic(
+  page: number, limit: number, profession: string | null, nationality: string | null,
+  contentType: string | null, gender: string | null, sortBy: string,
+  search: string | null, tagId: string | null, minContentCount: number,
+  includeInactive: boolean, tier: string | null
+): Promise<PublicCelebData> {
+  const supabase = createStaticClient()
+  const offset = (page - 1) * limit
+
+  // 전체 개수 조회
+  const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+    p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+    p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
+    p_gender: gender, p_include_inactive: includeInactive, p_celeb_tier: tier,
+  })
+  const total = countData ?? 0
+  const totalPages = Math.ceil(total / limit)
+
+  // 정렬된 셀럽 목록 조회
+  const { data } = await supabase.rpc('get_celebs_sorted', {
+    p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+    p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
+    p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+    p_include_inactive: includeInactive, p_celeb_tier: tier,
+  })
+
+  const rows = (data || []) as CelebRow[]
+  const celebIds = rows.map(row => row.id)
+
+  if (celebIds.length === 0) {
+    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, rankingMap: {}, influenceTotal: 0 }
+  }
+
+  // 병렬 조회: 태그, 대사, 음성, 영향력
+  const [tagResult, dialogueResult, voiceResult, influenceResult] = await Promise.all([
+    supabase.from('celeb_tag_assignments')
+      .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
+      .in('celeb_id', celebIds),
+    supabase.from('celeb_dialogues')
+      .select('celeb_id, lines, lines_en')
+      .in('celeb_id', celebIds),
+    supabase.from('profiles')
+      .select('id, voice_v, voice_speed')
+      .in('id', celebIds)
+      .eq('has_voice', true),
+    supabase.from('celeb_influence')
+      .select('celeb_id, total_score')
+      .gt('total_score', 0)
+      .order('total_score', { ascending: false }),
+  ])
+
+  // 태그 맵
+  const tagMap: Record<string, CelebTagInfo[]> = {}
+  const tagSortOrderMap: Record<string, number> = {}
+  ;((tagResult.data ?? []) as any[]).forEach(item => {
+    if (!item.tag) return
+    const existing = tagMap[item.celeb_id] ?? []
+    existing.push({ ...item.tag, name_en: item.tag.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
+    tagMap[item.celeb_id] = existing
+    if (tagId && item.tag.id === tagId) {
+      tagSortOrderMap[item.celeb_id] = item.sort_order ?? 0
+    }
+  })
+
+  // 대사 맵
+  const greetingMap: Record<string, string[]> = {}
+  const greetingEnMap: Record<string, string[]> = {}
+  const quoteMap: Record<string, string> = {}
+  const quoteEnMap: Record<string, string> = {}
+  ;(dialogueResult.data ?? []).forEach((row: any) => {
+    if (row.lines?.greeting) greetingMap[row.celeb_id] = row.lines.greeting
+    if (row.lines_en?.greeting) greetingEnMap[row.celeb_id] = row.lines_en.greeting
+    if (row.lines?.quote) quoteMap[row.celeb_id] = row.lines.quote
+    if (row.lines_en?.quote) quoteEnMap[row.celeb_id] = row.lines_en.quote
+  })
+
+  // 음성 맵
+  const voiceMap: Record<string, { voice_v: number; voice_speed: number }> = {}
+  ;(voiceResult.data ?? []).forEach((row: any) => {
+    voiceMap[row.id] = { voice_v: row.voice_v ?? 0, voice_speed: row.voice_speed ?? 1.0 }
+  })
+
+  // 영향력 랭킹 맵
+  const rankingMap: Record<string, number> = {}
+  ;(influenceResult.data ?? []).forEach((item: any, index: number) => {
+    rankingMap[item.celeb_id] = index + 1
+  })
+
+  return {
+    rows, total, totalPages, tagMap, tagSortOrderMap,
+    greetingMap, greetingEnMap, quoteMap, quoteEnMap,
+    voiceMap, rankingMap, influenceTotal: influenceResult.data?.length ?? 0,
+  }
+}
+
+// unstable_cache 래퍼: 인자를 직렬화 가능한 primitive로 전달
+const getCelebsCached = unstable_cache(
+  fetchCelebsPublic,
+  ['celebs-public'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
   const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false, tier } = params
-  const offset = (page - 1) * limit
 
-  const supabase = await createClient()
+  // 1. 캐싱된 공개 데이터 조회
+  const pub = await getCelebsCached(
+    page, limit, profession ?? null, nationality ?? null,
+    contentType ?? null, gender ?? null, sortBy,
+    search ?? null, tagId ?? null, minContentCount,
+    includeInactive, tier ?? null
+  )
 
-  // 현재 로그인 유저 확인
-  const { data: { user } } = await supabase.auth.getUser()
-
-  // 전체 개수 조회 (RPC 사용 - 컨텐츠 보유 셀럽만 카운트)
-  const { data: countData } = await supabase.rpc('count_celebs_filtered', {
-    p_profession: profession ?? null,
-    p_nationality: nationality ?? null,
-    p_content_type: contentType ?? null,
-    p_search: search ?? null,
-    p_tag_id: tagId ?? null,
-    p_min_content_count: minContentCount,
-    p_gender: gender ?? null,
-    p_include_inactive: includeInactive,
-    p_celeb_tier: tier ?? null,
-  })
-  const total = countData ?? 0
-
-  const totalPages = Math.ceil(total / limit)
-
-  // RPC 함수로 정렬된 셀럽 목록 조회
-  const { data, error } = await supabase.rpc('get_celebs_sorted', {
-    p_profession: profession ?? null,
-    p_nationality: nationality ?? null,
-    p_content_type: contentType ?? null,
-    p_sort_by: sortBy,
-    p_search: search ?? '',
-    p_limit: limit,
-    p_offset: offset,
-    p_tag_id: tagId ?? null,
-    p_min_content_count: minContentCount,
-    p_gender: gender ?? null,
-    p_include_inactive: includeInactive,
-    p_celeb_tier: tier ?? null,
-  })
-
-  if (error) {
-    console.error('셀럽 목록 조회 에러:', error)
-    return { celebs: [], total: 0, page, totalPages: 0, error: error.message }
+  if (pub.rows.length === 0) {
+    return { celebs: [], total: pub.total, page, totalPages: pub.totalPages, error: null }
   }
 
-  const rows = (data || []) as CelebRow[]
+  // 2. 유저별 팔로우 상태 (동적 — 캐싱 불가)
+  const celebIds = pub.rows.map(row => row.id)
+  let myFollowings = new Set<string>()
+  let myFollowers = new Set<string>()
 
-  // 팔로우 상태 조회
-  const celebIds = rows.map(row => row.id)
-  let myFollowings: Set<string> = new Set()
-  let myFollowers: Set<string> = new Set()
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
 
-  if (user && celebIds.length > 0) {
-    // 내가 팔로우 중인 셀럽
-    const { data: followingData } = await supabase
-      .from('follows')
-      .select('following_id')
-      .eq('follower_id', user.id)
-      .in('following_id', celebIds)
-
-    myFollowings = new Set((followingData || []).map(f => f.following_id))
-
-    // 나를 팔로우 중인 셀럽 (맞팔 = 친구 체크용)
-    const { data: followerData } = await supabase
-      .from('follows')
-      .select('follower_id')
-      .eq('following_id', user.id)
-      .in('follower_id', celebIds)
-
-    myFollowers = new Set((followerData || []).map(f => f.follower_id))
+    if (user && celebIds.length > 0) {
+      const [followingResult, followerResult] = await Promise.all([
+        supabase.from('follows').select('following_id').eq('follower_id', user.id).in('following_id', celebIds),
+        supabase.from('follows').select('follower_id').eq('following_id', user.id).in('follower_id', celebIds),
+      ])
+      myFollowings = new Set((followingResult.data || []).map(f => f.following_id))
+      myFollowers = new Set((followerResult.data || []).map(f => f.follower_id))
+    }
+  } catch {
+    // 캐시 컨텍스트에서 cookies 접근 실패 시 무시
   }
 
-  // 셀럽별 태그 정보 조회 (설명 포함)
-  type TagRow = { celeb_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null; sort_order: number | null; tag: { id: string; name: string; name_en: string | null; color: string } | null }
-  const tagMap = new Map<string, CelebTagInfo[]>()
-  const tagSortOrderMap = new Map<string, number>() // 태그별 셀럽 순서 저장 (태그 필터 시 사용)
-
-  if (celebIds.length > 0) {
-    const { data: tagAssignments } = await supabase
-      .from('celeb_tag_assignments')
-      .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
-      .in('celeb_id', celebIds) as { data: TagRow[] | null }
-
-    ;(tagAssignments ?? []).forEach(item => {
-      if (!item.tag) return
-      const existing = tagMap.get(item.celeb_id) ?? []
-      existing.push({ ...item.tag, name_en: item.tag.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
-      tagMap.set(item.celeb_id, existing)
-
-      // 태그 필터 시 순서 정보 저장
-      if (tagId && item.tag.id === tagId) {
-        tagSortOrderMap.set(item.celeb_id, item.sort_order ?? 0)
-      }
-    })
-  }
-
-  // 셀럽별 대사 조회 (greeting + quote)
-  const greetingMap = new Map<string, string[]>()
-  const greetingEnMap = new Map<string, string[]>()
-  const quoteMap = new Map<string, string>()
-  const quoteEnMap = new Map<string, string>()
-  if (celebIds.length > 0) {
-    const { data: dialogueRows } = await supabase
-      .from('celeb_dialogues')
-      .select('celeb_id, lines, lines_en')
-      .in('celeb_id', celebIds)
-
-    ;(dialogueRows ?? []).forEach(row => {
-      const lines = row.lines as Record<string, any> | null
-      const linesEn = row.lines_en as Record<string, any> | null
-      if (lines?.greeting) greetingMap.set(row.celeb_id, lines.greeting)
-      if (linesEn?.greeting) greetingEnMap.set(row.celeb_id, linesEn.greeting)
-      if (lines?.quote) quoteMap.set(row.celeb_id, lines.quote)
-      if (linesEn?.quote) quoteEnMap.set(row.celeb_id, linesEn.quote)
-    })
-  }
-
-  // 음성 보유 셀럽 조회 (voice_v 포함)
-  const voiceSet = new Set<string>()
-  const voiceVMap = new Map<string, number>()
-  const voiceSpeedMap = new Map<string, number>()
-  if (celebIds.length > 0) {
-    const { data: voiceRows } = await supabase
-      .from('profiles')
-      .select('id, voice_v, voice_speed')
-      .in('id', celebIds)
-      .eq('has_voice', true)
-    ;(voiceRows ?? []).forEach(row => {
-      voiceSet.add(row.id)
-      voiceVMap.set(row.id, (row as Record<string, unknown>).voice_v as number ?? 0)
-      const speed = (row as Record<string, unknown>).voice_speed as number ?? 1.0
-      if (speed !== 1.0) voiceSpeedMap.set(row.id, speed)
-    })
-  }
-
-  // 전체 영향력 순위 조회 (점수 내림차순 정렬, 고정 순위)
-  const { data: influenceRankings } = await supabase
-    .from('celeb_influence')
-    .select('celeb_id, total_score')
-    .gt('total_score', 0)
-    .order('total_score', { ascending: false })
-
-  // celeb_id → ranking 매핑 (1부터 시작)
-  const rankingMap = new Map<string, number>()
-  ;(influenceRankings || []).forEach((item, index) => {
-    rankingMap.set(item.celeb_id, index + 1)
-  })
-  const influenceTotal = influenceRankings?.length ?? 0
-
-  // CelebProfile 형태로 변환
-  const celebs: CelebProfile[] = rows.map((row) => {
-    // 전체 영향력 순위 (점수 기반 고정)
-    const ranking = rankingMap.get(row.id)
-
-    // percentile 계산: 전체 중 순위 기반
-    const percentile = ranking && influenceTotal > 0
-      ? (ranking / influenceTotal) * 100
-      : 100 // 순위 정보 없으면 최하위로 간주
+  // 3. CelebProfile 조합
+  const celebs: CelebProfile[] = pub.rows.map((row) => {
+    const ranking = pub.rankingMap[row.id]
+    const percentile = ranking && pub.influenceTotal > 0
+      ? (ranking / pub.influenceTotal) * 100
+      : 100
+    const voice = pub.voiceMap[row.id]
 
     return {
       id: row.id,
@@ -232,8 +237,8 @@ export async function getCelebs(
       death_date: row.death_date,
       bio: row.bio,
       bio_en: row.bio_en ?? null,
-      quotes: quoteMap.get(row.id) ?? null,
-      quotes_en: quoteEnMap.get(row.id) ?? null,
+      quotes: pub.quoteMap[row.id] ?? null,
+      quotes_en: pub.quoteEnMap[row.id] ?? null,
       is_verified: row.is_verified ?? false,
       is_platform_managed: row.claimed_by === null,
       follower_count: row.follower_count,
@@ -243,29 +248,29 @@ export async function getCelebs(
       influence: row.total_score > 0 ? {
         total_score: row.total_score,
         level: ranking
-          ? getCelebLevelByRanking(ranking, influenceTotal)
+          ? getCelebLevelByRanking(ranking, pub.influenceTotal)
           : getCelebLevelByRanking(1, 1),
         ranking,
         percentile,
       } : null,
-      tags: tagMap.get(row.id) ?? [],
-      greeting: greetingMap.get(row.id) ?? null,
-      greeting_en: greetingEnMap.get(row.id) ?? null,
-      has_voice: voiceSet.has(row.id),
-      voice_v: voiceVMap.get(row.id) ?? 0,
-      voice_speed: voiceSpeedMap.get(row.id) ?? 1.0,
+      tags: pub.tagMap[row.id] ?? [],
+      greeting: pub.greetingMap[row.id] ?? null,
+      greeting_en: pub.greetingEnMap[row.id] ?? null,
+      has_voice: !!voice,
+      voice_v: voice?.voice_v ?? 0,
+      voice_speed: voice?.voice_speed ?? 1.0,
       celeb_tier: (row.celeb_tier as 'full' | 'light') ?? 'full',
     }
   })
 
   // 태그 필터 시 sort_order 순서로 재정렬
-  if (tagId && tagSortOrderMap.size > 0) {
+  if (tagId && Object.keys(pub.tagSortOrderMap).length > 0) {
     celebs.sort((a, b) => {
-      const orderA = tagSortOrderMap.get(a.id) ?? Number.MAX_SAFE_INTEGER
-      const orderB = tagSortOrderMap.get(b.id) ?? Number.MAX_SAFE_INTEGER
+      const orderA = pub.tagSortOrderMap[a.id] ?? Number.MAX_SAFE_INTEGER
+      const orderB = pub.tagSortOrderMap[b.id] ?? Number.MAX_SAFE_INTEGER
       return orderA - orderB
     })
   }
 
-  return { celebs, total, page, totalPages, error: null }
+  return { celebs, total: pub.total, page, totalPages: pub.totalPages, error: null }
 }

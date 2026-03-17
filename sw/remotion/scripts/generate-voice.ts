@@ -51,9 +51,10 @@ async function loadEpisode(name: string): Promise<BookRecommendScript> {
 }
 
 // --- API 키 로테이션 ---
-const API_KEYS = Array.from({ length: 50 }, (_, i) => process.env[`GOOGLE_GENAI_API_KEY${i + 1}`]).filter(Boolean) as string[]
-let keyIndex = 0
-let ai = new GoogleGenAI({ apiKey: API_KEYS[0] })
+const API_KEYS = Array.from({ length: 100 }, (_, i) => process.env[`GOOGLE_GENAI_API_KEY${i + 1}`]).filter(Boolean) as string[]
+const startKeyIdx = args.indexOf('--start-key')
+let keyIndex = startKeyIdx >= 0 ? Math.min(Number(args[startKeyIdx + 1]) - 1, API_KEYS.length - 1) : 0
+let ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
 
 const MODEL = 'gemini-2.5-flash-preview-tts'
 type Voice = string
@@ -77,7 +78,7 @@ async function saveWav(filename: string, pcmData: Buffer): Promise<number> {
 }
 
 // --- TTS 합성 ---
-async function synthesize(text: string, voiceName: Voice, outputFile: string, retries = API_KEYS.length - 1): Promise<number> {
+async function synthesize(text: string, voiceName: Voice, outputFile: string, retries = 5, keyRetries = API_KEYS.length - 1): Promise<number> {
   try {
     const response = await ai.models.generateContent({
       model: MODEL,
@@ -89,13 +90,11 @@ async function synthesize(text: string, voiceName: Voice, outputFile: string, re
     })
     const data = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data
     if (!data) {
-      console.error('  응답:', JSON.stringify(response.candidates?.[0]?.content?.parts?.[0], null, 2)?.slice(0, 500))
-      // audio 없으면 다음 키로 재시도
+      // audio 없으면 같은 키로 재시도 (서버 일시 오류, 최대 5회)
       if (retries > 0) {
-        keyIndex = (keyIndex + 1) % API_KEYS.length
-        ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-        console.log(`  키 ${keyIndex + 1}로 전환 (no audio)`)
-        return synthesize(text, voiceName, outputFile, retries - 1)
+        console.log(`  빈 응답 — 2초 후 재시도 (${retries}회 남음)`)
+        await new Promise(r => setTimeout(r, 2000))
+        return synthesize(text, voiceName, outputFile, retries - 1, keyRetries)
       }
       throw new Error(`No audio: ${outputFile}`)
     }
@@ -104,11 +103,25 @@ async function synthesize(text: string, voiceName: Voice, outputFile: string, re
     console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s`)
     return duration
   } catch (e: any) {
-    if ((e.status === 429 || e.status === 403) && retries > 0) {
+    if ([429, 403].includes(e.status) && keyRetries > 0) {
+      // 할당량 초과/차단 → 다음 키로 전환
       keyIndex = (keyIndex + 1) % API_KEYS.length
       ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-      console.log(`  키 ${keyIndex + 1}로 전환`)
-      return synthesize(text, voiceName, outputFile, retries - 1)
+      console.log(`  키 ${keyIndex + 1}로 전환 (${e.status})`)
+      return synthesize(text, voiceName, outputFile, 5, keyRetries - 1)
+    }
+    if ([400].includes(e.status) && e.message?.includes('expired') && keyRetries > 0) {
+      // 만료된 키 → 다음 키로 전환
+      keyIndex = (keyIndex + 1) % API_KEYS.length
+      ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
+      console.log(`  키 ${keyIndex + 1}로 전환 (만료)`)
+      return synthesize(text, voiceName, outputFile, 5, keyRetries - 1)
+    }
+    if ([500].includes(e.status) && retries > 0) {
+      // 서버 오류 → 같은 키로 재시도 (최대 5회)
+      console.log(`  서버 오류(500) — 3초 후 재시도 (${retries}회 남음)`)
+      await new Promise(r => setTimeout(r, 3000))
+      return synthesize(text, voiceName, outputFile, retries - 1, keyRetries)
     }
     throw e
   }
@@ -186,9 +199,11 @@ async function synthesizeElevenlabs(text: string, voiceId: string, outputFile: s
 }
 
 // 엔진별 합성 디스패치
-// ElevenLabs 자동 호출 차단 — 셀럽 음성은 백오피스(VoiceGenWorkspace)에서 수동 생성.
-// celeb 역할은 Gemini/Cloud로 폴백하여 프리뷰용으로만 생성.
+// ElevenLabs는 --engine elevenlabs 명시 시에만 사용 (수동 제어)
 async function tts(text: string, voiceName: Voice, outputFile: string, _role: Role): Promise<number> {
+  if (ENGINE === 'elevenlabs') {
+    return synthesizeElevenlabs(text, episode.host.elevenlabsVoiceId!, outputFile)
+  }
   return ENGINE === 'cloud'
     ? synthesizeCloud(text, voiceName, outputFile)
     : synthesize(text, voiceName, outputFile)

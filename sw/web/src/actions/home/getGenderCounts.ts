@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export interface GenderCount {
   value: string  // 'all' | 'male' | 'female'
@@ -10,36 +11,25 @@ export interface GenderCount {
 
 export type GenderCounts = GenderCount[]
 
-export async function getGenderCounts(): Promise<GenderCounts> {
-  const supabase = await createClient()
+async function fetchGenderCounts(): Promise<GenderCounts> {
+  const supabase = createStaticClient()
 
-  // 전체 셀럽 수
-  const { count: totalCount } = await supabase
-    .from('profiles')
-    .select('*', { count: 'exact', head: true })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+  // 병렬 조회
+  const [totalResult, maleResult, femaleResult] = await Promise.all([
+    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('profile_type', 'CELEB').eq('status', 'active'),
+    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('profile_type', 'CELEB').eq('status', 'active').eq('gender', true),
+    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('profile_type', 'CELEB').eq('status', 'active').eq('gender', false),
+  ])
 
-  // 남성 수 (gender = true)
-  const { count: maleCount } = await supabase
-    .from('profiles')
-    .select('*', { count: 'exact', head: true })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .eq('gender', true)
-
-  // 여성 수 (gender = false)
-  const { count: femaleCount } = await supabase
-    .from('profiles')
-    .select('*', { count: 'exact', head: true })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .eq('gender', false)
-
-  // 결과 배열 (전체 → 남성 → 여성)
   return [
-    { value: 'all', label: '전체', count: totalCount ?? 0 },
-    { value: 'male', label: '남성', count: maleCount ?? 0 },
-    { value: 'female', label: '여성', count: femaleCount ?? 0 },
+    { value: 'all', label: '전체', count: totalResult.count ?? 0 },
+    { value: 'male', label: '남성', count: maleResult.count ?? 0 },
+    { value: 'female', label: '여성', count: femaleResult.count ?? 0 },
   ]
 }
+
+export const getGenderCounts = unstable_cache(
+  fetchGenderCounts,
+  ['gender-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)

@@ -13,6 +13,8 @@ import {
   episodes,
 } from "./compositions/BookRecommend";
 import { FPS } from "./compositions/BookRecommend/timing";
+import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
+import { ThumbnailShort } from "./compositions/Thumbnail/ThumbnailShort";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -49,6 +51,40 @@ export const RemotionRoot: React.FC = () => {
               />
             )}
           </React.Fragment>
+        )
+      })}
+
+      {/* === 썸네일 (에피소드별 × variant A/B/C) === */}
+      {Object.entries(episodes).map(([name, script]) => {
+        const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+        return (['A', 'B', 'C', 'D', 'E'] as const).map(v => (
+          <Composition
+            key={`${name}-thumb-${v}`}
+            id={`${label}Thumb${v}`}
+            component={Thumbnail}
+            durationInFrames={1}
+            fps={1}
+            width={1280}
+            height={720}
+            defaultProps={{ script, variant: v }}
+          />
+        ))
+      })}
+
+      {/* === 쇼츠 썸네일 === */}
+      {Object.entries(episodes).map(([name, script]) => {
+        const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+        return (
+          <Composition
+            key={`${name}-thumb-short`}
+            id={`${label}ThumbShort`}
+            component={ThumbnailShort}
+            durationInFrames={1}
+            fps={1}
+            width={1080}
+            height={1920}
+            defaultProps={{ script }}
+          />
         )
       })}
 

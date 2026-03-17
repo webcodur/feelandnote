@@ -1,5 +1,5 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import type { CelebHost } from './types'
+import type { CelebHost, VoiceTimingSegment } from './types'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from './fonts'
 import { toAudioFrames, CELEB_VISUAL_DELAY, f } from './timing'
@@ -15,6 +15,10 @@ type Props = {
   narratorDuration: number
   /** 감상철학 오디오 초 */
   philosophyDuration: number
+  /** 나레이터 소개 파형 타이밍 */
+  narratorTimings?: VoiceTimingSegment[]
+  /** 감상철학 파형 타이밍 */
+  philosophyTimings?: VoiceTimingSegment[]
 }
 
 /**
@@ -23,7 +27,7 @@ type Props = {
  * 우측 Phase 1: "서재 탐방" + 이름 + biography (나레이터)
  * 우측 Phase 2: 감상철학 (셀럽 본인)
  */
-export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration }) => {
+export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration, narratorTimings, philosophyTimings }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
@@ -156,6 +160,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                   color="#ccc"
                   fontSize={22}
                   style={{ lineHeight: 1.8 }}
+                  timings={narratorTimings}
                 />
               </div>
             )}
@@ -179,6 +184,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                     color="#e8e0d0"
                     fontSize={24}
                     style={{ lineHeight: 1.8 }}
+                    timings={philosophyTimings}
                   />
                 </div>
               </div>

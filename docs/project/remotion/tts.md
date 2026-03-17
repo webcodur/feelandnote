@@ -5,25 +5,45 @@
 - **LLM 기반 TTS(Gemini)는 입력 텍스트를 변조할 수 있다.** 생성 후 반드시 들어보고 자막과 대조해야 한다.
 - 출력: PCM 24kHz 16bit mono → WAV 저장
 
-## 음성 3종
+## 음성 역할
 
-| 역할 | Gemini/Cloud 보이스 | ElevenLabs | 성별 | 색상 코드 |
-|------|---------------------|-----------|------|-----------|
-| 나레이터 | `Kore` / `Neural2-A` | — | 여성 | `#888` (회색) |
-| 요약맨 | `Charon` / `Neural2-C` | — | 남성 | `#8bb8a8` (민트) |
-| 셀럽 | `Puck` / `Neural2-B` | `elevenlabsVoiceId` | 남성 | `#c8a46e` (골드) |
+| 역할 | Gemini 보이스 | Cloud TTS | ElevenLabs | 성별 | 색상 코드 |
+|------|---------------|-----------|-----------|------|-----------|
+| 나레이터 | `Kore` | `Neural2-A` | — | 여성 | `#888` (회색) |
+| 요약맨 | `Charon` | `Neural2-C` | — | 남성 | `#8bb8a8` (민트) |
+| 셀럽 | `Puck` (기본) | `Neural2-B` | `elevenlabsVoiceId` | 남성 | `#c8a46e` (골드) |
+
+### 셀럽 보이스 오버라이드
+
+에피소드 JSON의 `host.geminiVoice`로 Gemini 셀럽 보이스를 인물별로 지정할 수 있다.
+전체 보이스 목록과 배정 현황은 [`voice-actors.md`](voice-actors.md) 참조.
+
+```json
+{ "host": { "geminiVoice": "Orus" } }
+```
 
 ## 엔진 선택
 
-| 엔진 | 플래그 | 역할 | 비고 |
-|------|--------|------|------|
-| Gemini Flash TTS | `--engine gemini` (기본) | 나레이터, 요약맨 | LLM 기반, 변조 가능. 키당 10회/일 |
-| Google Cloud TTS | `--engine cloud` | 나레이터, 요약맨 | Neural2 월 100만자. 안정적 |
-| ElevenLabs | 자동 (elevenlabsVoiceId 설정 시) | 셀럽 | 인물별 커스텀 보이스 |
+| 엔진 | 플래그 | 비고 |
+|------|--------|------|
+| Gemini Flash TTS | `--engine gemini` (기본) | LLM 기반, 변조 가능. 키당 10회/일 |
+| Google Cloud TTS | `--engine cloud` | Neural2 월 100만자. 안정적, 변조 없음 |
+| ElevenLabs | `--engine elevenlabs` | 인물별 커스텀 보이스. **명시적 지정 시에만 사용** |
 
-- **셀럽 role + `elevenlabsVoiceId`가 JSON에 있으면 자동으로 ElevenLabs 사용** (엔진 플래그 무관)
+- **ElevenLabs는 `--engine elevenlabs` 명시 시에만 동작한다.** 자동 호출 없음.
 - ElevenLabs 모델: `eleven_multilingual_v2`, 출력: `pcm_24000`
 - `.env`에 `ELEVENLABS_API_KEY` 필요
+
+## 공통 음성
+
+에피소드마다 동일한 음성은 `public/voice/common/`에 1회 생성하여 재사용한다.
+`generate-voice.ts`가 자동으로 건너뛰고, `makeVf`가 `voice/common/` 경로로 해소한다.
+
+| 파일 | 텍스트 |
+|------|--------|
+| `service-greeting.wav` | "feelandnote 서재 탐방 코너에서는..." |
+| `label-summary.wav` | "핵심 요약" |
+| `label-context.wav` | "추천 및 감상경위" |
 
 ## 텍스트 작성 규칙
 
@@ -39,16 +59,16 @@
 ### 역할 필터 (`--role`)
 
 ```bash
-pnpm voice -- --episode alexander-the-great --role celeb --force --update-json       # 셀럽만 (ElevenLabs)
+pnpm voice -- --episode alexander-the-great --role celeb --force --update-json       # 셀럽만
 pnpm voice -- --episode alexander-the-great --role narrator,summary --update-json     # 나레이터+요약맨만
 pnpm voice -- --episode alexander-the-great --update-json                             # 전체
 pnpm voice -- --engine cloud --episode alexander-the-great --update-json              # Cloud TTS로 전체
+pnpm voice -- --engine elevenlabs --episode alexander-the-great --role celeb --update-json  # ElevenLabs 셀럽
 ```
 
 ### Duration 자동 반영
 
 `--update-json` 플래그를 붙이면 TTS 생성 후 duration을 에피소드 JSON에 자동 기록한다. 수동 복사 불필요.
-web-bo 에피소드 에디터에서도 "Duration JSON 자동 반영" 체크박스로 동일 기능 제공.
 
 ## Cloud TTS 보이스 매핑
 
@@ -58,13 +78,26 @@ web-bo 에피소드 에디터에서도 "Duration JSON 자동 반영" 체크박�
 | 요약맨 | Charon (남) | Neural2-C (남) |
 | 셀럽 | Puck (남) | Neural2-B (남) |
 
-- `.env`에 `GOOGLE_CLOUD_TTS_KEY` 필요. Google Cloud Console에서 TTS API 활성화 후 API 키 발급.
-- Cloud TTS는 텍스트를 변조하지 않으므로 Gemini보다 자막 싱크가 정확하다.
+- 커스텀 셀럽 보이스(Orus 등)는 Cloud에 매핑이 없으므로 `Neural2-B`로 폴백한다.
+- `.env`에 `GOOGLE_CLOUD_TTS_KEY` 필요.
 
 ## Gemini API 키 로테이션
 
-- 무료 티어: 키당 10회/일. `.env`에 `GOOGLE_GENAI_API_KEY1` ~ `GOOGLE_GENAI_API_KEY50` 등록.
-- `generate-voice.ts`가 429/403 에러 시 자동으로 다음 키로 전환.
+- 무료 티어: 키당 10회/일. `.env`에 `GOOGLE_GENAI_API_KEY1` ~ `GOOGLE_GENAI_API_KEY100` 등록.
+- 에러별 동작:
+  - **429/403** (할당량/차단) → 다음 키로 전환
+  - **400** (만료) → 다음 키로 전환
+  - **500** (서버 오류) → 같은 키로 3초 대기 후 재시도
+  - **빈 응답** (no audio) → 같은 키로 2초 대기 후 재시도
+
+## 음성 파일 경로 해소 (`makeVf`)
+
+```
+요청 파일 → COMMON_FILES 매칭? → voice/common/{file}
+         → voice-select.json slots 매칭? → voice/{ep}/{engine}/{file}
+         → voice-select.json default → voice/{ep}/{default-engine}/{file}
+         → voice-select 없음 → voice/{ep}/{file}
+```
 
 ## 음성 파일 R2 관리
 
@@ -98,13 +131,3 @@ pnpm voice -- --episode <name> --upload      # TTS 생성 후 자동 업로드
 ### 환경변수
 
 `.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME` 필요. web-bo와 동일한 값 사용.
-
----
-
-## web-bo TTS 통합
-
-`sw/web-bo/src/actions/admin/episodes.ts`에 서버 액션:
-- `generateVoice(name, engine, only?, updateJson?)`: TTS 생성 실행
-- `listVoiceJobs(name)`: 생성 대상 목록 조회
-
-Windows에서 `execFile`로 pnpm 실행 시 `pnpm.cmd` 사용 필수 (`process.platform === 'win32'` 분기).

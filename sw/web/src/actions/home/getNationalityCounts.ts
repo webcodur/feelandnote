@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getCountryNamesMap } from '@/lib/countries'
 
 export interface NationalityCount {
@@ -11,8 +12,8 @@ export interface NationalityCount {
 
 export type NationalityCounts = NationalityCount[]
 
-export async function getNationalityCounts(): Promise<NationalityCounts> {
-  const supabase = await createClient()
+async function fetchNationalityCounts(): Promise<NationalityCounts> {
+  const supabase = createStaticClient()
 
   // 전체 셀럽 수
   const { count: totalCount } = await supabase
@@ -70,3 +71,9 @@ export async function getNationalityCounts(): Promise<NationalityCounts> {
 
   return counts
 }
+
+export const getNationalityCounts = unstable_cache(
+  fetchNationalityCounts,
+  ['nationality-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)

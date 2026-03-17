@@ -394,26 +394,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         )
       })()}
 
-      {/* 하단 자막 */}
-      {subText && (
-        <div style={{
-          position: 'absolute', bottom: SAFE_BOTTOM - 80, left: 60, right: 60,
-          display: 'flex', justifyContent: 'center', zIndex: 50,
-        }}>
-          <div style={{
-            backgroundColor: 'rgba(0,0,0,0.65)', borderRadius: 12,
-            padding: '12px 24px', maxWidth: 920,
-          }}>
-            <div style={{
-              color: '#fff', fontSize: 32, fontWeight: 600,
-              fontFamily: FONT.sans, textAlign: 'center',
-              lineHeight: 1.55, textShadow: '0 2px 4px rgba(0,0,0,0.8)',
-            }}>
-              {subText}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* 자막 제거됨 */}
     </AbsoluteFill>
   )
 }

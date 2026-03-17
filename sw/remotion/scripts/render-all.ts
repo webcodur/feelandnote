@@ -22,11 +22,12 @@ import { calcShortTotalFrames } from '../src/compositions/BookRecommend/BookReco
 import {
   toFrames, toAudioFrames, FPS,
   BRAND_FRAMES, CELEB_VISUAL_DELAY,
-  TITLE_SUMMARY_GAP, SUMMARY_CONTEXT_GAP, CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
+  CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
   BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, SENTENCE_BREATH,
   CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, RETURN_INTRO_FALLBACK, PREV_RECAP_FALLBACK,
   SHORT_GAP, SHORT_FALLBACK, SHORT_BRAND_FRAMES, SHORT_LOGO_FRAMES,
-  summaryPhaseEnd, contextPhaseEnd, bookTotalFrames,
+  titleSummaryGap, summaryContextGap, labelSummaryFrames, labelContextFrames,
+  bookTotalFrames, f,
 } from '../src/compositions/BookRecommend/timing'
 import type { BookRecommendScript, ShortSegment } from '../src/compositions/BookRecommend/types'
 
@@ -58,22 +59,93 @@ function subsToSrt(subs: Sub[]): string {
   ).join('\n')
 }
 
-function splitSentences(start: number, end: number, speaker: string, text: string): Sub[] {
-  const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean)
+type VTiming = { start: number; end: number }
+
+const MIN_SUB_SEC = 1.5   // 이보다 짧으면 병합
+const MAX_SUB_SEC = 8     // 이보다 길면 분할
+const MIN_SUB_F = Math.round(MIN_SUB_SEC * FPS)
+const MAX_SUB_F = Math.round(MAX_SUB_SEC * FPS)
+
+function splitSentences(start: number, end: number, speaker: string, text: string, timings?: VTiming[]): Sub[] {
+  const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
   if (sentences.length <= 1) return [{ start, end, speaker, text }]
-  const totalFrames = end - start
-  const breathTotal = (sentences.length - 1) * SENTENCE_BREATH
-  const distributable = Math.max(totalFrames - breathTotal, totalFrames * 0.7)
-  const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
-  const subs: Sub[] = []
-  let cursor = start
-  for (let i = 0; i < sentences.length; i++) {
-    if (i > 0) cursor += SENTENCE_BREATH
-    const frames = Math.round((sentences[i].length / totalChars) * distributable)
-    subs.push({ start: cursor, end: cursor + frames, speaker, text: sentences[i] })
-    cursor += frames
+
+  // 1) 파형 타이밍 또는 글자 수 비례로 raw segments 생성
+  let raw: Sub[]
+  if (timings && timings.length === sentences.length) {
+    raw = timings.map((t, i) => ({
+      start: start + Math.round(t.start * FPS),
+      end: start + Math.round(t.end * FPS),
+      speaker,
+      text: sentences[i],
+    }))
+  } else {
+    const totalFrames = end - start
+    const breathTotal = (sentences.length - 1) * SENTENCE_BREATH
+    const distributable = Math.max(totalFrames - breathTotal, totalFrames * 0.7)
+    const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
+    raw = []
+    let cursor = start
+    for (let i = 0; i < sentences.length; i++) {
+      if (i > 0) cursor += SENTENCE_BREATH
+      const frames = Math.round((sentences[i].length / totalChars) * distributable)
+      raw.push({ start: cursor, end: cursor + frames, speaker, text: sentences[i] })
+      cursor += frames
+    }
   }
-  return subs
+
+  // 2) 짧은 자막 병합 (MIN_SUB_F 미만)
+  const merged: Sub[] = []
+  for (const sub of raw) {
+    const dur = sub.end - sub.start
+    if (merged.length > 0 && dur < MIN_SUB_F) {
+      const prev = merged[merged.length - 1]
+      prev.text += ' ' + sub.text
+      prev.end = sub.end
+    } else {
+      merged.push({ ...sub })
+    }
+  }
+
+  // 3) 긴 자막 분할 (MAX_SUB_F 초과) — 쉼표/공백 기준
+  const result: Sub[] = []
+  for (const sub of merged) {
+    const dur = sub.end - sub.start
+    if (dur <= MAX_SUB_F) {
+      result.push(sub)
+      continue
+    }
+    // 중간 지점에서 쉼표/공백으로 분할
+    const mid = Math.floor(sub.text.length / 2)
+    let splitAt = -1
+    // 중간 근처에서 쉼표 찾기
+    for (let d = 0; d < mid; d++) {
+      if (mid + d < sub.text.length && /[,，、]/.test(sub.text[mid + d])) { splitAt = mid + d + 1; break }
+      if (mid - d >= 0 && /[,，、]/.test(sub.text[mid - d])) { splitAt = mid - d + 1; break }
+    }
+    // 쉼표 없으면 공백
+    if (splitAt < 0) {
+      for (let d = 0; d < mid; d++) {
+        if (mid + d < sub.text.length && sub.text[mid + d] === ' ') { splitAt = mid + d + 1; break }
+        if (mid - d >= 0 && sub.text[mid - d] === ' ') { splitAt = mid - d + 1; break }
+      }
+    }
+    if (splitAt > 0 && splitAt < sub.text.length) {
+      const ratio = splitAt / sub.text.length
+      const splitFrame = sub.start + Math.round(dur * ratio)
+      result.push({ start: sub.start, end: splitFrame, speaker, text: sub.text.slice(0, splitAt).trim() })
+      result.push({ start: splitFrame, end: sub.end, speaker, text: sub.text.slice(splitAt).trim() })
+    } else {
+      result.push(sub)
+    }
+  }
+
+  return result
+}
+
+// --- voiceTimings 헬퍼 ---
+function vt(script: BookRecommendScript, key: string): VTiming[] | undefined {
+  return (script as any).voiceTimings?.[key]
 }
 
 // --- 롱폼 SRT ---
@@ -84,15 +156,18 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
 
   const celebIntroFrames = cont ? 0 : (CELEB_VISUAL_DELAY + ((narrator.celebIntroDuration ?? 0) > 0 ? toFrames(narrator.celebIntroDuration!) : CELEB_INTRO_FALLBACK))
   const philosophyFrames = cont ? 0 : toFrames(host.voiceDuration ?? 0)
-  const hostIntroFrames = cont ? 0 : (celebIntroFrames + philosophyFrames)
+  const hostIntroFrames = cont ? 0 : (celebIntroFrames + f(1) + philosophyFrames)
   const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK
 
+  const sgd = narrator.serviceGreetingDuration ?? 0
+  const svcGreetingFrames = cont ? 0 : (sgd > 0 ? toFrames(sgd) : 0)
   const svcIntroFrames = cont ? 0 : ((narrator.serviceIntroDuration ?? 0) > 0 ? toFrames(narrator.serviceIntroDuration!) : 0)
-  const fQuoteFrames = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+  const fQuoteFramesRaw = host.featuredQuoteDuration && host.featuredQuoteDuration > 0 ? toFrames(host.featuredQuoteDuration) : 0
+  const fQuoteFrames = fQuoteFramesRaw > 0 ? fQuoteFramesRaw + f(1.5) : 0
   const returnIntroFrames = cont ? ((narrator.returnIntroDuration ?? 0) > 0 ? toFrames(narrator.returnIntroDuration!) : RETURN_INTRO_FALLBACK) : 0
   const prevRecapFrames = cont ? ((narrator.prevRecapDuration ?? 0) > 0 ? toFrames(narrator.prevRecapDuration!) : PREV_RECAP_FALLBACK) : 0
 
-  let cursor = BRAND_FRAMES + returnIntroFrames + svcIntroFrames + fQuoteFrames + prevRecapFrames
+  let cursor = BRAND_FRAMES + returnIntroFrames + svcGreetingFrames + svcIntroFrames + fQuoteFrames + prevRecapFrames
   const hostIntroStart = cursor
   cursor += hostIntroFrames
   cursor += bridgeFrames
@@ -103,12 +178,17 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
     subs.push(...splitSentences(s, s + toAudioFrames(narrator.returnIntroDuration ?? 0), '나레이터', narrator.returnIntro))
   }
 
-  if (!cont && svcIntroFrames > 0 && narrator.serviceIntro) {
+  // 서비스 인사
+  if (!cont && svcGreetingFrames > 0 && narrator.serviceGreeting) {
     const s = BRAND_FRAMES
-    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceIntroDuration!), '나레이터', narrator.serviceIntro))
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceGreetingDuration ?? 0), '나레이터', narrator.serviceGreeting, vt(script, 'service-greeting')))
+  }
+  if (!cont && svcIntroFrames > 0 && narrator.serviceIntro) {
+    const s = BRAND_FRAMES + svcGreetingFrames
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceIntroDuration!), '나레이터', narrator.serviceIntro, vt(script, 'service-intro')))
   }
   if (fQuoteFrames > 0 && host.featuredQuote) {
-    const s = BRAND_FRAMES + returnIntroFrames + svcIntroFrames
+    const s = BRAND_FRAMES + returnIntroFrames + svcIntroFrames + f(1)
     subs.push(...splitSentences(s, s + toAudioFrames(host.featuredQuoteDuration!), host.nickname, host.featuredQuote))
   }
 
@@ -121,12 +201,12 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
   // Part 1: 셀럽 소개 + 감상철학
   if (!cont && narrator.celebIntro) {
     const celebVoiceStart = hostIntroStart + CELEB_VISUAL_DELAY
-    subs.push(...splitSentences(celebVoiceStart, celebVoiceStart + toAudioFrames(narrator.celebIntroDuration ?? 0), '나레이터', narrator.celebIntro))
+    subs.push(...splitSentences(celebVoiceStart, celebVoiceStart + toAudioFrames(narrator.celebIntroDuration ?? 0), '나레이터', narrator.celebIntro, vt(script, 'narrator-celeb-intro')))
   }
 
   if (!cont && host.philosophy) {
-    const philoStart = hostIntroStart + celebIntroFrames
-    subs.push(...splitSentences(philoStart, philoStart + toAudioFrames(host.voiceDuration ?? 0), host.nickname, host.philosophy))
+    const philoStart = hostIntroStart + celebIntroFrames + f(1)
+    subs.push(...splitSentences(philoStart, philoStart + toAudioFrames(host.voiceDuration ?? 0), host.nickname, host.philosophy, vt(script, 'philosophy')))
   }
 
   const hasInterlude = books.length > 10
@@ -134,6 +214,13 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
   const interludeFrames = hasInterlude
     ? (narrator.interludeDuration && narrator.interludeDuration > 0 ? toFrames(narrator.interludeDuration) : INTERLUDE_FRAMES)
     : 0
+
+  // 라벨 프레임 (Series 레이아웃과 동일하게)
+  const ld = { labelSummaryDuration: narrator.labelSummaryDuration, labelContextDuration: narrator.labelContextDuration }
+  const TSG = titleSummaryGap(ld.labelSummaryDuration)
+  const SCG = summaryContextGap(ld.labelContextDuration)
+  const LSF = labelSummaryFrames(ld.labelSummaryDuration)
+  const LCF = labelContextFrames(ld.labelContextDuration)
 
   for (let i = 0; i < books.length; i++) {
     if (i > 0) cursor += BOOK_GAP
@@ -147,33 +234,45 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
     }
     const bs = cursor
     const b = books[i]
-    const titleFrames = toFrames(b.titleDuration)
-    const sEnd = summaryPhaseEnd(b)
-    const cEnd = contextPhaseEnd(b)
 
-    subs.push({ start: bs, end: bs + toAudioFrames(b.titleDuration), speaker: '나레이터', text: `${b.title}, ${b.creator}` })
+    // Series 커서 워킹 — BookRecommend.tsx의 Series 레이아웃과 동일
+    let c = bs
 
-    const summaryStart = bs + titleFrames + TITLE_SUMMARY_GAP
-    subs.push(...splitSentences(summaryStart, summaryStart + toAudioFrames(b.summaryDuration), '요약', b.summary))
+    // title
+    const titleText = [b.title, b.creator, b.stats?.publishYear].filter(Boolean).join(', ')
+    subs.push({ start: c, end: c + toAudioFrames(b.titleDuration), speaker: '나레이터', text: titleText })
+    c += toFrames(b.titleDuration)
 
-    const contextStart = bs + sEnd + SUMMARY_CONTEXT_GAP
-    subs.push(...splitSentences(contextStart, contextStart + toAudioFrames(b.contextDuration), '나레이터', b.context))
+    // offset → label-summary → summary
+    c += TSG
+    c += LSF
+    subs.push(...splitSentences(c, c + toAudioFrames(b.summaryDuration), '요약', b.summary, vt(script, `book-${i}-summary`)))
+    c += toFrames(b.summaryDuration)
 
+    // offset → label-context → context
+    c += SCG
+    c += LCF
+    subs.push(...splitSentences(c, c + toAudioFrames(b.contextDuration), '나레이터', b.context, vt(script, `book-${i}-context`)))
+    c += toFrames(b.contextDuration)
+
+    // quote
     if (b.directQuote && b.quoteDuration) {
-      const quoteStart = bs + cEnd + CONTEXT_QUOTE_GAP
-      subs.push({ start: quoteStart, end: quoteStart + toAudioFrames(b.quoteDuration), speaker: host.nickname, text: `"${b.directQuote}"` })
+      c += CONTEXT_QUOTE_GAP
+      subs.push(...splitSentences(c, c + toAudioFrames(b.quoteDuration), host.nickname, `"${b.directQuote}"`, vt(script, `book-${i}-quote`)))
+      c += toFrames(b.quoteDuration)
+
+      // contextAfter
       if (b.contextAfter && b.contextAfterDuration) {
-        const qFrames = toFrames(b.quoteDuration)
-        const qEnd = cEnd + CONTEXT_QUOTE_GAP + qFrames
-        const caStart = bs + qEnd + QUOTE_CONTEXTAFTER_GAP
-        subs.push(...splitSentences(caStart, caStart + toAudioFrames(b.contextAfterDuration), '나레이터', b.contextAfter))
+        c += QUOTE_CONTEXTAFTER_GAP
+        subs.push(...splitSentences(c, c + toAudioFrames(b.contextAfterDuration), '나레이터', b.contextAfter, vt(script, `book-${i}-context-after`)))
       }
     }
-    cursor += bookTotalFrames(b)
+
+    cursor += bookTotalFrames(b, ld) + LSF + LCF
   }
   cursor += RECAP_FRAMES
   if (narrator.outroDuration > 0) {
-    subs.push(...splitSentences(cursor, cursor + toAudioFrames(narrator.outroDuration), '나레이터', narrator.outro))
+    subs.push(...splitSentences(cursor, cursor + toAudioFrames(narrator.outroDuration), '나레이터', narrator.outro, vt(script, 'narrator-outro')))
   }
   return subs
 }

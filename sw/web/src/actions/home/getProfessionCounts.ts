@@ -1,12 +1,13 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 
 export type ProfessionCounts = Record<string, number>
 
-export async function getProfessionCounts(): Promise<ProfessionCounts> {
-  const supabase = await createClient()
+async function fetchProfessionCounts(): Promise<ProfessionCounts> {
+  const supabase = createStaticClient()
 
   // 전체 셀럽 수
   const { count: totalCount } = await supabase
@@ -47,3 +48,9 @@ export async function getProfessionCounts(): Promise<ProfessionCounts> {
 
   return counts
 }
+
+export const getProfessionCounts = unstable_cache(
+  fetchProfessionCounts,
+  ['profession-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
