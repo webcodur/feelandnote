@@ -156,10 +156,10 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences, timings, onCh
       {/* 파형 + 경계선 */}
       <div
         ref={containerRef}
-        className="relative w-full h-16 bg-bg-main rounded overflow-hidden select-none touch-none cursor-pointer"
+        className="relative w-full h-24 bg-bg-main rounded overflow-hidden select-none touch-none cursor-pointer"
         onClick={handleWaveClick}
       >
-        <canvas ref={canvasRef} width={800} height={64} className="w-full h-full" />
+        <canvas ref={canvasRef} width={1200} height={96} className="w-full h-full" />
 
         {/* 문장 구간 배경 */}
         {timings.map((t, i) => (
