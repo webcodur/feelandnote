@@ -20,6 +20,14 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { execFile } from 'child_process'
 import type { BookRecommendScript } from '../src/compositions/BookRecommend/types'
+import {
+  VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
+  VN_CELEB_INTRO, VN_PHILOSOPHY,
+  VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
+  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
+  vnShort, vnTimingKey, COMMON_VOICE_FILES,
+} from '../src/compositions/BookRecommend/voice-names'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
@@ -38,8 +46,8 @@ const BASE_DIR = path.join(ROOT, 'public', 'voice', EPISODE_NAME)
 const OUT_DIR = path.join(BASE_DIR, ENGINE)
 const COMMON_DIR = path.join(ROOT, 'public', 'voice', 'common')
 
-/** 공통 음성 — 에피소드마다 동일하므로 common/ 에서 재사용 */
-const COMMON_FILES = new Set(['service-greeting.wav', 'label-summary.wav', 'label-context.wav'])
+/** 공통 음성 — 한국어 에피소드만 common/ 재사용. 영문은 에피소드별 생성 */
+let COMMON_FILES = new Set(COMMON_VOICE_FILES)
 
 // 역할 필터: --role narrator,summary,celeb
 const roleIdx = args.indexOf('--role')
@@ -131,20 +139,32 @@ async function synthesize(text: string, voiceName: Voice, outputFile: string, re
 const CLOUD_TTS_KEY = process.env.GOOGLE_CLOUD_TTS_KEY
 const CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
 
-// Gemini Voice → Cloud TTS Voice 매핑 (한국어 Neural2)
-// 커스텀 셀럽 보이스(Orus 등)는 Cloud에 없으므로 Neural2-B 폴백
-const CLOUD_VOICE_MAP: Record<string, string> = {
+// Gemini Voice → Cloud TTS Voice 매핑
+// 커스텀 셀럽 보이스(Orus 등)는 Cloud에 없으므로 폴백
+const CLOUD_VOICE_MAP_KO: Record<string, string> = {
   Kore: 'ko-KR-Neural2-A',    // 여성 (나레이터)
   Charon: 'ko-KR-Neural2-C',  // 남성 (요약맨)
   Puck: 'ko-KR-Neural2-B',    // 남성 (셀럽 기본)
 }
-const CLOUD_FALLBACK_MALE = 'ko-KR-Neural2-B'
+const CLOUD_VOICE_MAP_EN: Record<string, string> = {
+  Kore: 'en-US-Neural2-F',    // 여성 (나레이터)
+  Charon: 'en-US-Neural2-D',  // 남성 (요약맨)
+  Puck: 'en-US-Neural2-J',    // 남성 (셀럽 기본)
+}
+function getCloudVoice(geminiVoice: string): string {
+  const map = episode?.locale === 'en' ? CLOUD_VOICE_MAP_EN : CLOUD_VOICE_MAP_KO
+  const fallback = episode?.locale === 'en' ? 'en-US-Neural2-J' : 'ko-KR-Neural2-B'
+  return map[geminiVoice] || fallback
+}
+function getCloudLang(): string {
+  return episode?.locale === 'en' ? 'en-US' : 'ko-KR'
+}
 
 async function synthesizeCloud(text: string, voiceName: Voice, outputFile: string): Promise<number> {
   if (!CLOUD_TTS_KEY) throw new Error('GOOGLE_CLOUD_TTS_KEY 없음. .env에 추가하세요.')
   const body = {
     input: { text },
-    voice: { languageCode: 'ko-KR', name: CLOUD_VOICE_MAP[voiceName] || CLOUD_FALLBACK_MALE },
+    voice: { languageCode: getCloudLang(), name: getCloudVoice(voiceName) },
     audioConfig: { audioEncoding: 'LINEAR16', sampleRateHertz: 24000 },
   }
   const res = await fetch(`${CLOUD_TTS_URL}?key=${CLOUD_TTS_KEY}`, {
@@ -248,12 +268,15 @@ type Job = { file: string; voice: Voice; text: string; role: Role }
 function buildJobs(): Job[] {
   const jobs: Job[] = []
 
-  // 섹션 라벨 — common/ 에 있으면 건너뜀
-  if (!COMMON_FILES.has('label-summary.wav')) {
-    jobs.push({ file: 'label-summary.wav', voice: VOICE.narrator, text: '핵심 요약', role: 'narrator' })
+  // 섹션 라벨 — locale 기반, common/ 에 있으면 건너뜀
+  const isEn = episode.locale === 'en'
+  const labelSummaryText = isEn ? 'Summary' : '핵심 요약'
+  const labelContextText = isEn ? 'Context and Recommendation' : '추천 및 감상경위'
+  if (!COMMON_FILES.has(VN_LABEL_SUMMARY)) {
+    jobs.push({ file: VN_LABEL_SUMMARY, voice: VOICE.narrator, text: labelSummaryText, role: 'narrator' })
   }
-  if (!COMMON_FILES.has('label-context.wav')) {
-    jobs.push({ file: 'label-context.wav', voice: VOICE.narrator, text: '추천 및 감상경위', role: 'narrator' })
+  if (!COMMON_FILES.has(VN_LABEL_CONTEXT)) {
+    jobs.push({ file: VN_LABEL_CONTEXT, voice: VOICE.narrator, text: labelContextText, role: 'narrator' })
   }
 
   const cont = (episode.series?.part ?? 1) > 1
@@ -261,65 +284,65 @@ function buildJobs(): Job[] {
   if (cont) {
     // continuation: returnIntro + prevRecap
     if (episode.narrator.returnIntro) {
-      jobs.push({ file: 'return-intro.wav', voice: VOICE.narrator, text: ttsText('returnIntro'), role: 'narrator' })
+      jobs.push({ file: VN_RETURN_INTRO, voice: VOICE.narrator, text: ttsText('returnIntro'), role: 'narrator' })
     }
     if (episode.narrator.prevRecap) {
-      jobs.push({ file: 'prev-recap.wav', voice: VOICE.narrator, text: ttsText('prevRecap'), role: 'narrator' })
+      jobs.push({ file: VN_PREV_RECAP, voice: VOICE.narrator, text: ttsText('prevRecap'), role: 'narrator' })
     }
   } else {
     // Part 1: 서비스 인트로 — parts 분할 또는 단일 (common/ 재사용)
     const greetParts = episode.narrator.serviceGreetingParts
     if (greetParts && greetParts.length > 0) {
       for (let gi = 0; gi < greetParts.length; gi++) {
-        jobs.push({ file: `service-greeting-${gi + 1}.wav`, voice: VOICE.narrator, text: greetParts[gi].text, role: 'narrator' })
+        jobs.push({ file: VN_SERVICE_GREETING.replace('.wav', `-${gi + 1}.wav`), voice: VOICE.narrator, text: greetParts[gi].text, role: 'narrator' })
       }
-    } else if (!COMMON_FILES.has('service-greeting.wav')) {
-      jobs.push({ file: 'service-greeting.wav', voice: VOICE.narrator, text: ttsText('serviceGreeting'), role: 'narrator' })
+    } else if (!COMMON_FILES.has(VN_SERVICE_GREETING)) {
+      jobs.push({ file: VN_SERVICE_GREETING, voice: VOICE.narrator, text: ttsText('serviceGreeting'), role: 'narrator' })
     }
-    jobs.push({ file: 'service-intro.wav', voice: VOICE.narrator, text: ttsText('serviceIntro'), role: 'narrator' })
+    jobs.push({ file: VN_SERVICE_INTRO, voice: VOICE.narrator, text: ttsText('serviceIntro'), role: 'narrator' })
     // 나레이터 셀럽 소개
-    jobs.push({ file: 'narrator-celeb-intro.wav', voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator' })
+    jobs.push({ file: VN_CELEB_INTRO, voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator' })
     // 셀럽 감상철학
     if (episode.host.philosophy) {
-      jobs.push({ file: 'philosophy.wav', voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb' })
+      jobs.push({ file: VN_PHILOSOPHY, voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb' })
     }
   }
   // 대표 명언 (셀럽 목소리, 공통)
   if (episode.host.featuredQuote) {
-    jobs.push({ file: 'featured-quote.wav', voice: VOICE.celeb, text: episode.host.featuredQuote, role: 'celeb' })
+    jobs.push({ file: VN_FEATURED_QUOTE, voice: VOICE.celeb, text: episode.host.featuredQuote, role: 'celeb' })
   }
 
   // 도서별
   for (let i = 0; i < episode.books.length; i++) {
     const b = episode.books[i]
-    jobs.push({ file: `book-${i}-title.wav`, voice: VOICE.narrator, text: ttsText('title', i), role: 'narrator' })
-    jobs.push({ file: `book-${i}-summary.wav`, voice: VOICE.summary, text: ttsText('summary', i), role: 'summary' })
-    jobs.push({ file: `book-${i}-context.wav`, voice: VOICE.narrator, text: ttsText('context', i), role: 'narrator' })
+    jobs.push({ file: vnBookTitle(i), voice: VOICE.narrator, text: ttsText('title', i), role: 'narrator' })
+    jobs.push({ file: vnBookSummary(i), voice: VOICE.summary, text: ttsText('summary', i), role: 'summary' })
+    jobs.push({ file: vnBookContext(i), voice: VOICE.narrator, text: ttsText('context', i), role: 'narrator' })
     if (b.directQuote) {
-      jobs.push({ file: `book-${i}-quote.wav`, voice: VOICE.celeb, text: ttsText('directQuote', i), role: 'celeb' })
+      jobs.push({ file: vnBookQuote(i), voice: VOICE.celeb, text: ttsText('directQuote', i), role: 'celeb' })
     }
     if (b.contextAfter) {
-      jobs.push({ file: `book-${i}-context-after.wav`, voice: VOICE.narrator, text: ttsText('contextAfter', i), role: 'narrator' })
+      jobs.push({ file: vnBookContextAfter(i), voice: VOICE.narrator, text: ttsText('contextAfter', i), role: 'narrator' })
     }
   }
 
   // 중간안내 (10개 초과 시)
   if (episode.books.length > 10 && episode.narrator.interlude) {
-    jobs.push({ file: 'interlude.wav', voice: VOICE.narrator, text: episode.narrator.interlude, role: 'narrator' })
+    jobs.push({ file: VN_INTERLUDE, voice: VOICE.narrator, text: episode.narrator.interlude, role: 'narrator' })
   }
 
   // 아웃트로
-  jobs.push({ file: 'narrator-outro.wav', voice: VOICE.narrator, text: ttsText('outro'), role: 'narrator' })
+  jobs.push({ file: VN_OUTRO, voice: VOICE.narrator, text: ttsText('outro'), role: 'narrator' })
 
   // 쇼츠 전용 — 세그먼트 기반
   if (episode.shorts?.segments) {
-    for (const seg of episode.shorts.segments) {
+    episode.shorts.segments.forEach((seg, i) => {
       const voice = seg.role === 'celeb' ? VOICE.celeb : VOICE.narrator
-      jobs.push({ file: `short-${seg.id}.wav`, voice, text: seg.text, role: seg.role as Role })
-    }
+      jobs.push({ file: vnShort(i, seg.id), voice, text: seg.text, role: seg.role as Role })
+    })
   }
 
-  return jobs
+  return jobs.filter(j => j.text.trim().length > 0)
 }
 
 // --- 매니페스트: 텍스트 해시 기반 변경 감지 ---
@@ -349,6 +372,10 @@ function manifestDir(_job: Job): string {
 async function main() {
   // 에피소드 로드
   episode = await loadEpisode(EPISODE_NAME)
+  // 영문 에피소드는 공통 음성 직접 생성
+  if (episode.locale === 'en') {
+    COMMON_FILES = new Set()
+  }
   // 셀럽 보이스 오버라이드 (geminiVoice → voice-actors.md 참조)
   if (episode.host.geminiVoice) {
     VOICE.celeb = episode.host.geminiVoice
@@ -461,8 +488,8 @@ async function main() {
     for (const [file, dur] of Object.entries(results)) {
       const rounded = Math.round(dur * 100) / 100
 
-      if (file === 'service-greeting.wav') { json.narrator.serviceGreetingDuration = rounded; continue }
-      const greetPartMatch = file.match(/^service-greeting-(\d+)\.wav$/)
+      if (file === VN_SERVICE_GREETING) { json.narrator.serviceGreetingDuration = rounded; continue }
+      const greetPartMatch = file.match(/^A1-service-greeting-(\d+)\.wav$/)
       if (greetPartMatch && json.narrator.serviceGreetingParts) {
         const gi = parseInt(greetPartMatch[1]) - 1
         if (json.narrator.serviceGreetingParts[gi]) {
@@ -472,27 +499,27 @@ async function main() {
         }
         continue
       }
-      if (file === 'service-intro.wav') { json.narrator.serviceIntroDuration = rounded; continue }
-      if (file === 'narrator-celeb-intro.wav') { json.narrator.celebIntroDuration = rounded; continue }
-      if (file === 'philosophy.wav') { json.host.voiceDuration = rounded; continue }
-      if (file === 'narrator-outro.wav') { json.narrator.outroDuration = rounded; continue }
-      if (file === 'featured-quote.wav') { json.host.featuredQuoteDuration = rounded; continue }
-      if (file === 'label-summary.wav') { json.narrator.labelSummaryDuration = rounded; continue }
-      if (file === 'label-context.wav') { json.narrator.labelContextDuration = rounded; continue }
-      if (file === 'return-intro.wav') { json.narrator.returnIntroDuration = rounded; continue }
-      if (file === 'prev-recap.wav') { json.narrator.prevRecapDuration = rounded; continue }
-      if (file === 'interlude.wav' && json.narrator.interludeDuration !== undefined) { json.narrator.interludeDuration = rounded; continue }
-      // 쇼츠 세그먼트: short-{id}.wav → segments[].duration
-      const shortMatch = file.match(/^short-(.+)\.wav$/)
+      if (file === VN_SERVICE_INTRO) { json.narrator.serviceIntroDuration = rounded; continue }
+      if (file === VN_CELEB_INTRO) { json.narrator.celebIntroDuration = rounded; continue }
+      if (file === VN_PHILOSOPHY) { json.host.voiceDuration = rounded; continue }
+      if (file === VN_OUTRO) { json.narrator.outroDuration = rounded; continue }
+      if (file === VN_FEATURED_QUOTE) { json.host.featuredQuoteDuration = rounded; continue }
+      if (file === VN_LABEL_SUMMARY) { json.narrator.labelSummaryDuration = rounded; continue }
+      if (file === VN_LABEL_CONTEXT) { json.narrator.labelContextDuration = rounded; continue }
+      if (file === VN_RETURN_INTRO) { json.narrator.returnIntroDuration = rounded; continue }
+      if (file === VN_PREV_RECAP) { json.narrator.prevRecapDuration = rounded; continue }
+      if (file === VN_INTERLUDE && json.narrator.interludeDuration !== undefined) { json.narrator.interludeDuration = rounded; continue }
+      // 쇼츠 세그먼트: S{NN}-{id}.wav → segments[].duration
+      const shortMatch = file.match(/^S\d{2}-(.+)\.wav$/)
       if (shortMatch && json.shorts?.segments) {
         const seg = json.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
         if (seg) { seg.duration = rounded; continue }
       }
 
-      // book-N-*.wav
-      const bookMatch = file.match(/^book-(\d+)-(title|summary|context|quote|context-after)\.wav$/)
+      // D{NN}{letter}-{phase}.wav
+      const bookMatch = file.match(/^D(\d{2})[a-e]-(title|summary|context|quote|context-after)\.wav$/)
       if (bookMatch) {
-        const idx = parseInt(bookMatch[1])
+        const idx = parseInt(bookMatch[1]) - 1  // 1-based -> 0-based
         const field = bookMatch[2]
         if (!json.books[idx]) continue
         switch (field) {

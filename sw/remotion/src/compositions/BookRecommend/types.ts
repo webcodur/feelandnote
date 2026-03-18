@@ -167,6 +167,8 @@ export interface SeriesInfo {
 export interface BookRecommendScript {
   /** 시리즈 continuation 정보 (2부 이상일 때만 존재) */
   series?: SeriesInfo
+  /** 로케일 — 기본 ko, 영문 에피소드는 'en' */
+  locale?: 'ko' | 'en'
   host: CelebHost
   books: BookEntry[]
   narrator: NarratorLines

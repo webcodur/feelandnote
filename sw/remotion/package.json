@@ -9,6 +9,8 @@
     "studio": "remotion studio",
     "voice": "tsx scripts/generate-voice.ts",
     "voice:list": "tsx scripts/generate-voice.ts --list",
+    "voice:profile": "tsx scripts/generate-voice-profile.ts",
+    "voice:labels": "tsx scripts/generate-common-labels.ts",
     "voice:upload": "tsx scripts/voice-r2.ts upload",
     "voice:pull": "tsx scripts/voice-r2.ts pull",
     "voice:r2": "tsx scripts/voice-r2.ts",

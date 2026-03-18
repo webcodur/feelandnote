@@ -7,35 +7,35 @@
         "role": "narrator",
         "text": "이 사람은 한 해에 26권의 책을 읽고, 30억 명과 나눴습니다.",
         "visual": "hook",
-        "duration": 5.85
+        "duration": 5.29
       },
       {
         "id": "intro",
         "role": "narrator",
         "text": "하버드 기숙사에서 시작해 30억 명이 쓰는 플랫폼을 만든 메타의 창업자. 그는 2015년, 책의 해를 선언하고 세상과 함께 읽기 시작했습니다.",
         "visual": "intro",
-        "duration": 11.25
+        "duration": 10.73
       },
       {
         "id": "celeb-mid",
         "role": "celeb",
         "text": "고등학교 때 아이네이스를 읽고 경계 없는 제국이라는 구절에 사로잡혔습니다. 읽은 것은 나눠야 한다고 믿었고, 그래서 북클럽을 열었습니다.",
         "visual": "intro",
-        "duration": 10.41
+        "duration": 9.41
       },
       {
         "id": "book-context",
         "role": "narrator",
         "text": "그 시작은 베르길리우스의 아이네이스. 주커버그는 고등학교 라틴어 수업에서 이 서사시를 처음 읽었습니다. 뉴요커와의 인터뷰에서 경계 없는 제국을 건설하려 했다며 원문을 인용했고, 페이스북 초대 사장 션 파커는 그에게 제국적 성향이 있었다고 회고했습니다.",
         "visual": "book",
-        "duration": 22.25
+        "duration": 21.41
       },
       {
         "id": "celeb-end",
         "role": "celeb",
         "text": "가장 큰 위험은 아무 위험도 감수하지 않는 것입니다. 더 많은 이야기가 궁금하다면, 저의 서재를 열어보세요.",
         "visual": "cta",
-        "duration": 8.97
+        "duration": 8.77
       }
     ]
   },
@@ -43,13 +43,13 @@
     "serviceGreeting": "feelandnote 서재 탐방 코너에서는 한 인물의 서재를 열어, 그들이 사랑한 것들과 그 이유를 소개합니다.",
     "serviceGreetingDuration": 7.41,
     "serviceIntro": "오늘 함께할 인물은 마크 주커버그입니다.",
-    "serviceIntroDuration": 3.25,
+    "serviceIntroDuration": 3.49,
     "celebIntro": "마크 엘리엇 주커버그는 메타 플랫폼스의 공동 창립자이자 최고 경영자이다. 하버드 대학교 기숙사에서 페이스북을 개발하여 글로벌 소셜 미디어 기업으로 성장시켰으며, 현재 메타버스 사업에 집중하고 있다. 2015년 '책의 해'를 선언하고 격주로 한 권씩 읽으며 수백만 명의 팔로워와 함께 토론하는 북클럽을 운영했다.",
-    "celebIntroDuration": 26.37,
+    "celebIntroDuration": 24.65,
     "bridge": "이제 그의 서재를 열어보겠습니다.",
     "bridgeDuration": 3.27,
     "outro": "이상으로 마크 주커버그의 서재에서 만난 9권의 책이었습니다. 30억 명과 책을 나눈 창업자의 더 깊은 이야기가 궁금하신가요? 지금 바로 Feel & Note 앱에서 만나보세요.",
-    "outroDuration": 12.13,
+    "outroDuration": 12.25,
     "labelSummaryDuration": 1.08,
     "labelContextDuration": 1.69
   },
@@ -61,9 +61,9 @@
     "bio": "메타 플랫폼스의 공동 창립자이자 최고 경영자이다. 하버드 기숙사에서 페이스북을 개발하여 글로벌 소셜 미디어 기업으로 성장시켰으며, 현재 메타버스 사업에 집중하고 있다.",
     "title": "메타 창업자",
     "featuredQuote": "가장 큰 위험은 아무 위험도 감수하지 않는 것이다.",
-    "featuredQuoteDuration": 4.41,
+    "featuredQuoteDuration": 4.09,
     "philosophy": "안녕하세요, 마크 주커버그입니다. 고등학교 때 아이네이스를 읽고 경계 없는 제국이라는 구절에 사로잡혔습니다. 2015년 '책의 해'를 선언하고 격주로 한 권씩 읽으며 30억 명의 친구들과 나눴습니다. 읽은 것은 공유되어야 하고, 공유된 것은 실행되어야 합니다. 그것이 제 독서의 원칙입니다.",
-    "voiceDuration": 22.09,
+    "voiceDuration": 20.05,
     "geminiVoice": "Achird"
   },
   "books": [
@@ -72,72 +72,72 @@
       "creator": "베르길리우스",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3244541/32445410054.20230822102922.jpg",
       "summary": "기원전 19년에 완성된 베르길리우스의 서사시입니다. 트로이 멸망 후 영웅 아이네아스가 이탈리아에 도달하여 로마의 기원을 세우는 여정을 그립니다. 로마 제국의 사명과 운명을 노래한 라틴 문학의 최고 걸작으로, '경계 없는 제국'이라는 구절은 후대에 끊임없이 인용되었습니다.",
-      "summaryDuration": 21.73,
+      "summaryDuration": 20.25,
       "context": "주커버그는 필립스 엑세터 아카데미 고등학교 시절 라틴어 수업에서 이 서사시를 처음 읽었습니다. 2010년 뉴요커와의 인터뷰에서 그는 시간과 위대함에 경계가 없는 도시를 건설하려 했다며 원문을 인용했고, 기억나는 라틴어 구절로 '행운은 대담한 자를 돕는다'와 '경계 없는 제국'을 꼽았습니다. 페이스북 초대 사장 션 파커는 주커버그에게 일종의 제국적 성향이 있었다고 회고했습니다. 실제로 주커버그는 페이스북 제품 회의 중에도 아이네이스를 인용했습니다.",
-      "contextDuration": 35.57,
+      "contextDuration": 33.81,
       "source": "뉴요커 인터뷰 (2010)",
       "oneLiner": "경계 없는 제국을 꿈꾸게 한 서사시",
       "stats": {
         "publishYear": "기원전 19년"
       },
-      "titleDuration": 4.89
+      "titleDuration": 6.33
     },
     {
       "title": "권력의 종말",
       "creator": "모이제스 나임",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3249410/32494105943.20220527042310.jpg",
       "summary": "정치, 경제, 군사, 종교 등 전통적 권력 구조가 어떻게 약화되고 있는지 분석한 책입니다. 저자 모이제스 나임은 권력이 거대 조직에서 개인과 소규모 행위자에게로 이동하고 있음을 풍부한 사례로 보여줍니다. 권력의 획득은 쉬워졌지만 유지는 어려워졌다는 것이 핵심 주장입니다.",
-      "summaryDuration": 20.93,
+      "summaryDuration": 22.21,
       "context": "2015년 '책의 해' 북클럽의 첫 번째 선정작입니다. 주커버그는 '세계가 개인에게 더 많은 권력을 부여하는 방향으로 이동하고 있음을 탐구하는 책'이라며 '개인에게 권력을 주는 이 흐름을 나는 깊이 믿는다'고 밝혔습니다. 발표 24시간 만에 아마존에서 품절되었습니다.",
-      "contextDuration": 18.81,
+      "contextDuration": 18.21,
       "directQuote": "개인에게 권력을 주는 이 흐름을 나는 깊이 믿는다.",
       "directQuoteSource": "A Year of Books 북클럽",
-      "quoteDuration": 4.33,
+      "quoteDuration": 3.69,
       "source": "CS Monitor (2015)",
       "oneLiner": "개인에게 권력이 이동하는 시대",
       "stats": {
         "publishYear": "2013"
       },
-      "titleDuration": 5.49
+      "titleDuration": 4.97
     },
     {
       "title": "우리 본성의 선한 천사",
       "creator": "스티븐 핑커",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3244164/32441648222.20250705083054.jpg",
       "summary": "인류 역사 속 폭력이 장기적으로 감소해 왔음을 방대한 데이터로 증명한 책입니다. 스티븐 핑커는 전쟁, 살인, 고문, 동물 학대 등 모든 형태의 폭력이 줄어들었음을 보여주며, 이성과 공감 능력, 자제력 등 인간 본성의 선한 측면이 이를 이끌었다고 주장합니다.",
-      "summaryDuration": 18.81,
+      "summaryDuration": 22.13,
       "context": "북클럽 두 번째 선정작입니다. 파리 테러 직후에 선택하며 주커버그는 '폭력과 테러가 그 어느 때보다 흔해 보이지만, 테러를 포함한 모든 폭력이 실제로는 시간이 지나면서 감소하고 있다'고 썼습니다. 빌 게이츠도 '지난 10년간 읽은 책 중 가장 좋아하는 책'이라 평한 작품입니다.",
-      "contextDuration": 21.09,
+      "contextDuration": 20.25,
       "source": "Detroit News (2015)",
       "oneLiner": "폭력은 줄고 있다는 낙관의 근거",
       "stats": {
         "publishYear": "2011"
       },
-      "titleDuration": 5.37
+      "titleDuration": 5.29
     },
     {
       "title": "국가는 왜 실패하는가",
       "creator": "대런 애쓰모글루, 제임스 A. 로빈슨",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248653/32486531945.20240625084405.jpg",
       "summary": "국가 간 빈부 격차의 원인을 제도에서 찾는 책입니다. 착취적 제도는 소수에게 부를 집중시키고, 포용적 제도는 광범위한 경제적 기회를 제공한다고 분석합니다. 지리, 문화, 무지가 아닌 정치·경제 제도가 국가의 성패를 결정한다는 것이 핵심 논지입니다.",
-      "summaryDuration": 19.85,
+      "summaryDuration": 20.85,
       "context": "주커버그는 '전 세계 빈곤의 기원을 더 잘 이해하고 싶어' 이 책을 선택했습니다. 착취적 제도와 포용적 제도의 차이가 국가의 흥망을 가른다는 프레임워크에 주목했습니다. 2024년, 이 책의 저자 대런 애쓰모글루와 제임스 A. 로빈슨은 노벨 경제학상을 수상했습니다.",
-      "contextDuration": 19.89,
+      "contextDuration": 18.33,
       "source": "WEF (2015)",
       "oneLiner": "제도가 국가의 운명을 가른다",
       "stats": {
         "publishYear": "2012"
       },
-      "titleDuration": 9.13
+      "titleDuration": 8.33
     },
     {
       "title": "이성적 낙관주의자",
       "creator": "매트 리들리",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248595/32485959544.20230919135238.jpg",
       "summary": "인류의 미래가 밝을 수밖에 없는 이유를 경제사와 진화론의 관점에서 설명한 책입니다. 교환과 전문화가 인류 번영의 엔진이며, 비관론이 늘 틀려왔음을 역사적 사례로 증명합니다. 기술 혁신과 자유로운 교역이 지속되는 한 인류는 계속 발전한다는 낙관론을 펼칩니다.",
-      "summaryDuration": 18.85,
+      "summaryDuration": 20.25,
       "context": "국가는 왜 실패하는가를 읽은 직후 선택한 책입니다. 주커버그는 '두 프레임워크를 탐구한 후 어느 쪽이 더 공감되는지 보고 싶다'며 상반된 이론을 의도적으로 비교 독서했습니다. 제도 중심의 분석과 시장 중심의 낙관론을 나란히 놓고 검증하려 한 것입니다.",
-      "contextDuration": 18.33,
+      "contextDuration": 18.41,
       "directQuote": "두 프레임워크를 탐구한 후 어느 쪽이 더 공감되는지 보고 싶다.",
       "directQuoteSource": "A Year of Books 북클럽",
       "quoteDuration": 4.69,
@@ -146,31 +146,31 @@
       "stats": {
         "publishYear": "2010"
       },
-      "titleDuration": 5.65
+      "titleDuration": 5.53
     },
     {
       "title": "무깟디마",
       "creator": "이븐 칼둔",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3246697/32466974708.20250504084653.jpg",
       "summary": "14세기 이슬람 학자 이븐 칼둔이 저술한 역사 서론입니다. 문명의 흥망성쇠를 유목민의 결속력과 도시 문명의 쇠퇴라는 순환 구조로 설명합니다. 역사학, 사회학, 경제학의 선구적 저작으로 평가받으며, 세계사를 체계적으로 분석한 최초의 시도 중 하나입니다.",
-      "summaryDuration": 20.25,
+      "summaryDuration": 19.85,
       "context": "주커버그는 이 책을 '1300년대에 살았던 지식인이 쓴 세계 역사서'라고 소개했습니다. '700년이 더 지난 지금 당시 믿어졌던 것들 중 상당수가 반증되었지만, 그 시대에 무엇이 이해되었고 전체적인 세계관이 어떠했는지 보는 것은 여전히 매우 흥미롭다'고 밝혔습니다.",
-      "contextDuration": 20.25,
+      "contextDuration": 20.49,
       "source": "Al Arabiya (2015)",
       "oneLiner": "700년 전 학자의 문명론",
       "stats": {
         "publishYear": "1377"
       },
-      "titleDuration": 5.13
+      "titleDuration": 4.61
     },
     {
       "title": "사피엔스",
       "creator": "유발 하라리",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248237/32482377706.20230926085206.jpg",
       "summary": "호모 사피엔스가 어떻게 지구를 지배하게 되었는지를 인지혁명, 농업혁명, 과학혁명의 세 단계로 설명한 책입니다. 허구를 믿는 능력이 대규모 협력을 가능하게 했다는 것이 핵심 통찰이며, 인류 역사 전체를 거시적 관점에서 조망합니다.",
-      "summaryDuration": 17.25,
+      "summaryDuration": 16.93,
       "context": "북클럽 열두 번째 선정작입니다. 주커버그는 '14세기 지식인의 관점에서 쓴 무깟디마에 이어, 사피엔스는 유사한 질문들에 대한 현대적 탐구'라며 두 책을 연결했습니다. 2019년에는 저자 유발 하라리를 페이스북 라이브로 초청하여 직접 대담을 진행했습니다.",
-      "contextDuration": 20.73,
+      "contextDuration": 20.85,
       "source": "Ynet News (2015)",
       "oneLiner": "인류사를 관통하는 현대적 탐구",
       "stats": {
@@ -183,34 +183,34 @@
       "creator": "류츠신",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248605/32486056550.20231205090233.jpg",
       "summary": "중국 문화대혁명을 배경으로 시작하여, 외계 문명과의 첫 접촉이라는 장대한 서사를 그린 SF 소설입니다. 삼체 문제라는 물리학 난제를 우주적 스케일로 확장하며, 문명 간 생존 전략과 인류의 미래를 탐구합니다. 2015년 아시아 작가 최초로 휴고상을 수상했습니다.",
-      "summaryDuration": 19.97,
+      "summaryDuration": 19.73,
       "context": "주커버그가 '최근 읽은 경제학과 사회과학 서적들에서 벗어나 재미있게 쉬어갈 책'으로 선정한 작품입니다. 북클럽에서 연이어 무거운 주제의 책을 다룬 후, SF 소설로 전환하여 독서의 즐거움을 강조한 선택이었습니다.",
-      "contextDuration": 16.33,
+      "contextDuration": 15.81,
       "source": "Wikipedia",
       "oneLiner": "휴고상을 수상한 중국 SF 걸작",
       "stats": {
         "publishYear": "2006"
       },
-      "titleDuration": 3.57
+      "titleDuration": 3.53
     },
     {
       "title": "제로 투 원",
       "creator": "피터 틸",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248370/32483707626.20230912083942.jpg",
       "summary": "페이팔 공동 창업자 피터 틸의 스타트업 철학서입니다. 경쟁이 아닌 독점을, 점진적 개선이 아닌 혁신적 도약을 추구해야 한다고 주장합니다. 0에서 1을 만드는 것, 즉 존재하지 않던 것을 창조하는 것이야말로 진정한 가치 창출이라는 것이 핵심 메시지입니다.",
-      "summaryDuration": 18.73,
+      "summaryDuration": 17.45,
       "context": "주커버그가 표지에 추천사를 쓴 책입니다. 그는 '이 책은 세상에서 가치를 창출하는 방법에 대해 완전히 새롭고 신선한 아이디어를 전달한다'고 평했습니다. 피터 틸은 페이스북의 최초 외부 투자자였으며, 이 책에는 2006년 야후의 10억 달러 인수 제안을 주커버그가 거절한 일화도 등장합니다.",
-      "contextDuration": 21.65,
+      "contextDuration": 22.77,
       "directQuote": "이 책은 세상에서 가치를 창출하는 방법에 대해 완전히 새롭고 신선한 아이디어를 전달한다.",
       "directQuoteSource": "제로 투 원 표지 추천사",
-      "quoteDuration": 6.81,
+      "quoteDuration": 7.09,
       "source": "Amazon",
       "oneLiner": "0에서 1을 만드는 창업의 철학",
       "stats": {
         "publishYear": "2014",
         "celebCount": 11
       },
-      "titleDuration": 3.97
+      "titleDuration": 4.13
     }
   ],
   "tts": {
@@ -268,14 +268,530 @@
     ]
   },
   "voiceTimings": {
-    "service-greeting": [
+    "A1-service-greeting": [
       {
         "start": 0,
-        "end": 4.56
+        "end": 4.28
       },
       {
-        "start": 4.56,
+        "start": 4.28,
         "end": 7.411
+      }
+    ],
+    "A2-service-intro": [
+      {
+        "start": 0,
+        "end": 3.491
+      }
+    ],
+    "B1-celeb-intro": [
+      {
+        "start": 0,
+        "end": 5.8
+      },
+      {
+        "start": 5.8,
+        "end": 12.7
+      },
+      {
+        "start": 12.7,
+        "end": 15.62
+      },
+      {
+        "start": 15.62,
+        "end": 24.651
+      }
+    ],
+    "B2-philosophy": [
+      {
+        "start": 0,
+        "end": 0
+      },
+      {
+        "start": 0,
+        "end": 1.94
+      },
+      {
+        "start": 1.94,
+        "end": 7.18
+      },
+      {
+        "start": 7.18,
+        "end": 13.5
+      },
+      {
+        "start": 13.5,
+        "end": 15.84
+      },
+      {
+        "start": 15.84,
+        "end": 17.72
+      },
+      {
+        "start": 17.72,
+        "end": 20.051
+      }
+    ],
+    "E1-outro": [
+      {
+        "start": 0,
+        "end": 4.3
+      },
+      {
+        "start": 4.3,
+        "end": 8.98
+      },
+      {
+        "start": 8.98,
+        "end": 12.251
+      }
+    ],
+    "D01b-summary": [
+      {
+        "start": 0,
+        "end": 3.96
+      },
+      {
+        "start": 3.96,
+        "end": 10.82
+      },
+      {
+        "start": 10.82,
+        "end": 15.98
+      },
+      {
+        "start": 15.98,
+        "end": 20.251
+      }
+    ],
+    "D01c-context": [
+      {
+        "start": 0,
+        "end": 6.66
+      },
+      {
+        "start": 6.66,
+        "end": 14.88
+      },
+      {
+        "start": 14.88,
+        "end": 21.3
+      },
+      {
+        "start": 21.3,
+        "end": 27.98
+      },
+      {
+        "start": 27.98,
+        "end": 33.811
+      }
+    ],
+    "D02b-summary": [
+      {
+        "start": 0,
+        "end": 0
+      },
+      {
+        "start": 0,
+        "end": 1.46
+      },
+      {
+        "start": 1.46,
+        "end": 3.04
+      },
+      {
+        "start": 3.04,
+        "end": 7.14
+      },
+      {
+        "start": 7.14,
+        "end": 16.3
+      },
+      {
+        "start": 16.3,
+        "end": 22.211
+      }
+    ],
+    "D02c-context": [
+      {
+        "start": 0,
+        "end": 3.64
+      },
+      {
+        "start": 3.64,
+        "end": 14.76
+      },
+      {
+        "start": 14.76,
+        "end": 18.211
+      }
+    ],
+    "D02d-quote": [
+      {
+        "start": 0,
+        "end": 3.691
+      }
+    ],
+    "D03b-summary": [
+      {
+        "start": 0,
+        "end": 6.34
+      },
+      {
+        "start": 6.34,
+        "end": 9.02
+      },
+      {
+        "start": 9.02,
+        "end": 9.7
+      },
+      {
+        "start": 9.7,
+        "end": 10.4
+      },
+      {
+        "start": 10.4,
+        "end": 14.72
+      },
+      {
+        "start": 14.72,
+        "end": 16.68
+      },
+      {
+        "start": 16.68,
+        "end": 22.131
+      }
+    ],
+    "D03c-context": [
+      {
+        "start": 0,
+        "end": 2.1
+      },
+      {
+        "start": 2.1,
+        "end": 8.34
+      },
+      {
+        "start": 8.34,
+        "end": 14.18
+      },
+      {
+        "start": 14.18,
+        "end": 20.251
+      }
+    ],
+    "D04b-summary": [
+      {
+        "start": 0,
+        "end": 3.82
+      },
+      {
+        "start": 3.82,
+        "end": 7.62
+      },
+      {
+        "start": 7.62,
+        "end": 12.38
+      },
+      {
+        "start": 12.38,
+        "end": 13.64
+      },
+      {
+        "start": 13.64,
+        "end": 14.38
+      },
+      {
+        "start": 14.38,
+        "end": 20.851
+      }
+    ],
+    "D04c-context": [
+      {
+        "start": 0,
+        "end": 5.06
+      },
+      {
+        "start": 5.06,
+        "end": 11.1
+      },
+      {
+        "start": 11.1,
+        "end": 12.62
+      },
+      {
+        "start": 12.62,
+        "end": 18.331
+      }
+    ],
+    "D05b-summary": [
+      {
+        "start": 0,
+        "end": 5.82
+      },
+      {
+        "start": 5.82,
+        "end": 9.68
+      },
+      {
+        "start": 9.68,
+        "end": 13.52
+      },
+      {
+        "start": 13.52,
+        "end": 20.251
+      }
+    ],
+    "D05c-context": [
+      {
+        "start": 0,
+        "end": 3.62
+      },
+      {
+        "start": 3.62,
+        "end": 12.34
+      },
+      {
+        "start": 12.34,
+        "end": 18.411
+      }
+    ],
+    "D05d-quote": [
+      {
+        "start": 0,
+        "end": 4.691
+      }
+    ],
+    "D06b-summary": [
+      {
+        "start": 0,
+        "end": 4.4
+      },
+      {
+        "start": 4.4,
+        "end": 11.3
+      },
+      {
+        "start": 11.3,
+        "end": 13.42
+      },
+      {
+        "start": 13.42,
+        "end": 15.472
+      },
+      {
+        "start": 15.472,
+        "end": 16.02
+      },
+      {
+        "start": 16.02,
+        "end": 19.851
+      }
+    ],
+    "D06c-context": [
+      {
+        "start": 0,
+        "end": 6.14
+      },
+      {
+        "start": 6.14,
+        "end": 12.34
+      },
+      {
+        "start": 12.34,
+        "end": 20.491
+      }
+    ],
+    "D07b-summary": [
+      {
+        "start": 0,
+        "end": 4.46
+      },
+      {
+        "start": 4.46,
+        "end": 5.42
+      },
+      {
+        "start": 5.42,
+        "end": 8.08
+      },
+      {
+        "start": 8.08,
+        "end": 13.48
+      },
+      {
+        "start": 13.48,
+        "end": 16.931
+      }
+    ],
+    "D07c-context": [
+      {
+        "start": 0,
+        "end": 2.38
+      },
+      {
+        "start": 2.38,
+        "end": 7.5
+      },
+      {
+        "start": 7.5,
+        "end": 13.42
+      },
+      {
+        "start": 13.42,
+        "end": 20.851
+      }
+    ],
+    "D08b-summary": [
+      {
+        "start": 0,
+        "end": 2.56
+      },
+      {
+        "start": 2.56,
+        "end": 7.52
+      },
+      {
+        "start": 7.52,
+        "end": 11.9
+      },
+      {
+        "start": 11.9,
+        "end": 15.38
+      },
+      {
+        "start": 15.38,
+        "end": 19.731
+      }
+    ],
+    "D08c-context": [
+      {
+        "start": 0,
+        "end": 7.44
+      },
+      {
+        "start": 7.44,
+        "end": 11.22
+      },
+      {
+        "start": 11.22,
+        "end": 15.811
+      }
+    ],
+    "D09b-summary": [
+      {
+        "start": 0,
+        "end": 2.96
+      },
+      {
+        "start": 2.96,
+        "end": 4.98
+      },
+      {
+        "start": 4.98,
+        "end": 8.86
+      },
+      {
+        "start": 8.86,
+        "end": 11.28
+      },
+      {
+        "start": 11.28,
+        "end": 17.451
+      }
+    ],
+    "D09c-context": [
+      {
+        "start": 0,
+        "end": 3.02
+      },
+      {
+        "start": 3.02,
+        "end": 11.96
+      },
+      {
+        "start": 11.96,
+        "end": 15.98
+      },
+      {
+        "start": 15.98,
+        "end": 22.771
+      }
+    ],
+    "D09d-quote": [
+      {
+        "start": 0,
+        "end": 7.091
+      }
+    ],
+    "S01-hook": [
+      {
+        "start": 0,
+        "end": 3.1
+      },
+      {
+        "start": 3.1,
+        "end": 5.291
+      }
+    ],
+    "S02-intro": [
+      {
+        "start": 0,
+        "end": 5.08
+      },
+      {
+        "start": 5.08,
+        "end": 7.08
+      },
+      {
+        "start": 7.08,
+        "end": 10.731
+      }
+    ],
+    "S03-celeb-mid": [
+      {
+        "start": 0,
+        "end": 4.86
+      },
+      {
+        "start": 4.86,
+        "end": 7.52
+      },
+      {
+        "start": 7.52,
+        "end": 9.411
+      }
+    ],
+    "S04-book-context": [
+      {
+        "start": 0,
+        "end": 2.88
+      },
+      {
+        "start": 2.88,
+        "end": 8.28
+      },
+      {
+        "start": 8.28,
+        "end": 14.76
+      },
+      {
+        "start": 14.76,
+        "end": 21.411
+      }
+    ],
+    "S05-celeb-end": [
+      {
+        "start": 0,
+        "end": 4.16
+      },
+      {
+        "start": 4.16,
+        "end": 6.7
+      },
+      {
+        "start": 6.7,
+        "end": 8.771
       }
     ]
   }

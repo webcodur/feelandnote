@@ -98,305 +98,305 @@
     ]
   },
   "voiceTimings": {
-    "narrator-celeb-intro": [
+    "B1-celeb-intro": [
       {
         "start": 0,
-        "end": 1.88
+        "end": 1.22
       },
       {
-        "start": 1.88,
-        "end": 5.2
+        "start": 1.22,
+        "end": 4.38
       },
       {
-        "start": 5.2,
-        "end": 5.98
+        "start": 4.38,
+        "end": 5.62
       },
       {
-        "start": 5.98,
+        "start": 5.62,
         "end": 10.531
       }
     ],
-    "philosophy": [
+    "B2-philosophy": [
       {
         "start": 0,
-        "end": 0.24
+        "end": 0
       },
       {
-        "start": 0.24,
-        "end": 2.62
+        "start": 0,
+        "end": 1.98
       },
       {
-        "start": 2.62,
-        "end": 5.82
+        "start": 1.98,
+        "end": 5.06
       },
       {
-        "start": 5.82,
-        "end": 8.74
+        "start": 5.06,
+        "end": 8.36
       },
       {
-        "start": 8.74,
-        "end": 12.02
+        "start": 8.36,
+        "end": 11.34
       },
       {
-        "start": 12.02,
-        "end": 13.352
+        "start": 11.34,
+        "end": 14.094
       },
       {
-        "start": 13.352,
-        "end": 14.52
+        "start": 14.094,
+        "end": 14.2
       },
       {
-        "start": 14.52,
-        "end": 17.2
+        "start": 14.2,
+        "end": 16.56
       },
       {
-        "start": 17.2,
-        "end": 19.74
+        "start": 16.56,
+        "end": 19.44
       },
       {
-        "start": 19.74,
+        "start": 19.44,
         "end": 19.731
       }
     ],
-    "narrator-outro": [
+    "E1-outro": [
       {
         "start": 0,
-        "end": 4.62
+        "end": 3.82
       },
       {
-        "start": 4.62,
-        "end": 10.46
+        "start": 3.82,
+        "end": 9.74
       },
       {
-        "start": 10.46,
+        "start": 9.74,
         "end": 13.451
       }
     ],
-    "book-0-summary": [
+    "D01b-summary": [
       {
         "start": 0,
-        "end": 0.68
+        "end": 0.48
       },
       {
-        "start": 0.68,
-        "end": 6.18
+        "start": 0.48,
+        "end": 5.44
       },
       {
-        "start": 6.18,
-        "end": 13.12
+        "start": 5.44,
+        "end": 12.3
       },
       {
-        "start": 13.12,
-        "end": 16.86
+        "start": 12.3,
+        "end": 16.1
       },
       {
-        "start": 16.86,
-        "end": 17.76
+        "start": 16.1,
+        "end": 17.48
       },
       {
-        "start": 17.76,
-        "end": 23.4
+        "start": 17.48,
+        "end": 23
       },
       {
-        "start": 23.4,
-        "end": 27.62
+        "start": 23,
+        "end": 26.9
       },
       {
-        "start": 27.62,
-        "end": 32.02
+        "start": 26.9,
+        "end": 31.22
       },
       {
-        "start": 32.02,
-        "end": 36.1
+        "start": 31.22,
+        "end": 35.78
       },
       {
-        "start": 36.1,
-        "end": 40.36
+        "start": 35.78,
+        "end": 39.82
       },
       {
-        "start": 40.36,
-        "end": 42.44
+        "start": 39.82,
+        "end": 41.72
       },
       {
-        "start": 42.44,
-        "end": 45.54
+        "start": 41.72,
+        "end": 45.22
       },
       {
-        "start": 45.54,
-        "end": 50.74
+        "start": 45.22,
+        "end": 50
       },
       {
-        "start": 50.74,
-        "end": 54.7
+        "start": 50,
+        "end": 54.08
       },
       {
-        "start": 54.7,
-        "end": 56.18
+        "start": 54.08,
+        "end": 55.94
       },
       {
-        "start": 56.18,
+        "start": 55.94,
         "end": 58.091
       }
     ],
-    "book-0-context": [
+    "D01c-context": [
       {
         "start": 0,
-        "end": 5.94
+        "end": 5.18
       },
       {
-        "start": 5.94,
+        "start": 5.18,
         "end": 11.451
       }
     ],
-    "book-0-quote": [
+    "D01d-quote": [
       {
         "start": 0,
-        "end": 0.953
+        "end": 0
       },
       {
-        "start": 0.953,
+        "start": 0,
         "end": 4.131
       }
     ],
-    "book-0-context-after": [
+    "D01e-context-after": [
       {
         "start": 0,
-        "end": 7.38
+        "end": 6.66
       },
       {
-        "start": 7.38,
-        "end": 9.68
+        "start": 6.66,
+        "end": 9.3
       },
       {
-        "start": 9.68,
-        "end": 15.94
+        "start": 9.3,
+        "end": 15.5
       },
       {
-        "start": 15.94,
+        "start": 15.5,
         "end": 19.411
       }
     ],
-    "book-1-summary": [
+    "D02b-summary": [
       {
         "start": 0,
-        "end": 1.34
+        "end": 1.06
       },
       {
-        "start": 1.34,
-        "end": 3.3
+        "start": 1.06,
+        "end": 2.6
       },
       {
-        "start": 3.3,
-        "end": 10.92
+        "start": 2.6,
+        "end": 8.26
       },
       {
-        "start": 10.92,
-        "end": 13.62
+        "start": 8.26,
+        "end": 12.6
       },
       {
-        "start": 13.62,
-        "end": 17.92
+        "start": 12.6,
+        "end": 15.28
       },
       {
-        "start": 17.92,
-        "end": 20.34
+        "start": 15.28,
+        "end": 19.96
       },
       {
-        "start": 20.34,
-        "end": 23.46
+        "start": 19.96,
+        "end": 22.6
       },
       {
-        "start": 23.46,
-        "end": 25.28
+        "start": 22.6,
+        "end": 24.96
       },
       {
-        "start": 25.28,
-        "end": 28.12
+        "start": 24.96,
+        "end": 27.24
       },
       {
-        "start": 28.12,
-        "end": 31.54
+        "start": 27.24,
+        "end": 30.86
       },
       {
-        "start": 31.54,
+        "start": 30.86,
         "end": 37.251
       }
     ],
-    "book-1-context": [
+    "D02c-context": [
       {
         "start": 0,
-        "end": 5.2
+        "end": 4.36
       },
       {
-        "start": 5.2,
-        "end": 10.72
+        "start": 4.36,
+        "end": 10.18
       },
       {
-        "start": 10.72,
+        "start": 10.18,
         "end": 17.371
       }
     ],
-    "book-2-summary": [
+    "D03b-summary": [
       {
         "start": 0,
-        "end": 2.22
+        "end": 1.98
       },
       {
-        "start": 2.22,
-        "end": 3.3
+        "start": 1.98,
+        "end": 3.08
       },
       {
-        "start": 3.3,
-        "end": 5.02
+        "start": 3.08,
+        "end": 4.46
       },
       {
-        "start": 5.02,
-        "end": 7.76
+        "start": 4.46,
+        "end": 7.08
       },
       {
-        "start": 7.76,
-        "end": 9.08
+        "start": 7.08,
+        "end": 8.62
       },
       {
-        "start": 9.08,
-        "end": 11.88
+        "start": 8.62,
+        "end": 11.18
       },
       {
-        "start": 11.88,
-        "end": 14.44
+        "start": 11.18,
+        "end": 14.1
       },
       {
-        "start": 14.44,
-        "end": 18.36
+        "start": 14.1,
+        "end": 17.7
       },
       {
-        "start": 18.36,
-        "end": 21.24
+        "start": 17.7,
+        "end": 20.88
       },
       {
-        "start": 21.24,
+        "start": 20.88,
         "end": 27.771
       }
     ],
-    "book-2-context": [
+    "D03c-context": [
       {
         "start": 0,
-        "end": 5.14
+        "end": 4.82
       },
       {
-        "start": 5.14,
-        "end": 8.5
+        "start": 4.82,
+        "end": 7.94
       },
       {
-        "start": 8.5,
-        "end": 13.9
+        "start": 7.94,
+        "end": 13.54
       },
       {
-        "start": 13.9,
+        "start": 13.54,
         "end": 17.331
       }
     ],
-    "book-2-quote": [
+    "D03d-quote": [
       {
         "start": 0,
         "end": 1.851

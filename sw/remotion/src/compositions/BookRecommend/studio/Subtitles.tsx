@@ -3,7 +3,7 @@
  * BookRecommend.tsx에서 자막 데이터를 받아 현재 프레임에 맞는 자막만 표시.
  */
 import { useCurrentFrame } from 'remotion'
-import { FONT } from './fonts'
+import { FONT } from '../fonts'
 
 export type Sub = { start: number; end: number; speaker: string; text: string }
 

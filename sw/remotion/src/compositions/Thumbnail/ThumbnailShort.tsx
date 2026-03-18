@@ -1,11 +1,14 @@
 /**
- * ThumbnailShort — 유튜브 쇼츠 썸네일 (1080×1920)
- * C variant 세로 레이아웃
+ * ThumbnailShort -- YouTube Shorts thumbnail (1080x1920)
  */
 import { AbsoluteFill, Img } from 'remotion'
 import { FONT } from '../BookRecommend/fonts'
 import { safeImg } from '../BookRecommend/utils'
 import type { BookRecommendScript } from '../BookRecommend/types'
+import { t } from '../BookRecommend/i18n'
+
+const SAFE_TOP = 230
+const SAFE_BOTTOM = 368
 
 type Props = {
   script: BookRecommendScript
@@ -13,17 +16,18 @@ type Props = {
 
 export const ThumbnailShort: React.FC<Props> = ({ script }) => {
   const { host, books } = script
+  const i18n = t(script)
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#060504' }}>
-      {/* 배경 그라디언트 */}
+      {/* background gradient */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 35%, #1e1810 0%, #0a0908 60%, #060504 100%)' }} />
 
-      {/* 배경 책 블러 */}
+      {/* background book blur */}
       {books.slice(0, 3).map((b, i) => (
         <div key={i} style={{
           position: 'absolute',
-          left: 100 + i * 250, top: 600 + (i % 2) * 200,
+          left: 100 + i * 250, top: 500 + (i % 2) * 150,
           width: 350, height: 520, opacity: 0.05,
           transform: `rotate(${(i - 1) * 5}deg)`,
         }}>
@@ -31,14 +35,37 @@ export const ThumbnailShort: React.FC<Props> = ({ script }) => {
         </div>
       ))}
 
-      {/* 메인 컨텐츠 — 세로 중앙 정렬 */}
+      {/* ── fixed header (top safe zone) ── */}
       <div style={{
-        position: 'absolute', inset: 0,
+        position: 'absolute', top: 0, left: 0, right: 0, height: SAFE_TOP,
+        background: '#080604',
+        borderBottom: '1px solid rgba(200,164,110,0.25)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        gap: 10, zIndex: 10,
+      }}>
+        <div style={{ color: '#c8a46e', fontSize: 20, fontFamily: FONT.cinzel, letterSpacing: 8, opacity: 0.7 }}>
+          FEEL <span style={{ color: '#f0e8d8' }}>&amp;</span> NOTE
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.3 }} />
+          <div style={{ color: '#c8a46e', fontSize: 20, fontFamily: FONT.cinzel, letterSpacing: 6, opacity: 0.6 }}>
+            {i18n.libraryTour}
+          </div>
+          <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.3 }} />
+        </div>
+        <div style={{ color: '#e8e0d0', fontSize: 32, fontWeight: 600, fontFamily: FONT.sans, marginTop: 2 }}>
+          {host.nickname}
+        </div>
+      </div>
+
+      {/* ── content area (between header and footer) ── */}
+      <div style={{
+        position: 'absolute', top: SAFE_TOP, left: 0, right: 0, bottom: SAFE_BOTTOM,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         padding: '0 60px',
       }}>
-        {/* 아바타 */}
-        <div style={{ position: 'relative', marginBottom: 30 }}>
+        {/* avatar */}
+        <div style={{ position: 'relative', marginBottom: 24 }}>
           <div style={{
             position: 'absolute', inset: -40,
             borderRadius: '50%',
@@ -46,7 +73,7 @@ export const ThumbnailShort: React.FC<Props> = ({ script }) => {
           }} />
           <div style={{
             position: 'relative',
-            width: 360, height: 360, borderRadius: '50%', overflow: 'hidden',
+            width: 280, height: 280, borderRadius: '50%', overflow: 'hidden',
             border: '3px solid rgba(200,164,110,0.4)',
             boxShadow: '0 24px 70px rgba(0,0,0,0.7)',
           }}>
@@ -54,45 +81,37 @@ export const ThumbnailShort: React.FC<Props> = ({ script }) => {
           </div>
         </div>
 
-        {/* 이름 */}
-        <div style={{ color: '#f0e8d8', fontSize: 56, fontWeight: 700, fontFamily: FONT.sans, marginBottom: 6 }}>{host.nickname}</div>
-        <div style={{ color: '#888', fontSize: 24, fontFamily: FONT.cormorant, letterSpacing: 4, marginBottom: 50 }}>{host.nickname_en}</div>
-
-        {/* 명언 */}
-        <div style={{ position: 'relative', maxWidth: 900, textAlign: 'center' }}>
-          <div style={{ position: 'absolute', top: -80, left: -10, color: 'rgba(200,164,110,0.1)', fontSize: 200, fontFamily: FONT.serif, fontWeight: 700, lineHeight: 1 }}>
-            "
+        {/* quote */}
+        {host.featuredQuote && (
+          <div style={{ position: 'relative', maxWidth: 860, textAlign: 'center' }}>
+            <div style={{ position: 'absolute', top: -60, left: -10, color: 'rgba(200,164,110,0.1)', fontSize: 160, fontFamily: FONT.serif, fontWeight: 700, lineHeight: 1 }}>
+              &ldquo;
+            </div>
+            <div style={{ color: '#f0e8d8', fontSize: 42, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.6, position: 'relative' }}>
+              {host.featuredQuote}
+            </div>
           </div>
-          <div style={{ color: '#f0e8d8', fontSize: 48, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.6, position: 'relative' }}>
-            {host.featuredQuote}
-          </div>
-        </div>
+        )}
 
-        {/* 출처 */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 36 }}>
-          <div style={{ width: 50, height: 3, backgroundColor: '#c8a46e', opacity: 0.5 }} />
-          <div style={{ color: '#c8a46e', fontSize: 24, fontFamily: FONT.sans, fontWeight: 600 }}>{host.nickname}</div>
-          <div style={{ width: 50, height: 3, backgroundColor: '#c8a46e', opacity: 0.5 }} />
+        {/* attribution */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 28 }}>
+          <div style={{ width: 50, height: 2, backgroundColor: '#c8a46e', opacity: 0.4 }} />
+          <div style={{ color: '#c8a46e', fontSize: 22, fontFamily: FONT.sans, fontWeight: 600 }}>{host.nickname}</div>
+          <div style={{ width: 50, height: 2, backgroundColor: '#c8a46e', opacity: 0.4 }} />
         </div>
       </div>
 
-      {/* 상단 브랜드 */}
-      <div style={{ position: 'absolute', top: 60, left: 0, right: 0, textAlign: 'center' }}>
-        <span style={{ color: '#c8a46e', fontSize: 24, fontFamily: FONT.cinzel, letterSpacing: 6, opacity: 0.8 }}>
-          FEEL <span style={{ color: '#f0e8d8' }}>&</span> NOTE
-        </span>
-      </div>
+      {/* ── fixed footer (bottom safe zone — empty for YouTube metadata) ── */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: SAFE_BOTTOM,
+        background: '#050505',
+        borderTop: '1px solid rgba(200,164,110,0.15)',
+        zIndex: 10,
+      }} />
 
-      {/* 하단 라벨 */}
-      <div style={{ position: 'absolute', bottom: 60, left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14 }}>
-        <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-        <div style={{ color: '#c8a46e', fontSize: 24, fontFamily: FONT.cinzel, letterSpacing: 6, opacity: 0.7 }}>서재 탐방</div>
-        <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-      </div>
-
-      {/* 장식선 */}
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 3, height: 160, background: 'linear-gradient(to bottom, rgba(200,164,110,0.3), transparent)' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: 3, height: 160, background: 'linear-gradient(to top, rgba(200,164,110,0.3), transparent)' }} />
+      {/* decorative lines */}
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 3, height: 120, background: 'linear-gradient(to bottom, rgba(200,164,110,0.3), transparent)', zIndex: 11 }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, width: 3, height: 120, background: 'linear-gradient(to top, rgba(200,164,110,0.15), transparent)', zIndex: 11 }} />
     </AbsoluteFill>
   )
 }

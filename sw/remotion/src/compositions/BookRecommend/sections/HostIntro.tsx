@@ -1,8 +1,8 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import type { CelebHost, VoiceTimingSegment } from './types'
+import type { CelebHost, VoiceTimingSegment } from '../types'
 import { KoreanTypewriter } from './KoreanTypewriter'
-import { FONT } from './fonts'
-import { toAudioFrames, CELEB_VISUAL_DELAY, f } from './timing'
+import { FONT } from '../fonts'
+import { toAudioFrames, CELEB_VISUAL_DELAY, f } from '../timing'
 
 type Props = {
   host: CelebHost
@@ -19,6 +19,7 @@ type Props = {
   narratorTimings?: VoiceTimingSegment[]
   /** 감상철학 파형 타이밍 */
   philosophyTimings?: VoiceTimingSegment[]
+  locale?: 'ko' | 'en'
 }
 
 /**
@@ -27,7 +28,8 @@ type Props = {
  * 우측 Phase 1: "서재 탐방" + 이름 + biography (나레이터)
  * 우측 Phase 2: 감상철학 (셀럽 본인)
  */
-export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration, narratorTimings, philosophyTimings }) => {
+export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration, narratorTimings, philosophyTimings, locale }) => {
+  const libraryTourText = locale === 'en' ? 'Library Tour' : '서재 탐방'
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
@@ -70,7 +72,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
       >
         <div style={{ fontFamily: FONT.sans }}>
           <KoreanTypewriter
-            text="서재 탐방"
+            text={libraryTourText}
             startFrame={f(0.17)}
             spreadFrames={f(0.83)}
             color="#c8a46e"
@@ -134,9 +136,11 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             >
               {host.nickname}
             </div>
-            <div style={{ color: '#777', fontSize: 20, fontFamily: FONT.cormorant, marginBottom: 20 }}>
-              {host.nickname_en}
-            </div>
+            {locale !== 'en' && (
+              <div style={{ color: '#777', fontSize: 20, fontFamily: FONT.cormorant, marginBottom: 20 }}>
+                {host.nickname_en}
+              </div>
+            )}
             <div
               style={{
                 width: interpolate(frame, [f(0.83), f(1.5)], [0, 400], { extrapolateRight: 'clamp' }),

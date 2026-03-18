@@ -10,13 +10,16 @@
  * 경위 페이즈: 좌 표지 | 우 context 이미지 배경 + 경위 텍스트
  */
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import type { BookEntry, CelebHost, VoiceTimingSegment } from './types'
+import type { BookEntry, CelebHost, VoiceTimingSegment } from '../types'
 import { KoreanTypewriter } from './KoreanTypewriter'
-import { FONT } from './fonts'
+import { FONT } from '../fonts'
 import {
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f,
-} from './timing'
-import { safeImg, sf } from './utils'
+} from '../timing'
+import { safeImg, sf } from '../utils'
+import { vnBookSummary, vnBookContext, vnBookContextAfter, vnTimingKey } from '../voice-names'
+import type { BookRecommendScript } from '../types'
+import { t } from '../i18n'
 
 const CLAMP = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
@@ -43,13 +46,15 @@ type Props = {
   summaryContextGapF: number
   episodeName: string
   timings?: Record<string, VoiceTimingSegment[]>
+  script: BookRecommendScript
 }
 
 export const BookCardVisual: React.FC<Props> = ({
   book, host, index, totalFrames, titleFrames, summaryFrames, summaryEnd,
   contextFrames, contextEnd, hasQuote, quoteFrames, hasContextAfter, contextAfterFrames, contextAfterText, totalBooks,
-  labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName, timings,
+  labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName, timings, script,
 }) => {
+  const i18n = t(script)
   const imf = (file: string) => sf(`images/${episodeName}/${file}`)
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
@@ -179,7 +184,7 @@ export const BookCardVisual: React.FC<Props> = ({
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
           }}>
             <div style={{ color: '#e8e0d0', fontSize: 47, fontWeight: 700, fontFamily: FONT.serif, textAlign: 'center' }}>
-              「{book.title}」
+              {script.locale === 'en' ? `"${book.title}"` : `「${book.title}」`}
             </div>
             <div style={{ color: '#c8a46e', fontSize: 26, fontFamily: FONT.sans }}>{book.creator}</div>
             <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginTop: 6 }}>
@@ -188,7 +193,7 @@ export const BookCardVisual: React.FC<Props> = ({
                 <><div style={{ color: '#444', fontSize: 18 }}>·</div><div style={{ color: '#666', fontSize: 18, fontFamily: FONT.sans }}>{book.stats.publisher}</div></>
               )}
               {book.stats.publishYear && (
-                <><div style={{ color: '#444', fontSize: 18 }}>·</div><div style={{ color: '#666', fontSize: 18, fontFamily: FONT.sans }}>{book.stats.publishYear?.startsWith('기원전') ? book.stats.publishYear : `${book.stats.publishYear}년 집필`}</div></>
+                <><div style={{ color: '#444', fontSize: 18 }}>·</div><div style={{ color: '#666', fontSize: 18, fontFamily: FONT.sans }}>{i18n.publishYear(book.stats.publishYear!)}</div></>
               )}
             </div>
           </div>
@@ -201,17 +206,33 @@ export const BookCardVisual: React.FC<Props> = ({
           position: 'absolute', inset: 0, opacity: twoColOp, zIndex: 10,
           display: 'flex',
         }}>
-          {/* 1열: 책 표지 포스터 (2/5) */}
+          {/* 1열: 책 표지 포스터 + 메타 정보 */}
           <div style={{
-            width: '40%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+            width: '40%', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center',
             paddingRight: 40,
           }}>
-            <div style={{ opacity: posterOp, transform: `translateY(${posterY}px)` }}>
+            <div style={{ opacity: posterOp, transform: `translateY(${posterY}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{
-                width: 364, height: 546, borderRadius: 12, overflow: 'hidden',
+                width: 320, height: 480, borderRadius: 12, overflow: 'hidden',
                 boxShadow: '0 24px 70px rgba(0,0,0,0.6), 0 0 50px rgba(200,164,110,0.08)',
+                marginBottom: 24,
               }}>
                 <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div style={{ opacity: infoOp, textAlign: 'center', maxWidth: 340 }}>
+                <div style={{ color: '#e8e0d0', fontSize: 28, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.3, marginBottom: 6 }}>
+                  {script.locale === 'en' ? `"${book.title}"` : `「${book.title}」`}
+                </div>
+                <div style={{ color: '#c8a46e', fontSize: 19, fontFamily: FONT.sans, marginBottom: 6 }}>{book.creator}</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', alignItems: 'center' }}>
+                  {book.source && <div style={{ color: '#666', fontSize: 15, fontFamily: FONT.sans }}>{book.source}</div>}
+                  {book.stats.publisher && (
+                    <><div style={{ color: '#444', fontSize: 15 }}>·</div><div style={{ color: '#666', fontSize: 15, fontFamily: FONT.sans }}>{book.stats.publisher}</div></>
+                  )}
+                  {book.stats.publishYear && (
+                    <><div style={{ color: '#444', fontSize: 15 }}>·</div><div style={{ color: '#666', fontSize: 15, fontFamily: FONT.sans }}>{i18n.publishYear(book.stats.publishYear!)}</div></>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -253,46 +274,35 @@ export const BookCardVisual: React.FC<Props> = ({
               height: '100%', padding: '0 60px 0 40px',
             }}>
               <div style={{ width: '100%' }}>
-              {/* 책 메타 헤더 */}
-              <div style={{ opacity: infoOp, marginBottom: 16, maxWidth: 700 }}>
-                <div style={{ color: '#c8a46e', fontSize: 21, fontFamily: FONT.sans, marginBottom: 5 }}>{book.creator}</div>
-                <div style={{ color: '#e8e0d0', fontSize: 42, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.3, marginBottom: 8 }}>
-                  「{book.title}」
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', marginBottom: 10 }}>
-                  {book.source && <div style={{ color: '#666', fontSize: 17, fontFamily: FONT.sans }}>{book.source}</div>}
-                  {book.stats.publisher && (
-                    <><div style={{ color: '#444', fontSize: 17 }}>·</div><div style={{ color: '#666', fontSize: 17, fontFamily: FONT.sans }}>{book.stats.publisher}</div></>
-                  )}
-                  {book.stats.publishYear && (
-                    <><div style={{ color: '#444', fontSize: 17 }}>·</div><div style={{ color: '#666', fontSize: 17, fontFamily: FONT.sans }}>{book.stats.publishYear?.startsWith('기원전') ? book.stats.publishYear : `${book.stats.publishYear}년 집필`}</div></>
-                  )}
-                </div>
-                <div style={{
-                  width: interpolate(frame, [sLabelSummary, sLabelSummary + f(0.83)], [0, 400], CLAMP),
-                  height: 1, backgroundColor: '#c8a46e', opacity: 0.3,
-                }} />
-              </div>
-
-              {/* 본문 영역 — 요약/경위 크로스페이드 (둘 다 absolute) */}
-              <div style={{ position: 'relative', maxWidth: 700, minHeight: 580 }}>
+              {/* 본문 영역 — 섹션 라벨을 제목으로 사용 */}
+              <div style={{ maxWidth: 700 }}>
                 {/* 요약 블록 */}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-                  <div style={{ opacity: summaryLabelOp, color: '#8bb8a8', fontSize: 19, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 16 }}>
-                    핵심 요약
+                <div style={{ opacity: summaryLabelOp + summaryBodyOp > 0 ? 1 : 0, display: summaryLabelOp + summaryBodyOp > 0 ? 'block' : 'none' }}>
+                  <div style={{ opacity: summaryLabelOp, color: '#8bb8a8', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans, letterSpacing: 3, marginBottom: 20, textAlign: 'center' }}>
+                    {i18n.labelSummary}
                   </div>
+                  <div style={{
+                    opacity: summaryLabelOp,
+                    width: interpolate(frame, [sLabelSummary, sLabelSummary + f(0.83)], [0, 400], CLAMP),
+                    height: 1, backgroundColor: '#8bb8a8', opacity: 0.3, marginBottom: 24, marginLeft: 'auto', marginRight: 'auto',
+                  }} />
                   <div style={{ opacity: summaryBodyOp, borderLeft: '4px solid rgba(139,184,168,0.4)', paddingLeft: 24, fontFamily: FONT.sans }}>
-                    <KoreanTypewriter text={book.summary} startFrame={sSummary} spreadFrames={summaryFrames - f(0.5)} color="#d0d0d0" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[`book-${index}-summary`]} />
+                    <KoreanTypewriter text={book.summary} startFrame={sSummary} spreadFrames={summaryFrames - f(0.5)} color="#d0d0d0" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[vnTimingKey(vnBookSummary(index))]} />
                   </div>
                 </div>
 
                 {/* 경위 블록 */}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-                    <div style={{ opacity: contextLabelOp, color: '#999', fontSize: 19, fontWeight: 600, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 16 }}>
-                      추천 및 감상경위
+                <div style={{ opacity: contextLabelOp + contextBodyOp + quoteOp + contextAfterOp > 0 ? 1 : 0, display: contextLabelOp + contextBodyOp + quoteOp + contextAfterOp > 0 ? 'block' : 'none' }}>
+                    <div style={{ opacity: contextLabelOp, color: '#999', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans, letterSpacing: 3, marginBottom: 20, textAlign: 'center' }}>
+                      {i18n.labelContext}
                     </div>
+                    <div style={{
+                      opacity: contextLabelOp,
+                      width: interpolate(frame, [sLabelContext, sLabelContext + f(0.83)], [0, 400], CLAMP),
+                      height: 1, backgroundColor: '#999', opacity: 0.3, marginBottom: 24, marginLeft: 'auto', marginRight: 'auto',
+                    }} />
                     <div style={{ opacity: contextBodyOp, borderLeft: '4px solid rgba(153,153,153,0.3)', paddingLeft: 24, fontFamily: FONT.sans, marginBottom: hasQuote ? 24 : 0 }}>
-                      <KoreanTypewriter text={book.context} startFrame={sContext} spreadFrames={contextFrames - f(0.5)} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[`book-${index}-context`]} />
+                      <KoreanTypewriter text={book.context} startFrame={sContext} spreadFrames={contextFrames - f(0.5)} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[vnTimingKey(vnBookContext(index))]} />
                     </div>
 
                     {/* 인용문 */}
@@ -310,7 +320,7 @@ export const BookCardVisual: React.FC<Props> = ({
                     {/* 후속 맥락 */}
                     {hasContextAfter && contextAfterText && (
                       <div style={{ opacity: contextAfterOp, borderLeft: '4px solid rgba(153,153,153,0.3)', paddingLeft: 24, fontFamily: FONT.sans }}>
-                        <KoreanTypewriter text={contextAfterText} startFrame={sContextAfter} spreadFrames={contextAfterFrames - f(0.5)} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[`book-${index}-context-after`]} />
+                        <KoreanTypewriter text={contextAfterText} startFrame={sContextAfter} spreadFrames={contextAfterFrames - f(0.5)} color="#bbb" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[vnTimingKey(vnBookContextAfter(index))]} />
                       </div>
                     )}
                   </div>

@@ -1,6 +1,7 @@
 import type { BookRecommendScript, VoiceSelect } from './types'
 import elonMuskData from '../../../episodes/book-recommend/elon-musk.json'
 import alexanderData from '../../../episodes/book-recommend/alexander-the-great.json'
+import alexanderEnData from '../../../episodes/book-recommend/alexander-the-great-en.json'
 import davinciData from '../../../episodes/book-recommend/leonardo-da-vinci.json'
 import davinci2Data from '../../../episodes/book-recommend/leonardo-da-vinci-2.json'
 import napoleonData from '../../../episodes/book-recommend/napoleon-bonaparte.json'
@@ -15,6 +16,7 @@ export const EPISODE_NAME = 'jensen-huang'
 export const episodes: Record<string, BookRecommendScript> = {
   'elon-musk': elonMuskData as BookRecommendScript,
   'alexander-the-great': alexanderData as BookRecommendScript,
+  'alexander-the-great-en': alexanderEnData as BookRecommendScript,
   'leonardo-da-vinci': davinciData as BookRecommendScript,
   'leonardo-da-vinci-2': davinci2Data as BookRecommendScript,
   'napoleon-bonaparte': napoleonData as BookRecommendScript,

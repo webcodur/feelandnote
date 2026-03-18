@@ -1,8 +1,8 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import type { BookEntry, CelebHost } from './types'
-import { safeImg } from './utils'
-import { FONT } from './fonts'
-import { f } from './timing'
+import type { BookEntry, CelebHost } from '../types'
+import { safeImg } from '../utils'
+import { FONT } from '../fonts'
+import { f } from '../timing'
 
 type Props = {
   books: BookEntry[]
@@ -34,15 +34,15 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
   const isGrid = bottomCount > 0
   const maxCols = isGrid ? Math.max(topCount, bottomCount) : count
 
-  // 카드 크기 (열 수에 따라 축소)
-  const thumbW = maxCols >= 5 ? 120 : maxCols >= 4 ? 140 : 180
+  // 카드 크기
+  const thumbW = maxCols >= 5 ? 140 : maxCols >= 4 ? 160 : 200
   const thumbH = Math.round(thumbW * 1.5)
-  const titleSize = maxCols >= 5 ? 15 : maxCols >= 4 ? 17 : 20
-  const creatorSize = maxCols >= 5 ? 11 : maxCols >= 4 ? 12 : 14
-  const oneLinerSize = maxCols >= 5 ? 12 : maxCols >= 4 ? 13 : 15
-  const cardGap = maxCols >= 5 ? 28 : maxCols >= 4 ? 36 : 60
-  const cardMaxWidth = maxCols >= 5 ? 220 : maxCols >= 4 ? 260 : 300
-  const showOneLiner = !isGrid // 2행일 때는 한줄 요약 생략
+  const titleSize = maxCols >= 5 ? 24 : maxCols >= 4 ? 26 : 31
+  const creatorSize = maxCols >= 5 ? 19 : maxCols >= 4 ? 21 : 23
+  const oneLinerSize = maxCols >= 5 ? 19 : maxCols >= 4 ? 21 : 23
+  const cardGap = maxCols >= 5 ? 12 : maxCols >= 4 ? 20 : 32
+  const cardMaxWidth = maxCols >= 5 ? 320 : maxCols >= 4 ? 360 : 420
+  const showOneLiner = true
 
   // 전체 페이드
   const fadeIn = interpolate(frame, [0, f(0.83)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -74,6 +74,7 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          width: cardMaxWidth,
           maxWidth: cardMaxWidth,
           opacity: enter,
           transform: `translateY(${y}px)`,
@@ -139,7 +140,7 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
                 paddingTop: 12,
               }}
             >
-              &ldquo;{book.oneLiner}&rdquo;
+              {book.oneLiner}
             </div>
           </div>
         )}
@@ -150,8 +151,9 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
   const renderRow = (rowBooks: BookEntry[], startIndex: number) => (
     <div
       style={{
+        flex: 1,
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'center',
         gap: cardGap,
       }}
@@ -175,6 +177,7 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
           padding: '50px 0 0',
           opacity: labelOpacity,
           gap: 12,
+          zIndex: 1,
         }}
       >
         <div style={{ color: '#c8a46e', fontSize: 16, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600 }}>
@@ -190,10 +193,8 @@ export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) 
           inset: 0,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: isGrid ? 24 : 0,
-          padding: isGrid ? '90px 60px 40px' : '80px 80px 60px',
+          alignItems: 'stretch',
+          padding: '90px 40px 30px',
         }}
       >
         {isGrid ? (

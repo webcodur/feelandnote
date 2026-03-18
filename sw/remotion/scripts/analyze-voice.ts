@@ -14,6 +14,14 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import {
+  VN_SERVICE_GREETING, VN_SERVICE_INTRO,
+  VN_CELEB_INTRO, VN_PHILOSOPHY, VN_OUTRO, VN_FEATURED_QUOTE,
+  VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
+  VN_RETURN_INTRO, VN_INTERLUDE,
+  vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnShort, vnTimingKey, resolveVoiceRelPath,
+} from '../src/compositions/BookRecommend/voice-names'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -86,32 +94,26 @@ function detectSilences(path: string, opts: {
   return { duration, silences }
 }
 
-// --- 텍스트 + 파형 결합 분석 ---
+// --- 파형 분석: 글자 비례 추정 + 무음 스냅 ---
 type SentenceTiming = { start: number; end: number }
 
-function analyzeWithText(
+function analyzeWithSilence(
   wavPath: string,
   text: string,
 ): SentenceTiming[] {
   const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
-  if (sentences.length <= 1) {
-    // 단일 문장 → 전체 duration
-    const { duration } = detectSilences(wavPath)
-    return [{ start: 0, end: Math.round(duration * 1000) / 1000 }]
-  }
-
   const { duration, silences } = detectSilences(wavPath)
+  const needed = sentences.length - 1
 
-  // 글자 수 비례로 각 문장 경계의 추정 시각
+  // 글자 수 비례로 경계 추정 → 가장 가까운 무음에 스냅
   const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
-  const estimatedBoundaries: number[] = [] // n-1개 경계점
+  const estimatedBoundaries: number[] = []
   let charCursor = 0
-  for (let i = 0; i < sentences.length - 1; i++) {
+  for (let i = 0; i < needed; i++) {
     charCursor += sentences[i].length
     estimatedBoundaries.push((charCursor / totalChars) * duration)
   }
 
-  // 각 추정 경계에 가장 가까운 무음 구간 선택
   const usedSilences = new Set<number>()
   const boundaries: number[] = []
 
@@ -121,40 +123,31 @@ function analyzeWithText(
 
     for (let si = 0; si < silences.length; si++) {
       if (usedSilences.has(si)) continue
-      const dist = Math.abs(silences[si].start - estimated)
+      const dist = Math.abs(silences[si].center - estimated)
       if (dist < bestDist) {
         bestDist = dist
         bestIdx = si
       }
     }
 
-    if (bestIdx >= 0 && bestDist < duration * 0.15) {
-      // 추정 시각의 ±15% 이내에 무음이 있으면 채택 (무음 끝 = 발화 시작)
-      boundaries.push(silences[bestIdx].end)
+    // 시작/끝 무음은 경계로 사용하지 않음 (오디오 시작/끝 여백)
+    const isEdgeSilence = bestIdx >= 0 && (silences[bestIdx].end < 0.5 || silences[bestIdx].start > duration - 0.5)
+    if (bestIdx >= 0 && !isEdgeSilence && bestDist < duration * 0.25) {
+      boundaries.push(silences[bestIdx].start)
       usedSilences.add(bestIdx)
     } else {
-      // 무음이 없으면 추정 시각 그대로 사용
       boundaries.push(estimated)
     }
   }
 
   boundaries.sort((a, b) => a - b)
-
-  // 경계로 segment 생성
   const result: SentenceTiming[] = []
   let cursor = 0
   for (const boundary of boundaries) {
-    result.push({
-      start: Math.round(cursor * 1000) / 1000,
-      end: Math.round(boundary * 1000) / 1000,
-    })
+    result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(boundary * 1000) / 1000 })
     cursor = boundary
   }
-  result.push({
-    start: Math.round(cursor * 1000) / 1000,
-    end: Math.round(duration * 1000) / 1000,
-  })
-
+  result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(duration * 1000) / 1000 })
   return result
 }
 
@@ -205,7 +198,12 @@ if (!epName) {
   process.exit(1)
 }
 
-const voiceDir = join(__dirname, '..', 'public', 'voice', epName)
+const voiceBaseDir = join(__dirname, '..', 'public', 'voice', epName)
+// voice-select.json이 있으면 엔진 하위 디렉토리 사용
+let voiceSelect: { default: string; slots?: Record<string, string> } | null = null
+try {
+  voiceSelect = JSON.parse(readFileSync(join(voiceBaseDir, 'voice-select.json'), 'utf-8'))
+} catch { /* voice-select 없으면 null */ }
 const epPath = join(__dirname, '..', 'episodes', 'book-recommend', `${epName}.json`)
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
 
@@ -214,28 +212,28 @@ type Target = { file: string; textField: string; bookIndex?: number }
 const targets: Target[] = []
 
 if (episode.narrator.serviceGreeting) {
-  targets.push({ file: 'service-greeting.wav', textField: 'serviceGreeting' })
+  targets.push({ file: VN_SERVICE_GREETING, textField: 'serviceGreeting' })
 }
-targets.push({ file: 'service-intro.wav', textField: 'serviceIntro' })
-targets.push({ file: 'narrator-celeb-intro.wav', textField: 'celebIntro' })
-targets.push({ file: 'philosophy.wav', textField: 'philosophy' })
-targets.push({ file: 'narrator-outro.wav', textField: 'outro' })
+targets.push({ file: VN_SERVICE_INTRO, textField: 'serviceIntro' })
+targets.push({ file: VN_CELEB_INTRO, textField: 'celebIntro' })
+targets.push({ file: VN_PHILOSOPHY, textField: 'philosophy' })
+targets.push({ file: VN_OUTRO, textField: 'outro' })
 
 for (let i = 0; i < episode.books.length; i++) {
-  targets.push({ file: `book-${i}-summary.wav`, textField: 'summary', bookIndex: i })
-  targets.push({ file: `book-${i}-context.wav`, textField: 'context', bookIndex: i })
+  targets.push({ file: vnBookSummary(i), textField: 'summary', bookIndex: i })
+  targets.push({ file: vnBookContext(i), textField: 'context', bookIndex: i })
   if (episode.books[i].directQuote) {
-    targets.push({ file: `book-${i}-quote.wav`, textField: 'directQuote', bookIndex: i })
+    targets.push({ file: vnBookQuote(i), textField: 'directQuote', bookIndex: i })
   }
   if (episode.books[i].contextAfter) {
-    targets.push({ file: `book-${i}-context-after.wav`, textField: 'contextAfter', bookIndex: i })
+    targets.push({ file: vnBookContextAfter(i), textField: 'contextAfter', bookIndex: i })
   }
 }
 
 if (episode.shorts?.segments) {
-  for (const seg of episode.shorts.segments) {
-    targets.push({ file: `short-${seg.id}.wav`, textField: `short-${seg.id}` })
-  }
+  episode.shorts.segments.forEach((seg: { id: string }, i: number) => {
+    targets.push({ file: vnShort(i, seg.id), textField: `short-${seg.id}` })
+  })
 }
 
 const filtered = onlyFilter
@@ -248,10 +246,11 @@ console.log(`${filtered.length}개 파일 분석 (텍스트+파형 결합)\n`)
 const results: Record<string, SentenceTiming[]> = {}
 
 for (const target of filtered) {
-  const COMMON_FILES = new Set(['service-greeting.wav', 'label-summary.wav', 'label-context.wav'])
-  const wavPath = COMMON_FILES.has(target.file)
-    ? join(__dirname, '..', 'public', 'voice', 'common', target.file)
-    : join(voiceDir, target.file)
+  const locale = episode.locale === 'en' ? 'en' as const : 'ko' as const
+  const { dir, subPath } = resolveVoiceRelPath(target.file, voiceSelect, locale)
+  const wavPath = dir === 'common'
+    ? join(__dirname, '..', 'public', 'voice', 'common', subPath)
+    : join(voiceBaseDir, subPath)
   const text = getTextForTarget(episode, target.textField, target.bookIndex)
 
   if (!text) {
@@ -260,7 +259,7 @@ for (const target of filtered) {
   }
 
   try {
-    const timings = analyzeWithText(wavPath, text)
+    const timings = analyzeWithSilence(wavPath, text)
     const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
     results[target.file] = timings
 
@@ -278,7 +277,7 @@ for (const target of filtered) {
 if (updateJson) {
   if (!episode.voiceTimings) episode.voiceTimings = {}
   for (const [file, timings] of Object.entries(results)) {
-    const key = file.replace('.wav', '')
+    const key = vnTimingKey(file)
     episode.voiceTimings[key] = timings
 
     // duration 자동 동기화 — voiceTimings의 마지막 end를 duration으로 반영
@@ -286,20 +285,20 @@ if (updateJson) {
     if (lastEnd == null) continue
     const rounded = Math.round(lastEnd * 100) / 100
 
-    if (file === 'service-greeting.wav') { episode.narrator.serviceGreetingDuration = rounded; continue }
-    if (file === 'service-intro.wav' && episode.narrator.serviceIntroDuration != null) { episode.narrator.serviceIntroDuration = rounded; continue }
-    if (file === 'narrator-celeb-intro.wav') { episode.narrator.celebIntroDuration = rounded; continue }
-    if (file === 'philosophy.wav') { episode.host.voiceDuration = rounded; continue }
-    if (file === 'narrator-outro.wav') { episode.narrator.outroDuration = rounded; continue }
-    if (file === 'featured-quote.wav') { episode.host.featuredQuoteDuration = rounded; continue }
-    if (file === 'label-summary.wav' && episode.narrator.labelSummaryDuration != null) { episode.narrator.labelSummaryDuration = rounded; continue }
-    if (file === 'label-context.wav' && episode.narrator.labelContextDuration != null) { episode.narrator.labelContextDuration = rounded; continue }
-    if (file === 'return-intro.wav' && episode.narrator.returnIntroDuration != null) { episode.narrator.returnIntroDuration = rounded; continue }
-    if (file === 'interlude.wav' && episode.narrator.interludeDuration != null) { episode.narrator.interludeDuration = rounded; continue }
+    if (file === VN_SERVICE_GREETING) { episode.narrator.serviceGreetingDuration = rounded; continue }
+    if (file === VN_SERVICE_INTRO && episode.narrator.serviceIntroDuration != null) { episode.narrator.serviceIntroDuration = rounded; continue }
+    if (file === VN_CELEB_INTRO) { episode.narrator.celebIntroDuration = rounded; continue }
+    if (file === VN_PHILOSOPHY) { episode.host.voiceDuration = rounded; continue }
+    if (file === VN_OUTRO) { episode.narrator.outroDuration = rounded; continue }
+    if (file === VN_FEATURED_QUOTE) { episode.host.featuredQuoteDuration = rounded; continue }
+    if (file === VN_LABEL_SUMMARY && episode.narrator.labelSummaryDuration != null) { episode.narrator.labelSummaryDuration = rounded; continue }
+    if (file === VN_LABEL_CONTEXT && episode.narrator.labelContextDuration != null) { episode.narrator.labelContextDuration = rounded; continue }
+    if (file === VN_RETURN_INTRO && episode.narrator.returnIntroDuration != null) { episode.narrator.returnIntroDuration = rounded; continue }
+    if (file === VN_INTERLUDE && episode.narrator.interludeDuration != null) { episode.narrator.interludeDuration = rounded; continue }
 
-    const bookMatch = file.match(/^book-(\d+)-(title|summary|context|quote|context-after)\.wav$/)
+    const bookMatch = file.match(/^D(\d{2})[a-e]-(title|summary|context|quote|context-after)\.wav$/)
     if (bookMatch) {
-      const idx = parseInt(bookMatch[1])
+      const idx = parseInt(bookMatch[1]) - 1  // 1-based -> 0-based
       if (!episode.books[idx]) continue
       switch (bookMatch[2]) {
         case 'title': episode.books[idx].titleDuration = rounded; break
@@ -311,7 +310,7 @@ if (updateJson) {
     }
 
     // 쇼츠 세그먼트
-    const shortMatch = file.match(/^short-(.+)\.wav$/)
+    const shortMatch = file.match(/^S\d{2}-(.+)\.wav$/)
     if (shortMatch && episode.shorts?.segments) {
       const seg = episode.shorts.segments.find((s: any) => s.id === shortMatch[1])
       if (seg) seg.duration = rounded

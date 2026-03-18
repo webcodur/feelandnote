@@ -12,25 +12,27 @@ import {
   calcShortTotalFrames,
   episodes,
 } from "./compositions/BookRecommend";
+import {
+  CelebProfile,
+  episodes as profileEpisodes,
+  calcTotalFrames as calcProfileFrames,
+} from "./compositions/CelebProfile";
 import { FPS } from "./compositions/BookRecommend/timing";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
-import { ThumbnailShort } from "./compositions/Thumbnail/ThumbnailShort";
+
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      {/* === 에피소드별 composition 자동 등록 === */}
-      {Object.entries(episodes).map(([name, script]) => {
-        // kebab-case → PascalCase (elon-musk → ElonMusk)
+      {/* === 에피소드별 composition — 인물 단위로 그룹 정렬 === */}
+      {Object.entries(episodes).sort(([a], [b]) => a.localeCompare(b)).map(([name, script]) => {
         const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
         const dur = calcBookFrames(script)
-        // duration이 NaN이면 미완성 에피소드 — 스킵
         if (!Number.isFinite(dur) || dur <= 0) return null
         return (
           <React.Fragment key={name}>
-            {/* 롱폼 */}
             <Composition
-              id={`${label}`}
+              id={`${label}-L`}
               component={BookRecommend}
               durationInFrames={dur}
               fps={FPS}
@@ -38,10 +40,9 @@ export const RemotionRoot: React.FC = () => {
               height={1080}
               defaultProps={{ script, episodeName: name }}
             />
-            {/* 쇼츠 */}
             {script.shorts && (
               <Composition
-                id={`${label}Short`}
+                id={`${label}-S`}
                 component={BookRecommendShort}
                 durationInFrames={calcShortTotalFrames(script)}
                 fps={FPS}
@@ -50,40 +51,34 @@ export const RemotionRoot: React.FC = () => {
                 defaultProps={{ script, episodeName: name }}
               />
             )}
+            <Composition
+              id={`${label}-LT`}
+              component={Thumbnail}
+              durationInFrames={1}
+              fps={1}
+              width={1280}
+              height={720}
+              defaultProps={{ script }}
+            />
           </React.Fragment>
         )
       })}
 
-      {/* === 썸네일 (에피소드별 × variant A/B/C) === */}
-      {Object.entries(episodes).map(([name, script]) => {
-        const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
-        return (['A', 'B', 'C', 'D', 'E'] as const).map(v => (
-          <Composition
-            key={`${name}-thumb-${v}`}
-            id={`${label}Thumb${v}`}
-            component={Thumbnail}
-            durationInFrames={1}
-            fps={1}
-            width={1280}
-            height={720}
-            defaultProps={{ script, variant: v }}
-          />
-        ))
-      })}
-
-      {/* === 쇼츠 썸네일 === */}
-      {Object.entries(episodes).map(([name, script]) => {
-        const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+      {/* === 인물 열전 — celeb-profile === */}
+      {Object.entries(profileEpisodes).sort(([a], [b]) => a.localeCompare(b)).map(([name, script]) => {
+        const label = 'CP-' + name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+        const dur = calcProfileFrames(script)
+        if (!Number.isFinite(dur) || dur <= 0) return null
         return (
           <Composition
-            key={`${name}-thumb-short`}
-            id={`${label}ThumbShort`}
-            component={ThumbnailShort}
-            durationInFrames={1}
-            fps={1}
-            width={1080}
-            height={1920}
-            defaultProps={{ script }}
+            key={name}
+            id={label}
+            component={CelebProfile}
+            durationInFrames={dur}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ script, episodeName: name }}
           />
         )
       })}

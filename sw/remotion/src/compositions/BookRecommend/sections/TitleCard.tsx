@@ -5,10 +5,11 @@ type Props = {
   bookCount: number
   startFrame: number
   durationFrames: number
+  locale?: 'ko' | 'en'
 }
 
 /** 2단계: "OOO가 추천하는 5권의 책" 타이틀 카드 */
-export const TitleCard: React.FC<Props> = ({ nickname, bookCount, startFrame, durationFrames }) => {
+export const TitleCard: React.FC<Props> = ({ nickname, bookCount, startFrame, durationFrames, locale }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
   const local = frame - startFrame
@@ -55,7 +56,7 @@ export const TitleCard: React.FC<Props> = ({ nickname, bookCount, startFrame, du
           textAlign: 'center',
         }}
       >
-        {nickname}가 추천하는
+        {locale === 'en' ? `Recommended by ${nickname}` : `${nickname}가 추천하는`}
       </div>
       <div
         style={{
@@ -66,7 +67,7 @@ export const TitleCard: React.FC<Props> = ({ nickname, bookCount, startFrame, du
           marginTop: 8,
         }}
       >
-        {bookCount}권의 책
+        {locale === 'en' ? `${bookCount} Books` : `${bookCount}권의 책`}
       </div>
     </div>
   )

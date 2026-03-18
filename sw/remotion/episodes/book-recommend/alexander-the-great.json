@@ -28,14 +28,14 @@
         "role": "narrator",
         "text": "그 책은 바로 호메로스의 일리아스. 알렉산더는 스승 아리스토텔레스가 직접 교정해준 필사본을 원정 내내 곁에 두었습니다. 트로이 유적지에서는 아킬레우스의 무덤 앞에서 경의를 표했고, 가우가멜라 벌판에서는 쐐기대형의 선두에 서서 그 영웅의 서사를 직접 써 내려갔습니다.",
         "visual": "book",
-        "duration": 23.17
+        "duration": 21.25
       },
       {
         "id": "celeb-end",
         "role": "celeb",
         "text": "영웅의 길은 전장에서 시작되지만, 그 서사는 책에서 완성된다. 더 많은 이야기가 궁금하다면, 나의 서재를 열어보라.",
         "visual": "cta",
-        "duration": 9.35
+        "duration": 9.28
       }
     ]
   },
@@ -61,8 +61,8 @@
     "bio": "고대 마케도니아의 왕. 그리스에서 인도에 이르는 광대한 제국을 건설한 정복자입니다. 그의 뛰어난 군사적 능력과 헬레니즘 문화 확산은 인류사에 지대한 영향을 미쳤습니다.",
     "title": "마케도니아 왕",
     "featuredQuote": "두려움을 정복한 자, 이 세상까지도 정복하리라.",
-    "featuredQuoteDuration": 4.08,
-    "philosophy": "나는 알렉산더, 마케도니아의 왕이다. 『일리아스』 로 영웅의 투지를 깨우고, 역사의 지혜를 빌려 제국의 심장을 꿰뚫었다. 핏빛 전장에선 비극을 읊었고, 시인 앞에선 칼날을 거뒀다. 기나긴 원정의 피로 속에서도, 내게 문학은 영혼을 위한 보급품이었다.",
+    "featuredQuoteDuration": 4.77,
+    "philosophy": "나는 알렉산더, 마케도니아의 왕이다. 『일리아스』 로 영웅의 투지를 깨우고, 역사의 지혜로 제국의 심장을 꿰뚫었다. 핏빛 전장에선 비극을 읊었고, 시인 앞에선 칼날을 거뒀다. 기나긴 원정의 피로 속에서도, 내게 문학은 영혼을 위한 보급품이었다.",
     "voiceDuration": 21.08,
     "elevenlabsVoiceId": "fwqtAs9QU9ofCr73fEXE"
   },
@@ -85,7 +85,7 @@
       "stats": {
         "publishYear": "기원전 8세기"
       },
-      "titleDuration": 4.09
+      "titleDuration": 4.01
     },
     {
       "title": "오디세이아",
@@ -103,7 +103,7 @@
       "stats": {
         "publishYear": "기원전 8세기"
       },
-      "titleDuration": 4.49
+      "titleDuration": 4.45
     },
     {
       "title": "키루스의 교육",
@@ -118,13 +118,13 @@
       "stats": {
         "publishYear": "기원전 370년경"
       },
-      "titleDuration": 5.49
+      "titleDuration": 5.13
     },
     {
       "title": "페르시아 원정기",
       "creator": "크세노폰",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248652/32486527066.20241003091159.jpg",
-      "summary": "기원전 401년, 소 키루스의 반란에 참여한 그리스 용병 1만 명의 기록입니다. 페르시아 심장부까지 진군했다가 지휘관들이 살해된 후, 적대적 영토를 뚫고 귀환하는 생존기를 크세노폰 본인이 기록한 회고록입니다. 지형, 병참, 전술 정보가 상세하게 담겨 있습니다.",
+      "summary": "기원전 401년, 키루스의 반란에 참여한 그리스 용병 1만 명의 기록입니다. 페르시아 심장부까지 진군했다가 지휘관들이 살해된 후, 적대적 영토를 뚫고 귀환하는 생존기를 크세노폰 본인이 기록한 회고록입니다. 지형, 병참, 전술 정보가 상세하게 담겨 있습니다.",
       "summaryDuration": 20.25,
       "context": "이 책은 알렉산더의 페르시아 원정에서 실질적인 군사 안내서로 기능했습니다. 어떤 마케도니아인도 아시아 깊숙이 들어간 적이 없었고, 오직 크세노폰만이 그 길을 기술했기 때문입니다. 알렉산더는 메소포타미아 지형과 페르시아 군사 전술, 적대적 영토에서의 병참 운용을 이 책에서 배웠습니다.",
       "contextDuration": 22.09,
@@ -133,7 +133,7 @@
       "stats": {
         "publishYear": "기원전 370년경"
       },
-      "titleDuration": 6.17
+      "titleDuration": 5.57
     },
     {
       "title": "고대 그리스 서정시",
@@ -148,7 +148,7 @@
       "stats": {
         "publishYear": "기원전 5세기"
       },
-      "titleDuration": 5.89
+      "titleDuration": 6.37
     },
     {
       "title": "아이스킬로스 비극 전집",
@@ -163,7 +163,7 @@
       "stats": {
         "publishYear": "기원전 472년"
       },
-      "titleDuration": 6.25
+      "titleDuration": 6.45
     },
     {
       "title": "소포클레스 비극 전집",
@@ -178,7 +178,7 @@
       "stats": {
         "publishYear": "기원전 5세기"
       },
-      "titleDuration": 5.93
+      "titleDuration": 5.73
     },
     {
       "title": "에우리피데스 비극 전집 세트",
@@ -193,7 +193,7 @@
       "stats": {
         "publishYear": "기원전 5세기"
       },
-      "titleDuration": 5.89
+      "titleDuration": 6.21
     }
   ],
   "tts": {
@@ -247,7 +247,7 @@
     ]
   },
   "voiceTimings": {
-    "service-greeting-1": [
+    "A1-service-greeting-1": [
       {
         "start": 0,
         "end": 0.964
@@ -257,523 +257,523 @@
         "end": 2.25
       }
     ],
-    "service-greeting-2": [
+    "A1-service-greeting-2": [
       {
         "start": 0,
         "end": 1.76
       }
     ],
-    "service-greeting-3": [
+    "A1-service-greeting-3": [
       {
         "start": 0,
         "end": 1.54
       }
     ],
-    "service-greeting-4": [
+    "A1-service-greeting-4": [
       {
         "start": 0,
         "end": 3.09
       }
     ],
-    "service-intro": [
+    "A2-service-intro": [
       {
         "start": 0,
         "end": 3.851
       }
     ],
-    "narrator-celeb-intro": [
+    "B1-celeb-intro": [
       {
         "start": 0,
+        "end": 2.5
+      },
+      {
+        "start": 2.5,
+        "end": 9.68
+      },
+      {
+        "start": 9.68,
+        "end": 15.7
+      },
+      {
+        "start": 15.7,
+        "end": 20.251
+      }
+    ],
+    "B2-philosophy": [
+      {
+        "start": 0,
+        "end": 1.2
+      },
+      {
+        "start": 1.2,
         "end": 2.9
       },
       {
         "start": 2.9,
-        "end": 10.62
+        "end": 6.06
       },
       {
-        "start": 10.62,
-        "end": 16.26
+        "start": 6.06,
+        "end": 9.52
       },
       {
-        "start": 16.26,
-        "end": 20.251
-      }
-    ],
-    "philosophy": [
-      {
-        "start": 0,
-        "end": 1.6
+        "start": 9.52,
+        "end": 12.62
       },
       {
-        "start": 1.6,
-        "end": 3.94
+        "start": 12.62,
+        "end": 14.96
       },
       {
-        "start": 3.94,
-        "end": 6.68
+        "start": 14.96,
+        "end": 17.88
       },
       {
-        "start": 6.68,
-        "end": 10.74
-      },
-      {
-        "start": 10.74,
-        "end": 13.24
-      },
-      {
-        "start": 13.24,
-        "end": 16.22
-      },
-      {
-        "start": 16.22,
-        "end": 18.44
-      },
-      {
-        "start": 18.44,
+        "start": 17.88,
         "end": 21.081
       }
     ],
-    "narrator-outro": [
+    "E1-outro": [
       {
         "start": 0,
-        "end": 5.88
+        "end": 5.08
       },
       {
-        "start": 5.88,
-        "end": 7.36
+        "start": 5.08,
+        "end": 7.14
       },
       {
-        "start": 7.36,
-        "end": 12.66
+        "start": 7.14,
+        "end": 12.06
       },
       {
-        "start": 12.66,
+        "start": 12.06,
         "end": 15.931
       }
     ],
-    "book-0-summary": [
+    "D01b-summary": [
       {
         "start": 0,
-        "end": 4.02
+        "end": 3
       },
       {
-        "start": 4.02,
-        "end": 7.22
+        "start": 3,
+        "end": 6.84
       },
       {
-        "start": 7.22,
-        "end": 10.3
+        "start": 6.84,
+        "end": 9.24
       },
       {
-        "start": 10.3,
-        "end": 16.18
+        "start": 9.24,
+        "end": 15.46
       },
       {
-        "start": 16.18,
-        "end": 22.68
+        "start": 15.46,
+        "end": 21.48
       },
       {
-        "start": 22.68,
-        "end": 24.84
+        "start": 21.48,
+        "end": 24.26
       },
       {
-        "start": 24.84,
+        "start": 24.26,
         "end": 28.771
       }
     ],
-    "book-0-context": [
+    "D01c-context": [
       {
         "start": 0,
-        "end": 10.54
+        "end": 9.34
       },
       {
-        "start": 10.54,
-        "end": 15.86
+        "start": 9.34,
+        "end": 15.18
       },
       {
-        "start": 15.86,
+        "start": 15.18,
         "end": 22.251
       }
     ],
-    "book-0-quote": [
+    "D01d-quote": [
       {
         "start": 0,
-        "end": 3.22
+        "end": 2.66
       },
       {
-        "start": 3.22,
+        "start": 2.66,
         "end": 7.706
       }
     ],
-    "book-0-context-after": [
+    "D01e-context-after": [
       {
         "start": 0,
-        "end": 8.72
+        "end": 7.32
       },
       {
-        "start": 8.72,
+        "start": 7.32,
         "end": 13.731
       }
     ],
-    "book-1-summary": [
+    "D02b-summary": [
       {
         "start": 0,
-        "end": 2.34
+        "end": 1.58
       },
       {
-        "start": 2.34,
-        "end": 3.84
+        "start": 1.58,
+        "end": 3.54
       },
       {
-        "start": 3.84,
-        "end": 11
+        "start": 3.54,
+        "end": 9.94
       },
       {
-        "start": 11,
-        "end": 12.28
+        "start": 9.94,
+        "end": 12.02
       },
       {
-        "start": 12.28,
-        "end": 13.42
+        "start": 12.02,
+        "end": 13.04
       },
       {
-        "start": 13.42,
-        "end": 18.3
+        "start": 13.04,
+        "end": 17.94
       },
       {
-        "start": 18.3,
+        "start": 17.94,
         "end": 20.251
       }
     ],
-    "book-1-context": [
+    "D02c-context": [
       {
         "start": 0,
-        "end": 4
+        "end": 3.46
       },
       {
-        "start": 4,
-        "end": 12.54
+        "start": 3.46,
+        "end": 11.62
       },
       {
-        "start": 12.54,
+        "start": 11.62,
         "end": 19.051
       }
     ],
-    "book-1-quote": [
+    "D02d-quote": [
       {
         "start": 0,
         "end": 4.362
       }
     ],
-    "book-2-summary": [
+    "D03b-summary": [
       {
         "start": 0,
-        "end": 6.04
+        "end": 5.26
       },
       {
-        "start": 6.04,
-        "end": 13.3
+        "start": 5.26,
+        "end": 12.36
       },
       {
-        "start": 13.3,
-        "end": 16.08
+        "start": 12.36,
+        "end": 15.62
       },
       {
-        "start": 16.08,
+        "start": 15.62,
         "end": 20.131
       }
     ],
-    "book-2-context": [
+    "D03c-context": [
       {
         "start": 0,
-        "end": 6.64
+        "end": 5.6
       },
       {
-        "start": 6.64,
-        "end": 12.04
+        "start": 5.6,
+        "end": 10.84
       },
       {
-        "start": 12.04,
-        "end": 15.98
+        "start": 10.84,
+        "end": 15.46
       },
       {
-        "start": 15.98,
+        "start": 15.46,
         "end": 22.331
       }
     ],
-    "book-3-summary": [
+    "D04b-summary": [
       {
         "start": 0,
-        "end": 1.88
+        "end": 1.48
       },
       {
-        "start": 1.88,
-        "end": 6.42
+        "start": 1.48,
+        "end": 5.64
       },
       {
-        "start": 6.42,
-        "end": 10.66
+        "start": 5.64,
+        "end": 10.22
       },
       {
-        "start": 10.66,
-        "end": 16.86
+        "start": 10.22,
+        "end": 13.4
       },
       {
-        "start": 16.86,
-        "end": 17.358
+        "start": 13.4,
+        "end": 16
       },
       {
-        "start": 17.358,
-        "end": 18.2
+        "start": 16,
+        "end": 17.96
       },
       {
-        "start": 18.2,
+        "start": 17.96,
         "end": 20.251
       }
     ],
-    "book-3-context": [
+    "D04c-context": [
       {
         "start": 0,
-        "end": 6.26
+        "end": 5.42
       },
       {
-        "start": 6.26,
-        "end": 10
+        "start": 5.42,
+        "end": 9.6
       },
       {
-        "start": 10,
-        "end": 14.04
+        "start": 9.6,
+        "end": 12.94
       },
       {
-        "start": 14.04,
-        "end": 18.42
+        "start": 12.94,
+        "end": 17.94
       },
       {
-        "start": 18.42,
+        "start": 17.94,
         "end": 22.091
       }
     ],
-    "book-4-summary": [
+    "D05b-summary": [
       {
         "start": 0,
-        "end": 3.72
+        "end": 3.02
       },
       {
-        "start": 3.72,
-        "end": 5.56
+        "start": 3.02,
+        "end": 5.1
       },
       {
-        "start": 5.56,
-        "end": 7.26
+        "start": 5.1,
+        "end": 6.74
       },
       {
-        "start": 7.26,
-        "end": 10.7
+        "start": 6.74,
+        "end": 9.7
       },
       {
-        "start": 10.7,
-        "end": 16.2
+        "start": 9.7,
+        "end": 15.7
       },
       {
-        "start": 16.2,
+        "start": 15.7,
         "end": 20.051
       }
     ],
-    "book-4-context": [
+    "D05c-context": [
       {
         "start": 0,
-        "end": 2.42
+        "end": 1.9
       },
       {
-        "start": 2.42,
-        "end": 6.78
+        "start": 1.9,
+        "end": 6.16
       },
       {
-        "start": 6.78,
-        "end": 8.8
+        "start": 6.16,
+        "end": 8.34
       },
       {
-        "start": 8.8,
-        "end": 12.06
+        "start": 8.34,
+        "end": 11.16
       },
       {
-        "start": 12.06,
-        "end": 16.52
+        "start": 11.16,
+        "end": 15.62
       },
       {
-        "start": 16.52,
+        "start": 15.62,
         "end": 20.771
       }
     ],
-    "book-5-summary": [
+    "D06b-summary": [
       {
         "start": 0,
-        "end": 4.12
+        "end": 3.36
       },
       {
-        "start": 4.12,
+        "start": 3.36,
         "end": 12.891
       }
     ],
-    "book-5-context": [
+    "D06c-context": [
       {
         "start": 0,
-        "end": 8.04
+        "end": 7.02
       },
       {
-        "start": 8.04,
-        "end": 11.36
+        "start": 7.02,
+        "end": 10.98
       },
       {
-        "start": 11.36,
+        "start": 10.98,
         "end": 15.851
       }
     ],
-    "book-6-summary": [
+    "D07b-summary": [
       {
         "start": 0,
-        "end": 5.28
+        "end": 4.46
       },
       {
-        "start": 5.28,
-        "end": 6.6
+        "start": 4.46,
+        "end": 6.3
       },
       {
-        "start": 6.6,
-        "end": 7.54
+        "start": 6.3,
+        "end": 7.2
       },
       {
-        "start": 7.54,
-        "end": 13.46
+        "start": 7.2,
+        "end": 12.74
       },
       {
-        "start": 13.46,
+        "start": 12.74,
         "end": 15.531
       }
     ],
-    "book-6-context": [
+    "D07c-context": [
       {
         "start": 0,
-        "end": 7.78
+        "end": 7.02
       },
       {
-        "start": 7.78,
-        "end": 12.18
+        "start": 7.02,
+        "end": 11.86
       },
       {
-        "start": 12.18,
+        "start": 11.86,
         "end": 14.651
       }
     ],
-    "book-7-summary": [
+    "D08b-summary": [
       {
         "start": 0,
-        "end": 5.36
+        "end": 4.78
       },
       {
-        "start": 5.36,
-        "end": 6.24
+        "start": 4.78,
+        "end": 5.98
       },
       {
-        "start": 6.24,
-        "end": 11.9
+        "start": 5.98,
+        "end": 11.06
       },
       {
-        "start": 11.9,
+        "start": 11.06,
         "end": 15.091
       }
     ],
-    "book-7-context": [
+    "D08c-context": [
       {
         "start": 0,
-        "end": 4.36
+        "end": 3.6
       },
       {
-        "start": 4.36,
-        "end": 8.26
+        "start": 3.6,
+        "end": 7.84
       },
       {
-        "start": 8.26,
+        "start": 7.84,
         "end": 15.731
       }
     ],
-    "short-hook": [
+    "S01-hook": [
       {
         "start": 0,
-        "end": 5.06
+        "end": 4.5
       },
       {
-        "start": 5.06,
+        "start": 4.5,
         "end": 6.251
       }
     ],
-    "short-intro": [
+    "S02-intro": [
       {
         "start": 0,
-        "end": 7.68
+        "end": 6.54
       },
       {
-        "start": 7.68,
+        "start": 6.54,
         "end": 12.171
       }
     ],
-    "short-celeb-mid": [
+    "S03-celeb-mid": [
       {
         "start": 0,
-        "end": 5.12
+        "end": 3.84
       },
       {
-        "start": 5.12,
-        "end": 6.52
+        "start": 3.84,
+        "end": 5.58
       },
       {
-        "start": 6.52,
-        "end": 10.011
+        "start": 5.58,
+        "end": 9.326
       }
     ],
-    "short-book-context": [
+    "S04-book-context": [
       {
         "start": 0,
-        "end": 4.18
+        "end": 2.96
       },
       {
-        "start": 4.18,
-        "end": 11.78
+        "start": 2.96,
+        "end": 9.7
       },
       {
-        "start": 11.78,
-        "end": 16.6
+        "start": 9.7,
+        "end": 14.56
       },
       {
-        "start": 16.6,
-        "end": 23.171
+        "start": 14.56,
+        "end": 21.251
       }
     ],
-    "short-celeb-end": [
+    "S05-celeb-end": [
       {
         "start": 0,
-        "end": 3.04
+        "end": 2.24
       },
       {
-        "start": 3.04,
-        "end": 6.08
+        "start": 2.24,
+        "end": 4.54
       },
       {
-        "start": 6.08,
-        "end": 8.32
+        "start": 4.54,
+        "end": 7.14
       },
       {
-        "start": 8.32,
-        "end": 9.851
+        "start": 7.14,
+        "end": 9.28
       }
     ],
-    "service-greeting": [
+    "A1-service-greeting": [
       {
         "start": 0,
-        "end": 4.56
+        "end": 4.28
       },
       {
-        "start": 4.56,
+        "start": 4.28,
         "end": 7.411
       }
     ]

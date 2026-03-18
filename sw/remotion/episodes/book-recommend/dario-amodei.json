@@ -7,35 +7,35 @@
         "role": "narrator",
         "text": "AI 연구자들 사이에서 성경처럼 읽히는 책이 있습니다. 핵폭탄 만드는 이야기입니다.",
         "visual": "hook",
-        "duration": 6.57
+        "duration": 6.29
       },
       {
         "id": "intro",
         "role": "narrator",
         "text": "Anthropic 창립자이자 Claude AI를 만든 다리오 아모데이. AI 안전 연구의 최전선에 선 그가 가장 두려워하는 것은 기술이 아니라 역사의 반복입니다.",
         "visual": "intro",
-        "duration": 11.53
+        "duration": 12.45
       },
       {
         "id": "celeb-mid",
         "role": "celeb",
         "text": "AI가 인류를 종으로서 시험할 것이다. 위험을 직시하는 이유는 그 너머의 미래가 근본적으로 좋기 때문이다.",
         "visual": "intro",
-        "duration": 8.81
+        "duration": 9.05
       },
       {
         "id": "book-context",
         "role": "narrator",
         "text": "다리오 아모데이는 리처드 로즈의 원자 폭탄 만들기를 필독서로 꼽았습니다. 소수의 과학자가 세계를 근본적으로 바꿀 기술을 개발하는 이야기가 현재 AI 개발의 상황과 정확히 겹치기 때문입니다. 맨해튼 프로젝트의 과학자들이 느꼈던 흥분과 공포, 그 이중성이 지금 AI 연구자들의 현실입니다.",
         "visual": "book",
-        "duration": 23.29
+        "duration": 23.93
       },
       {
         "id": "celeb-end",
         "role": "celeb",
         "text": "인류가 곧 상상 불가한 힘을 쥐게 된다. 준비가 필요하다. 나의 서재가 더 궁금하다면, 프로필을 확인해보라.",
         "visual": "cta",
-        "duration": 9.81
+        "duration": 9.25
       }
     ]
   },
@@ -43,13 +43,13 @@
     "serviceGreeting": "feelandnote 서재 탐방 코너에서는 한 인물의 서재를 열어, 그들이 사랑한 것들과 그 이유를 소개합니다.",
     "serviceGreetingDuration": 7.41,
     "serviceIntro": "오늘 함께할 인물은 다리오 아모데이입니다.",
-    "serviceIntroDuration": 3.33,
+    "serviceIntroDuration": 2.93,
     "celebIntro": "다리오 아모데이. 미국의 AI 연구자이자 기업가이다. OpenAI 연구 부사장을 거쳐 2021년 Anthropic을 공동 창립하여 Claude AI를 개발했다. AI 안전 연구의 최전선에 서 있는 인물이다.",
-    "celebIntroDuration": 16.21,
+    "celebIntroDuration": 18.73,
     "bridge": "이제 그의 서재를 열어보겠습니다.",
     "bridgeDuration": 3.27,
     "outro": "이상으로 다리오 아모데이의 사고를 형성한 5권의 책이었습니다. 핵폭탄의 역사에서 AI의 미래를 읽고, 철학에서 거버넌스의 논리를 끌어오는 그의 더 깊은 이야기가 궁금하신가요? 지금 바로 Feel & Note에서 만나보세요.",
-    "outroDuration": 17.25,
+    "outroDuration": 17.53,
     "labelSummaryDuration": 1.08,
     "labelContextDuration": 1.69
   },
@@ -63,7 +63,7 @@
     "featuredQuote": "AI가 인류를 종으로서 시험할 것이다.",
     "featuredQuoteDuration": 3.93,
     "philosophy": "안녕하세요, 다리오 아모데이입니다. 저는 기술의 가장 위험한 순간을 역사에서 먼저 찾습니다. 원자 폭탄 만들기를 읽고 맨해튼 프로젝트가 지금의 AI 개발과 구조적으로 겹친다는 것을 깨달았습니다. 홉스의 리바이어던에서 질서를 설계해야 한다는 논리를 끌어와 AI 거버넌스에 적용했습니다. 기술 낙관론과 안전에 대한 경계를 동시에 유지하는 것, 그것이 제 독서의 일관된 축입니다.",
-    "voiceDuration": 31.17,
+    "voiceDuration": 30.49,
     "geminiVoice": "Sadaltager"
   },
   "books": [
@@ -72,9 +72,9 @@
       "creator": "리처드 로즈",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3247665/32476650495.20250508091328.jpg",
       "summary": "퓰리처상을 수상한 이 역사서는 맨해튼 프로젝트의 전 과정을 추적합니다. 소수의 과학자들이 세계를 근본적으로 바꿀 기술을 개발하는 과정, 그 기술이 가져온 윤리적 딜레마, 그리고 한번 열린 판도라의 상자를 다시 닫을 수 없다는 냉엄한 현실을 담고 있습니다. 오펜하이머를 비롯한 과학자들의 흥분과 공포가 교차하는 순간들이 생생하게 기록되어 있습니다.",
-      "summaryDuration": 24.37,
+      "summaryDuration": 25.85,
       "context": "다리오 아모데이는 에즈라 클라인과의 인터뷰에서 이 책을 필독서로 꼽았습니다. AI 연구자 세대 사이에서 이 책은 거의 성경처럼 취급된다고 그는 말했습니다. 소수의 과학자가 세계를 근본적으로 바꿀 기술을 개발하는 이야기가 현재 AI 개발의 상황과 정확히 겹치기 때문입니다. 그는 이 책을 기술 발전의 속도가 가져오는 위험을 경고하는 역사적 교본으로 참조하고 있습니다.",
-      "contextDuration": 28.33,
+      "contextDuration": 26.09,
       "directQuote": "AI 연구자들 사이에서 이 책은 거의 성경처럼 읽힌다.",
       "directQuoteSource": "에즈라 클라인 인터뷰",
       "quoteDuration": 4.53,
@@ -84,71 +84,71 @@
         "publishYear": "1986",
         "celebCount": 2
       },
-      "titleDuration": 4.97
+      "titleDuration": 4.93
     },
     {
       "title": "리바이어던",
       "creator": "토머스 홉스",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3247609/32476099082.20250403082553.jpg",
       "summary": "1651년에 출간된 이 정치철학서는 인간의 자연 상태를 만인의 만인에 대한 투쟁으로 규정합니다. 홉스는 이 혼란을 벗어나려면 개인이 자신의 자유 일부를 주권자에게 양도하는 사회계약이 필요하다고 주장합니다. 리바이어던이라는 거대한 괴물은 국가 권력의 상징으로, 질서를 유지하기 위해 필요한 중앙집권적 권위를 의미합니다. 자유와 질서 사이의 긴장, 그 균형점을 찾는 문제는 오늘날에도 유효합니다.",
-      "summaryDuration": 29.45,
+      "summaryDuration": 30.01,
       "context": "다리오 아모데이는 토머스 홉스를 자신이 가장 좋아하는 철학자로 꼽았습니다. 자연 상태의 혼란을 막기 위해 질서를 설계해야 한다는 홉스의 논리를, 그는 AI 안전성이라는 현대적 문제에 그대로 적용합니다. AI 시스템이 통제 없이 발전하면 디지털 자연 상태가 될 수 있다는 것이 그의 관점이며, Constitutional AI라는 개념, 즉 기계에 보편적 윤리 원칙을 가르치는 접근법의 철학적 뿌리가 여기에 있습니다.",
-      "contextDuration": 29.49,
+      "contextDuration": 30.13,
       "source": "AI Made Simple 인터뷰",
       "oneLiner": "AI 거버넌스의 철학적 뿌리",
       "stats": {
         "publishYear": "1651",
         "celebCount": 3
       },
-      "titleDuration": 5.41
+      "titleDuration": 5.49
     },
     {
       "title": "8월의 포성",
       "creator": "바바라 터크먼",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_4064132/40641326629.20230627103507.jpg",
       "summary": "퓰리처상 수상작인 이 역사서는 1914년 8월, 제1차 세계대전 발발 직전 한 달간의 사건을 추적합니다. 유럽의 지도자들이 어떻게 사소한 판단 착오의 연쇄로 걷잡을 수 없는 전쟁에 빠져들었는지를 생생하게 그립니다. 누구도 전면전을 원하지 않았지만, 동원 계획의 경직성과 소통의 실패가 자동으로 전쟁을 확대시켰습니다. 위기가 임계점을 넘으면 인간의 의지로 되돌릴 수 없다는 교훈을 남깁니다.",
-      "summaryDuration": 27.93,
+      "summaryDuration": 30.09,
       "context": "다리오 아모데이는 에즈라 클라인 인터뷰에서 이 책을 추천했습니다. 1914년 8월의 위기가 어떻게 걷잡을 수 없이 전개되었는지를 추적하며, AI의 급속한 발전이 그 예측 불가능성에서 닮았다고 그는 봅니다. 누구도 원하지 않았던 파국이 시스템의 관성에 의해 벌어진 역사가, AI 개발 경쟁의 가속화에 대한 경고로 읽힙니다.",
-      "contextDuration": 26.53,
+      "contextDuration": 24.57,
       "source": "에즈라 클라인 팟캐스트",
       "oneLiner": "예측 불가능한 연쇄 반응의 역사",
       "stats": {
         "publishYear": "1962",
         "celebCount": 3
       },
-      "titleDuration": 5.53
+      "titleDuration": 6.85
     },
     {
       "title": "개소리에 대하여",
       "creator": "해리 G. 프랭크퍼트",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_4179792/41797924619.20260128071449.jpg",
       "summary": "프린스턴 철학 교수 해리 프랭크퍼트가 쓴 이 짧은 철학 에세이는 거짓말과 개소리의 근본적 차이를 분석합니다. 거짓말쟁이는 진실을 알고 있으면서 의도적으로 속이지만, 개소리꾼은 진실 자체에 무관심합니다. 프랭크퍼트는 이 무관심이 거짓말보다 더 위험하다고 주장합니다. 진실에 대한 관심 자체가 사라지면, 진실과 거짓을 구별하려는 노력마저 무의미해지기 때문입니다.",
-      "summaryDuration": 29.89,
+      "summaryDuration": 26.97,
       "context": "다리오 아모데이는 에즈라 클라인과의 인터뷰에서 이 책을 읽었다고 밝혔습니다. 거짓말쟁이는 최소한 진실과 관계를 맺지만, 개소리꾼은 진실 자체에 무관심하다는 통찰에 깊이 공감했습니다. 그는 이것을 AI 모델의 환각 문제와 연결 지었습니다. AI 시스템이 사실에 무관심한 채 그럴듯한 답변을 생성하는 상황, 그것이 바로 프랭크퍼트가 경고한 개소리의 디지털 버전이라는 것입니다.",
-      "contextDuration": 33.01,
+      "contextDuration": 29.49,
       "source": "에즈라 클라인 팟캐스트",
       "oneLiner": "AI 환각은 디지털 개소리다",
       "stats": {
         "publishYear": "2005",
         "celebCount": 1
       },
-      "titleDuration": 4.89
+      "titleDuration": 4.65
     },
     {
       "title": "익스팬스",
       "creator": "제임스 S. A. 코리",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3250648/32506486837.20251231072812.jpg",
       "summary": "태양계 전체로 팽창한 인류가 지구, 화성, 소행성대로 나뉘어 정치적 갈등을 벌이는 SF 시리즈입니다. 외계 기술의 발견이 이 균형을 무너뜨리면서, 첨단 기술이 사회 구조에 미치는 충격을 탐구합니다. 기술 발전이 가져오는 기회와 위험이 공존하고, 한쪽만 취할 수 없다는 현실을 하드 SF의 형식으로 그려냅니다. 전 9권의 장대한 시리즈로, 아마존 프라임 드라마로도 제작되었습니다.",
-      "summaryDuration": 28.53,
+      "summaryDuration": 28.57,
       "context": "다리오 아모데이는 에즈라 클라인 인터뷰에서 이 SF 시리즈를 직접 추천했습니다. 첨단 기술이 사회 구조에 미치는 영향을 SF의 형식으로 탐구한 작품으로, 기술 낙관론과 현실적 위험 사이의 긴장을 사유하는 그의 취향이 드러납니다. AI가 사회에 미칠 구조적 영향을 생각할 때, 이런 SF적 상상력이 도움이 된다는 것이 그의 관점입니다.",
-      "contextDuration": 25.13,
+      "contextDuration": 26.33,
       "source": "에즈라 클라인 팟캐스트",
       "oneLiner": "기술이 사회를 바꾸는 SF적 상상",
       "stats": {
         "publishYear": "2011",
         "celebCount": 1
       },
-      "titleDuration": 4.81
+      "titleDuration": 5.33
     }
   ],
   "tts": {
@@ -186,14 +186,410 @@
     ]
   },
   "voiceTimings": {
-    "service-greeting": [
+    "A1-service-greeting": [
       {
         "start": 0,
-        "end": 4.56
+        "end": 4.28
       },
       {
-        "start": 4.56,
+        "start": 4.28,
         "end": 7.411
+      }
+    ],
+    "A2-service-intro": [
+      {
+        "start": 0,
+        "end": 2.931
+      }
+    ],
+    "B1-celeb-intro": [
+      {
+        "start": 0,
+        "end": 1.5
+      },
+      {
+        "start": 1.5,
+        "end": 5.08
+      },
+      {
+        "start": 5.08,
+        "end": 14
+      },
+      {
+        "start": 14,
+        "end": 18.731
+      }
+    ],
+    "B2-philosophy": [
+      {
+        "start": 0,
+        "end": 0.9
+      },
+      {
+        "start": 0.9,
+        "end": 2.58
+      },
+      {
+        "start": 2.58,
+        "end": 7.58
+      },
+      {
+        "start": 7.58,
+        "end": 15.84
+      },
+      {
+        "start": 15.84,
+        "end": 23.22
+      },
+      {
+        "start": 23.22,
+        "end": 27.76
+      },
+      {
+        "start": 27.76,
+        "end": 30.491
+      }
+    ],
+    "E1-outro": [
+      {
+        "start": 0,
+        "end": 5.06
+      },
+      {
+        "start": 5.06,
+        "end": 8.76
+      },
+      {
+        "start": 8.76,
+        "end": 14.16
+      },
+      {
+        "start": 14.16,
+        "end": 17.531
+      }
+    ],
+    "D01b-summary": [
+      {
+        "start": 0,
+        "end": 4.9
+      },
+      {
+        "start": 4.9,
+        "end": 10.02
+      },
+      {
+        "start": 10.02,
+        "end": 12.8
+      },
+      {
+        "start": 12.8,
+        "end": 18.82
+      },
+      {
+        "start": 18.82,
+        "end": 25.851
+      }
+    ],
+    "D01c-context": [
+      {
+        "start": 0,
+        "end": 5.18
+      },
+      {
+        "start": 5.18,
+        "end": 10.94
+      },
+      {
+        "start": 10.94,
+        "end": 19.2
+      },
+      {
+        "start": 19.2,
+        "end": 26.091
+      }
+    ],
+    "D01d-quote": [
+      {
+        "start": 0,
+        "end": 4.531
+      }
+    ],
+    "D02b-summary": [
+      {
+        "start": 0,
+        "end": 7.54
+      },
+      {
+        "start": 7.54,
+        "end": 15.72
+      },
+      {
+        "start": 15.72,
+        "end": 20.08
+      },
+      {
+        "start": 20.08,
+        "end": 24.02
+      },
+      {
+        "start": 24.02,
+        "end": 26.54
+      },
+      {
+        "start": 26.54,
+        "end": 30.011
+      }
+    ],
+    "D02c-context": [
+      {
+        "start": 0,
+        "end": 5.18
+      },
+      {
+        "start": 5.18,
+        "end": 10.42
+      },
+      {
+        "start": 10.42,
+        "end": 14.98
+      },
+      {
+        "start": 14.98,
+        "end": 21.7
+      },
+      {
+        "start": 21.7,
+        "end": 24.16
+      },
+      {
+        "start": 24.16,
+        "end": 30.131
+      }
+    ],
+    "D03b-summary": [
+      {
+        "start": 0,
+        "end": 4.28
+      },
+      {
+        "start": 4.28,
+        "end": 8.24
+      },
+      {
+        "start": 8.24,
+        "end": 16.26
+      },
+      {
+        "start": 16.26,
+        "end": 19.16
+      },
+      {
+        "start": 19.16,
+        "end": 24.28
+      },
+      {
+        "start": 24.28,
+        "end": 30.091
+      }
+    ],
+    "D03c-context": [
+      {
+        "start": 0,
+        "end": 4.66
+      },
+      {
+        "start": 4.66,
+        "end": 10.8
+      },
+      {
+        "start": 10.8,
+        "end": 15.94
+      },
+      {
+        "start": 15.94,
+        "end": 20.86
+      },
+      {
+        "start": 20.86,
+        "end": 24.571
+      }
+    ],
+    "D04b-summary": [
+      {
+        "start": 0,
+        "end": 7.94
+      },
+      {
+        "start": 7.94,
+        "end": 12.2
+      },
+      {
+        "start": 12.2,
+        "end": 15.1
+      },
+      {
+        "start": 15.1,
+        "end": 19.88
+      },
+      {
+        "start": 19.88,
+        "end": 22.76
+      },
+      {
+        "start": 22.76,
+        "end": 26.971
+      }
+    ],
+    "D04c-context": [
+      {
+        "start": 0,
+        "end": 5.34
+      },
+      {
+        "start": 5.34,
+        "end": 9.44
+      },
+      {
+        "start": 9.44,
+        "end": 14.54
+      },
+      {
+        "start": 14.54,
+        "end": 18.9
+      },
+      {
+        "start": 18.9,
+        "end": 24.18
+      },
+      {
+        "start": 24.18,
+        "end": 29.491
+      }
+    ],
+    "D05b-summary": [
+      {
+        "start": 0,
+        "end": 2.38
+      },
+      {
+        "start": 2.38,
+        "end": 3.12
+      },
+      {
+        "start": 3.12,
+        "end": 8
+      },
+      {
+        "start": 8,
+        "end": 11.72
+      },
+      {
+        "start": 11.72,
+        "end": 15.18
+      },
+      {
+        "start": 15.18,
+        "end": 18.98
+      },
+      {
+        "start": 18.98,
+        "end": 23.38
+      },
+      {
+        "start": 23.38,
+        "end": 25.98
+      },
+      {
+        "start": 25.98,
+        "end": 28.571
+      }
+    ],
+    "D05c-context": [
+      {
+        "start": 0,
+        "end": 6.1
+      },
+      {
+        "start": 6.1,
+        "end": 12.18
+      },
+      {
+        "start": 12.18,
+        "end": 17.7
+      },
+      {
+        "start": 17.7,
+        "end": 21.88
+      },
+      {
+        "start": 21.88,
+        "end": 26.331
+      }
+    ],
+    "S01-hook": [
+      {
+        "start": 0,
+        "end": 3.98
+      },
+      {
+        "start": 3.98,
+        "end": 6.291
+      }
+    ],
+    "S02-intro": [
+      {
+        "start": 0,
+        "end": 4.66
+      },
+      {
+        "start": 4.66,
+        "end": 12.451
+      }
+    ],
+    "S03-celeb-mid": [
+      {
+        "start": 0,
+        "end": 3.2
+      },
+      {
+        "start": 3.2,
+        "end": 9.051
+      }
+    ],
+    "S04-book-context": [
+      {
+        "start": 0,
+        "end": 5.7
+      },
+      {
+        "start": 5.7,
+        "end": 15.02
+      },
+      {
+        "start": 15.02,
+        "end": 19.66
+      },
+      {
+        "start": 19.66,
+        "end": 23.931
+      }
+    ],
+    "S05-celeb-end": [
+      {
+        "start": 0,
+        "end": 3.56
+      },
+      {
+        "start": 3.56,
+        "end": 5.08
+      },
+      {
+        "start": 5.08,
+        "end": 7.66
+      },
+      {
+        "start": 7.66,
+        "end": 9.251
       }
     ]
   }

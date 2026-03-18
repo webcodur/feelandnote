@@ -1,14 +1,16 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import { FONT } from './fonts'
-import { BrandLogo } from './utils'
-import { f } from './timing'
+import { FONT } from '../fonts'
+import { BrandLogo } from '../utils'
+import { f } from '../timing'
 
 type Props = {
   durationFrames: number
+  locale?: 'ko' | 'en'
 }
 
 /** Section 0: 브랜드 로고 + 차임 SFX */
-export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
+export const BrandIntro: React.FC<Props> = ({ durationFrames, locale }) => {
+  const taglineText = locale === 'en' ? 'One Line of Record, A Millennium of Echoes' : '한 줄의 기록, 천 년의 울림'
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
@@ -52,7 +54,7 @@ export const BrandIntro: React.FC<Props> = ({ durationFrames }) => {
           letterSpacing: 6,
         }}
       >
-        한 줄의 기록, 천 년의 울림
+        {taglineText}
       </div>
     </div>
   )

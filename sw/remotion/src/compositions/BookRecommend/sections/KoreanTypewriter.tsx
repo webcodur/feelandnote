@@ -1,5 +1,5 @@
 import { interpolate, useCurrentFrame } from 'remotion'
-import { f, FPS } from './timing'
+import { f, FPS } from '../timing'
 
 type Segment = { start: number; end: number }
 
@@ -31,15 +31,22 @@ export const KoreanTypewriter: React.FC<Props> = ({
 
   const sentences = text.split(/(?<=[.?!,])\s+/).filter(Boolean)
 
-  // timings가 있고 문장 수와 일치하면 파형 타이밍 사용
+  // timings가 있고 문장 수와 일치하면 하이라이트 활성화
   const hasTimings = timings && timings.length === sentences.length
 
-  const ranges = hasTimings
-    ? timings!.map(t => ({
-        start: Math.round(t.start * FPS),
-        end: Math.round(t.end * FPS),
-      }))
-    : buildFromChars(sentences, spreadFrames)
+  // timings 없으면 빨간색으로 경고 표시 — /voice-sync 필요
+  if (!hasTimings) {
+    return (
+      <div style={{ fontSize, fontFamily: 'inherit', lineHeight: 1.7, whiteSpace: 'pre-wrap', color: '#ff3333', ...style }}>
+        {text}
+      </div>
+    )
+  }
+
+  const ranges = timings!.map(t => ({
+    start: Math.round(t.start * FPS),
+    end: Math.round(t.end * FPS),
+  }))
 
   return (
     <div
@@ -53,7 +60,6 @@ export const KoreanTypewriter: React.FC<Props> = ({
     >
       {sentences.map((sentence, i) => {
         const r = ranges[Math.min(i, ranges.length - 1)]
-        // 단조 증가 보장: duration 짧을 때 r.end가 r.start+1 이하가 될 수 있음
         const s0 = r.start
         const s1 = s0 + 1
         const s2 = Math.max(r.end, s1 + 1)
@@ -72,21 +78,4 @@ export const KoreanTypewriter: React.FC<Props> = ({
       })}
     </div>
   )
-}
-
-/** 글자 수 비례 폴백 */
-function buildFromChars(sentences: string[], spreadFrames: number): { start: number; end: number }[] {
-  const BREATH = f(0.27)
-  const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
-  const breathTotal = (sentences.length - 1) * BREATH
-  const distributable = Math.max(spreadFrames - breathTotal, spreadFrames * 0.7)
-
-  let cursor = 0
-  return sentences.map((s, i) => {
-    if (i > 0) cursor += BREATH
-    const frames = Math.max(1, Math.round((s.length / totalChars) * distributable))
-    const start = cursor
-    cursor += frames
-    return { start, end: start + frames }
-  })
 }

@@ -10,8 +10,8 @@ export const FPS = 60
 /** 초 → 프레임 변환 (애니메이션용, 버퍼 없음) */
 export const f = (sec: number) => Math.round(sec * FPS)
 
-/** 섹션 프레임 (오디오 + 0.5초 버퍼). 타이밍 배치용. */
-export const toFrames = (sec: number) => Math.ceil(sec * FPS) + Math.round(0.5 * FPS)
+/** 섹션 프레임 (오디오 + 1.5초 버퍼). 타이밍 배치용. fadeOut(1초) + 여운(0.5초). */
+export const toFrames = (sec: number) => Math.ceil(sec * FPS) + Math.round(1.5 * FPS)
 /** 순수 오디오 프레임 (버퍼 없음). 자막·하이라이트 분배용. */
 export const toAudioFrames = (sec: number) => Math.ceil(sec * FPS)
 

@@ -1,14 +1,14 @@
 import { useMemo } from 'react'
 import { interpolate, useCurrentFrame } from 'remotion'
-import { FONT } from './fonts'
-import { BrandLogo } from './utils'
-import type { BookRecommendScript } from './types'
+import { FONT } from '../fonts'
+import { BrandLogo } from '../utils'
+import type { BookRecommendScript } from '../types'
 import {
   toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
   BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, bookTotalFrames,
   CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, OUTRO_FALLBACK, RETURN_INTRO_FALLBACK, PREV_RECAP_FALLBACK, f,
-} from './timing'
-import { isContinuation } from './script'
+} from '../timing'
+import { isContinuation } from '../script'
 
 type Section = { start: number; end: number; label: string }
 

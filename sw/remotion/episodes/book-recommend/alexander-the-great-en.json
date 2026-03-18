@@ -1,0 +1,772 @@
+{
+  "locale": "en",
+  "shorts": {
+    "featuredBookIndex": 0,
+    "segments": [
+      {
+        "id": "hook",
+        "role": "narrator",
+        "text": "What was the book Alexander the Great kept under his pillow on every battlefield?",
+        "visual": "hook",
+        "duration": 4.89
+      },
+      {
+        "id": "intro",
+        "role": "narrator",
+        "text": "He ascended the throne at twenty and conquered from Greece to India — the greatest conqueror in history. Through years of relentless campaigning, he never marched without his books.",
+        "visual": "intro",
+        "duration": 12.25
+      },
+      {
+        "id": "celeb-mid",
+        "role": "celeb",
+        "text": "When I opened the Iliad, Achilles stood beside me. On the nights before battle, it was not my armor that kept me — it was the story.",
+        "visual": "intro",
+        "duration": 9.57
+      },
+      {
+        "id": "book-context",
+        "role": "narrator",
+        "text": "That book was Homer's Iliad. Alexander carried a personal copy annotated by his tutor Aristotle throughout his entire campaign. At the ruins of Troy, he laid a wreath at the tomb of Achilles. At the plains of Gaugamela, he charged at the head of his wedge formation, writing his own epic in blood and glory.",
+        "visual": "book",
+        "duration": 21.33
+      },
+      {
+        "id": "celeb-end",
+        "role": "celeb",
+        "text": "A hero's path begins on the battlefield, but his legend is completed in the pages of a book. If you want to know more, open my library.",
+        "visual": "cta",
+        "duration": 9.73
+      }
+    ]
+  },
+  "narrator": {
+    "serviceGreeting": "Welcome to the Feelandnote Library Tour, where we open the personal libraries of remarkable figures and explore the works they loved — and why.",
+    "serviceGreetingDuration": 10.01,
+    "serviceIntro": "Today's guest is Alexander the Great.",
+    "serviceIntroDuration": 3.01,
+    "celebIntro": "Alexander III of Macedon — known as Alexander the Great — was king of the ancient Macedonian empire and the most formidable conqueror in recorded history. Ascending the throne at twenty, he forged a vast empire stretching from Greece to India, and his spread of Hellenistic culture left an indelible mark on civilization.",
+    "celebIntroDuration": 22.05,
+    "bridge": "Now, let us open his library.",
+    "bridgeDuration": 0,
+    "outro": "Those were the eight books that accompanied Alexander the Great across his battlefields. Curious about the deeper story of the conqueror who wielded a sword in one hand and a book in the other, twenty-four centuries ago? Discover more on Feel & Note.",
+    "outroDuration": 14.37,
+    "labelSummaryDuration": 1.05,
+    "labelContextDuration": 2.21
+  },
+  "host": {
+    "nickname": "Alexander the Great",
+    "nickname_en": "Alexander the Great",
+    "speech_tone": "bold",
+    "avatar_url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/deb5a570-a009-410d-9436-77180a85a058/avatar.webp?v=1771993325509",
+    "bio": "King of the ancient Macedonian empire. A conqueror who built a vast domain stretching from Greece to India. His extraordinary military genius and the spread of Hellenistic culture left a profound impact on human history.",
+    "title": "King of Macedon",
+    "featuredQuote": "He who conquers his fear shall conquer the world itself.",
+    "featuredQuoteDuration": 4.85,
+    "philosophy": "I am Alexander, King of Macedon. The Iliad awakened the spirit of the hero within me, and the wisdom of history gave me the blade to pierce the heart of empires. On blood-soaked battlefields I recited tragedy, and before poets I sheathed my sword. Through the endless exhaustion of campaign, literature was the supply line of my soul.",
+    "voiceDuration": 20.45,
+    "elevenlabsVoiceId": "fwqtAs9QU9ofCr73fEXE"
+  },
+  "books": [
+    {
+      "title": "The Iliad",
+      "creator": "Homer",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/12621988-L.jpg",
+      "summary": "An epic poem by Homer from the 8th century BC. It chronicles the final year of the ten-year war between the Greek coalition and Troy. When the greatest warrior Achilles withdraws from battle after a feud with Commander Agamemnon, the death of his companion Patroclus drives him back to the field in a storm of rage and grief. It is the wellspring of Western literature — a song of war's glory and tragedy, of honor and fate.",
+      "summaryDuration": 29.41,
+      "context": "Alexander the Great slept with a copy of the Iliad — personally annotated by his tutor Aristotle — tucked beneath his pillow alongside a dagger. He called it a treasury of all military virtue. After launching his Persian campaign, his first detour was to Troy, where he laid a wreath at the tomb of Achilles.",
+      "contextDuration": 19.73,
+      "contextAfter": "After conquering Persia, Alexander stored this manuscript in a jeweled casket seized from Darius III. He chose the Iliad as the one treasure worthy of the most precious chest in the world.",
+      "contextAfterDuration": 12.05,
+      "directQuote": "Achilles was truly blessed — in life he had a loyal companion, and in death he found a great poet to sing of his deeds.",
+      "directQuoteSource": "Plutarch, Life of Alexander",
+      "quoteDuration": 8.53,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "A warrior's manual and a hero's epic",
+      "stats": {
+        "publishYear": "8th century BC"
+      },
+      "titleDuration": 2.21
+    },
+    {
+      "title": "The Odyssey",
+      "creator": "Homer",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/12474938-L.jpg",
+      "summary": "The sequel to the Iliad. After the fall of Troy, the cunning hero Odysseus embarks on a decade-long voyage home to Ithaca. From the cave of the Cyclops to the song of the Sirens and a descent into the underworld, this mythic odyssey celebrates human wisdom, endurance, and the meaning of homecoming.",
+      "summaryDuration": 22.61,
+      "context": "When Alexander set out to found a new city in Egypt, legend holds that Homer appeared to him in a dream and recited a passage from the Odyssey, inspiring him to choose the site of Alexandria. Alexander praised Homer's poetry for guiding him to the perfect location for his city.",
+      "contextDuration": 18.01,
+      "directQuote": "Homer's verse led me to the perfect site for my city.",
+      "directQuoteSource": "Plutarch, Life of Alexander",
+      "quoteDuration": 3.81,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "A hero's return, a city's birth",
+      "stats": {
+        "publishYear": "8th century BC"
+      },
+      "titleDuration": 2.13
+    },
+    {
+      "title": "Cyropaedia",
+      "creator": "Xenophon",
+      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1347369872i/809164.jpg",
+      "summary": "Written by Xenophon, this work chronicles the life of Cyrus the Great, founder of the Persian Empire. More political philosophy than strict history, it projects the virtues of an ideal ruler onto the figure of Cyrus — his valor in battle, his wisdom in governance, his generosity toward soldiers, and his firmness against enemies.",
+      "summaryDuration": 20.97,
+      "context": "Alexander read this book from childhood and deeply admired Cyrus the Great. That admiration revealed itself after his conquest of Persia. When Alexander visited the tomb of Cyrus at Pasargadae and discovered that guards had desecrated the burial chamber, he ordered their immediate execution and commanded the tomb's full restoration.",
+      "contextDuration": 21.57,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "The conqueror who modeled himself on a conqueror",
+      "stats": {
+        "publishYear": "c. 370 BC"
+      },
+      "titleDuration": 2.77
+    },
+    {
+      "title": "Anabasis",
+      "creator": "Xenophon",
+      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1355108180i/15925337.jpg",
+      "summary": "A firsthand account of ten thousand Greek mercenaries who joined the rebellion of Cyrus the Younger in 401 BC. After marching deep into Persia and losing their commanders to treachery, they fought their way back through hostile territory. Written by Xenophon himself, it is rich in tactical detail — terrain, logistics, and battlefield strategy.",
+      "summaryDuration": 20.25,
+      "context": "This book served as Alexander's practical military guide for his Persian campaign. No Macedonian had ever penetrated so deep into Asia — only Xenophon had mapped the route. Alexander studied Mesopotamian geography, Persian military tactics, and logistics in hostile territory from these very pages.",
+      "contextDuration": 20.61,
+      "source": "Robin Lane Fox, Alexander the Great",
+      "oneLiner": "The field manual for conquest",
+      "stats": {
+        "publishYear": "c. 370 BC"
+      },
+      "titleDuration": 2.41
+    },
+    {
+      "title": "Ancient Greek Lyric Poetry",
+      "creator": "Pindar et al.",
+      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1576620078i/49340473.jpg",
+      "summary": "An anthology of ancient Greek lyric poets, including Pindar's victory odes, Sappho's love poems, and Alcaeus's war songs. Pindar's odes, composed for Olympic champions, are choral hymns celebrating heroic ideals — the pinnacle of classical Greek literature.",
+      "summaryDuration": 17.81,
+      "context": "In 335 BC, when Alexander crushed the Theban revolt and razed the city, he gave a single order of preservation: spare the temples, the house of Pindar, and his descendants. Pindar had once written odes praising Alexander's ancestors. He burned a city to the ground — yet spared a poet's home.",
+      "contextDuration": 21.69,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "The conqueror who spared a poet's house",
+      "stats": {
+        "publishYear": "5th century BC"
+      },
+      "titleDuration": 3.61
+    },
+    {
+      "title": "The Tragedies of Aeschylus",
+      "creator": "Aeschylus",
+      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1628464384i/1519.jpg",
+      "summary": "The collected works of Aeschylus, the father of tragedy. Among his seven surviving plays, The Persians stands out — the only extant war tragedy depicting the defeat at Salamis from the Persian court's perspective.",
+      "summaryDuration": 13.77,
+      "context": "When books ran short during the Persian campaign, Alexander requested fresh supplies from his treasurer Harpalus — and Aeschylus was among them. A play about Greece's victory over Persia must have held special resonance for a man who was marching to conquer Persia himself.",
+      "contextDuration": 16.25,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "A Persian tragedy, read by Persia's conqueror",
+      "stats": {
+        "publishYear": "472 BC"
+      },
+      "titleDuration": 3.97
+    },
+    {
+      "title": "The Tragedies of Sophocles",
+      "creator": "Sophocles",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/7836638-L.jpg",
+      "summary": "Tragedies exploring the collision between fate and human will. Oedipus Rex, Antigone, Electra — Sophocles paints the heroic defiance of mortals confronting inescapable destiny. He is hailed as the master of tragic irony.",
+      "summaryDuration": 16.37,
+      "context": "Another work Alexander received from his treasurer Harpalus during the inland campaign. He had complete sets of tragedies shipped to the front lines — proof that he regarded literature as essential supply, as vital as grain or weapons.",
+      "contextDuration": 14.93,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "Heroes who defied fate itself",
+      "stats": {
+        "publishYear": "5th century BC"
+      },
+      "titleDuration": 3.61
+    },
+    {
+      "title": "The Tragedies of Euripides",
+      "creator": "Euripides",
+      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1179337642i/904844.jpg",
+      "summary": "The works of Euripides, celebrated for his penetrating psychological insight and vivid portrayal of women. Medea, The Bacchae, and other plays reinterpret traditional myths through a profoundly human lens. He was the most popular tragedian of Alexander's era.",
+      "summaryDuration": 17.13,
+      "context": "Also shipped from Harpalus during the campaign. As the most popular tragedian of the age, Euripides offered a human perspective on ancient myth — insight that would have served a king seeking to understand the people he ruled.",
+      "contextDuration": 13.57,
+      "source": "Plutarch, Life of Alexander",
+      "oneLiner": "The era's greatest voice of tragedy",
+      "stats": {
+        "publishYear": "5th century BC"
+      },
+      "titleDuration": 3.53
+    }
+  ],
+  "voiceTimings": {
+    "A1-service-greeting": [
+      {
+        "start": 0,
+        "end": 2.96
+      },
+      {
+        "start": 2.96,
+        "end": 10.011
+      }
+    ],
+    "A2-service-intro": [
+      {
+        "start": 0,
+        "end": 3.011
+      }
+    ],
+    "B1-celeb-intro": [
+      {
+        "start": 0,
+        "end": 10.44
+      },
+      {
+        "start": 10.44,
+        "end": 12.52
+      },
+      {
+        "start": 12.52,
+        "end": 16.56
+      },
+      {
+        "start": 16.56,
+        "end": 22.051
+      }
+    ],
+    "B2-philosophy": [
+      {
+        "start": 0,
+        "end": 0.938
+      },
+      {
+        "start": 0.938,
+        "end": 1.72
+      },
+      {
+        "start": 1.72,
+        "end": 3.42
+      },
+      {
+        "start": 3.42,
+        "end": 9.44
+      },
+      {
+        "start": 9.44,
+        "end": 12.9
+      },
+      {
+        "start": 12.9,
+        "end": 17.04
+      },
+      {
+        "start": 17.04,
+        "end": 18.72
+      },
+      {
+        "start": 18.72,
+        "end": 20.451
+      }
+    ],
+    "E1-outro": [
+      {
+        "start": 0,
+        "end": 4.76
+      },
+      {
+        "start": 4.76,
+        "end": 11.92
+      },
+      {
+        "start": 11.92,
+        "end": 12.26
+      },
+      {
+        "start": 12.26,
+        "end": 14.371
+      }
+    ],
+    "D01b-summary": [
+      {
+        "start": 0,
+        "end": 3.72
+      },
+      {
+        "start": 3.72,
+        "end": 9.3
+      },
+      {
+        "start": 9.3,
+        "end": 15.16
+      },
+      {
+        "start": 15.16,
+        "end": 21.62
+      },
+      {
+        "start": 21.62,
+        "end": 27.6
+      },
+      {
+        "start": 27.6,
+        "end": 29.411
+      }
+    ],
+    "D01c-context": [
+      {
+        "start": 0,
+        "end": 8.74
+      },
+      {
+        "start": 8.74,
+        "end": 12.28
+      },
+      {
+        "start": 12.28,
+        "end": 14.96
+      },
+      {
+        "start": 14.96,
+        "end": 16.96
+      },
+      {
+        "start": 16.96,
+        "end": 19.731
+      }
+    ],
+    "D01d-quote": [
+      {
+        "start": 0,
+        "end": 4.54
+      },
+      {
+        "start": 4.54,
+        "end": 8.531
+      }
+    ],
+    "D01e-context-after": [
+      {
+        "start": 0,
+        "end": 1.58
+      },
+      {
+        "start": 1.58,
+        "end": 6.48
+      },
+      {
+        "start": 6.48,
+        "end": 12.051
+      }
+    ],
+    "D02b-summary": [
+      {
+        "start": 0,
+        "end": 2.06
+      },
+      {
+        "start": 2.06,
+        "end": 3.94
+      },
+      {
+        "start": 3.94,
+        "end": 9.4
+      },
+      {
+        "start": 9.4,
+        "end": 15.44
+      },
+      {
+        "start": 15.44,
+        "end": 19.24
+      },
+      {
+        "start": 19.24,
+        "end": 20.28
+      },
+      {
+        "start": 20.28,
+        "end": 22.611
+      }
+    ],
+    "D02c-context": [
+      {
+        "start": 0,
+        "end": 3.406
+      },
+      {
+        "start": 3.406,
+        "end": 12.24
+      },
+      {
+        "start": 12.24,
+        "end": 12.378
+      },
+      {
+        "start": 12.378,
+        "end": 18.011
+      }
+    ],
+    "D02d-quote": [
+      {
+        "start": 0,
+        "end": 3.811
+      }
+    ],
+    "D03b-summary": [
+      {
+        "start": 0,
+        "end": 0
+      },
+      {
+        "start": 0,
+        "end": 4.3
+      },
+      {
+        "start": 4.3,
+        "end": 6.14
+      },
+      {
+        "start": 6.14,
+        "end": 9.16
+      },
+      {
+        "start": 9.16,
+        "end": 15.08
+      },
+      {
+        "start": 15.08,
+        "end": 16.62
+      },
+      {
+        "start": 16.62,
+        "end": 18.66
+      },
+      {
+        "start": 18.66,
+        "end": 20.971
+      }
+    ],
+    "D03c-context": [
+      {
+        "start": 0,
+        "end": 4.82
+      },
+      {
+        "start": 4.82,
+        "end": 9.14
+      },
+      {
+        "start": 9.14,
+        "end": 16.16
+      },
+      {
+        "start": 16.16,
+        "end": 21.571
+      }
+    ],
+    "D04b-summary": [
+      {
+        "start": 0,
+        "end": 6.3
+      },
+      {
+        "start": 6.3,
+        "end": 10.34
+      },
+      {
+        "start": 10.34,
+        "end": 12.94
+      },
+      {
+        "start": 12.94,
+        "end": 15.08
+      },
+      {
+        "start": 15.08,
+        "end": 17.1
+      },
+      {
+        "start": 17.1,
+        "end": 18
+      },
+      {
+        "start": 18,
+        "end": 20.251
+      }
+    ],
+    "D04c-context": [
+      {
+        "start": 0,
+        "end": 5.08
+      },
+      {
+        "start": 5.08,
+        "end": 11.12
+      },
+      {
+        "start": 11.12,
+        "end": 14.48
+      },
+      {
+        "start": 14.48,
+        "end": 16.48
+      },
+      {
+        "start": 16.48,
+        "end": 20.611
+      }
+    ],
+    "D05b-summary": [
+      {
+        "start": 0,
+        "end": 2.8
+      },
+      {
+        "start": 2.8,
+        "end": 4.84
+      },
+      {
+        "start": 4.84,
+        "end": 6.42
+      },
+      {
+        "start": 6.42,
+        "end": 8.26
+      },
+      {
+        "start": 8.26,
+        "end": 9.92
+      },
+      {
+        "start": 9.92,
+        "end": 11.78
+      },
+      {
+        "start": 11.78,
+        "end": 17.811
+      }
+    ],
+    "D05c-context": [
+      {
+        "start": 0,
+        "end": 0
+      },
+      {
+        "start": 0,
+        "end": 5.88
+      },
+      {
+        "start": 5.88,
+        "end": 9.96
+      },
+      {
+        "start": 9.96,
+        "end": 11.36
+      },
+      {
+        "start": 11.36,
+        "end": 12.78
+      },
+      {
+        "start": 12.78,
+        "end": 17.02
+      },
+      {
+        "start": 17.02,
+        "end": 21.691
+      }
+    ],
+    "D06b-summary": [
+      {
+        "start": 0,
+        "end": 1.98
+      },
+      {
+        "start": 1.98,
+        "end": 3.46
+      },
+      {
+        "start": 3.46,
+        "end": 6.02
+      },
+      {
+        "start": 6.02,
+        "end": 13.771
+      }
+    ],
+    "D06c-context": [
+      {
+        "start": 0,
+        "end": 2.8
+      },
+      {
+        "start": 2.8,
+        "end": 8.48
+      },
+      {
+        "start": 8.48,
+        "end": 16.251
+      }
+    ],
+    "D07b-summary": [
+      {
+        "start": 0,
+        "end": 3.8
+      },
+      {
+        "start": 3.8,
+        "end": 5.32
+      },
+      {
+        "start": 5.32,
+        "end": 6.32
+      },
+      {
+        "start": 6.32,
+        "end": 12.82
+      },
+      {
+        "start": 12.82,
+        "end": 16.371
+      }
+    ],
+    "D07c-context": [
+      {
+        "start": 0,
+        "end": 5.02
+      },
+      {
+        "start": 5.02,
+        "end": 12.2
+      },
+      {
+        "start": 12.2,
+        "end": 14.931
+      }
+    ],
+    "D08b-summary": [
+      {
+        "start": 0,
+        "end": 0
+      },
+      {
+        "start": 0,
+        "end": 6.3
+      },
+      {
+        "start": 6.3,
+        "end": 7.42
+      },
+      {
+        "start": 7.42,
+        "end": 9.3
+      },
+      {
+        "start": 9.3,
+        "end": 13.34
+      },
+      {
+        "start": 13.34,
+        "end": 17.131
+      }
+    ],
+    "D08c-context": [
+      {
+        "start": 0,
+        "end": 2.64
+      },
+      {
+        "start": 2.64,
+        "end": 5.72
+      },
+      {
+        "start": 5.72,
+        "end": 13.571
+      }
+    ],
+    "S01-hook": [
+      {
+        "start": 0,
+        "end": 4.891
+      }
+    ],
+    "S02-intro": [
+      {
+        "start": 0,
+        "end": 6.82
+      },
+      {
+        "start": 6.82,
+        "end": 9.86
+      },
+      {
+        "start": 9.86,
+        "end": 12.251
+      }
+    ],
+    "S03-celeb-mid": [
+      {
+        "start": 0,
+        "end": 1.76
+      },
+      {
+        "start": 1.76,
+        "end": 3.72
+      },
+      {
+        "start": 3.72,
+        "end": 5.82
+      },
+      {
+        "start": 5.82,
+        "end": 9.571
+      }
+    ],
+    "S04-book-context": [
+      {
+        "start": 0,
+        "end": 2.52
+      },
+      {
+        "start": 2.52,
+        "end": 9.06
+      },
+      {
+        "start": 9.06,
+        "end": 11.04
+      },
+      {
+        "start": 11.04,
+        "end": 13.32
+      },
+      {
+        "start": 13.32,
+        "end": 15.26
+      },
+      {
+        "start": 15.26,
+        "end": 17.86
+      },
+      {
+        "start": 17.86,
+        "end": 21.331
+      }
+    ],
+    "S05-celeb-end": [
+      {
+        "start": 0,
+        "end": 3.02
+      },
+      {
+        "start": 3.02,
+        "end": 6.58
+      },
+      {
+        "start": 6.58,
+        "end": 8.3
+      },
+      {
+        "start": 8.3,
+        "end": 9.731
+      }
+    ]
+  }
+}

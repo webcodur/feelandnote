@@ -2,22 +2,16 @@ import React from 'react'
 import { interpolate, staticFile } from 'remotion'
 import { FONT } from './fonts'
 import { f } from './timing'
+import { resolveVoiceRelPath } from './voice-names'
 
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
 export const sf = (path: string) => staticFile(path)
 
-/** 공통 음성 — 에피소드마다 동일하므로 common/ 에서 재사용 */
-const COMMON_FILES = new Set(['service-greeting.wav', 'label-summary.wav', 'label-context.wav'])
-
-/** 에피소드별 음성 경로 팩토리 */
-export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null) => {
+/** 에피소드별 음성 경로 팩토리 — resolveVoiceRelPath 단일원천 사용 */
+export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null, locale?: 'ko' | 'en') => {
   return (file: string) => {
-    if (COMMON_FILES.has(file)) return sf(`voice/common/${file}`)
-    if (voiceSelect) {
-      const engine = voiceSelect.slots?.[file] ?? voiceSelect.default
-      return sf(`voice/${epName}/${engine}/${file}`)
-    }
-    return sf(`voice/${epName}/${file}`)
+    const { dir, subPath } = resolveVoiceRelPath(file, voiceSelect, locale)
+    return dir === 'common' ? sf(`voice/common/${subPath}`) : sf(`voice/${epName}/${subPath}`)
   }
 }
 
@@ -65,35 +59,47 @@ type LogoProps = {
 }
 
 export const BrandLogo: React.FC<LogoProps> = ({ variant = 'full', fontSize, style }) => {
+  const ampGap = (sz: number) => Math.max(1, Math.round(sz * 0.06))
+
   if (variant === 'watermark') {
+    const sz = fontSize ?? 10
     return React.createElement('span', {
-      style: { color: '#c8a46e', fontSize: fontSize ?? 10, fontFamily: FONT.cinzel, letterSpacing: 3, ...style },
-    }, 'FEEL & NOTE')
+      style: { fontSize: sz, fontFamily: FONT.cinzel, letterSpacing: 3, display: 'inline-flex', alignItems: 'center', gap: ampGap(sz), ...style },
+    },
+      React.createElement('span', { style: { color: '#c8a46e' } }, 'FEEL'),
+      React.createElement('span', { style: { color: '#f8f4ed' } }, '&'),
+      React.createElement('span', { style: { color: '#c8a46e' } }, 'NOTE'),
+    )
   }
 
   if (variant === 'brand') {
+    const sz = fontSize ?? 52
     return React.createElement('div', {
-      style: { color: '#c8a46e', fontSize: fontSize ?? 52, fontWeight: 700, fontFamily: FONT.brand, letterSpacing: 8, ...style },
-    }, 'FEEL & NOTE')
+      style: { fontSize: sz, fontWeight: 700, fontFamily: FONT.brand, letterSpacing: 8, display: 'flex', alignItems: 'center', gap: ampGap(sz), ...style },
+    },
+      React.createElement('span', { style: { color: '#c8a46e' } }, 'FEEL'),
+      React.createElement('span', { style: { color: '#f8f4ed' } }, '&'),
+      React.createElement('span', { style: { color: '#c8a46e' } }, 'NOTE'),
+    )
   }
 
-  // full
+  // full — FEEL(white) & (gold) NOTE(white)
   const sz = fontSize ?? BRAND_LOGO_SIZE
   return React.createElement('div', {
     style: { display: 'flex', flexDirection: 'column' as const, alignItems: 'center', gap: Math.round(sz * 0.3), ...style },
   },
     React.createElement('div', {
-      style: { fontSize: sz, fontWeight: 600, fontFamily: FONT.cormorant, letterSpacing: Math.round(sz * 0.15), display: 'flex', alignItems: 'center' },
+      style: { fontSize: sz, fontWeight: 600, fontFamily: FONT.cormorant, letterSpacing: Math.round(sz * 0.15), display: 'flex', alignItems: 'center', gap: ampGap(sz) },
     },
       React.createElement('span', { style: { color: '#f8f4ed' } }, 'FEEL'),
-      React.createElement('span', { style: { color: '#d4a828', margin: `0 ${Math.round(sz * 0.25)}px` } }, '&'),
+      React.createElement('span', { style: { color: '#d4a828' } }, '&'),
       React.createElement('span', { style: { color: '#f8f4ed' } }, 'NOTE'),
     ),
     React.createElement('div', {
       style: { width: Math.round(sz * 2.8), height: 1, backgroundColor: '#d4a828', opacity: 0.5 },
     }),
     React.createElement('div', {
-      style: { color: '#999', fontSize: Math.round(sz * 0.55), fontFamily: FONT.cormorant, letterSpacing: Math.round(sz * 0.1) },
+      style: { fontSize: Math.round(sz * 0.3), fontFamily: FONT.sans, color: '#888', letterSpacing: 2 },
     }, 'feelandnote.com'),
   )
 }

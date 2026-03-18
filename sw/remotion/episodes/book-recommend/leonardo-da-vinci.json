@@ -4,15 +4,15 @@
     "serviceGreetingParts": [
       {
         "text": "안녕하세요, 필앤노트입니다.",
-        "duration": 2.37
+        "duration": 2.41
       },
       {
         "text": "서재 탐방 코너에서는,",
-        "duration": 2.05
+        "duration": 2.09
       },
       {
         "text": "한 인물의 서재를 열어,",
-        "duration": 2.21
+        "duration": 2.33
       },
       {
         "text": "그들이 사랑한 것들과 그 이유를 소개합니다.",
@@ -21,13 +21,13 @@
     ],
     "serviceGreetingDuration": 7.41,
     "serviceIntro": "오늘 함께할 인물은 레오나르도 다빈치입니다.",
-    "serviceIntroDuration": 1.13,
+    "serviceIntroDuration": 14.53,
     "celebIntro": "레오나르도 다빈치. 르네상스 시대 이탈리아의 화가이자 과학자. 모나리자와 최후의 만찬 등 걸작을 남기며 예술과 과학을 융합한, 인류 역사상 가장 다재다능한 천재이다.",
-    "celebIntroDuration": 1.13,
+    "celebIntroDuration": 15.93,
     "bridge": "이제 그의 서재를 열어보겠습니다.",
     "bridgeDuration": 3,
     "outro": "이상으로 레오나르도 다빈치의 작업실을 함께한 6권의 책이었습니다. 5백 년 전, 붓과 함께 책을 든 천재의 더 깊은 이야기가 궁금하신가요? 지금 바로 Feel & Note 앱에서 만나보세요.",
-    "outroDuration": 1.13,
+    "outroDuration": 13.45,
     "labelSummaryDuration": 1.29,
     "labelContextDuration": 1.97
   },
@@ -39,7 +39,7 @@
     "bio": "르네상스 시대 이탈리아의 화가이자 과학자. '모나리자'와 '최후의 만찬' 등 걸작을 남기며 예술과 과학을 융합했다.",
     "title": "르네상스의 거인",
     "featuredQuote": "경험은 거짓말하지 않는다. 다만 우리의 판단이 거짓말한다.",
-    "featuredQuoteDuration": 4.18,
+    "featuredQuoteDuration": 5.57,
     "philosophy": "저는 레오나르도 다빈치입니다. 정규 교육을 받지 못했기에 40대에 라틴어를 독학해 단테와 비트루비우스를 직접 읽었습니다. 자연에서 찾을 수 없는 것을 책에서 찾았고, 책에서 발견한 원리를 스케치와 실험으로 검증했습니다. 읽는 것과 만드는 것 사이에 경계가 없었습니다.",
     "voiceDuration": 1.13,
     "elevenlabsVoiceId": "jvLCn1o86JrLvPUaxvuV"
@@ -50,95 +50,95 @@
       "creator": "단테 알리기에리",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3243623/32436238434.20220527031921.jpg",
       "summary": "단테 알리기에리가 14세기 초에 집필한 서사시입니다. 지옥, 연옥, 천국의 세 편으로 구성되어 있으며, 시인 자신이 사후 세계를 여행하는 형식을 취합니다. 로마 시인 베르길리우스의 안내로 지옥과 연옥을 통과하고, 연인 베아트리체의 인도로 천국에 이르는 여정입니다. 중세 기독교 세계관과 고전 문학의 전통을 융합한 서양 문학 최고의 걸작으로 평가됩니다.",
-      "summaryDuration": 1.13,
+      "summaryDuration": 25.81,
       "context": "무세오 갈릴레오의 기록에 따르면, 단테의 서사시는 보티첼리부터 미켈란젤로에 이르기까지 르네상스 예술가들의 시각적 상상력을 자극했고 레오나르도도 예외가 아니었습니다. 레오나르도는 자신의 회화론에서 단테의 서사시가 회화에 끊임없이 도전장을 내민다고 직접 언급했습니다. 1473년 아르노 계곡 풍경 소묘에는 단테의 얼굴이 숨겨져 있다는 연구도 있습니다. 신곡은 단순한 문학작품이 아니라 철학, 의학, 과학 지식의 보고였으며, 그는 크리스토포로 란디노의 주석본을 통해 이 지식에 접근했습니다. 생애 첫 드로잉부터 프랑스에서 보낸 마지막 시기까지, 단테의 영향 아래 있었습니다.",
-      "contextDuration": 1.13,
+      "contextDuration": 40.57,
       "source": "Google Arts & Culture, 무세오 갈릴레오",
       "oneLiner": "천재의 첫 영감이자 마지막 그림자",
       "stats": {
         "publishYear": "1320"
       },
-      "titleDuration": 4.69
+      "titleDuration": 4.89
     },
     {
       "title": "비트루비우스 건축 10서",
       "creator": "비트루비우스",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3249276/32492764278.20250505072802.jpg",
       "summary": "고대 로마의 건축가 비트루비우스가 기원전 1세기에 저술한 건축 이론서입니다. 건축의 원리, 재료, 신전 설계, 토목 공학, 수도 시설에 이르기까지 고대 건축과 공학의 모든 것을 망라합니다. 특히 3권 1장에서 제시한 인체의 기하학적 비례 이론은 이후 르네상스 예술에 결정적 영향을 미쳤습니다.",
-      "summaryDuration": 1.13,
+      "summaryDuration": 22.77,
       "context": "레오나르도는 이 책을 열심히 추적했다고 노트에 기록했습니다. 파비아에서 피렌체까지 수년간 이 책을 구하려 노력했고, 서점에 비트루비우스가 있는지 확인하라는 메모까지 남겼습니다. 시에나 출신 건축가 프란체스코 디 조르조 마르티니가 이탈리아어로 번역한 비트루비우스 논고에 직접 여백 주석을 남긴 것이, 유일하게 현존하는 레오나르도의 장서입니다.",
-      "contextDuration": 1.13,
+      "contextDuration": 25.01,
       "directQuote": "건축가 비트루비우스는 그의 건축서에서, 인체의 치수가 자연에 의해 분배되어 있다고 말했다. 4개의 손가락이 1뼘, 4뼘이 1피트, 6뼘이 1큐빗, 4큐빗이 1인체이다. 이 치수들이 그의 건물들에 사용되었다.",
       "directQuoteSource": "비트루비우스적 인간 드로잉 자필 주석, 갈레리에 델라카데미아",
-      "quoteDuration": 19.18,
+      "quoteDuration": 20.61,
       "contextAfter": "비트루비우스가 원과 정사각형 안에 인체를 배치할 수 있다고 쓴 대목에서, 레오나르도는 1490년경 인류 역사상 가장 유명한 드로잉 중 하나인 비트루비우스적 인간을 그렸습니다. 인체의 비례가 건축의 비례로 확장될 수 있다는 이 발상이, 그의 해부학 연구와 건축 연구를 하나로 연결하는 철학적 기반이 되었습니다.",
-      "contextAfterDuration": 1.13,
+      "contextAfterDuration": 23.41,
       "source": "스탠퍼드 대학교 도서관",
       "oneLiner": "비트루비우스적 인간의 탄생",
       "stats": {
         "publishYear": "기원전 1세기"
       },
-      "titleDuration": 5.49
+      "titleDuration": 6.09
     },
     {
       "title": "변신 이야기",
       "creator": "오비디우스",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3244161/32441618941.20251209081919.jpg",
       "summary": "고대 로마의 시인 오비디우스가 기원후 8년경에 완성한 서사시입니다. 천지창조부터 카이사르의 신격화까지, 250여 편의 그리스·로마 신화를 변신이라는 주제로 엮어냈습니다. 다프네가 월계수로, 나르키소스가 꽃으로 변하는 이야기 등 형태의 변화를 통해 인간과 자연의 본질을 탐구합니다.",
-      "summaryDuration": 1.13,
+      "summaryDuration": 22.41,
       "context": "스탠퍼드 대학교 도서관 기록에 따르면, 오비디우스의 변신 이야기는 레오나르도가 읽었다고 언급한 최초의 책입니다. 그의 장서 목록 98권 중에도 이 작품이 포함되어 있습니다. 르네상스 시대에 성경 다음으로 가장 많이 삽화가 그려진 책이기도 했습니다. 레오나르도가 남긴 변형과 운동을 포착하려는 집요한 관심은 오비디우스가 다룬 형태의 변화라는 핵심 주제와 맞닿아 있습니다. 레온 바티스타 알베르티가 회화론에서 나르키소스를 최초의 화가라고 불렀을 때, 그가 참조한 것도 오비디우스였습니다.",
-      "contextDuration": 1.13,
+      "contextDuration": 35.21,
       "source": "Almanac News, Stanford Library",
       "oneLiner": "형태의 변화를 그린 최초의 영감",
       "stats": {
         "publishYear": "기원후 8년"
       },
-      "titleDuration": 3.89
+      "titleDuration": 5.49
     },
     {
       "title": "이솝 우화",
       "creator": "이솝",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_5621418/56214188173.20250812115154.jpg",
       "summary": "기원전 6세기 그리스의 노예 이솝이 남긴 것으로 전해지는 동물 우화 모음입니다. 여우와 포도, 토끼와 거북이, 개미와 베짱이 등 동물의 행동을 통해 인간 본성의 어리석음과 지혜를 풍자합니다. 짧고 날카로운 교훈이 담긴 이 이야기들은 2천6백 년간 전 세계에서 읽히고 있습니다.",
-      "summaryDuration": 1.13,
+      "summaryDuration": 23.93,
       "context": "레오나르도는 1485년판 도덕화된 이솝을 소장했습니다. 그는 단순히 읽는 데 그치지 않았습니다. 1487년부터 1494년 사이, 밀라노 궁정에서 일하던 시기에 노트 여백에 자신만의 우화들을 직접 써넣었습니다. 나방이 허영심 때문에 불꽃에 뛰어들고, 돌이 교만 때문에 산에서 굴러 내려와 진흙탕에 빠지는 이야기들입니다. 부싯돌과 강철의 우화에서는 인내가 놀라운 결과를 낳는다는 교훈을 담았습니다. 이솝의 형식을 빌려 자연 현상에서 도덕적 진실을 끌어내는 이 짧은 글들은, 그가 단순한 화가가 아니라 글 쓰는 사람이 되고자 했음을 보여줍니다. 마흔이 넘어 라틴어를 독학하고, 자신이 최소 120권의 책을 썼다고 주장한 것도 이러한 문학적 야심의 일부였습니다.",
-      "contextDuration": 1.13,
+      "contextDuration": 51.37,
       "source": "Medievalists.net",
       "oneLiner": "화가가 쓴 우화",
       "stats": {
         "publishYear": "기원전 6세기"
       },
-      "titleDuration": 4.73
+      "titleDuration": 3.49
     },
     {
       "title": "플리니우스 박물지",
       "creator": "가이우스 플리니우스 세쿤두스",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3248202/32482025310.20250510075117.jpg",
       "summary": "고대 로마의 박물학자 플리니우스가 서기 77년에 완성한 백과사전입니다. 동물, 식물, 광물, 의학, 예술에 이르기까지 고대 세계의 모든 지식을 37권에 집대성했습니다. 2천 권 이상의 저서에서 2만여 개의 사실을 추려낸 인류 최초의 체계적 백과사전으로 평가됩니다.",
-      "summaryDuration": 1.13,
+      "summaryDuration": 20.49,
       "context": "레오나르도가 가장 먼저 구입한 고전 중 하나입니다. 1503년경 그의 장서 목록 116권 중에서도 핵심적인 위치를 차지했으며, 라틴어판과 크리스토포로 란디노가 1476년에 번역한 이탈리아어판을 모두 소장했습니다. 그의 노트에는 로마 극장의 단면도를 그리면서 플리니우스를 직접 인용한 대목이 있고, 산의 샘물을 묘사할 때도 이 책을 참조했습니다. 무엇보다 중요한 것은 글쓰기 방식의 영향입니다. 플리니우스가 정보를 위계적으로 배열하고 관찰과 사실의 나열을 선호한 것처럼, 레오나르도의 노트북도 같은 스타일을 따릅니다. 자연을 예술, 건축, 과학, 의학과 통합적으로 바라보는 시각 역시 플리니우스로부터 직접 물려받은 것입니다.",
-      "contextDuration": 1.13,
+      "contextDuration": 50.13,
       "source": "Stanford Library",
       "oneLiner": "르네상스 노트의 원형",
       "stats": {
         "publishYear": "77"
       },
-      "titleDuration": 5.49
+      "titleDuration": 6.61
     },
     {
       "title": "유클리드 원론",
       "creator": "유클리드",
       "thumbnail_url": "https://shopping-phinf.pstatic.net/main_3591199/35911996625.20250828092148.jpg",
       "summary": "고대 그리스의 수학자 유클리드가 기원전 3세기에 저술한 수학 교본입니다. 기하학의 기본 공리와 정의에서 출발하여 평면 기하, 수론, 입체 기하에 이르는 465개의 명제를 논리적으로 증명합니다. 공리에서 정리를 연역하는 방법론은 이후 2천 년간 서양 학문의 표준이 되었습니다.",
-      "summaryDuration": 1.13,
+      "summaryDuration": 23.17,
       "context": "1495년 레오나르도는 프란체스코 수도회 소속 수학자 루카 파치올리의 산술집성을 구입했습니다. 그의 장서 중 가장 비싼 책이었습니다. 이듬해 파치올리가 밀라노에 도착하면서 레오나르도의 기하학 교사이자 가장 중요한 협력자가 되었습니다. 두 사람은 1506년까지 함께 살았고, 밀라노가 프랑스군에 함락되었을 때도 함께 도주했습니다. 파치올리는 이탈리아어로 번역한 유클리드를 교재로 레오나르도를 지도했습니다. 라틴어에 서툴렀던 레오나르도에게 도형은 핵심적인 학습 도구였습니다. 이 학습의 결과물이 파치올리의 신성한 비례에 실린 60개의 다면체 삽화입니다. 전면과 후면을 쉽게 구분할 수 있게 한 최초의 입체 삽화로, 추상적인 도형을 눈에 보이고 손에 잡히는 물체로 시각화하는 그의 독특한 재능을 보여줍니다.",
-      "contextDuration": 1.13,
+      "contextDuration": 68.17,
       "source": "Stanford Library",
       "oneLiner": "천재의 기하학 입문서",
       "stats": {
         "publishYear": "기원전 3세기"
       },
-      "titleDuration": 4.93
+      "titleDuration": 4.81
     }
   ],
   "tts": {
@@ -181,65 +181,65 @@
     ]
   },
   "voiceTimings": {
-    "service-greeting": [
+    "A1-service-greeting": [
       {
         "start": 0,
         "end": 0.706
       },
       {
         "start": 0.706,
-        "end": 2.78
+        "end": 2.46
       },
       {
-        "start": 2.78,
-        "end": 4.56
+        "start": 2.46,
+        "end": 4.28
       },
       {
-        "start": 4.56,
+        "start": 4.28,
         "end": 7.411
       }
     ],
-    "service-intro": [
+    "A2-service-intro": [
       {
         "start": 0,
-        "end": 0.072
+        "end": 0.86
       },
       {
-        "start": 0.072,
-        "end": 0.253
+        "start": 0.86,
+        "end": 2.52
       },
       {
-        "start": 0.253,
-        "end": 0.553
+        "start": 2.52,
+        "end": 6.8
       },
       {
-        "start": 0.553,
-        "end": 1.14
+        "start": 6.8,
+        "end": 10.08
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 10.08,
+        "end": 14.531
       }
     ],
-    "narrator-celeb-intro": [
+    "B1-celeb-intro": [
       {
         "start": 0,
-        "end": 0.127
+        "end": 1.86
       },
       {
-        "start": 0.127,
-        "end": 0.419
+        "start": 1.86,
+        "end": 5.9
       },
       {
-        "start": 0.419,
-        "end": 1.14
+        "start": 5.9,
+        "end": 12.22
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 12.22,
+        "end": 15.931
       }
     ],
-    "philosophy": [
+    "B2-philosophy": [
       {
         "start": 0,
         "end": 0.125
@@ -254,439 +254,469 @@
       },
       {
         "start": 0.702,
-        "end": 1.14
+        "end": 0.92
       },
       {
-        "start": 1.14,
+        "start": 0.92,
         "end": 1.131
       }
     ],
-    "narrator-outro": [
+    "E1-outro": [
       {
         "start": 0,
-        "end": 0.409
+        "end": 4.46
       },
       {
-        "start": 0.409,
-        "end": 0.485
+        "start": 4.46,
+        "end": 5.765
       },
       {
-        "start": 0.485,
-        "end": 1.14
+        "start": 5.765,
+        "end": 10.12
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 10.12,
+        "end": 13.451
       }
     ],
-    "book-0-summary": [
+    "D01b-summary": [
       {
         "start": 0,
-        "end": 0.179
+        "end": 3.88
       },
       {
-        "start": 0.179,
-        "end": 0.196
+        "start": 3.88,
+        "end": 4.82
       },
       {
-        "start": 0.196,
-        "end": 0.214
+        "start": 4.82,
+        "end": 5.4
       },
       {
-        "start": 0.214,
-        "end": 0.327
+        "start": 5.4,
+        "end": 7.68
       },
       {
-        "start": 0.327,
-        "end": 0.494
+        "start": 7.68,
+        "end": 11.16
       },
       {
-        "start": 0.494,
-        "end": 0.679
+        "start": 11.16,
+        "end": 15.7
       },
       {
-        "start": 0.679,
-        "end": 1.14
+        "start": 15.7,
+        "end": 19.16
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 19.16,
+        "end": 25.811
       }
     ],
-    "book-0-context": [
+    "D01c-context": [
       {
         "start": 0,
-        "end": 0.065
+        "end": 2.14
       },
       {
-        "start": 0.065,
-        "end": 0.326
+        "start": 2.14,
+        "end": 11.26
       },
       {
-        "start": 0.326,
-        "end": 0.526
+        "start": 11.26,
+        "end": 18.48
       },
       {
-        "start": 0.526,
-        "end": 0.703
+        "start": 18.48,
+        "end": 24.78
       },
       {
-        "start": 0.703,
-        "end": 0.79
+        "start": 24.78,
+        "end": 27.6
       },
       {
-        "start": 0.79,
-        "end": 0.837
+        "start": 27.6,
+        "end": 30.36
       },
       {
-        "start": 0.837,
-        "end": 0.968
+        "start": 30.36,
+        "end": 34.58
       },
       {
-        "start": 0.968,
-        "end": 1.073
+        "start": 34.58,
+        "end": 38.49
       },
       {
-        "start": 1.073,
-        "end": 1.14
+        "start": 38.49,
+        "end": 38.6
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 38.6,
+        "end": 40.571
       }
     ],
-    "book-1-summary": [
+    "D02b-summary": [
       {
         "start": 0,
-        "end": 0.304
+        "end": 5.88
       },
       {
-        "start": 0.304,
-        "end": 0.353
+        "start": 5.88,
+        "end": 7.58
       },
       {
-        "start": 0.353,
-        "end": 0.375
+        "start": 7.58,
+        "end": 9.32
       },
       {
-        "start": 0.375,
-        "end": 0.417
+        "start": 9.32,
+        "end": 10.24
       },
       {
-        "start": 0.417,
-        "end": 0.459
+        "start": 10.24,
+        "end": 11.76
       },
       {
-        "start": 0.459,
-        "end": 0.714
+        "start": 11.76,
+        "end": 14.78
       },
       {
-        "start": 0.714,
-        "end": 1.131
+        "start": 14.78,
+        "end": 22.771
       }
     ],
-    "book-1-context": [
+    "D02c-context": [
       {
         "start": 0,
-        "end": 0.201
+        "end": 4.14
       },
       {
-        "start": 0.201,
-        "end": 0.383
+        "start": 4.14,
+        "end": 8.66
       },
       {
-        "start": 0.383,
-        "end": 0.584
+        "start": 8.66,
+        "end": 12.96
       },
       {
-        "start": 0.584,
-        "end": 1.14
+        "start": 12.96,
+        "end": 21.98
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 21.98,
+        "end": 25.011
       }
     ],
-    "book-1-context-after": [
+    "D02e-context-after": [
       {
         "start": 0,
-        "end": 0.265
+        "end": 5.22
       },
       {
-        "start": 0.265,
-        "end": 0.648
+        "start": 5.22,
+        "end": 13.44
       },
       {
-        "start": 0.648,
-        "end": 1.14
+        "start": 13.44,
+        "end": 18.02
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 18.02,
+        "end": 23.411
       }
     ],
-    "book-2-summary": [
+    "D03b-summary": [
       {
         "start": 0,
-        "end": 0.279
+        "end": 5.14
       },
       {
-        "start": 0.279,
-        "end": 0.419
+        "start": 5.14,
+        "end": 8.64
       },
       {
-        "start": 0.419,
-        "end": 0.69
+        "start": 8.64,
+        "end": 13.52
       },
       {
-        "start": 0.69,
-        "end": 1.14
+        "start": 13.52,
+        "end": 15.78
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 15.78,
+        "end": 22.411
       }
     ],
-    "book-2-context": [
+    "D03c-context": [
       {
         "start": 0,
-        "end": 0.089
+        "end": 0
       },
       {
-        "start": 0.089,
-        "end": 0.259
+        "start": 0,
+        "end": 7.56
       },
       {
-        "start": 0.259,
-        "end": 0.408
+        "start": 7.56,
+        "end": 11.98
       },
       {
-        "start": 0.408,
-        "end": 0.582
+        "start": 11.98,
+        "end": 17.3
       },
       {
-        "start": 0.582,
-        "end": 1.046
+        "start": 17.3,
+        "end": 26.58
       },
       {
-        "start": 1.046,
-        "end": 1.14
+        "start": 26.58,
+        "end": 32.56
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 32.56,
+        "end": 35.211
       }
     ],
-    "book-3-summary": [
+    "D04b-summary": [
       {
         "start": 0,
-        "end": 0.337
+        "end": 6.16
       },
       {
-        "start": 0.337,
-        "end": 0.389
+        "start": 6.16,
+        "end": 8.08
       },
       {
-        "start": 0.389,
-        "end": 0.449
+        "start": 8.08,
+        "end": 9.6
       },
       {
-        "start": 0.449,
-        "end": 1.14
+        "start": 9.6,
+        "end": 16.16
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 16.16,
+        "end": 23.931
       }
     ],
-    "book-3-context": [
+    "D04c-context": [
       {
         "start": 0,
-        "end": 0.102
+        "end": 4.62
       },
       {
-        "start": 0.102,
-        "end": 0.17
+        "start": 4.62,
+        "end": 7.62
       },
       {
-        "start": 0.17,
-        "end": 0.241
+        "start": 7.62,
+        "end": 11.42
       },
       {
-        "start": 0.241,
-        "end": 0.377
+        "start": 11.42,
+        "end": 17.44
       },
       {
-        "start": 0.377,
-        "end": 0.442
+        "start": 17.44,
+        "end": 20.84
       },
       {
-        "start": 0.442,
-        "end": 0.559
+        "start": 20.84,
+        "end": 25.46
       },
       {
-        "start": 0.559,
-        "end": 0.689
+        "start": 25.46,
+        "end": 31.72
       },
       {
-        "start": 0.689,
-        "end": 0.933
+        "start": 31.72,
+        "end": 37.66
       },
       {
-        "start": 0.933,
-        "end": 0.986
+        "start": 37.66,
+        "end": 42.46
       },
       {
-        "start": 0.986,
-        "end": 1.14
+        "start": 42.46,
+        "end": 45.22
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 45.22,
+        "end": 51.371
       }
     ],
-    "book-4-summary": [
+    "D05b-summary": [
       {
         "start": 0,
-        "end": 0.318
+        "end": 5.2
       },
       {
-        "start": 0.318,
-        "end": 0.341
+        "start": 5.2,
+        "end": 7.06
       },
       {
-        "start": 0.341,
-        "end": 0.364
+        "start": 7.06,
+        "end": 7.8
       },
       {
-        "start": 0.364,
-        "end": 0.387
+        "start": 7.8,
+        "end": 8.4
       },
       {
-        "start": 0.387,
-        "end": 0.411
+        "start": 8.4,
+        "end": 9.8
       },
       {
-        "start": 0.411,
-        "end": 0.72
+        "start": 9.8,
+        "end": 13.42
       },
       {
-        "start": 0.72,
-        "end": 1.131
+        "start": 13.42,
+        "end": 20.491
       }
     ],
-    "book-4-context": [
+    "D05c-context": [
       {
         "start": 0,
-        "end": 0.093
+        "end": 3.28
       },
       {
-        "start": 0.093,
-        "end": 0.235
+        "start": 3.28,
+        "end": 9.82
       },
       {
-        "start": 0.235,
-        "end": 0.4
+        "start": 9.82,
+        "end": 17.58
       },
       {
-        "start": 0.4,
-        "end": 0.552
+        "start": 17.58,
+        "end": 24.4
       },
       {
-        "start": 0.552,
-        "end": 0.638
+        "start": 24.4,
+        "end": 27.84
       },
       {
-        "start": 0.638,
-        "end": 0.724
+        "start": 27.84,
+        "end": 31.9
       },
       {
-        "start": 0.724,
-        "end": 0.946
+        "start": 31.9,
+        "end": 35.38
       },
       {
-        "start": 0.946,
-        "end": 0.969
+        "start": 35.38,
+        "end": 38.06
       },
       {
-        "start": 0.969,
-        "end": 0.979
+        "start": 38.06,
+        "end": 41.22
       },
       {
-        "start": 0.979,
-        "end": 0.989
+        "start": 41.22,
+        "end": 44.52
       },
       {
-        "start": 0.989,
-        "end": 1.14
+        "start": 44.52,
+        "end": 47.16
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 47.16,
+        "end": 50.131
       }
     ],
-    "book-5-summary": [
+    "D06b-summary": [
       {
         "start": 0,
-        "end": 0.303
+        "end": 5.76
       },
       {
-        "start": 0.303,
-        "end": 0.51
+        "start": 5.76,
+        "end": 10.62
       },
       {
-        "start": 0.51,
-        "end": 0.532
+        "start": 10.62,
+        "end": 11.38
       },
       {
-        "start": 0.532,
-        "end": 1.14
+        "start": 11.38,
+        "end": 16.24
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 16.24,
+        "end": 23.171
       }
     ],
-    "book-5-context": [
+    "D06c-context": [
       {
         "start": 0,
-        "end": 0.16
+        "end": 8.54
       },
       {
-        "start": 0.16,
-        "end": 0.222
+        "start": 8.54,
+        "end": 11.94
       },
       {
-        "start": 0.222,
-        "end": 0.382
+        "start": 11.94,
+        "end": 20
       },
       {
-        "start": 0.382,
-        "end": 0.446
+        "start": 20,
+        "end": 26.52
       },
       {
-        "start": 0.446,
-        "end": 0.533
+        "start": 26.52,
+        "end": 32.6
       },
       {
-        "start": 0.533,
-        "end": 0.653
+        "start": 32.6,
+        "end": 38.8
       },
       {
-        "start": 0.653,
-        "end": 0.889
+        "start": 38.8,
+        "end": 45.08
       },
       {
-        "start": 0.889,
-        "end": 0.985
+        "start": 45.08,
+        "end": 51.86
       },
       {
-        "start": 0.985,
-        "end": 1.14
+        "start": 51.86,
+        "end": 61.3
       },
       {
-        "start": 1.14,
-        "end": 1.131
+        "start": 61.3,
+        "end": 68.171
+      }
+    ],
+    "D02d-quote": [
+      {
+        "start": 0,
+        "end": 3.62
+      },
+      {
+        "start": 3.62,
+        "end": 10.04
+      },
+      {
+        "start": 10.04,
+        "end": 12
+      },
+      {
+        "start": 12,
+        "end": 14.06
+      },
+      {
+        "start": 14.06,
+        "end": 16.84
+      },
+      {
+        "start": 16.84,
+        "end": 20.38
+      },
+      {
+        "start": 20.38,
+        "end": 20.611
       }
     ]
   }

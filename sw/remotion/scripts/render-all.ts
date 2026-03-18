@@ -11,6 +11,12 @@ import { execSync } from 'child_process'
 import { writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import {
+  VN_SERVICE_GREETING, VN_SERVICE_INTRO,
+  VN_CELEB_INTRO, VN_PHILOSOPHY, VN_OUTRO,
+  vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnTimingKey,
+} from '../src/compositions/BookRecommend/voice-names'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -181,11 +187,11 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
   // 서비스 인사
   if (!cont && svcGreetingFrames > 0 && narrator.serviceGreeting) {
     const s = BRAND_FRAMES
-    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceGreetingDuration ?? 0), '나레이터', narrator.serviceGreeting, vt(script, 'service-greeting')))
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceGreetingDuration ?? 0), '나레이터', narrator.serviceGreeting, vt(script, vnTimingKey(VN_SERVICE_GREETING))))
   }
   if (!cont && svcIntroFrames > 0 && narrator.serviceIntro) {
     const s = BRAND_FRAMES + svcGreetingFrames
-    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceIntroDuration!), '나레이터', narrator.serviceIntro, vt(script, 'service-intro')))
+    subs.push(...splitSentences(s, s + toAudioFrames(narrator.serviceIntroDuration!), '나레이터', narrator.serviceIntro, vt(script, vnTimingKey(VN_SERVICE_INTRO))))
   }
   if (fQuoteFrames > 0 && host.featuredQuote) {
     const s = BRAND_FRAMES + returnIntroFrames + svcIntroFrames + f(1)
@@ -201,12 +207,12 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
   // Part 1: 셀럽 소개 + 감상철학
   if (!cont && narrator.celebIntro) {
     const celebVoiceStart = hostIntroStart + CELEB_VISUAL_DELAY
-    subs.push(...splitSentences(celebVoiceStart, celebVoiceStart + toAudioFrames(narrator.celebIntroDuration ?? 0), '나레이터', narrator.celebIntro, vt(script, 'narrator-celeb-intro')))
+    subs.push(...splitSentences(celebVoiceStart, celebVoiceStart + toAudioFrames(narrator.celebIntroDuration ?? 0), '나레이터', narrator.celebIntro, vt(script, vnTimingKey(VN_CELEB_INTRO))))
   }
 
   if (!cont && host.philosophy) {
     const philoStart = hostIntroStart + celebIntroFrames + f(1)
-    subs.push(...splitSentences(philoStart, philoStart + toAudioFrames(host.voiceDuration ?? 0), host.nickname, host.philosophy, vt(script, 'philosophy')))
+    subs.push(...splitSentences(philoStart, philoStart + toAudioFrames(host.voiceDuration ?? 0), host.nickname, host.philosophy, vt(script, vnTimingKey(VN_PHILOSOPHY))))
   }
 
   const hasInterlude = books.length > 10
@@ -246,25 +252,25 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
     // offset → label-summary → summary
     c += TSG
     c += LSF
-    subs.push(...splitSentences(c, c + toAudioFrames(b.summaryDuration), '요약', b.summary, vt(script, `book-${i}-summary`)))
+    subs.push(...splitSentences(c, c + toAudioFrames(b.summaryDuration), '요약', b.summary, vt(script, vnTimingKey(vnBookSummary(i)))))
     c += toFrames(b.summaryDuration)
 
     // offset → label-context → context
     c += SCG
     c += LCF
-    subs.push(...splitSentences(c, c + toAudioFrames(b.contextDuration), '나레이터', b.context, vt(script, `book-${i}-context`)))
+    subs.push(...splitSentences(c, c + toAudioFrames(b.contextDuration), '나레이터', b.context, vt(script, vnTimingKey(vnBookContext(i)))))
     c += toFrames(b.contextDuration)
 
     // quote
     if (b.directQuote && b.quoteDuration) {
       c += CONTEXT_QUOTE_GAP
-      subs.push(...splitSentences(c, c + toAudioFrames(b.quoteDuration), host.nickname, `"${b.directQuote}"`, vt(script, `book-${i}-quote`)))
+      subs.push(...splitSentences(c, c + toAudioFrames(b.quoteDuration), host.nickname, `"${b.directQuote}"`, vt(script, vnTimingKey(vnBookQuote(i)))))
       c += toFrames(b.quoteDuration)
 
       // contextAfter
       if (b.contextAfter && b.contextAfterDuration) {
         c += QUOTE_CONTEXTAFTER_GAP
-        subs.push(...splitSentences(c, c + toAudioFrames(b.contextAfterDuration), '나레이터', b.contextAfter, vt(script, `book-${i}-context-after`)))
+        subs.push(...splitSentences(c, c + toAudioFrames(b.contextAfterDuration), '나레이터', b.contextAfter, vt(script, vnTimingKey(vnBookContextAfter(i)))))
       }
     }
 
@@ -272,7 +278,7 @@ function buildLongformSubs(script: BookRecommendScript): Sub[] {
   }
   cursor += RECAP_FRAMES
   if (narrator.outroDuration > 0) {
-    subs.push(...splitSentences(cursor, cursor + toAudioFrames(narrator.outroDuration), '나레이터', narrator.outro, vt(script, 'narrator-outro')))
+    subs.push(...splitSentences(cursor, cursor + toAudioFrames(narrator.outroDuration), '나레이터', narrator.outro, vt(script, vnTimingKey(VN_OUTRO))))
   }
   return subs
 }
@@ -309,9 +315,9 @@ for (const [name, script] of Object.entries(targetEpisodes)) {
 
   // 롱폼
   if (!only || only === 'longform') {
-    console.log(`\n▶ 롱폼 렌더: ${label}`)
+    console.log(`\n▶ 롱폼 렌더: ${label}-L`)
     const mp4 = join(OUT_DIR, `${name}.mov`)
-    execSync(`pnpm.cmd render ${label} "${mp4}" --codec prores --prores-profile 4444 --image-format=png --gl=angle --concurrency=75%`, { stdio: 'inherit', cwd: join(__dirname, '..') })
+    execSync(`pnpm.cmd render ${label}-L "${mp4}" --codec prores --prores-profile 4444 --image-format=png --gl=angle --concurrency=75%`, { stdio: 'inherit', cwd: join(__dirname, '..') })
 
     const srt = subsToSrt(buildLongformSubs(script))
     const srtPath = join(OUT_DIR, `${name}.srt`)
@@ -321,14 +327,19 @@ for (const [name, script] of Object.entries(targetEpisodes)) {
 
   // 쇼츠
   if ((!only || only === 'shorts') && script.shorts) {
-    console.log(`\n▶ 쇼츠 렌더: ${label}Short`)
+    console.log(`\n▶ 쇼츠 렌더: ${label}-S`)
     const mp4 = join(OUT_DIR, `${name}-short.mov`)
-    execSync(`pnpm.cmd render ${label}Short "${mp4}" --codec prores --prores-profile 4444 --image-format=png --gl=angle --concurrency=75%`, { stdio: 'inherit', cwd: join(__dirname, '..') })
+    execSync(`pnpm.cmd render ${label}-S "${mp4}" --codec prores --prores-profile 4444 --image-format=png --gl=angle --concurrency=75%`, { stdio: 'inherit', cwd: join(__dirname, '..') })
 
     const srt = subsToSrt(buildShortsSubs(script))
     const srtPath = join(OUT_DIR, `${name}-short.srt`)
     writeFileSync(srtPath, srt, 'utf-8')
     console.log(`  ✓ SRT: ${srtPath}`)
+
+    // 쇼츠 썸네일 — frame 0 캡처
+    const thumb = join(OUT_DIR, `${name}-short-thumb.png`)
+    execSync(`pnpm.cmd remotion still ${label}-S "${thumb}" --frame=0 --image-format=png --gl=angle`, { stdio: 'inherit', cwd: join(__dirname, '..') })
+    console.log(`  ✓ 쇼츠 썸네일: ${thumb}`)
   }
 }
 

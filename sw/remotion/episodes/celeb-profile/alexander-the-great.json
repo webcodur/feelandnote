@@ -1,0 +1,189 @@
+{
+  "host": {
+    "nickname": "알렉산더 대왕",
+    "nickname_en": "Alexander the Great",
+    "bio": "고대 마케도니아의 왕. 그리스에서 인도에 이르는 광대한 제국을 건설한 정복자이다. 그의 뛰어난 군사적 능력과 헬레니즘 문화 확산은 인류사에 지대한 영향을 미쳤다.",
+    "title": "정복자",
+    "avatar_url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/deb5a570-a009-410d-9436-77180a85a058/avatar.webp?v=1771993325509",
+    "speech_tone": "bold",
+    "geminiVoice": "Puck"
+  },
+  "persona": {
+    "abilities": {
+      "command": {
+        "score": 97,
+        "reason": "마케도니아에서 인도까지, 10년 원정에서 단 한 번의 전투 패배도 없었습니다.",
+        "duration": 6.96
+      },
+      "charm": {
+        "score": 95,
+        "reason": "병사들이 세상 끝까지 따른 신화적 카리스마입니다.",
+        "duration": 4.83
+      },
+      "martial": {
+        "score": 93,
+        "reason": "그라니코스, 가우가멜라, 히다스페스. 매 전투 최전선에서 돌격하며 수차례 중상을 입었습니다.",
+        "duration": 8.96
+      },
+      "intellect": {
+        "score": 88,
+        "reason": "아리스토텔레스에게 사사하고, 페르시아 행정 체계를 흡수하여 활용했습니다.",
+        "duration": 6.63
+      }
+    },
+    "innerVirtues": {
+      "courage": {
+        "score": 96,
+        "reason": "말루스 성벽에 단독 돌입, 화살이 폐를 관통한 뒤에도 지휘를 계속했습니다.",
+        "duration": 6.89
+      },
+      "diligence": {
+        "score": 90,
+        "reason": "10년간 행군, 전투, 통치를 동시에 쉬지 않고 수행했습니다.",
+        "duration": 5.97
+      },
+      "temperance": {
+        "score": 28,
+        "reason": "연회 중 클레이투스를 직접 살해하고, 말년에는 음주와 방종이 심화되었습니다.",
+        "duration": 6.96
+      },
+      "reflection": {
+        "score": 50,
+        "reason": "프로스키네시스 실패를 교훈으로 삼으나, 근본적 변화는 없었습니다.",
+        "duration": 5.84
+      }
+    },
+    "outerVirtues": {
+      "loyalty": {
+        "score": 72,
+        "reason": "부하에게 헌신적이나, 반대자 숙청에는 단호했습니다.",
+        "duration": 5.18
+      },
+      "fairness": {
+        "score": 60,
+        "reason": "페르시아인 동등 처우 정책을 폈으나, 측근 편애가 공존했습니다.",
+        "duration": 5.86
+      },
+      "benevolence": {
+        "score": 55,
+        "reason": "테베 학살과 페르세폴리스 방화로 인자함의 한계가 드러났습니다.",
+        "duration": 5.48
+      },
+      "humility": {
+        "score": 15,
+        "reason": "신의 아들을 자처하며 프로스키네시스를 강요한, 극단적 오만의 소유자였습니다.",
+        "duration": 6.65
+      }
+    },
+    "dispositions": {
+      "cautious_bold": {
+        "score": 48,
+        "label": [
+          "신중",
+          "대담"
+        ],
+        "reason": "수적 열세에도 기병 돌격으로 승부하는 극단적 공격 성향입니다.",
+        "duration": 6.28
+      },
+      "pessimism_optimism": {
+        "score": 42,
+        "label": [
+          "비관",
+          "낙관"
+        ],
+        "reason": "세계 정복을 자신의 운명으로 확신하는 신화적 낙관주의입니다.",
+        "duration": 5.8
+      },
+      "conservative_progressive": {
+        "score": 30,
+        "label": [
+          "보수",
+          "진보"
+        ],
+        "reason": "페르시아 복식과 관습을 수용하고, 동서 융합 제국을 시도했습니다.",
+        "duration": 6.18
+      },
+      "individual_social": {
+        "score": -15,
+        "label": [
+          "개인",
+          "사회"
+        ],
+        "reason": "개인 영웅 서사를 제국의 지속 가능성보다 우선했습니다.",
+        "duration": 5.34
+      }
+    },
+    "rationale": "역사상 최상급의 무력, 통솔, 매력이 동시에 극점에 달한 극단적 공세형 구조이다. 극도의 낙관과 대담 성향이 인간적 한계를 무시하게 만들며, 최저 수준의 절제와 겸양이 결합하여 제국의 지속 가능성보다 개인 서사의 완결을 우선하는 자기 파괴적 역량 밸런스를 형성한다.",
+    "rationaleDuration": 20.83
+  },
+  "influence": {
+    "axes": {
+      "strategic": {
+        "score": 10,
+        "label": "전략",
+        "exp": "군사 전략의 영구적 교과서입니다.",
+        "duration": 3.36
+      },
+      "political": {
+        "score": 9,
+        "label": "정치",
+        "exp": "헬레니즘이라는 문명권 자체를 탄생시켰습니다.",
+        "duration": 4.08
+      },
+      "cultural": {
+        "score": 9,
+        "label": "문화",
+        "exp": "헬레니즘 문화권을 형성했습니다.",
+        "duration": 3.08
+      },
+      "social": {
+        "score": 7,
+        "label": "사회",
+        "exp": "동서 교류의 물꼬를 텄습니다.",
+        "duration": 3.04
+      },
+      "economic": {
+        "score": 6,
+        "label": "경제",
+        "exp": "무역로를 개척했으나 구조적 영향은 제한적입니다.",
+        "duration": 4.52
+      },
+      "tech": {
+        "score": 0,
+        "label": "기술",
+        "exp": "기술 분야에 대한 직접적 기여는 없었습니다.",
+        "duration": 3.98
+      }
+    },
+    "transhistoricity": {
+      "score": 30,
+      "exp": "헬레니즘 유산은 2천 년이 지난 지금도 서양 사상의 토대로 작동하고 있습니다.",
+      "duration": 6.86
+    },
+    "totalScore": 71
+  },
+  "narrator": {
+    "seriesIntro": "feelandnote 인물 열전입니다.",
+    "intro": "오늘의 인물은, 알렉산드로스 3세 메가스. 통칭 알렉산더 대왕은 고대 마케도니아의 왕이자, 역사상 가장 위대한 정복자이다. 그리스에서 인도에 이르는 광대한 제국을 건설했으며, 헬레니즘 문화의 확산은 인류사에 지대한 영향을 미쳤다.",
+    "bioToPersona": "20대에 페르시아 제국을 무너뜨리고 30세에 인도 국경까지 도달한 이 정복자. 그의 능력은 어떤 구조로 이루어져 있었을까요.",
+    "abilitiesToVirtues": "그러나 이 압도적 능력에는 그림자가 있었습니다.",
+    "virtuesToDispositions": "이 인물의 판단 성향을 보면, 그 이유를 알 수 있습니다.",
+    "personaToInfluence": "이 인물이 세상에 남긴 흔적은 어땠을까요.",
+    "totalScoreLine": "종합 점수 71점입니다.",
+    "bridge": "그렇다면, 이 정복자는 어떤 책을 읽었을까요. 서재 탐방에서 만나보겠습니다.",
+    "seriesIntroDuration": 2.1,
+    "introDuration": 17.98,
+    "bioToPersonaDuration": 9.21,
+    "abilitiesToVirtuesDuration": 3.43,
+    "virtuesToDispositionsDuration": 3.84,
+    "personaToInfluenceDuration": 3.17,
+    "totalScoreLineDuration": 2.04,
+    "bridgeDuration": 5.98
+  },
+  "tts": {
+    "narrator": {
+      "bioToPersona": "이십대에 페르시아 제국을 무너뜨리고 서른 살에 인도 국경까지 도달한 이 정복자. 그의 능력은 어떤 구조로 이루어져 있었을까요.",
+      "totalScoreLine": "종합 점수 칠십일 점입니다."
+    }
+  }
+}
