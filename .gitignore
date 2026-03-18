@@ -28,6 +28,7 @@ dist-ssr
 
 # Remotion voice assets (managed via R2)
 sw/remotion/public/voice/**/*.wav
+sw/remotion/public/voice-profile/**/*.wav
 !sw/remotion/public/voice/**/r2-manifest.json
 !sw/remotion/public/voice/**/manifest.json
 
