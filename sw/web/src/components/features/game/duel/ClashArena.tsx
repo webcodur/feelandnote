@@ -13,7 +13,7 @@ import type { BattleCard, Command } from "@/lib/game/types";
 import { COMMAND_LABELS } from "@/lib/game/types";
 import { Z_INDEX } from "@/constants/zIndex";
 import DuelArena from "./DuelArena";
-import RhythmArena from "./RhythmArena";
+import RhythmArena from "./RhythmArena/index";
 import SimonArena from "./SimonArena";
 
 // ─── 명령별 미니게임 안내 ───
