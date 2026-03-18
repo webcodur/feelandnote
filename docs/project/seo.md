@@ -113,6 +113,18 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 - **해결**: Supabase REST API 직접 fetch로 전환 + `created_at`으로 변경
 - **교훈**: 배포 전 로컬 curl로 REST 쿼리 검증 필수
 
+### Google 검색 썸네일이 Vercel 기본 아이콘 (2026-03-18)
+- **원인 1**: `favicon.ico`가 256×256이지만, Google은 48px 배수(48, 96, 144, 192 등)만 인정 → 파비콘 거부
+- **원인 2**: `opengraph-image.tsx`, `apple-icon.tsx`가 `app/` 루트에서 `/opengraph-image`, `/apple-icon` 경로로 서빙되어야 하지만, `next-intl` 미들웨어가 가로채서 404 → Google이 OG 이미지·아이콘 수집 불가
+- **해결**:
+  1. `app/icon.tsx` 생성 — 192×192 PNG (48의 배수), 금색 "F" 로고
+  2. `middleware.ts`의 `SEO_PATHS`에 `/opengraph-image`, `/apple-icon`, `/icon` 추가
+  3. `[locale]/layout.tsx` metadata `icons`에서 PNG icon(192×192)을 primary로 설정, favicon.ico를 fallback으로 변경
+  4. `manifest.ts` icons에 PNG 192×192 추가, 크기 선언 수정
+  5. JSON-LD Organization `logo`를 `/icon`(PNG)으로 변경
+- **교훈**: Next.js 메타데이터 규약 파일(`opengraph-image`, `apple-icon`, `icon` 등)이 `app/` 루트에 있으면 확장자 없는 경로로 서빙되므로, 미들웨어 matcher의 확장자 제외 패턴에 걸리지 않는다. 새 메타데이터 규약 파일 추가 시 반드시 `SEO_PATHS`에도 추가할 것
+- **참고**: [Google 파비콘 요구사항](https://developers.google.com/search/docs/appearance/favicon-in-search) — 48px 배수 필수, SVG/PNG 선호
+
 ### 네이버 색인 1건 (2026-03-13)
 - **원인**: `loading.tsx`가 Suspense boundary를 생성하여, 초기 HTML에 스켈레톤만 포함. 실제 콘텐츠는 `<div hidden>` 블록으로 스트리밍됨. 네이버 Yeti 봇은 JS 미실행 → 빈 콘텐츠로 판단
 - **해결**: SEO 대상 페이지의 `loading.tsx` 삭제 → 서버가 모든 데이터를 resolve한 후 완성된 HTML을 전송
