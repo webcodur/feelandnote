@@ -117,7 +117,13 @@ rvu/rvp/rvs   → R2 upload/pull/status
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
 
-### 영상 — 서재 탐방 (`docs/project/remotion/`)
+### 영상 (`docs/project/remotion/`)
+
+| 문서 | 내용 |
+|------|------|
+| `celeb-profile.md` | 인물 열전 — 시리즈 기획서 (페르소나·영향력·명언) |
+
+#### 서재 탐방
 
 | 장 | 문서 | 내용 |
 |----|------|------|

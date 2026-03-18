@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { sourceToJsonb } from '@/lib/utils/content-locale'
@@ -103,6 +103,7 @@ export async function addCelebContent(params: AddCelebContentParams): Promise<Ac
   }
 
   revalidatePath(`/u/${params.celebId}/records`)
+  revalidateTag('celebs', { expire: 0 })
 
   return success({
     contentId: params.contentId,

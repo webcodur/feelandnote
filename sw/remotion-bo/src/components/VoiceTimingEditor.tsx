@@ -46,16 +46,25 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences, timings, onCh
       .then(buf => new AudioContext().decodeAudioData(buf))
       .then(audioBuffer => {
         const data = audioBuffer.getChannelData(0)
-        const barCount = Math.floor(canvas.width / 2)
+        const barGap = 1.5
+        const barW = 1
+        const barCount = Math.floor(canvas.width / barGap)
         const step = Math.floor(data.length / barCount)
         const amp = canvas.height / 2
         ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        // 배경 중앙선
+        ctx.fillStyle = 'rgba(200, 164, 110, 0.1)'
+        ctx.fillRect(0, amp, canvas.width, 1)
+
         for (let i = 0; i < barCount; i++) {
           let sum = 0
           for (let j = 0; j < step; j++) sum += Math.abs(data[i * step + j] || 0)
-          const h = Math.max(1, (sum / step) * amp * 2)
-          ctx.fillStyle = 'rgba(200, 164, 110, 0.5)'
-          ctx.fillRect(i * 2, amp - h / 2, 1.5, h)
+          const avg = sum / step
+          // 파형 증폭 — 작은 소리도 보이게
+          const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4)
+          ctx.fillStyle = 'rgba(200, 164, 110, 0.8)'
+          ctx.fillRect(i * barGap, amp - h / 2, barW, h)
         }
       })
       .catch(() => {})

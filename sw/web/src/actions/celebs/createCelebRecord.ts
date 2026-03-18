@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import type { RecordType } from '@/types/database'
 
 interface CreateCelebRecordParams {
@@ -69,6 +69,7 @@ export async function createCelebRecord(params: CreateCelebRecordParams) {
 
   revalidatePath(`/u/${params.celebId}/records/${params.contentId}`)
   revalidatePath(`/u/${params.celebId}/records`)
+  revalidateTag('celebs', { expire: 0 })
 
   return data
 }
