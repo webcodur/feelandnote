@@ -26,11 +26,19 @@ dist-ssr
 *.local
 .next
 
+# Remotion auto-generated docs (DB에서 재생성 가능)
+docs/project/remotion/candidates-raw.md
+
+# Remotion draft episodes (정비 중, 컴포지션 미완료)
+sw/remotion/episodes/book-recommend/draft/
+
 # Remotion voice assets (managed via R2)
 sw/remotion/public/voice/**/*.wav
 sw/remotion/public/voice-profile/**/*.wav
 !sw/remotion/public/voice/**/r2-manifest.json
 !sw/remotion/public/voice/**/manifest.json
+sw/remotion/public/voice/**/timing-debug.json
+sw/remotion/public/voice/**/whisper-debug.json
 
 # Editor directories and files
 .vscode/*

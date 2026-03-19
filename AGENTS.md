@@ -131,9 +131,14 @@ rvu/rvp/rvs   → R2 upload/pull/status
 | 2 | `longform.md` | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
 | 3 | `shorts.md` | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
 | 4 | `tts.md` | 음성 생성 — 엔진, 보이스, 커맨드, web-bo 통합 |
-| 5 | `lineup.md` | 편성 — 인물 선정, 라이벌 묶음, 정치 균형 |
+| 5 | `lineup.md` | 편성표 — 배포 순서, 제작 진행 현황 |
+| 5b | `candidates.md` | 후보 전략 — 라이벌 묶음, 정치 교차, 주의사항 |
+| 5c | `candidates-raw.md` | 후보 전체 리스트 — DB 자동 생성, git 미추적. 재생성 방법은 candidates.md 참조 |
 | 6 | `rules.md` | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항, 체크리스트 |
 | 7 | `voice-actors.md` | 보이스 배정 — Gemini TTS 전체 목록, 셀럽별 매핑 |
+| 8 | `voice-timing-for-user.md` | 음성 타이밍 사용 가이드 — 파이프라인, 명령어, 옵션, 트러블슈팅 |
+| 8b | `voice-timing-for-master.md` | 음성 타이밍 설계 — 도구별 역할, 노하우, 실패 사례 (지휘자용) |
+| 8c | `voice-timing-for-agent.md` | 음성 타이밍 실행 스펙 — 데이터 형식, 분석 절차, 검증 기준 (에이전트용) |
 
 ### 영상 관리 대시보드
 

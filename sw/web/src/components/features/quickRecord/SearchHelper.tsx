@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { SEARCH_PRESETS, generateGoogleSearchUrl } from "@/constants/searchPresets";
+import { getSearchPresets, generateGoogleSearchUrl } from "@/constants/searchPresets";
 import { ExternalLink, FileText } from "lucide-react";
 import { searchBlogAction } from "@/actions/search/searchInformation";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface SearchHelperProps {
   title: string;
@@ -16,13 +16,22 @@ interface SearchHelperProps {
 
 export default function SearchHelper({ title, creator, type, onSearchResult }: SearchHelperProps) {
   const t = useTranslations("quickRecord.search");
-  const presets = SEARCH_PRESETS[type] || [];
+  const locale = useLocale();
+  const presets = getSearchPresets(type, locale);
   const [isLoading, setIsLoading] = useState(false);
+  const isEn = locale === 'en';
 
   const handleInlineSearch = async (queryFn: (title: string) => string) => {
     const query = queryFn(title);
+
+    if (isEn) {
+      // 영문: Google 검색으로 새 탭 열기
+      window.open(generateGoogleSearchUrl(query), '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    // 한국어: 네이버 블로그 인라인 검색
     setIsLoading(true);
-    
     try {
       const result = await searchBlogAction(query);
       onSearchResult(query, result.items || []);
@@ -57,7 +66,11 @@ export default function SearchHelper({ title, creator, type, onSearchResult }: S
               disabled={isLoading}
               className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <FileText size={12} className="text-text-tertiary group-hover:text-accent transition-colors" />
+              {isEn ? (
+                <ExternalLink size={12} className="text-text-tertiary group-hover:text-accent transition-colors" />
+              ) : (
+                <FileText size={12} className="text-text-tertiary group-hover:text-accent transition-colors" />
+              )}
               <span className="text-xs font-semibold text-text-primary group-hover:text-accent transition-colors">
                 {preset.label}
               </span>

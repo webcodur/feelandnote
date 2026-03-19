@@ -98,7 +98,7 @@
         "noDescription": "No detailed description available."
       },
       "banner": {
-        "headline": "One Line Recorded, A Thousand Years Echoed",
+        "headline": "A Single Line Recorded, A Thousand Years of Echoes",
         "description": "The single line you leave today\nbecomes someone's inspiration a thousand years from now."
       },
       "navLinks": {
@@ -176,7 +176,7 @@
     },
     "search": {
       "noPresets": "No search presets available for this content type.",
-      "clickHint": "Click each item to see search results on screen.",
+      "clickHint": "Click to search on Google in a new tab.",
       "contentSearch": "Content Search",
       "searchPlaceholder": "Search for a work to record...",
       "searching": "Searching...",

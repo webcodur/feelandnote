@@ -10,8 +10,10 @@ import type { CelebReview as Review } from "@/types/home";
 import { getCelebProfileUrl } from "@/lib/url";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
+import { ko, enUS } from "date-fns/locale";
 import { useTranslations, useLocale } from "next-intl";
+
+const DATE_LOCALES = { ko, en: enUS } as const;
 
 // #region Inline Slider Feed Card
 function SliderFeedCard({ review }: { review: Review }) {
@@ -20,7 +22,7 @@ function SliderFeedCard({ review }: { review: Review }) {
   const t = useTranslations("home.ui");
   const locale = useLocale();
 
-  const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: ko });
+  const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko });
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);

@@ -115,10 +115,11 @@ const labelSummaryFrom = visual
 
 ### 새 에피소드 제작
 
-1. `episodes/<name>.json` 작성 (기존 JSON 복사 후 수정)
-2. `script.ts`에 JSON import + episodes 맵 등록 + `EPISODE_NAME` 변경
-3. `pnpm voice -- --episode <name> --update-json` 실행 (duration 자동 반영)
-4. `pnpm reboot`으로 프리뷰
+1. `episodes/book-recommend/draft/<name>.json` 작성 (기존 JSON 복사 후 수정)
+2. 텍스트 검수 완료 후 `episodes/book-recommend/`로 이동 (드래프트 → 프로덕션 승격)
+3. `script.ts`에 JSON import + episodes 맵 등록 + `EPISODE_NAME` 변경
+4. `pnpm voice -- --episode <name> --update-json` 실행 (duration 자동 반영)
+5. `pnpm reboot`으로 프리뷰
 
 ### 텍스트 수정
 

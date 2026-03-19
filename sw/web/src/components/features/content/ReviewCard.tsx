@@ -7,7 +7,7 @@ import { FormattedText } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 
 // #region 유틸
@@ -37,7 +37,9 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
   const [showSpoiler, setShowSpoiler] = useState(false);
   const t = useTranslations("contentDetail.review");
   const tTime = useTranslations("contentDetail.relativeTime");
-  const nickname = item.user.nickname || t("anonymous");
+  const locale = useLocale();
+  const nickname = (locale === 'en' && item.user.nickname_en) || item.user.nickname || t("anonymous");
+  const reviewText = (locale === 'en' && item.review_en) ? item.review_en : item.review;
   const timeAgo = formatRelativeTime(item.updated_at, tTime);
 
   return (
@@ -86,7 +88,7 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
                   <EyeOff size={12} />
                 </Button>
               )}
-              <FormattedText text={item.review} />
+              <FormattedText text={reviewText} />
             </div>
           </div>
         )}

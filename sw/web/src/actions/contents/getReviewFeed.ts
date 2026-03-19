@@ -6,12 +6,14 @@ export interface ReviewFeedItem {
   id: string
   rating: number | null
   review: string
+  review_en: string | null
   is_spoiler: boolean
   updated_at: string
   source_url: string | null
   user: {
     id: string
     nickname: string
+    nickname_en: string | null
     avatar_url: string | null
     profile_type: 'USER' | 'CELEB'
   }
@@ -34,10 +36,11 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
       id,
       rating,
       review,
+      review_en,
       is_spoiler,
       updated_at,
       source_url,
-      user:profiles!user_contents_user_id_fkey(id, nickname, avatar_url, profile_type)
+      user:profiles!user_contents_user_id_fkey(id, nickname, nickname_en, avatar_url, profile_type)
     `)
     .eq('content_id', params.contentId)
     .not('review', 'is', null)
@@ -71,6 +74,7 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
   return (data || []).map(record => ({
     ...record,
     review: record.review as string,
+    review_en: (record as any).review_en ?? null,
     user: Array.isArray(record.user) ? record.user[0] : record.user
   })) as ReviewFeedItem[]
 }

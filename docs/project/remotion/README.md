@@ -19,7 +19,8 @@
 
 ```
 sw/remotion/
-  episodes/<name>.json          ← 에피소드 데이터 (SSoT)
+  episodes/<name>.json          ← 에피소드 데이터 (SSoT, 컴포지션 완료)
+  episodes/<name>/draft/         ← 정비 중 에피소드 (git 미추적)
   scripts/generate-voice.ts     ← TTS 생성 스크립트
   scripts/dev.mjs               ← 개발 서버 + 정적 파일 서버
   src/

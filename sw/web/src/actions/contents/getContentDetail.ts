@@ -53,6 +53,28 @@ const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = {
   CERTIFICATE: 'certificate',
 }
 
+/** locale에 맞는 description만 추출 (cross-locale 폴백 방지) */
+function getLocaleDescription(locales: ContentLocaleRow[] | null | undefined, locale: string): string | undefined {
+  const row = locales?.find(l => l.locale === locale)
+  return row?.description ?? undefined
+}
+
+/** locale에 맞는 publisher만 추출 (cross-locale 폴백 방지) */
+function getLocalePublisher(locales: ContentLocaleRow[] | null | undefined, locale: string): string | undefined {
+  const row = locales?.find(l => l.locale === locale)
+  return row?.publisher ?? undefined
+}
+
+/** en locale BOOK → "상세정보 보기" link를 Google Books로 교체 */
+function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: string, type: string): Record<string, unknown> | null {
+  if (!metadata || bookLocale !== 'en' || type !== 'BOOK') return metadata
+  const isbn = metadata.isbn as string | undefined
+  if (isbn) {
+    return { ...metadata, link: `https://books.google.com/books?vid=ISBN${isbn}` }
+  }
+  return metadata
+}
+
 export async function getContentDetail(
   contentId: string,
   category?: CategoryId
@@ -65,14 +87,14 @@ export async function getContentDetail(
 
   // 1. 로그인 사용자의 기록 확인
   let userRecord: ContentDetailData['userRecord'] = null
-  let savedContent: { id: string; external_id: string | null; type: ContentType; title: string; creator?: string; thumbnail_url?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
+  let savedContent: { id: string; external_id: string | null; external_source?: string; type: ContentType; title: string; creator?: string; thumbnail_url?: string; description?: string; publisher?: string; release_date?: string; affiliate_url?: AffiliateLink[] | null } | null = null
 
   if (profile) {
     const { data } = await supabase
       .from('user_contents')
       .select(`
         id, status, rating, review, is_spoiler, created_at, updated_at,
-        content:contents(id, external_id, type, release_date, content_locales(${CL_SELECT}))
+        content:contents(id, external_id, external_source, type, release_date, content_locales(${CL_SELECT}))
       `)
       .eq('user_id', profile.id)
       .eq('content_id', contentId)
@@ -85,10 +107,13 @@ export async function getContentDetail(
       savedContent = {
         id: rawContent.id as string,
         external_id: rawContent.external_id as string | null,
+        external_source: rawContent.external_source as string | undefined,
         type: rawContent.type as ContentType,
         title: flat.title,
         creator: flat.creator ?? undefined,
         thumbnail_url: flat.thumbnail_url ?? undefined,
+        description: getLocaleDescription(locales, locale),
+        publisher: getLocalePublisher(locales, locale),
         release_date: rawContent.release_date as string | undefined,
         affiliate_url: flat.affiliate_url as AffiliateLink[] | null,
       }
@@ -107,11 +132,26 @@ export async function getContentDetail(
   // 2. 콘텐츠 정보 구성
   let contentData: ContentDetailData['content']
 
+  // 메타데이터 description 폴백: locale과 소스 언어가 일치할 때만 사용
+  const isMetaDescUsable = (source?: string) =>
+    locale === 'ko' || source === 'google_books' || source === 'igdb' || source === 'spotify'
+
   if (savedContent) {
     // DB에 저장된 콘텐츠 정보 사용
     const categoryId = TYPE_TO_CATEGORY[savedContent.type]
     const externalId = savedContent.external_id || savedContent.id
-    const metadataResult = await fetchContentMetadata(externalId, savedContent.type)
+    const metadataResult = await fetchContentMetadata(externalId, savedContent.type, savedContent.external_source)
+    const metaDesc = isMetaDescUsable(savedContent.external_source)
+      ? (metadataResult.metadata?.description as string)
+      : undefined
+
+    // locale별 content_locales 필드로 메타데이터 오버라이드
+    const metadata = overrideBookLink(
+      metadataResult.metadata
+        ? { ...metadataResult.metadata, ...(savedContent.publisher && { publisher: savedContent.publisher }) }
+        : metadataResult.metadata,
+      locale, savedContent.type
+    )
 
     contentData = {
       id: savedContent.id,
@@ -119,20 +159,19 @@ export async function getContentDetail(
       title: savedContent.title,
       creator: savedContent.creator || undefined,
       thumbnail: savedContent.thumbnail_url || undefined,
-      // Description은 메타데이터(원본)를 Source of Truth로 사용 (DB 값 무시)
-      description: (metadataResult.metadata?.description as string) || undefined,
+      description: savedContent.description || metaDesc || undefined,
       releaseDate: savedContent.release_date || undefined,
       type: savedContent.type,
       category: categoryId,
-      metadata: metadataResult.metadata,
+      metadata,
       affiliateLinks: savedContent.affiliate_url?.length ? savedContent.affiliate_url : undefined,
     }
   } else {
     // contents 테이블에서 직접 조회 (셀럽 콘텐츠 등 본인 기록이 아닌 경우)
     // UUID 또는 external_id로 검색
-    let dbContent: { id: string; external_id: string | null; type: string; title: string; creator: string | null; thumbnail_url: string | null; release_date: string | null; affiliate_url: unknown } | null = null
+    let dbContent: { id: string; external_id: string | null; external_source?: string; type: string; title: string; creator: string | null; thumbnail_url: string | null; description?: string; publisher?: string; release_date: string | null; affiliate_url: unknown } | null = null
 
-    const contentSelect = `id, external_id, type, release_date, content_locales(${CL_SELECT})`
+    const contentSelect = `id, external_id, external_source, type, release_date, content_locales(${CL_SELECT})`
 
     function buildDbContent(raw: Record<string, unknown>) {
       const locales = raw.content_locales as ContentLocaleRow[] | null
@@ -140,10 +179,13 @@ export async function getContentDetail(
       return {
         id: raw.id as string,
         external_id: raw.external_id as string | null,
+        external_source: raw.external_source as string | undefined,
         type: raw.type as string,
         title: flat.title,
         creator: flat.creator,
         thumbnail_url: flat.thumbnail_url,
+        description: getLocaleDescription(locales, locale),
+        publisher: getLocalePublisher(locales, locale),
         release_date: raw.release_date as string | null,
         affiliate_url: flat.affiliate_url,
       }
@@ -172,7 +214,18 @@ export async function getContentDetail(
     if (dbContent) {
       const categoryId = TYPE_TO_CATEGORY[dbContent.type as ContentType]
       const externalId = dbContent.external_id || dbContent.id
-      const metadataResult = await fetchContentMetadata(externalId, dbContent.type as ContentType)
+      const metadataResult = await fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source)
+      const dbMetaDesc = isMetaDescUsable(dbContent.external_source)
+        ? (metadataResult.metadata?.description as string)
+        : undefined
+
+      // locale별 content_locales 필드로 메타데이터 오버라이드
+      const dbMetadata = overrideBookLink(
+        metadataResult.metadata
+          ? { ...metadataResult.metadata, ...(dbContent.publisher && { publisher: dbContent.publisher }) }
+          : metadataResult.metadata,
+        locale, dbContent.type
+      )
 
       contentData = {
         id: dbContent.id,
@@ -180,12 +233,11 @@ export async function getContentDetail(
         title: dbContent.title,
         creator: dbContent.creator || undefined,
         thumbnail: dbContent.thumbnail_url || undefined,
-        // Description은 메타데이터(원본)를 Source of Truth로 사용 (DB 값 무시)
-        description: (metadataResult.metadata?.description as string) || undefined,
+        description: dbContent.description || dbMetaDesc || undefined,
         releaseDate: dbContent.release_date || undefined,
         type: dbContent.type as ContentType,
         category: categoryId,
-        metadata: metadataResult.metadata,
+        metadata: dbMetadata,
         affiliateLinks: (dbContent.affiliate_url as unknown as AffiliateLink[])?.length ? (dbContent.affiliate_url as unknown as AffiliateLink[]) : undefined,
       }
     } else {
