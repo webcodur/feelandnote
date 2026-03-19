@@ -18,23 +18,37 @@ export interface ContentMetadata {
 // externalId: 외부 API 식별자 (ISBN, tmdb-movie-123, igdb-123, spotify-xxx)
 async function fetchMetadataFromApi(
   externalId: string,
-  type: ContentType
+  type: ContentType,
+  externalSource?: string
 ): Promise<ContentMetadata> {
   switch (type) {
     case 'BOOK': {
-      // 네이버에서 ISBN 검색
-      const naverResult = await searchNaverBooks(externalId, 1)
-      const naverBook = naverResult.items.find(
-        b => b.externalId === externalId || b.metadata.isbn === externalId
-      )
-      if (naverBook) {
-        return { id: externalId, metadata: naverBook.metadata }
-      }
-
-      // 없으면 Google Books 폴백
-      const googleBook = await getGoogleBookByIsbn(externalId)
-      if (googleBook) {
-        return { id: externalId, metadata: googleBook.metadata }
+      if (externalSource === 'google_books') {
+        // Google Books 소스 → Google Books 우선
+        const googleBook = await getGoogleBookByIsbn(externalId)
+        if (googleBook) {
+          return { id: externalId, metadata: googleBook.metadata }
+        }
+        const naverResult = await searchNaverBooks(externalId, 1)
+        const naverBook = naverResult.items.find(
+          b => b.externalId === externalId || b.metadata.isbn === externalId
+        )
+        if (naverBook) {
+          return { id: externalId, metadata: naverBook.metadata }
+        }
+      } else {
+        // 네이버 소스(기본) → 네이버 우선
+        const naverResult = await searchNaverBooks(externalId, 1)
+        const naverBook = naverResult.items.find(
+          b => b.externalId === externalId || b.metadata.isbn === externalId
+        )
+        if (naverBook) {
+          return { id: externalId, metadata: naverBook.metadata }
+        }
+        const googleBook = await getGoogleBookByIsbn(externalId)
+        if (googleBook) {
+          return { id: externalId, metadata: googleBook.metadata }
+        }
       }
 
       return { id: externalId, metadata: null }
@@ -69,10 +83,11 @@ const getCachedMetadata = unstable_cache(
 // externalId: 외부 API 식별자 (ISBN, tmdb-movie-123 등)
 export async function fetchContentMetadata(
   externalId: string,
-  type: ContentType
+  type: ContentType,
+  externalSource?: string
 ): Promise<ContentMetadata> {
   try {
-    return await getCachedMetadata(externalId, type)
+    return await getCachedMetadata(externalId, type, externalSource)
   } catch (error) {
     console.error(`[fetchContentMetadata] ${type} ${externalId} 에러:`, error)
     return { id: externalId, metadata: null }

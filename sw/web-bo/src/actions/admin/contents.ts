@@ -205,7 +205,8 @@ export async function updateAffiliateLinks(
 export async function upsertAffiliatePlatform(
   contentId: string,
   platform: string,
-  url: string
+  url: string,
+  locale: string = 'ko'
 ): Promise<void> {
   const supabase = await createClient()
 
@@ -214,7 +215,7 @@ export async function upsertAffiliatePlatform(
     .from('content_locales')
     .select('affiliate_url')
     .eq('content_id', contentId)
-    .eq('locale', 'ko')
+    .eq('locale', locale)
     .single()
 
   const current: AffiliateLink[] = (data?.affiliate_url as AffiliateLink[]) || []
@@ -236,7 +237,7 @@ export async function upsertAffiliatePlatform(
   // content_locales에만 저장
   const { error } = await supabase.from('content_locales').upsert({
     content_id: contentId,
-    locale: 'ko',
+    locale,
     affiliate_url: value,
   }, { onConflict: 'content_id,locale' })
 

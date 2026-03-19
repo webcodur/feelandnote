@@ -37,7 +37,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
     thumbnail_ko: ko?.thumbnail_url || null,
     thumbnail_en: en?.thumbnail_url || null,
     has_en_edition: en?.title != null,
-    affiliate_url: ko?.affiliate_url || en?.affiliate_url || null,
+    affiliate_url: primary?.affiliate_url || fallback?.affiliate_url || null,
   }
 }
 

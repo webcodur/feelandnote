@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Feel&Note - One Line Recorded, A Thousand Years Echoed",
+    "title": "Feel&Note - A Single Line Recorded, A Thousand Years of Echoes",
     "description": "Discover what great minds read, watched, and listened to. Explore the records and echoes of 1,000+ notable figures.",
-    "twitterDescription": "One line recorded, a thousand years echoed. A cultural archive of 1,000+ great minds."
+    "twitterDescription": "A single line recorded, a thousand years of echoes. A cultural archive of 1,000+ great minds."
   },
   "notFound": {
     "title": "Page Not Found",
@@ -36,7 +36,7 @@
       "label": "Change language"
     },
     "footer": {
-      "tagline": "One line recorded, a thousand years echoed."
+      "tagline": "A single line recorded, a thousand years of echoes."
     }
   },
   "pages": {
@@ -431,10 +431,10 @@
     "noteDesc1": "Recording is rational.",
     "noteDesc2": "It's the process of capturing fleeting emotions in words",
     "noteDesc3": "and sculpting them into tangible form.",
-    "noteDesc4": "A single recorded line echoes for a thousand years.",
+    "noteDesc4": "A single line recorded, a thousand years of echoes.",
     "promise1": "Feel&Note hopes",
     "promise2": "your single line becomes",
-    "promiseHighlight": "an echo across the ages",
+    "promiseHighlight": "a thousand years of echoes",
     "promise3": ".",
     "epilogue1": "This is not just a journal.",
     "epilogue2": "It is a temple of wisdom",
