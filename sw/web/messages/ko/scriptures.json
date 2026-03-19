@@ -8,7 +8,7 @@
       },
       "profession": {
         "label": "갈림길",
-        "description": "당신이 걷는 길의 선배들은 무엇을 읽었을까요?"
+        "description": "여러분이 걷는 길의 선배들은 무엇을 읽었을까요?"
       },
       "museum": {
         "label": "박물관",
@@ -328,7 +328,7 @@
       "professionPage": {
         "title": "길의 갈래",
         "description": "분야별 인물들의 필독서.",
-        "descriptionSub": "당신이 가고자 하는 길의 선배들은 무엇을 읽었을까요?",
+        "descriptionSub": "여러분이 가고자 하는 길의 선배들은 무엇을 읽었을까요?",
         "selectProfession": "직군 선택",
         "representativePrefix": "대표 ",
         "recommendedWorks": "추천 작품"
