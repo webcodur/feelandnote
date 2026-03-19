@@ -12,6 +12,7 @@ import {
 import CardHeader from "./CardHeader";
 import CardModals from "./CardModals";
 import CornerAccents from "./CornerAccents";
+import GenerativeBookCover from "./GenerativeBookCover";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
 
@@ -114,14 +115,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     <>
       <CardHeader props={props} state={state} />
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
-        {editionUnavailable ? (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
-            <ContentIcon size={28} className="text-text-tertiary mb-2" />
-            <p className="text-[11px] text-text-tertiary leading-snug">
-              {activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc")}
-            </p>
-          </div>
-        ) : showImage ? (
+        {showImage ? (
           <Image
             src={displayThumbnail!}
             alt={title}
@@ -137,17 +131,19 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
           />
         ) : certTheme ? (
           renderCertificateFallback(32)
-        ) : editionNoCover ? (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-black/40 px-3 text-center">
-            <ContentIcon size={28} className="text-text-tertiary mb-2" />
-            <p className="text-[11px] text-text-tertiary leading-snug">
-              {activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn")}
-            </p>
-          </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-white/5">
-            <ContentIcon size={32} className="text-text-tertiary" />
-          </div>
+          <GenerativeBookCover
+            title={displayTitle}
+            ContentIcon={ContentIcon}
+            iconSize={28}
+            label={
+              editionUnavailable
+                ? (activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc"))
+                : editionNoCover
+                  ? (activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn"))
+                  : undefined
+            }
+          />
         )}
 
         {showGradient && !certTheme && !editionUnavailable && (
