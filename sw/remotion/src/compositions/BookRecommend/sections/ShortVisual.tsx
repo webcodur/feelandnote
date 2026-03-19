@@ -8,11 +8,13 @@ import { safeImg } from '../utils'
 import { FPS, SHORT_FALLBACK, f } from '../timing'
 import { FONT } from '../fonts'
 import { KoreanTypewriter } from './KoreanTypewriter'
+import { SpeakingIndicator } from './SpeakingIndicator'
 
 const AVATAR = 200
 const avatarStyle = {
   width: AVATAR, height: AVATAR, borderRadius: '50%', overflow: 'hidden' as const,
   border: '3px solid rgba(200,164,110,0.35)',
+  backgroundColor: 'rgba(30,24,16,0.9)',
   boxShadow: '0 16px 50px rgba(0,0,0,0.5)',
 }
 const COVER = { w: 240, h: 360 } as const
@@ -36,11 +38,13 @@ interface Props {
   book: BookEntry
   coverScale: number
   locale?: 'ko' | 'en'
-  timings?: { start: number; end: number }[]
+  timings?: { start: number; end: number; text?: string }[]
+  /** 세그먼트 오디오 URL (SpeakingIndicator 파형용) */
+  audioSrc?: string
 }
 
 export const ShortVisual: React.FC<Props> = ({
-  seg, opacity, startFrame, safePad, host, book, coverScale, locale, timings,
+  seg, opacity, startFrame, safePad, host, book, coverScale, locale, timings, audioSrc,
 }) => {
   const frame = useCurrentFrame()
   if (opacity <= 0) return null
@@ -57,8 +61,11 @@ export const ShortVisual: React.FC<Props> = ({
           alignItems: 'center', justifyContent: 'center',
           gap: 32, padding: safePad,
         }}>
-          <div style={avatarStyle}>
-            <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'relative' }}>
+            <div style={avatarStyle}>
+              <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            {isCeleb && <SpeakingIndicator size={36} audioSrc={audioSrc} audioStartFrame={startFrame} />}
           </div>
           <div style={{
             color: '#f0ece4', fontSize: SHORTS.headline, fontWeight: 800,
@@ -77,8 +84,11 @@ export const ShortVisual: React.FC<Props> = ({
           alignItems: 'center', justifyContent: 'center',
           gap: 20, padding: safePad,
         }}>
-          <div style={avatarStyle}>
-            <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'relative' }}>
+            <div style={avatarStyle}>
+              <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            {isCeleb && <SpeakingIndicator size={36} audioSrc={audioSrc} audioStartFrame={startFrame} />}
           </div>
           {!isCeleb && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
@@ -187,7 +197,7 @@ export const ShortVisual: React.FC<Props> = ({
                   color="#e8e0d0"
                   fontSize={fontSize}
                   style={{ fontFamily: FONT.sans, lineHeight: 1.8 }}
-                  timings={timings?.slice(mid).map(t => ({ start: t.start - midAudioStart, end: t.end - midAudioStart }))}
+                  timings={timings?.slice(mid).map(t => ({ start: t.start - midAudioStart, end: t.end - midAudioStart, text: t.text }))}
                 />
               </div>
             </>) : (
@@ -215,8 +225,11 @@ export const ShortVisual: React.FC<Props> = ({
           gap: 24, padding: safePad,
         }}>
           {isCeleb && (
-            <div style={avatarStyle}>
-              <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ position: 'relative' }}>
+                <div style={avatarStyle}>
+                <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <SpeakingIndicator size={36} audioSrc={audioSrc} audioStartFrame={startFrame} />
             </div>
           )}
           <div style={{ maxWidth: 780 }}>

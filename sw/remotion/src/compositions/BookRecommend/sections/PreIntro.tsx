@@ -8,6 +8,7 @@ import type { CelebHost, BookEntry } from '../types'
 import { fadeInOut, safeImg } from '../utils'
 import { f } from '../timing'
 import { FONT } from '../fonts'
+import { SpeakingIndicator } from './SpeakingIndicator'
 
 interface Props {
   frame: number
@@ -18,11 +19,13 @@ interface Props {
   host: CelebHost
   books: BookEntry[]
   locale?: 'ko' | 'en'
+  /** 대표 명언 오디오 URL (SpeakingIndicator 파형용) */
+  fQuoteAudioSrc?: string
 }
 
 export const PreIntro: React.FC<Props> = ({
   frame, svcGreetingStart, svcGreetingFrames, svcIntroFrames, fQuoteFrames,
-  host, books, locale,
+  host, books, locale, fQuoteAudioSrc,
 }) => {
   const libraryTourText = locale === 'en' ? 'Library Tour' : '서재 탐방'
   const totalPreIntro = svcGreetingFrames + svcIntroFrames + fQuoteFrames
@@ -103,6 +106,7 @@ export const PreIntro: React.FC<Props> = ({
           <div style={{ position: 'relative' }}>
             <div style={{
               width: 180, height: 180, borderRadius: '50%', overflow: 'hidden',
+              backgroundColor: 'rgba(30,24,16,0.9)',
               border: `2px solid rgba(200,164,110,${borderAlpha})`,
               boxShadow: revealProgress > 0.5
                 ? '0 16px 50px rgba(0,0,0,0.5)'
@@ -121,6 +125,7 @@ export const PreIntro: React.FC<Props> = ({
             }}>
               <div style={{ color: '#c8a46e', fontSize: 48, fontWeight: 700, fontFamily: FONT.serif }}>?</div>
             </div>
+            {quoteOp > 0 && <SpeakingIndicator size={32} opacity={quoteOp} audioSrc={fQuoteAudioSrc} audioStartFrame={svcGreetingStart + svcGreetingFrames + svcIntroFrames + f(1)} />}
           </div>
           {/* 이름 슬롯 */}
           <div style={{ minHeight: 48, minWidth: 300, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

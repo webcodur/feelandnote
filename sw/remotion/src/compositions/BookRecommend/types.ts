@@ -135,6 +135,8 @@ export interface ShortSegment {
   role: 'narrator' | 'celeb'
   /** 자막/TTS 텍스트 */
   text: string
+  /** TTS 오버라이드 — 발음이 다를 때만 지정 */
+  ttsText?: string
   /** 비주얼 유형: hook, intro, book, cta */
   visual: 'hook' | 'intro' | 'book' | 'cta'
   /** TTS 생성 후 자동 반영 (초) */
@@ -153,7 +155,7 @@ export interface ShortsConfig {
 }
 
 /** 파형 분석 기반 음성 타이밍 */
-export type VoiceTimingSegment = { start: number; end: number }
+export type VoiceTimingSegment = { start: number; end: number; text?: string }
 export type VoiceTimings = Record<string, VoiceTimingSegment[]>
 
 /** 시리즈 정보 — 2부 이상 에피소드에만 존재 */

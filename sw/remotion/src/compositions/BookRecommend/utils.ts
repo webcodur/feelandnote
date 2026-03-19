@@ -7,6 +7,9 @@ import { resolveVoiceRelPath } from './voice-names'
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
 export const sf = (path: string) => staticFile(path)
 
+/** 에피소드 이미지 경로용 baseName — '-en' 접미사 제거하여 한/영 이미지 공유 */
+export const imageBase = (epName: string) => epName.replace(/-en$/, '')
+
 /** 에피소드별 음성 경로 팩토리 — resolveVoiceRelPath 단일원천 사용 */
 export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null, locale?: 'ko' | 'en') => {
   return (file: string) => {

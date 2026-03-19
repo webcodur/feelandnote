@@ -1,1 +1,11 @@
-{ "default": "gemini" }
+{
+  "default": "gemini",
+  "slots": {
+    "B2-philosophy.wav": "elevenlabs",
+    "A3-featured-quote.wav": "elevenlabs",
+    "D01d-quote.wav": "elevenlabs",
+    "D02d-quote.wav": "elevenlabs",
+    "S05-celeb-end.wav": "elevenlabs",
+    "S03-celeb-mid.wav": "elevenlabs"
+  }
+}

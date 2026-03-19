@@ -25,6 +25,10 @@ interface Props {
 
 /** 텍스트를 voiceTiming 기반 또는 비율 기반으로 자막 분할 */
 function splitSub(start: number, end: number, speaker: string, text: string, timings?: VoiceTimingSegment[]): Sub[] {
+  // 타이밍에 text가 포함되어 있으면 직접 사용 (remotion-bo에서 편집한 자막)
+  if (timings && timings.length > 0 && timings.every(t => t.text)) {
+    return timings.map(t => ({ start: start + Math.round(t.start * FPS), end: start + Math.round(t.end * FPS), speaker, text: t.text! }))
+  }
   const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
   if (sentences.length <= 1) return [{ start, end, speaker, text }]
   const MIN_F = Math.round(1.5 * FPS), MAX_F = Math.round(8 * FPS)

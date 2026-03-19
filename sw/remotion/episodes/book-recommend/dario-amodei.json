@@ -19,9 +19,9 @@
       {
         "id": "celeb-mid",
         "role": "celeb",
-        "text": "AI가 인류를 종으로서 시험할 것이다. 위험을 직시하는 이유는 그 너머의 미래가 근본적으로 좋기 때문이다.",
+        "text": "소수의 과학자가 세상을 영원히 바꿔놓았습니다. 핵이 그랬듯, 다음은 AI입니다. 우리가 위험을 경고하는 이유는 그 너머에 있는 압도적인 번영을 안전하게 맞이하기 위해서입니다.",
         "visual": "intro",
-        "duration": 9.05
+        "duration": 13.81
       },
       {
         "id": "book-context",
@@ -33,9 +33,9 @@
       {
         "id": "celeb-end",
         "role": "celeb",
-        "text": "인류가 곧 상상 불가한 힘을 쥐게 된다. 준비가 필요하다. 나의 서재가 더 궁금하다면, 프로필을 확인해보라.",
+        "text": "기술이 세상을 덮친 뒤에 역사를 읽으면 이미 늦습니다. 제가 어떤 책에서 이 확신을 얻었는지 제 서재에서 확인해 보십시오.",
         "visual": "cta",
-        "duration": 9.25
+        "duration": 9.81
       }
     ]
   },
@@ -60,8 +60,8 @@
     "avatar_url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/20dedbaa-a58d-4f2d-ab33-db0ffdc32d31/avatar.webp?v=1771993601533",
     "bio": "미국의 AI 연구자이자 기업가. OpenAI 연구 부사장을 거쳐 2021년 Anthropic을 공동 창립하여 Claude AI를 개발했다.",
     "title": "Claude AI",
-    "featuredQuote": "AI가 인류를 종으로서 시험할 것이다.",
-    "featuredQuoteDuration": 3.93,
+    "featuredQuote": "소수의 과학자가 세상을 바꿨습니다. 핵이 그랬고, 다음은 AI입니다.",
+    "featuredQuoteDuration": 6.89,
     "philosophy": "안녕하세요, 다리오 아모데이입니다. 저는 기술의 가장 위험한 순간을 역사에서 먼저 찾습니다. 원자 폭탄 만들기를 읽고 맨해튼 프로젝트가 지금의 AI 개발과 구조적으로 겹친다는 것을 깨달았습니다. 홉스의 리바이어던에서 질서를 설계해야 한다는 논리를 끌어와 AI 거버넌스에 적용했습니다. 기술 낙관론과 안전에 대한 경계를 동시에 유지하는 것, 그것이 제 독서의 일관된 축입니다.",
     "voiceDuration": 30.49,
     "geminiVoice": "Sadaltager"
@@ -549,11 +549,19 @@
     "S03-celeb-mid": [
       {
         "start": 0,
-        "end": 3.2
+        "end": 3.42
       },
       {
-        "start": 3.2,
-        "end": 9.051
+        "start": 3.42,
+        "end": 4.86
+      },
+      {
+        "start": 4.86,
+        "end": 6.66
+      },
+      {
+        "start": 6.66,
+        "end": 13.811
       }
     ],
     "S04-book-context": [
@@ -577,19 +585,11 @@
     "S05-celeb-end": [
       {
         "start": 0,
-        "end": 3.56
+        "end": 4.22
       },
       {
-        "start": 3.56,
-        "end": 5.08
-      },
-      {
-        "start": 5.08,
-        "end": 7.66
-      },
-      {
-        "start": 7.66,
-        "end": 9.251
+        "start": 4.22,
+        "end": 9.811
       }
     ]
   }

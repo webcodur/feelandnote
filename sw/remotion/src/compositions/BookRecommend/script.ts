@@ -6,6 +6,7 @@ import davinciData from '../../../episodes/book-recommend/leonardo-da-vinci.json
 import davinci2Data from '../../../episodes/book-recommend/leonardo-da-vinci-2.json'
 import napoleonData from '../../../episodes/book-recommend/napoleon-bonaparte.json'
 import jensenHuangData from '../../../episodes/book-recommend/jensen-huang.json'
+import jensenHuangEnData from '../../../episodes/book-recommend/jensen-huang-en.json'
 import darioAmodeiData from '../../../episodes/book-recommend/dario-amodei.json'
 import markZuckerbergData from '../../../episodes/book-recommend/mark-zuckerberg.json'
 
@@ -21,6 +22,7 @@ export const episodes: Record<string, BookRecommendScript> = {
   'leonardo-da-vinci-2': davinci2Data as BookRecommendScript,
   'napoleon-bonaparte': napoleonData as BookRecommendScript,
   'jensen-huang': jensenHuangData as BookRecommendScript,
+  'jensen-huang-en': jensenHuangEnData as BookRecommendScript,
   'dario-amodei': darioAmodeiData as BookRecommendScript,
   'mark-zuckerberg': markZuckerbergData as BookRecommendScript,
 }

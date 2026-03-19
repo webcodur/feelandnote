@@ -38,7 +38,7 @@ const strings: Record<'ko' | 'en', Strings> = {
   },
   en: {
     libraryTour: 'Library Tour',
-    tagline: 'One Line of Record, A Millennium of Echoes',
+    tagline: 'A Single Line Recorded,\nA Thousand Years of Echoes',
     ctaText: 'More library tours on our profile',
     nBooks: (n: number) => `${n} Books`,
     headerTitle: (nickname: string, n: number) => ({

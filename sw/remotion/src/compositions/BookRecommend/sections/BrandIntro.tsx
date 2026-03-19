@@ -10,7 +10,7 @@ type Props = {
 
 /** Section 0: 브랜드 로고 + 차임 SFX */
 export const BrandIntro: React.FC<Props> = ({ durationFrames, locale }) => {
-  const taglineText = locale === 'en' ? 'One Line of Record, A Millennium of Echoes' : '한 줄의 기록, 천 년의 울림'
+  const taglineText = locale === 'en' ? 'A Single Line Recorded, A Thousand Years of Echoes' : '한 줄의 기록, 천 년의 울림'
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 

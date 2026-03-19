@@ -89,7 +89,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             if (op <= 0) return null
             return (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: op, gap: 20 }}>
-                <Img src={host.avatar_url} style={{ width: 160, height: 160, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(200,164,110,0.3)' }} />
+                <Img src={host.avatar_url} style={{ width: 160, height: 160, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(200,164,110,0.3)', backgroundColor: 'rgba(30,24,16,0.9)' }} />
                 <div style={{ color: '#e8e0d0', fontSize: 26, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 800, lineHeight: 1.7 }}>
                   {narrator.returnIntro}
                 </div>
@@ -154,6 +154,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         host={host}
         books={books}
         locale={script.locale}
+        fQuoteAudioSrc={hasVoice && tl.fQuoteFrames > 0 ? vf(VN_FEATURED_QUOTE) : undefined}
       />}
 
       {/* 인물 소개 + 감상철학 (Part 1) */}
@@ -172,7 +173,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               <Audio src={vf(VN_PHILOSOPHY)} />
             </Sequence>
           )}
-          <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={tl.celebIntroFrames} totalFrames={tl.hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={host.voiceDuration ?? 0} narratorTimings={script.voiceTimings?.[vnTimingKey(VN_CELEB_INTRO)]} philosophyTimings={script.voiceTimings?.[vnTimingKey(VN_PHILOSOPHY)]} locale={script.locale} />
+          <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={tl.celebIntroFrames} totalFrames={tl.hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={host.voiceDuration ?? 0} narratorTimings={script.voiceTimings?.[vnTimingKey(VN_CELEB_INTRO)]} philosophyTimings={script.voiceTimings?.[vnTimingKey(VN_PHILOSOPHY)]} philosophyAudioSrc={hasVoice ? vf(VN_PHILOSOPHY) : undefined} locale={script.locale} />
         </Sequence>
       )}
 

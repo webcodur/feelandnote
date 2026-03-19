@@ -3,6 +3,7 @@ import type { CelebHost, VoiceTimingSegment } from '../types'
 import { KoreanTypewriter } from './KoreanTypewriter'
 import { FONT } from '../fonts'
 import { toAudioFrames, CELEB_VISUAL_DELAY, f } from '../timing'
+import { SpeakingIndicator } from './SpeakingIndicator'
 
 type Props = {
   host: CelebHost
@@ -19,6 +20,8 @@ type Props = {
   narratorTimings?: VoiceTimingSegment[]
   /** 감상철학 파형 타이밍 */
   philosophyTimings?: VoiceTimingSegment[]
+  /** 감상철학 오디오 URL (SpeakingIndicator 파형용) */
+  philosophyAudioSrc?: string
   locale?: 'ko' | 'en'
 }
 
@@ -28,7 +31,7 @@ type Props = {
  * 우측 Phase 1: "서재 탐방" + 이름 + biography (나레이터)
  * 우측 Phase 2: 감상철학 (셀럽 본인)
  */
-export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration, narratorTimings, philosophyTimings, locale }) => {
+export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration, narratorTimings, philosophyTimings, philosophyAudioSrc, locale }) => {
   const libraryTourText = locale === 'en' ? 'Library Tour' : '서재 탐방'
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
@@ -98,22 +101,25 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
         <div
           style={{
             flexShrink: 0,
-            position: 'relative',
             opacity: avatarEnter,
             transform: `translateY(${avatarY}px) scale(${avatarEnter})`,
           }}
         >
-          <div
-            style={{
-              width: 280,
-              height: 280,
-              borderRadius: '50%',
-              overflow: 'hidden',
-              border: '3px solid #c8a46e',
-              boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(200,164,110,0.15)',
-            }}
-          >
-            <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'relative', width: 280, height: 280 }}>
+            <div
+              style={{
+                width: 280,
+                height: 280,
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '3px solid #c8a46e',
+                backgroundColor: 'rgba(30,24,16,0.9)',
+                boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(200,164,110,0.15)',
+              }}
+            >
+              <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            {phase2FadeIn > 0 && <SpeakingIndicator size={42} opacity={phase2FadeIn} audioSrc={philosophyAudioSrc} audioStartFrame={celebIntroFrames + f(1)} />}
           </div>
         </div>
 

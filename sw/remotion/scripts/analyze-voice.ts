@@ -7,8 +7,11 @@
  *   3. WAV 파형에서 무음 구간 탐지
  *   4. 각 추정 경계에 가장 가까운 무음 구간의 중심을 실제 경계로 선택
  *
+ * 규칙 단일원천: docs/project/remotion/voice-timing-for-agent.md
+ *
  * Usage:
  *   pnpm analyze -- --episode alexander-the-great --update-json
+ *   pnpm analyze -- --episode alexander-the-great --update-json --export-debug
  *   pnpm analyze -- --episode alexander-the-great --only book-0-context
  */
 import { readFileSync, writeFileSync } from 'fs'
@@ -94,8 +97,22 @@ function detectSilences(path: string, opts: {
   return { duration, silences }
 }
 
+// --- 디버그 출력용 50ms RMS — voice-timing-for-agent.md 참조 ---
+function computeDebugRms(path: string): number[] {
+  const { sampleRate, samples } = parseWav(path)
+  const windowSize = Math.round(sampleRate * 0.05) // 50ms
+  const rms: number[] = []
+  for (let i = 0; i < samples.length; i += windowSize) {
+    let sum = 0
+    const end = Math.min(i + windowSize, samples.length)
+    for (let j = i; j < end; j++) sum += samples[j] * samples[j]
+    rms.push(Math.round(Math.sqrt(sum / (end - i)) * 1000) / 1000)
+  }
+  return rms
+}
+
 // --- 파형 분석: 글자 비례 추정 + 무음 스냅 ---
-type SentenceTiming = { start: number; end: number }
+type SentenceTiming = { start: number; end: number; text?: string }
 
 function analyzeWithSilence(
   wavPath: string,
@@ -144,10 +161,10 @@ function analyzeWithSilence(
   const result: SentenceTiming[] = []
   let cursor = 0
   for (const boundary of boundaries) {
-    result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(boundary * 1000) / 1000 })
+    result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(boundary * 1000) / 1000, text: sentences[result.length] })
     cursor = boundary
   }
-  result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(duration * 1000) / 1000 })
+  result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(duration * 1000) / 1000, text: sentences[result.length] })
   return result
 }
 
@@ -192,9 +209,10 @@ const epName = epIdx >= 0 ? args[epIdx + 1] : null
 const onlyIdx = args.indexOf('--only')
 const onlyFilter = onlyIdx >= 0 ? args[onlyIdx + 1].split(',') : null
 const updateJson = args.includes('--update-json')
+const exportDebug = args.includes('--export-debug')
 
 if (!epName) {
-  console.error('Usage: pnpm analyze -- --episode <name> [--only file1,file2] [--update-json]')
+  console.error('Usage: pnpm analyze -- --episode <name> [--only file1,file2] [--update-json] [--export-debug]')
   process.exit(1)
 }
 
@@ -244,6 +262,7 @@ console.log(`에피소드: ${epName}`)
 console.log(`${filtered.length}개 파일 분석 (텍스트+파형 결합)\n`)
 
 const results: Record<string, SentenceTiming[]> = {}
+const debugTargets: Record<string, any> = {}
 
 for (const target of filtered) {
   const locale = episode.locale === 'en' ? 'en' as const : 'ko' as const
@@ -269,6 +288,16 @@ for (const target of filtered) {
       const preview = sent.length > 30 ? sent.slice(0, 30) + '...' : sent
       console.log(`  ${i + 1}. ${t.start.toFixed(2)}s ~ ${t.end.toFixed(2)}s  "${preview}"`)
     })
+
+    if (exportDebug) {
+      const dbgRms = computeDebugRms(wavPath)
+      const { duration: dbgDur, silences: dbgSil } = detectSilences(wavPath)
+      debugTargets[vnTimingKey(target.file)] = {
+        duration: dbgDur, windowMs: 50, rms: dbgRms,
+        silences: dbgSil.map(s => ({ start: Math.round(s.start * 1000) / 1000, end: Math.round(s.end * 1000) / 1000 })),
+        sentences, draft: timings,
+      }
+    }
   } catch (e: any) {
     console.log(`[${target.file}] 건너뜀 — ${e.message}`)
   }
@@ -278,7 +307,10 @@ if (updateJson) {
   if (!episode.voiceTimings) episode.voiceTimings = {}
   for (const [file, timings] of Object.entries(results)) {
     const key = vnTimingKey(file)
-    episode.voiceTimings[key] = timings
+    // 기존 text 보존 — remotion-bo에서 편집한 자막 우선, 없으면 분석 결과 사용
+    const prev: Array<{ text?: string }> = episode.voiceTimings[key] ?? []
+    const merged = timings.map((t, i) => ({ ...t, text: prev[i]?.text ?? t.text }))
+    episode.voiceTimings[key] = merged
 
     // duration 자동 동기화 — voiceTimings의 마지막 end를 duration으로 반영
     const lastEnd = timings[timings.length - 1]?.end
@@ -319,6 +351,13 @@ if (updateJson) {
 
   writeFileSync(epPath, JSON.stringify(episode, null, 2) + '\n', 'utf-8')
   console.log(`\n✓ ${epName}.json voiceTimings + duration 동기화 완료`)
+}
+
+if (exportDebug && Object.keys(debugTargets).length > 0) {
+  const debugData = { episode: epName, locale: episode.locale ?? 'ko', targets: debugTargets }
+  const debugPath = join(voiceBaseDir, 'timing-debug.json')
+  writeFileSync(debugPath, JSON.stringify(debugData, null, 2) + '\n', 'utf-8')
+  console.log(`\n✓ 디버그 데이터: ${debugPath}`)
 }
 
 console.log('\n완료.')

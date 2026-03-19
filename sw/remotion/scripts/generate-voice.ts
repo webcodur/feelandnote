@@ -240,7 +240,11 @@ function ttsText(field: string, bookIndex?: number): string {
     const bookTts = tts?.books?.[bookIndex]
     const book = episode.books[bookIndex]
     switch (field) {
-      case 'title': return bookTts?.title ?? `${book.title}, ${book.creator}`
+      case 'title': {
+        if (bookTts?.title) return bookTts.title
+        const year = book.stats?.publishYear
+        return year ? `${book.title}, ${book.creator}, ${year}` : `${book.title}, ${book.creator}`
+      }
       case 'summary': return bookTts?.summary ?? book.summary
       case 'context': return bookTts?.context ?? book.context
       case 'contextAfter': return bookTts?.contextAfter ?? book.contextAfter ?? ''
@@ -338,7 +342,7 @@ function buildJobs(): Job[] {
   if (episode.shorts?.segments) {
     episode.shorts.segments.forEach((seg, i) => {
       const voice = seg.role === 'celeb' ? VOICE.celeb : VOICE.narrator
-      jobs.push({ file: vnShort(i, seg.id), voice, text: seg.text, role: seg.role as Role })
+      jobs.push({ file: vnShort(i, seg.id), voice, text: seg.ttsText ?? seg.text, role: seg.role as Role })
     })
   }
 

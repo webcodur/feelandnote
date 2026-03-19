@@ -16,7 +16,7 @@ import { FONT } from '../fonts'
 import {
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f,
 } from '../timing'
-import { safeImg, sf } from '../utils'
+import { safeImg, sf, imageBase } from '../utils'
 import { vnBookSummary, vnBookContext, vnBookContextAfter, vnTimingKey } from '../voice-names'
 import type { BookRecommendScript } from '../types'
 import { t } from '../i18n'
@@ -55,7 +55,7 @@ export const BookCardVisual: React.FC<Props> = ({
   labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName, timings, script,
 }) => {
   const i18n = t(script)
-  const imf = (file: string) => sf(`images/${episodeName}/${file}`)
+  const imf = (file: string) => sf(`images/${imageBase(episodeName)}/${file}`)
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
@@ -246,7 +246,7 @@ export const BookCardVisual: React.FC<Props> = ({
               <div style={{ position: 'absolute', inset: 0, opacity: summaryBgOp }}>
                 <Img src={summaryImageUrl} style={{
                   width: '100%', height: '100%', objectFit: 'cover',
-                  filter: 'brightness(0.2) saturate(0.7)',
+                  filter: 'brightness(0.4) saturate(0.7)',
                 }} />
               </div>
             )}
@@ -255,7 +255,7 @@ export const BookCardVisual: React.FC<Props> = ({
               <div style={{ position: 'absolute', inset: 0, opacity: contextBgOp }}>
                 <Img src={contextImageUrl} style={{
                   width: '100%', height: '100%', objectFit: 'cover',
-                  filter: 'brightness(0.2) saturate(0.7)',
+                  filter: 'brightness(0.4) saturate(0.7)',
                 }} />
               </div>
             )}
@@ -265,7 +265,7 @@ export const BookCardVisual: React.FC<Props> = ({
             <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: 80, background: 'linear-gradient(to right, #0a0a0a, transparent)' }} />
 
             {/* 텍스트 배경 — 반투명 어둡게 */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 4, background: 'rgba(10,10,10,0.55)' }} />
+            <div style={{ position: 'absolute', inset: 0, zIndex: 4, background: 'rgba(10,10,10,0.4)' }} />
 
             {/* 텍스트 패널 — [헤더+본문] 묶어서 세로 중앙 배치 */}
             <div style={{
@@ -273,11 +273,12 @@ export const BookCardVisual: React.FC<Props> = ({
               display: 'flex', alignItems: 'center',
               height: '100%', padding: '0 60px 0 40px',
             }}>
-              <div style={{ width: '100%' }}>
-              {/* 본문 영역 — 섹션 라벨을 제목으로 사용 */}
-              <div style={{ maxWidth: 700 }}>
+              <div style={{ width: '100%', height: '100%' }}>
+              {/* 본문 영역 — 요약/경위 absolute 크로스페이드 (레이아웃 시프트 방지) */}
+              <div style={{ maxWidth: 700, position: 'relative', height: '100%' }}>
                 {/* 요약 블록 */}
-                <div style={{ opacity: summaryLabelOp + summaryBodyOp > 0 ? 1 : 0, display: summaryLabelOp + summaryBodyOp > 0 ? 'block' : 'none' }}>
+                {(summaryLabelOp + summaryBodyOp > 0) && (
+                <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, transform: 'translateY(-50%)' }}>
                   <div style={{ opacity: summaryLabelOp, color: '#8bb8a8', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans, letterSpacing: 3, marginBottom: 20, textAlign: 'center' }}>
                     {i18n.labelSummary}
                   </div>
@@ -290,9 +291,11 @@ export const BookCardVisual: React.FC<Props> = ({
                     <KoreanTypewriter text={book.summary} startFrame={sSummary} spreadFrames={summaryFrames - f(0.5)} color="#d0d0d0" fontSize={27} style={{ lineHeight: 1.8 }} timings={timings?.[vnTimingKey(vnBookSummary(index))]} />
                   </div>
                 </div>
+                )}
 
                 {/* 경위 블록 */}
-                <div style={{ opacity: contextLabelOp + contextBodyOp + quoteOp + contextAfterOp > 0 ? 1 : 0, display: contextLabelOp + contextBodyOp + quoteOp + contextAfterOp > 0 ? 'block' : 'none' }}>
+                {(contextLabelOp + contextBodyOp + quoteOp + contextAfterOp > 0) && (
+                <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, transform: 'translateY(-50%)' }}>
                     <div style={{ opacity: contextLabelOp, color: '#999', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans, letterSpacing: 3, marginBottom: 20, textAlign: 'center' }}>
                       {i18n.labelContext}
                     </div>
@@ -324,6 +327,7 @@ export const BookCardVisual: React.FC<Props> = ({
                       </div>
                     )}
                   </div>
+                )}
               </div>
               </div>{/* /wrapper */}
             </div>

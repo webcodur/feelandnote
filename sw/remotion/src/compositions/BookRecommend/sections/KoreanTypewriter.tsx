@@ -1,7 +1,7 @@
 import { interpolate, useCurrentFrame } from 'remotion'
 import { f, FPS } from '../timing'
 
-type Segment = { start: number; end: number }
+type Segment = { start: number; end: number; text?: string }
 
 type Props = {
   text: string
@@ -29,10 +29,14 @@ export const KoreanTypewriter: React.FC<Props> = ({
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
 
-  const sentences = text.split(/(?<=[.?!,])\s+/).filter(Boolean)
+  // timings에 text가 있으면 그걸 사용, 없으면 문장 분할
+  const hasTextInTimings = timings && timings.length > 0 && timings.every(t => t.text)
+  const sentences = hasTextInTimings
+    ? timings!.map(t => t.text!)
+    : text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
 
   // timings가 있고 문장 수와 일치하면 하이라이트 활성화
-  const hasTimings = timings && timings.length === sentences.length
+  const hasTimings = timings && (hasTextInTimings || timings.length === sentences.length)
 
   // timings 없으면 빨간색으로 경고 표시 — /voice-sync 필요
   if (!hasTimings) {

@@ -13,7 +13,7 @@
 import React, { useEffect } from 'react'
 import { AbsoluteFill, Audio, getRemotionEnvironment, Img, prefetch, Series, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { BookRecommendScript } from './types'
-import { fadeInOut, BrandLogo, BRAND_LOGO_SIZE, sf, makeVf } from './utils'
+import { fadeInOut, BrandLogo, BRAND_LOGO_SIZE, sf, makeVf, imageBase } from './utils'
 import { FONT } from './fonts'
 import { toFrames, SHORT_GAP, SHORT_FALLBACK, SHORT_BRAND_FRAMES, SHORT_LOGO_FRAMES, shortTotalFrames, FPS, f } from './timing'
 import { EPISODE_NAME, loadVoiceSelect, isVoiceReady } from './script'
@@ -67,7 +67,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
     if (!hasVoice) return
     const urls = [
       sf('sfx/whoosh.wav'), sf('sfx/chime.wav'),
-      sf(`images/${epName}/book-${bi}-summary.png`),
+      sf(`images/${imageBase(epName)}/book-${bi}-summary.png`),
       ...segments.map((seg, i) => vf(vnShort(i, seg.id))),
     ]
     const cleanups = urls.map(u => {
@@ -106,7 +106,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
   return (
     <AbsoluteFill style={{ backgroundColor: '#0a0a0a' }}>
       {/* background image */}
-      <Img src={sf(`images/${epName}/book-${bi}-summary.png`)} style={{
+      <Img src={sf(`images/${imageBase(epName)}/book-${bi}-summary.png`)} style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
         objectFit: 'cover', filter: 'brightness(0.4) saturate(0.6)',
       }} />
@@ -215,6 +215,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
           coverScale={coverScale}
           locale={script.locale}
           timings={script.voiceTimings?.[vnTimingKey(vnShort(i, seg.id))]}
+          audioSrc={seg.role === 'celeb' ? vf(vnShort(i, seg.id)) : undefined}
         />
       ))}
 
@@ -228,7 +229,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         }}>
           <BrandLogo fontSize={BRAND_LOGO_SIZE * 2} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
-            <div style={{ color: '#e8e0d0', fontSize: 52, fontFamily: FONT.sans, fontWeight: 600 }}>
+            <div style={{ color: '#e8e0d0', fontSize: 52, fontFamily: FONT.sans, fontWeight: 600, textAlign: 'center', whiteSpace: 'pre-line' }}>
               {t(script).tagline}
             </div>
             <div style={{ color: '#999', fontSize: 40, fontFamily: FONT.sans }}>

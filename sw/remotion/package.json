@@ -15,7 +15,7 @@
     "voice:pull": "tsx scripts/voice-r2.ts pull",
     "voice:r2": "tsx scripts/voice-r2.ts",
     "analyze": "tsx scripts/analyze-voice.ts",
-    "render": "remotion render",
+    "render": "remotion render --image-format=png --gl=angle",
     "render:short": "remotion render BookRecommendShort",
     "render:all": "tsx scripts/render-all.ts",
     "upgrade": "remotion upgrade"
@@ -24,6 +24,7 @@
     "@google-cloud/text-to-speech": "^6.4.0",
     "@google/genai": "^1.44.0",
     "@remotion/cli": "4.0.434",
+    "@remotion/media-utils": "4.0.434",
     "@remotion/player": "4.0.434",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
