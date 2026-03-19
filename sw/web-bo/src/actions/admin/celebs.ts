@@ -616,7 +616,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       birth_date: input.birth_date || null,
       death_date: input.death_date || null,
       bio: input.bio || null,
-      cultural_journey: input.cultural_journey || null,
+      consumption_philosophy: input.cultural_journey || null,
       avatar_url: input.avatar_url || null,
       is_verified: input.is_verified || false,
       profile_type: 'CELEB',
@@ -695,8 +695,8 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.bio_en !== undefined) updateData.bio_en = input.bio_en || null
-  if (input.cultural_journey !== undefined) updateData.cultural_journey = input.cultural_journey
-  if (input.cultural_journey_en !== undefined) updateData.cultural_journey_en = input.cultural_journey_en || null
+  if (input.cultural_journey !== undefined) updateData.consumption_philosophy = input.cultural_journey
+  if (input.cultural_journey_en !== undefined) updateData.consumption_philosophy_en = input.cultural_journey_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
@@ -1177,7 +1177,7 @@ export async function getCelebsForQuotesEdit(): Promise<CelebQuotesItem[]> {
 }
 
 export async function updateCelebQuotes(celebId: string, quotes: string | null): Promise<void> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // celeb_dialogues.lines.quote 업데이트
   const { data: existing } = await supabase
