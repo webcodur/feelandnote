@@ -3,12 +3,57 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import type { EpisodeData } from './EpisodeEditor'
 import type { R2FileInfo, R2Summary } from './R2Status'
-import { Waveform } from './Waveform'
+import { AudioWavePlayer } from './AudioWavePlayer'
+import { VoiceTimingEditor } from './VoiceTimingEditor'
 import { groupBySection, isEleSection, webR2UrlForSection, encodeWAV, abToBase64, applyGain, type VoiceSection } from './voice-utils'
+import { CopyLabel } from './CopyLabel'
 
 const BTN = 'px-3 py-1 rounded text-sm font-semibold'
 const BTN_PRIMARY = `bg-accent text-bg-main ${BTN} hover:bg-accent-hover`
 const BTN_SECONDARY = `bg-bg-card border border-border ${BTN} hover:bg-bg-hover`
+
+/** ELE 프리뷰 패널 — 자체 재생/trim state */
+function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose }: {
+  blobUrl: string; duration: number
+  onSave: (e: React.MouseEvent) => void; saving: boolean; onClose: () => void
+}) {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [playing, setPlaying] = useState(false)
+  const [eleTrimStart, setEleTrimStart] = useState(0)
+  const [eleTrimEnd, setEleTrimEnd] = useState(duration)
+
+  const togglePlay = () => {
+    if (playing && audioRef.current) { audioRef.current.pause(); audioRef.current = null; setPlaying(false); return }
+    const a = new Audio(blobUrl)
+    audioRef.current = a
+    a.currentTime = eleTrimStart
+    a.onended = () => setPlaying(false)
+    a.ontimeupdate = () => { if (a.currentTime >= eleTrimEnd) { a.pause(); setPlaying(false) } }
+    a.play().then(() => setPlaying(true)).catch(() => {})
+  }
+
+  return (
+    <div className="space-y-1.5 p-2 rounded-lg bg-purple-500/5 border border-purple-500/20">
+      <div className="text-[10px] text-purple-300 font-semibold">ELE 프리뷰</div>
+      <AudioWavePlayer
+        audioUrl={blobUrl}
+        duration={duration}
+        heightClass="h-12"
+        showRuler={false}
+      />
+      <div className="flex items-center gap-2">
+        <button onClick={onSave} disabled={saving}
+          className="px-2 py-0.5 rounded bg-purple-500 text-white text-[10px] font-semibold hover:bg-purple-400 disabled:opacity-50">
+          {saving ? '저장 중...' : '저장 (WAV)'}
+        </button>
+        <button onClick={(e) => { e.stopPropagation(); onClose() }}
+          className="text-[10px] text-text-dim hover:text-danger-text">
+          ✕ 닫기
+        </button>
+      </div>
+    </div>
+  )
+}
 
 type VoicePanelProps = {
   episode: EpisodeData
@@ -19,25 +64,30 @@ type VoicePanelProps = {
   playVoice: (fileName: string) => void
   onRefresh: () => void
   onEpisodeChange: (ep: EpisodeData) => void
-  onSave: () => Promise<void>
+  onSave: (data: EpisodeData) => Promise<void>
   post: (url: string, body: unknown) => Promise<void>
 }
 
-/** 엔진 셀 — 파일 있으면 재생 가능한 ●, 없으면 - */
-function EngineCell({ file, series, episode }: { file?: R2FileInfo; series: string; episode: string }) {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const [playing, setPlaying] = useState(false)
-  if (!file) return <span className="text-text-dim text-center block">-</span>
-  const play = () => {
-    if (playing && audioRef.current) { audioRef.current.pause(); audioRef.current = null; setPlaying(false); return }
-    const a = new Audio(`/api/${series}/voice/play/${episode}/${file.name}`)
-    audioRef.current = a
-    a.onended = () => setPlaying(false)
-    a.play().then(() => setPlaying(true)).catch(() => {})
+/** 엔진 셀 — 파일 있으면 ● 표시, 클릭으로 슬롯 토글. 파일 없고 needed면 ○ 표시 */
+function EngineCell({ file, engine, sectionKey, isActive, onToggle, needed }: {
+  file?: R2FileInfo
+  engine: string
+  sectionKey: string
+  isActive: boolean
+  onToggle: (sectionKey: string, engine: string) => void
+  needed?: boolean
+}) {
+  if (!file) {
+    if (needed) return <span className="text-amber-500 text-center block text-[10px]" title={`${engine} 미생성`}>○</span>
+    return <span className="text-text-dim text-center block">-</span>
   }
   return (
-    <button onClick={play} className={`block text-center w-full ${playing ? 'text-accent' : 'text-success-text'} hover:text-accent-hover`} title={`${file.name} 재생`}>
-      {playing ? '■' : '●'}
+    <button
+      onClick={(e) => { e.stopPropagation(); onToggle(sectionKey, engine) }}
+      className={`block text-center w-full hover:text-accent-hover ${isActive ? 'text-accent font-bold' : 'text-text-dim'}`}
+      title={isActive ? `${engine} 선택됨 (클릭하여 해제)` : `${engine} 선택`}
+    >
+      {isActive ? '◉' : '●'}
     </button>
   )
 }
@@ -95,7 +145,7 @@ function getTextsForSection(key: string, ep: EpisodeData): { original: string; t
   const shortMatch = key.match(/^S\d{2}-(.+)$/)
   if (shortMatch && ep.shorts) {
     const seg = ep.shorts.segments.find(s => s.id === shortMatch[1])
-    return { original: seg?.text ?? '', tts: '' }
+    return { original: seg?.text ?? '', tts: (seg as any)?.ttsText ?? '' }
   }
 
   return { original: '', tts: '' }
@@ -151,7 +201,10 @@ function setTextForSection(key: string, field: 'original' | 'tts', value: string
   const shortMatch = key.match(/^S\d{2}-(.+)$/)
   if (shortMatch && next.shorts) {
     const seg = next.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
-    if (seg && field === 'original') seg.text = value
+    if (seg) {
+      if (field === 'original') seg.text = value
+      if (field === 'tts') (seg as any).ttsText = value
+    }
     return next
   }
 
@@ -166,14 +219,180 @@ type EleSettings = {
   volumeBoost: number
 }
 
-function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, onEpisodeChange, onSave, onRefresh, voiceId, eleSettings, celebId, locale, r2Base }: {
-  r2Files: R2FileInfo[]; r2Summary: R2Summary; series: string; episode: string; episodeData: EpisodeData; onEpisodeChange: (ep: EpisodeData) => void; onSave: () => Promise<void>; onRefresh: () => void
+/** SYNC 모드 패널 — 독립 컴포넌트로 추출하여 stale closure 문제 해결 */
+function SyncModePanel({ secKey, episodeData, series, episode, getTextForKey, onEpisodeChange, onSave, onRefresh, saving, setSaving }: {
+  secKey: string; episodeData: EpisodeData; series: string; episode: string
+  getTextForKey: (key: string) => string
+  onEpisodeChange: (ep: EpisodeData) => void
+  onSave: (data: EpisodeData) => Promise<void>
+  onRefresh: () => void
+  saving: boolean; setSaving: (v: boolean) => void
+}) {
+  const segmentsRef = useRef<string[]>([])
+  const timings = (episodeData.voiceTimings as any)?.[secKey] as Array<{ start: number; end: number }> | undefined
+  const text = getTextForKey(secKey)
+  const sentences = text.split(/(?<=[.?!,])\s+/).filter(Boolean)
+  const audioUrl = `/api/${series}/voice/play/${episode}/${secKey}.wav`
+
+  if (!timings || timings.length === 0) {
+    return <div className="text-xs text-text-dim">voiceTimings 없음. Voice Sync를 먼저 실행하세요.</div>
+  }
+
+  const dur = timings[timings.length - 1]?.end ?? 0
+  const txts = getTextsForSection(secKey, episodeData)
+
+  /** 저장: ref에서 세그먼트를 직접 읽어 데이터 조립 → PUT */
+  const handleSave = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const segs = segmentsRef.current
+    let ep = JSON.parse(JSON.stringify(episodeData)) as EpisodeData
+    // voiceTimings에 text 삽입
+    if (timings.length === segs.length && segs.length > 0) {
+      const withText = timings.map((t, i) => ({ ...t, text: segs[i] }))
+      ;(ep as any).voiceTimings = { ...((ep as any).voiceTimings ?? {}), [secKey]: withText }
+    }
+    // 원문도 업데이트
+    if (segs.length > 0) {
+      ep = setTextForSection(secKey, 'original', segs.join(' '), ep)
+    }
+    setSaving(true)
+    await onSave(ep)
+    setSaving(false)
+  }
+
+  return (
+    <div className="space-y-2">
+      {/* 원문 텍스트 편집 */}
+      {txts.original && (
+        <div className="space-y-1">
+          <div className="text-[9px] text-text-dim">원문 텍스트</div>
+          <textarea
+            value={txts.original}
+            onChange={e => onEpisodeChange(setTextForSection(secKey, 'original', e.target.value, episodeData))}
+            onKeyDown={e => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
+            rows={Math.min(3, Math.max(1, Math.ceil(txts.original.length / 70)))}
+            className="w-full bg-bg-main border border-border rounded px-2 py-1 text-xs text-text-secondary resize-y focus:outline-none focus:border-accent select-text"
+          />
+        </div>
+      )}
+      {/* 타이밍 저장 + Voice Sync */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <button onClick={handleSave} disabled={saving}
+          className="px-2 py-0.5 rounded bg-green-600 text-white text-[10px] font-semibold hover:bg-green-500 disabled:opacity-50">
+          {saving ? '저장 중...' : '타이밍 저장'}
+        </button>
+        <button
+          onClick={async (e) => {
+            e.stopPropagation()
+            setSaving(true)
+            try {
+              const res = await fetch(`/api/${series}/voice/analyze`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ episode, only: secKey + '.wav' }),
+              })
+              const data = await res.json()
+              if (data.ok) onRefresh()
+              else alert('Voice Sync 실패: ' + (data.error ?? 'unknown'))
+            } catch (err) { alert('Voice Sync 에러: ' + String(err)) }
+            finally { setSaving(false) }
+          }}
+          disabled={saving}
+          className="px-2 py-0.5 rounded text-[10px] bg-bg-card border border-border hover:bg-bg-hover text-text-secondary disabled:opacity-50"
+        >
+          {saving ? 'Sync 중...' : 'Voice Sync'}
+        </button>
+        {sentences.length !== timings.length && (
+          <span className="text-[10px] text-amber-400">문장 {sentences.length}개 · 타이밍 {timings.length}개</span>
+        )}
+      </div>
+      <VoiceTimingEditor
+        audioUrl={audioUrl}
+        duration={dur}
+        sentences={sentences}
+        timings={timings}
+        segmentsRef={segmentsRef}
+        onChange={(newTimings) => {
+          const newEp = { ...episodeData, voiceTimings: { ...(episodeData.voiceTimings as any), [secKey]: newTimings } }
+          onEpisodeChange(newEp)
+        }}
+      />
+    </div>
+  )
+}
+
+function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, onEpisodeChange, onSave, onRefresh, voiceId, eleSettings, celebId, locale, r2Base, activeEngine, toggleSlot }: {
+  r2Files: R2FileInfo[]; r2Summary: R2Summary; series: string; episode: string; episodeData: EpisodeData; onEpisodeChange: (ep: EpisodeData) => void; onSave: (data: EpisodeData) => Promise<void>; onRefresh: () => void
   voiceId?: string; eleSettings: EleSettings; celebId?: string; locale: string; r2Base: string
+  activeEngine: (sectionKey: string) => string; toggleSlot: (sectionKey: string, engine: string) => void
 }) {
   const [saving, setSaving] = useState(false)
   const sections = groupBySection(r2Files, episodeData as unknown as Parameters<typeof groupBySection>[1])
   const [expandedKey, setExpandedKey] = useState<string | null>(null)
+  const [expandMode, setExpandMode] = useState<'trim' | 'sync'>('trim')
+
+  /** 섹션키 → 원문 텍스트 */
+  const getTextForKey = (key: string): string => {
+    const ep = episodeData
+    if (key === 'A1-service-greeting') return ep.narrator.serviceGreeting ?? ''
+    if (key === 'A2-service-intro') return ep.narrator.serviceIntro ?? ''
+    if (key === 'B1-celeb-intro') return ep.narrator.celebIntro ?? ''
+    if (key === 'B2-philosophy') return ep.host.philosophy ?? ''
+    if (key === 'E1-outro') return ep.narrator.outro ?? ''
+    const bookMatch = key.match(/^D(\d{2})[a-e]-(.+)$/)
+    if (bookMatch) {
+      const idx = parseInt(bookMatch[1]) - 1
+      const book = ep.books[idx]
+      if (!book) return ''
+      const f = bookMatch[2]
+      if (f === 'title') return `${book.title}, ${book.creator}`
+      if (f === 'summary') return book.summary
+      if (f === 'context') return book.context
+      if (f === 'quote') return book.directQuote ?? ''
+      if (f === 'context-after') return book.contextAfter ?? ''
+    }
+    const shortMatch = key.match(/^S\d{2}-(.+)$/)
+    if (shortMatch && ep.shorts?.segments) {
+      const seg = ep.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
+      return seg?.text ?? ''
+    }
+    return ''
+  }
   const [wfPlaying, setWfPlaying] = useState(false)
+  const [wfCurrentTime, setWfCurrentTime] = useState(0)
+  const [wfPlayingUrl, setWfPlayingUrl] = useState('')
+  const wfAnimRef = useRef<number>(0)
+
+  const playAudio = useCallback((url: string, startTime = 0) => {
+    if (wfAudioRef.current) { wfAudioRef.current.pause(); cancelAnimationFrame(wfAnimRef.current) }
+    setWfPlaying(false)
+    const a = new Audio(url)
+    wfAudioRef.current = a
+    setWfPlayingUrl(url)
+    a.onended = () => { setWfPlaying(false); setWfCurrentTime(0) }
+    const start = () => {
+      setWfPlaying(true)
+      const tick = () => {
+        if (a.paused) return
+        setWfCurrentTime(a.currentTime)
+        wfAnimRef.current = requestAnimationFrame(tick)
+      }
+      tick()
+    }
+    if (startTime > 0) {
+      a.addEventListener('loadedmetadata', () => { a.currentTime = startTime; a.play().then(start).catch(() => {}) }, { once: true })
+    } else {
+      a.play().then(start).catch(() => {})
+    }
+  }, [])
+
+  const stopAudio = useCallback(() => {
+    if (wfAudioRef.current) { wfAudioRef.current.pause(); cancelAnimationFrame(wfAnimRef.current) }
+    wfAudioRef.current = null
+    setWfPlaying(false)
+    setWfCurrentTime(0)
+    setWfPlayingUrl('')
+  }, [])
   const wfAudioRef = useRef<HTMLAudioElement | null>(null)
   const [trimStart, setTrimStart] = useState(0)
   const [trimEnd, setTrimEnd] = useState(0)
@@ -389,8 +608,6 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                 {_hasCloud && <th className="text-center w-7 text-yellow-400">GCP</th>}
                 {_hasGemini && <th className="text-center w-7 text-blue-400">GEM</th>}
                 {_hasEL && <th className="text-center w-7 text-purple-400">ELE</th>}
-                <th className="text-center w-8 text-yellow-400">TEST</th>
-                <th className="text-center w-8 text-success-text">PROD</th>
                 <th className="text-right w-11">길이</th>
                 <th className="text-right w-12">크기</th>
                 <th className="text-center w-5">R2</th>
@@ -403,7 +620,8 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                 const display = prod ?? test
                 const isExpanded = expandedKey === sec.key
                 const colCount = 7 + (_hasCommon?1:0) + (_hasCloud?1:0) + (_hasGemini?1:0) + (_hasEL?1:0)
-                const prodUrl = prod ? `/api/${series}/voice/play/${episode}/${prod.name}` : ''
+                // voice-select 해소는 play API가 처리 — sectionKey.wav만 전달
+                const prodUrl = `/api/${series}/voice/play/${episode}/${sec.key}.wav`
                 const isEle = isEleSection(sec.key) && !!voiceId
                 const webR2Url = webR2UrlForSection(sec.key, celebId, locale, r2Base)
                 const hasTempPreview = eleTempPreview?.key === sec.key
@@ -415,16 +633,10 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                     >
                       <td className="text-text-secondary">{sec.key}</td>
                       <td className="text-text-dim">{sec.description}</td>
-                      {_hasCommon && <td><EngineCell file={sec.common} series={series} episode={episode} /></td>}
-                      {_hasCloud && <td><EngineCell file={sec.cloud} series={series} episode={episode} /></td>}
-                      {_hasGemini && <td><EngineCell file={sec.gemini} series={series} episode={episode} /></td>}
-                      {_hasEL && <td><EngineCell file={sec.elevenlabs} series={series} episode={episode} /></td>}
-                      <td className="text-center">
-                        {test ? <EngineCell file={test} series={series} episode={episode} /> : <span className="text-text-dim">-</span>}
-                      </td>
-                      <td className="text-center">
-                        {prod ? <EngineCell file={prod} series={series} episode={episode} /> : <span className="text-text-dim">-</span>}
-                      </td>
+                      {_hasCommon && <td><EngineCell file={sec.common} engine="common" sectionKey={sec.key} isActive={activeEngine(sec.key) === 'common'} onToggle={toggleSlot} /></td>}
+                      {_hasCloud && <td><EngineCell file={sec.cloud} engine="cloud" sectionKey={sec.key} isActive={activeEngine(sec.key) === 'cloud'} onToggle={toggleSlot} /></td>}
+                      {_hasGemini && <td><EngineCell file={sec.gemini} engine="gemini" sectionKey={sec.key} isActive={activeEngine(sec.key) === 'gemini'} onToggle={toggleSlot} /></td>}
+                      {_hasEL && <td><EngineCell file={sec.elevenlabs} engine="elevenlabs" sectionKey={sec.key} isActive={activeEngine(sec.key) === 'elevenlabs'} onToggle={toggleSlot} needed={isEleSection(sec.key) && !!voiceId} /></td>}
                       <td className="text-right text-success-text">{display?.duration ?? '-'}s</td>
                       <td className="text-right text-text-dim">{display ? `${display.sizeKB}KB` : '-'}</td>
                       <td className="text-center">
@@ -435,8 +647,36 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                       </td>
                     </tr>
                     {isExpanded && (
-                      <tr className="border-b border-bg-main bg-bg-card">
+                      <tr className="border-b border-bg-main bg-bg-card" onClick={e => e.stopPropagation()}>
                         <td colSpan={colCount} className="px-2 py-2 space-y-1.5">
+                          {/* TRIM | SYNC 탭 */}
+                          <div className="flex items-center gap-1 mb-2">
+                            <button onClick={(e) => { e.stopPropagation(); setExpandMode('trim') }}
+                              className={`px-2 py-0.5 rounded text-[10px] font-semibold ${expandMode === 'trim' ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-secondary hover:bg-bg-hover'}`}>
+                              TRIM
+                            </button>
+                            <button onClick={(e) => { e.stopPropagation(); setExpandMode('sync') }}
+                              className={`px-2 py-0.5 rounded text-[10px] font-semibold ${expandMode === 'sync' ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-secondary hover:bg-bg-hover'}`}>
+                              SYNC
+                            </button>
+                          </div>
+
+                          {/* SYNC 모드 */}
+                          {expandMode === 'sync' && <SyncModePanel
+                            secKey={sec.key}
+                            episodeData={episodeData}
+                            series={series}
+                            episode={episode}
+                            getTextForKey={getTextForKey}
+                            onEpisodeChange={onEpisodeChange}
+                            onSave={onSave}
+                            onRefresh={onRefresh}
+                            saving={saving}
+                            setSaving={setSaving}
+                          />}
+
+                          {/* TRIM 모드 */}
+                          {expandMode === 'trim' && (<>
                           {/* 텍스트 — 인라인 편집 */}
                           {(() => {
                             const txts = getTextsForSection(sec.key, episodeData)
@@ -444,26 +684,32 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                             return (
                               <div className="pl-7 space-y-1.5">
                                 <div>
-                                  <span className="text-[9px] text-text-dim">원본</span>
+                                  <span className="text-[9px] text-text-dim">원본 텍스트</span>
                                   <textarea
                                     value={txts.original}
                                     onChange={e => onEpisodeChange(setTextForSection(sec.key, 'original', e.target.value, episodeData))}
+                                    onKeyDown={e => e.stopPropagation()}
+                                    onClick={e => e.stopPropagation()}
                                     rows={Math.min(4, Math.max(1, Math.ceil(txts.original.length / 60)))}
-                                    className="w-full bg-bg-main border border-border rounded px-2 py-1 text-xs text-text-secondary resize-y focus:outline-none focus:border-accent"
+                                    className="w-full bg-bg-main border border-border rounded px-2 py-1 text-xs text-text-secondary resize-y focus:outline-none focus:border-accent select-text"
                                   />
                                 </div>
+                                {(
                                 <div>
                                   <span className="text-[9px] text-accent">TTS</span>
                                   <textarea
                                     value={txts.tts}
                                     onChange={e => onEpisodeChange(setTextForSection(sec.key, 'tts', e.target.value, episodeData))}
+                                    onKeyDown={e => e.stopPropagation()}
+                                    onClick={e => e.stopPropagation()}
                                     rows={Math.min(3, Math.max(1, Math.ceil((txts.tts || '').length / 60)))}
                                     placeholder="TTS 텍스트 (다를 때만 입력)"
-                                    className="w-full bg-bg-main border border-border rounded px-2 py-1 text-[11px] text-text-dim resize-y focus:outline-none focus:border-accent"
+                                    className="w-full bg-bg-main border border-border rounded px-2 py-1 text-[11px] text-text-dim resize-y focus:outline-none focus:border-accent select-text"
                                   />
                                 </div>
+                                )}
                                 <button
-                                  onClick={async (e) => { e.stopPropagation(); setSaving(true); await onSave(); setSaving(false) }}
+                                  onClick={async (e) => { e.stopPropagation(); setSaving(true); await onSave(episodeData); setSaving(false) }}
                                   disabled={saving}
                                   className="px-2 py-0.5 rounded bg-accent text-bg-main text-[10px] font-semibold hover:bg-accent-hover disabled:opacity-50 self-end"
                                 >
@@ -472,89 +718,46 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                               </div>
                             )
                           })()}
-                          {/* 파형 — prod 파일이 있을 때 */}
-                          {prod && (
-                            <>
-                              <div className="flex items-center gap-3">
-                                <button
-                                  onClick={e => { e.stopPropagation(); playWaveform(sec) }}
-                                  className="text-accent hover:text-accent-hover text-sm shrink-0"
-                                >
-                                  {wfPlaying ? '■' : '▶'}
-                                </button>
-                                <div className="flex-1">
-                                  <Waveform
-                                    audioUrl={prodUrl}
-                                    isPlaying={wfPlaying && expandedKey === sec.key}
-                                    duration={prod.duration}
-                                    trimStart={trimStart}
-                                    trimEnd={trimEnd}
-                                    onTrimChange={(s, e) => { setTrimStart(s); setTrimEnd(e) }}
+                          {/* 엔진별 파형 */}
+                          {(() => {
+                            const engines: { label: string; color: string; file?: R2FileInfo }[] = [
+                              { label: 'GEM', color: 'text-blue-400', file: sec.gemini },
+                              { label: 'ELE', color: 'text-purple-400', file: sec.elevenlabs },
+                              { label: 'CMN', color: 'text-green-400', file: sec.common },
+                              { label: 'GCP', color: 'text-yellow-400', file: sec.cloud },
+                            ].filter(e => e.file)
+
+                            if (engines.length === 0) return null
+                            const engineMap: Record<string, string> = { GEM: 'gemini', ELE: 'elevenlabs', CMN: 'common', GCP: 'cloud' }
+                            return engines.map(eng => {
+                              const url = `/api/${series}/voice/play/${episode}/${eng.file!.name}`
+                              const isActive = activeEngine(sec.key) === engineMap[eng.label]
+                              return (
+                                <div key={eng.label} className={`${isActive ? 'bg-bg-main rounded p-1.5' : 'opacity-60 hover:opacity-100 p-1.5'}`}>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className={`text-[9px] font-bold ${eng.color}`}>{eng.label}</span>
+                                    <span className="text-[9px] text-text-dim font-mono">{eng.file!.duration.toFixed(2)}s</span>
+                                    {isActive && <span className="text-[8px] text-accent">ACTIVE</span>}
+                                  </div>
+                                  <AudioWavePlayer
+                                    audioUrl={url}
+                                    duration={eng.file!.duration}
+                                    heightClass="h-12"
+                                    showRuler={isActive}
                                   />
                                 </div>
-                              </div>
-                              {(() => {
-                                const isTrimmed = trimStart > 0.01 || (trimEnd > 0 && trimEnd < prod.duration - 0.01)
-                                return (
-                                  <div className="flex items-center gap-3 text-[10px] font-mono text-text-dim pl-7">
-                                    <span className={isTrimmed ? 'text-amber-400' : ''}>
-                                      {trimStart.toFixed(2)}s – {trimEnd.toFixed(2)}s
-                                    </span>
-                                    <span>/ {prod.duration.toFixed(2)}s</span>
-                                    <span>{prod.name}</span>
-                                    {isTrimmed && (
-                                      <>
-                                        <button
-                                          onClick={e => { e.stopPropagation(); setTrimStart(0); setTrimEnd(prod.duration) }}
-                                          className="text-amber-400 hover:text-amber-300"
-                                        >
-                                          reset
-                                        </button>
-                                        <button
-                                          onClick={e => { e.stopPropagation(); saveTrimmed(sec) }}
-                                          disabled={trimSaving}
-                                          className={BTN_SAVE}
-                                        >
-                                          {trimSaving ? '저장 중...' : '트림 저장'}
-                                        </button>
-                                      </>
-                                    )}
-                                  </div>
-                                )
-                              })()}
-                            </>
-                          )}
+                              )
+                            })
+                          })()}
                           {/* ELE 임시 프리뷰 파형 (생성/R2 로드 결과) */}
                           {hasTempPreview && (
-                            <div className="space-y-1.5 p-2 rounded-lg bg-purple-500/5 border border-purple-500/20">
-                              <div className="text-[10px] text-purple-300 font-semibold">ELE 프리뷰</div>
-                              <Waveform
-                                audioUrl={eleTempPreview.blobUrl}
-                                isPlaying={false}
-                                duration={eleTempPreview.duration}
-                                trimStart={trimStart}
-                                trimEnd={trimEnd}
-                                onTrimChange={(s, e) => { setTrimStart(s); setTrimEnd(e) }}
-                              />
-                              <div className="flex items-center gap-2 text-[10px] font-mono text-text-dim">
-                                <span>{trimStart.toFixed(2)}s – {trimEnd.toFixed(2)}s / {eleTempPreview.duration.toFixed(2)}s</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <button
-                                  onClick={e => { e.stopPropagation(); handleEleSave(sec.key) }}
-                                  disabled={trimSaving}
-                                  className={BTN_SAVE}
-                                >
-                                  {trimSaving ? '저장 중...' : '저장 (WAV)'}
-                                </button>
-                                <button
-                                  onClick={e => { e.stopPropagation(); URL.revokeObjectURL(eleTempPreview.blobUrl); setEleTempPreview(null) }}
-                                  className="text-[10px] text-text-dim hover:text-danger-text"
-                                >
-                                  ✕ 닫기
-                                </button>
-                              </div>
-                            </div>
+                            <ElePreviewPanel
+                              blobUrl={eleTempPreview.blobUrl}
+                              duration={eleTempPreview.duration}
+                              onSave={(e) => { e.stopPropagation(); handleEleSave(sec.key) }}
+                              saving={trimSaving}
+                              onClose={() => { URL.revokeObjectURL(eleTempPreview.blobUrl); setEleTempPreview(null) }}
+                            />
                           )}
                           {/* ELE 액션 버튼 */}
                           {isEle && !hasTempPreview && (
@@ -585,6 +788,7 @@ function VoiceSectionTable({ r2Files, r2Summary, series, episode, episodeData, o
                           {eleError && isExpanded && (
                             <div className="text-xs text-danger-text pl-7">{eleError}</div>
                           )}
+                          </>)}
                         </td>
                       </tr>
                     )}
@@ -646,6 +850,33 @@ export function VoicePanel({ episode, r2Files, r2Summary, series, name, playVoic
   const { vs, saveVs } = useVoiceSelect(series, name)
   const hasELVoiceId = !!episode.host.elevenlabsVoiceId
   const mode = detectMode(vs, hasELVoiceId)
+  // 슬롯 토글: 해당 파일의 엔진을 voice-select.json에 설정/해제
+  const toggleSlot = useCallback(async (sectionKey: string, engine: string) => {
+    if (!vs) return
+    const fileName = `${sectionKey}.wav`
+    const currentSlot = vs.slots?.[fileName]
+    const newSlots = { ...(vs.slots ?? {}) }
+
+    if (currentSlot === engine) {
+      // 이미 선택된 엔진이면 해제 (default로 복귀)
+      delete newSlots[fileName]
+    } else {
+      // 다른 엔진 선택
+      newSlots[fileName] = engine
+    }
+
+    const newVs = { ...vs, slots: newSlots }
+    await saveVs(newVs)
+    onRefresh()
+  }, [vs, saveVs, onRefresh])
+
+  // 특정 파일의 현재 활성 엔진 판별
+  const activeEngine = useCallback((sectionKey: string): string => {
+    if (!vs) return ''
+    const fileName = `${sectionKey}.wav`
+    return vs.slots?.[fileName] ?? vs.default ?? ''
+  }, [vs])
+
   const [eleSettings, setEleSettings] = useState<EleSettings>({ ...DEFAULT_ELE_SETTINGS })
   const [eleSettingsOpen, setEleSettingsOpen] = useState(false)
   const [eleBatchRunning, setEleBatchRunning] = useState(false)
@@ -667,7 +898,7 @@ export function VoicePanel({ episode, r2Files, r2Summary, series, name, playVoic
   }
 
   const hasShorts = !!episode.shorts && episode.shorts.segments.length > 0
-  const [voiceOpen, setVoiceOpen] = useState(true)
+  const [voiceOpen, setVoiceOpen] = useState(false)
 
   return (
     <section className="bg-bg-secondary border border-border rounded-lg overflow-hidden">
@@ -677,6 +908,7 @@ export function VoicePanel({ episode, r2Files, r2Summary, series, name, playVoic
       >
         <div className="flex items-center gap-3">
           <h3 className="text-xs font-bold text-accent tracking-widest">VOICE & STORAGE</h3>
+          <CopyLabel text="VOICE & STORAGE" />
           <span className={`text-[10px] font-bold ${mode.color}`}>{mode.label}</span>
         </div>
         <span className="text-text-dim text-xs">{voiceOpen ? '▼' : '▶'}</span>
@@ -878,6 +1110,8 @@ export function VoicePanel({ episode, r2Files, r2Summary, series, name, playVoic
         celebId={celebId}
         locale={epLocale}
         r2Base={r2Base}
+        activeEngine={activeEngine}
+        toggleSlot={toggleSlot}
       />
 
       {/* R2 동기화 */}

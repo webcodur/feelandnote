@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, use } from 'react'
-import Link from 'next/link'
 import { TaskPanel } from '@/components/TaskPanel'
 import { EpisodeEditor, type EpisodeData } from '@/components/EpisodeEditor'
 import { StatusOverview } from '@/components/StatusOverview'
 import { VoicePanel } from '@/components/VoicePanel'
-import { VoiceTimingEditor } from '@/components/VoiceTimingEditor'
 import type { R2FileInfo, R2Summary } from '@/components/R2Status'
+import { CopyLabel } from '@/components/CopyLabel'
+import { ScenarioView } from '@/components/ScenarioView'
 
 const BTN = 'px-3 py-1 rounded text-sm font-semibold'
 const BTN_PRIMARY = `bg-accent text-bg-main ${BTN} hover:bg-accent-hover`
@@ -22,10 +22,20 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ series
   const [dirty, setDirty] = useState(false)
   const [saving, setSaving] = useState(false)
   const [jsonText, setJsonText] = useState('')
-  const [jsonOpen, setJsonOpen] = useState(false)
-  const [timingOpen, setTimingOpen] = useState(false)
-  const [selectedTimingKey, setSelectedTimingKey] = useState<string | null>(null)
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set())
+  const [viewMode, setViewMode] = useState<'editor' | 'scenario'>('editor')
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const episodeRef = useRef<EpisodeData | null>(null)
+  episodeRef.current = episode
+
+  const toggleSection = (id: string) => {
+    setOpenSections(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
 
   // R2 status
   const [r2Files, setR2Files] = useState<R2FileInfo[]>([])
@@ -74,7 +84,7 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ series
   }, [])
 
   const saveEpisode = async (data?: EpisodeData) => {
-    const toSave = data ?? episode
+    const toSave = data ?? episodeRef.current
     if (!toSave) return
     setSaving(true)
     try {
@@ -111,9 +121,16 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ series
           <h1 className="text-xl font-bold">{episode.host.nickname ?? name}</h1>
           <div className="flex items-center gap-3 text-sm text-text-secondary">
             <span>{name} · {episode.books.length}권{episode.shorts ? ' · Shorts' : ''}</span>
-            <Link href={`/${series}/${name}/scenario`} className="text-accent hover:text-accent-hover">
-              시나리오 보기
-            </Link>
+            <div className="flex bg-bg-card border border-border rounded-md overflow-hidden text-xs">
+              <button
+                onClick={() => setViewMode('editor')}
+                className={`px-3 py-1 font-semibold transition-colors ${viewMode === 'editor' ? 'bg-accent text-bg-main' : 'text-text-secondary hover:text-text-primary'}`}
+              >에디터</button>
+              <button
+                onClick={() => setViewMode('scenario')}
+                className={`px-3 py-1 font-semibold transition-colors ${viewMode === 'scenario' ? 'bg-accent text-bg-main' : 'text-text-secondary hover:text-text-primary'}`}
+              >시나리오</button>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -126,11 +143,41 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ series
         </div>
       </div>
 
+      {viewMode === 'scenario' ? (
+        <ScenarioView episode={episode} />
+      ) : <>
+
       {/* Status Overview */}
-      <StatusOverview episode={episode} fileNames={r2Files.map(f => f.name)} r2Summary={r2Summary} series={series} name={name} />
+      <section className={SECTION_CLS}>
+        <div className={HEADER_CLS} onClick={() => toggleSection('status')}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-accent tracking-widest">STATUS</span>
+            <CopyLabel text="STATUS" />
+          </div>
+          <span className="text-text-dim text-xs">{openSections.has('status') ? '▼' : '▶'}</span>
+        </div>
+        {openSections.has('status') && (
+          <div className="px-4 pb-3">
+            <StatusOverview episode={episode} fileNames={r2Files.map(f => f.name)} r2Summary={r2Summary} series={series} name={name} />
+          </div>
+        )}
+      </section>
 
       {/* Structured Editor */}
-      <EpisodeEditor episode={episode} onChange={handleEditorChange} />
+      <section className={SECTION_CLS}>
+        <div className={HEADER_CLS} onClick={() => toggleSection('editor')}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-accent tracking-widest">EDITOR</span>
+            <CopyLabel text="EDITOR" />
+          </div>
+          <span className="text-text-dim text-xs">{openSections.has('editor') ? '▼' : '▶'}</span>
+        </div>
+        {openSections.has('editor') && (
+          <div className="px-4 pb-4">
+            <EpisodeEditor episode={episode} onChange={handleEditorChange} />
+          </div>
+        )}
+      </section>
 
       {/* Voice & Storage (unified) */}
       <VoicePanel
@@ -142,139 +189,72 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ series
         playVoice={playVoice}
         onRefresh={fetchR2}
         onEpisodeChange={handleEditorChange}
-        onSave={() => saveEpisode()}
+        onSave={(data) => saveEpisode(data)}
         post={post}
       />
 
-      {/* Voice Timing Editor */}
-      {episode.voiceTimings && ((): React.ReactNode => {
-        const timingKeys = Object.keys(episode.voiceTimings)
-
-        const getTextForKey = (key: string): string => {
-          // narrator
-          if (key === 'A1-service-greeting') return episode.narrator.serviceGreeting ?? ''
-          if (key === 'A2-service-intro') return episode.narrator.serviceIntro ?? ''
-          if (key === 'B1-celeb-intro') return episode.narrator.celebIntro ?? ''
-          if (key === 'B2-philosophy') return episode.host.philosophy ?? ''
-          if (key === 'E1-outro') return episode.narrator.outro ?? ''
-          // books
-          const bookMatch = key.match(/^D(\d{2})[a-e]-(.+)$/)
-          if (bookMatch) {
-            const idx = parseInt(bookMatch[1]) - 1
-            const field = bookMatch[2] as string
-            const book = episode.books[idx]
-            if (!book) return ''
-            if (field === 'title') return `${book.title}, ${book.creator}`
-            if (field === 'summary') return book.summary
-            if (field === 'context') return book.context
-            if (field === 'quote') return book.directQuote ?? ''
-            if (field === 'context-after') return book.contextAfter ?? ''
-          }
-          // shorts
-          const shortMatch = key.match(/^S\d{2}-(.+)$/)
-          if (shortMatch && episode.shorts?.segments) {
-            const seg = episode.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
-            return seg?.text ?? ''
-          }
-          return ''
-        }
-
-        const getDuration = (key: string): number => {
-          const timings = (episode.voiceTimings as any)[key]
-          if (!timings || timings.length === 0) return 0
-          return timings[timings.length - 1].end
-        }
-
-        return (
-          <section className="bg-bg-secondary border border-border rounded-lg overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-2.5 cursor-pointer select-none hover:bg-bg-hover transition-colors"
-              onClick={() => setTimingOpen(!timingOpen)}>
-              <span className="text-xs font-bold text-accent tracking-widest">VOICE TIMING</span>
-              <span className="text-text-dim text-xs">{timingOpen ? '▼' : '▶'} {timingKeys.length}개</span>
-            </div>
-            {timingOpen && (
-              <div className="px-4 pb-4 space-y-3">
-                {/* 키 선택 */}
-                <div className="flex flex-wrap gap-1">
-                  {timingKeys.map(key => (
-                    <button key={key} onClick={() => setSelectedTimingKey(selectedTimingKey === key ? null : key)}
-                      className={`px-2 py-0.5 rounded text-[10px] ${selectedTimingKey === key ? 'bg-accent text-bg-main' : 'bg-bg-card border border-border hover:bg-bg-hover'}`}>
-                      {key}
-                    </button>
-                  ))}
-                </div>
-
-                {/* 선택된 키의 에디터 */}
-                {selectedTimingKey && (episode.voiceTimings as any)[selectedTimingKey] && ((): React.ReactNode => {
-                  const text = getTextForKey(selectedTimingKey)
-                  const sentences = text.split(/(?<=[.?!,])\s+/).filter(Boolean)
-                  const timings = (episode.voiceTimings as any)[selectedTimingKey]
-                  const dur = getDuration(selectedTimingKey)
-
-                  const audioUrl = `/api/${series}/voice/play/${name}/${selectedTimingKey}.wav`
-
-                  if (sentences.length !== timings.length) {
-                    return (
-                      <div className="text-xs text-red-400">
-                        문장 수({sentences.length})와 타이밍 수({timings.length}) 불일치. /voice-sync 필요.
-                      </div>
-                    )
-                  }
-
-                  return (
-                    <VoiceTimingEditor
-                      audioUrl={audioUrl}
-                      duration={dur}
-                      sentences={sentences}
-                      timings={timings}
-                      onChange={(newTimings) => {
-                        const newEp = { ...episode, voiceTimings: { ...(episode.voiceTimings as any), [selectedTimingKey!]: newTimings } }
-                        handleEditorChange(newEp)
-                      }}
-                    />
-                  )
-                })()}
-              </div>
-            )}
-          </section>
-        )
-      })()}
 
       {/* Render */}
-      <section className="bg-bg-secondary border border-border rounded-lg p-4 space-y-3">
-        <h3 className="text-xs font-bold text-accent tracking-widest">RENDER</h3>
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <button onClick={() => post(`/api/${series}/render`, { episode: name })}
-              className={BTN_PRIMARY}>전체 렌더</button>
-            <span className="text-[11px] text-text-dim">롱폼 + 쇼츠 모두 렌더링</span>
+      <section className={SECTION_CLS}>
+        <div className={HEADER_CLS} onClick={() => toggleSection('render')}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-accent tracking-widest">RENDER</span>
+            <CopyLabel text="RENDER" />
           </div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => post(`/api/${series}/render`, { episode: name, only: 'longform' })}
-              className={BTN_SECONDARY}>롱폼만</button>
-            <span className="text-[11px] text-text-dim">16:9 롱폼 영상만 렌더링</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => post(`/api/${series}/render`, { episode: name, only: 'shorts' })}
-              className={BTN_SECONDARY}>쇼츠만</button>
-            <span className="text-[11px] text-text-dim">9:16 쇼츠 영상만 렌더링</span>
-          </div>
+          <span className="text-text-dim text-xs">{openSections.has('render') ? '▼' : '▶'}</span>
         </div>
-        <p className="text-[11px] text-text-dim leading-relaxed">
-          음성 파일이 모두 준비된 후 실행하세요. 렌더링은 약 5-10분 소요됩니다.
-        </p>
+        {openSections.has('render') && (
+          <div className="px-4 pb-4 space-y-3">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <button onClick={() => post(`/api/${series}/render`, { episode: name })}
+                  className={BTN_PRIMARY}>전체 렌더</button>
+                <span className="text-[11px] text-text-dim">롱폼 + 쇼츠 모두 렌더링</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button onClick={() => post(`/api/${series}/render`, { episode: name, only: 'longform' })}
+                  className={BTN_SECONDARY}>롱폼만</button>
+                <span className="text-[11px] text-text-dim">16:9 롱폼 영상만 렌더링</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button onClick={() => post(`/api/${series}/render`, { episode: name, only: 'shorts' })}
+                  className={BTN_SECONDARY}>쇼츠만</button>
+                <span className="text-[11px] text-text-dim">9:16 쇼츠 영상만 렌더링</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-text-dim leading-relaxed">
+              음성 파일이 모두 준비된 후 실행하세요. 렌더링은 약 5-10분 소요됩니다.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Tasks */}
-      <TaskPanel />
-
-      {/* Raw JSON (collapsible) */}
       <section className={SECTION_CLS}>
-        <div className={HEADER_CLS} onClick={() => setJsonOpen(!jsonOpen)}>
-          <span className="text-xs font-bold text-accent tracking-widest">RAW JSON</span>
-          <span className="text-text-dim text-xs">{jsonOpen ? '▼' : '▶'}</span>
+        <div className={HEADER_CLS} onClick={() => toggleSection('tasks')}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-accent tracking-widest">TASKS</span>
+            <CopyLabel text="TASKS" />
+          </div>
+          <span className="text-text-dim text-xs">{openSections.has('tasks') ? '▼' : '▶'}</span>
         </div>
-        {jsonOpen && (
+        {openSections.has('tasks') && (
+          <div className="px-4 pb-4">
+            <TaskPanel />
+          </div>
+        )}
+      </section>
+
+      {/* Raw JSON */}
+      <section className={SECTION_CLS}>
+        <div className={HEADER_CLS} onClick={() => toggleSection('rawJson')}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-accent tracking-widest">RAW JSON</span>
+            <CopyLabel text="RAW JSON" />
+          </div>
+          <span className="text-text-dim text-xs">{openSections.has('rawJson') ? '▼' : '▶'}</span>
+        </div>
+        {openSections.has('rawJson') && (
           <div className="px-4 pb-4">
             <textarea value={jsonText} onChange={e => { setJsonText(e.target.value); setDirty(true) }}
               className="w-full min-h-[300px] bg-bg-main border border-border rounded-md p-3 font-mono text-xs resize-y focus:outline-none focus:border-accent" />
@@ -285,6 +265,8 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ series
           </div>
         )}
       </section>
+
+      </>}
     </div>
   )
 }

@@ -61,7 +61,7 @@ export async function applyGain(buf: AudioBuffer, gainDb: number): Promise<Audio
 
 /** ELE 대상 섹션인지 판별 (셀럽 음성 섹션) */
 export function isEleSection(key: string): boolean {
-  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-/.test(key) || /^S\d{2}-/.test(key)
+  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-/.test(key) || /^S\d{2}-celeb-/.test(key)
 }
 
 /** 섹션 키 → webR2 URL 생성 (명언만 해당) */

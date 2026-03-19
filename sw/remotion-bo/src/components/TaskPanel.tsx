@@ -64,16 +64,13 @@ export function TaskPanel() {
   const recent = tasks.filter(t => t.status !== 'running').slice(0, 5)
   const visible = [...running, ...recent]
 
-  if (visible.length === 0) return null
+  if (visible.length === 0) return <div className="text-[11px] text-text-dim">진행 중인 작업 없음</div>
 
   return (
-    <section className="bg-bg-secondary border border-border rounded-lg p-4">
-      <h3 className="text-xs font-bold text-accent tracking-widest mb-3">TASKS</h3>
-      <div className="space-y-2">
-        {visible.map(task => (
-          <TaskRow key={task.id} task={task} />
-        ))}
-      </div>
-    </section>
+    <div className="space-y-2">
+      {visible.map(task => (
+        <TaskRow key={task.id} task={task} />
+      ))}
+    </div>
   )
 }

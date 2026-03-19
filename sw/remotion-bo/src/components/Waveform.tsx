@@ -1,25 +1,31 @@
 'use client'
 
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useState } from 'react'
+import { TimeRuler, useHoverTime, PlayheadOverlay } from './TimeRuler'
 
-const BAR_COLOR = 'rgba(200, 164, 110, 0.7)'
-const BAR_WIDTH = 1.5
-const BAR_GAP = 2
+const BAR_COLOR = 'rgba(200, 164, 110, 0.8)'
+const BAR_WIDTH = 1
+const BAR_GAP = 1.5
 
 interface WaveformProps {
   audioUrl: string
   isPlaying: boolean
   duration: number
+  /** 현재 재생 위치 (초) — 외부에서 전달 */
+  currentTime?: number
   trimStart?: number
   trimEnd?: number
   onTrimChange?: (start: number, end: number) => void
+  onSeek?: (time: number) => void
+  /** 눈금자 표시 여부 */
+  showRuler?: boolean
 }
 
-export function Waveform({ audioUrl, isPlaying, duration, trimStart = 0, trimEnd, onTrimChange }: WaveformProps) {
+export function Waveform({ audioUrl, isPlaying, duration, currentTime = 0, trimStart = 0, trimEnd, onTrimChange, onSeek, showRuler }: WaveformProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const playheadRef = useRef<HTMLDivElement>(null)
   const effectiveEnd = trimEnd ?? duration
+  const { onMouseMove, onMouseLeave, HoverOverlay } = useHoverTime(containerRef, duration)
 
   // Draw waveform bars
   useEffect(() => {
@@ -37,10 +43,15 @@ export function Waveform({ audioUrl, isPlaying, duration, trimStart = 0, trimEnd
         const step = Math.floor(data.length / barCount)
         const amp = canvas.height / 2
         ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // 중앙선
+        ctx.fillStyle = 'rgba(200, 164, 110, 0.1)'
+        ctx.fillRect(0, amp, canvas.width, 1)
+
         for (let i = 0; i < barCount; i++) {
           let sum = 0
           for (let j = 0; j < step; j++) sum += Math.abs(data[i * step + j] || 0)
-          const h = Math.max(1, (sum / step) * amp * 2)
+          const avg = sum / step
+          const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4)
           ctx.fillStyle = BAR_COLOR
           ctx.fillRect(i * BAR_GAP, amp - h / 2, BAR_WIDTH, h)
         }
@@ -48,55 +59,36 @@ export function Waveform({ audioUrl, isPlaying, duration, trimStart = 0, trimEnd
       .catch(() => {})
   }, [audioUrl])
 
-  // Playhead animation (trim-aware)
-  useEffect(() => {
-    const el = playheadRef.current
-    if (!el) return
-    if (isPlaying && duration > 0) {
-      const sPct = (trimStart / duration) * 100
-      const ePct = (effectiveEnd / duration) * 100
-      el.style.transition = 'none'
-      el.style.left = `${sPct}%`
-      el.style.display = 'block'
-      void el.offsetHeight
-      el.style.transition = `left ${effectiveEnd - trimStart}s linear`
-      el.style.left = `${ePct}%`
-    } else {
-      el.style.display = 'none'
-      el.style.transition = 'none'
-      el.style.left = '0%'
-    }
-  }, [isPlaying, duration, trimStart, effectiveEnd])
+  // 파형 클릭 → 재생 위치
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    if (!onSeek || !containerRef.current || duration <= 0) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const t = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration
+    onSeek(t)
+  }, [onSeek, duration])
 
-  // Pointer drag for trim handles
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+  // trim 핸들 드래그
+  const handleHandleDrag = useCallback((handle: 'start' | 'end', e: React.PointerEvent) => {
     if (!onTrimChange || !containerRef.current || duration <= 0) return
     e.preventDefault()
+    e.stopPropagation()
 
     const rect = containerRef.current.getBoundingClientRect()
     const calcT = (cx: number) => Math.max(0, Math.min(1, (cx - rect.left) / rect.width)) * duration
-    const t0 = calcT(e.clientX)
-
-    // Determine closest handle
-    const handle = Math.abs(t0 - trimStart) < Math.abs(t0 - effectiveEnd) ? 'start' : 'end'
 
     let curStart = trimStart
     let curEnd = effectiveEnd
 
-    const apply = (cx: number) => {
-      const t = calcT(cx)
+    const onMove = (ev: PointerEvent) => {
+      const t = calcT(ev.clientX)
       if (handle === 'start') {
         curStart = Math.max(0, Math.min(t, curEnd - 0.02))
-        onTrimChange(curStart, curEnd)
       } else {
         curEnd = Math.min(duration, Math.max(t, curStart + 0.02))
-        onTrimChange(curStart, curEnd)
       }
+      onTrimChange(curStart, curEnd)
     }
 
-    apply(e.clientX)
-
-    const onMove = (ev: PointerEvent) => apply(ev.clientX)
     const onUp = () => {
       document.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerup', onUp)
@@ -109,31 +101,54 @@ export function Waveform({ audioUrl, isPlaying, duration, trimStart = 0, trimEnd
   const ePct = duration > 0 ? (effectiveEnd / duration) * 100 : 100
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative w-full h-12 bg-bg-main rounded overflow-hidden select-none touch-none ${onTrimChange ? 'cursor-ew-resize' : ''}`}
-      onPointerDown={onTrimChange ? handlePointerDown : undefined}
-    >
-      <canvas ref={canvasRef} width={600} height={48} className="w-full h-full" />
-      {/* Playhead */}
-      <div
-        ref={playheadRef}
-        className="absolute top-0 bottom-0 w-px bg-accent z-20 pointer-events-none"
-        style={{ display: 'none', left: '0%' }}
-      />
-      {/* Trim overlays and handles */}
-      {duration > 0 && onTrimChange && (
-        <>
-          {sPct > 0.5 && (
-            <div className="absolute inset-y-0 left-0 bg-black/40 rounded-l pointer-events-none" style={{ width: `${sPct}%` }} />
-          )}
-          {ePct < 99.5 && (
-            <div className="absolute inset-y-0 right-0 bg-red-900/40 rounded-r pointer-events-none" style={{ width: `${100 - ePct}%` }} />
-          )}
-          <div className="absolute top-0 bottom-0 w-1 -ml-0.5 bg-amber-400 rounded-sm pointer-events-none z-10" style={{ left: `${sPct}%` }} />
-          <div className="absolute top-0 bottom-0 w-1 -ml-0.5 bg-amber-400 rounded-sm pointer-events-none z-10" style={{ left: `${ePct}%` }} />
-        </>
+    <div className="space-y-0">
+      {showRuler && (
+        <TimeRuler
+          duration={duration}
+          containerRef={containerRef}
+          className="rounded-t border-b border-border"
+        />
       )}
+      <div
+        ref={containerRef}
+        className={`relative w-full h-12 bg-bg-main overflow-hidden select-none touch-none cursor-pointer ${showRuler ? 'rounded-b' : 'rounded'}`}
+        onClick={handleClick}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+      >
+        <canvas ref={canvasRef} width={1200} height={96} className="w-full h-full" />
+
+        {HoverOverlay}
+
+        {/* 재생 헤드 */}
+        <PlayheadOverlay playhead={currentTime} duration={duration} playing={isPlaying} />
+
+        {/* Trim overlays and handles */}
+        {duration > 0 && onTrimChange && (
+          <>
+            {sPct > 0.5 && (
+              <div className="absolute inset-y-0 left-0 bg-black/40 rounded-l pointer-events-none" style={{ width: `${sPct}%` }} />
+            )}
+            {ePct < 99.5 && (
+              <div className="absolute inset-y-0 right-0 bg-red-900/40 rounded-r pointer-events-none" style={{ width: `${100 - ePct}%` }} />
+            )}
+            <div
+              className="absolute top-0 bottom-0 w-3 -ml-1.5 cursor-ew-resize z-10 flex items-center justify-center"
+              style={{ left: `${sPct}%` }}
+              onPointerDown={(e) => handleHandleDrag('start', e)}
+            >
+              <div className="w-1 h-full bg-amber-400 rounded-sm" />
+            </div>
+            <div
+              className="absolute top-0 bottom-0 w-3 -ml-1.5 cursor-ew-resize z-10 flex items-center justify-center"
+              style={{ left: `${ePct}%` }}
+              onPointerDown={(e) => handleHandleDrag('end', e)}
+            >
+              <div className="w-1 h-full bg-amber-400 rounded-sm" />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }

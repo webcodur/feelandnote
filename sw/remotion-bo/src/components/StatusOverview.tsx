@@ -146,11 +146,9 @@ export function StatusOverview({ episode, fileNames, r2Summary, series, name }: 
   else next = '렌더링 준비 완료'
 
   return (
-    <section className="bg-bg-secondary border border-border rounded-lg px-4 py-3">
-      {/* 헤더 */}
+    <div>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <h3 className="text-xs font-bold text-accent tracking-widest">STATUS</h3>
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-main text-text-dim font-mono">{locale}</span>
           <span className="text-[10px] text-text-dim">프로덕션: {voice.model}</span>
         </div>
@@ -214,6 +212,6 @@ export function StatusOverview({ episode, fileNames, r2Summary, series, name }: 
       </div>
 
       <div className="mt-2 text-xs text-accent">→ {next}</div>
-    </section>
+    </div>
   )
 }

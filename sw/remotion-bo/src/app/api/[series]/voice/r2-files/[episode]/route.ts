@@ -49,7 +49,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     const buf = await readFile(w.absPath)
     const hash = fileHash(buf)
     const sizeKB = +(w.size / 1024).toFixed(0)
-    const duration = +(w.size / (24000 * 2)).toFixed(2)
+    const duration = +((w.size - 44) / (24000 * 2)).toFixed(2)
     let status: 'synced' | 'unsynced' | 'local-only' = 'local-only'
     if (r2m[w.relPath]) {
       status = r2m[w.relPath].hash === hash ? 'synced' : 'unsynced'
