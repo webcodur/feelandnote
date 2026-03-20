@@ -109,7 +109,6 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   };
 
   useEffect(() => {
-    console.log("[DialogueSubtitle] subtitle changed:", subtitle?.text?.slice(0, 30), "visible:", visible);
     if (!subtitle) return;
 
     stopAudio();

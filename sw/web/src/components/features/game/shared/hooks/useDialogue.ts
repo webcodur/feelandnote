@@ -80,7 +80,6 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
   };
 
   const showDialogue = useCallback((celebId: string, tone: SpeechTone, type: DialogueType, meta?: DialogueCharacterMeta) => {
-    console.log("[useDialogue] showDialogue called:", { celebId: celebId.slice(0, 8), type, sfxMuted: sfxMutedRef.current, hasOnSubtitle: !!onSubtitle });
     if (sfxMutedRef.current) return;
     if (!onSubtitle) return;
 
@@ -123,7 +122,6 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
 
   /** defaultLines 기반 범용 대사 표시. DB 개인화 불필요한 상황용. */
   const showDefaultLine = useCallback((tone: SpeechTone, key: string, meta?: DialogueCharacterMeta) => {
-    console.log("[useDialogue] showDefaultLine called:", { key, tone, sfxMuted: sfxMutedRef.current, hasOnSubtitle: !!onSubtitle });
     if (sfxMutedRef.current) return;
 
     const lines = defaultLinesData[locale][key]?.[tone];

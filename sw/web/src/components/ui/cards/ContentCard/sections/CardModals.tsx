@@ -114,12 +114,9 @@ export default function CardModals({ props, state }: CardModalsProps) {
                   status: "WANT",
                 });
 
-                console.log('[ContentCard] addContent 결과:', result);
-
                 if (result.success && result.data) {
                   setInternalSaved(true);
                   setInternalUserContentId(result.data.userContentId);
-                  console.log('[ContentCard] 서재 추가 완료:', result.data.userContentId);
                 } else {
                   console.error('[ContentCard] addContent 실패:', result);
                 }

@@ -98,7 +98,6 @@ export default function UserProfileSidebar({ profile, isOwner, userId }: UserPro
                   className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-accent border-2 border-bg-card flex items-center justify-center text-bg-main hover:bg-accent-light hover:scale-110 transition-all duration-200 z-20 shadow-lg cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log("Follow clicked");
                   }}
                 >
                   <Plus size={16} strokeWidth={3} />

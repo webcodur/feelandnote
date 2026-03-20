@@ -21,7 +21,6 @@ export function GlobalDialogueProvider({ children }: { children: React.ReactNode
   const { coords, saveCoords } = useDialoguePosition();
 
   const handleSubtitle = useCallback((sub: DialogueSubtitleData | null) => {
-    console.log("[Dialogue] handleSubtitle:", sub?.text?.slice(0, 30));
     setSubtitle(sub);
   }, []);
 

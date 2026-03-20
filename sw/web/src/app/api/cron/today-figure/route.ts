@@ -129,14 +129,12 @@ export async function GET(request: Request) {
     selectedId = withNews[0].id
     source = 'news'
     newsCount = withNews[0].count
-    console.log(`[today-figure] 뉴스 1위: ${withNews[0].nickname} (${newsCount}건)`)
   } else {
     const seed = calcSeed(today)
     const idx = seed % eligibleCelebs.length
     selectedId = eligibleCelebs[idx].id
     source = 'seed'
     newsCount = 0
-    console.log(`[today-figure] 뉴스 매칭 없음, seed fallback: ${eligibleCelebs[idx].nickname}`)
   }
 
   // 5. daily_figures UPSERT

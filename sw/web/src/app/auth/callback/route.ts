@@ -49,7 +49,6 @@ export async function GET(request: NextRequest) {
 
   // #region OAuth 흐름 (code 파라미터가 있는 경우)
   if (code) {
-    console.log('[OAuth Callback] code received, attempting exchange...')
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (exchangeError) {

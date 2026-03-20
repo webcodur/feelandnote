@@ -50,7 +50,6 @@ export default function CreateCreationModal({ isOpen, onClose, contentTitle = "�
   };
 
   const handleSubmit = () => {
-    console.log("창작물 저장:", { creationType, whatifType, whatifContent, mediaType, castings, direction, ostTracks, ostDirection });
     handleClose();
   };
 
