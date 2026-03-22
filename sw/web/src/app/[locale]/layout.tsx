@@ -75,8 +75,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     keywords: ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 여정", "필앤노트", "feelandnote", "book", "movie", "music", "game", "celebrity"],
     icons: {
-      icon: { url: "/icon", type: "image/png", sizes: "192x192" },
-      apple: "/apple-icon",
+      icon: { url: "/icon.png", type: "image/png", sizes: "192x192" },
+      apple: "/apple-icon.png",
     },
   };
 }
@@ -87,7 +87,7 @@ const siteJsonLd = [
     "@type": "Organization",
     name: "Feel&Note",
     url: "https://feelandnote.com",
-    logo: "https://feelandnote.com/icon",
+    logo: "https://feelandnote.com/icon.png",
     description: "Celebrity cultural archives — books, movies, music, and games enjoyed by history's greatest minds.",
   },
   {

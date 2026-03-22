@@ -12,7 +12,7 @@ const protectedPaths: string[] = [];
 const authPaths = ['/login', '/signup'];
 
 // 미들웨어를 건너뛸 SEO/메타데이터 경로
-const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml', '/opengraph-image', '/apple-icon', '/icon']
+const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml', '/opengraph-image']
 
 export async function middleware(request: NextRequest) {
   // 0) SEO 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
