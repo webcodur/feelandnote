@@ -46,6 +46,7 @@ export interface PublicUserProfile {
   voice_speed?: number
   wikidata_qid?: string | null
   celeb_tier?: 'full' | 'light' | null
+  monologue?: string | null
 }
 
 export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {

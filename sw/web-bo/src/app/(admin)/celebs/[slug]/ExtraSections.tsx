@@ -155,6 +155,8 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
   const [tone, setTone] = useState(speechTone || 'free')
   const [quoteKo, setQuoteKo] = useState(() => dialogueLines.lines?.quote || '')
   const [quoteEn, setQuoteEn] = useState(() => dialogueLines.lines_en?.quote || '')
+  const [monologueKo, setMonologueKo] = useState(() => dialogueLines.lines?.monologue || '')
+  const [monologueEn, setMonologueEn] = useState(() => dialogueLines.lines_en?.monologue || '')
   const [savingDialogue, setSavingDialogue] = useState(false)
 
   // --- Persona state ---
@@ -164,16 +166,18 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
   const [savingPersona, setSavingPersona] = useState(false)
 
   // dirty tracking
-  const initialDialogue = useRef({ lines: dialogueLines.lines, lines_en: dialogueLines.lines_en, tone: speechTone || 'free', quoteKo: dialogueLines.lines?.quote || '', quoteEn: dialogueLines.lines_en?.quote || '' })
+  const initialDialogue = useRef({ lines: dialogueLines.lines, lines_en: dialogueLines.lines_en, tone: speechTone || 'free', quoteKo: dialogueLines.lines?.quote || '', quoteEn: dialogueLines.lines_en?.quote || '', monologueKo: dialogueLines.lines?.monologue || '', monologueEn: dialogueLines.lines_en?.monologue || '' })
   const initialPersona = useRef({ stats: initPersonaStats(personaRaw), reasons: initReasons(personaRaw?.persona), rationale: personaRaw?.persona?.rationale_ko || '' })
 
   const isDialogueDirty = useCallback(() => {
     return tone !== initialDialogue.current.tone
       || quoteKo !== initialDialogue.current.quoteKo
       || quoteEn !== initialDialogue.current.quoteEn
+      || monologueKo !== initialDialogue.current.monologueKo
+      || monologueEn !== initialDialogue.current.monologueEn
       || JSON.stringify(linesKo) !== JSON.stringify(initialDialogue.current.lines ?? EMPTY_LINES)
       || JSON.stringify(linesEn) !== JSON.stringify(initialDialogue.current.lines_en ?? EMPTY_LINES)
-  }, [tone, linesKo, linesEn, quoteKo, quoteEn])
+  }, [tone, linesKo, linesEn, quoteKo, quoteEn, monologueKo, monologueEn])
 
   const isPersonaDirty = useCallback(() => {
     return JSON.stringify(personaStats) !== JSON.stringify(initialPersona.current.stats)
@@ -193,7 +197,7 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
   const activeLines = activeLang === 'ko' ? linesKo : linesEn
   const setActiveLines = activeLang === 'ko' ? setLinesKo : setLinesEn
 
-  type DialogueType = Exclude<keyof DialogueLines, 'quote'>
+  type DialogueType = Exclude<keyof DialogueLines, 'quote' | 'monologue'>
 
   function updateLine(type: string, index: number, value: string) {
     setActiveLines((prev) => {
@@ -209,10 +213,10 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
     setSavingDialogue(true)
     try {
       if (tone !== initialDialogue.current.tone) await updateSpeechTone(celebId, tone)
-      const koWithQuote = { ...linesKo, quote: quoteKo || undefined }
-      const enWithQuote = { ...linesEn, quote: quoteEn || undefined }
-      await saveCelebDialogues(celebId, koWithQuote, enWithQuote)
-      initialDialogue.current = { lines: structuredClone(koWithQuote), lines_en: structuredClone(enWithQuote), tone, quoteKo, quoteEn }
+      const koWithExtra = { ...linesKo, quote: quoteKo || undefined, monologue: monologueKo || undefined }
+      const enWithExtra = { ...linesEn, quote: quoteEn || undefined, monologue: monologueEn || undefined }
+      await saveCelebDialogues(celebId, koWithExtra, enWithExtra)
+      initialDialogue.current = { lines: structuredClone(koWithExtra), lines_en: structuredClone(enWithExtra), tone, quoteKo, quoteEn, monologueKo, monologueEn }
       showToast('success', '대사가 저장되었습니다.')
     } catch {
       showToast('error', '대사 저장에 실패했습니다.')
@@ -371,6 +375,25 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
               onChange={(e) => setQuoteEn(e.target.value)}
               placeholder="English quote"
               className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"
+            />
+          </div>
+
+          {/* Monologue (독백) */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-text-secondary">독백 (monologue)</label>
+            <textarea
+              value={monologueKo}
+              onChange={(e) => setMonologueKo(e.target.value)}
+              placeholder="한국어 독백"
+              rows={3}
+              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent resize-none"
+            />
+            <textarea
+              value={monologueEn}
+              onChange={(e) => setMonologueEn(e.target.value)}
+              placeholder="English monologue"
+              rows={3}
+              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent resize-none"
             />
           </div>
 

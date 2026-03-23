@@ -35,6 +35,16 @@ export function getVoiceUrl(
   return voiceV > 0 ? `${base}?v=${voiceV}` : base;
 }
 
+/** 독백 음성 URL */
+export function getMonologueVoiceUrl(
+  celebId: string,
+  locale: Locale,
+  voiceV = 0
+): string {
+  const base = `${R2_PUBLIC_URL}/celebs/${celebId}/voice/${locale}/monologue.mp3`;
+  return voiceV > 0 ? `${base}?v=${voiceV}` : base;
+}
+
 /** 명언 음성 URL */
 export function getQuoteVoiceUrl(
   celebId: string,

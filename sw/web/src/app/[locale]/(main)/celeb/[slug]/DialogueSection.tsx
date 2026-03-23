@@ -5,11 +5,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { Play, Square, ListMusic } from "lucide-react";
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
-import { getVoiceUrl, getQuoteVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { getVoiceUrl, getQuoteVoiceUrl, getMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // region 대사 상황 목록
 const DIALOGUE_TYPES = [
-  "quote", "greeting", "roll_call", "deploy",
+  "quote", "monologue", "greeting", "roll_call", "deploy",
   "battle_win", "battle_draw", "battle_lose", "clash_attack",
 ] as const;
 // endregion
@@ -47,6 +47,8 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     const key = `${type}-${variant}`;
     const url = type === "quote"
       ? getQuoteVoiceUrl(celebId, locale, voiceV)
+      : type === "monologue"
+      ? getMonologueVoiceUrl(celebId, locale, voiceV)
       : getVoiceUrl(celebId, locale, type, variant + 1, voiceV);
     const audio = new Audio(url);
     audio.volume = 0.7;

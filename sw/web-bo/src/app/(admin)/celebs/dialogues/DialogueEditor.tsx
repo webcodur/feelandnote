@@ -119,7 +119,7 @@ export default function DialogueEditor({ celebs, page, total, limit }: Props) {
   const activeLines = activeLang === 'ko' ? editLinesKo : editLinesEn
   const setActiveLines = activeLang === 'ko' ? setEditLinesKo : setEditLinesEn
 
-  type DialogueType = Exclude<keyof DialogueLines, 'quote'>
+  type DialogueType = Exclude<keyof DialogueLines, 'quote' | 'monologue'>
 
   function updateLine(type: string, index: number, value: string) {
     setActiveLines((prev) => {

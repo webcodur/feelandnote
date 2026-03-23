@@ -115,6 +115,10 @@ export async function getCelebBySlug(
         (dialogueResult.data?.lines_en as Record<string, any> | null)?.quote ?? null,
         (dialogueResult.data?.lines as Record<string, any> | null)?.quote ?? null
       ),
+      monologue: resolve(
+        (dialogueResult.data?.lines_en as Record<string, any> | null)?.monologue ?? null,
+        (dialogueResult.data?.lines as Record<string, any> | null)?.monologue ?? null
+      ),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,
