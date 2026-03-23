@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Quote, Pencil, Check, X, MapPin, Calendar, Loader2 } from "lucide-react";
+import { Pencil, Check, X, MapPin, Calendar, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
@@ -22,12 +22,11 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
   const [nickname, setNickname] = useState(profile.nickname);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
   const [bioValue, setBioValue] = useState(profile.bio || "");
-  const [quotes, setQuotes] = useState(profile.quotes || "");
   const [nationality, setNationality] = useState(profile.nationality || "");
   const [birthDate, setBirthDate] = useState(profile.birth_date || "");
   const [isSaving, setIsSaving] = useState(false);
 
-  const hasInfo = profile.nationality || profile.birth_date || profile.quotes;
+  const hasInfo = profile.nationality || profile.birth_date;
 
   if (!hasInfo && !profile.bio && !isOwner) return null;
 
@@ -38,7 +37,6 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       nickname,
       avatar_url: avatarUrl || undefined,
       bio: bioValue,
-      quotes: quotes || null,
       nationality: nationality || null,
       birth_date: birthDate || null,
     });
@@ -50,7 +48,6 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
     setNickname(profile.nickname);
     setAvatarUrl(profile.avatar_url || "");
     setBioValue(profile.bio || "");
-    setQuotes(profile.quotes || "");
     setNationality(profile.nationality || "");
     setBirthDate(profile.birth_date || "");
     setIsEditing(false);
@@ -133,18 +130,6 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
         <p className="text-sm text-text-primary leading-relaxed mb-3">{profile.bio}</p>
       ) : isOwner ? (
         <p className="text-sm text-text-secondary/50 mb-3">{t("bioEmpty")}</p>
-      ) : null}
-
-      {/* 좌우명 */}
-      {isEditing ? (
-        <div className="mb-3">
-          <input type="text" value={quotes} onChange={(e) => setQuotes(e.target.value)} placeholder={t("quotesPlaceholder")} maxLength={100} className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
-        </div>
-      ) : profile.quotes ? (
-        <div className="flex items-start gap-3 pt-3 border-t border-border/30">
-          <Quote size={16} className="text-accent/40 shrink-0 mt-0.5" />
-          <p className="text-sm text-text-secondary leading-relaxed font-serif">{profile.quotes}</p>
-        </div>
       ) : null}
 
       {/* 아바타 URL (편집 모드에서만) */}

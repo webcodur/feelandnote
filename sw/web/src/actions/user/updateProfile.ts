@@ -9,7 +9,6 @@ export interface UpdateProfileInput {
   avatar_url?: string
   birth_date?: string | null
   nationality?: string | null
-  quotes?: string | null
 }
 
 export async function updateProfile(input: UpdateProfileInput): Promise<ActionResult<null>> {
@@ -33,11 +32,6 @@ export async function updateProfile(input: UpdateProfileInput): Promise<ActionRe
     return failure('VALIDATION_ERROR', '소개글은 200자 이내여야 한다.')
   }
 
-  // 좌우명 유효성 검사
-  if (input.quotes !== undefined && input.quotes && input.quotes.length > 100) {
-    return failure('VALIDATION_ERROR', '좌우명은 100자 이내여야 한다.')
-  }
-
   // 생년월일 형식 검사 (YYYY-MM-DD)
   if (input.birth_date !== undefined && input.birth_date) {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/
@@ -52,7 +46,6 @@ export async function updateProfile(input: UpdateProfileInput): Promise<ActionRe
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url || null
   if (input.birth_date !== undefined) updateData.birth_date = input.birth_date || null
   if (input.nationality !== undefined) updateData.nationality = input.nationality || null
-  if (input.quotes !== undefined) updateData.quotes = input.quotes || null
 
   const { error } = await supabase
     .from('profiles')

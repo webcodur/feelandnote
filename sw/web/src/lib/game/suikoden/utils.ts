@@ -77,7 +77,7 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
     birthDate: profile.birth_date ?? '',
     deathDate: profile.death_date ?? '',
     bio: profile.bio ?? '',
-    quotes: profile.quotes ?? '',
+    quotes: '',
     avatarUrl: profile.avatar_url ?? null,
     stats,
     hp,

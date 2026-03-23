@@ -55,7 +55,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, quotes, quotes_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
     .eq('id', userId)
     .single()
 
@@ -151,7 +151,7 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
       bio: resolve(profile.bio_en, profile.bio),
       quotes: profile.profile_type === 'CELEB'
         ? resolve(dialogueQuoteEn, dialogueQuote)
-        : resolve(profile.quotes_en, profile.quotes),
+        : null,
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,
