@@ -123,6 +123,7 @@
     "dateLabel": "{month}월 {day}일 오늘의 인물",
     "subtitle": "매일 새로운 인물과 그가 즐긴 콘텐츠를 소개합니다",
     "newsSelected": "최근 48시간 뉴스에서 {count}건 언급되어 선정되었습니다",
+    "birthdaySelected": "오늘이 생일인 인물입니다",
     "guestbookCta": "방명록에 여러분의 생각을 남겨보세요.",
     "emptyCategory": "해당 카테고리의 기록이 존재하지 않습니다",
     "viewAll": "전체 보기",

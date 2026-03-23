@@ -268,7 +268,9 @@ export async function GET(req: NextRequest) {
     })
 
     CACHE.set(qid, { data: works, ts: Date.now() })
-    return NextResponse.json({ works })
+    return NextResponse.json({ works }, {
+      headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' },
+    })
   } catch {
     return NextResponse.json({ works: [], error: "fetch_error" })
   }

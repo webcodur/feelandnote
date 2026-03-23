@@ -524,7 +524,7 @@ export interface TodayFigure {
 }
 
 export interface TodayFigureSource {
-  type: 'news' | 'seed'
+  type: 'news' | 'seed' | 'birthday'
   newsCount: number
 }
 
@@ -550,7 +550,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     return {
       ...result,
       source: {
-        type: dailyFigure.source as 'news' | 'seed',
+        type: dailyFigure.source as 'news' | 'seed' | 'birthday',
         newsCount: dailyFigure.news_count || 0,
       },
     }

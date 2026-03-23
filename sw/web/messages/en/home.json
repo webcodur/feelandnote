@@ -123,6 +123,7 @@
     "dateLabel": "Today's Figure · {month}/{day}",
     "subtitle": "Discover a new figure and the content they enjoyed every day",
     "newsSelected": "Selected for being mentioned in {count} news articles in the last 48 hours",
+    "birthdaySelected": "Today is this figure's birthday",
     "guestbookCta": "Leave your thoughts in the guestbook.",
     "emptyCategory": "No records in this category",
     "viewAll": "View all",

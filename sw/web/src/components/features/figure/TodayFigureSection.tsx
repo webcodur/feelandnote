@@ -11,7 +11,7 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { ContentCard } from "@/components/ui/cards";
 import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { CELEB_PROFESSIONS, getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { Calendar, ArrowRight, BookOpen, Newspaper } from "lucide-react";
+import { Calendar, ArrowRight, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getLocalizedContent } from "@/lib/utils/editions";
 
@@ -47,7 +47,7 @@ interface Content {
 }
 
 interface TodayFigureSource {
-    type: 'news' | 'seed';
+    type: 'news' | 'seed' | 'birthday';
     newsCount: number;
 }
 
@@ -148,7 +148,17 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     </div>
                 </Link>
 
-                {/* 선정 과정 안내 (뉴스 기반일 때만) */}
+                {/* 선정 과정 안내 */}
+                {source?.type === 'birthday' && (
+                    <div className="max-w-md mx-auto mt-2 mb-2">
+                        <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                            <Cake size={14} className="text-amber-400 shrink-0" />
+                            <p className="text-xs text-amber-300/90">
+                                {t("birthdaySelected")}
+                            </p>
+                        </div>
+                    </div>
+                )}
                 {source?.type === 'news' && (
                     <div className="max-w-md mx-auto mt-2 mb-2">
                         <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">

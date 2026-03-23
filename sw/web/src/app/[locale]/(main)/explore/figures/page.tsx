@@ -13,7 +13,7 @@ import CelebsByProfession from "@/components/features/user/explore/sections/Cele
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getCelebsByProfession } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.celebs");

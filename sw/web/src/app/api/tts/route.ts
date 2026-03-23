@@ -80,6 +80,11 @@ async function synthesize(
 }
 
 export async function POST(req: NextRequest) {
+  // 프로덕션 차단 — localhost 개발 전용 API
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not available" }, { status: 403 })
+  }
+
   if (API_KEYS.length === 0) {
     return NextResponse.json(
       { error: "TTS not configured" },

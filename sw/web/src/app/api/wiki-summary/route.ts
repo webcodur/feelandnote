@@ -44,7 +44,9 @@ export async function GET(req: NextRequest) {
     }
 
     CACHE.set(cacheKey, { data: summary, ts: Date.now() })
-    return NextResponse.json({ summary })
+    return NextResponse.json({ summary }, {
+      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600' },
+    })
   } catch {
     return NextResponse.json({ summary: null })
   }

@@ -11,7 +11,7 @@ import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
 import PersonaFullSection from "@/components/features/user/explore/sections/PersonaFullSection";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.persona");

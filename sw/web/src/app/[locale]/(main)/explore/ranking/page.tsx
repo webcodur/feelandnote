@@ -12,7 +12,7 @@ import { getTopByContentTypeFull } from "@/actions/home/getTopByContentTypeFull"
 import { getSharedContents } from "@/actions/home/getSharedContents";
 import TopByTypeSection from "@/components/features/user/explore/sections/TopByTypeSection";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.topByType");
